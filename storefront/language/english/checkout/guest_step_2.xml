@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Guest Checkout - Step 2]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Cart]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Guest Checkout - Step 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Guest Checkout - Step 2]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Shipping Method]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Please select the preferred shipping methods to use on this order.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Payment Method]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[Please select the preferred payment method to use on this order.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Add Comments About Your Order]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[I have read and agree to the ]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Enter your code, hit the "Apply Coupon" button and watch your discount instantly be applied to your order.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Your coupon discount has been applied!]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Shipping Method:]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Payment Method:]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[Coupon:]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Error: Shipping method required!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Error: No Shipping options are available. Please <a href="index.php?rt=content/contact">contact us</a> for assistance!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Error: Payment method required!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Error: You must agree to the %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Error: Coupon is either invalid, expired or reached it's usage limit!]]></value>
+  </definition>
+</definitions>

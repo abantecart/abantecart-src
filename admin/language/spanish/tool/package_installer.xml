@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>success</key>
+		<value><![CDATA[ Éxito: El paquete se ha instalado correctamente. ]]></value>
+	</definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Paquete de instalación]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_license</key>
+		<value><![CDATA[Paquete de Contrato de Licencia]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_ftp</key>
+		<value><![CDATA[Parámetros de acceso a FTP]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_download</key>
+		<value><![CDATA[Paquete de Carga]]></value>
+	</definition>
+	<definition>
+		<key>text_preloading</key>
+		<value><![CDATA[ %file% paquete de archivos se pueden descargar.]]></value>
+	</definition>
+	<definition>
+		<key>text_loading</key>
+		<value>
+			<![CDATA[Descarga de archivos. Tamaño: %s .<br/>It might take few seconds depending on your connection.]]></value>
+	</definition>
+	<definition>
+		<key>text_key_hint</key>
+		<value><![CDATA[Escribir clave de instalación aquí]]></value>
+	</definition>
+	<definition>
+		<key>text_ftp_user</key>
+		<value><![CDATA[ Nombre de usuario FTP: ]]></value>
+	</definition>
+	<definition>
+		<key>text_ftp_password</key>
+		<value><![CDATA[ FTP de usuario Contraseña: ]]></value>
+	</definition>
+	<definition>
+		<key>text_ftp_host</key>
+		<value><![CDATA[ FTP Host: ftp://]]></value>
+	</definition>
+	<definition>
+		<key>text_ftp_path</key>
+		<value><![CDATA[ FTP Path: ]]></value>
+	</definition>
+	<definition>
+		<key>text_i_agree</key>
+		<value><![CDATA[ Estoy de acuerdo con la licencia ]]></value>
+	</definition>
+	<definition>
+		<key>text_agree</key>
+		<value><![CDATA[ Aceptar ]]></value>
+	</definition>
+	<definition>
+		<key>text_disagree</key>
+		<value><![CDATA[ Discrepar ]]></value>
+	</definition>
+	<definition>
+		<key>text_download_error</key>
+		<value><![CDATA[ Lo sentimos, pero se ha producido en el proceso de carga de los errores de archivo. Por favor, inténtelo de nuevo o cancelar ]]></value>
+	</definition>
+	<definition>
+		<key>text_continue</key>
+		<value><![CDATA[ Continuar ]]></value>
+	</definition>
+	<definition>
+		<key>text_disclaimer_heading</key>
+		<value><![CDATA[ Renuncia ]]></value>
+	</definition>
+	<definition>
+		<key>text_disclaimer</key>
+		<value><![CDATA[ <h3>Estimado cliente  AbanteCart, </ h3> <br>
+Usted está a punto de instalar la extensión de terceros para su AbanteCart. <br><br>
+Por favor, leer y entender este aviso sobre la extensión de terceros que se va a instalar. <br><br>
+Extensiones de terceros y servicios son proporcionados por proveedores externos. <br><br>
+Aunque, AbanteCart comprobar la calidad de las extensiones y los servicios prestados por terceros, AbanterCart no garantiza que todas las extensiones de terceros funcionen correctamente o no causará conflictos en el sistema.
+AbanteCart miembros y afiliados de ninguna manera responsable por reclamaciones relacionadas con los productos o servicios ofrecidos por terceros proveedores. AbanteCart no garantiza la calidad de las extensiones o servicios de terceros. Por favor, dirija sus preguntas respecto a las extensiones o servicios de terceros para el proveedor de la tercera parte correspondiente.
+Si tiene preocupación acerca de cualquier tercero proveedor por favor póngase en contacto con AbanteCart en <a href="http://www.abantecart.com/contact-us" target="_blank"> http://www.abantecart.com/contact-us </ a> <br><br>
+Sinceramente, <br>
+AbanteCart <br><br>
+Solución ideal para comercio electrónico OpenSource ]]></value>
+	</definition>
+	<definition>
+		<key>warning_ftp</key>
+		<value>
+			<![CDATA[ Advertencia: El directorio de extensiones no tiene permiso de escritura <br> Puede cambiar este derecho de uso o <br> ftp de acceso al servidor para la instalación del paquete (normalmente el proveedor de hosting se envía por correo electrónico).<br> ]]></value>
+	</definition>
+	<definition>
+		<key>warning_already_installed</key>
+		<value>
+			<![CDATA[<p class="success">Ya han %EXTENSION% extensión instalada! Si desea continuar y mejorar, por favor confirme.</p>]]></value>
+	</definition>
+	<definition>
+		<key>warning_already_installed_uninstall</key>
+		<value>
+			<![CDATA[Ya han %EXTENSION% extensión instalada! Si desea proceder a reinstalar, por favor, desinstalar y eliminar la primera extensión.]]></value>
+	</definition>
+	<definition>
+		<key>error_pack_not_found</key>
+		<value><![CDATA[ Error: file of package %PACKAGE% does not exists.]]></value>
+	</definition>
+	<definition>
+		<key>error_repository</key>
+		<value><![CDATA[ Error: No se puede descargar el archivo. Repositorio de error o la tecla de extensión no válido. Por favor, inténtelo más tarde. ]]></value>
+	</definition>
+	<definition>
+		<key>error_ftp_user</key>
+		<value><![CDATA[ Error: Nombre de usuario FTP está vacía. ]]></value>
+	</definition>
+	<definition>
+		<key>error_ftp_password</key>
+		<value><![CDATA[ Error: Contraseña FTP El usuario está vacía. ]]></value>
+	</definition>
+	<definition>
+		<key>error_ftp_connect</key>
+		<value><![CDATA[ Error: No se puede conectar a un servidor FTP ]]></value>
+	</definition>
+	<definition>
+		<key>error_ftp_login</key>
+		<value><![CDATA[ Error: No se puede acceder al servidor FTP. Nombre de usuario o contraseña no válidos. ]]></value>
+	</definition>
+	<definition>
+		<key>error_ftp_path</key>
+		<value>
+			<![CDATA[ Error:. No se puede encontrar el directorio raíz de AbanteCart por la ruta FTP.<br>Trate de dejar en blanco la búsqueda automática. ]]></value>
+	</definition>
+	<definition>
+		<key>error_ftp_path_array</key>
+		<value>
+			<![CDATA[ Error:. No se puede reconocer automáticamente el directorio raíz de AbanteCart en el FTP en modo.<br>Por favor, rellene FTP de la ruta campo de formulario <br> sugerencias de trazado son:  ]]></value>
+	</definition>
+	<definition>
+		<key>error_dir_permission</key>
+		<value><![CDATA[ No se puede guardar el archivo, porque el directorio no se puede escribir: ]]></value>
+	</definition>
+	<definition>
+		<key>error_package_structure</key>
+		<value><![CDATA[ Error: Es probable que el paquete está roto. Estructura de error de paquete. ]]></value>
+	</definition>
+	<definition>
+		<key>error_package_config</key>
+		<value>
+			<![CDATA[ Error: No se puede encontrar el fichero de configuración package.xml dentro del paquete. Es probable que el paquete está roto. Estructura de error de paquete. ]]></value>
+	</definition>
+	<definition>
+		<key>error_package_config2</key>
+		<value><![CDATA[ Error: No se puede encontrar el modo de instalación en package.xml dentro del paquete. ]]></value>
+	</definition>
+	<definition>
+		<key>error_package_info_not_exists</key>
+		<value><![CDATA[ Error: No se puede encontrar información acerca de este paquete de la sesión de descarga. ]]></value>
+	</definition>
+	<definition>
+		<key>error_unpack</key>
+		<value>
+			<![CDATA[ Error: No se puede desempaquetar el paquete "%PACKAGE%" después de la descarga. Archivo de error. Ver registro de errores para más detalles. ]]></value>
+	</definition>
+	<definition>
+		<key>error_move</key>
+		<value>
+			<![CDATA[ Error: No se puede mover código de paquete después de desempaquetar. Por favor, intente comprobar permisos de escritura del directorio: ]]></value>
+	</definition>
+	<definition>
+		<key>error_install_mode</key>
+		<value>
+			<![CDATA[ Error: No se puede instalar la extensión "%package%" porque ya está instalado. Es necesario desinstalar y eliminar en primer lugar, u obtener el paquete de actualización. ]]></value>
+	</definition>
+	<definition>
+		<key>error_install_mode2</key>
+		<value>
+			<![CDATA[ Error: No se puede actualizar la extensión "%package%" porque no lo ha instalado. Necesitas obtener el paquete de instalación. ]]></value>
+	</definition>
+	<definition>
+		<key>error_version_compability</key>
+		<value>
+			<![CDATA[ Error: No se puede instalar el paquete. Su versión de compra es %current_version%. Versión %minimal_version% o requerido anteriormente. ]]></value>
+	</definition>
+	<definition>
+		<key>error_package_version_compability</key>
+		<value><![CDATA[ Error: No se puede actualizar el paquete. Más reciente versión del paquete ya está instalado. ]]></value>
+	</definition>
+	<definition>
+		<key>error_install</key>
+		<value><![CDATA[ Error: No se puede instalar el paquete. Por favor, consulte Sistema -> Registro de errores para obtener más detalles. ]]></value>
+	</definition>
+	<definition>
+		<key>error_core_version</key>
+		<value>
+			<![CDATA[ 'Error: Usted tiene la versión AbanteCart %VERSION% instalado <br> Este paquete de actualización sólo para las versiones inferiores.  ]]></value>
+	</definition>
+
+</definitions>

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Mail]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Your message has been successfully sent!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Default]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[All Newsletter Subscribers]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[All Customers]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Search]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[From:]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[To customers who have ordered Products:]]></value>
+  </definition>
+  <definition>
+    <key>entry_to</key>
+    <value><![CDATA[To:]]></value>
+  </definition>
+  <definition>
+    <key>entry_subject</key>
+    <value><![CDATA[Subject:]]></value>
+  </definition>
+  <definition>
+    <key>entry_message</key>
+    <value><![CDATA[Message:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warning: You do not have permission to send E-Mail's!]]></value>
+  </definition>
+  <definition>
+    <key>error_subject</key>
+    <value><![CDATA[E-Mail Subject required!]]></value>
+  </definition>
+  <definition>
+    <key>error_message</key>
+    <value><![CDATA[E-Mail Message required!]]></value>
+  </definition>
+  <definition>
+    <key>error_recipients</key>
+    <value><![CDATA[Recipients required!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_sent</key>
+    <value><![CDATA['Error: Emails does not sent! Please see error log for details.']]></value>
+  </definition>
+</definitions>

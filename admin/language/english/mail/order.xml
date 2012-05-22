@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Order Update %s]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Order ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Date Ordered:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Your order has been updated to the following status:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[The comments for your order are:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[To view your order click on the link below:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[Please reply to this email if you have any questions.]]></value>
+  </definition>
+</definitions>

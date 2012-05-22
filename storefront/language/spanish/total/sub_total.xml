@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[Sub-Total:]]></value>
+  </definition>
+</definitions>

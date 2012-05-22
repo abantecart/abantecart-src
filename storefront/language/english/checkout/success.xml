@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Your Order Has Been Processed!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p>Your order has been successfully processed!</p><p>You can view your order history by going to the <a href="%s">My Account</a> page and by clicking on <a href="%s">History</a>.</p><p>Please direct any questions you have to the <a href="%s">store owner</a>.</p><p>Thanks for shopping with us online!</p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p>Your order has been successfully processed!</p><p>Please direct any questions you have to the <a href="%s">store owner</a>.</p><p>Thanks for shopping with us online!</p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Basket]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Shipping]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Payment]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Guest Checkout]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Confirm]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Checkout Failure]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Basket]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Shipping]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Payment]]></value>
+  </definition>
+  <definition>
+    <key>text_failure</key>
+    <value><![CDATA[Failure]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p>There was a problem while trying to process your order!</p><p>If the problem persists please try selecting a different payment method or you can contact the store owner by <a href="%s">clicking here</a>.]]></value>
+  </definition>
+</definitions>

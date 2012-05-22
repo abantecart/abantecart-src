@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<extension>
+    <id>default_google_talk</id>
+    <version>1.0.0</version>
+	<category>storefront</category>
+    <cartversions>
+        <item>0.9</item>
+        <item>1.0</item>
+    </cartversions>
+    <dependencies></dependencies>
+    <phpmodules></phpmodules>
+    <layout>boxes</layout>
+    <priority>10</priority>	
+    <settings>
+        <item id="default_google_talk_status">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>>
+	    <item id="default_google_talk_code">
+            <type>textarea</type>
+		    <default_value></default_value>
+        </item>
+    </settings>
+    <install>	
+	    <sql></sql>
+	    <trigger>install.php</trigger>
+	</install>
+	<uninstall>
+	    <sql></sql>
+	    <trigger>uninstall.php</trigger>
+	</uninstall>
+</extension>

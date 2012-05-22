@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Informe de productos comprados]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nombre del producto]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Modelo]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Cantidad]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Total]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Tarjeta de Crédito / Débito (Procesado de manera segura por PayPal)]]></value>
+  </definition>
+  <definition>
+    <key>text_credit_card</key>
+    <value><![CDATA[Detalles de la tarjeta de crédito]]></value>
+  </definition>
+  <definition>
+    <key>text_start_date</key>
+    <value><![CDATA[(si está disponible)]]></value>
+  </definition>
+  <definition>
+    <key>text_issue</key>
+    <value><![CDATA[(para tarjetas Maestro y Solo únicamente)]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Por favor, espere]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_owner</key>
+    <value><![CDATA[Propietario de la tarjeta:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_type</key>
+    <value><![CDATA[Tipo de tarjeta:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_number</key>
+    <value><![CDATA[Número de tarjeta:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_start_date</key>
+    <value><![CDATA[Tarjeta válida desde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_expire_date</key>
+    <value><![CDATA[Tarjeta válida hasta:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_cvv2</key>
+    <value><![CDATA[Código de seguridad (CVV2):]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_issue</key>
+    <value><![CDATA[Número de emisión de la tarjeta:]]></value>
+  </definition>
+</definitions>

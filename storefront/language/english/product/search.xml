@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Search]]></value>
+	</definition>
+	<definition>
+		<key>text_search</key>
+		<value><![CDATA[Products meeting the search criteria]]></value>
+	</definition>
+	<definition>
+		<key>text_keyword</key>
+		<value><![CDATA[Keywords]]></value>
+	</definition>
+	<definition>
+		<key>text_category</key>
+		<value><![CDATA[All Categories]]></value>
+	</definition>
+	<definition>
+		<key>text_critea</key>
+		<value><![CDATA[Search Criteria]]></value>
+	</definition>
+	<definition>
+		<key>text_empty</key>
+		<value><![CDATA[There is no product that matches the search criteria.]]></value>
+	</definition>
+	<definition>
+		<key>text_stars</key>
+		<value><![CDATA[%s out of 5 Stars!]]></value>
+	</definition>
+	<definition>
+		<key>text_sort</key>
+		<value><![CDATA[Sort By:]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[Default]]></value>
+	</definition>
+	<definition>
+		<key>text_name_asc</key>
+		<value><![CDATA[Name A - Z]]></value>
+	</definition>
+	<definition>
+		<key>text_name_desc</key>
+		<value><![CDATA[Name Z - A]]></value>
+	</definition>
+	<definition>
+		<key>text_price_asc</key>
+		<value><![CDATA[Price Low &gt; High]]></value>
+	</definition>
+	<definition>
+		<key>text_price_desc</key>
+		<value><![CDATA[Price High &gt; Low]]></value>
+	</definition>
+	<definition>
+		<key>text_rating_asc</key>
+		<value><![CDATA[Rating Lowest]]></value>
+	</definition>
+	<definition>
+		<key>text_rating_desc</key>
+		<value><![CDATA[Rating Highest]]></value>
+	</definition>
+	<definition>
+		<key>entry_search</key>
+		<value><![CDATA[Search:]]></value>
+	</definition>
+	<definition>
+		<key>entry_description</key>
+		<value><![CDATA[Search in product descriptions]]></value>
+	</definition>
+	<definition>
+		<key>entry_model</key>
+		<value><![CDATA[Search in product model]]></value>
+	</definition>
+</definitions>

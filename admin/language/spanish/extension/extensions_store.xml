@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Extensiones de la tienda]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Instalar]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Desinstalar]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_delete</key>
+    <value><![CDATA[Desinstalar / eliminar]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_confirm</key>
+    <value><![CDATA[Por favor, confirme que desea desinstalar la extensión [%% de la extensión]. Todos los ajustes de extensión y los datos relacionados se pueden borrar y perdió.]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Borrar]]></value>
+  </definition>
+  <definition>
+    <key>text_enlarge</key>
+    <value><![CDATA[Haga clic en la imagen para ampliarla]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Activar]]></value>
+  </definition>
+  <definition>
+    <key>text_deactivate</key>
+    <value><![CDATA[Desactivar]]></value>
+  </definition>
+  <definition>
+    <key>text_left</key>
+    <value><![CDATA[Izquierda]]></value>
+  </definition>
+  <definition>
+    <key>text_right</key>
+    <value><![CDATA[Derecho]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Agregado el]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advertencia: Usted no tiene permiso para modificar las extensiones!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_field</key>
+    <value><![CDATA[Advertencia: Por favor, rellene los campos obligatorios!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment_uninstall</key>
+    <value><![CDATA[Advertencia: Desactivar la extensión antes de desinstalación!]]></value>
+  </definition>
+  <definition>
+    <key>error_uninstall</key>
+    <value><![CDATA[Advertencia: Desinstalar extensión antes de borrar!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Éxito: Se ha modificado la configuración de extensión!]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Extensiones de la tienda]]></value>
+  </definition>
+  <definition>
+    <key>text_required</key>
+    <value><![CDATA[Necesario]]></value>
+  </definition>
+  <definition>
+    <key>text_optional</key>
+    <value><![CDATA[Opcional]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new</key>
+    <value><![CDATA[Agregar Nueva extensión]]></value>
+  </definition>
+  <definition>
+    <key>error_connect</key>
+    <value><![CDATA[Lo sentimos, tu Abantecart no se puede conectar con la tienda de extensión. Por favor, consulte Sistema-&gt; error registros para más detalles.]]></value>
+  </definition>
+</definitions>

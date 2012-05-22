@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_google_talk_name</key>
+    <value><![CDATA[Google Talk Chat]]></value>
+  </definition>
+  <definition>
+    <key>default_google_talk_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>default_google_talk_status_0</key>
+    <value><![CDATA[Disabled]]></value>
+  </definition>
+  <definition>
+    <key>default_google_talk_status_1</key>
+    <value><![CDATA[Enabled]]></value>
+  </definition>
+  <definition>
+    <key>default_google_talk_code</key>
+    <value><![CDATA[Embed HTML-Code<span class="help">Goto <a onclick="window.open('http://www.google.com/talk/service/badge/New');"><u>Create a Google Talk chatback badge</u></a> and copy &amp; paste the generated code into the text box.</span>]]></value>
+  </definition>
+  
+</definitions>

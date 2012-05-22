@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administration]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Administration]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Please enter your login details.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Username:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Password:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Forgot Password?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Login]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[No match for Username and/or Password.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Invalid token session. Please login again.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Failed login to admin attempt from IP:]]></value>
+  </definition>  
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Given user login: ]]></value>
+  </definition>
+</definitions>

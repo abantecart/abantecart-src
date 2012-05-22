@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Account Login]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Register Account]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Login]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[I am a new customer.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Checkout Options:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Guest Checkout]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[By creating an account you will be able to shop faster, be up to date on an order's status, and keep track of the orders you have previously made.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[Returning Customer]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[I am a returning customer.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Forgotten Password]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[E-Mail Address:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Password:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Error: No match for E-Mail Address and/or Password.]]></value>
+  </definition>
+</definitions>

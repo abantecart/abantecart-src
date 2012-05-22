@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>code</key>
+		<value><![CDATA[es]]></value>
+	</definition>
+	<definition>
+		<key>direction</key>
+		<value><![CDATA[ltr]]></value>
+	</definition>
+	<definition>
+		<key>date_format_short</key>
+		<value><![CDATA[d/m/Y]]></value>
+	</definition>
+	<definition>
+		<key>date_format_long</key>
+		<value><![CDATA[l dS F Y]]></value>
+	</definition>
+	<definition>
+		<key>time_format</key>
+		<value><![CDATA[h:i:s A]]></value>
+	</definition>
+	<definition>
+		<key>decimal_point</key>
+		<value><![CDATA[,]]></value>
+	</definition>
+	<definition>
+		<key>thousand_point</key>
+		<value><![CDATA[.]]></value>
+	</definition>
+	<definition>
+		<key>text_home</key>
+		<value><![CDATA[Inicio]]></value>
+	</definition>
+	<definition>
+		<key>text_yes</key>
+		<value><![CDATA[Si]]></value>
+	</definition>
+	<definition>
+		<key>text_no</key>
+		<value><![CDATA[No]]></value>
+	</definition>
+	<definition>
+		<key>text_none</key>
+		<value><![CDATA[ --- Ninguo --- ]]></value>
+	</definition>
+	<definition>
+		<key>text_select</key>
+		<value><![CDATA[-- Por favor Seleccione --]]></value>
+	</definition>
+	<definition>
+		<key>text_all_zones</key>
+		<value><![CDATA[Todas las Zonas]]></value>
+	</definition>
+	<definition>
+		<key>text_pagination</key>
+		<value><![CDATA[Mostrando del {start} al {end} de un total de {total} ({pages} Paginas)]]></value>
+	</definition>
+	<definition>
+		<key>text_per_page</key>
+		<value><![CDATA[Por Página]]></value>
+	</definition>
+	<definition>
+		<key>text_separator</key>
+		<value><![CDATA[ &gt; ]]></value>
+	</definition>
+	<definition>
+		<key>button_continue</key>
+		<value><![CDATA[Continuar]]></value>
+	</definition>
+	<definition>
+		<key>button_back</key>
+		<value><![CDATA[Retroceder]]></value>
+	</definition>
+	<definition>
+		<key>button_add_to_cart</key>
+		<value><![CDATA[Añadir al carro]]></value>
+	</definition>
+	<definition>
+		<key>button_add_address</key>
+		<value><![CDATA[Añadir Dirección]]></value>
+	</definition>
+	<definition>
+		<key>button_new_address</key>
+		<value><![CDATA[Nueva Dirección]]></value>
+	</definition>
+	<definition>
+		<key>button_change_address</key>
+		<value><![CDATA[Cambiar Dirección]]></value>
+	</definition>
+	<definition>
+		<key>button_edit</key>
+		<value><![CDATA[Editar]]></value>
+	</definition>
+	<definition>
+		<key>button_delete</key>
+		<value><![CDATA[Eliminar]]></value>
+	</definition>
+	<definition>
+		<key>button_reviews</key>
+		<value><![CDATA[Comentarios]]></value>
+	</definition>
+	<definition>
+		<key>button_write</key>
+		<value><![CDATA[Escribir un comentario]]></value>
+	</definition>
+	<definition>
+		<key>button_login</key>
+		<value><![CDATA[Conectar]]></value>
+	</definition>
+	<definition>
+		<key>button_update</key>
+		<value><![CDATA[Actualizar]]></value>
+	</definition>
+	<definition>
+		<key>button_shopping</key>
+		<value><![CDATA[Continuar Comprando]]></value>
+	</definition>
+	<definition>
+		<key>button_checkout</key>
+		<value><![CDATA[Realizar Pedido]]></value>
+	</definition>
+	<definition>
+		<key>button_confirm</key>
+		<value><![CDATA[Confirmar Pedido]]></value>
+	</definition>
+	<definition>
+		<key>button_view</key>
+		<value><![CDATA[Ver]]></value>
+	</definition>
+	<definition>
+		<key>button_search</key>
+		<value><![CDATA[Buscar]]></value>
+	</definition>
+	<definition>
+		<key>button_go</key>
+		<value><![CDATA[Buscar]]></value>
+	</definition>
+	<definition>
+		<key>button_coupon</key>
+		<value><![CDATA[Aplicar DTO.]]></value>
+	</definition>
+	<definition>
+		<key>button_guest</key>
+		<value><![CDATA[Comprar como invitado]]></value>
+	</definition>
+	<definition>
+		<key>button_wish</key>
+		<value><![CDATA[Deseo]]></value>
+	</definition>
+	<definition>
+		<key>button_print</key>
+		<value><![CDATA[Imprimir]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<definitions>
+    <definition>
+        <key>heading_title</key>
+        <value><![CDATA[Layout &amp; Blocks Manager]]></value>
+    </definition>
+    <definition>
+        <key>text_select_template</key>
+        <value><![CDATA[Select template: ]]></value>
+    </definition>
+    <definition>
+        <key>text_success</key>
+        <value><![CDATA[Success: You have modified layout &amp; blocks!]]></value>
+    </definition>
+</definitions>

@@ -1,0 +1,51 @@
+<?php if ($error_warning) { ?>
+<div class="warning"><?php echo $error_warning; ?></div>
+<?php } ?>
+<?php if ($success) { ?>
+<div class="success"><?php echo $success; ?></div>
+<?php } ?>
+
+<div class="contentBox">
+  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
+    <div class="heading"><?php echo $heading_title; ?></div>
+	<div class="toolbar">
+		<?php if ( !empty ($help_url) ) : ?>
+	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
+	    <?php endif; ?>
+    </div>
+  </div></div></div>
+  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
+    <?php echo $form['form_open']; ?>
+      <table class="table_list cache_list" style="width:100%;">
+        <thead>
+          <tr>
+            <td><div class="checkbox all">
+	            <input type='checkbox' onclick="checkAll('selected', $(this).prop('checked'))" />
+            </div></td>
+            <td><?php echo $column_type; ?></td>
+            <td><?php echo $column_description; ?></td>
+          </tr>
+        </thead>
+        <tbody>
+          <?php if ($sections) { ?>
+          <?php foreach ($sections as $section) { ?>
+          <tr>
+            <td class="col1"><div class="checkbox"><input type='checkbox' name="selected[]" value="<?php echo $section['keywords']; ?>" /></div></td>
+            <td class="col2"><?php echo $section['text']; ?></td>
+            <td class="col3"><?php echo $section['description']; ?></td>
+          </tr>
+          <?php } ?>
+          <?php } else { ?>
+          <tr>
+            <td class="center" colspan="3"><?php echo $text_no_results; ?></td>
+          </tr>
+          <?php } ?>
+        </tbody>
+      </table>
+	  <div class="align_center" style="margin-top: 10px;">
+		  <button class="btn_standard" type="submit"><?php echo $form['submit']; ?></button>
+	  </div>
+    </form>
+  </div></div></div>
+  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+</div>

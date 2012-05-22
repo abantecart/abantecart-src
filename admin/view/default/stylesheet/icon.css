@@ -1,0 +1,95 @@
+
+.icon_add {
+	background-image: url(../image/icons/icon_add.png);
+}
+.icon_edit {
+	background-image: url(../image/icons/icon_edit.png);
+}
+.icon_delete {
+	background-image: url(../image/icons/icon_delete.png);
+}
+.icon_s_unmap {
+	background-image: url(../image/icons/icon_s_unmap.png);
+}
+.icon_s_view {
+	background-image: url(../image/icons/icon_s_view.png);
+}
+.icon_s_edit {
+	background-image: url(../image/icons/icon_s_edit.png);
+}
+.icon_s_delete {
+	background-image: url(../image/icons/icon_s_delete.png);
+}
+.icon_s_save {
+	background-image: url(../image/icons/icon_s_save.png);
+}
+.icon_s_install {
+	background-image: url(../image/icons/icon_s_install.gif);
+}
+.icon_s_uninstall {
+	background-image: url(../image/icons/icon_s_uninstall.gif);
+}
+.icon_language {
+	background-image: url(../image/icons/icon_language.png);
+}
+.icon_search {
+	background-image: url(../image/icons/icon_search.png);
+}
+.icon_search2 {
+	background-image: url(../image/icons/icon_search2.png);
+}
+.icon_close {
+	background-image: url(../image/icons/icon_close.png);
+}
+.icon_sort_asc {
+	background-image: url(../image/icons/icon_sort_asc.png);
+}
+.icon_sort_desc {
+	background-image: url(../image/icons/icon_sort_desc.png);
+}
+.icon_append {
+	background-image: url(../image/icons/icon_right.png);
+}
+.icon_remove {
+	background-image: url(../image/icons/icon_left.png);
+}
+.icon_status {
+	background-image: url(../image/icons/icon_on_off.png);
+}
+.icon_log {
+	background-image: url(../image/log.png);
+}
+.icon_lockscreen {
+	background-image: url(../image/lockscreen.png);
+}
+
+.icon_grid_edit { background-image: url(../image/icons/icon_grid_edit.png); }
+.icon_grid_delete { background-image: url(../image/icons/icon_grid_delete.png); }
+.icon_grid_save { background-image: url(../image/icons/icon_grid_save.png); }
+.icon_grid_clone { background-image: url(../image/icons/icon_grid_clone.png); }
+.icon_grid_help { background-image: url(../image/icons/help.png); }
+
+.icon_title_search {	background-image: url('../image/search_icon.png');}
+.icon_title_review {	background-image: url('../image/review.png');}
+.icon_title_download {	background-image: url('../image/download.png');}
+.icon_title_information {	background-image: url('../image/information.png');}
+.icon_title_language {	background-image: url('../image/language.png');}
+.icon_title_total {	background-image: url('../image/total.png');}
+.icon_title_shipping {	background-image: url('../image/shipping.png');}
+.icon_title_payment {	background-image: url('../image/payment.png');}
+.icon_title_customer {	background-image: url('../image/customer.png');}
+.icon_title_order {	background-image: url('../image/order.png');}
+.icon_title_log {	background-image: url('../image/log.png');}
+.icon_title_mail {	background-image: url('../image/mail.png');}
+.icon_title_report {	background-image: url('../image/report.png');}
+.icon_title_user_group {	background-image: url('../image/user_group.png');}
+.icon_title_stock_status {	background-image: url('../image/stock_status.png');}
+.icon_title_user {	background-image: url('../image/user.png');}
+.icon_title_length {	background-image: url('../image/length.png');}
+.icon_title_country {	background-image: url('../image/country.png');}
+.icon_title_tax {	background-image: url('../image/tax.png');}
+.icon_title_product {	background-image: url('../image/product.png');}
+.icon_title_setting {	background-image: url('../image/setting.png');}
+.icon_title_category {	background-image: url('../image/category.png');}
+.icon_title_brand {	background-image: url('../image/brand.png');}
+.icon_title_extension {	background-image: url('../image/extension.png');}

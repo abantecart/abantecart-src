@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_moneybookers_name</key>
+    <value><![CDATA[Moneybookers]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Payment]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: You have modified the Moneybookers details.]]></value>
+  </definition>
+  <definition>
+    <key>text_moneybookers</key>
+    <value><![CDATA[<a onclick="window.open('https://www.moneybookers.com/app/?rid=10111486');"><img src="extensions/default_moneybookers/admin/view/default/image/moneybookers.png" alt="Moneybookers" title="Moneybookers" style="border: 1px solid #EEEEEE;" /></a>]]></value>
+  </definition>
+  <definition>
+    <key>default_moneybookers_email</key>
+    <value><![CDATA[E-Mail:]]></value>
+  </definition>
+  <definition>
+    <key>default_moneybookers_order_status_id</key>
+    <value><![CDATA[Order Status:]]></value>
+  </definition>
+  <definition>
+    <key>default_moneybookers_order_status_pending_id</key>
+    <value><![CDATA[Order Status Pending:]]></value>
+  </definition>
+  <definition>
+    <key>default_moneybookers_order_status_canceled_id</key>
+    <value><![CDATA[Order Status Canceled:]]></value>
+  </definition>
+  <definition>
+    <key>default_moneybookers_order_status_failed_id</key>
+    <value><![CDATA[Order Status Failed:]]></value>
+  </definition>
+  <definition>
+    <key>default_moneybookers_order_status_chargeback_id</key>
+    <value><![CDATA[Order Status Chargeback:]]></value>
+  </definition>
+  <definition>
+    <key>default_moneybookers_location_id</key>
+    <value><![CDATA[Location:]]></value>
+  </definition>
+  <definition>
+    <key>default_moneybookers_location_id_0</key>
+    <value><![CDATA[All Locations]]></value>
+  </definition>
+  <definition>
+    <key>default_moneybookers_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>default_moneybookers_sort_order</key>
+    <value><![CDATA[Sort Order:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warning: You do not have permission to modify Moneybookers!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-Mail Required!]]></value>
+  </definition>
+</definitions>

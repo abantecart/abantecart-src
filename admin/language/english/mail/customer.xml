@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Your Account has been activated!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Welcome and thank you for registering at %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Your account has now been created and you can log in by using your email address and password by visiting our website or at the following URL:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Upon logging in, you will be able to access other services including reviewing past orders, printing invoices and editing your account information.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Thanks,]]></value>
+  </definition>
+</definitions>

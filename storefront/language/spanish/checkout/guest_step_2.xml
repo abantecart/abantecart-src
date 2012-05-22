@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Compra invitado - Paso 2]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Carro]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Compra invitado - Paso 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Compra invitado - Paso 2]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Metodo de envio]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Por favor, seleccione los metodos de envio que desea utilizar.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Metodo de pago]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[Por favor, seleccione los metodos de pago que desea utilizar.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Agregue los comentarios sobre su pedido]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[He leido y estoy de acuerdo con el ]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Metodo de envio:]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Metodo de pago:]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Error: Metodo de envio requerido!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Error: Metodo de pago requerido!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Error: Usted debe estar de acuerdo a la %s!]]></value>
+  </definition>
+	<definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Ingrese su código, pulse la "Aplicar Cupón" botón y ver su descuento se aplicará de inmediato a su pedido.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Éxito: El cupón de descuento se ha aplicado!]]></value>
+  </definition>
+	<definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[Cupón:]]></value>
+  </definition>
+<definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Error: No hay opciones de envío están disponibles. Por favor, póngase en <a href="index.php?rt=content/contact">contacto con nosotros</a> para obtener ayuda!]]></value>
+  </definition>
+<definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Error: descuento no es válido, expirado o alcanzado su límite de uso!]]></value>
+  </definition>
+</definitions>

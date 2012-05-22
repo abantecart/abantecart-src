@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Información sobre el envío]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Cesta]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Envío]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_to</key>
+		<value><![CDATA[Por favor, escoja la dirección donde se deben enviar los productos.]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_address</key>
+		<value><![CDATA[Dirección de Envío]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_method</key>
+		<value><![CDATA[Forma de Envío]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_methods</key>
+		<value><![CDATA[Por favor, seleccione el método de envío para este pedido.]]></value>
+	</definition>
+	<definition>
+		<key>text_comments</key>
+		<value><![CDATA[Añada comentarios sobre su pedido]]></value>
+	</definition>
+	<definition>
+		<key>error_shipping</key>
+		<value><![CDATA[Error: Se requiere un método de envío!]]></value>
+	</definition>
+	<definition>
+		<key>error_no_shipping</key>
+		<value>
+			<![CDATA[Error: No hay opciones de envío están disponibles. Por favor, póngase en <a href="index.php?rt=content/contact">contacto con nosotros</a> para obtener ayuda!]]></value>
+	</definition>
+</definitions>

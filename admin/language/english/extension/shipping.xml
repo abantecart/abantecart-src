@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Shipping]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Install]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Uninstall]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Shipping Method]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Sort Order]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Action]]></value>
+  </definition>
+</definitions>

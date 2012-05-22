@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Nueva Contrasena]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Una nueva contrasena se solicito a %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Su nueva contrasena es:]]></value>
+  </definition>
+</definitions>

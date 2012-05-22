@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Permiso denegado!]]></value>
+  </definition>
+  <definition>
+    <key>text_permission</key>
+    <value><![CDATA[Usted no tiene permiso para acceder a esta zona, por favor consulte a su administrador de sistema.]]></value>
+  </definition>
+</definitions>

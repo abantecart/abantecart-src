@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Products Viewed Report]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: You have reset the product viewed report!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Product Name]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Model]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Category]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[Viewed]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[Percent]]></value>
+  </definition>
+</definitions>

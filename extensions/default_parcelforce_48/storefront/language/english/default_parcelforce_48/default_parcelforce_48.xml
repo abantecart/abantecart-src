@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Parcelforce 48]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Parcelforce 48]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Weight:]]></value>
+  </definition>
+  <definition>
+    <key>text_insurance</key>
+    <value><![CDATA[Insured upto:]]></value>
+  </definition>
+  <definition>
+    <key>text_time</key>
+    <value><![CDATA[Estimated Time: Within 48 Hours]]></value>
+  </definition>
+</definitions>

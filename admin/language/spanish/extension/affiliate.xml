@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Afiliados]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Instalar]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Desintalar]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nombre afiliado]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Estado]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Accion]]></value>
+  </definition>
+</definitions>

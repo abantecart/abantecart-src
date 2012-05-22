@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Marcas]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturer</key>
+		<value><![CDATA[Fabricante o la marca]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Correcto: Ha modificado las marcas!]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[Tienda por defecto]]></value>
+	</definition>
+	<definition>
+		<key>text_image_manager</key>
+		<value><![CDATA[Gestor imagenes]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nombre de la marca]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[Orden]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Acción]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nombre de la marca:]]></value>
+	</definition>
+	<definition>
+		<key>entry_store</key>
+		<value><![CDATA[Tiendas:]]></value>
+	</definition>
+	<definition>
+		<key>entry_keyword</key>
+		<value><![CDATA[Palabras claves SEO:]]></value>
+	</definition>
+	<definition>
+		<key>entry_image</key>
+		<value><![CDATA[Imagen:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Orden:]]></value>
+	</definition>
+	<definition>
+		<key>entry_edit</key>
+		<value><![CDATA[Editar]]></value>
+	</definition>
+	<definition>
+		<key>entry_layout</key>
+		<value><![CDATA[ Diseño de página ]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Atención: No tiene permisos para modificar los fabricantes!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[El nombre de fabricante debe ser superior a 2 caracteres e inferior a 64!]]></value>
+	</definition>
+	<definition>
+		<key>error_product</key>
+		<value>
+			<![CDATA[Atención: Este fabricante no puede ser elimnado ya que actualmente está asignado a %s productos!]]></value>
+	</definition>
+	<definition>
+		<key>error_manufacturer_not_found</key>
+		<value><![CDATA[Error: El fabricante no encontrado!]]></value>
+	</definition>
+	<definition>
+		<key>text_success_layout</key>
+		<value><![CDATA[Éxito: Se ha modificado el diseño categoría de página.]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[User Groups]]></value>
+  </definition>
+  <definition>
+    <key>text_group</key>
+    <value><![CDATA[User Group]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: You have modified user groups!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_group_added</key>
+    <value><![CDATA[Success: You have created user group successfully!]]></value>
+  </definition>
+  <definition>
+    <key>text_go_to_page</key>
+    <value><![CDATA[Go to Page]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[ Delete User Group?]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[User Group Name]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Action]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[User Group Name:]]></value>
+  </definition>
+  <definition>
+    <key>column_controller</key>
+    <value><![CDATA[Controller]]></value>
+  </definition>
+  <definition>
+    <key>column_access</key>
+    <value><![CDATA[Access]]></value>
+  </definition>
+  <definition>
+    <key>column_modify</key>
+    <value><![CDATA[Modify]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warning: You do not have permission to modify user groups!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[User Group Name must be between 2 and 64 characters!]]></value>
+  </definition>
+  <definition>
+    <key>error_user</key>
+    <value><![CDATA[Warning: This user group cannot be deleted as it is currently assigned to %s users!]]></value>
+  </definition>
+</definitions>

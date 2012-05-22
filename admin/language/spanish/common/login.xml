@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Conectar]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Administración]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Acceso administración tienda]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Nombre de usuario:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Contraseña:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[¿Olvidó su contraseña?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Conectar]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Usuario o contraseña erróneos.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Una sesión no válida token. Por favor, ingresa de nuevo.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Error de inicio de sesión a la tentativa de administración de la propiedad intelectual:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Teniendo en cuenta de inicio de sesión de usuario: ]]></value>
+  </definition>
+</definitions>
