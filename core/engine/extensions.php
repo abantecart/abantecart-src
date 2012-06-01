@@ -282,22 +282,24 @@ class ExtensionsApi {
 					RIGHT JOIN " . DB_PREFIX . "settings s ON s.group = e.key
 					WHERE e.type = '" . $this->db->escape($type) . "'";
 		}elseif( $type == 'exts' ){
-			$sql = "SELECT e.key
+			$sql = "SELECT DISTINCT e.key
 					FROM " . DB_PREFIX . "extensions e
 					RIGHT JOIN " . DB_PREFIX . "settings s ON s.group = e.key
 					WHERE e.type IN ('".implode("', '",$this->extension_types)."')";
 		}elseif ($type == '') {
-			$sql = "SELECT e.key
+			$sql = "SELECT DISTINCT e.key
 					FROM " . DB_PREFIX . "extensions e
 					RIGHT JOIN " . DB_PREFIX . "settings s ON s.group = e.key";
 		} else {
-			$sql = "SELECT e.key
+			$sql = "SELECT DISTINCT e.key
 					FROM " . DB_PREFIX . "extensions e";
 		}
 		
 		$query = $this->db->query($sql);
 		foreach ($query->rows as $result) {
-			$extension_data[ ] = $result[ 'key' ];
+			if($result[ 'key' ]){
+				$extension_data[ ] = $result[ 'key' ];
+			}
 		}
 
 		return $extension_data;

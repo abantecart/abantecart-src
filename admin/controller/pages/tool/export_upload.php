@@ -53,7 +53,7 @@ class ControllerPagesToolExportUpload extends AController {
 
 				switch ($this->request->post['options']['file_format']) {
 					case 'csv':
-
+						
 						$fileName .= '.tar.gz';
 						$result = $this->data->array2CSV($array_new, $fileName, $this->request->post['options']['delimiter']);
 						break;
@@ -83,14 +83,15 @@ class ControllerPagesToolExportUpload extends AController {
 						header('Content-Disposition: attachment; filename="' . $fileName . '"');
 						header('Content-Transfer-Encoding: binary');
 
-						print($result);
+						print($result);exit; // popup window with file upload dialog
 
 					} else {
-						$this->session->data['error'] = 'Error during export!';
+						$this->session->data['error'] = 'Error during export! Please check errors report.';
 					}
 
 					//update controller data
 					$this->extensions->hk_UpdateData($this,__FUNCTION__);
+					$this->redirect($this->html->getSecureURL('tool/import_export', '&active=export'));
 					return;
 				} else {
 					exit('Error: Headers already sent out!');
@@ -98,6 +99,7 @@ class ControllerPagesToolExportUpload extends AController {
 			} else {
 				$this->session->data['error'] = 'Data for export is empty!';
 				$this->redirect($this->html->getSecureURL('tool/import_export', '&active=export'));
+				return;
 			}
 
 		} else {

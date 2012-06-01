@@ -53,7 +53,7 @@ abstract class AController {
 			//Load Controller template and pass to view. This can be reset in controller as well
 			$this->view->setTemplate( $this->layout->getBlockTemplate($this->instance_id) );			
 			//Load Children from layout if any. 'instance_id', 'contorller', 'block_text_id', 'template'
-			$this->children = $this->layout->getChildren($this->instance_id);			
+			$this->children = $this->layout->getChildren($this->instance_id);
 		}
 	}
 	

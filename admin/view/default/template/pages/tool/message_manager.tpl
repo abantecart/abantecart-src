@@ -1,9 +1,5 @@
 <div id="aPopup">
-	<div class="popbox_tl">
-		<div class="popbox_tr">
-			<div class="popbox_tc"></div>
-		</div>
-	</div>
+
 	<div class="message_head" >
 		<div id="msg_title" class="message_title"></div>
 		<table>
@@ -21,7 +17,7 @@
 			</tr>
 		</table>
 	</div>	
-	<div class="popbox_cl"><div class="popbox_cr"><div class="popbox_cc message_body" >
+	<div class="message_body" >
 		<div class="aform">
 			<div class="afield mask2">
 				<div class="tl"><div class="tr"><div class="tc"></div></div></div>
@@ -31,13 +27,7 @@
 				<div class="bl"><div class="br"><div class="bc"></div></div></div>
 			</div>
 		</div>
-		<a class="btn_action grid_action_delete" style="float: right; margin-top: 5px;"  onclick="delete_msg();">
-			<span class="icon_s_delete">
-				<span class="btn_text"><?php echo $delete; ?></span>
-			</span>
-		</a>
-	</div></div></div>
-	<div class="popbox_bl"><div class="popbox_br"><div class="popbox_bc"></div></div></div>
+	</div>
 </div>
 <div class="contentBox">
   <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
@@ -60,10 +50,20 @@ function show_popup(id){
 	$aPopup = $('#aPopup').dialog({
 		autoOpen: false, 
 		modal: true, 
-		resizable: false, 
-		dialogClass: 'aPopup', 
+		resizable: false,
 		width: 550,
 		minWidth: 550,
+		buttons:{
+				"delete": delete_msg,
+				"close": function(event, ui) {
+							$(this).dialog('destroy');
+							$("#message_grid").trigger("reloadGrid");
+						}
+			},
+		open: function() {
+		            //$('.ui-dialog-buttonpane').find('button:contains("close")').css('background-color','red').addClass('cancelButtonClass');
+		        },
+
 		resize: function(event, ui){
 		}, 
 		close: function(event, ui) {
@@ -72,16 +72,15 @@ function show_popup(id){
 		}
 	});
 	
-	$aPopup.removeClass('popbox popbox2');
-	
 	$.ajax({
 		url: '<?php echo $popup_action; ?>',
 		type: 'GET',
 		dataType: 'json',
 		data: 'id='+id+'&oper=show',
 		success: function(data) {
-			$aPopup.addClass("popbox2");
-			$('#msg_title').html(data.title);
+
+			$aPopup.dialog( "option" , "title" ,data.title);
+
 			$('#msg_status').val(data.status);
 			$('#msg_create_date').val(data.create_date);
 			$('#msg_body').html(data.message);

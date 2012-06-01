@@ -290,7 +290,7 @@ class ControllerBlocksListingBlock extends AController {
 
 				}
 
-				if(isset($item['price'])){
+				if(isset($item['price']) && preg_match('/^[0-9\.]/',$item['price'])){
 					$result[$k]['price'] = $this->currency->format($this->tax->calculate($item['price'], $result['tax_class_id'], $this->config->get('config_tax')));
 				}
 				$result[$k]['url'] = $this->html->getSEOURL($data_source['storefront_view_path'],'&'.$data_source['data_type'].'='.$item[$data_source['data_type']]);

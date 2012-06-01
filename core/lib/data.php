@@ -165,6 +165,12 @@ final class AData {
 	*	Specific Data Array conversion to CSV format 
 	*/
 	public function array2CSV($in_array, $fileName, $delimIndex = 0, $format = '.csv', $enclose = '"', $escape = '"', $asFile = false) {
+
+		if (!is_writable(DIR_BACKUP)) {
+			$this->processError('CSV/TXT Export Error', "Error: Not writable Backup directory!", 'error');
+			return false;
+		}
+
 		ini_set('max_execution_time', 300);
 		if ( isset($this->csvDelimiters[$delimIndex]) ) {
 			if ( $this->csvDelimiters[$delimIndex] == '\t' ) {
@@ -182,8 +188,10 @@ final class AData {
 			$dirName = DIR_BACKUP . $d_name;
 
 			if ( !file_exists($dirName) ) {
-				$res = mkdir($dirName, 0777, true);
+				$res = mkdir($dirName);
+				chmod($dirName, 0777);
 			} else {
+				@chmod($dirName, 0777);
 				$res = true;
 			}
 
@@ -210,11 +218,11 @@ final class AData {
 					}
 
 					$str = $enclose . implode($enclose.$delimiter.$enclose, $col_names) . $enclose . "\r\n" . $str;
-					//$zip->addFromString('/'. $table['name'] . $format, $str);
 					file_put_contents($dirName . '/' . $table['name'] . $format, $str);
+					@chmod($dirName . '/' . $table['name'] . $format, 0777);
 				}
 			} else {
-				$this->processError('CSV Export Error', 'Error: Can`t create file: ' . $fileName);
+				$this->processError('CSV/TXT Export Error', "Error: Can't create directory: " . $dirName, 'error');
 				return false;
 			}
 
@@ -1279,8 +1287,8 @@ final class AData {
 		return true;
 	}
 
-	private function processError($title, $error) {
-		$this->message->saveWarning($title, $error);
+	private function processError($title, $error, $level = 'warning') {
+		$this->message->{'save'.ucfirst($level)}($title, $error);
 		$wrn = new AWarning($error);
 		$wrn->toDebug()->toLog();
 		return $error;

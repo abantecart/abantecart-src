@@ -70,7 +70,8 @@ class ControllerPagesAccountCreate extends AController {
 		  		$mail->setSubject($subject);
 				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
 	      		$mail->send();
-		  	  
+
+				$this->extensions->hk_UpdateData($this,__FUNCTION__);
 		  		$this->redirect($this->html->getSecureURL('account/success'));
 	  		}
     	} 

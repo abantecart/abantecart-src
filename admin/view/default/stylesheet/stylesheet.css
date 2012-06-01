@@ -872,7 +872,7 @@ div#options .option_lang_field {
 .list thead td a, .list thead td {
 	font:normal 16px Arial, Helvetica, sans-serif;
 	text-decoration: none;
-	color: #242424;
+	color: #2A465E;
 }
 .list tbody a {
 	text-decoration: underline;
@@ -880,6 +880,7 @@ div#options .option_lang_field {
 .list tbody td {
 	vertical-align: middle;
 	padding: 0px 5px;
+
 }
 .list tbody tr:nth-child(odd) {
 	background: #fff;
@@ -1450,41 +1451,38 @@ table.form tr td:first-child {
 }
 /* Message manager*/
 .message_head{
-	background-color: #FCEEDC;	
 	color: #09487D;
 	font-family: Arial,Helvetica,sans-serif;
 	padding: 0 5px;
     bottom: 5px;
     float: none;
+}
+.message_head table{
+	margin-left: 5px;
 }
 
 .message_body{
-	background-color: #FCEEDC;	
 	color: #09487D;
 	font-family: Arial,Helvetica,sans-serif;
 	padding: 0 5px;
     bottom: 5px;
     float: none;
-    height: 450px;
+    height: 405px;
+	overflow: auto;
 }
 
-
-.message_title{	
-	line-height:33px;    
-    font-weight: bold;
-    font-size: 14px;
-}
 .message_status{
 	line-height:20px;	
-    font-size: 12px;    
+    font-size: 14px;
+	margin-left: 18px;
 }
 .message_date{
 	line-height:20px;	
-    font-size: 12px;
+    font-size: 14px;
 }
 .message_repeat{
 	line-height:20px;	
-    font-size: 12px;
+    font-size: 14px;
 	display: none;
 }
 
@@ -1494,8 +1492,8 @@ table.form tr td:first-child {
 	padding: 5px;
 	color:black;
 	background-color: white !important;
-	height: 415px;
-	width: 495px;
+	height: 380px;
+	width: 518px;
 	overflow: auto;
 	background-image: none !important;
 }

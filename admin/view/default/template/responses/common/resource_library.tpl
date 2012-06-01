@@ -8,7 +8,7 @@
 <script type="text/javascript" src="<?php echo $ssl ? 'https': 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/aform.js"></script>
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" id="theme">
+<link rel="stylesheet" href="<?php echo $ssl ? 'https': 'http'?>://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" id="theme">
 <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/stylesheet.css"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/button.css"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/resource.css"/>

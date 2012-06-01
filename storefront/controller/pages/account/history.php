@@ -67,10 +67,17 @@ class ControllerPagesAccountHistory extends AController {
 			} else {
 				$page = 1;
 			}
+
+			if (isset($this->request->get['limit'])) {
+				$limit = (int)$this->request->get['limit'];
+				$limit = $limit>50 ? 50 : $limit;
+			} else {
+				$limit = $this->config->get('config_catalog_limit');
+			}
 			
       		$orders = array();
 			
-			$results = $this->model_account_order->getOrders(($page - 1) * $this->config->get('config_catalog_limit'), $this->config->get('config_catalog_limit'));
+			$results = $this->model_account_order->getOrders(($page - 1) * $limit, $limit);
       		
 			foreach ($results as $result) {
         		$product_total = $this->model_account_order->getTotalOrderProductsByOrderId($result['order_id']);
@@ -97,10 +104,10 @@ class ControllerPagesAccountHistory extends AController {
 			$pagination = new APagination();
 			$pagination->total = $order_total;
 			$pagination->page = $page;
-			$pagination->limit = $this->config->get('config_catalog_limit');
+			$pagination->limit = $limit;
 			$pagination->text = $this->language->get('text_pagination');
 			$pagination->text_limit = $this->language->get('text_per_page');
-			$pagination->url = $this->html->getURL('account/history', '&page=%s');
+			$pagination->url = $this->html->getURL('account/history', '&limit=' . $limit . '&page={page}');
 			$this->view->assign('pagination', $pagination->render() );
 
             $this->view->assign('continue', $this->html->getSecureURL('account/account') );

@@ -45,6 +45,7 @@ class ControllerPagesSettings extends AController {
 		$template_data['download'] = DIR_ABANTECART . 'download';
 		$template_data['extensions'] = DIR_ABANTECART . 'extensions';
 		$template_data['resources'] = DIR_ABANTECART . 'resources';
+		$template_data['backup'] = DIR_ABANTECART . 'admin/system/backup';
 		$template_data['button_continue'] = $this->html->buildButton(array(
 			'name' => 'continue',
 			'text' => 'Continue >>',
@@ -119,7 +120,11 @@ class ControllerPagesSettings extends AController {
         if (!is_writable(DIR_ABANTECART . 'resources')) {
 			$this->error['warning'] = 'Warning: Resources directory needs to be writable for AbanteCart to work!';
 		}
-		
+
+		if (!is_writable(DIR_ABANTECART . 'admin/system/backup')) {
+			$this->error['warning'] = 'Warning: Backup directory needs to be writable for AbanteCart to work!';
+		}
+
     	if (!$this->error) {
       		return TRUE;
     	} else {

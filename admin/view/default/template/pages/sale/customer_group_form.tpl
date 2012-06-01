@@ -40,6 +40,8 @@
     </div>
 	</form>
 
+
+	<?php echo $this->getHookVar('customer_attributes'); ?>
   </div></div></div>
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>

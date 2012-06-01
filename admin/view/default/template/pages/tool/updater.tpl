@@ -17,9 +17,10 @@
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
 
   <div class="content">
-    <table class="table_list">
+    <table class="list">
+	  <?php if ($extensions) { ?>
       <thead>
-        <tr>
+        <tr class="center">
           <td><?php echo $column_name; ?></td>
           <td><?php echo $column_type; ?></td>
           <td><?php echo $column_category; ?></td>
@@ -30,9 +31,8 @@
         </tr>
       </thead>
       <tbody>
-        <?php if ($extensions) { ?>
         <?php foreach ($extensions as $extension) { ?>
-        <tr>
+        <tr class="left">
           <td><?php echo $extension['name']; ?></td>
           <td><?php echo $extension['type'] ?></td>
           <td><?php echo $extension['category'] ?></td>
@@ -42,12 +42,13 @@
           <td><a id="<?php echo $extension['name']; ?>" onclick="popUp(this); return false;" class="btn_standard" href="<?php echo $extension['action']['link']; ?>"><?php echo $extension['action']['text']; ?></a></td>
         </tr>
         <?php } ?>
+		</tbody>
         <?php } else { ?>
         <tr>
-          <td class="center" colspan="7"><?php echo $text_nothing_todo; ?></td>
+          <td class="center" ><?php echo $text_nothing_todo; ?></td>
         </tr>
         <?php } ?>
-      </tbody>
+
     </table>
   </div></div></div>
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>

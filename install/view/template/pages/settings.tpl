@@ -188,6 +188,15 @@
             <td colspan="2"><span class="bad">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br /> chmod -R 777 <?php echo $resources . '/'; ?></span></td>
           </tr>
           <?php } ?>
+          <tr>
+            <td><?php echo $backup . '/'; ?></td>
+            <td><?php echo is_writable($backup) ? '<span class="good">Writable</span>' : '<span class="bad">Unwritable</span>'; ?></td>
+          </tr>
+          <?php if (!is_writable($backup) ) { ?>
+          <tr>
+            <td colspan="2"><span class="bad">Change directory and all children directories permission to 777 or rwx-rwx-rwx:<br /> chmod -R 777 <?php echo $backup . '/'; ?></span></td>
+          </tr>
+          <?php } ?>
         </table>
       </div>
       

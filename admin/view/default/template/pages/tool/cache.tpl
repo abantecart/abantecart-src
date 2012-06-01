@@ -16,23 +16,23 @@
   </div></div></div>
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
     <?php echo $form['form_open']; ?>
-      <table class="table_list cache_list" style="width:100%;">
+      <table class="list" style="width:100%;">
         <thead>
           <tr>
-            <td><div class="checkbox all">
+            <td><div class="center checkbox all">
 	            <input type='checkbox' onclick="checkAll('selected', $(this).prop('checked'))" />
             </div></td>
             <td><?php echo $column_type; ?></td>
-            <td><?php echo $column_description; ?></td>
+            <td class="left"><?php echo $column_description; ?></td>
           </tr>
         </thead>
         <tbody>
           <?php if ($sections) { ?>
           <?php foreach ($sections as $section) { ?>
           <tr>
-            <td class="col1"><div class="checkbox"><input type='checkbox' name="selected[]" value="<?php echo $section['keywords']; ?>" /></div></td>
-            <td class="col2"><?php echo $section['text']; ?></td>
-            <td class="col3"><?php echo $section['description']; ?></td>
+            <td class="center"><div class="checkbox"><input type='checkbox' name="selected[]" value="<?php echo $section['keywords']; ?>" /></div></td>
+            <td class="left"><?php echo $section['text']; ?></td>
+            <td class="left"><?php echo $section['description']; ?></td>
           </tr>
           <?php } ?>
           <?php } else { ?>

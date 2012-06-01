@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>text_account_already</key>
-    <value><![CDATA[Si ya tienes una cuenta con nosotros, por favor conectate en <a href="%s">la página de conexión</a>.]]></value>
+    <value><![CDATA[Si ya tienes una cuenta con nosotros, por favor conectate en <a style="text-decoration: underline" href="%s">la página de conexión</a>.]]></value>
   </definition>
   <definition>
     <key>text_your_details</key>

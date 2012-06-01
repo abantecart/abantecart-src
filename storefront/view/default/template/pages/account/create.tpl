@@ -115,6 +115,9 @@
 					</tr>
 				</table>
 			</div>
+
+			<?php echo $this->getHookVar('customer_attributes'); ?>
+
 			<b style="margin-bottom: 2px; display: block;"><?php echo $text_newsletter; ?></b>
 
 			<div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">

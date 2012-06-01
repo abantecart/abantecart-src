@@ -275,7 +275,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 			$content_info = $this->model_catalog_content->getContent($this->config->get('config_checkout_id'));
 			if ($content_info) {
 				$this->data['text_agree'] = $this->language->get('text_agree');
-				$this->data['text_agree_href'] = $this->html->getURL('r/content/content', '&content_id=' . $this->config->get('config_checkout_id'));
+				$this->data['text_agree_href'] = $this->html->getURL('r/content/content/loadInfo', '&content_id=' . $this->config->get('config_checkout_id'));
 				$this->data['text_agree_href_text'] = $content_info['title'];
 			} else {
 				$this->data['text_agree'] ='';

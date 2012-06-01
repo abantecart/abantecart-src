@@ -85,6 +85,10 @@
 		<value><![CDATA[Los datos está vacía o dañada.]]></value>
 	</definition>
 	<definition>
+		<key>error_writable_backup</key>
+		<value><![CDATA[Directorio de copia de seguridad tiene que tener permisos de escritura para el archivo CSV / TXT de exportación a trabajar.]]></value>
+	</definition>
+	<definition>
 		<key>text_updated</key>
 		<value><![CDATA[Actualizado: ]]></value>
 	</definition>

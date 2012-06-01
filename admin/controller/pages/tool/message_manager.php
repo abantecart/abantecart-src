@@ -98,7 +98,7 @@ class ControllerPagesToolMessageManager extends AController {
 																			'type' => 'input', 
 																			'name' => 'msg_status', 
 																			'id' => 'msg_status', 
-																			'attr' => 'readonly=true'
+																			'attr' => 'disabled readonly '
 																			 ) ) );
 		
 		$this->view->assign ( 'create_date', $this->language->get ( 'text_date' ) );
@@ -106,21 +106,21 @@ class ControllerPagesToolMessageManager extends AController {
 																				'type' => 'input', 
 																				'name' => 'msg_create_date', 
 																				'id' => 'msg_create_date', 
-																				'attr' => 'readonly=true' ) ) );
+																				'attr' => 'disabled readonly ' ) ) );
 		
 		$this->view->assign ( 'repeats', $this->language->get ( 'text_repeats' ) );
 		$this->view->assign ( 'repeat_field', $form->getFieldHtml ( Array (
 																				'type' => 'input', 
 																				'name' => 'msg_repeat', 
 																				'id' => 'msg_repeat', 
-																				'attr' => 'readonly=true' ) ) );
+																				'attr' => 'disabled readonly ' ) ) );
 		
 		
 		$this->view->assign ( 'delete', $this->language->get ( 'text_delete' ) );
 		$this->view->assign ( 'confirm', $this->language->get ( 'text_confirm' ) );
 		$this->view->batchAssign (  $this->language->getASet () );
 		$this->view->assign('help_url', $this->gen_help_url() );
-		
+
 		$this->processTemplate ( 'pages/tool/message_manager.tpl' );
 		
 		//update controller data

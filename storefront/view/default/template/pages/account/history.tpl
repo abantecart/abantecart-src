@@ -47,7 +47,7 @@
 </div>
 <script type="text/javascript">
 
-	$('#button_continue').click(function() {
+	$('#continue_button').click(function() {
 		location = '<?php echo $continue; ?>';
 	})
 
