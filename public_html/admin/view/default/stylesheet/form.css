@@ -65,6 +65,7 @@ form {
 	width:350px;
 	resize:none;
 }
+
 .ml_field select {
 	width:365px;
 	resize:none;
@@ -242,10 +243,10 @@ div.aselect select {
 	margin:0 -10px 0 0;
 }
 
-.small-field {width:40px}
-.medium-field {width:150px}
-.large-field {width:300px}
-.xl-field {width:610px}
+.small-field, .ml_field input.small-field {width:40px}
+.medium-field, .ml_field input.medium-field {width:150px}
+.large-field, .ml_field input.large-field {width:300px}
+.xl-field, .ml_field input.xl-field {width:610px}
 textarea.large-field, textarea.xl-field {height:100px}
 
 .passwordset_element { float:left; }

@@ -162,7 +162,22 @@ final class ADispatcher {
 		//Process the controller, layout and children
 		//load layout if any for this controller
         if ( empty($this->file) ) {
-	        $error = new AError('Error: Could not load controller ' . $this->controller . '!', AC_ERR_CLASS_CLASS_NOT_EXIST );
+        	#Build back trace of calling functions to provide more details
+			$backtrace = debug_backtrace();
+			$function_stack = '';
+			if ( strlen($parent_controller) > 1 ) {
+				$function_stack = 'Parent Controller: ' . $parent_controller . ' | ';
+			}
+		
+        	for ($i=1; $i < count($backtrace); $i++) {
+        		$function_stack .= ' < ' . $backtrace[$i]['function'];
+        		if ($backtrace[$i]['args'][0]) {
+        			$function_stack .= ", argument : " . $backtrace[$i]['args'][0];
+        		}
+        	}
+			$url = $this->request->server['REQUEST_URI'];
+
+	        $error = new AError('Error: URL: '.$url.' Could not load controller ' . $this->controller . '! Call stack: ' . $function_stack . '', AC_ERR_CLASS_CLASS_NOT_EXIST );
             $error->toLog()->toDebug();
             $error->toMessages();
 	        return;

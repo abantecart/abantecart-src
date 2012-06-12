@@ -248,4 +248,12 @@
 		<key>additional_settings_confirm</key>
 		<value><![CDATA[Para configurar los ajustes adicionales de la extensión de la otra tienda debes iniciar una sesión en el panel de control de otro nombre de dominio. Ok? ]]></value>
 	</definition>
+	<definition>
+		<key>error_no_help_file</key>
+		<value><![CDATA[Lo sentimos, no hay ningún archivo de ayuda para esta extensión.]]></value>
+	</definition>
+	<definition>
+		<key>text_more_help</key>
+		<value><![CDATA[Más ayuda]]></value>
+	</definition>
 </definitions>

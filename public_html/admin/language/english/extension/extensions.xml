@@ -248,4 +248,12 @@
 		<key>additional_settings_confirm</key>
 		<value><![CDATA[To set additional settings of extension of another store you need to login into control panel on another domain name. Ok? ]]></value>
 	</definition>
+	<definition>
+		<key>error_no_help_file</key>
+		<value><![CDATA[Sorry, there is no help file for this extension.]]></value>
+	</definition>
+	<definition>
+		<key>text_more_help</key>
+		<value><![CDATA[More help]]></value>
+	</definition>
 </definitions>

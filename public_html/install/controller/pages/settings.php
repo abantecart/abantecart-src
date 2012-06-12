@@ -106,7 +106,17 @@ class ControllerPagesSettings extends AController {
 		}
 
 		if (!is_writable(DIR_ABANTECART . 'image/thumbnails')) {
-			$this->error['warning'] = 'Warning: image/thumbnails directory needs to be writable for AbanteCart to work!';
+			if(file_exists(DIR_ABANTECART . 'image/thumbnails') && is_dir(DIR_ABANTECART . 'image/thumbnails')){
+					$this->error['warning'] = 'Warning: Backup directory needs to be writable for AbanteCart to work!';
+			}else{
+				$result = mkdir(DIR_ABANTECART . 'image/thumbnails',0777,true);
+				if($result){
+					chmod(DIR_ABANTECART . 'image/thumbnails',0777);
+					chmod(DIR_ABANTECART . 'image',0777);
+				}else{
+					$this->error['warning'] = 'Warning: image/thumbnails does not exists!';
+				}
+			}
 		}
 		
 		if (!is_writable(DIR_ABANTECART . 'download')) {
@@ -122,7 +132,17 @@ class ControllerPagesSettings extends AController {
 		}
 
 		if (!is_writable(DIR_ABANTECART . 'admin/system/backup')) {
-			$this->error['warning'] = 'Warning: Backup directory needs to be writable for AbanteCart to work!';
+			if(file_exists(DIR_ABANTECART . 'admin/system/backup') && is_dir(DIR_ABANTECART . 'admin/system/backup')){
+				$this->error['warning'] = 'Warning: Backup directory needs to be writable for AbanteCart to work!';
+			}else{
+				$result = mkdir(DIR_ABANTECART . 'admin/system/backup',0777,true);
+				if($result){
+					chmod(DIR_ABANTECART . 'admin/system/backup',0777);
+					chmod(DIR_ABANTECART . 'admin/system',0777);
+				}else{
+					$this->error['warning'] = 'Warning: Backup directory does not exists in "admin" folder!';
+				}
+			}
 		}
 
     	if (!$this->error) {

@@ -10,10 +10,17 @@
 		<div class="cbox_tr">
 			<div class="cbox_tc">
 				<div class="heading icon_title_blocks"><?php echo $heading_title; ?></div>
+				<div class="heading-tabs">
+					<?php
+					foreach($tabs as $tab){
+						echo '<a '.($tab['active']? 'class="active"' : '').' href="'.$tab['href'].'"><span>'.$tab['text'].'</span></a>';
+					}
+					?>
+				</div>
 				<div class="toolbar">
 					<?php if (!empty ($help_url)) : ?>
-					<div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img
-							src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
+					<div class="help_element"><a href="<?php echo $help_url; ?>" target="new">
+						<img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
 					<?php endif; ?>
 					<?php echo $form_language_switch; ?></div>
 			</div>

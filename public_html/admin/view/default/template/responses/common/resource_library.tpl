@@ -5,14 +5,13 @@
 <meta http-equiv="x-ua-compatible" content="IE=8" />
 <title><?php echo $title; ?></title>
 <base href="<?php echo $base; ?>"/>
-<script type="text/javascript" src="<?php echo $ssl ? 'https': 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/aform.js"></script>
-<link rel="stylesheet" href="<?php echo $ssl ? 'https': 'http'?>://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" id="theme">
+<link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>javascript/jquery/ui/themes/ui-lightness/ui.all.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/stylesheet.css"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/button.css"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/resource.css"/>
-
+<script type="text/javascript" src="<?php echo $ssl ? 'https': 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/aform.js"></script>
 </head>
 <body>
 <div id="container" >
@@ -832,6 +831,47 @@ $("#language_id").ready( function(){
 });
 $("#language_id").change( function(){
 	$("#language_id").parents('.afield').width($('.search_box').width()) ;
+});
+
+var $error_dialog = null;
+httpError = function(data){
+    if ( $error_dialog )
+        return;
+
+    $error_dialog = $('<div></div>')
+        .html(data.error_text)
+        .dialog({
+            title: data.error_title,
+            modal: true,
+            resizable: false,
+            buttons: {
+                    "Close" : function() { $(this).dialog("close"); }
+            },
+            close: function(e, ui) {
+                switch ( data.error_code ){
+                    //app error
+                    case 400 :
+                        break;
+                    //error login
+                    case 401 :
+                        parent.window.location.reload();
+                        break;
+                    //error permission
+                    case 402 :
+                        break;
+                    //error not found
+                    case 404 :
+                        break;
+                }
+            }
+        });
+}
+
+jQuery(function($){
+	$('<div/>').ajaxError(function(e, jqXHR, settings, exception){
+		var error_data = $.parseJSON(jqXHR.responseText);
+		httpError(error_data);
+	});
 });
 
 //--></script>

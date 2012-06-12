@@ -67,6 +67,8 @@
 	</table>
 	<div class="gray_separator"></div>
 
+	<?php echo $this->getHookVar('order_attributes'); ?>
+
 	<table width="100%">
         <tr>
           <td align="left" valign="top" class="checkout_heading"><?php echo $text_cart_items; ?></td>
@@ -93,7 +95,6 @@
           </td>
 	    </tr>
 	</table>
-
     
     <?php if ($comment) { ?>
     <b style="margin-bottom: 2px; display: block;"><?php echo $text_comment; ?></b>

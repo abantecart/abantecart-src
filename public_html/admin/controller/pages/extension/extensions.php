@@ -494,8 +494,13 @@ class ControllerPagesExtensionExtensions extends AController {
                     'text' => $this->html->buildButton(
                         array( 'name' => 'btn_help', 'text' => $this->language->get('text_help'), 'style' => 'button2' )
                     ),
-                    'link' => $ext->getConfig('help_link')
+                    'ext_link' => $ext->getConfig('help_link'),
                 );
+                if ( $ext->getConfig('help_file') ) {
+                	$extension_data[ 'help' ]['file'] = true;
+                	$extension_data[ 'help' ]['file_link'] = $this->html->getSecureURL('extension/extension/help', '&extension='.$this->request->get['extension']);
+                	$this->data['text_more_help'] = $this->language->get('text_more_help');
+                }
             }
 
 			$extension_data[ 'dependencies' ] = array();

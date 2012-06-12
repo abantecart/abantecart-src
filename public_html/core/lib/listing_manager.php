@@ -23,59 +23,36 @@ if (!defined('DIR_CORE')) {
 
 class AListingManager {
 	protected $registry;
-	public $errors = 0;
-	private $custom_block_id;
+	public    $errors = 0;
+	private   $custom_block_id;
+	public    $data_sources = array();
 
 	public function __construct($custom_block_id) {
 		$this->registry = Registry::getInstance();
 		$this->custom_block_id = (int)$custom_block_id;
-	}
-
-	public function __get($key) {
-		return $this->registry->get($key);
-	}
-
-	public function __set($key, $value) {
-		$this->registry->set($key, $value);
-	}
-
-	public function getCustomList(){
-		if(!$this->custom_block_id){
-			return false;
-		}
-		$result = $this->db->query("SELECT *
-		                            FROM ".DB_PREFIX."custom_lists
-								    WHERE custom_block_id = '".$this->custom_block_id."'
-								    ORDER BY sort_order");
-		return $result->rows;
-	}
-
-
-
-	public function getListingDataSources(){
-
-		$output = Array(
+		// datasources hardcode
+		$this->data_sources = Array(
 						'catalog_product_getPopularProducts' => array( 'text'=>'text_products_popular',
 																		'rl_object_name' => 'products',
 																		'data_type'=>'product_id',
 																		'storefront_model' => 'catalog/product',
 																        'storefront_method' => 'getPopularProducts',
 																		'storefront_view_path' => 'product/product',
-						),
+																	),
 						'catalog_product_getSpecialProducts' => array( 'text'=>'text_products_special',
 																		'rl_object_name' => 'products',
 																		'data_type'=>'product_id',
 																		'storefront_model' => 'catalog/product',
 																        'storefront_method' => 'getProductSpecials',
 																		'storefront_view_path' => 'product/product',
-						),
+																	),
 						'catalog_category_getcategories' => array('text'=>'text_categories',
 																  'rl_object_name' => 'categories',
 																  'data_type'=>'category_id',
 																  'storefront_model' => 'catalog/category',
 																  'storefront_method' => 'getCategories',
 																  'storefront_view_path' => 'product/category',
-						),
+																	),
 						'media' => array( 'text'=>'text_media'),
 						'custom_products' => array(
 												'model'=>'catalog/product',
@@ -117,10 +94,38 @@ class AListingManager {
 												'storefront_model' => 'catalog/manufacturer',
 												'storefront_method' => 'getManufacturer',
 												'storefront_view_path' => 'product/manufacturer',
-												),
-		);
+												));
+	}
 
-		return $output;
+	public function __get($key) {
+		return $this->registry->get($key);
+	}
+
+	public function __set($key, $value) {
+		$this->registry->set($key, $value);
+	}
+
+	public function getCustomList(){
+		if(!$this->custom_block_id){
+			return false;
+		}
+		$result = $this->db->query("SELECT *
+		                            FROM ".DB_PREFIX."custom_lists
+								    WHERE custom_block_id = '".$this->custom_block_id."'
+								    ORDER BY sort_order");
+		return $result->rows;
+	}
+
+
+
+	public function getListingDataSources(){
+		return $this->data_sources;
+	}
+	public function addListingDataSource($key, $data){
+		$this->data_sources[$key] = $data;
+	}
+	public function deleteListingDataSource($key){
+		unset($this->data_sources[$key]);
 	}
 
 	//method returns argument fors call_user_func function usage when call storefront model to get list
@@ -145,8 +150,10 @@ class AListingManager {
 		}
 		$custom_block_id = (int)$this->custom_block_id;
 
-		$listing_properties = $this->getListingDataSources();
-		$data['data_type'] = $listing_properties[$data['listing_datasource']]['data_type'];
+		if( !isset($data['data_type']) && isset( $data['listing_datasource'] ) ){
+			$listing_properties = $this->getListingDataSources();
+			$data['data_type'] = $listing_properties[$data['listing_datasource']]['data_type'];
+		}
 
 		$result = $this->db->query("SELECT *
 									FROM  " . DB_PREFIX . "custom_lists
@@ -183,7 +190,10 @@ class AListingManager {
 			throw new AException (AC_ERR_LOAD, 'Error: permission denied to delete custom listing');
 		}
 		$listing_properties = $this->getListingDataSources();
-		$data['data_type'] = $listing_properties[$data['listing_datasource']]['data_type'];
+		if( !isset($data['data_type']) && isset( $data['listing_datasource'] ) ){
+			$listing_properties = $this->getListingDataSources();
+			$data['data_type'] = $listing_properties[$data['listing_datasource']]['data_type'];
+		}
 
 		$sql = "DELETE FROM  " . DB_PREFIX . "custom_lists
 									WHERE custom_block_id = '".(int)$this->custom_block_id."'

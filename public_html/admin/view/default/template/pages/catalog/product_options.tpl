@@ -264,6 +264,29 @@ jQuery(function($){
         });
 	}
 
+	function editOption(id) {
+		$.ajax({
+            url: opt_urls.update_option,
+			data: {
+				option_id : current_option_id,
+				status : ($('#status').is(':checked') ? 1 : 0),
+				sort_order : $('#sort_order').val(),
+				name : $('#name').val(),
+				required : ($('#required').is(':checked') ? 1 : 0)
+			},
+            type: 'GET',
+            success: function(html) {
+	            $('#option_name').html( $('#name').val() );
+				updateOptions();
+	            $('#notify').html('<?php echo $text_success_option?>').fadeIn(500).delay(2000).fadeOut(500);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                $('#option_values').html('<div class="error" align="center"><b>'+textStatus+'</b>  '+errorThrown+'</div>');
+            }
+        });
+		return false;
+	}
+
     $("#option_values_tbl a.remove").live('click', function(){
         $(this).closest('tr').toggleClass('toDelete');
 	    $(this).parent().parent().next().find('div.additionalRow').toggleClass('toDelete').hide();
@@ -330,26 +353,7 @@ jQuery(function($){
 	$('#product_form_option option:first-child').attr("selected", "selected").change();
 
 	$('#update_option').live('click', function(){
-		$.ajax({
-            url: opt_urls.update_option,
-			data: {
-				option_id : current_option_id,
-				status : ($('#status').is(':checked') ? 1 : 0),
-				sort_order : $('#sort_order').val(),
-				name : $('#name').val(),
-				required : ($('#required').is(':checked') ? 1 : 0)
-			},
-            type: 'GET',
-            success: function(html) {
-	            $('#option_name').html( $('#name').val() );
-				updateOptions();
-	            $('#notify').html('<?php echo $text_success_option?>').fadeIn(500).delay(2000).fadeOut(500);
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                $('#option_values').html('<div class="error" align="center"><b>'+textStatus+'</b>  '+errorThrown+'</div>');
-            }
-        });
-		return false;
+		editOption('#update_option');
 	});
 
 	$('#reset_option').live('click', function(){
@@ -384,6 +388,9 @@ jQuery(function($){
 		//Mark rows to be deleted
 		$('#option_values_tbl .toDelete input[name^=product_option_value_id]').val('delete');
 		$(this).attr('disabled','disabled');
+
+		editOption('#update_option');
+
 		//$('#option_values_tbl tr.toDelete').remove();
         var that = this;
         $.ajax({

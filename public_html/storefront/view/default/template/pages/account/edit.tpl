@@ -49,6 +49,9 @@
 				</tr>
 			</table>
 		</div>
+
+		<?php echo $this->getHookVar('customer_attributes'); ?>
+		
 		<div class="buttons">
 			<table>
 				<tr>

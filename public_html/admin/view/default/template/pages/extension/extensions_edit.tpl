@@ -1,4 +1,16 @@
-
+<div id="aPopup">
+	<div class="message_body" >
+		<div class="aform">
+			<div class="afield mask2">
+				<div class="tl"><div class="tr"><div class="tc"></div></div></div>
+				<div class="cl"><div class="cr"><div class="cc">
+					<div class="message_text" id="msg_body"></div>
+				</div></div></div>
+				<div class="bl"><div class="br"><div class="bc"></div></div></div>
+			</div>
+		</div>
+	</div>
+</div>
 <?php if ($error_warning) { ?>
 <div class="warning"><?php echo $error_warning; ?></div>
 <?php } ?>
@@ -37,9 +49,11 @@
 				if($extension['upgrade']['text']){ ?>
 				<td><a class="btn_standard" href="<?php echo $extension['upgrade']['link'] ?>"><?php echo $extension['upgrade']['text'] ?></a></td>
 				<?php } ?>
-				<?php if ( $extension['help']['link'] ) { ?>
-				<td><a class="btn_standard" href="<?php echo $extension['help']['link'] ?>" target="_help"><?php echo $extension['help']['text'] ?></a></td>
-				<?php } ?>
+				<?php if ( $extension['help']['file'] ): ?>
+					<td><a class="btn_standard" href="javascript:void(0);" onClick="show_help();"><?php echo $extension['help']['text'] ?></a></td>
+				<?php elseif ($extension['help']['ext_link']): ?>
+					<td><a class="btn_standard" href="<?php echo $extension['help']['ext_link'] ?>" target="_help"><?php echo $extension['help']['text'] ?></a></td>
+				<?php endif; ?>
 			</tr>
 		</table>
 	</div>
@@ -133,6 +147,50 @@
 
 <script type="text/javascript">
 <!--
+
+function show_help(){
+	$aPopup = $('#aPopup').dialog({
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		width: 550,
+		minWidth: 550,
+		buttons:{
+			"<?php echo $text_more_help; ?>": function() {
+				window.open(
+					'<?php echo $extension['help']['ext_link']; ?>',
+					'_blank'
+				)
+			},
+			"close": function(event, ui) {
+				$(this).dialog('destroy');
+			}
+		},
+		open: function() {
+		},
+
+		resize: function(event, ui){
+		},
+		close: function(event, ui) {
+			$(this).dialog('destroy');
+			$("#message_grid").trigger("reloadGrid");
+		}
+	});
+
+	$.ajax({
+		url: '<?php echo $extension['help']['file_link']; ?>',
+		type: 'GET',
+		dataType: 'json',
+		success: function(data) {
+
+			$aPopup.dialog( "option", "title", data.title );
+			$('#msg_body').text(data.content);
+
+			$aPopup.dialog('open');
+		}
+	});
+}
+
 $(function(){
 	$("input, textarea, select, .scrollbox", '.contentBox #editSettings').not('.no-save').aform({
 		triggerChanged: true,

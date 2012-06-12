@@ -185,6 +185,8 @@ class ControllerResponsesListingGridCustomer extends AController {
 				    return;
 			    }
 		    }
+		    //update controller data
+        	$this->extensions->hk_UpdateData($this,__FUNCTION__);
 		    return;
 	    }
 

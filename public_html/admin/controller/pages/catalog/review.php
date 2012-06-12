@@ -327,8 +327,7 @@ class ControllerPagesCatalogReview extends AController {
 		    'type' => 'input',
 		    'name' => 'author',
 		    'value' => $this->data['author'],
-			'required' => true,
-            'style' => 'medium-field'
+			'required' => true
 	    ));
 
 

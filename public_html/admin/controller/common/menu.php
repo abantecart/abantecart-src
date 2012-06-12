@@ -27,7 +27,7 @@ class ControllerCommonMenu extends AController {
         $this->loadLanguage( 'common/header' );
 
 		$cache_name = 'admin_menu';
-		$menu_items = $this->cache->get($cache_name);
+		//$menu_items = $this->cache->get($cache_name);
 		if(!$menu_items){
 			$menu = new ADataset ( 'menu', 'admin' );
 			$menu_items = $menu->getRows ( );
@@ -46,7 +46,7 @@ class ControllerCommonMenu extends AController {
 				if ($item ['item_type'] == 'extension') {
 
 					// looks for this name in enabled extensions list. if is not there - skip it
-					if (! in_array ( $item ['item_id'], $enabled_extension )) {
+					if (! $this->_find_itemId_in_extensions ( $item ['item_id'], $enabled_extension )) {
 						continue;
 					} else { // if all fine - loads language of extension for menu item text show
 						if(strpos($item ['item_url'],'http')===false){
@@ -78,7 +78,18 @@ class ControllerCommonMenu extends AController {
 		//use to update data before render
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
-	
+
+	private function _find_itemId_in_extensions($item_id,$extension_list){
+		if(in_array ( $item_id, $extension_list )) return true;
+		foreach($extension_list as $ext_id){
+			$pos = strpos($item_id, $ext_id);
+			if( $pos===0 && substr($item_id,strlen($ext_id),1)=='_'){
+			 return true;
+			}
+		}
+		return false;
+	}
+
 	private function _buildMenuArray($menu_items=array()){
 		$dashboard = array(
 			'dashboard' => array (
