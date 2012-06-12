@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Fallo al procesar el Pedido]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Carro]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Envío]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Pago]]></value>
+  </definition>
+  <definition>
+    <key>text_failure</key>
+    <value><![CDATA[Error]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p>Se producido un error al intentar procesar su pedido!</p><p>Si el problema persiste, por favor, seleccione otra forma de pago, también puede contactar con nosotros <a href="%s">haciendo click aquí</a>.]]></value>
+  </definition>
+</definitions>

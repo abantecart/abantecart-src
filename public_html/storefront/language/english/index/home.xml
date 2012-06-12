@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Welcome to %s]]></value>
+	</definition>
+	<definition>
+		<key>text_latest</key>
+		<value><![CDATA[Latest Products]]></value>
+	</definition>
+</definitions>

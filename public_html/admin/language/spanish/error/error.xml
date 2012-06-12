@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Error de la aplicación!]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Por favor, compruebe el registro de error para obtener más información]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - New Password]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[A new password was requested from %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Your new password to is:]]></value>
+  </definition>
+</definitions>

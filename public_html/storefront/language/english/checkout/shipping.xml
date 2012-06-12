@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Delivery Information]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Basket]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Shipping]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_to</key>
+		<value><![CDATA[Please choose from your address book where you would like the items to be delivered to.]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_address</key>
+		<value><![CDATA[Shipping Address]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_method</key>
+		<value><![CDATA[Shipping Method]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_methods</key>
+		<value><![CDATA[Please select the preferred shipping methods to use on this order.]]></value>
+	</definition>
+	<definition>
+		<key>text_comments</key>
+		<value><![CDATA[Add Comments About Your Order]]></value>
+	</definition>
+	<definition>
+		<key>error_shipping</key>
+		<value><![CDATA[Error: Shipping method required!]]></value>
+	</definition>
+	<definition>
+		<key>error_no_shipping</key>
+		<value><![CDATA[Error: No Shipping options are available. Please <a href="index.php?rt=content/contact">contact us</a> for assistance!]]></value>
+	</definition>
+</definitions>

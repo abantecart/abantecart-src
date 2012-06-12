@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Bank Transfer]]></value>
+  </definition>
+  <definition>
+    <key>text_instructions</key>
+    <value><![CDATA[Bank Transfer Instructions]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Please transfer the total amount to the following bank account.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Your order will not ship until we receive payment.]]></value>
+  </definition>
+</definitions>

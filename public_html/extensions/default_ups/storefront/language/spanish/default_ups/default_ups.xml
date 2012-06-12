@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[United Parcel Service]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Weight:]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_01</key>
+    <value><![CDATA[UPS Next Day Air]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_02</key>
+    <value><![CDATA[UPS 2nd Day Air]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_03</key>
+    <value><![CDATA[UPS Ground]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_07</key>
+    <value><![CDATA[UPS Worldwide Express]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_08</key>
+    <value><![CDATA[UPS Worldwide Expedited]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_11</key>
+    <value><![CDATA[UPS Standard]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_12</key>
+    <value><![CDATA[UPS 3 Day Select]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_13</key>
+    <value><![CDATA[UPS Next Day Air Saver]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_14</key>
+    <value><![CDATA[UPS Next Day Air Early A.M.]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_54</key>
+    <value><![CDATA[UPS Worldwide Express Plus]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_59</key>
+    <value><![CDATA[UPS 2nd Day Air A.M.]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_65</key>
+    <value><![CDATA[UPS Saver]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_01</key>
+    <value><![CDATA[UPS Express]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_02</key>
+    <value><![CDATA[UPS Expedited]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_07</key>
+    <value><![CDATA[UPS Worldwide Express]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_08</key>
+    <value><![CDATA[UPS Worldwide Expedited]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_11</key>
+    <value><![CDATA[UPS Standard]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_12</key>
+    <value><![CDATA[UPS 3 Day Select]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_13</key>
+    <value><![CDATA[UPS Saver]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_14</key>
+    <value><![CDATA[UPS Express Early A.M.]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_54</key>
+    <value><![CDATA[UPS Worldwide Express Plus]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_65</key>
+    <value><![CDATA[UPS Saver]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_07</key>
+    <value><![CDATA[UPS Worldwide Express]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_08</key>
+    <value><![CDATA[UPS Worldwide Expedited]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_11</key>
+    <value><![CDATA[UPS Standard]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_54</key>
+    <value><![CDATA[UPS Worldwide Express Plus]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_65</key>
+    <value><![CDATA[UPS Saver]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_82</key>
+    <value><![CDATA[UPS Today Standard]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_83</key>
+    <value><![CDATA[UPS Today Dedicated Courier]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_84</key>
+    <value><![CDATA[UPS Today Intercity]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_85</key>
+    <value><![CDATA[UPS Today Express]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_86</key>
+    <value><![CDATA[UPS Today Express Saver]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_01</key>
+    <value><![CDATA[UPS Next Day Air]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_02</key>
+    <value><![CDATA[UPS 2nd Day Air]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_03</key>
+    <value><![CDATA[UPS Ground]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_14</key>
+    <value><![CDATA[UPS Next Day Air Early A.M.]]></value>
+  </definition>
+  <definition>
+    <key>text_mx_origin_07</key>
+    <value><![CDATA[UPS Express]]></value>
+  </definition>
+  <definition>
+    <key>text_mx_origin_08</key>
+    <value><![CDATA[UPS Expedited]]></value>
+  </definition>
+  <definition>
+    <key>text_mx_origin_54</key>
+    <value><![CDATA[UPS Express Plus]]></value>
+  </definition>
+  <definition>
+    <key>text_mx_origin_65</key>
+    <value><![CDATA[UPS Saver]]></value>
+  </definition>
+  <definition>
+    <key>text_other_origin_07</key>
+    <value><![CDATA[UPS Express]]></value>
+  </definition>
+  <definition>
+    <key>text_other_origin_08</key>
+    <value><![CDATA[UPS Worldwide Expedited]]></value>
+  </definition>
+  <definition>
+    <key>text_other_origin_11</key>
+    <value><![CDATA[UPS Standard]]></value>
+  </definition>
+  <definition>
+    <key>text_other_origin_54</key>
+    <value><![CDATA[UPS Worldwide Express Plus]]></value>
+  </definition>
+  <definition>
+    <key>text_other_origin_65</key>
+    <value><![CDATA[UPS Saver]]></value>
+  </definition>
+</definitions>

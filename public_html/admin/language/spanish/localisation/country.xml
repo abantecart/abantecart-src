@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[País]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[Country]]></value>
+  </definition>	
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Correcto: Ha modificado los paises!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nombre de país]]></value>
+  </definition>
+  <definition>
+    <key>column_iso_code_2</key>
+    <value><![CDATA[Código ISO (2)]]></value>
+  </definition>
+  <definition>
+    <key>column_iso_code_3</key>
+    <value><![CDATA[Código ISO (3)]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Acción]]></value>
+  </definition>
+<definition>
+    <key>column_status</key>
+    <value><![CDATA[Estado]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Situacion Pais:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Nombre de país:]]></value>
+  </definition>
+  <definition>
+    <key>entry_iso_code_2</key>
+    <value><![CDATA[Código ISO (2):]]></value>
+  </definition>
+  <definition>
+    <key>entry_iso_code_3</key>
+    <value><![CDATA[Código ISO (3):]]></value>
+  </definition>
+<definition>
+    <key>entry_status</key>
+    <value><![CDATA[Progreso de los países:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_format</key>
+    <value><![CDATA[Formato de direccion:<br /><span class="help">
+Nombre = {firstname}<br />
+Apellido = {lastname}<br />
+Empresa = {company}<br />
+Direccion 1 = {address_1}<br />
+Direccion 2 = {address_2}<br />
+Ciudad = {city}<br />
+Codigo Postal = {postcode}<br />
+Zona = {zone}<br />
+Codigo Zona = {zone_code}<br />
+Pais = {country}<br /><br />
+SI LO DESEA PUEDE ORDENAR<br /> 
+DIFERENTE,O ELIMINAR
+EL DATO QUE NO NECESITE</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Atención: No posee permisos para modificar los paises!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[El nombre del país debe ser superior a 2 caracteres e inferior a 128!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Advertencia: Este pais no puede suprimirse, ya que esta actualmente asignado a %s tiendas!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Atención: Este país no puede ser eliminado porque está asignado actualmente a %s direcciones!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[Atención: Este país no puede ser eliminado porque está asignado actualmente a %s zonas!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone_to_location</key>
+    <value><![CDATA[Atención: Este país no puede ser eliminado porque está asignado actualmente a %s zones to locations!]]></value>
+  </definition>
+<definition>
+    <key>error_default</key>
+    <value><![CDATA[Advertencia: Este país no puede ser eliminado ya que no está asignado como el almacén de campo por defecto!]]></value>
+  </definition>
+</definitions>

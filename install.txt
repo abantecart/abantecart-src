@@ -1,0 +1,41 @@
+/*
+  AbanteCart, Ideal Open source Ecommerce solution
+
+  Installation Instruction 
+
+  http://www.AbanteCart.com
+
+  Copyright (c) 2011 AbanteCart
+
+  Released under Open Software License ("OSL") v. 3.0
+*/
+
+Installation Instructions
+
+1. Upload or copy all the files and folders to your server from the "public_html" folder in the archive.
+   This can be to anywhere of your choice.
+        
+   e.g. /public_html/store or /public_html
+
+2. If you have a Linux/Unix make sure the following folders and files are writable.
+   chmod -R 0755 or 0777 image/
+   chmod -R 0755 or 0777 system/cache/
+   chmod -R 0755 or 0777 system/logs/
+   chmod -R 0755 or 0777 download/
+   chmod -R 0755 or 0777 extensions/
+   chmod -R 0755 or 0777 resources/
+   chmod 0755 or 0777 system/config.php
+
+3. Check that you have MySQL Database which has a user assigned to it 
+   Most Hosting Plans include MySQL as part of service
+   DO NOT USE YOUR ROOT USERNAME AND ROOT PASSWORD
+
+4. Visit the site using browser of your choice
+   e.g. http://www.example.com or http://www.example.com/store/
+
+5. Follow the on screen instructions for installation
+
+6. After installation is complete Delete the install directory from your server.
+
+For any support issues please visit forum or documentation at: http://www.AbanteCart.com
+

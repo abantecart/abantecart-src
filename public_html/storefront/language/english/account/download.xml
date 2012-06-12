@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Account Downloads]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Account]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Downloads]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Order ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Date Added:]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[Name:]]></value>
+  </definition>
+  <definition>
+    <key>text_remaining</key>
+    <value><![CDATA[Remaining:]]></value>
+  </definition>
+  <definition>
+    <key>text_size</key>
+    <value><![CDATA[Size:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Download]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[You have not made any previous downloadable orders!]]></value>
+  </definition>
+</definitions>

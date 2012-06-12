@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[install/Upgrade History]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[ Type]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[ Date Added]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ Package Key ]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[ Version ]]></value>
+  </definition>  
+  <definition>
+    <key>column_backup_date</key>
+    <value><![CDATA[ Backup Date]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_file</key>
+    <value><![CDATA[ Backup File ]]></value>
+  </definition>
+  <definition>
+    <key>column_user</key>
+    <value><![CDATA[ User Name]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[ to download file]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Newsletter Subscription]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Account]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Newsletter]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Your newsletter subscription has been successfully updated!]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[Subscribe:]]></value>
+  </definition>
+</definitions>

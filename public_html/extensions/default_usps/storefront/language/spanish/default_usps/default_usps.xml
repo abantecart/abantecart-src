@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[United States Postal Service]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Weight:]]></value>
+  </definition>
+  <definition>
+    <key>text_eta</key>
+    <value><![CDATA[Estimated Time:]]></value>
+  </definition>
+</definitions>

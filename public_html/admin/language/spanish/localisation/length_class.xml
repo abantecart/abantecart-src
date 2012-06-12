@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tipos de medidas]]></value>
+  </definition>
+<definition>
+    <key>text_class</key>
+    <value><![CDATA[Longitud Class]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Correcto: Ha modificado Tipos de medida!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Tipo de medida]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Unidad]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Valor]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Accion]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Tipo de medida:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Unidad:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Valor:<br /><span class="help">Dejelo en 1.00000 si esta es su medida por defecto.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Atencion: No tiene permiso para modificar medidas!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Necesita un nombre mayor de 2 letras y menor de 32!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Necesita un nombre mayor de 1 letra y menor de 4!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Advertencia: Esta longitud no puede suprimirse, ya que esta actualmente asignado por defecto a la tienda!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Advertencia: Esta longitud no puede suprimirse, ya que esta actualmente asignado a %s productos!]]></value>
+  </definition>
+</definitions>

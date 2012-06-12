@@ -1,0 +1,166 @@
+
+
+Release Notes:  Version 1.0.2
+
+Storefront: incorrect price display in custom block with products bugfix
+Storefront: Fixes in order history and guest checkout
+
+Control Panel + Storefront: added hook vars to customer_group edit form and to account creation
+Control Panel: Fixed import/export issues
+Control Panel: extension store. Frame border now invisible in IE8.
+Control Panel: ui minor fixes
+Control Panel: Added warning at installation stage for non-writable Backup directory in import/export, added error messages for import/export.
+
+Extensions: Bank transfer extension added
+Extensions: Cheque / Money Order. Order status bugfix.
+
+Release Notes:  Version 1.0.1
+
+Major In this version:
+- Control Panel: Extension store update to use real marketplace in connection with Algozone partnership.
+- AData class to manage quick and bulk data extract and update Formats: multidimensional Array, nested XML, CSV
+- Control Panel: Data Import/Export feature
+- Language improvement. Clone of language dynamic date between languages 
+- Improvement in Attributes and options. 
+- Various improvements and fixes. See below:
+
+Fixes and improvements:
+- Fix for Relation of Extension status to application usage status and extension configurations to support multi store  - Fix for options and option values to handle languages properly. Partial redesign in attributes and product options. Add resource library to product options. - Marketplace update to use real marketplace in connection with Algozone. - Backup and restore improvement - fix for issues with SEO URLs and incorrect layout loaded.  - fix for resource library bugs - Fix cache problem and improved performance
+- Fixed checkbox bug with checked attribute, changed form elements on backup/restore page
+- Fix for SEO and layout issue. Update router to get new RT after SEO rewrite
+- Menu language fix and icon fix
+- Location zones response in json format. Select boxes are in abantecart styles.
+- Fixed zones and countries selectboxes at settings/local and settings/store
+- added template hook (order_details) in order_details page
+- Control Panel: warning about install directory existing added
+- Control panel: message box in header now extendable. Depends on message length now.
+- Control Panel: redirect bugfix. Now redirect works correctly after failed login attempt.
+- Core: placeholders of layout header_bottom and footer_top now extandable and can contain few subblocks inside.
+- Control Panel: ui language saving bugfix
+- Control Panel: response controller of content-pages small bugfix
+- Core: shipping tax bugfix. Atax now use cache.
+- Control Panel: Backups now will save into admin/system/backup directory
+- Storefront: Fixed few issues on guest checkout pages
+- Storefront: fix for footer issue
+- Various styling and translation related bugs. 
+
+Release Notes: 1.0.0 RC1
+
+Major In this version:
+- Licensing change from GPL to Open Software License (OSL 3.0). Visit: http://www.opensource.org/licenses/OSL-3.0
+- Storefront API Beta version. API to offer JSON RESTFul connectivity to storefront to empower AbanteCart with mobil application envelopment and customers mobile access 
+- Updated example data set 
+- Final step to stable release 
+- Various improvements and fixes. See below:
+
+Fixes and improvements:
+- Fixes to listing blocks and SEO URL Bugs
+- Added info about Yahoo currency server
+- Fixed missing texts in Multistore settings
+- Redirect and action URLs for submitting currency/language forms were empty for template extensions
+- Fixes to UI in resource library. 
+- fixed notify_url for paypal callback
+- Storefront: listing block now have one block tpl per placeholder
+- Listing block view bugfix. Special block added into layout.
+- Control Panel : message manager bunch deleting bugfix. Report->sales result bugfix.
+- Core: mail class now writes errors into log and send message about failed mail.
+- Control Panel: coupon usage bugfixes. (limits os usage of coupon worked incorrectly)
+- Initialized $error as array() to avoid foreach() warning
+- Core : Aconnect fix. Curl use with option CURLOPT_SSL_VERIFYPEER=>false now.
+- Control Panel: extension store now show message if connection failed
+- Core : compression for install process now disabled
+- Fix bug with layout if method is used in the RT
+- Control Panel: Resource Library sort order saving bug fix. Design block form ui bugfixes
+- Set product shipping default to true
+- Improve code for formatting customer address and remove redundancy in the code
+- Fix for thumbnails files saved to one directory. Thumbnails now save in the same directory structure as resource library
+- Control Panel: sale/orders orders saving bugfix. ui-bugfixes
+- Update to tax zone. 
+- Add separate session for Storefront and Control panel to fix login conflict issue and improve security. 
+- Control Panel: Category listing grid UI update. Products and subcategories count added.
+- Update to mail class and customer registration validation
+- Control panel : compression bugfix. "Echo" replaced by setOutput in response controllers
+- Control Panel : downloads ui bugfixes. Resource library now autoapply new uploaded file in 'url' mode. Download related bugfixes.
+- Control Panel : ckeditor adding resource from library window size bugfix
+- Control Panel + Storefront : Global Attributes fixes. Products multivalue options process correctly now.
+- Control Panel : jqgrid localization added
+- Control Panel: multivalue listing of related products now does not contain parent product. (Prevents product's relate recursion)
+- Control Panel: product option weight class selectbox option bugfix.Now you can set default weight class or % into option values data set
+- Core: In index.php now set default encoding UFT-8 for multibyte library (mb_  functions)
+- Storefront: wrong search results for product with non-latin characters inside name.
+- Control Panel: bug fix of incorrect saving of new product option status.
+- Core: Update to router and fix of bug with incorrect controllers
+- Core : gz-compression level from settings usage bug fix.
+- Core : Created new class AFilter for searching and filtering result set. Improved some jqgrid filtering in admin
+- Core: html-class. HtmlButton now process 'href' parameter. It needed for simple link-buttons.
+- Storefront: discount work bug fix
+- Storefront: wrong weight calculation bugfix
+- Storefront: form elements moved from tpl to controller using global HTML class 
+- Extensions: form elements moved from tpl to controller using global HTML class  (alertpay, moneybookers, liqpay, aim)
+- Various styling and translation related bugs. 
+
+
+Release Notes: BETA Version 0.9.2
+
+Major In this version:
+- Global Attributes. To provide more scalable solution to set global attributes to be used in various parts of application.  
+  Now Only Product Options are supporting global attributes
+- Custom Blocks for Data listing. Provided ability to build custom and automatic listings of data on any page and any block location. 
+  Supporting, product, categories, brands and media items listing.   
+- Improved selection of products/categories/brands for multivalue type data fields. 
+- Improved Control panel grid load speed and overall load for pages. 
+- Various improvements and fixes. See below:
+
+
+Core: 
+- html-class: attribute label_text for checkbox added
+- calculation for tax zone for customer fixed ( now sets customer's zone as default instead zone from store settings)
+- html-class. Multivalue_hidden and multivalue_list form elements wad added.
+- hook calls changed. Method name of baseObject as second argument was added.
+- ACache methods set, get, delete changed. Calls of it too. 2 args was added - language_id & store_id
+- global attributes added
+- global attributes for product options
+- custom block "listing" support added. Now supports:
+  - auto: "popular products", "media" (RL)
+  - manual: "custom products", "custom categories", "custom brands" 
+ Block controller added at storefront section with tpl-files.
+- loadXML() changes in ALayout_manager class. Listing blocks load added.
+- move removeQueryVar function from session class to html
+- move store settings load from index to init
+- add template switch usign 'sf' get parameter
+- add AHook class
+- add browser and device detection in request class
+- Fix for warning with unsetting session if it has expired
+- fix store settings cache name
+- extension resources conflict warning now visible only in debug log
+
+Control Panel: 
+- tax class rates. Tax rate per location zone was added.
+- customer grid search form bug in Control panel fixed
+- different ui-bugs fixed
+- tax class edit form bugfix
+- localisation->locations edit form ui bugfix
+- Multivalue_list with miltivalue_hidden was added to product->edit->related products.
+- Updated to SEO product kewords to set default value 
+- Fix for broken options sample data 
+- Fix broken HT aform option, highlight only on change. 
+- Package installer bugfix (extension type "extensions" process added like just "extension")
+- grid tpl bugfix
+- Button "create new block" was added to layout form. 
+- fix: no ability to switch template when edit layout - added select box with available templates
+- Admin login with same token issues fix
+- global search will search in product reviews now
+
+Storefront:
+- Donation section in footer of storefront is block now
+- fix: updated admin controllers to have  2 char limit in all places
+- Incorrect shipping cost culculation of 'default_weight' shipping
+
+- update store model ( fix bug with store url update )
+- update install ( fix default store url )
+
+Other:
+- language files updates
+
+Работает на WebSVN 2.3.0 и Subversion 1.6.1
+

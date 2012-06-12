@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Weight Classes]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Weight Class]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: You have modified weight classes!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Weight Title]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Weight Unit]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Value]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Action]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Weight Title:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Weight Unit:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Value:<br /><span class="help">Set to 1.00000 if this is your default weight.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warning: You do not have permission to modify weight classes!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Weight Title must be between 2 and 32 characters!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Weight Unit must be between 1 and 4 characters!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Warning: This weight class cannot be deleted as it is currently assigned as the default store weight class!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Warning: This weight class cannot be deleted as it is currently assigned to %s products!]]></value>
+  </definition>
+</definitions>

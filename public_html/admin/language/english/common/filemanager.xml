@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[Success: Your file has been uploaded!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[File has been deleted!]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[Success: Directory created!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Success: Your file or directory has been deleted!]]></value>
+  </definition>
+  <definition>
+    <key>text_move</key>
+    <value><![CDATA[Success: Your file or directory has been moved!]]></value>
+  </definition>
+  <definition>
+    <key>text_copy</key>
+    <value><![CDATA[Success: Your file or directory has been copied!]]></value>
+  </definition>
+  <definition>
+    <key>text_rename</key>
+    <value><![CDATA[Success: Your file or directory has been renamed!]]></value>
+  </definition>
+  <definition>
+    <key>entry_folder</key>
+    <value><![CDATA[New Folder:]]></value>
+  </definition>
+  <definition>
+    <key>entry_move</key>
+    <value><![CDATA[Move:]]></value>
+  </definition>
+  <definition>
+    <key>entry_copy</key>
+    <value><![CDATA[Name:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rename</key>
+    <value><![CDATA[Name:]]></value>
+  </definition>
+  <definition>
+    <key>error_select</key>
+    <value><![CDATA[Warning: Please select a directory or file!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Warning: Please select a file!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[Warning: Please select a directory!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Warning: Can not alter your default directory!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Warning: You can not delete this directory!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Warning: Filename must be a between 3 and 255!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing</key>
+    <value><![CDATA[Warning: File or directory does not exist!]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[Warning: A file or directory with the same name already exists!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Warning: Please enter a new name!]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Warning: Move to directory does not exists!]]></value>
+  </definition>
+  <definition>
+    <key>error_copy</key>
+    <value><![CDATA[Warning: Can not copy this file or directory!]]></value>
+  </definition>
+  <definition>
+    <key>error_rename</key>
+    <value><![CDATA[Warning: Can not rename this directory!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[Warning: Incorrect file type!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[Warning: File to big please keep below 300kb and no more than 1000px height or width!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[Warning: File could not be uploaded for an unknown reason!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warning: Permission Denied!]]></value>
+  </definition>
+  <definition>
+    <key>button_folder</key>
+    <value><![CDATA[New Folder]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[Delete]]></value>
+  </definition>
+  <definition>
+    <key>button_move</key>
+    <value><![CDATA[Move]]></value>
+  </definition>
+  <definition>
+    <key>button_copy</key>
+    <value><![CDATA[Copy]]></value>
+  </definition>
+  <definition>
+    <key>button_rename</key>
+    <value><![CDATA[Rename]]></value>
+  </definition>
+  <definition>
+    <key>button_upload</key>
+    <value><![CDATA[Upload]]></value>
+  </definition>
+  <definition>
+    <key>button_refresh</key>
+    <value><![CDATA[Refresh]]></value>
+  </definition>
+</definitions>

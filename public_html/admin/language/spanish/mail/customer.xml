@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Tu cuenta ha sido activada!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Bienvenidos y gracias por registrarte en %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Su cuenta ha sido creada y puede iniciar sesion utilizando su direccion de correo electronico y la contraseña visitando nuestro sitio web o en la siguiente direccion URL:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Despues de ingresar, usted podre acceder a otros servicios, como la revision de pedidos anteriores, la impresion de facturas o la edicion de informacion de su cuenta.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Gracias,]]></value>
+  </definition>
+</definitions>

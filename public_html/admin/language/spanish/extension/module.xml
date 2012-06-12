@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Módulos]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Instalar]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Desinstalar]]></value>
+  </definition>
+  <definition>
+    <key>text_left</key>
+    <value><![CDATA[Izquierda]]></value>
+  </definition>
+  <definition>
+    <key>text_right</key>
+    <value><![CDATA[Derecha]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nombre del módulo]]></value>
+  </definition>
+  <definition>
+    <key>column_position</key>
+    <value><![CDATA[Posición]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Estado]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Orden]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Acción]]></value>
+  </definition>
+</definitions>

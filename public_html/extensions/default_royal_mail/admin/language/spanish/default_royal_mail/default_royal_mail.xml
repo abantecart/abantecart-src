@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_royal_mail_name</key>
+    <value><![CDATA[Royal Mail]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Envio]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: You have modified Royal Mail shipping!]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_1st_class_standard</key>
+    <value><![CDATA[Primera clase Standard Post]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_1st_class_recorded</key>
+    <value><![CDATA[Primera clase Recorded Post]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_2nd_class_standard</key>
+    <value><![CDATA[Segunda clase Standard Post]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_2nd_class_recorded</key>
+    <value><![CDATA[Segunda clase Recorded Post]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_standard_parcels</key>
+    <value><![CDATA[Standard Parcels]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_airmail</key>
+    <value><![CDATA[Airmail]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_international_signed</key>
+    <value><![CDATA[International Signed]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_airsure</key>
+    <value><![CDATA[Airsure]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_surface</key>
+    <value><![CDATA[Surface]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_service</key>
+    <value><![CDATA[Servicios:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_display_weight</key>
+    <value><![CDATA[Display Delivery Weight:<br /><span class="help">�Quieres mostrar el peso de embarque? (Por ejemplo, de entrega Peso: 2.7674 Kg's)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_display_insurance</key>
+    <value><![CDATA[Seguro:<br /><span class="help">�Quieres mostrar el seguro de env�o? (Por ejemplo, asegurado hasta 500)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_display_time</key>
+    <value><![CDATA[Tiempo estimado:<br /><span class="help">�Quieres mostrar el tiempo de env�o? (Por ejemplo, se env�a en 3 a 5 d�as)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_weight_class</key>
+    <value><![CDATA[Weight Class:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_tax</key>
+    <value><![CDATA[Tipo de impuesto:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_tax_0</key>
+    <value><![CDATA[---None---]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_location_id</key>
+    <value><![CDATA[Localidad:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_location_id_0</key>
+    <value><![CDATA[Todos las Localidades]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_status</key>
+    <value><![CDATA[Estado:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_sort_order</key>
+    <value><![CDATA[Orden:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advertencia: No tiene permiso para modificar el envio por Royal Mail!]]></value>
+  </definition>
+</definitions>

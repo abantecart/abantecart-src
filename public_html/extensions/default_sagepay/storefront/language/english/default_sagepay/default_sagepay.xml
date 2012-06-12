@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Credit Card / Debit Card (SagePay)]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Items on %s Order No: %s]]></value>
+  </definition>
+</definitions>

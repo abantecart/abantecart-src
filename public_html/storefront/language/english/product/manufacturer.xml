@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_product</key>
+		<value><![CDATA[Products]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Manufacturer not found!]]></value>
+	</definition>
+	<definition>
+		<key>text_empty</key>
+		<value><![CDATA[There are no products to list from this manufacturer.]]></value>
+	</definition>
+	<definition>
+		<key>text_stars</key>
+		<value><![CDATA[%s out of 5 Stars!]]></value>
+	</definition>
+	<definition>
+		<key>text_sort</key>
+		<value><![CDATA[Sort By:]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[Default]]></value>
+	</definition>
+	<definition>
+		<key>text_name_asc</key>
+		<value><![CDATA[Name A - Z]]></value>
+	</definition>
+	<definition>
+		<key>text_name_desc</key>
+		<value><![CDATA[Name Z - A]]></value>
+	</definition>
+	<definition>
+		<key>text_price_asc</key>
+		<value><![CDATA[Price Low &gt; High]]></value>
+	</definition>
+	<definition>
+		<key>text_price_desc</key>
+		<value><![CDATA[Price High &gt; Low]]></value>
+	</definition>
+	<definition>
+		<key>text_rating_asc</key>
+		<value><![CDATA[Rating Lowest]]></value>
+	</definition>
+	<definition>
+		<key>text_rating_desc</key>
+		<value><![CDATA[Rating Highest]]></value>
+	</definition>
+</definitions>

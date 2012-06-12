@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Thank you for shopping with %s .... ]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Credit Card / Debit Card (PayPoint)]]></value>
+  </definition>
+  <definition>
+    <key>text_response</key>
+    <value><![CDATA[Response from PayPoint:]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[... your payment was successfully received.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_wait</key>
+    <value><![CDATA[<b><span style="color: #FF0000">Please wait...</span></b> whilst we finish processing your order.<br>If you are not automatically re-directed in 10 seconds, please click <a href="%s">here</a>.]]></value>
+  </definition>
+  <definition>
+    <key>text_failure</key>
+    <value><![CDATA[... Your payment has been cancelled!]]></value>
+  </definition>
+  <definition>
+    <key>text_failure_wait</key>
+    <value><![CDATA[<b><span style="color: #FF0000">Please wait...</span></b><br>If you are not automatically re-directed in 10 seconds, please click <a href="%s">here</a>.]]></value>
+  </definition>
+</definitions>

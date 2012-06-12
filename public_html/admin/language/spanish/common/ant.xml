@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<definitions>
+  	<definition>
+    	<key>notification</key>
+    	<value><![CDATA[Atención!]]></value>
+  	</definition>
+	<definition>
+    	<key>warning</key>
+    	<value><![CDATA[Advertencia!]]></value>
+  </definition>
+</definitions>

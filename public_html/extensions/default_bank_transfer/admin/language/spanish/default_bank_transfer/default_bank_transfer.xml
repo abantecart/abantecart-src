@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_bank_transfer_name</key>
+    <value><![CDATA[Transferencia bancaria]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Pago]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Éxito: Se ha modificado transferencia bancaria módulo de pago!]]></value>
+  </definition>
+  <definition>
+    <key>default_bank_transfer_order_status_id</key>
+    <value><![CDATA[Estado del pedido:]]></value>
+  </definition>
+  <definition>
+    <key>default_bank_transfer_location_id</key>
+    <value><![CDATA[Location:]]></value>
+  </definition>
+  <definition>
+    <key>default_bank_transfer_location_id_0</key>
+    <value><![CDATA[All Locations]]></value>
+  </definition>
+  <definition>
+    <key>default_bank_transfer_status</key>
+    <value><![CDATA[Estado:]]></value>
+  </definition>
+  <definition>
+    <key>default_bank_transfer_sort_order</key>
+    <value><![CDATA[Orden:]]></value>
+  </definition>
+  <definition>
+    <key>default_bank_transfer_amount</key>
+    <value><![CDATA[Total: <span class="help"> El total de la orden de pago debe llegar antes de que este método de pago se activa </span>]]></value>
+  </definition>
+  <definition>
+    <key>default_bank_transfer_text_instruction</key>
+    <value><![CDATA[Instrucciones de transferencia del Banco]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advertencia: Usted no tiene permiso para modificar la transferencia de pago del Banco!]]></value>
+  </definition>
+</definitions>

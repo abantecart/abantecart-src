@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_citylink_name</key>
+    <value><![CDATA[Citylink]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Envio]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Correcto: ha modificado el envio por Citylink!]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_rates</key>
+    <value><![CDATA[Tarifas Citylink:<br /><span class="help">Introduzca los valores upto 5,2 decimales. (12.345,67) Ejemplo: .1:1, .25:1.27 - Pesos inferior o igual a 0.1Kg costar  1.00, pesos menos que o igual a 0,25 G, pero mas de 0.1Kg costar 1,27. No escriba KG o simbolos.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_tax_class_id</key>
+    <value><![CDATA[Tipo de impuesto:]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_tax_class_id_0</key>
+    <value><![CDATA[---None---]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_location_id</key>
+    <value><![CDATA[Localidad:]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_location_id_0</key>
+    <value><![CDATA[Todos las Localidades]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_status</key>
+    <value><![CDATA[Estado:]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_sort_order</key>
+    <value><![CDATA[Orden:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advertencia: No tiene permiso para modificar el envio por Citylink!]]></value>
+  </definition>
+</definitions>

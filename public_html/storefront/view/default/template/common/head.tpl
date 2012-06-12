@@ -1,0 +1,43 @@
+<title><?php echo $title; ?></title>
+<meta http-equiv="x-ua-compatible" content="IE=8" />
+<?php if ($keywords) { ?>
+<meta name="keywords" content="<?php echo $keywords; ?>" />
+<?php } ?>
+<?php if ($description) { ?>
+<meta name="description" content="<?php echo $description; ?>" />
+<?php } ?>
+<base href="<?php echo $base; ?>" />
+
+<?php if ( is_file( DIR_RESOURCE . $icon ) ) {  ?>
+<link href="resources/<?php echo $icon; ?>" type="image/png" rel="icon" />
+<?php } ?>
+
+<?php foreach ($links as $link) { ?>
+<link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
+<?php } ?>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->templateResource('/stylesheet/stylesheet.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->templateResource('/stylesheet/boxes.css'); ?>" />
+<?php foreach ($styles as $style) { ?>
+<link rel="<?php echo $style['rel']; ?>" type="text/css" href="<?php echo $style['href']; ?>" media="<?php echo $style['media']; ?>" />
+<?php } ?>
+
+<!--[if IE 7]>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->templateResource('/stylesheet/stylesheet-ie7.css'); ?>" />
+<![endif]-->
+
+<script type="text/javascript" src="<?php echo $ssl ? 'https': 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+if (typeof jQuery == 'undefined') {
+   var include = '\x3Cscript type="text/javascript" src="<?php echo $this->templateResource("/javascript/jquery/jquery-1.6.4.min.js"); ?>">\x3C/script>';
+   document.write(include);
+}
+</script>
+
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery/thickbox/thickbox-compressed.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->templateResource('/javascript/jquery/thickbox/thickbox.css'); ?>" />
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery/tab.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/common.js'); ?>"></script>
+<?php foreach ($scripts as $script) { ?>
+<script type="text/javascript" src="<?php echo $script; ?>"></script>
+<?php } ?>
+

@@ -1,0 +1,207 @@
+/* Popup box */
+#aPopup {
+	display:none;
+	padding:0;
+}
+
+#aPopup .error{
+	min-height: 110px;
+	background-color: #FCEEDC;
+	padding: 10px;
+}
+#aPopup .error .warning{
+	min-height: 80px;
+	padding: 70px;
+	margin-top: 15px;
+}
+
+
+.popup_loading {
+	background: url(../image/ajax-loader.gif) 50% 50% no-repeat;
+	height:50px;
+	width:100px;
+	margin:0 auto;
+	border:1px solid #caccd2;
+	background-color:#fbeddc;
+}
+
+.popbox {
+	padding:0;
+}
+.popbox .popbox_tl {
+	background: url(../image/popbox_tl.png) no-repeat;
+}
+.popbox .popbox_tr {
+	background: url(../image/popbox_tr.png) 100% 0 no-repeat;
+	padding:0 8px;
+}
+.popbox .popbox_tc {
+	background: url(../image/popbox_tc.png) repeat-x;
+	height:33px;
+}
+.popbox .heading {
+	font:normal 14px Arial, Helvetica, sans-serif;
+	line-height:33px;
+	padding:0 5px;
+	color:#fff;
+}
+
+
+.popbox
+
+.popbox .popbox_cl {}
+.popbox .popbox_cr {}
+.popbox .popbox_cc {
+	border-left:1px solid #caccd2;
+	border-right:1px solid #caccd2;
+	background-color:#fbeddc;
+	padding:12px;
+}
+.popbox .popbox_bl {
+	background: url(../image/popbox_bl.png) no-repeat;
+}
+.popbox .popbox_br {
+	background: url(../image/popbox_br.png) 100% 0 no-repeat;
+	padding:0 8px;
+}
+.popbox .popbox_bc {
+	border-bottom:1px solid #caccd2;
+	background-color:#fbeddc;
+	height:7px;
+}
+.popbox input {
+	width:240px;
+}
+.popbox select {
+	width:245px;
+}
+
+.popbox2 {
+	padding:0;
+}
+.popbox2 .popbox_tl {
+	background: url(../image/popbox2_tl.png) no-repeat;
+}
+.popbox2 .popbox_tr {
+	background: url(../image/popbox2_tr.png) 100% 0 no-repeat;
+	padding:0 6px;
+}
+.popbox2 .popbox_tc {
+	border-top:1px solid #dcdcdc;
+	background:#fceedc;
+	height:5px;
+}
+.popbox2 .heading {
+	font:normal 14px Arial, Helvetica, sans-serif;
+	border-left:1px solid #dcdcdc;
+	border-right:1px solid #dcdcdc;
+	background-color:#fceedc;
+	padding:0 15px;
+	line-height:35px;
+	color:#09487d;
+}
+.popbox2 .popbox_cl {}
+.popbox2 .popbox_cr {}
+.popbox2 .popbox_cc {
+	border-left:1px solid #dcdcdc;
+	border-right:1px solid #dcdcdc;
+	background-color:#fceedc;
+	padding:15px;
+}
+.popbox2 .popbox_bl {
+	background: url(../image/popbox_bl.png) no-repeat;
+}
+.popbox2 .popbox_br {
+	background: url(../image/popbox_br.png) 100% 0 no-repeat;
+	padding:0 6px;
+}
+.popbox2 .popbox_bc {
+	border-bottom:1px solid #dcdcdc;
+	background:#fceedc;
+	height:5px;
+}
+.popbox2 .table_description {
+	border-collapse:collapse;
+}
+.popbox2 .table_description td {
+	vertical-align:middle;
+}
+.popbox2 .table_description td.col1 {
+	width:150px;
+}
+.popbox2 .table_description td.col2 {
+	width:70%;
+	text-align:center;
+}
+
+.popbox2 .button1 .btn_text, 
+.popbox2 .button2 .btn_text {
+	padding:0 10px;
+}
+
+.popbox2 td .aform {
+	margin:4px 0;
+}
+.popbox2 td .aform textarea {
+	width:400px;
+}
+
+
+/* Dialog */
+.ui-widget-overlay {
+    background:black;
+}
+
+.ui-corner-all.aPopup {
+    border-radius: 0;
+}
+.ui-widget-content.aPopup {
+    background:none;
+    border: 0;
+    color: #333333;
+}
+.ui-widget.aPopup {
+    font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+    font-size: 1.1em;
+}
+.ui-dialog.aPopup {
+    padding: 0;
+}
+
+.ui-dialog.aPopup .ui-dialog-titlebar {
+    height: 30px;
+    padding: 0;
+	position: absolute;
+    width: 100%;
+}
+.aPopup .ui-dialog-titlebar.ui-widget-header {
+    background:none;
+    border: 0;
+    color: #FFFFFF;
+    font-weight:normal;
+}
+.ui-dialog.aPopup .ui-dialog-titlebar-close {
+    width:17px;
+	height:16px;
+    margin: -10px 0 0;
+    padding: 0px;
+    position: absolute;
+    right: 0.4em;
+    top: 50%;
+}
+.aPopup .ui-widget-header .ui-icon {
+	background-image: url(../image/icons/icon_close.png);
+}
+.aPopup .ui-icon-closethick {
+    background-position: 0 0;
+	width:17px;
+	height:16px;
+}
+.ui-dialog.aPopup .ui-dialog-titlebar-close span {
+    margin: 0;
+}
+.aPopup .ui-state-hover, .aPopup .ui-widget-content .ui-state-hover, .aPopup .ui-state-focus, .aPopup .ui-widget-content .ui-state-focus { 
+	border: 0;
+	background: url(../image/icons/icon_close.png);
+	font-weight:normal;
+}

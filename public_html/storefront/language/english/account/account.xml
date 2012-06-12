@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[My Account]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Account]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[My Account]]></value>
+  </definition>
+  <definition>
+    <key>text_my_orders</key>
+    <value><![CDATA[My Orders]]></value>
+  </definition>
+  <definition>
+    <key>text_my_newsletter</key>
+    <value><![CDATA[Newsletter]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Edit your account information]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Change your password]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Modify your address book entries]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[View your order history]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Downloads]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Subscribe / unsubscribe to newsletter]]></value>
+  </definition>
+</definitions>

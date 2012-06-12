@@ -1,0 +1,8 @@
+* { zoom: 1.0; }
+#content_top, .element_description, .element_error { zoom: 0; }
+.h_section1 .flt_left { width:214px; }
+.h_section1 .flt_right .flt_left { width:56px; }
+#info_links li {float:left;}
+
+.tabs a { width:200px; }
+.tabs a span.tab_text {float:left; width:150px; text-align: center;}

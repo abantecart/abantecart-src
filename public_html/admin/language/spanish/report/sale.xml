@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Informe de ventas]]></value>
+  </definition>
+  <definition>
+    <key>text_year</key>
+    <value><![CDATA[Años]]></value>
+  </definition>
+  <definition>
+    <key>text_month</key>
+    <value><![CDATA[Meses]]></value>
+  </definition>
+  <definition>
+    <key>text_week</key>
+    <value><![CDATA[Semanas]]></value>
+  </definition>
+  <definition>
+    <key>text_day</key>
+    <value><![CDATA[Días]]></value>
+  </definition>
+  <definition>
+    <key>text_all_status</key>
+    <value><![CDATA[Todos los estados]]></value>
+  </definition>
+  <definition>
+    <key>column_date_start</key>
+    <value><![CDATA[Fecha de comienzo]]></value>
+  </definition>
+  <definition>
+    <key>column_date_end</key>
+    <value><![CDATA[Fecha de fin]]></value>
+  </definition>
+  <definition>
+    <key>column_orders</key>
+    <value><![CDATA[Num. Pedidos]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Total]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Estado:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Fecha de comienzo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Fecha de fin:]]></value>
+  </definition>
+  <definition>
+    <key>entry_group</key>
+    <value><![CDATA[Agrupado por:]]></value>
+  </definition>
+</definitions>

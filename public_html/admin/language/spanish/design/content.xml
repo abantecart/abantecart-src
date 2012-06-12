@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administrador de contenido]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Insertar contenido]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[Actualizar contenido]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Éxito: Se ha modificado el contenido!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Éxito: Se ha modificado el diseño contenido de la página.]]></value>
+  </definition>
+  <definition>
+    <key>text_hidden</key>
+    <value><![CDATA[Oculto]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Defecto]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Contenido del título]]></value>
+  </definition>
+  <definition>
+    <key>column_parent</key>
+    <value><![CDATA[Padres Contenido]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent</key>
+    <value><![CDATA[Padres contenido de la página]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Orden de Clasificación]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Estado]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Acción]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Contenido Nombre:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[El contenido Título:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Descripción:]]></value>
+  </definition>
+  <definition>
+    <key>entry_content</key>
+    <value><![CDATA[Contenido:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[Tiendas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Estado:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO palabra clave:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Orden de Clasificación:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advertencia: Usted no tiene permiso para modificar el contenido!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Título El contenido debe ser entre 2 y 64 caracteres!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Nombre El contenido debe ser entre 2 y 64 caracteres!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[La descripción tiene que ser más de 1 caracteres!]]></value>
+  </definition>
+  <definition>
+    <key>error_content</key>
+    <value><![CDATA[El contenido debe ser más de 1 caracteres!]]></value>
+  </definition>
+  <definition>
+    <key>error_seo_url</key>
+    <value><![CDATA[URL SEO debe ser más de 1 caracteres!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[Advertencia: Este contenido no puede ser eliminado, ya que está actualmente asignado a los términos de la cuenta por defecto la tienda!]]></value>
+  </definition>
+  <definition>
+    <key>error_checkout</key>
+    <value><![CDATA[Advertencia: Este contenido no puede ser eliminado, ya que está asignado actualmente como los términos de pago y envío por defecto la tienda!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Los datos requeridos no se han escrito. Compruebe si hay errores de campo!]]></value>
+  </definition>
+  <definition>
+    <key>text_top_level</key>
+    <value><![CDATA[Nivel superior]]></value>
+  </definition>
+  <definition>
+    <key>text_any</key>
+    <value><![CDATA[Cualquier]]></value>
+  </definition>
+  <definition>
+    <key>tab_form</key>
+    <value><![CDATA[Editar]]></value>
+  </definition>
+  <definition>
+    <key>tab_layout</key>
+    <value><![CDATA[Disposición]]></value>
+  </definition>
+</definitions>

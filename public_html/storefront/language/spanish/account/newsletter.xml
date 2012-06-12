@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Suscripción al boletín]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Cuenta]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Boletín]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[La suscripción al boletín se ha actualizado satisfactoriamente]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[Suscribir:]]></value>
+  </definition>
+</definitions>

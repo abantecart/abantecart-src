@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[The page you requested cannot be found!]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[The page you requested cannot be found.]]></value>
+  </definition>
+</definitions>

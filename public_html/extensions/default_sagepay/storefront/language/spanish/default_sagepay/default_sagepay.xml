@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Tarjeta de Crédito/ Tarjeta de Debito (SagePay)]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Productos en %s Pedido No: %s]]></value>
+  </definition>
+</definitions>

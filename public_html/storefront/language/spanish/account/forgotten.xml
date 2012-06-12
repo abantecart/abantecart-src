@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[¿Olvidó la contraseña?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Cuenta]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[Olvidó la contraseña]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Su correo electrónico]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Introduzca el correo electrónico asociado con su cuenta. Pulse en enviar para que se le envíe la contraseña por correo electrónico]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Exito: Una nueva contraseña se le ha enviado por correo electrónico.]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Dirección de correo electrónico:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Error: No se ha encontrado el correo electrónico en nuestra Base de Datos, por favor, inténtelo de nuevo]]></value>
+  </definition>
+</definitions>

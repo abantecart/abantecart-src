@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Tarjeta de Crédito / Débido (Paymate)]]></value>
+  </definition>
+  <definition>
+    <key>text_unable</key>
+    <value><![CDATA[No se ha podido localizar o actualizar el estado de su pedido]]></value>
+  </definition>
+  <definition>
+    <key>text_declined</key>
+    <value><![CDATA[El pago fue rechazado por Paymate]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[La transacción con Paymate ha fallado]]></value>
+  </definition>
+  <definition>
+    <key>text_failed_message</key>
+    <value><![CDATA[<p>Desafortunadamente hubo un error procesando su pago con Paymate.</p><p><b>Error: </b>%s</p><p>Por favor, verifique su cuenta Paymate antes de volver a intentar pagar su pedido</p><p> Si cree que la transacción se ha completado satisfactoriamente, o se muestra una deducción en su cuenta Paymate, por favor <a href="%s">contacte con nosotros</a> indicando los detalles de su pedido.</p>]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>import_export_title</key>
+		<value><![CDATA[Import & Export]]></value>
+	</definition>
+	<definition>
+		<key>tab_import</key>
+		<value><![CDATA[Import]]></value>
+	</definition>
+	<definition>
+		<key>tab_export</key>
+		<value><![CDATA[Export]]></value>
+	</definition>
+	<definition>
+		<key>text_tables</key>
+		<value><![CDATA[Tables]]></value>
+	</definition>
+	<definition>
+		<key>text_options</key>
+		<value><![CDATA[Options]]></value>
+	</definition>
+	<definition>
+		<key>text_file_format</key>
+		<value><![CDATA[File Format: ]]></value>
+	</definition>
+	<definition>
+		<key>text_file_name</key>
+		<value><![CDATA[File Name: ]]></value>
+	</definition>
+	<definition>
+		<key>text_load_file</key>
+		<value><![CDATA[Load File]]></value>
+	</definition>
+	<definition>
+		<key>text_load</key>
+		<value><![CDATA[Load]]></value>
+	</definition>
+	<definition>
+		<key>text_import_loaded</key>
+		<value><![CDATA[Total loaded: ]]></value>
+	</definition>
+	<definition>
+		<key>text_file_field</key>
+		<value><![CDATA[File to import:<br><span class="help">Supported formats for import files: XML, CSV, TXT</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_id_range_from</key>
+		<value><![CDATA[ID range from: ]]></value>
+	</definition>
+	<definition>
+		<key>text_to</key>
+		<value><![CDATA[to: ]]></value>
+	</definition>
+	<definition>
+		<key>text_csv_delimiter</key>
+		<value><![CDATA[CSV/TXT delimiter: ]]></value>
+	</definition>
+	<definition>
+		<key>text_export_note_csv_delimiter</key>
+		<value><![CDATA[<span class="help">All fields will be enclosed in double quotes.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_import_note_csv_delimiter</key>
+		<value><![CDATA[<span class="help">All fields must be enclosed in double quotes.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_test_mode</key>
+		<value><![CDATA[Run in a test mode <br><span class="help">It is recommended to run data import in a test mode first to see if any issues are present.</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_file_format</key>
+		<value><![CDATA[Wrong file format!]]></value>
+	</definition>
+	<definition>
+		<key>error_xml_import</key>
+		<value><![CDATA[Error during import XML file!]]></value>
+	</definition>
+	<definition>
+		<key>error_csv_import</key>
+		<value><![CDATA[Error during import CSV/TXT file! Please check fields delimiter.]]></value>
+	</definition>
+	<definition>
+		<key>error_data_corrupted</key>
+		<value><![CDATA[Data is empty or corrupted.]]></value>
+	</definition>
+	<definition>
+		<key>error_writable_backup</key>
+		<value><![CDATA[Backup directory needs to be writable for CSV/TXT export to work.]]></value>
+	</definition>
+	<definition>
+		<key>text_updated</key>
+		<value><![CDATA[Updated: ]]></value>
+	</definition>
+	<definition>
+		<key>text_created</key>
+		<value><![CDATA[Created: ]]></value>
+	</definition>
+	<definition>
+		<key>text_errors</key>
+		<value><![CDATA[Errors: ]]></value>
+	</definition>
+	<definition>
+		<key>text_show_details</key>
+		<value><![CDATA[Show details]]></value>
+	</definition>
+	<definition>
+		<key>text_no_children</key>
+		<value><![CDATA[No child items]]></value>
+	</definition>
+	<definition>
+		<key>text_some_errors</key>
+		<value><![CDATA[There are some errors.]]></value>
+	</definition>
+	<definition>
+		<key>text_test_completed</key>
+		<value><![CDATA[Test run completed. Total SQL queries: ]]></value>
+	</definition>
+	<definition>
+		<key>text_sort_by</key>
+		<value><![CDATA[Sort by: ]]></value>
+	</definition>
+</definitions>

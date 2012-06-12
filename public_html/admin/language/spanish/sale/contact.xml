@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Correo]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Todos los suscriptores de las noticias]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Defecto]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Todos los clientes]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Buscar]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Su mensaje ha sido enviado con exito!]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[De:]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[Para los clientes que han ordenado del mercado:]]></value>
+  </definition>
+  <definition>
+    <key>entry_to</key>
+    <value><![CDATA[A:]]></value>
+  </definition>
+  <definition>
+    <key>entry_subject</key>
+    <value><![CDATA[Asunto:]]></value>
+  </definition>
+  <definition>
+    <key>entry_message</key>
+    <value><![CDATA[Mensaje:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advertencia: No tiene permiso para enviar E-Mail's!]]></value>
+  </definition>
+  <definition>
+    <key>error_subject</key>
+    <value><![CDATA[E-Mail Asunto requerido!]]></value>
+  </definition>
+  <definition>
+    <key>error_message</key>
+    <value><![CDATA[E-Mail Mensaje requiredo!]]></value>
+  </definition>
+  <definition>
+    <key>error_recipients</key>
+    <value><![CDATA[Los destinatarios necesarios!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_sent</key>
+    <value><![CDATA['Error: mensajes de correo electrónico no enviado! Por favor, vea el registro de error para obtener más detalles.']]></value>
+  </definition>
+</definitions>

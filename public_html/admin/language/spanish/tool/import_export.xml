@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>import_export_title</key>
+		<value><![CDATA[Importar & Exportar]]></value>
+	</definition>
+	<definition>
+		<key>tab_import</key>
+		<value><![CDATA[Importar]]></value>
+	</definition>
+	<definition>
+		<key>tab_export</key>
+		<value><![CDATA[Exportar]]></value>
+	</definition>
+	<definition>
+		<key>text_tables</key>
+		<value><![CDATA[Tablas]]></value>
+	</definition>
+	<definition>
+		<key>text_options</key>
+		<value><![CDATA[Opciones]]></value>
+	</definition>
+	<definition>
+		<key>text_file_format</key>
+		<value><![CDATA[Formato de archivo: ]]></value>
+	</definition>
+	<definition>
+		<key>text_file_name</key>
+		<value><![CDATA[Nombre de archivo: ]]></value>
+	</definition>
+	<definition>
+		<key>text_load_file</key>
+		<value><![CDATA[Cargar archivo]]></value>
+	</definition>
+	<definition>
+		<key>text_load</key>
+		<value><![CDATA[Cargar]]></value>
+	</definition>
+	<definition>
+		<key>text_import_loaded</key>
+		<value><![CDATA[Total loaded: ]]></value>
+	</definition>
+	<definition>
+		<key>text_file_field</key>
+		<value><![CDATA[Archivo para importar:<br><span class="help">Los formatos soportados para la importación de archivos: XML, CSV, TXT</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_id_range_from</key>
+		<value><![CDATA[Identificación gama de: ]]></value>
+	</definition>
+	<definition>
+		<key>text_to</key>
+		<value><![CDATA[a: ]]></value>
+	</definition>
+	<definition>
+		<key>text_csv_delimiter</key>
+		<value><![CDATA[CSV/TXT delimitador: <br><span class="help">]]></value>
+	</definition>
+	<definition>
+		<key>text_export_note_csv_delimiter</key>
+		<value><![CDATA[<span class="help">Todos los campos serán encerrados entre comillas dobles.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_import_note_csv_delimiter</key>
+		<value><![CDATA[<span class="help">Todos los campos deben ir entre comillas dobles.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_test_mode</key>
+		<value><![CDATA[Ejecutar en modo de prueba <br><span class="help">Se recomienda realizar la importación de datos en modo de prueba primero para ver si todas las cuestiones están presentes.</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_file_format</key>
+		<value><![CDATA[Formato de archivo incorrecto!]]></value>
+	</definition>
+	<definition>
+		<key>error_xml_import</key>
+		<value><![CDATA[Error durante la importación de archivos XML!]]></value>
+	</definition>
+	<definition>
+		<key>error_csv_import</key>
+		<value><![CDATA[Error durante la importación de archivos CSV/TXT! Por favor, compruebe los campos de delimitador.]]></value>
+	</definition>
+	<definition>
+		<key>error_data_corrupted</key>
+		<value><![CDATA[Los datos está vacía o dañada.]]></value>
+	</definition>
+	<definition>
+		<key>error_writable_backup</key>
+		<value><![CDATA[Directorio de copia de seguridad tiene que tener permisos de escritura para el archivo CSV / TXT de exportación a trabajar.]]></value>
+	</definition>
+	<definition>
+		<key>text_updated</key>
+		<value><![CDATA[Actualizado: ]]></value>
+	</definition>
+	<definition>
+		<key>text_created</key>
+		<value><![CDATA[Creado: ]]></value>
+	</definition>
+	<definition>
+		<key>text_errors</key>
+		<value><![CDATA[Errores: ]]></value>
+	</definition>
+	<definition>
+		<key>text_show_details</key>
+		<value><![CDATA[Mostrar detalles]]></value>
+	</definition>
+	<definition>
+		<key>text_no_children</key>
+		<value><![CDATA[No elementos hijo]]></value>
+	</definition>
+	<definition>
+		<key>text_some_errors</key>
+		<value><![CDATA[Hay algunos errores.]]></value>
+	</definition>
+	<definition>
+		<key>text_test_completed</key>
+		<value><![CDATA[Prueba de funcionamiento completo. Total de consultas SQL: ]]></value>
+	</definition>
+	<definition>
+		<key>text_sort_by</key>
+		<value><![CDATA[Ordenar por: ]]></value>
+	</definition>
+</definitions>
