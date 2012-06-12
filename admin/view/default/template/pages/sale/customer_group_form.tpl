@@ -5,6 +5,18 @@
 <div class="contentBox">
   <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
     <div class="heading icon_title_total"><?php echo $heading_title; ?></div>
+
+	<?php if ( !empty($main_tab) ): ?>
+		<div class="heading-tabs">
+			<a href="<?php echo $main_tab['href']; ?>" class="<?php echo $main_tab['class']; ?>"><span><?php echo $main_tab['text']; ?></span></a>
+			<?php if ( !empty($tabs) ): ?>
+				<?php foreach ( $tabs as $tab): ?>
+					<a href="<?php echo $tab['href']; ?>" class="<?php echo $tab['class']; ?>"><span><?php echo $tab['text']; ?></span></a>
+				<?php endforeach; ?>
+			<?php endif; ?>
+		</div>
+	<?php endif; ?>
+	
 	<div class="toolbar">
 		<?php if ( !empty ($help_url) ) : ?>
 	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
@@ -39,9 +51,7 @@
 	  <a class="btn_standard" href="<?php echo $cancel; ?>" ><?php echo $form['cancel']; ?></a>
     </div>
 	</form>
-
-
-	<?php echo $this->getHookVar('customer_attributes'); ?>
+	
   </div></div></div>
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>

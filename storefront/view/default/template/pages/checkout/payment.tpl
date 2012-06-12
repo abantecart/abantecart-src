@@ -51,6 +51,9 @@
         </table>
       </div>
       <?php } ?>
+
+	  <?php echo $this->getHookVar('order_attributes'); ?>
+
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_comments; ?></b>
       <div class="content">
       	<?php echo $form['comment']?>
