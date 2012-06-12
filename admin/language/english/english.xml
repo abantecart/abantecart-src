@@ -497,4 +497,8 @@
         <key>text_install_warning</key>
         <value><![CDATA[You still have install directory present in your AbanteCart installation directory. It is recommended you delete this directory.]]></value>
     </definition>
+	<definition>
+		<key>test_github_3</key>
+		<value><![CDATA[testestest]]></value>
+	</definition>
 </definitions>
