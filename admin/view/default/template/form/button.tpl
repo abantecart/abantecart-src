@@ -1,1 +1,0 @@
-<span id="<?php echo $id ?>" <?php echo ($style ? 'class="'.$style.'"':''); ?> title="<?php echo $text ?>" <?php echo $attr ?>><span><?php echo $text ?></span></span>

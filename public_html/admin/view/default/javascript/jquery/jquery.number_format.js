@@ -33,10 +33,10 @@
 * 													symbol: 'R$'
 * 													});
 */
-//indica que está sendo criado um plugin
-jQuery.fn.extend({ //indica que está sendo criado um plugin
+//indica que estï¿½ sendo criado um plugin
+jQuery.fn.extend({ //indica que estï¿½ sendo criado um plugin
 	
-	number_format: function(numero, params) //indica o nome do plugin que será criado com os parametros a serem informados
+	number_format: function(numero, params) //indica o nome do plugin que serï¿½ criado com os parametros a serem informados
 		{ 
 		//parametros default
 		var sDefaults = 
@@ -47,7 +47,7 @@ jQuery.fn.extend({ //indica que está sendo criado um plugin
 			symbol: ''
 			}
  
-		//função do jquery que substitui os parametros que não foram informados pelos defaults
+		//funï¿½ï¿½o do jquery que substitui os parametros que nï¿½o foram informados pelos defaults
 		var options = jQuery.extend(sDefaults, params);
 
 		//CORPO DO PLUGIN
