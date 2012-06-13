@@ -199,10 +199,12 @@ a img {
 
 #content_bottom {
 	margin: 10px 0 0 0;
+	overflow: hidden;
 }
 
 #content_top {
 	margin: 0px 0 10px 0;
+	overflow: hidden;
 }
 
 #column_left {
@@ -285,14 +287,14 @@ a img {
 	padding: 12px 0 0 5px;
 	display: inline-block;
 }
-
+/*
 c input {
 	color: #5f5f5f;
 	border: 1px solid #949494;
 	border-bottom: none;
 	border-right: none;
 	padding: 2px;
-}
+}*/
 
 .button_search {
 	background: url(../image/search_btn.png) 0 0 no-repeat;

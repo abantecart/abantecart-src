@@ -47,7 +47,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		$this->data['object_name'] = $this->data['name'] = (string)$this->request->get['object_name'];
 		$this->data['object_id'] = $this->request->get['object_id'];
-		$this->data['object_title'] = mb_substr($this->_getObjectTitle($this->request->get['object_name'], $this->request->get['object_id']),0,60);
+		if($this->request->get['object_title']){
+			$this->data['object_title'] = mb_substr($this->request->get['object_title'],0,60);
+		}else{
+			$this->data['object_title'] = mb_substr($this->_getObjectTitle($this->request->get['object_name'], $this->request->get['object_id']),0,60);
+		}
+
 		$this->data['resource_id'] = $this->request->get['resource_id'];
 		$this->data['mode'] = $this->request->get['mode'];
 		$this->data['add'] = isset($this->request->get['add']) ? $this->request->get['add'] : false;
