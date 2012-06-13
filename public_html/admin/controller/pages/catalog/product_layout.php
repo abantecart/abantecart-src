@@ -95,9 +95,13 @@ class ControllerPagesCatalogProductLayout extends AController {
 			$layout_id = $page[ 0 ][ 'layout_id' ];
 		} else {
 			$page = $layout->getPage('pages/product/product');
-			if ($page) {
+			if ($page && !$page[0]['key_param']) {
 				$page_id = $page[ 0 ][ 'page_id' ];
 				$layout_id = $page[ 0 ][ 'layout_id' ];
+			}else{
+				$page = $layout->getPage('generic');
+				$page_id = $page[0]['page_id'];
+				$layout_id = $page[0]['layout_id'];
 			}
 		}
 		$tmpl_id = $this->config->get('config_storefront_template');

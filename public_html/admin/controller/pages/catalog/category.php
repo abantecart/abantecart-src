@@ -526,7 +526,12 @@ class ControllerPagesCatalogCategory extends AController {
 			$layout_id = $page[ 0 ][ 'layout_id' ];
 		}else{
 			$page = $layout->getPage('pages/product/category');
-			if($page){
+
+			if($page && !$page[0]['key_param']){ // common layout for all catagories
+				$page_id = $page[0]['page_id'];
+				$layout_id = $page[0]['layout_id'];
+			}else{
+				$page = $layout->getPage('generic');
 				$page_id = $page[0]['page_id'];
 				$layout_id = $page[0]['layout_id'];
 			}
@@ -540,6 +545,7 @@ class ControllerPagesCatalogCategory extends AController {
 		$settings[ 'layout_templates' ] = $layout->getLayoutTemplates();
 		$settings[ '_blocks' ] = $layout->getInstalledBlocks();
 		$settings[ 'blocks' ] = $layout->getLayoutBlocks();
+
 		$settings[ 'action' ] = $this->html->getSecureURL('catalog/category/save_layout', $url);
 		// hidden fields of layout form
 		$settings[ 'hidden' ][ 'page_id' ] = $page_id;

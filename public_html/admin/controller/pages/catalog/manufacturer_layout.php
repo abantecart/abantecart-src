@@ -88,9 +88,13 @@ class ControllerPagesCatalogManufacturerLayout extends AController {
 			$layout_id = $page[ 0 ][ 'layout_id' ];
 		} else {
 			$page = $layout->getPage('pages/product/manufacturer');
-			if ($page) {
+			if ($page && !$page[0]['key_param']) {
 				$page_id = $page[ 0 ][ 'page_id' ];
 				$layout_id = $page[ 0 ][ 'layout_id' ];
+			}else{
+				$page = $layout->getPage('generic');
+				$page_id = $page[0]['page_id'];
+				$layout_id = $page[0]['layout_id'];
 			}
 		}
 
