@@ -64,6 +64,9 @@
         </table>
       </div>
       <?php } ?>
+
+	  <?php echo $this->getHookVar('order_attributes'); ?>
+
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_comments; ?></b>
       <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
         <?php echo $form['comment']; ?>
