@@ -60,11 +60,8 @@ foreach ( $data['colModel'] as $m ) {
 var updatePager = false;
 
 	function updatePerPage( records ) {
-
 		if ( updatePager ) return;
-
 		var html, rowNum, rowList = [10, 30, 50, 100];
-
 		for (var i = 0; i < rowList.length; i++) {
 			if ( records > rowList[i] ) {
 				html += '<option value="' + rowList[i] + '">' + rowList[i] + '</option>';
@@ -388,6 +385,11 @@ var updatePager = false;
 
 	$( table_id+'_selected_action').aform({triggerChanged: false});
 	$('tr.ui-search-toolbar').find("input, select").each( function(){
+
+				//var index = $(this).parent().parent().parent().children().index($(this).parent().parent());
+				//if($(table_id + ' tr').last().children(index).css('text-align')=='left'){
+				// 	$(this).parent().css('text-align','left');
+				//}
 				$.aform.styleGridForm(this);
 	});
 });
