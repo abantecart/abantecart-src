@@ -67,8 +67,6 @@
 	</table>
 	<div class="gray_separator"></div>
 
-	<?php echo $this->getHookVar('order_attributes'); ?>
-
 	<table width="100%">
         <tr>
           <td align="left" valign="top" class="checkout_heading"><?php echo $text_cart_items; ?></td>
@@ -100,6 +98,8 @@
     <b style="margin-bottom: 2px; display: block;"><?php echo $text_comment; ?></b>
     <div class="content"><?php echo $comment; ?></div>
     <?php } ?>
+
+	<?php echo $this->getHookVar('order_attributes'); ?>
 
     <?php echo $this->getHookVar('payment_pre'); ?>
     <div id="payment"><?php echo $payment; ?></div>

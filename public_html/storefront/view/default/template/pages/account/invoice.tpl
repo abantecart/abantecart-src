@@ -85,6 +85,9 @@
     <b style="margin-bottom: 2px; display: block;"><?php echo $text_comment; ?></b>
     <div class="content"><?php echo $comment; ?></div>
     <?php } ?>
+
+    <?php echo $this->getHookVar('order_attributes'); ?>
+
     <?php if ($historys) { ?>
     <b style="margin-bottom: 2px; display: block;"><?php echo $text_order_history; ?></b>
     <div class="content">
