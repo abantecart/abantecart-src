@@ -41,7 +41,7 @@ final class ADispatcher {
 		ADebug::checkpoint('ADispatch '.$rt.' construct start');
         // We always get full RT (route) to dispatcher. Needs to have pages/ or responces/
 		if ( !$this->_process_path($rt) ){
-			$warning_txt = 'ADispatch '.$rt.' construct FAILD. Missing or incorrect controller route path ';
+			$warning_txt = 'ADispatch '.$rt.' construct FAILED. Missing or incorrect controller route path ';
 		    $warning = new AWarning( $warning_txt );
             $warning->toLog()->toDebug();
 		}
