@@ -645,11 +645,6 @@ class ControllerPagesCatalogProduct extends AController {
             'options' => $this->data['stock_statuses'],
 		));
 		
-        $this->data['form']['fields']['data']['shipping'] = $form->getFieldHtml(array(
-			'type' => 'checkbox',
-			'name' => 'shipping',
-			'value' => isset($this->data['shipping'] ) ? $this->data['shipping'] : 1,
-		));
         $this->data['form']['fields']['data']['sku'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'sku',
@@ -682,6 +677,14 @@ class ControllerPagesCatalogProduct extends AController {
 			'value' => $this->data['sort_order'],
 			'style' => 'small-field'
 		));
+
+        $this->data['form']['fields']['data']['shipping'] = $form->getFieldHtml(array(
+			'type' => 'checkbox',
+			'name' => 'shipping',
+			'style'  => 'btn_switch',	
+			'value' => isset($this->data['shipping'] ) ? $this->data['shipping'] : 1,
+		));
+
         $this->data['form']['fields']['data']['length'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'length',
