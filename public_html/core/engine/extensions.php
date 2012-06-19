@@ -335,7 +335,20 @@ class ExtensionsApi {
 	 */
 	public function getExtensionsList($data = array()) {
 
-		$sql = "SELECT DISTINCT e.*, s.store_id, st.name as store_name, s.value as status
+		$sql = "SELECT DISTINCT
+		              e.extension_id,
+                      e.type,
+                      e.key,
+                      e.category,
+                      e.priority,
+                      e.version,
+                      e.license_key,
+                      e.date_installed,
+                      e.update_date,
+                      e.create_date,
+		              s.store_id,
+		              st.name as store_name,
+		              s.value as status
 				FROM " . DB_PREFIX . "extensions e
 				LEFT JOIN " . DB_PREFIX . "settings s ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
 				LEFT JOIN " . DB_PREFIX . "stores st ON st.store_id = s.store_id
@@ -378,12 +391,31 @@ class ExtensionsApi {
 			$sql .= "AND s.`store_id` = '" . (int)$data[ 'store_id' ] . "' ";
 		}
 
+        if(!empty($data[ 'sort_order' ]) && $data[ 'sort_order' ][0]!='name'){
+            if($data[ 'sort_order' ][0]=='key'){
+                $data[ 'sort_order' ][0] = '`key`';
+            }
+            $sql .= "\n ORDER BY ".implode(' ',$data[ 'sort_order' ]);
+        }
+
 		if (!empty($data[ 'page' ]) && !empty($data[ 'limit' ])) {
 			$total = $this->db->query($sql);
 			$sql .= " LIMIT " . (int)(($data[ 'page' ] - 1) * $data[ 'limit' ]) . ", " . (int)($data[ 'limit' ]) . " ";
 		}
 
 		$result = $this->db->query($sql);
+
+        if(!empty($data[ 'sort_order' ]) && $data[ 'sort_order' ][0]=='name'){
+            if($result->rows){
+                foreach($result->rows as &$row){
+                         $names[] = mb_strtolower(trim($this->getExtensionName($row['key'])));
+                         $row['name'] = trim($this->getExtensionName($row['key']));
+                }
+
+                array_multisort($names,($data[ 'sort_order' ][1]=='asc' ? SORT_ASC : SORT_DESC), SORT_STRING,$result->rows);
+            }
+        }
+
 		$result->total = $total ? $total->num_rows : $result->num_rows;
 
 		return $result;
@@ -400,15 +432,17 @@ class ExtensionsApi {
 		}else{
 			$filename = DIR_EXT . $extension . '/admin/language/english/' . $extension . '/' . $extension . '.xml';
 		}
-		$xml = simplexml_load_file( $filename );
-		if ($xml && $xml->definition) {
-			foreach ($xml->definition as $def) {
-				if ((string)$def->key == $extension . '_name') {
-					$name = (string)$def->value;
-					break;
-				}
-			}
-		}
+        if(file_exists($filename)){
+            $xml = simplexml_load_file( $filename );
+            if ($xml && $xml->definition) {
+                foreach ($xml->definition as $def) {
+                    if ((string)$def->key == $extension . '_name') {
+                        $name = (string)$def->value;
+                        break;
+                    }
+                }
+            }
+        }
 		return $name;
 	}
 

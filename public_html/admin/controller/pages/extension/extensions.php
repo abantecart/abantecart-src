@@ -109,8 +109,8 @@ class ControllerPagesExtensionExtensions extends AController {
 											       'align' => 'center',
 											       'sortable' => false,
 											       'search' => false ),
-											array( 'name' => 'id',
-											       'index' => 'id',
+											array( 'name' => 'key',
+											       'index' => 'key',
 											       'width' => 120,
 											       'align' => 'center',
 											       'search' => true ),
@@ -130,8 +130,8 @@ class ControllerPagesExtensionExtensions extends AController {
 											       'align' => 'center',
 											       'search' => false ));
 		if(!$this->config->get('config_store_id')){
-			$grid_settings[ 'colModel' ][] = array( 'name' => 'store',
-											       'index' => 'store',
+			$grid_settings[ 'colModel' ][] = array( 'name' => 'store_name',
+											       'index' => 'store_name',
 											       'width' => 70,
 											       'align' => 'center',
 											       'search' => false );
