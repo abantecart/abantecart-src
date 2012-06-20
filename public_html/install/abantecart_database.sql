@@ -256,7 +256,7 @@ INSERT INTO `ac_countries` (`country_id`, `name`, `iso_code_2`, `iso_code_3`, `a
 (173, 'Qatar', 'QA', 'QAT', '', 1),
 (174, 'Reunion', 'RE', 'REU', '', 1),
 (175, 'Romania', 'RO', 'ROM', '', 1),
-(176, 'Russian Federation', 'RU', 'RUS', '', 1),
+(176, 'Russia', 'RU', 'RUS', '', 1),
 (177, 'Rwanda', 'RW', 'RWA', '', 1),
 (178, 'Saint Kitts and Nevis', 'KN', 'KNA', '', 1),
 (179, 'Saint Lucia', 'LC', 'LCA', '', 1),
