@@ -604,13 +604,13 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'price',
 			'value' => number_format((double)$this->data['price'], 2),
-	        'attr' => 'onblur="formatPrice(this);"',
+	        'attr' => 'onBlur="formatPrice(this);"',
 		));
         $this->data['form']['fields']['data']['cost'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'cost',
 			'value' => number_format((double)$this->data['cost'], 2),
-	        'attr' => 'onblur="formatPrice(this);"',
+	        'attr' => 'onBlur="formatPrice(this);"',
 		));
         $this->data['form']['fields']['data']['tax_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -623,13 +623,13 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'quantity',
 			'value' => (int)$this->data['quantity'],
-	        'attr' => 'onblur="formatQty(this);"',
+	        'attr' => 'onBlur="formatQty(this);"',
 		));
         $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'minimum',
 			'value' => (int)$this->data['minimum'],
-	        'attr' => 'onblur="formatQty(this);"',
+	        'attr' => 'onBlur="formatQty(this);"',
 		));
         $this->data['form']['fields']['data']['subtract'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -713,19 +713,19 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'length',
 			'value' => $this->data['length'],
-	        'attr' => 'onblur="formatPrice(this);"',
+	        'attr' => 'onBlur="formatPrice(this);"',
 		));
         $this->data['form']['fields']['data']['width'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'width',
 			'value' => $this->data['width'],
-	        'attr' => 'onblur="formatPrice(this);"',
+	        'attr' => ' autocomplete="false" onBlur="formatPrice(this);"',
 		));
         $this->data['form']['fields']['data']['height'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'height',
 			'value' => $this->data['height'],
-	        'attr' => 'onblur="formatPrice(this);"',
+	        'attr' => ' autocomplete="false" onBlur="formatPrice(this);"',
 		));
         $this->data['form']['fields']['data']['length_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -737,7 +737,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'weight',
 			'value' => $this->data['weight'],
-			'attr' => 'onblur="formatPrice(this);"',
+			'attr' => ' autocomplete="false" onBlur="formatPrice(this);"',
 		));
         $this->data['form']['fields']['data']['weight_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2012 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -55,252 +55,108 @@ class ModelExtensionDefaultUsps extends Model {
 			
 			if ($address['iso_code_2'] == 'US') { 
 				$xml  = '<RateV3Request USERID="' . $this->config->get('default_usps_user_id') . '" PASSWORD="' . $this->config->get('default_usps_password') . '">';
-				$xml .= '	<Package ID="1">';
-				$xml .=	'		<Service>ALL</Service>';
-				$xml .=	'		<ZipOrigination>' . substr($this->config->get('default_usps_postcode'), 0, 5) . '</ZipOrigination>';
-				$xml .=	'		<ZipDestination>' . substr($postcode, 0, 5) . '</ZipDestination>';
-				$xml .=	'		<Pounds>' . $pounds . '</Pounds>';
-				$xml .=	'		<Ounces>' . $ounces . '</Ounces>';				
-				
-				if ($this->config->get('default_usps_size') == 'LARGE') {
-					$xml .=	'	<Container>' . $this->config->get('default_usps_container') . '</Container>';
-					$xml .=	'	<Size>' . $this->config->get('default_usps_size') . '</Size>';
-					$xml .= '	<Width>' . $this->config->get('default_usps_width') . '</Width>';
-					$xml .= '	<Length>' . $this->config->get('default_usps_length') . '</Length>';
-					$xml .= '	<Height>' . $this->config->get('default_usps_height') . '</Height>';
-					$xml .= '	<Girth>' . $this->config->get('default_usps_girth') . '</Girth>';
-				} else {
-					$xml .=	'	<Container>' . $this->config->get('default_usps_container') . '</Container>';
-					$xml .=	'	<Size>' . $this->config->get('default_usps_size') . '</Size>';
+				$package_id = 1;
+				//Process all products shipped together with not special shipping settings on a product level
+				if ( count($this->cart->basicShippingProducts()) > 0 ) {
+					$xml .= '	<Package ID="'. $package_id . '">';
+					$xml .=	'		<Service>ALL</Service>';
+					$xml .=	'		<ZipOrigination>' . substr($this->config->get('default_usps_postcode'), 0, 5) . '</ZipOrigination>';
+					$xml .=	'		<ZipDestination>' . substr($postcode, 0, 5) . '</ZipDestination>';
+					$xml .=	'		<Pounds>' . $pounds . '</Pounds>';
+					$xml .=	'		<Ounces>' . $ounces . '</Ounces>';				
+													
+					// Size cannot be Regular if Container is Rectangular
+					if ($this->config->get('default_usps_container') == 'RECTANGULAR' && $this->config->get('default_usps_container') == 'REGULAR') {
+						$this->config->set('default_usps_container', 'VARIABLE');
+					}
+	
+					$xml .=	'		<Container>' . $this->config->get('default_usps_container') . '</Container>';
+					$xml .=	'		<Size>' . $this->config->get('default_usps_size') . '</Size>';
+					
+					$use_width = $this->config->get('default_usps_width');
+					$use_length = $this->config->get('default_usps_length');
+					$use_height = $this->config->get('default_usps_height');
+					$xml .= '		<Width>' . $use_width . '</Width>';
+					$xml .= '		<Length>' . $use_length . '</Length>';
+					$xml .= '		<Height>' . $use_height . '</Height>';				
+										
+					// Calculate girth based on usps calculation if it is not provided
+					if ( $this->config->get('default_usps_girth') ){
+						$xml .= '	<Girth>' . $this->config->get('default_usps_girth') . '</Girth>';
+					}
+					else{
+						$xml .= '	<Girth>' . (round(((float)$use_length + (float)$use_width * 2 + (float)$use_height * 2), 1)) . '</Girth>';
+					}
+					$xml .=	'		<Machinable>' . ($this->config->get('default_usps_machinable') ? 'true' : 'false') . '</Machinable>';				
+					$xml .=	'	</Package>';
 				}
 				
-				$xml .=	'		<Machinable>' . ($this->config->get('default_usps_machinable') ? 'True' : 'False') . '</Machinable>';
-				$xml .=	'	</Package>';
+				$special_ship_products = $this->cart->specialShippingProducts();
+				foreach ($special_ship_products as $product) {
+					//skip free and fixed price shipping 
+					if($product['free_shipping'] || $product['shipping_price']) {
+						next;
+					}
+
+					$pweight = $this->weight->convert($this->cart->getWeight($product['product_id']), $this->config->get('config_weight_class'), $this->config->get('default_usps_weight_class'));
+					
+					$pweight = ($pweight < 0.1 ? 0.1 : $pweight);
+					$pounds = floor($pweight);
+					$ounces = round(16 * ($pweight - floor($pweight)));
+					
+					$postcode = str_replace(' ', '', $address['postcode']);
+
+					$package_id++;
+					$xml .= '	<Package ID="'. $package_id . '">';
+					$xml .=	'		<Service>ALL</Service>';
+					$xml .=	'		<ZipOrigination>' . substr($this->config->get('default_usps_postcode'), 0, 5) . '</ZipOrigination>';
+					$xml .=	'		<ZipDestination>' . substr($postcode, 0, 5) . '</ZipDestination>';
+					$xml .=	'		<Pounds>' . $pounds . '</Pounds>';
+					$xml .=	'		<Ounces>' . $ounces . '</Ounces>';				
+													
+					// Size cannot be Regular if Container is Rectangular
+					if ($this->config->get('default_usps_container') == 'RECTANGULAR' && $this->config->get('default_usps_container') == 'REGULAR') {
+						$this->config->set('default_usps_container', 'VARIABLE');
+					}
+					$xml .=	'		<Container>' . $this->config->get('default_usps_container') . '</Container>';
+					$xml .=	'		<Size>' . $this->config->get('default_usps_size') . '</Size>';
+					
+					$use_width = $this->config->get('default_usps_width');
+					$use_length = $this->config->get('default_usps_length');
+					$use_height = $this->config->get('default_usps_height');
+					//now check if we have most specific dimmention settings in the products. 
+					//USPS works with inches 
+					if ( $product['width'] ) {
+						$length_class_id = $this->length->getClassID($length_class_unit); 
+						$use_width = $this->length->convertByID($product['length'], $product['length_class'], $length_class_id);
+						$use_length = $this->length->convertByID($product['width'], $product['length_class'], $length_class_id);
+						$use_height = $this->length->convertByID($product['height'], $product['length_class'], $length_class_id);
+					}				
+					$xml .= '		<Width>' . $use_width . '</Width>';
+					$xml .= '		<Length>' . $use_length . '</Length>';
+					$xml .= '		<Height>' . $use_height . '</Height>';				
+										
+					// Calculate girth based on usps calculation if it is not provided
+					if ( $this->config->get('default_usps_girth') ){
+						$xml .= '	<Girth>' . $this->config->get('default_usps_girth') . '</Girth>';
+					}
+					else{
+						$xml .= '	<Girth>' . (round(((float)$use_length + (float)$use_width * 2 + (float)$use_height * 2), 1)) . '</Girth>';
+					}
+					$xml .=	'		<Machinable>' . ($this->config->get('default_usps_machinable') ? 'true' : 'false') . '</Machinable>';
+					$xml .=	'	</Package>';	
+				}
+								
 				$xml .= '</RateV3Request>';
-		
+echo "<textarea>" . $xml . "</textarea>";
 				$request = 'API=RateV3&XML=' . urlencode($xml);
-			} else {				
-      			$country = array(
-					'AF' => 'Afghanistan',
-                    'AL' => 'Albania',
-                    'DZ' => 'Algeria',
-                    'AD' => 'Andorra',
-                    'AO' => 'Angola',
-                    'AI' => 'Anguilla',
-                    'AG' => 'Antigua and Barbuda',
-                    'AR' => 'Argentina',
-                    'AM' => 'Armenia',
-                    'AW' => 'Aruba',
-                    'AU' => 'Australia',
-                    'AT' => 'Austria',
-                    'AZ' => 'Azerbaijan',
-                    'BS' => 'Bahamas',
-                    'BH' => 'Bahrain',
-                    'BD' => 'Bangladesh',
-                    'BB' => 'Barbados',
-                    'BY' => 'Belarus',
-                    'BE' => 'Belgium',
-                    'BZ' => 'Belize',
-                    'BJ' => 'Benin',
-                    'BM' => 'Bermuda',
-                    'BT' => 'Bhutan',
-                    'BO' => 'Bolivia',
-                    'BA' => 'Bosnia-Herzegovina',
-                    'BW' => 'Botswana',
-                    'BR' => 'Brazil',
-                    'VG' => 'British Virgin Islands',
-                    'BN' => 'Brunei Darussalam',
-                    'BG' => 'Bulgaria',
-                    'BF' => 'Burkina Faso',
-                    'MM' => 'Burma',
-                    'BI' => 'Burundi',
-                    'KH' => 'Cambodia',
-                    'CM' => 'Cameroon',
-                    'CA' => 'Canada',
-                    'CV' => 'Cape Verde',
-                    'KY' => 'Cayman Islands',
-                    'CF' => 'Central African Republic',
-                    'TD' => 'Chad',
-                    'CL' => 'Chile',
-                    'CN' => 'China',
-                    'CX' => 'Christmas Island (Australia)',
-                    'CC' => 'Cocos Island (Australia)',
-                    'CO' => 'Colombia',
-                    'KM' => 'Comoros',
-                    'CG' => 'Congo (Brazzaville),Republic of the',
-                    'ZR' => 'Congo, Democratic Republic of the',
-                    'CK' => 'Cook Islands (New Zealand)',
-                    'CR' => 'Costa Rica',
-                    'CI' => 'Cote d\'Ivoire (Ivory Coast)',
-                    'HR' => 'Croatia',
-                    'CU' => 'Cuba',
-                    'CY' => 'Cyprus',
-                    'CZ' => 'Czech Republic',
-                    'DK' => 'Denmark',
-                    'DJ' => 'Djibouti',
-                    'DM' => 'Dominica',
-                    'DO' => 'Dominican Republic',
-                    'TP' => 'East Timor (Indonesia)',
-                    'EC' => 'Ecuador',
-                    'EG' => 'Egypt',
-                    'SV' => 'El Salvador',
-                    'GQ' => 'Equatorial Guinea',
-                    'ER' => 'Eritrea',
-                    'EE' => 'Estonia',
-                    'ET' => 'Ethiopia',
-                    'FK' => 'Falkland Islands',
-                    'FO' => 'Faroe Islands',
-                    'FJ' => 'Fiji',
-                    'FI' => 'Finland',
-                    'FR' => 'France',
-                    'GF' => 'French Guiana',
-                    'PF' => 'French Polynesia',
-                    'GA' => 'Gabon',
-                    'GM' => 'Gambia',
-                    'GE' => 'Georgia, Republic of',
-                    'DE' => 'Germany',
-                    'GH' => 'Ghana',
-                    'GI' => 'Gibraltar',
-                    'GB' => 'Great Britain and Northern Ireland',
-                    'GR' => 'Greece',
-                    'GL' => 'Greenland',
-                    'GD' => 'Grenada',
-                    'GP' => 'Guadeloupe',
-                    'GT' => 'Guatemala',
-                    'GN' => 'Guinea',
-                    'GW' => 'Guinea-Bissau',
-                    'GY' => 'Guyana',
-                    'HT' => 'Haiti',
-                    'HN' => 'Honduras',
-                    'HK' => 'Hong Kong',
-                    'HU' => 'Hungary',
-                    'IS' => 'Iceland',
-                    'IN' => 'India',
-                    'ID' => 'Indonesia',
-                    'IR' => 'Iran',
-                    'IQ' => 'Iraq',
-                    'IE' => 'Ireland',
-                    'IL' => 'Israel',
-                    'IT' => 'Italy',
-                    'JM' => 'Jamaica',
-                    'JP' => 'Japan',
-                    'JO' => 'Jordan',
-                    'KZ' => 'Kazakhstan',
-                    'KE' => 'Kenya',
-                    'KI' => 'Kiribati',
-                    'KW' => 'Kuwait',
-                    'KG' => 'Kyrgyzstan',
-                    'LA' => 'Laos',
-                    'LV' => 'Latvia',
-                    'LB' => 'Lebanon',
-                    'LS' => 'Lesotho',
-                    'LR' => 'Liberia',
-                    'LY' => 'Libya',
-                    'LI' => 'Liechtenstein',
-                    'LT' => 'Lithuania',
-                    'LU' => 'Luxembourg',
-                    'MO' => 'Macao',
-                    'MK' => 'Macedonia, Republic of',
-                    'MG' => 'Madagascar',
-                    'MW' => 'Malawi',
-                    'MY' => 'Malaysia',
-                    'MV' => 'Maldives',
-                    'ML' => 'Mali',
-                    'MT' => 'Malta',
-                    'MQ' => 'Martinique',
-                    'MR' => 'Mauritania',
-                    'MU' => 'Mauritius',
-                    'YT' => 'Mayotte (France)',
-                    'MX' => 'Mexico',
-                    'MD' => 'Moldova',
-                    'MC' => 'Monaco (France)',
-                    'MN' => 'Mongolia',
-                    'MS' => 'Montserrat',
-                    'MA' => 'Morocco',
-                    'MZ' => 'Mozambique',
-                    'NA' => 'Namibia',
-                    'NR' => 'Nauru',
-                    'NP' => 'Nepal',
-                    'NL' => 'Netherlands',
-                    'AN' => 'Netherlands Antilles',
-                    'NC' => 'New Caledonia',
-                    'NZ' => 'New Zealand',
-                    'NI' => 'Nicaragua',
-                    'NE' => 'Niger',
-                    'NG' => 'Nigeria',
-                    'KP' => 'North Korea (Korea, Democratic People\'s Republic of)',
-                    'NO' => 'Norway',
-                    'OM' => 'Oman',
-                    'PK' => 'Pakistan',
-                    'PA' => 'Panama',
-                    'PG' => 'Papua New Guinea',
-                    'PY' => 'Paraguay',
-                    'PE' => 'Peru',
-                    'PH' => 'Philippines',
-                    'PN' => 'Pitcairn Island',
-                    'PL' => 'Poland',
-                    'PT' => 'Portugal',
-                    'QA' => 'Qatar',
-                    'RE' => 'Reunion',
-                    'RO' => 'Romania',
-                    'RU' => 'Russia',
-                    'RW' => 'Rwanda',
-                    'SH' => 'Saint Helena',
-                    'KN' => 'Saint Kitts (St. Christopher and Nevis)',
-                    'LC' => 'Saint Lucia',
-                    'PM' => 'Saint Pierre and Miquelon',
-                    'VC' => 'Saint Vincent and the Grenadines',
-                    'SM' => 'San Marino',
-                    'ST' => 'Sao Tome and Principe',
-                    'SA' => 'Saudi Arabia',
-                    'SN' => 'Senegal',
-                    'YU' => 'Serbia-Montenegro',
-                    'SC' => 'Seychelles',
-                    'SL' => 'Sierra Leone',
-                    'SG' => 'Singapore',
-                    'SK' => 'Slovak Republic',
-                    'SI' => 'Slovenia',
-                    'SB' => 'Solomon Islands',
-                    'SO' => 'Somalia',
-                    'ZA' => 'South Africa',
-                    'GS' => 'South Georgia (Falkland Islands)',
-                    'KR' => 'South Korea (Korea, Republic of)',
-                    'ES' => 'Spain',
-                    'LK' => 'Sri Lanka',
-                    'SD' => 'Sudan',
-                    'SR' => 'Suriname',
-                    'SZ' => 'Swaziland',
-                    'SE' => 'Sweden',
-                    'CH' => 'Switzerland',
-                    'SY' => 'Syrian Arab Republic',
-                    'TW' => 'Taiwan',
-                    'TJ' => 'Tajikistan',
-                    'TZ' => 'Tanzania',
-                    'TH' => 'Thailand',
-                    'TG' => 'Togo',
-                    'TK' => 'Tokelau (Union) Group (Western Samoa)',
-                    'TO' => 'Tonga',
-                    'TT' => 'Trinidad and Tobago',
-                    'TN' => 'Tunisia',
-                    'TR' => 'Turkey',
-                    'TM' => 'Turkmenistan',
-                    'TC' => 'Turks and Caicos Islands',
-                    'TV' => 'Tuvalu',
-                    'UG' => 'Uganda',
-                    'UA' => 'Ukraine',
-                    'AE' => 'United Arab Emirates',
-                    'UY' => 'Uruguay',
-                    'UZ' => 'Uzbekistan',
-                    'VU' => 'Vanuatu',
-                    'VA' => 'Vatican City',
-                    'VE' => 'Venezuela',
-                    'VN' => 'Vietnam',
-                    'WF' => 'Wallis and Futuna Islands',
-                    'WS' => 'Western Samoa',
-                    'YE' => 'Yemen',
-                    'ZM' => 'Zambia',
-                    'ZW' => 'Zimbabwe'
-				);
+			} else {
+				//load all countires and codes
+				$this->loadModel('localisation/country');
+        		$countries = $this->model_localisation_country->getCountries();
+		        foreach ($countries as $item) {
+		            $country[$item['iso_code_2']] = $item['name'];
+		        }
 	  			
 				if (isset($country[$address['iso_code_2']])) {
 					$xml  = '<IntlRateRequest USERID="' . $this->config->get('default_usps_user_id') . '" PASSWORD="' . $this->config->get('default_usps_password') . '">';
@@ -336,29 +192,33 @@ class ModelExtensionDefaultUsps extends Model {
 					$rate_v3_response = $dom->getElementsByTagName('RateV3Response')->item(0);
 					$intl_rate_response = $dom->getElementsByTagName('IntlRateResponse')->item(0);
 					$error = $dom->getElementsByTagName('Error')->item(0);
-					
+echo ">>>>>>>>>>". $result;
 					if ($rate_v3_response || $intl_rate_response) {
 						if ($address['iso_code_2'] == 'US') { 
 							$allowed = array(0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 16, 17, 18, 19, 22, 23, 25, 27, 28);
 							
-							$package = $rate_v3_response->getElementsByTagName('Package')->item(0);
-							
-							$postages = $package->getElementsByTagName('Postage');
-							
-							foreach ($postages as $postage) {
-								$classid = $postage->getAttribute('CLASSID');
+							for ($pkg = 0; $pkg < $package_id; $pkg++) {					
+								$package = $rate_v3_response->getElementsByTagName('Package')->item($pkg);
 								
-								if (in_array($classid, $allowed) && $this->config->get('default_usps_domestic_' . $classid)) {
-			
-									$cost = $postage->getElementsByTagName('Rate')->item(0)->nodeValue;
+								$postages = $package->getElementsByTagName('Postage');
+											
+								foreach ($postages as $postage) {
+									$classid = $postage->getAttribute('CLASSID');
 									
-									$quote_data[$classid] = array(
-										'id'           => 'default_usps.' . $classid,
-										'title'        => $postage->getElementsByTagName('MailService')->item(0)->nodeValue,
-										'cost'         => $this->currency->convert($cost, 'USD', $this->currency->getCode()),
-										'tax_class_id' => 0,
-										'text'         => $this->currency->format($this->tax->calculate($this->currency->convert($cost, 'USD', $this->currency->getCode()), $this->config->get('default_usps_tax_class_id'), $this->config->get('config_tax')))
-									);							
+									if (in_array($classid, $allowed) && $this->config->get('default_usps_domestic_' . $classid)) {
+				
+										$cost = $postage->getElementsByTagName('Rate')->item($pkg)->nodeValue;
+										$title = $postage->getElementsByTagName('MailService')->item($pkg)->nodeValue;
+										$title = preg_replace('/\&lt;sup\&gt;\&amp;reg;\&lt;\/sup\&gt;/', '<sup>&reg;</sup>', $title);
+										
+										$quote_data[$classid] = array(
+											'id'           => 'default_usps.' . $classid,
+											'title'        => $title,
+											'cost'         => $this->currency->convert($cost, 'USD', $this->currency->getCode()),
+											'tax_class_id' => 0,
+											'text'         => $this->currency->format($this->tax->calculate($this->currency->convert($cost, 'USD', $this->currency->getCode()), $this->config->get('default_usps_tax_class_id'), $this->config->get('config_tax')))
+										);							
+									}
 								}
 							} 
 						} else {
@@ -373,6 +233,7 @@ class ModelExtensionDefaultUsps extends Model {
 								
 								if (in_array($id, $allowed) && $this->config->get('default_usps_international_' . $id)) {
 									$title = $service->getElementsByTagName('SvcDescription')->item(0)->nodeValue;
+									$title = preg_replace('/\&lt;sup\&gt;\&amp;reg;\&lt;\/sup\&gt;/', '<sup>&reg;</sup>', $title);
 									
 									if ($this->config->get('default_usps_display_weight')) {	  
 										$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';

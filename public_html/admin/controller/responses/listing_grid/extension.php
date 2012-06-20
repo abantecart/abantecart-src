@@ -45,16 +45,12 @@ class ControllerResponsesListingGridExtension extends AController {
 	    }
 
 	    //sort
-	    $allowedSort = array(1=>'id','name', 'category', 'update_date', 'status', 'store');
+	    $allowedSort = array(1=>'key','name', 'category', 'update_date', 'status', 'store_name');
 	    if ( !in_array($sidx, $allowedSort) ) $sidx = 'update_date';
-	    $sidx = array_search($sidx, $allowedSort);
-		$sidx = $sidx == 'update_date' ? 'update_date_int' : $sidx;
 
 	    $allowedDirection = array(SORT_ASC => 'asc', SORT_DESC => 'desc');
 	    if ( !in_array($sord, $allowedDirection) ) {
-		    $sord = SORT_ASC;
-	    } else {
-		    $sord = array_search($sord, $allowedDirection);
+		    $sord = 'asc';
 	    }
 
 	    //extensions that has record in DB but missing files
@@ -63,6 +59,7 @@ class ControllerResponsesListingGridExtension extends AController {
 	    $data = array(
 		    'search' => $search_str,
 		    'filter' => $this->session->data['extension_filter'],
+            'sort_order' => array($sidx,$sord)
 	    );
 		if($this->config->get('config_store_id')){
 			$data['store_id'] = (int)$this->config->get('config_store_id');
@@ -87,7 +84,7 @@ class ControllerResponsesListingGridExtension extends AController {
 	    $push = array();
 	    foreach ($extensions->rows as $row) {
 			$extension = $row['key'];
-			$name = trim($this->extensions->getExtensionName($extension));
+			$name = !isset($row['name']) ? trim($this->extensions->getExtensionName($extension)) : $row['name'];
 
 		    if (in_array($extension, $missing_extensions)) {
 
@@ -101,7 +98,7 @@ class ControllerResponsesListingGridExtension extends AController {
 			    $category = '';
 			    $status = '';
 				$row['update_date'] = date('Y-m-d H:i:s',time()); // change it for show it in list first by default sorting
-			    $response->userdata->classes[$extension] = 'warning';
+			    $response->userdata->classes[$extension.'_'.$row['store_id']] = 'warning';
 
 			} else {
 				if ( !$this->config->has($extension . '_status')) {
@@ -179,13 +176,6 @@ class ControllerResponsesListingGridExtension extends AController {
 
 			$i++;
 		}
-
-	    $sort = array();
-	    foreach ($response->rows as $item) {
-		    $sort[] = $item['cell'][$sidx];
-	    }
-
-	    array_multisort($sort, $sord, $response->rows);
 
 	    if($push){
 		    foreach($for_push as $ext){

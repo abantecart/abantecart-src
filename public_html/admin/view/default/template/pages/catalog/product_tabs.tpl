@@ -6,4 +6,7 @@
 	<a href="<?php echo $link_promotions; ?>" <?php echo ( $active == 'promotions' ? 'class="active"' : '' ) ?>><span><?php echo $tab_promotions; ?></span></a>
 	<a href="<?php echo $link_extensions; ?>" <?php echo ( $active == 'extensions' ? 'class="active"' : '' ) ?>><span><?php echo $tab_extensions; ?></span></a>
 	<a href="<?php echo $link_layout; ?>" <?php echo ( $active == 'layout' ? 'class="active"' : '' ) ?>><span><?php echo $tab_layout; ?></span></a>
+
+	<?php echo $this->getHookVar('extension_tabs'); ?>
+
 </div>

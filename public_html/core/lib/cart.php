@@ -143,7 +143,7 @@ final class ACart {
 
 
 
-						if ($option_value_query['subtract'] && (!$option_value_query['quantity'] || ($option_value_query['quantity'] < $quantity))) {
+						if (!$option_value_query['subtract'] && (!$option_value_query['quantity'] || ($option_value_query['quantity'] < $quantity))) {
 							$stock = FALSE;
 						}
 					}

@@ -294,7 +294,7 @@ class ControllerPagesCatalogProductDiscount extends AController {
 			'type' => 'input',
 			'name' => 'price',
 			'value' => number_format($this->data['price'], 2),
-	        'attr' => 'onblur="formatPrice(this);"',
+	        'attr' => 'onBlur="formatPrice(this);"',
 		));
         $this->data['form']['fields']['date_start'] = $form->getFieldHtml(array(
 			'type' => 'input',

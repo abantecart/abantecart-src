@@ -24,6 +24,8 @@ if (! defined ( 'DIR_CORE' )) {
 class APromotion {
 	protected $registry;
 	protected $customer_group_id;
+    public $condition_objects = array();
+    public $bonus_objects = array();
 
 	public function __construct( $customer_id = null ) {
 		$this->registry = Registry::getInstance();
@@ -39,6 +41,29 @@ class APromotion {
 
 			}
 		}
+
+        $this->condition_objects = array(
+                                        'product_price',
+                                        'categories',
+                                        'brands',
+                                       // 'products',
+                                        //'product_option',
+                                        'customers',
+                                        'customer_groups',
+                                        'customer_country',
+                                       // 'customer_zone',
+                                        'customer_zip_code',
+                                        'order_subtotal',
+                                        'order_product_count',
+                                        'order_product_weight',
+                                        'payment_method',
+                                        'shipping_method',
+                                        'coupon_code'
+        );
+        $this->bonus_objects = array(
+                                        'order_discount',
+                                        'free_shipping'
+        );
 	}
 
     public function __get($key) {
@@ -49,6 +74,15 @@ class APromotion {
 		$this->registry->set($key, $value);
 	}
 
+
+
+    public function getConditionObjects(){
+        return $this->condition_objects;
+    }
+
+    public function getBonusObjects(){
+       return $this->bonus_objects;
+    }
 
 	public function getProductQtyDiscount ( $product_id, $discount_quantity ) {
 		if ( empty($product_id) && empty($discount_quantity) ) {
@@ -109,7 +143,7 @@ class APromotion {
 		}
 		return $cache;
 	}
-	
+
 	public function getProductSpecial($product_id) {
 		$cache = $this->cache->get('product.special.'.$product_id.'.'.$this->customer_group_id);
 		if(is_null($cache)){
