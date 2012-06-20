@@ -46,15 +46,55 @@ class ModelExtensionDefaultFlatRateShipping extends Model {
 		if ($status) {
 			$quote_data = array();
 
-      		$quote_data['default_flat_rate_shipping'] = array(
-        		'id'           => 'default_flat_rate_shipping.default_flat_rate_shipping',
-        		'title'        => $this->language->get('text_description'),
-        		'cost'         => $this->config->get('default_flat_rate_shipping_cost'),
-        		'tax_class_id' => $this->config->get('default_flat_rate_shipping_tax'),
-				'text'         => $this->currency->format($this->tax->calculate($this->config->get('default_flat_rate_shipping_cost'),
-				                                                                $this->config->get('default_flat_rate_shipping_tax'),
-				                                                                $this->config->get('config_tax')))
-      		);
+			//Process all products shipped together with not special shipping settings on a product level
+			if ( count($this->cart->basicShippingProducts()) > 0 ) {
+	      		$quote_data['default_flat_rate_shipping'] = array(
+	        		'id'           => 'default_flat_rate_shipping.default_flat_rate_shipping',
+	        		'title'        => $this->language->get('text_description'),
+	        		'cost'         => $this->config->get('default_flat_rate_shipping_cost'),
+	        		'tax_class_id' => $this->config->get('default_flat_rate_shipping_tax'),
+					'text'         => $this->currency->format($this->tax->calculate($this->config->get('default_flat_rate_shipping_cost'),
+					                                                                $this->config->get('default_flat_rate_shipping_tax'),
+					                                                                $this->config->get('config_tax')))
+	      		);
+			} 
+			 
+			$special_ship_products = $this->cart->specialShippingProducts();
+			foreach ($special_ship_products as $product) {
+				//check if free or fixed shipping
+				$fixed_cost = 0;
+				if ($product['free_shipping']) {
+				    $fixed_cost = 0;
+				} else if($product['shipping_price'] > 0) {
+				    $fixed_cost = $product['shipping_price'];
+				    //If ship individually count every quintaty 
+				    if ($product['ship_individually']) {
+				    	$fixed_cost = $fixed_cost * $product['quantity'];	
+				    }
+				    
+				   					
+				} else {
+				    $fixed_cost = $this->config->get('default_flat_rate_shipping_cost');			
+				}
+				//merge data and accumulate shipping cost
+				if ( isset( $quote_data['default_flat_rate_shipping'] ) ) {
+			        	$quote_data['default_flat_rate_shipping']['cost'] = $quote_data['default_flat_rate_shipping']['cost'] + $fixed_cost;
+			        	$quote_data['default_flat_rate_shipping']['text'] = 
+			        				$this->currency->format($this->tax->calculate($quote_data['default_flat_rate_shipping']['cost'],
+						                                                          $this->config->get('default_flat_rate_shipping_tax'),
+						                                                          $this->config->get('config_tax')));
+			    } else {
+		      		$quote_data['default_flat_rate_shipping'] = array(
+		        		'id'           => 'default_flat_rate_shipping.default_flat_rate_shipping',
+		        		'title'        => $this->language->get('text_description'),
+		        		'cost'         => $fixed_cost,
+		        		'tax_class_id' => $this->config->get('default_flat_rate_shipping_tax'),
+						'text'         => $this->currency->format($this->tax->calculate($fixed_cost,
+						                                                                $this->config->get('default_flat_rate_shipping_tax'),
+						                                                                $this->config->get('config_tax')))
+		      		);
+			    }						
+			}
 
       		$method_data = array(
         		'id'         => 'default_flat_rate_shipping',

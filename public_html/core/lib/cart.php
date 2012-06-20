@@ -263,11 +263,15 @@ final class ACart {
 		$this->session->data['cart'] = array();
   	}
   	
-  	public function getWeight( $product_id = '') {
+  	/*
+  	* Accumulative weight for all or requested products
+  	*/
+  	
+  	public function getWeight( $product_ids = array() ) {
 		$weight = 0;
     	foreach ($this->getProducts() as $product) {
-      		if (isset($product_id) && $product_id != $product['product_id']) {
-      			next;	
+      		if (count($product_ids) > 0 && !in_array((string)$product['product_id'], $product_ids) ) {
+      			continue;	
       		}
 
 			if ($product['shipping']) {
