@@ -45,6 +45,7 @@ class APromotion {
         $this->condition_objects = array(
                                         'product_price',
                                         'categories',
+                                        'brands',
                                        // 'products',
                                         //'product_option',
                                         'customers',
