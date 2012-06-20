@@ -40,29 +40,76 @@ final class AWeight {
 																'value'           => $result['value'] );
     	}
   	}
+
+	/*
+	* convert weigth unit based
+	*/
 	  
-  	public function convert($value, $from, $to) {
-		if ($from == $to) {
+  	public function convert($value, $unit_from, $unit_to) {
+		if ($unit_from == $unit_to) {
       		return $value;
 		}
 		
-		if (!isset($this->weights[strtolower($from)]) || !isset($this->weights[strtolower($to)])) {
+		if (!isset($this->weights[strtolower($unit_from)]) || !isset($this->weights[strtolower($unit_to)])) {
 			return $value;
 		} else {			
-			$from = $this->weights[strtolower($from)]['value'];
-			$to = $this->weights[strtolower($to)]['value'];
+			$from = $this->weights[strtolower($unit_from)]['value'];
+			$to = $this->weights[strtolower($unit_to)]['value'];
 		
 			return $value * ($to / $from);
 		}
   	}
 
-	public function format($value, $unit, $decimal_point = '.', $thousand_point = ',') {
+	/*
+	* convert weigth id based
+	*/
+	
+  	public function convertByID($value, $from_id, $to_id) {
+		return $this->convert( $value, $this->getUnit($from_id), $this->getUnit($to_id) );
+	}
 
+	/*
+	* convert format unit based
+	*/
+	public function format($value, $unit, $decimal_point = '.', $thousand_point = ',') {
 		if (isset($this->weights[strtolower($unit)])) {
     		return number_format($value, 2, $decimal_point, $thousand_point) . $this->weights[strtolower($unit)]['unit'];
 		} else {
 			return number_format($value, 2, $decimal_point, $thousand_point);
 		}
 	}
+
+	/*
+	* convert format id based
+	*/
+	public function formatByID($value, $weight_class_id, $decimal_point = '.', $thousand_point = ',') {
+		return $this->format($value, $this->getUnit($weight_class_id), $decimal_point, $thousand_point);
+	}
+
+	/*
+	* get weigth unit code based on $weigth_class_id
+	*/
+	
+	public function getUnit($weight_class_id) {
+		foreach ($this->weights as $wth) {
+			if (isset($wth[$weight_class_id])) {
+    			return $wth['unit'];
+			}		
+		}
+		return '';
+	}	  	
+
+	/*
+	* get weigth_class_id based on unit code
+	*/
+	
+	public function getClassID($weight_unit) {
+		if (isset($this->weights[$weight_unit])) {
+    		return $this->weights[$weight_unit]['weight_class_id'];
+		} else {
+			return '';
+		}
+	}	  	
+	
 }
 ?>

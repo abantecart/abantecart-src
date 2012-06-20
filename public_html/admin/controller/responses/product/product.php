@@ -480,7 +480,7 @@ class ControllerResponsesProductProduct extends AController {
 			'name' => 'quantity['.$product_option_value_id.']',
 			'value' => $this->data['quantity'],
 			'style' => 'small-field',
-			'attr' => 'onKeyUp="formatQty(this);"',
+			'attr' => 'onblur="formatQty(this);"',
 		));
 		$this->data['form']['fields']['subtract'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',

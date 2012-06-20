@@ -37,6 +37,9 @@ class ModelCatalogProduct extends Model {
                                 date_available = '" . $this->db->escape($data['date_available']) . "',
                                 manufacturer_id = '" . (int)$data['manufacturer_id'] . "',
                                 shipping = '" . (int)$data['shipping'] . "',
+                                ship_individually = '" . (int)$data['ship_individually'] . "',
+                                free_shipping = '" . (int)$data['free_shipping'] . "',
+                                shipping_price = '" . (float)$data['shipping_price'] . "',
                                 price = '" . (float)$data['price'] . "',
                                 cost = '" . (float)$data['cost'] . "',
                                 weight = '" . (float)$data['weight'] . "',
@@ -139,8 +142,8 @@ class ModelCatalogProduct extends Model {
 
     public function updateProduct($product_id, $data) {
 		$fields = array("model", "sku", "location", "quantity", "minimum", "subtract", "stock_status_id", "date_available",
-                        "manufacturer_id", "shipping", "price", "cost", "weight", "weight_class_id", "length", "width", "height",
-                        "length_class_id", "status", "tax_class_id", "sort_order");
+                        "manufacturer_id", "shipping", "ship_individually", "free_shipping", "shipping_price", "price", "cost", "weight", "weight_class_id", "length", "width",
+                        "height", "length_class_id", "status", "tax_class_id", "sort_order");
 		if(isset($data['price'])){
 	        $data['price'] = str_replace(" ","",$data['price']);
 		}

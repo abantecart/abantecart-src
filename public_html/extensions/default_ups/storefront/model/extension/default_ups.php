@@ -46,6 +46,12 @@ class ModelExtensionDefaultUps extends Model {
 			
 			$weight = ($weight < 0.1 ? 0.1 : $weight);
 			
+			$length = $this->length->convert($this->config->get('ups_length'), $this->config->get('config_length_class_id'), $this->config->get('ups_length_class_id'));
+			$width = $this->length->convert($this->config->get('ups_width'), $this->config->get('config_length_class_id'), $this->config->get('ups_length_class_id'));
+			$height = $this->length->convert($this->config->get('ups_height'), $this->config->get('config_length_class_id'), $this->config->get('ups_length_class_id'));
+
+			$length_code = strtoupper($this->length->getUnit($this->config->get('ups_length_class_id')));
+			
 			$service_code = array(
 				// US Origin
 				'US' => array(
@@ -145,7 +151,6 @@ class ModelExtensionDefaultUps extends Model {
 			}
 			
 			$xml .= '	<Shipment>';  
-			
 			$xml .= '		<Shipper>';  
 			$xml .= '			<Address>';  
 			$xml .= '				<City>' . $this->config->get('default_ups_city') . '</City>';
@@ -187,6 +192,16 @@ class ModelExtensionDefaultUps extends Model {
 			$xml .= '				</UnitOfMeasurement>';
 			$xml .= '				<Weight>' . $weight . '</Weight>';
 			$xml .= '			</PackageWeight>';
+
+			$xml .= '		    <Dimensions>';
+    		$xml .= '				<UnitOfMeasurement>';
+    		$xml .= '					<Code>' . $length_code . '</Code>';
+    		$xml .= '				</UnitOfMeasurement>';
+    		$xml .= '				<Length>' . $length . '</Length>';
+    		$xml .= '				<Width>' . $width . '</Width>';
+    		$xml .= '				<Height>' . $height . '</Height>';
+    		$xml .= '			</Dimensions>';
+
 			
 			if ($this->config->get('default_ups_insurance')) {
 				$xml .= '           <PackageServiceOptions>';

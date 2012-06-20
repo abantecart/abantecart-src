@@ -361,6 +361,9 @@ class ControllerPagesCatalogProduct extends AController {
                         'image',
                         'manufacturer_id',
                         'shipping',
+                        'ship_individually',
+                        'shipping_price',
+                        'free_shipping',
                         'quantity',
                         'minimum',
 	                    'subtract',
@@ -601,13 +604,13 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'price',
 			'value' => number_format((double)$this->data['price'], 2),
-	        'attr' => 'onKeyUp="formatPrice(this);"',
+	        'attr' => 'onblur="formatPrice(this);"',
 		));
         $this->data['form']['fields']['data']['cost'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'cost',
 			'value' => number_format((double)$this->data['cost'], 2),
-	        'attr' => 'onKeyUp="formatPrice(this);"',
+	        'attr' => 'onblur="formatPrice(this);"',
 		));
         $this->data['form']['fields']['data']['tax_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -620,13 +623,13 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'quantity',
 			'value' => (int)$this->data['quantity'],
-	        'attr' => 'onKeyUp="formatQty(this);"',
+	        'attr' => 'onblur="formatQty(this);"',
 		));
         $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'minimum',
 			'value' => (int)$this->data['minimum'],
-	        'attr' => 'onKeyUp="formatQty(this);"',
+	        'attr' => 'onblur="formatQty(this);"',
 		));
         $this->data['form']['fields']['data']['subtract'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -682,26 +685,47 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'checkbox',
 			'name' => 'shipping',
 			'style'  => 'btn_switch',	
-			'value' => isset($this->data['shipping'] ) ? $this->data['shipping'] : 1,
+			'value' => isset( $this->data['shipping'] ) ? $this->data['shipping'] : 1,
+		));
+
+        $this->data['form']['fields']['data']['ship_individually'] = $form->getFieldHtml(array(
+			'type' => 'checkbox',
+			'name' => 'ship_individually',
+			'style'  => 'btn_switch',	
+			'value' => isset( $this->data['ship_individually'] ) ? $this->data['ship_individually'] : 0,
+		));
+
+        $this->data['form']['fields']['data']['free_shipping'] = $form->getFieldHtml(array(
+			'type' => 'checkbox',
+			'name' => 'free_shipping',
+			'style'  => 'btn_switch',	
+			'value' => isset( $this->data['free_shipping'] ) ? $this->data['free_shipping'] : 0,
+		));
+
+        $this->data['form']['fields']['data']['shipping_price'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'shipping_price',
+			'value' => $this->data['shipping_price'],
+	        'attr' => 'onblur="formatPrice(this);"',
 		));
 
         $this->data['form']['fields']['data']['length'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'length',
 			'value' => $this->data['length'],
-	        'attr' => 'onKeyUp="formatPrice(this);"',
+	        'attr' => 'onblur="formatPrice(this);"',
 		));
         $this->data['form']['fields']['data']['width'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'width',
 			'value' => $this->data['width'],
-	        'attr' => 'onKeyUp="formatPrice(this);"',
+	        'attr' => 'onblur="formatPrice(this);"',
 		));
         $this->data['form']['fields']['data']['height'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'height',
 			'value' => $this->data['height'],
-	        'attr' => 'onKeyUp="formatPrice(this);"',
+	        'attr' => 'onblur="formatPrice(this);"',
 		));
         $this->data['form']['fields']['data']['length_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -713,7 +737,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'weight',
 			'value' => $this->data['weight'],
-			'attr' => 'onKeyUp="formatPrice(this);"',
+			'attr' => 'onblur="formatPrice(this);"',
 		));
         $this->data['form']['fields']['data']['weight_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',

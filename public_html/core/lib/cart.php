@@ -211,7 +211,10 @@ final class ACart {
         			'length'       => $product_query['length'],
 					'width'        => $product_query['width'],
 					'height'       => $product_query['height'],
-        			'length_class' => $product_query['length_class']					
+        			'length_class' => $product_query['length_class'],					
+        			'ship_individually' => $product_query['ship_individually'],					
+        			'shipping_price' 	=> $product_query['shipping_price'],					
+        			'free_shipping'		=> $product_query['free_shipping']					
       			);
 			} else {
 				$this->remove($key);
@@ -260,16 +263,20 @@ final class ACart {
 		$this->session->data['cart'] = array();
   	}
   	
-  	public function getWeight() {
+  	public function getWeight( $product_id = '') {
 		$weight = 0;
     	foreach ($this->getProducts() as $product) {
+      		if (isset($product_id) && $product_id != $product['product_id']) {
+      			next;	
+      		}
+
 			if ($product['shipping']) {
 				$product_weight = $product['weight'];
 				// if product_option has weight value
 				if($product['option']){
 					$hard = false;
 					foreach($product['option'] as $option){
-						if($option['weight']==0) continue; // if weight not set - skip
+						if($option['weight'] == 0) continue; // if weight not set - skip
 						if($option['weight_type'] != '%' && $hard) continue; // if weight was set by option hard and next option try to set another weight hard also - ignore it
 						if($option['weight_type'] != '%' && $option['weight'] <= 0) continue;
 
@@ -284,13 +291,38 @@ final class ACart {
 					}
 				}
 
-
-
       			$weight += $this->weight->convert($product_weight * $product['quantity'], $product['weight_class'], $this->config->get('config_weight_class'));
+      			
 			}
 		}
 
 		return $weight;
+	}
+
+	/*
+	* Products with no special settings for shippment
+	*/
+	public function basicShippingProducts() {
+		$basic_ship_products = array();
+    	foreach ($this->getProducts() as $product) {
+			if ($product['shipping'] && !$product['ship_individually'] && !$product['free_shipping'] && $product['shipping_price'] == 0 ) {
+				$basic_ship_products[] = $product;	
+			}
+		}
+		return $basic_ship_products;
+	}
+
+	/*
+	* Products with special settings for shippment
+	*/
+	public function specialShippingProducts() {
+		$special_ship_products = array();
+    	foreach ($this->getProducts() as $product) {
+			if ($product['shipping'] && ($product['ship_individually'] || $product['free_shipping'] || $product['shipping_price'] > 0 )) {
+				$special_ship_products[] = $product;	
+			}
+		}
+		return $special_ship_products;
 	}
 
 	public function setMinQty() {

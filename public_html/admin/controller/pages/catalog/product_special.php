@@ -286,7 +286,7 @@ class ControllerPagesCatalogProductSpecial extends AController {
 			'type' => 'input',
 			'name' => 'price',
 			'value' => number_format($this->data['price'], 2),
-	        'attr' => 'onKeyUp="formatPrice(this);"',
+	        'attr' => 'mouseleave="formatPrice(this);"',
 		));
         $this->data['form']['fields']['date_start'] = $form->getFieldHtml(array(
 			'type' => 'input',

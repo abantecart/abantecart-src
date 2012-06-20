@@ -973,7 +973,7 @@ class ControllerPagesSettingSetting extends AController {
 					'type' => 'input',
 					'name' => 'config_upload_max_size',
 					'value' => $this->data['settings']['config_upload_max_size'],
-					'attr' => ' onKeyUp="formatQty(this);"',
+					'attr' => ' onblur="formatQty(this);"',
 				));
 				$this->data['form']['fields']['storefront_api_status'] = $form->getFieldHtml(array(
 					'type' => 'checkbox',
