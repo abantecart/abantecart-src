@@ -51,9 +51,9 @@ class ModelExtensionDefaultUps extends Model {
 			
 			$weight = ($weight < 0.1 ? 0.1 : $weight);
 			
-			$length = $this->length->convert($this->config->get('default_ups_length'), $this->config->get('config_length_class_id'), $this->config->get('default_ups_length_class'));
-			$width = $this->length->convert($this->config->get('default_ups_width'), $this->config->get('config_length_class_id'), $this->config->get('default_ups_length_class'));
-			$height = $this->length->convert($this->config->get('default_ups_height'), $this->config->get('config_length_class_id'), $this->config->get('default_ups_length_class'));
+			$length = $this->length->convert($this->config->get('default_ups_length'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
+			$width = $this->length->convert($this->config->get('default_ups_width'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
+			$height = $this->length->convert($this->config->get('default_ups_height'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
 
 
 
@@ -97,9 +97,9 @@ class ModelExtensionDefaultUps extends Model {
                     foreach ($quote_data as $key => $value) {
                         if ( isset($quote_data[$key]) ) {
                             if ($fixed_cost >= 0){
-                                $quote_data[$key]['cost'] += $fixed_cost;
+                                $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
                             } else {
-                                $quote_data[$key]['cost'] +=  $new_quote_data[$key]['cost'];
+                                $quote_data[$key]['cost'] =  (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
                             }
                         } else {
                             $quote_data[$key] = $value;
