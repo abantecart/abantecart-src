@@ -247,9 +247,12 @@
 	</definition>
 	<definition>
 		<key>entry_display_weight</key>
-		<value>
-			<![CDATA[Display Delivery Weight:<br /><span class="help">Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 Kg's)</span>]]></value>
+		<value><![CDATA[Display Delivery Weight:<br /><span class="help">Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 Kg's)</span>]]></value>
 	</definition>
+    <definition>
+        <key>entry_length_class</key>
+        <value><![CDATA[Length Class:<br /><span class="help"></span>]]></value>
+    </definition>
 	<definition>
 		<key>entry_tax</key>
 		<value><![CDATA[Tax Class:]]></value>

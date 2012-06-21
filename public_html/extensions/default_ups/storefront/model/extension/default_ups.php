@@ -42,252 +42,84 @@ class ModelExtensionDefaultUps extends Model {
 		$method_data = array();
 		
 		if ($status) {
-			$weight = $this->weight->convert($this->cart->getWeight(), $this->config->get('config_weight_class'), $this->config->get('default_ups_weight_class'));
+            $basic_products = $this->cart->basicShippingProducts();;
+            foreach($basic_products as $product){
+               $product_ids[] = $product['product_id'];
+            }
+
+			$weight = $this->weight->convert($this->cart->getWeight($product_ids), $this->config->get('config_weight_class'), $this->config->get('default_ups_weight_class'));
 			
 			$weight = ($weight < 0.1 ? 0.1 : $weight);
 			
-			$length = $this->length->convert($this->config->get('ups_length'), $this->config->get('config_length_class_id'), $this->config->get('ups_length_class_id'));
-			$width = $this->length->convert($this->config->get('ups_width'), $this->config->get('config_length_class_id'), $this->config->get('ups_length_class_id'));
-			$height = $this->length->convert($this->config->get('ups_height'), $this->config->get('config_length_class_id'), $this->config->get('ups_length_class_id'));
+			$length = $this->length->convert($this->config->get('default_ups_length'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
+			$width = $this->length->convert($this->config->get('default_ups_width'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
+			$height = $this->length->convert($this->config->get('default_ups_height'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
 
-			$length_code = strtoupper($this->length->getUnit($this->config->get('ups_length_class_id')));
-			
-			$service_code = array(
-				// US Origin
-				'US' => array(
-					'01' => $this->language->get('text_us_origin_01'),
-					'02' => $this->language->get('text_us_origin_02'),
-					'03' => $this->language->get('text_us_origin_03'),
-					'07' => $this->language->get('text_us_origin_07'),
-					'08' => $this->language->get('text_us_origin_08'),
-					'11' => $this->language->get('text_us_origin_11'),
-					'12' => $this->language->get('text_us_origin_12'),
-					'13' => $this->language->get('text_us_origin_13'),
-					'14' => $this->language->get('text_us_origin_14'),
-					'54' => $this->language->get('text_us_origin_54'),
-					'59' => $this->language->get('text_us_origin_59'),
-					'65' => $this->language->get('text_us_origin_65')
-				),
-				// Canada Origin
-				'CA' => array(
-					'01' => $this->language->get('text_ca_origin_01'),
-					'02' => $this->language->get('text_ca_origin_02'),
-					'07' => $this->language->get('text_ca_origin_07'),
-					'08' => $this->language->get('text_ca_origin_08'),
-					'11' => $this->language->get('text_ca_origin_11'),
-					'12' => $this->language->get('text_ca_origin_12'),
-					'13' => $this->language->get('text_ca_origin_13'),
-					'14' => $this->language->get('text_ca_origin_14'),
-					'54' => $this->language->get('text_ca_origin_54'),
-					'65' => $this->language->get('text_ca_origin_65')
-				),
-				// European Union Origin
-				'EU' => array(
-					'07' => $this->language->get('text_eu_origin_07'),
-					'08' => $this->language->get('text_eu_origin_08'),
-					'11' => $this->language->get('text_eu_origin_11'),
-					'54' => $this->language->get('text_eu_origin_54'),
-					'65' => $this->language->get('text_eu_origin_65'),
-					// next five services Poland domestic only
-					'82' => $this->language->get('text_eu_origin_82'),
-					'83' => $this->language->get('text_eu_origin_83'),
-					'84' => $this->language->get('text_eu_origin_84'),
-					'85' => $this->language->get('text_eu_origin_85'),
-					'86' => $this->language->get('text_eu_origin_86')
-				),
-				// Puerto Rico Origin
-				'PR' => array(
-					'01' => $this->language->get('text_pr_origin_01'),
-					'02' => $this->language->get('text_pr_origin_02'),
-					'03' => $this->language->get('text_pr_origin_03'),
-					'07' => $this->language->get('text_pr_origin_07'),
-					'08' => $this->language->get('text_pr_origin_08'),
-					'14' => $this->language->get('text_pr_origin_14'),
-					'54' => $this->language->get('text_pr_origin_54'),
-					'65' => $this->language->get('text_pr_origin_65')
-				),
-				// Mexico Origin
-				'MX' => array(
-					'07' => $this->language->get('text_mx_origin_07'),
-					'08' => $this->language->get('text_mx_origin_08'),
-					'54' => $this->language->get('text_mx_origin_54'),
-					'65' => $this->language->get('text_mx_origin_65')
-				),
-				// All other origins
-				'other' => array(
-					// service code 7 seems to be gone after January 2, 2007
-					'07' => $this->language->get('text_other_origin_07'),
-					'08' => $this->language->get('text_other_origin_08'),
-					'11' => $this->language->get('text_other_origin_11'),
-					'54' => $this->language->get('text_other_origin_54'),
-					'65' => $this->language->get('text_other_origin_65')
-				)
-			);
-			
-			$xml  = '<?xml version="1.0"?>';  
-			$xml .= '<AccessRequest xml:lang="en-US">';  
-			$xml .= '	<AccessLicenseNumber>' . $this->config->get('default_ups_key') . '</AccessLicenseNumber>';
-			$xml .= '	<UserId>' . $this->config->get('default_ups_username') . '</UserId>';
-			$xml .= '	<Password>' . $this->config->get('default_ups_password') . '</Password>';
-			$xml .= '</AccessRequest>';
-			$xml .= '<?xml version="1.0"?>';
-			$xml .= '<RatingServiceSelectionRequest xml:lang="en-US">';
-			$xml .= '	<Request>';  
-			$xml .= '		<TransactionReference>'; 
-			$xml .= '			<CustomerContext>Bare Bones Rate Request</CustomerContext>';  
-			$xml .= '			<XpciVersion>1.0001</XpciVersion>';  
-			$xml .= '		</TransactionReference>'; 
-			$xml .= '		<RequestAction>Rate</RequestAction>';  
-			$xml .= '		<RequestOption>shop</RequestOption>';  
-			$xml .= '	</Request>';  
-			$xml .= '   <PickupType>';
-			$xml .= '       <Code>' . $this->config->get('default_ups_pickup') . '</Code>';
-			$xml .= '   </PickupType>';
-				
-			if ($this->config->get('default_ups_country') == 'US' && $this->config->get('default_ups_pickup') == '11') {	
-				$xml .= '   <CustomerClassification>';
-				$xml .= '       <Code>' . $this->config->get('default_ups_classification') . '</Code>';
-				$xml .= '   </CustomerClassification>';		
-			}
-			
-			$xml .= '	<Shipment>';  
-			$xml .= '		<Shipper>';  
-			$xml .= '			<Address>';  
-			$xml .= '				<City>' . $this->config->get('default_ups_city') . '</City>';
-			$xml .= '				<StateProvinceCode>'. $this->config->get('default_ups_state') . '</StateProvinceCode>';
-			$xml .= '				<CountryCode>' . $this->config->get('default_ups_country') . '</CountryCode>';
-			$xml .= '				<PostalCode>' . $this->config->get('default_ups_postcode') . '</PostalCode>';
-			$xml .= '			</Address>'; 
-			$xml .= '		</Shipper>'; 
-			$xml .= '		<ShipTo>'; 
-			$xml .= '			<Address>'; 
-			$xml .= ' 				<City>' . $address['city'] . '</City>';
-			$xml .= '				<StateProvinceCode>' . $address['zone_code'] . '</StateProvinceCode>';
-			$xml .= '				<CountryCode>' . $address['iso_code_2'] . '</CountryCode>';
-			$xml .= '				<PostalCode>' . $address['postcode'] . '</PostalCode>';
-			
-			if ($this->config->get('default_ups_quote_type') == 'residential') {
-				 $xml .= '				<ResidentialAddressIndicator />';
-			}
-			
-			$xml .= '			</Address>'; 
-			$xml .= '		</ShipTo>';
-			$xml .= '		<ShipFrom>'; 
-			$xml .= '			<Address>'; 
-			$xml .= '				<City>' . $this->config->get('default_ups_city') . '</City>';
-			$xml .= '				<StateProvinceCode>'. $this->config->get('default_ups_state') . '</StateProvinceCode>';
-			$xml .= '				<CountryCode>' . $this->config->get('default_ups_country') . '</CountryCode>';
-			$xml .= '				<PostalCode>' . $this->config->get('default_ups_postcode') . '</PostalCode>';
-			$xml .= '			</Address>'; 
-			$xml .= '		</ShipFrom>'; 
-	
-			$xml .= '		<Package>';
-			$xml .= '			<PackagingType>';
-			$xml .= '				<Code>' . $this->config->get('default_ups_packaging') . '</Code>';
-			$xml .= '			</PackagingType>';
 
-			$xml .= '			<PackageWeight>';
-			$xml .= '				<UnitOfMeasurement>';
-			$xml .= '					<Code>' . $this->config->get('default_ups_weight_code') . '</Code>';
-			$xml .= '				</UnitOfMeasurement>';
-			$xml .= '				<Weight>' . $weight . '</Weight>';
-			$xml .= '			</PackageWeight>';
 
-			$xml .= '		    <Dimensions>';
-    		$xml .= '				<UnitOfMeasurement>';
-    		$xml .= '					<Code>' . $length_code . '</Code>';
-    		$xml .= '				</UnitOfMeasurement>';
-    		$xml .= '				<Length>' . $length . '</Length>';
-    		$xml .= '				<Width>' . $width . '</Width>';
-    		$xml .= '				<Height>' . $height . '</Height>';
-    		$xml .= '			</Dimensions>';
+			$request = $this->_buildRequest($address, $weight, $length, $width, $height);
 
-			
-			if ($this->config->get('default_ups_insurance')) {
-				$xml .= '           <PackageServiceOptions>';
-				$xml .= '               <InsuredValue>';
-				$xml .= '                   <CurrencyCode>' . $this->currency->getCode() . '</CurrencyCode>';
-				$xml .= '                   <MonetaryValue>' . $this->currency->format($this->cart->getTotal(), FALSE, FALSE, FALSE) . '</MonetaryValue>';
-				$xml .= '               </InsuredValue>';
-				$xml .= '           </PackageServiceOptions>';
-			}
-			
-			$xml .= '		</Package>';
-        	
-			$xml .= '	</Shipment>';
-			$xml .= '</RatingServiceSelectionRequest>';
-			
-			if (!$this->config->get('default_ups_test')) {
-				$url = 'https://www.ups.com/ups.app/xml/Rate';
-			} else {
-				$url = 'https://wwwcie.ups.com/ups.app/xml/Rate';
-			}
-			
-			$ch = curl_init($url);  
-			
-			curl_setopt($ch, CURLOPT_HEADER, 0);  
-			curl_setopt($ch, CURLOPT_POST, 1);  
-			curl_setopt($ch, CURLOPT_TIMEOUT, 60);  
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);  
-			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);  
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);  
-			
-			$result = curl_exec($ch);  
-			
-			curl_close($ch); 
-					
-			$error = '';
-			
-			$error_msg = '';
-			
-			$quote_data = array();
-			
-			if ($result) { 
-				$dom = new DOMDocument('1.0', 'UTF-8');
-				$dom->loadXml($result);	
-				
-				$rating_service_selection_response = $dom->getElementsByTagName('RatingServiceSelectionResponse')->item(0);
-				
-				$response = $rating_service_selection_response->getElementsByTagName('Response')->item(0);
-				
-				$response_status_code = $response->getElementsByTagName('ResponseStatusCode');
-				
-				if ($response_status_code->item(0)->nodeValue != '1') {
-					$error = $response->getElementsByTagName('Error')->item(0);
-					
-					$error_msg = $error->getElementsByTagName('ErrorCode')->item(0)->nodeValue;
+            $quote_data = $this->_processRequest($request);
+			$error_msg =  $quote_data['error_msg'];
+            $quote_data =  $quote_data['quote_data'];
 
-					$error_msg .= ': ' . $error->getElementsByTagName('ErrorDescription')->item(0)->nodeValue;
-				} else {
-					$rated_shipments = $rating_service_selection_response->getElementsByTagName('RatedShipment');
-	
-					foreach ($rated_shipments as $rated_shipment) {
-						$service = $rated_shipment->getElementsByTagName('Service')->item(0);
-							
-						$code = $service->getElementsByTagName('Code')->item(0)->nodeValue;
+            $special_ship_products = $this->cart->specialShippingProducts();
+            foreach ($special_ship_products as $product) {
+                $weight = $this->weight->convert($this->cart->getWeight( array($product['product_id']) ), $this->config->get('config_weight_class'), $this->config->get('default_usps_weight_class'));
+                if ( $product['width'] ) {
+                    $length_class_id = $this->length->getClassID($this->config->get('default_ups_length_class'));
+                    $use_width = $this->length->convertByID($product['length'], $product['length_class'], $length_class_id);
+                    $use_length = $this->length->convertByID($product['width'], $product['length_class'], $length_class_id);
+                    $use_height = $this->length->convertByID($product['height'], $product['length_class'], $length_class_id);
+                }
 
-						$total_charges = $rated_shipment->getElementsByTagName('TotalCharges')->item(0);
-							
-						$cost = $total_charges->getElementsByTagName('MonetaryValue')->item(0)->nodeValue;	
-						
-						if (!($code && $cost)) {
-							continue;
-						}
-													
-						if ($this->config->get('default_ups_' . strtolower($this->config->get('default_ups_origin')) . '_' . $code)) {
-							$quote_data[$code] = array(
-								'id'           => 'default_ups.' . $code,
-								'title'        => $service_code[$this->config->get('default_ups_origin')][$code],
-								'cost'         => $this->currency->convert($cost, 'USD', $this->currency->getCode()),
-								'tax_class_id' => $this->config->get('default_ups_tax_class_id'),
-								'text'         => $this->currency->format($this->tax->calculate($this->currency->convert($cost, 'USD', $this->currency->getCode()), $this->config->get('default_ups_tax_class_id'), $this->config->get('config_tax')))
-							);
-						}
-					}
-				}
-			}
-			
+                //check if free or fixed shipping
+                $fixed_cost = -1;
+                $new_quote_data = array();
+                if ($product['free_shipping']) {
+                    $fixed_cost = 0;
+                } else if($product['shipping_price'] > 0) {
+                    $fixed_cost = $product['shipping_price'];
+                    //If ship individually count every quintaty
+                    if ($product['ship_individually']) {
+                        $fixed_cost = $fixed_cost * $product['quantity'];
+                    }
+                    $fixed_cost = $this->currency->convert($fixed_cost, 'USD', $this->currency->getCode());
+                } else {
+                    $request = $this->_buildRequest($address, $weight, $use_width, $use_length, $use_height, $address );
+                    if ($request) {
+                        $new_quote_data = $this->_processRequest( $request );
+                    }
+                }
+
+                //merge data and accumulate shipping cost
+                if ( $quote_data) {
+                    foreach ($quote_data as $key => $value) {
+                        if ( isset($quote_data[$key]) ) {
+                            if ($fixed_cost >= 0){
+                                $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
+                            } else {
+                                $quote_data[$key]['cost'] =  (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
+                            }
+                        } else {
+                            $quote_data[$key] = $value;
+                            if ($fixed_cost >= 0){
+                                $quote_data[$key]['cost'] = $fixed_cost;
+                            }
+                        }
+                        $quote_data[$key]['text'] = $this->currency->format(
+                            $this->tax->calculate(
+                                $this->currency->convert($quote_data[$key]['cost'], 'USD', $this->currency->getCode()),
+                                $this->config->get('default_usps_tax_class_id'), $this->config->get('config_tax')
+                            )
+                        );
+                    }
+                } else if ( $new_quote_data ) {
+                    $quote_data = $new_quote_data;
+                }
+            }
+
+
 			$title = $this->language->get('text_title');
 			
 			if ($this->config->get('default_ups_display_weight')) {	  
@@ -305,4 +137,245 @@ class ModelExtensionDefaultUps extends Model {
 		
 		return $method_data;
 	}
+
+    private function _buildRequest($address, $weight,$length,$width,$height){
+        $length_code = strtoupper( $this->length->getUnit($this->config->get('default_ups_length_class') ) );
+        $weight_code = strtoupper( $this->length->getUnit($this->config->get('default_ups_weight') ) );
+
+        $xml  = '<?xml version="1.0"?>';
+        $xml .= '<AccessRequest xml:lang="en-US">';
+        $xml .= '	<AccessLicenseNumber>' . $this->config->get('default_ups_key') . '</AccessLicenseNumber>';
+        $xml .= '	<UserId>' . $this->config->get('default_ups_username') . '</UserId>';
+        $xml .= '	<Password>' . $this->config->get('default_ups_password') . '</Password>';
+        $xml .= '</AccessRequest>';
+        $xml .= '<?xml version="1.0"?>';
+        $xml .= '<RatingServiceSelectionRequest xml:lang="en-US">';
+        $xml .= '	<Request>';
+        $xml .= '		<TransactionReference>';
+        $xml .= '			<CustomerContext>Bare Bones Rate Request</CustomerContext>';
+        $xml .= '			<XpciVersion>1.0001</XpciVersion>';
+        $xml .= '		</TransactionReference>';
+        $xml .= '		<RequestAction>Rate</RequestAction>';
+        $xml .= '		<RequestOption>shop</RequestOption>';
+        $xml .= '	</Request>';
+        $xml .= '   <PickupType>';
+        $xml .= '       <Code>' . $this->config->get('default_ups_pickup') . '</Code>';
+        $xml .= '   </PickupType>';
+
+        if ($this->config->get('default_ups_country') == 'US' && $this->config->get('default_ups_pickup') == '11') {
+            $xml .= '   <CustomerClassification>';
+            $xml .= '       <Code>' . $this->config->get('default_ups_classification') . '</Code>';
+            $xml .= '   </CustomerClassification>';
+        }
+
+        $xml .= '	<Shipment>';
+        $xml .= '		<Shipper>';
+        $xml .= '			<Address>';
+        $xml .= '				<City>' . $this->config->get('default_ups_city') . '</City>';
+        $xml .= '				<StateProvinceCode>'. $this->config->get('default_ups_state') . '</StateProvinceCode>';
+        $xml .= '				<CountryCode>' . $this->config->get('default_ups_country') . '</CountryCode>';
+        $xml .= '				<PostalCode>' . $this->config->get('default_ups_postcode') . '</PostalCode>';
+        $xml .= '			</Address>';
+        $xml .= '		</Shipper>';
+        $xml .= '		<ShipTo>';
+        $xml .= '			<Address>';
+        $xml .= ' 				<City>' . $address['city'] . '</City>';
+        $xml .= '				<StateProvinceCode>' . $address['zone_code'] . '</StateProvinceCode>';
+        $xml .= '				<CountryCode>' . $address['iso_code_2'] . '</CountryCode>';
+        $xml .= '				<PostalCode>' . $address['postcode'] . '</PostalCode>';
+
+        if ($this->config->get('default_ups_quote_type') == 'residential') {
+            $xml .= '				<ResidentialAddressIndicator/>';
+        }
+
+        $xml .= '			</Address>';
+        $xml .= '		</ShipTo>';
+        $xml .= '		<ShipFrom>';
+        $xml .= '			<Address>';
+        $xml .= '				<City>' . $this->config->get('default_ups_city') . '</City>';
+        $xml .= '				<StateProvinceCode>'. $this->config->get('default_ups_state') . '</StateProvinceCode>';
+        $xml .= '				<CountryCode>' . $this->config->get('default_ups_country') . '</CountryCode>';
+        $xml .= '				<PostalCode>' . $this->config->get('default_ups_postcode') . '</PostalCode>';
+        $xml .= '			</Address>';
+        $xml .= '		</ShipFrom>';
+
+        $xml .= '		<Package>';
+        $xml .= '			<PackagingType>';
+        $xml .= '				<Code>' . $this->config->get('default_ups_packaging') . '</Code>';
+        $xml .= '			</PackagingType>';
+
+        $xml .= '		    <Dimensions>';
+        $xml .= '				<UnitOfMeasurement>';
+        $xml .= '					<Code>' . $length_code . '</Code>';
+        $xml .= '				</UnitOfMeasurement>';
+        $xml .= '				<Length>' . $length . '</Length>';
+        $xml .= '				<Width>' . $width . '</Width>';
+        $xml .= '				<Height>' . $height . '</Height>';
+        $xml .= '			</Dimensions>';
+
+        $xml .= '			<PackageWeight>';
+        $xml .= '				<UnitOfMeasurement>';
+        $xml .= '					<Code>' . $weight_code . '</Code>';
+        $xml .= '				</UnitOfMeasurement>';
+        $xml .= '				<Weight>' . $weight . '</Weight>';
+        $xml .= '			</PackageWeight>';
+
+        if ($this->config->get('default_ups_insurance')) {
+            $xml .= '           <PackageServiceOptions>';
+            $xml .= '               <InsuredValue>';
+            $xml .= '                   <CurrencyCode>' . $this->currency->getCode() . '</CurrencyCode>';
+            $xml .= '                   <MonetaryValue>' . $this->currency->format($this->cart->getTotal(), false, false, false) . '</MonetaryValue>';
+            $xml .= '               </InsuredValue>';
+            $xml .= '           </PackageServiceOptions>';
+        }
+
+        $xml .= '		</Package>';
+
+        $xml .= '	</Shipment>';
+        $xml .= '</RatingServiceSelectionRequest>';
+
+        return $xml;
+    }
+
+    private function _processRequest($request=''){
+
+        if (!$this->config->get('default_ups_test')) {
+            $url = 'https://www.ups.com/ups.app/xml/Rate';
+        } else {
+            $url = 'https://wwwcie.ups.com/ups.app/xml/Rate';
+        }
+
+        $service_code = array(
+            // US Origin
+            'US' => array(
+                '01' => $this->language->get('text_us_origin_01'),
+                '02' => $this->language->get('text_us_origin_02'),
+                '03' => $this->language->get('text_us_origin_03'),
+                '07' => $this->language->get('text_us_origin_07'),
+                '08' => $this->language->get('text_us_origin_08'),
+                '11' => $this->language->get('text_us_origin_11'),
+                '12' => $this->language->get('text_us_origin_12'),
+                '13' => $this->language->get('text_us_origin_13'),
+                '14' => $this->language->get('text_us_origin_14'),
+                '54' => $this->language->get('text_us_origin_54'),
+                '59' => $this->language->get('text_us_origin_59'),
+                '65' => $this->language->get('text_us_origin_65')
+            ),
+            // Canada Origin
+            'CA' => array(
+                '01' => $this->language->get('text_ca_origin_01'),
+                '02' => $this->language->get('text_ca_origin_02'),
+                '07' => $this->language->get('text_ca_origin_07'),
+                '08' => $this->language->get('text_ca_origin_08'),
+                '11' => $this->language->get('text_ca_origin_11'),
+                '12' => $this->language->get('text_ca_origin_12'),
+                '13' => $this->language->get('text_ca_origin_13'),
+                '14' => $this->language->get('text_ca_origin_14'),
+                '54' => $this->language->get('text_ca_origin_54'),
+                '65' => $this->language->get('text_ca_origin_65')
+            ),
+            // European Union Origin
+            'EU' => array(
+                '07' => $this->language->get('text_eu_origin_07'),
+                '08' => $this->language->get('text_eu_origin_08'),
+                '11' => $this->language->get('text_eu_origin_11'),
+                '54' => $this->language->get('text_eu_origin_54'),
+                '65' => $this->language->get('text_eu_origin_65'),
+                // next five services Poland domestic only
+                '82' => $this->language->get('text_eu_origin_82'),
+                '83' => $this->language->get('text_eu_origin_83'),
+                '84' => $this->language->get('text_eu_origin_84'),
+                '85' => $this->language->get('text_eu_origin_85'),
+                '86' => $this->language->get('text_eu_origin_86')
+            ),
+            // Puerto Rico Origin
+            'PR' => array(
+                '01' => $this->language->get('text_pr_origin_01'),
+                '02' => $this->language->get('text_pr_origin_02'),
+                '03' => $this->language->get('text_pr_origin_03'),
+                '07' => $this->language->get('text_pr_origin_07'),
+                '08' => $this->language->get('text_pr_origin_08'),
+                '14' => $this->language->get('text_pr_origin_14'),
+                '54' => $this->language->get('text_pr_origin_54'),
+                '65' => $this->language->get('text_pr_origin_65')
+            ),
+            // Mexico Origin
+            'MX' => array(
+                '07' => $this->language->get('text_mx_origin_07'),
+                '08' => $this->language->get('text_mx_origin_08'),
+                '54' => $this->language->get('text_mx_origin_54'),
+                '65' => $this->language->get('text_mx_origin_65')
+            ),
+            // All other origins
+            'other' => array(
+                // service code 7 seems to be gone after January 2, 2007
+                '07' => $this->language->get('text_other_origin_07'),
+                '08' => $this->language->get('text_other_origin_08'),
+                '11' => $this->language->get('text_other_origin_11'),
+                '54' => $this->language->get('text_other_origin_54'),
+                '65' => $this->language->get('text_other_origin_65')
+            )
+        );
+
+        $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
+
+        $result = curl_exec($ch);
+
+        curl_close($ch);
+
+
+
+        $quote_data = array();
+
+        if ($result) {
+            $dom = new DOMDocument('1.0', 'UTF-8');
+            $dom->loadXml($result);
+
+            $rating_service_selection_response = $dom->getElementsByTagName('RatingServiceSelectionResponse')->item(0);
+
+            $response = $rating_service_selection_response->getElementsByTagName('Response')->item(0);
+
+            $response_status_code = $response->getElementsByTagName('ResponseStatusCode');
+
+            if ($response_status_code->item(0)->nodeValue != '1') {
+                $error = $response->getElementsByTagName('Error')->item(0);
+
+                $error_msg = $error->getElementsByTagName('ErrorCode')->item(0)->nodeValue;
+
+                $error_msg .= ': ' . $error->getElementsByTagName('ErrorDescription')->item(0)->nodeValue;
+            } else {
+                $rated_shipments = $rating_service_selection_response->getElementsByTagName('RatedShipment');
+
+                foreach ($rated_shipments as $rated_shipment) {
+                    $service = $rated_shipment->getElementsByTagName('Service')->item(0);
+                    $code = $service->getElementsByTagName('Code')->item(0)->nodeValue;
+                    $total_charges = $rated_shipment->getElementsByTagName('TotalCharges')->item(0);
+                    $cost = $total_charges->getElementsByTagName('MonetaryValue')->item(0)->nodeValue;
+
+                    if (!($code && $cost)) {
+                        continue;
+                    }
+
+                    if (!$this->config->get('default_ups_' . strtolower($this->config->get('default_ups_origin')) . '_' . $code)) {
+                        $quote_data[$code] = array(
+                            'id'           => 'default_ups.' . $code,
+                            'title'        => $service_code[$this->config->get('default_ups_origin')][$code],
+                            'cost'         => $this->currency->convert($cost, 'USD', $this->currency->getCode()),
+                            'tax_class_id' => $this->config->get('default_ups_tax_class_id'),
+                            'text'         => $this->currency->format($this->tax->calculate($this->currency->convert($cost, 'USD', $this->currency->getCode()), $this->config->get('default_ups_tax_class_id'), $this->config->get('config_tax')))
+                        );
+                    }
+                }
+            }
+        }
+        return array('quote_data'=>$quote_data, 'error_msg'=>$error_msg);
+    }
 }

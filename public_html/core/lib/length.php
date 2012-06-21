@@ -50,9 +50,10 @@ final class ALength {
 	*/
 	  
   	public function convert($value, $unit_from, $unit_to) {
-		if ($unit_from == $unit_to) {
+		if ($unit_from == $unit_to || is_null($unit_to) || is_null($unit_from)) {
       		return $value;
 		}
+        if(empty($value)) return 0;
 		
 		if (isset($this->lengths[strtolower($unit_from)])) {
 			$from = $this->lengths[strtolower($unit_from)]['value'];

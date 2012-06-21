@@ -242,12 +242,15 @@
 	</definition>
 	<definition>
 		<key>entry_display_weight</key>
-		<value>
-			<![CDATA[Display Delivery Weight:<br /><span class="help">Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 Kg's)</span>]]></value>
+		<value><![CDATA[Display Delivery Weight:<br /><span class="help">Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 Kg's)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_class</key>
 		<value><![CDATA[Weight Class:<br /><span class="help">Set to pounds.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_length_class</key>
+		<value><![CDATA[Length Class:<br /><span class="help"></span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_tax</key>

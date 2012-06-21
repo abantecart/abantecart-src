@@ -61,27 +61,27 @@
 		<value><![CDATA[Package]]></value>
 	</definition>
 	<definition>
-		<key>text_ups_letter</key>
+		<key>text_default_ups_letter</key>
 		<value><![CDATA[UPS Letter]]></value>
 	</definition>
 	<definition>
-		<key>text_ups_tube</key>
+		<key>text_default_ups_tube</key>
 		<value><![CDATA[UPS Tube]]></value>
 	</definition>
 	<definition>
-		<key>text_ups_pak</key>
+		<key>text_default_ups_pak</key>
 		<value><![CDATA[UPS Pak]]></value>
 	</definition>
 	<definition>
-		<key>text_ups_express_box</key>
+		<key>text_default_ups_express_box</key>
 		<value><![CDATA[UPS Express Box]]></value>
 	</definition>
 	<definition>
-		<key>text_ups_25kg_box</key>
+		<key>text_default_ups_25kg_box</key>
 		<value><![CDATA[UPS 25kg box]]></value>
 	</definition>
 	<definition>
-		<key>text_ups_10kg_box</key>
+		<key>text_default_ups_10kg_box</key>
 		<value><![CDATA[UPS 10kg box]]></value>
 	</definition>
 	<definition>
@@ -238,7 +238,7 @@
 	<definition>
 		<key>entry_origin</key>
 		<value>
-			<![CDATA[Codigo origen envio:<span class="help">�Que punto de origen se debe usar (esta opcion solo afecta a lo que los nombres de productos UPS que se muestran al usuario)</span>]]></value>
+			<![CDATA[Codigo origen envio:<span class="help">Que punto de origen se debe usar (esta opcion solo afecta a lo que los nombres de productos UPS que se muestran al usuario)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_city</key>
@@ -270,7 +270,7 @@
 	<definition>
 		<key>entry_negotiated_rates</key>
 		<value>
-			<![CDATA[Negotiated Rates:<span class="help">�Usted recibe descuentos de UPS y desea utilizar estas citas para el envio? Nota: Debes introducir su numero de cuenta de UPS a continuacion.</span>]]></value>
+			<![CDATA[Negotiated Rates:<span class="help">Usted recibe descuentos de UPS y desea utilizar estas citas para el envio? Nota: Debes introducir su numero de cuenta de UPS a continuacion.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_account_number</key>
@@ -293,12 +293,12 @@
 	<definition>
 		<key>entry_display_time</key>
 		<value>
-			<![CDATA[Display Delivery Time:<br /><span class="help">�Quieres mostrar el tiempo de env�o? (Por ejemplo, se env�a en 3 a 5 d�as)</span>]]></value>
+			<![CDATA[Display Delivery Time:<br /><span class="help">Quieres mostrar el tiempo de envio? (Por ejemplo, se envia en 3 a 5 dias)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_display_weight</key>
 		<value>
-			<![CDATA[Display Delivery Weight:<br /><span class="help">�Quieres mostrar el peso de embarque? (Por ejemplo, de entrega Peso: 2.7674 Kg's)</span>]]></value>
+			<![CDATA[Display Delivery Weight:<br /><span class="help">Quieres mostrar el peso de embarque? (Por ejemplo, de entrega Peso: 2.7674 Kg's)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_code</key>
@@ -309,6 +309,14 @@
 		<key>entry_weight_class</key>
 		<value><![CDATA[Weight Class:<span class="help">Set to kilograms or pounds.</span>]]></value>
 	</definition>
+    <definition>
+        <key>entry_length_class</key>
+        <value><![CDATA[Duración de las clases:<span class="help">pulgadas o centímetros</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_dimensions</key>
+        <value><![CDATA[Dimensiones (duration x ancho x altura):<span class="help">Esto se supone que es el tamaño promedio de caja de embalaje. Las dimensiones individuales de elementos no son compatibles en este momento por lo que debe entrar en dimensiones medias como 5x5x5.</span>]]></value>
+    </definition>
 	<definition>
 		<key>entry_tax</key>
 		<value><![CDATA[Tipo de impuesto:]]></value>

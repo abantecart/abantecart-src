@@ -69,6 +69,10 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		'default_ups_display_weight',
 		'default_ups_weight_code',
 		'default_ups_weight_class',
+		'default_ups_length_class',
+		'default_ups_length',
+		'default_ups_height',
+		'default_ups_width',
 		'default_ups_tax_class_id',
 		'default_ups_location_id',
 		'default_ups_status',
@@ -171,6 +175,12 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		$weight_classes = array();
 		foreach ( $results as $k => $v ) {
 			$weight_classes[ $v['unit'] ] = $v['title'];
+		}
+		$this->load->model('localisation/length_class');
+		$results = $this->model_localisation_length_class->getLengthClasses();
+		$length_classes = array();
+		foreach ( $results as $k => $v ) {
+			$length_classes[ $v['unit'] ] = $v['title'];
 		}
 
 		$this->load->model('localisation/tax_class');
@@ -560,7 +570,35 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		    'name' => 'default_ups_weight_class',
 			'options' => $weight_classes,
 		    'value' => $this->data['default_ups_weight_class'],
+	    )) ;
+		$this->data['form']['fields']['length_class'] = $form->getFieldHtml(array(
+		    'type' => 'selectbox',
+		    'name' => 'default_ups_length_class',
+			'options' => $length_classes,
+		    'value' => $this->data['default_ups_length_class'],
 	    ));
+
+        $this->data['form']['fields']['dimensions'] = $form->getFieldHtml(array(
+            'type' => 'input',
+            'name' => 'default_ups_length',
+            'value' => $this->data['default_ups_length'],
+            'style' => 'small-field',
+        ));
+        $this->data['form']['fields']['dimensions'] .= 'x'.$form->getFieldHtml(array(
+            'type' => 'input',
+            'name' => 'default_ups_width',
+            'value' => $this->data['default_ups_width'],
+            'style' => 'small-field',
+        ));
+
+        $this->data['form']['fields']['dimensions'] .= 'x'.$form->getFieldHtml(array(
+            'type' => 'input',
+            'name' => 'default_ups_height',
+            'value' => $this->data['default_ups_height'],
+            'style' => 'small-field',
+            'required' => true,
+        ));
+
 		$this->data['form']['fields']['tax'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
 		    'name' => 'default_ups_tax_class_id',

@@ -73,6 +73,7 @@ class ControllerPagesExtensionDefaultUsps extends AController {
 			'default_usps_display_time',
 			'default_usps_display_weight',
 			'default_usps_weight_class',
+			'default_usps_length_class',
 			'default_usps_tax_class_id',
 			'default_usps_location_id',
 			'default_usps_status',
@@ -172,7 +173,7 @@ class ControllerPagesExtensionDefaultUsps extends AController {
 		$this->data['cancel'] = $this->html->getSecureURL('extension/shipping');
 		$this->data ['heading_title'] = $this->language->get ( 'text_additional_settings' );
 		$this->data ['form_title'] = $this->language->get ( 'default_usps_name' );
-		$this->data ['update'] = $this->html->getSecureURL ( 'listing_grid/shipping/update_field', '&id=usps' );
+		$this->data ['update'] = $this->html->getSecureURL ( 'listing_grid/extension/update', '&id=default_usps' );
 
 		$form = new AForm ( 'HS' );
 		$form->setForm ( array ('form_name' => 'editFrm', 'update' => $this->data ['update'] ) );
@@ -290,9 +291,22 @@ class ControllerPagesExtensionDefaultUsps extends AController {
 			'options' => $weight_classes,
 		    'value' => $this->data['default_usps_weight_class'],
 	    ));
+
+        $this->load->model('localisation/length_class');
+        $results = $this->model_localisation_length_class->getLengthClasses();
+        $length_classes = array();
+        foreach ( $results as $k => $v ) {
+            $length_classes[ $v['unit'] ] = $v['title'];
+        }
+		$this->data['form']['fields']['length_class'] = $form->getFieldHtml(array(
+		    'type' => 'selectbox',
+		    'name' => 'default_usps_length_class',
+			'options' => $length_classes,
+		    'value' => $this->data['default_usps_length_class'],
+	    ));
 		$this->data['form']['fields']['tax'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
-		    'name' => 'usps_tax_class_id',
+		    'name' => 'default_usps_tax_class_id',
 			'options' => $tax_classes,
 		    'value' => $this->data['default_usps_tax_class_id'],
 	    ));
