@@ -59,7 +59,7 @@ class ModelExtensionDefaultUsps extends Model {
 			    }
 
 			    $weight = $this->weight->convert($this->cart->getWeight( $prod_ids ), $this->config->get('config_weight_class'), $this->config->get('default_usps_weight_class'));
-			    				
+
 			    $request = $this->_build_qoute_request( $weight, $use_width, $use_length, $use_height, $address ); 
 			    if ($request) {
 			    	$quote_data = $this->_process_request( $request, $address ); 
@@ -72,7 +72,7 @@ class ModelExtensionDefaultUsps extends Model {
 			    $weight = $this->weight->convert($this->cart->getWeight( array($product['product_id']) ), $this->config->get('config_weight_class'), $this->config->get('default_usps_weight_class'));
 			    
 			    if ( $product['width'] ) {
-			    	$length_class_id = $this->length->getClassID($length_class_unit); 
+			    	$length_class_id = $this->length->getClassID($this->config->get('default_usps_length_class'));
 			    	$use_width = $this->length->convertByID($product['length'], $product['length_class'], $length_class_id);
 			    	$use_length = $this->length->convertByID($product['width'], $product['length_class'], $length_class_id);
 			    	$use_height = $this->length->convertByID($product['height'], $product['length_class'], $length_class_id);
@@ -98,7 +98,7 @@ class ModelExtensionDefaultUsps extends Model {
 			    }
 
 			    //merge data and accumulate shipping cost
-			    if ( count($quote_data) > 0) {
+			    if ( $quote_data) {
 			    	foreach ($quote_data as $key => $value) {
 			    		if ( isset($quote_data[$key]) ) {
 			    			if ($fixed_cost >= 0){

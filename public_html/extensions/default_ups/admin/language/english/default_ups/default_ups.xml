@@ -61,27 +61,27 @@
 		<value><![CDATA[Package]]></value>
 	</definition>
 	<definition>
-		<key>text_ups_letter</key>
+		<key>text_default_ups_letter</key>
 		<value><![CDATA[UPS Letter]]></value>
 	</definition>
 	<definition>
-		<key>text_ups_tube</key>
+		<key>text_default_ups_tube</key>
 		<value><![CDATA[UPS Tube]]></value>
 	</definition>
 	<definition>
-		<key>text_ups_pak</key>
+		<key>text_default_ups_pak</key>
 		<value><![CDATA[UPS Pak]]></value>
 	</definition>
 	<definition>
-		<key>text_ups_express_box</key>
+		<key>text_default_ups_express_box</key>
 		<value><![CDATA[UPS Express Box]]></value>
 	</definition>
 	<definition>
-		<key>text_ups_25kg_box</key>
+		<key>text_default_ups_25kg_box</key>
 		<value><![CDATA[UPS 25kg box]]></value>
 	</definition>
 	<definition>
-		<key>text_ups_10kg_box</key>
+		<key>text_default_ups_10kg_box</key>
 		<value><![CDATA[UPS 10kg box]]></value>
 	</definition>
 	<definition>
@@ -284,6 +284,14 @@
 	<definition>
 		<key>entry_weight_class</key>
 		<value><![CDATA[Weight Class:<span class="help">Set to kilograms or pounds.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_length_class</key>
+		<value><![CDATA[Length Class:<span class="help">inches or centimeters</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_dimensions</key>
+		<value><![CDATA[Dimensions (L x W x H):<span class="help">This is assumed to be your average packing box size. Individual item dimensions are not supported at this time so you must enter average dimensions like 5x5x5.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_tax</key>
