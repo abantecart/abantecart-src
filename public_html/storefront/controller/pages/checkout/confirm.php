@@ -121,6 +121,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 		}
 		
         $this->data['shipping_method'] = $this->session->data['shipping_method']['title'];
+        $this->data['shipping_method_price'] = $this->session->data['shipping_method']['title'];
 		$this->data['checkout_shipping'] = $this->html->getSecureURL('checkout/shipping');
     	$this->data['checkout_shipping_address'] = $this->html->getSecureURL('checkout/address/shipping');
     	
@@ -157,7 +158,29 @@ class ControllerPagesCheckoutConfirm extends AController {
 				'href'       => $this->html->getURL('product/product', '&product_id=' . $product_id )
       		)); 
         }
-        
+
+        $total_data = array();
+        $total = 0;
+        $taxes = $this->cart->getTaxes();
+        $this->loadModel('checkout/extension');
+        $sort_order = array();
+        $results = $this->model_checkout_extension->getExtensions('total');
+        foreach ($results as $key => $value) {
+            $sort_order[$key] = $this->config->get($value['key'] . '_sort_order');
+        }
+        array_multisort($sort_order, SORT_ASC, $results);
+        foreach ($results as $result) {
+            $this->loadModel('total/' . $result['key']);
+            $this->{'model_total_' . $result['key']}->getTotal($total_data, $total, $taxes);
+        }
+        $sort_order = array();
+        foreach ($total_data as $key => $value) {
+            $sort_order[$key] = $value['sort_order'];
+        }
+        array_multisort($sort_order, SORT_ASC, $total_data);
+        $this->data['totals'] = $total_data;
+
+
 		$this->data['cart'] = $this->html->getSecureURL('checkout/cart');
 
         if ($this->config->get('config_checkout_id')) {

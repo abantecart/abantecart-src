@@ -93,7 +93,17 @@
           </td>
 	    </tr>
 	</table>
-    
+    <table cellpadding="0" cellspacing="0" width="100%">
+         <?php foreach ($totals as $total) { ?>
+          <tr class="checkout_heading">
+              <td align="right"><?php echo $total['title']; ?></td>
+              <td align="right"><?php echo $total['text']; ?></td>
+          </tr>
+          <?php } ?>
+      </table>
+
+
+
     <?php if ($comment) { ?>
     <b style="margin-bottom: 2px; display: block;"><?php echo $text_comment; ?></b>
     <div class="content"><?php echo $comment; ?></div>
