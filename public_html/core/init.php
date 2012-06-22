@@ -334,7 +334,7 @@ if (!( $config->get('config_url') == 'http://'.$url || $config->get('config_url'
 		}	
    		$config->set('config_store_id', $store_settings[0]['store_id']);
    	} else {
-        $warning = new AWarning('Warning: Trying to access with unconfigured  domain. Possibly incorrect store set up. Loading default store');
+        $warning = new AWarning('Warning: Trying to access by unconfigured or unknown domain. Possibly missing or incorrect store URL set up. Loading default store');
         $warning->toLog()->toMessages();
         //set config url to current domain
         $config->set('config_url','http://' . REAL_HOST . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/');
