@@ -30,11 +30,10 @@ class ModelExtensionDefaultWeight extends Model {
 		if ($this->config->get('default_weight_status')) {
 			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "locations ORDER BY name");
 		
-			foreach ($query->rows as $result) {
+			foreach ($query->rows as $result) {			
    				if ($this->config->get('default_weight_' . $result['location_id'] . '_status')) {
-   					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zones_to_locations WHERE location_id = '" . (int)$result['location_id'] . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
-				
-					if ($query->num_rows) {
+   					$query2 = $this->db->query("SELECT * FROM " . DB_PREFIX . "zones_to_locations WHERE location_id = '" . (int)$result['location_id'] . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");				
+					if ($query2->num_rows) {
        					$status = TRUE;
    					} else {
        					$status = FALSE;
@@ -42,29 +41,62 @@ class ModelExtensionDefaultWeight extends Model {
 				} else {
 					$status = FALSE;
 				}
-			
+
 				if ($status) {
 					$cost = '';
-					$weight = $this->cart->getWeight();
-					
+
 					$rates = explode(',', $this->config->get('default_weight_' . $result['location_id'] . '_rate'));
+
+					//Process all products shipped together with not special shipping settings on a product level
+					$b_products = $this->cart->basicShippingProducts(); 
+					if ( count($b_products) > 0 ) {
+					    $prod_ids = array();
+					    foreach ($b_products as $prd) {
+					    	$prod_ids[] = $prd['product_id'];
+					    }
+					    $weight = $this->cart->getWeight( $prod_ids );
+						foreach ($rates as $rate) {
+	  						$data = explode(':', $rate);
+							if ($data[0] >= $weight) {
+								if (isset($data[1])) {
+	    							$cost = $data[1];
+								}
+	   							break;
+	  						}
+						}
+					}
 					
-					foreach ($rates as $rate) {
-  						$data = explode(':', $rate);
-  					
-						if ($data[0] >= $weight) {
-							if (isset($data[1])) {
-    							$cost = $data[1];
+					//Process products that have special shipping settings
+					$special_ship_products = $this->cart->specialShippingProducts();
+					foreach ($special_ship_products as $product) {		    
+					    $weight = $this->cart->getWeight( array($product['product_id']) );
+					    if ($product['free_shipping']) {
+					    	continue;
+					    } else if($product['shipping_price'] > 0) {
+					    	$fixed_cost = $product['shipping_price'];
+					    	//If ship individually count every quintaty 
+					     	if ($product['ship_individually']) {
+					     		$cost = $cost + $fixed_cost * $product['quantity'];	
+					     	} else {
+					     		$cost = $cost + $fixed_cost;
+					     	}
+					    } else {
+							foreach ($rates as $rate) {
+				  				$data = explode(':', $rate);  					
+								if ($data[0] >= $weight) {
+									if (isset($data[1])) {
+				    					$cost = $cost + $data[1];
+									}
+				   					break;
+				  				}
 							}
-					
-   							break;
-  						}
+					    }
 					}
 					
 					if ((string)$cost != '') { 
       					$quote_data['default_weight_' . $result['location_id']] = array(
         					'id'           => 'default_weight.default_weight_' . $result['location_id'],
-        					'title'        => $result['name'] . '  (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')',
+        					'title'        => $result['name'] . '  (' . $this->language->get('text_weight') . ' ' . $this->weight->format($this->cart->getWeight(), $this->config->get('config_weight_class')) . ')',
         					'cost'         => $this->tax->calculate($cost, $this->config->get('default_weight_tax_class_id'), $this->config->get('config_tax')),
 							'tax_class_id' => $this->config->get('default_weight_tax_class_id'),
         					'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_weight_tax_class_id'), $this->config->get('config_tax')))
