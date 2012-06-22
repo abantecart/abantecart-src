@@ -15,6 +15,14 @@
             <type>checkbox</type>
             <default_value>0</default_value>
         </item>
+	    <item id="default_fedex_key">
+            <type required="true">input</type>
+            <default_value></default_value>
+        </item>
+	    <item id="default_fedex_password">
+            <type required="true">password</type>
+            <default_value></default_value>
+        </item>
 	    <item id="default_fedex_account">
             <type required="true">input</type>
             <default_value></default_value>
@@ -23,44 +31,60 @@
             <type required="true">input</type>
             <default_value></default_value>
         </item>
-	    <item id="default_fedex_cost">
-            <type>input</type>
+	    <item id="default_fedex_address">
+            <type required="true">input</type>
             <default_value></default_value>
         </item>
-        <item id="default_fedex_test">
-            <type>selectbox</type>
-			<variants>
-				<item>1</item>
-				<item>0</item>
-			</variants>
+	    <item id="default_fedex_city">
+            <type required="true">input</type>
+            <default_value></default_value>
         </item>
-	    <item id="default_fedex_tax_class_id">
-            <type>selectbox</type>
-			<variants>
-				<item>0</item>
-				<data_source>
-                   <model_rt>localisation/tax_class</model_rt>
-                   <method>getTaxClasses</method>
-				</data_source>
-				<fields>
-					<field>tax_class_id</field>
-					<field>title</field>
-				</fields>
-			</variants>
+	    <item id="default_fedex_state">
+            <type required="true">input</type>
+            <default_value></default_value>
         </item>
-	    <item id="default_fedex_location_id">
+	    <item id="default_fedex_zip">
+            <type required="true">input</type>
+            <default_value></default_value>
+        </item>
+	    <item id="default_fedex_country">
+            <type required="true">input</type>
+            <default_value></default_value>
+        </item>
+        <item id="default_fedex_quote_type">
             <type>selectbox</type>
-			<variants>
-				<item>0</item>
-				<data_source>
-                   <model_rt>localisation/location</model_rt>
-                   <method>getLocations</method>
-				</data_source>
-				<fields>
-					<field>location_id</field>
-					<field>name</field>
-				</fields>
-			</variants>
+            <variants>
+                <item>residential</item>
+                <item>commercial</item>
+            </variants>
+        </item>
+        <item id="default_fedex_add_chrg">
+            <type>input</type>
+            <default_value>0.00</default_value>
+        </item>
+        <item id="default_fedex_default_fedex_us_01">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>
+        <item id="default_fedex_default_fedex_us_02">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>
+        <item id="default_fedex_default_fedex_us_03">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>
+        <item id="default_fedex_default_fedex_us_04">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>
+        <item id="default_fedex_default_fedex_us_05">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>
+        <item id="default_fedex_default_fedex_us_06">
+            <type>checkbox</type>
+            <default_value>0</default_value>
         </item>
 	    <item id="default_fedex_sort_order">
             <type>input</type>

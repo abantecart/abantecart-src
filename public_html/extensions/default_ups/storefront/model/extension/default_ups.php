@@ -86,9 +86,10 @@ class ModelExtensionDefaultUps extends Model {
                     }
                     $fixed_cost = $this->currency->convert($fixed_cost, 'USD', $this->currency->getCode());
                 } else {
-                    $request = $this->_buildRequest($address, $weight, $use_width, $use_length, $use_height, $address );
+                    $request = $this->_buildRequest($address, $weight, $use_width, $use_length, $use_height);
                     if ($request) {
                         $new_quote_data = $this->_processRequest( $request );
+                        $new_quote_data =  $new_quote_data['quote_data'];
                     }
                 }
 
