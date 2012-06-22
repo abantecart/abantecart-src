@@ -228,7 +228,7 @@ class ModelExtensionDefaultFedex extends Model {
                         }
 
                         $response = $client->getRates($request);
-                        var_dump($response);
+
                         if ($response -> HighestSeverity != 'FAILURE' && $response -> HighestSeverity != 'ERROR' ){
 
                             if ( count(	$response->RateReplyDetails ) > 1 ){
