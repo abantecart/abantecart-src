@@ -173,7 +173,7 @@ class ControllerPagesExtensionDefaultUsps extends AController {
 		$this->data['cancel'] = $this->html->getSecureURL('extension/shipping');
 		$this->data ['heading_title'] = $this->language->get ( 'text_additional_settings' );
 		$this->data ['form_title'] = $this->language->get ( 'default_usps_name' );
-		$this->data ['update'] = $this->html->getSecureURL ( 'listing_grid/extension/update', '&id=default_usps' );
+		$this->data ['update'] = $this->html->getSecureURL ( 'r/extension/default_usps_save/update' );
 
 		$form = new AForm ( 'HS' );
 		$form->setForm ( array ('form_name' => 'editFrm', 'update' => $this->data ['update'] ) );

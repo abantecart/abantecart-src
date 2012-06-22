@@ -23,7 +23,8 @@ if ( !defined ( 'DIR_CORE' )) {
 
 $controllers = array(
     'storefront' => array(),
-    'admin' => array( 'pages/extension/default_usps' ),
+    'admin' => array( 'pages/extension/default_usps',
+                      'responses/extension/default_usps_save'),
 );
 
 $models = array(

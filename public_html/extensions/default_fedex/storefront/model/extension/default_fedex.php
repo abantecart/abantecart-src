@@ -42,10 +42,12 @@ class ModelExtensionDefaultFedex extends Model {
 			$status = FALSE;
 		}
         if($status){
-            $quote_data = $this->_processRequest($address, $this->cart->basicShippingProducts());
-            $error_msg =  $quote_data['error_msg'];
-            $quote_data =  $quote_data['quote_data'];
-
+            $products = $this->cart->basicShippingProducts();
+            if($products){
+                $quote_data = $this->_processRequest($address, $products);
+                $error_msg =  $quote_data['error_msg'];
+                $quote_data =  $quote_data['quote_data'];
+            }
             $special_ship_products = $this->cart->specialShippingProducts();
             foreach ($special_ship_products as $product) {
 
@@ -63,7 +65,9 @@ class ModelExtensionDefaultFedex extends Model {
                     $fixed_cost = $this->currency->convert($fixed_cost, 'USD', $this->currency->getCode());
                 } else {
                     $new_quote_data = $this->_processRequest( $address,  array($product));
+                    $error_msg .=  $new_quote_data['error_msg'];
                     $new_quote_data =  $new_quote_data['quote_data'];
+
                 }
 
                 //merge data and accumulate shipping cost
@@ -85,14 +89,10 @@ class ModelExtensionDefaultFedex extends Model {
                                 $this->currency->convert($quote_data[$key]['cost'], 'USD', $this->currency->getCode()) );
                     }
                 } else if ( $new_quote_data ) {
-                    $quote_data = $new_quote_data;
+                    $quote_data = $new_quote_data['quote_data'];
+                    $error_msg .=  $new_quote_data['error_msg'];
                 }
             }
-
-
-
-
-
 
         }
 
@@ -114,9 +114,6 @@ class ModelExtensionDefaultFedex extends Model {
         require_once(DIR_EXT . 'default_fedex/core/lib/fedex_func.php');
         $path_to_wsdl = DIR_EXT . 'default_fedex/core/lib/RateService_v9.wsdl';
         $client = new SoapClient($path_to_wsdl, array('trace' => 1)); // Refer to http://us3.php.net/manual/en/ref.soap.php for more information
-
-
-        $basic_products = $this->cart->basicShippingProducts();
 
 
             //Fedex Key
@@ -219,9 +216,6 @@ class ModelExtensionDefaultFedex extends Model {
 
 
 
-
-                    //BUILD REQUEST END
-
                     try{
                         if(setEndpoint('changeEndpoint')){
                             $newLocation = $client->__setLocation(setEndpoint('endpoint'));
@@ -268,15 +262,32 @@ class ModelExtensionDefaultFedex extends Model {
                         }
 
                     }catch (SoapFault $exception) {
+                       // throw new AException ( AC_ERR_LOAD, 'Error: FEDEX. '.$client );
                         printFault($exception, $client);
                     }
                 }
 
             }
 
+         /*   var_Dump(
+                $this->config->get('default_fedex_default_fedex_us_01'),
+                $this->config->get('default_fedex_default_fedex_us_02'),
+                $this->config->get('default_fedex_default_fedex_us_03'),
+                $this->config->get('default_fedex_default_fedex_us_04'),
+                $this->config->get('default_fedex_default_fedex_us_05'),
+                $this->config->get('default_fedex_default_fedex_us_06')
+            );
+              echo '<br>';
+        var_dump($first_overnight_quote,
+            $priority_overnight_quote,
+            $standard_overnight_quote,
+            $two_day_quote,
+            $express_saver_quote ,
+            $ground_quote
 
+        );*/
 
-            if ($first_overnight_quote > 0 && $this->config->get('default_fedex_us_01') > 0 ) {
+            if ($first_overnight_quote > 0 && $this->config->get('default_fedex_default_fedex_us_01') > 0 ) {
                 $first_overnight_quote = $first_overnight_quote + $fedex_add_chrg;
                 $quote_data['FEDEX_FIRST_OVERNIGHT'] = array(
                     'id'           => 'fedex.'.'FEDEX_FIRST_OVERNIGHT',
@@ -287,7 +298,7 @@ class ModelExtensionDefaultFedex extends Model {
                 );
             }
 
-            if ($priority_overnight_quote > 0  && $this->config->get('default_fedex_us_02') > 0 ) {
+            if ($priority_overnight_quote > 0  && $this->config->get('default_fedex_default_fedex_us_02') > 0 ) {
                 $priority_overnight_quote = $priority_overnight_quote + $fedex_add_chrg;
                 $quote_data['FEDEX_PRIORITY_OVERNIGHT'] = array(
                     'id'           => 'fedex.'.'FEDEX_PRIORITY_OVERNIGHT',
@@ -298,7 +309,7 @@ class ModelExtensionDefaultFedex extends Model {
                 );
             }
 
-            if ($standard_overnight_quote > 0 && $this->config->get('default_fedex_us_03') > 0 ) {
+            if ($standard_overnight_quote > 0 && $this->config->get('default_fedex_default_fedex_us_03') > 0 ) {
                 $standard_overnight_quote = $standard_overnight_quote + $fedex_add_chrg;
                 $quote_data['FEDEX_STANDARD_OVERNIGHT'] = array(
                     'id'           => 'fedex.'.'FEDEX_STANDARD_OVERNIGHT',
@@ -309,7 +320,7 @@ class ModelExtensionDefaultFedex extends Model {
                 );
             }
 
-            if ($two_day_quote > 0  && $this->config->get('default_fedex_us_04') > 0) {
+            if ($two_day_quote > 0  && $this->config->get('default_fedex_default_fedex_us_04') > 0) {
                 $two_day_quote = $two_day_quote + $fedex_add_chrg;
                 $quote_data['FEDEX_2_DAY'] = array(
                     'id'           => 'fedex.'.'FEDEX_2_DAY',
@@ -320,7 +331,7 @@ class ModelExtensionDefaultFedex extends Model {
                 );
             }
 
-            if ($express_saver_quote > 0 && $this->config->get('default_fedex_us_05') > 0 ) {
+            if ($express_saver_quote > 0 && $this->config->get('default_fedex_default_fedex_us_05') > 0 ) {
                 $express_saver_quote = $express_saver_quote + $fedex_add_chrg;
                 $quote_data['FEDEX_EXPRESS_SAVER'] = array(
                     'id'           => 'fedex.'.'FEDEX_EXPRESS_SAVER',
@@ -331,7 +342,7 @@ class ModelExtensionDefaultFedex extends Model {
                 );
             }
 
-            if ($ground_quote > 0 && $this->config->get('default_fedex_us_06') > 0 ) {
+            if ($ground_quote > 0 && $this->config->get('default_fedex_default_fedex_us_06') > 0 ) {
                 $ground_quote = $ground_quote + $fedex_add_chrg;
                 $quote_data['FEDEX_GROUND'] = array(
                     'id'           => 'fedex.'.'FEDEX_GROUND',
