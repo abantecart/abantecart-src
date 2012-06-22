@@ -89,6 +89,7 @@ class ModelExtensionDefaultUps extends Model {
                     $request = $this->_buildRequest($address, $weight, $use_width, $use_length, $use_height);
                     if ($request) {
                         $new_quote_data = $this->_processRequest( $request );
+                        $error_msg =  $new_quote_data['error_msg'];
                         $new_quote_data =  $new_quote_data['quote_data'];
                     }
                 }
