@@ -79,7 +79,9 @@ class ModelExtensionDefaultCitylink extends Model {
 			    	$fixed_cost = $product['shipping_price'];
 			    	//If ship individually count every quintaty 
 			     	if ($product['ship_individually']) {
-			     		$cost = $fixed_cost * $product['quantity'];	
+			     		$cost = $cost + $fixed_cost * $product['quantity'];	
+			     	} else {
+			     		$cost = $cost + $fixed_cost;
 			     	}
 			    } else {
 					foreach ($rates as $rate) {
