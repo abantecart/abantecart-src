@@ -62,7 +62,7 @@ class ModelExtensionDefaultUsps extends Model {
 
 			    $request = $this->_build_qoute_request( $weight, $use_width, $use_length, $use_height, $address ); 
 			    if ($request) {
-			    	$quote_data = $this->_process_request( $request, $address ); 
+			    	$quote_data = $this->_process_request( $request, $address, $weight );
 			    }				
 			}
 			
@@ -93,7 +93,7 @@ class ModelExtensionDefaultUsps extends Model {
 			    } else {
 			    	$request = $this->_build_qoute_request( $weight, $use_width, $use_length, $use_height, $address ); 
 			    	if ($request) {
-			    		$new_quote_data = $this->_process_request( $request, $address );
+			    		$new_quote_data = $this->_process_request( $request, $address, $weight );
 			    	}	
 			    }
 
@@ -241,7 +241,7 @@ class ModelExtensionDefaultUsps extends Model {
 			
 	}
 	
-	public function _process_request( $request, $address ) {
+	public function _process_request( $request, $address, $weight ) {
 		$return_data = array();
 		$ch = curl_init();
 		

@@ -209,7 +209,7 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		$this->data['cancel'] = $this->html->getSecureURL('extension/extensions/shipping');
 		$this->data ['heading_title'] = $this->language->get ( 'text_edit' ) . $this->language->get ( 'text_shipping' );
 		$this->data ['form_title'] = $this->language->get ( 'heading_title' );
-		$this->data ['update'] = $this->html->getSecureURL ( 'listing_grid/extension/update', '&id=default_ups' );
+		$this->data ['update'] = $this->html->getSecureURL ( 'r/extension/default_ups_save/update' );
 
 		$form = new AForm ( 'HS' );
 		$form->setForm ( array ('form_name' => 'editFrm', 'update' => $this->data ['update'] ) );
@@ -282,6 +282,7 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		    'type' => 'input',
 		    'name' => 'default_ups_postcode',
 		    'value' => $this->data['default_ups_postcode'],
+            'required' => true,
 	    ));
 		$this->data['form']['fields']['test'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
@@ -558,7 +559,7 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_display_weight',
 		    'value' => $this->data['default_ups_display_weight'],
-			'attr'  => ' class="btn_switch"',
+			'style'  => 'btn_switch',
 	    ));
 		$this->data['form']['fields']['weight_code'] = $form->getFieldHtml(array(
 		    'type' => 'input',
@@ -570,12 +571,14 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		    'name' => 'default_ups_weight_class',
 			'options' => $weight_classes,
 		    'value' => $this->data['default_ups_weight_class'],
+            'required' => true,
 	    )) ;
 		$this->data['form']['fields']['length_class'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
 		    'name' => 'default_ups_length_class',
 			'options' => $length_classes,
 		    'value' => $this->data['default_ups_length_class'],
+            'required' => true,
 	    ));
 
         $this->data['form']['fields']['dimensions'] = $form->getFieldHtml(array(
@@ -583,12 +586,14 @@ class ControllerPagesExtensionDefaultUPS extends AController {
             'name' => 'default_ups_length',
             'value' => $this->data['default_ups_length'],
             'style' => 'small-field',
+            'required' => true,
         ));
         $this->data['form']['fields']['dimensions'] .= 'x'.$form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'default_ups_width',
             'value' => $this->data['default_ups_width'],
             'style' => 'small-field',
+            'required' => true,
         ));
 
         $this->data['form']['fields']['dimensions'] .= 'x'.$form->getFieldHtml(array(

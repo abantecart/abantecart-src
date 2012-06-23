@@ -23,7 +23,10 @@ if ( !defined ( 'DIR_CORE' )) {
 
 $controllers = array(
     'storefront' => array(),
-    'admin' => array( 'pages/extension/default_ups' ),
+    'admin' => array(
+        'pages/extension/default_ups',
+        'responses/extension/default_ups_save',
+    ),
 );
 
 $models = array(
