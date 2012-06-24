@@ -870,7 +870,7 @@ div#options .option_lang_field {
 	padding: 0px 5px;
 }
 .list thead td a, .list thead td {
-	font:normal 16px Arial, Helvetica, sans-serif;
+	font:bold 16px Arial, Helvetica, sans-serif;
 	text-decoration: none;
 	color: #2A465E;
 }
@@ -880,7 +880,7 @@ div#options .option_lang_field {
 .list tbody td {
 	vertical-align: middle;
 	padding: 0px 5px;
-
+    height: 37px;
 }
 .list tbody tr:nth-child(odd) {
 	background: #fff;

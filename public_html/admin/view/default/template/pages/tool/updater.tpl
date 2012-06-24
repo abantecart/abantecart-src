@@ -15,8 +15,6 @@
 		</div>
   </div>
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-
-  <div class="content">
     <table class="list">
 	  <?php if ($extensions) { ?>
       <thead>
@@ -50,7 +48,7 @@
         <?php } ?>
 
     </table>
-  </div></div></div>
+  </div></div>
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
 

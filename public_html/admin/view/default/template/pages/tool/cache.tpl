@@ -16,7 +16,7 @@
   </div></div></div>
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
     <?php echo $form['form_open']; ?>
-      <table class="list" style="width:100%;">
+      <table class="list">
         <thead>
           <tr>
             <td><div class="center checkbox all">
