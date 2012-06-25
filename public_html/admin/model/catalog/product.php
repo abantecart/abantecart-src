@@ -75,7 +75,7 @@ class ModelCatalogProduct extends Model {
 			//Default behavior to save SEO URL keword from product name in default language
 			$languages = $this->language->getAvailableLanguages();
 			$defalut_lang_id = $languages[$this->config->get('config_storefront_language')]['language_id'];
-			$seo_key = trim( strtolower( $data['product_description'][$defalut_lang_id]['name'] ) );
+			$seo_key = trim( mb_strtolower( $data['product_description'][$defalut_lang_id]['name'] ) );
 			$seo_key = htmlentities( str_replace(" ","_",$seo_key) );
 			 
 			//Check if key is unique  
@@ -855,8 +855,8 @@ class ModelCatalogProduct extends Model {
 			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "products p
 										LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id)
 										WHERE pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'
-												AND (LCASE(pd.name) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'
-														OR LCASE(p.model) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%')");
+												AND (LCASE(pd.name) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%'
+														OR LCASE(p.model) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%')");
 									  
 			return $query->rows;
 		} else {
@@ -1261,29 +1261,29 @@ class ModelCatalogProduct extends Model {
 			
 			if (isset($filter['keyword']) && !is_null($filter['keyword'])) {
 				$keywords = explode(' ', $filter['keyword']);
-			
+
 				if($match == 'any') {
 					$sql .= " AND (";
 					foreach($keywords as $k => $keyword){
 						$sql .= $k > 0 ? " OR" : "";
-						$sql .= " (LCASE(pd.name) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'";
-						$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'";
-						$sql .= " OR LCASE(p.sku) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%')";
+						$sql .= " (LCASE(pd.name) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%'";
+						$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%'";
+						$sql .= " OR LCASE(p.sku) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%')";
 					}
 					$sql .= " )";
 				} else if($match == 'all') {
 					$sql .= " AND (";
 					foreach($keywords as $k => $keyword){
 						$sql .= $k > 0 ? " AND" : "";
-						$sql .= " (LCASE(pd.name) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'";
-						$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'";
-						$sql .= " OR LCASE(p.sku) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%')";
+						$sql .= " (LCASE(pd.name) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%'";
+						$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%'";
+						$sql .= " OR LCASE(p.sku) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%')";
 					}
 					$sql .= " )";
 				} else if($match == 'exact') {
-					$sql .= " AND (LCASE(pd.name) LIKE '%" . $this->db->escape(strtolower($filter['keyword'])) . "%'";
-					$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(strtolower($filter['keyword'])) . "%'";
-					$sql .= " OR LCASE(p.sku) LIKE '%" . $this->db->escape(strtolower($filter['keyword'])) . "%')";
+					$sql .= " AND (LCASE(pd.name) LIKE '%" . $this->db->escape(mb_strtolower($filter['keyword'])) . "%'";
+					$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(mb_strtolower($filter['keyword'])) . "%'";
+					$sql .= " OR LCASE(p.sku) LIKE '%" . $this->db->escape(mb_strtolower($filter['keyword'])) . "%')";
 				}
 			}
 			

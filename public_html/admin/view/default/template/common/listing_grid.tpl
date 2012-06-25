@@ -268,7 +268,7 @@ var updatePager = false;
     $(table_id+'_search').submit(function(){
         var new_url = '<?php echo $data["url"] ?>&'+$(this).serialize();
         $(table_id)
-            .jqGrid('setGridParam',{url:new_url})
+            .jqGrid('setGridParam',{url:new_url,page:1})
             .trigger("reloadGrid");
         return false;
     });
