@@ -50,13 +50,14 @@ final class ALanguage {
         	$this->language_path = DIR_ROOT . '/storefront/language/';        
         }
                 
+		//Load available languages;
+	    $this->loader = $registry->get('load');
+	    $this->loader->model('localisation/language');
+	    $model = $registry->get('model_localisation_language');
+	    $this->available_languages = $model->getLanguages();
+
 		//If No language code, need Language Detection, set site language to use and set content language separately
 		if (!$code){
-			//Load available languages;
-			$this->loader = $registry->get('load');
-			$this->loader->model('localisation/language');
-			$model = $registry->get('model_localisation_language');
-			$this->available_languages = $model->getLanguages();
 			$this->setCurrentLanguage();   
 		}
         
@@ -80,7 +81,8 @@ final class ALanguage {
     	if ( !empty($filename) ) { 
     		return $this->_get_language_value( $key, $filename );
     	} else {
-    		return $this->_find_last_language_value( $key );
+        	$backtrace = debug_backtrace();
+    		return $this->_find_last_language_value( $key , $backtrace );
     	}    
     }
 
@@ -293,7 +295,7 @@ final class ALanguage {
 		return $definitions;
 	}
 
-    private function _find_last_language_value ( $key ) {
+    private function _find_last_language_value ( $key, $backtrace ) {
     	if ( empty ($key) ) {
     		return;
 		}
@@ -364,9 +366,9 @@ final class ALanguage {
 	    }
 	    // if value empty anyway - write message
 	    if(empty($lang_value)){
-		    $this->registry->get('messages')->saveWarning('Language definition "'. $key.'" is absent for "'.$this->available_languages[$this->code]['name'].'"',
-		                                                 'Abantecart engine can\'t find value of language definition with key "'.$key.'".
-		                                                 Please add it manually at #admin#rt=localisation/language_definitions of control panel.' );
+        	$caller_file = $backtrace[0]['file'];
+        	$caller_file_line = $backtrace[0]['line'];    	
+		    $this->registry->get('messages')->saveWarning('Language definition "'. $key.'" is absent for "'.$this->available_languages[$this->code]['name'].'"', 'AbanteCart engine cannot find value of language definition with key "'.$key.'" in ' . $caller_file . ' line ' . $caller_file_line. '.  Please add it manually in #admin#rt=localisation/language_definitions of control panel.' );
 	    }
 		return $lang_value;
     }

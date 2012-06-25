@@ -466,6 +466,14 @@
 		<value><![CDATA[Please, confirm delete]]></value>
 	</definition>
     <definition>
+		<key>text_save_edit</key>
+		<value><![CDATA[Add/Edit]]></value>
+	</definition>
+    <definition>
+		<key>text_apply</key>
+		<value><![CDATA[Apply]]></value>
+	</definition>
+    <definition>
 		<key>text_on_top</key>
 		<value><![CDATA[back on top]]></value>
 	</definition>
