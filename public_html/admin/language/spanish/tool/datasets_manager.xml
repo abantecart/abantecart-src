@@ -52,4 +52,20 @@
     <key>text_popup_title</key>
     <value><![CDATA[Información acerca del conjunto de datos]]></value>
   </definition>
+  <definition>
+	<key>text_confirm</key>
+	<value><![CDATA[Confirmar?]]></value>
+  </definition>  
+  <definition>
+	<key>text_date</key>
+	<value><![CDATA[Date]]></value>
+  </definition>
+  <definition>
+    <key>text_show</key>
+    <value><![CDATA[Mostrar]]></value>
+  </definition>
+  <definition>
+    <key>text_repeats</key>
+    <value><![CDATA[Número de repeticiones:]]></value>
+  </definition>      
 </definitions>

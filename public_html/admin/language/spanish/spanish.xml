@@ -457,6 +457,14 @@
 		<value><![CDATA[Por favor, confirmar la eliminación]]></value>
 	</definition>
     <definition>
+		<key>text_save_edit</key>
+		<value><![CDATA[Añadir/Editar]]></value>
+	</definition>
+    <definition>
+		<key>text_apply</key>
+		<value><![CDATA[Apply]]></value>
+	</definition>
+    <definition>
 		<key>text_on_top</key>
 		<value><![CDATA[volver a la cima]]></value>
 	</definition>

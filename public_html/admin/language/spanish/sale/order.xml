@@ -45,6 +45,10 @@
     <value><![CDATA[Fax]]></value>
   </definition>
   <definition>
+    <key>text_select_country</key>
+    <value><![CDATA[- Seleccione el país -]]></value>
+  </definition>  
+  <definition>
     <key>text_to</key>
     <value><![CDATA[Para:]]></value>
   </definition>
@@ -168,6 +172,10 @@
     <key>entry_fax</key>
     <value><![CDATA[Fax:]]></value>
   </definition>
+  <definition>
+    <key>text_select_country</key>
+    <value><![CDATA[- Select Country -]]></value>
+  </definition>  
   <definition>
     <key>entry_store_name</key>
     <value><![CDATA[Nobre de la Tienda:]]></value>

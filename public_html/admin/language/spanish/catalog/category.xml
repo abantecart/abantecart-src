@@ -25,6 +25,10 @@
 		<value><![CDATA[Actualizar Categoría]]></value>
 	</definition>
 	<definition>
+		<key>column_image</key>
+		<value><![CDATA[Imagene]]></value>
+	</definition>
+	<definition>
 		<key>column_name</key>
 		<value><![CDATA[Nombre de la categoría]]></value>
 	</definition>
