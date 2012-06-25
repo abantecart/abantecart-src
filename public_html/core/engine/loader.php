@@ -61,11 +61,12 @@ final class ALoader {
 
 		if (file_exists($file)) {
 			include_once($file);
-
 			$this->registry->set('model_' . str_replace('/', '_', $model), new $class($this->registry));
 		} else if ( $mode != 'silent' ) {
 			throw new AException(AC_ERR_LOAD, 'Error: Could not load model ' . $model . '!');
-		}
+		}else{
+            return false;
+        }
 	}
 	 
 	public function database($driver, $hostname, $username, $password, $database, $prefix = NULL, $charset = 'UTF8') {

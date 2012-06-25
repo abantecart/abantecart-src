@@ -36,7 +36,7 @@ class ControllerResponsesExtensionDefaultUpsSave extends AController {
             'default_ups_height',
             'default_ups_width',
 		);
-
+    public function main(){}
     public function update() {
 
         $this->loadLanguage('extension/extensions');

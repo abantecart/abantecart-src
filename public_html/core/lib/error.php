@@ -93,7 +93,7 @@ class AError {
     public function toLog()
     {
         if (!is_object($this->registry) || !$this->registry->has('log') ) {
-            $log = new ALog('system/logs/error.txt');
+            $log = new ALog(DIR_SYSTEM.'logs/error.txt');
         } else {
             $log = $this->registry->get('log');
         }

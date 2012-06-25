@@ -52,9 +52,11 @@ final class ALanguage {
                 
 		//Load available languages;
 	    $this->loader = $registry->get('load');
-	    $this->loader->model('localisation/language');
-	    $model = $registry->get('model_localisation_language');
-	    $this->available_languages = $model->getLanguages();
+	    $result = $this->loader->model('localisation/language','silent');
+        if($result!==FALSE){
+            $model = $registry->get('model_localisation_language');
+            $this->available_languages = $model->getLanguages();
+        }
 
 		//If No language code, need Language Detection, set site language to use and set content language separately
 		if (!$code){
@@ -367,8 +369,9 @@ final class ALanguage {
 	    // if value empty anyway - write message
 	    if(empty($lang_value)){
         	$caller_file = $backtrace[0]['file'];
-        	$caller_file_line = $backtrace[0]['line'];    	
-		    $this->registry->get('messages')->saveWarning('Language definition "'. $key.'" is absent for "'.$this->available_languages[$this->code]['name'].'"', 'AbanteCart engine cannot find value of language definition with key "'.$key.'" in ' . $caller_file . ' line ' . $caller_file_line. '.  Please add it manually in #admin#rt=localisation/language_definitions of control panel.' );
+        	$caller_file_line = $backtrace[0]['line'];
+            $rt = $this->request->get('rt');
+		    $this->registry->get('messages')->saveWarning('Language definition "'. $key.'" is absent for "'.$this->available_languages[$this->code]['name'].'"', 'AbanteCart engine cannot find value of language definition with key "'.$key.'" in ' . $caller_file . ' line ' . $caller_file_line. ($rt ? ' (rt='.$rt.')' : '').'.  Please add it manually in #admin#rt=localisation/language_definitions of control panel.' );
 	    }
 		return $lang_value;
     }
