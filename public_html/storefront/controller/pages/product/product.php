@@ -250,7 +250,8 @@ class ControllerPagesProductProduct extends AController {
 				if ($this->config->get('config_stock_display')) {
 					$this->data['stock'] = $product_info['quantity'];
 				} else {
-					$this->data['stock'] = $this->language->get('text_instock') ;
+					//$this->data['stock'] = $this->language->get('text_instock') ;
+					$this->data['stock'] = $product_info['stock_status'];
 				}
 			}
 
