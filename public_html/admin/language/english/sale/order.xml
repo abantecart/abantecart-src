@@ -44,6 +44,10 @@
     <key>text_fax</key>
     <value><![CDATA[Fax]]></value>
   </definition>
+    <definition>
+        <key>text_select_country</key>
+        <value><![CDATA[- Select Country -]]></value>
+    </definition>
   <definition>
     <key>text_to</key>
     <value><![CDATA[To]]></value>

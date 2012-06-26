@@ -1,12 +1,8 @@
 <div id="aPopup">
-
-	<div class="popbox_tl">
+	<div class="popbox_tl" style="margin-top: 10px;">
 		<div class="popbox_tr">
 			<div class="popbox_tc"></div>
 		</div>
-	</div>
-	<div class="message_head" >
-		<div id="popup_title" class="message_title"><?php echo $popup_title;?></div>
 	</div>
 	<div class="popbox_cl"><div class="popbox_cr"><div class="popbox_cc message_body" >
 		<div class="aform">
@@ -40,8 +36,6 @@
 
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/ui.dialog.js"></script>
 <script type="text/javascript">
-<!--
-
 var $aPopup = $('#aPopup');
 var msg_id;
 function show_popup(id){
@@ -49,9 +43,15 @@ function show_popup(id){
 		autoOpen: false,
 		modal: true,
 		resizable: false,
-		dialogClass: 'aPopup',
 		width: 550,
 		minWidth: 550,
+        title: '<?php echo $popup_title;?>',
+        buttons:{
+            "close": function(event, ui) {
+                $(this).dialog('destroy');
+            }
+        },
+        open: function() {},
 		resize: function(event, ui){
 		},
 		close: function(event, ui) {
@@ -67,11 +67,9 @@ function show_popup(id){
 		dataType: 'text',
 		data: 'dataset_id='+id,
 		success: function(data) {
-			$aPopup.addClass("popbox2");
 			$('#popup_text').html(data);
 			$aPopup.dialog('open');
 		}
 	});
 }
--->
 </script>

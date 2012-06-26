@@ -17,6 +17,10 @@
         <value><![CDATA[Fedex Key:<br /><span class="help">Enter the Fedex Key Assigned to You, Required.</span>]]></value>
     </definition>
     <definition>
+        <key>default_fedex_status</key>
+        <value><![CDATA[Estado:]]></value>
+    </definition>
+    <definition>
         <key>default_fedex_password</key>
         <value><![CDATA[Fedex Password:<br /><span class="help"></span>]]></value>
     </definition>

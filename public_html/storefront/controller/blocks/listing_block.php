@@ -70,6 +70,7 @@ class ControllerBlocksListingBlock extends AController {
 	protected function _prepareProducts($data){
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
+		$this->loadLanguage('product/product');
 
 		foreach($data as $result){
 			$product_ids[] = (int)$result['product_id'];
@@ -86,10 +87,6 @@ class ControllerBlocksListingBlock extends AController {
 			} else {
 				$add = $this->html->getSecureURL('checkout/cart','&product_id=' . $result['product_id'], '&encode');
 			}
-
-
-
-
 
 			$products[] = array(
 								'product_id'    => $result['product_id'],

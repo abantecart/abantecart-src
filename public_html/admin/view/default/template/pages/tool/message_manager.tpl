@@ -1,5 +1,4 @@
 <div id="aPopup">
-
 	<div class="message_head" >
 		<div id="msg_title" class="message_title"></div>
 		<table>

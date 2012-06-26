@@ -292,14 +292,14 @@ class ModelExtensionDefaultUps extends Model {
             ),
             // Puerto Rico Origin
             'PR' => array(
-                '01' => $this->language->get('text_pr_origin_01'),
-                '02' => $this->language->get('text_pr_origin_02'),
-                '03' => $this->language->get('text_pr_origin_03'),
-                '07' => $this->language->get('text_pr_origin_07'),
-                '08' => $this->language->get('text_pr_origin_08'),
-                '14' => $this->language->get('text_pr_origin_14'),
-                '54' => $this->language->get('text_pr_origin_54'),
-                '65' => $this->language->get('text_pr_origin_65')
+                '01' => $this->language->get('text_eu_origin_01'),
+                '02' => $this->language->get('text_eu_origin_02'),
+                '03' => $this->language->get('text_eu_origin_03'),
+                '07' => $this->language->get('text_ca_origin_07'),
+                '08' => $this->language->get('text_ca_origin_08'),
+                '14' => $this->language->get('text_eu_origin_14'),
+                '54' => $this->language->get('text_other_origin_54'),
+                '65' => $this->language->get('text_other_origin_65')
             ),
             // Mexico Origin
             'MX' => array(
