@@ -19,9 +19,10 @@
 	  <div class="cont_left"><div class="cont_right"><div class="cont_mid">
 
       <div style="display: inline-block; width: 100%;">
-        <div id="tabs" class="vtabs"><a tab="#tab_general"><?php echo $tab_general; ?></a>
+        <div id="tabs" class="vtabs">
+            <a tab="#tab_general"><?php echo $tab_general; ?></a>
           <?php foreach ($locations as $location) { ?>
-          <a tab="#tab_location<?php echo $location['location_id']; ?>"><?php echo $location['name']; ?></a>
+          <a tab="#tab_location_<?php echo $location['location_id']; ?>"><?php echo $location['name']; ?></a>
           <?php } ?>
         </div>
         <div id="tab_general" class="vtabs_page">
@@ -29,9 +30,7 @@
             <tr>
               <td><?php echo $entry_tax; ?></td>
               <td><?php echo $form['fields']['tax']; ?></td>
-
             </tr>
-            
             <tr>
               <td><?php echo $entry_sort_order; ?></td>
               <td><?php echo $form['fields']['sort_order']; ?></td>
@@ -39,7 +38,7 @@
           </table>
         </div>
         <?php foreach ($locations as $location) { ?>
-        <div id="tab_location<?php echo $location['default_location_id']; ?>" class="vtabs_page">
+        <div id="tab_location_<?php echo $location['location_id']; ?>" class="vtabs_page">
           <table class="form">
             <tr>
               <td><?php echo $entry_rate; ?></td>
@@ -68,6 +67,6 @@
 <script type="text/javascript"><!--
 jQuery(function(){
 $.tabs('#tabs a');
-$('.aform').show();
+//$('.aform').show();
 });
 //--></script>
