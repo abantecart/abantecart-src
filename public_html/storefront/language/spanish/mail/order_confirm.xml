@@ -101,6 +101,10 @@
     <value><![CDATA[Teléfono:]]></value>
   </definition>
   <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Fax:]]></value>
+  </definition>
+  <definition>
     <key>text_ip</key>
     <value><![CDATA[IP Dirección:]]></value>
   </definition>

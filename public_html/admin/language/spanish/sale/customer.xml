@@ -184,4 +184,8 @@
     <key>text_select_group</key>
     <value><![CDATA[- Seleccione el Grupo -]]></value>
   </definition>
+  <definition>
+    <key>entry_approved</key>
+    <value><![CDATA[Aprobado:]]></value>
+  </definition>
 </definitions>

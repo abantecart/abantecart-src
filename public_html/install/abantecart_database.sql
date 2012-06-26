@@ -6937,29 +6937,6 @@ INSERT INTO `ac_global_attributes_types` (`attribute_type_id`, `type_key`, `type
 -- Product Features and Filters 
 --
 
-DROP TABLE IF EXISTS `ac_product_features`;
-CREATE TABLE `ac_product_features` (
-  `feature_id` int(11) NOT NULL AUTO_INCREMENT,
-  `attribute_id` int(11) NOT NULL,
-  `parent_id` int(11) NOT NULL,
-  `sort_order` int(3) NOT NULL DEFAULT '0',
-  `status` smallint(1) NOT NULL default '0',
-  `searchable` smallint(1) NOT NULL default '0',
-  PRIMARY KEY (`feature_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
-
-DROP TABLE IF EXISTS `ac_product_features_values`;
-CREATE TABLE `ac_product_features_values` (
-  `feature_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `attribute_value_id` int(11),  
-  `value` varchar(255) NOT NULL DEFAULT '',
-  `language_id` int(11) NOT NULL,
-  PRIMARY KEY (`feature_id`, `product_id`, `language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
 DROP TABLE IF EXISTS `ac_product_filters`;
 CREATE TABLE `ac_product_filters` (
   `filter_id` int(11) NOT NULL AUTO_INCREMENT,
