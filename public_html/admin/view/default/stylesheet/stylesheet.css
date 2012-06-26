@@ -852,7 +852,7 @@ div#options .option_lang_field {
 }
 .type_blocks .image_block {
 	width:120px;
-    height:160px;
+    height:auto;
     overflow: hidden;
 }
 
