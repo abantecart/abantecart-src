@@ -199,6 +199,7 @@ class ControllerPagesCheckoutAddress extends AController {
 		$this->view->assign('error_lastname', $this->error['lastname'] );
 		$this->view->assign('error_address_1', $this->error['address_1'] );
 		$this->view->assign('error_city', $this->error['city'] );
+		$this->view->assign('error_postcode', $this->error['postcode'] );
 		$this->view->assign('error_country', $this->error['country'] );
 		$this->view->assign('error_zone', $this->error['zone'] );
 
@@ -282,7 +283,7 @@ class ControllerPagesCheckoutAddress extends AController {
                                                                        'type' => 'input',
 		                                                               'name' => 'postcode',
 		                                                               'value' => $this->request->post['postcode'],
-		                                                               'required' => false ));
+		                                                               'required' => true ));
 		$this->loadModel('localisation/country');
         $countries = $this->model_localisation_country->getCountries();
         $options = array("FALSE" => $this->language->get('text_select') );

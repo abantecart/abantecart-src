@@ -58,7 +58,7 @@
     </definition>
     <definition>
         <key>error_postcode</key>
-        <value><![CDATA[Código Postal debe estar entre 2 y 10 caracteres!]]></value>
+        <value><![CDATA[Código Postal debe estar entre 3 y 10 caracteres!]]></value>
     </definition>
     <definition>
         <key>entry_country</key>

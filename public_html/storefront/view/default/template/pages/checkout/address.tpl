@@ -71,6 +71,13 @@
               <span class="error"><?php echo $error_city; ?></span>
               <?php } ?></td>
           </tr>
+            <tr>
+                <td><?php echo $entry_postcode; ?></td>
+                <td><?php echo $form['postcode']; ?>
+                    <?php if ($error_postcode) { ?>
+                    <span class="error"><?php echo $error_postcode; ?></span>
+                    <?php } ?></td>
+            </tr>
           <tr>
             <td><?php echo $entry_country; ?></td>
             <td><?php echo $form['country_id']; ?>
@@ -84,10 +91,6 @@
               <?php if ($error_zone) { ?>
               <span class="error"><?php echo $error_zone; ?></span>
               <?php } ?></td>
-          </tr>
-          <tr>
-            <td><?php echo $entry_postcode; ?></td>
-            <td><?php echo $form['postcode']; ?></td>
           </tr>
         </table>
       </div>

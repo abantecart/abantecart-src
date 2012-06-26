@@ -29,7 +29,7 @@ class ControllerPagesAccountLogin extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		if ($this->customer->isLogged()) {
-      		$this->redirect($this->html->getSecureURL('account/account'));
+            $this->redirect($this->html->getSecureURL('account/account'));
     	}
 	
     	$this->document->setTitle( $this->language->get('heading_title') );
@@ -56,8 +56,8 @@ class ControllerPagesAccountLogin extends AController {
 				$address =  $this->model_account_address->getAddress($address_id);
 				$this->tax->setZone($address['country_id'], $address['zone_id']);
 
-				if (isset($this->request->post['redirect'])) {
-					$this->redirect(str_replace('&amp;', '&', $this->request->post['redirect']));
+				if ( $this->session->data[ 'checkout_redirect' ] ) {
+					$this->redirect($this->session->data[ 'checkout_redirect' ]);
 				} else {
 					$this->redirect($this->html->getSecureURL('account/account'));
 				} 

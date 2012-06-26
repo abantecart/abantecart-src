@@ -72,7 +72,10 @@
           </tr>
           <tr>
             <td><?php echo $entry_postcode; ?></td>
-            <td><?php echo $form['postcode']; ?></td>
+            <td><?php echo $form['postcode']; ?>
+                <?php if ($error_postcode) { ?>
+                    <span class="error"><?php echo $error_postcode; ?></span>
+                    <?php } ?></td>
           </tr>
           <tr>
             <td><?php echo $entry_country; ?></td>
@@ -134,7 +137,10 @@
           </tr>
           <tr>
             <td><?php echo $entry_postcode; ?></td>
-            <td><?php echo $form['shipping_postcode']; ?></td>
+            <td><?php echo $form['shipping_postcode']; ?>
+                <?php if ($error_shipping_postcode) { ?>
+                    <span class="error"><?php echo $error_shipping_postcode; ?></span>
+                    <?php } ?></td>
           </tr>
           <tr>
             <td><?php echo $entry_country; ?></td>

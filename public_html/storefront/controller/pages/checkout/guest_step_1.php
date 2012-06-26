@@ -160,12 +160,14 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 		$this->view->assign('error_telephone', $this->error[ 'telephone' ]);
 		$this->view->assign('error_address_1', $this->error[ 'address_1' ]);
 		$this->view->assign('error_city', $this->error[ 'city' ]);
+		$this->view->assign('error_postcode', $this->error[ 'postcode' ]);
 		$this->view->assign('error_country', $this->error[ 'country' ]);
 		$this->view->assign('error_zone', $this->error[ 'zone' ]);
 		$this->view->assign('error_shipping_firstname', $this->error[ 'shipping_firstname' ]);
 		$this->view->assign('error_shipping_lastname', $this->error[ 'shipping_lastname' ]);
 		$this->view->assign('error_shipping_address_1', $this->error[ 'shipping_address_1' ]);
 		$this->view->assign('error_shipping_city', $this->error[ 'shipping_city' ]);
+		$this->view->assign('error_shipping_postcode', $this->error[ 'shipping_postcode' ]);
 		$this->view->assign('error_shipping_country', $this->error[ 'shipping_country' ]);
 		$this->view->assign('error_shipping_zone', $this->error[ 'shipping_zone' ]);
 
@@ -309,7 +311,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 		                                                               'type' => 'input',
 		                                                               'name' => 'postcode',
 		                                                               'value' => $postcode,
-		                                                               'required' => false ));
+		                                                               'required' => true ));
 
 
 		if (isset($this->request->post[ 'country_id' ])) {
@@ -440,7 +442,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 		                                                                        'type' => 'input',
 		                                                                        'name' => 'shipping_postcode',
 		                                                                        'value' => $shipping_postcode,
-		                                                                        'required' => false ));
+		                                                                        'required' => true ));
 
 		$options = array( "FALSE" => $this->language->get('text_select') );
 		foreach ($countries as $item) {
@@ -532,6 +534,9 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 		if ((strlen(utf8_decode($this->request->post[ 'city' ])) < 3) || (strlen(utf8_decode($this->request->post[ 'city' ])) > 128)) {
 			$this->error[ 'city' ] = $this->language->get('error_city');
 		}
+		if ((strlen(utf8_decode($this->request->post[ 'postcode' ])) < 3) || (strlen(utf8_decode($this->request->post[ 'postcode' ])) > 10)) {
+			$this->error[ 'postcode' ] = $this->language->get('error_postcode');
+		}
 
 		if ($this->request->post[ 'country_id' ] == 'FALSE') {
 			$this->error[ 'country' ] = $this->language->get('error_country');
@@ -557,6 +562,9 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 
 			if ((strlen(utf8_decode($this->request->post[ 'shipping_city' ])) < 3) || (strlen(utf8_decode($this->request->post[ 'shipping_city' ])) > 128)) {
 				$this->error[ 'shipping_city' ] = $this->language->get('error_city');
+			}
+			if ((strlen(utf8_decode($this->request->post[ 'shipping_postcode' ])) < 3) || (strlen(utf8_decode($this->request->post[ 'shipping_postcode' ])) > 10)) {
+				$this->error[ 'shipping_postcode' ] = $this->language->get('error_postcode');
 			}
 
 			if ($this->request->post[ 'shipping_country_id' ] == 'FALSE') {

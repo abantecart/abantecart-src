@@ -130,7 +130,7 @@
   </definition>
   <definition>
     <key>error_postcode</key>
-    <value><![CDATA[Zip/postal code must be between 2 and 10 characters!]]></value>
+    <value><![CDATA[Zip/postal code must be between 3 and 10 characters!]]></value>
   </definition>
   <definition>
     <key>error_country</key>
