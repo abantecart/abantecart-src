@@ -120,4 +120,8 @@
 		<key>tab_layout</key>
 		<value><![CDATA[ Diseño ]]></value>
 	</definition>
+	<definition>
+        <key>tab_image</key>
+        <value><![CDATA[Imágenes]]></value>
+    </definition>
 </definitions>

@@ -172,7 +172,18 @@
 		<key>text_apply</key>
 		<value><![CDATA[ Aplicar la selección ]]></value>
 	</definition>
-
+	<definition>
+		<key>text_create</key>
+		<value><![CDATA[Crear bloque]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[ Orden de Clasificación ]]></value>
+	</definition>
+	<definition>
+		<key>column_image</key>
+		<value><![CDATA[ Imagen ]]></value>
+	</definition>
 </definitions>
 
 

@@ -244,4 +244,20 @@
         <key>text_no_resources</key>
         <value><![CDATA[No hay recursos disponibles]]></value>
     </definition>
+	<definition>
+        <key>view_title</key>
+        <value><![CDATA[Ver los Recursos de los Objetos]]></value>
+    </definition>
+	<definition>
+        <key>text_save_sort_order</key>
+        <value><![CDATA[Guardar Orden de Clasificación]]></value>
+    </definition>
+	<definition>
+		<key>error_ajax</key>
+		<value><![CDATA[Carga de error de datos. Por favor, compruebe el registro de errores para obtener más información.]]></value>
+	</definition>
+	<definition>
+        <key>text_preview</key>
+        <value><![CDATA[Preview/Descargar]]></value>
+    </definition>
 </definitions>

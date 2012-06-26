@@ -194,5 +194,8 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 		<value>
 			<![CDATA[ 'Error: Usted tiene la versión AbanteCart %VERSION% instalado <br> Este paquete de actualización sólo para las versiones inferiores.  ]]></value>
 	</definition>
-
+	<definition>
+		<key>text_retry</key>
+		<value><![CDATA[ Reintentar ]]></value>
+	</definition>
 </definitions>

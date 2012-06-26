@@ -417,7 +417,83 @@
         <value><![CDATA[Desasignar]]></value>
     </definition>
 	<definition>
+		<key>text_success_option</key>
+		<value><![CDATA[Éxito: Se ha modificado la opción de producto.]]></value>
+	</definition>
+	<definition>
 		<key>text_add_new_option</key>
 		<value><![CDATA[- Añadir una nueva Opción -]]></value>
 	</definition>
+	<definition>
+		<key>text_option_name</key>
+		<value><![CDATA[Nombre de la Opción]]></value>
+	</definition>
+    <definition>
+		<key>text_group_option</key>
+		<value><![CDATA[Grupo de Opciones]]></value>
+	</definition>
+	<definition>
+		<key>text_option_type</key>
+		<value><![CDATA[Tipo de Opción]]></value>
+	</definition>
+    <definition>
+		<key>text_option_values</key>
+		<value><![CDATA[Los Valores de Opción]]></value>
+	</definition>
+    <definition>
+		<key>text_no_option_values</key>
+		<value><![CDATA[No hay Valores de Opción]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_option_values</key>
+		<value><![CDATA[Editar Valor de Opción]]></value>
+	</definition>
+	<definition>
+		<key>text_save_option_values</key>
+		<value><![CDATA[Valor de la Opción Guardar]]></value>
+	</definition>
+	<definition>
+		<key>button_remove_option</key>
+		<value><![CDATA[Quite la Opción]]></value>
+	</definition>
+	<definition>
+		<key>text_option_removed</key>
+		<value><![CDATA[Quitado la Opción]]></value>
+	</definition>
+	<definition>
+		<key>entry_weight_type</key>
+		<value><![CDATA[Peso Tipo]]></value>
+	</definition>
+	<definition>
+		<key>error_attribute_not_selected</key>
+		<value><![CDATA[Por favor, seleccione la opción para agregar!]]></value>
+	</definition>
+	<definition>
+		<key>error_required</key>
+		<value><![CDATA[Esta materia es necesaria!]]></value>
+	</definition>
+	<definition>
+		<key>error_option_in_group</key>
+		<value><![CDATA[La opción no se puede agregar a la máquina, pues ya forma parte de la opción de grupo!]]></value>
+	</definition>
+	<definition>
+        <key>entry_required</key>
+        <value><![CDATA[Necesario:]]></value>
+    </definition>
+    <definition>
+        <key>entry_element_type</key>
+        <value><![CDATA[Tipo de Elemento:]]></value>
+    </definition>
+    <definition>
+        <key>entry_element_values</key>
+        <value><![CDATA[Los Valores de Elementos:]]></value>
+    </definition>
+	<definition>
+        <key>text_expand</key>
+        <value><![CDATA[+ expandir]]></value>
+    </definition>
+	<definition>
+        <key>text_hide</key>
+        <value><![CDATA[- ocultar]]></value>
+    </definition>
 </definitions>

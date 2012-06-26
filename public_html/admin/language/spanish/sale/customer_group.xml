@@ -40,4 +40,8 @@
     <key>error_customer</key>
     <value><![CDATA[Advertencia: Este Grupo de clientes no puede suprimirse, ya que esta actualmente asignado a %s clientes!]]></value>
   </definition>
+  <definition>
+    <key>breadcrumb_title</key>
+    <value><![CDATA[Customer Groups]]></value>
+  </definition>
 </definitions>

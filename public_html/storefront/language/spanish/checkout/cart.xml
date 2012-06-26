@@ -53,4 +53,8 @@
 		<value>
 			<![CDATA[Los productos marcados con *** no están disponibles en la cantidad deseada o no están en stock!]]></value>
 	</definition>
+	<definition>
+		<key>error_required_options</key>
+		<value><![CDATA[Por favor, rellene todas las opciones necesarias!]]></value>
+	</definition>
 </definitions>
