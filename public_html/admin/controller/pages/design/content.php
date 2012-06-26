@@ -197,10 +197,10 @@ class ControllerPagesDesignContent extends AController {
 		$this->document->addScript( RDIR_TEMPLATE.'javascript/ckeditor/ckeditor.js' );
 		$this->acm = new AContentManager();
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
-			$this->acm->addContent($this->request->post);
+			$content_id = $this->acm->addContent($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 
-			$this->redirect($this->html->getSecureURL('design/content'));
+			$this->redirect($this->html->getSecureURL('design/content/update', '&content_id='.$content_id));
 		}
 
 		// content language switcher
@@ -259,6 +259,11 @@ class ControllerPagesDesignContent extends AController {
 		} else {
 			$template_data['error_warning'] = '';
 		}
+
+        $this->view->assign('success', $this->session->data[ 'success' ]);
+        if (isset($this->session->data[ 'success' ])) {
+            unset($this->session->data[ 'success' ]);
+        }
 
  		$template_data['error'] = $this->error;
  		$template_data['language_id'] = $this->config->get('storefront_language_id');
@@ -477,7 +482,7 @@ class ControllerPagesDesignContent extends AController {
 		$content = $this->acm->getContent($content_id);
 
 		$page_id = $this->acm->getPageId($content_id);
-		$layout_id = $this->acm->getPageId($layout_id);
+		//$layout_id = $this->acm->getPageId($layout_id);
 		$tmpl_id = $this->config->get('config_storefront_template');
 
 		$this->view->assign('error_warning', (isset($this->error['warning']) ? $this->error['warning'] : ''));
@@ -504,7 +509,7 @@ class ControllerPagesDesignContent extends AController {
 		$this->view->assign('tab_layout', $this->language->get('tab_layout'));
 
 
-		$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+		$layout = new ALayoutManager($tmpl_id, $page_id,(int)$layout_id);
 
 		$settings['page'] = $layout->getPageData();
 		$settings['page']['content'] = $content['content'];

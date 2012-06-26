@@ -374,7 +374,7 @@ class ControllerPagesLocalisationLocation extends AController {
 		$this->data['form']['fields']['country'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'country_id',
-			'value' => $this->data['country_id'],
+			'value' => ($this->data['country_id'] ? $this->data['country_id'] : $this->config->get('config_country_id')),
 			'options' => $this->data['countries'],
 		));
 

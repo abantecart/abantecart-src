@@ -93,6 +93,7 @@ class AContentManager {
 
 
 		$this->cache->delete('contents');
+        return $content_id;
 	}
 
 	public function editContent($content_id, $data) {
@@ -540,7 +541,7 @@ class AContentManager {
 			return;
 		}
 
-		$page = $this->db->query("SELECT pages.page_id
+		$page = $this->db->query("SELECT page_id
 								  FROM ".DB_PREFIX."pages
 								  WHERE controller = 'pages/content/content'
 								        AND key_param = 'content_id' AND key_value = '".$content_id."'" );
@@ -558,8 +559,8 @@ class AContentManager {
 			return;
 		}
 		$page = $this->db->query("SELECT pl.layout_id
-								  FROM ".DB_PREFIX."pages
-								  LEFT JOIN ".DB_PREFIX."pages_layouts pl ON pl.page_id = pages.page_id
+								  FROM ".DB_PREFIX."pages   p
+								  LEFT JOIN ".DB_PREFIX."pages_layouts pl ON pl.page_id = p.page_id
 								  WHERE controller = 'pages/content/content'
 								        AND key_param = 'content_id' AND key_value = '".$content_id."'" );
 

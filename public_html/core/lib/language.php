@@ -370,7 +370,7 @@ final class ALanguage {
 	    if(empty($lang_value)){
         	$caller_file = $backtrace[0]['file'];
         	$caller_file_line = $backtrace[0]['line'];
-            $rt = $this->registry->get('request')->get('rt');
+            $rt = $this->registry->get('request')->get['rt'];
 		    $this->registry->get('messages')->saveWarning('Language definition "'. $key.'" is absent for "'.$this->available_languages[$this->code]['name'].'"', 'AbanteCart engine cannot find value of language definition with key "'.$key.'" in ' . $caller_file . ' line ' . $caller_file_line. ($rt ? ' (rt='.$rt.')' : '').'.  Please add it manually in #admin#rt=localisation/language_definitions of control panel.' );
 	    }
 		return $lang_value;
