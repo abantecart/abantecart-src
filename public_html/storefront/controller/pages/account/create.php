@@ -150,7 +150,7 @@ class ControllerPagesAccountCreate extends AController {
                                                                        'type' => 'input',
 		                                                               'name' => 'postcode',
 		                                                               'value' => $this->request->post['postcode'],
-		                                                               'required' => false ));
+		                                                               'required' => true ));
 		$this->loadModel('localisation/country');
         $countries = $this->model_localisation_country->getCountries();
         $options = array("FALSE" => $this->language->get('text_select') );
@@ -212,6 +212,7 @@ class ControllerPagesAccountCreate extends AController {
 		$this->data['error_confirm'] = $this->error['confirm'];
 		$this->data['error_address_1'] = $this->error['address_1'];
 		$this->data['error_city'] = $this->error['city'];
+		$this->data['error_postcode'] = $this->error['postcode'];
 		$this->data['error_country'] = $this->error['country'];
 		$this->data['error_zone'] = $this->error['zone'];
 

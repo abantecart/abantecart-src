@@ -70,7 +70,7 @@
   </definition>
   <definition>
     <key>entry_postcode</key>
-    <value><![CDATA[Código Postal:]]></value>
+    <value><![CDATA[ZIP/Código Postal:]]></value>
   </definition>
   <definition>
     <key>entry_city</key>
@@ -127,6 +127,10 @@
   <definition>
     <key>error_city</key>
     <value><![CDATA[La ciudad debería tener más de 3 caracteres y menos de 128]]></value>
+  </definition>
+  <definition>
+    <key>error_postcode</key>
+    <value><![CDATA[Código Postal debe estar entre 2 y 10 caracteres!]]></value>
   </definition>
   <definition>
     <key>error_country</key>

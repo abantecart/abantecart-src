@@ -95,6 +95,9 @@ class ModelAccountCustomer extends Model {
     	if ((strlen(utf8_decode($data['city'])) < 3) || (strlen(utf8_decode($data['city'])) > 128)) {
       		$error['city'] = $this->language->get('error_city');
     	}
+    	if ((strlen(utf8_decode($data['postcode'])) < 3) || (strlen(utf8_decode($data['postcode'])) > 128)) {
+      		$error['postcode'] = $this->language->get('error_postcode');
+    	}
 
     	if ($data['country_id'] == 'FALSE') {
       		$error['country'] = $this->language->get('error_country');

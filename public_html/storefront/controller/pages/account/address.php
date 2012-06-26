@@ -260,6 +260,7 @@ class ControllerPagesAccountAddress extends AController
         $this->view->assign('error_lastname', $this->error['lastname']);
         $this->view->assign('error_address_1', $this->error['address_1']);
         $this->view->assign('error_city', $this->error['city']);
+        $this->data['error_postcode'] = $this->error['postcode'];
         $this->view->assign('error_country', $this->error['country']);
         $this->view->assign('error_zone', $this->error['zone']);
 
@@ -376,7 +377,7 @@ class ControllerPagesAccountAddress extends AController
                                                                    'type' => 'input',
                                                                    'name' => 'postcode',
                                                                    'value' => $postcode,
-                                                                   'required' => false));
+                                                                   'required' => true));
         if (isset($this->request->post['country_id'])) {
       		$country_id = $this->request->post['country_id'];
     	}  elseif (isset($address_info)) {
@@ -457,6 +458,9 @@ class ControllerPagesAccountAddress extends AController
 
         if ((strlen(utf8_decode($this->request->post['city'])) < 3) || (strlen(utf8_decode($this->request->post['city'])) > 128)) {
             $this->error['city'] = $this->language->get('error_city');
+        }
+        if ((strlen(utf8_decode($this->request->post['postcode'])) < 3) || (strlen(utf8_decode($this->request->post['postcode'])) > 10)) {
+            $this->error['postcode'] = $this->language->get('error_postcode');
         }
 
         if ($this->request->post['country_id'] == 'FALSE') {
