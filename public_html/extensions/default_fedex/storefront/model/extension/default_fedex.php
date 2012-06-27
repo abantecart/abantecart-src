@@ -96,15 +96,16 @@ class ModelExtensionDefaultFedex extends Model {
 
         }
 
-
-        $title = $this->language->get('text_title');
-        $method_data = array(
-            'id'         => 'default_fedex',
-            'title'      => $title,
-            'quote'      => $quote_data,
-            'sort_order' => $this->config->get('default_fedex_sort_order'),
-            'error'      => $error_msg
-        );
+        if($quote_data){
+            $title = $this->language->get('text_title');
+            $method_data = array(
+                'id'         => 'default_fedex',
+                'title'      => $title,
+                'quote'      => $quote_data,
+                'sort_order' => $this->config->get('default_fedex_sort_order'),
+                'error'      => $error_msg
+            );
+        }
         return $method_data;
 	}
 
