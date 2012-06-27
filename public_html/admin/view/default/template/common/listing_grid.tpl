@@ -384,14 +384,11 @@ var updatePager = false;
 	});
 
 	$( table_id+'_selected_action').aform({triggerChanged: false});
-	$('tr.ui-search-toolbar').find("input, select").each( function(){
 
-				/* TODO: !!!this code does not work without alerts inside loop. madness
-				var index = $(this).parent().parent().parent().children().index($(this).parent().parent());
-				if($(table_id + ' tr:first').next().children(':eq(' + index + ')').css('text-align')=='left'){
-					alert($(table_id + ' tr:first').next().html());
-				 	$(this).parent().css('text-align','left');
-				}*/
+    $('tr.ui-search-toolbar').find("input, select").each( function(){
+				var index = $(this).parent().parent().parent().children().index($(this).parent().parent())-1;
+                var algn =  jq_model[index].align;
+				$(this).parent().css('text-align',algn);
 				$.aform.styleGridForm(this);
 	});
 });
