@@ -30,6 +30,7 @@ final class AData {
 	private $status_arr = array();
 	private $run_mode;
 	private $nested_array = array();
+	private $actions = array('insert', 'update', 'update_or_insert', 'delete');
 
 	public function __construct() {
 		if ( !IS_ADMIN ) {
@@ -393,6 +394,10 @@ final class AData {
 			$scope_cnt = 0;
 			$sub_array = array();
 			foreach ( $row as $col_name => $value ) {
+				//get action
+				if ( $col_name == 'action' ) {
+					$row_array[$col_name] = $value;
+				}
 				//get top level table and fields names
 				preg_match('/^(\w+)\.(\w+)$/', $col_name, $matches);
 				if (count($matches) == 3) {
@@ -735,7 +740,7 @@ final class AData {
 	// <action>insert|update|delete|update_or_insert</action>
 	//Note update_or_insert is best guess action 
 	private function _get_action($table_name, $table_cfg, $data_arr) {
-		if( $data_arr['action'] ){
+		if( $data_arr['action'] && in_array($data_arr['action'], $this->actions) ){
 			return $data_arr['action'];
 		} else {
 			//get ids required for the table and not special relationship
