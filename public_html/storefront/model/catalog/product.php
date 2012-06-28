@@ -1125,7 +1125,16 @@ class ModelCatalogProduct extends Model {
 	
 	public function getTotalProducts($data = array()) {
 		return $this->getProducts($data, 'total_only');
-	}		
+	}
+
+    public function getProductSpecials($sort='p.sort_order',$order='ASC',$start=0,$limit=0){
+        $limit = (int)$limit;
+        $limit = !$limit ? $this->config->get('config_special_limit') : $limit;
+        $promoton = new APromotion();
+        $results = $promoton->getProductSpecials($sort, $order, $start, $limit);
+
+        return $results;
+    }
 		
 }
 ?>

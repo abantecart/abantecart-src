@@ -442,10 +442,10 @@ class ControllerPagesSettingStore extends AController {
 			'style' => 'small-field',
 		));
 		$this->data['form']['fields']['option']['tax'] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
-			'name' => 'config_tax',
-			'value' => $this->data['config_tax'],
-			'options' => $yes_no,
+            'type' => 'checkbox',
+            'name' => 'config_tax',
+            'value' => $this->data['config_tax'],
+            'style' => 'btn_switch'
 		));
 
 		$this->data['form']['fields']['option']['customer_group'] = $form->getFieldHtml(array(
@@ -455,22 +455,22 @@ class ControllerPagesSettingStore extends AController {
 			'options' => $customer_groups,
 		));
 		$this->data['form']['fields']['option']['customer_price'] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
-			'name' => 'config_customer_price',
-			'value' => $this->data['config_customer_price'],
-			'options' => $yes_no,
+            'type' => 'checkbox',
+            'name' => 'config_customer_price',
+            'value' => $this->data['config_customer_price'],
+            'style' => 'btn_switch'
 		));
 		$this->data['form']['fields']['option']['customer_approval'] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
-			'name' => 'config_customer_approval',
-			'value' => $this->data['config_customer_approval'] ? $this->data['config_customer_approval'] : 1,
-			'options' => $yes_no,
+            'type' => 'checkbox',
+            'name' => 'config_customer_approval',
+            'value' => $this->data['config_customer_approval'],
+            'style' => 'btn_switch'
 		));
 		$this->data['form']['fields']['option']['guest_checkout'] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
-			'name' => 'config_guest_checkout',
-			'value' => $this->data['config_guest_checkout'],
-			'options' => $yes_no,
+            'type' => 'checkbox',
+            'name' => 'config_guest_checkout',
+            'value' => $this->data['config_guest_checkout'],
+            'style' => 'btn_switch'
 		));
 
 		$acm = new AContentManager();
@@ -494,16 +494,16 @@ class ControllerPagesSettingStore extends AController {
 			'options' => $contents
 		));
 		$this->data['form']['fields']['option']['stock_display'] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
-			'name' => 'config_stock_display',
-			'value' => $this->data['config_stock_display'],
-			'options' => $yes_no,
+            'type' => 'checkbox',
+            'name' => 'config_stock_display',
+            'value' => $this->data['config_stock_display'],
+            'style' => 'btn_switch'
 		));
 		$this->data['form']['fields']['option']['stock_checkout'] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
-			'name' => 'config_stock_checkout',
-			'value' => $this->data['config_stock_checkout'],
-			'options' => $yes_no,
+            'type' => 'checkbox',
+            'name' => 'config_stock_checkout',
+            'value' => $this->data['config_stock_checkout'],
+            'style' => 'btn_switch'
 		));
 		$this->data['form']['fields']['option']['order_status'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -512,30 +512,13 @@ class ControllerPagesSettingStore extends AController {
 			'options' => $order_statuses,
 		));
 		$this->data['form']['fields']['option']['cart_weight'] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
-			'name' => 'config_cart_weight',
-			'value' => $this->data['config_config_cart_weight'],
-			'options' => $yes_no,
+            'type' => 'checkbox',
+            'name' => 'config_cart_weight',
+            'value' => $this->data['config_cart_weight'],
+            'style' => 'btn_switch'
 		));
 
-		/*$this->loadModel('tool/image');
 
-		$resources_scripts = $this->dispatch('responses/common/resource_library/get_resources_scripts',
-											 array( 'object_name' => '',
-													'object_id' => '',
-													'types' => 'image',
-													'mode' => 'url'));
-
-        $this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
-
-		$rm = new AResource('image');
-
-		$id = $rm->getIdFromHexPath( str_replace($rm->getTypeDir(), '', $this->data['config_logo']) );
-        $thumb = $rm->getResourceThumb( $id,100,100);
-
-        if ( !$thumb ) {
-			$thumb = $this->model_tool_image->resize('no_image.jpg',100,100);
-		}*/
 		$resource = new AResource( 'image' );
 		$this->data['settings']['config_logo'] = $this->dispatch(
 					'responses/common/resource_library/get_resource_html_single',
@@ -569,13 +552,7 @@ class ControllerPagesSettingStore extends AController {
 																							 'name' => 'config_logo',
 																							 'value' => $this->data['config_logo']));
 
-		/*$id = $rm->getIdFromHexPath( str_replace($rm->getTypeDir(), '', $this->data['config_icon']) );
-        $thumb = $rm->getResourceThumb( $id,16,16);
 
-        if ( !$thumb ) {
-			$thumb = $this->model_tool_image->resize('no_image.jpg',16,16);
-		}
-		$this->data['settings']['config_icon'] = '<img src="'.$thumb.'" border="0"/></br>';*/
 		$this->data['form']['fields']['image']['config_icon'] .= $form->getFieldHtml(array( 'type' => 'hidden',
 																							'name' => 'config_icon',
 		                                                                                    'value' => $this->data['config_icon']));
@@ -594,20 +571,7 @@ class ControllerPagesSettingStore extends AController {
             'style' => 'small-field',
             'required' => true,
         ));
-       /* $this->data['form']['fields']['image']['image_popup_width'] = $form->getFieldHtml(array(
-            'type' => 'input',
-            'name' => 'config_image_popup_width',
-            'value' => $this->data['config_image_popup_width'],
-            'style' => 'small-field',
-            'required' => true,
-        ));
-        $this->data['form']['fields']['image']['image_popup_height'] = $form->getFieldHtml(array(
-            'type' => 'input',
-            'name' => 'config_image_popup_height',
-            'value' => $this->data['config_image_popup_height'],
-            'style' => 'small-field',
-            'required' => true,
-        ));*/
+
         $this->data['form']['fields']['image']['image_category_width'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'config_image_category_width',
@@ -680,10 +644,10 @@ class ControllerPagesSettingStore extends AController {
         ));
 
 		$this->data['form']['fields']['server']['ssl'] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
-			'name' => 'config_ssl',
-			'value' => $this->data['config_ssl'],
-			'options' => $yes_no,
+            'type' => 'checkbox',
+            'name' => 'config_ssl',
+            'value' => $this->data['config_ssl'],
+            'style' => 'btn_switch'
 		));
 
 		$this->view->batchAssign( $this->data );
@@ -741,7 +705,17 @@ class ControllerPagesSettingStore extends AController {
 		if (!$this->request->post['config_catalog_limit']) {
 			$this->error['catalog_limit'] = $this->language->get('error_limit');
 		}
-		
+
+        $this->request->post['config_tax'] = (int)$this->request->post['config_tax'];
+        $this->request->post['config_customer_price'] = (int)$this->request->post['config_customer_price'];
+        $this->request->post['config_customer_approval'] = (int)$this->request->post['config_customer_approval'];
+        $this->request->post['config_guest_checkout'] = (int)$this->request->post['config_guest_checkout'];
+        $this->request->post['config_stock_display'] = (int)$this->request->post['config_stock_display'];
+        $this->request->post['config_stock_checkout'] = (int)$this->request->post['config_stock_checkout'];
+        $this->request->post['config_cart_weight'] = (int)$this->request->post['config_cart_weight'];
+        $this->request->post['config_ssl'] = (int)$this->request->post['config_ssl'];
+
+
 		if (!$this->error) {
 			return TRUE;
 		} else {

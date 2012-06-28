@@ -7,9 +7,9 @@
     <!-- header blocks placeholder -->
     <?php foreach ($children_blocks as $k => $block) { ?>
       <?php if ($k == count($children_blocks)-1 ) { ?>
-      <div class="flt_right"><?php echo ${$block}; ?></div>
+      <div class="header_block flt_right"><?php echo ${$block}; ?></div>
       <?php } else { ?>
-      <div class="flt_left"><?php echo ${$block}; ?></div>
+      <div class="header_block flt_left"><?php echo ${$block}; ?></div>
       <?php } ?>
     <?php } ?>
     <!-- header blocks placeholder (EOF) -->

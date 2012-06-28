@@ -87,6 +87,9 @@ a img {
 	clear: both;
 	width: 100%;
 }
+.header_block{
+    margin-bottom: 5px;
+}
 
 .h_section1 {
 	min-height: 103px;
@@ -232,7 +235,10 @@ a img {
 	margin: 10px 0 0 0;
 	clear: both;
 }
-
+.footer_block{
+    margin-top: 5px;
+    margin-left: 5px;
+}
 .f_section0_left {
 	background: url(../image/bar_top_left.png) top left no-repeat;
 	clear: right;

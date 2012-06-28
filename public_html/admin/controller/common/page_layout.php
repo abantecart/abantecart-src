@@ -24,7 +24,7 @@ class ControllerCommonPageLayout extends AController {
 	public function main() {
 		//use to init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-
+        $this->session->data['content_language_id'] = $this->config->get('storefront_language_id');
 		$settings = func_get_arg(0);
 		$settings['button_save'] = $this->language->get('button_save');
 		$this->view->batchAssign($settings);

@@ -48,8 +48,8 @@ class ControllerBlocksListingBlock extends AController {
 			if(!$exists || !$this->data['controller']){
 				//Only products have special listing data preparation
 				if(in_array($this->data['listing_datasource'], array('custom_products',
-				                                                          'catalog_product_getPopularProducts',
-				                                                          'catalog_product_getSpecialProducts',
+				                                                     'catalog_product_getPopularProducts',
+				                                                     'catalog_product_getSpecialProducts',
 				                                                    ))){
 					$this->_prepareProducts( $block_data['content'] );
 				}
@@ -161,7 +161,10 @@ class ControllerBlocksListingBlock extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		$listing_manager = new AListingManager($this->data['custom_block_id']);
 		$content = unserialize($this->data['descriptions'][$this->config->get('storefront_language_id')]['content']);
-
+        if(!$content && $this->data['descriptions']){
+            $content = current($this->data['descriptions']);
+            $content = unserialize($content['content']);
+        }
 		$this->data['controller'] = $content[ 'block_appearance' ];
 		$this->data['listing_datasource'] = $content['listing_datasource'];
 
@@ -225,12 +228,12 @@ class ControllerBlocksListingBlock extends AController {
 			}else{
 				// otherwise -  select list from method
 				if($route){
-					$this->load->model($data_source['storefront_model']);
-					$result = call_user_func_array(array( $this->{'model_'.str_replace('/','_',$data_source['storefront_model'])},
-												   $data_source['storefront_method']),
-					                               $listing_manager->getlistingArguments($data_source['storefront_model'],
-					                                                                     $data_source['storefront_method'],
-					                                                                     array('limit'=>$limit)) );
+					$this->loadModel($data_source['storefront_model']);
+                  	$result = call_user_func_array(array( $this->{'model_'.str_replace('/','_',$data_source['storefront_model'])},
+												          $data_source['storefront_method']),
+                                                   $listing_manager->getlistingArguments( $data_source['storefront_model'],
+                                                                                          $data_source['storefront_method'],
+                                                                                          array('limit'=>$limit)) );
 
 					if($result){
 						$desc = $listing_manager->getListingDataSources();

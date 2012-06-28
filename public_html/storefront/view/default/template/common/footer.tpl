@@ -22,9 +22,9 @@
 	            if($block == $donate) continue; // skip donation block
 	  ?>
       <?php if ($k == count($children_blocks)-1 ) { ?>
-      <div class="flt_right"><?php echo ${$block}; ?></div>
+      <div class="footer_block flt_right"><?php echo ${$block}; ?></div>
       <?php } else { ?>
-      <div class="flt_left"><?php echo ${$block}; ?></div>
+      <div class="footer_block flt_left"><?php echo ${$block}; ?></div>
       <?php } ?>
     <?php } ?>
     <!-- footer blocks placeholder (EOF) -->

@@ -226,7 +226,7 @@ class ALayoutManager {
 	}
 	
 	public function getAllBlocks() {
-		$cache_name = 'layout.a.blocks.all';
+		$cache_name = 'layout.a.blocks.all.'.$this->config->get ( 'storefront_language_id' );
 		$blocks = $this->cache->get ( $cache_name, '', (int)$this->config->get('config_store_id') );
 		if (! empty ( $blocks )) {
 			// return cached blocks
@@ -249,7 +249,7 @@ class ALayoutManager {
 		if($query->num_rows){
 			foreach($query->rows as $block){
 				if($block['custom_block_id']){
-					$block['block_name'] = $this->getCustomBlockName($block['custom_block_id'],$this->config->get ( 'admin_language' ));
+					$block['block_name'] = $this->getCustomBlockName($block['custom_block_id'],$this->config->get ( 'storefront_language_id' ));
 				}
 				$blocks[]=$block;
 			}

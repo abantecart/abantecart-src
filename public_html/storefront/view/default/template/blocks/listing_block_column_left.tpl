@@ -10,7 +10,7 @@
 <?php
 			foreach($content as $item){
 				echo '<div class="list_item" >
-						<div class="rightPane" '.(!$item['image']['thumb_html'] ? 'style="width:160px;"' : '' ).'>';
+						<div style="margin-top: 12%;" class="rightPane" '.(!$item['image']['thumb_html'] ? 'style="width:160px;"' : '' ).'>';
 				if($item['name']){
 						echo '<div class="title">
 								<a href="'.$item['url'].'">'.$item['name'].'</a>

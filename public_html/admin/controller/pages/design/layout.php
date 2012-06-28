@@ -27,7 +27,7 @@ class ControllerPagesDesignLayout extends AController {
 
 		 //use to init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-
+        $this->session->data['content_language_id'] = $this->config->get('storefront_language_id');
 		$this->document->setTitle($this->language->get('heading_title'));
 		
 		$url = '';
@@ -76,6 +76,7 @@ class ControllerPagesDesignLayout extends AController {
 		$settings['layout_templates'] = $layout->getLayoutTemplates();
 		$settings['_blocks'] = $layout->getInstalledBlocks();
 		$settings['blocks'] = $layout->getLayoutBlocks();
+
 		// hidden fields of layout form
 		$settings['hidden']['page_id'] = $page_id;
 		$settings['hidden']['layout_id'] = $layout_id;

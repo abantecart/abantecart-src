@@ -458,7 +458,13 @@ jQuery(function($){
                 });
                 html += '<div class="clr_both" style="height:30px"></div>';
                 $('#column_right').html(html);
+
                 $('#pagination').html(json.pagination);
+                if($('#pagination div.links').length){
+                    $('#pagination').show();
+                }else{
+                    $('#pagination').hide();
+                }
             }
         });
     }
