@@ -50,7 +50,6 @@ class ModelExtensionDefaultFedex extends Model {
             }
             $special_ship_products = $this->cart->specialShippingProducts();
             foreach ($special_ship_products as $product) {
-
                 //check if free or fixed shipping
                 $fixed_cost = -1;
                 $new_quote_data = array();
@@ -62,7 +61,8 @@ class ModelExtensionDefaultFedex extends Model {
                     if ($product['ship_individually']) {
                         $fixed_cost = $fixed_cost * $product['quantity'];
                     }
-                    $fixed_cost = $this->currency->convert($fixed_cost, 'USD', $this->currency->getCode());
+                    $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
+
                 } else {
                     $new_quote_data = $this->_processRequest( $address,  array($product));
                     $error_msg .=  $new_quote_data['error_msg'];
@@ -73,20 +73,13 @@ class ModelExtensionDefaultFedex extends Model {
                 //merge data and accumulate shipping cost
                 if ( $quote_data) {
                     foreach ($quote_data as $key => $value) {
-                        if ( isset($quote_data[$key]) ) {
-                            if ($fixed_cost >= 0){
+                        if ($fixed_cost >= 0){
                                 $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
                             } else {
                                 $quote_data[$key]['cost'] =  (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
                             }
-                        } else {
-                            $quote_data[$key] = $value;
-                            if ($fixed_cost >= 0){
-                                $quote_data[$key]['cost'] = $fixed_cost;
-                            }
-                        }
-                        $quote_data[$key]['text'] = $this->currency->format(
-                                $this->currency->convert($quote_data[$key]['cost'], 'USD', $this->currency->getCode()) );
+
+                        $quote_data[$key]['text'] = $this->currency->format($quote_data[$key]['cost'], $this->currency->getCode(),1 );
                     }
                 } else if ( $new_quote_data ) {
                     $quote_data = $new_quote_data['quote_data'];
@@ -270,23 +263,6 @@ class ModelExtensionDefaultFedex extends Model {
 
             }
 
-         /*   var_Dump(
-                $this->config->get('default_fedex_default_fedex_us_01'),
-                $this->config->get('default_fedex_default_fedex_us_02'),
-                $this->config->get('default_fedex_default_fedex_us_03'),
-                $this->config->get('default_fedex_default_fedex_us_04'),
-                $this->config->get('default_fedex_default_fedex_us_05'),
-                $this->config->get('default_fedex_default_fedex_us_06')
-            );
-              echo '<br>';
-        var_dump($first_overnight_quote,
-            $priority_overnight_quote,
-            $standard_overnight_quote,
-            $two_day_quote,
-            $express_saver_quote ,
-            $ground_quote
-
-        );*/
 
             if ($first_overnight_quote > 0 && $this->config->get('default_fedex_default_fedex_us_01') > 0 ) {
                 $first_overnight_quote = $first_overnight_quote + $fedex_add_chrg;

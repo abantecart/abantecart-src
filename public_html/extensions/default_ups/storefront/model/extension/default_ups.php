@@ -84,7 +84,7 @@ class ModelExtensionDefaultUps extends Model {
                     if ($product['ship_individually']) {
                         $fixed_cost = $fixed_cost * $product['quantity'];
                     }
-                    $fixed_cost = $this->currency->convert($fixed_cost, 'USD', $this->currency->getCode());
+                    $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
                 } else {
                     $request = $this->_buildRequest($address, $weight, $use_width, $use_length, $use_height);
                     if ($request) {
@@ -97,23 +97,21 @@ class ModelExtensionDefaultUps extends Model {
                 //merge data and accumulate shipping cost
                 if ( $quote_data) {
                     foreach ($quote_data as $key => $value) {
-                        if ( isset($quote_data[$key]) ) {
-                            if ($fixed_cost >= 0){
-                                $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
-                            } else {
-                                $quote_data[$key]['cost'] =  (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
-                            }
+
+                        if ($fixed_cost >= 0){
+                            $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
                         } else {
-                            $quote_data[$key] = $value;
-                            if ($fixed_cost >= 0){
-                                $quote_data[$key]['cost'] = $fixed_cost;
-                            }
+                            $quote_data[$key]['cost'] =  (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
                         }
+
                         $quote_data[$key]['text'] = $this->currency->format(
-                            $this->tax->calculate(
-                                $this->currency->convert($quote_data[$key]['cost'], 'USD', $this->currency->getCode()),
-                                $this->config->get('default_usps_tax_class_id'), $this->config->get('config_tax')
-                            )
+                                                                            $this->tax->calculate(
+                                                                                                $quote_data[$key]['cost'],
+                                                                                                $this->config->get('default_usps_tax_class_id'),
+                                                                                                $this->config->get('config_tax')
+                                                                                            ) ,
+                                                                            $this->currency->getCode(),
+                                                                            1
                         );
                     }
                 } else if ( $new_quote_data ) {

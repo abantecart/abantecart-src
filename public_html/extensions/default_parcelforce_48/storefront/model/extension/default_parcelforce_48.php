@@ -76,18 +76,13 @@ class ModelExtensionDefaultParcelforce48 extends Model
             //merge data and accumulate shipping cost
             if ($quote_data) {
                 foreach ($quote_data as $key => $value) {
-                    if (isset($quote_data[$key])) {
+
                         if ($fixed_cost >= 0) {
                             $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
                         } else {
                             $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
                         }
-                    } else {
-                        $quote_data[$key] = $value;
-                        if ($fixed_cost >= 0) {
-                            $quote_data[$key]['cost'] = $fixed_cost;
-                        }
-                    }
+
                     $quote_data[$key]['text'] = $this->currency->format(
                         $this->tax->calculate(
                             $this->currency->convert($quote_data[$key]['cost'], 'USD', $this->currency->getCode()),
