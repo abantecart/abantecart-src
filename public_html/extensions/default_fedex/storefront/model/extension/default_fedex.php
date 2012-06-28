@@ -291,7 +291,7 @@ class ModelExtensionDefaultFedex extends Model {
             if ($first_overnight_quote > 0 && $this->config->get('default_fedex_default_fedex_us_01') > 0 ) {
                 $first_overnight_quote = $first_overnight_quote + $fedex_add_chrg;
                 $quote_data['FEDEX_FIRST_OVERNIGHT'] = array(
-                    'id'           => 'fedex.'.'FEDEX_FIRST_OVERNIGHT',
+                    'id'           => 'default_fedex.'.'FEDEX_FIRST_OVERNIGHT',
                     'title'        => 'Fedex First Overnight',
                     'cost'         => $this->currency->convert($first_overnight_quote, 'USD', $this->currency->getCode()),
                     'tax_class_id' => 0,
@@ -302,7 +302,7 @@ class ModelExtensionDefaultFedex extends Model {
             if ($priority_overnight_quote > 0  && $this->config->get('default_fedex_default_fedex_us_02') > 0 ) {
                 $priority_overnight_quote = $priority_overnight_quote + $fedex_add_chrg;
                 $quote_data['FEDEX_PRIORITY_OVERNIGHT'] = array(
-                    'id'           => 'fedex.'.'FEDEX_PRIORITY_OVERNIGHT',
+                    'id'           => 'default_fedex.'.'FEDEX_PRIORITY_OVERNIGHT',
                     'title'        => 'Fedex Priority Overnight',
                     'cost'         => $this->currency->convert($priority_overnight_quote, 'USD', $this->currency->getCode()),
                     'tax_class_id' => 0,
@@ -313,7 +313,7 @@ class ModelExtensionDefaultFedex extends Model {
             if ($standard_overnight_quote > 0 && $this->config->get('default_fedex_default_fedex_us_03') > 0 ) {
                 $standard_overnight_quote = $standard_overnight_quote + $fedex_add_chrg;
                 $quote_data['FEDEX_STANDARD_OVERNIGHT'] = array(
-                    'id'           => 'fedex.'.'FEDEX_STANDARD_OVERNIGHT',
+                    'id'           => 'default_fedex.'.'FEDEX_STANDARD_OVERNIGHT',
                     'title'        => 'Fedex Standard Overnight',
                     'cost'         => $this->currency->convert($standard_overnight_quote, 'USD', $this->currency->getCode()),
                     'tax_class_id' => 0,
@@ -324,7 +324,7 @@ class ModelExtensionDefaultFedex extends Model {
             if ($two_day_quote > 0  && $this->config->get('default_fedex_default_fedex_us_04') > 0) {
                 $two_day_quote = $two_day_quote + $fedex_add_chrg;
                 $quote_data['FEDEX_2_DAY'] = array(
-                    'id'           => 'fedex.'.'FEDEX_2_DAY',
+                    'id'           => 'default_fedex.'.'FEDEX_2_DAY',
                     'title'        => 'Fedex 2 Day',
                     'cost'         => $this->currency->convert($two_day_quote, 'USD', $this->currency->getCode()),
                     'tax_class_id' => 0,
@@ -335,7 +335,7 @@ class ModelExtensionDefaultFedex extends Model {
             if ($express_saver_quote > 0 && $this->config->get('default_fedex_default_fedex_us_05') > 0 ) {
                 $express_saver_quote = $express_saver_quote + $fedex_add_chrg;
                 $quote_data['FEDEX_EXPRESS_SAVER'] = array(
-                    'id'           => 'fedex.'.'FEDEX_EXPRESS_SAVER',
+                    'id'           => 'default_fedex.'.'FEDEX_EXPRESS_SAVER',
                     'title'        => 'Fedex Express Saver',
                     'cost'         => $this->currency->convert($express_saver_quote, 'USD', $this->currency->getCode()),
                     'tax_class_id' => 0,
@@ -346,7 +346,7 @@ class ModelExtensionDefaultFedex extends Model {
             if ($ground_quote > 0 && $this->config->get('default_fedex_default_fedex_us_06') > 0 ) {
                 $ground_quote = $ground_quote + $fedex_add_chrg;
                 $quote_data['FEDEX_GROUND'] = array(
-                    'id'           => 'fedex.'.'FEDEX_GROUND',
+                    'id'           => 'default_fedex.'.'FEDEX_GROUND',
                     'title'        => 'Fedex Ground',
                     'cost'         => $this->currency->convert($ground_quote, 'USD', $this->currency->getCode()),
                     'tax_class_id' => 0,
