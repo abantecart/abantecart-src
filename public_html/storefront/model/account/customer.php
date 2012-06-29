@@ -114,12 +114,12 @@ class ModelAccountCustomer extends Model {
     	if ($data['confirm'] != $data['password']) {
       		$error['confirm'] = $this->language->get('error_confirm');
     	}
-		
+
 		if ($this->config->get('config_account_id')) {
 			$this->load->model('catalog/content');
 			
-			$content_info = $this->getContent($this->config->get('config_account_id'));
-			
+			$content_info = $this->model_catalog_content->getContent($this->config->get('config_account_id'));
+
 			if ($content_info) {
     			if (!isset($data['agree'])) {
       				$error['warning'] = sprintf($this->language->get('error_agree'), $content_info['title']);
