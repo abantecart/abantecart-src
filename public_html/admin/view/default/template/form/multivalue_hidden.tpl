@@ -17,7 +17,7 @@
 		<div class="center">
 			<div id="<?php echo $id ?>_count_text" class="multivalue count_text">
 				<?php echo $text_selected ?>
-				<span id="<?php echo $return_to ?>" class="multivalue count" />
+				<span id="<?php echo $return_to ?>" class="multivalue count"></span>
 			</div>
 			<div id="<?php echo $id ?>_save_reset" class="multivalue save_reset">
 				<a class="btn_standard"><span title="<?php echo $text_save ?>" class="button1"
