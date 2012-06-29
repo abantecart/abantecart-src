@@ -29,7 +29,7 @@
   </definition>
   <definition>
     <key>entry_restore</key>
-    <value><![CDATA[Restore:]]></value>
+    <value><![CDATA[Restore from sql or xml file:]]></value>
   </definition>
   <definition>
     <key>entry_loadxml</key>

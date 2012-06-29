@@ -256,8 +256,12 @@ class ModelExtensionDefaultFedex extends Model {
                         }
 
                     }catch (SoapFault $exception) {
-                       // throw new AException ( AC_ERR_LOAD, 'Error: FEDEX. '.$client );
-                        printFault($exception, $client);
+                        $error_text = 'Fault' . "<br>\n";
+                        $error_text .= "Code:".$exception->faultcode."\n";
+                        $error_text .= "String:".$exception->faultstring."\n";
+                        $error_text .= $client;
+                        $this->message->saveError('fedex extension soap error', $error_text);
+                        $this->log->write($error_text);
                     }
                 }
 
