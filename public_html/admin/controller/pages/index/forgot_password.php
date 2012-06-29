@@ -136,13 +136,6 @@ class ControllerPagesIndexForgotPassword extends AController {
 			$this->model_user_user->editUser($this->user_data['user_id'], array('password' => $password));
 
 			$mail = new AMail($this->config,$this->log);
-			$mail->protocol = $this->config->get('config_mail_protocol');
-			$mail->parameter = $this->config->get('config_mail_parameter');
-			$mail->hostname = $this->config->get('config_smtp_host');
-			$mail->username = $this->config->get('config_smtp_username');
-			$mail->password = $this->config->get('config_smtp_password');
-			$mail->port = $this->config->get('config_smtp_port');
-			$mail->timeout = $this->config->get('config_smtp_timeout');
 			$mail->setTo($this->user_data['email']);
 	  		$mail->setFrom($this->config->get('store_main_email'));
 	  		$mail->setSender($this->config->get('config_owner'));
