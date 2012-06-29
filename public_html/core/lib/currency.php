@@ -79,53 +79,48 @@ final class ACurrency {
 	  		setcookie('currency', $currency, time() + 60 * 60 * 24 * 30, '/', $this->request->server['HTTP_HOST']);
     	}
   	}
+  	
+  	/*
+  	* Format only number part (digit based)
+  	*/
+  	public function format_number($number, $currency = '', $crr_value = '') {
+		return $this->format($number, $currency, $crr_value, FALSE);
+	}
 
-  	public function format($number, $currency = '', $value = '', $format = TRUE) {
-		if ($currency) {
-      		$symbol_left   = $this->currencies[$currency]['symbol_left'];
-      		$symbol_right  = $this->currencies[$currency]['symbol_right'];
-      		$decimal_place = $this->currencies[$currency]['decimal_place'];
-    	} else {
-      		$symbol_left   = $this->currencies[$this->code]['symbol_left'];
-      		$symbol_right  = $this->currencies[$this->code]['symbol_right'];
-      		$decimal_place = $this->currencies[$this->code]['decimal_place'];
-			
+  	/*
+  	* Format number part and/or currency symbol
+  	*/
+  	public function format($number, $currency = '', $crr_value = '', $format = TRUE) {
+		if ( empty ($currency) ) {
 			$currency = $this->code;
+		}   	
+		   	
+    	if (!$crr_value) {
+      		$crr_value = $this->currencies[$currency]['value'];
     	}
 
-    	if (!$value) {
-      		$value = $this->currencies[$currency]['value'];
-    	}
-
-    	if ($value) {
-      		$value = $number * $value;
+    	if ($crr_value) {
+      		$value = $number * $crr_value;
     	} else {
       		$value = $number;
     	}
 
     	$string = '';
+    	$symbol_left = '';
+    	$symbol_right = '';
+      	$decimal_place = $this->currencies[$currency]['decimal_place'];
 
-    	if (($symbol_left) && ($format)) {
-      		$string .= $symbol_left;
-    	}
-
-		if ($format) {
+    	if ($format) {
+      		$symbol_left   = $this->currencies[$currency]['symbol_left'];
+      		$symbol_right  = $this->currencies[$currency]['symbol_right'];
 			$decimal_point = $this->language->get('decimal_point');
+			$thousand_point = $this->language->get('thousand_point');			
 		} else {
 			$decimal_point = '.';
-		}
-		
-		if ($format) {
-			$thousand_point = $this->language->get('thousand_point');
-		} else {
 			$thousand_point = '';
 		}
 		
-    	$string .= number_format(round($value, (int)$decimal_place), (int)$decimal_place, $decimal_point, $thousand_point);
-
-    	if (($symbol_right) && ($format)) {
-      		$string .= $symbol_right;
-    	}
+    	$string = $symbol_left . number_format(round($value, (int)$decimal_place), (int)$decimal_place, $decimal_point, $thousand_point) .$symbol_right;
 
     	return $string;
   	}
