@@ -1,4 +1,43 @@
+Release Notes: Version 1.0.3
 
+Core:
+    Update languages and more clear message on missing translations
+    Language definitions bugfixes
+
+Control Panel:
+
+    Fixed import/export issues
+    Fixed marketplace iframe in IE browser
+    Added warning at installation stage for non-writable Backup directory, added error messages for import/export.
+    Added warning at installation stage for non-writable Backup directory
+    Jquery flot axis labels js-file added
+    Jqgrid upgrade up to 4.3.3
+    Custom layout for categories, products, brands bugfix.
+    Response controller for help button for extensions added.
+    Added hook for order_attributes extension, fixed issue in checboxgroup.tpl (added attribute for input tag), fixed some other issues
+    Js number formatting fix
+    Extension list sorting bugfix
+    Subtrack stock option bugfix
+    Update Shipping to allow product level settings
+    Allow Free Product Shipping, Individual Product shipping and Fixed Product Price shipping
+    Grid's filter fields now align by column alignment
+    ui minor fixes
+
+
+Storefront :
+    Fixes in order history and guest checkout
+    Summary info added into order confirm page in main block
+    Product page stock status changes
+    Zip/postal code now required field in account form
+    Fixed issue with ignoring Privacy Policy agreement checkbox on creation account
+    ui minor fixes
+
+Extensions:
+    Banner extension added to distributive
+    Cheque / Money Order. Order status bugfix.
+    Extensions: Bank transfer extension added
+    Updating USPS and Flat shipping, Fedex,UPS, Weight Based shipping. Update shipping methods to work with product level shipping settings.
+    ui minor fixes
 
 Release Notes:  Version 1.0.2
 
