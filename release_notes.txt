@@ -6,6 +6,8 @@ Core:
 
 Control Panel:
 
+    Update Shipping methods to allow product level settings
+    Allow Free Product Shipping, Individual Product shipping and Fixed Product Price shipping
     Fixed import/export issues
     Fixed marketplace iframe in IE browser
     Added warning at installation stage for non-writable Backup directory, added error messages for import/export.
@@ -18,11 +20,8 @@ Control Panel:
     Js number formatting fix
     Extension list sorting bugfix
     Subtrack stock option bugfix
-    Update Shipping to allow product level settings
-    Allow Free Product Shipping, Individual Product shipping and Fixed Product Price shipping
     Grid's filter fields now align by column alignment
-    ui minor fixes
-
+    UI minor fixes
 
 Storefront :
     Fixes in order history and guest checkout
@@ -32,7 +31,7 @@ Storefront :
     Fixed issue with ignoring Privacy Policy agreement checkbox on creation account
     ui minor fixes
 
-Extensions:
+Core Extensions:
     Banner extension added to distributive
     Cheque / Money Order. Order status bugfix.
     Extensions: Bank transfer extension added
