@@ -17,7 +17,7 @@ Control Panel:
     Custom layout for categories, products, brands bugfix.
     Response controller for help button for extensions added.
     Added hook for order_attributes extension, fixed issue in checboxgroup.tpl (added attribute for input tag), fixed some other issues
-    Js number formatting fix
+    Javascript number formatting fix
     Extension list sorting bugfix
     Subtrack stock option bugfix
     Grid's filter fields now align by column alignment
@@ -29,14 +29,14 @@ Storefront :
     Product page stock status changes
     Zip/postal code now required field in account form
     Fixed issue with ignoring Privacy Policy agreement checkbox on creation account
-    ui minor fixes
+    UI minor fixes
 
 Core Extensions:
     Banner extension added to distributive
     Cheque / Money Order. Order status bugfix.
     Extensions: Bank transfer extension added
     Updating USPS and Flat shipping, Fedex,UPS, Weight Based shipping. Update shipping methods to work with product level shipping settings.
-    ui minor fixes
+    UI minor fixes
 
 Release Notes:  Version 1.0.2
 
