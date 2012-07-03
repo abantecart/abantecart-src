@@ -1464,7 +1464,7 @@ table.form tr td:first-child {
 .message_body{
 	color: #09487D;
 	font-family: Arial,Helvetica,sans-serif;
-	padding: 0 5px;
+	padding: 5px 0 0 5px;
     bottom: 5px;
     float: none;
     height: 405px;
