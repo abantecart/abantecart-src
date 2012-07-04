@@ -166,6 +166,7 @@ function saveField(obj, url) {
 				$form.append('<div class="field_err">' + $err + '</div>');
 			}
 		}
+
 		if(!need_reload ){
 			if($(this).attr("reload_on_save")){	 need_reload=true; }
 		}
@@ -180,9 +181,17 @@ function saveField(obj, url) {
 		}
 	});
 
+	$form.find('input:checkbox').each(function(){
+		if(!$(this).prop("checked")) $data += '&'+$(this).attr('name')+'=0';
+		if(!need_reload ){
+			if($(this).attr("reload_on_save")){	 need_reload=true; }
+		}
+	});
+
 	if(!$err) {
 		$ajax_result.insertBefore($grp).html('<span class="ajax_loading">Saving...</span>').show();
 		$grp.remove();
+
 		$.ajax({
 			url: url,
 			type: "post",
@@ -212,6 +221,7 @@ function saveField(obj, url) {
 				$('.field_err', $form).remove();
 			}
 		});
+
 	}
 }
 function resetField(obj) {
