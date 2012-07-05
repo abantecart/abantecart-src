@@ -96,22 +96,215 @@ final class ALanguage {
         return $this->_get_language_set($filename);
     }
 
-    private function get_language_details() {
-        $language_detail = array();
 
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "languages where code='" . $this->code . "'");
+	public function _get_language_set ( $lang_set ) {
+    	$entries = array();
+		//if no rt look in all languages for last available translation
+		if ( empty ($lang_set)) {
 
-        foreach ($query->rows as $result) {
-            $language_detail = array(
-                'language_id' => $result['language_id'],
-                'name' => $result['name'],
-                'code' => $result['code'],
-                'locale' => $result['locale'],
-                'directory' => $result['directory'],
-                'filename' => $result['filename']
-            );
+            $look_in_list = $this->current_languages_scope;
+            //look in all languages and merge
+            if ( empty($look_in_list) ) {
+                $look_in_list = array_keys($this->entries);
+            }
+
+			foreach ($look_in_list as $lang_set) {
+                if ( !empty($this->entries[$lang_set]) )
+				    $entries = array_merge($entries, $this->entries[$lang_set]);
+			}
+		}
+		else {
+			$entries = $this->entries[$lang_set];
+		}
+		return $entries;
+	}
+
+    //Returns array of all available languages in the abantecart system
+    public function getAvailableLanguages () {
+		return $this->available_languages;
+	}
+
+    //Returns array of active (status=1) languages in the abantecart system
+    public function getActiveLanguages() {
+		$active_languages = array();
+		foreach ($this->available_languages as $result) {
+			if ($result['status'] == 1) {
+				//TODO. Check if this is an extension and if it is enabled. Skip if extension diabled.
+				$active_languages[] =  array(
+					'name'  => $result['name'],
+					'code'  => $result['code'],
+					'image' => $result['image']
+				);
+			}
+		}
+		return $active_languages;
+	}
+
+    //Detect language used by the client's browser
+    public function getClientBrowserLanguage () {
+		$detect = '';
+    	$request = $this->registry->get('request');
+
+		if (isset($request->server['HTTP_ACCEPT_LANGUAGE']) && ($request->server['HTTP_ACCEPT_LANGUAGE'])) {
+			$browser_languages = explode(',', $request->server['HTTP_ACCEPT_LANGUAGE']);
+
+			foreach ($browser_languages as $browser_language) {
+				foreach ($this->available_languages as $key => $value) {
+					$locale = explode(',', $value['locale']);
+
+					if (in_array($browser_language, $locale)) {
+						$detect = $key;
+					}
+				}
+			}
+		}
+    	return $detect;
+    }
+
+    //function to decide what language to use
+    public function setCurrentLanguage(){
+    	$config = $this->registry->get('config');
+    	$session = $this->registry->get('session');
+    	$request = $this->registry->get('request');
+
+    	//build code based array
+		$languages = array();
+		foreach ( $this->available_languages as $lng ) {
+			$languages[ $lng['code'] ] = $lng;
+		}
+
+		//language code is porvided as input. Higher priority
+		if (isset($request->get['language']) && array_key_exists($request->get['language'], $languages)) {
+			$lang_code = $request->get['language'];
+		//Session based language
+		} elseif (isset($session->data['language']) && array_key_exists($session->data['language'], $languages)) {
+			$lang_code = $session->data['language'];
+		//Cookie based language
+		} elseif (isset($request->cookie['language']) && array_key_exists($request->cookie['language'], $languages)) {
+			$lang_code = $request->cookie['language'];
+		//Try autodetect the language based on the browser languages
+		} elseif ($detect = $his->getClientBrowserLanguage()) {
+			$lang_code = $detect;
+		} else {
+			$lang_code = $config->get('config_storefront_language');
+		}
+
+		if (!isset($session->data['language']) || $session->data['language'] != $lang_code) {
+			$session->data['language'] = $lang_code;
+		}
+
+		if (!isset($request->cookie['language']) || $request->cookie['language'] != $lang_code) {
+			setcookie('language', $lang_code, time() + 60 * 60 * 24 * 30, '/', $request->server['HTTP_HOST']);
+		}
+		//set current language
+		$this->current_language = $languages[$lang_code];
+		$config->set('storefront_language_id', $this->current_language['language_id']);
+		$config->set('config_storefront_language', $this->current_language['code']);
+
+		// set up language for content separately
+		if(isset($request->get['content_language_code'])){
+			$session->data['content_language'] = $request->get['content_language_code'];
+		} else {
+			$session->data['content_language'] = !isset($session->data['content_language']) ? $lang_code : $session->data['content_language'];
+		}
+		if(!$session->data['content_language']){
+			$session->data['content_language'] = $config->get('admin_language');
+		}
+		$session->data['content_language_id'] = $languages[$session->data['content_language']]['language_id'];
+    }
+
+	//Current site language ID
+    public function getLanguageID(){
+    	return $this->current_language['language_id'];
+	}
+
+	//Current site language Code
+    public function getLanguageCode(){
+    	return $this->current_language['code'];
+	}
+
+ 	//Current site language Data Array
+    public function getCurrentLanguage(){
+    	return $this->current_language;
+	}
+
+	//Current content language ID 
+    public function getContentLanguageID(){
+    	$session = $this->registry->get('session');
+    	return $session->data['content_language_id'];
+	}
+
+	//Current content language Code
+    public function getContentLanguageCode(){
+    	$session = $this->registry->get('session');
+    	return $session->data['content_language'];
+	}
+
+    //Function to populate all tables that have language linked data with new language data. Copy from default if source language is not provided
+    public function fillMissingLanguageEntries( $language_id, $source_language = '' ) {
+    	if (!$this->is_admin) {
+    	    return;
+    	}
+		if (empty($language_id)) {
+		    return;
+		}
+		$ret_str = '';
+		$tables = $this->_get_language_based_tables();
+        foreach ($tables as $table_name) {
+        	$pkeys = array();
+			//Set special case table and
+			if ( strstr($table_name['table_name'], 'language_definitions') ) {
+				array_push($pkeys, 'language_definition_id', 'language_id', 'section', 'block', 'language_key');
+				#PR  ????? Temporarly skip this table in below line.
+				#Problem: Not all XML section are loaded initialy and clone will not work correctly for language_definitions
+				#Solution: TODO: Load all XML section on cart and extension installation
+				continue;
+			} else if ( strstr($table_name['table_name'], 'orders') || strstr($table_name['table_name'], 'languages') ) {
+				continue;
+			} else {
+	        	#get primary keys
+	        	$pkeys = $this->_table_get_keys( $table_name['table_name'] );
+			}
+
+		    $ret_str .= $this->_clone_language_rows($table_name['table_name'], $pkeys, $language_id, $source_language);
         }
-        return $language_detail;
+    	return $ret_str;
+    }
+
+    //Clone record to all availabe langauges from specified language ID.
+    public function cloneToAllLanguages( $table, $source_language) {
+    	if (!$this->is_admin) {
+    			return;
+    	}
+    	$ret_str = '';
+    	// for each langauge Call _clone_language_rows
+		foreach ( $this->available_languages as $lng ) {
+			$language_id = $lng['id'];
+			if ($language_id == $source_language) {
+				continue;
+			}
+			$pkeys = array();
+			$pkeys = $this->_table_get_keys( $table );
+
+			$ret_str .= $this->_clone_language_rows($table, $pkeys, $language_id, $source_language);
+		}
+		return $ret_str;
+    }
+
+	//Clone language_definition text that is present in source language and missing in destination
+	public function cloneMissingDefinitions( $block, $language_id, $source_language) {
+        $tables = $this->_get_language_based_tables();
+        foreach ($tables as $table_name) {
+        	$pkeys = array();
+			//Set special case table and
+			if ( strstr($table_name['table_name'], 'language_definitions') ) {
+				ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' '. $block .' conning missing text from ' . $source_language);
+				array_push($pkeys, 'language_definition_id', 'language_id', 'section', 'block', 'language_key');
+				$section = $this->is_admin ? 1 : 0;
+				$specific_sql = " AND block = '" . $block . "' AND section = '" . $section . "'";
+				return $this->_clone_language_rows($table_name['table_name'], $pkeys, $language_id, $source_language, $specific_sql);
+			}
+    	}
     }
 
 	// wrapper for loading language via hook
@@ -181,6 +374,24 @@ final class ALanguage {
         return $this->entries[$filename];
     }
 
+    private function get_language_details() {
+        $language_detail = array();
+
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "languages where code='" . $this->code . "'");
+
+        foreach ($query->rows as $result) {
+            $language_detail = array(
+                'language_id' => $result['language_id'],
+                'name' => $result['name'],
+                'code' => $result['code'],
+                'locale' => $result['locale'],
+                'directory' => $result['directory'],
+                'filename' => $result['filename']
+            );
+        }
+        return $language_detail;
+    }
+
     private function _load_from_db ($language_id, $block_name, $section) {
     	if ( empty ($language_id) || empty($block_name) ) {
     		return array();
@@ -198,7 +409,7 @@ final class ALanguage {
 		return $lang_array;
     }
 
-    public function _save_to_db($block, $lang_defns) {
+    private function _save_to_db($block, $lang_defns) {
 	    if(!$lang_defns) return false;
 
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' '. $block .' saving to database');
@@ -258,8 +469,7 @@ final class ALanguage {
         return $file_path;
 	}
 
-
-    public function _load_from_xml($filename, $mode){
+    private function _load_from_xml($filename, $mode){
         $definitions = array();
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' '. $filename .' prepare loading language from XML');
 
@@ -403,193 +613,6 @@ final class ALanguage {
     	return $this->entries[$filename][$key];
     }
 
-
-	public function _get_language_set ( $lang_set ) {
-    	$entries = array();
-		//if no rt look in all languages for last available translation
-		if ( empty ($lang_set)) {
-
-            $look_in_list = $this->current_languages_scope;
-            //look in all languages and merge
-            if ( empty($look_in_list) ) {
-                $look_in_list = array_keys($this->entries);
-            }
-
-			foreach ($look_in_list as $lang_set) {
-                if ( !empty($this->entries[$lang_set]) )
-				    $entries = array_merge($entries, $this->entries[$lang_set]);
-			}
-		}
-		else {
-			$entries = $this->entries[$lang_set];
-		}
-		return $entries;
-	}
-
-    //Returns array of all available languages in the abantecart system
-    public function getAvailableLanguages () {
-		return $this->available_languages;
-	}
-
-    //Returns array of active (status=1) languages in the abantecart system
-    public function getActiveLanguages() {
-		$active_languages = array();
-		foreach ($this->available_languages as $result) {
-			if ($result['status'] == 1) {
-				//TODO. Check if this is an extension and if it is enabled. Skip if extension diabled.
-				$active_languages[] =  array(
-					'name'  => $result['name'],
-					'code'  => $result['code'],
-					'image' => $result['image']
-				);
-			}
-		}
-		return $active_languages;
-	}
-
-    //Detect language used by the client's browser
-    public function getClientBrowserLanguage () {
-		$detect = '';
-    	$request = $this->registry->get('request');
-
-		if (isset($request->server['HTTP_ACCEPT_LANGUAGE']) && ($request->server['HTTP_ACCEPT_LANGUAGE'])) {
-			$browser_languages = explode(',', $request->server['HTTP_ACCEPT_LANGUAGE']);
-
-			foreach ($browser_languages as $browser_language) {
-				foreach ($this->available_languages as $key => $value) {
-					$locale = explode(',', $value['locale']);
-
-					if (in_array($browser_language, $locale)) {
-						$detect = $key;
-					}
-				}
-			}
-		}
-    	return $detect;
-    }
-
-    //function to decide what language to use
-    public function setCurrentLanguage(){
-    	$config = $this->registry->get('config');
-    	$session = $this->registry->get('session');
-    	$request = $this->registry->get('request');
-
-    	//build code based array
-		$languages = array();
-		foreach ( $this->available_languages as $lng ) {
-			$languages[ $lng['code'] ] = $lng;
-		}
-
-		//language code is porvided as input. Higher priority
-		if (isset($request->get['language']) && array_key_exists($request->get['language'], $languages)) {
-			$lang_code = $request->get['language'];
-		//Session based language
-		} elseif (isset($session->data['language']) && array_key_exists($session->data['language'], $languages)) {
-			$lang_code = $session->data['language'];
-		//Cookie based language
-		} elseif (isset($request->cookie['language']) && array_key_exists($request->cookie['language'], $languages)) {
-			$lang_code = $request->cookie['language'];
-		//Try autodetect the language based on the browser languages
-		} elseif ($detect) {
-			$lang_code = $his->getClientBrowserLanguage();
-		} else {
-			$lang_code = $config->get('config_storefront_language');
-		}
-
-		if (!isset($session->data['language']) || $session->data['language'] != $lang_code) {
-			$session->data['language'] = $lang_code;
-		}
-
-		if (!isset($request->cookie['language']) || $request->cookie['language'] != $lang_code) {
-			setcookie('language', $lang_code, time() + 60 * 60 * 24 * 30, '/', $request->server['HTTP_HOST']);
-		}
-		//set current language
-		$this->current_language = $languages[$lang_code];
-		$config->set('storefront_language_id', $this->current_language['language_id']);
-		$config->set('config_storefront_language', $this->current_language['code']);
-
-		// set up language for content separately
-		if(isset($request->get['content_language_code'])){
-			$session->data['content_language'] = $request->get['content_language_code'];
-		} else {
-			$session->data['content_language'] = !isset($session->data['content_language']) ? $lang_code : $session->data['content_language'];
-		}
-		if(!$session->data['content_language']){
-			$session->data['content_language'] = $config->get('admin_language');
-		}
-		$session->data['content_language_id'] = $languages[$session->data['content_language']]['language_id'];
-    }
-
-    public function getCurrentLanguage(){
-    	return $this->current_language;
-	}
-
-    //Function to populate all tables that have language linked data with new language data. Copy from default if source language is not provided
-    public function fillMissingLanguageEntries( $language_id, $source_language = '' ) {
-    	if (!$this->is_admin) {
-    	    return;
-    	}
-		if (empty($language_id)) {
-		    return;
-		}
-		$ret_str = '';
-		$tables = $this->_get_language_based_tables();
-        foreach ($tables as $table_name) {
-        	$pkeys = array();
-			//Set special case table and
-			if ( strstr($table_name['table_name'], 'language_definitions') ) {
-				array_push($pkeys, 'language_definition_id', 'language_id', 'section', 'block', 'language_key');
-				#PR  ????? Temporarly skip this table in below line.
-				#Problem: Not all XML section are loaded initialy and clone will not work correctly for language_definitions
-				#Solution: TODO: Load all XML section on cart and extension installation
-				continue;
-			} else if ( strstr($table_name['table_name'], 'orders') || strstr($table_name['table_name'], 'languages') ) {
-				continue;
-			} else {
-	        	#get primary keys
-	        	$pkeys = $this->_table_get_keys( $table_name['table_name'] );
-			}
-
-		    $ret_str .= $this->_clone_language_rows($table_name['table_name'], $pkeys, $language_id, $source_language);
-        }
-    	return $ret_str;
-    }
-
-    //Clone record to all availabe langauges from specified language ID.
-    public function cloneToAllLanguages( $table, $source_language) {
-    	if (!$this->is_admin) {
-    			return;
-    	}
-    	$ret_str = '';
-    	// for each langauge Call _clone_language_rows
-		foreach ( $this->available_languages as $lng ) {
-			$language_id = $lng['id'];
-			if ($language_id == $source_language) {
-				continue;
-			}
-			$pkeys = array();
-			$pkeys = $this->_table_get_keys( $table );
-
-			$ret_str .= $this->_clone_language_rows($table, $pkeys, $language_id, $source_language);
-		}
-		return $ret_str;
-    }
-
-	//Clone language_definition text that is present in source language and missing in destination
-	public function cloneMissingDefinitions( $block, $language_id, $source_language) {
-        $tables = $this->_get_language_based_tables();
-        foreach ($tables as $table_name) {
-        	$pkeys = array();
-			//Set special case table and
-			if ( strstr($table_name['table_name'], 'language_definitions') ) {
-				ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' '. $block .' conning missing text from ' . $source_language);
-				array_push($pkeys, 'language_definition_id', 'language_id', 'section', 'block', 'language_key');
-				$section = $this->is_admin ? 1 : 0;
-				$specific_sql = " AND block = '" . $block . "' AND section = '" . $section . "'";
-				return $this->_clone_language_rows($table_name['table_name'], $pkeys, $language_id, $source_language, $specific_sql);
-			}
-    	}
-    }
 
     //Duplicate row from default langauge to new
     private function _clone_language_rows( $table, $pkeys, $new_language, $from_language = '', $specific_sql = '') {

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011, 2012 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -61,22 +61,18 @@ class ModelLocalisationOrderStatus extends Model {
 		$query = $this->db->query("SELECT *
 									FROM " . DB_PREFIX . "order_statuses
 									WHERE order_status_id = '" . (int)$order_status_id . "'
-											AND language_id = '" . (int)$this->session->data['content_language_id'] . "'");
+											AND language_id = '" . (int)$this->language->getLanguageID() . "'");
 		return $query->row;
 	}
 		
 	public function getOrderStatuses($data = array()) {
 
-		if ( !empty($data['content_language_id']) ) {
-			$language_id = ( int )$data['content_language_id'];
-		} else {
-			$language_id = (int)$this->session->data['content_language_id'];
-		}
+		$language_id = $this->language->getLanguageID();
 
       	if ($data) {
 			$sql = "SELECT *
 				    FROM " . DB_PREFIX . "order_statuses
-				    WHERE language_id = '" . $language_id . "'
+				    WHERE language_id = '" . (int)$language_id . "'
 				    ORDER BY `name`";
 			
 			if (isset($data['order']) && ($data['order'] == 'DESC')) {
