@@ -172,28 +172,20 @@ final class ACustomer {
 		return $this->address_id;	
   	}
   	
-  	public function getFormatedAdress( $data_array, $format = '', $params = array() ) {
+  	public function getFormatedAdress( $data_array, $format = '', $locate = array() ) {
   		// Set default format
 		if ( $format == '' ) {
 			$format = '{firstname} {lastname}' . "\n" . '{company}' . "\n" . '{address_1}' . "\n" . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
 		}
-		//Set default prams for address
-		if ( count($params) <= 0) {
-			$params = array(
-				'{firstname}',
-				'{lastname}',
-				'{company}',
-				'{address_1}',
-				'{address_2}',
-				'{city}',
-				'{postcode}',
-				'{zone}',
-				'{zone_code}',
-				'{country}'
-			);
+		//Set default varialble to be set for address based on the data
+		if ( count($locate) <= 0) {
+			$locate = array();
+			foreach ($data_array as $key => $value) {
+				$locate[] = "{" .$key . "}";
+			}		
 		}
 		
-		return str_replace(array( "\r\n", "\r", "\n" ), '<br />', preg_replace(array( "/\s\s+/", "/\r\r+/", "/\n\n+/" ), '<br />', trim(str_replace($params, $data_array, $format))));
+		return str_replace(array( "\r\n", "\r", "\n" ), '<br />', preg_replace(array( "/\s\s+/", "/\r\r+/", "/\n\n+/" ), '<br />', trim(str_replace($locate, $data_array, $format))));
   
   	}
   	
