@@ -44,6 +44,14 @@ if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
 	define('REAL_HOST', $_SERVER['HTTP_HOST']);
 }
 
+//Set up common paths
+define('DIR_SYSTEM', 		DIR_ROOT . '/system/');
+define('DIR_IMAGE', 		DIR_ROOT . '/image/');
+define('DIR_DOWNLOAD', 		DIR_ROOT . '/download/');
+define('DIR_DATABASE', 		DIR_ROOT . '/core/database/');
+define('DIR_CONFIG', 		DIR_ROOT . '/core/config/');
+define('DIR_CACHE', 		DIR_ROOT . '/system/cache/');
+define('DIR_LOGS', 			DIR_ROOT . '/system/logs/');
 
 // Error Reporting
 error_reporting(E_ALL);
@@ -268,17 +276,6 @@ $registry->set('html', $html);
 
 //Hook class
 $hook = new AHook($registry);
-
-
-// Configure and load generic items
-define('DIR_SYSTEM', 		DIR_ROOT . '/system/');
-define('DIR_IMAGE', 		DIR_ROOT . '/image/');
-define('DIR_DOWNLOAD', 		DIR_ROOT . '/download/');
-define('DIR_DATABASE', 		DIR_ROOT . '/core/database/');
-define('DIR_CONFIG', 		DIR_ROOT . '/core/config/');
-define('DIR_CACHE', 		DIR_ROOT . '/system/cache/');
-define('DIR_LOGS', 			DIR_ROOT . '/system/logs/');
-
 
 // Config
 $config = new AConfig();

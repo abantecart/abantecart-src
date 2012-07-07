@@ -213,6 +213,21 @@ final class ALanguage {
 		$session->data['content_language_id'] = $languages[$session->data['content_language']]['language_id'];
     }
 
+	//Default site language Code
+    public function getDefaultLanguageCode(){
+		return $this->is_admin ? $this->registry->get('config')->get('admin_language') : $this->registry->get('config')->get('config_storefront_language');
+	}
+
+	//Default site language Code
+    public function getDefaultLanguageID(){
+    	//build code based array
+		$languages = array();
+		foreach ( $this->available_languages as $lng ) {
+			$languages[ $lng['code'] ] = $lng;
+		}
+		return $languages[ $this->getDefaultLanguageCode() ]['language_id'];
+	}
+
 	//Current site language ID
     public function getLanguageID(){
     	return $this->current_language['language_id'];

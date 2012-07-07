@@ -52,7 +52,7 @@ class ModelCatalogCategory extends Model {
 		}else {
 			//Default behavior to save SEO URL keword from category name in default language
 			$languages = $this->language->getAvailableLanguages();
-			$defalut_lang_id = $languages[$this->session->data['content_language_id']]['language_id'];
+			$defalut_lang_id = $languages[$this->config->get('config_storefront_language')]['language_id'];
 			$seo_key = trim( strtolower( $data['category_description'][$defalut_lang_id]['name'] ) );
 			$seo_key = htmlentities( str_replace(" ","_",$seo_key) );
 			 
