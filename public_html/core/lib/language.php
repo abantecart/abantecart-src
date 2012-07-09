@@ -183,7 +183,7 @@ final class ALanguage {
 		} elseif (isset($request->cookie['language']) && array_key_exists($request->cookie['language'], $languages)) {
 			$lang_code = $request->cookie['language'];
 		//Try autodetect the language based on the browser languages
-		} elseif ($detect = $his->getClientBrowserLanguage()) {
+		} elseif ($detect = $this->getClientBrowserLanguage()) {
 			$lang_code = $detect;
 		} else {
 			$lang_code = $config->get('config_storefront_language');
