@@ -603,15 +603,13 @@ class ControllerPagesCatalogProduct extends AController {
         $this->data['form']['fields']['data']['price'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'price',
-			'value' => number_format((double)$this->data['price'], 2),
-	        'attr' => 'onBlur="formatPrice(this);"',
-		));
+			'value' => number_format((double)$this->data['price'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+	    ));
         $this->data['form']['fields']['data']['cost'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'cost',
-			'value' => number_format((double)$this->data['cost'], 2),
-	        'attr' => 'onBlur="formatPrice(this);"',
-		));
+			'value' => number_format((double)$this->data['cost'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+	    ));
         $this->data['form']['fields']['data']['tax_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'tax_class_id',
@@ -623,14 +621,12 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'quantity',
 			'value' => (int)$this->data['quantity'],
-	        'attr' => 'onBlur="formatQty(this);"',
-		));
+	    ));
         $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'minimum',
 			'value' => (int)$this->data['minimum'],
-	        'attr' => 'onBlur="formatQty(this);"',
-		));
+	    ));
         $this->data['form']['fields']['data']['subtract'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'subtract',
@@ -705,27 +701,26 @@ class ControllerPagesCatalogProduct extends AController {
         $this->data['form']['fields']['data']['shipping_price'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'shipping_price',
-			'value' => $this->data['shipping_price'],
-	        'attr' => 'onblur="formatPrice(this);"',
+			'value' => number_format($this->data['shipping_price'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+
 		));
 
         $this->data['form']['fields']['data']['length'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'length',
 			'value' => $this->data['length'],
-	        'attr' => 'onBlur="formatPrice(this);"',
-		));
+	    ));
         $this->data['form']['fields']['data']['width'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'width',
 			'value' => $this->data['width'],
-	        'attr' => ' autocomplete="false" onBlur="formatPrice(this);"',
+	        'attr' => ' autocomplete="false"',
 		));
         $this->data['form']['fields']['data']['height'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'height',
 			'value' => $this->data['height'],
-	        'attr' => ' autocomplete="false" onBlur="formatPrice(this);"',
+	        'attr' => ' autocomplete="false"',
 		));
         $this->data['form']['fields']['data']['length_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -737,7 +732,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'weight',
 			'value' => $this->data['weight'],
-			'attr' => ' autocomplete="false" onBlur="formatPrice(this);"',
+			'attr' => ' autocomplete="false"',
 		));
         $this->data['form']['fields']['data']['weight_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',

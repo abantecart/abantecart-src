@@ -972,8 +972,7 @@ class ControllerPagesSettingSetting extends AController {
 				$this->data['form']['fields']['upload_max_size'] = $form->getFieldHtml(array(
 					'type' => 'input',
 					'name' => 'config_upload_max_size',
-					'value' => $this->data['settings']['config_upload_max_size'],
-					'attr' => ' onblur="formatQty(this);"',
+					'value' => number_format($this->data['settings']['config_upload_max_size'],0,'.',$this->language->get('thousand_point'))
 				));
 				$this->data['form']['fields']['storefront_api_status'] = $form->getFieldHtml(array(
 					'type' => 'checkbox',
@@ -1165,6 +1164,10 @@ class ControllerPagesSettingSetting extends AController {
 				if (!$this->request->post['config_error_filename']) {
 					$this->error['error_filename'] = $this->language->get('error_error_filename');
 				}
+				if(isset($this->request->post['config_upload_max_size'])){
+					 $this->request->post['config_upload_max_size'] = preformatInteger($this->request->post['config_upload_max_size']);
+				}
+
 				break;
 
 			default:

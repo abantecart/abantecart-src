@@ -31,3 +31,15 @@ function isShellFunctionAvailable( $func_name ){
 	}
 	return true;
 }
+
+function preformatFloat($value, $decimal_point='.'){
+
+	if($decimal_point!='.'){
+		$value = str_replace('.','~',$value);
+		$value = str_replace($decimal_point,'.',$value);
+	}
+	return (float)preg_replace('/[^0-9\.]/','',$value);
+}
+function preformatInteger($value){
+	return (int)preg_replace('/[^0-9]/','',$value);
+}

@@ -65,6 +65,24 @@ $(document).ready(function() {
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
+
+$(document).ready(function(){
+	var array = ['#productFrm_price',
+				'#productFrm_cost',
+				'#productFrm_shipping_price',
+				'#productFrm_length',
+				'#productFrm_width',
+				'#productFrm_height',
+				'#productFrm_weight'];
+	for(var k in array){
+		$(array[k]).live('blur',function(){ formatPrice(this); });
+	}
+
+	$('#productFrm_quantity').live('blur',function(){ formatQty(this); });
+	$('#productFrm_minimum').live('blur',function(){ formatQty(this); });
+
+});
+
 if ( document.getElementById('productFrm_product_description[<?php echo $language_id; ?>][description]') )
 $('#productFrm_product_description\\[<?php echo $language_id; ?>\\]\\[description\\]').parents('.afield').removeClass('mask2');
 CKEDITOR.replace('productFrm_product_description[<?php echo $language_id; ?>][description]',

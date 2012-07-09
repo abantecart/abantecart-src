@@ -229,6 +229,9 @@ class ControllerResponsesListingGridSetting extends AController {
 							$err = $this->language->get('error_error_filename');
 						}
 						break;
+					case 'config_upload_max_size':
+						$this->request->post['config_upload_max_size'] = preformatInteger($this->request->post['config_upload_max_size']);
+						break;
 				}
 				break;
 

@@ -565,7 +565,8 @@ final class AData {
 				$result_arr['error'] = "Incorrectly configured table. $table_name missing table ID key name";
 			} else if ( $id_name == null ) {
 				//ID null can not have any children tables
-				continue;
+				return array();
+				//continue;
 			}
 			//process children tables for every record
 			foreach ($node_data as $row){

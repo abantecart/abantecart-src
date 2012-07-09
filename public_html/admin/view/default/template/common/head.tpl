@@ -54,7 +54,9 @@ $(document).ready(function(){
             }
         }
     });
+	numberSeparators = {decimal: '<?php echo $decimal_point; ?>', thousand: '<?php echo $thousand_point; ?>'};
 });
+
 </script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/aform.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/general.js"></script>
