@@ -248,7 +248,11 @@ final class AData {
 		//return Success or failed.
 
 		$command = 'tar -C ' . $tar_dir . ' -czvf ' . $tar_filename . ' ' . $filename. ' > /dev/null';
-		system($command,$exit_code);
+		if(isShellFunctionAvailable('system')){
+			system($command,$exit_code);
+		}else{
+			$exit_code = 1;
+		}
 
 		if ( $exit_code ) {
 			require_once(DIR_CORE . 'lib/targz.php');
@@ -560,7 +564,7 @@ final class AData {
 			if (empty($id_name)) {
 				$result_arr['error'] = "Incorrectly configured table. $table_name missing table ID key name";
 			} else if ( $id_name == null ) {
-				//ID null can not have any childrent tables
+				//ID null can not have any children tables
 				continue;
 			}
 			//process children tables for every record
@@ -989,13 +993,13 @@ final class AData {
 			// Date validation
 			// TODO Add field type to table configuration
 			if ( $col_name == 'date_added' || $col_name == 'date_modified' ) {
-				if ( (string)$column == '0000-00-00 00:00:00' ) {
+				if ( (string)$col_value == '0000-00-00 00:00:00' ) {
 					$cols[] = "`". $col_name . "` = '" . $this->db->escape($col_value) . "'";
 				} else {
 					$cols[] = "`". $col_name . "` = '" . date('Y-m-d H:i:s', strtotime($col_value)) . "'";
 				}
 			} else if ( $col_name == 'date_available' ) {
-				if ( (string)$column == '0000-00-00' ) {
+				if ( (string)$col_value == '0000-00-00' ) {
 					$cols[] = "`" . $col_name . "` = '" . $this->db->escape($col_value) . "'";
 				}
 				else {
