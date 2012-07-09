@@ -43,7 +43,7 @@ class ControllerResponsesExtensionExtension extends AController {
 		$content = array();
 		$content['title'] = $this->language->get('text_help');
 		if ( file_exists($help_file_path) && is_file($help_file_path) ) {
-			$content['content'] = strip_tags(file_get_contents($help_file_path));
+			$content['content'] = file_get_contents($help_file_path);
 		} else {
 			$content['content'] = $this->language->get('error_no_help_file');
 		}
