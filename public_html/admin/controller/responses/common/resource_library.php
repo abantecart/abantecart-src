@@ -375,8 +375,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
             $pagination->text = $this->language->get('text_pagination');
             $pagination->text_limit = $this->language->get('text_per_page');
             $pagination->url = $this->html->getSecureURL('common/resource_library/resources', $pagination_param . '&page={page}');
-
-            $result['pagination'] = $pagination->render();
+			if($resources_total>$pagination->limit){
+                $result['pagination'] = $pagination->render();
+			}
         }
 
         $this->load->library('json');

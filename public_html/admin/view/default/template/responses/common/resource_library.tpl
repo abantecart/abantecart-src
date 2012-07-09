@@ -403,6 +403,7 @@ jQuery(function($){
         showLoading();
         $('#multiactions').show();
         $('#pagination').show();
+
         $('#resource_details a.close').click();
 
         var keyword = $('#searchform input[name="search"]').val();
@@ -432,6 +433,9 @@ jQuery(function($){
                 var html = '';
                 loadedItems = json.items;
 
+	            $('#pagination').html(json.pagination);
+	            $('#pagination div.links').length ? $('#pagination').show() : $('#pagination').hide();
+
                 if ( !json.items.length ) {
                     html = '<div class="no_resource">'+text.text_no_resources+'<div><a class="btn_standard add_resource"><?php echo $button_add_resource; ?></a></div></div>';
                     $('#column_right').html(html);
@@ -459,12 +463,7 @@ jQuery(function($){
                 html += '<div class="clr_both" style="height:30px"></div>';
                 $('#column_right').html(html);
 
-                $('#pagination').html(json.pagination);
-                if($('#pagination div.links').length){
-                    $('#pagination').show();
-                }else{
-                    $('#pagination').hide();
-                }
+
             }
         });
     }

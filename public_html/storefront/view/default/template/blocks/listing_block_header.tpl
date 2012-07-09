@@ -16,7 +16,7 @@
 					} else {
 
 						if(!$item['resource_code']){
-							$image = '<img src="'. $item['image']['thumb_url']. '" width="50" alt="'. $item['name'] . '" />';
+							$image = '<img src="'. $item['image']['thumb_url']. '" width="50px"  style="margin: 10px;" alt="'. $item['name'] . '" />';
 							$image = '<a href="'. $item['image']['main_url']. '">' . $image . '</a>';
 							echo '<div class="image">'. $image .'</div><div style="clear: both;"></div>';
 							if($item['image']['title']){

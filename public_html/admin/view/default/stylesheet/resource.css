@@ -48,9 +48,10 @@ img {
     height:406px;
     overflow: auto;
     background: #FFF;
+    margin: 1px 196px 0 0;
     border: 1px solid #CCC;
     border-radius: 4px;
-    position:relative;
+    position:absolute;
     z-index: 1;
 }
 .loading_row{ background: url('../image/loading_row.gif') 50% 50% no-repeat #fff !important; }
