@@ -38,12 +38,12 @@ class ControllerResponsesExtensionExtension extends AController {
 		}
 		$extension = $this->request->get['extension'];
 		$ext = new ExtensionUtils($extension);
-		$help_file_path = DIR_EXT . $extension . '/' . str_replace('.', '', str_replace('..', '', $ext->getConfig('help_file'))) . '.txt';
+		$help_file_path = DIR_EXT . $extension . '/' . str_replace('..', '', $ext->getConfig('help_file'));
 
 		$content = array();
 		$content['title'] = $this->language->get('text_help');
 		if ( file_exists($help_file_path) && is_file($help_file_path) ) {
-			$content['content'] = strip_tags(file_get_contents($help_file_path));
+			$content['content'] = file_get_contents($help_file_path);
 		} else {
 			$content['content'] = $this->language->get('error_no_help_file');
 		}

@@ -184,7 +184,7 @@ function show_help(){
 		success: function(data) {
 
 			$aPopup.dialog( "option", "title", data.title );
-			$('#msg_body').text(data.content);
+			$('#msg_body').html(data.content);
 
 			$aPopup.dialog('open');
 		}
