@@ -10,14 +10,14 @@
 				<div class="list">
 					<?php
 					foreach ($content as $item) {
-					echo '<div class="list_item" >';
+					echo '<div style="width: auto;" class="list_item" >';
 					if ($item[ 'resource_code' ]) {
 						echo $item[ 'resource_code' ];
 					} else {
-
 						if(!$item['resource_code']){
 							$image = '<img src="'. $item['image']['thumb_url']. '" width="50px"  style="margin: 10px;" alt="'. $item['name'] . '" />';
 							$image = '<a href="'. $item['image']['main_url']. '">' . $image . '</a>';
+
 							echo '<div class="image">'. $image .'</div><div style="clear: both;"></div>';
 							if($item['image']['title']){
 								echo '<div class="title"><a href="'.$item['image']['main_url'].'">'.$item['image']['title'].'</a></div>';

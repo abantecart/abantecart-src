@@ -10,7 +10,7 @@
 				<div class="list">
 					<?php
 					foreach ($content as $item) {
-					echo '<div class="list_item" >';
+					echo '<div style="width: auto;" class="list_item" >';
 					if ($item[ 'resource_code' ]) {
 						echo $item[ 'resource_code' ];
 					} else {
