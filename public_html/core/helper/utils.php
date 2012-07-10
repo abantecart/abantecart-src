@@ -24,7 +24,9 @@ if (! defined ( 'DIR_CORE' )) {
 function isFunctionAvailable( $func_name ){
 	return function_exists($func_name);
 }
-
+/*
+ * prepare prices and other floats for database writing,, based on locale settings of number formatting
+ * */
 function preformatFloat($value, $decimal_point='.'){
 	if($decimal_point!='.'){
 		$value = str_replace('.','~',$value);
@@ -32,7 +34,9 @@ function preformatFloat($value, $decimal_point='.'){
 	}
 	return (float)preg_replace('/[^0-9\.]/','',$value);
 }
-
+/*
+ * prepare integer for database writing
+ * */
 function preformatInteger($value){
 	return (int)preg_replace('/[^0-9]/','',$value);
 }

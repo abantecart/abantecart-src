@@ -174,11 +174,12 @@ class ModelCatalogProduct extends Model {
 
         $update = array('date_modified = NOW()');
 		foreach ( $fields as $f ) {
-			if ( isset($data[$f]) )
+			if ( isset($data[$f]) ){
 				if(in_array($f,$preformat_fields)){
 					$data[$f] = preformatFloat($data[$f], $this->language->get('decimal_point'));
 				}
 				$update[] = "$f = '".$this->db->escape($data[$f])."'";
+			}
 		}
 		if ( !empty($update) ) {
 			$this->db->query("UPDATE `" . DB_PREFIX . "products` SET ". implode(',', $update) ." WHERE product_id = '" . (int)$product_id . "'");
@@ -214,8 +215,9 @@ class ModelCatalogProduct extends Model {
                 }
             }
 		}
-
-		$this->setFeatured( $product_id, $data['featured'] ? true : false);
+		if(isset($data['featured'])){
+			$this->setFeatured( $product_id, ($data['featured'] ? true : false));
+		}
 
 		if (isset($data['keyword'])) {
 			$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases WHERE query = 'product_id=" . (int)$product_id . "'");

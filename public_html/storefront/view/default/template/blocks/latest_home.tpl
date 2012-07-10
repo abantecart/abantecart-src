@@ -32,11 +32,11 @@ if ($products) {
 	    }
 		?>
 
-		<?php if( $ctr == 0 || $ctr % $col == 0) { ?>
+<?php if( $ctr == 0 || $ctr % $col == 0) { ?>
 <div class="list">		
-		<?php } 
-    	$ctr++;		
-		?>
+<?php }
+$ctr++;
+?>
 
 		<div class="list_item">
 			<div class="image"><a href="<?php echo $item['info_url']?>"><?php echo $item['image']?></a></div>
@@ -50,10 +50,10 @@ if ($products) {
 			</div>
 		</div>
 
-		<?php if( $ctr == count($products) || $ctr % $col == 0) { ?>
+<?php if( $ctr == count($products) || $ctr % $col == 0) { ?>
 <br class="clr_both" />
 </div>
-		<?php } ?>
+<?php } ?>
 				
 <?php
 	}
