@@ -36,7 +36,7 @@ class ModelToolSeoUrl extends Model {
 											   WHERE `query` = '" . $this->db->escape($key . '=' . (int)$value) . "'");
 				
 					if ($query->num_rows) {
-						$url .= '/' . urlencode(html_entity_decode($query->row['keyword'],ENT_QUOTES,'UTF-8'));
+						$url .= '/' . $query->row['keyword'];
 						
 						unset($data[$key]);
 					}					
@@ -48,7 +48,7 @@ class ModelToolSeoUrl extends Model {
 						
 						$query = $this->db->query($sql);
 						if ($query->num_rows) {
-							$url .= '/' . urlencode(html_entity_decode($query->row['keyword'],ENT_QUOTES,'UTF-8'));
+							$url .= '/' . $query->row['keyword'];
 						}					
 
 					

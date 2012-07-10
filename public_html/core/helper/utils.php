@@ -32,6 +32,19 @@ function preformatFloat($value, $decimal_point='.'){
 	}
 	return (float)preg_replace('/[^0-9\.]/','',$value);
 }
+
 function preformatInteger($value){
 	return (int)preg_replace('/[^0-9]/','',$value);
 }
+
+/*
+*  Convert input text to alpaha numeric string for SEO URL use
+*/
+function SEOEncode( $string_value ){
+	$seo_key = html_entity_decode($string_value, ENT_QUOTES,'UTF-8');
+	$seo_key = preg_replace( '/[^\w\d\s_-]/si', '', $seo_key );
+	$seo_key = trim( mb_strtolower( $seo_key ) );
+	$seo_key = htmlentities( preg_replace( '/\s+/', '_', $seo_key ) );
+	return $seo_key;
+}
+
