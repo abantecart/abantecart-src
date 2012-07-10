@@ -36,8 +36,7 @@ class ModelCatalogManufacturer extends Model {
 			$seo_key = $data['keyword'];
 		}else {
 			//Default behavior to save SEO URL keword from manufacturer name 
-			$seo_key = trim( strtolower( $data['name'] ) );
-			$seo_key = htmlentities( str_replace(" ","_",$seo_key) );
+			$seo_key = SEOEncode( $data['name'] );
 			 
 			//Check if key is unique  
 			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_aliases

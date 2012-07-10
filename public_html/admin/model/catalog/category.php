@@ -53,8 +53,7 @@ class ModelCatalogCategory extends Model {
 			//Default behavior to save SEO URL keword from category name in default language
 			$languages = $this->language->getAvailableLanguages();
 			$defalut_lang_id = $languages[$this->config->get('config_storefront_language')]['language_id'];
-			$seo_key = trim( strtolower( $data['category_description'][$defalut_lang_id]['name'] ) );
-			$seo_key = htmlentities( str_replace(" ","_",$seo_key) );
+			$seo_key = SEOEncode( $data['category_description'][$defalut_lang_id]['name'] );
 			 
 			//Check if key is unique  
 			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_aliases

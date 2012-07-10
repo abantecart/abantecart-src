@@ -73,11 +73,7 @@ class ModelCatalogProduct extends Model {
 			//Default behavior to save SEO URL keword from product name in default language
 			$languages = $this->language->getAvailableLanguages();
 			$defalut_lang_id = $languages[$this->config->get('config_storefront_language')]['language_id'];
-			$seo_key = $data['product_description'][$defalut_lang_id]['name'];
-			$seo_key = preg_replace( '/(&quot)/si', '', $seo_key );
-			$seo_key = preg_replace( '/[^\w\d\s_-]/si', '', $seo_key );
-			$seo_key = trim( mb_strtolower( $seo_key ) );
-			$seo_key = htmlentities( str_replace(" ","_",$seo_key) );
+			$seo_key = SEOEncode($data['product_description'][$defalut_lang_id]['name']);
 			 
 			//Check if key is unique  
 			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_aliases
