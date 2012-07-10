@@ -111,7 +111,7 @@ class APackageManager {
 
 
 		$command = 'tar -C ' . $dst_dir . ' -xzvf ' . $tar_filename . ' > /dev/null';
-		if(isShellFunctionAvailable('system')){
+		if(isFunctionAvailable('system')){
 			system($command,$exit_code);
 		}else{
 			$exit_code = 1;

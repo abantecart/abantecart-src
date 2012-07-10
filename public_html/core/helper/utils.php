@@ -21,19 +21,11 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
-function isShellFunctionAvailable( $func_name ){
-	if (ini_get('safe_mode')) return false;
-	$disabled = ini_get('disable_functions');
-	if ($disabled) {
-		$disabled = explode(',', $disabled);
-		$disabled = array_map('trim', $disabled);
-		return !in_array($func_name, $disabled);
-	}
-	return true;
+function isFunctionAvailable( $func_name ){
+	return function_exists($func_name);
 }
 
 function preformatFloat($value, $decimal_point='.'){
-
 	if($decimal_point!='.'){
 		$value = str_replace('.','~',$value);
 		$value = str_replace($decimal_point,'.',$value);

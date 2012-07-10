@@ -27,7 +27,7 @@ final class ABackup {
 	private $registry;
 	private $log;
 	private $message;
-	public $error;
+	public  $error;
 
   	public function __construct( $name ) {
 		$this->registry = Registry::getInstance();
@@ -69,7 +69,7 @@ final class ABackup {
 
 		$backupFile = $this->backup_dir.'data/' .DB_DATABASE.'_dump_'. date("Y-m-d-H-i-s") . '.sql';
 		$command = "mysqldump --opt -h " . DB_HOSTNAME . " -u " . DB_USERNAME . " -p" . DB_PASSWORD . " " . DB_DATABASE . " > " . $backupFile;
-		if(isShellFunctionAvailable('system')){
+		if(isFunctionAvailable('system')){
 			system($command);
 		}
 
@@ -92,7 +92,7 @@ final class ABackup {
 
 		$backupFile = $this->backup_dir.'data/' .DB_DATABASE.'_'.$table_name.'_dump_'. date("Y-m-d-H-i-s") . '.sql';
 		$command = "mysqldump --opt -h " . DB_HOSTNAME . " -u " . DB_USERNAME . " -p" . DB_PASSWORD . " " . DB_DATABASE . "  ".$table_name." > " . $backupFile;
-		if(isShellFunctionAvailable('system')){
+		if(isFunctionAvailable('system')){
 			$result = system($command);
 		}
 		if(!$result){
@@ -198,7 +198,7 @@ final class ABackup {
 		//return Success or failed.
 
 		$command = 'tar -C ' . $tar_dir . ' -czvf ' . $tar_filename . ' ' . $filename. ' > /dev/null';
-		if(isShellFunctionAvailable('system')){
+		if(isFunctionAvailable('system')){
 			system($command,$exit_code);
 		}else{
 			$exit_code = 1;

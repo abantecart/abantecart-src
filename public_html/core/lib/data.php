@@ -248,7 +248,7 @@ final class AData {
 		//return Success or failed.
 
 		$command = 'tar -C ' . $tar_dir . ' -czvf ' . $tar_filename . ' ' . $filename. ' > /dev/null';
-		if(isShellFunctionAvailable('system')){
+		if(isFunctionAvailable('system')){
 			system($command,$exit_code);
 		}else{
 			$exit_code = 1;
