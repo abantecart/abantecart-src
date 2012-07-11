@@ -210,30 +210,27 @@
 	</definition>
 	<definition>
 		<key>entry_key</key>
-		<value>
-			<![CDATA[Access Key:<span class="help">Enter the XML rates access key assigned to you by UPS.</span>]]></value>
+		<value><![CDATA[Clave de Acceso:<span class="help">Introduzca la clave de las tasas de acceso XML asignada a usted por UPS.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_username</key>
-		<value><![CDATA[Username:<span class="help">Enter your UPS Services account username.</span>]]></value>
+		<value><![CDATA[Nombre de Usuario:<span class="help">Ingrese su nombre de usuario de servicios de UPS.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_password</key>
-		<value><![CDATA[Password:<span class="help">Enter your UPS Services account password.</span>]]></value>
+		<value><![CDATA[Contraseña:<span class="help">Ingrese su contraseña de la cuenta de servicios de UPS.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_pickup</key>
-		<value>
-			<![CDATA[Pickup Method:<span class="help">How do you give packages to UPS (only used when origin is US)?</span>]]></value>
+		<value><![CDATA[Método de Recogida:<span class="help">¿Cómo se dan los paquetes de UPS (sólo se utiliza cuando el origen es US.)?</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_packaging</key>
-		<value><![CDATA[Packaging Type:<span class="help">What kind of packaging do you use?</span>]]></value>
+		<value><![CDATA[Tipo de embalaje:<span class="help">¿Qué tipo de envases se utilizan?</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_classification</key>
-		<value>
-			<![CDATA[Customer Classification Code:<span class="help">01 - If you are billing to a UPS account and have a daily UPS pickup, 03 - If you do not have a UPS account or you are billing to a UPS account but do not have a daily pickup, 04 - If you are shipping from a retail outlet (only used when origin is US)</span>]]></value>
+		<value><![CDATA[Código de Clasificación del Cliente:<span class="help">01 - Si está facturando a una cuenta de UPS y tiene una camioneta de UPS al día, 03 - Si no tienes una cuenta de UPS o que está cobrando a una cuenta de UPS, pero no tienen una pastilla al día, 04 - Si usted va a enviar a partir de un punto de venta (sólo se utiliza cuando el origen es US.)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_origin</key>
@@ -246,13 +243,11 @@
 	</definition>
 	<definition>
 		<key>entry_state</key>
-		<value>
-			<![CDATA[Provincia de origen:<span class="help">Introduzca el codigo de dos letras de su provincia de origen.</span>]]></value>
+		<value><![CDATA[Provincia de origen:<span class="help">Introduzca el codigo de dos letras de su provincia de origen.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_country</key>
-		<value>
-			<![CDATA[Pais de origen:<span class="help">Introduzca el codigo de dos letras de su pais de origen.</span>]]></value>
+		<value><![CDATA[Pais de origen:<span class="help">Introduzca el codigo de dos letras de su pais de origen.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_postcode</key>
@@ -260,54 +255,32 @@
 	</definition>
 	<definition>
 		<key>entry_test</key>
-		<value>
-			<![CDATA[De prueba o modo de produccion:<span class="help">Utilice este modulo en las pruebas o el modo de produccion?</span>]]></value>
+		<value><![CDATA[De prueba o modo de produccion:<span class="help">Utilice este modulo en las pruebas o el modo de produccion?</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_quote_type</key>
-		<value><![CDATA[Quote Type:<span class="help">Quote for Residential or Commercial Delivery.</span>]]></value>
-	</definition>
-	<definition>
-		<key>entry_negotiated_rates</key>
-		<value>
-			<![CDATA[Negotiated Rates:<span class="help">Usted recibe descuentos de UPS y desea utilizar estas citas para el envio? Nota: Debes introducir su numero de cuenta de UPS a continuacion.</span>]]></value>
+		<value><![CDATA[Cita Tipo:<span class="help">Cita para la entrega residencial o comercial.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_account_number</key>
 		<value>
-			<![CDATA[UPS Account Number:<span class="help">Introduzca su numero de cuenta de UPS para utilizar las tarifas negociadas.</span>]]></value>
-	</definition>
-	<definition>
-		<key>entry_manual_rate</key>
-		<value>
-			<![CDATA[Manual Negotiated Rate:<span class="help">Enter a negotiated rate manually. Note: If 'Negotiated Rates' above is set to 'True', This WILL NOT be applied. If using this option, set 'Negotiated Rates' to 'False'. Usage: ' 57 ' returns 57% of published UPS rate.</span>]]></value>
-	</definition>
-	<definition>
-		<key>entry_insurance</key>
-		<value><![CDATA[Insurance:<span class="help">Do you want to insure packages shipped by UPS?</span>]]></value>
+			<![CDATA[Número de Cuenta UPS:<span class="help">Introduzca su numero de cuenta de UPS para utilizar las tarifas negociadas.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_service</key>
-		<value><![CDATA[Services:<span class="help">Select the UPS services to be offered.</span>]]></value>
-	</definition>
-	<definition>
-		<key>entry_display_time</key>
-		<value>
-			<![CDATA[Display Delivery Time:<br /><span class="help">Quieres mostrar el tiempo de envio? (Por ejemplo, se envia en 3 a 5 dias)</span>]]></value>
+		<value><![CDATA[Servicios:<span class="help">Seleccione los servicios de UPS para ofrecer en el futuro.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_display_weight</key>
-		<value>
-			<![CDATA[Display Delivery Weight:<br /><span class="help">Quieres mostrar el peso de embarque? (Por ejemplo, de entrega Peso: 2.7674 Kg's)</span>]]></value>
+		<value><![CDATA[Mostrar Peso de entrega:<br /><span class="help">Quieres mostrar el peso de embarque? (Por ejemplo, de entrega Peso: 2.7674 Kg's)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_code</key>
-		<value>
-			<![CDATA[Weight Code:<br /><span class="help">Allowed kgs or lbs. Make sure you match the weight class with the UPS accepted weight code.</span>]]></value>
+		<value><![CDATA[Peso Código:<br /><span class="help">Kilogramos o libras animales Asegúrese de que coincida con la categoría de peso con el UPS reconocida por un peso.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_class</key>
-		<value><![CDATA[Weight Class:<span class="help">Set to kilograms or pounds.</span>]]></value>
+		<value><![CDATA[Peso Clase:<span class="help">Se establece en kilogramos o libras.</span>]]></value>
 	</definition>
     <definition>
         <key>entry_length_class</key>
@@ -323,7 +296,7 @@
 	</definition>
 	<definition>
 		<key>entry_location</key>
-		<value><![CDATA[Location:]]></value>
+		<value><![CDATA[Localidad:]]></value>
 	</definition>
 	<definition>
 		<key>entry_sort_order</key>
@@ -335,15 +308,15 @@
 	</definition>
 	<definition>
 		<key>error_key</key>
-		<value><![CDATA[Access Key Requiredo!]]></value>
+		<value><![CDATA[Clave de Acceso Requiredo!]]></value>
 	</definition>
 	<definition>
 		<key>error_username</key>
-		<value><![CDATA[Username Requiredo!]]></value>
+		<value><![CDATA[Nombre de Usuario Requiredo!]]></value>
 	</definition>
 	<definition>
 		<key>error_password</key>
-		<value><![CDATA[Password Requiredo!]]></value>
+		<value><![CDATA[Contraseña Requiredo!]]></value>
 	</definition>
 	<definition>
 		<key>error_city</key>

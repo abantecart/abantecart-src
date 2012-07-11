@@ -136,7 +136,7 @@ class ALayout {
 
 				} else { //write to log this stuff. it's abnormal situation
 					$message = "Error: Error in data of page with controller: '".$controller."'. Please check for key_value present where key_param was set";
-					$this->messages->saveError($message);
+					$this->messages->saveError('Error',$message);
 					$error = new AError ( $message );
 					$error->toLog ()->toDebug ();
 				}
