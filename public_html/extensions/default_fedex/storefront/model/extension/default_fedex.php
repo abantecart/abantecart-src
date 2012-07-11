@@ -134,6 +134,13 @@ class ModelExtensionDefaultFedex extends Model {
             $fedex_country = $this->config->get('default_fedex_country');
             $fedex_add_chrg = $this->config->get('default_fedex_add_chrg');
 
+			if(strlen($fedex_state)>2){
+				$this->messages->saveError('Fedex US error!','Fedex US Shipping Extension won\'t work because state code length must be 2 letters. Please check settings form on #admin#rt=extension/extensions/edit&extension=default_fedex');
+			}
+			if(strlen($fedex_country)!=2){
+				$this->messages->saveError('Fedex US error!','Fedex US Shipping Extension won\'t work because country code length must be 2 letters. Please check settings form on #admin#rt=extension/extensions/edit&extension=default_fedex');
+			}
+
             //Recepient Info
 
             $shipping_address = $address;
