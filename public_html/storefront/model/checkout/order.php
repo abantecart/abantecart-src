@@ -217,7 +217,7 @@ class ModelCheckoutOrder extends Model {
 													 WHERE order_id = '" . (int)$order_id . "'");
 			
 			foreach ($order_product_query->rows as $product) {
-				if ($product['subtract']) {
+				if (!$product['subtract']) {
 					$this->db->query("UPDATE " . DB_PREFIX . "products
 									  SET quantity = (quantity - " . (int)$product['quantity'] . ")
 									  WHERE product_id = '" . (int)$product['product_id'] . "'");
