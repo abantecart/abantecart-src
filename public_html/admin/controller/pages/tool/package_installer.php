@@ -387,14 +387,14 @@ class ControllerPagesToolPackageInstaller extends AController {
 			// find directory from app_root_dir
 			if ($this->session->data[ 'package_info' ][ 'package_content' ][ 'extensions' ]) {
 				$dst_dirs = $pmanager->getDestinationDirectories();
-
+				$ftp = false;
 				// if even one destination directory is not writable - use ftp mode
 				if ($dst_dirs) {
 					foreach ($dst_dirs as $dir) {
 						if (file_exists(DIR_ROOT . '/' . $dir)) {
 							if (!is_writable(DIR_ROOT . '/' . $dir)) {
 								$ftp = true; // enable ftp-mode
-								break;
+								$non_writables[] = DIR_ROOT . '/' . $dir;
 							}
 						}
 					}
@@ -404,7 +404,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 					if (file_exists(DIR_ROOT . '/' . $corefile)) {
 						if (!is_writable(DIR_ROOT . '/' . $corefile)) {
 							$ftp = true; // enable ftp-mode
-							break;
+							$non_writables[] = DIR_ROOT . '/' . $corefile;
 						}
 					}
 				}
@@ -508,6 +508,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 			$this->data[ 'fpath' ] = $this->language->get('text_ftp_path');
 			$this->data[ 'heading_title' ] = $this->language->get('heading_title_ftp');
 			$this->data[ 'warning_ftp' ] = $this->language->get('warning_ftp');
+			$this->data[ 'warning_ftp' ] .= '<br>Need write permission for:<br>'.implode('<br>',$non_writables);
 
 		} else {
 
