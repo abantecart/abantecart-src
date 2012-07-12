@@ -23,9 +23,36 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ModelLocalisationLanguageDefinitions extends Model {
 
 	public function addLanguageDefinition($data) {
+		//prevent duplicates
+		$sql = "SELECT language_definition_id
+				FROM " . DB_PREFIX . "language_definitions
+				WHERE block='".$this->db->escape($data['block'])."'
+					AND section='".(int)$data['section']."'
+					AND language_key='".$this->db->escape($data['language_key'])."'
+					AND language_id='".(int)$data['language_id']."'";
+		$result = $this->db->query($sql);
+		if($result->row['language_definition_id']){
+			return $result->row['language_definition_id'];
+		}
+
 		$update_data = array();
 		foreach ( $data as $key=>$val ) {
-			$update_data[$this->db->escape($key)] = "'" . $this->db->escape($val) . "'";
+			$update_data[$this->db->escape($key)] = "'" . $this->db->escape(trim($val)) . "'";
+		}
+
+		if( empty($update_data['language_key'])
+			|| empty($update_data['language_value'])
+			|| empty($update_data['language_id'])
+			|| empty($update_data['block'])){
+
+			$message = 'Tring to write new language definition but data is wrong.
+			   language_key: '.$update_data['language_key'].',
+			   language_value: '.$update_data['language_value'].',
+			   block: '.$update_data['block'].',
+			   section: '.(int)$update_data['section'].',
+			   language_id: '.$update_data['language_id'].'.';
+			$this->messages->saveWarning('New language definition adding error.',$message);
+			return false;
 		}
 
 	    $sql = "INSERT INTO " . DB_PREFIX . "language_definitions
@@ -40,9 +67,13 @@ class ModelLocalisationLanguageDefinitions extends Model {
 	}
 
     public function editLanguageDefinition($id, $data) {
+
 		$update_data = array();
 		foreach ( $data as $key => $val ) {
 			$update_data[] = "`$key` = '" . $this->db->escape($val) . "' ";
+			if( empty($val) && ($key=='language_key' || $key=='language_value')){
+				return false;
+			}
 		}
 		$this->db->query("UPDATE " . DB_PREFIX . "language_definitions
 							SET ".implode(',', $update_data)."
@@ -68,6 +99,25 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		return $query->row;
 	}
 
+    public function getLanguageDefinitionIdByKey($key, $language_id, $block, $section) {
+		$query = $this->db->query("SELECT language_definition_id
+									FROM " . DB_PREFIX . "language_definitions
+									WHERE language_key = '" . $this->db->escape($key) . "'
+										AND block='".$this->db->escape($block)."'
+										AND language_id='".$this->db->escape($language_id)."'
+										AND section='".(int)$section."'");
+		return $query->row['language_definition_id'];
+	}
+    public function getAllLanguageDefinitionsIdByKey($key, $block, $section) {
+		$query = $this->db->query("SELECT language_definition_id
+									FROM " . DB_PREFIX . "language_definitions
+									WHERE language_key = '" . $this->db->escape($key) . "'
+										AND block='".$this->db->escape($block)."'
+										AND section='".(int)$section."'");
+
+		return $query->rows;
+	}
+
 	public function getLanguageDefinitions($data = array(), $mode = 'default') {
 
         if ($data || $mode == 'total_only') {
@@ -88,10 +138,16 @@ class ModelLocalisationLanguageDefinitions extends Model {
 			} else {
 				$sql .= " WHERE `section` like '%' ";			
 			}
-			
+
+			$data['language_id'] = isset($data['language_id']) ? (int)$data['language_id'] : (int)$this->request->get['language_id'];
+
+            if ( $data['language_id']>0 ) {
+				$sql .= " AND ld.language_id = '".$data['language_id']."'" ;
+			}
+
             if ( !empty($data['subsql_filter'] ) ) {
 				$sql .= " AND ".$data['subsql_filter'];
-			} 
+			}
 
 			if (isset($filter['language_key']) && !is_null($filter['language_key'])) {
 				$sql .= " AND `language_key` LIKE '%".$this->db->escape( $filter['language_key'] )."%' ";

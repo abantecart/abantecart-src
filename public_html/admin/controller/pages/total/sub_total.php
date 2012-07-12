@@ -75,7 +75,7 @@ class ControllerPagesTotalSubtotal extends AController {
 
 		$this->data ['action'] = $this->html->getSecureURL ( 'total/sub_total' );
 		$this->data['cancel'] = $this->html->getSecureURL('extension/total');
-		$this->data ['heading_title'] = $this->language->get ( 'text_edit' ) . $this->language->get ( 'text_total' );
+		$this->data ['heading_title'] = $this->language->get ( 'text_edit' ) .' '. $this->language->get ( 'text_total' );
 		$this->data ['form_title'] = $this->language->get ( 'heading_title' );
 		$this->data ['update'] = $this->html->getSecureURL ( 'listing_grid/total/update_field', '&id=sub_total' );
 

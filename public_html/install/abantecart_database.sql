@@ -561,15 +561,15 @@ CREATE TABLE `ac_language_definitions` (
   `language_definition_id` int(11) NOT NULL auto_increment,
   `language_id` int(11) NOT NULL,
   `section` tinyint(1) NOT NULL default '0' COMMENT '0-SF, 1-ADMIN',
-  `block` varchar(255) NOT NULL,
-  `language_key` varchar(255) character set utf8 collate utf8_bin NOT NULL,
+  `block` varchar(160) NOT NULL,
+  `language_key` varchar(170) character set utf8 collate utf8_bin NOT NULL,
   `language_value` text NOT NULL,
   `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `create_date` timestamp NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`language_definition_id`),
-  KEY `lang_key` (`language_id`,`language_key`)
+  PRIMARY KEY  (`language_definition_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
+CREATE UNIQUE INDEX `lang_definition_index`
+ON `ac_language_definitions` ( `section`,`block`,`language_id`,`language_key` );
 
 --
 -- DDL for table `length_class`
