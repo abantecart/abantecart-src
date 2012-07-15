@@ -30,29 +30,13 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
         $this->loadModel ( 'tool/global_search' );
-        
-        $page = $this->request->post['page']; // get the requested page
+		$this->loadLanguage('tool/global_search');
+
+        $page = (int)$this->request->post['page']; // get the requested page
 		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
-		$sord = $this->request->post['sord']; // get the direction
-        
-        $search_str = '';
-	    $allowedFields = array('search_result');
-	    $allowedSortFields = array();
 
-        $allowedDirection = array('asc', 'desc');
-        
 
-	    if ( !in_array($sidx, $allowedSortFields) ) $sidx = $allowedSortFields[0];
-	    if ( !in_array($sord, $allowedDirection) ) $sord = $allowedDirection[0];
 
-	    $data = array(
-			'sort'  => $sidx,
-			'order' => $sord,
-			'start' => ($page - 1) * $limit,
-			'limit' => $limit,
-		    'search' => $search_str,
-		);
         
 		
 		$results = $this->model_tool_global_search->getResult($this->request->get['search_category'],$this->request->get['keyword']);
@@ -65,10 +49,12 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 		}	
 		
 	    if( $total > 0 ) {
-			$total_pages = ceil($total/$limit);
+			$total_pages = (int)ceil($total/$limit);
 		} else {
 			$total_pages = 0;
 		}
+
+		//$page = $page>$total_pages ? $total_pages : $page;
 
 	    $response = new stdClass();
 		$response->page = $page;

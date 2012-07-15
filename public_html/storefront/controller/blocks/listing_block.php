@@ -209,6 +209,9 @@ class ControllerBlocksListingBlock extends AController {
 														$limit,
 														false);
 				if(!$resources){ return null;}
+				if($limit==1){
+					$resources = array($resources);
+				}
 
 				foreach( $resources as $k=>$resource ){
 					if($resource['origin']=='external'){

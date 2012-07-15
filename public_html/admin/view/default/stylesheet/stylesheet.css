@@ -150,6 +150,7 @@ a img {border:none}
 	height:18px;
 	float:left;
 	margin-left:-3px;
+    cursor: pointer;
 }
 .btn_search {
 	float:right;
