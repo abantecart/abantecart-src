@@ -46,7 +46,7 @@
   </definition>
   <definition>
     <key>text_select_parent_id</key>
-    <value><![CDATA[- Seleccione el Número de Identificación del Padre -]]></value>
+    <value><![CDATA[- Menú raíz -]]></value>
   </definition>
   <definition>
     <key>error_empty</key>

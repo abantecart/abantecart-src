@@ -60,53 +60,54 @@ class ControllerResponsesListingGridMenu extends AController {
 	    }
 
 	    $sort = array();
-	    foreach ($menu_items as $item) {
-		    if ( $sidx == 'item_text' ) {
-			    $sort[] = $item[$sidx][$language_id];
-		    }else {
-			    $sort[] = $item[$sidx];
-		    }
-	    }
-
-	    array_multisort($sort, $sord, $menu_items);
-
 		$total = count($menu_items);
+	    $response = new stdClass();
+
 	    if( $total > 0 ) {
+		    foreach ($menu_items as $item) {
+			    if ( $sidx == 'item_text' ) {
+				    $sort[] = $item[$sidx][$language_id];
+			    }else {
+				    $sort[] = $item[$sidx];
+			    }
+		    }
+	
+		    array_multisort($sort, $sord, $menu_items);
 			$total_pages = ceil($total/$limit);
+
+	        $rm = new AResource('image');
+	
+		    $results = array_slice($menu_items, ($page-1)*-$limit, $limit);
+	
+		    $i = 0;
+			foreach ($results as $result) {
+	
+	            if ( $result['item_icon'] ) {
+					$thumb = HTTP_DIR_RESOURCE . $result['item_icon'];
+				} else {
+					$thumb = $model->resize('no_image.jpg', $this->config->get('config_image_grid_width'), $this->config->get('config_image_grid_height'));			
+				}
+	
+	            $response->rows[$i]['id'] = $result['item_id'];
+				$response->rows[$i]['cell'] = array(
+					( is_file(DIR_RESOURCE.$result['item_icon']) || empty($result['item_icon'])  ? '<img src="'.$thumb.'" alt="" />' : $result['item_icon'] ),
+					$result['item_id'],
+	                $result['item_text'][ $language_id ],
+					$this->html->buildInput(array(
+	                    'name'  => 'sort_order['.$result['item_id'].']',
+	                    'value' => $result['sort_order'],
+	                )),
+				);
+				$i++;
+			}
+			
 		} else {
 			$total_pages = 0;
 		}
 
-	    $response = new stdClass();
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
-
-        $rm = new AResource('image');
-
-	    $results = array_slice($menu_items, ($page-1)*-$limit, $limit);
-
-	    $i = 0;
-		foreach ($results as $result) {
-
-            if ( $result['item_icon'] ) {
-				$thumb = HTTP_DIR_RESOURCE . $result['item_icon'];
-			} else {
-				$thumb = $model->resize('no_image.jpg', $this->config->get('config_image_grid_width'), $this->config->get('config_image_grid_height'));			
-			}
-
-            $response->rows[$i]['id'] = $result['item_id'];
-			$response->rows[$i]['cell'] = array(
-				( is_file(DIR_RESOURCE.$result['item_icon']) || empty($result['item_icon'])  ? '<img src="'.$thumb.'" alt="" />' : $result['item_icon'] ),
-				$result['item_id'],
-                $result['item_text'][ $language_id ],
-				$this->html->buildInput(array(
-                    'name'  => 'sort_order['.$result['item_id'].']',
-                    'value' => $result['sort_order'],
-                )),
-			);
-			$i++;
-		}
 
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);

@@ -47,7 +47,7 @@
   </definition>
   <definition>
     <key>text_select_parent_id</key>
-    <value><![CDATA[- Select Parent Id -]]></value>
+    <value><![CDATA[- Root Menu -]]></value>
   </definition>
   <definition>
     <key>error_empty</key>
