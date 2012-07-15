@@ -24,6 +24,7 @@
 		<table class="form">
 		<?php foreach ($form['fields'] as $name => $field) { ?>
 		<?php if ( $name == 'language_definition_id' ) { ?>
+
 		<?php } else if (is_array($field)) { ?>
             <?php foreach ($field as $lang_id => $f) { ?>
             <tr>
@@ -31,7 +32,7 @@
                     <img src="<?php echo $languages[$lang_id]['image']; ?>" alt="<?php echo $languages[$lang_id]['name']; ?>" />
                     <?php echo ${'entry_'.$name}; ?>
                 </td>
-				<td>
+				<td class="ml_field">
 					<?php echo $f; ?>
 					<?php echo $form['fields']['language_definition_id'][$lang_id]; ?>
 					<?php if (!empty($error[$name][$lang_id])) { ?>
@@ -43,7 +44,7 @@
 		<?php } else { ?>
 			<tr>
 				<td><?php echo ${'entry_'.$name}; ?></td>
-				<td>
+				<td class="ml_field">
 					<?php echo $field; ?>
 					<?php if (!empty($error[$name])) { ?>
 						<div class="field_err"><?php echo $error[$name]; ?></div>
@@ -65,3 +66,44 @@
 </div></div></div>
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
+
+<?php
+if(!$language_definition_id){?>
+<div id="dialog"></div>
+<script language="JavaScript">
+	$('#definitionFrm_block, #definitionFrm_language_key').blur(function(){
+		if($('#definitionFrm_language_key').val()==''){
+			return false;
+		}
+
+		$.ajax(
+			{
+				url:'<?php echo $check_url; ?>',
+				type:'POST',
+				data: $('#definitionFrm').serializeArray(),
+				dataType:'json',
+				success:function (data) {
+					if(data.error.length>0){
+						$('#dialog').html(data.error);
+						$('#dialog').dialog({
+							title: 'Error!',
+							width: 300,
+							height: 200,
+							resizable: false,
+							modal: false,
+							buttons: { "close": function() { $(this).dialog("destroy"); }	}
+						});
+
+					}
+				},
+				error:function (req, status, msg) {
+				}
+			});
+
+	});
+
+
+
+</script>
+
+<?php } ?>

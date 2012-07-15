@@ -24,7 +24,8 @@
 	 </form>
 </div>
 
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/ui.datepicker.js"></script>
+<!--<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/ui.datepicker.js"></script>
+	-->
 <script>
 
 jQuery(function($){
@@ -74,7 +75,7 @@ var updatePager = false;
 		updatePager = true;
 	}
 
-	$(table_id).jqGridHistory({
+	$(table_id).jqGrid<?php echo $history_mode ? 'History' : ''; ?>({
 		url:'<?php echo $data["url"] ?>',
 		editurl:'<?php echo $data["editurl"] ?>',
 		datatype: "json",
@@ -113,7 +114,9 @@ var updatePager = false;
 			}
 
 			// init datepicker for fields
+			if($('.date').length>0){
 			$('.date').datepicker({dateFormat: 'yy-mm-dd'});
+			}
 
             //uncheck multiselect checkbox
             $('#cb_'+_table_id).change();
