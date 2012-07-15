@@ -79,8 +79,10 @@
 							<?php echo $form1[ 'redirect' ]; ?>
 							<?php } ?>
 							</form>
-							
 						</div>
+
+						<?php echo $this->getHookVar('login_extension'); ?>
+
 					</div>
 					<div class="bottom">
 						<div class="left"></div>
