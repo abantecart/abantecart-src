@@ -2,6 +2,10 @@
 
 # 2. In your abantecart directory rename htaccess.txt to .htaccess.
 
+# 3. If abantecart installed in web-server subfolder change  RewriteBase /  by RewriteBase /subfolder/
+
+# 4. if htaccess and mode_rewrite still does not works - check and set apache2 webserver directive AllowOverride All for your virtual hosts
+
 # For any support issues please visit: http://forum.abantecart.com
 
 Options +FollowSymlinks

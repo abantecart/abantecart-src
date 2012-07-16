@@ -41,6 +41,11 @@ class ModelToolSeoUrl extends Model {
 						unset($data[$key]);
 					}					
 				} elseif ($key == 'path' || $key == 'category_id') {
+						if($key == 'path'){
+							$value = explode('_',$value);
+							end($value);
+							$value = current($value);
+						}
 
 						$sql = "SELECT *
 								FROM " . DB_PREFIX . "url_aliases
