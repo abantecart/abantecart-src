@@ -40,39 +40,17 @@ class ControllerBlocksLanguage extends AController {
       	$this->data['heading_title'] = $this->language->get('heading_title');
 		$this->data['language_code'] = $this->session->data['language'];
 		
-		$this->data['languages'] = $this->language->getActiveLanguages();	
-		
-		if (!isset($this->request->get['rt'])) {
-			$redirect = $this->html->getURL('index/home');
-		} else {
-			$this->loadModel('tool/seo_url');
-			$data = $this->request->get;
-			unset($data['_route_']);
-			$route = $data['rt'];
-			unset($data['rt']);
-			$url = '';
-			if ($data) {
-				$url = '&' . urldecode(http_build_query($data));
-			}						
-			$redirect = $this->html->getSEOURL( $route,  $url, '&encode');
-		}
-		$this->data['redirect'] = $redirect;
+		$this->data['languages'] = $this->language->getActiveLanguages();
+		$URI = $_SERVER['REQUEST_URI'];
+		$URI = str_replace('?' . $_SERVER['QUERY_STRING'],'', $URI);
 
-		$form = new AForm();
-        $form->setForm(array( 'form_name' => 'language_form' ));
-        $this->data['form'][ 'form_open' ] = $form->getFieldHtml(
-                                                                array(
-                                                                       'type' => 'form',
-                                                                       'name' => 'language_form',
-                                                                       'action' => $this->html->getURL('index/home')));
-		$this->data['form'][ 'code' ] = $form->getFieldHtml( array(
-                                                                       'type' => 'hidden',
-		                                                               'name' => 'language_code',
-		                                                               'value' => '' ));
-		$this->data['form'][ 'redirect' ] = $form->getFieldHtml( array(
-                                                                       'type' => 'hidden',
-		                                                               'name' => 'redirect',
-		                                                               'value' => $redirect ));
+		$URI .= '?'.urldecode(http_build_query($this->request->get));
+		foreach($this->data['languages'] as &$lang){
+			$lang['href'] = $URI.'&language='.$lang['code'];
+		}
+
+
+
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('blocks/language.tpl');

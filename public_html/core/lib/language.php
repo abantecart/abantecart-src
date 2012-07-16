@@ -173,9 +173,13 @@ final class ALanguage {
 			$languages[ $lng['code'] ] = $lng;
 		}
 
-		//language code is porvided as input. Higher priority
-		if (isset($request->get['language']) && array_key_exists($request->get['language'], $languages)) {
-			$lang_code = $request->get['language'];
+		//language code is provided as input. Higher priority
+		$request_lang =  isset($request->get['language']) ? $request->get['language'] : '';
+		$request_lang =  isset($request->post['language']) ? $request->post['language'] : $request_lang;
+		unset($request->get['language'], $request->post['language']);
+
+		if ($request_lang && array_key_exists($request_lang, $languages)) {
+			$lang_code = $request_lang;
 		//Session based language
 		} elseif (isset($session->data['language']) && array_key_exists($session->data['language'], $languages)) {
 			$lang_code = $session->data['language'];

@@ -221,7 +221,9 @@ class ModelCatalogProduct extends Model {
 
 		if (isset($data['keyword'])) {
 			$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases WHERE query = 'product_id=" . (int)$product_id . "'");
-			$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases SET keyword = '" . $this->db->escape($data['keyword']) . "', query = 'product_id=" . (int)$product_id . "'");
+			if($data['keyword']){
+				$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases SET keyword = '" . $this->db->escape($data['keyword']) . "', query = 'product_id=" . (int)$product_id . "'");
+			}
 		}
 
 		if (isset($data['product_tags'])) {

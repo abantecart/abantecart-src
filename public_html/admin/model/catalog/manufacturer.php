@@ -72,7 +72,9 @@ class ModelCatalogManufacturer extends Model {
 		
 		if (isset($data['keyword'])) {
 			$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases WHERE query = 'manufacturer_id=" . (int)$manufacturer_id. "'");
-			$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases SET query = 'manufacturer_id=" . (int)$manufacturer_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
+			if($data['keyword']){
+				$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases SET query = 'manufacturer_id=" . (int)$manufacturer_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
+			}
 		}
 		
 		$this->cache->delete('manufacturer');

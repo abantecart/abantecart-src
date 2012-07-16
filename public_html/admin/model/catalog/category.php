@@ -52,8 +52,8 @@ class ModelCatalogCategory extends Model {
 		}else {
 			//Default behavior to save SEO URL keword from category name in default language
 			$languages = $this->language->getAvailableLanguages();
-			$defalut_lang_id = $languages[$this->config->get('config_storefront_language')]['language_id'];
-			$seo_key = SEOEncode( $data['category_description'][$defalut_lang_id]['name'] );
+			$default_lang_id = $languages[$this->config->get('config_storefront_language')]['language_id'];
+			$seo_key = SEOEncode( $data['category_description'][$default_lang_id]['name'] );
 			 
 			//Check if key is unique  
 			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_aliases
@@ -114,8 +114,13 @@ class ModelCatalogCategory extends Model {
 		}
 
 		if (isset($data['keyword'])) {
-			$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases WHERE query = 'category_id=" . (int)$category_id. "'");
-			$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases SET query = 'category_id=" . (int)$category_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
+			$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases
+								WHERE query = 'category_id=" . (int)$category_id. "'");
+			if($data['keyword']){
+				$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases
+									SET query = 'category_id=" . (int)$category_id . "',
+										keyword = '" . $this->db->escape($data['keyword']) . "'");
+			}
 		}
 
 		$this->cache->delete('category');
