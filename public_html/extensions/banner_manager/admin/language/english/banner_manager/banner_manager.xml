@@ -5,6 +5,13 @@
 		<value><![CDATA[Banner Manager]]></value>
 	</definition>
 	<definition>
+		<key>banner_manager_note</key>
+		<value><![CDATA[
+		To manage banners follow menu <b>Design -> Banner Mannger</b> after extension is enabled <br>
+		To see banner statistic follow <b>Reports -> Banner Statistic</b> after extension is enabled and banners created
+		]]></value>
+	</definition>		
+	<definition>
 		<key>banner_manager_list</key>
 		<value><![CDATA[Banner List]]></value>
 	</definition>

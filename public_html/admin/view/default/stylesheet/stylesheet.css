@@ -1465,8 +1465,7 @@ table.form tr td:first-child {
 .message_body{
 	color: #09487D;
 	font-family: Arial,Helvetica,sans-serif;
-	padding: 5px 0 0 5px;
-    bottom: 5px;
+	padding: 5px 0 5px 0;
     float: none;
     height: 405px;
 	overflow: auto;
@@ -1494,7 +1493,6 @@ table.form tr td:first-child {
 	color:black;
 	background-color: white !important;
 	height: 380px;
-	width: 518px;
 	overflow: auto;
 	background-image: none !important;
 }

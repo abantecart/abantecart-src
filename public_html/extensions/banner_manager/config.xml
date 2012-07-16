@@ -17,6 +17,9 @@
     <preview>
 	    <item>preview.png</item>
     </preview>
+    <help_file><![CDATA[help.txt]]></help_file>
+    <additional_settings><![CDATA[extension/banner_manager]]></additional_settings>
+	<note>true</note>    
     <install>
 	    <sql>install.sql</sql>
 	    <trigger>install.php</trigger>
