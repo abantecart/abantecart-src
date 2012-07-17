@@ -20,7 +20,7 @@
 					<div class="flt_left cl" style="margin-right: 5px;">
 						<div class="cr">
 							<div class="cc"><span style="margin-top: 3px;" class="icon_search">&nbsp;</span>
-								<input type="text" style="font-size: 14px; height: 22px;"
+								<input type="text" style="font-size: 14px; height: 21px; line-height: 21px;"
 								       value="<?php echo $search_form_input ?>" class="atext " id="search"
 								       name="search">
 							</div>
