@@ -47,7 +47,7 @@ class AResourceManager extends AResource {
 		}
 
         if ( !$this->type_id ) {
-			$message = "Error: Incorrect or missing resource type ";
+			$message = "Error: Incorrect or missing resource type ".$this->request->get['resource_id'];
 			$error = new AError ( $message );
 			$error->toLog()->toDebug();
 		}

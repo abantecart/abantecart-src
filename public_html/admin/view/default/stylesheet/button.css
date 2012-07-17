@@ -83,6 +83,7 @@ button.btn_standard {
     padding-right: 9px; /* sliding doors padding */
     text-decoration: none;
     vertical-align: middle;
+    text-align: center;
 }
 .btn_standard span span, .button span {
 	font:normal 12px Arial, Helvetica, sans-serif;

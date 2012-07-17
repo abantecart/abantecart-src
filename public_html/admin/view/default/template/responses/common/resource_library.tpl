@@ -57,6 +57,7 @@
             <li style="float: right; margin-right:15px;"><a <?php if ($mode == 'url') { echo 'class="selected"'; } ?> href="#column_right" id="library"><?php echo $heading_title; ?></a></li>
         </ul>
         <a href="#" id="button_save_order" class="btn_standard"><?php echo $button_save_order; ?></a>
+
         <div id="column_right"></div>
     </div>
     <?php if ($mode == '') : ?>
@@ -140,13 +141,13 @@
             <td><?php echo $text_mapped_to; ?></td>
             <td class="mapped"></td>
         </tr>
-        <tr>
+        <tr id="do_map">
             <td><?php echo $text_map; ?></td>
             <td>
         	<?php if($mode != 'url'){ ?>
-            	<a class="btn_action resource_unmap" id="map_this"><span class="icon_s_save">&nbsp;<span class="btn_text"><?php echo $button_select_resource; ?></span></span></a>            
+            	<a class="btn_action resource_unmap" id="map_this"><span class="icon_s_save">&nbsp;<span class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
 			<?php } else { ?>
-            	<a class="btn_action resource_unmaps use" rel="0"><span class="icon_s_save">&nbsp;<span class="btn_text"><?php echo $button_select_resource; ?></span></span></a>            
+            	<a class="btn_action resource_unmaps use" rel="0"><span class="icon_s_save">&nbsp;<span class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
 			<?php } ?>
             </td>
         </tr>		
@@ -179,6 +180,16 @@
             <td><?php echo $text_mapped_to; ?></td>
             <td class="mapped"></td>
         </tr>
+		<tr id="do_map_info">
+			<td><?php echo $text_map; ?></td>
+			<td>
+				<?php if($mode != 'url'){ ?>
+				<a class="btn_action resource_unmap" id="map_this_info"><span class="icon_s_save">&nbsp;<span class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
+				<?php } else { ?>
+				<a class="btn_action resource_unmaps use" id="map_this_info" rel="0"><span class="icon_s_save">&nbsp;<span class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
+				<?php } ?>
+			</td>
+		</tr>
     </table>
 </div>
 
@@ -326,10 +337,11 @@ jQuery(function($){
         $('input[name="title['+language_id+']"]', form).show();
         $('textarea[name="description['+language_id+']"]', form).show();
     });
-
+	var loadedItems;
     function loadEditForm(json) {
 
         hideLoading();
+		loadedItems = { 0: json };
 
         var form = $('#edit_frm form').clone();
         $(form).attr('action', urls.update_resource+'&resource_id='+json.resource_id);
@@ -361,12 +373,14 @@ jQuery(function($){
         if ( !json.resource_objects ) {
             $('td.mapped', form).html(text.text_none);
         } else {
+			var already_mapped = false;
             var html = '';
-            $.each(json.resource_objects, function(index, items){
+            $.each(json.resource_objects, function(obj_name, items){
                 if ( items.length ) {
-                    html += '<b>'+index+'</b><br/>';
+                    html += '<b>'+obj_name+'</b><br/>';
                     $.each(items, function(index, item){
                         html += '<a target="_resource_object" href="'+item['url']+'">'+item['name']+'</a><br/>';
+						already_mapped = (obj_name == object_name && item['object_id']==object_id) ? true : already_mapped;
                     });
                     html += '<br/>';
                 }
@@ -376,22 +390,27 @@ jQuery(function($){
         }
 
         $('#column_right').html(form);
-	    
+
 	    if(mode !='url' ){
-			$('#map_this').attr('value', json.resource_id );
-			$('#map_this').click(function(){
-				this.checked=false;
-				$.ajax({
-					url: urls.map,
-					type: 'POST',
-					data: {'resources[]':$(this).attr('value')},
-					dataType: 'json',
-							success: function(json) {
-									parent.$('#dialog').dialog('close');
-									parent.$('#dialog').remove();
-							}
+			if(already_mapped){
+				$('#do_map').hide();
+			}else{
+				$('#do_map').show();
+				$('#map_this').attr('value', json.resource_id );
+				$('#map_this').click(function(){
+					this.checked=false;
+					$.ajax({
+						url: urls.map,
+						type: 'POST',
+						data: {'resources[]':$(this).attr('value')},
+						dataType: 'json',
+								success: function(json) {
+										parent.$('#dialog').dialog('close');
+										parent.$('#dialog').remove();
+								}
+					});
 				});
-			});
+			}
 	    }
         $('#multiactions').hide();
         $('#pagination').hide();
@@ -509,7 +528,8 @@ jQuery(function($){
         return false;
     });
 
-    $('#column_right a.use').live('click', function(){
+    $('#column_right a.use, #map_this_info').live('click', function(){
+
         var item = loadedItems[$(this).attr('rel')];
 
         if(window.opener){
@@ -568,7 +588,7 @@ jQuery(function($){
         $.ajax({
             url: $(this).attr('href'),
             type: 'GET',
-            data: {resource_objects: 1, object_name: object_name},
+            data: {resource_objects: 1, object_name: object_name, type: type},
             dataType: 'json',
             success: loadEditForm
         });
@@ -793,16 +813,41 @@ jQuery(function($){
                     $('#resource_details td.mapped').html(text.text_none);
                 } else {
                     var html = '';
-                    $.each(json.resource_objects, function(index, items){
+					var already_mapped = false;
+                    $.each(json.resource_objects, function(obj_name, items){
                         if ( items.length ) {
-                            html += '<b>'+index+'</b><br/>';
+                            html += '<b>'+obj_name+'</b><br/>';
                             $.each(items, function(index, item){
                                 html += '<a target="_resource_object" href="'+item['url']+'">'+item['name']+'</a><br/>';
+								already_mapped = (obj_name == object_name && item['object_id']==object_id) ? true : already_mapped;
                             });
                             html += '<br/>';
                         }
                     });
                     $('#resource_details td.mapped').html(html);
+					loadedItems[0] = json;
+					if(mode !='url' ){
+						if(already_mapped){
+							$('#do_map_info').hide();
+						}else{
+							$('#do_map_info').show();
+							$('#map_this_info').attr('value', json.resource_id );
+
+							$('#map_this_info').click(function(){
+								this.checked=false;
+								$.ajax({
+									url: urls.map,
+									type: 'POST',
+									data: {'resources[]':$(this).attr('value')},
+									dataType: 'json',
+									success: function(json) {
+										parent.$('#dialog').dialog('close');
+										parent.$('#dialog').remove();
+									}
+								});
+							});
+						}
+					}
                 }
             }
         });
@@ -822,7 +867,7 @@ jQuery(function($){
         $.ajax({
             url: urls.get_resource,
             type: 'GET',
-            data: {resource_objects: 1, object_name: object_name, resource_id: '<?php echo $resource_id ?>'},
+            data: {resource_objects: 1, object_name: object_name, object_id: object_id, resource_id: '<?php echo $resource_id ?>', type: type},
             dataType: 'json',
             success: loadEditForm
         });

@@ -105,7 +105,7 @@ img {
 }
 #column_right a.delete { color:red; }
 #column_right a.selected {border: 1px solid #7DA2CE; background: #EBF4FD;}
-#button_save_order { position: absolute; right: 0; top:0; z-index: 3; display: none; }
+#button_save_order { position: absolute; right: 0; top:0; z-index: 3; display: none; width: 130px; }
 
 #dialog {display: none;}
 
