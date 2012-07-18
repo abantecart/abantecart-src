@@ -41,10 +41,22 @@ class ControllerBlocksLanguage extends AController {
 		$this->data['language_code'] = $this->session->data['language'];
 		
 		$this->data['languages'] = $this->language->getActiveLanguages();
-		$URI = $_SERVER['REQUEST_URI'];
-		$URI = str_replace('?' . $_SERVER['QUERY_STRING'],'', $URI);
 
-		$URI .= '?'.urldecode(http_build_query($this->request->get));
+		$URI = $_SERVER['REQUEST_URI'];
+		$query_vars =  explode('&',$_SERVER['QUERY_STRING']);
+		foreach ($query_vars as $pair){
+			$URI = str_replace('&'.$pair,'',$URI);
+			$URI = str_replace('?'.$pair,'',$URI);
+		}
+		$get_vars = $this->request->get;
+		unset($get_vars['language']);
+		if(isset($get_vars['product_id'])){
+			unset($get_vars['path']);
+		}
+
+		$URI = str_replace('?', '', $URI);
+		$URI .= '?'.urldecode(http_build_query($get_vars));
+
 		foreach($this->data['languages'] as &$lang){
 			$lang['href'] = $URI.'&language='.$lang['code'];
 		}

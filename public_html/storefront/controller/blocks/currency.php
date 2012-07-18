@@ -32,8 +32,19 @@ class ControllerBlocksCurrency extends AController {
 		$this->data['currency_code'] = $this->currency->getCode();
 
 		$URI = $_SERVER['REQUEST_URI'];
-		$URI = str_replace('?' . $_SERVER['QUERY_STRING'],'', $URI);
-		$URI .= '?'.urldecode(http_build_query($this->request->get));
+		$query_vars =  explode('&',$_SERVER['QUERY_STRING']);
+		foreach ($query_vars as $pair){
+			$URI = str_replace('&'.$pair,'',$URI);
+			$URI = str_replace('?'.$pair,'',$URI);
+		}
+		$get_vars = $this->request->get;
+		unset($get_vars['currency']);
+		if(isset($get_vars['product_id'])){
+			unset($get_vars['path']);
+		}
+
+		$URI = str_replace('?', '', $URI);
+		$URI .= '?'.urldecode(http_build_query($get_vars));
 
 		$this->loadModel('localisation/currency');
 		$results = $this->model_localisation_currency->getCurrencies();
