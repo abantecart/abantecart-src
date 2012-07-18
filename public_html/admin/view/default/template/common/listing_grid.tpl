@@ -28,7 +28,7 @@
 	-->
 <script>
 
-jQuery(function($){
+var initGrid_<?php echo $data['table_id'] ?> = function($){
 
 var text_choose_action = '<?php echo $text_choose_action ?>';
 var text_select_items = '<?php echo $text_select_items ?>';
@@ -394,7 +394,11 @@ var updatePager = false;
 				$(this).parent().css('text-align',algn);
 				$.aform.styleGridForm(this);
 	});
-});
-
+};
+<?php
+//run initialization if initialization on load enabled
+if($init_onload){ ?>
+initGrid_<?php echo $data['table_id'] ?>($);
+<?php } ?>
 
 </script>

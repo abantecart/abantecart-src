@@ -61,4 +61,14 @@
 	$('span.icon_search').click(function(){
 		$('#search_form').submit();
 	});
+
+	$(document).ready(function(){
+		<?php
+		$time = 0;
+		foreach($grid_inits as $func_name){
+			echo 'setTimeout("'.$func_name.'($)",'.$time.');'."\n";
+			$time+=500;
+		}
+	?>
+	});
 </script>

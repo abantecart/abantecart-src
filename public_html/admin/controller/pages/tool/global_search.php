@@ -97,6 +97,7 @@ class ControllerPagesToolGlobalSearch extends AController {
 
 
 				$this->view->assign ( 'no_results_message', '' );
+				$this->data['grid_inits'] = array(); // list of js-functions names for initialization all jqgrids
 				$i = 0;
 				foreach ( $search_categories as $search_category ) {
 					
@@ -139,6 +140,9 @@ class ControllerPagesToolGlobalSearch extends AController {
 					$grid_settings ['altRows'] = "true";
 					$grid_settings ['ajaxsync'] = "false";
 					$grid_settings ['history_mode'] = false;
+					// need to disable initializations all grid on page load because it high load cpu in damn IE8-9
+					$grid_settings ['init_onload'] = false;
+					$this->data['grid_inits'][] = 'initGrid_'.$grid_settings ['table_id'];
 
 					$grid = $this->dispatch ( 'common/listing_grid', array ($grid_settings ) );
 					$this->view->assign ( 'listing_grid_' . $search_category, $grid->dispatchGetOutput () );

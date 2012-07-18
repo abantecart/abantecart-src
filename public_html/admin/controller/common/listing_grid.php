@@ -114,6 +114,7 @@ class ControllerCommonListingGrid extends AController {
 		$this->view->assign('multiaction_options', $multiaction_options );
 
 		$this->view->assign('history_mode', isset($this->data['history_mode']) ? $this->data['history_mode'] : true);
+		$this->view->assign('init_onload', isset($this->data['init_onload']) ? $this->data['init_onload'] : true);
 
 		$this->view->assign('text_save_all', $this->language->get('text_save_all') );
 		$this->view->assign('text_select_items', $this->language->get('text_select_items') );
