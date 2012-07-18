@@ -89,8 +89,8 @@ CKEDITOR.replace('productFrm_product_description[<?php echo $language_id; ?>][de
 {
     filebrowserBrowseUrl : false,
     filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
-    filebrowserWindowWidth : '910',
-    filebrowserWindowHeight : '500',
+    filebrowserWindowWidth : '920',
+    filebrowserWindowHeight : '520',
 	language: '<?php echo $language_code; ?>'
 }
 );

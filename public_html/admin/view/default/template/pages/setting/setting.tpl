@@ -231,8 +231,8 @@ $(document).ready(function() {
 		CKEDITOR.replace('settingFrm_config_description_<?php echo $content_language_id; ?>', {
 			filebrowserBrowseUrl : false,
 			filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
-			filebrowserWindowWidth : '910',
-			filebrowserWindowHeight : '500',
+			filebrowserWindowWidth : '920',
+			filebrowserWindowHeight : '520',
 			language: '<?php echo $language_code; ?>'
 		});
 	}

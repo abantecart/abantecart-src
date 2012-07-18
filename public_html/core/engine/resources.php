@@ -238,7 +238,6 @@ class AResource {
         }
 
         $result = array();
-		//$this->log->write( 'resource_id: '.$resource_id."\n". 'language_id: '.$language_id."\n"  );
 		if ( !empty($resource[ $language_id ]) ) {
 			$result = $resource[ $language_id ];
 		} else if ( !empty( $resource ) ) {

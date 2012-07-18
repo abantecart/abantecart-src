@@ -30,11 +30,11 @@ img {
     float: left;
     width: 670px;
     height: 430px;
-	margin: 10px 0 0 0;
+	margin: 10px 0 0 196px;
     overflow: auto;
     text-align: left;
     z-index:1;
-    position: relative;
+    position: absolute;
 }
 #column_right_wrapper .tabs{list-style: none; margin: 0 0 0 15px; padding: 0; height:20px; position:relative; z-index: 2;}
 #column_right_wrapper .tabs li{float:left; margin-right:5px;}
