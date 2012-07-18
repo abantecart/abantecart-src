@@ -1054,7 +1054,7 @@ class ExtensionUtils {
 				$type_attr = $item->type->attributes();
 				if ((string)$type_attr[ 'required' ] == 'true') {
 					$result[$i][ 'required' ] = true;
-					$this->session->data[ 'extension_required_fields' ][ ] = $result[$i][ 'name' ];
+					$this->registry->get('session')->data[ 'extension_required_fields' ][ ] = $result[$i][ 'name' ];
 				}
 				if ((string)$type_attr[ 'readonly' ] == 'true') {
 					$result[$i][ 'attr' ] .= ' readonly';

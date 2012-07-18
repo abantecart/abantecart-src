@@ -245,7 +245,6 @@ class ControllerPagesExtensionExtensions extends AController {
 		}
 
 		/** build aform **/
-		$this->session->data[ 'extension_required_fields' ] = array();
 		$result = array('resource_field_list'=>array());
 
 		// store switcher for default store Cntrol Panel only
