@@ -245,7 +245,7 @@ class ControllerPagesUserUserPermission extends AController {
 				'actions' => array(),
 				'multiaction' => 'false',
 				'multiaction_options' => array( 'save'=> $this->language->get('text_save_selected')),
-				'button_go' => 'Save',
+				'button_go' => $this->language->get('button_save'),
 				//'multiselect' => 'false',
 			);
 
