@@ -193,7 +193,7 @@ class ControllerPagesUserUserPermission extends AController {
 
 		if (!isset($this->request->get['user_group_id'])) {
 			$this->data['action'] = $this->html->getSecureURL('user/user_permission/insert');
-			$this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_group');
+			$this->data['heading_title'] = $this->language->get('text_insert') .' '. $this->language->get('text_group');
 			$this->data['update'] = '';
 			$form = new AForm('ST');
 			$this->data['form']['submit'] = $form->getFieldHtml(array(	'type' => 'button',
@@ -203,7 +203,7 @@ class ControllerPagesUserUserPermission extends AController {
 
 		} else {
 			$this->data['action'] = $this->html->getSecureURL('user/user_permission/update', '&user_group_id=' . $this->request->get['user_group_id'] );
-			$this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_group');
+			$this->data['heading_title'] = $this->language->get('text_edit') .' '. $this->language->get('text_group');
 			$this->data['update'] = $this->html->getSecureURL('listing_grid/user_permission/update_field','&user_group_id='.$this->request->get['user_group_id']);
 			$form = new AForm('HS');
 		}

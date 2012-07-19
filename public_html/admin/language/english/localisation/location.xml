@@ -13,6 +13,10 @@
     <value><![CDATA[Location Zone]]></value>
   </definition>
   <definition>
+    <key>text_location_zones</key>
+    <value><![CDATA[Location Zones]]></value>
+  </definition>
+  <definition>
     <key>text_success</key>
     <value><![CDATA[Success: You have modified locations!]]></value>
   </definition>
@@ -50,7 +54,7 @@
   </definition>
   <definition>
     <key>entry_zone</key>
-    <value><![CDATA[Zone:]]></value>
+    <value><![CDATA[Zone(s):]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

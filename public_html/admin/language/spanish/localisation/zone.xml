@@ -30,7 +30,7 @@
   </definition>
   <definition>
     <key>column_status</key>
-    <value><![CDATA[Status]]></value>
+    <value><![CDATA[Estado]]></value>
   </definition>
   <definition>
     <key>entry_status</key>
