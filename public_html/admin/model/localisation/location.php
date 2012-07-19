@@ -33,12 +33,20 @@ class ModelLocalisationLocation extends Model {
 	}
 
 	public function addLocationZone($location_id, $data) {
-		$this->db->query(
-			"INSERT INTO " . DB_PREFIX . "zones_to_locations
-			SET country_id = '"  . (int)$data['country_id'] . "',
-				zone_id = '"  . (int)$data['zone_id'] . "',
-				location_id = '"  .(int)$location_id . "',
-				date_added = NOW()");
+		$zones = !is_array($data['zone_id']) ? array((int)$data['zone_id']) : $data['zone_id'];
+		if(!$zones || !$location_id){
+			return;
+		}
+		$sql = "INSERT INTO " . DB_PREFIX . "zones_to_locations (`country_id`, `zone_id`, `location_id`, `date_added`) VALUES ";
+		foreach($zones  as $zone_id){
+			$temp[] = "('"  . (int)$data['country_id'] . "',
+					'"  . (int)$zone_id . "',
+					'"  .(int)$location_id . "',
+					NOW())";
+		}
+		$sql .= implode(", \n",$temp).';';
+		$this->db->query($sql);
+
 		$this->cache->delete('location');
 		$this->cache->delete('zone.location.' . (int)$location_id);
 

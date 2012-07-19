@@ -40,10 +40,6 @@
             <td class="left"><?php echo $zone_to_location['country'] ?></td>
             <td class="left"><?php echo $zone_to_location['zone'] ?></td>
             <td class="left">
-	            <a class="btn_action btn_grid" title="<?php echo $button_edit; ?>" href="<?php echo str_replace('%ID%', $zone_to_location['zone_to_location_id'], $edit_location); ?>">
-					<img border="0" alt="<?php echo $button_edit; ?>" src="admin/view/default/image/icons/icon_grid_edit.png">
-				</a>
-
                 <a title="<?php echo $button_remove; ?>" href="<?php echo str_replace('%ID%', $zone_to_location['zone_to_location_id'], $delete_location); ?>" class="btn_action btn_grid grid_action_delete">
 	                <img border="0" alt="<?php echo $button_remove; ?>" src="admin/view/default/image/icons/icon_grid_delete.png">
 	            </a>

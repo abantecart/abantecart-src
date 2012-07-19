@@ -213,6 +213,14 @@ class ControllerPagesLocalisationLocation extends AController {
 		$this->document->setTitle( $this->language->get('heading_title') );
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') ) {
+
+			$result =  $this->model_localisation_location->getZoneToLocations( $this->request->get['location_id'] );
+			$exists = array();
+			foreach($result as $row){
+				$exists[] = $row['zone_id'];
+			}
+			// exclude zones that already in database
+			$this->request->post['zone_id'] = array_diff($this->request->post['zone_id'],$exists);
 			$zone_to_location_id = $this->model_localisation_location->addLocationZone($this->request->get['location_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('localisation/location/locations', '&location_id=' . $this->request->get['location_id']. '&zone_to_location_id='. $zone_to_location_id ));
@@ -329,17 +337,13 @@ class ControllerPagesLocalisationLocation extends AController {
         $this->data['details'] = $this->html->getSecureURL('localisation/location/update', '&location_id=' . $this->request->get['location_id'] );
 		$this->data['common_zone'] = $this->html->getSecureURL('common/zone');
 
-		if (!isset($this->request->get['zone_to_location_id'])) {
-			$this->data['action'] = $this->html->getSecureURL('localisation/location/insert_locations', '&location_id=' . $this->request->get['location_id']);
-			$this->data['form_title'] = $this->language->get('text_insert') . $this->language->get('text_location_zone');
-			$this->data['update'] = '';
-			$form = new AForm('ST');
-		} else {
-			$this->data['action'] = $this->html->getSecureURL('localisation/location/update_locations', '&location_id=' . $this->request->get['location_id']. '&zone_to_location_id='. $this->request->get['zone_to_location_id']);
-			$this->data['form_title'] = $this->language->get('text_edit') .' '. $this->language->get('text_location_zone');
-			$this->data['update'] = $this->html->getSecureURL('listing_grid/location/update_location_field','&id='.$this->request->get['zone_to_location_id']);
-			$form = new AForm('ST');
-		}
+
+		$this->data['action'] = $this->html->getSecureURL('localisation/location/insert_locations', '&location_id=' . $this->request->get['location_id']);
+		$this->data['form_title'] = $this->language->get('text_insert') .' '. $this->language->get('text_location_zone');
+		$this->data['update'] = '';
+		$form = new AForm('ST');
+
+
 
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
@@ -378,13 +382,18 @@ class ControllerPagesLocalisationLocation extends AController {
 			'options' => $this->data['countries'],
 		));
 
-		$this->data['form']['fields']['zone'] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
-			'name' => 'zone_id',
-			'value' => $this->data['zone_id'],
-			'options' => $this->data['zones'],
-			'style' => 'medium-field'
-		));
+		$this->data[ 'form' ]['fields']['zone'] = $form->getFieldHtml(
+				array(
+					'type' => 'checkboxgroup',
+					'name' => 'zone_id[]',
+					'value' => '',
+					'options' => $this->data['zones'],
+					'scrollbox' => true,
+					'style' => 'medium-field'
+				));
+
+
+
 
 		$this->view->assign('help_url', $this->gen_help_url('location_edit') );
 		$this->view->batchAssign( $this->data );
