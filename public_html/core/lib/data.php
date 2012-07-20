@@ -969,10 +969,9 @@ final class AData {
 	}
 
 	private function _update_or_insert_fromArray( $table_name, $table_cfg, $data_row, $parent_vals){
-		$return = array();
-		$where = array();
+		$return = $where = $cols = array();
 
-		//set ids to where from parent they might not be in there 
+		//set ids to where from parent they might not be in there
 		$where = $this->_build_id_columns($table_cfg, $parent_vals);
 
 		foreach ($data_row as $col_name => $col_value){

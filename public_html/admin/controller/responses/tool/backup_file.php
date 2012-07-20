@@ -72,6 +72,29 @@ class ControllerResponsesToolBackupFile extends AController {
 			return FALSE;
 		}
 	}
+
+	public function download() {
+
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		if ($this->user->hasPermission('access', 'tool/backup_file')) {
+			$filename = str_replace(array('../','..\\','\\','/'),'',$this->request->get['filename']);
+			$file = DIR_APP_SECTION.'system/backup/'.$filename;
+			if(file_exists($file)){
+				header('Content-Type: application/x-gzip');
+				header('Content-Disposition: attachment; filename='.$filename);
+				header('Content-Transfer-Encoding: binary');
+				header('Content-Length: '.filesize($file));
+				$file = readfile($file);
+				echo $file;
+			}else{
+				echo 'file does not exists!';
+			}
+		} else {
+			return $this->dispach('error/permission');
+		}
+	}
 	
 }
 ?>
