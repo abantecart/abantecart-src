@@ -854,7 +854,11 @@ final class AData {
 		}
 
 		if ( empty($cols) || empty ($where) ) {
-			$this->_status2array('error', "Update data error in $table_name. Data missing");
+			if ( empty($where) ) {
+				$this->_status2array('error', "Update data error in $table_name. Data missing");
+			} else {
+				$this->_status2array('error', "Warning: Update $table_name. All columns are keys, update action is not allowed. Please use insert.");
+			}
 			return array();
 		}
 
@@ -969,9 +973,11 @@ final class AData {
 	}
 
 	private function _update_or_insert_fromArray( $table_name, $table_cfg, $data_row, $parent_vals){
-		$return = $where = $cols = array();
+		$return = array();
+		$where = array();
+		$cols = array();
 
-		//set ids to where from parent they might not be in there
+		//set ids to where from parent they might not be in there 
 		$where = $this->_build_id_columns($table_cfg, $parent_vals);
 
 		foreach ($data_row as $col_name => $col_value){
@@ -1011,6 +1017,7 @@ final class AData {
 		}
 
 		$status = 'insert';
+
 		if ( empty($cols) && empty ($where) ) {
 			$this->_status2array('error', "Update or Insert $table_name. No Data to update.");
 			return array();
@@ -1018,6 +1025,10 @@ final class AData {
 		if ( !empty ($where) ) {
 			$check_sql = "SELECT count(*) AS total FROM `" .  DB_PREFIX . $table_name . "` WHERE " . implode(' AND ', $where);
 			if ( $this->db->query($check_sql)->row['total'] == 1 ) {
+				// We are trying to update table where all columns are keys. We have to skip it.
+				if ( empty($cols) ) {
+					return array();
+				}
 				$status = 'update';
 			}
 		}
