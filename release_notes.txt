@@ -2,15 +2,14 @@ Release Notes: Version 1.0.4
 
 Core:
 - all USA states added into install.sql as location's zones by default
-- language and currency switch bugfix seo-url related
+- language and currency switch bugfix related to seo-url 
 
 Control Panel:
 - install-upgrade-history now gets non-direct link for archives.
-- localisation zones edit page changed. Now few zones can be added by pass.
-
-- RL ui and cache changes.
-- RL ui changes. quick link "select" added to edit and info boxes
-- global search result pagination bugfix.
+- localisation zones edit page changed. Now multiple zones can be at once.
+- Resource Library cache changes.
+- Resource Library UI changes. Quick link "select" added to edit and info boxes
+- Global search result pagination bugfix.
 - language definition management changes. Database: ac_language_definitions now have unique index.
 - package installer changes. Now directories and files list will show in ftp warning during installation process.
 - aform resource field tpl ui fix
@@ -18,15 +17,15 @@ Control Panel:
 - system() call bugfix.
 - Fixed required fields on extensions settings page have been ignored
 - Fixed global search input in IE
-- minor translation bugfixes
+- Minor translation bug fixes
 
 Storefront:
-- quantity decreasing bugfix for non-subtracted products without options after order confirm.
-- listing block with auto listing limitation bugfix
+- Quantity decreasing bugfix for non-subtracted products without options after order confirm.
+- Listing block with auto listing limitation bugfix
 - Seo url special chars bugfix
-- subcategory seo url
+- Subcategory seo url
 - Fix for storefront menu external links.
-- minor ui bugfix
+- Minor UI bug fixes
 
 Extensions:
 - Error message added for wrong state or coutry code in fedex extensions settings
