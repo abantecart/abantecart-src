@@ -5,6 +5,12 @@
 		<value><![CDATA[Banner Lista]]></value>
 	</definition>
 	<definition>
+		<key>banner_manager_note</key>
+		<value><![CDATA[
+		Para gestionar los banners siga el menú <b>Design->Banner Administrado</b> después de la extensión está habilitada
+		]]></value>
+	</definition>	
+	<definition>
 		<key>banner_manager_name</key>
 		<value><![CDATA[Banner Administrador]]></value>
 	</definition>

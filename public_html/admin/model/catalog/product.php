@@ -23,15 +23,13 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ModelCatalogProduct extends Model {
 
     public function addProduct($data) {
-		$data['price'] = str_replace(" ","",$data['price']);
-		$data['cost'] = str_replace(" ","",$data['cost']);
 
         $this->db->query("INSERT INTO " . DB_PREFIX . "products
                             SET model = '" . $this->db->escape($data['model']) . "',
                                 sku = '" . $this->db->escape($data['sku']) . "',
                                 location = '" . $this->db->escape($data['location']) . "',
-                                quantity = '" . (int)$data['quantity'] . "',
-                                minimum = '" . (int)$data['minimum'] . "',
+                                quantity = '" . preformatInteger($data['quantity']) . "',
+                                minimum = '" . preformatInteger($data['minimum']) . "',
                                 subtract = '" . (int)$data['subtract'] . "',
                                 stock_status_id = '" . (int)$data['stock_status_id'] . "',
                                 date_available = '" . $this->db->escape($data['date_available']) . "',
@@ -39,14 +37,14 @@ class ModelCatalogProduct extends Model {
                                 shipping = '" . (int)$data['shipping'] . "',
                                 ship_individually = '" . (int)$data['ship_individually'] . "',
                                 free_shipping = '" . (int)$data['free_shipping'] . "',
-                                shipping_price = '" . (float)$data['shipping_price'] . "',
-                                price = '" . (float)$data['price'] . "',
-                                cost = '" . (float)$data['cost'] . "',
-                                weight = '" . (float)$data['weight'] . "',
+                                shipping_price = '" . preformatFloat($data['shipping_price'],$this->language->get('decimal_point')) . "',
+                                price = '" . preformatFloat($data['price'],$this->language->get('decimal_point')) . "',
+                                cost = '" . preformatFloat($data['cost'],$this->language->get('decimal_point')) . "',
+                                weight = '" . preformatFloat($data['weight'],$this->language->get('decimal_point')) . "',
                                 weight_class_id = '" . (int)$data['weight_class_id'] . "',
-                                length = '" . (float)$data['length'] . "',
-                                width = '" . (float)$data['width'] . "',
-                                height = '" . (float)$data['height'] . "',
+                                length = '" . preformatFloat($data['length'],$this->language->get('decimal_point')) . "',
+                                width = '" . preformatFloat($data['width'],$this->language->get('decimal_point')) . "',
+                                height = '" . preformatFloat($data['height'],$this->language->get('decimal_point')) . "',
                                 length_class_id = '" . (int)$data['length_class_id'] . "',
                                 status = '" . (int)$data['status'] . "',
                                 tax_class_id = '" . (int)$data['tax_class_id'] . "',
@@ -75,8 +73,7 @@ class ModelCatalogProduct extends Model {
 			//Default behavior to save SEO URL keword from product name in default language
 			$languages = $this->language->getAvailableLanguages();
 			$defalut_lang_id = $languages[$this->config->get('config_storefront_language')]['language_id'];
-			$seo_key = trim( mb_strtolower( $data['product_description'][$defalut_lang_id]['name'] ) );
-			$seo_key = htmlentities( str_replace(" ","_",$seo_key) );
+			$seo_key = SEOEncode($data['product_description'][$defalut_lang_id]['name']);
 			 
 			//Check if key is unique  
 			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_aliases
@@ -115,9 +112,9 @@ class ModelCatalogProduct extends Model {
 			"INSERT INTO " . DB_PREFIX . "product_discounts
 				SET product_id = '" . (int)$product_id . "',
 					customer_group_id = '" . (int)$data['customer_group_id'] . "',
-					quantity = '" . (int)$data['quantity'] . "',
+					quantity = '" . preformatInteger($data['quantity']) . "',
 					priority = '" . (int)$data['priority'] . "',
-					price = '" . (float)$data['price'] . "',
+					price = '" . preformatFloat($data['price']) . "',
 					date_start = '" . $this->db->escape($data['date_start']) . "',
 					date_end = '" . $this->db->escape($data['date_end']) . "'");
 		$id = $this->db->getLastId();
@@ -132,7 +129,7 @@ class ModelCatalogProduct extends Model {
 			SET product_id = '" . (int)$product_id . "',
 				customer_group_id = '" . (int)$data['customer_group_id'] . "',
 				priority = '" . (int)$data['priority'] . "',
-				price = '" . (float)$data['price'] . "',
+				price = '" . preformatFloat($data['price'], $this->language->get('decimal_point')) . "',
 				date_start = '" . $this->db->escape($data['date_start']) . "',
 				date_end = '" . $this->db->escape($data['date_end']) . "'");
 		$id = $this->db->getLastId();
@@ -141,20 +138,48 @@ class ModelCatalogProduct extends Model {
 	}
 
     public function updateProduct($product_id, $data) {
-		$fields = array("model", "sku", "location", "quantity", "minimum", "subtract", "stock_status_id", "date_available",
-                        "manufacturer_id", "shipping", "ship_individually", "free_shipping", "shipping_price", "price", "cost", "weight", "weight_class_id", "length", "width",
-                        "height", "length_class_id", "status", "tax_class_id", "sort_order");
-		if(isset($data['price'])){
-	        $data['price'] = str_replace(" ","",$data['price']);
-		}
-	    if(isset($data['cost'])){
-			$data['cost'] = str_replace(" ","",$data['cost']);
-	    }
+		$fields = array(
+						"model",
+						"sku",
+						"location",
+						"quantity",
+						"minimum",
+						"subtract",
+						"stock_status_id",
+						"date_available",
+                        "manufacturer_id",
+						"shipping",
+						"ship_individually",
+						"free_shipping",
+						"shipping_price",
+						"price",
+						"cost",
+						"weight",
+						"weight_class_id",
+						"length",
+						"width",
+                        "height",
+						"length_class_id",
+						"status",
+						"tax_class_id",
+						"sort_order");
+		$preformat_fields = array(
+									"shipping_price",
+									"price",
+									"cost",
+									"weight",
+									"length",
+									"width",
+									"height");
 
         $update = array('date_modified = NOW()');
 		foreach ( $fields as $f ) {
-			if ( isset($data[$f]) )
+			if ( isset($data[$f]) ){
+				if(in_array($f,$preformat_fields)){
+					$data[$f] = preformatFloat($data[$f], $this->language->get('decimal_point'));
+				}
 				$update[] = "$f = '".$this->db->escape($data[$f])."'";
+			}
 		}
 		if ( !empty($update) ) {
 			$this->db->query("UPDATE `" . DB_PREFIX . "products` SET ". implode(',', $update) ." WHERE product_id = '" . (int)$product_id . "'");
@@ -190,12 +215,15 @@ class ModelCatalogProduct extends Model {
                 }
             }
 		}
-
-		$this->setFeatured( $product_id, $data['featured'] ? true : false);
+		if(isset($data['featured'])){
+			$this->setFeatured( $product_id, ($data['featured'] ? true : false));
+		}
 
 		if (isset($data['keyword'])) {
 			$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases WHERE query = 'product_id=" . (int)$product_id . "'");
-			$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases SET keyword = '" . $this->db->escape($data['keyword']) . "', query = 'product_id=" . (int)$product_id . "'");
+			if($data['keyword']){
+				$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases SET keyword = '" . $this->db->escape($data['keyword']) . "', query = 'product_id=" . (int)$product_id . "'");
+			}
 		}
 
 		if (isset($data['product_tags'])) {
@@ -224,7 +252,7 @@ class ModelCatalogProduct extends Model {
 	public function updateProductDiscount($product_discount_id, $data) {
 		$fields = array("customer_group_id",  "quantity", "priority", "price", "date_start", "date_end",);
 		if(isset($data['price'])){
-	        $data['price'] = str_replace(" ","",$data['price']);
+			$data['price'] = preformatFloat($data['price'], $this->language->get('decimal_point'));
 		}
         $update = array();
 		foreach ( $fields as $f ) {
@@ -242,7 +270,7 @@ class ModelCatalogProduct extends Model {
 	public function updateProductSpecial($product_special_id, $data) {
 		$fields = array("customer_group_id", "priority", "price", "date_start", "date_end",);
 		if(isset($data['price'])){
-	        $data['price'] = str_replace(" ","",$data['price']);
+			$data['price'] = preformatFloat($data['price'], $this->language->get('decimal_point'));
 		}
         $update = array();
 		foreach ( $fields as $f ) {
@@ -495,9 +523,9 @@ class ModelCatalogProduct extends Model {
 	            sku = '" . $this->db->escape($data['sku']) . "',
 	            quantity = '" . $this->db->escape($data['quantity']) . "',
 	            subtract = '" . $this->db->escape($data['subtract']) . "',
-	            price = '" . $this->db->escape($data['price']) . "',
+	            price = '" . preformatFloat($data['price'], $this->language->get('decimal_point')) . "',
 	            prefix = '" . $this->db->escape($data['prefix']) . "',
-	            weight = '" . $this->db->escape($data['weight']) . "',
+	            weight = '" . preformatFloat($data['weight'], $this->language->get('decimal_point')) . "',
 	            weight_type = '" . $this->db->escape($data['weight_type']) . "',
 	            attribute_value_id = '" . $this->db->escape($attribute_value_id) . "',
 	            sort_order = '" . (int)$data['sort_order'] . "'");
@@ -516,7 +544,7 @@ class ModelCatalogProduct extends Model {
 	            subtract = '" . $this->db->escape($data['subtract']) . "',
 	            price = '" . $this->db->escape($data['price']) . "',
 	            prefix = '" . $this->db->escape($data['prefix']) . "',
-	            weight = '" . $this->db->escape($data['weight']) . "',
+	            weight = '" . preformatFloat($data['weight'], $this->language->get('decimal_point')) . "',
 	            weight_type = '" . $this->db->escape($data['weight_type']) . "',
 	            attribute_value_id = '" . $this->db->escape($attribute_value_id) . "',
 	            sort_order = '" . (int)$data['sort_order'] . "'
@@ -696,14 +724,18 @@ class ModelCatalogProduct extends Model {
 												sku = '" . $this->db->escape($product_option_value['sku']) . "',
 												quantity = '" . (int)$product_option_value['quantity'] . "',
 												subtract = '" . (int)$product_option_value['subtract'] . "',
-												price = '" . (float)$product_option_value['price'] . "',
+												price = '" . preformatFloat($product_option_value['price'], $this->language->get('decimal_point')) . "',
 												prefix = '" . $this->db->escape($product_option_value['prefix']) . "',
 												sort_order = '" . (int)$product_option_value['sort_order'] . "'");
 
 						$product_option_value_id = $this->db->getLastId();
 
 						foreach ($product_option_value['language'] as $language_id => $language) {
-							$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value_descriptions SET product_option_value_id = '" . (int)$product_option_value_id . "', language_id = '" . (int)$language_id . "', product_id = '" . (int)$product_id . "', name = '" . $this->db->escape($language['name']) . "'");
+							$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value_descriptions
+												SET product_option_value_id = '" . (int)$product_option_value_id . "',
+													language_id = '" . (int)$language_id . "',
+													product_id = '" . (int)$product_id . "',
+													name = '" . $this->db->escape($language['name']) . "'");
 						}
 					}
 				}

@@ -25,29 +25,6 @@ class ControllerCommonHead extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-	
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && isset($this->request->post['language_code'])) {
-			$this->session->data['language'] = $this->request->post['language_code'];
-		
-			if (isset($this->request->post['redirect'])) {
-				$this->redirect($this->request->post['redirect']);
-			} else {
-				$this->redirect($this->html->getURL('index/home'));
-			}
-    	}		
-		
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && isset($this->request->post['currency_code'])) {
-      		$this->currency->set($this->request->post['currency_code']);
-			
-			unset($this->session->data['shipping_methods']);
-			unset($this->session->data['shipping_method']);
-				
-			if (isset($this->request->post['redirect'])) {
-				$this->redirect($this->request->post['redirect']);
-			} else {
-				$this->redirect($this->html->getURL('index/home'));
-			}
-   		}
 		
 		$this->loadLanguage('common/header');
 		

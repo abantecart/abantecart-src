@@ -6,7 +6,7 @@
   </definition>
   <definition>
     <key>text_zone</key>
-    <value><![CDATA[Zone]]></value>
+    <value><![CDATA[Zona]]></value>
   </definition>
   <definition>
     <key>text_success</key>
@@ -30,11 +30,11 @@
   </definition>
   <definition>
     <key>column_status</key>
-    <value><![CDATA[Status]]></value>
+    <value><![CDATA[Estado]]></value>
   </definition>
   <definition>
     <key>entry_status</key>
-    <value><![CDATA[Zone Status:]]></value>
+    <value><![CDATA[Estado de Zona:]]></value>
   </definition>
   <definition>
     <key>entry_name</key>

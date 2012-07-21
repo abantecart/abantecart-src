@@ -47,7 +47,7 @@ class AResourceManager extends AResource {
 		}
 
         if ( !$this->type_id ) {
-			$message = "Error: Incorrect or missing resource type ";
+			$message = "Error: Incorrect or missing resource type ".$this->request->get['resource_id'];
 			$error = new AError ( $message );
 			$error->toLog()->toDebug();
 		}
@@ -228,6 +228,7 @@ class AResourceManager extends AResource {
         $this->db->query($sql);
 
         $this->cache->delete('resources.'. $resource_id);
+        $this->cache->delete('resources.'. $object_name.'.'.$resource_id);
         $this->cache->delete('resources.'. $resource['type_name']);
 	}
 
@@ -245,6 +246,7 @@ class AResourceManager extends AResource {
         $this->db->query($sql);
 
         $this->cache->delete('resources.'. $resource_id);
+		$this->cache->delete('resources.'. $object_name.'.'.$resource_id);
         $this->cache->delete('resources.'. $resource['type_name']);
 	}
 
@@ -262,6 +264,7 @@ class AResourceManager extends AResource {
             $this->db->query($sql);
 
             $this->cache->delete('resources.'. $resource_id);
+			$this->cache->delete('resources.'. $object_name.'.'.$resource_id);
             $this->cache->delete('resources.'. $resource['type_name']);
         }
     }
@@ -369,7 +372,7 @@ class AResourceManager extends AResource {
             $language_id = $this->config->get('storefront_language_id');
         }
 
-        $cache_name = 'resources.'. $resource_id . '.products';
+        $cache_name = 'resources.products.'. $resource_id;
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
         $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
         if ( is_null($resource_objects) ) {
@@ -401,7 +404,7 @@ class AResourceManager extends AResource {
             $language_id = $this->config->get('storefront_language_id');
         }
 
-        $cache_name = 'resources.'. $resource_id . '.product_option_value';
+        $cache_name = 'resources.product_option_value.'. $resource_id;
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
         $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
         if ( is_null($resource_objects) ) {
@@ -434,7 +437,7 @@ class AResourceManager extends AResource {
             $language_id = $this->config->get('storefront_language_id');
         }
 
-        $cache_name = 'resources.'. $resource_id . '.categories';
+        $cache_name = 'resources.categories.'. $resource_id;
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
         $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
         if ( is_null($resource_objects) ) {
@@ -467,7 +470,7 @@ class AResourceManager extends AResource {
             $language_id = $this->config->get('storefront_language_id');
         }
 
-        $cache_name = 'resources.'. $resource_id . '.manufacturers';
+        $cache_name = 'resources.manufacturers.'. $resource_id;
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
         $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
         if ( is_null($resource_objects) ) {

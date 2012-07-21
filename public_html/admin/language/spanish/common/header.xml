@@ -194,7 +194,7 @@
 	</definition>
 	<definition>
 		<key>text_stock_status</key>
-		<value><![CDATA[Estado Stock]]></value>
+		<value><![CDATA[Estado del Inventario]]></value>
 	</definition>
 	<definition>
 		<key>text_store</key>

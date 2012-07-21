@@ -28,12 +28,14 @@ class ControllerPagesToolGlobalSearch extends AController {
 	public function main() {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
-		
+
+		$this->loadLanguage('tool/global_search');
+
 		$this->document->setTitle ( $this->language->get ( 'heading_title' ) );
 
 		$this->request->post ['search'] = $this->request->post ['search'] ? $this->request->post ['search'] : $this->request->get ['search'];
 
-		$this->data ['heading_title'] = $this->language->get ( 'heading_title').':&nbsp;&nbsp;&nbsp;&nbsp;'. htmlentities($this->request->post ['search'],ENT_QUOTES);
+		$this->data ['heading_title'] = $this->language->get ( 'heading_title').':&nbsp;&nbsp;&nbsp;&nbsp;'. htmlentities($this->request->post ['search'],ENT_QUOTES,'UTF-8');
 		
 		$this->data ['text_select_all'] = $this->language->get ( 'text_select_all' );
 		$this->data ['text_unselect_all'] = $this->language->get ( 'text_unselect_all' );
@@ -68,34 +70,34 @@ class ControllerPagesToolGlobalSearch extends AController {
 		
 		$this->view->assign ( 'search_url', $this->html->getSecureURL ( 'listing_grid/global_search_result' ) );
 		$this->view->assign ( 'search_keyword', $this->request->post ['search'] );
-		
+
+		$form = new AForm ();
+		$search_form = $form->getFieldHtml ( array (
+			'type' => 'form',
+			'name' => 'search_form',
+			'action' => $this->html->getSecureURL ( 'tool/global_search' ) ) );
+		$this->view->assign ( 'search_form', $search_form );
+		$search_form_input = $this->request->post ['search'];
+
+		$search_form_button = $form->getFieldHtml ( array (
+			'type' => 'button',
+			'name' => 'submit',
+			'style' => 'button1',
+			'text' => $this->language->get ( 'button_go' )
+		) );
+		$this->view->assign ( 'search_form_input', $search_form_input );
+		$this->view->assign ( 'search_form_button',  $search_form_button);
+
+
 		if ($this->_validate ()) {
 			$search_categories_icons = $this->model_tool_global_search->getSearchSources ( $this->request->post ['search'] );
 			$search_categories  = array_keys($search_categories_icons);
 			if ($search_categories) {
 				
-				$form = new AForm ();
-				$search_form = $form->getFieldHtml ( array (
-																'type' => 'form', 
-																'name' => 'search_form', 
-																'action' => $this->html->getSecureURL ( 'tool/global_search' ) ) );
-				$this->view->assign ( 'search_form', $search_form );
-				$search_form_input = $this->request->post ['search'];
-						/*$form->getFieldHtml ( array (	'type' => 'input',
-																	'name' => 'search', 
-																	'value' => $this->request->post ['search'],
-																	'attr' => 'style="font-size: 14px; height: 22px;"'));*/
 
-				$search_form_button = $form->getFieldHtml ( array (
-																	'type' => 'button',
-					                                                'name' => 'submit',
-					                                                'style' => 'button1',
-																	'text' => $this->language->get ( 'button_go' )
-																	 ) );
-				$this->view->assign ( 'search_form_input', $search_form_input );
-				$this->view->assign ( 'search_form_button',  $search_form_button);
 
 				$this->view->assign ( 'no_results_message', '' );
+				$this->data['grid_inits'] = array(); // list of js-functions names for initialization all jqgrids
 				$i = 0;
 				foreach ( $search_categories as $search_category ) {
 					
@@ -137,7 +139,11 @@ class ControllerPagesToolGlobalSearch extends AController {
 					$grid_settings ['hoverrows'] = "false";
 					$grid_settings ['altRows'] = "true";
 					$grid_settings ['ajaxsync'] = "false";
-					
+					$grid_settings ['history_mode'] = false;
+					// need to disable initializations all grid on page load because it high load cpu in damn IE8-9
+					$grid_settings ['init_onload'] = false;
+					$this->data['grid_inits'][] = 'initGrid_'.$grid_settings ['table_id'];
+
 					$grid = $this->dispatch ( 'common/listing_grid', array ($grid_settings ) );
 					$this->view->assign ( 'listing_grid_' . $search_category, $grid->dispatchGetOutput () );
 					$i++;

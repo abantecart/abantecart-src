@@ -26,8 +26,7 @@
 	</definition>
 	<definition>
 		<key>text_loading</key>
-		<value>
-			<![CDATA[Downloading file. Size: %s .<br/>It might take few seconds depending on your connection.]]></value>
+		<value><![CDATA[Downloading file. Size: %s .<br/>It might take few seconds depending on your connection.]]></value>
 	</definition>
 	<definition>
 		<key>text_key_hint</key>
@@ -92,8 +91,7 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>warning_ftp</key>
-		<value>
-			<![CDATA[ Warning: Directory with extensions does not have write permission.<br>You can change this right or<br>use ftp-access to server for installing package (usually hosting provider sends it via email)<br> ]]></value>
+		<value><![CDATA[ Warning: Directory with extensions does not have write permission.<br>You can change this right or<br>use ftp-access to server for installing package (usually hosting provider sends it via email)<br> ]]></value>
 	</definition>
 	<definition>
 		<key>warning_already_installed</key>

@@ -147,6 +147,7 @@ class ControllerResponsesCatalogProductListing extends AController {
 					'type' => 'selectbox',
 					'name' => 'category',
 					'options' => $categories,
+					'style' => 'medium-field'
 				));
 
 

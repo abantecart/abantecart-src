@@ -202,8 +202,9 @@ class AResource {
 
 	public function getResource ( $resource_id, $language_id = '' ) {
 		//Return resource details
-	    if ( !$resource_id ) {
-			return;
+		$resource_id = (int)$resource_id;
+	    if ( !$resource_id) {
+			return false;
 	    }
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');
@@ -212,7 +213,7 @@ class AResource {
 		//attempt to load cache 
         $cache_name = 'resources.'. $resource_id;
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-        $resource = $this->cache->get($cache_name,'', (int)$this->config->get('config_store_id') );
+        $resource = $this->cache->get($cache_name );
 
         if (empty($resource)) {
 
@@ -278,7 +279,7 @@ class AResource {
 			if (!is_file($old_image)) {
 				$this->load->model('tool/image');
 				$this->model_tool_image->resize($resource['default_icon'], $width, $height);
-				return $this->model_tool_image->resize($resource['default_icon'], $width, $height);
+				return $old_image.'::::'.$this->model_tool_image->resize($resource['default_icon'], $width, $height);
 			}
 
 			$name = preg_replace('/[^a-zA-Z0-9]/', '', $resource['name']);

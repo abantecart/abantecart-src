@@ -27,70 +27,41 @@ class ControllerBlocksCurrency extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST') && isset($this->request->post['currency_code'])) {
-      		$this->currency->set($this->request->post['currency_code']);
-			
-			unset($this->session->data['shipping_methods']);
-			unset($this->session->data['shipping_method']);
-				
-			if (isset($this->request->post['redirect'])) {
-				$this->redirect($this->request->post['redirect']);
-			} else {
-				$this->redirect($this->html->getURL('index/home'));
-			}
-   		}
 
-      	$this->view->assign('heading_title', $this->language->get('heading_title'));
-		$this->view->assign('currency_code', $this->currency->getCode());
+      	$this->data['heading_title'] = $this->language->get('heading_title');
+		$this->data['currency_code'] = $this->currency->getCode();
+
+		$URI = $_SERVER['REQUEST_URI'];
+		$query_vars =  explode('&',$_SERVER['QUERY_STRING']);
+		foreach ($query_vars as $pair){
+			$URI = str_replace('&'.$pair,'',$URI);
+			$URI = str_replace('?'.$pair,'',$URI);
+		}
+		$get_vars = $this->request->get;
+		unset($get_vars['currency']);
+		if(isset($get_vars['product_id'])){
+			unset($get_vars['path']);
+		}
+
+		$URI = str_replace('?', '', $URI);
+		$URI .= '?'.urldecode(http_build_query($get_vars));
+
 		$this->loadModel('localisation/currency');
-		$this->view->assign('currencies', array());
-		$results = $this->model_localisation_currency->getCurrencies();	
+		$results = $this->model_localisation_currency->getCurrencies();
 
 		$currencies = array();
 		foreach ($results as $result) {
 			if ($result['status']) {
    				$currencies[] = array(
 					'title' => $result['title'],
-					'code'  => $result['code']
+					'code'  => $result['code'],
+					'href'  => $URI.'&currency='.$result['code']
 				);
 			}
 		}
 
-		$this->view->assign('currencies', $currencies );
+		$this->data['currencies'] = $currencies;
 
-
-		if (!isset($this->request->get['rt'])) {
-			$redirect = $this->html->getURL('index/home');
-		} else {
-			$this->loadModel('tool/seo_url');
-			$data = $this->request->get;
-			unset($data['_route_']);
-			$route = $data['rt'];
-			unset($data['rt']);
-			$url = '';
-			if ($data) {
-				$url = '&' . urldecode(http_build_query($data));
-			}			
-			
-			$redirect =  $this->html->getSEOURL( $route,  $url, '&encode');
-		}
-		$this->data['redirect'] = $redirect;
-
-		$form = new AForm();
-        $form->setForm(array( 'form_name' => 'currency_form' ));
-        $this->data['form'][ 'form_open' ] = $form->getFieldHtml(
-                                                                array(
-                                                                       'type' => 'form',
-                                                                       'name' => 'currency_form',
-                                                                       'action' => $this->html->getURL('index/home')));
-		$this->data['form'][ 'code' ] = $form->getFieldHtml( array(
-                                                                       'type' => 'hidden',
-		                                                               'name' => 'currency_code',
-		                                                               'value' => '' ));
-		$this->data['form'][ 'redirect' ] = $form->getFieldHtml( array(
-                                                                       'type' => 'hidden',
-		                                                               'name' => 'redirect',
-		                                                               'value' => $redirect ));
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('blocks/currency.tpl');

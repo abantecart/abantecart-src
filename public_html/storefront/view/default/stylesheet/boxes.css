@@ -41,6 +41,10 @@
     white-space: nowrap;
     padding-left: 10px;
 }
+
+#content_top .s_block{
+    margin-bottom: 10px;
+}
 .s_block .block_tc IMG{
     padding-right: 10px;
     vertical-align: middle;

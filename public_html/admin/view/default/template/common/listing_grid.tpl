@@ -24,10 +24,11 @@
 	 </form>
 </div>
 
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/ui.datepicker.js"></script>
+<!--<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/ui.datepicker.js"></script>
+	-->
 <script>
 
-jQuery(function($){
+var initGrid_<?php echo $data['table_id'] ?> = function($){
 
 var text_choose_action = '<?php echo $text_choose_action ?>';
 var text_select_items = '<?php echo $text_select_items ?>';
@@ -74,7 +75,7 @@ var updatePager = false;
 		updatePager = true;
 	}
 
-	$(table_id).jqGridHistory({
+	$(table_id).jqGrid<?php echo $history_mode ? 'History' : ''; ?>({
 		url:'<?php echo $data["url"] ?>',
 		editurl:'<?php echo $data["editurl"] ?>',
 		datatype: "json",
@@ -113,7 +114,9 @@ var updatePager = false;
 			}
 
 			// init datepicker for fields
+			if($('.date').length>0){
 			$('.date').datepicker({dateFormat: 'yy-mm-dd'});
+			}
 
             //uncheck multiselect checkbox
             $('#cb_'+_table_id).change();
@@ -391,7 +394,11 @@ var updatePager = false;
 				$(this).parent().css('text-align',algn);
 				$.aform.styleGridForm(this);
 	});
-});
-
+};
+<?php
+//run initialization if initialization on load enabled
+if($init_onload){ ?>
+initGrid_<?php echo $data['table_id'] ?>($);
+<?php } ?>
 
 </script>

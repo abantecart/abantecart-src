@@ -224,16 +224,19 @@ jQuery(function() {
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
-if ($('#settingFrm_config_description_<?php echo $content_language_id; ?>').length) {
-	$('#settingFrm_config_description_<?php echo $content_language_id; ?>').parents('.afield').removeClass('mask2');
+$(document).ready(function() {
+	if ($('#settingFrm_config_description_<?php echo $content_language_id; ?>').length) {
+		$('#settingFrm_config_description_<?php echo $content_language_id; ?>').parents('.afield').removeClass('mask2');
 
-	CKEDITOR.replace('settingFrm_config_description_<?php echo $content_language_id; ?>', {
-		filebrowserBrowseUrl : false,
-		filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
-		filebrowserWindowWidth : '910',
-		filebrowserWindowHeight : '500',
-		language: '<?php echo $language_code; ?>'
-	});
-}
+		CKEDITOR.replace('settingFrm_config_description_<?php echo $content_language_id; ?>', {
+			filebrowserBrowseUrl : false,
+			filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
+			filebrowserWindowWidth : '920',
+			filebrowserWindowHeight : '520',
+			language: '<?php echo $language_code; ?>'
+		});
+	}
 
+	$('#settingFrm_config_upload_max_size').live('blur',function(){ formatQty(this); });
+});
 //--></script>

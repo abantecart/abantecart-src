@@ -250,8 +250,8 @@ jQuery(function($){
 	$('#message').parents('.afield').removeClass('mask2');
 	CKEDITOR.replace('message', {   filebrowserBrowseUrl : false,
 									filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
-									filebrowserWindowWidth : '910',
-									filebrowserWindowHeight : '500',
+									filebrowserWindowWidth : '920',
+									filebrowserWindowHeight : '520',
 									language: '<?php echo $language_code; ?>'
 	});
 </script>

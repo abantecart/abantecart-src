@@ -46,9 +46,10 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
       		'separator' => ' :: '
    		 ));
 
+		$this->request->get['language_id'] = !isset($this->request->get['language_id']) ? $this->config->get('storefront_language_id') : (int)$this->request->get['language_id'];
 		$grid_settings = array(
 			'table_id' => 'lang_definition_grid',
-			'url' => $this->html->getSecureURL('listing_grid/language_definitions'),
+			'url' => $this->html->getSecureURL('listing_grid/language_definitions','&language_id='.$this->request->get['language_id']),
 			'editurl' => $this->html->getSecureURL('listing_grid/language_definitions/update'),
             'update_field' => $this->html->getSecureURL('listing_grid/language_definitions/update_field'),
 			'sortname' => 'update_date',
@@ -91,11 +92,24 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 		    'style' => 'button2',
 	    ));
 
+		$languages = $this->language->getAvailableLanguages();
+		$options = array(-1 => $this->language->get('text_all_languages'));
+		foreach($languages as $lang){
+			$options[$lang['language_id']] = $lang['name'];
+		}
+
+		$grid_search_form['fields']['language_id'] = $form->getFieldHtml(array(
+			'type' => 'selectbox',
+			'name' => 'language_id',
+			'options' => $options,
+			'value' => $this->request->get['language_id']
+		));
+
 	    $grid_search_form['fields']['section'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
 		    'name' => 'section',
             'options' => array(
-	            '' => $this->language->get('text_select_section'),
+	            '' => $this->language->get('text_all_section'),
                 1 => $this->language->get('text_admin'),
                 0 => $this->language->get('text_storefront'),
             ),
@@ -105,37 +119,33 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 
 
 		$grid_settings['colNames'] = array(
-            $this->language->get('column_language'),
             $this->language->get('column_block'),
 			$this->language->get('column_key'),
 			$this->language->get('column_translation'),
 			$this->language->get('column_update_date'),
 		);
 		$grid_settings['colModel'] = array(
-			array(
-				'name' => 'name',
-				'index' => 'name',
-                'align' => 'center',
-				'sorttype' => 'string',
-			),
             array(
 				'name' => 'block',
 				'index' => 'block',
-                'align' => 'center',
+                'align' => 'left',
 				'sorttype' => 'string',
+				'width' => 200
 			),
             array(
 				'name' => 'language_key',
 				'index' => 'language_key',
-				'align' => 'center',
+				'align' => 'left',
 				'sorttype' => 'string',
+				'width' => 200
 			),
 			array(
 				'name' => 'language_value',
 				'index' => 'language_value',
-                'align' => 'center',
+                'align' => 'left',
 				'sorttype' => 'string',
                 'sortable' => false,
+				'width' => 260
 			),
 			array(
 				'name' => 'update_date',
@@ -143,6 +153,7 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
                 'align' => 'center',
 				'sorttype' => 'string',
 				'search' => false,
+				'width' => 70
 			),
 		);
 
@@ -282,11 +293,13 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 			$this->data['heading_title'] = $this->language->get('text_insert') .' '. $this->language->get('text_definition');
 			$this->data['update'] = '';
 			$form = new AForm('ST');
+			$this->data['language_definition_id'] = (int)$this->request->get['language_definition_id'];
+			$this->data['check_url'] = $this->html->getSecureURL('listing_grid/language_definitions/checkdefinition');
 		} else {
 			$this->data['action'] = $this->html->getSecureURL('localisation/language_definitions/update', '&language_definition_id=' . $this->request->get['language_definition_id'] );
 			$this->data['heading_title'] = $this->language->get('text_edit') .' '. $this->language->get('text_definition');
-			$this->data['update'] = '';//$this->html->getSecureURL('listing_grid/language_definitions/update_field','&id='.$this->request->get['language_definition_id']);
-			$form = new AForm('ST');
+			$this->data['update'] = $this->html->getSecureURL('listing_grid/language_definitions/update_field','&id='.$this->request->get['language_definition_id']);
+			$form = new AForm('HS');
 		}
 		
 		$this->document->addBreadcrumb( array (
@@ -323,7 +336,6 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 		    'type' => 'selectbox',
 		    'name' => 'section',
 			'options' => array(
-                '' => $this->language->get('text_select'),
                 1 => $this->language->get('text_admin'),
                 0 => $this->language->get('text_storefront'),
             ),
@@ -344,6 +356,7 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 		    'required' => true,
 		    'help_url' => $this->gen_help_url('language_key'),
 	    ));
+
 
         foreach ( $this->data['languages'] as $i ) {
             $value = '';

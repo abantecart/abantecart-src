@@ -4,7 +4,6 @@
 			<div class="block_cc">
 				<div id="currency">
 					<?php if ($currencies) { ?>
-					<?php echo  $form[ 'form_open' ]; ?>
 					<div class="switcher">
 						<?php foreach ($currencies as $currency) { ?>
 						<?php if ($currency[ 'code' ] == $currency_code) { ?>
@@ -13,11 +12,9 @@
 						<?php } ?>
 						<div class="option">
 							<?php foreach ($currencies as $currency) { ?>
-							<a onclick="$('input[name=\'currency_code\']').attr('value', '<?php echo $currency[ 'code' ]; ?>'); $('#currency_form').submit();"><?php echo $currency[ 'title' ]; ?></a>
+							<a href="<?php echo $currency[ 'href' ] ?>"><?php echo $currency[ 'title' ]; ?></a>
 							<?php } ?>
 						</div>
-						<?php echo  $form[ 'code' ]; ?>
-						<?php echo  $form[ 'redirect' ]; ?>
 					</div>
 					</form>
 					<?php } ?>

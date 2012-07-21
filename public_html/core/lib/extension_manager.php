@@ -98,7 +98,7 @@ class AExtensionManager {
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "settings
 						  WHERE `group` = '" . $this->db->escape($group) . "'
-						        AND `key` IN ('" . implode("','", $keys) . "')
+						        AND `key` IN ('" . implode("', '", $keys) . "')
 						        AND `store_id` = '".(int)$data['store_id']."' ");
 
 		foreach ($data as $key => $value) {

@@ -281,7 +281,7 @@ a img {
 /* header elements */
 #logo {
 	float: left;
-	margin: 24px 0 0 0;
+	margin: 24px 10px 0 0;
 }
 
 #social_links {
@@ -700,7 +700,7 @@ c input {
 	background: url(../image/box_top_m_new.gif) repeat-x;
 	margin-left: 5px;
 	margin-right: 5px;
-	height: 36px;
+	height: 35px;
 }
 
 #content .top h1 {

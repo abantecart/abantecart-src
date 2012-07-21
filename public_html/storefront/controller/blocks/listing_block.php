@@ -174,6 +174,7 @@ class ControllerBlocksListingBlock extends AController {
 		if(strpos($content['listing_datasource'],'custom_')===FALSE){ // for auto listings
 			$route = $content['listing_datasource'];
 			$limit  = $content['limit'];
+
 			// for resource library
 			if($route=='media'){
 				$rl = new AResource($content['resource_type']);
@@ -196,16 +197,23 @@ class ControllerBlocksListingBlock extends AController {
 					$object_id = $this->request->get['manufacturer_id'];
 				}
 
-				$resources = $rl->getResourceAllObjects($object_name, $object_id, array('main'=>array(
-					                                                                    'width'=>$this->config->get('config_image_popup_width'),
-					                                                                    'height'=>$this->config->get('config_image_popup_height')),
-				                                                             'thumb'=>array(
-					                                                                    'width'=>$this->config->get('config_image_grid_width'),
-					                                                                    'height'=>$this->config->get('config_image_grid_height'))));
+				$resources = $rl->getResourceAllObjects( $object_name,
+														 $object_id,
+														 array('main'=>array(
+					                                                         'width'=>$this->config->get('config_image_popup_width'),
+					                                                         'height'=>$this->config->get('config_image_popup_height')),
+
+				                                               'thumb'=>array(
+					                                                          'width'=>$this->config->get('config_image_grid_width'),
+					                                                          'height'=>$this->config->get('config_image_grid_height'))),
+														$limit,
+														false);
 				if(!$resources){ return null;}
+				if($limit==1){
+					$resources = array($resources);
+				}
 
 				foreach( $resources as $k=>$resource ){
-
 					if($resource['origin']=='external'){
 						$result[$k]['resource_code'] = $resource['thumb_html'];
 					}else{

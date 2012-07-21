@@ -23,7 +23,7 @@
   </definition>
   <definition>
     <key>entry_item_url</key>
-    <value><![CDATA[Link]]></value>
+    <value><![CDATA[Link<br /><span class="help">For external links add http:// or https:// in the beginning</span>]]></value>
   </definition>
   <definition>
     <key>entry_parent_id</key>
@@ -47,7 +47,7 @@
   </definition>
   <definition>
     <key>text_select_parent_id</key>
-    <value><![CDATA[- Select Parent Id -]]></value>
+    <value><![CDATA[- Root Menu -]]></value>
   </definition>
   <definition>
     <key>error_empty</key>

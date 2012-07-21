@@ -245,7 +245,6 @@ class ControllerPagesExtensionExtensions extends AController {
 		}
 
 		/** build aform **/
-		$this->session->data[ 'extension_required_fields' ] = array();
 		$result = array('resource_field_list'=>array());
 
 		// store switcher for default store Cntrol Panel only
@@ -489,19 +488,17 @@ class ControllerPagesExtensionExtensions extends AController {
 					'link' => AEncryption::addEncoded_stid($this->session->data['extension_updates'][$extension]['url']));
 			}
 
-            if ( $status ) {
-                $extension_data[ 'help' ] = array(
-                    'text' => $this->html->buildButton(
-                        array( 'name' => 'btn_help', 'text' => $this->language->get('text_help'), 'style' => 'button2' )
-                    ),
-                    'ext_link' => $ext->getConfig('help_link'),
-                );
-                if ( $ext->getConfig('help_file') ) {
-                	$extension_data[ 'help' ]['file'] = true;
-                	$extension_data[ 'help' ]['file_link'] = $this->html->getSecureURL('extension/extension/help', '&extension='.$this->request->get['extension']);
-                	$this->data['text_more_help'] = $this->language->get('text_more_help');
-                }
-            }
+			$extension_data[ 'help' ] = array(
+			    'text' => $this->html->buildButton(
+			        array( 'name' => 'btn_help', 'text' => $this->language->get('text_help'), 'style' => 'button2' )
+			    ),
+			    'ext_link' => $ext->getConfig('help_link'),
+			);
+			if ( $ext->getConfig('help_file') ) {
+				$extension_data[ 'help' ]['file'] = true;
+				$extension_data[ 'help' ]['file_link'] = $this->html->getSecureURL('extension/extension/help', '&extension='.$this->request->get['extension']);
+				$this->data['text_more_help'] = $this->language->get('text_more_help');
+			}
 
 			$extension_data[ 'dependencies' ] = array();
 			$extension_data[ 'extensions' ] = $this->extensions->getEnabledExtensions();

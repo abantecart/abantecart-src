@@ -61,11 +61,17 @@ class ControllerCommonMenu extends AController {
 				||	(!$logged && $item['item_id']=='logout')){
 				continue;
 			}
-
+			$href = '';
+			if( preg_match ( "/^http/i", $item ['item_url'] ) ){
+				$href = $item ['item_url'];
+			} else {
+				$href = $this->html->getURL ( $item ['item_url'] );
+			}
+			
 			$menu[] = array(
 				'id' => $item['item_id'],
 				'icon' => $item['item_icon'],
-				'href' => ( strpos('http://', $item['item_url']) !== false ? $item['item_url'] :  $this->html->getURL($item['item_url']) ),
+				'href' =>  $href,
 				'text' => $item['item_text'][$lang_id],
 				'children' => $this->_buildMenu( $item['item_id'] ),
 			);

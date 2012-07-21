@@ -20,7 +20,7 @@
 					<div class="flt_left cl" style="margin-right: 5px;">
 						<div class="cr">
 							<div class="cc"><span style="margin-top: 3px;" class="icon_search">&nbsp;</span>
-								<input type="text" style="font-size: 14px; height: 22px;"
+								<input type="text" style="font-size: 14px; height: 21px; line-height: 21px;"
 								       value="<?php echo $search_form_input ?>" class="atext " id="search"
 								       name="search">
 							</div>
@@ -57,3 +57,18 @@
 			</div>
 		</div>
 	</div>
+<script language="JavaScript">
+	$('span.icon_search').click(function(){
+		$('#search_form').submit();
+	});
+
+	$(document).ready(function(){
+		<?php
+		$time = 0;
+		foreach($grid_inits as $func_name){
+			echo 'setTimeout("'.$func_name.'($)",'.$time.');'."\n";
+			$time+=500;
+		}
+	?>
+	});
+</script>

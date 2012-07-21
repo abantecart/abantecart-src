@@ -49,9 +49,15 @@
                                             <?php if (!empty($error[$name])) { ?>
                                             <div class="field_err"><?php echo $error[$name]; ?></div>
                                             <?php } ?>
+											<?php if($name=='zone'){?>
+												<br/><br/>
+												<a onclick="selectAll();"><?php echo $text_select_all; ?></a> /
+												<a onclick="unselectAll();"><?php echo $text_unselect_all; ?></a>
+												<br/>
+											<?php } ?>
                                         </td>
                                     </tr>
-                                    <?php } //foreach ($form['fields'] as $name => $field)  ?>
+                                    <?php }  ?>
                                 </table>
                             </div>
                         </div>
@@ -82,7 +88,7 @@
 var zone_id = '<?php echo $zone_id; ?>';
 jQuery(function ($) {
 
-    getZones = function (id, country_id) {
+    getZones = function (country_id) {
         if (!country_id) {
             return false;
         }
@@ -94,39 +100,50 @@ jQuery(function ($) {
                 dataType:'json',
                 success:function (data) {
                     result = data;
-                    showZones(id, data);
+                    showZones(data);
                 },
                 error:function (req, status, msg) {
                 }
             });
     }
 
-    showZones = function (id, data) {
+    showZones = function (data) {
         var options = '';
 
         $.each(data['options'], function (i, opt) {
-            options += '<option value="' + i + '"';
-            if (opt.selected) {
-                options += 'selected="selected"';
-            }
-            options += '>' + opt.value + '</option>'
+			if(i!=0){
+            options += '<label for="check_' + i + '">'
+				+'<div class="afield acheckbox"><span>'
+				+'<input id="check_'+i+'" type="checkbox" value="'+i+'" name="zone_id[]" style="opacity: 0;" />'
+				+'</span></div>' + opt.value + '</label>';
+			}
+
         });
 
-        var selectObj = $('#' + id);
-
-        selectObj.html(options);
-        var selected_name = $('#' + id + ' :selected').text();
-
-        selectObj.parent().find('span').text(selected_name);
+        $('div.scrollbox'). html(options).each(function(){
+		$("div.scrollbox input").aform({triggerChanged: true, showButtons: false });
+		});
 
     }
-    if(!$('#cgFrm_zone_id').val()){
-        getZones('cgFrm_zone_id', $('#cgFrm_country_id').val());
+    if(!$('#cgFrm_zone_id\\\[\\\]').val()){
+        getZones($('#cgFrm_country_id').val());
     }
     $('#cgFrm_country_id').change(function () {
-        getZones('cgFrm_zone_id', $(this).val());
-        $('#cgFrm_zone_id').val('').change();
+        getZones($(this).val());
+        $('#cgFrm_zone_id\\\[\\\]').val('').change();
 
     });
 });
+
+function selectAll()
+{
+	$('input[name*=\'zone_id\[\]\']').attr('checked', 'checked');
+	$('div.scrollbox').find('.afield').addClass('checked');
+}
+
+function unselectAll()
+{
+	$('input[name*=\'zone_id\[\]\']').removeAttr('checked');
+	$('div.scrollbox').find('.afield').removeClass('checked');
+}
 //--></script>

@@ -33,24 +33,24 @@ class ControllerResponsesToolBackupFile extends AController {
 			$this->loadModel('tool/backup');
 
 	        $bkp = $this->model_tool_backup->backup($this->request->post['backup'],$this->request->post['backup_rl'],$this->request->post['backup_config']);
-
-			$install_upgrade_history = new ADataset('install_upgrade_history','admin');
-			$install_upgrade_history->addRows(array('date_added'=> date("Y-m-d H:i:s",time()),
-			                            'name' => 'Manual Backup',
-			                            'version' => VERSION,
-			                            'backup_file' => $bkp->getBackupName().'.tar.gz',
-			                            'backup_date' => date("Y-m-d H:i:s",time()),
-			                            'type' => 'backup',
-			                            'user' => $this->user->getUsername() ));
-			if($bkp->error){
-				$this->session->data['error'] = $bkp->error;
+			if($bkp){
+				$install_upgrade_history = new ADataset('install_upgrade_history','admin');
+				$install_upgrade_history->addRows(array('date_added'=> date("Y-m-d H:i:s",time()),
+				                            'name' => 'Manual Backup',
+				                            'version' => VERSION,
+				                            'backup_file' => $this->model_tool_backup->backup_filename.'.tar.gz',
+				                            'backup_date' => date("Y-m-d H:i:s",time()),
+				                            'type' => 'backup',
+				                            'user' => $this->user->getUsername() ));
+			}
+			if($this->model_tool_backup->error){
+				$this->session->data['error'] = $this->model_tool_backup->error;
+				$this->redirect($this->html->getSecureURL('tool/backup'));
 			}else{
 				$this->loadLanguage('tool/backup');
 				$this->session->data['success'] = $this->language->get('text_success_backup');
+				$this->redirect($this->html->getSecureURL('tool/install_upgrade_history'));
 			}
-
-			$this->redirect($this->html->getSecureURL('tool/install_upgrade_history'));
-
               //update controller data
             $this->extensions->hk_UpdateData($this,__FUNCTION__);
 		} else {
@@ -70,6 +70,29 @@ class ControllerResponsesToolBackupFile extends AController {
 			return TRUE;
 		} else {
 			return FALSE;
+		}
+	}
+
+	public function download() {
+
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		if ($this->user->hasPermission('access', 'tool/backup_file')) {
+			$filename = str_replace(array('../','..\\','\\','/'),'',$this->request->get['filename']);
+			$file = DIR_APP_SECTION.'system/backup/'.$filename;
+			if(file_exists($file)){
+				header('Content-Type: application/x-gzip');
+				header('Content-Disposition: attachment; filename='.$filename);
+				header('Content-Transfer-Encoding: binary');
+				header('Content-Length: '.filesize($file));
+				$file = readfile($file);
+				echo $file;
+			}else{
+				echo 'file does not exists!';
+			}
+		} else {
+			return $this->dispach('error/permission');
 		}
 	}
 	

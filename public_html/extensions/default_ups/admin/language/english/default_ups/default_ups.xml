@@ -210,8 +210,7 @@
 	</definition>
 	<definition>
 		<key>entry_key</key>
-		<value>
-			<![CDATA[Access Key:<span class="help">Enter the XML rates access key assigned to you by UPS.</span>]]></value>
+		<value><![CDATA[Access Key:<span class="help">Enter the XML rates access key assigned to you by UPS.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_username</key>
@@ -223,8 +222,7 @@
 	</definition>
 	<definition>
 		<key>entry_pickup</key>
-		<value>
-			<![CDATA[Pickup Method:<span class="help">How do you give packages to UPS (only used when origin is US)?</span>]]></value>
+		<value><![CDATA[Pickup Method:<span class="help">How do you give packages to UPS (only used when origin is US)?</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_packaging</key>
@@ -232,13 +230,11 @@
 	</definition>
 	<definition>
 		<key>entry_classification</key>
-		<value>
-			<![CDATA[Customer Classification Code:<span class="help">01 - If you are billing to a UPS account and have a daily UPS pickup, 03 - If you do not have a UPS account or you are billing to a UPS account but do not have a daily pickup, 04 - If you are shipping from a retail outlet (only used when origin is US)</span>]]></value>
+		<value><![CDATA[Customer Classification Code:<span class="help">01 - If you are billing to a UPS account and have a daily UPS pickup, 03 - If you do not have a UPS account or you are billing to a UPS account but do not have a daily pickup, 04 - If you are shipping from a retail outlet (only used when origin is US)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_origin</key>
-		<value>
-			<![CDATA[Shipping Origin Code:<span class="help">What origin point should be used (this setting affects only what UPS product names are shown to the user)</span>]]></value>
+		<value><![CDATA[Shipping Origin Code:<span class="help">What origin point should be used (this setting affects only what UPS product names are shown to the user)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_city</key>
@@ -246,13 +242,11 @@
 	</definition>
 	<definition>
 		<key>entry_state</key>
-		<value>
-			<![CDATA[Origin State/Province:<span class="help">Enter the two-letter code for your origin state/province.</span>]]></value>
+		<value><![CDATA[Origin State/Province:<span class="help">Enter the two-letter code for your origin state/province.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_country</key>
-		<value>
-			<![CDATA[Origin Country:<span class="help">Enter the two-letter code for your origin country.</span>]]></value>
+		<value><![CDATA[Origin Country:<span class="help">Enter the two-letter code for your origin country.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_postcode</key>
@@ -260,8 +254,7 @@
 	</definition>
 	<definition>
 		<key>entry_test</key>
-		<value>
-			<![CDATA[Test Mode:<span class="help">Use this module in Test (YES) or Production mode (NO)?</span>]]></value>
+		<value><![CDATA[Test Mode:<span class="help">Use this module in Test (YES) or Production mode (NO)?</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_quote_type</key>
@@ -273,8 +266,7 @@
 	</definition>
 	<definition>
 		<key>entry_display_weight</key>
-		<value>
-			<![CDATA[Display Delivery Weight:<br /><span class="help">Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 Kg's)</span>]]></value>
+		<value><![CDATA[Display Delivery Weight:<br /><span class="help">Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 Kg's)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_code</key>

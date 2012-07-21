@@ -27,7 +27,7 @@ final class ABackup {
 	private $registry;
 	private $log;
 	private $message;
-	public $error;
+	public  $error;
 
   	public function __construct( $name ) {
 		$this->registry = Registry::getInstance();
@@ -69,7 +69,10 @@ final class ABackup {
 
 		$backupFile = $this->backup_dir.'data/' .DB_DATABASE.'_dump_'. date("Y-m-d-H-i-s") . '.sql';
 		$command = "mysqldump --opt -h " . DB_HOSTNAME . " -u " . DB_USERNAME . " -p" . DB_PASSWORD . " " . DB_DATABASE . " > " . $backupFile;
-		system($command);
+		if(isFunctionAvailable('system')){
+			system($command);
+		}
+
 		if(!file_exists($backupFile)){
 			$this->error = "Error: Can't create sql dump of database during backup";
 			$this->log->write($this->error);
@@ -89,7 +92,9 @@ final class ABackup {
 
 		$backupFile = $this->backup_dir.'data/' .DB_DATABASE.'_'.$table_name.'_dump_'. date("Y-m-d-H-i-s") . '.sql';
 		$command = "mysqldump --opt -h " . DB_HOSTNAME . " -u " . DB_USERNAME . " -p" . DB_PASSWORD . " " . DB_DATABASE . "  ".$table_name." > " . $backupFile;
-		$result = system($command);
+		if(isFunctionAvailable('system')){
+			$result = system($command);
+		}
 		if(!$result){
 			$this->error = "Error: Can't create sql dump of database table during backup";
 			$this->log->write($this->error);
@@ -193,7 +198,12 @@ final class ABackup {
 		//return Success or failed.
 
 		$command = 'tar -C ' . $tar_dir . ' -czvf ' . $tar_filename . ' ' . $filename. ' > /dev/null';
-		system($command,$exit_code);
+		if(isFunctionAvailable('system')){
+			system($command,$exit_code);
+		}else{
+			$exit_code = 1;
+		}
+
 
 		if ( $exit_code ) {
 			require_once(DIR_CORE . 'lib/targz.php');

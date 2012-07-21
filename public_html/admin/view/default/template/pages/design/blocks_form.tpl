@@ -61,7 +61,7 @@
         height: '400px',
 		filebrowserBrowseUrl : false,
 		filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
-	    filebrowserWindowWidth : '910',
+	    filebrowserWindowWidth : '920',
 	    filebrowserWindowHeight : '520',
 		language: '<?php echo $language_code; ?>'
     });

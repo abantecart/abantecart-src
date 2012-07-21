@@ -518,7 +518,7 @@ class ModelCatalogProduct extends Model {
 
 		if (is_null($product_data)) {
 			$product_data = array();
-			
+
 			$query = $this->db->query("SELECT op.product_id, SUM(op.quantity) AS total
 										FROM " . DB_PREFIX . "order_products op
 										LEFT JOIN `" . DB_PREFIX . "orders` o ON (op.order_id = o.order_id)
@@ -531,7 +531,7 @@ class ModelCatalogProduct extends Model {
 				}
 
 				if($products){
-					$sql = "SELECT *
+					$sql = "SELECT *, p.product_id
 							FROM " . DB_PREFIX . "products p
 							LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 							LEFT JOIN " . DB_PREFIX . "products_to_stores p2s ON (p.product_id = p2s.product_id)
@@ -546,7 +546,9 @@ class ModelCatalogProduct extends Model {
 						}
 						// resort by totals
 						foreach($products as $id){
-							$product_data[] = $data[$id];
+							if(isset($data[$id])){
+								$product_data[] = $data[$id];
+							}
 						}
 					}
 				}

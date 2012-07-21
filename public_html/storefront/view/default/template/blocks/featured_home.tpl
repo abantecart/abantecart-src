@@ -12,7 +12,7 @@
 <?php
 if ($products) {
     $col = 4;
-    $ctr = 1;
+    $ctr = 0;
     foreach ($products as $product) {
         $item = array();
         $item['image'] = $product['thumb']['thumb_html'];
@@ -33,6 +33,12 @@ if ($products) {
 	    }
 ?>
 
+<?php if( $ctr == 0 || $ctr % $col == 0) { ?>
+<div class="list">
+<?php }
+$ctr++;
+?>
+
 <div class="list_item">
     <div class="image"><a href="<?php echo $item['info_url']?>"><?php echo $item['image']?></a></div>
     <div class="title"><a href="<?php echo $item['info_url']?>"><?php echo $item['title']?></a></div>
@@ -42,6 +48,12 @@ if ($products) {
         <span class="price"><?php echo $item['price']?></span><a class="info" href="<?php echo $item['info_url']?>"></a><a class="buy" href="<?php echo $item['buy_url']?>."></a>
     </div>
 </div>
+
+<?php if( $ctr == count($products) || $ctr % $col == 0) { ?>
+<br class="clr_both" />
+</div>
+<?php } ?>
+
 <?php
 	}
 }

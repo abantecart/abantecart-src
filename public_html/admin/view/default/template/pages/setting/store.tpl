@@ -167,8 +167,8 @@ $('#store_description\\[<?php echo $content_language_id; ?>\\]\\[description\\]'
 CKEDITOR.replace('store_description[<?php echo $content_language_id; ?>][description]', {
 	filebrowserBrowseUrl : false,
     filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
-    filebrowserWindowWidth : '910',
-    filebrowserWindowHeight : '500',
+    filebrowserWindowWidth : '920',
+    filebrowserWindowHeight : '520',
 	language: '<?php echo $language_code; ?>'
 });
 $('.ml_ckeditor').find('div').removeClass('mask2');

@@ -774,7 +774,7 @@ class ControllerPagesSaleOrder extends AController {
         $this->_initTabs('history');
 
 		$this->data['action'] = $this->html->getSecureURL('sale/order/history', '&order_id=' . $this->request->get['order_id'] );
-		$this->data['form_title'] = $this->language->get('text_edit') . $this->language->get('tab_history');
+		$this->data['form_title'] = $this->language->get('text_edit') .' '. $this->language->get('tab_history');
 		$form = new AForm('ST');
 
 		$form->setForm(array(

@@ -111,7 +111,11 @@ class APackageManager {
 
 
 		$command = 'tar -C ' . $dst_dir . ' -xzvf ' . $tar_filename . ' > /dev/null';
-		system($command,$exit_code);
+		if(isFunctionAvailable('system')){
+			system($command,$exit_code);
+		}else{
+			$exit_code = 1;
+		}
 
 		if ( $exit_code ) {
 			require_once(DIR_CORE . 'lib/targz.php');

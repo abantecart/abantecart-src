@@ -37,15 +37,16 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
 
 		$filter_form = new AFilter( array( 'method' => 'get', 'filter_params' => $filter_params ) );    
 	    $filter_grid = new AFilter( array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ) );   
-	    
-		$total = $this->model_localisation_language_definitions->getTotalDefinitions( array_merge(	$filter_form->getFilterData(), 
-																									$filter_grid->getFilterData() ) );
+
+		$filter_data = array_merge(	$filter_form->getFilterData(),
+									$filter_grid->getFilterData() );
+
+		$total = $this->model_localisation_language_definitions->getTotalDefinitions( $filter_data );
 	    $response = new stdClass();
 		$response->page = $filter_grid->getParam('page');
 		$response->total = $filter_grid->calcTotalPages( $total );
 		$response->records = $total;
-		$results = $this->model_localisation_language_definitions->getLanguageDefinitions( array_merge(	$filter_form->getFilterData(), 
-																									$filter_grid->getFilterData() ) );
+		$results = $this->model_localisation_language_definitions->getLanguageDefinitions( $filter_data );
 
 	    $i = 0;
 		foreach ($results as $result) {
@@ -55,15 +56,8 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
 
             $response->rows[$i]['id'] = $result['language_definition_id'];
 			$response->rows[$i]['cell'] = array(
-				$result['language_name'],
-				$this->html->buildInput(array(
-                    'name'  => 'block['.$result['language_definition_id'].']',
-                    'value' => $result['block'],
-                )),
-                $this->html->buildInput(array(
-                    'name'  => 'language_key['.$result['language_definition_id'].']',
-                    'value' => $result['language_key'],
-                )),
+				$result['block'],
+                $result['language_key'],
 				$this->html->buildInput(array(
                     'name'  => 'language_value['.$result['language_definition_id'].']',
                     'value' => $result['language_value'],
@@ -146,14 +140,39 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
 		    foreach ($this->request->post as $key => $value ) {
 				if ( !in_array($key, $allowedFields) ) continue;
 				$data = array( $key => $value );
-				$this->model_localisation_language_definitions->editLanguageDefinition($this->request->get['id'], $data);
+				if($key=='language_value'){
+					$def = $this->model_localisation_language_definitions->getLanguageDefinition($this->request->get['id']);
+					$def['language_id'] = $data['language_id'] = key($value);
+					$def_id = $this->model_localisation_language_definitions->getLanguageDefinitionIdByKey(
+																									$def['language_key'],
+																									$def['language_id'],
+																									$def['block'],
+																									$def['section']);
+					$this->request->get['id'] = $def_id;
+					$data['language_value'] = current($value);
+					$this->model_localisation_language_definitions->editLanguageDefinition($this->request->get['id'], $data);
+				}
+				if(in_array($key,array('block','section','language_key'))){
+					$def = $this->model_localisation_language_definitions->getLanguageDefinition($this->request->get['id']);
+					$def_ids = $this->model_localisation_language_definitions->getAllLanguageDefinitionsIdByKey(
+																									$def['language_key'],
+																									$def['block'],
+																									$def['section']);
+					if($def_ids){
+						foreach($def_ids as $item){
+							$this->model_localisation_language_definitions->editLanguageDefinition($item['language_definition_id'],
+								array($key=>$value));
+						}
+					}
+				}
+
 			}
 		    return;
 	    }
 
 	    //request sent from jGrid. ID is key of array
         foreach ($this->request->post as $key => $value ) {
-            if ( !in_array($key, $allowedFields) ) continue;
+            if ( !in_array($key, array('language_value')) ) continue;
             foreach ( $value as $k => $v ) {
                 $data = array( $key => $v );
                 $this->model_localisation_language_definitions->editLanguageDefinition($k, $data);
@@ -162,6 +181,36 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
 
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
+
+	public function checkDefinition(){
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$this->loadLanguage('localisation/language_definitions');
+		if (!$this->user->hasPermission('modify', 'localisation/language_definitions')) {
+			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/language_definitions') );
+			return;
+		}
+
+		$this->loadModel('localisation/language_definitions');
+		$def_id = $this->model_localisation_language_definitions->getAllLanguageDefinitionsIdByKey(
+													$this->request->post['language_key'],
+													$this->request->post['block'],
+													$this->request->post['section']);
+
+		if($def_id){
+			$error_text = $this->language->get('error_already exists');
+			$error_text = sprintf($error_text,
+				$this->request->post['language_key'],
+				$this->request->post['block'],
+				($this->request->post['section'] ? 'Admin' : 'Storefront'),
+				$this->html->getSecureURL('localisation/language_definitions/update', '&language_definition_id=' . $def_id[0]['language_definition_id']) );
+
+			$this->load->library('json');
+			$this->response->setOutput( AJson::encode(array('error'=>$error_text)) );
+		}
+
 	}
 
 }

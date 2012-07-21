@@ -173,12 +173,12 @@ class ControllerPagesToolCache extends AController {
 		
 		$iterator = new RecursiveDirectoryIterator($path);
 	    foreach (new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST) as $file) {
-	    	if(is_int(strpos($file->getPathname(),'/.svn'))){
+	    	if(is_int(strpos($file->getPathname(),'/.svn')) ||  is_int(strpos($file->getPathname(),'/index.html'))){
 	    		continue;
 	    	}
 			if ($file->isDir()) {
 				rmdir($file->getPathname());
-			} else {				
+			} else {
 				unlink($file->getPathname());
 			}
 	    }

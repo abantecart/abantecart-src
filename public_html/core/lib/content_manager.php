@@ -54,9 +54,16 @@ class AContentManager {
 		$content_id = $this->db->getLastId();
 		unset($data[ 'parent_content_id' ][0]);
 
+		$seo_key = '';
+		if ( empty ($data['keyword'])) {
+			$seo_key = SEOEncode($data['name']);
+		} else {
+			$seo_key = SEOEncode($data['keyword']);
+		}
+
 		$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases
 							( `keyword`, `query`)
-							VALUES ('".$this->db->escape($data [ 'keyword' ])."',
+							VALUES ('".$this->db->escape($seo_key)."',
 									'content_id=" . ( int )$content_id . "')");
 
 		if($data[ 'parent_content_id' ]){

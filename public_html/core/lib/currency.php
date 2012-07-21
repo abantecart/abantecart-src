@@ -49,6 +49,10 @@ final class ACurrency {
 		
 		if (isset($this->request->get['currency']) && (array_key_exists($this->request->get['currency'], $this->currencies))) {
 			$this->set($this->request->get['currency']);
+			unset($this->request->get['currency'],
+				  $this->session->data['shipping_methods'],
+				  $this->session->data['shipping_method']);
+
     	} elseif ((isset($this->session->data['currency'])) && (array_key_exists($this->session->data['currency'], $this->currencies))) {
       		$this->set($this->session->data['currency']);
     	} elseif ((isset($this->request->cookie['currency'])) && (array_key_exists($this->request->cookie['currency'], $this->currencies))) {

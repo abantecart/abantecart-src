@@ -22,6 +22,8 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 
 class ModelToolBackup extends Model {
+	public $error;
+	public $backup_filename;
 	public function restore($sql) {
 		foreach (explode(";\n", $sql) as $sql) {
     		$sql = trim($sql);
@@ -81,7 +83,6 @@ class ModelToolBackup extends Model {
 			
 			if ($status) {
 				$sql_dump .= 'TRUNCATE TABLE `' . $table . '`;' . "\n\n";
-			
 				$query = $this->db->query("SELECT * FROM `" . $table . "`");
 				
 				foreach ($query->rows as $result) {
@@ -108,7 +109,7 @@ class ModelToolBackup extends Model {
 				$sql_dump .= "\n\n";
 			}
 		}
-
+		$result = false;
 		$bkp = new ABackup('manual_backup');
 		if(!$bkp->error){
 			$backup_dir = DIR_BACKUP.$bkp->getBackupName().'/';
@@ -123,9 +124,14 @@ class ModelToolBackup extends Model {
 			if($config){
 				$bkp->backupFile(DIR_ROOT . '/system/config.php', false);
 			}
-			$bkp->archive(DIR_BACKUP.$bkp->getBackupName().'.tar.gz', DIR_BACKUP, $bkp->getBackupName() );
+			$result = $bkp->archive(DIR_BACKUP.$bkp->getBackupName().'.tar.gz', DIR_BACKUP, $bkp->getBackupName() );
+			if(!$result){
+				$this->error = $bkp->error;
+			}else{
+				$this->backup_filename = $bkp->getBackupName();
+			}
 		}
-		return $bkp;
+		return $result;
 	}
 }
 ?>

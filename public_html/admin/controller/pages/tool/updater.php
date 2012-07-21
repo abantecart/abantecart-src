@@ -42,7 +42,6 @@ class ControllerPagesToolUpdater extends AController {
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
-		$this->data['text_confirm'] = $this->language->get('text_confirm');
 		$this->data['column_name'] = $this->language->get('column_name');
 		$this->data['column_type'] = $this->language->get('column_type');
 		$this->data['column_category'] = $this->language->get('column_category');

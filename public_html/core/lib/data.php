@@ -248,7 +248,11 @@ final class AData {
 		//return Success or failed.
 
 		$command = 'tar -C ' . $tar_dir . ' -czvf ' . $tar_filename . ' ' . $filename. ' > /dev/null';
-		system($command,$exit_code);
+		if(isFunctionAvailable('system')){
+			system($command,$exit_code);
+		}else{
+			$exit_code = 1;
+		}
 
 		if ( $exit_code ) {
 			require_once(DIR_CORE . 'lib/targz.php');
@@ -560,8 +564,9 @@ final class AData {
 			if (empty($id_name)) {
 				$result_arr['error'] = "Incorrectly configured table. $table_name missing table ID key name";
 			} else if ( $id_name == null ) {
-				//ID null can not have any childrent tables
-				continue;
+				//ID null can not have any children tables
+				return array();
+				//continue;
 			}
 			//process children tables for every record
 			foreach ($node_data as $row){
@@ -849,7 +854,11 @@ final class AData {
 		}
 
 		if ( empty($cols) || empty ($where) ) {
-			$this->_status2array('error', "Update data error in $table_name. Data missing");
+			if ( empty($where) ) {
+				$this->_status2array('error', "Update data error in $table_name. Data missing");
+			} else {
+				$this->_status2array('error', "Warning: Update $table_name. All columns are keys, update action is not allowed. Please use insert.");
+			}
 			return array();
 		}
 
@@ -966,6 +975,7 @@ final class AData {
 	private function _update_or_insert_fromArray( $table_name, $table_cfg, $data_row, $parent_vals){
 		$return = array();
 		$where = array();
+		$cols = array();
 
 		//set ids to where from parent they might not be in there 
 		$where = $this->_build_id_columns($table_cfg, $parent_vals);
@@ -989,13 +999,13 @@ final class AData {
 			// Date validation
 			// TODO Add field type to table configuration
 			if ( $col_name == 'date_added' || $col_name == 'date_modified' ) {
-				if ( (string)$column == '0000-00-00 00:00:00' ) {
+				if ( (string)$col_value == '0000-00-00 00:00:00' ) {
 					$cols[] = "`". $col_name . "` = '" . $this->db->escape($col_value) . "'";
 				} else {
 					$cols[] = "`". $col_name . "` = '" . date('Y-m-d H:i:s', strtotime($col_value)) . "'";
 				}
 			} else if ( $col_name == 'date_available' ) {
-				if ( (string)$column == '0000-00-00' ) {
+				if ( (string)$col_value == '0000-00-00' ) {
 					$cols[] = "`" . $col_name . "` = '" . $this->db->escape($col_value) . "'";
 				}
 				else {
@@ -1007,6 +1017,7 @@ final class AData {
 		}
 
 		$status = 'insert';
+
 		if ( empty($cols) && empty ($where) ) {
 			$this->_status2array('error', "Update or Insert $table_name. No Data to update.");
 			return array();
@@ -1014,6 +1025,10 @@ final class AData {
 		if ( !empty ($where) ) {
 			$check_sql = "SELECT count(*) AS total FROM `" .  DB_PREFIX . $table_name . "` WHERE " . implode(' AND ', $where);
 			if ( $this->db->query($check_sql)->row['total'] == 1 ) {
+				// We are trying to update table where all columns are keys. We have to skip it.
+				if ( empty($cols) ) {
+					return array();
+				}
 				$status = 'update';
 			}
 		}
