@@ -21,24 +21,26 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerCommonMenu extends AController {
-		
+
+	public $data = array();
+
 	public function main() {
 
         $this->loadLanguage( 'common/header' );
 
 		$cache_name = 'admin_menu';
-		//$menu_items = $this->cache->get($cache_name);
-		if(!$menu_items){
+		//$this->data['menu_items'] = $this->cache->get($cache_name);
+		if(!$this->data['menu_items']){
 			$menu = new ADataset ( 'menu', 'admin' );
-			$menu_items = $menu->getRows ( );
+			$this->data['menu_items'] = $menu->getRows ( );
 			// need to resort by sort_order property and exlude disabled extension items
 			$enabled_extension = $this->extensions->getEnabledExtensions ();
 
 			$offset = 0; // it needs for process repeating order numbers
 			$tmp = array ();
-			foreach ( $menu_items as $i=>$item ) {
+			foreach ( $this->data['menu_items'] as $i=>$item ) {
 				if($i>0){
-					if($menu_items[$i-1]['parent_id']!=$item ['parent_id']){
+					if($this->data['menu_items'][$i-1]['parent_id']!=$item ['parent_id']){
 						$offset = 0;
 					}
 				}
@@ -61,19 +63,19 @@ class ControllerCommonMenu extends AController {
 
 				$tmp [$item ['parent_id']] [$item ['sort_order'] + $offset] = $item;
 			}
-			$menu_items = array ();
+			$this->data['menu_items'] = array ();
 			foreach ( $tmp as $item ) {
 				ksort ( $item );
-				$menu_items = array_merge ( $menu_items, $item );
+				$this->data['menu_items'] = array_merge ( $this->data['menu_items'], $item );
 			}
 			unset ( $tmp );
 			// now set menu array
-			$this->cache->set($cache_name,$menu_items);
+			$this->cache->set($cache_name,$this->data['menu_items']);
 		}
 
-		$admin_menu = $this->_buildMenuArray($menu_items);
+		$this->data['admin_menu'] = $this->_buildMenuArray($this->data['menu_items']);
 
-		$this->view->assign ( 'menu', $admin_menu );
+		$this->view->assign ( 'menu', $this->data['admin_menu'] );
 		$this->processTemplate ( 'common/menu.tpl' );
 		//use to update data before render
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -90,7 +92,7 @@ class ControllerCommonMenu extends AController {
 		return false;
 	}
 
-	private function _buildMenuArray($menu_items=array()){
+	private function _buildMenuArray($menu_items = array()){
 		$dashboard = array(
 			'dashboard' => array (
 				'id' => 'dashboard',

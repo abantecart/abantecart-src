@@ -17,4 +17,7 @@
     </div><!-- Container -->
   </div><!-- Container wrapper -->
 </div><!-- Page wrapper -->
+
+<?php echo $this->getHookVar('admin_quick_menu'); ?>
+
 </body></html>
