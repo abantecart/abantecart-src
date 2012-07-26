@@ -390,7 +390,12 @@ var updatePager = false;
 
     $('tr.ui-search-toolbar').find("input, select").each( function(){
 				var index = $(this).parent().parent().parent().children().index($(this).parent().parent())-1;
-                var algn =  jq_model[index].align;
+                //index = (index < 0) ? 0 : index;
+                if ( !jq_model[index] ) {
+					var algn = 'middle';
+                } else {
+                    var algn = jq_model[index].align;
+                }
 				$(this).parent().css('text-align',algn);
 				$.aform.styleGridForm(this);
 	});
