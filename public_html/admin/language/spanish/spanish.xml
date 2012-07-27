@@ -334,6 +334,10 @@
 		<value><![CDATA[Elija la acción ..]]></value>
 	</definition>
 	<definition>
+        <key>text_delete</key>
+        <value><![CDATA[Borrar]]></value>
+    </definition>
+	<definition>
 		<key>text_delete_selected</key>
 		<value><![CDATA[eliminar seleccionados]]></value>
 	</definition>
