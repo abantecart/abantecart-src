@@ -272,7 +272,7 @@ class AExtensionManager {
 		$result = $pmanager->removeDir(DIR_EXT . $name);
 
 		if (!$result) {
-			$message = "Error: Can't to delete file or directory: '" . DIR_EXT . $name . "'. No file permissions, change permissions to 777 with your FTP access";
+			$message = "Error: Can't to delete file or directory: '" . DIR_EXT . $name . "'.";
 			$this->session->data[ 'error' ] = $message;
 		}
 
