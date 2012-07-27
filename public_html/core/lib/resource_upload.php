@@ -215,9 +215,9 @@ class ResourceUploadHandler
 		$name = $name=='' ? 'unknown' : $name;
 	    $name = str_replace(" ","_",stripslashes($name));
 	    // basename removes first part of filename like тест_архив.zip (with non-latin characters). Basename of that name will be _архив.zip
-	    if(strpos($name,array('/','\''))!==false){
+	    if( $this->strpos_array($name, array('/','\'')) !== false ) {
 		    $name = basename($name); 
-	    }else{
+	    } else {
 		    $res = strrpos($name,'/');
 		    if($res!==false){
 			    $name = substr($name,$res+1);
@@ -353,4 +353,17 @@ class ResourceUploadHandler
 
         return $success;
     }
+
+	public function strpos_array($haystack, $needle) {
+		if ( !is_array($needle) ) {
+			$needle = array($needle);
+		}
+		foreach($needle as $what) {
+			if ( ($pos = strpos($haystack, $what)) !== false ) {
+				return $pos;
+			}
+		}
+		return false;
+	}
+
 }
