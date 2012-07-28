@@ -33,7 +33,8 @@ class ModelTotalTax extends Model {
 						$tax = $value * ($tax_class['rate'] / $rate);
 						
 						$total_data[] = array(
-	    					'title'      => $tax_class['description'] . ':', 
+	    					'id'         => 'tax',
+	    					'title'      => $tax_class['description'] . ':',
 	    					'text'       => $this->currency->format($tax),
 	    					'value'      => $tax,
 							'sort_order' => $this->config->get('tax_sort_order')

@@ -52,7 +52,7 @@ class APromotion {
                                         'customer_groups',
                                         'customer_country',
                                        // 'customer_zone',
-                                        'customer_zip_code',
+                                        'customer_postcode',
                                         'order_subtotal',
                                         'order_product_count',
                                         'order_product_weight',
@@ -327,6 +327,22 @@ class APromotion {
 			
 			return $coupon_data;
 		}
+	}
+
+
+
+	public function apply_promotions($total_data, $total){
+		$registry = Registry::getInstance();
+		if ( $registry->has('extensions') ) {
+			$result = $registry->get('extensions')->hk_apply_promotions($this,$total_data,$total);
+		} else {
+			$result = $this->_apply_promotions($total_data,$total);
+		}
+		return $result;
+	}
+	//adding native promotions
+	public function _apply_promotions($total_data,$total){
+		return array();
 	}
 
 }

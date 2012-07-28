@@ -28,6 +28,7 @@ class ModelTotalHandling extends Model {
 			$this->load->model('localisation/currency');
 			
 			$total_data[] = array( 
+        		'id'         => 'handling',
         		'title'      => $this->language->get('text_handling'),
         		'text'       => $this->currency->format($this->config->get('handling_fee')),
         		'value'      => $this->config->get('handling_fee'),

@@ -43,6 +43,13 @@ class ModelCatalogManufacturer extends Model {
 			$this->cache->set('manufacturer', $manufacturer, '', (int)$this->config->get('config_store_id'));
 		}
 		return $manufacturer;
-	} 
+	}
+	public function getManufacturerByProductId($product_id) {
+			$query = $this->db->query( "SELECT *
+										FROM " . DB_PREFIX . "manufacturers m
+										RIGHT JOIN " . DB_PREFIX . "products p ON (m.manufacturer_id = p.manufacturer_id)
+										WHERE p.product_id = '" . (int)$product_id . "'");
+		return $query->rows;
+	}
 }
 ?>

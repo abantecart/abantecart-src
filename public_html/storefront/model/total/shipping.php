@@ -24,6 +24,7 @@ class ModelTotalShipping extends Model {
 	public function getTotal(&$total_data, &$total, &$taxes) {
 		if ($this->cart->hasShipping() && isset($this->session->data['shipping_method']) && $this->config->get('shipping_status')) {
 			$total_data[] = array( 
+        		'id'         => 'shipping',
         		'title'      => $this->session->data['shipping_method']['title'] . ':',
         		'text'       => $this->currency->format($this->session->data['shipping_method']['cost']),
         		'value'      => $this->session->data['shipping_method']['cost'],

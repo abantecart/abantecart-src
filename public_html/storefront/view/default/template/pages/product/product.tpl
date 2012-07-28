@@ -196,31 +196,31 @@
 	</div>
 </div>
 
-
 <div class="tabs">
 	<a rel="#tab_description">
+		<span class="tab_right"></span>
 		<span class="tab_left"></span>
 		<span class="tab_text">
 			<?php echo $tab_description; ?>
 		</span>
-		<span class="tab_right"></span>
 	</a>
 	<?php if ($review_status) { ?>
 		<a rel="#tab_review">
+			<span class="tab_right"></span>
 			<span class="tab_left"></span>
 			<span class="tab_text">
 				<?php echo $tab_review; ?>
 			</span>
-			<span class="tab_right"></span>
 		</a>
 	<?php } ?>
 	<a rel="#tab_related">
+		<span class="tab_right"></span>
 		<span class="tab_left"></span>
 		<span class="tab_text">
 			<?php echo $tab_related; ?>
 			(<?php echo count($related_products); ?>)
 		</span>
-		<span class="tab_right"></span>
+
 	</a>
 
 	<?php echo $this->getHookVar('product_features_tab'); ?>

@@ -28,6 +28,7 @@ class ModelTotalLowOrderFee extends Model {
 			$this->load->model('localisation/currency');
 			
 			$total_data[] = array( 
+        		'id'         => 'low_order_fee',
         		'title'      => $this->language->get('text_low_order_fee'),
         		'text'       => $this->currency->format($this->config->get('low_order_fee_fee')),
         		'value'      => $this->config->get('low_order_fee_fee'),

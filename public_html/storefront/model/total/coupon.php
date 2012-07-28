@@ -82,6 +82,7 @@ class ModelTotalCoupon extends Model {
 				}				
       			
 				$total_data[] = array(
+        			'id'         => 'coupon',
         			'title'      => $coupon['name'] . ':',
 	    			'text'       => '-' . $this->currency->format($discount_total),
         			'value'      => - $discount_total,
