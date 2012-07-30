@@ -523,7 +523,7 @@ CREATE TABLE `ac_locations` (
 --
 
 INSERT INTO `ac_locations` (`location_id`, `name`, `description`, `date_modified`, `date_added`) VALUES
-(1, 'USA', 'New York', '2011-06-20 21:00:00', '2011-06-20 21:00:00');
+(1, 'USA', 'All States', '2011-06-20 21:00:00', '2011-06-20 21:00:00');
 
 
 --

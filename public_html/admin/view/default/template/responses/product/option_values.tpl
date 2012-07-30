@@ -30,7 +30,7 @@
 
 <h3><?php echo $text_option_values; ?></h3>
 <?php echo $update_option_values_form['open']; ?>
-<table id="option_values_tbl" class="list">
+<table id="option_values_tbl" class="list option ">
     <tr>
         <td class="left"><?php echo $entry_option_value; ?></td>
         <td class="left"><?php echo $entry_quantity; ?></td>

@@ -25,37 +25,9 @@
     </div></div>
   </div></div></div>
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-    <table id="zone_to_location" class="list">
-        <thead>
-          <tr>
-            <td class="left"><?php echo $entry_country; ?></td>
-            <td class="left"><?php echo $entry_zone; ?></td>
-            <td></td>
-          </tr>
-        </thead>
-        <?php $zone_to_location_row = 0; ?>
-        <?php foreach ($zone_to_locations as $zone_to_location) { ?>
-        <tbody id="zone_to_location_row<?php echo $zone_to_location_row; ?>">
-          <tr>
-            <td class="left"><?php echo $zone_to_location['country'] ?></td>
-            <td class="left"><?php echo $zone_to_location['zone'] ?></td>
-            <td class="left">
-                <a title="<?php echo $button_remove; ?>" href="<?php echo str_replace('%ID%', $zone_to_location['zone_to_location_id'], $delete_location); ?>" class="btn_action btn_grid grid_action_delete">
-	                <img border="0" alt="<?php echo $button_remove; ?>" src="admin/view/default/image/icons/icon_grid_delete.png">
-	            </a>
+	  <?php echo $listing_grid; ?>
 
-            </td>
-          </tr>
-        </tbody>
-        <?php $zone_to_location_row++; ?>
-        <?php } ?>
-        <tfoot>
-          <tr>
-            <td colspan="2"></td>
-            <td class="left"><a href="<?php echo $insert_location; ?>" title="<?php echo $text_add;?>" class="add" style="height: 20px; width: 16px;"></a></td>
-          </tr>
-        </tfoot>
-      </table>
   </div></div></div>
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
+

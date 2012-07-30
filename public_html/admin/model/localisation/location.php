@@ -170,27 +170,29 @@ class ModelLocalisationLocation extends Model {
 		return $this->getLocations($data, 'total_only');
 	}	
 	
-	public function getZoneToLocations($location_id) {	
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zones_to_locations WHERE location_id = '" . (int)$location_id . "'");
-		
-		return $query->rows;	
+	public function getZoneToLocations($data, $mode = '') {
+		$sql = "SELECT ".($mode=='total_only' ? 'COUNT(*) as total' : 'zl.*, c.name as country_name, z.name')."
+				FROM " . DB_PREFIX . "zones_to_locations zl
+				LEFT JOIN " . DB_PREFIX . "countries c ON c.country_id = zl.country_id
+				LEFT JOIN " . DB_PREFIX . "zones z ON z.zone_id = zl.zone_id
+				WHERE zl.location_id = '" . (int)$data['location_id'] . "'
+				".($mode!='total_only' ? " ORDER BY " . $this->db->escape( $data['sort'].' '.$data['order'])." LIMIT ". $this->db->escape( $data['start'].', '.$data['limit']) : "" );
+		$query = $this->db->query( $sql );
+		return $mode=='total_only' ? $query->row['total'] : $query->rows;
 	}		
 
 	public function getTotalZoneToLocationsByLocationID($location_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "zones_to_locations WHERE location_id = '" . (int)$location_id . "'");
-
 		return $query->row['total'];
 	}
 	
 	public function getTotalZoneToLocationByCountryID($country_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "zones_to_locations WHERE country_id = '" . (int)$country_id . "'");
-		
 		return $query->row['total'];
 	}	
 	
 	public function getTotalZoneToLocationByZoneId($zone_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "zones_to_locations WHERE zone_id = '" . (int)$zone_id . "'");
-		
 		return $query->row['total'];
 	}		
 }

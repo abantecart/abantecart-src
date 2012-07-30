@@ -140,6 +140,8 @@ class ControllerPagesLocalisationLocation extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		$this->loadLanguage('localisation/zone');
+
 		$this->view->assign('error_warning', $this->error['warning']);
 		$this->view->assign('success', $this->session->data['success']);
 		if (isset($this->session->data['success'])) {
@@ -174,7 +176,6 @@ class ControllerPagesLocalisationLocation extends AController {
 		$this->data = array();
 		$this->data['heading_title'] = $this->language->get('text_edit') .' '. $this->language->get('text_location') . ' - ' . $location_info['name'];
 		$this->data['error'] = $this->error;
-		$this->data['zone_to_locations'] = $this->model_localisation_location->getZoneToLocations($this->request->get['location_id']);
 		$this->data['insert_location'] = $this->html->getSecureURL('localisation/location/insert_locations', '&location_id=' . $this->request->get['location_id']);
 		$this->data['delete_location'] = $this->html->getSecureURL('localisation/location/delete_locations', '&location_id=' . $this->request->get['location_id']. '&zone_to_location_id=%ID%');
 		$this->data['edit_location'] = $this->html->getSecureURL('localisation/location/update_locations', '&location_id=' . $this->request->get['location_id']. '&zone_to_location_id=%ID%');
@@ -183,19 +184,51 @@ class ControllerPagesLocalisationLocation extends AController {
 		$this->data['details'] = $this->html->getSecureURL('localisation/location/update', '&location_id=' . $this->request->get['location_id'] );
 		$this->data['active'] = 'locations';
 
-		$this->loadModel('localisation/zone');
-		$this->loadModel('localisation/country');
-		$results = $this->model_localisation_country->getCountries();
-		$this->data['countries'] = array();
-		foreach ( $results as $c ) {
-			$this->data['countries'][ $c['country_id'] ] = $c['name'];
-		}
 
-		foreach ($this->data['zone_to_locations'] as $key => $value) {
-			$this->data['zone_to_locations'][$key]['country'] = $this->data['countries'][ $value['country_id'] ];
-			$zone = $this->model_localisation_zone->getZone( $value['zone_id'] );
-			$this->data['zone_to_locations'][$key]['zone'] = $zone['name'];
-		}
+		// setting up grid
+		$grid_settings = array(
+			'table_id' => 'location_zones_grid',
+			'url' => $this->html->getSecureURL('listing_grid/location_zones','&location_id='.$this->request->get['location_id']),
+			'editurl' => $this->html->getSecureURL('listing_grid/location_zones/update','&location_id='.$this->request->get['location_id']),
+			'update_field' => $this->html->getSecureURL('listing_grid/location_zones/update_field','&location_id='.$this->request->get['location_id']),
+			'sortname' => 'country_id',
+			'sortorder' => 'asc',
+			'columns_search' => false,
+			'actions' => array(
+				'delete' => array(
+					'text' => $this->language->get('button_delete'),
+				)
+			),
+		);
+
+		$grid_settings['colNames'] = array(
+			$this->language->get('column_country'),
+			$this->language->get('column_name'),
+			$this->language->get('column_date_added'),
+		);
+		$grid_settings['colModel'] = array(
+			array(
+				'name' => 'country_id',
+				'index' => 'country_id',
+				'width' => 120,
+				'align' => 'left',
+			),
+			array(
+				'name' => 'name',
+				'index' => 'name',
+				'width' => 250,
+				'align' => 'left',
+			),
+			array(
+				'name' => 'date_added',
+				'index' => 'date_added',
+				'width' => 130,
+				'align' => 'center',
+				'search' => false,
+			),
+		);
+		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
+		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
 		$this->view->assign('help_url', $this->gen_help_url('location_listing') );
 		$this->view->batchAssign( $this->data );

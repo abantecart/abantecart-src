@@ -878,11 +878,19 @@ div#options .option_lang_field {
 .list tbody a {
 	text-decoration: underline;
 }
-.list tbody td {
+
+.list.option tbody td {
 	vertical-align: middle;
 	padding: 0px 5px;
+    height: auto;
+}
+
+.list tbody td {
+    vertical-align: middle;
+    padding: 0px 5px;
     height: 37px;
 }
+
 .list tbody tr:nth-child(odd) {
 	background: #fff;
 }
@@ -913,6 +921,10 @@ div#options .option_lang_field {
 	padding: 5px;
 }
 
+
+/*
+option list
+*/
 
 .listing_bottom {
 	margin-top:10px;
@@ -1180,6 +1192,7 @@ table.form tr td:first-child {
 #header_block {
 	border:1px solid #caccd2;
 	margin-bottom:5px;
+    height: auto;
 }
 #header_top_block {
 	border-bottom:1px solid #caccd2;
@@ -1196,20 +1209,22 @@ table.form tr td:first-child {
 }
 
 #header_bottom_block {
-	min-height:30px;
+	height:auto;
+    overflow: hidden;
 }
 #header_bottom_block .section {
 	float:right;
-	clear:both;
 	width:25%;
 	text-align:center;
 	padding:8px 0;
+    clear: both;
 }
 #header_bottom_block .section select {
 	width:90%;
 }
 #header_bottom_block .block_buttons {
 	padding-right:8px;
+    clear: right;
 }
 
 #main_content_block {
