@@ -42,27 +42,17 @@ class ControllerBlocksLanguage extends AController {
 		
 		$this->data['languages'] = $this->language->getActiveLanguages();
 
-		$URI = $_SERVER['REQUEST_URI'];
-		$query_vars =  explode('&',$_SERVER['QUERY_STRING']);
-		foreach ($query_vars as $pair){
-			$URI = str_replace('&'.$pair,'',$URI);
-			$URI = str_replace('?'.$pair,'',$URI);
-		}
 		$get_vars = $this->request->get;
-		unset($get_vars['language']);
+		$unset = array('language');
 		if(isset($get_vars['product_id'])){
-			unset($get_vars['path']);
+			$unset[] = 'path'; 
 		}
+		$URI = $this->html->removeQueryVar($_SERVER['REQUEST_URI'], $unset );
 
-		$URI = str_replace('?', '', $URI);
-		$URI .= '?'.urldecode(http_build_query($get_vars));
 
 		foreach($this->data['languages'] as &$lang){
 			$lang['href'] = $URI.'&language='.$lang['code'];
 		}
-
-
-
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('blocks/language.tpl');
