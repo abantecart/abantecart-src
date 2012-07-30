@@ -1,10 +1,10 @@
-<b class="maltivalue_hidden_name"><?php echo $maltivalue[ 'name' ] ?></b>
-<?php if (!empty($maltivalue[ 'description' ])) { ?>
-<p class="maltivalue_hidden_description"><?php echo $maltivalue[ 'description' ] ?></p>
+<b class="multivalue_hidden_name"><?php echo $multivalue[ 'name' ] ?></b>
+<?php if (!empty($multivalue[ 'description' ])) { ?>
+<p class="multivalue_hidden_description"><?php echo $multivalue[ 'description' ] ?></p>
 <?php } ?>
-<div class="maltivalue_hidden_data">
+<div class="multivalue_hidden_data">
 	<textarea style="display: none;" id="<?php echo $id ?>_buffer"><?php echo $selected ?></textarea>
-	<textarea name="selected[]" style="display: none;"
+	<textarea name="<?php echo $selected_name ?>" style="display: none;"
 	          id="<?php echo $id ?>_selected"><?php echo $selected ?></textarea>
 
 	<div class="mhd_top">

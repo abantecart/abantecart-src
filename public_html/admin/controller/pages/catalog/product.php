@@ -186,6 +186,7 @@ class ControllerPagesCatalogProduct extends AController {
 		    'type' => 'selectbox',
 		    'name' => 'category',
             'options' => $this->data['categories'],
+			'style' =>'medium-field'
 	    ));
 		$grid_search_form['fields']['status'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',

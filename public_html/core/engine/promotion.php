@@ -46,7 +46,7 @@ class APromotion {
                                         'product_price',
                                         'categories',
                                         'brands',
-                                       // 'products',
+                                        'products',
                                         //'product_option',
                                         'customers',
                                         'customer_groups',

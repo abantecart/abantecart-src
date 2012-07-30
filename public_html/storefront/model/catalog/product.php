@@ -27,13 +27,14 @@ class ModelCatalogProduct extends Model {
 			return;
 		}
 		$query = $this->db->query(
-								"SELECT DISTINCT *, pd.name AS name, m.name AS manufacturer, ss.name AS stock_status " .
+								"SELECT DISTINCT *, pd.name AS name, m.name AS manufacturer, ss.name AS stock_status, lcd.unit as length_class_name " .
 								$this->_sql_join_string() .
-								" WHERE p.product_id = '" . (int)$product_id . "'
+								"LEFT JOIN " . DB_PREFIX . "length_class_descriptions lcd
+									ON (p.length_class_id = lcd.length_class_id AND lcd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
+								WHERE p.product_id = '" . (int)$product_id . "'
 										AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
 										AND p.date_available <= NOW() AND p.status = '1'");
-	
-		return $query->row;
+	    return $query->row;
 	}
 	
 	public function getProductDataForCart($product_id) {

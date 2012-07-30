@@ -630,6 +630,7 @@ class MultivalueHtmlElement extends HtmlElement {
 	    $data = array(
                 'id' => $this->element_id,
                 'name' => $this->name,
+                'selected_name' => ($this->selected_name ? $this->selected_name : 'selected[]'),
 	            'title' => $this->title,
                 'selected' => $this->selected,
 	            'content_url' => $this->content_url,
