@@ -81,6 +81,10 @@
     <value><![CDATA[delete]]></value>
   </definition>
   <definition>
+    <key>text_close</key>
+    <value><![CDATA[close]]></value>
+  </definition>
+  <definition>
     <key>text_confirm</key>
     <value><![CDATA[Confirm?]]></value>
   </definition>
