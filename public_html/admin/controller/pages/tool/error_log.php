@@ -55,7 +55,26 @@ class ControllerPagesToolErrorLog extends AController {
 		$file = DIR_LOGS . $this->config->get('config_error_filename');
 
 		if (file_exists($file)) {
-			$data['log'] = file_get_contents($file, FILE_USE_INCLUDE_PATH, NULL);
+			ini_set("auto_detect_line_endings", true);
+
+			$fp = fopen($file,'r');
+
+			// check filesize
+			$filesize = filesize($file);
+			if($filesize>500000){
+
+				$data['log'] = "\n\n\n\n###############################################################################################\n\n".
+strtoupper($this->language->get('text_file_tail')).DIR_LOGS."
+
+###############################################################################################\n\n\n\n";
+				fseek($fp,-500000,SEEK_END);
+				fgets($fp);
+			}
+
+			while(!feof($fp)){
+				$data['log'] .= fgets($fp);
+			}
+			fclose($fp);
 		} else {
 			$data['log'] = '';
 		}
