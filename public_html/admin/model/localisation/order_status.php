@@ -71,7 +71,7 @@ class ModelLocalisationOrderStatus extends Model {
 
       	if ($data) {
 
-      	    if ( $data['content_language_id'] ) {
+      	    if ( isset($data['content_language_id']) && $data['content_language_id'] > 0 ) {
 		          $language_id = $data['content_language_id'];
       	    }
 
