@@ -396,6 +396,7 @@ class ALayoutManager {
 								$child ['layout_id'] = $this->layout_id;
 								list($child ['block_id'],$child ['custom_block_id']) = explode("_",$block_id);
 								$child ['parent_instance_id'] = $instance_id;
+								//NOTE: Blocks possitions are saved in 10th increment starting from 10
 								$child ['position'] = ($key + 1) * 10;
 								$child ['status'] = 1;
 								$child_id = $this->saveLayoutBlocks ( $child );
