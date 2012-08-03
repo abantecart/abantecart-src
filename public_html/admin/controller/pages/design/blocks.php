@@ -43,12 +43,12 @@ class ControllerPagesDesignBlocks extends AController {
 		                               ));
 
 		$grid_settings = array( 'table_id' => 'block_grid',
-		                        'url' => $this->html->getSecureURL('listing_grid/blocks_grid', '&parent_id=' . $this->request->get [ 'parent_id' ]),
+		                        'url' => $this->html->getSecureURL('listing_grid/blocks_grid'),
 		                        'editurl' => $this->html->getSecureURL('listing_grid/blocks/edit'),
 		                        'update_field' => $this->html->getSecureURL('listing_grid/blocks/update_field'),
 		                        'sortname' => 'date_added',
 		                        'sortorder' => 'desc',
-		                        'columns_search' => false,
+		                        'columns_search' => true,
 		                        'multiselect' => 'false',
 		);
 
@@ -70,6 +70,7 @@ class ControllerPagesDesignBlocks extends AController {
 		$grid_settings[ 'colNames' ] = array( $this->language->get('column_block_id'),
 		                                      $this->language->get('column_block_txt_id'),
 		                                      $this->language->get('column_block_name'),
+		                                      $this->language->get('column_status'),
 		                                      $this->language->get('column_date_added'),
 		                                      $this->language->get('column_action') );
 
@@ -82,10 +83,14 @@ class ControllerPagesDesignBlocks extends AController {
 		                                             'index' => 'block_txt_id',
 		                                             'width' => 120,
 		                                             'align' => 'left',
-		                                             'search' => false ),
+		                                             'search' => 'true' ),
 		                                      array( 'name' => 'block_name',
-		                                             'index' => 'block_name',
+		                                             'index' => 'name',
 		                                             'align' => 'left',
+		                                             'search' => 'true' ),
+		                                      array( 'name' => 'status',
+		                                             'index' => 'status',
+		                                             'align' => 'center',
 		                                             'search' => false ),
 		                                      array( 'name' => 'block_date_added',
 		                                             'index' => 'block_date_added',
@@ -95,11 +100,14 @@ class ControllerPagesDesignBlocks extends AController {
 		                                             'index' => 'action',
 		                                             'align' => 'center',
 		                                             'width' => 60,
-		                                             'search' => false ) );
+		                                             'search' => false,
+											  		 'sortable' => false) );
 
 		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ));
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 		$this->view->assign('search_form', $grid_search_form);
+		$this->view->assign('popup_action', $this->html->getSecureURL('listing_grid/blocks_grid/info'));
+		$this->view->assign('popup_title', 'Information about block');//$this->language->get('Information about block'));
 
 		if (isset ($this->session->data[ 'warning' ])) {
 			$this->view->assign('error_warning', $this->session->data[ 'warning' ]);

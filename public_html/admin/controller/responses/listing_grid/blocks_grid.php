@@ -33,50 +33,29 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 	    $page = $this->request->post['page']; // get the requested page
 	    if ( (int)$page < 0 ) $page = 0;
 		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
-		$sord = $this->request->post['sord']; // get the direction
 
 
         //process custom search form
+		$grid_filter_params = array('block_txt_id', 'name');
+		$filter_grid = new AFilter( array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ) );
+
 	    $layout = new ALayoutManager();
-	    $blocks = $layout->getAllBlocks();
+	    $total = $layout->getBlocksList($filter_grid->getFilterData(),'total_only');
+		$blocks = $layout->getBlocksList($filter_grid->getFilterData());
+
 
 	    // prepare block list (delete template duplicates)
-	    foreach($blocks as $block){
-		    if($block['custom_block_id']){
-				$info = $layout->getBlockDescriptions($block['custom_block_id']);
-				$block['block_name'] = $info[$this->config->get('storefront_language_id')] ? $info[$this->config->get('storefront_language_id')]['name'] : '';
-				$block_date_added = $info[$this->config->get('storefront_language_id')] ? $info[$this->config->get('storefront_language_id')]['created'] : '';
-				$block_date_added = !$block_date_added ? $info[key($info)]['created'] : $block_date_added;
-			    $block['block_date_added'] = $block_date_added;
-		    }else{
-			    // skip base custom blocks
-			    if(in_array($block['block_txt_id'],array('html_block'))){
-				    continue;
-			    }
-		    }
-		    $tmp[$block['block_id'].'_'.$block['custom_block_id']] = $block;
-	    }
-	    $blocks = $tmp;
+		  foreach($blocks as $block){
+				  // skip base custom blocks
+				  if(!$block['custom_block_id'] && in_array($block['block_txt_id'],array('html_block'))){
+					  continue;
+				  }
+			  $tmp[$block['block_id'].'_'.$block['custom_block_id']] = $block;
+		  }
+		  $blocks = $tmp;
 
-	    //sort
-	    $allowedSort = array('block_id', 'block_txt_id', 'block_name', 'block_date_added');
-	    $allowedDirection = array(SORT_ASC => 'asc', SORT_DESC => 'desc');
-	    if ( !in_array($sidx, $allowedSort) ) $sidx = $allowedSort[0];
-	    if ( !in_array($sord, $allowedDirection) ) {
-		    $sord = SORT_DESC;
-	    } else {
-		    $sord = array_search($sord, $allowedDirection);
-	    }
 
-	    $sort = array();
-	    foreach ($blocks as $block) {
-		    $sort[] = $block[$sidx];
-	    }
 
-	    array_multisort($sort, $sord, $blocks);
-
-		$total = count($blocks);
 	    if( $total > 0 ) {
 			$total_pages = ceil($total/$limit);
 		} else {
@@ -88,11 +67,10 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		$response->total = $total_pages;
 		$response->records = $total;
 
-	    $results = array_slice($blocks, ($page-1)*-$limit, $limit);
+
 
 	    $i = 0;
-		foreach ($results as $result) {
-			$action = '';
+		foreach ($blocks as $result) {
 			if($result['custom_block_id']){
 				$action = '<a id="action_edit_'.$result['block_id'].'_'.$result['custom_block_id'].'" class="btn_action" href="'.$this->html->getSecureURL('design/blocks/edit', '&custom_block_id=' . $result['custom_block_id']).'"
 						title="'. $this->language->get('text_edit') . '">'.
@@ -103,12 +81,24 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 				          '<img src="'.RDIR_TEMPLATE.'image/icons/icon_grid_delete.png" alt="'. $this->language->get('text_delete') . '" />'.
 				          '</a>';
 
+			}else{
+				$action = '<a id="'.$result['block_id'].'" class="view btn_action"
+						title="'. $this->language->get('text_view') . '">'.
+					'<img src="'.RDIR_TEMPLATE.'image/icons/icon_grid_view.png" alt="'. $this->language->get('text_view') . '" />'.
+					'</a>';
 			}
             $response->rows[$i]['id'] = $result['custom_block_id'] ? $result['block_id'].'_'.$result['custom_block_id'] : $result['block_id'];
 			$response->rows[$i]['cell'] = array(
 												$result['custom_block_id'] ? $result['block_id'].'_'.$result['custom_block_id'] : $result['block_id'],
 												$result['block_txt_id'],
 												$result['block_name'],
+												(isset($result['status']) ?
+												$this->html->buildCheckbox(array(
+													'name'  => 'status['.$result['product_id'].']',
+													'value' => $result['status'],
+													'style'  => 'btn_switch',
+													'attr' => 'readonly="true"'
+												)) : ''),
 												$result['block_date_added'],
 												$action,
 			);
@@ -544,6 +534,68 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		
 	$this->response->setOutput($this->data['response']);
 
+	}
+
+	public function info() {
+
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$this->loadLanguage( 'design/blocks' );
+		$lm = new ALayoutManager();
+		$info = $lm->getBlockInfo((int)$this->request->get['block_id']);
+		$layouts = array();
+		if($info){
+			//$this->loadModel('setting/store');
+			$tmp='';
+			foreach($info as $row){
+				if((int)$row['layout_id']){
+					$layouts[] = '<a target="_blank" href="'.$this->html->getSecureURL('design/layout', '&tmpl_id='.$row['template_id'].'&page_id='.$row['page_id'].'&layout_id='.$row['layout_id']).'">'.$row['layout_name'].'</a>';
+				}
+				if($tmp == $row['template_id'].'-'.$row['page_id'].'-'.$row['layout_id']){
+					continue;
+				}else{
+					$tmp = $row['template_id'].'-'.$row['page_id'].'-'.$row['layout_id'];
+				}
+				$row['templates'] = explode(',',$row['templates']);
+				unset($row['layout_id'],$row['layout_name'],$row['page_id'],$row['template_id'],$row['store_id']);
+				$block_info = $row;
+			}
+			if(!$layouts){
+				$layouts = array($this->language->get('text_none'));
+			}
+			$block_info['layouts'] = $layouts;
+
+			$response = '<tr>';
+			foreach($block_info as $key=>$item ){
+				if(!is_array($item)){
+					$response .= '<tr><td>'.$this->language->get('text_'.$key).'</td><td>'.$item.'</td></tr>';
+				}else{
+					if($item){
+						$response .= '<tr><td>'.$this->language->get('text_'.$key).':</td><td></td></tr>';
+						foreach($item as $info_name=>$info_value){
+							if(!is_array($info_value)){
+								if($info_name=='controller'){
+									$info_value = $info_value;
+								}
+								$response .= '<tr><td></td><td>'.$info_value.'</td></tr>';
+							}else{
+								foreach($info_value as $v){
+									$response .= '<tr><td></td><td>'.$v.'</td></tr>';
+								}
+
+							}
+						}
+					}
+				}
+			}
+			$response .= '</tr>';
+		}
+
+		$this->response->setOutput ( $response);
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
 }

@@ -389,7 +389,10 @@ var updatePager = false;
 	$( table_id+'_selected_action').aform({triggerChanged: false});
 
     $('tr.ui-search-toolbar').find("input, select").each( function(){
-				var index = $(this).parent().parent().parent().children().index($(this).parent().parent())-1;
+				var index = $(this).parent().parent().parent().children().index($(this).parent().parent());
+<?php if ( $data['multiselect'] == 'true' ) { ?>
+				index--;
+<?php }?>
                 //index = (index < 0) ? 0 : index;
                 if ( !jq_model[index] ) {
 					var algn = 'middle';

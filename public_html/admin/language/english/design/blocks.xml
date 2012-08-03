@@ -180,4 +180,28 @@
 		<key>text_apply</key>
 		<value><![CDATA[ Apply selection ]]></value>
 	</definition>
+	<definition>
+		<key>text_block_id</key>
+		<value><![CDATA[ Block ID ]]></value>
+	</definition>
+	<definition>
+		<key>text_block_txt_id</key>
+		<value><![CDATA[ Block Text ID ]]></value>
+	</definition>
+	<definition>
+		<key>text_controller</key>
+		<value><![CDATA[ Controller ]]></value>
+	</definition>
+	<definition>
+		<key>text_templates</key>
+		<value><![CDATA[ Block Templates ]]></value>
+	</definition>
+	<definition>
+		<key>text_block_date_added</key>
+		<value><![CDATA[ Block Creation Date ]]></value>
+	</definition>
+	<definition>
+		<key>text_layouts</key>
+		<value><![CDATA[ Used in layouts ]]></value>
+	</definition>
 </definitions>

@@ -221,19 +221,21 @@
 	  var $el = $(elem);
 	  	  
 	  var $form = $el.closest('.aform'), $field = $el.closest('.afield');
-	  	  
-	  $field.bind({
-        "click.acform": function(){
-          if($el.prop("checked")){
-			$(this).removeClass(o.checkedClass);
-			$el.removeAttr('checked');
-          }else{
-			$(this).addClass(o.checkedClass);
-			$el.attr('checked', 'checked');
-          }
-		  onChangedAction($el, $el.prop("checked"), $el.attr('ovalue'));
-        }
-      });
+	  if(!$el.prop("readonly")){
+          $field.bind({
+            "click.acform": function(){
+              if($el.prop("checked")){
+                $(this).removeClass(o.checkedClass);
+                $el.removeAttr('checked');
+              }else{
+                $(this).addClass(o.checkedClass);
+                $el.attr('checked', 'checked');
+              }
+              onChangedAction($el, $el.prop("checked"), $el.attr('ovalue'));
+            }
+          });
+      }
+
 	}
 
     function doRating(elem){
@@ -363,7 +365,7 @@
 		  }
 		});
 		
-		if(String(value) != String(ovalue) || $changed > 0){
+		if((String(value) != String(ovalue) || $changed > 0) ){
 		  $field.addClass(o.changedClass);
 		  $('.ajax_result, .field_err', $form).remove();
 		  $(o.btnGrpSelector, $form).css('display','inline-block');

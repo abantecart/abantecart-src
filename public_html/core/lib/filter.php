@@ -216,10 +216,10 @@ final class AGrid {
 						    $str .= " != '".$this->db->escape($rule['data'])."' ";
 						    break;
 					    case 'bw' :
-						    $str .= " LIKE '".$this->db->escape($rule['data'])."%' collate utf8_general_ci ";
+						    $str .= " LIKE '".$this->db->escape($rule['data'])."%' ";
 						    break;
 					    case 'cn' :
-						    $str .= " LIKE '%".$this->db->escape($rule['data'])."%' collate utf8_general_ci ";
+						    $str .= " LIKE '%".$this->db->escape($rule['data'])."%' ";
 						    break;
 					    default:
 						    $str .= " = '".$this->db->escape($rule['data'])."' ";
