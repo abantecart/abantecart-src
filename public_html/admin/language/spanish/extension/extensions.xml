@@ -140,6 +140,10 @@
     <key>text_missing_extension</key>
     <value><![CDATA[&quot;%% EXT Extensión:. Fuente no puede ser localizado por favor borrarlo y visitar <a href="http://abantecart.com" target="_repository">repositorio de extensiones</a> para descargar de nuevo &quot;]]></value>
   </definition>
+	<definition>
+		<key>text_broken_extension</key>
+		<value><![CDATA["&quot;%% EXT Extensión:  Fuente probablemente roto! No puede encontrar archivos config.xml o main.php. Por favor, bórrelo y visitar <a href="http://abantecart.com" target="_repository">extension repository</a> to download it again  "]]></value>
+	</definition>
   <definition>
     <key>text_extension_pagination</key>
     <value><![CDATA[Extensión (s) {inicio} a {fin} de {total}]]></value>

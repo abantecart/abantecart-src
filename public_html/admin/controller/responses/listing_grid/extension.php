@@ -100,6 +100,20 @@ class ControllerResponsesListingGridExtension extends AController {
 				$row['update_date'] = date('Y-m-d H:i:s',time()); // change it for show it in list first by default sorting
 			    $response->userdata->classes[$extension.'_'.$row['store_id']] = 'warning';
 
+			}elseif (!file_exists(DIR_EXT.$extension.'/main.php') || !file_exists(DIR_EXT.$extension.'/config.xml')) {
+
+			 	$action = '<a class="btn_action" href="'.$this->html->getSecureURL('extension/extensions/delete', $this->data['url'].'&extension=' . $extension).'"
+			 	onclick="return confirm(\''.$this->language->get('text_delete_confirm').'\')" title="'. $this->language->get('text_delete') . '">'.
+				          '<img src="'.RDIR_TEMPLATE.'image/icons/icon_grid_delete.png" alt="'. $this->language->get('text_delete') . '" />'.
+				          '</a>';
+
+			    $icon = '<img src="'.RDIR_TEMPLATE.'image/default_extension.png'.'" alt="" border="0" />';
+			    $name = str_replace('%EXT%', $extension, $this->language->get('text_broken_extension'));
+			    $category = '';
+			    $status = '';
+				$row['update_date'] = date('Y-m-d H:i:s',time()); // change it for show it in list first by default sorting
+			    $response->userdata->classes[$extension.'_'.$row['store_id']] = 'warning';
+
 			} else {
 				if ( !$this->config->has($extension . '_status')) {
 					$action = '<a class="btn_action"
