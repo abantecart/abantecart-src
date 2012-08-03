@@ -686,6 +686,8 @@ class ModelCatalogProduct extends Model {
                                 'prefix'                  => $product_option_value['prefix'],
 								'weight'                  => $product_option_value['weight'],
 								'weight_type'             => $product_option_value['weight_type'],
+								'quantity'				  => $product_option_value['quantity'],
+								'subtract'				  => $product_option_value['subtract'],
 							);
 						}
 					}
@@ -711,7 +713,7 @@ class ModelCatalogProduct extends Model {
 			}
 
             $this->cache->set( 'product.options.'.$product_id, $product_option_data, $this->config->get('storefront_language_id') );
-		}
+		}	
 		return $product_option_data;
 	}
 
