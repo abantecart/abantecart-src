@@ -257,6 +257,9 @@ class AResource {
         $resource = $this->getResource($resource_id, $language_id);
         switch( $this->type ) {
             case 'image' :
+                if(!$resource['default_icon']){
+                    $resource['default_icon'] = 'no_image.jpg';
+                }
                 break;
             default :
 	            if(!$resource['default_icon']){
@@ -277,9 +280,9 @@ class AResource {
 
 	    if($extension!='ico'){
 			if (!is_file($old_image)) {
-				$this->load->model('tool/image');
-				$this->model_tool_image->resize($resource['default_icon'], $width, $height);
-				return $old_image.'::::'.$this->model_tool_image->resize($resource['default_icon'], $width, $height);
+			    $this->load->model('tool/image');
+			    $this->model_tool_image->resize($resource['default_icon'], $width, $height);
+                return $this->model_tool_image->resize($resource['default_icon'], $width, $height);
 			}
 
 			$name = preg_replace('/[^a-zA-Z0-9]/', '', $resource['name']);
