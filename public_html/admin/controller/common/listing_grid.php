@@ -106,8 +106,7 @@ class ControllerCommonListingGrid extends AController {
 
 		$btn_go = $this->html->buildButton(array('text'=> !$this->data['button_go'] ? $this->language->get('button_go') : $this->data['button_go'],
 		                                         'id'=>'btn_go',
-		                                         'style'=>'button6',
-		                                         'attr'=>(sizeof($multiaction_options)==1 ? 'onclick = "var grid = $(\'#'.$this->data['table_id'].'\'); grid.jqGrid(\'resetSelection\');	var ids = grid.getDataIDs(); for (var i=0, il=ids.length; i < il; i++) { grid.jqGrid(\'setSelection\',ids[i], true);  }" ' :''),
+                                                 'style'=>'button6',
 		                                         'form'=>'form'));
 		$this->view->assign('btn_go', $btn_go );
 
