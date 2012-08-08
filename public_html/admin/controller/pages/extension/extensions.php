@@ -255,7 +255,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			$this->loadModel('setting/store');
 			$results = $this->model_setting_store->getStores();
 			foreach ($results as $res) {
-				$stores[$res['store_id']] = $res['name'];
+				$stores[$res['store_id']] = $res['alias'];
 			}
 			$switcher = array( 'name' => 'store_id',
 			                   'type' => 'selectbox',

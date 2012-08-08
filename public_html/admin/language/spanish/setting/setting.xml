@@ -2,7 +2,7 @@
 <definitions>
 	<definition>
 		<key>heading_title</key>
-		<value><![CDATA[Configuracion]]></value>
+		<value><![CDATA[Store Configuracion]]></value>
 	</definition>
 	<definition>
 		<key>column_group</key>
@@ -133,10 +133,14 @@
 		<key>entry_storefront_api_status</key>
 		<value><![CDATA[Storefront el estado de la API:]]></value>
 	</definition>
-	<definition>
-		<key>entry_storefront_api_key</key>
-		<value><![CDATA[Escaparate de la API Key:<br /><span class="help">En blanco, no clave.</span>]]></value>
-	</definition>
+    <definition>
+        <key>entry_storefront_api_key</key>
+        <value><![CDATA[Storefront API Key:<br /><span class="help">Establecer esta clave para facilitar el acceso restringido (más seguro) para storefront API.</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_storefront_api_stock_check</key>
+        <value><![CDATA[Storefront API Stock Access:<br /><span class="help">Habilitar si usted permite que la API escaparate para comprobar la disponibilidad de stock</span>]]></value>
+    </definition>
 	<definition>
 		<key>entry_debug</key>
 		<value><![CDATA[Mostrar información de depuración:]]></value>
@@ -200,6 +204,18 @@
 		<value>
 			<![CDATA[Ayuda Enlaces:<br /><span class="help">Si quieres ver los iconos de ayuda y enlaces al sitio AbanteCart. Esto le ayudará a aprender sobre las características y la forma de utilizarlos. Si el usuario avanzado y no quieren ver a estos iconos de ayuda, se puede desactivar.</span>]]></value>
 	</definition>
+    <definition>
+        <key>entry_cart_ajax</key>
+        <value><![CDATA[Misma página Añadir al carro:<br /><span class="help">Esto le permitirá añadir a AJAX característica del carro. El producto puede ser añadido a la cesta sin redirigir a la página de compra</span>]]></value>
+    </definition>	
+    <definition>
+        <key>entry_storefront_width</key>
+        <value><![CDATA[Storefront Ancho del sitio:<br /><span class="help">Example: 100% or 900px </span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_admin_width</key>
+        <value><![CDATA[Ancho del sitio de administración:<br /><span class="help">Example: 100% or 900px </span>]]></value>
+    </definition>    
 	<definition>
 		<key>error_image_grid</key>
 		<value><![CDATA[Rejilla dimensiones de tamaño de imagen deseado!]]></value>
@@ -255,7 +271,7 @@
 	</definition>
 	<definition>
 		<key>entry_title</key>
-		<value><![CDATA[Titulo:]]></value>
+		<value><![CDATA[Titulo:<br /><span class="help">Esto se muestra en el título de escaparate del navegador</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_meta_description</key>
@@ -267,7 +283,7 @@
 	</definition>
 	<definition>
 		<key>entry_template</key>
-		<value><![CDATA[Plantilla:]]></value>
+		<value><![CDATA[Plantilla:<span class="help">Plantilla de escaparate. Esto puede ser principal de la plantilla o la extensión </ span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_country</key>
@@ -518,7 +534,7 @@
 	<definition>
 		<key>entry_catalog_limit</key>
 		<value>
-			<![CDATA[Productos por pagina (Catalogo):<br /><span class="help">Determina el numero de articulos del catalogo que se muestran por pagina (productos, categorias, etc)</span>]]></value>
+			<![CDATA[Productos por pagina (Storefront):<br /><span class="help">Determina el numero de articulos del catalogo que se muestran por pagina (productos, categorias, etc)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_admin_limit</key>

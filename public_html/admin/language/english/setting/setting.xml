@@ -33,8 +33,12 @@
         <value><![CDATA[Default]]></value>
     </definition>
     <definition>
+        <key>text_edit_store_settings</key>
+        <value><![CDATA[Edit Settings:]]></value>
+    </definition>
+    <definition>
         <key>text_edit_store</key>
-        <value><![CDATA[Edit Store:]]></value>
+        <value><![CDATA[Edit Store]]></value>
     </definition>
     <definition>
         <key>text_mail</key>
@@ -84,7 +88,7 @@
     </definition>
     <definition>
         <key>entry_title</key>
-        <value><![CDATA[Title:]]></value>
+        <value><![CDATA[Title:<br /><span class="help">This is displayed in storefront browser title</span>]]></value>
     </definition>
     <definition>
         <key>entry_meta_description</key>
@@ -96,7 +100,7 @@
     </definition>
     <definition>
         <key>entry_template</key>
-        <value><![CDATA[Template:]]></value>
+        <value><![CDATA[Template:<span class="help">Storefront template. This can be main or extension template</span>]]></value>
     </definition>
     <definition>
         <key>entry_country</key>
@@ -424,7 +428,11 @@
     </definition>
     <definition>
         <key>entry_storefront_api_key</key>
-        <value><![CDATA[Storefront API Key:<br /><span class="help">Blank no key.</span>]]></value>
+        <value><![CDATA[Storefront API Key:<br /><span class="help">Set this key to provide restricted (more secure) access to storefront API.</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_storefront_api_stock_check</key>
+        <value><![CDATA[Storefront API Stock Access:<br /><span class="help">Enable if you allow storefront API to check stock availability</span>]]></value>
     </definition>
     <definition>
         <key>entry_upload_max_size</key>
@@ -490,11 +498,11 @@
     </definition>
     <definition>
         <key>entry_catalog_limit</key>
-        <value><![CDATA[Default Items per Page (Catalog):<br /><span class="help">Determines how many catalog items are shown per page (products, categories, etc)</span>]]></value>
+        <value><![CDATA[Default Items per Page (Storefront):<br /><span class="help">Sets how many storefront items are shown per page (products, categories, etc)</span>]]></value>
     </definition>
     <definition>
         <key>entry_admin_limit</key>
-        <value><![CDATA[Default Items per Page (Admin):<br /><span class="help">Determines how many admin items are shown per page (orders, customers, etc)</span>]]></value>
+        <value><![CDATA[Default Items per Page (Admin):<br /><span class="help">Sets how many admin items are shown per page in listing grids (orders, customers, etc)</span>]]></value>
     </definition>
     <definition>
         <key>entry_bestseller_limit</key>
@@ -529,8 +537,20 @@
         <value><![CDATA[Help Links:<br /><span class="help">If you want to see Help Icons and links to AbanteCart site. This will help you learn about features and how to use them. If you advanced user and do not want to see these help icons, you can disable.</span>]]></value>
     </definition>
     <definition>
+        <key>entry_cart_ajax</key>
+        <value><![CDATA[Same Page Add To Cart:<br /><span class="help">This will enable AJAX add to cart feature. Product can be added to cart without redirecting to cart page</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_storefront_width</key>
+        <value><![CDATA[Storefront Site Width:<br /><span class="help">Example: 100% or 900px </span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_admin_width</key>
+        <value><![CDATA[Admin Site Width:<br /><span class="help">Example: 100% or 900px </span>]]></value>
+    </definition>
+    <definition>
         <key>button_add_store</key>
-        <value><![CDATA[Create A New Store]]></value>
+        <value><![CDATA[New Store]]></value>
     </definition>
     <definition>
         <key>error_permission</key>

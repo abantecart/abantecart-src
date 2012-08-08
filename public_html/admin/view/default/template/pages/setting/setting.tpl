@@ -12,19 +12,19 @@
 				<div class="heading icon_title_setting"><?php echo $heading_title; ?></div>
 				<div class="heading-tabs">
 					<a href="<?php echo $link_all; ?>"><span><?php echo $tab_all; ?></span></a>
+					<a href="<?php echo $link_details; ?>" <?php echo ($active == 'details' ? 'class="active"'
+							: '') ?> ><span><?php echo $tab_details; ?></span></a>
 					<a href="<?php echo $link_general; ?>" <?php echo ($active == 'general' ? 'class="active"'
 							: '') ?> ><span><?php echo $tab_general; ?></span></a>
-					<a href="<?php echo $link_store; ?>" <?php echo ($active == 'store' ? 'class="active"'
-							: '') ?> ><span><?php echo $tab_store; ?></span></a>
-					<a href="<?php echo $link_local; ?>" <?php echo ($active == 'local' ? 'class="active"'
-							: '') ?> ><span><?php echo $tab_local; ?></span></a>
-					<a href="<?php echo $link_options; ?>" <?php echo ($active == 'options' ? 'class="active"'
-							: '') ?> ><span><?php echo $tab_option; ?></span></a>
-					<a href="<?php echo $link_images; ?>" <?php echo ($active == 'images' ? 'class="active"'
-							: '') ?> ><span><?php echo $tab_image; ?></span></a>
+					<a href="<?php echo $link_checkout; ?>" <?php echo ($active == 'checkout' ? 'class="active"'
+							: '') ?> ><span><?php echo $tab_checkout; ?></span></a>
+					<a href="<?php echo $link_appearance; ?>" <?php echo ($active == 'appearance' ? 'class="active"'
+							: '') ?> ><span><?php echo $tab_appearance; ?></span></a>
 					<a href="<?php echo $link_mail; ?>" <?php echo ($active == 'mail' ? 'class="active"'
 							: '') ?> ><span><?php echo $tab_mail; ?></span></a>
-					<a href="<?php echo $link_server; ?>" <?php echo ($active == 'server' ? 'class="active"'
+					<a href="<?php echo $link_api; ?>" <?php echo ($active == 'api' ? 'class="active"'
+							: '') ?> ><span><?php echo $tab_api; ?></span></a>
+					<a href="<?php echo $link_system; ?>" <?php echo ($active == 'system' ? 'class="active"'
 							: '') ?> ><span><?php echo $tab_system; ?></span></a>
 				</div>
 				<div class="toolbar">
@@ -33,14 +33,10 @@
 							src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
 					<?php endif; ?>
 					<?php echo $form_language_switch; ?>
-					<div class="buttons"><?php echo $text_edit_store; ?>
-						<select id="store_switcher" onchange="location = this.value">
-							<?php foreach ($stores as $store) { ?>
-							<option value="<?php echo $store[ 'href' ]; ?>"><?php echo $store[ 'name' ]; ?></option>
-							<?php } ?>
-						</select>
-						&nbsp;<a onclick="location = '<?php echo $insert; ?>'"
-						         class="button"><span><?php echo $button_add_store; ?></span></a>
+					<div class="buttons">						
+						<div class="flt_left align_left"><?php echo $text_edit_store_settings; ?> <?php echo $store_selector; ?></div>
+						<div class="flt_left">&nbsp;&nbsp;<?php echo $edit_store_button; ?></div>
+						<div class="flt_left">&nbsp;&nbsp;<?php echo $new_store_button; ?></div>	
 					</div>
 				</div>
 
@@ -50,11 +46,9 @@
 	<div class="cbox_cl">
 		<div class="cbox_cr">
 			<div class="cbox_cc">
-
-				<h2><?php echo $form_title; ?></h2>
 				<?php echo $form[ 'form_open' ]; ?>
 				<div class="fieldset">
-					<div class="heading"><?php echo $tab_general; ?></div>
+					<div class="heading"><?php echo $form_title; ?></div>
 					<div class="top_left">
 						<div class="top_right">
 							<div class="top_mid"></div>
@@ -189,7 +183,6 @@ jQuery(function($) {
 	});
 
 	$('#store_switcher').aform({triggerChanged: false}).width(100);
-	$.aform.styleGridForm('#store_switcher');
 
 });
 <?php if ($active == 'mail') { ?>

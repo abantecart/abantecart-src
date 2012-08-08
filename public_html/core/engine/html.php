@@ -905,10 +905,12 @@ class ButtonHtmlElement extends HtmlElement {
         $this->view->batchAssign(
             array(
                 'text' => $this->text,
+                'title' => $this->title,
                 'id' => $this->element_id,
                 'attr' => $this->attr,
                 'style' => $this->style,
                 'href' => $this->href,
+                'href_class' => $this->href_class,
             )
         );
         $return = $this->view->fetch('form/button.tpl');

@@ -36,6 +36,12 @@ class ControllerApiProductQuantity extends AControllerAPI {
 			return;
 		}
 
+		if ( !$this->config->get('config_storefront_api_stock_check') ) {
+			$this->rest->setResponseData( array('Error' => 'Restricted access to stock check ') );
+			$this->rest->sendResponse(200);
+			return;
+		}
+
 		//Load all the data from the model
     	$this->loadModel('catalog/product');
 		$product_info = $this->model_catalog_product->getProduct( $product_id );

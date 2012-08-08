@@ -320,6 +320,7 @@ if (!( $config->get('config_url') == 'http://'.$url || $config->get('config_url'
    							 LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
    							 WHERE (st.url = '" . $db->escape('http://www.' . $url) . "'
    								OR st.url = '" . $db->escape('http://'.$url) . "')
+   								AND st.status = 1 
    								AND e.extension_id IS NULL");
    		$store_settings = $query->rows;
    		$cache->set( $cache_name, $store_settings);

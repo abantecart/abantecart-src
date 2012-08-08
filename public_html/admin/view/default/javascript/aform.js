@@ -216,27 +216,27 @@
         }
       });
     }
-
 	function doSwitchButton(elem){
-	  var $el = $(elem);
-	  	  
-	  var $form = $el.closest('.aform'), $field = $el.closest('.afield');
-	  if(!$el.prop("readonly")){
-          $field.bind({
-            "click.acform": function(){
-              if($el.prop("checked")){
-                $(this).removeClass(o.checkedClass);
-                $el.removeAttr('checked');
-              }else{
-                $(this).addClass(o.checkedClass);
-                $el.attr('checked', 'checked');
-              }
-              onChangedAction($el, $el.prop("checked"), $el.attr('ovalue'));
-            }
-          });
-      }
-
-	}
+	   var $el = $(elem);
+	         
+	   var $form = $el.closest('.aform'), $field = $el.closest('.afield');
+	   if(!$el.prop("readonly")){
+	       $field.bind({
+	         "click.acform": function(){
+	           if($el.prop("checked") && $el.val()==1){
+	             $(this).removeClass(o.checkedClass);
+	             $el.val(0);                  
+	           }else{
+	             $(this).addClass(o.checkedClass);
+	             $el.attr('checked', 'checked');
+	             $el.val(1);
+	           }
+	           onChangedAction($el, $el.val(), $el.attr('ovalue'));
+	         }
+	       });
+	   }
+	
+	 }
 
     function doRating(elem){
 	  var $el = $(elem).parent();

@@ -347,7 +347,7 @@ class ExtensionsApi {
                       e.update_date,
                       e.create_date,
 		              s.store_id,
-		              st.name as store_name,
+		              st.alias as store_name,
 		              s.value as status
 				FROM " . DB_PREFIX . "extensions e
 				LEFT JOIN " . DB_PREFIX . "settings s ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )

@@ -65,177 +65,13 @@
     <value><![CDATA[Moneda:]]></value>
   </definition>
   <definition>
-    <key>entry_tax</key>
-    <value><![CDATA[Mostrar precios con IVA:]]></value>
-  </definition>
-  <definition>
-    <key>entry_customer_group</key>
-    <value><![CDATA[Grupo de clientes:<br /><span class="help">Grupo de clientes por defecto.</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_customer_price</key>
-    <value><![CDATA[Ocultar precios<br /><span class="help">Mostrar los precios, incluso si el cliente no se registra en.</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_customer_approval</key>
-    <value><![CDATA[Aprobar Clientes nuevos:<br /><span class="help">No permitier que los clientes accedan hasta que su cuenta se ha aprobado</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_guest_checkout</key>
-    <value><![CDATA[Compra de invitados:<br /><span class="help">Permiten a los clientes invitados acceder a compra sin crear una cuenta.</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_account</key>
-    <value><![CDATA[Aviso Legal:<br /><span class="help">Obliga a estar de acuerdo para crear una cuenta nueva.</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_checkout</key>
-    <value><![CDATA[Terminos & Condiciones:<br /><span class="help">Obliga a estar de acuerdo para comprar.</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_order_status</key>
-    <value><![CDATA[Estado Pedido:<br /><span class="help">Establecer el estado del pedido por defecto cuando se procesa un pedido.</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_stock_display</key>
-    <value><![CDATA[Mostrar Stock:<br /><span class="help">En el producto se muestra la cantidad en stock.</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_stock_check</key>
-    <value><![CDATA[Mostrar fuera de stock:<br /><span class="help">Mostrar productos agotados.</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_stock_checkout</key>
-    <value><![CDATA[Comprar sin stock:<br /><span class="help">Permite comprar a los clientes aunque el producto este agotado</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_stock_subtract</key>
-    <value><![CDATA[Restar Stock:<br /><span class="help">Resta del stock la cantidad de producto cuando se procesa un pedido.</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_stock_status</key>
-    <value><![CDATA[Estado Stock]]></value>
-  </definition>
-  <definition>
-    <key>entry_config_logo</key>
-    <value><![CDATA[Logo Tienda:]]></value>
-  </definition>
-  <definition>
-    <key>entry_config_icon</key>
-    <value><![CDATA[Icono:<br /><span class="help">Debe ser formato PNG con medidas 16px x 16px.]]></value>
-  </definition>
-	<definition>
-    <key>entry_width</key>
-    <value><![CDATA[Ancho:]]></value>
-  </definition>
-  <definition>
-    <key>entry_height</key>
-    <value><![CDATA[Altura:]]></value>
-  </definition>
-  <definition>
-    <key>entry_image_thumb</key>
-    <value><![CDATA[Medida imagen en miniatura del producto:]]></value>
-  </definition>
-	<definition>
-    <key>entry_image_thumb_width</key>
-    <value><![CDATA[Imagen del producto Pulgar Ancho:]]></value>
-  </definition>
-  <definition>
-    <key>entry_image_thumb_height</key>
-    <value><![CDATA[Imagen del producto Pulgar Altura:]]></value>
-  </definition>
-  <definition>
-    <key>entry_image_popup</key>
-    <value><![CDATA[Medida imagen Popup del producto:]]></value>
-  </definition>
-	<definition>
-    <key>entry_image_popup_width</key>
-    <value><![CDATA[Ancho del producto Imagen Popup:]]></value>
-  </definition>
-    <definition>
-    <key>entry_image_popup_height</key>
-    <value><![CDATA[Altura del producto Imagen Popup:]]></value>
-  </definition>
-  <definition>
-    <key>entry_image_category</key>
-    <value><![CDATA[Medida en lista de categoria:]]></value>
-  </definition>
-	<definition>
-    <key>entry_image_category_width</key>
-    <value><![CDATA[Categoría Ancho de la Lista:]]></value>
-  </definition>
-    <definition>
-    <key>entry_image_category_height</key>
-    <value><![CDATA[Categoría Altura Lista:]]></value>
-  </definition>
-  <definition>
-    <key>entry_image_product</key>
-    <value><![CDATA[Medida en lista de producto:]]></value>
-  </definition>
-	<definition>
-    <key>entry_image_product_height</key>
-    <value><![CDATA[Altura del producto Lista:]]></value>
-  </definition>
-    <definition>
-    <key>entry_image_product_width</key>
-    <value><![CDATA[Ancho del producto Lista:]]></value>
-  </definition>
-  <definition>
-    <key>entry_image_additional</key>
-    <value><![CDATA[Medida en imagenes adicionales:]]></value>
-  </definition>
-	<definition>
-    <key>entry_image_additional_width</key>
-    <value><![CDATA[Ancho de imagen adicional del producto:]]></value>
-  </definition>
-    <definition>
-    <key>entry_image_additional_height</key>
-    <value><![CDATA[Adicional del producto Altura de la imagen:]]></value>
-  </definition>
-  <definition>
-    <key>entry_image_related</key>
-    <value><![CDATA[Medida en productos relacionados:]]></value>
-  </definition>
-	<definition>
-    <key>entry_image_related_width</key>
-    <value><![CDATA[Ancho de imagen relacionada con el producto:]]></value>
-  </definition>
-    <definition>
-    <key>entry_image_related_height</key>
-    <value><![CDATA[Relacionada con el producto Altura de la imagen:]]></value>
-  </definition>
-  <definition>
-    <key>entry_image_cart</key>
-    <value><![CDATA[Medida imagen en carro:]]></value>
-  </definition>
-	<definition>
-    <key>entry_image_cart_width</key>
-    <value><![CDATA[Carro Ancho de la imagen:]]></value>
-  </definition>
-    <definition>
-    <key>entry_image_cart_height</key>
-    <value><![CDATA[Cesta de altura de la imagen:]]></value>
-  </definition>
-	<definition>
-    <key>entry_image_grid</key>
-    <value><![CDATA[Cuadrícula Tamaño de la imagen:]]></value>
-  </definition>
-    <definition>
-    <key>entry_image_grid_width</key>
-    <value><![CDATA[Cuadrícula Ancho de la imagen:]]></value>
-  </definition>
-    <definition>
-    <key>entry_image_grid_height</key>
-    <value><![CDATA[Rejilla Altura de la imagen:]]></value>
-  </definition>
-	<definition>
-    <key>entry_catalog_limit</key>
-    <value><![CDATA[Los artículos por página por defecto (catálogo):<br /><span class="help">Determina el número de artículos del catálogo se muestran por página (productos, categorías, etc)</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_cart_weight</key>
-    <value><![CDATA[Muestra de peso en la página de compra:]]></value>
-  </definition>
+    <key>entry_status</key>
+    <value><![CDATA[Tienda de Estado]]></value>
+  </definition>    
+ <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Alias Nombre<br /><span class="help">Alias ​​nombre de su tienda. Si deja en blanco, se basará en nombre abreviado</span]]></value>
+  </definition>    
   <definition>
     <key>button_add_store</key>
     <value><![CDATA[Crear nueva Tienda]]></value>
@@ -244,6 +80,10 @@
     <key>button_delete_store</key>
     <value><![CDATA[Borrar Tienda]]></value>
   </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[Editar la configuración de]]></value>
+  </definition>  
   <definition>
     <key>error_permission</key>
     <value><![CDATA[Atencion: No tienes permiso para modificar la tienda!]]></value>

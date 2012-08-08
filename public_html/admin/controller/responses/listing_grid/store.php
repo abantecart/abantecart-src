@@ -70,65 +70,6 @@ class ControllerResponsesListingGridStore extends AController {
 					$err = $this->language->get('error_url');
 				}
 				break;
-			case 'config_title' :
-				if (!$value) {
-					$err = $this->language->get('error_title');
-				}
-				break;
-			case 'config_image_thumb_width' :
-			case 'config_image_thumb_height' :
-				if (!$value) {
-					$err = $this->language->get('error_image_thumb');
-				}
-				break;
-			case 'config_image_popup_width' :
-			case 'config_image_popup_height' :
-				if (!$value) {
-					$err = $this->language->get('error_image_popup');
-				}
-				break;
-			case 'config_image_category_width' :
-			case 'config_image_category_height' :
-				if (!$value) {
-					$err = $this->language->get('error_image_category');
-				}
-				break;
-			case 'config_image_product_width' :
-			case 'config_image_product_height' :
-				if (!$value) {
-					$err = $this->language->get('error_image_product');
-				}
-				break;
-			case 'config_image_additional_width' :
-			case 'config_image_additional_height' :
-				if (!$value) {
-					$err = $this->language->get('error_image_additional');
-				}
-				break;
-			case 'config_image_related_width' :
-			case 'config_image_related_height' :
-				if (!$value) {
-					$err = $this->language->get('error_image_related');
-				}
-				break;
-			case 'config_image_cart_width' :
-			case 'config_image_cart_height' :
-				if (!$value) {
-					$err = $this->language->get('error_image_cart');
-				}
-				break;
-            case 'config_image_grid_width' :
-			case 'config_image_grid_height' :
-				if (!$value) {
-					$err = $this->language->get('error_image_grid');
-				}
-				break;
-			case 'config_catalog_limit' :
-				if (!$value) {
-					$err = $this->language->get('error_limit');
-				}
-				break;
-
 		}
 
 		return $err;

@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerResponsesListingGridSetting extends AController {
 	private $error = array();
-	public $groups = array('general', 'store', 'local', 'options', 'images', 'mail', 'server');
+	public $groups = array('details', 'general', 'checkout', 'appearance', 'mail', 'api', 'system');
 
     public function main() {
 
@@ -90,7 +90,8 @@ class ControllerResponsesListingGridSetting extends AController {
 				    return;
 			    }
 			    $data = array( $key => $value );
-				$this->model_setting_setting->editSetting($this->request->get['group'], $data);
+			    			    
+				$this->model_setting_setting->editSetting($this->request->get['group'], $data, $this->request->get['store_id']);
 			}
 		    return;
 	    }
