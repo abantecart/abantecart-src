@@ -1128,8 +1128,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout', 'config_stock_status_id', '5'),
 ('checkout', 'config_stock_subtract', '0'),
 ('checkout', 'config_stock_check', '1'),
-('checkout', 'cart_ajax', '1'),  -- ????? Does not work. Important to fix for all "add to cart" buttons. Show green status bar at the top. If OFF redirect to cart on each click
-
+('checkout', 'cart_ajax', '1'), 
 -- Appearance
 ('appearance', 'config_storefront_template', 'default'),
 ('appearance', 'storefront_width', '100%'),
@@ -1185,7 +1184,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 --API
 ('api', 'config_storefront_api_status', '0'),
 ('api', 'config_storefront_api_key', ''),
-('api', 'config_storefront_api_stock_check', '0'), --???? new need to program
+('api', 'config_storefront_api_stock_check', '0'),
 
 ('shipping', 'shipping_sort_order', '3'),
 ('shipping', 'shipping_status', '1'),
