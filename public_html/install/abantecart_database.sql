@@ -1082,7 +1082,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details', 'config_telephone', '123456789'),
 ('details', 'config_fax', ''),
 
-('details', 'config_title', 'Your Store'), ---???? Candidate to discontinue used only on store front title bar. 
+('details', 'config_title', 'Your Store'),  
 ('details', 'config_meta_description', 'Web Store Meta Description'),
 ('details', 'config_description_1', 'Welcome to web store!'),
 
@@ -1096,7 +1096,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details', 'config_weight_class', 'lb'),
 
 --general
-('general', 'config_admin_limit', '20'), --?????? check if used and make it used.
+('general', 'config_admin_limit', '20'),
 ('general', 'config_catalog_limit', '20'),
 ('general', 'config_bestseller_limit', '4'),
 ('general', 'config_featured_limit', '2'),
