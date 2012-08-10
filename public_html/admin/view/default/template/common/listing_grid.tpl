@@ -1,354 +1,358 @@
 <div class="ui-jqgrid-wrapper" id="<?php echo $data['table_id'] ?>_wrapper">
 
     <form id="<?php echo $data['table_id'] ?>_form" action="<?php echo $data["editurl"] ?>" method="POST">
-    <table id="<?php echo $data['table_id'] ?>"></table>
-	<div id="<?php echo $data['table_id'] ?>_pager"></div>
-	<div class="no_results"><?php echo $text_no_results; ?></div>
-    <?php if ( $data['multiselect'] == 'true' && !$data['multiselect_noselectbox']) { ?>
-    <div class="multiactions" id="<?php echo $data['table_id'] ?>_multiactions"  align="right">
-		<a id="<?php echo $data['table_id'] ?>_go" class="btn_standard"><?php echo $btn_go; ?></a>
+        <table id="<?php echo $data['table_id'] ?>"></table>
+        <div id="<?php echo $data['table_id'] ?>_pager"></div>
+        <div class="no_results"><?php echo $text_no_results; ?></div>
+        <?php if ($data['multiselect'] == 'true' && !$data['multiselect_noselectbox']) { ?>
+        <div class="multiactions" id="<?php echo $data['table_id'] ?>_multiactions" align="right">
+            <a id="<?php echo $data['table_id'] ?>_go" class="btn_standard"><?php echo $btn_go; ?></a>
 
-			<select id="<?php echo $data['table_id'] ?>_selected_action" name="<?php echo $data['table_id'] ?>_action" >
-			  <?php
-				if ( sizeof($multiaction_options)>1 ) {
-					?>
-				<option value=""><?php echo $text_choose_action; ?></option>
-				<?php }
-				foreach($multiaction_options as $value=>$text){ ?>
-			        <option value="<?php echo $value; ?>"><?php echo $text; ?></option>
-				<?php } ?>
-			</select>
-    </div>
-    <?php } ?>
+            <select id="<?php echo $data['table_id'] ?>_selected_action" name="<?php echo $data['table_id'] ?>_action">
+                <?php
+                if (sizeof($multiaction_options) > 1) {
+                    ?>
+                    <option value=""><?php echo $text_choose_action; ?></option>
+                    <?php
+                }
+                foreach ($multiaction_options as $value => $text) {
+                    ?>
+                    <option value="<?php echo $value; ?>"><?php echo $text; ?></option>
+                    <?php } ?>
+            </select>
+        </div>
+        <?php } ?>
 
-	 </form>
+    </form>
 </div>
 
-<!--<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/ui.datepicker.js"></script>
+<!--<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery.ui.datepicker.js"></script>
 	-->
 <script>
 
-var initGrid_<?php echo $data['table_id'] ?> = function($){
+var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
-var text_choose_action = '<?php echo $text_choose_action ?>';
-var text_select_items = '<?php echo $text_select_items ?>';
-var _table_id = '<?php echo $data['table_id'] ?>';
-var table_id = '#<?php echo $data['table_id'] ?>';
-var jq_names = [<?php echo "'".implode("','", $data['colNames'])."'"?>];
-var jq_model = [<?php
-$i = 1;
-foreach ( $data['colModel'] as $m ) {
-    $col = array('resizable: false', 'title: false', 'searchoptions: { sopt:[\'cn\'] }');
-    foreach ( $m as $k => $v ) {
-        if ( is_string($v) ) {
-            $col[] = "$k: '".addslashes($v)."'";
-        } else if ( is_int($v) ) {
-            $col[] = "$k: ".(int)($v);
-        } else if ( is_bool($v) ) {
-            $col[] = "$k: ".($v ? 'true' : 'false' );
+    var text_choose_action = '<?php echo $text_choose_action ?>';
+    var text_select_items = '<?php echo $text_select_items ?>';
+    var _table_id = '<?php echo $data['table_id'] ?>';
+    var table_id = '#<?php echo $data['table_id'] ?>';
+    var jq_names = [<?php echo "'" . implode("','", $data['colNames']) . "'"?>];
+    var jq_model = [<?php
+    $i = 1;
+    foreach ($data['colModel'] as $m) {
+        $col = array('resizable: false', 'title: false', 'searchoptions: { sopt:[\'cn\'] }');
+        foreach ($m as $k => $v) {
+            if (is_string($v)) {
+                $col[] = "$k: '" . addslashes($v) . "'";
+            } else if (is_int($v)) {
+                $col[] = "$k: " . (int)($v);
+            } else if (is_bool($v)) {
+                $col[] = "$k: " . ($v ? 'true' : 'false');
+            }
         }
+        echo "{" . implode(',', $col) . "}";
+        if ($i < count($data['colModel'])) {
+            echo ',';
+            $i++;
+        }
+        echo "\r\n";
     }
-    echo "{".implode(',', $col)."}";
-    if ($i < count($data['colModel'])) {
-        echo ',';
-        $i++;
+
+    ?>];
+
+    var updatePager = false;
+
+    function updatePerPage(records) {
+        if (updatePager) return;
+        var html, rowNum, rowList = [10, 30, 50, 100];
+        for (var i = 0; i < rowList.length; i++) {
+            if (records > rowList[i]) {
+                html += '<option value="' + rowList[i] + '">' + rowList[i] + '</option>';
+            }
+        }
+        if (records <= 100) {
+            html += '<option value="' + records + '"><?php echo $text_all ?></option>';
+        }
+        $(table_id + '_pager_center .ui-pg-selbox').html(html);
+        updatePager = true;
     }
-    echo "\r\n";
-}
 
-?>];
+    $(table_id).jqGrid<?php echo $history_mode ? 'History' : ''; ?>({
+        url:'<?php echo $data["url"] ?>',
+        editurl:'<?php echo $data["editurl"] ?>',
+        datatype:"json",
+        mtype:"POST",
+        contentType:"application/json; charset=utf-8",
+        colNames:jq_names,
+        colModel:jq_model,
+        rowNum: <?php echo $data['rowNum'] ?>,
+        rowList:[<?php echo implode(',', $data['rowList']) ?>],
+        pager:table_id + '_pager',
+        multiselect: <?php echo $data['multiselect'] ?>,
+        hoverrows: <?php echo $data['hoverrows'] ?>,
+        viewrecords:true,
+        altRows: <?php echo $data['altRows'] ?>,
+        height:'100%',
+        sortname:'<?php echo $data['sortname'] ?>',
+        sortorder:'<?php echo $data['sortorder'] ?>',
+        loadComplete:function (data) {
 
-var updatePager = false;
-
-	function updatePerPage( records ) {
-		if ( updatePager ) return;
-		var html, rowNum, rowList = [10, 30, 50, 100];
-		for (var i = 0; i < rowList.length; i++) {
-			if ( records > rowList[i] ) {
-				html += '<option value="' + rowList[i] + '">' + rowList[i] + '</option>';
-			}
-		}
-		if ( records <= 100 ) {
-			html += '<option value="'+records+'"><?php echo $text_all ?></option>';
-		}
-		$(table_id+'_pager_center .ui-pg-selbox').html( html );
-		updatePager = true;
-	}
-
-	$(table_id).jqGrid<?php echo $history_mode ? 'History' : ''; ?>({
-		url:'<?php echo $data["url"] ?>',
-		editurl:'<?php echo $data["editurl"] ?>',
-		datatype: "json",
-		mtype: "POST",
-		contentType: "application/json; charset=utf-8",
-		colNames: jq_names,
-		colModel: jq_model,
-		rowNum: <?php echo $data['rowNum'] ?>,
-		rowList: [<?php echo implode(',',$data['rowList']) ?>],
-		pager: table_id+'_pager',
-		multiselect: <?php echo $data['multiselect'] ?>,
-		hoverrows: <?php echo $data['hoverrows'] ?>,
-		viewrecords: true,
-		altRows: <?php echo $data['altRows'] ?>,
-		height: '100%',
-		sortname: '<?php echo $data['sortname'] ?>',
-		sortorder: '<?php echo $data['sortorder'] ?>',
-		loadComplete : function(data) {
-
-			if ( data.userdata && data.userdata.classes != null ) {
-                for (var id in data.userdata.classes ) {
-					$('#'+id).addClass(data.userdata.classes[id]);
+            if (data.userdata && data.userdata.classes != null) {
+                for (var id in data.userdata.classes) {
+                    $('#' + id).addClass(data.userdata.classes[id]);
                 }
             }
 
-			// check loaded records count
-			var reccount = $(table_id).jqGrid('getGridParam','reccount');
-			var records = $(table_id).jqGrid('getGridParam','records');
-			var rowNum = $(table_id).jqGrid('getGridParam','rowNum');
-			if ( !reccount ) {
-				$(table_id+'_pager').hide();
-				$(table_id+'_wrapper .no_results').show();
-			} else {
-				$(table_id+'_pager').show();
-				$(table_id+'_wrapper .no_results').hide();
-			}
+            // check loaded records count
+            var reccount = $(table_id).jqGrid('getGridParam', 'reccount');
+            var records = $(table_id).jqGrid('getGridParam', 'records');
+            var rowNum = $(table_id).jqGrid('getGridParam', 'rowNum');
+            if (!reccount) {
+                $(table_id + '_pager').hide();
+                $(table_id + '_wrapper .no_results').show();
+            } else {
+                $(table_id + '_pager').show();
+                $(table_id + '_wrapper .no_results').hide();
+            }
 
-			// init datepicker for fields
-			if($('.date').length>0){
-			$('.date').datepicker({dateFormat: 'yy-mm-dd'});
-			}
+            // init datepicker for fields
+            if ($('.date').length > 0) {
+                $('.date').datepicker({dateFormat:'yy-mm-dd'});
+            }
 
             //uncheck multiselect checkbox
-            $('#cb_'+_table_id).change();
+            $('#cb_' + _table_id).change();
 
-			//update input width
-			$("input, textarea, select", table_id).each(function(){
-				var elwidth = $(this).closest('td').width()-58;
-				if($(this).closest('td').find('label')){
-					elwidth = elwidth - $(this).closest('td').find('label').width()-5;
-				}
-				$(this).css('width',  elwidth);
+            //update input width
+            $("input, textarea, select", table_id).each(function () {
+                var elwidth = $(this).closest('td').width() - 58;
+                if ($(this).closest('td').find('label')) {
+                    elwidth = elwidth - $(this).closest('td').find('label').width() - 5;
+                }
+                $(this).css('width', elwidth);
 
-			});
+            });
 
-			// apply form transformation to all elements except multiselect checkboxes
-			$("input:not( input.cbox ), textarea, select", table_id).not('.no-save').aform({
-				triggerChanged: true,
-                buttons: {
-                    save: '<span class="icon_s_save"></span>',
-                    reset: '<span class="ui-icon ui-icon-refresh"></span>'
+            // apply form transformation to all elements except multiselect checkboxes
+            $("input:not( input.cbox ), textarea, select", table_id).not('.no-save').aform({
+                triggerChanged:true,
+                buttons:{
+                    save:'<span class="icon_s_save"></span>',
+                    reset:'<span class="ui-icon ui-icon-refresh"></span>'
                 },
-                save_url: '<?php echo $data["update_field"] ?>'
-			});
+                save_url:'<?php echo $data["update_field"] ?>'
+            });
 
             $("input.cbox", table_id).aform({
-				triggerChanged: false
-			});
+                triggerChanged:false
+            });
 
             var actions = '';
-            <?php
-            if ( !empty( $data['actions'] ) ) {
-                foreach ( $data['actions'] as $type => $action ) {
-                    switch( $type ) {
-                        case 'delete':
-                        case 'save':
-                            echo ' actions +=  \'<a class="btn_action btn_grid grid_action_'. $type.'" href="#" rel="%ID%" title="'. $action['text']. '"><img src="'.$template_dir.'image/icons/icon_grid_'. $type.'.png" alt="'. $action['text']. '" border="0" /></a>\'; ';
-                            break;
-                        case 'expand':
-                            echo ' actions +=  \'<a class="btn_action btn_grid grid_action_'. $type.'" href="#" rel="'.$action['field'].'=%ID%" title="'. $action['text']. '"><img src="'.$template_dir.'image/icons/icon_grid_'. $type.'.png" alt="'. $action['text']. '" border="0" /></a>\'; ';
-                            break;                                                  
-                        default:
-                            echo ' actions +=  \'<a id="action_'.$type.'_%ID%" class="btn_action btn_grid" href="'. $action['href'].'" '.( !empty($action['target']) ? 'target="'.$action['target'].'"' : '' ).' title="'. $action['text']. '" ><img src="'.$template_dir.'image/icons/icon_grid_'. $type.'.png" alt="'. $action['text']. '" border="0" /></a>\'; ';
-                    }
-                    echo "\r\n";
+        <?php
+        if (!empty($data['actions'])) {
+            foreach ($data['actions'] as $type => $action) {
+                switch ($type) {
+                    case 'delete':
+                    case 'save':
+                        echo ' actions +=  \'<a class="btn_action btn_grid grid_action_' . $type . '" href="#" rel="%ID%" title="' . $action['text'] . '"><img src="' . $template_dir . 'image/icons/icon_grid_' . $type . '.png" alt="' . $action['text'] . '" border="0" /></a>\'; ';
+                        break;
+                    case 'expand':
+                        echo ' actions +=  \'<a class="btn_action btn_grid grid_action_' . $type . '" href="#" rel="' . $action['field'] . '=%ID%" title="' . $action['text'] . '"><img src="' . $template_dir . 'image/icons/icon_grid_' . $type . '.png" alt="' . $action['text'] . '" border="0" /></a>\'; ';
+                        break;
+                    default:
+                        echo ' actions +=  \'<a id="action_' . $type . '_%ID%" class="btn_action btn_grid" href="' . $action['href'] . '" ' . (!empty($action['target']) ? 'target="' . $action['target'] . '"' : '') . ' title="' . $action['text'] . '" ><img src="' . $template_dir . 'image/icons/icon_grid_' . $type . '.png" alt="' . $action['text'] . '" border="0" /></a>\'; ';
                 }
+                echo "\r\n";
             }
-            ?>
-            if ( actions != '' ) {
+        }
+        ?>
+            if (actions != '') {
                 var ids = jQuery(table_id).jqGrid('getDataIDs');
-                for(var i=0;i < ids.length;i++) {
-                    var _a = actions.replace(/%ID%/g, ids[i] );
-                    jQuery(table_id).jqGrid('setRowData',ids[i],{action:_a});
+                for (var i = 0; i < ids.length; i++) {
+                    var _a = actions.replace(/%ID%/g, ids[i]);
+                    jQuery(table_id).jqGrid('setRowData', ids[i], {action:_a});
                 }
 
-                $(table_id+'_wrapper a.grid_action_delete').click(function(){
+                $(table_id + '_wrapper a.grid_action_delete').click(function () {
                     $(table_id)
                         .jqGrid('resetSelection')
                         .jqGrid('setSelection', $(this).attr('rel'));
-                    $(table_id+'_selected_action').val('delete');
-                    $(table_id+"_go").click();
+                    $(table_id + '_selected_action').val('delete');
+                    $(table_id + "_go").click();
                     return false;
                 });
 
-                $(table_id+'_wrapper a.grid_action_save').click(function(){
+                $(table_id + '_wrapper a.grid_action_save').click(function () {
                     $(table_id)
                         .jqGrid('resetSelection')
                         .jqGrid('setSelection', $(this).attr('rel'));
-                    $(table_id+'_selected_action').val('save');
-                    $(table_id+"_go").click();
+                    $(table_id + '_selected_action').val('save');
+                    $(table_id + "_go").click();
                     return false;
                 });
 
-                $(table_id+'_wrapper a.grid_action_expand').click(function(){
- 			        var new_url = '<?php echo $data["url"] ?>&'+$(this).attr('rel');
-        			$(table_id)
-            			.jqGrid('setGridParam',{url:new_url})
-            			.trigger("reloadGrid");
-        			return false;
+                $(table_id + '_wrapper a.grid_action_expand').click(function () {
+                    var new_url = '<?php echo $data["url"] ?>&' + $(this).attr('rel');
+                    $(table_id)
+                        .jqGrid('setGridParam', {url:new_url})
+                        .trigger("reloadGrid");
+                    return false;
                 });
 
             }
 
-			if ( !$(table_id+'_wrapper tr th.ui-state-highlight').length ) {
-				var sortColumnName = $(table_id).jqGrid('getGridParam','sortname');
-				if ( sortColumnName ) {
-					var colModel = $(table_id).jqGrid('getGridParam','colModel');
-					for ( var i = 0; i < colModel.length; i++ ) {
-						if ( colModel[i].index === sortColumnName ) {
-							$(table_id+'_wrapper tr.ui-jqgrid-labels th:eq('+i+')').addClass('ui-state-highlight');
-							$(table_id+'_wrapper tr.ui-search-toolbar th:eq('+i+')').addClass('ui-state-highlight');
-							break;
-						}
-					}
-				}
-			}
+            if (!$(table_id + '_wrapper tr th.ui-state-highlight').length) {
+                var sortColumnName = $(table_id).jqGrid('getGridParam', 'sortname');
+                if (sortColumnName) {
+                    var colModel = $(table_id).jqGrid('getGridParam', 'colModel');
+                    for (var i = 0; i < colModel.length; i++) {
+                        if (colModel[i].index === sortColumnName) {
+                            $(table_id + '_wrapper tr.ui-jqgrid-labels th:eq(' + i + ')').addClass('ui-state-highlight');
+                            $(table_id + '_wrapper tr.ui-search-toolbar th:eq(' + i + ')').addClass('ui-state-highlight');
+                            break;
+                        }
+                    }
+                }
+            }
 
-			updatePerPage( records );
+            updatePerPage(records);
 
-			// select rows after load by userdata array
-			if ($(table_id).getGridParam('datatype') === "json") {
-				var userdata = $(table_id).getGridParam('userData');
-				var curPage = $(table_id).getGridParam('page');
-				if(userdata.selId){
-						$.each(userdata.selId,function(k,row_id){
-								$(table_id).setSelection (row_id, true);
-							});
-				}
-			}
-		},
-		onSelectRow: function(id, status){
-			if(status){
-				$('#jqg_'+_table_id+'_'+id).parents('.afield').addClass($.aform.defaults.checkedClass);
-			}else{
-				$('#jqg_'+_table_id+'_'+id).parents('.afield').removeClass($.aform.defaults.checkedClass);
-			}
-		},
-		onSelectAll: function(ids, status){
-			checkAll('jqg_'+_table_id, status );
-		},
-		onSortCol:function(	index, iCol, sortorder) {
-			$(table_id+'_wrapper tr th.ui-th-column').removeClass('ui-state-highlight');
-			$(table_id+'_wrapper tr.ui-jqgrid-labels th:eq('+iCol+')').addClass('ui-state-highlight');
-			$(table_id+'_wrapper tr.ui-search-toolbar th:eq('+iCol+')').addClass('ui-state-highlight');
-		},
-		ondblClickRow:function(row_id){
-        var url = $('#action_edit_' + row_id).attr('href');
-    	$(location).attr('href', url);
-		}
-	});
-	$(table_id).jqGrid('navGrid',table_id+'_pager',{edit:false,add:false,del:false, search:false});
-	<?php	if($data['hidden_head']){  ?>
-	$('.ui-jqgrid-hdiv').hide();
-	<?php
-	}
-	if($custom_buttons){
-			foreach($custom_buttons as $custom_button){	?>
-				$(table_id).jqGrid('navGrid',table_id+'_pager').navButtonAdd(table_id+'_pager',{
-																					caption: "<?php echo $custom_button['caption']; ?>",
-																					buttonicon: "<?php echo $custom_button['buttonicon']; ?>",
-																					onClickButton:  <?php echo $custom_button['onClickButton']; ?>,
-																					position:  "<?php echo $custom_button['position']; ?>",
-																					title: "<?php echo $custom_button['title']; ?>",
-																					cursor: "<?php echo $custom_button['cursor']; ?>"});
+            // select rows after load by userdata array
+            if ($(table_id).getGridParam('datatype') === "json") {
+                var userdata = $(table_id).getGridParam('userData');
+                var curPage = $(table_id).getGridParam('page');
+                if (userdata.selId) {
+                    $.each(userdata.selId, function (k, row_id) {
+                        $(table_id).setSelection(row_id, true);
+                    });
+                }
+            }
+        },
+        onSelectRow:function (id, status) {
+            if (status) {
+                $('#jqg_' + _table_id + '_' + id).parents('.afield').addClass($.aform.defaults.checkedClass);
+            } else {
+                $('#jqg_' + _table_id + '_' + id).parents('.afield').removeClass($.aform.defaults.checkedClass);
+            }
+        },
+        onSelectAll:function (ids, status) {
+            checkAll('jqg_' + _table_id, status);
+        },
+        onSortCol:function (index, iCol, sortorder) {
+            $(table_id + '_wrapper tr th.ui-th-column').removeClass('ui-state-highlight');
+            $(table_id + '_wrapper tr.ui-jqgrid-labels th:eq(' + iCol + ')').addClass('ui-state-highlight');
+            $(table_id + '_wrapper tr.ui-search-toolbar th:eq(' + iCol + ')').addClass('ui-state-highlight');
+        },
+        ondblClickRow:function (row_id) {
+            var url = $('#action_edit_' + row_id).attr('href');
+            $(location).attr('href', url);
+        }
+    });
+    $(table_id).jqGrid('navGrid', table_id + '_pager', {edit:false, add:false, del:false, search:false});
+<?php    if ($data['hidden_head']) { ?>
+    $('.ui-jqgrid-hdiv').hide();
+    <?php
+}
+if ($custom_buttons) {
+    foreach ($custom_buttons as $custom_button) {
+        ?>
+        $(table_id).jqGrid('navGrid', table_id + '_pager').navButtonAdd(table_id + '_pager', {
+            caption:"<?php echo $custom_button['caption']; ?>",
+            buttonicon:"<?php echo $custom_button['buttonicon']; ?>",
+            onClickButton:  <?php echo $custom_button['onClickButton']; ?>,
+            position:"<?php echo $custom_button['position']; ?>",
+            title:"<?php echo $custom_button['title']; ?>",
+            cursor:"<?php echo $custom_button['cursor']; ?>"});
 
-	<?php }} ?>
-	<?php if ( $data['columns_search'] ) { ?>
-	$(table_id).jqGrid('filterToolbar',{ stringResult: true});
-	<?php } ?>
+        <?php }
+} ?>
+<?php if ($data['columns_search']) { ?>
+    $(table_id).jqGrid('filterToolbar', { stringResult:true});
+    <?php } ?>
 
-	<?php if ( $data['search_form'] ) { ?>
-	//submit
-    $(table_id+'_search').submit(function(){
-        var new_url = '<?php echo $data["url"] ?>&'+$(this).serialize();
+<?php if ($data['search_form']) { ?>
+    //submit
+    $(table_id + '_search').submit(function () {
+        var new_url = '<?php echo $data["url"] ?>&' + $(this).serialize();
         $(table_id)
-            .jqGrid('setGridParam',{url:new_url,page:1})
+            .jqGrid('setGridParam', {url:new_url, page:1})
             .trigger("reloadGrid");
         return false;
     });
-	//reset
-	$(table_id+'_search button[type="reset"]').click(function(){
-        $('input, select', table_id+'_search').val('').change();
-		var new_url = '<?php echo $data["url"] ?>';
+    //reset
+    $(table_id + '_search button[type="reset"]').click(function () {
+        $('input, select', table_id + '_search').val('').change();
+        var new_url = '<?php echo $data["url"] ?>';
         $(table_id)
-            .jqGrid('setGridParam',{url:new_url})
+            .jqGrid('setGridParam', {url:new_url})
             .trigger("reloadGrid");
         return false;
     });
     <?php } ?>
 
-    <?php if ( $data['multiselect'] == 'true' ) { ?>
-	$(table_id+'_multiactions').appendTo( $(table_id+'_pager_right') );
-    $(table_id+"_go").click( function() {
-        var ids = $(table_id).jqGrid('getGridParam','selarrrow');
-		if ( !ids.length ) {
-			alert(text_select_items);
-			return;
-		}
+<?php if ($data['multiselect'] == 'true') { ?>
+    $(table_id + '_multiactions').appendTo($(table_id + '_pager_right'));
+    $(table_id + "_go").click(function () {
+        var ids = $(table_id).jqGrid('getGridParam', 'selarrrow');
+        if (!ids.length) {
+            alert(text_select_items);
+            return;
+        }
 
-        switch( $(table_id+'_selected_action').val() ) {
+        switch ($(table_id + '_selected_action').val()) {
             case 'delete':
                 $(table_id).jqGrid(
-					'delGridRow',
-					ids,
-					{
+                    'delGridRow',
+                    ids,
+                    {
                         reloadAfterSubmit:true,
-						beforeShowForm : function($form) {
-							var dlgDiv = $("#delmod" + _table_id);
-							var parentDiv = $(table_id+'_wrapper');
+                        beforeShowForm:function ($form) {
+                            var dlgDiv = $("#delmod" + _table_id);
+                            var parentDiv = $(table_id + '_wrapper');
 
-							$('#dData', dlgDiv).show();
+                            $('#dData', dlgDiv).show();
 
-							selRowId = $(table_id).jqGrid('getGridParam', 'selrow'),
-                            selRowCoordinates = $('#'+selRowId).offset();
-                            dlgDiv.css( 'top', selRowCoordinates.top );
-							dlgDiv.css( 'left', Math.round((parentDiv.width()-dlgDiv.width())/2) + "px" );
+                            selRowId = $(table_id).jqGrid('getGridParam', 'selrow'),
+                                selRowCoordinates = $('#' + selRowId).offset();
+                            dlgDiv.css('top', selRowCoordinates.top);
+                            dlgDiv.css('left', Math.round((parentDiv.width() - dlgDiv.width()) / 2) + "px");
 
-					    },
-                        afterSubmit : function(response, postdata) {
-                            if ( response.responseText != '' ) {
-								var dlgDiv = $("#delmod" + _table_id);
-								$('#dData', dlgDiv).hide();
+                        },
+                        afterSubmit:function (response, postdata) {
+                            if (response.responseText != '') {
+                                var dlgDiv = $("#delmod" + _table_id);
+                                $('#dData', dlgDiv).hide();
                                 return [false, response.responseText];
                             } else {
                                 return [true, ''];
                             }
                         }
                     }
-				);
+                );
                 break;
             case 'save':
-				var form_data = $(table_id+'_form').serializeArray();
-				form_data.push({name: 'id', value: ids});
-				form_data.push({name: 'oper', value: 'save'});
+                var form_data = $(table_id + '_form').serializeArray();
+                form_data.push({name:'id', value:ids});
+                form_data.push({name:'oper', value:'save'});
                 $.ajax({
-					url:'<?php echo $data["editurl"] ?>',
-					type: 'POST',
-					data: form_data,
-					success: function(msg){
-                        if ( msg == '' ) {
+                    url:'<?php echo $data["editurl"] ?>',
+                    type:'POST',
+                    data:form_data,
+                    success:function (msg) {
+                        if (msg == '') {
                             jQuery(table_id).trigger("reloadGrid");
                         } else {
                             alert(msg);
                         }
                     },
-					error: function(jqXHR, textStatus, errorThrown) {
-                        alert(textStatus+": "+errorThrown);
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        alert(textStatus + ": " + errorThrown);
                     }
-				});
+                });
                 break;
             default:
                 alert(text_choose_action);
-				return;
+                return;
         }
 
     });
@@ -356,57 +360,59 @@ var updatePager = false;
 
 
 
-    $("input, textarea, select", table_id+'_wrapper, .filter').not('.no-save').aform({
-		triggerChanged: false
-	});
+    $("input, textarea, select", table_id + '_wrapper, .filter').not('.no-save').aform({
+        triggerChanged:false
+    });
 
-	function resize_the_grid() {
+    function resize_the_grid() {
 
-		$(table_id).fluidGrid({base:table_id+'_wrapper', offset:-10});
-		//update input width
-		$("input, textarea, select", table_id+'_wrapper').each(function(){
-			$(this).css('width', $(this).closest('th').width()-52 );
-		});
-	}
-	resize_the_grid();
-	$(window).resize(resize_the_grid);
+        $(table_id).fluidGrid({base:table_id + '_wrapper', offset:-10});
+        //update input width
+        $("input, textarea, select", table_id + '_wrapper').each(function () {
+            $(this).css('width', $(this).closest('th').width() - 52);
+        });
+    }
+
+    resize_the_grid();
+    $(window).resize(resize_the_grid);
 
 
     // fix cursor on non-sortable columns
     var cm = $(table_id)[0].p.colModel;
-    $.each($(table_id)[0].grid.headers, function(index, value) {
+    $.each($(table_id)[0].grid.headers, function (index, value) {
         var cmi = cm[index], colName = cmi.name;
-        if(!cmi.sortable && colName!=='rn' && colName!=='cb' && colName!=='subgrid') {
-            $('div.ui-jqgrid-sortable',value.el).css({cursor:"default"});
+        if (!cmi.sortable && colName !== 'rn' && colName !== 'cb' && colName !== 'subgrid') {
+            $('div.ui-jqgrid-sortable', value.el).css({cursor:"default"});
         }
     });
-	
-	$(table_id+'_pager').find("input, select").each( function(){
-			$.aform.styleGridForm(this);
-			$( this ).aform({triggerChanged: false});
-	});
 
-	$( table_id+'_selected_action').aform({triggerChanged: false});
+    $(table_id + '_pager').find("input, select").each(function () {
+        $.aform.styleGridForm(this);
+        $(this).aform({triggerChanged:false});
+    });
 
-    $('tr.ui-search-toolbar').find("input, select").each( function(){
-				var index = $(this).parent().parent().parent().children().index($(this).parent().parent());
-<?php if ( $data['multiselect'] == 'true' ) { ?>
-				index--;
-<?php }?>
-                //index = (index < 0) ? 0 : index;
-                if ( !jq_model[index] ) {
-					var algn = 'middle';
-                } else {
-                    var algn = jq_model[index].align;
-                }
-				$(this).parent().css('text-align',algn);
-				$.aform.styleGridForm(this);
-	});
+    $(table_id + '_selected_action').aform({triggerChanged:false});
+
+    $('tr.ui-search-toolbar').find("input, select").each(function () {
+        var index = $(this).parent().parent().parent().children().index($(this).parent().parent());
+    <?php if ($data['multiselect'] == 'true') { ?>
+        index--;
+        <?php }?>
+        //index = (index < 0) ? 0 : index;
+        if (!jq_model[index]) {
+            var algn = 'middle';
+        } else {
+            var algn = jq_model[index].align;
+        }
+        $(this).parent().css('text-align', algn);
+        $.aform.styleGridForm(this);
+    });
 };
 <?php
 //run initialization if initialization on load enabled
-if($init_onload){ ?>
+if ($init_onload) {
+    ?>
 initGrid_<?php echo $data['table_id'] ?>($);
-<?php } ?>
+    <?php } ?>
 
 </script>
