@@ -1042,8 +1042,8 @@ class ControllerPagesSettingSetting extends AController {
 		$files = array_merge($files_pages, $files_response);
 
 		foreach ($files as $file) {
-		    $data = explode('/', dirname($file));
-		    $token = end($data) . '/' . basename($file, '.php');
+		    $tmp_data = explode('/', dirname($file));
+		    $token = end($tmp_data) . '/' . basename($file, '.php');
 		    if (!in_array($token, $ignore)) {
 		    	$ret_data['tokens'][$token] = $token;
 		    }
