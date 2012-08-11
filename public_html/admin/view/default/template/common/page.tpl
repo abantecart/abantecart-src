@@ -1,6 +1,6 @@
 <?php echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n"; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="<?php echo $direction; ?>" lang="<?php echo $lang; ?>" xml:lang="<?php echo $lang; ?>">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="<?php echo $direction; ?>" lang="<?php echo $lang; ?>" xml:lang="<?php echo $lang; ?>" <?php echo $this->getHookVar('hk_html_attribute'); ?>>
 <head><?php echo $head; ?></head>
 <body>
 <div class="wrapper">
@@ -17,7 +17,5 @@
     </div><!-- Container -->
   </div><!-- Container wrapper -->
 </div><!-- Page wrapper -->
-
-<?php echo $this->getHookVar('admin_quick_menu'); ?>
-
+<?php echo $this->getHookVar('hk_page_footer'); ?>
 </body></html>
