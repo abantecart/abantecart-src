@@ -16,7 +16,6 @@
     float: right;
     color: #E08300;
     vertical-align: middle;
-
 }
 
 .ui-autocomplete {
@@ -25,15 +24,24 @@
     /* prevent horizontal scrollbar */
     overflow-x: auto;
     /* add padding to account for vertical scrollbar */
-    padding-right: 0px;
+    padding: 0 10px 10px 10px;
     margin: 5px;
     width: 301px;
     position: absolute;
     list-style-type: none;
 }
 
+.ui-autocomplete span {
+	display: block;
+	padding: 4px 0 4px 0;
+}
+
+.ui-autocomplete li {
+	padding: 2px 0 2px 5px;
+}
+
 .ui-autocomplete.ui-menu {
-    margin: 0 5px 5px 0;
+    margin: 10px 5px 5px 5px;
     padding-left: 10px;
     padding-bottom: 8px;
 }
