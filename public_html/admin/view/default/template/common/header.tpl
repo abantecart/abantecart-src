@@ -268,9 +268,10 @@
             $.ajax({
                 url:item.controller,
                 type:'GET',
-                dataType:'html',
+                dataType:'json',
                 success:function (data) {
-                    $("#suggest_popup_dialog").html(data);
+                    $("#suggest_popup_dialog").html(data.html);
+                    $('#suggest_popup_dialog').dialog('option', 'title', data.title);
                 }
             });
         }

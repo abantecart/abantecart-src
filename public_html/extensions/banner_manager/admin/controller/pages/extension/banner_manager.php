@@ -266,7 +266,7 @@ class ControllerPagesExtensionBannerManager extends AController
 
         $this->data ['cancel'] = $this->html->getSecureURL('extension/banner_manager');
         $this->document->addScript(RDIR_TEMPLATE . 'javascript/ckeditor/ckeditor.js');
-        $this->document->addScript(RDIR_TEMPLATE . 'javascript/jquery/ui/ui.datepicker.js');
+        $this->document->addScript(RDIR_TEMPLATE . 'javascript/jquery/ui/jquery.ui.datepicker.js');
         $this->data['js_date_format'] = 'mm/dd/yy';
         if (!isset ($this->request->get ['banner_id'])) {
             $this->data ['action'] = $this->html->getSecureURL('extension/banner_manager/insert');

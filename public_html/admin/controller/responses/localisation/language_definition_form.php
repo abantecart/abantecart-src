@@ -87,11 +87,7 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController
                 }
             }
 
-            if (!$this->request->get['popup']) {
-                $this->session->data['success'] = $this->language->get('text_success');
-            } else {
-                $this->view->assign('success', $this->language->get('text_success'));
-            }
+            $this->view->assign('success', $this->language->get('text_success'));
 
 
         }
@@ -154,22 +150,22 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController
         }
 
         if (!isset($this->request->get['language_definition_id'])) {
-            $this->data['action'] = $this->request->get['popup'] ? $this->html->getSecureURL('localisation/language_definition_form/update', '&popup=1&target=' . $this->request->get['target']) : $this->html->getSecureURL('localisation/language_definition_form/insert', '&target=' . $this->request->get['target']);
+            $this->data['action'] = $this->html->getSecureURL('localisation/language_definition_form/update', '&target=' . $this->request->get['target']);
             $this->data['heading_title'] = $this->language->get('text_insert') . ' ' . $this->language->get('text_definition');
             $this->data['update'] = '';
             $form = new AForm('ST');
             $this->data['language_definition_id'] = (int)$this->request->get['language_definition_id'];
             $this->data['check_url'] = $this->html->getSecureURL('listing_grid/language_definitions/checkdefinition');
         } else {
-            $this->data['action'] = $this->request->get['popup'] ? $this->html->getSecureURL('localisation/language_definition_form/update', '&popup=1&language_definition_id=' . $this->request->get['language_definition_id'] . '&target=' . $this->request->get['target']) : $this->html->getSecureURL('localisation/language_definitions/update', '&language_definition_id=' . $this->request->get['language_definition_id'] . '&target=' . $this->request->get['target']);
+            $this->data['action'] = $this->html->getSecureURL('localisation/language_definition_form/update', '&language_definition_id=' . $this->request->get['language_definition_id'] . '&target=' . $this->request->get['target']);
             $this->data['heading_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('text_definition');
             $this->data['update'] = $this->html->getSecureURL('listing_grid/language_definitions/update_field', '&id=' . $this->request->get['language_definition_id']);
             $form = new AForm('HS');
         }
-        if ($this->request->get['popup']) {
-            $dispatch = $this->dispatch('responses/common/form_collector', array('form_id' => 'definitionFrm', 'target' => $this->request->get['target']));
-            $this->data['form_collector'] = $dispatch->dispatchGetOutput();
-        }
+
+        $dispatch = $this->dispatch('responses/common/form_collector', array('form_id' => 'definitionFrm', 'target' => $this->request->get['target']));
+        $this->data['form_collector'] = $dispatch->dispatchGetOutput();
+
 
         $this->document->addBreadcrumb(array(
             'href' => $this->data['action'],
@@ -226,15 +222,13 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController
             'help_url' => $this->gen_help_url('language_key'),
         ));
 
-        if ($this->request->get['popup']) {
-            $this->view->assign('form_language_switch', $this->html->getContentLanguageFlags());
-            $this->view->assign('ajax_wrapper_id', $this->request->get['target']);
-            $this->view->assign('ajax_reload_url', $this->html->getSecureURL('localisation/language_definition_form/update', '&popup=1&language_definition_id=' . $this->request->get['language_definition_id'] . '&target=' . $this->request->get['target']));
-        }
-        $this->data['popup'] = $this->request->get['popup'] ? 1 : 0;
+
+        $this->view->assign('form_language_switch', $this->html->getContentLanguageFlags());
+        $this->view->assign('ajax_wrapper_id', $this->request->get['target']);
+        $this->view->assign('ajax_reload_url', $this->html->getSecureURL('localisation/language_definition_form/update', '&language_definition_id=' . $this->request->get['language_definition_id'] . '&target=' . $this->request->get['target']));
 
         foreach ($this->data['languages'] as $i) {
-            if ($this->request->get['popup'] && $this->session->data['content_language_id'] != $i['language_id']) {
+            if ($this->session->data['content_language_id'] != $i['language_id']) {
                 continue;
             }
             $value = '';
@@ -275,7 +269,15 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController
         }
         $this->view->assign('help_url', $this->gen_help_url('language_definition_edit'));
         $this->view->batchAssign($this->data);
-        $this->processTemplate('responses/localisation/language_definitions_form.tpl');
+        $this->view->setTemplate('responses/localisation/language_definitions_form.tpl');
+        $this->view->render();
+        $output['html'] = $this->view->getOutput();
+        $output['title'] = $this->data['heading_title'];
+
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($output));
+
+
     }
 
     private function _validateForm()
