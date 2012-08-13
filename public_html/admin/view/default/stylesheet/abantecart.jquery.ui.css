@@ -26,18 +26,18 @@
     /* add padding to account for vertical scrollbar */
     padding: 0 10px 10px 10px;
     margin: 5px;
-    width: 301px;
+    width: 290px;
     position: absolute;
     list-style-type: none;
 }
 
 .ui-autocomplete span {
-	display: block;
-	padding: 4px 0 4px 0;
+    display: block;
+    padding: 4px 0 4px 0;
 }
 
 .ui-autocomplete li {
-	padding: 2px 0 2px 5px;
+    padding: 2px 0 2px 5px;
 }
 
 .ui-autocomplete.ui-menu {

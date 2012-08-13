@@ -134,6 +134,14 @@
             }
             $('#global_search').catcomplete('search');
         });
+
+
+        $('#global_search').bind('keyup', function () {
+            if ($(this).val().length < 3) {
+                $('.ui-autocomplete.ui-widget-content').hide();
+            }
+        });
+
         $('#global_search').focus(function () {
             if ($(this).val() == '<?php echo $search_everywhere; ?>') {
                 $(this).val('');
@@ -151,13 +159,19 @@
         $.widget("custom.catcomplete", $.ui.autocomplete, {
             _renderMenu:function (ul, items) {
                 var self = this,
-                    currentCategory = "";
+                    currentCategory;
                 $.each(items, function (index, item) {
-                    if (item.category != currentCategory) {
+                    if (item.category != currentCategory && item.category != 'undefined') {
                         ul.append('<span class="ui-autocomplete-category">' + item.category_name + '<a id="' + item.category + '"><?php echo $text_all_matches;?></a> ' + '</span>');
                         currentCategory = item.category;
                     }
-                    self._renderItem(ul, item);
+
+                    if (!item.category) {
+                        ul.append('<span class="ui-autocomplete-category">' + item.label + '</span>');
+                        return;
+                    } else {
+                        self._renderItem(ul, item);
+                    }
                 });
             },
             _renderItem:function (ul, item) {
@@ -190,7 +204,13 @@
                 ajaxrequest = $.getJSON("<?php echo $search_suggest_url; ?>&term=" + term, request, function (data, status, xhr) {
                     cache[ term ] = data.response;
                     if (xhr === ajaxrequest) {
-                        response(data.response);
+                        if (data.response.length > 0) {
+                            response(data.response);
+                        } else {
+                            response([
+                                {'label':'<?php echo $text_no_results; ?>'}
+                            ]);
+                        }
                     }
                 });
             },
