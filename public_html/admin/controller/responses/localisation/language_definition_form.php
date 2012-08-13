@@ -58,6 +58,9 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController
 
     public function update()
     {
+        if (!$this->user->hasPermission('modify', 'localisation/language_definitions')) {
+            $this->error['warning'] = $this->language->get('error_permission');
+        }
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -108,18 +111,6 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController
         }
 
         $this->data['error'] = $this->error;
-
-        $this->document->initBreadcrumb(array(
-            'href' => $this->html->getSecureURL('index/home'),
-            'text' => $this->language->get('text_home'),
-            'separator' => FALSE
-        ));
-        $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('localisation/language_definitions'),
-            'text' => $this->language->get('heading_title'),
-            'separator' => ' :: '
-        ));
-
         $this->data['cancel'] = $this->html->getSecureURL('localisation/language_definitions');
         $languages = $this->language->getAvailableLanguages();
         foreach ($languages as $lang) {
