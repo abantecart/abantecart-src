@@ -161,10 +161,8 @@
                 });
             },
             _renderItem:function (ul, item) {
-                return $("<li></li>")
-                    .data("item.autocomplete", item)
-                    .append('<a>' + item.label + '</a>')
-                    .appendTo(ul);
+                $("<li></li>").data("item.autocomplete", item).append('<a>' + item.label + '</a>').appendTo(ul);
+                return;
             },
             // Attempt to cancel the Close event, so when someone makes a selection, the box does not close
             close:function (event, ui) {
@@ -197,8 +195,8 @@
                 });
             },
             select:function (e, ui) {
-                if (ui.item.controller) {
-                    openDiag(ui.item);
+                if (ui.item.controller != '' && ui.item.controller != 'undefined') {
+                    openSuggestDiag(ui.item);
                 } else {
                     location = ui.item.page;
                 }
@@ -207,10 +205,10 @@
 
         });
 
+
         $('.ui-autocomplete-category a').live('click', function () {
             location = '<?php echo $search_action ?>&search=' + $('#global_search').val() + '#' + $(this).prop('id');
         });
-
         $(document).bind('keyup', function (e) {
             var code = (e.keyCode ? e.keyCode : e.which);
             if (code == $.ui.keyCode.ESCAPE) {
@@ -218,7 +216,14 @@
             }
         });
 
-        function openDiag(item) {
+        $(document).bind('mousedown', function (e) {
+            if ($(e.target).parents('.ui-autocomplete').length == 0) {
+                $('.ui-autocomplete.ui-widget-content').hide();
+            }
+        });
+
+        function openSuggestDiag(item) {
+            $('#suggest_popup_dialog').focus();
             var $Popup = $('#suggest_popup_dialog').dialog({
                 title:'<?php echo $dialog_title; ?>',
                 autoOpen:true,
@@ -230,8 +235,9 @@
 
                 modal:true,
                 close:function (event) {
-                    $(this).dialog('destroy');
                     $('#global_search').focus();
+                    $(this).dialog('destroy');
+
                 }
             });
 
