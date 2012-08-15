@@ -104,26 +104,15 @@ class ModelLocalisationLocation extends Model {
         return $query->row;
     }
 
-    public function getLocations($data = array(), $mode = 'default') {
-        if ($data || $mode == 'total_only') {
-            if ($mode == 'total_only') {
-                $sql = "SELECT count(*) as total FROM " . DB_PREFIX . "locations";
-            } else {
-                $sql = "SELECT * FROM " . DB_PREFIX . "locations";
-            }
-            if (!empty($data['subsql_filter']))
+    public function getLocations($data = array()) {
+        if ($data) {
+            $sql = "SELECT * FROM " . DB_PREFIX . "locations";
+
+            if (!empty($data['subsql_filter'])) {
                 $sql .= " WHERE " . $data['subsql_filter'];
-
-            //If for total, we done bulding the query
-            if ($mode == 'total_only') {
-                $query = $this->db->query($sql);
-                return $query->row['total'];
             }
 
-            $sort_data = array(
-                'name',
-                'description'
-            );
+            $sort_data = array('name', 'description');
 
             if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
                 $sql .= " ORDER BY " . $data['sort'];
@@ -167,14 +156,14 @@ class ModelLocalisationLocation extends Model {
         }
     }
 
+
     public function getTotalLocations($data = array()) {
-        $sql = "SELECT COUNT(*) as total
-				FROM " . DB_PREFIX . "zones_to_locations zl
-				LEFT JOIN " . DB_PREFIX . "countries c ON c.country_id = zl.country_id
-				LEFT JOIN " . DB_PREFIX . "zones z ON z.zone_id = zl.zone_id
-				WHERE zl.location_id = '" . (int)$data['location_id'] . "'";
+        $sql = "SELECT count(*) as total FROM " . DB_PREFIX . "locations";
+        if (!empty($data['subsql_filter'])) {
+            $sql .= " WHERE " . $data['subsql_filter'];
+        }
         $query = $this->db->query($sql);
-        return (int)$query->row['total'];
+        return $query->row['total'];
     }
 
     public function getZoneToLocations($data) {
@@ -195,7 +184,9 @@ class ModelLocalisationLocation extends Model {
     }
 
     public function getTotalZoneToLocationsByLocationID($location_id) {
-        $query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "zones_to_locations WHERE location_id = '" . (int)$location_id . "'");
+        $query = $this->db->query("SELECT COUNT(*) AS total
+                                   FROM " . DB_PREFIX . "zones_to_locations
+                                   WHERE location_id = '" . (int)$location_id . "'");
         return $query->row['total'];
     }
 
