@@ -4,7 +4,9 @@
     <version>1.0.0</version>
 	<type>extensions</type>
 	<category>extensions</category>
-    <cartversions>       <item>1.0.2</item>
+    <cartversions>       
+    <item>1.0.2</item>
+    <item>1.1</item>
    </cartversions>
     <layout></layout>
     <priority>10</priority>
