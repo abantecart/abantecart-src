@@ -39,7 +39,6 @@ final class AData {
 		$this->registry = Registry::getInstance();
 		$this->load->model('tool/table_relationships');
 		$this->sections = $this->model_tool_table_relationships->getSections();
-		//echo '<pre>';print_r($this->sections);exit;
 		$this->message = $this->registry->get('messages');
 		$this->db = $this->registry->get ( 'db' );
 	}
@@ -141,20 +140,15 @@ final class AData {
 	*/
 	public function CSV2ArrayFromFile($file, $delimIndex) {
 		$results = array();
-		if ( isset($this->csvDelimiters[$delimIndex]) )
-		{
-			if ( $this->csvDelimiters[$delimIndex] == '\t' )
-			{
+		if ( isset($this->csvDelimiters[$delimIndex]) ){
+			if ( $this->csvDelimiters[$delimIndex] == '\t' ){
 				$delimiter = "\t";
 			}
-			else
-			{
+			else{
 				$delimiter = $this->csvDelimiters[$delimIndex];
 			}
-
 		}
-		else
-		{
+		else{
 			$delimiter = ',';
 		}
 
@@ -199,8 +193,8 @@ final class AData {
 			if ( $res ) {
 				foreach ( $in_array['tables'] as $table ) {
 					
-				    $flat_array = $this->_flaten_array( $table );
-				    $col_names = $this->_build_columns($flat_array );
+				    $flat_array = $this->_flatten_array( $table );
+				    $col_names = $this->_build_columns( $table );
 				    $str = '';
 
 					foreach ( $flat_array as $row ) {
@@ -297,7 +291,7 @@ final class AData {
 	}
 
 	//generate 1 dimention aray per row of the main table
-	private function _flaten_array( &$data_array, $append = '', $root = true) {
+	private function _flatten_array( &$data_array, $append = '', $root = true) {
 		$return = array();
 		$row_flat = array();
 		$sub_level = '';
@@ -318,7 +312,7 @@ final class AData {
 			}
 			if ( isset($arow['tables']) ) {
 				foreach ($arow['tables'] as $atable) {
-					$array_rec = $this->_flaten_array($atable, $append. $sub_level, false);
+					$array_rec = $this->_flatten_array($atable, $append. $sub_level, false);
 					$row_flat = array_merge($row_flat, $array_rec);
 				}
 			}
@@ -369,7 +363,7 @@ final class AData {
 				$row++;
 			}
 			fclose($handle);
-
+			
 			$data = array_slice($data, 1);
 
 			$this->nested_array = $this->_build_nested($data);
@@ -733,7 +727,7 @@ final class AData {
 					if ( $sub_table_cfg ) {
 						$this->_process_import_table($new_table['name'], $sub_table_cfg, $new_table, $new_vals);
 					} else {
-						$this->_status2array('error', 'Unknown table '. $new_table['name'] .' requested. Exit this node');
+						$this->_status2array('error', 'Unknown table: "'. $new_table['name'] .'" requested in relation to table ' . $table_name . '. Exit this node');
 						continue;
 					}
 				}
@@ -1154,159 +1148,41 @@ final class AData {
 		return;
 	}
 
-	private function _build_columns($flat_array ){
-		$columns = array();
-
-		//find longest array nod and use as a base:
-		$total_len = 0;
-		$index = 0;
-		for ($i = 0; $i < count($flat_array); $i++){
-			$cnt = count(array_keys($flat_array[$i]));
-			if ($total_len < $cnt){
-				$total_len = $cnt;
-				$index = $i;
-			}
-		}
-		$build_keys = array_keys($flat_array[$index]);
-		$columns = $this->_add_missing_nodes($flat_array, $build_keys);
-		return $columns;
-	}
-		
-	private function _add_missing_nodes(&$flat_array, &$build_keys){
-		//itterate for all and add missing if found
-		for ($i = 0; $i < count($build_keys); $i++){
-			$current_key = $build_keys[$i];
-			if ($i < count($build_keys)) {
-				$next_key = $build_keys[$i+1];
-			}
-			foreach ($flat_array as $row ) {
-				$extra_arr = $this->_look_for_extra_kyes($row, $current_key, $next_key);
-				if ( count($extra_arr)) {
-					//abbend array 
-					//chceck return result if we do not have it already. 
-					for ($j = 0; $j < count($extra_arr); $j++) {
-						if (in_array($extra_arr[$j], $build_keys)) {
-							break;
-						} else {
-							array_splice($build_keys, $i+$j+1, 0, $extra_arr[$j]);
-						}
-					}					
-				}
-			}
-		}
-		return $build_keys;
-	}	
-
-	private function _look_for_extra_kyes($row, $current_key, $next_key ){
-			$extra_arr = array();
-			$keep_adding = false;		
-			$build_keys = array_keys($row);
-			for ($i = 0; $i < count($build_keys); $i++) {
-				$key = $build_keys[$i];
-				if ($i < count($build_keys)) {
-					$n_key = $build_keys[$i+1];
-				}
-				//check if we have same 
-				if ($key == $current_key && $next_key == $n_key ) {
-					break;
-				} else {
-					if ($key == $current_key) {
-						$keep_adding = true;
-						if ( isset($n_key) ) {
-							$extra_arr[] = $n_key;
-						}				
-					} else if( $keep_adding ) {
-						//found matching next
-						if( $next_key == $key ) {
-							$keep_adding = false;
-							return $extra_arr;
-						} else {
-							$keep_adding = true;
-							if ( isset($n_key) ) {
-								$extra_arr[] = $n_key;
-							}				
-						}					
-					} 
-				} 
-				
-			}
-			return $extra_arr;	
-	}		
-	
-	private function _collect_max_keys($data_array){
-		$max_arr = array();
-		$aray_of_counts = $this->_all_counts_array($data_array);
-		foreach ($aray_of_counts as $row) {	
-			$table_name = key($row);
-			if (!array_key_exists($table_name, $max_arr)){
-				$max_count = $this->_longest_node_length($aray_of_counts, $table_name);
-				$max_arr[$table_name] = $max_count;
-			}	
-		}
-		return $max_arr;
-	}
-
-	private function _longest_node_length ($aray_of_counts, $table_name) {
-		$max_number = 0;
-		foreach ($aray_of_counts as $row ) {	
-			if ($row[$table_name] > $max_number) {
-				$max_number = $row[$table_name];
-			}
-		}
-		return $max_number;
-	}
-		
-	private function _all_counts_array( $data_array, $parent_name = '' ) {
-		$total = array();
-		if ($parent_name){
-			$t_name = $parent_name . '.' . $data_array['name'];
-		} else {
-			$t_name = $data_array['name'];
-		}
-		$total[0][$t_name] = count ($data_array['rows']);
+	//Build columns based on most available data nodes
+	private function _build_columns( $data_array ){
+		$merged_arr = array();
 		foreach ($data_array['rows'] as $arow) {
-	    	if ( isset($arow['tables']) ) {	
-	    		foreach ($arow['tables'] as $atable) {
-	    			$array2 = $this->_all_counts_array($atable, $t_name);
-	    			foreach($array2 as $arr_row) {
-	    				array_push($total, $arr_row);	
-	    			}
-	    		}
-	    	}
-	    }
-		return $total;
+			$merged_arr = $this->_array_merge_replace_recursive($merged_arr, $arow);
+		}
+		$data_array['rows'] = array();
+		$data_array['rows'][] = $merged_arr;
+		$flat_columns = $this->_flatten_array( $data_array );
+		return array_keys($flat_columns[0]);
 	}
 
-	private function _find_max_node_keys($data_array)
-	{
-		$count = 0;
-		$keys = array();
-		foreach ( $data_array as $node )
-		{
-			if ( is_array($node) && $count < count($node) )
-			{
-				$count = count($node);
-				$keys = array_keys($node);
+	private function _array_merge_replace_recursive() {
+		$arrays = func_get_args();
+		$base = array_shift($arrays);
+		if(!is_array($base)) $base = empty($base) ? array() : array($base);
+		foreach($arrays as $append) {
+			if(!is_array($append)) $append = array($append);
+			foreach($append as $key => $value) {
+				if(!array_key_exists($key, $base) and !is_numeric($key)) {
+					$base[$key] = $append[$key];
+					continue;
+				}
+				if(is_array($value) or is_array($base[$key])) {
+					$base[$key] = $this->_array_merge_replace_recursive($base[$key], $append[$key]);
+				} else if(is_numeric($key)) {
+					if(!in_array($value, $base)) $base[] = $value;
+				} else {
+					$base[$key] = $value;
+				}
 			}
 		}
-		return $keys;
+		return $base;
 	}
-
-	private function _array_insert(&$array, $pos=0, $value, $key='') {
-		if (!is_array($array)) {
-			return false;
-		}
-		if (strlen($key) == 0) {
-			$key = $pos;
-		}
-		$c = count($array);
-		$one = array_slice($array,0,$pos);
-		$two = array_slice($array,$pos,$c);
-		$one[$key] = $value;
-		$array = array_merge($one,$two);
-		return true;
-	}
-
+		
 	private function processError($title, $error, $level = 'warning') {
 		$this->message->{'save'.ucfirst($level)}($title, $error);
 		$wrn = new AWarning($error);

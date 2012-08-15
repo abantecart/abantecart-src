@@ -132,9 +132,9 @@ class ModelToolTableRelationships extends Model {
 					'relation_ids' => array('product_id')
 				),
 				/*
-									 * All 3 columns of the table are primary keys
-									 * So we can't update it. Only insert or delete
-									 */
+				* All 3 columns of the table are primary keys
+				* So we can't update it. Only insert or delete
+				*/
 				'product_tags' => array(
 					'id' => null,
 					'relation_ids' => array('product_id', 'tag', 'language_id')
