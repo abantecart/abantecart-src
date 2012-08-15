@@ -17,28 +17,30 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+    header('Location: static_pages/');
 }
 class ControllerResponsesToolPackageDownload extends AController {
-	private $error = array();
-		
-	public function main() {
+    private $error = array();
+
+    public function main() {
 
         //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		ini_set('max_execution_time', 200);
-		$this->loadModel('tool/package_installer');
-		$result = $this->model_tool_package_installer->downloadPackage();
-		if($result===false){
-			$this->session->data['error'] = 'cannot get value of dowloaded bytes of package';
-			$this->redirect($this->html->getSecureURL('tool/package_installer'));
-		}
+        ini_set('max_execution_time', 200);
+        $this->loadModel('tool/package_installer');
+        $result = $this->model_tool_package_installer->downloadPackage();
+        if ($result === false) {
+            $message = $this->model_tool_package_installer->error;
+            $this->session->data['error'] = $message;
+            $this->log->write($message);
+        }
         $this->response->setOutput($result);
 
         //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 }
+
 ?>

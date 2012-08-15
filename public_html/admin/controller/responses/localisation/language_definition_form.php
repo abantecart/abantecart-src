@@ -20,44 +20,42 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
-class ControllerResponsesLocalisationLanguageDefinitionForm extends AController
-{
+class ControllerResponsesLocalisationLanguageDefinitionForm extends AController {
     public $data = array();
     private $error = array();
     private $fields = array('language_key', 'language_value', 'block', 'section');
 
-    public function insert()
-    {
+    /*   public function insert()
+{
 
-        //init controller data
-        $this->extensions->hk_InitData($this, __FUNCTION__);
+//init controller data
+$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->document->setTitle($this->language->get('heading_title'));
+$this->document->setTitle($this->language->get('heading_title'));
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
-            foreach ($this->request->post['language_definition_id'] as $lang_id => $id) {
-                $data = array(
-                    'language_id' => $lang_id,
-                    'section' => $this->request->post['section'],
-                    'block' => $this->request->post['block'],
-                    'language_key' => $this->request->post['language_key'],
-                    'language_value' => $this->request->post['language_value'][$lang_id],
-                );
-                $language_definition_id = $this->model_localisation_language_definitions->addLanguageDefinition($data);
-            }
+if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+foreach ($this->request->post['language_definition_id'] as $lang_id => $id) {
+  $data = array(
+      'language_id' => $lang_id,
+      'section' => $this->request->post['section'],
+      'block' => $this->request->post['block'],
+      'language_key' => $this->request->post['language_key'],
+      'language_value' => $this->request->post['language_value'][$lang_id],
+  );
+  $language_definition_id = $this->model_localisation_language_definitions->addLanguageDefinition($data);
+}
 
-            $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('localisation/language_definitions/update', '&language_definition_id=' . $language_definition_id));
-        }
+$this->session->data['success'] = $this->language->get('text_success');
+$this->redirect($this->html->getSecureURL('localisation/language_definitions/update', '&language_definition_id=' . $language_definition_id));
+}
 
-        $this->_getForm();
+$this->_getForm();
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-    }
+//update controller data
+$this->extensions->hk_UpdateData($this, __FUNCTION__);
+}              */
 
-    public function update()
-    {
+    public function update() {
         if (!$this->user->hasPermission('modify', 'localisation/language_definitions')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
@@ -101,8 +99,7 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _getForm()
-    {
+    private function _getForm() {
 
         if (isset($this->error['warning'])) {
             $this->data['error_warning'] = $this->error['warning'];
@@ -271,8 +268,7 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController
 
     }
 
-    private function _validateForm()
-    {
+    private function _validateForm() {
         if (!$this->user->hasPermission('modify', 'localisation/language_definitions')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }

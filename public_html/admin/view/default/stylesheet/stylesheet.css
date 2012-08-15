@@ -1978,7 +1978,18 @@ table.form tr td:first-child {
 }
 
 .optionRow {
-    background-color: #EEE;
+    background-color: #E4EEF7;
+}
+
+.optionRow.expanded {
+    vertical-align: middle;
+    min-height: 30px;
+    margin: 10px;
+    padding: 10px 0 10px 0 !important;
+}
+
+.optionRow.expanded td {
+    padding: 10px 0 10px 0 !important;
 }
 
 .striped_table {
