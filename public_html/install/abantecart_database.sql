@@ -503,7 +503,53 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 ('total', 'coupon', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('shipping', 'default_flat_rate_shipping', 'shipping', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'latest', '', 1, 1, '1.0', null, now(), now(), now() ),
-('block', 'featured', '', 1, 1, '1.0', null, now(), now(), now() );
+('block', 'featured', '', 1, 1, '1.0', null, now(), now(), now() ),
+('extensions', 'banner_manager', 'extensions', 1, 1, '1.0', null, now(), now(), now() );
+
+
+
+
+--
+-- DDL for tables of banner manager
+--
+DROP TABLE IF EXISTS `ac_banners`;
+CREATE TABLE `ac_banners` (
+	`banner_id` int(11) NOT NULL AUTO_INCREMENT,
+	`status` int(1) NOT NULL DEFAULT '0',
+	`banner_type` int(11) NOT NULL DEFAULT '1',
+	`banner_group_name` varchar(255) NOT NULL DEFAULT '',
+	`start_date` timestamp NULL DEFAULT NULL,
+	`end_date` timestamp NULL DEFAULT NULL,
+	`blank` tinyint(1) NOT NULL DEFAULT '0',
+	`target_url` text COLLATE utf8_bin DEFAULT '',
+	`sort_order` int(11) NOT NULL,
+	`date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+	PRIMARY KEY (`banner_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DROP TABLE IF EXISTS `ac_banner_descriptions`;
+CREATE TABLE `ac_banner_descriptions` (
+  `banner_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text COLLATE utf8_bin NOT NULL,
+  `meta` text(1500) DEFAULT '',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  PRIMARY KEY (`banner_id`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DROP TABLE IF EXISTS `ac_banner_stat`;
+CREATE TABLE `ac_banner_stat` (
+  `banner_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `store_id` int(11) NOT NULL,
+  `user_info` text(1500) DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE INDEX `banner_stat_idx` ON `ac_banner_stat` (`banner_id`, `type`, `time`, `store_id`);
+
 
 --
 -- DDL for table `locations`
@@ -1210,7 +1256,13 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_tax_class_id', '9'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_location_id', '0'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_status', '1'),
-('default_flat_rate_shipping', 'default_flat_rate_shipping_sort_order', '1')
+('default_flat_rate_shipping', 'default_flat_rate_shipping_sort_order', '1'),
+
+('banner_manager','banner_manager_layout',''),
+('banner_manager','banner_manager_priority',10),
+('banner_manager','banner_manager_date_installed',NOW()),
+('banner_manager','store_id',0),
+('banner_manager','banner_manager_status',1)
 ;
 
 
@@ -6451,33 +6503,39 @@ VALUES  (12,'core',71),
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (7,'report_sale',91),
 		(7,'viewed',92),
-		(7,'purchased',93);
---ITEM_TEXT		
+		(7,'purchased',93),
+		(7,'banner_manager_stat',94 );
+--ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_report_sale',91),
 		(8,'text_report_viewed',92),
-		(8,'text_report_purchased',93);		
+		(8,'text_report_purchased',93),
+		(8,'banner_manager_name_stat',94);
 --ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'report/sale',91),
 		(9,'report/viewed',92),
-		(9,'report/purchased',93);
---PARENT_ID		
+		(9,'report/purchased',93),
+		(9,'extension/banner_manager_stat',94);
+--PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'reports',91),
 		(10,'reports',92),
-		(10,'reports',93);
---SORT_ORDER		
+		(10,'reports',93),
+		(10,'reports',94);
+--SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,91),
 		(11,2,92),
-		(11,3,93);
---ITEM_TYPE	
+		(11,3,93),
+		(11,4,94);
+--ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',91),
 		(12,'core',92),		
-		(12,'core',93);		
---		
+		(12,'core',93),
+		(12,'extension',94);
+--
 --SUBMENU HELP
 --ITEM_ID		
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
@@ -6517,43 +6575,49 @@ VALUES  (7,'template',131),
 		(7,'layout',132),
 		(7,'blocks',133),
 		(7,'menu',134),
-		(7,'content',135);
---ITEM_TEXT		
+		(7,'content',135),
+		(7,'banner_manager',136);
+--ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_templates',131),
 		(8,'text_layout',132),
 		(8,'text_blocks',133),
 		(8,'text_menu',134),
-		(8,'text_content',135);
+		(8,'text_content',135),
+		(8,'banner_manager_name',136);
 --ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'extension/extensions/template',131),
 		(9,'design/layout',132),
 		(9,'design/blocks',133),
 		(9,'design/menu',134),
-		(9,'design/content',135);
---PARENT_ID		
+		(9,'design/content',135),
+		(9,'extension/banner_manager',136);
+--PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'design',131),
 		(10,'design',132),
 		(10,'design',133),
 		(10,'design',134),
-		(10,'design',135);
---SORT_ORDER		
+		(10,'design',135),
+		(10,'design',136);
+--SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,131),
 		(11,2,132),
 		(11,3,133),
 		(11,4,134),
-		(11,5,135);
---ITEM_TYPE	
+		(11,5,135),
+		(11,6,136);
+--ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',131),
 		(12,'core',132),		
 		(12,'core',133),
 		(12,'core',134),
-		(12,'core',135);
---		
+		(12,'core',135),
+		(12,'extension',136);
+--
 --SUBMENU USERS OF SUBMENU SYSTEM 
 --ITEM_ID		
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 

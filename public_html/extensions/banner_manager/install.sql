@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS `ac_banners`;
-CREATE TABLE IF NOT EXISTS `ac_banners` (
+CREATE TABLE `ac_banners` (
 	`banner_id` int(11) NOT NULL AUTO_INCREMENT,
 	`status` int(1) NOT NULL DEFAULT '0',
 	`banner_type` int(11) NOT NULL DEFAULT '1',
