@@ -30,7 +30,7 @@
 </script>
 <script type="text/javascript"
         src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery-ui-1.8.22.custom.min.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.form.js"/>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.form.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/superfish/js/hoverIntent.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/superfish/js/superfish.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/tab.js"></script>

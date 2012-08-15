@@ -20,8 +20,7 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
-class ControllerPagesSaleCoupon extends AController
-{
+class ControllerPagesSaleCoupon extends AController {
     public $data = array();
     private $error = array();
     private $fields = array('coupon_description',
@@ -38,8 +37,7 @@ class ControllerPagesSaleCoupon extends AController
         'uses_customer',
         'status');
 
-    public function main()
-    {
+    public function main() {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -174,8 +172,7 @@ class ControllerPagesSaleCoupon extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function insert()
-    {
+    public function insert() {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -203,8 +200,7 @@ class ControllerPagesSaleCoupon extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function update()
-    {
+    public function update() {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -232,8 +228,7 @@ class ControllerPagesSaleCoupon extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _convertProduct_list($values = array())
-    {
+    private function _convertProduct_list($values = array()) {
         $values = AJson::decode(html_entity_decode($values), true);
         if ($values) {
             $products = array();
@@ -247,8 +242,7 @@ class ControllerPagesSaleCoupon extends AController
     }
 
 
-    private function _getForm()
-    {
+    private function _getForm() {
 
         if (!$this->registry->has('jqgrid_script')) {
 
@@ -262,11 +256,6 @@ class ControllerPagesSaleCoupon extends AController
             $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.ba-bbq.min.js');
             $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/grid.history.js');
 
-            $this->document->addStyle(array(
-                'href' => RDIR_TEMPLATE . 'stylesheet/abantecart.jquery.ui.css',
-                'rel' => 'stylesheet',
-                'media' => 'screen',
-            ));
 
             //set flag to not include scripts/css twice
             $this->registry->set('jqgrid_script', true);
@@ -542,8 +531,7 @@ class ControllerPagesSaleCoupon extends AController
         $this->processTemplate('pages/sale/coupon_form.tpl');
     }
 
-    private function _validateForm()
-    {
+    private function _validateForm() {
         if (!$this->user->hasPermission('modify', 'sale/coupon')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }

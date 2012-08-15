@@ -21,12 +21,10 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
-class ControllerCommonListingGrid extends AController
-{
+class ControllerCommonListingGrid extends AController {
     public $data; // array for template
 
-    public function main()
-    {
+    public function main() {
 
         //Load input argumets for gid settings
         $this->data = func_get_arg(0);
@@ -48,19 +46,21 @@ class ControllerCommonListingGrid extends AController
             $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.ba-bbq.min.js');
             $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/grid.history.js');
 
-            $this->document->addStyle(array(
-                'href' => RDIR_TEMPLATE . 'stylesheet/abantecart.jquery.ui.css',
-                'rel' => 'stylesheet',
-                'media' => 'screen',
-            ));
-
             //set flag to not include scripts/css twice
             $this->registry->set('jqgrid_script', true);
         }
         $this->data['update_field'] = empty($this->data['update_field']) ? '' : $this->data['update_field'];
         $this->data['editurl'] = empty($this->data['editurl']) ? '' : $this->data['editurl'];
-        $this->data['rowNum'] = empty($this->data['rowNum']) ? 10 : $this->data['rowNum'];
-        $this->data['rowList'] = empty($this->data['rowList']) ? array(10, 20, 30) : $this->data['rowList'];
+        $this->data['rowNum'] = empty($this->data['rowNum']) ? (int)$this->config->get('config_grid_rows_num') : $this->data['rowNum'];
+        $this->data['rowNum'] = !$this->data['rowNum'] ? 10 : $this->data['rowNum'];
+        if (empty($this->data['rowList'])) {
+            $this->data['rowList'] = array($this->data['rowNum'],
+                $this->data['rowNum'] + 20,
+                $this->data['rowNum'] + 40);
+        } else {
+            $this->data['rowList'] = $this->data['rowList'];
+        }
+
         $this->data['multiselect'] = empty($this->data['multiselect']) ? "true" : $this->data['multiselect'];
         $this->data['multiaction'] = empty($this->data['multiaction']) ? "true" : $this->data['multiaction'];
         $this->data['hoverrows'] = empty($this->data['hoverrows']) ? "true" : $this->data['hoverrows'];

@@ -20,13 +20,11 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
-class ControllerPagesDesignBlocks extends AController
-{
+class ControllerPagesDesignBlocks extends AController {
     public $data = array('custom_block_types' => array('html_block', 'listing_block'));
     private $error = array();
 
-    public function main()
-    {
+    public function main() {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -134,8 +132,7 @@ class ControllerPagesDesignBlocks extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function insert()
-    {
+    public function insert() {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -290,8 +287,7 @@ class ControllerPagesDesignBlocks extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function edit()
-    {
+    public function edit() {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -404,8 +400,7 @@ class ControllerPagesDesignBlocks extends AController
     }
 
 
-    public function delete()
-    {
+    public function delete() {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -421,8 +416,7 @@ class ControllerPagesDesignBlocks extends AController
         $this->redirect($this->html->getSecureURL('design/blocks'));
     }
 
-    private function _getHTMLForm()
-    {
+    private function _getHTMLForm() {
 
         if (isset ($this->session->data['warning'])) {
             $this->data ['error_warning'] = $this->session->data['warning'];
@@ -552,8 +546,7 @@ class ControllerPagesDesignBlocks extends AController
     }
 
 
-    private function _getListingForm()
-    {
+    private function _getListingForm() {
 
         if (isset ($this->session->data['warning'])) {
             $this->data ['error_warning'] = $this->session->data['warning'];
@@ -583,11 +576,6 @@ class ControllerPagesDesignBlocks extends AController
         $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.ba-bbq.min.js');
         $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/grid.history.js');
 
-        $this->document->addStyle(array(
-            'href' => RDIR_TEMPLATE . 'stylesheet/abantecart.jquery.ui.css',
-            'rel' => 'stylesheet',
-            'media' => 'screen',
-        ));
 
         $this->data ['cancel'] = $this->html->getSecureURL('design/blocks');
         $this->document->addScript(RDIR_TEMPLATE . 'javascript/ckeditor/ckeditor.js');
@@ -722,8 +710,7 @@ class ControllerPagesDesignBlocks extends AController
         $this->processTemplate('pages/design/blocks_form_listing.tpl');
     }
 
-    private function _validateForm()
-    {
+    private function _validateForm() {
         if (!$this->user->hasPermission('modify', 'design/blocks')) {
             $this->session->data['warning'] = $this->error ['warning'] = $this->language->get('error_permission');
         }

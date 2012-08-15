@@ -20,13 +20,11 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
-class ControllerPagesCatalogProductRelations extends AController
-{
+class ControllerPagesCatalogProductRelations extends AController {
     private $error = array();
     public $data = array();
 
-    public function main()
-    {
+    public function main() {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -46,12 +44,6 @@ class ControllerPagesCatalogProductRelations extends AController
             $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.grid.fluid.js');
             $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.ba-bbq.min.js');
             $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/grid.history.js');
-
-            $this->document->addStyle(array(
-                'href' => RDIR_TEMPLATE . 'stylesheet/abantecart.jquery.ui.css',
-                'rel' => 'stylesheet',
-                'media' => 'screen',
-            ));
 
             //set flag to not include scripts/css twice
             $this->registry->set('jqgrid_script', true);

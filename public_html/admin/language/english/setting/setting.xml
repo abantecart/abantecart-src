@@ -334,9 +334,12 @@
         <value><![CDATA[Grid Image Height:]]></value>
     </definition>
     <definition>
+        <key>entry_grid_rows_num</key>
+        <value><![CDATA[Default Number of Rows in All Grids:]]></value>
+    </definition>
+    <definition>
         <key>entry_alert_mail</key>
-        <value>
-            <![CDATA[Alert Mail:<br /><span class="help">Send a email to the store owner when a new order is created.</span>]]></value>
+        <value><![CDATA[Alert Mail:<br /><span class="help">Send a email to the store owner when a new order is created.</span>]]></value>
     </definition>
     <definition>
         <key>entry_download</key>
@@ -486,7 +489,8 @@
     </definition>
     <definition>
         <key>entry_template_debug</key>
-        <value><![CDATA[Template debug:<br /><span class="help">Enable this setting if you need to check issues with template in storefront and control panel.</span>]]></value>
+        <value>
+            <![CDATA[Template debug:<br /><span class="help">Enable this setting if you need to check issues with template in storefront and control panel.</span>]]></value>
     </definition>
     <definition>
         <key>entry_error_filename</key>
@@ -494,15 +498,18 @@
     </definition>
     <definition>
         <key>entry_shipping_session</key>
-        <value><![CDATA[Use Shipping Session:<br /><span class="help">Saves shipping quotes to session to avoid re-quoting unnecessarily. Quotes will only be re-quoted if cart or address is changed.</span>]]></value>
+        <value>
+            <![CDATA[Use Shipping Session:<br /><span class="help">Saves shipping quotes to session to avoid re-quoting unnecessarily. Quotes will only be re-quoted if cart or address is changed.</span>]]></value>
     </definition>
     <definition>
         <key>entry_catalog_limit</key>
-        <value><![CDATA[Default Items per Page (Storefront):<br /><span class="help">Sets how many storefront items are shown per page (products, categories, etc)</span>]]></value>
+        <value>
+            <![CDATA[Default Items per Page (Storefront):<br /><span class="help">Sets how many storefront items are shown per page (products, categories, etc)</span>]]></value>
     </definition>
     <definition>
         <key>entry_admin_limit</key>
-        <value><![CDATA[Default Items per Page (Admin):<br /><span class="help">Sets how many admin items are shown per page in listing grids (orders, customers, etc)</span>]]></value>
+        <value>
+            <![CDATA[Default Items per Page (Admin):<br /><span class="help">Sets how many admin items are shown per page in listing grids (orders, customers, etc)</span>]]></value>
     </definition>
     <definition>
         <key>entry_bestseller_limit</key>
@@ -530,15 +537,18 @@
     </definition>
     <definition>
         <key>entry_maintenance</key>
-        <value><![CDATA[Maintenance Mode:<br /><span class="help">Prevents customers from browsing your store. They will instead see a maintenance message. If logged in as admin, you will see the store as normal.</span>]]></value>
+        <value>
+            <![CDATA[Maintenance Mode:<br /><span class="help">Prevents customers from browsing your store. They will instead see a maintenance message. If logged in as admin, you will see the store as normal.</span>]]></value>
     </definition>
     <definition>
         <key>entry_help_links</key>
-        <value><![CDATA[Help Links:<br /><span class="help">If you want to see Help Icons and links to AbanteCart site. This will help you learn about features and how to use them. If you advanced user and do not want to see these help icons, you can disable.</span>]]></value>
+        <value>
+            <![CDATA[Help Links:<br /><span class="help">If you want to see Help Icons and links to AbanteCart site. This will help you learn about features and how to use them. If you advanced user and do not want to see these help icons, you can disable.</span>]]></value>
     </definition>
     <definition>
         <key>entry_cart_ajax</key>
-        <value><![CDATA[Same Page Add To Cart:<br /><span class="help">This will enable AJAX add to cart feature. Product can be added to cart without redirecting to cart page</span>]]></value>
+        <value>
+            <![CDATA[Same Page Add To Cart:<br /><span class="help">This will enable AJAX add to cart feature. Product can be added to cart without redirecting to cart page</span>]]></value>
     </definition>
     <definition>
         <key>entry_storefront_width</key>

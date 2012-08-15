@@ -21,14 +21,12 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-class ControllerPagesExtensionBannerManager extends AController
-{
+class ControllerPagesExtensionBannerManager extends AController {
     public $data = array();
     private $error = array();
     private $default_block_id;
 
-    public function main()
-    {
+    public function main() {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -154,8 +152,7 @@ class ControllerPagesExtensionBannerManager extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function insert()
-    {
+    public function insert() {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -188,8 +185,7 @@ class ControllerPagesExtensionBannerManager extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function edit()
-    {
+    public function edit() {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -229,8 +225,7 @@ class ControllerPagesExtensionBannerManager extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function delete()
-    {
+    public function delete() {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -242,8 +237,7 @@ class ControllerPagesExtensionBannerManager extends AController
         $this->redirect($this->html->getSecureURL('extension/banner_manager'));
     }
 
-    private function _getForm()
-    {
+    private function _getForm() {
 
         if (isset ($this->session->data['warning'])) {
             $this->data ['error_warning'] = $this->session->data['warning'];
@@ -416,8 +410,7 @@ class ControllerPagesExtensionBannerManager extends AController
         $this->processTemplate('pages/extension/banner_manager_form.tpl');
     }
 
-    private function _validateForm()
-    {
+    private function _validateForm() {
         if (!$this->user->hasPermission('modify', 'extension/banner_manager')) {
             $this->session->data['warning'] = $this->error ['warning'] = $this->language->get('error_permission');
         }
@@ -464,8 +457,7 @@ class ControllerPagesExtensionBannerManager extends AController
     }
 
 
-    public function insert_block()
-    {
+    public function insert_block() {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('banner_manager/banner_manager');
@@ -580,8 +572,7 @@ class ControllerPagesExtensionBannerManager extends AController
 
     }
 
-    public function edit_block()
-    {
+    public function edit_block() {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('banner_manager/banner_manager');
@@ -650,8 +641,7 @@ class ControllerPagesExtensionBannerManager extends AController
     }
 
 
-    private function _getBlockForm()
-    {
+    private function _getBlockForm() {
         if (isset ($this->session->data['warning'])) {
             $this->data ['error_warning'] = $this->session->data['warning'];
             $this->session->data['warning'] = '';
@@ -678,13 +668,6 @@ class ControllerPagesExtensionBannerManager extends AController
         $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.grid.fluid.js');
         $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.ba-bbq.min.js');
         $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/grid.history.js');
-
-        $this->document->addStyle(array(
-            'href' => RDIR_TEMPLATE . 'stylesheet/abantecart.jquery.ui.css',
-            'rel' => 'stylesheet',
-            'media' => 'screen',
-        ));
-
 
         $this->document->initBreadcrumb(array('href' => $this->html->getSecureURL('index/home'),
             'text' => $this->language->get('text_home'),
@@ -853,8 +836,7 @@ class ControllerPagesExtensionBannerManager extends AController
     }
 
 
-    private function _validateBlockForm()
-    {
+    private function _validateBlockForm() {
         if (!$this->user->hasPermission('modify', 'extension/banner_manager')) {
             $this->session->data['warning'] = $this->error ['warning'] = $this->language->get('error_permission');
         }

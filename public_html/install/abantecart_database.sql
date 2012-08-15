@@ -1198,6 +1198,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance', 'config_image_category_width', '120'),
 ('appearance', 'admin_template', 'default'),
 ('appearance', 'admin_width', '100%'),
+('appearance', 'config_grid_rows_num', '10'),
 
 
 --mail

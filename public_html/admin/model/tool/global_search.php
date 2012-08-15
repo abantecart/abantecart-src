@@ -20,8 +20,7 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
-class ModelToolGlobalSearch extends Model
-{
+class ModelToolGlobalSearch extends Model {
     /**
      * registry to provide access to cart objects
      *
@@ -96,8 +95,7 @@ class ModelToolGlobalSearch extends Model
      * @param string $keyword
      * @return array
      */
-    public function getSearchSources($keyword = '')
-    {
+    public function getSearchSources($keyword = '') {
         $search_categories = array();
         // limit of keyword length
         if (mb_strlen($keyword, strtoupper($this->registry->get('document')->getCharset())) >= 1) {
@@ -114,8 +112,7 @@ class ModelToolGlobalSearch extends Model
      * @param string $search_category
      * @param string $keyword
      */
-    public function getTotal($search_category, $keyword)
-    {
+    public function getTotal($search_category, $keyword) {
         //return 40;
         //???? freeze
         $this->registry = Registry::getInstance();
@@ -314,8 +311,7 @@ class ModelToolGlobalSearch extends Model
      * @param string $keyword
      * @return string(json)
      */
-    public function getResult($search_category, $keyword, $mode = 'listing')
-    {
+    public function getResult($search_category, $keyword, $mode = 'listing') {
         $this->registry = Registry::getInstance();
         $db = $this->registry->get('db');
         $this->charset = strtoupper($this->registry->get('document')->getCharset());
@@ -581,8 +577,7 @@ class ModelToolGlobalSearch extends Model
      * @param array $table
      * @return array
      */
-    private function _prepareResponse($keyword = '', $rt = '', $key_field = '', $table = array())
-    {
+    private function _prepareResponse($keyword = '', $rt = '', $key_field = '', $table = array()) {
         $output = array();
         if (!$rt || !$key_field || !$keyword) {
             return null;

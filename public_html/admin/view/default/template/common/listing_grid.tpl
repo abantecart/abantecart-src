@@ -1,5 +1,4 @@
 <div class="ui-jqgrid-wrapper" id="<?php echo $data['table_id'] ?>_wrapper">
-
     <form id="<?php echo $data['table_id'] ?>_form" action="<?php echo $data["editurl"] ?>" method="POST">
         <table id="<?php echo $data['table_id'] ?>"></table>
         <div id="<?php echo $data['table_id'] ?>_pager"></div>
@@ -64,7 +63,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
     function updatePerPage(records) {
         if (updatePager) return;
-        var html, rowNum, rowList = [10, 30, 50, 100];
+        var html, rowNum, rowList = [<?php echo implode(',', $data['rowList']) ?>];
         for (var i = 0; i < rowList.length; i++) {
             if (records > rowList[i]) {
                 html += '<option value="' + rowList[i] + '">' + rowList[i] + '</option>';
@@ -264,7 +263,8 @@ if ($custom_buttons) {
             title:"<?php echo $custom_button['title']; ?>",
             cursor:"<?php echo $custom_button['cursor']; ?>"});
 
-        <?php }
+        <?php
+    }
 } ?>
 <?php if ($data['columns_search']) { ?>
     $(table_id).jqGrid('filterToolbar', { stringResult:true});
