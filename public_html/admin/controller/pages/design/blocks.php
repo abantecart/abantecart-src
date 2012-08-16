@@ -268,7 +268,8 @@ class ControllerPagesDesignBlocks extends AController {
         $this->request->get['block_id'] = !(int)$this->request->get['block_id'] ? $default_block_type : $this->request->get['block_id'];
         $i = 0;
         foreach ($blocks as $block_id => $block_text) {
-            $this->data['tabs'][$i] = array('href' => $this->html->getSecureURL('design/blocks/insert', '&block_id=' . $block_id),
+            $this->data['tabs'][$i] = array(
+                'href' => $this->html->getSecureURL('design/blocks/insert', '&block_id=' . $block_id),
                 'text' => $block_text,
                 'active' => ($block_id == $this->request->get['block_id'] ? true : false));
             $i++;
@@ -383,7 +384,7 @@ class ControllerPagesDesignBlocks extends AController {
             $this->data[$k] = $v;
         }
 
-        $this->data['tabs'][0] = array('href' => '#',
+        $this->data['tabs'][0] = array('href' => '',
             'text' => $this->language->get('text_' . $block_txt_id),
             'active' => true);
 
