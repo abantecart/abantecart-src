@@ -34,10 +34,7 @@ class ControllerPagesToolExportUpload extends AController {
 				$this->redirect($this->html->getSecureURL('tool/import_export', '&active=export'));
 			}
 
-			//echo '<pre>'; print_r($this->request->post['data']);exit;
-
 			$request = $this->validateRequest($this->request->post['data']);
-			//echo '<pre>'; print_r($request);exit;
 
 			$this->data = new AData();	
 			$array_new = $this->data->exportData($request);
@@ -97,7 +94,7 @@ class ControllerPagesToolExportUpload extends AController {
 					exit('Error: Headers already sent out!');
 				}
 			} else {
-				$this->session->data['error'] = 'Data for export is empty!';
+				$this->session->data['error'] = 'Request for export is empty!';
 				$this->redirect($this->html->getSecureURL('tool/import_export', '&active=export'));
 				return;
 			}

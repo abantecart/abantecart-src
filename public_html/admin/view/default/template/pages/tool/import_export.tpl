@@ -74,11 +74,6 @@
 									<div class="flt_left">
 										<?php echo $file_field; ?>
 									</div>
-									<!--
-									<div class="buttons flt_right">
-									  <button type="submit" class="btn_standard" id="file_submit"><?php echo $file_submit; ?></button>
-									</div>
-									-->
 									<div class="clr_both"></div>
 									<?php echo $text_formats; ?>
 								 </div>
@@ -101,7 +96,7 @@
 			  </div>
 
 			  <div class="buttons align_center">
-				  <button type="submit" class="btn_standard" id="file_submit" name="file_submit"><?php echo $form['submit']; ?></button>
+				  <button type="submit" class="btn_standard button_loader" id="file_submit" name="file_submit"><?php echo $form['submit']; ?></button>
 				  <a class="btn_standard" href="<?php echo ${'link_'.$active}; ?>" ><?php echo $form['cancel']; ?></a>
 			  </div>
 			</form>

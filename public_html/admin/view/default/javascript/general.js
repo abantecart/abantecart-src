@@ -340,7 +340,7 @@ function formatQty(field) {
         thousandSeparator:numberSeparators.thousand});
 }
 
-
+/* Handling forms exit */
 $(window).bind('beforeunload', function () {
     var message = '', ckedit = false;
     if ($('form[confirm-exit="true"]').length > 0) {
@@ -370,9 +370,36 @@ $(window).bind('beforeunload', function () {
         }
     }
 });
-
-
 $('form[confirm-exit="true"]').find('.btn_standard').bind('click', function () {
     var $form = $(this).parents('form');
     $form.prop('changed', 'false');
+});
+
+/* Loaders */
+$(document).ready(function() {
+	$('.dialog_loader').unbind('click');
+	$('.dialog_loader').bind('click', function(e) {
+		$('<div></div>')
+	    .html('<div class="summary_loading"><div>')
+	    .dialog({
+	        title: "Processing...",
+	        modal: true,
+	        width: '200px',
+	        resizable: false,
+	        buttons: {
+	              //  "Cancel" : function() { $(this).dialog("close"); }
+	        },
+	        close: function(e, ui) {
+	        }
+	    });    
+		$(".ui-dialog-titlebar").hide(); 
+		$(".summary_loading").show(); 
+	});
+	
+	$('.button_loader').unbind('click');
+	$('.button_loader').bind('click', function(e) {
+		$(this).click(function () { return false; });
+		$(this).find("span").hide();
+		$(this).append('<span class="ajax_loading">Processing…</span>').show();
+	});
 });
