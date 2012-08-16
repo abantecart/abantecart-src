@@ -1,6 +1,12 @@
 .ui-dialog .ui-dialog-content {
     background-color: #FFFFFF;
 }
+.ui-dialog .ui-dialog-buttonpane { 
+	text-align: center; 
+}
+.ui-dialog .ui-dialog-buttonpane button {
+	float: none; 
+}
 
 /* autocomplete css*/
 .ui-autocomplete-category {

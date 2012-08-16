@@ -486,10 +486,11 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
         $this->data['form']['id'] = 'cgFrm';
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
-            'type' => 'form',
-            'name' => 'cgFrm',
-            'action' => $this->data['action'],
-        ));
+		    'type' => 'form',
+		    'name' => 'cgFrm',
+		    'attr' => 'confirm-exit="true"',
+		    'action' => $this->data['action'],
+	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
             'type' => 'button',
             'name' => 'submit',

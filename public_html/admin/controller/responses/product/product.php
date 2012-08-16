@@ -317,6 +317,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->data['update_option_values_form']['open'] = $form->getFieldHtml(array(
 		                                                                'type' => 'form',
 		                                                                'name' => 'update_option_values',
+		                                                                'attr' => 'confirm-exit="true"',
 		                                                                'action' => $this->data['update_option_values'] ));
 
 		//form of option
@@ -329,6 +330,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(array(
 		                                                                'type' => 'form',
 		                                                                'name' => 'option_value_form',
+		                                                                'attr' => 'confirm-exit="true"',
 		                                                                'action' => $this->data['update_option_values']
 		                                                           ));
 

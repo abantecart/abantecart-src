@@ -429,6 +429,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			array(
 				'type' => 'form',
 				'name' => 'editSettings',
+				'attr' => 'confirm-exit="true"',
 				'action' => $this->html->getSecureURL('extension/extensions/edit/','&action=save&extension=' . $extension.'&store_id='.$store_id)
 		    )
 		);

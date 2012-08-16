@@ -45,6 +45,7 @@ class ControllerCommonPageLayout extends AController {
 	    ));
 		$form_begin = $form->getFieldHtml(array('type' => 'form',
 		                                        'name' => 'layout_form',
+		                                        'attr' => 'confirm-exit="true"',
 			                                    'action' => $settings['action']));
 
 

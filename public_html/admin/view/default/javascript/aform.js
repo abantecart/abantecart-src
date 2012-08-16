@@ -20,7 +20,7 @@
 	  },
 	  showButtons:    true,
       autoHide:       true,
-      save_url:       ''
+      save_url:       '',
     },
 	wrapper: '<div class="aform" />',
 	mask: '<div class="afield"><div class="cl"><div class="cr"><div class="cc"></div></div></div></div>',
@@ -35,10 +35,10 @@
     function doInput(elem){
 	  var $el = $(elem);
 
-	  var $form = $el.closest('.aform'), $field = $el.closest('.afield');
+	  var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield');
 	  	  
 	  if($el.is(':hidden') && o.autoHide){
-        $form.hide();
+        $wrapper.hide();
       }
 	  if($el.prop("readonly")){
         $field.addClass(o.readonlyClass);
@@ -53,7 +53,7 @@
         },
 		"keyup.aform": function(e){
 		  if(e.keyCode == 13) {
-			$(o.btnGrpSelector, $form).find('a:eq(0)').trigger('click');
+			$(o.btnGrpSelector, $wrapper).find('a:eq(0)').trigger('click');
 		  }else{
 			onChangedAction($el, $(this).val(), $(this).attr('ovalue'));
 		  }
@@ -70,11 +70,11 @@
 	  var $el_confirm = $('#'+$el.attr('id')+'_confirm');
 	  var $el_confirm_default = $('#'+$el.attr('id')+'_confirm_default');
 
-	  var $form = $el.closest('.aform'), $field = $el.closest('.afield');
-	  var $form_confirm = $el_confirm.closest('.aform'), $field_confirm = $el_confirm.closest('.afield');
+	  var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield');
+	  var $wrapper_confirm = $el_confirm.closest('.aform'), $field_confirm = $el_confirm.closest('.afield');
 
 	  if($el.is(':hidden') && o.autoHide){
-        $form.hide();
+        $wrapper.hide();
       }
 	  if($el.prop("readonly")){
         $field.addClass(o.readonlyClass);
@@ -148,10 +148,10 @@
       //no need to wrap ckeditor
       if ( $el.closest('.ml_ckeditor').length ) return;
 	  
-	  var $form = $el.closest('.aform'), $field = $el.closest('.afield');
+	  var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield');
 	  
 	  if($el.is(':hidden') && o.autoHide){
-        $form.hide();
+        $wrapper.hide();
       }
 	  if($el.prop("readonly")){
         $field.addClass(o.readonlyClass);
@@ -166,7 +166,7 @@
         },
 		"keyup.aform": function(e){
 		  if(e.keyCode == 13) {
-			$(o.btnGrpSelector, $form).find('a:eq(0)').trigger('click');
+			$(o.btnGrpSelector, $wrapper).find('a:eq(0)').trigger('click');
 		  }else{
 			onChangedAction($el, $(this).val(), $(this).attr('ovalue'));
 		  }
@@ -180,25 +180,25 @@
 	function doScrollbox(elem){
 	  var $el = $(elem);
 	  
-	  var $form = $el.closest('.aform');
+	  var $wrapper = $el.closest('.aform');
 			   
 	  if($el.is(':hidden') && o.autoHide){
-        $form.hide();
+        $wrapper.hide();
       }
 	}
 	
 	function doCheckbox(elem){
 	  var $el = $(elem);
 	  
-	  var $form = '', $field = $el.closest('.afield');
+	  var $wrapper = '', $field = $el.closest('.afield');
 	  
 	  if(!$el.parents('.scrollbox').length){
 		$field.wrap($.aform.wrapper);
-		$form = $el.closest('.aform');
+		$wrapper = $el.closest('.aform');
 	  }
 	  
 	  if($el.is(':hidden') && o.autoHide){
-        $form.hide();
+        $wrapper.hide();
       }
 
       if($el.prop("disabled")){
@@ -219,7 +219,7 @@
 	function doSwitchButton(elem){
 	   var $el = $(elem);
 	         
-	   var $form = $el.closest('.aform'), $field = $el.closest('.afield');
+	   var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield');
 	   if(!$el.prop("readonly")){
 	       $field.bind({
 	         "click.acform": function(){
@@ -254,7 +254,7 @@
 
 	  var $el = $(elem);
 
-	  var $form = $el.closest('.aform'), $field = $el.closest('.afield'), spanTag = $el.siblings('span');
+	  var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield'), spanTag = $el.siblings('span');
       
       var $selected = $el.find(":selected:first");
       if($selected.length == 0){
@@ -263,7 +263,7 @@
       spanTag.html($selected.html());
       
 	  if($el.is(':hidden') && o.autoHide){
-        $form.hide();
+        $wrapper.hide();
       }
 	  if($el.prop("disabled")){
         $field.addClass(o.disabledClass);
@@ -295,7 +295,7 @@
         },
         "keyup.aform": function(e){
 		  if(e.keyCode == 13) {
-			$(o.btnGrpSelector, $form).find('a:eq(0)').trigger('click');
+			$(o.btnGrpSelector, $wrapper).find('a:eq(0)').trigger('click');
 		  }else{
 			spanTag.text($(this).find(":selected").text());
 		    $field.removeClass(o.activeClass);
@@ -319,7 +319,7 @@
 					$el.attr('ovalue', $el.val()).css('opacity', 0).wrap($.aform.mask).before('<span />')
 					.closest('.afield').addClass('mask1 ' + o.selectClass).wrap($.aform.wrapper);
 				}
-				var $form = $el.closest('.aform'), $field = $el.closest('.afield'), spanTag = $el.siblings('span');
+				var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield'), spanTag = $el.siblings('span');
 
 			    var $selected = $el.find(":selected:first");
 			    if($selected.length == 0){
@@ -346,7 +346,9 @@
 	
 	function onChangedAction(elem, value, ovalue){
 	  var $el = $(elem), $triggerOnEdit = true, $field = $el.parents('.afield');
-	  var $form = $el.closest('.aform');
+	  var $wrapper = $el.closest('.aform');	 
+	  var $form =  $el.parents('form');
+	  $form.prop('changed', 'true');
 	  
 	  if(!o.triggerChanged || $el.hasClass('static_field') || $el.prop("readonly")){
 		$triggerOnEdit = false;
@@ -354,11 +356,11 @@
 
 	  if($triggerOnEdit){
 		var $changed = 0;
-		if(o.showButtons && $form.find(o.btnGrpSelector).length == 0){
-		  $form.append($buttons);
+		if(o.showButtons && $wrapper.find(o.btnGrpSelector).length == 0){
+		  $wrapper.append($buttons);
 	    }
 	  
-		$form.find(':checkbox').each(function(){
+		$wrapper.find(':checkbox').each(function(){
 		  if(String($(this).prop("checked")) != $(this).attr('ovalue')){
 			$changed ++;
 			return false;
@@ -367,28 +369,28 @@
 		
 		if((String(value) != String(ovalue) || $changed > 0) ){
 		  $field.addClass(o.changedClass);
-		  $('.ajax_result, .field_err', $form).remove();
-		  $(o.btnGrpSelector, $form).css('display','inline-block');
+		  $('.ajax_result, .field_err', $wrapper).remove();
+		  $(o.btnGrpSelector, $wrapper).css('display','inline-block');
 		}else{
 		  $field.removeClass(o.changedClass);
-		  $(o.btnGrpSelector, $form).remove();
-		  $('.field_err', $form).remove();
+		  $(o.btnGrpSelector, $wrapper).remove();
+		  $('.field_err', $wrapper).remove();
 		}
 
-		$(o.btnGrpSelector, $form).find('a').unbind('click'); // to prevent double binding
+		$(o.btnGrpSelector, $wrapper).find('a').unbind('click'); // to prevent double binding
 		
-		$(o.btnGrpSelector, $form).find('a:eq(0)').bind({
+		$(o.btnGrpSelector, $wrapper).find('a:eq(0)').bind({
 		  "click.aform": function(){
 			$field.removeClass(o.hoverClass+" "+o.focusClass+" "+o.activeClass);
 			saveField(this, o.save_url);
           }
 	    });
-	    $(o.btnGrpSelector, $form).find('a:eq(1)').bind({
+	    $(o.btnGrpSelector, $wrapper).find('a:eq(1)').bind({
 		  "click.aform": function(){
 			resetField(this);
 		    $field.removeClass(o.hoverClass+" "+o.focusClass+" "+o.activeClass+" "+o.changedClass);
-		    $(o.btnGrpSelector, $form).remove();
-			$('.field_err', $form).remove();
+		    $(o.btnGrpSelector, $wrapper).remove();
+			$('.field_err', $wrapper).remove();
           }
 	    });
 	  }
@@ -409,8 +411,31 @@
 		});
 	});
 
+	$(window).bind('beforeunload', function(){
+  		var message = '';
+  		if ($('form[confirm-exit="true"]').length > 0 ){
+    		$('form[confirm-exit="true"]').each( function(){	
+  				if ( $(this).prop('changed') == 'true'){
+      				message = "You might have unsaved changes!";;
+      			}
+      			//check if all elements are unchanged. If yes, we already undo or saved them 
+      			if ( $(this).find(".afield").hasClass('changed') == false ){
+      				message = '';
+      			}
+      			
+      		});
+	  		if(message){
+  				return message;
+  			}
+  		}
+	});
 
-
+	
+	$('form[confirm-exit="true"]').find('.btn_standard').bind('click', function() {
+		var $form = $(this).parents('form');
+		$form.prop('changed', 'false');
+	});
+	
     return this.each(function(){
         var elem = $(this);
 

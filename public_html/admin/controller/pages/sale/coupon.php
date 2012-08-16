@@ -369,6 +369,7 @@ class ControllerPagesSaleCoupon extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
             'type' => 'form',
             'name' => 'couponFrm',
+            'attr' => 'confirm-exit="true"',
             'action' => $this->data['action'],
         ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
