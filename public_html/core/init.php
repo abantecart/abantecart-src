@@ -314,14 +314,17 @@ if (!( $config->get('config_url') == 'http://'.$url || $config->get('config_url'
     $cache_name = 'store.'.md5('http://'.$url);
    	$store_settings = $cache->get($cache_name);
    	if ( empty($store_settings) ) {
-   		$query = $db->query("SELECT se.`key`, se.`value`, st.store_id
+      $sql = "SELECT se.`key`, se.`value`, st.store_id
    							 FROM " . DB_PREFIX . "settings se
    							 RIGHT JOIN " . DB_PREFIX . "stores st ON se.store_id=st.store_id
    							 LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
-   							 WHERE (st.url = '" . $db->escape('http://www.' . $url) . "'
-   								OR st.url = '" . $db->escape('http://'.$url) . "')
-   								AND st.status = 1 
-   								AND e.extension_id IS NULL");
+   							 WHERE se.store_id = (SELECT DISTINCT store_id FROM " . DB_PREFIX . "settings
+   							                      WHERE `group`='details' AND `key` = 'config_url'
+                                                    AND (`value` = '" . $db->escape('http://www.' . $url) . "'
+                                                           OR `value` = '" . $db->escape('http://'.$url) . "')
+                                                  LIMIT 0,1)
+   								AND st.status = 1 AND e.extension_id IS NULL";
+   		$query = $db->query($sql);
    		$store_settings = $query->rows;
    		$cache->set( $cache_name, $store_settings);
    	}

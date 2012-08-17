@@ -33,9 +33,10 @@ class ControllerResponsesListingGridSetting extends AController {
 	    $this->loadModel('setting/setting');
 
 		//Prepare filter config
- 		$grid_filter_params = array( 'group', 'key' );
+ 		$grid_filter_params = array( 'alias','group', 'key' );
 	    $filter_grid = new AFilter( array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ) );   
-	    
+
+
 		$total = $this->model_setting_setting->getTotalSettings( $filter_grid->getFilterData() );
 	    $response = new stdClass();
 		$response->page = $filter_grid->getParam('page');
@@ -50,6 +51,7 @@ class ControllerResponsesListingGridSetting extends AController {
 
 			$response->rows[$i]['id'] = $result['group'].'-'.$result['key'];
 			$response->rows[$i]['cell'] = array(
+				$result['alias'],
 				$result['group'],
 				$result['key'],
 				$result['value'],

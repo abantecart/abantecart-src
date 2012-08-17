@@ -4,7 +4,7 @@
 <head><?php echo $head; ?></head>
 <body>
 <div class="wrapper">
-  <div class="wrapper_c page_width" style="<?php echo $layout_width; ?>">
+  <div class="wrapper_c page_width" style="width: <?php echo $layout_width; ?>">
     <div id="container">
       <div id="header"><?php echo $header; ?></div>
       <div id="content">

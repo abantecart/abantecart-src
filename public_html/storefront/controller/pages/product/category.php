@@ -181,7 +181,11 @@ class ControllerPagesProductCategory extends AController {
 					if ($options) {
 						$add = $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], '&encode');
 					} else {
-						$add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
+                        if($this->config->get('config_cart_ajax')){
+                            $add = '#';
+                        }else{
+						    $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
+                        }
 					}
 					
 					$products[] = array(
@@ -288,20 +292,18 @@ class ControllerPagesProductCategory extends AController {
 
 				$this->view->setTemplate( 'pages/product/category.tpl' );
       		} else {
+
         		$this->document->setTitle( $category_info['name'] );
-				
 				$this->document->setDescription( $category_info['meta_description'] );
-				
         		$this->view->assign('heading_title', $category_info['name']);
         		$this->view->assign('text_error', $this->language->get('text_empty'));
         		$this->view->assign('button_continue', $this->language->get('button_continue'));
         		$this->view->assign('continue', $this->html->getURL('index/home'));
                 $this->view->assign('categories', array());
 				$this->data['products'] = array();
-						
 				$this->view->setTemplate( 'pages/product/category.tpl' );
       		}
-			
+
 			$this->view->batchAssign( $this->data );
 			
     	} else {

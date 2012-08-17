@@ -5,6 +5,10 @@
         <value><![CDATA[Settings]]></value>
     </definition>
     <definition>
+        <key>column_store_alias</key>
+        <value><![CDATA[Store]]></value>
+    </definition>
+    <definition>
         <key>column_group</key>
         <value><![CDATA[Group]]></value>
     </definition>

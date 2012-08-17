@@ -31,23 +31,30 @@ class ModelSettingSetting extends Model {
 	}
 
 	public function getAllSettings($data = array(), $mode = 'default') {
-		if(!isset($data['store_id'])){
-			$data['store_id'] = (int)$this->config->get('config_store_id');
-		}
 
 		if ($mode == 'total_only') {
 			$total_sql = 'count(*) as total';
 		}
 		else {
-			$total_sql = '*';
+			$total_sql = 's.*, COALESCE(st.alias, \''.$this->language->get('text_default').'\' ) as alias';
 		}
 		
 		$sql = "SELECT $total_sql
-				FROM " . DB_PREFIX . "settings
-				WHERE store_id = '".$data['store_id']."'";
+				FROM " . DB_PREFIX . "settings s
+				LEFT JOIN  " . DB_PREFIX . "stores st ON st.store_id = s.store_id";
+
+        $where = false;
+        if(isset( $data['store_id'] )){
+            $sql .= " WHERE s.store_id = '".$data['store_id']."'";
+            $where = true;
+        }
 
 		if (!empty($data['subsql_filter'])) {
+            if($where){
 				$sql .= " AND ".$data['subsql_filter'];
+            }else{
+                $sql .= " WHERE ".$data['subsql_filter'];
+            }
 		}
 
 		//If for total, we done bulding the query
@@ -84,7 +91,6 @@ class ModelSettingSetting extends Model {
 
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
-
 		$query = $this->db->query($sql);
 		return $query->rows;
 	}

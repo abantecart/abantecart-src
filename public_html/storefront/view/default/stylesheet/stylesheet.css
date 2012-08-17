@@ -67,11 +67,13 @@ a img {
 
 /*** layout ***/
 #wrapper {
+    margin: 0 auto;
+    min-width: 700px;
 	text-align: center;
 }
 
 #container {
-	min-width: 960px;
+	min-width: 700px;
 	padding: 0 30px 0 30px;
 	margin: 0;
 	text-align: left;

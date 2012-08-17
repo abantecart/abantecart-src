@@ -193,6 +193,7 @@
 }
 /*********************************************/
 .price-add .buy,
+.price-add .added,
 .price-add .info{
     display: inline-block;
     height: 13px;
@@ -204,7 +205,11 @@
     background: url(../image/info_btn.gif) no-repeat
 }
 .price-add .buy{
-    background: url(../image/add_btn.gif) no-repeat
+    background: url(../image/add_btn.gif) no-repeat;
+}
+.price-add .added{
+    background: url(../image/added_btn.gif) no-repeat;
+    cursor: default;
 }
 
 /***********************************************/

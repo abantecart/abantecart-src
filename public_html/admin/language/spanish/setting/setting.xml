@@ -2,19 +2,23 @@
 <definitions>
     <definition>
         <key>heading_title</key>
-        <value><![CDATA[Store Configuracion]]></value>
+        <value><![CDATA[Tienda Configuracion]]></value>
+    </definition>
+    <definition>
+        <key>column_store_alias</key>
+        <value><![CDATA[Tienda]]></value>
     </definition>
     <definition>
         <key>column_group</key>
-        <value><![CDATA[Group]]></value>
+        <value><![CDATA[Grupo]]></value>
     </definition>
     <definition>
         <key>column_key</key>
-        <value><![CDATA[Key]]></value>
+        <value><![CDATA[Clave]]></value>
     </definition>
     <definition>
         <key>column_value</key>
-        <value><![CDATA[Value]]></value>
+        <value><![CDATA[Valor]]></value>
     </definition>
     <definition>
         <key>text_success</key>

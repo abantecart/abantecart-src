@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="<?php echo $direction; ?>" lang="<?php echo $lang; ?>" xml:lang="<?php echo $lang; ?>" <?php echo $this->getHookVar('hk_html_attribute'); ?>>
 <head><?php	echo $head; ?></head>
 <body>
-<div id="wrapper" style="width: <?php echo $layout_width; ?>; min-width: 780px;">
+<div id="wrapper" style="width: <?php echo $layout_width; ?>; ">
   <div id="container" class="container<?php echo $layout_css_suffix; ?>">
   	<div id="header"><?php echo ${$header}; ?></div>
 	<?php if ( !empty(${$header_bottom} ) ) { ?>

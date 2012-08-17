@@ -45,7 +45,9 @@ $ctr++;
     <div class="description"><?php echo $item['description']?></div>
     <div class="rating"><?php echo $item['rating']?></div>
     <div class="price-add">
-        <span class="price"><?php echo $item['price']?></span><a class="info" href="<?php echo $item['info_url']?>"></a><a class="buy" href="<?php echo $item['buy_url']?>."></a>
+        <span class="price"><?php echo $item['price']?></span>
+        <a class="info" href="<?php echo $item['info_url']?>"></a>
+        <a class="buy" id="<?php echo $product['product_id']?>" href="<?php echo $item['buy_url']?>"></a>
     </div>
 </div>
 

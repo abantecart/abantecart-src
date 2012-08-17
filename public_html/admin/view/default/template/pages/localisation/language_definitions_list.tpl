@@ -56,8 +56,8 @@
             autoOpen:true,
             modal:true,
             bgiframe:false,
-            width:900,
-            height:550,
+            width:800,
+            height:480,
             draggable:true,
             modal:true,
             close:function (event) {

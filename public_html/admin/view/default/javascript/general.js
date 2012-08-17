@@ -340,66 +340,73 @@ function formatQty(field) {
         thousandSeparator:numberSeparators.thousand});
 }
 
-/* Handling forms exit */
-$(window).bind('beforeunload', function () {
-    var message = '', ckedit = false;
-    if ($('form[confirm-exit="true"]').length > 0) {
-        $('form[confirm-exit="true"]').each(function () {
-            // now check is cdeditor changed
-            if (null != window['CKEDITOR']) {
-                for (var i in CKEDITOR.instances) {
-                    if (CKEDITOR.instances[i].checkDirty()) {
-                        $(this).prop('changed', 'true');
-                        ckedit = true;
-                        break;
+$(document).ready(function() {
+    /* Handling forms exit */
+    $('form[confirm-exit="true"]').find('.btn_standard').live('click', function () {
+        var $form = $(this).parents('form');
+        $form.prop('changed', 'submit');
+    });
+
+    $(window).bind('beforeunload', function () {
+        var message = '',ckedit = false;
+        if ($('form[confirm-exit="true"]').length > 0) {
+            $('form[confirm-exit="true"]').each(function () {
+                // now check is cdeditor changed
+                if (null != window['CKEDITOR']) {
+                    for (var i in CKEDITOR.instances) {
+                        if (CKEDITOR.instances[i].checkDirty()) {
+                            if($(this).prop('changed')!='submit'){
+                                $(this).prop('changed', 'true');
+                            }
+                            ckedit = true;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if ($(this).prop('changed') == 'true') {
-                message = "You might have unsaved changes!";
-            }
-            //check if all elements are unchanged. If yes, we already undo or saved them
-            if ($(this).find(".afield").hasClass('changed') == false && ckedit == false) {
-                message = '';
-            }
+                if ($(this).prop('changed') == 'true') {
+                    message = "You might have unsaved changes!";
+                }
+                //check if all elements are unchanged. If yes, we already undo or saved them
+                if($(this).prop('changed')!='submit'){
+                    if ( $(this).find(".afield").hasClass('changed') == false && ckedit==false) {
+                       message = '';
+                    }
+                }
 
-        });
-        if (message) {
-            return message;
+            });
+            if (message) {
+                return message;
+            }
         }
-    }
-});
-$('form[confirm-exit="true"]').find('.btn_standard').bind('click', function () {
-    var $form = $(this).parents('form');
-    $form.prop('changed', 'false');
-});
+    });
 
-/* Loaders */
-$(document).ready(function() {
-	$('.dialog_loader').unbind('click');
-	$('.dialog_loader').bind('click', function(e) {
-		$('<div></div>')
-	    .html('<div class="summary_loading"><div>')
-	    .dialog({
-	        title: "Processing...",
-	        modal: true,
-	        width: '200px',
-	        resizable: false,
-	        buttons: {
-	              //  "Cancel" : function() { $(this).dialog("close"); }
-	        },
-	        close: function(e, ui) {
-	        }
-	    });    
-		$(".ui-dialog-titlebar").hide(); 
-		$(".summary_loading").show(); 
-	});
-	
-	$('.button_loader').unbind('click');
-	$('.button_loader').bind('click', function(e) {
-		$(this).click(function () { return false; });
-		$(this).find("span").hide();
-		$(this).append('<span class="ajax_loading">Processing…</span>').show();
-	});
+
+    /* Loaders */
+
+        $('.dialog_loader').unbind('click');
+        $('.dialog_loader').bind('click', function(e) {
+            $('<div></div>')
+            .html('<div class="summary_loading"><div>')
+            .dialog({
+                title: "Processing...",
+                modal: true,
+                width: '200px',
+                resizable: false,
+                buttons: {
+                      //  "Cancel" : function() { $(this).dialog("close"); }
+                },
+                close: function(e, ui) {
+                }
+            });
+            $(".ui-dialog-titlebar").hide();
+            $(".summary_loading").show();
+        });
+
+        $('.button_loader').unbind('click');
+        $('.button_loader').bind('click', function(e) {
+            $(this).click(function () { return false; });
+            $(this).find("span").hide();
+            $(this).append('<span class="ajax_loading">Processing…</span>').show();
+        });
 });

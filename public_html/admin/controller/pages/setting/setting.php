@@ -45,7 +45,7 @@ class ControllerPagesSettingSetting extends AController {
             }
 
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('setting/setting', '&active=' . $this->request->get['active']));
+            $this->redirect($this->html->getSecureURL('setting/setting', '&active=' . $this->request->get['active'].'&store_id='.(int)$this->request->get['store_id']));
         }
 
         $this->data['store_id'] = 0;
@@ -187,11 +187,18 @@ class ControllerPagesSettingSetting extends AController {
         );
 
         $grid_settings['colNames'] = array(
+            $this->language->get('column_store_alias'),
             $this->language->get('column_group'),
             $this->language->get('column_key'),
             $this->language->get('column_value'),
         );
         $grid_settings['colModel'] = array(
+            array(
+                'name' => 'store_alias',
+                'index' => 'alias',
+                'align' => 'left',
+                'width' => 80,
+            ),
             array(
                 'name' => 'group',
                 'index' => 'group',
@@ -217,42 +224,6 @@ class ControllerPagesSettingSetting extends AController {
         $form = new AForm();
         $form->setForm(array(
             'form_name' => 'setting_grid_search',
-        ));
-
-        $grid_search_form = array();
-        $grid_search_form['id'] = 'setting_grid_search';
-        $grid_search_form['form_open'] = $form->getFieldHtml(array(
-            'type' => 'form',
-            'name' => 'setting_grid_search',
-            'action' => '',
-        ));
-        $grid_search_form['submit'] = $form->getFieldHtml(array(
-            'type' => 'button',
-            'name' => 'submit',
-            'text' => $this->language->get('button_go'),
-            'style' => 'button1',
-        ));
-        $grid_search_form['reset'] = $form->getFieldHtml(array(
-            'type' => 'button',
-            'name' => 'reset',
-            'text' => $this->language->get('button_reset'),
-            'style' => 'button2',
-        ));
-
-        $grid_search_form['fields']['group'] = $form->getFieldHtml(array(
-            'type' => 'selectbox',
-            'name' => 'group',
-            'options' => array(
-                '' => $this->language->get('text_select_group'),
-                'all' => 'all',
-                'general' => 'general',
-                'store' => 'store',
-                'local' => 'local',
-                'options' => 'options',
-                'images' => 'images',
-                'mail' => 'mail',
-                'server' => 'server',
-            ),
         ));
 
         $grid_settings['search_form'] = true;
@@ -289,7 +260,6 @@ class ControllerPagesSettingSetting extends AController {
 
         $grid = $this->dispatch('common/listing_grid', array($grid_settings));
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
-        $this->view->assign('search_form', $grid_search_form);
 
         $this->view->batchAssign($this->data);
         $this->view->assign('help_url', $this->gen_help_url('setting_listing'));
@@ -928,6 +898,12 @@ class ControllerPagesSettingSetting extends AController {
             'name' => 'config_grid_rows_num',
             'value' => $data['config_grid_rows_num'],
             'style' => 'small-field'
+        ));
+        $ret_data['form']['fields']['cart_ajax'] = $form->getFieldHtml(array(
+            'type' => 'checkbox',
+            'name' => 'config_cart_ajax',
+            'value' => $data['config_cart_ajax'],
+            'style' => 'btn_switch',
         ));
 
         return $ret_data;

@@ -1199,6 +1199,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance', 'admin_template', 'default'),
 ('appearance', 'admin_width', '100%'),
 ('appearance', 'config_grid_rows_num', '10'),
+('appearance', 'config_cart_ajax', '1'),
 
 
 --mail
@@ -1299,13 +1300,12 @@ DROP TABLE IF EXISTS `ac_stores`;
 CREATE TABLE `ac_stores` (
   `store_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `url` varchar(255) COLLATE utf8_bin NOT NULL,
-  `ssl` int(1) NOT NULL,
   `alias` varchar(15) COLLATE utf8_bin NOT NULL,
   `status` int(1) NOT NULL,
    PRIMARY KEY (`store_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=0;
 
+INSERT INTO `ac_stores` VALUES	(0,'default','default',1);
 
 --
 -- DDL for table `store_descriptions`

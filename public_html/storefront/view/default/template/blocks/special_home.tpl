@@ -52,7 +52,9 @@
 				<?php } else { ?>
 					<span style="color: #900; font-weight: bold; text-decoration: line-through;"><?php echo $products[$j]['price']; ?></span> <span style="color: #F00;"><?php echo $products[$j]['special']; ?></span>
 				<?php } ?>
-				<span class="price"><?php echo $item['price']?></span><a class="info" href="<?php echo $item['info_url']?>"></a><a class="buy" href="<?php echo $item['buy_url']?>."></a>
+				<span class="price"><?php echo $item['price']?></span>
+                <a class="info" href="<?php echo $item['info_url']?>"></a>
+                <a class="buy" id="<?php echo $product['product_id']?>" href="<?php echo $item['buy_url']?>"></a>
 			</div>
 		</div>
     <?php }?>

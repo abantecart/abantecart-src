@@ -28,8 +28,7 @@
 							<?php } ?>
 						<?php } ?>
 					<a class="info" href="<?php echo $products[ $j ][ 'href' ]; ?>"></a>
-					<a class="buy" href="<?php echo $products[ $j ][ 'add' ]; ?>"
-					   title="<?php echo $button_add_to_cart; ?>">&nbsp;</a>
+					<a class="buy" id="<?php echo $products[$j]['product_id'] ?>" href="<?php echo $products[ $j ][ 'add' ]; ?>" title="<?php echo $button_add_to_cart; ?>">&nbsp;</a>
 					<br/>
 					<?php echo $products[ $j ][ 'buttons' ]; ?>
 					<?php if ($products[ $j ][ 'rating' ]) { ?>

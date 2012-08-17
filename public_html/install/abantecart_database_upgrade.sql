@@ -14,12 +14,16 @@ update ac_settings set `group` = 'api' where `key` in ('config_storefront_api_st
 update ac_settings set `group` = 'system' where `key` in ('config_ssl', 'config_session_ttl', 'config_maintenance', 'encryption_key', 'enable_seo_url', 'config_compression', 'config_cache_enable', 'config_upload_max_size', 'config_error_display', 'config_error_log', 'config_debug', 'config_debug_level', 'storefront_template_debug', 'config_error_filename');
 
 insert into ac_settings values ('', 0, 'api', 'config_storefront_api_stock_check', '0');
-insert into ac_settings values ('', 0, 'appearance', 'config_grid_rows_num', '10');
+INSERT INTO ac_settings values ('', 0, 'appearance', 'config_grid_rows_num', '10');
+INSERT INTO ac_settings values ('', 0, 'appearance', 'config_cart_ajax', '1');
 
 alter table ac_stores add column
 	`alias` varchar(15) COLLATE utf8_bin NOT NULL; 
 alter table ac_stores add column	
 	`status` int(1) NOT NULL;
-	
+
+ALTER TABLE `ac_stores` DROP COLUMN	`url`;
+ALTER TABLE `ac_stores` DROP COLUMN	`ssl`;
+
 -- populate aliases
 update ac_stores set alias = LOWER(SUBSTRING(name,0,15));

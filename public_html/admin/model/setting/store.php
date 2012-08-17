@@ -30,9 +30,7 @@ class ModelSettingStore extends Model {
       	$this->db->query("INSERT INTO " . DB_PREFIX . "stores
       	                    SET name = '" . $this->db->escape($data['name']) . "',
 								alias = '" . $this->db->escape($data['alias']) . "',
-								url = '" . $this->db->escape($data['url']) . "',
-								status = '" . $this->db->escape($data['status']) . "',								
-								`ssl` = '" . (int)$data['ssl'] . "'");
+								status = '" . $this->db->escape($data['status']) . "'");
 		
 		$store_id = $this->db->getLastId();
 		
@@ -57,9 +55,9 @@ class ModelSettingStore extends Model {
 		unset($data['store_description']);
 
 		//Copy some data to details 
-		$this->model_setting_setting->editSetting('details',array('config_url'=>$data['url']),$store_id);
-		$this->model_setting_setting->editSetting('details',array('store_name'=>$data['name']),$store_id);
-		$this->model_setting_setting->editSetting('details',array('config_ssl'=>$data['ssl']),$store_id);
+		$this->model_setting_setting->editSetting('details', array('config_url'=>$data['config_url']),$store_id);
+		$this->model_setting_setting->editSetting('details', array('store_name'=>$data['name']),$store_id);
+		$this->model_setting_setting->editSetting('system', array('config_ssl'=>$data['config_ssl']),$store_id);
 		
 		$this->cache->delete('store');
         // add settings of extension of default store to new store settings
@@ -117,21 +115,13 @@ class ModelSettingStore extends Model {
             	WHERE store_id = '" . (int)$store_id . "' ");
             	$this->model_setting_setting->editSetting('details',array('config_name'=>$data['name']),$store_id);
         }
-        if ( isset($data['url']) ){
-            $this->db->query(
-                "UPDATE " . DB_PREFIX . "stores
-            	SET  `url`='" . $this->db->escape($data['url']) . "'
-            	WHERE store_id = '" . (int)$store_id . "' ");
-            	$this->model_setting_setting->editSetting('details',array('config_url'=>$data['url']),$store_id);
+        if ( isset($data['config_url']) ){
+            $this->model_setting_setting->editSetting('details',array('config_url'=>$data['config_url']),$store_id);
         }
-        if ( isset($data['ssl']) ){
-            $this->db->query(
-                "UPDATE " . DB_PREFIX . "stores
-            	SET  `ssl`='" . $this->db->escape($data['ssl']) . "'
-            	WHERE store_id = '" . (int)$store_id . "' ");
-            $this->model_setting_setting->editSetting('details',array('config_ssl'=>$data['ssl']),$store_id);	
+        if ( isset($data['config_ssl']) ){
+            $this->model_setting_setting->editSetting('system',array('config_ssl'=>$data['config_ssl']),$store_id);
         }
- 
+
 		$this->cache->delete('store');
 	}
 	
@@ -180,7 +170,7 @@ class ModelSettingStore extends Model {
 		if (is_null($store_data)) {
 			$query = $this->db->query("SELECT *
 										FROM " . DB_PREFIX . "stores
-										ORDER BY url");
+										ORDER BY store_id");
 
 			$store_data = $query->rows;
 		
