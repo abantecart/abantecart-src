@@ -51,7 +51,7 @@ class ControllerCommonListingGrid extends AController {
         }
         $this->data['update_field'] = empty($this->data['update_field']) ? '' : $this->data['update_field'];
         $this->data['editurl'] = empty($this->data['editurl']) ? '' : $this->data['editurl'];
-        $this->data['rowNum'] = empty($this->data['rowNum']) ? (int)$this->config->get('config_grid_rows_num') : $this->data['rowNum'];
+        $this->data['rowNum'] = empty($this->data['rowNum']) ? (int)$this->config->get('config_admin_limit') : $this->data['rowNum'];
         $this->data['rowNum'] = !$this->data['rowNum'] ? 10 : $this->data['rowNum'];
         if (empty($this->data['rowList'])) {
             $this->data['rowList'] = array($this->data['rowNum'],

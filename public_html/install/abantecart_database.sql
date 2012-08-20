@@ -1142,7 +1142,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details', 'config_weight_class', 'lb'),
 
 --general
-('general', 'config_admin_limit', '20'),
+('general', 'config_admin_limit', '10'),
 ('general', 'config_catalog_limit', '20'),
 ('general', 'config_bestseller_limit', '4'),
 ('general', 'config_featured_limit', '2'),
@@ -1198,7 +1198,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance', 'config_image_category_width', '120'),
 ('appearance', 'admin_template', 'default'),
 ('appearance', 'admin_width', '100%'),
-('appearance', 'config_grid_rows_num', '10'),
 ('appearance', 'config_cart_ajax', '1'),
 
 

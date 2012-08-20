@@ -122,10 +122,6 @@
         <value><![CDATA[Rejilla Altura de la imagen:]]></value>
     </definition>
     <definition>
-        <key>entry_grid_rows_num</key>
-        <value><![CDATA[Número de filas en todas las redes:]]></value>
-    </definition>
-    <definition>
         <key>entry_mail_parameter</key>
         <value>
             <![CDATA[Parámetros de correo:<span class="help">Cuando se utiliza 'Correo', los parámetros adicionales de correo se puede añadir aquí (por ejemplo "-femail@storeaddress.com".]]></value>
@@ -223,11 +219,11 @@
     </definition>
     <definition>
         <key>entry_storefront_width</key>
-        <value><![CDATA[Storefront Ancho del sitio:<br /><span class="help">Example: 100% or 900px </span>]]></value>
+        <value><![CDATA[Storefront Ancho del sitio:<br /><span class="help">Example: 100% or 1000px </span>]]></value>
     </definition>
     <definition>
         <key>entry_admin_width</key>
-        <value><![CDATA[Ancho del sitio de administración:<br /><span class="help">Example: 100% or 900px </span>]]></value>
+        <value><![CDATA[Ancho del sitio de administración:<br /><span class="help">Example: 100% or 1000px </span>]]></value>
     </definition>
     <definition>
         <key>error_image_grid</key>

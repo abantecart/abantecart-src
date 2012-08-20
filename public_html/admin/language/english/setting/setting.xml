@@ -343,10 +343,6 @@
         <value><![CDATA[Grid Image Height:]]></value>
     </definition>
     <definition>
-        <key>entry_grid_rows_num</key>
-        <value><![CDATA[Default Number of Rows in All Grids:]]></value>
-    </definition>
-    <definition>
         <key>entry_alert_mail</key>
         <value><![CDATA[Alert Mail:<br /><span class="help">Send a email to the store owner when a new order is created.</span>]]></value>
     </definition>
@@ -561,11 +557,11 @@
     </definition>
     <definition>
         <key>entry_storefront_width</key>
-        <value><![CDATA[Storefront Site Width:<br /><span class="help">Example: 100% or 900px </span>]]></value>
+        <value><![CDATA[Storefront Site Width:<br /><span class="help">Example: 100% or 1000px </span>]]></value>
     </definition>
     <definition>
         <key>entry_admin_width</key>
-        <value><![CDATA[Admin Site Width:<br /><span class="help">Example: 100% or 900px </span>]]></value>
+        <value><![CDATA[Admin Site Width:<br /><span class="help">Example: 100% or 1000px </span>]]></value>
     </definition>
     <definition>
         <key>button_add_store</key>
