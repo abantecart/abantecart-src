@@ -7,9 +7,8 @@ $('#<?php echo $form_id?>').submit(function () {
         success:function (response) {
             $('#<?php echo $target?>').html(response.html);
         }
-
     };
-    $(this).ajaxForm(options);
+    $(this).ajaxSubmit(options);
     // return false to prevent normal browser submit and page navigation
     return false;
 });
