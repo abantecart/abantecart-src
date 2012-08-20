@@ -116,7 +116,7 @@
     </definition>
     <definition>
         <key>entry_language</key>
-        <value><![CDATA[Language:]]></value>
+        <value><![CDATA[Storefront Language:]]></value>
     </definition>
     <definition>
         <key>entry_admin_language</key>
@@ -124,7 +124,7 @@
     </definition>
     <definition>
         <key>entry_currency</key>
-        <value><![CDATA[Currency:]]></value>
+        <value><![CDATA[Currency:<span class="help">NOTE: Changing default currency does not convert all product prices</span>]]></value>
     </definition>
     <definition>
         <key>entry_currency_auto</key>
@@ -216,13 +216,18 @@
             <![CDATA[Display Stock:<br /><span class="help">Display stock quantity on the product page.</span>]]></value>
     </definition>
     <definition>
+        <key>entry_nostock_autodisable</key>
+        <value>
+            <![CDATA[No Stock Auto Disable:<br /><span class="help">Disable your product or option value for view if stock drops to 0. Notification will be send </span>]]></value>
+    </definition>
+    <definition>
         <key>entry_stock_checkout</key>
         <value>
             <![CDATA[Stock Checkout:<br /><span class="help">Allow customers to still checkout if the products they are ordering are not in stock.</span>]]></value>
     </definition>
     <definition>
         <key>entry_stock_status</key>
-        <value><![CDATA[Stock Status:]]></value>
+        <value><![CDATA[Stock Status:<br /><span class="help">Default setting for out of stock status message for product. Used on product edit page.</span>]]></value>
     </definition>
     <definition>
         <key>entry_logo</key>

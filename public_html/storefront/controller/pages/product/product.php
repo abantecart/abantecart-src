@@ -93,20 +93,20 @@ class ControllerPagesProductProduct extends AController {
 			 ));	
 		}
 
-		$urls = array(
-			'is_group_option' => $this->html->getURL('r/product/product/is_group_option', '&product_id=' . $this->request->get['product_id'], '&encode'),
-		);
-		$this->view->assign('urls', $urls);
-
-		$this->loadModel('catalog/product');
-		$promoton = new APromotion();
-		
 		if (isset($this->request->get['product_id'])) {
 			$product_id = $this->request->get['product_id'];
 		} else {
 			$product_id = 0;
 		}
-		
+
+		$urls = array(
+			'is_group_option' => $this->html->getURL('r/product/product/is_group_option', '&product_id=' . $product_id, '&encode'),
+		);
+		$this->view->assign('urls', $urls);
+
+		$this->loadModel('catalog/product');
+		$promoton = new APromotion();
+				
 		$product_info = $this->model_catalog_product->getProduct($product_id);
 		$resource = new AResource('image');
 		if ($product_info) {
@@ -140,7 +140,7 @@ class ControllerPagesProductProduct extends AController {
 			}				
 									
 			$this->document->addBreadcrumb( array ( 
-				'href'      => $this->html->getSEOURL('product/product', $url . '&product_id=' . $this->request->get['product_id'], '&encode'),
+				'href'      => $this->html->getSEOURL('product/product', $url . '&product_id=' . $product_id, '&encode'),
 				'text'      => $product_info['name'],
 				'separator' => $this->language->get('text_separator')
 			 ));			
@@ -152,7 +152,7 @@ class ControllerPagesProductProduct extends AController {
 			$this->document->setDescription( $product_info['meta_description'] );
 	
 			$this->document->addLink ( array(
-				'href' => $this->html->getSEOURL('product/product','&product_id=' . $this->request->get['product_id'], '&encode'),
+				'href' => $this->html->getSEOURL('product/product','&product_id=' . $product_id, '&encode'),
 				'rel'  => 'canonical'
 			));
 
@@ -161,10 +161,10 @@ class ControllerPagesProductProduct extends AController {
 			$this->data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
 			
 			$this->loadModel('catalog/review');
-			$this->data['tab_review'] = sprintf($this->language->get('tab_review'), $this->model_catalog_review->getTotalReviewsByProductId($this->request->get['product_id'])) ;
+			$this->data['tab_review'] = sprintf($this->language->get('tab_review'), $this->model_catalog_review->getTotalReviewsByProductId($product_id)) ;
 
 			if ($this->config->get('enable_reviews')) {
-				$average = $this->model_catalog_review->getAverageRating($this->request->get['product_id']);	
+				$average = $this->model_catalog_review->getAverageRating($product_id);	
 			} else {
 				$average = false;
 			}
@@ -202,12 +202,10 @@ class ControllerPagesProductProduct extends AController {
 			                                              ));
 			$this->data['review_button'] = $html_item->getHtml();
 
-
-
 			$this->data['product_info'] = $product_info;
 			$product_price = $product_info['price'];
 
-			$discount = $promoton->getProductDiscount($this->request->get['product_id']);
+			$discount = $promoton->getProductDiscount($product_id);
 			
 			if ($discount) {
 				$product_price = $discount;
@@ -218,7 +216,7 @@ class ControllerPagesProductProduct extends AController {
 				                                                                     $product_info['tax_class_id'],
 				                                                                     $this->config->get('config_tax')));
 			
-				$special = $promoton->getProductSpecial($this->request->get['product_id']);
+				$special = $promoton->getProductSpecial($product_id);
 			
 				if ($special) {
 					$product_price = $special;
@@ -230,7 +228,7 @@ class ControllerPagesProductProduct extends AController {
 				}
 			}
 			
-			$product_discounts = $promoton->getProductDiscounts($this->request->get['product_id']);
+			$product_discounts = $promoton->getProductDiscounts($product_id);
 			
 			$discounts = array();
 			
@@ -243,18 +241,6 @@ class ControllerPagesProductProduct extends AController {
             $this->data['discounts'] = $discounts;
             $this->data['product_price'] = $product_price;
             $this->data['tax_class_id'] = $product_info['tax_class_id'];
-
-			if ($product_info['quantity'] <= 0) {
-				$this->data['stock'] = $product_info['stock_status'];
-			} else {
-				if ($this->config->get('config_stock_display')) {
-					$this->data['stock'] = $product_info['quantity'];
-				} else {
-					//$this->data['stock'] = $this->language->get('text_instock') ;
-					$this->data['stock'] = $product_info['stock_status'];
-				}
-			}
-
 
 			$form = new AForm();
 			$form->setForm(array( 'form_name' => 'product' ));
@@ -278,82 +264,133 @@ class ControllerPagesProductProduct extends AController {
 			$this->data['form'][ 'product_id' ] = $form->getFieldHtml( array(
                                                                     'type' => 'hidden',
 		                                                            'name' => 'product_id',
-		                                                            'value' => $this->request->get['product_id']));
+		                                                            'value' => $product_id));
 			$this->data['form'][ 'redirect' ] = $form->getFieldHtml( array(
                                                                     'type' => 'hidden',
 		                                                            'name' => 'redirect',
-		                                                            'value' => $this->html->getURL('product/product',  $url . '&product_id=' . $this->request->get['product_id'], '&encode') ));
+		                                                            'value' => $this->html->getURL('product/product',  $url . '&product_id=' . $product_id, '&encode') ));
 
 			$this->data['model'] = $product_info['model'];
 			$this->data['manufacturer'] = $product_info['manufacturer'];
 			$this->data['manufacturers'] = $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $product_info['manufacturer_id'], '&encode');
 			$this->data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
-			$this->data['product_id'] = $this->request->get['product_id'];
+			$this->data['product_id'] = $product_id;
 			$this->data['average'] = $average;
 
+			// Preapare options and values for display 
             $elements_with_options = HtmlElementFactory::getElementsWithOptions();
 			$options = array();
-            $product_options = $this->model_catalog_product->getProductOptions($this->request->get['product_id']);
-
+            $product_options = $this->model_catalog_product->getProductOptions($product_id);
 			foreach ($product_options as $option) {
 				$values = array();
 				$name = '';
 				$price = '';
-                foreach ($option['option_value'] as $option_value) {
-	                $name = $option_value['name'];
-
+                foreach ($option['option_value'] as $option_value) {  
+                	$name = $option_value['name'];     
+                	//check if we disable options based on out of stock setting
+                    if($option_value['subtract'] && $this->config->get('config_nostock_autodisable') && $option_value['quantity'] <= 0) {
+                    	continue;
+                    }
+                         	
+					//Apply option price modifier
 					if ( $option_value['prefix'] == '%' ) {
-
 						$price = $this->tax->calculate(
 								($product_price * $option_value['price'] / 100),
 								$product_info['tax_class_id'],
 								$this->config->get('config_tax') );
-						if( $price!=0 ){
+						if( $price != 0 ){
 							$price = $this->currency->format( $price );
 						}else{
 							$price = '';
 						}
 					} else {
 						$price = $this->tax->calculate(	$option_value['price'],	$product_info['tax_class_id'],	$this->config->get('config_tax') );
-						if( $price>0 ){
+						if( $price != 0 ){
 							$price = $this->currency->format( $price );
 						}else{
 							$price = '';
 						}
 					}
-                    $values[$option_value['product_option_value_id']] = $option_value['name'] . ' ' . $price;
+					//Check stock and status 
+					$opt_stock_message = '';
+					if($option_value['subtract'] ) {
+						if ( $option_value['quantity'] <= 0) {
+							//show out of stock message
+							$opt_stock_message = $product_info['stock_status'];
+						} else {
+							if ($this->config->get('config_stock_display')) {
+								$opt_stock_message = $option_value['quantity'] . " " . $this->language->get('text_instock');
+							}
+						}					
+					}
+					
+                    $values[$option_value['product_option_value_id']] = $option_value['name'] . ' ' . $price . ' ' . $opt_stock_message;
 				}
 
-				$value = '';
-                //add price to option name if it is not element with options
-                if ( !in_array($option['element_type'], $elements_with_options) ) {
-                    $option['name'] .= ' <small>'.$price.'</small>';
-	                $value = $name;
-                }
-				$option_data = array(
-						'type' => $option['html_type'],
-						'name' => !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements()) ? 'option['.$option['product_option_id'].']' : 'option['.$option['product_option_id'].'][]',
-						'value' => $value,
-						'options' => $values,
-						'required' => $option['required']);
-				if($option['html_type']=='checkbox'){
-					$option_data['label_text'] = $value;
+				//if not values are build, nothing to show
+				if (count($values)) {
+					$value = '';
+	                //add price to option name if it is not element with options
+	                if ( !in_array($option['element_type'], $elements_with_options) ) {
+	                    $option['name'] .= ' <small>'.$price.'</small>';
+	                    if ( $opt_stock_message ) {
+	                    	$option['name'] .= '<br />' . $opt_stock_message;
+	                    }
+		                $value = $name;
+	                }
+					$option_data = array(
+							'type' => $option['html_type'],
+							'name' => !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements()) ? 'option['.$option['product_option_id'].']' : 'option['.$option['product_option_id'].'][]',
+							'value' => $value,
+							'options' => $values,
+							'required' => $option['required']);
+					if($option['html_type']=='checkbox'){
+						$option_data['label_text'] = $value;
+					}
+	
+					$options[] = array(
+						'name' => $option['name'],
+						'html' => $this->html->buildElement( $option_data),
+					);				
 				}
-
-				$options[] = array(
-					'name' => $option['name'],
-					'html' => $this->html->buildElement( $option_data),
-				);
 			}
             $this->data['options'] = $options;
 			
-
+			//handle stock messages
+			// if track stock is off. no messages needed. 
+			if ( $this->model_catalog_product->isStockTrackable($product_id) ) {
+				$total_quantaty = $this->model_catalog_product->hasAnyStock($product_id);
+			
+				if ( $total_quantaty <= 0) {
+					//show out of stock message
+					$this->data['stock'] = $product_info['stock_status'];
+				} else {
+					if ($this->config->get('config_stock_display')) {
+						$this->data['stock'] = $product_info['quantity'];
+					} else {
+						$this->data['stock'] = $this->language->get('text_instock') ;
+					}
+				}
+				
+				//check if we need to disable product for no stock 
+				if ($this->config->get('config_nostock_autodisable') && $total_quantaty <= 0) {
+					$message_ttl = "Product model " . $product_info['model'] . " " . $this->language->get('text_qty') . "0";
+					$message_txt = $product_info['name'] . " - " .sprintf($this->language->get('text_minimum'), 0);
+					$message_txt .= "<br> Product id " . $product_info['product_id'] . " is auto disabled!"; 
+					//record to message box
+	            	$msg = new AMessage();
+	            	$msg->saveNotice( $message_ttl, $message_txt);
+	            	$this->model_catalog_product->updateStatus($product_id, 0);     	
+	            	$this->redirect($this->html->getSEOURL('product/product','&product_id=' . $product_info['product_id'], '&encode'));			
+				}
+			}
+			
 			// main product image
 			$sizes = array('main'=> array( 'width'=>$this->config->get('config_image_popup_width'),
 					                       'height' => $this->config->get('config_image_popup_height')),
 						   'thumb'=> array('width'=>$this->config->get('config_image_thumb_width'),
 					                       'height' => $this->config->get('config_image_thumb_height')));
-			$this->data['image_main'] = $resource->getResourceAllObjects('products', $this->request->get['product_id'], $sizes,1, false);
+			$this->data['image_main'] = $resource->getResourceAllObjects('products', $product_id, $sizes,1, false);
 
 			// additional images
 			$sizes = array('main'=> array( 'width'=>$this->config->get('config_image_popup_width'),
@@ -361,11 +398,11 @@ class ControllerPagesProductProduct extends AController {
 						   'thumb'=> array('width'=>$this->config->get('config_image_additional_width'),
 					                       'height' => $this->config->get('config_image_additional_height')));
 
-			$this->data['images'] = $resource->getResourceAllObjects('products', $this->request->get['product_id'], $sizes,0,false);
+			$this->data['images'] = $resource->getResourceAllObjects('products', $product_id, $sizes,0,false);
 
 
 			$products = array();
-			$results = $this->model_catalog_product->getProductRelated($this->request->get['product_id']);
+			$results = $this->model_catalog_product->getProductRelated($product_id);
 
 			foreach ($results as $result) {
 
@@ -433,10 +470,10 @@ class ControllerPagesProductProduct extends AController {
 			}
             $this->data['display_price'] = $display_price;
 			
-			$this->model_catalog_product->updateViewed($this->request->get['product_id']);
+			$this->model_catalog_product->updateViewed($product_id);
 			
 			$tags = array();
-			$results = $this->model_catalog_product->getProductTags($this->request->get['product_id']);
+			$results = $this->model_catalog_product->getProductTags($product_id);
 			foreach ($results as $result) {
 				if ($result['tag']) {
 					$tags[] = array(

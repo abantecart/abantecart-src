@@ -464,7 +464,6 @@ class ControllerResponsesProductProduct extends AController {
                     'value' => $this->data['name'],
                 ));
 	        }
-
         }
 
 		$this->data['form']['fields']['product_option_value_id'] = $form->getFieldHtml(array(
@@ -542,15 +541,12 @@ class ControllerResponsesProductProduct extends AController {
 			$options[$this->data['weight_type']] = $this->data['weight_type'];
 		}
 
-
 		$this->data['form']['fields']['weight_type'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'weight_type['.$product_option_value_id.']',
 			'value' => $this->data['weight_type'],
 			'options' => $options
 		));
-
-
 		
         $this->view->batchAssign($this->data);
         return $this->view->fetch('responses/product/option_value_row.tpl');

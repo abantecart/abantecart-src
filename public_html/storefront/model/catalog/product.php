@@ -36,6 +36,46 @@ class ModelCatalogProduct extends Model {
 										AND p.date_available <= NOW() AND p.status = '1'");
 	    return $query->row;
 	}
+
+	/*
+	* Check if product or any option value require tracking stock subtract = 1
+	*/
+	public function isStockTrackable ($product_id) {
+		$track_status = 0;
+		//check main product
+		$query = $this->db->query( "SELECT subtract FROM " . DB_PREFIX . "products p
+									WHERE p.product_id = '" . (int)$product_id . "'");
+									
+		$track_status = $query->row['subtract'];
+		//check product option values
+		$query = $this->db->query( "SELECT pov.subtract AS subtract FROM " . DB_PREFIX . "product_options po
+				left join " . DB_PREFIX . "product_option_values pov ON (po.product_option_id = pov.product_option_id)
+				WHERE po.product_id = '" . (int)$product_id . "'");
+				
+		$track_status += $query->row['subtract'];
+
+		return $track_status;		
+	}
+
+	/*
+	* Check if product or any option has any stock available
+	*/
+	public function hasAnyStock ($product_id) {
+		$total_quantity = 0;
+		//check main product
+		$query = $this->db->query( "SELECT quantity FROM " . DB_PREFIX . "products p
+									WHERE p.product_id = '" . (int)$product_id . "'");
+									
+		$total_quantity = $query->row['quantity'];
+		//check product option values
+		$query = $this->db->query( "SELECT pov.quantity AS quantity FROM " . DB_PREFIX . "product_options po
+				left join " . DB_PREFIX . "product_option_values pov ON (po.product_option_id = pov.product_option_id)
+				WHERE po.product_id = '" . (int)$product_id . "'");
+				
+		$total_quantity += $query->row['quantity'];
+
+		return $total_quantity;		
+	}
 	
 	public function getProductDataForCart($product_id) {
 		if ( empty($product_id) ) {
@@ -566,6 +606,14 @@ class ModelCatalogProduct extends Model {
 			return;
 		}
 		$this->db->query("UPDATE " . DB_PREFIX . "products SET viewed = viewed + 1 WHERE product_id = '" . (int)$product_id . "'");
+	}
+
+	public function updateStatus($product_id, $status = 0) {
+		if ( empty($product_id) ) {
+			return;
+		}
+		$this->db->query("UPDATE " . DB_PREFIX . "products SET status = " . (int)$status . " WHERE product_id = '" . (int)$product_id . "'");
+		$this->cache->delete('product');
 	}
 
 	/**

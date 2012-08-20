@@ -33,10 +33,10 @@
 <table id="option_values_tbl" class="list option ">
     <tr>
         <td class="left"><?php echo $entry_option_value; ?></td>
-        <td class="left"><?php echo $entry_quantity; ?></td>
-        <td class="left"><?php echo $entry_subtract; ?></td>
-        <td class="left"><?php echo $entry_price; ?></td>
-        <td class="left"><?php echo $entry_prefix; ?></td>
+        <td class="left"><?php echo $entry_option_quantity; ?></td>
+        <td class="left"><?php echo $entry_track_option_stock; ?></td>
+        <td class="left"><?php echo $entry_option_price; ?></td>
+        <td class="left"><?php echo $entry_option_prefix; ?></td>
         <td class="left"><?php echo $entry_sort_order; ?></td>
         <td class="left"></td>
 <?php if ($selectable){?>

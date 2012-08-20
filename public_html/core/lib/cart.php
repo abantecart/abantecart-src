@@ -59,6 +59,7 @@ final class ACart {
       		$product_id = $array[0];
       		$quantity =	 $data['qty'];
 			$stock = TRUE;
+			$op_stock_trackable = 0;
 
       		if (isset($data['options'])) {
         		$options = $data['options'];
@@ -75,7 +76,6 @@ final class ACart {
 
       			//Process each option and value	
       			foreach ($options as $product_option_id => $product_option_value_id) {
-
 				    //skip empty values
 				    if ($product_option_value_id == '' || (is_array($product_option_value_id) && !$product_option_value_id)) {
 					    continue;
@@ -117,7 +117,7 @@ final class ACart {
 								$option_value_query['price'] = $group_value_query['price'];
 								$groups[] = $option_value_query['group_id'];
 							}
-							$option_data[] = array( 'product_option_value_id' => $product_option_value_id,
+							$option_data[] = array( 'product_option_value_id' => $option_value_query['product_option_value_id'],
 													'name'                    => $option_query['name'],
 													'value'                   => $option_value_query['name'],
 													'prefix'                  => $option_value_query['prefix'],
@@ -125,9 +125,9 @@ final class ACart {
 													'sku'                     => $option_value_query['sku'],
 													'weight'                  => $option_value_query['weight'],
 													'weight_type'             => $option_value_query['weight_type']);
-						}else{
+						} else {
 							foreach($option_value_queries as $val_id=>$item){
-								$option_data[] = array( 'product_option_value_id' => $val_id,
+								$option_data[] = array( 'product_option_value_id' => $item['product_option_value_id'],
 														'name'                    => $option_query['name'],
 														'value'                   => $item['name'],
 														'prefix'                  => $item['prefix'],
@@ -139,13 +139,11 @@ final class ACart {
 							unset($option_value_queries);
 
 						}
-
-
-
-
-						if (!$option_value_query['subtract'] && (!$option_value_query['quantity'] || ($option_value_query['quantity'] < $quantity))) {
+						//check if need to track stock and we have it 
+						if ( $option_value_query['subtract'] && $option_value_query['quantity'] < $quantity ) {
 							$stock = FALSE;
 						}
+						$op_stock_trackable += $option_value_query['subtract'];
 					}
       			}
 
@@ -188,7 +186,8 @@ final class ACart {
         			);
 				}
 				
-				if (!$product_query['quantity'] || ($product_query['quantity'] < $quantity)) {
+				//check if we need to check main product stock. Do only if no stock trakable options selected
+				if ( !$op_stock_trackable && $product_query['subtract'] && $product_query['quantity'] < $quantity ) {
 					$stock = FALSE;
 				}
 				

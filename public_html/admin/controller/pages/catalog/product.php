@@ -619,16 +619,6 @@ class ControllerPagesCatalogProduct extends AController {
             'options' => $this->data['tax_classes'],
 	        'help_url' => $this->gen_help_url('tax_class'),
 		));
-        $this->data['form']['fields']['data']['quantity'] = $form->getFieldHtml(array(
-			'type' => 'input',
-			'name' => 'quantity',
-			'value' => (int)$this->data['quantity'],
-	    ));
-        $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
-			'type' => 'input',
-			'name' => 'minimum',
-			'value' => (int)$this->data['minimum'],
-	    ));
         $this->data['form']['fields']['data']['subtract'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'subtract',
@@ -639,6 +629,16 @@ class ControllerPagesCatalogProduct extends AController {
             ),
 	        'help_url' => $this->gen_help_url('subtract'),
 		));
+        $this->data['form']['fields']['data']['quantity'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'quantity',
+			'value' => (int)$this->data['quantity'],
+	    ));
+        $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'minimum',
+			'value' => (int)$this->data['minimum'],
+	    ));
         $this->data['form']['fields']['data']['stock_status'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'stock_status_id',

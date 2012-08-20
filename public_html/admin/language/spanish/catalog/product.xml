@@ -185,8 +185,12 @@
 		<value><![CDATA[Fecha disponible:]]></value>
 	</definition>
 	<definition>
-		<key>entry_quantity</key>
+		<key>entry_option_quantity</key>
 		<value><![CDATA[Cantidad:]]></value>
+	</definition>
+	<definition>
+		<key>entry_quantity</key>
+		<value><![CDATA[Cantidad:<br/><span class="help">Conectado a la pista escenario de archivo</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
@@ -205,8 +209,12 @@
 		<value><![CDATA[Precio:]]></value>
 	</definition>
 	<definition>
-		<key>entry_subtract</key>
+		<key>entry_track_option_stock</key>
 		<value><![CDATA[Restar Stock:]]></value>
+	</definition>
+	<definition>
+		<key>entry_subtract</key>
+		<value><![CDATA[Restar Stock:<br/><span class="help">Establecer SÍ, si necesita realizar un seguimiento de cantidad de stock de este producto. Si se utilizan las opciones de ver restar valor para cada valor de la opción</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_class</key>
@@ -264,6 +272,14 @@
 		<key>entry_prefix</key>
 		<value><![CDATA[Prefijo:]]></value>
 	</definition>
+	<definition>
+		<key>entry_option_prefix</key>
+		<value><![CDATA[Modificar Precio Por:]]></value>
+	</definition>
+	<definition>
+		<key>entry_option_price</key>
+		<value><![CDATA[Precio Modificador:]]></value>
+	</definition>	
 	<definition>
 		<key>entry_category</key>
 		<value><![CDATA[Categorías:]]></value>

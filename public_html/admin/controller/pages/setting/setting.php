@@ -498,6 +498,13 @@ class ControllerPagesSettingSetting extends AController {
     private function _build_general($form, $data) {
         $ret_data = array();
 
+        $this->loadModel('localisation/stock_status');
+        $stock_statuses = array();
+        $results = $this->model_localisation_stock_status->getStockStatuses();
+        foreach ($results as $item) {
+            $stock_statuses[$item['stock_status_id']] = $item['name'];
+        }
+
         $ret_data['form']['fields']['catalog_limit'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'config_catalog_limit',
@@ -546,6 +553,18 @@ class ControllerPagesSettingSetting extends AController {
             'value' => $data['config_stock_display'],
             'style' => 'btn_switch',
         ));
+        $ret_data['form']['fields']['nostock_autodisable'] = $form->getFieldHtml(array(
+            'type' => 'checkbox',
+            'name' => 'config_nostock_autodisable',
+            'value' => $data['config_nostock_autodisable'],
+            'style' => 'btn_switch',
+        ));
+        $ret_data['form']['fields']['stock_status'] = $form->getFieldHtml(array(
+            'type' => 'selectbox',
+            'name' => 'config_stock_status_id',
+            'value' => $data['config_stock_status_id'],
+            'options' => $stock_statuses,
+        ));        
         $ret_data['form']['fields']['reviews'] = $form->getFieldHtml(array(
             'type' => 'checkbox',
             'name' => 'enable_reviews',
@@ -588,13 +607,6 @@ class ControllerPagesSettingSetting extends AController {
         $customer_groups = array();
         foreach ($results as $item) {
             $customer_groups[$item['customer_group_id']] = $item['name'];
-        }
-
-        $this->loadModel('localisation/stock_status');
-        $stock_statuses = array();
-        $results = $this->model_localisation_stock_status->getStockStatuses();
-        foreach ($results as $item) {
-            $stock_statuses[$item['stock_status_id']] = $item['name'];
         }
 
         $this->loadModel('localisation/order_status');
@@ -689,12 +701,6 @@ class ControllerPagesSettingSetting extends AController {
             'name' => 'config_order_status_id',
             'value' => $data['config_order_status_id'],
             'options' => $order_statuses,
-        ));
-        $ret_data['form']['fields']['stock_status'] = $form->getFieldHtml(array(
-            'type' => 'selectbox',
-            'name' => 'config_stock_status_id',
-            'value' => $data['config_stock_status_id'],
-            'options' => $stock_statuses,
         ));
         $ret_data['form']['fields']['cart_weight'] = $form->getFieldHtml(array(
             'type' => 'checkbox',

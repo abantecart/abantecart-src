@@ -316,7 +316,7 @@
     </definition>
     <definition>
         <key>entry_currency</key>
-        <value><![CDATA[Moneda:]]></value>
+        <value><![CDATA[Moneda:<span class="help">NOTA: El cambio de la moneda por defecto no convertir todos los precios de los productos</span>]]></value>
     </definition>
     <definition>
         <key>entry_currency_auto</key>
@@ -409,6 +409,11 @@
             <![CDATA[Mostrar Stock:<br /><span class="help">Mostrar la cantidad de stock restante al cliente, al visualizar el producto.</span>]]></value>
     </definition>
     <definition>
+        <key>entry_nostock_autodisable</key>
+        <value>
+            <![CDATA[Sin Auto de archivo Desactivar:<br /><span class="help">Desactivar su producto para la vista si las acciones se reduce a 0. La notificación se enviará</span>]]></value>
+    </definition>
+    <definition>
         <key>entry_stock_check</key>
         <value>
             <![CDATA[Mostrar Agotado:<br /><span class="help">Mostrar un mensaje en la pagina del carrito de la compra, si un producto esta agotado.</span>]]></value>
@@ -425,7 +430,7 @@
     </definition>
     <definition>
         <key>entry_stock_status</key>
-        <value><![CDATA[Estado del stock:]]></value>
+        <value><![CDATA[Estado del stock:<br /><span class="help">Ajuste por defecto de mensaje que indica que la situación del stock de producto. Se utiliza en la página del producto de edición.</span>]]></value>
     </definition>
     <definition>
         <key>entry_logo</key>

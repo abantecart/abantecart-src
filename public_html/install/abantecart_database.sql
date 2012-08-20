@@ -1149,11 +1149,12 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general', 'config_latest_limit', '8'),
 ('general', 'config_special_limit', '6'),
 ('general', 'config_stock_display', '0'),
+('general', 'config_nostock_autodisable', '0'),
+('general', 'config_stock_status_id', '5'),
 ('general', 'enable_reviews', '1'),
 ('general', 'config_download', '1'),
 ('general', 'config_download_status', '5'),
 ('general', 'config_help_links', '1'),
-
 
 -- Checkout
 ('checkout', 'starting_invoice_id', '001'),
@@ -1171,7 +1172,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout', 'config_checkout_id', '3'),
 ('checkout', 'config_stock_checkout', '0'),
 ('checkout', 'config_order_status_id', '1'),
-('checkout', 'config_stock_status_id', '5'),
 ('checkout', 'config_stock_subtract', '0'),
 ('checkout', 'config_stock_check', '1'),
 ('checkout', 'cart_ajax', '1'), 

@@ -54,22 +54,22 @@ class ControllerPagesCheckoutCart extends AController {
 		} elseif ($this->request->server['REQUEST_METHOD'] == 'POST') {
       		if (isset($this->request->post['quantity'])) {
 				if (!is_array($this->request->post['quantity'])) {
-					if (isset($this->request->post['option'])) {
-						$option = $this->request->post['option'];
-					} else {
-						$option = array();
-					}
 
 					$this->loadModel('catalog/product');
 					$product_id = $this->request->post['product_id'];
-					$options = $this->request->post['option'];	
+
+					if (isset($this->request->post['option'])) {
+						$options = $this->request->post['option'];
+					} else {
+						$options = array();
+					}
 					
 					if ( $this->model_catalog_product->validateRequiredOptions($product_id, $options) ) {
 						$this->session->data['error'] = $this->language->get('error_required_options');
-						$this->redirect($_SERVER['HTTP_REFERER']);
+						$this->rsedirect($_SERVER['HTTP_REFERER']);
 					}
 
-      				$this->cart->add($this->request->post['product_id'], $this->request->post['quantity'], $option);
+      				$this->cart->add($this->request->post['product_id'], $this->request->post['quantity'], $options);
 				} else {
 					foreach ($this->request->post['quantity'] as $key => $value) {
 	      				$this->cart->update($key, $value);
