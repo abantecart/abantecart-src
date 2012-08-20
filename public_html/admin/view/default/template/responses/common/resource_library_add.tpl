@@ -26,6 +26,9 @@
 	</ul>
 
     <div id="fileupload">
+        <?php if ($attention) { ?>
+        <div class="attention"><?php echo $attention; ?></div>
+        <?php } ?>
 	    <div class="fileupload-content">
             <table class="files" width="100%" cellpadding="0" cellspacing="0"></table>
             <div class="fileupload-progressbar"></div>

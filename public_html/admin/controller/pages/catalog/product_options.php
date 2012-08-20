@@ -224,13 +224,15 @@ class ControllerPagesCatalogProductOptions extends AController {
             )
         );
 
+        $object_title = $this->language->get('text_product').' '.$this->language->get('text_option_value');
+
 		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
-		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url'));
+		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url&object_title='.$object_title));
 		//pathes for js function
 
-		$this->data['rl_unmap_path'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=product_option_value' );
-		$this->data['rl_rl_path'] = $this->html->getSecureURL('common/resource_library', '&object_name=product_option_value' );
-        $this->data['rl_resources_path'] = $this->html->getSecureURL('common/resource_library/resources', '&object_name=product_option_value');
+		$this->data['rl_unmap_path'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=product_option_value&object_title='.$object_title );
+		$this->data['rl_rl_path'] = $this->html->getSecureURL('common/resource_library', '&object_name=product_option_value&object_title='.$object_title );
+        $this->data['rl_resources_path'] = $this->html->getSecureURL('common/resource_library/resources', '&object_name=product_option_value&object_title='.$object_title);
 
 
 		$this->view->assign('help_url', $this->gen_help_url('product_options') );

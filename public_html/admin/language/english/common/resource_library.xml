@@ -52,11 +52,11 @@
         <key>text_add_files</key>
         <value><![CDATA[Add files...]]></value>
     </definition>
-	<definition>
+    <definition>
         <key>text_upload_files</key>
         <value><![CDATA[Upload files]]></value>
     </definition>
-	<definition>
+    <definition>
         <key>text_drag</key>
         <value><![CDATA[or Drag them here to start upload]]></value>
     </definition>
@@ -174,7 +174,8 @@
     </definition>
     <definition>
         <key>error_emptyResult</key>
-        <value><![CDATA[Empty file upload result. Possibly file is corrupted or too big. File size limited to 16MB. If file size is less than limit please check php settings for upload_max_filesize & post_max_size  ]]></value>
+        <value>
+            <![CDATA[Empty file upload result. Possibly file is corrupted or too big. File size limited to 16MB. If file size is less than limit please check php settings for upload_max_filesize & post_max_size  ]]></value>
     </definition>
     <definition>
         <key>error_1</key>
@@ -213,21 +214,22 @@
         <value><![CDATA[Please select resource type]]></value>
     </definition>
     <definition>
-		<key>error_required_data</key>
-		<value><![CDATA[Required Data has not been entered]]></value>
-	</definition>
+        <key>error_required_data</key>
+        <value><![CDATA[Required Data has not been entered]]></value>
+    </definition>
     <definition>
-		<key>error_not_added</key>
-		<value><![CDATA[Resource not added. Please check error log for more info]]></value>
-	</definition>
+        <key>error_not_added</key>
+        <value><![CDATA[Resource not added. Please check error log for more info]]></value>
+    </definition>
     <definition>
-		<key>error_ajax</key>
-		<value><![CDATA[Load data error. Please check error log for more info]]></value>
-	</definition>
+        <key>error_ajax</key>
+        <value><![CDATA[Load data error. Please check error log for more info]]></value>
+    </definition>
     <definition>
         <key>error_permission</key>
         <value><![CDATA[Warning: Permission Denied!]]></value>
-    </definition><definition>
+    </definition>
+    <definition>
         <key>error_permission</key>
         <value><![CDATA[Warning: Permission Denied!]]></value>
     </definition>
@@ -262,5 +264,9 @@
     <definition>
         <key>text_preview</key>
         <value><![CDATA[Preview/Download]]></value>
+    </definition>
+    <definition>
+        <key>error_file size</key>
+        <value><![CDATA[Attention: Maximum size of file for upload is %s. You can increase this value in php.ini.]]></value>
     </definition>
 </definitions>

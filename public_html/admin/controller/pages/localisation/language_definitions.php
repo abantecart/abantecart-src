@@ -155,7 +155,7 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController
                 'align' => 'center',
                 'sorttype' => 'string',
                 'search' => false,
-                'width' => 70
+                'width' => 90
             ),
         );
 

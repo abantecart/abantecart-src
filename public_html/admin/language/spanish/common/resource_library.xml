@@ -260,4 +260,8 @@
         <key>text_preview</key>
         <value><![CDATA[Preview/Descargar]]></value>
     </definition>
+    <definition>
+        <key>error_file size</key>
+        <value><![CDATA[Atención: El tamaño máximo de archivo para la carga es de %s. Puede aumentar este valor en php.ini.]]></value>
+    </definition>
 </definitions>

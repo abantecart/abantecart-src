@@ -46,6 +46,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		}
 
 		$this->data['object_name'] = $this->data['name'] = (string)$this->request->get['object_name'];
+
 		$this->data['object_id'] = $this->request->get['object_id'];
 		if($this->request->get['object_title']){
 			$this->data['object_title'] = mb_substr($this->request->get['object_title'],0,60);
@@ -150,6 +151,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
         $this->data['rl_add_code'] = $this->html->getSecureURL('common/resource_library/add_code', '&type='.$this->request->get['type'] . '&object_name='.$this->request->get['object_name'].'&object_id='.$this->request->get['object_id']);
 		$this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', '&type='.$this->request->get['type'] . '&object_name='.$this->request->get['object_name'].'&object_id='.$this->request->get['object_id']);
+        if( (int)ini_get('post_max_size')<=2){ // because 2Mb is default value for php
+            $this->data['attention'] = sprintf($this->language->get('error_file size'),ini_get('post_max_size'));
+        }
 
         $this->view->batchAssign($this->data);
 
@@ -426,7 +430,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
             } else {
                 $file_path = DIR_RESOURCE . $rm->getTypeDir() . $result['resource_path'];
 	            $result['name'] = pathinfo($result['name'],PATHINFO_FILENAME);
-                if ($fd = fopen ($file_path, "r")) {
+                if (file_exists($file_path)  && ($fd = fopen ($file_path, "r"))) {
                     $fsize = filesize($file_path);
                     $path_parts = pathinfo($file_path);
                     $this->response->addHeader('Content-type: '.mime_content_type($path_parts["basename"]));
