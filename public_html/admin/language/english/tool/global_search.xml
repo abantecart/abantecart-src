@@ -21,6 +21,10 @@
         <value><![CDATA[Customers]]></value>
     </definition>
     <definition>
+        <key>text_downloads</key>
+        <value><![CDATA[Downloads]]></value>
+    </definition>
+    <definition>
         <key>text_product_categories</key>
         <value><![CDATA[Product Categories]]></value>
     </definition>

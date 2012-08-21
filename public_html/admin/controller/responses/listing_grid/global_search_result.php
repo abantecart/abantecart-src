@@ -113,7 +113,8 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController
                     if (!is_array($result_controllers[$id]['id'])) {
                         $tmp[] = $result_controllers[$id]['id'] . '=' . $item[$result_controllers[$id]['id']];
                     } else {
-                        foreach ($result_controllers[$id]['id'] as $j) {
+                        foreach ($result_controllers[$id]['id'] as $al=>$j) {
+                            // if some id have alias - build link with it
                             $tmp[] = $j . '=' . $item[$j];
                         }
                     }
