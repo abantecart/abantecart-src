@@ -313,7 +313,7 @@ tr.ui-search-toolbar select {
     font-weight: normal;
     overflow: hidden;
     height: 40px;
-    padding: 2px 2px;
+    padding: 2px 2px 2px 10px;
     border-bottom: 1px solid #CACCD2;
 }
 

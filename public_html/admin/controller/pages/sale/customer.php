@@ -100,8 +100,8 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->language->get('column_approved'),
 		);
 		$grid_settings['colModel'] = array(
-			array( 'name' => 'name', 'index' => 'name', 'width' => 160, 'align' => 'left', ),
-			array( 'name' => 'email', 'index' => 'c.email', 'width' => 140, 'align' => 'left', ),
+			array( 'name' => 'name', 'index' => 'name', 'width' => 160, 'align' => 'center', ),
+			array( 'name' => 'email', 'index' => 'c.email', 'width' => 140, 'align' => 'center', ),
 			array( 'name' => 'customer_group', 'index' => 'customer_group', 'width' => 80, 'align' => 'center', 'search' => false ),
 			array( 'name' => 'status', 'index' => 'c.status', 'width' => 120, 'align' => 'center', 'search' => false ),
 			array( 'name' => 'approved', 'index' => 'c.approved', 'width' => 110, 'align' => 'center', 'search' => false ),
