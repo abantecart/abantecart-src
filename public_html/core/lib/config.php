@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011, 2012 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -22,7 +22,14 @@ if (! defined ( 'DIR_CORE' )) {
 }
 
 final class AConfig {
-	private $data = array();
+	private $cnfg = array();
+  	private $registry;
+	public $groups = array('details', 'general', 'checkout', 'appearance', 'mail', 'api', 'system');
+
+	public function __construct( $registry ) {
+  		$this->registry = $registry;
+		$this->_load_settings();
+	}
 
 	/**
 	 * get data from config
@@ -31,7 +38,7 @@ final class AConfig {
 	 * @return requested data; null if no data wit such key
 	 */
   	public function get($key) {
-    	return (isset($this->data[$key]) ? $this->data[$key] : NULL);
+    	return (isset($this->cnfg[$key]) ? $this->cnfg[$key] : NULL);
   	}	
 
 	/**
@@ -42,7 +49,7 @@ final class AConfig {
 	 * @return void
 	 */
 	public function set($key, $value) {
-    	$this->data[$key] = $value;
+    	$this->cnfg[$key] = $value;
   	}
 
 	/**
@@ -52,7 +59,7 @@ final class AConfig {
 	 * @return bool
 	 */
 	public function has($key) {
-    	return isset($this->data[$key]);
+    	return isset($this->cnfg[$key]);
   	}
 
 	/**
@@ -75,6 +82,95 @@ final class AConfig {
 			throw new AException(AC_ERR_LOAD, 'Error: Could not load config ' . $filename . '!');
 		}
   	}
+
+	private function _load_settings( ) {
+		$cache = $this->registry->get('cache');
+		$db = $this->registry->get('db');
+
+		// Load default store settings first
+		$settings = $cache->force_get('settings.0');
+		if ( empty( $settings ) ) {
+		// set global settings (without extensions settings)
+			$query = $db->query("SELECT se.*
+								 FROM " . DB_PREFIX . "settings se
+								 LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
+								 WHERE se.store_id='0' AND e.extension_id IS NULL");
+			$settings = $query->rows;
+			$cache->force_set('settings.0', $settings);
+		}
+		foreach ($settings as $setting) {
+		    $this->cnfg[$setting['key']]  = $setting['value'];
+		}
+		
+		//detect URL for the store
+		$url = str_replace('www.', '', $_SERVER['HTTP_HOST']) . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/';
+		
+		// if storefront and not default store
+		// try to load setting for given url
+		if (!( $this->cnfg['config_url'] == 'http://'.$url || $this->cnfg['config_url'] == 'http://www.'.$url ) ) {
+		
+		    $cache_name = 'store.'.md5('http://'.$url);
+		   	$store_settings = $cache->force_get($cache_name);
+		   	if ( empty($store_settings) ) {
+		      $sql = "SELECT se.`key`, se.`value`, st.store_id
+		   							 FROM " . DB_PREFIX . "settings se
+		   							 RIGHT JOIN " . DB_PREFIX . "stores st ON se.store_id=st.store_id
+		   							 LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
+		   							 WHERE se.store_id = (SELECT DISTINCT store_id FROM " . DB_PREFIX . "settings
+		   							                      WHERE `group`='details' AND `key` = 'config_url'
+		                                                    AND (`value` = '" . $db->escape('http://www.' . $url) . "'
+		                                                           OR `value` = '" . $db->escape('http://'.$url) . "')
+		                                                  LIMIT 0,1)
+		   								AND st.status = 1 AND e.extension_id IS NULL";
+		   		$query = $db->query($sql);
+		   		$store_settings = $query->rows;
+		   		$cache->force_set( $cache_name, $store_settings);
+		   	}
+		   	if($store_settings){
+		    	if(!IS_ADMIN){
+		    		foreach ($store_settings as $row) {
+		    			$this->cnfg[$row['key']] = $row['value'];
+		    		}
+		    	}	
+		   		$this->cnfg['config_store_id'] = $store_settings[0]['store_id'];
+		   	} else {
+		        $warning = new AWarning('Warning: Trying to access by unconfigured or unknown domain. Possibly missing or incorrect store URL set up. Loading default store configuration');
+		        $warning->toLog()->toMessages();
+		        //set config url to current domain
+		        $this->cnfg['config_url'] = 'http://' . REAL_HOST . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/';
+		    }
+		
+		   	if( !$this->cnfg['config_url'] ){
+		   		$this->cnfg['config_url'] = 'http://' . REAL_HOST . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/';
+		   	}
+		
+		}
+		
+		if( is_null($this->cnfg['config_store_id']) ){
+		   		$this->cnfg['config_store_id'] = 0;
+		}
+		
+		// load extension settings
+		$cache_suffix = IS_ADMIN ? 'admin' : $this->cnfg['config_store_id'];
+		$settings = $cache->force_get('settings.extension.'.$cache_suffix);
+		if ( empty( $settings ) ) {
+			// all settings of default store without extensions settings
+			$sql = "SELECT se.*
+					FROM " . DB_PREFIX . "settings se
+					LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
+					WHERE se.store_id='".(int)$this->cnfg['config_store_id']."' AND e.extension_id IS NOT NULL
+					ORDER BY se.store_id ASC, se.group ASC";
+		
+			$query = $db->query( $sql );
+			$settings = $query->rows;
+			$cache->force_set('settings.extension.'.$cache_suffix, $settings);
+		}
+		
+		foreach ($settings as $setting) {
+			$this->cnfg[$setting['key']] = $setting['value'];
+		}
+
+	}
 
 }
 ?>

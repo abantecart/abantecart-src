@@ -39,11 +39,16 @@ final class ACache {
     		}
 		}
   	}
+
+	//force to get cache data based on params and ignore disable cache setting
+	public function force_get($key, $language_id = '', $store_id = '' ) {
+		return $this->get($key, $language_id, $store_id, true );
+	}
 	
 	//get cache data based on params. 
-	public function get($key, $language_id = '', $store_id = '') {
+	public function get($key, $language_id = '', $store_id = '', $disabled_override = false) {
 		//clean up if disabled cache
-		if (!$this->registry->get('config')->get('config_cache_enable')){
+		if (!$disabled_override && !$this->registry->get('config')->get('config_cache_enable')){
 			$this->delete($key, $language_id, $store_id );
 			return null;
 		}
@@ -65,7 +70,13 @@ final class ACache {
 		}	
   	}
 
-  	public function set($key, $value, $language_id = '', $store_id = '') {
+	//force to set cache data based on params and ignore disable cache setting
+	public function force_set( $key, $value, $language_id = '', $store_id = '' ) {
+		return $this->set($key, $value, $language_id, $store_id, true );
+	}
+
+	//set cache parameter
+  	public function set($key, $value, $language_id = '', $store_id = '', $create_override = false) {
 		$suffix = '';
 		$suffix = $this->_build_sufix($language_id, $store_id);
 
@@ -75,7 +86,7 @@ final class ACache {
     		return;
     	}
     			
-		if ($this->registry->get('config')->get('config_cache_enable')){	
+		if ($create_override || $this->registry->get('config')->get('config_cache_enable')){	
 			$file = DIR_CACHE . 'cache.' . $key . ($suffix ? '.'.$suffix : '') . '.' . (time() + $this->expire);
 			$handle = fopen($file, 'w');		
 		   	fwrite($handle, serialize($value));				

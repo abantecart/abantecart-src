@@ -30,6 +30,18 @@ class ModelSettingSetting extends Model {
 		return $data;
 	}
 
+	public function getSettingGroup( $setting_key, $store_id = 0 ) {
+		$data = array();
+		$query = $this->db->query("SELECT DISTINCT `group` FROM " . DB_PREFIX . "settings 
+						  WHERE `key` = '" . $this->db->escape($setting_key) . "'
+						  AND `store_id` = '".$store_id."'");
+		
+		foreach ($query->rows as $result) {
+			$data[] = $result['group'];
+		}
+		return $data;
+	}
+
 	public function getAllSettings($data = array(), $mode = 'default') {
 
 		if ($mode == 'total_only') {

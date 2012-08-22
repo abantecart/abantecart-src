@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011, 2012 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -22,12 +22,18 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerResponsesListingGridSetting extends AController {
 	private $error = array();
-	public $groups = array('details', 'general', 'checkout', 'appearance', 'mail', 'api', 'system');
+	public $groups = array();
+
+	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
+		parent::__construct($registry, $instance_id, $controller, $parent_controller);
+		//load available groups for settings
+		$this->groups = $this->config->groups;
+	}
 
     public function main() {
-
 	    //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
+		//load available groups for settings
 
         $this->loadLanguage('setting/setting');
 	    $this->loadModel('setting/setting');
