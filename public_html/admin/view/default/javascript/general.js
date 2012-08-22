@@ -349,7 +349,7 @@ $(document).ready(function() {
 	    var message = '', ckedit = false;
 	    if ($('form[confirm-exit="true"]').length > 0) {
 	        $('form[confirm-exit="true"]').each(function () {
-	        	//skip validation if we submit 
+	        	//skip validation if we submit
 	            if ($(this).prop('changed') != 'submit') {
 		            // now check is cdeditor changed
 		            if (null != window['CKEDITOR']) {
@@ -361,7 +361,7 @@ $(document).ready(function() {
 		                    }
 		                }
 		            }
-		
+
 		            if ($(this).prop('changed') == 'true') {
 		                message = "You might have unsaved changes!";
 		            }
@@ -398,15 +398,27 @@ $(document).ready(function() {
 	        },
 	        close: function(e, ui) {
 	        }
-	    });    
-		$(".ui-dialog-titlebar").hide(); 
-		$(".summary_loading").show(); 
+	    });
+		$(".ui-dialog-titlebar").hide();
+		$(".summary_loading").show();
 	});
-	
+
 	$('.button_loader').unbind('click');
 	$('.button_loader').bind('click', function(e) {
 		$(this).click(function () { return false; });
 		$(this).find("span").hide();
 		$(this).append('<span class="ajax_loading">Processing…</span>').show();
 	});
+
+
+    // prevent submit of form for "quicksave"
+    $("form").bind("keypress", function(e) {
+        if (e.keyCode == 13){
+            if($(document.activeElement)){
+                if($(document.activeElement).parents('.changed').length>0){
+                        return false;
+                }
+            }
+        }
+    });
 });
