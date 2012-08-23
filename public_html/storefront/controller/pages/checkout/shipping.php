@@ -46,11 +46,12 @@ class ControllerPagesCheckoutShipping extends AController {
 		}
 
 		if (!$this->customer->isLogged()) {
-			$this->session->data[ 'checkout_redirect' ] = $this->html->getSecureURL('checkout/shipping');
+			$this->session->data['redirect'] = $this->html->getSecureURL('checkout/shipping');
 
 			$this->redirect($this->html->getSecureURL('account/login'));
 		}
-        unset($this->session->data[ 'checkout_redirect' ]);
+        unset($this->session->data['redirect']);
+        
 		if (!$this->cart->hasShipping()) {
 			unset($this->session->data[ 'shipping_address_id' ]);
 			unset($this->session->data[ 'shipping_method' ]);

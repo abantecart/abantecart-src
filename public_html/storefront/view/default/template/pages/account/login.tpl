@@ -72,12 +72,9 @@
 							<?php echo $form2[ 'password' ]?>
 							<div class="clr_both"></div>
 							<br/>
-							<a href="<?php echo $forgotten; ?>"><?php echo $text_forgotten_password; ?></a><br/>
+							<a href="<?php echo $forgotten; ?>"><?php echo $text_forgotten_password; ?></a>
 
-							<div class="flt_right"><?php echo $form2[ 'login' ]?></div>
-							<?php if ($redirect) { ?>
-							<?php echo $form1[ 'redirect' ]; ?>
-							<?php } ?>
+							<div class="flt_right"><?php echo $form2['login_submit']?></div>
 							</form>
 						</div>
 
@@ -96,10 +93,3 @@
 
 	</div>
 </div>
-<script type="text/javascript"><!--
-$('#loginFrm input').keydown(function(e) {
-	if (e.keyCode == 13) {
-		$('#loginFrm').submit();
-	}
-});
-//--></script>

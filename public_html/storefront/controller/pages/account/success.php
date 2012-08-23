@@ -58,10 +58,15 @@ class ControllerPagesAccountSuccess extends AController {
 		
         $this->view->assign('button_continue', $this->language->get('button_continue') );
 		
-		if ($this->cart->hasProducts()) {
-            $this->view->assign('continue', $this->html->getURL('checkout/cart') );
+		if ( $this->session->data['redirect'] ) {
+			$this->view->assign('continue', $this->session->data['redirect'] );
+			unset($this->session->data['redirect']);
 		} else {
-            $this->view->assign('continue', $this->html->getURL('account/account') );
+			if ($this->cart->hasProducts()) {
+	            $this->view->assign('continue', $this->html->getURL('checkout/cart') );
+			} else {
+	            $this->view->assign('continue', $this->html->getURL('account/account') );
+			}
 		}
 
 		$continue = HtmlElementFactory::create( array ('type' => 'button',

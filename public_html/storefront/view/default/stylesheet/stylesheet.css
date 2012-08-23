@@ -534,6 +534,15 @@ c input {
 	text-decoration: none;
 }
 
+button.btn_standard {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none !important;
+    cursor: pointer;
+    margin: 0;
+    overflow: visible;
+    padding: 0;
+}
+
 .btn_standard {
 	display: inline-block;
 	text-decoration: none;
