@@ -391,10 +391,27 @@ div.aswitcher.checked span {
 	background:#ffad5e;
 }
 
+.multivalue_hidden_data{
+    display: inline-block;
+    vertical-align: middle;
+}
+.multivalue_hidden_data div{
+    margin-top:1px;
+}
+.multivalue_hidden_data .cc{
+    overflow: hidden;
+    margin: auto;
+}
+.multivalue_inner{
+    margin: 0;
+    vertical-align: middle;
+}
+
 .multivalue.count_text{
 	padding: 5px 5px 5px 5px;
 	vertical-align: middle;
 	float: left;
+    display: inline-block;
 }
 .multivalue.count{
 	margin-left: 5px;
@@ -406,11 +423,9 @@ div.aswitcher.checked span {
 	margin-left: 10px;
 	vertical-align: middle;
 	float: left;
+
 }
 
-.multivalue.changed {
-	background:#ffad5e;
-}
 .multivalue.list {
 	width: 350px;
 	white-space: nowrap;

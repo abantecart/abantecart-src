@@ -1,47 +1,44 @@
+<?php if($multivalue['name']){ ?>
 <b class="multivalue_hidden_name"><?php echo $multivalue['name'] ?></b>
-<?php if (!empty($multivalue['description'])) { ?>
+<?php }
+if (!empty($multivalue['description'])) { ?>
 <p class="multivalue_hidden_description"><?php echo $multivalue['description'] ?></p>
 <?php } ?>
-<div class="multivalue_hidden_data">
-    <textarea style="display: none;" id="<?php echo $id ?>_buffer"><?php echo $selected ?></textarea>
-    <textarea name="<?php echo $selected_name ?>" style="display: none;"
-              id="<?php echo $id ?>_selected"><?php echo $selected ?></textarea>
+<span class="multivalue_hidden_data">
 
-    <div class="mhd_top">
-        <div class="left"></div>
-        <div class="center"></div>
-        <div class="right"></div>
-    </div>
-    <div class="mhd_middle">
-        <div class="left"></div>
-        <div class="center">
-            <div id="<?php echo $id ?>_count_text" class="multivalue count_text">
-                <?php echo $text_selected ?>
-                <span id="<?php echo $return_to ?>" class="multivalue count"></span>
-            </div>
-            <div id="<?php echo $id ?>_save_reset" class="multivalue save_reset">
-                <a class="btn_standard"><span title="<?php echo $text_save ?>" class="button1"
-                                              id="btn_save"><span><?php echo $text_save ?></span></span></a>
-                <a class="btn_standard"><span title="<?php echo $text_reset ?>" class="button2"
-                                              id="btn_reset"><span><?php echo $text_reset ?></span></span></a>
-            </div>
-            <div class="abuttons_grp" style="display: inline-block; vertical-align: middle; float: left;">
-                <button class="btn_standard" type="button"
-                        onclick="<?php echo $id; ?>_show_popup('<?php echo $id ?>');"><span
-                    title="<?php echo $text_edit ?>" class="button3"><span><?php echo $text_edit ?></span></span>
-                </button>
-            </div>
+                        <span class="multivalue_inner">
+                            <textarea style="display: none;" id="<?php echo $id ?>_buffer"><?php echo $selected ?></textarea>
+                            <textarea name="<?php echo $selected_name ?>" style="display: none;" id="<?php echo $id ?>_selected"><?php echo $selected ?></textarea>
 
-        </div>
-        <div class="right"></div>
-    </div>
-    <div class="mhd_bottom">
-        <div class="left"></div>
-        <div class="center"></div>
-        <div class="right"></div>
-    </div>
-</div>
-<div id="<?php echo $id ?>_popup_dialog"></div>
+                            <div class="mask1" style="float:left;">
+                                <div class="cl">
+                                    <div class="cr">
+                                        <div class="cc">
+                            <span id="<?php echo $id ?>_count_text" class="multivalue count_text">
+                                <?php echo $text_selected ?><span id="<?php echo $return_to ?>" class="multivalue count"></span>
+                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span id="<?php echo $id ?>_save_reset" class="multivalue save_reset">
+                                <a class="btn_standard"><span title="<?php echo $text_save ?>" class="button1"
+                                                              id="btn_save"><span><?php echo $text_save ?></span></span></a>
+                                <a class="btn_standard"><span title="<?php echo $text_reset ?>" class="button2"
+                                                              id="btn_reset"><span><?php echo $text_reset ?></span></span></a>
+                            </span>
+                            <span class="abuttons_grp" style="display: inline-block; vertical-align: middle; float: left;">
+                                <button class="btn_standard" type="button"
+                                        onclick="<?php echo $id; ?>_show_popup('<?php echo $id ?>');"><span
+                                    title="<?php echo $text_edit ?>" class="button3"><span><?php echo $text_edit ?></span></span>
+                                </button>
+                            </span>
+
+                        </span>
+   <div id="<?php echo $id ?>_popup_dialog"></div>
+</span>
+
 
 <script type="text/javascript" src="admin/view/default/javascript/jquery/ui/jquery.ui.draggable.js"></script>
 <script type="text/javascript">
@@ -80,7 +77,7 @@
                     if (ovalue != $('#<?php echo $id ?>_selected').html()) {
                         if (!nosave) {
                             $('#<?php echo $id ?>_save_reset').show();
-                            $('#<?php echo $return_to ?>').parent().addClass('multivalue changed');
+                            $('#<?php echo $return_to ?>').parents('.mask1').addClass('multivalue changed');
                         }
 
                     }
