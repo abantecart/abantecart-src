@@ -66,7 +66,7 @@ class ControllerPagesCheckoutCart extends AController {
 					
 					if ( $this->model_catalog_product->validateRequiredOptions($product_id, $options) ) {
 						$this->session->data['error'] = $this->language->get('error_required_options');
-						$this->rsedirect($_SERVER['HTTP_REFERER']);
+						$this->redirect($_SERVER['HTTP_REFERER']);
 					}
 
       				$this->cart->add($this->request->post['product_id'], $this->request->post['quantity'], $options);
