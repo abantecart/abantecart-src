@@ -23,6 +23,8 @@ if (! defined ( 'DIR_CORE' )) {
 
 final class ACart {
   	private $registry;
+  	private $cart_data = array();
+  	
   	public function __construct($registry) {
   		$this->registry = $registry;
 
@@ -43,6 +45,11 @@ final class ACart {
 	}
 		      
   	public function getProducts() {
+		//check if cart data was built before
+		if ( count($this->cart_data) ) {
+			return $this->cart_data;
+		}
+
 		$product_data = array();
 		if ($this->customer->isLogged()) {
 			$customer_group_id = $this->customer->getCustomerGroupId();
@@ -80,6 +87,7 @@ final class ACart {
 				    if ($product_option_value_id == '' || (is_array($product_option_value_id) && !$product_option_value_id)) {
 					    continue;
 				    }
+				    
 					//Detect option element type. If single value (text, input) process diferently. 
                     $option_attribute = $this->attribute->getAttributeByProductOptionId($product_option_id);
                     if ( $option_attribute ) {
@@ -98,6 +106,7 @@ final class ACart {
 						//Set value from input
 						$option_value_query['name'] = $this->db->escape($options[$product_option_id]);
 					} else {
+						//is multivalue option type
 						if(is_array($product_option_value_id)){
 							$option_value_queries = array();
 							foreach($product_option_value_id as $val_id){
@@ -108,45 +117,49 @@ final class ACart {
 						}
 					}
 
- 					if ( $option_value_query ) {
-						if(!$option_value_queries){
-							//if group option load price from parent value
-							if ( $option_value_query['group_id'] && !in_array($option_value_query['group_id'], $groups) ) {
-								$group_value_query = $this->model_catalog_product->getProductOptionValue($product_id, $option_value_query['group_id']);
-								$option_value_query['prefix'] = $group_value_query['prefix'];
-								$option_value_query['price'] = $group_value_query['price'];
-								$groups[] = $option_value_query['group_id'];
-							}
-							$option_data[] = array( 'product_option_value_id' => $option_value_query['product_option_value_id'],
-													'name'                    => $option_query['name'],
-													'value'                   => $option_value_query['name'],
-													'prefix'                  => $option_value_query['prefix'],
-													'price'                   => $option_value_query['price'],
-													'sku'                     => $option_value_query['sku'],
-													'weight'                  => $option_value_query['weight'],
-													'weight_type'             => $option_value_query['weight_type']);
-						} else {
-							foreach($option_value_queries as $val_id=>$item){
-								$option_data[] = array( 'product_option_value_id' => $item['product_option_value_id'],
-														'name'                    => $option_query['name'],
-														'value'                   => $item['name'],
-														'prefix'                  => $item['prefix'],
-														'price'                   => $item['price'],
-														'sku'                     => $item['sku'],
-														'weight'                  => $item['weight'],
-														'weight_type'             => $item['weight_type']);
-							}
-							unset($option_value_queries);
+					if( $option_value_query ){
+		    			//if group option load price from parent value
+		    			if ( $option_value_query['group_id'] && !in_array($option_value_query['group_id'], $groups) ) {
+		    				$group_value_query = $this->model_catalog_product->getProductOptionValue($product_id, $option_value_query['group_id']);
+		    				$option_value_query['prefix'] = $group_value_query['prefix'];
+		    				$option_value_query['price'] = $group_value_query['price'];
+		    				$groups[] = $option_value_query['group_id'];
+		    			}
+		    			$option_data[] = array( 'product_option_value_id' => $option_value_query['product_option_value_id'],
+		    									'name'                    => $option_query['name'],
+		    									'value'                   => $option_value_query['name'],
+		    									'prefix'                  => $option_value_query['prefix'],
+		    									'price'                   => $option_value_query['price'],
+		    									'sku'                     => $option_value_query['sku'],
+		    									'weight'                  => $option_value_query['weight'],
+		    									'weight_type'             => $option_value_query['weight_type']);
 
-						}
-						//check if need to track stock and we have it 
-						if ( $option_value_query['subtract'] && $option_value_query['quantity'] < $quantity ) {
-							$stock = FALSE;
-						}
-						$op_stock_trackable += $option_value_query['subtract'];
-					}
-      			}
-
+		    			//check if need to track stock and we have it 
+		    			if ( $option_value_query['subtract'] && $option_value_query['quantity'] < $quantity ) {
+		    				$stock = FALSE;
+		    			}
+		    			$op_stock_trackable += $option_value_query['subtract'];
+		    			unset($option_value_query);
+		    			
+		    		} else if( $option_value_queries ) {
+		    			foreach($option_value_queries as $val_id=>$item){
+		    				$option_data[] = array( 'product_option_value_id' => $item['product_option_value_id'],
+		    										'name'                    => $option_query['name'],
+		    										'value'                   => $item['name'],
+		    										'prefix'                  => $item['prefix'],
+		    										'price'                   => $item['price'],
+		    										'sku'                     => $item['sku'],
+		    										'weight'                  => $item['weight'],
+		    										'weight_type'             => $item['weight_type']);
+	        				//check if need to track stock and we have it 
+	        				if ( $item['subtract'] && $item['quantity'] < $quantity ) {
+	        					$stock = FALSE;
+	        				}
+	        				$op_stock_trackable += $option_value_query['subtract'];
+		    			}
+		    			unset($option_value_queries);
+		    		}
+      			} // end of options build
 				
 				$discount_quantity = 0;
 				foreach ($this->session->data['cart'] as $k => $v) {
@@ -219,8 +232,9 @@ final class ACart {
 				$this->remove($key);
 			}
     	}
-
-		return $product_data;
+    	//save complete cart details in the class for future access
+		$this->cart_data = $product_data;
+		return $this->cart_data;
   	}
 		  
   	public function add($product_id, $qty = 1, $options = array()) {

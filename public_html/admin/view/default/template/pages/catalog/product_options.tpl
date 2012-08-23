@@ -269,7 +269,7 @@ jQuery(function($){
             url: opt_urls.update_option,
 			data: {
 				option_id : current_option_id,
-				status : ($('#status').is(':checked') ? 1 : 0),
+				status : ( $('#status').val() ),
 				sort_order : $('#sort_order').val(),
 				name : $('#name').val(),
 				required : ($('#required').is(':checked') ? 1 : 0)
