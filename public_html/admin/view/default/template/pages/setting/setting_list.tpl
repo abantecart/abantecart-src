@@ -33,10 +33,98 @@
   </div></div></div>
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
+<div id="edit_dialog" style="overflow:hidden;"></div>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
-jQuery(function($){
-    $(".toolbar select").aform({
-		triggerChanged: false,
-	});
+
+$(".toolbar select").aform({
+    triggerChanged: false
 });
+
+function openEditDiag(id) {
+    var $Popup = $('#edit_dialog').dialog({
+        autoOpen:true,
+        modal:true,
+        bgiframe:false,
+        width: 650,
+        height:'auto',
+        maxHeight: 700,
+        draggable:true,
+        modal:true,
+        close:function (event) {
+            $(this).dialog('destroy');
+			CKEditor('destroy');
+
+		}
+    });
+
+
+    // spinner
+    $("#edit_dialog").html('<div class="progressbar">Loading ...</div>');
+
+    $.ajax({
+        url:'<?php echo $dialog_url; ?>&target=edit_dialog',
+        type:'GET',
+        dataType:'json',
+        data:{active:id},
+        success:function (data) {
+            if(data.html==''){
+                $('#edit_dialog').dialog("close");
+                return;
+            }
+            $("#edit_dialog").html(data.html).dialog('option', 'title', data.title);
+
+            $('#store_switcher').aform({ triggerChanged: false })
+            .live('change',function () {
+                $.getJSON('<?php echo $dialog_url; ?>'+'&active='+ id +'&target=edit_dialog&store_id=' + $(this).val(),
+                    function (response) {
+                        $('#edit_dialog').html(response.html);
+						CKEditor('add');
+                    });
+            });
+
+			CKEditor('add');
+
+            $('#cgFrm_close').bind('click',function(){
+                $('#edit_dialog').dialog("close");
+            });
+        }
+    });
+
+	function CKEditor(mode){
+		var settings = [];
+		settings[0] = 'cgFrm_config_description_<?php echo $content_language_id; ?>';
+		settings[1] = 'cgFrm_config_meta_description';
+
+		for( var k in settings ){
+
+			if($('#'+settings[k]).length>0){
+				if(mode=='add'){
+					$('#'+settings[k]).parents('.afield').removeClass('mask2');
+					$('#'+settings[k]).parents('td').removeClass('ml_field').addClass('ml_ckeditor');
+
+					CKEDITOR.replace(settings[k], {
+						filebrowserBrowseUrl:false,
+						filebrowserImageBrowseUrl:'<?php echo $rl; ?>',
+						filebrowserWindowWidth:'920',
+						filebrowserWindowHeight:'520',
+						language:'<?php echo $language_code; ?>'
+					});
+					$("#edit_dialog").dialog('option', 'width', '800');
+				}else{
+					var editor = CKEDITOR.instances[settings[k]];
+					if (editor) { editor.destroy(true); }
+				}
+			}
+		}
+	}
+}
+
+
 //--></script>
+
+<?php if($resources_scripts){
+    echo $resources_scripts;
+}
+?>

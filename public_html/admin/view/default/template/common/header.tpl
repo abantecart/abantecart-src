@@ -250,10 +250,9 @@
                 modal:true,
                 bgiframe:false,
                 width:900,
-                height:550,
+                height:500,
+                position: 'center',
                 draggable:true,
-
-                modal:true,
                 close:function (event) {
                     $('#global_search').focus();
                     $(this).dialog('destroy');
@@ -272,6 +271,7 @@
                 success:function (data) {
                     $("#suggest_popup_dialog").html(data.html);
                     $('#suggest_popup_dialog').dialog('option', 'title', data.title);
+                    $('#suggest_popup_dialog').dialog('option', 'height', 'auto');
                 }
             });
         }

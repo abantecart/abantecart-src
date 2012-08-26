@@ -52,11 +52,15 @@ class AConfigManager {
 	*   Data - current settig data
 	*   Store_id - Seleted store ID for the setting
 	*/
-	public function getFormField( $setting_key, $form, $data, $store_id ) {
+	public function getFormField( $setting_key, $form, $data, $store_id, $group='' ) {
 		//locate setting group first
-		$group = $this->model_setting_setting->getSettingGroup($setting_key, $store_id);
+        if(empty($group)){
+		    $group = $this->model_setting_setting->getSettingGroup($setting_key, $store_id);
+            $group = $group[0];
+        }
+        $data['one_field'] = $setting_key;
 		$fields = $this->getFormFields($group, $form, $data);
-		return $fields[$setting_key];
+		return $fields;
 	}
 
 	/*
@@ -70,74 +74,75 @@ class AConfigManager {
 		if (!method_exists( $this, $method_name )) {
 			return array();
 		}
+
 		return $this->$method_name($form, $data);
 	}
 	
 	private function _build_form_details( $form, $data ) {
-		$fields = array();
+		$fields = $props = array();
  		// details section
-        $fields['name'] = $form->getFieldHtml(array(
+        $fields['name'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'store_name',
             'value' => $data['store_name'],
             'required' => true,
             'style' => 'large-field',
         ));
-        $fields['url'] = $form->getFieldHtml(array(
+        $fields['url'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_url',
             'value' => $data['config_url'],
             'required' => true,
             'style' => 'large-field',
         ));
-        $fields['title'] = $form->getFieldHtml(array(
+        $fields['title'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_title',
             'value' => $data['config_title'],
             'required' => true,
             'style' => 'large-field',
         ));
-        $fields['meta_description'] = $form->getFieldHtml(array(
+        $fields['meta_description'] = $form->getFieldHtml($props[] = array(
             'type' => 'textarea',
             'name' => 'config_meta_description',
             'value' => $data['config_meta_description'],
             'style' => 'large-field',
         ));
-        $fields['description'] = $form->getFieldHtml(array(
+        $fields['description'] = $form->getFieldHtml($props[] = array(
             'type' => 'textarea',
             'name' => 'config_description_' . $this->session->data['content_language_id'],
             'value' => $data['config_description_' . $this->session->data['content_language_id']],
             'style' => 'xl-field',
         ));
-        $fields['owner'] = $form->getFieldHtml(array(
+        $fields['owner'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_owner',
             'value' => $data['config_owner'],
             'required' => true,
             'style' => 'large-field',
         ));
-        $fields['address'] = $form->getFieldHtml(array(
+        $fields['address'] = $form->getFieldHtml($props[] = array(
             'type' => 'textarea',
             'name' => 'config_address',
             'value' => $data['config_address'],
             'required' => true,
             'style' => 'large-field',
         ));
-        $fields['email'] = $form->getFieldHtml(array(
+        $fields['email'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'store_main_email',
             'value' => $data['store_main_email'],
             'required' => true,
             'style' => 'large-field',
         ));
-        $fields['telephone'] = $form->getFieldHtml(array(
+        $fields['telephone'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_telephone',
             'value' => $data['config_telephone'],
             'required' => true,
             'style' => 'medium-field',
         ));
-        $fields['fax'] = $form->getFieldHtml(array(
+        $fields['fax'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_fax',
             'value' => $data['config_fax'],
@@ -178,60 +183,63 @@ class AConfigManager {
             $weight_classes[$v['unit']] = $v['title'];
         }
 
-        $fields['country'] = $form->getFieldHtml(array(
+        $fields['country'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_country_id',
             'value' => $data['config_country_id'],
             'options' => $countries,
             'style' => 'large-field',
         ));
-        $fields['zone'] = $form->getFieldHtml(array(
+        $fields['zone'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_zone_id',
             'value' => $data['config_zone_id'],
             'options' => array(),
             'style' => 'large-field',
         ));
-        $fields['language'] = $form->getFieldHtml(array(
+        $fields['language'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_storefront_language',
             'value' => $data['config_storefront_language'],
             'options' => $languages,
         ));
-        $fields['admin_language'] = $form->getFieldHtml(array(
+        $fields['admin_language'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'admin_language',
             'value' => $data['admin_language'],
             'options' => $languages,
         ));
-        $fields['currency'] = $form->getFieldHtml(array(
+        $fields['currency'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_currency',
             'value' => $data['config_currency'],
             'options' => $currencies,
         ));
-        $fields['currency_auto'] = $form->getFieldHtml(array(
+        $fields['currency_auto'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_currency_auto',
             'value' => $data['config_currency_auto'],
             'style' => 'btn_switch',
         ));
-        $fields['length_class'] = $form->getFieldHtml(array(
+        $fields['length_class'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_length_class',
             'value' => $data['config_length_class'],
             'options' => $length_classes,
         ));
 
-        $fields['weight_class'] = $form->getFieldHtml(array(
+        $fields['weight_class'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_weight_class',
             'value' => $data['config_weight_class'],
             'options' => $weight_classes,
         ));
+        if(isset($data['one_field'])){
+            $fields = $this->_filterField($fields,$props,$data['one_field']);
+        }
 		return $fields;
 	}
-	
+
 	private function _build_form_general( $form, $data ) {
 		$fields = array();
 		//general section
@@ -242,73 +250,73 @@ class AConfigManager {
             $stock_statuses[$item['stock_status_id']] = $item['name'];
         }
 
-        $fields['catalog_limit'] = $form->getFieldHtml(array(
+        $fields['catalog_limit'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_catalog_limit',
             'value' => $data['config_catalog_limit'],
             'required' => true,
             'style' => 'small-field',
         ));
-        $fields['admin_limit'] = $form->getFieldHtml(array(
+        $fields['admin_limit'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_admin_limit',
             'value' => $data['config_admin_limit'],
             'required' => true,
             'style' => 'small-field',
         ));
-        $fields['bestseller_limit'] = $form->getFieldHtml(array(
+        $fields['bestseller_limit'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_bestseller_limit',
             'value' => $data['config_bestseller_limit'],
             'required' => true,
             'style' => 'small-field',
         ));
-        $fields['featured_limit'] = $form->getFieldHtml(array(
+        $fields['featured_limit'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_featured_limit',
             'value' => $data['config_featured_limit'],
             'required' => true,
             'style' => 'small-field',
         ));
-        $fields['latest_limit'] = $form->getFieldHtml(array(
+        $fields['latest_limit'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_latest_limit',
             'value' => $data['config_latest_limit'],
             'required' => true,
             'style' => 'small-field',
         ));
-        $fields['special_limit'] = $form->getFieldHtml(array(
+        $fields['special_limit'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_special_limit',
             'value' => $data['config_special_limit'],
             'required' => true,
             'style' => 'small-field',
         ));
-        $fields['stock_display'] = $form->getFieldHtml(array(
+        $fields['stock_display'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_stock_display',
             'value' => $data['config_stock_display'],
             'style' => 'btn_switch',
         ));
-        $fields['nostock_autodisable'] = $form->getFieldHtml(array(
+        $fields['nostock_autodisable'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_nostock_autodisable',
             'value' => $data['config_nostock_autodisable'],
             'style' => 'btn_switch',
         ));
-        $fields['stock_status'] = $form->getFieldHtml(array(
+        $fields['stock_status'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_stock_status_id',
             'value' => $data['config_stock_status_id'],
             'options' => $stock_statuses,
         ));        
-        $fields['reviews'] = $form->getFieldHtml(array(
+        $fields['reviews'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'enable_reviews',
             'value' => $data['enable_reviews'],
             'style' => 'btn_switch',
         ));
-        $fields['download'] = $form->getFieldHtml(array(
+        $fields['download'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_download',
             'value' => $data['config_download'],
@@ -320,19 +328,22 @@ class AConfigManager {
         foreach ($results as $item) {
             $order_statuses[$item['order_status_id']] = $item['name'];
         }
-        $fields['download_status'] = $form->getFieldHtml(array(
+        $fields['download_status'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_download_status',
             'value' => $data['config_download_status'],
             'options' => $order_statuses,
         ));
-        $fields['help_links'] = $form->getFieldHtml(array(
+        $fields['help_links'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_help_links',
             'value' => $data['config_help_links'],
             'style' => 'btn_switch',
         ));
 
+        if(isset($data['one_field'])){
+            $fields = $this->_filterField($fields,$props,$data['one_field']);
+        }
 		return $fields;
 	}
 	
@@ -361,103 +372,105 @@ class AConfigManager {
             $contents[$item['content_id']] = $item['title'];
         }
 
-        $fields['tax'] = $form->getFieldHtml(array(
+        $fields['tax'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_tax',
             'value' => $data['config_tax'],
             'style' => 'btn_switch',
         ));
-        $fields['tax_store'] = $form->getFieldHtml(array(
+        $fields['tax_store'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_tax_store',
             'value' => $data['config_tax_store'],
             'options' => array($this->language->get('entry_tax_store_0'), $this->language->get('entry_tax_store_1')),
         ));
-        $fields['tax_customer'] = $form->getFieldHtml(array(
+        $fields['tax_customer'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_tax_customer',
             'value' => $data['config_tax_customer'],
             'options' => array($this->language->get('entry_tax_customer_0'), $this->language->get('entry_tax_customer_1')),
         ));
-        $fields['invoice'] = $form->getFieldHtml(array(
+        $fields['invoice'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'starting_invoice_id',
             'value' => $data['starting_invoice_id'],
             'style' => 'small-field',
         ));
-        $fields['invoice_prefix'] = $form->getFieldHtml(array(
+        $fields['invoice_prefix'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'invoice_prefix',
             'value' => $data['invoice_prefix'],
             'style' => 'small-field',
         ));
-        $fields['customer_group'] = $form->getFieldHtml(array(
+        $fields['customer_group'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_customer_group_id',
             'value' => $data['config_customer_group_id'],
             'options' => $customer_groups,
         ));
-        $fields['customer_price'] = $form->getFieldHtml(array(
+        $fields['customer_price'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_customer_price',
             'value' => $data['config_customer_price'],
             'style' => 'btn_switch',
         ));
-        $fields['customer_approval'] = $form->getFieldHtml(array(
+        $fields['customer_approval'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_customer_approval',
             'value' => $data['config_customer_approval'],
             'style' => 'btn_switch',
         ));
-        $fields['guest_checkout'] = $form->getFieldHtml(array(
+        $fields['guest_checkout'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_guest_checkout',
             'value' => $data['config_guest_checkout'],
             'style' => 'btn_switch',
         ));
-        $fields['account'] = $form->getFieldHtml(array(
+        $fields['account'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_account_id',
             'value' => $data['config_account_id'],
             'options' => $contents,
         ));
-        $fields['checkout'] = $form->getFieldHtml(array(
+        $fields['checkout'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_checkout_id',
             'value' => $data['config_checkout_id'],
             'options' => $contents,
         ));
-        $fields['stock_checkout'] = $form->getFieldHtml(array(
+        $fields['stock_checkout'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_stock_checkout',
             'value' => $data['config_stock_checkout'],
             'style' => 'btn_switch',
         ));
-        $fields['order_status'] = $form->getFieldHtml(array(
+        $fields['order_status'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_order_status_id',
             'value' => $data['config_order_status_id'],
             'options' => $order_statuses,
         ));
-        $fields['cart_weight'] = $form->getFieldHtml(array(
+        $fields['cart_weight'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_cart_weight',
             'value' => $data['config_cart_weight'],
             'style' => 'btn_switch',
         ));
-        $fields['shipping_session'] = $form->getFieldHtml(array(
+        $fields['shipping_session'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_shipping_session',
             'value' => $data['config_shipping_session'],
             'style' => 'btn_switch',
         ));
-        $fields['cart_ajax'] = $form->getFieldHtml(array(
+        $fields['cart_ajax'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'cart_ajax',
             'value' => $data['cart_ajax'],
             'style' => 'btn_switch',
         ));
-
+        if(isset($data['one_field'])){
+            $fields = $this->_filterField($fields,$props,$data['one_field']);
+        }
 		return $fields;
 	}
 	
@@ -475,7 +488,7 @@ class AConfigManager {
                 $templates[$row['key']] = $row['key'];
             }
 
-        $fields['template'] = $form->getFieldHtml(array(
+        $fields['template'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_storefront_template',
             'value' => $data['config_storefront_template'],
@@ -483,14 +496,14 @@ class AConfigManager {
             'style' => 'large-field',
         ));
  
-        $fields['storefront_width'] = $form->getFieldHtml(array(
+        $fields['storefront_width'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'storefront_width',
             'value' => $data['storefront_width'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['admin_width'] = $form->getFieldHtml(array(
+        $fields['admin_width'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'admin_width',
             'value' => $data['admin_width'],
@@ -498,121 +511,123 @@ class AConfigManager {
             'required' => true,
         ));
 
-        $fields['logo'] = $form->getFieldHtml(array(
+        $fields['logo'] = $form->getFieldHtml($props[] = array(
             'type' => 'hidden',
             'name' => 'config_logo',
             'value' => htmlspecialchars($data['config_logo'], ENT_COMPAT, 'UTF-8'),
         ));
-        $fields['icon'] = $form->getFieldHtml(array(
+        $fields['icon'] = $form->getFieldHtml($props[] = array(
             'type' => 'hidden',
             'name' => 'config_icon',
             'value' => htmlspecialchars($data['config_icon'], ENT_COMPAT, 'UTF-8'),
         ));
-        $fields['image_thumb_width'] = $form->getFieldHtml(array(
+        $fields['image_thumb_width'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_thumb_width',
             'value' => $data['config_image_thumb_width'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['image_thumb_height'] = $form->getFieldHtml(array(
+        $fields['image_thumb_height'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_thumb_height',
             'value' => $data['config_image_thumb_height'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['image_category_width'] = $form->getFieldHtml(array(
+        $fields['image_category_width'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_category_width',
             'value' => $data['config_image_category_width'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['image_category_height'] = $form->getFieldHtml(array(
+        $fields['image_category_height'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_category_height',
             'value' => $data['config_image_category_height'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['image_product_width'] = $form->getFieldHtml(array(
+        $fields['image_product_width'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_product_width',
             'value' => $data['config_image_product_width'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['image_product_height'] = $form->getFieldHtml(array(
+        $fields['image_product_height'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_product_height',
             'value' => $data['config_image_product_height'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['image_additional_width'] = $form->getFieldHtml(array(
+        $fields['image_additional_width'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_additional_width',
             'value' => $data['config_image_additional_width'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['image_additional_height'] = $form->getFieldHtml(array(
+        $fields['image_additional_height'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_additional_height',
             'value' => $data['config_image_additional_height'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['image_related_width'] = $form->getFieldHtml(array(
+        $fields['image_related_width'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_related_width',
             'value' => $data['config_image_related_width'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['image_related_height'] = $form->getFieldHtml(array(
+        $fields['image_related_height'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_related_height',
             'value' => $data['config_image_related_height'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['image_cart_width'] = $form->getFieldHtml(array(
+        $fields['image_cart_width'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_cart_width',
             'value' => $data['config_image_cart_width'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['image_cart_height'] = $form->getFieldHtml(array(
+        $fields['image_cart_height'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_cart_height',
             'value' => $data['config_image_cart_height'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['image_grid_width'] = $form->getFieldHtml(array(
+        $fields['image_grid_width'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_grid_width',
             'value' => $data['config_image_grid_width'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['image_grid_height'] = $form->getFieldHtml(array(
+        $fields['image_grid_height'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_image_grid_height',
             'value' => $data['config_image_grid_height'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $fields['cart_ajax'] = $form->getFieldHtml(array(
+        $fields['cart_ajax'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_cart_ajax',
             'value' => $data['config_cart_ajax'],
             'style' => 'btn_switch',
         ));
-
+        if(isset($data['one_field'])){
+            $fields = $this->_filterField($fields,$props,$data['one_field']);
+        }
 		return $fields;
 	}
 	
@@ -620,7 +635,7 @@ class AConfigManager {
 		$fields = array();
 		//mail section
 		
-        $fields['mail_protocol'] = $form->getFieldHtml(array(
+        $fields['mail_protocol'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_mail_protocol',
             'value' => $data['config_mail_protocol'],
@@ -630,49 +645,49 @@ class AConfigManager {
             ),
             'style' => "no-save",
         ));
-        $fields['mail_parameter'] = $form->getFieldHtml(array(
+        $fields['mail_parameter'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_mail_parameter',
             'value' => $data['config_mail_parameter'],
         ));
-        $fields['smtp_host'] = $form->getFieldHtml(array(
+        $fields['smtp_host'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_smtp_host',
             'value' => $data['config_smtp_host'],
             'style' => "no-save",
             'required' => true
         ));
-        $fields['smtp_username'] = $form->getFieldHtml(array(
+        $fields['smtp_username'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_smtp_username',
             'value' => $data['config_smtp_username'],
         ));
-        $fields['smtp_password'] = $form->getFieldHtml(array(
+        $fields['smtp_password'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_smtp_password',
             'value' => $data['config_smtp_password'],
         ));
-        $fields['smtp_port'] = $form->getFieldHtml(array(
+        $fields['smtp_port'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_smtp_port',
             'value' => $data['config_smtp_port'],
             'style' => "no-save",
             'required' => true
         ));
-        $fields['smtp_timeout'] = $form->getFieldHtml(array(
+        $fields['smtp_timeout'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_smtp_timeout',
             'value' => $data['config_smtp_timeout'],
             'style' => "no-save",
             'required' => true
         ));
-        $fields['alert_mail'] = $form->getFieldHtml(array(
+        $fields['alert_mail'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_alert_mail',
             'value' => $data['config_alert_mail'],
             'style' => 'btn_switch',
         ));
-        $fields['alert_emails'] = $form->getFieldHtml(array(
+        $fields['alert_emails'] = $form->getFieldHtml($props[] = array(
             'type' => 'textarea',
             'name' => 'config_alert_emails',
             'value' => $data['config_alert_emails'],
@@ -685,88 +700,90 @@ class AConfigManager {
 	private function _build_form_api( $form, $data ) {
 		$fields = array();
 		//api section 
-        $fields['storefront_api_status'] = $form->getFieldHtml(array(
+        $fields['storefront_api_status'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_storefront_api_status',
             'value' => $data['config_storefront_api_status'],
             'style' => 'btn_switch',
         ));
-        $fields['storefront_api_key'] = $form->getFieldHtml(array(
+        $fields['storefront_api_key'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_storefront_api_key',
             'value' => $data['config_storefront_api_key'],
         ));
-        $fields['storefront_api_stock_check'] = $form->getFieldHtml(array(
+        $fields['storefront_api_stock_check'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_storefront_api_stock_check',
             'value' => $data['config_storefront_api_stock_check'],
             'style' => 'btn_switch',
         ));
-				
+        if(isset($data['one_field'])){
+            $fields = $this->_filterField($fields,$props,$data['one_field']);
+        }
 		return $fields;
 	}
 	
 	private function _build_form_system( $form, $data ) {
 		$fields = array();
 		//system section 
-        $fields['ssl'] = $form->getFieldHtml(array(
+        $fields['ssl'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_ssl',
             'value' => $data['config_ssl'],
             'style' => 'btn_switch',
         ));
-        $fields['session_ttl'] = $form->getFieldHtml(array(
+        $fields['session_ttl'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_session_ttl',
             'value' => $data['config_session_ttl'],
         ));
-        $fields['maintenance'] = $form->getFieldHtml(array(
+        $fields['maintenance'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_maintenance',
             'value' => $data['config_maintenance'],
             'style' => 'btn_switch',
         ));
-        $fields['encryption'] = $form->getFieldHtml(array(
+        $fields['encryption'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'encryption_key',
             'value' => $data['encryption_key'],
         ));
-        $fields['seo_url'] = $form->getFieldHtml(array(
+        $fields['seo_url'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'enable_seo_url',
             'value' => $data['enable_seo_url'],
             'style' => 'btn_switch',
         ));
-        $fields['compression'] = $form->getFieldHtml(array(
+        $fields['compression'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_compression',
             'value' => $data['config_compression'],
         ));
-        $fields['cache_enable'] = $form->getFieldHtml(array(
+        $fields['cache_enable'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_cache_enable',
             'value' => $data['config_cache_enable'],
             'style' => 'btn_switch',
         ));
-        $fields['upload_max_size'] = $form->getFieldHtml(array(
+        $fields['upload_max_size'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_upload_max_size',
             'value' => number_format($data['config_upload_max_size'], 0, '.', $this->language->get('thousand_point'))
         ));
 
-        $fields['error_display'] = $form->getFieldHtml(array(
+        $fields['error_display'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_error_display',
             'value' => $data['config_error_display'],
             'style' => 'btn_switch',
         ));
-        $fields['error_log'] = $form->getFieldHtml(array(
+        $fields['error_log'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'config_error_log',
             'value' => $data['config_error_log'],
             'style' => 'btn_switch',
         ));
-        $fields['debug'] = $form->getFieldHtml(array(
+        $fields['debug'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_debug',
             'value' => $data['config_debug'],
@@ -776,7 +793,7 @@ class AConfigManager {
                 2 => $this->language->get('entry_debug_2'),
             ),
         ));
-        $fields['debug_level'] = $form->getFieldHtml(array(
+        $fields['debug_level'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_debug_level',
             'value' => $data['config_debug_level'],
@@ -789,22 +806,159 @@ class AConfigManager {
                 5 => $this->language->get('entry_debug_level_5'),
             ),
         ));
-        $fields['template_debug'] = $form->getFieldHtml(array(
+        $fields['template_debug'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
             'name' => 'storefront_template_debug',
             'value' => $data['storefront_template_debug'],
             'style' => 'btn_switch',
             'attr' => 'reload_on_save="true"'
         ));
-        $fields['error_filename'] = $form->getFieldHtml(array(
+        $fields['error_filename'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_error_filename',
             'value' => $data['config_error_filename'],
             'required' => true,
         ));
-
+        if(isset($data['one_field'])){
+            $fields = $this->_filterField($fields,$props,$data['one_field']);
+        }
 		return $fields;
 	}
-	
+
+    private function _filterField($fields, $props, $field_name ){
+        $output = array();
+        foreach($props as $n=>$properties){
+            if($field_name == $properties['name']){
+                $names = array_keys($fields);
+                $name = $names[$n];
+                $output = array($name => $fields[$name]);
+                break;
+            }
+        }
+        return $output;
+    }
+	/*
+	public function validate($group, $field='', $value=''){
+
+		switch ($group) {
+			case 'details':
+				if (!$this->request->post['store_name']) {
+					$this->error['name'] = $this->language->get('error_name');
+				}
+				if (!$this->request->post['config_title']) {
+					$this->error['title'] = $this->language->get('error_title');
+				}
+
+				if (!$this->request->post['config_url']) {
+					$this->error['url'] = $this->language->get('error_url');
+				}
+
+				if ((strlen(utf8_decode($this->request->post['config_owner'])) < 2) || (strlen(utf8_decode($this->request->post['config_owner'])) > 64)) {
+					$this->error['owner'] = $this->language->get('error_owner');
+				}
+
+				if ((strlen(utf8_decode($this->request->post['config_address'])) < 2) || (strlen(utf8_decode($this->request->post['config_address'])) > 256)) {
+					$this->error['address'] = $this->language->get('error_address');
+				}
+
+				$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
+				if ((strlen(utf8_decode($this->request->post['store_main_email'])) > 96) || (!preg_match($pattern, $this->request->post['store_main_email']))) {
+					$this->error['email'] = $this->language->get('error_email');
+				}
+
+				if ((strlen(utf8_decode($this->request->post['config_telephone'])) < 2) || (strlen(utf8_decode($this->request->post['config_telephone'])) > 32)) {
+					$this->error['telephone'] = $this->language->get('error_telephone');
+				}
+				break;
+
+
+			case 'general':
+				//if (!$this->request->post['config_admin_limit']) {
+	//$this->error['admin_limit'] = $this->language->get('error_limit');
+//}
+
+				if (!$this->request->post['config_catalog_limit']) {
+					$this->error['catalog_limit'] = $this->language->get('error_limit');
+				}
+
+				if (!$this->request->post['config_bestseller_limit']) {
+					$this->error['bestseller_limit'] = $this->language->get('error_limit');
+				}
+
+				if (!$this->request->post['config_featured_limit']) {
+					$this->error['featured_limit'] = $this->language->get('error_limit');
+				}
+
+				if (!$this->request->post['config_latest_limit']) {
+					$this->error['latest_limit'] = $this->language->get('error_limit');
+				}
+
+				if (!$this->request->post['config_special_limit']) {
+					$this->error['special_limit'] = $this->language->get('error_limit');
+				}
+				break;
+
+			case 'appearance':
+				if (!$this->request->post['config_image_thumb_width'] || !$this->request->post['config_image_thumb_height']) {
+					$this->error['image_thumb_height'] = $this->language->get('error_image_thumb');
+				}
+
+				if (!$this->request->post['config_image_category_width'] || !$this->request->post['config_image_category_height']) {
+					$this->error['image_category_height'] = $this->language->get('error_image_category');
+				}
+
+				if (!$this->request->post['config_image_product_width'] || !$this->request->post['config_image_product_height']) {
+					$this->error['image_product_height'] = $this->language->get('error_image_product');
+				}
+
+				if (!$this->request->post['config_image_additional_width'] || !$this->request->post['config_image_additional_height']) {
+					$this->error['image_additional_height'] = $this->language->get('error_image_additional');
+				}
+
+				if (!$this->request->post['config_image_related_width'] || !$this->request->post['config_image_related_height']) {
+					$this->error['image_related_height'] = $this->language->get('error_image_related');
+				}
+
+				if (!$this->request->post['config_image_cart_width'] || !$this->request->post['config_image_cart_height']) {
+					$this->error['image_cart_height'] = $this->language->get('error_image_cart');
+				}
+
+				if (!$this->request->post['config_image_grid_width'] || !$this->request->post['config_image_grid_height']) {
+					$this->error['image_grid_height'] = $this->language->get('error_image_grid');
+				}
+				break;
+
+			case 'checkout':
+				break;
+
+			case 'api':
+				break;
+
+			case 'mail':
+
+				if ($this->request->post['config_mail_protocol'] == 'smtp'
+					&& (!$this->request->post['config_smtp_host'] || !$this->request->post['config_smtp_port'] || !$this->request->post['config_smtp_timeout'])
+				) {
+					$this->error['mail'] = $this->language->get('error_mail');
+				}
+
+				break;
+
+			case 'system':
+				if (!$this->request->post['config_error_filename']) {
+					$this->error['error_filename'] = $this->language->get('error_error_filename');
+				}
+				if (isset($this->request->post['config_upload_max_size'])) {
+					$this->request->post['config_upload_max_size'] = preformatInteger($this->request->post['config_upload_max_size']);
+				}
+
+				break;
+
+			default:
+		}
+
+
+	}  */
+
 }
 

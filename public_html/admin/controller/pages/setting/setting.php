@@ -49,7 +49,7 @@ class ControllerPagesSettingSetting extends AController {
                 $this->loadModel('localisation/currency');
                 $this->model_localisation_currency->updateCurrencies();
             }
-
+            $this->model_setting_setting->
             $this->session->data['success'] = $this->language->get('text_success');
             $this->redirect($this->html->getSecureURL('setting/setting', '&active=' . $this->request->get['active'].'&store_id='.(int)$this->request->get['store_id']));
         }
@@ -189,7 +189,7 @@ class ControllerPagesSettingSetting extends AController {
             'actions' => array(
                 'edit' => array(
                     'text' => $this->language->get('text_edit'),
-                    'href' => $this->html->getSecureURL('setting/setting', '&active=%ID%')
+                    'href' => "Javascript: openEditDiag(\'%ID%\')"
                 ),
             ),
         );
@@ -267,9 +267,23 @@ class ControllerPagesSettingSetting extends AController {
 
         $grid = $this->dispatch('common/listing_grid', array($grid_settings));
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
+        // include rl-scripts for quick edit logo and icon of store
+        $resources_scripts = $this->dispatch(
+            'responses/common/resource_library/get_resources_scripts',
+            array(
+                'object_name' => 'store',
+                'object_id' => '0',
+                'types' => 'image',
+                'mode' => 'url'
+            )
+        );
+        $this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+        $this->data['content_language_id'] = $this->language->getContentLanguageID();
 
         $this->view->batchAssign($this->data);
         $this->view->assign('help_url', $this->gen_help_url('setting_listing'));
+
+        $this->view->assign('dialog_url', $this->html->getSecureURL('setting/setting_quick_form') );
 
         $this->processTemplate('pages/setting/setting_list.tpl');
 

@@ -264,11 +264,11 @@
     </definition>
     <definition>
         <key>entry_image_popup_width</key>
-        <value><![CDATA[Product Image Popup Width:]]></value>
+        <value><![CDATA[Large Window Preview Width:]]></value>
     </definition>
     <definition>
         <key>entry_image_popup_height</key>
-        <value><![CDATA[Product Image Popup Height:]]></value>
+        <value><![CDATA[Large Window Preview Height:]]></value>
     </definition>
     <definition>
         <key>entry_image_category</key>

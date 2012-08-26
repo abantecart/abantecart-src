@@ -53,20 +53,15 @@ class ModelSettingSetting extends Model {
 		
 		$sql = "SELECT $total_sql
 				FROM " . DB_PREFIX . "settings s
-				LEFT JOIN  " . DB_PREFIX . "stores st ON st.store_id = s.store_id";
+				LEFT JOIN  " . DB_PREFIX . "stores st ON st.store_id = s.store_id
+                WHERE s.group IN ('".implode("', '",$this->config->groups)."') ";
 
-        $where = false;
         if(isset( $data['store_id'] )){
-            $sql .= " WHERE s.store_id = '".$data['store_id']."'";
-            $where = true;
+            $sql .= " AND s.store_id = '".$data['store_id']."'";
         }
 
 		if (!empty($data['subsql_filter'])) {
-            if($where){
-				$sql .= " AND ".$data['subsql_filter'];
-            }else{
-                $sql .= " WHERE ".$data['subsql_filter'];
-            }
+			$sql .= " AND ".$data['subsql_filter'];
 		}
 
 		//If for total, we done bulding the query
@@ -75,10 +70,7 @@ class ModelSettingSetting extends Model {
 		    return $query->row['total'];
 		}
 
-		$sort_data = array(
-			'group',
-			'key',
-		);
+		$sort_data = array(	'group','key' );
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY `" . $data['sort'] . "`";

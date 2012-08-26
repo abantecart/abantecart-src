@@ -63,11 +63,11 @@
     </definition>
     <definition>
         <key>entry_image_popup_width</key>
-        <value><![CDATA[Ancho del Producto Imagen Popup:]]></value>
+        <value><![CDATA[Ventana grande Ancho Prevista:]]></value>
     </definition>
     <definition>
         <key>entry_image_popup_height</key>
-        <value><![CDATA[Altura del Producto Imagen Popup:]]></value>
+        <value><![CDATA[Ventana grande Altura Prevista:]]></value>
     </definition>
     <definition>
         <key>entry_image_category_width</key>

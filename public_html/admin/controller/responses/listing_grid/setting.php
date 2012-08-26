@@ -55,7 +55,7 @@ class ControllerResponsesListingGridSetting extends AController {
 	    $i = 0;
 		foreach ($results as $result) {
 
-			$response->rows[$i]['id'] = $result['group'].'-'.$result['key'];
+			$response->rows[$i]['id'] = $result['group'].'-'.$result['key'].'-'.$result['store_id'];
 			$response->rows[$i]['cell'] = array(
 				$result['alias'],
 				$result['group'],
