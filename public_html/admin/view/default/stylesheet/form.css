@@ -54,6 +54,10 @@ form {
 	line-height:20px;
 	color:#91b118;
 }
+.ajax_error {
+	line-height:20px;
+	color:#F00;
+}
 .field_err {
 	color:#F00;
 	margin-top:4px;

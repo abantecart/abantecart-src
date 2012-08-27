@@ -41,6 +41,23 @@ class ControllerResponsesErrorAjaxError extends AController {
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($ret_data));
 	}
+	public function validation() {
+        //init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->loadLanguage('error/error');
+		$ret_data = array(
+			'error_text' => func_get_arg(0),
+            'error_code' => 406,
+		);
+
+        $this->response->addheader('HTTP/1.1 406 ' . $this->language->get('heading_title'));
+        $this->response->addheader('Content-Type: application/json');
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($ret_data));
+	}
 
     public function permission() {
         //init controller data

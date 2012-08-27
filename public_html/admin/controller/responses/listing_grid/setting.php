@@ -55,12 +55,26 @@ class ControllerResponsesListingGridSetting extends AController {
 	    $i = 0;
 		foreach ($results as $result) {
 
+			if(($result['value']=='1' || $result['value']=='0')
+				&& !is_int(strpos($result['key'],'_id'))
+				&& !is_int(strpos($result['key'],'level'))
+			){
+				$value = $this->html->buildCheckbox(array(
+					'name'  => '',
+					'value' => $result['value'],
+					'style'  => 'btn_switch',
+					'attr' => 'readonly="true"'
+				));
+			}else{
+				$value = $result['value'];
+			}
+
 			$response->rows[$i]['id'] = $result['group'].'-'.$result['key'].'-'.$result['store_id'];
 			$response->rows[$i]['cell'] = array(
 				$result['alias'],
 				$result['group'],
 				$result['key'],
-				$result['value'],
+				$value,
 			);
 			$i++;
 		}
@@ -94,8 +108,8 @@ class ControllerResponsesListingGridSetting extends AController {
             foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField( $this->request->get['group'], $key, $value);
                 if ( !empty($err) ) {
-				    $this->response->setOutput($err);
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
 			    $data = array( $key => $value );
 			    			    
@@ -109,146 +123,11 @@ class ControllerResponsesListingGridSetting extends AController {
 	}
 
 	private function _validateField( $group, $field, $value ) {
-		$err = '';
 
-		switch ( $group ) {
-			case 'general':
-				switch( $field ) {
-					case 'store_name' :
-						if (!$value) {
-							$err = $this->language->get('error_name');
-						}
-						break;
-					case 'store_url' :
-						if (!$value) {
-							$err = $this->language->get('error_url');
-						}
-						break;
-					case 'config_owner' :
-						if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 64)) {
-							$err = $this->language->get('error_owner');
-						}
-						break;
-					case 'config_address' :
-						if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 256)) {
-							$err = $this->language->get('error_address');
-						}
-						break;
-					case 'store_main_email' :
-						$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
-						if ((strlen(utf8_decode($value)) > 96) || (!preg_match($pattern, $value))) {
-							$this->error['email'] = $this->language->get('error_email');
-						}
-						break;
-					case 'config_telephone' :
-						if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 32)) {
-							$err = $this->language->get('error_telephone');
-						}
-						break;
-				}
-				break;
-
-			case 'store':
-				switch( $field ) {
-					case 'config_title' :
-						if (!$value) {
-							$err = $this->language->get('error_title');
-						}
-						break;
-				}
-				break;
-
-			case 'local':
-				break;
-
-			case 'options':
-				switch( $field ) {
-					case 'config_admin_limit' :
-					case 'config_catalog_limit' :
-					case 'config_bestseller_limit' :
-					case 'config_featured_limit' :
-					case 'config_latest_limit' :
-						if (!$value) {
-							$err = $this->language->get('error_limit');
-						}
-						break;
-				}
-				break;
-
-			case 'images':
-				switch( $field ) {
-					case 'config_image_thumb_width' :
-					case 'config_image_thumb_height' :
-						if (!$value) {
-							$err = $this->language->get('error_image_thumb');
-						}
-						break;
-					case 'config_image_popup_width' :
-					case 'config_image_popup_height' :
-						if (!$value) {
-							$err = $this->language->get('error_image_popup');
-						}
-						break;
-					case 'config_image_category_width' :
-					case 'config_image_category_width' :
-						if (!$value) {
-							$err = $this->language->get('error_image_category');
-						}
-						break;
-					case 'config_image_product_width' :
-					case 'config_image_product_height' :
-						if (!$value) {
-							$err = $this->language->get('error_image_product');
-						}
-						break;
-					case 'config_image_additional_width' :
-					case 'config_image_additional_height' :
-						if (!$value) {
-							$err = $this->language->get('error_image_additional');
-						}
-						break;
-					case 'config_image_related_width' :
-					case 'config_image_related_height' :
-						if (!$value) {
-							$err = $this->language->get('error_image_related');
-						}
-						break;
-                    case 'config_image_cart_width' :
-					case 'config_image_cart_height' :
-						if (!$value) {
-							$err = $this->language->get('error_image_cart');
-						}
-						break;
-                    case 'config_image_grid_width' :
-					case 'config_image_grid_height' :
-						if (!$value) {
-							$err = $this->language->get('error_image_grid');
-						}
-						break;
-				}
-				break;
-
-			case 'mail':
-				break;
-
-			case 'server':
-				switch( $field ) {
-					case 'config_error_filename' :
-						if (!$value) {
-							$err = $this->language->get('error_error_filename');
-						}
-						break;
-					case 'config_upload_max_size':
-						$this->request->post['config_upload_max_size'] = preformatInteger($this->request->post['config_upload_max_size']);
-						break;
-				}
-				break;
-
-			default:
-		}
-
-
-		return $err;
+		$this->load->library('config_manager');
+		$config_mngr = new AConfigManager();
+		$result = $config_mngr->validate($group, array( $field => $value ));
+		return current($result['error']);
 	}
 
 	private function _validateDelete($id) {

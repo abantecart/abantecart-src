@@ -207,10 +207,19 @@ function saveField(obj, url) {
             type:"post",
             dataType:"text",
             data:$data,
-            error:function () {
-                $('.ajax_result', $wrapper).html('There\'s an error in ajax call.').fadeOut(2000, function () {
-                    $(this).remove();
-                });
+            error:function (data) {
+                var $json = $.parseJSON(data.responseText);
+                if($json.error_code==406){  // for ajax error shows
+                    $('.ajax_result', $wrapper).html('<span class="ajax_error">' + $json.error_text + '</span>').fadeOut(3000, function () {
+                        $(this).remove();
+                    });
+                    $('.field_err', $wrapper).remove();
+
+                }else{
+                    $('.ajax_result', $wrapper).html('There\'s an error in ajax call.').fadeOut(3000, function () {
+                        $(this).remove();
+                    });
+                }
             },
             success:function (data) {
                 if (need_reload) {
@@ -226,7 +235,7 @@ function saveField(obj, url) {
                     }
                 });
 
-                $('.ajax_result', $wrapper).html('<span class="ajax_success">' + data + '</span>').fadeOut(2000, function () {
+                $('.ajax_result', $wrapper).html('<span class="ajax_success">' + data + '</span>').fadeOut(3000, function () {
                     $(this).remove();
                 });
                 $('.field_err', $wrapper).remove();
@@ -284,7 +293,7 @@ function validate(name, value) {
 
 var $error_dialog = null;
 httpError = function (data) {
-    if ($error_dialog)
+    if ($error_dialog || data.error_code==406)
         return;
 
     $error_dialog = $('<div></div>')

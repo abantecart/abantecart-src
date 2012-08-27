@@ -55,6 +55,7 @@ function openEditDiag(id) {
         close:function (event) {
             $(this).dialog('destroy');
 			CKEditor('destroy');
+			$('#setting_grid').trigger("reloadGrid");;
 
 		}
     });

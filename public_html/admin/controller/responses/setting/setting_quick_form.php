@@ -48,7 +48,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
         $store_id = !isset($this->request->get['store_id']) ? $setting[2] : $this->request->get['store_id'];
 
         $this->document->setTitle($this->language->get('heading_title'));
-        if (($this->request->server['REQUEST_METHOD'] == 'POST' && $this->_validateForm()) ) {
+        if (($this->request->server['REQUEST_METHOD'] == 'POST' && $this->_validateForm($group)) ) {
             $this->model_setting_setting->editSetting( $group, $this->request->post, $store_id );
             $this->view->assign('success', $this->language->get('text_success'));
         }
@@ -182,28 +182,16 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _validateForm() {
+    private function _validateForm($group) {
         if (!$this->user->hasPermission('modify', 'setting/setting_quick_form')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
-       /* if (!$this->request->post['language_key']) {
-            $this->error['language_key'] = $this->language->get('error_language_key');
-        }
-
-        foreach ($this->request->post['language_value'] as $key => $val) {
-            if (empty($val))
-                $this->error['language_value'][$key] = $this->language->get('error_language_value');
-        }
-
-        if (!$this->request->post['block']) {
-            $this->error['block'] = $this->language->get('error_block');
-        }
-
-        if (!is_numeric($this->request->post['section'])) {
-            $this->error['section'] = $this->language->get('error_section');
-        }
-         */
+		$this->load->library('config_manager');
+		$config_mngr = new AConfigManager();
+		$result = $config_mngr->validate($group, $this->request->post);
+		$this->error = $result['error'];
+		$this->request->post = $result['validated']; // for changed data saving
 
         if (!$this->error) {
             return TRUE;
