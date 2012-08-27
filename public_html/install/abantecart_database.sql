@@ -1155,6 +1155,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general', 'config_download', '1'),
 ('general', 'config_download_status', '5'),
 ('general', 'config_help_links', '1'),
+('general', 'config_show_tree_data', '1'),
 
 -- Checkout
 ('checkout', 'starting_invoice_id', '001'),

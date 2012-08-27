@@ -179,7 +179,10 @@ class AMenu {
 	public function insertMenuItem($item = array()) {
 		
 		$check_array = array ("item_id", "item_text", "item_url", "parent_id", "sort_order", "item_type" );
-		
+	
+		//clean text id 
+		$item ["item_id"] = preformatTextID($item ["item_id"]);
+			
 		if (! $item ['item_type']) {
 			$item ['item_type'] == 'extension';
 		}

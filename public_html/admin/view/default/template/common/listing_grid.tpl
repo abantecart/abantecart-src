@@ -4,7 +4,7 @@
         <div id="<?php echo $data['table_id'] ?>_pager"></div>
         <div class="no_results"><?php echo $text_no_results; ?></div>
         <?php if ($data['multiselect'] == 'true' && !$data['multiselect_noselectbox']) { ?>
-        <div class="multiactions" id="<?php echo $data['table_id'] ?>_multiactions" align="right">
+        <div class="multiactions <?php echo $data['multiaction_class']; ?>" id="<?php echo $data['table_id'] ?>_multiactions" align="right">
             <a id="<?php echo $data['table_id'] ?>_go" class="btn_standard"><?php echo $btn_go; ?></a>
 
             <select id="<?php echo $data['table_id'] ?>_selected_action" name="<?php echo $data['table_id'] ?>_action">
@@ -94,6 +94,12 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
         height:'100%',
         sortname:'<?php echo $data['sortname'] ?>',
         sortorder:'<?php echo $data['sortorder'] ?>',
+        <?php if($data['expand_column']) { ?>
+        treeGrid: true,
+        treeGridModel: 'adjacency',  
+        ExpandColClick: true,
+        ExpandColumn:  '<?php echo $data['expand_column']; ?>',
+        <?php } ?>
         loadComplete:function (data) {
 
             if (data.userdata && data.userdata.classes != null) {
@@ -293,7 +299,10 @@ if ($custom_buttons) {
 <?php if ($data['multiselect'] == 'true') { ?>
     $(table_id + '_multiactions').appendTo($(table_id + '_pager_right'));
     $(table_id + "_go").click(function () {
+        //get all selected rows based on multiselct 
         var ids = $(table_id).jqGrid('getGridParam', 'selarrrow');
+        //get single selected row 
+        ids.push( $(table_id).jqGrid('getGridParam', 'selrow') );
         if (!ids.length) {
             alert(text_select_items);
             return;

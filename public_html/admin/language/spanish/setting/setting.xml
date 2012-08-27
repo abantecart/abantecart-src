@@ -213,6 +213,11 @@
             <![CDATA[Ayuda Enlaces:<br /><span class="help">Si quieres ver los iconos de ayuda y enlaces al sitio AbanteCart. Esto le ayudará a aprender sobre las características y la forma de utilizarlos. Si el usuario avanzado y no quieren ver a estos iconos de ayuda, se puede desactivar.</span>]]></value>
     </definition>
     <definition>
+        <key>entry_show_tree_data</key>
+        <value>
+            <![CDATA[Activar cuadrícula Tree:<br /><span class="help">Activar las redes de administración para mostrar padre / Tipo niños en el listado de cuadrícula. NOTA: La paginación y acciones múltiples están deshabilitados para redes supremo</span>]]></value>
+    </definition>    
+    <definition>
         <key>entry_cart_ajax</key>
         <value>
             <![CDATA[Misma página Añadir al carro:<br /><span class="help">Esto le permitirá añadir a AJAX característica del carro. El producto puede ser añadido a la cesta sin redirigir a la página de compra</span>]]></value>

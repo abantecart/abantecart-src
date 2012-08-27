@@ -44,8 +44,22 @@ class ControllerResponsesListingGridMenu extends AController {
         //process custom search form
 	    $this->menu = new AMenu_Storefront();
 		$menu_items = $this->menu->getMenuItems();
-	    if ( !empty($this->request->get['parent_id']) )
-			$menu_items = $menu_items[$this->request->get['parent_id']];
+		
+	    $new_level = 0;
+	    $leafnodes = array();
+		//get all leave menus 
+		$leafnodes = $this->menu->getLeafMenus();
+		//build parent id
+		$menu_parent_id = '';
+		if ($this->request->get['parent_id']){
+			$menu_parent_id = $this->request->get['parent_id'];
+		} else if ( $this->request->post['nodeid'] ) {
+	    	$menu_parent_id = $this->request->post['nodeid'];
+			$new_level = (integer)$this->request->post["n_level"] + 1;
+	    }
+				
+	    if ( !empty( $menu_parent_id ) )
+			$menu_items = $menu_items[ $menu_parent_id ];
 	    else
 			$menu_items = $menu_items[""];
 
@@ -97,6 +111,11 @@ class ControllerResponsesListingGridMenu extends AController {
 	                    'name'  => 'sort_order['.$result['item_id'].']',
 	                    'value' => $result['sort_order'],
 	                )),
+	                'action',
+	                $new_level,
+	                ( $menu_parent_id ? $menu_parent_id : NULL ),
+	                ( $result['item_id'] == $leafnodes[$result['item_id']] ? true : false ),
+	                false	                
 				);
 				$i++;
 			}

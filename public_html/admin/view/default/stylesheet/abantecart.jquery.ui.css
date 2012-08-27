@@ -791,38 +791,63 @@ tr.ui-search-toolbar select {
 }
 
 /* Tree Grid */
+
 .ui-jqgrid .tree-wrap {
     float: left;
     position: relative;
     height: 18px;
     white-space: nowrap;
-    overflow: hidden;
-}
-
-.ui-jqgrid .tree-minus {
-    position: absolute;
-    height: 18px;
-    width: 18px;
-    overflow: hidden;
 }
 
 .ui-jqgrid .tree-plus {
-    position: absolute;
-    height: 18px;
-    width: 18px;
-    overflow: hidden;
+    position: relative;
+    height: 16px;
+    width: 16px;
+    -moz-background-clip: border;
+    -moz-background-inline-policy: continuous;
+    -moz-background-origin: padding;
+    background: url(../image/arrow_right.png) 100% 0 no-repeat;
+    color: #000000;
+    display: inline-block;
+    line-height: 16px;
+    cursor: pointer;
+}
+
+.ui-jqgrid .tree-minus {
+    position: relative;
+    height: 16px;
+    width: 16px;
+    -moz-background-clip: border;
+    -moz-background-inline-policy: continuous;
+    -moz-background-origin: padding;
+    background: url(../image/desc.png) 100% 0 no-repeat;
+    color: #000000;
+    display: inline-block;
+    line-height: 16px;
+    cursor: pointer;
 }
 
 .ui-jqgrid .tree-leaf {
-    position: absolute;
+    position: relative;
     height: 18px;
     width: 18px;
-    overflow: hidden;
+    background: none;
 }
 
 .ui-jqgrid .treeclick {
     cursor: pointer;
 }
+
+
+.ui-jqgrid .tree-wrap-ltr {
+    float: left;
+    padding-right: 20px;
+}
+
+.ui-jqgrid .tree-wrap-rtl {
+    float: right;
+}
+
 
 /* moda dialog */
 .jqmOverlay {
@@ -868,14 +893,6 @@ tr.ui-search-toolbar select {
 
 .ui-jqgrid .ui-sort-rtl {
     left: 0px;
-}
-
-.ui-jqgrid .tree-wrap-ltr {
-    float: left;
-}
-
-.ui-jqgrid .tree-wrap-rtl {
-    float: right;
 }
 
 .ui-jqgrid .ui-ellipsis {
