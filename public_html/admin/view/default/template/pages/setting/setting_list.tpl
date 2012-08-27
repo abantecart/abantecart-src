@@ -34,8 +34,6 @@
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
 <div id="edit_dialog" style="overflow:hidden;"></div>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
 
 $(".toolbar select").aform({
@@ -87,7 +85,7 @@ function openEditDiag(id) {
 
 			CKEditor('add');
 
-            $('#cgFrm_close').bind('click',function(){
+            $('#cgFrm_cancel').bind('click',function(){
                 $('#edit_dialog').dialog("close");
             });
         }

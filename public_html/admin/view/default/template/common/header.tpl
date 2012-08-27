@@ -125,6 +125,8 @@
 </div>
 <?php } ?>
 <div id="suggest_popup_dialog"></div>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script language="JavaScript">
     $(function () {
         if (!$('#global_search')) return;
@@ -255,6 +257,7 @@
                 draggable:true,
                 close:function (event) {
                     $('#global_search').focus();
+					CKEditor('destroy');
                     $(this).dialog('destroy');
 
                 }
@@ -272,8 +275,41 @@
                     $("#suggest_popup_dialog").html(data.html);
                     $('#suggest_popup_dialog').dialog('option', 'title', data.title);
                     $('#suggest_popup_dialog').dialog('option', 'height', 'auto');
+					$('span[id$="cancel"]').bind('click',function(){
+						$('#suggest_popup_dialog').dialog("close");
+					});
+					CKEditor('add');
                 }
             });
+
+
+			function CKEditor(mode){
+				var settings = [];
+				settings[0] = 'cgFrm_config_description_<?php echo $content_language_id; ?>';
+				settings[1] = 'cgFrm_config_meta_description';
+
+				for( var k in settings ){
+
+					if($('#'+settings[k]).length>0){
+						if(mode=='add'){
+							$('#'+settings[k]).parents('.afield').removeClass('mask2');
+							$('#'+settings[k]).parents('td').removeClass('ml_field').addClass('ml_ckeditor');
+
+							CKEDITOR.replace(settings[k], {
+								filebrowserBrowseUrl:false,
+								filebrowserImageBrowseUrl:'<?php echo $rl; ?>',
+								filebrowserWindowWidth:'920',
+								filebrowserWindowHeight:'520',
+								language:'<?php echo $language_code; ?>'
+							});
+							$("#edit_dialog").dialog('option', 'width', '800');
+						}else{
+							var editor = CKEDITOR.instances[settings[k]];
+							if (editor) { editor.destroy(true); }
+						}
+					}
+				}
+			}
         }
 
     });

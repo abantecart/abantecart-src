@@ -102,7 +102,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
         ));
         $this->data['form']['cancel'] = $form->getFieldHtml(array(
             'type' => 'button',
-            'name' => 'close',
+            'name' => 'cancel',
             'text' => $this->language->get('button_cancel'),
             'style' => 'button2',
         ));

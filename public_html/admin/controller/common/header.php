@@ -48,6 +48,7 @@ class ControllerCommonHeader extends AController
         $this->view->assign('language_code', $this->session->data['language']);
         $this->view->assign('languages', array());
         $this->view->assign('languages', $this->language->getActiveLanguages());
+        $this->view->assign('content_language_id', $this->language->getContentLanguageID());
 
         $new_messages = array();
         if (isset($this->session->data['new_messages']) && sizeof($this->session->data['new_messages']) > 0) {

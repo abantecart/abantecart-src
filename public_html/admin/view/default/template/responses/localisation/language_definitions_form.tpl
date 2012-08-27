@@ -64,7 +64,7 @@
     <!-- <div class="fieldset"> -->
     <div class="buttons align_center">
         <button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
-        <a class="btn_standard" href="<?php echo $cancel; ?>"><?php echo $form['cancel']; ?></a>
+        <a class="btn_standard" ><?php echo $form['cancel']; ?></a>
     </div>
     </form>
 </div>
