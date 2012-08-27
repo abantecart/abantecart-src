@@ -16,6 +16,7 @@ update ac_settings set `group` = 'system' where `key` in ('config_ssl', 'config_
 INSERT into ac_settings values ('', 0, 'api', 'config_storefront_api_stock_check', '0');
 INSERT INTO ac_settings values ('', 0, 'appearance', 'config_cart_ajax', '1');
 INSERT into ac_settings values ('', 0, 'general', 'config_nostock_autodisable', '0');
+INSERT into ac_settings values ('', 0, 'general', 'config_show_tree_data', '1');
 
 alter table ac_stores add column
 	`alias` varchar(15) COLLATE utf8_bin NOT NULL; 

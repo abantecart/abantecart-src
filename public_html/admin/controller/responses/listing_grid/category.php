@@ -39,6 +39,15 @@ class ControllerResponsesListingGridCategory extends AController {
 	    $filter_data = $filter->getFilterData();
 	    //Add custom params
 	    $filter_data['parent_id'] = ( isset( $this->request->get['parent_id'] ) ? $this->request->get['parent_id'] : 0 );
+	    $new_level = 0;
+	    $leafnodes = array();
+		//get all leave categories 
+		$leafnodes = $this->model_catalog_category->getLeafCategories();
+	    if ($this->request->post['nodeid'] ) {
+	    	$filter_data = array();
+	    	$filter_data['parent_id'] = (integer)$this->request->post['nodeid'];
+			$new_level = (integer)$this->request->post["n_level"] + 1;
+	    }
 	    
 	    $total = $this->model_catalog_category->getTotalCategories($filter_data);
 	    $response = new stdClass();
@@ -59,14 +68,22 @@ class ControllerResponsesListingGridCategory extends AController {
 
             $response->rows[$i]['id'] = $result['category_id'];
             $cnt = $this->model_catalog_category->getCategoriesData(array('parent_id'=>$result['category_id']),'total_only');
-			$response->rows[$i]['cell'] = array(
-                $thumbnail['thumb_html'],
-				'<label style="white-space: nowrap;">'.(str_replace($result['basename'],'',$result['name'])).'</label>'
+            //treegrid structure
+            $name_lable = '';
+            if ( $this->config->get('config_show_tree_data') ) {
+            	$name_lable = '<label style="white-space: nowrap;">'.$result['basename'].'</label>';
+            } else {
+            	$name_lable = '<label style="white-space: nowrap;">'.(str_replace($result['basename'],'',$result['name'])).'</label>'
 			     .$this->html->buildInput(array(
                     'name'  => 'category_description['.$result['category_id'].']['.$this->session->data['content_language_id'].'][name]',
                     'value' => $result['basename'],
 				    'attr' => ' maxlength="32" '
-                )),
+                ));
+            }
+                   
+			$response->rows[$i]['cell'] = array(
+                $thumbnail['thumb_html'],
+                $name_lable,
                 $this->html->buildInput(array(
                     'name'  => 'sort_order['.$result['category_id'].']',
                     'value' => $result['sort_order'],
@@ -81,7 +98,12 @@ class ControllerResponsesListingGridCategory extends AController {
                 .($cnt ?
                 '&nbsp;<a class="btn_action btn_grid grid_action_expand" href="#" rel="parent_id='.$result['category_id'].'" title="'. $this->language->get('text_view') . '">'.
 				'<img src="'.RDIR_TEMPLATE.'image/icons/icon_grid_expand.png" alt="'. $this->language->get('text_view') . '" /></a>'
-                  :''),
+                  :''), 
+                 'action',
+                 $new_level,
+                 ( $filter_data['parent_id'] ? $filter_data['parent_id'] : NULL ),
+                 ( $result['category_id'] == $leafnodes[$result['category_id']] ? true : false ),
+                 false              
 			);
 			$i++;
 		}

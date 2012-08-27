@@ -34,11 +34,19 @@ function preformatFloat($value, $decimal_point='.'){
 	}
 	return (float)preg_replace('/[^0-9\.]/','',$value);
 }
+
 /*
  * prepare integer for database writing
  * */
 function preformatInteger($value){
 	return (int)preg_replace('/[^0-9]/','',$value);
+}
+
+/*
+ * prepare string for text id 
+ * */
+function preformatTextID($value){
+	return strtolower( preg_replace("/[^A-Za-z0-9]/", "", $value) );
 }
 
 /*

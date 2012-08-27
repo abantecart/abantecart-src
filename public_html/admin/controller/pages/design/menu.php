@@ -106,7 +106,7 @@ class ControllerPagesDesignMenu extends AController {
 			array ('name' => 'item_id',
 			       'index' => 'item_id',
 			       'width' => 120,
-			       'align' => 'center',
+			       'align' => 'left',
 			       'search' => false ),
 			array ('name' => 'item_text',
 			       'index' => 'item_text',
@@ -118,6 +118,11 @@ class ControllerPagesDesignMenu extends AController {
 			       'align' => 'center',
 			       'search' => false )
 		);
+
+		if ( $this->config->get('config_show_tree_data') ) {
+			$grid_settings[ 'expand_column' ] = "item_id";	
+			$grid_settings[ 'multiaction_class' ] = 'hidden';	
+		}
 
 		$grid = $this->dispatch ( 'common/listing_grid', array ($grid_settings ) );
 		$this->view->assign ( 'listing_grid', $grid->dispatchGetOutput () );
@@ -151,8 +156,9 @@ class ControllerPagesDesignMenu extends AController {
 		    }
 
             $this->request->post['item_icon'] = html_entity_decode($this->request->post['item_icon'], ENT_COMPAT, 'UTF-8');
+            $textid = preformatTextID($this->request->post ['item_id']);
 			$result = $this->menu->insertMenuItem ( array (
-				'item_id' => $this->request->post ['item_id'],
+				'item_id' => $textid,
 				'item_icon' => $this->request->post ['item_icon'],
 				'item_text' => $this->request->post ['item_text'],
 				'parent_id' => $this->request->post ['parent_id'],
@@ -165,7 +171,7 @@ class ControllerPagesDesignMenu extends AController {
 				$this->error ['warning'] = $result;
 			} else {
 				$this->session->data ['success'] = $this->language->get ( 'text_success' );
-				$this->redirect ( $this->html->getSecureURL ( 'design/menu/update', '&item_id=' . $this->request->post ['item_id'] ) );
+				$this->redirect ( $this->html->getSecureURL ( 'design/menu/update', '&item_id=' . $textid) );
 			}
 		}
 

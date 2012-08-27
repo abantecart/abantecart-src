@@ -80,22 +80,38 @@ class ControllerResponsesListingGridAttribute extends AController {
             $attribute_types[$type['attribute_type_id']] = $type['type_name'];
         }
 
-	    $results = $this->attribute_manager->getAttributes($data);
+	    $new_level = 0;
+	    $attr_parent_id = null;
+	    $leafnodes = array();
+		//get all leave attributes 
+		$leafnodes = $this->attribute_manager->getLeafAttributes();
+		if ( $this->config->get('config_show_tree_data') ) {
+		    if ( $this->request->post['nodeid'] ) {
+		    	$attr_parent_id = (integer)$this->request->post['nodeid'];
+				$new_level = (integer)$this->request->post["n_level"] + 1;
+		    } else {
+		    	$attr_parent_id = 0;
+		    }
+	    }
+
+	    $results = $this->attribute_manager->getAttributes($data, '', $attr_parent_id);
 	    $i = 0;
 		foreach ($results as $result) {
-            $response->rows[$i]['id'] = $result['attribute_id'];
-			$response->rows[$i]['cell'] = array(
-				$this->html->buildInput(array(
+            //treegrid structure
+            $name_lable = '';
+            if ( $this->config->get('config_show_tree_data') ) {
+            	$name_lable = $result['name'];
+            } else {
+            	$name_lable = $this->html->buildInput(array(
                     'name'  => 'name['.$result['attribute_id'].']',
                     'value' => $result['name'],
-                )),
+                ));
+            }
+				
+            $response->rows[$i]['id'] = $result['attribute_id'];
+			$response->rows[$i]['cell'] = array(
+				$name_lable,
 				$attribute_types[$result['attribute_type_id']],
-				/*$this->html->buildSelectBox(array(
-					'type' => 'selectbox',
-					'name' => 'attribute_type_id['.$result['attribute_id'].']',
-					'value' => $result['attribute_type_id'],
-					'options' => $attribute_types,
-				)),*/
 				$this->html->buildInput(array(
                     'name'  => 'sort_order['.$result['attribute_id'].']',
                     'value' => $result['sort_order'],
@@ -105,6 +121,11 @@ class ControllerResponsesListingGridAttribute extends AController {
                     'value' => $result['status'],
                     'style'  => 'btn_switch',
                 )),
+                'action',
+                $new_level,
+                ( $attr_parent_id ? $attr_parent_id : NULL ),
+                ( $result['attribute_id'] == $leafnodes[$result['attribute_id']] ? true : false ),
+                false                              
 			);
 			$i++;
 		}

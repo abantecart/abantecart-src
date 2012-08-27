@@ -146,24 +146,32 @@ class ControllerPagesCatalogAttribute extends AController {
 			array(
 				'name' => 'name',
 				'index' => 'gad.name',
-				'align' => 'center',
+				'align' => 'left',
 			),
 			array(
 				'name' => 'type',
 				'index' => 'ga.attribute_type_id',
 				'align' => 'center',
+				'width' => 90,				
 			),
 			array(
 				'name' => 'sort_order',
 				'index' => 'ga.sort_order',
 				'align' => 'center',
+				'width' => 60,				
 			),
 			array(
 				'name' => 'status',
 				'index' => 'ga.status',
 				'align' => 'center',
+				'width' => 80,				
 			),
 		);
+
+		if ( $this->config->get('config_show_tree_data') ) {
+			$grid_settings[ 'expand_column' ] = "name";	
+			$grid_settings[ 'multiaction_class' ] = 'hidden';	
+		}
 
 		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ));
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());

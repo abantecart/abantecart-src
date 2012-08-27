@@ -340,6 +340,12 @@ class AConfigManager {
             'value' => $data['config_help_links'],
             'style' => 'btn_switch',
         ));
+        $fields['show_tree_data'] = $form->getFieldHtml($props[] = array(
+            'type' => 'checkbox',
+            'name' => 'config_show_tree_data',
+            'value' => $data['config_show_tree_data'],
+            'style' => 'btn_switch',
+        ));
 
         if(isset($data['one_field'])){
             $fields = $this->_filterField($fields,$props,$data['one_field']);

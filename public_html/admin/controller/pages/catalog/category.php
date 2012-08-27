@@ -93,7 +93,7 @@ class ControllerPagesCatalogCategory extends AController {
 				'name' => 'name',
 				'index' => 'name',
 				'width' => 380,
-				'align' => 'center',
+				'align' => 'left',
 			),
 			array(
 				'name' => 'sort_order',
@@ -124,7 +124,10 @@ class ControllerPagesCatalogCategory extends AController {
 				'search' => false,
 			),
 		);
-
+		if ( $this->config->get('config_show_tree_data') ) {
+			$grid_settings[ 'expand_column' ] = "name";	
+			$grid_settings[ 'multiaction_class' ] = 'hidden';		
+		}
 
         $results = $this->model_catalog_category->getCategories(0);
 		$parents = array( 0 => $this->language->get('text_none') );

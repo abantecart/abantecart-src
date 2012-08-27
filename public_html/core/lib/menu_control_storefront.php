@@ -88,10 +88,31 @@ class AMenu_Storefront extends AMenu {
 		// add text data
 		foreach ( $this->dataset_decription_rows as $item ) {
 			if ($item_id == $item ['item_id']) {
-				$menu_item['item_text'][$item ['language_id']] = $item ['item_text'];
+				$menu_item['item_text'][ $item['language_id'] ] = $item['item_text'];
 			}
 		}
 		return $menu_item;
+	}
+
+	/**
+	 * Method return list of all leaf menu items
+	 *
+	 * @return array
+	 */
+	public function getLeafMenus() {
+		$return_arr = array();
+		$all_parents = array();
+		foreach ( $this->dataset_rows as $item ) {
+			if ($item ['parent_id']) {
+				$all_parents[] = $item['parent_id'];
+			} 
+		}
+		foreach ( $this->dataset_rows as $item ) { 
+			if ( !in_array( $item['item_id'], $all_parents ) ) {
+				$return_arr[ $item['item_id'] ] = $item['item_id'];
+			}
+		}
+		return $return_arr;
 	}
 	
 	/**
@@ -105,6 +126,9 @@ class AMenu_Storefront extends AMenu {
 			throw new AException (AC_ERR_LOAD, 'Error: permission denied to change menu');
 		}
 
+		//clean text id 
+		$item ["item_id"] = preformatTextID($item ["item_id"]);
+
 		$check_array = array ("item_id", "item_icon", "item_text", "item_url", "parent_id", "sort_order", "item_type" );
 		
 		if (! $item ["item_id"] || ! $item ["item_text"] || sizeof ( array_intersect ( $check_array, array_keys ( $item ) ) ) < 7) {
@@ -115,8 +139,6 @@ class AMenu_Storefront extends AMenu {
 			return 'Error: Cannot to add menu item because parent "' . $item ['parent_id'] . '" is not exists';
 		}
 
-		// then insert
-		//when autosorting
 		if (! $item ["sort_order"]) {
 			// we need to know last order number of children and set new for new item... yet
 			$brothers = $this->getMenuChildren ( $item ["parent_id"] );

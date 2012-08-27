@@ -545,4 +545,16 @@ class AAttribute_Manager extends AAttribute {
         return $query->num_rows;
     }
 
+	public function getLeafAttributes() {
+		$query = $this->db->query(
+			"SELECT t1.attribute_id as attribute_id FROM " . DB_PREFIX . "global_attributes AS t1 LEFT JOIN " . DB_PREFIX . "global_attributes as t2
+			 ON t1.attribute_id = t2.attribute_parent_id WHERE t2.attribute_id IS NULL");
+		$result = array();
+		foreach ( $query->rows as $r ) {
+			$result[$r['attribute_id']] = $r['attribute_id'];
+		}
+
+		return $result;
+	}
+
 }

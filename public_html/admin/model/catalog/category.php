@@ -274,6 +274,18 @@ class ModelCatalogCategory extends Model {
 		return $result;
 	}
 
+	public function getLeafCategories() {
+		$query = $this->db->query(
+			"SELECT t1.category_id as category_id FROM " . DB_PREFIX . "categories AS t1 LEFT JOIN " . DB_PREFIX . "categories as t2
+			 ON t1.category_id = t2.parent_id WHERE t2.category_id IS NULL");
+		$result = array();
+		foreach ( $query->rows as $r ) {
+			$result[$r['category_id']] = $r['category_id'];
+		}
+
+		return $result;
+	}
+
 	public function getPath($category_id) {
 		$language_id = ( int )$this->session->data['content_language_id'];
 		$query = $this->db->query("SELECT name, parent_id
