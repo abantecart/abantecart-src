@@ -106,8 +106,8 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 				foreach( $ids as $id ) {
 					$err = $this->_validateDelete($id);
 					if (!empty($err)) {
-						$this->response->setOutput( $err);
-						return;
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 					$this->attribute_manager->deleteAttributeGroup($id);
 				}
@@ -121,8 +121,8 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 						if ( isset($this->request->post[$f][$id]) ) {
 							$err = $this->_validateField($f, $this->request->post[$f][$id]);
 							if ( !empty($err) ) {
-								$this->response->setOutput( $err );
-								return;
+								$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+								return $dd->dispatch();
 							}
 							$this->attribute_manager->updateAttributeGroup($id, array($f => $this->request->post[$f][$id]) );
 						}
@@ -160,8 +160,8 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 		    foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField($key, $value);
 			    if ( !empty($err) ) {
-				    $this->response->setOutput($err);
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
 			    $data = array( $key => $value );
                 $this->attribute_manager->updateAttributeGroup($this->request->get['id'], $data);
@@ -176,8 +176,8 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 			foreach ( $this->request->post[$f] as $k => $v ) {
 				$err = $this->_validateField($f, $v);
 				if ( !empty($err) ) {
-					$this->response->setOutput($err);
-					return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 				}
 				$this->attribute_manager->updateAttributeGroup($k, array($f => $v) );
 			}

@@ -120,8 +120,8 @@ class ControllerResponsesListingGridProduct extends AController {
 				foreach( $ids as $id ) {
 					$err = $this->_validateDelete($id);
 					if (!empty($err)) {
-						$this->response->setOutput($err);
-						return;
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 
 					$this->model_catalog_product->deleteProduct($id);
@@ -140,8 +140,8 @@ class ControllerResponsesListingGridProduct extends AController {
 						if ( isset($this->request->post[$f][$id]) ) {
 							$err = $this->_validateField($f, $this->request->post[$f][$id]);
 							if ( !empty($err) ) {
-								$this->response->setOutput($err);
-								return;
+								$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+								return $dd->dispatch();
 							}
 							$this->model_catalog_product->updateProduct($id, array($f => $this->request->post[$f][$id]) );
 						}
@@ -181,8 +181,8 @@ class ControllerResponsesListingGridProduct extends AController {
             foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField($key, $value);
                 if ( !empty($err) ) {
-				    $this->response->setOutput($err);
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
 			    $data = array( $key => $value );
 				$this->model_catalog_product->updateProduct($this->request->get['id'], $data);
@@ -198,8 +198,8 @@ class ControllerResponsesListingGridProduct extends AController {
 			foreach ( $this->request->post[$f] as $k => $v ) {
 				$err = $this->_validateField($f, $v);
 				if ( !empty($err) ) {
-					$this->response->setOutput($err);
-					return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 				}
 				$this->model_catalog_product->updateProduct($k, array($f => $v) );
 			}

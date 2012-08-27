@@ -152,8 +152,8 @@ class ControllerResponsesListingGridCoupon extends AController {
 			    if ( !$err ) {
 			        $this->model_sale_coupon->editCoupon($this->request->get['id'], array( $field => $value) );
 			    } else {
-				    $this->response->setOutput($err);
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
 		    }
 		    return;
@@ -166,8 +166,8 @@ class ControllerResponsesListingGridCoupon extends AController {
 			    if ( !$err ) {
 			        $this->model_sale_coupon->editCoupon($k, array($field => $v) );
 			    } else {
-				    $this->response->setOutput($err);
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
             }
         }

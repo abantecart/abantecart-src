@@ -187,11 +187,9 @@ class ControllerResponsesListingGridCategory extends AController {
             foreach ( $value as $k => $v ) {
 	             if($field=='category_description'){
 				    if ((strlen(utf8_decode($v[$language_id]['name'])) < 2) || (strlen(utf8_decode($v[$language_id]['name'])) > 32)) {
-					    $response = new stdClass ();
-						$response->userdata->error = $this->language->get('error_name');
-						$this->load->library('json');
-						$this->response->setOutput(AJson::encode($response));
-					    break;
+						$err = $this->language->get('error_name');
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 			    }
 				$this->model_catalog_category->editCategory($k, array($field => $v) );

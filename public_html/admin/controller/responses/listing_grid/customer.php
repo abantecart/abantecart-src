@@ -135,15 +135,15 @@ class ControllerResponsesListingGridCustomer extends AController {
 					if ( !$err ) {
 						$this->model_sale_customer->editCustomerField($id, 'status', $this->request->post['status'][$id]);
 					} else {
-						$this->response->setOutput( $err );
-						return;
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 					$err = $this->_validateForm('approved', $this->request->post['approved'][$id] );
 					if ( !$err ) {
 						$this->model_sale_customer->editCustomerField($id, 'approved', $this->request->post['approved'][$id]);
 					} else {
-						$this->response->setOutput( $err );
-						return;
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 				}
 				break;
@@ -171,8 +171,9 @@ class ControllerResponsesListingGridCustomer extends AController {
 		$this->loadModel('sale/customer');
 
         if (!$this->user->hasPermission('modify', 'sale/customer')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'sale/customer') );
-            return;
+			$err = sprintf($this->language->get('error_permission_modify'), 'sale/customer');
+			$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+			return $dd->dispatch();
 		}
 
 	    if ( isset( $this->request->get['id'] ) ) {
@@ -181,8 +182,8 @@ class ControllerResponsesListingGridCustomer extends AController {
 			    if ( !$err ) {
 			        $this->model_sale_customer->editCustomerField($this->request->get['id'], $field, $value);
 			    } else {
-				    $this->response->setOutput( $err );
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
 		    }
 		    //update controller data
@@ -197,8 +198,8 @@ class ControllerResponsesListingGridCustomer extends AController {
 			    if ( !$err ) {
 			        $this->model_sale_customer->editCustomerField($k, $field, $v);
 			    } else {
-				    $this->response->setOutput( $err );
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
             }
         }

@@ -210,13 +210,14 @@ function saveField(obj, url) {
             error:function (data) {
                 var $json = $.parseJSON(data.responseText);
                 if($json.error_code==406){  // for ajax error shows
-                    $('.ajax_result', $wrapper).html('<span class="ajax_error">' + $json.error_text + '</span>').fadeOut(3000, function () {
+                    $('.ajax_result', $wrapper).html('<span class="ajax_error">' + $json.error_text + '</span>').fadeOut(4000, function () {
                         $(this).remove();
                     });
                     $('.field_err', $wrapper).remove();
+                    $wrapper.find('input, select, textarea').focus();
 
                 }else{
-                    $('.ajax_result', $wrapper).html('There\'s an error in ajax call.').fadeOut(3000, function () {
+                    $('.ajax_result', $wrapper).html('There\'s an error in ajax call.').fadeOut(4000, function () {
                         $(this).remove();
                     });
                 }
@@ -235,7 +236,7 @@ function saveField(obj, url) {
                     }
                 });
 
-                $('.ajax_result', $wrapper).html('<span class="ajax_success">' + data + '</span>').fadeOut(3000, function () {
+                $('.ajax_result', $wrapper).html('<span class="ajax_success">' + data + '</span>').fadeOut(4000, function () {
                     $(this).remove();
                 });
                 $('.field_err', $wrapper).remove();

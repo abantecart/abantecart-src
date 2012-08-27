@@ -77,7 +77,7 @@ class ModelToolGlobalSearch extends Model {
             'alias' => 'setting',
             'id' => array('setting_id','active'),
             'page' => 'setting/setting',
-            'response' => ''),
+            'response' => 'setting/setting_quick_form'),
         "messages" => array(
             'alias' => 'information',
             'id' => 'msg_id',
@@ -542,7 +542,7 @@ class ModelToolGlobalSearch extends Model {
                 break;
 
             case "settings" :
-                $sql = "SELECT setting_id, `group` as active, CONCAT(`group`,' -> ',`key`) as title, `value` as text
+                $sql = "SELECT setting_id, CONCAT(`group`,'-',`key`,'-',store_id) as active, CONCAT(`group`,' -> ',`key`) as title, `value` as text
 						FROM " . DB_PREFIX . "settings 
 						WHERE (LOWER(`value`) like '%" . $needle . "%' OR LOWER(`value`) like '%" . $needle2 . "%' OR LOWER(`key`) like '%" . $needle . "%')
 						LIMIT " . $offset . "," . $rows_count;

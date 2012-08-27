@@ -101,8 +101,8 @@ class ControllerResponsesListingGridOrderStatus extends AController {
 				foreach( $ids as $id ) {
 					$err = $this->_validateDelete($id);
 					if (!empty($err)) {
-						$this->response->setOutput($err);
-						return;
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 					$this->model_localisation_order_status->deleteOrderStatus($id);
 				}

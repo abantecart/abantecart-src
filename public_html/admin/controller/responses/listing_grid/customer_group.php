@@ -127,8 +127,9 @@ class ControllerResponsesListingGridCustomerGroup extends AController {
 		$this->loadModel('sale/customer_group');
 
         if (!$this->user->hasPermission('modify', 'sale/customer_group')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'sale/customer_group') );
-            return;
+			$err = sprintf($this->language->get('error_permission_modify'), 'sale/customer_group');
+			$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+			return $dd->dispatch();
 		}
 
 	    if ( isset( $this->request->get['id'] ) ) {

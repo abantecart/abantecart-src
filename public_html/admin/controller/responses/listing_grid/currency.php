@@ -131,8 +131,8 @@ class ControllerResponsesListingGridCurrency extends AController {
 					}
 
 					if (!empty($err)) {
-						$this->response->setOutput($err);
-						return;
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 
 					$this->model_localisation_currency->deleteCurrency($id);
@@ -151,8 +151,8 @@ class ControllerResponsesListingGridCurrency extends AController {
 						if ( isset($this->request->post[$f][$id]) ) {
 							$err = $this->_validateField($f, $this->request->post[$f][$id]);
 							if ( !empty($err) ) {
-								$this->response->setOutput($err);
-								return;
+								$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+								return $dd->dispatch();
 							}
 							$this->model_localisation_currency->editCurrency($id, array($f => $this->request->post[$f][$id]) );
 						}
@@ -192,8 +192,8 @@ class ControllerResponsesListingGridCurrency extends AController {
 		    foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField($key, $value);
 			    if ( !empty($err) ) {
-				    $this->response->setOutput($err);
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
 			    $data = array( $key => $value );
 				$this->model_localisation_currency->editCurrency($this->request->get['id'], $data);
@@ -208,8 +208,8 @@ class ControllerResponsesListingGridCurrency extends AController {
 			foreach ( $this->request->post[$f] as $k => $v ) {
 				$err = $this->_validateField($f, $v);
 				if ( !empty($err) ) {
-					$this->response->setOutput($err);
-					return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 				}
 				$result = $this->model_localisation_currency->editCurrency($k, array($f => $v) );
 				if(!$result){

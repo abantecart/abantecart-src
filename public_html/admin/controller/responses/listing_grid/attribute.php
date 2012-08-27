@@ -154,8 +154,8 @@ class ControllerResponsesListingGridAttribute extends AController {
 				foreach( $ids as $id ) {
 					$err = $this->_validateDelete($id);
 					if (!empty($err)) {
-						$this->response->setOutput($err);
-						return;
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 					$this->attribute_manager->deleteAttribute($id);
 				}
@@ -169,8 +169,8 @@ class ControllerResponsesListingGridAttribute extends AController {
 						if ( isset($this->request->post[$f][$id]) ) {
 							$err = $this->_validateField($f, $this->request->post[$f][$id]);
 							if ( !empty($err) ) {
-								$this->response->setOutput($err);
-								return;
+								$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+								return $dd->dispatch();
 							}
 							$this->attribute_manager->updateAttribute($id, array($f => $this->request->post[$f][$id]) );
 						}
@@ -199,8 +199,9 @@ class ControllerResponsesListingGridAttribute extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         if (!$this->user->hasPermission('modify', 'catalog/attribute')) {
-			$this->response->setOutput(sprintf($this->language->get('error_permission_modify'), 'catalog/attribute'));
-            return;
+			$err = sprintf($this->language->get('error_permission_modify'), 'catalog/attribute');
+			$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+			return $dd->dispatch();
 		}
 
         if ( isset( $this->request->get['id'] ) ) {
@@ -208,8 +209,8 @@ class ControllerResponsesListingGridAttribute extends AController {
 		    foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField($key, $value);
 			    if ( !empty($err) ) {
-				    $this->response->setOutput($err);
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
 			    $data = array( $key => $value );
                 $this->attribute_manager->updateAttribute($this->request->get['id'], $data);
@@ -224,8 +225,8 @@ class ControllerResponsesListingGridAttribute extends AController {
 			foreach ( $this->request->post[$f] as $k => $v ) {
 				$err = $this->_validateField($f, $v);
 				if ( !empty($err) ) {
-					$this->response->setOutput($err);
-					return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 				}
 				$this->attribute_manager->updateAttribute($k, array($f => $v) );
 			}
