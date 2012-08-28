@@ -37,6 +37,8 @@ class ControllerPagesToolPackageInstaller extends AController {
         if (!$extension_key) {
             unset($this->session->data['package_info']);
         }
+
+	    $this->document->setTitle( $this->language->get('heading_title') );
         $this->document->initBreadcrumb(array(
             'href' => $this->html->getSecureURL('index/home'),
             'text' => $this->language->get('text_home'),
