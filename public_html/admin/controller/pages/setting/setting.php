@@ -49,7 +49,7 @@ class ControllerPagesSettingSetting extends AController {
 				$this->loadModel('localisation/currency');
 				$this->model_localisation_currency->updateCurrencies();
 			}
-			$this->model_setting_setting->
+
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('setting/setting', '&active=' . $this->request->get['active'] . '&store_id=' . (int)$this->request->get['store_id']));
 		}

@@ -127,7 +127,7 @@ class ControllerResponsesListingGridSetting extends AController {
 		$this->load->library('config_manager');
 		$config_mngr = new AConfigManager();
 		$result = $config_mngr->validate($group, array( $field => $value ));
-		return current($result['error']);
+		return is_array($result['error']) ? current($result['error']) : $result['error'];
 	}
 
 	private function _validateDelete($id) {

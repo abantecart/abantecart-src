@@ -550,10 +550,13 @@
         <value>
             <![CDATA[Help Links:<br /><span class="help">If you want to see Help Icons and links to AbanteCart site. This will help you learn about features and how to use them. If you advanced user and do not want to see these help icons, you can disable.</span>]]></value>
     </definition>
+	<definition>
+		<key>entry_show_tree_data</key>
+		<value><![CDATA[Enable Tree Grid:<br /><span class="help">Enables admin grids to show parent/children types in one grid listing. NOTE: Pagination and multi-actions are disabled for these grids</span>]]></value>
+	</definition>
     <definition>
         <key>entry_cart_ajax</key>
-        <value>
-            <![CDATA[Same Page Add To Cart:<br /><span class="help">This will enable AJAX add to cart feature. Product can be added to cart without redirecting to cart page</span>]]></value>
+        <value><![CDATA[Same Page Add To Cart:<br /><span class="help">This will enable AJAX add to cart feature. Product can be added to cart without redirecting to cart page</span>]]></value>
     </definition>
     <definition>
         <key>entry_storefront_width</key>
