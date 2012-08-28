@@ -13,9 +13,11 @@
 	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
 	    <?php endif; ?>
 		<div class="buttons">
-      <a class="btn_standard" href="<?php echo $extensions_store ?>"><?php echo $btn_extensions_store ?></a>
-	  <a class="btn_standard" href="<?php echo $install_new ?>"><?php echo $btn_add_new ?></a>
-    </div></div>
+			<div class="flt_left align_left"><?php echo $text_select_store; ?>&nbsp;&nbsp;<?php echo $store_selector; ?></div>
+      		<div class="flt_left">&nbsp;&nbsp;&nbsp;<a class="btn_standard" href="<?php echo $extensions_store ?>"><?php echo $btn_extensions_store ?></a></div>
+	  		<div class="flt_left">&nbsp;&nbsp;&nbsp;<a class="btn_standard" href="<?php echo $install_new ?>"><?php echo $btn_add_new ?></a></div>
+    	</div>
+    </div>
   </div></div></div>
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
     <?php echo $listing_grid; ?>
