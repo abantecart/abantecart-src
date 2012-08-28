@@ -61,9 +61,14 @@ class ControllerPagesExtensionExtensions extends AController {
 			$this->data[ 'error_warning' ] = '';
 		}
 
+		$store_id = (int)$this->config->get('config_store_id');
+		if( $this->request->get_or_post('store_id') ){
+			$store_id = $this->request->get_or_post('store_id');
+		}
+
 		$grid_settings = array(
 							'table_id' => 'extension_grid',
-							'url' => $this->html->getSecureURL('listing_grid/extension'),
+							'url' => $this->html->getSecureURL('listing_grid/extension', '&store_id='.$store_id),
 							'editurl' => $this->html->getSecureURL('listing_grid/extension/update'),
 							'update_field' => $this->html->getSecureURL('listing_grid/extension/update'),
 							'sortname' => 'update_date',
@@ -178,6 +183,22 @@ class ControllerPagesExtensionExtensions extends AController {
 
 
 		$this->view->assign('help_url', $this->gen_help_url('extension_listing') );
+				
+		$stores = array();
+		$this->loadModel('setting/store');
+		$results = $this->model_setting_store->getStores();
+		foreach ($results as $result) {
+		    $stores[$result['store_id']] = $result['alias'];
+		}
+	
+		$this->data['store_selector'] = $this->html->buildSelectbox(array(
+		    'type' => 'selectbox',
+		    'id' => 'store_switcher',
+		    'value' => $store_id,
+		    'options' => $stores,
+		    'attr' => 'onchange="location = \'' . $this->html->getSecureURL('extension/extensions/extensions') . '\' + \'&store_id=\' + this.value"',
+		));	
+		
 		$this->view->batchAssign($this->data);
 
 		$this->processTemplate('pages/extension/extensions.tpl');
@@ -232,10 +253,9 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->loadLanguage($extension . '/' . $extension);
 
 		$store_id = (int)$this->config->get('config_store_id');
-		if(!$this->config->get('config_store_id')){ // if store_id is default - take store_id from get. Else - do not permit switch store on edit page
-			$store_id = isset($this->request->post['store_id']) ? (int)$this->request->post['store_id'] : (int)$this->request->get['store_id'];
+		if( $this->request->get_or_post('store_id') ){
+			$store_id = $this->request->get_or_post('store_id');
 		}
-        unset($this->request->get['store_id']);
 
 		$ext = new ExtensionUtils($extension, $store_id );
 		$settings = $ext->getSettings();

@@ -521,4 +521,8 @@
         <key>text_install_warning</key>
         <value><![CDATA[You still have install directory present in your AbanteCart installation directory. It is recommended you delete this directory.]]></value>
     </definition>
+    <definition>
+        <key>text_select_store</key>
+        <value><![CDATA[Select Store]]></value>
+    </definition>    
 </definitions>

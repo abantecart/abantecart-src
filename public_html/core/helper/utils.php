@@ -50,6 +50,20 @@ function preformatTextID($value){
 }
 
 /*
+ * check that argument variable has value (even 0 is a value)  
+ * */
+function has_value( $value ){
+	if ( !is_array($value) && $value !== '' && !is_null($value) ) {
+		return true;	
+	}
+	else if (is_array($value) && count($value) > 0) {
+		return true;		
+	} else {
+		return false;
+	}
+}
+
+/*
 *  Convert input text to alpaha numeric string for SEO URL use
 */
 function SEOEncode( $string_value ){

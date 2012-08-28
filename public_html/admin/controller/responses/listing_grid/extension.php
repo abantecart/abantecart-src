@@ -44,6 +44,11 @@ class ControllerResponsesListingGridExtension extends AController {
 			$search_str = $searchData['rules'][0]['data'];
 	    }
 
+		$store_id = (int)$this->config->get('config_store_id');
+		if( $this->request->get_or_post('store_id') ){
+			$store_id = $this->request->get_or_post('store_id');
+		}
+
 	    //sort
 	    $allowedSort = array(1=>'key','name', 'category', 'update_date', 'status', 'store_name');
 	    if ( !in_array($sidx, $allowedSort) ) $sidx = 'update_date';
@@ -57,6 +62,7 @@ class ControllerResponsesListingGridExtension extends AController {
 		$missing_extensions = $this->extensions->getMissingExtensions();
 
 	    $data = array(
+	    	'store_id' => $store_id,
 		    'search' => $search_str,
 		    'filter' => $this->session->data['extension_filter'],
             'sort_order' => array($sidx,$sord)
