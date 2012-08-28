@@ -41,7 +41,7 @@ class ControllerPagesSaleContact extends AController {
 			$this->loadModel('setting/store');
 			$store_info = $this->model_setting_store->getStore($this->request->post['store_id']);
 			if ($store_info) {
-				$store_name = $store_info['config_name'];
+				$store_name = $store_info['name'];
 			} else {
 				$store_name = $this->config->get('store_name');
 			}

@@ -36,6 +36,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 
         $this->loadModel('setting/setting');
         $this->loadLanguage('setting/setting');
+        $this->loadLanguage('common/header');
 
         $this->view->assign('success', $this->session->data['success']);
         if (isset($this->session->data['success'])) {
@@ -110,18 +111,6 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
         $conf_mngr = new AConfigManager();
         $data = $this->model_setting_setting->getSetting($group,$store_id);
         $this->data['form']['fields'] = $conf_mngr->getFormField($setting_key, $form, $data,$store_id, $group);
-        ///////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
 
         if(in_array($setting_key, array('config_logo','config_icon'))){
 
@@ -146,7 +135,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
             }
 
         }
-/////////////////////////////////////////////////
+
         $this->loadModel('setting/store');
         $results = $this->model_setting_store->getStores();
         $stores = array();
