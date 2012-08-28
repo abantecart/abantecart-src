@@ -508,7 +508,7 @@ final class ALanguage {
 
 		//skip if not required and language file does not exist for silent mode.
         if (empty($definitions) && $mode != 'silent' ) {
-	        $error = new AError('Could not load language ' . $filename . ' from file "'.$file.'"!');
+	        $error = new AError('Could not load language ' . $filename . ' from file "'.$file_path.'"!');
             $error->toLog()->toDebug();
         }
         return $definitions;

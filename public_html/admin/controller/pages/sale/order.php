@@ -95,11 +95,28 @@ class ControllerPagesSaleOrder extends AController {
 			$this->language->get('column_total'),
 		);
 		$grid_settings['colModel'] = array(
-			array( 'name' => 'order_id', 'index' => 'order_id', 'width' => 70, 'align' => 'center', ),
-			array( 'name' => 'name', 'index' => 'name', 'width' => 140, 'align' => 'center', ),
-			array( 'name' => 'status', 'index' => 'status', 'width' => 140, 'align' => 'center', 'search' => false ),
-			array( 'name' => 'date_added', 'index' => 'date_added', 'width' => 90, 'align' => 'center', 'search' => false ),
-			array( 'name' => 'total', 'index' => 'total', 'width' => 110, 'align' => 'center',  ),
+			array( 'name' => 'order_id',
+				   'index' => 'order_id',
+				   'width' => 60,
+				   'align' => 'center', ),
+			array( 'name' => 'name',
+				   'index' => 'name',
+				   'width' => 140,
+				   'align' => 'center', ),
+			array( 'name' => 'status',
+				   'index' => 'status',
+				   'width' => 140,
+				   'align' => 'center',
+				   'search' => false ),
+			array( 'name' => 'date_added',
+				   'index' => 'date_added',
+				   'width' => 90,
+				   'align' => 'center',
+				   'search' => false ),
+			array( 'name' => 'total',
+				   'index' => 'total',
+				   'width' => 90,
+				   'align' => 'center'  ),
 		);
 
 		$this->loadModel('localisation/order_status');

@@ -162,7 +162,8 @@ class ControllerPagesCatalogCategory extends AController {
 		$grid_search_form[ 'fields' ][ 'parent_id' ] = $form->getFieldHtml(array(
 		                                                                        'type' => 'selectbox',
 		                                                                        'name' => 'parent_id',
-		                                                                        'options' => $parents
+		                                                                        'options' => $parents,
+																				'style' => 'large-field'
 		                                                                   ));
 
 		$grid_settings[ 'search_form' ] = true;

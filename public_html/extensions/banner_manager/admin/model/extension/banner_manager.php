@@ -239,7 +239,7 @@ class ModelExtensionBannerManager extends Model {
         }
         $result = $this->db->query($sql);
 
-        $output = '';
+        $output = array();
         if ($mode == 'total_only') {
             $output = $result->row['total'];
         } else {
@@ -327,6 +327,7 @@ class ModelExtensionBannerManager extends Model {
 
 
         $result = $this->db->query($sql);
+		$index = array();
         if ($mode != 'total_only') {
             foreach ($result->rows as &$row) {
                 $row['clicked'] = isset($stats[$row['banner_id']]['clicked']) ? $stats[$row['banner_id']]['clicked'] : 0;

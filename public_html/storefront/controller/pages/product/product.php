@@ -359,9 +359,9 @@ class ControllerPagesProductProduct extends AController {
 			//handle stock messages
 			// if track stock is off. no messages needed. 
 			if ( $this->model_catalog_product->isStockTrackable($product_id) ) {
-				$total_quantaty = $this->model_catalog_product->hasAnyStock($product_id);
+				$total_quantity = $this->model_catalog_product->hasAnyStock($product_id);
 			
-				if ( $total_quantaty <= 0) {
+				if ( $total_quantity <= 0) {
 					//show out of stock message
 					$this->data['stock'] = $product_info['stock_status'];
 				} else {
@@ -373,7 +373,7 @@ class ControllerPagesProductProduct extends AController {
 				}
 				
 				//check if we need to disable product for no stock 
-				if ($this->config->get('config_nostock_autodisable') && $total_quantaty <= 0) {
+				if ($this->config->get('config_nostock_autodisable') && $total_quantity <= 0) {
 					$message_ttl = "Product model " . $product_info['model'] . " " . $this->language->get('text_qty') . "0";
 					$message_txt = $product_info['name'] . " - " .sprintf($this->language->get('text_minimum'), 0);
 					$message_txt .= "<br> Product id " . $product_info['product_id'] . " is auto disabled!"; 

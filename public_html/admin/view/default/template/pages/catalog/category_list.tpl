@@ -44,5 +44,4 @@ if ( !empty($search_form) ) {
             			.trigger("reloadGrid");
         			return false;
                 });
-	$('#category_grid_search_parent_id').closest('.afield').css('width','300px');
 </script>

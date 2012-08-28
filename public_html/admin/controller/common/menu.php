@@ -52,7 +52,7 @@ class ControllerCommonMenu extends AController {
 						continue;
 					} else { // if all fine - loads language of extension for menu item text show
 						if(strpos($item ['item_url'],'http')===false){
-							$this->loadLanguage( $item ['item_id'].'/'.$item ['item_id'] );
+							$this->loadLanguage( $item ['item_id'].'/'.$item ['item_id'], "silent" );
 							$item['language'] = $item ['item_id'].'/'.$item ['item_id'];
 						}
 					}

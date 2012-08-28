@@ -83,7 +83,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 
         $grid_settings['colModel'] = array(array('name' => 'banner_id',
             'index' => 'banner_id',
-            'width' => 15,
+            'width' => 20,
             'align' => 'center',
             'search' => false),
             array('name' => 'banner_icon',

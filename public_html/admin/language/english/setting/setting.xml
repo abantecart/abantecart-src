@@ -218,7 +218,7 @@
     <definition>
         <key>entry_nostock_autodisable</key>
         <value>
-            <![CDATA[No Stock Auto Disable:<br /><span class="help">Disable your product or option value for view if stock drops to 0. Notification will be send </span>]]></value>
+            <![CDATA[No Stock Auto Disable:<br /><span class="help">Disable your product or option value for view if stock drops to 0. Message notification will be send </span>]]></value>
     </definition>
     <definition>
         <key>entry_stock_checkout</key>
@@ -553,7 +553,7 @@
 	<definition>
 		<key>entry_show_tree_data</key>
 		<value><![CDATA[Enable Tree Grid:<br /><span class="help">Enables admin grids to show parent/children types in one grid listing. NOTE: Pagination and multi-actions are disabled for these grids</span>]]></value>
-	</definition>
+	f</definition>
     <definition>
         <key>entry_cart_ajax</key>
         <value><![CDATA[Same Page Add To Cart:<br /><span class="help">This will enable AJAX add to cart feature. Product can be added to cart without redirecting to cart page</span>]]></value>
