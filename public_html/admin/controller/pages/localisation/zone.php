@@ -315,7 +315,7 @@ class ControllerPagesLocalisationZone extends AController {
 			$this->request->post['status'] =0;
 		}
 
-		if (!$this->user->hasPermission('modify', 'localisation/zone')) {
+		if (!$this->user->canModify('localisation/zone')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

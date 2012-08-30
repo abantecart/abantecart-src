@@ -93,7 +93,7 @@ class ControllerResponsesListingGridCoupon extends AController {
 
 	    $this->loadModel('sale/coupon');
         $this->loadLanguage('sale/coupon');
-        if (!$this->user->hasPermission('modify', 'sale/coupon')) {
+        if (!$this->user->canModify('sale/coupon')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'sale/coupon') );
             return;
 		}
@@ -137,7 +137,7 @@ class ControllerResponsesListingGridCoupon extends AController {
         $this->loadLanguage('sale/coupon');
 		$this->loadModel('sale/coupon');
 
-        if (!$this->user->hasPermission('modify', 'sale/coupon')) {
+        if (!$this->user->canModify('sale/coupon')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'sale/coupon') );
             return;
 		}

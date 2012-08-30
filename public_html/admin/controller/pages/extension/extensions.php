@@ -611,7 +611,7 @@ class ControllerPagesExtensionExtensions extends AController {
 	}
 
 	private function _validateSettings() {
-		if (!$this->user->hasPermission('modify', 'extension/extensions')) {
+		if (!$this->user->canModify('extension/extensions')) {
 			$this->error[ 'warning' ] = $this->language->get('error_permission');
 		}
 
@@ -640,7 +640,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if (!$this->user->hasPermission('modify', 'extension/extensions')) {
+		if (!$this->user->canModify('extension/extensions')) {
 			$this->session->data[ 'error' ] = $this->language->get('error_permission');
 			$this->redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
 		} else {
@@ -666,7 +666,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if (!$this->user->hasPermission('modify', 'extension/extensions')) {
+		if (!$this->user->canModify('extension/extensions')) {
 			$this->session->data[ 'error' ] = $this->language->get('error_permission');
 			$this->redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
 		} else {
@@ -684,7 +684,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if (!$this->user->hasPermission('modify', 'extension/extensions')) {
+		if (!$this->user->canModify('extension/extensions')) {
 			$this->session->data[ 'error' ] = $this->language->get('error_permission');
 			$this->redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
 		} else {

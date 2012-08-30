@@ -59,7 +59,7 @@ class ControllerResponsesToolBackupFile extends AController {
 	}
 
     private function _validate() {
-		if (!$this->user->hasPermission('modify', 'tool/backup')) {
+		if (!$this->user->canModify('tool/backup')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
@@ -78,7 +78,7 @@ class ControllerResponsesToolBackupFile extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if ($this->user->hasPermission('access', 'tool/backup_file')) {
+		if ($this->user->canAccess('tool/backup_file')) {
 			$filename = str_replace(array('../','..\\','\\','/'),'',$this->request->get['filename']);
 			$file = DIR_APP_SECTION.'system/backup/'.$filename;
 			if(file_exists($file)){

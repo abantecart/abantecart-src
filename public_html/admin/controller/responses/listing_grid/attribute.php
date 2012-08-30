@@ -142,7 +142,7 @@ class ControllerResponsesListingGridAttribute extends AController {
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-        if (!$this->user->hasPermission('modify', 'catalog/attribute')) {
+        if (!$this->user->canModify('catalog/attribute')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/attribute') );
             return;
 		}
@@ -198,7 +198,7 @@ class ControllerResponsesListingGridAttribute extends AController {
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-        if (!$this->user->hasPermission('modify', 'catalog/attribute')) {
+        if (!$this->user->canModify('catalog/attribute')) {
 			$err = sprintf($this->language->get('error_permission_modify'), 'catalog/attribute');
 			$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
 			return $dd->dispatch();

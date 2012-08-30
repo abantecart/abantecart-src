@@ -334,7 +334,7 @@ class ControllerPagesUserUser extends AController {
   	}
   	
   	private function _validateForm() {
-    	if (!$this->user->hasPermission('modify', 'user/user')) {
+    	if (!$this->user->canModify('user/user')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
     

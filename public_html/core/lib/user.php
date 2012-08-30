@@ -114,6 +114,14 @@ final class AUser {
 	  		return FALSE;
 		}
   	}
+
+  	public function canAccess( $value ) {
+		return $this->hasPermission('access', $value);
+	}
+
+  	public function canModify( $value ) {
+		return $this->hasPermission('modify', $value);
+	}
   
   	public function isLogged() {
 		if(IS_ADMIN && $this->request->get['token'] != $this->session->data['token']){

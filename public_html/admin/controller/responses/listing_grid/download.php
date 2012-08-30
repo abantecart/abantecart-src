@@ -68,7 +68,7 @@ class ControllerResponsesListingGridDownload extends AController {
 
 	    $this->loadModel('catalog/download');
         $this->loadLanguage('catalog/download');
-        if (!$this->user->hasPermission('modify', 'catalog/download')) {
+        if (!$this->user->canModify('catalog/download')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/download') );
             return;
 		}
@@ -105,7 +105,7 @@ class ControllerResponsesListingGridDownload extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('catalog/download');
-        if (!$this->user->hasPermission('modify', 'catalog/download')) {
+        if (!$this->user->canModify('catalog/download')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/download') );
             return;
 		}

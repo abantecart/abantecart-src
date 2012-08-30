@@ -714,7 +714,7 @@ class ControllerPagesDesignBlocks extends AController {
     }
 
     private function _validateForm() {
-        if (!$this->user->hasPermission('modify', 'design/blocks')) {
+        if (!$this->user->canModify('design/blocks')) {
             $this->session->data['warning'] = $this->error ['warning'] = $this->language->get('error_permission');
         }
 

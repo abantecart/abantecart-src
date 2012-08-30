@@ -129,7 +129,7 @@ class ControllerPagesTotalLowOrderFee extends AController {
 	}
 
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'total/low_order_fee')) {
+		if (!$this->user->canModify('total/low_order_fee')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		

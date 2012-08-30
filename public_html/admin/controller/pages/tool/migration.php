@@ -306,7 +306,7 @@ class ControllerPagesToolMigration extends AController {
 	}
 
 	private function _validateAccess() {
-		if (!$this->user->hasPermission('modify', self::MODULE_NAME)) {
+		if (!$this->user->canModify(self::MODULE_NAME)) {
 			$this->session->data[ 'warning' ] = $this->language->get('error_permission');
 			$this->error = TRUE;
 		}

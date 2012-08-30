@@ -90,7 +90,7 @@ class ControllerPagesExtensionTotal extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if (!$this->user->hasPermission('modify', 'extension/total')) {
+		if (!$this->user->canModify('extension/total')) {
 			$this->session->data['error'] = $this->language->get('error_permission'); 
 			
 			$this->redirect($this->html->getSecureURL('extension/total'));
@@ -116,7 +116,7 @@ class ControllerPagesExtensionTotal extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if (!$this->user->hasPermission('modify', 'extension/total')) {
+		if (!$this->user->canModify('extension/total')) {
 			$this->session->data['error'] = $this->language->get('error_permission'); 
 			
 			$this->redirect($this->html->getSecureURL('extension/total'));

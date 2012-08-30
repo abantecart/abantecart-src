@@ -371,7 +371,7 @@ class ControllerPagesCatalogReview extends AController {
 
 	
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'catalog/review')) {
+		if (!$this->user->canModify('catalog/review')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

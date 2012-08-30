@@ -86,7 +86,7 @@ class ControllerResponsesListingGridUser extends AController {
 
 		$this->loadModel('user/user');
         $this->loadLanguage('user/user');
-        if (!$this->user->hasPermission('modify', 'user/user')) {
+        if (!$this->user->canModify('user/user')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'user/user'));
             return;
 		}
@@ -132,7 +132,7 @@ class ControllerResponsesListingGridUser extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('user/user');
-        if (!$this->user->hasPermission('modify', 'user/user')) {
+        if (!$this->user->canModify('user/user')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'user/user'));
             return;
 		}

@@ -124,7 +124,7 @@ class ControllerPagesTotalHandling extends AController {
 	}
 
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'total/handling')) {
+		if (!$this->user->canModify('total/handling')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		if (!(int)$this->request->post['handling_total']) {

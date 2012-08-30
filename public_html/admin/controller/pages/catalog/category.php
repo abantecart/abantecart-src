@@ -448,7 +448,7 @@ class ControllerPagesCatalogCategory extends AController {
 
 	private function _validateForm() {
 		
-		if (!$this->user->hasPermission('modify', 'catalog/category')) {
+		if (!$this->user->canModify('catalog/category')) {
 			$this->error[ 'warning' ] = $this->language->get('error_permission');
 		}
 

@@ -415,7 +415,7 @@ class ControllerPagesDesignMenu extends AController {
 	}
 
 	private function _validateForm() {
-		if (! $this->user->hasPermission ( 'modify', 'design/menu' )) {
+		if (! $this->user->canModify('design/menu' )) {
 			$this->error ['warning'] = $this->language->get ( 'error_permission' );
 		}
 

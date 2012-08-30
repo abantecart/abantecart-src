@@ -69,7 +69,7 @@ class ControllerResponsesListingGridLocation extends AController {
 
 		$this->loadModel('localisation/location');
         $this->loadLanguage('localisation/location');
-        if (!$this->user->hasPermission('modify', 'localisation/location')) {
+        if (!$this->user->canModify('localisation/location')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/location') );
             return;
 		}
@@ -126,7 +126,7 @@ class ControllerResponsesListingGridLocation extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/location');
-        if (!$this->user->hasPermission('modify', 'localisation/location')) {
+        if (!$this->user->canModify('localisation/location')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/location') );
             return;
 		}
@@ -175,7 +175,7 @@ class ControllerResponsesListingGridLocation extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/location');
-        if (!$this->user->hasPermission('modify', 'localisation/location')) {
+        if (!$this->user->canModify('localisation/location')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/location') );
             return;
 		}

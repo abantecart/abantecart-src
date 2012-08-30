@@ -26,7 +26,7 @@ class ControllerPagesToolExportUpload extends AController {
 	{
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if ( $this->request->server['REQUEST_METHOD'] == 'POST' && $this->user->hasPermission('modify', 'tool/import_export') )
+		if ( $this->request->server['REQUEST_METHOD'] == 'POST' && $this->user->canModify('tool/import_export') )
 		{
 			if ( empty($this->request->post['data']) )
 			{

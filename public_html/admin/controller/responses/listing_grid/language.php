@@ -85,7 +85,7 @@ class ControllerResponsesListingGridLanguage extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/language');
-        if (!$this->user->hasPermission('modify', 'localisation/language')) {
+        if (!$this->user->canModify('localisation/language')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/language') );
             return;
 		}
@@ -163,7 +163,7 @@ class ControllerResponsesListingGridLanguage extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/language');
-        if (!$this->user->hasPermission('modify', 'localisation/language')) {
+        if (!$this->user->canModify('localisation/language')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/language') );
             return;
 		}

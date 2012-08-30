@@ -433,7 +433,7 @@ class ControllerPagesDesignContent extends AController {
 	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'design/content')) {
+		if (!$this->user->canModify('design/content')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

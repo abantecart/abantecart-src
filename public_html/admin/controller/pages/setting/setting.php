@@ -464,7 +464,7 @@ class ControllerPagesSettingSetting extends AController {
 
 
 	private function _validate($group) {
-		if (!$this->user->hasPermission('modify', 'setting/setting')) {
+		if (!$this->user->canModify('setting/setting')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

@@ -83,7 +83,7 @@ class ControllerResponsesListingGridManufacturer extends AController {
 		$this->loadModel('catalog/product');
 	    $this->loadModel('catalog/manufacturer');
 		$this->loadLanguage('catalog/manufacturer');
-        if (!$this->user->hasPermission('modify', 'catalog/manufacturer')) {
+        if (!$this->user->canModify('catalog/manufacturer')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/manufacturer') );
             return;
 		}
@@ -135,7 +135,7 @@ class ControllerResponsesListingGridManufacturer extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('catalog/manufacturer');
-        if (!$this->user->hasPermission('modify', 'catalog/manufacturer')) {
+        if (!$this->user->canModify('catalog/manufacturer')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/manufacturer') );
             return;
 		}

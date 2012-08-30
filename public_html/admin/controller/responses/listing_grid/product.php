@@ -108,7 +108,7 @@ class ControllerResponsesListingGridProduct extends AController {
 
 		$this->loadModel('catalog/product');
         $this->loadLanguage('catalog/product');
-        if (!$this->user->hasPermission('modify', 'catalog/product')) {
+        if (!$this->user->canModify('catalog/product')) {
 			$this->response->setOutput(  sprintf($this->language->get('error_permission_modify'), 'catalog/product'));
             return;
 		}
@@ -170,7 +170,7 @@ class ControllerResponsesListingGridProduct extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('catalog/product');
-        if (!$this->user->hasPermission('modify', 'catalog/product')) {
+        if (!$this->user->canModify('catalog/product')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/product'));
             return;
 		}
@@ -215,7 +215,7 @@ class ControllerResponsesListingGridProduct extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('catalog/product');
-        if (!$this->user->hasPermission('modify', 'catalog/product')) {
+        if (!$this->user->canModify('catalog/product')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/product'));
             return;
 		}
@@ -240,7 +240,7 @@ class ControllerResponsesListingGridProduct extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('catalog/product');
-        if (!$this->user->hasPermission('modify', 'catalog/product')) {
+        if (!$this->user->canModify('catalog/product')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/product') );
             return;
 		}
@@ -265,7 +265,7 @@ class ControllerResponsesListingGridProduct extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('catalog/product');
-        if (!$this->user->hasPermission('modify', 'catalog/product')) {
+        if (!$this->user->canModify('catalog/product')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/product') );
             return;
 		}

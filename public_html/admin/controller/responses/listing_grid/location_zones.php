@@ -88,7 +88,7 @@ class ControllerResponsesListingGridLocationZones extends AController {
 
         $this->loadModel('localisation/zone');
         $this->loadLanguage('localisation/zone');
-        if (!$this->user->hasPermission('modify', 'localisation/zone')) {
+        if (!$this->user->canModify('localisation/zone')) {
             $this->response->setOutput(sprintf($this->language->get('error_permission_modify'), 'localisation/zone'));
             return;
         }

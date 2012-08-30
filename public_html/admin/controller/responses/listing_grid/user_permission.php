@@ -104,7 +104,7 @@ class ControllerResponsesListingGridUserPermission extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('user/user_group');
-        if (!$this->user->hasPermission('modify', 'user/user_permission')) {
+        if (!$this->user->canModify('user/user_permission')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'user/user_permission'));
             return;
 		}

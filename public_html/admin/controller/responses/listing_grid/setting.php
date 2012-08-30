@@ -97,7 +97,7 @@ class ControllerResponsesListingGridSetting extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('setting/setting');
-        if (!$this->user->hasPermission('modify', 'setting/setting')) {
+        if (!$this->user->canModify('setting/setting')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'setting/setting') );
             return;
 		}

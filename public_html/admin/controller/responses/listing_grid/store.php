@@ -32,7 +32,7 @@ class ControllerResponsesListingGridStore extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('setting/store');
-        if (!$this->user->hasPermission('modify', 'setting/store')) {
+        if (!$this->user->canModify('setting/store')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'setting/store') );
             return;
 		}

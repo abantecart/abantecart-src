@@ -867,7 +867,7 @@ class ControllerPagesSaleOrder extends AController {
   	}
 
 	private function _validateForm() {
-    	if (!$this->user->hasPermission('modify', 'sale/order')) {
+    	if (!$this->user->canModify('sale/order')) {
       		$this->error['warning'] = $this->language->get('error_permission'); 
     	}
 	

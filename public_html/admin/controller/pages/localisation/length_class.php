@@ -262,7 +262,7 @@ class ControllerPagesLocalisationLengthClass extends AController {
   	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'localisation/length_class')) {
+		if (!$this->user->canModify('localisation/length_class')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

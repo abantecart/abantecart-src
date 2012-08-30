@@ -56,7 +56,7 @@ $this->extensions->hk_UpdateData($this, __FUNCTION__);
 }              */
 
     public function update() {
-        if (!$this->user->hasPermission('modify', 'localisation/language_definitions')) {
+        if (!$this->user->canModify('localisation/language_definitions')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
@@ -269,7 +269,7 @@ $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
     private function _validateForm() {
-        if (!$this->user->hasPermission('modify', 'localisation/language_definitions')) {
+        if (!$this->user->canModify('localisation/language_definitions')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 

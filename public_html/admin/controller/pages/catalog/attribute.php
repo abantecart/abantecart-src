@@ -469,7 +469,7 @@ class ControllerPagesCatalogAttribute extends AController {
 	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'catalog/attribute')) {
+		if (!$this->user->canModify('catalog/attribute')) {
 			$this->error[ 'warning' ] = $this->language->get('error_permission');
 		}
 

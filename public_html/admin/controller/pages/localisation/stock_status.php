@@ -226,7 +226,7 @@ class ControllerPagesLocalisationStockStatus extends AController {
   	}
   	
 	private function _validateForm() {
-    	if (!$this->user->hasPermission('modify', 'localisation/stock_status')) {
+    	if (!$this->user->canModify('localisation/stock_status')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
 	

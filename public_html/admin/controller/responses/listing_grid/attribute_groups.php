@@ -94,7 +94,7 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-        if (!$this->user->hasPermission('modify', 'catalog/attribute_groups')) {
+        if (!$this->user->canModify('catalog/attribute_groups')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/attribute_groups') );
             return;
 		}
@@ -150,7 +150,7 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-        if (!$this->user->hasPermission('modify', 'catalog/attribute_groups')) {
+        if (!$this->user->canModify('catalog/attribute_groups')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/attribute_groups') );
             return;
 		}

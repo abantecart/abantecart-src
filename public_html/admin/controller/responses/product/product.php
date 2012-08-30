@@ -76,7 +76,7 @@ class ControllerResponsesProductProduct extends AController {
 	}
 	
 	private function _validateForm() {
-    	if (!$this->user->hasPermission('modify', 'catalog/product')) {
+    	if (!$this->user->canModify('catalog/product')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
 
@@ -553,7 +553,7 @@ class ControllerResponsesProductProduct extends AController {
     }
 
 	private function _validateOptionValueForm() {
-		if (!$this->user->hasPermission('modify', 'product/product')) {
+		if (!$this->user->canModify('product/product')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

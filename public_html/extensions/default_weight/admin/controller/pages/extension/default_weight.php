@@ -159,7 +159,7 @@ class ControllerPagesExtensionDefaultWeight extends AController {
 	}
 		
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'extension/default_weight')) {
+		if (!$this->user->canModify('extension/default_weight')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		

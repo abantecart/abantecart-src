@@ -166,7 +166,7 @@ class ControllerResponsesListingGridTotal extends AController {
 		    $ids = array_keys($this->request->post);
 	    }
 	    foreach ( $ids as $id) {
-			if (!$this->user->hasPermission('modify', 'extension/'.$id)) {
+			if (!$this->user->canModify('extension/'.$id)) {
 				$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'extension/'.$id));
 				return;
 			}

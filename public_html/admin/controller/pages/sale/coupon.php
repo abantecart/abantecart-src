@@ -533,7 +533,7 @@ class ControllerPagesSaleCoupon extends AController {
     }
 
     private function _validateForm() {
-        if (!$this->user->hasPermission('modify', 'sale/coupon')) {
+        if (!$this->user->canModify('sale/coupon')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 

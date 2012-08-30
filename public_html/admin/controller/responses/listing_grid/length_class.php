@@ -96,7 +96,7 @@ class ControllerResponsesListingGridLengthClass extends AController {
 	    $this->loadModel('localisation/length_class');
 		$this->loadModel('catalog/product');
         $this->loadLanguage('localisation/length_class');
-        if (!$this->user->hasPermission('modify', 'localisation/length_class')) {
+        if (!$this->user->canModify('localisation/length_class')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/length_class') );
             return;
 		}
@@ -153,7 +153,7 @@ class ControllerResponsesListingGridLengthClass extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/length_class');
-        if (!$this->user->hasPermission('modify', 'localisation/length_class')) {
+        if (!$this->user->canModify('localisation/length_class')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/length_class') );
             return;
 		}

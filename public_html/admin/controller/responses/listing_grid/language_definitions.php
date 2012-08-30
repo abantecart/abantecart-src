@@ -81,7 +81,7 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
 
 	    $this->loadModel('localisation/language_definitions');
         $this->loadLanguage('localisation/language_definitions');
-        if (!$this->user->hasPermission('modify', 'localisation/language_definitions')) {
+        if (!$this->user->canModify('localisation/language_definitions')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/language_definitions') );
             return;
 		}
@@ -127,7 +127,7 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/language_definitions');
-        if (!$this->user->hasPermission('modify', 'localisation/language_definitions')) {
+        if (!$this->user->canModify('localisation/language_definitions')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/language_definitions') );
             return;
 		}
@@ -188,7 +188,7 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage('localisation/language_definitions');
-		if (!$this->user->hasPermission('modify', 'localisation/language_definitions')) {
+		if (!$this->user->canModify('localisation/language_definitions')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/language_definitions') );
 			return;
 		}

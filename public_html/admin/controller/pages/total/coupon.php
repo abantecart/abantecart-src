@@ -106,7 +106,7 @@ class ControllerPagesTotalCoupon extends AController {
 	}
 
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'total/coupon')) {
+		if (!$this->user->canModify('total/coupon')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		

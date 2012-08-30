@@ -28,7 +28,7 @@ class ControllerResponsesListingGridDatasetsGrid extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 		
 		$this->loadLanguage( 'tool/datasets_manager' );
-		if (! $this->user->hasPermission ( 'access', 'tool/datasets_manager' ) ) {
+		if (! $this->user->canAccess('tool/datasets_manager' ) ) {
 			$response = new stdClass ();
 			$response->userdata->error = sprintf ( $this->language->get ( 'error_permission_access' ), 'tool/datasets_manager' );
 			$this->load->library('json');
@@ -82,7 +82,7 @@ class ControllerResponsesListingGridDatasetsGrid extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage( 'tool/datasets_manager' );
-		$this->loadModel ( 'tool/datasets_manager' );
+		$this->loadModel( 'tool/datasets_manager' );
 
 		$this->document->setTitle ( $this->language->get ( 'heading_title' ) );
 
@@ -126,7 +126,7 @@ class ControllerResponsesListingGridDatasetsGrid extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage( 'tool/datasets_manager' );
-		if (! $this->user->hasPermission ( 'access', 'tool/datasets_manager' ) ) {
+		if (! $this->user->canAccess('tool/datasets_manager' ) ) {
 			$response = new stdClass ();
 			$response->userdata->error = sprintf ( $this->language->get ( 'error_permission_access' ), 'tool/datasets_manager' );
 			$this->load->library('json');

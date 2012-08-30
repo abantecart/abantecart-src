@@ -293,7 +293,7 @@ class ControllerPagesSaleContact extends AController {
 
 
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'sale/contact')) {
+		if (!$this->user->canModify('sale/contact')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 				

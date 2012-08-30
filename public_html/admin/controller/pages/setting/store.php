@@ -298,7 +298,7 @@ class ControllerPagesSettingStore extends AController {
     }
 
     private function _validateForm() {
-        if (!$this->user->hasPermission('modify', 'setting/store')) {
+        if (!$this->user->canModify('setting/store')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
         if (!$this->request->post['name']) {
@@ -320,7 +320,7 @@ class ControllerPagesSettingStore extends AController {
     }
 
     private function _validateDelete() {
-        if (!$this->user->hasPermission('modify', 'setting/store')) {
+        if (!$this->user->canModify('setting/store')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 

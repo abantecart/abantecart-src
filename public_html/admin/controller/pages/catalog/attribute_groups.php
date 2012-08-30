@@ -259,7 +259,7 @@ class ControllerPagesCatalogAttributeGroups extends AController {
   	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'catalog/attribute_groups')) {
+		if (!$this->user->canModify('catalog/attribute_groups')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

@@ -81,7 +81,7 @@ class ControllerResponsesListingGridCountry extends AController {
 
 		$this->loadModel('localisation/country');
         $this->loadLanguage('localisation/country');
-        if (!$this->user->hasPermission('modify', 'localisation/country')) {
+        if (!$this->user->canModify('localisation/country')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/country') );
             return;
 		}
@@ -147,7 +147,7 @@ class ControllerResponsesListingGridCountry extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/country');
-        if (!$this->user->hasPermission('modify', 'localisation/country')) {
+        if (!$this->user->canModify('localisation/country')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/country') );
             return;
 		}

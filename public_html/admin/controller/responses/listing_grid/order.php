@@ -125,7 +125,7 @@ class ControllerResponsesListingGridOrder extends AController {
 
 	    $this->loadModel('sale/order');
         $this->loadLanguage('sale/order');
-        if (!$this->user->hasPermission('modify', 'sale/order')) {
+        if (!$this->user->canModify('sale/order')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'sale/order') );
             return;
 		}
@@ -168,7 +168,7 @@ class ControllerResponsesListingGridOrder extends AController {
         $this->loadLanguage('sale/order');
 		$this->loadModel('sale/order');
 
-        if (!$this->user->hasPermission('modify', 'sale/order')) {
+        if (!$this->user->canModify('sale/order')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'sale/order') );
             return;
 		}

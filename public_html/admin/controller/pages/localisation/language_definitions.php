@@ -409,7 +409,7 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController
 
     private function _validateForm()
     {
-        if (!$this->user->hasPermission('modify', 'localisation/language_definitions')) {
+        if (!$this->user->canModify('localisation/language_definitions')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 

@@ -106,7 +106,7 @@ class ControllerPagesTotalTax extends AController {
 	}
 
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'total/tax')) {
+		if (!$this->user->canModify('total/tax')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		

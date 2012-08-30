@@ -83,7 +83,7 @@ class ControllerResponsesListingGridReview extends AController {
 
 	    $this->loadModel('catalog/review');
         $this->loadLanguage('catalog/review');
-        if (!$this->user->hasPermission('modify', 'catalog/review')) {
+        if (!$this->user->canModify('catalog/review')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/review') );
             return;
 		}
@@ -123,7 +123,7 @@ class ControllerResponsesListingGridReview extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('catalog/review');
-        if (!$this->user->hasPermission('modify', 'catalog/review')) {
+        if (!$this->user->canModify('catalog/review')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/review'));
             return;
 		}

@@ -89,7 +89,7 @@ class ControllerResponsesListingGridOrderStatus extends AController {
 		$this->loadModel('setting/store');
 		$this->loadModel('sale/order');
         $this->loadLanguage('localisation/order_status');
-        if (!$this->user->hasPermission('modify', 'localisation/order_status')) {
+        if (!$this->user->canModify('localisation/order_status')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/order_status') );
             return;
 		}
@@ -144,7 +144,7 @@ class ControllerResponsesListingGridOrderStatus extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/order_status');
-        if (!$this->user->hasPermission('modify', 'localisation/order_status')) {
+        if (!$this->user->canModify('localisation/order_status')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/order_status') );
             return;
 		}

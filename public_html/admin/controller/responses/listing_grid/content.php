@@ -86,7 +86,7 @@ class ControllerResponsesListingGridContent extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
         $this->loadLanguage('design/content');
 		$this->acm = new AContentManager();
-        if (!$this->user->hasPermission('modify', 'design/content')) {
+        if (!$this->user->canModify('design/content')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'design/content') );
             return;
 		}
@@ -140,7 +140,7 @@ class ControllerResponsesListingGridContent extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
         $this->loadLanguage('design/content');
 	    $this->acm = new AContentManager();
-        if (!$this->user->hasPermission('modify', 'design/content')) {
+        if (!$this->user->canModify('design/content')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'design/content') );
             return;
 		}

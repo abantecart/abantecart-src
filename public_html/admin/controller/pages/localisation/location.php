@@ -524,7 +524,7 @@ class ControllerPagesLocalisationLocation extends AController {
     }
 
     private function _validateForm() {
-        if (!$this->user->hasPermission('modify', 'localisation/location')) {
+        if (!$this->user->canModify('localisation/location')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 

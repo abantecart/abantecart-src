@@ -122,7 +122,7 @@ class ControllerResponsesListingGridCategory extends AController {
 		$this->loadModel('catalog/product');
 	    $this->loadModel('catalog/category');
 		$this->loadLanguage('catalog/category');
-        if (!$this->user->hasPermission('modify', 'catalog/category')) {
+        if (!$this->user->canModify('catalog/category')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/category') );
             return;
 		}
@@ -167,7 +167,7 @@ class ControllerResponsesListingGridCategory extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('catalog/category');
-        if (!$this->user->hasPermission('modify', 'catalog/category')) {
+        if (!$this->user->canModify('catalog/category')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/category') );
             return;
 		}

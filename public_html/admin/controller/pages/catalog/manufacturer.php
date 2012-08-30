@@ -300,7 +300,7 @@ class ControllerPagesCatalogManufacturer extends AController {
 	}  
 	 
   	private function _validateForm() {
-    	if (!$this->user->hasPermission('modify', 'catalog/manufacturer')) {
+    	if (!$this->user->canModify('catalog/manufacturer')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
 

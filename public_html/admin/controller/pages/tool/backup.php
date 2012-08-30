@@ -253,7 +253,7 @@ class ControllerPagesToolBackup extends AController {
 	}
 	
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'tool/backup')) {
+		if (!$this->user->canModify('tool/backup')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

@@ -113,7 +113,7 @@ class ControllerResponsesListingGridZone extends AController {
 
 		$this->loadModel('localisation/zone');
         $this->loadLanguage('localisation/zone');
-        if (!$this->user->hasPermission('modify', 'localisation/zone')) {
+        if (!$this->user->canModify('localisation/zone')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/zone') );
             return;
 		}
@@ -130,8 +130,8 @@ class ControllerResponsesListingGridZone extends AController {
 				foreach( $ids as $id ) {
 					$err = $this->_validateDelete($id);
 					if (!empty($err)) {
-						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-						return $dd->dispatch();
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err) );
 					}
 
 					$this->model_localisation_zone->deleteZone($id);
@@ -150,8 +150,8 @@ class ControllerResponsesListingGridZone extends AController {
 						if ( isset($this->request->post[$f][$id]) ) {
 							$err = $this->_validateField($f, $this->request->post[$f][$id]);
 							if ( !empty($err) ) {
-								$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-								return $dd->dispatch();
+								$error = new AError('');
+								return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err) );
 							}
 							$this->model_localisation_zone->editZone($id, array($f => $this->request->post[$f][$id]) );
 						}
@@ -180,10 +180,15 @@ class ControllerResponsesListingGridZone extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/zone');
-        if (!$this->user->hasPermission('modify', 'localisation/zone')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/zone') );
-            return;
-		}
+      //  if (!$this->user->canModify('localisation/zone')) {
+        	$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402', 
+										  array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'localisation/zone'), 
+										  		 'reset_value' => true 
+										  		) );
+			//$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/zone') );
+            //return;
+		//}
 
         $this->loadModel('localisation/zone');
 		if ( isset( $this->request->get['id'] ) ) {
@@ -191,8 +196,8 @@ class ControllerResponsesListingGridZone extends AController {
 		    foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField($key, $value);
 			    if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err) );
 			    }
 			    $data = array( $key => $value );
 				$this->model_localisation_zone->editZone($this->request->get['id'], $data);
@@ -207,8 +212,8 @@ class ControllerResponsesListingGridZone extends AController {
 			foreach ( $this->request->post[$f] as $k => $v ) {
 				$err = $this->_validateField($f, $v);
 				if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err) );
 				}
 				$this->model_localisation_zone->editZone($k, array($f => $v) );
 			}

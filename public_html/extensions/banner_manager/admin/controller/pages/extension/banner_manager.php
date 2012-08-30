@@ -411,7 +411,7 @@ class ControllerPagesExtensionBannerManager extends AController {
     }
 
     private function _validateForm() {
-        if (!$this->user->hasPermission('modify', 'extension/banner_manager')) {
+        if (!$this->user->canModify('extension/banner_manager')) {
             $this->session->data['warning'] = $this->error ['warning'] = $this->language->get('error_permission');
         }
 
@@ -837,7 +837,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 
     private function _validateBlockForm() {
-        if (!$this->user->hasPermission('modify', 'extension/banner_manager')) {
+        if (!$this->user->canModify('extension/banner_manager')) {
             $this->session->data['warning'] = $this->error ['warning'] = $this->language->get('error_permission');
         }
 

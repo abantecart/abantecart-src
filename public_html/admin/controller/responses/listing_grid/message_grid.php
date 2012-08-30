@@ -28,7 +28,7 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 		
 		$this->loadLanguage( 'tool/message_manager' );
-		if (! $this->user->hasPermission ( 'access', 'tool/message_manager' )) {
+		if (! $this->user->canAccess('tool/message_manager' )) {
 			$response = new stdClass ();
 			$response->userdata->error = sprintf ( $this->language->get ( 'error_permission_access' ), 'tool/message_manager' );
 			$this->load->library('json');

@@ -245,7 +245,7 @@ class ControllerPagesCatalogProductOptions extends AController {
 	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'catalog/product_options')) {
+		if (!$this->user->canModify('catalog/product_options')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		if ( $this->model_catalog_product->isProductGroupOption($this->request->get['product_id'], $this->request->post['attribute_id'])){

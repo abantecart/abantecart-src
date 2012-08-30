@@ -99,7 +99,7 @@ class ControllerResponsesListingGridCurrency extends AController {
 
 		$this->loadModel('localisation/currency');
         $this->loadLanguage('localisation/currency');
-        if (!$this->user->hasPermission('modify', 'localisation/currency')) {
+        if (!$this->user->canModify('localisation/currency')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/currency') );
             return;
 		}
@@ -181,7 +181,7 @@ class ControllerResponsesListingGridCurrency extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/currency');
-        if (!$this->user->hasPermission('modify', 'localisation/currency')) {
+        if (!$this->user->canModify('localisation/currency')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/currency') );
             return;
 		}

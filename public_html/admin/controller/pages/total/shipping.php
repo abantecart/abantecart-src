@@ -106,7 +106,7 @@ class ControllerPagesTotalShipping extends AController {
 	}
 
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'total/shipping')) {
+		if (!$this->user->canModify('total/shipping')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		

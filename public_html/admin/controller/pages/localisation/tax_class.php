@@ -523,7 +523,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
     }
 
     private function _validateForm() {
-        if (!$this->user->hasPermission('modify', 'localisation/tax_class')) {
+        if (!$this->user->canModify('localisation/tax_class')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
@@ -559,7 +559,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
     }
 
     private function _validateRateForm() {
-        if (!$this->user->hasPermission('modify', 'localisation/tax_class')) {
+        if (!$this->user->canModify('localisation/tax_class')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 

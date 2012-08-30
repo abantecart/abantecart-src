@@ -96,7 +96,7 @@ class ControllerResponsesListingGridWeightClass extends AController {
 	    $this->loadModel('localisation/weight_class');
 		$this->loadModel('catalog/product');
         $this->loadLanguage('localisation/weight_class');
-        if (!$this->user->hasPermission('modify', 'localisation/weight_class')) {
+        if (!$this->user->canModify('localisation/weight_class')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/weight_class'));
             return;
 		}
@@ -153,7 +153,7 @@ class ControllerResponsesListingGridWeightClass extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/weight_class');
-        if (!$this->user->hasPermission('modify', 'localisation/weight_class')) {
+        if (!$this->user->canModify('localisation/weight_class')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/weight_class') );
             return;
 		}

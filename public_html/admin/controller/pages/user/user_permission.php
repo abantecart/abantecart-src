@@ -100,7 +100,7 @@ class ControllerPagesUserUserPermission extends AController {
 	    $this->loadModel('user/user_group');
 		$this->loadModel('user/user');
         $this->loadLanguage('user/user_group');
-        if (!$this->user->hasPermission('modify', 'user/user_permission')) {
+        if (!$this->user->canModify('user/user_permission')) {
 			echo sprintf($this->language->get('error_permission_modify'), 'user/user_permission');
             return;
 		}
@@ -291,7 +291,7 @@ class ControllerPagesUserUserPermission extends AController {
 	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'user/user_permission')) {
+		if (!$this->user->canModify('user/user_permission')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		if ((strlen(utf8_decode($this->request->post['name'])) < 2) || (strlen(utf8_decode($this->request->post['name'])) > 64)) {

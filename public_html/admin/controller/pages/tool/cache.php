@@ -187,7 +187,7 @@ class ControllerPagesToolCache extends AController {
   	}
 	
 	private function _validateDelete() {
-    	if (!$this->user->hasPermission('modify', 'tool/cache')) {
+    	if (!$this->user->canModify('tool/cache')) {
       		$this->error['warning'] = $this->language->get('error_permission');  
     	}
 		

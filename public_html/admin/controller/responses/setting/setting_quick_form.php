@@ -27,7 +27,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 
  
     public function main() {
-        if (!$this->user->hasPermission('modify', 'setting/setting_quick_form')) {
+        if (!$this->user->canModify('setting/setting_quick_form')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
@@ -174,7 +174,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
     }
 
     private function _validateForm($group) {
-        if (!$this->user->hasPermission('modify', 'setting/setting_quick_form')) {
+        if (!$this->user->canModify('setting/setting_quick_form')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 

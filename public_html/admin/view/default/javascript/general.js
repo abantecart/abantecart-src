@@ -209,17 +209,21 @@ function saveField(obj, url) {
             data:$data,
             error:function (data) {
                 var $json = $.parseJSON(data.responseText);
-                if($json.error_code==406){  // for ajax error shows
-                    $('.ajax_result', $wrapper).html('<span class="ajax_error">' + $json.error_text + '</span>').fadeOut(4000, function () {
+                if( $json.error_text ){  // for ajax error shows
+                    $('.ajax_result', $wrapper).html('<span class="ajax_error">' + $json.error_text + '</span>').delay(2500).fadeOut(3000, function () {
                         $(this).remove();
                     });
                     $('.field_err', $wrapper).remove();
                     $wrapper.find('input, select, textarea').focus();
 
                 }else{
-                    $('.ajax_result', $wrapper).html('There\'s an error in ajax call.').fadeOut(4000, function () {
+                    $('.ajax_result', $wrapper).html('<span class="ajax_error">There\'s an error in the request.</span>').delay(2500).fadeOut(3000, function () {
                         $(this).remove();
                     });
+                }
+                //reset data if requested
+                if ( $json.reset_value == true ) {
+                	// ?????
                 }
             },
             success:function (data) {
@@ -236,7 +240,7 @@ function saveField(obj, url) {
                     }
                 });
 
-                $('.ajax_result', $wrapper).html('<span class="ajax_success">' + data + '</span>').fadeOut(4000, function () {
+                $('.ajax_result', $wrapper).html('<span class="ajax_success">' + data + '</span>').delay(2500).fadeOut(3000, function () {
                     $(this).remove();
                 });
                 $('.field_err', $wrapper).remove();
@@ -294,7 +298,7 @@ function validate(name, value) {
 
 var $error_dialog = null;
 httpError = function (data) {
-    if ($error_dialog || data.error_code==406)
+    if ( data.show_dialog != true )
         return;
 
     $error_dialog = $('<div></div>')
@@ -309,20 +313,8 @@ httpError = function (data) {
                 }
             },
             close:function (e, ui) {
-                switch (data.error_code) {
-                    //app error
-                    case 400 :
-                        break;
-                    //error login
-                    case 401 :
-                        window.location.reload();
-                        break;
-                    //error permission
-                    case 402 :
-                        break;
-                    //error not found
-                    case 404 :
-                        break;
+                if (data.reload_page) {
+                	window.location.reload();
                 }
             }
         });

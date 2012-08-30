@@ -70,7 +70,7 @@ class ControllerResponsesListingGridCustomerGroup extends AController {
 		$this->loadModel('setting/store');
 		$this->loadModel('sale/customer');
 
-        if (!$this->user->hasPermission('modify', 'sale/customer_group')) {
+        if (!$this->user->canModify('sale/customer_group')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'sale/customer_group') );
             return;
 		}
@@ -126,7 +126,7 @@ class ControllerResponsesListingGridCustomerGroup extends AController {
         $this->loadLanguage('sale/customer_group');
 		$this->loadModel('sale/customer_group');
 
-        if (!$this->user->hasPermission('modify', 'sale/customer_group')) {
+        if (!$this->user->canModify('sale/customer_group')) {
 			$err = sprintf($this->language->get('error_permission_modify'), 'sale/customer_group');
 			$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
 			return $dd->dispatch();

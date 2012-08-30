@@ -113,7 +113,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 
 	    $this->loadModel('sale/customer');
         $this->loadLanguage('sale/customer');
-        if (!$this->user->hasPermission('modify', 'sale/customer')) {
+        if (!$this->user->canModify('sale/customer')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'sale/customer') );
             return;
 		}
@@ -170,7 +170,7 @@ class ControllerResponsesListingGridCustomer extends AController {
         $this->loadLanguage('sale/customer');
 		$this->loadModel('sale/customer');
 
-        if (!$this->user->hasPermission('modify', 'sale/customer')) {
+        if (!$this->user->canModify('sale/customer')) {
 			$err = sprintf($this->language->get('error_permission_modify'), 'sale/customer');
 			$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
 			return $dd->dispatch();

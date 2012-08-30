@@ -106,7 +106,7 @@ class ControllerPagesTotalSubtotal extends AController {
 	}
 
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'total/sub_total')) {
+		if (!$this->user->canModify('total/sub_total')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		

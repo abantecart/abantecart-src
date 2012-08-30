@@ -71,7 +71,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
 
 		$this->loadModel('localisation/tax_class');
         $this->loadLanguage('localisation/tax_class');
-        if (!$this->user->hasPermission('modify', 'localisation/tax_class')) {
+        if (!$this->user->canModify('localisation/tax_class')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/tax_class') );
             return;
 		}
@@ -127,7 +127,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/tax_class');
-        if (!$this->user->hasPermission('modify', 'localisation/tax_class')) {
+        if (!$this->user->canModify('localisation/tax_class')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/tax_class'));
             return;
 		}
@@ -176,7 +176,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/tax_class');
-        if (!$this->user->hasPermission('modify', 'localisation/tax_class')) {
+        if (!$this->user->canModify('localisation/tax_class')) {
 			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/tax_class'));
             return;
 		}

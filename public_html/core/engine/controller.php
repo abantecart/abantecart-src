@@ -65,6 +65,13 @@ abstract class AController {
 		$this->clear(); 	
 	}
 
+	/*
+	* Quick access to controller name or rt
+	*/
+	public function rt() {
+		return $this->controller;
+	}
+
 	// Clear funstion is public in case controller needs to be cleaned explicitly
 	public function clear(){ 
 		$vars = get_object_vars($this);

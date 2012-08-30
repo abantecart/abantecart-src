@@ -388,7 +388,7 @@ class ControllerPagesSaleCustomer extends AController {
 
 		$this->loadLanguage('mail/customer');
     	
-		if (!$this->user->hasPermission('modify', 'sale/customer')) {
+		if (!$this->user->canModify('sale/customer')) {
 			$this->session->data['error'] = $this->language->get('error_permission');
 			$this->redirect($this->html->getSecureURL('sale/customer'));
 		}
@@ -439,7 +439,7 @@ class ControllerPagesSaleCustomer extends AController {
 	} 
 	 
   	private function _validateForm() {
-    	if (!$this->user->hasPermission('modify', 'sale/customer')) {
+    	if (!$this->user->canModify('sale/customer')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
 
