@@ -72,7 +72,7 @@ class ControllerResponsesListingGridSetting extends AController {
 			$response->rows[$i]['id'] = $result['group'].'-'.$result['key'].'-'.$result['store_id'];
 			$response->rows[$i]['cell'] = array(
 				$result['alias'],
-				$this->language->get('tab_'.$result['group']),
+				$result['group'],
 				$result['key'],
 				$value,
 			);

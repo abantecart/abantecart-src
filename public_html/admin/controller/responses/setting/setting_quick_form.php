@@ -151,6 +151,8 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
             'options' => $stores
         ));
 
+	    $this->data['template_image'] = $this->html->getSecureURL('setting/template_image');
+
         $this->view->assign('form_title', $this->language->get('tab_'.$setting[0]) );
         $this->view->assign('help_url', $this->gen_help_url('setting_edit'));
         $this->view->assign('active', $this->request->get['active']);

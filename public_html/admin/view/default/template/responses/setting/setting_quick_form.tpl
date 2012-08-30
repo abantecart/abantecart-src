@@ -23,7 +23,7 @@
                             <tr>
                                 <td><?php echo ${'entry_' . $name}; ?></td>
                                 <td class="ml_field">
-                                    <?php echo $field; ?>
+                                    <?php echo $field.($name=='template' ? '<div id="template"></div>' : ''); ?>
                                     <?php if (!empty($error[$name])) { ?>
                                     <div class="field_err"><?php echo $error[$name]; ?></div>
                                     <?php }  ?>
@@ -52,6 +52,12 @@
 if (!$active) {     ?>
 <div id="dialog"></div>
 <?php } ?>
-
+<script type="text/javascript"><!--
+$('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent($('select[name=\'config_storefront_template\']').attr('value')));
+    $('#cgFrm_config_storefront_template').change(function () {
+        $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent(this.value))
+    });
+-->
+</script>
 
 

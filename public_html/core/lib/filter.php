@@ -217,10 +217,12 @@ final class AGrid {
                             break;
                         case 'bw' :
                             $str = "LOWER(" . $str . ")";
+                            $rule['data'] = mb_strtolower($rule['data']);
                             $str .= " LIKE '" . $this->db->escape($rule['data']) . "%' ";
                             break;
                         case 'cn' :
                             $str = "LOWER(" . $str . ")";
+		                    $rule['data'] = mb_strtolower($rule['data']);
                             $str .= " LIKE '%" . $this->db->escape($rule['data']) . "%' ";
                             break;
                         default:

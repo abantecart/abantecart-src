@@ -501,6 +501,22 @@ class AConfigManager {
             'options' => $templates,
             'style' => 'large-field',
         ));
+
+
+		//appearance section
+		$templates = array();
+		$directories = glob(DIR_APP_SECTION . 'view/*', GLOB_ONLYDIR);
+		foreach ($directories as $directory) {
+		   $templates[basename($directory)] = basename($directory);
+		}
+
+        $fields['admin_template'] = $form->getFieldHtml($props[] = array(
+            'type' => 'selectbox',
+            'name' => 'admin_template',
+            'value' => $data['admin_template'],
+            'options' => $templates,
+            'style' => 'large-field',
+        ));
  
         $fields['storefront_width'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
@@ -791,7 +807,7 @@ class AConfigManager {
             'type' => 'input',
             'name' => 'config_upload_max_size',
             'value' => number_format($data['config_upload_max_size'], 0, '.', $this->language->get('thousand_point'))
-        ));
+        )).' (<= '.ini_get('post_max_size').')';
 
         $fields['error_display'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',

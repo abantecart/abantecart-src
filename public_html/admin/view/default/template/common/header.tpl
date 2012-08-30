@@ -268,14 +268,14 @@
             $("#suggest_popup_dialog").html('<div class="progressbar">Loading ...</div>');
 
             $.ajax({
-                url:item.controller,
+                url:item.controller + '&target=suggest_popup_dialog',
                 type:'GET',
                 dataType:'json',
                 success:function (data) {
                     $("#suggest_popup_dialog").html(data.html);
                     $('#suggest_popup_dialog').dialog('option', 'title', data.title);
                     $('#suggest_popup_dialog').dialog('option', 'height', 'auto');
-					$('span[id$="cancel"]').bind('click',function(){
+					$('span[id$="cancel"]').live('click',function(){
 						$('#suggest_popup_dialog').dialog("close");
 					});
 					CKEditor('add');
