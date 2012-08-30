@@ -180,15 +180,13 @@ class ControllerResponsesListingGridZone extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/zone');
-      //  if (!$this->user->canModify('localisation/zone')) {
+        if (!$this->user->canModify('localisation/zone')) {
         	$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402', 
 										  array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'localisation/zone'), 
 										  		 'reset_value' => true 
 										  		) );
-			//$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/zone') );
-            //return;
-		//}
+		}
 
         $this->loadModel('localisation/zone');
 		if ( isset( $this->request->get['id'] ) ) {
