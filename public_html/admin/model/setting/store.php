@@ -60,6 +60,7 @@ class ModelSettingStore extends Model {
 		$this->model_setting_setting->editSetting('system', array('config_ssl'=>$data['config_ssl']),$store_id);
 		
 		$this->cache->delete('store');
+		$this->cache->delete('stores');
         // add settings of extension of default store to new store settings
         $extension_list = $this->extensions->getEnabledExtensions();
         $sql = "INSERT INTO " . DB_PREFIX . "settings (store_id, `group`, `key`, `value`)
@@ -123,6 +124,7 @@ class ModelSettingStore extends Model {
         }
 
 		$this->cache->delete('store');
+		$this->cache->delete('stores');
 	}
 	
 	public function deleteStore($store_id) {
@@ -135,7 +137,8 @@ class ModelSettingStore extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "manufacturers_to_stores WHERE store_id = '" . (int)$store_id . "'");
 	
 		$this->cache->delete('store');
-	}	
+		$this->cache->delete('stores');
+	}
 	
 	public function getStore($store_id) {
 		$output = array();
