@@ -224,15 +224,16 @@
             if (!$el.prop("readonly")) {
                 $field.bind({
                     "click.acform":function () {
-                        if ($el.prop("checked") && $el.val() == 1) {
+                        if ($field.hasClass("checked") && $el.val() == 1) {
                             $(this).removeClass(o.checkedClass);
                             $el.val(0);
+
                         } else {
                             $(this).addClass(o.checkedClass);
                             $el.attr('checked', 'checked');
                             $el.val(1);
                         }
-                        onChangedAction($el, $el.val(), $el.attr('ovalue'));
+                        onChangedAction($el, String($field.hasClass("checked")), $el.attr('ovalue'));
                     }
                 });
             }
@@ -364,9 +365,16 @@
                 }
 
                 $wrapper.find(':checkbox').each(function () {
-                    if (String($(this).prop("checked")) != $(this).attr('ovalue')) {
-                        $changed++;
-                        return false;
+                    if(!$(this).hasClass('btn_switch')){
+                        if (String($(this).prop("checked")) != $(this).attr('ovalue')) {
+                            $changed++;
+                            return false;
+                        }
+                    }else{
+                        if (String($field.hasClass("checked")) != $(this).attr('ovalue')) {
+                            $changed++;
+                            return false;
+                        }
                     }
                 });
 

@@ -223,7 +223,8 @@ function saveField(obj, url) {
                 }
                 //reset data if requested
                 if ( $json.reset_value == true ) {
-                	// ?????
+                	resetField($wrapper.find('input, select, textarea'));
+                    $wrapper.find('.afield').removeClass('changed');
                 }
             },
             success:function (data) {
@@ -274,7 +275,11 @@ function resetField(obj) {
                 $e.attr('checked', 'checked');
                 $e.closest('.afield').addClass('checked');
             } else {
-                $e.removeAttr('checked');
+                if(!$e.hasClass('btn_switch')){
+                    $e.removeAttr('checked');
+                }else{
+                    $e.val(0);
+                }
                 $e.closest('.afield').removeClass('checked');
             }
         }
