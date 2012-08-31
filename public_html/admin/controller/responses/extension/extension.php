@@ -32,10 +32,6 @@ class ControllerResponsesExtensionExtension extends AController {
 
 	public function help() {
 
-		if (!$this->user->canModify('extension/extensions')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'extension/extensions') );
-			return;
-		}
 		$extension = $this->request->get['extension'];
 		$ext = new ExtensionUtils($extension);
 		$help_file_path = DIR_EXT . $extension . '/' . str_replace('..', '', $ext->getConfig('help_file'));

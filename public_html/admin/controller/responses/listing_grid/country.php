@@ -17,59 +17,59 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridCountry extends AController {
 	private $error = array();
 
-    public function main() {
+	public function main() {
 
-	    //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('localisation/country');
-	    $this->loadModel('localisation/country');
+		$this->loadLanguage('localisation/country');
+		$this->loadModel('localisation/country');
 
 		//Prepare filter config
-		$grid_filter_params = array('name', 'iso_code_2', 'iso_code_3');
-	    $filter = new AFilter( array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ) );   
-	    
-	    $total = $this->model_localisation_country->getTotalCountries( $filter->getFilterData() );
-	    $response = new stdClass();
-		$response->page = $filter->getParam('page');
-		$response->total = $filter->calcTotalPages( $total );
-		$response->records = $total;
-	    $results = $this->model_localisation_country->getCountries( $filter->getFilterData() );
+		$grid_filter_params = array( 'name', 'iso_code_2', 'iso_code_3' );
+		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
 
-	    $i = 0;
+		$total = $this->model_localisation_country->getTotalCountries($filter->getFilterData());
+		$response = new stdClass();
+		$response->page = $filter->getParam('page');
+		$response->total = $filter->calcTotalPages($total);
+		$response->records = $total;
+		$results = $this->model_localisation_country->getCountries($filter->getFilterData());
+
+		$i = 0;
 		foreach ($results as $result) {
 
-            $response->rows[$i]['id'] = $result['country_id'];
-			$response->rows[$i]['cell'] = array(
+			$response->rows[ $i ][ 'id' ] = $result[ 'country_id' ];
+			$response->rows[ $i ][ 'cell' ] = array(
 				$this->html->buildInput(array(
-                    'name'  => 'name['.$result['country_id'].']',
-                    'value' => $result['name'],
-                )),
+					'name' => 'name[' . $result[ 'country_id' ] . ']',
+					'value' => $result[ 'name' ],
+				)),
 				$this->html->buildInput(array(
-                    'name'  => 'iso_code_2['.$result['country_id'].']',
-                    'value' => $result['iso_code_2'],
-                )),
+					'name' => 'iso_code_2[' . $result[ 'country_id' ] . ']',
+					'value' => $result[ 'iso_code_2' ],
+				)),
 				$this->html->buildInput(array(
-                    'name'  => 'iso_code_3['.$result['country_id'].']',
-                    'value' => $result['iso_code_3'],
-                )),
+					'name' => 'iso_code_3[' . $result[ 'country_id' ] . ']',
+					'value' => $result[ 'iso_code_3' ],
+				)),
 				$this->html->buildCheckbox(array(
-                    'name'  => 'status['.$result['country_id'].']',
-                    'value' => $result['status'],
-                    'style'  => 'btn_switch',
-                )),
+					'name' => 'status[' . $result[ 'country_id' ] . ']',
+					'value' => $result[ 'status' ],
+					'style' => 'btn_switch',
+				)),
 			);
 			$i++;
 		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($response));
 	}
@@ -77,53 +77,56 @@ class ControllerResponsesListingGridCountry extends AController {
 	public function update() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->loadModel('localisation/country');
-        $this->loadLanguage('localisation/country');
-        if (!$this->user->canModify('localisation/country')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/country') );
-            return;
+		$this->loadLanguage('localisation/country');
+		if (!$this->user->canModify('listing_grid/country')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/country'),
+					'reset_value' => true
+				));
 		}
 
-		switch ($this->request->post['oper']) {
+		switch ($this->request->post[ 'oper' ]) {
 			case 'del':
 
 				$this->loadModel('setting/store');
 				$this->loadModel('sale/order');
 
-				$ids = explode(',', $this->request->post['id']);
-				if ( !empty($ids) )
-				foreach( $ids as $id ) {
-					$err = $this->_validateDelete($id);
-					if (!empty($err)) {
-						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-						return $dd->dispatch();
-					}
+				$ids = explode(',', $this->request->post[ 'id' ]);
+				if (!empty($ids))
+					foreach ($ids as $id) {
+						$err = $this->_validateDelete($id);
+						if (!empty($err)) {
+							$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
+							return $dd->dispatch();
+						}
 
-					$this->model_localisation_country->deleteCountry($id);
-				}
+						$this->model_localisation_country->deleteCountry($id);
+					}
 				break;
 			case 'save':
-				$fields = array('iso_code_2', 'iso_code_3', 'name', 'status' );
-				$ids = explode(',', $this->request->post['id']);
-				if ( !empty($ids) )
-				foreach( $ids as $id ) {
-					foreach ( $fields as $f ) {
+				$fields = array( 'iso_code_2', 'iso_code_3', 'name', 'status' );
+				$ids = explode(',', $this->request->post[ 'id' ]);
+				if (!empty($ids))
+					foreach ($ids as $id) {
+						foreach ($fields as $f) {
 
-						if ( $f == 'status' && !isset($this->request->post['status'][$id]) )
-							$this->request->post['status'][$id] = 0;
+							if ($f == 'status' && !isset($this->request->post[ 'status' ][ $id ]))
+								$this->request->post[ 'status' ][ $id ] = 0;
 
-						if ( isset($this->request->post[$f][$id]) ) {
-							$err = $this->_validateField($f, $this->request->post[$f][$id]);
-							if ( !empty($err) ) {
-								$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-								return $dd->dispatch();
+							if (isset($this->request->post[ $f ][ $id ])) {
+								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
+								if (!empty($err)) {
+									$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
+									return $dd->dispatch();
+								}
+								$this->model_localisation_country->editCountry($id, array( $f => $this->request->post[ $f ][ $id ] ));
 							}
-							$this->model_localisation_country->editCountry($id, array($f => $this->request->post[$f][$id]) );
 						}
 					}
-				}
 
 				break;
 
@@ -133,63 +136,66 @@ class ControllerResponsesListingGridCountry extends AController {
 		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-    /**
-     * update only one field
-     *
-     * @return void
-     */
+	/**
+	 * update only one field
+	 *
+	 * @return void
+	 */
 	public function update_field() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('localisation/country');
-        if (!$this->user->canModify('localisation/country')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/country') );
-            return;
+		$this->loadLanguage('localisation/country');
+		if (!$this->user->canModify('listing_grid/country')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/country'),
+					'reset_value' => true
+				));
 		}
 
-        $this->loadModel('localisation/country');
-		if ( isset( $this->request->get['id'] ) ) {
-		    //request sent from edit form. ID in url
-		    foreach ($this->request->post as $key => $value ) {
+		$this->loadModel('localisation/country');
+		if (isset($this->request->get[ 'id' ])) {
+			//request sent from edit form. ID in url
+			foreach ($this->request->post as $key => $value) {
 				$err = $this->_validateField($key, $value);
-			    if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-					return $dd->dispatch();
-			    }
-			    $data = array( $key => $value );
-				$this->model_localisation_country->editCountry($this->request->get['id'], $data);
-			}
-		    return;
-	    }
-
-	    //request sent from jGrid. ID is key of array
-	    $fields = array('iso_code_2', 'iso_code_3', 'name', 'status' );
-	    foreach ( $fields as $f ) {
-		    if ( isset($this->request->post[$f]) )
-			foreach ( $this->request->post[$f] as $k => $v ) {
-				$err = $this->_validateField($f, $v);
-				if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+				if (!empty($err)) {
+					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
 					return $dd->dispatch();
 				}
-				$this->model_localisation_country->editCountry($k, array($f => $v) );
+				$data = array( $key => $value );
+				$this->model_localisation_country->editCountry($this->request->get[ 'id' ], $data);
 			}
-	    }
+			return;
+		}
+
+		//request sent from jGrid. ID is key of array
+		$fields = array( 'iso_code_2', 'iso_code_3', 'name', 'status' );
+		foreach ($fields as $f) {
+			if (isset($this->request->post[ $f ]))
+				foreach ($this->request->post[ $f ] as $k => $v) {
+					$err = $this->_validateField($f, $v);
+					if (!empty($err)) {
+						$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
+						return $dd->dispatch();
+					}
+					$this->model_localisation_country->editCountry($k, array( $f => $v ));
+				}
+		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _validateField( $field, $value ) {
+	private function _validateField($field, $value) {
 		$err = '';
-		switch( $field ) {
+		switch ($field) {
 			case 'name' :
-				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 128))  {
+				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 128)) {
 					$err = $this->language->get('error_name');
 				}
 				break;
@@ -231,4 +237,5 @@ class ControllerResponsesListingGridCountry extends AController {
 	}
 
 }
+
 ?>

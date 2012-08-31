@@ -104,10 +104,13 @@ class ControllerResponsesListingGridUserPermission extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('user/user_group');
-        if (!$this->user->canModify('user/user_permission')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'user/user_permission'));
-            return;
-		}
+	    if (!$this->user->canModify('listing_grid/user_permission')) {
+	        $error = new AError('');
+	    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+	    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/user_permission'),
+	    	                                      'reset_value' => true
+	    	                             ) );
+	    }
 
         $this->loadModel('user/user_group');
 		if ( isset( $this->request->get['user_group_id'] ) ) {
@@ -142,14 +145,24 @@ class ControllerResponsesListingGridUserPermission extends AController {
 		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
 		$sord = $this->request->post['sord']; // get the direction
 
+		$this->load->library('json');
+		$searchData = json_decode(htmlspecialchars_decode($this->request->post['filters']), true);
+		$search_str = $searchData['rules'][0]['data'];
+
 		foreach($controllers as $key=>$controller){
 			if(!in_array($controller, array_keys($permissions['access'])) || !in_array($controller, array_keys($permissions['modify']))){
 					array_unshift($controllers,$controller);
 					unset($controllers[$key]);
 			}
 		}
-
-	    $search_str = '';
+		//filter result by controller name (temporary solution). needs to improve.
+		foreach($controllers as $key=>$controller){
+			if($search_str){
+				if(!is_int(strpos($controller,$search_str))){
+					unset($controllers[$key]);
+				}
+			}
+		}
 
         // process jGrid search parameter
 	    $allowedDirection = array('asc', 'desc');
@@ -182,6 +195,7 @@ class ControllerResponsesListingGridUserPermission extends AController {
 			if(!in_array($controller, array_keys($permissions['access'])) || !in_array($controller, array_keys($permissions['modify']))){
 					$response->userdata->classes[ $k ] = 'warning';
 			}
+
             $response->rows[$i]['id'] = $k;
 			$response->rows[$i]['cell'] = array( $k+$data['start']+1,
 			                                     '<a style="padding-left: 10px;" href="'.$this->html->getSecureURL($controller).'" target="_blank" title="'.$this->language->get('text_go_to_page').'">'.$controller.'</a>',
@@ -199,7 +213,7 @@ class ControllerResponsesListingGridUserPermission extends AController {
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
-		$this->load->library('json');
+		//$this->load->library('json');
 		$this->response->setOutput(AJson::encode($response));
 	}
 

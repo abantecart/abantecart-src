@@ -17,21 +17,22 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+	header('Location: static_pages/');
 }
 class ControllerResponsesSaleInvoice extends AController {
 	private $error = array();
 	public $data = array();
+
 	public function main() {
 
 		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->loadLanguage('sale/order');
 
 		$this->data[ 'title' ] = $this->language->get('heading_title');
-		$this->data[ 'css_url' ] = RDIR_TEMPLATE.'stylesheet/invoice.css';
+		$this->data[ 'css_url' ] = RDIR_TEMPLATE . 'stylesheet/invoice.css';
 
 		if (isset($this->request->server[ 'HTTPS' ]) && (($this->request->server[ 'HTTPS' ] == 'on') || ($this->request->server[ 'HTTPS' ] == '1'))) {
 			$this->data[ 'base' ] = HTTPS_SERVER;
@@ -59,11 +60,11 @@ class ControllerResponsesSaleInvoice extends AController {
 		$this->data[ 'column_total' ] = $this->language->get('column_total');
 		$this->data[ 'column_comment' ] = $this->language->get('column_comment');
 
-        if ( is_file( DIR_RESOURCE . $this->config->get('config_logo')) ) {
-            $this->data[ 'logo' ] = HTTP_DIR_RESOURCE. $this->config->get('config_logo');
-        } else {
-            $this->data[ 'logo' ] = $this->config->get('config_logo');
-        }
+		if (is_file(DIR_RESOURCE . $this->config->get('config_logo'))) {
+			$this->data[ 'logo' ] = HTTP_DIR_RESOURCE . $this->config->get('config_logo');
+		} else {
+			$this->data[ 'logo' ] = $this->config->get('config_logo');
+		}
 
 		$this->loadModel('sale/order');
 
@@ -86,37 +87,37 @@ class ControllerResponsesSaleInvoice extends AController {
 				} else {
 					$invoice_id = '';
 				}
-				
+
 				$customer = new ACustomer($this->registry);
 				$shipping_data = array(
-		  			'firstname' => $order_info['shipping_firstname'],
-		  			'lastname'  => $order_info['shipping_lastname'],
-		  			'company'   => $order_info['shipping_company'],
-	      			'address_1' => $order_info['shipping_address_1'],
-	      			'address_2' => $order_info['shipping_address_2'],
-	      			'city'      => $order_info['shipping_city'],
-	      			'postcode'  => $order_info['shipping_postcode'],
-	      			'zone'      => $order_info['shipping_zone'],
-					'zone_code' => $order_info['shipping_zone_code'],
-	      			'country'   => $order_info['shipping_country']  
+					'firstname' => $order_info[ 'shipping_firstname' ],
+					'lastname' => $order_info[ 'shipping_lastname' ],
+					'company' => $order_info[ 'shipping_company' ],
+					'address_1' => $order_info[ 'shipping_address_1' ],
+					'address_2' => $order_info[ 'shipping_address_2' ],
+					'city' => $order_info[ 'shipping_city' ],
+					'postcode' => $order_info[ 'shipping_postcode' ],
+					'zone' => $order_info[ 'shipping_zone' ],
+					'zone_code' => $order_info[ 'shipping_zone_code' ],
+					'country' => $order_info[ 'shipping_country' ]
 				);
-				
-				$shipping_address = $customer->getFormatedAdress($shipping_data, $order_info[ 'shipping_address_format' ] );
-				
+
+				$shipping_address = $customer->getFormatedAdress($shipping_data, $order_info[ 'shipping_address_format' ]);
+
 				$payment_data = array(
-		  			'firstname' => $order_info['payment_firstname'],
-		  			'lastname'  => $order_info['payment_lastname'],
-		  			'company'   => $order_info['payment_company'],
-	      			'address_1' => $order_info['payment_address_1'],
-	      			'address_2' => $order_info['payment_address_2'],
-	      			'city'      => $order_info['payment_city'],
-	      			'postcode'  => $order_info['payment_postcode'],
-	      			'zone'      => $order_info['payment_zone'],
-					'zone_code' => $order_info['payment_zone_code'],
-	      			'country'   => $order_info['payment_country']  
+					'firstname' => $order_info[ 'payment_firstname' ],
+					'lastname' => $order_info[ 'payment_lastname' ],
+					'company' => $order_info[ 'payment_company' ],
+					'address_1' => $order_info[ 'payment_address_1' ],
+					'address_2' => $order_info[ 'payment_address_2' ],
+					'city' => $order_info[ 'payment_city' ],
+					'postcode' => $order_info[ 'payment_postcode' ],
+					'zone' => $order_info[ 'payment_zone' ],
+					'zone_code' => $order_info[ 'payment_zone_code' ],
+					'country' => $order_info[ 'payment_country' ]
 				);
-				
-				$payment_address  = $customer->getFormatedAdress($payment_data, $order_info[ 'payment_address_format' ] );
+
+				$payment_address = $customer->getFormatedAdress($payment_data, $order_info[ 'payment_address_format' ]);
 
 				$product_data = array();
 
@@ -172,14 +173,22 @@ class ControllerResponsesSaleInvoice extends AController {
 		$this->processTemplate('responses/sale/order_invoice.tpl');
 
 		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
 
 	public function generate() {
 
 		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		if (!$this->user->canModify('sale/invoice')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'sale/invoice'),
+					'reset_value' => true
+				));
+		}
 
 		$this->loadModel('sale/order');
 
@@ -190,7 +199,7 @@ class ControllerResponsesSaleInvoice extends AController {
 		}
 
 		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));

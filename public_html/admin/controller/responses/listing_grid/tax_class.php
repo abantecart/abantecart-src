@@ -71,10 +71,13 @@ class ControllerResponsesListingGridTaxClass extends AController {
 
 		$this->loadModel('localisation/tax_class');
         $this->loadLanguage('localisation/tax_class');
-        if (!$this->user->canModify('localisation/tax_class')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/tax_class') );
-            return;
-		}
+		if (!$this->user->canModify('listing_grid/tax_class')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/tax_class'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
 
 		switch ($this->request->post['oper']) {
 			case 'del':
@@ -127,10 +130,13 @@ class ControllerResponsesListingGridTaxClass extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/tax_class');
-        if (!$this->user->canModify('localisation/tax_class')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/tax_class'));
-            return;
-		}
+		if (!$this->user->canModify('listing_grid/tax_class')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/tax_class'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
 
         $this->loadModel('localisation/tax_class');
 		if ( isset( $this->request->get['id'] ) ) {
@@ -176,10 +182,13 @@ class ControllerResponsesListingGridTaxClass extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/tax_class');
-        if (!$this->user->canModify('localisation/tax_class')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/tax_class'));
-            return;
-		}
+		if (!$this->user->canModify('listing_grid/tax_class')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/tax_class'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
 
         $this->loadModel('localisation/tax_class');
 		if ( isset( $this->request->get['id'] ) ) {

@@ -93,11 +93,14 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
+		if (!$this->user->canModify('catalog/attribute_groups')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'catalog/attribute_groups'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
 
-        if (!$this->user->canModify('catalog/attribute_groups')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/attribute_groups') );
-            return;
-		}
 
 		switch ($this->request->post['oper']) {
 			case 'del':
@@ -150,10 +153,13 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-        if (!$this->user->canModify('catalog/attribute_groups')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/attribute_groups') );
-            return;
-		}
+	    if (!$this->user->canModify('catalog/attribute_groups')) {
+	  			        $error = new AError('');
+	  			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+	  			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'catalog/attribute_groups'),
+	  			    	                                      'reset_value' => true
+	  			    	                             ) );
+	  	}
 
         if ( isset( $this->request->get['id'] ) ) {
 		    //request sent from edit form. ID in url

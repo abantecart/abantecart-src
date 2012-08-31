@@ -69,10 +69,13 @@ class ControllerResponsesListingGridLocation extends AController {
 
 		$this->loadModel('localisation/location');
         $this->loadLanguage('localisation/location');
-        if (!$this->user->canModify('localisation/location')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/location') );
-            return;
-		}
+		if (!$this->user->canModify('listing_grid/location')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/listing_grid/location'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
 
 		switch ($this->request->post['oper']) {
 			case 'del':
@@ -126,10 +129,13 @@ class ControllerResponsesListingGridLocation extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/location');
-        if (!$this->user->canModify('localisation/location')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/location') );
-            return;
-		}
+		if (!$this->user->canModify('listing_grid/location')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/location'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
 
         $this->loadModel('localisation/location');
 		if ( isset( $this->request->get['id'] ) ) {
@@ -175,10 +181,13 @@ class ControllerResponsesListingGridLocation extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/location');
-        if (!$this->user->canModify('localisation/location')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/location') );
-            return;
-		}
+		if (!$this->user->canModify('listing_grid/location')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/location'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
 
         $this->loadModel('localisation/location');
 		if ( isset( $this->request->get['id'] ) ) {

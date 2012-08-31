@@ -17,8 +17,8 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridSetting extends AController {
 	private $error = array();
@@ -30,109 +30,113 @@ class ControllerResponsesListingGridSetting extends AController {
 		$this->groups = $this->config->groups;
 	}
 
-    public function main() {
-	    //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+	public function main() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 		//load available groups for settings
 
-        $this->loadLanguage('setting/setting');
-	    $this->loadModel('setting/setting');
+		$this->loadLanguage('setting/setting');
+		$this->loadModel('setting/setting');
 
 		//Prepare filter config
- 		$grid_filter_params = array( 'alias','group', 'key' );
-	    $filter_grid = new AFilter( array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ) );   
+		$grid_filter_params = array( 'alias', 'group', 'key' );
+		$filter_grid = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
 
 
-		$total = $this->model_setting_setting->getTotalSettings( $filter_grid->getFilterData() );
-	    $response = new stdClass();
+		$total = $this->model_setting_setting->getTotalSettings($filter_grid->getFilterData());
+		$response = new stdClass();
 		$response->page = $filter_grid->getParam('page');
-		$response->total = $filter_grid->calcTotalPages( $total );
+		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
 
-	    $resource = new AResource('image');
-	    $results = $this->model_setting_setting->getAllSettings( $filter_grid->getFilterData() );
+		$resource = new AResource('image');
+		$results = $this->model_setting_setting->getAllSettings($filter_grid->getFilterData());
 
-	    $i = 0;
+		$i = 0;
 		foreach ($results as $result) {
 
-			if(($result['value']=='1' || $result['value']=='0')
-				&& !is_int(strpos($result['key'],'_id'))
-				&& !is_int(strpos($result['key'],'level'))
-			){
+			if (($result[ 'value' ] == '1' || $result[ 'value' ] == '0')
+					&& !is_int(strpos($result[ 'key' ], '_id'))
+					&& !is_int(strpos($result[ 'key' ], 'level'))
+			) {
 				$value = $this->html->buildCheckbox(array(
-					'name'  => '',
-					'value' => $result['value'],
-					'style'  => 'btn_switch',
+					'name' => '',
+					'value' => $result[ 'value' ],
+					'style' => 'btn_switch',
 					'attr' => 'readonly="true"'
 				));
-			}else{
-				$value = $result['value'];
+			} else {
+				$value = $result[ 'value' ];
 			}
 
-			$response->rows[$i]['id'] = $result['group'].'-'.$result['key'].'-'.$result['store_id'];
-			$response->rows[$i]['cell'] = array(
-				$result['alias'],
-				$result['group'],
-				$result['key'],
+			$response->rows[ $i ][ 'id' ] = $result[ 'group' ] . '-' . $result[ 'key' ] . '-' . $result[ 'store_id' ];
+			$response->rows[ $i ][ 'cell' ] = array(
+				$result[ 'alias' ],
+				$result[ 'group' ],
+				$result[ 'key' ],
 				$value,
 			);
 			$i++;
 		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($response));
 	}
 
-    /**
-     * update only one field
-     *
-     * @return void
-     */
+	/**
+	 * update only one field
+	 *
+	 * @return void
+	 */
 	public function update_field() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('setting/setting');
-        if (!$this->user->canModify('setting/setting')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'setting/setting') );
-            return;
+		if (!$this->user->canModify('listing_grid/setting')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/setting'),
+					'reset_value' => true
+				));
 		}
 
-        $this->loadModel('setting/setting');
-		if ( isset( $this->request->get['group'] ) ) {
-		    //request sent from edit form. ID in url
-            foreach ($this->request->post as $key => $value ) {
-				$err = $this->_validateField( $this->request->get['group'], $key, $value);
-                if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+		$this->loadLanguage('setting/setting');
+		$this->loadModel('setting/setting');
+		if (isset($this->request->get[ 'group' ])) {
+			//request sent from edit form. ID in url
+			foreach ($this->request->post as $key => $value) {
+				$err = $this->_validateField($this->request->get[ 'group' ], $key, $value);
+				if (!empty($err)) {
+					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
 					return $dd->dispatch();
-			    }
-			    $data = array( $key => $value );
-			    			    
-				$this->model_setting_setting->editSetting($this->request->get['group'], $data, $this->request->get['store_id']);
+				}
+				$data = array( $key => $value );
+
+				$this->model_setting_setting->editSetting($this->request->get[ 'group' ], $data, $this->request->get[ 'store_id' ]);
 			}
-		    return;
-	    }
+			return;
+		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _validateField( $group, $field, $value ) {
+	private function _validateField($group, $field, $value) {
 
 		$this->load->library('config_manager');
 		$config_mngr = new AConfigManager();
 		$result = $config_mngr->validate($group, array( $field => $value ));
-		return is_array($result['error']) ? current($result['error']) : $result['error'];
+		return is_array($result[ 'error' ]) ? current($result[ 'error' ]) : $result[ 'error' ];
 	}
 
 	private function _validateDelete($id) {
-        return ;
+		return;
 	}
 
 }
+
 ?>

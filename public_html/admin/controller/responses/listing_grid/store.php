@@ -17,49 +17,53 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridStore extends AController {
-    /**
-     * update only one field
-     *
-     * @return void
-     */
+	/**
+	 * update only one field
+	 *
+	 * @return void
+	 */
 	public function update_field() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('setting/store');
-        if (!$this->user->canModify('setting/store')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'setting/store') );
-            return;
+		if (!$this->user->canModify('listing_grid/store')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/store'),
+					'reset_value' => true
+				));
 		}
 
-        $this->loadModel('setting/store');
-		if ( isset( $this->request->get['id'] ) ) {
-		    //request sent from edit form. ID in url
-            foreach ($this->request->post as $key => $value ) {
+		$this->loadLanguage('setting/store');
+
+		$this->loadModel('setting/store');
+		if (isset($this->request->get[ 'id' ])) {
+			//request sent from edit form. ID in url
+			foreach ($this->request->post as $key => $value) {
 				$err = $this->_validateField($key, $value);
-                if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+				if (!empty($err)) {
+					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
 					return $dd->dispatch();
-			    }
-			    $data = array( $key => $value );
-	            $this->model_setting_store->editStore($this->request->get['id'], $data);
+				}
+				$data = array( $key => $value );
+				$this->model_setting_store->editStore($this->request->get[ 'id' ], $data);
 			}
-		    return;
-	    }
+			return;
+		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _validateField( $field, $value ) {
+	private function _validateField($field, $value) {
 		$err = '';
 
-		switch( $field ) {
+		switch ($field) {
 			case 'config_name' :
 				if (!$value) {
 					$err = $this->language->get('error_name');
@@ -76,8 +80,9 @@ class ControllerResponsesListingGridStore extends AController {
 	}
 
 	private function _validateDelete($id) {
-        return ;
+		return;
 	}
 
 }
+
 ?>

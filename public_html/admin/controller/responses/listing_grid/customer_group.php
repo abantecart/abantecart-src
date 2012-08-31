@@ -17,44 +17,44 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridCustomerGroup extends AController {
 	private $error = array();
 
-    public function main() {
+	public function main() {
 
-	    //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('sale/customer_group');
+		$this->loadLanguage('sale/customer_group');
 		$this->loadModel('sale/customer_group');
 
 		//Prepare filter config
-		$grid_filter_params = array('name');
-	    $filter = new AFilter( array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ) );   
-	    
-	    $total = $this->model_sale_customer_group->getTotalCustomerGroups( $filter->getFilterData() );
-	    
-	    $response = new stdClass();
-		$response->page = $filter->getParam('page');
-		$response->total = $filter->calcTotalPages( $total );
-		$response->records = $total;
-	    $results = $this->model_sale_customer_group->getCustomerGroups( $filter->getFilterData() );
+		$grid_filter_params = array( 'name' );
+		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
 
-	    $i = 0;
+		$total = $this->model_sale_customer_group->getTotalCustomerGroups($filter->getFilterData());
+
+		$response = new stdClass();
+		$response->page = $filter->getParam('page');
+		$response->total = $filter->calcTotalPages($total);
+		$response->records = $total;
+		$results = $this->model_sale_customer_group->getCustomerGroups($filter->getFilterData());
+
+		$i = 0;
 		foreach ($results as $result) {
 
-            $response->rows[$i]['id'] = $result['customer_group_id'];
-			$response->rows[$i]['cell'] = array(
-				$result['name'] . (($result['customer_group_id'] == $this->config->get('config_customer_group_id')) ? $this->language->get('text_default') : NULL),
+			$response->rows[ $i ][ 'id' ] = $result[ 'customer_group_id' ];
+			$response->rows[ $i ][ 'cell' ] = array(
+				$result[ 'name' ] . (($result[ 'customer_group_id' ] == $this->config->get('config_customer_group_id')) ? $this->language->get('text_default') : NULL),
 			);
 			$i++;
 		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($response));
@@ -63,43 +63,46 @@ class ControllerResponsesListingGridCustomerGroup extends AController {
 	public function update() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('sale/customer_group');
+		if (!$this->user->canModify('listing_grid/customer_group')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer_group'),
+					'reset_value' => true
+				));
+		}
+
+		$this->loadLanguage('sale/customer_group');
 		$this->loadModel('sale/customer_group');
 		$this->loadModel('setting/store');
 		$this->loadModel('sale/customer');
 
-        if (!$this->user->canModify('sale/customer_group')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'sale/customer_group') );
-            return;
-		}
-
-		switch ($this->request->post['oper']) {
+		switch ($this->request->post[ 'oper' ]) {
 			case 'del':
-				$ids = explode(',', $this->request->post['id']);
-				if ( !empty($ids) )
-				foreach( $ids as $id ) {
+				$ids = explode(',', $this->request->post[ 'id' ]);
+				if (!empty($ids))
+					foreach ($ids as $id) {
 
-					if ($this->config->get('config_customer_group_id') == $id) {
-						$this->response->setOutput( $this->language->get('error_default') );
-						return;
+						if ($this->config->get('config_customer_group_id') == $id) {
+							$this->response->setOutput($this->language->get('error_default'));
+							return;
+						}
+
+						$store_total = $this->model_setting_store->getTotalStoresByCustomerGroupId($id);
+						if ($store_total) {
+							$this->response->setOutput(sprintf($this->language->get('error_store'), $store_total));
+							return;
+						}
+
+						$customer_total = $this->model_sale_customer->getTotalCustomersByCustomerGroupId($id);
+						if ($customer_total) {
+							$this->response->setOutput(sprintf($this->language->get('error_customer'), $customer_total));
+							return;
+						}
+
+						$this->model_sale_customer_group->deleteCustomerGroup($id);
 					}
-
-					$store_total = $this->model_setting_store->getTotalStoresByCustomerGroupId($id);
-					if ($store_total) {
-						$this->response->setOutput( sprintf($this->language->get('error_store'), $store_total) );
-						return;
-					}
-
-					$customer_total = $this->model_sale_customer->getTotalCustomersByCustomerGroupId($id);
-					if ($customer_total) {
-						$this->response->setOutput( sprintf($this->language->get('error_customer'), $customer_total) );
-						return;
-					}
-
-					$this->model_sale_customer_group->deleteCustomerGroup($id);
-				}
 				break;
 			case 'save':
 				break;
@@ -110,34 +113,36 @@ class ControllerResponsesListingGridCustomerGroup extends AController {
 		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-    /**
-     * update only one field
-     *
-     * @return void
-     */
-    public function update_field() {
+	/**
+	 * update only one field
+	 *
+	 * @return void
+	 */
+	public function update_field() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('sale/customer_group');
-		$this->loadModel('sale/customer_group');
-
-        if (!$this->user->canModify('sale/customer_group')) {
-			$err = sprintf($this->language->get('error_permission_modify'), 'sale/customer_group');
-			$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-			return $dd->dispatch();
+		if (!$this->user->canModify('listing_grid/customer_group')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer_group'),
+					'reset_value' => true
+				));
 		}
 
-	    if ( isset( $this->request->get['id'] ) ) {
-		    $this->model_sale_customer_group->editCustomerGroup($this->request->get['id'], $this->request->post);
-	    }
+		$this->loadLanguage('sale/customer_group');
+		$this->loadModel('sale/customer_group');
+
+		if (isset($this->request->get[ 'id' ])) {
+			$this->model_sale_customer_group->editCustomerGroup($this->request->get[ 'id' ], $this->request->post);
+		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
 }

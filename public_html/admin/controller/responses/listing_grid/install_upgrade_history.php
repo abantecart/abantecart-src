@@ -53,7 +53,6 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController {
 		}
 
 		// process jGrid search parameter
-		$allowedFields = array ('name' );
 		
 		$data = array ('sort' => $sidx.":". $sord,
 		               'offset' => ($page - 1) * $limit,

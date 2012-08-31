@@ -122,9 +122,12 @@ class ControllerResponsesListingGridCategory extends AController {
 		$this->loadModel('catalog/product');
 	    $this->loadModel('catalog/category');
 		$this->loadLanguage('catalog/category');
-        if (!$this->user->canModify('catalog/category')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/category') );
-            return;
+		if (!$this->user->canModify('listing_grid/category')) {
+			        $error = new AError('');
+			        return $error->toJSONResponse('NO_PERMISSIONS_402',
+			                                      array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/category'),
+			                                             'reset_value' => true
+			                                           ) );
 		}
 
 		switch ($this->request->post['oper']) {
@@ -167,9 +170,12 @@ class ControllerResponsesListingGridCategory extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('catalog/category');
-        if (!$this->user->canModify('catalog/category')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/category') );
-            return;
+        if (!$this->user->canModify('listing_grid/category')) {
+	        $error = new AError('');
+	        return $error->toJSONResponse('NO_PERMISSIONS_402',
+	                                      array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/category'),
+	                                             'reset_value' => true
+	                                           ) );
 		}
 
         $this->loadModel('catalog/category');

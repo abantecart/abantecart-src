@@ -242,7 +242,7 @@ class ControllerPagesUserUserPermission extends AController {
 				'editurl' => $this->html->getSecureURL('listing_grid/user_permission/update_field','&user_group_id='.$this->request->get['user_group_id']),
 				'update_field' => $this->html->getSecureURL('listing_grid/user_permission/update_field','&user_group_id='.$this->request->get['user_group_id']),
 				'sorting' => false,
-				'columns_search' => false,
+				'columns_search' => true,
 				'actions' => array(),
 				'multiaction' => 'false',
 				'multiaction_options' => array( 'save'=> $this->language->get('text_save_selected')),
@@ -261,24 +261,28 @@ class ControllerPagesUserUserPermission extends AController {
 					'index' => 'id',
 					'width' => 20,
 					'align' => 'center',
+					'search' => false
 				),
 				array(
 					'name' => 'controller',
 					'index' => 'controller',
 					'width' => 300,
 					'align' => 'left',
+					'search' => true
 				),
 				array(
 					'name' => 'access',
 					'index' => 'access',
 					'width' => 50,
 					'align' => 'center',
+					'search' => false
 				),
 				array(
 					'name' => 'modify',
 					'index' => 'modify',
 					'width' => 50,
 					'align' => 'center',
+					'search' => false
 				),
 			);
 
