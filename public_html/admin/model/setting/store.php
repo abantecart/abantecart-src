@@ -166,7 +166,7 @@ class ModelSettingStore extends Model {
 	}
 	
 	public function getStores($data = array()) {
-		$store_data = $this->cache->get('store');
+		$store_data = $this->cache->get('stores');
 		if (is_null($store_data)) {
 			$query = $this->db->query("SELECT *
 										FROM " . DB_PREFIX . "stores
@@ -174,9 +174,8 @@ class ModelSettingStore extends Model {
 
 			$store_data = $query->rows;
 		
-			$this->cache->set('store', $store_data);
+			$this->cache->set('stores', $store_data);
 		}
-	 
 		return $store_data;
 	}
 

@@ -52,8 +52,7 @@ final class ACache {
 			$this->delete($key, $language_id, $store_id );
 			return null;
 		}
-		
-		$suffix = '';
+
 		$suffix = $this->_build_sufix($language_id, $store_id);
 		$cache_files = glob(DIR_CACHE . 'cache.' . $key . ($suffix ? '.'.$suffix : '') . '.*', GLOB_NOSORT);
 
@@ -77,7 +76,7 @@ final class ACache {
 
 	//set cache parameter
   	public function set($key, $value, $language_id = '', $store_id = '', $create_override = false) {
-		$suffix = '';
+
 		$suffix = $this->_build_sufix($language_id, $store_id);
 
     	$this->delete($key, $language_id, $store_id );
@@ -111,6 +110,7 @@ final class ACache {
   	}
   	
   	private function _build_sufix($language_id = '', $store_id = ''){
+		$suffix = '';
 		if($language_id){
 			$language_id = (int)$language_id;
 		}
@@ -121,7 +121,7 @@ final class ACache {
 			$suffix = $language_id.'_'.(int)$store_id;
 		}
 
-		return $suffix;  		
+		return $suffix;
   	}  	
 }
 ?>

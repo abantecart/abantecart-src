@@ -25,6 +25,9 @@ final class ALog {
 	private $filename;
 	
 	public function __construct($filename) {
+		if(!is_file($filename)){
+			$filename .= (substr($filename,-1)!='/' ? '/' : '').'error_log.txt';
+		}
 		$this->filename = $filename;
 	}
 	

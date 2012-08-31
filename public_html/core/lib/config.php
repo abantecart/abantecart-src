@@ -88,50 +88,52 @@ final class AConfig {
 		$db = $this->registry->get('db');
 
 		// Load default store settings first
-		$settings = $cache->force_get('settings.0');
+		$settings = $cache->force_get('settings','',0);
 		if ( empty( $settings ) ) {
-		// set global settings (without extensions settings)
-			$query = $db->query("SELECT se.*
-								 FROM " . DB_PREFIX . "settings se
-								 LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
-								 WHERE se.store_id='0' AND e.extension_id IS NULL");
+		    // set global settings (without extensions settings)
+			$sql = "SELECT se.*
+					FROM " . DB_PREFIX . "settings se
+					LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
+					WHERE se.store_id='0' AND e.extension_id IS NULL";
+			$query = $db->query( $sql );
 			$settings = $query->rows;
-			$cache->force_set('settings.0', $settings);
+			$cache->force_set('settings', $settings,'',0);
 		}
+
 		foreach ($settings as $setting) {
 		    $this->cnfg[$setting['key']]  = $setting['value'];
 		}
 		
 		//detect URL for the store
 		$url = str_replace('www.', '', $_SERVER['HTTP_HOST']) . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/';
-		
+
 		// if storefront and not default store
 		// try to load setting for given url
 		if (!( $this->cnfg['config_url'] == 'http://'.$url || $this->cnfg['config_url'] == 'http://www.'.$url ) ) {
-		
 		    $cache_name = 'store.'.md5('http://'.$url);
 		   	$store_settings = $cache->force_get($cache_name);
 		   	if ( empty($store_settings) ) {
 		      $sql = "SELECT se.`key`, se.`value`, st.store_id
-		   							 FROM " . DB_PREFIX . "settings se
-		   							 RIGHT JOIN " . DB_PREFIX . "stores st ON se.store_id=st.store_id
-		   							 LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
-		   							 WHERE se.store_id = (SELECT DISTINCT store_id FROM " . DB_PREFIX . "settings
-		   							                      WHERE `group`='details' AND `key` = 'config_url'
-		                                                    AND (`value` = '" . $db->escape('http://www.' . $url) . "'
-		                                                           OR `value` = '" . $db->escape('http://'.$url) . "')
-		                                                  LIMIT 0,1)
-		   								AND st.status = 1 AND e.extension_id IS NULL";
+		   			  FROM " . DB_PREFIX . "settings se
+		   			  RIGHT JOIN " . DB_PREFIX . "stores st ON se.store_id=st.store_id
+		   			  LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
+		   			  WHERE se.store_id = (SELECT DISTINCT store_id FROM " . DB_PREFIX . "settings
+		   			                       WHERE `group`='details' AND `key` = 'config_url'
+		                                         AND (`value` = '" . $db->escape('http://www.' . $url) . "'
+		                                               OR `value` = '" . $db->escape('http://'.$url) . "')
+		                                   LIMIT 0,1)
+		   					AND st.status = 1 AND e.extension_id IS NULL";
 		   		$query = $db->query($sql);
 		   		$store_settings = $query->rows;
 		   		$cache->force_set( $cache_name, $store_settings);
 		   	}
+
 		   	if($store_settings){
-		    	if(!IS_ADMIN){
+		    	//if(!IS_ADMIN){
 		    		foreach ($store_settings as $row) {
 		    			$this->cnfg[$row['key']] = $row['value'];
 		    		}
-		    	}	
+		    	//}
 		   		$this->cnfg['config_store_id'] = $store_settings[0]['store_id'];
 		   	} else {
 		        $warning = new AWarning('Warning: Trying to access by unconfigured or unknown domain. Possibly missing or incorrect store URL set up. Loading default store configuration');
@@ -169,7 +171,6 @@ final class AConfig {
 		foreach ($settings as $setting) {
 			$this->cnfg[$setting['key']] = $setting['value'];
 		}
-
 	}
 
 }
