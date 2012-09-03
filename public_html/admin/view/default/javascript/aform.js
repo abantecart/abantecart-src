@@ -219,8 +219,12 @@
 
         function doSwitchButton(elem) {
             var $el = $(elem);
-
             var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield');
+
+            if (!$field.hasClass("checked") && $el.val() == 1) { // check value here, because we can't do this in AHtml (can'n recognize switch)
+                $el.val(0);
+            }
+
             if (!$el.prop("readonly")) {
                 $field.bind({
                     "click.acform":function () {

@@ -47,6 +47,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
         $group = $setting[0];
         $setting_key = $setting[1];
         $store_id = !isset($this->request->get['store_id']) ? $setting[2] : $this->request->get['store_id'];
+	    $this->request->get['active'] = $group.'-'.$setting_key.'-'.$store_id;
 
         $this->document->setTitle($this->language->get('heading_title'));
         if (($this->request->server['REQUEST_METHOD'] == 'POST' && $this->_validateForm($group)) ) {

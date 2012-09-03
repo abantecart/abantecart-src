@@ -278,6 +278,16 @@
 					$('span[id$="cancel"]').live('click',function(){
 						$('#suggest_popup_dialog').dialog("close");
 					});
+	                if($('#store_switcher').length>0){
+		                $('#store_switcher').aform({ triggerChanged: false })
+		                            .live('change',function () {
+		                                $.getJSON(item.controller +'&target=suggest_popup_dialog&store_id=' + $(this).val(),
+		                                    function (response) {
+		                                        $('#suggest_popup_dialog').html(response.html);
+		                                        CKEditor('add');
+		                                    });
+		                            });
+	                }
 					CKEditor('add');
                 }
             });
