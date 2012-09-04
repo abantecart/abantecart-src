@@ -572,6 +572,17 @@ class ALayoutManager {
 		return $result->rows;
 	}
 
+	public function getBlockTemplates($block_id){
+		$block_id = (int)$block_id;
+		if(!$block_id) return array();
+
+		$sql = "SELECT template
+				FROM " . DB_PREFIX . "block_templates
+				WHERE block_id='".$block_id."'";
+		$result = $this->db->query ( $sql );
+		return $result->rows;
+	}
+
 	
 	public function savePage($data, $page_id = 0) {
 		if (! $page_id) {
@@ -751,6 +762,9 @@ class ALayoutManager {
 				    if(isset($description ['block_wrapper'])){
 					   $tmp[] = "`block_wrapper` = '" . $this->db->escape ( $description ['block_wrapper'] ) . "'";
 				    }
+				    if(isset($description ['block_framed'])){
+					   $tmp[] = "`block_framed` = '" . (int) $description ['block_framed'] . "'";
+				    }
 				    if(isset($description ['title'])){
 					   $tmp[] = "`title` = '" . $this->db->escape ( $description ['title'] ) . "'";
 				    }
@@ -772,6 +786,7 @@ class ALayoutManager {
 									   (custom_block_id,
 										language_id,
 										block_wrapper,
+										block_framed,
 										`name`,
 										title,
 										description,
@@ -780,6 +795,7 @@ class ALayoutManager {
 									VALUES ( '" . $custom_block_id . "',
 											 '" . ( int ) $description ['language_id'] . "',
 											 '" . $this->db->escape ( $description ['block_wrapper'] ). "',
+											 '" . (int) $description ['block_framed'] . "',
 											 '" . $this->db->escape ( $description ['name'] ) . "',
 											 '" . $this->db->escape ( $description ['title'] ) . "',
 											 '" . $this->db->escape ( $description ['description'] ) . "',
@@ -1044,7 +1060,8 @@ class ALayoutManager {
 						<language></language>
 						<name></name>
 						<title></title>
-						<block_wrapper></title>
+						<block_wrapper></block_wrapper>
+						<block_framed></block_framed>
 						<description></description>
 						<content></content>
 					</block_description>
@@ -1723,6 +1740,7 @@ class ALayoutManager {
 								$desc_array = array('name' => $block_description->name,
 													'title' => $block_description->title,
 													'block_wrapper' => trim($block_description->block_wrapper),
+													'block_framed' => (int)$block_description->block_framed,
 													'description' => $block_description->description,
 													'content' => $content,
 													'language_id' => $language_id);
@@ -1763,6 +1781,7 @@ class ALayoutManager {
 									$desc_array = array('name' => $block_description->name,
 														'title' => $block_description->title,
 														'block_wrapper' => $block_description->block_wrapper,
+														'block_framed' => $block_description->block_framed,
 														'description' => $block_description->description,
 														'content' => $content,
 														'status' => $block_description->status,

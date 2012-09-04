@@ -51,23 +51,28 @@ class ControllerBlocksListingBlock extends AController {
 				                                                     'catalog_product_getPopularProducts',
 				                                                     'catalog_product_getSpecialProducts',
 				                                                    ))){
-					$this->_prepareProducts( $block_data['content'] );
+					$this->_prepareProducts( $block_data['content'], $block_data['block_wrapper'] );
+					$template_overrided = true;
 				}
 
-				$this->view->assign('block_wrapper',$block_data['block_wrapper']);
+				$this->view->assign('block_framed',(int)$block_data['block_framed']);
 				$this->view->assign('content',$block_data['content']);
 				$this->view->assign('heading_title', $block_data['title'] );
 			}else{
 				$override = $this->dispatch($this->data['controller'],array($parent_block_txt_id,$block_data));
 				$this->view->setOutput($override->dispatchGetOutput());
 			}
-			
+			// need to set wrapper for non products listing blocks
+			if($this->view->isTemplateExists($block_data['block_wrapper']) && !$template_overrided){
+				$this->view->setTemplate( $block_data['block_wrapper'] );
+			}
+
 			$this->processTemplate();
 		}
 
   	}
 
-	protected function _prepareProducts($data){
+	protected function _prepareProducts($data, $block_wrapper=''){
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
 		$this->loadLanguage('product/product');
@@ -124,7 +129,11 @@ class ControllerBlocksListingBlock extends AController {
 		$vertical_tpl = array( 'blocks/listing_block_column_left.tpl',
 		                       'blocks/listing_block_column_right.tpl');
 
-		$template =  in_array( $this->view->getTemplate(), $vertical_tpl ) ? 'blocks/special.tpl' : 'blocks/special_home.tpl';
+		if($this->view->isTemplateExists($block_wrapper) ){
+			$template = $block_wrapper;
+		}else{
+			$template =  in_array( $this->view->getTemplate(), $vertical_tpl ) ? 'blocks/special.tpl' : 'blocks/special_home.tpl';
+		}
 		$this->view->setTemplate( $template );
 	}
 
@@ -147,6 +156,7 @@ class ControllerBlocksListingBlock extends AController {
 		if($this->data['content']){
 			$output = array(
 				'title' => $this->data['descriptions'][$key]['title'],
+				'block_framed' => $this->data['descriptions'][$key]['block_framed'],
 				'content' => $this->data['content'],
 				'block_wrapper' => (int)$this->data['descriptions'][$key]['block_wrapper'],
 			);

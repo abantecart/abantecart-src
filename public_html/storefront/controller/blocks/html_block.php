@@ -29,11 +29,15 @@ class ControllerBlocksHTMLBlock extends AController {
 
 		$instance_id = func_get_arg(0);
 		$block_data = $this->getBlockContent($instance_id);
-		$this->view->assign('block_wrapper',$block_data['block_wrapper']);
+		$this->view->assign('block_framed',(int)$block_data['block_framed']);
 		$this->view->assign('content',$block_data['content']);
     	$this->view->assign('heading_title', $block_data['title'] );
 		
 		if($block_data['content']){
+			// need to set wrapper for non products listing blocks
+			if($this->view->isTemplateExists($block_data['block_wrapper'])){
+				$this->view->setTemplate( $block_data['block_wrapper'] );
+			}
 			$this->processTemplate();
 		}
         //init controller data
@@ -53,7 +57,8 @@ class ControllerBlocksHTMLBlock extends AController {
 		$output = array(
 			'title' => $descriptions[$key]['title'],
 			'content' => html_entity_decode($descriptions[$key]['content']),
-			'block_wrapper' => (int)$descriptions[$key]['block_wrapper'],
+			'block_wrapper' => $descriptions[$key]['block_wrapper'],
+			'block_framed' => $descriptions[$key]['block_framed'],
 		);
 
 		return $output;

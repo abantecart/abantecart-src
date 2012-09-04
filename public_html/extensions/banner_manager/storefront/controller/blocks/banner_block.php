@@ -29,12 +29,16 @@ class ControllerBlocksBannerBlock extends AController {
 
 		$instance_id = func_get_arg(0);
 		$block_data = $this->getBlockContent($instance_id);
-		$this->view->assign('block_wrapper',$block_data['block_wrapper']);
+		$this->view->assign('block_framed',$block_data['block_framed']);
 		$this->view->assign('content',$block_data['content']);
     	$this->view->assign('heading_title', $block_data['title'] );
     	$this->view->assign('stat_url', $this->html->getURL('r/extension/banner_manager') );
 
 		if($block_data['content']){
+			// need to set wrapper for non products listing blocks
+			if($this->view->isTemplateExists($block_data['block_wrapper'])){
+				$this->view->setTemplate( $block_data['block_wrapper'] );
+			}
 			$this->processTemplate();
 		}
         //init controller data
@@ -71,7 +75,8 @@ class ControllerBlocksBannerBlock extends AController {
 		$output = array(
 			'title' => $descriptions[$key]['title'],
 			'content' => $banners,
-			'block_wrapper' => (int)$descriptions[$key]['block_wrapper'],
+			'block_wrapper' => $descriptions[$key]['block_wrapper'],
+			'block_framed' => (int)$descriptions[$key]['block_framed'],
 		);
 
 		return $output;

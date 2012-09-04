@@ -114,6 +114,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
+
 		if (!$this->user->canModify('listing_grid/blocks_grid')) {
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
@@ -121,6 +122,8 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 					'reset_value' => true
 				));
 		}
+
+		$this->loadLanguage('design/blocks');
 
 		$custom_block_id = (int)$this->request->get[ 'custom_block_id' ];
 		$layout = new ALayoutManager();
@@ -145,12 +148,25 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 			if (isset($this->request->post [ 'block_wrapper' ])) {
 				$tmp[ 'block_wrapper' ] = $this->request->post [ 'block_wrapper' ];
 			}
+			if (isset($this->request->post [ 'block_framed' ])) {
+				$tmp[ 'block_framed' ] = (int)$this->request->post [ 'block_framed' ];
+			}
 
 			$tmp[ 'language_id' ] = $this->session->data[ 'content_language_id' ];
 
 			$layout->saveBlockDescription((int)$this->request->post[ 'block_id' ],
 				$custom_block_id,
 				$tmp);
+			$info = $layout->getBlockDescriptions($custom_block_id) ;
+			if(isset($tmp['status'])){
+				if($info[$tmp[ 'language_id' ]]['status']!=$tmp['status']){
+					$error = new AError('');
+					return $error->toJSONResponse('NO_PERMISSIONS_406',
+						array( 'error_text' => $this->language->get('error_text_status'),
+							   'reset_value' => true
+						));
+				}
+			}
 
 		}
 
@@ -201,7 +217,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 											<td class="ml_field">' . $form->getFieldHtml(array( 'type' => 'input',
 			'name' => 'limit',
 			'value' => $content[ 'limit' ],
-			'help_url' => $this->gen_help_url('block_wrapper') )) . '</td></tr>
+			'help_url' => $this->gen_help_url('block_limit') )) . '</td></tr>
 																								</table>';
 
 
@@ -240,14 +256,14 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 			'value' => (string)$content[ 'resource_type' ],
 			'options' => $resource_types,
 			'style' => 'no-save',
-			'help_url' => $this->gen_help_url('block_wrapper')
+			'help_url' => $this->gen_help_url('block_resource_type')
 		)) . '</td></tr>
 										<tr><td>' . $this->language->get('entry_limit') . '</td>
 											<td class="ml_field">' . $form->getFieldHtml(array( 'type' => 'input',
 			'name' => 'limit',
 			'value' => $content[ 'limit' ],
 			'style' => 'no-save',
-			'help_url' => $this->gen_help_url('block_wrapper') )) . '</td></tr>
+			'help_url' => $this->gen_help_url('block_limit') )) . '</td></tr>
 																								</table>';
 
 

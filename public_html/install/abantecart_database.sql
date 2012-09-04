@@ -5664,7 +5664,8 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `created`) VA
 (19, 'featured', 'blocks/featured', now() ),
 (20, 'listing_block', 'blocks/listing_block', now() ),
 (21, 'donate', 'blocks/donate', now() ),
-(22, 'special', 'blocks/special', now() );
+(22, 'special', 'blocks/special', now() ),
+(23, 'banner_block', 'blocks/banner_block', now() );
 
 
 
@@ -5707,6 +5708,7 @@ CREATE TABLE `ac_block_descriptions` (
   `custom_block_id` int(10) NOT NULL,
   `language_id` int(10) NOT NULL,
   `block_wrapper` varchar(255) NOT NULL default '0',
+  `block_framed` tinyint(1) DEFAULT '1',
   `name` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,  
   `description` varchar(255) NOT NULL DEFAULT '',
@@ -5771,7 +5773,15 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (21, 8, 'blocks/donate.tpl', now() ),
 (22, 3, 'blocks/special.tpl', now() ),
 (22, 5, 'blocks/special_home.tpl', now() ),
-(22, 6, 'blocks/special.tpl', now() );
+(22, 6, 'blocks/special.tpl', now() ),
+(23, 1, 'blocks/banner_block_header.tpl', NOW() ),
+(23, 2, 'blocks/banner_block_content.tpl', NOW() ),
+(23, 3, 'blocks/banner_block.tpl', NOW() ),
+(23, 4, 'blocks/banner_block_content.tpl', NOW() ),
+(23, 5, 'blocks/banner_block_content.tpl', NOW() ),
+(23, 6, 'blocks/banner_block.tpl', NOW() ),
+(23, 7, 'blocks/banner_block_content.tpl', NOW() ),
+(23, 8, 'blocks/banner_block_header.tpl', NOW() );
 
 
 --

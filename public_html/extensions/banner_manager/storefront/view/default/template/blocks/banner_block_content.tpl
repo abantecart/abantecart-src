@@ -1,4 +1,4 @@
-<?php if ( $block_wrapper ) { ?>
+<?php if ( $block_framed ) { ?>
 <div id="wide_block">
 	  <div class="tl"></div>
 	  <div class="tr"></div>
@@ -25,7 +25,7 @@
 		echo '</div>';
 		}
 }?>
-<?php if ( $block_wrapper ) { ?>
+<?php if ( $block_framed ) { ?>
     
   </div>
   <div class="bl"></div>

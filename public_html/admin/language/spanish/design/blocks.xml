@@ -61,6 +61,10 @@
 		<value><![CDATA[ Usar envoltorio bloque (apariencia) ]]></value>
 	</definition>
 	<definition>
+		<key>entry_block_framed</key>
+		<value><![CDATA[ Utilice marco del bloque ]]></value>
+	</definition>
+	<definition>
 		<key>entry_block_name</key>
 		<value><![CDATA[ Nombre de bloque personalizado ]]></value>
 	</definition>
@@ -91,6 +95,10 @@
 	<definition>
 		<key>error_delete</key>
 		<value><![CDATA[ No se puede eliminar porque este bloque está en uso. Por favor visite la sección de diseño. ]]></value>
+	</definition>
+	<definition>
+		<key>error_text_status</key>
+		<value><![CDATA[No se puede cambiar el estado ya que este bloque no está en uso. Por favor visite la sección de Diseño. ]]></value>
 	</definition>
 	<definition>
 		<key>text_success_deleted</key>

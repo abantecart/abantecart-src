@@ -28,3 +28,6 @@ ALTER TABLE `ac_stores` DROP COLUMN	`ssl`;
 
 -- populate aliases
 update ac_stores set alias = LOWER(SUBSTRING(name,0,15));
+
+ALTER TABLE `ac_block_descriptions` ADD COLUMN `block_framed` tinyint(1) DEFAULT '1' AFTER `block_wrapper`;
+

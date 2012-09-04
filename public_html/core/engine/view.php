@@ -220,6 +220,29 @@ class AView {
             return 'storefront/view/default' . $filename;
         }
     }
+    public function isTemplateExists( $filename ) {
+        $template = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
+        $extensions = $this->extensions->getEnabledExtensions();
+
+        $file = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . $template . $filename;
+        $file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default' . $filename;
+
+	    foreach ( $extensions as $ext ) {
+            if ( is_file(DIR_EXT . $ext . $file) ) {
+				return true;
+			}
+            //check default template
+            if ( $template != 'default' && is_file(DIR_EXT . $ext . $file_default) ) {
+				return true;
+			}
+        }
+
+        if (is_file( DIR_TEMPLATE . $template . $filename)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public function _fetch( $file ) {
 

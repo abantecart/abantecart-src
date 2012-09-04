@@ -32,14 +32,14 @@ function preformatFloat($value, $decimal_point='.'){
 		$value = str_replace('.','~',$value);
 		$value = str_replace($decimal_point,'.',$value);
 	}
-	return (float)preg_replace('/[^0-9\.]/','',$value);
+	return (float)preg_replace('/[^0-9\-\.]/','',$value);
 }
 
 /*
  * prepare integer for database writing
  * */
 function preformatInteger($value){
-	return (int)preg_replace('/[^0-9]/','',$value);
+	return (int)preg_replace('/[^0-9\-]/','',$value);
 }
 
 /*

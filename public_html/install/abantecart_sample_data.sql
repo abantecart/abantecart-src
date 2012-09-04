@@ -31,7 +31,13 @@ INSERT INTO `ac_addresses` VALUES (1,2,'','Juliana','Davis','Highlands and Islan
 
 
 
-INSERT INTO `ac_block_descriptions` VALUES (1,1,1,'0','home page static banner','home page banner','','&lt;div style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;index.php?rt=product/special&quot;&gt; &lt;img alt=&quot;banner&quot; src=&quot;storefront/view/default/image/banner1.jpg&quot; /&gt; &lt;/a&gt;&lt;/div&gt;','2012-03-14 13:21:21','2012-03-14 13:21:21'),(2,2,1,'0','Video block','Video','','a:3:{s:18:\"listing_datasource\";s:5:\"media\";s:13:\"resource_type\";s:5:\"video\";s:5:\"limit\";s:1:\"1\";}','2012-03-14 14:49:33','2012-03-14 14:54:39'),(3,3,1,'0','Custom Listing block','Popular','','a:2:{s:18:\"listing_datasource\";s:34:\"catalog_product_getPopularProducts\";s:5:\"limit\";s:2:\"12\";}','2012-03-15 10:56:23','2012-03-15 12:59:02'),(4,3,9,'','Popular','Popular','','','2012-03-15 13:00:37','2012-03-15 13:00:38'),(5,2,9,'0','Video block','Video','','a:3:{s:18:\"listing_datasource\";s:5:\"media\";s:13:\"resource_type\";s:5:\"video\";s:5:\"limit\";s:0:\"\";}','2012-03-15 13:02:16','2012-03-15 13:02:41');
+INSERT INTO `ac_block_descriptions`
+VALUES
+(1,1,1,'0','0','home page static banner','home page banner','','&lt;div style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;index.php?rt=product/special&quot;&gt; &lt;img alt=&quot;banner&quot; src=&quot;storefront/view/default/image/banner1.jpg&quot; /&gt; &lt;/a&gt;&lt;/div&gt;','2012-03-14 13:21:21','2012-03-14 13:21:21'),
+(2,2,1,'0','0','Video block','Video','','a:3:{s:18:\"listing_datasource\";s:5:\"media\";s:13:\"resource_type\";s:5:\"video\";s:5:\"limit\";s:1:\"1\";}','2012-03-14 14:49:33','2012-03-14 14:54:39'),
+(3,3,1,'0','0','Custom Listing block','Popular','','a:2:{s:18:\"listing_datasource\";s:34:\"catalog_product_getPopularProducts\";s:5:\"limit\";s:2:\"12\";}','2012-03-15 10:56:23','2012-03-15 12:59:02'),
+(4,3,9,'0','0','Popular','Popular','','','2012-03-15 13:00:37','2012-03-15 13:00:38'),
+(5,2,9,'0','0','Video block','Video','','a:3:{s:18:\"listing_datasource\";s:5:\"media\";s:13:\"resource_type\";s:5:\"video\";s:5:\"limit\";s:0:\"\";}','2012-03-15 13:02:16','2012-03-15 13:02:41');
 
 
 --

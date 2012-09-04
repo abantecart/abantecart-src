@@ -460,15 +460,14 @@ class ControllerPagesExtensionBannerManager extends AController {
     public function insert_block() {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadLanguage('banner_manager/banner_manager');
-        $this->loadLanguage('design/blocks');
+	    $this->loadLanguage('design/blocks');
+	    $this->loadLanguage('banner_manager/banner_manager');
         $this->document->setTitle($this->language->get('banner_manager_name'));
         $this->data['heading_title'] = $this->language->get('text_banner_block');
 
         $lm = new ALayoutManager();
         $block = $lm->getBlockByTxtId('banner_block');
         $this->data['block_id'] = $block['block_id'];
-
 
         if (($this->request->server ['REQUEST_METHOD'] == 'POST') && $this->_validateBlockForm()) {
             if (isset($this->session->data['layout_params'])) {
@@ -511,8 +510,10 @@ class ControllerPagesExtensionBannerManager extends AController {
                     'description' => $this->request->post['block_description'],
                     'content' => $content,
                     'status' => (int)$this->request->post['block_status'],
-                    'block_wrapper' => (int)$this->request->post['block_wrapper'],
+                    'block_wrapper' => $this->request->post['block_wrapper'],
+                    'block_framed' => $this->request->post['block_framed'],
                     'language_id' => $this->session->data['content_language_id']));
+
             // save custom_block in layout
             if (isset($this->session->data['layout_params'])) {
                 $savedata['custom_block_id'] = $custom_block_id;
@@ -602,7 +603,8 @@ class ControllerPagesExtensionBannerManager extends AController {
                     'description' => $this->request->post['block_description'],
                     'content' => $content,
                     'status' => (int)$this->request->post['block_status'],
-                    'block_wrapper' => (int)$this->request->post['block_wrapper'],
+                    'block_wrapper' => $this->request->post['block_wrapper'],
+					'block_framed' => $this->request->post['block_framed'],
                     'language_id' => $this->session->data['content_language_id']));
 
             // save list if it is custom
@@ -653,11 +655,6 @@ class ControllerPagesExtensionBannerManager extends AController {
         if (isset($this->session->data['success'])) {
             unset($this->session->data['success']);
         }
-
-        $yes_no = array(
-            1 => $this->language->get('text_yes'),
-            0 => $this->language->get('text_no'),
-        );
 
         $locale = $this->session->data['language'];
         if (!file_exists(DIR_ROOT . '/' . RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js')) {
@@ -772,12 +769,35 @@ class ControllerPagesExtensionBannerManager extends AController {
         ));
         $this->data['form']['text']['block_title'] = $this->language->get('entry_block_title');
 
+
+	    // list of templates for block
+        $tmpl_ids =  $this->extensions->getInstalled('template');
+        array_unshift($tmpl_ids,(string)$this->session->data['layout_params']['tmpl_id']);
+	    $this->data['block_wrappers']=array();
+        foreach($tmpl_ids as $tmpl_id){
+            $layout_manager = new ALayoutManager($tmpl_id);
+            $block = $layout_manager->getBlockByTxtId('banner_block');
+            $block_templates = (array)$layout_manager->getBlockTemplates($block['block_id']);
+            foreach( $block_templates as $item){
+                $this->data['block_wrappers'][$item['template']] = $item['template'];
+            }
+        }
+        array_unshift($this->data['block_wrappers'], 'Default');
+
         $this->data['form']['fields']['block_wrapper'] = $form->getFieldHtml(array('type' => 'selectbox',
             'name' => 'block_wrapper',
-            'options' => $yes_no,
+            'options' => $this->data['block_wrappers'],
             'value' => $this->data['block_wrapper'],
             'help_url' => $this->gen_help_url('block_wrapper')));
         $this->data['form']['text']['block_wrapper'] = $this->language->get('entry_block_wrapper');
+
+
+		$this->data['form']['fields']['block_framed'] = $form->getFieldHtml(array('type' => 'checkbox',
+			'name' => 'block_framed',
+			'value' => $this->data['block_framed'],
+			'style' => 'btn_switch',
+			'help_url' => $this->gen_help_url('block_framed'),));
+		$this->data['form']['text']['block_framed'] = $this->language->get('entry_block_framed');
 
         $this->data['form']['fields']['block_description'] = $form->getFieldHtml(array('type' => 'textarea',
             'name' => 'block_description',
@@ -841,13 +861,16 @@ class ControllerPagesExtensionBannerManager extends AController {
             $this->session->data['warning'] = $this->error ['warning'] = $this->language->get('error_permission');
         }
 
+		if(!$this->data['block_id']){
+			$this->error ['warning'] = $this->session->data['warning'] = 'Block with txt_id "banner_block" does not exists in your database!';
+		}
+
         if ($this->request->post) {
             $required = array('block_name', 'block_title');
 
             foreach ($this->request->post as $name => $value) {
                 if (in_array($name, $required) && empty($value)) {
-                    $this->error ['warning'] = $this->language->get('error_empty');
-                    $this->session->data['warning'] = $this->language->get('error_empty');
+                    $this->error ['warning'] = $this->session->data['warning'] = $this->language->get('error_empty');
                     break;
                 }
             }

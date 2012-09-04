@@ -1,4 +1,4 @@
-<?php if ( $block_wrapper ) { ?>
+<?php if ( $block_framed ) { ?>
 <div class="s_block">
 	<div class="block_tl">
 		<div class="block_tr">
@@ -10,7 +10,7 @@
         	<div class="block_cc">
 <?php } ?>
 			<?php echo  $content; ?>
-<?php if ( $block_wrapper ) { ?>
+<?php if ( $block_framed ) { ?>
             </div>
         </div>
     </div>

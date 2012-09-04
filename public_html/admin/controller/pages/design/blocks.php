@@ -138,8 +138,7 @@ class ControllerPagesDesignBlocks extends AController {
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->document->setTitle($this->language->get('heading_title'));
 
-        $block_id = (int)$this->request->get['block_id'] ? (int)$this->request->get['block_id']
-            : (int)$this->request->post['block_id'];
+        $block_id = (int)$this->request->get['block_id'] ? (int)$this->request->get['block_id'] : (int)$this->request->post['block_id'];
         // now need to know what custom block is this
         $lm = new ALayoutManager();
         $blocks = $lm->getAllBlocks();
@@ -208,7 +207,8 @@ class ControllerPagesDesignBlocks extends AController {
                     'description' => $this->request->post['block_description'],
                     'content' => $content,
                     'status' => (int)$this->request->post['block_status'],
-                    'block_wrapper' => (int)$this->request->post['block_wrapper'],
+                    'block_wrapper' => $this->request->post['block_wrapper'],
+                    'block_framed' => (int)$this->request->post['block_framed'],
                     'language_id' => $this->session->data['content_language_id'])
             );
             // save custom_block in layout
@@ -363,7 +363,8 @@ class ControllerPagesDesignBlocks extends AController {
                     'description' => $this->request->post['block_description'],
                     'content' => $content,
                     'status' => (int)$this->request->post['block_status'],
-                    'block_wrapper' => (int)$this->request->post['block_wrapper'],
+                    'block_wrapper' => $this->request->post['block_wrapper'],
+                    'block_framed' => (int)$this->request->post['block_framed'],
                     'language_id' => $this->session->data['content_language_id']));
 
             $this->session->data ['success'] = $this->language->get('text_success');
@@ -426,10 +427,6 @@ class ControllerPagesDesignBlocks extends AController {
             $this->data ['error_warning'] = '';
         }
 
-        $yes_no = array(
-            1 => $this->language->get('text_yes'),
-            0 => $this->language->get('text_no'),
-        );
 
         $this->view->assign('success', $this->session->data['success']);
         if (isset($this->session->data['success'])) {
@@ -518,12 +515,33 @@ class ControllerPagesDesignBlocks extends AController {
         ));
         $this->data['form']['text']['block_title'] = $this->language->get('entry_block_title');
 
+	    // list of templates for block
+	    $tmpl_ids =  $this->extensions->getInstalled('template');
+	    array_unshift($tmpl_ids,(string)$this->session->data['layout_params']['tmpl_id']);
+	    $this->data['block_wrappers']=array();
+	    foreach($tmpl_ids as $tmpl_id){
+	        $layout_manager = new ALayoutManager($tmpl_id);
+	        $block = $layout_manager->getBlockByTxtId('html_block');
+	        $block_templates = (array)$layout_manager->getBlockTemplates($block['block_id']);
+	        foreach( $block_templates as $item){
+		        $this->data['block_wrappers'][$item['template']] = $item['template'];
+	        }
+	    }
+        array_unshift($this->data['block_wrappers'], 'Default');
+
         $this->data['form']['fields']['block_wrapper'] = $form->getFieldHtml(array('type' => 'selectbox',
             'name' => 'block_wrapper',
-            'options' => $yes_no,
+            'options' => $this->data['block_wrappers'],
             'value' => $this->data['block_wrapper'],
             'help_url' => $this->gen_help_url('block_wrapper'),));
         $this->data['form']['text']['block_wrapper'] = $this->language->get('entry_block_wrapper');
+
+        $this->data['form']['fields']['block_framed'] = $form->getFieldHtml(array('type' => 'checkbox',
+            'name' => 'block_framed',
+            'value' => $this->data['block_framed'],
+			'style' => 'btn_switch',
+            'help_url' => $this->gen_help_url('block_framed'),));
+        $this->data['form']['text']['block_framed'] = $this->language->get('entry_block_framed');
 
         $this->data['form']['fields']['block_description'] = $form->getFieldHtml(array('type' => 'textarea',
             'name' => 'block_description',
@@ -644,11 +662,6 @@ class ControllerPagesDesignBlocks extends AController {
             $this->data['autoload'] = 'load_subform({\'listing_datasource\': \'' . $this->data['content']['listing_datasource'] . '\'});';
         }
 
-        if (!isset($this->data['block_wrappers'])) {
-            $this->data['block_wrappers'] = array();
-        }
-        array_unshift($this->data['block_wrappers'], 'Default');
-
         $this->data['form']['fields']['block_name'] = $form->getFieldHtml(array(
             'type' => 'hidden',
             'name' => 'block_id',
@@ -667,12 +680,35 @@ class ControllerPagesDesignBlocks extends AController {
         ));
         $this->data['form']['text']['block_title'] = $this->language->get('entry_block_title');
 
+		// list of templates for block
+		$tmpl_ids =  $this->extensions->getInstalled('template');
+		array_unshift($tmpl_ids,(string)$this->session->data['layout_params']['tmpl_id']);
+		$this->data['block_wrappers']=array();
+		foreach($tmpl_ids as $tmpl_id){
+			$layout_manager = new ALayoutManager($tmpl_id);
+			$block = $layout_manager->getBlockByTxtId('listing_block');
+			$block_templates = (array)$layout_manager->getBlockTemplates($block['block_id']);
+			foreach( $block_templates as $item){
+				$this->data['block_wrappers'][$item['template']] = $item['template'];
+			}
+		}
+		array_unshift($this->data['block_wrappers'], 'Default');
+
         $this->data['form']['fields']['block_wrapper'] = $form->getFieldHtml(array('type' => 'selectbox',
             'name' => 'block_wrapper',
             'options' => $this->data['block_wrappers'],
             'value' => $this->data['block_wrapper'],
             'help_url' => $this->gen_help_url('block_wrapper')));
         $this->data['form']['text']['block_wrapper'] = $this->language->get('entry_block_wrapper');
+
+
+		$this->data['form']['fields']['block_framed'] = $form->getFieldHtml(array('type' => 'checkbox',
+			'name' => 'block_framed',
+			'value' => $this->data['block_framed'],
+			'style' => 'btn_switch',
+			'help_url' => $this->gen_help_url('block_framed'),));
+		$this->data['form']['text']['block_framed'] = $this->language->get('entry_block_framed');
+
 
         $this->data['form']['fields']['block_description'] = $form->getFieldHtml(array('type' => 'textarea',
             'name' => 'block_description',
