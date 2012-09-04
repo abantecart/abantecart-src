@@ -407,7 +407,6 @@ class ControllerPagesLocalisationTaxClass extends AController {
             'type' => 'input',
             'name' => 'description',
             'value' => $this->data['description'],
-            'required' => true,
             'style' => 'large-field',
         ));
         $this->data['form']['fields']['rate'] = $form->getFieldHtml(array(
@@ -419,8 +418,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
         $this->data['form']['fields']['priority'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'priority',
-            'value' => $this->data['priority'],
-            'required' => true,
+            'value' => (int)$this->data['priority']
         ));
         $this->view->assign('help_url', $this->gen_help_url('rate_edit'));
         $this->view->batchAssign($this->data);
@@ -514,7 +512,6 @@ class ControllerPagesLocalisationTaxClass extends AController {
             'type' => 'input',
             'name' => 'description',
             'value' => $this->data['description'],
-            'required' => true,
             'style' => 'large-field',
         ));
         $this->view->assign('help_url', $this->gen_help_url('tax_class_edit'));
@@ -531,22 +528,10 @@ class ControllerPagesLocalisationTaxClass extends AController {
             $this->error['title'] = $this->language->get('error_title');
         }
 
-        if ((strlen(utf8_decode($this->request->post['description'])) < 2) || (strlen(utf8_decode($this->request->post['description'])) > 255)) {
-            $this->error['description'] = $this->language->get('error_description');
-        }
-
         if (isset($this->request->post['tax_rate'])) {
             foreach ($this->request->post['tax_rate'] as $value) {
-                if (!$value['priority']) {
-                    $this->error['warning'] = $this->language->get('error_priority');
-                }
-
                 if (!$value['rate']) {
                     $this->error['warning'] = $this->language->get('error_rate');
-                }
-
-                if ((strlen(utf8_decode($value['description'])) < 2) || (strlen(utf8_decode($value['description'])) > 255)) {
-                    $this->error['warning'] = $this->language->get('error_description');
                 }
             }
         }
@@ -563,10 +548,6 @@ class ControllerPagesLocalisationTaxClass extends AController {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
-        if (!$this->request->post['priority']) {
-            $this->error['priority'] = $this->language->get('error_priority');
-        }
-
         if (!$this->request->post['rate']) {
             $this->error['rate'] = $this->language->get('error_rate');
         }
@@ -574,10 +555,6 @@ class ControllerPagesLocalisationTaxClass extends AController {
         $this->request->post['zone_id'] = (int)$this->request->post['zone_id'];
         if ($this->request->post['all_zones'] == 1) {
             $this->request->post['zone_id'] = 0;
-        }
-
-        if ((strlen(utf8_decode($this->request->post['description'])) < 3) || (strlen(utf8_decode($this->request->post['description'])) > 255)) {
-            $this->error['description'] = $this->language->get('error_description');
         }
 
         if (!$this->error) {

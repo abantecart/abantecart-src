@@ -33,13 +33,13 @@ class ControllerResponsesErrorAjaxError extends AController {
 		return $error->toJSONResponse('ERROR_400', $err_data );			
 	}
 	
-	public function validation() {
+	public function validation($err_text='') {
 		//build validation error responce
 		$this->loadLanguage('error/error');					
 		$error = new AError( '' );
 		$err_data = array(
-			'error_title' => $this->language->get('heading_title'),
-			'error_text' => $this->language->get('text_error')
+			'error_title' => $this->language->get('heading_title') ,
+			'error_text' => ( $err_text ? $err_text :  $this->language->get('text_error') )
 		);
 		return $error->toJSONResponse('VALIDATION_ERROR_406', $err_data );	
 	}

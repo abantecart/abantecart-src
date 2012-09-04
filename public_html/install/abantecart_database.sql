@@ -5665,7 +5665,8 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `created`) VA
 (20, 'listing_block', 'blocks/listing_block', now() ),
 (21, 'donate', 'blocks/donate', now() ),
 (22, 'special', 'blocks/special', now() ),
-(23, 'banner_block', 'blocks/banner_block', now() );
+(23, 'banner_block', 'blocks/banner_block', now() ),
+(24, 'credit_cards', 'blocks/credit_cards', now() );
 
 
 
@@ -5781,7 +5782,8 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (23, 5, 'blocks/banner_block_content.tpl', NOW() ),
 (23, 6, 'blocks/banner_block.tpl', NOW() ),
 (23, 7, 'blocks/banner_block_content.tpl', NOW() ),
-(23, 8, 'blocks/banner_block_header.tpl', NOW() );
+(23, 8, 'blocks/banner_block_header.tpl', NOW() ),
+(24, 8, 'blocks/credit_cards.tpl', now() );
 
 
 --
@@ -5863,7 +5865,8 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (35, 1, 13, 0, 1, 10, 1, now() ),
 (36, 1, 14, 0, 1, 20, 1, now() ),
 (37, 1, 15, 0, 1, 30, 1, now() ),
-(38, 1, 21, 0, 8, 90, 1, now() );
+(38, 1, 21, 0, 8, 10, 1, now() ),
+(172, 1, 24, 0, 8, 20, 1, now() );
 
 -- Home page
 INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
@@ -5885,7 +5888,8 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (32, 2, 13, 0, 16, 10, 1, now() ),
 (33, 2, 14, 0, 16, 20, 1, now() ),
 (34, 2, 17, 1, 19, 10, 1, now() ),
-(39, 2, 21, 0, 23, 90, 1, now() );
+(39, 2, 21, 0, 23, 10, 1, now() ),
+(40, 2, 24, 0, 23, 20, 1, now() );
 
 -- Login page
 INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
@@ -5900,7 +5904,8 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (57, 5, 14, 0, 55, 20, 1, now() ),
 (55, 5, 1, 0, 0, 10, 1, now() ),
 (65, 5, 8, 0, 0, 80, 1, now() ),
-(98, 5, 21, 0, 65, 90, 1, now() );
+(98, 5, 21, 0, 65, 10, 1, now() ),
+(99, 5, 24, 0, 65, 20, 1, now() );
 -- Default Product page
 INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
 (66, 6, 13, 0, 75, 10, 1, now() ),
@@ -5914,7 +5919,8 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (74, 6, 14, 0, 75, 20, 1, now() ),
 (75, 6, 1, 0, 0, 10, 1, now() ),
 (76, 6, 8, 0, 0, 80, 1, now() ),
-(95, 6, 21, 0, 76, 90, 1, now() );
+(95, 6, 21, 0, 76, 10, 1, now() ),
+(170, 6, 24, 0, 76, 20, 1, now() );
 -- Checkout pages
 INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
 (77, 7, 1, 0, 0, 10, 1, now() ),
@@ -5930,7 +5936,8 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (92, 7, 14, 0, 77, 20, 1, now() ),
 (93, 7, 15, 0, 77, 30, 1, now() ),
 (94, 7, 16, 0, 79, 10, 1, now() ),
-(96, 7, 21, 0, 87, 90, 1, now() );
+(96, 7, 21, 0, 87, 10, 1, now() ),
+(171, 7, 24, 0, 87, 20, 1, now() );
 
 --
 -- DDL for table `forms_pages`

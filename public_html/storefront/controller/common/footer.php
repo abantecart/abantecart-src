@@ -65,6 +65,9 @@ class ControllerCommonFooter extends AController {
 			 if($child['block_txt_id']=='donate'){
 				 $this->data['donate'] = 'donate_'.$child['instance_id'];
 			 }
+			 if($child['block_txt_id']=='credit_cards'){
+				 $this->data['credit_cards'] = 'credit_cards_'.$child['instance_id'];
+			 }
 		}
 
 		$this->view->batchAssign($this->data);

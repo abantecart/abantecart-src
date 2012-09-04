@@ -14,12 +14,12 @@
           <li><a href="<?php echo $checkout; ?>"><?php echo $text_checkout; ?></a></li>
         </ul>
       </div>
-<?php echo ${$donate}; ?>
+<?php echo ${$credit_cards}.${$donate}; ?>
     </div></div></div>
   </div>
   <!-- footer blocks placeholder -->
     <?php foreach ($children_blocks as $k => $block) {
-	            if($block == $donate) continue; // skip donation block
+	            if($block == $donate || $block==$credit_cards) continue; // skip donation block
 	  ?>
       <?php if ($k == count($children_blocks)-1 ) { ?>
       <div class="footer_block flt_right"><?php echo ${$block}; ?></div>

@@ -499,14 +499,15 @@ class ControllerResponsesProductProduct extends AController {
 
 		if (isset($this->data[ 'option_attribute' ][ 'group' ])) {
 			$this->data[ 'form' ][ 'fields' ][ 'option_value' ] = '';
-
 			foreach ($this->data[ 'option_attribute' ][ 'group' ] as $option_id => $data) {
-				$this->data[ 'form' ][ 'fields' ][ 'option_value' ] .= '  ' . $data[ 'name' ] . ' ' . $form->getFieldHtml(array(
+				$this->data[ 'form' ][ 'fields' ][ 'option_value' ] .= '<p style="white-space: nowrap;">' . $data[ 'name' ] . '' . $form->getFieldHtml(array(
 					'type' => $data[ 'type' ],
 					'name' => 'attribute_value_id[' . $product_option_value_id . '][' . $option_id . ']',
 					'value' => $this->data[ 'attribute_value_id' ][ $option_id ],
 					'options' => $data[ 'values' ],
-				));
+					'attr' => ''
+				)).'<p>';
+
 			}
 		} else {
 			if (in_array($this->data[ 'option_attribute' ][ 'element_type' ], $this->data[ 'elements_with_options' ])) {

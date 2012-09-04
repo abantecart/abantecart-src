@@ -110,13 +110,13 @@ class ControllerPagesExtensionExtensions extends AController {
 		$grid_settings[ 'colModel' ] = array(
 											array( 'name' => 'icon',
 											       'index' => 'icon',
-											       'width' => 50,
+											       'width' => 90,
 											       'align' => 'center',
 											       'sortable' => false,
 											       'search' => false ),
 											array( 'name' => 'key',
 											       'index' => 'key',
-											       'width' => 120,
+											       'width' => 130,
 											       'align' => 'center',
 											       'search' => true ),
 											array( 'name' => 'name',
@@ -126,7 +126,7 @@ class ControllerPagesExtensionExtensions extends AController {
 											       'search' => false ),
 											array( 'name' => 'category',
 											       'index' => 'category',
-											       'width' => 90,
+											       'width' => 80,
 											       'align' => 'center',
 											       'search' => false ),
 											array( 'name' => 'update_date',
@@ -148,7 +148,6 @@ class ControllerPagesExtensionExtensions extends AController {
 											       'search' => false );
 		$grid_settings[ 'colModel' ][] =	array( 'name' => 'action',
 											       'index' => 'action',
-											       'width' => 100,
 											       'align' => 'center',
 											       'sortable' => false,
 											       'search' => false );

@@ -137,7 +137,6 @@ class ControllerResponsesListingGridTaxClass extends AController {
 			    	                                      'reset_value' => true
 			    	                             ) );
 	    }
-
         $this->loadModel('localisation/tax_class');
 		if ( isset( $this->request->get['id'] ) ) {
 		    //request sent from edit form. ID in url
@@ -160,8 +159,8 @@ class ControllerResponsesListingGridTaxClass extends AController {
 			foreach ( $this->request->post[$f] as $k => $v ) {
 				$err = $this->_validateField($f, $v);
 				if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('NO_VALID_406', array( 'error_text' => $err) );
 				}
 				$this->model_localisation_tax_class->editTaxClass($k, array($f => $v) );
 			}
@@ -196,8 +195,8 @@ class ControllerResponsesListingGridTaxClass extends AController {
 		    foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField($key, $value);
 			    if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('NO_VALID_406', array( 'error_text' => $err) );
 			    }
 			    $data = array( $key => $value );
 				$this->model_localisation_tax_class->editTaxRate($this->request->get['id'], $data);
@@ -214,17 +213,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
 		switch( $field ) {
 			case 'title' :
 				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 128))  {
-					$err = $this->language->get('error_title');
-				}
-				break;
-			case 'description' :
-				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 255))  {
-					$err = $this->language->get('error_description');
-				}
-				break;
-			case 'priority' :
-				if (!$value) {
-					$err = $this->language->get('error_priority');
+					$err = $this->language->get('error_tax_title');
 				}
 				break;
 			case 'rate' :
