@@ -115,15 +115,15 @@
 <?php if ($logged) { ?>
 <div id="menu_box"><?php echo $menu; ?></div>
 <?php } ?>
-
-<?php if ($breadcrumbs && count($breadcrumbs) > 1) { ?>
-<div class="breadcrumb">
-    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
-        <?php echo $breadcrumb['separator']; ?><a
-        href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
+<div class="breadcrumb_wrapper">
+    <?php if ($breadcrumbs && count($breadcrumbs) > 1) { ?>
+	<div class="breadcrumb" style="float: left;">
+	    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
+	        <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
+	    <?php } ?>
+	</div>
     <?php } ?>
-</div>
-<?php } ?>
+</div><br class="clr_both">
 <div id="suggest_popup_dialog"></div>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>

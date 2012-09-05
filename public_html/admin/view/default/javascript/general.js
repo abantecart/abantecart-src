@@ -351,6 +351,7 @@ function formatQty(field) {
 
 $(document).ready(function() {
 
+
 	/* Handling forms exit */
 	$(window).bind('beforeunload', function () {
 	    var message = '', ckedit = false;
@@ -428,4 +429,33 @@ $(document).ready(function() {
             }
         }
     });
+    organizeToolbar();
 });
+
+
+
+function organizeToolbar(){
+    if($('.cbox_tc').outerHeight()>47){
+        if($('div.toolbar')){
+            $('div.toolbar').detach().appendTo('.breadcrumb_wrapper');
+            if($('div.toolbar .help_element')){
+                 $('div.toolbar .help_element').css('margin-top','9px');
+            }
+            if($('div.toolbar .buttons')){
+                 $('div.toolbar .buttons').css('margin-top','2px');
+            }
+        }
+    }else{
+        if($.contains($('.breadcrumb_wrapper'),$('div.toolbar'))){
+            $('div.toolbar').detach().appendTo('.cbox_tc');
+            if($('div.toolbar .help_element')){
+                 $('div.toolbar .help_element').css('margin-top','12px');
+            }
+            if($('div.toolbar .buttons')){
+                 $('div.toolbar .buttons').css('margin-top','0');
+            }
+        }
+    }
+}
+
+$(window).resize(organizeToolbar);

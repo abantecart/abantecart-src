@@ -103,7 +103,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
             $tax_class_id = $this->model_localisation_tax_class->addTaxClass($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $tax_class_id));
+            $this->redirect($this->html->getSecureURL('localisation/tax_class/insert_rates', '&tax_class_id=' . $tax_class_id));
         }
         $this->_getForm();
 
@@ -273,6 +273,12 @@ class ControllerPagesLocalisationTaxClass extends AController {
         $this->data = array();
         $this->data['error'] = $this->error;
         $this->data['cancel'] = $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
+
+
+	    if (isset($this->session->data['success'])) {
+		    $this->data['success'] = $this->session->data['success'];
+	        unset($this->session->data['success']);
+	    }
 
         $this->document->initBreadcrumb(array(
             'href' => $this->html->getSecureURL('index/home'),

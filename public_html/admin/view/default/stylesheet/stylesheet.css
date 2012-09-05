@@ -359,10 +359,18 @@ a img {
 }
 
 /* Breadcrumb */
+.breadcrumb_wrapper {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .breadcrumb {
     padding: 8px 0 10px;
     margin-top: 7px;
+    width: auto;
 }
+
 
 .breadcrumb a {
     font-size: 12px;
@@ -520,7 +528,8 @@ ul.quick_icon a:hover {
 
 .cbox_tc {
     background: url(../image/cont_tm_box.png) repeat-x;
-    height: 47px;
+    min-height: 47px;
+    overflow: hidden;
 }
 
 .cbox_tc .heading {
@@ -568,8 +577,10 @@ ul.quick_icon a:hover {
 }
 
 .cbox_tc .toolbar {
-    height: 47px;
+    height: 45px;
     text-align: right;
+    float: right;
+    width: auto;
 }
 
 .cbox_tc .tools {
@@ -590,6 +601,7 @@ ul.quick_icon a:hover {
     margin: 0 10px;
     display: inline-block;
     vertical-align: middle;
+    float: right;
 }
 
 .cbox_tc .help_element {
@@ -1053,7 +1065,12 @@ div#options .option_lang_field {
 }
 
 .list td {
-    border-bottom: 1px solid #caccd2;
+    border-bottom: 1px solid #CACCD2;
+    font-weight: normal;
+    height: 40px;
+    overflow: hidden;
+    padding: 2px 2px 2px 10px;
+    color: #09487D;
 }
 
 .list tfoot td {
@@ -1065,8 +1082,8 @@ div#options .option_lang_field {
 }
 
 .list thead td a, .list thead td {
-    font: bold 16px Arial, Helvetica, sans-serif;
-    text-decoration: none;
+    font: 14px Arial,Helvetica,sans-serif;
+    border: medium none;
     color: #2A465E;
 }
 
