@@ -144,14 +144,18 @@
 			</div>
 			<div class="product_overview">
 				<table cellpadding="3">
+					<?php if($stock){ ?>
 					<tr>
 						<td><b><?php echo $text_availability; ?></b></td>
 						<td><?php echo $stock; ?></td>
 					</tr>
+					<?php } ?>
+					<?php if($model){ ?>
 					<tr>
 						<td><b><?php echo $text_model; ?></b></td>
 						<td><?php echo $model; ?></td>
 					</tr>
+					<?php } ?>
 					<?php if ($manufacturer) { ?>
 					<tr>
 						<td><b><?php echo $text_manufacturer; ?></b></td>
