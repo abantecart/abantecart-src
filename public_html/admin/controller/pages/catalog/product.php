@@ -600,7 +600,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'name' => 'model',
 			'value' => $this->data['model'],
 			'style' => 'large-field',			
-	        'required' => true,
+	        'required' => false,
 		));
         $this->data['form']['fields']['data']['price'] = $form->getFieldHtml(array(
 			'type' => 'input',
@@ -764,7 +764,7 @@ class ControllerPagesCatalogProduct extends AController {
       		}
     	}
 		
-    	if ((strlen(utf8_decode($this->request->post['model'])) < 1) || (strlen(utf8_decode($this->request->post['model'])) > 64)) {
+    	if ( strlen(utf8_decode($this->request->post['model'])) > 64 ) {
       		$this->error['model'] = $this->language->get('error_model');
     	}
 		
