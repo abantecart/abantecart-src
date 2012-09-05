@@ -389,7 +389,7 @@ class AResource {
 
     //TODO: define where all object types will be kept and fetch them from storage
     public function getAllObjects() {
-        return array('products', 'categories', 'manufacturers');
+        return array('products', 'categories', 'manufacturers', 'product_option_value');
     }
 
 

@@ -264,4 +264,20 @@
         <key>error_file size</key>
         <value><![CDATA[Atención: El tamaño máximo de archivo para la carga es de %s. Puede aumentar este valor en php.ini.]]></value>
     </definition>
+	<definition>
+		<key>text_product_option_value</key>
+		<value><![CDATA[Opciones del Producto valor]]></value>
+	</definition>
+	<definition>
+		<key>text_products</key>
+		<value><![CDATA[Productos]]></value>
+	</definition>
+	<definition>
+		<key>text_categories</key>
+		<value><![CDATA[Categorías]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturers</key>
+		<value><![CDATA[Marcas]]></value>
+	</definition>
 </definitions>

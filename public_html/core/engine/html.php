@@ -1158,7 +1158,7 @@ class ResourceImageHtmlElement extends HtmlElement
 
         $this->view->batchAssign(array('url' => $this->url,
             'width' => $this->width,
-            'height' => $this->height,
+            //'height' => $this->height, // disabled because when is set it will broke proportions for img tag
             'attr' => $this->attr,
         ));
 
