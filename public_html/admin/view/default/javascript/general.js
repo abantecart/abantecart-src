@@ -235,7 +235,11 @@ function saveField(obj, url) {
                 $wrapper.find('.afield').removeClass('changed');
                 $wrapper.find('input, select, textarea').each(function () {
                     if ($(this).is(":checkbox")) {
-                        $(this).attr('ovalue', $(this).prop("checked"));
+                        if(!$(this).hasClass('btn_switch')){
+                            $(this).attr('ovalue', $(this).prop("checked"));
+                        }else{
+                            $(this).attr('ovalue', ($(this).prop("value")==1 ? 'true' : 'false'));
+                        }
                     } else {
                         $(this).attr('ovalue', $(this).val());
                     }

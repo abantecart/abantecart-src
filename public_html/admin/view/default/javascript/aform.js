@@ -20,7 +20,7 @@
             },
             showButtons:true,
             autoHide:true,
-            save_url:'',
+            save_url:''
         },
         wrapper:'<div class="aform" />',
         mask:'<div class="afield"><div class="cl"><div class="cr"><div class="cc"></div></div></div></div>',
