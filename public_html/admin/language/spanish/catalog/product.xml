@@ -306,7 +306,7 @@
 	</definition>
 	<definition>
 		<key>error_model</key>
-		<value><![CDATA[El modelo debe ser superior a 3 caracteres e inferior a 24!]]></value>
+		<value><![CDATA[Producto debe ser menor temerariamente 64 caracteres! Remomended 5-25 caracteres]]></value>
 	</definition>
 	<definition>
 		<key>error_required_data</key>

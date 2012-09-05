@@ -299,7 +299,7 @@
 	</definition>
 	<definition>
 		<key>error_model</key>
-		<value><![CDATA[Product Model must be greater than 3 and less than 24 characters!]]></value>
+		<value><![CDATA[Product Model must be less than 64 characters! Remomended 5-25 characters]]></value>
 	</definition>
 	<definition>
 		<key>error_required_data</key>
