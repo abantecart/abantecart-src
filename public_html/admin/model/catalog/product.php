@@ -798,7 +798,7 @@ class ModelCatalogProduct extends Model {
 			foreach ( $data['product_description'] as $lang => $desc ) {
                 $data['product_description'][$lang]['name'] .= ' ( Copy )';
             }
-           // $data = array_merge($data, array('product_option' => $this->getProductOptions($product_id)));
+            $data = array_merge($data, array('product_option' => $this->getProductOptions($product_id)));
 			$data['keyword'] = '';
 			
 			$data = array_merge($data, array('product_discount' => $this->getProductDiscounts($product_id)));
