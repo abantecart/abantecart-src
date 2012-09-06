@@ -316,9 +316,9 @@ jQuery(function($){
     $("#add_option_value").live('click', function(){
         var new_row = $('#new_row').parent().find('tr').clone();
         $(new_row).attr('id', 'new'+row_id);
-		$("input, checkbox, select", new_row).aform({triggerChanged: true, showButtons: false });
-		$('div.aform', new_row).show();
         $('#option_values_tbl tr:last-child').after(new_row);
+	    $("input, checkbox, select", new_row).aform({triggerChanged: true, showButtons: false });
+	    $('div.aform', new_row).show();
         //Mark rows to be new
 		$('#new' + row_id + ' input[name^=product_option_value_id]').val('new');
 		$("#new" + row_id + " input, #new" + row_id + " textarea, #new" + row_id + " select").each(function(i){
@@ -364,6 +364,9 @@ jQuery(function($){
 	$('#option_values a').live('click', function(){
 		if ( $(this).attr('id') == 'update_option' || $(this).attr('id') == 'add_option_value' ||
 			 $(this).attr('id') == 'reset_option' || $(this).hasClass('remove') || $(this).hasClass('expandRow') ) {
+			return false;
+		}
+		if ( $(this).attr('id') == 'button_remove_option'  && !confirm('<?php echo $text_delete_confirm; ?>')){
 			return false;
 		}
 		var that = this;

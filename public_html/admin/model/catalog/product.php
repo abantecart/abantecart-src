@@ -654,6 +654,17 @@ class ModelCatalogProduct extends Model {
     	    			 WHERE product_id = '" . (int)$product_id . "' 
     	    			 AND product_option_value_id = '" . (int)$product_option_value_id . "')";
     	$this->db->query( $sql );
+	    //get product resources
+	    $rm = new AResourceManager();
+	    $resources = $rm->getResourcesList( array(
+	    								'object_name' => 'product_option_value',
+	    								'object_id' => (int)$product_option_value_id ) );
+        foreach ( $resources as $r ) {
+	        $rm->unmapResource(
+		                    'product_option_value',
+		                    $product_option_value_id,
+		                    $r['resource_id'] );
+        }
     }
 
 	//Main function to be called to update option values.
@@ -700,10 +711,22 @@ class ModelCatalogProduct extends Model {
 
 		if (isset($data['product_option'])) {
 			foreach ($data['product_option'] as $product_option) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "product_options
-									SET product_id = '" . (int)$product_id . "',
-										sort_order = '" . (int)$product_option['sort_order'] . "'");
-
+				$sql = "INSERT INTO " . DB_PREFIX . "product_options
+						SET product_id = '" . (int)$product_id . "',
+							sort_order = '" . (int)$product_option['sort_order'] . "'";
+				if($product_option['attribute_id']){
+					$sql .= ", attribute_id = '".(int)$product_option['attribute_id']."'";
+				}
+				if($product_option['group_id']){
+					$sql .= ", group_id = '".(int)$product_option['group_id']."'";
+				}
+				if($product_option['element_type']){
+					$sql .= ", element_type = '".$this->db->escape( $product_option['element_type'] )."'";
+				}
+				if($product_option['required']){
+					$sql .= ", required = '".(int)$product_option['required']."'";
+				}
+				$this->db->query($sql);
 				$product_option_id = $this->db->getLastId();
 
 				foreach ($product_option['language'] as $language_id => $language) {
@@ -715,6 +738,8 @@ class ModelCatalogProduct extends Model {
 				}
 
 				if (isset($product_option['product_option_value'])) {
+					//get product resources
+					$rm = new AResourceManager();
 					foreach ($product_option['product_option_value'] as $product_option_value) {
 						$product_option_value['price'] = str_replace(" ","",$product_option_value['price']);
 
@@ -729,6 +754,19 @@ class ModelCatalogProduct extends Model {
 												sort_order = '" . (int)$product_option_value['sort_order'] . "'");
 
 						$product_option_value_id = $this->db->getLastId();
+						// clone resources of option value
+						if( $product_option_value['product_option_value_id'] ){
+							$resources = $rm->getResourcesList( array(
+								'object_name' => 'product_option_value',
+								'object_id' => $product_option_value['product_option_value_id'] ) );
+							foreach ( $resources as $r ) {
+						        $rm->mapResource(
+								               'product_option_value',
+									           $product_option_value_id,
+								               $r['resource_id']
+						        );
+						    }
+						}
 
 						foreach ($product_option_value['language'] as $language_id => $language) {
 							$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value_descriptions
@@ -742,24 +780,26 @@ class ModelCatalogProduct extends Model {
 			}
 		}
         $this->cache->delete('product');
-
 	}
 
 	public function copyProduct($product_id) {
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "products p LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id) WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'");
+		if(empty($product_id)) return false;
+
+		$sql = "SELECT DISTINCT *
+				FROM " . DB_PREFIX . "products p
+				LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id)
+				WHERE p.product_id = '" . (int)$product_id . "'
+					AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'";
+		$query = $this->db->query($sql);
 		
 		if ($query->num_rows) {
-			$data = array();
-			
 			$data = $query->row;
-
             $data = array_merge($data, array('product_description' => $this->getProductDescriptions($product_id)));
 			foreach ( $data['product_description'] as $lang => $desc ) {
                 $data['product_description'][$lang]['name'] .= ' ( Copy )';
             }
-            $data = array_merge($data, array('product_option' => $this->getProductOptions($product_id)));
-
-            $data['keyword'] = '';
+           // $data = array_merge($data, array('product_option' => $this->getProductOptions($product_id)));
+			$data['keyword'] = '';
 			
 			$data = array_merge($data, array('product_discount' => $this->getProductDiscounts($product_id)));
 			$data = array_merge($data, array('product_special' => $this->getProductSpecials($product_id)));
@@ -801,12 +841,27 @@ class ModelCatalogProduct extends Model {
 
         return false;
 	}
-	
+
 	public function deleteProduct($product_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "products WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_descriptions WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_options WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_option_descriptions WHERE product_id = '" . (int)$product_id . "'");
+		$sql = "SELECT product_option_value_id FROM " . DB_PREFIX . "product_option_values WHERE product_id = '" . (int)$product_id . "'";
+		$result = $this->db->query($sql);
+		$rm = new AResourceManager();
+		foreach($result->rows as $row){
+			$product_option_value_id = $row['product_option_value_id'];
+		    $resources = $rm->getResourcesList( array(
+		                                    'object_name' => 'product_option_value',
+		                                    'object_id' => (int)$product_option_value_id ) );
+	        foreach ( $resources as $r ) {
+		        $rm->unmapResource(
+			                    'product_option_value',
+			                    $product_option_value_id,
+			                    $r['resource_id'] );
+	        }
+		}
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_option_values WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_option_value_descriptions WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_discounts WHERE product_id = '" . (int)$product_id . "'");
@@ -1079,7 +1134,10 @@ class ModelCatalogProduct extends Model {
 				'language'             => $product_option_description_data,
 				'product_option_value' => $product_option_value_data,
 				'sort_order'           => $product_option['sort_order'],
-				'status'               => $product_option['status']
+				'status'               => $product_option['status'],
+				'element_type'         => $product_option['element_type'],
+				'group_id'             => $product_option['group_id'],
+				'required'             => $product_option['required']
         	);
       	}
 
