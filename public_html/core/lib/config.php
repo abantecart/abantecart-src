@@ -110,7 +110,7 @@ final class AConfig {
 		// if storefront and not default store
 		// try to load setting for given url
 		if (!( $this->cnfg['config_url'] == 'http://'.$url || $this->cnfg['config_url'] == 'http://www.'.$url ) ) {
-		    $cache_name = 'store.'.md5('http://'.$url);
+		    $cache_name = 'settings.store.'.md5('http://'.$url);
 		   	$store_settings = $cache->force_get($cache_name);
 		   	if ( empty($store_settings) ) {
 		      $sql = "SELECT se.`key`, se.`value`, st.store_id

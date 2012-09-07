@@ -134,7 +134,8 @@ class ModelSettingSetting extends Model {
 				          '" . $this->db->escape($value) . "')";
 			$this->db->query($sql);
 		}
-		$this->cache->delete('settings','',(int)$store_id);
+		$this->cache->delete('settings');
+		$this->cache->delete('stores');
 	}
 
 	
@@ -144,7 +145,8 @@ class ModelSettingSetting extends Model {
 						  WHERE `group` = '" . $this->db->escape($group) . "'
 						  AND `store_id` = '".$store_id."'");
 
-		$this->cache->delete('settings','', (int)$store_id);
+		$this->cache->delete('settings');
+		$this->cache->delete('stores');
 	}
 }
 ?>

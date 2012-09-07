@@ -82,7 +82,7 @@ class ControllerCommonHeader extends AController
             foreach ($results as $result) {
                 $stores[] = array(
                     'name' => $result['name'],
-                    'href' => $result['url']
+                    'href' => $result['config_url']
                 );
             }
             $this->view->assign('stores', $stores);

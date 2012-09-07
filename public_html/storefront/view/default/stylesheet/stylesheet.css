@@ -786,6 +786,7 @@ button.btn_standard {
 	background: url(../image/box_top_m_login.gif) repeat-x;
 	margin-left: 5px;
 	margin-right: 5px;
+    height: 36px;
 }
 
 #content .login .top h1 {

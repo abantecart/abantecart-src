@@ -144,6 +144,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 						$err = $this->_validateForm('approved', $this->request->post[ 'approved' ][ $id ]);
 						if (!$err) {
 							$this->model_sale_customer->editCustomerField($id, 'approved', $this->request->post[ 'approved' ][ $id ]);
+							$this->_sendMail($id);
 						} else {
 							$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
 							return $dd->dispatch();
@@ -185,6 +186,9 @@ class ControllerResponsesListingGridCustomer extends AController {
 			foreach ($this->request->post as $field => $value) {
 				$err = $this->_validateForm($field, $value);
 				if (!$err) {
+					if($field=='approved'){
+						$this->_sendMail($this->request->get[ 'id' ],$value);
+					}
 					$this->model_sale_customer->editCustomerField($this->request->get[ 'id' ], $field, $value);
 				} else {
 					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
@@ -201,6 +205,9 @@ class ControllerResponsesListingGridCustomer extends AController {
 			foreach ($value as $k => $v) {
 				$err = $this->_validateForm($field, $v);
 				if (!$err) {
+					if($field=='approved'){
+						$this->_sendMail(key($value),current($value));
+					}
 					$this->model_sale_customer->editCustomerField($k, $field, $v);
 				} else {
 					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
@@ -242,6 +249,42 @@ class ControllerResponsesListingGridCustomer extends AController {
 		}
 
 		return $err;
+	}
+
+	private function _sendMail($id, $approved){
+
+			// send email to customer
+			$customer_info = $this->model_sale_customer->getCustomer($id);
+			if ($customer_info && !$customer_info['approved'] && $approved) {
+
+				$this->loadLanguage('mail/customer');
+				$this->loadModel('setting/store');
+
+				$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
+
+				if ($store_info) {
+					$store_name = $store_info['name'];
+					$store_url = $store_info['config_url'] . 'index.php?rt=account/login';
+				} else {
+					$store_name = $this->config->get('store_name');
+					$store_url = $this->config->get('config_url') . 'index.php?rt=account/login';
+				}
+
+				$message  = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";;
+				$message .= $this->language->get('text_login') . "\n";
+				$message .= $store_url . "\n\n";
+				$message .= $this->language->get('text_services') . "\n\n";
+				$message .= $this->language->get('text_thanks') . "\n";
+				$message .= $store_name;
+
+				$mail = new AMail( $this->config );
+				$mail->setTo($customer_info['email']);
+				$mail->setFrom($this->config->get('store_main_email'));
+				$mail->setSender($store_name);
+				$mail->setSubject(sprintf($this->language->get('text_subject'), $store_name));
+				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+				$mail->send();
+			}
 	}
 
 }

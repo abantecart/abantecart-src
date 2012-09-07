@@ -1,23 +1,20 @@
+<?php if ($success) { ?>
+			<div class="success"><?php echo $success; ?></div>
+<?php } ?>
+<?php if ($error) { ?>
+<div class="warning"><?php echo $error; ?></div>
+<?php } ?>
+
 <div id="content" class="login">
 	<div class="login">
 		<div class="top">
 			<div class="left"></div>
 			<div class="right"></div>
-			<div class="center">
-				<h1><?php echo $heading_title; ?></h1>
-			</div>
+			<div class="center"><h1><?php echo $heading_title; ?></h1></div>
 		</div>
 		<div class="middle">
-			<?php if ($success) { ?>
-			<div class="success"><?php echo $success; ?></div>
-			<?php } ?>
-			<?php if ($error) { ?>
-			<div class="warning"><?php echo $error; ?></div>
-			<?php } ?>
 			<div style="margin-bottom: 10px; display: inline-block; width: 100%;">
-
 				<div class="content_block flt_left"><b class="block_heading"><?php echo $text_i_am_new_customer; ?></b>
-
 					<div class="top">
 						<div class="left"></div>
 						<div class="right"></div>
@@ -26,8 +23,6 @@
 					<div class="middle">
 						<div class="middle_content" >
 							<?php echo $form1[ 'form_open' ]; ?>
-
-
 							<p><?php echo $text_checkout; ?></p><br/>
 							<?php echo $form1[ 'register' ];?>
 							<br/><br/>
@@ -50,10 +45,7 @@
 						<div class="center"></div>
 					</div>
 				</div>
-
-				<div class="content_block flt_right"><b
-						class="block_heading"><?php echo $text_returning_customer; ?></b>
-
+				<div class="content_block flt_right"><b	class="block_heading"><?php echo $text_returning_customer; ?></b>
 					<div class="top">
 						<div class="left"></div>
 						<div class="right"></div>
@@ -73,13 +65,10 @@
 							<div class="clr_both"></div>
 							<br/>
 							<a href="<?php echo $forgotten; ?>"><?php echo $text_forgotten_password; ?></a>
-
 							<div class="flt_right"><?php echo $form2['login_submit']?></div>
 							</form>
 						</div>
-
 						<?php echo $this->getHookVar('login_extension'); ?>
-
 					</div>
 					<div class="bottom">
 						<div class="left"></div>
@@ -87,9 +76,7 @@
 						<div class="center"></div>
 					</div>
 				</div>
-
 			</div>
 		</div>
-
 	</div>
 </div>
