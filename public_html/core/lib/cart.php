@@ -93,7 +93,7 @@ final class ACart {
                     if ( $option_attribute ) {
                     	$element_type = $option_attribute['element_type'];
                     	$option_query['name'] = $option_attribute['name'];
-                    } else {                    
+                    } else {
                     	//Not global attribute based option, select element type from options table
                     	$option_query = $this->model_catalog_product->getProductOption($product_id, $product_option_id);
                     	$element_type = $option_query['element_type'];

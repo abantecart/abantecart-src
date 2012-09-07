@@ -116,11 +116,11 @@ class ControllerResponsesProductProduct extends AController {
 
         $this->cart->add($this->request->get['product_id'],1);
 
-
+        $output['item_count'] = $this->cart->countProducts();
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
-       /* $this->load->library('json');
-        $this->response->setOutput(AJson::encode($output));   */
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($output));
     }
 }

@@ -19,6 +19,7 @@
 					<a href="<?php echo $products[ $j ][ 'href' ]; ?>"><?php echo $products[ $j ][ 'thumb' ][ 'thumb_html' ]; ?></a><br/>
 					<a href="<?php echo $products[ $j ][ 'href' ]; ?>"><?php echo $products[ $j ][ 'name' ]; ?></a><br/>
 					<span class="model"><?php echo $products[ $j ][ 'model' ]; ?></span><br/>
+					<div class="price-add">
 					<?php if ($display_price) { ?>
 						<?php if (!$products[ $j ][ 'special' ]) { ?>
 							<span class="price"><?php echo $products[ $j ][ 'price' ]; ?></span>
@@ -29,6 +30,7 @@
 						<?php } ?>
 					<a class="info" href="<?php echo $products[ $j ][ 'href' ]; ?>"></a>
 					<a class="buy" id="<?php echo $products[$j]['product_id'] ?>" href="<?php echo $products[ $j ][ 'add' ]; ?>" title="<?php echo $button_add_to_cart; ?>">&nbsp;</a>
+					</div>
 					<br/>
 					<?php echo $products[ $j ][ 'buttons' ]; ?>
 					<?php if ($products[ $j ][ 'rating' ]) { ?>

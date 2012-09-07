@@ -53,6 +53,10 @@ if (typeof jQuery == 'undefined') {
                     data: {product_id:  item.attr('id') },
                     success:function (data) {
                         item.removeAttr('href').addClass('added').removeClass('buy');
+	                    if($('#item_count').length>0){
+		                    $('#item_count').html(data.item_count);
+	                    }
+
                     }
             });
         }

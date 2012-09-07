@@ -268,13 +268,14 @@
 			</div>
 			<?php } ?>
 			<div id="tab_related" class="tab_page">
-				<?php if ($related_products) {
-						foreach ($related_products as $related_product){ ?>
+			<?php if ($related_products) {
+				foreach ($related_products as $related_product){ ?>
 
 					<div class="related_product">
 						<a href="<?php echo $related_product[ 'href' ]; ?>"><?php echo $related_product['image'][ 'thumb_html' ] ?></a><br/>
 						<a href="<?php echo $related_product[ 'href' ]; ?>"><?php echo $related_product[ 'name' ]; ?></a><br/>
 						<span style="color: #999; font-size: 11px;"><?php echo $related_product[ 'model' ]; ?></span><br/>
+						<div class="price-add">
 						<?php if ($display_price) { ?>
 						<?php if (!$related_product[ 'special' ]) { ?>
 							<span style="color: #900; font-weight: bold;"><?php echo $related_product[ 'price' ]; ?></span>
@@ -283,7 +284,8 @@
 							<span style="color: #F00;"><?php echo $related_product[ 'special' ]; ?></span>
 							<?php } ?>
 						<?php } ?>
-						<a class="button_add_small" href="<?php echo $related_product[ 'add' ]; ?>" title="<?php echo $button_add_to_cart; ?>">&nbsp;</a>
+						<a class="buy" id="<?php echo $related_product['product_id']?>" href="<?php echo $related_product[ 'add' ]?>" title="<?php echo $button_add_to_cart; ?>"></a>
+						</div>
 						<br/>
 						<?php if ($related_product[ 'rating' ]) { ?>
 						<img src="<?php echo $this->templateResource('/image/stars_' . $related_product[ 'rating' ] . '.png'); ?>"

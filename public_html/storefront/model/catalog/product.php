@@ -801,13 +801,14 @@ class ModelCatalogProduct extends Model {
 			return;
 		}
 		
-		$query = $this->db->query("SELECT *
+		$query = $this->db->query("SELECT *, COALESCE(povd.name,povd2.name) as name
                         FROM " . DB_PREFIX . "product_option_values pov
-                        LEFT JOIN " . DB_PREFIX . "product_option_value_descriptions povd ON (pov.product_option_value_id = povd.product_option_value_id)
+                        LEFT JOIN " . DB_PREFIX . "product_option_value_descriptions povd ON (pov.product_option_value_id = povd.product_option_value_id AND povd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
+                        LEFT JOIN " . DB_PREFIX . "product_option_value_descriptions povd2 ON (pov.product_option_value_id = povd2.product_option_value_id AND povd2.language_id = '1' )
                         WHERE pov.product_option_value_id = '" . (int)$product_option_value_id . "'
-                            AND pov.product_id = '" . (int)$product_id . "' AND povd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'
+                            AND pov.product_id = '" . (int)$product_id . "'
                         ORDER BY pov.sort_order");
-		return $query->row;					
+		return $query->row;
 	}
 
 	//Check if any of inputed oprions are required and provided
