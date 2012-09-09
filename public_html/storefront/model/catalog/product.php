@@ -711,12 +711,13 @@ class ModelCatalogProduct extends Model {
 					if($product_option_value_query){
 						foreach ($product_option_value_query->rows as $product_option_value) {
 							if ( $product_option_value['attribute_value_id'] ) {
+								//skip duplicate attributes values if it is not grouped parent/child
 								if ( in_array($product_option_value['attribute_value_id'], $attribute_values ) ) {
 									continue;
 								}
 								$attribute_values[] = $product_option_value['attribute_value_id'];
 							}
-							$product_option_value_description_query = $this->db->query(
+							$pd_opt_val_description_qr = $this->db->query(
                                 "SELECT *
                                     FROM " . DB_PREFIX . "product_option_value_descriptions
                                     WHERE product_option_value_id = '" . (int)$product_option_value['product_option_value_id'] . "'
@@ -726,8 +727,10 @@ class ModelCatalogProduct extends Model {
 							$product_option_value_data[$product_option_value['product_option_value_id']] = array(
                                 'product_option_value_id' => $product_option_value['product_option_value_id'],
                                 'attribute_value_id'      => $product_option_value['attribute_value_id'],
+                                'grouped_attribute_data'  => $product_option_value['grouped_attribute_data'],
                                 'group_id'                => $product_option_value['group_id'],
-                                'name'                    => $product_option_value_description_query->row['name'],
+                                'name'                    => $pd_opt_val_description_qr->row['name'],
+                                'children_options_names'  => $pd_opt_val_description_qr->row['children_options_names'],
                                 'sku'                     => $product_option_value['sku'],
                                 'price'                   => $product_option_value['price'],
                                 'price'                   => $product_option_value['price'],
@@ -739,7 +742,7 @@ class ModelCatalogProduct extends Model {
 							);
 						}
 					}
-					$product_option_description_query = $this->db->query(
+					$prd_opt_description_qr = $this->db->query(
                         "SELECT *
                         FROM " . DB_PREFIX . "product_option_descriptions
                         WHERE product_option_id = '" . (int)$product_option['product_option_id'] . "'
@@ -750,7 +753,7 @@ class ModelCatalogProduct extends Model {
                         'product_option_id' => $product_option['product_option_id'],
                         'attribute_id'      => $product_option['attribute_id'],
                         'group_id'          => $product_option['group_id'],
-                        'name'              => $product_option_description_query->row['name'],
+                        'name'              => $prd_opt_description_qr->row['name'],
                         'option_value'      => $product_option_value_data,
                         'sort_order'        => $product_option['sort_order'],
 						'element_type'      => $product_option['element_type'],

@@ -30,6 +30,9 @@ class AAttribute_Manager extends AAttribute {
 	
 	public function __construct($attribute_type = '', $language_id = 0 ) {
 		parent::__construct($attribute_type, $language_id );
+		if (!IS_ADMIN) { // forbid for non admin calls
+			throw new AException (AC_ERR_LOAD, 'Error: permission denied to access class AAttribute_Manager');
+		}		
 	}
 
     public function clearCache() {

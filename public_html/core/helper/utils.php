@@ -74,3 +74,9 @@ function SEOEncode( $string_value ){
 	return $seo_key;
 }
 
+/*
+* Echo array with readable formal. Useful in debugging of array data. 
+*/
+function echo_array( $array_data ) {
+	echo "<pre> $sub_table_name: ";print_r( $array_data );echo'</pre>';
+}

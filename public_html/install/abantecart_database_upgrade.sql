@@ -30,3 +30,7 @@ ALTER TABLE `ac_stores` DROP COLUMN	`ssl`;
 update ac_stores set alias = LOWER(SUBSTRING(name,0,15));
 
 ALTER TABLE `ac_block_descriptions` ADD COLUMN `block_framed` tinyint(1) DEFAULT '1' AFTER `block_wrapper`;
+
+ALTER TABLE `ac_product_option_values` ADD COLUMN `grouped_attribute_data` text DEFAULT NULL;
+
+ALTER TABLE `ac_product_option_value_descriptions` ADD COLUMN `grouped_attribute_names` text COLLATE utf8_bin DEFAULT NULL;

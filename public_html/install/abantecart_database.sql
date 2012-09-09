@@ -992,6 +992,7 @@ CREATE TABLE `ac_product_option_values` (
   `weight` decimal(15,8) NOT NULL,
   `weight_type` varchar(3) COLLATE utf8_bin NOT NULL, -- lbs or %
   `attribute_value_id` int(11),  
+  `grouped_attribute_data` text DEFAULT NULL,
   `sort_order` int(3) NOT NULL,
   PRIMARY KEY (`product_option_value_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
@@ -1006,6 +1007,7 @@ CREATE TABLE `ac_product_option_value_descriptions` (
   `language_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `name` text COLLATE utf8_bin DEFAULT NULL,
+  `grouped_attribute_names` text COLLATE utf8_bin DEFAULT NULL,  
   PRIMARY KEY (`product_option_value_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

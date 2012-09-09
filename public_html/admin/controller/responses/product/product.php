@@ -479,7 +479,7 @@ class ControllerResponsesProductProduct extends AController {
 			$this->data[ 'row_id' ] = 'new_row';
 		}
 
-		$fields = array( 'name', 'sku', 'quantity', 'subtract', 'price', 'prefix', 'sort_order', 'weight', 'weight_type', 'attribute_value_id' );
+		$fields = array( 'name', 'sku', 'quantity', 'subtract', 'price', 'prefix', 'sort_order', 'weight', 'weight_type', 'attribute_value_id', 'children_options' );
 		foreach ($fields as $f) {
 			if (isset($this->request->post[ $f ])) {
 				$this->data[ $f ] = $this->request->post[ $f ];
@@ -498,12 +498,13 @@ class ControllerResponsesProductProduct extends AController {
 
 
 		if (isset($this->data[ 'option_attribute' ][ 'group' ])) {
+			//process grouped (parent/chiled) options
 			$this->data[ 'form' ][ 'fields' ][ 'option_value' ] = '';
-			foreach ($this->data[ 'option_attribute' ][ 'group' ] as $option_id => $data) {
+			foreach ($this->data[ 'option_attribute' ][ 'group' ] as $attribute_id => $data) {
 				$this->data[ 'form' ][ 'fields' ][ 'option_value' ] .= '<span style="white-space: nowrap;">' . $data[ 'name' ] . '' . $form->getFieldHtml(array(
 					'type' => $data[ 'type' ],
-					'name' => 'attribute_value_id[' . $product_option_value_id . '][' . $option_id . ']',
-					'value' => $this->data[ 'attribute_value_id' ][ $option_id ],
+					'name' => 'attribute_value_id[' . $product_option_value_id . '][' . $attribute_id . ']',
+					'value' => $this->data[ 'children_options' ][ $attribute_id ],
 					'options' => $data[ 'values' ],
 					'attr' => ''
 				)).'<span><br class="clr_both">';

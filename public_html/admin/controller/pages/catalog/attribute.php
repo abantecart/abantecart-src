@@ -414,7 +414,17 @@ class ControllerPagesCatalogAttribute extends AController {
 
 
 		//Build atribute values part of the form
-		if ($this->request->get[ 'attribute_id' ] ) {
+		if ( $this->request->get['attribute_id'] ) {
+			
+			$this->data['child_count'] = $this->attribute_manager->totalChildren( $this->request->get['attribute_id'] );
+			if ( $this->data['child_count'] > 0) {
+				$children_attr = $this->attribute_manager->getAttributes(array(), 0, $this->request->get['attribute_id']);
+				foreach ($children_attr as $attr) {
+					$this->data['children'][] = array( 'name' => $attr['name'], 
+												 'link' => $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attr['attribute_id']) );
+				}
+			}
+			
 			$attribute_values = $this->attribute_manager->getAttributeValues( $this->request->get[ 'attribute_id' ] );
 			foreach ($attribute_values as $atr_val) {
 				$atr_val_id = $atr_val['attribute_value_id'];
@@ -461,6 +471,7 @@ class ControllerPagesCatalogAttribute extends AController {
 		$this->data['form']['fields']['attribute_values'] = $attributes_fields;
 
 		$this->view->batchAssign($this->data);
+		$this->view->assign('insert', $this->html->getSecureURL('catalog/attribute/insert'));
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('language_id', $this->session->data[ 'content_language_id' ]);
 		$this->view->assign('text_parent_note', $this->language->get('text_parent_note'));

@@ -63,8 +63,8 @@ class ControllerPagesCatalogProductOptions extends AController {
         }
 
 		$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
-        $this->data['product_options'] = $this->model_catalog_product->getProductOptions($this->request->get['product_id']);
 		$product_options = $this->model_catalog_product->getProductOptions($this->request->get['product_id']);
+        $this->data['product_options'] = $product_options;
 
 		foreach ($product_options as &$option) {
 			$option_name = trim($option['language'][$this->session->data['content_language_id']]['name']);

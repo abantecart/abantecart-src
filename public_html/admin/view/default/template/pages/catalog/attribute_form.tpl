@@ -14,6 +14,11 @@
 	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
 	    <?php endif; ?>
 		<?php echo $form_language_switch; ?>
+  	    <div class="buttons">
+        <a class="btn_toolbar" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>">
+  		<span class="icon_add">&nbsp;</span>		
+    	</div>
+    	</a>
     </div>
   </div></div></div>
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
@@ -34,7 +39,10 @@
 					<?php } ?>
 					<?php if ($name == 'element_type') { ?>
 						<div id="values">
-							<div style="padding-left: 40px;"><b><span style="padding-right: 35px;"><?php echo $entry_element_values; ?></span><span><?php echo $column_sort_order; ?></span></b></div>
+							<?php if( $child_count == 0 ) { ?>
+							<div style="padding-left: 40px;">
+							<span style="padding-right: 35px;"><b><?php echo $entry_element_values; ?></b></span>
+							<span><b><?php echo $column_sort_order; ?></b></span></div>
 							<?php foreach ($form['fields']['attribute_values'] as $atr_val_id => $atr_field) { ?>
 								<div class="value">
 								<?php echo $atr_field['attribute_value_ids']; ?>
@@ -44,6 +52,15 @@
 								</div>
 							<?php } //foreach ?>
 							<a class="add"></a>
+							<?php } else { ?>
+							<div style="padding-left: 10px;">
+							<span><b><?php echo $entry_children_attributes; ?></b></span>
+								<?php foreach ($children as $child) { ?>
+								<div class="value">
+									<a href="<?php echo $child['link']; ?>"><?php echo $child['name']; ?></a>
+								</div>
+								<?php } //foreach ?>
+							<?php } //if ?>
 						</div>
 					<?php } ?>
 				</td>
