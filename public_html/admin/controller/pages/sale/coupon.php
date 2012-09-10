@@ -471,6 +471,11 @@ class ControllerPagesSaleCoupon extends AController {
             'value' => $this->data['uses_customer'],
         ));
 
+	    if($this->request->get['coupon_id']){
+		    $this->loadModel('sale/order');
+		    $total = $this->model_sale_order->getTotalOrders(array('filter_coupon_id' => $this->request->get['coupon_id'] ));
+		    $this->data['form']['fields']['total_coupon_usage'] = (int)$total;
+	    }
 
         $this->load->library('json');
 

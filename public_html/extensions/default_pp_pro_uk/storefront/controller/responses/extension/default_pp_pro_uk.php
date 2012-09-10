@@ -49,10 +49,12 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 		                                                       'value' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'] ));
 		$data[ 'cc_owner' ] = $data[ 'cc_owner' ]->getHtml();
 
-		$cards = array(0 => 'Visa',
-                               1 => 'MasterCard',
-                               9 => 'Maestro',
-                               'S'=>'Solo');
+		$cards = array('Visa' => 'Visa',
+					'MasterCard' => 'MasterCard',
+					'Maestro' => 'Maestro',
+		            //'Discover'=>'Discover',
+		           // 'Alex'=>'Alex'
+				);
         $data[ 'cc_type' ] = HtmlElementFactory::create(
 			array( 'type' => 'selectbox',
 			     'name' => 'cc_type',

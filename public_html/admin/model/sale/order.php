@@ -541,6 +541,10 @@ class ModelSaleOrder extends Model {
 			$sql .= " AND total >= " . (float)$data['filter_total'] . " ";
 		}
 
+		if (isset($data['filter_coupon_id']) && (int)$data['filter_coupon_id']) {
+			$sql .= " AND coupon_id = " . (int)$data['filter_coupon_id'] . " ";
+		}
+
 		$query = $this->db->query($sql);
 		return $query->row['total'];
 	} 

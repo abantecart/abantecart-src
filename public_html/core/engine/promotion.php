@@ -260,7 +260,7 @@ class APromotion {
 													 FROM `" . DB_PREFIX . "orders`
 													 WHERE order_status_id > '0' AND coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "'");
 
-			if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_total'] && $coupon_query->row['uses_total']>=0) {
+			if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_total'] && $coupon_query->row['uses_total']>0) {
 				$status = FALSE;
 			}
 			if ($coupon_query->row['logged'] && !$this->customer->getId()) {
@@ -274,7 +274,7 @@ class APromotion {
 														        AND coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "'
 														        AND customer_id = '" . (int)$this->customer->getId() . "'");
 				
-				if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_customer'] && $coupon_query->row['uses_customer']>=0) {
+				if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_customer'] && $coupon_query->row['uses_customer']>0) {
 					$status = FALSE;
 				}
 			}
