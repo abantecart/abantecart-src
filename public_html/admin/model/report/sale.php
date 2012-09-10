@@ -22,6 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelReportSale extends Model {
 	public function getSaleReport($data = array()) {
+
 		$sql = "SELECT MIN(date_added) AS date_start, MAX(date_added) AS date_end, COUNT(*) AS orders, SUM(total) AS total FROM `" . DB_PREFIX . "orders`";
 
 		if (isset($data['filter_order_status_id']) && $data['filter_order_status_id']) {
@@ -66,7 +67,12 @@ class ModelReportSale extends Model {
 				$sql .= " GROUP BY YEAR(date_added)";
 				break;									
 		}
-		
+
+		if(isset($data['sort'])){
+			$sql .= " ORDER BY ".$this->db->escape($data['sort'])." ".$this->db->escape($data['order']);
+		}
+
+
 		if (isset($data['start']) || isset($data['limit'])) {
 			if ($data['start'] < 0) {
 				$data['start'] = 0;
@@ -77,7 +83,7 @@ class ModelReportSale extends Model {
 			}	
 			
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
-		}	
+		}
 		
 		$query = $this->db->query($sql);
 		return $query->rows;

@@ -1177,7 +1177,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout', 'config_order_status_id', '1'),
 ('checkout', 'config_stock_subtract', '0'),
 ('checkout', 'config_stock_check', '1'),
-('checkout', 'cart_ajax', '1'), 
+('checkout', 'config_cart_ajax', '1'),
 -- Appearance
 ('appearance', 'config_storefront_template', 'default'),
 ('appearance', 'storefront_width', '100%'),
@@ -1201,7 +1201,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance', 'config_image_category_width', '120'),
 ('appearance', 'admin_template', 'default'),
 ('appearance', 'admin_width', '100%'),
-('appearance', 'config_cart_ajax', '1'),
 
 
 --mail

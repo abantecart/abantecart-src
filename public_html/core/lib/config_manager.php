@@ -470,8 +470,8 @@ class AConfigManager {
         ));
         $fields['cart_ajax'] = $form->getFieldHtml($props[] = array(
             'type' => 'checkbox',
-            'name' => 'cart_ajax',
-            'value' => $data['cart_ajax'],
+            'name' => 'config_cart_ajax',
+            'value' => $data['config_cart_ajax'],
             'style' => 'btn_switch',
         ));
         if(isset($data['one_field'])){
@@ -654,12 +654,6 @@ class AConfigManager {
             'value' => $data['config_image_grid_height'],
             'style' => 'small-field',
             'required' => true,
-        ));
-        $fields['cart_ajax'] = $form->getFieldHtml($props[] = array(
-            'type' => 'checkbox',
-            'name' => 'config_cart_ajax',
-            'value' => $data['config_cart_ajax'],
-            'style' => 'btn_switch',
         ));
         if(isset($data['one_field'])){
             $fields = $this->_filterField($fields,$props,$data['one_field']);
