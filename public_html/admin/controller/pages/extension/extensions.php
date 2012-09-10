@@ -296,6 +296,7 @@ class ControllerPagesExtensionExtensions extends AController {
 				$data['name'] = $item['name'];
 				$data['type'] = $item['type'];
 				$data['value'] = $item['value'];
+				$data['required'] = (bool)$item['required'];
 
 
 				if($item[ 'note' ]){
