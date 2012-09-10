@@ -263,7 +263,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 				$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
 
 				if ($store_info) {
-					$store_name = $store_info['name'];
+					$store_name = $store_info['store_name'];
 					$store_url = $store_info['config_url'] . 'index.php?rt=account/login';
 				} else {
 					$store_name = $this->config->get('store_name');
