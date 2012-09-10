@@ -493,7 +493,7 @@ class ControllerResponsesProductProduct extends AController {
 		if (isset($this->request->post[ 'name' ])) {
 			$this->data[ 'name' ] = $this->request->post[ 'name' ];
 		} elseif (isset($item_info)) {
-			$this->data[ 'name' ] = $item_info[ 'language' ][ $this->session->data[ 'content_language_id' ] ];
+			$this->data[ 'name' ] = $item_info[ 'language' ][ $this->session->data[ 'content_language_id' ] ][ 'name' ];
 		}
 
 
