@@ -303,15 +303,12 @@ class ControllerPagesSaleOrder extends AController {
 
 		$this->data['email'] = $this->html->buildInput( array(
 			                                                'name' => 'email',
-			                                                'value' => $order_info['email'],
-			                                                'style' => 'no-save'
+			                                                'value' => $order_info['email']
 		                                                ) );
 		$this->data['telephone'] = $this->html->buildInput( array(
 			                                                'name' => 'telephone',
-			                                                'value' => $order_info['telephone'],
-			                                                'style' => 'no-save'
+			                                                'value' => $order_info['telephone']
 		                                                ) );
-
 
 		$this->loadModel('catalog/category');
 		$this->data['categories'] = $this->model_catalog_category->getCategories(0);
