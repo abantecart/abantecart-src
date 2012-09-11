@@ -183,7 +183,7 @@ class ModelCheckoutOrder extends Model {
 									text = '" . $this->db->escape($total['text']) . "',
 									`value` = '" . (float)$total['value'] . "',
 									sort_order = '" . (int)$total['sort_order'] . "',
-									type = '" . $this->db->escape($total['total_type']) . "',");
+									type = '" . $this->db->escape($total['total_type']) . "'");
 		}	
 
 		return $order_id;

@@ -1236,25 +1236,31 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('api', 'config_storefront_api_key', ''),
 ('api', 'config_storefront_api_stock_check', '0'),
 
+--EXTENSIONS
 ('shipping', 'shipping_sort_order', '3'),
 ('shipping', 'shipping_status', '1'),
+('shipping', 'shipping_total_type', 'shipping'),
 
 ('coupon', 'coupon_status', '1'),
 ('coupon', 'coupon_sort_order', '4'),
+('coupon', 'coupon_total_type', 'discount'),
+
+('sub_total', 'sub_total_sort_order', '1'),
+('sub_total', 'sub_total_status', '1'),
+('sub_total', 'sub_total_total_type', 'subtotal'),
+
+('tax', 'tax_status', '1'),
+('tax', 'tax_sort_order', '5'),
+('tax', 'tax_total_type', 'tax'),
+
+('total', 'total_sort_order', '6'),
+('total', 'total_status', '1'),
+('total', 'total_total_type', 'total'),
 
 ('default_cod', 'default_cod_sort_order', '1'),
 ('default_cod', 'default_cod_order_status_id', '1'),
 ('default_cod', 'default_cod_status', '1'),
 ('default_cod', 'default_cod_location_id', '0'),
-
-('sub_total', 'sub_total_sort_order', '1'),
-('sub_total', 'sub_total_status', '1'),
-
-('tax', 'tax_status', '1'),
-('tax', 'tax_sort_order', '5'),
-
-('total', 'total_sort_order', '6'),
-('total', 'total_status', '1'),
 
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_cost', '2'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_tax_class_id', '9'),
