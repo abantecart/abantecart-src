@@ -20,6 +20,7 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+
 class ModelTotalCoupon extends Model {
 	public function getTotal(&$total_data, &$total, &$taxes) {
 		if (isset($this->session->data['coupon']) && $this->config->get('coupon_status')) {
@@ -86,7 +87,8 @@ class ModelTotalCoupon extends Model {
         			'title'      => $coupon['name'] . ':',
 	    			'text'       => '-' . $this->currency->format($discount_total),
         			'value'      => - $discount_total,
-					'sort_order' => $this->config->get('coupon_sort_order')
+					'sort_order' => $this->config->get('coupon_sort_order'),
+					'total_type' => $this->config->get('coupon_total_type')
       			);
 
 				$total -= $discount_total;

@@ -28,7 +28,8 @@ class ModelTotalShipping extends Model {
         		'title'      => $this->session->data['shipping_method']['title'] . ':',
         		'text'       => $this->currency->format($this->session->data['shipping_method']['cost']),
         		'value'      => $this->session->data['shipping_method']['cost'],
-				'sort_order' => $this->config->get('shipping_sort_order')
+				'sort_order' => $this->config->get('shipping_sort_order'),
+				'total_type' => $this->config->get('shipping_total_type')
 			);
 
 			if ($this->session->data['shipping_method']['tax_class_id']) {

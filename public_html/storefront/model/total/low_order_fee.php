@@ -32,7 +32,8 @@ class ModelTotalLowOrderFee extends Model {
         		'title'      => $this->language->get('text_low_order_fee'),
         		'text'       => $this->currency->format($this->config->get('low_order_fee_fee')),
         		'value'      => $this->config->get('low_order_fee_fee'),
-				'sort_order' => $this->config->get('low_order_fee_sort_order')
+				'sort_order' => $this->config->get('low_order_fee_sort_order'),
+				'total_type' => $this->config->get('low_order_fee_total_type')
 			);
 			
 			if ($this->config->get('low_order_fee_tax_class_id')) {

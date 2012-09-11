@@ -23,7 +23,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerPagesTotalCoupon extends AController {
 	public $data = array();
 	private $error = array();
-	private $fields = array('coupon_status', 'coupon_sort_order');
+	private $fields = array('coupon_status', 'coupon_sort_order', 'coupon_total_type');
 	 
 	public function main() {
 
@@ -32,7 +32,7 @@ class ControllerPagesTotalCoupon extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 		$this->loadModel('setting/setting');
-		
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validate())) {
 			$this->model_setting_setting->editSetting('coupon', $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -75,7 +75,7 @@ class ControllerPagesTotalCoupon extends AController {
 
 		$this->data ['action'] = $this->html->getSecureURL ( 'total/coupon' );
 		$this->data['cancel'] = $this->html->getSecureURL('extension/total');
-		$this->data ['heading_title'] = $this->language->get ( 'text_edit' ) . $this->language->get ( 'text_total' );
+		$this->data ['heading_title'] = $this->language->get ( 'text_edit' ) . $this->language->get ( 'heading_title' );
 		$this->data ['form_title'] = $this->language->get ( 'heading_title' );
 		$this->data ['update'] = $this->html->getSecureURL ( 'listing_grid/total/update_field', '&id=coupon' );
 
@@ -83,7 +83,7 @@ class ControllerPagesTotalCoupon extends AController {
 		$form->setForm ( array ('form_name' => 'editFrm', 'update' => $this->data ['update'] ) );
 
 		$this->data['form']['form_open'] = $form->getFieldHtml ( array ('type' => 'form', 'name' => 'editFrm', 'action' => $this->data ['action'] ) );
-		$this->data['form']['submit'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'submit', 'text' => $this->language->get ( 'button_go' ), 'style' => 'button1' ) );
+		$this->data['form']['submit'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'submit', 'text' => $this->language->get ( 'button_save' ), 'style' => 'button1' ) );
 		$this->data['form']['cancel'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'cancel', 'text' => $this->language->get ( 'button_cancel' ), 'style' => 'button2' ) );
 
 		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
@@ -92,10 +92,25 @@ class ControllerPagesTotalCoupon extends AController {
 		    'value' => $this->data['coupon_status'],
 			'style'  => 'btn_switch',
 	    ));
+		$this->loadLanguage('extension/extensions');
+		$options = array( 'discount' => $this->language->get('text_discount'),
+						  'total' => $this->language->get('text_total'),
+						  'subtotal' => $this->language->get('text_subtotal'),
+						  'tax' => $this->language->get('text_tax'),
+						  'shipping' => $this->language->get('text_shipping'),
+						  'fee' => $this->language->get('text_fee'));
+		$this->data['form']['fields']['total_type'] = $form->getFieldHtml(array(
+		    'type' => 'selectbox',
+		    'name' => 'coupon_total_type',
+			'options' => $options,
+		    'value' => $this->data['coupon_total_type']
+	    ));
+
 		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'coupon_sort_order',
 		    'value' => $this->data['coupon_sort_order'],
+			'style' => 'small-field'
 	    ));
 		$this->view->assign('help_url', $this->gen_help_url('edit_coupon') );
 		$this->view->batchAssign( $this->data );

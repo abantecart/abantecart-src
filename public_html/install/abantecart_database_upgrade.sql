@@ -34,3 +34,12 @@ ALTER TABLE `ac_block_descriptions` ADD COLUMN `block_framed` tinyint(1) DEFAULT
 ALTER TABLE `ac_product_option_values` ADD COLUMN `grouped_attribute_data` text DEFAULT NULL;
 
 ALTER TABLE `ac_product_option_value_descriptions` ADD COLUMN `grouped_attribute_names` text COLLATE utf8_bin DEFAULT NULL;
+ALTER TABLE `ac_order_totals` ADD COLUMN `type` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '';
+
+INSERT INTO ac_settings VALUES ('', 0, 'coupon', 'coupon_total_type', 'discount');
+INSERT INTO ac_settings VALUES ('', 0, 'total', 'total_total_type', 'total');
+INSERT INTO ac_settings VALUES ('', 0, 'sub_total', 'sub_total_total_type', 'subtotal');
+INSERT INTO ac_settings VALUES ('', 0, 'tax', 'tax_total_type', 'tax');
+INSERT INTO ac_settings VALUES ('', 0, 'shipping', 'shipping_total_type', 'shipping');
+INSERT INTO ac_settings VALUES ('', 0, 'handling', 'handling_total_type', 'fee');
+INSERT INTO ac_settings VALUES ('', 0, 'low_order_fee', 'low_order_fee_total_type', 'fee');

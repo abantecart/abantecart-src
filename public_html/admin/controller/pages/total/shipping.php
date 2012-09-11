@@ -23,7 +23,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerPagesTotalShipping extends AController {
 	public $data = array();
 	private $error = array();
-	private $fields = array('shipping_status', 'shipping_sort_order');
+	private $fields = array('shipping_status', 'shipping_sort_order', 'shipping_total_type');
 	 
 	public function main() {
 
@@ -83,7 +83,7 @@ class ControllerPagesTotalShipping extends AController {
 		$form->setForm ( array ('form_name' => 'editFrm', 'update' => $this->data ['update'] ) );
 
 		$this->data['form']['form_open'] = $form->getFieldHtml ( array ('type' => 'form', 'name' => 'editFrm', 'action' => $this->data ['action'] ) );
-		$this->data['form']['submit'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'submit', 'text' => $this->language->get ( 'button_go' ), 'style' => 'button1' ) );
+		$this->data['form']['submit'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'submit', 'text' => $this->language->get ( 'button_save' ), 'style' => 'button1' ) );
 		$this->data['form']['cancel'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'cancel', 'text' => $this->language->get ( 'button_cancel' ), 'style' => 'button2' ) );
 
 		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
@@ -92,6 +92,21 @@ class ControllerPagesTotalShipping extends AController {
 		    'value' => $this->data['shipping_status'],
 			'style'  => 'btn_switch',
 	    ));
+		$this->loadLanguage('extension/extensions');
+		$options = array( 'shipping' => $this->language->get('text_shipping'),
+						  'fee' => $this->language->get('text_fee'),
+						  'discount' => $this->language->get('text_discount'),
+						  'total' => $this->language->get('text_total'),
+						  'subtotal' => $this->language->get('text_subtotal'),
+						  'tax' => $this->language->get('text_tax')
+						  );
+		$this->data['form']['fields']['total_type'] = $form->getFieldHtml(array(
+		    'type' => 'selectbox',
+		    'name' => 'shipping_total_type',
+			'options' => $options,
+		    'value' => $this->data['shipping_total_type']
+	    ));
+
 		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'shipping_sort_order',
