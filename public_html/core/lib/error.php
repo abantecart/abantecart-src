@@ -95,6 +95,7 @@ class AError {
             } else {
             	//we have error way a head of system start
             	echo $this->error_descriptions[$this->code] . ':  ' . $this->msg;
+            	return $this;
             }
         } else {
             $log = $this->registry->get('log');
