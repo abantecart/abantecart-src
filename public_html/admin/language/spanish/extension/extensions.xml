@@ -138,11 +138,11 @@
   </definition>
   <definition>
     <key>text_missing_extension</key>
-    <value><![CDATA[&quot;%% EXT Extensión:. Fuente no puede ser localizado por favor borrarlo y visitar <a href="http://abantecart.com" target="_repository">repositorio de extensiones</a> para descargar de nuevo &quot;]]></value>
+    <value><![CDATA[&quot;%% EXT Extensión: Placere delete is et visita extention provisor impetro completum fons et intall eam iterum &quot;]]></value>
   </definition>
 	<definition>
 		<key>text_broken_extension</key>
-		<value><![CDATA["&quot;%% EXT Extensión:  Fuente probablemente roto! No puede encontrar archivos config.xml o main.php. Por favor, bórrelo y visitar <a href="http://abantecart.com" target="_repository">extension repository</a> to download it again  "]]></value>
+		<value><![CDATA["&quot;%% EXT Extensión: Placere delete is et visita extention provisor impetro completum fons et intall eam iterum  "]]></value>
 	</definition>
   <definition>
     <key>text_extension_pagination</key>
@@ -198,7 +198,7 @@
   </definition>
   <definition>
     <key>text_visit_repository</key>
-    <value><![CDATA[Por favor, visite <a href="http://abantecart.com" target="_repository">repositorio de extensiones</a> para descargar la extensión]]></value>
+    <value><![CDATA[Por favor, visite %extensions_store% repositorio de extensiones</a> para descargar la extensión]]></value>
   </definition>
   <definition>
     <key>text_license</key>
