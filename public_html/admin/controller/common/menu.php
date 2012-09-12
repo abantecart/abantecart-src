@@ -52,7 +52,7 @@ class ControllerCommonMenu extends AController {
 						continue;
 					} else { // if all fine - loads language of extension for menu item text show
 						if(strpos($item ['item_url'],'http')===false){
-							$this->loadLanguage( $item ['item_id'].'/'.$item ['item_id'], "silent" );
+							$this->loadLanguage( $item ['item_id'].'/'.$item ['item_id'], 'silent' );
 							$item['language'] = $item ['item_id'].'/'.$item ['item_id'];
 						}
 					}
@@ -126,7 +126,7 @@ class ControllerCommonMenu extends AController {
 		foreach($menu_items as $item){
 			if($item['parent_id']==$item_id && isset($item['item_id'])){
 				if( isset( $item ['language'] )){
-					$this->loadLanguage( $item ['language'] );
+					$this->loadLanguage( $item ['language'], 'silent' );
 				}
 				$childen = $this->_getChildItems($item['item_id'],$menu_items);
 				$menu_link = $item ['item_url'] ? (strpos ( $item ['item_url'], "http" ) ? $item ['item_url'] : $this->html->getSecureURL ( $item ['item_url'] )) : "";
