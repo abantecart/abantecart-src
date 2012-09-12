@@ -93,7 +93,7 @@ abstract class AController {
 	public function loadLanguage ( $rt, $mode = '' ) {
 		if( empty ($rt) || !method_exists( $this->language, 'load' ) ) return;
 		// strip off pages or responce
-		$rt = preg_replace('/^(pages|responses)\//', '', $rt);
+		$rt = preg_replace('/^(api|pages|responses)\//', '', $rt);
 		$this->languages[] = $rt;
 		//load all tranlations to the view
 		$this->view->batchAssign( $this->language->load( $rt, $mode ) );
