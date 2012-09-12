@@ -99,11 +99,6 @@ $(document).ready(function () {
         '#productFrm_width',
         '#productFrm_height',
         '#productFrm_weight'];
-    for (var k in array) {
-        $(array[k]).live('blur', function () {
-            formatPrice(this);
-        });
-    }
 
     $('#productFrm_quantity').live('blur', function () {
         formatQty(this);

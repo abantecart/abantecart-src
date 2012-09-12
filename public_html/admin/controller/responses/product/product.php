@@ -557,8 +557,7 @@ class ControllerResponsesProductProduct extends AController {
 			'type' => 'input',
 			'name' => 'price[' . $product_option_value_id . ']',
 			'value' => $this->data[ 'price' ],
-			'style' => 'small-field',
-			'attr' => 'onblur="formatPrice(this);"',
+			'style' => 'small-field'
 		));
 
 		$this->data[ 'prefix' ] = trim($this->data[ 'prefix' ]);
@@ -587,8 +586,7 @@ class ControllerResponsesProductProduct extends AController {
 			'type' => 'input',
 			'name' => 'weight[' . $product_option_value_id . ']',
 			'value' => $this->data[ 'weight' ],
-			'style' => 'small-field',
-			'attr' => 'onblur="formatPrice(this);"',
+			'style' => 'small-field'
 		));
 
 		$this->data[ 'weight_type' ] = trim($this->data[ 'weight_type' ]);

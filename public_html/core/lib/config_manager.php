@@ -684,7 +684,6 @@ class AConfigManager {
             'type' => 'input',
             'name' => 'config_smtp_host',
             'value' => $data['config_smtp_host'],
-            'style' => "no-save",
             'required' => true
         ));
         $fields['smtp_username'] = $form->getFieldHtml($props[] = array(
@@ -701,14 +700,12 @@ class AConfigManager {
             'type' => 'input',
             'name' => 'config_smtp_port',
             'value' => $data['config_smtp_port'],
-            'style' => "no-save",
             'required' => true
         ));
         $fields['smtp_timeout'] = $form->getFieldHtml($props[] = array(
             'type' => 'input',
             'name' => 'config_smtp_timeout',
             'value' => $data['config_smtp_timeout'],
-            'style' => "no-save",
             'required' => true
         ));
         $fields['alert_mail'] = $form->getFieldHtml($props[] = array(

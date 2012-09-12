@@ -23,21 +23,25 @@ if (! defined ( 'DIR_CORE' )) {
 
 final class ALog {
 	private $filename;
-	
+	private $mode=true;
 	public function __construct($filename) {
 		if(is_dir($filename)){
 			$filename .= (substr($filename,-1)!='/' ? '/' : '').'error.txt';
 		}
 		$this->filename = $filename;
+		if(class_exists('Registry')){// for disabling via settings
+			$registry = Registry::getInstance();
+			if(is_object($registry->get('config'))){
+				$this->mode = $registry->get('config')->get('config_error_log') ? true : false;
+			}
+		}
 	}
 	
 	public function write($message) {
+		if(!$this->mode) return;
 		$file = $this->filename;
-		
-		$handle = fopen($file, 'a+'); 
-		
+		$handle = fopen($file, 'a+');
 		fwrite($handle, date('Y-m-d G:i:s') . ' - ' . $message . "\n");
-			
 		fclose($handle); 
 	}
 }

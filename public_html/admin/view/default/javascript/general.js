@@ -336,8 +336,9 @@ jQuery(function ($) {
     });
 });
 
-var numberSeparators = {decimal:'.', thousand:','};
+var numberSeparators = {};
 function formatPrice(field) {
+    numberSeparators = numberSeparators.length==0 ? {decimal:'.', thousand:','} : numberSeparators;
     var pattern = new RegExp(/[^0-9\-\.]+/g);
     var price = field.value.replace(pattern, '');
     field.value = $().number_format(price, { numberOfDecimals:2,
@@ -345,6 +346,7 @@ function formatPrice(field) {
         thousandSeparator:numberSeparators.thousand});
 }
 function formatQty(field) {
+    numberSeparators = numberSeparators.length==0 ? {decimal:'.', thousand:','} : numberSeparators;
     var pattern = new RegExp(/[^0-9\.]+/g);
     var price = field.value.replace(pattern, '');
     field.value = $().number_format(price, { numberOfDecimals:0,
@@ -354,7 +356,6 @@ function formatQty(field) {
 
 
 $(document).ready(function() {
-
 
 	/* Handling forms exit */
 	$(window).bind('beforeunload', function () {
@@ -436,24 +437,24 @@ $(document).ready(function() {
     organizeToolbar();
 });
 
-
-
 function organizeToolbar(){
-    if($('.cbox_tc').outerHeight()>47){
-        if($('div.toolbar')){
-            $('div.toolbar').detach().appendTo('.breadcrumb_wrapper');
+    if($('div.cbox_tc').outerHeight()>47){
+        if($('div.cbox_tc div.toolbar')){
+            $('div.cbox_tc div.toolbar').detach().appendTo('.breadcrumb_wrapper');
             if($('div.toolbar .help_element')){
                  $('div.toolbar .help_element').css('margin-top','9px');
+                 $('div.toolbar .help_element').css('float','right');
             }
             if($('div.toolbar .buttons')){
                  $('div.toolbar .buttons').css('margin-top','2px');
             }
         }
     }else{
-        if($.contains($('.breadcrumb_wrapper'),$('div.toolbar'))){
-            $('div.toolbar').detach().appendTo('.cbox_tc');
+        if($('.breadcrumb_wrapper div.toolbar').length>0){
+            $('.breadcrumb_wrapper div.toolbar').detach().appendTo('.cbox_tc');
             if($('div.toolbar .help_element')){
                  $('div.toolbar .help_element').css('margin-top','12px');
+                 $('div.toolbar .help_element').css('float','auto');
             }
             if($('div.toolbar .buttons')){
                  $('div.toolbar .buttons').css('margin-top','0');
@@ -461,5 +462,3 @@ function organizeToolbar(){
         }
     }
 }
-
-$(window).resize(organizeToolbar);
