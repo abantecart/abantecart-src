@@ -437,9 +437,14 @@ class AResource {
 				if(!$thumb_url){
 					$thumb_url = $this->model_tool_image->resize($result['resource_path'],$sizes['thumb']['width'],$sizes['thumb']['height']);
 				}
+				if($this->getTypeDir()=='image/'){
+					$main_url = $this->getResourceThumb($result['resource_id'],$sizes['main']['width'],$sizes['main']['height']);
+				}else{
+					$main_url = HTTP_DIR_RESOURCE.$this->getTypeDir().$result['resource_path'];
+				}
 
 				$resources[$k] = array( 'origin' => $origin,
-										'main_url' => HTTP_DIR_RESOURCE.$this->getTypeDir().$result['resource_path'],
+										'main_url' => $main_url,
 										'main_html'=>$this->html->buildResourceImage( array('url' => HTTP_DIR_RESOURCE.'image/'.$result['resource_path'],
 										                                                    'width' => $sizes['main']['width'],
 										                                                    'height' => $sizes['main']['height'],
