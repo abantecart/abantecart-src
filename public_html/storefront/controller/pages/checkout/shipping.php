@@ -165,14 +165,22 @@ class ControllerPagesCheckoutShipping extends AController {
 		$this->data[ 'shipping_methods' ] = $this->session->data[ 'shipping_methods' ] 	? $this->session->data[ 'shipping_methods' ] : array();
 		$shipping = $this->session->data[ 'shipping_method' ][ 'id' ];
 		if ($this->data[ 'shipping_methods' ]) {
-			foreach ($this->data[ 'shipping_methods' ] as $k => $v) {
+			foreach ($this->data['shipping_methods'] as $k => $v) {
 				foreach($v['quote'] as $key => $val){
+					//check if we have only one method and select by default if was selected before
+					$selected = FALSE;
+					if ( count($this->data['shipping_methods']) == 1 && count($v['quote']) == 1 ) {
+						$selected = TRUE;
+					} else if( $shipping == $val[ 'id' ] )  {
+						$selected = TRUE;
+					}	
+				
 					$this->data[ 'shipping_methods' ][ $k ]['quote'][$key][ 'radio' ] = $form->getFieldHtml(array(
 																								  'type' => 'radio',
 																								  'id' => $val[ 'id' ],
 																								  'name' => 'shipping_method',
 																								  'options' => array( $val[ 'id' ] => '' ),
-																								  'value' => ($shipping == $val[ 'id' ] ? TRUE : FALSE)
+																								  'value' => $selected
 																							 ));
 				}
 			}
