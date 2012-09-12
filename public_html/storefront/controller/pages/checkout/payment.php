@@ -215,11 +215,19 @@ class ControllerPagesCheckoutPayment extends AController {
 
 		if($this->data['payment_methods']){
 			foreach($this->data['payment_methods'] as $k=>$v){
+				//check if we have only one method and select by default if was selected before
+				$selected = FALSE;
+				if ( count($this->data['payment_methods']) == 1) {
+					$selected = TRUE;
+				} else if( $payment == $v['id'] )  {
+					$selected = TRUE;
+				}	
+			
 				$this->data['payment_methods'][$k]['radio'] = $form->getFieldHtml( array(
 					                                                                   'type' => 'radio',
 					                                                                   'name' => 'payment_method',
 					                                                                   'options' => array($v['id']=>''),
-					                                                                   'value' => ( $payment == $v['id'] ? TRUE : FALSE )
+					                                                                   'value' => $selected
 				                                                                  ));
 			}
 		}else{

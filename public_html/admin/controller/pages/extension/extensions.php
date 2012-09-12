@@ -565,7 +565,8 @@ class ControllerPagesExtensionExtensions extends AController {
 							}
 						}
 					} else {
-						$action = $this->language->get('text_visit_repository');
+						$action = '<a href="'.$this->html->getSecureURL('extension/extensions_store', '&extension=' . $id). '" target="_blank">';
+						$action = str_replace('%extensions_store%', $action, $this->language->get('text_visit_repository'));
 					}
 
 					$extension_data[ 'dependencies' ][] = array(
