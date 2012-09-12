@@ -437,7 +437,7 @@ class ModelCheckoutOrder extends Model {
 			
 			$text .= $language->get('text_footer');
 						
-			$mail = new AMail( $this->config ); 
+			$mail = new AMail( $this->config );
 			$mail->setTo($order_query->row['email']);
 			$mail->setFrom($this->config->get('store_main_email'));
 			$mail->setSender($order_query->row['store_name']);
@@ -470,8 +470,10 @@ class ModelCheckoutOrder extends Model {
 				// Send to additional alert emails
 				$emails = explode(',', $this->config->get('config_alert_emails'));
 				foreach ($emails as $email) {
-					$mail->setTo($email);
-					$mail->send();
+					if(trim($email)){
+						$mail->setTo($email);
+						$mail->send();
+					}
 				}
 
 			}

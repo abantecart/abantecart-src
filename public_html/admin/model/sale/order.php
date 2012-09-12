@@ -245,7 +245,7 @@ class ModelSaleOrder extends Model {
 				$mail = new AMail( $this->config );
 				$mail->setTo($order_query->row['email']);
 				$mail->setFrom($this->config->get('store_main_email'));
-	    		$mail->setSender($order_query->row['name']);
+	    		$mail->setSender($order_query->row['store_name']);
 	    		$mail->setSubject($subject);
 	    		$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
 	    		$mail->send();
