@@ -291,36 +291,36 @@
 					CKEditor('add');
                 }
             });
-
-
-			function CKEditor(mode){
-				var settings = [];
-				settings[0] = 'cgFrm_config_description_<?php echo $content_language_id; ?>';
-				settings[1] = 'cgFrm_config_meta_description';
-
-				for( var k in settings ){
-
-					if($('#'+settings[k]).length>0){
-						if(mode=='add'){
-							$('#'+settings[k]).parents('.afield').removeClass('mask2');
-							$('#'+settings[k]).parents('td').removeClass('ml_field').addClass('ml_ckeditor');
-
-							CKEDITOR.replace(settings[k], {
-								filebrowserBrowseUrl:false,
-								filebrowserImageBrowseUrl:'<?php echo $rl; ?>',
-								filebrowserWindowWidth:'920',
-								filebrowserWindowHeight:'520',
-								language:'<?php echo $language_code; ?>'
-							});
-							$("#edit_dialog").dialog('option', 'width', '800');
-						}else{
-							var editor = CKEDITOR.instances[settings[k]];
-							if (editor) { editor.destroy(true); }
-						}
-					}
-				}
-			}
         }
 
+
     });
+
+    function CKEditor(mode){
+        var settings = [];
+        settings[0] = 'cgFrm_config_description_<?php echo $content_language_id; ?>';
+        settings[1] = 'cgFrm_config_meta_description';
+
+        for( var k in settings ){
+
+            if($('#'+settings[k]).length>0){
+                if(mode=='add'){
+                    $('#'+settings[k]).parents('.afield').removeClass('mask2');
+                    $('#'+settings[k]).parents('td').removeClass('ml_field').addClass('ml_ckeditor');
+
+                    CKEDITOR.replace(settings[k], {
+                        filebrowserBrowseUrl:false,
+                        filebrowserImageBrowseUrl:'<?php echo $rl; ?>',
+                        filebrowserWindowWidth:'920',
+                        filebrowserWindowHeight:'520',
+                        language:'<?php echo $language_code; ?>'
+                    });
+                    $("#edit_dialog").dialog('option', 'width', '800');
+                }else{
+                    var editor = CKEDITOR.instances[settings[k]];
+                    if (editor) { editor.destroy(true); }
+                }
+            }
+        }
+    }
 </script>

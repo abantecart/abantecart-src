@@ -75,7 +75,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
         $this->data['setting_id'] = (int)$this->request->get['setting_id'];
 
 
-        $dispatch = $this->dispatch('responses/common/form_collector', array('form_id' => 'cgFrm', 'target' => $this->request->get['target']));
+        $dispatch = $this->dispatch('responses/common/form_collector', array('form_id' => 'cgFrm', 'target' => $this->request->get['target'],'success_script' => 'CKEditor(\'destroy\'); CKEditor(\'add\');') );
         $this->data['form_collector'] = $dispatch->dispatchGetOutput();
 
 

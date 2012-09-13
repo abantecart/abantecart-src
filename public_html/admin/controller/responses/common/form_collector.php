@@ -30,9 +30,11 @@ class ControllerResponsesCommonFormCollector extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $form_id = func_get_arg(0);
         $target = func_get_arg(1);
+        $success_script = func_get_arg(2);
 
         $this->view->assign('form_id', $form_id);
         $this->view->assign('target', $target);
+        $this->view->assign('success_script', $success_script);
         $this->processTemplate('responses/common/form_collector.tpl');
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);

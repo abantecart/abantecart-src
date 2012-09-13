@@ -6,6 +6,7 @@ $('#<?php echo $form_id?>').submit(function () {
         dataType:'json',
         success:function (response) {
             $('#<?php echo $target?>').html(response.html);
+            <?php echo $success_script;?>
         }
     };
     $(this).ajaxSubmit(options);
