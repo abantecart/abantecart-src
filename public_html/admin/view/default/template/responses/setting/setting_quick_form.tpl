@@ -47,17 +47,17 @@
     </div>
     </form>
 </div>
-<? echo $form_collector; ?>
-<?php
+<?php echo $form_collector;
+
 if (!$active) {     ?>
 <div id="dialog"></div>
 <?php } ?>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent($('select[name=\'config_storefront_template\']').attr('value')));
     $('#cgFrm_config_storefront_template').change(function () {
         $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent(this.value))
     });
--->
+
 </script>
 
 

@@ -265,8 +265,7 @@
     </tr>
 </script>
 
-<script
-type="text/javascript" ><!--
+<script type="text/javascript" >
 jQuery(function($){
 
     var type = '<?php echo $type; ?>';
@@ -429,6 +428,6 @@ jQuery(function($){
     });
 
 });
-//--></script>
+</script>
 </body>
 </html>

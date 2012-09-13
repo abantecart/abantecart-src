@@ -2,7 +2,7 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery.ui.resizable.js"></script>
 <script type="text/javascript"
         src="<?php echo $template_dir; ?>/javascript/jquery/ui/external/bgiframe/jquery.bgiframe.js"></script>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 var urls = {
         resource_library:'<?php echo $rl_resource_library; ?>',
         resources:'<?php echo $rl_resources; ?>',
@@ -269,4 +269,4 @@ jQuery(function () {
 
     <?php } ?>
 
-//--></script>
+</script>

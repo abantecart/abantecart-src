@@ -223,8 +223,7 @@
 </div>
 
 
-<script type="text/javascript"><!--
-
+<script type="text/javascript">
 function wordwrap(str, int_width, str_break, cut) {
     var i, j, s, r = str.split("\n");
     if (int_width > 0) for (i in r) {
@@ -956,6 +955,6 @@ jQuery(function ($) {
     });
 });
 
-//--></script>
+</script>
 </body>
 </html>

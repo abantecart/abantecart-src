@@ -1,9 +1,7 @@
-<script type="text/javascript"><!--
+<script type="text/javascript">
 // attach handler to form's submit event
-
 $('#<?php echo $form_id?>').submit(function () {
     // submit the form
-
     var options = {
         dataType:'json',
         success:function (response) {
@@ -14,4 +12,4 @@ $('#<?php echo $form_id?>').submit(function () {
     // return false to prevent normal browser submit and page navigation
     return false;
 });
-//--></script>
+</script>
