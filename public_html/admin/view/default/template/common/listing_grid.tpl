@@ -92,6 +92,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
         viewrecords:true,
         altRows: <?php echo $data['altRows'] ?>,
         height:'100%',
+        width: ($.browser.msie ? ($(window).width()-100) : null),// memory leak in damn msie
         sortname:'<?php echo $data['sortname'] ?>',
         sortorder:'<?php echo $data['sortorder'] ?>',
         <?php if($data['expand_column']) { ?>
@@ -374,12 +375,13 @@ if ($custom_buttons) {
     });
 
     function resize_the_grid() {
-
-        $(table_id).fluidGrid({base:table_id + '_wrapper', offset:-10});
-        //update input width
-        $("input, textarea, select", table_id + '_wrapper').each(function () {
-            $(this).css('width', $(this).closest('th').width() - 52);
-        });
+        if($.browser.msie!=true){
+            $(table_id).fluidGrid({base:table_id + '_wrapper', offset:-10});
+            //update input width
+            $("input, textarea, select", table_id + '_wrapper').each(function () {
+                $(this).css('width', $(this).closest('th').width() - 52);
+            });
+        }
     }
 
     resize_the_grid();
