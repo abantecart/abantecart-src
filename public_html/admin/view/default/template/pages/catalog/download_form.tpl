@@ -84,7 +84,6 @@ jQuery(function($){
         selectDialog('archive', $(this).attr('id'));
         return false;
     });
-	$('#downloadFrm_remaining').keyup(function(){ formatQty(this); });
 });
 onSelectClose = function(e,ui){
     if (typeof selectResource == 'undefined')  return;

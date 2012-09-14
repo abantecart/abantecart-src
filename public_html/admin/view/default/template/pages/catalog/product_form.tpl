@@ -100,13 +100,6 @@ $(document).ready(function () {
         '#productFrm_height',
         '#productFrm_weight'];
 
-    $('#productFrm_quantity').live('blur', function () {
-        formatQty(this);
-    });
-    $('#productFrm_minimum').live('blur', function () {
-        formatQty(this);
-    });
-
 });
 
 if (document.getElementById('productFrm_product_description[<?php echo $language_id; ?>][description]'))

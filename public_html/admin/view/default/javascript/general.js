@@ -346,7 +346,7 @@ function formatPrice(field) {
         thousandSeparator:numberSeparators.thousand});
 }
 function formatQty(field) {
-    numberSeparators = numberSeparators.length==0 ? {decimal:'.', thousand:','} : numberSeparators;
+    numberSeparators = numberSeparators.length==0 ? {decimal:'.', thousand:''} : numberSeparators;
     var pattern = new RegExp(/[^0-9\.]+/g);
     var price = field.value.replace(pattern, '');
     field.value = $().number_format(price, { numberOfDecimals:0,

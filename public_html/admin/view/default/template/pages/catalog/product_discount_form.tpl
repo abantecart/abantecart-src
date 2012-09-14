@@ -81,11 +81,5 @@
 <script type="text/javascript"><!--
 $(document).ready(function () {
     $('.date').datepicker({dateFormat:'yy-mm-dd'});
-
-    $('#productFrm_quantity').live('blur', function () {
-        formatQty(this);
-    });
-
-
 });
 //--></script>

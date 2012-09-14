@@ -223,8 +223,6 @@ $(document).ready(function () {
         });
     }
 
-    $('#settingFrm_config_upload_max_size').live('blur', function () {
-        formatQty(this);
-    });
+
 });
 //--></script>
