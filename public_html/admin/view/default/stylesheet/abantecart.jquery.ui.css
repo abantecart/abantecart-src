@@ -425,6 +425,11 @@ tr.ui-search-toolbar select {
     position: relative;
 }
 
+.ui-jqgrid .ui-pager-control .ui-pg-input{
+    margin-top: 4px;
+    text-align: center;
+}
+
 .ui-jqgrid .ui-pg-table {
     position: relative;
     padding-bottom: 2px;
