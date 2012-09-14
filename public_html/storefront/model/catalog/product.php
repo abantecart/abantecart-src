@@ -546,6 +546,7 @@ class ModelCatalogProduct extends Model {
 										LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (f.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 										LEFT JOIN " . DB_PREFIX . "products_to_stores p2s ON (p.product_id = p2s.product_id)
 										WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
+											AND p.status='1'
 										LIMIT " . (int)$limit);
 
 			$product_data =  $query->rows;
