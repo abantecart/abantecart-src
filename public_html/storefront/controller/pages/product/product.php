@@ -374,9 +374,12 @@ class ControllerPagesProductProduct extends AController {
 				
 				//check if we need to disable product for no stock 
 				if ($this->config->get('config_nostock_autodisable') && $total_quantity <= 0) {
-					$message_ttl = "Product model " . $product_info['model'] . " " . $this->language->get('text_qty') . "0";
-					$message_txt = $product_info['name'] . " - " .sprintf($this->language->get('text_minimum'), 0);
-					$message_txt .= "<br> Product id " . $product_info['product_id'] . " is auto disabled!"; 
+					//set available data
+					$pd_identifiers = "ID: " . $product_id;
+					$pd_identifiers .= (empty($product_info['model']) ? '' : " Model: " . $product_info['model']);
+					$pd_identifiers .= (empty($product_info['sku']) ? '' :  " SKU: " . $product_info['sku']);					
+					$message_ttl = sprintf($this->language->get('notice_out_of_stock_ttl'), $product_info['name']);
+					$message_txt = sprintf($this->language->get('notice_out_of_stock_body'), $product_info['name'], $pd_identifiers);
 					//record to message box
 	            	$msg = new AMessage();
 	            	$msg->saveNotice( $message_ttl, $message_txt);

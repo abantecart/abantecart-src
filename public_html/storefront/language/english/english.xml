@@ -152,4 +152,12 @@
 		<key>button_guest</key>
 		<value><![CDATA[Guest Checkout]]></value>
 	</definition>
+	<definition>
+		<key>notice_out_of_stock_ttl</key>
+		<value><![CDATA[Out of stock notice for: %s]]></value>
+	</definition>
+	<definition>
+		<key>notice_out_of_stock_body</key>
+		<value><![CDATA[Product "%s" has reached zero or negative stock count for main product or all options. <br> As a result of autodisable setting, product (%s) was auto disabled!]]></value>
+	</definition>	
 </definitions>
