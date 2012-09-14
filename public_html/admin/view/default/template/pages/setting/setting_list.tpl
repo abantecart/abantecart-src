@@ -85,7 +85,7 @@ function openEditDiag(id) {
 
 			CKEditor('add');
 
-            $('#cgFrm_cancel').bind('click',function(){
+            $('#cgFrm_cancel').live('click',function(){
                 $('#edit_dialog').dialog("close");
             });
         }
