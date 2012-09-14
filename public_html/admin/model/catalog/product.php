@@ -295,6 +295,7 @@ class ModelCatalogProduct extends Model {
 		if (isset($data['product_download'])) {
 			$this->db->query("DELETE FROM " . DB_PREFIX . "products_to_downloads WHERE product_id = '" . (int)$product_id . "'");
 			foreach ($data['product_download'] as $download_id) {
+				if((int)$download_id)
 				$this->db->query("INSERT INTO " . DB_PREFIX . "products_to_downloads SET product_id = '" . (int)$product_id . "', download_id = '" . (int)$download_id . "'");
 			}
 		}
@@ -302,6 +303,7 @@ class ModelCatalogProduct extends Model {
 		if (isset($data['product_category'])) {
 			$this->db->query("DELETE FROM " . DB_PREFIX . "products_to_categories WHERE product_id = '" . (int)$product_id . "'");
 			foreach ($data['product_category'] as $category_id) {
+				if((int)$category_id)
 				$this->db->query("INSERT INTO " . DB_PREFIX . "products_to_categories SET product_id = '" . (int)$product_id . "', category_id = '" . (int)$category_id . "'");
 			}
 		}
@@ -309,9 +311,11 @@ class ModelCatalogProduct extends Model {
 		if (isset($data['product_related'])) {
 			$this->db->query("DELETE FROM " . DB_PREFIX . "products_related WHERE product_id = '" . (int)$product_id . "'");
 			foreach ($data['product_related'] as $related_id) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "products_related SET product_id = '" . (int)$product_id . "', related_id = '" . (int)$related_id . "'");
-				$this->db->query("DELETE FROM " . DB_PREFIX . "products_related WHERE product_id = '" . (int)$related_id . "' AND related_id = '" . (int)$product_id . "'");
-				$this->db->query("INSERT INTO " . DB_PREFIX . "products_related SET product_id = '" . (int)$related_id . "', related_id = '" . (int)$product_id . "'");
+				if((int)$related_id){
+					$this->db->query("INSERT INTO " . DB_PREFIX . "products_related SET product_id = '" . (int)$product_id . "', related_id = '" . (int)$related_id . "'");
+					$this->db->query("DELETE FROM " . DB_PREFIX . "products_related WHERE product_id = '" . (int)$related_id . "' AND related_id = '" . (int)$product_id . "'");
+					$this->db->query("INSERT INTO " . DB_PREFIX . "products_related SET product_id = '" . (int)$related_id . "', related_id = '" . (int)$product_id . "'");
+				}
 			}
 		}
         $this->cache->delete('product');
