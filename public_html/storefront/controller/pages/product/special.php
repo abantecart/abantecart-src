@@ -82,9 +82,9 @@ class ControllerPagesProductSpecial extends AController {
 			$this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
 
 			$results = $promoton->getProductSpecials($sort,
-			                                                            $order,
-			                                                            ($page - 1) * $this->config->get('config_catalog_limit'),
-			                                                            $this->config->get('config_catalog_limit'));
+			                                         $order,
+			                                         ($page - 1) * $limit,
+													 $limit);
 			$resource = new AResource('image');
             foreach ($results as $result) {
 

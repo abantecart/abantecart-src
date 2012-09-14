@@ -60,6 +60,13 @@ class ControllerPagesAccountDownload extends AController {
 			$download_total =0;
 		}
 
+		if (isset($this->request->get['limit'])) {
+	        $limit = (int)$this->request->get['limit'];
+	        $limit = $limit>50 ? 50 : $limit;
+	    } else {
+	        $limit = $this->config->get('config_catalog_limit');
+	    }
+
 		if ($download_total) {
 
 			if (isset($this->request->get['page'])) {
@@ -70,7 +77,7 @@ class ControllerPagesAccountDownload extends AController {
 	
 			$downloads = array();
 			
-			$results = $this->model_account_download->getDownloads(($page - 1) * $this->config->get('config_catalog_limit'), $this->config->get('config_catalog_limit'));
+			$results = $this->model_account_download->getDownloads(($page - 1) * $limit, $limit);
 			$k=0;
 			foreach ($results as $result) {
 				$result['filename'] = trim($result['filename']);
@@ -117,7 +124,7 @@ class ControllerPagesAccountDownload extends AController {
 			$pagination = new APagination();
 			$pagination->total = sizeof($downloads);
 			$pagination->page = $page;
-			$pagination->limit = $this->config->get('config_catalog_limit');
+			$pagination->limit = $limit;
 			$pagination->text = $this->language->get('text_pagination');
 			$pagination->text_limit = $this->language->get('text_per_page');
 			$pagination->url = $this->html->getURL('account/download&page={page}');
