@@ -46,8 +46,14 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
         $setting = explode( '-', $this->request->get['active'] );
         $group = $setting[0];
         $setting_key = $setting[1];
-        $store_id = !isset($this->request->get['store_id']) ? $setting[2] : $this->request->get['store_id'];
-	    $this->request->get['active'] = $group.'-'.$setting_key.'-'.$store_id;
+	    $store_id = !isset($this->request->get['store_id']) ? $setting[2] : $this->request->get['store_id'];
+
+	    if(is_int(strpos($setting_key,'config_description'))){
+	        $setting_key = substr($setting_key,0,strrpos($setting_key,'_'));
+		    $this->request->get['active'] = $group.'-'.$setting[1].'-'.$store_id;
+        }else{
+	        $this->request->get['active'] = $group.'-'.$setting_key.'-'.$store_id;
+	    }
 
         $this->document->setTitle($this->language->get('heading_title'));
         if (($this->request->server['REQUEST_METHOD'] == 'POST' && $this->_validateForm($group)) ) {

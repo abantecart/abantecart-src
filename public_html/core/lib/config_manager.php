@@ -857,7 +857,8 @@ class AConfigManager {
     private function _filterField($fields, $props, $field_name ){
         $output = array();
         foreach($props as $n=>$properties){
-            if($field_name == $properties['name']){
+            if($field_name == $properties['name']
+		       || ( is_int(strpos($field_name,'config_description')) && is_int(strpos($properties['name'],'config_description')))){
                 $names = array_keys($fields);
                 $name = $names[$n];
                 $output = array($name => $fields[$name]);

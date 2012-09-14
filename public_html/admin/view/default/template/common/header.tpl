@@ -262,7 +262,7 @@
 
                 }
             });
-
+	        CKEditor('destroy');
 
             // spinner
             $("#suggest_popup_dialog").html('<div class="progressbar">Loading ...</div>');
@@ -284,7 +284,8 @@
 		                                $.getJSON(item.controller +'&target=suggest_popup_dialog&store_id=' + $(this).val(),
 		                                    function (response) {
 		                                        $('#suggest_popup_dialog').html(response.html);
-		                                        CKEditor('add');
+			                                    CKEditor('destroy');
+			                                    CKEditor('add');
 		                                    });
 		                            });
 	                }
