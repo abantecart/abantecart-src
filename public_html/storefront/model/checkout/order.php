@@ -156,8 +156,9 @@ class ModelCheckoutOrder extends Model {
 								price = '" . (float)$product['price'] . "',
 								total = '" . (float)$product['total'] . "',
 								tax = '" . (float)$product['tax'] . "',
-								quantity = '" . (int)$product['quantity'] . "'");
- 
+								quantity = '" . (int)$product['quantity'] . "',
+								subtract = '" . (int)$product['stock'] . "'");
+
 			$order_product_id = $this->db->getLastId();
 
 			foreach ($product['option'] as $option) {
