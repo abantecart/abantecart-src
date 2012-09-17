@@ -317,9 +317,9 @@ if ($custom_buttons) {
                     {
                         reloadAfterSubmit:true,
                         beforeShowForm:function ($form) {
+                            $("td.delmsg", $form[0]).html("<?php echo $text_delete_confirm ?>");
                             var dlgDiv = $("#delmod" + _table_id);
                             var parentDiv = $(table_id + '_wrapper');
-
                             $('#dData', dlgDiv).show();
 
                             selRowId = $(table_id).jqGrid('getGridParam', 'selrow'),
@@ -335,6 +335,12 @@ if ($custom_buttons) {
                                 return [false, response.responseText];
                             } else {
                                 return [true, ''];
+                            }
+                        },
+                        errorTextFormat:function (response, postdata) {
+                            if (response.responseText != '') {
+                            	var error_obj = eval('(' + response.responseText + ')');
+                            	$("td.ui-state-error").html(error_obj.error_text);
                             }
                         }
                     }

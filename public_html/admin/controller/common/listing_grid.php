@@ -98,6 +98,7 @@ class ControllerCommonListingGrid extends AController {
 
         $this->view->assign('data', $this->data);
 
+        $this->view->assign('text_delete_confirm', $this->language->get('text_delete_confirm'));
         $this->view->assign('text_choose_action', $this->language->get('text_choose_action'));
         if (!$this->data['multiaction_options']) {
             $multiaction_options['delete'] = $this->language->get('text_delete_selected');
