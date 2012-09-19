@@ -437,11 +437,21 @@ final class ALanguage {
 	    $sql .= "(language_id,block,section,language_key,language_value,create_date) VALUES ";
 	    $values=array();
         foreach ($lang_defns as $k => $v) {
+            //preventing duplication sql-error by unique index
+            $check_array = array(
+                'language_id' => (int)$this->language_details['language_id'],
+                'block' => $this->db->escape( $block ),
+                'section' => $this->is_admin,
+                'language_key' => $this->db->escape($k),
+                'language_value' =>  $this->db->escape($v)
+            );
+            if($this->_isDefinitionInDb($check_array)){ continue;}
+
             $values[] = "('" . (int)$this->language_details['language_id'] . "',
-                          '" . $block . "',
+                          '" . $this->db->escape( $block ). "',
                           '" . $this->is_admin . "',
-                          '" . mysql_real_escape_string($k) . "',
-                          \"" . mysql_real_escape_string($v) . "\",
+                          '" . $this->db->escape($k) . "',
+                          '" . $this->db->escape($v) . "',
                           NOW() )";
         }
 	    $sql = $sql . implode(', ',$values);
@@ -614,13 +624,15 @@ final class ALanguage {
 				$update_data[$this->db->escape($key)] = "'" . $this->db->escape($val) . "'";
 			}
 
-			$sql = "INSERT INTO " . DB_PREFIX . "language_definitions
-							(".implode(', ',array_keys($update_data)).")
-							VALUES (".implode(', ', $update_data).") ";
-			$this->db->query($sql);
-			$this->cache->delete('lang');
-			$this->cache->delete('language_definitions');
-			$this->cache->delete('storefront_menu');
+            if(!$this->_isDefinitionInDb($update_data)){
+                $sql = "INSERT INTO " . DB_PREFIX . "language_definitions
+                                (".implode(', ',array_keys($update_data)).")
+                                VALUES (".implode(', ', $update_data).") ";
+                $this->db->query($sql);
+                $this->cache->delete('lang');
+                $this->cache->delete('language_definitions');
+                $this->cache->delete('storefront_menu');
+            }
 		}
 		$this->registry->get('messages')->saveNotice('Language definition "'. $data['language_key'].'" was added into database for "'.$this->available_languages[$this->code]['name'].'" language',
 		                                             'Language definition with key "'.$data['language_key'].'" and block "'.$data['block'].'" was automatically added  into database as missed.
@@ -694,31 +706,31 @@ final class ALanguage {
 	    		if ($check_query->num_rows <= 0) {
 	    			ADebug::variable('class ALanguage missing language data: ', $sql1);
 	    			//we have no data, clone it
-	    			$insert_flds = '';
-	    			$insert_str = '';
+                    $insert_data = array();
 	    			$origin_query = $this->db->query($sql2);
 	    			foreach ($origin_query->rows as $drow) {
 		    			foreach ($drow as $fld_name => $value) {
-		    				if ( !empty($insert_flds) ) {
-		    					$insert_flds .= ", ";
-		    					$insert_str .= ", ";
-		    				}
 		    				if ( $fld_name == 'language_id') {
 		    					$value = $new_language;
 		    				}
 		    				if ( $fld_name == $auto_column) {
 		    					$value = '';
 		    				}
-
-		    				$insert_flds .= $fld_name;
-		    				$insert_str .= "'" . $this->db->escape($value) . "'";
+                            $insert_data[$fld_name] = $this->db->escape($value);
 		    			}
 	    			}
 
 	    			if ( !empty($insert_flds) && !empty($insert_str) ) {
-						$insrt_sql = "INSERT INTO " . $table . "(" . $insert_flds . ") VALUES (" . $insert_str . ")";
+						$insrt_sql = "INSERT INTO " . $table . "(" . implode(',',array_keys($insert_data)) . ") VALUES ('" . implode("','",$insert_data) . "')";
 						ADebug::variable('class ALanguage cloning data: ', $insrt_sql);
-						$this->db->query($insrt_sql);
+
+                        if($table==DB_PREFIX.'language_definitions'){
+                            if( !$this->_isDefinitionInDb($insert_data) ) {
+                                $this->db->query($insrt_sql);
+                            }
+                        } else{
+						    $this->db->query($insrt_sql);
+                        }
 						$tcount++;
 					}
 	    		}
@@ -760,6 +772,18 @@ final class ALanguage {
 	        $pkeys[] = $value['Column_name'];
 	    }	
 		return $pkeys;  
+    }
+
+    private function _isDefinitionInDb($data){
+        $sql = "SELECT *
+                     FROM " . DB_PREFIX . "language_definitions
+                     WHERE language_id = '" . $data['language_id'] . "'
+                           AND  block = '" . $data['block'] . "'
+                           AND section =  '" . $data['section'] . "'
+                           AND language_key =  '" . $data['language_key'] . "'
+                           AND language_value =  '" . $data['language_value'] . "'";
+        $exist = $this->db->query($sql);
+        return ($exist->num_rows ? true : false);
     }
         
 }
