@@ -1,3 +1,93 @@
+Release Notes: Version 1.1.0
+
+Core:
+- stock track autodisabling bugfix for products without options
+- language issue fix for api requests
+- tax rate description now not required field. If it not set tax_class title will be taken. Tax class cache issue fix. Minor mailing bugfix.
+- orders total's type added.
+- recommended memory_limit increased up to 128Mb in php.ini
+- orders total's type added.
+- Alog improves added.
+- block wrapper processing and management added. Old block wrapper form field renamed to "block framed"
+- "no_image" issue fixed.
+- promotion extension related changes added.
+- cache file with store's settings renamed to "settings.store". cache cleaning for it changed.
+- ajax responses changed for wrong data of requests. Now sends 406 http-status code with json formatted string instead plain text.
+- subcategories custom layout bugfix
+- Cart Class performance improvement. Reduce load on repetitive requests
+- Organized config settings into config manager. Cleaning init.php and move config load to AConfig class constructor
+
+Control Panel:
+- minor bug fix
+- product-to-category saving bugfix
+- Fix for stock tracking functionality for options. Cleanup.
+- Setting product model as not required data
+- Conditions to display stock and model
+- Improvements and bug fixes to parent/child attributes.
+- quick edit settings js-bugfix
+- Fixed form for creation new user for admin panel.
+- js-number formatting disabled
+- minor bug fix
+- IE related js bugfixes
+- IE memory leak fix with jqgrid.
+- Menu language loading set to silent mode
+- reports->sale sorting bugfix.
+- coupon form now contain info about total coupon usage. Extension: paypal pro & paypal pro uk bugfix.
+- quicksave added for order details fields
+- extension edit form changes. Required mark added for form fields.
+- mail send added for customer approvment( save and quicksave)
+- product option value's resource processing bugfix
+- permission related changes.
+- multistore cache bugfix
+- settings changes
+- settings grid now have quick edit dialog
+- form multivalue field ui bugfix
+- submit form preventing added for "quicksave" by js
+- search suggests bugfixes
+- form submitting by ajax bugfix
+- config changes for listing limits
+- Add permission wrapper methods canAccess and canModify. Add JSON error handler to generic error class
+- ui minor bugfixes
+- Fix storefront (admin) to be centered if fixed width storefront setting is used. - cart ajax switcher added to settings. Storefront: added response controller for adding products without any options to cart directly from listing by ajax (if ajax cart enabled in the settings) Core: columns "ssl" and "url" removed from table "stores".
+- design/blocks tab link bugfix
+- new parameter "default numbers of rows for all grids" added in settings.
+- Banner manager now installed by default
+- location zones edit bugfix.
+- Aconnect changed. Now works in php safe mode. Package installer minor fixes.
+- jquery upgraded to 1.7.2 - jquery-ui upgraded to 1.8.22 - custom css for jqgrid and jquery ui elements now placed in stylesheet folder.
+- quick suggestions added for global search input field.
+- message manager grid batch deleting bugfix
+- extension list changes. message for broken extension was added.
+- blocks grid changed. Filtering and stats added.
+- error log file now shows only last 500 Kb in system->logs->error log menu.
+- small fix for getOrderStatuses
+- Fixed spanish translations of order statuses on system->localization->order statuses page.
+- Fixed texts on buttons in message popup window.
+- location zones list rebuilded by jqgrid. Layout form and product options list ui-bugfix.
+- installation package warning message extended.
+- added function to use array as needle in strpos function
+- Added hook for Admin Quick Menu extension. Made variable $admin_menu accessable from extensions.
+- Added extensions filter by store in the grid
+- Adding Grid Tree listing for parent / child data
+- Update to settings and store section
+- Stock Quantity request for storefront API
+- Improvement, bug fix and clean up to Import/export
+- Layout saving improvement to preserve location of blocks. Hide section if missing in layout
+- Fixed javascript error "jq_model[index] is undefined". Var algn will be set to 'middle' if jq_model[index] is undefined.
+- Add warning on page leaving if form is edited.
+
+Storefront:
+- featured product list bugfix. Now selects only enabled products.
+- Pagination bugfix
+- product page additional image full size bugfix
+- Hook var hk_html_attribute added to page.tpl. This is to add attributes to HTML tag for pages
+- various ui bugfixes
+- Improve language and currency selector
+
+Extensions:
+- Paypal standart. Checks for malicious orders added. Fix for permission error in the listing grid
+
+
 Release Notes: Version 1.0.4
 
 Core:
