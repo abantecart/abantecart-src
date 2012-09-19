@@ -76,8 +76,10 @@ final class ABackup {
 		if(!file_exists($backupFile)){
 			$this->error = "Error: Can't create sql dump of database during backup";
 			$this->log->write($this->error);
-			$this->message->saveError('Backup Error',$this->error);
-			return false;
+			$this->message->saveError('SQL-Backup Error',$this->error);
+            if(isFunctionAvailable('system')){
+			    return false;
+            }
 		}
 		chmod($backupFile,0777);
 		return true;

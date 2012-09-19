@@ -597,6 +597,11 @@ class ControllerPagesToolPackageInstaller extends AController {
 
         if ($this->session->data['package_info']['package_content']['core']) { // for cart upgrade)
             $result = $this->_upgradeCore();
+            if($result===false){
+                $this->_removeTempFiles();
+                unset($this->session->data[ 'package_info' ]);
+                $this->redirect($this->html->getSecureURL('tool/package_installer'));
+            }
         }
 
         if ($result === true) { // if all  was installed
@@ -754,6 +759,7 @@ class ControllerPagesToolPackageInstaller extends AController {
             $backup_dirname = $backup->getBackupName();
             if ($backup_dirname) {
                 if (!$backup->dumpDatabase()) {
+                    $this->session->data[ 'error' ] = $backup->error;
                     return false;
                 }
                 if (!$backup->archive(DIR_BACKUP . $backup_dirname . '.tar.gz', DIR_BACKUP, $backup_dirname)) {
@@ -772,6 +778,7 @@ class ControllerPagesToolPackageInstaller extends AController {
                 'type' => 'backup',
                 'user' => $this->user->getUsername()));
         } else {
+            $this->session->data[ 'error' ] = $backup->error;
             return false;
         }
 
