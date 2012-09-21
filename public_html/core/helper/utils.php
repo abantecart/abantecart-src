@@ -80,3 +80,26 @@ function SEOEncode( $string_value ){
 function echo_array( $array_data ) {
 	echo "<pre> $sub_table_name: ";print_r( $array_data );echo'</pre>';
 }
+
+
+/*
+ * returns list of files from directory with subdirectories
+ */
+
+function getFilesInDir($dir, $file_ext = '') {
+    if(!is_dir($dir)) return false;
+    $dir = rtrim($dir, '\\/');
+    $result = array();
+
+    foreach (glob("$dir/*") as $f) {
+        if (is_dir($f)) {    // if is directory
+            $result = array_merge($result, getFilesInDir($f, $file_ext));
+        } else {
+            if($file_ext && substr($f,-3)!=$file_ext){
+                continue;
+            }
+            $result[] = $f;
+        }
+    }
+    return $result;
+}

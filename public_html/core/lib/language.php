@@ -26,6 +26,7 @@ final class ALanguage {
     public $language_details;
     public $current_languages_scope = array(); //This is and array of available languages for calling scope
     public $is_admin = 0;
+    public $error='';
        
     private $code = '';
     private $db;
@@ -39,7 +40,7 @@ final class ALanguage {
 
     public function __construct($registry, $code = '', $section = '') {
         $this->registry = $registry;
-        if ($section == ''){
+        if ($section === ''){
         	$this->is_admin = ((!defined('IS_ADMIN') || !IS_ADMIN) ? 0 : 1);
         } else {
         	$this->is_admin = $section;
@@ -47,7 +48,7 @@ final class ALanguage {
         if ( $this->is_admin ) {
         	$this->language_path = DIR_ROOT . '/admin/language/';
         } else {
-        	$this->language_path = DIR_ROOT . '/storefront/language/';        
+        	$this->language_path = DIR_ROOT . '/storefront/language/';
         }
                 
 		//Load available languages;
@@ -510,10 +511,10 @@ final class ALanguage {
 
         if ( file_exists($file_path) ) {
             ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' loading XML file '. $file_path);
-        	$definitions = $this->_read_xml_file( $file_path );
+        	$definitions = $this->ReadXmlFile( $file_path );
         } else if ( file_exists($default_file_path) ) {
             ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' loading XML file '. $default_file_path);
-        	$definitions = $this->_read_xml_file( $default_file_path );
+        	$definitions = $this->ReadXmlFile( $default_file_path );
         }
 
 		//skip if not required and language file does not exist for silent mode.
@@ -524,7 +525,7 @@ final class ALanguage {
         return $definitions;
     }
 
-	private function _read_xml_file ( $file ) {
+	public function ReadXmlFile ( $file ) {
 		$definitions = array();
         if (file_exists($file) ) {
             $xml = simplexml_load_file($file);
@@ -785,5 +786,207 @@ final class ALanguage {
         $exist = $this->db->query($sql);
         return ($exist->num_rows ? true : false);
     }
-        
+    /*
+     * method for reloading definitions from xml-file to database
+     */
+
+    /**
+     * @param $language_id // if 0 - all languages
+     * @param string $section  // 1 or 0 - admin or storefront
+     * @param string $block   // name of block
+     * @param string $mode  //mode can be the types: overwrite, combine
+     */
+    public function reloadDefinitionsFromDb( $language_id=0, $section='all', $block='all', $mode='combine', $language_key=''){
+
+        if( !is_int($language_id) ) {
+            $this->error = 'Can\'t to reload definitions when language id is not integer ("'.$language_id.'").';
+            return false;
+        }
+        if( !in_array($section,array(1,0,'all') ) ) {
+            $this->error = 'Can\'t to reload definitions when section is not in array( 1, 0, "all" ).';
+            return false;
+        }
+        $sections = $section=='all' ? array('admin','storefront') : ($section ? array('admin') : array('storefront'));
+        if( !in_array($mode,array('combine','overwrite') ) ) {
+            $this->error = 'Can\'t to reload definitions when mode is unknown("'.$mode.'"). Only "combine" or "overwrite" are permitted.';
+            return false;
+        }
+
+
+        foreach($this->available_languages as $lang){
+             if($language_id && $language_id!=$lang['language_id']) continue;
+             $language_ids[$lang['directory']] = $lang['language_id'];
+             $language_codes[$lang['directory']] = $lang['code'];
+        }
+
+        if($mode='overwrite'){
+            // first of all delete from db and cache
+            $sql = "DELETE FROM ".DB_PREFIX."language_definitions ";
+            $sql .=" WHERE language_id IN ('".implode("', '",$language_ids)."') ";
+            if($language_key){
+                $sql .= "AND language_key='".$language_key."' ";
+            }
+            if($block!='all'){
+                $sql .= "AND block='".$this->db->escape($block)."' ";
+            }
+            if($section!='all'){
+                $sql .= "AND section='".(int)$section."' ";
+            }
+            $this->db->query($sql);
+            if(is_object($this->cache)){
+                $this->cache->delete('lang');
+                $this->cache->delete('language_definitions');
+                $this->cache->delete('storefront_menu');
+            }
+
+            foreach($language_ids as $lang_name=>$lang_id){
+                //get list of lang blocks for every language
+                if($block=='all'){
+                    if(($language_blocks = $this->_getAllLanguageBlocks($lang_name))===false){
+                        continue;
+                    }
+                }else{
+                    // create list of language blocks when $block is set
+                    $language_blocks = array();
+                    $blocks = $this->_getAllLanguageBlocks($lang_name);
+                    foreach($sections as $sect){
+                        foreach($blocks[$sect] as $file){
+                             if(str_replace('/','_',$file) == $block){
+                                 $language_blocks[$sect][] = $file;
+                                 break;
+                             }
+                        }
+                        foreach($blocks['extensions'][$sect] as $file){
+                            if(str_replace('/','_',$file) == $block){
+                                $language_blocks['extensions'][$sect][] = $file;
+                                break;
+                            }
+                        }
+                    }
+                }
+                foreach($sections as $sect){
+                    $alang = new ALanguage($this->registry, $language_codes[$lang_name],($sect=='admin'?1:0));
+                    if($block=='all'){ // load into db extensions definitions
+                         foreach($language_blocks['extensions'][$sect] as $file){
+                             $alang->load($file);
+                             if($language_key){
+                                 $alang->get($language_key);
+                             }
+                         }
+                    }
+                    // load into db core admin & storefront
+                    foreach($language_blocks[$sect] as $file){
+                        $alang->load($file);
+                        if($language_key){
+                            $alang->get($language_key);
+                        }
+                    }
+                }
+            }
+        }else{
+         // mode to adding new definitions into existing language block
+            foreach($language_ids as $lang_name=>$lang_id){
+                //get list of lang blocks for every language
+                if($block=='all'){
+                    if(($language_blocks = $this->_getAllLanguageBlocks($lang_name))===false){
+                        continue;
+                    }
+                }else{
+                    // create list of language blocks when $block is set
+                    $language_blocks = array();
+                    $blocks = $this->_getAllLanguageBlocks($lang_name);
+                    foreach($sections as $sect){
+                        foreach($blocks[$sect] as $file){
+                            if(str_replace('/','_',$file) == $block){
+                                $language_blocks[$sect][] = $file;
+                                break;
+                            }
+                        }
+                        foreach($blocks['extensions'][$sect] as $file){
+                            if(str_replace('/','_',$file) == $block){
+                                $language_blocks['extensions'][$sect][] = $file;
+                                break;
+                            }
+                        }
+                    }
+                }
+                foreach($sections as $sect){
+                    $alang = new ALanguage($this->registry, $language_codes[$lang_name],($sect=='admin'?1:0));
+                    if($block=='all'){ // load into db extensions definitions
+                        foreach($language_blocks['extensions'][$sect] as $file){
+                            $alang->load($file);
+                            $lang_keys = $alang->ReadXmlFile($file);
+                            if($language_key && in_array($language_key,array_keys($lang_keys))){
+                                $alang->get($language_key);
+                            }else{
+                                foreach($lang_keys as $k=>$v){
+                                    $alang->get($k);
+                                }
+                            }
+                        }
+                    }
+                    // load into db core admin & storefront
+                    foreach($language_blocks[$sect] as $file){
+                        $alang->load($file);
+                        $lang_keys = $alang->ReadXmlFile($file);
+                        if($language_key && in_array($language_key,array_keys($lang_keys))){
+                            $alang->get($language_key);
+                        }else{
+                            foreach($lang_keys as $k=>$v){
+                                $alang->get($k);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    private function _getAllLanguageBlocks($language_name='english'){
+        if(empty($language_name)){
+            $this->error = "Can't get language blocks because language name is empty.";
+            return false;
+        }
+        $result = array('admin'=>array(),
+                        'storefront'=>array(),
+                        'extensions'=>array('admin'=>array(),
+                                            'storefront'=>array())
+                        );
+        // admin
+        $lang_dir = DIR_LANGUAGE.$language_name;
+        $xml_files = getFilesInDir($lang_dir,'xml');
+        foreach($xml_files as $file){
+           $result['admin'][] = str_replace('.xml','',str_replace($lang_dir.'/','',$file));
+        }
+        //storefront
+        $lang_dir = DIR_STOREFRONT.'language/'.$language_name;
+        $xml_files = getFilesInDir($lang_dir,'xml');
+        foreach($xml_files as $file){
+            $result['storefront'][] = str_replace('.xml','',str_replace($lang_dir.'/','',$file));
+        }
+
+        // extensions
+        $extensions_dirs = glob ( DIR_EXT.'*',GLOB_ONLYDIR);
+
+        foreach($extensions_dirs as $extension_dir){
+            //$extension_name = pathinfo($extension_dir,PATHINFO_BASENAME);
+            $lang_dir = $extension_dir.'/admin/language/'.$language_name;
+            if(is_dir($lang_dir)){
+                $xml_files = getFilesInDir($lang_dir,'xml');
+                foreach($xml_files as $file){
+                    $result['extensions']['admin'][] = str_replace('.xml','',str_replace($lang_dir.'/','',$file));
+                }
+            }
+
+            $lang_dir = $extension_dir.'/storefront/language/'.$language_name;
+            if(is_dir($lang_dir)){
+                $xml_files = getFilesInDir($lang_dir,'xml');
+                foreach($xml_files as $file){
+                    $result['extensions']['storefront'][] = str_replace('.xml','',str_replace($lang_dir.'/','',$file));
+                }
+            }
+        }
+        return $result;
+    }
 }

@@ -152,6 +152,7 @@ require_once(DIR_CORE . 'engine/form.php');
 require_once(DIR_CORE . 'engine/extensions.php');
 
 require_once(DIR_CORE . 'helper/html.php');
+require_once(DIR_CORE . 'helper/utils.php');
 
 // Include library files
 require_once(DIR_CORE . 'lib/cache.php');
