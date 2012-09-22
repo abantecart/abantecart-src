@@ -106,10 +106,12 @@ final class AConfig {
 		
 		//detect URL for the store
 		$url = str_replace('www.', '', $_SERVER['HTTP_HOST']) . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/';
-
+        if(defined('INSTALL')){
+            $url = str_replace('install/','',$url);
+        }
 		// if storefront and not default store
 		// try to load setting for given url
-		if (!( $this->cnfg['config_url'] == 'http://'.$url || $this->cnfg['config_url'] == 'http://www.'.$url ) ) {
+		if (!( $this->cnfg['config_url'] == 'http://'.$url || $this->cnfg['config_url'] == 'http://www.'.$url )) {
 		    $cache_name = 'settings.store.'.md5('http://'.$url);
 		   	$store_settings = $cache->force_get($cache_name);
 		   	if ( empty($store_settings) ) {
@@ -123,6 +125,7 @@ final class AConfig {
 		                                               OR `value` = '" . $db->escape('http://'.$url) . "')
 		                                   LIMIT 0,1)
 		   					AND st.status = 1 AND e.extension_id IS NULL";
+
 		   		$query = $db->query($sql);
 		   		$store_settings = $query->rows;
 		   		$cache->force_set( $cache_name, $store_settings);

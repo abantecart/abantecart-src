@@ -55,7 +55,7 @@ require_once( DIR_CORE . 'lib/error.php');
 require_once( DIR_CORE . 'lib/warning.php');
 
 // relative paths for extensions
-define('DIR_EXT', DIR_ROOT . '/extensions/');
+define('DIR_EXT', DIR_ABANTECART . 'extensions/');
 define('DIR_EXT_CORE', '/core/');
 define('DIR_EXT_STORE', '/storefront/');
 define('DIR_EXT_ADMIN', '/admin/');

@@ -882,7 +882,7 @@ final class ALanguage {
                          if($filename!='all' && $rt != $filename){
                              continue;
                          }
-                         $alang->load($rt);
+                         $alang->load($rt,'silent');
                          if($language_key){
                              $alang->get($language_key);
                          }
@@ -890,7 +890,7 @@ final class ALanguage {
 
                     // load into db core admin & storefront
                     foreach($language_blocks[$sect] as $rt){
-                        $alang->load($rt);
+                        $alang->load($rt,'silent');
                         if($language_key){
                             $alang->get($language_key);
                         }
@@ -931,7 +931,7 @@ final class ALanguage {
                         if($filename!='all' && $rt != $filename){
                             continue;
                         }
-                        $alang->load($rt);
+                        $alang->load($rt,'silent');
                         $lang_keys = $alang->ReadXmlFile($rt);
                         if($language_key && in_array($language_key,array_keys($lang_keys))){
                             $alang->get($language_key);
@@ -944,7 +944,7 @@ final class ALanguage {
 
                     // load into db core admin & storefront
                     foreach($language_blocks[$sect] as $rt){
-                        $alang->load($rt);
+                        $alang->load($rt,'silent');
                         $lang_keys = $alang->ReadXmlFile($rt);
                         if($language_key && in_array($language_key,array_keys($lang_keys))){
                             $alang->get($language_key);

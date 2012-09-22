@@ -88,6 +88,27 @@ class ModelInstall extends Model {
         $cache = new ACache();
         $cache->delete('*');
 
-	}	
+	}
+    public function getLanguages() {
+
+        $query = $this->db->query( "SELECT *
+                                    FROM " . DB_PREFIX . "languages
+                                    ORDER BY sort_order, name");
+
+        foreach ($query->rows as $result) {
+            $language_data[$result['code']] = array(
+                'language_id' => $result['language_id'],
+                'name'        => $result['name'],
+                'code'        => $result['code'],
+                'locale'      => $result['locale'],
+                'directory'   => $result['directory'],
+                'filename'    => $result['filename'],
+                'sort_order'  => $result['sort_order'],
+                'status'      => $result['status']
+            );
+        }
+
+    return $language_data;
+    }
 }
 ?>
