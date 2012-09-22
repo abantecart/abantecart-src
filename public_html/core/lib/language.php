@@ -45,18 +45,26 @@ final class ALanguage {
         } else {
         	$this->is_admin = $section;
         }
+        $root_path = defined(INSTALL) ? DIR_ABANTECART : DIR_ROOT.'/';
         if ( $this->is_admin ) {
-        	$this->language_path = DIR_ROOT . '/admin/language/';
+        	$this->language_path = $root_path . 'admin/language/';
         } else {
-        	$this->language_path = DIR_ROOT . '/storefront/language/';
+        	$this->language_path = $root_path . 'storefront/language/';
         }
                 
 		//Load available languages;
 	    $this->loader = $registry->get('load');
-	    $result = $this->loader->model('localisation/language','silent');
+
+        $result = $this->loader->model('localisation/language','silent');
         if($result!==FALSE){
             $model = $registry->get('model_localisation_language');
             $this->available_languages = $model->getLanguages();
+        } else{
+            if(defined('INSTALL')){
+                $this->loader->model('install','silent');
+                $model = $registry->get('model_install');
+                $this->available_languages = $model->getLanguages();
+            }
         }
 
 		//If No language code, need Language Detection, set site language to use and set content language separately
@@ -446,7 +454,7 @@ final class ALanguage {
                 'language_key' => $this->db->escape($k),
                 'language_value' =>  $this->db->escape($v)
             );
-            if($this->_isDefinitionInDb($check_array)){ continue;}
+            if($this->_is_definition_in_db($check_array)){ continue;}
 
             $values[] = "('" . (int)$this->language_details['language_id'] . "',
                           '" . $this->db->escape( $block ). "',
@@ -625,7 +633,7 @@ final class ALanguage {
 				$update_data[$this->db->escape($key)] = "'" . $this->db->escape($val) . "'";
 			}
 
-            if(!$this->_isDefinitionInDb($update_data)){
+            if(!$this->_is_definition_in_db($update_data)){
                 $sql = "INSERT INTO " . DB_PREFIX . "language_definitions
                                 (".implode(', ',array_keys($update_data)).")
                                 VALUES (".implode(', ', $update_data).") ";
@@ -726,7 +734,7 @@ final class ALanguage {
 						ADebug::variable('class ALanguage cloning data: ', $insrt_sql);
 
                         if($table==DB_PREFIX.'language_definitions'){
-                            if( !$this->_isDefinitionInDb($insert_data) ) {
+                            if( !$this->_is_definition_in_db($insert_data) ) {
                                 $this->db->query($insrt_sql);
                             }
                         } else{
@@ -775,7 +783,7 @@ final class ALanguage {
 		return $pkeys;  
     }
 
-    private function _isDefinitionInDb($data){
+    private function _is_definition_in_db($data){
         $sql = "SELECT *
                      FROM " . DB_PREFIX . "language_definitions
                      WHERE language_id = '" . $data['language_id'] . "'
@@ -793,25 +801,28 @@ final class ALanguage {
     /**
      * @param $language_id // if 0 - all languages
      * @param string $section  // 1 or 0 - admin or storefront
-     * @param string $block   // name of block
-     * @param string $mode  //mode can be the types: overwrite, combine
+     * @param string $filename   // name of block
+     * @param string $mode  //mode can be the types: update, add
      */
-    public function reloadDefinitionsFromDb( $language_id=0, $section='all', $block='all', $mode='combine', $language_key=''){
+    public function definitionAutoLoad( $language_id, $section, $filename, $mode='add', $language_key=''){
 
-        if( !is_int($language_id) ) {
-            $this->error = 'Can\'t to reload definitions when language id is not integer ("'.$language_id.'").';
+        if( !is_int($language_id) && $language_id!='all') {
+            $this->error = 'Can\'t to reload definitions when language id is unknown ("'.$language_id.'").';
             return false;
         }
-        if( !in_array($section,array(1,0,'all') ) ) {
+        if( !in_array($section,array(1,0,'all','admin','storefront'),true ) ) {
             $this->error = 'Can\'t to reload definitions when section is not in array( 1, 0, "all" ).';
             return false;
         }
-        $sections = $section=='all' ? array('admin','storefront') : ($section ? array('admin') : array('storefront'));
-        if( !in_array($mode,array('combine','overwrite') ) ) {
-            $this->error = 'Can\'t to reload definitions when mode is unknown("'.$mode.'"). Only "combine" or "overwrite" are permitted.';
+
+        if( !in_array($mode,array('add','update') ) ) {
+            $this->error = 'Can\'t to reload definitions when mode is unknown("'.$mode.'"). Only "add" or "update" are permitted.';
             return false;
         }
 
+        $sections = $section=='all' ? array('admin','storefront') : '';
+        $sections = in_array($section,array('admin',1),true) ? array('admin') : $sections;
+        $sections = in_array($section,array('storefront',0),true) ? array('storefront') : $sections;
 
         foreach($this->available_languages as $lang){
              if($language_id && $language_id!=$lang['language_id']) continue;
@@ -819,15 +830,15 @@ final class ALanguage {
              $language_codes[$lang['directory']] = $lang['code'];
         }
 
-        if($mode='overwrite'){
+        if($mode='update'){
             // first of all delete from db and cache
             $sql = "DELETE FROM ".DB_PREFIX."language_definitions ";
             $sql .=" WHERE language_id IN ('".implode("', '",$language_ids)."') ";
             if($language_key){
                 $sql .= "AND language_key='".$language_key."' ";
             }
-            if($block!='all'){
-                $sql .= "AND block='".$this->db->escape($block)."' ";
+            if($filename!='all'){
+                $sql .= "AND block='".$this->db->escape(str_replace('/','_',$filename))."' ";
             }
             if($section!='all'){
                 $sql .= "AND section='".(int)$section."' ";
@@ -841,24 +852,24 @@ final class ALanguage {
 
             foreach($language_ids as $lang_name=>$lang_id){
                 //get list of lang blocks for every language
-                if($block=='all'){
-                    if(($language_blocks = $this->_getAllLanguageBlocks($lang_name))===false){
+                if($filename=='all'){
+                    if(($language_blocks = $this->_get_all_language_blocks($lang_name))===false){
                         continue;
                     }
                 }else{
                     // create list of language blocks when $block is set
                     $language_blocks = array();
-                    $blocks = $this->_getAllLanguageBlocks($lang_name);
+                    $blocks = $this->_get_all_language_blocks($lang_name);
                     foreach($sections as $sect){
-                        foreach($blocks[$sect] as $file){
-                             if(str_replace('/','_',$file) == $block){
-                                 $language_blocks[$sect][] = $file;
+                        foreach($blocks[$sect] as $rt){
+                             if($rt == $filename){
+                                 $language_blocks[$sect][] = $rt;
                                  break;
                              }
                         }
-                        foreach($blocks['extensions'][$sect] as $file){
-                            if(str_replace('/','_',$file) == $block){
-                                $language_blocks['extensions'][$sect][] = $file;
+                        foreach($blocks['extensions'][$sect] as $rt){
+                            if($rt == $filename){
+                                $language_blocks['extensions'][$sect][] = $rt;
                                 break;
                             }
                         }
@@ -866,17 +877,20 @@ final class ALanguage {
                 }
                 foreach($sections as $sect){
                     $alang = new ALanguage($this->registry, $language_codes[$lang_name],($sect=='admin'?1:0));
-                    if($block=='all'){ // load into db extensions definitions
-                         foreach($language_blocks['extensions'][$sect] as $file){
-                             $alang->load($file);
-                             if($language_key){
-                                 $alang->get($language_key);
-                             }
+                     // load into db extensions definitions
+                     foreach($language_blocks['extensions'][$sect] as $rt){
+                         if($filename!='all' && $rt != $filename){
+                             continue;
                          }
-                    }
+                         $alang->load($rt);
+                         if($language_key){
+                             $alang->get($language_key);
+                         }
+                     }
+
                     // load into db core admin & storefront
-                    foreach($language_blocks[$sect] as $file){
-                        $alang->load($file);
+                    foreach($language_blocks[$sect] as $rt){
+                        $alang->load($rt);
                         if($language_key){
                             $alang->get($language_key);
                         }
@@ -887,24 +901,24 @@ final class ALanguage {
          // mode to adding new definitions into existing language block
             foreach($language_ids as $lang_name=>$lang_id){
                 //get list of lang blocks for every language
-                if($block=='all'){
-                    if(($language_blocks = $this->_getAllLanguageBlocks($lang_name))===false){
+                if($filename=='all'){
+                    if(($language_blocks = $this->_get_all_language_blocks($lang_name))===false){
                         continue;
                     }
                 }else{
                     // create list of language blocks when $block is set
                     $language_blocks = array();
-                    $blocks = $this->_getAllLanguageBlocks($lang_name);
+                    $blocks = $this->_get_all_language_blocks($lang_name);
                     foreach($sections as $sect){
-                        foreach($blocks[$sect] as $file){
-                            if(str_replace('/','_',$file) == $block){
-                                $language_blocks[$sect][] = $file;
+                        foreach($blocks[$sect] as $rt){
+                            if($rt == $filename){
+                                $language_blocks[$sect][] = $rt;
                                 break;
                             }
                         }
-                        foreach($blocks['extensions'][$sect] as $file){
-                            if(str_replace('/','_',$file) == $block){
-                                $language_blocks['extensions'][$sect][] = $file;
+                        foreach($blocks['extensions'][$sect] as $rt){
+                            if($rt == $filename){
+                                $language_blocks['extensions'][$sect][] = $rt;
                                 break;
                             }
                         }
@@ -912,23 +926,26 @@ final class ALanguage {
                 }
                 foreach($sections as $sect){
                     $alang = new ALanguage($this->registry, $language_codes[$lang_name],($sect=='admin'?1:0));
-                    if($block=='all'){ // load into db extensions definitions
-                        foreach($language_blocks['extensions'][$sect] as $file){
-                            $alang->load($file);
-                            $lang_keys = $alang->ReadXmlFile($file);
-                            if($language_key && in_array($language_key,array_keys($lang_keys))){
-                                $alang->get($language_key);
-                            }else{
-                                foreach($lang_keys as $k=>$v){
-                                    $alang->get($k);
-                                }
+                     // load into db extensions definitions
+                    foreach($language_blocks['extensions'][$sect] as $rt){
+                        if($filename!='all' && $rt != $filename){
+                            continue;
+                        }
+                        $alang->load($rt);
+                        $lang_keys = $alang->ReadXmlFile($rt);
+                        if($language_key && in_array($language_key,array_keys($lang_keys))){
+                            $alang->get($language_key);
+                        }else{
+                            foreach($lang_keys as $k=>$v){
+                                $alang->get($k);
                             }
                         }
                     }
+
                     // load into db core admin & storefront
-                    foreach($language_blocks[$sect] as $file){
-                        $alang->load($file);
-                        $lang_keys = $alang->ReadXmlFile($file);
+                    foreach($language_blocks[$sect] as $rt){
+                        $alang->load($rt);
+                        $lang_keys = $alang->ReadXmlFile($rt);
                         if($language_key && in_array($language_key,array_keys($lang_keys))){
                             $alang->get($language_key);
                         }else{
@@ -943,7 +960,7 @@ final class ALanguage {
         }
     }
 
-    private function _getAllLanguageBlocks($language_name='english'){
+    private function _get_all_language_blocks($language_name='english'){
         if(empty($language_name)){
             $this->error = "Can't get language blocks because language name is empty.";
             return false;
