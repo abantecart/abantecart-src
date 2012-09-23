@@ -21,6 +21,8 @@ WHERE `key` IN ('store_name',
                 'config_currency_auto', 
                 'config_length_class', 
                 'config_weight_class');
+UPDATE `ac_settings` SET `group` = 'details', `key` = 'store_name'
+WHERE `key` = 'config_name' AND `group` = 'custom_store';
 
 UPDATE `ac_settings` SET `group` = 'general'
 WHERE `key` IN (
@@ -113,6 +115,9 @@ ALTER TABLE `ac_stores` ADD COLUMN `alias` varchar(15) COLLATE utf8_bin NOT NULL
 
 ALTER TABLE `ac_stores` ADD COLUMN `status` int(1) NOT NULL;
 
+INSERT INTO `ac_stores` (`store_id`,`name`,`alias`,`status`) VALUES ('0','default','default',1);
+UPDATE `ac_stores` set `store_id`='0' WHERE `name` = 'default';
+
 ALTER TABLE `ac_stores` DROP COLUMN	`url`;
 
 ALTER TABLE `ac_stores` DROP COLUMN	`ssl`;
@@ -134,3 +139,27 @@ INSERT INTO `ac_settings` VALUES ('', 0, 'tax','tax_total_type','tax');
 INSERT INTO `ac_settings` VALUES ('', 0, 'shipping','shipping_total_type','shipping');
 INSERT INTO `ac_settings` VALUES ('', 0, 'handling','handling_total_type','fee');
 INSERT INTO `ac_settings` VALUES ('', 0, 'low_order_fee','low_order_fee_total_type','fee');
+
+
+DELETE FROM `ac_language_definitions`
+WHERE `section`='1'
+AND `block` IN ('english',
+                'spanish',
+                'catalog_attribute',
+                'catalog_product',
+                'common_header',
+                'common_resource_library',
+                'design_blocks',
+                'extension_extensions',
+                'localisation_tax_class',
+                'sale_coupon',
+                'setting_setting',
+                'setting_store',
+                'tool_error_log',
+                'tool_global_search' );
+
+DELETE FROM `ac_language_definitions`
+WHERE `section`='0'
+AND `block` IN ('english',
+                'spanish',
+                'default_pp_standart_default_pp_standart' );
