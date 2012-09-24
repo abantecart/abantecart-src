@@ -398,6 +398,7 @@ final class AData {
 				}
 				//get top level table and fields names
 				preg_match('/^(\w+)\.(\w+)$/', $col_name, $matches);
+
 				if (count($matches) == 3) {
 					if (!isset($md_array['name'])) {
 						$md_array['name'] = $matches[1];
@@ -418,9 +419,13 @@ final class AData {
 								$sub_array[$scope_nbr][$table_name.$ending] = $value;
 							} else {
 								//last array node, check if need to process
+
+								if ( is_null($scope_cnt) ) {
+									$scope_cnt = 0;
+								}
+
 								if ($scope_nbr == $scope_cnt || $scope_cnt+1 == $scope_nbr) {
 									$sub_array[$scope_nbr][$table_name.$ending] = $value;
-								} else {
 								}
 							}
 						} else {
