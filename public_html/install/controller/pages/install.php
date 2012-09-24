@@ -223,7 +223,7 @@ class ControllerPagesInstall extends AController {
 
 		// languages
 		$language = new ALanguage($registry, 'en');
-        $language->definitionAutoLoad(0,'all','all','update');
+        $language->definitionAutoLoad(1,'all','all','update');
 
 		$stdout = '<?php' . "\n";
 		$stdout .= '/*' . "\n";
