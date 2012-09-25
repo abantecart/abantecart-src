@@ -381,7 +381,7 @@ $('input[name^=\'option\'], select[name^=\'option\']').click(function(){
 			var html='';
 			if (data.main) {
 				if(data.main.origin=='internal'){
-					html = '<a href="'+data.main.main_url+'" class="thickbox"  rel="gallery" id="image">'+data.main.main_html+'</a>';
+					html = '<a href="'+data.main.main_url+'" class="thickbox"  rel="gallery" id="image">'+data.main.thumb_html+'</a>';
 				}else{
 					html = data.main.thumb_html;
 				}

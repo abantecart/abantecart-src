@@ -84,10 +84,12 @@ class ControllerResponsesProductProduct extends AController {
 			$resource = new AResource('image');
 
 			// main product image
-			$output['main'] = $resource->getMainImage('product_option_value',
-			                                          $attribute_value_id,
-			                                          $this->config->get('config_image_product_width'),
-			                                          $this->config->get('config_image_product_height'),false);
+            $sizes = array('main'=> array( 'width'=>$this->config->get('config_image_popup_width'),
+                                           'height' => $this->config->get('config_image_popup_height')),
+                           'thumb'=> array('width'=>$this->config->get('config_image_thumb_width'),
+                                           'height' => $this->config->get('config_image_thumb_height')));
+
+			$output['main'] = $resource->getResourceAllObjects('product_option_value', $attribute_value_id, $sizes,1, false);
 
 			if(!$output['main']){ unset($output['main']);}
 
