@@ -263,8 +263,8 @@ class ResourceUploadHandler {
 				}
 			}
 
-			if (!is_dir(DIR_RESOURCE . $this->options[ 'upload_dir' ])) {
-				$error = "Error: Please check 'resources' folder permissions ";
+			if (!is_dir(DIR_RESOURCE . $this->options[ 'upload_dir' ]) || !is_writeable(DIR_RESOURCE . $this->options[ 'upload_dir' ])) {
+				$error = "Please check 'resources' folder permissions.";
 			}
 		}
 		if (!$error && $file->name) {
@@ -281,7 +281,10 @@ class ResourceUploadHandler {
 						FILE_APPEND
 					);
 				} else {
-					move_uploaded_file($uploaded_file, $file_path);
+					$result = move_uploaded_file($uploaded_file, $file_path);
+                    if($result===false){
+                        $file->error = 'Failed! Check error log for details.';
+                    }
 				}
 			} else {
 				// Non-multipart uploads (PUT method support)
@@ -297,7 +300,7 @@ class ResourceUploadHandler {
 				chmod($file_path, 0777);
 			} else if ($this->options[ 'discard_aborted_uploads' ]) {
 				unlink($file_path);
-				$file->error = 'abort';
+				$file->error = 'Failed! Check error log for details.';
 			}
 			$file->size = $file_size;
 			$file->delete_url = $this->options[ 'script_url' ] . '&resource_id=%ID%';
