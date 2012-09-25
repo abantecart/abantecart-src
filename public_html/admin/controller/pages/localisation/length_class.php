@@ -218,6 +218,7 @@ class ControllerPagesLocalisationLengthClass extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'editFrm',
+		    'attr' => 'confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -261,7 +262,7 @@ class ControllerPagesLocalisationLengthClass extends AController {
   	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'localisation/length_class')) {
+		if (!$this->user->canModify('localisation/length_class')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

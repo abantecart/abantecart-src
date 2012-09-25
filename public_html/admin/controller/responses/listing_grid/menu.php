@@ -17,90 +17,107 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridMenu extends AController {
 	private $error = array();
 
-    public function main() {
+	public function main() {
 
-	    //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-	    $language_id = $this->session->data['content_language_id'];
-	    $this->loadLanguage('design/menu');
-	    $this->loadModel('tool/image');
+		$language_id = $this->session->data[ 'content_language_id' ];
+		$this->loadLanguage('design/menu');
+		$this->loadModel('tool/image');
 		$model = $this->model_tool_image;
 
-	    $page = $this->request->post['page']; // get the requested page
-	    if ( (int)$page < 0 ) $page = 0;
-		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
-		$sord = $this->request->post['sord']; // get the direction
+		$page = $this->request->post[ 'page' ]; // get the requested page
+		if ((int)$page < 0) $page = 0;
+		$limit = $this->request->post[ 'rows' ]; // get how many rows we want to have into the grid
+		$sidx = $this->request->post[ 'sidx' ]; // get index row - i.e. user click to sort
+		$sord = $this->request->post[ 'sord' ]; // get the direction
 
 
-	    $search_str = '';
-        //process custom search form
-	    $this->menu = new AMenu_Storefront();
+		$search_str = '';
+		//process custom search form
+		$this->menu = new AMenu_Storefront();
 		$menu_items = $this->menu->getMenuItems();
-	    if ( !empty($this->request->get['parent_id']) )
-			$menu_items = $menu_items[$this->request->get['parent_id']];
-	    else
-			$menu_items = $menu_items[""];
 
-	    //sort
-	    $allowedSort = array('item_id', 'item_text', 'sort_order');
-	    $allowedDirection = array(SORT_ASC => 'asc', SORT_DESC => 'desc');
-	    if ( !in_array($sidx, $allowedSort) ) $sidx = $allowedSort[0];
-	    if ( !in_array($sord, $allowedDirection) ) {
-		    $sord = SORT_ASC;
-	    } else {
-		    $sord = array_search($sord, $allowedDirection);
-	    }
+		$new_level = 0;
+		$leafnodes = array();
+		//get all leave menus 
+		$leafnodes = $this->menu->getLeafMenus();
+		//build parent id
+		$menu_parent_id = '';
+		if ($this->request->get[ 'parent_id' ]) {
+			$menu_parent_id = $this->request->get[ 'parent_id' ];
+		} else if ($this->request->post[ 'nodeid' ]) {
+			$menu_parent_id = $this->request->post[ 'nodeid' ];
+			$new_level = (integer)$this->request->post[ "n_level" ] + 1;
+		}
 
-	    $sort = array();
+		if (!empty($menu_parent_id))
+			$menu_items = $menu_items[ $menu_parent_id ];
+		else
+			$menu_items = $menu_items[ "" ];
+
+		//sort
+		$allowedSort = array( 'item_id', 'item_text', 'sort_order' );
+		$allowedDirection = array( SORT_ASC => 'asc', SORT_DESC => 'desc' );
+		if (!in_array($sidx, $allowedSort)) $sidx = $allowedSort[ 0 ];
+		if (!in_array($sord, $allowedDirection)) {
+			$sord = SORT_ASC;
+		} else {
+			$sord = array_search($sord, $allowedDirection);
+		}
+
+		$sort = array();
 		$total = count($menu_items);
-	    $response = new stdClass();
+		$response = new stdClass();
 
-	    if( $total > 0 ) {
-		    foreach ($menu_items as $item) {
-			    if ( $sidx == 'item_text' ) {
-				    $sort[] = $item[$sidx][$language_id];
-			    }else {
-				    $sort[] = $item[$sidx];
-			    }
-		    }
-	
-		    array_multisort($sort, $sord, $menu_items);
-			$total_pages = ceil($total/$limit);
-
-	        $rm = new AResource('image');
-	
-		    $results = array_slice($menu_items, ($page-1)*-$limit, $limit);
-	
-		    $i = 0;
-			foreach ($results as $result) {
-	
-	            if ( $result['item_icon'] ) {
-					$thumb = HTTP_DIR_RESOURCE . $result['item_icon'];
+		if ($total > 0) {
+			foreach ($menu_items as $item) {
+				if ($sidx == 'item_text') {
+					$sort[ ] = $item[ $sidx ][ $language_id ];
 				} else {
-					$thumb = $model->resize('no_image.jpg', $this->config->get('config_image_grid_width'), $this->config->get('config_image_grid_height'));			
+					$sort[ ] = $item[ $sidx ];
 				}
-	
-	            $response->rows[$i]['id'] = $result['item_id'];
-				$response->rows[$i]['cell'] = array(
-					( is_file(DIR_RESOURCE.$result['item_icon']) || empty($result['item_icon'])  ? '<img src="'.$thumb.'" alt="" />' : $result['item_icon'] ),
-					$result['item_id'],
-	                $result['item_text'][ $language_id ],
+			}
+
+			array_multisort($sort, $sord, $menu_items);
+			$total_pages = ceil($total / $limit);
+
+			$results = array_slice($menu_items, ($page - 1) * -$limit, $limit);
+
+			$i = 0;
+			foreach ($results as $result) {
+
+				if ($result[ 'item_icon' ]) {
+					$thumb = HTTP_DIR_RESOURCE . $result[ 'item_icon' ];
+				} else {
+					$thumb = $model->resize('no_image.jpg', $this->config->get('config_image_grid_width'), $this->config->get('config_image_grid_height'));
+				}
+
+				$response->rows[ $i ][ 'id' ] = $result[ 'item_id' ];
+				$response->rows[ $i ][ 'cell' ] = array(
+					(is_file(DIR_RESOURCE . $result[ 'item_icon' ]) || empty($result[ 'item_icon' ]) ? '<img src="' . $thumb . '" alt="" />' : $result[ 'item_icon' ]),
+					$result[ 'item_id' ],
+					$result[ 'item_text' ][ $language_id ],
 					$this->html->buildInput(array(
-	                    'name'  => 'sort_order['.$result['item_id'].']',
-	                    'value' => $result['sort_order'],
-	                )),
+						'name' => 'sort_order[' . $result[ 'item_id' ] . ']',
+						'value' => $result[ 'sort_order' ],
+					)),
+					'action',
+					$new_level,
+					($menu_parent_id ? $menu_parent_id : NULL),
+					($result[ 'item_id' ] == $leafnodes[ $result[ 'item_id' ] ] ? true : false),
+					false
 				);
 				$i++;
 			}
-			
+
 		} else {
 			$total_pages = 0;
 		}
@@ -110,7 +127,7 @@ class ControllerResponsesListingGridMenu extends AController {
 		$response->records = $total;
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($response));
@@ -119,46 +136,49 @@ class ControllerResponsesListingGridMenu extends AController {
 	public function update() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-	    $this->loadLanguage('design/menu');
-        if (!$this->user->hasPermission('modify', 'design/menu')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'design/menu') );
-            return;
+		$this->loadLanguage('design/menu');
+		if (!$this->user->canModify('listing_grid/menu')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/menu'),
+					'reset_value' => true
+				));
 		}
 
 		$menu = new AMenu_Storefront();
-		$item_keys = array('item_text', 'item_rt', 'parent_id', 'sort_order', 'item_type');
+		$item_keys = array( 'item_text', 'item_rt', 'parent_id', 'sort_order', 'item_type' );
 
-		switch ($this->request->post['oper']) {
+		switch ($this->request->post[ 'oper' ]) {
 			case 'del':
-				$ids = explode(',', $this->request->post['id']);
-				if ( !empty($ids) ) {
+				$ids = explode(',', $this->request->post[ 'id' ]);
+				if (!empty($ids)) {
 					$all_menu_ids = $menu->getItemIds();
-					foreach( $ids as $item_id ) {
-						
-						if(in_array($item_id,$all_menu_ids)){							
+					foreach ($ids as $item_id) {
+
+						if (in_array($item_id, $all_menu_ids)) {
 							$menu->deleteMenuItem($item_id);
-						}					
-					}					
+						}
+					}
 				}
 				break;
 			case 'save':
-				$ids = explode(',', $this->request->post['id']);
-				if ( !empty($ids) ) {					
-					foreach( $ids as $item_id ) {
+				$ids = explode(',', $this->request->post[ 'id' ]);
+				if (!empty($ids)) {
+					foreach ($ids as $item_id) {
 						$item_values = array(
-							"item_text"=>$this->request->post["item_text"][$item_id],
-							"item_url"=>$this->request->post["item_url"][$item_id],
-							"parent_id"=>$this->request->post["parent_id"][$item_id],
-							"sort_order"=>$this->request->post["sort_order"][$item_id]
+							"item_text" => $this->request->post[ "item_text" ][ $item_id ],
+							"item_url" => $this->request->post[ "item_url" ][ $item_id ],
+							"parent_id" => $this->request->post[ "parent_id" ][ $item_id ],
+							"sort_order" => $this->request->post[ "sort_order" ][ $item_id ]
 						);
 						// if item already in menu dataset
-						if($menu->getMenuItem($item_id)){
-							$menu->updateMenuItem($item_id,$item_values);
+						if ($menu->getMenuItem($item_id)) {
+							$menu->updateMenuItem($item_id, $item_values);
 						}
 					}
-		
+
 				}
 				break;
 
@@ -168,51 +188,55 @@ class ControllerResponsesListingGridMenu extends AController {
 		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-    /**
-     * update only one field
-     *
-     * @return void
-     */
-    public function update_field() {
+	/**
+	 * update only one field
+	 *
+	 * @return void
+	 */
+	public function update_field() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('localisation/language');
-        if (!$this->user->hasPermission('modify', 'localisation/language')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/language') );
-            return;
+		$this->loadLanguage('localisation/language');
+		if (!$this->user->canModify('listing_grid/menu')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/menu'),
+					'reset_value' => true
+				));
 		}
 
-        $menu = new AMenu_Storefront();
-        $allowedFields = array ('item_icon', 'item_text', 'item_url', 'parent_id', 'sort_order' );
+		$menu = new AMenu_Storefront();
+		$allowedFields = array( 'item_icon', 'item_text', 'item_url', 'parent_id', 'sort_order' );
 
-	    if ( isset( $this->request->get['id'] ) ) {
-		    //request sent from edit form. ID in url
-		    foreach ($this->request->post as $key => $value ) {
-				if ( !in_array($key, $allowedFields) ) continue;
+		if (isset($this->request->get[ 'id' ])) {
+			//request sent from edit form. ID in url
+			foreach ($this->request->post as $key => $value) {
+				if (!in_array($key, $allowedFields)) continue;
 				$data = array( $key => $value );
-				$menu->updateMenuItem($this->request->get['id'], $data );
+				$menu->updateMenuItem($this->request->get[ 'id' ], $data);
 			}
-		    return;
-	    }
+			return;
+		}
 
-	    //request sent from jGrid. ID is key of array
-        foreach ($this->request->post as $key => $value ) {
-            if ( !in_array($key, $allowedFields) ) continue;
-            foreach ( $value as $k => $v ) {
-                $data = array( $key => $v );
-                $menu->updateMenuItem($k, $data );
-            }
-        }
+		//request sent from jGrid. ID is key of array
+		foreach ($this->request->post as $key => $value) {
+			if (!in_array($key, $allowedFields)) continue;
+			foreach ($value as $k => $v) {
+				$data = array( $key => $v );
+				$menu->updateMenuItem($k, $data);
+			}
+		}
 
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
 }
+
 ?>

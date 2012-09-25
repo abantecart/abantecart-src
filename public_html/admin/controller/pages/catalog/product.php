@@ -186,6 +186,7 @@ class ControllerPagesCatalogProduct extends AController {
 		    'type' => 'selectbox',
 		    'name' => 'category',
             'options' => $this->data['categories'],
+			'style' =>'medium-field'
 	    ));
 		$grid_search_form['fields']['status'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
@@ -509,6 +510,7 @@ class ControllerPagesCatalogProduct extends AController {
 		    'type' => 'form',
 		    'name' => 'productFrm',
 		    'action' => $this->data['action'],
+		    'attr' => 'confirm-exit="true"',
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
@@ -598,7 +600,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'name' => 'model',
 			'value' => $this->data['model'],
 			'style' => 'large-field',			
-	        'required' => true,
+	        'required' => false,
 		));
         $this->data['form']['fields']['data']['price'] = $form->getFieldHtml(array(
 			'type' => 'input',
@@ -617,16 +619,6 @@ class ControllerPagesCatalogProduct extends AController {
             'options' => $this->data['tax_classes'],
 	        'help_url' => $this->gen_help_url('tax_class'),
 		));
-        $this->data['form']['fields']['data']['quantity'] = $form->getFieldHtml(array(
-			'type' => 'input',
-			'name' => 'quantity',
-			'value' => (int)$this->data['quantity'],
-	    ));
-        $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
-			'type' => 'input',
-			'name' => 'minimum',
-			'value' => (int)$this->data['minimum'],
-	    ));
         $this->data['form']['fields']['data']['subtract'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'subtract',
@@ -637,6 +629,16 @@ class ControllerPagesCatalogProduct extends AController {
             ),
 	        'help_url' => $this->gen_help_url('subtract'),
 		));
+        $this->data['form']['fields']['data']['quantity'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'quantity',
+			'value' => (int)$this->data['quantity'],
+	    ));
+        $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'minimum',
+			'value' => (int)$this->data['minimum'],
+	    ));
         $this->data['form']['fields']['data']['stock_status'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'stock_status_id',
@@ -752,7 +754,7 @@ class ControllerPagesCatalogProduct extends AController {
   	} 
 	
   	private function _validateForm() {
-    	if (!$this->user->hasPermission('modify', 'catalog/product')) {
+    	if (!$this->user->canModify('catalog/product')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
 
@@ -762,7 +764,7 @@ class ControllerPagesCatalogProduct extends AController {
       		}
     	}
 		
-    	if ((strlen(utf8_decode($this->request->post['model'])) < 1) || (strlen(utf8_decode($this->request->post['model'])) > 64)) {
+    	if ( strlen(utf8_decode($this->request->post['model'])) > 64 ) {
       		$this->error['model'] = $this->language->get('error_model');
     	}
 		
@@ -777,7 +779,7 @@ class ControllerPagesCatalogProduct extends AController {
   	}
   	
   	private function _validateCopy() {
-    	if (!$this->user->hasPermission('modify', 'catalog/product')) {
+    	if (!$this->user->canModify('catalog/product')) {
       		$this->error['warning'] = $this->language->get('error_permission');  
     	}
 		

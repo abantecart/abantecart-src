@@ -1,41 +1,165 @@
+# move settings around for better location
 
-/*
-updating language definitions table
-*/
+UPDATE `ac_settings` SET `group` = 'details'
+WHERE `key` like 'config_description_%';
 
-ALTER TABLE `ac_language_definitions` MODIFY `block` varchar(160) NOT NULL;
-ALTER TABLE `ac_language_definitions` MODIFY `language_key` varchar(170) character set utf8 collate utf8_bin NOT NULL;
- /*need to add deleting duplicates from this table*/
+UPDATE `ac_settings` SET `group` = 'details'
+WHERE `key` IN ('store_name',
+                'config_url', 
+                'config_title', 
+                'config_meta_description', 
+                'config_owner', 
+                'config_address', 
+                'store_main_email', 
+                'config_telephone', 
+                'config_fax',
+                'config_country_id',
+                'config_zone_id', 
+                'config_storefront_language', 
+                'admin_language', 
+                'config_currency', 
+                'config_currency_auto', 
+                'config_length_class', 
+                'config_weight_class');
+UPDATE `ac_settings` SET `group` = 'details', `key` = 'store_name'
+WHERE `key` = 'config_name' AND `group` = 'custom_store';
+
+UPDATE `ac_settings` SET `group` = 'general'
+WHERE `key` IN (
+                'config_catalog_limit',
+                'config_admin_limit', 
+                'config_bestseller_limit', 
+                'config_featured_limit', 
+                'config_latest_limit', 
+                'config_special_limit', 
+                'config_stock_display', 
+                'config_stock_status_id', 
+                'enable_reviews', 
+                'config_download', 
+                'config_download_status', 
+                'config_help_links');
+
+UPDATE `ac_settings` SET `group` = 'checkout'
+WHERE `key` IN (
+                'config_tax',
+                'config_tax_store', 
+                'config_tax_customer', 
+                'starting_invoice_id', 
+                'invoice_prefix', 
+                'config_customer_group_id', 
+                'config_customer_price', 
+                'config_customer_approval', 
+                'config_guest_checkout', 
+                'config_account_id', 
+                'config_checkout_id', 
+                'config_stock_checkout', 
+                'config_order_status_id', 
+                'config_cart_weight', 
+                'config_shipping_session', 
+                'cart_ajax');
+
+UPDATE `ac_settings` SET `group` = 'appearance'
+WHERE `key` IN (
+                'config_storefront_template',
+                'storefront_width', 
+                'admin_width', 
+                'config_logo', 
+                'config_icon', 
+                'config_image_thumb_width', 
+                'config_image_thumb_height', 
+                'config_image_category_width', 
+                'config_image_category_height', 
+                'config_image_product_width', 
+                'config_image_product_height', 
+                'config_image_additional_width', 
+                'config_image_additional_height', 
+                'config_image_related_width', 
+                'config_image_related_height', 
+                'config_image_cart_width', 
+                'config_image_cart_height', 
+                'config_image_grid_width', 
+                'config_image_grid_height', 
+                'config_image_popup_width', 
+                'config_image_popup_height');
+
+UPDATE `ac_settings` SET `group` = 'api'
+WHERE `key` IN ('config_storefront_api_status',
+                'config_storefront_api_key', 
+                'config_storefront_api_stock_check');
+
+UPDATE `ac_settings` SET `group` = 'system'
+WHERE `key` IN ('config_ssl',
+                'config_session_ttl', 
+                'config_maintenance', 
+                'encryption_key', 
+                'enable_seo_url', 
+                'config_compression', 
+                'config_cache_enable', 
+                'config_upload_max_size', 
+                'config_error_display', 
+                'config_error_log', 
+                'config_debug', 
+                'config_debug_level', 
+                'storefront_template_debug', 
+                'config_error_filename');
+
+INSERT INTO `ac_settings` VALUES ('', 0, 'api','config_storefront_api_stock_check','0');
+
+INSERT INTO `ac_settings` VALUES ('', 0, 'checkout','config_cart_ajax','1');
+
+INSERT INTO `ac_settings` VALUES ('', 0, 'general','config_nostock_autodisable','0');
+
+INSERT INTO `ac_settings` VALUES ('', 0, 'general','config_show_tree_data','1');
+
+ALTER TABLE `ac_stores` ADD COLUMN `alias` varchar(15) COLLATE utf8_bin NOT NULL;
+
+ALTER TABLE `ac_stores` ADD COLUMN `status` int(1) NOT NULL;
+
+INSERT INTO `ac_stores` (`store_id`,`name`,`alias`,`status`) VALUES ('0','default','default',1);
+UPDATE `ac_stores` set `store_id`='0' WHERE `name` = 'default';
+
+ALTER TABLE `ac_stores` DROP COLUMN	`url`;
+
+ALTER TABLE `ac_stores` DROP COLUMN	`ssl`;
+
+# populate aliases
+UPDATE `ac_stores` SET alias = LOWER(SUBSTRING(name,0,15));
+
+ALTER TABLE `ac_block_descriptions` ADD COLUMN `block_framed` tinyint(1) DEFAULT '1' AFTER `block_wrapper`;
+
+ALTER TABLE `ac_product_option_values` ADD COLUMN `grouped_attribute_data` text DEFAULT NULL;
+
+ALTER TABLE `ac_product_option_value_descriptions` ADD COLUMN `grouped_attribute_names` text COLLATE utf8_bin DEFAULT NULL;
+ALTER TABLE `ac_order_totals` ADD COLUMN `type` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '';
+
+INSERT INTO `ac_settings` VALUES ('', 0, 'coupon', 'coupon_total_type','discount');
+INSERT INTO `ac_settings` VALUES ('', 0, 'total','total_total_type','total');
+INSERT INTO `ac_settings` VALUES ('', 0, 'sub_total','sub_total_total_type','subtotal');
+INSERT INTO `ac_settings` VALUES ('', 0, 'tax','tax_total_type','tax');
+INSERT INTO `ac_settings` VALUES ('', 0, 'shipping','shipping_total_type','shipping');
+INSERT INTO `ac_settings` VALUES ('', 0, 'handling','handling_total_type','fee');
+INSERT INTO `ac_settings` VALUES ('', 0, 'low_order_fee','low_order_fee_total_type','fee');
+
+
 DELETE FROM `ac_language_definitions`
-WHERE `language_id`<'1' OR TRIM(`language_key`)='' OR TRIM(`language_value`)='' OR TRIM(`block`)='';
+WHERE `section`='1'
+AND `block` IN ('english',
+                'spanish',
+                'catalog_attribute',
+                'catalog_product',
+                'common_header',
+                'common_resource_library',
+                'design_blocks',
+                'extension_extensions',
+                'localisation_tax_class',
+                'sale_coupon',
+                'setting_setting',
+                'setting_store',
+                'tool_error_log',
+                'tool_global_search' );
 
-DROP TABLE IF EXISTS `ac_abantecart_temp_table`;
-CREATE TABLE `abantecart_temp_table` (
-  `language_definition_id` int(11) NOT NULL auto_increment,
-  `language_id` int(11) NOT NULL,
-  `section` tinyint(1) NOT NULL default '0' COMMENT '0-SF, 1-ADMIN',
-  `block` varchar(160) NOT NULL,
-  `language_key` varchar(170) character set utf8 collate utf8_bin NOT NULL,
-  `language_value` text NOT NULL,
-  `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `create_date` timestamp NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`language_definition_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
-INSERT INTO abantecart_temp_table (`section`,`block`,`language_id`,`language_key`,`language_value`, `update_date`, `create_date`)
-SELECT DISTINCT `section`,`block`,`language_id`,`language_key`,`language_value`, `update_date`, `create_date`
-FROM `ac_language_definitions`
-GROUP BY `section`,`block`,`language_id`,`language_key`
-ORDER BY update_date ASC;
-
-TRUNCATE TABLE `ac_language_definitions`;
-
-INSERT INTO `ac_language_definitions` (`section`,`block`,`language_id`,`language_key`,`language_value`, `update_date`, `create_date`)
-SELECT `section`,`block`,`language_id`,`language_key`,`language_value`, `update_date`, `create_date`
-FROM abantecart_temp_table;
-
-DROP TABLE IF EXISTS `abantecart_temp_table`;
-
-
-CREATE UNIQUE INDEX `lang_definition_index`
-ON `ac_language_definitions` ( `section`,`block`,`language_id`,`language_key` );
+DELETE FROM `ac_language_definitions`
+WHERE `section`='0'
+AND `block` IN ('english',
+                'spanish',
+                'default_pp_standart_default_pp_standart' );

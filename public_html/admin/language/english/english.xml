@@ -237,6 +237,22 @@
         <value><![CDATA[Discounts]]></value>
     </definition>
     <definition>
+        <key>tab_details</key>
+        <value><![CDATA[Details]]></value>
+    </definition>
+    <definition>
+        <key>tab_checkout</key>
+        <value><![CDATA[Checkout]]></value>
+    </definition>
+    <definition>
+        <key>tab_appearance</key>
+        <value><![CDATA[Appearance]]></value>
+    </definition>
+    <definition>
+        <key>tab_api</key>
+        <value><![CDATA[API]]></value>
+    </definition>
+    <definition>
         <key>tab_general</key>
         <value><![CDATA[General]]></value>
     </definition>
@@ -505,4 +521,8 @@
         <key>text_install_warning</key>
         <value><![CDATA[You still have install directory present in your AbanteCart installation directory. It is recommended you delete this directory.]]></value>
     </definition>
+    <definition>
+        <key>text_select_store</key>
+        <value><![CDATA[Select Store]]></value>
+    </definition>    
 </definitions>

@@ -29,6 +29,15 @@ class ControllerCommonPageLayout extends AController {
 		$settings['button_save'] = $this->language->get('button_save');
 		$this->view->batchAssign($settings);
 
+		//degine some constants 
+		define('HEADER_MAIN', 	1);
+		define('HEADER_BOTTOM', 2);
+		define('LEFT_COLUMN',	3);
+		define('RIGHT_COLUMN',	6);
+		define('CONTENT_TOP',	4);
+		define('CONTENT_BOTTOM',5);
+		define('FOOTER_TOP',	7);
+		define('FOOTER_MAIN',	8);
 
 		$form = new AForm('HT');
 		$form->setForm(array(
@@ -36,6 +45,7 @@ class ControllerCommonPageLayout extends AController {
 	    ));
 		$form_begin = $form->getFieldHtml(array('type' => 'form',
 		                                        'name' => 'layout_form',
+		                                        'attr' => 'confirm-exit="true"',
 			                                    'action' => $settings['action']));
 
 
@@ -63,284 +73,172 @@ class ControllerCommonPageLayout extends AController {
 		 * HEADER BLOCKS
 		 * */
 
-		// header blocks
-		$header_boxes = array();
-		for ($x=0; $x < 8; $x++) {
-			$options = array('' => $this->language->get('text_none'));
-			$selected = '';
-			foreach ($settings['_blocks'] as $block) {
-				if ($block['parent_block_id'] == $settings['blocks'][1]['block_id']) {
-					$options[$block['block_id']."_".$block['custom_block_id']] = $block['block_txt_id'].($block['custom_block_id']?':: '.$block['block_name']:'');
-					$selected = !empty($settings['blocks'][1]['children'][$x]) && $settings['blocks'][1]['children'][$x]['block_id'].'_'.$settings['blocks'][1]['children'][$x]['custom_block_id'] == $block['block_id']."_".$block['custom_block_id'] ? $block['block_id']."_".$block['custom_block_id'] : $selected;
-				}
-			}
-
-			$header_boxes[] = $form->getFieldHtml(array(	'type' => 'selectbox',
-															'name' => 'blocks[1][children][]',
-															'value' => array($selected=>$selected),
-															'options' => $options));
-        }
-		$header_create_block =  $form->getFieldHtml( array( 'type' => 'button',
-															'name' => 'btn_left_create',
-															'id' => '',
-															'text' => $this->language->get('text_create_new_block'),
-															'style'=>'button3',
-		                                                    'attr' => 'onclick="createBlock(1)"'));
-
-		// header bottom block
-		$header_bottom = array();
-		$total = count($settings['blocks'][2]['children']) > 0 ? count($settings['blocks'][2]['children']) : 1;
-		for ($x=0; $x < $total; $x++) {
-			$options = array('' => $this->language->get('text_none'));
-			$selected = '';
-			foreach ($settings['_blocks'] as $block) {
-				if ($block['parent_block_id'] == $settings['blocks'][2]['block_id']) {
-					$options[$block['block_id']."_".$block['custom_block_id']] = $block['block_txt_id'].($block['custom_block_id']?':: '.$block['block_name']:'');
-					$selected = !empty($settings['blocks'][2]['children'][$x]) && $settings['blocks'][2]['children'][$x]['block_id'].'_'.$settings['blocks'][2]['children'][$x]['custom_block_id'] == $block['block_id'].'_'.$block['custom_block_id'] ? $block['block_id'].'_'.$block['custom_block_id'] : $selected;
-				}
-			}
-
-			$header_bottom[] = $form->getFieldHtml(array(	'type' => 'selectbox',
-													'name' => 'blocks[2][children][]',
-													'value' => array($selected=>$selected),
-													'options' => $options));
+		$total = 8;
+		if ( $settings['blocks'][HEADER_MAIN] ) {		
+			$header_boxes = $this->_build_block_selectboxes($settings, HEADER_MAIN, $total, $form);
+			$header_create_block =  $form->getFieldHtml( array( 'type' => 'button',
+																'name' => 'btn_left_create',
+																'id' => '',
+																'text' => $this->language->get('text_create_new_block'),
+																'style'=>'button3',
+			                                                    'attr' => 'onclick="createBlock(1)"'));
 		}
 
-
-
-		$header_bottom_create_block =  $form->getFieldHtml( array( 'type' => 'button',
-															'name' => 'btn_left_create',
-															'id' => '',
-															'text' => $this->language->get('text_create_new_block'),
-															'style'=>'button3',
-		                                                    'attr' => 'onclick="createBlock(2)"'));
-		$header_bottom_addbox =  $form->getFieldHtml(array(	'type' => 'button',
-															'name' => 'btn_left_add',
-															'id' => '',
-															'text' => ' + ',
-															'style'=>'button1'));
-
+		// header bottom block
+		$total = count($settings['blocks'][HEADER_BOTTOM]['children']) > 0 ? count($settings['blocks'][HEADER_BOTTOM]['children']) : 1;	
+		if ( $settings['blocks'][HEADER_BOTTOM] ) {		
+			$header_bottom = $this->_build_block_selectboxes($settings, HEADER_BOTTOM, $total, $form);
+	
+			$header_bottom_create_block =  $form->getFieldHtml( array( 'type' => 'button',
+																'name' => 'btn_left_create',
+																'id' => '',
+																'text' => $this->language->get('text_create_new_block'),
+																'style'=>'button3',
+			                                                    'attr' => 'onclick="createBlock(2)"'));
+			$header_bottom_addbox =  $form->getFieldHtml(array(	'type' => 'button',
+																'name' => 'btn_left_add',
+																'id' => '',
+																'text' => ' + ',
+																'style'=>'button1'));
+		}
+		
+		
 		// MAIN CONTENT BLOCK
 
 		/*
 		 * LEFT main content block
 		 * */
-		$main_left_status = $settings['blocks'][3]['status'];
-		$selected = $main_left_status=='1' ? "1" : "0";
-		$main_left_statusbox =  $form->getFieldHtml(array(	'type' => 'selectbox',
-															'name' => 'blocks[3][status]',
-															'value' => array($selected=>$selected),
-															'options' => array("1" => $this->language->get('text_enabled'),
-																		       "0" => $this->language->get('text_disabled')),
-			                                                'attr' => "onchange=\"if(this.value=='0'){
-			                                                                $('#left_block').addClass('block_off');
-			                                                           }else{
-			                                                                $('#left_block').removeClass('block_off');}\""
-
-		                                            ));
-		$main_left_boxes = array();
-		$total = count($settings['blocks'][3]['children']) > 0 ? count($settings['blocks'][3]['children']) : 1;
-		for ($x=0; $x < $total; $x++) {
-			$options = array('' => $this->language->get('text_none'));
-			$selected = '';
-			foreach ($settings['_blocks'] as $block) {
-				if ($block['parent_block_id'] == $settings['blocks'][3]['block_id']) {
-					$options[$block['block_id']."_".$block['custom_block_id']] = $block['block_txt_id'].($block['custom_block_id']?':: '.$block['block_name']:'');
-					$selected = !empty($settings['blocks'][3]['children'][$x]) && $settings['blocks'][3]['children'][$x]['block_id'].'_'.$settings['blocks'][3]['children'][$x]['custom_block_id'] == $block['block_id'].'_'.$block['custom_block_id'] ? $block['block_id'].'_'.$block['custom_block_id'] : $selected;
-				}
-			}
-
-			$main_left_boxes[] = $form->getFieldHtml(array(	'type' => 'selectbox',
-															'name' => 'blocks[3][children][]',
-															'value' => array($selected=>$selected),
-															'options' => $options));
-		}
-
+		if ( $settings['blocks'][LEFT_COLUMN] ) {		
+			$main_left_status = $settings['blocks'][LEFT_COLUMN]['status'];
+			$selected = $main_left_status=='1' ? "1" : "0";
+			$main_left_statusbox =  $form->getFieldHtml(array(	'type' => 'selectbox',
+																'name' => 'blocks['.LEFT_COLUMN.'][status]',
+																'value' => array($selected=>$selected),
+																'options' => array("1" => $this->language->get('text_enabled'),
+																			       "0" => $this->language->get('text_disabled')),
+				                                                'attr' => "onchange=\"if(this.value=='0'){
+				                                                                $('#left_block').addClass('block_off');
+				                                                           }else{
+				                                                                $('#left_block').removeClass('block_off');}\""
+			                                            ));
+	
+			$total = count($settings['blocks'][LEFT_COLUMN]['children']) > 0 ? count($settings['blocks'][LEFT_COLUMN]['children']) : 1;
+			$main_left_boxes = $this->_build_block_selectboxes($settings, LEFT_COLUMN, $total, $form);
+	
 			$main_left_addbox =  $form->getFieldHtml(array(	'type' => 'button',
-															'name' => 'btn_left_add',
-															'id' => '',
-															'text' => ' + ',
-															'style'=>'button1'));
-
+			    											'name' => 'btn_left_add',
+			    											'id' => '',
+			    											'text' => ' + ',
+			    											'style'=>'button1'));
+	
 			$main_left_create_block =  $form->getFieldHtml(array('type' => 'button',
-															'name' => 'btn_left_create',
-															'id' => '',
-															'text' => $this->language->get('text_create_new_block'),
-															'style'=>'button3'));
+			    											'name' => 'btn_left_create',
+			    											'id' => '',
+			    											'text' => $this->language->get('text_create_new_block'),
+			    											'style'=>'button3'));
+		}
 
 		/*
 		 * RIGHT main content block
 		 * */
-		$main_right_status = $settings['blocks'][6]['status'];
-		$selected = $main_right_status=='1' ? "1" : "0";
-		$main_right_statusbox =  $form->getFieldHtml(array(	'type' => 'selectbox',
-															'name' => 'blocks[6][status]',
-															'value' => array($selected=>$selected),
-															'options' => array("1" => $this->language->get('text_enabled'),
-																		       "0" => $this->language->get('text_disabled')),
-			                                                'attr' => "onchange=\"if(this.value=='0'){
-			                                                                $('#right_block').addClass('block_off');
-			                                                           }else{
-			                                                                $('#right_block').removeClass('block_off');}\""
-
-		                                            ));
-		$main_right_boxes = array();
-		$total = count($settings['blocks'][6]['children']) > 0 ? count($settings['blocks'][6]['children']) : 1;
-		for ($x=0; $x < $total; $x++) {
-			$options = array('' => $this->language->get('text_none'));
-			$selected = '';
-			foreach ($settings['_blocks'] as $block) {
-				if ($block['parent_block_id'] == $settings['blocks'][6]['block_id']) {
-					$options[$block['block_id']."_".$block['custom_block_id']] = $block['block_txt_id'].($block['custom_block_id']?':: '.$block['block_name']:'');
-					$selected = !empty($settings['blocks'][6]['children'][$x]) && $settings['blocks'][6]['children'][$x]['block_id'].'_'.$settings['blocks'][6]['children'][$x]['custom_block_id'] == $block['block_id'].'_'.$block['custom_block_id'] ? $block['block_id'].'_'.$block['custom_block_id'] : $selected;
-				}
-			}
-
-			$main_right_boxes[] = $form->getFieldHtml(array('type' => 'selectbox',
-															'name' => 'blocks[6][children][]',
-															'value' => array($selected=>$selected),
-															'options' => $options));
-		}
-
+		if ( $settings['blocks'][RIGHT_COLUMN] ) {		
+			$main_right_status = $settings['blocks'][RIGHT_COLUMN]['status'];
+			$selected = $main_right_status=='1' ? "1" : "0";
+			$main_right_statusbox =  $form->getFieldHtml(array(	'type' => 'selectbox',
+																'name' => 'blocks['.RIGHT_COLUMN.'][status]',
+																'value' => array($selected=>$selected),
+																'options' => array("1" => $this->language->get('text_enabled'),
+																			       "0" => $this->language->get('text_disabled')),
+				                                                'attr' => "onchange=\"if(this.value=='0'){
+				                                                                $('#right_block').addClass('block_off');
+				                                                           }else{
+				                                                                $('#right_block').removeClass('block_off');}\""
+			                                            ));
+	
+			$total = count($settings['blocks'][RIGHT_COLUMN]['children']) > 0 ? count($settings['blocks'][RIGHT_COLUMN]['children']) : 1;
+			$main_right_boxes = $this->_build_block_selectboxes($settings, RIGHT_COLUMN, $total, $form);
+	
 			$main_right_addbox =  $form->getFieldHtml ( array (	'type' => 'button',
-																'name' => 'btn_right_add',
-																'id' => '',
-																'text' => ' + ',
-																'style'=>'button1'));
+			    												'name' => 'btn_right_add',
+			    												'id' => '',
+			    												'text' => ' + ',
+			    												'style'=>'button1'));
 			$main_right_create_block =  $form->getFieldHtml(array('type' => 'button',
-															'name' => 'btn_right_create',
-															'id' => '',
-															'text' => $this->language->get('text_create_new_block'),
-															'style'=>'button3'));
-
+			    											'name' => 'btn_right_create',
+			    											'id' => '',
+			    											'text' => $this->language->get('text_create_new_block'),
+			    											'style'=>'button3'));
+		}
 
 		/*
 		 * TOP main content block
 		 * */
-		$main_top_boxes = array();
-		$total = count($settings['blocks'][4]['children']) > 0 ? count($settings['blocks'][4]['children']) : 1;
-		for ($x=0; $x < $total; $x++) {
-			$options = array('' => $this->language->get('text_none'));
-			$selected = '';
-			foreach ($settings['_blocks'] as $block) {
-				if ($block['parent_block_id'] == $settings['blocks'][4]['block_id']) {
-					$options[$block['block_id']."_".$block['custom_block_id']] = $block['block_txt_id'].($block['custom_block_id']?':: '.$block['block_name']:'');
-					$selected = !empty($settings['blocks'][4]['children'][$x]) && $settings['blocks'][4]['children'][$x]['block_id'].'_'.$settings['blocks'][4]['children'][$x]['custom_block_id'] == $block['block_id'].'_'.$block['custom_block_id'] ? $block['block_id'].'_'.$block['custom_block_id'] : $selected;
-				}
-			}
-
-			$main_top_boxes[] = $form->getFieldHtml(array(	'type' => 'selectbox',
-															'name' => 'blocks[4][children][]',
-															'value' => array($selected=>$selected),
-															'options' => $options));
-		}
-
-
+		if ( $settings['blocks'][CONTENT_TOP] ) {		
+			$total = count($settings['blocks'][CONTENT_TOP]['children']) > 0 ? count($settings['blocks'][CONTENT_TOP]['children']) : 1;
+			$main_top_boxes = $this->_build_block_selectboxes($settings, CONTENT_TOP, $total, $form);
+	
 			$main_top_addbox =  $form->getFieldHtml(array(	'type' => 'button',
-															'name' => 'btn_top_add',
-															'id' => '',
-															'text' => ' + ',
-															'style'=>'button1'));
+			    											'name' => 'btn_top_add',
+			    											'id' => '',
+			    											'text' => ' + ',
+			    											'style'=>'button1'));
 			$main_top_create_block =  $form->getFieldHtml(array('type' => 'button',
-															'name' => 'btn_right_create',
-															'id' => '',
-															'text' => $this->language->get('text_create_new_block'),
-															'style'=>'button3'));
-
-
-
+			    											'name' => 'btn_right_create',
+			    											'id' => '',
+			    											'text' => $this->language->get('text_create_new_block'),
+			    											'style'=>'button3'));
+		}
 
 		/*
 		 * BOTTOM main content block
 		 * */
-		$main_bottom_boxes = array();
-		$total = count($settings['blocks'][5]['children']) > 0 ? count($settings['blocks'][5]['children']) : 1;
-		for ($x=0; $x < $total; $x++) {
-			$options = array('' => $this->language->get('text_none'));
-			$selected = '';
-			foreach ($settings['_blocks'] as $block) {
-				if ($block['parent_block_id'] == $settings['blocks'][5]['block_id']) {
-					$options[$block['block_id']."_".$block['custom_block_id']] = $block['block_txt_id'].($block['custom_block_id']?':: '.$block['block_name']:'');
-					$selected = !empty($settings['blocks'][5]['children'][$x]) && $settings['blocks'][5]['children'][$x]['block_id'].'_'.$settings['blocks'][5]['children'][$x]['custom_block_id'] == $block['block_id'].'_'.$block['custom_block_id'] ? $block['block_id'].'_'.$block['custom_block_id'] : $selected;
-				}
-			}
-
-			$main_bottom_boxes[] = $form->getFieldHtml(array('type' => 'selectbox',
-															'name' => 'blocks[5][children][]',
-															'value' => array($selected=>$selected),
-															'options' => $options));
-		}
-
-
+		if ( $settings['blocks'][CONTENT_BOTTOM] ) {				 
+			$total = count($settings['blocks'][CONTENT_BOTTOM]['children']) > 0 ? count($settings['blocks'][CONTENT_BOTTOM]['children']) : 1;
+			$main_bottom_boxes = $this->_build_block_selectboxes($settings, CONTENT_BOTTOM, $total, $form);
+	
 			$main_bottom_addbox =  $form->getFieldHtml(array(	'type' => 'button',
-															'name' => 'btn_bottom_add',
-															'id' => '',
-															'text' => ' + ',
-															'style'=>'button1'));
+			    											'name' => 'btn_bottom_add',
+			    											'id' => '',
+			    											'text' => ' + ',
+			    											'style'=>'button1'));
 			$main_bottom_create_block =  $form->getFieldHtml(array('type' => 'button',
-															'name' => 'btn_right_create',
-															'id' => '',
-															'text' => $this->language->get('text_create_new_block'),
-															'style'=>'button3'));
-
+			    											'name' => 'btn_right_create',
+			    											'id' => '',
+			    											'text' => $this->language->get('text_create_new_block'),
+			    											'style'=>'button3'));
+		}
 
 		/*
 		 * FOOTER
 		 * */
 
 		// FOOTER-top-block
-		$footer_top = array();
-		$total = count($settings['blocks'][7]['children']) > 0 ? count($settings['blocks'][7]['children']) : 1;
-		for ($x=0; $x < $total; $x++) {
-			$options = array('' => $this->language->get('text_none'));
-			$selected = '';
-			foreach ($settings['_blocks'] as $block) {
-				if ($block['parent_block_id'] == $settings['blocks'][7]['block_id']) {
-					$options[$block['block_id']."_".$block['custom_block_id']] = $block['block_txt_id'].($block['custom_block_id']?':: '.$block['block_name']:'');
-					$selected = !empty($settings['blocks'][7]['children'][$x]) && $settings['blocks'][7]['children'][$x]['block_id'].'_'.$settings['blocks'][7]['children'][$x]['custom_block_id'] == $block['block_id'].'_'.$block['custom_block_id'] ? $block['block_id'].'_'.$block['custom_block_id'] : $selected;
-				}
-			}
-
-			$footer_top[] = $form->getFieldHtml(array(	'type' => 'selectbox',
-													'name' => 'blocks[7][children][]',
-													'value' => array($selected=>$selected),
-													'options' => $options));
+		if ( $settings['blocks'][FOOTER_TOP] ) {				 
+			$total = count($settings['blocks'][FOOTER_TOP]['children']) > 0 ? count($settings['blocks'][FOOTER_TOP]['children']) : 1;
+			$footer_top = $this->_build_block_selectboxes($settings, FOOTER_TOP, $total, $form);
+	
+			$footer_top_create_block =  $form->getFieldHtml(array('type' => 'button',
+																'name' => 'btn_left_create',
+																'id' => '',
+																'text' => $this->language->get('text_create_new_block'),
+																'style'=>'button3'));
+			$footer_top_addbox =  $form->getFieldHtml(array(	'type' => 'button',
+																'name' => 'btn_bottom_add',
+																'id' => '',
+																'text' => ' + ',
+																'style'=>'button1'));
 		}
-		$footer_top_create_block =  $form->getFieldHtml(array('type' => 'button',
-															'name' => 'btn_left_create',
-															'id' => '',
-															'text' => $this->language->get('text_create_new_block'),
-															'style'=>'button3'));
-		$footer_top_addbox =  $form->getFieldHtml(array(	'type' => 'button',
-															'name' => 'btn_bottom_add',
-															'id' => '',
-															'text' => ' + ',
-															'style'=>'button1'));
 
 		// FOOTER blocks
-		$footer_boxes = array();
-		for ($x=0; $x < 8; $x++) {
-			$options = array('' => $this->language->get('text_none'));
-			$selected = '';
-			foreach ($settings['_blocks'] as $block) {
-				if ($block['parent_block_id'] == $settings['blocks'][8]['block_id']) {
-					$options[$block['block_id']."_".$block['custom_block_id']] = $block['block_txt_id'].($block['custom_block_id']?':: '.$block['block_name']:'');
-					$selected = !empty($settings['blocks'][8]['children'][$x]) && $settings['blocks'][8]['children'][$x]['block_id'].'_'.$settings['blocks'][8]['children'][$x]['custom_block_id'] == $block['block_id'].'_'.$block['custom_block_id'] ? $block['block_id'].'_'.$block['custom_block_id'] : $selected;
-				}
-			}
-
-			$footer_boxes[] = $form->getFieldHtml(array(	'type' => 'selectbox',
-															'name' => 'blocks[8][children][]',
-															'value' => array($selected=>$selected),
-															'options' => $options));
-        }
-		$footer_create_block =  $form->getFieldHtml(array('type' => 'button',
-															'name' => 'btn_left_create',
-															'id' => '',
-															'text' => $this->language->get('text_create_new_block'),
-															'style'=>'button3'));
-
-
+		if ( $settings['blocks'][FOOTER_MAIN] ) {				 
+			$total = 8;
+			$footer_boxes = $this->_build_block_selectboxes($settings, FOOTER_MAIN, $total, $form);
+			$footer_create_block =  $form->getFieldHtml(array('type' => 'button',
+																'name' => 'btn_left_create',
+																'id' => '',
+																'text' => $this->language->get('text_create_new_block'),
+																'style'=>'button3'));
+		}
 
 		$this->view->assign('form_begin',$form_begin);
 		$this->view->assign('header_boxes',$header_boxes);
@@ -390,4 +288,40 @@ class ControllerCommonPageLayout extends AController {
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
+
+	private function _build_block_selectboxes($settings, $section_id, $total_blocks, $form) {
+		$select_boxes = array();
+		$children_arr = $settings['blocks'][$section_id]['children'];
+		for ($x=0; $x < $total_blocks; $x++) {
+			$options = array('' => $this->language->get('text_none'));
+			$selected = '';
+			foreach ($settings['_blocks'] as $block) {
+				if ($block['parent_block_id'] == $settings['blocks'][$section_id]['block_id']) {
+					$options[$block['block_id']."_".$block['custom_block_id']] = $block['block_txt_id'].($block['custom_block_id']?':: '.$block['block_name']:'');
+					//NOTE: Blocks possitions are kept in 10th increment starting from 10
+					//Current limitaion. anything in between will not be picked up in admin.
+					$idx = $this->_find_block_by_postion($children_arr, ($x + 1) * 10);
+					if ( $idx >= 0 ) {
+						$selected = $children_arr[$idx]['block_id'].'_'.$children_arr[$idx]['custom_block_id'] == $block['block_id'].'_'.$block['custom_block_id'] ? $block['block_id'].'_'.$block['custom_block_id'] : $selected;
+					}
+				}
+			}
+
+			$select_boxes[] = $form->getFieldHtml(array(	'type' => 'selectbox',
+															'name' => 'blocks['.$section_id.'][children][]',
+															'value' => array($selected=>$selected),
+															'options' => $options));
+		}
+		return $select_boxes;
+	}
+	
+	private function _find_block_by_postion($blocks_arr, $position) {
+		foreach ($blocks_arr as $index => $block_s) {
+			if ( $block_s['position'] == $position ) {
+				return $index;
+			}
+		}
+		return -1;
+	}
+	
 }

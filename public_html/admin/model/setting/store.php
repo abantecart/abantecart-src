@@ -23,25 +23,44 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 
 class ModelSettingStore extends Model {
 	public function addStore($data) {
+		if (empty($data['alias'])) {
+			$data['alias'] = substr(str_replace(' ', '', $data['name']), 0, 15);
+		}
+
       	$this->db->query("INSERT INTO " . DB_PREFIX . "stores
-      	                    SET name = '" . $this->db->escape($data['config_name']) . "',
-								url = '" . $this->db->escape($data['config_url']) . "',
-								`ssl` = '" . (int)$data['config_ssl'] . "'");
+      	                    SET name = '" . $this->db->escape($data['name']) . "',
+								alias = '" . $this->db->escape($data['alias']) . "',
+								status = '" . $this->db->escape($data['status']) . "'");
 		
 		$store_id = $this->db->getLastId();
+		
+		//Clone from selected store
+		if ( isset($data['clone_store'])) {
+			 $sql = "INSERT INTO " . DB_PREFIX . "settings (store_id, `group`, `key`, `value`)
+                SELECT '".$store_id."' as store_id, `group`, `key`, `value`
+                FROM " . DB_PREFIX . "settings
+                WHERE `store_id` = '" . $this->db->escape($data['clone_store']) . "'";
+			$this->db->query( $sql );		
+		}
+		
+		$this->load->model('setting/setting');
 
 		foreach ($data['store_description'] as $language_id => $value) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "store_descriptions
 							SET store_id = '" . (int)$store_id . "',
 								language_id = '" . (int)$language_id . "',
 								description = '" . $this->db->escape($value['description']) . "'");
+			$this->model_setting_setting->editSetting('details',array('config_description_'.(int)$language_id => $value['description']),$store_id);
 		}
 		unset($data['store_description']);
-		$this->load->model('setting/setting');
-		foreach($data as $key=>$value){
-			$this->model_setting_setting->editSetting('custom_store',array($key=>$value),$store_id);
-		}
-		$this->cache->delete('store');
+
+		//Copy some data to details 
+		$this->model_setting_setting->editSetting('details', array('config_url'=>$data['config_url']),$store_id);
+		$this->model_setting_setting->editSetting('details', array('store_name'=>$data['name']),$store_id);
+		$this->model_setting_setting->editSetting('system', array('config_ssl'=>$data['config_ssl']),$store_id);
+		
+		$this->cache->delete('settings.store');
+		$this->cache->delete('stores');
         // add settings of extension of default store to new store settings
         $extension_list = $this->extensions->getEnabledExtensions();
         $sql = "INSERT INTO " . DB_PREFIX . "settings (store_id, `group`, `key`, `value`)
@@ -49,51 +68,12 @@ class ModelSettingStore extends Model {
                 FROM " . DB_PREFIX . "settings
                 WHERE `group` in ('".implode("' ,'",$extension_list)."') AND store_id='0';";
 		$this->db->query( $sql );
+				
+		
 		return $store_id;
 	}
 	
 	public function editStore($store_id, $data) {
-
-		$fields = array('config_name',
-		                'config_url',
-		                'config_title',
-		                'config_meta_description',
-		                'config_storefront_template',
-		                'config_country_id',
-		                'config_zone_id',
-		                'config_storefront_language',
-		                'config_currency',
-		                'config_tax',
-						'config_tax_store',
-		                'config_tax_customer',
-		                'config_customer_group_id',
-		                'config_customer_price',
-		                'config_customer_approval',
-		                'config_guest_checkout',
-		                'config_account_id',
-		                'config_checkout_id',
-		                'config_stock_display',
-		                'config_stock_checkout',
-		                'config_catalog_limit',
-		                'config_cart_weight',
-		                'config_order_status_id',
-		                'config_logo',
-		                'config_icon',
-		                'config_image_thumb_width',
-		                'config_image_thumb_height',
-		                'config_image_popup_width',
-		                'config_image_popup_height',
-		                'config_image_category_width',
-		                'config_image_category_height',
-		                'config_image_product_width',
-		                'config_image_product_height',
-		                'config_image_additional_width',
-		                'config_image_additional_height',
-		                'config_image_related_width',
-		                'config_image_related_height',
-		                'config_image_cart_width',
-		                'config_image_cart_height',
-		                'config_ssl');
 
 		if ( !empty($data['store_description']) ) {
 			foreach ($data['store_description'] as $language_id => $value) {
@@ -116,35 +96,35 @@ class ModelSettingStore extends Model {
 		}
 		unset($data['store_description']);
 
-        //TODO: check why we duplicate these 3 variables in stores table?
-        //store check by url done via stores table, not settings table
-        if ( !empty($data['config_name']) || !empty($data['config_url']) || !empty($data['config_ssl']) ){
-            if ( !empty($data['config_name']) ){
-                $this->db->query(
-                    "UPDATE " . DB_PREFIX . "stores
-                	SET  `name`='" . $this->db->escape($data['config_name']) . "'
-                	WHERE store_id = '" . (int)$store_id . "' ");
-            }
-            if ( !empty($data['config_url']) ){
-                $this->db->query(
-                    "UPDATE " . DB_PREFIX . "stores
-                	SET  `url`='" . $this->db->escape($data['config_url']) . "'
-                	WHERE store_id = '" . (int)$store_id . "' ");
-            }
-            if ( !empty($data['config_ssl']) ){
-                $this->db->query(
-                    "UPDATE " . DB_PREFIX . "stores
-                	SET  `ssl`='" . $this->db->escape($data['config_ssl']) . "'
-                	WHERE store_id = '" . (int)$store_id . "' ");
-            }
+ 		$this->load->model('setting/setting');
+        if ( isset($data['alias']) ){
+            $this->db->query(
+                "UPDATE " . DB_PREFIX . "stores
+            	SET  `alias`='" . $this->db->escape($data['alias']) . "'
+            	WHERE store_id = '" . (int)$store_id . "' ");
+        }
+        if ( isset($data['status']) ){
+            $this->db->query(
+                "UPDATE " . DB_PREFIX . "stores
+            	SET  `status`='" . $this->db->escape($data['status']) . "'
+            	WHERE store_id = '" . (int)$store_id . "' ");
+        }
+        if ( isset($data['name']) ){
+            $this->db->query(
+                "UPDATE " . DB_PREFIX . "stores
+            	SET  `name`='" . $this->db->escape($data['name']) . "'
+            	WHERE store_id = '" . (int)$store_id . "' ");
+            	$this->model_setting_setting->editSetting('details',array('config_name'=>$data['name']),$store_id);
+        }
+        if ( isset($data['config_url']) ){
+            $this->model_setting_setting->editSetting('details',array('config_url'=>$data['config_url']),$store_id);
+        }
+        if ( isset($data['config_ssl']) ){
+            $this->model_setting_setting->editSetting('system',array('config_ssl'=>$data['config_ssl']),$store_id);
         }
 
-		$this->load->model('setting/setting');
-		foreach($data as $key=>$value){
-			if(!in_array($key,$fields)){ continue; }
-			$this->model_setting_setting->editSetting('custom_store',array($key=>$value),$store_id);
-		}
-		$this->cache->delete('store');
+		$this->cache->delete('settings.store');
+		$this->cache->delete('stores');
 	}
 	
 	public function deleteStore($store_id) {
@@ -156,15 +136,18 @@ class ModelSettingStore extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contents_to_stores WHERE store_id = '" . (int)$store_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "manufacturers_to_stores WHERE store_id = '" . (int)$store_id . "'");
 	
-		$this->cache->delete('store');
-	}	
+		$this->cache->delete('settings.store');
+		$this->cache->delete('stores');
+	}
 	
 	public function getStore($store_id) {
 		$output = array();
-		$query = $this->db->query("SELECT DISTINCT *
-								   FROM " . DB_PREFIX . "stores st
-								   LEFT JOIN " . DB_PREFIX . "settings se ON se.store_id = st.store_id
-								   WHERE st.store_id = '" . (int)$store_id . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "stores
+								   WHERE store_id = '" . (int)$store_id . "'");
+		$output = $query->rows[0];
+
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "settings
+								   WHERE store_id = '" . (int)$store_id . "'");
 		if($query->num_rows){
 			foreach($query->rows as $row){
 				$output[$row['key']] = $row['value'];
@@ -186,18 +169,16 @@ class ModelSettingStore extends Model {
 	}
 	
 	public function getStores($data = array()) {
-		$store_data = $this->cache->get('store');
-	
-		if (!isset($store_data)) {
+		$store_data = $this->cache->get('stores');
+		if (is_null($store_data)) {
 			$query = $this->db->query("SELECT *
 										FROM " . DB_PREFIX . "stores
-										ORDER BY url");
+										ORDER BY store_id");
 
 			$store_data = $query->rows;
 		
-			$this->cache->set('store', $store_data);
+			$this->cache->set('stores', $store_data);
 		}
-	 
 		return $store_data;
 	}
 

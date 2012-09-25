@@ -51,9 +51,17 @@ final class ARequest {
         $this->_detectBrowser();
 	}
 	
-	//????? Build funtion to return get or past var. If it is not important.
 	//????? Include PHP module filter to process input params. http://us3.php.net/manual/en/book.filter.php	 
-	
+  	
+  	public function get_or_post( $key ) {
+		if ( isset($this->get[$key]) ){
+			return $this->get[$key];
+		} else if ( isset($this->post[$key]) ) {
+			return $this->post[$key];
+		} 
+		return;
+	}
+		
   	public function clean($data) {
     	if (is_array($data)) {
 	  		foreach ($data as $key => $value) {

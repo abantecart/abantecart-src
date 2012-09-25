@@ -88,10 +88,13 @@ class ControllerResponsesListingGridStockStatus extends AController {
 		$this->loadModel('setting/store');
 		$this->loadModel('catalog/product');
         $this->loadLanguage('localisation/stock_status');
-        if (!$this->user->hasPermission('modify', 'localisation/stock_status')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/stock_status') );
-            return;
-		}
+		if (!$this->user->canModify('listing_grid/stock_status')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/stock_status'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
 
 		switch ($this->request->post['oper']) {
 			case 'del':
@@ -100,8 +103,8 @@ class ControllerResponsesListingGridStockStatus extends AController {
 				foreach( $ids as $id ) {
 					$err = $this->_validateDelete($id);
 					if (!empty($err)) {
-						$this->response->setOutput($err);
-						return;
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 					$this->model_localisation_stock_status->deleteStockStatus($id);
 				}
@@ -141,10 +144,13 @@ class ControllerResponsesListingGridStockStatus extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/stock_status');
-        if (!$this->user->hasPermission('modify', 'localisation/stock_status')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/stock_status') );
-            return;
-		}
+	    if (!$this->user->canModify('listing_grid/stock_status')) {
+	  			        $error = new AError('');
+	  			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+	  			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/stock_status'),
+	  			    	                                      'reset_value' => true
+	  			    	                             ) );
+	  	}
 
         $this->loadModel('localisation/stock_status');
 		if ( isset($this->request->get['id']) && !empty($this->request->post['stock_status']) ) {

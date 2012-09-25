@@ -41,3 +41,26 @@ if (typeof jQuery == 'undefined') {
 <script type="text/javascript" src="<?php echo $script; ?>"></script>
 <?php } ?>
 
+<?php if($cart_ajax){ //event for adding product to cart by ajax ?>
+<script type="text/javascript">
+    $('a[href=\\#].buy').live('click',function(){
+        var item = $(this);
+        if(item.attr('id')){
+            $.ajax({
+                    url:'<?php echo $cart_ajax_url; ?>',
+                    type:'GET',
+                    dataType:'json',
+                    data: {product_id:  item.attr('id') },
+                    success:function (data) {
+                        item.removeAttr('href').addClass('added').removeClass('buy');
+	                    if($('#item_count').length>0){
+		                    $('#item_count').html(data.item_count);
+	                    }
+
+                    }
+            });
+        }
+    return false;
+});
+</script>
+<?php }?>

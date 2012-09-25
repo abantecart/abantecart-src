@@ -85,46 +85,49 @@ class ControllerPagesCatalogCategory extends AController {
 				'name' => 'image',
 				'index' => 'image',
                 'align' => 'center',
-				'width' => 50,
+				'width' => 70,
 				'sortable' => false,
 				'search' => false,
 			),
             array(
 				'name' => 'name',
 				'index' => 'name',
-				'width' => 380,
-				'align' => 'center',
+				'width' => 310,
+				'align' => 'left',
 			),
 			array(
 				'name' => 'sort_order',
 				'index' => 'sort_order',
-				'width' => 90,
+				'width' => 100,
 				'align' => 'center',
 				'search' => false,
 			),
 			array(
 				'name' => 'status',
 				'index' => 'status',
-				'width' => 90,
+				'width' => 100,
 				'align' => 'center',
 				'search' => false,
 			),
 			array(
 				'name' => 'products',
 				'index' => 'products',
-				'width' => 80,
+				'width' => 100,
 				'align' => 'center',
 				'search' => false,
 			),
 			array(
 				'name' => 'subcategories',
 				'index' => 'subcategories',
-				'width' => 130,
+				'width' => 140,
 				'align' => 'center',
 				'search' => false,
 			),
 		);
-
+		if ( $this->config->get('config_show_tree_data') ) {
+			$grid_settings[ 'expand_column' ] = "name";	
+			$grid_settings[ 'multiaction_class' ] = 'hidden';		
+		}
 
         $results = $this->model_catalog_category->getCategories(0);
 		$parents = array( 0 => $this->language->get('text_none') );
@@ -159,7 +162,8 @@ class ControllerPagesCatalogCategory extends AController {
 		$grid_search_form[ 'fields' ][ 'parent_id' ] = $form->getFieldHtml(array(
 		                                                                        'type' => 'selectbox',
 		                                                                        'name' => 'parent_id',
-		                                                                        'options' => $parents
+		                                                                        'options' => $parents,
+																				'style' => 'large-field'
 		                                                                   ));
 
 		$grid_settings[ 'search_form' ] = true;
@@ -335,6 +339,7 @@ class ControllerPagesCatalogCategory extends AController {
 		$this->data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(
 			array('type' => 'form',
 				'name' => 'editFrm',
+				'attr' => 'confirm-exit="true"',
 				'action' => $this->data[ 'action' ],
 		));
 		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(
@@ -443,7 +448,7 @@ class ControllerPagesCatalogCategory extends AController {
 
 	private function _validateForm() {
 		
-		if (!$this->user->hasPermission('modify', 'catalog/category')) {
+		if (!$this->user->canModify('catalog/category')) {
 			$this->error[ 'warning' ] = $this->language->get('error_permission');
 		}
 

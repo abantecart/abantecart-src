@@ -84,12 +84,16 @@ class ControllerResponsesListingGridUser extends AController {
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		if (!$this->user->canModify('listing_grid/user')) {
+			        $error = new AError('');
+			        return $error->toJSONResponse('NO_PERMISSIONS_402',
+			                                      array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/user'),
+			                                             'reset_value' => true
+			                                           ) );
+		}
+
 		$this->loadModel('user/user');
         $this->loadLanguage('user/user');
-        if (!$this->user->hasPermission('modify', 'user/user')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'user/user'));
-            return;
-		}
 
 		switch ($this->request->post['oper']) {
 			case 'del':
@@ -131,12 +135,15 @@ class ControllerResponsesListingGridUser extends AController {
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-        $this->loadLanguage('user/user');
-        if (!$this->user->hasPermission('modify', 'user/user')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'user/user'));
-            return;
-		}
+	    if (!$this->user->canModify('listing_grid/user')) {
+	  			        $error = new AError('');
+	  			        return $error->toJSONResponse('NO_PERMISSIONS_402',
+	  			                                      array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/user'),
+	  			                                             'reset_value' => true
+	  			                                           ) );
+	  	}
 
+        $this->loadLanguage('user/user');
         $this->loadModel('user/user');
 		if ( isset( $this->request->get['id'] ) ) {
 		    //request sent from edit form. ID in url

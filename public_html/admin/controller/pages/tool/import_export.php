@@ -196,7 +196,7 @@ class ControllerPagesToolImportExport extends AController {
 				
 				$this->data['action'] = $this->html->getSecureURL('p/tool/export_upload');
 
-				$this->data['form']['fields'] = $this->_build_table_fields($form, (array) $sections);//exit;
+				$this->data['form']['fields'] = $this->_build_table_fields($form, (array) $sections);
 
 				$this->data['text_range_from'] = $this->language->get('text_id_range_from');
 				$this->data['text_to'] = $this->language->get('text_to');

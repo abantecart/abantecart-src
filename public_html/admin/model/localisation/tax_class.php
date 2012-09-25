@@ -72,6 +72,7 @@ class ModelLocalisationTaxClass extends Model {
 			$this->db->query("UPDATE `" . DB_PREFIX . "tax_rates`
 								SET ". implode(',', $update) ."
 								WHERE tax_rate_id = '" . (int)$tax_rate_id . "'");
+			$this->cache->delete('tax_class');
 			$this->cache->delete('location');
 		}
 	}

@@ -156,8 +156,9 @@ class ModelCheckoutOrder extends Model {
 								price = '" . (float)$product['price'] . "',
 								total = '" . (float)$product['total'] . "',
 								tax = '" . (float)$product['tax'] . "',
-								quantity = '" . (int)$product['quantity'] . "'");
- 
+								quantity = '" . (int)$product['quantity'] . "',
+								subtract = '" . (int)$product['stock'] . "'");
+
 			$order_product_id = $this->db->getLastId();
 
 			foreach ($product['option'] as $option) {
@@ -177,7 +178,13 @@ class ModelCheckoutOrder extends Model {
 		}
 		
 		foreach ($data['totals'] as $total) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "order_totals SET order_id = '" . (int)$order_id . "', title = '" . $this->db->escape($total['title']) . "', text = '" . $this->db->escape($total['text']) . "', `value` = '" . (float)$total['value'] . "', sort_order = '" . (int)$total['sort_order'] . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "order_totals
+								SET order_id = '" . (int)$order_id . "',
+									title = '" . $this->db->escape($total['title']) . "',
+									text = '" . $this->db->escape($total['text']) . "',
+									`value` = '" . (float)$total['value'] . "',
+									sort_order = '" . (int)$total['sort_order'] . "',
+									type = '" . $this->db->escape($total['total_type']) . "'");
 		}	
 
 		return $order_id;
@@ -217,7 +224,7 @@ class ModelCheckoutOrder extends Model {
 													 WHERE order_id = '" . (int)$order_id . "'");
 			
 			foreach ($order_product_query->rows as $product) {
-				if (!$product['subtract']) {
+				if ($product['subtract']) {
 					$this->db->query("UPDATE " . DB_PREFIX . "products
 									  SET quantity = (quantity - " . (int)$product['quantity'] . ")
 									  WHERE product_id = '" . (int)$product['product_id'] . "'");
@@ -232,7 +239,7 @@ class ModelCheckoutOrder extends Model {
 					$this->db->query("UPDATE " . DB_PREFIX . "product_option_values
 									  SET quantity = (quantity - " . (int)$product['quantity'] . ")
 									  WHERE product_option_value_id = '" . (int)$option['product_option_value_id'] . "'
-									        AND subtract = '1'");
+									        AND subtract = 1");
 				}
 				
 				$this->cache->delete('product');
@@ -431,7 +438,7 @@ class ModelCheckoutOrder extends Model {
 			
 			$text .= $language->get('text_footer');
 						
-			$mail = new AMail( $this->config ); 
+			$mail = new AMail( $this->config );
 			$mail->setTo($order_query->row['email']);
 			$mail->setFrom($this->config->get('store_main_email'));
 			$mail->setSender($order_query->row['store_name']);
@@ -464,8 +471,10 @@ class ModelCheckoutOrder extends Model {
 				// Send to additional alert emails
 				$emails = explode(',', $this->config->get('config_alert_emails'));
 				foreach ($emails as $email) {
-					$mail->setTo($email);
-					$mail->send();
+					if(trim($email)){
+						$mail->setTo($email);
+						$mail->send();
+					}
 				}
 
 			}

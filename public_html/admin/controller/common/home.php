@@ -90,7 +90,7 @@ class ControllerCommonHome extends AController {
 			);			
 
 	       	if (!in_array($route, $ignore)) {
-				if (!$this->user->hasPermission('access', $route)) {
+				if (!$this->user->canAccess($route)) {
 					return $this->dispatch('pages/error/permission');
 				}
 			}

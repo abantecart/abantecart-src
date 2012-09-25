@@ -38,6 +38,7 @@ define('DIR_CORE', str_replace('\'', '/', realpath(dirname(__FILE__) . '/../')) 
 define('DIR_SYSTEM', str_replace('\'', '/', realpath(dirname(__FILE__) . '/../')) . '/system/');
 define('DIR_CACHE', str_replace('\'', '/', realpath(dirname(__FILE__) . '/../')) . '/system/cache/');
 define('DIR_ABANTECART', str_replace('\'', '/', realpath(DIR_APP_SECTION . '../')) . '/');
+define('DIR_STOREFRONT', DIR_ABANTECART . '/storefront/');
 define('DIR_DATABASE', DIR_CORE . 'database/');
 define('DIR_TEMPLATE', DIR_APP_SECTION . 'view/template/');
 define('INSTALL', 'true');

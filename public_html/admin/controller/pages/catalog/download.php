@@ -265,6 +265,7 @@ class ControllerPagesCatalogDownload extends AController {
 		    'type' => 'form',
 		    'name' => 'downloadFrm',
 		    'action' => $this->data['action'],
+		    'attr' => 'confirm-exit="true"',
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
@@ -333,7 +334,7 @@ class ControllerPagesCatalogDownload extends AController {
   	}
 
   	private function _validateForm() {
-    	if (!$this->user->hasPermission('modify', 'catalog/download')) {
+    	if (!$this->user->canModify('catalog/download')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
 		foreach ($this->request->post['download_description'] as $language_id => $value) {
@@ -356,7 +357,7 @@ class ControllerPagesCatalogDownload extends AController {
   	}
 
   	private function _validateDelete() {
-    	if (!$this->user->hasPermission('modify', 'catalog/download')) {
+    	if (!$this->user->canModify('catalog/download')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}	
 		

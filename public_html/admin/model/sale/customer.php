@@ -64,7 +64,8 @@ class ModelSaleCustomer extends Model {
 							fax = '" . $this->db->escape($data['fax']) . "',
 							newsletter = '" . (int)$data['newsletter'] . "',
 							customer_group_id = '" . (int)$data['customer_group_id'] . "',
-							status = '" . (int)$data['status'] . "'
+							status = '" . (int)$data['status'] . "',
+							approved = '" . (int)$data['approved'] . "'
 						WHERE customer_id = '" . (int)$customer_id . "'");
 	
       	if ($data['password']) {

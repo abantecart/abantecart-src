@@ -94,10 +94,44 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 		}
 
 		$this->load->model('checkout/order');
-				
 		$order_info = $this->model_checkout_order->getOrder($order_id);
-		
+		$suspect = false;
+		$message = '';
 		if ($order_info) {
+			// check seller email and save message if not equal
+			if($this->request->post['receiver_email'] != $this->config->get('default_pp_standart_email')){
+
+				$this->load->language('default_pp_standart/default_pp_standart');
+
+				$message .= $this->language->get('text_suspect');
+				$params = array(
+					'payment_status',
+					'pending_reason',
+					'address_zip',
+					'address_country_code',
+					'address_name',
+					'address_country',
+					'address_city',
+					'quantity',
+					'payer_email',
+					'first_name',
+					'last_name',
+					'payment_gross',
+					'shipping',
+					'ipn_track_id',
+					'receiver_email'
+				);
+				foreach($params as $p){
+					if(isset($this->request->post[$p])){
+						$message .=  $p .": ".$this->request->post[$p]."<br>\n";
+					}
+				}
+				$msg = new AMessage();
+				$msg->saveNotice(sprintf($this->language->get('text_suspect_subj'),$order_id), $message);
+				$suspect = true;
+			}
+
+
 			$request = 'cmd=_notify-validate';
 		
 			foreach ($this->request->post as $key => $value) {
@@ -119,8 +153,11 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		
 				$response = curl_exec($ch);
-			
-				if (strcmp($response, 'VERIFIED') == 0 || $this->request->post['payment_status'] == 'Completed') {
+
+				if($suspect===true){
+					// set pending status for all suspected orders
+					$this->model_checkout_order->confirm($order_id, 1, $message );
+				}elseif (strcmp($response, 'VERIFIED') == 0 || $this->request->post['payment_status'] == 'Completed') {
 					$this->model_checkout_order->confirm($order_id, $this->config->get('default_pp_standart_order_status_id'));
 				} else {
 					$this->model_checkout_order->confirm($order_id, $this->config->get('config_order_status_id'));

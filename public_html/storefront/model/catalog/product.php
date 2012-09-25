@@ -27,13 +27,54 @@ class ModelCatalogProduct extends Model {
 			return;
 		}
 		$query = $this->db->query(
-								"SELECT DISTINCT *, pd.name AS name, m.name AS manufacturer, ss.name AS stock_status " .
+								"SELECT DISTINCT *, pd.name AS name, m.name AS manufacturer, ss.name AS stock_status, lcd.unit as length_class_name " .
 								$this->_sql_join_string() .
-								" WHERE p.product_id = '" . (int)$product_id . "'
+								"LEFT JOIN " . DB_PREFIX . "length_class_descriptions lcd
+									ON (p.length_class_id = lcd.length_class_id AND lcd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
+								WHERE p.product_id = '" . (int)$product_id . "'
 										AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
 										AND p.date_available <= NOW() AND p.status = '1'");
-	
-		return $query->row;
+	    return $query->row;
+	}
+
+	/*
+	* Check if product or any option value require tracking stock subtract = 1
+	*/
+	public function isStockTrackable ($product_id) {
+		$track_status = 0;
+		//check main product
+		$query = $this->db->query( "SELECT subtract FROM " . DB_PREFIX . "products p
+									WHERE p.product_id = '" . (int)$product_id . "'");
+									
+		$track_status = $query->row['subtract'];
+		//check product option values
+		$query = $this->db->query( "SELECT pov.subtract AS subtract FROM " . DB_PREFIX . "product_options po
+				left join " . DB_PREFIX . "product_option_values pov ON (po.product_option_id = pov.product_option_id)
+				WHERE po.product_id = '" . (int)$product_id . "'");
+				
+		$track_status += $query->row['subtract'];
+
+		return $track_status;		
+	}
+
+	/*
+	* Check if product or any option has any stock available
+	*/
+	public function hasAnyStock ($product_id) {
+		$total_quantity = 0;
+		//check main product
+		$query = $this->db->query( "SELECT quantity FROM " . DB_PREFIX . "products p
+									WHERE p.product_id = '" . (int)$product_id . "'");
+									
+		$total_quantity = $query->row['quantity'];
+		//check product option values
+		$query = $this->db->query( "SELECT pov.quantity AS quantity FROM " . DB_PREFIX . "product_options po
+				left join " . DB_PREFIX . "product_option_values pov ON (po.product_option_id = pov.product_option_id)
+				WHERE po.product_id = '" . (int)$product_id . "'");
+				
+		$total_quantity += $query->row['quantity'];
+
+		return $total_quantity;		
 	}
 	
 	public function getProductDataForCart($product_id) {
@@ -505,6 +546,7 @@ class ModelCatalogProduct extends Model {
 										LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (f.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 										LEFT JOIN " . DB_PREFIX . "products_to_stores p2s ON (p.product_id = p2s.product_id)
 										WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
+											AND p.status='1'
 										LIMIT " . (int)$limit);
 
 			$product_data =  $query->rows;
@@ -565,6 +607,14 @@ class ModelCatalogProduct extends Model {
 			return;
 		}
 		$this->db->query("UPDATE " . DB_PREFIX . "products SET viewed = viewed + 1 WHERE product_id = '" . (int)$product_id . "'");
+	}
+
+	public function updateStatus($product_id, $status = 0) {
+		if ( empty($product_id) ) {
+			return;
+		}
+		$this->db->query("UPDATE " . DB_PREFIX . "products SET status = " . (int)$status . " WHERE product_id = '" . (int)$product_id . "'");
+		$this->cache->delete('product');
 	}
 
 	/**
@@ -662,12 +712,13 @@ class ModelCatalogProduct extends Model {
 					if($product_option_value_query){
 						foreach ($product_option_value_query->rows as $product_option_value) {
 							if ( $product_option_value['attribute_value_id'] ) {
+								//skip duplicate attributes values if it is not grouped parent/child
 								if ( in_array($product_option_value['attribute_value_id'], $attribute_values ) ) {
 									continue;
 								}
 								$attribute_values[] = $product_option_value['attribute_value_id'];
 							}
-							$product_option_value_description_query = $this->db->query(
+							$pd_opt_val_description_qr = $this->db->query(
                                 "SELECT *
                                     FROM " . DB_PREFIX . "product_option_value_descriptions
                                     WHERE product_option_value_id = '" . (int)$product_option_value['product_option_value_id'] . "'
@@ -677,18 +728,22 @@ class ModelCatalogProduct extends Model {
 							$product_option_value_data[$product_option_value['product_option_value_id']] = array(
                                 'product_option_value_id' => $product_option_value['product_option_value_id'],
                                 'attribute_value_id'      => $product_option_value['attribute_value_id'],
+                                'grouped_attribute_data'  => $product_option_value['grouped_attribute_data'],
                                 'group_id'                => $product_option_value['group_id'],
-                                'name'                    => $product_option_value_description_query->row['name'],
+                                'name'                    => $pd_opt_val_description_qr->row['name'],
+                                'children_options_names'  => $pd_opt_val_description_qr->row['children_options_names'],
                                 'sku'                     => $product_option_value['sku'],
                                 'price'                   => $product_option_value['price'],
                                 'price'                   => $product_option_value['price'],
                                 'prefix'                  => $product_option_value['prefix'],
 								'weight'                  => $product_option_value['weight'],
 								'weight_type'             => $product_option_value['weight_type'],
+								'quantity'				  => $product_option_value['quantity'],
+								'subtract'				  => $product_option_value['subtract'],
 							);
 						}
 					}
-					$product_option_description_query = $this->db->query(
+					$prd_opt_description_qr = $this->db->query(
                         "SELECT *
                         FROM " . DB_PREFIX . "product_option_descriptions
                         WHERE product_option_id = '" . (int)$product_option['product_option_id'] . "'
@@ -699,7 +754,7 @@ class ModelCatalogProduct extends Model {
                         'product_option_id' => $product_option['product_option_id'],
                         'attribute_id'      => $product_option['attribute_id'],
                         'group_id'          => $product_option['group_id'],
-                        'name'              => $product_option_description_query->row['name'],
+                        'name'              => $prd_opt_description_qr->row['name'],
                         'option_value'      => $product_option_value_data,
                         'sort_order'        => $product_option['sort_order'],
 						'element_type'      => $product_option['element_type'],
@@ -710,7 +765,7 @@ class ModelCatalogProduct extends Model {
 			}
 
             $this->cache->set( 'product.options.'.$product_id, $product_option_data, $this->config->get('storefront_language_id') );
-		}
+		}	
 		return $product_option_data;
 	}
 
@@ -750,13 +805,14 @@ class ModelCatalogProduct extends Model {
 			return;
 		}
 		
-		$query = $this->db->query("SELECT *
+		$query = $this->db->query("SELECT *, COALESCE(povd.name,povd2.name) as name
                         FROM " . DB_PREFIX . "product_option_values pov
-                        LEFT JOIN " . DB_PREFIX . "product_option_value_descriptions povd ON (pov.product_option_value_id = povd.product_option_value_id)
+                        LEFT JOIN " . DB_PREFIX . "product_option_value_descriptions povd ON (pov.product_option_value_id = povd.product_option_value_id AND povd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
+                        LEFT JOIN " . DB_PREFIX . "product_option_value_descriptions povd2 ON (pov.product_option_value_id = povd2.product_option_value_id AND povd2.language_id = '1' )
                         WHERE pov.product_option_value_id = '" . (int)$product_option_value_id . "'
-                            AND pov.product_id = '" . (int)$product_id . "' AND povd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'
+                            AND pov.product_id = '" . (int)$product_id . "'
                         ORDER BY pov.sort_order");
-		return $query->row;					
+		return $query->row;
 	}
 
 	//Check if any of inputed oprions are required and provided

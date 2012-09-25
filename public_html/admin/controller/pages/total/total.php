@@ -23,7 +23,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerPagesTotalTotal extends AController {
 	public $data = array();
 	private $error = array();
-	private $fields = array('total_status', 'total_sort_order');
+	private $fields = array('total_status', 'total_sort_order', 'total_total_type');
 	 
 	public function main() {
 
@@ -83,7 +83,7 @@ class ControllerPagesTotalTotal extends AController {
 		$form->setForm ( array ('form_name' => 'editFrm', 'update' => $this->data ['update'] ) );
 
 		$this->data['form']['form_open'] = $form->getFieldHtml ( array ('type' => 'form', 'name' => 'editFrm', 'action' => $this->data ['action'] ) );
-		$this->data['form']['submit'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'submit', 'text' => $this->language->get ( 'button_go' ), 'style' => 'button1' ) );
+		$this->data['form']['submit'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'submit', 'text' => $this->language->get ( 'button_save' ), 'style' => 'button1' ) );
 		$this->data['form']['cancel'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'cancel', 'text' => $this->language->get ( 'button_cancel' ), 'style' => 'button2' ) );
 
 		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
@@ -92,6 +92,22 @@ class ControllerPagesTotalTotal extends AController {
 		    'value' => $this->data['total_status'],
 			'style'  => 'btn_switch',
 	    ));
+
+		$this->loadLanguage('extension/extensions');
+		$options = array( 'subtotal' => $this->language->get('text_subtotal'),
+						  'shipping' => $this->language->get('text_shipping'),
+						  'fee' => $this->language->get('text_fee'),
+						  'discount' => $this->language->get('text_discount'),
+						  'total' => $this->language->get('text_total'),
+						  'tax' => $this->language->get('text_tax')
+						  );
+		$this->data['form']['fields']['total_type'] = $form->getFieldHtml(array(
+		    'type' => 'selectbox',
+		    'name' => 'total_type',
+			'options' => $options,
+		    'value' => $this->data['total_total_type']
+	    ));
+
 		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'total_sort_order',
@@ -106,7 +122,7 @@ class ControllerPagesTotalTotal extends AController {
 	}
 
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'total/total')) {
+		if (!$this->user->canModify('total/total')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		

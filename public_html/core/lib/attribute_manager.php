@@ -30,6 +30,9 @@ class AAttribute_Manager extends AAttribute {
 	
 	public function __construct($attribute_type = '', $language_id = 0 ) {
 		parent::__construct($attribute_type, $language_id );
+		if (!IS_ADMIN) { // forbid for non admin calls
+			throw new AException (AC_ERR_LOAD, 'Error: permission denied to access class AAttribute_Manager');
+		}		
 	}
 
     public function clearCache() {
@@ -81,7 +84,7 @@ class AAttribute_Manager extends AAttribute {
 			foreach ( $data['values'] as $id=>$value  ) {
 				$attribute_value_id = $this->addAttributeValue($attribute_id, $data['sort_orders'][$id]);
 				foreach ($languages as $l) {
-        			$this->addAttributeValueDescritpion($attribute_id, $attribute_value_id, $l['language_id'], $value);
+        			$this->addAttributeValueDescription($attribute_id, $attribute_value_id, $l['language_id'], $value);
         		}
 			}
 		}
@@ -163,7 +166,7 @@ class AAttribute_Manager extends AAttribute {
 		    		// New need to create
 		    		$attribute_value_id = $this->addAttributeValue($attribute_id, $data['sort_orders'][$atr_val_id]);
 		    		if($attribute_value_id){
-		    			$this->addAttributeValueDescritpion($attribute_id, $attribute_value_id, $language_id, $value);
+		    			$this->addAttributeValueDescription($attribute_id, $attribute_value_id, $language_id, $value);
 		    		}
 		    	} else {
 		    		//Existing need to update
@@ -214,16 +217,18 @@ class AAttribute_Manager extends AAttribute {
     	$this->clearCache();
 	}
 
-	public function addAttributeValueDescritpion ($attribute_id, $attribute_value_id, $language_id, $value){
+	public function addAttributeValueDescription ($attribute_id, $attribute_value_id, $language_id, $value){
 		if ( empty($attribute_id) || empty($attribute_value_id) || empty($language_id) ) {
 			return;
 		}
- 	    $sql = "INSERT INTO `".DB_PREFIX."global_attributes_value_descriptions`
-		    	SET attribute_id = '" . (int)$attribute_id . "',
-		    	    attribute_value_id = '" . (int)$attribute_value_id . "',
-		    	    language_id = '" . (int)$language_id . "',
-		    		`value` = '" . $this->db->escape($value) . "' ";
+
+        $sql = "INSERT INTO `".DB_PREFIX."global_attributes_value_descriptions`
+		        SET attribute_id = '" . (int)$attribute_id . "',
+		            attribute_value_id = '" . (int)$attribute_value_id . "',
+		            language_id = '" . (int)$language_id . "',
+		            `value` = '" . $this->db->escape($value) . "' ";
         $this->db->query( $sql );
+
         $this->clearCache();       
 	}
 
@@ -233,7 +238,7 @@ class AAttribute_Manager extends AAttribute {
 		}
 		//Delete and add operation 
 		$this->deleteAttributeValueDescritpion($attribute_value_id, $language_id);
-		$this->addAttributeValueDescritpion($attribute_id, $attribute_value_id, $language_id, $value);
+		$this->addAttributeValueDescription($attribute_id, $attribute_value_id, $language_id, $value);
 		
 		$this->clearCache(); 
 	}
@@ -544,5 +549,17 @@ class AAttribute_Manager extends AAttribute {
         $query = $this->db->query($sql);
         return $query->num_rows;
     }
+
+	public function getLeafAttributes() {
+		$query = $this->db->query(
+			"SELECT t1.attribute_id as attribute_id FROM " . DB_PREFIX . "global_attributes AS t1 LEFT JOIN " . DB_PREFIX . "global_attributes as t2
+			 ON t1.attribute_id = t2.attribute_parent_id WHERE t2.attribute_id IS NULL");
+		$result = array();
+		foreach ( $query->rows as $r ) {
+			$result[$r['attribute_id']] = $r['attribute_id'];
+		}
+
+		return $result;
+	}
 
 }

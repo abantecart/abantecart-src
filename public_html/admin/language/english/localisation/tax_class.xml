@@ -61,16 +61,8 @@
     <value><![CDATA[Warning: You do not have permission to modify tax classes!]]></value>
   </definition>
   <definition>
-    <key>error_title</key>
+    <key>error_tax_title</key>
     <value><![CDATA[Tax Class Title must be between 2 and 32 characters!]]></value>
-  </definition>
-  <definition>
-    <key>error_description</key>
-    <value><![CDATA[Tax Rate Description must be between 2 and 255 characters!]]></value>
-  </definition>
-  <definition>
-    <key>error_priority</key>
-    <value><![CDATA[Tax Prority required!]]></value>
   </definition>
   <definition>
     <key>error_rate</key>

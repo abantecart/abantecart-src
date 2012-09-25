@@ -95,11 +95,28 @@ class ControllerPagesSaleOrder extends AController {
 			$this->language->get('column_total'),
 		);
 		$grid_settings['colModel'] = array(
-			array( 'name' => 'order_id', 'index' => 'order_id', 'width' => 70, 'align' => 'center', ),
-			array( 'name' => 'name', 'index' => 'name', 'width' => 140, 'align' => 'left', ),
-			array( 'name' => 'status', 'index' => 'status', 'width' => 140, 'align' => 'center', 'search' => false ),
-			array( 'name' => 'date_added', 'index' => 'date_added', 'width' => 90, 'align' => 'center', 'search' => false ),
-			array( 'name' => 'total', 'index' => 'total', 'width' => 110, 'align' => 'center',  ),
+			array( 'name' => 'order_id',
+				   'index' => 'order_id',
+				   'width' => 60,
+				   'align' => 'center', ),
+			array( 'name' => 'name',
+				   'index' => 'name',
+				   'width' => 140,
+				   'align' => 'center', ),
+			array( 'name' => 'status',
+				   'index' => 'status',
+				   'width' => 140,
+				   'align' => 'center',
+				   'search' => false ),
+			array( 'name' => 'date_added',
+				   'index' => 'date_added',
+				   'width' => 90,
+				   'align' => 'center',
+				   'search' => false ),
+			array( 'name' => 'total',
+				   'index' => 'total',
+				   'width' => 90,
+				   'align' => 'center'  ),
 		);
 
 		$this->loadModel('localisation/order_status');
@@ -286,15 +303,12 @@ class ControllerPagesSaleOrder extends AController {
 
 		$this->data['email'] = $this->html->buildInput( array(
 			                                                'name' => 'email',
-			                                                'value' => $order_info['email'],
-			                                                'style' => 'no-save'
+			                                                'value' => $order_info['email']
 		                                                ) );
 		$this->data['telephone'] = $this->html->buildInput( array(
 			                                                'name' => 'telephone',
-			                                                'value' => $order_info['telephone'],
-			                                                'style' => 'no-save'
+			                                                'value' => $order_info['telephone']
 		                                                ) );
-
 
 		$this->loadModel('catalog/category');
 		$this->data['categories'] = $this->model_catalog_category->getCategories(0);
@@ -364,6 +378,7 @@ class ControllerPagesSaleOrder extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'orderFrm',
+		    'attr' => 'confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -489,6 +504,7 @@ class ControllerPagesSaleOrder extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'orderFrm',
+		    'attr' => 'confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -641,6 +657,7 @@ class ControllerPagesSaleOrder extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'orderFrm',
+		    'attr' => 'confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -786,6 +803,7 @@ class ControllerPagesSaleOrder extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'orderFrm',
+		    'attr' => 'confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -846,7 +864,7 @@ class ControllerPagesSaleOrder extends AController {
   	}
 
 	private function _validateForm() {
-    	if (!$this->user->hasPermission('modify', 'sale/order')) {
+    	if (!$this->user->canModify('sale/order')) {
       		$this->error['warning'] = $this->language->get('error_permission'); 
     	}
 	

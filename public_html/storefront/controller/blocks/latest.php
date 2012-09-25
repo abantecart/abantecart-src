@@ -73,12 +73,16 @@ class ControllerBlocksLatest extends AController {
 			if ($options) {
 				$add = $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], '&encode');
 			} else {
-				$add = $this->html->getSecureURL('checkout/cart','&product_id=' . $result['product_id'], '&encode');
+                if($this->config->get('config_cart_ajax')){
+                    $add = '#';
+                }else{
+                    $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
+                }
 			}
 
 			$products[] = array(
 				'product_id'    => $result['product_id'],
-				'name'    		=> htmlentities($result['name'],ENT_QUOTES,'UTF-8'),
+				'name'    		=> $result['name'],
 				'model'   		=> $result['model'],
 				'rating'  		=> $rating,
 				'stars'   		=> sprintf($this->language->get('text_stars'), $rating),

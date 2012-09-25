@@ -138,7 +138,11 @@
 	</definition>
 	<definition>
 		<key>text_missing_extension</key>
-		<value><![CDATA["Extension %EXT%:  Source can not be located!. Please delete it and visit <a href="http://abantecart.com" target="_repository">extension repository</a> to download it again  "]]></value>
+		<value><![CDATA["Extension %EXT%:  Source can not be located! Please delete it and visit extention provider to get complete source and intall it again  "]]></value>
+	</definition>
+	<definition>
+		<key>text_broken_extension</key>
+		<value><![CDATA["Extension %EXT%:  Source probably broken! Can't find config.xml or main.php files. Please delete it and visit extention provider to get complete source and intall it again  "]]></value>
 	</definition>
 	<definition>
 		<key>text_extension_pagination</key>
@@ -194,7 +198,7 @@
 	</definition>
 	<definition>
 		<key>text_visit_repository</key>
-		<value><![CDATA[Please visit <a href="http://abantecart.com" target="_repository">extension repository</a> to download extension]]></value>
+		<value><![CDATA[Please visit %extensions_store% extension repository</a> to download extension]]></value>
 	</definition>
 	<definition>
 		<key>text_license</key>
@@ -255,5 +259,33 @@
 	<definition>
 		<key>text_more_help</key>
 		<value><![CDATA[More help]]></value>
+	</definition>
+	<definition>
+		<key>entry_total_type</key>
+		<value><![CDATA[Type]]></value>
+	</definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Total]]></value>
+	</definition>
+	<definition>
+		<key>text_subtotal</key>
+		<value><![CDATA[Sub-total]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Shipping]]></value>
+	</definition>
+	<definition>
+		<key>text_tax</key>
+		<value><![CDATA[Tax]]></value>
+	</definition>
+	<definition>
+		<key>text_fee</key>
+		<value><![CDATA[Fee]]></value>
+	</definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Discount]]></value>
 	</definition>
 </definitions>

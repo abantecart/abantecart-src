@@ -81,10 +81,15 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
 
 	    $this->loadModel('localisation/language_definitions');
         $this->loadLanguage('localisation/language_definitions');
-        if (!$this->user->hasPermission('modify', 'localisation/language_definitions')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/language_definitions') );
-            return;
-		}
+
+
+		if (!$this->user->canModify('listing_grid/language_definitions')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/language_definitions'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
 
 		switch ($this->request->post['oper']) {
 			case 'del':
@@ -127,10 +132,13 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/language_definitions');
-        if (!$this->user->hasPermission('modify', 'localisation/language_definitions')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/language_definitions') );
-            return;
-		}
+	    if (!$this->user->canModify('listing_grid/language_definitions')) {
+	  			        $error = new AError('');
+	  			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+	  			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/language_definitions'),
+	  			    	                                      'reset_value' => true
+	  			    	                             ) );
+	  	}
 
         $this->loadModel('localisation/language_definitions');
 		$allowedFields = array('block', 'language_key', 'language_value', 'section');
@@ -188,10 +196,6 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage('localisation/language_definitions');
-		if (!$this->user->hasPermission('modify', 'localisation/language_definitions')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/language_definitions') );
-			return;
-		}
 
 		$this->loadModel('localisation/language_definitions');
 		$def_id = $this->model_localisation_language_definitions->getAllLanguageDefinitionsIdByKey(

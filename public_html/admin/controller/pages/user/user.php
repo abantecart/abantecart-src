@@ -246,20 +246,11 @@ class ControllerPagesUserUser extends AController {
 		foreach ( $this->fields as $f ) {
 			if (isset($user_info)) {
 				$this->data[$f] = $user_info[$f];
-			} else {
+			} elseif ( isset($this->request->post[$f]) ) {
+                $this->data[$f] = $this->request->post[$f];
+            } else {
 				$this->data[$f] = '';
 			}
-		}
-
-		if (isset($this->request->post['password'])) {
-			$this->data['password'] = $this->request->post['password'];
-		} else {
-			$this->data['password'] = '';
-		}
-		if (isset($this->request->post['confirm'])) {
-    		$this->data['confirm'] = $this->request->post['confirm'];
-		} else {
-			$this->data['confirm'] = '';
 		}
 
 		if (!isset($this->request->get['user_id'])) {
@@ -304,14 +295,14 @@ class ControllerPagesUserUser extends AController {
 		    'style' => 'button2',
 	    ));
 
-		$input = array('username', 'firstname', 'lastname', 'email', 'password', 'confirm');
+		$input = array('username', 'firstname', 'lastname', 'email', 'password');
 		foreach ( $input as $f ) {
 			$this->data['form']['fields'][$f] = $form->getFieldHtml(array(
-				'type' => ( in_array($f, array('password', 'confirm')) ? 'password' : 'input' ),
+				'type' => ( $f == 'password' ? 'passwordset' : 'input' ),
 				'name' => $f,
 				'value' => $this->data[$f],
-				'required' => ( !in_array($f, array('username','firstname','lastname')) ? false: true),
-				'attr' => ( in_array($f, array('password', 'confirm')) ? 'class="no-save"' : '' ),
+				'required' => ( !in_array($f, array('username','firstname','lastname','password')) ? false: true),
+				'attr' => ( in_array($f, array('password', 'password_confirm')) ? 'class="no-save"' : '' ),
 			));
 		}
 
@@ -334,7 +325,7 @@ class ControllerPagesUserUser extends AController {
   	}
   	
   	private function _validateForm() {
-    	if (!$this->user->hasPermission('modify', 'user/user')) {
+    	if (!$this->user->canModify('user/user')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
     
@@ -355,8 +346,8 @@ class ControllerPagesUserUser extends AController {
         		$this->error['password'] = $this->language->get('error_password');
       		}
 	
-	  		if ($this->request->post['password'] != $this->request->post['confirm']) {
-	    		$this->error['confirm'] = $this->language->get('error_confirm');
+	  		if ($this->request->post['password'] != $this->request->post['password_confirm']) {
+	    		$this->error['password_confirm'] = $this->language->get('error_confirm');
 	  		}
     	}
 	

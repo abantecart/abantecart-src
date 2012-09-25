@@ -46,13 +46,13 @@ class APromotion {
                                         'product_price',
                                         'categories',
                                         'brands',
-                                       // 'products',
+                                        'products',
                                         //'product_option',
                                         'customers',
                                         'customer_groups',
                                         'customer_country',
                                        // 'customer_zone',
-                                        'customer_zip_code',
+                                        'customer_postcode',
                                         'order_subtotal',
                                         'order_product_count',
                                         'order_product_weight',
@@ -260,7 +260,7 @@ class APromotion {
 													 FROM `" . DB_PREFIX . "orders`
 													 WHERE order_status_id > '0' AND coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "'");
 
-			if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_total'] && $coupon_query->row['uses_total']>=0) {
+			if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_total'] && $coupon_query->row['uses_total']>0) {
 				$status = FALSE;
 			}
 			if ($coupon_query->row['logged'] && !$this->customer->getId()) {
@@ -274,7 +274,7 @@ class APromotion {
 														        AND coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "'
 														        AND customer_id = '" . (int)$this->customer->getId() . "'");
 				
-				if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_customer'] && $coupon_query->row['uses_customer']>=0) {
+				if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_customer'] && $coupon_query->row['uses_customer']>0) {
 					$status = FALSE;
 				}
 			}
@@ -327,6 +327,22 @@ class APromotion {
 			
 			return $coupon_data;
 		}
+	}
+
+
+
+	public function apply_promotions($total_data, $total){
+		$registry = Registry::getInstance();
+		if ( $registry->has('extensions') ) {
+			$result = $registry->get('extensions')->hk_apply_promotions($this,$total_data,$total);
+		} else {
+			$result = $this->_apply_promotions($total_data,$total);
+		}
+		return $result;
+	}
+	//adding native promotions
+	public function _apply_promotions($total_data,$total){
+		return array();
 	}
 
 }

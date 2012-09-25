@@ -39,6 +39,15 @@ class ControllerResponsesListingGridCategory extends AController {
 	    $filter_data = $filter->getFilterData();
 	    //Add custom params
 	    $filter_data['parent_id'] = ( isset( $this->request->get['parent_id'] ) ? $this->request->get['parent_id'] : 0 );
+	    $new_level = 0;
+	    $leafnodes = array();
+		//get all leave categories 
+		$leafnodes = $this->model_catalog_category->getLeafCategories();
+	    if ($this->request->post['nodeid'] ) {
+	    	$filter_data = array();
+	    	$filter_data['parent_id'] = (integer)$this->request->post['nodeid'];
+			$new_level = (integer)$this->request->post["n_level"] + 1;
+	    }
 	    
 	    $total = $this->model_catalog_category->getTotalCategories($filter_data);
 	    $response = new stdClass();
@@ -59,14 +68,22 @@ class ControllerResponsesListingGridCategory extends AController {
 
             $response->rows[$i]['id'] = $result['category_id'];
             $cnt = $this->model_catalog_category->getCategoriesData(array('parent_id'=>$result['category_id']),'total_only');
-			$response->rows[$i]['cell'] = array(
-                $thumbnail['thumb_html'],
-				'<label style="white-space: nowrap;">'.(str_replace($result['basename'],'',$result['name'])).'</label>'
+            //treegrid structure
+            $name_lable = '';
+            if ( $this->config->get('config_show_tree_data') ) {
+            	$name_lable = '<label style="white-space: nowrap;">'.$result['basename'].'</label>';
+            } else {
+            	$name_lable = '<label style="white-space: nowrap;">'.(str_replace($result['basename'],'',$result['name'])).'</label>'
 			     .$this->html->buildInput(array(
                     'name'  => 'category_description['.$result['category_id'].']['.$this->session->data['content_language_id'].'][name]',
                     'value' => $result['basename'],
 				    'attr' => ' maxlength="32" '
-                )),
+                ));
+            }
+                   
+			$response->rows[$i]['cell'] = array(
+                $thumbnail['thumb_html'],
+                $name_lable,
                 $this->html->buildInput(array(
                     'name'  => 'sort_order['.$result['category_id'].']',
                     'value' => $result['sort_order'],
@@ -81,7 +98,12 @@ class ControllerResponsesListingGridCategory extends AController {
                 .($cnt ?
                 '&nbsp;<a class="btn_action btn_grid grid_action_expand" href="#" rel="parent_id='.$result['category_id'].'" title="'. $this->language->get('text_view') . '">'.
 				'<img src="'.RDIR_TEMPLATE.'image/icons/icon_grid_expand.png" alt="'. $this->language->get('text_view') . '" /></a>'
-                  :''),
+                  :''), 
+                 'action',
+                 $new_level,
+                 ( $filter_data['parent_id'] ? $filter_data['parent_id'] : NULL ),
+                 ( $result['category_id'] == $leafnodes[$result['category_id']] ? true : false ),
+                 false              
 			);
 			$i++;
 		}
@@ -100,9 +122,12 @@ class ControllerResponsesListingGridCategory extends AController {
 		$this->loadModel('catalog/product');
 	    $this->loadModel('catalog/category');
 		$this->loadLanguage('catalog/category');
-        if (!$this->user->hasPermission('modify', 'catalog/category')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/category') );
-            return;
+		if (!$this->user->canModify('listing_grid/category')) {
+			        $error = new AError('');
+			        return $error->toJSONResponse('NO_PERMISSIONS_402',
+			                                      array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/category'),
+			                                             'reset_value' => true
+			                                           ) );
 		}
 
 		switch ($this->request->post['oper']) {
@@ -145,9 +170,12 @@ class ControllerResponsesListingGridCategory extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('catalog/category');
-        if (!$this->user->hasPermission('modify', 'catalog/category')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/category') );
-            return;
+        if (!$this->user->canModify('listing_grid/category')) {
+	        $error = new AError('');
+	        return $error->toJSONResponse('NO_PERMISSIONS_402',
+	                                      array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/category'),
+	                                             'reset_value' => true
+	                                           ) );
 		}
 
         $this->loadModel('catalog/category');
@@ -165,11 +193,9 @@ class ControllerResponsesListingGridCategory extends AController {
             foreach ( $value as $k => $v ) {
 	             if($field=='category_description'){
 				    if ((strlen(utf8_decode($v[$language_id]['name'])) < 2) || (strlen(utf8_decode($v[$language_id]['name'])) > 32)) {
-					    $response = new stdClass ();
-						$response->userdata->error = $this->language->get('error_name');
-						$this->load->library('json');
-						$this->response->setOutput(AJson::encode($response));
-					    break;
+						$err = $this->language->get('error_name');
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 			    }
 				$this->model_catalog_category->editCategory($k, array($field => $v) );

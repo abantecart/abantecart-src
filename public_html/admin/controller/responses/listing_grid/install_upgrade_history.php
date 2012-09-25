@@ -28,9 +28,9 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 		
 		$this->loadLanguage( 'tool/install_upgrade_history' );
-		if (! $this->user->hasPermission ( 'access', 'tool/install_upgrade_history' )) {
-			$response = new stdClass ();
-			$response->userdata->error = sprintf ( $this->language->get ( 'error_permission_access' ), 'tool/install_upgrade_history' );
+		if (! $this->user->canAccess('tool/install_upgrade_history' )) {
+			$response = new stdClass();
+			$response->userdata->error = sprintf( $this->language->get( 'error_permission_access' ), 'tool/install_upgrade_history' );
 			$this->load->library('json');
 			$this->response->setOutput(AJson::encode($response));
 			return;
@@ -53,7 +53,6 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController {
 		}
 
 		// process jGrid search parameter
-		$allowedFields = array ('name' );
 		
 		$data = array ('sort' => $sidx.":". $sord,
 		               'offset' => ($page - 1) * $limit,

@@ -93,11 +93,14 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
+		if (!$this->user->canModify('catalog/attribute_groups')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'catalog/attribute_groups'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
 
-        if (!$this->user->hasPermission('modify', 'catalog/attribute_groups')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/attribute_groups') );
-            return;
-		}
 
 		switch ($this->request->post['oper']) {
 			case 'del':
@@ -106,8 +109,8 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 				foreach( $ids as $id ) {
 					$err = $this->_validateDelete($id);
 					if (!empty($err)) {
-						$this->response->setOutput( $err);
-						return;
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 					$this->attribute_manager->deleteAttributeGroup($id);
 				}
@@ -121,8 +124,8 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 						if ( isset($this->request->post[$f][$id]) ) {
 							$err = $this->_validateField($f, $this->request->post[$f][$id]);
 							if ( !empty($err) ) {
-								$this->response->setOutput( $err );
-								return;
+								$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+								return $dd->dispatch();
 							}
 							$this->attribute_manager->updateAttributeGroup($id, array($f => $this->request->post[$f][$id]) );
 						}
@@ -150,18 +153,21 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-        if (!$this->user->hasPermission('modify', 'catalog/attribute_groups')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/attribute_groups') );
-            return;
-		}
+	    if (!$this->user->canModify('catalog/attribute_groups')) {
+	  			        $error = new AError('');
+	  			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+	  			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'catalog/attribute_groups'),
+	  			    	                                      'reset_value' => true
+	  			    	                             ) );
+	  	}
 
         if ( isset( $this->request->get['id'] ) ) {
 		    //request sent from edit form. ID in url
 		    foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField($key, $value);
 			    if ( !empty($err) ) {
-				    $this->response->setOutput($err);
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
 			    $data = array( $key => $value );
                 $this->attribute_manager->updateAttributeGroup($this->request->get['id'], $data);
@@ -176,8 +182,8 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 			foreach ( $this->request->post[$f] as $k => $v ) {
 				$err = $this->_validateField($f, $v);
 				if ( !empty($err) ) {
-					$this->response->setOutput($err);
-					return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 				}
 				$this->attribute_manager->updateAttributeGroup($k, array($f => $v) );
 			}

@@ -20,7 +20,6 @@
 							<?php } ?>
 						</div>
 					</div>
-					</form>
 					<?php } ?>
 				</div>
 			</div>

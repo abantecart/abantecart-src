@@ -263,6 +263,7 @@ class ControllerPagesLocalisationZone extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'cgFrm',
+		    'attr' => 'confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -314,7 +315,7 @@ class ControllerPagesLocalisationZone extends AController {
 			$this->request->post['status'] =0;
 		}
 
-		if (!$this->user->hasPermission('modify', 'localisation/zone')) {
+		if (!$this->user->canModify('localisation/zone')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

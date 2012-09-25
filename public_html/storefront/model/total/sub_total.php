@@ -26,10 +26,12 @@ class ModelTotalSubTotal extends Model {
 			$this->load->language('total/sub_total');
 			
 			$total_data[] = array( 
+        		'id'         => 'subtotal',
         		'title'      => $this->language->get('text_sub_total'),
         		'text'       => $this->currency->format($this->cart->getSubTotal()),
         		'value'      => $this->cart->getSubTotal(),
-				'sort_order' => $this->config->get('sub_total_sort_order')
+				'sort_order' => $this->config->get('sub_total_sort_order'),
+				'total_type' => $this->config->get('sub_total_total_type')
 			);
 			
 			$total += $this->cart->getSubTotal();

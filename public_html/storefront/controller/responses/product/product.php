@@ -88,7 +88,7 @@ class ControllerResponsesProductProduct extends AController {
 			                                          $attribute_value_id,
 			                                          $this->config->get('config_image_product_width'),
 			                                          $this->config->get('config_image_product_height'),false);
-//var_dump($output['main']);
+
 			if(!$output['main']){ unset($output['main']);}
 
 			// additional images
@@ -109,4 +109,18 @@ class ControllerResponsesProductProduct extends AController {
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($output));
 	}
+
+    public function addToCart(){
+        //init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+
+        $this->cart->add($this->request->get['product_id'],1);
+
+        $output['item_count'] = $this->cart->countProducts();
+        //init controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($output));
+    }
 }

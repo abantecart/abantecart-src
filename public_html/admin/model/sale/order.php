@@ -402,16 +402,19 @@ class ModelSaleOrder extends Model {
 		if (isset($data['filter_total']) && !is_null($data['filter_total'])) {
 			$data['filter_total'] = (float)$data['filter_total'];
 			$currencies = $this->currency->getCurrencies();
-			$temp = array($data['filter_total']);
+			$temp = $temp2 = array($data['filter_total']);
 			foreach( $currencies  as $currency1){
 				foreach( $currencies  as $currency2){
 					if($currency1['code']!=$currency2['code']){
-						$temp[] = round($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']),0);
+						$temp[] = floor($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
+						$temp2[] = ceil($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
 					}
 				}
 			}
-			$sql .= " AND ( ROUND(o.total,0) IN  (" . implode(",",$temp) . ") OR ROUND(CAST(o.total as DECIMAL(15,4)) * CAST(o.value as DECIMAL(15,4)),0) IN  (" . implode(",",$temp) . ") )";
-
+			$sql .= " AND ( FLOOR(o.total) IN  (" . implode(",",$temp) . ")
+							OR FLOOR(CAST(o.total as DECIMAL(15,4)) * CAST(o.value as DECIMAL(15,4))) IN  (" . implode(",",$temp) . ")
+							OR CEIL(o.total) IN  (" . implode(",",$temp2) . ")
+							OR CEIL(CAST(o.total as DECIMAL(15,4)) * CAST(o.value as DECIMAL(15,4))) IN  (" . implode(",",$temp2) . ") )";
 		}
 
 		$sort_data = array( 'o.order_id',
@@ -443,9 +446,7 @@ class ModelSaleOrder extends Model {
 			
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
-
 		$query = $this->db->query($sql);
-		
 		return $query->rows;
 	}	
 	
@@ -539,6 +540,27 @@ class ModelSaleOrder extends Model {
 		
 		if (isset($data['filter_total']) && !is_null($data['filter_total'])) {
 			$sql .= " AND total >= " . (float)$data['filter_total'] . " ";
+		}
+
+		if (isset($data['filter_coupon_id']) && (int)$data['filter_coupon_id']) {
+			$sql .= " AND coupon_id = " . (int)$data['filter_coupon_id'] . " ";
+		}
+		if (isset($data['filter_total']) && !is_null($data['filter_total'])) {
+			$data['filter_total'] = (float)$data['filter_total'];
+			$currencies = $this->currency->getCurrencies();
+			$temp = $temp2 = array($data['filter_total']);
+			foreach( $currencies  as $currency1){
+				foreach( $currencies  as $currency2){
+					if($currency1['code']!=$currency2['code']){
+						$temp[] = floor($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
+						$temp2[] = ceil($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
+					}
+				}
+			}
+			$sql .= " AND ( FLOOR(total) IN  (" . implode(",",$temp) . ")
+							OR FLOOR(CAST(total as DECIMAL(15,4)) * CAST(value as DECIMAL(15,4))) IN  (" . implode(",",$temp) . ")
+							OR CEIL(total) IN  (" . implode(",",$temp2) . ")
+							OR CEIL(CAST(total as DECIMAL(15,4)) * CAST(value as DECIMAL(15,4))) IN  (" . implode(",",$temp2) . ") )";
 		}
 
 		$query = $this->db->query($sql);

@@ -53,8 +53,8 @@ function show_popup(id){
 		width: 550,
 		minWidth: 550,
 		buttons:{
-				"delete": delete_msg,
-				"close": function(event, ui) {
+				"<?php echo $delete; ?>": delete_msg,
+				"<?php echo $close; ?>": function(event, ui) {
 							$(this).dialog('destroy');
 							$("#message_grid").trigger("reloadGrid");
 						}

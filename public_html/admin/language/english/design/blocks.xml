@@ -73,6 +73,10 @@
 		<value><![CDATA[ Use block wrapper (appearance) ]]></value>
 	</definition>
 	<definition>
+		<key>entry_block_framed</key>
+		<value><![CDATA[ Use block's frame ]]></value>
+	</definition>
+	<definition>
 		<key>entry_block_title</key>
 		<value><![CDATA[ Custom Block Title ]]></value>
 	</definition>
@@ -99,6 +103,10 @@
 	<definition>
 		<key>error_delete</key>
 		<value><![CDATA[Can't delete because this block is in use. Please visit Layout section. ]]></value>
+	</definition>
+	<definition>
+		<key>error_text_status</key>
+		<value><![CDATA[Can't change status because this block is not in use. Please visit Layout section. ]]></value>
 	</definition>
 	<definition>
 		<key>text_success_deleted</key>
@@ -179,5 +187,29 @@
 	<definition>
 		<key>text_apply</key>
 		<value><![CDATA[ Apply selection ]]></value>
+	</definition>
+	<definition>
+		<key>text_block_id</key>
+		<value><![CDATA[ Block ID ]]></value>
+	</definition>
+	<definition>
+		<key>text_block_txt_id</key>
+		<value><![CDATA[ Block Text ID ]]></value>
+	</definition>
+	<definition>
+		<key>text_controller</key>
+		<value><![CDATA[ Controller ]]></value>
+	</definition>
+	<definition>
+		<key>text_templates</key>
+		<value><![CDATA[ Block Templates ]]></value>
+	</definition>
+	<definition>
+		<key>text_block_date_added</key>
+		<value><![CDATA[ Block Creation Date ]]></value>
+	</definition>
+	<definition>
+		<key>text_layouts</key>
+		<value><![CDATA[ Used in layouts ]]></value>
 	</definition>
 </definitions>

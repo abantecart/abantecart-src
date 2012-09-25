@@ -23,83 +23,61 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerResponsesErrorAjaxError extends AController {
 
 	public function main() {
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-
-    	$this->loadLanguage('error/error');
-		$ret_data = array(
+		//build default error responce
+		$this->loadLanguage('error/error');					
+		$error = new AError( '' );
+		$err_data = array(
 			'error_title' => $this->language->get('heading_title'),
-			'error_text' => $this->language->get('text_error'),
-            'error_code' => 400,
+			'error_text' => $this->language->get('text_error')
 		);
-
-        $this->response->addheader('HTTP/1.1 400 ' . $this->language->get('heading_title'));
-        $this->response->addheader('Content-Type: application/json');
-
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($ret_data));
+		return $error->toJSONResponse('ERROR_400', $err_data );			
+	}
+	
+	public function validation($err_text='') {
+		//build validation error responce
+		$this->loadLanguage('error/error');					
+		$error = new AError( '' );
+		$err_data = array(
+			'error_title' => $this->language->get('heading_title') ,
+			'error_text' => ( $err_text ? $err_text :  $this->language->get('text_error') )
+		);
+		return $error->toJSONResponse('VALIDATION_ERROR_406', $err_data );	
 	}
 
     public function permission() {
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-
-    	$this->loadLanguage('error/permission');
-		$ret_data = array(
+		//build permission error responce
+		$this->loadLanguage('error/permission');					
+		$error = new AError( '' );
+		$err_data = array(
 			'error_title' => $this->language->get('heading_title'),
 			'error_text' => $this->language->get('text_permission'),
-            'error_code' => 402,
+			'show_dialog' => true,
 		);
-
-        $this->response->addheader('HTTP/1.1 402 ' . $this->language->get('heading_title'));
-        $this->response->addheader('Content-Type: application/json');
-
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($ret_data));
+		return $error->toJSONResponse('NO_PERMISSIONS_402', $err_data );	
 	}
 
 	public function login() {
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-
-    	$this->loadLanguage('error/login');
-		$ret_data = array(
+		//build login error responce
+		$this->loadLanguage('error/login');						
+		$error = new AError( '' );
+		$err_data = array(
 			'error_title' => $this->language->get('heading_title'),
 			'error_text' => $this->language->get('text_login'),
-            'error_code' => 401,
+			'show_dialog' => true,
+			'reload_page' => true,
 		);
-
-        $this->response->addheader('HTTP/1.1 401 ' . $this->language->get('heading_title'));
-        $this->response->addheader('Content-Type: application/json');
-
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($ret_data));
+		return $error->toJSONResponse('LOGIN_FAILED_401', $err_data );	
 	}
 
 	public function not_found() {
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-
-    	$this->loadLanguage('error/not_found');
-		$ret_data = array(
+		//build not_found responce
+		$this->loadLanguage('error/not_found');						
+		$error = new AError( '' );
+		$err_data = array(
 			'error_title' => $this->language->get('heading_title'),
-			'error_text' => $this->language->get('text_not_found'),
-            'error_code' => 404,
+			'error_text' => $this->language->get('text_not_found')
 		);
-
-        $this->response->addheader('HTTP/1.1 404 ' . $this->language->get('heading_title'));
-        $this->response->addheader('Content-Type: application/json');
-
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($ret_data));
+		return $error->toJSONResponse('NOT_FOUND_404', $err_data );	
 	}
 
 }

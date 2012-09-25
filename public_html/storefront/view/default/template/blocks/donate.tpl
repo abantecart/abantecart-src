@@ -7,4 +7,4 @@
 		<img alt="" src="http://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" />
         </div>
 	</form>
-	<img src="<?php echo $this->templateResource('/image/payment.gif'); ?>" alt="" /></div>
+</div>

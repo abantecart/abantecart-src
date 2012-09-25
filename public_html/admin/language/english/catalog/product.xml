@@ -161,8 +161,12 @@
 		<value><![CDATA[Date Available:]]></value>
 	</definition>
 	<definition>
-		<key>entry_quantity</key>
+		<key>entry_option_quantity</key>
 		<value><![CDATA[Quantity:]]></value>
+	</definition>
+	<definition>
+		<key>entry_quantity</key>
+		<value><![CDATA[Quantity:<br/><span class="help">Connected to Track Stock setting</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_minimum</key>
@@ -190,8 +194,12 @@
 		<value><![CDATA[Price:]]></value>
 	</definition>
 	<definition>
+		<key>entry_track_option_stock</key>
+		<value><![CDATA[Track Stock:]]></value>
+	</definition>
+	<definition>
 		<key>entry_subtract</key>
-		<value><![CDATA[Subtract Stock:]]></value>
+		<value><![CDATA[Track Stock:<br/><span class="help">Set YES if need to track stock quantity for this product. If options are used check subtract setting for each option value</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_class</key>
@@ -258,6 +266,14 @@
 		<value><![CDATA[Prefix:]]></value>
 	</definition>
 	<definition>
+		<key>entry_option_prefix</key>
+		<value><![CDATA[Modify Price By:]]></value>
+	</definition>
+	<definition>
+		<key>entry_option_price</key>
+		<value><![CDATA[Price Modifier:]]></value>
+	</definition>
+	<definition>
 		<key>entry_category</key>
 		<value><![CDATA[Categories:]]></value>
 	</definition>
@@ -283,7 +299,7 @@
 	</definition>
 	<definition>
 		<key>error_model</key>
-		<value><![CDATA[Product Model must be greater than 3 and less than 24 characters!]]></value>
+		<value><![CDATA[Product Model must be less than 64 characters! Remomended 5-25 characters]]></value>
 	</definition>
 	<definition>
 		<key>error_required_data</key>

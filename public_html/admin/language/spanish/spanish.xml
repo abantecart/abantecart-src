@@ -232,6 +232,22 @@
 		<key>tab_discount</key>
 		<value><![CDATA[Descuento]]></value>
 	</definition>
+    <definition>
+        <key>tab_details</key>
+        <value><![CDATA[Detalles]]></value>
+    </definition>
+    <definition>
+        <key>tab_checkout</key>
+        <value><![CDATA[Caja]]></value>
+    </definition>
+    <definition>
+        <key>tab_appearance</key>
+        <value><![CDATA[Apariencia]]></value>
+    </definition>
+    <definition>
+        <key>tab_api</key>
+        <value><![CDATA[API]]></value>
+    </definition>	
 	<definition>
 		<key>tab_general</key>
 		<value><![CDATA[General]]></value>
@@ -333,6 +349,10 @@
 		<key>text_choose_action</key>
 		<value><![CDATA[Elija la acción ..]]></value>
 	</definition>
+	<definition>
+        <key>text_delete</key>
+        <value><![CDATA[Borrar]]></value>
+    </definition>
 	<definition>
 		<key>text_delete_selected</key>
 		<value><![CDATA[eliminar seleccionados]]></value>
@@ -499,5 +519,9 @@
     <definition>
         <key>text_install_warning</key>
         <value><![CDATA[Todavía se "install" presente en su directorio de instalación AbanteCart. Se recomienda que elimine este directorio.]]></value>
+    </definition>
+    <definition>
+        <key>text_select_store</key>
+        <value><![CDATA[Seleccionar tienda]]></value>
     </definition>
 </definitions>

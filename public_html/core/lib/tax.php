@@ -75,8 +75,12 @@ final class ATax {
 		$results = $this->cache->get($cache_name);
 
 		if(is_null($results)){
-			$sql = "SELECT tr.tax_class_id, tr.rate AS rate, tr.description, tr.priority
+			$sql = "SELECT tr.tax_class_id,
+							tr.rate AS rate,
+							CASE WHEN tr.description='' THEN tc.title ELSE tr.description END as description,
+							tr.priority
 					FROM " . DB_PREFIX . "tax_rates tr
+					LEFT JOIN " . DB_PREFIX . "tax_classes tc ON tc.tax_class_id = tr.tax_class_id
 					WHERE (tr.zone_id = '0' OR tr.zone_id = '" . $zone_id . "')
 						AND tr.location_id in (SELECT location_id
 												FROM " . DB_PREFIX . "zones_to_locations z2l

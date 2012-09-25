@@ -43,7 +43,7 @@
         </tbody>
       </table>
 	  <div class="align_center" style="margin-top: 10px;">
-		  <button class="btn_standard" type="submit"><?php echo $form['submit']; ?></button>
+		  <button class="btn_standard button_loader" type="submit"><?php echo $form['submit']; ?></button>
 	  </div>
     </form>
   </div></div></div>

@@ -88,6 +88,17 @@ class ControllerPagesCheckoutPayment extends AController {
 
 		$results = $this->model_checkout_extension->getExtensions('total');
 		foreach ($results as $result) {
+			if($result['key']=='total'){
+				// apply promotions
+				$promotions = new APromotion();
+				$promotions->apply_promotions($total_data,$total);
+				if(time()-$this->session->data['promotion_data']['time']<1){
+					$total_data = $this->session->data['promotion_data']['total_data'];
+					$total = $this->session->data['promotion_data']['total'];
+				}else{
+					unset($this->session->data['promotion_data']);
+				}
+			}
 			$this->loadModel('total/' . $result[ 'key' ]);
 			$this->{'model_total_' . $result[ 'key' ]}->getTotal($total_data, $total, $taxes);
 		}
@@ -204,11 +215,19 @@ class ControllerPagesCheckoutPayment extends AController {
 
 		if($this->data['payment_methods']){
 			foreach($this->data['payment_methods'] as $k=>$v){
+				//check if we have only one method and select by default if was selected before
+				$selected = FALSE;
+				if ( count($this->data['payment_methods']) == 1) {
+					$selected = TRUE;
+				} else if( $payment == $v['id'] )  {
+					$selected = TRUE;
+				}	
+			
 				$this->data['payment_methods'][$k]['radio'] = $form->getFieldHtml( array(
 					                                                                   'type' => 'radio',
 					                                                                   'name' => 'payment_method',
 					                                                                   'options' => array($v['id']=>''),
-					                                                                   'value' => ( $payment == $v['id'] ? TRUE : FALSE )
+					                                                                   'value' => $selected
 				                                                                  ));
 			}
 		}else{

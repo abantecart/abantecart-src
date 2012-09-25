@@ -28,10 +28,12 @@ class ModelTotalHandling extends Model {
 			$this->load->model('localisation/currency');
 			
 			$total_data[] = array( 
+        		'id'         => 'handling',
         		'title'      => $this->language->get('text_handling'),
         		'text'       => $this->currency->format($this->config->get('handling_fee')),
         		'value'      => $this->config->get('handling_fee'),
-				'sort_order' => $this->config->get('handling_sort_order')
+				'sort_order' => $this->config->get('handling_sort_order'),
+				'total_type' => $this->config->get('handling_fee_total_type')
 			);
 
 			if ($this->config->get('handling_tax_class_id')) {

@@ -30,24 +30,38 @@ class ModelSettingSetting extends Model {
 		return $data;
 	}
 
-	public function getAllSettings($data = array(), $mode = 'default') {
-		if(!isset($data['store_id'])){
-			$data['store_id'] = (int)$this->config->get('config_store_id');
+	public function getSettingGroup( $setting_key, $store_id = 0 ) {
+		$data = array();
+		$query = $this->db->query("SELECT DISTINCT `group` FROM " . DB_PREFIX . "settings 
+						  WHERE `key` = '" . $this->db->escape($setting_key) . "'
+						  AND `store_id` = '".$store_id."'");
+		
+		foreach ($query->rows as $result) {
+			$data[] = $result['group'];
 		}
+		return $data;
+	}
+
+	public function getAllSettings($data = array(), $mode = 'default') {
 
 		if ($mode == 'total_only') {
 			$total_sql = 'count(*) as total';
 		}
 		else {
-			$total_sql = '*';
+			$total_sql = 's.*, COALESCE(st.alias, \''.$this->language->get('text_default').'\' ) as alias';
 		}
 		
 		$sql = "SELECT $total_sql
-				FROM " . DB_PREFIX . "settings
-				WHERE store_id = '".$data['store_id']."'";
+				FROM " . DB_PREFIX . "settings s
+				LEFT JOIN  " . DB_PREFIX . "stores st ON st.store_id = s.store_id
+                WHERE s.group IN ('".implode("', '",$this->config->groups)."') ";
+
+        if(isset( $data['store_id'] )){
+            $sql .= " AND s.store_id = '".$data['store_id']."'";
+        }
 
 		if (!empty($data['subsql_filter'])) {
-				$sql .= " AND ".$data['subsql_filter'];
+			$sql .= " AND ".$data['subsql_filter'];
 		}
 
 		//If for total, we done bulding the query
@@ -56,10 +70,7 @@ class ModelSettingSetting extends Model {
 		    return $query->row['total'];
 		}
 
-		$sort_data = array(
-			'group',
-			'key',
-		);
+		$sort_data = array(	'group','key' );
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY `" . $data['sort'] . "`";
@@ -84,7 +95,6 @@ class ModelSettingSetting extends Model {
 
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
-
 		$query = $this->db->query($sql);
 		return $query->rows;
 	}
@@ -124,7 +134,8 @@ class ModelSettingSetting extends Model {
 				          '" . $this->db->escape($value) . "')";
 			$this->db->query($sql);
 		}
-		$this->cache->delete('settings','',(int)$store_id);
+		$this->cache->delete('settings');
+		$this->cache->delete('stores');
 	}
 
 	
@@ -134,7 +145,8 @@ class ModelSettingSetting extends Model {
 						  WHERE `group` = '" . $this->db->escape($group) . "'
 						  AND `store_id` = '".$store_id."'");
 
-		$this->cache->delete('settings','', (int)$store_id);
+		$this->cache->delete('settings');
+		$this->cache->delete('stores');
 	}
 }
 ?>

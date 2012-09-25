@@ -227,7 +227,7 @@ class ControllerPagesLocalisationOrderStatus extends AController {
   	}
   	
 	private function _validateForm() {
-    	if (!$this->user->hasPermission('modify', 'localisation/order_status')) {
+    	if (!$this->user->canModify('localisation/order_status')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
 	

@@ -70,6 +70,11 @@ class ModelLocalisationOrderStatus extends Model {
 		$language_id = $this->language->getLanguageID();
 
       	if ($data) {
+
+      	    if ( isset($data['content_language_id']) && $data['content_language_id'] > 0 ) {
+		          $language_id = $data['content_language_id'];
+      	    }
+
 			$sql = "SELECT *
 				    FROM " . DB_PREFIX . "order_statuses
 				    WHERE language_id = '" . (int)$language_id . "'

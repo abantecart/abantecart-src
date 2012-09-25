@@ -189,7 +189,7 @@ class ModelLocalisationLanguage extends Model {
 								description = '" . $this->db->escape($store['description']) . "'");
 		}
 		
-		$this->cache->delete('store');		
+		$this->cache->delete('settings.store');
 		
 		// Weight Class
 		$query = $this->db->query("SELECT *
@@ -230,7 +230,7 @@ class ModelLocalisationLanguage extends Model {
 		
 		$this->db->query("DELETE FROM " . DB_PREFIX . "store_descriptions WHERE language_id = '" . (int)$language_id . "'");
 		
-		$this->cache->delete('store');
+		$this->cache->delete('settings.store');
 		
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_descriptions WHERE language_id = '" . (int)$language_id . "'");
 		

@@ -302,6 +302,7 @@ class ControllerPagesCatalogReview extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'reviewFrm',
+		    'attr' => 'confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -370,7 +371,7 @@ class ControllerPagesCatalogReview extends AController {
 
 	
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'catalog/review')) {
+		if (!$this->user->canModify('catalog/review')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

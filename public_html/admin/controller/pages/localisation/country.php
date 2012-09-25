@@ -260,7 +260,7 @@ class ControllerPagesLocalisationCountry extends AController {
 	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'localisation/country')) {
+		if (!$this->user->canModify('localisation/country')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
@@ -276,7 +276,7 @@ class ControllerPagesLocalisationCountry extends AController {
 	}
 
 	private function validateDelete() {
-		if (!$this->user->hasPermission('modify', 'localisation/country')) {
+		if (!$this->user->canModify('localisation/country')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		

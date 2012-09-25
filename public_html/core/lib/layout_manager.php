@@ -258,7 +258,70 @@ class ALayoutManager {
 		$this->cache->set ( $cache_name, $blocks, '', (int)$this->config->get('config_store_id') );
 		return $blocks;
 	}
-	
+
+	public function getBlocksList($data='', $mode = '') {
+		if( $mode != 'total_only' ){
+		$sql = "SELECT b.block_id as block_id, "
+			. "b.block_txt_id as block_txt_id, "
+			. "COALESCE(cb.custom_block_id,0) as custom_block_id, "
+			. "COALESCE(bd.name,'') as block_name, "
+			. "(SELECT MAX(status) AS status
+		            			FROM " . DB_PREFIX . "block_layouts bl
+		            			WHERE bl.custom_block_id = cb.custom_block_id)  as status, "
+			. "b.created as block_date_added ";
+		}else{
+			$sql = "SELECT COUNT(*) as total ";
+		}
+
+			$sql .= "FROM " . DB_PREFIX . "blocks as b "
+			. "LEFT JOIN " . DB_PREFIX . "custom_blocks as cb ON (b.block_id = cb.block_id ) "
+			. "LEFT JOIN " . DB_PREFIX . "block_descriptions as bd
+		       			ON (bd.custom_block_id = cb.custom_block_id AND  bd.language_id = '".$this->config->get ( 'storefront_language_id' )."') "
+
+			;
+		if($mode!='total_only'){
+
+			if($data['subsql_filter']){
+				$sql .= 'WHERE '.$data['subsql_filter'].' ';
+			}
+
+			$sort_data = array(
+				'name' => ' block_name',
+				'block_txt_id' => 'b.block_txt_id',
+				'status' => 'status'
+			);
+
+			if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data)) ) {
+					$sql .= " ORDER BY " . $sort_data[$data['sort']];
+			} else {
+					$sql .= " ORDER BY b.block_id";
+			}
+
+			if (isset($data['order']) && ($data['order'] == 'DESC')) {
+					$sql .= " DESC";
+			} else {
+				$sql .= " ASC";
+			}
+
+			if (isset($data['start']) || isset($data['limit'])) {
+				if ($data['start'] < 0) {
+					$data['start'] = 0;
+				}
+
+				if ($data['limit'] < 1) {
+					$data['limit'] = 20;
+				}
+
+				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+			}
+
+		}
+
+		$query = $this->db->query ( $sql );
+		return $mode!='total_only' ? $query->rows : $query->row['total'];
+	}
+
+
 	public function getTemplateId() {
 		return $this->tmpl_id;
 	}
@@ -396,6 +459,7 @@ class ALayoutManager {
 								$child ['layout_id'] = $this->layout_id;
 								list($child ['block_id'],$child ['custom_block_id']) = explode("_",$block_id);
 								$child ['parent_instance_id'] = $instance_id;
+								//NOTE: Blocks possitions are saved in 10th increment starting from 10
 								$child ['position'] = ($key + 1) * 10;
 								$child ['status'] = 1;
 								$child_id = $this->saveLayoutBlocks ( $child );
@@ -480,6 +544,45 @@ class ALayoutManager {
 		
 		return $layout_id;
 	}
+
+
+	public function getBlockInfo($block_id){
+		$block_id = (int)$block_id;
+		if(!$block_id) return array();
+
+		$sql = "SELECT DISTINCT b.block_id as block_id,
+				b.block_txt_id as block_txt_id,
+				b.controller as controller,
+				(SELECT group_concat(template separator ',')
+					 FROM " . DB_PREFIX . "block_templates
+				 WHERE block_id='".$block_id."') as templates,
+				b.created as block_date_added,
+				l.layout_id,
+				l.layout_name,
+				l.store_id,
+				l.template_id,
+				pl.page_id
+			FROM " . DB_PREFIX . "blocks as b
+			LEFT JOIN " . DB_PREFIX . "block_layouts bl ON bl.block_id=b.block_id
+			LEFT JOIN " . DB_PREFIX . "layouts l ON l.layout_id = bl.layout_id
+			LEFT JOIN " . DB_PREFIX . "pages_layouts pl ON pl.layout_id = l.layout_id
+			WHERE b.block_id='".$block_id."'
+			ORDER BY bl.layout_id ASC";
+		$result = $this->db->query ( $sql );
+		return $result->rows;
+	}
+
+	public function getBlockTemplates($block_id){
+		$block_id = (int)$block_id;
+		if(!$block_id) return array();
+
+		$sql = "SELECT template
+				FROM " . DB_PREFIX . "block_templates
+				WHERE block_id='".$block_id."'";
+		$result = $this->db->query ( $sql );
+		return $result->rows;
+	}
+
 	
 	public function savePage($data, $page_id = 0) {
 		if (! $page_id) {
@@ -659,6 +762,9 @@ class ALayoutManager {
 				    if(isset($description ['block_wrapper'])){
 					   $tmp[] = "`block_wrapper` = '" . $this->db->escape ( $description ['block_wrapper'] ) . "'";
 				    }
+				    if(isset($description ['block_framed'])){
+					   $tmp[] = "`block_framed` = '" . (int) $description ['block_framed'] . "'";
+				    }
 				    if(isset($description ['title'])){
 					   $tmp[] = "`title` = '" . $this->db->escape ( $description ['title'] ) . "'";
 				    }
@@ -680,6 +786,7 @@ class ALayoutManager {
 									   (custom_block_id,
 										language_id,
 										block_wrapper,
+										block_framed,
 										`name`,
 										title,
 										description,
@@ -688,6 +795,7 @@ class ALayoutManager {
 									VALUES ( '" . $custom_block_id . "',
 											 '" . ( int ) $description ['language_id'] . "',
 											 '" . $this->db->escape ( $description ['block_wrapper'] ). "',
+											 '" . (int) $description ['block_framed'] . "',
 											 '" . $this->db->escape ( $description ['name'] ) . "',
 											 '" . $this->db->escape ( $description ['title'] ) . "',
 											 '" . $this->db->escape ( $description ['description'] ) . "',
@@ -952,7 +1060,8 @@ class ALayoutManager {
 						<language></language>
 						<name></name>
 						<title></title>
-						<block_wrapper></title>
+						<block_wrapper></block_wrapper>
+						<block_framed></block_framed>
 						<description></description>
 						<content></content>
 					</block_description>
@@ -1631,6 +1740,7 @@ class ALayoutManager {
 								$desc_array = array('name' => $block_description->name,
 													'title' => $block_description->title,
 													'block_wrapper' => trim($block_description->block_wrapper),
+													'block_framed' => (int)$block_description->block_framed,
 													'description' => $block_description->description,
 													'content' => $content,
 													'language_id' => $language_id);
@@ -1671,6 +1781,7 @@ class ALayoutManager {
 									$desc_array = array('name' => $block_description->name,
 														'title' => $block_description->title,
 														'block_wrapper' => $block_description->block_wrapper,
+														'block_framed' => $block_description->block_framed,
 														'description' => $block_description->description,
 														'content' => $content,
 														'status' => $block_description->status,

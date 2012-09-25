@@ -17,40 +17,42 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+    header('Location: static_pages/');
 }
 
 class ModelToolPackageInstaller extends Model {
-	public $error = '';
-	public function downloadPackage() {
+    public $error = '';
 
-		$this->loadLanguage('tool/package_installer');
-		if(!isset($this->session->data['package_info'])){
-			$this->error = $this->language->get('error_package_info_not_exists');
-			return false;
-		}
-		if ( ! is_writable($this->session->data['package_info']['tmp_dir'])) {
-			$this->error = $this->language->get('error_dir_permission') . $this->session->data['package_info']['tmp_dir'];
-			return false;
-		}
-		if($this->request->get['start']==1){
-			$pmanager = new APackageManager();
-			$result = $pmanager->getRemoteFile( $this->session->data['package_info']['package_url'],
-			                                    true,
-			                                    $this->session->data['package_info']['tmp_dir'].$this->session->data['package_info']['package_name'] );
-			if(!$result){
-				$percents = $pmanager->error;
-			}else{
-				$percents = 100;
-			}
+    public function downloadPackage() {
 
-		}elseif(isset($this->session->data['curl_handler'])){
-			return curl_getinfo($this->session->data['curl_handler'],CURLINFO_SIZE_DOWNLOAD);
-		}else{
-			$percents = floor ( filesize($this->session->data['package_info']['tmp_dir'].$this->session->data['package_info']['package_name'])*100/$this->session->data['package_info']['package_size'] );
-		}
-		return $percents;
-	}
+        $this->load->language('tool/package_installer');
+        if (!isset($this->session->data['package_info'])) {
+            $this->error = $this->language->get('error_package_info_not_exists');
+            return false;
+        }
+        if (!is_writable($this->session->data['package_info']['tmp_dir'])) {
+            $this->error = $this->language->get('error_dir_permission') . $this->session->data['package_info']['tmp_dir'];
+            return false;
+        }
+        if ($this->request->get['start'] == 1) {
+            $pmanager = new APackageManager();
+            $result = $pmanager->getRemoteFile($this->session->data['package_info']['package_url'],
+                true,
+                $this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_name']);
+            if (!$result) {
+                $percents = $pmanager->error;
+            } else {
+                $percents = 100;
+            }
+
+        } elseif (isset($this->session->data['curl_handler'])) {
+            return curl_getinfo($this->session->data['curl_handler'], CURLINFO_SIZE_DOWNLOAD);
+        } else {
+            $percents = floor(filesize($this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_name']) * 100 / $this->session->data['package_info']['package_size']);
+        }
+        return $percents;
+    }
 }
+
 ?>

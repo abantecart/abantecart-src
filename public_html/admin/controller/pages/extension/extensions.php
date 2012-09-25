@@ -61,9 +61,14 @@ class ControllerPagesExtensionExtensions extends AController {
 			$this->data[ 'error_warning' ] = '';
 		}
 
+		$store_id = (int)$this->config->get('config_store_id');
+		if( $this->request->get_or_post('store_id') ){
+			$store_id = $this->request->get_or_post('store_id');
+		}
+
 		$grid_settings = array(
 							'table_id' => 'extension_grid',
-							'url' => $this->html->getSecureURL('listing_grid/extension'),
+							'url' => $this->html->getSecureURL('listing_grid/extension', '&store_id='.$store_id),
 							'editurl' => $this->html->getSecureURL('listing_grid/extension/update'),
 							'update_field' => $this->html->getSecureURL('listing_grid/extension/update'),
 							'sortname' => 'update_date',
@@ -105,13 +110,13 @@ class ControllerPagesExtensionExtensions extends AController {
 		$grid_settings[ 'colModel' ] = array(
 											array( 'name' => 'icon',
 											       'index' => 'icon',
-											       'width' => 50,
+											       'width' => 90,
 											       'align' => 'center',
 											       'sortable' => false,
 											       'search' => false ),
 											array( 'name' => 'key',
 											       'index' => 'key',
-											       'width' => 120,
+											       'width' => 130,
 											       'align' => 'center',
 											       'search' => true ),
 											array( 'name' => 'name',
@@ -121,7 +126,7 @@ class ControllerPagesExtensionExtensions extends AController {
 											       'search' => false ),
 											array( 'name' => 'category',
 											       'index' => 'category',
-											       'width' => 90,
+											       'width' => 80,
 											       'align' => 'center',
 											       'search' => false ),
 											array( 'name' => 'update_date',
@@ -143,7 +148,6 @@ class ControllerPagesExtensionExtensions extends AController {
 											       'search' => false );
 		$grid_settings[ 'colModel' ][] =	array( 'name' => 'action',
 											       'index' => 'action',
-											       'width' => 100,
 											       'align' => 'center',
 											       'sortable' => false,
 											       'search' => false );
@@ -178,6 +182,22 @@ class ControllerPagesExtensionExtensions extends AController {
 
 
 		$this->view->assign('help_url', $this->gen_help_url('extension_listing') );
+				
+		$stores = array();
+		$this->loadModel('setting/store');
+		$results = $this->model_setting_store->getStores();
+		foreach ($results as $result) {
+		    $stores[$result['store_id']] = $result['alias'];
+		}
+	
+		$this->data['store_selector'] = $this->html->buildSelectbox(array(
+		    'type' => 'selectbox',
+		    'id' => 'store_switcher',
+		    'value' => $store_id,
+		    'options' => $stores,
+		    'attr' => 'onchange="location = \'' . $this->html->getSecureURL('extension/extensions/extensions') . '\' + \'&store_id=\' + this.value"',
+		));	
+		
 		$this->view->batchAssign($this->data);
 
 		$this->processTemplate('pages/extension/extensions.tpl');
@@ -232,10 +252,9 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->loadLanguage($extension . '/' . $extension);
 
 		$store_id = (int)$this->config->get('config_store_id');
-		if(!$this->config->get('config_store_id')){ // if store_id is default - take store_id from get. Else - do not permit switch store on edit page
-			$store_id = isset($this->request->post['store_id']) ? (int)$this->request->post['store_id'] : (int)$this->request->get['store_id'];
+		if( $this->request->get_or_post('store_id') ){
+			$store_id = $this->request->get_or_post('store_id');
 		}
-        unset($this->request->get['store_id']);
 
 		$ext = new ExtensionUtils($extension, $store_id );
 		$settings = $ext->getSettings();
@@ -255,7 +274,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			$this->loadModel('setting/store');
 			$results = $this->model_setting_store->getStores();
 			foreach ($results as $res) {
-				$stores[$res['store_id']] = $res['name'];
+				$stores[$res['store_id']] = $res['alias'];
 			}
 			$switcher = array( 'name' => 'store_id',
 			                   'type' => 'selectbox',
@@ -277,6 +296,7 @@ class ControllerPagesExtensionExtensions extends AController {
 				$data['name'] = $item['name'];
 				$data['type'] = $item['type'];
 				$data['value'] = $item['value'];
+				$data['required'] = (bool)$item['required'];
 
 
 				if($item[ 'note' ]){
@@ -429,6 +449,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			array(
 				'type' => 'form',
 				'name' => 'editSettings',
+				'attr' => 'confirm-exit="true"',
 				'action' => $this->html->getSecureURL('extension/extensions/edit/','&action=save&extension=' . $extension.'&store_id='.$store_id)
 		    )
 		);
@@ -544,7 +565,8 @@ class ControllerPagesExtensionExtensions extends AController {
 							}
 						}
 					} else {
-						$action = $this->language->get('text_visit_repository');
+						$action = '<a href="'.$this->html->getSecureURL('extension/extensions_store', '&extension=' . $id). '" target="_blank">';
+						$action = str_replace('%extensions_store%', $action, $this->language->get('text_visit_repository'));
 					}
 
 					$extension_data[ 'dependencies' ][] = array(
@@ -590,7 +612,7 @@ class ControllerPagesExtensionExtensions extends AController {
 	}
 
 	private function _validateSettings() {
-		if (!$this->user->hasPermission('modify', 'extension/extensions')) {
+		if (!$this->user->canModify('extension/extensions')) {
 			$this->error[ 'warning' ] = $this->language->get('error_permission');
 		}
 
@@ -619,7 +641,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if (!$this->user->hasPermission('modify', 'extension/extensions')) {
+		if (!$this->user->canModify('extension/extensions')) {
 			$this->session->data[ 'error' ] = $this->language->get('error_permission');
 			$this->redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
 		} else {
@@ -645,7 +667,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if (!$this->user->hasPermission('modify', 'extension/extensions')) {
+		if (!$this->user->canModify('extension/extensions')) {
 			$this->session->data[ 'error' ] = $this->language->get('error_permission');
 			$this->redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
 		} else {
@@ -663,7 +685,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if (!$this->user->hasPermission('modify', 'extension/extensions')) {
+		if (!$this->user->canModify('extension/extensions')) {
 			$this->session->data[ 'error' ] = $this->language->get('error_permission');
 			$this->redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
 		} else {

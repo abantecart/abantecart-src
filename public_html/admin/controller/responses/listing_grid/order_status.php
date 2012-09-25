@@ -17,64 +17,64 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridOrderStatus extends AController {
 	private $error = array();
 
-    public function main() {
+	public function main() {
 
-	    //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('localisation/order_status');
-	    $this->loadModel('localisation/order_status');
+		$this->loadLanguage('localisation/order_status');
+		$this->loadModel('localisation/order_status');
 
-		$page = $this->request->post['page']; // get the requested page
-		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
-		$sord = $this->request->post['sord']; // get the direction
+		$page = $this->request->post[ 'page' ]; // get the requested page
+		$limit = $this->request->post[ 'rows' ]; // get how many rows we want to have into the grid
+		$sidx = $this->request->post[ 'sidx' ]; // get index row - i.e. user click to sort
+		$sord = $this->request->post[ 'sord' ]; // get the direction
 
-	    // process jGrid search parameter
-	    $allowedDirection = array('asc', 'desc');
+		// process jGrid search parameter
+		$allowedDirection = array( 'asc', 'desc' );
 
-	    if ( !in_array($sord, $allowedDirection) ) $sord = $allowedDirection[0];
+		if (!in_array($sord, $allowedDirection)) $sord = $allowedDirection[ 0 ];
 
-	    $data = array(
+		$data = array(
 			'order' => strtoupper($sord),
 			'start' => ($page - 1) * $limit,
 			'limit' => $limit,
-		    'content_language_id' => $this->session->data['content_language_id'],
+			'content_language_id' => $this->session->data[ 'content_language_id' ],
 		);
 
 		$total = $this->model_localisation_order_status->getTotalOrderStatuses();
-	    if( $total > 0 ) {
-			$total_pages = ceil($total/$limit);
+		if ($total > 0) {
+			$total_pages = ceil($total / $limit);
 		} else {
 			$total_pages = 0;
 		}
 
-	    $response = new stdClass();
+		$response = new stdClass();
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
 
-	    $results = $this->model_localisation_order_status->getOrderStatuses($data);
-	    $i = 0;
+		$results = $this->model_localisation_order_status->getOrderStatuses($data);
+		$i = 0;
 		foreach ($results as $result) {
-            $response->rows[$i]['id'] = $result['order_status_id'];
-			$response->rows[$i]['cell'] = array(
+			$response->rows[ $i ][ 'id' ] = $result[ 'order_status_id' ];
+			$response->rows[ $i ][ 'cell' ] = array(
 				$this->html->buildInput(array(
-                    'name'  => 'order_status['.$result['order_status_id'].']['.$this->session->data['content_language_id'].'][name]',
-                    'value' => $result['name'],
-                )),
+					'name' => 'order_status[' . $result[ 'order_status_id' ] . '][' . $this->session->data[ 'content_language_id' ] . '][name]',
+					'value' => $result[ 'name' ],
+				)),
 			);
 			$i++;
 		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($response));
@@ -83,44 +83,48 @@ class ControllerResponsesListingGridOrderStatus extends AController {
 	public function update() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-	    $this->loadModel('localisation/order_status');
-		$this->loadModel('setting/store');
-		$this->loadModel('sale/order');
-        $this->loadLanguage('localisation/order_status');
-        if (!$this->user->hasPermission('modify', 'localisation/order_status')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/order_status') );
-            return;
+		if (!$this->user->canModify('listing_grid/order_status')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/order_status'),
+					'reset_value' => true
+				));
 		}
 
-		switch ($this->request->post['oper']) {
+		$this->loadModel('localisation/order_status');
+		$this->loadModel('setting/store');
+		$this->loadModel('sale/order');
+		$this->loadLanguage('localisation/order_status');
+
+		switch ($this->request->post[ 'oper' ]) {
 			case 'del':
-				$ids = explode(',', $this->request->post['id']);
-				if ( !empty($ids) )
-				foreach( $ids as $id ) {
-					$err = $this->_validateDelete($id);
-					if (!empty($err)) {
-						$this->response->setOutput($err);
-						return;
+				$ids = explode(',', $this->request->post[ 'id' ]);
+				if (!empty($ids))
+					foreach ($ids as $id) {
+						$err = $this->_validateDelete($id);
+						if (!empty($err)) {
+							$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
+							return $dd->dispatch();
+						}
+						$this->model_localisation_order_status->deleteOrderStatus($id);
 					}
-					$this->model_localisation_order_status->deleteOrderStatus($id);
-				}
 				break;
 			case 'save':
-				$ids = explode(',', $this->request->post['id']);
-				if ( !empty($ids) )
-				foreach( $ids as $id ) {
-					if ( isset($this->request->post['order_status'][$id]) ) {
-						foreach ($this->request->post['order_status'][$id] as $value) {
-							if ((strlen(utf8_decode($value['name'])) < 3) || (strlen(utf8_decode($value['name'])) > 32)) {
-								$this->response->setOutput( $this->language->get('error_name'));
-								return;
+				$ids = explode(',', $this->request->post[ 'id' ]);
+				if (!empty($ids))
+					foreach ($ids as $id) {
+						if (isset($this->request->post[ 'order_status' ][ $id ])) {
+							foreach ($this->request->post[ 'order_status' ][ $id ] as $value) {
+								if ((strlen(utf8_decode($value[ 'name' ])) < 3) || (strlen(utf8_decode($value[ 'name' ])) > 32)) {
+									$this->response->setOutput($this->language->get('error_name'));
+									return;
+								}
 							}
+							$this->model_localisation_order_status->editOrderStatus($id, array( 'order_status' => $this->request->post[ 'order_status' ][ $id ] ));
 						}
-						$this->model_localisation_order_status->editOrderStatus($id, array( 'order_status' => $this->request->post['order_status'][$id]) );
 					}
-				}
 
 				break;
 
@@ -130,58 +134,61 @@ class ControllerResponsesListingGridOrderStatus extends AController {
 		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-    /**
-     * update only one field
-     *
-     * @return void
-     */
-    public function update_field() {
+	/**
+	 * update only one field
+	 *
+	 * @return void
+	 */
+	public function update_field() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('localisation/order_status');
-        if (!$this->user->hasPermission('modify', 'localisation/order_status')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/order_status') );
-            return;
+		if (!$this->user->canModify('listing_grid/order_status')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/order_status'),
+					'reset_value' => true
+				));
 		}
 
-        $this->loadModel('localisation/order_status');
-		if ( isset($this->request->get['id']) && !empty($this->request->post['order_status']) ) {
-		    //request sent from edit form. ID in url
+		$this->loadLanguage('localisation/order_status');
+		$this->loadModel('localisation/order_status');
+		if (isset($this->request->get[ 'id' ]) && !empty($this->request->post[ 'order_status' ])) {
+			//request sent from edit form. ID in url
 
-			foreach ($this->request->post['order_status'] as $value) {
-				if ((strlen(utf8_decode($value['name'])) < 3) || (strlen(utf8_decode($value['name'])) > 32)) {
-					$this->response->setOutput(  $this->language->get('error_name'));
+			foreach ($this->request->post[ 'order_status' ] as $value) {
+				if ((strlen(utf8_decode($value[ 'name' ])) < 3) || (strlen(utf8_decode($value[ 'name' ])) > 32)) {
+					$this->response->setOutput($this->language->get('error_name'));
 					return;
 				}
 			}
 
-		    $this->model_localisation_order_status->editOrderStatus($this->request->get['id'], $this->request->post);
-	        return;
-	    }
+			$this->model_localisation_order_status->editOrderStatus($this->request->get[ 'id' ], $this->request->post);
+			return;
+		}
 
-	    //request sent from jGrid. ID is key of array
-	    if ( isset($this->request->post['order_status']) ) {
-			foreach ( $this->request->post['order_status'] as $id => $v ) {
+		//request sent from jGrid. ID is key of array
+		if (isset($this->request->post[ 'order_status' ])) {
+			foreach ($this->request->post[ 'order_status' ] as $id => $v) {
 				foreach ($v as $value) {
-					if ((strlen(utf8_decode($value['name'])) < 3) || (strlen(utf8_decode($value['name'])) > 32)) {
-						$this->response->setOutput(  $this->language->get('error_name'));
+					if ((strlen(utf8_decode($value[ 'name' ])) < 3) || (strlen(utf8_decode($value[ 'name' ])) > 32)) {
+						$this->response->setOutput($this->language->get('error_name'));
 						return;
 					}
 				}
-				$this->model_localisation_order_status->editOrderStatus($id, array('order_status' => $v) );
+				$this->model_localisation_order_status->editOrderStatus($id, array( 'order_status' => $v ));
 			}
-	    }
+		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _validateDelete( $order_status_id ) {
+	private function _validateDelete($order_status_id) {
 		if ($this->config->get('config_order_status_id') == $order_status_id) {
 			return $this->language->get('error_default');
 		}
@@ -202,4 +209,5 @@ class ControllerResponsesListingGridOrderStatus extends AController {
 	}
 
 }
+
 ?>

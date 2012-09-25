@@ -269,8 +269,9 @@ final class AOrder {
 				'quantity'   => $product['quantity'], 
 				'price'      => $product['price'],
         		'total'      => $product['total'],
-				'tax'        => $this->tax->getRate($product['tax_class_id'])
-      		); 
+				'tax'        => $this->tax->getRate($product['tax_class_id']),
+				'stock'      => $product['stock']
+      		);
     	}
 		
 		$order_info['products'] = $product_data;

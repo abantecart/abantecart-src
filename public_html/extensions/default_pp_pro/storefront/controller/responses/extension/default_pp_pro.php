@@ -49,14 +49,16 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		                                                       'value' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'] ));
 		$data[ 'cc_owner' ] = $data[ 'cc_owner' ]->getHtml();
 
-		$cards = array(0 => 'Visa',
-                               1 => 'MasterCard',
-                               9 => 'Maestro',
-                               'S'=>'Solo');
+		$cards = array('Visa' => 'Visa',
+			'MasterCard' => 'MasterCard',
+			'Maestro' => 'Maestro',
+            //'Discover'=>'Discover',
+           // 'Alex'=>'Alex'
+		);
         $data[ 'cc_type' ] = HtmlElementFactory::create(
 			array( 'type' => 'selectbox',
 			     'name' => 'cc_type',
-			     'value' => 0,
+			     'value' => '',
 			     'options' => $cards,
 			     'style' => 'short'
 			));
@@ -118,14 +120,14 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		                                                     'name' => 'cc_cvv2',
 		                                                     'value' => '',
 		                                                     'style' => 'short',
-		                                                     'attr' => ' size="3" '
+		                                                     'attr' => ' size="3" maxlength="4" '
 		                                                ));
 		$data[ 'cc_cvv2' ] = $data[ 'cc_cvv2' ]->getHtml();
         $data[ 'cc_issue' ] = HtmlElementFactory::create(array( 'type' => 'input',
 		                                                     'name' => 'cc_issue',
 		                                                     'value' => '',
 		                                                     'style' => 'short',
-		                                                     'attr' => ' size="1" '
+		                                                     'attr' => ' size="1" maxlength="2" '
 		                                                ));
 		$data[ 'cc_issue' ] = $data[ 'cc_issue' ]->getHtml();
 

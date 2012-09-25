@@ -1,3 +1,4 @@
+<?php if ( $block_framed ) { ?>
 <div class="s_block">
 	<div class="block_tl">
 		<div class="block_tr">
@@ -7,6 +8,7 @@
 	<div class="block_cl">
 		<div class="block_cr">
 			<div class="block_cc">
+<?php } ?>
 				<div class="list">
 					<?php
 					foreach ($content as $item) {
@@ -37,6 +39,7 @@
 				    } ?>
 				<br class="clr_both"/>
 				</div>
+<?php if ( $block_framed ) { ?>
 			</div>
 		</div>
 	</div>
@@ -46,3 +49,4 @@
 		</div>
 	</div>
 </div>
+<?php } ?>

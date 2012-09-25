@@ -58,8 +58,7 @@ class AError {
      * @param  $msg - error message
      * @param  $code - error code
      */
-	public function __construct( $msg, $code = AC_ERR_USER_ERROR )
-    {
+	public function __construct( $msg, $code = AC_ERR_USER_ERROR ) {
 
         $backtrace = debug_backtrace();
 
@@ -79,8 +78,7 @@ class AError {
      *
      * @return void
      */
-    public function toDebug()
-    {
+    public function toDebug() {
         ADebug::error($this->error_descriptions[$this->code], $this->code, $this->msg);
         return $this;
     }
@@ -90,10 +88,15 @@ class AError {
      *
      * @return void
      */
-    public function toLog()
-    {
+    public function toLog() {
         if (!is_object($this->registry) || !$this->registry->has('log') ) {
-            $log = new ALog(DIR_SYSTEM.'logs/error.txt');
+        	if (class_exists('ALog')) {
+            	$log = new ALog(DIR_SYSTEM.'logs/error.txt');
+            } else {
+            	//we have error way a head of system start
+            	echo $this->error_descriptions[$this->code] . ':  ' . $this->msg;
+            	return $this;
+            }
         } else {
             $log = $this->registry->get('log');
         }
@@ -106,8 +109,7 @@ class AError {
      *
      * @return void
      */
-    public function toMessages()
-    {
+    public function toMessages() {
         if (is_object($this->registry) && $this->registry->has('messages') ) {
             $messages = $this->registry->get('messages');
             $messages->saveError($this->error_descriptions[$this->code], $this->msg);
@@ -120,11 +122,60 @@ class AError {
      *
      * @return void
      */
-    public function toMail()
-    {
-
+    public function toMail() {
+		//This is for future development
         return $this;
     }
 
+    /**
+     * add error message to JSON output
+     *
+     * $status_text_and_code -> any human readable text string with 3 digit at the end to represent HTTP responce code
+     * $err_data -> array with error text and params to control ajax 
+     *			error_code -> HTTP error code if missing in $status_text_and_code
+     *			error_title -> Title for error dialog and header (error constant used be default)
+     *			error_text -> Error message ( Class construct used by default ) 
+     *			show_dialog -> true to show dialog with error
+     *			reset_value -> true to reset values in a field (if applicable)
+     *			reload_page -> true to reload page after dialog close
+     *			TODO: Add redirect_url on dialog close
+     *
+     * @return JSON output 
+     */
+    public function toJSONResponse( $status_text_and_code, $err_data = array()) {
+	    //detect HTTP responce status code based on readable text status
+		preg_match('/(\d+)$/', $status_text_and_code, $match);
+		if ( !$match[0] ) {
+			if ( empty( $err_data['error_code'] ) ) {
+				$err_data['error_code'] = 400;
+			}	
+		} else {
+			$err_data['error_code'] = (int)$match[0];
+		}
+
+		if ( empty( $err_data['error_title'] ) ) {
+			$err_data['error_title'] = $this->error_descriptions[$this->code];
+		}
+		if ( empty( $err_data['error_text'] ) ) {
+			$err_data['error_text'] = $this->msg;
+		}
+		$http_header_txt = 'HTTP/1.1 '.(int)$err_data['error_code'] . ' ' . $err_data['error_title'];
+
+        if (is_object($this->registry) && $this->registry->has('response') ) {
+        	$response = $this->registry->get('response');
+        	$load = $this->registry->get('load');
+	        $response->addheader($http_header_txt);
+	        $response->addheader('Content-Type: application/json');
+			$load->library('json');
+			return $response->setOutput(AJson::encode($err_data));
+        } else {
+        	//for some reason we do not have reqistery. do direct output and exit
+        	header($http_header_txt);
+        	header('Content-Type: application/json');
+        	include_once( DIR_CORE . 'lib/json.php' );
+        	echo AJson::encode($err_data);
+        	exit;
+        }
+    }
 
 }

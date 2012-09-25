@@ -262,7 +262,7 @@ class ControllerPagesLocalisationWeightClass extends AController {
   	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'localisation/weight_class')) {
+		if (!$this->user->canModify('localisation/weight_class')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

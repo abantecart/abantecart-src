@@ -12,7 +12,6 @@
 	    <div class="block_buttons" style="margin-right: 10px;">
 	        <a onclick="createBlock(1)" class="btn_standard"><?php echo $header_create_block; ?></a>
         </div>
-	      <div class="clr_both"></div>
       </div>
       <div id="header_bottom_block">
         <?php
@@ -22,7 +21,6 @@
 		      }
 	      }
 	    ?>
-        <div class="clr_both"></div>
 	    <div class="block_buttons">
 	         <a onclick="createBlock(2)" class="btn_standard"><?php echo $header_bottom_create_block; ?></a>
 	         <a onclick="addBlock('blocks[2][children][]');" class="btn_standard"><?php echo $header_bottom_addbox; ?></a>

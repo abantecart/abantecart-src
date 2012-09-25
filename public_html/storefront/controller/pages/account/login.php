@@ -56,8 +56,10 @@ class ControllerPagesAccountLogin extends AController {
 				$address =  $this->model_account_address->getAddress($address_id);
 				$this->tax->setZone($address['country_id'], $address['zone_id']);
 
-				if ( $this->session->data[ 'checkout_redirect' ] ) {
-					$this->redirect($this->session->data[ 'checkout_redirect' ]);
+				if ( $this->session->data['redirect'] ) {
+					$redirect_url = $this->session->data['redirect'];
+					unset($this->session->data['redirect']);
+					$this->redirect( $redirect_url );
 				} else {
 					$this->redirect($this->html->getSecureURL('account/account'));
 				} 
@@ -136,24 +138,10 @@ class ControllerPagesAccountLogin extends AController {
 		$this->data['form2'][ 'password' ] = $form->getFieldHtml( array(
                                                                        'type' => 'password',
 		                                                               'name' => 'password'));
-		$this->data['form2'][ 'login' ] = $form->getFieldHtml( array(
-                                                                       'type' => 'submit',
-		                                                               'name' => $this->language->get('button_login') ));
-
-
-        if (isset($this->request->post['redirect'])) {
-			$redirect =  $this->request->post['redirect'];
-		} elseif (isset($this->session->data['redirect'])) {
-            $redirect = $this->session->data['redirect'] ;
-			unset($this->session->data['redirect']);
-    	}else{
-	        $redirect = '';
-        }
-		$this->view->assign('redirect', $redirect );
-		$this->data['form2'][ 'redirect' ] = $form->getFieldHtml( array(
-                                                                       'type' => 'hidden',
-		                                                               'name' => 'redirect',
-		                                                               'value' => $redirect ));
+		$this->data['form2'][ 'login_submit' ] = $form->getFieldHtml(array(
+																		'type' => 'submit',
+																		'name' => $this->language->get('button_login'),
+																		));
 
 		$this->view->assign('success', '' );
         if (isset($this->session->data['success'])) {

@@ -40,11 +40,10 @@ class ControllerResponsesSettingTemplateImage extends AController {
 		} else {
 			$img = HTTPS_IMAGE . 'no_image.jpg';
 		}
-		
-		$this->response->setOutput('<img src="' . $img . '" alt="" title="" />');
 
-          //update controller data
+        //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->response->setOutput('<img src="' . $img . '" alt="" title="" />');
 
 	}		
 }

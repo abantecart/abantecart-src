@@ -100,7 +100,7 @@ class ControllerPagesUserUserPermission extends AController {
 	    $this->loadModel('user/user_group');
 		$this->loadModel('user/user');
         $this->loadLanguage('user/user_group');
-        if (!$this->user->hasPermission('modify', 'user/user_permission')) {
+        if (!$this->user->canModify('user/user_permission')) {
 			echo sprintf($this->language->get('error_permission_modify'), 'user/user_permission');
             return;
 		}
@@ -223,6 +223,7 @@ class ControllerPagesUserUserPermission extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'editFrm',
+		    'attr' => 'confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
 
@@ -241,7 +242,7 @@ class ControllerPagesUserUserPermission extends AController {
 				'editurl' => $this->html->getSecureURL('listing_grid/user_permission/update_field','&user_group_id='.$this->request->get['user_group_id']),
 				'update_field' => $this->html->getSecureURL('listing_grid/user_permission/update_field','&user_group_id='.$this->request->get['user_group_id']),
 				'sorting' => false,
-				'columns_search' => false,
+				'columns_search' => true,
 				'actions' => array(),
 				'multiaction' => 'false',
 				'multiaction_options' => array( 'save'=> $this->language->get('text_save_selected')),
@@ -260,24 +261,28 @@ class ControllerPagesUserUserPermission extends AController {
 					'index' => 'id',
 					'width' => 20,
 					'align' => 'center',
+					'search' => false
 				),
 				array(
 					'name' => 'controller',
 					'index' => 'controller',
 					'width' => 300,
 					'align' => 'left',
+					'search' => true
 				),
 				array(
 					'name' => 'access',
 					'index' => 'access',
 					'width' => 50,
 					'align' => 'center',
+					'search' => false
 				),
 				array(
 					'name' => 'modify',
 					'index' => 'modify',
 					'width' => 50,
 					'align' => 'center',
+					'search' => false
 				),
 			);
 
@@ -290,7 +295,7 @@ class ControllerPagesUserUserPermission extends AController {
 	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'user/user_permission')) {
+		if (!$this->user->canModify('user/user_permission')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		if ((strlen(utf8_decode($this->request->post['name'])) < 2) || (strlen(utf8_decode($this->request->post['name'])) > 64)) {

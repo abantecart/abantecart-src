@@ -178,7 +178,7 @@ class ControllerPagesToolGlobalSearch extends AController {
 	 */
 	private function _validate($permissions = null) {
 		// check access to global search
-		if (! $this->user->hasPermission ( 'access', 'tool/global_search' )) {
+		if (! $this->user->canAccess( 'tool/global_search' )) {
 			$this->error ['warning'] = $this->language->get ( 'error_permission' );
 		}
 		return ! $this->error ? true : false;

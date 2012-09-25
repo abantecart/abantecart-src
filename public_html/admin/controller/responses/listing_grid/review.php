@@ -17,60 +17,60 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridReview extends AController {
 
-    public function main() {
+	public function main() {
 
-	    //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('catalog/review');
-	    $this->loadModel('catalog/review');
-        $this->loadModel('tool/image');
+		$this->loadLanguage('catalog/review');
+		$this->loadModel('catalog/review');
+		$this->loadModel('tool/image');
 
 		//Prepare filter config
-		$filter_params = array('product_id', 'status');
- 		$grid_filter_params = array( 'name', 'author' );
+		$filter_params = array( 'product_id', 'status' );
+		$grid_filter_params = array( 'name', 'author' );
 
-		$filter_form = new AFilter( array( 'method' => 'get', 'filter_params' => $filter_params ) );    
-	    $filter_grid = new AFilter( array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ) );   
-	    
-		$total = $this->model_catalog_review->getTotalReviews( array_merge( $filter_form->getFilterData(), $filter_grid->getFilterData() ) );
-	    $response = new stdClass();
+		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
+		$filter_grid = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
+
+		$total = $this->model_catalog_review->getTotalReviews(array_merge($filter_form->getFilterData(), $filter_grid->getFilterData()));
+		$response = new stdClass();
 		$response->page = $filter_grid->getParam('page');
-		$response->total = $filter_grid->calcTotalPages( $total );
+		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
-	    $results = $this->model_catalog_review->getReviews( array_merge( $filter_form->getFilterData(), $filter_grid->getFilterData() ) );
-        
-        $resource = new AResource('image');
-	    $i = 0;
+		$results = $this->model_catalog_review->getReviews(array_merge($filter_form->getFilterData(), $filter_grid->getFilterData()));
+
+		$resource = new AResource('image');
+		$i = 0;
 		foreach ($results as $result) {
 			$thumbnail = $resource->getMainThumb('products',
-				                                 $result['product_id'],
-			                                     $this->config->get('config_image_grid_width'),
-			                                     $this->config->get('config_image_grid_height'),true);
+				$result[ 'product_id' ],
+				$this->config->get('config_image_grid_width'),
+				$this->config->get('config_image_grid_height'), true);
 
-            $response->rows[$i]['id'] = $result['review_id'];
-			$response->rows[$i]['cell'] = array(
-                $thumbnail['thumb_html'],
-				$result['name'],
-				$result['author'],
-				$result['rating'],
+			$response->rows[ $i ][ 'id' ] = $result[ 'review_id' ];
+			$response->rows[ $i ][ 'cell' ] = array(
+				$thumbnail[ 'thumb_html' ],
+				$result[ 'name' ],
+				$result[ 'author' ],
+				$result[ 'rating' ],
 				$this->html->buildCheckbox(array(
-                    'name'  => 'status['.$result['review_id'].']',
-                    'value' => $result['status'],
-                    'style'  => 'btn_switch',
-                )),
-				date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+					'name' => 'status[' . $result[ 'review_id' ] . ']',
+					'value' => $result[ 'status' ],
+					'style' => 'btn_switch',
+				)),
+				date($this->language->get('date_format_short'), strtotime($result[ 'date_added' ])),
 			);
 			$i++;
 		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($response));
@@ -79,80 +79,88 @@ class ControllerResponsesListingGridReview extends AController {
 	public function update() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-	    $this->loadModel('catalog/review');
-        $this->loadLanguage('catalog/review');
-        if (!$this->user->hasPermission('modify', 'catalog/review')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/review') );
-            return;
+		if (!$this->user->canModify('listing_grid/review')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/review'),
+					'reset_value' => true
+				));
 		}
 
-		switch ($this->request->post['oper']) {
+		$this->loadModel('catalog/review');
+		$this->loadLanguage('catalog/review');
+
+		switch ($this->request->post[ 'oper' ]) {
 			case 'del':
-				$ids = explode(',', $this->request->post['id']);
-				if ( !empty($ids) )
-				foreach( $ids as $id ) {
-					$this->model_catalog_review->deleteReview($id);
-				}
+				$ids = explode(',', $this->request->post[ 'id' ]);
+				if (!empty($ids))
+					foreach ($ids as $id) {
+						$this->model_catalog_review->deleteReview($id);
+					}
 				break;
 			case 'save':
-				$ids = explode(',', $this->request->post['id']);
-				if ( !empty($ids) )
-				foreach( $ids as $id ) {
-					$data = array( 'status' => $this->request->post['status'][$id],	);
-					$this->model_catalog_review->editReview($id, $data);
-				}
+				$ids = explode(',', $this->request->post[ 'id' ]);
+				if (!empty($ids))
+					foreach ($ids as $id) {
+						$data = array( 'status' => $this->request->post[ 'status' ][ $id ], );
+						$this->model_catalog_review->editReview($id, $data);
+					}
 				break;
 
 			default:
 		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-    /**
-     * update only one field
-     *
-     * @return void
-     */
-    public function update_field() {
+	/**
+	 * update only one field
+	 *
+	 * @return void
+	 */
+	public function update_field() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('catalog/review');
-        if (!$this->user->hasPermission('modify', 'catalog/review')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'catalog/review'));
-            return;
+		if (!$this->user->canModify('listing_grid/review')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/review'),
+					'reset_value' => true
+				));
 		}
 
-        $this->loadModel('catalog/review');
-		$allowedFields = array('status', 'author', 'product_id', 'text', 'rating');
+		$this->loadLanguage('catalog/review');
+		$this->loadModel('catalog/review');
+		$allowedFields = array( 'status', 'author', 'product_id', 'text', 'rating' );
 
-	    if ( isset( $this->request->get['id'] ) ) {
-		    //request sent from edit form. ID in url
-		    foreach ($this->request->post as $key => $value ) {
-				if ( !in_array($key, $allowedFields) ) continue;
+		if (isset($this->request->get[ 'id' ])) {
+			//request sent from edit form. ID in url
+			foreach ($this->request->post as $key => $value) {
+				if (!in_array($key, $allowedFields)) continue;
 				$data = array( $key => $value );
-				$this->model_catalog_review->editReview($this->request->get['id'], $data);
+				$this->model_catalog_review->editReview($this->request->get[ 'id' ], $data);
 			}
-		    return;
-	    }
+			return;
+		}
 
-	    //request sent from jGrid. ID is key of array
-        foreach ($this->request->post as $key => $value ) {
-            if ( !in_array($key, $allowedFields) ) continue;
-            foreach ( $value as $k => $v ) {
-                $data = array( $key => $v );
-                $this->model_catalog_review->editReview($k, $data);
-            }
-        }
+		//request sent from jGrid. ID is key of array
+		foreach ($this->request->post as $key => $value) {
+			if (!in_array($key, $allowedFields)) continue;
+			foreach ($value as $k => $v) {
+				$data = array( $key => $v );
+				$this->model_catalog_review->editReview($k, $data);
+			}
+		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
 }
+
 ?>

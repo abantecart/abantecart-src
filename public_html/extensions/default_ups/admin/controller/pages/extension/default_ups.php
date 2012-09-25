@@ -624,7 +624,7 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 	}
 	
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'shipping/ups')) {
+		if (!$this->user->canModify('shipping/ups')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

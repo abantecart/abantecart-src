@@ -227,7 +227,7 @@ class ControllerPagesSaleCustomerGroup extends AController {
 	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'sale/customer_group')) {
+		if (!$this->user->canModify('sale/customer_group')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

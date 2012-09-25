@@ -34,7 +34,6 @@
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
 
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/ui.dialog.js"></script>
 <script type="text/javascript">
 var $aPopup = $('#aPopup');
 var msg_id;

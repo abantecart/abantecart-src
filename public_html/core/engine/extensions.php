@@ -347,20 +347,20 @@ class ExtensionsApi {
                       e.update_date,
                       e.create_date,
 		              s.store_id,
-		              st.name as store_name,
+		              st.alias as store_name,
 		              s.value as status
 				FROM " . DB_PREFIX . "extensions e
 				LEFT JOIN " . DB_PREFIX . "settings s ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
 				LEFT JOIN " . DB_PREFIX . "stores st ON st.store_id = s.store_id
 				WHERE e.`type` ";
 
-		if (!empty($data[ 'filter' ]) && $data[ 'filter' ] != 'extensions') {
+		if (has_value($data[ 'filter' ]) && $data[ 'filter' ] != 'extensions') {
 			$sql .= " = '" . $this->db->escape($data[ 'filter' ]) . "'";
 		} else {
 			$sql .= " IN ('".implode("', '",$this->extension_types)."')";
 		}
 
-		if (!empty($data[ 'search' ])) {
+		if (has_value($data[ 'search' ])) {
 
 			$keys = array();
 			$ext_list = $this->getExtensionsList(array( 'filter' => $data[ 'filter' ] ));
@@ -380,32 +380,31 @@ class ExtensionsApi {
 				$sql .= "AND e.`key` LIKE '%" . $this->db->escape($data[ 'search' ]) . "%' ";
 			}
 		}
-		if (!empty($data[ 'category' ])) {
+		if (has_value($data[ 'category' ])) {
 			$sql .= "AND e.`category` = '" . $this->db->escape($data[ 'category' ]) . "' ";
 		}
-		if (!empty($data[ 'status' ])) {
+		if (has_value($data[ 'status' ])) {
 			$sql .= "AND s.value = '" . (int)$data[ 'status' ] . "' ";
 		}
-
-		if (!empty($data[ 'store_id' ])) {
-			$sql .= "AND s.`store_id` = '" . (int)$data[ 'store_id' ] . "' ";
+		if (has_value($data[ 'store_id' ])) {
+			$sql .= "AND COALESCE(s.`store_id`,0) = '" . (int)$data[ 'store_id' ] . "' ";
 		}
 
-        if(!empty($data[ 'sort_order' ]) && $data[ 'sort_order' ][0]!='name'){
+        if(has_value($data[ 'sort_order' ]) && $data[ 'sort_order' ][0]!='name'){
             if($data[ 'sort_order' ][0]=='key'){
                 $data[ 'sort_order' ][0] = '`key`';
             }
             $sql .= "\n ORDER BY ".implode(' ',$data[ 'sort_order' ]);
         }
 
-		if (!empty($data[ 'page' ]) && !empty($data[ 'limit' ])) {
+		if (has_value($data[ 'page' ]) && has_value($data[ 'limit' ])) {
 			$total = $this->db->query($sql);
 			$sql .= " LIMIT " . (int)(($data[ 'page' ] - 1) * $data[ 'limit' ]) . ", " . (int)($data[ 'limit' ]) . " ";
 		}
 
 		$result = $this->db->query($sql);
 
-        if(!empty($data[ 'sort_order' ]) && $data[ 'sort_order' ][0]=='name'){
+        if(has_value($data[ 'sort_order' ]) && $data[ 'sort_order' ][0]=='name'){
             if($result->rows){
                 foreach($result->rows as &$row){
                          $names[] = mb_strtolower(trim($this->getExtensionName($row['key'])));

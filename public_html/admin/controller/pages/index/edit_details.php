@@ -82,6 +82,7 @@ class ControllerPagesIndexEditDetails extends AController {
 			array(
 				'type' => 'form',
 				'name' => 'editFrm',
+				'attr' => 'confirm-exit="true"',
 				'action' => $this->data['action'],
 			)
 		);

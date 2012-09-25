@@ -165,6 +165,16 @@ class AAttribute {
 		}
 	}
 
+    /**
+     * @param  $attribute_id
+     * Returns total count of choldren for the atribute. No children retunrs 0
+     */
+    public function totalChildren( $attribute_id ) {
+	    $sql = "SELECT count(*) as total_count FROM " . DB_PREFIX . "global_attributes
+            WHERE attribute_parent_id = '" . (int)$attribute_id . "'";
+        $attribute_data = $this->db->query( $sql );
+        return $attribute_data->rows[0]['total_count'];
+	}
 
     /**
      * @param  $attribute_type - load all the attributes for specified type 

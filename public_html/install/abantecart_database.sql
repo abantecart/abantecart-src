@@ -503,7 +503,53 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 ('total', 'coupon', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('shipping', 'default_flat_rate_shipping', 'shipping', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'latest', '', 1, 1, '1.0', null, now(), now(), now() ),
-('block', 'featured', '', 1, 1, '1.0', null, now(), now(), now() );
+('block', 'featured', '', 1, 1, '1.0', null, now(), now(), now() ),
+('extensions', 'banner_manager', 'extensions', 1, 1, '1.0', null, now(), now(), now() );
+
+
+
+
+--
+-- DDL for tables of banner manager
+--
+DROP TABLE IF EXISTS `ac_banners`;
+CREATE TABLE `ac_banners` (
+	`banner_id` int(11) NOT NULL AUTO_INCREMENT,
+	`status` int(1) NOT NULL DEFAULT '0',
+	`banner_type` int(11) NOT NULL DEFAULT '1',
+	`banner_group_name` varchar(255) NOT NULL DEFAULT '',
+	`start_date` timestamp NULL DEFAULT NULL,
+	`end_date` timestamp NULL DEFAULT NULL,
+	`blank` tinyint(1) NOT NULL DEFAULT '0',
+	`target_url` text COLLATE utf8_bin DEFAULT '',
+	`sort_order` int(11) NOT NULL,
+	`date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+	PRIMARY KEY (`banner_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DROP TABLE IF EXISTS `ac_banner_descriptions`;
+CREATE TABLE `ac_banner_descriptions` (
+  `banner_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text COLLATE utf8_bin NOT NULL,
+  `meta` text(1500) DEFAULT '',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  PRIMARY KEY (`banner_id`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DROP TABLE IF EXISTS `ac_banner_stat`;
+CREATE TABLE `ac_banner_stat` (
+  `banner_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `store_id` int(11) NOT NULL,
+  `user_info` text(1500) DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE INDEX `banner_stat_idx` ON `ac_banner_stat` (`banner_id`, `type`, `time`, `store_id`);
+
 
 --
 -- DDL for table `locations`
@@ -523,7 +569,7 @@ CREATE TABLE `ac_locations` (
 --
 
 INSERT INTO `ac_locations` (`location_id`, `name`, `description`, `date_modified`, `date_added`) VALUES
-(1, 'USA', 'New York', '2011-06-20 21:00:00', '2011-06-20 21:00:00');
+(1, 'USA', 'All States', '2011-06-20 21:00:00', '2011-06-20 21:00:00');
 
 
 --
@@ -816,6 +862,7 @@ CREATE TABLE `ac_order_totals` (
   `text` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   `value` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `sort_order` int(3) NOT NULL,
+  `type` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   PRIMARY KEY (`order_total_id`),
   KEY `idx_orders_total_orders_id` (`order_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
@@ -946,6 +993,7 @@ CREATE TABLE `ac_product_option_values` (
   `weight` decimal(15,8) NOT NULL,
   `weight_type` varchar(3) COLLATE utf8_bin NOT NULL, -- lbs or %
   `attribute_value_id` int(11),  
+  `grouped_attribute_data` text DEFAULT NULL,
   `sort_order` int(3) NOT NULL,
   PRIMARY KEY (`product_option_value_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
@@ -960,6 +1008,7 @@ CREATE TABLE `ac_product_option_value_descriptions` (
   `language_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `name` text COLLATE utf8_bin DEFAULT NULL,
+  `grouped_attribute_names` text COLLATE utf8_bin DEFAULT NULL,  
   PRIMARY KEY (`product_option_value_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -1073,79 +1122,87 @@ CREATE TABLE `ac_settings` (
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
---general
-('general', 'store_name', 'Web Store Name'),
-('general', 'config_url', ''),
-('general', 'config_owner', 'Your Name'),
-('general', 'config_address', 'Address 1'),
-('general', 'store_main_email', 'admin@abantecart.com'),
-('general', 'config_telephone', '123456789'),
-('general', 'config_fax', ''),
-
 --store
-('store', 'config_title', 'Your Store'),
-('store', 'config_meta_description', 'Web Store Meta Description'),
-('store', 'config_storefront_template', 'default'),
-('store', 'config_description_1', 'Welcome to web store!'),
+('details', 'store_name', 'Web Store Name'),
+('details', 'config_url', ''),
+('details', 'config_owner', 'Your Name'),
+('details', 'config_address', 'Address 1'),
+('details', 'store_main_email', 'admin@abantecart.com'),
+('details', 'config_telephone', '123456789'),
+('details', 'config_fax', ''),
 
+('details', 'config_title', 'Your Store'),  
+('details', 'config_meta_description', 'Web Store Meta Description'),
+('details', 'config_description_1', 'Welcome to web store!'),
 
---local
-('local', 'config_country_id', '223'),
-('local', 'config_zone_id', '3655'),
-('local', 'config_storefront_language', 'en'),
-('local', 'admin_language', 'en'),
-('local', 'config_currency', 'USD'),
-('local', 'config_currency_auto', '1'),
-('local', 'config_length_class', 'in'),
-('local', 'config_weight_class', 'lb'),
+('details', 'config_country_id', '223'),
+('details', 'config_zone_id', '3655'),
+('details', 'config_storefront_language', 'en'),
+('details', 'admin_language', 'en'),
+('details', 'config_currency', 'USD'),
+('details', 'config_currency_auto', '1'),
+('details', 'config_length_class', 'in'),
+('details', 'config_weight_class', 'lb'),
 
---options
-('options', 'config_admin_limit', '20'),
-('options', 'config_catalog_limit', '20'),
-('options', 'config_bestseller_limit', '4'),
-('options', 'config_featured_limit', '2'),
-('options', 'config_latest_limit', '8'),
-('options', 'config_special_limit', '6'),
-('options', 'config_tax', '0'),
-('options', 'config_tax_store', '0'),
-('options', 'config_tax_customer', '0'),
-('options', 'starting_invoice_id', '001'),
-('options', 'invoice_prefix', 'IN#'),
-('options', 'config_customer_group_id', '8'),
-('options', 'config_customer_price', '1'),
-('options', 'config_customer_approval', '0'),
-('options', 'config_guest_checkout', '1'),
-('options', 'config_account_id', '2'),
-('options', 'config_checkout_id', '3'),
-('options', 'config_stock_display', '0'),
-('options', 'config_stock_checkout', '0'),
-('options', 'config_order_status_id', '1'),
-('options', 'config_stock_status_id', '5'),
-('options', 'enable_reviews', '1'),
-('options', 'config_download', '1'),
-('options', 'config_download_status', '5'),
-('options', 'config_cart_weight', '1'),
-('options', 'config_shipping_session', '0'),
+--general
+('general', 'config_admin_limit', '10'),
+('general', 'config_catalog_limit', '20'),
+('general', 'config_bestseller_limit', '4'),
+('general', 'config_featured_limit', '2'),
+('general', 'config_latest_limit', '8'),
+('general', 'config_special_limit', '6'),
+('general', 'config_stock_display', '0'),
+('general', 'config_nostock_autodisable', '0'),
+('general', 'config_stock_status_id', '5'),
+('general', 'enable_reviews', '1'),
+('general', 'config_download', '1'),
+('general', 'config_download_status', '5'),
+('general', 'config_help_links', '1'),
+('general', 'config_show_tree_data', '1'),
 
--- images
-('images', 'config_logo', 'image/18/73/3.gif'),
-('images', 'config_icon', 'image/18/73/4.ico'),
-('images', 'config_image_thumb_width', '180'),
-('images', 'config_image_thumb_height', '180'),
-('images', 'config_image_popup_width', '500'),
-('images', 'config_image_popup_height', '500'),
-('images', 'config_image_product_width', '120'),
-('images', 'config_image_product_height', '120'),
-('images', 'config_image_additional_width', '45'),
-('images', 'config_image_additional_height', '45'),
-('images', 'config_image_related_width', '120'),
-('images', 'config_image_related_height', '120'),
-('images', 'config_image_cart_width', '75'),
-('images', 'config_image_cart_height', '75'),
-('images', 'config_image_grid_width', '57'),
-('images', 'config_image_grid_height', '57'),
-('images', 'config_image_category_height', '120'),
-('images', 'config_image_category_width', '120'),
+-- Checkout
+('checkout', 'starting_invoice_id', '001'),
+('checkout', 'invoice_prefix', 'IN#'),
+('checkout', 'config_cart_weight', '1'),
+('checkout', 'config_shipping_session', '0'),
+('checkout', 'config_tax', '0'),
+('checkout', 'config_tax_store', '0'),
+('checkout', 'config_tax_customer', '0'),
+('checkout', 'config_customer_price', '1'),
+('checkout', 'config_customer_group_id', '8'),
+('checkout', 'config_customer_approval', '0'),
+('checkout', 'config_guest_checkout', '1'),
+('checkout', 'config_account_id', '2'),
+('checkout', 'config_checkout_id', '3'),
+('checkout', 'config_stock_checkout', '0'),
+('checkout', 'config_order_status_id', '1'),
+('checkout', 'config_stock_subtract', '0'),
+('checkout', 'config_stock_check', '1'),
+('checkout', 'config_cart_ajax', '1'),
+-- Appearance
+('appearance', 'config_storefront_template', 'default'),
+('appearance', 'storefront_width', '100%'),
+('appearance', 'config_logo', 'image/18/73/3.gif'),
+('appearance', 'config_icon', 'image/18/73/4.ico'),
+('appearance', 'config_image_thumb_width', '180'),
+('appearance', 'config_image_thumb_height', '180'),
+('appearance', 'config_image_popup_width', '500'),
+('appearance', 'config_image_popup_height', '500'),
+('appearance', 'config_image_product_width', '120'),
+('appearance', 'config_image_product_height', '120'),
+('appearance', 'config_image_additional_width', '45'),
+('appearance', 'config_image_additional_height', '45'),
+('appearance', 'config_image_related_width', '120'),
+('appearance', 'config_image_related_height', '120'),
+('appearance', 'config_image_cart_width', '75'),
+('appearance', 'config_image_cart_height', '75'),
+('appearance', 'config_image_grid_width', '57'),
+('appearance', 'config_image_grid_height', '57'),
+('appearance', 'config_image_category_height', '120'),
+('appearance', 'config_image_category_width', '120'),
+('appearance', 'admin_template', 'default'),
+('appearance', 'admin_width', '100%'),
+
 
 --mail
 ('mail', 'config_mail_protocol', 'mail'),
@@ -1158,63 +1215,64 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('mail', 'config_alert_mail', '0'),
 ('mail', 'config_alert_emails', ''),
 
---server
-('server', 'config_session_ttl', '60'),
-('server', 'config_ssl', '0'),
-('server', 'config_maintenance', '0'),
-('server', 'encryption_key', '12345'),
-('server', 'enable_seo_url', '0'),
-('server', 'config_compression', '0'),
-('server', 'config_cache_enable', '1'),
-('server', 'config_error_display', '1'),
-('server', 'config_error_log', '1'),
-('server', 'config_debug', '0'),
-('server', 'config_debug_level', '0'),
-('server', 'storefront_template_debug', '0'),
-('server', 'config_error_filename', 'error.txt'),
-('server', 'config_help_links', '1'),
-('server', 'config_upload_max_size', '16000'),
-('server', 'config_storefront_api_status', '0'),
-('server', 'config_storefront_api_key', ''),
+--system
+('system', 'config_session_ttl', '60'),
+('system', 'config_ssl', '0'),
+('system', 'config_maintenance', '0'),
+('system', 'encryption_key', '12345'),
+('system', 'enable_seo_url', '0'),
+('system', 'config_compression', '0'),
+('system', 'config_cache_enable', '1'),
+('system', 'config_error_display', '1'),
+('system', 'config_error_log', '1'),
+('system', 'config_debug', '0'),
+('system', 'config_debug_level', '0'),
+('system', 'storefront_template_debug', '0'),
+('system', 'config_error_filename', 'error.txt'),
+('system', 'config_upload_max_size', '16000'),
 
+--API
+('api', 'config_storefront_api_status', '0'),
+('api', 'config_storefront_api_key', ''),
+('api', 'config_storefront_api_stock_check', '0'),
 
-('appearance', 'admin_template', 'default'),
-('appearance', 'storefront_width', '100%'),
-('appearance', 'admin_width', '100%'),
-
-('cart', 'cart_status', '1'),
-('cart', 'cart_position', 'right'),
-('cart', 'cart_ajax', '1'),
-('cart', 'cart_sort_order', '1'),
-
+--EXTENSIONS
 ('shipping', 'shipping_sort_order', '3'),
 ('shipping', 'shipping_status', '1'),
-
-('config', 'config_stock_subtract', '0'),
-('config', 'config_stock_check', '1'),
+('shipping', 'shipping_total_type', 'shipping'),
 
 ('coupon', 'coupon_status', '1'),
 ('coupon', 'coupon_sort_order', '4'),
+('coupon', 'coupon_total_type', 'discount'),
+
+('sub_total', 'sub_total_sort_order', '1'),
+('sub_total', 'sub_total_status', '1'),
+('sub_total', 'sub_total_total_type', 'subtotal'),
+
+('tax', 'tax_status', '1'),
+('tax', 'tax_sort_order', '5'),
+('tax', 'tax_total_type', 'tax'),
+
+('total', 'total_sort_order', '6'),
+('total', 'total_status', '1'),
+('total', 'total_total_type', 'total'),
 
 ('default_cod', 'default_cod_sort_order', '1'),
 ('default_cod', 'default_cod_order_status_id', '1'),
 ('default_cod', 'default_cod_status', '1'),
 ('default_cod', 'default_cod_location_id', '0'),
 
-('sub_total', 'sub_total_sort_order', '1'),
-('sub_total', 'sub_total_status', '1'),
-
-('tax', 'tax_status', '1'),
-('tax', 'tax_sort_order', '5'),
-
-('total', 'total_sort_order', '6'),
-('total', 'total_status', '1'),
-
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_cost', '2'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_tax_class_id', '9'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_location_id', '0'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_status', '1'),
-('default_flat_rate_shipping', 'default_flat_rate_shipping_sort_order', '1')
+('default_flat_rate_shipping', 'default_flat_rate_shipping_sort_order', '1'),
+
+('banner_manager','banner_manager_layout',''),
+('banner_manager','banner_manager_priority',10),
+('banner_manager','banner_manager_date_installed',NOW()),
+('banner_manager','store_id',0),
+('banner_manager','banner_manager_status',1)
 ;
 
 
@@ -1250,11 +1308,12 @@ DROP TABLE IF EXISTS `ac_stores`;
 CREATE TABLE `ac_stores` (
   `store_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `url` varchar(255) COLLATE utf8_bin NOT NULL,
-  `ssl` int(1) NOT NULL,
-  PRIMARY KEY (`store_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+  `alias` varchar(15) COLLATE utf8_bin NOT NULL,
+  `status` int(1) NOT NULL,
+   PRIMARY KEY (`store_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=0;
 
+INSERT INTO `ac_stores` VALUES	(0,'default','default',1);
 
 --
 -- DDL for table `store_descriptions`
@@ -5613,7 +5672,9 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `created`) VA
 (19, 'featured', 'blocks/featured', now() ),
 (20, 'listing_block', 'blocks/listing_block', now() ),
 (21, 'donate', 'blocks/donate', now() ),
-(22, 'special', 'blocks/special', now() );
+(22, 'special', 'blocks/special', now() ),
+(23, 'banner_block', 'blocks/banner_block', now() ),
+(24, 'credit_cards', 'blocks/credit_cards', now() );
 
 
 
@@ -5656,6 +5717,7 @@ CREATE TABLE `ac_block_descriptions` (
   `custom_block_id` int(10) NOT NULL,
   `language_id` int(10) NOT NULL,
   `block_wrapper` varchar(255) NOT NULL default '0',
+  `block_framed` tinyint(1) DEFAULT '1',
   `name` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,  
   `description` varchar(255) NOT NULL DEFAULT '',
@@ -5720,7 +5782,16 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (21, 8, 'blocks/donate.tpl', now() ),
 (22, 3, 'blocks/special.tpl', now() ),
 (22, 5, 'blocks/special_home.tpl', now() ),
-(22, 6, 'blocks/special.tpl', now() );
+(22, 6, 'blocks/special.tpl', now() ),
+(23, 1, 'blocks/banner_block_header.tpl', NOW() ),
+(23, 2, 'blocks/banner_block_content.tpl', NOW() ),
+(23, 3, 'blocks/banner_block.tpl', NOW() ),
+(23, 4, 'blocks/banner_block_content.tpl', NOW() ),
+(23, 5, 'blocks/banner_block_content.tpl', NOW() ),
+(23, 6, 'blocks/banner_block.tpl', NOW() ),
+(23, 7, 'blocks/banner_block_content.tpl', NOW() ),
+(23, 8, 'blocks/banner_block_header.tpl', NOW() ),
+(24, 8, 'blocks/credit_cards.tpl', now() );
 
 
 --
@@ -5802,7 +5873,8 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (35, 1, 13, 0, 1, 10, 1, now() ),
 (36, 1, 14, 0, 1, 20, 1, now() ),
 (37, 1, 15, 0, 1, 30, 1, now() ),
-(38, 1, 21, 0, 8, 90, 1, now() );
+(38, 1, 21, 0, 8, 10, 1, now() ),
+(172, 1, 24, 0, 8, 20, 1, now() );
 
 -- Home page
 INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
@@ -5817,14 +5889,15 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (24, 2, 9, 0, 18, 10, 1, now() ),
 (25, 2, 10, 0, 18, 20, 1, now() ),
 (26, 2, 11, 0, 18, 30, 1, now() ),
-(27, 2, 12, 0, 20, 20, 1, now() ),
+(27, 2, 12, 0, 20, 10, 1, now() ),
 (28, 2, 18, 0, 21, 10, 1, now() ),
 (29, 2, 19, 0, 21, 20, 1, now() ),
 (31, 2, 15, 0, 16, 30, 1, now() ),
 (32, 2, 13, 0, 16, 10, 1, now() ),
 (33, 2, 14, 0, 16, 20, 1, now() ),
 (34, 2, 17, 1, 19, 10, 1, now() ),
-(39, 2, 21, 0, 23, 90, 1, now() );
+(39, 2, 21, 0, 23, 10, 1, now() ),
+(40, 2, 24, 0, 23, 20, 1, now() );
 
 -- Login page
 INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
@@ -5839,7 +5912,8 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (57, 5, 14, 0, 55, 20, 1, now() ),
 (55, 5, 1, 0, 0, 10, 1, now() ),
 (65, 5, 8, 0, 0, 80, 1, now() ),
-(98, 5, 21, 0, 65, 90, 1, now() );
+(98, 5, 21, 0, 65, 10, 1, now() ),
+(99, 5, 24, 0, 65, 20, 1, now() );
 -- Default Product page
 INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
 (66, 6, 13, 0, 75, 10, 1, now() ),
@@ -5853,7 +5927,8 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (74, 6, 14, 0, 75, 20, 1, now() ),
 (75, 6, 1, 0, 0, 10, 1, now() ),
 (76, 6, 8, 0, 0, 80, 1, now() ),
-(95, 6, 21, 0, 76, 90, 1, now() );
+(95, 6, 21, 0, 76, 10, 1, now() ),
+(170, 6, 24, 0, 76, 20, 1, now() );
 -- Checkout pages
 INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
 (77, 7, 1, 0, 0, 10, 1, now() ),
@@ -5869,7 +5944,8 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (92, 7, 14, 0, 77, 20, 1, now() ),
 (93, 7, 15, 0, 77, 30, 1, now() ),
 (94, 7, 16, 0, 79, 10, 1, now() ),
-(96, 7, 21, 0, 87, 90, 1, now() );
+(96, 7, 21, 0, 87, 10, 1, now() ),
+(171, 7, 24, 0, 87, 20, 1, now() );
 
 --
 -- DDL for table `forms_pages`
@@ -6453,33 +6529,39 @@ VALUES  (12,'core',71),
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (7,'report_sale',91),
 		(7,'viewed',92),
-		(7,'purchased',93);
---ITEM_TEXT		
+		(7,'purchased',93),
+		(7,'banner_manager_stat',94 );
+--ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_report_sale',91),
 		(8,'text_report_viewed',92),
-		(8,'text_report_purchased',93);		
+		(8,'text_report_purchased',93),
+		(8,'banner_manager_name_stat',94);
 --ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'report/sale',91),
 		(9,'report/viewed',92),
-		(9,'report/purchased',93);
---PARENT_ID		
+		(9,'report/purchased',93),
+		(9,'extension/banner_manager_stat',94);
+--PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'reports',91),
 		(10,'reports',92),
-		(10,'reports',93);
---SORT_ORDER		
+		(10,'reports',93),
+		(10,'reports',94);
+--SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,91),
 		(11,2,92),
-		(11,3,93);
---ITEM_TYPE	
+		(11,3,93),
+		(11,4,94);
+--ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',91),
 		(12,'core',92),		
-		(12,'core',93);		
---		
+		(12,'core',93),
+		(12,'extension',94);
+--
 --SUBMENU HELP
 --ITEM_ID		
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
@@ -6519,43 +6601,49 @@ VALUES  (7,'template',131),
 		(7,'layout',132),
 		(7,'blocks',133),
 		(7,'menu',134),
-		(7,'content',135);
---ITEM_TEXT		
+		(7,'content',135),
+		(7,'banner_manager',136);
+--ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_templates',131),
 		(8,'text_layout',132),
 		(8,'text_blocks',133),
 		(8,'text_menu',134),
-		(8,'text_content',135);
+		(8,'text_content',135),
+		(8,'banner_manager_name',136);
 --ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'extension/extensions/template',131),
 		(9,'design/layout',132),
 		(9,'design/blocks',133),
 		(9,'design/menu',134),
-		(9,'design/content',135);
---PARENT_ID		
+		(9,'design/content',135),
+		(9,'extension/banner_manager',136);
+--PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'design',131),
 		(10,'design',132),
 		(10,'design',133),
 		(10,'design',134),
-		(10,'design',135);
---SORT_ORDER		
+		(10,'design',135),
+		(10,'design',136);
+--SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,131),
 		(11,2,132),
 		(11,3,133),
 		(11,4,134),
-		(11,5,135);
---ITEM_TYPE	
+		(11,5,135),
+		(11,6,136);
+--ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',131),
 		(12,'core',132),		
 		(12,'core',133),
 		(12,'core',134),
-		(12,'core',135);
---		
+		(12,'core',135),
+		(12,'extension',136);
+--
 --SUBMENU USERS OF SUBMENU SYSTEM 
 --ITEM_ID		
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
@@ -6833,7 +6921,7 @@ VALUES  (16,NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (17,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (18,'1.0.4','1');
+VALUES  (18,'1.1','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (19,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_timestamp`,`row_id`)

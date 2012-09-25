@@ -82,9 +82,9 @@ class ControllerPagesProductSpecial extends AController {
 			$this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
 
 			$results = $promoton->getProductSpecials($sort,
-			                                                            $order,
-			                                                            ($page - 1) * $this->config->get('config_catalog_limit'),
-			                                                            $this->config->get('config_catalog_limit'));
+			                                         $order,
+			                                         ($page - 1) * $limit,
+													 $limit);
 			$resource = new AResource('image');
             foreach ($results as $result) {
 
@@ -121,7 +121,11 @@ class ControllerPagesProductSpecial extends AController {
                 if ($options) {
                     $add = $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], '&encode');
                 } else {
-                    $add = $this->html->getSecureURL('checkout/cart','&product_id=' . $result['product_id'], '&encode');
+                    if($this->config->get('config_cart_ajax')){
+                        $add = '#';
+                    }else{
+                        $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
+                    }
                 }
 
                 $this->data['products'][] = array(

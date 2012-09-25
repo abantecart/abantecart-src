@@ -25,7 +25,8 @@ final class APagination {
 	public $total = 0;
 	public $page = 1;
 	public $limit = 20;
-	public $limits = array(10, 20, 30, 40, 50);
+	public $split = 5;
+	public $limits = array();
 	public $num_links = 10;
 	public $url = '';
 	public $text = 'Showing {start} to {end} of {total} ({pages} Pages)';
@@ -45,12 +46,22 @@ final class APagination {
 		} else {
 			$page = $this->page;
 		}
-		
+
 		if (!$this->limit) {
 			$limit = 10;
 		} else {
 			$limit = $this->limit;
 		}
+
+		if(!$this->limits){
+			$registry = Registry::getInstance();
+			$this->limits[0] = $x = ( $this->split ? $this->split : $registry->get('config')->get('config_catalog_limit') );
+			while($x<=50){
+				$this->limits[] = $x;
+				$x += 10;
+			}
+		}
+
 		$this->url = str_replace('{limit}',$limit,$this->url);
 		$num_links = $this->num_links;
 		$num_pages = ceil($total / $limit);

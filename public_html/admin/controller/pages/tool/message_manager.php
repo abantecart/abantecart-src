@@ -117,6 +117,7 @@ class ControllerPagesToolMessageManager extends AController {
 		
 		
 		$this->view->assign ( 'delete', $this->language->get ( 'text_delete' ) );
+		$this->view->assign ( 'close', $this->language->get ( 'text_close' ) );
 		$this->view->assign ( 'confirm', $this->language->get ( 'text_confirm' ) );
 		$this->view->batchAssign (  $this->language->getASet () );
 		$this->view->assign('help_url', $this->gen_help_url() );

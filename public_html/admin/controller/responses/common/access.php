@@ -1,4 +1,4 @@
-<?php   
+<?php
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -17,69 +17,61 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+	header('Location: static_pages/');
 }
 class ControllerResponsesCommonAccess extends AController {
 
 	public function login() {
 
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-
-		if (isset($this->request->get['rt']) && !isset($this->request->get['token'])) {
+		if (isset($this->request->get[ 'rt' ]) && !isset($this->request->get[ 'token' ])) {
 			$route = '';
-						
-			$part = explode('/', $this->request->get['rt']);
-			
-			if (isset($part[0])) {
-				$route .= $part[0];
+
+			$part = explode('/', $this->request->get[ 'rt' ]);
+
+			if (isset($part[ 0 ])) {
+				$route .= $part[ 0 ];
 			}
-			
-			if (isset($part[1])) {
-				$route .= '/' . $part[1];
+
+			if (isset($part[ 1 ])) {
+				$route .= '/' . $part[ 1 ];
 			}
-			
+
 			$ignore = array(
 				'common/access',
 				'common/captcha',
 				'error/ajaxerror/login',
 				'error/ajaxerror/not_found',
-				'error/ajaxerror/permission',	
+				'error/ajaxerror/permission',
 			);
-									
+
 			if (!in_array($route, $ignore)) {
-				if (!isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
+				if (!isset($this->request->get[ 'token' ]) || !isset($this->session->data[ 'token' ]) || ($this->request->get[ 'token' ] != $this->session->data[ 'token' ])) {
 					return $this->dispatch('responses/error/ajaxerror/login');
 				}
 			}
 		} else {
-			if (!isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
+			if (!isset($this->request->get[ 'token' ]) || !isset($this->session->data[ 'token' ]) || ($this->request->get[ 'token' ] != $this->session->data[ 'token' ])) {
 				return $this->dispatch('responses/error/ajaxerror/login');
 			}
 		}
-
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
-	
+
 	public function permission() {
+		//TODO: make permission check for extension
+		if ($this->extensions->isExtensionController($this->request->get[ 'rt' ])) return;
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-
-        //TODO: make permission check for extension
-        if ( $this->extensions->isExtensionController($this->request->get['rt']) )  return;
-
-        if (isset($this->request->get['rt'])) {
+		if (isset($this->request->get[ 'rt' ])) {
 			$route = '';
-			
-			$part = explode('/', $this->request->get['rt']);
-			
-			if (isset($part[0])) {
-				$route .= $part[0];
+
+			$part = explode('/', $this->request->get[ 'rt' ]);
+
+			if (isset($part[ 0 ])) {
+				$route .= $part[ 0 ];
 			}
-			
-			if (isset($part[1])) {
-				$route .= '/' . $part[1];
+
+			if (isset($part[ 1 ])) {
+				$route .= '/' . $part[ 1 ];
 			}
 
 			$ignore = array(
@@ -87,17 +79,15 @@ class ControllerResponsesCommonAccess extends AController {
 				'common/captcha',
 				'error/ajaxerror/login',
 				'error/ajaxerror/not_found',
-				'error/ajaxerror/permission',	
-			);			
+				'error/ajaxerror/permission',
+			);
 
-	       	if (!in_array($route, $ignore)) {
-				if (!$this->user->hasPermission('access', $route)) {
+			if (!in_array($route, $ignore)) {
+				if (!$this->user->canAccess($route)) {
 					return $this->dispatch('responses/error/ajaxerror/permission');
 				}
 			}
 		}
-
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
 ?>

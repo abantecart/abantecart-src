@@ -358,7 +358,9 @@ class AResourceManager extends AResource {
             if (is_callable(array($this, 'getResource'.$object))) {
 		        $result = call_user_func_array(array($this, 'getResource'.$object), array($resource_id, $language_id));
 	            if($result){
-                    $resource_objects[$object] = $result;
+		            $key = $this->language->get('text_'.$object);
+		            $key = !$key ? $object : $key;
+                    $resource_objects[$key] = $result;
 	            }
             }
         }
@@ -398,7 +400,7 @@ class AResourceManager extends AResource {
 
         return $result;
     }
-    protected function getResourceOptionValue($resource_id, $language_id = '') {
+    protected function getResourceProduct_Option_Value($resource_id, $language_id = '') {
 
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');
@@ -408,9 +410,10 @@ class AResourceManager extends AResource {
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
         $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
         if ( is_null($resource_objects) ) {
-            $sql = "SELECT rm.object_id, pd.name
+            $sql = "SELECT rm.object_id, pd.name, pov.product_id
                     FROM " . DB_PREFIX . "resource_map rm
                     LEFT JOIN " . DB_PREFIX . "product_option_value_descriptions pd ON ( rm.object_id = pd.product_option_value_id )
+                    LEFT JOIN " . DB_PREFIX . "product_option_values pov ON ( pd.product_option_value_id = pov.product_option_value_id )
                     WHERE rm.resource_id = '".(int)$resource_id."'
                         AND rm.object_name = 'product_option_value'
                         AND pd.language_id = '".(int)$language_id."'";
@@ -423,8 +426,9 @@ class AResourceManager extends AResource {
         foreach ( $resource_objects as $row ) {
             $result[] = array(
                 'object_id' => $row['object_id'],
+                'object_name' => $this->language->get('text_product_option_value'),
                 'name' => $row['name'],
-                'url' => $this->html->getSecureURL('catalog/product_options', '&option_id='.$row['object_id'] )
+                'url' => $this->html->getSecureURL('catalog/product_options', '&product_id='.$row['product_id'] )
             );
         }
 

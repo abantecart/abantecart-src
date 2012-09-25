@@ -25,8 +25,8 @@
 <div class="contentBox">
   <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
     <div class="heading"><?php echo $text_latest_10_orders; ?></div>
-    <div class="toolbar flt_right" style="margin:14px 10px 0 0;">
-    <a href="<?php echo $orders_url; ?>"><?php echo $orders_text; ?></a>
+    <div class="toolbar flt_right">
+    <div style="margin:14px 10px 0 0;"><a href="<?php echo $orders_url; ?>"><?php echo $orders_text; ?></a></div>
     </div>
   </div></div></div>
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">

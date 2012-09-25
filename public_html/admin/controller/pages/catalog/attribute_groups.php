@@ -215,6 +215,7 @@ class ControllerPagesCatalogAttributeGroups extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'editFrm',
+		    'attr' => 'confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -258,7 +259,7 @@ class ControllerPagesCatalogAttributeGroups extends AController {
   	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'catalog/attribute_groups')) {
+		if (!$this->user->canModify('catalog/attribute_groups')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

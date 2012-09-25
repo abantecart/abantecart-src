@@ -260,7 +260,7 @@ class ControllerPagesLocalisationCurrency extends AController {
 	}
 	
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'localisation/currency')) { 
+		if (!$this->user->canModify('localisation/currency')) { 
 			$this->error['warning'] = $this->language->get('error_permission');
 		} 
 

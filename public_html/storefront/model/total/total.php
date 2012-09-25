@@ -27,10 +27,12 @@ class ModelTotalTotal extends Model {
 		 	$this->load->model('localisation/currency');
 
 			$total_data[] = array(
+        		'id'	     => 'total',
         		'title'      => $this->language->get('text_total'),
         		'text'       => $this->currency->format(max(0,$total)),
         		'value'      => max(0,$total),
-				'sort_order' => $this->config->get('total_sort_order')
+				'sort_order' => $this->config->get('total_sort_order'),
+				'total_type' => $this->config->get('total_total_type')
 			);
 		}
 	}

@@ -23,7 +23,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerPagesTotalHandling extends AController {
 	public $data = array();
 	private $error = array();
-	private $fields = array('handling_total', 'handling_fee', 'handling_tax_class_id', 'handling_status', 'handling_sort_order');
+	private $fields = array('handling_total', 'handling_fee', 'handling_tax_class_id', 'handling_status','handling_fee_total_type', 'handling_sort_order');
 	 
 	public function main() {
 
@@ -85,9 +85,16 @@ class ControllerPagesTotalHandling extends AController {
 		$form->setForm ( array ('form_name' => 'editFrm', 'update' => $this->data ['update'] ) );
 
 		$this->data['form']['form_open'] = $form->getFieldHtml ( array ('type' => 'form', 'name' => 'editFrm', 'action' => $this->data ['action'] ) );
-		$this->data['form']['submit'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'submit', 'text' => $this->language->get ( 'button_go' ), 'style' => 'button1' ) );
+		$this->data['form']['submit'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'submit', 'text' => $this->language->get ( 'button_save' ), 'style' => 'button1' ) );
 		$this->data['form']['cancel'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'cancel', 'text' => $this->language->get ( 'button_cancel' ), 'style' => 'button2' ) );
 
+
+		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
+		    'type' => 'checkbox',
+		    'name' => 'handling_status',
+		    'value' => $this->data['handling_status'],
+			'style'  => 'btn_switch',
+	    ));
 		$this->data['form']['fields']['total'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'handling_total',
@@ -104,11 +111,19 @@ class ControllerPagesTotalHandling extends AController {
 			'options' => $tax_classes,
 		    'value' => $this->data['handling_tax_class_id'],
 	    ));
-		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
-		    'type' => 'checkbox',
-		    'name' => 'handling_status',
-		    'value' => $this->data['handling_status'],
-			'style'  => 'btn_switch',
+		$this->loadLanguage('extension/extensions');
+		$options = array( 'fee' => $this->language->get('text_fee'),
+						  'discount' => $this->language->get('text_discount'),
+						  'total' => $this->language->get('text_total'),
+						  'subtotal' => $this->language->get('text_subtotal'),
+						  'tax' => $this->language->get('text_tax'),
+						  'shipping' => $this->language->get('text_shipping')
+						  );
+		$this->data['form']['fields']['total_type'] = $form->getFieldHtml(array(
+		    'type' => 'selectbox',
+		    'name' => 'handling_fee_total_type',
+			'options' => $options,
+		    'value' => $this->data['handling_fee_total_type']
 	    ));
 		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
 		    'type' => 'input',
@@ -124,7 +139,7 @@ class ControllerPagesTotalHandling extends AController {
 	}
 
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'total/handling')) {
+		if (!$this->user->canModify('total/handling')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		if (!(int)$this->request->post['handling_total']) {

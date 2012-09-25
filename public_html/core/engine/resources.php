@@ -257,6 +257,9 @@ class AResource {
         $resource = $this->getResource($resource_id, $language_id);
         switch( $this->type ) {
             case 'image' :
+                if(!$resource['default_icon']){
+                    $resource['default_icon'] = 'no_image.jpg';
+                }
                 break;
             default :
 	            if(!$resource['default_icon']){
@@ -277,9 +280,9 @@ class AResource {
 
 	    if($extension!='ico'){
 			if (!is_file($old_image)) {
-				$this->load->model('tool/image');
-				$this->model_tool_image->resize($resource['default_icon'], $width, $height);
-				return $old_image.'::::'.$this->model_tool_image->resize($resource['default_icon'], $width, $height);
+			    $this->load->model('tool/image');
+			    $this->model_tool_image->resize($resource['default_icon'], $width, $height);
+                return $this->model_tool_image->resize($resource['default_icon'], $width, $height);
 			}
 
 			$name = preg_replace('/[^a-zA-Z0-9]/', '', $resource['name']);
@@ -386,7 +389,7 @@ class AResource {
 
     //TODO: define where all object types will be kept and fetch them from storage
     public function getAllObjects() {
-        return array('products', 'categories', 'manufacturers');
+        return array('products', 'categories', 'manufacturers', 'product_option_value');
     }
 
 
@@ -434,9 +437,14 @@ class AResource {
 				if(!$thumb_url){
 					$thumb_url = $this->model_tool_image->resize($result['resource_path'],$sizes['thumb']['width'],$sizes['thumb']['height']);
 				}
+				if($this->getTypeDir()=='image/'){
+					$main_url = $this->getResourceThumb($result['resource_id'],$sizes['main']['width'],$sizes['main']['height']);
+				}else{
+					$main_url = HTTP_DIR_RESOURCE.$this->getTypeDir().$result['resource_path'];
+				}
 
 				$resources[$k] = array( 'origin' => $origin,
-										'main_url' => HTTP_DIR_RESOURCE.$this->getTypeDir().$result['resource_path'],
+										'main_url' => $main_url,
 										'main_html'=>$this->html->buildResourceImage( array('url' => HTTP_DIR_RESOURCE.'image/'.$result['resource_path'],
 										                                                    'width' => $sizes['main']['width'],
 										                                                    'height' => $sizes['main']['height'],

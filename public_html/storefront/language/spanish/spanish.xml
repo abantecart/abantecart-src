@@ -152,4 +152,12 @@
 		<key>button_print</key>
 		<value><![CDATA[Imprimir]]></value>
 	</definition>
+	<definition>
+		<key>notice_out_of_stock_ttl</key>
+		<value><![CDATA[Ex stirpe Observate pro: %s]]></value>
+	</definition>
+	<definition>
+		<key>notice_out_of_stock_body</key>
+		<value><![CDATA[Product "%s", habet nulla seu negative stirpe attigit, Numerabis main productum sive omnia bene. ut a praecessi of <br> autodisable occasum, uber (%s) disabled car erat!]]></value>
+	</definition>		
 </definitions>

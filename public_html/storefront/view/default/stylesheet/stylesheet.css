@@ -67,11 +67,13 @@ a img {
 
 /*** layout ***/
 #wrapper {
+    margin: 0 auto;
+    min-width: 700px;
 	text-align: center;
 }
 
 #container {
-	min-width: 960px;
+	min-width: 700px;
 	padding: 0 30px 0 30px;
 	margin: 0;
 	text-align: left;
@@ -532,6 +534,15 @@ c input {
 	text-decoration: none;
 }
 
+button.btn_standard {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none !important;
+    cursor: pointer;
+    margin: 0;
+    overflow: visible;
+    padding: 0;
+}
+
 .btn_standard {
 	display: inline-block;
 	text-decoration: none;
@@ -775,6 +786,7 @@ c input {
 	background: url(../image/box_top_m_login.gif) repeat-x;
 	margin-left: 5px;
 	margin-right: 5px;
+    height: 36px;
 }
 
 #content .login .top h1 {

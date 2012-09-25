@@ -61,7 +61,7 @@
     <value><![CDATA[Atención: No tiene permisos para modificar el tipo de impuesto!]]></value>
   </definition>
   <definition>
-    <key>error_title</key>
+    <key>error_tax_title</key>
     <value><![CDATA[Tipo de impuesto debe ser mayor de 2 caracteres y menor de 32!]]></value>
   </definition>
   <definition>

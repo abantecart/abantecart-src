@@ -138,8 +138,12 @@
   </definition>
   <definition>
     <key>text_missing_extension</key>
-    <value><![CDATA[&quot;%% EXT Extensión:. Fuente no puede ser localizado por favor borrarlo y visitar <a href="http://abantecart.com" target="_repository">repositorio de extensiones</a> para descargar de nuevo &quot;]]></value>
+    <value><![CDATA[&quot;%% EXT Extensión: Placere delete is et visita extention provisor impetro completum fons et intall eam iterum &quot;]]></value>
   </definition>
+	<definition>
+		<key>text_broken_extension</key>
+		<value><![CDATA["&quot;%% EXT Extensión: Placere delete is et visita extention provisor impetro completum fons et intall eam iterum  "]]></value>
+	</definition>
   <definition>
     <key>text_extension_pagination</key>
     <value><![CDATA[Extensión (s) {inicio} a {fin} de {total}]]></value>
@@ -194,7 +198,7 @@
   </definition>
   <definition>
     <key>text_visit_repository</key>
-    <value><![CDATA[Por favor, visite <a href="http://abantecart.com" target="_repository">repositorio de extensiones</a> para descargar la extensión]]></value>
+    <value><![CDATA[Por favor, visite %extensions_store% repositorio de extensiones</a> para descargar la extensión]]></value>
   </definition>
   <definition>
     <key>text_license</key>
@@ -255,5 +259,33 @@
 	<definition>
 		<key>text_more_help</key>
 		<value><![CDATA[Más ayuda]]></value>
+	</definition>
+	<definition>
+		<key>entry_total_type</key>
+		<value><![CDATA[Tipo]]></value>
+	</definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Total]]></value>
+	</definition>
+	<definition>
+		<key>text_subtotal</key>
+		<value><![CDATA[total parcial]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Envío]]></value>
+	</definition>
+	<definition>
+		<key>text_tax</key>
+		<value><![CDATA[Impuesto]]></value>
+	</definition>
+	<definition>
+		<key>text_fee</key>
+		<value><![CDATA[Cuota]]></value>
+	</definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Descuento]]></value>
 	</definition>
 </definitions>

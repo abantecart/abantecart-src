@@ -96,10 +96,14 @@ class ControllerResponsesListingGridLengthClass extends AController {
 	    $this->loadModel('localisation/length_class');
 		$this->loadModel('catalog/product');
         $this->loadLanguage('localisation/length_class');
-        if (!$this->user->hasPermission('modify', 'localisation/length_class')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/length_class') );
-            return;
-		}
+		if (!$this->user->canModify('listing_grid/length_class')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/length_class'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
+
 
 		switch ($this->request->post['oper']) {
 			case 'del':
@@ -108,8 +112,8 @@ class ControllerResponsesListingGridLengthClass extends AController {
 				foreach( $ids as $id ) {
 					$err = $this->_validateDelete($id);
 					if (!empty($err)) {
-						$this->response->setOutput( $err );
-						return;
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 					$this->model_localisation_length_class->deleteLengthClass($id);
 				}
@@ -123,8 +127,8 @@ class ControllerResponsesListingGridLengthClass extends AController {
 						if ( isset($this->request->post[$f][$id]) ) {
 							$err = $this->_validateField($f, $this->request->post[$f][$id]);
 							if ( !empty($err) ) {
-								$this->response->setOutput( $err );
-								return;
+								$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+								return $dd->dispatch();
 							}
 							$this->model_localisation_length_class->editLengthClass($id, array($f => $this->request->post[$f][$id]) );
 						}
@@ -153,10 +157,13 @@ class ControllerResponsesListingGridLengthClass extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/length_class');
-        if (!$this->user->hasPermission('modify', 'localisation/length_class')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/length_class') );
-            return;
-		}
+	    if (!$this->user->canModify('listing_grid/length_class')) {
+	  			        $error = new AError('');
+	  			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+	  			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/length_class'),
+	  			    	                                      'reset_value' => true
+	  			    	                             ) );
+	  	}
 
         $this->loadModel('localisation/length_class');
 		if ( isset( $this->request->get['id'] ) ) {
@@ -164,8 +171,8 @@ class ControllerResponsesListingGridLengthClass extends AController {
 		    foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField($key, $value);
 			    if ( !empty($err) ) {
-				    $this->response->setOutput( $err );
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
 			    $data = array( $key => $value );
 				$this->model_localisation_length_class->editLengthClass($this->request->get['id'], $data);
@@ -180,8 +187,8 @@ class ControllerResponsesListingGridLengthClass extends AController {
 			foreach ( $this->request->post[$f] as $k => $v ) {
 				$err = $this->_validateField($f, $v);
 				if ( !empty($err) ) {
-					$this->response->setOutput( $err );
-					return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 				}
 				$this->model_localisation_length_class->editLengthClass($k, array($f => $v) );
 			}

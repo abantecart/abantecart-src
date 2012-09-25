@@ -71,10 +71,13 @@ class ControllerResponsesListingGridTaxClass extends AController {
 
 		$this->loadModel('localisation/tax_class');
         $this->loadLanguage('localisation/tax_class');
-        if (!$this->user->hasPermission('modify', 'localisation/tax_class')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/tax_class') );
-            return;
-		}
+		if (!$this->user->canModify('listing_grid/tax_class')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/tax_class'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
 
 		switch ($this->request->post['oper']) {
 			case 'del':
@@ -83,8 +86,8 @@ class ControllerResponsesListingGridTaxClass extends AController {
 				foreach( $ids as $id ) {
 					$err = $this->_validateDelete($id);
 					if (!empty($err)) {
-						$this->response->setOutput($err);
-						return;
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 
 					$this->model_localisation_tax_class->deleteTaxClass($id);
@@ -100,8 +103,8 @@ class ControllerResponsesListingGridTaxClass extends AController {
 						if ( isset($this->request->post[$f][$id]) ) {
 							$err = $this->_validateField($f, $this->request->post[$f][$id]);
 							if ( !empty($err) ) {
-								$this->response->setOutput($err);
-								return;
+								$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+								return $dd->dispatch();
 							}
 							$this->model_localisation_tax_class->editTaxClass($id, array($f => $this->request->post[$f][$id]) );
 						}
@@ -127,19 +130,21 @@ class ControllerResponsesListingGridTaxClass extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/tax_class');
-        if (!$this->user->hasPermission('modify', 'localisation/tax_class')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/tax_class'));
-            return;
-		}
-
+		if (!$this->user->canModify('listing_grid/tax_class')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/tax_class'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
         $this->loadModel('localisation/tax_class');
 		if ( isset( $this->request->get['id'] ) ) {
 		    //request sent from edit form. ID in url
 		    foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField($key, $value);
 			    if ( !empty($err) ) {
-				    $this->response->setOutput($err);
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
 			    $data = array( $key => $value );
 				$this->model_localisation_tax_class->editTaxClass($this->request->get['id'], $data);
@@ -154,8 +159,8 @@ class ControllerResponsesListingGridTaxClass extends AController {
 			foreach ( $this->request->post[$f] as $k => $v ) {
 				$err = $this->_validateField($f, $v);
 				if ( !empty($err) ) {
-					$this->response->setOutput($err);
-					return;
+					$error = new AError('');
+					return $error->toJSONResponse('NO_VALID_406', array( 'error_text' => $err) );
 				}
 				$this->model_localisation_tax_class->editTaxClass($k, array($f => $v) );
 			}
@@ -176,10 +181,13 @@ class ControllerResponsesListingGridTaxClass extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/tax_class');
-        if (!$this->user->hasPermission('modify', 'localisation/tax_class')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/tax_class'));
-            return;
-		}
+		if (!$this->user->canModify('listing_grid/tax_class')) {
+			        $error = new AError('');
+			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/tax_class'),
+			    	                                      'reset_value' => true
+			    	                             ) );
+	    }
 
         $this->loadModel('localisation/tax_class');
 		if ( isset( $this->request->get['id'] ) ) {
@@ -187,8 +195,8 @@ class ControllerResponsesListingGridTaxClass extends AController {
 		    foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField($key, $value);
 			    if ( !empty($err) ) {
-				    $this->response->setOutput($err);
-				    return;
+					$error = new AError('');
+					return $error->toJSONResponse('NO_VALID_406', array( 'error_text' => $err) );
 			    }
 			    $data = array( $key => $value );
 				$this->model_localisation_tax_class->editTaxRate($this->request->get['id'], $data);
@@ -205,17 +213,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
 		switch( $field ) {
 			case 'title' :
 				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 128))  {
-					$err = $this->language->get('error_title');
-				}
-				break;
-			case 'description' :
-				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 255))  {
-					$err = $this->language->get('error_description');
-				}
-				break;
-			case 'priority' :
-				if (!$value) {
-					$err = $this->language->get('error_priority');
+					$err = $this->language->get('error_tax_title');
 				}
 				break;
 			case 'rate' :

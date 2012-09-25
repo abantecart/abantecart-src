@@ -93,9 +93,12 @@ class ControllerResponsesListingGridCoupon extends AController {
 
 	    $this->loadModel('sale/coupon');
         $this->loadLanguage('sale/coupon');
-        if (!$this->user->hasPermission('modify', 'sale/coupon')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'sale/coupon') );
-            return;
+		if (!$this->user->canModify('listing_grid/coupon')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/coupon'),
+					'reset_value' => true
+				));
 		}
 
 		switch ($this->request->post['oper']) {
@@ -137,10 +140,13 @@ class ControllerResponsesListingGridCoupon extends AController {
         $this->loadLanguage('sale/coupon');
 		$this->loadModel('sale/coupon');
 
-        if (!$this->user->hasPermission('modify', 'sale/coupon')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'sale/coupon') );
-            return;
-		}
+	    if (!$this->user->canModify('listing_grid/coupon')) {
+	  			$error = new AError('');
+	  			return $error->toJSONResponse('NO_PERMISSIONS_402',
+	  				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/coupon'),
+	  					'reset_value' => true
+	  				));
+	  	}
 
 	    if ( isset( $this->request->get['id'] ) ) {
 		    foreach( $this->request->post as $field => $value ) {
@@ -152,8 +158,8 @@ class ControllerResponsesListingGridCoupon extends AController {
 			    if ( !$err ) {
 			        $this->model_sale_coupon->editCoupon($this->request->get['id'], array( $field => $value) );
 			    } else {
-				    $this->response->setOutput($err);
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
 		    }
 		    return;
@@ -166,8 +172,8 @@ class ControllerResponsesListingGridCoupon extends AController {
 			    if ( !$err ) {
 			        $this->model_sale_coupon->editCoupon($k, array($field => $v) );
 			    } else {
-				    $this->response->setOutput($err);
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
             }
         }

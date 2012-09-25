@@ -32,13 +32,35 @@ function preformatFloat($value, $decimal_point='.'){
 		$value = str_replace('.','~',$value);
 		$value = str_replace($decimal_point,'.',$value);
 	}
-	return (float)preg_replace('/[^0-9\.]/','',$value);
+	return (float)preg_replace('/[^0-9\-\.]/','',$value);
 }
+
 /*
  * prepare integer for database writing
  * */
 function preformatInteger($value){
-	return (int)preg_replace('/[^0-9]/','',$value);
+	return (int)preg_replace('/[^0-9\-]/','',$value);
+}
+
+/*
+ * prepare string for text id 
+ * */
+function preformatTextID($value){
+	return strtolower( preg_replace("/[^A-Za-z0-9_]/", "", $value) );
+}
+
+/*
+ * check that argument variable has value (even 0 is a value)  
+ * */
+function has_value( $value ){
+	if ( !is_array($value) && $value !== '' && !is_null($value) ) {
+		return true;	
+	}
+	else if (is_array($value) && count($value) > 0) {
+		return true;		
+	} else {
+		return false;
+	}
 }
 
 /*
@@ -52,3 +74,32 @@ function SEOEncode( $string_value ){
 	return $seo_key;
 }
 
+/*
+* Echo array with readable formal. Useful in debugging of array data. 
+*/
+function echo_array( $array_data ) {
+	echo "<pre> $sub_table_name: ";print_r( $array_data );echo'</pre>';
+}
+
+
+/*
+ * returns list of files from directory with subdirectories
+ */
+
+function getFilesInDir($dir, $file_ext = '') {
+    if(!is_dir($dir)) return false;
+    $dir = rtrim($dir, '\\/');
+    $result = array();
+
+    foreach (glob("$dir/*") as $f) {
+        if (is_dir($f)) {    // if is directory
+            $result = array_merge($result, getFilesInDir($f, $file_ext));
+        } else {
+            if($file_ext && substr($f,-3)!=$file_ext){
+                continue;
+            }
+            $result[] = $f;
+        }
+    }
+    return $result;
+}

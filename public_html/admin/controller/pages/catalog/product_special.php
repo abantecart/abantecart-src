@@ -255,6 +255,7 @@ class ControllerPagesCatalogProductSpecial extends AController {
 		    'type' => 'form',
 		    'name' => 'productFrm',
 		    'action' => $this->data['action'],
+		    'attr' => 'confirm-exit="true"',
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
@@ -309,7 +310,7 @@ class ControllerPagesCatalogProductSpecial extends AController {
   	} 
 	
   	private function _validateForm() {
-    	if (!$this->user->hasPermission('modify', 'catalog/product')) {
+    	if (!$this->user->canModify('catalog/product')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
 

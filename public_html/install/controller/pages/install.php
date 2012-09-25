@@ -206,33 +206,24 @@ class ControllerPagesInstall extends AController {
 			$this->session->data[ 'install_step_data' ][ 'db_name' ]);
 		$registry->set('db', $db);
 		define('DB_PREFIX', $this->session->data[ 'install_step_data' ][ 'db_prefix' ]);
-		define('DIR_LANGUAGE', DIR_ABANTECART . 'storefront/language/');
+		define('DIR_LANGUAGE', DIR_ABANTECART . 'admin/language/');
+
+        // Cache
+        $cache = new ACache();
+        $registry->set('cache', $cache );
+
+        // Config
+        $config = new AConfig($registry);
+        $registry->set('config', $config);
+
+        // Extensions api
+        $extensions = new ExtensionsApi();
+        $extensions->loadEnabledExtensions();
+        $registry->set('extensions', $extensions);
+
 		// languages
 		$language = new ALanguage($registry, 'en');
-		$language->load('english', 'silent');
-		$language->load('common/header', 'silent');
-		$language->load('common/footer', 'silent');
-
-		$language->load('product/category', 'silent');
-		$language->load('product/manufacturer', 'silent');
-		$language->load('product/product', 'silent');
-		$language->load('product/search', 'silent');
-		$language->load('product/special', 'silent');
-
-		$language->load('blocks/bestseller', 'silent');
-		$language->load('blocks/featured', 'silent');
-		$language->load('blocks/cart', 'silent');
-		$language->load('blocks/category', 'silent');
-		$language->load('blocks/content', 'silent');
-		$language->load('blocks/currency', 'silent');
-		$language->load('blocks/language', 'silent');
-		$language->load('blocks/latest', 'silent');
-		$language->load('blocks/manufacturer', 'silent');
-		$language->load('blocks/order_summary', 'silent');
-		$language->load('blocks/special', 'silent');
-
-		$language->load('index/home', 'silent');
-
+        $language->definitionAutoLoad(1,'all','all','update');
 
 		$stdout = '<?php' . "\n";
 		$stdout .= '/*' . "\n";

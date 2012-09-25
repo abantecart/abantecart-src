@@ -99,9 +99,12 @@ class ControllerResponsesListingGridCurrency extends AController {
 
 		$this->loadModel('localisation/currency');
         $this->loadLanguage('localisation/currency');
-        if (!$this->user->hasPermission('modify', 'localisation/currency')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/currency') );
-            return;
+		if (!$this->user->canModify('listing_grid/currency')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/currency'),
+					'reset_value' => true
+				));
 		}
 
 		switch ($this->request->post['oper']) {
@@ -131,8 +134,8 @@ class ControllerResponsesListingGridCurrency extends AController {
 					}
 
 					if (!empty($err)) {
-						$this->response->setOutput($err);
-						return;
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
 					}
 
 					$this->model_localisation_currency->deleteCurrency($id);
@@ -151,8 +154,8 @@ class ControllerResponsesListingGridCurrency extends AController {
 						if ( isset($this->request->post[$f][$id]) ) {
 							$err = $this->_validateField($f, $this->request->post[$f][$id]);
 							if ( !empty($err) ) {
-								$this->response->setOutput($err);
-								return;
+								$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+								return $dd->dispatch();
 							}
 							$this->model_localisation_currency->editCurrency($id, array($f => $this->request->post[$f][$id]) );
 						}
@@ -181,10 +184,13 @@ class ControllerResponsesListingGridCurrency extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadLanguage('localisation/currency');
-        if (!$this->user->hasPermission('modify', 'localisation/currency')) {
-			$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'localisation/currency') );
-            return;
-		}
+	    if (!$this->user->canModify('listing_grid/currency')) {
+	  			$error = new AError('');
+	  			return $error->toJSONResponse('NO_PERMISSIONS_402',
+	  				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/currency'),
+	  					'reset_value' => true
+	  				));
+	  	}
 
         $this->loadModel('localisation/currency');
 		if ( isset( $this->request->get['id'] ) ) {
@@ -192,8 +198,8 @@ class ControllerResponsesListingGridCurrency extends AController {
 		    foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField($key, $value);
 			    if ( !empty($err) ) {
-				    $this->response->setOutput($err);
-				    return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 			    }
 			    $data = array( $key => $value );
 				$this->model_localisation_currency->editCurrency($this->request->get['id'], $data);
@@ -208,8 +214,8 @@ class ControllerResponsesListingGridCurrency extends AController {
 			foreach ( $this->request->post[$f] as $k => $v ) {
 				$err = $this->_validateField($f, $v);
 				if ( !empty($err) ) {
-					$this->response->setOutput($err);
-					return;
+					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+					return $dd->dispatch();
 				}
 				$result = $this->model_localisation_currency->editCurrency($k, array($f => $v) );
 				if(!$result){

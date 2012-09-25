@@ -332,7 +332,7 @@ class ControllerPagesExtensionDefaultUsps extends AController {
 	}
 
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'extension/default_usps')) {
+		if (!$this->user->canModify('extension/default_usps')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

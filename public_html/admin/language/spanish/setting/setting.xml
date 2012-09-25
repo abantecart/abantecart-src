@@ -2,19 +2,23 @@
 <definitions>
 	<definition>
 		<key>heading_title</key>
-		<value><![CDATA[Configuracion]]></value>
+		<value><![CDATA[Tienda Configuracion]]></value>
+	</definition>
+	<definition>
+		<key>column_store_alias</key>
+		<value><![CDATA[Tienda]]></value>
 	</definition>
 	<definition>
 		<key>column_group</key>
-		<value><![CDATA[Group]]></value>
+		<value><![CDATA[Grupo]]></value>
 	</definition>
 	<definition>
 		<key>column_key</key>
-		<value><![CDATA[Key]]></value>
+		<value><![CDATA[Clave]]></value>
 	</definition>
 	<definition>
 		<key>column_value</key>
-		<value><![CDATA[Value]]></value>
+		<value><![CDATA[Valor]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
@@ -59,11 +63,11 @@
 	</definition>
 	<definition>
 		<key>entry_image_popup_width</key>
-		<value><![CDATA[Ancho del Producto Imagen Popup:]]></value>
+		<value><![CDATA[Ventana grande Ancho Prevista:]]></value>
 	</definition>
 	<definition>
 		<key>entry_image_popup_height</key>
-		<value><![CDATA[Altura del Producto Imagen Popup:]]></value>
+		<value><![CDATA[Ventana grande Altura Prevista:]]></value>
 	</definition>
 	<definition>
 		<key>entry_image_category_width</key>
@@ -119,11 +123,13 @@
 	</definition>
 	<definition>
 		<key>entry_mail_parameter</key>
-		<value><![CDATA[Parámetros de correo:<span class="help">Cuando se utiliza 'Correo', los parámetros adicionales de correo se puede añadir aquí (por ejemplo "-femail@storeaddress.com".]]></value>
+		<value>
+			<![CDATA[Parámetros de correo:<span class="help">Cuando se utiliza 'Correo', los parámetros adicionales de correo se puede añadir aquí (por ejemplo "-femail@storeaddress.com".]]></value>
 	</definition>
 	<definition>
 		<key>entry_cache_enable</key>
-		<value><![CDATA[Caché habilitado:<br /><span class="help">Tenga cuidado al deshabilitar el almacenamiento en caché. Las páginas en caché no se vuelven a crear al menos hasta el presente ha transcurrido mucho tiempo. </span>]]></value>
+		<value>
+			<![CDATA[Caché habilitado:<br /><span class="help">Tenga cuidado al deshabilitar el almacenamiento en caché. Las páginas en caché no se vuelven a crear al menos hasta el presente ha transcurrido mucho tiempo. </span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_upload_max_size</key>
@@ -135,7 +141,13 @@
 	</definition>
 	<definition>
 		<key>entry_storefront_api_key</key>
-		<value><![CDATA[Escaparate de la API Key:<br /><span class="help">En blanco, no clave.</span>]]></value>
+		<value>
+			<![CDATA[Storefront API Key:<br /><span class="help">Establecer esta clave para facilitar el acceso restringido (más seguro) para storefront API.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_storefront_api_stock_check</key>
+		<value>
+			<![CDATA[Storefront API Stock Access:<br /><span class="help">Habilitar si usted permite que la API escaparate para comprobar la disponibilidad de stock</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_debug</key>
@@ -167,7 +179,8 @@
 	</definition>
 	<definition>
 		<key>entry_debug_level_2</key>
-		<value><![CDATA[Nivel 2 - # 1 + carga del sitio mysql, php tiempo de archivo de ejecución y la página de tiempo de carga de los elementos ]]></value>
+		<value>
+			<![CDATA[Nivel 2 - # 1 + carga del sitio mysql, php tiempo de archivo de ejecución y la página de tiempo de carga de los elementos ]]></value>
 	</definition>
 	<definition>
 		<key>entry_debug_level_3</key>
@@ -186,6 +199,10 @@
 		<value><![CDATA[Plantilla de depuración:]]></value>
 	</definition>
 	<definition>
+		<key>entry_admin_template</key>
+		<value><![CDATA[Panel de Control de Plantilla:]]></value>
+	</definition>
+	<definition>
 		<key>entry_review</key>
 		<value>
 			<![CDATA[Permitir Comentarios:<br /><span class="help">Activar / desactivar la entrada un nuevo comentario y la visualización de las revisiones existentes</span>]]></value>
@@ -199,6 +216,25 @@
 		<key>entry_help_links</key>
 		<value>
 			<![CDATA[Ayuda Enlaces:<br /><span class="help">Si quieres ver los iconos de ayuda y enlaces al sitio AbanteCart. Esto le ayudará a aprender sobre las características y la forma de utilizarlos. Si el usuario avanzado y no quieren ver a estos iconos de ayuda, se puede desactivar.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_show_tree_data</key>
+		<value>
+			<![CDATA[Activar cuadrícula Tree:<br /><span class="help">Activar las redes de administración para mostrar padre / Tipo niños en el listado de cuadrícula. NOTA: La paginación y acciones múltiples están deshabilitados para redes supremo</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_cart_ajax</key>
+		<value>
+			<![CDATA[Misma página Añadir al carro:<br /><span class="help">Esto le permitirá añadir a AJAX característica del carro. El producto puede ser añadido a la cesta sin redirigir a la página de compra</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_storefront_width</key>
+		<value><![CDATA[Storefront Ancho del sitio:<br /><span class="help">Example: 100% or 1000px </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_admin_width</key>
+		<value>
+			<![CDATA[Ancho del sitio de administración:<br /><span class="help">Example: 100% or 1000px </span>]]></value>
 	</definition>
 	<definition>
 		<key>error_image_grid</key>
@@ -255,7 +291,8 @@
 	</definition>
 	<definition>
 		<key>entry_title</key>
-		<value><![CDATA[Titulo:]]></value>
+		<value>
+			<![CDATA[Titulo:<br /><span class="help">Esto se muestra en el título de escaparate del navegador</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_meta_description</key>
@@ -267,7 +304,8 @@
 	</definition>
 	<definition>
 		<key>entry_template</key>
-		<value><![CDATA[Plantilla:]]></value>
+		<value>
+			<![CDATA[Plantilla:<span class="help">Plantilla de escaparate. Esto puede ser principal de la plantilla o la extensión </ span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_country</key>
@@ -287,7 +325,8 @@
 	</definition>
 	<definition>
 		<key>entry_currency</key>
-		<value><![CDATA[Moneda:]]></value>
+		<value>
+			<![CDATA[Moneda:<span class="help">NOTA: El cambio de la moneda por defecto no convertir todos los precios de los productos</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_currency_auto</key>
@@ -380,6 +419,11 @@
 			<![CDATA[Mostrar Stock:<br /><span class="help">Mostrar la cantidad de stock restante al cliente, al visualizar el producto.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_nostock_autodisable</key>
+		<value>
+			<![CDATA[Sin Auto de archivo Desactivar:<br /><span class="help">Desactivar su producto para la vista si las acciones se reduce a 0. La notificación se enviará</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_stock_check</key>
 		<value>
 			<![CDATA[Mostrar Agotado:<br /><span class="help">Mostrar un mensaje en la pagina del carrito de la compra, si un producto esta agotado.</span>]]></value>
@@ -396,7 +440,8 @@
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
-		<value><![CDATA[Estado del stock:]]></value>
+		<value>
+			<![CDATA[Estado del stock:<br /><span class="help">Ajuste por defecto de mensaje que indica que la situación del stock de producto. Se utiliza en la página del producto de edición.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_logo</key>
@@ -455,7 +500,8 @@
 	</definition>
 	<definition>
 		<key>entry_smtp_host</key>
-		<value><![CDATA[SMTP Anfitrión:<br /><span class="help">Usar ssl :/ / smtp.yourdomain.com de conexión segura SMTP]]></value>
+		<value>
+			<![CDATA[SMTP Anfitrión:<br /><span class="help">Usar ssl :/ / smtp.yourdomain.com de conexión segura SMTP]]></value>
 	</definition>
 	<definition>
 		<key>entry_smtp_username</key>
@@ -518,7 +564,7 @@
 	<definition>
 		<key>entry_catalog_limit</key>
 		<value>
-			<![CDATA[Productos por pagina (Catalogo):<br /><span class="help">Determina el numero de articulos del catalogo que se muestran por pagina (productos, categorias, etc)</span>]]></value>
+			<![CDATA[Productos por pagina (Storefront):<br /><span class="help">Determina el numero de articulos del catalogo que se muestran por pagina (productos, categorias, etc)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_admin_limit</key>

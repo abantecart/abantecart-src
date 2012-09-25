@@ -63,8 +63,8 @@ class ControllerPagesCatalogProductOptions extends AController {
         }
 
 		$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
-        $this->data['product_options'] = $this->model_catalog_product->getProductOptions($this->request->get['product_id']);
 		$product_options = $this->model_catalog_product->getProductOptions($this->request->get['product_id']);
+        $this->data['product_options'] = $product_options;
 
 		foreach ($product_options as &$option) {
 			$option_name = trim($option['language'][$this->session->data['content_language_id']]['name']);
@@ -197,6 +197,7 @@ class ControllerPagesCatalogProductOptions extends AController {
 		    'type' => 'form',
 		    'name' => 'product_form',
 		    'action' => $this->data['action'],
+		    'attr' => 'confirm-exit="true"',
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
@@ -223,13 +224,15 @@ class ControllerPagesCatalogProductOptions extends AController {
             )
         );
 
+        $object_title = $this->language->get('text_product').' '.$this->language->get('text_option_value');
+
 		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
-		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url'));
+		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url&object_title='.$object_title));
 		//pathes for js function
 
-		$this->data['rl_unmap_path'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=product_option_value' );
-		$this->data['rl_rl_path'] = $this->html->getSecureURL('common/resource_library', '&object_name=product_option_value' );
-        $this->data['rl_resources_path'] = $this->html->getSecureURL('common/resource_library/resources', '&object_name=product_option_value');
+		$this->data['rl_unmap_path'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=product_option_value&object_title='.$object_title );
+		$this->data['rl_rl_path'] = $this->html->getSecureURL('common/resource_library', '&object_name=product_option_value&object_title='.$object_title );
+        $this->data['rl_resources_path'] = $this->html->getSecureURL('common/resource_library/resources', '&object_name=product_option_value&object_title='.$object_title);
 
 
 		$this->view->assign('help_url', $this->gen_help_url('product_options') );
@@ -242,7 +245,7 @@ class ControllerPagesCatalogProductOptions extends AController {
 	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'catalog/product_options')) {
+		if (!$this->user->canModify('catalog/product_options')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		if ( $this->model_catalog_product->isProductGroupOption($this->request->get['product_id'], $this->request->post['attribute_id'])){

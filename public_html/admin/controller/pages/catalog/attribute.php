@@ -146,24 +146,32 @@ class ControllerPagesCatalogAttribute extends AController {
 			array(
 				'name' => 'name',
 				'index' => 'gad.name',
-				'align' => 'center',
+				'align' => 'left',
 			),
 			array(
 				'name' => 'type',
 				'index' => 'ga.attribute_type_id',
 				'align' => 'center',
+				'width' => 90,				
 			),
 			array(
 				'name' => 'sort_order',
 				'index' => 'ga.sort_order',
 				'align' => 'center',
+				'width' => 60,				
 			),
 			array(
 				'name' => 'status',
 				'index' => 'ga.status',
 				'align' => 'center',
+				'width' => 80,				
 			),
 		);
+
+		if ( $this->config->get('config_show_tree_data') ) {
+			$grid_settings[ 'expand_column' ] = "name";	
+			$grid_settings[ 'multiaction_class' ] = 'hidden';	
+		}
 
 		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ));
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
@@ -336,6 +344,7 @@ class ControllerPagesCatalogAttribute extends AController {
 		$this->data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(array(
 		                                                                'type' => 'form',
 		                                                                'name' => 'editFrm',
+		                                                                'attr' => 'confirm-exit="true"',
 		                                                                'action' => $this->data[ 'action' ],
 		                                                           ));
 		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array(
@@ -405,7 +414,17 @@ class ControllerPagesCatalogAttribute extends AController {
 
 
 		//Build atribute values part of the form
-		if ($this->request->get[ 'attribute_id' ] ) {
+		if ( $this->request->get['attribute_id'] ) {
+			
+			$this->data['child_count'] = $this->attribute_manager->totalChildren( $this->request->get['attribute_id'] );
+			if ( $this->data['child_count'] > 0) {
+				$children_attr = $this->attribute_manager->getAttributes(array(), 0, $this->request->get['attribute_id']);
+				foreach ($children_attr as $attr) {
+					$this->data['children'][] = array( 'name' => $attr['name'], 
+												 'link' => $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attr['attribute_id']) );
+				}
+			}
+			
 			$attribute_values = $this->attribute_manager->getAttributeValues( $this->request->get[ 'attribute_id' ] );
 			foreach ($attribute_values as $atr_val) {
 				$atr_val_id = $atr_val['attribute_value_id'];
@@ -452,6 +471,7 @@ class ControllerPagesCatalogAttribute extends AController {
 		$this->data['form']['fields']['attribute_values'] = $attributes_fields;
 
 		$this->view->batchAssign($this->data);
+		$this->view->assign('insert', $this->html->getSecureURL('catalog/attribute/insert'));
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('language_id', $this->session->data[ 'content_language_id' ]);
 		$this->view->assign('text_parent_note', $this->language->get('text_parent_note'));
@@ -460,7 +480,7 @@ class ControllerPagesCatalogAttribute extends AController {
 	}
 
 	private function _validateForm() {
-		if (!$this->user->hasPermission('modify', 'catalog/attribute')) {
+		if (!$this->user->canModify('catalog/attribute')) {
 			$this->error[ 'warning' ] = $this->language->get('error_permission');
 		}
 

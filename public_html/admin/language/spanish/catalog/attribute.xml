@@ -77,6 +77,10 @@
 		<value><![CDATA[Estado:]]></value>
 	</definition>
 	<definition>
+		<key>entry_children_attributes</key>
+		<value><![CDATA[Niños Atributos:]]></value>
+	</definition>	
+	<definition>
 		<key>error_permission</key>
 		<value><![CDATA[Advertencia: Usted no tiene permiso para modificar los atributos globales!]]></value>
 	</definition>

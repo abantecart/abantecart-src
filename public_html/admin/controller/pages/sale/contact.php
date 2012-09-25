@@ -41,7 +41,7 @@ class ControllerPagesSaleContact extends AController {
 			$this->loadModel('setting/store');
 			$store_info = $this->model_setting_store->getStore($this->request->post['store_id']);
 			if ($store_info) {
-				$store_name = $store_info['config_name'];
+				$store_name = $store_info['store_name'];
 			} else {
 				$store_name = $this->config->get('store_name');
 			}
@@ -293,7 +293,7 @@ class ControllerPagesSaleContact extends AController {
 
 
 	private function _validate() {
-		if (!$this->user->hasPermission('modify', 'sale/contact')) {
+		if (!$this->user->canModify('sale/contact')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 				

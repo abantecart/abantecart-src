@@ -34,7 +34,7 @@ class ControllerResponsesSaleOrderHistory extends AController {
 		
 		$json = array();
     	
-		if (!$this->user->hasPermission('modify', 'sale/order')) {
+		if (!$this->user->canModify('sale/order')) {
       		$json['error'] = $this->language->get('error_permission'); 
     	} else {
 			$this->model_sale_order->addOrderHistory($this->request->get['order_id'], $this->request->post);

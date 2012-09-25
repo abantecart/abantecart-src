@@ -61,6 +61,10 @@
 		<value><![CDATA[ Usar envoltorio bloque (apariencia) ]]></value>
 	</definition>
 	<definition>
+		<key>entry_block_framed</key>
+		<value><![CDATA[ Utilice marco del bloque ]]></value>
+	</definition>
+	<definition>
 		<key>entry_block_name</key>
 		<value><![CDATA[ Nombre de bloque personalizado ]]></value>
 	</definition>
@@ -91,6 +95,10 @@
 	<definition>
 		<key>error_delete</key>
 		<value><![CDATA[ No se puede eliminar porque este bloque está en uso. Por favor visite la sección de diseño. ]]></value>
+	</definition>
+	<definition>
+		<key>error_text_status</key>
+		<value><![CDATA[No se puede cambiar el estado ya que este bloque no está en uso. Por favor visite la sección de Diseño. ]]></value>
 	</definition>
 	<definition>
 		<key>text_success_deleted</key>
@@ -184,6 +192,31 @@
 		<key>column_image</key>
 		<value><![CDATA[ Imagen ]]></value>
 	</definition>
+	<definition>
+		<key>text_block_id</key>
+		<value><![CDATA[ Bloque ID ]]></value>
+	</definition>
+	<definition>
+		<key>text_block_txt_id</key>
+		<value><![CDATA[ Bloque Text ID ]]></value>
+	</definition>
+	<definition>
+		<key>text_controller</key>
+		<value><![CDATA[Controlador ]]></value>
+	</definition>
+	<definition>
+		<key>text_templates</key>
+		<value><![CDATA[ Plantillas de Bloque ]]></value>
+	</definition>
+	<definition>
+		<key>text_block_date_added</key>
+		<value><![CDATA[ Bloquear fecha de creación ]]></value>
+	</definition>
+	<definition>
+		<key>text_layouts</key>
+		<value><![CDATA[ Se utiliza en los Diseños ]]></value>
+	</definition>
+
 </definitions>
 
 

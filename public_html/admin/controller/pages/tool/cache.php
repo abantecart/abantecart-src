@@ -46,7 +46,7 @@ class ControllerPagesToolCache extends AController {
 				'id' => 'configuration',
 				'text' => $this->language->get('text_configuration'),
 				'description' => $this->language->get('desc_configuration'),
-				'keywords' => 'store' // separated by comma
+				'keywords' => 'settings,store,stores,attribute,attributes,length_class,contents,tax_class,order_status,stock_status,weight_class,storefront_menu,tables' // separated by comma
 			),
 			array(
 				'id' => 'layout',
@@ -70,7 +70,7 @@ class ControllerPagesToolCache extends AController {
 				'id' => 'image',
 				'text' => $this->language->get('text_images'),
 				'description' => $this->language->get('desc_images'),
-				'keywords' => 'image'
+				'keywords' => 'image,resources'
 			),
 			array(
 				'id' => 'product',
@@ -187,7 +187,7 @@ class ControllerPagesToolCache extends AController {
   	}
 	
 	private function _validateDelete() {
-    	if (!$this->user->hasPermission('modify', 'tool/cache')) {
+    	if (!$this->user->canModify('tool/cache')) {
       		$this->error['warning'] = $this->language->get('error_permission');  
     	}
 		

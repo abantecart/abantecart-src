@@ -29,6 +29,9 @@
 					<td><?php echo ${'entry_'.$name}; ?></td>
 					<td id="payment_<?php echo $name; ?>">
 						<?php echo $field; ?>
+                        <?php if ( $name == 'password' && !empty($error['password_confirm']) ): ?>
+                            <div class="field_err"><?php echo $error['password_confirm']; ?></div>
+                        <?php endif; ?>
 						<?php if (!empty($error[$name])) { ?>
 							<div class="field_err"><?php echo $error[$name]; ?></div>
 						<?php } ?>

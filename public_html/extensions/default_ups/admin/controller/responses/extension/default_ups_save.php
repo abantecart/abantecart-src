@@ -41,7 +41,7 @@ class ControllerResponsesExtensionDefaultUpsSave extends AController {
 
         $this->loadLanguage('extension/extensions');
 
-        if (!$this->user->hasPermission('modify', 'extension/extensions')) {
+        if (!$this->user->canModify('extension/extensions')) {
             $this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'extension/extensions') );
             return;
         }

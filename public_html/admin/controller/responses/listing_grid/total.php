@@ -165,11 +165,22 @@ class ControllerResponsesListingGridTotal extends AController {
 	    } else {
 		    $ids = array_keys($this->request->post);
 	    }
+
+	    if (!$this->user->canModify('listing_grid/total')) {
+	  			        $error = new AError('');
+	  			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+	  			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/total'),
+	  			    	                                      'reset_value' => true
+	  			    	                             ) );
+	  	}
 	    foreach ( $ids as $id) {
-			if (!$this->user->hasPermission('modify', 'extension/'.$id)) {
-				$this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'extension/'.$id));
-				return;
-			}
+		    if (!$this->user->canModify('total/'.$id)) {
+		  			        $error = new AError('');
+		  			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
+		  			    	                               array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'total/'.$id),
+		  			    	                                      'reset_value' => true
+		  			    	                             ) );
+		  	}
 	    }
 
 		$this->loadModel('setting/setting');

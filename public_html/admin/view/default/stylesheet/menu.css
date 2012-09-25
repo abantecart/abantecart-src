@@ -103,6 +103,10 @@ ul.menu li li {
 	margin:0 10px;
 }
 
+#menu_last_login_item a, #menu_welcome_item a{
+    cursor: auto;
+}
+
 ul.menu li li.selected > a {
 	font-weight:400;
 	color:#fff;

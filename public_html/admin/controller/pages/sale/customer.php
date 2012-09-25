@@ -100,8 +100,8 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->language->get('column_approved'),
 		);
 		$grid_settings['colModel'] = array(
-			array( 'name' => 'name', 'index' => 'name', 'width' => 160, 'align' => 'left', ),
-			array( 'name' => 'email', 'index' => 'c.email', 'width' => 140, 'align' => 'left', ),
+			array( 'name' => 'name', 'index' => 'name', 'width' => 160, 'align' => 'center', ),
+			array( 'name' => 'email', 'index' => 'c.email', 'width' => 140, 'align' => 'center', ),
 			array( 'name' => 'customer_group', 'index' => 'customer_group', 'width' => 80, 'align' => 'center', 'search' => false ),
 			array( 'name' => 'status', 'index' => 'c.status', 'width' => 120, 'align' => 'center', 'search' => false ),
 			array( 'name' => 'approved', 'index' => 'c.approved', 'width' => 110, 'align' => 'center', 'search' => false ),
@@ -215,6 +215,14 @@ class ControllerPagesSaleCustomer extends AController {
 		}
 
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+
+		    if( (int)$this->request->post['approved'] ){
+		  		$customer_info = $this->model_sale_customer->getCustomer($customer_id);
+		  		if( !$customer_info['approved']){
+					  $this->_sendMail($this->request->get['customer_id']);
+		  		}
+		  	}
+
 			$this->model_sale_customer->editCustomer($this->request->get['customer_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $this->request->get['customer_id'] ) );
@@ -312,6 +320,7 @@ class ControllerPagesSaleCustomer extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'cgFrm',
+		    'attr' => 'confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -387,7 +396,7 @@ class ControllerPagesSaleCustomer extends AController {
 
 		$this->loadLanguage('mail/customer');
     	
-		if (!$this->user->hasPermission('modify', 'sale/customer')) {
+		if (!$this->user->canModify('sale/customer')) {
 			$this->session->data['error'] = $this->language->get('error_permission');
 			$this->redirect($this->html->getSecureURL('sale/customer'));
 		}
@@ -396,41 +405,8 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->redirect($this->html->getSecureURL('sale/customer'));
 		}
 
-		$customer_id = $this->request->get['customer_id'];
-		$customer_info = $this->model_sale_customer->getCustomer($customer_id);
+		$this->_sendMail($this->request->get['customer_id']);
 
-		if ($customer_info && !$customer_info['approved']) {
-			$this->model_sale_customer->approve($customer_id);
-
-			$this->loadModel('setting/store');
-
-			$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
-
-			if ($store_info) {
-				$store_name = $store_info['name'];
-				$store_url = $store_info['url'] . 'index.php?rt=account/login';
-			} else {
-				$store_name = $this->config->get('store_name');
-				$store_url = $this->config->get('config_url') . 'index.php?rt=account/login';
-			}
-
-			$message  = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";;
-			$message .= $this->language->get('text_login') . "\n";
-			$message .= $store_url . "\n\n";
-			$message .= $this->language->get('text_services') . "\n\n";
-			$message .= $this->language->get('text_thanks') . "\n";
-			$message .= $store_name;
-
-			$mail = new AMail( $this->config );
-			$mail->setTo($customer_info['email']);
-			$mail->setFrom($this->config->get('store_main_email'));
-			$mail->setSender($store_name);
-			$mail->setSubject(sprintf($this->language->get('text_subject'), $store_name));
-			$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
-			$mail->send();
-
-			$this->session->data['success'] = sprintf($this->language->get('text_approved'), $customer_info['firstname'] . ' ' . $customer_info['lastname']);
-		}
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
@@ -438,7 +414,7 @@ class ControllerPagesSaleCustomer extends AController {
 	} 
 	 
   	private function _validateForm() {
-    	if (!$this->user->hasPermission('modify', 'sale/customer')) {
+    	if (!$this->user->canModify('sale/customer')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
 
@@ -496,7 +472,46 @@ class ControllerPagesSaleCustomer extends AController {
 		} else {
 	  		return FALSE;
 		}
-  	}    
+  	}
+
+	private function _sendMail($id){
+
+			// send email to customer
+			$customer_info = $this->model_sale_customer->getCustomer($id);
+
+
+
+			if ($customer_info && !$customer_info['approved'] && $this->request->post[ 'approved' ]) {
+
+				$this->loadLanguage('mail/customer');
+				$this->loadModel('setting/store');
+
+				$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
+
+				if ($store_info) {
+					$store_name = $store_info['store_name'];
+					$store_url = $store_info['config_url'] . 'index.php?rt=account/login';
+				} else {
+					$store_name = $this->config->get('store_name');
+					$store_url = $this->config->get('config_url') . 'index.php?rt=account/login';
+				}
+
+				$message  = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";;
+				$message .= $this->language->get('text_login') . "\n";
+				$message .= $store_url . "\n\n";
+				$message .= $this->language->get('text_services') . "\n\n";
+				$message .= $this->language->get('text_thanks') . "\n";
+				$message .= $store_name;
+
+				$mail = new AMail( $this->config );
+				$mail->setTo($customer_info['email']);
+				$mail->setFrom($this->config->get('store_main_email'));
+				$mail->setSender($store_name);
+				$mail->setSubject(sprintf($this->language->get('text_subject'), $store_name));
+				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+				$mail->send();
+			}
+	}
 
 }
 ?>
