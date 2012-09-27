@@ -729,7 +729,7 @@ final class ALanguage {
 		    			}
 	    			}
 
-	    			if ( !empty($insert_flds) && !empty($insert_str) ) {
+	    			if ( !empty($insert_data) ) {
 						$insrt_sql = "INSERT INTO " . $table . "(" . implode(',',array_keys($insert_data)) . ") VALUES ('" . implode("','",$insert_data) . "')";
 						ADebug::variable('class ALanguage cloning data: ', $insrt_sql);
 
