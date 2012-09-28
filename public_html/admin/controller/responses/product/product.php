@@ -588,22 +588,27 @@ class ControllerResponsesProductProduct extends AController {
 			'style' => 'small-field'
 		));
 
-		$this->data[ 'weight_type' ] = trim($this->data[ 'weight_type' ]);
-		if (!$this->data[ 'weight_type' ]) {
-			$this->data[ 'weight_type' ] = trim($this->config->get('config_weight_class'));
+		//build available weight units for options
+		$wht_options = array( '%' => '%');
+		$this->loadModel('localisation/weight_class');
+		$selected_unit = trim($this->data[ 'weight_type' ]);
+		$prd_info = $this->model_catalog_product->getProduct( $this->request->get[ 'product_id' ] );
+		$prd_weight_info = $this->model_localisation_weight_class->getWeightClass($prd_info['weight_class_id']);
+		$wht_options[ $prd_weight_info['unit'] ] = $prd_weight_info[ 'title' ];
+				
+		if (empty($selected_unit)) {
+			//no weight yet, use product weight unit as default 
+			$selected_unit = trim($prd_weight_info['unit']);
+		} else if ( $selected_unit != trim($prd_weight_info['unit']) && $selected_unit != '%' ) {
+			//main product type has changed. Show what weight unit we have in option
+			$weight_info = $this->model_localisation_weight_class->getWeightClassDescriptionByUnit( $selected_unit );	
+			$wht_options[ $selected_unit ] = $weight_info[ 'title' ];
 		}
-
-		$options = array( trim($this->config->get('config_weight_class')) => trim($this->config->get('config_weight_class')) );
-		$options[ '%' ] = '%';
-		if (!in_array($this->data[ 'weight_type' ], array( $options ))) {
-			$options[ $this->data[ 'weight_type' ] ] = $this->data[ 'weight_type' ];
-		}
-
 		$this->data[ 'form' ][ 'fields' ][ 'weight_type' ] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'weight_type[' . $product_option_value_id . ']',
-			'value' => $this->data[ 'weight_type' ],
-			'options' => $options
+			'value' => $selected_unit,
+			'options' => $wht_options
 		));
 
 		$this->view->batchAssign($this->data);

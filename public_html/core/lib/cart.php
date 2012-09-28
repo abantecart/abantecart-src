@@ -294,14 +294,17 @@ final class ACart {
 					$hard = false;
 					foreach($product['option'] as $option){
 						if($option['weight'] == 0) continue; // if weight not set - skip
-						if($option['weight_type'] != '%' && $hard) continue; // if weight was set by option hard and next option try to set another weight hard also - ignore it
-						if($option['weight_type'] != '%' && $option['weight'] <= 0) continue;
-
 						if($option['weight_type'] != '%'){
+							//If weight was set by option hard and other option sets another weight hard - ignore it
+							//skip negative weight. Negative allowed only for % based weight
+							if ($hard || $option['weight'] < 0) {
+								continue;
+							}
+						
 							$hard = true;
 							$product_weight = $this->weight->convert($option['weight'], $option['weight_type'], $product['weight_class']);
 						}else{
-							// ???? we need base weight for % calculation or weight with previous options changes?
+							//We need product base weight for % calculation
 							$temp = ($option['weight'] * $product['weight']/100) + $product['weight'];
 							$product_weight = $this->weight->convert($temp, $option['weight_type'], $this->config->get('config_weight_class'));
 						}
