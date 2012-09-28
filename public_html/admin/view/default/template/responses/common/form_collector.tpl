@@ -17,6 +17,7 @@ $('#<?php echo $form_id?>').submit(function () {
     };
     $(this).ajaxSubmit(options);
     // return false to prevent normal browser submit and page navigation
+    $(this).unbind('submit');
     return false;
 });
 </script>
