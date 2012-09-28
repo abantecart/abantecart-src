@@ -58,7 +58,7 @@
       <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
 	</div><!-- <div class="fieldset"> -->
 	<div class="buttons align_center">
-	  <button type="submit" class="btn_standard"><?php echo $form2['load_data']; ?></button>
+	  <button type="submit" class="btn_standard button_loader"><?php echo $form2['load_data']; ?></button>
     </div>
 	</form>
 
