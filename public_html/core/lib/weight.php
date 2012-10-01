@@ -92,7 +92,7 @@ final class AWeight {
 	
 	public function getUnit($weight_class_id) {
 		foreach ($this->weights as $wth) {
-			if (isset($wth[$weight_class_id])) {
+			if ( $wth['weight_class_id'] == $weight_class_id ) {
     			return $wth['unit'];
 			}		
 		}
