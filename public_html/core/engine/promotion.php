@@ -47,11 +47,9 @@ class APromotion {
                                         'categories',
                                         'brands',
                                         'products',
-                                        //'product_option',
                                         'customers',
                                         'customer_groups',
                                         'customer_country',
-                                       // 'customer_zone',
                                         'customer_postcode',
                                         'order_subtotal',
                                         'order_product_count',
@@ -62,7 +60,10 @@ class APromotion {
         );
         $this->bonus_objects = array(
                                         'order_discount',
-                                        'free_shipping'
+                                        'free_shipping',
+	                                    'discount_products',
+	                                    'free_products',
+
         );
 	}
 

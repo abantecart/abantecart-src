@@ -154,13 +154,10 @@ class ControllerPagesToolPackageInstaller extends AController {
         $this->view->assign('text_download_error', $this->language->get('text_download_error'));
 
         $this->session->data['package_info']['extension_key'] = $extension_key;
-        if (is_writable(DIR_APP_SECTION . "system/temp/")) {
-            $this->session->data['package_info']['tmp_dir'] = DIR_APP_SECTION . "system/temp/";
-        } else if (is_writable(DIR_DOWNLOAD . "temp/")) {
-            $this->session->data['package_info']['tmp_dir'] = DIR_DOWNLOAD . "temp/";
-        } else {
-            $this->session->data['package_info']['tmp_dir'] = sys_get_temp_dir() . '/';
-        }
+
+	    $this->session->data['package_info']['tmp_dir'] = $this->_get_temp_dir();
+
+
 
         if (!is_writable($this->session->data['package_info']['tmp_dir'])) {
             $this->session->data['error'] = $this->language->get('error_dir_permission') . ' ' . DIR_APP_SECTION . "system/temp/";
@@ -331,6 +328,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 
         // so.. we need to know about install mode of this package
         $config = simplexml_load_string(file_get_contents($this->session->data['package_info']['tmp_dir'] . $package_dirname . '/package.xml'));
+
         if (!$config) {
             $this->session->data['error'] = $this->language->get('error_package_config');
             $this->_removeTempFiles();
@@ -436,11 +434,9 @@ class ControllerPagesToolPackageInstaller extends AController {
             $ftp = false; // for form fields hiding
             $this->redirect($this->html->getSecureURL('tool/package_installer/install'));
         } else {
-            if (is_writable(DIR_DOWNLOAD . "temp/")) {
-                $this->session->data['package_info']['tmp_dir'] = DIR_DOWNLOAD . "temp/";
-            } else {
-                $this->session->data['package_info']['tmp_dir'] = sys_get_temp_dir() . '/';
-            }
+	        if(!$this->session->data['package_info']['tmp_dir']){
+		        $this->session->data['package_info']['tmp_dir'] = $this->_get_temp_dir();
+	        }
         }
         // if all fine show license agreement
         if (!file_exists($this->session->data['package_info']['tmp_dir'] . $package_dirname . "/license.txt") && !$ftp) {
@@ -669,7 +665,8 @@ class ControllerPagesToolPackageInstaller extends AController {
         $version = (string)$config->version;
         $type = (string)$config->type;
         $type = !$type && $this->session->data['package_info']['package_type']
-            ? $this->session->data['package_info']['package_type'] : $type;
+                ? $this->session->data['package_info']['package_type']
+		        : $type;
         $type = !$type ? 'extension' : $type;
 
 
@@ -819,5 +816,16 @@ class ControllerPagesToolPackageInstaller extends AController {
         }
         return true;
     }
+
+	private function _get_temp_dir(){
+		if (is_writable(DIR_APP_SECTION . "system/temp/")) {
+            $dir = DIR_APP_SECTION . "system/temp/";
+        } else if (is_writable(DIR_DOWNLOAD . "temp/")) {
+            $dir = DIR_DOWNLOAD . "temp/";
+        } else {
+            $dir = sys_get_temp_dir() . '/';
+        }
+	return $dir;
+	}
 
 }

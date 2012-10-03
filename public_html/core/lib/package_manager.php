@@ -536,6 +536,7 @@ class APackageManager {
 			case 'template':
 			case 'payment':
 			case 'shipping':
+			case 'language':
 				// if extensions is not installed yet - install it
 					if($install_mode == 'install'){
 						$ext = new ExtensionUtils($extension_id);
@@ -564,18 +565,19 @@ class APackageManager {
 
 
 						$config = simplexml_load_string(file_get_contents($this->session->data['package_info']['tmp_dir'].$package_dirname.'/code/extensions/'.$extension_id.'/config.xml'));
-
+						$config = !$config ? simplexml_load_string(file_get_contents(DIR_EXT.$extension_id.'/config.xml')) : $config;
 						// running sql upgrade script if it exists
 						if ( isset($config->upgrade->sql) ) {
 							$file = $this->session->data['package_info']['tmp_dir'].$package_dirname. '/code/extensions/'.$extension_id.'/'. (string)$config->upgrade->sql;
+							$file = !file_exists($file) ? DIR_EXT.$extension_id.'/'. (string)$config->upgrade->sql : $file;
 							if(file_exists($file)){
 								$this->db->performSql($file);
-
 							}
 						}
 						// running php install script if it exists
 						if ( isset($config->upgrade->trigger)) {
 							$file = $this->session->data['package_info']['tmp_dir'].$package_dirname. '/code/extensions/'.$extension_id.'/'. (string)$config->upgrade->trigger;
+							$file = !file_exists($file) ? DIR_EXT.$extension_id.'/'. (string)$config->upgrade->sql : $file;
 							if(file_exists($file)){
 								include($file);
 							}
