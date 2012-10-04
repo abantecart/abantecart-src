@@ -50,14 +50,18 @@
 				  success: function(data) {
 						if(data == 50){
 							step=3;
-							$('#hint').html('Configuring Your AbanteCart...');
+							$('#hint').html('Installing Default Language. This might take a moment ... ');
 							install();
-						}else if (data == 100) {
+						}else if(data == 100){
+							step=4;
+							$('#hint').html('Configuring Your AbanteCart ...');
+							install();
+						}else if (data == 150) {
 							window.location = '<?php echo $redirect; ?>';
 						}else{
 							$('#progress').hide();
 							$('#error').show();
-							var text = "Sorry, but error occured during installation:</br>";
+							var text = "Sorry, but error occurred during installation:</br>";
 							text += data;
 							$('#error > td').html(text);
 
