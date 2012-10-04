@@ -29,7 +29,7 @@ class ControllerPagesInstall extends AController {
 		$this->data = array();
 
 		if (isset($this->request->get[ 'progress' ])) {
-			if (!in_array((int)$this->request->get[ 'progress' ], array( 1, 2, 3 ))) {
+			if (!in_array((int)$this->request->get[ 'progress' ], array( 1, 2, 3, 4 ))) {
 				$this->redirect(HTTP_SERVER . 'index.php?rt=activation' . '&admin_path=' . $this->request->post[ 'admin_path' ]);
 			}
 			echo $this->progress((int)$this->request->get[ 'progress' ]);
@@ -171,8 +171,11 @@ class ControllerPagesInstall extends AController {
 			$this->installSQL();
 			return 50;
 		} elseif ($step == 3) {
-			$this->configure();
+			$this->load_language();
 			return 100;
+		} elseif ($step == 4) {
+			$this->configure();
+			return 150;
 		}
 
 		// prevent rewriting database
@@ -197,7 +200,7 @@ class ControllerPagesInstall extends AController {
 		$this->model_install->mysql($this->session->data[ 'install_step_data' ]);
 	}
 
-	private function configure() {
+	private function load_language() {
 		$registry = Registry::getInstance();
 		$db = new ADB('mysql',
 			$this->session->data[ 'install_step_data' ][ 'db_host' ],
@@ -224,6 +227,11 @@ class ControllerPagesInstall extends AController {
 		// languages
 		$language = new ALanguage($registry, 'en');
         $language->definitionAutoLoad(1,'all','all','update');
+
+	}
+
+	private function configure() {
+		define('DB_PREFIX', $this->session->data[ 'install_step_data' ][ 'db_prefix' ]);
 
 		$stdout = '<?php' . "\n";
 		$stdout .= '/*' . "\n";
