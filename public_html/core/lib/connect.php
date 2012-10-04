@@ -80,6 +80,10 @@ final class AConnect {
      * @var array
      */
     private $socket_options;
+	/*
+	 * array with response http-headers
+	 * */
+	public $response_headers = array();
 
     /**
      * @param boolean $silent_mode
@@ -151,7 +155,14 @@ final class AConnect {
             $this->error = "Error: unknown file name for saving. ";
             return false;
         }
-        return $this->getData($url, $port, false, $new_filename);
+	    $this->connect_method = 'socket'; // set this hard because have no ability to get content-disposition http-header form curl
+	    $result = $this->getData($url, $port, false, $new_filename);
+	    if(!isset($this->response_headers['Content-Disposition']) || !is_int(strpos($this->response_headers['Content-Disposition'],'attachment'))){
+		   $this->error = "Error: Cannot to download file. Attachment is absent.";
+		   return false;
+	    }
+
+	    return $result;
     }
 
     /**
@@ -597,6 +608,7 @@ final class AConnect {
         if (!isset($headerdata['Content-Disposition']) && isset($headerdata['Content-disposition'])) {
             $headerdata['Content-Disposition'] = $headerdata['Content-disposition'];
         }
+	    $this->response_headers = $headerdata;
         return $headerdata;
     }
 

@@ -56,8 +56,6 @@ class APackageManager {
 			return false;
 		}
 		$file = new AConnect();
-		//$file->connect_method = 'socket';
-		//$this->dataSize = $file->getDataLength($url);
 		if ( $save ) {
 			$result = $file->getFile($url, $new_file_name); //download
 		} else {
