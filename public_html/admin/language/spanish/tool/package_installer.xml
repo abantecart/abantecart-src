@@ -26,8 +26,7 @@
 	</definition>
 	<definition>
 		<key>text_loading</key>
-		<value>
-			<![CDATA[Descarga de archivos. Tamaño: %s .<br/>It might take few seconds depending on your connection.]]></value>
+		<value><![CDATA[Descarga de archivos. Tamaño: %s .<br/>Puede tardar algunos segundos dependiendo de su conexión.]]></value>
 	</definition>
 	<definition>
 		<key>text_key_hint</key>
@@ -63,7 +62,7 @@
 	</definition>
 	<definition>
 		<key>text_download_error</key>
-		<value><![CDATA[ Lo sentimos, pero se ha producido en el proceso de carga de los errores de archivo. Por favor, inténtelo de nuevo o cancelar ]]></value>
+		<value><![CDATA[ Lo sentimos, pero en el proceso de carga se produjeron los errores de archivo. Prueba una vez más. Si el problema persiste archivo de descarga en su historial de pedidos e instalar manualmente. ]]></value>
 	</definition>
 	<definition>
 		<key>text_continue</key>
@@ -107,7 +106,7 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 	</definition>
 	<definition>
 		<key>error_repository</key>
-		<value><![CDATA[ Error: No se puede descargar el archivo. Repositorio de error o la tecla de extensión no válido. Por favor, inténtelo más tarde. ]]></value>
+		<value><![CDATA[ Error: No se puede descargar el archivo. Repositorio de error o la tecla de extensión no válido. Prueba una vez más. Si el problema persiste archivo de descarga en su historial de pedidos e instalar manualmente. ]]></value>
 	</definition>
 	<definition>
 		<key>error_ftp_user</key>
