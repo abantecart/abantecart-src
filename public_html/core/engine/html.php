@@ -798,6 +798,7 @@ class PasswordHtmlElement extends HtmlElement
                 'name' => $this->name,
                 'id' => $this->element_id,
                 'type' => 'password',
+                'has_value' => ($this->value) ? 'Y' : 'N',
                 'attr' => $this->attr,
                 'required' => $this->required,
                 'style' => $this->style,
