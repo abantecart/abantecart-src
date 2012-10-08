@@ -362,6 +362,12 @@
                 $triggerOnEdit = false;
             }
 
+			//if password field remove *** on edit
+			if ($el.is(':password') ) {
+            	var $el_confirm_default = $('#' + $el.attr('id') + '_confirm_default');
+                $el_confirm_default.hide();
+			}
+
             if ($triggerOnEdit) {
                 var $changed = 0;
                 if (o.showButtons && $wrapper.find(o.btnGrpSelector).length == 0) {
@@ -445,7 +451,7 @@
                 if (elem.is(":password") && $(elem).is('[name$="_confirm"]')) {
                     ;
                 } else if (elem.is(":password") && $(elem).parents('.passwordset_element').length > 0) {
-                    doPasswordset(elem);
+                    doPasswordset(elem);                    
                 } else {
                     doInput(elem);
                 }
