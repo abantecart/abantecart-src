@@ -28,11 +28,11 @@ class ControllerPagesInstall extends AController {
 
 		$this->data = array();
 
-		if (isset($this->request->get[ 'progress' ])) {
-			if (!in_array((int)$this->request->get[ 'progress' ], array( 1, 2, 3, 4 ))) {
+		if (isset($this->request->get[ 'runlevel' ])) {
+			if (!in_array((int)$this->request->get[ 'runlevel' ], array( 1, 2, 3, 4 ))) {
 				$this->redirect(HTTP_SERVER . 'index.php?rt=activation' . '&admin_path=' . $this->request->post[ 'admin_path' ]);
 			}
-			echo $this->progress((int)$this->request->get[ 'progress' ]);
+			echo $this->runlevel((int)$this->request->get[ 'runlevel' ]);
 			return;
 		}
 
@@ -40,7 +40,7 @@ class ControllerPagesInstall extends AController {
 		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && ($this->_validate())) {
 
 			$this->session->data[ 'install_step_data' ] = $this->request->post;
-			$this->redirect(HTTP_SERVER . 'index.php?rt=install&progress=1');
+			$this->redirect(HTTP_SERVER . 'index.php?rt=install&runlevel=1');
 		}
 
 		$this->data[ 'error' ] = $this->error;
@@ -165,12 +165,14 @@ class ControllerPagesInstall extends AController {
 	}
 
 
-	public function progress($step) {
+	public function runlevel($step) {
 
 		if ($step == 2) {
 			$this->installSQL();
 			return 50;
 		} elseif ($step == 3) {
+			$_SESSION['time_counter'] = time();
+			session_write_close();// unlock session for ajax requests
 			$this->load_language();
 			return 100;
 		} elseif ($step == 4) {
@@ -184,6 +186,7 @@ class ControllerPagesInstall extends AController {
 		}*/
 
 		$this->view->assign('url', HTTP_SERVER . 'index.php?rt=install');
+		$this->view->assign('state_url', HTTP_SERVER . 'index.php?rt=install/getstate');
 		$this->view->assign('redirect', HTTP_SERVER . 'index.php?rt=activation&admin_path=' . $this->session->data[ 'install_step_data' ][ 'admin_path' ]);
 		$this->view->assign('progressbar', HTTP_SERVER . '/view/image/progressbar.gif');
 
@@ -192,6 +195,17 @@ class ControllerPagesInstall extends AController {
 		$this->processTemplate('pages/install_progress.tpl');
 
 
+	}
+	//  language preloading time counter
+	public function getState(){
+		$step = $this->request->get['runlevel'];
+		$state = $_SESSION['time_counter'];
+		$sec = time()-$state;
+		$state = sprintf("%02d",floor($sec/60)).":".sprintf("%02d",round($sec-floor($sec/60)*60));
+		if ($step == 3) {
+			echo $state;
+			return;
+		}
 	}
 
 	private function installSQL() {
@@ -227,7 +241,6 @@ class ControllerPagesInstall extends AController {
 		// languages
 		$language = new ALanguage($registry, 'en');
         $language->definitionAutoLoad(1,'all','all','update');
-
 	}
 
 	private function configure() {

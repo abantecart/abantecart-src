@@ -806,7 +806,7 @@ final class ALanguage {
      */
     public function definitionAutoLoad( $language_id, $section, $filename, $mode='add', $language_key=''){
 
-        if( !is_int($language_id) && $language_id!='all') {
+        if( (int)$language_id===0 && $language_id!='all') {
             $this->error = 'Can\'t to reload definitions when language id is unknown ("'.$language_id.'").';
             return false;
         }
@@ -819,13 +819,13 @@ final class ALanguage {
             $this->error = 'Can\'t to reload definitions when mode is unknown("'.$mode.'"). Only "add" or "update" are permitted.';
             return false;
         }
-
+		ini_set('max_execution_time',600);
         $sections = $section=='all' ? array('admin','storefront') : '';
         $sections = in_array($section,array('admin',1),true) ? array('admin') : $sections;
         $sections = in_array($section,array('storefront',0),true) ? array('storefront') : $sections;
 
         foreach($this->available_languages as $lang){
-             if($language_id && $language_id!=$lang['language_id']) continue;
+             if(is_int($language_id)  && $language_id!=$lang['language_id']) continue;
              $language_ids[$lang['directory']] = $lang['language_id'];
              $language_codes[$lang['directory']] = $lang['code'];
         }

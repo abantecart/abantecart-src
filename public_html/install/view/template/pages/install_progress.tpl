@@ -43,31 +43,55 @@
 <?php echo $footer; ?>
 
 <script language="JavaScript">
+	var messages = {3: 'Installing Default Language. This might take a moment ... ',
+					4: 'Configuring Your AbanteCart ...',
+					error: 'Sorry, but error occurred during installation:</br>'};
 	var step = 2;
 	function install() {
+		var state;
+		if(step==3){
+			state = setInterval( function(){ checkstate(step); }, 2000);
+		}
 		$.ajax({  type: 'POST',
-		   		  url: '<?php echo $url; ?>&progress='+step,
-				  success: function(data) {
-						if(data == 50){
+		   		  url: '<?php echo $url; ?>&runlevel='+step,
+				  success: function(response) {
+						if(response == 50){
 							step=3;
-							$('#hint').html('Installing Default Language. This might take a moment ... ');
+							$('#hint').html(messages[3]);
 							install();
-						}else if(data == 100){
+						}else if(response == 100){
+							clearInterval(state);
 							step=4;
-							$('#hint').html('Configuring Your AbanteCart ...');
+							$('#hint').html(messages[4]);
 							install();
-						}else if (data == 150) {
+						}else if (response == 150) {
 							window.location = '<?php echo $redirect; ?>';
 						}else{
 							$('#progress').hide();
 							$('#error').show();
-							var text = "Sorry, but error occurred during installation:</br>";
-							text += data;
+							var text = messages.error;
+							text += response;
+							$('#hint').html('Error');
 							$('#error > td').html(text);
 
 						}
 				}
 			});
 		}
+
+
+
+	function checkstate(step){
+		if(step!=3) return;
+		$.ajax({  type: 'POST',
+				  url: '<?php echo $state_url; ?>&runlevel='+step,
+				  success: function(response) {
+							  if( response){
+							  		$('#hint').html(messages[3] + response);
+							  }
+                          }
+		});
+	}
 	install();
+
 </script>
