@@ -407,11 +407,11 @@ class AResource {
 
 		$this->load->model('tool/image');
 
-		if(!$sizes || !isset($sizes['main']) || !isset($sizes['thumb']) || !$sizes['main'] || !$sizes['thumb']){
-			if(!isset($sizes['main']) || !$sizes['main']){
+		if(!$sizes || !is_array($sizes['main']) || !is_array($sizes['thumb']) ){
+			if(!is_array($sizes['main'])){
 				$sizes['main'] = array('width'=> $this->config->get('config_image_product_width'), 'height'=> $this->config->get('config_image_product_height'));
 			}
-			if(!isset($sizes['thumb']) || !$sizes['thumb']){
+			if(!is_array($sizes['thumb'])){
 				$sizes['thumb'] = array('width'=> $this->config->get('config_image_thumb_width'), 'height'=> $this->config->get('config_image_thumb_height'));
 			}
 		}
@@ -432,13 +432,19 @@ class AResource {
 		 	$origin = $resource_info['resource_path'] ? 'internal' : 'external';
 
 			if($origin=='internal'){
-				$thumb_url = $this->getResourceThumb($result['resource_id'],$sizes['thumb']['width'],$sizes['thumb']['height']);
+				if($sizes['thumb']){
+					$thumb_url = $this->getResourceThumb($result['resource_id'],$sizes['thumb']['width'],$sizes['thumb']['height']);
+				}
 
-				if(!$thumb_url){
+				if(!$thumb_url && $sizes['thumb']){
 					$thumb_url = $this->model_tool_image->resize($result['resource_path'],$sizes['thumb']['width'],$sizes['thumb']['height']);
 				}
 				if($this->getTypeDir()=='image/'){
-					$main_url = $this->getResourceThumb($result['resource_id'],$sizes['main']['width'],$sizes['main']['height']);
+					if(!$sizes['main']){
+						$main_url = $this->getResourceThumb($result['resource_id'],$sizes['main']['width'],$sizes['main']['height']);
+					}else{ // return href for image with size as-is
+						$main_url = HTTP_DIR_RESOURCE.$this->getTypeDir().$result['resource_path'];
+					}
 				}else{
 					$main_url = HTTP_DIR_RESOURCE.$this->getTypeDir().$result['resource_path'];
 				}

@@ -52,8 +52,8 @@ class ControllerBlocksBannerBlock extends AController {
 		if($descriptions[$this->config->get('storefront_language_id')]){
 			$key = $this->config->get('storefront_language_id');
 		}else{
-			$key = key($descriptions);
-		}
+			$key = $descriptions ? key($descriptions) : null;
+			}
 
 		$this->loadModel('extension/banner_manager');
 		$results = $this->model_extension_banner_manager->getBanners($custom_block_id);
@@ -73,10 +73,10 @@ class ControllerBlocksBannerBlock extends AController {
 			}
 		}
 		$output = array(
-			'title' => $descriptions[$key]['title'],
+			'title' => ( $key ? $descriptions[$key]['title'] : '' ),
 			'content' => $banners,
-			'block_wrapper' => $descriptions[$key]['block_wrapper'],
-			'block_framed' => (int)$descriptions[$key]['block_framed'],
+			'block_wrapper' => ( $key ? $descriptions[$key]['block_wrapper'] : 0 ),
+			'block_framed' => ( $key ? (int)$descriptions[$key]['block_framed'] : 0 ),
 		);
 
 		return $output;
