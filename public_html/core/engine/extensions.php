@@ -864,31 +864,33 @@ class ExtensionUtils {
 		if (!isset($this->config->cartversions->item)) return;
 		foreach ($this->config->cartversions->item as $item){
 			$version = (string)$item;
-			$version = explode('.',$version);
-			$version = $version[0].'.'.$version[1];
-			$versions[] = $version;
+			$cart_versions[] = $version;
 		}
-		asort($versions,SORT_DESC);
-		// if version exist in list - quite return
-		if(in_array(VERSION,$versions)){
-			return true;
+		// check is cart version presents on extension cart version list
+		foreach($cart_versions as $version){
+			$result = versionCompare($version,VERSION,'>=');
+			if($result){
+				return true;
+			}
 		}
-		// check is extension version less than cart version
-		foreach($versions as $version){
+		// if not - seek cart earlier version then current cart version in the list
+		foreach($cart_versions as $version){
 			$result = versionCompare($version,VERSION,'<');
 			if($result){
-					$error_text = 'Extension <b>%s</b> written for earlier version of Abantecart (v.%s) lower that you have. ';
-					$error_text .= 'Probably all will be OK.';
-					$error_text = sprintf($error_text, $this->name, implode(', ',$versions));
-					$registry = Registry::getInstance();
-					$registry->get('session')->data[ 'error' ] = $error_text;
-					$registry->get('messages')->saveWarning($this->name .' extension warning',$error_text);
-			return true; }
+				$error_text = 'Extension <b>%s</b> written for earlier version of Abantecart (v.%s) lower that you have. ';
+				$error_text .= 'Probably all will be OK.';
+				$error_text = sprintf($error_text, $this->name, implode(', ',$cart_versions));
+				$registry = Registry::getInstance();
+				$registry->get('session')->data[ 'error' ] = $error_text;
+				$registry->get('messages')->saveWarning($this->name .' extension warning',$error_text);
+				return true;
+			}
 		}
 
-	$error_text = '<b>%s</b> extension cannot be installed. AbanteCart version incompability. ';
-	$error_text .= sizeof($versions)>1 ? 'Versions <b>%s</b> are required.' : 'Version <b>%s</b> is required.';
-	$this->error(sprintf($error_text, $this->name, implode(', ',$versions)));
+
+		$error_text = '<b>%s</b> extension cannot be installed. AbanteCart version incompability. ';
+		$error_text .= sizeof($cart_versions)>1 ? 'Versions <b>%s</b> are required.' : 'Version <b>%s</b> is required.';
+		$this->error(sprintf($error_text, $this->name, implode(', ',$cart_versions)));
 	return false;
 	}
 
