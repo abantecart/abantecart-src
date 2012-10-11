@@ -5,7 +5,7 @@
 	        <div class="afield mask1">
 	            <div class="cl">
 	                <div class="cr">
-	                    <div class="cc" style="width: 300px;"><div class="atext default_text"><?php echo 'click to browse file';?></div></div>
+	                    <div class="cc" style="width: 300px;"><div class="atext default_text"><?php echo $default_text;?></div></div>
 	                </div>
 	            </div>
 	        </div>
