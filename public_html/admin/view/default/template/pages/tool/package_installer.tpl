@@ -25,8 +25,10 @@
 	  <?php echo $form['form_open']; ?>
     <table style="height: 350px; border:0; width: 100%">
         <tr >
-            <td style="width:60%;" class="align_right ml_field"><?php echo $form['input']; ?></td>
-            <td style="width:40%;" class="align_left ml_field" ><button class="btn_standard button_loader" type="submit"><?php echo $form['submit']; ?></button></td>
+            <td style="width:auto;"></td>
+            <td style="width:450px;" class="ml_field"><?php echo $form['input']; ?></td>
+            <td style="width:69px;" class="ml_field" ><button class="btn_standard button_loader" type="submit"><?php echo $form['submit']; ?></button></td>
+	        <td style="width:auto;"></td>
 		</tr>
     </table></form>
   </div></div></div>
