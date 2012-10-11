@@ -158,7 +158,7 @@ class AAttribute_Manager extends AAttribute {
 	    	//Check if new or update			
 		    	if ( $data['attribute_value_ids'][$atr_val_id] == 'delete' ) {
 		    		//delete the description
-		    		$this->deleteAttributeValueDescritpion($atr_val_id, $language_id);
+		    		$this->deleteAllAttributeValueDescritpions($atr_val_id);
 		    		//delete value if no other language
 		    		$this->deleteAttributeValues($atr_val_id);
 		    	}
@@ -241,6 +241,17 @@ class AAttribute_Manager extends AAttribute {
 		$this->addAttributeValueDescription($attribute_id, $attribute_value_id, $language_id, $value);
 		
 		$this->clearCache(); 
+	}
+
+    public function deleteAllAttributeValueDescritpions($attribute_value_id) {
+		if ( empty($attribute_value_id) ) {
+			return;
+		}
+
+		$sql = "DELETE FROM `".DB_PREFIX."global_attributes_value_descriptions`
+						WHERE attribute_value_id = '" . (int)$attribute_value_id . "'";
+		$this->db->query( $sql );    
+        $this->clearCache();
 	}
 
     public function deleteAttributeValueDescritpion($attribute_value_id, $language_id) {
