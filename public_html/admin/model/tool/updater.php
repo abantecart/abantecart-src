@@ -94,7 +94,7 @@ class ModelToolUpdater extends Model {
                 $result = true;
                 if (!in_array($coreversion, $versions)) {
                     foreach ($versions as $version) {
-                        $result = version_compare($version, $coreversion, '<');
+                        $result = versionCompare($version, $coreversion, '<');
                         if ($result) {
                             break;
                         }
@@ -103,7 +103,7 @@ class ModelToolUpdater extends Model {
                 if (!$result) {
                     continue; //  check next extension in xml tree
                 }
-                if ($this->compareVersions($extension_list[$extension_id]['version'], (string)$ext->version, '<')) {
+                if (versionCompare($extension_list[$extension_id]['version'], (string)$ext->version, '<')) {
 
                     $action = array('text' => $this->html->buildButton(
                         array('name' => 'btn_upgrade',
@@ -177,12 +177,6 @@ class ModelToolUpdater extends Model {
         if ($info) {
             return true;
         }
-    }
-
-    private function compareVersions($version1, $version2, $operator = '=') {
-        $version1 = preg_replace('/[^0-9\.]/', '', $version1);
-        $version2 = preg_replace('/[^0-9\.]/', '', $version2);
-        return version_compare($version1, $version2, $operator);
     }
 
 }

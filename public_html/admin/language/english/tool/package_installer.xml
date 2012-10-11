@@ -46,7 +46,7 @@
 	</definition>
 	<definition>
 		<key>text_ftp_path</key>
-		<value><![CDATA[ FTP Path: ]]></value>
+		<value><![CDATA[ FTP Path:<span class="help">FTP path to Abantecart root directory</span> ]]></value>
 	</definition>
 	<definition>
 		<key>text_i_agree</key>
@@ -66,7 +66,7 @@
 	</definition>
 	<definition>
 		<key>text_download_error</key>
-		<value><![CDATA[ We are sorry, but in the process of uploading the file errors occurred. Try one more time. If problem persist download file in your order history and install manually. ]]></value>
+		<value><![CDATA[ We are sorry, but in the process of uploading the file errors occurred.</br>Try one more time.</br>If problem persist download file in your order history and install manually. ]]></value>
 	</definition>
 	<definition>
 		<key>text_continue</key>
@@ -95,13 +95,11 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>warning_already_installed</key>
-		<value>
-			<![CDATA[<p class="success">You already have %EXTENSION% extension installed! If you want to proceed and upgrade, please confirm.</p>]]></value>
+		<value><![CDATA[<p class="success">You already have %EXTENSION% extension installed! If you want to proceed and upgrade, please confirm.</p>]]></value>
 	</definition>
 	<definition>
 		<key>warning_already_installed_uninstall</key>
-		<value>
-			<![CDATA[You already have this extension "%EXTENSION%" installed! If you want to proceed to reinstall, please uninstall and delete extension first.]]></value>
+		<value><![CDATA[You already have this extension "%EXTENSION%" installed! If you want to proceed to reinstall, please uninstall and delete extension first.]]></value>
 	</definition>
 	<definition>
 		<key>error_pack_not_found</key>
@@ -129,13 +127,11 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>error_ftp_path</key>
-		<value>
-			<![CDATA[ Error: Can't find root directory of AbanteCart by FTP path.<br>Try leave it empty for automatic search. ]]></value>
+		<value><![CDATA[ Error: Can't find root directory of AbanteCart by FTP path.<br>Try leave it empty for automatic search. ]]></value>
 	</definition>
 	<definition>
 		<key>error_ftp_path_array</key>
-		<value>
-			<![CDATA[ Error: Can't automatic recognize root directory of AbanteCart in FTP-mode.<br>Please fill FTP-path form field.<br>Path suggestions are:  ]]></value>
+		<value><![CDATA[ Error: Can't automatic recognize root directory of AbanteCart in FTP-mode.<br>Please fill FTP-path form field.<br>Path suggestions are:  ]]></value>
 	</definition>
 	<definition>
 		<key>error_dir_permission</key>
@@ -147,8 +143,7 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>error_package_config</key>
-		<value>
-			<![CDATA[ Error: Can't find config-file package.xml inside package. Probably package is broken. Structure of package error. ]]></value>
+		<value><![CDATA[ Error: Can't find config-file package.xml inside package. Probably package is broken. Structure of package error. ]]></value>
 	</definition>
 	<definition>
 		<key>error_package_config2</key>
@@ -160,31 +155,26 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>error_unpack</key>
-		<value>
-			<![CDATA[ Error: Can't unpack package "%PACKAGE%" after download. Archive error. See error log for details. ]]></value>
+		<value><![CDATA[ Error: Can't unpack package "%PACKAGE%" after download. Archive error. See error log for details. ]]></value>
 	</definition>
 	<definition>
 		<key>error_move</key>
-		<value>
-			<![CDATA[ Error: Can't move package code after unpacking. Please try check write permissions of directory: ]]></value>
+		<value><![CDATA[ Error: Can't move package code after unpacking. Please try check write permissions of directory: ]]></value>
 	</definition>
 	<definition>
 		<key>error_install_mode</key>
-		<value>
-			<![CDATA[ Error: Can't install extension "%package%" because it already installed. You need deinstall and delete it first or get package for upgrade. ]]></value>
+		<value><![CDATA[ Error: Can't install extension "%package%" because it already installed. You need deinstall and delete it first or get package for upgrade. ]]></value>
 	</definition>
 	<definition>
 		<key>error_install_mode2</key>
-		<value>
-			<![CDATA[ Error: Can't upgrade extension "%package%" because it not installed. You need get package for install. ]]></value>
+		<value><![CDATA[ Error: Can't upgrade extension "%package%" because it not installed. You need get package for install. ]]></value>
 	</definition>
 	<definition>
-		<key>error_version_compability</key>
-		<value>
-			<![CDATA[ Error: Can't install package. Your cart version is <b>%CURRENT_VERSION%</b>. Version(s) <b>%VERSIONS%</b>  required. ]]></value>
+		<key>error_version_compatibility</key>
+		<value><![CDATA[ Error: Can't install package. Your cart version is <b>%CURRENT_VERSION%</b>. Version(s) <b>%VERSIONS%</b>  required. ]]></value>
 	</definition>
 	<definition>
-		<key>error_package_version_compability</key>
+		<key>error_package_version_compatibility</key>
 		<value><![CDATA[ Error: Can't upgrade package. Newer package version is already installed. ]]></value>
 	</definition>
 	<definition>
@@ -193,8 +183,35 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>error_core_version</key>
-		<value>
-			<![CDATA[ 'Error: You have AbanteCart version %VERSION% installed.<br>This upgrade package only for versions lower than  ]]></value>
+		<value><![CDATA[ Error: You have AbanteCart version %VERSION% installed.<br>This upgrade package only for versions lower than  ]]></value>
 	</definition>
-
+	<definition>
+		<key>text_interrupt</key>
+		<value><![CDATA[ Interrupt ]]></value>
+	</definition>
+	<definition>
+		<key>text_continue</key>
+		<value><![CDATA[ Continue ]]></value>
+	</definition>
+	<definition>
+		<key>confirm_version_incompatibility</key>
+		<value><![CDATA[ Current copy of this extension is not verified for your version of AbanteCart (v%s).<br>Your last extension build is for AbanteCart v%s.<br>
+		This is not a problem, but if you notice issues or incompatibility, please contact extension developer. ]]></value>
+	</definition>
+	<definition>
+		<key>error_move_ftp</key>
+		<value><![CDATA[ Error: Can't move package code after unpacking. Probably FTP path is incorrect.<br>Also, please, try to check write permissions of directory: ]]></value>
+	</definition>
+	<definition>
+		<key>text_network_install</key>
+		<value><![CDATA[ Network Install ]]></value>
+	</definition>
+	<definition>
+		<key>text_extension_upload</key>
+		<value><![CDATA[ Extension Upload ]]></value>
+	</definition>
+	<definition>
+		<key>error_archive_extension</key>
+		<value><![CDATA[ Error: Only .tar.gz files supported. ]]></value>
+	</definition>
 </definitions>

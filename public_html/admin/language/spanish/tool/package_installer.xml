@@ -26,7 +26,8 @@
 	</definition>
 	<definition>
 		<key>text_loading</key>
-		<value><![CDATA[Descarga de archivos. Tamaño: %s .<br/>Puede tardar algunos segundos dependiendo de su conexión.]]></value>
+		<value>
+			<![CDATA[Descarga de archivos. Tamaño: %s .<br/>Puede tardar algunos segundos dependiendo de su conexión.]]></value>
 	</definition>
 	<definition>
 		<key>text_key_hint</key>
@@ -62,7 +63,8 @@
 	</definition>
 	<definition>
 		<key>text_download_error</key>
-		<value><![CDATA[ Lo sentimos, pero en el proceso de carga se produjeron los errores de archivo. Prueba una vez más. Si el problema persiste archivo de descarga en su historial de pedidos e instalar manualmente. ]]></value>
+		<value>
+			<![CDATA[ Lo sentimos, pero en el proceso de carga se produjeron los errores de archivo. Prueba una vez más. Si el problema persiste archivo de descarga en su historial de pedidos e instalar manualmente. ]]></value>
 	</definition>
 	<definition>
 		<key>text_continue</key>
@@ -106,7 +108,8 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 	</definition>
 	<definition>
 		<key>error_repository</key>
-		<value><![CDATA[ Error: No se puede descargar el archivo. Repositorio de error o la tecla de extensión no válido. Prueba una vez más. Si el problema persiste archivo de descarga en su historial de pedidos e instalar manualmente. ]]></value>
+		<value>
+			<![CDATA[ Error: No se puede descargar el archivo. Repositorio de error o la tecla de extensión no válido. Prueba una vez más. Si el problema persiste archivo de descarga en su historial de pedidos e instalar manualmente. ]]></value>
 	</definition>
 	<definition>
 		<key>error_ftp_user</key>
@@ -122,7 +125,8 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 	</definition>
 	<definition>
 		<key>error_ftp_login</key>
-		<value><![CDATA[ Error: No se puede acceder al servidor FTP. Nombre de usuario o contraseña no válidos. ]]></value>
+		<value>
+			<![CDATA[ Error: No se puede acceder al servidor FTP. Nombre de usuario o contraseña no válidos. ]]></value>
 	</definition>
 	<definition>
 		<key>error_ftp_path</key>
@@ -149,11 +153,13 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 	</definition>
 	<definition>
 		<key>error_package_config2</key>
-		<value><![CDATA[ Error: No se puede encontrar el modo de instalación en package.xml dentro del paquete. ]]></value>
+		<value>
+			<![CDATA[ Error: No se puede encontrar el modo de instalación en package.xml dentro del paquete. ]]></value>
 	</definition>
 	<definition>
 		<key>error_package_info_not_exists</key>
-		<value><![CDATA[ Error: No se puede encontrar información acerca de este paquete de la sesión de descarga. ]]></value>
+		<value>
+			<![CDATA[ Error: No se puede encontrar información acerca de este paquete de la sesión de descarga. ]]></value>
 	</definition>
 	<definition>
 		<key>error_unpack</key>
@@ -176,17 +182,19 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 			<![CDATA[ Error: No se puede actualizar la extensión "%package%" porque no lo ha instalado. Necesitas obtener el paquete de instalación. ]]></value>
 	</definition>
 	<definition>
-		<key>error_version_compability</key>
+		<key>error_version_compatibility</key>
 		<value>
 			<![CDATA[ Error: No se puede instalar el paquete. Su versión de compra es %current_version%. Versión %minimal_version% o requerido anteriormente. ]]></value>
 	</definition>
 	<definition>
-		<key>error_package_version_compability</key>
-		<value><![CDATA[ Error: No se puede actualizar el paquete. Más reciente versión del paquete ya está instalado. ]]></value>
+		<key>error_package_version_compatibility</key>
+		<value>
+			<![CDATA[ Error: No se puede actualizar el paquete. Más reciente versión del paquete ya está instalado. ]]></value>
 	</definition>
 	<definition>
 		<key>error_install</key>
-		<value><![CDATA[ Error: No se puede instalar el paquete. Por favor, consulte Sistema -> Registro de errores para obtener más detalles. ]]></value>
+		<value>
+			<![CDATA[ Error: No se puede instalar el paquete. Por favor, consulte Sistema -> Registro de errores para obtener más detalles. ]]></value>
 	</definition>
 	<definition>
 		<key>error_core_version</key>
@@ -194,7 +202,32 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 			<![CDATA[ 'Error: Usted tiene la versión AbanteCart %VERSION% instalado <br> Este paquete de actualización sólo para las versiones inferiores.  ]]></value>
 	</definition>
 	<definition>
-		<key>text_retry</key>
-		<value><![CDATA[ Reintentar ]]></value>
+		<key>text_interrupt</key>
+		<value><![CDATA[ Interrumpir ]]></value>
+	</definition>
+	<definition>
+		<key>text_continue</key>
+		<value><![CDATA[ Continuar ]]></value>
+	</definition>
+	<definition>
+		<key>confirm_version_incompatibility</key>
+		<value><![CDATA[ Copia actual de esta extensión no se verifica para su versión de AbanteCart (v%s). MedlinePlus Su última extensión es para construir AbanteCart v%s. MedlinePlus
+		Esto no es un problema, pero si nota problemas o incompatibilidad, por favor póngase en contacto con desarrolladores de extensión. ]]></value>
+	</definition>
+	<definition>
+		<key>error_move_ftp</key>
+		<value><![CDATA[ Error: No se puede mover el código de paquete después de desempaquetar. Probablemente vía FTP es incorrecta.<br>También, por favor, trate de comprobar los permisos de escritura del directorio: ]]></value>
+	</definition>
+	<definition>
+		<key>text_network_install</key>
+		<value><![CDATA[ instalación de Red ]]></value>
+	</definition>
+	<definition>
+		<key>text_extension_upload</key>
+		<value><![CDATA[ Extensión Subir ]]></value>
+	</definition>
+	<definition>
+		<key>error_archive_extension</key>
+		<value><![CDATA[ Error: Sólo .tar.gz archivos compatibles. ]]></value>
 	</definition>
 </definitions>

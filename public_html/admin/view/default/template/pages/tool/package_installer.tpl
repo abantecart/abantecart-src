@@ -6,6 +6,13 @@
 	   <div class="cbox_tr">
 		   <div class="cbox_tc">
 			   <div class="heading icon_title_extension"><?php echo $heading_title; ?></div>
+			   <div class="heading-tabs">
+                   <?php
+                   foreach ($tabs as $tab) {
+                       echo '<a ' . ($tab['active'] ? 'class="active"' : '') . ' href="' . ($tab['href'] ? $tab['href'] : 'Javascript:void(0);') . '"><span>' . $tab['text'] . '</span></a>';
+                   }
+                   ?>
+               </div>
 			   <div class="toolbar">
 			        <?php if ( !empty ($help_url) ) : ?>
 					<div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
@@ -19,7 +26,7 @@
     <table style="height: 350px; border:0; width: 100%">
         <tr >
             <td style="width:60%;" class="align_right ml_field"><?php echo $form['input']; ?></td>
-            <td style="width:40%;" class="align_left ml_field" ><button class="btn_standard" type="submit"><?php echo $form['submit']; ?></button></td>
+            <td style="width:40%;" class="align_left ml_field" ><button class="btn_standard button_loader" type="submit"><?php echo $form['submit']; ?></button></td>
 		</tr>
     </table></form>
   </div></div></div>

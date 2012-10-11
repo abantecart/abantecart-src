@@ -122,7 +122,8 @@ class APackageManager {
 		}
 
 		if(!file_exists($dst_dir.$this->session->data['package_info']['package_dir'])){
-			$this->error = 'Error: Cannot to unpack ' . $tar_filename."\n Exit code:". $exit_code;
+			$this->error = 'Error: Cannot to unpack ' . $tar_filename."\n Exit code:". $exit_code."\n";
+			$this->error .= 'Looking for directory : '.$dst_dir.$this->session->data['package_info']['package_dir'];
 			$error = new AError ( $this->error );
 			$error->toLog ()->toDebug ();
 			return false;
@@ -163,12 +164,12 @@ class APackageManager {
 			
 			$install_upgrade_history = new ADataset('install_upgrade_history','admin');
 			$install_upgrade_history->addRows(array('date_added'=> date("Y-m-d H:i:s",time()),
-			                            'name' => $package_id,
-			                            'version' => $info['version'],
-			                            'backup_file' => $backup_dirname.'.tar.gz',
-			                            'backup_date' => date("Y-m-d H:i:s",time()),
-			                            'type' => 'backup',
-			                            'user' => $this->user->getUsername() ));
+						                            'name' => $package_id,
+						                            'version' => $info['version'],
+						                            'backup_file' => $backup_dirname.'.tar.gz',
+						                            'backup_date' => date("Y-m-d H:i:s",time()),
+						                            'type' => 'backup',
+						                            'user' => $this->user->getUsername() ));
 			
 		//delete previous version
 		$this->removeDir( $old_path.$package_id );
@@ -352,6 +353,7 @@ class APackageManager {
 			}
 
 			$ftp_path = !$ftp_path ? $this->_ftp_find_app_root($fconnect,$ftp_user) : $ftp_path;
+
 			if(is_array($ftp_path) && $ftp_path){
 				$temp = array();
 				foreach($ftp_path as $ftp_base_path) {
@@ -365,35 +367,35 @@ class APackageManager {
 				}
 				$ftp_path = $temp;
 				unset($temp);
-				}
-				// it made for recognizing a few copy of cart with same unique id in config
-				$ftp_path = is_array($ftp_path) && sizeof($ftp_path)==1 ? $ftp_path[0] : $ftp_path;
-				if($ftp_path){
-					if(!ftp_chdir($fconnect,$ftp_path)){
-						if(is_array($ftp_path)){
-							$this->error = $this->language->get ( 'error_ftp_path_array' );
-							$this->session->data['package_info']['ftp_path'] = '';
-							// show path suggestions
-							foreach($ftp_path as $suggest){
-								$this->error .= '<br>'.$suggest;
-							}
-						}else{
-							$this->session->data['package_info']['ftp_path'] = $ftp_path; // for form default value
-							$this->error = $this->language->get ( 'error_ftp_path' );
+			}
+			// it made for recognizing a few copy of cart with same unique id in config
+			$ftp_path = is_array($ftp_path) && sizeof($ftp_path)==1 ? $ftp_path[0] : $ftp_path;
+			if($ftp_path){
+				if(!ftp_chdir($fconnect,$ftp_path)){
+					if(is_array($ftp_path)){
+						$this->error = $this->language->get ( 'error_ftp_path_array' );
+						$this->session->data['package_info']['ftp_path'] = '';
+						// show path suggestions
+						foreach($ftp_path as $suggest){
+							$this->error .= '<br>'.$suggest;
 						}
-							ftp_close($fconnect);
-						return false;
+					}else{
+						$this->session->data['package_info']['ftp_path'] = $ftp_path; // for form default value
+						$this->error = $this->language->get ( 'error_ftp_path' );
 					}
+						ftp_close($fconnect);
+					return false;
 				}
-				// if all fine  - write ftp parameters into session
-				$this->session->data['package_info']['ftp'] = true;
-				$this->session->data['package_info']['ftp_user'] = $ftp_user;
-				$this->session->data['package_info']['ftp_password'] = $ftp_password;
-				$this->session->data['package_info']['ftp_host'] = $ftp_host;
-				$this->session->data['package_info']['ftp_port'] = $ftp_port;
-				$this->session->data['package_info']['ftp_path'] = $ftp_path;
-				//$this->session->data['package_info']['tmp_dir'] = sys_get_temp_dir ().'/';
-				ftp_close($fconnect);
+			}
+			// if all fine  - write ftp parameters into session
+			$this->session->data['package_info']['ftp'] = true;
+			$this->session->data['package_info']['ftp_user'] = $ftp_user;
+			$this->session->data['package_info']['ftp_password'] = $ftp_password;
+			$this->session->data['package_info']['ftp_host'] = $ftp_host;
+			$this->session->data['package_info']['ftp_port'] = $ftp_port;
+			$this->session->data['package_info']['ftp_path'] = $ftp_path;
+			//$this->session->data['package_info']['tmp_dir'] = sys_get_temp_dir ().'/';
+			ftp_close($fconnect);
 		}else{
 			$this->error = $this->language->get ( 'error_ftp_connect' );
 			return false;
@@ -494,10 +496,12 @@ class APackageManager {
 					if (is_dir($src_dir."/".$file)) { // do the following if it is a directory
 						if (!@ftp_chdir($conn_id, $dst_dir."/".$file)) {
 							ftp_mkdir($conn_id, $dst_dir."/".$file); // create directories that do not yet exist
+							ftp_chmod($conn_id, 0777, $dst_dir."/".$file);
 						}
 						$this->ftp_put_dir($conn_id, $src_dir."/".$file, $dst_dir."/".$file); // recursive part
 					} else {
 						ftp_put($conn_id, $dst_dir."/".$file, $src_dir."/".$file, FTP_BINARY); // put the files
+						ftp_chmod($conn_id, 0777, $dst_dir."/".$file);
 					}
 				}
 			}

@@ -103,3 +103,58 @@ function getFilesInDir($dir, $file_ext = '') {
     }
     return $result;
 }
+// function for version compare
+function versionCompare($version1, $version2, $operator){
+	$version1 = explode('.',preg_replace('/[^0-9\.]/', '', $version1));
+	$version2 = explode('.',preg_replace('/[^0-9\.]/', '', $version2));
+	$i=0;
+	while($i<3){
+		if(isset($version1[$i])){
+			$version1[$i] = (int)$version1[$i];
+		}else{
+			$version1[$i] = ($i==2  && isset($version2[$i])) ? (int)$version2[$i] : 99;
+		}
+		if(isset($version2[$i])){
+			$version2[$i] = (int)$version2[$i];
+		}else{
+			$version2[$i] = ($i==2  && isset($version1[$i])) ? (int)$version1[$i] : 99;;
+		}
+	$i++;
+	}
+
+	if($version1[1]>$version2[1]){ // if major version of extension changed
+		return false;
+	}
+
+	$version1 = implode('.',$version1);
+	$version2 = implode('.',$version2);
+
+	return version_compare($version1, $version2, $operator);
+}
+
+function getTextUploadError($error){
+	switch ($error) {
+	        case UPLOAD_ERR_INI_SIZE:
+	            $error = 'The uploaded file exceeds the upload_max_filesize directive in php.ini (now '.ini_get('upload_max_filesize').')';
+	            break;
+	        case UPLOAD_ERR_FORM_SIZE:
+		        $error = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+		        break;
+			case UPLOAD_ERR_PARTIAL:
+		        $error = 'The uploaded file was only partially uploaded';
+		        break;
+	        case UPLOAD_ERR_NO_FILE:
+		        $error = 'No file was uploaded';
+		        break;
+	        case UPLOAD_ERR_NO_TMP_DIR:
+		        $error = 'Missing a php temporary folder';
+		        break;
+	        case UPLOAD_ERR_CANT_WRITE:
+		        $error = 'Failed to write file to disk';
+		        break;
+	        case UPLOAD_ERR_EXTENSION:
+		        $error = 'File upload stopped by php-extension';
+		        break;
+	}
+	return $error;
+}

@@ -862,7 +862,6 @@ class ExtensionUtils {
 	 */
 	public function validateCoreVersion() {
 		if (!isset($this->config->cartversions->item)) return;
-		$coreversion = MASTER_VERSION.'.'.MINOR_VERSION;
 		foreach ($this->config->cartversions->item as $item){
 			$version = (string)$item;
 			$version = explode('.',$version);
@@ -871,12 +870,12 @@ class ExtensionUtils {
 		}
 		asort($versions,SORT_DESC);
 		// if version exist in list - quite return
-		if(in_array($coreversion,$versions)){
+		if(in_array(VERSION,$versions)){
 			return true;
 		}
 		// check is extension version less than cart version
 		foreach($versions as $version){
-			$result = version_compare($version,$coreversion,'<');
+			$result = versionCompare($version,VERSION,'<');
 			if($result){
 					$error_text = 'Extension <b>%s</b> written for earlier version of Abantecart (v.%s) lower that you have. ';
 					$error_text .= 'Probably all will be OK.';
@@ -884,7 +883,6 @@ class ExtensionUtils {
 					$registry = Registry::getInstance();
 					$registry->get('session')->data[ 'error' ] = $error_text;
 					$registry->get('messages')->saveWarning($this->name .' extension warning',$error_text);
-
 			return true; }
 		}
 
@@ -930,7 +928,7 @@ class ExtensionUtils {
 			}
 			// if extension installed - check version that need
 			if ($version) {
-				if ($required && (!version_compare($version, $versions[ $item ], '>=') || !version_compare($prior_version, $versions[ $item ], '<='))) {
+				if ($required && (!versionCompare($version, $versions[ $item ], '>=') || !versionCompare($prior_version, $versions[ $item ], '<='))) {
 					$this->error(sprintf('<b>%s</b> extension cannot be installed: <b>%s</b> extension versions <b>' . $prior_version . ' - ' . $version . '</b> are required', $this->name, $item));
 				}
 			}
