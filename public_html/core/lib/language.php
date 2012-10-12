@@ -630,13 +630,13 @@ final class ALanguage {
 			$model->addLanguageDefinition( $data);
 		}else{
 			foreach ( $data as $key=>$val ) {
-				$update_data[$this->db->escape($key)] = "'" . $this->db->escape($val) . "'";
+				$update_data[$this->db->escape($key)] = $this->db->escape($val);
 			}
 
             if(!$this->_is_definition_in_db($update_data)){
                 $sql = "INSERT INTO " . DB_PREFIX . "language_definitions
-                                (".implode(', ',array_keys($update_data)).")
-                                VALUES (".implode(', ', $update_data).") ";
+                                ('".implode("', '",array_keys($update_data))."')
+                                VALUES ('".implode("', '", $update_data)."') ";
                 $this->db->query($sql);
                 $this->cache->delete('lang');
                 $this->cache->delete('language_definitions');
