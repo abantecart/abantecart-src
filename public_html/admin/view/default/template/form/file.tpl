@@ -16,7 +16,7 @@
 <span class="required">*</span>
 <?php endif; ?>
 <script type="text/javascript">
-$('#<?php echo $id ?>').change(function(){
+$('#<?php echo str_replace(']','\\\]',str_replace('[','\\\[',$id)) ?>').live('change',function(){
 	$(this).next().find('.atext').html($(this).val()).removeClass('default_text');
 });
 </script>
