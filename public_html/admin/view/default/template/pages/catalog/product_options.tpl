@@ -288,10 +288,15 @@ jQuery(function($){
 	}
 
     $("#option_values_tbl a.remove").live('click', function(){
-        $(this).closest('tr').toggleClass('toDelete');
+    	if ($(this).closest('tr').find('input[name^=product_option_value_id]').val() == 'new' ) {
+    		//remove new completely
+    		$(this).closest('tr').next().remove();
+    		$(this).closest('tr').remove();
+    	} else {
+        	$(this).closest('tr').toggleClass('toDelete');
+        }
 	    $(this).parent().parent().next().find('div.additionalRow').toggleClass('toDelete').hide();
-	    $(this).parent().parent().find('a.expandRow').click();
-
+	    //$(this).parent().parent().find('a.expandRow').click();
         return false;
     });
 

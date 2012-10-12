@@ -101,9 +101,14 @@ jQuery(function($){
 
 	$('#values .aform').show();
 	$('#values a.remove').live('click', function(){
+		var current = $(this);
 		if ( $('#values div.value').length > 1 ) {
-			$(this).parent().toggleClass('toDelete');			
-			//$(this).parent().remove();
+			if ( $(current).parent().find('input[name^=attribute_value_ids]').val() == 'new' ) {
+				$(current).parent().remove();
+			}
+			else {
+				$(current).parent().toggleClass('toDelete');	
+			}
 		}
 	});
 	$('#values a.add').live('click', function(){ 
