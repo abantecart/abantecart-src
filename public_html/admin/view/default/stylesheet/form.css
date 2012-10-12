@@ -468,7 +468,6 @@ div.aswitcher.checked span {
     height: 23px;
     position: relative;
     overflow: hidden;
-    float: none;
 }
 .fileupload div.atext{
     text-align: left !important;
