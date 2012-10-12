@@ -171,9 +171,7 @@ class ControllerPagesInstall extends AController {
 			$this->installSQL();
 			return 50;
 		} elseif ($step == 3) {
-			$_SESSION['time_counter'] = time();
-			session_write_close();// unlock session for ajax requests
-			$this->load_language();
+			//$this->load_language($this);
 			return 100;
 		} elseif ($step == 4) {
 			$this->configure();
@@ -190,6 +188,15 @@ class ControllerPagesInstall extends AController {
 		$this->view->assign('redirect', HTTP_SERVER . 'index.php?rt=activation&admin_path=' . $this->session->data[ 'install_step_data' ][ 'admin_path' ]);
 		$this->view->assign('progressbar', HTTP_SERVER . '/view/image/progressbar.gif');
 
+		$language_blocks = $this->_process_languages('blocks');
+
+		$language_blocks['admin'] = array_merge($language_blocks['admin'],$language_blocks['extensions']['admin']);
+		$language_blocks['storefront'] = array_merge($language_blocks['storefront'],$language_blocks['extensions']['storefront']);
+		unset($language_blocks['extensions']);
+
+		$this->load->library('json');
+		$this->view->assign('language_blocks', AJson::encode($language_blocks));
+
 		$this->addChild('common/header', 'header', 'common/header.tpl');
 		$this->addChild('common/footer', 'footer', 'common/footer.tpl');
 		$this->processTemplate('pages/install_progress.tpl');
@@ -198,14 +205,7 @@ class ControllerPagesInstall extends AController {
 	}
 	//  language preloading time counter
 	public function getState(){
-		$step = $this->request->get['runlevel'];
-		$state = $_SESSION['time_counter'];
-		$sec = time()-$state;
-		$state = sprintf("%02d",floor($sec/60)).":".sprintf("%02d",round($sec-floor($sec/60)*60));
-		if ($step == 3) {
-			echo $state;
-			return;
-		}
+		return $this->_process_languages('load',$this->request->post['section'],$this->request->post['language_block']);
 	}
 
 	private function installSQL() {
@@ -214,7 +214,7 @@ class ControllerPagesInstall extends AController {
 		$this->model_install->mysql($this->session->data[ 'install_step_data' ]);
 	}
 
-	private function load_language() {
+	private function _process_languages($mode='load', $section='', $language_block='') {
 		$registry = Registry::getInstance();
 		$db = new ADB('mysql',
 			$this->session->data[ 'install_step_data' ][ 'db_host' ],
@@ -240,7 +240,10 @@ class ControllerPagesInstall extends AController {
 
 		// languages
 		$language = new ALanguage($registry, 'en');
-        $language->definitionAutoLoad(1,'all','all','update');
+		if($mode=='blocks'){
+			return $language->getAllLanguageBlocks();
+		}
+        $language->definitionAutoLoad(1,$section,$language_block,'update');
 	}
 
 	private function configure() {

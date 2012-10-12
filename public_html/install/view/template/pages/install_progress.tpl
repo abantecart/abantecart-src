@@ -28,7 +28,10 @@
       <div class="section">
         <table width="100%">
           <tr id="progress">
-            <td width="100%" align="center"><img src="<?php echo $progressbar; ?>" /></td>
+            <td width="100%" align="center">
+                <div id="progressbar"></div>
+	            <div id="process_info"></div>
+            </td>
           </tr>
 	      <tr id="error" style="display: none;">
             <td class="warning" width="100%"></td>
@@ -46,52 +49,76 @@
 	var messages = {3: 'Installing Default Language. This might take a moment ... ',
 					4: 'Configuring Your AbanteCart ...',
 					error: 'Sorry, but error occurred during installation:</br>'};
+
+	var step3substeps = <?php echo  $language_blocks; ?>;
 	var step = 2;
+	var stop = false;
 	function install() {
-		var state;
-		if(step==3){
-			state = setInterval( function(){ checkstate(step); }, 2000);
-		}
+
 		$.ajax({  type: 'POST',
 		   		  url: '<?php echo $url; ?>&runlevel='+step,
 				  success: function(response) {
 						if(response == 50){
 							step=3;
 							$('#hint').html(messages[3]);
-							install();
+							var len = step3substeps['admin'].length + step3substeps['storefront'].length;
+							var i=1;
+							for(var section in step3substeps ){
+								for(var rt in step3substeps[section] ){
+									if(stop) break;
+									$( "#progressbar" ).progressbar({ value: Math.round(i*100/len) });
+									checkstate(section,step3substeps[section][rt]);
+									i++;
+								}
+							}
+							if(!stop){
+								install();
+							}
 						}else if(response == 100){
-							clearInterval(state);
 							step=4;
 							$('#hint').html(messages[4]);
 							install();
 						}else if (response == 150) {
 							window.location = '<?php echo $redirect; ?>';
 						}else{
-							$('#progress').hide();
-							$('#error').show();
-							var text = messages.error;
-							text += response;
-							$('#hint').html('Error');
-							$('#error > td').html(text);
-
+							showError(response);
 						}
 				}
 			});
 		}
 
+	function showError(response){
+		$('#process_info, #progressbar').hide();
+		$('#error').show();
+		var text = messages.error;
+		text += response;
+		$('#hint').html('Error');
+		$('#error > td').html(text);
+	}
 
-
-	function checkstate(step){
-		if(step!=3) return;
+	function checkstate(section,language_block){
+		if(stop) return;
+		$('#process_info').html(language_block);
 		$.ajax({  type: 'POST',
-				  url: '<?php echo $state_url; ?>&runlevel='+step,
+				  url: '<?php echo $state_url; ?>',
+				  data: {'section': section, 'language_block': language_block},
+				  async: false,
 				  success: function(response) {
 							  if( response){
-							  		$('#hint').html(messages[3] + response);
+							  	  stop=true;
+								  showError(response);
 							  }
                           }
 		});
 	}
+
+
+
 	install();
+	$(function() {
+	        $( "#progressbar" ).progressbar({
+	            value: 10
+	        });
+	    });
 
 </script>

@@ -171,6 +171,7 @@ require_once(DIR_CORE . 'lib/response.php');
 require_once(DIR_CORE . 'lib/session.php');
 require_once(DIR_CORE . 'lib/template.php');
 require_once(DIR_CORE . 'lib/xml2array.php');
+require_once(DIR_CORE . 'lib/json.php');
 
 //plugins api
 

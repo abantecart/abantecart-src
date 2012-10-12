@@ -853,13 +853,13 @@ final class ALanguage {
             foreach($language_ids as $lang_name=>$lang_id){
                 //get list of lang blocks for every language
                 if($filename=='all'){
-                    if(($language_blocks = $this->_get_all_language_blocks($lang_name))===false){
+                    if(($language_blocks = $this->getAllLanguageBlocks($lang_name))===false){
                         continue;
                     }
                 }else{
                     // create list of language blocks when $block is set
                     $language_blocks = array();
-                    $blocks = $this->_get_all_language_blocks($lang_name);
+                    $blocks = $this->getAllLanguageBlocks($lang_name);
                     foreach($sections as $sect){
                         foreach($blocks[$sect] as $rt){
                              if($rt == $filename){
@@ -873,6 +873,9 @@ final class ALanguage {
                                 break;
                             }
                         }
+	                    $language_blocks[$sect] = !isset($language_blocks[$sect]) ? array() : $language_blocks[$sect];
+	                    $language_blocks['extensions'][$sect] = !isset($language_blocks['extensions'][$sect]) ? array() : $language_blocks['extensions'][$sect];
+
                     }
                 }
                 foreach($sections as $sect){
@@ -902,13 +905,13 @@ final class ALanguage {
             foreach($language_ids as $lang_name=>$lang_id){
                 //get list of lang blocks for every language
                 if($filename=='all'){
-                    if(($language_blocks = $this->_get_all_language_blocks($lang_name))===false){
+                    if(($language_blocks = $this->getAllLanguageBlocks($lang_name))===false){
                         continue;
                     }
                 }else{
                     // create list of language blocks when $block is set
                     $language_blocks = array();
-                    $blocks = $this->_get_all_language_blocks($lang_name);
+                    $blocks = $this->getAllLanguageBlocks($lang_name);
                     foreach($sections as $sect){
                         foreach($blocks[$sect] as $rt){
                             if($rt == $filename){
@@ -960,7 +963,7 @@ final class ALanguage {
         }
     }
 
-    private function _get_all_language_blocks($language_name='english'){
+    public function getAllLanguageBlocks($language_name='english'){
         if(empty($language_name)){
             $this->error = "Can't get language blocks because language name is empty.";
             return false;
