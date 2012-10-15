@@ -31,6 +31,7 @@
             <td width="100%" align="center">
                 <div id="progressbar"></div>
 	            <div id="process_info"></div>
+	            <div id="process_skip"></div>
             </td>
           </tr>
 	      <tr id="error" style="display: none;">
@@ -46,21 +47,30 @@
 <?php echo $footer; ?>
 
 <script language="JavaScript">
-	var messages = {3: 'Installing Default Language. This might take a moment ... ',
-					4: 'Configuring Your AbanteCart ...',
-					error: 'Sorry, but error occurred during installation:</br>'};
-
-	var step3substeps = <?php echo  $language_blocks; ?>;
+	var messages = { 3: 'Writing configuration file ...',
+					 4: 'Installing Default Language. This might take a moment ... ',
+					error: 'Sorry, but error occurred during installation:</br>'
+					};
 	var step = 2;
 	var stop = false;
 	function install() {
 
-		$.ajax({  type: 'POST',
-		   		  url: '<?php echo $url; ?>&runlevel='+step,
-				  success: function(response) {
-						if(response == 50){
+		$.ajax({	type: 'POST',
+					dataType: 'JSON',
+		   		  	url: '<?php echo $url; ?>&runlevel='+step,
+				  	success: function(response) {
+						if(response.ret_code == 50){
 							step=3;
-							$('#hint').html(messages[3]);
+							$('#hint').html(messages[step]);
+							if(!stop){
+								install();
+							}
+						}else if(response.ret_code == 100){
+							step=4;
+							$('#hint').html(messages[step]);
+							install();
+						}else if (response.ret_code == 150) {
+							var step3substeps = response.blocks_list;
 							var len = step3substeps['admin'].length + step3substeps['storefront'].length;
 							var i=1;
 							for(var section in step3substeps ){
@@ -71,20 +81,17 @@
 									i++;
 								}
 							}
-							if(!stop){
-								install();
+							if(!stop) {
+								window.location = '<?php echo $redirect; ?>';
 							}
-						}else if(response == 100){
-							step=4;
-							$('#hint').html(messages[4]);
-							install();
-						}else if (response == 150) {
-							window.location = '<?php echo $redirect; ?>';
 						}else{
 							showError(response);
 						}
-				}
-			});
+					},
+					error: function(jqXHR, exception) {
+						showError(jqXHR.statusText + ": " + jqXHR.responseText);
+					}
+				});
 		}
 
 	function showError(response){
@@ -98,21 +105,25 @@
 
 	function checkstate(section,language_block){
 		if(stop) return;
-		$('#process_info').html(language_block);
-		$.ajax({  type: 'POST',
-				  url: '<?php echo $state_url; ?>',
-				  data: {'section': section, 'language_block': language_block},
-				  async: false,
-				  success: function(response) {
-							  if( response){
-							  	  stop=true;
-								  showError(response);
-							  }
-                          }
+		$('#process_info').html(section + ": Loading language data for " + language_block);
+		$.ajax({	type: 'POST',
+					dataType: 'JSON',
+					url: '<?php echo $state_url; ?>',
+					data: {'section': section, 'language_block': language_block},
+					async: false,
+					cache: false,
+					error: function(jqXHR, exception) {
+					    	stop=true;
+					        showError(jqXHR.statusText + ": " + jqXHR.responseText);
+					},				  
+					success: function(response) {
+					    if( response.ret_code != 10 ){
+					    	stop=true;
+					        showError(response.error);
+					    }
+					}
 		});
 	}
-
-
 
 	install();
 	$(function() {

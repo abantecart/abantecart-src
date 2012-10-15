@@ -12,8 +12,8 @@
     <div class="bl"><div class="br"><div class="bc"></div></div></div>
 </div>
 <?php if($salt){?>
-	<div class="warning" style="font-size: 18px">
-		Keep this secure key in save place.<br>This key is used to encrypt customers's secure data.<br>You will need it if you move your data to different shopping cart installation.<br>
+	<div class="warning" style="font-size: 16px">
+		Keep this secure key in save place.<br>This key is used to encrypt customers's secure data.<br>You will need this key if you move data to different shopping cart installation.<br>
 		<h2><?php echo $salt; ?></h2></div>
 <?php }  ?>
 <div class="main_content">  

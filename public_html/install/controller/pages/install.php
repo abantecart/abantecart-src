@@ -166,87 +166,79 @@ class ControllerPagesInstall extends AController {
 
 
 	public function runlevel($step) {
+	
+		$this->load->library('json');
 
 		if ($step == 2) {
-			$this->installSQL();
-			return 50;
+		
+			$this->_install_SQL();
+			return AJson::encode( array('ret_code' => 50) );
+			
 		} elseif ($step == 3) {
-			//$this->load_language($this);
-			return 100;
-		} elseif ($step == 4) {
-			$this->configure();
-			return 150;
-		}
+		
+			$this->_configure();
+			return AJson::encode( array('ret_code' => 100) );
 
-		// prevent rewriting database
-		/*if(time() - filemtime(DIR_ABANTECART . 'system/config.php')>'180'  || $this->request->server['REQUEST_METHOD'] != 'GET'){
-			$this->redirect(HTTP_SERVER . 'index.php?rt=activation' . '&admin_path=' . $this->request->post['admin_path']);
-		}*/
+		} elseif ($step == 4) {
+		
+			// Load languages with progress bar approach 
+			return AJson::encode( array('ret_code' => 150, 
+								  'blocks_list' => $this->_load_language_blocks_list() ) );	
+								  
+		}
 
 		$this->view->assign('url', HTTP_SERVER . 'index.php?rt=install');
 		$this->view->assign('state_url', HTTP_SERVER . 'index.php?rt=install/getstate');
 		$this->view->assign('redirect', HTTP_SERVER . 'index.php?rt=activation&admin_path=' . $this->session->data[ 'install_step_data' ][ 'admin_path' ]);
 		$this->view->assign('progressbar', HTTP_SERVER . '/view/image/progressbar.gif');
 
-		$language_blocks = $this->_process_languages('blocks');
-
-		$language_blocks['admin'] = array_merge($language_blocks['admin'],$language_blocks['extensions']['admin']);
-		$language_blocks['storefront'] = array_merge($language_blocks['storefront'],$language_blocks['extensions']['storefront']);
-		unset($language_blocks['extensions']);
-
-		$this->load->library('json');
-		$this->view->assign('language_blocks', AJson::encode($language_blocks));
-
 		$this->addChild('common/header', 'header', 'common/header.tpl');
 		$this->addChild('common/footer', 'footer', 'common/footer.tpl');
 		$this->processTemplate('pages/install_progress.tpl');
-
-
 	}
-	//  language preloading time counter
+
+	//language loader per section and RT
 	public function getState(){
-		return $this->_process_languages('load',$this->request->post['section'],$this->request->post['language_block']);
+		$this->load->library('json');
+		try {
+			$this->_process_languages($this->request->post['section'],$this->request->post['language_block']);
+		} catch (Exception $e) {
+			echo AJson::encode( array( 'ret_code' => 0, 'error' => $e->getMessage() ) );
+			return; 
+		}
+		echo AJson::encode( array('ret_code' => 10) );
+		return; 
 	}
 
-	private function installSQL() {
+	private function _install_SQL() {
 
 		$this->load->model('install');
 		$this->model_install->mysql($this->session->data[ 'install_step_data' ]);
 	}
-
-	private function _process_languages($mode='load', $section='', $language_block='') {
-		$registry = Registry::getInstance();
-		$db = new ADB('mysql',
-			$this->session->data[ 'install_step_data' ][ 'db_host' ],
-			$this->session->data[ 'install_step_data' ][ 'db_user' ],
-			$this->session->data[ 'install_step_data' ][ 'db_password' ],
-			$this->session->data[ 'install_step_data' ][ 'db_name' ]);
-		$registry->set('db', $db);
-		define('DB_PREFIX', $this->session->data[ 'install_step_data' ][ 'db_prefix' ]);
-		define('DIR_LANGUAGE', DIR_ABANTECART . 'admin/language/');
-
-        // Cache
-        $cache = new ACache();
-        $registry->set('cache', $cache );
-
-        // Config
-        $config = new AConfig($registry);
-        $registry->set('config', $config);
-
-        // Extensions api
-        $extensions = new ExtensionsApi();
-        $extensions->loadEnabledExtensions();
-        $registry->set('extensions', $extensions);
-
-		// languages
+	
+	private function _load_language_blocks_list() {
+		//Get list of all language per block and split per section 
+		$registry = $this->_prepare_registry();
 		$language = new ALanguage($registry, 'en');
-		if($mode=='blocks'){
-			return $language->getAllLanguageBlocks();
-		}
-        $language->definitionAutoLoad(1,$section,$language_block,'update');
+		$language_blocks = $language->getAllLanguageBlocks();
+		$language_blocks['admin'] = array_merge($language_blocks['admin'],$language_blocks['extensions']['admin']);
+		$language_blocks['storefront'] = array_merge($language_blocks['storefront'],$language_blocks['extensions']['storefront']);
+		//skip loading estension languages
+		unset($language_blocks['extensions']);
+
+		return $language_blocks;
+	}	
+
+	private function _process_languages($section='', $language_block='') {
+		return;
+		$registry = $this->_prepare_registry();	
+		$language = new ALanguage($registry, 'en');
+		
+		//Load deafult language (1) English on install only.
+        $language->definitionAutoLoad(1, $section, $language_block, 'update');
 	}
 
-	private function configure() {
+	private function _configure() {
 		define('DB_PREFIX', $this->session->data[ 'install_step_data' ][ 'db_prefix' ]);
 
 		$stdout = '<?php' . "\n";
@@ -273,6 +265,33 @@ class ControllerPagesInstall extends AController {
 		fwrite($file, $stdout);
 		fclose($file);
 		unset($this->session->data[ 'install_step_data' ], $this->session->data[ 'SALT' ]);
+
+	}
+
+	private function _prepare_registry() {
+		$registry = Registry::getInstance();
+		//This is ran after config is saved and we ahve database connection now		
+		$db = new ADB('mysql', DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+		$registry->set('db', $db);
+		define('DIR_LANGUAGE', DIR_ABANTECART . 'admin/language/');
+
+        // Cache
+        $cache = new ACache();
+        $registry->set('cache', $cache );
+
+        // Config
+        $config = new AConfig($registry);
+        $registry->set('config', $config);
+
+        // Extensions api
+        $extensions = new ExtensionsApi();
+        $extensions->loadEnabledExtensions();
+        $registry->set('extensions', $extensions);
+
+		return $registry;
+	}
+
+	private function _if_configured_redirect() {
 
 	}
 }

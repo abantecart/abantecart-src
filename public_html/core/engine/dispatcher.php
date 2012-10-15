@@ -198,7 +198,7 @@ final class ADispatcher {
 		if (is_callable(array($controller, $this->method))) {
 		    $dispatch = call_user_func_array(array($controller, $this->method), $this->args);
 		    //Check if return is a dispatch and need to call new page
-		    if ( $dispatch ) {
+		    if ( $dispatch && is_object($dispatch) ) {
 		    	if ($this->args["instance_id"] == 0) {
 		    		//If main controller come back for new dispatch
 		    		return $dispatch->getController() . '/' . $dispatch->getMethod();

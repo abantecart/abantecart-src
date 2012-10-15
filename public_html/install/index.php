@@ -90,7 +90,7 @@ if(!defined('SALT')){
 }
 
 $data_exist = false;
-if ( defined('DB_HOSTNAME') ) {
+if ( defined('DB_HOSTNAME') && DB_HOSTNAME ) {
     $connection = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
     mysql_select_db(DB_DATABASE, $connection);
     $r = mysql_query("SELECT product_id FROM ".DB_PREFIX."products", $connection);
