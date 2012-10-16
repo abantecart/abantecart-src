@@ -321,20 +321,15 @@ final class ALanguage {
 
 	//Clone language_definition text that is present in source language and missing in destination
 	public function cloneMissingDefinitions( $block, $language_id, $source_language) {
-        $tables = $this->_get_language_based_tables();
-        foreach ($tables as $table_name) {
-        	$pkeys = array();
-			//Set special case table and
-			if ( strstr($table_name['table_name'], 'language_definitions') ) {
-				ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' '. $block .' conning missing text from ' . $source_language);
-				array_push($pkeys, 'language_definition_id', 'language_id', 'section', 'block', 'language_key');
-				$section = $this->is_admin ? 1 : 0;
-				$specific_sql = " AND block = '" . $block . "' AND section = '" . $section . "'";
-				return $this->_clone_language_rows($table_name['table_name'], $pkeys, $language_id, $source_language, $specific_sql);
-			}
-    	}
+        $pkeys = array();
+		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' '. $block .' clone missing text from ' . $source_language);
+		array_push($pkeys, 'language_definition_id', 'language_id', 'section', 'block', 'language_key');
+		$section = $this->is_admin ? 1 : 0;
+		$specific_sql = " AND block = '" . $block . "' AND section = '" . $section . "'";
+		return $this->_clone_language_rows(DB_PREFIX.'language_definitions', $pkeys, $language_id, $source_language, $specific_sql);
     }
 
+	// Main method call from controllers to load language definitions per RT
 	// wrapper for loading language via hook
 	public function load($filename = '',$mode = '') {
 		//If $filename is not provided load current language main file
@@ -372,11 +367,12 @@ final class ALanguage {
 	    if($this->cache){
             $load_data = $this->cache->get($cache_file);
 	    }
-
+		//if nothing in cache load from datase
         if ( is_null($load_data) ) {
         	ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' '. $filename .' no cache, so loading');
             $_ = array();
 			$_ = $this->_load_from_db($this->language_details['language_id'], $block_name, $this->is_admin);
+			//if nothing in the database. This block (rt) was never accessed before for this language. Need to load definitions
             if ( !$_ ) {
                 $_ = $this->_load_from_xml($filename, $mode);
                 $this->_save_to_db($block_name, $_);
