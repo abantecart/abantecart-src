@@ -529,4 +529,8 @@
         <key>text_click_browse_file</key>
         <value><![CDATA[Click to browse file]]></value>
     </definition>
+    <definition>
+        <key>text_browse</key>
+        <value><![CDATA[Browse]]></value>
+    </definition>
 </definitions>

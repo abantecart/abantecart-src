@@ -528,4 +528,8 @@
      <key>text_click_browse_file</key>
      <value><![CDATA[Haga clic aquí para ver archivo]]></value>
  </definition>
+	<definition>
+     <key>text_browse</key>
+     <value><![CDATA[Navegar]]></value>
+ </definition>
 </definitions>

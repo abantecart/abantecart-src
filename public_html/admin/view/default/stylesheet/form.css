@@ -464,10 +464,11 @@ div.aswitcher.checked span {
 
 
 .fileupload {
-    width: 315px;
-    height: 23px;
+    width: 395px;
+    height: 25px;
     position: relative;
     overflow: hidden;
+
 }
 .fileupload div.atext{
     text-align: left !important;
@@ -478,8 +479,9 @@ div.aswitcher.checked span {
 
 }
 .fileupload input {
+    cursor: pointer;
     position: absolute;
-    width: 315px;
+    width: 395px;
     top: 0;
     right: 0; /* not left, because only the right part of the input seems to
                  be clickable in some browser I can't remember */
