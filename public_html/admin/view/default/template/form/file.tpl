@@ -25,8 +25,4 @@
     $('#<?php echo str_replace(']', '\\\]', str_replace('[', '\\\[', $id)) ?>').live('change', function () {
         $(this).next().find('.atext').html($(this).val()).removeClass('default_text');
     });
-
-    $('#browse_<?php echo str_replace(']', '\\\]', str_replace('[', '\\\[', $id)) ?>').live('click', function () {
-        $('#<?php echo str_replace(']', '\\\]', str_replace('[', '\\\[', $id)) ?>').click();
-    });
 </script>
