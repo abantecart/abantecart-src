@@ -280,7 +280,7 @@ class ControllerPagesInstall extends AController {
 				echo AJson::encode($result);
 				break;
 			case "progress":
-				echo AJson::encode(array( 'prc' => $dbprg->get_progress() ));
+				echo AJson::encode(array( 'prc' => (int)$dbprg->get_progress() ));
 				break;
 		}
 	}
