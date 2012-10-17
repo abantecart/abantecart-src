@@ -900,7 +900,8 @@ class FileHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
-				'default_text' => $this->data[ 'registry' ]->get('language')->get('text_click_browse_file')
+				'default_text' => $this->data[ 'registry' ]->get('language')->get('text_click_browse_file'),
+				'text_browse' => $this->data[ 'registry' ]->get('language')->get('text_browse')
 			)
 		);
 		$return = $this->view->fetch('form/file.tpl');
