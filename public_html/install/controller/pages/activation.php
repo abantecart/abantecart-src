@@ -26,6 +26,7 @@ class ControllerPagesActivation extends AController {
 
         if ( !defined('DB_HOSTNAME') ) {
             header('Location: index.php?rt=license');
+	        exit;
         }
 
         $_GET['admin_path'] = ADMIN_PATH;

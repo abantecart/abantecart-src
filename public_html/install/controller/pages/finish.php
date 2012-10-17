@@ -20,15 +20,20 @@
 
 class ControllerPagesFinish extends AController {
 
-    public function main() {
+	public function main() {
 
-        $this->session->data['finish'] = 'finish';
-	    unset($this->session->data ['new_messages']); // prevent reinstall bugs with ant
-		               
-        $this->view->assign('admin_path', 'index.php?s=' . ADMIN_PATH);
-        setcookie("new_cart", 1,0,"/");
+		if (!defined('DB_HOSTNAME')) {
+			header('Location: index.php?rt=license');
+			exit;
+		}
 
-		$message = "Keep your ecommmerce secure! <br /> Delete directory " . DIR_CORE ."install from your AbanteCart installation!";
+		$this->session->data[ 'finish' ] = 'finish';
+		unset($this->session->data [ 'new_messages' ]); // prevent reinstall bugs with ant
+
+		$this->view->assign('admin_path', 'index.php?s=' . ADMIN_PATH);
+		setcookie("new_cart", 1, 0, "/");
+
+		$message = "Keep your ecommmerce secure! <br /> Delete directory " . DIR_CORE . "install from your AbanteCart installation!";
 		$this->view->assign('message', $message);
 
 		$this->addChild('common/header', 'header', 'common/header.tpl');

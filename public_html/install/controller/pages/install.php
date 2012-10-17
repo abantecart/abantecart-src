@@ -32,6 +32,15 @@ class ControllerPagesInstall extends AController {
 			if (!in_array((int)$this->request->get[ 'runlevel' ], array( 1, 2, 3, 4 ))) {
 				$this->redirect(HTTP_SERVER . 'index.php?rt=activation' . '&admin_path=' . $this->request->post[ 'admin_path' ]);
 			}
+
+			if (!$this->session->data[ 'install_step_data' ] && (int)$this->request->get[ 'runlevel' ] == 1) {
+				if (filesize(DIR_ABANTECART . 'system/config.php')) {
+					$this->redirect(HTTP_SERVER . 'index.php?rt=activation');
+				} else {
+					$this->redirect(HTTP_SERVER . 'index.php?rt=license');
+				}
+			}
+
 			echo $this->runlevel((int)$this->request->get[ 'runlevel' ]);
 			return;
 		}
@@ -43,11 +52,12 @@ class ControllerPagesInstall extends AController {
 			$this->redirect(HTTP_SERVER . 'index.php?rt=install&runlevel=1');
 		}
 
+
 		$this->data[ 'error' ] = $this->error;
 		$this->data[ 'action' ] = HTTP_SERVER . 'index.php?rt=install';
 
 		$fields = array( 'db_host', 'db_user', 'db_password', 'db_name', 'db_prefix', 'username', 'password',
-		                 'password_confirm', 'email', 'admin_path',
+			'password_confirm', 'email', 'admin_path',
 		);
 		$defaults = array( 'localhost', '', '', '', '', 'admin', '', '', '', 'your_admin' );
 
@@ -59,38 +69,38 @@ class ControllerPagesInstall extends AController {
 			}
 		}
 		$this->data[ 'button_continue' ] = $this->html->buildButton(array(
-		                                                                 'name' => 'continue',
-		                                                                 'text' => 'Continue >>',
-		                                                                 'style' => 'button1' )
+				'name' => 'continue',
+				'text' => 'Continue >>',
+				'style' => 'button1' )
 		);
 
 		$form = new AForm('ST');
 		$form->setForm(array(
-		                    'form_name' => 'form',
-		                    'update' => '',
-		               ));
+			'form_name' => 'form',
+			'update' => '',
+		));
 
 		$this->data[ 'form' ][ 'id' ] = 'form';
 		$this->data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(array(
-		                                                                'type' => 'form',
-		                                                                'name' => 'editFrm',
-		                                                                'action' => $this->data[ 'action' ],
-		                                                           ));
+			'type' => 'form',
+			'name' => 'editFrm',
+			'action' => $this->data[ 'action' ],
+		));
 		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array(
-		                                                             'type' => 'button',
-		                                                             'name' => 'submit',
-		                                                             'text' => 'Continue >>',
-		                                                             'style' => 'button1',
-		                                                        ));
+			'type' => 'button',
+			'name' => 'submit',
+			'text' => 'Continue >>',
+			'style' => 'button1',
+		));
 
 		foreach ($fields as $field) {
 			$this->data[ 'form' ][ $field ] = $form->getFieldHtml(array(
-			                                                           'type' => (in_array($field, array( 'password', 'password_confirm' ))
-					                                                           ? 'password' : 'input'),
-			                                                           'name' => $field,
-			                                                           'value' => $this->data[ $field ],
-			                                                           'required' => in_array($field, array( 'db_host', 'db_user', 'db_name', 'username', 'password', 'password_confirm', 'email' )),
-			                                                      ));
+				'type' => (in_array($field, array( 'password', 'password_confirm' ))
+						? 'password' : 'input'),
+				'name' => $field,
+				'value' => $this->data[ $field ],
+				'required' => in_array($field, array( 'db_host', 'db_user', 'db_name', 'username', 'password', 'password_confirm', 'email' )),
+			));
 		}
 
 		$this->addChild('common/header', 'header', 'common/header.tpl');
@@ -103,8 +113,7 @@ class ControllerPagesInstall extends AController {
 	private function _validate() {
 		if (!$this->request->post[ 'admin_path' ]) {
 			$this->error[ 'admin_path' ] = 'Admin unique name is required!';
-		}
-		else if (preg_match('/[^A-Za-z0-9_]/', $this->request->post[ 'admin_path' ])) {
+		} else if (preg_match('/[^A-Za-z0-9_]/', $this->request->post[ 'admin_path' ])) {
 			$this->error[ 'admin_path' ] = 'Admin unique name contains non-alphanumeric characters!';
 		}
 
@@ -137,9 +146,9 @@ class ControllerPagesInstall extends AController {
 			$this->error[ 'email' ] = 'Invalid E-Mail!';
 		}
 
-        if (!empty($this->request->post['db_prefix']) && preg_match('/[^A-Za-z0-9_]/', $this->request->post['db_prefix'])) {
-            $this->error[ 'db_prefix' ] = 'DB prefix contains non-alphanumeric characters!';
-        }
+		if (!empty($this->request->post[ 'db_prefix' ]) && preg_match('/[^A-Za-z0-9_]/', $this->request->post[ 'db_prefix' ])) {
+			$this->error[ 'db_prefix' ] = 'DB prefix contains non-alphanumeric characters!';
+		}
 
 		if ($this->request->post[ 'db_host' ] && $this->request->post[ 'db_user' ] && $this->request->post[ 'db_password' ]) {
 			if (!$connection = @mysql_connect($this->request->post[ 'db_host' ], $this->request->post[ 'db_user' ], $this->request->post[ 'db_password' ])) {
@@ -166,76 +175,36 @@ class ControllerPagesInstall extends AController {
 
 
 	public function runlevel($step) {
-	
 		$this->load->library('json');
-
 		if ($step == 2) {
-		
 			$this->_install_SQL();
-			return AJson::encode( array('ret_code' => 50) );
-			
+			$this->response->addHeader('Content-Type: application/json');
+			return AJson::encode(array( 'ret_code' => 50 ));
 		} elseif ($step == 3) {
-		
 			$this->_configure();
-			return AJson::encode( array('ret_code' => 100) );
-
+			$this->response->addHeader('Content-Type: application/json');
+			return AJson::encode(array( 'ret_code' => 100 ));
 		} elseif ($step == 4) {
-		
-			// Load languages with progress bar approach 
-			return AJson::encode( array('ret_code' => 150, 
-								  'blocks_list' => $this->_load_language_blocks_list() ) );	
-								  
+			// Load languages with progress bar approach
+			$this->response->addHeader('Content-Type: application/json');
+			return AJson::encode(array( 'ret_code' => 150 ));
 		}
 
 		$this->view->assign('url', HTTP_SERVER . 'index.php?rt=install');
-		$this->view->assign('state_url', HTTP_SERVER . 'index.php?rt=install/getstate');
 		$this->view->assign('redirect', HTTP_SERVER . 'index.php?rt=activation&admin_path=' . $this->session->data[ 'install_step_data' ][ 'admin_path' ]);
-		$this->view->assign('progressbar', HTTP_SERVER . '/view/image/progressbar.gif');
+		$temp = $this->dispatch('pages/install/progressbar_scripts', array( 'url' => HTTP_SERVER . 'index.php?rt=install/progressbar' ));
+		$this->view->assign('progressbar_scripts', $temp->dispatchGetOutput());
 
 		$this->addChild('common/header', 'header', 'common/header.tpl');
 		$this->addChild('common/footer', 'footer', 'common/footer.tpl');
 		$this->processTemplate('pages/install_progress.tpl');
 	}
 
-	//language loader per section and RT
-	public function getState(){
-		$this->load->library('json');
-		try {
-			$this->_process_languages($this->request->post['section'],$this->request->post['language_block']);
-		} catch (Exception $e) {
-			echo AJson::encode( array( 'ret_code' => 0, 'error' => $e->getMessage() ) );
-			return; 
-		}
-		echo AJson::encode( array('ret_code' => 10) );
-		return; 
-	}
 
 	private function _install_SQL() {
-
 		$this->load->model('install');
 		$this->model_install->mysql($this->session->data[ 'install_step_data' ]);
-	}
-	
-	private function _load_language_blocks_list() {
-		//Get list of all language per block and split per section 
-		$registry = $this->_prepare_registry();
-		$language = new ALanguage($registry, 'en');
-		$language_blocks = $language->getAllLanguageBlocks();
-		$language_blocks['admin'] = array_merge($language_blocks['admin'],$language_blocks['extensions']['admin']);
-		$language_blocks['storefront'] = array_merge($language_blocks['storefront'],$language_blocks['extensions']['storefront']);
-		//skip loading estension languages
-		unset($language_blocks['extensions']);
 
-		return $language_blocks;
-	}	
-
-	private function _process_languages($section='', $language_block='') {
-		return;
-		$registry = $this->_prepare_registry();	
-		$language = new ALanguage($registry, 'en');
-		
-		//Load deafult language (1) English on install only.
-        $language->definitionAutoLoad(1, $section, $language_block, 'update');
 	}
 
 	private function _configure() {
@@ -275,23 +244,83 @@ class ControllerPagesInstall extends AController {
 		$registry->set('db', $db);
 		define('DIR_LANGUAGE', DIR_ABANTECART . 'admin/language/');
 
-        // Cache
-        $cache = new ACache();
-        $registry->set('cache', $cache );
+		// Cache
+		$cache = new ACache();
+		$registry->set('cache', $cache);
 
-        // Config
-        $config = new AConfig($registry);
-        $registry->set('config', $config);
+		// Config
+		$config = new AConfig($registry);
+		$registry->set('config', $config);
 
-        // Extensions api
-        $extensions = new ExtensionsApi();
-        $extensions->loadEnabledExtensions();
-        $registry->set('extensions', $extensions);
+		// Extensions api
+		$extensions = new ExtensionsApi();
+		$extensions->loadEnabledExtensions();
+		$registry->set('extensions', $extensions);
 
 		return $registry;
 	}
 
-	private function _if_configured_redirect() {
 
+	public function progressbar() {
+		session_write_close(); // unlock session !important!
+		$dbprg = new progressbar($this->_prepare_registry(), $this);
+		$this->response->addHeader('Content-Type: application/json');
+		switch ($this->request->get[ "work" ]) {
+			case "max":
+				echo AJson::encode(array( 'total' => $dbprg->get_max() ));
+				break;
+			case "do":
+				$result = $dbprg->do_work();
+				if ($result) {
+					$result = array( 'status' => 406,
+						'errorText' => $result );
+				} else {
+					$result = array( 'status' => 100 );
+				}
+				echo AJson::encode($result);
+				break;
+			case "progress":
+				echo AJson::encode(array( 'prc' => $dbprg->get_progress() ));
+				break;
+		}
+	}
+
+	public function progressbar_scripts($url) {
+		$this->view->assign('url', $url);
+		$this->processTemplate('pages/progressbar.tpl');
+	}
+}
+
+require_once(DIR_CORE . 'lib/progressbar.php');
+/*
+ * Interface for progressbar
+ * */
+class progressbar implements AProgressBar {
+	private $registry;
+
+	function __construct($registry) {
+		$this->registry = $registry;
+	}
+
+	function get_max() {
+		$language = new ALanguage($this->registry, 'en');
+		$language_blocks = $language->getAllLanguageBlocks('english');
+		$language_blocks[ 'admin' ] = array_merge($language_blocks[ 'admin' ], $language_blocks[ 'extensions' ][ 'admin' ]);
+		$language_blocks[ 'storefront' ] = array_merge($language_blocks[ 'storefront' ], $language_blocks[ 'extensions' ][ 'storefront' ]);
+		return sizeof($language_blocks[ 'admin' ]) + sizeof($language_blocks[ 'storefront' ]);
+	}
+
+	function get_progress() {
+		$res = $this->registry->get('db')->query('SELECT section, COUNT(DISTINCT `block`) as cnt FROM ' . DB_PREFIX . 'language_definitions GROUP by section');
+		foreach ($res->rows as $row) {
+			$cnt += $row[ 'cnt' ];
+		}
+		return $cnt;
+	}
+
+	function do_work() {
+		$language = new ALanguage($this->registry, 'en');
+		//Load default language (1) English on install only.
+		return $language->definitionAutoLoad(1, 'all', 'all', 'update');
 	}
 }
