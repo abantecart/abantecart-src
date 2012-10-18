@@ -214,4 +214,12 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 		<key>error_archive_extension</key>
 		<value><![CDATA[ Error: Only .tar.gz files supported. ]]></value>
 	</definition>
+	<definition>
+		<key>entry_upload_file</key>
+		<value><![CDATA[ Upload file: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_upload_url</key>
+		<value><![CDATA[ Insert URL: ]]></value>
+	</definition>
 </definitions>

@@ -161,8 +161,18 @@ final class AConnect {
 
 	    $result = $this->getData($url, $port, false, $new_filename);
 	    if(!isset($this->response_headers['Content-Disposition']) || !is_int(strpos($this->response_headers['Content-Disposition'],'attachment'))){
-		   $this->error = "Error: Cannot to download file. Attachment is absent.";
-		   return false;
+		    // if attachment is absent - try to get filename from url
+		    $file_name = parse_url($url);
+            if(pathinfo($file_name['path'],PATHINFO_EXTENSION)){
+                $file_name = pathinfo($file_name['path'],PATHINFO_BASENAME);
+            }else{
+                $file_name = '';
+            }
+
+		    if(!$file_name){
+				$this->error = "Error: Cannot to download file. Attachment is absent.";
+				return false;
+		    }
 	    }
 
 	    return $result;
@@ -218,7 +228,7 @@ final class AConnect {
      * @return int (bytes)
      */
     public function getDataLength($url, $port = 80) {
-        $url .= strpos($url, '?') === false ? '?file_size=1' : '&file_size=1';
+        $url .= !is_int(strpos($url, '?')) ? '?file_size=1' : '&file_size=1';
         if (!$url = $this->_checkURL($url, ($port == 443 ? true : false))) {
             return false;
         }
@@ -231,7 +241,7 @@ final class AConnect {
      * @return int (bytes)
      */
     public function getDataHeaders($url, $port = 80) {
-        if (!$url = $this->_checkURL($url, ($port == 443 ? true : false))) {
+        if (!($url = $this->_checkURL($url, ($port == 443 ? true : false)))) {
             return false;
         }
         return $this->getData($url, $port, false, false, true);

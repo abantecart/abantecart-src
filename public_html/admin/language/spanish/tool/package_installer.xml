@@ -230,4 +230,12 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 		<key>error_archive_extension</key>
 		<value><![CDATA[ Error: Sólo .tar.gz archivos compatibles. ]]></value>
 	</definition>
+	<definition>
+		<key>entry_upload_file</key>
+		<value><![CDATA[ Subir archivos: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_upload_url</key>
+		<value><![CDATA[ Insertar URL: ]]></value>
+	</definition>
 </definitions>

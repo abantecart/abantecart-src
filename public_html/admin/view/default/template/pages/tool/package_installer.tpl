@@ -26,7 +26,23 @@
     <table style="height: 350px; border:0; width: 100%">
         <tr >
             <td style="width:auto;"></td>
-            <td style="width:450px;" class="ml_field"><?php echo $form['input']; ?></td>
+            <td style="width:450px;" class="ml_field" style="vertical-align: middle;">
+	               <?php
+	            if(!$upload){
+	                echo $form['input'];
+	            }else{ ?>
+		           <table style="white-space: nowrap;">
+			           <tr>
+				           <td><?php echo $entry_upload_file?></td>
+				           <td><?php echo $form['file'] ?></td>
+			           </tr>
+			           <tr>
+				           <td><?php echo $entry_upload_url?></td>
+				           <td><?php echo $form['url'] ?></td>
+			           </tr>
+		           </table>
+	            <? }    ?>
+            </td>
             <td style="width:69px;" class="ml_field" ><button class="btn_standard button_loader" type="submit"><?php echo $form['submit']; ?></button></td>
 	        <td style="width:auto;"></td>
 		</tr>

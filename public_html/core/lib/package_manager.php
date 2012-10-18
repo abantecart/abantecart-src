@@ -74,7 +74,8 @@ class APackageManager {
 		}
 		$file = new AConnect();
 		$file->connect_method = 'socket'; //use this method because curl returns no header 'Content-Disposition' with file name
-		$result =  $file->getDataHeaders($url.'&file_size=1');
+		$url = $url.(!is_int(strpos($url, '?')) ? '?file_size=1' : '&file_size=1');
+		$result =  $file->getDataHeaders($url);
 		if ( ! $result ) {
 			$this->error = $file->error;
 			return false;

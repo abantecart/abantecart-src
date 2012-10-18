@@ -127,6 +127,11 @@ class ControllerPagesToolPackageInstaller extends AController {
 						$this->redirect($this->html->getSecureURL('tool/package_installer/agreement'));
 					}
 				}
+			}else{
+				if($this->request->post[ 'package_url' ]){
+					$package_info[ 'package_url' ] = $this->request->post[ 'package_url' ];
+					$this->redirect($this->html->getSecureURL('tool/package_installer/download'));
+				}
 			}
 		}
 
@@ -150,12 +155,18 @@ class ControllerPagesToolPackageInstaller extends AController {
 			'name' => 'uploadFrm',
 			'action' => $this->html->getSecureURL('tool/package_installer/upload') ));
 
-		$this->data[ 'form' ][ 'input' ] = $form->getFieldHtml(array(
+		$this->data[ 'entry_upload_file' ] = $this->language->get('entry_upload_file');
+		$this->data[ 'form' ][ 'file' ] = $form->getFieldHtml(array(
 			'type' => 'file',
 			'name' => 'package_file',
 			'value' => '',
-			'attr' => ' autocomplete="off" ',
-			'help_url' => $this->gen_help_url('package_file') ));
+			'attr' => ' autocomplete="off" ' ));
+		$this->data[ 'entry_upload_url' ] = $this->language->get('entry_upload_url');
+		$this->data[ 'form' ][ 'url' ] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'package_url',
+			'value' => '',
+			'attr' => ' autocomplete="off" '));
 
 		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array( 'type' => 'button',
 			'name' => 'submit',
@@ -179,7 +190,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 				'text' => $this->language->get('text_extension_upload'),
 				'active' => true
 			) );
-
+		$this->data['upload'] = true;
 		$this->view->assign('help_url', $this->gen_help_url(''));
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/tool/package_installer.tpl');
@@ -189,8 +200,8 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$package_info = &$this->session->data[ 'package_info' ]; // for short code
 		$extension_key = ($this->request->post[ 'extension_key' ]) ? $this->request->post[ 'extension_key' ] : $this->request->get[ 'extension_key' ];
 
-		if (!$extension_key) {
-			$this->redirect($this->html->getSecureURL('tool/package_installer'));
+		if (!$extension_key && !$package_info[ 'package_url' ]) {
+			$this->redirect($this->_get_begin_href());
 		}
 
 		if ($this->request->server[ 'REQUEST_METHOD' ] == 'POST') { // if does not agree  with agreement of filesize
@@ -271,33 +282,45 @@ class ControllerPagesToolPackageInstaller extends AController {
 			unset($this->session->data[ 'package_info' ]);
 			$this->redirect($this->html->getSecureURL('tool/package_installer'));
 		}
+		if($extension_key){
+			$url = "/?option=com_abantecartrepository&format=raw";
+			$url .= "&store_id=" . UNIQUE_ID;
+			$url .= "&store_ip=" . $_SERVER [ 'SERVER_ADDR' ];
+			$url .= "&store_url=" . HTTP_SERVER;
+			$url .= "&store_version=" . VERSION;
+			$url .= "&extension_key=" . $extension_key;
+		}else{
+			$url = $package_info[ 'package_url' ];
+		}
 
-		$url = "/?option=com_abantecartrepository&format=raw";
-		$url .= "&store_id=" . UNIQUE_ID;
-		$url .= "&store_ip=" . $_SERVER [ 'SERVER_ADDR' ];
-		$url .= "&store_url=" . HTTP_SERVER;
-		$url .= "&store_version=" . VERSION;
-		$url .= "&extension_key=" . $extension_key;
 
 		$pmanager = new APackageManager();
 		$headers = $pmanager->getRemoteFileHeaders($url);
 
 		if (!$headers) {
 			$this->session->data[ 'error' ] = $pmanager->error;
-			$this->redirect($this->html->getSecureURL('tool/package_installer'));
+			$this->redirect($this->_get_begin_href());
 		}
 
 		if ($headers[ 'Content-Type' ] == 'application/json') {
 			$error = $pmanager->getRemoteFile($url, false);
 			$this->session->data[ 'error' ] = $error[ 'error' ];
-			$this->redirect($this->html->getSecureURL('tool/package_installer'));
+			$this->redirect($this->_get_begin_href());
 		} else {
 			$package_name = str_replace("attachment; filename=", "", $headers[ 'Content-Disposition' ]);
 			$package_name = str_replace(array( '"', ';' ), '', $package_name);
+			if(!$package_name){
+				$package_name = parse_url($url);
+				if(pathinfo($package_name['path'],PATHINFO_EXTENSION)){
+					$package_name = pathinfo($package_name['path'],PATHINFO_BASENAME);
+				}else{
+					$package_name = '';
+				}
+			}
 
 			if (!$package_name) {
 				$this->session->data[ 'error' ] = $this->language->get('error_repository');
-				$this->redirect($this->html->getSecureURL('tool/package_installer'));
+				$this->redirect($this->_get_begin_href());
 			}
 		}
 
@@ -401,9 +424,13 @@ class ControllerPagesToolPackageInstaller extends AController {
 			if ($headers[ 'Content-Length' ] != $package_info[ 'package_size' ]) {
 				@unlink($package_info[ 'tmp_dir' ] . $package_name);
 				$this->_removeTempFiles();
-				$extension_key = $package_info[ 'extension_key' ];
 				unset($this->session->data[ 'package_info' ]);
-				$this->redirect($this->html->getSecureURL('tool/package_installer/download', '&disclaimer=1&extension_key=' . $extension_key));
+				if($extension_key){
+					$extension_key = $package_info[ 'extension_key' ];
+					$this->redirect($this->html->getSecureURL('tool/package_installer/download', '&disclaimer=1&extension_key=' . $extension_key));
+				}else{
+					$this->redirect($this->_get_begin_href());
+				}
 			}
 		}
 
@@ -963,7 +990,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 	}
 
 	private function _get_begin_href() {
-		return $this->html->getSecureURL('tool/package_installer' . ($package_info[ 'package_source' ] == 'file' ? '/upload' : ''));
+		return $this->html->getSecureURL('tool/package_installer' . ($this->session->data[ 'package_info' ][ 'package_source' ] == 'file' ? '/upload' : ''));
 	}
 
 }
