@@ -1,3 +1,30 @@
+Release Notes: Version 1.1.1
+
+New Features and improvements summary:
+- Extensions file upload and install from public URL
+- AbanteCart initial installation improvement. Added progress bar.
+
+Bugfixes
+Core:
+- AAttribute getAttributes renamed to getAttributesbyType because AAttribute_Manages has method getAttributes too and try to override it with runtime notice.
+- targz library bugfix
+- package manager & AConnect bugfix. Now when gets file we use socket instead curl for getting http-headers with filename(content-disposition).
+- package installer bugfix. Upgrade extension related. APromotion changes. Added 2 types of bonuses (free products and discount on products)
+- Fixed AResourceManager::setType method - do nothing if $type is empty.
+- Fixed AWeight::getUnit method
+Control Panel:
+- package installer minor ui changes and better permissions handling
+- Aform input file minor bugfix
+- extension manager version check bugfix
+- package manager changed. Added agreement to install version incompatible version. Package uploading added in extension install page. Common function versionCompare added into core/helper/utils.php Updater and package installer use it now.
+- quick edit saving fix
+- language load form submit made with ajax
+- ALanguage cloning definitions bugfix
+- resource upload crear error text added for permissions problem
+Storefront:
+- banner images size bug fix
+- Global attributes UI bug fix
+
 Release Notes: Version 1.1.0
 
 New Features and improvments summary:
