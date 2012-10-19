@@ -117,7 +117,7 @@ class APackageManager {
 		}
 
 		if ( $exit_code ) {
-			require_once(DIR_CORE . 'lib/targz.php');
+			$this->load->library('targz');
 			$targz = new Atargz();
 		    $targz->extractTar($tar_filename,$dst_dir);
 		}

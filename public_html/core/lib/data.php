@@ -249,7 +249,7 @@ final class AData {
 		}
 
 		if ( $exit_code ) {
-			require_once(DIR_CORE . 'lib/targz.php');
+			$this->load->library('targz');
 			$targz = new Atargz();
 		    $targz->makeTar($tar_dir . $filename, $tar_filename);
 		}
