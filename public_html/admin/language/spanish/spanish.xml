@@ -232,22 +232,22 @@
 		<key>tab_discount</key>
 		<value><![CDATA[Descuento]]></value>
 	</definition>
-    <definition>
-        <key>tab_details</key>
-        <value><![CDATA[Detalles]]></value>
-    </definition>
-    <definition>
-        <key>tab_checkout</key>
-        <value><![CDATA[Caja]]></value>
-    </definition>
-    <definition>
-        <key>tab_appearance</key>
-        <value><![CDATA[Apariencia]]></value>
-    </definition>
-    <definition>
-        <key>tab_api</key>
-        <value><![CDATA[API]]></value>
-    </definition>	
+	<definition>
+		<key>tab_details</key>
+		<value><![CDATA[Detalles]]></value>
+	</definition>
+	<definition>
+		<key>tab_checkout</key>
+		<value><![CDATA[Caja]]></value>
+	</definition>
+	<definition>
+		<key>tab_appearance</key>
+		<value><![CDATA[Apariencia]]></value>
+	</definition>
+	<definition>
+		<key>tab_api</key>
+		<value><![CDATA[API]]></value>
+	</definition>
 	<definition>
 		<key>tab_general</key>
 		<value><![CDATA[General]]></value>
@@ -350,9 +350,9 @@
 		<value><![CDATA[Elija la acción ..]]></value>
 	</definition>
 	<definition>
-        <key>text_delete</key>
-        <value><![CDATA[Borrar]]></value>
-    </definition>
+		<key>text_delete</key>
+		<value><![CDATA[Borrar]]></value>
+	</definition>
 	<definition>
 		<key>text_delete_selected</key>
 		<value><![CDATA[eliminar seleccionados]]></value>
@@ -386,9 +386,9 @@
 		<value><![CDATA[IR]]></value>
 	</definition>
 	<definition>
-        <key>search_everywhere</key>
-        <value><![CDATA[Buscar Por todas partes]]></value>
-    </definition>
+		<key>search_everywhere</key>
+		<value><![CDATA[Buscar Por todas partes]]></value>
+	</definition>
 	<definition>
 		<key>column_action</key>
 		<value><![CDATA[Acción]]></value>
@@ -416,51 +416,52 @@
 	<definition>
 		<key>text_add_media</key>
 		<value><![CDATA[Añadir los medios]]></value>
-	</definition><definition>
-        <key>confirm_unmap_title</key>
-        <value><![CDATA[Confirmar recurso (s) Desasignar]]></value>
-    </definition>
-    <definition>
-        <key>text_confirm_unmap</key>
-        <value><![CDATA[¿Está seguro que desea desasignar recurso (s)? Confirmar recurso (s) Desasignar]]></value>
-    </definition>
-    <definition>
-        <key>confirm_del_title</key>
-        <value><![CDATA[Confirmar recurso (s) Eliminar]]></value>
-    </definition>
-    <definition>
-        <key>text_confirm_del</key>
-        <value><![CDATA[¿Está seguro que desea eliminar el recurso (s)?]]></value>
-    </definition>
-    <definition>
-        <key>text_type_image</key>
-        <value><![CDATA[Imágenes]]></value>
-    </definition>
-    <definition>
-        <key>text_type_audio</key>
-        <value><![CDATA[Audio]]></value>
-    </definition>
-    <definition>
-        <key>text_type_video</key>
-        <value><![CDATA[Vídeo]]></value>
-    </definition>
-    <definition>
-        <key>text_type_pdf</key>
-        <value><![CDATA[Documento PDF]]></value>
-    </definition>
-    <definition>
-        <key>text_type_archive</key>
-        <value><![CDATA[Archivo]]></value>
-    </definition>
-    <definition>
-        <key>button_unmap</key>
-        <value><![CDATA[Desasignar]]></value>
-    </definition>
-    <definition>
-        <key>button_select_resource</key>
-        <value><![CDATA[seleccionar]]></value>
-    </definition>
-    <definition>
+	</definition>
+	<definition>
+		<key>confirm_unmap_title</key>
+		<value><![CDATA[Confirmar recurso (s) Desasignar]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_unmap</key>
+		<value><![CDATA[¿Está seguro que desea desasignar recurso (s)? Confirmar recurso (s) Desasignar]]></value>
+	</definition>
+	<definition>
+		<key>confirm_del_title</key>
+		<value><![CDATA[Confirmar recurso (s) Eliminar]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_del</key>
+		<value><![CDATA[¿Está seguro que desea eliminar el recurso (s)?]]></value>
+	</definition>
+	<definition>
+		<key>text_type_image</key>
+		<value><![CDATA[Imágenes]]></value>
+	</definition>
+	<definition>
+		<key>text_type_audio</key>
+		<value><![CDATA[Audio]]></value>
+	</definition>
+	<definition>
+		<key>text_type_video</key>
+		<value><![CDATA[Vídeo]]></value>
+	</definition>
+	<definition>
+		<key>text_type_pdf</key>
+		<value><![CDATA[Documento PDF]]></value>
+	</definition>
+	<definition>
+		<key>text_type_archive</key>
+		<value><![CDATA[Archivo]]></value>
+	</definition>
+	<definition>
+		<key>button_unmap</key>
+		<value><![CDATA[Desasignar]]></value>
+	</definition>
+	<definition>
+		<key>button_select_resource</key>
+		<value><![CDATA[seleccionar]]></value>
+	</definition>
+	<definition>
 		<key>text_click_to_change</key>
 		<value><![CDATA[Haga clic en la imagen para cambiarla]]></value>
 	</definition>
@@ -476,60 +477,66 @@
 		<key>text_delete_confirm</key>
 		<value><![CDATA[Por favor, confirmar la eliminación]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_save_edit</key>
 		<value><![CDATA[Añadir/Editar]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_apply</key>
 		<value><![CDATA[Apply]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_on_top</key>
 		<value><![CDATA[volver a la cima]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_all</key>
 		<value><![CDATA[Todo]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_create_new_block</key>
 		<value><![CDATA[ Crear nuevo bloque de ]]></value>
 	</definition>
 	<definition>
 		<key>additional_settings_confirm</key>
-		<value><![CDATA[Para configurar los ajustes adicionales de la extensión de la otra tienda debes iniciar una sesión en el panel de control de otro nombre de dominio. Ok? ]]></value>
+		<value>
+			<![CDATA[Para configurar los ajustes adicionales de la extensión de la otra tienda debes iniciar una sesión en el panel de control de otro nombre de dominio. Ok? ]]></value>
 	</definition>
-    <definition>
-        <key>button_unlink</key>
-        <value><![CDATA[Desconectar]]></value>
-    </definition>
-    <definition>
-        <key>text_confirm_unlink</key>
-        <value><![CDATA[¿Está seguro que desea desvincular de los recursos?]]></value>
-    </definition>
-    <definition>
-        <key>confirm_unlink_title</key>
-        <value><![CDATA[Confirme los recursos Desvincular]]></value>
-    </definition>
-    <definition>
-        <key>text_install_warning_subject</key>
-        <value><![CDATA[Advertencia de seguridad]]></value>
-    </definition>
-    <definition>
-        <key>text_install_warning</key>
-        <value><![CDATA[Todavía se "install" presente en su directorio de instalación AbanteCart. Se recomienda que elimine este directorio.]]></value>
-    </definition>
-    <definition>
-        <key>text_select_store</key>
-        <value><![CDATA[Seleccionar tienda]]></value>
-    </definition>
 	<definition>
-     <key>text_click_browse_file</key>
-     <value><![CDATA[Haga clic aquí para ver archivo]]></value>
- </definition>
+		<key>button_unlink</key>
+		<value><![CDATA[Desconectar]]></value>
+	</definition>
 	<definition>
-     <key>text_browse</key>
-     <value><![CDATA[Navegar]]></value>
- </definition>
+		<key>text_confirm_unlink</key>
+		<value><![CDATA[¿Está seguro que desea desvincular de los recursos?]]></value>
+	</definition>
+	<definition>
+		<key>confirm_unlink_title</key>
+		<value><![CDATA[Confirme los recursos Desvincular]]></value>
+	</definition>
+	<definition>
+		<key>text_install_warning_subject</key>
+		<value><![CDATA[Advertencia de seguridad]]></value>
+	</definition>
+	<definition>
+		<key>text_install_warning</key>
+		<value>
+			<![CDATA[Todavía se "install" presente en su directorio de instalación AbanteCart. Se recomienda que elimine este directorio.]]></value>
+	</definition>
+	<definition>
+		<key>text_select_store</key>
+		<value><![CDATA[Seleccionar tienda]]></value>
+	</definition>
+	<definition>
+		<key>text_click_browse_file</key>
+		<value><![CDATA[Haga clic aquí para ver archivo]]></value>
+	</definition>
+	<definition>
+		<key>text_browse</key>
+		<value><![CDATA[Navegar]]></value>
+	</definition>
+	<definition>
+		<key>text_or</key>
+		<value><![CDATA[o]]></value>
+	</definition>
 </definitions>

@@ -37,16 +37,33 @@
 				           <td><?php echo $form['file'] ?></td>
 			           </tr>
 			           <tr>
+				           <td><?php echo $text_or; ?></td>
+				           <td></td>
+			           </tr>
+			           <tr>
 				           <td><?php echo $entry_upload_url?></td>
 				           <td><?php echo $form['url'] ?></td>
 			           </tr>
 		           </table>
 	            <? }    ?>
             </td>
-            <td style="width:69px;" class="ml_field" ><button class="btn_standard button_loader" type="submit"><?php echo $form['submit']; ?></button></td>
+            <td style="width:69px; white-space: nowrap;" class="ml_field" >
+	            <?php if($upload){ ?>
+	               <button id="reset" class="btn_standard" type="reset"><?php echo $form['cancel']; ?></button>
+				<?php } ?>
+	               <button class="btn_standard button_loader" type="submit"><?php echo $form['submit']; ?></button>
+
+            </td>
 	        <td style="width:auto;"></td>
 		</tr>
     </table></form>
   </div></div></div>
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
+<script type="text/javascript">
+	$('#reset').live('click', function(){
+		$('#uploadFrm_package_file_fileupload').find('.atext').html('');
+		$('#uploadFrm_package_file').val('');
+	});
+
+</script>

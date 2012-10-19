@@ -52,6 +52,8 @@ class AError {
      */
     protected $error_descriptions;
 
+	protected $version;
+
     /**
      * error constructor.
      *
@@ -71,6 +73,7 @@ class AError {
         //TODO: use registry object instead?? what if registry not accessible?
         $this->error_descriptions = $GLOBALS['error_descriptions'];
 
+		$this->version = 'AbanteCart core v.'.VERSION;
 	}
 
     /**
@@ -100,7 +103,7 @@ class AError {
         } else {
             $log = $this->registry->get('log');
         }
-        $log->write($this->error_descriptions[$this->code] . ':  ' . $this->msg);
+        $log->write($this->error_descriptions[$this->code] . ':  ' . $this->version .' '. $this->msg);
         return $this;
     }
 

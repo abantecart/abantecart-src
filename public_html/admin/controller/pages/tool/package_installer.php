@@ -168,6 +168,10 @@ class ControllerPagesToolPackageInstaller extends AController {
 			'value' => '',
 			'attr' => ' autocomplete="off" '));
 
+		$this->data[ 'form' ][ 'cancel' ] = $form->getFieldHtml(array( 'type' => 'button',
+			'name' => 'cancel',
+			'text' => $this->language->get('button_cancel'),
+			'style' => 'button2' ));
 		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array( 'type' => 'button',
 			'name' => 'submit',
 			'text' => $this->language->get('text_continue'),
@@ -191,6 +195,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 				'active' => true
 			) );
 		$this->data['upload'] = true;
+		$this->data['text_or'] = $this->language->get('text_or');
 		$this->view->assign('help_url', $this->gen_help_url(''));
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/tool/package_installer.tpl');

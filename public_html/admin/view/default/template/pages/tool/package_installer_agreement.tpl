@@ -93,7 +93,7 @@
 
 <script language="JavaScript">
 		$('#ftpFrm').submit(function(){
-			if($('#ftpFrm_agree').length>0){
+			if($('#ftpFrm_agree').length>0 && $('#disagree').val()!=1){
 				if(!$('#ftpFrm_agree').prop('checked') ){
 					return false;
 				}
