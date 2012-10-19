@@ -148,6 +148,7 @@ class APackageManager {
 			if($backup_dirname){
 				
 				if(!$backup->backupDirectory($old_path.$package_id)){
+					$this->error = $backup->error;
 					return false;
 				}
 

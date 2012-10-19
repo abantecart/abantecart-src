@@ -222,4 +222,8 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 		<key>entry_upload_url</key>
 		<value><![CDATA[ Insert URL: ]]></value>
 	</definition>
+	<definition>
+		<key>error_move_backup</key>
+		<value><![CDATA[ Error: Can't backup files before upgrade. Check write permissions of directory: ]]></value>
+	</definition>
 </definitions>

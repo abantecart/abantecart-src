@@ -73,7 +73,7 @@
 								<?php echo $form[ 'checkbox' ] . '<label for="ftpFrm_agree">' . $text_agree;?></label>
                             <br><br>
                             <button id="disagree_button" class="btn_standard" type="submit" onclick="$('#disagree').val('1');"><?php echo $form[ 'disagree_button' ]; ?></button>
-                            <button id="agree_button" class="btn_standard" type="submit"><?php echo $form[ 'submit' ]; ?></button>
+                            <button id="agree_button" class="btn_standard" type="submit" ><?php echo $form[ 'submit' ]; ?></button>
 						<?php
 	                    } else { ?>
                             <button id="agree_button" class="btn_standard" type="submit"><?php echo $form[ 'submit' ]; ?></button>
@@ -90,3 +90,13 @@
             </div>
         </div>
     </div>
+
+<script language="JavaScript">
+		$('#ftpFrm').submit(function(){
+			if($('#ftpFrm_agree').length>0){
+				if(!$('#ftpFrm_agree').prop('checked') ){
+					return false;
+				}
+			}
+		});
+</script>

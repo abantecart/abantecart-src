@@ -128,13 +128,17 @@ final class ABackup {
 			}				
 		}
 		if($remove){
+
 			$result = rename($dir_path, $this->backup_dir.'code/'.$path);
 		}else{
 			$result = $this->_copyDir($dir_path, $this->backup_dir.'code/'.$path);
 		}
 
 		if(!$result){
-			$this->error = "Error: Can't move directory \"".$dir_path. " to backup folder \"".$this->backup_dir."code/".$path."\" during backup";
+			$this->error = "Error: Can't move directory \"".$dir_path. " to backup folder \"".$this->backup_dir."code/".$path."\" during backup\n";
+			if(!is_writable($dir_path)){
+				$this->error .= "Check write permission for directory \"".$dir_path. "";
+			}
 			$this->log->write($this->error);
 			$this->message->saveError('Backup Error',$this->error);
 			return false;

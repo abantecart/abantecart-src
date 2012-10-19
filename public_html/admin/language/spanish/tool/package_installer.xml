@@ -238,4 +238,8 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 		<key>entry_upload_url</key>
 		<value><![CDATA[ Insertar URL: ]]></value>
 	</definition>
+	<definition>
+		<key>error_move_backup</key>
+		<value><![CDATA[ Error: No se puede copia de seguridad de los archivos antes de la actualización. Compruebe los permisos de escritura del directorio: ]]></value>
+	</definition>
 </definitions>
