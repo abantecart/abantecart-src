@@ -192,24 +192,27 @@ class AForm {
                 SELECT *
                 FROM `".DB_PREFIX."field_values`
                 WHERE field_id = '" . $row['field_id'] . "'
-                    AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'
-                ORDER BY sort_order"
+                AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'"
             );
             if ( $query->num_rows ) {
-                foreach ( $query->rows as $row  ) {
-                    $this->fields[ $row['field_id'] ]['options'][$row['opt_value']] = $row['value'];
-                    if ( $row['default'] ) {
-                        if ( count($query->rows) > 1 ) {
-                            $this->fields[ $row['field_id'] ]['value'][] = $row['value'];
-                        } else {
-                            $this->fields[ $row['field_id'] ]['value'] = $row['value'];
-                        }
-                    }
-                }
+
+				$values = unserialize($query->row['value']);
+				usort($values, array('self','_sort_by_sort_order'));
+				foreach ( $values as $value ) {
+					$this->fields[ $row['field_id'] ]['options'][$value['name']] = $value['name'];
+				}
+
             }
         }
         $this->cache->set($cache_name, $this->fields, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
     }
+
+	private function _sort_by_sort_order($a, $b) {
+		if ($a['sort_order'] == $b['sort_order']) {
+			return 0;
+		}
+		return ($a['sort_order'] < $b['sort_order']) ? -1 : 1;
+	}
 
     /**
      * load form fields groups data into this->groups variable

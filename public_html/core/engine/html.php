@@ -337,6 +337,31 @@ class AHtml extends AController {
 		return $item->getHtml();
 	}
 
+	public function buildDate($data) {
+		$item = new DateHtmlElement($data);
+		return $item->getHtml();
+	}
+
+	public function buildEmail($data) {
+		$item = new EmailHtmlElement($data);
+		return $item->getHtml();
+	}
+
+	public function buildNumber($data) {
+		$item = new NumberHtmlElement($data);
+		return $item->getHtml();
+	}
+
+	public function buildPhone($data) {
+		$item = new PhoneHtmlElement($data);
+		return $item->getHtml();
+	}
+
+	public function buildIPaddress($data) {
+		$item = new IPaddressHtmlElement($data);
+		return $item->getHtml();
+	}
+
 
 	public function getContentLanguageSwitcher() {
 		$registry = Registry::getInstance();
@@ -505,6 +530,31 @@ class HtmlElementFactory {
 			'method' => 'buildMultivalueList',
 			'class' => 'MultivalueListHtmlElement'
 		),
+		'D' => array(
+			'type' => 'date',
+			'method' => 'buildDateInput',
+			'class' => 'DateInputHtmlElement'
+		),
+		'E' => array(
+			'type' => 'email',
+			'method' => 'buildEmail',
+			'class' => 'EmailHtmlElement'
+		),
+		'N' => array(
+			'type' => 'number',
+			'method' => 'buildNumber',
+			'class' => 'NumberHtmlElement'
+		),
+		'F' => array(
+			'type' => 'phone',
+			'method' => 'buildPhone',
+			'class' => 'PhoneHtmlElement'
+		),
+		'A' => array(
+			'type' => 'IPaddress',
+			'method' => 'buildIPaddress',
+			'class' => 'IPaddressHtmlElement'
+		),
 	);
 
 	static private $elements_with_options = array(
@@ -565,6 +615,7 @@ class HtmlElementFactory {
 	}
 
 	static function create($data) {
+
 		$class = ucfirst($data[ 'type' ] . 'HtmlElement');
 		if (!class_exists($class)) {
 			throw new AException(AC_ERR_LOAD, 'Error: Could not load HTML element ' . $data[ 'type' ] . '!');
@@ -1081,4 +1132,124 @@ class ResourceImageHtmlElement extends HtmlElement {
 		return $return;
 	}
 
+}
+
+class DateHtmlElement extends HtmlElement {
+
+	public function getHtml() {
+
+		if (!isset($this->default)) $this->default = '';
+		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
+		$this->view->batchAssign(
+			array(
+				'name' => $this->name,
+				'id' => $this->element_id,
+				'type' => 'text',
+				'value' => str_replace('"', '&quot;', $this->value),
+				'default' => $this->default,
+				'attr' => $this->attr,
+				'required' => $this->required,
+				'style' => $this->style,
+			)
+		);
+		if (!empty($this->help_url)) {
+			$this->view->assign('help_url', $this->help_url);
+		}
+		$return = $this->view->fetch('form/input.tpl');
+		return $return;
+	}
+}
+
+class EmailHtmlElement extends HtmlElement {
+
+	public function getHtml() {
+
+		if (!isset($this->default)) $this->default = '';
+		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
+		$this->view->batchAssign(
+			array(
+				'name' => $this->name,
+				'id' => $this->element_id,
+				'type' => 'text',
+				'value' => str_replace('"', '&quot;', $this->value),
+				'default' => $this->default,
+				'attr' => 'aform_field_type="email" ' . $this->attr,
+				'required' => $this->required,
+				'style' => $this->style,
+			)
+		);
+		if (!empty($this->help_url)) {
+			$this->view->assign('help_url', $this->help_url);
+		}
+		$return = $this->view->fetch('form/input.tpl');
+		return $return;
+	}
+}
+
+class NumberHtmlElement extends HtmlElement {
+
+	public function getHtml() {
+
+		if (!isset($this->default)) $this->default = '';
+		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
+		$this->view->batchAssign(
+			array(
+				'name' => $this->name,
+				'id' => $this->element_id,
+				'type' => 'text',
+				'value' => str_replace('"', '&quot;', $this->value),
+				'default' => $this->default,
+				'attr' => 'aform_field_type="number" '.$this->attr,
+				'required' => $this->required,
+				'style' => $this->style,
+			)
+		);
+		if (!empty($this->help_url)) {
+			$this->view->assign('help_url', $this->help_url);
+		}
+		$return = $this->view->fetch('form/input.tpl');
+		return $return;
+	}
+}
+
+class PhoneHtmlElement extends HtmlElement {
+
+	public function getHtml() {
+
+		if (!isset($this->default)) $this->default = '';
+		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
+		$this->view->batchAssign(
+			array(
+				'name' => $this->name,
+				'id' => $this->element_id,
+				'type' => 'text',
+				'value' => str_replace('"', '&quot;', $this->value),
+				'default' => $this->default,
+				'attr' => 'aform_field_type="phone" '.$this->attr,
+				'required' => $this->required,
+				'style' => $this->style,
+			)
+		);
+		if (!empty($this->help_url)) {
+			$this->view->assign('help_url', $this->help_url);
+		}
+		$return = $this->view->fetch('form/input.tpl');
+		return $return;
+	}
+}
+
+class IPaddressHtmlElement extends HtmlElement {
+
+	public function getHtml() {
+		$this->view->batchAssign(
+			array(
+				'id' => $this->element_id,
+				'name' => $this->name,
+				'value' => $_SERVER['REMOTE_ADDR'],
+				'attr' => 'aform_field_type="ipaddress" ' . $this->attr,
+			)
+		);
+		$return = $this->view->fetch('form/hidden.tpl');
+		return $return;
+	}
 }

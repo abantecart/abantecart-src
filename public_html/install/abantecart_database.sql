@@ -6029,14 +6029,11 @@ INSERT INTO `ac_field_descriptions` VALUES (11,'First name:','',1),(11,'Nombre d
 --
 DROP TABLE IF EXISTS `ac_field_values`;
 CREATE TABLE `ac_field_values` (
-  `value_id` int(11) NOT NULL NULL auto_increment,
-  `field_id` int(11) NOT NULL DEFAULT '0',
-  `opt_value` varchar(40) NOT NULL DEFAULT '', -- Used for select, radio buttons and multivalue 
-  `value` text COLLATE utf8_bin NOT NULL DEFAULT '',
-  `default` int(1) NOT NULL DEFAULT '0', -- 1 Default, 0 Not default.
-  `sort_order` int(3) NOT NULL DEFAULT '0', -- Used for select, radio buttons and multivalue 
-  `language_id` int(11) NOT NULL,
-  PRIMARY KEY (`value_id`)
+  `value_id` int(11) NOT NULL NULL auto_increment,
+  `field_id` int(11) NOT NULL DEFAULT '0',
+  `value` text COLLATE utf8_bin NOT NULL DEFAULT '',
+  `language_id` int(11) NOT NULL,
+  PRIMARY KEY (`value_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
