@@ -1147,7 +1147,7 @@ class DateHtmlElement extends HtmlElement {
 				'type' => 'text',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
-				'attr' => $this->attr,
+				'attr' => 'aform_field_type="date" ' . $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
 			)
@@ -1155,7 +1155,7 @@ class DateHtmlElement extends HtmlElement {
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-		$return = $this->view->fetch('form/input.tpl');
+		$return = $this->view->fetch('form/date.tpl');
 		return $return;
 	}
 }
