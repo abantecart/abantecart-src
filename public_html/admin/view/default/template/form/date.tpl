@@ -5,5 +5,5 @@
 <span class="required">*</span>
 <?php endif; ?>
 <script>
-	$('input[name=<?php echo $name; ?>]').datepicker({dateFormat:'yy-mm-dd'});
+	$('#<?php echo $id ?>').datepicker({dateFormat:'yy-mm-dd'});
 </script>
