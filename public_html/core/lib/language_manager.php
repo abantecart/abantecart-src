@@ -137,8 +137,8 @@ class ALanguageManager extends Alanguage {
         }
 		$sql = "SELECT * FROM " . DB_PREFIX . $table_name . " ";
 		$sql .= "WHERE ". implode(" AND ", $sel_index);
-		$query_result = $this->db->query($sql);   		
-	    echo ($sql);
+		$query_result = $this->db->query($sql);
+
 	    if ( $query_result->num_rows ) {
             return $query_result->rows;
         } else {
