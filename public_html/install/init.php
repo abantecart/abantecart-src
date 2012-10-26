@@ -67,7 +67,7 @@ define('POSTFIX_OVERRIDE', '.override');
 define('POSTFIX_PRE', '.pre');
 define('POSTFIX_POST', '.post');
 
-define('IS_ADMIN', false);
+define('IS_ADMIN', true);
 
 try {
 
@@ -150,6 +150,7 @@ require_once(DIR_CORE . 'engine/html.php');
 require_once(DIR_CORE . 'engine/layout.php');
 require_once(DIR_CORE . 'engine/form.php');
 require_once(DIR_CORE . 'engine/extensions.php');
+require_once(DIR_CORE . 'engine/language.php');
 
 require_once(DIR_CORE . 'helper/html.php');
 require_once(DIR_CORE . 'helper/utils.php');
@@ -161,7 +162,7 @@ require_once(DIR_CORE . 'lib/db.php');
 require_once(DIR_CORE . 'lib/connect.php');
 require_once(DIR_CORE . 'lib/document.php');
 require_once(DIR_CORE . 'lib/image.php');
-require_once(DIR_CORE . 'lib/language.php');
+require_once(DIR_CORE . 'lib/language_manager.php');
 require_once(DIR_CORE . 'lib/log.php');
 require_once(DIR_CORE . 'lib/mail.php');
 require_once(DIR_CORE . 'lib/message.php');
