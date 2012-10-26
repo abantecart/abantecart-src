@@ -77,3 +77,12 @@ ALTER TABLE `ac_store_descriptions` MODIFY COLUMN `description` text COLLATE utf
     
 ALTER TABLE `ac_weight_class_descriptions` MODIFY COLUMN `title` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable';
 ALTER TABLE `ac_weight_class_descriptions` MODIFY COLUMN `unit` varchar(4) COLLATE utf8_bin NOT NULL DEFAULT ''  COMMENT 'translatable';
+
+DROP TABLE IF EXISTS `ac_field_values`;
+CREATE TABLE `ac_field_values` (
+  `value_id` int(11) NOT NULL auto_increment,
+  `field_id` int(11) NOT NULL DEFAULT '0',
+  `value` text COLLATE utf8_bin NOT NULL DEFAULT '',
+  `language_id` int(11) NOT NULL,
+  PRIMARY KEY (`value_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
