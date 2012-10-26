@@ -206,7 +206,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 	public function loadlanguageData() {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		if ($this->request->post['source_language']) {
-			$this->session->data['success'] = $this->language->fillMissingLanguageEntries( $this->request->get['language_id'], $this->request->post['source_language'] );
+			$this->session->data['success'] = $this->language->fillMissingLanguageEntries( $this->request->get['language_id'], $this->request->post['source_language'], $this->request->post['translate_method']);
 			//This update effect cross system data. Clean whole cache
 			$this->cache->delete('*');
 		}
@@ -366,6 +366,14 @@ class ControllerPagesLocalisationLanguage extends AController {
 		    'name' => 'source_language',
 		    'value' => '',
 			'options' => $all_languages,
+	    ));
+
+		$translate_methods = $this->language->getTranslationMethods();
+        $this->data['form2']['translate_method_selector'] = $form2->getFieldHtml(array(
+        	'type' => 'selectbox', 
+		    'name' => 'translate_method',
+		    'value' => '',
+			'options' => $translate_methods,
 	    ));
 
 		$this->view->assign('help_url', $this->gen_help_url('language_edit') );

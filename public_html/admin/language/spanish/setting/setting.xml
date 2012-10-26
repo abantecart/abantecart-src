@@ -342,6 +342,26 @@
 		<value><![CDATA[Tipo longitud:]]></value>
 	</definition>
 	<definition>
+		<key>entry_auto_translate_status</key>
+		<value><![CDATA[Estado AutoTranslate: <br /> <span class="help"> Esta traducción habilitado definiciones de texto perdidos o lenguaje de datos específicos si los valores de texto faltan para el lenguaje utilizado.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_translate_src_lang_code</key>
+		<value><![CDATA[Idioma de origen para su traducción. <br /> <span Class="help"> idioma Seleccionar origen que se utilizará para autotraducción </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_translate_method</key>
+		<value><![CDATA[Método texto a traducir: <br /> <span class="help"> método Select que desea utilizar para la traducción. Método predeterminado es una copia directa del texto original idioma </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_translate_override_existing</key>
+		<value><![CDATA[Ignorar si el texto fuente lenguaje se ha cambiado: <br /> <span class="help"> Si se establece, texto en todos los idiomas serán reemplazados con traducción si el texto fuente lenguaje es editado. NOTA: Puede causar muchas traducciones.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_warn_lang_text_missing</key>
+		<value><![CDATA[Warn for missing language text:<br /><span class="help">Get warning message if missing language text is detected.</span>]]></value>
+	</definition>	
+	<definition>
 		<key>entry_tax</key>
 		<value><![CDATA[Mostrar los precios con impuestos:]]></value>
 	</definition>

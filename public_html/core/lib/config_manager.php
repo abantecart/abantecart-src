@@ -203,12 +203,49 @@ class AConfigManager {
             'value' => $data['config_storefront_language'],
             'options' => $languages,
         ));
+
         $fields['admin_language'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'admin_language',
             'value' => $data['admin_language'],
             'options' => $languages,
         ));
+        
+        $fields['auto_translate_status'] = $form->getFieldHtml($props[] = array(
+            'type' => 'checkbox',
+            'name' => 'auto_translate_status',
+            'value' => $data['auto_translate_status'],
+            'style' => 'btn_switch',
+        ));
+
+        $fields['translate_src_lang_code'] = $form->getFieldHtml($props[] = array(
+            'type' => 'selectbox',
+            'name' => 'translate_src_lang_code',
+            'value' => $data['translate_src_lang_code'],
+            'options' => $languages,
+        ));
+
+        $translate_methods = $this->language->getTranslationMethods();
+        $fields['translate_method'] = $form->getFieldHtml($props[] = array(
+            'type' => 'selectbox',
+            'name' => 'translate_method',
+            'value' => $data['translate_method'],
+            'options' => $translate_methods,
+        ));
+
+        $fields['translate_override_existing'] = $form->getFieldHtml($props[] = array(
+            'type' => 'checkbox',
+            'name' => 'translate_override_existing',
+            'value' => $data['translate_override_existing'],
+            'style' => 'btn_switch',
+        ));
+        $fields['warn_lang_text_missing'] = $form->getFieldHtml($props[] = array(
+            'type' => 'checkbox',
+            'name' => 'warn_lang_text_missing',
+            'value' => $data['warn_lang_text_missing'],
+            'style' => 'btn_switch',
+        ));
+                
         $fields['currency'] = $form->getFieldHtml($props[] = array(
             'type' => 'selectbox',
             'name' => 'config_currency',
@@ -234,7 +271,8 @@ class AConfigManager {
             'value' => $data['config_weight_class'],
             'options' => $weight_classes,
         ));
-        if(isset($data['one_field'])){
+
+       if(isset($data['one_field'])){
             $fields = $this->_filterField($fields,$props,$data['one_field']);
         }
 		return $fields;

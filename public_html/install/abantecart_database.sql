@@ -43,10 +43,10 @@ DROP TABLE IF EXISTS `ac_category_descriptions`;
 CREATE TABLE `ac_category_descriptions` (
   `category_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `meta_keywords` varchar(255) COLLATE utf8_bin NOT NULL,
-  `meta_description` varchar(255) COLLATE utf8_bin NOT NULL,
-  `description` text COLLATE utf8_bin NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `meta_keywords` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `meta_description` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`category_id`,`language_id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -351,8 +351,8 @@ DROP TABLE IF EXISTS `ac_coupon_descriptions`;
 CREATE TABLE `ac_coupon_descriptions` (
   `coupon_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(128) COLLATE utf8_bin NOT NULL,
-  `description` text COLLATE utf8_bin NOT NULL,
+  `name` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`coupon_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -460,7 +460,7 @@ DROP TABLE IF EXISTS `ac_download_descriptions`;
 CREATE TABLE `ac_download_descriptions` (
   `download_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`download_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -532,9 +532,9 @@ DROP TABLE IF EXISTS `ac_banner_descriptions`;
 CREATE TABLE `ac_banner_descriptions` (
   `banner_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` text COLLATE utf8_bin NOT NULL,
-  `meta` text(1500) DEFAULT '',
+  `name` varchar(255) NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `meta` text(1500) DEFAULT '' COMMENT 'translatable',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`banner_id`,`language_id`)
@@ -609,7 +609,7 @@ CREATE TABLE `ac_language_definitions` (
   `section` tinyint(1) NOT NULL default '0' COMMENT '0-SF, 1-ADMIN',
   `block` varchar(160) NOT NULL,
   `language_key` varchar(170) character set utf8 collate utf8_bin NOT NULL,
-  `language_value` text NOT NULL,
+  `language_value` text NOT NULL COMMENT 'translatable',
   `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `create_date` timestamp NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`language_definition_id`)
@@ -644,8 +644,8 @@ DROP TABLE IF EXISTS `ac_length_class_descriptions`;
 CREATE TABLE `ac_length_class_descriptions` (
   `length_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `title` varchar(32) COLLATE utf8_bin NOT NULL,
-  `unit` varchar(4) COLLATE utf8_bin NOT NULL,
+  `title` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `unit` varchar(4) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`length_class_id`,`language_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
@@ -818,7 +818,7 @@ DROP TABLE IF EXISTS `ac_order_statuses`;
 CREATE TABLE `ac_order_statuses` (
   `order_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) COLLATE utf8_bin NOT NULL,
+  `name` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`order_status_id`,`language_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
@@ -912,10 +912,10 @@ DROP TABLE IF EXISTS `ac_product_descriptions`;
 CREATE TABLE `ac_product_descriptions` (
   `product_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `meta_keywords` varchar(255) COLLATE utf8_bin NOT NULL,
-  `meta_description` varchar(255) COLLATE utf8_bin NOT NULL,
-  `description` text COLLATE utf8_bin NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `meta_keywords` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `meta_description` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_id`,`language_id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
@@ -972,7 +972,7 @@ CREATE TABLE `ac_product_option_descriptions` (
   `product_option_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_option_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -1007,7 +1007,7 @@ CREATE TABLE `ac_product_option_value_descriptions` (
   `product_option_value_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `name` text COLLATE utf8_bin DEFAULT NULL,
+  `name` text COLLATE utf8_bin DEFAULT NULL COMMENT 'translatable',
   `grouped_attribute_names` text COLLATE utf8_bin DEFAULT NULL,  
   PRIMARY KEY (`product_option_value_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -1046,7 +1046,7 @@ CREATE TABLE `ac_product_specials` (
 DROP TABLE IF EXISTS `ac_product_tags`;
 CREATE TABLE `ac_product_tags` (
   `product_id` int(11) NOT NULL,
-  `tag` varchar(32) COLLATE utf8_bin NOT NULL,
+  `tag` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY  (`product_id`,`tag`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -1283,7 +1283,7 @@ DROP TABLE IF EXISTS `ac_stock_statuses`;
 CREATE TABLE `ac_stock_statuses` (
   `stock_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) COLLATE utf8_bin NOT NULL,
+  `name` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`stock_status_id`,`language_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
@@ -1322,7 +1322,7 @@ DROP TABLE IF EXISTS `ac_store_descriptions`;
 CREATE TABLE `ac_store_descriptions` (
   `store_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `description` text COLLATE utf8_bin NOT NULL,
+  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`store_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -1455,8 +1455,8 @@ DROP TABLE IF EXISTS `ac_weight_class_descriptions`;
 CREATE TABLE `ac_weight_class_descriptions` (
   `weight_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `title` varchar(32) COLLATE utf8_bin NOT NULL,
-  `unit` varchar(4) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `title` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `unit` varchar(4) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`weight_class_id`,`language_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
@@ -5551,12 +5551,12 @@ DROP TABLE IF EXISTS `ac_page_descriptions`;
 CREATE TABLE `ac_page_descriptions` (
   `page_id` int(10) NOT NULL DEFAULT '0',
   `language_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL COMMENT 'translatable',
+  `title` varchar(255) NOT NULL COMMENT 'translatable',
   `seo_url` varchar(100) NOT NULL DEFAULT '',
-  `keywords` varchar(255) NOT NULL DEFAULT '',
-  `description` varchar(255) NOT NULL DEFAULT '',
-  `content` text DEFAULT NULL, -- Contain the page details if custom content
+  `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
+  `content` text DEFAULT NULL COMMENT 'translatable', -- Contain the page details if custom content
   `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`page_id`,`language_id`)
@@ -5605,10 +5605,10 @@ DROP TABLE IF EXISTS `ac_content_descriptions`;
 CREATE TABLE `ac_content_descriptions` (
   `content_id` int(10) NOT NULL DEFAULT '0',
   `language_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL DEFAULT '',
-  `content` text NOT NULL, -- Contain the page details if custom content
+  `name` varchar(255) NOT NULL COMMENT 'translatable',
+  `title` varchar(255) NOT NULL COMMENT 'translatable',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
+  `content` text NOT NULL COMMENT 'translatable', -- Contain the page details if custom content
   `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`content_id`,`language_id`)
@@ -5718,10 +5718,10 @@ CREATE TABLE `ac_block_descriptions` (
   `language_id` int(10) NOT NULL,
   `block_wrapper` varchar(255) NOT NULL default '0',
   `block_framed` tinyint(1) DEFAULT '1',
-  `name` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,  
-  `description` varchar(255) NOT NULL DEFAULT '',
-  `content` text NOT NULL DEFAULT '', -- Contain the block details if custom content
+  `name` varchar(255) NOT NULL COMMENT 'translatable',
+  `title` varchar(255) NOT NULL COMMENT 'translatable',  
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
+  `content` text NOT NULL DEFAULT '' COMMENT 'translatable', -- Contain the block details if custom content
   `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`block_description_id`, `custom_block_id`, `language_id`)
@@ -5982,7 +5982,7 @@ DROP TABLE IF EXISTS `ac_form_descriptions`;
 CREATE TABLE `ac_form_descriptions` (
   `form_id` int(11) NOT NULL DEFAULT '0',
   `language_id` int(11) NOT NULL,
-  `description` varchar(255) NOT NULL DEFAULT '',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`form_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -6016,8 +6016,8 @@ INSERT INTO `ac_fields` VALUES (11,2,'first_name','I',1,'','Y',1),(12,2,'email',
 DROP TABLE IF EXISTS `ac_field_descriptions`;
 CREATE TABLE `ac_field_descriptions` (
   `field_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL COMMENT 'translatable',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`field_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -6068,8 +6068,8 @@ CREATE TABLE `ac_fields_groups` (
 DROP TABLE IF EXISTS `ac_fields_group_descriptions`;
 CREATE TABLE `ac_fields_group_descriptions` (
   `group_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL COMMENT 'translatable',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`group_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -6948,9 +6948,9 @@ DROP TABLE IF EXISTS `ac_resource_descriptions`;
 CREATE TABLE `ac_resource_descriptions` (
   `resource_id` int(10) NOT NULL DEFAULT '0',
   `language_id` int(11) NOT NULL, -- use 1 as default
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `description` text DEFAULT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '' NULL COMMENT 'translatable',
+  `title` varchar(255) NOT NULL DEFAULT '' NULL COMMENT 'translatable',
+  `description` text DEFAULT NULL NULL COMMENT 'translatable',
   `resource_path` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `resource_code` text DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -7020,7 +7020,7 @@ DROP TABLE IF EXISTS `ac_global_attributes_descriptions`;
 CREATE TABLE `ac_global_attributes_descriptions` (
   `attribute_id` 		int(11) NOT NULL,
   `language_id` 		int(11) NOT NULL,
-  `name` 				varchar(64) COLLATE utf8_bin NOT NULL,
+  `name` 				varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`attribute_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -7038,7 +7038,7 @@ CREATE TABLE `ac_global_attributes_value_descriptions` (
   `attribute_value_id` int(11) NOT NULL,
   `attribute_id` int(11) NOT NULL,
   `language_id`	int(11) NOT NULL,
-  `value` text COLLATE utf8_bin NOT NULL DEFAULT '', 
+  `value` text COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable', 
   PRIMARY KEY (`attribute_value_id`, `attribute_id`, `language_id` )
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;	 
 
@@ -7056,7 +7056,7 @@ DROP TABLE IF EXISTS `ac_global_attributes_groups_descriptions`;
 CREATE TABLE `ac_global_attributes_groups_descriptions` (
   `attribute_group_id` 	int(11) NOT NULL,
   `language_id` 		int(11) NOT NULL,
-  `name` 				varchar(64) COLLATE utf8_bin NOT NULL,
+  `name` 				varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`attribute_group_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -7103,7 +7103,7 @@ CREATE TABLE `ac_product_filters` (
 DROP TABLE IF EXISTS `ac_product_filter_descriptions`;
 CREATE TABLE `ac_product_filter_descriptions` (
   `filter_id` int(11) NOT NULL,
-  `value` varchar(255) NOT NULL DEFAULT '',
+  `value` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`filter_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -7126,7 +7126,7 @@ CREATE TABLE `ac_product_filter_ranges` (
 DROP TABLE IF EXISTS `ac_product_filter_ranges_descriptions`;
 CREATE TABLE `ac_product_filter_ranges_descriptions` (
   `range_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`range_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -303,7 +303,8 @@ class progressbar implements AProgressBar {
 	}
 
 	function get_max() {
-		$language = new ALanguage($this->registry, 'en');
+		define('IS_ADMIN', true);
+		$language = new ALanguageManager($this->registry, 'en');
 		$language_blocks = $language->getAllLanguageBlocks('english');
 		$language_blocks[ 'admin' ] = array_merge($language_blocks[ 'admin' ], $language_blocks[ 'extensions' ][ 'admin' ]);
 		$language_blocks[ 'storefront' ] = array_merge($language_blocks[ 'storefront' ], $language_blocks[ 'extensions' ][ 'storefront' ]);
@@ -319,7 +320,8 @@ class progressbar implements AProgressBar {
 	}
 
 	function do_work() {
-		$language = new ALanguage($this->registry, 'en');
+		define('IS_ADMIN', true);
+		$language = new ALanguageManager($this->registry, 'en');
 		//Load default language (1) English on install only.
 		return $language->definitionAutoLoad(1, 'all', 'all', 'update');
 	}

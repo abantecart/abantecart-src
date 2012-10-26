@@ -53,6 +53,13 @@
 				<td><?php echo $load_language_data_txt; ?></td>
 				<td><?php echo $form2['language_selector']; ?></td>
 			</tr>		
+			<tr>
+				<td><?php echo $language_translate_method_txt; ?></td>
+				<td><?php echo $form2['translate_method_selector']; ?></td>
+			</tr>		
+			<tr>
+				<td colspan="2"><?php echo $load_language_note; ?></td>
+			</tr>		
 		</table>
 	  </div></div></div>
       <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>

@@ -117,6 +117,14 @@
     <value><![CDATA[Cargar los datos que faltan de la lengua: ]]></value>
   </definition>
   <definition>
+    <key>language_translate_method_txt</key>
+    <value><![CDATA[Idioma método de traducción: ]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[NOTA: Esta operación puede tardar algunos minutos para correr. NO cierre del navegador, dejar o refrescar la página!]]></value>
+  </definition> 
+  <definition>
     <key>button_load_language</key>
     <value><![CDATA[Cargar]]></value>
   </definition>  

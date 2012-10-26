@@ -141,6 +141,26 @@
 		<value><![CDATA[Length Class:]]></value>
 	</definition>
 	<definition>
+		<key>entry_auto_translate_status</key>
+		<value><![CDATA[Autotranslate Status:<br /><span class="help">This enabled translation of missing text definitions or language specific data if text values are missing for used language.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_translate_src_lang_code</key>
+		<value><![CDATA[Source language for translation:<br /><span class="help">Select source language to be used for autotranslation.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_translate_method</key>
+		<value><![CDATA[Text Translation Method:<br /><span class="help">Select method you want to use for translation. Default method is a straight copy of source language text</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_translate_override_existing</key>
+		<value><![CDATA[Override if source language text was changed:<br /><span class="help">If set, text in all languages will be replaced with new translation if source language text is edited. NOTE: Can cause many translations.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_warn_lang_text_missing</key>
+		<value><![CDATA[Warn for missing language text:<br /><span class="help">Get warning message if missing language text is detected.</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_tax</key>
 		<value><![CDATA[Display Prices With Tax:]]></value>
 	</definition>

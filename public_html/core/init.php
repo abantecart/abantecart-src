@@ -203,6 +203,7 @@ require_once(DIR_CORE . 'engine/extensions.php');
 require_once(DIR_CORE . 'engine/hook.php');
 require_once(DIR_CORE . 'engine/attribute.php');
 require_once(DIR_CORE . 'engine/promotion.php');
+require_once(DIR_CORE . 'engine/language.php');
 
 require_once(DIR_CORE . 'helper/html.php');
 require_once(DIR_CORE . 'helper/utils.php');
@@ -214,7 +215,6 @@ require_once(DIR_CORE . 'lib/db.php');
 require_once(DIR_CORE . 'lib/connect.php');
 require_once(DIR_CORE . 'lib/document.php');
 require_once(DIR_CORE . 'lib/image.php');
-require_once(DIR_CORE . 'lib/language.php');
 require_once(DIR_CORE . 'lib/log.php');
 require_once(DIR_CORE . 'lib/mail.php');
 require_once(DIR_CORE . 'lib/message.php');
@@ -226,9 +226,6 @@ require_once(DIR_CORE . 'lib/template.php');
 require_once(DIR_CORE . 'lib/xml2array.php');
 require_once(DIR_CORE . 'lib/data.php');
 
-
-//plugins api
-
 // Application Classes
 require_once(DIR_CORE . 'lib/customer.php');
 require_once(DIR_CORE . 'lib/order.php');
@@ -239,21 +236,26 @@ require_once(DIR_CORE . 'lib/length.php');
 require_once(DIR_CORE . 'lib/cart.php');
 require_once(DIR_CORE . 'lib/user.php');
 require_once(DIR_CORE . 'lib/dataset.php');
+require_once(DIR_CORE . 'lib/encryption.php');
+require_once(DIR_CORE . 'lib/menu_control.php');
+require_once(DIR_CORE . 'lib/menu_control_storefront.php');
+require_once(DIR_CORE . 'lib/rest.php');
+require_once(DIR_CORE . 'lib/filter.php');
+
+//Admin manager classes
+if ( IS_ADMIN ) {
 require_once(DIR_CORE . 'lib/layout_manager.php');
 require_once(DIR_CORE . 'lib/content_manager.php');
 require_once(DIR_CORE . 'lib/package_manager.php');
 require_once(DIR_CORE . 'lib/form_manager.php');
 require_once(DIR_CORE . 'lib/extension_manager.php');
-require_once(DIR_CORE . 'lib/encryption.php');
-require_once(DIR_CORE . 'lib/menu_control.php');
-require_once(DIR_CORE . 'lib/menu_control_storefront.php');
-include_once(DIR_CORE . 'lib/resource_manager.php');
-include_once(DIR_CORE . 'lib/resource_upload.php');
-include_once(DIR_CORE . 'lib/backup.php');
-include_once(DIR_CORE . 'lib/listing_manager.php');
-include_once(DIR_CORE . 'lib/attribute_manager.php');
-include_once(DIR_CORE . 'lib/rest.php');
-include_once(DIR_CORE . 'lib/filter.php');
+require_once(DIR_CORE . 'lib/resource_manager.php');
+require_once(DIR_CORE . 'lib/resource_upload.php');
+require_once(DIR_CORE . 'lib/listing_manager.php');
+require_once(DIR_CORE . 'lib/attribute_manager.php');
+require_once(DIR_CORE . 'lib/language_manager.php');
+require_once(DIR_CORE . 'lib/backup.php');
+}
 
 // Registry
 $registry = Registry::getInstance();
@@ -375,16 +377,18 @@ if ( !$is_valid ) {
 if ( IS_ADMIN ) {
     $config->set('original_admin_template', $config->get('admin_template'));
     $config->set('admin_template', $template);
+	// Load language
+	$language = new ALanguageManager($registry);
 } else {
     $config->set('original_config_storefront_template', $config->get('config_storefront_template'));
     $config->set('config_storefront_template', $template);
+	// Load language
+	$language = new ALanguage($registry);
 }
 
 // Create Global Layout Instance
 $registry->set('layout', new ALayout($registry, $template));
 
-// Load language
-$language = new ALanguage($registry);
 //load main language section 
 $language->load();
 $registry->set('language', $language);

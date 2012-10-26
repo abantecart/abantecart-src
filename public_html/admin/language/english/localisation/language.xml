@@ -114,7 +114,15 @@
   </definition>
   <definition>
     <key>load_language_data_txt</key>
-    <value><![CDATA[Load missing language data from: ]]></value>
+    <value><![CDATA[Source Language: ]]></value>
+  </definition>
+  <definition>
+    <key>language_translate_method_txt</key>
+    <value><![CDATA[Text translation method: ]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[NOTE: This operation might take few minutes to run. Do NOT close browser, leave or refresh the page!  ]]></value>
   </definition>
   <definition>
     <key>button_load_language</key>
