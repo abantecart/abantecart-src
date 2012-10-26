@@ -362,6 +362,10 @@ class AHtml extends AController {
 		return $item->getHtml();
 	}
 
+	public function buildCountries($data) {
+		$item = new CountriesHtmlElement($data);
+		return $item->getHtml();
+	}
 
 	public function getContentLanguageSwitcher() {
 		$registry = Registry::getInstance();
@@ -555,6 +559,17 @@ class HtmlElementFactory {
 			'method' => 'buildIPaddress',
 			'class' => 'IPaddressHtmlElement'
 		),
+		'O' => array(
+			'type' => 'countries',
+			'method' => 'buildCountries',
+			'class' => 'CountriesHtmlElement'
+		),
+		'Z' => array(
+			'type' => 'zones',
+			'method' => 'buildZones',
+			'class' => 'ZonesHtmlElement'
+		),
+
 	);
 
 	static private $elements_with_options = array(
@@ -1252,4 +1267,60 @@ class IPaddressHtmlElement extends HtmlElement {
 		$return = $this->view->fetch('form/hidden.tpl');
 		return $return;
 	}
+}
+
+class CountriesHtmlElement extends HtmlElement {
+
+	public function getHtml() {
+
+		if (!is_array($this->value)) $this->value = array( $this->value => (string)$this->value );
+
+		$this->options = !$this->options ? array() : $this->options;
+
+		$this->view->batchAssign(
+			array(
+				'name' => $this->name,
+				'id' => $this->element_id,
+				'value' => $this->value,
+				'options' => $this->options,
+				'attr' => $this->attr,
+				'required' => $this->required,
+				'style' => $this->style,
+			)
+		);
+		if (!empty($this->help_url)) {
+			$this->view->assign('help_url', $this->help_url);
+		}
+		$return = $this->view->fetch('form/selectbox.tpl');
+		return $return;
+	}
+
+}
+
+class ZonesHtmlElement extends HtmlElement {
+
+	public function getHtml() {
+
+		if (!is_array($this->value)) $this->value = array( $this->value => (string)$this->value );
+
+		$this->options = !$this->options ? array() : $this->options;
+
+		$this->view->batchAssign(
+			array(
+				'name' => $this->name,
+				'id' => $this->element_id,
+				'value' => $this->value,
+				'options' => $this->options,
+				'attr' => $this->attr,
+				'required' => $this->required,
+				'style' => $this->style,
+			)
+		);
+		if (!empty($this->help_url)) {
+			$this->view->assign('help_url', $this->help_url);
+		}
+		$return = $this->view->fetch('form/countries_zones.tpl');
+		return $return;
+	}
+
 }

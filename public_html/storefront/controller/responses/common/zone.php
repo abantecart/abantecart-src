@@ -56,4 +56,37 @@ class ControllerResponsesCommonZone extends AController {
 		$this->response->setOutput($stdout, $this->config->get('config_compression'));
   	}
 
+	public function names() {
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$stdout = '<option value="FALSE">' . $this->language->get('text_select') . '</option>';
+
+		$this->loadModel('localisation/zone');
+
+		$country_id = $this->model_localisation_zone->getCountryIdByCountryName($this->request->get['country_name']);
+		$results = $this->model_localisation_zone->getZonesByCountryId($country_id);
+
+		foreach ($results as $result) {
+			$stdout .= '<option value="' . $result['name'] . '"';
+			if (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name'])) {
+				$stdout .= ' selected="selected"';
+			}
+			$stdout .= '>' . $result['name'] . '</option>';
+		}
+
+		if (!$results) {
+			if (!$this->request->get['zone_name']) {
+				$stdout .= '<option value="0" selected="selected">' . $this->language->get('text_none') . '</option>';
+			} else {
+				$stdout .= '<option value="0">' . $this->language->get('text_none') . '</option>';
+			}
+		}
+
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$this->response->setOutput($stdout, $this->config->get('config_compression'));
+	}
+
 }

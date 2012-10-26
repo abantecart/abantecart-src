@@ -460,6 +460,10 @@ class AForm {
                 case 'captcha' :
                     $data['captcha_url'] = $this->html->getURL('common/captcha');
                     break;
+				case 'zones' :
+				case 'countries' :
+					$data['options'] = $this->_getCountries();
+					break;
             }
             $item = HtmlElementFactory::create($data);
 
@@ -467,6 +471,9 @@ class AForm {
                 case 'hidden' :
                     $fields_html[ $field['field_id'] ] = $item->getHtml();
                     break;
+				case 'IPaddress' :
+					$fields_html[ $field['field_id'] ] = $item->getHtml();
+					break;
                 default:
                     $view->batchAssign(
                         array(
@@ -531,6 +538,17 @@ class AForm {
 	    }
 
         return $output;
+	}
+
+	private function _getCountries() {
+		$countries = array();
+		$this->load->model('localisation/country','');
+		$results = $this->model_localisation_country->getCountries();
+		$data['options'] = array();
+		foreach ($results as $c) {
+			$countries[$c['name']] = $c['name'];
+		}
+		return $countries;
 	}
 
 }

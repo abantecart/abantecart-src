@@ -40,5 +40,15 @@ class ModelLocalisationZone extends Model {
 	
 		return $zone_data;
 	}
+
+	public function getCountryIdByCountryName($name) {
+		$query = $this->db->query("SELECT country_id FROM " . DB_PREFIX . "countries WHERE name = '" . $this->db->escape($name) . "' AND status = '1' LIMIT 1");
+
+		if ( $query->num_rows > 0 ) {
+			return $query->row['country_id'];
+		}
+		return 0;
+	}
+
 }
 ?>
