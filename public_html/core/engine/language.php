@@ -233,7 +233,7 @@ class ALanguage {
 
         //build code based array
         $languages = array();
-        foreach ( $this->available_languages as $lng ) {
+        foreach ( $this->getActiveLanguages() as $lng ) {
             $languages[ $lng['code'] ] = $lng;
         }
 
