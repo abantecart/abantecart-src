@@ -210,7 +210,7 @@ class ALanguage {
             $browser_languages = explode(',', $request->server['HTTP_ACCEPT_LANGUAGE']);
 
             foreach ($browser_languages as $browser_language) {
-                foreach ($this->available_languages as $key => $value) {
+                foreach ($this->getActiveLanguages() as $key => $value) {
                     $locale = explode(',', $value['locale']);
 
                     if ( preg_grep( "/$browser_language/i" , $locale ) ) {
