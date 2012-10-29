@@ -500,7 +500,6 @@ class AForm {
                 $output .= $view->fetch('form/form_group.tpl');
             }
         } else {
-            //$output .= implode("\r\n", $fields_html);
 			$view->batchAssign(array('fields_html' => $fields_html));
 			$output .= $view->fetch('form/form_no_group.tpl');
         }

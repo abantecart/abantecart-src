@@ -64,7 +64,7 @@ class ControllerResponsesCommonZone extends AController {
 
 		$this->loadModel('localisation/zone');
 
-		$country_id = $this->model_localisation_zone->getCountryIdByCountryName($this->request->get['country_name']);
+		$country_id = $this->model_localisation_zone->getCountryIdByName($this->request->get['country_name']);
 		$results = $this->model_localisation_zone->getZonesByCountryId($country_id);
 
 		foreach ($results as $result) {
