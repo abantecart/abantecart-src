@@ -241,6 +241,7 @@ require_once(DIR_CORE . 'lib/menu_control.php');
 require_once(DIR_CORE . 'lib/menu_control_storefront.php');
 require_once(DIR_CORE . 'lib/rest.php');
 require_once(DIR_CORE . 'lib/filter.php');
+require_once(DIR_CORE . 'lib/listing.php');
 
 //Admin manager classes
 if ( IS_ADMIN ) {

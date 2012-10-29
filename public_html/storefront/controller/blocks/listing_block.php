@@ -173,7 +173,7 @@ class ControllerBlocksListingBlock extends AController {
 
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-		$listing_manager = new AListingManager($this->data['custom_block_id']);
+		$listing = new AListing($this->data['custom_block_id']);
 		$content = unserialize($this->data['descriptions'][$this->config->get('storefront_language_id')]['content']);
         if(!$content && $this->data['descriptions']){
             $content = current($this->data['descriptions']);
@@ -182,7 +182,7 @@ class ControllerBlocksListingBlock extends AController {
 		$this->data['controller'] = $content[ 'block_appearance' ];
 		$this->data['listing_datasource'] = $content['listing_datasource'];
 
-		$data_sources = $listing_manager->getListingDataSources();
+		$data_sources = $listing->getListingDataSources();
 		$data_source = $data_sources[$content['listing_datasource']];
 
 		if(strpos($content['listing_datasource'],'custom_')===FALSE){ // for auto listings
@@ -253,12 +253,12 @@ class ControllerBlocksListingBlock extends AController {
 					$this->loadModel($data_source['storefront_model']);
                   	$result = call_user_func_array(array( $this->{'model_'.str_replace('/','_',$data_source['storefront_model'])},
 												          $data_source['storefront_method']),
-                                                   $listing_manager->getlistingArguments( $data_source['storefront_model'],
+                                                   $listing->getlistingArguments( $data_source['storefront_model'],
                                                                                           $data_source['storefront_method'],
                                                                                           array('limit'=>$limit)) );
 
 					if($result){
-						$desc = $listing_manager->getListingDataSources();
+						$desc = $listing->getListingDataSources();
 						foreach($desc as $d){
 							if($d['storefront_method']==$data_source['storefront_method']){
 								$data_source=$d;
@@ -273,7 +273,7 @@ class ControllerBlocksListingBlock extends AController {
 			}
 		}else{ // for custom listings
 
-			$list = $listing_manager->getCustomList();
+			$list = $listing->getCustomList();
 			if(!$list){ return null; }
 
 			$this->load->model($data_source['storefront_model']);
