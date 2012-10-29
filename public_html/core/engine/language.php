@@ -175,6 +175,7 @@ class ALanguage {
                 $active_languages[] =  array(
                     'language_id'   => $result['language_id'],
                     'name'  => $result['name'],
+                    'filename'  => $result['filename'],
                     'code'  => $result['code'],
                     'image' => $result['image']
                 );
