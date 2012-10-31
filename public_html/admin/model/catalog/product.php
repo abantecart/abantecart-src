@@ -1119,7 +1119,9 @@ class ModelCatalogProduct extends Model {
 	*	Main function to be called to update option values.
 	*/
 	public function updateProductOptionValues($product_id, $option_id, $data) {
+		if(!is_array($data['product_option_value_id']) || !$option_id || !$product_id){ return; }
 		$language_id = $this->session->data['content_language_id'];
+
 		foreach ( $data['product_option_value_id'] as $opt_val_id => $status ) {
 			$option_value_data = array(
 				'attribute_value_id' => $data['attribute_value_id'][$opt_val_id],
@@ -1150,6 +1152,7 @@ class ModelCatalogProduct extends Model {
 	    }
 
 		$this->cache->delete('product');
+
 	}
 
 	public function getProductOptionValue($product_id, $option_value_id) {

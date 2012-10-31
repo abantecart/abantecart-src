@@ -165,7 +165,7 @@ class AExtensionManager {
 
 		if (isset($config->settings->item)) {
 			foreach ($config->settings->item as $item) {
-				$settings[ (string)$item[ 'id' ] ] = htmlentities((string)$item->default_value,ENT_QUOTES,'UTF-8');
+				$settings[ (string)$item[ 'id' ] ] = $this->html->convertLinks( htmlentities((string)$item->default_value,ENT_QUOTES,'UTF-8') );
 			}
 		}
 

@@ -370,10 +370,14 @@ class ALanguageManager extends Alanguage {
         $sections = in_array($section,array('storefront',0),true) ? array('storefront') : $sections;
 
         foreach($this->available_languages as $lang){
-             if( (int)$language_id == $lang['language_id'] ) {
-             	$language_ids[$lang['directory']] = $lang['language_id'];
-             	$language_codes[$lang['directory']] = $lang['code'];
-             }
+             if( $language_id!='all' && $language_id == $lang['language_id'] ) {
+             	 $language_ids[$lang['directory']] = $lang['language_id'];
+             	 $language_codes[$lang['directory']] = $lang['code'];
+				 break;
+             }else{
+				 $language_ids[$lang['directory']] = $lang['language_id'];
+				 $language_codes[$lang['directory']] = $lang['code'];
+			 }
         }
 
         if( $mode == 'update' ){
@@ -387,8 +391,10 @@ class ALanguageManager extends Alanguage {
                 $sql .= "AND block='".$this->db->escape(str_replace('/','_', $specific_block ))."' ";
             }
             if($section!='all'){
+				$section = $section=='admin' ? 1 : 0;
                 $sql .= "AND section='".(int)$section."' ";
             }
+
             $this->db->query($sql);
         }
         

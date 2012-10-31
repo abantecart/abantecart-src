@@ -861,7 +861,10 @@ class ExtensionUtils {
 	 *  is extension support current core version
 	 */
 	public function validateCoreVersion() {
-		if (!isset($this->config->cartversions->item)) return;
+		if (!isset($this->config->cartversions->item)){
+			$this->error('Error: config file of extension does not contain any information about versions of AbanteCart where it can be run.');
+			return false;
+		}
 		foreach ($this->config->cartversions->item as $item){
 			$version = (string)$item;
 			$cart_versions[] = $version;
@@ -1072,7 +1075,7 @@ class ExtensionUtils {
 		if (isset($this->config->settings->item)) {
 			foreach ($this->config->settings->item as $item) {
 				if ((string)$item[ 'id' ] == $this->name . '_status') continue;
-				$value = (string)$item->default_value;
+				$value = $this->registry->get('html')->convertLinks( (string)$item->default_value );
 				if((string)$item->type == 'resource' && $value){
 					$resource = new AResource( (string)$item->resource_type );
 					$resource_id = $resource->getIdFromHexPath(str_replace((string)$item->resource_type, '', $value));
