@@ -172,13 +172,7 @@ class ALanguage {
         $active_languages = array();
         foreach ($this->available_languages as $result) {
             if ($result['status'] == 1) {
-                $active_languages[] =  array(
-                    'language_id'   => $result['language_id'],
-                    'name'  => $result['name'],
-                    'filename'  => $result['filename'],
-                    'code'  => $result['code'],
-                    'image' => $result['image']
-                );
+                $active_languages[] =  $result;
             }
         }
         return $active_languages;
