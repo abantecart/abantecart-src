@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>google_checkout_name</key>
+    <value><![CDATA[Google Checkout]]></value>
+  </definition>
+  <definition>
+    <key>google_checkout_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>google_checkout_merchant_id</key>
+    <value><![CDATA[Merchant ID:]]></value>
+  </definition>
+  <definition>
+    <key>google_checkout_merchant_key</key>
+    <value><![CDATA[Merchant Key:]]></value>
+  </definition>
+  <definition>
+    <key>google_checkout_callback</key>
+    <value><![CDATA[API callback URL:<br /><span class="help">URL for Google to notify you of new orders and changes in order state. Use Notification as HTML.</span>]]></value>
+  </definition>
+  <definition>
+    <key>google_checkout_test</key>
+    <value><![CDATA[Test Mode:]]></value>
+  </definition>
+  <definition>
+    <key>google_checkout_test_0</key>
+    <value><![CDATA[No]]></value>
+  </definition>
+  <definition>
+    <key>google_checkout_test_1</key>
+    <value><![CDATA[Yes]]></value>
+  </definition>
+  <definition>
+    <key>google_checkout_order_status_id</key>
+    <value><![CDATA[Order Status:]]></value>
+  </definition>
+  <definition>
+    <key>google_checkout_location_id</key>
+    <value><![CDATA[Location:]]></value>
+  </definition>
+  <definition>
+    <key>google_checkout_location_id_0</key>
+    <value><![CDATA[All Locations]]></value>
+  </definition>
+  <definition>
+    <key>google_checkout_total</key>
+    <value><![CDATA[Total:<br /><span class="help">The checkout total the order must reach before this payment method becomes active.</span>]]></value>
+  </definition>
+  <definition>
+    <key>google_checkout_sort_order</key>
+    <value><![CDATA[Sort Order]]></value>
+  </definition>
+</definitions>

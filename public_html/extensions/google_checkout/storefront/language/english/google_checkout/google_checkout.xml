@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>google_checkout_title</key>
+    <value><![CDATA[Credit Card / Debit Card (Google Checkout)]]></value>
+  </definition>
+</definitions>
