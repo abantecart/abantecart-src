@@ -178,9 +178,8 @@ final class AConfig {
 	}
 
 	private function _set_default_settings() {
-		$cache = $this->registry->get('cache');
+		//we don't use cache here cause domain may by any and we can't to change cache from control panel
 		$db = $this->registry->get('db');
-		$cache_name = 'settings.store.' . md5($this->cnfg[ 'config_url' ]);
 		$sql = "SELECT se.`key`, se.`value`, st.store_id
 					  FROM " . DB_PREFIX . "settings se
 					  RIGHT JOIN " . DB_PREFIX . "stores st ON se.store_id=st.store_id
@@ -194,7 +193,6 @@ final class AConfig {
 				$this->cnfg[ $row[ 'key' ] ] = $row[ 'value' ];
 			}
 		}
-		$cache->force_set($cache_name, $store_settings);
 	}
 }
 
