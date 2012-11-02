@@ -753,8 +753,9 @@ final class AData {
 		} else {
 			//get ids required for the table and not special relationship
 			if( $table_cfg['id'] && $data_arr[$table_cfg['id']] && !isset($table_cfg['special_relation'])){
-				//we have ID, update only. 
-				return 'update';
+				//we have ID, we are not sure if we insert or update. Auto detect
+				//To improve performance selection can be added to skip smart insert/update detection if sertain what needs to be done   
+				return 'update_or_insert';
 			} else {
 				//Note: Insert based on relations keys needs to be validated for insert or update
 				return 'update_or_insert';
@@ -922,7 +923,12 @@ final class AData {
 		}else{
 			$this->_status2array('sql', $sql);
 			if ( isset($table_cfg['id']) ) {
-				$return[$table_cfg['id']] = 'new_id';
+				//id is present for insert
+				if ( $data_row[$table_cfg['id']] ) {
+					$return[$table_cfg['id']] = $data_row[$table_cfg['id']];
+				} else {
+					$return[$table_cfg['id']] = 'new_id';
+				}			
 			}
 		}
 
@@ -1068,6 +1074,10 @@ final class AData {
 				//If special case, no new ID. 
 				if(!$table_cfg['on_insert_no_id']){
 					$return[$table_cfg['id']] = "new_id";
+				}
+				//id is present for insert
+				if ( $data_row[$table_cfg['id']] ) {
+					$return[$table_cfg['id']] = $data_row[$table_cfg['id']];
 				}
 			}
 		}

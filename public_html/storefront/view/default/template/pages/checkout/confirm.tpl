@@ -35,7 +35,7 @@
 					<?php echo $shipping_city .' '.$shipping_zone.' '.$shipping_postcode; ?><br/>
 					<?php echo $shipping_country ?>
 				  </td>
-				  <td align="left" valign="top"><?php echo $shipping_method; ?></td>
+				  <td align="left" valign="top" width="20%"><?php echo $shipping_method; ?></td>
 				</tr>
 		     </table>
           </td>
@@ -59,7 +59,7 @@
 					<?php echo $payment_city .' '.$payment_zone.' '.$payment_postcode; ?><br/>
 					<?php echo $payment_country ?>
 				  </td>
-				  <td align="left" valign="top"><?php echo $payment_method; ?></td>
+				  <td align="left" valign="top" width="20%"><?php echo $payment_method; ?></td>
 				</tr>
 		     </table>
           </td>
