@@ -694,11 +694,13 @@ final class AData {
 		}
 
 		foreach ($data_arr['rows'] as $rnode){
+
 			$action = '';
 			//Set action for the row	
 			$action = $this->_get_action($table_name, $table_cfg, $rnode);
 			//set current scope values
 			$new_vals = $parent_vals;
+
 			if (isset($table_cfg['id']) && isset($rnode[$table_cfg['id']]) ) {
 				$new_vals[$table_cfg['id']] = $rnode[$table_cfg['id']];
 			}
@@ -728,7 +730,9 @@ final class AData {
 			//locate inner table nodes for recursion
 			if ( isset($rnode['tables']) && is_array($rnode['tables'])) {
 				foreach( $rnode['tables'] as $new_table ){
+
 					$sub_table_cfg = $this->model_tool_table_relationships->find_table_cfg( $new_table['name'], $table_cfg );
+
 					if ( $sub_table_cfg ) {
 						$this->_process_import_table($new_table['name'], $sub_table_cfg, $new_table, $new_vals);
 					} else {
@@ -780,13 +784,16 @@ final class AData {
 					}
 				}
 			} else if ($table_cfg['relation_ids']) {
+
 				foreach ($table_cfg['relation_ids'] as $relation_id ) {
 					//check if we have required ids in array or from parent nodes
+
 					if ( !isset($new_vals[$relation_id]) || $new_vals[$relation_id] == '' ) {
 						$this->_status2array('error', 'Missing relation ID '.$relation_id .' for '.$action.' action in table '. $table_name .'. Skipping.');
 						return false;
 					}
 				}
+
 			}
 		}
 
@@ -910,7 +917,7 @@ final class AData {
 		if ($this->run_mode == 'commit') {
 			$this->db->query($sql, TRUE);
 			if ( isset($table_cfg['id']) ) {
-				$return[$table_cfg['id']] = $this->db->getLastId();
+				$return[$table_cfg['id']] = ( $this->db->getLastId() ) ? $this->db->getLastId() : $data_row[$table_cfg['id']];
 			}
 		}else{
 			$this->_status2array('sql', $sql);
@@ -1052,7 +1059,7 @@ final class AData {
 			if ($status == 'insert' && isset($table_cfg['id']) ) {
 				//If special case, no new ID. 
 				if(!$table_cfg['on_insert_no_id']){
-					$return[$table_cfg['id']] = $this->db->getLastId();
+					$return[$table_cfg['id']] = ( $this->db->getLastId() ) ? $this->db->getLastId() : $data_row[$table_cfg['id']];
 				}
 			}
 		} else {
