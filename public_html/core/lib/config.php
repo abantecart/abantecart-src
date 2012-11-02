@@ -139,7 +139,7 @@ final class AConfig {
 				//}
 				$this->cnfg[ 'config_store_id' ] = $store_settings[ 0 ][ 'store_id' ];
 			} else {
-				$warning = new AWarning('Warning: Trying to access by unconfigured or unknown domain. Possibly missing or incorrect store URL set up. Loading default store configuration');
+				$warning = new AWarning('Warning: Accessing store with unconfigured or unknown domain. Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
 				$warning->toLog()->toMessages();
 				//set config url to current domain
 				$this->cnfg[ 'config_url' ] = 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/';
