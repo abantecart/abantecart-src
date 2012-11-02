@@ -9,6 +9,9 @@
 	</cartversions>
 	<priority>10</priority>
 	<dependencies/>
+	<note>true</note>
+	<help_file><![CDATA[help/google_checkout.txt]]></help_file>
+	<help_link>http://code.google.com/apis/checkout</help_link>
 	<settings>
 		<item id="google_checkout_status">
 			<type>checkbox</type>
@@ -24,7 +27,7 @@
 		</item>
 		<item id="google_checkout_callback">
 			<type>input</type>
-			<default_value><![CDATA[#storefront#rt=google_checkout/google_checkout/callback ]]></default_value>
+			<default_value><![CDATA[#storefront#rt=extension/google_checkout/callback ]]></default_value>
 		</item>
 		<item id="google_checkout_total">
 			<type >input</type>

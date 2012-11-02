@@ -18,11 +18,11 @@
   </definition>
   <definition>
     <key>google_checkout_callback</key>
-    <value><![CDATA[API callback URL:<br /><span class="help">URL for Google to notify you of new orders and changes in order state. Use Notification as HTML.</span>]]></value>
+    <value><![CDATA[API callback URL:<br /><span class="help">URL for Google to notify you of new orders and changes in order state. Place this URL into settings/integration of your merchant account of Google Checkout. Use Notification as HTML.</span>]]></value>
   </definition>
   <definition>
     <key>google_checkout_test</key>
-    <value><![CDATA[Test Mode:]]></value>
+    <value><![CDATA[Test mode:]]></value>
   </definition>
   <definition>
     <key>google_checkout_test_0</key>

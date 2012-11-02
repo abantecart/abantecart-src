@@ -1,6 +1,7 @@
 <form id="checkoutFrm" action="<?php echo $action; ?>" method="post">
 	<input type="hidden" name="cart" value="<?php echo $cart; ?>">
 	<input type="hidden" name="signature" value="<?php echo $signature; ?>">
+	<input type="hidden" name="continue_url" value="<?php echo $continue_url; ?>">
 
 	<div class="buttons">
 		<table>

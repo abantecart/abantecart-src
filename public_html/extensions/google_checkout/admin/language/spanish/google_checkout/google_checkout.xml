@@ -6,23 +6,23 @@
   </definition>
   <definition>
     <key>google_checkout_status</key>
-    <value><![CDATA[Status]]></value>
+    <value><![CDATA[Estado]]></value>
   </definition>
   <definition>
     <key>google_checkout_merchant_id</key>
-    <value><![CDATA[Merchant ID:]]></value>
+    <value><![CDATA[Comerciante ID:]]></value>
   </definition>
   <definition>
     <key>google_checkout_merchant_key</key>
-    <value><![CDATA[Merchant Key:]]></value>
+    <value><![CDATA[Comerciante Key:]]></value>
   </definition>
   <definition>
     <key>google_checkout_callback</key>
-    <value><![CDATA[API callback URL:<br /><span class="help">URL for Google to notify you of new orders and changes in order state. Use Notification as HTML.</span>]]></value>
+    <value><![CDATA[API URL de devolución de llamada: <br /> <span class="help"> URL de Google para notificarle de nuevos pedidos y cambios en el estado de la orden. Utilice Notificación como HTML. </ Span>]]></value>
   </definition>
   <definition>
     <key>google_checkout_test</key>
-    <value><![CDATA[Test Mode:]]></value>
+    <value><![CDATA[Modo de prueba:]]></value>
   </definition>
   <definition>
     <key>google_checkout_test_0</key>
@@ -34,22 +34,22 @@
   </definition>
   <definition>
     <key>google_checkout_order_status_id</key>
-    <value><![CDATA[Order Status:]]></value>
+    <value><![CDATA[Estado de la Orden:]]></value>
   </definition>
   <definition>
     <key>google_checkout_location_id</key>
-    <value><![CDATA[Location:]]></value>
+    <value><![CDATA[Localidad:]]></value>
   </definition>
   <definition>
     <key>google_checkout_location_id_0</key>
-    <value><![CDATA[All Locations]]></value>
+    <value><![CDATA[Todas las Localidades]]></value>
   </definition>
   <definition>
     <key>google_checkout_total</key>
-    <value><![CDATA[Total:<br /><span class="help">The checkout total the order must reach before this payment method becomes active.</span>]]></value>
+    <value><![CDATA[Total:. <br /> <span Class="help"> El total de la orden de pago y envío debe llegar antes de que esta forma de pago se activa </ span>]]></value>
   </definition>
   <definition>
     <key>google_checkout_sort_order</key>
-    <value><![CDATA[Sort Order]]></value>
+    <value><![CDATA[Orden de Clasificación]]></value>
   </definition>
 </definitions>

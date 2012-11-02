@@ -43,10 +43,8 @@ class ControllerResponsesExtensionGoogleCheckout extends AController {
 			$xml = '<?xml version="1.0" encoding="UTF-8"?>';
 			$xml .= '<checkout-shopping-cart xmlns="http://checkout.google.com/schema/2">';
 			$xml .= '	<shopping-cart>';
-			$xml .= '   	<merchant-private-data>';
-			$xml .= '			<order_id>' . $this->session->data[ 'order_id' ] . '</order_id>';
-			$xml .= '   	</merchant-private-data>';
-			$xml .= '		<items>';
+			$xml .= '   	<merchant-private-data>order_id=' . $this->session->data[ 'order_id' ].'</merchant-private-data>';
+			$xml .= '<items>';
 
 			$products = $this->cart->getProducts();
 
@@ -105,6 +103,7 @@ class ControllerResponsesExtensionGoogleCheckout extends AController {
 
 			$this->data[ 'cart' ] = base64_encode($xml);
 			$this->data[ 'signature' ] = base64_encode($hmac);
+			$this->data[ 'continue_url' ] = $this->html->getSecureURL('checkout/success');
 
 			$item = HtmlElementFactory::create(array( 'type' => 'button',
 				'name' => 'back',
@@ -137,7 +136,17 @@ class ControllerResponsesExtensionGoogleCheckout extends AController {
 	}
 
 	public function callback() {
-		$this->log->write($_SERVER[ 'REQUEST_URI' ]);
+		// this method wait order_id from Google notifier and then change order status id
+		$order_id = (int) str_replace('order_id=','',$this->request->post['shopping-cart_merchant-private-data']);
+		if($order_id){
+			$this->load->model('checkout/order');
+			$order_info = $this->model_checkout_order->getOrder($order_id);
+			if(!$order_info){
+				$warning = new AWarning('Warning: Unknown order_id of Google Checkout callback (order_id: #'.$order_id.')');
+				$warning->toLog()->toMessages();
+				return;
+		}
+		$this->model_checkout_order->confirm($order_id, $this->config->get('google_checkout_order_status_id'));
+		}
 	}
-
 }
