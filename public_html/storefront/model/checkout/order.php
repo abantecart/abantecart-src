@@ -80,6 +80,13 @@ class ModelCheckoutOrder extends Model {
 		//reuse same order_id or unused one order_status_id = 0
 		if ( $old_order_id ) {
 			$query = $this->db->query("SELECT order_id FROM `" . DB_PREFIX . "orders` WHERE order_id = " . $old_order_id . " AND order_status_id = '0'");
+
+			if(!$query->num_rows){ // for already processed orders do redirect
+				$query = $this->db->query("SELECT order_id FROM `" . DB_PREFIX . "orders` WHERE order_id = " . $old_order_id . " AND order_status_id > '0'");
+				if($query->num_rows){
+					return false;
+				}
+			}
 		} else {
 			$query = $this->db->query("SELECT order_id FROM `" . DB_PREFIX . "orders` WHERE date_added < '" . date('Y-m-d', strtotime('-1 month')) . "' AND order_status_id = '0'");	
 		}

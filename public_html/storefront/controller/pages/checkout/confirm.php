@@ -68,7 +68,14 @@ class ControllerPagesCheckoutConfirm extends AController {
 	
 		$order = new AOrder( $this->registry );
 		$this->data = $order->buildOrderData( $this->session->data );
-		$this->session->data['order_id'] = $order->saveOrder();
+		$order_id = $order->saveOrder();
+		if($order_id===false){
+			// preventing rebuilding order of already processed orders
+			//(by "back" button via browser history from external payment page(paypal, google_checkout etc))
+			$this->redirect($this->html->getSecureURL('checkout/success'));
+		}
+		$this->session->data['order_id'] = $order_id;
+
 
     	$this->document->setTitle( $this->language->get('heading_title') ); 
 		
