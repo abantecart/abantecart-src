@@ -32,13 +32,14 @@ class ModelCatalogCategory extends Model {
 		$category_id = $this->db->getLastId();
 		
 		foreach ($data['category_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "category_descriptions
-							  SET category_id = '" . (int)$category_id . "',
-							        language_id = '" . (int)$language_id . "',
-							        `name` = '" . $this->db->escape($value['name']) . "',
-							        meta_keywords = '" . $this->db->escape($value['meta_keywords']) . "',
-							        meta_description = '" . $this->db->escape($value['meta_description']) . "',
-							        description = '" . $this->db->escape($value['description']) . "'");
+			$this->language->addDescriptions('category_descriptions',
+											 array('category_id' => (int)$category_id),
+											 array($language_id => array(
+												 						'name' => $value['name'],
+												 						'meta_keywords' => $value['meta_keywords'],
+												 						'meta_description' => $value['meta_description'],
+												 						'description' => $value['description']
+											 )) );
 		}
 		
 		if (isset($data['category_store'])) {
@@ -63,7 +64,6 @@ class ModelCatalogCategory extends Model {
 			}						
 		}
 		$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases SET query = 'category_id=" . (int)$category_id . "', keyword = '" . $this->db->escape( $seo_key ) . "'");
-		
 				
 		$this->cache->delete('category');
 
@@ -83,24 +83,32 @@ class ModelCatalogCategory extends Model {
 		if ( !empty($data['category_description']) ) {
 			foreach ($data['category_description'] as $language_id => $value) {
 				$update = array();
-				if ( isset($value['name']) ) $update[] = "name = '" . $this->db->escape($value['name']) ."'";
-				if ( isset($value['description']) ) $update[] = "description = '" . $this->db->escape($value['description']) ."'";
-				if ( isset($value['meta_keywords']) ) $update[] = "meta_keywords = '" . $this->db->escape($value['meta_keywords']) ."'";
-				if ( isset($value['meta_description']) ) $update[] = "meta_description = '" . $this->db->escape($value['meta_description']) ."'";
+				if ( isset($value['name']) ){
+					$update["name"] = $value['name'];
+				}
+				if ( isset($value['description']) ){
+					$update["description"] = $value['description'];
+				}
+				if ( isset($value['meta_keywords']) ){
+					$update["meta_keywords"] = $value['meta_keywords'];
+				}
+				if ( isset($value['meta_description']) ){
+					$update["meta_description"] = $value['meta_description'];
+				}
 				if ( !empty($update) ){
 					$exist = $this->db->query( "SELECT *
 												FROM " . DB_PREFIX . "category_descriptions
 										        WHERE category_id = '" . (int)$category_id . "' AND language_id = '" . (int)$language_id . "' ");
 
 					if($exist->num_rows){
-						$this->db->query("UPDATE " . DB_PREFIX . "category_descriptions
-										  SET ". implode(',', $update) ."
-										  WHERE category_id = '" . (int)$category_id . "' AND language_id = '" . (int)$language_id . "' ");
+						$this->language->replaceDescriptions('category_descriptions',
+															 array('category_id' => (int)$category_id),
+															 array($language_id => $update) );
+
 					}else{
-						$this->db->query("INSERT INTO " . DB_PREFIX . "category_descriptions
-										  SET ". implode(',', $update) ." ,
-											category_id = '" . (int)$category_id . "',
-											language_id = '" . (int)$language_id . "'");
+						$this->language->addDescriptions('category_descriptions',
+														 array('category_id' => (int)$category_id),
+														 array($language_id => $update) );
 					}
 				}
 			}
@@ -144,7 +152,12 @@ class ModelCatalogCategory extends Model {
 	} 
 
 	public function getCategory($category_id) {
-		$query = $this->db->query("SELECT DISTINCT *, (SELECT keyword FROM " . DB_PREFIX . "url_aliases WHERE query = 'category_id=" . (int)$category_id . "') AS keyword FROM " . DB_PREFIX . "categories WHERE category_id = '" . (int)$category_id . "'");
+		$query = $this->db->query("SELECT DISTINCT *,
+										(SELECT keyword
+										FROM " . DB_PREFIX . "url_aliases
+										WHERE query = 'category_id=" . (int)$category_id . "') AS keyword
+									FROM " . DB_PREFIX . "categories
+									WHERE category_id = '" . (int)$category_id . "'");
 		
 		return $query->row;
 	}
