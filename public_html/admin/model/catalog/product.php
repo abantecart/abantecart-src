@@ -878,7 +878,10 @@ class ModelCatalogProduct extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "products_to_stores WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases WHERE query = 'product_id=" . (int)$product_id. "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_tags WHERE product_id='" . (int)$product_id. "'");
-		
+
+		$lm = new ALayoutManager();
+		$lm->deletePageLayout('pages/product/product','product_id',(int)$product_id);
+
 		$this->cache->delete('product');
 	}
 

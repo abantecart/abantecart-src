@@ -132,13 +132,14 @@ class ModelCatalogCategory extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_descriptions WHERE category_id = '" . (int)$category_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "categories_to_stores WHERE category_id = '" . (int)$category_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases WHERE query = 'category_id=" . (int)$category_id . "'");
-		
-		$query = $this->db->query("SELECT category_id FROM " . DB_PREFIX . "categories WHERE parent_id = '" . (int)$category_id . "'");
 
+		$query = $this->db->query("SELECT category_id FROM " . DB_PREFIX . "categories WHERE parent_id = '" . (int)$category_id . "'");
+		$lm = new ALayoutManager();
 		foreach ($query->rows as $result) {
 			$this->deleteCategory($result['category_id']);
+			$lm->deletePageLayout('pages/product/category','path',$result['category_id']);
 		}
-		
+		$lm->deletePageLayout('pages/product/category','path',$category_id);
 		$this->cache->delete('category');
 	} 
 

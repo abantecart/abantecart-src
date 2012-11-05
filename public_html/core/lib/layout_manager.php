@@ -1923,4 +1923,24 @@ class ALayoutManager {
 		$result = $this->db->query ( $sql );
 		return $result->row ['instance_id'];
 	}
+
+	public function deletePageLayout($controller, $key_param, $key_value, $layout_id=0){
+		if(empty($controller) || empty($key_param) || empty($key_value)) return;
+		$pages = $this->getPage($controller, $key_param,$key_value, $layout_id);
+		if($pages){
+			foreach($pages as $page){
+				$this->db->query ( "DELETE FROM " . DB_PREFIX . "layouts
+									WHERE layout_id = '" . $page['layout_id'] . "' " );
+				$this->db->query ( "DELETE FROM " . DB_PREFIX . "pages_layouts
+									WHERE layout_id = '" . $page['layout_id'] . "' " );
+				$this->db->query ( "DELETE FROM " . DB_PREFIX . "block_layouts
+									WHERE layout_id = '" . $page['layout_id'] . "' " );
+				$this->db->query ( "DELETE FROM " . DB_PREFIX . "pages
+									WHERE page_id = '" . $page['page_id'] . "' " );
+				$this->db->query ( "DELETE FROM " . DB_PREFIX . "page_descriptions
+									WHERE page_id = '" . $page['page_id'] . "' " );
+			}
+			$this->cache->delete('layout');
+		}
+	}
 }

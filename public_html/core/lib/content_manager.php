@@ -280,16 +280,8 @@ class AContentManager {
 	}
 
 	public function deleteContent($content_id) {
-
-		$this->db->query( "DELETE
-		   				 FROM " . DB_PREFIX . "pages_layouts
-						 WHERE page_id IN
-									(SELECT page_id
-									  FROM " . DB_PREFIX . "pages
-									  WHERE controller = 'content/content'
-											AND key_param = 'content_id'
-											AND key_value = '" . ( int )$content_id . "')");
-		
+		$lm = new ALayoutManager();
+		$lm->deletePageLayout('pages/content/content','content_id',( int )$content_id);
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contents WHERE content_id = '" . ( int )$content_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "content_descriptions WHERE content_id = '" . ( int )$content_id . "'");

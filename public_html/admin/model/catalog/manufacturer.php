@@ -84,7 +84,9 @@ class ModelCatalogManufacturer extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "manufacturers WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "manufacturers_to_stores WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'");
-			
+
+		$lm = new ALayoutManager();
+		$lm->deletePageLayout('pages/product/manufacturer','manufacturer_id',(int)$manufacturer_id);
 		$this->cache->delete('manufacturer');
 	}	
 	
