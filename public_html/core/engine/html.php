@@ -1080,7 +1080,7 @@ class CaptchaHtmlElement extends HtmlElement {
 			array(
 				'name' => $this->name,
 				'id' => $this->element_id,
-				'attr' => $this->attr,
+				'attr' => 'aform_field_type="captcha" ' . $this->attr,
 				'style' => $this->style,
 				'required' => $this->required,
 				'captcha_url' => $this->data[ 'registry' ]->get('html')->getURL('common/captcha'),
