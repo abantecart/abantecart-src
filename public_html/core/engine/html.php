@@ -680,6 +680,7 @@ abstract class HtmlElement {
 class HiddenHtmlElement extends HtmlElement {
 
 	public function getHtml() {
+		//var_dump($this->data);
 		$this->view->batchAssign(
 			array(
 				'id' => $this->element_id,
