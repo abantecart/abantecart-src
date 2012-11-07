@@ -185,25 +185,27 @@ class AForm {
             ORDER BY f.sort_order"
         );
         $this->fields = array();
-        if ( $query->num_rows )
-        foreach ( $query->rows as $row ) {
-            $this->fields[ $row['field_id'] ] = $row;
-            $query = $this->db->query("
-                SELECT *
-                FROM `".DB_PREFIX."field_values`
-                WHERE field_id = '" . $row['field_id'] . "'
-                AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'"
-            );
-            if ( $query->num_rows ) {
+        if ( $query->num_rows ) {
+			foreach ( $query->rows as $row ) {
+				$this->fields[ $row['field_id'] ] = $row;
+				$query = $this->db->query("
+					SELECT *
+					FROM `".DB_PREFIX."field_values`
+					WHERE field_id = '" . $row['field_id'] . "'
+					AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'"
+				);
+				if ( $query->num_rows ) {
 
-				$values = unserialize($query->row['value']);
-				usort($values, array('self','_sort_by_sort_order'));
-				foreach ( $values as $value ) {
-					$this->fields[ $row['field_id'] ]['options'][$value['name']] = $value['name'];
+					$values = unserialize($query->row['value']);
+					usort($values, array('self','_sort_by_sort_order'));
+					foreach ( $values as $value ) {
+						$this->fields[ $row['field_id'] ]['options'][$value['name']] = $value['name'];
+					}
+					$this->fields[ $row['field_id'] ]['value'] = $values[0]['name'];
+
 				}
-
-            }
-        }
+			}
+		}
         $this->cache->set($cache_name, $this->fields, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
     }
 

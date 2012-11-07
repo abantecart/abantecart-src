@@ -19,7 +19,7 @@
 
 <script>
 	$('#<?php echo $id ?>').change( function(){
-		$('#<?php echo $id ?>_zones').load('index.php?rt=common/zone/names&country_name=' + $(this).val() + '&zone_name=<?php echo $zone_name; ?>');
+		$('#<?php echo $id ?>_zones').load('<?php echo $url; ?>&country_name=' + encodeURIComponent($(this).val()) + '&zone_name=<?php echo $zone_name; ?>');
 	});
-	$('#<?php echo $id ?>_zones').load('index.php?rt=common/zone/names&country_name='+ $('#<?php echo $id ?>').val() +'&zone_name=<?php echo $zone_name; ?>');
+	$('#<?php echo $id ?>_zones').load('<?php echo $url; ?>&country_name='+ encodeURIComponent($('#<?php echo $id ?>').val()) +'&zone_name=<?php echo $zone_name; ?>');
 </script>

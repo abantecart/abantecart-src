@@ -680,6 +680,7 @@ abstract class HtmlElement {
 class HiddenHtmlElement extends HtmlElement {
 
 	public function getHtml() {
+		//var_dump($this->data);
 		$this->view->batchAssign(
 			array(
 				'id' => $this->element_id,
@@ -1080,7 +1081,7 @@ class CaptchaHtmlElement extends HtmlElement {
 			array(
 				'name' => $this->name,
 				'id' => $this->element_id,
-				'attr' => $this->attr,
+				'attr' => 'aform_field_type="captcha" ' . $this->attr,
 				'style' => $this->style,
 				'required' => $this->required,
 				'captcha_url' => $this->data[ 'registry' ]->get('html')->getURL('common/captcha'),
@@ -1304,6 +1305,8 @@ class ZonesHtmlElement extends HtmlElement {
 
 		$this->options = !$this->options ? array() : $this->options;
 
+		$html = new AHtml($this->data['registry']);
+
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1313,6 +1316,7 @@ class ZonesHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
+				'url' => $html->getSecureURL('common/zone/names'),
 			)
 		);
 		if (!empty($this->help_url)) {
