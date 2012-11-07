@@ -1305,6 +1305,8 @@ class ZonesHtmlElement extends HtmlElement {
 
 		$this->options = !$this->options ? array() : $this->options;
 
+		$html = new AHtml($this->data['registry']);
+
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1314,6 +1316,7 @@ class ZonesHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
+				'url' => $html->getSecureURL('common/zone/names'),
 			)
 		);
 		if (!empty($this->help_url)) {
