@@ -46,10 +46,12 @@ class ModelSettingStore extends Model {
 		$this->load->model('setting/setting');
 
 		foreach ($data['store_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "store_descriptions
-							SET store_id = '" . (int)$store_id . "',
-								language_id = '" . (int)$language_id . "',
-								description = '" . $this->db->escape($value['description']) . "'");
+			$this->language->addDescriptions('store_descriptions',
+											 array('store_id' => (int)$store_id),
+											 array($language_id => array(
+																		'description' => $value['description']
+											 )) );
+
 			$this->model_setting_setting->editSetting('details',array('config_description_'.(int)$language_id => $value['description']),$store_id);
 		}
 		unset($data['store_description']);
@@ -79,18 +81,11 @@ class ModelSettingStore extends Model {
 			foreach ($data['store_description'] as $language_id => $value) {
 				
 				if ( isset($value['description']) ){
-					$exist = $this->db->query( "SELECT *
-												FROM " . DB_PREFIX . "store_descriptions
-										        WHERE store_id = '" . (int)$store_id . "' AND language_id = '" . (int)$language_id . "' ");
-					if($exist->num_rows){
-						$this->db->query("UPDATE " . DB_PREFIX . "store_descriptions
-										  SET  `description`='" . $this->db->escape($value['description']) . "'
-										  WHERE store_id = '" . (int)$store_id . "' AND language_id = '" . (int)$language_id . "' ");
-					}else{
-						$this->db->query("INSERT INTO " . DB_PREFIX . "store_descriptions
-										  (`store_id`, `language_id`, `description`)
-										  VALUES ( '" . (int)$store_id . "', '" . (int)$language_id . "', '" . $this->db->escape($value['description']) . "')");
-					}
+					$this->language->replaceDescriptions('store_descriptions',
+														 array('store_id' => (int)$store_id),
+														 array($language_id => array(
+																					'description' => $value['description']
+														 )) );
 				}
 			}
 		}

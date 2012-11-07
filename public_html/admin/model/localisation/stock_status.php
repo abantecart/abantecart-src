@@ -22,40 +22,50 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelLocalisationStockStatus extends Model {
 	public function addStockStatus($data) {
+
+		$result = $this->db->query("SELECT MAX(stock_status_id) as max_id FROM " . DB_PREFIX . "stock_statuses");
+		$stock_status_id = (int)$result->row['max_id']+1;
+
 		foreach ($data['stock_status'] as $language_id => $value) {
-			if (isset($stock_status_id)) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "stock_statuses SET stock_status_id = '" . (int)$stock_status_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "'");
-			} else {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "stock_statuses SET language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "'");
-				
-				$stock_status_id = $this->db->getLastId();
-			}
+
+			$this->language->addDescriptions('stock_statuses',
+											 array( 'stock_status_id' => (int)$stock_status_id,
+													'language_id' => (int)$language_id ),
+											 array($language_id => array(
+																	'name' => $value['name']
+											 )) );
 		}
 		
 		$this->cache->delete('stock_status');
 
-		return $this->db->getLastId();
+		return $stock_status_id;
 	}
 
 	public function editStockStatus($stock_status_id, $data) {
 		foreach ($data['stock_status'] as $language_id => $value) {
-			$this->db->query(
-				"UPDATE " . DB_PREFIX . "stock_statuses
-				SET name = '" . $this->db->escape($value['name']) . "'
-				WHERE stock_status_id = '" . (int)$stock_status_id . "'
-				    AND language_id = '" . (int)$language_id . "'
-				");
+
+			$this->language->updateDescriptions('stock_statuses',
+												 array( 'stock_status_id' => (int)$stock_status_id,
+														'language_id' => (int)$language_id ),
+												 array($language_id => array(
+																			'name' => $value['name']
+												 )) );
+
 		}
 		$this->cache->delete('stock_status');
 	}
 	
 	public function deleteStockStatus($stock_status_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "stock_statuses WHERE stock_status_id = '" . (int)$stock_status_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "stock_statuses
+						WHERE stock_status_id = '" . (int)$stock_status_id . "'");
 		$this->cache->delete('stock_status');
 	}
 		
 	public function getStockStatus($stock_status_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "stock_statuses WHERE stock_status_id = '" . (int)$stock_status_id . "' AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'");
+		$query = $this->db->query("SELECT *
+									FROM " . DB_PREFIX . "stock_statuses
+									WHERE stock_status_id = '" . (int)$stock_status_id . "'
+										AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'");
 		
 		return $query->row;
 	}

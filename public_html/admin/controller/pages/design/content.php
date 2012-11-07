@@ -279,6 +279,20 @@ class ControllerPagesDesignContent extends AController {
       		'separator' => ' :: '
    		 ));
 
+		if((int)$this->request->get['content_id']){
+			$this->document->addBreadcrumb( array (
+				'href'      => $this->html->getSecureURL('design/content/update','&content_id='.$this->request->get['content_id']),
+				'text'      => $this->language->get('update_title') ,
+				'separator' => ' :: '
+			 ));
+		}else{
+			$this->document->addBreadcrumb( array (
+			       		'href'      => $this->html->getSecureURL('design/content/insert'),
+			       		'text'      => $this->language->get('insert_title'),
+			      		'separator' => ' :: '
+			   		 ));
+		}
+
 		$template_data['cancel'] = $this->html->getSecureURL('design/content');
 
 		if (isset($this->request->get['content_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {

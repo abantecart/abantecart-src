@@ -22,30 +22,30 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelLocalisationOrderStatus extends Model {
 	public function addOrderStatus($data) {
+		$result = $this->db->query("SELECT MAX(order_status_id) as max_id FROM " . DB_PREFIX . "order_statuses");
+		$order_status_id = (int)$result->row['max_id']+1;
+
 		foreach ($data['order_status'] as $language_id => $value) {
-			if (isset($order_status_id)) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "order_statuses
-									SET order_status_id = '" . (int)$order_status_id . "',
-										language_id = '" . (int)$language_id . "',
-										name = '" . $this->db->escape($value['name']) . "'");
-			} else {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "order_statuses
-								SET language_id = '" . (int)$language_id . "',
-									name = '" . $this->db->escape($value['name']) . "'");
-				$order_status_id = $this->db->getLastId();
-			}
+			$this->language->addDescriptions('order_statuses',
+											 array('order_status_id' => (int)$order_status_id,
+												   'language_id' => (int)$language_id),
+											 array($language_id => array(
+																		'name' => $value['name']
+											 )) );
 		}
 		$this->cache->delete('order_status');
-		return $this->db->getLastId();
+		return $order_status_id;
 	}
 
 	public function editOrderStatus($order_status_id, $data) {
 
 		foreach ($data['order_status'] as $language_id => $value) {
-			$this->db->query(   "UPDATE " . DB_PREFIX . "order_statuses
-								SET name = '" . $this->db->escape($value['name']) . "'
-								WHERE order_status_id = '" . (int)$order_status_id . "'
-									AND language_id = '" . (int)$language_id . "'");
+			$this->language->updateDescriptions('order_statuses',
+											 array( 'order_status_id' => (int)$order_status_id,
+												    'language_id' => (int)$language_id ),
+											 array($language_id => array(
+																		'name' => $value['name']
+											 )) );
 		}
 		$this->cache->delete('order_status');
 	}

@@ -27,7 +27,19 @@ class ModelLocalisationWeightClass extends Model {
 		$weight_class_id = $this->db->getLastId();
 		
 		foreach ($data['weight_class_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "weight_class_descriptions SET weight_class_id = '" . (int)$weight_class_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', unit = '" . $this->db->escape($value['unit']) . "'");
+
+			$this->language->addDescriptions('weight_class_descriptions',
+											 array('weight_class_id' => (int)$weight_class_id),
+											 array($language_id => array(
+																		'title' => $value['title'],
+																		'unit' => $value['unit']
+											 )) );
+			/*
+			$this->db->query("INSERT INTO " . DB_PREFIX . "weight_class_descriptions
+							SET weight_class_id = '" . (int)$weight_class_id . "',
+							language_id = '" . (int)$language_id . "',
+							title = '" . $this->db->escape($value['title']) . "',
+							unit = '" . $this->db->escape($value['unit']) . "'");*/
 		}
 		
 		$this->cache->delete('weight_class');
@@ -42,22 +54,12 @@ class ModelLocalisationWeightClass extends Model {
 		if ( isset($data['weight_class_description']) ) {
 			foreach ($data['weight_class_description'] as $language_id => $value) {
 				$update = array();
-				if ( isset($value['title']) ) $update[] = "title = '" . $this->db->escape($value['title']) ."'";
-				if ( isset($value['unit']) ) $update[] = "unit = '" . $this->db->escape($value['unit']) ."'";
+				if ( isset($value['title']) ) $update["title"] = $value['title'];
+				if ( isset($value['unit']) ) $update["unit"] = $value['unit'];
 				if ( !empty($update) ){
-					$exist = $this->db->query( "SELECT *
-												FROM " . DB_PREFIX . "weight_class_descriptions
-										        WHERE weight_class_id = '" . (int)$weight_class_id . "' AND language_id = '" . (int)$language_id . "' ");
-					if($exist->num_rows){
-						$this->db->query("UPDATE " . DB_PREFIX . "weight_class_descriptions
-										  SET ". implode(',', $update) ."
-										  WHERE weight_class_id = '" . (int)$weight_class_id . "' AND language_id = '" . (int)$language_id . "' ");
-					}else{
-						$this->db->query("INSERT INTO " . DB_PREFIX . "weight_class_descriptions
-										  SET ". implode(',', $update) .",
-										  weight_class_id = '" . (int)$weight_class_id . "',
-										  language_id = '" . (int)$language_id . "' ");
-					}
+					$this->language->replaceDescriptions('weight_class_descriptions',
+														 array('weight_class_id' => (int)$weight_class_id),
+														 array($language_id => $update ));
 				}
 			}
 		}
@@ -174,7 +176,6 @@ class ModelLocalisationWeightClass extends Model {
 	public function getTotalWeightClasses() {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM " . DB_PREFIX . "weight_classes");
-		
 		return $query->row['total'];
 	}		
 }

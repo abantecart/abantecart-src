@@ -79,14 +79,13 @@ class AContentManager {
 		$languages = $this->language->getAvailableLanguages();
 
 		foreach($languages as $language){
-			$this->db->query("INSERT INTO " . DB_PREFIX . "content_descriptions
-								SET content_id = '" . ( int )$content_id . "',
-									language_id = '" . ( int )$language['language_id']  . "',
-									name = '" . $this->db->escape($data [ 'name' ]) . "',
-									title = '" . $this->db->escape($data [ 'title' ]) . "',
-									description = '" . $this->db->escape($data [ 'description' ]) . "',
-									content = '" . $this->db->escape($data [ 'content' ]) . "'"
-							);
+			$this->language->addDescriptions('content_descriptions',
+											 array('content_id' => (int)$content_id),
+											 array(( int )$language['language_id'] => array('name' => $data['name'],
+																							'title' => $data [ 'title' ],
+																							'description' => $data [ 'description' ],
+																							'content' => $data [ 'content' ]
+			)));
 		}
 		if ($data [ 'store_id' ]) {
 			foreach ($data [ 'store_id' ] as $store_id) {
@@ -97,7 +96,6 @@ class AContentManager {
 				}
 			}
 		}
-
 
 		$this->cache->delete('contents');
         return $content_id;
@@ -115,7 +113,6 @@ class AContentManager {
 		}
 
 		if($data[ 'parent_content_id' ]){
-
 			$query = "DELETE FROM " . DB_PREFIX . "contents
 						WHERE content_id='" . $content_id . "'
 								AND parent_content_id<>'" . $old_parent . "'";
@@ -139,29 +136,16 @@ class AContentManager {
 				$i++;
 			}
 		}
+		$update = array('name' => $data [ 'name' ],
+						'title' => $data [ 'title' ],
+						'description' => $data [ 'description' ],
+						'content' => $data [ 'content' ]);
 
-		$exist = $this->db->query( "SELECT *
-									FROM " . DB_PREFIX . "content_descriptions
-							        WHERE content_id = '" . ( int )$content_id . "'
-										AND language_id = '".$language_id. "'");
+		$this->language->replaceDescriptions('content_descriptions',
+											 array('content_id' => (int)$content_id),
+											 array( (int)$language_id => $update) );
+		$this->_updatePageContent($content_id);
 
-		if($exist->num_rows){
-			$this->db->query("UPDATE " . DB_PREFIX . "content_descriptions
-							SET `name` = '" . $this->db->escape($data [ 'name' ]) . "',
-								title = '" . $this->db->escape($data [ 'title' ]) . "',
-								description = '" . $this->db->escape($data [ 'description' ]) . "',
-								content = '" . $this->db->escape($data [ 'content' ]) . "'
-							WHERE content_id = '" . ( int )$content_id . "'
-									AND language_id = '".$language_id. "'");
-		}else{
-			$this->db->query("INSERT INTO " . DB_PREFIX . "content_descriptions
-								SET content_id = '" . ( int )$content_id . "',
-									language_id = '" .$language_id. "',
-									`name` = '" . $this->db->escape($data [ 'name' ]) . "',
-									title = '" . $this->db->escape($data [ 'title' ]) . "',
-									description = '" . $this->db->escape($data [ 'description' ]) . "',
-									content = '" . $this->db->escape($data [ 'content' ]) . "'");
-		}
 		$res = $this->db->query( "SELECT *
 								  FROM " . DB_PREFIX . "url_aliases
 								  WHERE `query` = 'content_id=" . ( int )$content_id . "'" );
@@ -212,10 +196,12 @@ class AContentManager {
 			case 'name' :
 			case 'description' :
 			case 'content' :
-				$sql = "UPDATE " . DB_PREFIX . "content_descriptions
-						SET `".$field."` =  '" . $this->db->escape($value) . "'
-						WHERE content_id = '" . ( int )$content_id . "' AND language_id = '" . ( int )$language_id . "'";
-				$this->db->query($sql);
+				$this->language->replaceDescriptions('content_descriptions',
+													 array('content_id' => (int)$content_id),
+													 array((int)$language_id => array($field=>$value)) );
+				if($field == 'name'){
+					$this->_updatePageContent($content_id);
+				}
 				break;
 			case 'keyword' :
 				$res = $this->db->query( "SELECT *
@@ -500,8 +486,8 @@ class AContentManager {
 									 FROM ".DB_PREFIX."pages
 									 WHERE controller = 'pages/content/content'
 									        AND key_param = 'content_id' AND key_value = '".$content_id."'" );
-
-		if(!$page->row['page_id']){
+		$page_id = (int)$page->row['page_id'];
+		if(!$page_id){
 			$sql = "INSERT INTO " . DB_PREFIX . "pages (controller, key_param, key_value, created, updated)
 									VALUES ('pages/content/content',
 											'content_id',
@@ -510,27 +496,16 @@ class AContentManager {
 											NOW())";
 			$this->db->query($sql);
 			$page_id = $this->db->getLastId();
+		}
 
-			$sql = "SELECT * FROM ".DB_PREFIX."content_descriptions
-					WHERE content_id= '".$content_id."'";
-			$result = $this->db->query( $sql);
-			foreach($result->rows as $row){
-
-				$sql = "INSERT INTO " . DB_PREFIX . "page_descriptions (page_id, language_id,`name`)
-						VALUES ('".$page_id."', '".$row['language_id']."','".$row['name']."')";
-				$this->db->query( $sql);
-			}
-		}else{
-			$page_id = $page->row['page_id'];
-			$sql = "SELECT * FROM ".DB_PREFIX."content_descriptions
-					WHERE content_id= '".$content_id."'";
-			$result = $this->db->query( $sql);
-			foreach($result->rows as $row){
-				$sql = "UPDATE " . DB_PREFIX . "page_descriptions
-						SET `name` = '".$row['name']."'
-						WHERE page_id = '".$page_id."' AND language_id = '".$row['language_id']."'";
-				$this->db->query( $sql);
-			}
+		$sql = "SELECT *
+				FROM ".DB_PREFIX."content_descriptions
+				WHERE content_id= '".$content_id."'";
+		$result = $this->db->query( $sql);
+		foreach($result->rows as $row){
+			$this->language->replaceDescriptions('page_descriptions',
+												 array('page_id' => (int)$page_id),
+												 array((int)$row['language_id'] => array('name' => $row['name'])) );
 		}
 		return $page_id;
 	}

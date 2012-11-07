@@ -54,13 +54,13 @@ class ModelCatalogProduct extends Model {
 		$product_id = $this->db->getLastId();
 		
 		foreach ($data['product_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "product_descriptions
-								SET product_id = '" . (int)$product_id . "',
-									language_id = '" . (int)$language_id . "',
-									name = '" . $this->db->escape($value['name']) . "',
-									meta_keywords = '" . $this->db->escape($value['meta_keywords']) . "',
-									meta_description = '" . $this->db->escape($value['meta_description']) . "',
-									description = '" . $this->db->escape($value['description']) . "'");
+			$this->language->addDescriptions('product_descriptions',
+											 array('product_id' => (int)$product_id),
+											 array($language_id => array('name' => $value['name'],
+												 						 'meta_keywords' => $value['meta_keywords'],
+												 						 'meta_description' => $value['meta_description'],
+												 						 'description' => $value['description']
+											 )) );
 		}
 
 	    if($data['featured']){
@@ -188,30 +188,18 @@ class ModelCatalogProduct extends Model {
 		if ( !empty($data['product_description']) ) {
             foreach ($data['product_description'] as $language_id => $value) {
 
-
                 $fields = array('name', 'description', 'meta_keywords', 'meta_description');
                 $update = array();
-                foreach ( $fields as $f ) {
-                    if ( isset($value[$f]) )
-                        $update[] = "$f = '".$this->db->escape($value[$f])."'";
+                foreach ( $fields as $f ){
+                    if( isset($value[$f]) ){
+                        $update[$f] = $value[$f];
+					}
                 }
 
                 if ( !empty($update) ) {
-
-	                $exist = $this->db->query( "SELECT *
-												FROM " . DB_PREFIX . "product_descriptions
-												WHERE product_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
-
-					if($exist->num_rows){
-						$this->db->query("UPDATE `" . DB_PREFIX . "product_descriptions`
-										  SET ". implode(',', $update) ."
-										  WHERE product_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
-					}else{
-						$this->db->query("INSERT INTO `" . DB_PREFIX . "product_descriptions`
-										  SET ". implode(',', $update) .",
-										        product_id = '" . (int)$product_id . "',
-										        language_id = '" . (int)$language_id . "'");
-					}
+					$this->language->replaceDescriptions('product_descriptions',
+														 array('product_id' => (int)$product_id),
+														 array($language_id => $update) );
                 }
             }
 		}
@@ -220,16 +208,20 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if (isset($data['keyword'])) {
-			$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases WHERE query = 'product_id=" . (int)$product_id . "'");
+			$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases
+							WHERE query = 'product_id=" . (int)$product_id . "'");
 			if($data['keyword']){
-				$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases SET keyword = '" . $this->db->escape($data['keyword']) . "', query = 'product_id=" . (int)$product_id . "'");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases
+									SET keyword = '" . $this->db->escape($data['keyword']) . "',
+										query = 'product_id=" . (int)$product_id . "'");
 			}
 		}
 
 		if (isset($data['product_tags'])) {
 			foreach ($data['product_tags'] as $language_id => $value) {
                 $this->db->query("DELETE FROM " . DB_PREFIX . "product_tags
-                                    WHERE product_id = '" . (int)$product_id. "' AND language_id = '" . (int)$language_id . "'");
+                                    WHERE product_id = '" . (int)$product_id. "'
+                                    AND language_id = '" . (int)$language_id . "'");
 				$tags = explode(',', $value);
 				foreach ($tags as &$tag){
 					$tag = trim($tag);
@@ -356,12 +348,17 @@ class ModelCatalogProduct extends Model {
 	        $attributeDescriptions = $am->getAttributeDescriptions($data['attribute_id']);
 	    }
         foreach ($attributeDescriptions as $language_id => $name) {
-            $this->db->query(
+			$this->language->addDescriptions('product_option_descriptions',
+											 array('product_option_id' => (int)$product_option_id,
+												   'product_id' => (int)$product_id),
+											 array($language_id => array('name' => $name)) );
+            /*$this->db->query(
                 "INSERT INTO " . DB_PREFIX . "product_option_descriptions
                 SET product_option_id = '" . (int)$product_option_id . "',
                     language_id = '" . (int)$language_id . "',
                     product_id = '" . (int)$product_id . "',
                     name = '" . $this->db->escape($name) . "'");
+			*/
         }
 
         //add empty option value for single value attributes
@@ -492,13 +489,14 @@ class ModelCatalogProduct extends Model {
 		if ( empty($product_id) || empty($pd_opt_val_id) || empty($language_id) ) {
 			return;
 		}
-        $this->db->query(
-            "INSERT INTO " . DB_PREFIX . "product_option_value_descriptions
-            SET product_option_value_id = '" . (int)$pd_opt_val_id . "',
-                language_id = '" . (int)$language_id . "',
-                product_id = '" . (int)$product_id . "',
-                name = '" . $this->db->escape($name) . "',
-                grouped_attribute_names = '" . $this->db->escape($grp_attr_names) . "'");
+
+		$this->language->addDescriptions('product_option_value_descriptions',
+										 array('product_option_value_id' => (int)$pd_opt_val_id,
+												'product_id' => (int)$product_id),
+										 array($language_id => array('name' => $name,
+											 						  'grouped_attribute_names' => $grp_attr_names
+										 )) );
+
 		return $this->db->getLastId();
 	}
 
@@ -506,13 +504,13 @@ class ModelCatalogProduct extends Model {
 		if ( empty($product_id) || empty($pd_opt_val_id) || empty($language_id) ) {
 			return;
 		}
-        $this->db->query(
-             "UPDATE " . DB_PREFIX . "product_option_value_descriptions
-             SET name = '" . $this->db->escape($name) ."',
-             	 grouped_attribute_names = '" . $this->db->escape($grp_attr_names) . "'
-             WHERE product_option_value_id = '" . (int)$pd_opt_val_id . "'
-                 AND product_id = '" . (int)$product_id . "'
-                 AND language_id = '" . (int)$language_id . "' ");
+		$this->language->replaceDescriptions('product_option_value_descriptions',
+												 array( 'product_option_value_id' => (int)$pd_opt_val_id,
+													 	'product_id' => (int)$product_id ),
+												 array($language_id => array('name' => $name,
+													 						  'grouped_attribute_names' => $grp_attr_names
+												 )) );
+
 		return $pd_opt_val_id;
 	}
 
@@ -791,11 +789,16 @@ class ModelCatalogProduct extends Model {
 				$product_option_id = $this->db->getLastId();
 
 				foreach ($product_option['language'] as $language_id => $language) {
-					$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_descriptions
+					$this->language->addDescriptions('product_option_descriptions',
+													 array('product_option_id' => (int)$product_option_id,
+														   'product_id' => (int)$product_id),
+													 array($language_id => array('name' => $language['name'])) );
+
+					/*$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_descriptions
 										SET product_option_id = '" . (int)$product_option_id . "',
 											language_id = '" . (int)$language_id . "',
 											product_id = '" . (int)$product_id . "',
-											name = '" . $this->db->escape($language['name']) . "'");
+											name = '" . $this->db->escape($language['name']) . "'");*/
 				}
 
 				if (isset($product_option['product_option_value'])) {
@@ -834,12 +837,20 @@ class ModelCatalogProduct extends Model {
 
 						foreach ($pd_opt_vals['language'] as $language_id => $lang_data) {
 							$grouped_attribute_names = serialize( $lang_data['children_options_names'] );
-							$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value_descriptions
+
+							$this->language->replaceDescriptions('product_option_value_descriptions',
+																 array('product_option_value_id' => (int)$product_option_value_id,
+																 		'product_id' => (int)$product_id),
+																 array($language_id => array('name' => $lang_data['name'],
+																							 'grouped_attribute_names' => $grouped_attribute_names
+																 )) );
+
+							/*$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value_descriptions
 												SET product_option_value_id = '" . (int)$pd_opt_val_id . "',
 													language_id = '" . (int)$language_id . "',
 													product_id = '" . (int)$product_id . "',
 													grouped_attribute_names = '" . $this->db->escape( $grouped_attribute_names ) . "',
-													name = '" . $this->db->escape($lang_data['name']) . "'");
+													name = '" . $this->db->escape($lang_data['name']) . "'");*/
 						}
 					}
 				}

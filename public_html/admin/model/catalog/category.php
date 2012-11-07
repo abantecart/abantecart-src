@@ -96,20 +96,10 @@ class ModelCatalogCategory extends Model {
 					$update["meta_description"] = $value['meta_description'];
 				}
 				if ( !empty($update) ){
-					$exist = $this->db->query( "SELECT *
-												FROM " . DB_PREFIX . "category_descriptions
-										        WHERE category_id = '" . (int)$category_id . "' AND language_id = '" . (int)$language_id . "' ");
-
-					if($exist->num_rows){
-						$this->language->replaceDescriptions('category_descriptions',
-															 array('category_id' => (int)$category_id),
-															 array($language_id => $update) );
-
-					}else{
-						$this->language->addDescriptions('category_descriptions',
+					// insert or update
+					$this->language->replaceDescriptions('category_descriptions',
 														 array('category_id' => (int)$category_id),
 														 array($language_id => $update) );
-					}
 				}
 			}
 		}

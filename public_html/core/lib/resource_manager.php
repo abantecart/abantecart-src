@@ -117,16 +117,16 @@ class AResourceManager extends AResource {
         }
 
         foreach ( $resource['name'] as $language_id => $name ) {
-            $sql = "INSERT INTO " . DB_PREFIX . "resource_descriptions
-                        SET resource_id = '".$resource_id."',
-                            language_id = '".(int)$language_id."',
-                            name = '".$this->db->escape($resource['name'][$language_id])."',
-                            title = '".$this->db->escape($resource['title'][$language_id])."',
-                            description = '".$this->db->escape($resource['description'][$language_id])."',
-                            resource_path = '".$this->db->escape($resource_path)."',
-                            resource_code = '".$this->db->escape($resource['resource_code'])."',
-                            created = NOW()";
-            $this->db->query($sql);
+			$this->language->addDescriptions('resource_descriptions',
+												 array('resource_id' => (int)$resource_id),
+												 array((int)$language_id => array(
+													 'name' => $resource['name'][$language_id],
+													 'title' => $resource['title'][$language_id],
+													 'description' => $resource['description'][$language_id],
+													 'resource_path' => $resource_path,
+													 'resource_code' => $resource['resource_code'],
+													 'created' => date('Y-m-d H:i:s')
+												 )) );
         }
 
         $this->cache->delete('resources.'.$this->type);
@@ -139,7 +139,7 @@ class AResourceManager extends AResource {
 
         $resource = parent::getResource($resource_id);
         if ( isset($data['resource_code']) )
-            $_update[] = "resource_code = '".$this->db->escape($data['resource_code'])."'";
+            $_update['resource_code'] = $data['resource_code'];
 
         $fields = array('name', 'title', 'description');
         foreach ( $data['name'] as $language_id => $name ) {
@@ -147,28 +147,12 @@ class AResourceManager extends AResource {
 
             foreach ( $fields as $f ) {
                 if ( isset($data[$f][$language_id]) )
-                    $update[] = "$f = '".$this->db->escape($data[$f][$language_id])."'";
+                    $update[$f] = $data[$f][$language_id];
             }
 
-            if ( !empty($update) ) {
-	            $exist = $this->db->query( "SELECT *
-											FROM " . DB_PREFIX . "resource_descriptions
-										    WHERE resource_id = '" . (int)$resource_id . "' AND language_id = '" . (int)$language_id . "' ");
-				if($exist->num_rows){
-					 $this->db->query( "UPDATE " . DB_PREFIX . "resource_descriptions
-										SET ". implode(',', $update) ."
-										WHERE resource_id = '" . (int)$resource_id . "'
-											AND language_id = '" . (int)$language_id . "' ");
-				}else{
-					 $this->db->query( "INSERT INTO " . DB_PREFIX . "resource_descriptions
-										SET ". implode(',', $update) .",
-										 resource_id = '" . (int)$resource_id . "',
-										 language_id = '" . (int)$language_id . "' ");
-				}
-
-
-
-            }
+			$this->language->replaceDescriptions('resource_descriptions',
+												 array('resource_id' => (int)$resource_id),
+												 array((int)$language_id => $update) );
         }
 
 

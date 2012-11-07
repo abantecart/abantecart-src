@@ -35,10 +35,9 @@ class ModelCatalogDownload extends Model {
 		}
 
 		foreach ($data[ 'download_description' ] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "download_descriptions
-        	                SET download_id = '" . (int)$download_id . "',
-        	                    language_id = '" . (int)$language_id . "',
-        	                    name = '" . $this->db->escape($value[ 'name' ]) . "'");
+			$this->language->replaceDescriptions('download_descriptions',
+												 array('download_id' => (int)$download_id),
+												 array($language_id => array('name' => $value[ 'name' ] )));
 		}
 
 		return $download_id;
@@ -71,22 +70,13 @@ class ModelCatalogDownload extends Model {
 			foreach ($data[ 'download_description' ] as $language_id => $value) {
 
 				$update = array();
-				if (isset($value[ 'name' ])) $update[ ] = "name = '" . $this->db->escape($value[ 'name' ]) . "'";
-				if (!empty($update)) {
-					$exist = $this->db->query("SELECT *
-												FROM " . DB_PREFIX . "download_descriptions
-										        WHERE download_id = '" . (int)$download_id . "' AND language_id = '" . (int)$language_id . "' ");
-
-					if ($exist->num_rows) {
-						$this->db->query("UPDATE " . DB_PREFIX . "download_descriptions
-										  SET " . implode(',', $update) . "
-										  WHERE download_id = '" . (int)$download_id . "' AND language_id = '" . (int)$language_id . "' ");
-					} else {
-						$this->db->query("INSERT INTO " . DB_PREFIX . "download_descriptions
-										  SET " . implode(',', $update) . ",
-										    download_id = '" . (int)$download_id . "',
-										    language_id = '" . (int)$language_id . "'");
-					}
+				if (isset($value[ 'name' ])){
+					$update['name'] = $value[ 'name' ];
+				}
+				if ($update) {
+						$this->language->replaceDescriptions('download_descriptions',
+															 array('download_id' => (int)$download_id),
+															 array($language_id => $update) );
 				}
 			}
 		}

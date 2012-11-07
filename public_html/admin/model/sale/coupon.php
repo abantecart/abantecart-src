@@ -39,11 +39,18 @@ class ModelSaleCoupon extends Model {
       	$coupon_id = $this->db->getLastId();
 
       	foreach ($data['coupon_description'] as $language_id => $value) {
-        	$this->db->query("INSERT INTO " . DB_PREFIX . "coupon_descriptions
+			$this->language->addDescriptions('coupon_descriptions',
+											 array('coupon_id' => (int)$coupon_id),
+											 array($language_id => array(
+																		'name' => $value['name'],
+																		'description' => $value['description']
+											 )) );
+
+        /*	$this->db->query("INSERT INTO " . DB_PREFIX . "coupon_descriptions
         	                  SET coupon_id = '" . (int)$coupon_id . "',
         	                        language_id = '" . (int)$language_id . "',
         	                        name = '" . $this->db->escape($value['name']) . "',
-        	                        description = '" . $this->db->escape($value['description']) . "'");
+        	                        description = '" . $this->db->escape($value['description']) . "'");*/
       	}
 		if (isset($data['coupon_product'])) {
       		foreach ($data['coupon_product'] as $product_id) {
@@ -79,9 +86,17 @@ class ModelSaleCoupon extends Model {
 		if ( !empty($data['coupon_description']) ) {
 			foreach ($data['coupon_description'] as $language_id => $value) {
 				$update = array();
-				if ( isset($value['name']) ) $update[] = "name = '" . $this->db->escape($value['name']) ."'";
-				if ( isset($value['description']) ) $update[] = "description = '" . $this->db->escape($value['description']) ."'";
+				if ( isset($value['name']) ) $update["name"] = $value['name'];
+				if ( isset($value['description']) ) $update["description"] = $value['description'];
 				if ( !empty($update) ){
+					$this->language->replaceDescriptions('coupon_descriptions',
+														 array('coupon_id' => (int)$coupon_id),
+														 array($language_id => array(
+																					'name' => $value['name'],
+																					'description' => $value['description']
+														 )) );
+
+					/*
 					$exist = $this->db->query( "SELECT *
 												FROM " . DB_PREFIX . "coupon_descriptions
 										        WHERE coupon_id = '" . (int)$coupon_id . "' AND language_id = '" . (int)$language_id . "' ");
@@ -94,7 +109,7 @@ class ModelSaleCoupon extends Model {
 											SET ". implode(',', $update) .",
 											 coupon_id = '" . (int)$coupon_id . "',
 											 language_id = '" . (int)$language_id . "' ");
-					}
+					}*/
 				}
 			}
 		}

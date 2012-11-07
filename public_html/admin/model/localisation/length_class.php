@@ -27,7 +27,11 @@ class ModelLocalisationLengthClass extends Model {
 		$length_class_id = $this->db->getLastId();
 		
 		foreach ($data['length_class_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "length_class_descriptions SET length_class_id = '" . (int)$length_class_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', unit = '" . $this->db->escape($value['unit']) . "'");
+			$this->language->addDescriptions('length_class_descriptions',
+											 array('length_class_id' => (int)$length_class_id),
+											 array($language_id => array( 'title' => $value['title'],
+																		  'unit' => $value['unit']
+											 ) ));
 		}
 		
 		$this->cache->delete('length_class');
@@ -42,22 +46,16 @@ class ModelLocalisationLengthClass extends Model {
 		if ( isset($data['length_class_description']) ) {
 			foreach ($data['length_class_description'] as $language_id => $value) {
 				$update = array();
-				if ( isset($value['title']) ) $update[] = "title = '" . $this->db->escape($value['title']) ."'";
-				if ( isset($value['unit']) ) $update[] = "unit = '" . $this->db->escape($value['unit']) ."'";
-				if ( !empty($update) ){
-					$exist = $this->db->query( "SELECT *
-												FROM " . DB_PREFIX . "length_class_descriptions
-										        WHERE length_class_id = '" . (int)$length_class_id . "' AND language_id = '" . (int)$language_id . "' ");
-
-					if($exist->num_rows){
-					$this->db->query("UPDATE " . DB_PREFIX . "length_class_descriptions
-										SET ". implode(',', $update) ."
-										WHERE length_class_id = '" . (int)$length_class_id . "' AND language_id = '" . (int)$language_id . "' ");
-					}else{
-						$this->db->query("INSERT INTO " . DB_PREFIX . "length_class_descriptions
-										SET ". implode(',', $update) .",
-										 length_class_id = '" . (int)$length_class_id . "', language_id = '" . (int)$language_id . "' ");
-					}
+				if ( isset($value['title']) ){
+					$update["title"] = $value['title'];
+				}
+				if ( isset($value['unit']) ){
+					$update["unit"] = $value['unit'];
+				}
+				if ( $update ){
+					$this->language->replaceDescriptions('length_class_descriptions',
+														 array('length_class_id' => (int)$length_class_id),
+														 array($language_id => $update ));
 				}
 			}
 		}
