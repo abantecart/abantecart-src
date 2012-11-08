@@ -35,36 +35,38 @@ class ALanguageManager extends Alanguage {
     /*
     * Insert new definitions and translate if configured 
     * Arguments:
-	* 	tabale name (database table name with no prefix)
+	* 	table name (database table name with no prefix)
 	*   unique index to perform select 
 	*		Format: [key] => [value]
     *   text data array 
     *		Format: [language id][key] => [value]
+     *  serialized array with key list of serialized array one of txt_data value
+     * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
     */    
-    public function addDescriptions($table_name, $index, $txt_data) {
+    public function addDescriptions($table_name, $index, $txt_data, $serialized = array()) {
     	if ( empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
     	//Insert data provided per language in $data array
-    	$this->_do_insert_descriptions($table_name, $index, $txt_data); 
+    	$this->_do_insert_descriptions($table_name, $index, $txt_data);
     	//translate to other languages    	
-  		$this->_do_translate_descriptions($table_name, $index, $txt_data); 
+  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $serialized);
     	return;    
     }
     
     /*
     * Update definitions and translate if configured 
     * Arguments:
-	* 	tabale name (database table name with no prefix)
+	* 	table name (database table name with no prefix)
 	*   unique index to perform select 
 	*		Format: [key] => [value]
     *   text data array 
     *		Format: [language id][key] => [value]
     */
-    public function updateDescriptions($table_name, $index, $txt_data) {
+    public function updateDescriptions($table_name, $index, $txt_data, $serialized = array()) {
     	if ( empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
     	//update provided lang data
     	$this->_do_update_descriptions($table_name, $index, $txt_data); 
     	//translate to other languages    	
-  		$this->_do_translate_descriptions($table_name, $index, $txt_data); 
+  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $serialized);
     	return;
     }
 
@@ -72,13 +74,13 @@ class ALanguageManager extends Alanguage {
     * Insert or Update definitions and translate if configured 
     * More stable aproach, but add extra select. If sure that you do update use updateDescriptions
     * Arguments:
-	* 	tabale name (database table name with no prefix)
+	* 	table name (database table name with no prefix)
 	*   unique index to perform select 
 	*		Format: [key] => [value]
     *   text data array 
     *		Format: [language id][key] => [value]
     */
-    public function replaceDescriptions($table_name, $index, $txt_data) {
+    public function replaceDescriptions($table_name, $index, $txt_data, $serialized = array()) {
     	if ( empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
     
     	//see if exists and update if it does. Do this per language    	
@@ -92,14 +94,14 @@ class ALanguageManager extends Alanguage {
 	    	}
     	}
     	//translate to other languages    	
-  		$this->_do_translate_descriptions($table_name, $index, $txt_data); 
+  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $serialized);
     	return;
     }
 
     /*
     * Delete definitions
     * Arguments:
-	* 	tabale name (database table name with no prefix)
+	* 	table name (database table name with no prefix)
 	*   unique index to perform select 
 	*		Format: [key] => [value]
     */
@@ -122,7 +124,7 @@ class ALanguageManager extends Alanguage {
     /*
     * Select definitions
     * Arguments:
-	* 	tabale name (database table name with no prefix)
+	* 	table name (database table name with no prefix)
 	*   unique index to perform select 
 	*		Format: [key] => [value]
     */
@@ -190,7 +192,7 @@ class ALanguageManager extends Alanguage {
 	}
 
 	//translate descriptions
-    private function _do_translate_descriptions($table_name, $index, $txt_data) {
+    private function _do_translate_descriptions($table_name, $index, $txt_data, $serialized = array()) {
     	$config = $this->registry->get('config');
     	//check if translation is ON
     	if ( $config->get('auto_translate_status') != 1 ) {
@@ -212,7 +214,7 @@ class ALanguageManager extends Alanguage {
     		$language_id = $lang['language_id'];
     	    $new_txt_data = array();
     	    $update_txt_data = array();
-  		    //skip source language and just imputed languages (updated before)
+  		    //skip source language and just inputed languages (updated before)
     	    if ($lang['code'] == $src_lang_code || !empty($txt_data[$language_id]) ) {
     	    	continue;
     	    }
@@ -226,16 +228,28 @@ class ALanguageManager extends Alanguage {
 		    		//check if force override settings is enabled and skip if transltion esits
 		    		if ( ( $config->get('translate_override_existing') && !empty( $txt_to_translate ) )
 		    			|| ( empty($value) && !empty( $txt_to_translate ) )  
-		    			) {						
-		    		    	$update_txt_data[$language_id][$key] = $this->translate($src_lang_code, $txt_to_translate, $lang['code']);
+		    			) {
+							if(in_array($key, array_keys($serialized))){
+								$unserialized_data = unserialize($txt_to_translate);
+								$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized[$key], $src_lang_code, $lang['code']);
+								$update_txt_data[$language_id][$key] = $new_unserialized_data;
+							}else{
+		    		    		$update_txt_data[$language_id][$key] = $this->translate($src_lang_code, $txt_to_translate, $lang['code']);
+							}
 		    		}					
 		    	}    			
 		    } else {
     	    	//insert only
     	    	//translate source text
 		    	foreach ($txt_data[$src_lang_id] as $key => $value) {
-		    		if ( !empty( $value ) ) {						
+		    		if ( !empty( $value ) ) {
+						if(in_array($key, array_keys($serialized))){
+							$unserialized_data = unserialize($value);
+							$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized[$key], $src_lang_code, $lang['code']);
+							$update_txt_data[$language_id][$key] = $new_unserialized_data;
+						}else{
 		    		    	$new_txt_data[$language_id][$key] = $this->translate($src_lang_code, $value, $lang['code']);
+						}
 		    		}					
 		    	} 				
 		    }
@@ -553,6 +567,22 @@ class ALanguageManager extends Alanguage {
     	$this->registry->get('extensions')->hk_UpdateData($this,__FUNCTION__);
     	return $result_txt;
     } 
+
+	private function _translateSerializedData($unserialized, $roadmap, $source_lang_code, $dest_lang_code, $translate_method = ''){
+		$new_unserialized = array();
+		foreach($unserialized as $key=>$value){
+			if(!in_array($key, $roadmap)){
+				$new_unserialized[$key] = $value;
+			}else{
+				$new_unserialized[$key] = $this->translate($source_lang_code, $value, $dest_lang_code, $translate_method);
+			}
+		}
+		return $new_unserialized;
+	}
+
+
+
+
 
 
     /*

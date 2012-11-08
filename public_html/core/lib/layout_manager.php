@@ -620,27 +620,17 @@ class ALayoutManager {
 		if($data ['page_descriptions']){
 			foreach($data ['page_descriptions'] as $language_id=>$description){
 				if(!(int)$language_id){ continue;}
-				$sql = "INSERT INTO " . DB_PREFIX . "page_descriptions (page_id,
-																		language_id,
-																		`name`,
-																		title,
-																		seo_url,
-																		keywords,
-																		description,
-																		content,
-																		created,
-																		updated)
-						VALUES ('" . ( int ) $page_id . "',
-								'" . ( int ) $language_id . "',
-								'" . $this->db->escape ( $description['name'] ) . "',
-								'" . $this->db->escape ( $description['title'] ) . "',
-								'" . $this->db->escape ( $description['seo_url'] ) . "',
-								'" . $this->db->escape ( $description['keywords'] ) . "',
-								'" . $this->db->escape ( $description['description'] ) . "',
-								'" . $this->db->escape ( $description['content'] ) . "',
-								NOW(),
-								NOW())";
-					$this->db->query ($sql);
+
+				$this->language->addDescriptions('page_descriptions',
+												 array('page_id' => (int)$page_id),
+												 array((int)$language_id => array(
+																			'name' => $description['name'],
+																			'title' => $description['title'],
+																			'seo_url' => $description['seo_url'],
+													 						'keywords' => $description['keywords'],
+																			'description' => $description['description'],
+																			'content' => $description['content'],
+												 )) );
 				}
 			}
 
@@ -753,67 +743,36 @@ class ALayoutManager {
 		}
 
 		if($custom_block_id){
-				$exist = $this->getBlockDescriptions($custom_block_id);
-			    if(isset($exist[( int ) $description ['language_id']])){
-				    $tmp = array();
-				    if(isset($description ['name'])){
-					   $tmp[] = "`name` = '" . $this->db->escape ( $description ['name'] ) . "'";
-				    }
-				    if(isset($description ['block_wrapper'])){
-					   $tmp[] = "`block_wrapper` = '" . $this->db->escape ( $description ['block_wrapper'] ) . "'";
-				    }
-				    if(isset($description ['block_framed'])){
-					   $tmp[] = "`block_framed` = '" . (int) $description ['block_framed'] . "'";
-				    }
-				    if(isset($description ['title'])){
-					   $tmp[] = "`title` = '" . $this->db->escape ( $description ['title'] ) . "'";
-				    }
-				    if(isset($description ['description'])){
-					   $tmp[] = "`description` = '" . $this->db->escape ( $description ['description'] ) . "'";
-				    }
-				    if(isset($description ['content'])){
-					   $tmp[] = "`content` = '" . $this->db->escape ( $description ['content'] ) . "'";
-				    }
-					if($tmp){
-						$sql = "UPDATE " . DB_PREFIX . "block_descriptions
-								SET ". implode(", ",$tmp)."
-								WHERE custom_block_id = '" . ( int ) $custom_block_id . "'
-									AND language_id = '" . ( int ) $description ['language_id'] . "'";
-						$this->db->query ( $sql );
-					}
-			    }else{
-				    $sql  = "INSERT INTO " . DB_PREFIX . "block_descriptions
-									   (custom_block_id,
-										language_id,
-										block_wrapper,
-										block_framed,
-										`name`,
-										title,
-										description,
-										content,
-										created)
-									VALUES ( '" . $custom_block_id . "',
-											 '" . ( int ) $description ['language_id'] . "',
-											 '" . $this->db->escape ( $description ['block_wrapper'] ). "',
-											 '" . (int) $description ['block_framed'] . "',
-											 '" . $this->db->escape ( $description ['name'] ) . "',
-											 '" . $this->db->escape ( $description ['title'] ) . "',
-											 '" . $this->db->escape ( $description ['description'] ) . "',
-											 '" . $this->db->escape ( $description ['content'] ) . "',
-											 NOW())";
-					$this->db->query ($sql);
 
-			    }
-			if(isset($description['status'])){
-				$sql = "UPDATE " . DB_PREFIX . "block_layouts
-										SET `status` = '" . (int)$description ['status'] . "'
-										WHERE custom_block_id = '" . ( int ) $custom_block_id . "'";
-				$this->db->query ( $sql);
+			$update = array();
+			if(isset($description ['name'])){
+			   $update["name"] =  $description ['name'];
+			}
+			if(isset($description ['block_wrapper'])){
+			   $update["block_wrapper"] =  $description ['block_wrapper'];
+			}
+			if(isset($description ['block_framed'])){
+			   $update["block_framed"] = (int) $description ['block_framed'];
+			}
+			if(isset($description ['title'])){
+			   $update["title"] =  $description ['title'];
+			}
+			if(isset($description ['description'])){
+			   $update["description"] =  $description ['description'];
+			}
+			if(isset($description ['content'])){
+			   $update["content"] =  $description ['content'];
+			}
+
+			if($update){
+				$this->language->replaceDescriptions('block_descriptions',
+													 array(	 'custom_block_id' => (int)$custom_block_id ),
+													 array( (int)$description['language_id'] => $update) );
 			}
 
 			$this->cache->delete ( 'layout.a.block.descriptions.' . $custom_block_id );
 			$this->cache->delete ( 'layout.a.blocks' );
-		    $this->cache->delete ( 'layout.blocks' );
+			$this->cache->delete ( 'layout.blocks' );
 			return true;
 		}else{
 			if(!$block_id){
@@ -823,26 +782,16 @@ class ALayoutManager {
 			$this->db->query ( "INSERT INTO " . DB_PREFIX . "custom_blocks (block_id, created) VALUES ( '" . $block_id . "', NOW())" );
 			$custom_block_id = $this->db->getLastId ();
 
-			$sql  = "INSERT INTO " . DB_PREFIX . "block_descriptions
-									   (custom_block_id,
-										language_id,
-										block_wrapper,
-										block_framed,
-										`name`,
-										title,
-										description,
-										content,
-										created)
-									VALUES ( '" . $custom_block_id . "',
-											 '" . ( int ) $description ['language_id'] . "',
-											 '" . $this->db->escape ( $description ['block_wrapper'] ). "',
-											 '" . (int) $description ['block_framed'] . "',
-											 '" . $this->db->escape ( $description ['name'] ) . "',
-											 '" . $this->db->escape ( $description ['title'] ) . "',
-											 '" . $this->db->escape ( $description ['description'] ) . "',
-											 '" . $this->db->escape ( $description ['content'] ) . "',
-											 NOW())";
-			$this->db->query ($sql);
+			$this->language->addDescriptions('block_descriptions',
+											 array(	 'custom_block_id' => (int)$custom_block_id ),
+											 array( (int)$description['language_id'] => array(
+												 "block_wrapper" => $description ['block_wrapper'],
+												 'block_framed' =>	(int) $description ['block_framed'],
+												 'name'	=> $description ['name'],
+											 	 'title' => $description ['title'],
+												 'description' => $description ['description'],
+												 'content' =>  $description ['content']
+											 )) );
 
 			$this->cache->delete ( 'layout.a.block.descriptions.' . $custom_block_id );
 			$this->cache->delete ( 'layout.a.blocks' );
@@ -1310,41 +1259,20 @@ class ALayoutManager {
 											WHERE LOWER(name) = '" . $this->db->escape ( $page_description->language ) . "'";
 						$result = $this->db->query ( $query );
 						$language_id = $result->row ? $result->row ['language_id'] : 0;
-						
-						$query = "SELECT page_id FROM " . DB_PREFIX . "page_descriptions
-											WHERE page_id = '" . $page_id . "' AND language_id= '" . ( int ) $language_id . "'";
 
-						$result = $this->db->query ( $query );
-						$exists = $result->row ['page_id'];
-						
-						if ($exists) {
-							$sql = "UPDATE " . DB_PREFIX . "page_descriptions
-									SET  	`name` = '" . $this->db->escape ( $page_description->name ) . "',
-											`title` = '" . $this->db->escape ( $page_description->title ) . "',
-											`description` = '" . $this->db->escape ( $page_description->description ) . "',
-											`content` = '" . $this->db->escape ( $page_description->content ) . "',
-											`seo_url` = '" . $this->db->escape ( $page_description->seo_url ) . "',
-											`keywords` = '" . $this->db->escape ( $page_description->keywords ) . "',
-											`updated` = NOW()
-									WHERE page_id = '" . $page_id . "' AND language_id= '" . ( int ) $language_id . "'";
-						} else {
-							$sql = "INSERT INTO " . DB_PREFIX . "page_descriptions (`page_id`,`language_id`,`name`,
-																					`title`,`description`,`content`,
-																					`seo_url`,`keywords`,`created`,`updated`)
-										VALUES ('" . ( int ) $page_id . "',
-												'" . ( int ) $language_id . "',
-												'" . $this->db->escape ( $page_description->name ) . "',
-												'" . $this->db->escape ( $page_description->title ) . "',
-												'" . $this->db->escape ( $page_description->description ) . "',
-												'" . $this->db->escape ( $page_description->content ) . "',
-												'" . $this->db->escape ( $page_description->seo_url ) . "',
-												'" . $this->db->escape ( $page_description->keywords ) . "',
-												NOW(),NOW())";
-						}				
-						$this->db->query ( $sql );											
+						$this->language->replaceDescriptions('page_descriptions',
+															 array('page_id' => (int)$page_id),
+															 array((int)$language_id => array(
+																						'name' => $page_description->name,
+																						'title' => $page_description->title,
+																						'seo_url' => $page_description->seo_url,
+																 						'keywords' => $page_description->keywords,
+																						'description' => $page_description->description,
+																						'content' => $page_description->content
+															 )) );
 				}
 			}
-		
+
 
 	}
 	
@@ -1442,17 +1370,16 @@ class ALayoutManager {
 												  FROM " . DB_PREFIX . "languages
 												  WHERE LOWER(`name`)= '" . $this->db->escape ( $block_description->language ) . "'" );
 					$language_id = $result->row ['language_id'];
-					
-					$sql [] = "INSERT INTO " . DB_PREFIX . "block_descriptions (instance_id, block_id,language_id,`name`,title,description,content,created,updated)
-							   VALUES ('" . ( int ) $instance_id . "',
-							   			'" . ( int ) $block_id . "',
-										'" . ( int ) $language_id . "',
-										'" . $this->db->escape ( $block_description->name ) . "',
-										'" . $this->db->escape ( $block_description->title ) . "',
-										'" . $this->db->escape ( $block_description->description ) . "',
-										'" . $this->db->escape ( $block_description->content ) . "',
-										NOW(),
-										NOW())";
+					$this->language->addDescriptions('block_descriptions',
+													 array(	 'instance_id' => (int)$instance_id,
+															 'block_id' => (int)$block_id ),
+													 array((int)$language_id => array(
+																				'name' => (string)$block_description->name,
+																				'title' => (string)$block_description->title,
+																				'description' => (string)$block_description->description,
+																				'content' => (string)$block_description->content
+													 )) );
+
 				}
 			}
 			if ($block->templates->template) {
@@ -1493,30 +1420,26 @@ class ALayoutManager {
 								  WHERE `name` = '" . $this->db->escape ( $block_description->language ) . "'";
 						$result = $this->db->query ( $query );
 						$language_id = $result->row ? $result->row ['language_id'] : 0;
-						
-						$query = "SELECT block_id
-								  FROM " . DB_PREFIX . "block_descriptions
-								  WHERE block_id = '" . $block_id . "' AND language_id= '" . ( int ) $language_id . "'";
-						$result = $this->db->query ( $query );
-						$exists = $result->row ['block_id'];
-						
-						if ($exists) {
-							$sql [] = "UPDATE " . DB_PREFIX . "block_descriptions
-									   SET `name` = '" . $this->db->escape ( $block_description->name ) . "',
-											title = '" . $this->db->escape ( $block_description->title ) . "',
-											description = '" . $this->db->escape ( $block_description->description ) . "',
-											content = '" . $this->db->escape ( $block_description->content ) . "',
-											updated = NOW()
-									   WHERE block_id='" . $block_id . "' AND language_id= '" . ( int ) $language_id . "'";
-						} else {
-							$sql [] = "INSERT INTO " . DB_PREFIX . "block_descriptions (block_id,language_id,`name`,title,description,content,created,updated)
-										VALUES ('" . ( int ) $block_id . "',
-												'" . ( int ) $language_id . "',
-												'" . $this->db->escape ( $block_description->name ) . "',
-												'" . $this->db->escape ( $block_description->title ) . "',
-												'" . $this->db->escape ( $block_description->description ) . "',
-												'" . $this->db->escape ( $block_description->content ) . "',NOW(),NOW())";
+						// if language unknown
+						if(!$language_id){
+							$error = "ALayout_manager Error. Unknown language for block descriptions.'."
+							 				."(Block_id=".$block_id.", name=".(string)$block_description->name.", "
+											."title=". (string)$block_description->title.", "
+											."description=". (string)$block_description->description.", "
+											."content=". (string)$block_description->content.", "
+							 				 .")";
+							$this->log->write($error);
+							$this->message->saveError('layout import error',$error);
+							continue;
 						}
+						$this->language->replaceDescriptions('block_descriptions',
+															 array(	 'block_id' => (int)$block_id ),
+															 array((int)$language_id => array(
+																						'name' => (string)$block_description->name,
+																						'title' => (string)$block_description->title,
+																						'description' => (string)$block_description->description,
+																						'content' => (string)$block_description->content
+															 )) );
 					}
 				}
 				if ($block->templates->template) {

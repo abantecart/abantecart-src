@@ -34,12 +34,6 @@ class ModelLocalisationWeightClass extends Model {
 																		'title' => $value['title'],
 																		'unit' => $value['unit']
 											 )) );
-			/*
-			$this->db->query("INSERT INTO " . DB_PREFIX . "weight_class_descriptions
-							SET weight_class_id = '" . (int)$weight_class_id . "',
-							language_id = '" . (int)$language_id . "',
-							title = '" . $this->db->escape($value['title']) . "',
-							unit = '" . $this->db->escape($value['unit']) . "'");*/
 		}
 		
 		$this->cache->delete('weight_class');

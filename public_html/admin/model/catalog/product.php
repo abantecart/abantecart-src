@@ -352,13 +352,6 @@ class ModelCatalogProduct extends Model {
 											 array('product_option_id' => (int)$product_option_id,
 												   'product_id' => (int)$product_id),
 											 array($language_id => array('name' => $name)) );
-            /*$this->db->query(
-                "INSERT INTO " . DB_PREFIX . "product_option_descriptions
-                SET product_option_id = '" . (int)$product_option_id . "',
-                    language_id = '" . (int)$language_id . "',
-                    product_id = '" . (int)$product_id . "',
-                    name = '" . $this->db->escape($name) . "'");
-			*/
         }
 
         //add empty option value for single value attributes
@@ -793,12 +786,6 @@ class ModelCatalogProduct extends Model {
 													 array('product_option_id' => (int)$product_option_id,
 														   'product_id' => (int)$product_id),
 													 array($language_id => array('name' => $language['name'])) );
-
-					/*$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_descriptions
-										SET product_option_id = '" . (int)$product_option_id . "',
-											language_id = '" . (int)$language_id . "',
-											product_id = '" . (int)$product_id . "',
-											name = '" . $this->db->escape($language['name']) . "'");*/
 				}
 
 				if (isset($product_option['product_option_value'])) {
@@ -844,13 +831,6 @@ class ModelCatalogProduct extends Model {
 																 array($language_id => array('name' => $lang_data['name'],
 																							 'grouped_attribute_names' => $grouped_attribute_names
 																 )) );
-
-							/*$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value_descriptions
-												SET product_option_value_id = '" . (int)$pd_opt_val_id . "',
-													language_id = '" . (int)$language_id . "',
-													product_id = '" . (int)$product_id . "',
-													grouped_attribute_names = '" . $this->db->escape( $grouped_attribute_names ) . "',
-													name = '" . $this->db->escape($lang_data['name']) . "'");*/
 						}
 					}
 				}
@@ -1074,27 +1054,11 @@ class ModelCatalogProduct extends Model {
 		if ( !empty($data['name']) ) {
 
 	        $language_id = $this->session->data['content_language_id'];
-            $exist = $this->db->query(
-                "SELECT *
-                FROM " . DB_PREFIX . "product_option_descriptions
-                WHERE product_option_id = '" . (int)$product_option_id . "'
-                    AND language_id = '" . (int)$language_id . "' ");
 
-            if ($exist->num_rows) {
-                $this->db->query(
-                    "UPDATE " . DB_PREFIX . "product_option_descriptions
-                    SET name = '" . $this->db->escape($data['name']) ."'
-                    WHERE product_option_id = '" . (int)$product_option_id . "'
-                        AND product_id = '" . (int)$exist->row['product_id'] . "'
-                        AND language_id = '" . (int)$language_id . "' ");
-            } else {
-                $this->db->query(
-                    "INSERT INTO `".DB_PREFIX."product_option_descriptions`
-                     SET product_option_id = '" . (int)$product_option_id . "',
-                         language_id = '" . (int)$language_id . "',
-                         product_id = '" . (int)$exist->row['product_id'] . "',
-                         name = '" . $this->db->escape($data['name']) . "' ");
-            }
+         	$this->language->replaceDescriptions('product_option_descriptions',
+												 array('product_option_id' => (int)$product_option_id,
+													   'product_id' => (int)$product_id),
+												 array((int)$language_id => array('name' => $data['name'])) );
 
         }
 

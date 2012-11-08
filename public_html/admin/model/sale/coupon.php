@@ -45,12 +45,6 @@ class ModelSaleCoupon extends Model {
 																		'name' => $value['name'],
 																		'description' => $value['description']
 											 )) );
-
-        /*	$this->db->query("INSERT INTO " . DB_PREFIX . "coupon_descriptions
-        	                  SET coupon_id = '" . (int)$coupon_id . "',
-        	                        language_id = '" . (int)$language_id . "',
-        	                        name = '" . $this->db->escape($value['name']) . "',
-        	                        description = '" . $this->db->escape($value['description']) . "'");*/
       	}
 		if (isset($data['coupon_product'])) {
       		foreach ($data['coupon_product'] as $product_id) {
@@ -95,21 +89,6 @@ class ModelSaleCoupon extends Model {
 																					'name' => $value['name'],
 																					'description' => $value['description']
 														 )) );
-
-					/*
-					$exist = $this->db->query( "SELECT *
-												FROM " . DB_PREFIX . "coupon_descriptions
-										        WHERE coupon_id = '" . (int)$coupon_id . "' AND language_id = '" . (int)$language_id . "' ");
-					if($exist->num_rows){
-						$this->db->query("UPDATE " . DB_PREFIX . "coupon_descriptions
-											SET ". implode(',', $update) ."
-											WHERE coupon_id = '" . (int)$coupon_id . "' AND language_id = '" . (int)$language_id . "' ");
-					}else{
-						$this->db->query("INSERT INTO " . DB_PREFIX . "coupon_descriptions
-											SET ". implode(',', $update) .",
-											 coupon_id = '" . (int)$coupon_id . "',
-											 language_id = '" . (int)$language_id . "' ");
-					}*/
 				}
 			}
 		}

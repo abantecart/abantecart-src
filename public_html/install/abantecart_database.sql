@@ -5721,7 +5721,7 @@ CREATE TABLE `ac_block_descriptions` (
   `name` varchar(255) NOT NULL COMMENT 'translatable',
   `title` varchar(255) NOT NULL COMMENT 'translatable',  
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
-  `content` text NOT NULL DEFAULT '' COMMENT 'translatable', -- Contain the block details if custom content
+  `content` text NOT NULL DEFAULT '', -- Contain the block details if custom content
   `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`block_description_id`, `custom_block_id`, `language_id`)
@@ -6031,7 +6031,7 @@ DROP TABLE IF EXISTS `ac_field_values`;
 CREATE TABLE `ac_field_values` (
   `value_id` int(11) NOT NULL auto_increment,
   `field_id` int(11) NOT NULL DEFAULT '0',
-  `value` text COLLATE utf8_bin NOT NULL DEFAULT '',
+  `value` text COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`value_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -51,8 +51,6 @@ class AFormManager {
 			}
 			
 			// fields of form
-			
-
 			$sql = "SELECT field_id FROM " . DB_PREFIX . "fields WHERE form_id='" . $this->form_id . "'";
 			$result = $this->db->query ( $sql );
 			if ($result->num_rows) {
@@ -248,9 +246,15 @@ class AFormManager {
 							$this->errors = 1;
 							continue 2;
 						}
+						$this->language->addDescriptions('form_descriptions',
+														 array('form_id' => (int)$this->form_id),
+														 array($language_id => array(
+																					'description' => (string)$form_description->description
+														 )) );
+						/*
 						$query = "INSERT INTO " . DB_PREFIX . "form_descriptions(form_id, language_id,description) 
 									VALUES ('" . $this->form_id . "','" . $language_id . "','" . $this->db->escape ( $form_description->description ) . "')";
-						$this->db->query ( $query );
+						$this->db->query ( $query );*/
 					}
 				}
 				
@@ -286,8 +290,14 @@ class AFormManager {
 							$this->errors = 1;
 							continue 2;
 						}
-						
-						$exists = $this->_getFormDescription ( $language_id );
+
+						$this->language->replaceDescriptions('form_descriptions',
+															 array('form_id' => (int)$this->form_id),
+															 array($language_id => array(
+																						'description' => (string)$form_description->description
+															 )) );
+
+						/*$exists = $this->_getFormDescription ( $language_id );
 						if (! $exists) {
 							$query = "INSERT INTO " . DB_PREFIX . "form_descriptions (form_id, language_id,description) 
 										VALUES ('" . $this->form_id . "','" . $language_id . "','" . $this->db->escape ( $form_description->description ) . "')";
@@ -295,7 +305,7 @@ class AFormManager {
 							$query = "UPDATE " . DB_PREFIX . "form_descriptions SET description = '" . $this->db->escape ( $form_description->description ) . "'
 									WHERE form_id= '" . $this->form_id . "' AND language_id = '" . $language_id . "'";
 						}
-						$this->db->query ( $query );
+						$this->db->query ( $query );*/
 					}
 				}
 				
