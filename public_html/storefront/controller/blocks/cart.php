@@ -115,6 +115,9 @@ class ControllerBlocksCart extends AController {
 		$this->view->assign('ajax', $this->config->get('cart_ajax'));
         $this->processTemplate();
 		
+		//init controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		
 	}
 
 }

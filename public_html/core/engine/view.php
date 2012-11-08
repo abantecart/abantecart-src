@@ -224,8 +224,8 @@ class AView {
         $template = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
         $extensions = $this->extensions->getEnabledExtensions();
 
-        $file = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . $template . $filename;
-        $file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default' . $filename;
+        $file = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . $template .'/template/'. $filename;
+		$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $filename;
 
 	    foreach ( $extensions as $ext ) {
             if ( is_file(DIR_EXT . $ext . $file) ) {
@@ -237,7 +237,7 @@ class AView {
 			}
         }
 
-        if (is_file( DIR_TEMPLATE . $template . $filename)) {
+        if (is_file( DIR_TEMPLATE . $template .'/template/'. $filename)) {
             return true;
         } else {
             return false;

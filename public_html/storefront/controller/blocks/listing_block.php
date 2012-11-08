@@ -69,7 +69,8 @@ class ControllerBlocksListingBlock extends AController {
 
 			$this->processTemplate();
 		}
-
+		//init controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 
 	protected function _prepareProducts($data, $block_wrapper=''){
