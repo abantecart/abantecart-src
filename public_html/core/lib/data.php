@@ -95,7 +95,7 @@ final class AData {
 	 		mode string : commit or test
 	 output Status Arary 
 	*/
-	public function importData( $data_array, $mode = 'commit'  ) {
+	public function importData( $data_array, $mode = 'commit'  ) {	
 		$this->run_mode = $mode;
 		//validate the array. 
 		foreach ( $data_array['tables'] as $tnode){
@@ -693,6 +693,7 @@ final class AData {
 			$this->_status2array('error', 'Incorrect structure of '. $table_name .' node. Row node is expected');
 		}
 
+		$new_vals = array();
 		foreach ($data_arr['rows'] as $rnode){
 
 			$action = '';
@@ -724,24 +725,44 @@ final class AData {
 			if ( !$this->_validate_action($action, $table_name, $table_cfg, $new_vals) ) {
 				continue;
 			}
-			//Now do the action for the row if any data provided besides kyes
-			$new_vals = array_merge($new_vals, $this->_do_fromArray($action, $table_name, $table_cfg, $rnode, $new_vals));
+			
+			//Unique case: If this is a resource_map and resource_id is missing we need to create resource library first and get resource_id 
+		    if ( $table_name == 'resource_map' && isset($rnode['tables']) && is_array($rnode['tables']) ) {
+		    	//only one resource can be mapped at the time. 
+		    	$new_table = $rnode['tables'][0];
+				$sub_table_cfg = $this->model_tool_table_relationships->find_table_cfg( $new_table['name'], $table_cfg );
+				if ( $sub_table_cfg ) {
+				    $resource_data = $this->_process_import_table($new_table['name'], $sub_table_cfg, $new_table, $new_vals);
+				    $new_vals['resource_id'] = $resource_data['resource_id'];
 
-			//locate inner table nodes for recursion
-			if ( isset($rnode['tables']) && is_array($rnode['tables'])) {
-				foreach( $rnode['tables'] as $new_table ){
-
-					$sub_table_cfg = $this->model_tool_table_relationships->find_table_cfg( $new_table['name'], $table_cfg );
-
-					if ( $sub_table_cfg ) {
-						$this->_process_import_table($new_table['name'], $sub_table_cfg, $new_table, $new_vals);
-					} else {
-						$this->_status2array('error', 'Unknown table: "'. $new_table['name'] .'" requested in relation to table ' . $table_name . '. Exit this node');
-						continue;
+					//Now do the action for the row if any data provided besides keys
+					$new_vals = array_merge($new_vals, $this->_do_fromArray($action, $table_name, $table_cfg, $rnode, $new_vals));				    
+				} else {
+				    $this->_status2array('error', 'Unknown table: "'. $new_table['name'] .'" requested in relation to table ' . $table_name . '. Exit this node');
+				}
+		    } else {
+		    // all other tables
+		    
+				//Now do the action for the row if any data provided besides keys
+				$new_vals = array_merge($new_vals, $this->_do_fromArray($action, $table_name, $table_cfg, $rnode, $new_vals));
+	
+				//locate inner table nodes for recursion
+				if ( $table_name != 'resource_map' && isset($rnode['tables']) && is_array($rnode['tables'])) {
+					foreach( $rnode['tables'] as $new_table ){
+						$sub_table_cfg = $this->model_tool_table_relationships->find_table_cfg( $new_table['name'], $table_cfg );
+						if ( $sub_table_cfg ) {
+							$this->_process_import_table($new_table['name'], $sub_table_cfg, $new_table, $new_vals);
+						} else {
+							$this->_status2array('error', 'Unknown table: "'. $new_table['name'] .'" requested in relation to table ' . $table_name . '. Exit this node');
+							continue;
+						}
 					}
 				}
-			}
+		    
+		    }  	
 		}
+		//return last row new (updated) values
+		return $new_vals;
 	}
 
 	//Detect action for XML node
@@ -918,7 +939,7 @@ final class AData {
 		if ($this->run_mode == 'commit') {
 			$this->db->query($sql, TRUE);
 			if ( isset($table_cfg['id']) ) {
-				$return[$table_cfg['id']] = ( $this->db->getLastId() ) ? $this->db->getLastId() : $data_row[$table_cfg['id']];
+				$return[$table_cfg['id']] = $this->db->getLastId();
 			}
 		}else{
 			$this->_status2array('sql', $sql);
@@ -1065,7 +1086,7 @@ final class AData {
 			if ($status == 'insert' && isset($table_cfg['id']) ) {
 				//If special case, no new ID. 
 				if(!$table_cfg['on_insert_no_id']){
-					$return[$table_cfg['id']] = ( $this->db->getLastId() ) ? $this->db->getLastId() : $data_row[$table_cfg['id']];
+					$return[$table_cfg['id']] = $this->db->getLastId();
 				}
 			}
 		} else {
