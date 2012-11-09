@@ -40,15 +40,15 @@ class ALanguageManager extends Alanguage {
 	*		Format: [key] => [value]
     *   text data array 
     *		Format: [language id][key] => [value]
-     *  serialized array with key list of serialized array one of txt_data value
-     * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
+    *  serialized_roadmap array with key's list of serialized array one of txt_data value
+    * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
     */    
-    public function addDescriptions($table_name, $index, $txt_data, $serialized = array()) {
+    public function addDescriptions($table_name, $index, $txt_data, $serialized_roadmap = array()) {
     	if ( empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
     	//Insert data provided per language in $data array
     	$this->_do_insert_descriptions($table_name, $index, $txt_data);
     	//translate to other languages    	
-  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $serialized);
+  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $serialized_roadmap);
     	return;    
     }
     
@@ -60,13 +60,15 @@ class ALanguageManager extends Alanguage {
 	*		Format: [key] => [value]
     *   text data array 
     *		Format: [language id][key] => [value]
+    *  serialized_roadmap array with key's list of serialized array one of txt_data value
+    * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
     */
-    public function updateDescriptions($table_name, $index, $txt_data, $serialized = array()) {
+    public function updateDescriptions($table_name, $index, $txt_data, $serialized_roadmap = array()) {
     	if ( empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
     	//update provided lang data
     	$this->_do_update_descriptions($table_name, $index, $txt_data); 
     	//translate to other languages    	
-  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $serialized);
+  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $serialized_roadmap);
     	return;
     }
 
@@ -79,8 +81,10 @@ class ALanguageManager extends Alanguage {
 	*		Format: [key] => [value]
     *   text data array 
     *		Format: [language id][key] => [value]
+    *  serialized_roadmap array with key's list of serialized array one of txt_data value
+    * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
     */
-    public function replaceDescriptions($table_name, $index, $txt_data, $serialized = array()) {
+    public function replaceDescriptions($table_name, $index, $txt_data, $serialized_roadmap = array()) {
     	if ( empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
     
     	//see if exists and update if it does. Do this per language    	
@@ -94,7 +98,7 @@ class ALanguageManager extends Alanguage {
 	    	}
     	}
     	//translate to other languages    	
-  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $serialized);
+  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $serialized_roadmap);
     	return;
     }
 
@@ -192,12 +196,12 @@ class ALanguageManager extends Alanguage {
 	}
 
 	//translate descriptions
-    private function _do_translate_descriptions($table_name, $index, $txt_data, $serialized = array()) {
+    private function _do_translate_descriptions($table_name, $index, $txt_data, $serialized_roadmap = array()) {
     	$config = $this->registry->get('config');
     	//check if translation is ON
-    	if ( $config->get('auto_translate_status') != 1 ) {
+    	if ( !$config->get('auto_translate_status')) {
 			return;
-		}    	
+		}
 
 		$session = $this->registry->get('session');
     	$config = $this->registry->get('config');
@@ -229,9 +233,9 @@ class ALanguageManager extends Alanguage {
 		    		if ( ( $config->get('translate_override_existing') && !empty( $txt_to_translate ) )
 		    			|| ( empty($value) && !empty( $txt_to_translate ) )  
 		    			) {
-							if(in_array($key, array_keys($serialized))){
+							if(in_array($key, array_keys($serialized_roadmap))){
 								$unserialized_data = unserialize($txt_to_translate);
-								$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized[$key], $src_lang_code, $lang['code']);
+								$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized_roadmap[$key], $src_lang_code, $lang['code']);
 								$update_txt_data[$language_id][$key] = $new_unserialized_data;
 							}else{
 		    		    		$update_txt_data[$language_id][$key] = $this->translate($src_lang_code, $txt_to_translate, $lang['code']);
@@ -243,9 +247,9 @@ class ALanguageManager extends Alanguage {
     	    	//translate source text
 		    	foreach ($txt_data[$src_lang_id] as $key => $value) {
 		    		if ( !empty( $value ) ) {
-						if(in_array($key, array_keys($serialized))){
+						if(in_array($key, array_keys($serialized_roadmap))){
 							$unserialized_data = unserialize($value);
-							$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized[$key], $src_lang_code, $lang['code']);
+							$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized_roadmap[$key], $src_lang_code, $lang['code']);
 							$update_txt_data[$language_id][$key] = $new_unserialized_data;
 						}else{
 		    		    	$new_txt_data[$language_id][$key] = $this->translate($src_lang_code, $value, $lang['code']);
@@ -544,9 +548,9 @@ class ALanguageManager extends Alanguage {
     	if (empty($source_lang_code) || empty($src_text) || empty($dest_lang_code) ) {
     		return;
     	}
-    	//check what method is selecte for translation 
+    	//check what method is selected for translation
     	if ( empty($translate_method) ) {
-    		$translate_method = $this->registry->get('config')->get('translate_method');
+    		$translate_method = $this->registry->get('config')->get('config_translate_method');
     	}
     	$extensions = $this->registry->get('extensions')->getEnabledExtensions();
     	if (  in_array( $translate_method, $extensions ) ) {
@@ -556,9 +560,12 @@ class ALanguageManager extends Alanguage {
 			} else {
 				throw new AException(AC_ERR_LOAD, 'Error: Could not load translations class ' . $ex_class. '!');
 			}
-				
-			$translate_driver = new translate();    
-			$result_txt = $translate_driver->translate($source_lang_code, $src_text, $dest_lang_code);		
+
+			$translate_driver = new translate();
+			$result_txt = $translate_driver->translate($source_lang_code, $src_text, $dest_lang_code);
+			if(!$result_txt){
+				$result_txt = $src_text;
+			}
 			ADebug::checkpoint("AlangugeManager: Translated text: $src_text from $source_lang_code to $dest_lang_code");
     	} else {
     		//fail over to default 'copy_source_text' method
@@ -593,8 +600,14 @@ class ALanguageManager extends Alanguage {
 		$this->registry->get('extensions')->hk_InitData($this,__FUNCTION__);
 		//default copy method
 		$methods = array( 'copy_source_text' => 'Copy Source Language Text');
+		$translaters = $this->registry->get('extensions')->getExtensionsList(array('category'=>'Translaters', 'status'=>1));
+
+		foreach($translaters->rows as $translater){
+			$methods[$translater['key']] = $this->registry->get('extensions')->getExtensionName($translater['key']);
+		}
 
 		$this->registry->get('extensions')->hk_UpdateData($this,__FUNCTION__);
+
 		return $methods;
 	}
         
