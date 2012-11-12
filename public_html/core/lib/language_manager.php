@@ -206,12 +206,12 @@ class ALanguageManager extends Alanguage {
 		$session = $this->registry->get('session');
     	$config = $this->registry->get('config');
 
-    	//locate source language based on transaltion setting
+    	//locate source language based on translation setting
     	$src_lang_code = $config->get('translate_src_lang_code');
     	$src_lang_id = $this->_get_language_id( $src_lang_code );
-            
+
     	if ( empty($txt_data[$src_lang_id]) ) {
-    	    return;
+    	    return false;
     	} 
     	//translate all active languages
     	foreach ($this->getActiveLanguages() as $lang) {
@@ -235,8 +235,12 @@ class ALanguageManager extends Alanguage {
 		    			) {
 							if(in_array($key, array_keys($serialized_roadmap))){
 								$unserialized_data = unserialize($txt_to_translate);
-								$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized_roadmap[$key], $src_lang_code, $lang['code']);
-								$update_txt_data[$language_id][$key] = $new_unserialized_data;
+								if($unserialized_data!==false){
+									$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized_roadmap[$key], $src_lang_code, $lang['code']);
+									$update_txt_data[$language_id][$key] = serialize($new_unserialized_data);
+								}else{
+									$update_txt_data[$language_id][$key] = $txt_to_translate;
+								}
 							}else{
 		    		    		$update_txt_data[$language_id][$key] = $this->translate($src_lang_code, $txt_to_translate, $lang['code']);
 							}
@@ -249,8 +253,12 @@ class ALanguageManager extends Alanguage {
 		    		if ( !empty( $value ) ) {
 						if(in_array($key, array_keys($serialized_roadmap))){
 							$unserialized_data = unserialize($value);
-							$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized_roadmap[$key], $src_lang_code, $lang['code']);
-							$update_txt_data[$language_id][$key] = $new_unserialized_data;
+							if($unserialized_data!==false){
+								$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized_roadmap[$key], $src_lang_code, $lang['code']);
+								$new_txt_data[$language_id][$key] = serialize($new_unserialized_data);
+							}else{
+								$new_txt_data[$language_id][$key] = $value;
+							}
 						}else{
 		    		    	$new_txt_data[$language_id][$key] = $this->translate($src_lang_code, $value, $lang['code']);
 						}
@@ -263,7 +271,7 @@ class ALanguageManager extends Alanguage {
 		    	$this->_do_insert_descriptions($table_name, $index, $new_txt_data); 
 		    }
 		    if (count($update_txt_data)) {
-		    	$this->_do_update_descriptions($table_name, $index, $update_txt_data); 
+		    	$this->_do_update_descriptions($table_name, $index, $update_txt_data);
 		    }    		
     	}
     	return;
@@ -561,7 +569,7 @@ class ALanguageManager extends Alanguage {
 				throw new AException(AC_ERR_LOAD, 'Error: Could not load translations class ' . $ex_class. '!');
 			}
 
-			$translate_driver = new translate();
+			$translate_driver = new translate($this->registry->get('config'));
 			$result_txt = $translate_driver->translate($source_lang_code, $src_text, $dest_lang_code);
 			if(!$result_txt){
 				$result_txt = $src_text;
@@ -576,21 +584,40 @@ class ALanguageManager extends Alanguage {
     } 
 
 	private function _translateSerializedData($unserialized, $roadmap, $source_lang_code, $dest_lang_code, $translate_method = ''){
-		$new_unserialized = array();
-		foreach($unserialized as $key=>$value){
-			if(!in_array($key, $roadmap)){
-				$new_unserialized[$key] = $value;
-			}else{
-				$new_unserialized[$key] = $this->translate($source_lang_code, $value, $dest_lang_code, $translate_method);
-			}
+
+		if (empty($source_lang_code) || empty($unserialized) || empty($dest_lang_code) ) {
+			return;
 		}
-		return $new_unserialized;
+		//check what method is selected for translation
+		if ( empty($translate_method) ) {
+			$translate_method = $this->registry->get('config')->get('config_translate_method');
+		}
+
+		foreach($roadmap as $key){
+			$unserialized = $this->_translateArrayRecursive($unserialized, $key, $source_lang_code, $dest_lang_code, $translate_method);
+		}
+
+
+		return $unserialized;
 	}
 
+	private function _translateArrayRecursive($array, $translate_key, $source_lang_code, $dest_lang_code, $translate_method){
+		if(!is_array($array)) return $array;
 
-
-
-
+		if(isset($array[$translate_key])){
+			$array[$translate_key] = $this->translate($source_lang_code, $array[$translate_key], $dest_lang_code, $translate_method);
+			return $array;
+		}else{
+			foreach($array as $key=>$value){
+				if(is_array($value) && isset($value[$translate_key])){
+					$array[$key][$translate_key] = $this->translate($source_lang_code, $value[$translate_key], $dest_lang_code, $translate_method);
+				}elseif(is_array($value)){
+					$array[$key] = $this->_translateArrayRecursive($value, $translate_key, $source_lang_code, $dest_lang_code, $translate_method);
+				}
+			}
+		}
+	return $array;
+	}
 
     /*
 	* Get available translation methods
