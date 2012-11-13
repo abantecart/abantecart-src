@@ -23,43 +23,41 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ModelLocalisationLanguageDefinitions extends Model {
 
 	public function addLanguageDefinition($data) {
-		//prevent duplicates
-		$sql = "SELECT language_definition_id
-				FROM " . DB_PREFIX . "language_definitions
-				WHERE block='" . $this->db->escape($data[ 'block' ]) . "'
-					AND section='" . (int)$data[ 'section' ] . "'
-					AND language_key='" . $this->db->escape($data[ 'language_key' ]) . "'
-					AND language_id='" . (int)$data[ 'language_id' ] . "'";
-		$result = $this->db->query($sql);
-		if ($result->row[ 'language_definition_id' ]) {
-			return $result->row[ 'language_definition_id' ];
-		}
+		if(!is_array($data) || !$data) return false;
 
 		$update_data = array();
 		foreach ($data as $key => $val) {
-			$update_data[ $this->db->escape($key) ] = "'" . $this->db->escape(htmlspecialchars_decode(trim($val))) . "'";
+			$update_data[ $this->db->escape($key) ] = htmlspecialchars_decode(trim($val));
 		}
 
 		if (empty($update_data[ 'language_key' ])
 				|| empty($update_data[ 'language_value' ])
 				|| empty($update_data[ 'language_id' ])
-				|| empty($update_data[ 'block' ])
-		) {
+				|| empty($update_data[ 'block' ]) ) {
 
 			$message = 'Tring to write new language definition but data is wrong.
 			   language_key: ' . $update_data[ 'language_key' ] . ',
 			   language_value: ' . $update_data[ 'language_value' ] . ',
 			   block: ' . $update_data[ 'block' ] . ',
 			   section: ' . (int)$update_data[ 'section' ] . ',
-			   language_id: ' . $update_data[ 'language_id' ] . '.';
+			   language_id: ' . (int)$update_data[ 'language_id' ] . '.';
 			$this->messages->saveWarning('New language definition adding error.', $message);
 			return false;
 		}
 		unset($update_data[ 'language_definition_id' ]);
-		$sql = "INSERT INTO " . DB_PREFIX . "language_definitions
-						(" . implode(', ', array_keys($update_data)) . ", create_date)
-						VALUES (" . implode(', ', $update_data) . ", NOW()) ";
-		$this->db->query($sql);
+
+		$this->language->replaceDescriptions(  'language_definitions',
+												array('section' => (int)$update_data[ 'section' ],
+													  'block' => $update_data[ 'block' ],
+													  'language_key' => $update_data[ 'language_key' ]
+												),
+												array($update_data[ 'language_id' ] => array(
+															'section' => (int)$update_data[ 'section' ],
+															'block' => $update_data[ 'block' ],
+															'language_key' => $update_data[ 'language_key' ],
+															'language_value' => $update_data[ 'language_value' ]
+												)) );
+
 		$this->cache->delete('lang');
 		$this->cache->delete('language_definitions');
 		$this->cache->delete('admin_menu');
@@ -68,18 +66,27 @@ class ModelLocalisationLanguageDefinitions extends Model {
 	}
 
 	public function editLanguageDefinition($id, $data) {
+		if(empty($id) || !is_array($data) || !$data) return false;
 
 		$update_data = array();
 		foreach ($data as $key => $val) {
-			$update_data[ ] = "`$key` = '" . $this->db->escape(htmlspecialchars_decode($val)) . "' ";
+			$update_data[$key] = htmlspecialchars_decode($val);
 			if (empty($val) && ($key == 'language_key' || $key == 'language_value')) {
 				return false;
 			}
 		}
+		$this->language->updateDescriptions(  'language_definitions',
+												array('section'      => (int)$update_data[ 'section' ],
+													  'block'        => $update_data[ 'block' ],
+													  'language_key' => $update_data[ 'language_key' ]
+												),
+												array($update_data[ 'language_id' ] => array(
+													'section'        => (int)$update_data[ 'section' ],
+													'block'          => $update_data[ 'block' ],
+													'language_key'   => $update_data[ 'language_key' ],
+													'language_value' => $update_data[ 'language_value' ]
+												)) );
 
-		$this->db->query("UPDATE " . DB_PREFIX . "language_definitions
-							SET " . implode(',', $update_data) . "
-							WHERE language_definition_id = '" . (int)$id . "'");
 		$this->cache->delete('lang');
 		$this->cache->delete('language_definitions');
 		$this->cache->delete('admin_menu');
@@ -200,23 +207,23 @@ class ModelLocalisationLanguageDefinitions extends Model {
 			$result = $query->rows;
 
 			/* !!!for future use
-						   // mark not defined
-						   if(mode!='only_total'){
-							   $languages = $this->language->getAvailableLanguages();
-							   $language_count = sizeof($languages);
-							   foreach($result as $k=>$definition){
-								   $sql = "SELECT COUNT( DISTINCT language_id) as cnt
-										   FROM " . DB_PREFIX . "language_definitions
-										   WHERE section = '".$this->db->escape($definition['section'])."'
-											   AND block = '".$this->db->escape($definition['block'])."'
-											   AND language_key = '".$this->db->escape($definition['language_key'])."'";
-								   $count = $this->db->query( $sql );
-								   $count = $count->row;
-								   if($count['cnt']!=$language_count){
-									   $result[$k]['error'] = true;
-								   }
-							   }
-						   }*/
+		   // mark not defined
+		   if(mode!='only_total'){
+			   $languages = $this->language->getAvailableLanguages();
+			   $language_count = sizeof($languages);
+			   foreach($result as $k=>$definition){
+				   $sql = "SELECT COUNT( DISTINCT language_id) as cnt
+						   FROM " . DB_PREFIX . "language_definitions
+						   WHERE section = '".$this->db->escape($definition['section'])."'
+							   AND block = '".$this->db->escape($definition['block'])."'
+							   AND language_key = '".$this->db->escape($definition['language_key'])."'";
+				   $count = $this->db->query( $sql );
+				   $count = $count->row;
+				   if($count['cnt']!=$language_count){
+					   $result[$k]['error'] = true;
+				   }
+			   }
+		   }*/
 
 			return $result;
 		} else {

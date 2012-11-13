@@ -28,7 +28,7 @@ class ModelLocalisationStockStatus extends Model {
 
 		foreach ($data['stock_status'] as $language_id => $value) {
 
-			$this->language->addDescriptions('stock_statuses',
+			$this->language->replaceDescriptions('stock_statuses',
 											 array( 'stock_status_id' => (int)$stock_status_id,
 													'language_id' => (int)$language_id ),
 											 array($language_id => array(

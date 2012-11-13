@@ -32,7 +32,7 @@ class ModelCatalogCategory extends Model {
 		$category_id = $this->db->getLastId();
 		
 		foreach ($data['category_description'] as $language_id => $value) {
-			$this->language->addDescriptions('category_descriptions',
+			$this->language->replaceDescriptions('category_descriptions',
 											 array('category_id' => (int)$category_id),
 											 array($language_id => array(
 												 						'name' => $value['name'],

@@ -33,11 +33,6 @@ class ControllerPagesSettingStore extends AController {
 
         $this->document->setTitle($this->language->get('heading_title'));
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
-            $languages = $this->language->getAvailableLanguages();
-            foreach ($languages as $l) {
-                if ($l['language_id'] == $this->session->data['content_language_id']) continue;
-                $this->request->post['store_description'][$l['language_id']] = $this->request->post['store_description'][$this->session->data['content_language_id']];
-            }
 
             $store_id = $this->model_setting_store->addStore($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');

@@ -54,7 +54,7 @@ class ModelCatalogProduct extends Model {
 		$product_id = $this->db->getLastId();
 		
 		foreach ($data['product_description'] as $language_id => $value) {
-			$this->language->addDescriptions('product_descriptions',
+			$this->language->replaceDescriptions('product_descriptions',
 											 array('product_id' => (int)$product_id),
 											 array($language_id => array('name' => $value['name'],
 												 						 'meta_keywords' => $value['meta_keywords'],
@@ -348,7 +348,7 @@ class ModelCatalogProduct extends Model {
 	        $attributeDescriptions = $am->getAttributeDescriptions($data['attribute_id']);
 	    }
         foreach ($attributeDescriptions as $language_id => $name) {
-			$this->language->addDescriptions('product_option_descriptions',
+			$this->language->replaceDescriptions('product_option_descriptions',
 											 array('product_option_id' => (int)$product_option_id,
 												   'product_id' => (int)$product_id),
 											 array($language_id => array('name' => $name)) );
@@ -782,7 +782,7 @@ class ModelCatalogProduct extends Model {
 				$product_option_id = $this->db->getLastId();
 
 				foreach ($product_option['language'] as $language_id => $language) {
-					$this->language->addDescriptions('product_option_descriptions',
+					$this->language->replaceDescriptions('product_option_descriptions',
 													 array('product_option_id' => (int)$product_option_id,
 														   'product_id' => (int)$product_id),
 													 array($language_id => array('name' => $language['name'])) );
@@ -826,7 +826,7 @@ class ModelCatalogProduct extends Model {
 							$grouped_attribute_names = serialize( $lang_data['children_options_names'] );
 
 							$this->language->replaceDescriptions('product_option_value_descriptions',
-																 array('product_option_value_id' => (int)$product_option_value_id,
+																 array('product_option_value_id' => (int)$pd_opt_val_id,
 																 		'product_id' => (int)$product_id),
 																 array($language_id => array('name' => $lang_data['name'],
 																							 'grouped_attribute_names' => $grouped_attribute_names
@@ -1056,8 +1056,7 @@ class ModelCatalogProduct extends Model {
 	        $language_id = $this->session->data['content_language_id'];
 
          	$this->language->replaceDescriptions('product_option_descriptions',
-												 array('product_option_id' => (int)$product_option_id,
-													   'product_id' => (int)$product_id),
+												 array('product_option_id' => (int)$product_option_id),
 												 array((int)$language_id => array('name' => $data['name'])) );
 
         }

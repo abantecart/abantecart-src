@@ -268,7 +268,7 @@ class ALanguageManager extends Alanguage {
     	    
 		    //we have somethign to save
 		    if (count($new_txt_data)) {
-		    	$this->_do_insert_descriptions($table_name, $index, $new_txt_data); 
+		    	$this->_do_insert_descriptions($table_name, $index, $new_txt_data);
 		    }
 		    if (count($update_txt_data)) {
 		    	$this->_do_update_descriptions($table_name, $index, $update_txt_data);
@@ -558,7 +558,7 @@ class ALanguageManager extends Alanguage {
     	}
     	//check what method is selected for translation
     	if ( empty($translate_method) ) {
-    		$translate_method = $this->registry->get('config')->get('config_translate_method');
+    		$translate_method = $this->registry->get('config')->get('translate_method');
     	}
     	$extensions = $this->registry->get('extensions')->getEnabledExtensions();
     	if (  in_array( $translate_method, $extensions ) ) {
@@ -590,7 +590,7 @@ class ALanguageManager extends Alanguage {
 		}
 		//check what method is selected for translation
 		if ( empty($translate_method) ) {
-			$translate_method = $this->registry->get('config')->get('config_translate_method');
+			$translate_method = $this->registry->get('config')->get('translate_method');
 		}
 
 		foreach($roadmap as $key){

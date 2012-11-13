@@ -104,12 +104,6 @@ class ControllerPagesLocalisationOrderStatus extends AController {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
 
-    	    $languages = $this->language->getAvailableLanguages();
-		    foreach ( $languages as $l ) {
-			    if ( $l['language_id'] == $this->session->data['content_language_id'] ) continue;
-			    $this->request->post['order_status'][$l['language_id']] = $this->request->post['order_status'][ $this->session->data['content_language_id'] ];
-		    }
-
 			$order_status_id = $this->model_localisation_order_status->addOrderStatus($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
       		$this->redirect($this->html->getSecureURL('localisation/order_status/update', '&order_status_id=' . $order_status_id ));

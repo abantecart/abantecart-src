@@ -39,7 +39,7 @@ class ModelSaleCoupon extends Model {
       	$coupon_id = $this->db->getLastId();
 
       	foreach ($data['coupon_description'] as $language_id => $value) {
-			$this->language->addDescriptions('coupon_descriptions',
+			$this->language->replaceDescriptions('coupon_descriptions',
 											 array('coupon_id' => (int)$coupon_id),
 											 array($language_id => array(
 																		'name' => $value['name'],

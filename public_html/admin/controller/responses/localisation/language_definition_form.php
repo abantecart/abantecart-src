@@ -61,7 +61,7 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 				if ($id) {
 					$this->model_localisation_language_definitions->editLanguageDefinition($id, $data);
 				} else {
-					$language_definition_id = $this->model_localisation_language_definitions->addLanguageDefinition($data);
+					$this->model_localisation_language_definitions->addLanguageDefinition($data);
 				}
 			}
 
@@ -96,7 +96,7 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 			$item = $this->model_localisation_language_definitions->getLanguageDefinition($this->request->get[ 'language_definition_id' ]);
 			//make sure we load all the langaues properly in case they were not used yet.
 			foreach ($languages as $lang) {
-				$new_lang_obj = new ALanguage ($this->registry, $lang[ 'code' ], $item[ 'section' ]);
+				$new_lang_obj = new ALanguageManager ($this->registry, $lang[ 'code' ], $item[ 'section' ]);
 				$new_lang_obj->_load($new_lang_obj->convert_block_to_file($item[ 'block' ]));
 			}
 			//load definitions for all languages now
@@ -128,7 +128,8 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 			$form = new AForm('HS');
 		}
 
-		$dispatch = $this->dispatch('responses/common/form_collector', array( 'form_id' => 'definitionFrm', 'target' => $this->request->get[ 'target' ] ));
+		$dispatch = $this->dispatch('responses/common/form_collector', array( 'form_id' => 'definitionFrm',
+																			  'target' => $this->request->get[ 'target' ] ));
 		$this->data[ 'form_collector' ] = $dispatch->dispatchGetOutput();
 
 

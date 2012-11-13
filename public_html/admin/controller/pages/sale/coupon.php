@@ -181,12 +181,6 @@ class ControllerPagesSaleCoupon extends AController {
         $this->load->library('json');
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
 
-            $languages = $this->language->getAvailableLanguages();
-            foreach ($languages as $l) {
-                if ($l['language_id'] == $this->session->data['content_language_id']) continue;
-                $this->request->post['coupon_description'][$l['language_id']] = $this->request->post['coupon_description'][$this->session->data['content_language_id']];
-            }
-
             $this->request->post['coupon_product'] = $this->_convertProduct_list($this->request->post['selected'][0]);
 
             $coupon_id = $this->model_sale_coupon->addCoupon($this->request->post);

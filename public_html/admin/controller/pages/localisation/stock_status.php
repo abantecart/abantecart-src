@@ -104,12 +104,6 @@ class ControllerPagesLocalisationStockStatus extends AController {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
 
-    	    $languages = $this->language->getAvailableLanguages();
-		    foreach ( $languages as $l ) {
-			    if ( $l['language_id'] == $this->session->data['content_language_id'] ) continue;
-			    $this->request->post['stock_status'][$l['language_id']] = $this->request->post['stock_status'][ $this->session->data['content_language_id'] ];
-		    }
-
 			$stock_status_id = $this->model_localisation_stock_status->addStockStatus($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
       		$this->redirect($this->html->getSecureURL('localisation/stock_status/update', '&stock_status_id=' . $stock_status_id ));

@@ -28,7 +28,7 @@ class ModelLocalisationWeightClass extends Model {
 		
 		foreach ($data['weight_class_description'] as $language_id => $value) {
 
-			$this->language->addDescriptions('weight_class_descriptions',
+			$this->language->replaceDescriptions('weight_class_descriptions',
 											 array('weight_class_id' => (int)$weight_class_id),
 											 array($language_id => array(
 																		'title' => $value['title'],

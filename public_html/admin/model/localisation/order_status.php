@@ -26,7 +26,7 @@ class ModelLocalisationOrderStatus extends Model {
 		$order_status_id = (int)$result->row['max_id']+1;
 
 		foreach ($data['order_status'] as $language_id => $value) {
-			$this->language->addDescriptions('order_statuses',
+			$this->language->replaceDescriptions('order_statuses',
 											 array('order_status_id' => (int)$order_status_id,
 												   'language_id' => (int)$language_id),
 											 array($language_id => array(

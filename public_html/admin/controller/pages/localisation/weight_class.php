@@ -115,12 +115,6 @@ class ControllerPagesLocalisationWeightClass extends AController {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
 
-    	    $languages = $this->language->getAvailableLanguages();
-		    foreach ( $languages as $l ) {
-			    if ( $l['language_id'] == $this->session->data['content_language_id'] ) continue;
-			    $this->request->post['weight_class_description'][$l['language_id']] = $this->request->post['weight_class_description'][ $this->session->data['content_language_id'] ];
-		    }
-
 			$weight_class_id = $this->model_localisation_weight_class->addWeightClass($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
       		$this->redirect($this->html->getSecureURL('localisation/weight_class/update', '&weight_class_id=' . $weight_class_id ));

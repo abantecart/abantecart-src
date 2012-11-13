@@ -27,7 +27,7 @@ class ModelLocalisationLengthClass extends Model {
 		$length_class_id = $this->db->getLastId();
 		
 		foreach ($data['length_class_description'] as $language_id => $value) {
-			$this->language->addDescriptions('length_class_descriptions',
+			$this->language->replaceDescriptions('length_class_descriptions',
 											 array('length_class_id' => (int)$length_class_id),
 											 array($language_id => array( 'title' => $value['title'],
 																		  'unit' => $value['unit']

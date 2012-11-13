@@ -119,13 +119,6 @@ class ControllerPagesCatalogDownload extends AController {
 			$data['download'] = $this->request->post['download'];
 			$data['mask'] = $this->request->post['mask'];
 
-    	    $languages = $this->language->getAvailableLanguages();
-    	    
-		    foreach ( $languages as $l ) {
-			    if ( $l['language_id'] == $this->session->data['content_language_id'] ) continue;
-			    $this->request->post['download_description'][$l['language_id']] = $this->request->post['download_description'][ $this->session->data['content_language_id'] ];
-		    }
-
 			$download_id = $this->model_catalog_download->addDownload(array_merge($this->request->post, $data));
 			$this->session->data['success'] = $this->language->get('text_success');
 

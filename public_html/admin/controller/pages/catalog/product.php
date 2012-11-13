@@ -221,13 +221,6 @@ class ControllerPagesCatalogProduct extends AController {
     	$this->document->setTitle($this->language->get('heading_title'));		
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
 
-    	    $languages = $this->language->getAvailableLanguages();
-		    foreach ( $languages as $l ) {
-			    if ( $l['language_id'] == $this->session->data['content_language_id'] ) continue;
-			    $this->request->post['product_description'][$l['language_id']] = $this->request->post['product_description'][ $this->session->data['content_language_id'] ];
-			    $this->request->post['product_tags'][$l['language_id']] = $this->request->post['product_tags'][ $this->session->data['content_language_id'] ];
-		    }
-
             $product_id = $this->model_catalog_product->addProduct($this->request->post);
             $this->model_catalog_product->updateProductLinks($product_id, $this->request->post);
 

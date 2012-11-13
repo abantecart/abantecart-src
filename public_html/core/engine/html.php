@@ -826,7 +826,7 @@ class TextareaHtmlElement extends HtmlElement {
 				'name' => $this->name,
 				'id' => $this->element_id,
 				'value' => $this->value,
-				'ovalue' => htmlentities($this->value, ENT_QUOTES),
+				'ovalue' => htmlentities($this->value, ENT_QUOTES,'UTF-8'),
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style

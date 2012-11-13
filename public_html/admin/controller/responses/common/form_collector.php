@@ -30,7 +30,9 @@ class ControllerResponsesCommonFormCollector extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $form_id = func_get_arg(0);
         $target = func_get_arg(1);
-        $success_script = func_get_arg(2);
+		if(func_num_args()>2){
+        	$success_script = func_get_arg(2);
+		}
 
         $this->view->assign('form_id', $form_id);
         $this->view->assign('target', $target);
