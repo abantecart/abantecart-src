@@ -159,7 +159,7 @@ class ControllerBlocksListingBlock extends AController {
 				'title' => $this->data['descriptions'][$key]['title'],
 				'block_framed' => $this->data['descriptions'][$key]['block_framed'],
 				'content' => $this->data['content'],
-				'block_wrapper' => (int)$this->data['descriptions'][$key]['block_wrapper'],
+				'block_wrapper' => $this->data['descriptions'][$key]['block_wrapper'],
 			);
 		}
 
