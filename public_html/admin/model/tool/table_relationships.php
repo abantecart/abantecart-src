@@ -32,20 +32,25 @@ class ModelToolTableRelationships extends Model {
 	}
 
 	private function _load_tables_configs(){
+
+
 		$this->sections['resource_library'] = array(
 			'id' => 'resource_id',
-			'relation_ids' => array( 'type_id' ),
+			'relation_ids' => array ( 'type_id' ),
 			'children' => array(
 				'resource_descriptions' => array(
-					'id' =>  'resource_id',
-					'relation_ids' => array('language_id')
+					'id' =>  null,
+					'relation_ids' => array('resource_id', 'language_id')
 				),
 				'resource_map' => array(
-					'id' => 'resource_id',
+					'id' => null,
 					'relation_ids' => array( 'resource_id' )
 				),
 			),
 		);
+
+
+
 		$this->sections['resource_types'] = array(
 			'id' => 'type_id',
 			'children' => array(
