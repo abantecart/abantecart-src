@@ -75,7 +75,7 @@ final class AData {
 		$result_arr['timestamp'] = date('m/d/Y H:i:s');
 		$result_arr['tables'] = array();
 		$idx = 0;
-		//Validate request and process each main level request		
+		//Validate request and process each main level request
 		foreach ($request as $table_name => $sub_request){
 			//check if valid main table 
 			if ( $table_cfg = $this->model_tool_table_relationships->find_table_cfg( $table_name ) ){
@@ -567,6 +567,7 @@ final class AData {
 				return array();
 				//continue;
 			}
+
 			//process children tables for every record
 			foreach ($node_data as $row){
 				$row_arr = array();
@@ -596,7 +597,7 @@ final class AData {
 								}
 							}
 						}
-						//echo "<pre> $sub_table_name: ";print_r($sub_request);echo'</pre>';
+
 						//recurse
 						$idx = array_push($row_arr['tables'],  $this->_process_section( $sub_table_name, $sub_request, $sub_table_cfg, $skip_inner_ids));
 					} else {
@@ -626,6 +627,12 @@ final class AData {
 		$sql = 'SELECT * FROM `'. DB_PREFIX . $table_name .'`';
 
 		$sub_sql = '';
+
+		// Special case for Resource library. We have to know exact resource ID that we want to export.
+		if ( $table_name == 'resource_library' ) {
+			$table_cfg['relation_ids'][] = 'resource_id';
+		}
+
 		if ( $table_cfg['relation_ids'] ) {
 			foreach ($table_cfg['relation_ids'] as $relation_id ) {
 				if ( $request[$relation_id] ) {
