@@ -701,6 +701,7 @@ final class AData {
 		}
 
 		$new_vals = array();
+
 		foreach ($data_arr['rows'] as $rnode){
 
 			$action = '';
@@ -732,7 +733,7 @@ final class AData {
 			if ( !$this->_validate_action($action, $table_name, $table_cfg, $new_vals) ) {
 				continue;
 			}
-			
+
 			//Unique case: If this is a resource_map and resource_id is missing we need to create resource library first and get resource_id 
 		    if ( $table_name == 'resource_map' && isset($rnode['tables']) && is_array($rnode['tables']) ) {
 		    	//only one resource can be mapped at the time. 
@@ -748,11 +749,10 @@ final class AData {
 				    $this->_status2array('error', 'Unknown table: "'. $new_table['name'] .'" requested in relation to table ' . $table_name . '. Exit this node');
 				}
 		    } else {
-		    // all other tables
-		    
+		    	// all other tables
 				//Now do the action for the row if any data provided besides keys
 				$new_vals = array_merge($new_vals, $this->_do_fromArray($action, $table_name, $table_cfg, $rnode, $new_vals));
-	
+
 				//locate inner table nodes for recursion
 				if ( $table_name != 'resource_map' && isset($rnode['tables']) && is_array($rnode['tables'])) {
 					foreach( $rnode['tables'] as $new_table ){
@@ -784,6 +784,8 @@ final class AData {
 				//we have ID, we are not sure if we insert or update. Auto detect
 				//To improve performance selection can be added to skip smart insert/update detection if sertain what needs to be done   
 				return 'update_or_insert';
+			} else if ( $table_cfg['id'] && !$data_arr[$table_cfg['id']] ) {
+				return 'insert';
 			} else {
 				//Note: Insert based on relations keys needs to be validated for insert or update
 				return 'update_or_insert';
@@ -927,12 +929,12 @@ final class AData {
 				continue;
 			}
 
-			if (isset($parent_vals[$col_name]) && $parent_vals[$col_name] != '') {
+			if ( isset($cols[$col_name]) ) {
 				//we laready set this above.
 				continue;
 			}
 
-			$cols[] = "`" .$col_name. "` = '" . $this->db->escape($col_value) . "'";
+			$cols[$col_name] = "`" .$col_name. "` = '" . $this->db->escape($col_value) . "'";
 		}
 
 		if ( empty($cols) ) {
@@ -1122,24 +1124,24 @@ final class AData {
 		$list = array();
 		//set ids from parent they might not be in there 
 		if (isset($parent_vals[$table_cfg['id']]) && $parent_vals[$table_cfg['id']] != '') {
-			$list[] = "`" . $table_cfg['id'] . "` = '" . $this->db->escape( $parent_vals[$table_cfg['id']] ) . "'";
+			$list[$table_cfg['id']] = "`" . $table_cfg['id'] . "` = '" . $this->db->escape( $parent_vals[$table_cfg['id']] ) . "'";
 		}
 		if (isset($table_cfg['special_relation'])){
 			foreach ($table_cfg['special_relation'] as $sp_field => $sp_value ) {
 				//check if this is relation id to be used for special relation
 				if ( in_array($sp_field, $table_cfg['relation_ids']) ) {
 					if ( isset($parent_vals[$sp_value]) && $parent_vals[$sp_value] != '') {
-						$list[] = "`" . $sp_field . "` = '" . $this->db->escape( $parent_vals[$sp_value] ) . "'";
+						$list[$sp_field] = "`" . $sp_field . "` = '" . $this->db->escape( $parent_vals[$sp_value] ) . "'";
 					}
 				} else {
-					$list[] = "`" . $sp_field . "` = '" . $sp_value . "'";
+					$list[$sp_field] = "`" . $sp_field . "` = '" . $sp_value . "'";
 				}
 			}
 		}
 		else if (isset($table_cfg['relation_ids'])) {
 			foreach ($table_cfg['relation_ids'] as $relation_id ) {
 				if ( $relation_id != $table_cfg['id'] && isset($parent_vals[$relation_id]) && $parent_vals[$relation_id] != '') {
-					$list[] = "`" . $relation_id . "` = '" . $this->db->escape( $parent_vals[$relation_id] ) . "'";
+					$list[$relation_id] = "`" . $relation_id . "` = '" . $this->db->escape( $parent_vals[$relation_id] ) . "'";
 				}
 			}
 		}
