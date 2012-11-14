@@ -871,7 +871,7 @@ class ExtensionUtils {
 		}
 		// check is cart version presents on extension cart version list
 		foreach($cart_versions as $version){
-			$result = versionCompare($version,VERSION,'>=');
+			$result = versionCompare(VERSION,$version,'>=');
 			if($result){
 				return true;
 			}
