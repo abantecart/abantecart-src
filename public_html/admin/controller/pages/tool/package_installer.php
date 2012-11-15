@@ -29,6 +29,9 @@ class ControllerPagesToolPackageInstaller extends AController {
     private $data;
 
 	public function main() {
+		//clean temporary directory
+		$this->_clean_temp_dir();
+
 		$package_info = &$this->session->data[ 'package_info' ];
 		$extension_key = !$this->request->get[ 'extension_key' ] ? '' : $this->request->get[ 'extension_key' ];
 		$extension_key = !$this->request->post[ 'extension_key' ] ? $extension_key : $this->request->post[ 'extension_key' ];
@@ -99,6 +102,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 	// method for uploading package via form
 	public function upload() {
+		//clean temporary directory
+		$this->_clean_temp_dir();
+
 		$this->session->data[ 'package_info' ] = array();
 		$package_info = &$this->session->data[ 'package_info' ];
 		$package_info[ 'package_source' ] = 'file';
@@ -1005,6 +1011,21 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 	private function _get_begin_href() {
 		return $this->html->getSecureURL('tool/package_installer' . ($this->session->data[ 'package_info' ][ 'package_source' ] == 'file' ? '/upload' : ''));
+	}
+	// this method calls before installation of package
+	private function _clean_temp_dir(){
+		$temp_dir = $this->_get_temp_dir();
+		$files = glob($temp_dir.'*');
+		if($files){
+			$pmanager = new APackageManager();
+			foreach($files as $file){
+				if(is_dir($file)){
+					$pmanager->removeDir($file);
+				}else{
+					unlink($file);
+				}
+			}
+		}
 	}
 
 }
