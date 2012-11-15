@@ -122,14 +122,7 @@ class APackageManager {
 		    $targz->extractTar($tar_filename,$dst_dir);
 		}
 
-		if(!file_exists($dst_dir.$this->session->data['package_info']['package_dir'])){
-			$this->error = 'Error: Cannot to unpack ' . $tar_filename."\n Exit code:". $exit_code."\n";
-			$this->error .= 'Looking for directory : '.$dst_dir.$this->session->data['package_info']['package_dir'];
-			$error = new AError ( $this->error );
-			$error->toLog ()->toDebug ();
-			return false;
-		}
-		$this->chmod_R($dst_dir.$this->session->data['package_info']['package_dir'],0777,0777);
+		$this->chmod_R($dst_dir.$this->session->data['package_info']['tmp_dir'],0777,0777);
 		return true;
 	}
 	/**

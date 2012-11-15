@@ -106,7 +106,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		// check destination
 		$package_info[ 'tmp_dir' ] = $this->_get_temp_dir();
 		if (!is_writable($package_info[ 'tmp_dir' ])) {
-			$this->session->data[ 'error' ] = $this->language->get('error_dir_permission') . ' ' . DIR_APP_SECTION . "system/temp/";
+			$this->session->data[ 'error' ] = $this->language->get('error_dir_permission') . ' ' . DIR_APP_SECTION . "system/temp/install/";
 			unset($this->session->data[ 'package_info' ]);
 			$this->redirect($this->html->getSecureURL('tool/package_installer/upload'));
 		}
@@ -118,7 +118,8 @@ class ControllerPagesToolPackageInstaller extends AController {
 					unlink($this->request->files[ 'package_file' ][ 'tmp_name' ]);
 					$this->session->data[ 'error' ] .= $this->language->get('error_archive_extension');
 				}else{
-					$result = move_uploaded_file($this->request->files[ 'package_file' ][ 'tmp_name' ], DIR_APP_SECTION . 'system/temp/' . $this->request->files[ 'package_file' ][ 'name' ]);
+					$result = move_uploaded_file($this->request->files[ 'package_file' ][ 'tmp_name' ],
+												 DIR_APP_SECTION . 'system/temp/install/' . $this->request->files[ 'package_file' ][ 'name' ]);
 					if (!$result || $this->request->files[ 'package_file' ][ 'error' ]) {
 						$this->session->data[ 'error' ] .= '<br>Error: ' . getTextUploadError($this->request->files[ 'package_file' ][ 'error' ]);
 					} else {
@@ -283,7 +284,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 
 		if (!is_writable($package_info[ 'tmp_dir' ])) {
-			$this->session->data[ 'error' ] = $this->language->get('error_dir_permission') . ' ' . DIR_APP_SECTION . "system/temp/";
+			$this->session->data[ 'error' ] = $this->language->get('error_dir_permission') . ' ' . DIR_APP_SECTION . "system/temp/install/";
 			unset($this->session->data[ 'package_info' ]);
 			$this->redirect($this->html->getSecureURL('tool/package_installer'));
 		}
@@ -420,24 +421,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 			}
 		}
 
-		// if file already downloaded - check size.
-		$package_name = $package_info[ 'package_name' ];
-		if (file_exists($package_info[ 'tmp_dir' ] . $package_name) && $package_info[ 'package_source' ] != 'file') {
-			$pmanager = new APackageManager();
-			$headers = $pmanager->getRemoteFileHeaders($package_info[ 'package_url' ]);
-
-			if ($headers[ 'Content-Length' ] != $package_info[ 'package_size' ]) {
-				@unlink($package_info[ 'tmp_dir' ] . $package_name);
-				$this->_removeTempFiles();
-				unset($this->session->data[ 'package_info' ]);
-				if($extension_key){
-					$extension_key = $package_info[ 'extension_key' ];
-					$this->redirect($this->html->getSecureURL('tool/package_installer/download', '&disclaimer=1&extension_key=' . $extension_key));
-				}else{
-					$this->redirect($this->_get_begin_href());
-				}
-			}
-		}
 
 
 		$this->loadLanguage('tool/package_installer');
@@ -448,22 +431,28 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 		$package_dirname = str_replace('.tar.gz', '', $package_name);
 		$package_dirname = str_replace('.tar', '', $package_dirname);
-		$package_info[ 'package_dir' ] = $package_dirname;
+		//$package_info[ 'package_dir' ] = $package_dirname;
 
 		$pmanager = new APackageManager();
 		//unpack package
-		if (file_exists($package_info[ 'tmp_dir' ] . $package_name)) {
-			//remove the same directory before unpack
-			if (file_exists($package_info[ 'tmp_dir' ] . $package_dirname)) {
-				$this->_removeTempFiles('dir');
-			}
-			// if package not unpack - redirect to the begin and show error message
-			if (!$pmanager->unpack($package_info[ 'tmp_dir' ] . $package_name, $package_info[ 'tmp_dir' ])) {
-				$this->session->data[ 'error' ] = str_replace('%PACKAGE%', $package_info[ 'tmp_dir' ].$package_name, $this->language->get('error_unpack'));
-				$error = new AError ($pmanager->error);
-				$error->toLog()->toDebug();
-				$this->redirect($this->_get_begin_href());
-			}
+
+		//remove the same directory before unpack
+		if (file_exists($package_info[ 'tmp_dir' ] . $package_dirname)) {
+			$this->_removeTempFiles();
+		}
+		// if package not unpack - redirect to the begin and show error message
+		if (!$pmanager->unpack($package_info[ 'tmp_dir' ] . $package_name, $package_info[ 'tmp_dir' ])) {
+			$this->session->data[ 'error' ] = str_replace('%PACKAGE%', $package_info[ 'tmp_dir' ].$package_name, $this->language->get('error_unpack'));
+			$error = new AError ($pmanager->error);
+			$error->toLog()->toDebug();
+			$this->redirect($this->_get_begin_href());
+		}
+		$package_info[ 'package_dir' ] = $this->_find_package_dir();
+
+		if(!$package_info[ 'package_dir' ]){
+			$error = 'Error: Cannot to find package directory after unpacking archive. ';
+			$error = new AError ( $error );
+			$error->toLog ()->toDebug ();
 		}
 
 		if (!file_exists($package_info[ 'tmp_dir' ] . $package_dirname)) {
@@ -705,6 +694,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 		if (!$package_id || !file_exists($temp_dirname . $package_dirname . "/code")) { // if error
 			$this->session->data[ 'error' ] = $this->language->get('error_package_structure');
+			$this->_removeTempFiles();
 			$this->redirect($this->_get_begin_href());
 		}
 
@@ -961,6 +951,16 @@ class ControllerPagesToolPackageInstaller extends AController {
 		return true;
 	}
 
+	private function _find_package_dir(){
+		$dirs = glob($this->session->data[ 'package_info' ][ 'tmp_dir' ].'*', GLOB_ONLYDIR);
+		foreach($dirs as $dir){
+			if(file_exists($dir.'/package.xml')){
+				return str_replace($this->session->data[ 'package_info' ][ 'tmp_dir' ],'',$dir);
+			}
+		}
+		return;
+	}
+
 	private function _removeTempFiles($target = 'both') {
 		$package_info = &$this->session->data[ 'package_info' ];
 		if (!in_array($target, array( 'both', 'pack', 'dir' ))
@@ -989,12 +989,16 @@ class ControllerPagesToolPackageInstaller extends AController {
 	}
 
 	private function _get_temp_dir() {
-		if (is_writable(DIR_APP_SECTION . "system/temp/")) {
-			$dir = DIR_APP_SECTION . "system/temp/";
-		} else if (is_writable(DIR_DOWNLOAD . "temp/")) {
-			$dir = DIR_DOWNLOAD . "temp/";
-		} else {
-			$dir = sys_get_temp_dir() . '/';
+		if(!is_dir(DIR_APP_SECTION . "system/temp/install")){
+			mkdir(DIR_APP_SECTION . "system/temp/install",0777);
+		}
+		if (is_writable(DIR_APP_SECTION . "system/temp/install/")) {
+			$dir = DIR_APP_SECTION . "system/temp/install/";
+		}else {
+			if(!is_dir(sys_get_temp_dir() . '/install')){
+				mkdir(sys_get_temp_dir() . '/install/',0777);
+			}
+			$dir = sys_get_temp_dir() . '/install/';
 		}
 		return $dir;
 	}
