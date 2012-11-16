@@ -110,8 +110,8 @@ class ModelCatalogDownload extends Model {
 
 		$sql = "SELECT $total_sql
 				FROM " . DB_PREFIX . "downloads d
-                LEFT JOIN " . DB_PREFIX . "download_descriptions dd ON (d.download_id = dd.download_id)
-                WHERE dd.language_id = '" . $language_id . "'";
+                LEFT JOIN " . DB_PREFIX . "download_descriptions dd
+                	ON (d.download_id = dd.download_id AND dd.language_id = '" . $language_id . "')";
 
 		if (!empty($data[ 'subsql_filter' ]))
 			$sql .= " AND " . $data[ 'subsql_filter' ];

@@ -77,10 +77,10 @@ class ModelLocalisationWeightClass extends Model {
 		}
 
 		if ($data) {
-			$sql = "SELECT *
+			$sql = "SELECT *, wc.weight_class_id
 					FROM " . DB_PREFIX . "weight_classes wc
-					LEFT JOIN " . DB_PREFIX . "weight_class_descriptions wcd ON (wc.weight_class_id = wcd.weight_class_id)
-					WHERE wcd.language_id = '" . $language_id . "'";
+					LEFT JOIN " . DB_PREFIX . "weight_class_descriptions wcd
+						ON (wc.weight_class_id = wcd.weight_class_id AND wcd.language_id = '" . $language_id . "') ";
 		
 			$sort_data = array(
 				'title',
@@ -119,10 +119,11 @@ class ModelLocalisationWeightClass extends Model {
 			$weight_class_data = $this->cache->get('weight_class', $language_id);
 
 			if (!$weight_class_data) {
-				$query = $this->db->query("SELECT *
-											FROM " . DB_PREFIX . "weight_classes wc
-											LEFT JOIN " . DB_PREFIX . "weight_class_descriptions wcd ON (wc.weight_class_id = wcd.weight_class_id)
-											WHERE wcd.language_id = '" . $language_id . "'");
+				$query = $this->db->query(
+					"SELECT *, wc.weight_class_id
+					FROM " . DB_PREFIX . "weight_classes wc
+					LEFT JOIN " . DB_PREFIX . "weight_class_descriptions wcd
+						ON (wc.weight_class_id = wcd.weight_class_id AND wcd.language_id = '" . $language_id . "')");
 				$weight_class_data = $query->rows;
 				$this->cache->set('weight_class', $weight_class_data, $language_id);
 			}
@@ -131,12 +132,11 @@ class ModelLocalisationWeightClass extends Model {
 	}
 	
 	public function getWeightClass($weight_class_id) {
-		$query = $this->db->query("SELECT *
+		$query = $this->db->query("SELECT *, wc.weight_class_id
 								   FROM " . DB_PREFIX . "weight_classes wc
 								   LEFT JOIN " . DB_PREFIX . "weight_class_descriptions wcd
-								        ON (wc.weight_class_id = wcd.weight_class_id)
-								   WHERE wc.weight_class_id = '" . (int)$weight_class_id . "'
-								        AND wcd.language_id = '" . (int)$this->session->data['content_language_id'] . "'");
+								        ON (wc.weight_class_id = wcd.weight_class_id AND wcd.language_id = '" . (int)$this->session->data['content_language_id'] . "')
+								   WHERE wc.weight_class_id = '" . (int)$weight_class_id . "'");
 		
 		return $query->row;
 	}

@@ -41,7 +41,7 @@ class ModelSaleOrder extends Model {
 		if (isset($data['product'])) {
 			foreach ($data['product'] as $product) {
 				if ($product['product_id']) {
-					$product_query = $this->db->query("SELECT *
+					$product_query = $this->db->query("SELECT *, p.product_id
 														FROM " . DB_PREFIX . "products p
 														LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id)
 														WHERE p.product_id='" . (int)$product['product_id'] . "'");
@@ -125,9 +125,10 @@ class ModelSaleOrder extends Model {
 					}else{
 						// new products
 						$product_query = $this->db->query(
-							"SELECT * FROM " . DB_PREFIX . "products p
-								LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id)
-							WHERE p.product_id='" . (int)$product['product_id'] . "'");
+							"SELECT *, p.product_id
+							 FROM " . DB_PREFIX . "products p
+							 LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id)
+							 WHERE p.product_id='" . (int)$product['product_id'] . "'");
 
 						$this->db->query(
 							"INSERT INTO " . DB_PREFIX . "order_products

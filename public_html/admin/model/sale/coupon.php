@@ -130,11 +130,11 @@ class ModelSaleCoupon extends Model {
 
 		$sql = "SELECT c.coupon_id, cd.name, c.code, c.discount, c.date_start, c.date_end, c.status
 			FROM " . DB_PREFIX . "coupons c
-				LEFT JOIN " . DB_PREFIX . "coupon_descriptions cd ON (c.coupon_id = cd.coupon_id)
-			WHERE cd.language_id = '" . $language_id . "'";
+				LEFT JOIN " . DB_PREFIX . "coupon_descriptions cd
+					ON (c.coupon_id = cd.coupon_id AND cd.language_id = '" . $language_id . "')";
 
 		if ( isset($data['status']) && in_array($data['status'], array(0,1)) ) {
-			$sql .= " AND c.status = ".$data['status'];
+			$sql .= " WHERE c.status = ".$data['status'];
 		}
 
 		$sort_data = array(
@@ -178,7 +178,9 @@ class ModelSaleCoupon extends Model {
 	public function getCouponDescriptions($coupon_id) {
 		$coupon_description_data = array();
 		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "coupon_descriptions WHERE coupon_id = '" . (int)$coupon_id . "'");
+		$query = $this->db->query("SELECT *
+									FROM " . DB_PREFIX . "coupon_descriptions
+									WHERE coupon_id = '" . (int)$coupon_id . "'");
 		
 		foreach ($query->rows as $result) {
 			$coupon_description_data[$result['language_id']] = array(
@@ -193,7 +195,9 @@ class ModelSaleCoupon extends Model {
 	public function getCouponProducts($coupon_id) {
 		$coupon_product_data = array();
 		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "coupons_products WHERE coupon_id = '" . (int)$coupon_id . "'");
+		$query = $this->db->query("SELECT *
+									FROM " . DB_PREFIX . "coupons_products
+									WHERE coupon_id = '" . (int)$coupon_id . "'");
 		
 		foreach ($query->rows as $result) {
 			$coupon_product_data[] = $result['product_id'];

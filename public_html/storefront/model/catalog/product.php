@@ -84,9 +84,13 @@ class ModelCatalogProduct extends Model {
 		$query = $this->db->query(
 					"SELECT *, wcd.unit AS weight_class, mcd.unit AS length_class
       		        FROM " . DB_PREFIX . "products p
-      		        LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
+      		        LEFT JOIN " . DB_PREFIX . "product_descriptions pd
+      		        	ON (p.product_id = pd.product_id
+      		        			AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
       		        LEFT JOIN " . DB_PREFIX . "weight_classes wc ON (p.weight_class_id = wc.weight_class_id)
-      		        LEFT JOIN " . DB_PREFIX . "weight_class_descriptions wcd ON (wc.weight_class_id = wcd.weight_class_id AND wcd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
+      		        LEFT JOIN " . DB_PREFIX . "weight_class_descriptions wcd
+      		        	ON (wc.weight_class_id = wcd.weight_class_id
+      		        			AND wcd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
       		        LEFT JOIN " . DB_PREFIX . "length_classes mc ON (p.length_class_id = mc.length_class_id)
       		        LEFT JOIN " . DB_PREFIX . "length_class_descriptions mcd ON (mc.length_class_id = mcd.length_class_id)
       		        WHERE p.product_id = '" . (int)$product_id . "' AND p.date_available <= NOW() AND p.status = '1'" );
@@ -807,8 +811,12 @@ class ModelCatalogProduct extends Model {
 		
 		$query = $this->db->query("SELECT *, COALESCE(povd.name,povd2.name) as name
                         FROM " . DB_PREFIX . "product_option_values pov
-                        LEFT JOIN " . DB_PREFIX . "product_option_value_descriptions povd ON (pov.product_option_value_id = povd.product_option_value_id AND povd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
-                        LEFT JOIN " . DB_PREFIX . "product_option_value_descriptions povd2 ON (pov.product_option_value_id = povd2.product_option_value_id AND povd2.language_id = '1' )
+                        LEFT JOIN " . DB_PREFIX . "product_option_value_descriptions povd
+                        		ON (pov.product_option_value_id = povd.product_option_value_id
+                        				AND povd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
+                        LEFT JOIN " . DB_PREFIX . "product_option_value_descriptions povd2
+                        		ON (pov.product_option_value_id = povd2.product_option_value_id
+                        				AND povd2.language_id = '1' )
                         WHERE pov.product_option_value_id = '" . (int)$product_option_value_id . "'
                             AND pov.product_id = '" . (int)$product_id . "'
                         ORDER BY pov.sort_order");
@@ -869,9 +877,10 @@ class ModelCatalogProduct extends Model {
 		$query =  $this->db->query(
 					"SELECT * FROM " . DB_PREFIX . "products_to_downloads p2d
 					 LEFT JOIN " . DB_PREFIX . "downloads d ON (p2d.download_id = d.download_id)
-					 LEFT JOIN " . DB_PREFIX . "download_descriptions dd ON (d.download_id = dd.download_id)
-					 WHERE p2d.product_id = '" . (int)$product_id . "'
-					        AND dd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'");
+					 LEFT JOIN " . DB_PREFIX . "download_descriptions dd
+					 	ON (d.download_id = dd.download_id
+					 			AND dd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
+					 WHERE p2d.product_id = '" . (int)$product_id . "'");
 	
 		return $query->rows;
 	}		
@@ -916,10 +925,14 @@ class ModelCatalogProduct extends Model {
 	
 	private function _sql_join_string(){
 		return "FROM " . DB_PREFIX . "products p
-				LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
+				LEFT JOIN " . DB_PREFIX . "product_descriptions pd
+					ON (p.product_id = pd.product_id
+							AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 				LEFT JOIN " . DB_PREFIX . "products_to_stores p2s ON (p.product_id = p2s.product_id)
 				LEFT JOIN " . DB_PREFIX . "manufacturers m ON (p.manufacturer_id = m.manufacturer_id)
-				LEFT JOIN " . DB_PREFIX . "stock_statuses ss ON (p.stock_status_id = ss.stock_status_id AND ss.language_id = '" . (int)$this->config->get('storefront_language_id') . "')";
+				LEFT JOIN " . DB_PREFIX . "stock_statuses ss
+						ON (p.stock_status_id = ss.stock_status_id
+								AND ss.language_id = '" . (int)$this->config->get('storefront_language_id') . "')";
 	}
 
 
@@ -1055,9 +1068,15 @@ class ModelCatalogProduct extends Model {
 			$filter = (isset($data['filter']) ? $data['filter'] : array());
 	
 			if ($mode == 'total_only') {
-				$sql = "SELECT COUNT(*) as total FROM " . DB_PREFIX . "products p LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id)";			  
+				$sql = "SELECT COUNT(*) as total
+						FROM " . DB_PREFIX . "products p
+						LEFT JOIN " . DB_PREFIX . "product_descriptions pd
+							ON (p.product_id = pd.product_id)";
 			} else {
-				$sql = "SELECT * FROM " . DB_PREFIX . "products p LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id)";
+				$sql = "SELECT *
+						FROM " . DB_PREFIX . "products p
+						LEFT JOIN " . DB_PREFIX . "product_descriptions pd
+							ON (p.product_id = pd.product_id)";
 			}
 
 			if (isset($filter['category_id']) && !is_null($filter['category_id'])) {
