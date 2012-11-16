@@ -1296,8 +1296,7 @@ class ModelCatalogProduct extends Model {
 		$product_tag_data = array();
 		
 		$query = $this->db->query("SELECT *
-									FROM " . DB_PREFIX . "product_tags
-									WHERE product_id = '" . (int)$product_id . "'");
+									FROM " . DB_PREFIX . "product_tags WHERE product_id = '" . (int)$product_id . "'");
 		
 		$tag_data = array();
 		
@@ -1340,8 +1339,10 @@ class ModelCatalogProduct extends Model {
 				$sql .= " LEFT JOIN " . DB_PREFIX . "products_to_categories p2c ON (p.product_id = p2c.product_id)";
 			}
 
+			$sql .= 'WHERE 1=1 ';
+
 			if (!empty($data['subsql_filter'])) {
-				$sql .= " AND ".$data['subsql_filter'];;
+				$sql .= " AND ".$data['subsql_filter'];
 			}
 		
 			if (isset($filter['match']) && !is_null($filter['match'])) {
