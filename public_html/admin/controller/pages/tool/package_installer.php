@@ -435,9 +435,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 			$this->redirect($this->_get_begin_href());
 		}
 
-		$package_dirname = str_replace('.tar.gz', '', $package_name);
+		/*$package_dirname = str_replace('.tar.gz', '', $package_name);
 		$package_dirname = str_replace('.tar', '', $package_dirname);
-		//$package_info[ 'package_dir' ] = $package_dirname;
+		//$package_info[ 'package_dir' ] = $package_dirname;*/
 
 		$pmanager = new APackageManager();
 		//unpack package
@@ -453,7 +453,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 			$error->toLog()->toDebug();
 			$this->redirect($this->_get_begin_href());
 		}
-		$package_info[ 'package_dir' ] = $this->_find_package_dir();
+		$package_dirname = $package_info[ 'package_dir' ] = $this->_find_package_dir();
 
 		if(!$package_info[ 'package_dir' ]){
 			$error = 'Error: Cannot to find package directory after unpacking archive. ';
