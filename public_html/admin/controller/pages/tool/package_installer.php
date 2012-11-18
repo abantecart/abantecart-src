@@ -149,7 +149,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 			'text' => $this->language->get('heading_title'),
 			'separator' => ' :: ' ));
 
-
 		$form = new AForm('ST');
 		$form->setForm(
 			array( 'form_name' => 'uploadFrm' )
@@ -290,14 +289,14 @@ class ControllerPagesToolPackageInstaller extends AController {
 			unset($this->session->data[ 'package_info' ]);
 			$this->redirect($this->html->getSecureURL('tool/package_installer'));
 		}
-		if($extension_key){
+		if($extension_key) {
 			$url = "/?option=com_abantecartrepository&format=raw";
 			$url .= "&store_id=" . UNIQUE_ID;
 			$url .= "&store_ip=" . $_SERVER [ 'SERVER_ADDR' ];
 			$url .= "&store_url=" . HTTP_SERVER;
 			$url .= "&store_version=" . VERSION;
 			$url .= "&extension_key=" . $extension_key;
-		}else{
+		} else {
 			$url = $package_info[ 'package_url' ];
 		}
 
@@ -394,8 +393,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 			}
 		}
 
-
-
 		$this->loadLanguage('tool/package_installer');
 		$package_name = $package_info[ 'package_name' ];
 		if (!$package_name) { // if direct link - redirect to the begining
@@ -459,7 +456,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 				}
 			}
 		}
-
 
 		if (!$package_info[ 'package_content' ]
 				|| ($package_info[ 'package_content' ][ 'core' ] && $package_info[ 'package_content' ][ 'extensions' ])
@@ -853,7 +849,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 		return true;
 	}
 
-
 	/**
 	 * method installs upgrade for abantecart core
 	 * @param $core_file
@@ -975,6 +970,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 	private function _get_begin_href() {
 		return $this->html->getSecureURL('tool/package_installer' . ($this->session->data[ 'package_info' ][ 'package_source' ] == 'file' ? '/upload' : ''));
 	}
+	
 	// this method calls before installation of package
 	private function _clean_temp_dir(){
 		$temp_dir = $this->_get_temp_dir();
