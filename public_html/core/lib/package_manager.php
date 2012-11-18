@@ -673,6 +673,11 @@ class APackageManager {
         }
         closedir($dh);
     } else {
+    	//skip if does not exists
+    	if (!file_exists($path) ) {
+            return;    	
+    	}
+    
         if (is_link($path)) {
            // print "link '$path' is skipped\n";
             return;

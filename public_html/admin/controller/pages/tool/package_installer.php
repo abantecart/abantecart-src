@@ -41,7 +41,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 			$this->session->data[ 'package_info' ] = array();
 		}
 
-
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->document->initBreadcrumb(array(
 			'href' => $this->html->getSecureURL('index/home'),
@@ -51,7 +50,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 			'href' => $this->html->getSecureURL('tool/package_installer'),
 			'text' => $this->language->get('heading_title'),
 			'separator' => ' :: ' ));
-
 
 		$form = new AForm('ST');
 		$form->setForm(
@@ -93,7 +91,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 				'text' => $this->language->get('text_extension_upload'),
 				'active' => false
 			) );
-
 
 		$this->view->assign('help_url', $this->gen_help_url(''));
 		$this->view->batchAssign($this->data);
@@ -259,7 +256,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 			return;
 		}
 
-
 		$form = new AForm('ST');
 		$form->setForm(array( 'form_name' => 'retryFrm' ));
 		$this->data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(array( 'type' => 'form',
@@ -304,7 +300,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}else{
 			$url = $package_info[ 'package_url' ];
 		}
-
 
 		$pmanager = new APackageManager();
 		$headers = $pmanager->getRemoteFileHeaders($url);
@@ -355,7 +350,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 			}
 		}
 
-
 		$this->data[ 'url' ] = $this->html->getSecureURL('tool/package_download');
 		$this->data[ 'redirect' ] = $this->html->getSecureURL('tool/package_installer/agreement');
 
@@ -369,31 +363,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 			'separator' => ' :: ' ));
 		$this->data[ 'heading_title' ] = $this->language->get('heading_title_download');
 
-
-		// if we got package file name
-		// #1 check extension is exists based on package file name
-		/*  $package_version = strrchr($package_name, '_');
-			$package_version = str_replace(array('.tar.gz', '_'), '', $package_version);
-			$package_id = str_replace(array('.tar.gz', '_' . $package_version, '_install', '_upgrade'), '', $package_name);
-
-			$this->data['pack_info'] = '';
-			$existing_ext = $this->extensions->getExtensionsList(array('search' => $package_id));
-			if ($existing_ext->row) { // if that extension is already exist
-				foreach ($existing_ext->rows as $ext) {
-					if ($ext['key'] != $package_id) {
-						continue;
-					}
-					if (version_compare($ext['version'], $package_version, "<")) {
-						$this->data['pack_info'] = str_replace('%EXTENSION%', $package_id, $this->language->get('warning_already_installed'));
-						//$confirm_upgrade = true;
-						$package_info['install_mode'] = 'upgrade';
-						break;
-					} else {
-						$this->session->data['error'] = str_replace('%EXTENSION%', $package_id, $this->language->get('warning_already_installed_uninstall'));
-						$this->redirect($this->html->getSecureURL('tool/package_installer'));
-					}
-				}
-			}*/
 		$this->data[ 'loading' ] = sprintf($this->language->get('text_loading'), (round($package_info[ 'package_size' ] / 1024, 1)) . 'kb');
 
 		$package_info[ 'install_mode' ] = !$package_info[ 'install_mode' ] ? 'install' : $package_info[ 'install_mode' ];
@@ -402,9 +371,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 			$this->data[ 'pack_info' ] .= str_replace('%file%', $package_name . ' (' . (round($package_info[ 'package_size' ] / 1024, 1)) . 'kb)', $this->language->get('text_preloading'));
 		}
 
-
 		$this->view->batchAssign($this->data);
-
 		$this->processTemplate('pages/tool/package_installer_download.tpl');
 	}
 
@@ -434,10 +401,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 		if (!$package_name) { // if direct link - redirect to the begining
 			$this->redirect($this->_get_begin_href());
 		}
-
-		/*$package_dirname = str_replace('.tar.gz', '', $package_name);
-		$package_dirname = str_replace('.tar', '', $package_dirname);
-		//$package_info[ 'package_dir' ] = $package_dirname;*/
 
 		$pmanager = new APackageManager();
 		//unpack package
@@ -514,7 +477,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 			}
 		}
 
-
 		// if we were redirected
 		if ($this->request->server[ 'REQUEST_METHOD' ] == 'GET') {
 			//check  write permissions
@@ -544,7 +506,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 				}
 			}
 		}
-
 
 		// if ftp mode and user give ftp parameters
 		if (isset($this->request->post[ 'ftp_user' ]) && $this->request->server[ 'REQUEST_METHOD' ] == 'POST') {
@@ -598,7 +559,8 @@ class ControllerPagesToolPackageInstaller extends AController {
 			'type' => 'form',
 			'name' => 'ftpFrm',
 			'action' => $this->html->getSecureURL('tool/package_installer/agreement') ));
-		//agreement for version incompatibility
+			
+		//version incompatibility confirmation
 		if ((isset($package_info[ 'confirm_version_incompatibility' ]) && !$package_info[ 'confirm_version_incompatibility' ])) {
 			$this->data[ 'incompability_form' ] = true; // sign to show attention
 			$this->data[ 'version_incompatibility_text' ] = $package_info[ 'version_incompatibility_text' ];
@@ -616,7 +578,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 				'value' => '1' ));
 
 
-		} // agreement for ftp access to file system
+		} // confirmation for ftp access to file system
 		elseif ($ftp) {
 			$ftp_user = $package_info[ 'ftp_user' ] ? $package_info[ 'ftp_user' ] : '';
 			$ftp_password = '';
@@ -680,7 +642,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 			));
 		}
 
-
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/tool/package_installer_agreement.tpl');
 	}
@@ -691,8 +652,8 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$package_dirname = $package_info[ 'package_dir' ];
 		$temp_dirname = $package_info[ 'tmp_dir' ];
 
-		// if we got decision
-		if ($this->request->server[ 'REQUEST_METHOD' ] == 'POST' && $this->request->post[ 'disagree' ] == 1) { // if does not agree  with agreement of filesize
+		if ($this->request->server[ 'REQUEST_METHOD' ] == 'POST' && $this->request->post[ 'disagree' ] == 1) { 
+			//if user disagree clean up and exit
 			$this->_removeTempFiles();
 			unset($this->session->data[ 'package_info' ]);
 			$this->redirect($this->html->getSecureURL('extension/extensions/extensions'));
@@ -710,8 +671,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 			unset($this->request->post[ 'agree' ]);
 		}
 
-		//check for previous version of package and backup it
-		if ($package_info[ 'package_content' ][ 'extensions' ]) { // for multipackage
+		//check for previous version of package and create backup for it
+		if ($package_info[ 'package_content' ][ 'extensions' ]) { 
+			//process for multi-package
 			foreach ($package_info[ 'package_content' ][ 'extensions' ] as $k => $ext) {
 				$result = $this->_installExtension($ext, $upgrade_confirmed, $license_agree);
 				unset($license_agree);
@@ -776,7 +738,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 			));
 		}
 
-
 		$this->data[ 'form' ][ 'disagree_button' ] = $form->getFieldHtml(array( 'type' => 'button',
 			'text' => $this->language->get('text_disagree'),
 			'style' => 'button' ));
@@ -812,7 +773,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 
 	/**
-	 * method of installation of extension from package
+	 * method of extension installation from package
 	 * @param string $extension_id
 	 * @return void
 	 */
@@ -860,13 +821,15 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 		}
 
-		// #3. if all fine - copy code of package
+		// #3. if all fine - copy extension package files
 		if ($package_info[ 'ftp' ]) { // if ftp-access
 			$result = $pmanager->ftp_move($temp_dirname . $package_dirname . "/code/extensions/" . $extension_id,
 										  $extension_id,
 										  $package_info[ 'ftp_path' ] . 'extensions/' . $extension_id);
 		} else {
 			$result = rename($temp_dirname . $package_dirname . "/code/extensions/" . $extension_id, DIR_EXT.$extension_id);
+			//this method requires permission set to be set
+			$pmanager->chmod_R(DIR_EXT.$extension_id ,0777, 0777);
 		}
 		// #4. if copied successully - install(upgrade)
 		if ($result) {
