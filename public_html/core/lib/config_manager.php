@@ -160,6 +160,8 @@ class AConfigManager {
         $languages = array();
         foreach ($results as $v) {
             $languages[$v['code']] = $v['name'];
+			$lng_code = $this->language->getLanguageCodeByLocale($v['locale']);
+			$language_codes[$lng_code] = $v['name'];
         }
 
         $this->load->model('localisation/currency');
@@ -222,7 +224,7 @@ class AConfigManager {
             'type' => 'selectbox',
             'name' => 'translate_src_lang_code',
             'value' => $data['translate_src_lang_code'],
-            'options' => $languages,
+            'options' => $language_codes,
         ));
 
         $translate_methods = $this->language->getTranslationMethods();

@@ -222,6 +222,7 @@ class ALanguageManager extends Alanguage {
     	    if ($lang['code'] == $src_lang_code || !empty($txt_data[$language_id]) ) {
     	    	continue;
     	    }
+			$dest_lang_code = $this->getLanguageCodeByLocale($lang['locale']);
     	    //get existing data and check if we create or update
 		    $newindex = array_merge($index, array('language_id' => $language_id) );
 		    $descriptions = $this->getDescriptions($table_name, $newindex);
@@ -236,13 +237,13 @@ class ALanguageManager extends Alanguage {
 							if(in_array($key, array_keys($serialized_roadmap))){
 								$unserialized_data = unserialize($txt_to_translate);
 								if($unserialized_data!==false){
-									$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized_roadmap[$key], $src_lang_code, $lang['code']);
+									$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized_roadmap[$key], $src_lang_code, $dest_lang_code);
 									$update_txt_data[$language_id][$key] = serialize($new_unserialized_data);
 								}else{
 									$update_txt_data[$language_id][$key] = $txt_to_translate;
 								}
 							}else{
-		    		    		$update_txt_data[$language_id][$key] = $this->translate($src_lang_code, $txt_to_translate, $lang['code']);
+		    		    		$update_txt_data[$language_id][$key] = $this->translate($src_lang_code, $txt_to_translate, $dest_lang_code);
 							}
 		    		}					
 		    	}    			
@@ -254,13 +255,13 @@ class ALanguageManager extends Alanguage {
 						if(in_array($key, array_keys($serialized_roadmap))){
 							$unserialized_data = unserialize($value);
 							if($unserialized_data!==false){
-								$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized_roadmap[$key], $src_lang_code, $lang['code']);
+								$new_unserialized_data = $this->_translateSerializedData($unserialized_data, $serialized_roadmap[$key], $src_lang_code, $dest_lang_code);
 								$new_txt_data[$language_id][$key] = serialize($new_unserialized_data);
 							}else{
 								$new_txt_data[$language_id][$key] = $value;
 							}
 						}else{
-		    		    	$new_txt_data[$language_id][$key] = $this->translate($src_lang_code, $value, $lang['code']);
+		    		    	$new_txt_data[$language_id][$key] = $this->translate($src_lang_code, $value, $dest_lang_code);
 						}
 		    		}					
 		    	} 				
@@ -797,6 +798,18 @@ class ALanguageManager extends Alanguage {
 	        $pkeys[] = $value['Column_name'];
 	    }	
 		return $pkeys;  
-    }         
+    }
+
+	public function getLanguageCodeByLocale($locale){
+		if(empty($locale)) return;
+		$locale = explode(",",$locale);
+		foreach( $locale as $lc){
+			if(strpos($lc,'_')===2){
+				$lng_code = strtolower(substr($lc,0,2));
+				break;
+			}
+		}
+		return $lng_code;
+	}
 
 }
