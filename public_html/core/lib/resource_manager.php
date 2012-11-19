@@ -117,7 +117,7 @@ class AResourceManager extends AResource {
         }
 
         foreach ( $resource['name'] as $language_id => $name ) {
-			$this->language->addDescriptions('resource_descriptions',
+			$this->language->replaceDescriptions('resource_descriptions',
 												 array('resource_id' => (int)$resource_id),
 												 array((int)$language_id => array(
 													 'name' => $resource['name'][$language_id],
