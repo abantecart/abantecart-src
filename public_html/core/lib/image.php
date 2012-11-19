@@ -89,7 +89,7 @@ final class AImage {
 
 		$scale = min($width / $this->info['width'], $height / $this->info['height']);
 		
-		if ($scale == 1) {
+		if ($scale == 1 && $this->info['mime'] != 'image/png') {
 			return;
 		}
 		
@@ -99,11 +99,21 @@ final class AImage {
    		$ypos = (int)(($height - $new_height) / 2);
         		        
        	$image_old = $this->image;
+
         $this->image = imagecreatetruecolor($width, $height);
-		if(!$nofill){ // if image no transparant
-			$background = imagecolorallocate($this->image, 255, 255, 255);
-			imagefilledrectangle($this->image, 0, 0, $width, $height, $background);
+
+		if (isset($this->info['mime']) && $this->info['mime'] == 'image/png') {
+			imagealphablending($this->image, false);
+			imagesavealpha($this->image, true);
+			$background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
+			imagecolortransparent($this->image, $background);
+		} else {
+			if(!$nofill){ // if image no transparant
+				$background = imagecolorallocate($this->image, 255, 255, 255);
+				imagefilledrectangle($this->image, 0, 0, $width, $height, $background);
+			}
 		}
+
 		if(is_resource($this->image)){
             imagecopyresampled($this->image, $image_old, $xpos, $ypos, 0, 0, $new_width, $new_height, $this->info['width'], $this->info['height']);
 		}
@@ -201,6 +211,16 @@ final class AImage {
 		$b = hexdec($b);    
 		
 		return array($r, $g, $b);
-	}	
+	}
+
+
+	public function __destruct() {
+		if (is_resource($this->image)){
+			imagedestroy($this->image);
+		}else{
+			$this->image = null;
+		}
+	}
+
 }
 ?>

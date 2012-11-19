@@ -306,6 +306,7 @@ class AResource {
 				$image = new AImage($old_image);
 				$image->resize($width, $height);
 				$image->save(DIR_IMAGE . $new_image);
+				unset($image);
 			}
 
 		    if ( HTTPS===true ) {

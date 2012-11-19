@@ -49,6 +49,7 @@ class ModelToolImage extends Model {
 			$image = new AImage(DIR_IMAGE . $old_image);
 			$image->resize($width, $height);
 			$image->save(DIR_IMAGE . $new_image);
+			unset($image);
 		}
 		
 		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
