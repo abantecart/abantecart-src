@@ -66,11 +66,11 @@ class AMenu {
 		}
 		
 		$this->dataset = new ADataset ( 'menu', $menu_name );
-		$this->menu_items = $this->_buildMenu ( $this->dataset->getRows () );
+		$this->menu_items = $this->_build_menu ( $this->dataset->getRows () );
 	
 	}
 	
-	protected function _buildMenu($values) {
+	protected function _build_menu($values) {
 		$this->dataset_rows = $values;
 		// need to resort by sort_order property
 		$offset = 0; // it needs for process repeating sort numbers
@@ -217,7 +217,7 @@ class AMenu {
 		}		
 		$result = $this->dataset->addRows ( array ($item ) );
 		// rebuild menu var after changing
-		$this->_buildMenu ( $this->dataset->getRows () );
+		$this->_build_menu ( $this->dataset->getRows () );
 		$this->registry->get('cache')->delete('admin_menu');
 		return $result;
 	}
@@ -230,7 +230,7 @@ class AMenu {
 	public function deleteMenuItem($item_id) {
 		//
 		$this->dataset->deleteRows ( array ("column_name" => "item_id", "operator" => "=", "value" => $item_id ) );
-		$this->_buildMenu ( $this->dataset->getRows () );
+		$this->_build_menu ( $this->dataset->getRows () );
 		$this->registry->get('cache')->delete('admin_menu');
 		return true;
 	}
@@ -248,7 +248,7 @@ class AMenu {
 		}
 		
 		$this->dataset->updateRows ( array ("column_name" => "item_id", "operator" => "=", "value" => $item_id ), $new_values );
-		$this->_buildMenu ( $this->dataset->getRows () );
+		$this->_build_menu ( $this->dataset->getRows () );
 		$this->registry->get('cache')->delete('admin_menu');
 		return true;
 	}

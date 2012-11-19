@@ -37,7 +37,7 @@ class AMenu_Storefront extends AMenu {
 		$this->_buildMenu();
 	}
 
-	protected function _buildMenu($values = array() ) {
+	protected function _buildMenu( ) {
 
 		$this->dataset_rows = $this->dataset->getRows();
 		$this->dataset_decription_rows = $this->dataset_decription->getRows();
