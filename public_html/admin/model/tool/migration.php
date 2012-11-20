@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 set_time_limit(0);
-ini_set("memory_limit", "256M");
+ini_set("memory_limit", "64M");
 clearstatcache();
 
 class ModelToolMigration extends Model {

@@ -25,6 +25,7 @@ class ModelToolBackup extends Model {
 	public $error;
 	public $backup_filename;
 	public function restore($sql) {
+		$this->db->query("SET SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO'"); // to prevent auto increment for 0 value of id
 		foreach (explode(";\n", $sql) as $sql) {
     		$sql = trim($sql);
     		
@@ -32,6 +33,7 @@ class ModelToolBackup extends Model {
       			$this->db->query($sql);
     		}
   		}
+		$this->db->query("SET SQL_MODE = ''");
 	}
 	public function load($xml) {
 		$xml_obj = simplexml_load_string ( $xml );
