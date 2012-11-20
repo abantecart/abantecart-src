@@ -182,7 +182,7 @@ class AAttribute {
      *		   $attribute_parent_id - Parent attribute ID if any. Default 0 (parent)
      */
     
-    public function getAttributes( $attribute_type, $language_id = 0, $attribute_parent_id = 0 ) {
+    public function getAttributesByType( $attribute_type, $language_id = 0, $attribute_parent_id = 0 ) {
 		if ( empty($this->attributes) ) {
 			$this->_load_attributes( $this->getAttributeTypeID($attribute_type), $language_id );
 		}
