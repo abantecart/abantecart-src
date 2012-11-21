@@ -48,7 +48,7 @@
 					</div>
 				</td></tr>
 				<tr><td></td>
-				  <td><button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button></td>
+				  <td><button type="submit" class="btn_standard button_loader"><?php echo $form['submit']; ?></button></td>
 				</tr>
 			  </table>
 			</form>

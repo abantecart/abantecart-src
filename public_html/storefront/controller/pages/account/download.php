@@ -186,10 +186,10 @@ class ControllerPagesAccountDownload extends AController {
 					header('Content-Transfer-Encoding: ' . $encoding);
 					header('Content-Disposition: attachment; filename=' . ($mask ? $mask : basename($file)));
 					header('Content-Length: ' . filesize($file));
-				
-					$file = readfile($file, 'rb');
-				
-					print($file);
+					ob_clean();
+					flush();
+					readfile($file,'rb');
+					exit;
 				} else {
                     throw new AException(AC_ERR_LOAD, 'Error: Could not find file ' . $file . '!');
 				}
