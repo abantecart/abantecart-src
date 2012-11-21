@@ -50,7 +50,7 @@
   </definition>
   <definition>
     <key>error_empty</key>
-    <value><![CDATA[Advertencia: El archivo que ha subido esta vacio!]]></value>
+    <value><![CDATA[Advertencia: el archivo que has subido estaba vacío o tenía tipo de archivo incorrecto!]]></value>
   </definition>
 	<definition>
     <key>error_xml</key>

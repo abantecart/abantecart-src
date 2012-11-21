@@ -61,10 +61,8 @@ final class AImage {
     }	
 	
     public function save($file, $quality = 100) {
-        $info = pathinfo($file);
-        $extension = $info['extension'];
-   
-        if ($extension == ('jpeg' || 'jpg')) {
+		$extension = pathinfo($file,PATHINFO_EXTENSION);
+        if ($extension == 'jpeg' || $extension == 'jpg') {
             imagejpeg($this->image, $file, $quality);
         } elseif($extension == 'png') {
             imagepng($this->image, $file, 0);
@@ -72,7 +70,6 @@ final class AImage {
             imagegif($this->image, $file);
         }
         chmod($file, 0777);
-		   
 	    imagedestroy($this->image);
     }	    
 	
@@ -84,17 +81,14 @@ final class AImage {
 			return;
 		}
 
-		$xpos = 0;
-		$ypos = 0;
-
 		$scale = min($width / $this->info['width'], $height / $this->info['height']);
 		
 		if ($scale == 1 && $this->info['mime'] != 'image/png') {
 			return;
 		}
 		
-		$new_width = (int)($this->info['width'] * $scale);
-		$new_height = (int)($this->info['height'] * $scale);			
+		$new_width = (int)round($this->info['width'] * $scale,0);
+		$new_height = (int)round($this->info['height'] * $scale,0);
     	$xpos = (int)(($width - $new_width) / 2);
    		$ypos = (int)(($height - $new_height) / 2);
         		        

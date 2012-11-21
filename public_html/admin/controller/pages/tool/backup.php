@@ -32,17 +32,23 @@ class ControllerPagesToolBackup extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-
 		$this->document->setTitle( $this->language->get('heading_title') );
-				
 		if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->_validate()) {
 
 			if (is_uploaded_file($this->request->files['restore']['tmp_name'])) {
-				$filetype = 'sql';
-				$content = file_get_contents($this->request->files['restore']['tmp_name']);
+				if(pathinfo($this->request->files['restore']['name'],PATHINFO_EXTENSION)=='sql'){
+					$filetype = 'sql';
+					$content = file_get_contents($this->request->files['restore']['tmp_name']);
+				}else{
+					$content == false;
+				}
 			} elseif (is_uploaded_file($this->request->files['import']['tmp_name'])){
-				$filetype = 'xml';
-				$content = file_get_contents($this->request->files['import']['tmp_name']);
+				if(pathinfo($this->request->files['import']['name'],PATHINFO_EXTENSION)=='xml'){
+					$filetype = 'xml';
+					$content = file_get_contents($this->request->files['import']['tmp_name']);
+				}else{
+					$content == false;
+				}
 			} else {
 				$content = false;
 			}

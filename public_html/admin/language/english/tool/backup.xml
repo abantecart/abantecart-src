@@ -53,7 +53,7 @@
   </definition>
   <definition>
     <key>error_empty</key>
-    <value><![CDATA[Warning: The file you uploaded was empty!]]></value>
+    <value><![CDATA[Warning: The file you uploaded was empty or had wrong file type!]]></value>
   </definition>
   <definition>
     <key>error_xml</key>
