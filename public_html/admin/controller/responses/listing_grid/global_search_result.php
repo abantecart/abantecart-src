@@ -103,16 +103,25 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 			foreach ($r[ 'result' ] as $item) {
 				if ($item) {
 					$tmp = array();
-					if (!is_array($result_controllers[ $id ][ 'id' ])) {
-						$tmp[ ] = $result_controllers[ $id ][ 'id' ] . '=' . $item[ $result_controllers[ $id ][ 'id' ] ];
+					// exception for extension settings
+					if( $id=='settings' && !empty($item['extension'])){
+						$tmp_id='extensions';
+					}else{
+						$tmp_id = $id;
+					}
+
+					if (!is_array($result_controllers[ $tmp_id ][ 'id' ])) {
+						$tmp[ ] = $result_controllers[ $tmp_id ][ 'id' ] . '=' . $item[ $result_controllers[ $tmp_id ][ 'id' ] ];
 					} else {
-						foreach ($result_controllers[ $id ][ 'id' ] as $al => $j) {
+						foreach ($result_controllers[ $tmp_id ][ 'id' ] as $al => $j) {
 							// if some id have alias - build link with it
 							$tmp[ ] = $j . '=' . $item[ $j ];
 						}
 					}
-					$item[ 'controller' ] = $result_controllers[ $id ][ 'response' ] ? $this->html->getSecureURL($result_controllers[ $id ][ 'response' ], ($id == 'languages' ? '&popup=1&target=suggest_popup_dialog' : '') . '&' . implode('&', $tmp)) : '';
-					$item[ 'page' ] = $this->html->getSecureURL($result_controllers[ $id ][ 'page' ], '&' . implode('&', $tmp));
+
+
+					$item[ 'controller' ] = $result_controllers[ $tmp_id ][ 'response' ] ? $this->html->getSecureURL($result_controllers[ $tmp_id ][ 'response' ], ($tmp_id == 'languages' ? '&popup=1&target=suggest_popup_dialog' : '') . '&' . implode('&', $tmp)) : '';
+					$item[ 'page' ] = $this->html->getSecureURL($result_controllers[ $tmp_id ][ 'page' ], '&' . implode('&', $tmp));
 					$item[ 'category' ] = $id;
 					$item[ 'category_name' ] = $this->language->get('text_' . $id);
 					$item[ 'label' ] = mb_strlen($item[ 'title' ]) > 40 ? mb_substr($item[ 'title' ], 0, 40) . '...' : $item[ 'title' ];

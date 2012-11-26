@@ -53,15 +53,14 @@ class ModelCatalogProduct extends Model {
 		
 		$product_id = $this->db->getLastId();
 		
-		foreach ($data['product_description'] as $language_id => $value) {
-			$this->language->replaceDescriptions('product_descriptions',
-											 array('product_id' => (int)$product_id),
-											 array($language_id => array('name' => $value['name'],
-												 						 'meta_keywords' => $value['meta_keywords'],
-												 						 'meta_description' => $value['meta_description'],
-												 						 'description' => $value['description']
-											 )) );
-		}
+
+		$this->language->replaceDescriptions('product_descriptions',
+										 array('product_id' => (int)$product_id),
+										 array((int)$this->session->data['content_language_id'] => array('name' => $value['name'],
+																										 'meta_keywords' => $value['meta_keywords'],
+																										 'meta_description' => $value['meta_description'],
+																										 'description' => $value['description']
+										 )) );
 
 	    if($data['featured']){
 		    $this->setFeatured( $product_id, true);
@@ -87,19 +86,20 @@ class ModelCatalogProduct extends Model {
 						  SET query = 'product_id=" . (int)$product_id . "',
 						  keyword = '" . $this->db->escape( $seo_key ) . "'");
 
-		
-		foreach ($data['product_tags'] as $language_id => $value) {
-			$tags = explode(',', $value);
-				foreach ($tags as &$tag){
-					$tag = trim($tag);
-				} unset($tag);
+		if($data['product_tags']){
+			$tags = explode(',', $data['product_tags']);
+			foreach ($tags as &$tag){
+				$tag = trim($tag);
+			} unset($tag);
 			$tags = array_unique($tags);
 			foreach ($tags as $tag) {
-				if($tag)
-				$this->db->query("INSERT INTO " . DB_PREFIX . "product_tags
-									SET product_id = '" . (int)$product_id . "',
-										language_id = '" . (int)$language_id . "',
-										tag = '" . $this->db->escape(trim($tag)) . "'");
+				$tag = trim($tag);
+				if($tag){
+				$this->language->addDescriptions('product_tags',
+													 array( 'product_id' => (int)$product_id,
+													 		'tag' => $tag),
+													 array((int)$this->session->data['content_language_id'] => array('tag' => $tag)) );
+				}
 			}
 		}
 		$this->cache->delete('product');
@@ -186,20 +186,20 @@ class ModelCatalogProduct extends Model {
 		}
 		
 		if ( !empty($data['product_description']) ) {
-            foreach ($data['product_description'] as $language_id => $value) {
+            foreach ($data['product_description'] as $field => $value) {
 
                 $fields = array('name', 'description', 'meta_keywords', 'meta_description');
                 $update = array();
                 foreach ( $fields as $f ){
-                    if( isset($value[$f]) ){
-                        $update[$f] = $value[$f];
+                    if( $f==$field){
+                        $update[$f] = $value;
 					}
                 }
 
                 if ( !empty($update) ) {
 					$this->language->replaceDescriptions('product_descriptions',
 														 array('product_id' => (int)$product_id),
-														 array($language_id => $update) );
+														 array((int)$this->session->data['content_language_id'] => $update) );
                 }
             }
 		}
@@ -218,22 +218,22 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if (isset($data['product_tags'])) {
-			foreach ($data['product_tags'] as $language_id => $value) {
-                $this->db->query("DELETE FROM " . DB_PREFIX . "product_tags
-                                    WHERE product_id = '" . (int)$product_id. "'
-                                    AND language_id = '" . (int)$language_id . "'");
-				$tags = explode(',', $value);
-				foreach ($tags as &$tag){
-					$tag = trim($tag);
-				} unset($tag);
-				$tags = array_unique($tags);
+			$this->db->query("DELETE FROM " . DB_PREFIX . "product_tags
+								WHERE product_id = '" . (int)$product_id. "'
+								AND language_id = '" . (int)$this->session->data['content_language_id'] . "'");
+			$tags = explode(',', $data['product_tags']);
+			foreach ($tags as &$tag){
+				$tag = trim($tag);
+			} unset($tag);
+			$tags = array_unique($tags);
 
-				foreach ($tags as $tag) {
-					if($tag)
-					$this->db->query("INSERT INTO " . DB_PREFIX . "product_tags
-									SET product_id = '" . (int)$product_id . "',
-										language_id = '" . (int)$language_id . "',
-										tag = '" . $this->db->escape($tag) . "'");
+			foreach ($tags as $tag) {
+				$tag = trim($tag);
+				if($tag){
+				$this->language->replaceDescriptions('product_tags',
+													 array( 'product_id' => (int)$product_id,
+															'tag' => $tag),
+													 array((int)$this->session->data['content_language_id'] => array('tag' => $tag)) );
 				}
 			}
 		}
@@ -975,8 +975,9 @@ class ModelCatalogProduct extends Model {
 		return $query->rows;
 	} 
 	
-	public function getProductDescriptions($product_id) {
+	public function getProductDescriptions($product_id, $language_id=0) {
 		$product_description_data = array();
+		$language_id = (int)$language_id;
 
 		$query = $this->db->query("SELECT *
 									FROM " . DB_PREFIX . "product_descriptions
@@ -991,7 +992,7 @@ class ModelCatalogProduct extends Model {
 			);
 		}
 		
-		return $product_description_data;
+		return $language_id ? $product_description_data[$language_id] : $product_description_data;
 	}
 
 	/**
@@ -1292,11 +1293,13 @@ class ModelCatalogProduct extends Model {
 		return $product_related_data;
 	}
 	
-	public function getProductTags($product_id) {
+	public function getProductTags($product_id, $language_id='') {
+		$language_id = (int)$language_id;
 		$product_tag_data = array();
 		
 		$query = $this->db->query("SELECT *
-									FROM " . DB_PREFIX . "product_tags WHERE product_id = '" . (int)$product_id . "'");
+								   FROM " . DB_PREFIX . "product_tags
+								   WHERE product_id = '" . (int)$product_id . "'");
 		
 		$tag_data = array();
 		
@@ -1307,8 +1310,12 @@ class ModelCatalogProduct extends Model {
 		foreach ($tag_data as $language => $tags) {
 			$product_tag_data[$language] = implode(',', $tags);
 		}
-		
-		return $product_tag_data;
+
+		if($language_id){
+			return $product_tag_data[$language_id];
+		}else{
+			return $product_tag_data;
+		}
 	}
 
 	public function getProducts($data = array(), $mode = 'default') {

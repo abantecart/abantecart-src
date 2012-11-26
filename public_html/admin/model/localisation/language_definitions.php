@@ -68,24 +68,31 @@ class ModelLocalisationLanguageDefinitions extends Model {
 	public function editLanguageDefinition($id, $data) {
 		if(empty($id) || !is_array($data) || !$data) return false;
 
-		$update_data = array();
-		foreach ($data as $key => $val) {
-			$update_data[$key] = htmlspecialchars_decode($val);
-			if (empty($val) && ($key == 'language_key' || $key == 'language_value')) {
-				return false;
-			}
-		}
-		$this->language->updateDescriptions(  'language_definitions',
+		$lang_value = (string)$data['language_value'];
+		$update_data = $this->getLanguageDefinition($id);
+
+		if( isset($update_data['language_key']) ){
+		$this->language->replaceDescriptions(  'language_definitions',
 												array('section'      => (int)$update_data[ 'section' ],
 													  'block'        => $update_data[ 'block' ],
 													  'language_key' => $update_data[ 'language_key' ]
 												),
-												array($update_data[ 'language_id' ] => array(
+												array((int)$this->session->data['content_language_id'] => array(
 													'section'        => (int)$update_data[ 'section' ],
 													'block'          => $update_data[ 'block' ],
 													'language_key'   => $update_data[ 'language_key' ],
-													'language_value' => $update_data[ 'language_value' ]
+													'language_value' => $lang_value
 												)) );
+		}else{
+			$this->language->replaceDescriptions(  'language_definitions',
+													array('section'      => (int)$update_data[ 'section' ],
+														  'block'        => $update_data[ 'block' ],
+														  'language_key' => $update_data[ 'language_key' ]
+													),
+													array((int)$this->session->data['content_language_id'] => array(
+														'language_value' => $lang_value
+													)) );
+		}
 
 		$this->cache->delete('lang');
 		$this->cache->delete('language_definitions');
@@ -93,8 +100,15 @@ class ModelLocalisationLanguageDefinitions extends Model {
 	}
 
 	public function deleteLanguageDefinition($id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "language_definitions
-                          WHERE language_definition_id = '" . (int)$id . "'");
+		$result = $this->db->query("SELECT language_id, `section`, `language_key`, `block`
+						FROM " . DB_PREFIX . "language_definitions
+						WHERE language_definition_id = '" . (int)$id . "'");
+		foreach($result->rows as $row){
+			$this->db->query("DELETE FROM " . DB_PREFIX . "language_definitions
+							  WHERE `section` = '" . $row['section'] . "'
+							  		AND `block` = '" . $row['block'] . "'
+							  		AND `language_key` = '" . $row['language_key'] . "'");
+		}
 		$this->cache->delete('lang');
 		$this->cache->delete('language_definitions');
 		$this->cache->delete('admin_menu');
@@ -142,10 +156,10 @@ class ModelLocalisationLanguageDefinitions extends Model {
 						LEFT JOIN " . DB_PREFIX . "languages l ON l.language_id = ld.language_id";
 			}
 
-			if (isset($filter[ 'section' ]) && !is_null($filter[ 'section' ])) {
+			if (isset($filter[ 'section' ]) && !empty($filter[ 'section' ])) {
 				$sql .= " WHERE `section` = '" . $this->db->escape($filter[ 'section' ]) . "' ";
 			} else {
-				$sql .= " WHERE `section` like '%' ";
+				$sql .= " WHERE 1=1 ";
 			}
 
 			$data[ 'language_id' ] = isset($data[ 'language_id' ]) ? (int)$data[ 'language_id' ] : (int)$this->request->get[ 'language_id' ];

@@ -32,11 +32,12 @@ class ModelToolGlobalSearch extends Model {
      */
     private $charset;
 
-    public $results_controllers = array("orders" => array(
-        'alias' => 'order',
-        'id' => 'order_id',
-        'page' => 'sale/order/update',
-        'response' => ''),
+    public $results_controllers = array(
+		"orders" => array(
+			'alias' => 'order',
+			'id' => 'order_id',
+			'page' => 'sale/order/update',
+			'response' => ''),
         "customers" => array(
             'alias' => 'customer',
             'id' => 'customer_id',
@@ -120,15 +121,9 @@ class ModelToolGlobalSearch extends Model {
      * @param string $keyword
      */
     public function getTotal($search_category, $keyword) {
-        //return 40;
-        //???? freeze
-        $this->registry = Registry::getInstance();
-        $db = $this->registry->get('db');
-        $this->charset = strtoupper($this->registry->get('document')->getCharset());
-        $needle = $db->escape(strtolower(htmlentities($keyword, ENT_QUOTES, $this->charset)), $this->charset);
 
-        $offset = (( int )$this->request->post ['page'] - 1) * ( int )$this->request->post ['rows'];
-        $rows_count = ( int )$this->request->post ['rows'];
+        $this->charset = strtoupper($this->registry->get('document')->getCharset());
+        $needle = $this->db->escape(strtolower(htmlentities($keyword, ENT_QUOTES, $this->charset)), $this->charset);
         $search_languages[] = ( int )$this->config->get('storefront_language_id');
 
         //sleep(3);
@@ -139,7 +134,7 @@ class ModelToolGlobalSearch extends Model {
 						WHERE (LOWER(c.name) like '%" . $needle . "%' OR LOWER(c.meta_keywords) like '%" . $needle . "%' 
 								OR LOWER(c.meta_description) like '%" . $needle . "%'	OR LOWER(c.description) like '%" . $needle . "%')
 						AND c.language_id IN (" . (implode(",", $search_languages)) . ");";
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $output = $result->row ['total'];
                 break;
 
@@ -149,7 +144,7 @@ class ModelToolGlobalSearch extends Model {
 						WHERE (LOWER(l.language_value) like '%" . $needle . "%')
 							AND l.language_id = " . ( int )$this->config->get('storefront_language_id');
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $output = $result->row ['total'];
 
                 break;
@@ -181,7 +176,7 @@ class ModelToolGlobalSearch extends Model {
 							ON (b.product_id = a.product_id AND b.language_id	IN (" . (implode(",", $search_languages)) . "))
 						WHERE LOWER(a.tag) like '%" . $needle . "%' AND a.language_id = " . ( int )$this->config->get('storefront_language_id');
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 if ($result->num_rows) {
                     foreach ($result->rows as $row) {
                         $output [$row ['product_id']] = 0;
@@ -195,7 +190,7 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . DB_PREFIX . "reviews r
 						WHERE (LOWER(`text`) like '%" . $needle . "%')  OR (LOWER(r.`author`) LIKE '%" . $needle . "%') ";
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 if ($result->num_rows) {
                     foreach ($result->rows as $row) {
                         $output [$row ['product_id']] = 0;
@@ -209,7 +204,7 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . DB_PREFIX . "manufacturers 
 						WHERE (LOWER(name) like '%" . $needle . "%')";
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $output = $result->row ['total'];
 
                 break;
@@ -247,7 +242,7 @@ class ModelToolGlobalSearch extends Model {
 							OR (LOWER(comment) like '%" . $needle . "%')
 							)
 						AND language_id = " . ( int )$this->config->get('storefront_language_id');
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $output = $result->row ['total'];
 
                 break;
@@ -262,7 +257,7 @@ class ModelToolGlobalSearch extends Model {
 							OR (LOWER(cart) like '%" . $needle . "%')
 							)";
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $output = $result->row ['total'];
 
                 break;
@@ -279,7 +274,7 @@ class ModelToolGlobalSearch extends Model {
 							OR (LOWER(b.description) like '%" . $needle . "%')
 							OR (LOWER(b.content) like '%" . $needle . "%')
 							)";
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $output = $result->row ['total'];
                 break;
 
@@ -287,21 +282,21 @@ class ModelToolGlobalSearch extends Model {
                 $sql = "SELECT count(*) as total
 						FROM " . DB_PREFIX . "settings 
 						WHERE (LOWER(`value`) like '%" . $needle . "%') OR (LOWER(`key`) like '%" . $needle . "%')";
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $output = $result->row ['total'];
                 break;
             case "messages" :
                 $sql = "SELECT COUNT(DISTINCT msg_id) as total
 						FROM " . DB_PREFIX . "messages 
 						WHERE (LOWER(`title`) like '%" . $needle . "%' OR LOWER(`message`) like '%" . $needle . "%')";
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $output = $result->row ['total'];
                 break;
             case "extensions" :
                 $sql = "SELECT COUNT( DISTINCT `key`) as total
 						FROM " . DB_PREFIX . "extensions 
 						WHERE (LOWER(`key`) like '%" . $needle . "%') AND `type` = 'extensions'";
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $output = $result->row ['total'];
                 break;
             case "downloads" :
@@ -310,7 +305,7 @@ class ModelToolGlobalSearch extends Model {
 						RIGHT JOIN " . DB_PREFIX . "download_descriptions dd
 							ON (d.download_id = dd.download_id AND dd.language_id IN (" . (implode(",", $search_languages)) . "))
 						WHERE (LOWER(`name`) like '%" . $needle . "%')";
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $output = $result->row ['total'];
                 break;
             default :
@@ -328,12 +323,11 @@ class ModelToolGlobalSearch extends Model {
      * @return string(json)
      */
     public function getResult($search_category, $keyword, $mode = 'listing') {
-        $this->registry = Registry::getInstance();
-        $db = $this->registry->get('db');
+
         $this->charset = strtoupper($this->registry->get('document')->getCharset());
         // two variants of needles for search: with and without html-entities
-        $needle = $db->escape(mb_strtolower(htmlentities($keyword, ENT_QUOTES, $this->charset)), $this->charset);
-        $needle2 = $db->escape(mb_strtolower($keyword), $this->charset);
+        $needle = $this->db->escape(mb_strtolower(htmlentities($keyword, ENT_QUOTES, $this->charset)), $this->charset);
+        $needle2 = $this->db->escape(mb_strtolower($keyword), $this->charset);
 
         if (isset($this->request->get ['page'])) {
             $offset = (( int )$this->request->get ['page'] - 1) * ( int )$this->request->get ['rows'];
@@ -360,7 +354,7 @@ class ModelToolGlobalSearch extends Model {
 								)
 						AND c.language_id IN (" . (implode(",", $search_languages)) . ")
 						LIMIT " . $offset . "," . $rows_count;
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $result = $result->rows;
                 break;
 
@@ -371,7 +365,7 @@ class ModelToolGlobalSearch extends Model {
 							AND l.language_id IN (" . (implode(",", $search_languages)) . ")
 						LIMIT " . $offset . "," . $rows_count;
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $result = $result->rows;
                 break;
 
@@ -421,7 +415,7 @@ class ModelToolGlobalSearch extends Model {
 						WHERE ( LOWER(a.tag) like '%" . $needle . "%' OR LOWER(a.tag) like '%" . $needle2 . "%' ) AND a.language_id IN (" . (implode(",", $search_languages)) . ")
 						LIMIT " . $offset . "," . $rows_count;
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $table = array();
                 if ($result->num_rows) {
                     foreach ($result->rows as $row) {
@@ -441,7 +435,7 @@ class ModelToolGlobalSearch extends Model {
 						WHERE ( LOWER(r.`text`) LIKE '%" . $needle . "%') OR (LOWER(r.`author`) LIKE '%" . $needle . "%' OR LOWER(r.`text`) LIKE '%" . $needle2 . "%') OR (LOWER(r.`author`) LIKE '%" . $needle2 . "%' )
 						LIMIT " . $offset . "," . $rows_count;
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $result = $result->rows;
                 break;
             case "manufacturers" :
@@ -450,7 +444,7 @@ class ModelToolGlobalSearch extends Model {
 						WHERE (LOWER(name) like '%" . $needle . "%' OR LOWER(name) like '%" . $needle2 . "%' )
 						LIMIT " . $offset . "," . $rows_count;
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $result = $result->rows;
                 break;
             case "orders" :
@@ -493,7 +487,7 @@ class ModelToolGlobalSearch extends Model {
 						AND language_id = " . ( int )$this->config->get('storefront_language_id') . "
 						LIMIT " . $offset . "," . $rows_count;
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $result = $result->rows;
                 break;
 
@@ -509,7 +503,7 @@ class ModelToolGlobalSearch extends Model {
 							OR (LOWER(cart) like '%" . $needle . "%')
 							)
 						LIMIT " . $offset . "," . $rows_count;
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $result = $result->rows;
                 break;
             case "pages" :
@@ -537,17 +531,18 @@ class ModelToolGlobalSearch extends Model {
 							)
 						LIMIT " . $offset . "," . $rows_count;
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $result = $result->rows;
                 break;
 
             case "settings" :
-                $sql = "SELECT setting_id, CONCAT(`group`,'-',`key`,'-',store_id) as active, CONCAT(`group`,' -> ',`key`) as title, `value` as text
-						FROM " . DB_PREFIX . "settings 
-						WHERE (LOWER(`value`) like '%" . $needle . "%' OR LOWER(`value`) like '%" . $needle2 . "%' OR LOWER(`key`) like '%" . $needle . "%')
+                $sql = "SELECT setting_id, CONCAT(`group`,'-',s.`key`,'-',store_id) as active, CONCAT(`group`,' -> ',s.`key`) as title, `value` as text, e.`key` as extension
+						FROM " . DB_PREFIX . "settings s
+						LEFT JOIN " . DB_PREFIX . "extensions e ON s.`group` = e.`key`
+						WHERE (LOWER(`value`) like '%" . $needle . "%' OR LOWER(`value`) like '%" . $needle2 . "%' OR LOWER(s.`key`) like '%" . $needle . "%')
 						LIMIT " . $offset . "," . $rows_count;
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $result = $result->rows;
                 break;
             case "messages" :
@@ -556,7 +551,7 @@ class ModelToolGlobalSearch extends Model {
 						WHERE ( LOWER(`title`) like '%" . $needle . "%' OR LOWER(`message`) like '%" . $needle . "%' OR LOWER(`title`) like '%" . $needle2 . "%' OR LOWER(`message`) like '%" . $needle2 . "%' )
 						LIMIT " . $offset . "," . $rows_count;
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $result = $result->rows;
                 break;
             case "extensions" :
@@ -565,7 +560,7 @@ class ModelToolGlobalSearch extends Model {
 						WHERE (LOWER(`key`) like '%" . $needle . "%') AND `type`='extensions'
 						LIMIT " . $offset . "," . $rows_count;
 
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $result = $result->rows;
                 break;
 
@@ -576,7 +571,7 @@ class ModelToolGlobalSearch extends Model {
 							ON (d.download_id = dd.download_id AND dd.language_id IN (" . (implode(",", $search_languages)) . "))
 						WHERE ( LOWER(dd.name) like '%" . $needle . "%' OR LOWER(dd.name) like '%" . $needle2 . "%' )
 						LIMIT " . $offset . "," . $rows_count;
-                $result = $db->query($sql);
+                $result = $this->db->query($sql);
                 $result = $result->rows;
                 break;
 
@@ -586,9 +581,10 @@ class ModelToolGlobalSearch extends Model {
         }
 
         if ($mode == 'listing') {
-            $result = $this->_prepareResponse($keyword,
-                $this->results_controllers[$search_category]['page'],
-                $this->results_controllers[$search_category]['id'], $result);
+            $result = $this->_prepareResponse(  $keyword,
+												$this->results_controllers[$search_category]['page'],
+												$this->results_controllers[$search_category]['id'],
+												$result);
         }
         foreach ($result as &$row) {
             $row['controller'] = $this->results_controllers[$search_category]['page'];
@@ -643,15 +639,27 @@ class ModelToolGlobalSearch extends Model {
                         break;
                     }
                 }
-                $url = $rt;
-                if (is_array($key_field)) {
-                    foreach ($key_field as $var) {
+
+				// exception for extension settings
+				$temp_key_field = $key_field;
+				$url = $rt;
+
+				if($rt=='setting/setting' && !empty($row['extension'])){
+					$temp_key_field = $this->results_controllers['extensions']['id'];
+					$url = $this->results_controllers['extensions']['page'];
+
+				}
+
+
+
+                if (is_array($temp_key_field)) {
+                    foreach ($temp_key_field as $var) {
                         $url .= "&" . $var . "=" . $row [$var];
                     }
                 } else {
-                    $url .= "&" . $key_field . "=" . $row [$key_field];
+                    $url .= "&" . $temp_key_field . "=" . $row [$temp_key_field];
                 }
-                $tmp ['href'] = $this->registry->get('html')->getSecureURL($url);
+                $tmp ['href'] = $this->html->getSecureURL($url);
                 $tmp ['text'] = '<a href="' . $tmp ['href'] . '" target="_blank" title="' . $row ['text'] . '">' . $row ['title'] . '</a>';
                 $output [] = $tmp;
             }

@@ -97,7 +97,10 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 			//make sure we load all the langaues properly in case they were not used yet.
 			foreach ($languages as $lang) {
 				$new_lang_obj = new ALanguageManager ($this->registry, $lang[ 'code' ], $item[ 'section' ]);
-				$new_lang_obj->_load($new_lang_obj->convert_block_to_file($item[ 'block' ]));
+				$block = $new_lang_obj->convert_block_to_file($item[ 'block' ]);
+				if($block){
+					$new_lang_obj->_load($new_lang_obj->convert_block_to_file($item[ 'block' ]));
+				}
 			}
 			//load definitions for all languages now
 			$items = $this->model_localisation_language_definitions->getLanguageDefinitions(array(
@@ -128,7 +131,7 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 			$form = new AForm('HS');
 		}
 
-		$dispatch = $this->dispatch('responses/common/form_collector', array( 'form_id' => 'definitionFrm',
+		$dispatch = $this->dispatch('responses/common/form_collector', array( 'form_id' => 'definitionQFrm',
 																			  'target' => $this->request->get[ 'target' ] ));
 		$this->data[ 'form_collector' ] = $dispatch->dispatchGetOutput();
 
@@ -140,14 +143,14 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 		));
 
 		$form->setForm(array(
-			'form_name' => 'definitionFrm',
+			'form_name' => 'definitionQFrm',
 			'update' => $this->data[ 'update' ],
 		));
 
-		$this->data[ 'form' ][ 'id' ] = 'definitionFrm';
+		$this->data[ 'form' ][ 'id' ] = 'definitionQFrm';
 		$this->data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(array(
 			'type' => 'form',
-			'name' => 'definitionFrm',
+			'name' => 'definitionQFrm',
 			'action' => $this->data[ 'action' ],
 		));
 		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array(

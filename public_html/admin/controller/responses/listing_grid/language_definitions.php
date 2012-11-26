@@ -82,7 +82,6 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
 	    $this->loadModel('localisation/language_definitions');
         $this->loadLanguage('localisation/language_definitions');
 
-
 		if (!$this->user->canModify('listing_grid/language_definitions')) {
 			        $error = new AError('');
 			    	return $error->toJSONResponse('NO_PERMISSIONS_402',
@@ -183,7 +182,7 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
             if ( !in_array($key, array('language_value')) ) continue;
             foreach ( $value as $k => $v ) {
                 $data = array( $key => $v );
-                $this->model_localisation_language_definitions->editLanguageDefinition($k, $data);
+				$this->model_localisation_language_definitions->editLanguageDefinition($k, $data);
             }
         }
 

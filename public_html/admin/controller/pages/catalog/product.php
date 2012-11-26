@@ -400,7 +400,7 @@ class ControllerPagesCatalogProduct extends AController {
         if (isset($this->request->post['product_description'])) {
 			$this->data['product_description'] = $this->request->post['product_description'];
 		} elseif (isset($product_info)) {
-			$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
+			$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id'],$this->session->data['content_language_id']);
 		} else {
 			$this->data['product_description'] = array();
 		}
@@ -416,9 +416,9 @@ class ControllerPagesCatalogProduct extends AController {
 		if (isset($this->request->post['product_tags'])) {
 			$this->data['product_tags'] = $this->request->post['product_tags'];
 		} elseif (isset($product_info)) {
-			$this->data['product_tags'] = $this->model_catalog_product->getProductTags($this->request->get['product_id']);
+			$this->data['product_tags'] = $this->model_catalog_product->getProductTags($this->request->get['product_id'], $this->session->data['content_language_id']);
 		} else {
-			$this->data['product_tags'] = array();
+			$this->data['product_tags'] = '';
 		}
 		$this->loadModel('tool/image');
 		if (isset($product_info) && $product_info['image'] && file_exists(DIR_IMAGE . $product_info['image'])) {
@@ -535,35 +535,35 @@ class ControllerPagesCatalogProduct extends AController {
 
         $this->data['form']['fields']['general']['name'] = $form->getFieldHtml(array(
 			'type' => 'input',
-			'name' => 'product_description['.$this->session->data['content_language_id'].'][name]',
-			'value' => $this->data['product_description'][$this->session->data['content_language_id']]['name'],
+			'name' => 'product_description[name]',
+			'value' => $this->data['product_description']['name'],
 			'style' => 'large-field',
 			'required' => true,
 	        'help_url' => $this->gen_help_url('name'),
 		));
         $this->data['form']['fields']['general']['description'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
-			'name' => 'product_description['.$this->session->data['content_language_id'].'][description]',
-			'value' => $this->data['product_description'][$this->session->data['content_language_id']]['description'],
+			'name' => 'product_description[description]',
+			'value' => $this->data['product_description']['description'],
 			'style' => 'large-field',
 		));
         $this->data['form']['fields']['general']['meta_keywords'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
-			'name' => 'product_description['.$this->session->data['content_language_id'].'][meta_keywords]',
-			'value' => $this->data['product_description'][$this->session->data['content_language_id']]['meta_keywords'],
+			'name' => 'product_description[meta_keywords]',
+			'value' => $this->data['product_description']['meta_keywords'],
 			'style' => 'xl-field',
 	        'help_url' => $this->gen_help_url('meta_keywords'),
 		));
         $this->data['form']['fields']['general']['meta_description'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
-			'name' => 'product_description['.$this->session->data['content_language_id'].'][meta_description]',
-			'value' => $this->data['product_description'][$this->session->data['content_language_id']]['meta_description'],
+			'name' => 'product_description[meta_description]',
+			'value' => $this->data['product_description']['meta_description'],
 			'style' => 'xl-field',
 		));
         $this->data['form']['fields']['general']['tags'] = $form->getFieldHtml(array(
 			'type' => 'input',
-			'name' => 'product_tags['.$this->session->data['content_language_id'].']',
-			'value' => $this->data['product_tags'][$this->session->data['content_language_id']],
+			'name' => 'product_tags',
+			'value' => $this->data['product_tags'],
 			'style' => 'large-field',
 		));
         $this->data['form']['fields']['general']['category'] = $form->getFieldHtml(array(

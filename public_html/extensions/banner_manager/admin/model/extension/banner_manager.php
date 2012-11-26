@@ -45,15 +45,13 @@ class ModelExtensionBannerManager extends Model {
             $sql = "UPDATE `" . DB_PREFIX . "resource_map` SET object_id='" . $banner_id . "' WHERE object_name='banners' AND object_id='-1'";
             $this->db->query($sql);
         }
-
-        $sql = "INSERT INTO `" . DB_PREFIX . "banner_descriptions`
-				(`banner_id`, `language_id`, `name`, `description`, `meta`, `date_added`)
-				VALUES ('" . (int)$banner_id . "',
-						'" . (int)$this->session->data['content_language_id'] . "',
-						'" . $this->db->escape($data['name']) . "',
-						'" . $this->db->escape($data['description']) . "',
-						'" . $this->db->escape($data['meta']) . "',
-						 'NOW()' )";
+		$this->language->replaceDescriptions('banner_descriptions',
+											 array('banner_id' => (int)$banner_id),
+											 array((int)$this->session->data['content_language_id'] => array(
+																		'name' => $data['name'],
+																		'meta' => $data['meta'],
+																		'description' => $data['description']
+											 )) );
         $this->db->query($sql);
 
         return $banner_id;
@@ -109,53 +107,28 @@ class ModelExtensionBannerManager extends Model {
             $data['end_date'] = date('Y-m-d', strtotime($data['end_date']));
         }
 
-        // check is description presents
-        $sql = "SELECT *
-				FROM `" . DB_PREFIX . "banner_descriptions`
-				WHERE banner_id='" . $banner_id . "' AND language_id = '" . $language_id . "'
-				ORDER BY language_id ASC";
-        $result = $this->db->query($sql);
-        $flds = array('name', 'description', 'meta');
-        if ($result->num_rows) {
-            $sql = "UPDATE `" . DB_PREFIX . "banner_descriptions`
-					SET ";
-            $tmp = array();
-
-            foreach ($flds as $field_name) {
-                if (isset($data[$field_name])) {
-                    $tmp[] = "`" . $field_name . "` = '" . $this->db->escape($data[$field_name]) . "'\n";
-                }
-            }
-            $sql .= implode(', ', $tmp);
-            $sql .= " WHERE banner_id='" . $banner_id . "' AND language_id = '" . $language_id . "'";
-            if ($tmp) {
-                $this->db->query($sql);
-            }
-        } else {
-            foreach ($flds as $field_name) {
-                if (isset($data[$field_name])) {
-                    $values[$field_name] = "'" . $this->db->escape($data[$field_name]) . "'";
-                }
-            }
-
-            $sql = "INSERT INTO `" . DB_PREFIX . "banner_descriptions`
-				(`banner_id`, `language_id`,";
-            if ($values) {
-                $sql .= implode(',', array_keys($values)) . ", ";
-            }
-            $sql .= "`date_added`)
-				VALUES ('" . (int)$banner_id . "',
-						'" . (int)$this->session->data['content_language_id'] . "', ";
-            if ($values) {
-                $sql .= implode(',', $values) . ", ";
-            }
-
-            $sql .= " 'NOW()' )";
-            $this->db->query($sql);
-        }
+		$flds = array('name', 'description', 'meta');
+		foreach ($flds as $field_name) {
+			if (isset($data[$field_name])) {
+				$update[$field_name] = $data[$field_name];
+			}
+		}
 
 
-        $flds = array('status' => 'int', 'banner_type' => 'int', 'banner_group_name' => '', 'start_date' => '', 'end_date' => '', 'blank' => 'int', 'sort_order' => 'int', 'target_url' => '');
+		$this->language->replaceDescriptions('banner_descriptions',
+											 array('banner_id' => (int)$banner_id),
+											 array($language_id => $update) );
+
+
+
+        $flds = array(  'status' => 'int',
+					    'banner_type' => 'int',
+						'banner_group_name' => '',
+						'start_date' => '',
+						'end_date' => '',
+						'blank' => 'int',
+						'sort_order' => 'int',
+						'target_url' => '');
         $sql = "UPDATE `" . DB_PREFIX . "banners`
 				SET ";
         $tmp = array();
@@ -230,11 +203,9 @@ class ModelExtensionBannerManager extends Model {
             if ($filter['start'] < 0) {
                 $filter['start'] = 0;
             }
-
             if ($filter['limit'] < 1) {
                 $filter['limit'] = 20;
             }
-
             $sql .= $mode != 'total_only' ? " LIMIT " . (int)$filter['start'] . "," . (int)$filter['limit'] : '';
         }
         $result = $this->db->query($sql);
@@ -247,15 +218,11 @@ class ModelExtensionBannerManager extends Model {
                 if ($row['name']) {
                     $output[] = $row;
                 } else {
-
                     $output[] = $this->getBanner($row['banner_id'], 1);
                 }
             }
-
         }
-
         return $output;
-
     }
 
     public function getBannersStat($filter, $mode = '') {

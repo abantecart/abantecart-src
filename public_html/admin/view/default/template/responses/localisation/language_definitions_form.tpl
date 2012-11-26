@@ -63,27 +63,25 @@
     </div>
     <!-- <div class="fieldset"> -->
     <div class="buttons align_center">
-        <button type="submit" class="btn_standard button_loader"><?php echo $form['submit']; ?></button>
+        <button type="submit" class="btn_standard button_loader" ><?php echo $form['submit']; ?></button>
         <a class="btn_standard" ><?php echo $form['cancel']; ?></a>
     </div>
     </form>
 </div>
-<? echo $form_collector; ?>
+<?php echo $form_collector; ?>
 <?php
 if (!$language_definition_id) {
     ?>
 <div id="dialog"></div>
 <script type="text/javascript">
-    $('#definitionFrm_block, #definitionFrm_language_key').blur(function () {
-        if ($('#definitionFrm_language_key').val() == '') {
+    $('#definitionQFrm_block, #definitionQFrm_language_key').blur(function () {
+        if ($('#definitionQFrm_language_key').val() == '') {
             return false;
         }
-
         $.ajax(
-            {
-                url:'<?php echo $check_url; ?>',
+            {   url:'<?php echo $check_url; ?>',
                 type:'POST',
-                data:$('#definitionFrm').serializeArray(),
+                data:$('#definitionQFrm').serializeArray(),
                 dataType:'json',
                 success:function (data) {
                     if (data.error.length > 0) {
@@ -98,7 +96,6 @@ if (!$language_definition_id) {
                                 $(this).dialog("destroy");
                             }    }
                         });
-
                     }
                 },
                 error:function (req, status, msg) {

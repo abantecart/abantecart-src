@@ -102,9 +102,9 @@ $(document).ready(function () {
 
 });
 
-if (document.getElementById('productFrm_product_description[<?php echo $language_id; ?>][description]'))
-    $('#productFrm_product_description\\[<?php echo $language_id; ?>\\]\\[description\\]').parents('.afield').removeClass('mask2');
-CKEDITOR.replace('productFrm_product_description[<?php echo $language_id; ?>][description]',
+if (document.getElementById('productFrm_product_description[description]'))
+    $('#productFrm_product_description\\[description\\]').parents('.afield').removeClass('mask2');
+CKEDITOR.replace('productFrm_product_description[description]',
     {
         filebrowserBrowseUrl:false,
         filebrowserImageBrowseUrl:'<?php echo $rl; ?>',
