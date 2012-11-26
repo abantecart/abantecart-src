@@ -220,12 +220,6 @@
 </div>
 
 <script type="text/javascript">
-	
-	$('#submit').click(function(event)
-	{
-		$('#<?php echo $active.'Frm'; ?>').submit();
-	});
-
 
 	$('.open_close').click(function (event)
 	{
