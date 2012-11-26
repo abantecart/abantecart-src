@@ -367,6 +367,7 @@ final class AData {
 			$data = array_slice($data, 1);
 
 			$this->nested_array = $this->_build_nested($data);
+
 			$this->_filter_empty($this->nested_array);
 
 			for ($i; $i > 0; $i--)
@@ -471,7 +472,6 @@ final class AData {
 					{
 						unset($data[$key]);
 						if ( empty($data) ) {
-
 							unset($parent[$parent_key]);
 							if ( count($parent) == 1 && isset($parent['name']) ) {
 								unset($parent['name']);
@@ -495,7 +495,7 @@ final class AData {
 	 */
 	private function _empty($data) {
 		foreach ( $data as $key => $val ) {
-			if ( !empty($val) ) {
+			if ( !empty($val) || (!is_array($val) && $val != '') ) {
 				return false;
 			}
 		}
@@ -695,6 +695,7 @@ final class AData {
 
 	//Process each table level recursively
 	private function _process_import_table( $table_name, $table_cfg, $data_arr, $parent_vals = array() ){
+
 		ADebug::checkpoint('AData::importData processing table ' . $table_name);
 		if (!isset($data_arr['rows'])) {
 			$this->_status2array('error', 'Incorrect structure of '. $table_name .' node. Row node is expected');
