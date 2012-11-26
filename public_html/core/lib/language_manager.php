@@ -331,7 +331,7 @@ class ALanguageManager extends Alanguage {
 				return $filename;
 			}
 		}
-		return;
+		return false;
 	}
 
 

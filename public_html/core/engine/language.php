@@ -373,7 +373,7 @@ class ALanguage {
             $this->entries[$filename] = $load_data;
             return $load_data;
         }
-    
+
         $block_name = str_replace('/', '_', $filename);
         $cache_file = 'lang.' . $this->code . '.' . (($this->is_admin) ? 'a' : 's') . '.' . $filename;
 
