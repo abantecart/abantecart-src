@@ -118,6 +118,7 @@
           			<thead>
 					  <tr style="background: none repeat scroll 0 0 #FDF5CE;">
 					  	<td class="left" style="width: 50px;">
+							<input type="hidden" class="is_checked" name="<?php echo 'data['.$name.'][is_checked]'; ?>" value="0" />
 							<a href="javascript:void(0);" class="open_close add" style="height:17px;"></a>&nbsp;
 							<?php echo $field['main']; ?>
 					  	</td>
@@ -238,16 +239,15 @@
 
 	$('.section_input').click(function ()
 	{
-		var id = $(this).attr('id');
-
-		//console.log($('#' + id + '_list').find('input[type=checkbox]'));
-		if ( $('#'+ id).is(':checked') )
+		if ( $(this).is(':checked') )
 		{
+			$(this).closest('td').find('input.is_checked').val(1);
 			$(this).closest('table.list').find('tbody input[type=checkbox]').attr('checked', 'checked');
 			$(this).closest('table.list').find('.acheckbox').addClass('checked');
 		}
 		else
 		{
+			$(this).closest('td').find('input.is_checked').val(0);
 			$(this).closest('table.list').find('tbody input[type=checkbox]').removeAttr('checked');
 			$(this).closest('table.list').find('.acheckbox').removeClass('checked');
 		}
