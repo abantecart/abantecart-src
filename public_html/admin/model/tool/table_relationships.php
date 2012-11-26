@@ -252,6 +252,11 @@ class ModelToolTableRelationships extends Model {
 				)
 			)
 		);
+
+		// Only "add as it is". Update is left for future enhancements.
+		$this->sections['url_aliases'] = array(
+			'id' => 'url_alias_id'
+		);
 	}
 
 	//check if requested table exist and return its array 

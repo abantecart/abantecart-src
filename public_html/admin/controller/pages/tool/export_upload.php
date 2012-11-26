@@ -106,10 +106,11 @@ class ControllerPagesToolExportUpload extends AController {
 	}
 
 	private function validateRequest($post) {
+
 		$results = array();
 
 		foreach ( $post as $key => $val ) {
-			if ( isset($val['tables']) && !empty($val['tables']) ) {
+			if ( (bool) $val['is_checked'] || (isset($val['tables']) && !empty($val['tables'])) ) {
 
 				if ( $val['start_id'] != '' ) {
 					$val['start_id'] = (int) $val['start_id'];
@@ -124,6 +125,7 @@ class ControllerPagesToolExportUpload extends AController {
 			}
 			unset($val);
 		}
+
 		return $results;
 	}
 	

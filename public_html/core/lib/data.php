@@ -367,6 +367,7 @@ final class AData {
 			$data = array_slice($data, 1);
 
 			$this->nested_array = $this->_build_nested($data);
+
 			$this->_filter_empty($this->nested_array);
 
 			for ($i; $i > 0; $i--)
@@ -471,7 +472,6 @@ final class AData {
 					{
 						unset($data[$key]);
 						if ( empty($data) ) {
-
 							unset($parent[$parent_key]);
 							if ( count($parent) == 1 && isset($parent['name']) ) {
 								unset($parent['name']);
@@ -495,7 +495,7 @@ final class AData {
 	 */
 	private function _empty($data) {
 		foreach ( $data as $key => $val ) {
-			if ( !empty($val) ) {
+			if ( !empty($val) || (!is_array($val) && $val != '') ) {
 				return false;
 			}
 		}
@@ -694,7 +694,8 @@ final class AData {
 	///  Import Part ///
 
 	//Process each table level recursively
-	private function _process_import_table( $table_name, $table_cfg, $data_arr, $parent_vals = array() ){
+	private function _process_import_table( $table_name, $table_cfg, $data_arr, $parent_vals = array(), $action_delete = false ){
+
 		ADebug::checkpoint('AData::importData processing table ' . $table_name);
 		if (!isset($data_arr['rows'])) {
 			$this->_status2array('error', 'Incorrect structure of '. $table_name .' node. Row node is expected');
@@ -705,8 +706,12 @@ final class AData {
 		foreach ($data_arr['rows'] as $rnode){
 
 			$action = '';
-			//Set action for the row	
-			$action = $this->_get_action($table_name, $table_cfg, $rnode);
+			//Set action for the row
+			if ( !$action_delete ) {
+				$action = $this->_get_action($table_name, $table_cfg, $rnode);
+			} else {
+				$action = 'delete';
+			}
 			//set current scope values
 			$new_vals = $parent_vals;
 
@@ -740,7 +745,12 @@ final class AData {
 		    	$new_table = $rnode['tables'][0];
 				$sub_table_cfg = $this->model_tool_table_relationships->find_table_cfg( $new_table['name'], $table_cfg );
 				if ( $sub_table_cfg ) {
-				    $resource_data = $this->_process_import_table($new_table['name'], $sub_table_cfg, $new_table, $new_vals);
+					if ( $action == 'delete' ) {
+						$set_action_delete = true;
+					} else {
+						$set_action_delete = false;
+					}
+				    $resource_data = $this->_process_import_table($new_table['name'], $sub_table_cfg, $new_table, $new_vals, $set_action_delete);
 				    $new_vals['resource_id'] = $resource_data['resource_id'];
 
 					//Now do the action for the row if any data provided besides keys
@@ -756,9 +766,15 @@ final class AData {
 				//locate inner table nodes for recursion
 				if ( $table_name != 'resource_map' && isset($rnode['tables']) && is_array($rnode['tables'])) {
 					foreach( $rnode['tables'] as $new_table ){
+
+						if ( $action == 'delete' ) {
+							$set_action_delete = true;
+						} else {
+							$set_action_delete = false;
+						}
 						$sub_table_cfg = $this->model_tool_table_relationships->find_table_cfg( $new_table['name'], $table_cfg );
 						if ( $sub_table_cfg ) {
-							$this->_process_import_table($new_table['name'], $sub_table_cfg, $new_table, $new_vals);
+							$this->_process_import_table($new_table['name'], $sub_table_cfg, $new_table, $new_vals, $set_action_delete);
 						} else {
 							$this->_status2array('error', 'Unknown table: "'. $new_table['name'] .'" requested in relation to table ' . $table_name . '. Exit this node');
 							continue;
