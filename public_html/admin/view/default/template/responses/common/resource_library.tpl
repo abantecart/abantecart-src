@@ -698,7 +698,7 @@ jQuery(function ($) {
     $('td.save button').live('click', function () {
         var form = $(this).closest('form');
         form.find(".message").html('').removeClass('error').removeClass('success');
-
+		var language_id = form.find('select').val();
         var error_required_data = false;
         var required_lang_id = null;
         var code = form.find('textarea[name="resource_code"]:visible');
@@ -734,6 +734,20 @@ jQuery(function ($) {
                 hideLoading('small');
             }
         });
+		<?php if($resource_id){ ?>
+			$.ajax({
+						url:urls.get_resource,
+						type:'GET',
+						data:{resource_id: <?php echo $resource_id ?>, resource_objects:1, object_name:object_name, type:type},
+						dataType:'json',
+						success:loadEditForm
+			});
+
+			$('table.resource-details select[name="language_id"]').val(language_id).change();
+
+		<?php } ?>
+
+
         return false;
     });
 

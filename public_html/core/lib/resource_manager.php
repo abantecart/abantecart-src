@@ -117,6 +117,10 @@ class AResourceManager extends AResource {
         }
 
         foreach ( $resource['name'] as $language_id => $name ) {
+			if($this->config->get('translate_override_existing') && $language_id != $resource['language_id'] ){
+				continue;
+			}
+
 			$this->language->replaceDescriptions('resource_descriptions',
 												 array('resource_id' => (int)$resource_id),
 												 array((int)$language_id => array(
@@ -143,6 +147,10 @@ class AResourceManager extends AResource {
 
         $fields = array('name', 'title', 'description');
         foreach ( $data['name'] as $language_id => $name ) {
+			if($this->config->get('translate_override_existing') && $language_id != $data['language_id'] ){
+				continue;
+			}
+
              $update = $_update;
 
             foreach ( $fields as $f ) {
