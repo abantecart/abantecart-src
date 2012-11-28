@@ -69,7 +69,7 @@ class ControllerResponsesListingGridProduct extends AController {
 			$response->rows[ $i ][ 'cell' ] = array(
 				$thumbnail[ 'thumb_html' ],
 				$this->html->buildInput(array(
-					'name' => 'product_description[' . $result[ 'product_id' ] . '][' . $this->session->data[ 'content_language_id' ] . '][name]',
+					'name' => 'product_description[' . $result[ 'product_id' ] . '][name]',
 					'value' => $result[ 'name' ],
 				)),
 				$this->html->buildInput(array(
@@ -304,11 +304,10 @@ class ControllerResponsesListingGridProduct extends AController {
 		$err = '';
 		switch ($field) {
 			case 'product_description' :
-				foreach ($value as $v) {
-					if (isset($v[ 'name' ]) && ((strlen(utf8_decode($v[ 'name' ])) < 1) || (strlen(utf8_decode($v[ 'name' ])) > 255))) {
-						$err = $this->language->get('error_name');
-					}
+				if (isset($value[ 'name' ]) && ((strlen(utf8_decode($value[ 'name' ])) < 1) || (strlen(utf8_decode($value[ 'name' ])) > 255))) {
+					$err = $this->language->get('error_name');
 				}
+
 				break;
 			case 'model' :
 				if ((strlen(utf8_decode($value)) < 1) || (strlen(utf8_decode($value)) > 64)) {

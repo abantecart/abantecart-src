@@ -119,6 +119,46 @@ class ModelSettingSetting extends Model {
 	
 	public function editSetting($group, $data, $store_id=null) {
 		$store_id = is_null($store_id) ? ($this->config->get('config_store_id')) : (int)$store_id;
+		$languages = $this->language->getAvailableLanguages();
+		// check what is it - update or insert of setting
+
+		$edit_type = 'insert';
+		foreach($languages as $language){
+			if( $this->config->get('config_description_'.$language['language_id'])) {
+				$edit_type = 'update';
+				break;
+			}
+		}
+		$src_lang_id = $this->language->getLanguageIdByCode($this->config->get('translate_src_lang_code'));
+		// if override - edit type is insert
+		if(isset($data['config_description_'.$src_lang_id]) && $this->config->get('translate_override_existing')){
+			$edit_type = 'insert';
+		}
+
+		$locales = array();
+		foreach($languages as $language){
+			// if update and not override - skip
+			if(!$this->config->get('translate_override_existing') && $edit_type=='update'){
+				continue;
+			}
+			$locale = $this->language->getLanguageCodeByLocale($language['locale']);
+			if($locale != $this->config->get('translate_src_lang_code') && $edit_type=='insert'){
+				$locales[$language['language_id']] = $locale;
+			}
+		}
+
+		// if need translate
+		if($locales){
+
+
+			if($src_lang_id){
+				$src_text =  isset($data['config_description_'.$src_lang_id]) ? $data['config_description_'.$src_lang_id] : $this->config->get('config_description_'.$src_lang_id);
+				foreach($locales as $dst_lang_id=>$dst_code){
+					$data['config_description_'.$dst_lang_id] = $this->language->translate ($this->config->get('translate_src_lang_code'), $src_text, $dst_code);
+				}
+			}
+		}
+
 		foreach ($data as $key => $value) {
 			$sql = "DELETE FROM " . DB_PREFIX . "settings
 					WHERE `group` = '" . $this->db->escape($group) . "'

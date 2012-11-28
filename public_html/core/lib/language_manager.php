@@ -803,13 +803,21 @@ class ALanguageManager extends Alanguage {
 	public function getLanguageCodeByLocale($locale){
 		if(empty($locale)) return;
 		$locale = explode(",",$locale);
-		foreach( $locale as $lc){
-			if(strpos($lc,'_')===2){
-				$lng_code = strtolower(substr($lc,0,2));
-				break;
-			}
+		$lc = $locale[1];
+		if(strpos($lc,'_')===2){
+			$lng_code = strtolower(substr($lc,0,2));
+		}else{
+			$lng_code = $lc;
 		}
 		return $lng_code;
+	}
+	public function getLanguageIdByCode($code){
+		foreach ($this->available_languages as $lang) {
+			if (is_int(stripos($lang['locale'],$code)) ) {
+				return $lang['language_id'];
+			}
+		}
+		return;
 	}
 
 }
