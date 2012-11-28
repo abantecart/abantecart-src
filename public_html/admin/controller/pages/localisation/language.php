@@ -174,7 +174,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $language_id ));
 		}
-		
+
 		$this->_getForm();
 
         //update controller data
@@ -338,43 +338,47 @@ class ControllerPagesLocalisationLanguage extends AController {
 				'required' => true,
 		));
 
-		$form2 = new AForm('HT');
-		$form2->setForm(array(
-		    'form_name' => 'languageLoadFrm',
-	    ));
+		if(isset($this->request->get['language_id'])){
+			$form2 = new AForm('HT');
+			$form2->setForm(array(
+				'form_name' => 'languageLoadFrm',
+			));
 
-        $this->data['form2']['id'] = 'languageFrm';
-        $this->data['form2']['form_open'] = $form2->getFieldHtml(array(
-		    'type' => 'form',
-		    'name' => 'languageLoadFrm',
-		    'action' => $this->html->getSecureURL('localisation/language/loadlanguageData', '&language_id=' . $this->request->get['language_id'] ),
-	    ));
-        $this->data['form2']['load_data'] = $form2->getFieldHtml(array(
-		    'type' => 'button',
-		    'name' => 'load_data',
-		    'text' => $this->language->get('button_load_language'),
-		    'style' => 'button3',
-	    ));
+			$this->data['form2']['id'] = 'languageFrm';
+			$this->data['form2']['form_open'] = $form2->getFieldHtml(array(
+				'type' => 'form',
+				'name' => 'languageLoadFrm',
+				'action' => $this->html->getSecureURL('localisation/language/loadlanguageData', '&language_id=' . $this->request->get['language_id'] ),
+			));
+			$this->data['form2']['load_data'] = $form2->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'load_data',
+				'text' => $this->language->get('button_load_language'),
+				'style' => 'button3',
+			));
 
-		$all_languages = array('');
-		$all_languages[0] = "-----";
-		foreach ($this->language->getAvailableLanguages() as $result) {
-			$all_languages[$result['language_id']] = $result['name'];
-		}		
-        $this->data['form2']['language_selector'] = $form2->getFieldHtml(array(
-        	'type' => 'selectbox', 
-		    'name' => 'source_language',
-		    'value' => '',
-			'options' => $all_languages,
-	    ));
+			$all_languages = array('');
+			$all_languages[0] = "-----";
+			foreach ($this->language->getAvailableLanguages() as $result) {
+				$all_languages[$result['language_id']] = $result['name'];
+			}
+			$this->data['form2']['language_selector'] = $form2->getFieldHtml(array(
+				'type' => 'selectbox',
+				'name' => 'source_language',
+				'value' => '',
+				'options' => $all_languages,
+			));
 
-		$translate_methods = $this->language->getTranslationMethods();
-        $this->data['form2']['translate_method_selector'] = $form2->getFieldHtml(array(
-        	'type' => 'selectbox', 
-		    'name' => 'translate_method',
-		    'value' => '',
-			'options' => $translate_methods,
-	    ));
+			$translate_methods = $this->language->getTranslationMethods();
+			$this->data['form2']['translate_method_selector'] = $form2->getFieldHtml(array(
+				'type' => 'selectbox',
+				'name' => 'translate_method',
+				'value' => '',
+				'options' => $translate_methods,
+			));
+		}else{
+			$this->data['entry_create_language_note'] = $this->language->get('create_language_note');
+		}
 
 		$this->view->assign('help_url', $this->gen_help_url('language_edit') );
 		$this->view->batchAssign( $this->data );

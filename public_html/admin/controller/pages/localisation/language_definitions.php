@@ -273,7 +273,10 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 			//make sure we load all the langaues properly in case they were not used yet.
 			foreach ($languages as $lang) {
 				$new_lang_obj = new ALanguageManager($this->registry, $lang[ 'code' ], $item[ 'section' ]);
-				$new_lang_obj->_load($new_lang_obj->convert_block_to_file($item[ 'block' ]));
+				$block = $new_lang_obj->convert_block_to_file($item[ 'block' ]);
+				if($block){
+					$new_lang_obj->_load($block);
+				}
 			}
 			//load definitions for all languages now
 			$items = $this->model_localisation_language_definitions->getLanguageDefinitions(array(

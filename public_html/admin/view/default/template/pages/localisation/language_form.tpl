@@ -21,6 +21,7 @@
 	  <div class="heading"><?php echo $language_edit_title; ?></div>
 	  <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
 	  <div class="cont_left"><div class="cont_right"><div class="cont_mid">
+		  <?php echo $entry_create_language_note;	  ?>
 		<table class="form">
 		<?php foreach ($form['fields'] as $name => $field) { ?>
 			<tr>
@@ -43,7 +44,9 @@
     </div>
 	</form>
 
-	<?php echo $form2['form_open']; ?>
+	<?php
+	  if($form2){
+	  echo $form2['form_open']; ?>
 	<div class="fieldset">
 	  <div class="heading"><?php echo $load_language_title; ?></div>
 	  <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
@@ -68,7 +71,7 @@
 	  <button type="submit" class="btn_standard button_loader"><?php echo $form2['load_data']; ?></button>
     </div>
 	</form>
-
+<?php }?>
   </div></div></div>
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>

@@ -361,6 +361,7 @@ class ALanguage {
 
     // load language
     public function _load($filename, $mode = '') {
+		if(empty($filename)) return;
         //Check if we already have language loaded. Skip and return the language set                     
         if ( $this->_is_loaded($filename) ) {
             $this->current_languages_scope[] = $filename;
@@ -545,6 +546,7 @@ class ALanguage {
 
 	// Load definition valies from XML 
     protected function _load_from_xml($filename, $mode){
+		if(!$filename){	return;}
         $definitions = array();
         ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' '. $filename .' prepare loading language from XML');
 
@@ -560,7 +562,12 @@ class ALanguage {
         } else if ( file_exists($default_file_path) ) {
             ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' loading XML file '. $default_file_path);
             $definitions = $this->ReadXmlFile( $default_file_path );
-        }
+        }else {
+			if ($mode != 'silent' ) {
+				$error = new AError('Missing default English definition XML file for ' . $filename . ' !');
+				$error->toLog()->toDebug();
+			}
+		}
 
         //skip if not required and language file does not exist for silent mode.
         if (empty($definitions) && $mode != 'silent' ) {

@@ -125,6 +125,11 @@
     <value><![CDATA[NOTE: This operation might take few minutes to run. Do NOT close browser, leave or refresh the page!  ]]></value>
   </definition>
   <definition>
+    <key>create_language_note</key>
+    <value><![CDATA[NOTE: We recommend creating language as an extension. Check existing language extensions. If you still want to create new language manually, you need to add language Flag to  admin/language/[Language Directory]/flag.png and  storefront/language/[Language Directory]flag.png
+    After language is created load missing language data to translate or copy text content from source language.  ]]></value>
+  </definition>
+  <definition>
     <key>button_load_language</key>
     <value><![CDATA[Load]]></value>
   </definition>

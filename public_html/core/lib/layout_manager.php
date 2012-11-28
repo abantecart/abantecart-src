@@ -621,7 +621,7 @@ class ALayoutManager {
 			foreach($data ['page_descriptions'] as $language_id=>$description){
 				if(!(int)$language_id){ continue;}
 
-				$this->language->addDescriptions('page_descriptions',
+				$this->language->replaceDescriptions('page_descriptions',
 												 array('page_id' => (int)$page_id),
 												 array((int)$language_id => array(
 																			'name' => $description['name'],
@@ -782,7 +782,7 @@ class ALayoutManager {
 			$this->db->query ( "INSERT INTO " . DB_PREFIX . "custom_blocks (block_id, created) VALUES ( '" . $block_id . "', NOW())" );
 			$custom_block_id = $this->db->getLastId ();
 
-			$this->language->addDescriptions('block_descriptions',
+			$this->language->replaceDescriptions('block_descriptions',
 											 array(	 'custom_block_id' => (int)$custom_block_id ),
 											 array( (int)$description['language_id'] => array(
 												 "block_wrapper" => $description ['block_wrapper'],
@@ -1370,7 +1370,7 @@ class ALayoutManager {
 												  FROM " . DB_PREFIX . "languages
 												  WHERE LOWER(`name`)= '" . $this->db->escape ( $block_description->language ) . "'" );
 					$language_id = $result->row ['language_id'];
-					$this->language->addDescriptions('block_descriptions',
+					$this->language->replaceDescriptions('block_descriptions',
 													 array(	 'instance_id' => (int)$instance_id,
 															 'block_id' => (int)$block_id ),
 													 array((int)$language_id => array(

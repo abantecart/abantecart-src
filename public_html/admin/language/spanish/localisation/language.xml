@@ -123,7 +123,12 @@
   <definition>
     <key>load_language_note</key>
     <value><![CDATA[NOTA: Esta operación puede tardar algunos minutos para correr. NO cierre del navegador, dejar o refrescar la página!]]></value>
-  </definition> 
+  </definition>
+	<definition>
+   <key>create_language_note</key>
+   <value><![CDATA[NOTA: Se recomienda crear el lenguaje como una extensión. Comprobar extensiones existentes lenguaje. Si aún desea crear un nuevo lenguaje de forma manual, debe agregar la opción al administrador de admin/language/[directorio de idioma]/flag.png y storefront/language/[Directorio Language]/flag.png
+        Después de lenguaje se crea carga que faltan datos lingüísticos para traducir o copiar el contenido del texto de la lengua de origen.  ]]></value>
+ </definition>
   <definition>
     <key>button_load_language</key>
     <value><![CDATA[Cargar]]></value>

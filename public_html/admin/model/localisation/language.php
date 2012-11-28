@@ -69,7 +69,9 @@ class ModelLocalisationLanguage extends Model {
 		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "languages WHERE language_id = '" . (int)$language_id . "'");
 		$result = $query->row;
 		if(!$result['image']){
-			$result['image'] = HTTP_ABANTECART.'storefront/language/'.$result['directory'].'/flag.png';
+			if(file_exists(DIR_ROOT.'/admin/language/'.$result['directory'].'/flag.png')){
+				$result['image'] = HTTP_ABANTECART.'admin/language/'.$result['directory'].'/flag.png';
+			}
 		}else{
 			$result['image'] = HTTP_ABANTECART.$result['image'];
 		}
@@ -140,7 +142,9 @@ class ModelLocalisationLanguage extends Model {
 			$result = $query->rows;
 			foreach($result as $i=>$row){
 				if(empty($row['image'])){
-					$result[$i]['image'] = HTTP_CATALOG.'storefront/language/'.$row['directory'].'/flag.png';
+					if(file_exists(DIR_ROOT.'/admin/language/'.$row['directory'].'/flag.png')){
+						$result[$i]['image'] = HTTP_CATALOG.'admin/language/'.$row['directory'].'/flag.png';
+					}
 				}else{
 					$result[$i]['image'] = HTTP_CATALOG.$row['image'];
 				}
@@ -155,12 +159,20 @@ class ModelLocalisationLanguage extends Model {
 											ORDER BY sort_order, name");
 	
     			foreach ($query->rows as $result) {
+					if(empty($result['image'])){
+						if(file_exists(DIR_ROOT.'/admin/language/'.$result['directory'].'/flag.png')){
+							$result['image'] = HTTP_CATALOG.'admin/language/'.$result['directory'].'/flag.png';
+						}
+					}else{
+						$result['image'] = HTTP_CATALOG.$result['image'];
+					}
+
       				$language_data[$result['code']] = array(
         				'language_id' => $result['language_id'],
         				'name'        => $result['name'],
         				'code'        => $result['code'],
 						'locale'      => $result['locale'],
-						'image'       => (empty($result['image']) ? HTTP_CATALOG.'storefront/language/'.$result['directory'].'/flag.png' : HTTP_CATALOG.$result['image'] ),
+						'image'       => $result['image'],
 						'directory'   => $result['directory'],
 						'filename'    => $result['filename'],
 						'sort_order'  => $result['sort_order'],
