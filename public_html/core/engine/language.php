@@ -29,9 +29,18 @@ class ALanguage {
     public $error='';
        
     protected $code = '';
+	/**
+	 * @var $db ADb
+	 */
     protected $db;
-    protected $cache;
+	/**
+	 * @var $cache ACache
+	 */
+	protected $cache;
     protected $registry;
+	/**
+	 * @var $loader ALoader
+	 */
     protected $loader;
     protected $language_path;
 
@@ -152,7 +161,7 @@ class ALanguage {
             $result = $this->registry->get('extensions')->hk_load($this, $block, $mode);
         } else {
             $result = $this->_load($block, $mode);
-        }        
+        }
         return $result;
     }
 
@@ -252,6 +261,13 @@ class ALanguage {
             $lang_code = $config->get('config_storefront_language');
         }
 
+		// check if is code of enabled language
+		if(!isset($languages[$lang_code])){
+			$lang_code = key($languages);
+			$error = new AError('Error! Default language with code "'.$lang_code.'" is not available or disabled. Loading '.$languages[$lang_code]['name'].' language to keep system operating. Check your settings for default language.');
+			$error->toLog()->toDebug()->toMessages();
+		}
+
         if (!isset($session->data['language']) || $session->data['language'] != $lang_code) {
             $session->data['language'] = $lang_code;
         }
@@ -294,6 +310,18 @@ class ALanguage {
             $languages[ $lng['code'] ] = $lng;
         }
         return $languages[ $this->getDefaultLanguageCode() ]['language_id'];
+    }
+
+    /*
+    * Default site language info
+    */
+    public function getDefaultLanguage(){
+        //build code based array
+        $languages = array();
+        foreach ( $this->available_languages as $lng ) {
+            $languages[ $lng['code'] ] = $lng;
+        }
+        return $languages[ $this->getDefaultLanguageCode() ];
     }
 
     /* 
@@ -382,20 +410,20 @@ class ALanguage {
         if($this->cache){
             $load_data = $this->cache->get($cache_file);
         }
-        
+
         if ( is_null($load_data) ) {
+			$directory = $this->language_details['directory'];
             // nothing in cache. Start loading
             ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' '. $filename .' no cache, so loading');
-            $_ = array();
-            $_ = $this->_load_from_db($this->language_details['language_id'], $block_name, $this->is_admin);      
+            $_ = $this->_load_from_db($this->language_details['language_id'], $block_name, $this->is_admin);
             if ( !$_ ) {
             	// nothing in the database. This block (rt) was never accessed before for this language. Need to load definitions
-                $_ = $this->_load_from_xml($filename, $mode);
+                $_ = $this->_load_from_xml($filename, $directory, $mode);
                 $this->_save_to_db($block_name, $_);
             } else {
             	//We have something in database, look for missing or new values. 
             	//Do this silently in case language file is misssing, Not a big problem
-            	$xml_vals = $this->_load_from_xml($filename, 'silent');
+            	$xml_vals = $this->_load_from_xml($filename, $directory, 'silent');
                 if( count($xml_vals) > count($_) ){
 					//we have missing value in language XML. Probably newly added
 					foreach ($xml_vals as $key => $value) {
@@ -523,8 +551,10 @@ class ALanguage {
                           '" . $this->db->escape($v) . "',
                           NOW() )";
         }
-        $sql = $sql . implode(', ',$values);
-        $this->db->query($sql);
+		if($values){
+			$sql = $sql . implode(', ',$values);
+			$this->db->query($sql);
+		}
     }
 
     //Detect file for default or extension language
@@ -544,14 +574,26 @@ class ALanguage {
         return $file_path;
     }
 
-	// Load definition valies from XML 
-    protected function _load_from_xml($filename, $mode){
+	// Load definition values from XML
+    protected function _load_from_xml($filename, $directory, $mode){
 		if(!$filename){	return;}
         $definitions = array();
         ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' '. $filename .' prepare loading language from XML');
 
         //get default extension language file
-        $default_file_path = $this->_detect_language_xml_file( $filename );
+		$default_language_info = $this->getDefaultLanguage();
+		if($filename==$directory){ // for common language file (english.xml. russian.xml, etc)
+			$file_name = $default_language_info['filename'];
+			$mode = 'silent';
+		}else{
+			$file_name = $filename;
+		}
+        $default_file_path = $this->_detect_language_xml_file( $file_name, $default_language_info['directory'] );
+		// if default language file path wrong - takes english
+		if(!file_exists($default_file_path)){
+			$file_name = $filename==$directory ? 'english' : $file_name;
+			$default_file_path = $this->_detect_language_xml_file( $file_name, 'english' );
+		}
 
         // get path to actual language
         $file_path = $this->_detect_language_xml_file( $filename, $this->language_details['directory'] );
@@ -619,7 +661,7 @@ class ALanguage {
         if($this->is_admin){
             $this->loader->model('localisation/language_definitions');
             $model = $this->registry->get('model_localisation_language_definitions');
-            $model->addLanguageDefinition( $data);
+            $model->replaceLanguageDefinition( $data);
         }else{
             foreach ( $data as $key=>$val ) {
                 $update_data[$this->db->escape($key)] = $this->db->escape($val);

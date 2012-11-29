@@ -27,6 +27,7 @@ class ModelLocalisationLanguage extends Model {
 								code = '" . $this->db->escape($data['code']) . "',
 								locale = '" . $this->db->escape($data['locale']) . "',
 								directory = '" . $this->db->escape($data['directory']) . "',
+								filename = '" . $this->db->escape($data['directory']) . "',
 								sort_order = '" . $this->db->escape($data['sort_order']) . "',
 								status = '" . (int)$data['status'] . "'");
 		
@@ -56,7 +57,7 @@ class ModelLocalisationLanguage extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "languages WHERE language_id = '" . (int)$language_id . "'");
 		
 		$this->language->deleteAllLanguageEntries($language_id);
-		
+
 		//too many changes and better clear all cache
 		$this->cache->delete('*');
 				

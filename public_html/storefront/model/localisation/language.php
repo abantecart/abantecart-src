@@ -28,12 +28,17 @@ class ModelLocalisationLanguage extends Model {
 			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "languages WHERE status = 1 ORDER BY sort_order, name");
 
     		foreach ($query->rows as $result) {
+				if(empty($result['image'])){
+					if(file_exists(DIR_ROOT.'/storefront/language/'.$result['directory'].'/flag.png')){
+						$result['image'] = 'storefront/language/'.$result['directory'].'/flag.png';
+					}
+				}
       			$language_data[$result['language_id']] = array(
         			'language_id' => $result['language_id'],
         			'name'        => $result['name'],
         			'code'        => $result['code'],
 					'locale'      => $result['locale'],
-					'image'       => (empty($result['image']) ? 'storefront/language/'.$result['directory'].'/flag.png' : $result['image'] ),
+					'image'       => $result['image'],
 					'directory'   => $result['directory'],
 					'filename'    => $result['filename'],
 					'sort_order'  => $result['sort_order'],
