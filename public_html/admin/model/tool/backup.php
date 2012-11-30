@@ -26,9 +26,9 @@ class ModelToolBackup extends Model {
 	public $backup_filename;
 	public function restore($sql) {
 		$this->db->query("SET SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO'"); // to prevent auto increment for 0 value of id
-		foreach (explode(";\n", $sql) as $sql) {
+		$qr = explode(";\n", $sql);
+		foreach ($qr as $sql) {
     		$sql = trim($sql);
-    		
 			if ($sql) {
       			$this->db->query($sql);
     		}

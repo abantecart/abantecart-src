@@ -68,7 +68,11 @@ class ControllerPagesToolBackup extends AController {
 					}
 				}
 			} else {
-				$this->error['warning'] = $this->language->get('error_empty');
+				if($this->request->files){
+					$this->error['warning'] = $this->language->get('error_empty').' ('.pathinfo($this->request->files['restore']['name'],PATHINFO_EXTENSION).')';
+				}else{
+					$this->error['warning'] = $this->language->get('error_upload');
+				}
 			}
 		}
 

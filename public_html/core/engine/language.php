@@ -304,12 +304,8 @@ class ALanguage {
     * Default site language ID
     */
     public function getDefaultLanguageID(){
-        //build code based array
-        $languages = array();
-        foreach ( $this->available_languages as $lng ) {
-            $languages[ $lng['code'] ] = $lng;
-        }
-        return $languages[ $this->getDefaultLanguageCode() ]['language_id'];
+        $info = $this->getDefaultLanguage();
+        return  $info['language_id'];
     }
 
     /*

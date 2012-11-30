@@ -56,6 +56,10 @@
     <value><![CDATA[Warning: The file you uploaded was empty or had wrong file type!]]></value>
   </definition>
   <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Warning: The file was not uploaded. Check post_max_size or file_upload directives of your php.ini file. ]]></value>
+  </definition>
+  <definition>
     <key>error_xml</key>
     <value><![CDATA[Warning: The file you uploaded does not loaded as XML! Please, see log-file for details]]></value>
   </definition>
