@@ -910,7 +910,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$config = simplexml_load_string(file_get_contents($package_dirname . '/package.xml'));
 		$pmanager->upgradeCore($config);
 
-		$pmanager->updateCoreVersion((string)$config->core->version);
+		$pmanager->updateCoreVersion((string)$config->version);
 
 		return true;
 	}
