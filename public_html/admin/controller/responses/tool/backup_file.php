@@ -73,34 +73,6 @@ class ControllerResponsesToolBackupFile extends AController {
 		}
 	}
 
-	public function download() {
-
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
-
-		if ($this->user->canAccess('tool/backup_file')) {
-			$filename = str_replace(array('../','..\\','\\','/'),'',$this->request->get['filename']);
-			$file = DIR_APP_SECTION.'system/backup/'.$filename;
-			if(file_exists($file)){
-				header('Content-Description: File Transfer');
-				header('Content-Type: application/x-gzip');
-				header('Content-Disposition: attachment; filename='.$filename);
-				header('Content-Transfer-Encoding: binary');
-				header('Expires: 0');
-				header('Cache-Control: must-revalidate');
-				header('Pragma: public');
-				header('Content-Length: ' . filesize($file));
-				ob_clean();
-				flush();
-				readfile($file);
-				exit;
-			}else{
-				echo 'file does not exists!';
-			}
-		} else {
-			return $this->dispach('error/permission');
-		}
-	}
 	
 }
 ?>

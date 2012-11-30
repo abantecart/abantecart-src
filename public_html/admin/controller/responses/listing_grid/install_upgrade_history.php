@@ -95,7 +95,7 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController {
 														$result ['name'],
 														$result ['version'],
 														$result ['backup_date'],
-														($result ['backup_file'] ? '<a target="_blank" title="'.$this->language->get ( 'text_download' ).'" href="'.$this->html->getSecureUrl('tool/backup_file/download','&filename='.urlencode($result ['backup_file']) ).'">'.$result ['backup_file'].'</a>': ''),
+														($result ['backup_file'] ? '<a target="_blank" title="'.$this->language->get ( 'text_download' ).'" href="'.$this->html->getSecureUrl('tool/backup/download','&filename='.urlencode($result ['backup_file']) ).'">'.$result ['backup_file'].'</a>': ''),
 														$result ['user']);
 
 				$i ++;
