@@ -40,16 +40,33 @@ class ALanguageManager extends Alanguage {
 	*		Format: [key] => [value]
     *   text data array 
     *		Format: [language id][key] => [value]
-    *  serialized_roadmap array with key's list of serialized array one of txt_data value
-    * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
     */    
-    public function addDescriptions($table_name, $index, $txt_data, $serialized_roadmap = array()) {
+    public function addDescriptions($table_name, $index, $txt_data) {
     	if ( empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
     	//Insert data provided per language in $data array
     	$this->_do_insert_descriptions($table_name, $index, $txt_data);
     	//translate to other languages    	
-  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $serialized_roadmap);
+  		$this->_do_translate_descriptions($table_name, $index, $txt_data);
     	return;    
+    }
+    /*
+    * Insert new definitions and translate if configured of serialized data by given keys
+    * Arguments:
+	* 	table name (database table name with no prefix)
+	*   unique index to perform select
+	*		Format: [key] => [value]
+    *   text data array
+    *		Format: [language id][key] => [value]
+    *  ser_keys array with key's list of serialized array one of txt_data value
+    * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
+    */
+    public function addDescriptionsSerialized($table_name, $index, $txt_data, $ser_keys = array()) {
+    	if ( empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
+    	//Insert data provided per language in $data array
+    	$this->_do_insert_descriptions($table_name, $index, $txt_data);
+    	//translate to other languages
+  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $ser_keys);
+    	return;
     }
     
     /*
@@ -60,15 +77,33 @@ class ALanguageManager extends Alanguage {
 	*		Format: [key] => [value]
     *   text data array 
     *		Format: [language id][key] => [value]
-    *  serialized_roadmap array with key's list of serialized array one of txt_data value
-    * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
     */
-    public function updateDescriptions($table_name, $index, $txt_data, $serialized_roadmap = array()) {
+    public function updateDescriptions($table_name, $index, $txt_data) {
     	if ( empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
     	//update provided lang data
     	$this->_do_update_descriptions($table_name, $index, $txt_data); 
     	//translate to other languages    	
-  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $serialized_roadmap);
+  		$this->_do_translate_descriptions($table_name, $index, $txt_data);
+    	return;
+    }
+
+    /*
+    * Update definitions and translate if configured of serialized data by given keys
+    * Arguments:
+	* 	table name (database table name with no prefix)
+	*   unique index to perform select
+	*		Format: [key] => [value]
+    *   text data array
+    *		Format: [language id][key] => [value]
+    *  ser_keys array with key's list of serialized array one of txt_data value
+    * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
+    */
+    public function updateDescriptionsSerialized($table_name, $index, $txt_data, $ser_keys = array()) {
+    	if ( empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
+    	//update provided lang data
+    	$this->_do_update_descriptions($table_name, $index, $txt_data);
+    	//translate to other languages
+  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $ser_keys);
     	return;
     }
 
@@ -81,10 +116,8 @@ class ALanguageManager extends Alanguage {
 	*		Format: [key] => [value]
     *   text data array 
     *		Format: [language id][key] => [value]
-    *  serialized_roadmap array with key's list of serialized array one of txt_data value
-    * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
     */
-    public function replaceDescriptions($table_name, $index, $txt_data, $serialized_roadmap = array()) {
+    public function replaceDescriptions($table_name, $index, $txt_data) {
     	if ( empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
     
     	//see if exists and update if it does. Do this per language    	
@@ -98,7 +131,36 @@ class ALanguageManager extends Alanguage {
 	    	}
     	}
     	//translate to other languages    	
-  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $serialized_roadmap);
+  		$this->_do_translate_descriptions($table_name, $index, $txt_data);
+    	return;
+    }
+    /*
+    * Insert or Update definitions and translate if configured of serialized data by given keys
+    * More stable aproach, but add extra select. If sure that you do update use updateDescriptionsSerialized
+    * Arguments:
+	* 	table name (database table name with no prefix)
+	*   unique index to perform select
+	*		Format: [key] => [value]
+    *   text data array
+    *		Format: [language id][key] => [value]
+    *  ser_keys array with key's list of serialized array one of txt_data value
+    * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
+    */
+    public function replaceDescriptionsSerialized($table_name, $index, $txt_data, $ser_keys = array()) {
+    	if ( empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
+
+    	//see if exists and update if it does. Do this per language
+    	foreach ($txt_data as $lang_id => $lang_data){
+			$select_index = $index;
+        	$select_index['language_id'] = $lang_id;
+	    	if ( count($this->getDescriptions($table_name, $select_index)) > 0 ){
+	    		$this->_do_update_descriptions($table_name, $index, array($lang_id => $lang_data));
+	    	} else {
+	    		$this->_do_insert_descriptions($table_name, $index, array($lang_id => $lang_data));
+	    	}
+    	}
+    	//translate to other languages
+  		$this->_do_translate_descriptions($table_name, $index, $txt_data, $ser_keys);
     	return;
     }
 
