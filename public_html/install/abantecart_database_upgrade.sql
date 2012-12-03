@@ -1,7 +1,7 @@
-INSERT INTO `ac_settings` VALUES ('', 0, 'general','auto_translate_status', 1);
-INSERT INTO `ac_settings` VALUES ('', 0, 'general','translate_src_lang_code','en');
-INSERT INTO `ac_settings` VALUES ('', 0, 'general','translate_override_existing', 0);
-INSERT INTO `ac_settings` VALUES ('', 0, 'general','warn_lang_text_missing', 0);
+INSERT INTO `ac_settings` VALUES ('', 0, 'details','auto_translate_status', 1);
+INSERT INTO `ac_settings` VALUES ('', 0, 'details','translate_src_lang_code','en');
+INSERT INTO `ac_settings` VALUES ('', 0, 'details','translate_override_existing', 0);
+INSERT INTO `ac_settings` VALUES ('', 0, 'details','warn_lang_text_missing', 0);
 
 ALTER TABLE `ac_banner_descriptions` MODIFY COLUMN `name` varchar(255) NOT NULL COMMENT 'translatable';
 ALTER TABLE `ac_banner_descriptions` MODIFY COLUMN `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable';

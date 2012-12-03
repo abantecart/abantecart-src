@@ -1143,6 +1143,10 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details', 'config_currency_auto', '1'),
 ('details', 'config_length_class', 'in'),
 ('details', 'config_weight_class', 'lb'),
+('details', 'auto_translate_status', '1'),
+('details', 'translate_src_lang_code','en'),
+('details', 'translate_override_existing', '0'),
+('details', 'warn_lang_text_missing', '0'),
 
 --general
 ('general', 'config_admin_limit', '10'),
@@ -1159,10 +1163,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general', 'config_download_status', '5'),
 ('general', 'config_help_links', '1'),
 ('general', 'config_show_tree_data', '1'),
-('general', 'auto_translate_status', '1'),
-('general', 'translate_src_lang_code','en'),
-('general', 'translate_override_existing', '0'),
-('general', 'warn_lang_text_missing', '0'),
 
 -- Checkout
 ('checkout', 'starting_invoice_id', '001'),
