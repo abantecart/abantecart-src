@@ -665,7 +665,7 @@ class ALanguage {
 
             if(!$this->_is_definition_in_db($update_data)){
                 $sql = "INSERT INTO " . DB_PREFIX . "language_definitions
-                                ('".implode("', '",array_keys($update_data))."')
+                                (`".implode("`, `",array_keys($update_data))."`)
                                 VALUES ('".implode("', '", $update_data)."') ";
                 $this->db->query($sql);
                 $this->cache->delete('lang');
