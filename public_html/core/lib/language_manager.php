@@ -203,9 +203,6 @@ class ALanguageManager extends Alanguage {
 			return;
 		}
 
-		$session = $this->registry->get('session');
-    	$config = $this->registry->get('config');
-
     	//locate source language based on translation setting
     	$src_lang_code = $config->get('translate_src_lang_code');
     	$src_lang_id = $this->_get_language_id( $src_lang_code );
