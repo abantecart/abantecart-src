@@ -121,8 +121,10 @@ class ControllerPagesCatalogProductOptions extends AController {
         $results = HtmlElementFactory::getAvailableElements();
         $element_types = array( '' => $this->language->get('text_select'));
         foreach ($results as $key => $type) {
-	        if(!in_array($key,array('U','K','P','L'))) // captcha and file element type disabled for product
-            $element_types[$key] = $type['type'];
+			// allowed field types
+	        if ( in_array($key,array('I','T','S','M','R','C','G','H')) ) {
+            	$element_types[$key] = $type['type'];
+			}
         }
 
 		$this->data['button_add_option'] = $this->html->buildButton(array(

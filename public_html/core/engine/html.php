@@ -572,7 +572,7 @@ class HtmlElementFactory {
 	);
 
 	static private $elements_with_options = array(
-		'S', 'M', 'R', 'G',
+		'S', 'M', 'R', 'G', 'O', 'Z',
 	);
 	static private $multivalue_elements = array(
 		'M', 'R', 'G',
@@ -1151,10 +1151,32 @@ class ResourceImageHtmlElement extends HtmlElement {
 
 class DateHtmlElement extends HtmlElement {
 
+	function __construct($data) {
+		parent::__construct($data);
+		if (!$this->data[ 'registry' ]->has('date-field')) {
+
+			$doc = $this->data[ 'registry' ]->get('document');
+			$doc->addScript($this->view->templateResource('/javascript/jquery/ui/jquery-ui-1.8.22.custom.min.js'));
+			$doc->addScript($this->view->templateResource('/javascript/jquery/ui/jquery.ui.datepicker.js'));
+
+			$doc->addStyle(array(
+				'href' => $this->view->templateResource('/javascript/jquery/ui/themes/ui-lightness/ui.all.css'),
+				'rel' => 'stylesheet',
+				'media' => 'screen',
+			));
+
+			$this->data[ 'registry' ]->set('date-field', 1);
+		}
+	}
+
+
 	public function getHtml() {
 
 		if (!isset($this->default)) $this->default = '';
 		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
+
+		$this->element_id = preg_replace('/[\[+\]+]/', '_', $this->element_id);
+
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1271,6 +1293,16 @@ class IPaddressHtmlElement extends HtmlElement {
 
 class CountriesHtmlElement extends HtmlElement {
 
+	public function __construct($data) {
+		parent::__construct($data);
+		$this->data['registry']->get('load')->model('localisation/country');
+		$results = $this->data['registry']->get('model_localisation_country')->getCountries();
+		$this->options = array();
+		foreach ($results as $c) {
+			$this->options[$c['name']] = $c['name'];
+		}
+	}
+
 	public function getHtml() {
 
 		if (!is_array($this->value)) $this->value = array( $this->value => (string)$this->value );
@@ -1299,11 +1331,23 @@ class CountriesHtmlElement extends HtmlElement {
 
 class ZonesHtmlElement extends HtmlElement {
 
+	public function __construct($data) {
+		parent::__construct($data);
+		$this->data['registry']->get('load')->model('localisation/country');
+		$results = $this->data['registry']->get('model_localisation_country')->getCountries();
+		$this->options = array();
+		foreach ($results as $c) {
+			$this->options[$c['name']] = $c['name'];
+		}
+	}
+
 	public function getHtml() {
 
 		if (!is_array($this->value)) $this->value = array( $this->value => (string)$this->value );
 
+		$this->zone_name = !$this->zone_name ? '' : urlencode($this->zone_name);
 		$this->options = !$this->options ? array() : $this->options;
+		$this->element_id = preg_replace('/[\[+\]+]/', '_', $this->element_id);
 
 		$html = new AHtml($this->data['registry']);
 
@@ -1317,6 +1361,7 @@ class ZonesHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'url' => $html->getSecureURL('common/zone/names'),
+				'zone_name' => $this->zone_name,
 			)
 		);
 		if (!empty($this->help_url)) {

@@ -462,20 +462,14 @@ class AForm {
                 case 'captcha' :
                     $data['captcha_url'] = $this->html->getURL('common/captcha');
                     break;
-				case 'zones' :
-				case 'countries' :
-					$data['options'] = $this->_getCountries();
-					break;
             }
             $item = HtmlElementFactory::create($data);
 
             switch ( $data['type'] ) {
+				case 'IPaddress' :
                 case 'hidden' :
                     $fields_html[ $field['field_id'] ] = $item->getHtml();
                     break;
-				case 'IPaddress' :
-					$fields_html[ $field['field_id'] ] = $item->getHtml();
-					break;
                 default:
                     $view->batchAssign(
                         array(
