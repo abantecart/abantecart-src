@@ -100,7 +100,7 @@ final class AImage {
 			imagealphablending($this->image, false);
 			imagesavealpha($this->image, true);
 			$background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
-			imagecolortransparent($this->image, $background);
+			imagefill($this->image, 0,0,$background);
 		} else {
 			if(!$nofill){ // if image no transparant
 				$background = imagecolorallocate($this->image, 255, 255, 255);
