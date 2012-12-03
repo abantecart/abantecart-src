@@ -102,12 +102,13 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
         ExpandColumn:  '<?php echo $data['expand_column']; ?>',
         <?php } ?>
         loadComplete:function (data) {
-
-            if (data.userdata && data.userdata.classes != null) {
-                for (var id in data.userdata.classes) {
-                    $('#' + id).addClass(data.userdata.classes[id]);
-                }
-            }
+			if(data!=undefined){
+				if (data.userdata!=undefined && data.userdata.classes != null) {
+					for (var id in data.userdata.classes) {
+						$('#' + id).addClass(data.userdata.classes[id]);
+					}
+				}
+			}
 
             // check loaded records count
             var reccount = $(table_id).jqGrid('getGridParam', 'reccount');
