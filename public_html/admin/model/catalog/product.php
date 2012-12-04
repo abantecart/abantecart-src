@@ -52,15 +52,27 @@ class ModelCatalogProduct extends Model {
                                 date_added = NOW()");
 		
 		$product_id = $this->db->getLastId();
-		
+		// if new product
+		if(!is_int(key($data['product_description']))){
+			foreach ($data['product_description'] as $field => $value) {
+				$update[(int)$this->session->data['content_language_id']][$field] = $value;
+			}
+			$this->language->replaceDescriptions('product_descriptions',
+												 array('product_id' => (int)$product_id),
+												 $update);
+		}else{ // if cloning
+			foreach ($data['product_description'] as $language_id => $value) {
+						$this->db->query("INSERT INTO " . DB_PREFIX . "product_descriptions
+											SET product_id = '" . (int)$product_id . "',
+												language_id = '" . (int)$language_id . "',
+												name = '" . $this->db->escape($value['name']) . "',
+												meta_keywords = '" . $this->db->escape($value['meta_keywords']) . "',
+												meta_description = '" . $this->db->escape($value['meta_description']) . "',
+												description = '" . $this->db->escape($value['description']) . "'");
+					}
+		}
 
-		$this->language->replaceDescriptions('product_descriptions',
-										 array('product_id' => (int)$product_id),
-										 array((int)$this->session->data['content_language_id'] => array('name' => $value['name'],
-																										 'meta_keywords' => $value['meta_keywords'],
-																										 'meta_description' => $value['meta_description'],
-																										 'description' => $value['description']
-										 )) );
+
 
 	    if($data['featured']){
 		    $this->setFeatured( $product_id, true);

@@ -1054,7 +1054,7 @@ div#options .option_lang_field {
 }
 
 .type_blocks .image_block {
-    width: 120px;
+    min-width: 120px;
     height: auto;
     overflow: hidden;
 }
