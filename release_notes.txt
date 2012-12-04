@@ -1,3 +1,37 @@
+Release Notes: Version 1.1.2
+
+New Features and improvements summary:
+- Language Auto Translate. Ability to translate or copy language text definitions or data descriptions in automatic mode based on various settings.   
+- Add new HTML form fields and other elements for extension development. 
+- Improved Import/Export
+- Improved Resource Library
+
+Bugfixes and improvments
+Core:
+- install/upgrade history download file by expired session bugfix
+- language manager related bugfixes
+- php.ini memory_limit set to 64M.
+- method getAttributes of class AAttribute renamed to getAttributesByType
+- session cookie now have parameters (path, secure, http_only)
+- fixed issue with resource_library, getLastId for resource_map returned 0.
+- misconfigured domain bugfix.
+- alanguage getActiveLanguage method bugfix
+- alanguage autoloadDefinitions bugfix. Extension manager bugfix related on broken config of any extension. Ahtml minor changes.
+- alanguage bugfix.
+- listing_manager split on Alisting and Alisting_manager
+- Added field types 'Countries' and 'Zones';
+- Fix issue with single non-english language
+- Restructure language class and introduce translation wrapper to languages
+- added 'form/date.tpl' for admin and storefront and jquery/ui-datepicker plugin for storefront
+- implemented DateHtmlElement, added form/date.tpl to admin and storefront templates
+- 'field_values' table structure and class AForm that works with it are changed. Added new field types into Html class.
+	added form_no_group.tpl for propper html of non-grouped fields in form
+- Fixed resource_library issue, resource_map table will be inserted after resource_library.
+- fixed issue with predefined value for input, textarea, etc.
+- added attribute aform_field_type="captcha" for captcha html element.
+- Set import auto detect insert or update based on unique key data present in import
+
+
 Release Notes: Version 1.1.1
 
 New Features and improvements summary:
