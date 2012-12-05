@@ -31,8 +31,9 @@ final class ASession {
 			ini_set('session.use_cookies', 'On');
 			ini_set('session.use_trans_sid', 'Off');
 	        ini_set('session.cookie_httponly', 'On');
+			$path = dirname ($_SERVER['PHP_SELF']);
 			session_set_cookie_params(0,
-									  str_replace($_SERVER['DOCUMENT_ROOT'],'',DIR_ROOT),
+									  $path,
 									  null,
 									  (defined ('HTTPS') && HTTPS),
 									  true);
