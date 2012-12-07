@@ -1,5 +1,5 @@
 <title><?php echo $title; ?></title>
-<meta http-equiv="x-ua-compatible" content="IE=8" />
+<meta http-equiv="x-ua-compatible" content="IE=Edge" />
 <?php if ($keywords) { ?>
 <meta name="keywords" content="<?php echo $keywords; ?>" />
 <?php } ?>
