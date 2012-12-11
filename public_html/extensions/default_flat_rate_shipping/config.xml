@@ -34,7 +34,7 @@
 				</fields>
 			</variants>
         </item>
-	    <item id="default_flat_rate_shipping_tax">
+	    <item id="default_flat_rate_shipping_tax_class_id">
             <type>selectbox</type>
 			<variants>
 				<item>0</item>
