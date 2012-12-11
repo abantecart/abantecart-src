@@ -28,6 +28,9 @@
 								class="special_price"><?php echo $special; ?></span>
 						<?php } ?>
 					<?php } ?>
+
+					<?php echo $this->getHookVar('extended_product_options'); ?>
+
 				</div>
 				<div class="flt_right"><a class="btn_standard" onclick="javascript:window.print()"><span
 						class="button2"><span><img src="<?php echo $this->templateResource('/image/icon_print.png'); ?>"
