@@ -112,12 +112,12 @@ class ControllerApiCheckoutConfirm extends AControllerAPI {
 			                                     $this->config->get('config_image_cart_width'),
 			                                     $this->config->get('config_image_cart_height'),true);
 	        
-
+			$tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
       		$this->data['products'][$i] = array_merge( 
       			$this->data['products'][$i], 
       			array(
         		'thumb'    => $thumbnail['thumb_url'],
-				'tax'        => $this->tax->getRate($this->data['products'][$i]['tax_class_id']),
+				'tax'        => $this->currency->format($tax),
         		'price'      => $this->currency->format($this->data['products'][$i]['price']),
         		'total'      => $this->currency->format($this->data['products'][$i]['total'])
       		)); 

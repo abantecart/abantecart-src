@@ -38,6 +38,9 @@ class ModelLocalisationTaxClass extends Model {
 			    zone_id = '"  . (int)$data['zone_id'] . "',
 				priority = '"  . (int)$data['priority'] . "',
 				rate = '"  . (float)$data['rate'] . "',
+				rate_prefix = '" . $this->db->escape($data['rate_prefix']) . "',
+				threshold_condition = '" . $this->db->escape($data['threshold_condition']) . "',
+				threshold = '"  . (float)$data['threshold'] . "',
 				description = '" . $this->db->escape($data['description']) . "',
 				tax_class_id = '"  . (int)$tax_class_id . "',
 				date_added = NOW()");
@@ -62,7 +65,7 @@ class ModelLocalisationTaxClass extends Model {
 	}
 
 	public function editTaxRate($tax_rate_id, $data) {
-		$fields = array('location_id', 'zone_id', 'priority', 'rate', 'description'  );
+		$fields = array('location_id', 'zone_id', 'priority', 'rate', 'description', 'rate_prefix', 'threshold_condition', 'threshold' );
 		$update = array('date_modified = NOW()');
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )

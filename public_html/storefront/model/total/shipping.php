@@ -22,25 +22,28 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ModelTotalShipping extends Model {
 	public function getTotal(&$total_data, &$total, &$taxes) {
-		if ($this->cart->hasShipping() && isset($this->session->data['shipping_method']) && $this->config->get('shipping_status')) {
+		$ship_data = $this->session->data['shipping_method'];
+		if ($this->cart->hasShipping() && isset( $ship_data ) && $this->config->get('shipping_status')) {
 			$total_data[] = array( 
         		'id'         => 'shipping',
-        		'title'      => $this->session->data['shipping_method']['title'] . ':',
-        		'text'       => $this->currency->format($this->session->data['shipping_method']['cost']),
-        		'value'      => $this->session->data['shipping_method']['cost'],
+        		'title'      => $ship_data['title'] . ':',
+        		'text'       => $this->currency->format($ship_data['cost']),
+        		'value'      => $ship_data['cost'],
 				'sort_order' => $this->config->get('shipping_sort_order'),
 				'total_type' => $this->config->get('shipping_total_type')
 			);
 
-			if ($this->session->data['shipping_method']['tax_class_id']) {
-				if (!isset($taxes[$this->session->data['shipping_method']['tax_class_id']])) {
-					$taxes[$this->session->data['shipping_method']['tax_class_id']] = $this->session->data['shipping_method']['cost'] / 100 * $this->tax->getRate($this->session->data['shipping_method']['tax_class_id']);
+			if ($ship_data['tax_class_id']) {
+				if (!isset($taxes[$ship_data['tax_class_id']])) {
+					$taxes[$ship_data['tax_class_id']]['total'] = $ship_data['cost'];
+					$taxes[$ship_data['tax_class_id']]['tax'] = $this->tax->calcTotalTaxAmount($ship_data['cost'], $ship_data['tax_class_id']);
 				} else {
-					$taxes[$this->session->data['shipping_method']['tax_class_id']] += $this->session->data['shipping_method']['cost'] / 100 * $this->tax->getRate($this->session->data['shipping_method']['tax_class_id']);
+					$taxes[$ship_data['tax_class_id']]['total'] += $ship_data['cost'];
+					$taxes[$ship_data['tax_class_id']]['tax'] += $this->tax->calcTotalTaxAmount($ship_data['cost'], $ship_data['tax_class_id']);
 				}
 			}
 			
-			$total += $this->session->data['shipping_method']['cost'];
+			$total += $ship_data['cost'];
 		}			
 	}
 }
