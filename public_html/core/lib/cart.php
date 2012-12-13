@@ -69,7 +69,7 @@ final class ACart {
 			$op_stock_trackable = 0;
 
       		if (isset($data['options'])) {
-        		$options = $data['options'];
+        		$options = (array)$data['options'];
       		} else {
         		$options = array();
       		}
