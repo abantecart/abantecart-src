@@ -96,9 +96,9 @@ final class ATax {
 					FROM " . DB_PREFIX . "tax_rates tr
 					LEFT JOIN " . DB_PREFIX . "tax_classes tc ON tc.tax_class_id = tr.tax_class_id
 					WHERE (tr.zone_id = '0' OR tr.zone_id = '" . $zone_id . "')
-						AND tr.location_id in (SELECT location_id
-												FROM " . DB_PREFIX . "zones_to_locations z2l
-												WHERE z2l.country_id = '0' OR z2l.country_id = '" . $country_id . "')
+						AND tr.location_id in (SELECT z2l.location_id
+											   FROM " . DB_PREFIX . "zones_to_locations z2l, " . DB_PREFIX . "locations l
+											   WHERE z2l.location_id = l.location_id and z2l.zone_id = '" . $zone_id . "')
 					ORDER BY tr.priority ASC";
 			$tax_rate_query = $this->db->query( $sql );
 			$results = $tax_rate_query->rows;
