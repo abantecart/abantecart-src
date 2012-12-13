@@ -54,6 +54,7 @@ function showZones(id, data)
 <div class="contentBox">
   <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
     <div class="heading icon_title_customer"><?php echo $heading_title; ?></div>
+	  <?php echo $this->getHookVar('extension_tabs'); ?>
 	  <div class="toolbar">
 		<?php if ( !empty ($help_url) ) : ?>
 	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>

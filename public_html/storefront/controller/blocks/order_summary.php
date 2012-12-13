@@ -21,6 +21,9 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerBlocksOrderSummary extends AController {
+
+	public $data = array();
+
 	public function main() {
 
         //init controller data
@@ -78,10 +81,10 @@ class ControllerBlocksOrderSummary extends AController {
 		$this->view->assign('total_qty', $qty);
 
 
-      	$display_totals = $this->cart->buildTotalDisplay();      				
-    	$this->view->assign('totals', $display_totals['total_data']);
+      	$display_totals = $this->cart->buildTotalDisplay();
+		$this->data['totals'] = $display_totals['total_data'];
 		
-
+		$this->view->batchAssign($this->data);
         $this->processTemplate();
 		//init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
