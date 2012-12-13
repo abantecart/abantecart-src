@@ -80,29 +80,6 @@ class ControllerPagesCheckoutPayment extends AController {
 			$this->redirect($this->html->getSecureURL('checkout/address/payment'));
 		}
 
-		$total_data = array();
-		$total = 0;
-		$taxes = $this->cart->getTaxes();
-
-		$this->loadModel('checkout/extension');
-
-		$results = $this->model_checkout_extension->getExtensions('total');
-		foreach ($results as $result) {
-			if($result['key']=='total'){
-				// apply promotions
-				$promotions = new APromotion();
-				$promotions->apply_promotions($total_data,$total);
-				if(time()-$this->session->data['promotion_data']['time']<1){
-					$total_data = $this->session->data['promotion_data']['total_data'];
-					$total = $this->session->data['promotion_data']['total'];
-				}else{
-					unset($this->session->data['promotion_data']);
-				}
-			}
-			$this->loadModel('total/' . $result[ 'key' ]);
-			$this->{'model_total_' . $result[ 'key' ]}->getTotal($total_data, $total, $taxes);
-		}
-
 		$this->loadModel('account/address');
 		$payment_address = $this->model_account_address->getAddress($this->session->data[ 'payment_address_id' ]);
 		if (!$payment_address) {

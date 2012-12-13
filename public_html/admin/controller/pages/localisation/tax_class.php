@@ -306,7 +306,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
             $rate_info = $this->model_localisation_tax_class->getTaxRate($this->request->get['tax_rate_id']);
         }
 
-        $fields = array('location_id', 'zone_id', 'description', 'rate', 'priority');
+        $fields = array('location_id', 'zone_id', 'description', 'rate', 'priority', 'rate_prefix', 'threshold_condition', 'threshold');
         foreach ($fields as $f) {
             if (isset ($this->request->post [$f])) {
                 $this->data [$f] = $this->request->post [$f];
@@ -421,6 +421,47 @@ class ControllerPagesLocalisationTaxClass extends AController {
             'value' => $this->data['rate'],
             'required' => true,
         ));
+        
+		$this->data[ 'rate_prefix' ] = trim($this->data[ 'rate_prefix' ]);
+		$currency_symbol = $this->currency->getCurrency($this->config->get('config_currency'));
+		$currency_symbol = $currency_symbol[ 'symbol_left' ] . $currency_symbol[ 'symbol_right' ];
+		if (!$this->data[ 'rate_prefix' ]) {
+			$this->data[ 'rate_prefix' ] = $currency_symbol;
+		}
+
+        $this->data['form']['fields']['rate_prefix'] = $form->getFieldHtml(array(
+			'type' => 'selectbox',
+            'name' => 'rate_prefix',
+            'value' => $this->data['rate_prefix'],
+			'options' => array(
+				'%' => $this->language->get('text_percent') . " (%)",
+				'$' => $this->language->get('text_absolute') . " (". $currency_symbol . ")",
+			),
+        ));
+
+        $this->data['form']['fields']['threshold_condition'] = $form->getFieldHtml(array(
+			'type' => 'selectbox',
+            'name' => 'threshold_condition',
+            'value' => $this->data['threshold_condition'],
+			'options' => array(
+				'' => '',
+				'gt' => '>',
+				'ge' => '>=',
+				'lt' => '<',
+				'le' => '<=',
+				'ne' => '<>',
+				'eq' => '=',
+			),
+        ));
+
+        $this->data['form']['fields']['threshold'] = $form->getFieldHtml(array(
+            'type' => 'input',
+            'name' => 'threshold',
+            'value' => $this->data['threshold'],
+            'required' => false,
+        ));
+
+
         $this->data['form']['fields']['priority'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'priority',
@@ -428,7 +469,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
         ));
         $this->view->assign('help_url', $this->gen_help_url('rate_edit'));
         $this->view->batchAssign($this->data);
-        $this->processTemplate('pages/localisation/tax_class_form.tpl');
+        $this->processTemplate('pages/localisation/tax_class_rate_form.tpl');
     }
 
 

@@ -70,47 +70,8 @@ class ControllerBlocksCart extends AController {
 		
 		$this->view->assign('total_qty', $qty);
 	
-		$total_data = array();
-		$total = 0;
-		$taxes = $this->cart->getTaxes();
-		 
-		$this->loadModel('checkout/extension');
-		
-		$sort_order = array(); 
-		
-		$results = $this->model_checkout_extension->getExtensions('total');
-		
-		foreach ($results as $key => $value) {
-			$sort_order[$key] = $this->config->get($value['key'] . '_sort_order');
-		}
-		
-		array_multisort($sort_order, SORT_ASC, $results);
-		
-		foreach ($results as $result) {
-			if($result['key']=='total'){
-				// apply promotions
-				$promotions = new APromotion();
-				$promotions->apply_promotions($total_data,$total);
-				if(time()-$this->session->data['promotion_data']['time']<1){
-					$total_data = $this->session->data['promotion_data']['total_data'];
-					$total = $this->session->data['promotion_data']['total'];
-				}else{
-					unset($this->session->data['promotion_data']);
-				}
-			}
-			$this->loadModel('total/' . $result['key']);
-			$this->{'model_total_' . $result['key']}->getTotal($total_data, $total, $taxes);
-		}
-		
-		$sort_order = array(); 
-	  
-		foreach ($total_data as $key => $value) {
-      		$sort_order[$key] = $value['sort_order'];
-    	}
-
-    	array_multisort($sort_order, SORT_ASC, $total_data);
-		
-    	$this->view->assign('totals', $total_data);
+      	$display_totals = $this->cart->buildTotalDisplay();      				
+    	$this->view->assign('totals', $display_totals['total_data']);
 		
 		$this->view->assign('ajax', $this->config->get('cart_ajax'));
         $this->processTemplate();

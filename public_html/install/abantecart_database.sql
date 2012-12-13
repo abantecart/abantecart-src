@@ -1364,6 +1364,9 @@ CREATE TABLE `ac_tax_rates` (
   `priority` int(5) NOT NULL DEFAULT '1',
   `rate` decimal(7,4) NOT NULL DEFAULT '0.0000',
   `description` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `rate_prefix` char(1) COLLATE utf8_bin NOT NULL DEFAULT '%', -- % or $ 
+  `threshold_condition` char(2) COLLATE utf8_bin NOT NULL, -- '<=', '>=', '==' or '<'
+  `threshold` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`tax_rate_id`)
@@ -1372,8 +1375,8 @@ CREATE TABLE `ac_tax_rates` (
 --
 -- Dumping data for table `tax_rate`
 --
-INSERT INTO `ac_tax_rates` (`tax_rate_id`, `location_id`, `tax_class_id`, `priority`, `rate`, `description`, `date_modified`, `date_added`) VALUES
-(1, 1, 1, 1, '8.5000', 'Retail 8.5%', '2011-06-20 21:00:00', '2011-06-20 21:00:00');
+INSERT INTO `ac_tax_rates` (`tax_rate_id`, `location_id`, `tax_class_id`, `priority`, `rate`, `description`) VALUES
+(1, 1, 1, 1, '8.5000', 'Retail 8.5%');
 
 
 

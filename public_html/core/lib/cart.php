@@ -363,15 +363,31 @@ final class ACart {
 		return $total;
   	}
 	
+	/*
+	* candidate to be depricated
+	*/
+	
 	public function getTaxes() {
+		return $this->getAppliedTaxes();
+	}
+	
+	
+	/*
+	* Returns all applied taxes on products in the cart 
+	*/
+	
+	public function getAppliedTaxes() {
 		$taxes = array();
 		
 		foreach ($this->getProducts() as $product) {
 			if ($product['tax_class_id']) {
+				//save total for each tax class to build clear tax display later
 				if (!isset($taxes[$product['tax_class_id']])) {
-					$taxes[$product['tax_class_id']] = $product['total'] / 100 * $this->tax->getRate($product['tax_class_id']);
+					$taxes[$product['tax_class_id']]['total'] = $product['total'];
+					$taxes[$product['tax_class_id']]['tax'] = $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']);
 				} else {
-					$taxes[$product['tax_class_id']] += $product['total'] / 100 * $this->tax->getRate($product['tax_class_id']);
+					$taxes[$product['tax_class_id']]['total'] += $product['total'];
+					$taxes[$product['tax_class_id']]['tax'] += $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']);
 				}
 			}
 		}
@@ -388,6 +404,55 @@ final class ACart {
 
 		return $total;
   	}
+
+	/*
+	* Function to build total display based on enabled extensions/settings for total section 
+	*   
+	*/
+
+	public function buildTotalDisplay() {
+		$total_data = array();
+		$sort_order = array(); 
+		$total = 0;
+		
+		$taxes = $this->getAppliedTaxes();
+		 
+		$this->load->model('checkout/extension');
+
+		$total_extns = $this->model_checkout_extension->getExtensions('total');
+		
+		foreach ($total_extns as $key => $value) {
+			$sort_order[$key] = $this->config->get($value['key'] . '_sort_order');
+		}
+		array_multisort($sort_order, SORT_ASC, $total_extns);
+		
+		foreach ($total_extns as $extn) {
+			if($extn['key']=='total'){
+				// apply promotions
+				$promotions = new APromotion();
+				$promotions->apply_promotions($total_data,$total);
+				if(time()-$this->session->data['promotion_data']['time']<1){
+					$total_data = $this->session->data['promotion_data']['total_data'];
+					$total = $this->session->data['promotion_data']['total'];
+				}else{
+					unset($this->session->data['promotion_data']);
+				}
+			}
+			$this->load->model('total/' . $extn[ 'key' ]);
+			$this->{'model_total_' . $extn[ 'key' ]}->getTotal($total_data, $total, $taxes);
+		}		
+		
+		$sort_order = array(); 
+	  
+		foreach ($total_data as $key => $value) {
+      		$sort_order[$key] = $value['sort_order'];
+    	}
+
+    	array_multisort($sort_order, SORT_ASC, $total_data);
+    	//return result in array
+    	return array('total' => $total, 'total_data' => $total_data, 'taxes' => $taxes); 	
+	}
+
   	
   	public function countProducts() {
 		$qty = 0;

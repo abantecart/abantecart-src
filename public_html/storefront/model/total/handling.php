@@ -22,6 +22,9 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ModelTotalHandling extends Model {
 	public function getTotal(&$total_data, &$total, &$taxes) {
+		$conf_hndl_tx_id = $this->config->get('handling_tax_class_id');
+		$conf_hndl_fee = $this->config->get('handling_fee');
+	
 		if ($this->config->get('handling_status') && ($this->cart->getSubTotal() < $this->config->get('handling_total'))) {
 			$this->load->language('total/handling');
 		 	
@@ -30,21 +33,23 @@ class ModelTotalHandling extends Model {
 			$total_data[] = array( 
         		'id'         => 'handling',
         		'title'      => $this->language->get('text_handling'),
-        		'text'       => $this->currency->format($this->config->get('handling_fee')),
-        		'value'      => $this->config->get('handling_fee'),
+        		'text'       => $this->currency->format($conf_hndl_fee),
+        		'value'      => $conf_hndl_fee,
 				'sort_order' => $this->config->get('handling_sort_order'),
 				'total_type' => $this->config->get('handling_fee_total_type')
 			);
 
-			if ($this->config->get('handling_tax_class_id')) {
-				if (!isset($taxes[$this->config->get('handling_tax_class_id')])) {
-					$taxes[$this->config->get('handling_tax_class_id')] = $this->config->get('handling_fee') / 100 * $this->tax->getRate($this->config->get('handling_tax_class_id'));
+			if ($conf_hndl_tx_id) {
+				if (!isset($taxes[$conf_hndl_tx_id])) {
+					$taxes[$conf_hndl_tx_id]['total'] = $conf_hndl_fee;
+					$taxes[$conf_hndl_tx_id]['tax'] = $this->tax->calcTotalTaxAmount($conf_hndl_fee, $conf_hndl_tx_id);
 				} else {
-					$taxes[$this->config->get('handling_tax_class_id')] += $this->config->get('handling_fee') / 100 * $this->tax->getRate($this->config->get('handling_tax_class_id'));
+					$taxes[$conf_hndl_tx_id]['total'] += $conf_hndl_fee;
+					$taxes[$conf_hndl_tx_id]['tax'] += $this->tax->calcTotalTaxAmount($conf_hndl_fee, $conf_hndl_tx_id);
 				}
 			}
 			
-			$total += $this->config->get('handling_fee');
+			$total += $conf_hndl_fee;
 		}
 	}
 }

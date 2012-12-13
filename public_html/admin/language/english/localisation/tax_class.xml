@@ -76,4 +76,16 @@
     <key>text_tax_all_zones</key>
     <value><![CDATA[all location zones]]></value>
   </definition>
+  <definition>
+    <key>entry_tax_rate_threshold</key>
+    <value><![CDATA[Apply this tax only if, subtotal is … ]]></value>
+  </definition>
+  <definition>
+    <key>text_absolute</key>
+    <value><![CDATA[Absolute]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[Percent]]></value>
+  </definition>
 </definitions>
