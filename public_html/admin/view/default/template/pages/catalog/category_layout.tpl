@@ -12,6 +12,7 @@
 		<a href="<?php echo $category_form_data ?>"><span><?php echo $tab_data; ?></span></a>
 		<a href="<?php echo $category_form_image ?>"><span><?php echo $tab_image; ?></span></a>
 		<a href="<?php echo $category_layout ?>" class="active"><span><?php echo $tab_layout; ?></span></a>
+		<?php echo $this->getHookVar('extension_tabs'); ?>
 	</div>
 	<?php if ( !empty ($help_url) ) : ?>
 	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>

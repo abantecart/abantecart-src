@@ -15,6 +15,7 @@
 		<a href="<?php echo $category_form_data ?>"><span><?php echo $tab_data; ?></span></a>
 		<a href="<?php echo $category_form_image ?>"><span><?php echo $tab_image; ?></span></a>
 		<a href="<?php echo $category_layout ?>" ><span><?php echo $tab_layout; ?></span></a>
+		<?php echo $this->getHookVar('extension_tabs'); ?>
 	</div>
 <?php } ?>
 	<div class="toolbar">
