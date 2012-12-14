@@ -395,6 +395,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 		$this->loadLanguage('tool/package_installer');
 		$package_name = $package_info[ 'package_name' ];
+
 		if (!$package_name) { // if direct link - redirect to the begining
 			$this->redirect($this->_get_begin_href());
 		}
@@ -402,10 +403,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$pmanager = new APackageManager();
 		//unpack package
 
-		//remove the same directory before unpack
-		if (file_exists($package_info[ 'tmp_dir' ] . $package_dirname)) {
-			$this->_removeTempFiles();
-		}
 		// if package not unpack - redirect to the begin and show error message
 		if (!$pmanager->unpack($package_info[ 'tmp_dir' ] . $package_name, $package_info[ 'tmp_dir' ])) {
 			$this->session->data[ 'error' ] = str_replace('%PACKAGE%', $package_info[ 'tmp_dir' ].$package_name, $this->language->get('error_unpack'));
