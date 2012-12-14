@@ -130,6 +130,11 @@ class ControllerPagesTotalHandling extends AController {
 		    'name' => 'handling_sort_order',
 		    'value' => $this->data['handling_sort_order'],
 	    ));
+		$this->data['form']['fields']['calculation_order'] = $form->getFieldHtml(array(
+		    'type' => 'input',
+		    'name' => 'handling_calculation_order',
+		    'value' => $this->data['handling_calculation_order'],
+	    ));
 		$this->view->assign('help_url', $this->gen_help_url('edit_handling') );
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/total/form.tpl' );

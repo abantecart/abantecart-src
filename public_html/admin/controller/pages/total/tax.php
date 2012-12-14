@@ -111,6 +111,11 @@ class ControllerPagesTotalTax extends AController {
 		    'name' => 'tax_sort_order',
 		    'value' => $this->data['tax_sort_order'],
 	    ));
+		$this->data['form']['fields']['calculation_order'] = $form->getFieldHtml(array(
+		    'type' => 'input',
+		    'name' => 'tax_calculation_order',
+		    'value' => $this->data['tax_calculation_order'],
+	    ));
 		$this->view->assign('help_url', $this->gen_help_url('edit_tax') );
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/total/form.tpl' );

@@ -112,6 +112,11 @@ class ControllerPagesTotalShipping extends AController {
 		    'name' => 'shipping_sort_order',
 		    'value' => $this->data['shipping_sort_order'],
 	    ));
+		$this->data['form']['fields']['calculation_order'] = $form->getFieldHtml(array(
+		    'type' => 'input',
+		    'name' => 'shipping_calculation_order',
+		    'value' => $this->data['shipping_calculation_order'],
+	    ));
 		$this->view->assign('help_url', $this->gen_help_url('edit_shipping') );
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/total/form.tpl' );

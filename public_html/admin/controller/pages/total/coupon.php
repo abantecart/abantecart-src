@@ -112,6 +112,13 @@ class ControllerPagesTotalCoupon extends AController {
 		    'value' => $this->data['coupon_sort_order'],
 			'style' => 'small-field'
 	    ));
+
+		$this->data['form']['fields']['calculation_order'] = $form->getFieldHtml(array(
+		    'type' => 'input',
+		    'name' => 'coupon_calculation_order',
+		    'value' => $this->data['coupon_calculation_order'],
+			'style' => 'small-field'
+	    ));
 		$this->view->assign('help_url', $this->gen_help_url('edit_coupon') );
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/total/form.tpl' );

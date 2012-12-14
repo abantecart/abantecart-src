@@ -73,6 +73,7 @@ class ControllerResponsesListingGridTotal extends AController {
 					'name'       => $this->language->get('heading_title'),
 					'status'     => $this->config->get($extension . '_status'),
 					'sort_order' => $this->config->get($extension . '_sort_order'),
+					'calculation_order' => $this->config->get($extension . '_calculation_order'),
 					'action'     => $action
 				);
 			}
@@ -80,7 +81,7 @@ class ControllerResponsesListingGridTotal extends AController {
 
 
 	    //sort
-	    $allowedSort = array('name', 'status', 'sort_order');
+	    $allowedSort = array('name', 'status', 'sort_order', 'calculation_order');
 	    $allowedDirection = array(SORT_ASC => 'asc', SORT_DESC => 'desc');
 	    if ( !in_array($sidx, $allowedSort) ) $sidx = $allowedSort[0];
 	    if ( !in_array($sord, $allowedDirection) ) {
@@ -117,6 +118,7 @@ class ControllerResponsesListingGridTotal extends AController {
 			if (!in_array($result['id'], $extensions)) {
 				$status = '';
 				$sort = '';
+				$calc = '';
 			} else {
 				$status = $this->html->buildCheckbox(array(
 					'name' => $result['id'].'['.$result['id'].'_status]',
@@ -128,6 +130,11 @@ class ControllerResponsesListingGridTotal extends AController {
                     'value' => $result['sort_order'],
                 ));
 
+				$calc = $this->html->buildInput(array(
+                    'name'  => $result['id'].'['.$result['id'].'_calculation_order]',
+                    'value' => $result['calculation_order'],
+                ));
+
 			}
 
 			$response->rows[$i]['id'] = $result['id'];
@@ -135,6 +142,7 @@ class ControllerResponsesListingGridTotal extends AController {
 				$result['name'],
                 $status,
 				$sort,
+				$calc,
 				$result['action'],
 			);
 			$i++;

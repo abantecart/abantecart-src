@@ -422,10 +422,10 @@ final class ACart {
 		$total_extns = $this->model_checkout_extension->getExtensions('total');
 		
 		foreach ($total_extns as $key => $value) {
-			$sort_order[$key] = $this->config->get($value['key'] . '_sort_order');
+			$calc_order[$value['key']] = (int)$this->config->get($value['key'] . '_calculation_order');
 		}
-		array_multisort($sort_order, SORT_ASC, $total_extns);
-		
+		array_multisort($calc_order, SORT_ASC, $total_extns);
+
 		foreach ($total_extns as $extn) {
 			if($extn['key']=='total'){
 				// apply promotions
@@ -440,9 +440,8 @@ final class ACart {
 			}
 			$this->load->model('total/' . $extn[ 'key' ]);
 			$this->{'model_total_' . $extn[ 'key' ]}->getTotal($total_data, $total, $taxes);
-		}		
-		
-		$sort_order = array(); 
+		}
+		$sort_order = array();
 	  
 		foreach ($total_data as $key => $value) {
       		$sort_order[$key] = $value['sort_order'];

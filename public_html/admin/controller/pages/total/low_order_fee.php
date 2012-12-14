@@ -135,6 +135,11 @@ class ControllerPagesTotalLowOrderFee extends AController {
 		    'name' => 'low_order_fee_sort_order',
 		    'value' => $this->data['low_order_fee_sort_order'],
 	    ));
+		$this->data['form']['fields']['calculation_order'] = $form->getFieldHtml(array(
+		    'type' => 'input',
+		    'name' => 'low_order_fee_calculation_order',
+		    'value' => $this->data['low_order_fee_calculation_order'],
+	    ));
 		$this->view->assign('help_url', $this->gen_help_url('edit_low_order_fee') );
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/total/form.tpl' );
