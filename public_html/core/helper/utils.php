@@ -135,26 +135,28 @@ function versionCompare($version1, $version2, $operator){
 function getTextUploadError($error){
 	switch ($error) {
 	        case UPLOAD_ERR_INI_SIZE:
-	            $error = 'The uploaded file exceeds the upload_max_filesize directive in php.ini (now '.ini_get('upload_max_filesize').')';
+	            $error_txt = 'The uploaded file exceeds the upload_max_filesize directive in php.ini (now '.ini_get('upload_max_filesize').')';
 	            break;
 	        case UPLOAD_ERR_FORM_SIZE:
-		        $error = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+		        $error_txt = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
 		        break;
 			case UPLOAD_ERR_PARTIAL:
-		        $error = 'The uploaded file was only partially uploaded';
+		        $error_txt = 'The uploaded file was only partially uploaded';
 		        break;
 	        case UPLOAD_ERR_NO_FILE:
-		        $error = 'No file was uploaded';
+		        $error_txt = 'No file was uploaded';
 		        break;
 	        case UPLOAD_ERR_NO_TMP_DIR:
-		        $error = 'Missing a php temporary folder';
+		        $error_txt = 'Missing a php temporary folder';
 		        break;
 	        case UPLOAD_ERR_CANT_WRITE:
-		        $error = 'Failed to write file to disk';
+		        $error_txt = 'Failed to write file to disk';
 		        break;
 	        case UPLOAD_ERR_EXTENSION:
-		        $error = 'File upload stopped by php-extension';
+		        $error_txt = 'File upload stopped by php-extension';
 		        break;
+	        default:
+		        $error_txt = 'Some problem happen with file upload. Check error log for more information';
 	}
-	return $error;
+	return $error_txt;
 }
