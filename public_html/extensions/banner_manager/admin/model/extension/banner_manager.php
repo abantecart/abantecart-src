@@ -24,20 +24,28 @@ if (!defined('DIR_CORE')) {
 class ModelExtensionBannerManager extends Model {
     public function addBanner($data = array()) {
 
-        $data['start_date'] = date('Y-m-d', strtotime($data['start_date']));
-        $data['end_date'] = date('Y-m-d', strtotime($data['end_date']));
+		if ( isset($data['start_date']) ) {
+        	$data['start_date'] = "DATE('" . date('Y-m-d', strtotime($data['start_date'])) . "')";
+		} else {
+			$data['start_date'] = "DATE('')";
+		} 
+		
+		if ( isset($data['end_date']) ) {
+	        $data['end_date'] =  "DATE('" . date('Y-m-d', strtotime($data['end_date'])) . "')";
+		} else {
+			$data['end_date'] = "DATE('')";
+		} 
 
         $sql = "INSERT INTO `" . DB_PREFIX . "banners`
 				(`status`,`banner_type`,`banner_group_name`,`start_date`,`end_date`,`blank`,`sort_order`,`target_url`,`date_added`)
 				VALUES ('" . (int)$data['status'] . "',
 						'" . (int)$data['banner_type'] . "',
 						'" . $this->db->escape($data['banner_group_name']) . "',
-						DATE('" . $this->db->escape($data['start_date']) . "'),
-						DATE('" . $this->db->escape($data['end_date']) . "'),
+						" . $data['start_date'] . ",
+						" . $data['end_date'] . ",
 						'" . (int)$data['blank'] . "',
 						'" . (int)$data['sort_order'] . "',
-						'" . $this->db->escape($data['target_url']) . "',
-						 'NOW()' )";
+						'" . $this->db->escape($data['target_url']) . "', NOW() )";
         $this->db->query($sql);
         $banner_id = $this->db->getLastId();
         // for graphic banners remap resources
@@ -101,11 +109,10 @@ class ModelExtensionBannerManager extends Model {
         $language_id = (int)$this->session->data['content_language_id'];
         if (isset($data['start_date'])) {
             $data['start_date'] = date('Y-m-d', strtotime($data['start_date']));
-            $data['end_date'] = $data['end_date'] ? date('Y-m-d', strtotime($data['end_date'])) : '';
-        }
+		} 
         if (isset($data['end_date'])) {
             $data['end_date'] = date('Y-m-d', strtotime($data['end_date']));
-        }
+		} 
 
 		$flds = array('name', 'description', 'meta');
 		foreach ($flds as $field_name) {
@@ -114,11 +121,11 @@ class ModelExtensionBannerManager extends Model {
 			}
 		}
 
-
-		$this->language->replaceDescriptions('banner_descriptions',
+		if( count($update) ) {
+			$this->language->replaceDescriptions('banner_descriptions',
 											 array('banner_id' => (int)$banner_id),
-											 array($language_id => $update) );
-
+											 array($language_id => $update) );		
+		}
 
 
         $flds = array(  'status' => 'int',

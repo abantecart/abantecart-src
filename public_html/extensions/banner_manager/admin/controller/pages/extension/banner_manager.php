@@ -260,8 +260,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 
         $this->data ['cancel'] = $this->html->getSecureURL('extension/banner_manager');
         $this->document->addScript(RDIR_TEMPLATE . 'javascript/ckeditor/ckeditor.js');
-        $this->document->addScript(RDIR_TEMPLATE . 'javascript/jquery/ui/jquery.ui.datepicker.js');
-        $this->data['js_date_format'] = 'mm/dd/yy';
+
         if (!isset ($this->request->get ['banner_id'])) {
             $this->data ['action'] = $this->html->getSecureURL('extension/banner_manager/insert');
             $this->data ['form_title'] = $this->language->get('text_create');
@@ -297,6 +296,12 @@ class ControllerPagesExtensionBannerManager extends AController {
         $this->data['form']['cancel'] = $form->getFieldHtml(array('type' => 'button',
             'name' => 'cancel',
             'text' => $this->language->get('button_cancel'), 'style' => 'button2'));
+
+		//check if banner is active based on dates and update status
+		$now = strtotime(date( $this->language->get('date_format_short') ));
+		if ( strtotime($this->data['start_date']) > $now || strtotime($this->data['end_date']) < $now ) {
+		    $this->data['status'] = 0;
+		}
 
         $this->data['form']['fields']['status'] = $form->getFieldHtml(array('type' => 'checkbox',
             'name' => 'status',
@@ -367,17 +372,21 @@ class ControllerPagesExtensionBannerManager extends AController {
         $this->data['form']['text']['blank'] = $this->language->get('entry_banner_blank');
 
         $this->data['form']['fields']['daterange'] .= $form->getFieldHtml(array(
-            'type' => 'input',
+            'type' => 'date',
             'name' => 'start_date',
-            'value' => ($this->data['start_date'] ? date('m/d/Y', strtotime($this->data['start_date'])) : null),
-            'default' => date('m/d/Y'),
+            'value' => date($this->language->get('date_format_short'), strtotime($this->data['start_date'])),
+            'default' => date($this->language->get('date_format_short')),
+            'dateformat' => format2Datepicker($this->language->get('date_format_short')),
+            'highlight' => 'future',
             'style' => 'medium-field'));
         $this->data['form']['fields']['daterange'] .= '&nbsp;&nbsp;-&nbsp;&nbsp;';
         $this->data['form']['fields']['daterange'] .= $form->getFieldHtml(array(
-            'type' => 'input',
+            'type' => 'date',
             'name' => 'end_date',
-            'value' => (!in_array($this->data['end_date'], array('', '0000-00-00 00:00:00')) ? date('m/d/Y', strtotime($this->data['end_date'])) : null),
+            'value' => date($this->language->get('date_format_short'), strtotime($this->data['end_date'])),
             'default' => '',
+            'dateformat' => format2Datepicker($this->language->get('date_format_short')),
+            'highlight' => 'pased',
             'style' => 'medium-field'));
         $this->data['form']['text']['daterange'] = $this->language->get('entry_banner_daterange');
 

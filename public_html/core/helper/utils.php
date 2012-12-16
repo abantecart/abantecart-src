@@ -75,6 +75,27 @@ function SEOEncode( $string_value ){
 }
 
 /*
+*  Convert PHP date format to datepicker date format. 
+*  AbanteCart base date format on language setting date_format_short that is PHP date function format
+*  Convert to datepicker format
+*  References:
+*  http://docs.jquery.com/UI/Datepicker/formatDate
+*  http://php.net/manual/en/function.date.php
+*/
+function format2Datepicker( $date_format ){
+	$new_format = $date_format;
+	$new_format = preg_replace( '/d/', 'dd', $new_format );
+	$new_format = preg_replace( '/j/', 'd', $new_format );
+	$new_format = preg_replace( '/l/', 'DD', $new_format );
+	$new_format = preg_replace( '/z/', 'o', $new_format );
+	$new_format = preg_replace( '/m/', 'mm', $new_format );
+	$new_format = preg_replace( '/n/', 'm', $new_format );
+	$new_format = preg_replace( '/F/', 'MM', $new_format );
+	$new_format = preg_replace( '/Y/', 'yy', $new_format );
+	return $new_format;
+}
+
+/*
 * Echo array with readable formal. Useful in debugging of array data. 
 */
 function echo_array( $array_data ) {

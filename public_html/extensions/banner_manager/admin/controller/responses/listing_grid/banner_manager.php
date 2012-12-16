@@ -81,6 +81,12 @@ class ControllerResponsesListingGridBannerManager extends AController {
 												 true);
 			$thumbnail = $thumbnail['thumb_html'];
 
+			//check if banner is active based on dates and update status
+			$now = strtotime(date( $this->language->get('date_format_short') ));
+			if ( strtotime($result['start_date']) > $now || strtotime($result['end_date']) < $now ) {
+				$result['status'] = 0;
+			}
+	
 			$response->rows[$i]['cell'] = array(
 												$result['banner_id'],
 												$thumbnail,

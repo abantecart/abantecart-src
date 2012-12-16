@@ -1187,6 +1187,8 @@ class DateHtmlElement extends HtmlElement {
 				'attr' => 'aform_field_type="date" ' . $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
+				'dateformat' => $this->dateformat,
+				'highlight' => $this->highlight
 			)
 		);
 		if (!empty($this->help_url)) {
