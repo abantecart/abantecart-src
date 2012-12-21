@@ -162,11 +162,8 @@ class ControllerPagesExtensionBannerManager extends AController {
 		$this->data[ 'heading_title' ] = $this->language->get('banner_manager_name');
 
 		if (($this->request->server [ 'REQUEST_METHOD' ] == 'POST') && $this->_validateForm()) {
-			if ($this->request->post[ 'banner_group_name' ][ 1 ] && $this->request->post[ 'banner_group_name' ][ 0 ] == 'new') {
-				$this->request->post[ 'banner_group_name' ] = $this->request->post[ 'banner_group_name' ][ 1 ];
-			} else {
-				$this->request->post[ 'banner_group_name' ] = $this->request->post[ 'banner_group_name' ][ 0 ];
-			}
+
+			$this->_prepareData();
 
 			$this->loadModel('extension/banner_manager');
 			$banner_id = $this->model_extension_banner_manager->addBanner($this->request->post);
@@ -199,11 +196,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 		// saving
 		if (($this->request->server [ 'REQUEST_METHOD' ] == 'POST') && $this->_validateForm() && $banner_id) {
 
-			if ($this->request->post[ 'banner_group_name' ][ 1 ] && $this->request->post[ 'banner_group_name' ][ 0 ] == 'new') {
-				$this->request->post[ 'banner_group_name' ] = $this->request->post[ 'banner_group_name' ][ 1 ];
-			} else {
-				$this->request->post[ 'banner_group_name' ] = $this->request->post[ 'banner_group_name' ][ 0 ];
-			}
+			$this->_prepareData();
 
 			$this->loadModel('extension/banner_manager');
 			$this->model_extension_banner_manager->editBanner($banner_id, $this->request->post);
@@ -299,9 +292,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 		//check if banner is active based on dates and update status
 		$now = time();
-		if (dateFromIso($this->data[ 'start_date' ]) > $now
-				|| dateFromIso($this->data[ 'end_date' ]) < $now
-		) {
+		if ( dateISO2Int($this->data[ 'start_date' ]) > $now || dateISO2Int($this->data[ 'end_date' ]) < $now ) {
 			$this->data[ 'status' ] = 0;
 		}
 
@@ -376,18 +367,18 @@ class ControllerPagesExtensionBannerManager extends AController {
 		$this->data[ 'form' ][ 'fields' ][ 'daterange' ] .= $form->getFieldHtml(array(
 			'type' => 'date',
 			'name' => 'start_date',
-			'value' => $this->data[ 'start_date' ] ? date($this->language->get('date_format_short'), dateFromIso($this->data[ 'start_date' ])) : '',
-			'default' => date($this->language->get('date_format_short')),
-			'dateformat' => format2Datepicker($this->language->get('date_format_short')),
+			'value' => dateISO2Display($this->data[ 'start_date' ]),
+			'default' => dateNowDisplay(),
+			'dateformat' => format4Datepicker($this->language->get('date_format_short')),
 			'highlight' => 'future',
 			'style' => 'medium-field' ));
 		$this->data[ 'form' ][ 'fields' ][ 'daterange' ] .= '&nbsp;&nbsp;-&nbsp;&nbsp;';
 		$this->data[ 'form' ][ 'fields' ][ 'daterange' ] .= $form->getFieldHtml(array(
 			'type' => 'date',
 			'name' => 'end_date',
-			'value' => $this->data[ 'end_date' ] ? date($this->language->get('date_format_short'), dateFromIso($this->data[ 'end_date' ])) : '',
+			'value' => dateISO2Display($this->data[ 'end_date' ]),
 			'default' => '',
-			'dateformat' => format2Datepicker($this->language->get('date_format_short')),
+			'dateformat' => format4Datepicker($this->language->get('date_format_short')),
 			'highlight' => 'pased',
 			'style' => 'medium-field' ));
 		$this->data[ 'form' ][ 'text' ][ 'daterange' ] = $this->language->get('entry_banner_daterange');
@@ -439,12 +430,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 					break;
 				}
 			}
-			if (isset($this->request->post[ 'start_date' ]) && $this->request->post[ 'start_date' ]) {
-				$this->request->post[ 'start_date' ] = date('Y-m-d', dateFromFormat($this->request->post[ 'start_date' ], $this->language->get('date_format_short')));
-			}
-			if (isset($this->request->post[ 'end_date' ]) && $this->request->post[ 'end_date' ]) {
-				$this->request->post[ 'end_date' ] = date('Y-m-d', dateFromFormat($this->request->post[ 'end_date' ], $this->language->get('date_format_short')));
-			}
 
 			if (!is_array($this->request->post[ 'banner_group_name' ])
 					|| (!$this->request->post[ 'banner_group_name' ][ 1 ] && in_array($this->request->post[ 'banner_group_name' ][ 0 ], array( '0', 'new' )))
@@ -453,10 +438,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 				$this->error [ 'warning' ] = $this->language->get('error_empty');
 				$this->session->data[ 'warning' ] = $this->language->get('error_empty');
-			}
-			if (is_array($this->request->post[ 'banner_group_name' ]) && isset($this->request->post[ 'banner_group_name' ][ 1 ])) {
-				$this->request->post[ 'banner_group_name' ][ 1 ] = trim($this->request->post[ 'banner_group_name' ][ 1 ]);
-				$this->request->post[ 'banner_group_name' ][ 1 ] = mb_ereg_replace('/^[0-9A-Za-z\ \. _\-]/', '', $this->request->post[ 'banner_group_name' ][ 1 ]);
 			}
 		}
 
@@ -472,6 +453,26 @@ class ControllerPagesExtensionBannerManager extends AController {
 		}
 	}
 
+	// Prepare data before passing to model
+	private function _prepareData() {
+		if (isset($this->request->post[ 'start_date' ]) && $this->request->post[ 'start_date' ]) {
+		    $this->request->post[ 'start_date' ] = dateDisplay2ISO($this->request->post[ 'start_date' ]);
+		}
+		if (isset($this->request->post[ 'end_date' ]) && $this->request->post[ 'end_date' ]) {
+		    $this->request->post[ 'end_date' ] = dateDisplay2ISO($this->request->post[ 'end_date' ]);
+		}
+
+		if (is_array($this->request->post[ 'banner_group_name' ]) && isset($this->request->post[ 'banner_group_name' ][ 1 ])) {
+		    $this->request->post[ 'banner_group_name' ][ 1 ] = trim($this->request->post[ 'banner_group_name' ][ 1 ]);
+		    $this->request->post[ 'banner_group_name' ][ 1 ] = mb_ereg_replace('/^[0-9A-Za-z\ \. _\-]/', '', $this->request->post[ 'banner_group_name' ][ 1 ]);
+		}
+
+		if ($this->request->post[ 'banner_group_name' ][ 1 ] && $this->request->post[ 'banner_group_name' ][ 0 ] == 'new') {
+		    $this->request->post[ 'banner_group_name' ] = $this->request->post[ 'banner_group_name' ][ 1 ];
+		} else {
+		    $this->request->post[ 'banner_group_name' ] = $this->request->post[ 'banner_group_name' ][ 0 ];
+		}	
+	}
 
 	public function insert_block() {
 		//init controller data

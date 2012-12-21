@@ -178,7 +178,7 @@ class ALanguageManager extends Alanguage {
 
 		$del_index = array();
 		foreach ($index as $i => $v) {
-			if (!empty($v)) {
+			if (has_value($v)) {
 				$del_index[ ] = "$i = '" . $this->db->escape($v) . "'";
 			}
 		}
@@ -201,7 +201,7 @@ class ALanguageManager extends Alanguage {
 
 		$sel_index = array();
 		foreach ($index as $i => $v) {
-			if (!empty($v)) {
+			if (has_value($v)) {
 				$sel_index[ ] = "$i = '" . $this->db->escape($v) . "'";
 			}
 		}
@@ -224,7 +224,7 @@ class ALanguageManager extends Alanguage {
 			if (!$lang_data) continue;
 			$update_index = array();
 			foreach ($index as $i => $v) {
-				if (!empty($v)) {
+				if (has_value($v)) {
 					$update_index[ ] = "$i = '" . $this->db->escape($v) . "'";
 				}
 			}
