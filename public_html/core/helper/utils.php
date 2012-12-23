@@ -159,8 +159,6 @@ function getTextUploadError($error) {
 		case UPLOAD_ERR_EXTENSION:
 			$error_txt = 'File upload stopped by php-extension';
 			break;
-		default:
-			$error_txt = 'Some problem happen with file upload. Check error log for more information';
 	}
 	return $error_txt;
 }
