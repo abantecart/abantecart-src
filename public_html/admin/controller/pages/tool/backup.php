@@ -17,276 +17,276 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+	header('Location: static_pages/');
 }
 
-if (defined('IS_DEMO') && IS_DEMO ) {
-	header ( 'Location: static_pages/demo_mode.php' );
+if (defined('IS_DEMO') && IS_DEMO) {
+	header('Location: static_pages/demo_mode.php');
 }
 
 class ControllerPagesToolBackup extends AController {
 	private $error = array();
 	public $data;
+
 	public function main() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-		$this->document->setTitle( $this->language->get('heading_title') );
-		if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->_validate()) {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->document->setTitle($this->language->get('heading_title'));
+		if ($this->request->server[ 'REQUEST_METHOD' ] == 'POST' && $this->_validate()) {
 
-			if (is_uploaded_file($this->request->files['restore']['tmp_name'])) {
-				if(pathinfo($this->request->files['restore']['name'],PATHINFO_EXTENSION)=='sql'){
+			if (is_uploaded_file($this->request->files[ 'restore' ][ 'tmp_name' ])) {
+				if (pathinfo($this->request->files[ 'restore' ][ 'name' ], PATHINFO_EXTENSION) == 'sql') {
 					$filetype = 'sql';
-					$content = file_get_contents($this->request->files['restore']['tmp_name']);
-				}else{
-					$content == false;
+					$content = file_get_contents($this->request->files[ 'restore' ][ 'tmp_name' ]);
+				} else {
+					$content = false;
 				}
-			} elseif (is_uploaded_file($this->request->files['import']['tmp_name'])){
-				if(pathinfo($this->request->files['import']['name'],PATHINFO_EXTENSION)=='xml'){
+			} elseif (is_uploaded_file($this->request->files[ 'import' ][ 'tmp_name' ])) {
+				if (pathinfo($this->request->files[ 'import' ][ 'name' ], PATHINFO_EXTENSION) == 'xml') {
 					$filetype = 'xml';
-					$content = file_get_contents($this->request->files['import']['tmp_name']);
-				}else{
-					$content == false;
+					$content = file_get_contents($this->request->files[ 'import' ][ 'tmp_name' ]);
+				} else {
+					$content = false;
 				}
 			} else {
 				$content = false;
 			}
 
 			if ($content) {
-                $this->cache->delete('*');
-				if($filetype == 'sql'){
+				$this->cache->delete('*');
+				if ($filetype == 'sql') {
 					$this->model_tool_backup->restore($content);
-					$this->session->data['success'] = $this->language->get('text_success');
+					$this->session->data[ 'success' ] = $this->language->get('text_success');
 					$this->redirect($this->html->getSecureURL('tool/backup'));
-				}else{
-					if($this->model_tool_backup->load($content)){
-						$this->session->data['success'] = $this->language->get('text_success_xml');
+				} else {
+					if ($this->model_tool_backup->load($content)) {
+						$this->session->data[ 'success' ] = $this->language->get('text_success_xml');
 						$this->redirect($this->html->getSecureURL('tool/backup'));
 					} else {
-						$this->error['warning'] = $this->language->get('error_xml');
+						$this->error[ 'warning' ] = $this->language->get('error_xml');
 					}
 				}
 			} else {
-				if($this->request->files){
-					$this->error['warning'] = $this->language->get('error_empty').' ('.pathinfo($this->request->files['restore']['name'],PATHINFO_EXTENSION).')';
-				}else{
-					$this->error['warning'] = $this->language->get('error_upload');
+				if ($this->request->files) {
+					$this->error[ 'warning' ] = $this->language->get('error_empty') . ' (' . pathinfo($this->request->files[ 'restore' ][ 'name' ], PATHINFO_EXTENSION) . ')';
+				} else {
+					$this->error[ 'warning' ] = $this->language->get('error_upload');
 				}
 			}
 		}
 
-		$this->data['heading_title'] = $this->language->get('heading_title');
-		
-		$this->data['text_select_all'] = $this->language->get('text_select_all');
-		$this->data['text_unselect_all'] = $this->language->get('text_unselect_all');
-		
-		$this->data['entry_restore'] = $this->language->get('entry_restore');
-		$this->data['entry_backup'] = $this->language->get('entry_backup');
-		$this->data['entry_loadxml'] = $this->language->get('entry_loadxml');
+		$this->data[ 'heading_title' ] = $this->language->get('heading_title');
 
-		$this->data['button_backup'] = $this->language->get('button_backup');
-		$this->data['button_restore'] = $this->language->get('button_restore');
-		
-		$this->data['tab_backup'] = $this->language->get('tab_backup');
-		$this->data['tab_restore'] = $this->language->get('tab_restore');
-		$this->data['tab_loadxml'] = $this->language->get('tab_loadxml');
+		$this->data[ 'text_select_all' ] = $this->language->get('text_select_all');
+		$this->data[ 'text_unselect_all' ] = $this->language->get('text_unselect_all');
 
- 		if (isset($this->error['warning'])) {
-			$this->data['error_warning'] = $this->error['warning'];
-		} elseif($this->session->data['error']) {
-			$this->data['error_warning'] = $this->session->data['error'];
-			unset($this->session->data['error']);
+		$this->data[ 'entry_restore' ] = $this->language->get('entry_restore');
+		$this->data[ 'entry_backup' ] = $this->language->get('entry_backup');
+		$this->data[ 'entry_loadxml' ] = $this->language->get('entry_loadxml');
+
+		$this->data[ 'button_backup' ] = $this->language->get('button_backup');
+		$this->data[ 'button_restore' ] = $this->language->get('button_restore');
+
+		$this->data[ 'tab_backup' ] = $this->language->get('tab_backup');
+		$this->data[ 'tab_restore' ] = $this->language->get('tab_restore');
+		$this->data[ 'tab_loadxml' ] = $this->language->get('tab_loadxml');
+
+		if (isset($this->error[ 'warning' ])) {
+			$this->data[ 'error_warning' ] = $this->error[ 'warning' ];
+		} elseif ($this->session->data[ 'error' ]) {
+			$this->data[ 'error_warning' ] = $this->session->data[ 'error' ];
+			unset($this->session->data[ 'error' ]);
 		} else {
-			$this->data['error_warning'] = '';
+			$this->data[ 'error_warning' ] = '';
 		}
-		
-		if (isset($this->session->data['success'])) {
-			$this->data['success'] = $this->session->data['success'];
-		
-			unset($this->session->data['success']);
+
+		if (isset($this->session->data[ 'success' ])) {
+			$this->data[ 'success' ] = $this->session->data[ 'success' ];
+
+			unset($this->session->data[ 'success' ]);
 		} else {
-			$this->data['success'] = '';
+			$this->data[ 'success' ] = '';
 		}
-		
-  		$this->document->resetBreadcrumbs();
 
-   		$this->document->addBreadcrumb( array ( 
-       		'href'      => $this->html->getSecureURL('index/home'),
-       		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE
-   		 ));
+		$this->document->resetBreadcrumbs();
 
-   		$this->document->addBreadcrumb( array ( 
-       		'href'      => $this->html->getSecureURL('tool/backup'),
-       		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
-   		 ));
-		
+		$this->document->addBreadcrumb(array(
+			'href' => $this->html->getSecureURL('index/home'),
+			'text' => $this->language->get('text_home'),
+			'separator' => FALSE
+		));
 
-		$this->data['backup'] = $this->html->getSecureURL('tool/backup_file');
+		$this->document->addBreadcrumb(array(
+			'href' => $this->html->getSecureURL('tool/backup'),
+			'text' => $this->language->get('heading_title'),
+			'separator' => ' :: '
+		));
+
+
+		$this->data[ 'backup' ] = $this->html->getSecureURL('tool/backup_file');
 
 		$this->loadModel('tool/backup');
-			
-		$this->data['tables'] = $this->model_tool_backup->getTables();
+
+		$this->data[ 'tables' ] = $this->model_tool_backup->getTables();
 		$tables = array();
-		foreach ($this->data['tables'] as $table)
-		{
-			$tables[$table] = $table;
+		foreach ($this->data[ 'tables' ] as $table) {
+			$tables[ $table ] = $table;
 		}
 
-		$this->data['note_rl'] = $this->language->get('note_rl');
-		$this->data['note_config'] = $this->language->get('note_config');
+		$this->data[ 'note_rl' ] = $this->language->get('note_rl');
+		$this->data[ 'note_config' ] = $this->language->get('note_config');
 
 		$form = new AForm('ST');
 
-		$form->setForm(array('form_name' => 'backup'));
+		$form->setForm(array( 'form_name' => 'backup' ));
 
 		$this->data[ 'form' ][ 'id' ] = 'backup';
 		$this->data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(
-			array('type' => 'form',
+			array( 'type' => 'form',
 				'name' => 'backup',
 				'action' => $this->data[ 'backup' ],
-		));
+			));
 
-		$this->data[ 'form' ]['fields']['tables'] = $form->getFieldHtml(
+		$this->data[ 'form' ][ 'fields' ][ 'tables' ] = $form->getFieldHtml(
 			array(
 				'type' => 'checkboxgroup',
 				'name' => 'backup[]',
-				'value' => $this->data['tables'],
+				'value' => $this->data[ 'tables' ],
 				'options' => $tables,
 				'scrollbox' => true,
 				'style' => 'omg'
-		));
+			));
 
-		$this->data[ 'form' ]['backup_rl'] = $form->getFieldHtml(
+		$this->data[ 'form' ][ 'backup_rl' ] = $form->getFieldHtml(
 			array(
 				'type' => 'checkbox',
 				'name' => 'backup_rl',
 				'value' => 'rl',
-				'label_text' => $this->data['note_rl'],
+				'label_text' => $this->data[ 'note_rl' ],
 				'checked' => true
-		));
-		
-		$this->data[ 'form' ]['backup_config'] = $form->getFieldHtml(
+			));
+
+		$this->data[ 'form' ][ 'backup_config' ] = $form->getFieldHtml(
 			array(
 				'type' => 'checkbox',
 				'name' => 'backup_config',
-				'label_text' => $this->data['note_config'],
+				'label_text' => $this->data[ 'note_config' ],
 				'value' => 'config'
-		));
+			));
 
 		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(
-			array('type' => 'button',
+			array( 'type' => 'button',
 				'name' => 'submit',
 				'text' => $this->language->get('button_backup'),
 				'style' => 'button1',
-		));
+			));
 		$this->data[ 'form' ][ 'cancel' ] = $form->getFieldHtml(
-			array('type' => 'button',
+			array( 'type' => 'button',
 				'name' => 'cancel',
 				'text' => $this->language->get('button_cancel'),
 				'style' => 'button2',
-		));
+			));
 
-		$this->data['restore'] = $this->html->getSecureURL('tool/backup');
+		$this->data[ 'restore' ] = $this->html->getSecureURL('tool/backup');
 		$form = new AForm('ST');
-		$form->setForm(array('form_name' => 'restore_form'));
+		$form->setForm(array( 'form_name' => 'restore_form' ));
 		$this->data[ 'restoreform' ][ 'id' ] = 'restore_form';
 		$this->data[ 'restoreform' ][ 'form_open' ] = $form->getFieldHtml(
-																	array('type' => 'form',
-																		'name' => 'restore_form',
-																		'action' => $this->data['restore'],
-		));
+			array( 'type' => 'form',
+				'name' => 'restore_form',
+				'action' => $this->data[ 'restore' ],
+			));
 		$this->data[ 'restoreform' ][ 'file' ] = $form->getFieldHtml(
-			array('type' => 'file',
+			array( 'type' => 'file',
 				'name' => 'restore',
-		));
+			));
 		$this->data[ 'restoreform' ][ 'submit' ] = $form->getFieldHtml(
-			array('type' => 'button',
+			array( 'type' => 'button',
 				'name' => 'submit',
 				'text' => $this->language->get('button_go'),
 				'style' => 'button1',
-		));
+			));
 
 
 		$form = new AForm('ST');
-		$form->setForm(array('form_name' => 'loadxml_form'));
+		$form->setForm(array( 'form_name' => 'loadxml_form' ));
 		$this->data[ 'xmlform' ][ 'id' ] = 'loadxml_form';
 		$this->data[ 'xmlform' ][ 'form_open' ] = $form->getFieldHtml(
-																	array('type' => 'form',
-																		'name' => 'loadxml_form',
-																		'action' => $this->data['restore'],
-		));
+			array( 'type' => 'form',
+				'name' => 'loadxml_form',
+				'action' => $this->data[ 'restore' ],
+			));
 		$this->data[ 'xmlform' ][ 'file' ] = $form->getFieldHtml(
-			array('type' => 'file',
+			array( 'type' => 'file',
 				'name' => 'import',
-		));
+			));
 		$this->data[ 'xmlform' ][ 'submit' ] = $form->getFieldHtml(
-			array('type' => 'button',
+			array( 'type' => 'button',
 				'name' => 'submit',
 				'text' => $this->language->get('button_go'),
 				'style' => 'button1',
-		));
+			));
 
-		$this->view->batchAssign( $this->data );
-		$this->view->assign('help_url', $this->gen_help_url() );
+		$this->view->batchAssign($this->data);
+		$this->view->assign('help_url', $this->gen_help_url());
 
-        $this->processTemplate('pages/tool/backup.tpl' );
+		$this->processTemplate('pages/tool/backup.tpl');
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
-	
+
 	public function backup() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->_validate()) {
+		if ($this->request->server[ 'REQUEST_METHOD' ] == 'POST' && $this->_validate()) {
 			$this->response->addheader('Pragma: public');
 			$this->response->addheader('Expires: 0');
 			$this->response->addheader('Content-Description: File Transfer');
 			$this->response->addheader('Content-Type: application/octet-stream');
 			$this->response->addheader('Content-Disposition: attachment; filename=backup.sql');
 			$this->response->addheader('Content-Transfer-Encoding: binary');
-			
+
 			$this->loadModel('tool/backup');
 
-			$this->response->setOutput( $this->model_tool_backup->backup($this->request->post['backup']));
+			$this->response->setOutput($this->model_tool_backup->backup($this->request->post[ 'backup' ]));
 		} else {
 			return $this->dispach('error/permission');
 		}
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
-	
+
 	private function _validate() {
 		if (!$this->user->canModify('tool/backup')) {
-			$this->error['warning'] = $this->language->get('error_permission');
+			$this->error[ 'warning' ] = $this->language->get('error_permission');
 		}
 
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
-		}		
+		}
 	}
 
 
 	public function download() {
 
 		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		if ($this->user->canAccess('tool/backup_file')) {
-			$filename = str_replace(array('../','..\\','\\','/'),'',$this->request->get['filename']);
-			$file = DIR_APP_SECTION.'system/backup/'.$filename;
-			if(file_exists($file)){
+			$filename = str_replace(array( '../', '..\\', '\\', '/' ), '', $this->request->get[ 'filename' ]);
+			$file = DIR_APP_SECTION . 'system/backup/' . $filename;
+			if (file_exists($file)) {
 				header('Content-Description: File Transfer');
 				header('Content-Type: application/x-gzip');
-				header('Content-Disposition: attachment; filename='.$filename);
+				header('Content-Disposition: attachment; filename=' . $filename);
 				header('Content-Transfer-Encoding: binary');
 				header('Expires: 0');
 				header('Cache-Control: must-revalidate');
@@ -296,7 +296,7 @@ class ControllerPagesToolBackup extends AController {
 				flush();
 				readfile($file);
 				exit;
-			}else{
+			} else {
 				echo 'file does not exists!';
 			}
 		} else {
@@ -304,4 +304,5 @@ class ControllerPagesToolBackup extends AController {
 		}
 	}
 }
+
 ?>
