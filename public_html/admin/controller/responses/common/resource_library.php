@@ -218,6 +218,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$data = array(
 				'resource_path' => $r->name,
 				'resource_code' => '',
+				'language_id' => $this->config->get('storefront_language_id'),
 			);
 			foreach ($languages as $lang) {
 				$data[ 'name' ][ $lang[ 'language_id' ] ] = $r->name;

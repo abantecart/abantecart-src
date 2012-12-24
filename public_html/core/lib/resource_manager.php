@@ -90,7 +90,7 @@ class AResourceManager extends AResource {
         $resource_id = $this->db->getLastId();
 
         if ( !empty($resource['resource_path']) ) {
-            $resource_path = $this->getHexPath($resource_id) . substr(strrchr($resource['resource_path'], '.'), 0);
+            $resource_path = $this->getHexPath($resource_id) . strtolower(substr(strrchr($resource['resource_path'], '.'), 0));
             $resource_dir = dirname($resource_path);
             if ( !is_dir(DIR_RESOURCE . $this->type_dir . $resource_dir ) ) {
                 $path = '';

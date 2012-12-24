@@ -177,7 +177,7 @@ function getTextUploadError($error) {
 *  http://docs.jquery.com/UI/Datepicker/formatDate
 *  http://php.net/manual/en/function.date.php
 */
-function format2Datepicker($date_format) {
+function format4Datepicker($date_format) {
 	$new_format = $date_format;
 	$new_format = preg_replace('/d/', 'dd', $new_format);
 	$new_format = preg_replace('/j/', 'd', $new_format);
@@ -190,6 +190,97 @@ function format2Datepicker($date_format) {
 	return $new_format;
 }
 
+/*
+* Function to format date in database format (ISO) to int format
+*/
+function dateISO2Int( $string_date ) {
+    $string_date = trim($string_date);
+    $is_datetime = strlen($string_date)>10 ? true : false;
+	return dateFromFormat($string_date, ($is_datetime ? 'Y-m-d H:i:s' : 'Y-m-d'));
+}
+
+/*
+* Function to format date from int to database format (ISO)
+*/
+function dateInt2ISO( $int_date ) {
+	return date('Y-m-d H:i:s', $int_date);
+}
+
+/*
+* Function to format date from format in the display (language based) to database format (ISO)
+* Param: date in specified format, format based on PHP date function (optional)
+* Default format is taken from current language date_format_short setting
+*/
+function dateDisplay2ISO( $string_date, $format = '' ) {
+
+	if (empty($format)) {
+		$registry = Registry::getInstance();
+		$format = $registry->get('language')->get('date_format_short'); 
+	}
+
+	if ( $string_date ) {
+		return dateInt2ISO( dateFromFormat($string_date, $format) );
+	} else {
+		return '';
+	}
+}
+
+/*
+* Function to format date from database format (ISO) into the display (language based) format 
+* Param: iso date, format based on PHP date function (optional)
+* Default format is taken from current language date_format_short setting
+*/
+
+function dateISO2Display( $iso_date, $format ='' ) {
+	
+	if (empty($format)) {
+		$registry = Registry::getInstance();
+		$format = $registry->get('language')->get('date_format_short'); 
+	}
+    $empties = array('0000-00-00', '0000-00-00 00:00:00', '1970-01-01', '1970-01-01 00:00:00');
+	if ( $iso_date && !in_array($iso_date,$empties) ){
+		return date($format, dateISO2Int( $iso_date ) );
+	} else {
+		return '';
+	}
+
+}
+/*
+* Function to format date from integer into the display (language based) format
+* Param: int date, format based on PHP date function (optional)
+* Default format is taken from current language date_format_short setting
+*/
+
+function dateInt2Display( $int_date, $format ='' ) {
+
+	if (empty($format)) {
+		$registry = Registry::getInstance();
+		$format = $registry->get('language')->get('date_format_short');
+	}
+
+	if ( $int_date ) {
+		return date($format, $int_date );
+	} else {
+		return '';
+	}
+
+}
+
+/*
+* Function to show Now date (local time) in the display (language based) format 
+* Param: format based on PHP date function (optional)
+* Default format is taken from current language date_format_short setting
+*/
+
+function dateNowDisplay( $format ='' ) {
+	if (empty($format)) {
+		$registry = Registry::getInstance();
+		$format = $registry->get('language')->get('date_format_short'); 
+	}
+	return date($format);
+}
+
+
 function dateFromFormat($string_date, $date_format, $timezone = null) {
 	$date = new DateTime();
 	$timezone = is_null($timezone) ? $date->getTimezone() : $timezone;
@@ -200,16 +291,3 @@ function dateFromFormat($string_date, $date_format, $timezone = null) {
 	return $result;
 }
 
-function dateFromIso($string_date) {
-	return dateFromFormat($string_date, 'Y-m-d H:i:s');
-}
-
-function reformatDate($string_date, $date_format_src, $date_format_dst) {
-	if (empty($string_date) || empty($date_format_src) || empty($date_format_dst)) return null;
-	$dateint = dateFromFormat($string_date, $date_format_src);
-	if (!is_null($dateint)) {
-		return date($date_format_dst, $dateint);
-	} else {
-		return null;
-	}
-}

@@ -220,9 +220,9 @@ class ControllerPagesCatalogProduct extends AController {
 
     	$this->document->setTitle($this->language->get('heading_title'));		
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
-
-            $product_id = $this->model_catalog_product->addProduct($this->request->post);
-            $this->model_catalog_product->updateProductLinks($product_id, $this->request->post);
+            $product_data = $this->_prepareData($this->request->post);
+            $product_id = $this->model_catalog_product->addProduct($product_data);
+            $this->model_catalog_product->updateProductLinks($product_id, $product_data);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id));
@@ -246,8 +246,9 @@ class ControllerPagesCatalogProduct extends AController {
 		}
 
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
-			$this->model_catalog_product->updateProduct($this->request->get['product_id'], $this->request->post);
-            $this->model_catalog_product->updateProductLinks($this->request->get['product_id'], $this->request->post);
+            $product_data = $this->_prepareData($this->request->post);
+			$this->model_catalog_product->updateProduct($this->request->get['product_id'], $product_data);
+            $this->model_catalog_product->updateProductLinks($this->request->get['product_id'], $product_data);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$this->request->get['product_id']));
 		}
@@ -433,9 +434,9 @@ class ControllerPagesCatalogProduct extends AController {
 		if (isset($this->request->post['date_available'])) {
        		$this->data['date_available'] = $this->request->post['date_available'];
 		} elseif (isset($product_info)) {
-			$this->data['date_available'] = date('Y-m-d', strtotime($product_info['date_available']));
+			$this->data['date_available'] = $product_info['date_available'];
 		} else {
-			$this->data['date_available'] = date('Y-m-d', time()-86400);
+			$this->data['date_available'] = dateInt2ISO(time()-86400);
 		}
 		
 		$weight_info = $this->model_localisation_weight_class->getWeightClassDescriptionByUnit($this->config->get('config_weight_class'));
@@ -660,11 +661,14 @@ class ControllerPagesCatalogProduct extends AController {
 			'style' => 'large-field',	
 		));
         $this->data['form']['fields']['data']['date_available'] = $form->getFieldHtml(array(
-			'type' => 'input',
-			'name' => 'date_available',
-			'value' => $this->data['date_available'],
-            'style' => 'date'
-		));
+            'type' => 'date',
+            'name' => 'date_available',
+            'value' => dateISO2Display($this->data[ 'date_available' ]),
+            'default' => dateNowDisplay(),
+            'dateformat' => format4Datepicker($this->language->get('date_format_short')),
+            'highlight' => 'future',
+            'style' => 'medium-field' ));
+
         $this->data['form']['fields']['data']['sort_order'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'sort_order',
@@ -781,6 +785,13 @@ class ControllerPagesCatalogProduct extends AController {
 	  		return FALSE;
 		}
   	}
+
+    private function _prepareData($data=array()){
+        if(isset($data['date_available'])){
+            $data['date_available'] = dateDisplay2ISO($data['date_available']);
+        }
+        return $data;
+    }
 	
 }
 ?>

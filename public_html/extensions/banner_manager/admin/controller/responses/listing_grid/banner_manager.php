@@ -83,7 +83,7 @@ class ControllerResponsesListingGridBannerManager extends AController {
 
 			//check if banner is active based on dates and update status
 			$now = time();
-			if (dateFromIso($result[ 'start_date' ]) > $now || dateFromIso($result[ 'end_date' ]) < $now) {
+			if (dateISO2Int($result[ 'start_date' ]) > $now || dateISO2Int($result[ 'end_date' ]) < $now) {
 				$result[ 'status' ] = 0;
 			}
 
@@ -120,10 +120,10 @@ class ControllerResponsesListingGridBannerManager extends AController {
 			$this->loadModel('extension/banner_manager');
 
 			if (isset($this->request->post[ 'start_date' ]) && $this->request->post[ 'start_date' ]) {
-				$this->request->post[ 'start_date' ] = date('Y-m-d', dateFromFormat($this->request->post[ 'start_date' ], $this->language->get('date_format_short')));
+				$this->request->post[ 'start_date' ] = dateDisplay2ISO( $this->request->post[ 'start_date' ] );
 			}
 			if (isset($this->request->post[ 'end_date' ]) && $this->request->post[ 'end_date' ]) {
-				$this->request->post[ 'end_date' ] = date('Y-m-d', dateFromFormat($this->request->post[ 'end_date' ], $this->language->get('date_format_short')));
+				$this->request->post[ 'end_date' ] = dateDisplay2ISO( $this->request->post[ 'end_date' ] );
 			}
 
 

@@ -225,8 +225,9 @@ class ResourceUploadHandler {
 		$file->type = $type;
 
 		// error check
-		$error = getTextUploadError($error);
-
+        if($error){
+		    $error = getTextUploadError($error);
+        }
 		$error = $this->has_error($uploaded_file, $file, $error);
 		if (!$error && $file->name) {
 			if (!is_dir(DIR_RESOURCE . $this->options[ 'upload_dir' ])) {
@@ -262,6 +263,8 @@ class ResourceUploadHandler {
 					$result = move_uploaded_file($uploaded_file, $file_path);
                     if($result===false){
                         $file->error = 'Failed! Check error log for details.';
+                        $error = new AError('Error! Tryed to move uploaded file from '.$uploaded_file.' to '.$file_path);
+                        $error->toLog();
                     }
 				}
 			} else {
