@@ -45,8 +45,12 @@ if (!defined('DIR_CORE')) {
  * @property ALanguageManager $language
  */
 abstract class Model {
+
 	public $registry;
 
+	/**
+	 * @param $registry Registry
+	 */
 	public function __construct($registry) {
 		$this->registry = $registry;
 	}
@@ -60,13 +64,11 @@ abstract class Model {
 	}
 
 	public function __call($method, $args) {
-		if (!$this->registry->has('extensions'))
-			return;
-
+		if (!$this->registry->has('extensions')) {
+			return null;
+		}
 		array_unshift($args, $this);
 		$return = call_user_func_array(array( $this->extensions, $method ), $args);
 		return $return;
 	}
 }
-
-?>
