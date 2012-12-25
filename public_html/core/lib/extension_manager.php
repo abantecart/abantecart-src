@@ -20,7 +20,16 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
-
+/**
+ * @property ExtensionsApi $extensions
+ * @property ADB $db
+ * @property ACache $cache
+ * @property AConfig $config
+ * @property ALanguage $language
+ * @property ALoader $load
+ * @property ModelToolUpdater $model_tool_updater
+ * @property Ahtml $html
+ * */
 class AExtensionManager {
 	protected $registry;
 	public $errors = 0;
@@ -94,17 +103,17 @@ class AExtensionManager {
 		$masks = array( 'status', 'version', 'date_installed', 'priority', 'license_key' );
 
 		$keys = array_keys($data);
-		unset($keys['store_id']);
+		unset($keys[ 'store_id' ]);
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "settings
 						  WHERE `group` = '" . $this->db->escape($group) . "'
 						        AND `key` IN ('" . implode("', '", $keys) . "')
-						        AND `store_id` = '".(int)$data['store_id']."' ");
+						        AND `store_id` = '" . (int)$data[ 'store_id' ] . "' ");
 
 		foreach ($data as $key => $value) {
 			$setting_name = str_replace($group . "_", '', $key);
 			$this->db->query("INSERT INTO " . DB_PREFIX . "settings
-							  SET `store_id` = '".(int)$data['store_id']."',
+							  SET `store_id` = '" . (int)$data[ 'store_id' ] . "',
 							      `group` = '" . $this->db->escape($group) . "',
 							      `key` = '" . $this->db->escape($key) . "',
 							      `value` = '" . $this->db->escape($value) . "'");
@@ -123,10 +132,11 @@ class AExtensionManager {
 		$this->cache->delete('admin_menu');
 		$this->cache->delete('settings');
 	}
+
 	// method deletes all settings of extension
 	public function deleteSetting($group) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "settings WHERE `group` = '" . $this->db->escape($group) . "'");
-        $this->cache->delete('settings');
+		$this->cache->delete('settings');
 	}
 
 	/**
@@ -141,18 +151,18 @@ class AExtensionManager {
 
 		$ext = new ExtensionUtils($name);
 		// gets extension_id for install.php
-		$extension_info = $this->getExtensionsList(array('search'=>$name));
-		$extension_id = $extension_info->row['extension_id'];
+		$extension_info = $this->getExtensionsList(array( 'search' => $name ));
+		$extension_id = $extension_info->row[ 'extension_id' ];
 
 		$validate = $ext->validateCoreVersion();
 		$errors = $ext->getError();
 
-		if($errors){
-			$this->session->data['error'] = implode("<br>",$errors);
+		if ($errors) {
+			$this->session->data[ 'error' ] = implode("<br>", $errors);
 		}
-		if(!$validate){
-			$error = new AError ( $errors );
-			$error->toLog ()->toDebug ();
+		if (!$validate) {
+			$error = new AError ($errors);
+			$error->toLog()->toDebug();
 			return false;
 		}
 
@@ -165,19 +175,19 @@ class AExtensionManager {
 
 		if (isset($config->settings->item)) {
 			foreach ($config->settings->item as $item) {
-				$settings[ (string)$item[ 'id' ] ] = $this->html->convertLinks( htmlentities((string)$item->default_value,ENT_QUOTES,'UTF-8') );
+				$settings[ (string)$item[ 'id' ] ] = $this->html->convertLinks(htmlentities((string)$item->default_value, ENT_QUOTES, 'UTF-8'));
 			}
 		}
 
 		//write info about install into install log
 		$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
 		$install_upgrade_history->addRows(array( 'date_added' => date("Y-m-d H:i:s", time()),
-		                                       'name' => $name,
-		                                       'version' => $settings[ $name . '_version' ],
-		                                       'backup_file' => '',
-		                                       'backup_date' => '',
-		                                       'type' => 'install',
-		                                       'user' => $this->registry->get('user')->getUsername() ));
+			'name' => $name,
+			'version' => $settings[ $name . '_version' ],
+			'backup_file' => '',
+			'backup_date' => '',
+			'type' => 'install',
+			'user' => $this->registry->get('user')->getUsername() ));
 
 
 		// running sql install script if it exists
@@ -201,7 +211,7 @@ class AExtensionManager {
 
 		//save settings
 		$this->editSetting($name, $settings);
-
+		return null;
 	}
 
 	public function uninstall($name, $config) {
@@ -210,8 +220,8 @@ class AExtensionManager {
 		// check dependencies
 		$ext = new ExtensionUtils($name);
 		$validate = $ext->checkDependants();
-		if(!$validate){
-			$this->session->data['error'] = implode("<br>",$ext->getError());
+		if (!$validate) {
+			$this->session->data[ 'error' ] = implode("<br>", $ext->getError());
 			return false;
 		}
 
@@ -226,12 +236,12 @@ class AExtensionManager {
 
 		$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
 		$install_upgrade_history->addRows(array( 'date_added' => date("Y-m-d H:i:s", time()),
-		                                       'name' => $name,
-		                                       'version' => $info[ 'version' ],
-		                                       'backup_file' => '',
-		                                       'backup_date' => '',
-		                                       'type' => 'uninstall',
-		                                       'user' => $this->registry->get('user')->getUsername() ));
+			'name' => $name,
+			'version' => $info[ 'version' ],
+			'backup_file' => '',
+			'backup_date' => '',
+			'type' => 'uninstall',
+			'user' => $this->registry->get('user')->getUsername() ));
 
 		if (isset($config->uninstall->sql)) {
 			$file = DIR_EXT . str_replace('../', '', $name) . '/' . (string)$config->uninstall->sql;
@@ -251,6 +261,7 @@ class AExtensionManager {
 		$this->editSetting($name, array( 'status' => 0 ));
 		//uninstall settings
 		$this->deleteSetting($name);
+		return null;
 	}
 
 
@@ -258,12 +269,12 @@ class AExtensionManager {
 		$info = $this->extensions->getExtensionInfo($name);
 		$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
 		$install_upgrade_history->addRows(array( 'date_added' => date("Y-m-d H:i:s", time()),
-		                                       'name' => $name,
-		                                       'version' => $info[ 'version' ],
-		                                       'backup_file' => '',
-		                                       'backup_date' => '',
-		                                       'type' => 'delete',
-		                                       'user' => $this->registry->get('user')->getUsername() ));
+			'name' => $name,
+			'version' => $info[ 'version' ],
+			'backup_file' => '',
+			'backup_date' => '',
+			'type' => 'delete',
+			'user' => $this->registry->get('user')->getUsername() ));
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "extensions WHERE `type` = '" . $info[ 'type' ] . "' AND `key` = '" . $this->db->escape($name) . "'");
 
