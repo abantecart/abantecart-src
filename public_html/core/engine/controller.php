@@ -65,10 +65,7 @@ if (!defined('DIR_CORE')) {
  * @property ModelAccountOrder $model_account_order
  * @property ModelAccountAddress $model_account_address
  * @property ModelCheckoutOrder $model_checkout_order
- * @property ModelExtensionBannerManager $model_extension_banner_manager
- * @property ModelToolDeveloperTools $model_tool_developer_tools
- * @property ModelToolsDeveloperTools $model_tools_developer_tools
- * @property ModelToolsBackup $model_tools_backup
+ * @property ModelToolBackup $model_tools_backup
  * @property ModelAccountCustomer $model_account_customer
  * @property ModelCatalogContent $model_catalog_content
  * @property ModelAccountDownload $model_account_download
@@ -94,6 +91,7 @@ if (!defined('DIR_CORE')) {
  * @property AMessage $messages
  * @property ACustomer $customer
  * @property ADocument $document
+ * @property ADispatcher $dispatcher
  */
 abstract class AController {
 	protected $registry;
@@ -105,7 +103,14 @@ abstract class AController {
 	public $view;
 	protected $languages = array();
 
+	/**
+	 * @param $registry Registry
+	 * @param $instance_id
+	 * @param $controller
+	 * @param $parent_controller AController
+	 */
 	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
+
 		$this->registry = $registry;
 		$this->instance_id = $instance_id;
 		$this->controller = $controller;
@@ -117,7 +122,7 @@ abstract class AController {
 		if ($this->language) {
 			//initiate array of language references for current controller instance.
 			//add main language to languages references
-			$this->languages[] = $this->language->language_details['filename'];
+			$this->languages[ ] = $this->language->language_details[ 'filename' ];
 			$this->loadLanguage($this->controller, "silent");
 		}
 		//Load default model for current controller instance. Ignore if no model found  mode = silent
@@ -167,7 +172,7 @@ abstract class AController {
 		if (empty ($rt) || !method_exists($this->language, 'load')) return;
 		// strip off pages or responce
 		$rt = preg_replace('/^(api|pages|responses)\//', '', $rt);
-		$this->languages[] = $rt;
+		$this->languages[ ] = $rt;
 		//load all tranlations to the view
 		$this->view->batchAssign($this->language->load($rt, $mode));
 	}
@@ -181,9 +186,10 @@ abstract class AController {
 
 
 	// Dispatch new controller to be ran
-	protected function dispatch($dispatch_rt, $args = array('')) {
+	protected function dispatch($dispatch_rt, $args = array( '' )) {
 		return new ADispatcher($dispatch_rt, $args);
 	}
+
 	// Redirect to new page
 	protected function redirect($url) {
 		header('Location: ' . str_replace('&amp;', '&', $url));
@@ -208,8 +214,8 @@ abstract class AController {
 		// Look into all blocks that are loaded from latyout database or have position set for them
 		// Hardcoded children with blocks require manual inclusion to the templates.
 		foreach ($this->children as $block) {
-			if (!empty($block['position'])) {
-				array_push($blocks, $block['block_txt_id'] . '_' . $block['instance_id']);
+			if (!empty($block[ 'position' ])) {
+				array_push($blocks, $block[ 'block_txt_id' ] . '_' . $block[ 'instance_id' ]);
 			}
 		}
 		return $blocks;
@@ -219,16 +225,16 @@ abstract class AController {
 	public function addChild($new_controller, $block_text_id, $new_template = '', $template_position = '') {
 		// append child to the controller children list
 		$new_block = array();
-		$new_block['parent_instance_id'] = $this->instance_id;
-		$new_block['instance_id'] = $block_text_id . $this->instance_id;
-		$new_block['block_id'] = $block_text_id;
-		$new_block['controller'] = $new_controller;
-		$new_block['block_txt_id'] = $block_text_id;
-		$new_block['template'] = $new_template;
+		$new_block[ 'parent_instance_id' ] = $this->instance_id;
+		$new_block[ 'instance_id' ] = $block_text_id . $this->instance_id;
+		$new_block[ 'block_id' ] = $block_text_id;
+		$new_block[ 'controller' ] = $new_controller;
+		$new_block[ 'block_txt_id' ] = $block_text_id;
+		$new_block[ 'template' ] = $new_template;
 		// This it to position element to the placeholder.
 		// If not set emenet will not be displayed in place holder.
 		// To use manual inclusion to parent template ignore this parameter
-		$new_block['position'] = $template_position;
+		$new_block[ 'position' ] = $template_position;
 		array_push($this->children, $new_block);
 	}
 
@@ -247,25 +253,25 @@ abstract class AController {
 		if ($this->config) {
 			if ($this->config->get('storefront_template_debug')) {
 				// storefront enabling
-				if (!IS_ADMIN && !isset($this->session->data['tmpl_debug']) && isset($this->request->get['tmpl_debug'])) {
-					$this->session->data['tmpl_debug'] = isset($this->request->get['tmpl_debug']);
+				if (!IS_ADMIN && !isset($this->session->data[ 'tmpl_debug' ]) && isset($this->request->get[ 'tmpl_debug' ])) {
+					$this->session->data[ 'tmpl_debug' ] = isset($this->request->get[ 'tmpl_debug' ]);
 				}
 
-				if ((isset($this->session->data['tmpl_debug']) && isset($this->request->get['tmpl_debug'])) && ($this->session->data['tmpl_debug'] == $this->request->get['tmpl_debug'])) {
+				if ((isset($this->session->data[ 'tmpl_debug' ]) && isset($this->request->get[ 'tmpl_debug' ])) && ($this->session->data[ 'tmpl_debug' ] == $this->request->get[ 'tmpl_debug' ])) {
 
 					$block_details = $this->layout->getBlockDetails($this->instance_id);
-					$excluded_blocks = array('common/head');
+					$excluded_blocks = array( 'common/head' );
 					//if(!empty($block_details['parent_instance_id']) && $block_details['parent_instance_id'] > 0) {
-					if (!empty($this->instance_id) && (string)$this->instance_id != '0' && !in_array($block_details['controller'], $excluded_blocks)) {
+					if (!empty($this->instance_id) && (string)$this->instance_id != '0' && !in_array($block_details[ 'controller' ], $excluded_blocks)) {
 						if (!empty($this->parent_controller)) {
-							$args = array('block_id' => $this->instance_id,
+							$args = array( 'block_id' => $this->instance_id,
 								'block_controller' => $this->dispatcher->getFile(),
-								'block_tpl' => $this->view->data['template_dir'] . $this->view->getTemplate(),
+								'block_tpl' => $this->view->data[ 'template_dir' ] . $this->view->getTemplate(),
 								'parent_id' => $this->parent_controller->instance_id,
 								'parent_controller' => $this->parent_controller->dispatcher->getFile(),
-								'parent_tpl' => $this->parent_controller->view->data['template_dir'] . $this->parent_controller->view->getTemplate()
+								'parent_tpl' => $this->parent_controller->view->data[ 'template_dir' ] . $this->parent_controller->view->getTemplate()
 							);
-							$debug_wrapper = $this->dispatch('common/template_debug', array('instance_id' => $this->instance_id, 'details' => $args));
+							$debug_wrapper = $this->dispatch('common/template_debug', array( 'instance_id' => $this->instance_id, 'details' => $args ));
 							$debug_output = $debug_wrapper->dispatchGetOutput();
 							$output = trim($this->view->getOutput());
 							if (!empty($output)) $output = '<div class="block_tmpl_wrapper">' . $output . $debug_output . '</div>';
@@ -275,7 +281,7 @@ abstract class AController {
 
 				}
 			} else {
-				unset($this->session->data['tmpl_debug']);
+				unset($this->session->data[ 'tmpl_debug' ]);
 			}
 		}
 		$this->view->render();
@@ -289,7 +295,7 @@ abstract class AController {
 			$this->parent_controller->AddToParentByName($parant_controller_name, $variable, $value);
 		} else {
 			$wrn = new AWarning('Call to unknown parent controller ' . $parant_controller_name . ' in ' . get_class($this));
-			$wrn->toDebug()->toLog();
+			$wrn->toDebug();
 		}
 
 	}
@@ -300,7 +306,7 @@ abstract class AController {
 			$this->parent_controller->view->append($variable, $value);
 		} else {
 			$wrn = new AWarning('Parent controller called does not exist in ' . get_class($this));
-			$wrn->toDebug()->toLog();
+			$wrn->toDebug();
 		}
 	}
 
@@ -322,7 +328,7 @@ abstract class AController {
 	//Generate the URL to external help
 	public function gen_help_url($sub_key = '') {
 		if ($this->config->get('config_help_links') != 1) {
-			return;
+			return null;
 		}
 
 		if (!empty($sub_key)) {
