@@ -47,7 +47,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		// prepare block list (delete template duplicates)
 		foreach ($blocks as $block) {
 			// skip base custom blocks
-			if (!$block[ 'custom_block_id' ] && in_array($block[ 'block_txt_id' ], array( 'html_block' ))) {
+			if (!$block[ 'custom_block_id' ] && in_array($block[ 'block_txt_id' ], array( 'html_block', 'listing_block' ))) {
 				continue;
 			}
 			$tmp[ $block[ 'block_id' ] . '_' . $block[ 'custom_block_id' ] ] = $block;
@@ -98,16 +98,16 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 							'attr' => 'readonly="true"'
 						)) : ''),
 				$result[ 'block_date_added' ],
-				$action,
+				$action
 			);
 			$i++;
 		}
-
+		$this->data = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data));
 	}
 
 	public function update_field() {
@@ -157,13 +157,13 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 			$layout->saveBlockDescription((int)$this->request->post[ 'block_id' ],
 				$custom_block_id,
 				$tmp);
-			$info = $layout->getBlockDescriptions($custom_block_id) ;
-			if(isset($tmp['status'])){
-				if($info[$tmp[ 'language_id' ]]['status']!=$tmp['status']){
+			$info = $layout->getBlockDescriptions($custom_block_id);
+			if (isset($tmp[ 'status' ])) {
+				if ($info[ $tmp[ 'language_id' ] ][ 'status' ] != $tmp[ 'status' ]) {
 					$error = new AError('');
 					return $error->toJSONResponse('NO_PERMISSIONS_406',
 						array( 'error_text' => $this->language->get('error_text_status'),
-							   'reset_value' => true
+							'reset_value' => true
 						));
 				}
 			}
@@ -597,9 +597,9 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 						$response .= '<tr><td>' . $this->language->get('text_' . $key) . ':</td><td></td></tr>';
 						foreach ($item as $info_name => $info_value) {
 							if (!is_array($info_value)) {
-								if ($info_name == 'controller') {
+								/*if ($info_name == 'controller') {
 									$info_value = $info_value;
-								}
+								}*/
 								$response .= '<tr><td></td><td>' . $info_value . '</td></tr>';
 							} else {
 								foreach ($info_value as $v) {
@@ -614,12 +614,12 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 			$response .= '</tr>';
 		}
 
-		$this->response->setOutput($response);
+		$this->data = $response;
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->response->setOutput($this->data);
 	}
 
 }
-
-?>
