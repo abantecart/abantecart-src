@@ -106,11 +106,13 @@ try {
 if (ini_get('register_globals')) {
 	ini_set('session.use_cookies', 'On');
 	ini_set('session.use_trans_sid', 'Off');
-	session_set_cookie_params(  0,
-								str_replace($_SERVER['DOCUMENT_ROOT'],'',DIR_ROOT),
-								null,
-								(defined ('HTTPS') && HTTPS),
-								true);
+	$path = dirname ($_SERVER['PHP_SELF']);
+	session_set_cookie_params(0,
+							  $path,
+							  null,
+							  (defined ('HTTPS') && HTTPS),
+							  true);
+	unset($path);
 	session_name( SESSION_ID );
 	session_start();
 
