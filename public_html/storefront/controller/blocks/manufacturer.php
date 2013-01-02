@@ -29,28 +29,59 @@ class ControllerBlocksManufacturer extends AController {
 		$this->view->assign('heading_title', $this->language->get('heading_title') );
         $this->view->assign('text_select', $this->language->get('text_select') );
 
-		if (isset($this->request->get['manufacturer_id'])) {
-			$manufacturer_id = $this->request->get['manufacturer_id'];
-		} else {
-			$manufacturer_id = 0;
-		}
-        $this->view->assign('manufacturer_id', $manufacturer_id );
-		
-		$this->loadModel('catalog/manufacturer');
-		 
-		$manufacturers = array();
-		
-		$results = $this->model_catalog_manufacturer->getManufacturers();
-		
-		foreach ($results as $result) {
-			$manufacturers[] = array(
-				'manufacturer_id' => $result['manufacturer_id'],
-				'name'            => $result['name'],
-				'href'            => $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $result['manufacturer_id'], '&encode')
+		//For product page show only brand icon
+		if (isset($this->request->get['product_id'])) {
+			$product_id = $this->request->get['product_id'];
+			$this->view->assign('product_id', $product_id );
+			$result = $this->model_catalog_manufacturer->getManufacturerByProductId($product_id);
+			$manuf_detls = $result[0];
+			$resource = new AResource('image');
+			$thumbnail = $resource->getMainThumb('manufacturers',
+				$manuf_detls['manufacturer_id'],
+				$this->config->get('config_image_grid_width'),
+				$this->config->get('config_image_grid_height'),
+				true);			
+			$manufacturer = array(
+				'manufacturer_id' => $manuf_detls['manufacturer_id'],
+				'name'            => $manuf_detls['name'],
+				'href'            => $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $manuf_detls['manufacturer_id'], '&encode'),
+				'icon'			  => $thumbnail['thumb_url']
 			);
-		}
+        	$this->view->assign('manufacturer', $manufacturer );
 
-        $this->view->assign('manufacturers', $manufacturers );
+		} else {
+
+			if (isset($this->request->get['manufacturer_id'])) {
+				$manufacturer_id = $this->request->get['manufacturer_id'];
+			} else {
+				$manufacturer_id = 0;
+			}
+	        $this->view->assign('manufacturer_id', $manufacturer_id );
+			
+			$this->loadModel('catalog/manufacturer');
+			 
+			$manufacturers = array();
+			
+			$results = $this->model_catalog_manufacturer->getManufacturers();
+			
+			foreach ($results as $result) {
+				$resource = new AResource('image');
+				$thumbnail = $resource->getMainThumb('manufacturers',
+					$result['manufacturer_id'],
+					$this->config->get('config_image_grid_width'),
+					$this->config->get('config_image_grid_height'),
+					true);			
+			
+				$manufacturers[] = array(
+					'manufacturer_id' => $result['manufacturer_id'],
+					'name'            => $result['name'],
+					'href'            => $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $result['manufacturer_id'], '&encode'),
+					'icon'			  => $thumbnail				
+				);
+			}
+	
+	        $this->view->assign('manufacturers', $manufacturers );
+		}
 		
 		$this->processTemplate('blocks/manufacturer.tpl');
 
