@@ -10,7 +10,11 @@
             	<div class="brands">
             		<?php if ($product_id) { ?>  
             			<center>
-	                    <a href="<?php echo $manufacturer['href']; ?>"><img src="<?php echo $manufacturer['icon']; ?>" title="<?php echo $manufacturer['name']; ?>" border="0"/></a>
+	                    <a href="<?php echo $manufacturer['href']; ?>">
+	                    <?php if ( $manufacturer['icon'] ) { ?>  
+	                    <img src="<?php echo $manufacturer['icon']; ?>" title="<?php echo $manufacturer['name']; ?>" border="0"/>	                    
+	                    <?php } else { echo $manufacturer['name']; }  ?> 
+	                    </a>
 	                    </center>
                     <?php } else { ?>        	
                     	<ul>

@@ -163,7 +163,11 @@
 					<tr>
 						<td><b><?php echo $text_manufacturer; ?></b></td>
 						<td>
-							<a href="<?php echo $manufacturers; ?>"><?php echo $manufacturer; ?></a>
+							<a href="<?php echo $manufacturers; ?>">
+		                    <?php if ( $manufacturer_icon ) { ?>  
+		                    <img src="<?php echo $manufacturer_icon; ?>" title="<?php echo manufacturer; ?>" border="0"/>	                    
+	    	                <?php } else { echo $manufacturer; }  ?> 
+							</a>
 						</td>
 					</tr>
 					<?php } ?>

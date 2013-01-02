@@ -291,6 +291,16 @@ class ControllerPagesProductProduct extends AController {
 			$this->data['product_id'] = $product_id;
 			$this->data['average'] = $average;
 
+			$resource = new AResource('image');
+			$thumbnail = $resource->getMainThumb('manufacturers',
+				$product_info['manufacturer_id'],
+				$this->config->get('config_image_grid_width'),
+				$this->config->get('config_image_grid_height'),
+				true);			
+			if ( !preg_match('/no_image/', $thumbnail['thumb_url'])) {
+				$this->data['manufacturer_icon'] = $thumbnail['thumb_url']; 
+			}	
+
 			// Preapare options and values for display 
             $elements_with_options = HtmlElementFactory::getElementsWithOptions();
 			$options = array();
