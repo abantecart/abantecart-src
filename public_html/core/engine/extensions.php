@@ -63,11 +63,11 @@ abstract class Extension {
 		$this->baseObject = $object;
 	}
 
-    /**
-     * Load the current {@link ExtensionsApi} that has loaded this extension.
-     * @param ExtensionsApi $ExtensionsApi
-     * @internal param \ExtensionsApi $object The current {@link ExtensionsApi} that has loaded this extension. that has loaded this extension.
-     */
+	/**
+	 * Load the current {@link ExtensionsApi} that has loaded this extension.
+	 * @param ExtensionsApi $ExtensionsApi
+	 * @internal param \ExtensionsApi $object The current {@link ExtensionsApi} that has loaded this extension. that has loaded this extension.
+	 */
 	public function loadExtensionsApi(ExtensionsApi $ExtensionsApi) {
 		$this->ExtensionsApi = $ExtensionsApi;
 	}
@@ -78,7 +78,7 @@ abstract class Extension {
 			$return = call_user_func_array(array($this->ExtensionsApi, $method), $args);
 			return $return;
 		}
-        return null;
+		return null;
 	}
 }
 
@@ -127,10 +127,10 @@ class ExtensionCollection {
 		$return = null;
 
 		$baseObject = array_shift($args);
-        /**
-         * @var Extension $extension
-         */
-        foreach ($this->extensions as $extension) {
+		/**
+		 * @var Extension $extension
+		 */
+		foreach ($this->extensions as $extension) {
 			if (!method_exists($extension, $method) && ($extension->overloadHooks === false)) {
 				continue;
 			}
@@ -272,7 +272,7 @@ class ExtensionsApi {
 					$data['version'] = $misext->getConfig('version');
 					$data['priority'] = $misext->getConfig('priority');
 					$data['category'] = $misext->getConfig('category');
-					$data['license_key'] = $registry->get('load')->get('session')->data['package_info']['extension_key'];
+					$data['license_key'] = $registry->get('session')->data['package_info']['extension_key'];
 
 					if ($registry->has('extension_manager'))
 						$registry->get('extension_manager')->add($data);
@@ -317,7 +317,7 @@ class ExtensionsApi {
 		$sql = "SELECT * FROM " . DB_PREFIX . "extensions
 				" . ($key ? "WHERE `key` = '" . $this->db->escape($key) . "'" : '');
 		$query = $this->db->query($sql);
-        $extension_data = array();
+		$extension_data = array();
 		if ($query->num_rows == 1) {
 			$extension_data = $query->row;
 		} else {
@@ -404,7 +404,7 @@ class ExtensionsApi {
 			}
 			$sql .= "\n ORDER BY " . implode(' ', $data['sort_order']);
 		}
-        $total=null;
+		$total = null;
 		if (has_value($data['page']) && has_value($data['limit'])) {
 			$total = $this->db->query($sql);
 			$sql .= " LIMIT " . (int)(($data['page'] - 1) * $data['limit']) . ", " . (int)($data['limit']) . " ";
@@ -517,7 +517,7 @@ class ExtensionsApi {
 		foreach ($this->db_extensions as $store_id => $ext) {
 			if ($registry->get('config')->get($ext . '_status') && !in_array($ext, $enabled_extensions)) {
 
-                $priority = $registry->get('config')->get($ext . '_priority');
+				$priority = $registry->get('config')->get($ext . '_priority');
 				// prevent rewriting of array if we have exts with same priority
 				if (isset($enabled_extensions[$priority])) {
 					while (isset($enabled_extensions[$priority]) && $priority < 20000) {
@@ -532,6 +532,7 @@ class ExtensionsApi {
 					'admin' => array(),
 				);
 				if (is_file(DIR_EXT . $ext . '/main.php')) {
+					/** @noinspection PhpIncludeInspection */
 					include(DIR_EXT . $ext . '/main.php');
 				}
 				$ext_controllers[$ext] = $controllers;
@@ -723,20 +724,20 @@ class ExtensionsApi {
 		return false;
 	}
 
-    /**
-     * Get a {@link Extension} from the {@link ExtensionCollection} for this ExtensionsApi.
-     * {@source}
-     * Use like <code>$ExtensionsApi->extensionName</code>
-     * @param string $property Name of the {@link extension} to get.
-     * @throws AException
-     * @return extension
-     */
+	/**
+	 * Get a {@link Extension} from the {@link ExtensionCollection} for this ExtensionsApi.
+	 * {@source}
+	 * Use like <code>$ExtensionsApi->extensionName</code>
+	 * @param string $property Name of the {@link extension} to get.
+	 * @throws AException
+	 * @return extension
+	 */
 	public function __get($property) {
 		if ($this->extensions->$property !== false) {
 			return $this->extensions->$property;
 		}
 		throw new AException(AC_ERR_LOAD,
-			'Extensions of name "' . $property . '" not found in ExtensionsApi '
+				'Extensions of name "' . $property . '" not found in ExtensionsApi '
 		);
 	}
 
@@ -744,17 +745,17 @@ class ExtensionsApi {
 		if (substr($method, 0, 2) == 'hk') {
 			return $this->__ExtensionsApiCall(substr($method, 2), $args);
 		}
-        return null;
+		return null;
 	}
 
 	protected function __ExtensionsApiCall($method, array $args) {
 		$return = null;
 
 		if ((sizeof($args) > 0) && is_object($args[0])) {
-            /**
-             * @var object Extension
-             */
-            $baseObject = $args[0];
+			/**
+			 * @var object Extension
+			 */
+			$baseObject = $args[0];
 			$baseObject->ExtensionsApi = $this;
 		} else {
 			$baseObject = $this;
@@ -881,7 +882,7 @@ class ExtensionUtils {
 			$this->error('Error: config file of extension does not contain any information about versions of AbanteCart where it can be run.');
 			return false;
 		}
-        $cart_versions = array();
+		$cart_versions = array();
 		foreach ($this->config->cartversions->item as $item) {
 			$version = (string)$item;
 			$cart_versions[] = $version;
@@ -934,7 +935,7 @@ class ExtensionUtils {
 	public function validateDependencies() {
 		$extensions = $this->registry->get('extensions')->getEnabledExtensions();
 		$all_extensions = $this->registry->get('extensions')->getExtensionsList();
-        $versions = array();
+		$versions = array();
 		foreach ($all_extensions->rows as $ext) {
 			$versions[$ext['key']] = $ext['version'];
 		}
@@ -998,6 +999,7 @@ class ExtensionUtils {
 			'storefront' => array(),
 			'admin' => array(),
 		);
+		/** @noinspection PhpIncludeInspection */
 		include($filename);
 		$validate_resources = array(
 			'controllers' => $controllers,
