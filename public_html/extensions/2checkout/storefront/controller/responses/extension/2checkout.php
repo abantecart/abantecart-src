@@ -81,12 +81,6 @@ class ControllerResponsesExtension2Checkout extends AController {
 		$template_data['lang'] = $this->session->data['language'];
 
 		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
-			$template_data['return_url'] = $this->html->getSecureURL('checkout/confirm');
-		} else {
-			$template_data['return_url'] = $this->html->getSecureURL('checkout/guest_step_3');
-		}
-
-		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
 			$template_data['back'] = $this->html->getSecureURL('checkout/payment');
 		} else {
 			$template_data['back'] = $this->html->getSecureURL('checkout/guest_step_2');

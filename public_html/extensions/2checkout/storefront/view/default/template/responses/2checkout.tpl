@@ -29,7 +29,7 @@
 	<input type="hidden" name="demo" value="<?php echo $demo; ?>"/>
 	<?php } ?>
 	<input type="hidden" name="lang" value="<?php echo $lang; ?>"/>
-	<input type="hidden" name="return_url" value="<?php echo $return_url; ?>"/>
+
 </form>
 <div class="buttons">
 	<table>
