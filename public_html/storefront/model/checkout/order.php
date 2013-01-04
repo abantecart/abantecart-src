@@ -220,19 +220,26 @@ class ModelCheckoutOrder extends Model {
 			if (has_value($this->session->data['promotion_data']['total'])) {
 				$new_total = round($this->session->data['promotion_data']['total'], 2);
 				$promo_value = $order_query->row['total'] - $new_total;
+				$i = 1;
+				foreach ($this->session->data['promotion_data']['total_data'] as $total) {
+					if ($total['id'] == 'promotion') {
+						$this->db->query("INSERT INTO " . DB_PREFIX . "order_totals
+										SET order_id = '" . (int)$order_id . "',
+											title = '" . $this->db->escape($total['title'] . ":") . "',
+											text = '" . $this->db->escape($total['text']) . "',
+											`value` = '" . (float)$promo_value . "',
+											sort_order = '" . ($i + 950) . "',
+											type = 'promotion'");
+						$i++;
+					}
 
-				$this->db->query("INSERT INTO " . DB_PREFIX . "order_totals
-								SET order_id = '" . (int)$order_id . "',
-									title = 'Promo:',
-									text = '" . $this->db->escape($this->currency->format((float)$promo_value)) . "',
-									`value` = '" . (float)$promo_value . "',
-									sort_order = '999',
-									type = 'promo'");
+				}
+
+
 				$this->db->query("UPDATE " . DB_PREFIX . "order_totals
 								SET text = '" . $this->db->escape($this->currency->format($new_total)) . "',
 									`value` = '" . $new_total . "'
 								WHERE type = 'total' AND order_id = '" . (int)$order_id . "' ");
-
 				$update[] = "total='" . $new_total . "'";
 			}
 
