@@ -221,6 +221,10 @@ class ExtensionsApi {
 	 * @var $extension_languages - array of extensions languages
 	 */
 	protected $extension_languages;
+    /**
+     * @var $ExtensionsApi ExtensionsApi
+     */
+    protected $ExtensionsApi;
 
 	/**
 	 * @var $extension_templates - array of extensions templates
@@ -514,7 +518,7 @@ class ExtensionsApi {
 		$ext_controllers = $ext_models = $ext_languages = $ext_templates = array();
 		$enabled_extensions = $extensions = array();
 
-		foreach ($this->db_extensions as $store_id => $ext) {
+		foreach ($this->db_extensions as $ext) {
 			if ($registry->get('config')->get($ext . '_status') && !in_array($ext, $enabled_extensions)) {
 
 				$priority = $registry->get('config')->get($ext . '_priority');
@@ -1073,7 +1077,8 @@ class ExtensionUtils {
 					$result[$i]['style'] = 'btn_switch';
 					$result[$i]['attr'] = 'reload_on_save="true"';
 				}
-				$type_attr = $item->type->attributes();
+                /** @noinspection PhpUndefinedMethodInspection */
+                $type_attr = $item->type->attributes();
 				if ((string)$type_attr['required'] == 'true') {
 					$result[$i]['required'] = true;
 					$this->registry->get('session')->data['extension_required_fields'][] = $result[$i]['name'];
