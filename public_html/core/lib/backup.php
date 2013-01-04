@@ -94,7 +94,8 @@ final class ABackup {
 
 		$backupFile = $this->backup_dir.'data/' .DB_DATABASE.'_'.$table_name.'_dump_'. date("Y-m-d-H-i-s") . '.sql';
 		$command = "mysqldump --opt -h " . DB_HOSTNAME . " -u " . DB_USERNAME . " -p" . DB_PASSWORD . " " . DB_DATABASE . "  ".$table_name." > " . $backupFile;
-		if(isFunctionAvailable('system')){
+		$result = null;
+        if(isFunctionAvailable('system')){
 			$result = system($command);
 		}
 		if(!$result){
@@ -212,7 +213,7 @@ final class ABackup {
 
 
 		if ( $exit_code ) {
-			$this->load->library('targz');
+			$this->registry->get('load')->library('targz');
 			$targz = new Atargz();
 		    $targz->makeTar($tar_dir.$filename,$tar_filename);
 		}
@@ -232,12 +233,12 @@ final class ABackup {
 	// Future:  1. We will add methods to brows and restore backup. 
 	// 			2. Incremental backup for the database changes. 
 
-		/**
-	 * method removes non-empty directory (use it carefully)
-	 *
-	 * @param srting $dir
-	 * @return boolean
-	 */
+    /**
+     * method removes non-empty directory (use it carefully)
+     *
+     * @param string $dir
+     * @return boolean
+     */
 	private function _removeDir( $dir='' ) {
 			if ( is_dir($dir) ) {
 				$objects = scandir($dir);
