@@ -92,6 +92,13 @@
 							</td>
 						</tr>
 						<?php } ?>
+						<?php if ($maximum > 0) { ?>
+						<tr>
+							<td colspan="2">
+								<small><?php echo $text_maximum; ?></small>
+							</td>
+						</tr>
+						<?php } ?>
 						<?php echo $this->getHookVar('buttons'); ?>
 					</table>
 

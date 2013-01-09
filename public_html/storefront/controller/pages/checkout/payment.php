@@ -29,6 +29,11 @@ class ControllerPagesCheckoutPayment extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
+		//validate if order min/max are met
+		if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
+			$this->redirect($this->html->getSecureURL('checkout/cart'));
+		}
+
 		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && isset($this->request->post[ 'coupon' ]) && $this->_validateCoupon()) {
 			$this->session->data[ 'coupon' ] = $this->request->post[ 'coupon' ];
 			$this->session->data[ 'success' ] = $this->language->get('text_success');
