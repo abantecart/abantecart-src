@@ -24,7 +24,8 @@ class ControllerPagesCheckoutCart extends AController {
 	private $error = array();
 	public $data = array();
 	public function main() {
-
+		$error_msg = array();
+		
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
@@ -120,9 +121,8 @@ class ControllerPagesCheckoutCart extends AController {
 			
     	if ($this->cart->hasProducts()) {
 
-			$this->view->assign('error_warning', $this->error['warning'] );
             if (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout')) {
-                $this->view->assign('error_warning', $this->language->get('error_stock') );
+                $error_msg[] = $this->language->get('error_stock');
 			}
 			
 			$this->loadModel('tool/seo_url'); 
@@ -211,12 +211,14 @@ class ControllerPagesCheckoutCart extends AController {
 			$cf_total_max = $this->config->get('total_order_maximum'); 
 			if ( !$this->cart->hasMinRequirement() ) {
 			    $this->data['form'][ 'checkout' ] = '';
-			    $this->view->assign('error_warning', sprintf($this->language->get('error_order_minimum'), $this->currency->format($cf_total_min) ) );
-			}else if ( !$this->cart->hasMaxRequirement() ) {
+			    $error_msg[] = sprintf($this->language->get('error_order_minimum'), $this->currency->format($cf_total_min) );
+			}
+			if ( !$this->cart->hasMaxRequirement() ) {
 			    $this->data['form'][ 'checkout' ] = '';
-			    $this->view->assign('error_warning', sprintf($this->language->get('error_order_maximum'), $this->currency->format($cf_total_max) ) );	
+			    $error_msg[] = sprintf($this->language->get('error_order_maximum'), $this->currency->format($cf_total_max) );	
 			}	
 			
+			$this->view->assign('error_warning', $error_msg );
 			$this->view->setTemplate( 'pages/checkout/cart.tpl' );
 
     	} else {            
