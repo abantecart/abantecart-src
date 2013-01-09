@@ -519,6 +519,18 @@ class AConfigManager {
 			'value' => $data[ 'config_stock_checkout' ],
 			'style' => 'btn_switch',
 		));
+		$fields[ 'total_order_maximum' ] = $form->getFieldHtml($props[ ] = array(
+			'type' => 'input',
+			'name' => 'total_order_maximum',
+			'value' => $data[ 'total_order_maximum' ],
+			'style' => 'small-field'
+		));
+		$fields[ 'total_order_minimum' ] = $form->getFieldHtml($props[ ] = array(
+			'type' => 'input',
+			'name' => 'total_order_minimum',
+			'value' => $data[ 'total_order_minimum' ],
+			'style' => 'small-field'
+		));		
 		$fields[ 'order_status' ] = $form->getFieldHtml($props[ ] = array(
 			'type' => 'selectbox',
 			'name' => 'config_order_status_id',
@@ -543,6 +555,7 @@ class AConfigManager {
 			'value' => $data[ 'config_cart_ajax' ],
 			'style' => 'btn_switch',
 		));
+				
 		if (isset($data[ 'one_field' ])) {
 			$fields = $this->_filterField($fields, $props, $data[ 'one_field' ]);
 		}

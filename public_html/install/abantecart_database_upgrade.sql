@@ -9,3 +9,9 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('coupon', 'coupon_calculation_order', '4'),
 ('tax', 'tax_calculation_order', '5'),
 ('total', 'total_calculation_order', '6');
+
+ALTER TABLE `ac_products` ADD COLUMN `maximum` int(11) NOT NULL DEFAULT '0';
+
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
+('checkout', 'total_order_maximum', '0'),
+('checkout', 'total_order_minimum', '0');

@@ -24,7 +24,12 @@ if (! defined ( 'DIR_CORE' )) {
 final class ACart {
   	private $registry;
   	private $cart_data = array();
-  	
+  	private $sub_total;
+  	private $taxes = array();
+  	private $total_value;
+  	private $final_total;
+  	private $total_data;
+  	  	
   	public function __construct($registry) {
   		$this->registry = $registry;
 
@@ -214,6 +219,7 @@ final class ACart {
 					'download'     => $download_data,
         			'quantity'     => $quantity,
         			'minimum'      => $product_query['minimum'],
+        			'maximum'      => $product_query['maximum'],
 					'stock'        => $stock,
         			'price'        => ($price + $option_price),
         			'total'        => ($price + $option_price) * $quantity,
@@ -255,6 +261,7 @@ final class ACart {
 			$this->session->data['cart'][$key]['options'] = $options;
 		}
 		$this->setMinQty();
+		$this->setMaxQty();
   	}
 
   	public function update($key, $qty) {
@@ -264,6 +271,7 @@ final class ACart {
 	  		$this->remove($key);
 		}
 		$this->setMinQty();
+		$this->setMaxQty();
   	}
 
   	public function remove($key) {
@@ -352,75 +360,111 @@ final class ACart {
 			}
 		}
   	}
-	
-  	public function getSubTotal() {
-		$total = 0;
-		
+
+	public function setMaxQty() {
+		# If set 0 there is no minimum
 		foreach ($this->getProducts() as $product) {
-			$total += $product['total'];
+			if ($product['maximum'] > 0) {
+				if ($product['quantity'] > $product['maximum']) {
+					$this->session->data['cart'][$product['key']]['qty'] = $product['maximum'];
+				}
+			}
+		}
+  	}
+	
+	/*
+	* Get Sub Total amount for current built order wihout any tax or any promotion
+	* To force recalculate pass argument as TRUE 
+	*/	
+	
+  	public function getSubTotal( $recalculate = false) {
+		#check if value already set
+		if ( has_value($this->sub_total) && !$recalculate) {
+			return $this->sub_total;
+		}
+		
+		$this->sub_total = 0.0;
+		foreach ($this->getProducts() as $product) {
+			$this->sub_total += $product['total'];
 		}
 
-		return $total;
+		return $this->sub_total;
   	}
 	
 	/*
 	* candidate to be depricated
 	*/
-	
 	public function getTaxes() {
 		return $this->getAppliedTaxes();
 	}
 	
-	
 	/*
 	* Returns all applied taxes on products in the cart 
+	* To force recalculate pass argument as TRUE
 	*/
-	
-	public function getAppliedTaxes() {
-		$taxes = array();
-		
+	public function getAppliedTaxes( $recalculate = false ) {
+		#check if value already set
+		if ( has_value($this->taxes) && !$recalculate) {
+			return $this->taxes;
+		}
+		$this->taxes = array();		
 		foreach ($this->getProducts() as $product) {
 			if ($product['tax_class_id']) {
 				//save total for each tax class to build clear tax display later
 				if (!isset($taxes[$product['tax_class_id']])) {
-					$taxes[$product['tax_class_id']]['total'] = $product['total'];
-					$taxes[$product['tax_class_id']]['tax'] = $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']);
+					$this->taxes[$product['tax_class_id']]['total'] = $product['total'];
+					$this->taxes[$product['tax_class_id']]['tax'] = $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']);
 				} else {
-					$taxes[$product['tax_class_id']]['total'] += $product['total'];
-					$taxes[$product['tax_class_id']]['tax'] += $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']);
+					$this->taxes[$product['tax_class_id']]['total'] += $product['total'];
+					$this->taxes[$product['tax_class_id']]['tax'] += $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']);
 				}
 			}
 		}
 
-		return $taxes;
+		return $this->taxes;
   	}
 
-  	public function getTotal() {
-		$total = 0;
-		
-		foreach ($this->getProducts() as $product) {
-			$total += $this->tax->calculate($product['total'], $product['tax_class_id'], $this->config->get('config_tax'));
-		}
-
-		return $total;
-  	}
 
 	/*
-	* Function to build total display based on enabled extensions/settings for total section 
-	*   
+	* Get Total amount for current built order with applicable taxes ( order value ) 
+	* Can be used for total value in shipping insurace or to culculate total savings.  
+	* To force recalculate pass argument as TRUE
 	*/
+  	public function getTotal( $recalculate = false ) {
+		#check if value already set
+		if ( has_value($this->total_value) && !$recalculate) {
+			return $this->total_value;
+		}
+		$this->total_value = 0.0;
+		foreach ($this->getProducts() as $product) {
+			$this->total_value += $product['total'] + $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']);
+		}
 
-	public function buildTotalDisplay() {
+		return $this->total_value;
+  	}
+
+
+	/*
+	* Get Total amount for current built cart with all totals, taxes and applied promotions
+	* To force recalculate pass argument as TRUE
+	*/
+	
+	public function getFinalTotal( $recalculate = false ) {
+		#check if value already set
+		if ( has_value($this->total_data) && has_value($this->final_total) && !$recalculate) {
+			return $this->final_total;
+		}
+		$this->final_total = 0.0;
+		$this->total_data = array();
+
 		$total_data = array();
-		$sort_order = array(); 
+		$calc_order	= array();
 		$total = 0;
 		
-		$taxes = $this->getAppliedTaxes();
-		 
+		$taxes = $this->getAppliedTaxes( $recalculate );		 
 		$this->load->model('checkout/extension');
-
 		$total_extns = $this->model_checkout_extension->getExtensions('total');
-		
+	
 		foreach ($total_extns as $key => $value) {
 			$calc_order[$value['key']] = (int)$this->config->get($value['key'] . '_calculation_order');
 		}
@@ -441,8 +485,39 @@ final class ACart {
 			$this->load->model('total/' . $extn[ 'key' ]);
 			$this->{'model_total_' . $extn[ 'key' ]}->getTotal($total_data, $total, $taxes);
 		}
-		$sort_order = array();
-	  
+		
+	  	$this->total_data = $total_data;	
+  		$this->final_total = $total;
+  		return $this->final_total;
+  	}
+
+	/*
+	* Get Total Data for current built cart with all totals, taxes and applied promotions
+	* To force recalculate pass argument as TRUE
+	*/
+	
+	public function getFinalTotalData( $recalculate = false ) {
+		#check if value already set
+		if ( has_value($this->total_data) && has_value($this->final_total) && !$recalculate) {
+			return $this->total_data;
+		}
+		$this->final_total = $this->getFinalTotal($recalculate);
+		return $this->total_data;
+	}
+
+	/*
+	* Function to build total display based on enabled extensions/settings for total section 
+	* To force recalculate pass argument as TRUE  
+	*/
+
+	public function buildTotalDisplay( $recalculate = false ) {
+	
+		$taxes = $this->getAppliedTaxes( $recalculate );
+		$total = $this->getFinalTotal( $recalculate );
+		$total_data = $this->getFinalTotalData();
+
+		#sort data for view			  
+		$sort_order = array(); 
 		foreach ($total_data as $key => $value) {
       		$sort_order[$key] = $value['sort_order'];
     	}
@@ -452,7 +527,28 @@ final class ACart {
     	return array('total' => $total, 'total_data' => $total_data, 'taxes' => $taxes); 	
 	}
 
-  	
+	/*
+	* Check if order/cart total has minimum amount setting met if it was set 
+	*/
+ 	public function hasMinRequirement() {
+		$cf_total_min = $this->config->get('total_order_minimum'); 
+		if ( $cf_total_min && $cf_total_min > $this->getSubTotal() ) {
+			return FALSE;
+		}
+		return TRUE;	 
+	} 
+
+	/*
+	* Check if order/cart total has maximum amount setting met if it was set 
+	*/
+ 	public function hasMaxRequirement() {
+		$cf_total_max = $this->config->get('total_order_maximum'); 
+		if ( $cf_total_max && $cf_total_max < $this->getSubTotal() ) {
+			return FALSE;
+		}
+		return TRUE; 
+	} 
+   	
   	public function countProducts() {
 		$qty = 0;
 		foreach ( $this->session->data['cart'] as $product) {

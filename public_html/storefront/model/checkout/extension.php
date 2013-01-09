@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ModelCheckoutExtension extends Model {
-	public function getExtensions($type) {
+	public function getExtensions($type, $sort_order = '') {
 		$output = array();
 		$query = $this->db->query("SELECT e.*, s.value as status
 									FROM " . DB_PREFIX . "extensions e

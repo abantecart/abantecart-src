@@ -173,6 +173,10 @@
 		<value><![CDATA[Minimum Quantity:<br/><span class="help">Force a minimum ordered amount</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_maximum</key>
+		<value><![CDATA[Maximum Quantity:<br/><span class="help">Set a limit on quantaty that can be selected per each order. 0 = no limit</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_stock_status</key>
 		<value>
 			<![CDATA[Out Of Stock Status:<br/><span class="help">Status shown when a product is out of stock</span>]]></value>

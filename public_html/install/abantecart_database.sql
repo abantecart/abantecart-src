@@ -900,6 +900,7 @@ CREATE TABLE `ac_products` (
   `sort_order` int(11) NOT NULL DEFAULT '0',
   `subtract` int(1) NOT NULL DEFAULT '1',
   `minimum` int(11) NOT NULL DEFAULT '1',
+  `maximum` int(11) NOT NULL DEFAULT '0',
   `cost` DECIMAL(15,4) NOT NULL DEFAULT '0.0000',
   PRIMARY KEY (`product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
@@ -1183,6 +1184,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout', 'config_stock_subtract', '0'),
 ('checkout', 'config_stock_check', '1'),
 ('checkout', 'config_cart_ajax', '1'),
+('checkout', 'total_order_maximum', '0'),
+('checkout', 'total_order_minimum', '0'),
 -- Appearance
 ('appearance', 'config_storefront_template', 'default'),
 ('appearance', 'storefront_width', '100%'),

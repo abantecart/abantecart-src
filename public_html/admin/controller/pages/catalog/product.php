@@ -361,6 +361,7 @@ class ControllerPagesCatalogProduct extends AController {
                         'free_shipping',
                         'quantity',
                         'minimum',
+                        'maximum',
 	                    'subtract',
 	                    'sort_order',
 	                    'stock_status_id',
@@ -632,6 +633,11 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'minimum',
 			'value' => (int)$this->data['minimum'],
+	    ));
+        $this->data['form']['fields']['data']['maximum'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'maximum',
+			'value' => (int)$this->data['maximum'],
 	    ));
         $this->data['form']['fields']['data']['stock_status'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',

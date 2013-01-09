@@ -29,6 +29,11 @@ class ControllerPagesCheckoutShipping extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
+		//validate if order min/max are met
+		if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
+			$this->redirect($this->html->getSecureURL('checkout/cart'));
+		}
+
 		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && $this->validate()) {
 
 			$shipping = explode('.', $this->request->post[ 'shipping_method' ]);

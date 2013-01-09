@@ -46,7 +46,9 @@ class ControllerBlocksOrderSummary extends AController {
         if ( strpos($rt, 'checkout') !== false && $rt != 'checkout/cart' ) {
             $this->view->assign('checkout', '');
         } else {
-            $this->view->assign('checkout', $this->html->getURL('checkout/shipping'));
+			if ( $this->cart->hasMinRequirement() && $this->cart->hasMaxRequirement() ) {
+            	$this->view->assign('checkout', $this->html->getURL('checkout/shipping'));
+			}	
         }
 
 		$products = array();

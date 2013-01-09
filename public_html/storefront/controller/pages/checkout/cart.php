@@ -181,6 +181,7 @@ class ControllerPagesCheckoutCart extends AController {
 		    $this->data['form'][ 'update' ] = $form->getFieldHtml( array(
                                                                        'type' => 'submit',
 		                                                               'name' => $this->language->get('button_update') ));
+			
 			$this->data['form'][ 'checkout' ] = $form->getFieldHtml( array(
 																			'type' => 'button',
 																			'name' => 'checkout',
@@ -204,8 +205,20 @@ class ControllerPagesCheckoutCart extends AController {
 			}
 			
             $this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
+
+			#Check if order total max/min is set and met
+			$cf_total_min = $this->config->get('total_order_minimum'); 
+			$cf_total_max = $this->config->get('total_order_maximum'); 
+			if ( !$this->cart->hasMinRequirement() ) {
+			    $this->data['form'][ 'checkout' ] = '';
+			    $this->view->assign('error_warning', sprintf($this->language->get('error_order_minimum'), $this->currency->format($cf_total_min) ) );
+			}else if ( !$this->cart->hasMaxRequirement() ) {
+			    $this->data['form'][ 'checkout' ] = '';
+			    $this->view->assign('error_warning', sprintf($this->language->get('error_order_maximum'), $this->currency->format($cf_total_max) ) );	
+			}	
 			
 			$this->view->setTemplate( 'pages/checkout/cart.tpl' );
+
     	} else {            
             $this->data['heading_title'] = $this->language->get('heading_title');
             $this->data['text_error'] = $this->language->get('text_error');

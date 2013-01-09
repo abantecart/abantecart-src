@@ -156,4 +156,9 @@
 		<key>text_minimum</key>
 		<value><![CDATA[(Este producto tiene una cantidad mínima de %s)]]></value>
 	</definition>
+	<definition>
+		<key>text_maximum</key>
+		<value><![CDATA[(Este producto tiene un límite establecido en %s punto por cada pedido)]]></value>
+	</definition>
+	
 </definitions>

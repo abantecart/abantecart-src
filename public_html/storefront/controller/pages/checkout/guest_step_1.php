@@ -33,6 +33,11 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 			$this->redirect($this->html->getSecureURL('checkout/cart'));
 		}
 
+		//validate if order min/max are met
+		if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
+			$this->redirect($this->html->getSecureURL('checkout/cart'));
+		}
+
 		if ($this->customer->isLogged()) {
 			$this->redirect($this->html->getSecureURL('checkout/shipping'));
 		}

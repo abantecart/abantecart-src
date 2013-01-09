@@ -110,6 +110,7 @@ final class ATax {
 	/*
 	* Add Calculated tax based on provided $tax_class_id
 	* If $calculate switch passed as false skip tax calculation. 
+	* This is used in display of product price with tax added or not (based on config_tax )
 	* 
 	*/
   	public function calculate($value, $tax_class_id, $calculate = TRUE) {
