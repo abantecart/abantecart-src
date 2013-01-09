@@ -1223,7 +1223,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('mail', 'config_alert_emails', ''),
 
 --system
-('system', 'config_session_ttl', '60'),
+('system', 'config_session_ttl', '120'),
 ('system', 'config_ssl', '0'),
 ('system', 'config_maintenance', '0'),
 ('system', 'encryption_key', '12345'),

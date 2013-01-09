@@ -48,10 +48,14 @@ final class ACart {
 	public function __set($key, $value) {
 		$this->registry->set($key, $value);
 	}
-		      
-  	public function getProducts() {
+		 
+	/*
+	* Returns all products in the cart 
+	* To force recalculate pass argument as TRUE
+	*/	      
+  	public function getProducts( $recalculate = false ) {
 		//check if cart data was built before
-		if ( count($this->cart_data) ) {
+		if ( count($this->cart_data) && !$recalculate ) {
 			return $this->cart_data;
 		}
 
@@ -262,6 +266,8 @@ final class ACart {
 		}
 		$this->setMinQty();
 		$this->setMaxQty();
+		#reload data for the cart
+		$this->getProducts(TRUE);
   	}
 
   	public function update($key, $qty) {
@@ -272,6 +278,8 @@ final class ACart {
 		}
 		$this->setMinQty();
 		$this->setMaxQty();
+		#reload data for the cart
+		$this->getProducts(TRUE);
   	}
 
   	public function remove($key) {

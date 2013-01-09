@@ -81,6 +81,10 @@ class ControllerPagesCheckoutCart extends AController {
 				unset($this->session->data['shipping_method']);
 				unset($this->session->data['payment_methods']);
 				unset($this->session->data['payment_method']);
+	
+				#upate min and max
+				$this->cart->setMinQty();
+				$this->cart->setMaxQty();
       		}
 
       		if (isset($this->request->post['remove'])) {
@@ -124,10 +128,9 @@ class ControllerPagesCheckoutCart extends AController {
             if (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout')) {
                 $error_msg[] = $this->language->get('error_stock');
 			}
-			
+						
 			$this->loadModel('tool/seo_url'); 
-			
-			
+						
       		$products = array();
 			$resource = new AResource('image');
 
