@@ -59,10 +59,10 @@
 	</definition>
 	<definition>
 		<key>error_order_minimum</key>
-		<value><![CDATA[Su pedido subtotal cantidad no satisface cantidad mínima requerida. Por favor, añadir más productos a su carrito!]]></value>
+		<value><![CDATA[Su pedido subtotal cantidad no satisface cantidad mínima %s requerida. Por favor, añadir más productos a su carrito!]]></value>
 	</definition>
 	<definition>
 		<key>error_order_maximum</key>
-		<value><![CDATA[Su pedido subtotal importe exceda la cantidad máxima permitida por pedido. Elimina algunos artículos de su carrito!]]></value>
+		<value><![CDATA[Su pedido subtotal importe exceda la cantidad máxima %s permitida por pedido. Elimina algunos artículos de su carrito!]]></value>
 	</definition>	
 </definitions>
