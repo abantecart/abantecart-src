@@ -221,10 +221,10 @@ class ExtensionsApi {
 	 * @var $extension_languages - array of extensions languages
 	 */
 	protected $extension_languages;
-    /**
-     * @var $ExtensionsApi ExtensionsApi
-     */
-    protected $ExtensionsApi;
+	/**
+	 * @var $ExtensionsApi ExtensionsApi
+	 */
+	protected $ExtensionsApi;
 
 	/**
 	 * @var $extension_templates - array of extensions templates
@@ -827,19 +827,18 @@ class ExtensionUtils {
 
 	protected $tags = array();
 
+	/**
+	 * @param string $ext
+	 * @param int $store_id
+	 */
 	public function __construct($ext, $store_id = 0) {
 		$this->registry = Registry::getInstance();
-		$this->name = $ext;
+		$this->name = (string)$ext;
 		$this->store_id = (int)$store_id;
-		$filename = DIR_EXT . str_replace('../', '', $this->name) . '/config.xml';
-		if (!is_file($filename)) {
-			$error = new AError(sprintf('Error: Could not load config for <b>%s</b>!', $this->name));
-			$error->toLog()->toDebug();
-			return;
-		}
+		$this->config = getExtensionConfigXml($ext);
 
-		$this->config = simplexml_load_file($filename);
 		if (!$this->config) {
+			$filename = DIR_EXT . str_replace('../', '', $this->name) . '/config.xml';
 			$err = sprintf('Error: Could not load config for <b>%s</b> ( ' . $filename . ')!', $this->name);
 			foreach (libxml_get_errors() as $error) {
 				$err .= "  " . $error->message;
@@ -847,156 +846,22 @@ class ExtensionUtils {
 			$error = new AError($err);
 			$error->toLog()->toDebug();
 			$this->error[] = $err;
-			return;
+			return null;
 		}
+		return null;
 	}
 
 	public function getConfig($val = null) {
 		return !empty($val) ? isset($this->config->$val) ? (string)$this->config->$val : null : $this->config;
 	}
 
-	public function validate() {
-		$this->validateFreeSpace();
-		$this->validateInstalled();
-		$this->validateCoreVersion();
-		$this->validatePhpModules();
-		$this->validateDependencies();
-	}
-
-	/**
-	 *  check free space
-	 */
-	public function validateFreeSpace() {
-		return null;
-	}
-
-	/**
-	 *  is extension already installed ( extension upgrade )
-	 */
-	public function validateInstalled() {
-		$ext = new ExtensionsApi();
-		return in_array($this->name, $ext->getDbExtensions());
-	}
-
-	/**
-	 *  is extension support current core version
-	 */
-	public function validateCoreVersion() {
-		if (!isset($this->config->cartversions->item)) {
-			$this->error('Error: config file of extension does not contain any information about versions of AbanteCart where it can be run.');
-			return false;
-		}
-		$cart_versions = array();
-		foreach ($this->config->cartversions->item as $item) {
-			$version = (string)$item;
-			$cart_versions[] = $version;
-		}
-		// check is cart version presents on extension cart version list
-		foreach ($cart_versions as $version) {
-			$result = versionCompare(VERSION, $version, '>=');
-			if ($result) {
-				return true;
-			}
-		}
-		// if not - seek cart earlier version then current cart version in the list
-		foreach ($cart_versions as $version) {
-			$result = versionCompare($version, VERSION, '<');
-			if ($result) {
-				$error_text = 'Extension <b>%s</b> written for earlier version of Abantecart (v.%s) lower that you have. ';
-				$error_text .= 'Probably all will be OK.';
-				$error_text = sprintf($error_text, $this->name, implode(', ', $cart_versions));
-				$registry = Registry::getInstance();
-				$registry->get('session')->data['error'] = $error_text;
-				$registry->get('messages')->saveWarning($this->name . ' extension warning', $error_text);
-				return true;
-			}
-		}
-
-
-		$error_text = '<b>%s</b> extension cannot be installed. AbanteCart version incompability. ';
-		$error_text .= sizeof($cart_versions) > 1 ? 'Versions <b>%s</b> are required.' : 'Version <b>%s</b> is required.';
-		$this->error(sprintf($error_text, $this->name, implode(', ', $cart_versions)));
-		return false;
-	}
-
-	/**
-	 *  is hosting support all php modules used by extension
-	 */
-	public function validatePhpModules() {
-		if (!isset($this->config->phpmodules->item)) return;
-		foreach ($this->config->phpmodules->item as $item) {
-			$item = (string)$item;
-			if (!extension_loaded($item)) {
-				$this->error(sprintf('<b>%s</b> extension cannot be installed: <b>%s</b> php module required', $this->name, $item));
-			}
-		}
-
-	}
-
-	/**
-	 *  is dependencies present
-	 */
-	public function validateDependencies() {
-		$extensions = $this->registry->get('extensions')->getEnabledExtensions();
-		$all_extensions = $this->registry->get('extensions')->getExtensionsList();
-		$versions = array();
-		foreach ($all_extensions->rows as $ext) {
-			$versions[$ext['key']] = $ext['version'];
-		}
-		if (!isset($this->config->dependencies->item)) return true;
-		foreach ($this->config->dependencies->item as $item) {
-			$required = (boolean)$item['required'];
-			$version = (string)$item['version'];
-			$prior_version = (string)$item['prior_version'];
-
-			$item = (string)$item;
-			// check existing of required
-			if ($required && !in_array($item, $extensions)) {
-				$this->error(sprintf('<b>%s</b> extension cannot be installed: <b>%s</b> extension required and must be installed and enabled!', $this->name, $item));
-			}
-			// if extension installed - check version that need
-			if ($version) {
-				if ($required && (!versionCompare($version, $versions[$item], '>=') || !versionCompare($prior_version, $versions[$item], '<='))) {
-					$this->error(sprintf('<b>%s</b> extension cannot be installed: <b>%s</b> extension versions <b>' . $prior_version . ' - ' . $version . '</b> are required', $this->name, $item));
-				}
-			}
-			if (sizeof($this->error) > 0) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 *  is dependendants installed
-	 */
-	public function checkDependants() {
-		$extensions = $this->registry->get('extensions')->getInstalled('exts');
-		foreach ($extensions as $extension) {
-			if ($extension == $this->name) continue;
-
-			$filename = DIR_EXT . $extension . '/config.xml';
-			$config = simplexml_load_file($filename);
-			if (!isset($config->dependencies->item)) continue;
-			foreach ($config->dependencies->item as $item) {
-				$required = (boolean)$item['required'];
-				$item = (string)$item;
-				if ($item == $this->name && $required) {
-					$this->error(sprintf('<b>%s</b> extension cannot be uninstalled: <b>%s</b> extension depends from it. Please uninstall it first.', $this->name, $extension));
-					return false;
-				}
-			}
-		}
-		return true;
-	}
 
 	/**
 	 * validate extension resources. return warning in case conflict
 	 */
 	public function validateResources() {
 		$filename = DIR_EXT . str_replace('../', '', $this->name) . '/main.php';
-		if (!is_file($filename)) return;
+		if (!is_file($filename)) return null;
 
 		//load extensions resources
 		$controllers = $languages = $models = $templates = array(
@@ -1077,8 +942,8 @@ class ExtensionUtils {
 					$result[$i]['style'] = 'btn_switch';
 					$result[$i]['attr'] = 'reload_on_save="true"';
 				}
-                /** @noinspection PhpUndefinedMethodInspection */
-                $type_attr = $item->type->attributes();
+				/** @noinspection PhpUndefinedMethodInspection */
+				$type_attr = $item->type->attributes();
 				if ((string)$type_attr['required'] == 'true') {
 					$result[$i]['required'] = true;
 					$this->registry->get('session')->data['extension_required_fields'][] = $result[$i]['name'];
@@ -1113,5 +978,4 @@ class ExtensionUtils {
 
 		return $result;
 	}
-
 }

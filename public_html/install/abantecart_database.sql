@@ -491,19 +491,24 @@ CREATE TABLE `ac_extensions` (
 
 INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `update_date`, `create_date`) VALUES
 ('payment', 'default_cod', 'payment', 1, 1, '1.0', null, now(), now(), now() ),
+('total', 'coupon', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'shipping', 'shipping', 1, 1, '1.0', null, now(), now(), now() ),
+('total', 'low_order_fee', '', 0, 1, '1.0', null, now(), now(), now() ),
+('total', 'handling_fee', '', 0, 1, '1.0', null, now(), now(), now() ),
 ('total', 'sub_total', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'tax', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'total', '', 1, 1, '1.0', null, now(), now(), now() ),
+
 ('block', 'cart', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'category', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'content', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'manufacturer', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'bestseller', '', 1, 1, '1.0', null, now(), now(), now() ),
-('total', 'coupon', '', 1, 1, '1.0', null, now(), now(), now() ),
-('shipping', 'default_flat_rate_shipping', 'shipping', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'latest', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'featured', '', 1, 1, '1.0', null, now(), now(), now() ),
+
+('shipping', 'default_flat_rate_shipping', 'shipping', 1, 1, '1.0', null, now(), now(), now() ),
+
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.0', null, now(), now(), now() );
 
 
@@ -7145,5 +7150,10 @@ CREATE TABLE `ac_product_filter_ranges_descriptions` (
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`range_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-		
-		
+
+DROP TABLE IF EXISTS `ac_extension_dependencies`;
+CREATE TABLE `ac_extension_dependencies` (
+  `extension_id` int(11) NOT NULL,
+  `extension_parent_id` int(11) NOT NULL,
+  PRIMARY KEY (`extension_id`,`extension_parent_id`)
+) ENGINE=MyISAM;

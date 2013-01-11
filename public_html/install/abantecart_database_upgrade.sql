@@ -15,3 +15,13 @@ ALTER TABLE `ac_products` ADD COLUMN `maximum` int(11) NOT NULL DEFAULT '0';
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout', 'total_order_maximum', '0'),
 ('checkout', 'total_order_minimum', '0');
+
+DROP TABLE IF EXISTS `ac_extension_dependencies`;
+CREATE TABLE `ac_extension_dependencies` (
+  `extension_id` int(11) NOT NULL,
+  `extension_parent_id` int(11) NOT NULL,
+  PRIMARY KEY (`extension_id`,`extension_parent_id`)
+) ENGINE=MyISAM;
+
+#todo
+#needs to add total exensions "fee" into extensions table by install.php

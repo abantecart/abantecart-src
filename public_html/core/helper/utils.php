@@ -100,7 +100,7 @@ function getFilesInDir($dir, $file_ext = '') {
 			if ($file_ext && substr($f, -3) != $file_ext) {
 				continue;
 			}
-			$result[ ] = $f;
+			$result[] = $f;
 		}
 	}
 	return $result;
@@ -112,21 +112,21 @@ function versionCompare($version1, $version2, $operator) {
 	$version2 = explode('.', preg_replace('/[^0-9\.]/', '', $version2));
 	$i = 0;
 	while ($i < 3) {
-		if (isset($version1[ $i ])) {
-			$version1[ $i ] = (int)$version1[ $i ];
+		if (isset($version1[$i])) {
+			$version1[$i] = (int)$version1[$i];
 		} else {
-			$version1[ $i ] = ($i == 2 && isset($version2[ $i ])) ? (int)$version2[ $i ] : 99;
+			$version1[$i] = ($i == 2 && isset($version2[$i])) ? (int)$version2[$i] : 99;
 		}
-		if (isset($version2[ $i ])) {
-			$version2[ $i ] = (int)$version2[ $i ];
+		if (isset($version2[$i])) {
+			$version2[$i] = (int)$version2[$i];
 		} else {
-			$version2[ $i ] = ($i == 2 && isset($version1[ $i ])) ? (int)$version1[ $i ] : 99;
+			$version2[$i] = ($i == 2 && isset($version1[$i])) ? (int)$version1[$i] : 99;
 			;
 		}
 		$i++;
 	}
 
-	if ($version1[ 1 ] > $version2[ 1 ]) { // if major version of extension changed
+	if ($version1[1] > $version2[1]) { // if major version of extension changed
 		return false;
 	}
 
@@ -193,16 +193,16 @@ function format4Datepicker($date_format) {
 /*
 * Function to format date in database format (ISO) to int format
 */
-function dateISO2Int( $string_date ) {
-    $string_date = trim($string_date);
-    $is_datetime = strlen($string_date)>10 ? true : false;
+function dateISO2Int($string_date) {
+	$string_date = trim($string_date);
+	$is_datetime = strlen($string_date) > 10 ? true : false;
 	return dateFromFormat($string_date, ($is_datetime ? 'Y-m-d H:i:s' : 'Y-m-d'));
 }
 
 /*
 * Function to format date from int to database format (ISO)
 */
-function dateInt2ISO( $int_date ) {
+function dateInt2ISO($int_date) {
 	return date('Y-m-d H:i:s', $int_date);
 }
 
@@ -211,15 +211,15 @@ function dateInt2ISO( $int_date ) {
 * Param: date in specified format, format based on PHP date function (optional)
 * Default format is taken from current language date_format_short setting
 */
-function dateDisplay2ISO( $string_date, $format = '' ) {
+function dateDisplay2ISO($string_date, $format = '') {
 
 	if (empty($format)) {
 		$registry = Registry::getInstance();
-		$format = $registry->get('language')->get('date_format_short'); 
+		$format = $registry->get('language')->get('date_format_short');
 	}
 
-	if ( $string_date ) {
-		return dateInt2ISO( dateFromFormat($string_date, $format) );
+	if ($string_date) {
+		return dateInt2ISO(dateFromFormat($string_date, $format));
 	} else {
 		return '';
 	}
@@ -231,35 +231,36 @@ function dateDisplay2ISO( $string_date, $format = '' ) {
 * Default format is taken from current language date_format_short setting
 */
 
-function dateISO2Display( $iso_date, $format ='' ) {
-	
+function dateISO2Display($iso_date, $format = '') {
+
 	if (empty($format)) {
 		$registry = Registry::getInstance();
-		$format = $registry->get('language')->get('date_format_short'); 
+		$format = $registry->get('language')->get('date_format_short');
 	}
-    $empties = array('0000-00-00', '0000-00-00 00:00:00', '1970-01-01', '1970-01-01 00:00:00');
-	if ( $iso_date && !in_array($iso_date,$empties) ){
-		return date($format, dateISO2Int( $iso_date ) );
+	$empties = array('0000-00-00', '0000-00-00 00:00:00', '1970-01-01', '1970-01-01 00:00:00');
+	if ($iso_date && !in_array($iso_date, $empties)) {
+		return date($format, dateISO2Int($iso_date));
 	} else {
 		return '';
 	}
 
 }
+
 /*
 * Function to format date from integer into the display (language based) format
 * Param: int date, format based on PHP date function (optional)
 * Default format is taken from current language date_format_short setting
 */
 
-function dateInt2Display( $int_date, $format ='' ) {
+function dateInt2Display($int_date, $format = '') {
 
 	if (empty($format)) {
 		$registry = Registry::getInstance();
 		$format = $registry->get('language')->get('date_format_short');
 	}
 
-	if ( $int_date ) {
-		return date($format, $int_date );
+	if ($int_date) {
+		return date($format, $int_date);
 	} else {
 		return '';
 	}
@@ -272,10 +273,10 @@ function dateInt2Display( $int_date, $format ='' ) {
 * Default format is taken from current language date_format_short setting
 */
 
-function dateNowDisplay( $format ='' ) {
+function dateNowDisplay($format = '') {
 	if (empty($format)) {
 		$registry = Registry::getInstance();
-		$format = $registry->get('language')->get('date_format_short'); 
+		$format = $registry->get('language')->get('date_format_short');
 	}
 	return date($format);
 }
@@ -291,3 +292,44 @@ function dateFromFormat($string_date, $date_format, $timezone = null) {
 	return $result;
 }
 
+function checkRequirements() {
+	$error = '';
+	if (phpversion() < '5.2') {
+		$error = 'Warning: You need to use PHP5.2 or above for AbanteCart to work!';
+	}
+
+	if (!ini_get('file_uploads')) {
+		$error = 'Warning: file_uploads needs to be enabled!';
+	}
+
+	if (ini_get('session.auto_start')) {
+		$error = 'Warning: AbanteCart will not work with session.auto_start enabled!';
+	}
+
+	if (!extension_loaded('mysql')) {
+		$error = 'Warning: MySQL extension needs to be loaded for AbanteCart to work!';
+	}
+
+	if (!extension_loaded('gd')) {
+		$error = 'Warning: GD extension needs to be loaded for AbanteCart to work!';
+	}
+
+	if (!extension_loaded('mbstring')) {
+		$error = 'Warning: MultiByte String extension needs to be loaded for AbanteCart to work!';
+	}
+	if (!extension_loaded('zlib')) {
+		$error = 'Warning: ZLIB extension needs to be loaded for AbanteCart to work!';
+	}
+	return $error;
+}
+
+
+/**
+ * @param string $extension_txt_id
+ * @return SimpleXMLElement
+ */
+function getExtensionConfigXml($extension_txt_id) {
+	$extension_txt_id = str_replace('../', '', $extension_txt_id);
+	$filename = DIR_EXT . $extension_txt_id . '/config.xml';
+	return simplexml_load_file($filename);
+}

@@ -62,10 +62,6 @@ class ModelCheckoutOrder extends Model {
 			}
 
 			$order_data = $order_query->row;
-			//if promotions applied
-			if (has_value($this->session->data['promotion_data']['total'])) {
-				$order_data['total'] = round($this->session->data['promotion_data']['total'], 2);
-			}
 
 			$order_data['shipping_zone_code'] = $shipping_zone_code;
 			$order_data['shipping_iso_code_2'] = $shipping_iso_code_2;
@@ -217,31 +213,6 @@ class ModelCheckoutOrder extends Model {
 		if ($order_query->num_rows) {
 			//if promotions applied - updates total and add row to order_total for promo type
 			$update = array();
-			if (has_value($this->session->data['promotion_data']['total'])) {
-				$new_total = round($this->session->data['promotion_data']['total'], 2);
-				$promo_value = $order_query->row['total'] - $new_total;
-				$i = 1;
-				foreach ($this->session->data['promotion_data']['total_data'] as $total) {
-					if ($total['id'] == 'promotion') {
-						$this->db->query("INSERT INTO " . DB_PREFIX . "order_totals
-										SET order_id = '" . (int)$order_id . "',
-											title = '" . $this->db->escape($total['title'] . ":") . "',
-											text = '" . $this->db->escape($total['text']) . "',
-											`value` = '" . (float)$promo_value . "',
-											sort_order = '" . ($i + 950) . "',
-											type = 'promotion'");
-						$i++;
-					}
-
-				}
-
-
-				$this->db->query("UPDATE " . DB_PREFIX . "order_totals
-								SET text = '" . $this->db->escape($this->currency->format($new_total)) . "',
-									`value` = '" . $new_total . "'
-								WHERE type = 'total' AND order_id = '" . (int)$order_id . "' ");
-				$update[] = "total='" . $new_total . "'";
-			}
 
 			$update[] = "order_status_id = '" . (int)$order_status_id . "'";
 			$sql = "UPDATE `" . DB_PREFIX . "orders`

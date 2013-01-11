@@ -122,7 +122,7 @@ class APackageManager {
 			$targz->extractTar($tar_filename, $dst_dir);
 		}
 
-		$this->chmod_R($dst_dir . $this->session->data[ 'package_info' ][ 'tmp_dir' ], 0777, 0777);
+		$this->chmod_R($dst_dir . $this->session->data['package_info']['tmp_dir'], 0777, 0777);
 		return true;
 	}
 
@@ -133,8 +133,8 @@ class APackageManager {
 	 */
 	public function backupPrevious($extension_id = '') {
 
-		$old_path = !$extension_id ? DIR_ROOT . '/' . $this->session->data[ 'package_info' ][ 'dst_dir' ] : DIR_EXT;
-		$package_id = !$extension_id ? $this->session->data[ 'package_info' ][ 'package_id' ] : $extension_id;
+		$old_path = !$extension_id ? DIR_ROOT . '/' . $this->session->data['package_info']['dst_dir'] : DIR_EXT;
+		$package_id = !$extension_id ? $this->session->data['package_info']['package_id'] : $extension_id;
 
 		if (file_exists($old_path . $package_id)) {
 			$backup = new ABackup($extension_id);
@@ -159,13 +159,13 @@ class APackageManager {
 			$info = $this->extensions->getExtensionInfo($package_id);
 
 			$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
-			$install_upgrade_history->addRows(array( 'date_added' => date("Y-m-d H:i:s", time()),
+			$install_upgrade_history->addRows(array('date_added' => date("Y-m-d H:i:s", time()),
 				'name' => $package_id,
-				'version' => $info[ 'version' ],
+				'version' => $info['version'],
 				'backup_file' => $backup_dirname . '.tar.gz',
 				'backup_date' => date("Y-m-d H:i:s", time()),
 				'type' => 'backup',
-				'user' => $this->user->getUsername() ));
+				'user' => $this->user->getUsername()));
 
 			//delete previous version
 			$this->removeDir($old_path . $package_id);
@@ -175,22 +175,22 @@ class APackageManager {
 	}
 
 	public function replaceCoreFiles() {
-		$corefiles = $this->session->data[ 'package_info' ][ 'package_content' ][ 'core' ];
-		if ($this->session->data[ 'package_info' ][ 'ftp' ]) {
+		$corefiles = $this->session->data['package_info']['package_content']['core'];
+		if ($this->session->data['package_info']['ftp']) {
 			foreach ($corefiles as $core_filename) {
-				$remote_file = pathinfo($this->session->data[ 'package_info' ][ 'ftp_path' ] . $core_filename, PATHINFO_BASENAME);
-				$remote_dir = pathinfo($this->session->data[ 'package_info' ][ 'ftp_path' ] . $core_filename, PATHINFO_DIRNAME);
-				$src_dir = (string)$this->session->data[ 'package_info' ][ 'tmp_dir' ] . $this->session->data[ 'package_info' ][ 'package_dir' ] . '/code/' . $core_filename;
+				$remote_file = pathinfo($this->session->data['package_info']['ftp_path'] . $core_filename, PATHINFO_BASENAME);
+				$remote_dir = pathinfo($this->session->data['package_info']['ftp_path'] . $core_filename, PATHINFO_DIRNAME);
+				$src_dir = (string)$this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_dir'] . '/code/' . $core_filename;
 				$result = $this->ftp_move($src_dir, $remote_file, $remote_dir);
 				if ($result) {
 					$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
-					$install_upgrade_history->addRows(array( 'date_added' => date("Y-m-d H:i:s", time()),
+					$install_upgrade_history->addRows(array('date_added' => date("Y-m-d H:i:s", time()),
 						'name' => 'Upgrade core file: ' . $remote_file,
-						'version' => $this->session->data[ 'package_info' ][ 'package_version' ],
+						'version' => $this->session->data['package_info']['package_version'],
 						'backup_file' => '',
 						'backup_date' => '',
 						'type' => 'upgrade',
-						'user' => $this->user->getUsername() ));
+						'user' => $this->user->getUsername()));
 				} else {
 					$this->error = "Error: Can't upgrade file : '" . $core_filename;
 					$this->messages->saveNotice('Error', $this->error);
@@ -209,16 +209,16 @@ class APackageManager {
 					mkdir($dir, 0777, true);
 				}
 
-				$result = rename($this->session->data[ 'package_info' ][ 'tmp_dir' ] . $this->session->data[ 'package_info' ][ 'package_dir' ] . '/code/' . $core_filename, DIR_ROOT . '/' . $core_filename);
+				$result = rename($this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_dir'] . '/code/' . $core_filename, DIR_ROOT . '/' . $core_filename);
 				if ($result) {
 					$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
-					$install_upgrade_history->addRows(array( 'date_added' => date("Y-m-d H:i:s", time()),
+					$install_upgrade_history->addRows(array('date_added' => date("Y-m-d H:i:s", time()),
 						'name' => 'Upgrade core file: ' . $core_filename,
-						'version' => $this->session->data[ 'package_info' ][ 'package_version' ],
+						'version' => $this->session->data['package_info']['package_version'],
 						'backup_file' => '',
 						'backup_date' => '',
 						'type' => 'upgrade',
-						'user' => $this->user->getUsername() ));
+						'user' => $this->user->getUsername()));
 				} else {
 					$this->error = "Error: Can't upgrade file : '" . $core_filename;
 					$this->messages->saveNotice('Error', $this->error);
@@ -239,7 +239,7 @@ class APackageManager {
 	 * @return boolean
 	 */
 	public function removeDir($dir = '') {
-		if (!$this->session->data[ 'package_info' ][ 'ftp' ]) { // if not ftp
+		if (!$this->session->data['package_info']['ftp']) { // if not ftp
 			if (is_dir($dir)) {
 				$objects = scandir($dir);
 				foreach ($objects as $obj) {
@@ -264,11 +264,11 @@ class APackageManager {
 
 		} else {
 
-			$ftp_user = $this->session->data[ 'package_info' ][ 'ftp_user' ];
-			$ftp_password = $this->session->data[ 'package_info' ][ 'ftp_password' ];
-			$ftp_port = $this->session->data[ 'package_info' ][ 'ftp_port' ];
-			$ftp_host = $this->session->data[ 'package_info' ][ 'ftp_host' ];
-			$dir = $this->session->data[ 'package_info' ][ 'ftp_path' ] . $this->session->data[ 'package_info' ][ 'dst_dir' ] . $dir;
+			$ftp_user = $this->session->data['package_info']['ftp_user'];
+			$ftp_password = $this->session->data['package_info']['ftp_password'];
+			$ftp_port = $this->session->data['package_info']['ftp_port'];
+			$ftp_host = $this->session->data['package_info']['ftp_host'];
+			$dir = $this->session->data['package_info']['ftp_path'] . $this->session->data['package_info']['dst_dir'] . $dir;
 
 			$fconnect = ftp_connect($ftp_host, $ftp_port);
 			ftp_login($fconnect, $ftp_user, $ftp_password);
@@ -287,13 +287,13 @@ class APackageManager {
 	 * @return bool|mixed
 	 */
 	public function getDestinationDirectories() {
-		$package_id = $this->session->data[ 'package_info' ][ 'package_id' ];
-		$package_dirname = $this->session->data[ 'package_info' ][ 'package_dir' ];
+		$package_id = $this->session->data['package_info']['package_id'];
+		$package_dirname = $this->session->data['package_info']['package_dir'];
 		$output = array();
-		if (!file_exists($this->session->data[ 'package_info' ][ 'tmp_dir' ] . $package_dirname . "/code")) {
+		if (!file_exists($this->session->data['package_info']['tmp_dir'] . $package_dirname . "/code")) {
 			return false;
 		} else {
-			$dir = $this->session->data[ 'package_info' ][ 'tmp_dir' ] . $package_dirname . "/code";
+			$dir = $this->session->data['package_info']['tmp_dir'] . $package_dirname . "/code";
 			$d = null;
 			while ($dirs = glob($dir . '/*', GLOB_ONLYDIR)) {
 				$dir .= '/*';
@@ -307,8 +307,8 @@ class APackageManager {
 
 		if ($d) {
 			foreach ($d as $dir) {
-				$dir = str_replace($this->session->data[ 'package_info' ][ 'tmp_dir' ] . $package_dirname . "/code/", "", $dir);
-				$output[ ] = str_replace($package_id, '', $dir);
+				$dir = str_replace($this->session->data['package_info']['tmp_dir'] . $package_dirname . "/code/", "", $dir);
+				$output[] = str_replace($package_id, '', $dir);
 			}
 		}
 		return $output;
@@ -356,7 +356,7 @@ class APackageManager {
 					if (file_exists($ftp_base_path . 'system/config.php')) {
 						$config_content = file_get_contents($ftp_base_path . 'system/config.php');
 						if (strpos($config_content, UNIQUE_ID) !== FALSE) {
-							$temp[ ] = $ftp_base_path;
+							$temp[] = $ftp_base_path;
 							break;
 						}
 					}
@@ -365,18 +365,18 @@ class APackageManager {
 				unset($temp);
 			}
 			// it made for recognizing a few copy of cart with same unique id in config
-			$ftp_path = is_array($ftp_path) && sizeof($ftp_path) == 1 ? $ftp_path[ 0 ] : $ftp_path;
+			$ftp_path = is_array($ftp_path) && sizeof($ftp_path) == 1 ? $ftp_path[0] : $ftp_path;
 			if ($ftp_path) {
 				if (!ftp_chdir($fconnect, $ftp_path)) {
 					if (is_array($ftp_path)) {
 						$this->error = $this->language->get('error_ftp_path_array');
-						$this->session->data[ 'package_info' ][ 'ftp_path' ] = '';
+						$this->session->data['package_info']['ftp_path'] = '';
 						// show path suggestions
 						foreach ($ftp_path as $suggest) {
 							$this->error .= '<br>' . $suggest;
 						}
 					} else {
-						$this->session->data[ 'package_info' ][ 'ftp_path' ] = $ftp_path; // for form default value
+						$this->session->data['package_info']['ftp_path'] = $ftp_path; // for form default value
 						$this->error = $this->language->get('error_ftp_path');
 					}
 					ftp_close($fconnect);
@@ -384,12 +384,12 @@ class APackageManager {
 				}
 			}
 			// if all fine  - write ftp parameters into session
-			$this->session->data[ 'package_info' ][ 'ftp' ] = true;
-			$this->session->data[ 'package_info' ][ 'ftp_user' ] = $ftp_user;
-			$this->session->data[ 'package_info' ][ 'ftp_password' ] = $ftp_password;
-			$this->session->data[ 'package_info' ][ 'ftp_host' ] = $ftp_host;
-			$this->session->data[ 'package_info' ][ 'ftp_port' ] = $ftp_port;
-			$this->session->data[ 'package_info' ][ 'ftp_path' ] = $ftp_path;
+			$this->session->data['package_info']['ftp'] = true;
+			$this->session->data['package_info']['ftp_user'] = $ftp_user;
+			$this->session->data['package_info']['ftp_password'] = $ftp_password;
+			$this->session->data['package_info']['ftp_host'] = $ftp_host;
+			$this->session->data['package_info']['ftp_port'] = $ftp_port;
+			$this->session->data['package_info']['ftp_path'] = $ftp_path;
 			//$this->session->data['package_info']['tmp_dir'] = sys_get_temp_dir ().'/';
 			ftp_close($fconnect);
 		} else {
@@ -405,25 +405,25 @@ class APackageManager {
 			return false;
 		}
 		$prefix = ftp_pwd($fconnect);
-		$top_dirs = array( 'home', 'htdocs', $ftp_user, $_SERVER[ 'HTTP_HOST' ], 'www', 'public_html' );
+		$top_dirs = array('home', 'htdocs', $ftp_user, $_SERVER['HTTP_HOST'], 'www', 'public_html');
 		foreach ($top_dirs as $dir) {
 
 			$contents = ftp_nlist($fconnect, $dir);
 			if (!$contents) continue;
 
 			if (in_array($dir . '/' . $needle, $contents)) {
-				$ftp_base_path[ ] = $prefix . '/' . $dir . '/';
+				$ftp_base_path[] = $prefix . '/' . $dir . '/';
 			}
 
 			foreach ($contents as $dir2) {
 				$contents2 = ftp_nlist($fconnect, $dir2);
 				if (in_array($dir2 . '/' . $needle, $contents2)) {
-					$ftp_base_path[ ] = $prefix . '/' . $dir2 . '/';
+					$ftp_base_path[] = $prefix . '/' . $dir2 . '/';
 				}
 				foreach ($contents2 as $dir3) {
 					$contents3 = ftp_nlist($fconnect, $dir3);
 					if (in_array($dir3 . '/' . $needle, $contents3)) {
-						$ftp_base_path[ ] = $prefix . '/' . $dir3 . '/';
+						$ftp_base_path[] = $prefix . '/' . $dir3 . '/';
 					}
 				}
 			}
@@ -445,14 +445,14 @@ class APackageManager {
 		$remote = (string)$remote;
 		$remote_dir = (string)$remote_dir;
 
-		if (!$this->session->data[ 'package_info' ][ 'ftp' ]) {
+		if (!$this->session->data['package_info']['ftp']) {
 			return false;
 		}
 
-		$ftp_user = $this->session->data[ 'package_info' ][ 'ftp_user' ];
-		$ftp_password = $this->session->data[ 'package_info' ][ 'ftp_password' ];
-		$ftp_port = $this->session->data[ 'package_info' ][ 'ftp_port' ];
-		$ftp_host = $this->session->data[ 'package_info' ][ 'ftp_host' ];
+		$ftp_user = $this->session->data['package_info']['ftp_user'];
+		$ftp_password = $this->session->data['package_info']['ftp_password'];
+		$ftp_port = $this->session->data['package_info']['ftp_port'];
+		$ftp_host = $this->session->data['package_info']['ftp_host'];
 
 		$fconnect = ftp_connect($ftp_host, $ftp_port);
 		ftp_login($fconnect, $ftp_user, $ftp_password);
@@ -526,10 +526,10 @@ class APackageManager {
 
 
 	public function installExtension($extension_id = '', $type = '', $version = '', $install_mode = 'install') {
-		$type = !$type ? $this->session->data[ 'package_info' ][ 'package_type' ] : $type;
-		$version = !$version ? $this->session->data[ 'package_info' ][ 'package_version' ] : $version;
-		$extension_id = !$extension_id ? $this->session->data[ 'package_info' ][ 'package_id' ] : $extension_id;
-		$package_dirname = $this->session->data[ 'package_info' ][ 'package_dir' ];
+		$type = !$type ? $this->session->data['package_info']['package_type'] : $type;
+		$version = !$version ? $this->session->data['package_info']['package_version'] : $version;
+		$extension_id = !$extension_id ? $this->session->data['package_info']['package_id'] : $extension_id;
+		$package_dirname = $this->session->data['package_info']['package_dir'];
 
 		switch ($type) {
 			case 'extension':
@@ -556,20 +556,20 @@ class APackageManager {
 
 				} elseif ($install_mode == 'upgrade') {
 					$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
-					$install_upgrade_history->addRows(array( 'date_added' => date("Y-m-d H:i:s", time()),
+					$install_upgrade_history->addRows(array('date_added' => date("Y-m-d H:i:s", time()),
 						'name' => $extension_id,
 						'version' => $version,
 						'backup_file' => '',
 						'backup_date' => '',
 						'type' => 'upgrade',
-						'user' => $this->user->getUsername() ));
+						'user' => $this->user->getUsername()));
 
 
-					$config = simplexml_load_string(file_get_contents($this->session->data[ 'package_info' ][ 'tmp_dir' ] . $package_dirname . '/code/extensions/' . $extension_id . '/config.xml'));
-					$config = !$config ? simplexml_load_string(file_get_contents(DIR_EXT . $extension_id . '/config.xml')) : $config;
+					$config = simplexml_load_string(file_get_contents($this->session->data['package_info']['tmp_dir'] . $package_dirname . '/code/extensions/' . $extension_id . '/config.xml'));
+					$config = !$config ? getExtensionConfigXml($extension_id) : $config;
 					// running sql upgrade script if it exists
 					if (isset($config->upgrade->sql)) {
-						$file = $this->session->data[ 'package_info' ][ 'tmp_dir' ] . $package_dirname . '/code/extensions/' . $extension_id . '/' . (string)$config->upgrade->sql;
+						$file = $this->session->data['package_info']['tmp_dir'] . $package_dirname . '/code/extensions/' . $extension_id . '/' . (string)$config->upgrade->sql;
 						$file = !file_exists($file) ? DIR_EXT . $extension_id . '/' . (string)$config->upgrade->sql : $file;
 						if (file_exists($file)) {
 							$this->db->performSql($file);
@@ -577,15 +577,15 @@ class APackageManager {
 					}
 					// running php install script if it exists
 					if (isset($config->upgrade->trigger)) {
-						$file = $this->session->data[ 'package_info' ][ 'tmp_dir' ] . $package_dirname . '/code/extensions/' . $extension_id . '/' . (string)$config->upgrade->trigger;
+						$file = $this->session->data['package_info']['tmp_dir'] . $package_dirname . '/code/extensions/' . $extension_id . '/' . (string)$config->upgrade->trigger;
 						$file = !file_exists($file) ? DIR_EXT . $extension_id . '/' . (string)$config->upgrade->sql : $file;
 						if (file_exists($file)) {
 							include($file);
 						}
 					}
 
-					$this->extension_manager->editSetting($extension_id, array( 'license_key' => $this->session->data[ 'package_info' ][ 'installation_key' ],
-						'version' => $version ));
+					$this->extension_manager->editSetting($extension_id, array('license_key' => $this->session->data['package_info']['installation_key'],
+						'version' => $version));
 				}
 				break;
 			default:
@@ -602,8 +602,8 @@ class APackageManager {
 		//clear all cache
 		$this->cache->delete('*');
 
-		$package_dirname = $this->session->data[ 'package_info' ][ 'package_dir' ];
-		$package_tmpdir = $this->session->data[ 'package_info' ][ 'tmp_dir' ];
+		$package_dirname = $this->session->data['package_info']['package_dir'];
+		$package_tmpdir = $this->session->data['package_info']['tmp_dir'];
 		// running sql upgrade script if it exists
 		if (isset($config->upgrade->sql)) {
 			$file = $package_tmpdir . $package_dirname . '/' . (string)$config->upgrade->sql;
@@ -622,13 +622,13 @@ class APackageManager {
 
 		// write to history
 		$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
-		$install_upgrade_history->addRows(array( 'date_added' => date("Y-m-d H:i:s", time()),
+		$install_upgrade_history->addRows(array('date_added' => date("Y-m-d H:i:s", time()),
 			'name' => 'Core upgrade',
-			'version' => $this->session->data[ 'package_info' ][ 'package_version' ],
+			'version' => $this->session->data['package_info']['package_version'],
 			'backup_file' => '',
 			'backup_date' => '',
 			'type' => 'upgrade',
-			'user' => $this->user->getUsername() ));
+			'user' => $this->user->getUsername()));
 	}
 
 	public function updateCoreVersion($new_version) {
@@ -643,13 +643,13 @@ class APackageManager {
 		$content .= "define('MINOR_VERSION', '" . $minor . "');\n";
 		$content .= "define('VERSION_BUILT', '" . $built . "');\n";
 
-		if (!$this->session->data[ 'package_info' ][ 'ftp' ]) {
+		if (!$this->session->data['package_info']['ftp']) {
 			file_put_contents(DIR_CORE . 'version.php', $content);
 		} else {
-			file_put_contents($this->session->data[ 'package_info' ][ 'tmp_dir' ] . 'version.php', $content);
-			$this->ftp_move($this->session->data[ 'package_info' ][ 'tmp_dir' ] . 'version.php',
+			file_put_contents($this->session->data['package_info']['tmp_dir'] . 'version.php', $content);
+			$this->ftp_move($this->session->data['package_info']['tmp_dir'] . 'version.php',
 				'version.php',
-					$this->session->data[ 'package_info' ][ 'ftp_path' ] . 'core');
+					$this->session->data['package_info']['ftp_path'] . 'core');
 		}
 	}
 

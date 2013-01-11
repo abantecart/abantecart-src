@@ -5,6 +5,10 @@
 		<value><![CDATA[Sub-Total]]></value>
 	</definition>
 	<definition>
+		<key>total_name</key>
+		<value><![CDATA[Sub-Total]]></value>
+	</definition>
+	<definition>
 		<key>text_total</key>
 		<value><![CDATA[Order Totals]]></value>
 	</definition>
