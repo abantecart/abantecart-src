@@ -594,7 +594,8 @@ class AExtensionManager {
 	 * @return bool
 	 */
 	public function validateInstalled($extension_txt_id) {
-		return in_array($extension_txt_id, $this->extensions->getDbExtensions());
+		$installed = $this->config->get($extension_txt_id . '_status');
+		return $installed === null ? true : false;
 	}
 
 
