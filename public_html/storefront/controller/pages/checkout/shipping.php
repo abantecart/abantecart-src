@@ -57,6 +57,7 @@ class ControllerPagesCheckoutShipping extends AController {
 		}
         unset($this->session->data['redirect']);
         
+        //if no products require shipping go to payment step
 		if (!$this->cart->hasShipping()) {
 			unset($this->session->data[ 'shipping_address_id' ]);
 			unset($this->session->data[ 'shipping_method' ]);
@@ -65,19 +66,21 @@ class ControllerPagesCheckoutShipping extends AController {
 			$this->tax->setZone($this->session->data[ 'country_id' ], $this->session->data[ 'zone_id' ]);
 			$this->redirect($this->html->getSecureURL('checkout/payment'));
 		}
-
+		
+		//If no shipping address is set yet, use default
 		if (!isset($this->session->data[ 'shipping_address_id' ])) {
 			$this->session->data[ 'shipping_address_id' ] = $this->customer->getAddressId();
 		}
 
+		//still missing address, go to address selection page
 		if (!$this->session->data[ 'shipping_address_id' ]) {
 			$this->redirect($this->html->getSecureURL('checkout/address/shipping'));
 		}
 
 		$this->loadModel('account/address');
-
 		$shipping_address = $this->model_account_address->getAddress($this->session->data[ 'shipping_address_id' ]);
-
+		
+		//something wrong with shipping address go to address selection page
 		if (!$shipping_address) {
 			$this->redirect($this->html->getSecureURL('checkout/address/shipping'));
 		}
@@ -120,6 +123,22 @@ class ControllerPagesCheckoutShipping extends AController {
 			array_multisort($sort_order, SORT_ASC, $quote_data);
 
 			$this->session->data[ 'shipping_methods' ] = $quote_data;
+		}
+
+		//# If only 1 shipping and it is set to be defaulted, select and skip and redirect to paymnet 
+		if (count($this->session->data[ 'shipping_methods' ]) == 1 && $this->request->get['mode'] != 'edit') {
+		    //set only method
+		    $only_method = $this->session->data[ 'shipping_methods' ];
+		    foreach ($only_method as $key => $value) {
+		    	$method_name = $key;		
+		    	#Check config if we allowed to set this shipping and skip the step
+		    	$ext_config = $this->model_checkout_extension->getSettings($method_name);
+		    	$autoselect = $ext_config[$method_name."_autoselect"];
+		    	if ( $autoselect ) {
+		    		$this->session->data[ 'shipping_method' ] = $only_method[$method_name]['quote'][$method_name];
+		    		$this->redirect($this->html->getSecureURL('checkout/payment'));				
+		    	}
+		    }
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));

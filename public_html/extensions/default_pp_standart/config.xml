@@ -61,6 +61,10 @@
 				</fields>
 			</variants>
         </item>
+        <item id="default_pp_standart_autoselect">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>        
 		<item id="default_pp_standart_sort_order">
             <type>input</type>
             <default_value></default_value>

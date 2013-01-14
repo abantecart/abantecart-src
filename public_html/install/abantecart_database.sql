@@ -1278,12 +1278,14 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('default_cod', 'default_cod_order_status_id', '1'),
 ('default_cod', 'default_cod_status', '1'),
 ('default_cod', 'default_cod_location_id', '0'),
+('default_cod', 'default_cod_autoselect', '1'),
 
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_cost', '2'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_tax_class_id', '9'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_location_id', '0'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_status', '1'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_sort_order', '1'),
+('default_flat_rate_shipping', 'default_flat_rate_shipping_autoselect', '1'),
 
 ('banner_manager','banner_manager_layout',''),
 ('banner_manager','banner_manager_priority',10),

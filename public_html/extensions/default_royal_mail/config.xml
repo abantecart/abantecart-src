@@ -105,6 +105,23 @@
 				</fields>
 			</variants>
         </item>
+        <item id="default_royal_mail_autoselect">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>
+	    <item id="default_royal_mail_accept_payments">
+            <type>checkboxgroup</type>
+			<variants>
+				<data_source>
+                   	<model_rt>setting/extension</model_rt>
+                   	<method>getEnabledPayments</method>
+				</data_source>
+				<fields>
+					<field>extension_id</field>
+					<field>key</field>
+				</fields>
+			</variants>
+        </item>        
 	    <item id="default_royal_mail_sort_order">
             <type>input</type>
             <default_value></default_value>

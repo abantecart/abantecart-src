@@ -73,5 +73,27 @@ class ModelCheckoutExtension extends Model {
 
     	return $extension_data;
 	}
+
+	public function getSettings($extension_name, $store_id = 0 ) {
+		$data = array();
+		if ( $store_id == 0 ) {
+			$store_id = $this->config->get('config_store_id');
+		} 
+
+		$query = $this->db->query(
+			"SELECT *
+			FROM " . DB_PREFIX . "settings
+			WHERE `group` = '" . $this->db->escape($extension_name) . "'
+					AND store_id = '".(int)$store_id."'" );
+		foreach ($query->rows as $result) {
+			$value = $result['value'];
+			if (is_serialized($value)) {
+				$value = unserialize($value);
+			}
+			$data[$result['key']] = $value;
+		}
+		return $data;
+	}
+
 }
 ?>

@@ -540,6 +540,7 @@ final class ACart {
 
 	/*
 	* Check if order/cart total has maximum amount setting met if it was set 
+	* @return bool
 	*/
  	public function hasMaxRequirement() {
 		$cf_total_max = $this->config->get('total_order_maximum'); 
@@ -548,7 +549,11 @@ final class ACart {
 		}
 		return TRUE; 
 	} 
-   	
+	
+	/*
+	* Return count of products in the cart including quantity per product 
+	* @return int
+	*/   	
   	public function countProducts() {
 		$qty = 0;
 		foreach ( $this->session->data['cart'] as $product) {
@@ -556,11 +561,19 @@ final class ACart {
 		}
 		return $qty;
 	}
-	  
+
+	/*
+	* Return 0/[count] for products in the cart (quantity is not counted)
+	* @return int
+	*/   		  
   	public function hasProducts() {
     	return count($this->session->data['cart']);
   	}
   
+	/*
+	* Return TRUE if all products have stock 
+	* @return bool
+	*/   		    
   	public function hasStock() {
 		$stock = TRUE;
 		
@@ -573,6 +586,10 @@ final class ACart {
     	return $stock;
   	}
   
+	/*
+	* Return FALSE if all products do NOT require shipping
+	* @return bool
+	*/   		    
   	public function hasShipping() {
 		$shipping = FALSE;
 		
@@ -587,6 +604,10 @@ final class ACart {
 		return $shipping;
 	}
 	
+	/*
+	* Return FALSE if all products do NOT have download type
+	* @return bool
+	*/   		    
   	public function hasDownload() {
 		$download = FALSE;
 		

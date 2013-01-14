@@ -58,6 +58,10 @@
 				</fields>
 			</variants>
         </item>
+        <item id="default_perpetual_autoselect">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>        
 	    <item id="default_perpetual_payments_sort_order">
             <type>input</type>
             <default_value></default_value>

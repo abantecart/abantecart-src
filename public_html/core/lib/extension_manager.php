@@ -191,6 +191,10 @@ class AExtensionManager {
 		return true;
 	}
 
+	/*
+	* Save extention settings
+	* 
+	*/
 	public function editSetting($group, $data) {
 
 		if (empty($data)) return;
@@ -212,6 +216,16 @@ class AExtensionManager {
 
 		foreach ($data as $key => $value) {
 			$setting_name = str_replace($group . "_", '', $key);
+			//check if setting is multi-value (array) and save serialized value. 
+			if ( is_array($value) ) {
+				//validate values in array. If setting is array of all members = 0 save only single value of 0 
+				//This is to match standard post format in rerular form submit
+				if ( array_sum(array_values($value)) > 0) {
+					$value = serialize($value);
+				} else {
+					$value = 0;
+				}
+			}
 			$this->db->query("INSERT INTO " . DB_PREFIX . "settings
 							  SET `store_id` = '" . (int)$data['store_id'] . "',
 							      `group` = '" . $this->db->escape($group) . "',

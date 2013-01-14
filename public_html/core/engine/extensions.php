@@ -922,8 +922,13 @@ class ExtensionUtils {
 		if (isset($this->config->settings->item)) {
 			$i = 0;
 			foreach ($this->config->settings->item as $item) {
+				//detect if setting is selialized
+				$value = $settings[(string)$item['id']];
+				if (is_serialized($value)) {
+					$value = unserialize($value);
+				}
 				$result[$i] = array('name' => (string)$item['id'],
-					'value' => $settings[(string)$item['id']],
+					'value' => $value,
 					'type' => (string)$item->type,
 					'resource_type' => (string)$item->resource_type,
 					'model_rt' => (string)$item->variants->data_source->model_rt,

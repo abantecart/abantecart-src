@@ -293,6 +293,7 @@ class ControllerPagesExtensionExtensions extends AController {
 				'name' => 'store_id',
 				'value' => $store_id);
 		}
+
 		array_unshift($settings, $switcher);
 		foreach ($settings as $item) {
 			$data = array();
@@ -305,8 +306,10 @@ class ControllerPagesExtensionExtensions extends AController {
 			$data['required'] = (bool)$item['required'];
 
 
-			if ($item['note']) {
-				$data['note'] = $item['note'];
+			if($item[ 'note' ]){
+				$data[ 'note' ] = $item[ 'note' ];
+			} else {
+				$data[ 'note' ] = $this->language->get($data[ 'name' ]);
 			}
 			if ($item['style']) {
 				$data['style'] = $item['style'];
@@ -337,8 +340,32 @@ class ControllerPagesExtensionExtensions extends AController {
 							}
 						}
 					}
-
 					break;
+
+				case 'checkboxgroup':
+				    // if options need to extract from model
+				    $data[ 'options' ] =  $item['options'];
+				    if ($item['model_rt'] != '') {
+				    	$this->loadModel($item['model_rt']);
+				    	$model = $this->{'model_' . str_replace("/", "_",$item['model_rt'])};
+				    	$method_name = $item['method'];
+				    	if (method_exists($model, $method_name)) {
+				    		$res = call_user_func(array( $model, $method_name ));
+				    		if ($res) {
+				    			$field1 = $item['field1'];
+				    			$field2 = $item['field2'];
+				    			foreach ($res as $opt) {
+				    				$data[ 'options' ][ $opt[ $field1 ] ] = $opt[ $field2 ];
+				    			}
+				    		}
+				    	}
+				    }
+				    #custom settings for multivalue
+				    $data[ 'scrollbox' ] = 'true';
+				    $data['name'] = $item['name']."[]";
+				    
+				    break;
+
 				case 'resource':
 					$item['resource_type'] = (string)$item['resource_type'];
 					if (!$result['rl_scripts']) {
@@ -378,8 +405,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			}
 
 			$item = HtmlElementFactory::create($data);
-			$result['html'][$data['name']] = array('note' => ($data['note'] ? $data['note'] : $this->language->get($data['name'])),
-				'value' => $item->getHtml());
+			$result[ 'html' ][ $data[ 'name' ] ] = array('note'  => $data[ 'note' ], 'value' => $item->getHtml());
 		}
 
 
@@ -398,12 +424,14 @@ class ControllerPagesExtensionExtensions extends AController {
 		}
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validateSettings()) && $this->_checkRequiredSettings()) {
+
 			foreach ($settings as $item) {
 				if (!isset($this->request->post[$item['name']])) {
 					$this->request->post[$item['name']] = 0;
 				}
 
 			}
+			
 			$this->extension_manager->editSetting($extension, $this->request->post);
 			$this->cache->delete('settings.extension');
 			$this->session->data['success'] = $this->language->get('text_success');

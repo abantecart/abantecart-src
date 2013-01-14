@@ -64,6 +64,18 @@ function has_value($value) {
 }
 
 /*
+ * check that argument variable has value (even 0 is a value)  
+ * */
+function is_serialized ($value) {
+	$test_data = @unserialize($value);
+	if ($value === 'b:0;' || $test_data !== false) {
+	    return true;
+	} else {
+	    return false;
+	}
+}
+
+/*
 *  Convert input text to alpaha numeric string for SEO URL use
 */
 function SEOEncode($string_value) {

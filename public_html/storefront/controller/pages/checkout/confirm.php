@@ -134,7 +134,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 		
         $this->data['shipping_method'] = $this->session->data['shipping_method']['title'];
         $this->data['shipping_method_price'] = $this->session->data['shipping_method']['title'];
-		$this->data['checkout_shipping'] = $this->html->getSecureURL('checkout/shipping');
+		$this->data['checkout_shipping_edit'] = $this->html->getSecureURL('checkout/shipping', '&mode=edit');
     	$this->data['checkout_shipping_address'] = $this->html->getSecureURL('checkout/address/shipping');
     	
     	$payment_address = $this->model_account_address->getAddress($this->session->data['payment_address_id']);
@@ -145,7 +145,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 		}
 
 		$this->data['payment_method'] = $this->session->data['payment_method']['title'];
-    	$this->data['checkout_payment'] = $this->html->getSecureURL('checkout/payment');
+    	$this->data['checkout_payment_edit'] = $this->html->getSecureURL('checkout/payment', '&mode=edit');
     	$this->data['checkout_payment_address'] = $this->html->getSecureURL('checkout/address/payment');
 
 		$this->loadModel('tool/seo_url');
