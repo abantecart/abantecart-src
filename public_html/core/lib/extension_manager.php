@@ -43,7 +43,7 @@ class AExtensionManager {
 	/**
 	 * @var array extension type list that manager can to install-uninstall
 	 */
-	protected $extension_types = array('extensions', 'payment', 'shipping', 'template');
+	protected $extension_types = array('extension', 'extensions', 'payment', 'shipping', 'template');
 
 	public function __construct() {
 		if (!IS_ADMIN) { // forbid for non admin calls
@@ -79,6 +79,8 @@ class AExtensionManager {
 	 */
 	public function add($data) {
 		if (is_array($data)) {
+			// check colision
+			$data['type'] = $data['type'] == 'extension' ? 'extensions' : $data['type'];
 			$type = ($data['type'] ? $data['type'] : 'extensions');
 			$key = $data['key'];
 			$status = $data['status'];
