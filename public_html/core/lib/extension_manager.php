@@ -91,6 +91,11 @@ class AExtensionManager {
 			$key = $data;
 			$type = 'extensions';
 		}
+		$sql = "SELECT extension_id FROM " . DB_PREFIX . "extensions WHERE `key`= '" . $this->db->escape($key) . "'";
+		$res = $this->db->query($sql);
+		if ($res->num_rows) {
+			return $res->row['extension_id'];
+		}
 
 		$this->db->query("INSERT INTO " . DB_PREFIX . "extensions
 					 	 SET `type` = '" . $this->db->escape($type) . "',
