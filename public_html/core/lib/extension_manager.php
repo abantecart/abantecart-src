@@ -75,7 +75,7 @@ class AExtensionManager {
 
 	/**
 	 * @param array $data
-	 * @return int
+	 * @return int extension_id
 	 */
 	public function add($data) {
 		if (is_array($data)) {
@@ -191,89 +191,115 @@ class AExtensionManager {
 		return true;
 	}
 
-	/*
-	* Save extention settings
-	* 
-	*/
-	public function editSetting($group, $data) {
+	/**
+	 * Save extention settings into database
+	 * @param string $extension_txt_id
+	 * @param array $data
+	 * @return bool
+	 */
+	public function editSetting($extension_txt_id, $data) {
 
-		if (empty($data)) return;
-		if (empty($group)) {
-			$error = new AError ("Error: Can't edit setting because field \"group\" is empty. Settings array: " . implode(",", array_keys($data)));
+		if (empty($data)) return false;
+		if (empty($extension_txt_id)) {
+			$error = new AError ("Error: Can't edit setting because field \"extension_txt_id\" is empty. Settings array: " . implode(",", array_keys($data)));
 			$error->toLog()->toDebug();
-			return;
+			return false;
 		}
-
+		// parameters that placed in extension table
 		$masks = array('status', 'version', 'date_installed', 'priority', 'license_key');
 
 		$keys = array_keys($data);
 		unset($keys['store_id']);
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "settings
-						  WHERE `group` = '" . $this->db->escape($group) . "'
+						  WHERE `group` = '" . $this->db->escape($extension_txt_id) . "'
 						        AND `key` IN ('" . implode("', '", $keys) . "')
 						        AND `store_id` = '" . (int)$data['store_id'] . "' ");
 
 		foreach ($data as $key => $value) {
-			$setting_name = str_replace($group . "_", '', $key);
+			$setting_name = str_replace($extension_txt_id . "_", '', $key);
 			//check if setting is multi-value (array) and save serialized value. 
-			if ( is_array($value) ) {
+			if (is_array($value)) {
 				//validate values in array. If setting is array of all members = 0 save only single value of 0 
 				//This is to match standard post format in rerular form submit
-				if ( array_sum(array_values($value)) > 0) {
+				if (array_sum(array_values($value)) > 0) {
 					$value = serialize($value);
 				} else {
 					$value = 0;
 				}
 			}
+			// status check
+			if ($setting_name == 'status') {
+				//when try to enable extension
+				if ($value == 1) { // check is parent extension enabled
+					$parents = $this->getParentsExtensionTextId($extension_txt_id);
+					$enabled = $this->extensions->getEnabledExtensions();
+					foreach ($parents as $parent) {
+						if (!in_array($parent['key'], $enabled)) {
+							$error = "Can't to enable extension \"" . $extension_txt_id . "\". It's depends on extension \"" . $parent['key'] . "\" which not enabled. ";
+							$this->errors[] = $error;
+							$error = new AError ($error);
+							$error->toLog()->toDebug();
+							//prevents enabling
+							$value = 0;
+							break;
+						}
+					}
+
+				} else { // When try to disable disable dependants too
+					if ($this->validateInstalled($extension_txt_id)) {
+						$children_keys = array();
+						$children = $this->getChildrenExtensions($extension_txt_id);
+
+						foreach ($children as $child) {
+							if ($this->config->get($child['key'] . "_status") == 1) {
+								$children_keys[] = $this->db->escape($child['key']);
+							}
+						}
+						if ($children_keys) {
+							foreach ($children_keys as $child) {
+								$sql = "UPDATE " . DB_PREFIX . "settings
+									SET `value` = 0
+									WHERE `group` = '" . $child . "'
+									AND `key`= '" . $child . "_status'";
+								$this->db->query($sql);
+							}
+							$sql = "UPDATE " . DB_PREFIX . "extensions
+									SET `" . $setting_name . "` = '" . $this->db->escape($value) . "',
+										`update_date` = NOW()
+									WHERE  `key` IN ('" . implode("','", $children_keys) . "')";
+							$this->db->query($sql);
+						}
+					}
+				}
+			}
+			// now re-insert settings
 			$this->db->query("INSERT INTO " . DB_PREFIX . "settings
 							  SET `store_id` = '" . (int)$data['store_id'] . "',
-							      `group` = '" . $this->db->escape($group) . "',
+							      `group` = '" . $this->db->escape($extension_txt_id) . "',
 							      `key` = '" . $this->db->escape($key) . "',
 							      `value` = '" . $this->db->escape($value) . "'");
 			if (in_array($setting_name, $masks)) {
 				$sql = "UPDATE " . DB_PREFIX . "extensions
 						SET `" . $setting_name . "` = '" . $this->db->escape($value) . "'
-						WHERE  `key` = '" . $this->db->escape($group) . "'";
+						WHERE  `key` = '" . $this->db->escape($extension_txt_id) . "'";
 				$this->db->query($sql);
-
-				// also disable dependants
-				if ($setting_name == 'status' && $value == 0) {
-					$children_keys = array();
-					$children = $this->getChildrenExtensions($group);
-
-					foreach ($children as $child) {
-						if ($this->config->get($child['key'] . "_status") == 1) {
-							$children_keys[] = $this->db->escape($child['key']);
-						}
-					}
-					if ($children_keys) {
-						foreach ($children_keys as $child) {
-							$sql = "UPDATE " . DB_PREFIX . "settings
-								SET `value` = 0
-								WHERE `group` = '" . $child . "'
-								AND `key`= '" . $child . "_status'";
-							$this->db->query($sql);
-						}
-						$sql = "UPDATE " . DB_PREFIX . "extensions
-								SET `" . $setting_name . "` = '" . $this->db->escape($value) . "',
-									`update_date` = NOW()
-								WHERE  `key` IN ('" . implode("','", $children_keys) . "')";
-						$this->db->query($sql);
-					}
-				}
 			}
 		}
 		// update date of changes in extension list
 		$sql = "UPDATE " . DB_PREFIX . "extensions
 						SET `update_date` = NOW()
-						WHERE  `key` = '" . $this->db->escape($group) . "'";
+						WHERE  `key` = '" . $this->db->escape($extension_txt_id) . "'";
 		$this->db->query($sql);
 		$this->cache->delete('admin_menu');
 		$this->cache->delete('settings');
+		return true;
 	}
 
-	// method deletes all settings of extension
+	/**
+	 * method deletes all settings of extension
+	 * @param string $group - extension text id
+	 */
 	public function deleteSetting($group) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "settings WHERE `group` = '" . $this->db->escape($group) . "'");
 		$this->cache->delete('settings');
@@ -328,6 +354,14 @@ class AExtensionManager {
 			'type' => 'install',
 			'user' => $this->user->getUsername()));
 
+		// add dependencies into database for required extensions only
+		if (isset($config->dependencies->item)) {
+			foreach ($config->dependencies->item as $item) {
+				if ((boolean)$item['required']) {
+					$this->addDependant($name, (string)$item);
+				}
+			}
+		}
 
 		// running sql install script if it exists
 		if (isset($config->install->sql)) {
@@ -354,8 +388,8 @@ class AExtensionManager {
 	}
 
 	/**
-	 * @param string $name - extension text id
-	 * @param object $config simple_xml
+	 * @param string $name
+	 * @param SimpleXmlElement $config
 	 * @return bool|null
 	 */
 	public function uninstall($name, $config) {
@@ -410,26 +444,29 @@ class AExtensionManager {
 		return null;
 	}
 
+	/**
+	 * @param string $extension_txt_id
+	 */
+	public function delete($extension_txt_id) {
 
-	public function delete($name) {
-		$info = $this->extensions->getExtensionInfo($name);
+		$info = $this->extensions->getExtensionInfo($extension_txt_id);
 		$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
 		$install_upgrade_history->addRows(array('date_added' => date("Y-m-d H:i:s", time()),
-			'name' => $name,
+			'name' => $extension_txt_id,
 			'version' => $info['version'],
 			'backup_file' => '',
 			'backup_date' => '',
 			'type' => 'delete',
 			'user' => $this->user->getUsername()));
-
-		$this->db->query("DELETE FROM " . DB_PREFIX . "extensions WHERE `type` = '" . $info['type'] . "' AND `key` = '" . $this->db->escape($name) . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "extensions WHERE `type` = '" . $info['type'] . "' AND `key` = '" . $this->db->escape($extension_txt_id) . "'");
+		$this->deleteDependant($extension_txt_id);
 
 		$this->session->data['package_info']['ftp'] = false;
 		$pmanager = new APackageManager();
-		$result = $pmanager->removeDir(DIR_EXT . $name);
+		$result = $pmanager->removeDir(DIR_EXT . $extension_txt_id);
 
 		if (!$result) {
-			$message = "Error: Can't to delete file or directory: '" . DIR_EXT . $name . "'. No file permissions, change permissions to 777 with your FTP access";
+			$message = "Error: Can't to delete file or directory: '" . DIR_EXT . $extension_txt_id . "'. No file permissions, change permissions to 777 with your FTP access";
 			$this->session->data['error'] = $message;
 		}
 
@@ -438,7 +475,10 @@ class AExtensionManager {
 		$this->model_tool_updater->check4updates();
 	}
 
-
+	/**
+	 * @param string $extension_txt_id
+	 * @return bool
+	 */
 	public function validate($extension_txt_id) {
 
 		$result = $this->validateFreeSpace($extension_txt_id);
@@ -470,6 +510,9 @@ class AExtensionManager {
 
 	/**
 	 *  is dependencies present
+	 * @param string $extension_txt_id
+	 * @param SimpleXmlElement $config
+	 * @return bool
 	 */
 	public function validateDependencies($extension_txt_id, $config) {
 
@@ -531,6 +574,7 @@ class AExtensionManager {
 
 	/**
 	 *  check free space
+	 * /todo is really needed?
 	 */
 	public function validateFreeSpace() {
 		return true;
@@ -539,6 +583,8 @@ class AExtensionManager {
 
 	/**
 	 *  is extension already installed ( extension upgrade )
+	 * @param string $extension_txt_id
+	 * @return bool
 	 */
 	public function validateInstalled($extension_txt_id) {
 		return in_array($extension_txt_id, $this->extensions->getDbExtensions());
@@ -547,6 +593,9 @@ class AExtensionManager {
 
 	/**
 	 *  is extension support current core version
+	 * @param string $extension_txt_id
+	 * @param SimpleXmlElement $config
+	 * @return bool
 	 */
 	public function validateCoreVersion($extension_txt_id, $config) {
 
@@ -589,6 +638,11 @@ class AExtensionManager {
 
 	/**
 	 *  is hosting support all php modules used by extension
+	 */
+	/**
+	 * @param string $extension_txt_id
+	 * @param SimpleXmlElement $config
+	 * @return bool
 	 */
 	public function validatePhpModules($extension_txt_id, $config) {
 		if (!isset($config->phpmodules->item)) return true;
