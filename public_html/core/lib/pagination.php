@@ -128,6 +128,10 @@ final class APagination {
 		);
 
 		$registry = Registry::getInstance();
+		if ( !in_array($this->limit, $this->limits) ) {
+			$this->limits[] = $this->limit;
+			sort($this->limits);
+		}
 		$options = array();
 		foreach($this->limits as $item){
 			$options[$item] = $item;
