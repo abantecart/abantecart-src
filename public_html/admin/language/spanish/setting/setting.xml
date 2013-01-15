@@ -296,7 +296,11 @@
 	</definition>
 	<definition>
 		<key>entry_meta_description</key>
-		<value><![CDATA[Meta Descripcion:]]></value>
+		<value><![CDATA[Meta Description Tag:<br /><span class="help">Storefront meta principal de descripción de páginas de etiquetas</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_meta_keywords</key>
+		<value><![CDATA[Meta Keywords:<br /><span class="help">Storefront palabras clave de la página principal de etiquetas meta (separadas por comas)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_description</key>

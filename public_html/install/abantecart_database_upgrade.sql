@@ -14,7 +14,8 @@ ALTER TABLE `ac_products` ADD COLUMN `maximum` int(11) NOT NULL DEFAULT '0';
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout', 'total_order_maximum', '0'),
-('checkout', 'total_order_minimum', '0');
+('checkout', 'total_order_minimum', '0'),
+('details', 'config_meta_keywords', 'keyword1,keyword2,keyword3');
 
 DROP TABLE IF EXISTS `ac_extension_dependencies`;
 CREATE TABLE `ac_extension_dependencies` (

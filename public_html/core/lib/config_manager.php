@@ -126,6 +126,12 @@ class AConfigManager {
 			'value' => $data[ 'config_meta_description' ],
 			'style' => 'large-field',
 		));
+		$fields[ 'meta_keywords' ] = $form->getFieldHtml($props[ ] = array(
+			'type' => 'textarea',
+			'name' => 'config_meta_keywords',
+			'value' => $data[ 'config_meta_keywords' ],
+			'style' => 'large-field',
+		));
 		$fields[ 'description' ] = $form->getFieldHtml($props[ ] = array(
 			'type' => 'textarea',
 			'name' => 'config_description_' . $this->session->data[ 'content_language_id' ],

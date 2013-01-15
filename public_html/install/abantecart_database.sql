@@ -1139,6 +1139,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 ('details', 'config_title', 'Your Store'),  
 ('details', 'config_meta_description', 'Web Store Meta Description'),
+('details', 'config_meta_keywords', 'keyword1,keyword2,keyword3'),
 ('details', 'config_description_1', 'Welcome to web store!'),
 
 ('details', 'config_country_id', '223'),
