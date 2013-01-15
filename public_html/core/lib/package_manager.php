@@ -20,8 +20,21 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
-
+/**
+ * @property  AExtensionManager $extension_manager
+ * @property  AMessage $messages
+ * @property  ALoader $load
+ * @property  ExtensionsApi $extensions
+ * @property  AUser $user
+ * @property  ALanguageManager $language
+ * @property  ALog $log
+ * @property  ACache $cache
+ * @property  ADB $db
+ */
 class APackageManager {
+	/**
+	 * @var Registry
+	 */
 	protected $registry;
 	public $error = '';
 	/**
@@ -35,6 +48,9 @@ class APackageManager {
 		if (!IS_ADMIN) { // forbid for non admin calls
 			throw new AException (AC_ERR_LOAD, 'Error: permission denied to access package manager');
 		}
+		/**
+		 * @var Registry
+		 */
 		$this->registry = Registry::getInstance();
 	}
 
@@ -68,6 +84,10 @@ class APackageManager {
 		return $result;
 	}
 
+	/**
+	 * @param string $url
+	 * @return bool|string
+	 */
 	public function getRemoteFileHeaders($url) {
 		if (!$url) {
 			return false;
@@ -128,8 +148,8 @@ class APackageManager {
 
 	/**
 	 * Function make backup and move it into admin/system/backup/directory
-	 *
-	 * @return void
+	 * @param string $extension_id
+	 * @return bool
 	 */
 	public function backupPrevious($extension_id = '') {
 
@@ -226,10 +246,7 @@ class APackageManager {
 					$error->toLog()->toDebug();
 				}
 			}
-
 		}
-
-
 	}
 
 	/**
@@ -294,7 +311,7 @@ class APackageManager {
 			return false;
 		} else {
 			$dir = $this->session->data['package_info']['tmp_dir'] . $package_dirname . "/code";
-			$d = null;
+			$d = array();
 			while ($dirs = glob($dir . '/*', GLOB_ONLYDIR)) {
 				$dir .= '/*';
 				if (!$d) {
@@ -314,6 +331,13 @@ class APackageManager {
 		return $output;
 	}
 
+	/**
+	 * @param string $ftp_user
+	 * @param string $ftp_password
+	 * @param string $ftp_host
+	 * @param string $ftp_path
+	 * @return bool
+	 */
 	public function checkFTP($ftp_user, $ftp_password = '', $ftp_host = '', $ftp_path = '') {
 		$this->load->language('tool/package_installer');
 		if (!$ftp_host) {
@@ -400,6 +424,12 @@ class APackageManager {
 		return true;
 	}
 
+	/**
+	 * @param resource $fconnect
+	 * @param string $ftp_user
+	 * @param string $needle
+	 * @return array|bool
+	 */
 	private function _ftp_find_app_root($fconnect, $ftp_user = '', $needle = 'extensions') {
 		if (!$fconnect) {
 			return false;
@@ -435,9 +465,9 @@ class APackageManager {
 	/**
 	 * Function for moving directory or file via ftp-connection
 	 *
-	 * @param $local local path to file or directory
-	 * @param $remote remote file  or directory name
-	 * @param $remote_dir
+	 * @param string $local local path to file or directory
+	 * @param string $remote remote file  or directory name
+	 * @param string $remote_dir
 	 * @return bool
 	 */
 	public function ftp_move($local, $remote, $remote_dir) {
@@ -486,8 +516,12 @@ class APackageManager {
 		return true;
 	}
 
-
-	// method for moving directory via ftp connection
+	/**
+	 * method for moving directory via ftp connection
+	 * @param resource $conn_id
+	 * @param string $src_dir
+	 * @param string $dst_dir
+	 */
 	private function ftp_put_dir($conn_id, $src_dir, $dst_dir) {
 		$d = dir($src_dir);
 		while ($file = $d->read()) { // do this for each file in the directory
@@ -507,6 +541,11 @@ class APackageManager {
 		$d->close();
 	}
 
+	/**
+	 * @param resource $conn
+	 * @param string $dir
+	 * @return bool
+	 */
 	private function delete_ftp_dir($conn, $dir) {
 		$files = ftp_nlist($conn, $dir);
 		if (!$files) {
@@ -524,7 +563,13 @@ class APackageManager {
 		return true;
 	}
 
-
+	/**
+	 * @param string $extension_id
+	 * @param string $type
+	 * @param string $version
+	 * @param string $install_mode
+	 * @return bool
+	 */
 	public function installExtension($extension_id = '', $type = '', $version = '', $install_mode = 'install') {
 		$type = !$type ? $this->session->data['package_info']['package_type'] : $type;
 		$version = !$version ? $this->session->data['package_info']['package_version'] : $version;
@@ -540,16 +585,16 @@ class APackageManager {
 			case 'language':
 				// if extensions is not installed yet - install it
 				if ($install_mode == 'install') {
-					$ext = new ExtensionUtils($extension_id);
-					$ext->validate();
-					$validateErrors = $ext->getError();
-					if (!empty($validateErrors)) {
+					$validate = $this->extension_manager->validate($extension_id);
+					$validateErrors = $this->extension_manager->errors;
+					if (!$validate) {
 						$this->error = implode('<br>', $validateErrors);
-						$this->log->write($this->error);
+						$err = new AError($this->error);
+						$err->toLog()->toDebug();
 						return false;
 					}
 
-					$result = $this->extension_manager->install($extension_id, $ext->getConfig());
+					$result = $this->extension_manager->install($extension_id, getExtensionConfigXml($extension_id));
 					if ($result === false) {
 						return false;
 					}
@@ -590,14 +635,17 @@ class APackageManager {
 				break;
 			default:
 				$this->error = 'Unknown extension type: "' . $type . '"';
-				$this->log->write($this->error);
+				$err = new AError($this->error);
+				$err->toLog()->toDebug();
 				return false;
 				break;
 		}
 		return true;
 	}
 
-
+	/**
+	 * @param SimpleXmlElement $config
+	 */
 	public function upgradeCore($config) {
 		//clear all cache
 		$this->cache->delete('*');
@@ -631,6 +679,10 @@ class APackageManager {
 			'user' => $this->user->getUsername()));
 	}
 
+	/**
+	 * @param string $new_version
+	 * @return bool
+	 */
 	public function updateCoreVersion($new_version) {
 		if (!$new_version) {
 			return false;
@@ -655,9 +707,9 @@ class APackageManager {
 
 	/**
 	 * Method change access mode recursively
-	 * @param $path path to directory or file
-	 * @param $filemode
-	 * @param $dirmode
+	 * @param string $path path to directory or file
+	 * @param string $filemode
+	 * @param string $dirmode
 	 * @return
 	 */
 	public function chmod_R($path, $filemode, $dirmode) {
