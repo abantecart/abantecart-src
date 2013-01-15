@@ -134,30 +134,43 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 		if (count($this->session->data[ 'shipping_methods' ]) == 1 ) {
 		    //set only method
 		    $only_method = $this->session->data[ 'shipping_methods' ];
-		    foreach ($only_method as $key => $value) {
-		    	$method_name = $key;		
+		    foreach ($only_method as $method_name => $value) {		
 		    	#Check config if we allowed to set this shipping and skip the step
 		    	$ext_config = $this->model_checkout_extension->getSettings($method_name);
-		    	$autoselect = $ext_config[$method_name."_autoselect"];
-		    	if ( $autoselect ) {
+		    	if ( $ext_config[$method_name."_autoselect"] ) {
+		    		//take first qoute. This needs to be acounted for if configure shipping to be autoselected
 		    		$this->session->data[ 'shipping_method' ] = $only_method[$method_name]['quote'][$method_name];
-		    		$skip_step = true;			
+		    		$skip_step = true;		
 		    	}
 		    }
 		}
-		if (count($this->session->data[ 'payment_methods' ]) == 1 ) {
-		    //set only method
-		    $only_method = $this->session->data[ 'payment_methods' ];
-		    foreach ($only_method as $key => $value) {
-		    	$method_name = $key;	
-		    	#Check config if we allowed to set this payment and skip the step
-		    	$ext_config = $this->model_checkout_extension->getSettings($method_name);
-		    	$autoselect = $ext_config[$method_name."_autoselect"];
-		    	if ( $autoselect && $skip_step) {
-		    		$this->session->data[ 'payment_method' ] = $only_method[$method_name];
-		    		$this->redirect($this->html->getSecureURL('checkout/guest_step_3'));			
-		    	}
-		    }
+		if ( $skip_step && $this->request->get['mode'] != 'edit' ) {
+			$ac_payments = array();
+			#Check config if selected shipping method have accepted payments restriction
+			$ship_ext_config = $this->model_checkout_extension->getSettings($method_name);
+			$accept_payment_ids = $ship_ext_config[$method_name."_accept_payments"];
+			if ( is_array($accept_payment_ids) && count($accept_payment_ids) ) {
+			    #filter only allowed payment methods
+			    foreach ($this->session->data['payment_methods'] as $key => $res_payment) {
+			    	if ( in_array($res_payment['extension_id'], $accept_payment_ids) ) {
+			    		$ac_payments[$key] = $res_payment;
+			    	}
+			    }
+			} else {
+				$ac_payments = $this->session->data['payment_methods'];
+			}
+			if (count($ac_payments) == 1 ) {
+			    //set only method
+			    $only_method = $ac_payments;
+			    foreach ($only_method as $method_name => $value) {
+			    	#Check config if we allowed to set this payment and skip the step
+			    	$ext_config = $this->model_checkout_extension->getSettings($method_name);
+			    	if ( $ext_config[$method_name."_autoselect"] && $skip_step) {
+			    		$this->session->data[ 'payment_method' ] = $only_method[$method_name];
+			    		$this->redirect($this->html->getSecureURL('checkout/guest_step_3'));			
+			    	}
+			    }
+			}
 		}
       	
 		$this->document->resetBreadcrumbs();
@@ -274,7 +287,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 						}
 					}
 				} else {
-					$ac_payments = $results;
+					$ac_payments = $this->session->data['payment_methods'];
 				}
 				foreach ($ac_payments as $key => $value) {
 					$this->data['payment_methods'][$method_name][$key] = $value;

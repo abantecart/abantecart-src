@@ -54,18 +54,7 @@
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_payment_method; ?></b>
       <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
         <p><?php echo $text_payment_methods; ?></p>
-        <?php foreach ($payment_methods as $ship_name => $payment_methods_per_shipping) { ?>
-        <div style="display: none; " class="payment_group <?php echo $ship_name ?>">
-        <table width="536" cellpadding="3">
-          <?php foreach ($payment_methods_per_shipping as $payment_method) { ?>
-          <tr>
-            <td width="1"><?php echo $payment_method['radio']; ?></td>
-            <td><label for="guest_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;"><?php echo $payment_method['title']; ?></label></td>
-          </tr>
-          <?php } ?>
-        </table>
-        </div>
-          <?php } ?>
+		<div class="payment_palce_holder"></div>
       </div>
       <?php } ?>
 
@@ -95,24 +84,45 @@
     <div class="center"></div>
   </div>
 </div>
-<script type="text/javascript">
-	var seld_shpmt = $("input[@name=shipping_method]:checked").val().split('.');
-	if (seld_shpmt[0].length > 0) {
-		$('.'+seld_shpmt[0]).show();	
-	}
 
+<div style="display: none;" id="hidden_paymnets">
+        <?php foreach ($payment_methods as $ship_name => $payment_methods_per_shipping) { ?>
+        <div class="payment_group <?php echo $ship_name ?>">
+        <table width="536" cellpadding="3">
+          <?php foreach ($payment_methods_per_shipping as $payment_method) { ?>
+          <tr>
+            <td width="1"><?php echo $payment_method['radio']; ?></td>
+            <td><label for="guest_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;"><?php echo $payment_method['title']; ?></label></td>
+          </tr>
+          <?php } ?>
+        </table>
+        </div>
+          <?php } ?>
+</div>
+
+<script type="text/javascript">
 	$('#guest_back').click( function(){
 		location = '<?php echo $back; ?>';
 	} );
-	
+		
+	var seld_shpmt = $("input[@name=shipping_method]:checked").val();
+	var shp_name = '';
+	if (seld_shpmt) {
+		shp_name = seld_shpmt.split('.');
+		shp_name = shp_name[0];
+	}
+	if (shp_name.length > 0) {
+		show_payment(shp_name);	
+	}
+
 	$('.radio_element input:[name=shipping_method]').click( function(){
 		var selection = $(this).val().split('.');
 		//hide and unselect other methods. 
-		$('.payment_group').each(function(){
-			$(this).find(":input").prop('checked', false);
-			$(this).hide();
-		});
-		//show selected payment group
-		$('.'+selection[0]).show();	
+		show_payment(selection[0]);
 	} );	
+	
+	function show_payment( shp_name ) {
+		$('.payment_palce_holder').html('');
+		$('.payment_palce_holder').html( $('#hidden_paymnets .'+shp_name).html() );
+	}
 </script>
