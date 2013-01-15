@@ -130,6 +130,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 		}
 		
     	$this->data['checkout_shipping'] = $this->html->getSecureURL('checkout/guest_step_2');
+    	$this->data['checkout_shipping_edit'] = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit');
 
     	$this->data['checkout_shipping_address'] = $this->html->getSecureURL('checkout/guest_step_1');
 		
@@ -148,6 +149,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 		}
 	
     	$this->data['checkout_payment'] = $this->html->getSecureURL('checkout/guest_step_2');
+    	$this->data['checkout_payment_edit'] = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit');
 		$this->data['cart'] = $this->html->getSecureURL('checkout/cart');
     	$this->data['checkout_payment_address'] = $this->html->getSecureURL('checkout/guest_step_1');
 		

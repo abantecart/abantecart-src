@@ -54,14 +54,18 @@
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_payment_method; ?></b>
       <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
         <p><?php echo $text_payment_methods; ?></p>
+        <?php foreach ($payment_methods as $ship_name => $payment_methods_per_shipping) { ?>
+        <div style="display: none; " class="payment_group <?php echo $ship_name ?>">
         <table width="536" cellpadding="3">
-          <?php foreach ($payment_methods as $payment_method) { ?>
+          <?php foreach ($payment_methods_per_shipping as $payment_method) { ?>
           <tr>
             <td width="1"><?php echo $payment_method['radio']; ?></td>
             <td><label for="guest_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;"><?php echo $payment_method['title']; ?></label></td>
           </tr>
           <?php } ?>
         </table>
+        </div>
+          <?php } ?>
       </div>
       <?php } ?>
 
@@ -92,7 +96,23 @@
   </div>
 </div>
 <script type="text/javascript">
+	var seld_shpmt = $("input[@name=shipping_method]:checked").val().split('.');
+	if (seld_shpmt[0].length > 0) {
+		$('.'+seld_shpmt[0]).show();	
+	}
+
 	$('#guest_back').click( function(){
 		location = '<?php echo $back; ?>';
 	} );
+	
+	$('.radio_element input:[name=shipping_method]').click( function(){
+		var selection = $(this).val().split('.');
+		//hide and unselect other methods. 
+		$('.payment_group').each(function(){
+			$(this).find(":input").prop('checked', false);
+			$(this).hide();
+		});
+		//show selected payment group
+		$('.'+selection[0]).show();	
+	} );	
 </script>
