@@ -20,8 +20,12 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
-
+/**
+ * @property ModelExtension2Checkout $model_extension_2checkout
+ * @property ModelCheckoutOrder $model_checkout_order
+ */
 class ControllerResponsesExtension2Checkout extends AController {
+
 	public function main() {
 		$this->loadLanguage('2checkout/2checkout');
 		$template_data['button_confirm'] = $this->language->get('button_confirm');
@@ -45,6 +49,11 @@ class ControllerResponsesExtension2Checkout extends AController {
 		$template_data['country'] = $order_info['payment_country'];
 		$template_data['email'] = $order_info['email'];
 		$template_data['phone'] = $order_info['telephone'];
+		if ($order_info['shipping_lastname']) {
+			$template_data['ship_name'] = $order_info['shipping_firstname'] . ' ' . $order_info['shipping_lastname'];
+		} else {
+			$template_data['ship_name'] = $order_info['firstname'] . ' ' . $order_info['lastname'];
+		}
 
 		if ($this->cart->hasShipping()) {
 			$template_data['ship_street_address'] = $order_info['shipping_address_1'];
@@ -55,7 +64,7 @@ class ControllerResponsesExtension2Checkout extends AController {
 		} else {
 			$template_data['ship_street_address'] = $order_info['payment_address_1'];
 			$template_data['ship_city'] = $order_info['payment_city'];
-			$template_data['ship_statey'] = $order_info['payment_zone'];
+			$template_data['ship_state'] = $order_info['payment_zone'];
 			$template_data['ship_zip'] = $order_info['payment_postcode'];
 			$template_data['ship_country'] = $order_info['payment_country'];
 		}
@@ -85,29 +94,46 @@ class ControllerResponsesExtension2Checkout extends AController {
 		} else {
 			$template_data['back'] = $this->html->getSecureURL('checkout/guest_step_2');
 		}
-
 		$this->view->batchAssign($template_data);
 		$this->processTemplate('responses/2checkout.tpl');
 	}
 
 	public function callback() {
-		/*	foreach($this->request->post as $k=>$v){
-				$ff .= $k.": ".$v."\n";
-			}
-			$this->log->write($ff);
-	*/
+		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
+			$this->redirect($this->html->getURL('index/home'));
+		}
+
+		/*		foreach($this->request->post as $k=>$v){
+					$ff .= $k.": ".$v."\n";
+				}
+				$this->log->write($ff);*/
 
 		$this->load->model('checkout/order');
-		$order_info = $this->model_checkout_order->getOrder($this->request->post['order_number']);
 
+		$order_id = (int)$this->request->post['vendor_order_id'];
+		$order_info = $this->model_checkout_order->getOrder($order_id);
 		if (!$order_info) {
 			return null;
 		}
+		$this->load->model('extension/2checkout');
+		// hash check
+		if (!md5($this->request->post['sale_id'] . $this->config->get('2checkout_account') . $this->request->post['invoice_id'] . $this->config->get('2checkout_secret')) == strtolower($this->request->post['md5_hash'])) {
+			exit;
+		}
+
 		if ($this->request->post['message_type'] == 'ORDER_CREATED') {
-			if (md5($this->config->get('2checkout_secret') . $this->config->get('2checkout_account') . $this->request->post['order_number'] . $this->request->post['total']) == $this->request->post['key']) {
-				$this->model_checkout_order->confirm($this->request->post['order_number'], $this->config->get('2checkout_order_status_id'));
-				$this->redirect($this->html->getURL('checkout/success'));
-			}
+			$this->model_checkout_order->confirm((int)$this->request->post['vendor_order_id'], $this->config->get('2checkout_order_status_id'));
+		} elseif ($this->request->post['message_type'] == 'REFUND_ISSUED') {
+			$order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('failed');
+			$this->model_checkout_order->confirm((int)$this->request->post['vendor_order_id'], $order_status_id);
+		} elseif ($this->request->post['message_type'] == 'FRAUD_STATUS_CHANGED' && $this->request->post['fraud_status'] == 'pass') {
+			$order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('processing');
+			$this->model_checkout_order->confirm((int)$this->request->post['vendor_order_id'], $order_status_id);
+		} elseif ($this->request->post['message_type'] == 'SHIP_STATUS_CHANGED' && $this->request->post['ship_status'] == 'shipped') {
+			$order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('complete');
+			$this->model_checkout_order->confirm((int)$this->request->post['vendor_order_id'], $order_status_id);
+		} else {
+			$this->redirect($this->html->getURL('checkout/confirm'));
 		}
 	}
 }

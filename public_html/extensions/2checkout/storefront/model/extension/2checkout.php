@@ -51,4 +51,20 @@ class ModelExtension2Checkout extends Model {
 
 		return $method_data;
 	}
+
+	/**
+	 * @param string $order_status_name
+	 * @return int
+	 */
+	public function getOrderStatusIdByName($order_status_name) {
+		$language_id = $this->language->getLanguageDetails('en');
+		$language_id = $language_id['language_id'];
+
+		$sql = "SELECT *
+				FROM " . DB_PREFIX . "order_statuses
+				WHERE language_id=" . (int)$language_id . " AND LOWER(name) like '%" . strtolower($order_status_name) . "%'";
+
+		$result = $this->db->query($sql);
+		return $result->row['order_status_id'];
+	}
 }
