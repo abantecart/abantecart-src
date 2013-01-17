@@ -7,7 +7,7 @@ New Features and improvements summary:
 - Relationship of shipping methods to payment methods and auto-selection settings. 
 - Improved tax rate flexibility
 - Many new features in extension developer tools 
-
+https://github.com/abantecart/developer_tools_extension
 
 Bug fixes and improvements
 Core:
@@ -28,6 +28,7 @@ Fix for validation of new extension, type collision bug fix, fix for dependencie
 - Clearing cache after package installation added
 - Added hooks to various places in the controllers and templates.  
 - API controller minor bug fix
+- Multi-value settings support added to extension settings. 
 - Updates related to PHPdoc compliance
 
 
