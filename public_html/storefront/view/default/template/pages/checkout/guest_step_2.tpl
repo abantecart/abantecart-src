@@ -51,10 +51,12 @@
       </div>
       <?php } ?>
       <?php if ($payment_methods) { ?>
+      <div style="display: none;" id="active_payments">
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_payment_method; ?></b>
       <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
         <p><?php echo $text_payment_methods; ?></p>
 		<div class="payment_palce_holder"></div>
+      </div>
       </div>
       <?php } ?>
 
@@ -85,7 +87,7 @@
   </div>
 </div>
 
-<div style="display: none;" id="hidden_paymnets">
+<div style="display: none;" id="hidden_payments">
         <?php foreach ($payment_methods as $ship_name => $payment_methods_per_shipping) { ?>
         <div class="payment_group <?php echo $ship_name ?>">
         <table width="536" cellpadding="3">
@@ -122,7 +124,8 @@
 	} );	
 	
 	function show_payment( shp_name ) {
+		$('#active_payments').show();
 		$('.payment_palce_holder').html('');
-		$('.payment_palce_holder').html( $('#hidden_paymnets .'+shp_name).html() );
+		$('.payment_palce_holder').html( $('#hidden_payments .'+shp_name).html() );
 	}
 </script>
