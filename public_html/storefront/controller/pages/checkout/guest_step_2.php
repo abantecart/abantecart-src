@@ -131,7 +131,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 						
 		$skip_step = false;
 		//# If only 1 shipping and 1 payment it is set to be defaulted, select and skip and redirect to checkout guest_step_3 
-		if (count($this->session->data[ 'shipping_methods' ]) == 1 ) {
+		if (count($this->session->data['shipping_methods']) == 1 ) {
 		    //set only method
 		    $only_method = $this->session->data[ 'shipping_methods' ];
 		    foreach ($only_method as $method_name => $value) {		
@@ -143,7 +143,11 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 		    		$skip_step = true;		
 		    	}
 		    }
+		} else if (count($this->session->data['shipping_methods']) == 0	) {
+			//if not shipment, skip
+			$skip_step = true; 
 		}
+		
 		if ( $skip_step && $this->request->get['mode'] != 'edit' ) {
 			$ac_payments = array();
 			#Check config if selected shipping method have accepted payments restriction
@@ -274,33 +278,33 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 
 		$payment = isset($this->request->post['payment_method']) ? $this->request->post['payment_method'] : $this->session->data['payment_method']['id'];
 		if($this->session->data['payment_methods']){
-			foreach ($this->session->data[ 'shipping_methods' ] as $method_name => $method_val) {
-				$ac_payments = array();
-				#Check config of selected shipping method and see if we have accepted payments restriction
-				$ship_ext_config = $this->model_checkout_extension->getSettings($method_name);
-				$accept_payment_ids = $ship_ext_config[$method_name."_accept_payments"];
-				if ( is_array($accept_payment_ids) && count($accept_payment_ids) ) {
-					#filter only allowed payment methods
-					foreach ($this->session->data['payment_methods'] as $key => $res_payment) {
-						if ( in_array($res_payment['extension_id'], $accept_payment_ids) ) {
-							$ac_payments[$key] = $res_payment;
+			$ac_payments = $this->session->data['payment_methods'];
+			if ( $this->session->data['shipping_methods'] ){
+				foreach ($this->session->data['shipping_methods'] as $method_name => $method_val) {
+					#Check config of selected shipping method and see if we have accepted payments restriction
+					$ship_ext_config = $this->model_checkout_extension->getSettings($method_name);
+					$accept_payment_ids = $ship_ext_config[$method_name."_accept_payments"];
+					if ( is_array($accept_payment_ids) && count($accept_payment_ids) ) {
+						#filter only allowed payment methods
+						$ac_payments = array();
+						foreach ($this->session->data['payment_methods'] as $key => $res_payment) {
+							if ( in_array($res_payment['extension_id'], $accept_payment_ids) ) {
+								$ac_payments[$key] = $res_payment;
+							}
 						}
-					}
-				} else {
-					$ac_payments = $this->session->data['payment_methods'];
+					}			
 				}
-				foreach ($ac_payments as $key => $value) {
-					$this->data['payment_methods'][$method_name][$key] = $value;
-					$this->data['payment_methods'][$method_name][$key]['radio'] = $form->getFieldHtml( array(
-					                                                                   'type' => 'radio',
-					                                                                   'name' => 'payment_method',
-					                                                                   'options' => array($value['id']=>''),
-					                                                                   'value' => ( $payment == $value['id'] ? TRUE : FALSE )
-				                                                                  ));					
-				}
-			
 			}
-		}else{
+			foreach ($ac_payments as $key => $value) {
+			    $this->data['payment_methods'][$method_name][$key] = $value;
+			    $this->data['payment_methods'][$method_name][$key]['radio'] = $form->getFieldHtml( array(
+			                                                                       'type' => 'radio',
+			                                                                       'name' => 'payment_method',
+			                                                                       'options' => array($value['id']=>''),
+			                                                                       'value' => ( $payment == $value['id'] ? TRUE : FALSE )
+			                                                                  ));					
+			}
+		} else {	
 			$this->data['payment_methods'] = array();
 		}
 

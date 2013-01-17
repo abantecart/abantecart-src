@@ -25,6 +25,7 @@
 	  echo $form['form_open'];
 	  ?>
       <?php if ($shipping_methods) { ?>
+      <div id="active_shippings">
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_shipping_method; ?></b>
       <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
         <p><?php echo $text_shipping_methods; ?></p>
@@ -48,6 +49,7 @@
           <?php } ?>
           <?php } ?>
         </table>
+      </div>
       </div>
       <?php } ?>
       <?php if ($payment_methods) { ?>
@@ -88,7 +90,7 @@
 </div>
 
 <div style="display: none;" id="hidden_payments">
-        <?php foreach ($payment_methods as $ship_name => $payment_methods_per_shipping) { ?>
+        <?php if($payment_methods) { foreach ($payment_methods as $ship_name => $payment_methods_per_shipping) { ?>
         <div class="payment_group <?php echo $ship_name ?>">
         <table width="536" cellpadding="3">
           <?php foreach ($payment_methods_per_shipping as $payment_method) { ?>
@@ -99,7 +101,7 @@
           <?php } ?>
         </table>
         </div>
-          <?php } ?>
+          <?php } } ?>
 </div>
 
 <script type="text/javascript">
@@ -112,9 +114,13 @@
 	if (seld_shpmt) {
 		shp_name = seld_shpmt.split('.');
 		shp_name = shp_name[0];
-	}
+	} 
+	
 	if (shp_name.length > 0) {
 		show_payment(shp_name);	
+	} else if ( $('active_shippings').length == 0 ) {
+		//no shipping at all show all payments
+		show_payment( );
 	}
 
 	$('.radio_element input:[name=shipping_method]').click( function(){
@@ -126,6 +132,10 @@
 	function show_payment( shp_name ) {
 		$('#active_payments').show();
 		$('.payment_palce_holder').html('');
-		$('.payment_palce_holder').html( $('#hidden_payments .'+shp_name).html() );
+		if ( shp_name ) {
+			$('.payment_palce_holder').html( $('#hidden_payments .'+shp_name).html() );
+		} else {
+			$('.payment_palce_holder').html( $('#hidden_payments').html() );
+		}
 	}
 </script>
