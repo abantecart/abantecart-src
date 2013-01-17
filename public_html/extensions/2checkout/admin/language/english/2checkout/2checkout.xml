@@ -14,10 +14,12 @@
 	</definition>
 	<definition>
 		<key>2checkout_note</key>
-		<value><![CDATA[With this extension you can allow use 2Checkout payment system for customers.<br>
-		 Go to <a href="https://www.2checkout.com/">https://www.2checkout.com/</a> first to sign-up and get account credential.
-		 <br>Don't forget to setup INS URL here <a href="https://www.2checkout.com/va/notifications/">https://www.2checkout.com/va/notifications/</a>.
-		 <br>Your INS URL is <h3>#storefront#rt=extension/2checkout/callback</h3>
+		<value><![CDATA[
+With this extension you can use 2Checkout payment system to accept payments from your customers.<br> 
+<b>Sign up free today!  Use promo code ABANTECART2CO for a waiver of your application service fee (a savings of $10.99) and start selling online today! </b> Visit <a href="https://www.2checkout.com/signup/">www.2checkout.com</a>, complete the application, and then enter the code into the promo code field to take advantage of this special offer today!
+<br> Once register login to get account credentials to configure this extension 
+<br>Don't forget to setup INS URL here <a href="https://www.2checkout.com/va/notifications/">https://www.2checkout.com/va/notifications/</a>.
+<br><br>Your INS URL is <h3>#storefront#rt=extension/2checkout/callback</h3>
 		 ]]></value>
 	</definition>
 	<definition>

@@ -53,6 +53,7 @@ Storefront:
 
 Core Extensions
 - Update to 2checkout(2CO) payment and default_twocheckout is discontinued. 
+One more reason to use AbanteCart, you can save on 2checkout fees if use promo code ABANTECART2CO
 - fedex error logging improved
 
 

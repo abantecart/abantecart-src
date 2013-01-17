@@ -10,7 +10,9 @@
 	</definition>
 	<definition>
 		<key>2checkout_note</key>
-		<value><![CDATA[Con esta extensión se puede permitir usar el sistema 2Checkout pago para los clientes.<br>
+		<value><![CDATA[
+		Con esta extensión se puede permitir usar el sistema 2Checkout pago para los clientes.<br>
+<b>Regístrate gratis hoy mismo! Utilice ABANTECART2CO código promocional para una exención de la cuota del servicio de aplicación (un ahorro de $ 10,99) y empezar a vender en línea hoy! </b> Visita <a href="https://www.2checkout.com/signup/">www.2checkout.com</a>, complete la solicitud y, a continuación, introduzca el código en el campo código de promoción para llevar Aprovecha esta oferta especial de hoy!
 		Ir a <a href="https://www.2checkout.com/">https://www.2checkout.com/</a> primero en registrarse y obtener credenciales de cuenta.<br>
 		No se olvide de configurar URL aquí <a href="https://www.2checkout.com/va/notifications/">https://www.2checkout.com/va/notifications/</a> INS.<br>
 		Su URL es INS <h3>#storefront#rt=extension/2checkout/callback</h3> ]]></value>
