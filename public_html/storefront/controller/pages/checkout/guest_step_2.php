@@ -277,10 +277,12 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 
 
 		$payment = isset($this->request->post['payment_method']) ? $this->request->post['payment_method'] : $this->session->data['payment_method']['id'];
-		if($this->session->data['payment_methods']){
-			$ac_payments = $this->session->data['payment_methods'];
+
+		if($this->session->data['payment_methods']){			
 			if ( $this->session->data['shipping_methods'] ){
+				//build array with payments available per each shippiment
 				foreach ($this->session->data['shipping_methods'] as $method_name => $method_val) {
+					$ac_payments = array();
 					#Check config of selected shipping method and see if we have accepted payments restriction
 					$ship_ext_config = $this->model_checkout_extension->getSettings($method_name);
 					$accept_payment_ids = $ship_ext_config[$method_name."_accept_payments"];
@@ -292,17 +294,30 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 								$ac_payments[$key] = $res_payment;
 							}
 						}
-					}			
-				}
-			}
-			foreach ($ac_payments as $key => $value) {
-			    $this->data['payment_methods'][$method_name][$key] = $value;
-			    $this->data['payment_methods'][$method_name][$key]['radio'] = $form->getFieldHtml( array(
+					} else {
+						$ac_payments = $this->session->data['payment_methods'];
+					}
+					foreach ($ac_payments as $key => $value) {
+			    		$this->data['payment_methods'][$method_name][$key] = $value;
+			    		$this->data['payment_methods'][$method_name][$key]['radio'] = $form->getFieldHtml( array(
 			                                                                       'type' => 'radio',
 			                                                                       'name' => 'payment_method',
 			                                                                       'options' => array($value['id']=>''),
 			                                                                       'value' => ( $payment == $value['id'] ? TRUE : FALSE )
 			                                                                  ));					
+					}
+				}
+			} else {
+				//no shipping available show one set of payments
+				foreach ($this->session->data['payment_methods'] as $key => $value) {
+			    	$this->data['payment_methods']['no_shipping'][$key] = $value;
+			    	$this->data['payment_methods']['no_shipping'][$key]['radio'] = $form->getFieldHtml( array(
+			                                                                       'type' => 'radio',
+			                                                                       'name' => 'payment_method',
+			                                                                       'options' => array($value['id']=>''),
+			                                                                       'value' => ( $payment == $value['id'] ? TRUE : FALSE )
+			                                                                  ));					
+				}
 			}
 		} else {	
 			$this->data['payment_methods'] = array();

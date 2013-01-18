@@ -109,20 +109,17 @@
 		location = '<?php echo $back; ?>';
 	} );
 		
-	var seld_shpmt = $("input[@name=shipping_method]:checked").val();
-	var shp_name = '';
-	if (seld_shpmt) {
-		shp_name = seld_shpmt.split('.');
+	if ($("input[name=shipping_method]:checked").length > 0) {
+		var shp_name = '';
+		shp_name = $("input[name=shipping_method]:checked").val().split('.');
 		shp_name = shp_name[0];
-	} 
-	
-	if (shp_name.length > 0) {
 		show_payment(shp_name);	
-	} else if ( $('active_shippings').length == 0 ) {
-		//no shipping at all show all payments
-		show_payment( );
-	}
 
+	} else if ( $('#active_shippings').length == 0 ) {
+		//no shipping at all show all payments
+		show_payment('no_shipping');
+	}
+		
 	$('.radio_element input:[name=shipping_method]').click( function(){
 		var selection = $(this).val().split('.');
 		//hide and unselect other methods. 
@@ -132,10 +129,6 @@
 	function show_payment( shp_name ) {
 		$('#active_payments').show();
 		$('.payment_palce_holder').html('');
-		if ( shp_name ) {
-			$('.payment_palce_holder').html( $('#hidden_payments .'+shp_name).html() );
-		} else {
-			$('.payment_palce_holder').html( $('#hidden_payments').html() );
-		}
+		$('.payment_palce_holder').html( $('#hidden_payments .'+shp_name).html() );
 	}
 </script>
