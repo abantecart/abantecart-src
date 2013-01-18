@@ -1195,7 +1195,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 -- Appearance
 ('appearance', 'config_storefront_template', 'default'),
 ('appearance', 'storefront_width', '100%'),
-('appearance', 'config_logo', 'image/18/73/3.gif'),
+('appearance', 'config_logo', 'image/18/73/3.png'),
 ('appearance', 'config_icon', 'image/18/73/4.ico'),
 ('appearance', 'config_image_thumb_width', '180'),
 ('appearance', 'config_image_thumb_height', '180'),

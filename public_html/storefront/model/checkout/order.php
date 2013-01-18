@@ -308,7 +308,7 @@ class ModelCheckoutOrder extends Model {
 			$template->data['order_id'] = $order_id;
 			$template->data['customer_id'] = $order_query->row['customer_id'];
 			$template->data['date_added'] = date($language->get('date_format_short'), strtotime($order_query->row['date_added']));
-			$template->data['logo'] = 'cid:' . basename($this->config->get('config_logo'));
+			$template->data['logo'] = 'cid:' . md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
 			$template->data['store_name'] = $order_query->row['store_name'];
 			$template->data['address'] = nl2br($this->config->get('config_address'));
 			$template->data['telephone'] = $this->config->get('config_telephone');
@@ -454,7 +454,9 @@ class ModelCheckoutOrder extends Model {
 			$mail->setSubject($subject);
 			$mail->setHtml($html);
 			$mail->setText(html_entity_decode($text, ENT_QUOTES, 'UTF-8'));
-			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'));
+			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'),
+					md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION));
+
 			$mail->send();
 
 			if ($this->config->get('config_alert_mail')) {
@@ -558,3 +560,4 @@ class ModelCheckoutOrder extends Model {
 		}
 	}
 }
+
