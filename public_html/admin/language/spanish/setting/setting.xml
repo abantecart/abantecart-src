@@ -296,7 +296,11 @@
 	</definition>
 	<definition>
 		<key>entry_meta_description</key>
-		<value><![CDATA[Meta Descripcion:]]></value>
+		<value><![CDATA[Meta Description Tag:<br /><span class="help">Storefront meta principal de descripción de páginas de etiquetas</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_meta_keywords</key>
+		<value><![CDATA[Meta Keywords:<br /><span class="help">Storefront palabras clave de la página principal de etiquetas meta (separadas por comas)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_description</key>
@@ -591,6 +595,14 @@
 		<value>
 			<![CDATA[Productos por pagina (Administracion):<br /><span class="help">Determina el numero de articulos de administracion que se muestran por pagina (pedidos, clientes, etc)</span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_total_order_maximum</key>
+		<value><![CDATA[Cantidad máxima cantidad permitida:<br /><span class="help">prevenir la salida de grandes cantidades de pedidos sub-totales. 0 = sin límite</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_total_order_minimum</key>
+		<value><![CDATA[Cantidad mínima de pedido:<br /><span class="help">Impedir la salida sub-total del pedido si no alcanza conjunto mínimo. 0 = NO MINIMUM</span>]]></value>
+	</definition>		
 	<definition>
 		<key>entry_cart_weight</key>
 		<value><![CDATA[Mostrar peso en el carro:]]></value>

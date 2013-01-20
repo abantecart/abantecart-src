@@ -23,7 +23,7 @@
 	<table width="100%">
         <tr>
           <td align="left" valign="top" class="checkout_heading"><?php echo $text_shipping; ?></td>
-          <td align="right" valign="top"><a href="<?php echo $checkout_shipping; ?>"><?php echo $text_edit_shipping; ?></a></td>
+          <td align="right" valign="top"><a href="<?php echo $checkout_shipping_edit; ?>"><?php echo $text_edit_shipping; ?></a></td>
 	    </tr>
 		<tr>
           <td colspan="2" align="left" valign="top">
@@ -47,7 +47,7 @@
 	<table width="100%">
         <tr>
           <td align="left" valign="top" class="checkout_heading"><?php echo $text_payment; ?></td>
-          <td align="right" valign="top"><a href="<?php echo $checkout_payment; ?>"><?php echo $text_edit_payment; ?></a></td>
+          <td align="right" valign="top"><a href="<?php echo $checkout_payment_edit; ?>"><?php echo $text_edit_payment; ?></a></td>
 	    </tr>
 		<tr>
           <td colspan="2" align="left" valign="top">

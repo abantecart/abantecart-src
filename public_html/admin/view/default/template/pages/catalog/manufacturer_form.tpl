@@ -12,6 +12,7 @@
 	<div class="heading-tabs">
 		<a href="<?php echo $manufacturer_edit ?>" class="active"><span><?php echo $tab_edit; ?></span></a>
 		<a href="<?php echo $manufacturer_layout ?>"><span><?php echo $tab_layout; ?></span></a>
+		<?php echo $this->getHookVar('extension_tabs'); ?>
 	</div>
 <?php } ?>
 	  <div class="toolbar">

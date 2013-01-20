@@ -56,7 +56,11 @@ final class ACurrency {
     	} elseif ((isset($this->session->data['currency'])) && (array_key_exists($this->session->data['currency'], $this->currencies))) {
       		$this->set($this->session->data['currency']);
     	} elseif ((isset($this->request->cookie['currency'])) && (array_key_exists($this->request->cookie['currency'], $this->currencies))) {
-      		$this->set($this->request->cookie['currency']);
+			if(IS_ADMIN===true){
+				$this->set($this->config->get('config_currency'));
+			}else{
+      			$this->set($this->request->cookie['currency']);
+			}
     	} else {
       		$this->set($this->config->get('config_currency'));
     	}

@@ -28,6 +28,9 @@
 								class="special_price"><?php echo $special; ?></span>
 						<?php } ?>
 					<?php } ?>
+
+					<?php echo $this->getHookVar('extended_product_options'); ?>
+
 				</div>
 				<div class="flt_right"><a class="btn_standard" onclick="javascript:window.print()"><span
 						class="button2"><span><img src="<?php echo $this->templateResource('/image/icon_print.png'); ?>"
@@ -86,6 +89,13 @@
 						<tr>
 							<td colspan="2">
 								<small><?php echo $text_minimum; ?></small>
+							</td>
+						</tr>
+						<?php } ?>
+						<?php if ($maximum > 0) { ?>
+						<tr>
+							<td colspan="2">
+								<small><?php echo $text_maximum; ?></small>
 							</td>
 						</tr>
 						<?php } ?>
@@ -160,7 +170,11 @@
 					<tr>
 						<td><b><?php echo $text_manufacturer; ?></b></td>
 						<td>
-							<a href="<?php echo $manufacturers; ?>"><?php echo $manufacturer; ?></a>
+							<a href="<?php echo $manufacturers; ?>">
+		                    <?php if ( $manufacturer_icon ) { ?>  
+		                    <img src="<?php echo $manufacturer_icon; ?>" title="<?php echo manufacturer; ?>" border="0"/>	                    
+	    	                <?php } else { echo $manufacturer; }  ?> 
+							</a>
 						</td>
 					</tr>
 					<?php } ?>

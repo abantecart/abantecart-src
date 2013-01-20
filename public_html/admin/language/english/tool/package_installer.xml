@@ -195,7 +195,7 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>confirm_version_incompatibility</key>
-		<value><![CDATA[ Current copy of this extension is not verified for your version of AbanteCart (v%s).<br>Your last extension build is for AbanteCart v%s.<br>
+		<value><![CDATA[ Current copy of this extension is not verified for your version of AbanteCart (v%s).<br>Extension build is specified for AbanteCart v%s.<br>
 		This is not a problem, but if you notice issues or incompatibility, please contact extension developer. ]]></value>
 	</definition>
 	<definition>

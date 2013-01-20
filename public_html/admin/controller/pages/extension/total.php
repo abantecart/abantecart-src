@@ -65,12 +65,14 @@ class ControllerPagesExtensionTotal extends AController {
 			$this->language->get ( 'column_name' ),
 			$this->language->get ( 'column_status' ),
 			$this->language->get ( 'column_sort_order' ),
+			$this->language->get ( 'column_calculation_order' ),
 			$this->language->get ( 'column_action' )
 		);
 		$grid_settings['colModel'] = array (
 			array ('name' => 'name', 'index' => 'name', 'width' => 320, 'align' => 'left', 'search' => false ),
 			array ('name' => 'status', 'index' => 'status', 'align' => 'center', 'search' => false ),
 			array ('name' => 'sort_order', 'index' => 'sort_order', 'align' => 'center', 'search' => false ),
+			array ('name' => 'calculation_order', 'index' => 'calculation_order', 'align' => 'center', 'search' => false ),
 			array ('name' => 'action', 'index' => 'action', 'align' => 'center', 'search' => false, 'sortable' => false )
 		);
 

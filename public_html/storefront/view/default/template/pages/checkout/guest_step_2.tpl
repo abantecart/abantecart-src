@@ -25,6 +25,7 @@
 	  echo $form['form_open'];
 	  ?>
       <?php if ($shipping_methods) { ?>
+      <div id="active_shippings">
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_shipping_method; ?></b>
       <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
         <p><?php echo $text_shipping_methods; ?></p>
@@ -49,19 +50,15 @@
           <?php } ?>
         </table>
       </div>
+      </div>
       <?php } ?>
       <?php if ($payment_methods) { ?>
+      <div style="display: none;" id="active_payments">
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_payment_method; ?></b>
       <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
         <p><?php echo $text_payment_methods; ?></p>
-        <table width="536" cellpadding="3">
-          <?php foreach ($payment_methods as $payment_method) { ?>
-          <tr>
-            <td width="1"><?php echo $payment_method['radio']; ?></td>
-            <td><label for="guest_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;"><?php echo $payment_method['title']; ?></label></td>
-          </tr>
-          <?php } ?>
-        </table>
+		<div class="payment_palce_holder"></div>
+      </div>
       </div>
       <?php } ?>
 
@@ -91,8 +88,47 @@
     <div class="center"></div>
   </div>
 </div>
+
+<div style="display: none;" id="hidden_payments">
+        <?php if($payment_methods) { foreach ($payment_methods as $ship_name => $payment_methods_per_shipping) { ?>
+        <div class="payment_group <?php echo $ship_name ?>">
+        <table width="536" cellpadding="3">
+          <?php foreach ($payment_methods_per_shipping as $payment_method) { ?>
+          <tr>
+            <td width="1"><?php echo $payment_method['radio']; ?></td>
+            <td><label for="guest_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;"><?php echo $payment_method['title']; ?></label></td>
+          </tr>
+          <?php } ?>
+        </table>
+        </div>
+          <?php } } ?>
+</div>
+
 <script type="text/javascript">
 	$('#guest_back').click( function(){
 		location = '<?php echo $back; ?>';
 	} );
+		
+	if ($("input[name=shipping_method]:checked").length > 0) {
+		var shp_name = '';
+		shp_name = $("input[name=shipping_method]:checked").val().split('.');
+		shp_name = shp_name[0];
+		show_payment(shp_name);	
+
+	} else if ( $('#active_shippings').length == 0 ) {
+		//no shipping at all show all payments
+		show_payment('no_shipping');
+	}
+		
+	$('.radio_element input:[name=shipping_method]').click( function(){
+		var selection = $(this).val().split('.');
+		//hide and unselect other methods. 
+		show_payment(selection[0]);
+	} );	
+	
+	function show_payment( shp_name ) {
+		$('#active_payments').show();
+		$('.payment_palce_holder').html('');
+		$('.payment_palce_holder').html( $('#hidden_payments .'+shp_name).html() );
+	}
 </script>

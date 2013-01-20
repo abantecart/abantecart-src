@@ -31,6 +31,11 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
     	if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
 	  		$this->redirect($this->html->getSecureURL('checkout/cart'));
     	}
+
+		//validate if order min/max are met
+		if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
+			$this->redirect($this->html->getSecureURL('checkout/cart'));
+		}
 		
 		if ($this->customer->isLogged()) {
 	  		$this->redirect($this->html->getSecureURL('checkout/shipping'));
@@ -53,40 +58,6 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 			//$this->tax->setZone($this->config->get('config_country_id'), $this->config->get('config_zone_id'));
 		    $this->tax->setZone($this->session->data['country_id'], $this->session->data['zone_id']);
     	}		
-
-		$total_data = array();
-		$total = 0;
-		$taxes = $this->cart->getTaxes();		 
-		$this->loadModel('checkout/extension');		
-		$sort_order = array(); 		
-		$results = $this->model_checkout_extension->getExtensions('total');		
-		foreach ($results as $key => $value) {
-			$sort_order[$key] = $this->config->get($value['key'] . '_sort_order');
-		}
-		
-		array_multisort($sort_order, SORT_ASC, $results);		
-		foreach ($results as $result) {
-			if($result['key']=='total'){
-				// apply promotions
-				$promotions = new APromotion();
-				$promotions->apply_promotions($total_data,$total);
-				if(time()-$this->session->data['promotion_data']['time']<1){
-					$total_data = $this->session->data['promotion_data']['total_data'];
-					$total = $this->session->data['promotion_data']['total'];
-				}else{
-					unset($this->session->data['promotion_data']);
-				}
-			}
-			$this->loadModel('total/' . $result['key']);
-			$this->{'model_total_' . $result['key']}->getTotal($total_data, $total, $taxes);
-		}
-		
-		$sort_order = array(); 	  
-		foreach ($total_data as $key => $value) {
-      		$sort_order[$key] = $value['sort_order'];
-    	}
-
-    	array_multisort($sort_order, SORT_ASC, $total_data);
 
         $this->document->setTitle( $this->language->get('heading_title') );
 		
@@ -143,20 +114,68 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 		$method_data = array();
 		$results = $this->model_checkout_extension->getExtensions('payment');
 		foreach ($results as $result) {
-			$this->loadModel('extension/' . $result['key']);
-			$method = $this->{'model_extension_' . $result['key']}->getMethod($this->session->data['guest']);
-			if ($method) {
-				$method_data[$result['key']] = $method;
-			}
+		    $this->loadModel('extension/' . $result['key']);
+		    $method = $this->{'model_extension_' . $result['key']}->getMethod($this->session->data['guest']);
+		    if ($method) {
+		    	$method_data[ $result['key'] ] = $method;
+		    	$method_data[ $result['key'] ]['extension_id'] = $result['extension_id'];
+		    }
 		}
-					 
+		//sort payments 
 		$sort_order = array();
 		foreach ($method_data as $key => $value) {
-      		$sort_order[$key] = $value['sort_order'];
+      	    $sort_order[$key] = $value['sort_order'];
     	}
-    	array_multisort($sort_order, SORT_ASC, $method_data);
+    	array_multisort($sort_order, SORT_ASC, $method_data);		
 		$this->session->data['payment_methods'] = $method_data;
-
+						
+		$skip_step = false;
+		//# If only 1 shipping and 1 payment it is set to be defaulted, select and skip and redirect to checkout guest_step_3 
+		if (count($this->session->data['shipping_methods']) == 1 ) {
+		    //set only method
+		    $only_method = $this->session->data[ 'shipping_methods' ];
+		    foreach ($only_method as $method_name => $value) {		
+		    	#Check config if we allowed to set this shipping and skip the step
+		    	$ext_config = $this->model_checkout_extension->getSettings($method_name);
+		    	if ( $ext_config[$method_name."_autoselect"] ) {
+		    		//take first qoute. This needs to be acounted for if configure shipping to be autoselected
+		    		$this->session->data[ 'shipping_method' ] = $only_method[$method_name]['quote'][$method_name];
+		    		$skip_step = true;		
+		    	}
+		    }
+		} else if (count($this->session->data['shipping_methods']) == 0	) {
+			//if not shipment, skip
+			$skip_step = true; 
+		}
+		
+		if ( $skip_step && $this->request->get['mode'] != 'edit' ) {
+			$ac_payments = array();
+			#Check config if selected shipping method have accepted payments restriction
+			$ship_ext_config = $this->model_checkout_extension->getSettings($method_name);
+			$accept_payment_ids = $ship_ext_config[$method_name."_accept_payments"];
+			if ( is_array($accept_payment_ids) && count($accept_payment_ids) ) {
+			    #filter only allowed payment methods
+			    foreach ($this->session->data['payment_methods'] as $key => $res_payment) {
+			    	if ( in_array($res_payment['extension_id'], $accept_payment_ids) ) {
+			    		$ac_payments[$key] = $res_payment;
+			    	}
+			    }
+			} else {
+				$ac_payments = $this->session->data['payment_methods'];
+			}
+			if (count($ac_payments) == 1 ) {
+			    //set only method
+			    $only_method = $ac_payments;
+			    foreach ($only_method as $method_name => $value) {
+			    	#Check config if we allowed to set this payment and skip the step
+			    	$ext_config = $this->model_checkout_extension->getSettings($method_name);
+			    	if ( $ext_config[$method_name."_autoselect"] && $skip_step) {
+			    		$this->session->data[ 'payment_method' ] = $only_method[$method_name];
+			    		$this->redirect($this->html->getSecureURL('checkout/guest_step_3'));			
+			    	}
+			    }
+			}
+		}
       	
 		$this->document->resetBreadcrumbs();
       	$this->document->addBreadcrumb( array ( 
@@ -257,22 +276,52 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 		}
 
 
-		$this->data['payment_methods'] = $this->session->data[ 'payment_methods' ];
-		$payment = isset($this->request->post[ 'payment_method' ]) ? $this->request->post[ 'payment_method' ] : $this->session->data[ 'payment_method' ][ 'id' ];
+		$payment = isset($this->request->post['payment_method']) ? $this->request->post['payment_method'] : $this->session->data['payment_method']['id'];
 
-		if($this->data['payment_methods']){
-			foreach($this->data['payment_methods'] as $k=>$v){
-				$this->data['payment_methods'][$k]['radio'] = $form->getFieldHtml( array(
-					                                                                   'type' => 'radio',
-					                                                                   'name' => 'payment_method',
-					                                                                   'options' => array($v['id']=>''),
-					                                                                   'value' => ( $payment == $v['id'] ? TRUE : FALSE )
-				                                                                  ));
+		if($this->session->data['payment_methods']){			
+			if ( $this->session->data['shipping_methods'] ){
+				//build array with payments available per each shippiment
+				foreach ($this->session->data['shipping_methods'] as $method_name => $method_val) {
+					$ac_payments = array();
+					#Check config of selected shipping method and see if we have accepted payments restriction
+					$ship_ext_config = $this->model_checkout_extension->getSettings($method_name);
+					$accept_payment_ids = $ship_ext_config[$method_name."_accept_payments"];
+					if ( is_array($accept_payment_ids) && count($accept_payment_ids) ) {
+						#filter only allowed payment methods
+						$ac_payments = array();
+						foreach ($this->session->data['payment_methods'] as $key => $res_payment) {
+							if ( in_array($res_payment['extension_id'], $accept_payment_ids) ) {
+								$ac_payments[$key] = $res_payment;
+							}
+						}
+					} else {
+						$ac_payments = $this->session->data['payment_methods'];
+					}
+					foreach ($ac_payments as $key => $value) {
+			    		$this->data['payment_methods'][$method_name][$key] = $value;
+			    		$this->data['payment_methods'][$method_name][$key]['radio'] = $form->getFieldHtml( array(
+			                                                                       'type' => 'radio',
+			                                                                       'name' => 'payment_method',
+			                                                                       'options' => array($value['id']=>''),
+			                                                                       'value' => ( $payment == $value['id'] ? TRUE : FALSE )
+			                                                                  ));					
+					}
+				}
+			} else {
+				//no shipping available show one set of payments
+				foreach ($this->session->data['payment_methods'] as $key => $value) {
+			    	$this->data['payment_methods']['no_shipping'][$key] = $value;
+			    	$this->data['payment_methods']['no_shipping'][$key]['radio'] = $form->getFieldHtml( array(
+			                                                                       'type' => 'radio',
+			                                                                       'name' => 'payment_method',
+			                                                                       'options' => array($value['id']=>''),
+			                                                                       'value' => ( $payment == $value['id'] ? TRUE : FALSE )
+			                                                                  ));					
+				}
 			}
-		}else{
+		} else {	
 			$this->data['payment_methods'] = array();
 		}
-		
 
 		$this->data['comment'] = isset($this->request->post[ 'comment' ]) ? $this->request->post[ 'comment' ] : $this->session->data[ 'comment' ];
 		$this->data['form']['comment'] =  $form->getFieldHtml( array(

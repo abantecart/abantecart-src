@@ -25,6 +25,10 @@ class AHtml extends AController {
 	protected $registry;
 	protected $args = array();
 
+	/**
+	 * @param Registry $registry
+	 * @param array $args
+	 */
 	public function __construct($registry, $args = array()) {
 		$this->registry = $registry;
 	}
@@ -86,7 +90,7 @@ class AHtml extends AController {
 
 	//#PR This builds URL to the catalog to be used in admin
 	public function getCatalogURL($rt, $params = '', $encode = '') {
-		$suburl = '?'.($rt ? 'rt='.$rt : '') . $params;
+		$suburl = '?' . ($rt ? 'rt=' . $rt : '') . $params;
 		$url = HTTP_SERVER . INDEX_FILE . $this->url_encode($suburl, $encode);
 		return $url;
 	}
@@ -120,9 +124,6 @@ class AHtml extends AController {
 		return $url_part . '?' . $new_qs;
 	}
 
-	public function getImagePath() {
-		return RDIR_THEMES . $this->config->get('config_storefront_template') . "/image/";
-	}
 
 	/**
 	 * create html code based on passed data
@@ -135,7 +136,7 @@ class AHtml extends AController {
 	 *   'style' => 'my-form'
 	 *   'form' => 'form id' // needed for unique element ID     *
 	 *  );
-	 * @return html code
+	 *
 	 */
 	public function buildElement($data) {
 		$item = HtmlElementFactory::create($data);
@@ -826,7 +827,7 @@ class TextareaHtmlElement extends HtmlElement {
 				'name' => $this->name,
 				'id' => $this->element_id,
 				'value' => $this->value,
-				'ovalue' => htmlentities($this->value, ENT_QUOTES,'UTF-8'),
+				'ovalue' => htmlentities($this->value, ENT_QUOTES, 'UTF-8'),
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style
@@ -1042,7 +1043,9 @@ class RatingHtmlElement extends HtmlElement {
 	function __construct($data) {
 		parent::__construct($data);
 		if (!$this->data[ 'registry' ]->has('star-rating')) {
-
+			/**
+			 * @var $doc ADocument
+			 */
 			$doc = $this->data[ 'registry' ]->get('document');
 			$doc->addScript($this->view->templateResource('/javascript/jquery/star-rating/jquery.MetaData.js'));
 			$doc->addScript($this->view->templateResource('/javascript/jquery/star-rating/jquery.rating.pack.js'));
@@ -1187,6 +1190,8 @@ class DateHtmlElement extends HtmlElement {
 				'attr' => 'aform_field_type="date" ' . $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
+				'dateformat' => $this->dateformat,
+				'highlight' => $this->highlight
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1236,7 +1241,7 @@ class NumberHtmlElement extends HtmlElement {
 				'type' => 'text',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
-				'attr' => 'aform_field_type="number" '.$this->attr,
+				'attr' => 'aform_field_type="number" ' . $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
 			)
@@ -1262,7 +1267,7 @@ class PhoneHtmlElement extends HtmlElement {
 				'type' => 'text',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
-				'attr' => 'aform_field_type="phone" '.$this->attr,
+				'attr' => 'aform_field_type="phone" ' . $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
 			)
@@ -1282,7 +1287,7 @@ class IPaddressHtmlElement extends HtmlElement {
 			array(
 				'id' => $this->element_id,
 				'name' => $this->name,
-				'value' => $_SERVER['REMOTE_ADDR'],
+				'value' => $_SERVER[ 'REMOTE_ADDR' ],
 				'attr' => 'aform_field_type="ipaddress" ' . $this->attr,
 			)
 		);
@@ -1295,11 +1300,11 @@ class CountriesHtmlElement extends HtmlElement {
 
 	public function __construct($data) {
 		parent::__construct($data);
-		$this->data['registry']->get('load')->model('localisation/country');
-		$results = $this->data['registry']->get('model_localisation_country')->getCountries();
+		$this->data[ 'registry' ]->get('load')->model('localisation/country');
+		$results = $this->data[ 'registry' ]->get('model_localisation_country')->getCountries();
 		$this->options = array();
 		foreach ($results as $c) {
-			$this->options[$c['name']] = $c['name'];
+			$this->options[ $c[ 'name' ] ] = $c[ 'name' ];
 		}
 	}
 
@@ -1333,11 +1338,11 @@ class ZonesHtmlElement extends HtmlElement {
 
 	public function __construct($data) {
 		parent::__construct($data);
-		$this->data['registry']->get('load')->model('localisation/country');
-		$results = $this->data['registry']->get('model_localisation_country')->getCountries();
+		$this->data[ 'registry' ]->get('load')->model('localisation/country');
+		$results = $this->data[ 'registry' ]->get('model_localisation_country')->getCountries();
 		$this->options = array();
 		foreach ($results as $c) {
-			$this->options[$c['name']] = $c['name'];
+			$this->options[ $c[ 'name' ] ] = $c[ 'name' ];
 		}
 	}
 
@@ -1349,7 +1354,7 @@ class ZonesHtmlElement extends HtmlElement {
 		$this->options = !$this->options ? array() : $this->options;
 		$this->element_id = preg_replace('/[\[+\]+]/', '_', $this->element_id);
 
-		$html = new AHtml($this->data['registry']);
+		$html = new AHtml($this->data[ 'registry' ]);
 
 		$this->view->batchAssign(
 			array(

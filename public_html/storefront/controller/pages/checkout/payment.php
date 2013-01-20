@@ -29,6 +29,12 @@ class ControllerPagesCheckoutPayment extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
+		//validate if order min/max are met
+		if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
+			$this->redirect($this->html->getSecureURL('checkout/cart'));
+		}
+
+		//Selections are posted, validate and apply
 		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && isset($this->request->post[ 'coupon' ]) && $this->_validateCoupon()) {
 			$this->session->data[ 'coupon' ] = $this->request->post[ 'coupon' ];
 			$this->session->data[ 'success' ] = $this->language->get('text_success');
@@ -80,29 +86,6 @@ class ControllerPagesCheckoutPayment extends AController {
 			$this->redirect($this->html->getSecureURL('checkout/address/payment'));
 		}
 
-		$total_data = array();
-		$total = 0;
-		$taxes = $this->cart->getTaxes();
-
-		$this->loadModel('checkout/extension');
-
-		$results = $this->model_checkout_extension->getExtensions('total');
-		foreach ($results as $result) {
-			if($result['key']=='total'){
-				// apply promotions
-				$promotions = new APromotion();
-				$promotions->apply_promotions($total_data,$total);
-				if(time()-$this->session->data['promotion_data']['time']<1){
-					$total_data = $this->session->data['promotion_data']['total_data'];
-					$total = $this->session->data['promotion_data']['total'];
-				}else{
-					unset($this->session->data['promotion_data']);
-				}
-			}
-			$this->loadModel('total/' . $result[ 'key' ]);
-			$this->{'model_total_' . $result[ 'key' ]}->getTotal($total_data, $total, $taxes);
-		}
-
 		$this->loadModel('account/address');
 		$payment_address = $this->model_account_address->getAddress($this->session->data[ 'payment_address_id' ]);
 		if (!$payment_address) {
@@ -114,9 +97,25 @@ class ControllerPagesCheckoutPayment extends AController {
 
 		$this->loadModel('checkout/extension');
 		$method_data = array();
+		
 		$results = $this->model_checkout_extension->getExtensions('payment');
+		$ac_payments = array();
+		#Check config of selected shipping method and see if we have accepted payments restriction
+		$shipping_ext = explode('.',$this->session->data['shipping_method']['id']);
+		$ship_ext_config = $this->model_checkout_extension->getSettings($shipping_ext[0]);
+		$accept_payment_ids = $ship_ext_config[$shipping_ext[0]."_accept_payments"];
+		if ( is_array($accept_payment_ids) && count($accept_payment_ids) ) {
+			#filter only allowed payment methods
+			foreach ($results as $result) {
+				if ( in_array($result['extension_id'], $accept_payment_ids) ) {
+					$ac_payments[] = $result;
+				}
+			}
+		} else {
+			$ac_payments = $results;
+		}
 
-		foreach ($results as $result) {
+		foreach ($ac_payments as $result) {
 			$this->loadModel('extension/' . $result[ 'key' ]);
 			$method = $this->{'model_extension_' . $result[ 'key' ]}->getMethod($payment_address);
 			if ($method) {
@@ -134,6 +133,22 @@ class ControllerPagesCheckoutPayment extends AController {
 			$this->extensions->hk_ProcessData($this);
 
 			$this->redirect($this->html->getSecureURL('checkout/confirm'));
+		}
+
+		//# If only 1 payment and it is set to be defaulted, select and skip and redirect to confirmation 
+		if (count($this->session->data[ 'payment_methods' ]) == 1 && $this->request->get['mode'] != 'edit') {
+		    //set only method
+		    $only_method = $this->session->data[ 'payment_methods' ];
+		    foreach ($only_method as $key => $value) {
+		    	$method_name = $key;	
+		    	#Check config if we allowed to set this payment and skip the step
+		    	$ext_config = $this->model_checkout_extension->getSettings($method_name);
+		    	$autoselect = $ext_config[$method_name."_autoselect"];
+		    	if ( $autoselect ) {
+		    		$this->session->data[ 'payment_method' ] = $only_method[$method_name];
+		    		$this->redirect($this->html->getSecureURL('checkout/confirm'));				
+		    	}
+		    }
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));

@@ -31,6 +31,11 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 		if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
 	  		$this->redirect($this->html->getSecureURL('checkout/cart'));
     	}
+
+		//validate if order min/max are met
+		if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
+			$this->redirect($this->html->getSecureURL('checkout/cart'));
+		}
 		
 		if ($this->customer->isLogged()) {
 	  		$this->redirect($this->html->getSecureURL('checkout/shipping'));
@@ -125,6 +130,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 		}
 		
     	$this->data['checkout_shipping'] = $this->html->getSecureURL('checkout/guest_step_2');
+    	$this->data['checkout_shipping_edit'] = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit');
 
     	$this->data['checkout_shipping_address'] = $this->html->getSecureURL('checkout/guest_step_1');
 		
@@ -143,6 +149,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 		}
 	
     	$this->data['checkout_payment'] = $this->html->getSecureURL('checkout/guest_step_2');
+    	$this->data['checkout_payment_edit'] = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit');
 		$this->data['cart'] = $this->html->getSecureURL('checkout/cart');
     	$this->data['checkout_payment_address'] = $this->html->getSecureURL('checkout/guest_step_1');
 		
@@ -157,11 +164,12 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 			                                     $product_id,
 			                                     $this->config->get('config_image_cart_width'),
 			                                     $this->config->get('config_image_cart_height'),true);
+			$tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
       		$this->data['products'][$i] = array_merge( 
 												$this->data['products'][$i],
 													array(
 														'thumb'    => $thumbnail,
-														'tax'        => $this->tax->getRate($this->data['products'][$i]['tax_class_id']),
+														'tax'        => $this->currency->format($tax),
 														'price'      => $this->currency->format($this->data['products'][$i]['price']),
 														'total'      => $this->currency->format($this->data['products'][$i]['total']),
 														'href'       => $this->html->getURL('product/product', '&product_id=' . $product_id )

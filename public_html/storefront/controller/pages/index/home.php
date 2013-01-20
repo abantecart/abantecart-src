@@ -29,6 +29,7 @@ class ControllerPagesIndexHome extends AController {
 	
 		$this->document->setTitle( $this->config->get('config_title') );
 		$this->document->setDescription( $this->config->get('config_meta_description') );
+		$this->document->setKeywords( $this->config->get('config_meta_keywords') );
 		
 		$this->view->assign('heading_title', sprintf($this->language->get('heading_title'), $this->config->get('store_name')) );
 		

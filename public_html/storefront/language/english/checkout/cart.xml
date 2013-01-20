@@ -50,10 +50,18 @@
 	</definition>
 	<definition>
 		<key>error_stock</key>
-		<value><![CDATA[Products marked with *** are not available in the desired quantity or not in stock!]]></value>
+		<value><![CDATA[Products marked with *** are not available in the desired quantity or out of stock!]]></value>
 	</definition>
 	<definition>
 		<key>error_required_options</key>
-		<value><![CDATA[Please fill all required options!]]></value>
+		<value><![CDATA[Please select all required options!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_minimum</key>
+		<value><![CDATA[Your order sub-total amount does not meet minimum amount of %s required. Please add more products to your cart!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_maximum</key>
+		<value><![CDATA[Your order sub-total amount exceeds maximum amount of %s allowed per order. Please remove some items from your cart!]]></value>
 	</definition>
 </definitions>

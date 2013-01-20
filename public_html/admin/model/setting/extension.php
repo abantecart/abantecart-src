@@ -34,6 +34,17 @@ class ModelSettingExtension extends Model {
 		return $extension_data;
 	}
 	
+	/*
+	* Get enabled payment extensions. Used in configuration for shipping extensions
+	*/
+	public function getEnabledPayments() {
+		$extension_data = array();
+		
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "extensions WHERE `type` = 'payment' and status = 1");		
+		return $query->rows;
+	}
+	
+	
 	public function install($type, $key) {
 		$this->db->query("INSERT INTO " . DB_PREFIX . "extensions SET `type` = '" . $this->db->escape($type) . "', `key` = '" . $this->db->escape($key) . "'");
 	}

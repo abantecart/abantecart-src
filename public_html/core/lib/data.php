@@ -992,6 +992,10 @@ final class AData {
 		//set ids to where from parent they might not be in there 
 		$where = $this->_build_id_columns($table_cfg, $parent_vals);
 
+		if ( in_array($table_name, array('products', 'manufacturers', 'categories')) ) {
+			$this->_clear_layouts_tables($table_name, $data_row[$table_cfg['id']]);
+		}
+
 		foreach ($data_row as $col_name => $col_value){
 			if ($col_name == 'tables' || $col_name == 'action') {
 				continue;
@@ -1003,7 +1007,9 @@ final class AData {
 			}
 
 			if ( $col_name == $table_cfg['id']
-				|| (isset($table_cfg['relation_ids']) && in_array($col_name, $table_cfg['relation_ids'])) ){
+				|| (isset($table_cfg['relation_ids']) && in_array($col_name, $table_cfg['relation_ids']))
+			)
+			{
 				$where[] = "`" . $col_name . "` = '" . $this->db->escape($col_value) . "'";
 				continue;
 			}
@@ -1256,6 +1262,79 @@ final class AData {
 		$wrn = new AWarning($error);
 		$wrn->toDebug()->toLog();
 		return $error;
+	}
+
+	private function _clear_layouts_tables($table_name, $id) {
+		if ( $key = $this->_get_layout_key($table_name) ) {
+
+			$ids = $this->_get_layout_ids($key, $id);
+
+			if ( !empty($ids) ) {
+				$this->_clear_pages($ids['page_id']);
+				$this->_clear_pages_layouts($ids['page_id']);
+				$this->_clear_layouts($ids['layout_id']);
+			}
+		}
+	}
+
+	// get "key_param" to be able to get page_id and layout_id for custom layout
+	private function _get_layout_key($table_name) {
+		switch ( $table_name ) {
+			case 'products':
+				$key = 'product_id';
+				break;
+			case 'manufacturers':
+				$key = 'manufacturer_id';
+				break;
+			case 'categories':
+				$key = 'path';
+				break;
+			default:
+				$key = false;
+				break;
+		}
+		return $key;
+	}
+
+	// get page_id and layout_id to be able to delete propper rows from database
+	private function _get_layout_ids($key_param, $key_value) {
+		$result = $this->db->query(
+			'SELECT p.page_id, pl.layout_id FROM ' . DB_PREFIX . 'pages p
+			INNER JOIN ' . DB_PREFIX . 'pages_layouts pl ON p.page_id = pl.page_id
+			WHERE p.key_param = "' . $this->db->escape($key_param) . '"
+			AND p.key_value = "' . (int) $key_value . '"'
+		);
+
+		if ( $result->num_rows ) {
+			return $result->row;
+		}
+		return array();
+	}
+
+	private function _clear_pages($page_id) {
+		$this->db->query(
+			'DELETE FROM ' . DB_PREFIX . 'pages
+			WHERE page_id = "' . (int) $page_id . '"'
+		);
+		$this->db->query(
+			'DELETE FROM ' . DB_PREFIX . 'page_descriptions
+			WHERE page_id = "' . (int) $page_id . '"'
+		);
+	}
+
+	private function _clear_pages_layouts($page_id) {
+		return $this->db->query(
+			'DELETE FROM ' . DB_PREFIX . 'pages_layouts
+			WHERE page_id = "' . (int) $page_id . '"'
+		);
+	}
+
+
+	private function _clear_layouts($layout_id) {
+		return $this->db->query(
+			'DELETE FROM ' . DB_PREFIX . 'layouts
+			WHERE layout_id = "' . (int) $layout_id . '"'
+		);
 	}
 
 }

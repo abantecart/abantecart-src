@@ -101,6 +101,10 @@
 		<value><![CDATA[(This product has a minimum quantity of %s)]]></value>
 	</definition>
 	<definition>
+		<key>text_maximum</key>
+		<value><![CDATA[(This product has a limit set to %s item(s) per order)]]></value>
+	</definition>
+	<definition>
 		<key>entry_name</key>
 		<value><![CDATA[Your Name:]]></value>
 	</definition>

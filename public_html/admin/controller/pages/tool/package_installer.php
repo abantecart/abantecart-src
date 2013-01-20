@@ -107,33 +107,33 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$package_info[ 'package_source' ] = 'file';
 
 		// check destination
-		$package_info[ 'tmp_dir' ] = $this->_get_temp_dir();
+		$package_info['tmp_dir'] = $this->_get_temp_dir();
 		if (!is_writable($package_info[ 'tmp_dir' ])) {
-			$this->session->data[ 'error' ] = $this->language->get('error_dir_permission') . ' ' . DIR_APP_SECTION . "system/temp/install/";
-			unset($this->session->data[ 'package_info' ]);
+			$this->session->data[ 'error' ] = $this->language->get('error_dir_permission') . ' ' . $package_info['tmp_dir'];
+			unset($this->session->data['package_info']);
 			$this->redirect($this->html->getSecureURL('tool/package_installer/upload'));
 		}
 
 		// process post
 		if ($this->request->server[ 'REQUEST_METHOD' ] == 'POST') {
-			if (is_uploaded_file($this->request->files[ 'package_file' ][ 'tmp_name' ])) {
-				if(!is_int(strpos($this->request->files[ 'package_file' ][ 'name' ],'.tar.gz'))){
-					unlink($this->request->files[ 'package_file' ][ 'tmp_name' ]);
-					$this->session->data[ 'error' ] .= $this->language->get('error_archive_extension');
+			if (is_uploaded_file($this->request->files['package_file']['tmp_name'])) {
+				if(!is_int(strpos($this->request->files['package_file' ]['name'],'.tar.gz'))){
+					unlink($this->request->files['package_file']['tmp_name']);
+					$this->session->data['error'] .= $this->language->get('error_archive_extension');
 				}else{
-					$result = move_uploaded_file($this->request->files[ 'package_file' ][ 'tmp_name' ],
-												 DIR_APP_SECTION . 'system/temp/install/' . $this->request->files[ 'package_file' ][ 'name' ]);
-					if (!$result || $this->request->files[ 'package_file' ][ 'error' ]) {
-						$this->session->data[ 'error' ] .= '<br>Error: ' . getTextUploadError($this->request->files[ 'package_file' ][ 'error' ]);
+					$result = move_uploaded_file($this->request->files[ 'package_file' ]['tmp_name'],
+												 $package_info['tmp_dir'] . $this->request->files['package_file']['name']);
+					if (!$result || $this->request->files[ 'package_file' ]['error']) {
+						$this->session->data['error'] .= '<br>Error: ' . getTextUploadError($this->request->files['package_file']['error']);
 					} else {
-						$package_info[ 'package_name' ] = $this->request->files[ 'package_file' ][ 'name' ];
-						$package_info[ 'package_size' ] = $this->request->files[ 'package_file' ][ 'size' ];
+						$package_info['package_name'] = $this->request->files['package_file']['name'];
+						$package_info['package_size'] = $this->request->files['package_file']['size'];
 						$this->redirect($this->html->getSecureURL('tool/package_installer/agreement'));
 					}
 				}
 			}else{
-				if($this->request->post[ 'package_url' ]){
-					$package_info[ 'package_url' ] = $this->request->post[ 'package_url' ];
+				if($this->request->post['package_url']){
+					$package_info['package_url'] = $this->request->post['package_url'];
 					$this->redirect($this->html->getSecureURL('tool/package_installer/download'));
 				}
 			}
@@ -279,13 +279,13 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 		$this->view->assign('text_download_error', $this->language->get('text_download_error'));
 
-		$package_info[ 'extension_key' ] = $extension_key;
+		$package_info['extension_key'] = $extension_key;
 
-		$package_info[ 'tmp_dir' ] = $this->_get_temp_dir();
+		$package_info['tmp_dir'] = $this->_get_temp_dir();
 
 
-		if (!is_writable($package_info[ 'tmp_dir' ])) {
-			$this->session->data[ 'error' ] = $this->language->get('error_dir_permission') . ' ' . DIR_APP_SECTION . "system/temp/install/";
+		if (!is_writable($package_info['tmp_dir'])) {
+			$this->session->data['error'] = $this->language->get('error_dir_permission') . ' ' . $package_info['tmp_dir'];
 			unset($this->session->data[ 'package_info' ]);
 			$this->redirect($this->html->getSecureURL('tool/package_installer'));
 		}
@@ -402,10 +402,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$pmanager = new APackageManager();
 		//unpack package
 
-		//remove the same directory before unpack
-		if (file_exists($package_info[ 'tmp_dir' ] . $package_dirname)) {
-			$this->_removeTempFiles();
-		}
 		// if package not unpack - redirect to the begin and show error message
 		if (!$pmanager->unpack($package_info[ 'tmp_dir' ] . $package_name, $package_info[ 'tmp_dir' ])) {
 			$this->session->data[ 'error' ] = str_replace('%PACKAGE%', $package_info[ 'tmp_dir' ].$package_name, $this->language->get('error_unpack'));
@@ -521,12 +517,12 @@ class ControllerPagesToolPackageInstaller extends AController {
 			$ftp = false; // sign of ftp-form
 			$this->redirect($this->html->getSecureURL('tool/package_installer/install'));
 		} else {
-			if (!$package_info[ 'tmp_dir' ]) {
-				$package_info[ 'tmp_dir' ] = $this->_get_temp_dir();
+			if (!$package_info['tmp_dir']) {
+				$package_info['tmp_dir'] = $this->_get_temp_dir();
 			}
 		}
 		// if all fine show license agreement
-		if (!file_exists($package_info[ 'tmp_dir' ] . $package_dirname . "/license.txt") && !$ftp) {
+		if (!file_exists($package_info['tmp_dir'] . $package_dirname . "/license.txt") && !$ftp) {
 			$this->redirect($this->html->getSecureURL('tool/package_installer/install'));
 		}
 
@@ -701,6 +697,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		if ($result === true) { // if all  was installed
 			// clean and redirect after install
 			$this->_removeTempFiles();
+            $this->cache->delete('*');
 			unset($this->session->data[ 'package_info' ]);
 			$this->session->data[ 'success' ] = $this->language->get('success');
 			if ($extension_id) {
@@ -748,23 +745,31 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$this->processTemplate('pages/tool/package_installer_install.tpl');
 	}
 
-
+	/*
+	* Validate full version to be greater and same minor version. 
+	*
+	*/
 	private function _check_cart_version($config_xml) {
-		$result = false;
+		$full_check = false;
+		$minor_check = false;
 		foreach ($config_xml->cartversions->item as $item) {
 			$version = (string)$item;
 			$versions[ ] = $version;
-			$result = versionCompare($version,VERSION,'==');
-
-			if ($result) {
+			$subv_arr = explode('.',preg_replace('/[^0-9\.]/', '', $version));
+			$full_check = versionCompare($version,VERSION,'<=');
+			$minor_check = versionCompare($subv_arr[0].'.'.$subv_arr[1], MASTER_VERSION . '.' . MINOR_VERSION,'==');
+			
+			if ($full_check && $minor_check ) {
 				break;
 			}
 		}
-		if (!$result) {
+		
+		
+		if (!$full_check || !$minor_check) {
 			$this->session->data[ 'package_info' ][ 'confirm_version_incompatibility' ] = false;
-			$this->session->data[ 'package_info' ][ 'version_incompatibility_text' ] = sprintf($this->language->get('confirm_version_incompatibility'), (MASTER_VERSION . '.' . MINOR_VERSION), implode(', ', $versions));
+			$this->session->data[ 'package_info' ][ 'version_incompatibility_text' ] = sprintf($this->language->get('confirm_version_incompatibility'), (VERSION), implode(', ', $versions));
 		}
-		return $result;
+		return $full_check && $minor_check;
 	}
 
 
@@ -953,11 +958,13 @@ class ControllerPagesToolPackageInstaller extends AController {
 	}
 
 	private function _get_temp_dir() {
-		if(!is_dir(DIR_APP_SECTION . "system/temp/install")){
-			mkdir(DIR_APP_SECTION . "system/temp/install",0777);
+		$tmp_install_dir = DIR_APP_SECTION . "system/temp/install";
+
+		if(!is_dir( $tmp_install_dir )){
+			mkdir( $tmp_install_dir, 0777);
 		}
-		if (is_writable(DIR_APP_SECTION . "system/temp/install/")) {
-			$dir = DIR_APP_SECTION . "system/temp/install/";
+		if (is_writable($tmp_install_dir."/")) {
+			$dir = $tmp_install_dir . "/";
 		}else {
 			if(!is_dir(sys_get_temp_dir() . '/install')){
 				mkdir(sys_get_temp_dir() . '/install/',0777);

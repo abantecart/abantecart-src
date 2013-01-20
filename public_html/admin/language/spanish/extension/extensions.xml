@@ -1,256 +1,261 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[Extensiones]]></value>
-  </definition>
-  <definition>
-    <key>text_install</key>
-    <value><![CDATA[Instalar]]></value>
-  </definition>
-  <definition>
-    <key>text_uninstall</key>
-    <value><![CDATA[Desinstalar]]></value>
-  </definition>
-  <definition>
-    <key>text_uninstall_delete</key>
-    <value><![CDATA[Desinstalar / eliminar]]></value>
-  </definition>
-  <definition>
-    <key>text_uninstall_confirm</key>
-    <value><![CDATA[Por favor, confirme que desea desinstalar la extensión [%% de la extensión]. Todos los ajustes de extensión y los datos relacionados se pueden borrar y perdió.]]></value>
-  </definition>
-  <definition>
-    <key>text_delete</key>
-    <value><![CDATA[Borrar]]></value>
-  </definition>
-  <definition>
-    <key>text_enlarge</key>
-    <value><![CDATA[Haga clic en la imagen para ampliarla]]></value>
-  </definition>
-  <definition>
-    <key>text_activate</key>
-    <value><![CDATA[Activar]]></value>
-  </definition>
-  <definition>
-    <key>text_deactivate</key>
-    <value><![CDATA[Desactivar]]></value>
-  </definition>
-  <definition>
-    <key>text_left</key>
-    <value><![CDATA[Izquierda]]></value>
-  </definition>
-  <definition>
-    <key>text_right</key>
-    <value><![CDATA[Derecho]]></value>
-  </definition>
-  <definition>
-    <key>text_date_added</key>
-    <value><![CDATA[Agregado el]]></value>
-  </definition>
-  <definition>
-    <key>column_icon</key>
-    <value><![CDATA[Icono]]></value>
-  </definition>
-  <definition>
-    <key>column_id</key>
-    <value><![CDATA[Extensión ID]]></value>
-  </definition>
-  <definition>
-    <key>column_required</key>
-    <value><![CDATA[Necesario]]></value>
-  </definition>
-  <definition>
-    <key>column_name</key>
-    <value><![CDATA[Nombre de la extensión]]></value>
-  </definition>
-  <definition>
-    <key>column_position</key>
-    <value><![CDATA[Posición]]></value>
-  </definition>
-  <definition>
-    <key>column_update_date</key>
-    <value><![CDATA[Actualizado]]></value>
-  </definition>
-  <definition>
-    <key>column_category</key>
-    <value><![CDATA[Categoría]]></value>
-  </definition>
-  <definition>
-    <key>column_status</key>
-    <value><![CDATA[Estado]]></value>
-  </definition>
-  <definition>
-    <key>column_sort_order</key>
-    <value><![CDATA[Orden de Clasificación]]></value>
-  </definition>
-  <definition>
-    <key>column_action</key>
-    <value><![CDATA[Acciones rápidas]]></value>
-  </definition>
-  <definition>
-    <key>error_permission</key>
-    <value><![CDATA[Advertencia: Usted no tiene permiso para modificar las extensiones!]]></value>
-  </definition>
-  <definition>
-    <key>error_required_field</key>
-    <value><![CDATA[Advertencia: Por favor, rellene los campos obligatorios!]]></value>
-  </definition>
-  <definition>
-    <key>error_payment_uninstall</key>
-    <value><![CDATA[Advertencia: Desactivar la extensión antes de desinstalación!]]></value>
-  </definition>
-  <definition>
-    <key>error_uninstall</key>
-    <value><![CDATA[Advertencia: Desinstalar extensión antes de borrar!]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Éxito: Se ha modificado la configuración de extensión!]]></value>
-  </definition>
-  <definition>
-    <key>text_restore_success</key>
-    <value><![CDATA[Éxito: Se ha restaurado la configuración predeterminada de extensión!]]></value>
-  </definition>
-  <definition>
-    <key>text_extensions_store</key>
-    <value><![CDATA[Extensiones de la tienda]]></value>
-  </definition>
-  <definition>
-    <key>text_required</key>
-    <value><![CDATA[Necesario]]></value>
-  </definition>
-  <definition>
-    <key>text_optional</key>
-    <value><![CDATA[Opcional]]></value>
-  </definition>
-  <definition>
-    <key>text_add_new</key>
-    <value><![CDATA[Agregar Nueva extensión]]></value>
-  </definition>
-  <definition>
-    <key>text_search</key>
-    <value><![CDATA[Buscar]]></value>
-  </definition>
-  <definition>
-    <key>text_search_for_extension</key>
-    <value><![CDATA[Búsqueda de Extensión]]></value>
-  </definition>
-  <definition>
-    <key>text_missing_extension</key>
-    <value><![CDATA[&quot;%% EXT Extensión: Placere delete is et visita extention provisor impetro completum fons et intall eam iterum &quot;]]></value>
-  </definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Extensiones]]></value>
+	</definition>
+	<definition>
+		<key>text_install</key>
+		<value><![CDATA[Instalar]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall</key>
+		<value><![CDATA[Desinstalar]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall_delete</key>
+		<value><![CDATA[Desinstalar / eliminar]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall_confirm</key>
+		<value>
+			<![CDATA[Por favor, confirme que desea desinstalar la extensión [%% de la extensión]. Todos los ajustes de extensión y los datos relacionados se pueden borrar y perdió.]]></value>
+	</definition>
+	<definition>
+		<key>text_delete</key>
+		<value><![CDATA[Borrar]]></value>
+	</definition>
+	<definition>
+		<key>text_enlarge</key>
+		<value><![CDATA[Haga clic en la imagen para ampliarla]]></value>
+	</definition>
+	<definition>
+		<key>text_activate</key>
+		<value><![CDATA[Activar]]></value>
+	</definition>
+	<definition>
+		<key>text_deactivate</key>
+		<value><![CDATA[Desactivar]]></value>
+	</definition>
+	<definition>
+		<key>text_left</key>
+		<value><![CDATA[Izquierda]]></value>
+	</definition>
+	<definition>
+		<key>text_right</key>
+		<value><![CDATA[Derecho]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Agregado el]]></value>
+	</definition>
+	<definition>
+		<key>column_icon</key>
+		<value><![CDATA[Icono]]></value>
+	</definition>
+	<definition>
+		<key>column_id</key>
+		<value><![CDATA[Extensión ID]]></value>
+	</definition>
+	<definition>
+		<key>column_required</key>
+		<value><![CDATA[Necesario]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nombre de la extensión]]></value>
+	</definition>
+	<definition>
+		<key>column_position</key>
+		<value><![CDATA[Posición]]></value>
+	</definition>
+	<definition>
+		<key>column_update_date</key>
+		<value><![CDATA[Actualizado]]></value>
+	</definition>
+	<definition>
+		<key>column_category</key>
+		<value><![CDATA[Categoría]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Estado]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[Orden de Clasificación]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Acciones rápidas]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Advertencia: Usted no tiene permiso para modificar las extensiones!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_field</key>
+		<value><![CDATA[Advertencia: Por favor, rellene los campos obligatorios!]]></value>
+	</definition>
+	<definition>
+		<key>error_payment_uninstall</key>
+		<value><![CDATA[Advertencia: Desactivar la extensión antes de desinstalación!]]></value>
+	</definition>
+	<definition>
+		<key>error_uninstall</key>
+		<value><![CDATA[Advertencia: Desinstalar extensión antes de borrar!]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Éxito: Se ha modificado la configuración de extensión!]]></value>
+	</definition>
+	<definition>
+		<key>text_restore_success</key>
+		<value><![CDATA[Éxito: Se ha restaurado la configuración predeterminada de extensión!]]></value>
+	</definition>
+	<definition>
+		<key>text_extensions_store</key>
+		<value><![CDATA[Extensiones de la tienda]]></value>
+	</definition>
+	<definition>
+		<key>text_required</key>
+		<value><![CDATA[Necesario]]></value>
+	</definition>
+	<definition>
+		<key>text_optional</key>
+		<value><![CDATA[Opcional]]></value>
+	</definition>
+	<definition>
+		<key>text_add_new</key>
+		<value><![CDATA[Agregar Nueva extensión]]></value>
+	</definition>
+	<definition>
+		<key>text_search</key>
+		<value><![CDATA[Buscar]]></value>
+	</definition>
+	<definition>
+		<key>text_search_for_extension</key>
+		<value><![CDATA[Búsqueda de Extensión]]></value>
+	</definition>
+	<definition>
+		<key>text_missing_extension</key>
+		<value>
+			<![CDATA[&quot;%% EXT Extensión: Placere delete is et visita extention provisor impetro completum fons et intall eam iterum &quot;]]></value>
+	</definition>
 	<definition>
 		<key>text_broken_extension</key>
-		<value><![CDATA["&quot;%% EXT Extensión: Placere delete is et visita extention provisor impetro completum fons et intall eam iterum  "]]></value>
+		<value>
+			<![CDATA["&quot;%% EXT Extensión: Placere delete is et visita extention provisor impetro completum fons et intall eam iterum  "]]></value>
 	</definition>
-  <definition>
-    <key>text_extension_pagination</key>
-    <value><![CDATA[Extensión (s) {inicio} a {fin} de {total}]]></value>
-  </definition>
-  <definition>
-    <key>text_per_page</key>
-    <value><![CDATA[por página]]></value>
-  </definition>
-  <definition>
-    <key>text_error_in_ajax</key>
-    <value><![CDATA[Error en la llamada ajax]]></value>
-  </definition>
-  <definition>
-    <key>text_saved</key>
-    <value><![CDATA[Guardado]]></value>
-  </definition>
-  <definition>
-    <key>text_save</key>
-    <value><![CDATA[Ahorrar]]></value>
-  </definition>
-  <definition>
-    <key>text_reset</key>
-    <value><![CDATA[Reajustar]]></value>
-  </definition>
-  <definition>
-    <key>text_back</key>
-    <value><![CDATA[Espalda]]></value>
-  </definition>
-  <definition>
-    <key>text_additional_settings</key>
-    <value><![CDATA[Otros ajustes]]></value>
-  </definition>
-  <definition>
-    <key>text_reload</key>
-    <value><![CDATA[Recargar]]></value>
-  </definition>
-  <definition>
-    <key>text_version</key>
-    <value><![CDATA[Versión]]></value>
-  </definition>
-  <definition>
-    <key>text_installed_on</key>
-    <value><![CDATA[Instalado en]]></value>
-  </definition>
-  <definition>
-    <key>text_installed</key>
-    <value><![CDATA[Instalado]]></value>
-  </definition>
-  <definition>
-    <key>text_not_installed</key>
-    <value><![CDATA[No se ha instalado]]></value>
-  </definition>
-  <definition>
-    <key>text_visit_repository</key>
-    <value><![CDATA[Por favor, visite %extensions_store% repositorio de extensiones</a> para descargar la extensión]]></value>
-  </definition>
-  <definition>
-    <key>text_license</key>
-    <value><![CDATA[Licencia]]></value>
-  </definition>
-  <definition>
-    <key>text_dependency</key>
-    <value><![CDATA[Dependencia]]></value>
-  </definition>
-  <definition>
-    <key>text_configuration_settings</key>
-    <value><![CDATA[Opciones de configuración]]></value>
-  </definition>
-  <definition>
-    <key>text_upgrade</key>
-    <value><![CDATA[Mejorar]]></value>
-  </definition>
-  <definition>
-    <key>text_help</key>
-    <value><![CDATA[Ayuda]]></value>
-  </definition>
-  <definition>
-    <key>text_dependencies</key>
-    <value><![CDATA[Dependencias]]></value>
-  </definition>
-  <definition>
-    <key>text_update_it</key>
-    <value><![CDATA[Nueva versión (%% NewVersion) está disponible]]></value>
-  </definition>
-  <definition>
-    <key>text_delete_confirm</key>
-    <value><![CDATA[¿Está seguro que desea eliminar la extensión?]]></value>
-  </definition>
-  <definition>
-    <key>error_config_load</key>
-    <value><![CDATA[Error: No se puede cargar configuración <b>de% s!</b>]]></value>
-  </definition>
-  <definition>
-    <key>error_required_extension</key>
-    <value><![CDATA[La <b>extensión% s</b> no se puede instalar: la <b>extensión% s</b> requiere]]></value>
-  </definition>
-  <definition>
-    <key>error_required_phpmodule</key>
-    <value><![CDATA[La <b>extensión% s</b> no se puede instalar: el <b>módulo% s</b> requiere PHP]]></value>
-  </definition>
-  <definition>
-    <key>button_restore_defaults</key>
-    <value><![CDATA[Restaurar configuración por defecto]]></value>
-  </definition>
+	<definition>
+		<key>text_extension_pagination</key>
+		<value><![CDATA[Extensión (s) {inicio} a {fin} de {total}]]></value>
+	</definition>
+	<definition>
+		<key>text_per_page</key>
+		<value><![CDATA[por página]]></value>
+	</definition>
+	<definition>
+		<key>text_error_in_ajax</key>
+		<value><![CDATA[Error en la llamada ajax]]></value>
+	</definition>
+	<definition>
+		<key>text_saved</key>
+		<value><![CDATA[Guardado]]></value>
+	</definition>
+	<definition>
+		<key>text_save</key>
+		<value><![CDATA[Ahorrar]]></value>
+	</definition>
+	<definition>
+		<key>text_reset</key>
+		<value><![CDATA[Reajustar]]></value>
+	</definition>
+	<definition>
+		<key>text_back</key>
+		<value><![CDATA[Espalda]]></value>
+	</definition>
+	<definition>
+		<key>text_additional_settings</key>
+		<value><![CDATA[Otros ajustes]]></value>
+	</definition>
+	<definition>
+		<key>text_reload</key>
+		<value><![CDATA[Recargar]]></value>
+	</definition>
+	<definition>
+		<key>text_version</key>
+		<value><![CDATA[Versión]]></value>
+	</definition>
+	<definition>
+		<key>text_installed_on</key>
+		<value><![CDATA[Instalado en]]></value>
+	</definition>
+	<definition>
+		<key>text_installed</key>
+		<value><![CDATA[Instalado]]></value>
+	</definition>
+	<definition>
+		<key>text_not_installed</key>
+		<value><![CDATA[No se ha instalado]]></value>
+	</definition>
+	<definition>
+		<key>text_visit_repository</key>
+		<value>
+			<![CDATA[Por favor, visite %extensions_store% repositorio de extensiones</a> para descargar la extensión]]></value>
+	</definition>
+	<definition>
+		<key>text_license</key>
+		<value><![CDATA[Licencia]]></value>
+	</definition>
+	<definition>
+		<key>text_dependency</key>
+		<value><![CDATA[Dependencia]]></value>
+	</definition>
+	<definition>
+		<key>text_configuration_settings</key>
+		<value><![CDATA[Opciones de configuración]]></value>
+	</definition>
+	<definition>
+		<key>text_upgrade</key>
+		<value><![CDATA[Mejorar]]></value>
+	</definition>
+	<definition>
+		<key>text_help</key>
+		<value><![CDATA[Ayuda]]></value>
+	</definition>
+	<definition>
+		<key>text_dependencies</key>
+		<value><![CDATA[Dependencias]]></value>
+	</definition>
+	<definition>
+		<key>text_update_it</key>
+		<value><![CDATA[Nueva versión (%% NewVersion) está disponible]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_confirm</key>
+		<value><![CDATA[¿Está seguro que desea eliminar la extensión?]]></value>
+	</definition>
+	<definition>
+		<key>error_config_load</key>
+		<value><![CDATA[Error: No se puede cargar configuración <b>de% s!</b>]]></value>
+	</definition>
+	<definition>
+		<key>error_required_extension</key>
+		<value><![CDATA[La <b>extensión% s</b> no se puede instalar: la <b>extensión% s</b> requiere]]></value>
+	</definition>
+	<definition>
+		<key>error_required_phpmodule</key>
+		<value><![CDATA[La <b>extensión% s</b> no se puede instalar: el <b>módulo% s</b> requiere PHP]]></value>
+	</definition>
+	<definition>
+		<key>button_restore_defaults</key>
+		<value><![CDATA[Restaurar configuración por defecto]]></value>
+	</definition>
 	<definition>
 		<key>additional_settings_confirm</key>
-		<value><![CDATA[Para configurar los ajustes adicionales de la extensión de la otra tienda debes iniciar una sesión en el panel de control de otro nombre de dominio. Ok? ]]></value>
+		<value>
+			<![CDATA[Para configurar los ajustes adicionales de la extensión de la otra tienda debes iniciar una sesión en el panel de control de otro nombre de dominio. Ok? ]]></value>
 	</definition>
 	<definition>
 		<key>error_no_help_file</key>
@@ -287,5 +292,10 @@
 	<definition>
 		<key>text_discount</key>
 		<value><![CDATA[Descuento]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_disable_dependants</key>
+		<value>
+			<![CDATA[Extensión %s Tiene a su cargo son: <br>%s<br> Se desactiva automáticamente también.<br> ¿Confirma usted?]]></value>
 	</definition>
 </definitions>

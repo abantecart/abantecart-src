@@ -24,7 +24,8 @@ class ControllerPagesCheckoutCart extends AController {
 	private $error = array();
 	public $data = array();
 	public function main() {
-
+		$error_msg = array();
+		
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
@@ -80,6 +81,10 @@ class ControllerPagesCheckoutCart extends AController {
 				unset($this->session->data['shipping_method']);
 				unset($this->session->data['payment_methods']);
 				unset($this->session->data['payment_method']);
+	
+				#upate min and max
+				$this->cart->setMinQty();
+				$this->cart->setMaxQty();
       		}
 
       		if (isset($this->request->post['remove'])) {
@@ -120,14 +125,12 @@ class ControllerPagesCheckoutCart extends AController {
 			
     	if ($this->cart->hasProducts()) {
 
-			$this->view->assign('error_warning', $this->error['warning'] );
             if (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout')) {
-                $this->view->assign('error_warning', $this->language->get('error_stock') );
+                $error_msg[] = $this->language->get('error_stock');
 			}
-			
+						
 			$this->loadModel('tool/seo_url'); 
-			
-			
+						
       		$products = array();
 			$resource = new AResource('image');
 
@@ -181,6 +184,7 @@ class ControllerPagesCheckoutCart extends AController {
 		    $this->data['form'][ 'update' ] = $form->getFieldHtml( array(
                                                                        'type' => 'submit',
 		                                                               'name' => $this->language->get('button_update') ));
+			
 			$this->data['form'][ 'checkout' ] = $form->getFieldHtml( array(
 																			'type' => 'button',
 																			'name' => 'checkout',
@@ -193,47 +197,8 @@ class ControllerPagesCheckoutCart extends AController {
 				$this->data['weight'] = FALSE;
 			}
 			
-      		$total_data = array();
-			$total = 0;
-			$taxes = $this->cart->getTaxes();
-			 
-			$this->loadModel('checkout/extension');
-			
-			$sort_order = array(); 
-			
-			$results = $this->model_checkout_extension->getExtensions('total');
-			
-			foreach ($results as $key => $value) {
-				$sort_order[$key] = $this->config->get($value['key'] . '_sort_order');
-			}
-			
-			array_multisort($sort_order, SORT_ASC, $results);
-			
-			foreach ($results as $result) {
-				if($result['key']=='total'){
-					// apply promotions
-					$promotions = new APromotion();
-					$promotions->apply_promotions($total_data,$total);
-					if(time()-$this->session->data['promotion_data']['time']<1){
-						$total_data = $this->session->data['promotion_data']['total_data'];
-						$total = $this->session->data['promotion_data']['total'];
-					}else{
-						unset($this->session->data['promotion_data']);
-					}
-				}
-				$this->loadModel('total/' . $result['key']);
-				$this->{'model_total_' . $result['key']}->getTotal($total_data, $total, $taxes);
-			}
-			
-			$sort_order = array(); 
-		  
-			foreach ($total_data as $key => $value) {
-      			$sort_order[$key] = $value['sort_order'];
-    		}
-
-    		array_multisort($sort_order, SORT_ASC, $total_data);
-
-            $this->data['totals'] = $total_data;
+      		$display_totals = $this->cart->buildTotalDisplay();      		
+            $this->data['totals'] = $display_totals['total_data'];;
 			
 			if (isset($this->session->data['redirect'])) {
       			$this->data['continue'] = $this->session->data['redirect'];
@@ -243,8 +208,22 @@ class ControllerPagesCheckoutCart extends AController {
 			}
 			
             $this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
+
+			#Check if order total max/min is set and met
+			$cf_total_min = $this->config->get('total_order_minimum'); 
+			$cf_total_max = $this->config->get('total_order_maximum'); 
+			if ( !$this->cart->hasMinRequirement() ) {
+			    $this->data['form'][ 'checkout' ] = '';
+			    $error_msg[] = sprintf($this->language->get('error_order_minimum'), $this->currency->format($cf_total_min) );
+			}
+			if ( !$this->cart->hasMaxRequirement() ) {
+			    $this->data['form'][ 'checkout' ] = '';
+			    $error_msg[] = sprintf($this->language->get('error_order_maximum'), $this->currency->format($cf_total_max) );	
+			}	
 			
+			$this->view->assign('error_warning', $error_msg );
 			$this->view->setTemplate( 'pages/checkout/cart.tpl' );
+
     	} else {            
             $this->data['heading_title'] = $this->language->get('heading_title');
             $this->data['text_error'] = $this->language->get('text_error');

@@ -56,25 +56,6 @@
 <?php echo $resources_scripts; ?>
 <script type="text/javascript">
 $(document).ready(function() {
-
-	$(function() {
-		var dates = $( "#BannerFrm_start_date, #BannerFrm_end_date" ).datepicker({
-			defaultDate: "-1w",
-			dateFormat: '<?php echo $js_date_format ?>',
-			changeMonth: false,
-			numberOfMonths: 1,
-			onSelect: function( selectedDate ) {
-				var option = this.id == "BannerFrm_start_date" ? "minDate" : "maxDate",
-					instance = $( this ).data( "datepicker" ),
-					date = $.datepicker.parseDate(
-						instance.settings.dateFormat ||
-						$.datepicker._defaults.dateFormat,
-						selectedDate, instance.settings );
-				dates.not( this ).datepicker( "option", option, date );
-				$( "#BannerFrm_start_date, #BannerFrm_end_date").change();
-			}
-		});
-	});
 	setRLparams();
 	loadSubform();
 });

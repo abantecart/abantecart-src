@@ -191,7 +191,10 @@ class ControllerResponsesListingGridProduct extends AController {
 					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
 					return $dd->dispatch();
 				}
-				$data = array( $key => $value );
+                if($key=='date_available'){
+                    $value = dateDisplay2ISO($value);
+                }
+                $data = array( $key => $value );
 				$this->model_catalog_product->updateProduct($this->request->get[ 'id' ], $data);
 				$this->model_catalog_product->updateProductLinks($this->request->get[ 'id' ], $data);
 			}

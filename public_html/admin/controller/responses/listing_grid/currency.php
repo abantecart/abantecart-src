@@ -17,28 +17,25 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridCurrency extends AController {
-	private $error = array();
 
-    public function main() {
+	public function main() {
 
-	    //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('localisation/currency');
-	    $this->loadModel('localisation/currency');
+		$this->loadLanguage('localisation/currency');
+		$this->loadModel('localisation/currency');
 
-	    $page = $this->request->post['page']; // get the requested page
-		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
-		$sord = $this->request->post['sord']; // get the direction
+		$page = $this->request->post[ 'page' ]; // get the requested page
+		$limit = $this->request->post[ 'rows' ]; // get how many rows we want to have into the grid
+		$sidx = $this->request->post[ 'sidx' ]; // get index row - i.e. user click to sort
+		$sord = $this->request->post[ 'sord' ]; // get the direction
 
-	    $search_str = '';
-
-        $data = array(
+		$data = array(
 			'sort' => $sidx,
 			'order' => strtoupper($sord),
 			'start' => ($page - 1) * $limit,
@@ -47,47 +44,47 @@ class ControllerResponsesListingGridCurrency extends AController {
 
 
 		$total = $this->model_localisation_currency->getTotalCurrencies();
-	    if( $total > 0 ) {
-			$total_pages = ceil($total/$limit);
+		if ($total > 0) {
+			$total_pages = ceil($total / $limit);
 		} else {
 			$total_pages = 0;
 		}
 
-	    $response = new stdClass();
+		$response = new stdClass();
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
 
-	    $results = $this->model_localisation_currency->getCurrencies($data);
-	    $i = 0;
+		$results = $this->model_localisation_currency->getCurrencies($data);
+		$i = 0;
 		foreach ($results as $result) {
 
-            $response->rows[$i]['id'] = $result['currency_id'];
-			$response->rows[$i]['cell'] = array(
+			$response->rows[ $i ][ 'id' ] = $result[ 'currency_id' ];
+			$response->rows[ $i ][ 'cell' ] = array(
 				$this->html->buildInput(array(
-                    'name'  => 'title['.$result['currency_id'].']',
-                    'value' => $result['title'],
-                )),
+					'name' => 'title[' . $result[ 'currency_id' ] . ']',
+					'value' => $result[ 'title' ],
+				)),
 				$this->html->buildInput(array(
-                    'name'  => 'code['.$result['currency_id'].']',
-                    'value' => $result['code'],
-                )),
+					'name' => 'code[' . $result[ 'currency_id' ] . ']',
+					'value' => $result[ 'code' ],
+				)),
 				$this->html->buildInput(array(
-                    'name'  => 'value['.$result['currency_id'].']',
-                    'value' => $result['value'],
-                )),
-				date($this->language->get('date_format_short'), strtotime($result['date_modified'])),
+					'name' => 'value[' . $result[ 'currency_id' ] . ']',
+					'value' => $result[ 'value' ],
+				)),
+				date($this->language->get('date_format_short'), strtotime($result[ 'date_modified' ])),
 				$this->html->buildCheckbox(array(
-                    'name'  => 'status['.$result['currency_id'].']',
-                    'value' => $result['status'],
-                    'style'  => 'btn_switch',
-                )),
+					'name' => 'status[' . $result[ 'currency_id' ] . ']',
+					'value' => $result[ 'status' ],
+					'style' => 'btn_switch',
+				)),
 			);
 			$i++;
 		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($response));
 	}
@@ -95,10 +92,10 @@ class ControllerResponsesListingGridCurrency extends AController {
 	public function update() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->loadModel('localisation/currency');
-        $this->loadLanguage('localisation/currency');
+		$this->loadLanguage('localisation/currency');
 		if (!$this->user->canModify('listing_grid/currency')) {
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
@@ -107,60 +104,60 @@ class ControllerResponsesListingGridCurrency extends AController {
 				));
 		}
 
-		switch ($this->request->post['oper']) {
+		switch ($this->request->post[ 'oper' ]) {
 			case 'del':
 
 				$this->loadModel('setting/store');
 				$this->loadModel('sale/order');
 
-				$ids = explode(',', $this->request->post['id']);
-				if ( !empty($ids) )
-				foreach( $ids as $id ) {
-					$err = '';
-					$currency_info = $this->model_localisation_currency->getCurrency($id);
-					if ($currency_info) {
-						if ($this->config->get('config_currency') == $currency_info['code']) {
-							$err = $this->language->get('error_default');
+				$ids = explode(',', $this->request->post[ 'id' ]);
+				if (!empty($ids))
+					foreach ($ids as $id) {
+						$err = '';
+						$currency_info = $this->model_localisation_currency->getCurrency($id);
+						if ($currency_info) {
+							if ($this->config->get('config_currency') == $currency_info[ 'code' ]) {
+								$err = $this->language->get('error_default');
+							}
+
+							$store_total = $this->model_setting_store->getTotalStoresByCurrency($currency_info[ 'code' ]);
+							if ($store_total) {
+								$err = sprintf($this->language->get('error_store'), $store_total);
+							}
+						}
+						$order_total = $this->model_sale_order->getTotalOrdersByCurrencyId($id);
+						if ($order_total) {
+							$err = sprintf($this->language->get('error_order'), $order_total);
 						}
 
-						$store_total = $this->model_setting_store->getTotalStoresByCurrency($currency_info['code']);
-						if ($store_total) {
-							$err = sprintf($this->language->get('error_store'), $store_total);
+						if (!empty($err)) {
+							$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
+							return $dd->dispatch();
 						}
-					}
-					$order_total = $this->model_sale_order->getTotalOrdersByCurrencyId($id);
-					if ($order_total) {
-						$err = sprintf($this->language->get('error_order'), $order_total);
-					}
 
-					if (!empty($err)) {
-						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-						return $dd->dispatch();
+						$this->model_localisation_currency->deleteCurrency($id);
 					}
-
-					$this->model_localisation_currency->deleteCurrency($id);
-				}
 				break;
 			case 'save':
-				$fields = array('title', 'code', 'value', 'status');
-				$ids = explode(',', $this->request->post['id']);
-				if ( !empty($ids) )
-				foreach( $ids as $id ) {
-					foreach ( $fields as $f ) {
+				$fields = array( 'title', 'code', 'value', 'status' );
+				$ids = explode(',', $this->request->post[ 'id' ]);
+				if (!empty($ids))
+					foreach ($ids as $id) {
+						foreach ($fields as $f) {
 
-						if ( $f == 'status' && !isset($this->request->post['status'][$id]) )
-							$this->request->post['status'][$id] = 0;
+							if ($f == 'status' && !isset($this->request->post[ 'status' ][ $id ]))
+								$this->request->post[ 'status' ][ $id ] = 0;
 
-						if ( isset($this->request->post[$f][$id]) ) {
-							$err = $this->_validateField($f, $this->request->post[$f][$id]);
-							if ( !empty($err) ) {
-								$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-								return $dd->dispatch();
+							if (isset($this->request->post[ $f ][ $id ])) {
+								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
+								if (!empty($err)) {
+									$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
+									return $dd->dispatch();
+								}
+								$this->model_localisation_currency->editCurrency($id, array( $f => $this->request->post[ $f ][ $id ] ));
 							}
-							$this->model_localisation_currency->editCurrency($id, array($f => $this->request->post[$f][$id]) );
 						}
 					}
-				}
 
 				break;
 
@@ -170,71 +167,71 @@ class ControllerResponsesListingGridCurrency extends AController {
 		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-    /**
-     * update only one field
-     *
-     * @return void
-     */
-    public function update_field() {
+	/**
+	 * update only one field
+	 *
+	 * @return void
+	 */
+	public function update_field() {
 
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadLanguage('localisation/currency');
-	    if (!$this->user->canModify('listing_grid/currency')) {
-	  			$error = new AError('');
-	  			return $error->toJSONResponse('NO_PERMISSIONS_402',
-	  				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/currency'),
-	  					'reset_value' => true
-	  				));
-	  	}
+		$this->loadLanguage('localisation/currency');
+		if (!$this->user->canModify('listing_grid/currency')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/currency'),
+					'reset_value' => true
+				));
+		}
 
-        $this->loadModel('localisation/currency');
-		if ( isset( $this->request->get['id'] ) ) {
-		    //request sent from edit form. ID in url
-		    foreach ($this->request->post as $key => $value ) {
+		$this->loadModel('localisation/currency');
+		if (isset($this->request->get[ 'id' ])) {
+			//request sent from edit form. ID in url
+			foreach ($this->request->post as $key => $value) {
 				$err = $this->_validateField($key, $value);
-			    if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+				if (!empty($err)) {
+					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
 					return $dd->dispatch();
-			    }
-			    $data = array( $key => $value );
-				$this->model_localisation_currency->editCurrency($this->request->get['id'], $data);
+				}
+				$data = array( $key => $value );
+				$this->model_localisation_currency->editCurrency($this->request->get[ 'id' ], $data);
 			}
-		    return;
-	    }
+			return;
+		}
 
-	    //request sent from jGrid. ID is key of array
-	    $fields = array('title', 'code', 'value', 'status');
-	    foreach ( $fields as $f ) {
-		    if ( isset($this->request->post[$f]) )
-			foreach ( $this->request->post[$f] as $k => $v ) {
-				$err = $this->_validateField($f, $v);
-				if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-					return $dd->dispatch();
-				}
-				$result = $this->model_localisation_currency->editCurrency($k, array($f => $v) );
-				if(!$result){
-					if($f=='status'){
-						$this->messages->saveNotice('Warning: You tried to disable the only enabled currency of cart!');
+		//request sent from jGrid. ID is key of array
+		$fields = array( 'title', 'code', 'value', 'status' );
+		foreach ($fields as $f) {
+			if (isset($this->request->post[ $f ]))
+				foreach ($this->request->post[ $f ] as $k => $v) {
+					$err = $this->_validateField($f, $v);
+					if (!empty($err)) {
+						$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
+						return $dd->dispatch();
 					}
-					$this->response->setOutput( 'error!' );
-					return;
+					$result = $this->model_localisation_currency->editCurrency($k, array( $f => $v ));
+					if (!$result) {
+						if ($f == 'status') {
+							$this->messages->saveNotice('Currency warning', 'Warning: You tried to disable the only enabled currency of cart!');
+						}
+						$this->response->setOutput('error!');
+						return;
+					}
 				}
-			}
-	    }
+		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
 	private function _validateField($field, $value) {
 		$err = '';
-		switch( $field ) {
+		switch ($field) {
 			case 'title':
 				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 32)) {
 					$err = $this->language->get('error_title');
@@ -251,4 +248,3 @@ class ControllerResponsesListingGridCurrency extends AController {
 	}
 
 }
-?>

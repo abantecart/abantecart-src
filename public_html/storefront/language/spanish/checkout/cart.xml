@@ -57,4 +57,12 @@
 		<key>error_required_options</key>
 		<value><![CDATA[Por favor, rellene todas las opciones necesarias!]]></value>
 	</definition>
+	<definition>
+		<key>error_order_minimum</key>
+		<value><![CDATA[Su pedido subtotal cantidad no satisface cantidad mínima %s requerida. Por favor, añadir más productos a su carrito!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_maximum</key>
+		<value><![CDATA[Su pedido subtotal importe exceda la cantidad máxima %s permitida por pedido. Elimina algunos artículos de su carrito!]]></value>
+	</definition>	
 </definitions>

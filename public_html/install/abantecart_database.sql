@@ -491,19 +491,24 @@ CREATE TABLE `ac_extensions` (
 
 INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `update_date`, `create_date`) VALUES
 ('payment', 'default_cod', 'payment', 1, 1, '1.0', null, now(), now(), now() ),
+('total', 'coupon', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'shipping', 'shipping', 1, 1, '1.0', null, now(), now(), now() ),
+('total', 'low_order_fee', '', 0, 1, '1.0', null, now(), now(), now() ),
+('total', 'handling_fee', '', 0, 1, '1.0', null, now(), now(), now() ),
 ('total', 'sub_total', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'tax', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'total', '', 1, 1, '1.0', null, now(), now(), now() ),
+
 ('block', 'cart', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'category', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'content', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'manufacturer', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'bestseller', '', 1, 1, '1.0', null, now(), now(), now() ),
-('total', 'coupon', '', 1, 1, '1.0', null, now(), now(), now() ),
-('shipping', 'default_flat_rate_shipping', 'shipping', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'latest', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'featured', '', 1, 1, '1.0', null, now(), now(), now() ),
+
+('shipping', 'default_flat_rate_shipping', 'shipping', 1, 1, '1.0', null, now(), now(), now() ),
+
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.0', null, now(), now(), now() );
 
 
@@ -900,6 +905,7 @@ CREATE TABLE `ac_products` (
   `sort_order` int(11) NOT NULL DEFAULT '0',
   `subtract` int(1) NOT NULL DEFAULT '1',
   `minimum` int(11) NOT NULL DEFAULT '1',
+  `maximum` int(11) NOT NULL DEFAULT '0',
   `cost` DECIMAL(15,4) NOT NULL DEFAULT '0.0000',
   PRIMARY KEY (`product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
@@ -1133,6 +1139,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 ('details', 'config_title', 'Your Store'),  
 ('details', 'config_meta_description', 'Web Store Meta Description'),
+('details', 'config_meta_keywords', 'keyword1,keyword2,keyword3'),
 ('details', 'config_description_1', 'Welcome to web store!'),
 
 ('details', 'config_country_id', '223'),
@@ -1183,10 +1190,12 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout', 'config_stock_subtract', '0'),
 ('checkout', 'config_stock_check', '1'),
 ('checkout', 'config_cart_ajax', '1'),
+('checkout', 'total_order_maximum', '0'),
+('checkout', 'total_order_minimum', '0'),
 -- Appearance
 ('appearance', 'config_storefront_template', 'default'),
 ('appearance', 'storefront_width', '100%'),
-('appearance', 'config_logo', 'image/18/73/3.gif'),
+('appearance', 'config_logo', 'image/18/73/3.png'),
 ('appearance', 'config_icon', 'image/18/73/4.ico'),
 ('appearance', 'config_image_thumb_width', '180'),
 ('appearance', 'config_image_thumb_height', '180'),
@@ -1220,7 +1229,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('mail', 'config_alert_emails', ''),
 
 --system
-('system', 'config_session_ttl', '60'),
+('system', 'config_session_ttl', '120'),
 ('system', 'config_ssl', '0'),
 ('system', 'config_maintenance', '0'),
 ('system', 'encryption_key', '12345'),
@@ -1241,23 +1250,28 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('api', 'config_storefront_api_stock_check', '0'),
 
 --EXTENSIONS
+('sub_total', 'sub_total_sort_order', '1'),
+('sub_total', 'sub_total_calculation_order', '1'),
+('sub_total', 'sub_total_status', '1'),
+('sub_total', 'sub_total_total_type', 'subtotal'),
+
 ('shipping', 'shipping_sort_order', '3'),
+('shipping', 'shipping_calculation_order', '3'),
 ('shipping', 'shipping_status', '1'),
 ('shipping', 'shipping_total_type', 'shipping'),
 
 ('coupon', 'coupon_status', '1'),
 ('coupon', 'coupon_sort_order', '4'),
+('coupon', 'coupon_calculation_order', '4'),
 ('coupon', 'coupon_total_type', 'discount'),
-
-('sub_total', 'sub_total_sort_order', '1'),
-('sub_total', 'sub_total_status', '1'),
-('sub_total', 'sub_total_total_type', 'subtotal'),
 
 ('tax', 'tax_status', '1'),
 ('tax', 'tax_sort_order', '5'),
+('tax', 'tax_calculation_order', '5'),
 ('tax', 'tax_total_type', 'tax'),
 
 ('total', 'total_sort_order', '6'),
+('total', 'total_calculation_order', '6'),
 ('total', 'total_status', '1'),
 ('total', 'total_total_type', 'total'),
 
@@ -1265,12 +1279,14 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('default_cod', 'default_cod_order_status_id', '1'),
 ('default_cod', 'default_cod_status', '1'),
 ('default_cod', 'default_cod_location_id', '0'),
+('default_cod', 'default_cod_autoselect', '1'),
 
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_cost', '2'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_tax_class_id', '9'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_location_id', '0'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_status', '1'),
 ('default_flat_rate_shipping', 'default_flat_rate_shipping_sort_order', '1'),
+('default_flat_rate_shipping', 'default_flat_rate_shipping_autoselect', '1'),
 
 ('banner_manager','banner_manager_layout',''),
 ('banner_manager','banner_manager_priority',10),
@@ -1364,6 +1380,9 @@ CREATE TABLE `ac_tax_rates` (
   `priority` int(5) NOT NULL DEFAULT '1',
   `rate` decimal(7,4) NOT NULL DEFAULT '0.0000',
   `description` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `rate_prefix` char(1) COLLATE utf8_bin NOT NULL DEFAULT '%', -- % or $ 
+  `threshold_condition` char(2) COLLATE utf8_bin NOT NULL, -- '<=', '>=', '==' or '<'
+  `threshold` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`tax_rate_id`)
@@ -1372,8 +1391,8 @@ CREATE TABLE `ac_tax_rates` (
 --
 -- Dumping data for table `tax_rate`
 --
-INSERT INTO `ac_tax_rates` (`tax_rate_id`, `location_id`, `tax_class_id`, `priority`, `rate`, `description`, `date_modified`, `date_added`) VALUES
-(1, 1, 1, 1, '8.5000', 'Retail 8.5%', '2011-06-20 21:00:00', '2011-06-20 21:00:00');
+INSERT INTO `ac_tax_rates` (`tax_rate_id`, `location_id`, `tax_class_id`, `priority`, `rate`, `description`) VALUES
+(1, 1, 1, 1, '8.5000', 'Retail 8.5%');
 
 
 
@@ -6922,7 +6941,7 @@ VALUES  (16,NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (17,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (18,'1.1.2','1');
+VALUES  (18,'1.1.3','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (19,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_timestamp`,`row_id`)
@@ -7134,5 +7153,10 @@ CREATE TABLE `ac_product_filter_ranges_descriptions` (
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`range_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-		
-		
+
+DROP TABLE IF EXISTS `ac_extension_dependencies`;
+CREATE TABLE `ac_extension_dependencies` (
+  `extension_id` int(11) NOT NULL,
+  `extension_parent_id` int(11) NOT NULL,
+  PRIMARY KEY (`extension_id`,`extension_parent_id`)
+) ENGINE=MyISAM;

@@ -209,25 +209,39 @@ class ControllerPagesProductProduct extends AController {
 			
 			if ($discount) {
 				$product_price = $discount;
-				$this->data['price'] = $this->currency->format($this->tax->calculate($discount, $product_info['tax_class_id'], $this->config->get('config_tax')));
+				$this->data['price_num'] = $this->tax->calculate(
+					$discount,
+					$product_info['tax_class_id'],
+					$this->config->get('config_tax')
+				);
 				$this->data['special'] = FALSE;
 			} else {
-				$this->data['price'] = $this->currency->format($this->tax->calculate($product_info['price'],
-				                                                                     $product_info['tax_class_id'],
-				                                                                     $this->config->get('config_tax')));
+				$this->data['price_num'] = $this->tax->calculate(
+					$product_info['price'],
+					$product_info['tax_class_id'],
+					$this->config->get('config_tax')
+				);
 			
 				$special = $promoton->getProductSpecial($product_id);
 			
 				if ($special) {
 					$product_price = $special;
-					$this->data['special'] = $this->currency->format($this->tax->calculate($special,
-					                                                                       $product_info['tax_class_id'],
-					                                                                       $this->config->get('config_tax')));
+					$this->data['special_num'] =$this->tax->calculate(
+						$special,
+						$product_info['tax_class_id'],
+						$this->config->get('config_tax')
+					);
 				} else {
 					$this->data['special'] = FALSE;
 				}
 			}
-			
+
+			$this->data['price'] = $this->currency->format($this->data['price_num']);
+
+			if ( isset($this->data['special_num']) ) {
+				$this->data['special'] = $this->currency->format($this->data['special_num']);
+			}
+
 			$product_discounts = $promoton->getProductDiscounts($product_id);
 			
 			$discounts = array();
@@ -276,6 +290,16 @@ class ControllerPagesProductProduct extends AController {
 			$this->data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
 			$this->data['product_id'] = $product_id;
 			$this->data['average'] = $average;
+
+			$resource = new AResource('image');
+			$thumbnail = $resource->getMainThumb('manufacturers',
+				$product_info['manufacturer_id'],
+				$this->config->get('config_image_grid_width'),
+				$this->config->get('config_image_grid_height'),
+				true);			
+			if ( !preg_match('/no_image/', $thumbnail['thumb_url'])) {
+				$this->data['manufacturer_icon'] = $thumbnail['thumb_url']; 
+			}	
 
 			// Preapare options and values for display 
             $elements_with_options = HtmlElementFactory::getElementsWithOptions();

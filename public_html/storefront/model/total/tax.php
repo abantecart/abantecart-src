@@ -23,25 +23,25 @@ if (! defined ( 'DIR_CORE' )) {
 class ModelTotalTax extends Model {
 	public function getTotal(&$total_data, &$total, &$taxes) {
 		if ($this->config->get('tax_status')) {
-			foreach ($taxes as $key => $value) {
-				if ($value > 0) {
-					$tax_classes = $this->tax->getDescription($key);
-					
+			foreach ($taxes as $tax_class_id => $subtax) {
+				if (!empty($subtax)) {
+					$tax_classes = $this->tax->getDescription($tax_class_id);
 					foreach ($tax_classes as $tax_class) {
-						$rate = $this->tax->getRate($key);
-						
-						$tax = $value * ($tax_class['rate'] / $rate);
-						
-						$total_data[] = array(
-	    					'id'         => 'tax',
-	    					'title'      => $tax_class['description'] . ':',
-	    					'text'       => $this->currency->format($tax),
-	    					'value'      => $tax,
-							'sort_order' => $this->config->get('tax_sort_order'),
-							'total_type' => $this->config->get('tax_total_type')
-	    				);
+						$tax_amount = 0;
+						//This is the same as $subtax['tax'], but we will recalculate
+						$tax_amount = $this->tax->calcTaxAmount($subtax['total'], $tax_class);
+						if ($tax_amount > 0) {
+							$total_data[] = array(
+		    					'id'         => 'tax',
+		    					'title'      => $tax_class['description'] . ':',
+		    					'text'       => $this->currency->format($tax_amount),
+		    					'value'      => $tax_amount,
+								'sort_order' => $this->config->get('tax_sort_order'),
+								'total_type' => $this->config->get('tax_total_type')
+		    				);
+						}					
 			
-						$total += $tax;
+						$total += $tax_amount;
 					}
 				}
 			}

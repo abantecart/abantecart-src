@@ -18,7 +18,8 @@
 	</definition>
 	<definition>
 		<key>text_uninstall_confirm</key>
-		<value><![CDATA[ Please confirm you want to uninstall extension [ %extension% ]. All extension settings and related data might be deleted and lost. ]]></value>
+		<value>
+			<![CDATA[ Please confirm you want to uninstall extension [ %extension% ]. All extension settings and related data might be deleted and lost. ]]></value>
 	</definition>
 	<definition>
 		<key>text_delete</key>
@@ -138,11 +139,13 @@
 	</definition>
 	<definition>
 		<key>text_missing_extension</key>
-		<value><![CDATA["Extension %EXT%:  Source can not be located! Please delete it and visit extention provider to get complete source and intall it again  "]]></value>
+		<value>
+			<![CDATA["Extension %EXT%:  Source can not be located! Please delete it and visit extention provider to get complete source and intall it again  "]]></value>
 	</definition>
 	<definition>
 		<key>text_broken_extension</key>
-		<value><![CDATA["Extension %EXT%:  Source probably broken! Can't find config.xml or main.php files. Please delete it and visit extention provider to get complete source and intall it again  "]]></value>
+		<value>
+			<![CDATA["Extension %EXT%:  Source probably broken! Can't find config.xml or main.php files. Please delete it and visit extention provider to get complete source and intall it again  "]]></value>
 	</definition>
 	<definition>
 		<key>text_extension_pagination</key>
@@ -250,7 +253,8 @@
 	</definition>
 	<definition>
 		<key>additional_settings_confirm</key>
-		<value><![CDATA[To set additional settings of extension of another store you need to login into control panel on another domain name. Ok? ]]></value>
+		<value>
+			<![CDATA[To set additional settings of extension of another store you need to login into control panel on another domain name. Ok? ]]></value>
 	</definition>
 	<definition>
 		<key>error_no_help_file</key>
@@ -287,5 +291,10 @@
 	<definition>
 		<key>text_discount</key>
 		<value><![CDATA[Discount]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_disable_dependants</key>
+		<value>
+			<![CDATA[Extension %s have dependants are: <br>%s<br> It will be disabled automatically too.<br> Do you confirm?]]></value>
 	</definition>
 </definitions>

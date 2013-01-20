@@ -7,15 +7,27 @@
     <div class="block_cl">
     	<div class="block_cr">
         	<div class="block_cc">
-            	<div class="brands"><ul>
-                    <?php foreach ($manufacturers as $manufacturer) { ?>
-                    <?php if ($manufacturer['manufacturer_id'] == $manufacturer_id) { ?>
-                    <li><a href="<?php echo $manufacturer['href']; ?>"><b><?php echo $manufacturer['name']; ?></b></a></li>
-                    <?php } else { ?>
-                    <li><a href="<?php echo $manufacturer['href']; ?>"><?php echo $manufacturer['name']; ?></a></li>
+            	<div class="brands">
+            		<?php if ($product_id) { ?>  
+            			<center>
+	                    <a href="<?php echo $manufacturer['href']; ?>">
+	                    <?php if ( $manufacturer['icon'] ) { ?>  
+	                    <img src="<?php echo $manufacturer['icon']; ?>" title="<?php echo $manufacturer['name']; ?>" border="0"/>	                    
+	                    <?php } else { echo $manufacturer['name']; }  ?> 
+	                    </a>
+	                    </center>
+                    <?php } else { ?>        	
+                    	<ul>
+	                    <?php foreach ($manufacturers as $manufacturer) { ?>
+	                    <?php if ($manufacturer['manufacturer_id'] == $manufacturer_id) { ?>
+	                    <li><a href="<?php echo $manufacturer['href']; ?>"><b><?php echo $manufacturer['name']; ?></b></a></li>
+	                    <?php } else { ?>
+	                    <li><a href="<?php echo $manufacturer['href']; ?>"><?php echo $manufacturer['name']; ?></a></li>
+	                    <?php } ?>
+	                    <?php } ?>
+	                	</ul>    
                     <?php } ?>
-                    <?php } ?>
-                </ul></div>
+                </div>
             </div>
         </div>
     </div>

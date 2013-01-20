@@ -17,19 +17,20 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+	header('Location: static_pages/');
 }
 
 
 final class ASession {
 	public $data = array();
-			
-  	public function __construct() {			
-        if (!session_id()) {
+
+	public function __construct() {
+		if (!session_id()) {
 
 			ini_set('session.use_cookies', 'On');
 			ini_set('session.use_trans_sid', 'Off');
+<<<<<<< HEAD
 	        ini_set('session.cookie_httponly', 'On');
 			$path = dirname ($_SERVER['PHP_SELF']);
 			session_set_cookie_params(0,
@@ -38,30 +39,41 @@ final class ASession {
 									  (defined ('HTTPS') && HTTPS),
 									  true);
 			session_name( SESSION_ID );
+=======
+			ini_set('session.cookie_httponly', 'On');
+			$path = dirname($_SERVER[ 'PHP_SELF' ]);
+			session_set_cookie_params(0,
+				$path,
+				null,
+				(defined('HTTPS') && HTTPS),
+				true);
+			session_name(SESSION_ID);
+>>>>>>> 1.1.3
 			session_start();
 		}
 
 		$registry = Registry::getInstance();
-		if($registry->get('config')){
+		if ($registry->get('config')) {
 			$session_ttl = $registry->get('config')->get('config_session_ttl');
-			if ( ( isset($_SESSION['user_id']) || isset($_SESSION['customer_id']) )
-				 &&  isset($_SESSION['LAST_ACTIVITY']) && ((time() - $_SESSION['LAST_ACTIVITY'])/60 > $session_ttl)) {
+			if ((isset($_SESSION[ 'user_id' ]) || isset($_SESSION[ 'customer_id' ]))
+					&& isset($_SESSION[ 'LAST_ACTIVITY' ]) && ((time() - $_SESSION[ 'LAST_ACTIVITY' ]) / 60 > $session_ttl)
+			) {
 				// last request was more than 30 minutes ago
 				$this->clear();
-				header ( 'Location: '. $registry->get('html')->removeQueryVar($_SERVER['REQUEST_URI'], array('token'))  );
+				header('Location: ' . $registry->get('html')->removeQueryVar($_SERVER[ 'REQUEST_URI' ], array( 'token' )));
 			}
-	    }
-        $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
-		
+		}
+		$_SESSION[ 'LAST_ACTIVITY' ] = time(); // update last activity time stamp
+
 		$this->data =& $_SESSION;
 	}
 
-    public function clear() {
-    	session_name( SESSION_ID );
+	public function clear() {
+		session_name(SESSION_ID);
 		session_start();
 		session_unset();
 		session_destroy();
-		$_SESSION = array();	
-	} 
+		$_SESSION = array();
+	}
 
 }

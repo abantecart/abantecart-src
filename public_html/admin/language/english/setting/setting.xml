@@ -94,7 +94,11 @@
 	</definition>
 	<definition>
 		<key>entry_meta_description</key>
-		<value><![CDATA[Meta Tag Description:]]></value>
+		<value><![CDATA[Meta Tag Description:<br /><span class="help">Storefront main page meta tag description</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_meta_keywords</key>
+		<value><![CDATA[Meta Keywords:<br /><span class="help">Storefront main page meta tag keywords (comma separated)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_description</key>
@@ -557,6 +561,14 @@
 		<key>entry_admin_width</key>
 		<value><![CDATA[Admin Site Width:<br /><span class="help">Example: 100% or 1000px </span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_total_order_maximum</key>
+		<value><![CDATA[Maximum order amount allowed:<br /><span class="help">Prevent checkout with large order sub-total amounts. 0 = NO LIMIT</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_total_order_minimum</key>
+		<value><![CDATA[Minimum order amount:<br /><span class="help">Prevent checkout if order sub-total does not reach minimum amount set. 0 = NO MINIMUM</span>]]></value>
+	</definition>	
 	<definition>
 		<key>button_add_store</key>
 		<value><![CDATA[New Store]]></value>

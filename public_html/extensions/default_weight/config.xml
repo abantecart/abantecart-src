@@ -12,9 +12,26 @@
     <layout></layout>
     <priority>10</priority>
     <settings>
-        <item id="default_weight_status">
+		<item id="default_weight_status">
             <type>checkbox</type>
             <default_value>0</default_value>
+        </item>
+        <item id="default_weight_autoselect">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>
+	    <item id="default_weight_accept_payments">
+            <type>checkboxgroup</type>
+			<variants>
+				<data_source>
+                   	<model_rt>setting/extension</model_rt>
+                   	<method>getEnabledPayments</method>
+				</data_source>
+				<fields>
+					<field>extension_id</field>
+					<field>key</field>
+				</fields>
+			</variants>
         </item>
     </settings>
 	<additional_settings>extension/default_weight</additional_settings>

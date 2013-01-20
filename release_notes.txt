@@ -1,3 +1,62 @@
+Release Notes: Version 1.1.3
+
+New Features and improvements summary:
+- Minimum and Maximum limits for order totals.  
+- Maximum products quantity limit
+- Regular and Guest Checkout UI improvement 
+- Relationship of shipping methods to payment methods and auto-selection settings. 
+- Improved tax rate flexibility
+- Many new features in extension developer tools 
+https://github.com/abantecart/developer_tools_extension
+
+Bug fixes and improvements
+Core:
+- Extension manager and package manager improvements
+Fix for validation of new extension, type collision bug fix, fix for dependencies validation and children extensions auto-disable if parent is disabled
+- Fix for backup load of targz class 
+- User permissions bug fix
+- Session data error fix in extensions
+- Session cookie bug fix related to mounted drive 
+- Layout manager import xml improvements and bug fixes
+- JASON class bug fix 
+- Currency minor bug fix
+- Fix. Removing layouts correctly if deleting products, categories or manufacturers using import/export 
+- New functions for dates formatting
+- Total extensions edit page bug fixes.
+- Improvement to totals calculation sequence. Added calculation order setting.   
+- Cart class fixes and performance improvement. 
+- Clearing cache after package installation added
+- Added hooks to various places in the controllers and templates.  
+- API controller minor bug fix
+- Multi-value settings support added to extension settings. 
+- Updates related to PHPdoc compliance
+
+
+Admin:
+- Admin menu control minor fix.
+- Fix for language missing translations process
+- Update to banner manager. Add expiration and future date highlight
+- Bug fix related to list of enabled templates
+- Resource Library bug fix
+- Date formatted on product edit page.
+- Install upgrade history minor changes
+- Cookie for currency is now disabled for admin
+- Fix for package installer in case of XAMPP
+- Uploading extension bug fix
+
+Storefront:
+- Update Manufacture block to show manufacture icon on product details page
+- Added meta keywords to main page managed in details settings 
+- Fix. Email set to customer with account approval
+- Storefront menu control minor fix. 
+- Improved pagination for search result 
+
+Core Extensions
+- Update to 2checkout(2CO) payment and default_twocheckout is discontinued. 
+One more reason to use AbanteCart, you can save on 2checkout fees if use promo code ABANTECART2CO
+- fedex error logging improved
+
+
 Release Notes: Version 1.1.2
 
 New Features and improvements summary:
