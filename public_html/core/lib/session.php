@@ -30,16 +30,7 @@ final class ASession {
 
 			ini_set('session.use_cookies', 'On');
 			ini_set('session.use_trans_sid', 'Off');
-<<<<<<< HEAD
-	        ini_set('session.cookie_httponly', 'On');
-			$path = dirname ($_SERVER['PHP_SELF']);
-			session_set_cookie_params(0,
-									  $path,
-									  null,
-									  (defined ('HTTPS') && HTTPS),
-									  true);
-			session_name( SESSION_ID );
-=======
+
 			ini_set('session.cookie_httponly', 'On');
 			$path = dirname($_SERVER[ 'PHP_SELF' ]);
 			session_set_cookie_params(0,
@@ -48,7 +39,6 @@ final class ASession {
 				(defined('HTTPS') && HTTPS),
 				true);
 			session_name(SESSION_ID);
->>>>>>> 1.1.3
 			session_start();
 		}
 
