@@ -231,6 +231,7 @@ class APackageManager {
 
 				$result = rename($this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_dir'] . '/code/' . $core_filename, DIR_ROOT . '/' . $core_filename);
 				if ($result) {
+					chmod(DIR_ROOT . '/' . $core_filename,0777);
 					$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
 					$install_upgrade_history->addRows(array('date_added' => date("Y-m-d H:i:s", time()),
 						'name' => 'Upgrade core file: ' . $core_filename,
