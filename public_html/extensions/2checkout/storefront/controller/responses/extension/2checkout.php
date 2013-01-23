@@ -123,15 +123,15 @@ class ControllerResponsesExtension2Checkout extends AController {
 
 		if ($this->request->post['message_type'] == 'ORDER_CREATED') {
 			$this->model_checkout_order->confirm((int)$this->request->post['vendor_order_id'], $this->config->get('2checkout_order_status_id'));
-		} elseif ($this->request->post['message_type'] == 'REFUND_ISSUED') {
+			} elseif ($this->request->post['message_type'] == 'REFUND_ISSUED') {
 			$order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('failed');
-			$this->model_checkout_order->confirm((int)$this->request->post['vendor_order_id'], $order_status_id);
+			$this->model_checkout_order->update((int)$this->request->post['vendor_order_id'], $order_status_id,'Status changed by 2Checkout INS');
 		} elseif ($this->request->post['message_type'] == 'FRAUD_STATUS_CHANGED' && $this->request->post['fraud_status'] == 'pass') {
 			$order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('processing');
-			$this->model_checkout_order->confirm((int)$this->request->post['vendor_order_id'], $order_status_id);
+			$this->model_checkout_order->update((int)$this->request->post['vendor_order_id'], $order_status_id,'Status changed by 2Checkout INS');
 		} elseif ($this->request->post['message_type'] == 'SHIP_STATUS_CHANGED' && $this->request->post['ship_status'] == 'shipped') {
 			$order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('complete');
-			$this->model_checkout_order->confirm((int)$this->request->post['vendor_order_id'], $order_status_id);
+			$this->model_checkout_order->update((int)$this->request->post['vendor_order_id'], $order_status_id,'Status changed by 2Checkout INS');
 		} else {
 			$this->redirect($this->html->getURL('checkout/confirm'));
 		}
