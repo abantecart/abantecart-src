@@ -1,0 +1,44 @@
+<center><b>Data Encryption Configuration Manual</b></center>
+<p>
+It is important for eCommerce site to maintain up to date security for data provided buy customers. This is required buy customers, industry and PCI standards.<br/>
+By enabling AbanteCart data encryption you can secure your customers data from access. Information, such as customer addresses, emails, phone numbers, credit cards, etc. will be encrypted and not readable. Encryption key can be stored securely and prevent access to this date in event of hacking or database attack.     
+<br/><br>
+<b>Requirement:</b> PHP => 5.3 and openSSL enabled
+<br>(Contact your server admin or hosting company)<br>
+NOTE: Do not confuse SSL data encryption with signed SSL certificates (HTTPS) used for browser access to sites 
+<br><br>
+<b>1. Configuration:</b> <br>
+Add key storage location path. <br>
+Add below lines to /system/config.php file. <br>
+<br>
+<b>	define('ENCRYPTION_KEYS_DIR', '/path/to/keys/');</b><br>
+<b>	define('DATA_ENCRYPTION_ENABLED', true);</b><br>
+<b>	define('ENCRYPTED_POSTFIX', '_enc');</b><br>
+<br>
+Change path to your specific path on your server and it has to be writable/readable only to webserver
+<br><br>
+
+<b>2. Generate New Key:</b>
+<br><br>in Encryption Data Tools generate new key with some unique key name provided (no spaces or special characters). Remember that name 
+<br><br>
+Add below line to /system/config.php file with key name used in generate step <br>
+<b>	define('DATA_ENCRYPTION_KEYPAIR', 'your_key_name');</b><br>
+This is the key name that you used above
+
+<br><br>
+<b>2. Encrypt all data:</b> <br>
+Now you need to hide all the data that you might have already at this point using new key that you have created. 
+<br> You can do this in Encryption Data Tools. Just follow the steps for "data encryption" process 
+
+<br><br>
+NOTES: <br>
+1. Keep Key in secure location with restricted file permissions for root and apache (webserver)<br>
+3. Backup your keys in some remote secure location. Lost keys will cause loss of all data<br>
+3. There is no key expiration management. <br>
+These needs to be accounted for in key management procedures
+<br><br>
+Need help configuring, supporting or extending functionality, 
+contact www.abantecart.com for forum or paid support
+
+
+</p>

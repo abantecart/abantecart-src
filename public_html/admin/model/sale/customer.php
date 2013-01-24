@@ -22,7 +22,9 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelSaleCustomer extends Model {
 	public function addCustomer($data) {
-      	$this->db->query("INSERT INTO " . DB_PREFIX . "customers
+		//encrypt customer data
+		$data = $this->dcrypt->encrypt_data($data, 'customers');
+      	$this->db->query("INSERT INTO " . $this->db->table("customers") . "
       	                SET firstname = '" . $this->db->escape($data['firstname']) . "',
       	                    lastname = '" . $this->db->escape($data['lastname']) . "',
       	                    email = '" . $this->db->escape($data['email']) . "',
@@ -37,8 +39,10 @@ class ModelSaleCustomer extends Model {
       	$customer_id = $this->db->getLastId();
       	
       	if (isset($data['addresses'])) {		
-      		foreach ($data['addresses'] as $address) {	
-      			$this->db->query("INSERT INTO " . DB_PREFIX . "addresses
+      		foreach ($data['addresses'] as $address) {
+      			//encrypt address data
+      			$address = $this->dcrypt->encrypt_data($address, 'addresses');
+      			$this->db->query("INSERT INTO " . $this->db->table("addresses") . "
       			                  SET customer_id = '" . (int)$customer_id . "',
       			                        firstname = '" . $this->db->escape($address['firstname']) . "',
       			                        lastname = '" . $this->db->escape($address['lastname']) . "',
@@ -56,7 +60,9 @@ class ModelSaleCustomer extends Model {
 	}
 	
 	public function editCustomer($customer_id, $data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "customers
+		//encrypt address data
+		$data = $this->dcrypt->encrypt_data($data, 'customers');
+		$this->db->query("UPDATE " . $this->db->table("customers") . "
 						SET firstname = '" . $this->db->escape($data['firstname']) . "',
 							lastname = '" . $this->db->escape($data['lastname']) . "',
 							email = '" . $this->db->escape($data['email']) . "',
@@ -69,16 +75,18 @@ class ModelSaleCustomer extends Model {
 						WHERE customer_id = '" . (int)$customer_id . "'");
 	
       	if ($data['password']) {
-        	$this->db->query("UPDATE " . DB_PREFIX . "customers
+        	$this->db->query("UPDATE " . $this->db->table("customers") . "
         	                  SET password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "'
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
       	
-      	$this->db->query("DELETE FROM " . DB_PREFIX . "addresses WHERE customer_id = '" . (int)$customer_id . "'");
+      	$this->db->query("DELETE FROM " . DB_PREFIX . "addresses" . $this->dcrypt->posfix() . " WHERE customer_id = '" . (int)$customer_id . "'");
       	
       	if (isset($data['addresses'])) {
       		foreach ($data['addresses'] as $address) {	
-				$this->db->query("INSERT INTO " . DB_PREFIX . "addresses
+      			//encrypt address data
+      			$address = $this->dcrypt->encrypt_data($address, 'addresses');      		
+				$this->db->query("INSERT INTO " . $this->db->table("addresses"). "
 								  SET customer_id = '" . (int)$customer_id . "',
 								        firstname = '" . $this->db->escape($address['firstname']) . "',
 								        lastname = '" . $this->db->escape($address['lastname']) . "',
@@ -97,12 +105,13 @@ class ModelSaleCustomer extends Model {
 
 		$data = array('firstname', 'lastname', 'email', 'telephone', 'fax', 'newsletter', 'customer_group_id', 'status', 'approved' );
 		if ( in_array($field, $data) )
-			$this->db->query("UPDATE " . DB_PREFIX . "customers
+			$value = $this->dcrypt->encrypt_data(array($field => $value), 'customers');
+			$this->db->query("UPDATE " . $this->db->table("customers") . "
 							  SET $field = '" . $this->db->escape($value) . "'
 							  WHERE customer_id = '" . (int)$customer_id . "'");
 
       	if ($field == 'password') {
-        	$this->db->query("UPDATE " . DB_PREFIX . "customers
+        	$this->db->query("UPDATE " . $this->db->table("customers") . "
         	                  SET password = '" . $this->db->escape(AEncryption::getHash($value)) . "'
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
@@ -114,10 +123,11 @@ class ModelSaleCustomer extends Model {
 		$address_data = array();
 		
 		$query = $this->db->query("SELECT *
-									FROM " . DB_PREFIX . "addresses
+									FROM " . $this->db->table("addresses") . "
 									WHERE customer_id = '" . (int)$customer_id . "'");
 	
 		foreach ($query->rows as $result) {
+			$result = $this->dcrypt->decrypt_data($result, 'addresses');
 			$country_query = $this->db->query("SELECT *
 												FROM `" . DB_PREFIX . "countries`
 												WHERE country_id = '" . (int)$result['country_id'] . "'");
@@ -170,22 +180,23 @@ class ModelSaleCustomer extends Model {
 	}	
 	
 	public function deleteCustomer($customer_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "customers WHERE customer_id = '" . (int)$customer_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "addresses WHERE customer_id = '" . (int)$customer_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$customer_id . "'");
 	}
 	
 	public function getCustomer($customer_id) {
 		$query = $this->db->query("SELECT DISTINCT *
-								   FROM " . DB_PREFIX . "customers
+								   FROM " . $this->db->table("customers") . "
 								   WHERE customer_id = '" . (int)$customer_id . "'");
-	
-		return $query->row;
+
+		$result_row = $this->dcrypt->decrypt_data($query->row, 'customers');
+		return $result_row;
 	}
 		
 	public function getCustomers($data = array()) {
 		$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name,
 						cg.name AS customer_group
-				FROM " . DB_PREFIX . "customers c
+				FROM " . $this->db->table("customers") . " c
 				LEFT JOIN " . DB_PREFIX . "customer_groups cg ON (c.customer_group_id = cg.customer_group_id) ";
 
 		$implode = array();

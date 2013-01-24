@@ -23,8 +23,9 @@ if (! defined ( 'DIR_CORE' )) {
 final class ADB {
 	private $driver;
 	public $error='';
+	public $registry;
 	
-	public function __construct($driver, $hostname, $username, $password, $database) {
+	public function __construct($driver, $hostname, $username, $password, $database) {		
 		if (file_exists(DIR_DATABASE . $driver . '.php')) {
 			require_once(DIR_DATABASE . $driver . '.php');
 		} else {
@@ -32,13 +33,14 @@ final class ADB {
 		}
 				
 		$this->driver = new $driver($hostname, $username, $password, $database);
+		
+		$this->registry = Registry::getInstance();
 	}
 		
   	public function query($sql,$noexcept=false) {
-  		$registry = Registry::getInstance();
-
-        if ( $registry->has('extensions') ) {
-	        $result = $registry->get('extensions')->hk_query($this, $sql,$noexcept);
+  		
+        if ( $this->registry->has('extensions') ) {
+	        $result = $this->registry->get('extensions')->hk_query($this, $sql,$noexcept);
         } else {
         	$result = $this->_query($sql,$noexcept);
         }
@@ -47,7 +49,12 @@ final class ADB {
 		}
 		return $result;
     }
-	
+
+	public function table($table_name){
+		//detect if encryption is enabled
+		$postfix = $this->registry->get('dcrypt')->posfix();
+		return DB_PREFIX . $table_name . $postfix;
+	}	
   	
 	public function _query($sql, $noexcept=false) {
 		return $this->driver->query($sql,$noexcept);

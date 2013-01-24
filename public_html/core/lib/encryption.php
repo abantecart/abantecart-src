@@ -88,19 +88,21 @@ final class AEncryption {
 }
 
 // SSL Based encryption class PHP 5.3 >
-// Manual Configuration might berequired
+// Manual Configuration is required
 /* 
 Requirement: PHP => 5.3 and openSSL enabled
 
+NOTE: Do not confuse SSL data encryption with signed SSL certificates (HTTPS) used for browser access to sites 
+
 Configuration: 
 Add key storage location path. 
-Add below line to /system/config.php file. Change path to your specific path on your server
-define('SSL_KEYS_DIR', '/path/to/keys/');
+Add below lines to /system/config.php file. Change path to your specific path on your server
+define('ENCRYPTION_KEYS_DIR', '/path/to/keys/');
 
 NOTES: 
 1. Keep Key in secure location with restricted file permissions for root and apache (webserver)
 2. There is no key expiration mamagement. 
-These needs to be acounted for in key management precedures
+These needs to be accounted for in key management procedures
 
 
 Examples:
@@ -142,6 +144,7 @@ final class ASSLEncryption {
 	private $key_path;
 	private $failed_str = "*****";
 	private $error;
+	public $active = false;
 	
 	//To generate new keys, class can be instintiated with no data passed
 	function __construct($pubkey_name = '', $prkey_name = '', $passphrase = null) {
@@ -158,10 +161,10 @@ final class ASSLEncryption {
 		}
 
         //construct key storage path 
-        //NOTE: SSL_KEYS_DIR needs to be added into configuration file
+        //NOTE: ENCRYPTION_KEYS_DIR needs to be added into configuration file
         //Suggested:  Directory to be secured for read a write ONLY for users root and apache (web server).    
-        if ( defined('SSL_KEYS_DIR') ) {
-        	$this->key_path = SSL_KEYS_DIR;	
+        if ( defined('ENCRYPTION_KEYS_DIR') ) {
+        	$this->key_path = ENCRYPTION_KEYS_DIR;	
         } else {
         	$this->key_path = DIR_SYSTEM . 'keys/';
         }
@@ -172,6 +175,7 @@ final class ASSLEncryption {
         if ($prkey_name) {
         	$this->loadPrivateKey($prkey_name.'.prv', $passphrase);
         }
+        $this->active = true; 
 	}
 
 	/*
@@ -182,9 +186,17 @@ final class ASSLEncryption {
 	*/
   	public function generate_ssl_key_pair($config = array(), $passphrase = null) {
   	  $default_length = 2048;
+
       if (!isset($config['private_key_bits'])) {
         $config['private_key_bits'] = $default_length;     
       } 
+	  //Set key bits limits
+      if ($config['private_key_bits'] < 256) {
+          $config['private_key_bits'] = 256;
+      } else if ($config['private_key_bits'] > 8192) {
+          $config['private_key_bits'] = 8192;
+      }      
+      
       $res = openssl_pkey_new($config);
 
 	  //# Do we need to use passphrase for the key?
@@ -263,12 +275,12 @@ final class ASSLEncryption {
 	* @return bool 
 	*/
 	public function loadPrivateKey($key_name, $passphrase = '') {	
-	  $this->prkey = openssl_pkey_get_private("file://".$this->key_path.$key_name, $passphrase);
-	  if ($this->prkey){
-	  	return true;
-	  } else {
-	  	return false;
-	  } 
+		$this->prkey = openssl_pkey_get_private("file://".$this->key_path.$key_name, $passphrase);
+		if ($this->prkey){
+		  return true;
+		} else {
+		  return false;
+		} 
 	}
 	
 	/*
@@ -276,23 +288,28 @@ final class ASSLEncryption {
 	* @return string
 	*/
   	public function decrypt( $crypttext ) {
-  	   if (empty($crypttext)) {
-			return '';
-  	   }
-  	   $cleartext = '';
-	   if ( empty($this->prkey) ) {
-			$error = "Error: SSL Decryption failed! Missing private key";
-			$this->log->write($error);
-			return $this->failed_str;	   
-	   }
-
-       if ((openssl_private_decrypt(base64_decode($crypttext), $cleartext, $this->prkey)) === true) {
-			return $cleartext;  
-       } else {
-			$error = "Error: SSL Decryption based on private key has failed! Possibly wrong key!";
-			$this->log->write($error);
-			return $this->failed_str;	          
-       }
+		if (empty($crypttext)) {
+		 	return '';
+		}
+		//check if this is not encripted text 
+		if (!base64_decode($crypttext, true)) {
+			return $crypttext;
+		}
+		
+		$cleartext = '';
+		if ( empty($this->prkey) ) {
+		 	$error = "Error: SSL Decryption failed! Missing private key";
+		 	$this->log->write($error);
+		 	return $this->failed_str;	   
+		}
+		
+		if ((openssl_private_decrypt(base64_decode($crypttext), $cleartext, $this->prkey)) === true) {
+		 	return $cleartext;  
+		} else {
+		 	$error = "Error: SSL Decryption based on private key has failed! Possibly wrong key!";
+		 	$this->log->write($error);
+		 	return $this->failed_str;	          
+		}
     }
 
 	/*
@@ -319,6 +336,177 @@ final class ASSLEncryption {
        }
     }
 		
+	public function getKeyPath() {
+		return $this->key_path;
+	}	
+	
+}
+
+// SSL Based data encryption class based on ASSLEncryption class
+// Manual Configuration is required
+/* 
+This class is managin encryption/decription of data in AbanteCart database tables 
+configured in $this->enc_data array
+These tables need to have specific postfix in the name like '_enc'
+
+Configuration: 
+Add below configs to /system/config.php file.
+define('DATA_ENCRYPTION_ENABLED', true);
+define('ENCRYPTED_POSTFIX', '_enc');
+define('DATA_ENCRYPTION_KEYPAIR', 'data_enc_key');
+
+NOTE: DATA_ENCRYPTION_KEYPAIR needs to be a files name portion for public and private keys stored in ENCRYPTION_KEYS_DIR 
+Keys can be generated by ASSLEncryption class (see ASSLEncryption class) or by any other openSSL script
+Example of keys: data_enc_key for data_enc_key.pub and data_enc_key.prv
+This is also genrated in encryption_data_manager extension
+
+Tables SQL:
+New tables needs to be created with provided SQL. 
+Encryption Data Manager extension runs SQL on install
+
+Limitation: passphrase is not supported to data encryption.
+
+*/
+
+final class ADataEncryption {
+	private $key_name;
+	private $passphrase;
+	private $enc_data;
+	private $posfix = '';
+	public $active = false;
+
+	function __construct($key_name = null, $passphrase = null) {
+		//if not enabled exit
+		if ( !defined('DATA_ENCRYPTION_ENABLED') || DATA_ENCRYPTION_ENABLED != true) {
+			return NULL;
+		}		
+		
+		if ($key_name ){
+			$this->key_name = $key_name;
+		} else {
+			$this->key_name = DATA_ENCRYPTION_KEYPAIR;
+		} 
+		
+		if ($passphrase) {
+			$this->passphrase = $passphrase;
+		}
+		
+		//set tables/fields encrypted
+		$this->enc_data['orders'] = array(
+			'id' => 'order_id',
+			'fields' => array ( 
+				  'telephone',
+				  'fax',
+				  'email',
+				  'shipping_company',
+				  'shipping_address_1',
+				  'shipping_address_2',
+				  'shipping_city',
+				  'shipping_postcode',
+				  'shipping_country',
+				  'payment_company',
+				  'payment_address_1',
+				  'payment_address_2',
+				  'payment_city',
+				  'payment_postcode',
+				  'payment_country'
+			 ),
+		);
+		$this->enc_data['customers'] = array(
+			'id' => 'customer_id',
+			'fields' => array ( 
+				  'telephone',
+				  'fax',
+				  'email'	
+			 ),
+		);
+		$this->enc_data['addresses'] = array(
+			'id' => 'address_id',
+			'fields' => array ( 
+				  'company',
+				  'address_1',
+				  'address_2',
+				  'postcode',
+				  'city'	
+			 ),
+		);		
+		
+		if ( defined('ENCRYPTED_POSTFIX') ) {
+			$this->posfix = ENCRYPTED_POSTFIX;
+		} else {
+			$this->posfix = '_enc';
+		}
+		
+		$this->active = true;
+	}
+
+	/**
+	* Get postfix used to extend tables storing encrypted data 
+	* This is set in ENCRYPTED_POSTFIX configuration 
+	*@param none
+	*@return string
+	*/	
+	public function posfix() {
+		return $this->posfix;
+	}
+
+	public function getEcryptedTables(){		
+		return array_keys($this->enc_data);
+	}	
+	
+	public function getEcryptedFields( $table ){		
+		return $this->enc_data[ $table ]['fields'];
+	}	
+
+	public function decrypt_data ( $crypt_data_arr, $table, $pass = null) {
+		$open_data_arr = $crypt_data_arr;
+		if ( empty($pass) ) {
+			$pass = $this->passphrase;
+		}
+		
+		//load key baseed on the table TODO, hardcode now 
+		// Possibly add other encryption method here
+		$enc = new ASSLEncryption('', $this->key_name, $pass);
+		$fields = $this->getEcryptedFields($table);
+		foreach ($crypt_data_arr as $key => $data) {
+			if ( in_array($key, $fields) ) {
+				$open_data_arr[$key] = 	$enc->decrypt($data);			
+			}
+		}
+		return $open_data_arr;	
+	}
+
+	public function encrypt_data ( $open_data_arr, $table ) {
+		$crypt_data_arr = $open_data_arr;
+		
+		//load key baseed on the table TODO, hardcode now
+		// Possibly add other encryption method here
+		$enc = new ASSLEncryption($this->key_name);
+		$fields = $this->getEcryptedFields($table);
+		foreach ($open_data_arr as $key => $data) {
+			if ( in_array($key, $fields) ) {
+				$crypt_data_arr[$key] = $enc->encrypt($data);			
+			}
+		}
+		return $crypt_data_arr;
+	}
+
+	public function encrypt_record ( $open_data ) {
+		//load key baseed on the table TODO, hardcode now
+		// Possibly add other encryption method here
+		$enc = new ASSLEncryption($this->key_name);
+		return $enc->encrypt($open_data);
+	}
+
+	public function decrypt_record ( $crypt_data, $pass = null) {
+		if ( empty($pass) ) {
+			$pass = $this->passphrase;
+		}
+		//load key baseed on the table TODO, hardcode now
+		// Possibly add other encryption method here
+		$enc = new ASSLEncryption('', $this->key_name, $pass);
+		return $enc->decrypt($crypt_data);
+	}
 }
 
 ?>
