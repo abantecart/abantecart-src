@@ -35,6 +35,9 @@
 		            <td><?php echo $field; ?></td>
 		          </tr>
 		          <?php } ?>
+		          <tr>
+		            <td colspan="2"><?php echo $section['note']; ?></td>
+		          </tr>
 		        </table>
 				<div class="buttons align_center">
 			  		<button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>

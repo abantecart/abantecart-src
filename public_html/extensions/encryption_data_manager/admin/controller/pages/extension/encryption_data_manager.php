@@ -58,7 +58,11 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 				if ( $this->request->post['enc_test_mode'] ) {
 					$this->session->data['success'] = sprintf($this->language->get('text_encryption_test'), implode('<br/>', $enc_result) );
 				} else if ( count($enc_result)) {
-					$this->session->data['success'] = sprintf($this->language->get('text_success_encrypting'), implode('<br/>', $enc_result) );
+					$this->session->data['success'] = sprintf(
+												$this->language->get('text_success_encrypting'), 
+												implode('<br/>', $enc_result),
+												$this->request->post['enc_key']
+											);
 				} else {
 					$this->error['warning'] = $this->language->get('error_encrypting');
 				}
@@ -203,6 +207,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 				'style'  => 'btn_switch',
 			));
 
+		$data_enc['note'] = $this->language->get('post_encrypting_notice');
 		
 		$this->data['sections'][] = $data_enc;			
 
@@ -252,19 +257,41 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$enc_data = new ADataEncryption($data['enc_key']); 
 		foreach ($enc_data->getEcryptedTables() as $table_name) {
 			$enc_fields = $enc_data->getEcryptedFields($table_name);
+			$id_field = $enc_data->getEcryptedTableID($table_name);
 			// important to use non-encripted table
 			$query_read = $this->db->query("SELECT * FROM " . DB_PREFIX . $table_name );
 			$count = 0;
-			echo_array($query_read->rows);
 			foreach($query_read->rows as $record) {					
-				$enc_rec_data = $enc_data->encrypt_data($record);
-				//check if this is not a test mode 
-				if (!$data['enc_test_mode']) {
-					
-				}
+				$enc_rec_data = $enc_data->encrypt_data($record, $table_name);
+				//check if this is not a test mode and we can write
 				$count++;
+				if (!$data['enc_test_mode']) {
+					$insert_flds = '';
+					foreach($enc_rec_data as $col => $val) {
+						if ( has_value($val) ) {
+							if ( !empty($insert_flds) ) { 
+								$insert_flds .= ", ";
+							}
+							$insert_flds .= "`$col` = '" .$this->db->escape($val) . "'";
+						}
+					}
+					try {
+						$this->db->query("INSERT INTO " . $this->db->table($table_name) . " SET $insert_flds;" );
+					} catch (AException $e) {
+						$result[] = "<div class='error'>Error: Table $table_name record ID: " . $enc_rec_data[$id_field] . " failed saving! </div>";
+						$count--;
+					}
+				} else {
+					//check if such row exists for test
+					$test_row = $this->db->query("SELECT * FROM " . $this->db->table($table_name) . " WHERE $id_field = " . $enc_rec_data[$id_field] );
+					if ($test_row->num_rows) {
+						$result[] = "<div class='error'>Error: Duplicate record ID: " . $enc_rec_data[$id_field] . " in table ". $this->db->table($table_name) ." !</div>";
+						$count--;						
+					} 
+				}
+				
 			}			
-			$result[] = "Table $table_name has encrypted $count records";
+			$result[] = "<b>Table $table_name has encrypted $count records</b>";
 		}
 		return $result;
 	}	

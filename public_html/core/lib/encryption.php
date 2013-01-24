@@ -453,6 +453,10 @@ final class ADataEncryption {
 	public function getEcryptedTables(){		
 		return array_keys($this->enc_data);
 	}	
+
+	public function getEcryptedTableID( $table ){		
+		return $this->enc_data[ $table ]['id'];
+	}	
 	
 	public function getEcryptedFields( $table ){		
 		return $this->enc_data[ $table ]['fields'];
@@ -463,7 +467,10 @@ final class ADataEncryption {
 		if ( empty($pass) ) {
 			$pass = $this->passphrase;
 		}
-		
+		if ( empty($table) ) {
+			return array();
+		}
+				
 		//load key baseed on the table TODO, hardcode now 
 		// Possibly add other encryption method here
 		$enc = new ASSLEncryption('', $this->key_name, $pass);
@@ -478,6 +485,9 @@ final class ADataEncryption {
 
 	public function encrypt_data ( $open_data_arr, $table ) {
 		$crypt_data_arr = $open_data_arr;
+		if ( empty($table) ) {
+			return array();
+		}
 		
 		//load key baseed on the table TODO, hardcode now
 		// Possibly add other encryption method here
