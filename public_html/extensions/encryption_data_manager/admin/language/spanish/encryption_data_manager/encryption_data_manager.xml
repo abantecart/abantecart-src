@@ -106,7 +106,7 @@
   </definition>
   <definition>
     <key>text_success_encrypting</key>
-    <value><![CDATA[<b>User data has been encrypted. See details:</b> <br/><br/> %s ]]></value>
+    <value><![CDATA[<b>User data has been encrypted. <br />  See details:</b> <br/><br/> %s <br /><br /> <b>Add following line to file system/config.php : define('DATA_ENCRYPTION_KEYPAIR', '%s'); </b> ]]></value>
   </definition>
   <definition>
     <key>text_encryption_test</key>
@@ -115,6 +115,11 @@
   <definition>
     <key>error_encrypting</key>
     <value><![CDATA[User data encryption failed. Check your settings and check error log.]]></value>
+  </definition>
+  <definition>
+    <key>post_encrypting_notice</key>
+    <value><![CDATA[<b>Important notes! After encryption is completed data will be copied to mirror tables with data encrypted in them. 
+    		<br />Follow instructions to add configuration to system/config.php for AbanteCart to switch read/write operations to encrypted tables. <br /> Make sure you add line: define('DATA_ENCRYPTION_KEYPAIR', 'your_key_name');  </b>]]></value>
   </definition>
   
   

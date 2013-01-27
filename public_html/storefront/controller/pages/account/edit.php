@@ -41,6 +41,16 @@ class ControllerPagesAccountEdit extends AController {
 		$request_data = $this->request->post;
 		if ( $this->request->server['REQUEST_METHOD'] == 'POST') {		
 			$this->error = $this->model_account_customer->validateEditData($request_data);
+			//if no update for loginname do not allow edit of username/loginname
+			if ( !$this->customer->isLoginnameAsEmail() ) {
+				$request_data['loginname'] = null;
+			} else {
+			//if allow login as email, need to set loginname = email in case email changed 
+				if (!$this->config->get('prevent_email_as_login')) {
+					$request_data['loginname'] = $request_data['email'];
+				}
+			}
+			
     		if ( !$this->error ) {		
 				$this->model_account_customer->editCustomer($request_data);
 				$this->session->data['success'] = $this->language->get('text_success');
@@ -48,6 +58,13 @@ class ControllerPagesAccountEdit extends AController {
 			}
 		}
 
+		//check if existing customer has loginname = email. Redirect if not allowed
+		$reset_loginname = false;
+		if ($this->config->get('prevent_email_as_login') && $this->customer->isLoginnameAsEmail() ) {
+		    $this->error['warning'] = $this->language->get('loginname_update_required');
+		    $reset_loginname = true;
+		}
+		
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
@@ -69,6 +86,7 @@ class ControllerPagesAccountEdit extends AController {
       	 ));
 		
 		$this->view->assign('error_warning', $this->error['warning'] );
+		$this->view->assign('error_loginname', $this->error['loginname'] );
 		$this->view->assign('error_firstname', $this->error['firstname'] );
 		$this->view->assign('error_lastname', $this->error['lastname'] );
 		$this->view->assign('error_email', $this->error['email'] );
@@ -77,6 +95,12 @@ class ControllerPagesAccountEdit extends AController {
 	
 		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
 			$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
+		}
+
+		if (isset($request_data['loginname'])) {
+			$loginname = $request_data['loginname'];
+		} elseif (isset($customer_info)) {
+            $loginname = $customer_info['loginname'];
 		}
 
 		if (isset($request_data['firstname'])) {
@@ -116,6 +140,19 @@ class ControllerPagesAccountEdit extends AController {
                                                                        'name' => 'AccountFrm',
                                                                        'action' => $this->html->getSecureURL('account/edit')));
 
+		$this->data['reset_loginname'] = $reset_loginname;
+		
+		if($reset_loginname) {
+			$this->data['form'][ 'loginname' ] = $form->getFieldHtml( array(
+                                                                       'type' => 'input',
+		                                                               'name' => 'loginname',
+		                                                               'value' => $loginname,
+		                                                               'style' => 'highlight',
+		                                                               'required' => true ));	
+		} else {
+			$this->data['form'][ 'loginname' ] = $loginname;
+		}
+		
 		$this->data['form'][ 'firstname' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'firstname',

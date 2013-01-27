@@ -25,7 +25,8 @@ class ModelSaleCustomer extends Model {
 		//encrypt customer data
 		$data = $this->dcrypt->encrypt_data($data, 'customers');
       	$this->db->query("INSERT INTO " . $this->db->table("customers") . "
-      	                SET firstname = '" . $this->db->escape($data['firstname']) . "',
+      	                SET loginname = '" . $this->db->escape($data['loginname']) . "',
+      	                	firstname = '" . $this->db->escape($data['firstname']) . "',
       	                    lastname = '" . $this->db->escape($data['lastname']) . "',
       	                    email = '" . $this->db->escape($data['email']) . "',
       	                    telephone = '" . $this->db->escape($data['telephone']) . "',
@@ -63,7 +64,8 @@ class ModelSaleCustomer extends Model {
 		//encrypt address data
 		$data = $this->dcrypt->encrypt_data($data, 'customers');
 		$this->db->query("UPDATE " . $this->db->table("customers") . "
-						SET firstname = '" . $this->db->escape($data['firstname']) . "',
+						SET loginname = '" . $this->db->escape($data['loginname']) . "',
+							firstname = '" . $this->db->escape($data['firstname']) . "',
 							lastname = '" . $this->db->escape($data['lastname']) . "',
 							email = '" . $this->db->escape($data['email']) . "',
 							telephone = '" . $this->db->escape($data['telephone']) . "',
@@ -80,7 +82,7 @@ class ModelSaleCustomer extends Model {
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
       	
-      	$this->db->query("DELETE FROM " . DB_PREFIX . "addresses" . $this->dcrypt->posfix() . " WHERE customer_id = '" . (int)$customer_id . "'");
+      	$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$customer_id . "'");
       	
       	if (isset($data['addresses'])) {
       		foreach ($data['addresses'] as $address) {	
@@ -103,11 +105,11 @@ class ModelSaleCustomer extends Model {
 
 	public function editCustomerField($customer_id, $field, $value) {
 
-		$data = array('firstname', 'lastname', 'email', 'telephone', 'fax', 'newsletter', 'customer_group_id', 'status', 'approved' );
+		$data = array('loginname', 'firstname', 'lastname', 'email', 'telephone', 'fax', 'newsletter', 'customer_group_id', 'status', 'approved' );
 		if ( in_array($field, $data) )
-			$value = $this->dcrypt->encrypt_data(array($field => $value), 'customers');
+			$value_arr = $this->dcrypt->encrypt_data(array($field => $value), 'customers');
 			$this->db->query("UPDATE " . $this->db->table("customers") . "
-							  SET $field = '" . $this->db->escape($value) . "'
+							  SET $field = '" . $this->db->escape($value_arr[$field]) . "'
 							  WHERE customer_id = '" . (int)$customer_id . "'");
 
       	if ($field == 'password') {
@@ -116,8 +118,6 @@ class ModelSaleCustomer extends Model {
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
 	}
-
-
 	
 	public function getAddressesByCustomerId($customer_id) {
 		$address_data = array();
@@ -129,7 +129,7 @@ class ModelSaleCustomer extends Model {
 		foreach ($query->rows as $result) {
 			$result = $this->dcrypt->decrypt_data($result, 'addresses');
 			$country_query = $this->db->query("SELECT *
-												FROM `" . DB_PREFIX . "countries`
+												FROM `" . $this->db->table("countries") . "`
 												WHERE country_id = '" . (int)$result['country_id'] . "'");
 			
 			if ($country_query->num_rows) {
@@ -145,7 +145,7 @@ class ModelSaleCustomer extends Model {
 			}
 			
 			$zone_query = $this->db->query("SELECT *
-										    FROM `" . DB_PREFIX . "zones`
+										    FROM `" . $this->db->table("zones") . "`
 										    WHERE zone_id = '" . (int)$result['zone_id'] . "'");
 			
 			if ($zone_query->num_rows) {
@@ -197,7 +197,7 @@ class ModelSaleCustomer extends Model {
 		$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name,
 						cg.name AS customer_group
 				FROM " . $this->db->table("customers") . " c
-				LEFT JOIN " . DB_PREFIX . "customer_groups cg ON (c.customer_group_id = cg.customer_group_id) ";
+				LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";
 
 		$implode = array();
 		
@@ -263,34 +263,46 @@ class ModelSaleCustomer extends Model {
 		}		
 		
 		$query = $this->db->query($sql);
+		$result_rows = array();
+		foreach ($query->rows as $row) {
+			$result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');	
+		}
 		
-		return $query->rows;	
+		return $result_rows;	
 	}
 	
 	public function approve($customer_id) {
-		$this->db->query("UPDATE " . DB_PREFIX . "customers
+		$this->db->query("UPDATE " . $this->db->table("customers") . "
 						  SET approved = '1'
 						        WHERE customer_id = '" . (int)$customer_id . "'");
 	}
 	
 	public function getCustomersByNewsletter() {
 		$query = $this->db->query("SELECT *
-									FROM " . DB_PREFIX . "customers
+									FROM " . $this->db->table("customers") . "
 									WHERE newsletter = '1'
 									ORDER BY firstname, lastname, email");
 	
-		return $query->rows;
+		$result_rows = array();
+		foreach ($query->rows as $row) {
+			$result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');	
+		}		
+		return $result_rows;
 	}
 	
 	public function getCustomersByKeyword($keyword) {
 		if ($keyword) {
 			$query = $this->db->query("SELECT *
-									   FROM " . DB_PREFIX . "customers
+									   FROM " . $this->db->table("customers") . "
 									   WHERE LCASE(CONCAT(firstname, ' ', lastname)) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'
 									        OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'
 									   ORDER BY firstname, lastname, email");
 	
-			return $query->rows;
+			$result_rows = array();
+			foreach ($query->rows as $row) {
+				$result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');	
+			}		
+			return $result_rows;
 		} else {
 			return array();	
 		}
@@ -299,11 +311,15 @@ class ModelSaleCustomer extends Model {
 	public function getCustomersByProduct($product_id) {
 		if ($product_id) {
 			$query = $this->db->query("SELECT DISTINCT `email`
-										FROM `" . DB_PREFIX . "orders` o
-										LEFT JOIN " . DB_PREFIX . "order_products op ON (o.order_id = op.order_id)
+										FROM `" . $this->db->table("orders") . "` o
+										LEFT JOIN " . $this->db->table("order_products") . " op ON (o.order_id = op.order_id)
 										WHERE op.product_id = '" . (int)$product_id . "' AND o.order_status_id <> '0'");
 	
-			return $query->rows;
+			$result_rows = array();
+			foreach ($query->rows as $row) {
+				$result_rows[] = $this->dcrypt->decrypt_data($row, 'orders');	
+			}		
+			return $result_rows;
 		} else {
 			return array();	
 		}
@@ -311,16 +327,20 @@ class ModelSaleCustomer extends Model {
 	
 	public function getAddresses($customer_id) {
 		$query = $this->db->query("SELECT *
-									FROM " . DB_PREFIX . "addresses
+									FROM " . $this->db->table("addresses") . "
 									WHERE customer_id = '" . (int)$customer_id . "'");
 	
-		return $query->rows;
+		$result_rows = array();
+		foreach ($query->rows as $row) {
+			$result_rows[] = $this->dcrypt->decrypt_data($row, 'addresses');	
+		}		
+		return $result_rows;
 	}
 	
 	public function getTotalCustomers($data = array()) {
       	$sql = "SELECT COUNT(*) as total
-      	        FROM " . DB_PREFIX . "customers c
-      	        LEFT JOIN " . DB_PREFIX . "customer_groups cg ON (c.customer_group_id = cg.customer_group_id) ";
+      	        FROM " . $this->db->table("customers") . " c
+      	        LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";
 
 		$implode = array();
 
@@ -356,10 +376,29 @@ class ModelSaleCustomer extends Model {
 				
 		return $query->row['total'];
 	}
+
+	public function is_unique_loginname( $loginname, $customer_id = '' ) {
+		if( empty($loginname) ) {
+			return false;
+		}
+		//exclude diven customer from checking
+		$not_current_customer = '';
+		if ( has_value($customer_id) ) {
+			$not_current_customer = "AND customer_id <> '$customer_id'";
+		}
+      	$query = $this->db->query("SELECT COUNT(*) AS total
+      	                           FROM " . $this->db->table("customers") . "
+      	                           WHERE LOWER(`loginname`) = LOWER('" . $loginname . "') " . $not_current_customer);
+      	if ($query->row['total'] > 0) {
+      		return false;
+      	} else {
+      		return true;
+      	}                           
+	}
 		
 	public function getTotalCustomersAwaitingApproval() {
       	$query = $this->db->query("SELECT COUNT(*) AS total
-      	                           FROM " . DB_PREFIX . "customers
+      	                           FROM " . $this->db->table("customers") . "
       	                           WHERE status = '0' OR approved = '0'");
 
 		return $query->row['total'];
@@ -367,7 +406,7 @@ class ModelSaleCustomer extends Model {
 	
 	public function getTotalAddressesByCustomerId($customer_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
-      	                            FROM " . DB_PREFIX . "addresses
+      	                            FROM " . $this->db->table("addresses") . "
       	                            WHERE customer_id = '" . (int)$customer_id . "'");
 		
 		return $query->row['total'];
@@ -375,7 +414,7 @@ class ModelSaleCustomer extends Model {
 	
 	public function getTotalAddressesByCountryId($country_id) {
 		$query = $this->db->query("SELECT COUNT(*) AS total
-									FROM " . DB_PREFIX . "addresses
+									FROM " . $this->db->table("addresses") . "
 									WHERE country_id = '" . (int)$country_id . "'");
 		
 		return $query->row['total'];
@@ -383,7 +422,7 @@ class ModelSaleCustomer extends Model {
 	
 	public function getTotalAddressesByZoneId($zone_id) {
 		$query = $this->db->query("SELECT COUNT(*) AS total
-									FROM " . DB_PREFIX . "addresses
+									FROM " . $this->db->table("addresses") . "
 									WHERE zone_id = '" . (int)$zone_id . "'");
 		
 		return $query->row['total'];
@@ -391,7 +430,7 @@ class ModelSaleCustomer extends Model {
 	
 	public function getTotalCustomersByCustomerGroupId($customer_group_id) {
 		$query = $this->db->query("SELECT COUNT(*) AS total
-								   FROM " . DB_PREFIX . "customers
+								   FROM " . $this->db->table("customers") . "
 								   WHERE customer_group_id = '" . (int)$customer_group_id . "'");
 		
 		return $query->row['total'];

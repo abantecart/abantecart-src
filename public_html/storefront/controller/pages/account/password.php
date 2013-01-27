@@ -38,7 +38,7 @@ class ControllerPagesAccountPassword extends AController {
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
 			$this->loadModel('account/customer');
 			
-			$this->model_account_customer->editPassword($this->customer->getEmail(), $this->request->post['password']);
+			$this->model_account_customer->editPassword($this->customer->getLoginName(), $this->request->post['password']);
  
       		$this->session->data['success'] = $this->language->get('text_success');
 	  
@@ -65,6 +65,7 @@ class ControllerPagesAccountPassword extends AController {
         	'separator' => $this->language->get('text_separator')
       	 ));
 			
+        $this->view->assign('error_current_password', $this->error['current_password'] );
         $this->view->assign('error_password', $this->error['password'] );
         $this->view->assign('error_confirm', $this->error['confirm'] );
 
@@ -77,6 +78,11 @@ class ControllerPagesAccountPassword extends AController {
                  'action' => $this->html->getSecureURL('account/password')));
     	$this->view->assign('form_open', $form_open);
 
+        $current_password = $form->getFieldHtml( array(
+                                               'type' => 'password',
+		                                       'name' => 'current_password',
+		                                       'value' => '',
+		                                       'required' => true ));
         $password = $form->getFieldHtml( array(
                                                'type' => 'password',
 		                                       'name' => 'password',
@@ -92,6 +98,7 @@ class ControllerPagesAccountPassword extends AController {
 		                                       'name' => $this->language->get('button_continue')
 		                                        ));
 
+		$this->view->assign('current_password', $current_password );
 		$this->view->assign('password', $password );
 		$this->view->assign('submit', $submit );
 		$this->view->assign('confirm', $confirm );
@@ -110,6 +117,11 @@ class ControllerPagesAccountPassword extends AController {
   	}
   
   	private function _validate() {
+    	if ( empty($this->request->post['current_password']) 
+    			|| !$this->customer->login( $this->customer->getLoginName(), $this->request->post['current_password'] )) {
+      		$this->error['current_password'] = $this->language->get('error_current_password');
+		}
+
     	if ((strlen(utf8_decode($this->request->post['password'])) < 4) || (strlen(utf8_decode($this->request->post['password'])) > 20)) {
       		$this->error['password'] = $this->language->get('error_password');
     	}

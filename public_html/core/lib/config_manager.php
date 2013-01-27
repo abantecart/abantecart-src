@@ -501,6 +501,12 @@ class AConfigManager {
 			'value' => $data[ 'config_customer_approval' ],
 			'style' => 'btn_switch',
 		));
+		$fields[ 'prevent_email_as_login' ] = $form->getFieldHtml($props[ ] = array(
+			'type' => 'checkbox',
+			'name' => 'prevent_email_as_login',
+			'value' => $data[ 'prevent_email_as_login' ],
+			'style' => 'btn_switch',
+		));
 		$fields[ 'guest_checkout' ] = $form->getFieldHtml($props[ ] = array(
 			'type' => 'checkbox',
 			'name' => 'config_guest_checkout',

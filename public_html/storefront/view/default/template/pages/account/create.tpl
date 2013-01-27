@@ -18,6 +18,15 @@
 
 			<div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
 				<table>
+					<?php if ($noemaillogin) { ?>
+					<tr>
+						<td width="150"><?php echo $entry_loginname; ?></td>
+						<td><?php echo $form['loginname']; ?>
+							<?php if ($error_loginname) { ?>
+								<span class="error"><?php echo $error_loginname; ?></span>
+								<?php } ?></td>
+					</tr>
+					<?php } ?>
 					<tr>
 						<td width="150"><?php echo $entry_firstname; ?></td>
 						<td><?php echo $form['firstname']; ?>

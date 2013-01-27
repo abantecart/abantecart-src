@@ -134,14 +134,14 @@ class ControllerResponsesListingGridCustomer extends AController {
 				if (!empty($ids))
 					foreach ($ids as $id) {
 
-						$err = $this->_validateForm('status', $this->request->post[ 'status' ][ $id ]);
+						$err = $this->_validateForm('status', $this->request->post[ 'status' ][ $id ], $id);
 						if (!$err) {
 							$this->model_sale_customer->editCustomerField($id, 'status', $this->request->post[ 'status' ][ $id ]);
 						} else {
 							$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
 							return $dd->dispatch();
 						}
-						$err = $this->_validateForm('approved', $this->request->post[ 'approved' ][ $id ]);
+						$err = $this->_validateForm('approved', $this->request->post[ 'approved' ][ $id ], $id);
 						if (!$err) {
 							$this->model_sale_customer->editCustomerField($id, 'approved', $this->request->post[ 'approved' ][ $id ]);
 							$this->_sendMail($id, $this->request->post[ 'approved' ][ $id ]);
@@ -184,7 +184,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 
 		if (isset($this->request->get[ 'id' ])) {
 			foreach ($this->request->post as $field => $value) {
-				$err = $this->_validateForm($field, $value);
+				$err = $this->_validateForm($field, $value, $this->request->get[ 'id' ]);
 				if (!$err) {
 					if ($field == 'approved') {
 						$this->_sendMail($this->request->get[ 'id' ], $value);
@@ -221,10 +221,21 @@ class ControllerResponsesListingGridCustomer extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _validateForm($field, $value) {
+	private function _validateForm($field, $value, $customer_id = '') {
 
 		$err = false;
 		switch ($field) {
+			case 'loginname' :
+				$login_name_pattern = '/^[\w._-]+$/i';
+				$value = preg_replace('/\s+/', '', $value);
+   		 		if ( strlen(utf8_decode($value)) < 5 || strlen(utf8_decode($value)) > 64
+   		 			|| (!preg_match($login_name_pattern, $value) && $this->config->get('prevent_email_as_login')) ) {	
+   		   			$err = $this->language->get('error_loginname');
+   				//check uniqunes of loginname
+   		 		} else if ( !$this->model_sale_customer->is_unique_loginname($value, $customer_id) ) {
+   		   			$err = $this->language->get('error_loginname_notunique');
+   		 		}			
+				break;
 			case 'firstname' :
 				if ((strlen(utf8_decode($value)) < 1) || (strlen(utf8_decode($value)) > 32)) {
 					$err = $this->language->get('error_firstname');

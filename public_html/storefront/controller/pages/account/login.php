@@ -46,8 +46,10 @@ class ControllerPagesAccountLogin extends AController {
 					$this->redirect($this->html->getSecureURL('checkout/guest_step_1'));
 				}
 			}
-			
-			if (isset($this->request->post['email']) && isset($this->request->post['password']) && $this->_validate()) {
+			//support old email based login
+			$loginname = ( isset($this->request->post['loginname']) ) ? $this->request->post['loginname'] : $this->request->post['email'];
+			$password = $this->request->post['password'];			
+			if (isset($loginname) && isset($password) && $this->_validate($loginname, $password)) {
 				unset($this->session->data['guest']);
 				unset($this->session->data['account']);
 
@@ -131,7 +133,15 @@ class ControllerPagesAccountLogin extends AController {
                                                                        'type' => 'form',
                                                                        'name' => 'loginFrm',
                                                                        'action' => $this->html->getSecureURL('account/login')));
+	
+		if($this->config->get('prevent_email_as_login')){
+			$this->data['noemaillogin'] = true;
+		}
 
+		$this->data['form2'][ 'loginname' ] = $form->getFieldHtml( array(
+                                                                       'type' => 'input',
+		                                                               'name' => 'loginname'));
+		//support old email based loging. Remove in the future
 		$this->data['form2'][ 'email' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'email'));
@@ -149,7 +159,8 @@ class ControllerPagesAccountLogin extends AController {
 			unset($this->session->data['success']);
 		}
 
-        $this->data['forgotten'] = $this->html->getSecureURL('account/forgotten');
+        $this->data['forgotten_pass'] = $this->html->getSecureURL('account/forgotten/password');
+        $this->data['forgotten_login'] = $this->html->getSecureURL('account/forgotten/loginname');
         $this->data['guest_checkout'] = ($this->config->get('config_guest_checkout') && $this->cart->hasProducts() && !$this->cart->hasDownload());
 
 		$this->view->batchAssign( $this->data );
@@ -159,8 +170,8 @@ class ControllerPagesAccountLogin extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
   
-  	private function _validate() {
-    	if (!$this->customer->login($this->request->post['email'], $this->request->post['password'])) {
+  	private function _validate($loginname, $password) {
+    	if (!$this->customer->login( $loginname, $password )) {
       		$this->error['message'] = $this->language->get('error_login');
     	}else{
 		    $this->loadModel('account/address');
@@ -168,7 +179,11 @@ class ControllerPagesAccountLogin extends AController {
 
 		    $this->session->data['country_id'] = $address['country_id'];
 		    $this->session->data['zone_id'] = $address['zone_id'];
-
+	
+			//check if existing customer has loginname = email. Redirect if not allowed
+			if ($this->config->get('prevent_email_as_login') && $this->customer->isLoginnameAsEmail() ) {
+				$this->redirect($this->html->getSecureURL('account/edit'));
+			}
 	    }
 	
     	if (!$this->error) {

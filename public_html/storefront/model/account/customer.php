@@ -24,47 +24,152 @@ if (! defined ( 'DIR_CORE' )) {
 class ModelAccountCustomer extends Model {
 
 	public function addCustomer($data) {
-      	$this->db->query("INSERT INTO " . DB_PREFIX . "customers SET store_id = '" . (int)$this->config->get('config_store_id') . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "', newsletter = '" . (int)$data['newsletter'] . "', customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "', status = '1', date_added = NOW()");
-      	
+	
+		$data = $this->dcrypt->encrypt_data($data, 'customers');
+    
+      	$this->db->query("INSERT INTO " . $this->db->table("customers") . " 
+      					  SET	store_id = '" . (int)$this->config->get('config_store_id') . "', 
+      					  		loginname = '" . $this->db->escape($data['loginname']) . "', 
+      					  		firstname = '" . $this->db->escape($data['firstname']) . "', 
+      					  		lastname = '" . $this->db->escape($data['lastname']) . "', 
+      					  		email = '" . $this->db->escape($data['email']) . "', 
+      					  		telephone = '" . $this->db->escape($data['telephone']) . "', 
+      					  		fax = '" . $this->db->escape($data['fax']) . "', 
+      					  		password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "', 
+      					  		newsletter = '" . (int)$data['newsletter'] . "', 
+      					  		customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "', 
+      					  		status = '1', 
+      					  		date_added = NOW()");
 		$customer_id = $this->db->getLastId();
 			
-      	$this->db->query("INSERT INTO " . DB_PREFIX . "addresses SET customer_id = '" . (int)$customer_id . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', company = '" . $this->db->escape($data['company']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', city = '" . $this->db->escape($data['city']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "'");
+		$data = $this->dcrypt->encrypt_data($data, 'addresses');	
+      	$this->db->query("INSERT INTO " . $this->db->table("addresses") . " 
+      					  SET 	customer_id = '" . (int)$customer_id . "', 
+      					  		firstname = '" . $this->db->escape($data['firstname']) . "', 
+      					  		lastname = '" . $this->db->escape($data['lastname']) . "', 
+      					  		company = '" . $this->db->escape($data['company']) . "', 
+      					  		address_1 = '" . $this->db->escape($data['address_1']) . "', 
+      					  		address_2 = '" . $this->db->escape($data['address_2']) . "', 
+      					  		city = '" . $this->db->escape($data['city']) . "', 
+      					  		postcode = '" . $this->db->escape($data['postcode']) . "', 
+      					  		country_id = '" . (int)$data['country_id'] . "', 
+      					  		zone_id = '" . (int)$data['zone_id'] . "'");
 		
 		$address_id = $this->db->getLastId();
 
-      	$this->db->query("UPDATE " . DB_PREFIX . "customers SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
+      	$this->db->query("UPDATE " . $this->db->table("customers") . " SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
 		
 		if (!$this->config->get('config_customer_approval')) {
-			$this->db->query("UPDATE " . DB_PREFIX . "customers SET approved = '1' WHERE customer_id = '" . (int)$customer_id . "'");
+			$this->db->query("UPDATE " . $this->db->table("customers") . " SET approved = '1' WHERE customer_id = '" . (int)$customer_id . "'");
 		}		
 	}
 	
 	public function editCustomer($data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "customers SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
+		$data = $this->dcrypt->encrypt_data($data, 'customers');
+    	//update login only if needed
+    	$loginname = '';
+    	if ( !empty($data['loginname'] ) ) {
+    		$loginname = " loginname = '" . $this->db->escape($data['loginname'])  . "', ";
+    	}
+
+		$this->db->query("UPDATE " . $this->db->table("customers") . " 
+						  SET 	firstname = '" . $this->db->escape($data['firstname']) . "', 
+						  		lastname = '" . $this->db->escape($data['lastname']) . "', " . $loginname . "
+						  		email = '" . $this->db->escape($data['email']) . "', 
+						  		telephone = '" . $this->db->escape($data['telephone']) . "', 
+						  		fax = '" . $this->db->escape($data['fax']) . "' 
+						  		WHERE customer_id = '" . (int)$this->customer->getId() . "'");
 	}
 
-	public function editPassword($email, $password) {
-      	$this->db->query("UPDATE " . DB_PREFIX . "customers SET password = '" . $this->db->escape(AEncryption::getHash($password)) . "' WHERE email = '" . $this->db->escape($email) . "'");
+	public function editPassword($loginname, $password) {
+		$password = AEncryption::getHash($password);
+      	$this->db->query("UPDATE " . $this->db->table("customers") . " SET password = '" . $this->db->escape($password) . "' WHERE loginname = '" . $this->db->escape($loginname) . "'");
 	}
 
 	public function editNewsletter($newsletter) {
-		$this->db->query("UPDATE " . DB_PREFIX . "customers SET newsletter = '" . (int)$newsletter . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
+		$this->db->query("UPDATE " . $this->db->table("customers") . " SET newsletter = '" . (int)$newsletter . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
 	}
 			
 	public function getCustomer($customer_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customers WHERE customer_id = '" . (int)$customer_id . "'");
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "'");
 		
-		return $query->row;
+		$result_row = array();
+		$result_row = $this->dcrypt->decrypt_data($query->row, 'customers');		
+		return $result_row;
 	}
 	
 	public function getTotalCustomersByEmail($email) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customers WHERE email = '" . $this->db->escape($email) . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("customers") . " WHERE LOWER(`email`) = LOWER('" . $this->db->escape($email) . "')");
 		
 		return $query->row['total'];
+	}
+
+	public function getCustomerByEmail($email) {
+		//assuming that data is not encrypted. Can not call these otherwise
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE LOWER(`email`) = LOWER('" . $this->db->escape($email) . "')");
+		return $query->row;
+	}
+
+	public function getCustomerByLoginnameAndEmail($loginname, $email) {
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE LOWER(`loginname`) = LOWER('" . $this->db->escape($loginname) . "')");
+		//validate it is correct row by matchign decrypted email;		
+		$result_row = array();
+		$result_row = $this->dcrypt->decrypt_data($query->row, 'customers');		
+		if ( strtolower($result_row['email']) == strtolower($email) ) {
+			return $result_row;
+		} else {
+			return array();
+		}				
+	}
+
+	public function getCustomerByLastnameAndEmail($lastname, $email) {
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE LOWER(`lastname`) = LOWER('" . $this->db->escape($lastname) . "')");
+		//validate if we have row with matchign decrypted email;		
+		$result_row = array();
+		foreach ($query->rows as $result) {
+			if ( strtolower($email) == strtolower($this->dcrypt->decrypt_record($result['email'], 'customers')) ) {
+				$result_row = $result;
+				break;
+			}
+		}	
+				
+		if ( count($result_row) ) {
+			$result_row = $this->dcrypt->decrypt_data($result_row, 'customers');
+			return $result_row;
+		} else {
+			return array();
+		}				
+	}
+
+
+	public function is_unique_loginname( $loginname ) {
+		if( empty($loginname) ) {
+			return false;
+		}
+      	$query = $this->db->query("SELECT COUNT(*) AS total
+      	                           FROM " . $this->db->table("customers") . "
+      	                           WHERE LOWER(`loginname`) = LOWER('" . $loginname . "')");
+      	if ($query->row['total'] > 0) {
+      		return false;
+      	} else {
+      		return true;
+      	}                           
 	}
 	
 	public function validateRegistrationData( $data ) {
 		$error = array();
+
+		if ( $this->config->get('prevent_email_as_login') ) {
+			//validate only if email login is not allowed
+			$login_name_pattern = '/^[\w._-]+$/i';
+    		if ((strlen(utf8_decode($data['loginname'])) < 5) || (strlen(utf8_decode($data['loginname'])) > 64)
+    			|| (!preg_match($login_name_pattern, $data['loginname'])) ) {
+      			$error['loginname'] = $this->language->get('error_loginname');
+    		//validate uniqunes of login name
+   		 	} else if ( !$this->is_unique_loginname($data['loginname']) ) {
+   		   		$error['loginname'] = $this->language->get('error_loginname_notunique');
+   		 	}			
+		} 
 	
     	if ((strlen(utf8_decode($data['firstname'])) < 1) || (strlen(utf8_decode($data['firstname'])) > 32)) {
       		$error['firstname'] = $this->language->get('error_firstname');
@@ -133,6 +238,20 @@ class ModelAccountCustomer extends Model {
 	
 	public function validateEditData( $data ) {
 		$error = array();	
+		
+		//validate loginname only if cannot match email and if it is set. Edit of loginname not allowed
+		if ( $this->config->get('prevent_email_as_login') && isset($data['loginname']) ) {
+			//validate only if email login is not allowed
+			$login_name_pattern = '/^[\w._-]+$/i';
+    		if ((strlen(utf8_decode($data['loginname'])) < 5) || (strlen(utf8_decode($data['loginname'])) > 64)
+    			|| (!preg_match($login_name_pattern, $data['loginname'])) ) {
+      			$error['loginname'] = $this->language->get('error_loginname');
+    		//validate uniqunes of login name
+   		 	} else if ( !$this->is_unique_loginname($data['loginname']) ) {
+   		   		$error['loginname'] = $this->language->get('error_loginname_notunique');
+   		 	}			
+		} 
+		
 		if ((strlen(utf8_decode($data['firstname'])) < 1) || (strlen(utf8_decode($data['firstname'])) > 32)) {
 			$error['firstname'] = $this->language->get('error_firstname');
 		}

@@ -178,7 +178,7 @@ final class ASSLEncryption {
         $this->active = true; 
 	}
 
-	/*
+	/**
 	* Generate new Key Private/Public keys pair. 
 	* Incput is $config array with standard openssl_csr_new configargs 
 	* $passphrase is set if want to have a passphrase to access private key
@@ -213,7 +213,7 @@ final class ASSLEncryption {
       return array('public' => $publickey, 'private' => $privatekey);
     }
 
-	/*
+	/**
 	* Save Private/Public keys pair to set key_path location
 	* Incput: Private/Public keys pair array
 	* 		  keyname
@@ -255,7 +255,7 @@ final class ASSLEncryption {
 		}
 	}
 	
-	/*
+	/**
 	* Get public key based on key name provided. It is loaded if not yet loaded
 	* Key's are stored in the path based on the configuration
 	* @return string 
@@ -267,7 +267,7 @@ final class ASSLEncryption {
 		return $this->pubkey;
 	}
 
-	/*
+	/**
 	* Load private key based on key name provided. 
 	* Input : Key name and passphrase (if used)
 	* Key's are stored in the path based on the configuration
@@ -283,7 +283,7 @@ final class ASSLEncryption {
 		} 
 	}
 	
-	/*
+	/**
 	* Dectript value based on private key ONLY
 	* @return string
 	*/
@@ -291,8 +291,8 @@ final class ASSLEncryption {
 		if (empty($crypttext)) {
 		 	return '';
 		}
-		//check if this is not encripted text 
-		if (!base64_decode($crypttext, true)) {
+		//check if encryption is off or this is not encrypted string 
+		if ( !$this->active || !base64_decode($crypttext, true)) {
 			return $crypttext;
 		}
 		
@@ -312,28 +312,33 @@ final class ASSLEncryption {
 		}
     }
 
-	/*
+	/**
 	* Encrypt value based on public key ONLY
 	* @return string
 	*/
   	public function encrypt( $cleartext) {
-  	   if (empty($cleartext)) {
+		if (empty($cleartext)) {
 			return '';
-  	   }
-  	   $crypttext = '';
-	   if ( empty($this->pubkey) ) {
-			$error = "Error: SSL Encryption failed! Missing public key";
-			$this->log->write($error);
-			return '';	   
-	   }
-
-       if ((openssl_public_encrypt($cleartext, $crypttext, $this->pubkey)) === true) {
-			return base64_encode($crypttext);  
-       } else {
-			$error = "Error: SSL Encryption based on public key has failed! Possibly wrong key!";
-			$this->log->write($error);
-			return '';	          
-       }
+		}
+ 		//check if encryption is off or this is not encrypted string 
+		if ( !$this->active ) {
+			return $cleartext;
+		}
+ 	   
+		$crypttext = '';
+		if ( empty($this->pubkey) ) {
+		 	$error = "Error: SSL Encryption failed! Missing public key";
+		 	$this->log->write($error);
+		 	return '';	   
+		}
+		
+		if ((openssl_public_encrypt($cleartext, $crypttext, $this->pubkey)) === true) {
+		 	return base64_encode($crypttext);  
+		} else {
+		 	$error = "Error: SSL Encryption based on public key has failed! Possibly wrong key!";
+		 	$this->log->write($error);
+		 	return '';	          
+		}
     }
 		
 	public function getKeyPath() {
@@ -442,37 +447,65 @@ final class ADataEncryption {
 
 	/**
 	* Get postfix used to extend tables storing encrypted data 
+	* This is only for tables that require encryption
 	* This is set in ENCRYPTED_POSTFIX configuration 
 	*@param none
 	*@return string
 	*/	
-	public function posfix() {
-		return $this->posfix;
+	public function posfix( $table ) {
+		//check if table requires encryption and there is a postfix
+		if ( $this->getEcryptedTableID($table) ) {
+			return $this->posfix;
+		} else {
+			return '';
+		}
 	}
 
+	/**
+	* Get list of tables containing encrypted data 
+	*@param none
+	*@return array
+	*/	
 	public function getEcryptedTables(){		
 		return array_keys($this->enc_data);
 	}	
 
+	/**
+	* Get ID field name for table containing encrypted data 
+	*@param string
+	*@return string
+	*/	
 	public function getEcryptedTableID( $table ){		
 		return $this->enc_data[ $table ]['id'];
 	}	
 	
+	/**
+	* Get list of encrypted fields in table containing encrypted data 
+	*@param string
+	*@return array
+	*/	
 	public function getEcryptedFields( $table ){		
 		return $this->enc_data[ $table ]['fields'];
 	}	
 
+	/**
+	* Decrypt 1 row of data in table for fields that are encrypted
+	*@param array, string, string
+	*@return array
+	*/	
 	public function decrypt_data ( $crypt_data_arr, $table, $pass = null) {
-		$open_data_arr = $crypt_data_arr;
 		if ( empty($pass) ) {
 			$pass = $this->passphrase;
 		}
 		if ( empty($table) ) {
 			return array();
 		}
-				
-		//load key baseed on the table TODO, hardcode now 
-		// Possibly add other encryption method here
+		//if encryption off return pure data
+		if ( !$this->active ) {
+			return $crypt_data_arr;
+		}
+
+		$open_data_arr = $crypt_data_arr;				
 		$enc = new ASSLEncryption('', $this->key_name, $pass);
 		$fields = $this->getEcryptedFields($table);
 		foreach ($crypt_data_arr as $key => $data) {
@@ -483,14 +516,21 @@ final class ADataEncryption {
 		return $open_data_arr;	
 	}
 
+	/**
+	* Encrypt 1 row of data in table for fields that are encrypted
+	*@param array, string
+	*@return array
+	*/	
 	public function encrypt_data ( $open_data_arr, $table ) {
-		$crypt_data_arr = $open_data_arr;
 		if ( empty($table) ) {
 			return array();
 		}
-		
-		//load key baseed on the table TODO, hardcode now
-		// Possibly add other encryption method here
+		//if encryption off return pure data
+		if ( !$this->active ) {
+			return $open_data_arr;
+		}
+
+		$crypt_data_arr = $open_data_arr;
 		$enc = new ASSLEncryption($this->key_name);
 		$fields = $this->getEcryptedFields($table);
 		foreach ($open_data_arr as $key => $data) {
@@ -501,19 +541,35 @@ final class ADataEncryption {
 		return $crypt_data_arr;
 	}
 
+	/**
+	* Encrypt 1 field of data
+	*@param string
+	*@return string
+	*/	
 	public function encrypt_record ( $open_data ) {
-		//load key baseed on the table TODO, hardcode now
-		// Possibly add other encryption method here
+		//if encryption off return pure data
+		if ( !$this->active ) {
+			return $open_data;
+		}
+
 		$enc = new ASSLEncryption($this->key_name);
 		return $enc->encrypt($open_data);
 	}
 
+	/**
+	* Decrypt 1 field of data
+	*@param string, string
+	*@return string
+	*/	
 	public function decrypt_record ( $crypt_data, $pass = null) {
 		if ( empty($pass) ) {
 			$pass = $this->passphrase;
 		}
-		//load key baseed on the table TODO, hardcode now
-		// Possibly add other encryption method here
+		//if encryption off return pure data
+		if ( !$this->active ) {
+			return $crypt_data;
+		}
+
 		$enc = new ASSLEncryption('', $this->key_name, $pass);
 		return $enc->decrypt($crypt_data);
 	}

@@ -404,6 +404,7 @@ CREATE TABLE `ac_customers` (
   `store_id` int(11) NOT NULL DEFAULT '0',
   `firstname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
   `lastname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `loginname` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '',
   `email` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '',
   `telephone` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
   `fax` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -416,7 +417,8 @@ CREATE TABLE `ac_customers` (
   `customer_group_id` int(11) NOT NULL,
   `ip` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`customer_id`)
+  PRIMARY KEY (`customer_id`),
+  UNIQUE KEY `customers_loginname` (`loginname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
 
@@ -1182,6 +1184,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout', 'config_customer_price', '1'),
 ('checkout', 'config_customer_group_id', '8'),
 ('checkout', 'config_customer_approval', '0'),
+('checkout', 'prevent_email_as_login', '0'),
 ('checkout', 'config_guest_checkout', '1'),
 ('checkout', 'config_account_id', '2'),
 ('checkout', 'config_checkout_id', '3'),

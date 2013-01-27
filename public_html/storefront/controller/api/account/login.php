@@ -38,7 +38,9 @@ class ControllerApiAccountLogin extends AControllerAPI {
     		} 		 	
 		
 		} else {
-			if ( isset($request['email']) && isset($request['password']) && $this->_validate($request['email'], $request['password']) ) {
+			//support old email based login
+			$loginname = ( isset($request['loginname']) ) ? $request['loginname'] : $request['email'];
+			if ( isset($loginname) && isset($request['password']) && $this->_validate($loginname, $request['password']) ) {
 				$this->rest->setResponseData( array( 'status' => 1, 'success' => 'Logged in', 'token' => $this->session->data['token'] ) );	
 				$this->rest->sendResponse(200);
 				return;			
@@ -51,8 +53,8 @@ class ControllerApiAccountLogin extends AControllerAPI {
 	}
 
 	
-  	private function _validate($email, $password) {
-    	if (!$this->customer->login($email, $password)) {
+  	private function _validate($loginname, $password) {
+    	if (!$this->customer->login($loginname, $password)) {
       		return FALSE;
     	}else{
 			unset($this->session->data['guest']);    	

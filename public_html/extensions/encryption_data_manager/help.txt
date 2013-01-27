@@ -35,6 +35,7 @@ NOTES: <br>
 1. Keep Key in secure location with restricted file permissions for root and apache (webserver)<br>
 3. Backup your keys in some remote secure location. Lost keys will cause loss of all data<br>
 3. There is no key expiration management. <br>
+4. Search or look up by encrypted user data will not work (search by address, phone number, etc. will not work) 
 These needs to be accounted for in key management procedures
 <br><br>
 Need help configuring, supporting or extending functionality, 

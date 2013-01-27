@@ -22,34 +22,42 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ModelAccountAddress extends Model {
 	public function addAddress($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "addresses SET customer_id = '" . (int)$this->customer->getId() . "', company = '" . $this->db->escape($data['company']) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "'");
+		//encrypt customer data
+		$data = $this->dcrypt->encrypt_data($data, 'addresses');
+		
+		$this->db->query("INSERT INTO " . $this->db->table("addresses") . " SET customer_id = '" . (int)$this->customer->getId() . "', company = '" . $this->db->escape($data['company']) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "'");
 		
 		$address_id = $this->db->getLastId();
 		
 		if (isset($data['default']) && $data['default'] == '1') {
-			$this->db->query("UPDATE " . DB_PREFIX . "customers SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
+			$this->db->query("UPDATE " . $this->db->table("customers") . " SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
 		}
 		
 		return $address_id;
 	}
 	
 	public function editAddress($address_id, $data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "addresses SET company = '" . $this->db->escape($data['company']) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "' WHERE address_id  = '" . (int)$address_id . "' AND customer_id = '" . (int)$this->customer->getId() . "'");
+		//encrypt customer data
+		$data = $this->dcrypt->encrypt_data($data, 'addresses');
+
+		$this->db->query("UPDATE " . $this->db->table("addresses") . " SET company = '" . $this->db->escape($data['company']) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "' WHERE address_id  = '" . (int)$address_id . "' AND customer_id = '" . (int)$this->customer->getId() . "'");
 	
 		if (isset($data['default'])) {
-			$this->db->query("UPDATE " . DB_PREFIX . "customers SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
+			$this->db->query("UPDATE " . $this->db->table("customers") . " SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
 		}
 	}
 	
 	public function deleteAddress($address_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "addresses WHERE address_id = '" . (int)$address_id . "' AND customer_id = '" . (int)$this->customer->getId() . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE address_id = '" . (int)$address_id . "' AND customer_id = '" . (int)$this->customer->getId() . "'");
 	}	
 	
 	public function getAddress($address_id) {
-		$address_query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "addresses WHERE address_id = '" . (int)$address_id . "' and customer_id = '" . (int)$this->customer->getId() . "'");
+		$address_query = $this->db->query("SELECT DISTINCT * FROM " . $this->db->table("addresses") . " WHERE address_id = '" . (int)$address_id . "' and customer_id = '" . (int)$this->customer->getId() . "'");
 		
 		if ($address_query->num_rows) {
-			$country_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "countries` WHERE country_id = '" . (int)$address_query->row['country_id'] . "'");
+			$addr_row = $this->dcrypt->decrypt_data($address_query->row, 'addresses');
+
+			$country_query = $this->db->query("SELECT * FROM `" . $this->db->table("countries") . "` WHERE country_id = '" . (int)$addr_row['country_id'] . "'");
 			
 			if ($country_query->num_rows) {
 				$country = $country_query->row['name'];
@@ -63,7 +71,7 @@ class ModelAccountAddress extends Model {
 				$address_format = '';
 			}
 			
-			$zone_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "zones` WHERE zone_id = '" . (int)$address_query->row['zone_id'] . "'");
+			$zone_query = $this->db->query("SELECT * FROM `" . $this->db->table("zones") . "` WHERE zone_id = '" . (int)$addr_row['zone_id'] . "'");
 			
 			if ($zone_query->num_rows) {
 				$zone = $zone_query->row['name'];
@@ -74,17 +82,17 @@ class ModelAccountAddress extends Model {
 			}		
 			
 			$address_data = array(
-				'firstname'      => $address_query->row['firstname'],
-				'lastname'       => $address_query->row['lastname'],
-				'company'        => $address_query->row['company'],
-				'address_1'      => $address_query->row['address_1'],
-				'address_2'      => $address_query->row['address_2'],
-				'postcode'       => $address_query->row['postcode'],
-				'city'           => $address_query->row['city'],
-				'zone_id'        => $address_query->row['zone_id'],
+				'firstname'      => $addr_row['firstname'],
+				'lastname'       => $addr_row['lastname'],
+				'company'        => $addr_row['company'],
+				'address_1'      => $addr_row['address_1'],
+				'address_2'      => $addr_row['address_2'],
+				'postcode'       => $addr_row['postcode'],
+				'city'           => $addr_row['city'],
+				'zone_id'        => $addr_row['zone_id'],
 				'zone'           => $zone,
 				'zone_code'      => $code,
-				'country_id'     => $address_query->row['country_id'],
+				'country_id'     => $addr_row['country_id'],
 				'country'        => $country,	
 				'iso_code_2'     => $iso_code_2,
 				'iso_code_3'     => $iso_code_3,
@@ -100,10 +108,11 @@ class ModelAccountAddress extends Model {
 	public function getAddresses() {
 		$address_data = array();
 		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "addresses WHERE customer_id = '" . (int)$this->customer->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$this->customer->getId() . "'");
 	
 		foreach ($query->rows as $result) {
-			$country_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "countries` WHERE country_id = '" . (int)$result['country_id'] . "'");
+			$result = $this->dcrypt->decrypt_data($result, 'addresses');
+			$country_query = $this->db->query("SELECT * FROM `" . $this->db->table("countries") . "` WHERE country_id = '" . (int)$result['country_id'] . "'");
 			
 			if ($country_query->num_rows) {
 				$country = $country_query->row['name'];
@@ -117,7 +126,7 @@ class ModelAccountAddress extends Model {
 				$address_format = '';
 			}
 			
-			$zone_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "zones` WHERE zone_id = '" . (int)$result['zone_id'] . "'");
+			$zone_query = $this->db->query("SELECT * FROM `" . $this->db->table("zones") . "` WHERE zone_id = '" . (int)$result['zone_id'] . "'");
 			
 			if ($zone_query->num_rows) {
 				$zone = $zone_query->row['name'];
@@ -151,7 +160,7 @@ class ModelAccountAddress extends Model {
 	}	
 	
 	public function getTotalAddresses() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "addresses WHERE customer_id = '" . (int)$this->customer->getId() . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$this->customer->getId() . "'");
 	
 		return $query->row['total'];
 	}

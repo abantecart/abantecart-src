@@ -114,16 +114,21 @@ class ALanguage {
 		if (empty($key)) {
 			return;
 		}
+		$return_text = '';
 		//if no specific area specified return main language
 		if (!empty($block)) {
 			if (!$this->_is_loaded($block)) {
 				$this->_load($block);
 			}
-			return $this->_get_language_value($key, $block);
+			$return_text = $this->_get_language_value($key, $block);
 		} else {
 			$backtrace = debug_backtrace();
-			return $this->_get_last_language_value($key, $backtrace);
+			$return_text = $this->_get_last_language_value($key, $backtrace);
 		}
+		if ( empty($return_text) ) {
+			$return_text = $key;
+		}
+		return $return_text;
 	}
 
 	/*

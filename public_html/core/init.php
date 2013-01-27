@@ -396,7 +396,7 @@ try {
 	$language->load();
 	$registry->set('language', $language);
 
-//global instance of data encryption 
+//main instance of data encryption 
 	$data_encryption = new ADataEncryption( );
 	$registry->set('dcrypt', $data_encryption);
 	

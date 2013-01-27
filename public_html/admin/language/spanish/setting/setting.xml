@@ -413,6 +413,10 @@
 			<![CDATA[Mostrar precios:<br /><span class="help">Mostrar los precios, incluso si el cliente no se registra en.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_prevent_email_as_login</key>
+		<value><![CDATA[Email desaprobamos como Login:<br /><span class="help">Para mejorar la seguridad, no permiten a los clientes utilizar la dirección de correo electrónico como nombre de usuario. Fuerza para crear un usuario único o nombre de usuario en lugar de utilizar la dirección de correo electrónico. Los clientes actuales se les pedirá que crear nuevo nombre de usuario en el primer inicio de sesión.</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_customer_approval</key>
 		<value>
 			<![CDATA[Nuevos clientes necesitan aprobacion:<br /><span class="help">No permitir la entrada de nuevos clientes hasta que hallan sido aprobados.</span>]]></value>
@@ -615,6 +619,14 @@
 		<key>error_permission</key>
 		<value><![CDATA[Advertencia: No tiene permiso para modificar la configuraci�n!]]></value>
 	</definition>
+  	<definition>
+    	<key>error_loginname</key>
+    	<value><![CDATA[Nombre de inicio de sesión debe ser alfanuméricos y sólo entre 5 y 64 caracteres!]]></value>
+  	</definition>
+  	<definition>
+    	<key>error_loginname_notunique</key>
+    	<value><![CDATA[Este nombre de usuario no está disponible. Trate nombre de usuario diferente!]]></value>
+  	</definition>    	
 	<definition>
 		<key>error_name</key>
 		<value><![CDATA[Nombre Tienda necesita minimo 2 letras y maximo 32!]]></value>

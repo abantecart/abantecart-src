@@ -1497,6 +1497,16 @@ div.element_error {
 	height: 150px;
 }
 
+input.highlight  {
+	background: none repeat scroll 0 0 #F5F06E;
+    border: 1px solid #B5B264;
+}
+
+input.error  {
+	background: none repeat scroll 0 0 #FFDFE0;
+    border: 1px solid #FF9999;
+}
+
 .radio_element label,
 .checkbox_element label {
 	float: none;

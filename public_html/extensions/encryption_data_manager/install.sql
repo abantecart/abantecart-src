@@ -76,6 +76,7 @@ CREATE TABLE `ac_customers_enc` (
   `store_id` int(11) NOT NULL DEFAULT '0',
   `firstname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
   `lastname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `loginname` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '';  
   `email` text COLLATE utf8_bin NOT NULL DEFAULT '',
   `telephone` text COLLATE utf8_bin NOT NULL DEFAULT '',
   `fax` text COLLATE utf8_bin NOT NULL DEFAULT '',

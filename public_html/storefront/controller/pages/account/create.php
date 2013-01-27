@@ -40,11 +40,16 @@ class ControllerPagesAccountCreate extends AController {
 		if ( $this->request->server['REQUEST_METHOD'] == 'POST') {
 			$this->error = $this->model_account_customer->validateRegistrationData($request_data);
     		if ( !$this->error ) {
+				//if allow login as email, need to set loginname = email
+				if (!$this->config->get('prevent_email_as_login')) {
+					$request_data['loginname'] = $request_data['email'];
+				}
+				
 				$this->model_account_customer->addCustomer($request_data);
 	
 				unset($this->session->data['guest']);
 	
-				$this->customer->login($request_data['email'], $request_data['password']);
+				$this->customer->login($request_data['loginname'], $request_data['password']);
 				
 				$this->loadLanguage('mail/account_create');
 				
@@ -93,6 +98,11 @@ class ControllerPagesAccountCreate extends AController {
         	'text'      => $this->language->get('text_create'),
         	'separator' => $this->language->get('text_separator')
       	 ));
+
+		if($this->config->get('prevent_email_as_login')){
+			$this->data['noemaillogin'] = true;
+		}
+
         $form = new AForm();
         $form->setForm(array( 'form_name' => 'AccountFrm' ));
         $this->data['form'][ 'form_open' ] = $form->getFieldHtml(
@@ -101,6 +111,11 @@ class ControllerPagesAccountCreate extends AController {
                                                                        'name' => 'AccountFrm',
                                                                        'action' => $this->html->getSecureURL('account/create')));
 
+		$this->data['form'][ 'loginname' ] = $form->getFieldHtml( array(
+                                                                       'type' => 'input',
+		                                                               'name' => 'loginname',
+		                                                               'value' => $this->request->post['loginname'],
+		                                                               'required' => true ));
 		$this->data['form'][ 'firstname' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'firstname',
@@ -204,6 +219,7 @@ class ControllerPagesAccountCreate extends AController {
 
 
         $this->data['error_warning'] = $this->error['warning'];
+		$this->data['error_loginname'] = $this->error['loginname'];
 		$this->data['error_firstname'] = $this->error['firstname'];
 		$this->data['error_lastname'] = $this->error['lastname'];
 		$this->data['error_email'] = $this->error['email'];
