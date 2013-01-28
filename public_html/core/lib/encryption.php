@@ -489,6 +489,39 @@ final class ADataEncryption {
 	}	
 
 	/**
+	* Add to the list of encrypted tables/fields containing encrypted data 
+	*@param array
+	*@return none
+	*/	
+	public function addEcryptedTables( $table_data ) {
+		foreach ( $table_data as $table => $data ) {
+			if ( in_array($table, $this->getEcryptedTables() ) ) {
+		        $error = "ADataEncryption Error: Can't add existing table ". $table . "! Table already Exists";
+		        $this->log->write($error);			
+			} else {
+				$this->enc_data[$table] = $data;			
+			}
+		}
+	}	
+
+	/**
+	* Add to the list of fields to existing tables containing encrypted data 
+	*@param string, array
+	*@return none
+	*/	
+	public function addEcryptedFields( $table, $fields ){
+		if ( empty($table) ) {
+			return;
+		}
+	
+		foreach ( $fields as $field ) {
+			if ( !in_array($field, $this->getEcryptedFields($table) ) ) {
+				$this->enc_data[$table][] = $field;			
+			}
+		}
+	}	
+
+	/**
 	* Decrypt 1 row of data in table for fields that are encrypted
 	*@param array, string, string
 	*@return array
