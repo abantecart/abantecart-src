@@ -5,6 +5,10 @@
     <value><![CDATA[Forgot Your Password?]]></value>
   </definition>
   <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Forgot Your Login Name?]]></value>
+  </definition>
+  <definition>
     <key>text_account</key>
     <value><![CDATA[Account]]></value>
   </definition>
@@ -31,6 +35,10 @@
   <definition>
     <key>text_success</key>
     <value><![CDATA[Success: A new password has been sent to your e-mail address.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Success: Your login name reminder has been sent to your e-mail address.]]></value>
   </definition>
   <definition>
     <key>entry_loginname</key>

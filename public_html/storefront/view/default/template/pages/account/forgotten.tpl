@@ -10,7 +10,7 @@
 		<?php if ($error) { ?>
 		<div class="warning"><?php echo $error; ?></div>
 		<?php
-	}
+		}
 		echo  $form[ 'form_open' ];	  ?>
 		<p><?php echo $help_text; ?></p>
 		<b style="margin-bottom: 2px; display: block;"><?php echo $text_your_email; ?></b>
