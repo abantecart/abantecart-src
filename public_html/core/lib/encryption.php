@@ -170,11 +170,11 @@ final class ASSLEncryption {
         }
 		
 		if ($pubkey_name) {
-			$this->pubkey = $this->getPublicKey($pubkey_name.'.pub');
+		    $this->pubkey = $this->getPublicKey($pubkey_name.'.pub');
 		}
-        if ($prkey_name) {
-        	$this->loadPrivateKey($prkey_name.'.prv', $passphrase);
-        }
+		if ($prkey_name) {
+			$this->loadPrivateKey($prkey_name.'.prv', $passphrase);
+		}
         $this->active = true; 
 	}
 
@@ -306,7 +306,7 @@ final class ASSLEncryption {
 		if ((openssl_private_decrypt(base64_decode($crypttext), $cleartext, $this->prkey)) === true) {
 		 	return $cleartext;  
 		} else {
-		 	$error = "Error: SSL Decryption based on private key has failed! Possibly wrong key!";
+		 	$error = "Error: SSL Decryption based on private key has failed! Possibly corrupted encrypted data or wrong key!";
 		 	$this->log->write($error);
 		 	return $this->failed_str;	          
 		}
@@ -335,7 +335,7 @@ final class ASSLEncryption {
 		if ((openssl_public_encrypt($cleartext, $crypttext, $this->pubkey)) === true) {
 		 	return base64_encode($crypttext);  
 		} else {
-		 	$error = "Error: SSL Encryption based on public key has failed! Possibly wrong key!";
+		 	$error = "Error: SSL Encryption based on public key has failed! Possibly encryption error or wrong key!";
 		 	$this->log->write($error);
 		 	return '';	          
 		}
