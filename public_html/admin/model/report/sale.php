@@ -23,7 +23,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ModelReportSale extends Model {
 	public function getSaleReport($data = array()) {
 
-		$sql = "SELECT MIN(date_added) AS date_start, MAX(date_added) AS date_end, COUNT(*) AS orders, SUM(total) AS total FROM `" . DB_PREFIX . "orders`";
+		$sql = "SELECT MIN(date_added) AS date_start, MAX(date_added) AS date_end, COUNT(*) AS orders, SUM(total) AS total FROM `" . $this->db->table("orders") . "`";
 
 		if (isset($data['filter_order_status_id']) && $data['filter_order_status_id']) {
 			$sql .= " WHERE order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
@@ -90,7 +90,7 @@ class ModelReportSale extends Model {
 	}	
 	
 	public function getSaleReportTotal($data = array()) {
-		$sql = "SELECT MIN(date_added) AS date_start, MAX(date_added) AS date_end, COUNT(*) AS orders, SUM(total) AS total FROM `" . DB_PREFIX . "orders` WHERE order_status_id > '0'";
+		$sql = "SELECT MIN(date_added) AS date_start, MAX(date_added) AS date_end, COUNT(*) AS orders, SUM(total) AS total FROM `" . $this->db->table("orders") . "` WHERE order_status_id > '0'";
 		
 		if (isset($data['date_start'])) {
 			$date_start = $data['date_start'];

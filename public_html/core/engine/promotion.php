@@ -91,7 +91,7 @@ class APromotion {
 		}
 
 		$sql = "SELECT price
-				FROM " . DB_PREFIX . "product_discounts
+				FROM " . $this->db->table("product_discounts") . "
 				WHERE product_id = '" . (int)$product_id . "'
 						AND customer_group_id = '" . (int)$this->customer_group_id . "'
 						AND quantity <= '" . (int)$discount_quantity . "'
@@ -110,7 +110,7 @@ class APromotion {
 		$cache = $this->cache->get('product.discount.'.$product_id.'.'.$this->customer_group_id);
 		if(is_null($cache)){
 			$query = $this->db->query( "SELECT price
-										FROM " . DB_PREFIX . "product_discounts
+										FROM " . $this->db->table("product_discounts") . "
 										WHERE product_id = '" . (int)$product_id . "'
 											AND customer_group_id = '" . (int)$this->customer_group_id . "'
 											AND quantity = '1'
@@ -132,7 +132,7 @@ class APromotion {
 		$cache = $this->cache->get('product.discounts.'.$product_id.'.'.$this->customer_group_id);
 		if(is_null($cache)){
 		$query = $this->db->query("	SELECT *
-									FROM " . DB_PREFIX . "product_discounts
+									FROM " . $this->db->table("product_discounts") . "
 									WHERE product_id = '" . (int)$product_id . "'
 										AND customer_group_id = '" . (int)$this->customer_group_id . "'
 										AND quantity > 1
@@ -149,7 +149,7 @@ class APromotion {
 		$cache = $this->cache->get('product.special.'.$product_id.'.'.$this->customer_group_id);
 		if(is_null($cache)){
 			$query = $this->db->query( "SELECT price
-										FROM " . DB_PREFIX . "product_specials
+										FROM " . $this->db->table("product_specials") . "
 										WHERE product_id = '" . (int)$product_id . "'
 											AND customer_group_id = '" . $this->customer_group_id . "'
 											AND ((date_start = '0000-00-00' OR date_start < NOW())
@@ -169,14 +169,14 @@ class APromotion {
 
         $sql = "SELECT DISTINCT ps.product_id, p.*, pd.name,
                     (SELECT AVG(rating)
-                    FROM " . DB_PREFIX . "reviews r1
+                    FROM " . $this->db->table("reviews") . " r1
                     WHERE r1.product_id = ps.product_id
                         AND r1.status = '1'
                     GROUP BY r1.product_id) AS rating
-                FROM " . DB_PREFIX . "product_specials ps
-                    LEFT JOIN " . DB_PREFIX . "products p ON (ps.product_id = p.product_id)
-                    LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id)
-                    LEFT JOIN " . DB_PREFIX . "products_to_stores p2s ON (p.product_id = p2s.product_id)
+                FROM " . $this->db->table("product_specials") . " ps
+                    LEFT JOIN " . $this->db->table("products") . " p ON (ps.product_id = p.product_id)
+                    LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id)
+                    LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)
                 WHERE p.status = '1'
                     AND p.date_available <= NOW()
                     AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
@@ -222,9 +222,9 @@ class APromotion {
     public function getTotalProductSpecials() {
 
    		$query = $this->db->query( "SELECT COUNT(DISTINCT ps.product_id) AS total
-									FROM " . DB_PREFIX . "product_specials ps
-										LEFT JOIN " . DB_PREFIX . "products p ON (ps.product_id = p.product_id)
-										LEFT JOIN " . DB_PREFIX . "products_to_stores p2s ON (p.product_id = p2s.product_id)
+									FROM " . $this->db->table("product_specials") . " ps
+										LEFT JOIN " . $this->db->table("products") . " p ON (ps.product_id = p.product_id)
+										LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)
 									WHERE p.status = '1'
 										AND p.date_available <= NOW()
 										AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
@@ -246,8 +246,8 @@ class APromotion {
 	
 		$status = TRUE;
 		$coupon_query = $this->db->query("SELECT *
-										  FROM " . DB_PREFIX . "coupons c
-										  LEFT JOIN " . DB_PREFIX . "coupon_descriptions cd
+										  FROM " . $this->db->table("coupons") . " c
+										  LEFT JOIN " . $this->db->table("coupon_descriptions") . " cd
 										        ON (c.coupon_id = cd.coupon_id AND cd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
 										  WHERE c.code = '" . $this->db->escape($coupon_code) . "'
 										        AND ((date_start = '0000-00-00' OR date_start < NOW())
@@ -258,7 +258,7 @@ class APromotion {
 				$status = FALSE;
 			}
 			$coupon_redeem_query = $this->db->query("SELECT COUNT(*) AS total
-													 FROM `" . DB_PREFIX . "orders`
+													 FROM `" . $this->db->table("orders") . "`
 													 WHERE order_status_id > '0' AND coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "'");
 
 			if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_total'] && $coupon_query->row['uses_total']>0) {
@@ -270,7 +270,7 @@ class APromotion {
 			
 			if ($this->customer->getId()) {
 				$coupon_redeem_query = $this->db->query("SELECT COUNT(*) AS total
-														 FROM `" . DB_PREFIX . "orders`
+														 FROM `" . $this->db->table("orders") . "`
 														 WHERE order_status_id > '0'
 														        AND coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "'
 														        AND customer_id = '" . (int)$this->customer->getId() . "'");
@@ -282,7 +282,7 @@ class APromotion {
 			
 			$coupon_product_data = array();			
 			$coupon_product_query = $this->db->query( "SELECT *
-													   FROM " . DB_PREFIX . "coupons_products
+													   FROM " . $this->db->table("coupons_products") . "
 													   WHERE coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "'");
 
 			foreach ($coupon_product_query->rows as $result) {
