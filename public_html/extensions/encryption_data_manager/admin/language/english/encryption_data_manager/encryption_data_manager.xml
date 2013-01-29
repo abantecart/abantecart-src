@@ -39,10 +39,11 @@
   <definition>
 	<key>encryption_data_manager_note</key>
 	<value><![CDATA[
+		  <b>This extension requires ADVANCED configuration and attention</b><br/> 
 		  This extension helps managing encryption keys creation and data migration from open to encrypted tables (initial migration)<br/> 
 		  <b>PLEASE NOTE:</b> you need to have <b>PHP 5.3</b> or grater with SSL Encryption  <b>ENABLED</b>
           <br/>
-          <br/>To enable enable data encryption please read help instructions.]]></value>
+          <br/>To enable data encryption please read help instructions (Help button above)]]></value>
   </definition>  
   <definition>
     <key>error_openssl_disabled</key>
