@@ -134,7 +134,11 @@ class ControllerResponsesExtensionDefaultSagepayDirect extends AController {
 			$url = 'https://test.sagepay.com/gateway/service/vspdirect-register.vsp';		
 		} elseif ($this->config->get('default_sagepay_direct_test') == 'sim') {
     		$url = 'https://test.sagepay.com/Simulator/VSPDirectGateway.asp';
-  		} 		
+  		}
+
+		if ( $this->config->get('store_credit_cards_status') && has_value($this->session->data['stored_credit_card']) ) {
+			$this->request->post = $this->session->data['stored_credit_card'];
+		}
 
 		$this->load->model('checkout/order');
 		

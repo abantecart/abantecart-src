@@ -168,6 +168,10 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 			$url = 'https://test.authorize.net/gateway/transact.dll';
 		}
 
+		if ( $this->config->get('store_credit_cards_status') && has_value($this->session->data['stored_credit_card']) ) {
+			$this->request->post = $this->session->data['stored_credit_card'];
+		}
+
 		$this->load->model('checkout/order');
 
 		$order_info = $this->model_checkout_order->getOrder($this->session->data[ 'order_id' ]);
