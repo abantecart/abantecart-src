@@ -80,6 +80,6 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery.ui.datepicker.js"></script>
 <script type="text/javascript"><!--
 $(document).ready(function () {
-    $('.date').datepicker({dateFormat:'yy-mm-dd'});
+    $('.date').datepicker({dateFormat:'<?php echo $js_date_format?>'});
 });
 //--></script>

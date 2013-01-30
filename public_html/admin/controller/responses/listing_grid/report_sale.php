@@ -71,8 +71,8 @@ class ControllerResponsesListingGridReportSale extends AController {
 
             $response->rows[$i]['id'] = $i;
 			$response->rows[$i]['cell'] = array(
-				date($this->language->get('date_format_short'), strtotime($result['date_start'])),
-				date($this->language->get('date_format_short'), strtotime($result['date_end'])),
+				dateISO2Display($result['date_start'], $this->language->get('date_format_short')),
+				dateISO2Display($result['date_end'], $this->language->get('date_format_short')),
 				$result['orders'],
                 $this->currency->format($result['total'], $this->config->get('config_currency')),
 			);

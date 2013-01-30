@@ -220,6 +220,9 @@ class ControllerPagesCatalogProductSpecial extends AController {
 		foreach ( $fields as $f ) {
 			if (isset ( $this->request->post [$f] )) {
 				$this->data [$f] = $this->request->post [$f];
+				if(in_array($f,array('date_start','date_end'))){
+					$this->data [$f] = dateDisplay2ISO($this->data [$f],$this->language->get('date_format_short'));
+				}
 			} elseif (isset($special_info)) {
 				$this->data[$f] = $special_info[$f];
 			} else {
@@ -289,16 +292,17 @@ class ControllerPagesCatalogProductSpecial extends AController {
 			'value' => number_format($this->data['price'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
 
 		));
+		$this->data['js_date_format'] = format4Datepicker($this->language->get('date_format_short'));
         $this->data['form']['fields']['date_start'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'date_start',
-			'value' => $this->data['date_start'],
+			'value' => dateISO2Display($this->data['date_start'],$this->language->get('date_format_short')),
             'style' => 'date'
 		));
 		$this->data['form']['fields']['date_end'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'date_end',
-			'value' => $this->data['date_end'],
+			'value' => dateISO2Display($this->data['date_end'],$this->language->get('date_format_short')),
             'style' => 'date'
 		));
 
@@ -315,7 +319,7 @@ class ControllerPagesCatalogProductSpecial extends AController {
     	}
 
 		if ( $this->request->post['date_start'] != '0000-00-00' && $this->request->post['date_end'] != '0000-00-00'
-		     &&	strtotime($this->request->post['date_start']) > strtotime($this->request->post['date_end'])
+		     &&	dateFromFormat($this->request->post['date_start'],$this->language->get('date_format_short')) > dateFromFormat($this->request->post['date_end'],$this->language->get('date_format_short'))
 		) {
 			$this->error['date_end'] = $this->language->get('error_date');
 		}

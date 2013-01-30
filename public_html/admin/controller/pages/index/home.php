@@ -148,7 +148,7 @@ class ControllerPagesIndexHome extends AController {
 				'order_id'   => $result['order_id'],
 				'name'       => $result['name'],
 				'status'     => $result['status'],
-				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				'date_added' => dateISO2Display($result['date_added'],$this->language->get('date_format_short')),
 				'total'      => $this->currency->format($result['total'], $result['currency'], $result['value']),
 				'action'     => $action
 			);
