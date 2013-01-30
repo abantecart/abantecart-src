@@ -226,7 +226,7 @@ final class ATax {
             case 'le':
                 return ($value1 <= $value2);
                 break;
-            case 'gt':
+            case 'ge':
                 return ($value1 >= $value2);
                 break;
             case 'lt':
