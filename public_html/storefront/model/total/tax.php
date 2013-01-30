@@ -36,11 +36,10 @@ class ModelTotalTax extends Model {
 		    					'title'      => $tax_class['description'] . ':',
 		    					'text'       => $this->currency->format($tax_amount),
 		    					'value'      => $tax_amount,
-								'sort_order' => $this->config->get('tax_sort_order'),
+								'sort_order' => $this->config->get('tax_sort_order').'.'.$tax_class['priority'],
 								'total_type' => $this->config->get('tax_total_type')
 		    				);
-						}					
-			
+						}				
 						$total += $tax_amount;
 					}
 				}
