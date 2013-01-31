@@ -31,12 +31,17 @@ class ModelTotalTax extends Model {
 						//This is the same as $subtax['tax'], but we will recalculate
 						$tax_amount = $this->tax->calcTaxAmount($subtax['total'], $tax_class);
 						if ($tax_amount > 0) {
+							$sort_order = $this->config->get('tax_sort_order');
+							if (is_numeric($tax_class['priority'])) {
+								$sort_order = $sort_order . '.' . $tax_class['priority'];
+							}
+						
 							$total_data[] = array(
 		    					'id'         => 'tax',
 		    					'title'      => $tax_class['description'] . ':',
 		    					'text'       => $this->currency->format($tax_amount),
 		    					'value'      => $tax_amount,
-								'sort_order' => $this->config->get('tax_sort_order').'.'.$tax_class['priority'],
+								'sort_order' => $sort_order,
 								'total_type' => $this->config->get('tax_total_type')
 		    				);
 						}				

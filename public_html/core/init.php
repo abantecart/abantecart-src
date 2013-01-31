@@ -329,6 +329,9 @@ try {
 	}
 	$registry->set('uri', $_SERVER[ 'REQUEST_URI' ]);
 
+//main instance of data encryption 
+	$data_encryption = new ADataEncryption( );
+	$registry->set('dcrypt', $data_encryption);
 
 // Extensions api
 	$extensions = new ExtensionsApi();
@@ -395,10 +398,6 @@ try {
 //load main language section 
 	$language->load();
 	$registry->set('language', $language);
-
-//main instance of data encryption 
-	$data_encryption = new ADataEncryption( );
-	$registry->set('dcrypt', $data_encryption);
 	
 	$hook->hk_InitEnd();
 
