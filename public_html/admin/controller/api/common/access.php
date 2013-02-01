@@ -23,19 +23,35 @@ if (! defined ( 'DIR_CORE' )) {
 class ControllerApiCommonAccess extends AControllerAPI {
 	
 	public function main() {
+		//check if any restriction on caller IP
+		if ( !$this->_validate_ip() ) {
+		    return $this->dispatch('api/error/no_access');				
+		}
 		//validate if API enabled and KEY matches. 
-		if ( $this->config->get('config_storefront_api_status')	) {
-			if ($this->config->get('config_storefront_api_key') && 
-					( $this->config->get('config_storefront_api_key') == $this->request->post['api_key'] ||
-					  $this->config->get('config_storefront_api_key') == $this->request->get['api_key'] )
+		if ( $this->config->get('config_admin_api_status')	) {
+			if ($this->config->get('config_admin_api_key') && 
+					( $this->config->get('config_admin_api_key') == $this->request->post['api_key'] ||
+					  $this->config->get('config_admin_api_key') == $this->request->get['api_key'] )
 				) {
 				return;
-			} else if ( !$this->config->get('config_storefront_api_key') ) {
+			} else if ( !$this->config->get('config_admin_api_key') ) {
 				return;
 			}
 		}	
 		return $this->dispatch('api/error/no_access');
 	}	
+	
+	private function _validate_ip () {
+		if (!has_value($this->config->get('config_admin_access_ip_list'))) {
+			return true;
+		}
+		
+		$ips = array_map('trim', explode(",", $this->config->get('config_admin_access_ip_list')));
+		if ( in_array($_SERVER['REMOTE_ADDR'], $ips) ){
+			return true;
+		}
+		return false;
+	}
 	
 	public function login() {
 		$request = $this->rest->getRequestParams();

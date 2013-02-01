@@ -5,4 +5,7 @@ UPDATE `ac_customers` SET `loginname` = `email`;
 ALTER TABLE `ac_customers` ADD UNIQUE KEY `customers_loginname` (`loginname`);
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
-('checkout', 'prevent_email_as_login', '0');
+('checkout', 'prevent_email_as_login', '0'),
+('api', 'config_admin_api_status', '0'),
+('api', 'config_admin_api_key', ''),
+('api', 'config_admin_access_ip_list', '');

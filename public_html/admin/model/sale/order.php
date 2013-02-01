@@ -394,25 +394,29 @@ class ModelSaleOrder extends Model {
 						 o.value
 			    FROM `" . $this->db->table("orders") . "` o";
 		
-		if (isset($data['filter_order_status_id']) && !is_null($data['filter_order_status_id'])) {
+		if ( has_value($data['filter_order_status_id']) ) {
 			$sql .= " WHERE o.order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
 		} else {
 			$sql .= " WHERE o.order_status_id > '0'";
 		}
+
+		if ( has_value($data['filter_customer_id']) ) {
+			$sql .= " AND o.customer_id = '" . (int)$data['filter_customer_id'] . "'";
+		}
 		
-		if (isset($data['filter_order_id']) && !is_null($data['filter_order_id'])) {
+		if ( has_value($data['filter_order_id']) ) {
 			$sql .= " AND o.order_id = '" . (int)$data['filter_order_id'] . "'";
 		}
 
-		if (isset($data['filter_name']) && !is_null($data['filter_name'])) {
+		if ( has_value($data['filter_name']) ) {
 			$sql .= " AND CONCAT(o.firstname, ' ', o.lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%' collate utf8_general_ci";
 		}
 		
-		if (isset($data['filter_date_added']) && !is_null($data['filter_date_added'])) {
+		if ( has_value($data['filter_date_added']) ) {
 			$sql .= " AND DATE(o.date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
 		}
 
-		if (isset($data['filter_total']) && !is_null($data['filter_total'])) {
+		if ( has_value($data['filter_total']) ) {
 			$data['filter_total'] = (float)$data['filter_total'];
 			$currencies = $this->currency->getCurrencies();
 			$temp = $temp2 = array($data['filter_total']);

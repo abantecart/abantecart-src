@@ -20,7 +20,7 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-class ControllerApiErrorNotFound extends AControllerAPI {
+class ControllerApiErrorNoPermission extends AControllerAPI {
 	
 	public function main() {
 		$this->rest->setResponseData( array( 'error' => 'No permission to access this resource!' ) );	

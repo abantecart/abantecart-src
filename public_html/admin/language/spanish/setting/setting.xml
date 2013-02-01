@@ -150,6 +150,18 @@
 			<![CDATA[Storefront API Stock Access:<br /><span class="help">Habilitar si usted permite que la API escaparate para comprobar la disponibilidad de stock</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_admin_api_status</key>
+		<value><![CDATA[Admin Estatus API:]]></value>
+	</definition>
+	<definition>
+		<key>entry_admin_api_key</key>
+		<value><![CDATA[Admin API Key:<br /><span class="help">Establecer esta clave para facilitar el acceso restringido (más seguro) al administrador de la API.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_admin_access_ip_list</key>
+		<value><![CDATA[Admin API Access IPs:<br /><span class="help">Proporcionaremos una lista de direcciones IP (separadas por comas) que le permitirá acceder a la API de administración. IPs demás se bloquearán</span>]]></value>
+	</definition>	
+	<definition>
 		<key>entry_debug</key>
 		<value><![CDATA[Mostrar información de depuración:]]></value>
 	</definition>

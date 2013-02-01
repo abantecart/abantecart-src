@@ -449,6 +449,18 @@
 		<value><![CDATA[Storefront API Stock Access:<br /><span class="help">Enable if you allow storefront API to check stock availability</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_admin_api_status</key>
+		<value><![CDATA[Admin API status:]]></value>
+	</definition>
+	<definition>
+		<key>entry_admin_api_key</key>
+		<value><![CDATA[Admin API Key:<br /><span class="help">Set this key to provide restricted (more secure) access to admin API.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_admin_access_ip_list</key>
+		<value><![CDATA[Admin API Access IPs:<br /><span class="help">Provide list of IPs (comma separated) that will be allowed to access admin API. Other IPs will be blocked</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_upload_max_size</key>
 		<value><![CDATA[Resource Library Upload Max File Size, kB]]></value>
 	</definition>

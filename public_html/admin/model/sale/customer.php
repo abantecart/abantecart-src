@@ -192,45 +192,78 @@ class ModelSaleCustomer extends Model {
 		$result_row = $this->dcrypt->decrypt_data($query->row, 'customers');
 		return $result_row;
 	}
+	
+	public function getTotalCustomers($data = array()) {
+		return $this->getCustomers($data, 'total_only');
+	}	
 		
-	public function getCustomers($data = array()) {
-		$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name,
-						cg.name AS customer_group
-				FROM " . $this->db->table("customers") . " c
-				LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";
+	public function getCustomers($data = array(), $mode = 'default') {
+		
+		if ( $mode == 'total_only' && !$this->dcrypt->active ) {
+			$sql = "SELECT COUNT(*) as total ";
+		} else {
+			$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name,
+						cg.name AS customer_group ";
+		}
+		$sql .= " FROM " . $this->db->table("customers") . " c
+				LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";		
 
 		$implode = array();
+		$filter = (isset($data['filter']) ? $data['filter'] : array());
 		
-		if (isset($data['filter_name']) && !is_null($data['filter_name'])) {
-			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%' collate utf8_general_ci";
+		if (has_value($filter['name'])) {
+			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($filter['name']) . "%' collate utf8_general_ci";
+		}
+	    //more specific login, last and first name search
+		if (has_value($filter['loginname'])) {
+			$implode[] = "LOWER(c.loginname) = LOWER('" .$this->db->escape($filter['loginname']) . "') collate utf8_general_ci";
+		}
+		if (has_value($filter['firstname'])) {
+			$implode[] = "LOWER(c.firstname) LIKE LOWER('" .$this->db->escape($filter['firstname']) . "%') collate utf8_general_ci";
+		}
+		if (has_value($filter['lastname'])) {
+			$implode[] = "LOWER(c.lastname) LIKE LOWER('" .$this->db->escape($filter['lastname']) . "%') collate utf8_general_ci";
+		}
+		//select differently if encrypted
+		if ( !$this->dcrypt->active ) {
+			if (has_value($filter['email'])) {
+				$implode[] = "c.email LIKE '%" . $this->db->escape($filter['email']) . "%' collate utf8_general_ci";
+			}
+			if (has_value($filter['telephone'])) {
+				$implode[] = "c.telephone LIKE '%" . $this->db->escape($filter['telephone']) . "%' collate utf8_general_ci";
+			}
 		}
 		
-		if (isset($data['filter_c.email']) && !is_null($data['filter_c.email'])) {
-			$implode[] = "c.email LIKE '%" . $this->db->escape($data['filter_c.email']) . "%' collate utf8_general_ci";
-		}
-		
-		if (isset($data['filter_customer_group_id']) && !is_null($data['filter_customer_group_id'])) {
-			$implode[] = "cg.customer_group_id = '" . $this->db->escape($data['filter_customer_group_id']) . "'";
+		if (has_value($filter['customer_group_id'])) {
+			$implode[] = "cg.customer_group_id = '" . $this->db->escape($filter['customer_group_id']) . "'";
 		}	
 		
-		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
-			$implode[] = "c.status = '" . (int)$data['filter_status'] . "'";
+		if (has_value($filter['status'])) {
+			$implode[] = "c.status = '" . (int)$filter['status'] . "'";
 		}	
 		
-		if (isset($data['filter_approved']) && !is_null($data['filter_approved'])) {
-			$implode[] = "c.approved = '" . (int)$data['filter_approved'] . "'";
+		if (has_value($filter['approved'])) {
+			$implode[] = "c.approved = '" . (int)$filter['approved'] . "'";
 		}		
 		
-		if (isset($data['filter_date_added']) && !is_null($data['filter_date_added'])) {
-			$implode[] = "DATE(c.date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
+		if (has_value($filter['date_added'])) {
+			$implode[] = "DATE(c.date_added) = DATE('" . $this->db->escape($filter['date_added']) . "')";
 		}
 		
 		if ($implode) {
 			$sql .= " WHERE " . implode(" AND ", $implode);
 		}
-		
+
+		//If for total, we done bulding the query
+		if ($mode == 'total_only' && !$this->dcrypt->active) {
+			$query = $this->db->query($sql);
+			return $query->row['total'];
+		}
+					
 		$sort_data = array(
 			'name',
+			'c.loginname',
+			'c.lastname',
 			'c.email',
 			'customer_group',
 			'c.status',
@@ -238,37 +271,71 @@ class ModelSaleCustomer extends Model {
 			'c.date_added'
 		);	
 			
-		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-			$sql .= " ORDER BY " . $data['sort'];	
-		} else {
-			$sql .= " ORDER BY name";	
-		}
+		//Total culculation for encrypted mode 
+		// NOTE: Performance slowdown might be noticed or larger search results	
+		if ( $mode != 'total_only' ) {
+			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+				$sql .= " ORDER BY " . $data['sort'];	
+			} else {
+				$sql .= " ORDER BY name";	
+			}
+				
+			if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')) {
+				$sql .= " DESC";
+			} else {
+				$sql .= " ASC";
+			}
 			
-		if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')) {
-			$sql .= " DESC";
-		} else {
-			$sql .= " ASC";
-		}
-		
-		if (isset($data['start']) || isset($data['limit'])) {
-			if ($data['start'] < 0) {
-				$data['start'] = 0;
+			if (isset($data['start']) || isset($data['limit'])) {
+				if ($data['start'] < 0) {
+					$data['start'] = 0;
+				}			
+	
+				if ($data['limit'] < 1) {
+					$data['limit'] = 20;
+				}	
+				
+				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 			}			
-
-			if ($data['limit'] < 1) {
-				$data['limit'] = 20;
-			}	
-			
-			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
-		}		
+		}	
 		
 		$query = $this->db->query($sql);
-		$result_rows = array();
-		foreach ($query->rows as $row) {
-			$result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');	
+		$result_rows = $query->rows;
+		if ( $this->dcrypt->active ) {
+			if (has_value($filter['email'])) {
+				$result_rows = $this->_filter_by_encrypted_field($result_rows, 'email', $filter['email']);
+			}
+			if (has_value($filter['telephone'])) {
+				$result_rows = $this->_filter_by_encrypted_field($result_rows, 'telephone', $filter['telephone']);
+			}			
+		}		
+
+		if ($mode == 'total_only') {
+			//we get here only if in data encryption mode
+			return count($result_rows);
+		}
+		//finaly decrypt data and return result
+		for ($i = 0; $i < count($result_rows); $i++) {
+			$result_rows[$i] = $this->dcrypt->decrypt_data($result_rows[$i], 'customers');	
 		}
 		
 		return $result_rows;	
+	}
+
+	private function _filter_by_encrypted_field($data, $field, $value) {
+		if ( !count($data) ) {
+			return array();
+		}
+		if ( !has_value($field) || !has_value($value) ) {
+			return $data;
+		}
+		$result_rows = array(); 
+		foreach ($data as $result) {
+			if ( !(strpos (strtolower($this->dcrypt->decrypt_record($result[$field], 'customers')), strtolower($value)) === false) ) {
+				$result_rows[] = $result;
+			}
+		}	
+		return $result_rows;
 	}
 	
 	public function approve($customer_id) {
@@ -337,46 +404,6 @@ class ModelSaleCustomer extends Model {
 		return $result_rows;
 	}
 	
-	public function getTotalCustomers($data = array()) {
-      	$sql = "SELECT COUNT(*) as total
-      	        FROM " . $this->db->table("customers") . " c
-      	        LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";
-
-		$implode = array();
-
-		if (isset($data['filter_name']) && !is_null($data['filter_name'])) {
-			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%' collate utf8_general_ci";
-		}
-
-		if (isset($data['filter_email']) && !is_null($data['filter_email'])) {
-			$implode[] = "c.email LIKE '%" . $this->db->escape($data['filter_email']) . "%' collate utf8_general_ci";
-		}
-
-		if (isset($data['filter_customer_group_id']) && !is_null($data['filter_customer_group_id'])) {
-			$implode[] = "cg.customer_group_id = '" . $this->db->escape($data['filter_customer_group_id']) . "'";
-		}
-
-		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
-			$implode[] = "c.status = '" . (int)$data['filter_status'] . "'";
-		}
-
-		if (isset($data['filter_approved']) && !is_null($data['filter_approved'])) {
-			$implode[] = "c.approved = '" . (int)$data['filter_approved'] . "'";
-		}
-
-		if (isset($data['filter_date_added']) && !is_null($data['filter_date_added'])) {
-			$implode[] = "DATE(c.date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
-		}
-		
-		if ($implode) {
-			$sql .= " WHERE " . implode(" AND ", $implode);
-		}
-
-		$query = $this->db->query($sql);
-				
-		return $query->row['total'];
-	}
-
 	public function is_unique_loginname( $loginname, $customer_id = '' ) {
 		if( empty($loginname) ) {
 			return false;

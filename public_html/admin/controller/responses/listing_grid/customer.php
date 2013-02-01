@@ -48,19 +48,19 @@ class ControllerResponsesListingGridCustomer extends AController {
 			'start' => ($page - 1) * $limit,
 			'limit' => $limit,
 		);
-		if (isset($this->request->get[ 'customer_group' ]) && $this->request->get[ 'customer_group' ] != '')
-			$data[ 'filter_customer_group_id' ] = $this->request->get[ 'customer_group' ];
-		if (isset($this->request->get[ 'status' ]) && $this->request->get[ 'status' ] != '')
-			$data[ 'filter_status' ] = $this->request->get[ 'status' ];
-		if (isset($this->request->get[ 'approved' ]) && $this->request->get[ 'approved' ] != '')
-			$data[ 'filter_approved' ] = $this->request->get[ 'approved' ];
-		$allowedFields = array( 'name', 'c.email' );
-		if (isset($this->request->post[ '_search' ]) && $this->request->post[ '_search' ] == 'true') {
+		if ( has_value($this->request->get[ 'customer_group' ]) )
+			$data['filter']['customer_group_id'] = $this->request->get[ 'customer_group' ];
+		if ( has_value($this->request->get['status']) )
+			$data['filter']['status'] = $this->request->get[ 'status' ];
+		if ( has_value($this->request->get['approved']) )
+			$data['filter']['approved'] = $this->request->get[ 'approved' ];
+		$allowedFields = array( 'name', 'email' );
+		if ( isset($this->request->post[ '_search' ]) && $this->request->post[ '_search' ] == 'true') {
 			$searchData = AJson::decode(htmlspecialchars_decode($this->request->post[ 'filters' ]), true);
 
 			foreach ($searchData[ 'rules' ] as $rule) {
 				if (!in_array($rule[ 'field' ], $allowedFields)) continue;
-				$data[ 'filter_' . $rule[ 'field' ] ] = $rule[ 'data' ];
+				$data['filter'][ $rule[ 'field' ] ] = $rule[ 'data' ];
 			}
 		}
 

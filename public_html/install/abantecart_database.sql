@@ -1251,6 +1251,9 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('api', 'config_storefront_api_status', '0'),
 ('api', 'config_storefront_api_key', ''),
 ('api', 'config_storefront_api_stock_check', '0'),
+('api', 'config_admin_api_status', '0'),
+('api', 'config_admin_api_key', ''),
+('api', 'config_admin_access_ip_list', ''),
 
 --EXTENSIONS
 ('sub_total', 'sub_total_sort_order', '1'),

@@ -24,9 +24,8 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerApiIndexLogin extends AControllerAPI {
 
 	public function get() {
-		$this->rest->setResponseData( array( 'status' => 0, 'error' => 'Login attempt failed!') );	
-		$this->rest->sendResponse(401);
-		return;	
+		$request = $this->rest->getRequestParams();
+		$this->_validate_token($request['token']);
 	}
 	  
 	public function post() {
@@ -34,37 +33,38 @@ class ControllerApiIndexLogin extends AControllerAPI {
 		$request = $this->rest->getRequestParams();
 		if ( isset($request['token']) ) {
 			//this is the request to authorized
-			if ( $this->user->isLoggedWithToken( $request['token'] )) {
-				$this->rest->setResponseData( array( 'status' => 1,  'request' => 'authorized' ) );	
-				$this->rest->sendResponse(200);
-				return;			
-    		} else {
-				$this->rest->setResponseData( array( 'status' => 0, 'request' => 'unauthorized' ) );	
-				$this->rest->sendResponse(401);
-				return;	    		
-    		} 		 	
-		
+			$this->_validate_token($request['token']);
 		} else {
 			if ( isset($request['username']) && isset($request['password']) && $this->_validate($request['username'], $request['password']) ) {
 				$this->session->data['token'] = AEncryption::getHash(mt_rand());
 				$this->rest->setResponseData( array( 'status' => 1, 'success' => 'Logged in', 'token' => $this->session->data['token'] ) );	
 				$this->rest->sendResponse(200);
-				return;			
 			} else {
 				$this->rest->setResponseData( array( 'status' => 0, 'error' => 'Login attempt failed!') );	
 				$this->rest->sendResponse(401);
-				return;	
 			}
 		}				
 	}
 
 	private function _validate($username, $password) {
 		if (isset($username) && isset($password) && !$this->user->login($username, $password)) {
-			$this->messages->saveNotice($this->language->get('error_login_message').$this->request->server['REMOTE_ADDR'],$this->language->get('error_login_message_text').$username);
+			$this->loadLanguage('common/login');
+			$this->messages->saveNotice("API " . $this->language->get('error_login_message').$this->request->server['REMOTE_ADDR'],$this->language->get('error_login_message_text').$username);
 			return FALSE;			
 		} else {
 			return TRUE;		
 		}
 	} 
+	
+	private function _validate_token ( $token ){
+		if ( isset( $token ) && $this->user->isLoggedWithToken( $token )) {
+				$this->rest->setResponseData( array( 'status' => 1,  'request' => 'authorized' ) );	
+				$this->rest->sendResponse(200);
+    	} else {
+				$this->rest->setResponseData( array( 'status' => 0, 'request' => 'unauthorized' ) );	
+				$this->rest->sendResponse(401);
+		}	
+	}
+	
 }  
 ?>

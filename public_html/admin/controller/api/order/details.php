@@ -20,28 +20,35 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
-class ControllerApiIndexLogout extends AControllerAPI {
-
-	public function post() {
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-		$this->_do_logout();
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}
-
+class ControllerApiOrderDetails extends AControllerAPI {
+  
 	public function get() {
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-		$this->_do_logout();
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}
 
-	private function _do_logout () {
-		$request_data = $this->rest->getRequestParams();
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$this->loadLanguage('sale/order');
+		$this->loadModel('sale/order');
+
+		$request = $this->rest->getRequestParams();
 		
-		$this->user->logout();
-		unset($this->session->data['token']);
-			
-		$this->rest->setResponseData( array( 'status' => 1, 'success' => 'Logged out', ) );	
-		$this->rest->sendResponse(200);	
-	}
-}  
-?>
+		if ( !has_value($request['order_id']) ) {
+			$this->rest->setResponseData( array('Error' => 'Order ID is missing') );
+			$this->rest->sendResponse(200);
+			return;
+		}		
+
+		$order_details =  $this->model_sale_order->getOrder($request['order_id']);
+		if (!count($order_details)) {
+			$this->rest->setResponseData( array('Error' => 'Incorrect order ID or missing order data') );
+			$this->rest->sendResponse(200);
+			return;			
+		}
+			    
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->rest->setResponseData( $order_details );
+		$this->rest->sendResponse( 200 );
+	    
+	    }
+}

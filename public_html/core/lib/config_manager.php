@@ -855,6 +855,25 @@ class AConfigManager {
 			'value' => $data[ 'config_storefront_api_stock_check' ],
 			'style' => 'btn_switch',
 		));
+
+		$fields[ 'admin_api_status' ] = $form->getFieldHtml($props[ ] = array(
+			'type' => 'checkbox',
+			'name' => 'config_admin_api_status',
+			'value' => $data[ 'config_admin_api_status' ],
+			'style' => 'btn_switch',
+		));
+		$fields[ 'admin_api_key' ] = $form->getFieldHtml($props[ ] = array(
+			'type' => 'input',
+			'name' => 'config_admin_api_key',
+			'value' => $data[ 'config_admin_api_key' ],
+		));
+		$fields[ 'admin_access_ip_list' ] = $form->getFieldHtml($props[ ] = array(
+			'type' => 'input',
+			'name' => 'config_admin_access_ip_list',
+			'value' => $data[ 'config_admin_access_ip_list' ],
+			'style' => 'large-field',
+		));
+
 		if (isset($data[ 'one_field' ])) {
 			$fields = $this->_filterField($fields, $props, $data[ 'one_field' ]);
 		}
