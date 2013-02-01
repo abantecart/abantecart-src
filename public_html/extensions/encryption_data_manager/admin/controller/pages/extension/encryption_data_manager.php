@@ -186,28 +186,33 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 				'value' => $this->data['enc_key'],
 			));
 
-		$enc_tables_options = array();
-		foreach ($enc_data->getEcryptedTables() as $table_name) { $enc_tables_options[$table_name] = $table_name; }
-		
-		/*
-		//Per table encryption is not suported YET
-		$data_enc['form']['fields']['enc_tables'] = $form2->getFieldHtml(array(
-				'type' => 'selectbox',
-				'name' => 'enc_tables',
-				'options' => $enc_tables_options,
-				'value' => $this->data['enc_tables'],
-			));
-		*/
-		$data_enc['form']['fields']['enc_tables'] = implode(', ', $enc_data->getEcryptedTables());
-
-		$data_enc['form']['fields']['enc_test_mode'] = $form2->getFieldHtml(array(
-				'type' => 'checkbox',
-				'name' => 'enc_test_mode',
-				'value' => $this->data['enc_test_mode'],
-				'style'  => 'btn_switch',
-			));
-
 		$data_enc['note'] = $this->language->get('post_encrypting_notice');
+		
+		$enc_tables_options = array();
+		$enc_config_tables = $enc_data->getEcryptedTables();
+		
+		if ( has_value($enc_config_tables) ){
+			foreach ($enc_config_tables as $table_name) { $enc_tables_options[$table_name] = $table_name; }
+			/*
+			//Per table encryption is not suported YET
+			$data_enc['form']['fields']['enc_tables'] = $form2->getFieldHtml(array(
+					'type' => 'selectbox',
+					'name' => 'enc_tables',
+					'options' => $enc_tables_options,
+					'value' => $this->data['enc_tables'],
+				));
+			*/
+			$data_enc['form']['fields']['enc_tables'] = implode(', ', $enc_config_tables);
+	
+			$data_enc['form']['fields']['enc_test_mode'] = $form2->getFieldHtml(array(
+					'type' => 'checkbox',
+					'name' => 'enc_test_mode',
+					'value' => $this->data['enc_test_mode'],
+					'style'  => 'btn_switch',
+				));
+		} else {
+			$data_enc['note'] = "<b>Enable Data Encryption first!<b>";
+		}
 		
 		$this->data['sections'][] = $data_enc;			
 

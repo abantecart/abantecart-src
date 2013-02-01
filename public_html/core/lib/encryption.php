@@ -467,7 +467,9 @@ final class ADataEncryption {
 	*@return array
 	*/	
 	public function getEcryptedTables(){		
-		return array_keys($this->enc_data);
+		if ( has_value($this->enc_data) ) {
+			return array_keys($this->enc_data);
+		}
 	}	
 
 	/**
@@ -476,7 +478,9 @@ final class ADataEncryption {
 	*@return string
 	*/	
 	public function getEcryptedTableID( $table ){		
-		return $this->enc_data[ $table ]['id'];
+		if ( has_value($this->enc_data) ) {
+			return $this->enc_data[ $table ]['id'];
+		}
 	}	
 	
 	/**
@@ -485,7 +489,9 @@ final class ADataEncryption {
 	*@return array
 	*/	
 	public function getEcryptedFields( $table ){		
-		return $this->enc_data[ $table ]['fields'];
+		if ( has_value($this->enc_data) ) {
+			return $this->enc_data[ $table ]['fields'];
+		}
 	}	
 
 	/**

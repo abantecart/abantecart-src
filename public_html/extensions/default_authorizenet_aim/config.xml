@@ -25,7 +25,7 @@
             <default_value></default_value>
         </item>
 	    <item id="default_authorizenet_aim_hash">
-            <type required="true">input</type>
+            <type required="false">input</type>
             <default_value></default_value>
         </item>
 		<item id="default_authorizenet_aim_mode">
@@ -46,8 +46,8 @@
             <type>selectbox</type>
 			<variants>
 				<data_source>
-                   <model_rt>localisation/order_status</model_rt>
-                   <method>getOrderStatuses</method>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
 				</data_source>
 				<fields>
 					<field>order_status_id</field>
@@ -60,8 +60,8 @@
 			<variants>
 				<item>0</item>
 				<data_source>
-                   <model_rt>localisation/location</model_rt>
-                   <method>getLocations</method>
+					<model_rt>localisation/location</model_rt>
+					<method>getLocations</method>
 				</data_source>
 				<fields>
 					<field>location_id</field>
