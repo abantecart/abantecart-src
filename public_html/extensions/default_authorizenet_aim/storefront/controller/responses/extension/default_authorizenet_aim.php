@@ -96,7 +96,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 			                                                  'style' => 'button',
 		                                               ));
 		$data[ 'submit' ] = $data[ 'submit' ]->getHtml();
-		
+
 		$this->view->batchAssign($data);
 		$this->processTemplate('responses/default_authorizenet_aim.tpl');
 	}
@@ -170,6 +170,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 
 		if ( $this->config->get('store_credit_cards_status') && has_value($this->session->data['stored_credit_card']) ) {
 			$this->request->post = $this->session->data['stored_credit_card'];
+			unset($this->session->data['stored_credit_card']);
 		}
 
 		$this->load->model('checkout/order');

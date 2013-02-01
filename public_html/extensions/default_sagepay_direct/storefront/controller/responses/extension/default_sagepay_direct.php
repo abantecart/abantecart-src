@@ -138,6 +138,7 @@ class ControllerResponsesExtensionDefaultSagepayDirect extends AController {
 
 		if ( $this->config->get('store_credit_cards_status') && has_value($this->session->data['stored_credit_card']) ) {
 			$this->request->post = $this->session->data['stored_credit_card'];
+			unset($this->session->data['stored_credit_card']);
 		}
 
 		$this->load->model('checkout/order');
