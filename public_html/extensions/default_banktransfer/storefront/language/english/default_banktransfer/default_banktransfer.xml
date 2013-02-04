@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Bank Transfer]]></value>
+  </definition>
+  <definition>
+    <key>text_instructions</key>
+    <value><![CDATA[Follow instructions to make your payment: ]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Your order will not ship or completed until payment is received.]]></value>
+  </definition>
+  <definition>
+    <key>text_minimum_notmet</key>
+    <value><![CDATA[Order total minimum is not met for bank transfer payment.]]></value>
+  </definition>
+</definitions>

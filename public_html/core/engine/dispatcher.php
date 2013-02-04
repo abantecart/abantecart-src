@@ -99,6 +99,11 @@ final class ADispatcher {
 			$this->method = 'main';
 		}
 
+		//already found the path, so return. This will optimize performance, and will not allow override core controllers. 
+		if ($pathfound == true) {
+			return $pathfound;
+		}
+
         // looking for controller in extensions section
         $result = $this->registry->get('extensions')->isExtensionController( $rt );
 		if ( $result ) {
@@ -165,7 +170,7 @@ final class ADispatcher {
         	#Build back trace of calling functions to provide more details
 			$backtrace = debug_backtrace();
 			$function_stack = '';
-			if ( strlen($parent_controller) > 1 ) {
+			if ( has_value($parent_controller) && strlen($parent_controller) > 1 ) {
 				$function_stack = 'Parent Controller: ' . $parent_controller . ' | ';
 			}
 		
