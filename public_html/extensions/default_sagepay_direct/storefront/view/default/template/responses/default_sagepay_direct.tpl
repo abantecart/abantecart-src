@@ -1,6 +1,7 @@
 <b style="margin-bottom: 3px; display: block;"><?php echo $text_credit_card; ?></b>
 <div id="sagepay" style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
   <table width="100%">
+	<?php echo $this->getHookVar('payment_table_pre'); ?>
     <tr>
       <td><?php echo $entry_cc_owner; ?></td>
       <td><input type="text" name="cc_owner" value="" /></td>
@@ -55,6 +56,7 @@
       <td><input type="text" name="cc_issue" value="" size="1" />
         <?php echo $text_issue; ?></td>
     </tr>
+	<?php echo $this->getHookVar('payment_table_post'); ?>
   </table>
 </div>
 <div class="buttons">
