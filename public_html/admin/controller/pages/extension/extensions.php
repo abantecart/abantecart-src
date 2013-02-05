@@ -423,13 +423,11 @@ class ControllerPagesExtensionExtensions extends AController {
 			$this->redirect($this->data['target_url']);
 		}
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validateSettings()) && $this->_checkRequiredSettings()) {
-
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateSettings($extension,$store_id)) {
 			foreach ($settings as $item) {
 				if (!isset($this->request->post[$item['name']])) {
 					$this->request->post[$item['name']] = 0;
 				}
-
 			}
 			
 			$this->extension_manager->editSetting($extension, $this->request->post);
@@ -645,31 +643,29 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _validateSettings() {
+	/**
+	 * @param string $extension
+	 * @param int $store_id
+	 * @return bool
+	 */
+	private function _validateSettings($extension,$store_id) {
 		if (!$this->user->canModify('extension/extensions')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
 		if (!$this->error) {
+			//then check required fields
+			$ext = new ExtensionUtils($extension, $store_id);
+
+			if(!$ext->checkRequiredSettings($this->request->post)){
+				$this->error['warning'] = $this->language->get('error_required_field');
+				return false;
+			}
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-
-	private function _checkRequiredSettings() {
-		if ($this->session->data['extension_required_fields']) {
-			foreach ($this->session->data['extension_required_fields'] as $field_name) {
-				if (!isset($this->request->post[$field_name]) || empty($this->request->post[$field_name])) {
-					$this->error['warning'] = $this->language->get('error_required_field');
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
-
 	public function install() {
 
 		//init controller data

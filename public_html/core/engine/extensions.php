@@ -514,6 +514,9 @@ class ExtensionsApi {
 	}
 
 	public function loadEnabledExtensions() {
+		/**
+		 * @var Registry
+		 */
 		$registry = Registry::getInstance();
 		$ext_controllers = $ext_models = $ext_languages = $ext_templates = array();
 		$enabled_extensions = $extensions = array();
@@ -912,8 +915,10 @@ class ExtensionUtils {
 		return $this->error;
 	}
 
+	/*
+	 * Function returns array of form fields formatted for AHTML-class
+	 * */
 	public function getSettings() {
-
 		$this->registry->get('load')->model('setting/setting');
 		$settings = $this->registry->get('model_setting_setting')->getSetting($this->name, $this->store_id);
 		$result = array();
@@ -962,6 +967,38 @@ class ExtensionUtils {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @param array $data  - array of values for check. If it is empty - will check data from config
+	 * @return bool
+	 */
+	public function checkRequiredSettings($data=array()){
+		// if values not set or we change only status of extension
+		if(!$data || (isset($data['one_field']) && isset($data[$this->name.'_status']) && $data[$this->name.'_status']==1 )){
+			$this->registry->get('load')->model('setting/setting');
+			$data = $this->registry->get('model_setting_setting')->getSetting($this->name, $this->store_id);
+		}
+
+		if (isset($this->config->settings->item)) {
+			foreach ($this->config->settings->item as $item) {
+				if(!isset($data[(string)$item['id']])){
+					continue;//if data for check not given - do nothing
+				}
+				$value = $data[(string)$item['id']];
+				if (is_array($value)) {
+					$value = array_map('trim',$value);
+				}else{
+					$value = trim($value);
+				}
+
+				$type_attr = $item->type->attributes();
+				if ((string)$type_attr['required'] == 'true' && !$value) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public function getDefaultSettings() {

@@ -217,6 +217,15 @@ class AExtensionManager {
 
 		$keys = array_keys($data);
 		unset($keys['store_id']);
+		// check if settings required and it is not status
+		$ext = new ExtensionUtils($extension_txt_id,(int)$data['store_id']);
+		if(isset($data['one_field']) && !isset($data[$extension_txt_id . "_status"])){
+			if(!$ext->checkRequiredSettings($data)){ // check is all required settings are set
+				$error = "Can't save setting because value is empty. ";
+				$this->errors[] = $error;
+				return false;
+			}
+		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "settings
 						  WHERE `group` = '" . $this->db->escape($extension_txt_id) . "'
@@ -239,17 +248,28 @@ class AExtensionManager {
 			if ($setting_name == 'status') {
 				//when try to enable extension
 				if ($value == 1) { // check is parent extension enabled
-					$parents = $this->getParentsExtensionTextId($extension_txt_id);
-					$enabled = $this->extensions->getEnabledExtensions();
-					foreach ($parents as $parent) {
-						if (!in_array($parent['key'], $enabled)) {
-							$error = "Can't to enable extension \"" . $extension_txt_id . "\". It's depends on extension \"" . $parent['key'] . "\" which not enabled. ";
-							$this->errors[] = $error;
-							$error = new AError ($error);
-							$error->toLog()->toDebug();
-							//prevents enabling
-							$value = 0;
-							break;
+					if(!$ext->checkRequiredSettings()){ // check is all required settings are set
+						$value = 0;
+						$error = "Can't to enable extension \"" . $extension_txt_id . "\". Please fill all required fields on settings edit page. ";
+						$this->registry->get('messages')->saveError('App Error',$error);
+						$this->errors[] = $error;
+						$error = new AError ($error);
+						$error->toLog()->toDebug();
+					}else{
+						// if all fine with required fields - check childen
+						$parents = $this->getParentsExtensionTextId($extension_txt_id);
+						$enabled = $this->extensions->getEnabledExtensions();
+						foreach ($parents as $parent) {
+							if (!in_array($parent['key'], $enabled)) {
+								$error = "Can't to enable extension \"" . $extension_txt_id . "\". It's depends on extension \"" . $parent['key'] . "\" which not enabled. ";
+								$this->registry->get('messages')->saveError('Extension App Error',$error);
+								$this->errors[] = $error;
+								$error = new AError ($error);
+								$error->toLog()->toDebug();
+								//prevents enabling
+								$value = 0;
+								break;
+							}
 						}
 					}
 
