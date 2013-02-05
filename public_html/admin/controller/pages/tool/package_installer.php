@@ -772,11 +772,12 @@ class ControllerPagesToolPackageInstaller extends AController {
 		return $full_check && $minor_check;
 	}
 
-
 	/**
-	 * method of extension installation from package
+	 * Method of extension installation from package
 	 * @param string $extension_id
-	 * @return void
+	 * @param bool $confirmed
+	 * @param int $agree
+	 * @return array|bool
 	 */
 	private function _installExtension($extension_id = '', $confirmed = false, $agree = 0) {
 		$package_info = &$this->session->data[ 'package_info' ];
@@ -836,7 +837,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		if ($result) {
 			$install_mode = $already_installed ? 'upgrade' : 'install';
 			if (!$pmanager->installExtension($extension_id, $type, $version, $install_mode)) {
-				$this->session->data[ 'error' ] .= '<br>' . $this->language->get('error_install');
+				$this->session->data[ 'error' ] .= $this->language->get('error_install').'<br><br>'.$pmanager->error;
 				$this->_removeTempFiles('dir');
 				$this->redirect($this->_get_begin_href());
 			}
@@ -855,9 +856,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 	}
 
 	/**
-	 * method installs upgrade for abantecart core
-	 * @param $core_file
-	 * @return void
+	 * @return bool
 	 */
 	private function _upgradeCore() {
 		$package_info = &$this->session->data[ 'package_info' ];
@@ -875,7 +874,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 		foreach ($corefiles as $core_file) {
 			if (file_exists(DIR_ROOT . '/' . $core_file)) {
 				if (!$backup->backupFile(DIR_ROOT . '/' . $core_file, false)) {
-					break;
 					return false;
 				}
 			}
@@ -912,7 +910,15 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$pmanager->replaceCoreFiles();
 		//#4 run sql and php upgare procedure files
 		$package_dirname = $package_info[ 'tmp_dir' ] . $package_info[ 'package_dir' ];
+		/**
+		 * @var SimpleXmlElement $config
+		 */
 		$config = simplexml_load_string(file_get_contents($package_dirname . '/package.xml'));
+		if(!$config){
+			$this->session->data[ 'error' ] = 'Error: package.xml from package content is not valid xml-file!';
+			unset($this->session->data[ 'package_info' ]);
+			$this->redirect($this->_get_begin_href());
+		}
 		$pmanager->upgradeCore($config);
 
 		$pmanager->updateCoreVersion((string)$config->version);
@@ -927,7 +933,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 				return str_replace($this->session->data[ 'package_info' ][ 'tmp_dir' ],'',$dir);
 			}
 		}
-		return;
+		return null;
 	}
 
 	private function _removeTempFiles($target = 'both') {
