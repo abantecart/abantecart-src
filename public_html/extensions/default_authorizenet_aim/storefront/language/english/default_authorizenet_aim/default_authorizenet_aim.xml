@@ -26,6 +26,14 @@
   </definition>
   <definition>
     <key>entry_cc_cvv2</key>
-    <value><![CDATA[Card Security Code (CVV2):]]></value>
+    <value><![CDATA[Card Security Code]]></value>
+  </definition>
+  <definition>
+	<key>entry_cc_cvv2_short</key>
+	<value><![CDATA[(CVV2 ?)]]></value>
+  </definition>
+  <definition>
+	<key>entry_what_cvv2</key>
+	<value><![CDATA[What is CVV2?]]></value>
   </definition>
 </definitions>

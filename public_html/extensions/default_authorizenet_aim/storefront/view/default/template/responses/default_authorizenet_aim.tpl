@@ -15,7 +15,7 @@
       <td><?php echo $cc_expire_date_month; ?> / <?php echo $cc_expire_date_year; ?></td>
     </tr>
     <tr>
-      <td><?php echo $entry_cc_cvv2; ?></td>
+      <td><?php echo $entry_cc_cvv2; ?> <a class="thickbox"  href="<?php echo $cc_cvv2_help_url; ?>"><?php echo $entry_cc_cvv2_short; ?></a>:</td>
       <td><?php echo $cc_cvv2; ?></td>
     </tr>
 	<?php echo $this->getHookVar('payment_table_post'); ?>

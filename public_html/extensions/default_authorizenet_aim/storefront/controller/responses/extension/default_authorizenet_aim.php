@@ -47,6 +47,9 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		$data[ 'entry_cc_expire_date' ] = $this->language->get('entry_cc_expire_date');
 
 		$data[ 'entry_cc_cvv2' ] = $this->language->get('entry_cc_cvv2');
+		$data[ 'entry_cc_cvv2_short' ] = $this->language->get('entry_cc_cvv2_short');
+		$data['cc_cvv2_help_url'] = $this->html->getURL('r/extension/default_authorizenet_aim/cvv2_help');
+
 		$data[ 'cc_cvv2' ] = HtmlElementFactory::create(array( 'type' => 'input',
 		                                                     'name' => 'cc_cvv2',
 		                                                     'value' => '',
@@ -128,6 +131,9 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		                              
 		$data[ 'entry_cc_expire_date' ] = $this->language->get('entry_cc_expire_date');
 		$data[ 'entry_cc_cvv2' ] = $this->language->get('entry_cc_cvv2');
+		$data[ 'entry_cc_cvv2_short' ] = $this->language->get('entry_cc_cvv2_short');
+		$data['cc_cvv2_help_url'] = $this->html->getURL('r/extension/default_authorizenet_aim/cvv2_help');
+
 		$data[ 'cc_cvv2' ] = array( 'type' => 'input',
 		                            'name' => 'cc_cvv2',
 		                            'value' => '',
@@ -306,6 +312,23 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));
+	}
+
+	public function cvv2_help() {
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$this->loadLanguage('default_authorizenet_aim/default_authorizenet_aim');
+
+		$image = '<img src="' . $this->view->templateResource('/image/securitycode.jpg') . '" alt="' . $this->language->get('entry_what_cvv2') . '" />';
+
+		$this->view->assign('title', $this->language->get('entry_what_cvv2') );
+		$this->view->assign('description', $image );
+
+		//init controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->processTemplate('responses/content/content.tpl' );
 	}
 }
 
