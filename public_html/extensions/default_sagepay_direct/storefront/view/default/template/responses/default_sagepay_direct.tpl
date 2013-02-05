@@ -48,7 +48,7 @@
         </select></td>
     </tr>
     <tr>
-      <td><?php echo $entry_cc_cvv2; ?></td>
+      <td><?php echo $entry_cc_cvv2; ?> <a class="thickbox"  href="<?php echo $cc_cvv2_help_url; ?>"><?php echo $entry_cc_cvv2_short; ?></a>:</td>
       <td><input type="text" name="cc_cvv2" value="" size="3" /></td>
     </tr> 
     <tr>

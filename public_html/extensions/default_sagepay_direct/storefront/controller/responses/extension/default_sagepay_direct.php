@@ -40,6 +40,9 @@ class ControllerResponsesExtensionDefaultSagepayDirect extends AController {
 		$template_data['entry_cc_start_date'] = $this->language->get('entry_cc_start_date');
 		$template_data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
 		$template_data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
+		$template_data[ 'entry_cc_cvv2' ] = $this->language->get('entry_cc_cvv2');
+		$template_data[ 'entry_cc_cvv2_short' ] = $this->language->get('entry_cc_cvv2_short');
+		$template_data['cc_cvv2_help_url'] = $this->html->getURL('r/extension/default_sagepay_direct/cvv2_help');
 		$template_data['entry_cc_issue'] = $this->language->get('entry_cc_issue');
 		
 		$template_data['button_confirm'] = $this->language->get('button_confirm');
@@ -419,6 +422,23 @@ class ControllerResponsesExtensionDefaultSagepayDirect extends AController {
 		} else {
 			$this->redirect($this->html->getSecureURL('account/login'));
 		}
+	}
+
+	public function cvv2_help() {
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$this->loadLanguage('default_sagepay_direct/default_sagepay_direct');
+
+		$image = '<img src="' . $this->view->templateResource('/image/securitycode.jpg') . '" alt="' . $this->language->get('entry_what_cvv2') . '" />';
+
+		$this->view->assign('title', $this->language->get('entry_what_cvv2') );
+		$this->view->assign('description', $image );
+
+		//init controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->processTemplate('responses/content/content.tpl' );
 	}
 }
 ?>
