@@ -1,7 +1,8 @@
 <b style="margin-bottom: 3px; display: block;"><?php echo $text_credit_card; ?></b>
 <div id="authorizenet" style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
   <table width="100%">
-    <tr>
+    <?php echo $this->getHookVar('payment_table_pre'); ?>
+	<tr>
       <td><?php echo $entry_cc_owner; ?></td>
       <td><?php echo $cc_owner; ?></td>
     </tr>
@@ -16,7 +17,8 @@
     <tr>
       <td><?php echo $entry_cc_cvv2; ?></td>
       <td><?php echo $cc_cvv2; ?></td>
-    </tr> 
+    </tr>
+	<?php echo $this->getHookVar('payment_table_post'); ?>
   </table>
 </div>
 <div class="buttons">
