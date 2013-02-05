@@ -179,7 +179,6 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		if ( $this->config->get('store_credit_cards_status') ) {
 			if ( has_value($this->session->data['stored_credit_card']) ) {
 
-				echo_array($this->session->data['stored_credit_card']);
 				foreach ( $this->session->data['stored_credit_card'] as $key => $val ) {
 					$this->request->post[$key] = $val;
 				}
