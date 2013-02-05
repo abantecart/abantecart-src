@@ -247,7 +247,7 @@ class ControllerResponsesListingGridExtension extends AController {
 		if($this->extension_manager->errors){
 			$error = new AError('');
 			return $error->toJSONResponse('VALIDATION_ERROR_406',
-				array('error_text' => implode('<br>',$this->extension_manager->errors),
+				array('error_text' => '<br>'.implode('<br>',$this->extension_manager->errors),
 					  'reset_value' => true
 				));
 		}
