@@ -395,10 +395,9 @@ try {
 // Create Global Layout Instance
 	$registry->set('layout', new ALayout($registry, $template));
 
-//load main language section 
-	$language->load();
+//load main language section
 	$registry->set('language', $language);
-	
+	$registry->get('language')->load();
 	$hook->hk_InitEnd();
 
 } //eof try
