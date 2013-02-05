@@ -250,7 +250,7 @@ class AExtensionManager {
 				if ($value == 1) { // check is parent extension enabled
 					if(!$ext->checkRequiredSettings()){ // check is all required settings are set
 						$value = 0;
-						$error = "Can't to enable extension \"" . $extension_txt_id . "\". Please fill all required fields on settings edit page. ";
+						$error = "Cannot enable extension \"" . $extension_txt_id . "\". Please fill all required fields on settings edit page. ";
 						$this->registry->get('messages')->saveError('App Error',$error);
 						$this->errors[] = $error;
 						$error = new AError ($error);
@@ -261,7 +261,7 @@ class AExtensionManager {
 						$enabled = $this->extensions->getEnabledExtensions();
 						foreach ($parents as $parent) {
 							if (!in_array($parent['key'], $enabled)) {
-								$error = "Can't to enable extension \"" . $extension_txt_id . "\". It's depends on extension \"" . $parent['key'] . "\" which not enabled. ";
+								$error = "Cannot enable extension \"" . $extension_txt_id . "\". It's depends on extension \"" . $parent['key'] . "\" which not enabled. ";
 								$this->registry->get('messages')->saveError('Extension App Error',$error);
 								$this->errors[] = $error;
 								$error = new AError ($error);

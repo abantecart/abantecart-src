@@ -488,6 +488,11 @@ class ControllerPagesExtensionExtensions extends AController {
 		);
 
 
+		if(!$this->extension_manager->validateDependencies($extension,getExtensionConfigXml($extension))){
+			$this->error['warning'] = 'This extension cannot be enabled because required dependency missing or not enabled.';
+		}
+
+
 		if (isset($this->error['warning'])) {
 			$this->data['error_warning'] = $this->error['warning'];
 		} else {
