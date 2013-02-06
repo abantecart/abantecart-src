@@ -324,7 +324,6 @@ final class ADataset {
 		
 		if (! $this->columnset) {
 			throw new AException ( AC_ERR_LOAD, 'Error: Could not set property for column! Column definitions is empty.' );
-			return false;
 		}
 		
 		foreach ( $this->columnset as $id => $cols ) {

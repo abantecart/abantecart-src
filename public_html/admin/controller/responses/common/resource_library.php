@@ -77,8 +77,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$this->data[ 'languages' ][ $lang[ 'language_id' ] ] = $lang;
 			$languages[ $lang[ 'language_id' ] ] = $lang[ 'name' ];
 		}
-		$this->data[ 'languages' ] = $this->data[ 'languages' ];
-
 
 		$this->data[ 'language' ] =
 				$this->html->buildSelectbox(

@@ -628,18 +628,18 @@ class ModelCatalogProduct extends Model {
 	 * @param $product_id
 	 * @param $option_id
 	 * @param $option_value_id
-	 * @return bool
+	 * @return array
 	 */
 	public function getProductGroupOptions($product_id, $option_id, $option_value_id) {
 		if ( empty($product_id) || empty($option_id)) {
-			return;
+			return array();
 		}
 		$product_option = $this->db->query(
 			"SELECT group_id FROM " . $this->db->table("product_options") . "
 			WHERE product_id = '" . (int)$product_id . "'
 				AND product_option_id = '" . (int)$option_id . "' ");
 		if (!$product_option->row['group_id']) {
-			return null;
+			return array();
 		}
 		//get all option values of group
 		$option_values = $this->db->query(

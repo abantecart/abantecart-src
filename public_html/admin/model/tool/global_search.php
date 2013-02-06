@@ -665,7 +665,7 @@ class ModelToolGlobalSearch extends Model {
 				$output [] = $tmp;
 			}
 		} else {
-			$this->loadLanguage('tool/global_search');
+			$this->load->language('tool/global_search');
 			$output [0] = array(
 				"text" => $this->language->get('no_results_message'));
 		}

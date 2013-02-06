@@ -149,15 +149,15 @@
 
           <tbody id="totals">
           <?php $order_total_row = 0; $count = 0; $total = count($totals); ?>
-          <?php foreach ($totals as $totals) { ?>
+          <?php foreach ($totals as $total_row) { ?>
             <tr>
-              <td colspan="3" class="right"><span style="text-align:right;"><?php echo $totals['title']; ?></span></td>
+              <td colspan="3" class="right"><span style="text-align:right;"><?php echo $total_row['title']; ?></span></td>
               <td class="right">
                 <?php if ( $count == 0 || $count == ($total-1) ) { ?>
-                  <b rel="totals[<?php echo $totals['order_total_id']; ?>]"><?php echo $totals['text']; ?></b>
-                  <input type="hidden" name="totals[<?php echo $totals['order_total_id']; ?>]" value="<?php echo $totals['text']; ?>" />
+                  <b rel="totals[<?php echo $total_row['order_total_id']; ?>]"><?php echo $total_row['text']; ?></b>
+                  <input type="hidden" name="totals[<?php echo $total_row['order_total_id']; ?>]" value="<?php echo $total_row['text']; ?>" />
                 <?php } else { ?>
-                  <input class="no-save" type="text" name="totals[<?php echo $totals['order_total_id']; ?>]" value="<?php echo $totals['text']; ?>" />
+                  <input class="no-save" type="text" name="totals[<?php echo $total_row['order_total_id']; ?>]" value="<?php echo $total_row['text']; ?>" />
                 <?php } ?>
                 <?php $count++; ?>
               </td>

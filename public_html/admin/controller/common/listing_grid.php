@@ -57,8 +57,6 @@ class ControllerCommonListingGrid extends AController {
             $this->data['rowList'] = array($this->data['rowNum'],
                 $this->data['rowNum'] + 20,
                 $this->data['rowNum'] + 40);
-        } else {
-            $this->data['rowList'] = $this->data['rowList'];
         }
 
         $this->data['multiselect'] = empty($this->data['multiselect']) ? "true" : $this->data['multiselect'];

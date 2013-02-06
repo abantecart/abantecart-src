@@ -43,6 +43,7 @@ if (!defined('DIR_CORE')) {
  * @property ACustomer $customer
  * @property ADocument $document
  * @property ALanguageManager $language
+ * @property ADataEncryption $dcrypt
  */
 abstract class Model {
 
