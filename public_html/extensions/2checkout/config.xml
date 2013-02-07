@@ -35,9 +35,7 @@
 			<type>selectbox</type>
 			<variants>
 				<data_source>
-					   
 					<model_rt>localisation/order_status</model_rt>
-					   
 					<method>getOrderStatuses</method>
 				</data_source>
 				<fields>
@@ -45,6 +43,7 @@
 					<field>name</field>
 				</fields>
 			</variants>
+			<default_value>2</default_value>
 		</item>
 		<item id="2checkout_location_id">
 			<type>selectbox</type>
