@@ -274,7 +274,7 @@ class AExtensionManager {
 					}
 
 				} else { // When try to disable disable dependants too
-					if ($this->validateInstalled($extension_txt_id)) {
+					if ($this->isExtensionInstalled($extension_txt_id)) {
 						$children_keys = array();
 						$children = $this->getChildrenExtensions($extension_txt_id);
 
@@ -512,8 +512,8 @@ class AExtensionManager {
 		if (!$result) {
 			return false;
 		}
-		$result = $this->validateInstalled($extension_txt_id);
-		if (!$result) {
+		$result = $this->isExtensionInstalled($extension_txt_id);
+		if ($result) {
 			return false;
 		}
 		// get config.xml
@@ -613,7 +613,7 @@ class AExtensionManager {
 	 * @param string $extension_txt_id
 	 * @return bool
 	 */
-	public function validateInstalled($extension_txt_id) {
+	public function isExtensionInstalled($extension_txt_id) {
 		$installed = $this->config->get($extension_txt_id . '_status');
 		return $installed === null ? false : true;
 	}
