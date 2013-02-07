@@ -615,7 +615,7 @@ class AExtensionManager {
 	 */
 	public function validateInstalled($extension_txt_id) {
 		$installed = $this->config->get($extension_txt_id . '_status');
-		return $installed === null ? true : false;
+		return $installed === null ? false : true;
 	}
 
 
