@@ -20,7 +20,10 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * @property ALanguageManager $language
+ * @property ADB $db
+ */
 class AFormManager {
 	protected $registry;
 	public $errors = 0; // errors during process
@@ -71,18 +74,19 @@ class AFormManager {
 	
 	private function _getFieldGroupIdByName($group_name = '') {
 		if (! $group_name || ! $this->form_id) {
-			return;
+			return null;
 		}
 		$sql = "SELECT group_id FROM " . DB_PREFIX . "form_groups WHERE group_name = '" . $this->db->escape ( $group_name ) . "' AND form_id = '" . $this->form_id . "'";
 		$result = $this->db->query ( $sql );
 		return ( int ) $result->row ['group_id'];
 	}
-	
+
+	/** @noinspection PhpUnusedPrivateMethodInspection */
 	private function _getFieldGroupDescription($field_group_id = '', $language_id = 0) {
 		$language_id = ( int ) $language_id;
 		$field_group_id = ( int ) $field_group_id;
 		if (! $field_group_id || ! $language_id) {
-			return;
+			return null;
 		}
 		$sql = "SELECT * FROM " . DB_PREFIX . "fields_group_descriptions WHERE group_id = '" . $field_group_id . "' AND language_id = '" . $language_id . "'";
 		$result = $this->db->query ( $sql );
@@ -91,7 +95,7 @@ class AFormManager {
 	
 	private function _getFieldIdByName($field_name = '') {
 		if (! $field_name || ! $this->form_id) {
-			return;
+			return null;
 		}
 		$sql = "SELECT field_id FROM " . DB_PREFIX . "fields WHERE field_name = '" . $this->db->escape ( $field_name ) . "' AND form_id= '" . $this->form_id . "'";
 		$result = $this->db->query ( $sql );
@@ -102,7 +106,7 @@ class AFormManager {
 		$language_id = ( int ) $language_id;
 		$field_id = ( int ) $field_id;
 		if (! $field_id || ! $this->form_id || ! $language_id) {
-			return;
+			return null;
 		}
 		$sql = "SELECT * FROM " . DB_PREFIX . "field_descriptions WHERE field_id = '" . $field_id . "' AND language_id = '" . $language_id . "'";
 		$result = $this->db->query ( $sql );
@@ -112,7 +116,7 @@ class AFormManager {
 	private function _getFormDescription($language_id = 0) {
 		$language_id = ( int ) $language_id;
 		if (! $this->form_id || ! $language_id) {
-			return;
+			return null;
 		}
 		$sql = "SELECT * FROM " . DB_PREFIX . "form_descriptions WHERE form_id = '" . $this->form_id . "' AND language_id = '" . $language_id . "'";
 		$result = $this->db->query ( $sql );
@@ -123,7 +127,7 @@ class AFormManager {
 		$field_id = ( int ) $field_id;
 		$language_id = ( int ) $language_id;
 		if (! $field_id) {
-			return;
+			return null;
 		}
 		
 		$sql = "SELECT * FROM " . DB_PREFIX . "field_values WHERE field_id = '" . ( int ) $field_id . "' AND language_id = '" . $language_id . "'";
@@ -143,6 +147,9 @@ class AFormManager {
 		// Input possible with XML string, File or both.
 		// We process both one at a time. XML string processed first		
 		if ($data ['xml']) {
+			/**
+			 * @var $xml_obj SimpleXmlElement
+			 */
 			$xml_obj = simplexml_load_string ( $data ['xml'] );
 			if (! $xml_obj) {
 				$err = "Failed loading XML data string";
@@ -170,7 +177,10 @@ class AFormManager {
 			}
 		}
 	}
-	
+
+	/**
+	 * @param SimpleXmlElement $xml_obj
+	 */
 	private function _processXML($xml_obj) {
 		$forms = $xml_obj->xpath ( '/forms' );
 		//process each layout 
@@ -246,7 +256,7 @@ class AFormManager {
 							$this->errors = 1;
 							continue 2;
 						}
-						$this->language->addDescriptions('form_descriptions',
+						$this->language->replaceDescriptions('form_descriptions',
 														 array('form_id' => (int)$this->form_id),
 														 array($language_id => array(
 																					'description' => (string)$form_description->description
@@ -296,16 +306,6 @@ class AFormManager {
 															 array($language_id => array(
 																						'description' => (string)$form_description->description
 															 )) );
-
-						/*$exists = $this->_getFormDescription ( $language_id );
-						if (! $exists) {
-							$query = "INSERT INTO " . DB_PREFIX . "form_descriptions (form_id, language_id,description) 
-										VALUES ('" . $this->form_id . "','" . $language_id . "','" . $this->db->escape ( $form_description->description ) . "')";
-						} else {
-							$query = "UPDATE " . DB_PREFIX . "form_descriptions SET description = '" . $this->db->escape ( $form_description->description ) . "'
-									WHERE form_id= '" . $this->form_id . "' AND language_id = '" . $language_id . "'";
-						}
-						$this->db->query ( $query );*/
 					}
 				}
 				
@@ -544,12 +544,18 @@ class AFormManager {
 		}
 		
 		if ($field_group->action == 'insert') {
-			
-			$query = "INSERT INTO " . DB_PREFIX . "form_groups (`form_id`, `group_name`, `sort_order`, `status`) VALUES ('" . $this->form_id . "','" . $this->db->escape ( $field_group->name ) . "', '" . ( int ) $field_group->sort_order . "','" . ( int ) $field_group->status . "')";
+			$query = "INSERT INTO " . DB_PREFIX . "form_groups (`form_id`, `group_name`, `sort_order`, `status`)
+					    VALUES ('" . $this->form_id . "',
+					  			'" . $this->db->escape ( $field_group->name ) . "',
+					  			'" . ( int ) $field_group->sort_order . "',
+					  			'" . ( int ) $field_group->status . "')";
 			$this->db->query ( $query );
 			$field_group_id = $this->db->getLastId ();
 		} else {
-			$query = "UPDATE " . DB_PREFIX . "form_groups SET `sort_order`='" . ( int ) $field_group->sort_order . "',`status`='" . ( int ) $field_group->status . "' WHERE group_id = '" . ( int ) $field_group_id . "'";
+			$query = "UPDATE " . DB_PREFIX . "form_groups
+						SET `sort_order`='" . ( int ) $field_group->sort_order . "',
+							`status`='" . ( int ) $field_group->status . "'
+							WHERE group_id = '" . ( int ) $field_group_id . "'";
 			$this->db->query ( $query );
 		}
 		
@@ -565,10 +571,16 @@ class AFormManager {
 					$this->errors = 1;
 					continue;
 				}
-				
-				$exists = $this->_getFieldGroupDescription ( $field_group_id, $language_id );
-				
-				if (! $exists) {
+				// TODO need to check in the future what way is correct: with replaceDescription or direct insert
+				//$exists = $this->_getFieldGroupDescription ( $field_group_id, $language_id );
+				$this->language->replaceDescriptions('fields_group_descriptions',
+								array('group_id' => (int)$field_group_id),
+								array($language_id=>array(
+										'name'=>$field_group_description->name,
+										'description'=>$field_group_description->description)
+								)
+				);
+				/*if (! $exists) {
 					$sql [] = "INSERT INTO " . DB_PREFIX . "fields_group_descriptions (group_id, language_id, name, description) 
 							VALUES ('" . $field_group_id . "',
 									'" . $language_id . "',
@@ -579,7 +591,7 @@ class AFormManager {
 								SET name = '" . $this->db->escape ( $field_group_description->name ) . "',
 									description = '" . $this->db->escape ( $field_group_description->description ) . "'
 								WHERE language_id = '" . $language_id . "'AND group_id = '" . $field_group_id . "'";
-				}
+				}*/
 			}
 			foreach ( $sql as $query ) {
 				$this->db->query ( $query );
