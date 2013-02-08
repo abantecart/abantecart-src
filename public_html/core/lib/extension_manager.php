@@ -30,6 +30,7 @@ if (!defined('DIR_CORE')) {
  * @property ModelToolUpdater $model_tool_updater
  * @property Ahtml $html
  * @property AUser $user
+ * @property AMessage $messages
  * */
 class AExtensionManager {
 	/**
@@ -145,8 +146,10 @@ class AExtensionManager {
 	}
 
 	/**
-	 * @param string $extension_id
-	 * @param string $extension_parent_id
+	 * @param $extension_txt_id
+	 * @param $extension_parent_txt_id
+	 * @internal param int $extension_id
+	 * @internal param int $extension_parent_id
 	 * @return bool
 	 */
 	public function addDependant($extension_txt_id, $extension_parent_txt_id) {
@@ -169,8 +172,10 @@ class AExtensionManager {
 
 	/**
 	 * function delete extension dependants from table by given id's
-	 * @param string $extension_id
-	 * @param string $extension_parent_id
+	 * @param string $extension_txt_id
+	 * @param string $extension_parent_txt_id
+	 * @internal param string $extension_id
+	 * @internal param string $extension_parent_id
 	 * @return bool
 	 */
 	public function deleteDependant($extension_txt_id = '', $extension_parent_txt_id = '') {
@@ -251,7 +256,7 @@ class AExtensionManager {
 					if(!$ext->checkRequiredSettings()){ // check is all required settings are set
 						$value = 0;
 						$error = "Cannot enable extension \"" . $extension_txt_id . "\". Please fill all required fields on settings edit page. ";
-						$this->registry->get('messages')->saveError('App Error',$error);
+						$this->messages->saveError('App Error',$error);
 						$this->errors[] = $error;
 						$error = new AError ($error);
 						$error->toLog()->toDebug();
@@ -262,7 +267,7 @@ class AExtensionManager {
 						foreach ($parents as $parent) {
 							if (!in_array($parent['key'], $enabled)) {
 								$error = "Cannot enable extension \"" . $extension_txt_id . "\". It's depends on extension \"" . $parent['key'] . "\" which not enabled. ";
-								$this->registry->get('messages')->saveError('Extension App Error',$error);
+								$this->messages->saveError('Extension App Error',$error);
 								$this->errors[] = $error;
 								$error = new AError ($error);
 								$error->toLog()->toDebug();
@@ -601,7 +606,7 @@ class AExtensionManager {
 
 	/**
 	 *  check free space
-	 * /todo is really needed?
+	 * //TODO: is really needed?
 	 */
 	public function validateFreeSpace() {
 		return true;
@@ -683,6 +688,5 @@ class AExtensionManager {
 		}
 		return true;
 	}
-
 
 }

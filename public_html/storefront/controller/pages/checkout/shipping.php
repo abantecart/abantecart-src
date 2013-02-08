@@ -102,6 +102,7 @@ class ControllerPagesCheckoutShipping extends AController {
 			foreach ($results as $result) {
 				$this->loadModel('extension/' . $result[ 'key' ]);
 
+				/** @noinspection PhpUndefinedMethodInspection */
 				$quote = $this->{'model_extension_' . $result[ 'key' ]}->getQuote($shipping_address);
 
 				if ($quote) {
@@ -190,22 +191,24 @@ class ControllerPagesCheckoutShipping extends AController {
 		$shipping = $this->session->data[ 'shipping_method' ][ 'id' ];
 		if ($this->data[ 'shipping_methods' ]) {
 			foreach ($this->data['shipping_methods'] as $k => $v) {
-				foreach($v['quote'] as $key => $val){
-					//check if we have only one method and select by default if was selected before
-					$selected = FALSE;
-					if ( count($this->data['shipping_methods']) == 1 && count($v['quote']) == 1 ) {
-						$selected = TRUE;
-					} else if( $shipping == $val[ 'id' ] )  {
-						$selected = TRUE;
-					}	
-				
-					$this->data[ 'shipping_methods' ][ $k ]['quote'][$key][ 'radio' ] = $form->getFieldHtml(array(
-																								  'type' => 'radio',
-																								  'id' => $val[ 'id' ],
-																								  'name' => 'shipping_method',
-																								  'options' => array( $val[ 'id' ] => '' ),
-																								  'value' => $selected
-																							 ));
+				if($v['quote']){
+					foreach($v['quote'] as $key => $val){
+						//check if we have only one method and select by default if was selected before
+						$selected = FALSE;
+						if ( count($this->data['shipping_methods']) == 1 && count($v['quote']) == 1 ) {
+							$selected = TRUE;
+						} else if( $shipping == $val[ 'id' ] )  {
+							$selected = TRUE;
+						}
+
+						$this->data[ 'shipping_methods' ][ $k ]['quote'][$key][ 'radio' ] = $form->getFieldHtml(array(
+																									  'type' => 'radio',
+																									  'id' => $val[ 'id' ],
+																									  'name' => 'shipping_method',
+																									  'options' => array( $val[ 'id' ] => '' ),
+																									  'value' => $selected
+																								 ));
+					}
 				}
 			}
 		} else {
@@ -257,5 +260,3 @@ class ControllerPagesCheckoutShipping extends AController {
 		}
 	}
 }
-
-?>

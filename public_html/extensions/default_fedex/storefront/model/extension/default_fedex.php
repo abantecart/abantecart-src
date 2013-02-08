@@ -89,7 +89,7 @@ class ModelExtensionDefaultFedex extends Model {
 
         }
 
-        if($quote_data){
+        if($quote_data || $error_msg){
             $title = $this->language->get('text_title');
             $method_data = array(
                 'id'         => 'default_fedex',
@@ -354,4 +354,3 @@ class ModelExtensionDefaultFedex extends Model {
         return $strNotes;
     }
 }
-?>

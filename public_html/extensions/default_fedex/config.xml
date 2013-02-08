@@ -9,8 +9,12 @@
         <item>1.0</item>
         <item>1.1</item>
     </cartversions>
+	<phpmodules>
+		<item>soap</item>
+	</phpmodules>
     <layout></layout>
     <priority>10</priority>
+	<note>true</note>
     <settings>
         <item id="default_fedex_status">
             <type>checkbox</type>
