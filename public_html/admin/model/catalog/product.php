@@ -232,25 +232,16 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if (isset($data['product_tags'])) {
-			$this->db->query("DELETE FROM " . DB_PREFIX . "product_tags
-								WHERE product_id = '" . (int)$product_id . "'
-								AND language_id = '" . (int)$this->session->data['content_language_id'] . "'");
+			$language_id = $this->session->data['content_language_id'];
 			$tags = explode(',', $data['product_tags']);
+
 			foreach ($tags as &$tag) {
 				$tag = trim($tag);
 			}
-			unset($tag);
-			$tags = array_unique($tags);
-
-			foreach ($tags as $tag) {
-				$tag = trim($tag);
-				if ($tag) {
-					$this->language->replaceDescriptions('product_tags',
-						array('product_id' => (int)$product_id,
-							'tag' => $tag),
-						array((int)$this->session->data['content_language_id'] => array('tag' => $tag)));
-				}
-			}
+			
+			$this->language->replaceMultipleDescriptions('product_tags',
+						array( 'product_id' => (int)$product_id ),
+						array((int)$language_id => array('tag' => array_unique($tags)) ));
 		}
 
 		$this->cache->delete('product');

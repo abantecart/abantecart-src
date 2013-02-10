@@ -166,6 +166,87 @@ class ALanguageManager extends Alanguage {
 		return;
 	}
 
+
+	/*
+	* Insert or Update definitions and translate if configured based on array of values
+	* This is the case when unique index represents multiple [key] => [value] conbinations
+	* Example: product_tags table 
+	* Arguments:
+	* 	table name (database table name with no prefix)
+	*   unique index to perform select
+	*		Format: [key] => [value]
+	*   text data array
+	*		Format: [language id] => [key] => {'value1', 'value2', … }  
+	*/
+	public function replaceMultipleDescriptions($table_name, $index, $txt_data) {
+		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
+		$config = $this->registry->get('config');
+
+		//see if exists and update if it does. Do this per language
+		foreach ($txt_data as $lang_id => $lang_data) {
+			$select_index = $index;
+			$select_index[ 'language_id' ] = $lang_id;
+			if (count($this->getDescriptions($table_name, $select_index)) > 0) {
+				//delete before insert
+				$this->deleteDescriptions($table_name, $select_index);
+			} 
+			//insert for each [key] => [value] set 
+			foreach ($lang_data as $key => $values) {
+				if(count($values)){
+					foreach ($values as $value) {
+						if ( has_value($value) ) {
+							$this->_do_insert_descriptions($table_name, $index, array( $lang_id => array($key => $value) ));
+						}
+				 	}
+				}
+			}
+			
+			//check if we need to translate
+			if ($config->get('auto_translate_status')) {
+				//locate source language based on translation setting
+				$src_lang_code = $config->get('translate_src_lang_code');
+				$src_lang_id = $this->_get_language_id($src_lang_code);
+				if (empty($txt_data[ $src_lang_id ])) {
+					//this is not source language. exit
+					return;
+				}
+				//translate all active languages
+				foreach ($this->getActiveLanguages() as $lang) {
+					$language_id = $lang[ 'language_id' ];
+					$new_txt_data = array();
+					$update_txt_data = array();
+					//skip source language and just inputed languages (updated before)
+					if ($lang[ 'code' ] == $src_lang_code || !empty($txt_data[ $language_id ])) {
+						continue;
+					}
+					$dest_lang_code = $this->getLanguageCodeByLocale($lang[ 'locale' ]);
+					//get existing data and check if we create or update
+					$newindex = array_merge($index, array( 'language_id' => $language_id ));
+					$descriptions = $this->getDescriptions($table_name, $newindex);
+					if (count($descriptions) && $config->get('translate_override_existing')) {
+						//clean up if we need to translate again
+						$this->deleteDescriptions($table_name, $newindex);
+						$descriptions = array();
+					} 
+
+					if ( count($descriptions) <= 0) {
+						//translate and save
+						foreach ($txt_data[ $src_lang_id ] as $key => $values) {
+							foreach ($values as $value) {
+							if (!empty($value)) {
+								$new_value = $this->translate($src_lang_code, $value, $dest_lang_code);
+								$this->_do_insert_descriptions($table_name, $index, array( $language_id => array($key => $new_value) ));
+							}
+							}
+						}
+					}
+				}
+			}
+			
+		}
+		return;
+	}
+
 	/*
 	* Delete definitions
 	* Arguments:
@@ -625,14 +706,14 @@ class ALanguageManager extends Alanguage {
 		}
 		$extensions = $this->registry->get('extensions')->getEnabledExtensions();
 		if (in_array($translate_method, $extensions)) {
-			$ex_class = DIR_EXT . $translate_method . '/core/translate.php';
+			$ex_class = DIR_EXT . $translate_method . '/core/translator.php';
 			if (file_exists($ex_class)) {
 				require_once($ex_class);
 			} else {
 				throw new AException(AC_ERR_LOAD, 'Error: Could not load translations class ' . $ex_class . '!');
 			}
 
-			$translate_driver = new translate($this->registry->get('config'));
+			$translate_driver = new translator($this->registry->get('config'));
 			$result_txt = $translate_driver->translate($source_lang_code, $src_text, $dest_lang_code);
 			if (!$result_txt) {
 				$result_txt = $src_text;
