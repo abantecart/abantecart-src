@@ -213,8 +213,6 @@ class ALanguageManager extends Alanguage {
 				//translate all active languages
 				foreach ($this->getActiveLanguages() as $lang) {
 					$language_id = $lang[ 'language_id' ];
-					$new_txt_data = array();
-					$update_txt_data = array();
 					//skip source language and just inputed languages (updated before)
 					if ($lang[ 'code' ] == $src_lang_code || !empty($txt_data[ $language_id ])) {
 						continue;
@@ -370,7 +368,7 @@ class ALanguageManager extends Alanguage {
 			$newindex = array_merge($index, array( 'language_id' => $language_id ));
 			$descriptions = $this->getDescriptions($table_name, $newindex);
 			if (count($descriptions)) {
-				//updates only expect only 1 row per this index
+				//updates expect only 1 row per this index
 				foreach ($descriptions[ 0 ] as $key => $value) {
 					$txt_to_translate = $txt_data[ $src_lang_id ][ $key ];
 					//check if force override settings is enabled and skip if transltion esits
