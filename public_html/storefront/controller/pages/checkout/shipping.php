@@ -116,13 +116,10 @@ class ControllerPagesCheckoutShipping extends AController {
 			}
 
 			$sort_order = array();
-
 			foreach ($quote_data as $key => $value) {
 				$sort_order[ $key ] = $value[ 'sort_order' ];
 			}
-
 			array_multisort($sort_order, SORT_ASC, $quote_data);
-
 			$this->session->data[ 'shipping_methods' ] = $quote_data;
 		}
 
@@ -135,9 +132,11 @@ class ControllerPagesCheckoutShipping extends AController {
 		    	#Check config if we allowed to set this shipping and skip the step
 		    	$ext_config = $this->model_checkout_extension->getSettings($method_name);
 		    	$autoselect = $ext_config[$method_name."_autoselect"];
-		    	if ( $autoselect ) {
-		    		$this->session->data[ 'shipping_method' ] = $only_method[$method_name]['quote'][$method_name];
-		    		$this->redirect($this->html->getSecureURL('checkout/payment'));				
+		    	if ($autoselect) {
+					if(sizeof($only_method[$method_name]['quote'])==1){
+						$this->session->data[ 'shipping_method' ] = current($only_method[$method_name]['quote']);
+						$this->redirect($this->html->getSecureURL('checkout/payment'));
+					}
 		    	}
 		    }
 		}

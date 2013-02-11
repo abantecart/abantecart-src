@@ -106,7 +106,12 @@ class ModelExtensionDefaultFedex extends Model {
 
     private function _processRequest($address, $products){
         require_once(DIR_EXT . 'default_fedex/core/lib/fedex_func.php');
-        $path_to_wsdl = DIR_EXT . 'default_fedex/core/lib/RateService_v9.wsdl';
+
+		if($this->config->get('default_fedex_test')){
+        	$path_to_wsdl = DIR_EXT . 'default_fedex/core/lib/RateService_v9_test.wsdl';
+		}else{
+			$path_to_wsdl = DIR_EXT . 'default_fedex/core/lib/RateService_v9.wsdl';
+		}
         $client = new SoapClient($path_to_wsdl, array('trace' => 1)); // Refer to http://us3.php.net/manual/en/ref.soap.php for more information
 
 

@@ -140,4 +140,16 @@
          Fill out the form (do not use dashes in the account number).<br>
          Receive meter number and key instantly.  Your Production Password will be emailed to you once you complete the above steps.]]></value>
 	</definition>
+	<definition>
+		<key>default_fedex_test</key>
+		<value><![CDATA[Test Mode:<br /><span class="help">Use the live or testing gateway server?</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_test_1</key>
+		<value><![CDATA[ Yes ]]></value>
+	</definition>
+	<definition>
+		<key>default_fedex_test_0</key>
+		<value><![CDATA[ No ]]></value>
+	</definition>
 </definitions>
