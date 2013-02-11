@@ -523,8 +523,15 @@ class ControllerPagesExtensionExtensions extends AController {
 			$extension_data['icon'] = $icon;
 			$extension_data['name'] = $this->language->get($extension . '_name');
 			$extension_data['version'] = $extension_info['version'];
-			$extension_data['installed'] = (strtotime($extension_info['date_installed']) ? date('F, d Y h:iA', strtotime($extension_info['date_installed'])) : '');
-			$extension_data['create_date'] = (strtotime($extension_info['create_date']) ? date('F, d Y h:iA', strtotime($extension_info['create_date'])) : '');
+
+			$long_datetime_format = $this->language->get('date_format_long').' '.$this->language->get('time_format');
+			if($extension_info['date_installed']){
+				$extension_data['installed'] = date($long_datetime_format, strtotime($extension_info['date_installed']));
+			}
+			if($extension_info['create_date']){
+				$extension_data['create_date'] =  date($long_datetime_format, strtotime($extension_info['create_date']));
+			}
+
 			$extension_data['license'] = $extension_info['license_key'];
 			$extension_data['note'] = $ext->getConfig('note') ? $this->html->convertLinks($this->language->get($extension . '_note')) : '';
 

@@ -154,7 +154,7 @@ class ControllerPagesAccountInvoice extends AController {
 
       		foreach ($results as $result) {
         		$historys[] = array(
-          			'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+          			'date_added' => dateISO2Display( $result['date_added'], $this->language->get('date_format_short').' '. $this->language->get('time_format') ),
           			'status'     => $result['status'],
           			'comment'    => nl2br($result['comment'])
         		);

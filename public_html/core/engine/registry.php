@@ -17,43 +17,49 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+	header('Location: static_pages/');
 }
 
 final class Registry {
-	private $data = array();    
-    static private $instance = NULL;
-    
-    static function getInstance()
-    {
-        if (self::$instance == NULL)
-        {
-          self::$instance = new Registry();
-        }
-        return self::$instance;
-    }
+	private $data = array();
+	static private $instance = NULL;
 
-    private function __construct()
-    {
-    }
+	/**
+	 * @return Registry
+	 */
+	static function getInstance() {
+		if (self::$instance == NULL) {
+			self::$instance = new Registry();
+		}
+		return self::$instance;
+	}
 
-    private function __clone()
-    {
-    }
+	private function __construct() {}
 
-	public function get($key)
-    {
+	private function __clone() {}
+
+	/**
+	 * @param $key string
+	 * @return ARequest|ALoader|ADocument|ADB|AConfig|AHtml|ExtensionsApi|AExtensionManager|ALanguageManager|ASession|ACache|AMessage|ALog|AResponse|AUser|ARouter| ModelLocalisationLanguageDefinitions|ModelLocalisationCountry | ModelSettingSetting | ModelInstall
+	 */
+	public function get($key) {
 		return (isset($this->data[$key]) ? $this->data[$key] : NULL);
 	}
 
-	public function set($key, $value)
-                {
+	/**
+	 * @param $key string
+	 * @param $value mixed
+	 */
+	public function set($key, $value) {
 		$this->data[$key] = $value;
 	}
 
-	public function has($key)
-    {
-    	return isset($this->data[$key]);
-  	}	
+	/**
+	 * @param $key string
+	 * @return bool
+	 */
+	public function has($key) {
+		return isset($this->data[$key]);
+	}
 }

@@ -48,8 +48,8 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$cost = 0;
 				$compensation = 0;
 				
-				$rates = explode(',', '.1:1.39,.25:1.72,.5:2.24,.75:2.75,1:3.35,1.25:4.50,1.5:5.20,1.75:5.90,2:6.60,4:8.22,6:11.02,8:13.82,10:16.62');
-				
+				//$rates = explode(',', '.1:1.39,.25:1.72,.5:2.24,.75:2.75,1:3.35,1.25:4.50,1.5:5.20,1.75:5.90,2:6.60,4:8.22,6:11.02,8:13.82,10:16.62');
+				$rates = explode(',', '.1:1.58,.25:1.96,.5:2.48,.75:3.05,1:3.71,1.25:4.90,1.5:5.66,1.75:6.42,2:7.18,4:8.95,6:12.00,8:15.05,10:18.10');
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
 				
@@ -105,8 +105,8 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$cost = 0;
 				$compensation = 0;
 				
-				$rates = explode(',', '.1:2.13,.25:2.46,.5:2.98,.75:3.49,1:4.09,1.25:5.24,1.5:5.94,1.75:6.64,2:7.34,4:8.96,6:12.50,8:15.30,10:18.10');
-
+			  //$rates = explode(',', '.1:2.13,.25:2.46,.5:2.98,.75:3.49,1:4.09,1.25:5.24,1.5:5.94,1.75:6.64,2:7.34,4:8.96,6:12.50,8:15.30,10:18.10');
+				$rates = explode(',', '.1:2.35,.25:2.73,.5:3.25,.75:3.82,1:4.86,1.25:5.67,1.5:6.43,1.75:7.19,2:7.95,4:9.72,6:12.77,8:15.82,10:18.87');
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
 				
@@ -161,8 +161,8 @@ class ModelExtensionDefaultRoyalMail extends Model {
 			if ($this->config->get('default_royal_mail_2nd_class_standard') && $address['iso_code_2'] == 'GB') {
 				$cost = 0;
 				
-				$rates = explode(',', '.1:1.17,.25:1.51,.5:1.95,.75:2.36,1:2.84');
-
+				//$rates = explode(',', '.1:1.17,.25:1.51,.5:1.95,.75:2.36,1:2.84');
+				$rates = explode(',', '.1:1.33,.25:1.72,.5:2.16,.75:2.61,1:3.15');
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
 				
@@ -200,8 +200,8 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$cost = 0;
 				$compensation = 0;
 				
-				$rates = explode(',', '.1:1.91,.25:2.25,.5:2.69,.75:3.10,1:3.58');
-
+				//$rates = explode(',', '.1:1.91,.25:2.25,.5:2.69,.75:3.10,1:3.58');
+				$rates = explode(',', '.1:2.10,.25:2.49,.5:2.93,.75:3.38,1:3.92');
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
 				
@@ -257,7 +257,8 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$cost = 0;
 				$compensation = 0;
 				
-				$rates = explode(',', '2:4.41,4:7.06,6:9.58,8:11.74,10:12.61,20:14.69');
+				//$rates = explode(',', '2:4.41,4:7.06,6:9.58,8:11.74,10:12.61,20:14.69');
+				$rates = explode(',', '2:4.41,4:7.66,6:10.43,8:12.67,10:13.61,20:15.86');
 
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);

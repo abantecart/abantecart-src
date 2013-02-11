@@ -3,6 +3,8 @@
 	<input type="hidden" name="total" value="<?php echo $total; ?>"/>
 	<input type="hidden" name="cart_order_id" value="<?php echo $cart_order_id; ?>"/>
 	<input type="hidden" name="merchant_order_id" value="<?php echo $cart_order_id; ?>"/>
+	<input type="hidden" name="purchase_step" value="payment-method"/>
+	<input type="hidden" name="2co_cart_type" value="abantecart"/>
 	<input type="hidden" name="card_holder_name" value="<?php echo $card_holder_name; ?>"/>
 	<input type="hidden" name="street_address" value="<?php echo $street_address; ?>"/>
 	<input type="hidden" name="city" value="<?php echo $city; ?>"/>

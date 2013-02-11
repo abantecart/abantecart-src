@@ -31,7 +31,7 @@ $(document).ready(function() {
 	$(function() {
 		var dates = $( "#report_sales_grid_search_date_start, #report_sales_grid_search_date_end" ).datepicker({
 			defaultDate: "-1w",
-			dateFormat: 'yy-mm-dd',
+			dateFormat: '<?php echo $js_date_format?>',
 			changeMonth: false,
 			numberOfMonths: 1,
 			onSelect: function( selectedDate ) {
