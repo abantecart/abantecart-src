@@ -23,6 +23,11 @@ if (!defined('DIR_CORE')) {
 
 class ALanguageManager extends Alanguage {
 	//NOTE: This class is loaded in INIT for admin only
+	/**
+	 * @param Registry $registry
+	 * @param string $code
+	 * @param string $section
+	 */
 	public function __construct($registry, $code = '', $section = '') {
 		parent::__construct($registry, $code, $section);
 		if (!IS_ADMIN) { // forbid for non admin calls
@@ -42,12 +47,12 @@ class ALanguageManager extends Alanguage {
 	*		Format: [language id][key] => [value]
 	*/
 	public function addDescriptions($table_name, $index, $txt_data) {
-		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
+		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 		//Insert data provided per language in $data array
 		$this->_do_insert_descriptions($table_name, $index, $txt_data);
 		//translate to other languages
 		$this->_do_translate_descriptions($table_name, $index, $txt_data);
-		return;
+		return null;
 	}
 
 	/*
@@ -62,12 +67,12 @@ class ALanguageManager extends Alanguage {
 	* 		Format: $txt_data[language id][key] = array(key1,key2,key3)
 	*/
 	public function addDescriptionsSerialized($table_name, $index, $txt_data, $ser_keys = array()) {
-		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
+		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 		//Insert data provided per language in $data array
 		$this->_do_insert_descriptions($table_name, $index, $txt_data);
 		//translate to other languages
 		$this->_do_translate_descriptions($table_name, $index, $txt_data, $ser_keys);
-		return;
+		return null;
 	}
 
 	/*
@@ -80,12 +85,12 @@ class ALanguageManager extends Alanguage {
 	*		Format: [language id][key] => [value]
 	*/
 	public function updateDescriptions($table_name, $index, $txt_data) {
-		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
+		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 		//update provided lang data
 		$this->_do_update_descriptions($table_name, $index, $txt_data);
 		//translate to other languages
 		$this->_do_translate_descriptions($table_name, $index, $txt_data);
-		return;
+		return null;
 	}
 
 	/*
@@ -100,12 +105,12 @@ class ALanguageManager extends Alanguage {
 	* 		Format: $txt_data[language id][key] = array(key1,key2,key3)
 	*/
 	public function updateDescriptionsSerialized($table_name, $index, $txt_data, $ser_keys = array()) {
-		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
+		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 		//update provided lang data
 		$this->_do_update_descriptions($table_name, $index, $txt_data);
 		//translate to other languages
 		$this->_do_translate_descriptions($table_name, $index, $txt_data, $ser_keys);
-		return;
+		return null;
 	}
 
 	/*
@@ -119,7 +124,7 @@ class ALanguageManager extends Alanguage {
 	*		Format: [language id][key] => [value]
 	*/
 	public function replaceDescriptions($table_name, $index, $txt_data) {
-		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
+		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 
 		//see if exists and update if it does. Do this per language
 		foreach ($txt_data as $lang_id => $lang_data) {
@@ -133,7 +138,7 @@ class ALanguageManager extends Alanguage {
 		}
 		//translate to other languages
 		$this->_do_translate_descriptions($table_name, $index, $txt_data);
-		return;
+		return null;
 	}
 
 	/*
@@ -149,7 +154,7 @@ class ALanguageManager extends Alanguage {
 	* 		Format: $txt_data[language id][key] = array(key1,key2,key3)
 	*/
 	public function replaceDescriptionsSerialized($table_name, $index, $txt_data, $ser_keys = array()) {
-		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
+		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 
 		//see if exists and update if it does. Do this per language
 		foreach ($txt_data as $lang_id => $lang_data) {
@@ -163,7 +168,7 @@ class ALanguageManager extends Alanguage {
 		}
 		//translate to other languages
 		$this->_do_translate_descriptions($table_name, $index, $txt_data, $ser_keys);
-		return;
+		return null;
 	}
 
 
@@ -179,7 +184,11 @@ class ALanguageManager extends Alanguage {
 	*		Format: [language id] => [key] => {'value1', 'value2', … }  
 	*/
 	public function replaceMultipleDescriptions($table_name, $index, $txt_data) {
-		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return;
+		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0){ return null; }
+
+		/**
+		 * @var AConfig $config
+		 */
 		$config = $this->registry->get('config');
 
 		//see if exists and update if it does. Do this per language
@@ -208,7 +217,7 @@ class ALanguageManager extends Alanguage {
 				$src_lang_id = $this->_get_language_id($src_lang_code);
 				if (empty($txt_data[ $src_lang_id ])) {
 					//this is not source language. exit
-					return;
+					return null;
 				}
 				//translate all active languages
 				foreach ($this->getActiveLanguages() as $lang) {
@@ -242,7 +251,7 @@ class ALanguageManager extends Alanguage {
 			}
 			
 		}
-		return;
+		return null;
 	}
 
 	/*
@@ -253,7 +262,7 @@ class ALanguageManager extends Alanguage {
 	*		Format: [key] => [value]
 	*/
 	public function deleteDescriptions($table_name, $index) {
-		if (empty($table_name) || empty($index)) return;
+		if (empty($table_name) || empty($index)) return null;
 
 		$del_index = array();
 		foreach ($index as $i => $v) {
@@ -265,7 +274,7 @@ class ALanguageManager extends Alanguage {
 		$sql .= "WHERE " . implode(" AND ", $del_index);
 		$this->db->query($sql);
 
-		return;
+		return null;
 	}
 
 	/*
@@ -296,8 +305,14 @@ class ALanguageManager extends Alanguage {
 	}
 
 	// Perform SQL update
+	/**
+	 * @param $table_name
+	 * @param $index
+	 * @param $txt_data
+	 * @return null
+	 */
 	private function _do_update_descriptions($table_name, $index, $txt_data) {
-		if (empty($table_name) || empty($index) || empty($txt_data)) return;
+		if (empty($table_name) || empty($index) || empty($txt_data)) return null;
 
 		foreach ($txt_data as $lang_id => $lang_data) {
 			if (!$lang_data) continue;
@@ -318,12 +333,12 @@ class ALanguageManager extends Alanguage {
 			$sql .= "SET " . implode(", ", $update_data) . " WHERE " . implode(" AND ", $update_index);
 			$this->db->query($sql);
 		}
-		return;
+		return null;
 	}
 
 	// Perform SQL insert
 	private function _do_insert_descriptions($table_name, $index, $txt_data) {
-		if (empty($table_name) || empty($index) || empty($txt_data)) return;
+		if (empty($table_name) || empty($index) || empty($txt_data)) return null;
 
 		foreach ($txt_data as $lang_id => $lang_data) {
 			//sanitize data 
@@ -336,15 +351,25 @@ class ALanguageManager extends Alanguage {
 			$sql .= "(`" . implode("`, `", array_keys($load_data)) . "`) VALUES ('" . implode("', '", $load_data) . "') ";
 			$this->db->query($sql);
 		}
-		return;
+		return null;
 	}
 
 	//translate descriptions
+	/**
+	 * @param string $table_name
+	 * @param array $index
+	 * @param array $txt_data
+	 * @param array $serialized_roadmap
+	 * @return bool|null
+	 */
 	private function _do_translate_descriptions($table_name, $index, $txt_data, $serialized_roadmap = array()) {
+		/**
+		 * @var AConfig $config
+		 */
 		$config = $this->registry->get('config');
 		//check if translation is ON
 		if (!$config->get('auto_translate_status')) {
-			return;
+			return null;
 		}
 
 		//locate source language based on translation setting
@@ -416,14 +441,14 @@ class ALanguageManager extends Alanguage {
 				$this->_do_update_descriptions($table_name, $index, $update_txt_data);
 			}
 		}
-		return;
+		return null;
 	}
 
 	#### END Language Descriptions admin API Section #####
 
 	//Function to delete all data in tables that have language id specified
 	public function deleteAllLanguageEntries($language_id) {
-		if (empty($language_id)) return;
+		if (empty($language_id)) return null;
 
 		$tables = $this->_get_language_based_tables();
 		foreach ($tables as $table_name) {
@@ -479,7 +504,7 @@ class ALanguageManager extends Alanguage {
 	//Function to populate all tables that have language linked data with new language data. Copy from default if source language is not provided
 	public function fillMissingLanguageEntries($language_id, $source_language_id = 1, $translate_method = '') {
 		if (empty($language_id)) {
-			return;
+			return null;
 		}
 
 		//First make sure source language definition XML files are all loaded (refreshed)
@@ -616,7 +641,7 @@ class ALanguageManager extends Alanguage {
 				}
 			}
 		}
-
+	return true;
 	}
 
 	public function getAllLanguageBlocks($language_name = 'english') {
@@ -680,7 +705,7 @@ class ALanguageManager extends Alanguage {
 		return $this->_clone_language_rows(DB_PREFIX . 'language_definitions', $pkeys, $language_id, $source_language, $specific_sql);
 	}
 
-	/*
+	/**
 	* Translate provided text to requested language
 	* Configured method is used (default translation is a COPY)
 	* Arguments:
@@ -691,12 +716,19 @@ class ALanguageManager extends Alanguage {
 	*
 	* Return:
 	*	UTF8 Translation text
-	*/
+	*
+	 * @param string $source_lang_code - two-letters language code
+	 * @param string $src_text
+	 * @param string $dest_lang_code - two-letters language code
+	 * @param string $translate_method
+	 * @return null
+	 * @throws AException
+	 */
 	public function translate($source_lang_code, $src_text, $dest_lang_code, $translate_method = '') {
 		$this->registry->get('extensions')->hk_InitData($this, __FUNCTION__);
 		$result_txt = '';
 		if (empty($source_lang_code) || empty($src_text) || empty($dest_lang_code)) {
-			return;
+			return null;
 		}
 		//check what method is selected for translation
 		if (empty($translate_method)) {
@@ -711,7 +743,9 @@ class ALanguageManager extends Alanguage {
 				throw new AException(AC_ERR_LOAD, 'Error: Could not load translations class ' . $ex_class . '!');
 			}
 
+			/** @noinspection PhpUndefinedClassInspection */
 			$translate_driver = new translator($this->registry->get('config'));
+			/** @noinspection PhpUndefinedMethodInspection */
 			$result_txt = $translate_driver->translate($source_lang_code, $src_text, $dest_lang_code);
 			if (!$result_txt) {
 				$result_txt = $src_text;
@@ -728,7 +762,7 @@ class ALanguageManager extends Alanguage {
 	private function _translateSerializedData($unserialized, $roadmap, $source_lang_code, $dest_lang_code, $translate_method = '') {
 
 		if (empty($source_lang_code) || empty($unserialized) || empty($dest_lang_code)) {
-			return;
+			return null;
 		}
 		//check what method is selected for translation
 		if (empty($translate_method)) {
@@ -784,7 +818,7 @@ class ALanguageManager extends Alanguage {
 	//#PR Duplicate row from default langauge to new and translate if needed
 	private function _clone_language_rows($table, $pkeys, $new_language, $from_language = 1, $specific_sql = '', $translate_method = '') {
 		if (empty($table) || empty ($pkeys) || empty($new_language)) {
-			return;
+			return null;
 		}
 		// Locate autoincrement column
 		$autoincrenent_sql = "SHOW COLUMNS FROM " . $table . " where Extra = 'auto_increment'";
@@ -908,7 +942,7 @@ class ALanguageManager extends Alanguage {
 
 	//#PR select all fields for the table that can be translated   
 	private function _get_translatable_fields($table_name) {
-		if (empty($table_name)) return;
+		if (empty($table_name)) return null;
 
 		$cache_file = "tables.translatable.$table_name";
 		$load_data = array();
@@ -942,7 +976,7 @@ class ALanguageManager extends Alanguage {
 	}
 
 	public function getLanguageCodeByLocale($locale) {
-		if (empty($locale)) return;
+		if (empty($locale)) return null;
 		$locale = explode(",", $locale);
 		$lc = $locale[ 1 ];
 		if (strpos($lc, '_') === 2) {
@@ -959,7 +993,7 @@ class ALanguageManager extends Alanguage {
 				return $lang[ 'language_id' ];
 			}
 		}
-		return;
+		return null;
 	}
 
 }
