@@ -833,6 +833,22 @@ class ControllerPagesToolPackageInstaller extends AController {
 			//this method requires permission set to be set
 			$pmanager->chmod_R(DIR_EXT.$extension_id ,0777, 0777);
 		}
+
+		/*
+		 * When extension installed by one-path process (ex.: on upload)
+		 * it is not present in database yet,
+		 * so we have to add it.
+		 */
+		$this->extension_manager->add(array(
+			'type' => (string) $config->type,
+			'key' => (string) $config->id,
+			'status' => 0,
+			'priority' => (string) $config->priority,
+			'version' => (string) $config->version,
+			'license_key' => $this->registry->get('session')->data['package_info']['extension_key'],
+			'category' => (string) $config->category,
+		));
+
 		// #4. if copied successully - install(upgrade)
 		if ($result) {
 			$install_mode = $already_installed ? 'upgrade' : 'install';
