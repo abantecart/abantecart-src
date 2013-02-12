@@ -537,10 +537,10 @@ class ALanguageManager extends Alanguage {
 	 */
 
 	/**
-	 * @param $language_id // if 0 - all languages
-	 * @param string $section  // 1 or 0 - admin or storefront
-	 * @param string $specific_block   // name of the block
-	 * @param string $mode  //mode can be the types: update, add
+	 * @param $language_id -  if 0 - all languages
+	 * @param string $section  - 1 or 0 - admin or storefront
+	 * @param string $specific_block - name of the block
+	 * @param string $mode - mode can be the types: update, add
 	 */
 	public function definitionAutoLoad($language_id, $section, $specific_block, $mode = 'add', $language_key = '') {
 
@@ -641,7 +641,7 @@ class ALanguageManager extends Alanguage {
 				}
 			}
 		}
-	return true;
+
 	}
 
 	public function getAllLanguageBlocks($language_name = 'english') {
