@@ -225,9 +225,16 @@ class AExtensionManager {
 		// check if settings required and it is not status
 		$ext = new ExtensionUtils($extension_txt_id,(int)$data['store_id']);
 		if(isset($data['one_field']) && !isset($data[$extension_txt_id . "_status"])){
-			if(!$ext->checkRequiredSettings($data)){ // check is all required settings are set
-				$error = "Can't save setting because value is empty. ";
-				$this->errors[] = $error;
+			$validate = $ext->validateSettings($data);
+			if(!$validate['result']){ // check is all required settings are set
+				if(!isset($validate['errors'])){
+					$this->errors[] = "Can't save setting because value is empty. ";
+				}else{
+					$this->load->language($extension_txt_id.'/'.$extension_txt_id);
+					foreach($validate['errors'] as $id => $item_name){
+						$this->errors[] = $id=='pattern' ? $item_name : $this->language->get($item_name.'_validation_error') ;
+					}
+				}
 				return false;
 			}
 		}
@@ -253,13 +260,25 @@ class AExtensionManager {
 			if ($setting_name == 'status') {
 				//when try to enable extension
 				if ($value == 1) { // check is parent extension enabled
-					if(!$ext->checkRequiredSettings()){ // check is all required settings are set
-						$value = 0;
-						$error = "Cannot enable extension \"" . $extension_txt_id . "\". Please fill all required fields on settings edit page. ";
-						$this->messages->saveError('App Error',$error);
-						$this->errors[] = $error;
-						$error = new AError ($error);
-						$error->toLog()->toDebug();
+					$validate = $ext->validateSettings($data); // check is all required settings are set and valid
+					if(!$validate['result']){
+						$value = 0; // disable extension
+						if(!isset($validate['errors'])){
+							$error = "Cannot enable extension \"" . $extension_txt_id . "\". Please fill all required fields on settings edit page. ";
+							$this->messages->saveError('App Error',$error);
+							$this->errors[] = $error;
+							$error = new AError ($error);
+							$error->toLog()->toDebug();
+						}else{
+							$this->load->language($extension_txt_id.'/'.$extension_txt_id);
+							foreach($validate['errors'] as $id => $item_name){
+								$error = $id=='pattern' ? $item_name : $this->language->get($item_name.'_validation_error') ;
+								$this->messages->saveError('App Error: '.$item_name,$error);
+								$this->errors[] = $error;
+								$error = new AError ($error);
+								$error->toLog()->toDebug();
+							}
+						}
 					}else{
 						// if all fine with required fields - check childen
 						$parents = $this->getParentsExtensionTextId($extension_txt_id);

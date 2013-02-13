@@ -977,15 +977,73 @@ class ExtensionUtils {
 	}
 
 	/**
+	 * Validation of settings of extension
 	 * @param array $data  - array of values for check. If it is empty - will check data from config
-	 * @return bool
+	 * @return array - array of 2 elements: result and array - item_ids list that not valid
 	 */
-	public function checkRequiredSettings($data=array()){
+	public function validateSettings($data=array()){
 		// if values not set or we change only status of extension
 		if(!$data || (isset($data['one_field']) && isset($data[$this->name.'_status']) && $data[$this->name.'_status']==1 )){
 			$this->registry->get('load')->model('setting/setting');
 			$data = $this->registry->get('model_setting_setting')->getSetting($this->name, $this->store_id);
 		}
+
+		//1. check is all required fields are set
+		$result = $this->checkRequiredSettings($data);
+		if(!$result){
+			return array('result'=>false);
+		}
+
+		//2. is data valid?
+		//2.1 - check by regex pattern from entity of config.xml
+		if (isset($this->config->settings->item)) {
+			foreach ($this->config->settings->item as $item) {
+				if(!isset($data[(string)$item['id']])){
+					continue;//if data for check not given - do nothing
+				}
+				$value = $data[(string)$item['id']];
+				if (is_array($value)) {
+					$value = array_map('trim',$value);
+				}else{
+					$value = trim($value);
+				}
+				if((string)$item->pattern_validate){
+					$matches = array();
+					$pattern = '/'.trim((string)$item->pattern_validate).'/';
+					$error_language_key = (string)$item->pattern_validate->attributes()->error_text;
+					//is pattern valid?
+					if(preg_match($pattern,$value, $matches)===false){
+						return array('result'=>false, 'errors'=>array('pattern' => 'Regex pattern for field "'.(string)$item['id'].'" is not valid.'));
+					}else{
+						if(!$matches){
+							return array('result'=>false, 'errors'=>array((string)$item['id'] => (string)$item['id']));
+						}
+					}
+				}
+			}
+		}
+		//2.2 check data by given function from file validate.php
+		$validate_file = DIR_EXT.$this->name.'/validate.php';
+
+		if(file_exists($validate_file)){
+			include_once($validate_file);
+			//function settingsValidation in validate.php must to return formatted array as in caller (see phpdoc-comment: @return)
+			if(function_exists('settingsValidation')){
+				$result = call_user_func('settingsValidation',$data);
+				if(!isset($result['result']) || !isset($result['errors'])){
+					return array('result'=>false, 'errors'=>array('pattern' => 'Error: Cannot to validate data by validate.php file. Function returns incorrect formated data.'));
+				}
+				return $result;
+			}
+		}
+
+		return array('result'=>true);
+	}
+	/**
+	 * @param array $data  - array of values for check. If it is empty - will check data from config
+	 * @return bool
+	 */
+	public function checkRequiredSettings($data=array()){
 
 		if (isset($this->config->settings->item)) {
 			foreach ($this->config->settings->item as $item) {
@@ -1005,6 +1063,8 @@ class ExtensionUtils {
 				}
 			}
 		}
+
+		// at last we need to validate data
 		return true;
 	}
 

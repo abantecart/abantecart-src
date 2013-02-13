@@ -666,11 +666,20 @@ class ControllerPagesExtensionExtensions extends AController {
 		}
 
 		if (!$this->error) {
-			//then check required fields
+			//then check required fields and validate it
 			$ext = new ExtensionUtils($extension, $store_id);
-
-			if(!$ext->checkRequiredSettings($this->request->post)){
-				$this->error['warning'] = $this->language->get('error_required_field');
+			$validate = $ext->validateSettings($this->request->post);
+			if(!$validate['result']){
+				if(!isset($validate['errors'])){
+					$this->error['warning'] = $this->language->get('error_required_field');
+				}else{
+					$this->error['warning'] = array();
+					foreach($validate['errors'] as $id => $item_name){
+						$error = $id=='pattern' ? $item_name : $this->language->get($item_name.'_validation_error') ;
+						$this->error['warning'][] = $error;
+					}
+					$this->error['warning'] = implode('<br>',$this->error['warning']);
+				}
 				return false;
 			}
 			return TRUE;
