@@ -603,7 +603,7 @@ class ExtensionsApi {
 
 	/**
 	 * check if resource ( model, language, template ) is an extension resource
-	 *
+	 * (only enabled extensions can be checked)
 	 * @param  $resource_type - resource type - M, L, T  ( model, language, template )
 	 * @param  $route - resource route to check
 	 * @return array|bool - false if not found, array with extension name and file name if found
@@ -676,7 +676,7 @@ class ExtensionsApi {
 	}
 
 	/**
-	 * check if route is an extension controller
+	 * check if route is an extension controller (only enabled extensions can be checked)
 	 *
 	 * @param  $route - controller route to check
 	 * @return array|bool - extension name, file, class name and method
