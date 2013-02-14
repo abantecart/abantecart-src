@@ -1009,14 +1009,14 @@ class ExtensionUtils {
 				}
 				if((string)$item->pattern_validate){
 					$matches = array();
-					$pattern = '/'.trim((string)$item->pattern_validate).'/';
-					$error_language_key = (string)$item->pattern_validate->attributes()->error_text;
+					$pattern = trim(trim((string)$item->pattern_validate),'/');
+					$pattern = '/'.$pattern.'/';
 					//is pattern valid?
 					if(preg_match($pattern,$value, $matches)===false){
 						return array('result'=>false, 'errors'=>array('pattern' => 'Regex pattern for field "'.(string)$item['id'].'" is not valid.'));
 					}else{
 						if(!$matches){
-							return array('result'=>false, 'errors'=>array((string)$item['id'] => (string)$item['id']));
+							return array('result'=>false, 'errors'=>array((string)$item['id'] => ''));
 						}
 					}
 				}
@@ -1030,7 +1030,7 @@ class ExtensionUtils {
 			//function settingsValidation in validate.php must to return formatted array as in caller (see phpdoc-comment: @return)
 			if(function_exists('settingsValidation')){
 				$result = call_user_func('settingsValidation',$data);
-				if(!isset($result['result']) || !isset($result['errors'])){
+				if(!isset($result['result']) || !isset($result['errors']) || !is_array($result['errors']) ){
 					return array('result'=>false, 'errors'=>array('pattern' => 'Error: Cannot to validate data by validate.php file. Function returns incorrect formated data.'));
 				}
 				return $result;

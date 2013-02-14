@@ -674,8 +674,8 @@ class ControllerPagesExtensionExtensions extends AController {
 					$this->error['warning'] = $this->language->get('error_required_field');
 				}else{
 					$this->error['warning'] = array();
-					foreach($validate['errors'] as $id => $item_name){
-						$error = $id=='pattern' ? $item_name : $this->language->get($item_name.'_validation_error') ;
+					foreach($validate['errors'] as $field_id => $error_text){
+						$error = $error_text ? $error_text : $this->language->get($field_id.'_validation_error') ;
 						$this->error['warning'][] = $error;
 					}
 					$this->error['warning'] = implode('<br>',$this->error['warning']);

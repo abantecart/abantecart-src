@@ -231,8 +231,8 @@ class AExtensionManager {
 					$this->errors[] = "Can't save setting because value is empty. ";
 				}else{
 					$this->load->language($extension_txt_id.'/'.$extension_txt_id);
-					foreach($validate['errors'] as $id => $item_name){
-						$this->errors[] = $id=='pattern' ? $item_name : $this->language->get($item_name.'_validation_error') ;
+					foreach($validate['errors'] as $field_id => $error_text){
+						$this->errors[] = $error_text ? $error_text : $this->language->get($field_id.'_validation_error') ;
 					}
 				}
 				return false;
@@ -271,9 +271,9 @@ class AExtensionManager {
 							$error->toLog()->toDebug();
 						}else{
 							$this->load->language($extension_txt_id.'/'.$extension_txt_id);
-							foreach($validate['errors'] as $id => $item_name){
-								$error = $id=='pattern' ? $item_name : $this->language->get($item_name.'_validation_error') ;
-								$this->messages->saveError('App Error: '.$item_name,$error);
+							foreach($validate['errors'] as $field_id => $error_text){
+								$error = $error_text ? $error_text : $this->language->get($field_id.'_validation_error') ;
+								$this->messages->saveError('App Error: '.$field_id, $error);
 								$this->errors[] = $error;
 								$error = new AError ($error);
 								$error->toLog()->toDebug();
