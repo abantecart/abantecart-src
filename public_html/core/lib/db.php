@@ -52,7 +52,10 @@ final class ADB {
 
 	public function table($table_name){
 		//detect if encryption is enabled
-		$postfix = $this->registry->get('dcrypt')->posfix($table_name);
+		$postfix = '';
+		if ( is_object($this->registry->get('dcrypt')) ) {
+			$postfix = $this->registry->get('dcrypt')->posfix($table_name);
+		}
 		return DB_PREFIX . $table_name . $postfix;
 	}	
   	

@@ -250,7 +250,7 @@ class ModelSaleOrder extends Model {
 					
 				$message .= $language->get('text_footer');
 
-				$customer_email = $this->dcrypt->decrypt_record($order_query->row['email'], 'orders'); 
+				$customer_email = $this->dcrypt->decrypt_field($order_query->row['email'], $order_query->row['key_id']); 
 
 				$mail = new AMail( $this->config );
 				$mail->setTo($customer_email);

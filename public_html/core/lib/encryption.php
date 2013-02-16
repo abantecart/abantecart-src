@@ -375,6 +375,7 @@ Limitation: passphrase is not supported to data encryption.
 
 final class ADataEncryption {
 	private $key_name;
+	private $keys;
 	private $passphrase;
 	private $enc_data;
 	private $posfix = '';
@@ -385,17 +386,23 @@ final class ADataEncryption {
 		if ( !defined('DATA_ENCRYPTION_ENABLED') || DATA_ENCRYPTION_ENABLED != true) {
 			return NULL;
 		}		
+		$this->registry = Registry::getInstance();
+		$this->log = $this->registry->get('log');
+		$this->message = $this->registry->get('messages');
 		
+		//load default key
 		if ($key_name ){
 			$this->key_name = $key_name;
 		} else {
 			$this->key_name = DATA_ENCRYPTION_KEYPAIR;
 		} 
-		
 		if ($passphrase) {
 			$this->passphrase = $passphrase;
 		}
-		
+
+		//load keys from database
+		$this->_load_keys();
+				
 		//set tables/fields encrypted
 		$this->enc_data['orders'] = array(
 			'id' => 'order_id',
@@ -544,8 +551,11 @@ final class ADataEncryption {
 			return $crypt_data_arr;
 		}
 
+		//detect key to use
+		$key_name = $this->_detect_decrypt_key($crypt_data_arr['key_id']);
+
 		$open_data_arr = $crypt_data_arr;				
-		$enc = new ASSLEncryption('', $this->key_name, $pass);
+		$enc = new ASSLEncryption('', $key_name, $pass);
 		$fields = $this->getEcryptedFields($table);
 		foreach ($crypt_data_arr as $key => $data) {
 			if ( in_array($key, $fields) ) {
@@ -569,9 +579,11 @@ final class ADataEncryption {
 			return $open_data_arr;
 		}
 
+		$key_name = $this->_detect_encrypt_key($open_data_arr['key_id']);
+
 		$crypt_data_arr = $open_data_arr;
-		$enc = new ASSLEncryption($this->key_name);
-		$fields = $this->getEcryptedFields($table);
+		$enc = new ASSLEncryption( $key_name );
+		$fields = $this->getEcryptedFields( $table );
 		foreach ($open_data_arr as $key => $data) {
 			if ( in_array($key, $fields) ) {
 				$crypt_data_arr[$key] = $enc->encrypt($data);			
@@ -585,11 +597,14 @@ final class ADataEncryption {
 	*@param string
 	*@return string
 	*/	
-	public function encrypt_record ( $open_data ) {
+	public function encrypt_field( $open_data, $key_id = 0 ) {
 		//if encryption off return pure data
 		if ( !$this->active ) {
 			return $open_data;
 		}
+
+		//detect key to use
+		$key_name = $this->_detect_encrypt_key( $key_id );
 
 		$enc = new ASSLEncryption($this->key_name);
 		return $enc->encrypt($open_data);
@@ -600,7 +615,7 @@ final class ADataEncryption {
 	*@param string, string
 	*@return string
 	*/	
-	public function decrypt_record ( $crypt_data, $pass = null) {
+	public function decrypt_field( $crypt_data, $key_id = 0, $pass = null) {
 		if ( empty($pass) ) {
 			$pass = $this->passphrase;
 		}
@@ -609,9 +624,74 @@ final class ADataEncryption {
 			return $crypt_data;
 		}
 
-		$enc = new ASSLEncryption('', $this->key_name, $pass);
+		//detect key to use
+		$key_name = $this->_detect_decrypt_key( $key_id );
+
+		$enc = new ASSLEncryption('', $key_name, $pass);
 		return $enc->decrypt($crypt_data);
 	}
+	
+	private function _load_keys() {
+		$config = $this->registry->get('config'); 
+		$cache = $this->registry->get('cache'); 
+
+		$this->keys = array();
+        $cache_name = 'encryption.keys';
+        $this->keys = $cache->get($cache_name,'',(int)$config->get('config_store_id'));
+        if (empty($this->keys)) {
+			$db = $this->registry->get('db');
+			$query = $db->query( "SELECT * FROM " . $db->table('encryption_keys') . " WHERE status = 1" );
+        	if ( !$query->num_rows ) {
+            	return;
+        	}
+        	foreach ($query->rows as $row) {
+        		$this->keys[$row['key_id']] = $row['key_name'];
+        	} 
+			$cache->set($cache_name, $this->keys,'',(int)$config->get('config_store_id'));
+		}
+	}
+		
+	private function _detect_encrypt_key( $key_id ) {
+		$key_name = '';
+		//detect key to use (set default first) 
+		if ( count($this->keys) > 0 ) {
+			#take latest key from the databse
+			$key_name = end($this->keys);
+		} else {
+			$key_name = $this->key_name;
+		}
+		
+		if ( is_int( $key_id ) && $key_id > 0 ) {
+			//we have specific key set for record
+			if ($this->keys[ $key_id ] ) {
+				$key_name = $this->keys[ $key_id ];
+			} else {
+				//something happend. we do nto have a key. Report incident. 
+		        $error = "Error: Can not locate key ID: ". $key_id . " in the encryption_keys table. Attempt to locate default keys! ";
+		        $this->log->write($error);
+		        $this->message->saveError('Data decryption error',$error);
+			}
+		}
+		return $key_name;
+	}	
+
+
+	private function _detect_decrypt_key( $key_id ) {
+		$key_name = $this->key_name;
+		if ( is_int($key_id) && $key_id > 0 ) {
+			//we have key set for record
+			if ( $this->keys[$key_id] ) {
+				$key_name = $this->keys[$key_id];
+			} else {
+				//something happend. we do nto have a key. Report incident. 
+		        $error = "Error: Can not locate key ID: ". $key_id . " in the encryption_keys table. Record data might not be decrypted! ";
+		        $this->log->write($error);
+		        $this->message->saveError('Data decryption error',$error);
+			}
+		}
+		return $key_name;
+	}	
+				
 }
 
 ?>

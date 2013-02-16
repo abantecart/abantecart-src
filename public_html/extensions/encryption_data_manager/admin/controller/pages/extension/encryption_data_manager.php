@@ -145,6 +145,8 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 				'value' => $this->data['private_key_type'],
 			));
 
+		/*
+		* Password protected key is not supported 
 		$key_gen['form']['fields']['encrypt_key'] = $form->getFieldHtml(array(
 				'type' => 'checkbox',
 				'name' => 'encrypt_key',
@@ -158,6 +160,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 				'value' => $this->data['passphrase'],
 			));
 
+		*/
 		$this->data['sections'][] = $key_gen;
 
 		
@@ -210,6 +213,13 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 					'value' => $this->data['enc_test_mode'],
 					'style'  => 'btn_switch',
 				));
+
+			$data_enc['form']['fields']['enc_remove_original'] = $form2->getFieldHtml(array(
+					'type' => 'checkbox',
+					'name' => 'enc_remove_original',
+					'value' => (isset($this->data['enc_remove_original'])) ? $this->data['enc_remove_original'] : 1 
+				));
+
 		} else {
 			$data_enc['note'] = "<b>Enable Data Encryption first!<b>";
 		}
@@ -282,6 +292,10 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 					}
 					try {
 						$this->db->query("INSERT INTO " . $this->db->table($table_name) . " SET $insert_flds;" );
+						//remove orioginal record if requested
+						if ($data['enc_remove_original']) {
+							$this->db->query("DELETE FROM " . DB_PREFIX . $table_name . " WHERE $id_field=" . $record[$id_field]  );
+						}
 					} catch (AException $e) {
 						$result[] = "<div class='error'>Error: Table $table_name record ID: " . $enc_rec_data[$id_field] . " failed saving! </div>";
 						$count--;

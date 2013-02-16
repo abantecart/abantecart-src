@@ -331,7 +331,7 @@ class ModelSaleCustomer extends Model {
 		}
 		$result_rows = array(); 
 		foreach ($data as $result) {
-			if ( !(strpos (strtolower($this->dcrypt->decrypt_record($result[$field], 'customers')), strtolower($value)) === false) ) {
+			if ( !(strpos (strtolower($this->dcrypt->decrypt_field($result[$field], $result['key_id'])), strtolower($value)) === false) ) {
 				$result_rows[] = $result;
 			}
 		}	

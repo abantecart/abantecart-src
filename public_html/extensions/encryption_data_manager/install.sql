@@ -11,6 +11,7 @@ CREATE TABLE `ac_addresses_enc` (
   `city` text COLLATE utf8_bin NOT NULL,
   `country_id` int(11) NOT NULL DEFAULT '0',
   `zone_id` int(11) NOT NULL DEFAULT '0',
+  `key_id` int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`address_id`),
   KEY `customer_id` (`customer_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
@@ -67,6 +68,7 @@ CREATE TABLE `ac_orders_enc` (
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ip` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `key_id` int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`order_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
@@ -89,5 +91,6 @@ CREATE TABLE `ac_customers_enc` (
   `customer_group_id` int(11) NOT NULL,
   `ip` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `key_id` int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`customer_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;

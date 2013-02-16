@@ -127,7 +127,7 @@ class ModelAccountCustomer extends Model {
 		//validate if we have row with matchign decrypted email;		
 		$result_row = array();
 		foreach ($query->rows as $result) {
-			if ( strtolower($email) == strtolower($this->dcrypt->decrypt_record($result['email'], 'customers')) ) {
+			if ( strtolower($email) == strtolower($this->dcrypt->decrypt_field($result['email'], $result['key_id'])) ) {
 				$result_row = $result;
 				break;
 			}

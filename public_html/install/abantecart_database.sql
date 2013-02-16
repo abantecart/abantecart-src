@@ -7166,3 +7166,12 @@ CREATE TABLE `ac_extension_dependencies` (
   `extension_parent_id` int(11) NOT NULL,
   PRIMARY KEY (`extension_id`,`extension_parent_id`)
 ) ENGINE=MyISAM;
+
+DROP TABLE IF EXISTS `ac_encryption_keys`;
+CREATE TABLE `ac_encryption_keys` (
+  `key_id` int(3) NOT NULL AUTO_INCREMENT,
+  `key_name` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `status` int(1) NOT NULL,  
+  `comment` text COLLATE utf8_bin NOT NULL,  
+  PRIMARY KEY (`key_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;

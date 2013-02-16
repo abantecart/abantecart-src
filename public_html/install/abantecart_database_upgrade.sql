@@ -9,3 +9,12 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('api', 'config_admin_api_status', '0'),
 ('api', 'config_admin_api_key', ''),
 ('api', 'config_admin_access_ip_list', '');
+
+DROP TABLE IF EXISTS `ac_encryption_keys`;
+CREATE TABLE `ac_encryption_keys` (
+  `key_id` int(3) NOT NULL AUTO_INCREMENT,
+  `key_name` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `status` int(1) NOT NULL,  
+  `comment` text COLLATE utf8_bin NOT NULL,  
+  PRIMARY KEY (`key_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;

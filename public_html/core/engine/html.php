@@ -105,23 +105,74 @@ class AHtml extends AController {
 	}
 
 	/**
+	 * Generate URL from data array provided
+	 *
+	 * @param $params_arr array - data array to process
+	 * @param $filter_params array - array of vars to filter
+	 * @return string - url without unwanted filter parameters
+	 */
+	public function generateURL($params_arr, $filter_params = array()) {	
+		//detect if there is RT in the params. 
+		$rt = 'index/home';
+		if ( has_value($params_arr['rt']) ) {
+			$rt = $params_arr['rt'];
+			$filter_params[] = 'rt';	
+		}
+		$URI = $this->buildURI($params_arr, $filter_params);
+		return $this->getURL($rt, $URI);
+	}
+
+	/**
+	 * Build URI from array provided
+	 *
+	 * @param $params_arr array - data array to process
+	 * @param $filter_params array - array of vars to filter
+	 * @return string - url without unwanted filter parameters
+	 */
+	public function buildURI($params_arr, $filter_params = array()) {		
+
+		foreach ($filter_params as $rv) {
+			unset($params_arr[ $rv ]);		
+		}
+
+		return urldecode(http_build_query($params_arr, '', '&'));
+	}
+
+	/**
+	 * Filter query parameters from url.
+	 *
+	 * @param $url string - url to process
+	 * @param $filter_params string|array - single var or array of vars
+	 * @return string - url without unwanted filter query parameters
+	 */
+	public function filterQueryParams($url, $filter_params = array()) {
+		list($url_part, $q_part) = explode('?', $url);
+		parse_str($q_part, $q_vars);
+		//build array if passed as string
+		if (!is_array($filter_params)) {
+			$filter_params = array( $filter_params );
+		}
+		foreach ($filter_params as $rv) {
+			unset($q_vars[ $rv ]);		
+		}
+		foreach ($q_vars as $key => $val) {
+			$q_vars[$key] = $this->request->clean($val);
+		}
+
+		$new_qs = urldecode(http_build_query($q_vars, '', '&'));
+		return $url_part . '?' . $new_qs;
+	}
+
+	/**
+	 * Depricated !!!!!!!!! Use filterQueryParams() instead
 	 * remove get parameters from url.
 	 *
 	 * @param $url - url to process
 	 * @param $vars string|array - single var or array of vars
 	 * @return string - url without unwanted get parameters
 	 */
-	public function removeQueryVar($url, $vars) {
-		list($url_part, $q_part) = explode('?', $url);
-		parse_str($q_part, $q_vars);
-		if (!is_array($vars)) {
-			$vars = array( $vars );
-		}
-		foreach ($vars as $v)
-			unset($q_vars[ $v ]);
-
-		$new_qs = urldecode(http_build_query($q_vars));
-		return $url_part . '?' . $new_qs;
+	public function removeQueryVar($url, $remove_vars) {
+		return $this->filterQueryParams($url, $remove_vars);
 	}
 
 
