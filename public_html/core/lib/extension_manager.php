@@ -348,12 +348,14 @@ class AExtensionManager {
 	}
 
 	/**
-	 * method deletes all settings of extension
+	 * method deletes all settings of extension with language definitions
 	 * @param string $group - extension text id
 	 */
 	public function deleteSetting($group) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "settings WHERE `group` = '" . $this->db->escape($group) . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "settings WHERE `group` = '" . $this->db->escape($group) . "';");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "language_definitions WHERE `block` = '" . $this->db->escape($group) . "_" . $this->db->escape($group)."';");
 		$this->cache->delete('settings');
+		$this->cache->delete('language_definitions');
 	}
 
 	/**
