@@ -72,7 +72,7 @@ class AAttribute_Manager extends AAttribute {
 
 	    $attribute_id = $this->db->getLastId();
 		// insert descriptions for used content language and translate 
-		$this->language->addDescriptions('global_attributes_descriptions', 
+		$this->language->replaceDescriptions('global_attributes_descriptions',
 											 array('attribute_id' => (int)$attribute_id),
 											 array($language_id => array('name' => $data['name'])) );
 
@@ -199,7 +199,7 @@ class AAttribute_Manager extends AAttribute {
 			return;
 		}
 
-		$this->language->addDescriptions('global_attributes_value_descriptions', 
+		$this->language->replaceDescriptions('global_attributes_value_descriptions',
 											 array('attribute_id' => (int)$attribute_id, 'attribute_value_id' => (int)$attribute_value_id ),
 											 array($language_id => array('value' => $value)) );
 
