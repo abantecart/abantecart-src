@@ -45,6 +45,9 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		}		 
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validate())) {
+			
+			$this->cache->delete('encryption.keys');
+			
 			if ( !empty($this->request->post['key_name']) ) {
 				$this->request->post['key_name'] = preformatTextID($this->request->post['key_name']);
 				$keys = $this->_create_key_pair($this->request->post); 
@@ -56,12 +59,12 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 			} else if ( !empty($this->request->post['enc_key']) ) {
 				$enc_result = $this->_encrypt_user_data($this->request->post);
 				if ( $this->request->post['enc_test_mode'] ) {
-					$this->session->data['success'] = sprintf($this->language->get('text_encryption_test'), implode('<br/>', $enc_result) );
-				} else if ( count($enc_result)) {
+					$this->session->data['success'] = sprintf($this->language->get('text_encryption_test'), implode('<br/>', $enc_result['result']) );
+				} else if ( count($enc_result['result'])) {
 					$this->session->data['success'] = sprintf(
 												$this->language->get('text_success_encrypting'), 
-												implode('<br/>', $enc_result),
-												$this->request->post['enc_key']
+												implode('<br/>', $enc_result['result']),
+												$enc_result['key_name']
 											);
 				} else {
 					$this->error['warning'] = $this->language->get('error_encrypting');
@@ -177,10 +180,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$data_enc['form']['cancel'] = $form2->getFieldHtml(array('type' => 'button', 'name' => 'reset', 'text' => $this->language->get('button_reset'), 'style' => 'button2' ) );
 				
 		//load existing keys. 
-		$files = array_filter(glob($enc->getKeyPath().'/*'), function($file) { return preg_match('/.pub$/', $file ); } );
-		$pub_keys = array_map(function($file) { return basename($file, ".pub"); }, $files );
-		$pub_keys_options = array();
-		foreach ($pub_keys as $key_name ) {  $pub_keys_options[$key_name] = $key_name; }
+		$pub_keys_options = $this->_load_keys( $enc );
 				
 		$data_enc['form']['fields']['enc_key'] = $form2->getFieldHtml(array(
 				'type' => 'selectbox',
@@ -239,6 +239,15 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		
+		if ( !empty($this->request->post['key_name']) ) {
+			//validate uniquenes of key name
+			$test_row = $this->db->query("SELECT * FROM " . $this->db->table('encryption_keys') . 
+						" WHERE `key_name` = '".$this->db->escape($this->request->post['key_name'])."'");
+			if ($test_row->num_rows) {
+				$this->error['warning'] = $this->language->get('error_duplicate_key');
+			}	
+		}
+		
 		if (!$this->error) {
 			return TRUE;
 		} else {
@@ -252,31 +261,63 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		}
 		
 		$data['encrypt_key'] = $data['encrypt_key'] ? 1 : 0;
-		$data['private_key_type'] = constant($data['private_key_type']);
 		
 		//generate keys	and save	
 		$enc = new ASSLEncryption ();
 		$keys = $enc->generate_ssl_key_pair($data, $data['passphrase']);
 		$enc->save_ssl_key_pair($keys, $data['key_name']);
 		
+		//update record in the database
+		$this->db->query("INSERT INTO " . $this->db->table('encryption_keys') . " SET `key_name` = '".$data['key_name']."', `status` = 1;" );
+		
 		return $keys;
+	}
+
+	private function _load_keys ( $enc ) {
+		//get key files from the directory
+		$files = array_filter(glob($enc->getKeyPath().'/*'), function($file) { return preg_match('/.pub$/', $file ); } );
+		$pub_keys = array_map(function($file) { return basename($file, ".pub"); }, $files );
+		$pub_keys_options = array();
+		//load active keys from db
+		$query = $this->db->query("SELECT * FROM " . $this->db->table('encryption_keys') . " WHERE `status` = 1");
+		foreach ($query->rows as $key_record) {
+			foreach ($pub_keys as $key_name ) {
+				if ($key_name == $key_record['key_name']) {
+					$pub_keys_options[$key_record['key_id']] = $key_name;
+					break;
+				}
+			}
+		}
+		return $pub_keys_options;		
 	}
 	
 	private function _encrypt_user_data ( $data ) {
 		if ( empty($data['enc_key']) ) {
 			return array();
 		}
+		//load key details 
+		$query = $this->db->query("SELECT * FROM " . $this->db->table('encryption_keys') . 
+						" WHERE `key_id` = ". (int)$data['enc_key'] );
+		if ($query->num_rows != 1 ) {
+			return array();		
+		}	
+		
+		$key_name = $query->row['key_name'];
+		$key_id = $query->row['key_id'];
+		
 		$result = array();
 								
 		//generate keys	and save	
-		$enc_data = new ADataEncryption($data['enc_key']); 
+		$enc_data = new ADataEncryption( $key_name ); 
 		foreach ($enc_data->getEcryptedTables() as $table_name) {
 			$enc_fields = $enc_data->getEcryptedFields($table_name);
 			$id_field = $enc_data->getEcryptedTableID($table_name);
 			// important to use non-encripted table
 			$query_read = $this->db->query("SELECT * FROM " . DB_PREFIX . $table_name );
 			$count = 0;
-			foreach($query_read->rows as $record) {					
+			foreach($query_read->rows as $record) {			
+				//specify key to be used for encryption 		
+				$record['key_id'] = $key_id;
 				$enc_rec_data = $enc_data->encrypt_data($record, $table_name);
 				//check if this is not a test mode and we can write
 				$count++;
@@ -290,16 +331,20 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 							$insert_flds .= "`$col` = '" .$this->db->escape($val) . "'";
 						}
 					}
+
 					try {
 						$this->db->query("INSERT INTO " . $this->db->table($table_name) . " SET $insert_flds;" );
-						//remove orioginal record if requested
-						if ($data['enc_remove_original']) {
-							$this->db->query("DELETE FROM " . DB_PREFIX . $table_name . " WHERE $id_field=" . $record[$id_field]  );
-						}
 					} catch (AException $e) {
-						$result[] = "<div class='error'>Error: Table $table_name record ID: " . $enc_rec_data[$id_field] . " failed saving! </div>";
-						$count--;
+						$result[] = "<div class='error'>Error: Table $table_name record ID: " . $enc_rec_data[$id_field] . " with key name $key_name failed saving! </div>";
+						$count--;						
+						continue;
 					}
+					
+					//remove orioginal record if requested
+					if ($data['enc_remove_original']) {
+						$this->db->query("DELETE FROM " . DB_PREFIX . $table_name . " WHERE $id_field=" . $record[$id_field]  );
+					}
+					
 				} else {
 					//check if such row exists for test
 					$test_row = $this->db->query("SELECT * FROM " . $this->db->table($table_name) . " WHERE $id_field = " . $enc_rec_data[$id_field] );
@@ -310,8 +355,8 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 				}
 				
 			}			
-			$result[] = "<b>Table $table_name has encrypted $count records</b>";
+			$result[] = "<b>Table $table_name has encrypted $count records with key name $key_name</b>";
 		}
-		return $result;
+		return array('key_name' => $key_name, 'result' => $result);
 	}	
 }

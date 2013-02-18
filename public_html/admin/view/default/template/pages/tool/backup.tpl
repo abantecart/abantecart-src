@@ -16,9 +16,9 @@
   </div></div></div>
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
 	<div id="anchor_links">
-        <a href="<?php echo $_SERVER['REQUEST_URI']; ?>#tab_backup"><?php echo $tab_backup; ?></a>
-        <a href="<?php echo $_SERVER['REQUEST_URI']; ?>#tab_restore"><?php echo $tab_restore; ?></a>
-        <a href="<?php echo $_SERVER['REQUEST_URI']; ?>#tab_loadxml"><?php echo $tab_loadxml; ?></a>
+        <a href="<?php echo $current_url; ?>#tab_backup"><?php echo $tab_backup; ?></a>
+        <a href="<?php echo $current_url; ?>#tab_restore"><?php echo $tab_restore; ?></a>
+        <a href="<?php echo $current_url; ?>#tab_loadxml"><?php echo $tab_loadxml; ?></a>
     </div>
 
 	<div class="fieldset">

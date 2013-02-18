@@ -24,7 +24,11 @@ class ModelSaleOrder extends Model {
 	
 	public function addOrder($data) {
 		//encrypt order data
-		$data = $this->dcrypt->encrypt_data($data, 'orders');
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$data = $this->dcrypt->encrypt_data($data, 'orders');
+			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+		}
 		$this->db->query("INSERT INTO `" . $this->db->table("orders") . "`
 							SET store_name = '" . $this->db->escape($data['store_name']) . "',
 								store_url = '" . $this->db->escape($data['store_url']) . "',
@@ -36,7 +40,7 @@ class ModelSaleOrder extends Model {
 								shipping_lastname = '" . $this->db->escape($data['shipping_lastname']) . "',
 								shipping_company = '" . $this->db->escape($data['shipping_company']) . "',
 								shipping_address_1 = '" . $this->db->escape($data['shipping_address_1']) . "',
-								shipping_address_2 = '" . $this->db->escape($data['shipping_address_2']) . "', shipping_city = '" . $this->db->escape($data['shipping_city']) . "', shipping_zone = '" . $this->db->escape($data['shipping_zone']) . "', shipping_zone_id = '" . (int)$data['shipping_zone_id'] . "', shipping_country = '" . $this->db->escape($data['shipping_country']) . "', shipping_country_id = '" . (int)$data['shipping_country_id'] . "', payment_firstname = '" . $this->db->escape($data['payment_firstname']) . "', payment_lastname = '" . $this->db->escape($data['payment_lastname']) . "', payment_company = '" . $this->db->escape($data['payment_company']) . "', payment_address_1 = '" . $this->db->escape($data['payment_address_1']) . "', payment_address_2 = '" . $this->db->escape($data['payment_address_2']) . "', payment_city = '" . $this->db->escape($data['payment_city']) . "', payment_postcode = '" . $this->db->escape($data['payment_postcode']) . "', payment_zone = '" . $this->db->escape($data['payment_zone']) . "', payment_zone_id = '" . (int)$data['payment_zone_id'] . "', payment_country = '" . $this->db->escape($data['payment_country']) . "', payment_country_id = '" . (int)$data['payment_country_id'] . "', ip = '" . $this->db->escape('0.0.0.0') . "', total = '" . $this->db->escape(preg_replace("/[^0-9.]/",'', $data['total'])) . "', date_modified = NOW()");
+								shipping_address_2 = '" . $this->db->escape($data['shipping_address_2']) . "', shipping_city = '" . $this->db->escape($data['shipping_city']) . "', shipping_zone = '" . $this->db->escape($data['shipping_zone']) . "', shipping_zone_id = '" . (int)$data['shipping_zone_id'] . "', shipping_country = '" . $this->db->escape($data['shipping_country']) . "', shipping_country_id = '" . (int)$data['shipping_country_id'] . "', payment_firstname = '" . $this->db->escape($data['payment_firstname']) . "', payment_lastname = '" . $this->db->escape($data['payment_lastname']) . "', payment_company = '" . $this->db->escape($data['payment_company']) . "', payment_address_1 = '" . $this->db->escape($data['payment_address_1']) . "', payment_address_2 = '" . $this->db->escape($data['payment_address_2']) . "', payment_city = '" . $this->db->escape($data['payment_city']) . "', payment_postcode = '" . $this->db->escape($data['payment_postcode']) . "', payment_zone = '" . $this->db->escape($data['payment_zone']) . "', payment_zone_id = '" . (int)$data['payment_zone_id'] . "', payment_country = '" . $this->db->escape($data['payment_country']) . "', payment_country_id = '" . (int)$data['payment_country_id'] . "', ip = '" . $this->db->escape('0.0.0.0') . "', total = '" . $this->db->escape(preg_replace("/[^0-9.]/",'', $data['total'])) . "'" .$key_sql . ", date_modified = NOW()");
 		
 		$order_id = $this->db->getLastId();
 		
@@ -89,17 +93,25 @@ class ModelSaleOrder extends Model {
 		    'payment_country_id',
 		    'shipping_method',
 		    'payment_method',
-		    'order_status_id');
+		    'order_status_id',
+		    'key_id'
+		    );
 		$update = array('date_modified = NOW()');
 
-		//encrypt order data
-		$data = $this->dcrypt->encrypt_data($data, 'orders');
-				
+		if ( $this->dcrypt->active ) {
+			//encrypt order data
+			//check key_id to use from existing record
+			$query_key = $this->db->query("select key_id from " . $this->db->table("orders") . "
+							  WHERE order_id = '" . (int)$order_id . "'");
+			$data['key_id'] = $query_key->rows[0]['key_id'];
+			$data = $this->dcrypt->encrypt_data($data, 'orders');
+			$fields[] = 'key_id';
+		}
+			
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )
 				$update[] = "$f = '".$this->db->escape($data[$f])."'";
 		}
-		
 		$this->db->query("UPDATE `" . $this->db->table("orders") . "`
 						  SET ". implode(',', $update) ."
 						  WHERE order_id = '" . (int)$order_id . "'");
@@ -250,7 +262,11 @@ class ModelSaleOrder extends Model {
 					
 				$message .= $language->get('text_footer');
 
-				$customer_email = $this->dcrypt->decrypt_field($order_query->row['email'], $order_query->row['key_id']); 
+				if ( $this->dcrypt->active ) {
+					$customer_email = $this->dcrypt->decrypt_field($order_query->row['email'], $order_query->row['key_id']); 
+				} else {
+					$customer_email = $order_query->row['email'];
+				}
 
 				$mail = new AMail( $this->config );
 				$mail->setTo($customer_email);

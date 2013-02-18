@@ -25,7 +25,11 @@ class ModelAccountCustomer extends Model {
 
 	public function addCustomer($data) {
 	
-		$data = $this->dcrypt->encrypt_data($data, 'customers');
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$data = $this->dcrypt->encrypt_data($data, 'customers');
+			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+		}
     
       	$this->db->query("INSERT INTO " . $this->db->table("customers") . " 
       					  SET	store_id = '" . (int)$this->config->get('config_store_id') . "', 
@@ -38,11 +42,15 @@ class ModelAccountCustomer extends Model {
       					  		password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "', 
       					  		newsletter = '" . (int)$data['newsletter'] . "', 
       					  		customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "', 
-      					  		status = '1', 
+      					  		status = '1'". $key_sql . ",
       					  		date_added = NOW()");
 		$customer_id = $this->db->getLastId();
 			
-		$data = $this->dcrypt->encrypt_data($data, 'addresses');	
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$data = $this->dcrypt->encrypt_data($data, 'addresses');
+			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+		}
       	$this->db->query("INSERT INTO " . $this->db->table("addresses") . " 
       					  SET 	customer_id = '" . (int)$customer_id . "', 
       					  		firstname = '" . $this->db->escape($data['firstname']) . "', 
@@ -52,7 +60,8 @@ class ModelAccountCustomer extends Model {
       					  		address_2 = '" . $this->db->escape($data['address_2']) . "', 
       					  		city = '" . $this->db->escape($data['city']) . "', 
       					  		postcode = '" . $this->db->escape($data['postcode']) . "', 
-      					  		country_id = '" . (int)$data['country_id'] . "', 
+      					  		country_id = '" . (int)$data['country_id'] . "'" . 
+      					  		$key_sql . ",
       					  		zone_id = '" . (int)$data['zone_id'] . "'");
 		
 		$address_id = $this->db->getLastId();
@@ -65,7 +74,12 @@ class ModelAccountCustomer extends Model {
 	}
 	
 	public function editCustomer($data) {
-		$data = $this->dcrypt->encrypt_data($data, 'customers');
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$data = $this->dcrypt->encrypt_data($data, 'customers');
+			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+		}
+
     	//update login only if needed
     	$loginname = '';
     	if ( !empty($data['loginname'] ) ) {
@@ -77,8 +91,9 @@ class ModelAccountCustomer extends Model {
 						  		lastname = '" . $this->db->escape($data['lastname']) . "', " . $loginname . "
 						  		email = '" . $this->db->escape($data['email']) . "', 
 						  		telephone = '" . $this->db->escape($data['telephone']) . "', 
-						  		fax = '" . $this->db->escape($data['fax']) . "' 
-						  		WHERE customer_id = '" . (int)$this->customer->getId() . "'");
+						  		fax = '" . $this->db->escape($data['fax']) . "'"
+						  		. $key_sql .
+						  		" WHERE customer_id = '" . (int)$this->customer->getId() . "'");
 	}
 
 	public function editPassword($loginname, $password) {

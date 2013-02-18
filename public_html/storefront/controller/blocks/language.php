@@ -50,12 +50,12 @@ class ControllerBlocksLanguage extends AController {
 
 		//build safe redirect URI
         if (!isset($this->request->get['rt'])) {
-            $rt = 'rt=index/home';
+            $rt = 'index/home';
             $URI = '';
         } else {
         	$rt = $this->request->get['rt'];
         	$unset[] = 'rt';
-			$URI = $this->html->buildURI($this->request->get, $unset);
+			$URI = '&'.$this->html->buildURI($this->request->get, $unset);
         }
 		foreach($this->data['languages'] as &$lang){
 			$lang['href'] = $this->html->getURL($rt, $URI.'&language='.$lang['code']);

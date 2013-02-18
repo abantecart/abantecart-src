@@ -65,7 +65,7 @@ class ControllerCommonHeader extends AController
         if (!isset($this->request->get['rt'])) {
             $this->view->assign('redirect', $this->html->getSecureURL('index/home'));
         } else {
-            $this->view->assign('redirect', $this->html->getSecureURL('', $this->html->filterQueryParams($this->request->server['QUERY_STRING'])));
+            $this->view->assign('redirect', $this->html->currentURL());
         }
 
         if (!$this->user->isLogged() || !isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {

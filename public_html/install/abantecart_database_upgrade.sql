@@ -16,5 +16,6 @@ CREATE TABLE `ac_encryption_keys` (
   `key_name` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
   `status` int(1) NOT NULL,  
   `comment` text COLLATE utf8_bin NOT NULL,  
-  PRIMARY KEY (`key_id`)
+  PRIMARY KEY (`key_id`),
+  UNIQUE KEY `encryption_keys_key_name` (`key_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;

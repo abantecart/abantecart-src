@@ -105,20 +105,24 @@ class AHtml extends AController {
 	}
 
 	/**
-	 * Generate URL from data array provided
+	 * Current URL built based on get params with ability to exclude params
 	 *
 	 * @param $params_arr array - data array to process
 	 * @param $filter_params array - array of vars to filter
 	 * @return string - url without unwanted filter parameters
 	 */
-	public function generateURL($params_arr, $filter_params = array()) {	
+	public function currentURL($filter_params = array()) {	
+		$params_arr = $this->request->get;
 		//detect if there is RT in the params. 
 		$rt = 'index/home';
 		if ( has_value($params_arr['rt']) ) {
 			$rt = $params_arr['rt'];
 			$filter_params[] = 'rt';	
 		}
-		$URI = $this->buildURI($params_arr, $filter_params);
+		if ( has_value($params_arr['s']) ) {
+			$filter_params[] = 's';	
+		}
+		$URI = '&' . $this->buildURI($params_arr, $filter_params);
 		return $this->getURL($rt, $URI);
 	}
 

@@ -3,7 +3,7 @@
         <div class="heading"><a id="tab_<?php echo $type['type_name']; ?>"><?php echo ${'text_type_'.$type['type_name']}; ?></a></div>
         <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
         <div class="cont_left"><div class="cont_right"><div class="cont_mid">
-	        <div class="back2top"><a href="<?php echo $_SERVER['REQUEST_URI']; ?>#top"><?php echo $text_on_top; ?></a></div>
+	        <div class="back2top"><a href="<?php echo $current_url; ?>#top"><?php echo $text_on_top; ?></a></div>
             <table class="image_list">
             <tbody>
                 <tr>

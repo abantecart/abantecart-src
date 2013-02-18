@@ -531,6 +531,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$rm = new AResourceManager();
 		$this->data[ 'types' ] = $rm->getResourceTypes();
 
+		$this->view->assign('current_url', $this->html->currentURL() );
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/common/resource_library_html.tpl');
 	}

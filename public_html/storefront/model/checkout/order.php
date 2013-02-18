@@ -104,7 +104,11 @@ class ModelCheckoutOrder extends Model {
 			$old_order_id = "order_id = '" . $this->db->escape($old_order_id) . "', ";
 		}
 
-		$data = $this->dcrypt->encrypt_data($data, 'orders');
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$data = $this->dcrypt->encrypt_data($data, 'orders');
+			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+		}
 
 		$this->db->query("INSERT INTO `" . $this->db->table("orders") . "`
 							SET " . $old_order_id . " store_id = '" . (int)$data['store_id'] . "',
@@ -150,7 +154,8 @@ class ModelCheckoutOrder extends Model {
 								payment_country_id = '" . (int)$data['payment_country_id'] . "',
 								payment_address_format = '" . $this->db->escape($data['payment_address_format']) . "',
 								payment_method = '" . $this->db->escape($data['payment_method']) . "',
-								comment = '" . $this->db->escape($data['comment']) . "',
+								comment = '" . $this->db->escape($data['comment']) . "'"
+								. $key_sql . ",
 								date_modified = NOW(),
 								date_added = NOW()");
 

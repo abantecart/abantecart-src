@@ -38,12 +38,12 @@ class ControllerBlocksCurrency extends AController {
 		}
 		//build safe redirect URI
         if (!isset($this->request->get['rt'])) {
-            $rt = 'rt=index/home';
+            $rt = 'index/home';
             $URI = '';
         } else {
         	$rt = $this->request->get['rt'];
         	$unset[] = 'rt';
-			$URI = $this->html->buildURI($this->request->get, $unset);
+			$URI = '&'.$this->html->buildURI($this->request->get, $unset);
         }
 		
 		$this->loadModel('localisation/currency');

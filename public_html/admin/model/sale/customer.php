@@ -23,7 +23,11 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ModelSaleCustomer extends Model {
 	public function addCustomer($data) {
 		//encrypt customer data
-		$data = $this->dcrypt->encrypt_data($data, 'customers');
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$data = $this->dcrypt->encrypt_data($data, 'customers');
+			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+		}
       	$this->db->query("INSERT INTO " . $this->db->table("customers") . "
       	                SET loginname = '" . $this->db->escape($data['loginname']) . "',
       	                	firstname = '" . $this->db->escape($data['firstname']) . "',
@@ -34,7 +38,8 @@ class ModelSaleCustomer extends Model {
       	                    newsletter = '" . (int)$data['newsletter'] . "',
       	                    customer_group_id = '" . (int)$data['customer_group_id'] . "',
       	                    password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "',
-      	                    status = '" . (int)$data['status'] . "',
+      	                    status = '" . (int)$data['status'] . "'"
+      	                    .$key_sql . ", 
       	                    date_added = NOW()");
       	
       	$customer_id = $this->db->getLastId();
@@ -42,7 +47,11 @@ class ModelSaleCustomer extends Model {
       	if (isset($data['addresses'])) {		
       		foreach ($data['addresses'] as $address) {
       			//encrypt address data
-      			$address = $this->dcrypt->encrypt_data($address, 'addresses');
+				$key_sql = '';
+				if ( $this->dcrypt->active ) {
+					$address = $this->dcrypt->encrypt_data($address, 'addresses');
+					$key_sql = ", key_id = '" . (int)$address['key_id'] . "'";
+				}
       			$this->db->query("INSERT INTO " . $this->db->table("addresses") . "
       			                  SET customer_id = '" . (int)$customer_id . "',
       			                        firstname = '" . $this->db->escape($address['firstname']) . "',
@@ -52,7 +61,8 @@ class ModelSaleCustomer extends Model {
       			                        address_2 = '" . $this->db->escape($address['address_2']) . "',
       			                        city = '" . $this->db->escape($address['city']) . "',
       			                        postcode = '" . $this->db->escape($address['postcode']) . "',
-      			                        country_id = '" . (int)$address['country_id'] . "',
+      			                        country_id = '" . (int)$address['country_id'] . "'"
+      			                        .$key_sql . ", 
       			                        zone_id = '" . (int)$address['zone_id'] . "'");
 			}
 		}
@@ -62,7 +72,11 @@ class ModelSaleCustomer extends Model {
 	
 	public function editCustomer($customer_id, $data) {
 		//encrypt address data
-		$data = $this->dcrypt->encrypt_data($data, 'customers');
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$data = $this->dcrypt->encrypt_data($data, 'customers');
+			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+		}
 		$this->db->query("UPDATE " . $this->db->table("customers") . "
 						SET loginname = '" . $this->db->escape($data['loginname']) . "',
 							firstname = '" . $this->db->escape($data['firstname']) . "',
@@ -72,7 +86,8 @@ class ModelSaleCustomer extends Model {
 							fax = '" . $this->db->escape($data['fax']) . "',
 							newsletter = '" . (int)$data['newsletter'] . "',
 							customer_group_id = '" . (int)$data['customer_group_id'] . "',
-							status = '" . (int)$data['status'] . "',
+							status = '" . (int)$data['status'] . "'"
+							 .$key_sql . ", 
 							approved = '" . (int)$data['approved'] . "'
 						WHERE customer_id = '" . (int)$customer_id . "'");
 	
@@ -87,7 +102,11 @@ class ModelSaleCustomer extends Model {
       	if (isset($data['addresses'])) {
       		foreach ($data['addresses'] as $address) {	
       			//encrypt address data
-      			$address = $this->dcrypt->encrypt_data($address, 'addresses');      		
+				$key_sql = '';
+				if ( $this->dcrypt->active ) {
+					$address = $this->dcrypt->encrypt_data($address, 'addresses');
+					$key_sql = ", key_id = '" . (int)$addresses['key_id'] . "'";
+				}
 				$this->db->query("INSERT INTO " . $this->db->table("addresses"). "
 								  SET customer_id = '" . (int)$customer_id . "',
 								        firstname = '" . $this->db->escape($address['firstname']) . "',
@@ -97,7 +116,8 @@ class ModelSaleCustomer extends Model {
 								        address_2 = '" . $this->db->escape($address['address_2']) . "',
 								        city = '" . $this->db->escape($address['city']) . "',
 								        postcode = '" . $this->db->escape($address['postcode']) . "',
-								        country_id = '" . (int)$address['country_id'] . "',
+								        country_id = '" . (int)$address['country_id'] . "'"
+								        .$key_sql . ",
 								        zone_id = '" . (int)$address['zone_id'] . "'");
 			}
 		}
@@ -107,9 +127,16 @@ class ModelSaleCustomer extends Model {
 
 		$data = array('loginname', 'firstname', 'lastname', 'email', 'telephone', 'fax', 'newsletter', 'customer_group_id', 'status', 'approved' );
 		if ( in_array($field, $data) )
-			$value_arr = $this->dcrypt->encrypt_data(array($field => $value), 'customers');
+
+			if ( $this->dcrypt->active && in_array($field, $this->dcrypt->getEcryptedFields("customers")) ) {
+				//check key_id to use 
+				$query_key = $this->db->query("select key_id from " . $this->db->table("customers") . "
+							  WHERE customer_id = '" . (int)$customer_id . "'");
+				$key_id = $query_key->rows[0]['key_id'];		
+				$value = $this->dcrypt->encrypt_field($value, $key_id);
+			}
 			$this->db->query("UPDATE " . $this->db->table("customers") . "
-							  SET $field = '" . $this->db->escape($value_arr[$field]) . "'
+							  SET $field = '" . $this->db->escape($value) . "'
 							  WHERE customer_id = '" . (int)$customer_id . "'");
 
       	if ($field == 'password') {
@@ -331,7 +358,12 @@ class ModelSaleCustomer extends Model {
 		}
 		$result_rows = array(); 
 		foreach ($data as $result) {
-			if ( !(strpos (strtolower($this->dcrypt->decrypt_field($result[$field], $result['key_id'])), strtolower($value)) === false) ) {
+			if ( $this->dcrypt->active ) {
+				$fvalue = $this->dcrypt->decrypt_field($result[$field], $result['key_id']);
+			} else {
+				$fvalue = $result[$field];
+			}
+			if ( !(strpos (strtolower($fvalue), strtolower($value)) === false) ) {
 				$result_rows[] = $result;
 			}
 		}	

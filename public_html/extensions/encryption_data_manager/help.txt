@@ -16,14 +16,17 @@ Add below lines to /system/config.php file. <br>
 <b>	define('ENCRYPTED_POSTFIX', '_enc');</b><br>
 <br>
 Change path to your specific path on your server and it has to be writable/readable only to webserver
+<br> 
+If ENCRYPTION_KEYS_DIR is not provided, default path will be used in /system/keys/ .
+Important to keep these keys secure!
 <br><br>
 
 <b>2. Generate New Key:</b>
-<br><br>in Encryption Data Tools generate new key with some unique key name provided (no spaces or special characters). Remember that name 
+<br><br>in Encryption Data Tools generate new key with some unique key name provided (no spaces or special characters).
 <br><br>
-Add below line to /system/config.php file with key name used in generate step <br>
+Important to use only 1 key at the time and add below line to /system/config.php file with key name that will be default <br>
 <b>	define('DATA_ENCRYPTION_KEYPAIR', 'your_key_name');</b><br>
-This is the key name that you used above
+This is the key name that will be used for read/write at one given time.
 
 <br><br>
 <b>2. Encrypt all data:</b> <br>

@@ -231,6 +231,7 @@ class ControllerPagesToolBackup extends AController {
 
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url());
+		$this->view->assign('current_url', $this->html->currentURL() );
 
 		$this->processTemplate('pages/tool/backup.tpl');
 

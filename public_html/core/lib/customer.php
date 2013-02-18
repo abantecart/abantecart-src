@@ -50,9 +50,15 @@ final class ACustomer {
 				$this->loginname = $customer_query->row['loginname'];
 				$this->firstname = $customer_query->row['firstname'];
 				$this->lastname = $customer_query->row['lastname'];
-				$this->email = $this->dcrypt->decrypt_field( $customer_query->row['email'], $customer_query->row['key_id'] );
-				$this->telephone = $this->dcrypt->decrypt_field( $customer_query->row['telephone'], $customer_query->row['key_id'] );
-				$this->fax = $this->dcrypt->decrypt_field( $customer_query->row['fax'], $customer_query->row['key_id'] );
+				if ( $this->dcrypt->active ) {
+					$this->email = $this->dcrypt->decrypt_field( $customer_query->row['email'], $customer_query->row['key_id'] );
+					$this->telephone = $this->dcrypt->decrypt_field( $customer_query->row['telephone'], $customer_query->row['key_id'] );
+					$this->fax = $this->dcrypt->decrypt_field( $customer_query->row['fax'], $customer_query->row['key_id'] );
+				} else {
+					$this->email = $customer_query->row['email'];
+					$this->telephone = $customer_query->row['telephone'];
+					$this->fax = $customer_query->row['fax'];					
+				}
 				$this->newsletter = $customer_query->row['newsletter'];
 				$this->customer_group_id = $customer_query->row['customer_group_id'];
 				$this->address_id = $customer_query->row['address_id'];
@@ -96,9 +102,15 @@ final class ACustomer {
 			$this->customer_id = $customer_query->row['customer_id'];
 			$this->firstname = $customer_query->row['firstname'];
 			$this->lastname = $customer_query->row['lastname'];
-			$this->email = $this->dcrypt->decrypt_field( $customer_query->row['email'], $customer_query->row['key_id']);
-			$this->telephone = $this->dcrypt->decrypt_field( $customer_query->row['telephone'], $customer_query->row['key_id']);
-			$this->fax = $this->dcrypt->decrypt_field( $customer_query->row['fax'], $customer_query->row['key_id']);
+			if ( $this->dcrypt->active ) {
+			    $this->email = $this->dcrypt->decrypt_field( $customer_query->row['email'], $customer_query->row['key_id'] );
+			    $this->telephone = $this->dcrypt->decrypt_field( $customer_query->row['telephone'], $customer_query->row['key_id'] );
+			    $this->fax = $this->dcrypt->decrypt_field( $customer_query->row['fax'], $customer_query->row['key_id'] );
+			} else {
+			    $this->email = $customer_query->row['email'];
+			    $this->telephone = $customer_query->row['telephone'];
+			    $this->fax = $customer_query->row['fax'];					
+			}			
 			$this->newsletter = $customer_query->row['newsletter'];
 			$this->customer_group_id = $customer_query->row['customer_group_id'];
 			$this->address_id = $customer_query->row['address_id'];

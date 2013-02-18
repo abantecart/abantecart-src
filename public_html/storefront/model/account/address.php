@@ -23,9 +23,13 @@ if (! defined ( 'DIR_CORE' )) {
 class ModelAccountAddress extends Model {
 	public function addAddress($data) {
 		//encrypt customer data
-		$data = $this->dcrypt->encrypt_data($data, 'addresses');
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$data = $this->dcrypt->encrypt_data($data, 'addresses');
+			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+		}
 		
-		$this->db->query("INSERT INTO " . $this->db->table("addresses") . " SET customer_id = '" . (int)$this->customer->getId() . "', company = '" . $this->db->escape($data['company']) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "'");
+		$this->db->query("INSERT INTO " . $this->db->table("addresses") . " SET customer_id = '" . (int)$this->customer->getId() . "', company = '" . $this->db->escape($data['company']) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "'" . $key_sql);
 		
 		$address_id = $this->db->getLastId();
 		
@@ -38,9 +42,13 @@ class ModelAccountAddress extends Model {
 	
 	public function editAddress($address_id, $data) {
 		//encrypt customer data
-		$data = $this->dcrypt->encrypt_data($data, 'addresses');
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$data = $this->dcrypt->encrypt_data($data, 'addresses');
+			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+		}
 
-		$this->db->query("UPDATE " . $this->db->table("addresses") . " SET company = '" . $this->db->escape($data['company']) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "' WHERE address_id  = '" . (int)$address_id . "' AND customer_id = '" . (int)$this->customer->getId() . "'");
+		$this->db->query("UPDATE " . $this->db->table("addresses") . " SET company = '" . $this->db->escape($data['company']) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "'". $key_sql . " WHERE address_id  = '" . (int)$address_id . "' AND customer_id = '" . (int)$this->customer->getId() . "'");
 	
 		if (isset($data['default'])) {
 			$this->db->query("UPDATE " . $this->db->table("customers") . " SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
