@@ -267,7 +267,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['lastname'] = $order_info['lastname'];
 		$this->data['lastname'] = $order_info['lastname'];
 		$this->data['total'] = $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value']);
-		$this->data['date_added'] = date($this->language->get('date_format_short'), strtotime($order_info['date_added']));
+		$this->data['date_added'] = date($this->language->get('date_format_short').' '.$this->language->get('time_format'), strtotime($order_info['date_added']));
 
 		$this->loadModel('localisation/order_status');
 		$status = $this->model_localisation_order_status->getOrderStatus($order_info['order_status_id']);
@@ -318,8 +318,13 @@ class ControllerPagesSaleOrder extends AController {
 
 		$this->data['order_products'] = array();
 		$order_products = $this->model_sale_order->getOrderProducts($this->request->get['order_id']);
+		if($this->data['shipping_method']){
+			$shipping_methods = array();
+		}else{
+			$shipping_methods = array(0=>$this->language->get('text_none'));
 
-        $shipping_methods = array();
+		}
+
         $extensions = $this->extension_manager->getExtensionsList( array('filter' => 'shipping') );
         foreach ($extensions->rows as $row) {
             $this->loadLanguage( $row['key'].'/'.$row['key']);
@@ -535,8 +540,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['countries'] = array_merge(array(0=>array('country_id' => 0,'country_name' => $this->language->get('text_select_country')) ),$this->data['countries']);
 
 		$countries = array();
-		foreach ( $this->data['countries'] as $country )
-		{
+		foreach ( $this->data['countries'] as $country ){
 			$countries[$country['country_id']] = $country['name'];
 		}
 
