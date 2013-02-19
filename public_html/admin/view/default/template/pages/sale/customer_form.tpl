@@ -1,6 +1,20 @@
 <?php if (!empty($error['warning'])) { ?>
 <div class="warning"><?php echo $error['warning']; ?></div>
-<?php } ?>
+<?php } else if(count( array_keys($error) )) { ?>
+	<div class="warning">
+<?php 
+	foreach ($error as $key => $error_text) {
+		if( is_array( $error_text ) ) { 
+			foreach ($error_text as $key => $error_text2) {
+				echo $error_text2 . '<br />';
+			}
+		} else {
+			echo $error_text . '<br />';
+		}	
+ 	} ?>
+	</div>
+<?php	} ?>
+
 <?php if ($success) { ?>
 <div class="success"><?php echo $success; ?></div>
 <?php } ?>

@@ -13,7 +13,6 @@ Add below lines to /system/config.php file. <br>
 <br>
 <b>	define('ENCRYPTION_KEYS_DIR', '/path/to/keys/');</b><br>
 <b>	define('DATA_ENCRYPTION_ENABLED', true);</b><br>
-<b>	define('ENCRYPTED_POSTFIX', '_enc');</b><br>
 <br>
 Change path to your specific path on your server and it has to be writable/readable only to webserver
 <br> 
@@ -40,9 +39,16 @@ NOTES: <br>
 3. There is no key expiration management. <br>
 4. Search or look up by encrypted user data will not work (search by address, phone number, etc. will not work) 
 These needs to be accounted for in key management procedures
+
+<br><br>
+<b>3. Migrate encryption key (optional):</b>
+<br>This process currently is not automated, but possible with below steps
+<br> - Generate new key pair
+<br> - Set new key as default key into configuration file
+<br> - Create and run custom script to decrypt data with original key and encrypt and write with new key. 
+
 <br><br>
 Need help configuring, supporting or extending functionality, 
 contact www.abantecart.com for forum or paid support
-
 
 </p>
