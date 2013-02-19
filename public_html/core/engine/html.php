@@ -51,10 +51,12 @@ class AHtml extends AController {
 
 	//#PR Build non-secure URL
 	public function getURL($rt, $params = '', $encode = '') {
-		if (isset($this->registry->get('request')->server[ 'HTTPS' ]) && (($this->registry->get('request')->server[ 'HTTPS' ] == 'on') || ($this->registry->get('request')->server[ 'HTTPS' ] == '1'))) {
+		if (isset($this->registry->get('request')->server[ 'HTTPS' ])
+				&& (($this->registry->get('request')->server[ 'HTTPS' ] == 'on') || ($this->registry->get('request')->server[ 'HTTPS' ] == '1'))) {
 			$server = HTTPS_SERVER;
 		} else {
-			$server = HTTP_SERVER;
+			// for garbage session need to check constant HTTP_SERVER
+			$server = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/' ;
 		}
 
 		if ($this->registry->get('config')->get('storefront_template_debug') && isset($this->registry->get('request')->get[ 'tmpl_debug' ])) {
