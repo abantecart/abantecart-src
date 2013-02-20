@@ -95,12 +95,17 @@ class ControllerPagesCheckoutSuccess extends AController {
       	 ));
 		
     	$this->view->assign('heading_title', $this->language->get('heading_title'));
-    	$this->view->assign('text_message',
-	                        sprintf( ($this->session->data['account']=='guest'? $this->language->get('text_message_guest') : $this->language->get('text_message')),
-	                        $this->html->getSecureURL('account/account'),
-	                        $this->html->getSecureURL('account/history'),
-	                        $this->html->getURL('content/contact')));
+		if($this->session->data['account']=='guest'){
 
+			$this->view->assign('text_message',
+								sprintf( $this->language->get('text_message_guest'),$this->html->getURL('content/contact')));
+		}else{
+			$this->view->assign('text_message',
+								sprintf( $this->language->get('text_message'),
+										$this->html->getSecureURL('account/account'),
+										$this->html->getSecureURL('account/history'),
+										$this->html->getURL('content/contact')));
+		}
     	$this->view->assign('button_continue', $this->language->get('button_continue'));
     	$this->view->assign('continue', $this->html->getURL('index/home'));
 		$continue = HtmlElementFactory::create( array ('type' => 'button',
