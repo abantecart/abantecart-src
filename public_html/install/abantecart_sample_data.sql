@@ -280,10 +280,7 @@ VALUES
 
 
 INSERT INTO `ac_coupons_products` 
-VALUES 
-(4,7,77),
-(3,7,50),
-(8,6,68);
+VALUES (8,6,68);
 
 
 

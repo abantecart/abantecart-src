@@ -22,6 +22,19 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelSaleCoupon extends Model {
 	public function addCoupon($data) {
+		if (has_value($data[ 'date_start' ])) {
+			$data[ 'date_start' ] = "DATE('" . $data[ 'date_start' ] . "')";
+
+		} else {
+			$data[ 'date_start' ] = "NULL";
+		}
+
+		if (has_value($data[ 'date_end' ])) {
+			$data[ 'date_end' ] = "DATE('" . $data[ 'date_end' ] . "')";
+		} else {
+			$data[ 'date_end' ] = "NULL";
+		}
+
       	$this->db->query(  "INSERT INTO " . DB_PREFIX . "coupons
 							SET code = '" . $this->db->escape($data['code']) . "',
 								discount = '" . (float)$data['discount'] . "',
@@ -29,8 +42,8 @@ class ModelSaleCoupon extends Model {
 								total = '" . (float)$data['total'] . "',
 								logged = '" . (int)$data['logged'] . "',
 								shipping = '" . (int)$data['shipping'] . "',
-								date_start = '" . $this->db->escape($data['date_start']) . "',
-								date_end = '" . $this->db->escape($data['date_end']) . "',
+								date_start = " . $data['date_start'] . ",
+								date_end = " . $data['date_end'] . ",
 								uses_total = '" . (int)$data['uses_total'] . "',
 								uses_customer = '" . (int)$data['uses_customer'] . "',
 								status = '" . (int)$data['status'] . "',
@@ -56,6 +69,17 @@ class ModelSaleCoupon extends Model {
 	}
 	
 	public function editCoupon($coupon_id, $data) {
+		if (has_value($data[ 'date_start' ])) {
+			$data[ 'date_start' ] = "DATE('" . $data[ 'date_start' ] . "')";
+		} else {
+			$data[ 'date_start' ] = "NULL";
+		}
+
+		if (has_value($data[ 'date_end' ])) {
+			$data[ 'date_end' ] = "DATE('" . $data[ 'date_end' ] . "')";
+		} else {
+			$data[ 'date_end' ] = "NULL";
+		}
 
 		$coupon_table_fields = array('code',
 		                             'discount',
@@ -71,7 +95,11 @@ class ModelSaleCoupon extends Model {
 		$update = array();
 		foreach ( $coupon_table_fields as $f ) {
 			if ( isset($data[$f]) )
-				$update[] = "$f = '".$this->db->escape($data[$f])."'";
+				if(!in_array($f,array('date_start','date_end'))){
+					$update[] = $f." = '".$this->db->escape($data[$f])."'";
+				}else{
+					$update[] = $f." = ".$data[$f]."";
+				}
 		}
 		if ( !empty($update) ) $this->db->query("UPDATE " . DB_PREFIX . "coupons
 												SET ". implode(',', $update) ."

@@ -125,4 +125,8 @@
 		<key>error_code</key>
 		<value><![CDATA[Un codigo debe ser mayor de 2 y menor de 10 caracteres!]]></value>
 	</definition>
+	<definition>
+		<key>error_date</key>
+		<value><![CDATA[Por favor, establece rango de fechas!]]></value>
+	</definition>
 </definitions>
