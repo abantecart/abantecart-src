@@ -21,7 +21,10 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ModelCatalogProduct extends Model {
-
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function addProduct($data) {
 
 		$this->db->query("INSERT INTO " . DB_PREFIX . "products
@@ -71,6 +74,7 @@ class ModelCatalogProduct extends Model {
 												meta_description = '" . $this->db->escape($value['meta_description']) . "',
 												description = '" . $this->db->escape($value['description']) . "'");
 			}
+			reset($data['product_description']);
 		}
 
 
@@ -83,9 +87,13 @@ class ModelCatalogProduct extends Model {
 		} else {
 			//Default behavior to save SEO URL keword from product name in default language
 			$languages = $this->language->getAvailableLanguages();
-			$defalut_lang_id = $languages[$this->config->get('config_storefront_language')]['language_id'];
-			$seo_key = SEOEncode($data['product_description'][$defalut_lang_id]['name']);
+			$default_lang_id = $languages[$this->config->get('config_storefront_language')]['language_id'];
 
+			if (!is_int(key($data['product_description']))) { // when creates
+				$seo_key = SEOEncode($data['product_description']['name']);
+			}else{ // when clones
+				$seo_key = SEOEncode($data['product_description'][$default_lang_id]['name']);
+			}
 			//Check if key is unique  
 			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_aliases
 									   WHERE keyword = '" . $this->db->escape($seo_key) . "'");
@@ -729,6 +737,10 @@ class ModelCatalogProduct extends Model {
 		}
 	}
 
+	/**
+	 * @param int $product_id
+	 * @return bool
+	 */
 	public function copyProduct($product_id) {
 		if (empty($product_id)) return false;
 
@@ -790,6 +802,10 @@ class ModelCatalogProduct extends Model {
 		return false;
 	}
 
+	/**
+	 * @param int $product_id
+	 * @param array $data
+	 */
 	private function _clone_product_options($product_id, $data) {
 		//Do not use before close review.
 		//Note: This is done only after product clonning. This is not to be used on existing product.
@@ -876,6 +892,9 @@ class ModelCatalogProduct extends Model {
 		$this->cache->delete('product');
 	}
 
+	/**
+	 * @param int $product_id
+	 */
 	public function deleteProduct($product_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "products WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_descriptions WHERE product_id = '" . (int)$product_id . "'");
@@ -1063,6 +1082,11 @@ class ModelCatalogProduct extends Model {
 	/*
 	*	Get single option data
 	*/
+	/**
+	 * @param int $product_id
+	 * @param int $option_id
+	 * @return array|null
+	 */
 	public function getProductOption($product_id, $option_id = 0) {
 		$product_option = $this->db->query(
 			"SELECT *
