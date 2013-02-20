@@ -20,11 +20,12 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
-
+/**
+ * @property ModelExtensionBannerManager $model_extension_banner_manager
+ */
 class ControllerPagesExtensionBannerManager extends AController {
 	public $data = array();
 	private $error = array();
-	private $default_block_id;
 
 	public function main() {
 
@@ -574,7 +575,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 				$blocks[ $block[ 'block_id' ] ] = $this->language->get('text_' . $txt_id);
 			}
 		}
-		foreach ($blocks as $block_id => $block_text) {
+		foreach ($blocks as $block_text) {
 			$this->data[ 'tabs' ][ ] = array( 'href' => $this->html->getSecureURL('design/blocks/insert', '&block_id=' . $this->data[ 'block_id' ]),
 				'text' => $block_text,
 				'active' => false );
