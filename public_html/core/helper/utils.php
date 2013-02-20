@@ -101,7 +101,7 @@ function echo_array($array_data) {
  */
 
 function getFilesInDir($dir, $file_ext = '') {
-	if (!is_dir($dir)) return false;
+	if (!is_dir($dir)) return array();
 	$dir = rtrim($dir, '\\/');
 	$result = array();
 
