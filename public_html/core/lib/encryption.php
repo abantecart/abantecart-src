@@ -655,7 +655,12 @@ final class ADataEncryption {
 			$cache->set($cache_name, $this->keys,'',(int)$config->get('config_store_id'));
 		}
 	}
-		
+
+	/**
+	 * @param int $key_id
+	 * @return null|string
+	 * @throws AException
+	 */
 	private function _detect_encrypt_key( $key_id ) {
 		$key_name = '';
 		//detect key to use (set default first) 
@@ -671,19 +676,25 @@ final class ADataEncryption {
 		        $error = "Error: Can not locate key ID: ". $key_id . " in the encryption_keys table. Attempt to locate default keys! ";
 		        $this->log->write($error);
 		        $this->message->saveError('Data decryption error',$error);
+				throw new AException (AC_ERR_LOAD, $error);
 			}
 		} 
 		
 		if ( $key_name == DATA_ENCRYPTION_KEYPAIR && !defined('DATA_ENCRYPTION_KEYPAIR') ) {
 		        $error = "Error: Can not locate default key in configuration file. Refer to data encryption configuration help!";
 		        $this->log->write($error);
-		        $this->message->saveError('Data encryption error',$error);		
+		        $this->message->saveError('Data encryption error',$error);
+				throw new AException (AC_ERR_LOAD, $error);
 		}
 		
 		return $key_name;
-	}	
+	}
 
-
+	/**
+	 * @param int $key_id
+	 * @return null|string
+	 * @throws AException
+	 */
 	private function _detect_decrypt_key( $key_id ) {
 		$key_name = $this->key_name;
 		$key_id = (int)$key_id;
@@ -696,13 +707,15 @@ final class ADataEncryption {
 		        $error = "Error: Can not locate key ID: ". $key_id . " in the encryption_keys table. Record data might not be decrypted! ";
 		        $this->log->write($error);
 		        $this->message->saveError('Data decryption error',$error);
+				throw new AException (AC_ERR_LOAD, $error);
 			}
 		}
 		
 		if ( $key_name == DATA_ENCRYPTION_KEYPAIR && !defined('DATA_ENCRYPTION_KEYPAIR') ) {
 		        $error = "Error: Can not locate default key in configuration file. Refer to data encryption configuration help!";
 		        $this->log->write($error);
-		        $this->message->saveError('Data decryption error',$error);		
+		        $this->message->saveError('Data decryption error',$error);
+				throw new AException (AC_ERR_LOAD, $error);
 		}
 		
 		return $key_name;
@@ -719,5 +732,3 @@ final class ADataEncryption {
 		}
 	}				
 }
-
-?>
