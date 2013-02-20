@@ -297,7 +297,7 @@ class ControllerPagesCatalogProductDiscount extends AController {
         $this->data['form']['fields']['price'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'price',
-			'value' => number_format($this->data['price'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+			'value' => number_format((float)$this->data['price'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
 		));
 
 		$this->data['js_date_format'] = format4Datepicker($this->language->get('date_format_short'));
