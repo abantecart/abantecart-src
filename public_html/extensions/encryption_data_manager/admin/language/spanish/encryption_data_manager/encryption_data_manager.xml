@@ -116,7 +116,7 @@
   <definition>
     <key>text_success_encrypting</key>
     <value><![CDATA[<b>User data has been encrypted. <br />  See details:</b> <br/><br/> %s <br /><br /> <b>Add following line to file system/config.php : define('DATA_ENCRYPTION_KEYPAIR', '%s'); </b> ]]></value>
-  <definition>
+  </definition>
   <definition>
     <key>text_encryption_test</key>
     <value><![CDATA[<b>User data encryption test result</b> Check error log for any possible errors! <br/><br/> %s ]]></value>
