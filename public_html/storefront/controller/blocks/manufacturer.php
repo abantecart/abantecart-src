@@ -82,7 +82,10 @@ class ControllerBlocksManufacturer extends AController {
 	
 	        $this->view->assign('manufacturers', $manufacturers );
 		}
-		
+				// framed needs to show frames for generic block.
+		//If tpl used by listing block framed was set by listing block settings
+		$this->view->assign('block_framed',true);
+
 		$this->processTemplate('blocks/manufacturer.tpl');
 
         //init controller data

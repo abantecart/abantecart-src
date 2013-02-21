@@ -105,7 +105,9 @@ class ControllerBlocksBestSeller extends AController {
 		} else {
 			$this->data['display_price'] = FALSE;
 		}
-
+		// framed needs to show frames for generic block.
+		//If tpl used by listing block framed was set by listing block settings
+		$this->data['block_framed'] = true;
         $this->view->batchAssign($this->data);
         $this->processTemplate();
         //init controller data

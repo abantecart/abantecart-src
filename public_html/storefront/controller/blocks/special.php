@@ -105,7 +105,9 @@ class ControllerBlocksSpecial extends AController {
 		} else {
 			$this->data['display_price'] = FALSE;
 		}
-
+		// framed needs to show frames for generic block.
+		//If tpl used by listing block framed was set by listing block settings
+		$this->data['block_framed'] = true;
         $this->view->batchAssign($this->data);
 		$this->processTemplate();
 
@@ -113,4 +115,3 @@ class ControllerBlocksSpecial extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
-?>

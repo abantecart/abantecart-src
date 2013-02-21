@@ -1,3 +1,4 @@
+<?php if ( $block_framed ) { ?>
 <div class="s_block">
 	<div class="block_tl">
 		<div class="block_tr">
@@ -8,7 +9,8 @@
     	<div class="block_cr">
         	<div class="block_cc">
 
-<?php
+	<?php
+}
 if ($products) {
     foreach ($products as $product) { 
         $item['image'] = "<img src='".$product['thumb']['thumb_url']."' width='50' alt='".$product['name']."' />";
@@ -45,8 +47,8 @@ if ($products) {
 <?php
     }
 }
+if ( $block_framed ) {
 ?>
-
             </div>
         </div>
     </div>
@@ -56,3 +58,4 @@ if ($products) {
 		</div>
 	</div>
 </div>
+<?php } ?>
