@@ -706,7 +706,7 @@ class ControllerPagesCatalogProduct extends AController {
         $this->data['form']['fields']['data']['shipping_price'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'shipping_price',
-			'value' => number_format($this->data['shipping_price'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+			'value' => number_format((float)$this->data['shipping_price'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
 
 		));
 
