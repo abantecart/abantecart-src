@@ -930,7 +930,7 @@ class AConfigManager {
 		$fields[ 'upload_max_size' ] = $form->getFieldHtml($props[ ] = array(
 			'type' => 'input',
 			'name' => 'config_upload_max_size',
-			'value' => number_format($data[ 'config_upload_max_size' ], 0, '.', $this->language->get('thousand_point'))
+			'value' => (int)$data[ 'config_upload_max_size' ]
 		)) . ' (<= ' . ini_get('post_max_size') . ')';
 
 		$fields[ 'error_display' ] = $form->getFieldHtml($props[ ] = array(
