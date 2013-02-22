@@ -7,6 +7,10 @@ By enabling AbanteCart data encryption you can secure your customers data from a
 <br>(Contact your server admin or hosting company)<br>
 NOTE: Do not confuse SSL data encryption with signed SSL certificates (HTTPS) used for browser access to sites 
 <br><br>
+
+<b>Important! Back your code and database before you start!<br> For security keep backup of unencrypted data out of your server!</b> 
+<br><br>
+
 <b>1. Configuration:</b> <br>
 Add key storage location path. <br>
 Add below lines to /system/config.php file. <br>
@@ -28,20 +32,31 @@ Important to use only 1 key at the time and add below line to /system/config.php
 This is the key name that will be used for read/write at one given time.
 
 <br><br>
-<b>2. Encrypt all data:</b> <br>
-Now you need to hide all the data that you might have already at this point using new key that you have created. 
-<br> You can do this in Encryption Data Tools. Just follow the steps for "data encryption" process 
+<b>3. Encrypt all data:</b> <br>
+Now you need to run encryption for all the data using new key created at prior step. 
+<br> You can do this in Encryption Data Tools of Encrypt User's Data tab. Just follow the steps for "data encryption" process 
 
 <br><br>
-NOTES: <br>
+
+<b>4. Require login name:</b> <br>
+Customer emails are encrypted now. To prevent login issues and duplicate accounts, set "Require login name" setting to ON.
+<br> Setting is located in Settings -> Checkout section <br>
+Existing customers will be asked to create unique login name at next time they login to the account 
+
+<br><br>
+All customers data is secured now! Start testing!
+
+<br><br>
+<b>NOTES: </b><br>
 1. Keep Key in secure location with restricted file permissions for root and apache (webserver)<br>
 3. Backup your keys in some remote secure location. Lost keys will cause loss of all data<br>
 3. There is no key expiration management. <br>
-4. Search or look up by encrypted user data will not work (search by address, phone number, etc. will not work) 
+4. Search or look up by encrypted user data will not work (search by address, phone number, etc. will not work)<br>
+5. <b>Once data in encrypted there is NO undo and extension can not be disabled. </b> <br>
 These needs to be accounted for in key management procedures
 
 <br><br>
-<b>3. Migrate encryption key (optional):</b>
+<b>5. Migrate encryption key (optional):</b>
 <br>This process currently is not automated, but possible with below steps
 <br> - Generate new key pair
 <br> - Set new key as default key into configuration file

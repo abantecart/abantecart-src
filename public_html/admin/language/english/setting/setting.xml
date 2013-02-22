@@ -214,7 +214,7 @@
 	</definition>
 	<definition>
 		<key>entry_prevent_email_as_login</key>
-		<value><![CDATA[Disallow Email As Login:<br /><span class="help">To improve security, don't allow customers to use email address as login. Force to create unique user or login name instead of using email address. Existing customers will be asked to create new user name at first login.</span>]]></value>
+		<value><![CDATA[Require login name:<br /><span class="help">Para mejorar la seguridad, preguntar a los clientes a crear el nombre de inicio de sesión único. Si se establece en ON, los clientes existentes se les pedirá que crear nuevo nombre de usuario en el primer inicio de sesión. Si OFF, nombre de usuario es la misma que la dirección de correo electrónico.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_guest_checkout</key>

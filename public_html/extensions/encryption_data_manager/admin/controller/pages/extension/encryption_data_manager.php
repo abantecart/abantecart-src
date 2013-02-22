@@ -316,6 +316,10 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 			$query_read = $this->db->query("SELECT * FROM " . DB_PREFIX . $table_name );
 			$count = 0;
 			foreach($query_read->rows as $record) {			
+				//if encrypting customers table keep login as email before encrypting email 
+				if ($table_name == 'customers' && empty($record['loginname'])) {
+					$record['loginname'] = $record['email'];
+				}
 				//specify key to be used for encryption 		
 				$record['key_id'] = $key_id;
 				$enc_rec_data = $enc_data->encrypt_data($record, $table_name);

@@ -426,7 +426,7 @@
 	</definition>
 	<definition>
 		<key>entry_prevent_email_as_login</key>
-		<value><![CDATA[Email desaprobamos como Login:<br /><span class="help">Para mejorar la seguridad, no permiten a los clientes utilizar la dirección de correo electrónico como nombre de usuario. Fuerza para crear un usuario único o nombre de usuario en lugar de utilizar la dirección de correo electrónico. Los clientes actuales se les pedirá que crear nuevo nombre de usuario en el primer inicio de sesión.</span>]]></value>
+		<value><![CDATA[Requerir sesión nombre:<br /><span class="help">Para mejorar la seguridad, no permiten a los clientes utilizar la dirección de correo electrónico como nombre de usuario. Fuerza para crear un usuario único o nombre de usuario en lugar de utilizar la dirección de correo electrónico. Los clientes actuales se les pedirá que crear nuevo nombre de usuario en el primer inicio de sesión.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_customer_approval</key>
