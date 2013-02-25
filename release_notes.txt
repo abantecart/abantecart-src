@@ -1,3 +1,72 @@
+Release Notes: Version 1.1.4
+
+New Features and improvements summary:
+- Customer's data encryption class with API. 
+- Data Encryption Manager Extension (Beta) 
+- Login name based customer authentication option.  
+- Bank Transfer payment extension 
+- Admin API to view customers and orders details. 
+- Advanced extension settings data validation.
+- Added CVV help image for credit card payment methods. 
+- Cross site scripting vulnerability fix and improvement. 
+
+Bug fixes and improvements
+Core:
+- cross-site scripting vulnerability fix
+- SSL private/public key based encryption class with API
+- Customer's data encryption class with API. 
+- engine resource bug fix of incorrect result of getting resource list by object name and id
+- getUrl() bugfix related to expired session and constant HTTP_SERVER
+- extension's settings validation added. Now you can you <pattern_validate/> entity of item of config.xml file for check setting data by regex pattern. Also you can write your validate.php file with function settingsValidation to do more advanced validation.
+- now store owner can import data when encryption is enabled.
+- changes and bugfixes related to auto-translation
+- extension manager refactoring. validateInstalled() renamed to isExtensionInstalled()
+- Fixed bug with depended extensions sating ON, when main extension turned OFF.
+- Prevent extension status to be set ON if dependency or required  settings data is missing 
+- init.php changed. bugfix related to language loading order.
+- utils.php DateTime::createFromFormat method call replaced by wrapper for php 5.2.
+- phpdoc comments added to Registry class
+- encryption library phpdoc comments changed
+- package manager changes. Chmod to 777 for core files during upgrade added.
+- fix for total and tax class sorting
+- Update error if disabled extension block is in layout
+
+Control Panel:
+- Fix for product_tags saving and auto-translation
+- config manager minor bugfix. type cast for upload max size value added
+- sale->coupons. Status will set to off for deprecated coupons. based on date range
+- minor bug-fix related to number_format function(type casting added).
+- coupon and product edit page. datepicker bugfix
+- order details page. shipping method changing disabled. Now just plain text shows instead selectbox.
+- SEO key auto generation based on product name bugfix on product's edit page.
+- order details minor UI fix (shipping list selectbox of orders without shipping now will shows 'none' as 1st item)
+- All language_definitions for extension will be deleted during uninstall process of extension
+- saving of content page with enabled auto-translate bug fix
+- Fixed issue with non defined extension_id, when install uploaded extension and it has dependent extension.
+- package installer changed. Now detailed error shows when dependencies of extension are not valid
+- extension edit page, help text by push button now can have content with URLs like this #admin#rt=...
+
+- date form fields changed to formatted by language settings on product discounts, product specials, sales report and extension edit pages.
+- minor fixed related to warning in log
+
+Storefront:
+- "framed" layout option added for listing blocks based on tpl files for blocks of template.
+- guest checkout success page: link to contact form fixed
+- guest checkout step #2 with auto selecting of shipping bug-fix.
+- changed  image for ajax adding of product to cart.
+- shipping page auto-select option bugfix (incorrect work with multi-optional shipping methods). Extensions: fedex test setting added
+- order invoice history. date format for display changed. Now based on language settings
+
+Extensions:
+- Data Encryption Manager Extension (Beta) 
+- Bank transfer extension is added
+- banner-manager duplication on creating bugfix
+- Fedex default extension bugfixes (production bugfix + error reporting). Also help note added. config.xml now contain phpmodules entity with soap as required php-lib for 
+- Corrected Default settings of payment order statuses.
+- 2Checkout bug fixes and improvements.Update text and encryption manual
+- default_royal_mail rates changed.
+
+
 Release Notes: Version 1.1.3
 
 New Features and improvements summary:

@@ -40,7 +40,7 @@ Now you need to run encryption for all the data using new key created at prior s
 
 <b>4. Require login name:</b> <br>
 Customer emails are encrypted now. To prevent login issues and duplicate accounts, set "Require login name" setting to ON.
-<br> Setting is located in Settings -> Checkout section <br>
+<br> Setting is located in <a href="#admin#rt=setting/setting&active=checkout">Settings -> Checkout section</a> <br>
 Existing customers will be asked to create unique login name at next time they login to the account 
 
 <br><br>
