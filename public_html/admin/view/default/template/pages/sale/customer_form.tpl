@@ -5,7 +5,7 @@
 <?php 
 	foreach ($error as $key => $error_text) {
 		if( is_array( $error_text ) ) { 
-			foreach ($error_text as $key => $error_text2) {
+			foreach ($error_text as $error_text2) {
 				echo $error_text2 . '<br />';
 			}
 		} else {

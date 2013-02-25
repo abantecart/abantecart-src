@@ -738,7 +738,6 @@ class ModelCatalogProduct extends Model {
                                 'children_options_names'  => $pd_opt_val_description_qr->row['children_options_names'],
                                 'sku'                     => $product_option_value['sku'],
                                 'price'                   => $product_option_value['price'],
-                                'price'                   => $product_option_value['price'],
                                 'prefix'                  => $product_option_value['prefix'],
 								'weight'                  => $product_option_value['weight'],
 								'weight_type'             => $product_option_value['weight_type'],
