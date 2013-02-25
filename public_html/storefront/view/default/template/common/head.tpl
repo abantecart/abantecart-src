@@ -56,6 +56,9 @@ if (typeof jQuery == 'undefined') {
 	                    if($('#item_count').length>0){
 		                    $('#item_count').html(data.item_count);
 	                    }
+						if($('#cart_total').length>0 && data.total.length>0){
+		                    $('#cart_total').html(data.total);
+	                    }
 
                     }
             });
