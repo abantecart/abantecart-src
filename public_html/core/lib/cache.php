@@ -54,15 +54,18 @@ final class ACache {
 		}
 
 		$suffix = $this->_build_sufix($language_id, $store_id);
-		$cache_files = glob(DIR_CACHE . 'cache.' . $key . ($suffix ? '.'.$suffix : '') . '.*', GLOB_NOSORT);
+		$cache_filename = DIR_CACHE . 'cache.' . $key . ($suffix ? '.'.$suffix : '');
+		$cache_files = glob( $cache_filename. '.*', GLOB_NOSORT);
 
 		if ($cache_files) {
     		foreach ($cache_files as $file) {
-      			$handle = fopen($file, 'r');
-      			$cache = fread($handle, filesize($file));	  
-      			fclose($handle);
-
-	      		return unserialize($cache);
+				$ch_base = substr($file,0,-11); // remove timestamp with dot from the end of file name TODO: check this spike
+				if(strlen($cache_filename) == strlen($ch_base)){
+					$handle = fopen($file, 'r');
+					$cache = fread($handle, filesize($file));
+					fclose($handle);
+					return unserialize($cache);
+				}
    		 	}
 		}else{
 			return null;
@@ -82,7 +85,7 @@ final class ACache {
     	$this->delete($key, $language_id, $store_id );
 
     	if($this->registry->get('request')->get['rt']=='tool/cache'){
-    		return;
+    		return null;
     	}
     			
 		if ($create_override || $this->registry->get('config')->get('config_cache_enable')){	
@@ -91,7 +94,6 @@ final class ACache {
 		   	fwrite($handle, serialize($value));				
 		   	fclose($handle);
 		}
-		
   	}
 	
   	public function delete($key, $language_id = '', $store_id = '') {
