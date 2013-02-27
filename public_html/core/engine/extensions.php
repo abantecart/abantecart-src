@@ -644,6 +644,7 @@ class ExtensionsApi {
 					return array(
 						'file' => $f,
 						'extension' => $ext,
+						'base_path' => $file
 					);
 				}
 				if ($resource_type == 'T') {
@@ -654,6 +655,7 @@ class ExtensionsApi {
 						return array(
 							'file' => $f,
 							'extension' => $ext,
+							'base_path' => (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $route
 						);
 					}
 				}
@@ -1046,6 +1048,7 @@ class ExtensionUtils {
 	public function checkRequiredSettings($data=array()){
 
 		if (isset($this->config->settings->item)) {
+
 			foreach ($this->config->settings->item as $item) {
 				if(!isset($data[(string)$item['id']])){
 					continue;//if data for check not given - do nothing

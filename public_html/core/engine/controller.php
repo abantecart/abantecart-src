@@ -266,13 +266,23 @@ abstract class AController {
 					//if(!empty($block_details['parent_instance_id']) && $block_details['parent_instance_id'] > 0) {
 					if (!empty($this->instance_id) && (string)$this->instance_id != '0' && !in_array($block_details[ 'controller' ], $excluded_blocks)) {
 						if (!empty($this->parent_controller)) {
+							// need to check what tpl-file used for render: extension's template or default template
+							$tpl_filename = $this->view->getTemplate();
+							if ( $this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('T', $tpl_filename) ) {
+								$block_tpl_file = $result['base_path'];
+							}else{
+								$basepath = str_replace(DIR_ROOT,'',DIR_TEMPLATE);
+								$block_tpl_file = $basepath.'default/template/'.  $tpl_filename;
+							}
+
 							$args = array( 'block_id' => $this->instance_id,
-								'block_controller' => $this->dispatcher->getFile(),
-								'block_tpl' => $this->view->data[ 'template_dir' ] . $this->view->getTemplate(),
-								'parent_id' => $this->parent_controller->instance_id,
-								'parent_controller' => $this->parent_controller->dispatcher->getFile(),
-								'parent_tpl' => $this->parent_controller->view->data[ 'template_dir' ] . $this->parent_controller->view->getTemplate()
+											'block_controller' => $this->dispatcher->getFile(),
+											'block_tpl' => $block_tpl_file,
+											'parent_id' => $this->parent_controller->instance_id,
+											'parent_controller' => $this->parent_controller->dispatcher->getFile(),
+											'parent_tpl' => $this->parent_controller->view->data[ 'template_dir' ] . $this->parent_controller->view->getTemplate()
 							);
+
 							$debug_wrapper = $this->dispatch('common/template_debug', array( 'instance_id' => $this->instance_id, 'details' => $args ));
 							$debug_output = $debug_wrapper->dispatchGetOutput();
 							$output = trim($this->view->getOutput());
