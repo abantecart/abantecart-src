@@ -78,7 +78,7 @@ class ControllerResponsesListingGridProduct extends AController {
 				)),
 				$this->html->buildInput(array(
 					'name' => 'price[' . $result[ 'product_id' ] . ']',
-					'value' => number_format($result[ 'price' ], 2)
+					'value' => number_format((float)$result[ 'price' ], 2)
 				)),
 				$this->html->buildInput(array(
 					'name' => 'quantity[' . $result[ 'product_id' ] . ']',

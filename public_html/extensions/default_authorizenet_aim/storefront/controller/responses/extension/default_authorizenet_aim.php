@@ -23,6 +23,10 @@ if (!defined('DIR_CORE')) {
 
 class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 	public function main() {
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
 		$this->loadLanguage('default_authorizenet_aim/default_authorizenet_aim');
 
 		$data[ 'text_credit_card' ] = $this->language->get('text_credit_card');
@@ -43,6 +47,9 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		$data[ 'entry_cc_expire_date' ] = $this->language->get('entry_cc_expire_date');
 
 		$data[ 'entry_cc_cvv2' ] = $this->language->get('entry_cc_cvv2');
+		$data[ 'entry_cc_cvv2_short' ] = $this->language->get('entry_cc_cvv2_short');
+		$data['cc_cvv2_help_url'] = $this->html->getURL('r/extension/default_authorizenet_aim/cvv2_help');
+
 		$data[ 'cc_cvv2' ] = HtmlElementFactory::create(array( 'type' => 'input',
 		                                                     'name' => 'cc_cvv2',
 		                                                     'value' => '',
@@ -96,8 +103,12 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 			                                                  'style' => 'button',
 		                                               ));
 		$data[ 'submit' ] = $data[ 'submit' ]->getHtml();
-		
+
 		$this->view->batchAssign($data);
+
+		//init controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
 		$this->processTemplate('responses/default_authorizenet_aim.tpl');
 	}
 
@@ -120,6 +131,9 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		                              
 		$data[ 'entry_cc_expire_date' ] = $this->language->get('entry_cc_expire_date');
 		$data[ 'entry_cc_cvv2' ] = $this->language->get('entry_cc_cvv2');
+		$data[ 'entry_cc_cvv2_short' ] = $this->language->get('entry_cc_cvv2_short');
+		$data['cc_cvv2_help_url'] = $this->html->getURL('r/extension/default_authorizenet_aim/cvv2_help');
+
 		$data[ 'cc_cvv2' ] = array( 'type' => 'input',
 		                            'name' => 'cc_cvv2',
 		                            'value' => '',
@@ -166,6 +180,32 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 			$url = 'https://secure.authorize.net/gateway/transact.dll';
 		} elseif ($this->config->get('default_authorizenet_aim_mode') == 'test') {
 			$url = 'https://test.authorize.net/gateway/transact.dll';
+		}
+
+		if ( $this->config->get('store_credit_cards_status') ) {
+			if ( has_value($this->session->data['stored_credit_card']) ) {
+
+				foreach ( $this->session->data['stored_credit_card'] as $key => $val ) {
+					$this->request->post[$key] = $val;
+				}
+				unset($this->session->data['stored_credit_card']);
+			}
+
+			if ( $this->request->post['credit_card_save'] ) {
+
+				$data = array(
+					'card_nickname' => $this->request->post['cc_nickname'],
+					'card_owner' => $this->request->post['cc_owner'],
+					'card_number' => $this->request->post['cc_number'],
+					'cc_start_date_month' => isset($this->request->post['cc_start_date_month']) ? $this->request->post['cc_start_date_month'] : date('m'),
+					'cc_start_date_year' => isset($this->request->post['cc_start_date_year']) ? $this->request->post['cc_start_date_year'] : date('Y'),
+					'cc_expire_date_month' => $this->request->post['cc_expire_date_month'],
+					'cc_expire_date_year' => $this->request->post['cc_expire_date_year'],
+				);
+
+				$this->loadModel('extension/store_credit_cards');
+				$this->model_extension_store_credit_cards->addCard($data);
+			}
 		}
 
 		$this->load->model('checkout/order');
@@ -272,6 +312,23 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));
+	}
+
+	public function cvv2_help() {
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$this->loadLanguage('default_authorizenet_aim/default_authorizenet_aim');
+
+		$image = '<img src="' . $this->view->templateResource('/image/securitycode.jpg') . '" alt="' . $this->language->get('entry_what_cvv2') . '" />';
+
+		$this->view->assign('title', $this->language->get('entry_what_cvv2') );
+		$this->view->assign('description', $image );
+
+		//init controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->processTemplate('responses/content/content.tpl' );
 	}
 }
 

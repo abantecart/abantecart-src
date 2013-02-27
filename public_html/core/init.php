@@ -329,6 +329,9 @@ try {
 	}
 	$registry->set('uri', $_SERVER[ 'REQUEST_URI' ]);
 
+//main instance of data encryption 
+	$data_encryption = new ADataEncryption( );
+	$registry->set('dcrypt', $data_encryption);
 
 // Extensions api
 	$extensions = new ExtensionsApi();
@@ -392,10 +395,9 @@ try {
 // Create Global Layout Instance
 	$registry->set('layout', new ALayout($registry, $template));
 
-//load main language section 
-	$language->load();
+//load main language section
 	$registry->set('language', $language);
-
+	$registry->get('language')->load();
 	$hook->hk_InitEnd();
 
 } //eof try

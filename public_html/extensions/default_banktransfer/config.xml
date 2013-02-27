@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<extension>
+    <id>default_banktransfer</id>
+    <version>1.0.0</version>
+	<type>payment</type>
+	<category>payment</category>
+    <cartversions>
+        <item>0.9</item>
+        <item>1.0</item>
+        <item>1.1</item>
+    </cartversions>
+    <layout></layout>
+    <priority>10</priority>
+    <settings>
+        <item id="default_banktransfer_status">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>
+	    <item id="default_banktransfer_instructions">
+            <type required="true">textarea</type>
+            <default_value></default_value>
+        </item>
+	    <item id="default_banktransfer_order_min">
+            <type>input</type>
+            <default_value></default_value>
+        </item>
+        <item id="default_banktransfer_order_status_id">
+            <type>selectbox</type>
+			<variants>
+				<data_source>
+                   <model_rt>localisation/order_status</model_rt>
+                   <method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>2</default_value>
+        </item>
+	    <item id="default_banktransfer_location_id">
+            <type>selectbox</type>
+			<variants>
+				<item>0</item>
+				<data_source>
+                   <model_rt>localisation/location</model_rt>
+                   <method>getLocations</method>
+				</data_source>
+				<fields>
+					<field>location_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+        </item>
+        <item id="default_banktransfer_autoselect">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>        
+	    <item id="default_banktransfer_sort_order">
+            <type>input</type>
+            <default_value></default_value>
+        </item>
+    </settings>
+    <install>
+	    <sql></sql>
+	    <trigger></trigger>
+	</install>
+	<uninstall>
+	    <sql></sql>
+	    <trigger></trigger>
+	</uninstall>
+</extension>

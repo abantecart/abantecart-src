@@ -10,17 +10,19 @@
 		<?php if ($error) { ?>
 		<div class="warning"><?php echo $error; ?></div>
 		<?php
-	}
+		}
 		echo  $form[ 'form_open' ];	  ?>
-		<p><?php echo $text_email; ?></p>
+		<p><?php echo $help_text; ?></p>
 		<b style="margin-bottom: 2px; display: block;"><?php echo $text_your_email; ?></b>
 
 		<div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
 			<table>
+				<?php foreach ( $form['fields'] as $name => $field) { ?>
 				<tr>
-					<td width="150"><?php echo $entry_email; ?></td>
-					<td><?php echo $form['email']?></td>
+					<td width="150"><?php echo ${'entry_'.$name}; ?></td>
+					<td><?php echo $field?></td>
 				</tr>
+				<?php } ?>
 			</table>
 		</div>
 		<div class="buttons">

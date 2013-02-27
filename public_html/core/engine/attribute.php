@@ -25,7 +25,12 @@ if (! defined ( 'DIR_CORE' )) {
  * Class to handle access to global attributes
  * 
  */
- 
+/**
+ * @property ALanguageManager $language
+ * @property ADB $db
+ * @property ACache $cache
+ * @property AConfig $config
+ */
 class AAttribute {
 	/**
      * @var registry - access to application registry
@@ -46,14 +51,16 @@ class AAttribute {
 
     /**
      * @param  $key - key to load data from registry
-     * @return data from registry
+     * @return mixed  - data from registry
      */
 	public function __get($key) {
 		return $this->registry->get($key);
 	}
 
     /**
-     * @param  $key - key to save data in registry
+     * @param  string $key - key to save data in registry
+     * @param  mixed $value - key to save data in registry
+	 * @return mixed  - data from registry
      */
 	public function __set($key, $value) {
 		$this->registry->set($key, $value);
@@ -81,10 +88,12 @@ class AAttribute {
         $this->attribute_types = $query->rows;
 	}
 
-    /**
-     * @param  $attribute_type_id - load all the attributes for specified type
-     */
-   	private function _load_attributes( $attribute_type_id, $language_id = 0 ) {
+	/**
+	 * load all the attributes for specified type
+	 * @param $attribute_type_id
+	 * @param int $language_id
+	 */
+	private function _load_attributes( $attribute_type_id, $language_id = 0 ) {
 		//Load attributes from DB or cache. If load from DB, cache.
 		// group attribute and sort by attribute_group_id (if any) and sort by attribute inside the group.
 
@@ -119,10 +128,12 @@ class AAttribute {
 	}
 
     /**
-     * @param  $group_id, $language_id = 0  
      * Get details about given group for attributes
-     */
-    public function getAttributeGroup( $group_id, $language_id = 0 ) {
+	 * @param $group_id
+	 * @param int $language_id
+	 * @return null
+	 */
+	public function getActiveAttributeGroup( $group_id, $language_id = 0 ) {
 
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');
@@ -131,22 +142,22 @@ class AAttribute {
         $query = $this->db->query("
             SELECT gag.*, gagd.name
             FROM `".DB_PREFIX."global_attributes_groups` gag
-                LEFT JOIN `".DB_PREFIX."global_attributes_groups_descriptions` gagd ON ( gag.attribute_group_id = gagd.attribute_group_id AND gagd.language_id = '" . (int)$language_id . "' )
-            WHERE gag.attribute_group_id = '" . $this->db->escape( $group_id ) . "'
-            AND gag.status = 1 order by gag.sort_order"
+            LEFT JOIN `".DB_PREFIX."global_attributes_groups_descriptions` gagd ON ( gag.attribute_group_id = gagd.attribute_group_id AND gagd.language_id = '" . (int)$language_id . "' )
+            WHERE gag.attribute_group_id = '" . $this->db->escape( $group_id ) . "' AND gag.status = 1
+            ORDER BY gag.sort_order"
         );
 
 	    if ( $query->num_rows ) {
             return $query->row;
 	    } else {
-		    return null;
+		    return array();
 	    }
 	}
 
 
     /**
-     * @param  NONE  
      * Get array of all available attribute types
+	 * @return array
      */
     public function getAttributeTypes( ) {
 		return $this->attribute_types;
@@ -154,7 +165,8 @@ class AAttribute {
 
 
     /**
-     * @param  $type
+     * @param string $type
+	 * @return null | int
      * Get attribute id based on attribute type_key
      */
     public function getAttributeTypeID( $type ) {
@@ -163,6 +175,7 @@ class AAttribute {
             	return $attribute_type['attribute_type_id'];
             }
 		}
+		return null;
 	}
 
     /**
@@ -176,13 +189,14 @@ class AAttribute {
         return $attribute_data->rows[0]['total_count'];
 	}
 
-    /**
-     * @param  $attribute_type - load all the attributes for specified type 
-     *		   $language_id - Language id. default 0 (english)
-     *		   $attribute_parent_id - Parent attribute ID if any. Default 0 (parent)
-     */
-    
-    public function getAttributesByType( $attribute_type, $language_id = 0, $attribute_parent_id = 0 ) {
+	/**
+	 * load all the attributes for specified type
+	 * @param $attribute_type
+	 * @param int $language_id - Language id. default 0 (english)
+	 * @param int $attribute_parent_id  - Parent attribute ID if any. Default 0 (parent)
+	 * @return array
+	 */
+	public function getAttributesByType( $attribute_type, $language_id = 0, $attribute_parent_id = 0 ) {
 		if ( empty($this->attributes) ) {
 			$this->_load_attributes( $this->getAttributeTypeID($attribute_type), $language_id );
 		}
@@ -218,28 +232,30 @@ class AAttribute {
         }
     }
 
-    /**
-     * @param  $attribute_id - load attribute with id=$attribute_id
-     		   $language_id - Language id. default 0 (english)
-     */
-    public function getAttribute( $attribute_id, $language_id = 0 ) {
+	/**
+	 * @param $attribute_id - load attribute with id=$attribute_id
+	 * @param int $language_id - Language id. default 0 (english)
+	 * @return null | array
+	 */
+	public function getAttribute( $attribute_id, $language_id = 0 ) {
 		if ( empty($this->attributes) ) {
-			return;
+			return null;
 		}
 
         foreach ( $this->attributes as $attribute ) {
        		if ( $attribute['attribute_id']  == $attribute_id ) {
         	    return $attribute;
         	}
-		}									
+		}
+		return null;
 	}
 
-    /**
-     * @param  $attribute_id - load all the attribute values and descriptions for specified attribute id 
-     		   $language_id - Language id. default 0 (english)
-     */
-    
-    public function getAttributeValues( $attribute_id, $language_id = 0 ) {
+	/**
+	 * @param $attribute_id - load all the attribute values and descriptions for specified attribute id
+	 * @param int $language_id - Language id. default 0 (english)
+	 * @return array
+	 */
+	public function getAttributeValues( $attribute_id, $language_id = 0 ) {
 		//get attrib values
         $cache_name = 'attribute.values.'.$attribute_id.'.'.$language_id;
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
@@ -257,7 +273,7 @@ class AAttribute {
         );
 
         if ( !$query->num_rows ) {
-            return;
+            return array();
         }
 
         $this->cache->set($cache_name, $query->rows,'',(int)$this->config->get('config_store_id'));

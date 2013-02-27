@@ -30,6 +30,7 @@ if (!defined('DIR_CORE')) {
  * @property ModelToolUpdater $model_tool_updater
  * @property Ahtml $html
  * @property AUser $user
+ * @property AMessage $messages
  * */
 class AExtensionManager {
 	/**
@@ -145,8 +146,10 @@ class AExtensionManager {
 	}
 
 	/**
-	 * @param string $extension_id
-	 * @param string $extension_parent_id
+	 * @param $extension_txt_id
+	 * @param $extension_parent_txt_id
+	 * @internal param int $extension_id
+	 * @internal param int $extension_parent_id
 	 * @return bool
 	 */
 	public function addDependant($extension_txt_id, $extension_parent_txt_id) {
@@ -169,8 +172,10 @@ class AExtensionManager {
 
 	/**
 	 * function delete extension dependants from table by given id's
-	 * @param string $extension_id
-	 * @param string $extension_parent_id
+	 * @param string $extension_txt_id
+	 * @param string $extension_parent_txt_id
+	 * @internal param string $extension_id
+	 * @internal param string $extension_parent_id
 	 * @return bool
 	 */
 	public function deleteDependant($extension_txt_id = '', $extension_parent_txt_id = '') {
@@ -217,6 +222,22 @@ class AExtensionManager {
 
 		$keys = array_keys($data);
 		unset($keys['store_id']);
+		// check if settings required and it is not status
+		$ext = new ExtensionUtils($extension_txt_id,(int)$data['store_id']);
+		if(isset($data['one_field']) && !isset($data[$extension_txt_id . "_status"])){
+			$validate = $ext->validateSettings($data);
+			if(!$validate['result']){ // check is all required settings are set
+				if(!isset($validate['errors'])){
+					$this->errors[] = "Can't save setting because value is empty. ";
+				}else{
+					$this->load->language($extension_txt_id.'/'.$extension_txt_id);
+					foreach($validate['errors'] as $field_id => $error_text){
+						$this->errors[] = $error_text ? $error_text : $this->language->get($field_id.'_validation_error') ;
+					}
+				}
+				return false;
+			}
+		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "settings
 						  WHERE `group` = '" . $this->db->escape($extension_txt_id) . "'
@@ -239,22 +260,45 @@ class AExtensionManager {
 			if ($setting_name == 'status') {
 				//when try to enable extension
 				if ($value == 1) { // check is parent extension enabled
-					$parents = $this->getParentsExtensionTextId($extension_txt_id);
-					$enabled = $this->extensions->getEnabledExtensions();
-					foreach ($parents as $parent) {
-						if (!in_array($parent['key'], $enabled)) {
-							$error = "Can't to enable extension \"" . $extension_txt_id . "\". It's depends on extension \"" . $parent['key'] . "\" which not enabled. ";
+					$validate = $ext->validateSettings($data); // check is all required settings are set and valid
+					if(!$validate['result']){
+						$value = 0; // disable extension
+						if(!isset($validate['errors'])){
+							$error = "Cannot enable extension \"" . $extension_txt_id . "\". Please fill all required fields on settings edit page. ";
+							$this->messages->saveError('App Error',$error);
 							$this->errors[] = $error;
 							$error = new AError ($error);
 							$error->toLog()->toDebug();
-							//prevents enabling
-							$value = 0;
-							break;
+						}else{
+							$this->load->language($extension_txt_id.'/'.$extension_txt_id);
+							foreach($validate['errors'] as $field_id => $error_text){
+								$error = $error_text ? $error_text : $this->language->get($field_id.'_validation_error') ;
+								$this->messages->saveError('App Error: '.$field_id, $error);
+								$this->errors[] = $error;
+								$error = new AError ($error);
+								$error->toLog()->toDebug();
+							}
+						}
+					}else{
+						// if all fine with required fields - check childen
+						$parents = $this->getParentsExtensionTextId($extension_txt_id);
+						$enabled = $this->extensions->getEnabledExtensions();
+						foreach ($parents as $parent) {
+							if (!in_array($parent['key'], $enabled)) {
+								$error = "Cannot enable extension \"" . $extension_txt_id . "\". It's depends on extension \"" . $parent['key'] . "\" which not enabled. ";
+								$this->messages->saveError('Extension App Error',$error);
+								$this->errors[] = $error;
+								$error = new AError ($error);
+								$error->toLog()->toDebug();
+								//prevents enabling
+								$value = 0;
+								break;
+							}
 						}
 					}
 
 				} else { // When try to disable disable dependants too
-					if ($this->validateInstalled($extension_txt_id)) {
+					if ($this->isExtensionInstalled($extension_txt_id)) {
 						$children_keys = array();
 						$children = $this->getChildrenExtensions($extension_txt_id);
 
@@ -304,12 +348,14 @@ class AExtensionManager {
 	}
 
 	/**
-	 * method deletes all settings of extension
+	 * method deletes all settings of extension with language definitions
 	 * @param string $group - extension text id
 	 */
 	public function deleteSetting($group) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "settings WHERE `group` = '" . $this->db->escape($group) . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "settings WHERE `group` = '" . $this->db->escape($group) . "';");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "language_definitions WHERE `block` = '" . $this->db->escape($group) . "_" . $this->db->escape($group)."';");
 		$this->cache->delete('settings');
+		$this->cache->delete('language_definitions');
 	}
 
 	/**
@@ -492,8 +538,8 @@ class AExtensionManager {
 		if (!$result) {
 			return false;
 		}
-		$result = $this->validateInstalled($extension_txt_id);
-		if (!$result) {
+		$result = $this->isExtensionInstalled($extension_txt_id);
+		if ($result) {
 			return false;
 		}
 		// get config.xml
@@ -581,7 +627,7 @@ class AExtensionManager {
 
 	/**
 	 *  check free space
-	 * /todo is really needed?
+	 * //TODO: is really needed?
 	 */
 	public function validateFreeSpace() {
 		return true;
@@ -593,9 +639,9 @@ class AExtensionManager {
 	 * @param string $extension_txt_id
 	 * @return bool
 	 */
-	public function validateInstalled($extension_txt_id) {
+	public function isExtensionInstalled($extension_txt_id) {
 		$installed = $this->config->get($extension_txt_id . '_status');
-		return $installed === null ? true : false;
+		return $installed === null ? false : true;
 	}
 
 
@@ -663,6 +709,5 @@ class AExtensionManager {
 		}
 		return true;
 	}
-
 
 }

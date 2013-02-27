@@ -21,6 +21,10 @@
     <value><![CDATA[Success: Your account has been successfully updated.]]></value>
   </definition>
   <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Login Name:]]></value>
+  </definition>  
+  <definition>
     <key>entry_firstname</key>
     <value><![CDATA[First Name:]]></value>
   </definition>
@@ -49,6 +53,14 @@
     <value><![CDATA[Error: E-Mail address is already registered!]]></value>
   </definition>
   <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Login name must be alphanumeric only and between 5 and 64 characters!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[This login name is not available. Try different login name!]]></value>
+  </definition>
+  <definition>
     <key>error_firstname</key>
     <value><![CDATA[First Name must be between 1 and 32 characters!]]></value>
   </definition>
@@ -63,5 +75,9 @@
   <definition>
     <key>error_telephone</key>
     <value><![CDATA[Telephone must be between 3 and 32 characters!]]></value>
+  </definition>
+  <definition>
+    <key>loginname_update_required</key>
+    <value><![CDATA[Your login name is the same as your email. To keep your account protected, please create a new unique login name]]></value>
   </definition>
 </definitions>

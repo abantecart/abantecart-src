@@ -39,6 +39,7 @@
 					<field>name</field>
 				</fields>
 			</variants>
+			<default_value>2</default_value>
         </item>
 	    <item id="default_pp_standart_transaction">
             <type>selectbox</type>

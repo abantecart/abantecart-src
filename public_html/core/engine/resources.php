@@ -97,6 +97,9 @@ if(!function_exists('mime_content_type')) {
     }
 }
 
+/**
+ * @property ModelToolImage $model_tool_image
+ */
 class AResource {
 	protected $registry;
 	protected $type;
@@ -106,6 +109,9 @@ class AResource {
 	protected $access_type;
 	protected $file_types;
 
+	/**
+	 * @param string $type
+	 */
 	public function __construct( $type ) {
 		$this->registry = Registry::getInstance();
 		//NOTE: Storefront can not access all resource at once. Resource type required
@@ -174,13 +180,21 @@ class AResource {
         return $this->file_types;
     }
 
-    public function getHexPath( $resource_id ) {
+	/**
+	 * @param int $resource_id
+	 * @return string
+	 */
+	public function getHexPath( $resource_id ) {
         $result = rtrim(chunk_split(dechex($resource_id), 2, '/'), '/');
 	    return $result;
     }
 
-    public function getIdFromHexPath( $path ) {
-	    if(empty($path)) return;
+	/**
+	 * @param string $path
+	 * @return null|number
+	 */
+	public function getIdFromHexPath( $path ) {
+	    if(empty($path)){ return null; }
 	    if(strpos($path,'/')!==false){
 		    $ext = pathinfo($path,PATHINFO_EXTENSION);
 		    $path = str_replace(array('.'.$ext,'/'),'',$path);
@@ -190,7 +204,11 @@ class AResource {
 	    }
 	    return $result;
     }
-	
+
+	/**
+	 * @param string $filename
+	 * @return int
+	 */
 	private function _getIdByName($filename){
 		$sql = "SELECT resource_id
                 FROM " . DB_PREFIX . "resource_descriptions
@@ -200,11 +218,16 @@ class AResource {
         return $query->row['resource_id'];
 	}
 
-	public function getResource ( $resource_id, $language_id = '' ) {
+	/**
+	 * @param int $resource_id
+	 * @param int $language_id
+	 * @return arrayl
+	 */
+	public function getResource ( $resource_id, $language_id = 0 ) {
 		//Return resource details
 		$resource_id = (int)$resource_id;
 	    if ( !$resource_id) {
-			return false;
+			return array();
 	    }
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');
@@ -322,14 +345,18 @@ class AResource {
 				return HTTP_DIR_RESOURCE . $this->type_dir . $resource['resource_path'];
 			}
 	    }
-
-
     }
 
-	public function getResources ( $object_name, $object_id, $language_id = '' ) {
+	/**
+	 * @param string $object_name
+	 * @param string $object_id
+	 * @param int $language_id
+	 * @return array
+	 */
+	public function getResources ( $object_name, $object_id, $language_id = 0 ) {
 		//Allow to load resources only for 1 object and id combination
 	    if ( !$object_name || !$object_id ) {
-			return;
+			return array();
 	    }
 
         if ( !$language_id ) {
@@ -393,8 +420,15 @@ class AResource {
         return array('products', 'categories', 'manufacturers', 'product_option_value');
     }
 
-
-	// method returns all resources of object by it's id and name
+	/**
+	 * method returns all resources of object by it's id and name
+	 * @param string $object_name
+	 * @param string $object_id
+	 * @param array $sizes
+	 * @param int $limit
+	 * @param bool $noimage
+	 * @return array
+	 */
 	public function getResourceAllObjects($object_name, $object_id, $sizes=array('main'=>array(),'thumb'=>array()), $limit=0, $noimage=true){
 		if(!$object_id || !$object_name ) return array();
 		$limit = (int)$limit;
@@ -402,8 +436,8 @@ class AResource {
 		if(!$results && !$limit){ return array(); }
 
 		if($limit && !$noimage){
-			$limit = $limit>sizeof($results) ? sizeof($results) : $limit;
-			$results = array_slice($results, 0, $limit);
+			$slice_limit = $limit>sizeof($results) ? sizeof($results) : $limit;
+			$results = array_slice($results, 0, $slice_limit);
 		}
 
 		$this->load->model('tool/image');
@@ -477,6 +511,14 @@ class AResource {
 	return $resources;
 	}
 
+	/**
+	 * @param string $object_name
+	 * @param string $object_id
+	 * @param int $width
+	 * @param int $height
+	 * @param bool $noimage
+	 * @return array
+	 */
 	public function getMainThumb($object_name, $object_id, $width, $height, $noimage=true ){
 		$sizes=array('thumb'=>array('width'=>$width, 'height'=> $height));
 		$result =  $this->getResourceAllObjects($object_name, $object_id, $sizes,1, $noimage);
@@ -487,7 +529,15 @@ class AResource {
 		}
 	return $output;
 	}
-	
+
+	/**
+	 * @param string $object_name
+	 * @param string $object_id
+	 * @param int $width
+	 * @param int $height
+	 * @param bool $noimage
+	 * @return array
+	 */
 	public function getMainImage($object_name, $object_id, $width, $height, $noimage=true){
 		$sizes=array('main'=>array('width'=>$width, 'height'=> $height));
 		$result =  $this->getResourceAllObjects($object_name, $object_id, $sizes,1, $noimage);

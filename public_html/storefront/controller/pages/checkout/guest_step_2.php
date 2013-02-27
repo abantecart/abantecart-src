@@ -134,13 +134,15 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 		if (count($this->session->data['shipping_methods']) == 1 ) {
 		    //set only method
 		    $only_method = $this->session->data[ 'shipping_methods' ];
-		    foreach ($only_method as $method_name => $value) {		
+		    foreach ($only_method as $method_name => $value) {
 		    	#Check config if we allowed to set this shipping and skip the step
 		    	$ext_config = $this->model_checkout_extension->getSettings($method_name);
 		    	if ( $ext_config[$method_name."_autoselect"] ) {
 		    		//take first qoute. This needs to be acounted for if configure shipping to be autoselected
-		    		$this->session->data[ 'shipping_method' ] = $only_method[$method_name]['quote'][$method_name];
-		    		$skip_step = true;		
+					if(sizeof($only_method[$method_name]['quote'])==1){
+						$this->session->data[ 'shipping_method' ] = current($only_method[$method_name]['quote']);
+						$skip_step = true;
+					}
 		    	}
 		    }
 		} else if (count($this->session->data['shipping_methods']) == 0	) {
@@ -282,7 +284,6 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 			if ( $this->session->data['shipping_methods'] ){
 				//build array with payments available per each shippiment
 				foreach ($this->session->data['shipping_methods'] as $method_name => $method_val) {
-					$ac_payments = array();
 					#Check config of selected shipping method and see if we have accepted payments restriction
 					$ship_ext_config = $this->model_checkout_extension->getSettings($method_name);
 					$accept_payment_ids = $ship_ext_config[$method_name."_accept_payments"];
@@ -426,4 +427,3 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 		}
   	}
 }
-?>

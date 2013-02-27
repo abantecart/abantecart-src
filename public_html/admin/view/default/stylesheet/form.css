@@ -247,6 +247,11 @@ div.aselect select {
 	margin:0 -10px 0 0;
 }
 
+div.aselect select .disabled {
+	color: grey;
+}
+
+
 .small-field, .ml_field input.small-field {width:40px}
 .medium-field, .ml_field input.medium-field {width:150px}
 .large-field, .ml_field input.large-field {width:300px}

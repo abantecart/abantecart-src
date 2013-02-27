@@ -57,6 +57,10 @@
     <value><![CDATA[Accion]]></value>
   </definition>
   <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Nombre de conexión:]]></value>
+  </definition>
+  <definition>
     <key>entry_firstname</key>
     <value><![CDATA[Nombre:]]></value>
   </definition>
@@ -100,6 +104,14 @@
     <key>error_permission</key>
     <value><![CDATA[Advertencia: No tiene permiso para modificar los clientes!]]></value>
   </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Nombre de inicio de sesión debe ser alfanuméricos y sólo entre 5 y 64 caracteres!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Este nombre de usuario no está disponible. Trate nombre de usuario diferente!]]></value>
+  </definition>  
   <definition>
     <key>error_firstname</key>
     <value><![CDATA[El nombre debe ser mayor que 1 y menor de 32 caracteres!]]></value>

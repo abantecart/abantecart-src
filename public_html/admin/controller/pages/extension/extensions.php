@@ -423,13 +423,11 @@ class ControllerPagesExtensionExtensions extends AController {
 			$this->redirect($this->data['target_url']);
 		}
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validateSettings()) && $this->_checkRequiredSettings()) {
-
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateSettings($extension,$store_id)) {
 			foreach ($settings as $item) {
 				if (!isset($this->request->post[$item['name']])) {
 					$this->request->post[$item['name']] = 0;
 				}
-
 			}
 			
 			$this->extension_manager->editSetting($extension, $this->request->post);
@@ -490,6 +488,11 @@ class ControllerPagesExtensionExtensions extends AController {
 		);
 
 
+		if(!$this->extension_manager->validateDependencies($extension,getExtensionConfigXml($extension))){
+			$this->error['warning'] = 'This extension cannot be enabled because required dependency missing or not enabled.';
+		}
+
+
 		if (isset($this->error['warning'])) {
 			$this->data['error_warning'] = $this->error['warning'];
 		} else {
@@ -520,8 +523,15 @@ class ControllerPagesExtensionExtensions extends AController {
 			$extension_data['icon'] = $icon;
 			$extension_data['name'] = $this->language->get($extension . '_name');
 			$extension_data['version'] = $extension_info['version'];
-			$extension_data['installed'] = (strtotime($extension_info['date_installed']) ? date('F, d Y h:iA', strtotime($extension_info['date_installed'])) : '');
-			$extension_data['create_date'] = (strtotime($extension_info['create_date']) ? date('F, d Y h:iA', strtotime($extension_info['create_date'])) : '');
+
+			$long_datetime_format = $this->language->get('date_format_long').' '.$this->language->get('time_format');
+			if($extension_info['date_installed']){
+				$extension_data['installed'] = date($long_datetime_format, strtotime($extension_info['date_installed']));
+			}
+			if($extension_info['create_date']){
+				$extension_data['create_date'] =  date($long_datetime_format, strtotime($extension_info['create_date']));
+			}
+
 			$extension_data['license'] = $extension_info['license_key'];
 			$extension_data['note'] = $ext->getConfig('note') ? $this->html->convertLinks($this->language->get($extension . '_note')) : '';
 
@@ -645,31 +655,38 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _validateSettings() {
+	/**
+	 * @param string $extension
+	 * @param int $store_id
+	 * @return bool
+	 */
+	private function _validateSettings($extension,$store_id) {
 		if (!$this->user->canModify('extension/extensions')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
 		if (!$this->error) {
+			//then check required fields and validate it
+			$ext = new ExtensionUtils($extension, $store_id);
+			$validate = $ext->validateSettings($this->request->post);
+			if(!$validate['result']){
+				if(!isset($validate['errors'])){
+					$this->error['warning'] = $this->language->get('error_required_field');
+				}else{
+					$this->error['warning'] = array();
+					foreach($validate['errors'] as $field_id => $error_text){
+						$error = $error_text ? $error_text : $this->language->get($field_id.'_validation_error') ;
+						$this->error['warning'][] = $error;
+					}
+					$this->error['warning'] = implode('<br>',$this->error['warning']);
+				}
+				return false;
+			}
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-
-	private function _checkRequiredSettings() {
-		if ($this->session->data['extension_required_fields']) {
-			foreach ($this->session->data['extension_required_fields'] as $field_name) {
-				if (!isset($this->request->post[$field_name]) || empty($this->request->post[$field_name])) {
-					$this->error['warning'] = $this->language->get('error_required_field');
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
-
 	public function install() {
 
 		//init controller data

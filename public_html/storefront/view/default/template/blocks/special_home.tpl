@@ -1,4 +1,7 @@
-<?php if ($products) { ?>
+<?php
+if ($products) {
+	if ($block_framed) { ?>
+
 <div class="c_block">
 	<div class="block_tl">
 		<div class="block_tr">
@@ -8,9 +11,8 @@
     <div class="block_cl">
     	<div class="block_cr">
         	<div class="block_cc">
+<?php	}
 
-
-<?php
 	$col = 4;
 	$ctr = 0;
     foreach ($products as $product) {
@@ -63,7 +65,9 @@
 		<br class="clr_both" /></div>
 <?php } ?>
 
-<?php } ?>
+<?php }
+	if ($block_framed) {
+	?>
               </div>
          </div>
     </div>
@@ -73,4 +77,4 @@
 		</div>
 	</div>
 </div>
-<?php } ?>
+<?php }} ?>

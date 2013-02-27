@@ -37,9 +37,17 @@
     <value><![CDATA[Ya soy cliente...]]></value>
   </definition>
   <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[¿Olvidó su contraseña?]]></value>
+  </definition>
+  <definition>
     <key>text_forgotten_password</key>
     <value><![CDATA[He olvidado la contraseña]]></value>
   </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Ingresa el nombre o la dirección de e-mail:]]></value>
+  </definition>  
   <definition>
     <key>entry_email_address</key>
     <value><![CDATA[Dirección de correo electrónico:]]></value>

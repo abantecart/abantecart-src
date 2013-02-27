@@ -23,6 +23,7 @@ if (! defined ( 'DIR_CORE' )) {
 
 final class ACustomer {
 	private $customer_id;
+	private $loginname;
 	private $firstname;
 	private $lastname;
 	private $email;
@@ -39,44 +40,49 @@ final class ACustomer {
 		$this->db = $registry->get('db');
 		$this->request = $registry->get('request');
 		$this->session = $registry->get('session');
+		$this->dcrypt = $registry->get('dcrypt');
 				
 		if (isset($this->session->data['customer_id'])) { 
-			$customer_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customers WHERE customer_id = '" . (int)$this->session->data['customer_id'] . "' AND status = '1'");
+			$customer_query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$this->session->data['customer_id'] . "' AND status = '1'");
 			
 			if ($customer_query->num_rows) {
 				$this->customer_id = $customer_query->row['customer_id'];
+				$this->loginname = $customer_query->row['loginname'];
 				$this->firstname = $customer_query->row['firstname'];
 				$this->lastname = $customer_query->row['lastname'];
-				$this->email = $customer_query->row['email'];
-				$this->telephone = $customer_query->row['telephone'];
-				$this->fax = $customer_query->row['fax'];
+				if ( $this->dcrypt->active ) {
+					$this->email = $this->dcrypt->decrypt_field( $customer_query->row['email'], $customer_query->row['key_id'] );
+					$this->telephone = $this->dcrypt->decrypt_field( $customer_query->row['telephone'], $customer_query->row['key_id'] );
+					$this->fax = $this->dcrypt->decrypt_field( $customer_query->row['fax'], $customer_query->row['key_id'] );
+				} else {
+					$this->email = $customer_query->row['email'];
+					$this->telephone = $customer_query->row['telephone'];
+					$this->fax = $customer_query->row['fax'];					
+				}
 				$this->newsletter = $customer_query->row['newsletter'];
 				$this->customer_group_id = $customer_query->row['customer_group_id'];
 				$this->address_id = $customer_query->row['address_id'];
 							
-      			$this->db->query("UPDATE " . DB_PREFIX . "customers SET cart = '" . $this->db->escape(serialize($this->session->data['cart'])) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE customer_id = '" . (int)$this->session->data['customer_id'] . "'");
+      			$this->db->query("UPDATE " . $this->db->table("customers") . " SET cart = '" . $this->db->escape(serialize($this->session->data['cart'])) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE customer_id = '" . (int)$this->session->data['customer_id'] . "'");
 			} else {
 				$this->logout();
 			}
   		}
 	}
 		
-  	public function login($email, $password) {
-		if (!$this->config->get('config_customer_approval')) {
-			$customer_query = $this->db->query("SELECT *
-												FROM " . DB_PREFIX . "customers
-												WHERE email = '" . $this->db->escape($email) . "'
-													AND password = '" . $this->db->escape(AEncryption::getHash($password)) . "'
-													AND status = '1'");
-		} else {
-			$customer_query = $this->db->query("SELECT *
-												FROM " . DB_PREFIX . "customers
-												WHERE email = '" . $this->db->escape($email) . "'
-													AND password = '" . $this->db->escape(AEncryption::getHash($password)) . "'
-													AND status = '1'
-													AND approved = '1'");
-		}
+  	public function login($loginname, $password) {
 		
+		$approved_only = '';
+		if ($this->config->get('config_customer_approval')) {
+			$approved_only = " AND approved = '1'";
+		} 
+		
+		$customer_query = $this->db->query("SELECT *
+											FROM " . $this->db->table("customers") . "
+											WHERE loginname = '" . $this->db->escape($loginname) . "'
+											AND password = '" . $this->db->escape(AEncryption::getHash($password)) . "'
+											AND status = '1'" . $approved_only);
+
 		if ($customer_query->num_rows) {
 			$this->session->data['customer_id'] = $customer_query->row['customer_id'];	
 		    
@@ -91,13 +97,20 @@ final class ACustomer {
 					}
 				}			
 			}
-			
+
+			$this->loginname = $loginname;			
 			$this->customer_id = $customer_query->row['customer_id'];
 			$this->firstname = $customer_query->row['firstname'];
 			$this->lastname = $customer_query->row['lastname'];
-			$this->email = $customer_query->row['email'];
-			$this->telephone = $customer_query->row['telephone'];
-			$this->fax = $customer_query->row['fax'];
+			if ( $this->dcrypt->active ) {
+			    $this->email = $this->dcrypt->decrypt_field( $customer_query->row['email'], $customer_query->row['key_id'] );
+			    $this->telephone = $this->dcrypt->decrypt_field( $customer_query->row['telephone'], $customer_query->row['key_id'] );
+			    $this->fax = $this->dcrypt->decrypt_field( $customer_query->row['fax'], $customer_query->row['key_id'] );
+			} else {
+			    $this->email = $customer_query->row['email'];
+			    $this->telephone = $customer_query->row['telephone'];
+			    $this->fax = $customer_query->row['fax'];					
+			}			
 			$this->newsletter = $customer_query->row['newsletter'];
 			$this->customer_group_id = $customer_query->row['customer_group_id'];
 			$this->address_id = $customer_query->row['address_id'];
@@ -112,6 +125,7 @@ final class ACustomer {
 		unset($this->session->data['customer_id']);
 
 		$this->customer_id = '';
+		$this->loginname = '';
 		$this->firstname = '';
 		$this->lastname = '';
 		$this->email = '';
@@ -139,6 +153,19 @@ final class ACustomer {
   	public function getId() {
     	return $this->customer_id;
   	}
+
+	/**
+	*Validate if loginname is the same as email.
+	*@param none
+	*@return bool
+	*/
+  	public function isLoginnameAsEmail() {
+  		if ( $this->loginname == $this->email) {
+  			return true;
+  		} else {
+			return false;
+  		}
+  	}
       
   	public function getFirstName() {
 		return $this->firstname;
@@ -146,6 +173,10 @@ final class ACustomer {
   
   	public function getLastName() {
 		return $this->lastname;
+  	}
+
+  	public function getLoginName() {
+		return $this->loginname;
   	}
   
   	public function getEmail() {

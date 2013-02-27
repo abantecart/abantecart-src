@@ -76,6 +76,7 @@ if (!defined('DIR_CORE')) {
  * @property AResource $resource
  * @property AView $view
  * @property ALoader $load
+ * @property ARouter $router
  * @property AHtml $html
  * @property ARequest $request
  * @property AResponse $response
@@ -92,6 +93,7 @@ if (!defined('DIR_CORE')) {
  * @property ACustomer $customer
  * @property ADocument $document
  * @property ADispatcher $dispatcher
+ * @property ADataEncryption $dcrypt
  */
 abstract class AController {
 	protected $registry;

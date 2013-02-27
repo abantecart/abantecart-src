@@ -47,11 +47,18 @@ class ControllerBlocksLanguage extends AController {
 		if(isset($get_vars['product_id'])){
 			$unset[] = 'path'; 
 		}
-		$URI = $this->html->removeQueryVar($_SERVER['REQUEST_URI'], $unset );
 
-
+		//build safe redirect URI
+        if (!isset($this->request->get['rt'])) {
+            $rt = 'index/home';
+            $URI = '';
+        } else {
+        	$rt = $this->request->get['rt'];
+        	$unset[] = 'rt';
+			$URI = '&'.$this->html->buildURI($this->request->get, $unset);
+        }
 		foreach($this->data['languages'] as &$lang){
-			$lang['href'] = $URI.'&language='.$lang['code'];
+			$lang['href'] = $this->html->getURL($rt, $URI.'&language='.$lang['code']);
 		}
 
 		$this->view->batchAssign($this->data);

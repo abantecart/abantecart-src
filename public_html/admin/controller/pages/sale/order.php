@@ -267,7 +267,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['lastname'] = $order_info['lastname'];
 		$this->data['lastname'] = $order_info['lastname'];
 		$this->data['total'] = $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value']);
-		$this->data['date_added'] = date($this->language->get('date_format_short'), strtotime($order_info['date_added']));
+		$this->data['date_added'] = date($this->language->get('date_format_short').' '.$this->language->get('time_format'), strtotime($order_info['date_added']));
 
 		$this->loadModel('localisation/order_status');
 		$status = $this->model_localisation_order_status->getOrderStatus($order_info['order_status_id']);
@@ -318,13 +318,18 @@ class ControllerPagesSaleOrder extends AController {
 
 		$this->data['order_products'] = array();
 		$order_products = $this->model_sale_order->getOrderProducts($this->request->get['order_id']);
+		/*if($this->data['shipping_method']){
+			$shipping_methods = array();
+		}else{
+			$shipping_methods = array(0=>$this->language->get('text_none'));
 
-        $shipping_methods = array();
-        $extensions = $this->extension_manager->getExtensionsList( array('filter' => 'shipping') );
+		}
+
+        $extensions = $this->extension_manager->getExtensionsList( array('filter' => 'shipping','status'=>1) );
         foreach ($extensions->rows as $row) {
             $this->loadLanguage( $row['key'].'/'.$row['key']);
 			$shipping_methods[$this->language->get($row['key'].'_name')] = $this->language->get($row['key'].'_name');
-        }
+        }*/
 
 		foreach ($order_products as $order_product) {
 			$option_data = array();
@@ -394,12 +399,14 @@ class ControllerPagesSaleOrder extends AController {
 		    'style' => 'button2',
 	    ));
 
-        $this->data['form']['fields']['shipping_method'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['shipping_method'] = $this->data['shipping_method'];
+		//TODO: need to add shipping method changing based on shipping extensions (shipping can have submethods of shipping like ground,aero,1 day, 5 day etc)
+       /* $this->data['form']['fields']['shipping_method'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
 		    'name' => 'shipping_method',
 		    'value' => $this->data['shipping_method'],
 			'options' => $shipping_methods,
-	    ));
+	    ));*/
         $this->data['form']['fields']['payment_method'] =  $this->data['payment_method'];
 
         $this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
@@ -535,8 +542,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['countries'] = array_merge(array(0=>array('country_id' => 0,'country_name' => $this->language->get('text_select_country')) ),$this->data['countries']);
 
 		$countries = array();
-		foreach ( $this->data['countries'] as $country )
-		{
+		foreach ( $this->data['countries'] as $country ){
 			$countries[$country['country_id']] = $country['name'];
 		}
 

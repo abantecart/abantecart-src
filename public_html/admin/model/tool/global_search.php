@@ -210,7 +210,7 @@ class ModelToolGlobalSearch extends Model {
 				break;
 			case "orders" :
 				$sql = "SELECT COUNT(DISTINCT order_id) as total
-						FROM " . DB_PREFIX . "orders 
+						FROM " . $this->db->table("orders") . " 
 						WHERE ((LOWER(invoice_prefix) like '%" . $needle . "%')
 							OR (LOWER(firstname) like '%" . $needle . "%')
 							OR (LOWER(lastname) like '%" . $needle . "%')
@@ -248,7 +248,7 @@ class ModelToolGlobalSearch extends Model {
 				break;
 			case "customers" :
 				$sql = "SELECT COUNT(customer_id) as total
-						FROM " . DB_PREFIX . "customers 
+						FROM " . $this->db->table("customers") . " 
 						WHERE ((LOWER(firstname) like '%" . $needle . "%')
 							OR (LOWER(lastname) like '%" . $needle . "%')
 							OR (LOWER(telephone) like '%" . $needle . "%')
@@ -455,7 +455,7 @@ class ModelToolGlobalSearch extends Model {
 							shipping_company,' ',shipping_address_1,' ',shipping_address_2,' ',shipping_city,' ',shipping_postcode,' ', shipping_zone,' ',shipping_country,' ',
 							shipping_method,' ',payment_firstname,' ',payment_lastname,' ',payment_firstname,' ',payment_company,' ',payment_address_1,' ',payment_address_2,' ',
 							payment_city,' ',payment_postcode,' ',payment_zone,' ',payment_country,' ',payment_method,' ',comment)  as text 
-						FROM " . DB_PREFIX . "orders 
+						FROM " . $this->db->table("orders") . " 
 						WHERE ((LOWER(invoice_prefix) like '%" . $needle . "%')
 							OR (LOWER(firstname) like '%" . $needle . "%')
 							OR (LOWER(lastname) like '%" . $needle . "%')
@@ -496,7 +496,7 @@ class ModelToolGlobalSearch extends Model {
 			case "customers" :
 				$sql = "SELECT customer_id, CONCAT('" . ($mode == 'listing' ? "customer: " : "") . "', firstname,' ',lastname) as title,
 							CONCAT(firstname,' ',lastname,' ',telephone,' ',fax,' ',email,' ',cart)  as text 
-						FROM " . DB_PREFIX . "customers 
+						FROM " . $this->db->table("customers") . " 
 						WHERE ((LOWER(firstname) like '%" . $needle . "%')
 							OR (LOWER(lastname) like '%" . $needle . "%')
 							OR (LOWER(telephone) like '%" . $needle . "%')
@@ -665,7 +665,7 @@ class ModelToolGlobalSearch extends Model {
 				$output [] = $tmp;
 			}
 		} else {
-			$this->loadLanguage('tool/global_search');
+			$this->load->language('tool/global_search');
 			$output [0] = array(
 				"text" => $this->language->get('no_results_message'));
 		}

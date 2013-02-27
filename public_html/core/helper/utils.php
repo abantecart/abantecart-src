@@ -101,7 +101,7 @@ function echo_array($array_data) {
  */
 
 function getFilesInDir($dir, $file_ext = '') {
-	if (!is_dir($dir)) return false;
+	if (!is_dir($dir)) return array();
 	$dir = rtrim($dir, '\\/');
 	$result = array();
 
@@ -299,10 +299,50 @@ function dateFromFormat($string_date, $date_format, $timezone = null) {
 	$timezone = is_null($timezone) ? $date->getTimezone() : $timezone;
 	if (empty($date_format)) return null;
 	$string_date = empty($string_date) ? date($date_format) : $string_date;
-	$iso_date = DateTime::createFromFormat($date_format, $string_date, $timezone);
-	$result = $iso_date ? $iso_date->getTimestamp() : null;
+	if(method_exists($date,'createFromFormat')){
+		$iso_date = DateTime::createFromFormat($date_format, $string_date, $timezone);
+		$result = $iso_date ? $iso_date->getTimestamp() : null;
+	}else{
+		$iso_date = DateTimeCreateFromFormat($date_format, $string_date, $timezone);
+		$result = $iso_date ? $iso_date : null;
+	}
 	return $result;
 }
+
+
+/**
+ * Function of getting integer timestamp from string date formatted by date() function
+ * @deprecated since php 5.3
+ * @param string $date_format
+ * @param string $string_date
+ * @return int
+ */
+function DateTimeCreateFromFormat($date_format, $string_date) {
+	// convert date format first from format of date() to format of strftime()
+    $caracs = array(
+        // Day - no strf eq : S
+        'd' => '%d', 'D' => '%a', 'j' => '%e', 'l' => '%A', 'N' => '%u', 'w' => '%w', 'z' => '%j',
+        // Week - no date eq : %U, %W
+        'W' => '%V',
+        // Month - no strf eq : n, t
+        'F' => '%B', 'm' => '%m', 'M' => '%b',
+        // Year - no strf eq : L; no date eq : %C, %g
+        'o' => '%G', 'Y' => '%Y', 'y' => '%y',
+        // Time - no strf eq : B, G, u; no date eq : %r, %R, %T, %X
+        'a' => '%P', 'A' => '%p', 'g' => '%l', 'h' => '%I', 'H' => '%H', 'i' => '%M', 's' => '%S',
+        // Timezone - no strf eq : e, I, P, Z
+        'O' => '%z', 'T' => '%Z',
+        // Full Date / Time - no strf eq : c, r; no date eq : %c, %D, %F, %x
+        'U' => '%s'
+    );
+    $strftime_format = strtr((string)$date_format, $caracs);
+
+	$date_parsed = strptime($string_date, $strftime_format);
+	$int_date = mktime($date_parsed["tm_hour"],$date_parsed["tm_min"],$date_parsed["tm_sec"],$date_parsed["tm_mon"]+1,($date_parsed["tm_mday"]),(1900+$date_parsed["tm_year"]));
+	return $int_date;
+}
+
+
 
 function checkRequirements() {
 	$error = '';

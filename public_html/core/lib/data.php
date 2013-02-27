@@ -897,6 +897,16 @@ final class AData {
 				continue;
 			}
 
+			// Encrypt column value if encryption is enabled
+			if ( $this->dcrypt
+				&& $this->dcrypt->active
+				&& in_array($table_name, $this->dcrypt->getEcryptedTables())
+				&& in_array($col_name, $this->dcrypt->getEcryptedFields($table_name))
+			) {
+				$encrypted = $this->dcrypt->encrypt_data(array($col_name => $col_value), $table_name);
+				$col_value = $encrypted[$col_name];
+			}
+
 			if ( $col_name == $table_cfg['id']
 				|| (isset($table_cfg['relation_ids']) && in_array($col_name, $table_cfg['relation_ids'])) )
 			{
@@ -915,7 +925,7 @@ final class AData {
 			return array();
 		}
 
-		$sql = "UPDATE `" . DB_PREFIX . $table_name . "`";
+		$sql = "UPDATE `" . DB_PREFIX . $this->db->table($table_name) . "`";
 		$sql .= " SET " . implode(', ', $cols);
 		$sql .= " WHERE " . implode(' AND ', $where);
 
@@ -950,7 +960,18 @@ final class AData {
 				continue;
 			}
 
+			// Encrypt column value if encryption is enabled
+			if ( $this->dcrypt
+				&& $this->dcrypt->active
+				&& in_array($table_name, $this->dcrypt->getEcryptedTables())
+				&& in_array($col_name, $this->dcrypt->getEcryptedFields($table_name))
+			) {
+				$encrypted = $this->dcrypt->encrypt_data(array($col_name => $col_value), $table_name);
+				$col_value = $encrypted[$col_name];
+			}
+
 			$cols[$col_name] = "`" .$col_name. "` = '" . $this->db->escape($col_value) . "'";
+
 		}
 
 		if ( empty($cols) ) {
@@ -958,7 +979,7 @@ final class AData {
 			return array();
 		}
 
-		$sql = "INSERT INTO `" . DB_PREFIX . $table_name . "`";
+		$sql = "INSERT INTO `" . DB_PREFIX . $this->db->table($table_name) . "`";
 		$sql .= " SET " . implode(', ', $cols);
 
 		if ($this->run_mode == 'commit') {
@@ -1019,7 +1040,7 @@ final class AData {
 			return array();
 		}
 
-		$sql = "DELETE FROM `"  . DB_PREFIX . $table_name . "`";
+		$sql = "DELETE FROM `"  . DB_PREFIX . $this->db->table($table_name) . "`";
 		$sql .= " WHERE " . implode(' AND ', $where);
 
 		if ($this->run_mode == 'commit') {
@@ -1052,6 +1073,16 @@ final class AData {
 			if (isset($parent_vals[$col_name]) && $parent_vals[$col_name] != '') {
 				//we laready set this above.
 				continue;
+			}
+
+			// Encrypt column value if encryption is enabled
+			if ( $this->dcrypt
+				&& $this->dcrypt->active
+				&& in_array($table_name, $this->dcrypt->getEcryptedTables())
+				&& in_array($col_name, $this->dcrypt->getEcryptedFields($table_name))
+			) {
+				$encrypted = $this->dcrypt->encrypt_data(array($col_name => $col_value), $table_name);
+				$col_value = $encrypted[$col_name];
 			}
 
 			if ( $col_name == $table_cfg['id']
@@ -1087,7 +1118,7 @@ final class AData {
 			return array();
 		}
 		if ( !empty ($where) ) {
-			$check_sql = "SELECT count(*) AS total FROM `" .  DB_PREFIX . $table_name . "` WHERE " . implode(' AND ', $where);
+			$check_sql = "SELECT count(*) AS total FROM `" .  DB_PREFIX . $this->db->table($table_name) . "` WHERE " . implode(' AND ', $where);
 			if ( $this->db->query($check_sql)->row['total'] == 1 ) {
 				// We are trying to update table where all columns are keys. We have to skip it.
 				if ( empty($cols) ) {
@@ -1102,11 +1133,11 @@ final class AData {
 				$this->_status2array('error', "Update $table_name. No Data to update.");
 				return array();
 			}
-			$sql = "UPDATE `"  . DB_PREFIX . $table_name . "`";
+			$sql = "UPDATE `"  . DB_PREFIX . $this->db->table($table_name) . "`";
 			$sql .= " SET " . implode(', ', $cols);
 			$sql .= " WHERE " . implode(' AND ', $where);
 		} else {
-			$sql = "INSERT INTO `"  . DB_PREFIX . $table_name. "`";
+			$sql = "INSERT INTO `"  . DB_PREFIX . $this->db->table($table_name) . "`";
 			$sql .= " SET ";
 			$set_cols = array_unique( array_merge($where, $cols) ); 
 			$sql .= implode(', ', $set_cols);

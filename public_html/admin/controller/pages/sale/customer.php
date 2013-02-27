@@ -23,7 +23,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerPagesSaleCustomer extends AController {
 	public $data = array();
 	private $error = array();
-	private $fields = array('firstname', 'lastname', 'email', 'telephone', 'fax', 'newsletter', 'customer_group_id',
+	private $fields = array('loginname', 'firstname', 'lastname', 'email', 'telephone', 'fax', 'newsletter', 'customer_group_id',
         'status', 'approved', 'password');
   
   	public function main() {
@@ -101,10 +101,10 @@ class ControllerPagesSaleCustomer extends AController {
 		);
 		$grid_settings['colModel'] = array(
 			array( 'name' => 'name', 'index' => 'name', 'width' => 160, 'align' => 'center', ),
-			array( 'name' => 'email', 'index' => 'c.email', 'width' => 140, 'align' => 'center', ),
+			array( 'name' => 'email', 'index' => 'email', 'width' => 140, 'align' => 'center', ),
 			array( 'name' => 'customer_group', 'index' => 'customer_group', 'width' => 80, 'align' => 'center', 'search' => false ),
-			array( 'name' => 'status', 'index' => 'c.status', 'width' => 120, 'align' => 'center', 'search' => false ),
-			array( 'name' => 'approved', 'index' => 'c.approved', 'width' => 110, 'align' => 'center', 'search' => false ),
+			array( 'name' => 'status', 'index' => 'status', 'width' => 120, 'align' => 'center', 'search' => false ),
+			array( 'name' => 'approved', 'index' => 'approved', 'width' => 110, 'align' => 'center', 'search' => false ),
 		);
 
 		$this->loadModel('sale/customer_group');
@@ -213,19 +213,20 @@ class ControllerPagesSaleCustomer extends AController {
 		if (isset($this->session->data['success'])) {
 			unset($this->session->data['success']);
 		}
-
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		
+		$customer_id = $this->request->get['customer_id'];
+    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm($customer_id)) {
 
 		    if( (int)$this->request->post['approved'] ){
 		  		$customer_info = $this->model_sale_customer->getCustomer($customer_id);
 		  		if( !$customer_info['approved']){
-					  $this->_sendMail($this->request->get['customer_id']);
+					  $this->_sendMail($customer_id);
 		  		}
 		  	}
 
 			$this->model_sale_customer->editCustomer($this->request->get['customer_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect( $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $this->request->get['customer_id'] ) );
+			$this->redirect( $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id ) );
 		}
     
     	$this->_getForm();
@@ -336,7 +337,7 @@ class ControllerPagesSaleCustomer extends AController {
 		    'style' => 'button2',
 	    ));
 
-		$required_input = array('firstname', 'lastname', 'email', 'telephone', 'fax', 'password');
+		$required_input = array('loginname', 'firstname', 'lastname', 'email', 'telephone', 'fax', 'password');
 
 		foreach ( $required_input as $f ) {
 			$this->data['form']['fields'][$f] = $form->getFieldHtml(array(
@@ -413,11 +414,20 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->redirect($this->html->getSecureURL('sale/customer'));
 	} 
 	 
-  	private function _validateForm() {
+  	private function _validateForm($customer_id = null) {
     	if (!$this->user->canModify('sale/customer')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
-
+    			
+		$login_name_pattern = '/^[\w._-]+$/i';
+    	if ( (strlen(utf8_decode($this->request->post['loginname'])) < 5) || (strlen(utf8_decode($this->request->post['loginname'])) > 64)
+    		|| (!preg_match($login_name_pattern, $this->request->post['loginname']) && $this->config->get('prevent_email_as_login') ) ) {
+      		$this->error['loginname'] = $this->language->get('error_loginname');
+		//check uniqunes of login name
+    	} else if ( !$this->model_sale_customer->is_unique_loginname($this->request->post['loginname'], $customer_id) ) {
+      		$this->error['loginname'] = $this->language->get('error_loginname_notunique');
+    	}
+   	    	
     	if ((strlen(utf8_decode($this->request->post['firstname'])) < 1) || (strlen(utf8_decode($this->request->post['firstname'])) > 32)) {
       		$this->error['firstname'] = $this->language->get('error_firstname');
     	}
@@ -426,9 +436,9 @@ class ControllerPagesSaleCustomer extends AController {
       		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
 
-		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
+		$email_pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
     	
-		if ((strlen(utf8_decode($this->request->post['email'])) > 96) || (!preg_match($pattern, $this->request->post['email']))) {
+		if ((strlen(utf8_decode($this->request->post['email'])) > 96) || (!preg_match($email_pattern, $this->request->post['email']))) {
       		$this->error['email'] = $this->language->get('error_email');
     	}
 

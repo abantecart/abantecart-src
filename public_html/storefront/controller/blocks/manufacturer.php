@@ -30,7 +30,7 @@ class ControllerBlocksManufacturer extends AController {
         $this->view->assign('text_select', $this->language->get('text_select') );
 
 		//For product page show only brand icon
-		if (isset($this->request->get['product_id'])) {
+		if (isset($this->request->get['product_id']) && is_int($this->request->get['product_id'])) {
 			$product_id = $this->request->get['product_id'];
 			$this->view->assign('product_id', $product_id );
 			$result = $this->model_catalog_manufacturer->getManufacturerByProductId($product_id);
@@ -51,7 +51,7 @@ class ControllerBlocksManufacturer extends AController {
 
 		} else {
 
-			if (isset($this->request->get['manufacturer_id'])) {
+			if (isset($this->request->get['manufacturer_id']) && is_int($this->request->get['manufacturer_id']) ) {
 				$manufacturer_id = $this->request->get['manufacturer_id'];
 			} else {
 				$manufacturer_id = 0;
@@ -82,7 +82,10 @@ class ControllerBlocksManufacturer extends AController {
 	
 	        $this->view->assign('manufacturers', $manufacturers );
 		}
-		
+				// framed needs to show frames for generic block.
+		//If tpl used by listing block framed was set by listing block settings
+		$this->view->assign('block_framed',true);
+
 		$this->processTemplate('blocks/manufacturer.tpl');
 
         //init controller data

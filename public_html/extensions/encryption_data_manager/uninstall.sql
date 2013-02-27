@@ -1,0 +1,5 @@
+-- Prevent accident data removal on extension uninstall
+--DROP TABLE IF EXISTS `ac_encryption_keys`;
+--DROP TABLE IF EXISTS `ac_addresses_enc`;
+--DROP TABLE IF EXISTS `ac_orders_enc`;
+--DROP TABLE IF EXISTS `ac_customers_enc`;

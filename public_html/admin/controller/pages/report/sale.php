@@ -20,10 +20,9 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
-class ControllerPagesReportSale extends AController
-{
-    public function main()
-    {
+class ControllerPagesReportSale extends AController{
+	public $data = array();
+    public function main()   {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -44,36 +43,36 @@ class ControllerPagesReportSale extends AController
             'form_name' => 'report_sales_grid_search',
         ));
 
-        $grid_search_form = array();
-        $grid_search_form['id'] = 'report_sales_grid_search';
-        $grid_search_form['form_open'] = $form->getFieldHtml(array(
+        $this->data['grid_search_form'] = array();
+        $this->data['grid_search_form']['id'] = 'report_sales_grid_search';
+        $this->data['grid_search_form']['form_open'] = $form->getFieldHtml(array(
             'type' => 'form',
             'name' => 'report_sales_grid_search',
             'action' => '',
         ));
-        $grid_search_form['submit'] = $form->getFieldHtml(array(
+        $this->data['grid_search_form']['submit'] = $form->getFieldHtml(array(
             'type' => 'button',
             'name' => 'submit',
             'text' => $this->language->get('button_go'),
             'style' => 'button1',
         ));
-        $grid_search_form['reset'] = $form->getFieldHtml(array(
+        $this->data['grid_search_form']['reset'] = $form->getFieldHtml(array(
             'type' => 'button',
             'name' => 'reset',
             'text' => $this->language->get('button_reset'),
             'style' => 'button2',
         ));
-
-        $grid_search_form['fields']['date_start'] = $form->getFieldHtml(array(
+		$this->view->assign('js_date_format', format4Datepicker($this->language->get('date_format_short')));
+        $this->data['grid_search_form']['fields']['date_start'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'date_start',
-            'default' => date('Y-m-d', strtotime('-7 day')),
+            'default' => dateInt2Display(strtotime('-7 day')),
         ));
 
-        $grid_search_form['fields']['date_end'] = $form->getFieldHtml(array(
+        $this->data['grid_search_form']['fields']['date_end'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'date_end',
-            'default' => date('Y-m-d', time()),
+            'default' => dateInt2Display(time()),
         ));
 
         $groups = array();
@@ -82,7 +81,7 @@ class ControllerPagesReportSale extends AController
         $groups['week'] = $this->language->get('text_week');
         $groups['day'] = $this->language->get('text_day');
 
-        $grid_search_form['fields']['status'] = $form->getFieldHtml(array(
+        $this->data['grid_search_form']['fields']['status'] = $form->getFieldHtml(array(
             'type' => 'selectbox',
             'name' => 'group',
             'options' => $groups,
@@ -131,7 +130,8 @@ class ControllerPagesReportSale extends AController
 
         $grid = $this->dispatch('common/listing_grid', array($grid_settings));
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
-        $this->view->assign('search_form', $grid_search_form);
+        $this->view->assign('search_form', $this->data['grid_search_form']);
+
 
         $this->document->setTitle($this->language->get('heading_title'));
         $this->document->initBreadcrumb(array(

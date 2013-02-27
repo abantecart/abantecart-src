@@ -150,6 +150,18 @@
 			<![CDATA[Storefront API Stock Access:<br /><span class="help">Habilitar si usted permite que la API escaparate para comprobar la disponibilidad de stock</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_admin_api_status</key>
+		<value><![CDATA[Admin Estatus API:]]></value>
+	</definition>
+	<definition>
+		<key>entry_admin_api_key</key>
+		<value><![CDATA[Admin API Key:<br /><span class="help">Establecer esta clave para facilitar el acceso restringido (más seguro) al administrador de la API.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_admin_access_ip_list</key>
+		<value><![CDATA[Admin API Access IPs:<br /><span class="help">Proporcionaremos una lista de direcciones IP (separadas por comas) que le permitirá acceder a la API de administración. IPs demás se bloquearán</span>]]></value>
+	</definition>	
+	<definition>
 		<key>entry_debug</key>
 		<value><![CDATA[Mostrar información de depuración:]]></value>
 	</definition>
@@ -413,6 +425,10 @@
 			<![CDATA[Mostrar precios:<br /><span class="help">Mostrar los precios, incluso si el cliente no se registra en.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_prevent_email_as_login</key>
+		<value><![CDATA[Requerir sesión nombre:<br /><span class="help">Para mejorar la seguridad, no permiten a los clientes utilizar la dirección de correo electrónico como nombre de usuario. Fuerza para crear un usuario único o nombre de usuario en lugar de utilizar la dirección de correo electrónico. Los clientes actuales se les pedirá que crear nuevo nombre de usuario en el primer inicio de sesión.</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_customer_approval</key>
 		<value>
 			<![CDATA[Nuevos clientes necesitan aprobacion:<br /><span class="help">No permitir la entrada de nuevos clientes hasta que hallan sido aprobados.</span>]]></value>
@@ -615,6 +631,14 @@
 		<key>error_permission</key>
 		<value><![CDATA[Advertencia: No tiene permiso para modificar la configuraci�n!]]></value>
 	</definition>
+  	<definition>
+    	<key>error_loginname</key>
+    	<value><![CDATA[Nombre de inicio de sesión debe ser alfanuméricos y sólo entre 5 y 64 caracteres!]]></value>
+  	</definition>
+  	<definition>
+    	<key>error_loginname_notunique</key>
+    	<value><![CDATA[Este nombre de usuario no está disponible. Trate nombre de usuario diferente!]]></value>
+  	</definition>    	
 	<definition>
 		<key>error_name</key>
 		<value><![CDATA[Nombre Tienda necesita minimo 2 letras y maximo 32!]]></value>

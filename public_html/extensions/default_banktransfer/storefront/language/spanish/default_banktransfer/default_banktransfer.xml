@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Transferencia bancaria]]></value>
+  </definition>
+  <definition>
+    <key>text_instructions</key>
+    <value><![CDATA[Siga las instrucciones para realizar el pago:]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Su pedido no se enviará o completada hasta recibir el pago.]]></value>
+  </definition>
+  <definition>
+    <key>text_minimum_notmet</key>
+    <value><![CDATA[Pedido mínimo total no se cumple para pago mediante transferencia bancaria.]]></value>
+  </definition>
+</definitions>

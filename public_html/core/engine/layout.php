@@ -406,7 +406,7 @@ class ALayout {
 
 	public function getBlockDescriptions($custom_block_id=0){
 		if(!(int)$custom_block_id){
-			return false;
+			return array();
 		}
 		$cache_name = 'layout.a.block.descriptions.' . $custom_block_id;
 		$output = $this->cache->get ( $cache_name );

@@ -43,7 +43,7 @@ class ControllerResponsesExtensionExtension extends AController {
 		} else {
 			$content['content'] = $this->language->get('error_no_help_file');
 		}
-
+		$content['content'] = $this->html->convertLinks($content['content']);
 		$this->load->library('json');
 
 		$this->response->setOutput(AJson::encode($content));

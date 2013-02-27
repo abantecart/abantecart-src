@@ -25,6 +25,7 @@ class ControllerBlocksCart extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadModel('tool/seo_url');
+		$this->loadLanguage('total/total');
     	$this->view->assign('heading_title', $this->language->get('heading_title'));
     	
 		$this->view->assign('text_subtotal', $this->language->get('text_subtotal'));
@@ -34,7 +35,8 @@ class ControllerBlocksCart extends AController {
 		$this->view->assign('text_view', $this->language->get('text_view'));
 		$this->view->assign('text_checkout', $this->language->get('text_checkout'));
 		$this->view->assign('text_items', $this->language->get('text_items'));
-		
+		$this->view->assign('text_total', $this->language->get('text_total'));
+
 		$this->view->assign('view', $this->html->getURL('checkout/cart'));
 		$this->view->assign('remove', $this->html->getURL('r/checkout/cart'));
 		$this->view->assign('checkout', $this->html->getURL('checkout/shipping'));

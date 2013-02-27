@@ -213,6 +213,10 @@
 		<value><![CDATA[Approve New Customers:<br /><span class="help">Don't allow new customer to login until their account has been approved.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_prevent_email_as_login</key>
+		<value><![CDATA[Require login name:<br /><span class="help">Para mejorar la seguridad, preguntar a los clientes a crear el nombre de inicio de sesión único. Si se establece en ON, los clientes existentes se les pedirá que crear nuevo nombre de usuario en el primer inicio de sesión. Si OFF, nombre de usuario es la misma que la dirección de correo electrónico.</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_guest_checkout</key>
 		<value><![CDATA[Guest Checkout:<br /><span class="help">Allow customers to checkout without creating an account. This will not be available when a downloadable product is in the shopping cart.</span>]]></value>
 	</definition>
@@ -445,6 +449,18 @@
 		<value><![CDATA[Storefront API Stock Access:<br /><span class="help">Enable if you allow storefront API to check stock availability</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_admin_api_status</key>
+		<value><![CDATA[Admin API status:]]></value>
+	</definition>
+	<definition>
+		<key>entry_admin_api_key</key>
+		<value><![CDATA[Admin API Key:<br /><span class="help">Set this key to provide restricted (more secure) access to admin API.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_admin_access_ip_list</key>
+		<value><![CDATA[Admin API Access IPs:<br /><span class="help">Provide list of IPs (comma separated) that will be allowed to access admin API. Other IPs will be blocked</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_upload_max_size</key>
 		<value><![CDATA[Resource Library Upload Max File Size, kB]]></value>
 	</definition>
@@ -577,6 +593,14 @@
 		<key>error_permission</key>
 		<value><![CDATA[Warning: You do not have permission to modify settings!]]></value>
 	</definition>
+  	<definition>
+    	<key>error_loginname</key>
+    	<value><![CDATA[Login name must be alphanumeric only and between 5 and 64 characters!]]></value>
+  	</definition>
+ 	<definition>
+  	  <key>error_loginname_notunique</key>
+  	  <value><![CDATA[This login name is not available. Try different login name!]]></value>
+  	</definition>  	
 	<definition>
 		<key>error_name</key>
 		<value><![CDATA[Store Name must be between 2 and 32 characters!]]></value>

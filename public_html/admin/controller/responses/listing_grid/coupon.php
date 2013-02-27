@@ -61,7 +61,12 @@ class ControllerResponsesListingGridCoupon extends AController {
 
 	    $results = $this->model_sale_coupon->getCoupons($data);
 	    $i = 0;
+		$now = time();
 		foreach ($results as $result) {
+			// check daterange
+			if ( dateISO2Int($result[ 'date_start' ]) > $now || dateISO2Int($result[ 'date_end' ]) < $now ) {
+				$result['status'] = 0;
+			}
 
             $response->rows[$i]['id'] = $result['coupon_id'];
 			$response->rows[$i]['cell'] = array(

@@ -296,13 +296,17 @@ class ControllerCommonPageLayout extends AController {
 			$options = array('' => $this->language->get('text_none'));
 			$selected = '';
 			foreach ($settings['_blocks'] as $block) {
+				$custom_blk_id = $block['block_id']."_".$block['custom_block_id'];
+				
 				if ($block['parent_block_id'] == $settings['blocks'][$section_id]['block_id']) {
-					$options[$block['block_id']."_".$block['custom_block_id']] = $block['block_txt_id'].($block['custom_block_id']?':: '.$block['block_name']:'');
+					//TODO. Validate if block is for disabled extension and make it grey
+					$options[ $custom_blk_id ] = $block['block_txt_id'].($block['custom_block_id']?':: '.$block['block_name']:'');
 					//NOTE: Blocks possitions are kept in 10th increment starting from 10
 					//Current limitaion. anything in between will not be picked up in admin.
 					$idx = $this->_find_block_by_postion($children_arr, ($x + 1) * 10);
+					
 					if ( $idx >= 0 ) {
-						$selected = $children_arr[$idx]['block_id'].'_'.$children_arr[$idx]['custom_block_id'] == $block['block_id'].'_'.$block['custom_block_id'] ? $block['block_id'].'_'.$block['custom_block_id'] : $selected;
+						$selected = $children_arr[$idx]['block_id'].'_'.$children_arr[$idx]['custom_block_id'] == $custom_blk_id ? $custom_blk_id : $selected;
 					}
 				}
 			}

@@ -157,7 +157,6 @@ class ControllerPagesAccountDownload extends AController {
 
 		if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->html->getSecureURL('account/download');
-
 			$this->redirect($this->html->getSecureURL('account/login'));
 		}
 		//init controller data
@@ -168,7 +167,7 @@ class ControllerPagesAccountDownload extends AController {
 		} else {
 			$order_download_id = 0;
 		}
-		
+		$this->loadModel('account/download');
 		$download_info = $this->model_account_download->getDownload($order_download_id);
 		
 		if ($download_info) {

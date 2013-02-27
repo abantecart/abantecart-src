@@ -31,8 +31,8 @@ class ModelReportPurchased extends Model {
 		}
 		
 		$query = $this->db->query("SELECT op.name, op.model, SUM(op.quantity) AS quantity, SUM(op.total + op.tax) AS total
-									FROM `" . DB_PREFIX . "orders` o
-									LEFT JOIN " . DB_PREFIX . "order_products op ON (op.order_id = o.order_id)
+									FROM `" . $this->db->table("orders") . "` o
+									LEFT JOIN " . $this->db->table("order_products") . " op ON (op.order_id = o.order_id)
 									WHERE o.order_status_id > '0'
 									GROUP BY model
 									ORDER BY total DESC
@@ -42,7 +42,7 @@ class ModelReportPurchased extends Model {
 	
 	public function getTotalOrderedProducts() {
       	$query = $this->db->query("SELECT *
-      	                            FROM `" . DB_PREFIX . "order_products`
+      	                            FROM `" . $this->db->table("order_products") . "`
       	                            GROUP BY model");
 		return $query->num_rows;
 	}

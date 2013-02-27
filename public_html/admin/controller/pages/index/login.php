@@ -40,7 +40,7 @@ class ControllerPagesIndexLogin extends AController {
 			$this->session->data['token'] = AEncryption::getHash(mt_rand());
 			//login is sussessful redirect to otiginaly requested page 
 			if (isset($this->request->post['redirect']) && !preg_match("/rt=index\/login/i", $this->request->post['redirect'])) {
-                $redirect = $this->html->removeQueryVar( $this->request->post['redirect'], array('token')  );
+                $redirect = $this->html->filterQueryParams( $this->request->post['redirect'], array('token')  );
                 $redirect .=  "&token=".$this->session->data['token'];
 				$this->redirect($redirect);
 			} else {

@@ -26,6 +26,14 @@
   </definition>
   <definition>
     <key>entry_cc_cvv2</key>
-    <value><![CDATA[Código de seguridad (CVV2):]]></value>
+    <value><![CDATA[Código de seguridad]]></value>
+  </definition>
+  <definition>
+	<key>entry_cc_cvv2_short</key>
+	<value><![CDATA[(CVV2 ?)]]></value>
+  </definition>
+  <definition>
+	<key>entry_what_cvv2</key>
+	<value><![CDATA[¿Qué es el CVV2?]]></value>
   </definition>
 </definitions>

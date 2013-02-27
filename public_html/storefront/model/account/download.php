@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ModelAccountDownload extends Model {
 	public function getDownload($order_download_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_downloads od LEFT JOIN `" . DB_PREFIX . "orders` o ON (od.order_id = o.order_id) WHERE o.customer_id = '" . (int)$this->customer->getId(). "' AND o.order_status_id > '0' AND o.order_status_id = '" . (int)$this->config->get('config_download_status') . "' AND od.order_download_id = '" . (int)$order_download_id . "' AND od.remaining > 0");
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("order_downloads") . " od LEFT JOIN `" . $this->db->table("orders") . "` o ON (od.order_id = o.order_id) WHERE o.customer_id = '" . (int)$this->customer->getId(). "' AND o.order_status_id > '0' AND o.order_status_id = '" . (int)$this->config->get('config_download_status') . "' AND od.order_download_id = '" . (int)$order_download_id . "' AND od.remaining > 0");
 		 
 		return $query->row;
 	}
@@ -33,8 +33,8 @@ class ModelAccountDownload extends Model {
 		}
 
 		$query = $this->db->query("SELECT o.order_id, o.date_added, od.order_download_id, od.name, od.filename, od.remaining
-								   FROM " . DB_PREFIX . "order_downloads od
-								   LEFT JOIN `" . DB_PREFIX . "orders` o
+								   FROM " . $this->db->table("order_downloads") . " od
+								   LEFT JOIN `" . $this->db->table("orders") . "` o
 								        ON (od.order_id = o.order_id)
 								   WHERE o.customer_id = '" . (int)$this->customer->getId() . "'
 								        AND o.order_status_id > '0'
@@ -46,11 +46,11 @@ class ModelAccountDownload extends Model {
 	}
 	
 	public function updateRemaining($order_download_id) {
-		$this->db->query("UPDATE " . DB_PREFIX . "order_downloads SET remaining = (remaining - 1) WHERE order_download_id = '" . (int)$order_download_id . "'");
+		$this->db->query("UPDATE " . $this->db->table("order_downloads") . " SET remaining = (remaining - 1) WHERE order_download_id = '" . (int)$order_download_id . "'");
 	}
 	
 	public function getTotalDownloads() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "order_downloads od LEFT JOIN `" . DB_PREFIX . "orders` o ON (od.order_id = o.order_id) WHERE o.customer_id = '" . (int)$this->customer->getId() . "' AND o.order_status_id > '0' AND o.order_status_id = '" . (int)$this->config->get('config_download_status') . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("order_downloads") . " od LEFT JOIN `" . $this->db->table("orders") . "` o ON (od.order_id = o.order_id) WHERE o.customer_id = '" . (int)$this->customer->getId() . "' AND o.order_status_id > '0' AND o.order_status_id = '" . (int)$this->config->get('config_download_status') . "'");
 		
 		return $query->row['total'];
 	}	

@@ -52,7 +52,11 @@ final class ARequest {
 	}
 	
 	//????? Include PHP module filter to process input params. http://us3.php.net/manual/en/book.filter.php	 
-  	
+	/**
+	 * function returns variable value from $_GET first
+	 * @param string $key
+	 * @return string | null
+	 */
   	public function get_or_post( $key ) {
 		if ( isset($this->get[$key]) ){
 			return $this->get[$key];
@@ -61,8 +65,26 @@ final class ARequest {
 		} 
 		return;
 	}
-		
-  	public function clean($data) {
+
+	/**
+	 * function returns variable value from $_POST first
+	 * @param string $key
+	 * @return string | null
+	 */
+	public function post_or_get( $key ) {
+		if ( isset($this->post[$key]) ){
+			return $this->post[$key];
+		} else if ( isset($this->get[$key]) ) {
+			return $this->get[$key];
+		}
+		return null;
+	}
+
+	/**
+	 * @param string|array $data
+	 * @return array|string
+	 */
+	public function clean($data) {
     	if (is_array($data)) {
 	  		foreach ($data as $key => $value) {
 				unset($data[$key]);
@@ -132,33 +154,27 @@ final class ARequest {
 
     }
 
-    public function getBrowser()
-    {
+    public function getBrowser(){
         return $this->browser;
     }
 
-    public function getBrowserVersion()
-    {
+    public function getBrowserVersion(){
         return $this->browser_version;
     }
 
-    public function getDeviceType()
-    {
+    public function getDeviceType(){
         return $this->device_type;
     }
 
-    public function getHttp()
-    {
+    public function getHttp(){
         return $this->http;
     }
 
-    public function getPlatform()
-    {
+    public function getPlatform(){
         return $this->platform;
     }
 
-    public function getVersion()
-    {
+    public function getVersion(){
         return $this->version;
     }
 }

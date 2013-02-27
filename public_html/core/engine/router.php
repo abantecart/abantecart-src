@@ -146,8 +146,12 @@ final class ARouter {
 				//validate access
 				$api_controller->addPreDispatch('api/common/access');
 			} else {
-				//Admin is not yet supported.
-				$api_controller->build('error/not_found');
+				//CORS preflight request
+				$api_controller->addPreDispatch('api/common/preflight');
+				//Validate Admin access, login and permissions
+				$api_controller->addPreDispatch('api/common/access');
+				$api_controller->addPreDispatch('api/common/access/login');
+				$api_controller->addPreDispatch('api/common/access/permission');
 			}
 			//Validate controller only. If does not exist process not found 
 			if ( $this->_detect_controller("api") ){

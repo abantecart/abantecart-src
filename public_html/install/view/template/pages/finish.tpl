@@ -21,7 +21,7 @@
     
     <p>Congratulations! You have successfully installed AbanteCart eCommerce application. See access to your store front and control panel sections below. Bookmark or remember your control panel link and keep it save.</p>
     <p>Thank you for this choice, and enjoy many features AbanteCart has to offer. Your comments and contributions are very welcome. 
-    <p><a href="http://www.abantecart.com" target="_abante">Project Homepage</a>&nbsp;&nbsp;<a href="http://docs.abantecart.com" target="_abante">Documentation</a>&nbsp;&nbsp;<a href="http://forum.abantecart.com" target="_abante">Support Forums</a></p>
+    <p><a href="http://www.abantecart.com" target="_abante">Project Homepage</a>&nbsp;&nbsp;<a href="http://docs.abantecart.com" target="_blank">Documentation</a>&nbsp;&nbsp;<a href="http://forum.abantecart.com" target="_abante">Support Forums</a></p>
     <p>
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 		<input type="hidden" name="cmd" value="_s-xclick">

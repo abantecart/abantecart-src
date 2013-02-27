@@ -46,7 +46,7 @@ class ModelSettingStore extends Model {
 		$this->load->model('setting/setting');
 
 		foreach ($data['store_description'] as $language_id => $value) {
-			$this->language->addDescriptions('store_descriptions',
+			$this->language->replaceDescriptions('store_descriptions',
 											 array('store_id' => (int)$store_id),
 											 array($language_id => array(
 																		'description' => $value['description']

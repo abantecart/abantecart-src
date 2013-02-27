@@ -24,18 +24,18 @@ class ControllerPagesSaleCoupon extends AController {
     public $data = array();
     private $error = array();
     private $fields = array('coupon_description',
-        'code',
-        'type',
-        'discount',
-        'total',
-        'logged',
-        'shipping',
-        'coupon_product',
-        'date_start',
-        'date_end',
-        'uses_total',
-        'uses_customer',
-        'status');
+							'code',
+							'type',
+							'discount',
+							'total',
+							'logged',
+							'shipping',
+							'coupon_product',
+							'date_start',
+							'date_end',
+							'uses_total',
+							'uses_customer',
+							'status');
 
     public function main() {
 
@@ -180,9 +180,17 @@ class ControllerPagesSaleCoupon extends AController {
         $this->document->setTitle($this->language->get('heading_title'));
         $this->load->library('json');
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+			if (has_value($this->request->post[ 'date_start' ])) {
+				$this->request->post[ 'date_start' ] = dateDisplay2ISO($this->request->post[ 'date_start' ]);
+			}
+			if (has_value($this->request->post[ 'date_end' ])) {
+				$this->request->post[ 'date_end' ] = dateDisplay2ISO($this->request->post[ 'date_end' ]);
+				if(strtotime($this->request->post[ 'date_end' ])<time()){
+					$this->request->post[ 'status' ] = 0;
+				}
+			}
 
             $this->request->post['coupon_product'] = $this->_convertProduct_list($this->request->post['selected'][0]);
-
             $coupon_id = $this->model_sale_coupon->addCoupon($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->redirect($this->html->getSecureURL('sale/coupon/update', '&coupon_id=' . $coupon_id));
@@ -207,7 +215,15 @@ class ControllerPagesSaleCoupon extends AController {
         }
         $this->load->library('json');
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
-
+			if (has_value($this->request->post[ 'date_start' ])) {
+				$this->request->post[ 'date_start' ] = dateDisplay2ISO($this->request->post[ 'date_start' ]);
+			}
+			if (has_value($this->request->post[ 'date_end' ])) {
+				$this->request->post[ 'date_end' ] = dateDisplay2ISO($this->request->post[ 'date_end' ]);
+				if(strtotime($this->request->post[ 'date_end' ])<time()){
+					$this->request->post[ 'status' ] = 0;
+				}
+			}
             $this->request->post['coupon_product'] = $this->_convertProduct_list($this->request->post['selected'][0]);
 
             $this->model_sale_coupon->editCoupon($this->request->get['coupon_id'], $this->request->post);
@@ -304,7 +320,7 @@ class ControllerPagesSaleCoupon extends AController {
         }
 
         if (isset($this->request->post['date_start'])) {
-            $this->data['date_start'] = $this->request->post['date_start'];
+            $this->data['date_start'] = dateDisplay2ISO($this->request->post['date_start'],$this->language->get('date_format_short'));
         } elseif (isset($coupon_info)) {
             $this->data['date_start'] = date('Y-m-d', strtotime($coupon_info['date_start']));
         } else {
@@ -312,11 +328,11 @@ class ControllerPagesSaleCoupon extends AController {
         }
 
         if (isset($this->request->post['date_end'])) {
-            $this->data['date_end'] = $this->request->post['date_end'];
+            $this->data['date_end'] = dateDisplay2ISO($this->request->post['date_end'],$this->language->get('date_format_short'));
         } elseif (isset($coupon_info)) {
             $this->data['date_end'] = date('Y-m-d', strtotime($coupon_info['date_end']));
         } else {
-            $this->data['date_end'] = date('Y-m-d', time());
+            $this->data['date_end'] = '';
         }
 
         if (isset($this->data['uses_total']) && $this->data['uses_total'] == -1) {
@@ -335,6 +351,11 @@ class ControllerPagesSaleCoupon extends AController {
         if (isset($this->data['status']) && $this->data['status'] == '') {
             $this->data['status'] = 1;
         }
+		//check if coupon is active based on dates and update status
+		$now = time();
+		if ( dateISO2Int($this->data[ 'date_start' ]) > $now || dateISO2Int($this->data[ 'date_end' ]) < $now ) {
+			$this->data[ 'status' ] = 0;
+		}
 
         if (!isset($this->request->get['coupon_id'])) {
             $this->data['action'] = $this->html->getSecureURL('sale/coupon/insert');
@@ -444,16 +465,27 @@ class ControllerPagesSaleCoupon extends AController {
             ),
         ));
 
-        $this->data['form']['fields']['date_start'] = $form->getFieldHtml(array(
-            'type' => 'input',
-            'name' => 'date_start',
-            'value' => $this->data['date_start'],
-        ));
+        $this->data['form']['fields']['date_start'] = $form->getFieldHtml(
+			array(
+        			'type' => 'date',
+        			'name' => 'date_start',
+        			'value' => dateISO2Display($this->data[ 'date_start' ]),
+        			'default' => dateNowDisplay(),
+        			'dateformat' => format4Datepicker($this->language->get('date_format_short')),
+        			'highlight' => 'future',
+				    'required' => true,
+        			'style' => 'medium-field' ));
+
         $this->data['form']['fields']['date_end'] = $form->getFieldHtml(array(
-            'type' => 'input',
-            'name' => 'date_end',
-            'value' => $this->data['date_end'],
-        ));
+        			'type' => 'date',
+        			'name' => 'date_end',
+        			'value' => dateISO2Display($this->data[ 'date_end' ]),
+        			'default' => '',
+        			'dateformat' => format4Datepicker($this->language->get('date_format_short')),
+        			'highlight' => 'pased',
+					'required' => true,
+        			'style' => 'medium-field' ));
+
         $this->data['form']['fields']['uses_total'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'uses_total',
@@ -557,6 +589,13 @@ class ControllerPagesSaleCoupon extends AController {
         if ((strlen(utf8_decode($this->request->post['code'])) < 2) || (strlen(utf8_decode($this->request->post['code'])) > 10)) {
             $this->error['code'] = $this->language->get('error_code');
         }
+
+		if (!has_value($this->request->post['date_start'])) {
+			$this->error['date_start'] = $this->language->get('error_date');
+		}
+		if (!has_value($this->request->post['date_end'])) {
+			$this->error['date_end'] = $this->language->get('error_date');
+		}
 
         if (!$this->error) {
             return TRUE;

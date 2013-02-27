@@ -79,7 +79,7 @@ class AContentManager {
 		$languages = $this->language->getAvailableLanguages();
 
 		foreach($languages as $language){
-			$this->language->addDescriptions('content_descriptions',
+			$this->language->replaceDescriptions('content_descriptions',
 											 array('content_id' => (int)$content_id),
 											 array(( int )$language['language_id'] => array('name' => $data['name'],
 																							'title' => $data [ 'title' ],

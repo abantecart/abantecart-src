@@ -56,15 +56,18 @@
 							<?php echo $form2[ 'form_open' ]; ?>
 							<?php echo $text_i_am_returning_customer; ?><br/>
 							<br/>
-							<b><?php echo $entry_email_address; ?></b><br/>
-							<?php echo $form2[ 'email' ]?>
+							<b><?php echo $entry_loginname; ?></b><br/>
+							<?php echo $form2[ 'loginname' ]?>
 							<br/>
 							<br/>
 							<b><?php echo $entry_password; ?></b><br/>
 							<?php echo $form2[ 'password' ]?>
 							<div class="clr_both"></div>
 							<br/>
-							<a href="<?php echo $forgotten; ?>"><?php echo $text_forgotten_password; ?></a>
+							<a href="<?php echo $forgotten_pass; ?>"><?php echo $text_forgotten_password; ?></a>
+							<?php if($noemaillogin) { ?>
+							&nbsp;&nbsp;<a href="<?php echo $forgotten_login; ?>"><?php echo $text_forgotten_login; ?></a>
+							<?php } ?>
 							<div class="flt_right"><?php echo $form2['login_submit']?></div>
 							</form>
 						</div>

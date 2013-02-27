@@ -1,28 +1,21 @@
-ALTER TABLE `ac_tax_rates` ADD COLUMN `rate_prefix` char(1) COLLATE utf8_bin NOT NULL; -- % or $ 
-ALTER TABLE `ac_tax_rates` ADD COLUMN `threshold_condition` char(2) COLLATE utf8_bin NOT NULL; -- '<=', '>=', '==' or '<'
-ALTER TABLE `ac_tax_rates` ADD COLUMN `threshold` decimal(15,4) NOT NULL DEFAULT '0.0000';
+ALTER TABLE `ac_customers` ADD COLUMN `loginname` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '';
 
+UPDATE `ac_customers` SET `loginname` = `email`;
 
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
-('sub_total', 'sub_total_calculation_order', '1'),
-('shipping', 'shipping_calculation_order', '3'),
-('coupon', 'coupon_calculation_order', '4'),
-('tax', 'tax_calculation_order', '5'),
-('total', 'total_calculation_order', '6');
-
-ALTER TABLE `ac_products` ADD COLUMN `maximum` int(11) NOT NULL DEFAULT '0';
+ALTER TABLE `ac_customers` ADD UNIQUE KEY `customers_loginname` (`loginname`);
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
-('checkout', 'total_order_maximum', '0'),
-('checkout', 'total_order_minimum', '0'),
-('details', 'config_meta_keywords', 'keyword1,keyword2,keyword3');
+('checkout', 'prevent_email_as_login', '0'),
+('api', 'config_admin_api_status', '0'),
+('api', 'config_admin_api_key', ''),
+('api', 'config_admin_access_ip_list', '');
 
-DROP TABLE IF EXISTS `ac_extension_dependencies`;
-CREATE TABLE `ac_extension_dependencies` (
-  `extension_id` int(11) NOT NULL,
-  `extension_parent_id` int(11) NOT NULL,
-  PRIMARY KEY (`extension_id`,`extension_parent_id`)
-) ENGINE=MyISAM;
-
-#todo
-#needs to add total exensions "fee" into extensions table by install.php
+DROP TABLE IF EXISTS `ac_encryption_keys`;
+CREATE TABLE `ac_encryption_keys` (
+  `key_id` int(3) NOT NULL AUTO_INCREMENT,
+  `key_name` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `status` int(1) NOT NULL,  
+  `comment` text COLLATE utf8_bin NOT NULL,  
+  PRIMARY KEY (`key_id`),
+  UNIQUE KEY `encryption_keys_key_name` (`key_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;

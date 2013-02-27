@@ -1,3 +1,4 @@
+<?php if ( $block_framed ) { ?>
 <div class="c_block">
 	<div class="block_tl">
 		<div class="block_tr">
@@ -7,7 +8,7 @@
     <div class="block_cl">
     	<div class="block_cr">
         	<div class="block_cc">
-
+<?php } ?>
 <div class="list">
 <?php
 if ($products) {
@@ -62,7 +63,7 @@ $ctr++;
 ?>
 <br class="clr_both" />
 </div>
-
+<?php if ( $block_framed ) { ?>
             </div>
         </div>
     </div>
@@ -72,3 +73,4 @@ $ctr++;
 		</div>
 	</div>
 </div>
+<?php } ?>

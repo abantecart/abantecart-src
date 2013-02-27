@@ -419,7 +419,7 @@ final class ACart {
 		foreach ($this->getProducts() as $product) {
 			if ($product['tax_class_id']) {
 				//save total for each tax class to build clear tax display later
-				if (!isset($taxes[$product['tax_class_id']])) {
+				if (!isset($this->taxes[$product['tax_class_id']])) {
 					$this->taxes[$product['tax_class_id']]['total'] = $product['total'];
 					$this->taxes[$product['tax_class_id']]['tax'] = $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']);
 				} else {

@@ -1,14 +1,14 @@
+<?php if ( $block_framed ) { ?>
 <div class="c_block">
     <div class="block_tl">
         <div class="block_tr">
-            <div class="block_tc"><img src="<?php echo $this->templateResource('/image/bestsellers.png'); ?>"
-                                       alt=""/><?php echo $heading_title; ?></div>
+            <div class="block_tc"><img src="<?php echo $this->templateResource('/image/bestsellers.png'); ?>" alt=""/><?php echo $heading_title; ?></div>
         </div>
     </div>
     <div class="block_cl">
         <div class="block_cr">
             <div class="block_cc">
-
+<?php } ?>
                 <div class="list">
                     <?php
                     if ($products) {
@@ -35,8 +35,8 @@
                             ?>
 
                             <?php if ($ctr == 0 || $ctr % $col == 0) { ?>
-<div class="list">
-<?php
+						<div class="list">
+						<?php
                             }
                             $ctr++;
                             ?>
@@ -56,16 +56,14 @@
 
                             <?php if ($ctr == count($products) || $ctr % $col == 0) { ?>
                                 <br class="clr_both"/>
-</div>
-<?php } ?>
-
-                            <?php
+						</div>
+						<?php }
                         }
                     }
                     ?>
                     <br class="clr_both"/>
                 </div>
-
+<?php if ( $block_framed ) { ?>
             </div>
         </div>
     </div>
@@ -75,3 +73,4 @@
         </div>
     </div>
 </div>
+<?php } ?>

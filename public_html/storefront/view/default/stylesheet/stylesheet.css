@@ -440,7 +440,6 @@ c input {
 }
 
 #main_menu li a:hover span {
-	background: #2b74aa;
 }
 
 /* info links */
@@ -504,7 +503,7 @@ c input {
 }
 
 #payment {
-	margin: 10px 8px 0 0;
+	margin: 10px 0 0 0;
 }
 
 /* bottom menu */
@@ -1495,6 +1494,16 @@ div.element_error {
 .textarea_element textarea {
 	width: 300px;
 	height: 150px;
+}
+
+input.highlight  {
+	background: none repeat scroll 0 0 #F5F06E;
+    border: 1px solid #B5B264;
+}
+
+input.error  {
+	background: none repeat scroll 0 0 #FFDFE0;
+    border: 1px solid #FF9999;
 }
 
 .radio_element label,

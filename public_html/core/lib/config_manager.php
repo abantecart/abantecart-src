@@ -501,6 +501,12 @@ class AConfigManager {
 			'value' => $data[ 'config_customer_approval' ],
 			'style' => 'btn_switch',
 		));
+		$fields[ 'prevent_email_as_login' ] = $form->getFieldHtml($props[ ] = array(
+			'type' => 'checkbox',
+			'name' => 'prevent_email_as_login',
+			'value' => $data[ 'prevent_email_as_login' ],
+			'style' => 'btn_switch',
+		));
 		$fields[ 'guest_checkout' ] = $form->getFieldHtml($props[ ] = array(
 			'type' => 'checkbox',
 			'name' => 'config_guest_checkout',
@@ -849,6 +855,25 @@ class AConfigManager {
 			'value' => $data[ 'config_storefront_api_stock_check' ],
 			'style' => 'btn_switch',
 		));
+
+		$fields[ 'admin_api_status' ] = $form->getFieldHtml($props[ ] = array(
+			'type' => 'checkbox',
+			'name' => 'config_admin_api_status',
+			'value' => $data[ 'config_admin_api_status' ],
+			'style' => 'btn_switch',
+		));
+		$fields[ 'admin_api_key' ] = $form->getFieldHtml($props[ ] = array(
+			'type' => 'input',
+			'name' => 'config_admin_api_key',
+			'value' => $data[ 'config_admin_api_key' ],
+		));
+		$fields[ 'admin_access_ip_list' ] = $form->getFieldHtml($props[ ] = array(
+			'type' => 'input',
+			'name' => 'config_admin_access_ip_list',
+			'value' => $data[ 'config_admin_access_ip_list' ],
+			'style' => 'large-field',
+		));
+
 		if (isset($data[ 'one_field' ])) {
 			$fields = $this->_filterField($fields, $props, $data[ 'one_field' ]);
 		}
@@ -905,7 +930,7 @@ class AConfigManager {
 		$fields[ 'upload_max_size' ] = $form->getFieldHtml($props[ ] = array(
 			'type' => 'input',
 			'name' => 'config_upload_max_size',
-			'value' => number_format($data[ 'config_upload_max_size' ], 0, '.', $this->language->get('thousand_point'))
+			'value' => (int)$data[ 'config_upload_max_size' ]
 		)) . ' (<= ' . ini_get('post_max_size') . ')';
 
 		$fields[ 'error_display' ] = $form->getFieldHtml($props[ ] = array(

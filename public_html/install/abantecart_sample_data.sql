@@ -48,8 +48,8 @@ INSERT INTO `ac_block_descriptions`
 VALUES
 (1,1,1,'0','0','home page static banner','home page banner','','&lt;div style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;index.php?rt=product/special&quot;&gt; &lt;img alt=&quot;banner&quot; src=&quot;storefront/view/default/image/banner1.jpg&quot; /&gt; &lt;/a&gt;&lt;/div&gt;','2012-03-14 13:21:21','2012-03-14 13:21:21'),
 (2,2,1,'0','0','Video block','Video','','a:3:{s:18:\"listing_datasource\";s:5:\"media\";s:13:\"resource_type\";s:5:\"video\";s:5:\"limit\";s:1:\"1\";}','2012-03-14 14:49:33','2012-03-14 14:54:39'),
-(3,3,1,'0','0','Custom Listing block','Popular','','a:2:{s:18:\"listing_datasource\";s:34:\"catalog_product_getPopularProducts\";s:5:\"limit\";s:2:\"12\";}','2012-03-15 10:56:23','2012-03-15 12:59:02'),
-(4,3,9,'0','0','Popular','Popular','','','2012-03-15 13:00:37','2012-03-15 13:00:38'),
+(3,3,1,'0','1','Custom Listing block','Popular','','a:2:{s:18:\"listing_datasource\";s:34:\"catalog_product_getPopularProducts\";s:5:\"limit\";s:2:\"12\";}','2012-03-15 10:56:23','2012-03-15 12:59:02'),
+(4,3,9,'0','1','Popular','Popular','','','2012-03-15 13:00:37','2012-03-15 13:00:38'),
 (5,2,9,'0','0','Video block','Video','','a:3:{s:18:\"listing_datasource\";s:5:\"media\";s:13:\"resource_type\";s:5:\"video\";s:5:\"limit\";s:0:\"\";}','2012-03-15 13:02:16','2012-03-15 13:02:41');
 
 
@@ -280,10 +280,7 @@ VALUES
 
 
 INSERT INTO `ac_coupons_products` 
-VALUES 
-(4,7,77),
-(3,7,50),
-(8,6,68);
+VALUES (8,6,68);
 
 
 
@@ -309,18 +306,18 @@ VALUES
 
 INSERT INTO `ac_customers` 
 VALUES 
-(2,0,'Juliana','Davis','julidavis@abantecart.com','+44 1688 308321','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,1,1,1,8,'109.104.166.98','2011-08-31 10:25:37'),
-(3,0,'Keely','Mccoy','keelymccoy@abantecart.com','+44 1324 483784 ','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,2,1,1,8,'109.104.166.98','2011-08-31 10:39:08'),
-(4,0,'Zelda','Weiss','zeldaweiss@abantecart.com','+44 28 9027 1066 ','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,3,1,1,8,'109.104.166.138','2011-08-31 10:42:58'),
-(5,0,'Gloria','Macias','gloriamacias@abantecart.com','+1 418-461-2440','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,4,1,1,8,'109.104.166.98','2011-08-31 10:46:58'),
-(6,0,'Bernard','Horne','bernardhorne@abantecart.com','+1 418-752-3369 ','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,5,1,1,8,'109.104.166.138','2011-08-31 10:50:27'),
-(7,0,'James','Curtis','jamescurtis@abantecart.com','+1 303-497-1010','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,6,1,1,8,'109.104.166.138','2011-08-31 11:00:03'),
-(8,0,'Bruce','Rosarini','brucerosarini@abantecart.com','+1 807-346-10763','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,7,1,1,8,'109.104.166.98','2011-08-31 11:08:23'),
-(9,0,'Carlos','Compton','carloscmpton@abantecart.com','+1 867-874-22391','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,8,1,1,8,'109.104.166.98','2011-08-31 11:13:14'),
-(10,0,'Garrison','Baxter','garrisonbaxter@abantecart.com','+1 907-543-43088','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,9,1,1,8,'109.104.166.138','2011-09-01 08:51:47'),
-(11,0,'Anthony','Blair','anthonyblair@abantecart.com','+1 907-842-2240','','05ec6352a8b997363e5c6483aeffeb50','a:0:{}',0,10,1,1,8,'171.98.12.12','2011-09-01 08:54:26'),
-(12,0,'Allen','Waters','allenwaters@abantecart.com','+1 540-985-59700','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,11,1,1,8,'109.104.166.98','2011-09-01 09:12:56'),
-(13,0,'qqqqqq','qqqqqq','1@abantecart','55 555 5555 5555','','f73469b693cecf7fa70c3e39b6fde1f4','a:1:{s:3:\"97.\";i:1;}',0,12,1,1,8,'109.104.166.98','2011-09-08 11:28:20');
+(2,0,'Juliana','Davis', 'julidavis@abantecart.com', 'julidavis@abantecart.com','+44 1688 308321','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,1,1,1,8,'109.104.166.98','2011-08-31 10:25:37'),
+(3,0,'Keely','Mccoy','keelymccoy@abantecart.com','keelymccoy@abantecart.com','+44 1324 483784 ','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,2,1,1,8,'109.104.166.98','2011-08-31 10:39:08'),
+(4,0,'Zelda','Weiss','zeldaweiss@abantecart.com','zeldaweiss@abantecart.com','+44 28 9027 1066 ','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,3,1,1,8,'109.104.166.138','2011-08-31 10:42:58'),
+(5,0,'Gloria','Macias','gloriamacias@abantecart.com','gloriamacias@abantecart.com','+1 418-461-2440','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,4,1,1,8,'109.104.166.98','2011-08-31 10:46:58'),
+(6,0,'Bernard','Horne','bernardhorne@abantecart.com','bernardhorne@abantecart.com','+1 418-752-3369 ','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,5,1,1,8,'109.104.166.138','2011-08-31 10:50:27'),
+(7,0,'James','Curtis','jamescurtis@abantecart.com','jamescurtis@abantecart.com','+1 303-497-1010','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,6,1,1,8,'109.104.166.138','2011-08-31 11:00:03'),
+(8,0,'Bruce','Rosarini','brucerosarini@abantecart.com','brucerosarini@abantecart.com','+1 807-346-10763','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,7,1,1,8,'109.104.166.98','2011-08-31 11:08:23'),
+(9,0,'Carlos','Compton','carloscmpton@abantecart.com','carloscmpton@abantecart.com','+1 867-874-22391','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,8,1,1,8,'109.104.166.98','2011-08-31 11:13:14'),
+(10,0,'Garrison','Baxter','garrisonbaxter@abantecart.com','garrisonbaxter@abantecart.com','+1 907-543-43088','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,9,1,1,8,'109.104.166.138','2011-09-01 08:51:47'),
+(11,0,'Anthony','Blair','anthonyblair@abantecart.com','anthonyblair@abantecart.com','+1 907-842-2240','','05ec6352a8b997363e5c6483aeffeb50','a:0:{}',0,10,1,1,8,'171.98.12.12','2011-09-01 08:54:26'),
+(12,0,'Allen','Waters','allenwaters@abantecart.com','allenwaters@abantecart.com','+1 540-985-59700','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,11,1,1,8,'109.104.166.98','2011-09-01 09:12:56'),
+(13,0,'qqqqqq','qqqqqq','1@abantecart','1@abantecart','55 555 5555 5555','','f73469b693cecf7fa70c3e39b6fde1f4','a:1:{s:3:\"97.\";i:1;}',0,12,1,1,8,'109.104.166.98','2011-09-08 11:28:20');
 
 
 

@@ -72,24 +72,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery.ui.datepicker.js"></script>
-<script type="text/javascript"><!--
-$(function () {
-    var dates = $("#couponFrm_date_start, #couponFrm_date_end").datepicker({
-        dateFormat:'yy-mm-dd',
-        defaultDate:"+1m",
-        changeMonth:false,
-        numberOfMonths:1,
-        onSelect:function (selectedDate) {
-            var option = this.id == "couponFrm_date_start" ? "minDate" : "maxDate",
-                instance = $(this).data("datepicker"),
-                date = $.datepicker.parseDate(
-                    instance.settings.dateFormat ||
-                        $.datepicker._defaults.dateFormat,
-                    selectedDate, instance.settings);
-            dates.not(this).datepicker("option", option, date);
-        }
-    });
-});
-//--></script>

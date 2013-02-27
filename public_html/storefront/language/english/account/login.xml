@@ -37,8 +37,16 @@
     <value><![CDATA[I am a returning customer.]]></value>
   </definition>
   <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Forgot your login?]]></value>
+  </definition>
+  <definition>
     <key>text_forgotten_password</key>
-    <value><![CDATA[Forgotten Password]]></value>
+    <value><![CDATA[Forgot your password?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Login Name or E-Mail Address:]]></value>
   </definition>
   <definition>
     <key>entry_email_address</key>

@@ -9,8 +9,12 @@
         <item>1.0</item>
         <item>1.1</item>
     </cartversions>
+	<phpmodules>
+		<item>soap</item>
+	</phpmodules>
     <layout></layout>
     <priority>10</priority>
+	<note>true</note>
     <settings>
         <item id="default_fedex_status">
             <type>checkbox</type>
@@ -31,6 +35,13 @@
 	    <item id="default_fedex_meter">
             <type required="true">input</type>
             <default_value></default_value>
+        </item>
+	    <item id="default_fedex_test">
+            <type>selectbox</type>
+            <variants>
+                <item>0</item>
+                <item>1</item>
+            </variants>
         </item>
 	    <item id="default_fedex_address">
             <type required="true">input</type>

@@ -77,8 +77,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$this->data[ 'languages' ][ $lang[ 'language_id' ] ] = $lang;
 			$languages[ $lang[ 'language_id' ] ] = $lang[ 'name' ];
 		}
-		$this->data[ 'languages' ] = $this->data[ 'languages' ];
-
 
 		$this->data[ 'language' ] =
 				$this->html->buildSelectbox(
@@ -533,6 +531,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$rm = new AResourceManager();
 		$this->data[ 'types' ] = $rm->getResourceTypes();
 
+		$this->view->assign('current_url', $this->html->currentURL() );
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/common/resource_library_html.tpl');
 	}

@@ -36,7 +36,15 @@ class ControllerBlocksCurrency extends AController {
 		if(isset($get_vars['product_id'])){
 			$unset[] = 'path'; 
 		}
-		$URI = $this->html->removeQueryVar($_SERVER['REQUEST_URI'], $unset );
+		//build safe redirect URI
+        if (!isset($this->request->get['rt'])) {
+            $rt = 'index/home';
+            $URI = '';
+        } else {
+        	$rt = $this->request->get['rt'];
+        	$unset[] = 'rt';
+			$URI = '&'.$this->html->buildURI($this->request->get, $unset);
+        }
 		
 		$this->loadModel('localisation/currency');
 		$results = $this->model_localisation_currency->getCurrencies();
@@ -48,13 +56,12 @@ class ControllerBlocksCurrency extends AController {
 					'title' => $result['title'],
 					'code'  => $result['code'],
 					'symbol' => ( !empty( $result['symbol_left'] ) ? $result['symbol_left'] : $result['symbol_right'] ),
-					'href'  => $URI.'&currency='.$result['code']
+					'href'  => $this->html->getURL($rt, $URI.'&currency='.$result['code'])
 				);
 			}
 		}
 
 		$this->data['currencies'] = $currencies;
-
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('blocks/currency.tpl');

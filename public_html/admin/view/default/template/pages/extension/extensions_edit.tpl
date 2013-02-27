@@ -200,12 +200,14 @@
 			width: 550,
 			minWidth: 550,
 			buttons:{
-				"<?php echo $text_more_help; ?>": function() {
+			<?php if ( $extension['help']['ext_link'] ) { ?>
+			"<?php echo $text_more_help; ?>": function() {
 				window.open(
 					'<?php echo $extension['help']['ext_link']; ?>',
 					'_blank'
 				)
 			},
+			<?php } ?>
 			"close": function(event, ui) {
 				$(this).dialog('destroy');
 			}

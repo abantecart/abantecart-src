@@ -50,7 +50,7 @@ final class ASession {
 			) {
 				// last request was more than 30 minutes ago
 				$this->clear();
-				header('Location: ' . $registry->get('html')->removeQueryVar($_SERVER[ 'REQUEST_URI' ], array( 'token' )));
+				header('Location: ' . $registry->get('html')->currentURL( array('token') ) );
 			}
 		}
 		$_SESSION[ 'LAST_ACTIVITY' ] = time(); // update last activity time stamp

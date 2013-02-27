@@ -81,12 +81,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery.ui.datepicker.js"></script>
-<script type="text/javascript"><!--
-$(document).ready(function () {
-    $('.date').datepicker({dateFormat:'yy-mm-dd'});
-});
-//--></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--

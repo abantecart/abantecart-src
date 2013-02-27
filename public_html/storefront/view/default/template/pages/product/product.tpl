@@ -172,7 +172,7 @@
 						<td>
 							<a href="<?php echo $manufacturers; ?>">
 		                    <?php if ( $manufacturer_icon ) { ?>  
-		                    <img src="<?php echo $manufacturer_icon; ?>" title="<?php echo manufacturer; ?>" border="0"/>	                    
+		                    <img src="<?php echo $manufacturer_icon; ?>" title="<?php echo $manufacturer; ?>" border="0"/>
 	    	                <?php } else { echo $manufacturer; }  ?> 
 							</a>
 						</td>

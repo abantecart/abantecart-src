@@ -227,7 +227,7 @@ class ControllerResponsesListingGridExtension extends AController {
 
 
 		$this->loadLanguage('extension/extensions');
-		$store_id = isset($this->request->post['store_id']) ? (int)$this->request->post['store_id'] : (int)$this->request->get['store_id'];
+		$store_id = $this->request->post_or_get('store_id');
 
 		if (empty($this->request->get['id'])) {
 			foreach ($this->request->post as $ext => $val) {
@@ -235,12 +235,24 @@ class ControllerResponsesListingGridExtension extends AController {
 				$this->extension_manager->editSetting($ext, $val);
 			}
 		} else {
-			$this->request->post['store_id'] = $store_id;
-			$this->extension_manager->editSetting($this->request->get['id'], $this->request->post);
+			$val = $this->request->post;
+			$val['store_id'] = $store_id;
+			$val['one_field'] = true; // sign that we change only one setting
+			$this->extension_manager->editSetting($this->request->get['id'], $val );
 		}
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		$this->load->library('json');
+		if($this->extension_manager->errors){
+			$error = new AError('');
+			return $error->toJSONResponse('VALIDATION_ERROR_406',
+				array('error_text' => '<br>'.implode('<br>',$this->extension_manager->errors),
+					  'reset_value' => true
+				));
+		}
+
+
 	}
 
 	public function license() {
@@ -302,5 +314,3 @@ class ControllerResponsesListingGridExtension extends AController {
 		}
 	}
 }
-
-?>

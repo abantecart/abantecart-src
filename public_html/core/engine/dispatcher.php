@@ -38,14 +38,14 @@ final class ADispatcher {
 			$this->args = $args;
 		}
 
-		ADebug::checkpoint('ADispatch '.$rt.' construct start');
+		ADebug::checkpoint('ADispatch: '.$rt.' construct start');
         // We always get full RT (route) to dispatcher. Needs to have pages/ or responces/
 		if ( !$this->_process_path($rt) ){
-			$warning_txt = 'ADispatch '.$rt.' construct FAILED. Missing or incorrect controller route path ';
+			$warning_txt = 'ADispatch: '.$rt.' construct FAILED. Missing or incorrect controller route path. Possibly layout block is enabled for disabled or missing extension! ';
 		    $warning = new AWarning( $warning_txt );
             $warning->toLog()->toDebug();
 		}
-		ADebug::checkpoint('ADispatch '.$rt.' construct end. file: class: '.$this->class.'; method: '.$this->method);
+		ADebug::checkpoint('ADispatch: '.$rt.' construct end. file: class: '.$this->class.'; method: '.$this->method);
 	}
 
 	public function __destruct() {
@@ -97,6 +97,11 @@ final class ADispatcher {
 		} else {
 			//Set default method
 			$this->method = 'main';
+		}
+
+		//already found the path, so return. This will optimize performance, and will not allow override core controllers. 
+		if ($pathfound == true) {
+			return $pathfound;
 		}
 
         // looking for controller in extensions section
@@ -160,20 +165,18 @@ final class ADispatcher {
         ADebug::checkpoint(''.$this->class.'/'.$this->method.' dispatch START');
 
 		//Process the controller, layout and children
-		//load layout if any for this controller
-        if ( empty($this->file) ) {
+		
+		//check if we have missing class or everithing  
+        if ( empty($this->class) && has_value($this->file) ) {
         	#Build back trace of calling functions to provide more details
 			$backtrace = debug_backtrace();
 			$function_stack = '';
-			if ( strlen($parent_controller) > 1 ) {
-				$function_stack = 'Parent Controller: ' . $parent_controller . ' | ';
+			if ( is_object($parent_controller) && strlen($parent_controller->rt()) > 1 ) {
+				$function_stack = 'Parent Controller: ' . $parent_controller->rt() . ' | ';
 			}
 		
         	for ($i=1; $i < count($backtrace); $i++) {
         		$function_stack .= ' < ' . $backtrace[$i]['function'];
-        		if ($backtrace[$i]['args'][0]) {
-        			$function_stack .= ", argument : " . $backtrace[$i]['args'][0];
-        		}
         	}
 			$url = $this->request->server['REQUEST_URI'];
 
@@ -181,6 +184,11 @@ final class ADispatcher {
             $error->toLog()->toDebug();
             $error->toMessages();
 	        return;
+        } else if ( empty($this->file) && empty($this->class) || empty($this->method)) {
+			$warning_txt = 'ADispatch: skipping unavailable controller …';
+		    $warning = new AWarning( $warning_txt );
+            $warning->toLog()->toDebug(); 
+            return;
         }
 
         //check for controller.pre

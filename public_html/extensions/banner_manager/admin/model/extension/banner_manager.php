@@ -60,7 +60,6 @@ class ModelExtensionBannerManager extends Model {
 				'meta' => $data[ 'meta' ],
 				'description' => $data[ 'description' ]
 			) ));
-		$this->db->query($sql);
 
 		return $banner_id;
 	}

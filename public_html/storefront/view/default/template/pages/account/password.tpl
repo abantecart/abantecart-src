@@ -12,6 +12,13 @@
       <div class="content">
         <table>
           <tr>
+            <td width="150"><?php echo $entry_current_password; ?></td>
+            <td><?php echo $current_password; ?>
+              <?php if ($error_current_password) { ?>
+              <span class="error"><?php echo $error_current_password; ?></span>
+              <?php } ?></td>
+          </tr>
+          <tr>
             <td width="150"><?php echo $entry_password; ?></td>
             <td><?php echo $password; ?>
               <?php if ($error_password) { ?>

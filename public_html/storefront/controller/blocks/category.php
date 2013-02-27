@@ -40,6 +40,9 @@ class ControllerBlocksCategory extends AController {
 		}
 		
 		$this->view->assign('category', $this->getCategories(0) );
+		// framed needs to show frames for generic block.
+		//If tpl used by listing block framed was set by listing block settings
+		$this->view->assign('block_framed',true);
 												
 		$this->processTemplate('blocks/category.tpl');
 

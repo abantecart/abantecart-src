@@ -126,6 +126,15 @@ final class AUser {
 		return $this->hasPermission('modify', $value);
 	}
 
+	public function isLoggedWithToken( $token ) {
+		if ( (isset($this->session->data['token']) && !isset( $token ))
+			|| ( (isset( $token ) && (isset($this->session->data['token']) && ( $token != $this->session->data['token'])))) ) {
+			return FALSE;
+		} else {
+			return $this->user_id;
+		}
+	}
+
 	public function isLogged() {
 		if (IS_ADMIN && $this->request->get['token'] != $this->session->data['token']) {
 			return false;

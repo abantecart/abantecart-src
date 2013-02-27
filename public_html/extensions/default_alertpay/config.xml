@@ -40,6 +40,7 @@
 					<field>name</field>
 				</fields>
 			</variants>
+			<default_value>2</default_value>
         </item>
 	    <item id="default_alertpay_location_id">
             <type>selectbox</type>

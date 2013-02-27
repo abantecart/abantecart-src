@@ -404,6 +404,7 @@ CREATE TABLE `ac_customers` (
   `store_id` int(11) NOT NULL DEFAULT '0',
   `firstname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
   `lastname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `loginname` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '',
   `email` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '',
   `telephone` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
   `fax` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -416,7 +417,8 @@ CREATE TABLE `ac_customers` (
   `customer_group_id` int(11) NOT NULL,
   `ip` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`customer_id`)
+  PRIMARY KEY (`customer_id`),
+  UNIQUE KEY `customers_loginname` (`loginname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
 
@@ -1182,6 +1184,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout', 'config_customer_price', '1'),
 ('checkout', 'config_customer_group_id', '8'),
 ('checkout', 'config_customer_approval', '0'),
+('checkout', 'prevent_email_as_login', '0'),
 ('checkout', 'config_guest_checkout', '1'),
 ('checkout', 'config_account_id', '2'),
 ('checkout', 'config_checkout_id', '3'),
@@ -1248,6 +1251,9 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('api', 'config_storefront_api_status', '0'),
 ('api', 'config_storefront_api_key', ''),
 ('api', 'config_storefront_api_stock_check', '0'),
+('api', 'config_admin_api_status', '0'),
+('api', 'config_admin_api_key', ''),
+('api', 'config_admin_access_ip_list', ''),
 
 --EXTENSIONS
 ('sub_total', 'sub_total_sort_order', '1'),
@@ -6941,7 +6947,7 @@ VALUES  (16,NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (17,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (18,'1.1.3','1');
+VALUES  (18,'1.1.4','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (19,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_timestamp`,`row_id`)
@@ -7160,3 +7166,13 @@ CREATE TABLE `ac_extension_dependencies` (
   `extension_parent_id` int(11) NOT NULL,
   PRIMARY KEY (`extension_id`,`extension_parent_id`)
 ) ENGINE=MyISAM;
+
+DROP TABLE IF EXISTS `ac_encryption_keys`;
+CREATE TABLE `ac_encryption_keys` (
+  `key_id` int(3) NOT NULL AUTO_INCREMENT,
+  `key_name` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `status` int(1) NOT NULL,  
+  `comment` text COLLATE utf8_bin NOT NULL,  
+  PRIMARY KEY (`key_id`),
+  UNIQUE KEY `encryption_keys_key_name` (`key_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
