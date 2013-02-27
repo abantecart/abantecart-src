@@ -1759,10 +1759,11 @@ class ALayoutManager {
 					if ((string)$block_description->title) {
 						$desc_array['title'] = (string)$block_description->title;
 					}
-					if ((string)$block_description->block_wrapper) {
+					if (has_value((string)$block_description->block_wrapper)) {
 						$desc_array['block_wrapper'] = (string)$block_description->block_wrapper;
 					}
-					if ((string)$block_description->block_framed) {
+
+					if (has_value((string)$block_description->block_framed)) {
 						$desc_array['block_framed'] = (int)$block_description->block_framed;
 					}
 

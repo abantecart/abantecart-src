@@ -417,7 +417,7 @@ class ALanguageManager extends Alanguage {
 				//insert only
 				//translate source text
 				foreach ($txt_data[ $src_lang_id ] as $key => $value) {
-					if (!empty($value)) {
+					if (has_value($value)) {
 						if (in_array($key, array_keys($serialized_roadmap))) {
 							$unserialized_data = unserialize($value);
 							if ($unserialized_data !== false) {
