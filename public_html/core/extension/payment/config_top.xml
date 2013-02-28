@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<extension>
+    <settings>
+        <item id="status">
+            <type>checkbox</type>
+            <default_value>ddddddddddddddddddddd</default_value>
+            <new_value>bbbbb</new_value>            
+        </item>    
+        <item id="statusxxx32222">
+            <type>checkbox</type>
+            <default_value>dddd1</default_value>
+        </item>    
+    </settings>
+</extension>

@@ -381,7 +381,60 @@ function checkRequirements() {
  * @return SimpleXMLElement
  */
 function getExtensionConfigXml($extension_txt_id) {
+
 	$extension_txt_id = str_replace('../', '', $extension_txt_id);
 	$filename = DIR_EXT . $extension_txt_id . '/config.xml';
-	return simplexml_load_file($filename);
+	$core_ext_configs = simplexml_load_file($filename);	
+
+
+	//DOMDocument of extension config
+	$base_dom = dom_import_simplexml($core_ext_configs);
+	$firstNode = $base_dom->getElementsByTagName('settings')->item(0);
+	$firstNode = $firstNode->getElementsByTagName('item')->item(0);
+
+
+	$xml_files = array('top'    => array(
+										DIR_CORE.'extension/' . 'default/config_top.xml',
+										DIR_CORE.'extension/' . (string)$core_ext_configs->type . '/config_top.xml'),
+					   'bottom' => array(
+						   				DIR_CORE.'extension/' . 'default/config_bottom.xml',
+						   				DIR_CORE.'extension/' . (string)$core_ext_configs->type . '/config_bottom.xml'));
+
+	// then loop for all additional xml-config-files
+	foreach($xml_files as $place=>$files){
+		foreach($files as $filename){
+			if ( file_exists($filename) ) {
+				$additional_config = simplexml_load_file($filename);
+				//if error - writes all
+				if($additional_config===false){
+					foreach(libxml_get_errors() as $error) {
+						$err = new AError($error->message);
+						$err->toLog()->toDebug()->toMessages();
+					}
+				}
+				// loop by all settings items
+				foreach($additional_config->settings->item as $setting_item){
+					$attr = $setting_item->attributes();
+					$item_id = $extension_txt_id.'_'.$attr['id'];
+					$is_exists = $core_ext_configs->xpath('/extension/settings/item[@id=\''.$item_id.'\']');
+					if(!$is_exists){
+						// rename id for settings item
+						$setting_item['id'] = $item_id;
+						//converts simpleXMLElement node to DOMDocument node for inserting
+						$item_dom_node = dom_import_simplexml($setting_item);
+						$item_dom_node  = $base_dom->ownerDocument->importNode($item_dom_node, TRUE);
+						$setting_node = $base_dom->getElementsByTagName('settings')->item(0);
+						if($place=='top' && !is_null($firstNode)){
+							$setting_node->insertBefore($item_dom_node, $firstNode);
+						}else{
+							$setting_node->appendChild($item_dom_node);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	$core_ext_configs = simplexml_import_dom($base_dom);
+	return $core_ext_configs;
 }
