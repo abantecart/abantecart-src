@@ -22,63 +22,114 @@ if ( !defined ( 'DIR_CORE' )) {
 }
 
 class ControllerResponsesExtensionDefaultPPStandart extends AController {
+	public $data = array();
 	public function main() {
-    	$template_data['button_confirm'] = $this->language->get('button_confirm');
-		$template_data['button_back'] = $this->language->get('button_back');
+    	$this->data['button_confirm'] = $this->language->get('button_confirm');
+		$this->data['button_back'] = $this->language->get('button_back');
 
 		if (!$this->config->get('default_pp_standart_test')) {
-    		$template_data['action'] = 'https://www.paypal.com/cgi-bin/webscr';
+    		$this->data['action'] = 'https://www.paypal.com/cgi-bin/webscr';
   		} else {
-			$template_data['action'] = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+			$this->data['action'] = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
 		}		
 		
 		$this->load->model('checkout/order');
-		
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 		
-		$template_data['business'] = $this->config->get('default_pp_standart_email');
-		$template_data['item_name'] = html_entity_decode($this->config->get('store_name'), ENT_QUOTES, 'UTF-8');				
-		$template_data['currency_code'] = $order_info['currency'];
-		$template_data['amount'] = $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], FALSE);
-		$template_data['first_name'] = html_entity_decode($order_info['payment_firstname'], ENT_QUOTES, 'UTF-8');	
-		$template_data['last_name'] = html_entity_decode($order_info['payment_lastname'], ENT_QUOTES, 'UTF-8');	
-		$template_data['address1'] = html_entity_decode($order_info['payment_address_1'], ENT_QUOTES, 'UTF-8');	
-		$template_data['address2'] = html_entity_decode($order_info['payment_address_2'], ENT_QUOTES, 'UTF-8');	
-		$template_data['city'] = html_entity_decode($order_info['payment_city'], ENT_QUOTES, 'UTF-8');	
-		$template_data['zip'] = html_entity_decode($order_info['payment_postcode'], ENT_QUOTES, 'UTF-8');	
-		$template_data['country'] = $order_info['payment_iso_code_2'];
-		$template_data['notify_url'] = $this->html->getURL('extension/default_pp_standart/callback');
-		$template_data['email'] = $order_info['email'];
-		$template_data['invoice'] = $this->session->data['order_id'] . ' - ' . html_entity_decode($order_info['payment_firstname'], ENT_QUOTES, 'UTF-8') . ' ' . html_entity_decode($order_info['payment_lastname'], ENT_QUOTES, 'UTF-8');
-		$template_data['lc'] = $this->session->data['language'];
-		
-		if (!$this->config->get('default_pp_standart_transaction')) {
-			$template_data['paymentaction'] = 'authorization';
-		} else {
-			$template_data['paymentaction'] = 'sale';
-		}
-		
-		$template_data['return'] = $this->html->getSecureURL('checkout/success');
-		
-		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
-			$template_data['cancel_return'] = $this->html->getSecureURL('checkout/payment');
-		} else {
-			$template_data['cancel_return'] = $this->html->getSecureURL('checkout/guest_step_2');
-		}
-		
+		$this->data['business'] = $this->config->get('default_pp_standart_email');
+		$this->data['item_name'] = html_entity_decode($this->config->get('store_name'), ENT_QUOTES, 'UTF-8');				
+		$this->data['currency_code'] = $order_info['currency'];
+		$this->data['amount'] = $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], FALSE);
+		$this->data['first_name'] = html_entity_decode($order_info['payment_firstname'], ENT_QUOTES, 'UTF-8');	
+		$this->data['last_name'] = html_entity_decode($order_info['payment_lastname'], ENT_QUOTES, 'UTF-8');	
+		$this->data['address1'] = html_entity_decode($order_info['payment_address_1'], ENT_QUOTES, 'UTF-8');	
+		$this->data['address2'] = html_entity_decode($order_info['payment_address_2'], ENT_QUOTES, 'UTF-8');	
+		$this->data['city'] = html_entity_decode($order_info['payment_city'], ENT_QUOTES, 'UTF-8');	
+		$this->data['zip'] = html_entity_decode($order_info['payment_postcode'], ENT_QUOTES, 'UTF-8');	
+		$this->data['country'] = $order_info['payment_iso_code_2'];
+		$this->data['notify_url'] = $this->html->getURL('extension/default_pp_standart/callback');
+		$this->data['email'] = $order_info['email'];
+		$this->data['invoice'] = $this->session->data['order_id'] . ' - ' . html_entity_decode($order_info['payment_firstname'], ENT_QUOTES, 'UTF-8') . ' ' . html_entity_decode($order_info['payment_lastname'], ENT_QUOTES, 'UTF-8');
+		$this->data['lc'] = $this->session->data['language'];
+
 		$this->load->library('encryption');
-		
 		$encryption = new AEncryption($this->config->get('encryption_key'));
-		
-		$template_data['custom'] = $encryption->encrypt($this->session->data['order_id']);
-		
-		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
-			$template_data['back'] = $this->html->getSecureURL('checkout/payment');
+
+		$this->data['products'] = array();
+		$products = $this->cart->getProducts();
+		foreach ($products as $product) {
+			$option_data = array();
+
+			foreach ($product['option'] as $option) {
+				if ($option['type'] != 'file') {
+					$value = $option['value'];
+				} else {
+					$filename = $encryption->decrypt($option['value']);
+					$value = mb_substr($filename, 0, mb_strrpos($filename, '.'));
+				}
+
+				$option_data[] = array(
+					'name'  => $option['name'],
+					'value' => (mb_strlen($value) > 20 ? mb_substr($value, 0, 20) . '..' : $value)
+				);
+			}
+
+			$this->data['products'][] = array(
+				'name'     => $product['name'],
+				'model'    => $product['model'],
+				'price'    => $this->currency->format($product['price'], false, false),
+				'quantity' => $product['quantity'],
+				'option'   => $option_data,
+				'weight'   => $product['weight']
+			);
+		}
+
+
+		$this->data['discount_amount_cart'] = 0;
+		$totals = $this->cart->buildTotalDisplay();
+
+		foreach($totals['total_data'] as $total){
+			if(in_array($total['id'],array('subtotal','total'))){ continue;}
+			if(in_array($total['id'],array('promotion','coupon'))){
+			 	$total['value'] = $total['value']<0 ? $total['value']*-1 : $total['value'];
+				$this->data['discount_amount_cart'] += $total['value'];
+			}else{
+			$this->data['products'][] = array(
+							'name'     => $total['title'],
+							'model'    => '',
+							'price'    => $this->currency->format($total['value'], false, false),
+							'quantity' => 1,
+							'option'   => array(),
+							'weight'   => 0
+						);
+			}
+		}
+
+
+		if (!$this->config->get('default_pp_standart_transaction')) {
+			$this->data['paymentaction'] = 'authorization';
 		} else {
-			$template_data['back'] = $this->html->getSecureURL('checkout/guest_step_2');
+			$this->data['paymentaction'] = 'sale';
 		}
 		
-		$this->view->batchAssign( $template_data ); 
+		$this->data['return'] = $this->html->getSecureURL('checkout/success');
+		
+		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
+			$this->data['cancel_return'] = $this->html->getSecureURL('checkout/payment');
+		} else {
+			$this->data['cancel_return'] = $this->html->getSecureURL('checkout/guest_step_2');
+		}
+
+		
+		$this->data['custom'] = $encryption->encrypt($this->session->data['order_id']);
+		
+		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
+			$this->data['back'] = $this->html->getSecureURL('checkout/payment');
+		} else {
+			$this->data['back'] = $this->html->getSecureURL('checkout/guest_step_2');
+		}
+		
+		$this->view->batchAssign( $this->data ); 
 		$this->processTemplate('responses/default_pp_standart.tpl');
 	}
 	
