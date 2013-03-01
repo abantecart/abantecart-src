@@ -43,7 +43,7 @@
 	</table>
 	<div class="gray_separator"></div>
 	<?php } ?>
-
+<?php  if ($payment_method) { ?>
 	<table width="100%">
         <tr>
           <td align="left" valign="top" class="checkout_heading"><?php echo $text_payment; ?></td>
@@ -66,7 +66,7 @@
 	    </tr>
 	</table>
 	<div class="gray_separator"></div>
-
+	  <?php } ?>
 	<table width="100%">
         <tr>
           <td align="left" valign="top" class="checkout_heading"><?php echo $text_cart_items; ?></td>

@@ -159,5 +159,9 @@
 	<definition>
 		<key>notice_out_of_stock_body</key>
 		<value><![CDATA[Product "%s", habet nulla seu negative stirpe attigit, Numerabis main productum sive omnia bene. ut a praecessi of <br> autodisable occasum, uber (%s) disabled car erat!]]></value>
-	</definition>		
+	</definition>
+	<definition>
+		<key>no_payment_required</key>
+		<value><![CDATA[No Pago Requerido]]></value>
+	</definition>
 </definitions>

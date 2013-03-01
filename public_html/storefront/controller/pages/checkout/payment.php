@@ -135,6 +135,17 @@ class ControllerPagesCheckoutPayment extends AController {
 			$this->redirect($this->html->getSecureURL('checkout/confirm'));
 		}
 
+		// If total amount of order is zero - do redirect on confirmation page
+		$total = $this->cart->buildTotalDisplay();
+		if($total['total']==0){
+			$this->session->data[ 'payment_method' ] = array(
+															'id'         => 'no_payment_required',
+															'title'      => $this->language->get('no_payment_required')
+			      		);
+			$this->redirect($this->html->getSecureURL('checkout/confirm'));
+
+		}
+
 		//# If only 1 payment and it is set to be defaulted, select and skip and redirect to confirmation 
 		if (count($this->session->data[ 'payment_methods' ]) == 1 && $this->request->get['mode'] != 'edit') {
 		    //set only method
@@ -348,5 +359,3 @@ class ControllerPagesCheckoutPayment extends AController {
 		}
 	}
 }
-
-?>

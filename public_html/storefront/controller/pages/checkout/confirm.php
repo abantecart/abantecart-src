@@ -28,7 +28,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-        
+
 	   	if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
 	  		$this->redirect($this->html->getSecureURL('checkout/cart'));
     	}		
@@ -60,7 +60,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 			$this->tax->setZone($this->session->data['country_id'], $this->session->data['zone_id']);
 
 		}
-		
+
     	if (!isset($this->session->data['payment_address_id']) || !$this->session->data['payment_address_id']) { 
 	  		$this->redirect($this->html->getSecureURL('checkout/payment'));
     	}  
@@ -136,17 +136,21 @@ class ControllerPagesCheckoutConfirm extends AController {
         $this->data['shipping_method_price'] = $this->session->data['shipping_method']['title'];
 		$this->data['checkout_shipping_edit'] = $this->html->getSecureURL('checkout/shipping', '&mode=edit');
     	$this->data['checkout_shipping_address'] = $this->html->getSecureURL('checkout/address/shipping');
-    	
-    	$payment_address = $this->model_account_address->getAddress($this->session->data['payment_address_id']);
+
+		$payment_address = $this->model_account_address->getAddress($this->session->data['payment_address_id']);
 		if ($payment_address) {
 			$this->data['payment_address'] = $this->customer->getFormatedAdress($payment_address, $payment_address[ 'address_format' ] );
 		} else {
 			$this->data['payment_address'] = '';
 		}
+		if($this->session->data['payment_method']['id'] != 'no_payment_required'){
+			$this->data['payment_method'] = $this->session->data['payment_method']['title'];
+		}else{
+			$this->data['payment_method'] = '';
+		}
 
-		$this->data['payment_method'] = $this->session->data['payment_method']['title'];
-    	$this->data['checkout_payment_edit'] = $this->html->getSecureURL('checkout/payment', '&mode=edit');
-    	$this->data['checkout_payment_address'] = $this->html->getSecureURL('checkout/address/payment');
+		$this->data['checkout_payment_edit'] = $this->html->getSecureURL('checkout/payment', '&mode=edit');
+		$this->data['checkout_payment_address'] = $this->html->getSecureURL('checkout/address/payment');
 
 		$this->loadModel('tool/seo_url');
 		$this->loadModel('tool/image');
@@ -190,8 +194,11 @@ class ControllerPagesCheckoutConfirm extends AController {
 		} else {
 			$this->data['text_accept_agree'] = '';
 		}
-
-        $this->addChild('responses/extension/' . $this->session->data['payment_method']['id'], 'payment');
+		if($this->session->data['payment_method']['id'] != 'no_payment_required'){
+        	$this->addChild('responses/extension/' . $this->session->data['payment_method']['id'], 'payment');
+		}else{
+			$this->addChild('responses/checkout/no_payment', 'payment');
+		}
 
 		$this->view->batchAssign( $this->data );
         $this->processTemplate('pages/checkout/confirm.tpl' );
@@ -200,4 +207,3 @@ class ControllerPagesCheckoutConfirm extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 }
-?>

@@ -98,7 +98,11 @@ class ControllerApiCheckoutConfirm extends AControllerAPI {
 			$this->data['payment_address'] = '';
 		}
 
-		$this->data['payment_method'] = $this->session->data['payment_method']['title'];
+		if($this->session->data['payment_method']['id'] != 'no_payment_required'){
+			$this->data['payment_method'] = $this->session->data['payment_method']['title'];
+		}else{
+			$this->data['payment_method'] = '';
+		}
 
 		$this->loadModel('tool/seo_url');
 		$this->loadModel('tool/image');
@@ -135,8 +139,13 @@ class ControllerApiCheckoutConfirm extends AControllerAPI {
 			$this->data['text_accept_agree'] = '';
 		}
 				
-		// Load selected paymnet required data from payment extension 
-		$payment_controller = $this->dispatch( 'responses/extension/' . $this->session->data['payment_method']['id'] . '/api' );
+		// Load selected paymnet required data from payment extension
+		if($this->session->data['payment_method']['id'] != 'no_payment_required'){
+			$payment_controller = $this->dispatch( 'responses/extension/' . $this->session->data['payment_method']['id'] . '/api' );
+		}else{
+			$payment_controller = $this->dispatch( 'responses/checkout/no_payment/api' );
+		}
+
 		$this->load->library('json');
 		$this->data['payment'] = AJson::decode( $payment_controller->dispatchGetOutput(), TRUE );
 		//set process_rt for process step to run the payment 	
