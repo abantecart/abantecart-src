@@ -374,7 +374,7 @@
 	</definition>
 	<definition>
 		<key>entry_mail_protocol</key>
-		<value><![CDATA[Mail Protocol:<span class="help">Only choose 'Mail' unless your host has disabled the php mail function.]]></value>
+		<value><![CDATA[Mail Protocol:<span class="help">Mail: Default server mail server will be used. Make sure it is configured and able to send email with PHP mail.]]></value>
 	</definition>
 	<definition>
 		<key>entry_mail_parameter</key>

@@ -536,7 +536,7 @@
 	<definition>
 		<key>entry_mail_protocol</key>
 		<value>
-			<![CDATA[Mail Protocolo:<span class="help">Solo elija 'Mail' si su administrador ha desactivado la funcion de correo de PHP.]]></value>
+			<![CDATA[Correo Protocolo:<span class="help">Correo: servidor servidor de correo por defecto se utilizará. Asegúrese de que está configurado y podrá enviar un correo electrónico con el correo de PHP.]]></value>
 	</definition>
 	<definition>
 		<key>entry_smtp_host</key>
