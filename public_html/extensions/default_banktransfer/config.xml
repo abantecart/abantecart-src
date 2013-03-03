@@ -12,10 +12,6 @@
     <layout></layout>
     <priority>10</priority>
     <settings>
-        <item id="default_banktransfer_status">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
 	    <item id="default_banktransfer_instructions">
             <type required="true">textarea</type>
             <default_value></default_value>
@@ -56,10 +52,6 @@
             <type>checkbox</type>
             <default_value>0</default_value>
         </item>        
-	    <item id="default_banktransfer_sort_order">
-            <type>input</type>
-            <default_value></default_value>
-        </item>
     </settings>
     <install>
 	    <sql></sql>

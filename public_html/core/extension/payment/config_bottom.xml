@@ -1,9 +1,17 @@
 <?xml version="1.0"?>
 <extension>
     <settings>
-        <item id="bla-bla-bla_location">
+        <item id="minimum_total">
             <type>input</type>
-            <default_value>dddd1</default_value>
+            <default_value></default_value>
         </item>    
+        <item id="maximum_total">
+            <type>input</type>
+            <default_value></default_value>
+        </item> 
+	    <item id="sort_order">
+            <type>input</type>
+            <default_value></default_value>
+        </item>           
     </settings>
 </extension>
