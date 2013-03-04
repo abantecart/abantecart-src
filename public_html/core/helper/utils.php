@@ -400,15 +400,21 @@ function getExtensionConfigXml($extension_txt_id) {
 
 	//DOMDocument of extension config
 	/**
-	 * @var $base_dom DomDocument
+	 * @var $base_dom DOMDocument
 	 */
 	$base_dom = dom_import_simplexml($core_ext_configs);
 	/**
-	 * @var $firstNode DomDocument
+	 * @var $firstNode DOMDocument
 	 */
-	$firstNode = $base_dom->getElementsByTagName('settings')->item(0);
-	$firstNode = $firstNode->getElementsByTagName('item')->item(0);
-
+	$firstNode = $base_dom->getElementsByTagName('settings');
+	// check is "settings" entity exists
+	if(is_null($firstNode->item(0))){
+		$node = $base_dom->ownerDocument->createElement("settings");
+		$base_dom->appendChild($node);
+	}else{
+		$firstNode = $base_dom->getElementsByTagName('settings')->item(0);
+		$firstNode = $firstNode->getElementsByTagName('item')->item(0);
+	}
 
 	$xml_files = array('top'    => array(
 										DIR_CORE.'extension/' . 'default/config_top.xml',
