@@ -378,6 +378,7 @@ function checkRequirements() {
 
 /**
  * @param string $extension_txt_id
+ * @throws AException
  * @return SimpleXMLElement
  */
 function getExtensionConfigXml($extension_txt_id) {
@@ -385,10 +386,26 @@ function getExtensionConfigXml($extension_txt_id) {
 	$extension_txt_id = str_replace('../', '', $extension_txt_id);
 	$filename = DIR_EXT . $extension_txt_id . '/config.xml';
 	$core_ext_configs = simplexml_load_file($filename);	
+	if($core_ext_configs===false){
 
+		$err_text = 'Error: cannot to load config.xml of extension '.$extension_txt_id.'.';
+		$error = new AError($err_text);
+		$error->toLog()->toDebug()->toMessages();
+		foreach(libxml_get_errors() as $error) {
+			$err = new AError($error->message);
+			$err->toLog()->toDebug()->toMessages();
+		}
+		throw new AException (AC_ERR_LOAD, $err_text);
+	}
 
 	//DOMDocument of extension config
+	/**
+	 * @var $base_dom DomDocument
+	 */
 	$base_dom = dom_import_simplexml($core_ext_configs);
+	/**
+	 * @var $firstNode DomDocument
+	 */
 	$firstNode = $base_dom->getElementsByTagName('settings')->item(0);
 	$firstNode = $firstNode->getElementsByTagName('item')->item(0);
 
@@ -414,6 +431,9 @@ function getExtensionConfigXml($extension_txt_id) {
 				}
 				// loop by all settings items
 				foreach($additional_config->settings->item as $setting_item){
+					/**
+					 * @var $setting_item simpleXmlElement
+					 */
 					$attr = $setting_item->attributes();
 					$item_id = $extension_txt_id.'_'.$attr['id'];
 					$is_exists = $core_ext_configs->xpath('/extension/settings/item[@id=\''.$item_id.'\']');
