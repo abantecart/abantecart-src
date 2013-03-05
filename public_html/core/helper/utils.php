@@ -382,6 +382,12 @@ function checkRequirements() {
  * @return SimpleXMLElement
  */
 function getExtensionConfigXml($extension_txt_id) {
+	$registry = Registry::getInstance();
+	$result = $registry->get($extension_txt_id.'_configXML');
+
+	if(!is_null($result)){
+		return $result;
+	}
 
 	$extension_txt_id = str_replace('../', '', $extension_txt_id);
 	$filename = DIR_EXT . $extension_txt_id . '/config.xml';
@@ -475,7 +481,6 @@ function getExtensionConfigXml($extension_txt_id) {
 						}else{
 							$setting_node->appendChild($item_dom_node);
 						}
-
 					}
 				}
 			}
@@ -483,6 +488,18 @@ function getExtensionConfigXml($extension_txt_id) {
 	}
 
 
-	$ext_configs = simplexml_import_dom($base_dom);
-	return $ext_configs;
+	//remove all disabled items from list
+	$qry = '/extension/settings/item[disabled]';
+	$existed = $xpath->query($qry);
+	if(!is_null($existed)){
+		foreach ($existed as $node) {
+			echo $node->parentNode->nodeValue;
+			$node->parentNode->removeChild($node);
+		}
+	}
+
+
+	$result = simplexml_import_dom($base_dom);
+	$registry->set($extension_txt_id.'_configXML',$result);
+	return $result;
 }
