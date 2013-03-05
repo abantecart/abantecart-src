@@ -71,6 +71,9 @@ final class ACart {
 		
 		//process data in the cart session per each product in the cart
     	foreach ($this->session->data['cart'] as $key => $data) {
+			if ( $key == 'virtual' ) {
+				continue;
+			}
       		$array = explode(':', $key);
       		$product_id = $array[0];
       		$quantity =	 $data['qty'];
@@ -269,6 +272,29 @@ final class ACart {
 		#reload data for the cart
 		$this->getProducts(TRUE);
   	}
+
+	public function addVirtual($key, $data) {
+
+		if ( !has_value($data) ) {
+			return null;
+		}
+
+		if ( !isset($this->session->data['cart']['virtual']) || !is_array($this->session->data['cart']['virtual']) ) {
+			$this->session->data['cart']['virtual'] = array();
+		}
+
+		$this->session->data['cart']['virtual'][$key] = $data;
+
+	}
+
+	public function removeVirtual($key) {
+		if ( isset($this->session->data['cart']['virtual'][$key]) ) {
+			unset($this->session->data['cart']['virtual'][$key]);
+			if ( !has_value($this->session->data['cart']['virtual']) ) {
+				unset($this->session->data['cart']['virtual']);
+			}
+		}
+	}
 
   	public function update($key, $qty) {
     	if ((int)$qty && ((int)$qty > 0)) {
