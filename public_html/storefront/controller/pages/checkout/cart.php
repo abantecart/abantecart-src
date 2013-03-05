@@ -141,8 +141,8 @@ class ControllerPagesCheckoutCart extends AController {
                                                                        'name' => 'cart',
                                                                        'action' => $this->html->getSecureURL('checkout/cart')));
 
-
-      		foreach ($this->cart->getProducts() as $result) {
+			$cart_products = $this->cart->getProducts();
+      		foreach ($cart_products as $result) {
         		$option_data = array();
 				$thumbnail = $resource->getMainThumb('products',
 			                                     $result['product_id'],

@@ -51,6 +51,7 @@
           <td align="right"><?php echo $product['total']; ?></td>
         </tr>
         <?php } ?>
+		<?php echo $this->getHookVar('virtuals'); ?>
       </table>
 	  <div style="width: 100%; display: inline-block;">
         <table style="float: right; display: inline-block;">
