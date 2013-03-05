@@ -388,7 +388,6 @@ function getExtensionConfigXml($extension_txt_id) {
 	$ext_configs = simplexml_load_file($filename);
 
 	if($ext_configs===false){
-
 		$err_text = 'Error: cannot to load config.xml of extension '.$extension_txt_id.'.';
 		$error = new AError($err_text);
 		$error->toLog()->toDebug()->toMessages();
@@ -399,23 +398,33 @@ function getExtensionConfigXml($extension_txt_id) {
 		throw new AException (AC_ERR_LOAD, $err_text);
 	}
 
-	//DOMDocument of extension config
 	/**
+	 * DOMDocument of extension config
 	 * @var $base_dom DOMDocument
 	 */
-	$base_dom = dom_import_simplexml($ext_configs);
-	$xpath = new DOMXpath($base_dom->ownerDocument);
+	$base_dom = new DOMDocument();
+	$base_dom->load($filename);
+	$xpath = new DOMXpath($base_dom);
 	/**
-	 * @var $firstNode DOMDocument
+	 * @var $firstNode DOMNodeList
 	 */
 	$firstNode = $base_dom->getElementsByTagName('settings');
 	// check is "settings" entity exists
 	if(is_null($firstNode->item(0))){
-		$node = $base_dom->ownerDocument->createElement("settings");
+		/**
+		 * @var $node DOMNode
+		 */
+		$node = $base_dom->createElement("settings");
 		$base_dom->appendChild($node);
 	}else{
-		$firstNode = $base_dom->getElementsByTagName('settings')->item(0);
-		$firstNode = $firstNode->getElementsByTagName('item')->item(0);
+		/**
+		 * @var $fst DOMElement
+		 */
+		$fst = $base_dom->getElementsByTagName('settings')->item(0);
+		/**
+		 * @var $firstNode DOMNode
+		 */
+		$firstNode = $fst->getElementsByTagName('item')->item(0);
 	}
 
 	$xml_files = array('top'    => array(
@@ -448,11 +457,10 @@ function getExtensionConfigXml($extension_txt_id) {
 					$is_exists = $ext_configs->xpath('/extension/settings/item[@id=\''.$item_id.'\']');
 					if(!$is_exists){
 						// remove item that was appended on previous cicle from additional xml (override)
-						$xpath = new DOMXpath($base_dom->ownerDocument);
 						$qry = "/extension/settings/item[@id='".$item_id."']";
-						$is_exists = $xpath->query($qry);
-						if(!is_null($is_exists)){
-							foreach ($is_exists as $node) {
+						$existed = $xpath->query($qry);
+						if(!is_null($existed)){
+							foreach ($existed as $node) {
 								$node->parentNode->removeChild($node);
 							}
 						}
@@ -460,7 +468,7 @@ function getExtensionConfigXml($extension_txt_id) {
 						$setting_item['id'] = $item_id;
 						//converts simpleXMLElement node to DOMDocument node for inserting
 						$item_dom_node = dom_import_simplexml($setting_item);
-						$item_dom_node  = $base_dom->ownerDocument->importNode($item_dom_node, TRUE);
+						$item_dom_node  = $base_dom->importNode($item_dom_node, TRUE);
 						$setting_node = $base_dom->getElementsByTagName('settings')->item(0);
 						if($place=='top' && !is_null($firstNode)){
 							$setting_node->insertBefore($item_dom_node, $firstNode);
@@ -473,20 +481,6 @@ function getExtensionConfigXml($extension_txt_id) {
 			}
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	$ext_configs = simplexml_import_dom($base_dom);
