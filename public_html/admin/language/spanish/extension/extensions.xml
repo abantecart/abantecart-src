@@ -295,7 +295,18 @@
 	</definition>
 	<definition>
 		<key>text_confirm_disable_dependants</key>
-		<value>
-			<![CDATA[Extensión %s Tiene a su cargo son: <br>%s<br> Se desactiva automáticamente también.<br> ¿Confirma usted?]]></value>
+		<value><![CDATA[Extensión %s Tiene a su cargo son: <br>%s<br> Se desactiva automáticamente también.<br> ¿Confirma usted?]]></value>
+	</definition>
+	<definition>
+		<key>text_status</key>
+		<value><![CDATA[Estado]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_minimum_total</key>
+		<value><![CDATA[Orden mínima Total:<span class="help">Cantidad mínima de pedido para llegar a permitir el pago</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_maximum_total</key>
+		<value><![CDATA[Máximo Total del pedido:<span class="help">Cantidad máxima cantidad que puede llegar a rechazar el pago</span>]]></value>
 	</definition>
 </definitions>

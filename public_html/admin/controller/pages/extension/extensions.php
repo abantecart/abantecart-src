@@ -309,7 +309,12 @@ class ControllerPagesExtensionExtensions extends AController {
 			if($item[ 'note' ]){
 				$data[ 'note' ] = $item[ 'note' ];
 			} else {
-				$data[ 'note' ] = $this->language->get($data[ 'name' ]);
+				$note_text = $this->language->get($data[ 'name' ]);
+				// if text definition not found - seek it in default settings definitions
+				if($note_text==$data[ 'name' ]){
+					$note_text = $this->language->get(str_replace($extension . '_','text_',$data[ 'name' ]));
+				}
+				$data[ 'note' ] = $note_text;
 			}
 			if ($item['style']) {
 				$data['style'] = $item['style'];

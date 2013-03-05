@@ -297,4 +297,16 @@
 		<value>
 			<![CDATA[Extension %s have dependants are: <br>%s<br> It will be disabled automatically too.<br> Do you confirm?]]></value>
 	</definition>
+	<definition>
+		<key>text_status</key>
+		<value><![CDATA[Status]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_minimum_total</key>
+		<value><![CDATA[Total Order Minimum:<span class="help">Minimum order amount to be reached to allow this payment</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_maximum_total</key>
+		<value><![CDATA[Total Order Maximum:<span class="help">Maximum order amount to be reached to disallow this payment</span>]]></value>
+	</definition>
 </definitions>

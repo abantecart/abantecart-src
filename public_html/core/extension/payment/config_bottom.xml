@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <extension>
     <settings>
-        <item id="minimum_total">
+        <item id="payment_minimum_total">
             <type>input</type>
             <default_value></default_value>
         </item>    
-        <item id="maximum_total">
+        <item id="payment_maximum_total">
             <type>input</type>
             <default_value></default_value>
         </item> 
