@@ -378,8 +378,7 @@ function checkRequirements() {
 
 /**
  * @param string $extension_txt_id
- * @throws AException
- * @return SimpleXMLElement
+ * @return SimpleXMLElement | bool
  */
 function getExtensionConfigXml($extension_txt_id) {
 	$registry = Registry::getInstance();
@@ -401,7 +400,7 @@ function getExtensionConfigXml($extension_txt_id) {
 			$err = new AError($error->message);
 			$err->toLog()->toDebug()->toMessages();
 		}
-		throw new AException (AC_ERR_LOAD, $err_text);
+		return false;
 	}
 
 	/**

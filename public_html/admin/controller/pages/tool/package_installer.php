@@ -583,36 +583,39 @@ class ControllerPagesToolPackageInstaller extends AController {
 				'name' => 'ftp_user',
 				'value' => $ftp_user,
 				'require' => true,
-				'help_url' => $this->gen_help_url('ftp_user'), ));
+				'help_url' => $this->gen_help_url('ftp_user'),
+				'style' => 'medium-field'));
 			$this->data[ 'form' ][ 'fpass' ] = $form->getFieldHtml(array(
 				'type' => 'password',
 				'name' => 'ftp_password',
 				'require' => true,
-				'value' => '', ));
+				'value' => '',
+				'style' => 'medium-field'));
 			$this->data[ 'form' ][ 'fhost' ] = $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'ftp_host',
 				'value' => $ftp_host,
-				'help_url' => $this->gen_help_url('ftp_host'), ));
-			$this->data[ 'form' ][ 'fpath' ] = $form->getFieldHtml(array(
+				'help_url' => $this->gen_help_url('ftp_host'),
+				'style' => 'medium-field' ));
+			/*$this->data[ 'form' ][ 'fpath' ] = $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'ftp_path',
 				'value' => $ftp_path,
-				'help_url' => $this->gen_help_url('ftp_path'), ));
+				'help_url' => $this->gen_help_url('ftp_path'), ));*/
 
 			$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(
 				array( 'type' => 'button',
-					'text' => $this->language->get('button_go'),
+					'text' => $this->language->get('text_continue'),
 					'style' => 'button1'
 				));
 
 			$this->data[ 'fuser' ] = $this->language->get('text_ftp_user');
 			$this->data[ 'fpassword' ] = $this->language->get('text_ftp_password');
 			$this->data[ 'fhost' ] = $this->language->get('text_ftp_host');
-			$this->data[ 'fpath' ] = $this->language->get('text_ftp_path');
+			//$this->data[ 'fpath' ] = $this->language->get('text_ftp_path');
 			$this->data[ 'heading_title' ] = $this->language->get('heading_title_ftp');
 			$this->data[ 'warning_ftp' ] = $this->language->get('warning_ftp');
-			$this->data[ 'warning_ftp' ] .= '<br>Need write permission for:<br>' . implode('<br>', $non_writables);
+			$this->data[ 'warning_ftp_details' ] = 'Need write permission for:<br><ul><li>' . implode('</li><li>', $non_writables)."</li></ul>";
 
 		} // license agreement
 		else {

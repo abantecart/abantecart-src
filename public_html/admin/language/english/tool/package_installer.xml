@@ -42,11 +42,7 @@
 	</definition>
 	<definition>
 		<key>text_ftp_host</key>
-		<value><![CDATA[ FTP Host: ftp://]]></value>
-	</definition>
-	<definition>
-		<key>text_ftp_path</key>
-		<value><![CDATA[ FTP Path:<span class="help">FTP path to Abantecart root directory</span> ]]></value>
+		<value><![CDATA[ FTP Host:]]></value>
 	</definition>
 	<definition>
 		<key>text_i_agree</key>
@@ -91,7 +87,7 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>warning_ftp</key>
-		<value><![CDATA[ Warning: Directory with extensions does not have write permission.<br>You can change this right or<br>use ftp-access to server for installing package (usually hosting provider sends it via email)<br> ]]></value>
+		<value><![CDATA[ Warning: Directory with extensions does not have write permission (<span id="see_details">see more details</span>)<br>You can change this right or<br>use ftp-access to server for installing package (usually hosting provider sends it via email)<br> ]]></value>
 	</definition>
 	<definition>
 		<key>warning_already_installed</key>

@@ -2039,3 +2039,8 @@ table.form tr td:first-child {
     font: 13px Arial, Helvetica, sans-serif;
     text-decoration: none;
 }
+
+#see_details{
+	cursor: pointer;
+	text-decoration:underline;
+}
