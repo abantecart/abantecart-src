@@ -74,22 +74,24 @@
 	    </tr>
 		<tr>
           <td colspan="2" align="left" valign="top">
-	         <table width="100%">
-				<?php foreach ($products as $product) { ?>
-				<tr>
-				  <td align="left" valign="top"><a href="<?php echo $product['href']; ?>"><?php echo $product['thumb']['thumb_html']; ?></a></td>
-				  <td align="left" valign="top"><a href="<?php echo $product['href']; ?>" class="checkout_heading"><?php echo $product['name']; ?></a>
-					<?php foreach ($product['option'] as $option) { ?>
-					<br />
-					&nbsp;<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
-					<?php } ?></td>
-				  <td align="right" valign="top"><?php echo $product['price']; ?></td>
-				  <td align="right" valign="top"><?php echo $product['quantity']; ?></td>
-				  <td align="right" valign="top" class="checkout_heading"><?php echo $product['total']; ?></td>
-				</tr>
-				<tr><td colspan="5"><div class="gray_separator"></div></td></tr>
-				<?php } ?>
-			  </table>
+
+				<table width="100%">
+					<?php foreach ($products as $product) { ?>
+					<tr>
+					  <td align="left" valign="top"><a href="<?php echo $product['href']; ?>"><?php echo $product['thumb']['thumb_html']; ?></a></td>
+					  <td align="left" valign="top"><a href="<?php echo $product['href']; ?>" class="checkout_heading"><?php echo $product['name']; ?></a>
+						<?php foreach ($product['option'] as $option) { ?>
+						<br />
+						&nbsp;<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
+						<?php } ?></td>
+					  <td align="right" valign="top"><?php echo $product['price']; ?></td>
+					  <td align="right" valign="top"><?php echo $product['quantity']; ?></td>
+					  <td align="right" valign="top" class="checkout_heading"><?php echo $product['total']; ?></td>
+					</tr>
+					<tr><td colspan="5"><div class="gray_separator"></div></td></tr>
+					<?php } ?>
+					<?php echo $this->getHookVar('virtuals'); ?>
+				</table>
           </td>
 	    </tr>
 	</table>

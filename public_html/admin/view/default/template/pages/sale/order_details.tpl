@@ -147,6 +147,8 @@
           <?php $order_product_row++ ?>
           <?php } ?>
 
+			<?php echo $this->getHookVar('virtuals'); ?>
+
           <tbody id="totals">
           <?php $order_total_row = 0; $count = 0; $total = count($totals); ?>
           <?php foreach ($totals as $total_row) { ?>
