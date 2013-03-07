@@ -505,12 +505,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 			$ftp_password = $this->request->post[ 'ftp_password' ];
 			$ftp_host = $this->request->post[ 'ftp_host' ];
 
-			$this->request->post[ 'ftp_path' ] = trim($this->request->post[ 'ftp_path' ], '/');
-			$this->request->post[ 'ftp_path' ] = $this->request->post[ 'ftp_path' ] ? '/' . trim($this->request->post[ 'ftp_path' ], '/') . '/' : '';
-			$ftp_path = $this->request->post[ 'ftp_path' ];
 
 			//let's try to connect
-			if (!$pmanager->checkFTP($ftp_user, $ftp_password, $ftp_host, $ftp_path)) {
+			if (!$pmanager->checkFTP($ftp_user, $ftp_password, $ftp_host)) {
 				$this->session->data[ 'error' ] = $pmanager->error;
 				$this->redirect($this->html->getSecureURL('tool/package_installer/agreement'));
 			}
@@ -642,6 +639,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 	}
 
 	public function install() {
+
 		$package_info = &$this->session->data[ 'package_info' ];
 		$package_id = $package_info[ 'package_id' ];
 		$package_dirname = $package_info[ 'package_dir' ];
@@ -689,12 +687,22 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}
 
 		if ($package_info[ 'package_content' ][ 'core' ]) { // for cart upgrade)
-			$result = $this->_upgradeCore();
-			if ($result === false) {
-				$this->_removeTempFiles();
-				unset($this->session->data[ 'package_info' ]);
-				$this->redirect($this->_get_begin_href());
-			}
+
+            if($upgrade_confirmed){
+			    $result = $this->_upgradeCore();
+                if ($result === false) {
+                    $this->_removeTempFiles();
+                    unset($this->session->data[ 'package_info' ]);
+                    $this->redirect($this->_get_begin_href());
+                }
+            }else{
+                $release_notes = $temp_dirname . $package_dirname . "/code/extensions/" . $ext . "/release_notes.txt";
+                if(file_exists($release_notes)){
+                    $this->data[ 'license_text' ] = file_get_contents($release_notes);
+                }
+                $this->data[ 'license_text' ] = htmlentities($this->data[ 'license_text' ], ENT_QUOTES, 'UTF-8');
+                $this->data[ 'license_text' ] = nl2br($this->data[ 'license_text' ]);
+            }
 		}
 
 		if ($result === true) { // if all  was installed
