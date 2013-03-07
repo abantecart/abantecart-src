@@ -639,7 +639,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 	}
 
 	public function install() {
-
+        $this->loadLanguage('tool/package_installer');
 		$package_info = &$this->session->data[ 'package_info' ];
 		$package_id = $package_info[ 'package_id' ];
 		$package_dirname = $package_info[ 'package_dir' ];
@@ -684,6 +684,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 				}
 				$extension_id = $ext;
 			}
+            $this->data[ 'heading_title' ] = $this->language->get('heading_title_license') . '. Extension: ' . $ext;
 		}
 
 		if ($package_info[ 'package_content' ][ 'core' ]) { // for cart upgrade)
@@ -696,9 +697,11 @@ class ControllerPagesToolPackageInstaller extends AController {
                     $this->redirect($this->_get_begin_href());
                 }
             }else{
-                $release_notes = $temp_dirname . $package_dirname . "/code/extensions/" . $ext . "/release_notes.txt";
+                $this->data['heading_title'] = 'Upgrade Core Attention';
+                $release_notes = $temp_dirname . $package_dirname . "/release_notes.txt";
+                $this->data[ 'license_text' ] .= sprintf($this->language->get('text_core_upgrade_attention'),$package_info[ 'package_version'])."\n\n\n\n";
                 if(file_exists($release_notes)){
-                    $this->data[ 'license_text' ] = file_get_contents($release_notes);
+                    $this->data[ 'license_text' ] .= file_get_contents($release_notes);
                 }
                 $this->data[ 'license_text' ] = htmlentities($this->data[ 'license_text' ], ENT_QUOTES, 'UTF-8');
                 $this->data[ 'license_text' ] = nl2br($this->data[ 'license_text' ]);
@@ -745,11 +748,12 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$this->data[ 'form' ][ 'disagree_button' ] = $form->getFieldHtml(array( 'type' => 'button',
 			'text' => $this->language->get('text_disagree'),
 			'style' => 'button' ));
-		$this->data[ 'heading_title' ] = $this->language->get('heading_title_license') . '. Extension: ' . $ext;
 
-		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array( 'type' => 'button',
-			'text' => $this->language->get('text_agree'),
-			'style' => 'button1'
+
+		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(
+            array( 'type' => 'button',
+			        'text' => $this->language->get('text_agree'),
+			        'style' => 'button1'
 		));
 
 		$this->view->batchAssign($this->data);

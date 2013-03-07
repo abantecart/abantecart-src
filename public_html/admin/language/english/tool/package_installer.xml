@@ -222,4 +222,10 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 		<key>error_move_backup</key>
 		<value><![CDATA[ Error: Can't backup files before upgrade. Check write permissions of directory: ]]></value>
 	</definition>
+	<definition>
+		<key>text_core_upgrade_attention</key>
+		<value><![CDATA[ Attention!
+AbanteCart is about to be upgraded to version %s!
+Automatic full backup will be created. It is recommended to try upgrade on test site first. ]]></value>
+	</definition>
 </definitions>
