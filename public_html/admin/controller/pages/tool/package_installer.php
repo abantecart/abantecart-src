@@ -522,13 +522,19 @@ class ControllerPagesToolPackageInstaller extends AController {
 			}
 		}
 		// if all fine show license agreement
-		if (!file_exists($package_info['tmp_dir'] . $package_dirname . "/license.txt") && !$ftp) {
+		if (
+            !file_exists($package_info['tmp_dir'] . $package_dirname . "/license.txt")
+            &&
+            !file_exists($package_info['tmp_dir'] . $package_dirname . "/release_notes.txt")
+            && !$ftp) {
 			$this->redirect($this->html->getSecureURL('tool/package_installer/install'));
 		}
 
         $this->data[ 'license_text' ] = '';
         if(file_exists($package_info[ 'tmp_dir' ] . $package_dirname . "/license.txt")){
 		    $this->data[ 'license_text' ] = file_get_contents($package_info[ 'tmp_dir' ] . $package_dirname . "/license.txt");
+        }elseif(file_exists($package_info[ 'tmp_dir' ] . $package_dirname . "/release_notes.txt")){
+            $this->data[ 'license_text' ] = file_get_contents($package_info[ 'tmp_dir' ] . $package_dirname . "/release_notes.txt");
         }
         $this->data[ 'license_text' ] = htmlentities($this->data[ 'license_text' ], ENT_QUOTES, 'UTF-8');
 		$this->data[ 'license_text' ] = nl2br($this->data[ 'license_text' ]);
