@@ -526,8 +526,11 @@ class ControllerPagesToolPackageInstaller extends AController {
 			$this->redirect($this->html->getSecureURL('tool/package_installer/install'));
 		}
 
-		$this->data[ 'license_text' ] = file_get_contents($package_info[ 'tmp_dir' ] . $package_dirname . "/license.txt");
-		$this->data[ 'license_text' ] = htmlentities($this->data[ 'license_text' ], ENT_QUOTES, 'UTF-8');
+        $this->data[ 'license_text' ] = '';
+        if(file_exists($package_info[ 'tmp_dir' ] . $package_dirname . "/license.txt")){
+		    $this->data[ 'license_text' ] = file_get_contents($package_info[ 'tmp_dir' ] . $package_dirname . "/license.txt");
+        }
+        $this->data[ 'license_text' ] = htmlentities($this->data[ 'license_text' ], ENT_QUOTES, 'UTF-8');
 		$this->data[ 'license_text' ] = nl2br($this->data[ 'license_text' ]);
 
 
@@ -573,10 +576,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		} // confirmation for ftp access to file system
 		elseif ($ftp) {
 			$ftp_user = $package_info[ 'ftp_user' ] ? $package_info[ 'ftp_user' ] : '';
-			$ftp_password = '';
 			$ftp_host = $package_info[ 'ftp_host' ] ? $package_info[ 'ftp_host' ] : '';
-			$ftp_path = '';
-
 
 			$this->data[ 'form' ][ 'fuser' ] = $form->getFieldHtml(array(
 				'type' => 'input',
@@ -597,11 +597,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 				'value' => $ftp_host,
 				'help_url' => $this->gen_help_url('ftp_host'),
 				'style' => 'medium-field' ));
-			/*$this->data[ 'form' ][ 'fpath' ] = $form->getFieldHtml(array(
-				'type' => 'input',
-				'name' => 'ftp_path',
-				'value' => $ftp_path,
-				'help_url' => $this->gen_help_url('ftp_path'), ));*/
 
 			$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(
 				array( 'type' => 'button',
@@ -612,7 +607,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 			$this->data[ 'fuser' ] = $this->language->get('text_ftp_user');
 			$this->data[ 'fpassword' ] = $this->language->get('text_ftp_password');
 			$this->data[ 'fhost' ] = $this->language->get('text_ftp_host');
-			//$this->data[ 'fpath' ] = $this->language->get('text_ftp_path');
 			$this->data[ 'heading_title' ] = $this->language->get('heading_title_ftp');
 			$this->data[ 'warning_ftp' ] = $this->language->get('warning_ftp');
 			$this->data[ 'warning_ftp_details' ] = 'Need write permission for:<br><ul><li>' . implode('</li><li>', $non_writables)."</li></ul>";

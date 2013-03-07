@@ -253,7 +253,7 @@ class APackageManager {
 	/**
 	 * method removes non-empty directory (use it carefully)
 	 *
-	 * @param srting $dir
+	 * @param string $dir
 	 * @return boolean
 	 */
 	public function removeDir($dir = '') {
@@ -339,19 +339,15 @@ class APackageManager {
 	 * @param string $ftp_path
 	 * @return bool
 	 */
-	public function checkFTP($ftp_user, $ftp_password = '', $ftp_host = '', $ftp_path = '') {
+	public function checkFTP($ftp_user, $ftp_password = '', $ftp_host = '', $ftp_path = '', $ftp_port=21) {
 		$this->load->language('tool/package_installer');
 		if (!$ftp_host) {
 			$ftp_host = 'localhost';
 		} else { // looking for port number
-			$start = strrchr($ftp_host, ':');
-			if ($start !== FALSE) {
-				$ftp_port = substr($ftp_host, $start + 1);
-				if ((int)$ftp_port == $ftp_port) {
-					$ftp_host = substr($ftp_host, 0, $start);
+            $ftp_host = explode(':',$ftp_host);
+            $ftp_port = (int)$ftp_host[1];
+            $ftp_host = $ftp_host[0];
 				}
-			}
-		}
 
 		$ftp_port = !$ftp_port ? 21 : $ftp_port;
 
@@ -373,41 +369,8 @@ class APackageManager {
 				return false;
 			}
 
-			$ftp_path = !$ftp_path ? $this->_ftp_find_app_root($fconnect, $ftp_user) : $ftp_path;
+			$ftp_path = !$ftp_path ? $this->_ftp_find_app_root($fconnect) : $ftp_path;
 
-			if (is_array($ftp_path) && $ftp_path) {
-				$temp = array();
-				foreach ($ftp_path as $ftp_base_path) {
-					if (file_exists($ftp_base_path . 'system/config.php')) {
-						$config_content = file_get_contents($ftp_base_path . 'system/config.php');
-						if (strpos($config_content, UNIQUE_ID) !== FALSE) {
-							$temp[] = $ftp_base_path;
-							break;
-						}
-					}
-				}
-				$ftp_path = $temp;
-				unset($temp);
-			}
-			// it made for recognizing a few copy of cart with same unique id in config
-			$ftp_path = is_array($ftp_path) && sizeof($ftp_path) == 1 ? $ftp_path[0] : $ftp_path;
-			if ($ftp_path) {
-				if (!ftp_chdir($fconnect, $ftp_path)) {
-					if (is_array($ftp_path)) {
-						$this->error = $this->language->get('error_ftp_path_array');
-						$this->session->data['package_info']['ftp_path'] = '';
-						// show path suggestions
-						foreach ($ftp_path as $suggest) {
-							$this->error .= '<br>' . $suggest;
-						}
-					} else {
-						$this->session->data['package_info']['ftp_path'] = $ftp_path; // for form default value
-						$this->error = $this->language->get('error_ftp_path');
-					}
-					ftp_close($fconnect);
-					return false;
-				}
-			}
 			// if all fine  - write ftp parameters into session
 			$this->session->data['package_info']['ftp'] = true;
 			$this->session->data['package_info']['ftp_user'] = $ftp_user;
@@ -415,7 +378,7 @@ class APackageManager {
 			$this->session->data['package_info']['ftp_host'] = $ftp_host;
 			$this->session->data['package_info']['ftp_port'] = $ftp_port;
 			$this->session->data['package_info']['ftp_path'] = $ftp_path;
-			//$this->session->data['package_info']['tmp_dir'] = sys_get_temp_dir ().'/';
+
 			ftp_close($fconnect);
 		} else {
 			$this->error = $this->language->get('error_ftp_connect');
@@ -427,41 +390,43 @@ class APackageManager {
 
 	/**
 	 * @param resource $fconnect
-	 * @param string $ftp_user
-	 * @param string $needle
-	 * @return array|bool
+	 * @return string|bool
 	 */
-	private function _ftp_find_app_root($fconnect, $ftp_user = '', $needle = 'extensions') {
+	private function _ftp_find_app_root($fconnect) {
 		if (!$fconnect) {
 			return false;
 		}
-		$prefix = ftp_pwd($fconnect);
-		$top_dirs = array('home', 'htdocs', $ftp_user, $_SERVER['HTTP_HOST'], 'www', 'public_html');
-		foreach ($top_dirs as $dir) {
-
-			$contents = ftp_nlist($fconnect, $dir);
-			if (!$contents) continue;
-
-			if (in_array($dir . '/' . $needle, $contents)) {
-				$ftp_base_path[] = $prefix . '/' . $dir . '/';
+        $abs_path = pathinfo($_SERVER[ 'DOCUMENT_ROOT' ].$_SERVER[ 'PHP_SELF' ],PATHINFO_DIRNAME);
+        // first fo all try to change directory
+        //(for case when ftp-user does not locked in his ftp root directory)
+        if(ftp_chdir($fconnect, $abs_path)){
+            return $abs_path.'/';
+        }else{
+            //for ftp chrooted users
+            //get list of directories
+            if ($files = ftp_nlist($fconnect,'.')){
+                foreach ($files as $file) {
+                    if (ftp_size($fconnect, $file) == "-1"){
+                        $ftp_dir_list[] = $file;
 			}
-
-			foreach ($contents as $dir2) {
-				$contents2 = ftp_nlist($fconnect, $dir2);
-				if (in_array($dir2 . '/' . $needle, $contents2)) {
-					$ftp_base_path[] = $prefix . '/' . $dir2 . '/';
 				}
-				foreach ($contents2 as $dir3) {
-					$contents3 = ftp_nlist($fconnect, $dir3);
-					if (in_array($dir3 . '/' . $needle, $contents3)) {
-						$ftp_base_path[] = $prefix . '/' . $dir3 . '/';
+                //find ftp-directory name inside absolute path
+                $target_dir = null;
+                if($ftp_dir_list){
+                    foreach($ftp_dir_list as $dir){
+                        if(is_int($pos = strpos($abs_path,$dir))){
+                            $target_dir = substr($abs_path,$pos);
+                            break;
 					}
 				}
+                    if($target_dir){
+                        return trim($target_dir,'/').'/';
 			}
 		}
-		return $ftp_base_path;
 	}
-
+        }
+        return false;
+	}
 
 	/**
 	 * Function for moving directory or file via ftp-connection
