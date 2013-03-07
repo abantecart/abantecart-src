@@ -19,6 +19,9 @@
 ------------------------------------------------------------------------------*/
 
 class ControllerBlocksCart extends AController {
+	
+	public $data = array();
+	
 	public function main() {
 
         //init controller data
@@ -26,20 +29,20 @@ class ControllerBlocksCart extends AController {
 
 		$this->loadModel('tool/seo_url');
 		$this->loadLanguage('total/total');
-    	$this->view->assign('heading_title', $this->language->get('heading_title'));
+    	$this->data['heading_title'] = $this->language->get('heading_title');
     	
-		$this->view->assign('text_subtotal', $this->language->get('text_subtotal'));
-		$this->view->assign('text_empty', $this->language->get('text_empty'));
-		$this->view->assign('text_remove', $this->language->get('text_remove'));
-		$this->view->assign('text_confirm', $this->language->get('text_confirm'));
-		$this->view->assign('text_view', $this->language->get('text_view'));
-		$this->view->assign('text_checkout', $this->language->get('text_checkout'));
-		$this->view->assign('text_items', $this->language->get('text_items'));
-		$this->view->assign('text_total', $this->language->get('text_total'));
+		$this->data['text_subtotal'] = $this->language->get('text_subtotal');
+		$this->data['text_empty'] = $this->language->get('text_empty');
+		$this->data['text_remove'] = $this->language->get('text_remove');
+		$this->data['text_confirm'] = $this->language->get('text_confirm');
+		$this->data['text_view'] = $this->language->get('text_view');
+		$this->data['text_checkout'] = $this->language->get('text_checkout');
+		$this->data['text_items'] = $this->language->get('text_items');
+		$this->data['text_total'] = $this->language->get('text_total');
 
-		$this->view->assign('view', $this->html->getURL('checkout/cart'));
-		$this->view->assign('remove', $this->html->getURL('r/checkout/cart'));
-		$this->view->assign('checkout', $this->html->getURL('checkout/shipping'));
+		$this->data['view'] = $this->html->getURL('checkout/cart');
+		$this->data['remove'] = $this->html->getURL('r/checkout/cart');
+		$this->data['checkout'] = $this->html->getURL('checkout/shipping');
 		
 		$products = array();
 		
@@ -68,14 +71,15 @@ class ControllerBlocksCart extends AController {
       		);
     	}
 
-        $this->view->assign('products', $products );
+        $this->data['products'] = $products;
 		
-		$this->view->assign('total_qty', $qty);
+		$this->data['total_qty'] = $qty;
 	
       	$display_totals = $this->cart->buildTotalDisplay();      				
-    	$this->view->assign('totals', $display_totals['total_data']);
+    	$this->data['totals'] = $display_totals['total_data'];
 		
-		$this->view->assign('ajax', $this->config->get('cart_ajax'));
+		$this->data['ajax'] = $this->config->get('cart_ajax');
+		$this->view->batchAssign($this->data);
         $this->processTemplate();
 		
 		//init controller data
