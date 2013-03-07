@@ -479,21 +479,18 @@ class ControllerPagesToolPackageInstaller extends AController {
 				// if even one destination directory is not writable - use ftp mode
 				if ($dst_dirs) {
 					foreach ($dst_dirs as $dir) {
-						if (file_exists(DIR_ROOT . '/' . $dir)) {
-							if (!is_writable(DIR_ROOT . '/' . $dir)) {
-								$ftp = true; // enable ftp-mode
-								$non_writables[ ] = DIR_ROOT . '/' . $dir;
-							}
-						}
+                        if (!is_writable(DIR_ROOT . '/' . $dir)) {
+                            $ftp = true; // enable ftp-mode
+                            $non_writables[ ] = DIR_ROOT . '/' . $dir;
+                        }
 					}
 				}
 			} else {
 				foreach ($package_info[ 'package_content' ][ 'core' ] as $corefile) {
-					if (file_exists(DIR_ROOT . '/' . $corefile)) {
-						if (!is_writable(DIR_ROOT . '/' . $corefile)) {
+					if (!is_writable(DIR_ROOT . '/' . $corefile)
+                        || !is_writable(pathinfo(DIR_ROOT . '/' . $corefile,PATHINFO_DIRNAME))) {
 							$ftp = true; // enable ftp-mode
 							$non_writables[ ] = DIR_ROOT . '/' . $corefile;
-						}
 					}
 				}
 			}
@@ -519,19 +516,13 @@ class ControllerPagesToolPackageInstaller extends AController {
 			}
 		}
 		// if all fine show license agreement
-		if (
-            !file_exists($package_info['tmp_dir'] . $package_dirname . "/license.txt")
-            &&
-            !file_exists($package_info['tmp_dir'] . $package_dirname . "/release_notes.txt")
-            && !$ftp) {
+		if (!file_exists($package_info['tmp_dir'] . $package_dirname . "/license.txt") && !$ftp) {
 			$this->redirect($this->html->getSecureURL('tool/package_installer/install'));
 		}
 
         $this->data[ 'license_text' ] = '';
         if(file_exists($package_info[ 'tmp_dir' ] . $package_dirname . "/license.txt")){
 		    $this->data[ 'license_text' ] = file_get_contents($package_info[ 'tmp_dir' ] . $package_dirname . "/license.txt");
-        }elseif(file_exists($package_info[ 'tmp_dir' ] . $package_dirname . "/release_notes.txt")){
-            $this->data[ 'license_text' ] = file_get_contents($package_info[ 'tmp_dir' ] . $package_dirname . "/release_notes.txt");
         }
         $this->data[ 'license_text' ] = htmlentities($this->data[ 'license_text' ], ENT_QUOTES, 'UTF-8');
 		$this->data[ 'license_text' ] = nl2br($this->data[ 'license_text' ]);
@@ -840,9 +831,18 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 		// #3. if all fine - copy extension package files
 		if ($package_info[ 'ftp' ]) { // if ftp-access
-			$result = $pmanager->ftp_move($temp_dirname . $package_dirname . "/code/extensions/" . $extension_id,
+            $ftp_user = $this->session->data['package_info']['ftp_user'];
+            $ftp_password = $this->session->data['package_info']['ftp_password'];
+            $ftp_port = $this->session->data['package_info']['ftp_port'];
+            $ftp_host = $this->session->data['package_info']['ftp_host'];
+
+            $fconnect = ftp_connect($ftp_host, $ftp_port);
+            ftp_login($fconnect, $ftp_user, $ftp_password);
+            ftp_pasv($fconnect, true);
+			$result = $pmanager->ftp_move($fconnect, $temp_dirname . $package_dirname . "/code/extensions/" . $extension_id,
 										  $extension_id,
 										  $package_info[ 'ftp_path' ] . 'extensions/' . $extension_id);
+            ftp_close($fconnect);
 		} else {
 			$result = rename($temp_dirname . $package_dirname . "/code/extensions/" . $extension_id, DIR_EXT.$extension_id);
 			//this method requires permission set to be set
@@ -974,6 +974,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 		) {
 			return false;
 		}
+
+        //set ftp to false. it's not needed for temp files clean, because all files was created by apache user
+        $this->session->data[ 'package_info' ]['ftp'] = false;
 		$pmanager = new APackageManager();
 		switch ($target) {
 			case 'both':
