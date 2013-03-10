@@ -97,7 +97,7 @@
       <div class="buttons">
         <table>
           <tr>
-            <td align="right"><? echo  $form['continue']; ?></td>
+            <td align="right"><?php echo  $form['continue']; ?></td>
           </tr>
         </table>
       </div>
