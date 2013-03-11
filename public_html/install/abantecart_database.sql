@@ -496,7 +496,7 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 ('total', 'coupon', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'shipping', 'shipping', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'low_order_fee', '', 0, 1, '1.0', null, now(), now(), now() ),
-('total', 'handling_fee', '', 0, 1, '1.0', null, now(), now(), now() ),
+('total', 'handling', '', 0, 1, '1.0', null, now(), now(), now() ),
 ('total', 'sub_total', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'tax', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'total', '', 1, 1, '1.0', null, now(), now(), now() ),

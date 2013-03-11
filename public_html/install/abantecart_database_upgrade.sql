@@ -1,0 +1,1 @@
+UPDATE `ac_extensions` SET `key`='handling' where `key`='handling_fee';
