@@ -38,7 +38,7 @@ class ControllerBlocksContent extends AController {
         $this->view->assign('contact', $this->html->getURL('content/contact') );
         $this->view->assign('sitemap', $this->html->getURL('content/sitemap') );
 
-		$this->processTemplate('blocks/content.tpl');
+		$this->processTemplate();
 
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
