@@ -173,8 +173,8 @@ class ModelAccountCustomer extends Model {
 	
 	public function validateRegistrationData( $data ) {
 		$error = array();
-
-		if ( $this->config->get('prevent_email_as_login') ) {
+		$subscriber = $this->request->get_or_post('subscriber');
+		if ( $this->config->get('prevent_email_as_login') && !$subscriber) {
 			//validate only if email login is not allowed
 			$login_name_pattern = '/^[\w._-]+$/i';
     		if ((strlen(utf8_decode($data['loginname'])) < 5) || (strlen(utf8_decode($data['loginname'])) > 64)
@@ -203,47 +203,50 @@ class ModelAccountCustomer extends Model {
     	if ($this->getTotalCustomersByEmail($data['email'])) {
       		$error['warning'] = $this->language->get('error_exists');
     	}
-		
-    	if ((strlen(utf8_decode($data['telephone'])) < 3) || (strlen(utf8_decode($data['telephone'])) > 32)) {
-      		$error['telephone'] = $this->language->get('error_telephone');
-    	}
 
-    	if ((strlen(utf8_decode($data['address_1'])) < 3) || (strlen(utf8_decode($data['address_1'])) > 128)) {
-      		$error['address_1'] = $this->language->get('error_address_1');
-    	}
 
-    	if ((strlen(utf8_decode($data['city'])) < 3) || (strlen(utf8_decode($data['city'])) > 128)) {
-      		$error['city'] = $this->language->get('error_city');
-    	}
-    	if ((strlen(utf8_decode($data['postcode'])) < 3) || (strlen(utf8_decode($data['postcode'])) > 128)) {
-      		$error['postcode'] = $this->language->get('error_postcode');
-    	}
+		if(!$subscriber){
+			if ((strlen(utf8_decode($data['telephone'])) < 3) || (strlen(utf8_decode($data['telephone'])) > 32)) {
+				$error['telephone'] = $this->language->get('error_telephone');
+			}
 
-    	if ($data['country_id'] == 'FALSE') {
-      		$error['country'] = $this->language->get('error_country');
-    	}
-		
-    	if ($data['zone_id'] == 'FALSE') {
-      		$error['zone'] = $this->language->get('error_zone');
-    	}
+			if ((strlen(utf8_decode($data['address_1'])) < 3) || (strlen(utf8_decode($data['address_1'])) > 128)) {
+				$error['address_1'] = $this->language->get('error_address_1');
+			}
 
-    	if ((strlen(utf8_decode($data['password'])) < 4) || (strlen(utf8_decode($data['password'])) > 20)) {
-      		$error['password'] = $this->language->get('error_password');
-    	}
+			if ((strlen(utf8_decode($data['city'])) < 3) || (strlen(utf8_decode($data['city'])) > 128)) {
+				$error['city'] = $this->language->get('error_city');
+			}
+			if ((strlen(utf8_decode($data['postcode'])) < 3) || (strlen(utf8_decode($data['postcode'])) > 128)) {
+				$error['postcode'] = $this->language->get('error_postcode');
+			}
 
-    	if ($data['confirm'] != $data['password']) {
-      		$error['confirm'] = $this->language->get('error_confirm');
-    	}
+			if ($data['country_id'] == 'FALSE') {
+				$error['country'] = $this->language->get('error_country');
+			}
 
-		if ($this->config->get('config_account_id')) {
-			$this->load->model('catalog/content');
-			
-			$content_info = $this->model_catalog_content->getContent($this->config->get('config_account_id'));
+			if ($data['zone_id'] == 'FALSE') {
+				$error['zone'] = $this->language->get('error_zone');
+			}
 
-			if ($content_info) {
-    			if (!isset($data['agree'])) {
-      				$error['warning'] = sprintf($this->language->get('error_agree'), $content_info['title']);
-    			}
+			if ((strlen(utf8_decode($data['password'])) < 4) || (strlen(utf8_decode($data['password'])) > 20)) {
+				$error['password'] = $this->language->get('error_password');
+			}
+
+			if ($data['confirm'] != $data['password']) {
+				$error['confirm'] = $this->language->get('error_confirm');
+			}
+
+			if ($this->config->get('config_account_id')) {
+				$this->load->model('catalog/content');
+
+				$content_info = $this->model_catalog_content->getContent($this->config->get('config_account_id'));
+
+				if ($content_info) {
+					if (!isset($data['agree'])) {
+						$error['warning'] = sprintf($this->language->get('error_agree'), $content_info['title']);
+					}
+				}
 			}
 		}
 		
