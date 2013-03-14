@@ -1926,12 +1926,12 @@ table.form tr td:first-child {
     height: 20px;
 }
 
-#values {
+#values, #file_settings {
     margin: 10px 0;
     display: none;
 }
 
-#values a, #discount a, #option_values_tbl a, #add_option_value {
+#values a, #discount a, #option_values_tbl a, #add_option_value, #file_settings a {
     width: 16px;
     height: 20px;
     line-height: 20px;
@@ -1941,7 +1941,7 @@ table.form tr td:first-child {
     vertical-align: middle
 }
 
-#values .value {
+#values .value, #file_settings .value {
     margin: 3px 0;
 }
 

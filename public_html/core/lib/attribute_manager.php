@@ -68,6 +68,7 @@ class AAttribute_Manager extends AAttribute {
 								element_type = '" . $this->db->escape($data['element_type']) . "',
 								sort_order = '" . $this->db->escape($data['sort_order']) . "',
 								required = '" . $this->db->escape($data['required']) . "',
+								settings = '" . $this->db->escape(serialize($data['settings'])) . "',
 								status = '" . $this->db->escape($data['status']) . "' ");
 
 	    $attribute_id = $this->db->getLastId();
@@ -97,6 +98,7 @@ class AAttribute_Manager extends AAttribute {
                          'element_type',
                          'required',
                          'sort_order',
+						 'settings',
                          'status');
 		$elements_with_options = HtmlElementFactory::getElementsWithOptions();
 	    $attribute = $this->getAttribute($attribute_id, $language_id);
@@ -113,10 +115,15 @@ class AAttribute_Manager extends AAttribute {
 		    }
 	    }
 
+		if ( has_value($data['settings']) ) {
+			$data['settings'] = serialize($data['settings']);
+		}
+
         $update = array();
         foreach ( $fields as $f ) {
-            if ( isset($data[$f]) )
+            if ( isset($data[$f]) ) {
                 $update[] = "$f = '".$this->db->escape($data[$f])."'";
+			}
         }
         if ( !empty($update) ) {
 	        $sql = "UPDATE " . DB_PREFIX . "global_attributes
