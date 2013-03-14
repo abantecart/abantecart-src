@@ -1409,7 +1409,7 @@ DROP TABLE IF EXISTS `ac_url_aliases`;
 CREATE TABLE `ac_url_aliases` (
   `url_alias_id` int(11) NOT NULL AUTO_INCREMENT,
   `query` varchar(255) COLLATE utf8_bin NOT NULL,
-  `keyword` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable';,
+  `keyword` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   `language_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`url_alias_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
@@ -7038,9 +7038,10 @@ CREATE TABLE `ac_global_attributes` (
   `attribute_group_id` 	int(11),
   `attribute_type_id` 	int(11) NOT NULL,
   `element_type` 		char(1) NOT NULL DEFAULT 'I',
-  -- I - text input, T - Text area, S - Select, M - multivalue select, C - Checkbox, R - radio buttons, U - File upload, H - Hidden, G -Checkbox Group, D - Date, E - time, K - Captcha 
+  -- I - text input, T - Text area, S - Select, M - multivalue select, C - Checkbox, R - radio buttons, U - File upload, H - Hidden, G -Checkbox Group, D - Date, E - time, K - Captcha
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   `required` 			smallint(1) NOT NULL default '0',
+  `settings`			text COLLATE utf8_bin NOT NULL DEFAULT '',
   `status` 				smallint(1) NOT NULL default '0',
   PRIMARY KEY (`attribute_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;	
