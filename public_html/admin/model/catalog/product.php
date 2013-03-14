@@ -62,8 +62,8 @@ class ModelCatalogProduct extends Model {
 				$update[(int)$this->session->data['content_language_id']][$field] = $value;
 			}
 			$this->language->replaceDescriptions('product_descriptions',
-				array('product_id' => (int)$product_id),
-				$update);
+												array('product_id' => (int)$product_id),
+												$update);
 		} else { // if cloning
 			foreach ($data['product_description'] as $language_id => $value) {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "product_descriptions
@@ -83,7 +83,7 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if ($data['keyword']) {
-			$seo_key = $data['keyword'];
+			$seo_key = SEOEncode($data['keyword']);
 		} else {
 			//Default behavior to save SEO URL keword from product name in default language
 			$languages = $this->language->getAvailableLanguages();
@@ -101,10 +101,16 @@ class ModelCatalogProduct extends Model {
 				$seo_key .= '_' . $product_id;
 			}
 		}
-
-		$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases
-						  SET query = 'product_id=" . (int)$product_id . "',
-						  keyword = '" . $this->db->escape($seo_key) . "'");
+		if($seo_key){
+			$this->language->replaceDescriptions('url_aliases',
+												array('query' => "product_id=" . (int)$product_id),
+												array((int)$this->session->data['content_language_id'] => array('keyword'=>$seo_key)));
+		}else{
+			$this->db->query("DELETE
+							FROM " . DB_PREFIX . "url_aliases
+							WHERE query = 'product_id=" . (int)$product_id . "'
+								AND language_id = '".(int)$this->session->data['content_language_id']."'");
+		}
 
 		if ($data['product_tags']) {
 			$tags = explode(',', $data['product_tags']);
@@ -243,12 +249,16 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if (isset($data['keyword'])) {
-			$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases
-							WHERE query = 'product_id=" . (int)$product_id . "'");
-			if ($data['keyword']) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases
-									SET keyword = '" . $this->db->escape($data['keyword']) . "',
-										query = 'product_id=" . (int)$product_id . "'");
+			$data['keyword'] =  SEOEncode($data['keyword']);
+			if($data['keyword']){
+				$this->language->replaceDescriptions('url_aliases',
+													array('query' => "product_id=" . (int)$product_id),
+													array((int)$this->session->data['content_language_id'] => array('keyword'=>$data['keyword'])));
+			}else{
+				$this->db->query("DELETE
+								FROM " . DB_PREFIX . "url_aliases
+								WHERE query = 'product_id=" . (int)$product_id . "'
+									AND language_id = '".(int)$this->session->data['content_language_id']."'");
 			}
 		}
 
@@ -947,7 +957,8 @@ class ModelCatalogProduct extends Model {
 		$query = $this->db->query("SELECT DISTINCT *, p.product_id, COALESCE(pf.product_id, 0) as featured,
 										(SELECT keyword
 										 FROM " . DB_PREFIX . "url_aliases
-										 WHERE query = 'product_id=" . (int)$product_id . "') AS keyword
+										 WHERE query = 'product_id=" . (int)$product_id . "'
+										 	AND language_id='".(int)$this->session->data['content_language_id']."' ) AS keyword
 									FROM " . DB_PREFIX . "products p
 									LEFT JOIN " . DB_PREFIX . "products_featured pf ON pf.product_id = p.product_id
 									LEFT JOIN " . DB_PREFIX . "product_descriptions pd

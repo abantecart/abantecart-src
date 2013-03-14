@@ -33,11 +33,11 @@ class ModelToolSeoUrl extends Model {
 				if (($key == 'product_id') || ($key == 'manufacturer_id') || ($key == 'content_id')) {
 					$query = $this->db->query("SELECT *
 											   FROM " . DB_PREFIX . "url_aliases
-											   WHERE `query` = '" . $this->db->escape($key . '=' . (int)$value) . "'");
+											   WHERE `query` = '" . $this->db->escape($key . '=' . (int)$value) . "'
+											   	AND language_id='".(int)$this->config->get('storefront_language_id')."'");
 				
 					if ($query->num_rows) {
 						$url .= '/' . $query->row['keyword'];
-						
 						unset($data[$key]);
 					}					
 				} elseif ($key == 'path' || $key == 'category_id') {
@@ -49,7 +49,8 @@ class ModelToolSeoUrl extends Model {
 
 						$sql = "SELECT *
 								FROM " . DB_PREFIX . "url_aliases
-								WHERE `query` = 'category_id=" . $this->db->escape($value) . "'";
+								WHERE `query` = 'category_id=" . $this->db->escape($value) . "'
+									AND language_id='".(int)$this->config->get('storefront_language_id')."'";
 						
 						$query = $this->db->query($sql);
 						if ($query->num_rows) {

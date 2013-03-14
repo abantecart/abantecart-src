@@ -109,8 +109,8 @@ class AHtml extends AController {
 	/**
 	 * Current URL built based on get params with ability to exclude params
 	 *
-	 * @param $params_arr array - data array to process
 	 * @param $filter_params array - array of vars to filter
+	 * @internal param array $params_arr - data array to process
 	 * @return string - url without unwanted filter parameters
 	 */
 	public function currentURL($filter_params = array()) {	
@@ -170,16 +170,41 @@ class AHtml extends AController {
 	}
 
 	/**
-	 * Depricated !!!!!!!!! Use filterQueryParams() instead
 	 * remove get parameters from url.
-	 *
+	 * @deprecated since 1.1.4!!!!!!!!! Use filterQueryParams() instead
 	 * @param $url - url to process
-	 * @param $vars string|array - single var or array of vars
+	 * @param $remove_vars
+	 * @internal param array|string $vars - single var or array of vars
 	 * @return string - url without unwanted get parameters
 	 */
 	public function removeQueryVar($url, $remove_vars) {
 		return $this->filterQueryParams($url, $remove_vars);
 	}
+
+	/**
+	 * function returns text error or empty
+	 * @param string $query
+	 * @param string $keyword
+	 * @return string
+	 */
+	public function isSEOkeywordExists($query,$keyword=''){
+		if(!$keyword){
+			return '';
+		}
+		$seo_key = SEOEncode($keyword);
+
+		$db = $this->registry->get('db');
+		$sql = "SELECT * FROM ".DB_PREFIX."url_aliases WHERE query<>'".$db->escape($query)."' AND keyword='".$db->escape($seo_key)."'";
+		$result = $db->query($sql);
+		if($result->num_rows){
+			$url = HTTP_CATALOG.$seo_key;
+			return	sprintf($this->registry->get('language')->get('error_seo_keyword'),$url,$seo_key);
+		}
+
+		return '';
+	}
+
+
 
 
 	/**
@@ -485,8 +510,9 @@ class AHtml extends AController {
 
 
 	/**
-	 * @param  $html - text that might contain internal links #admin# or #storefront#
+	 * @param $html - text that might contain internal links #admin# or #storefront#
 	 *           $mode  - 'href' create complete a tag or default just replace URL
+	 * @param string $type
 	 * @return string - html code with parsed internal URLs
 	 */
 	public function convertLinks($html, $type = '') {

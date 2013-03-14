@@ -21,7 +21,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridManufacturer extends AController {
-	private $error = array();
 
 	public function main() {
 
@@ -49,8 +48,8 @@ class ControllerResponsesListingGridManufacturer extends AController {
 		foreach ($results as $result) {
 			$thumbnail = $resource->getMainThumb('manufacturers',
 				$result[ 'manufacturer_id' ],
-				$this->config->get('config_image_grid_width'),
-				$this->config->get('config_image_grid_height'),
+				(int)$this->config->get('config_image_grid_width'),
+				(int)$this->config->get('config_image_grid_height'),
 				true);
 
 			$response->rows[ $i ][ 'id' ] = $result[ 'manufacturer_id' ];
@@ -102,7 +101,7 @@ class ControllerResponsesListingGridManufacturer extends AController {
 						$product_total = $this->model_catalog_product->getTotalProductsByManufacturerId($id);
 						if ($product_total) {
 							$this->response->setOutput(sprintf($this->language->get('error_product'), $product_total));
-							return;
+							return null;
 						}
 
 						$this->model_catalog_manufacturer->deleteManufacturer($id);
@@ -152,9 +151,16 @@ class ControllerResponsesListingGridManufacturer extends AController {
 		if (isset($this->request->get[ 'id' ])) {
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $field => $value) {
+				if($field=='keyword'){
+					if($err = $this->html->isSEOkeywordExists('manufacturer_id='.$this->request->get['id'], $value)){
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
+					}
+				}
+
 				$this->model_catalog_manufacturer->editManufacturer($this->request->get[ 'id' ], array( $field => $value ));
 			}
-			return;
+			return null;
 		}
 
 		//request sent from jGrid. ID is key of array
@@ -169,5 +175,3 @@ class ControllerResponsesListingGridManufacturer extends AController {
 	}
 
 }
-
-?>

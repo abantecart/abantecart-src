@@ -21,7 +21,6 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridCategory extends AController {
-	private $error = array();
 
     public function main() {
 
@@ -40,7 +39,7 @@ class ControllerResponsesListingGridCategory extends AController {
 	    //Add custom params
 	    $filter_data['parent_id'] = ( isset( $this->request->get['parent_id'] ) ? $this->request->get['parent_id'] : 0 );
 	    $new_level = 0;
-	    $leafnodes = array();
+
 		//get all leave categories 
 		$leafnodes = $this->model_catalog_category->getLeafCategories();
 	    if ($this->request->post['nodeid'] ) {
@@ -63,13 +62,13 @@ class ControllerResponsesListingGridCategory extends AController {
 	    foreach ($results as $result) {
 		    $thumbnail = $resource->getMainThumb('categories',
 			                                     $result['category_id'],
-			                                     $this->config->get('config_image_grid_width'),
-			                                     $this->config->get('config_image_grid_height'),true);
+			                                     (int)$this->config->get('config_image_grid_width'),
+			                                     (int)$this->config->get('config_image_grid_height'),true);
 
             $response->rows[$i]['id'] = $result['category_id'];
             $cnt = $this->model_catalog_category->getCategoriesData(array('parent_id'=>$result['category_id']),'total_only');
-            //treegrid structure
-            $name_lable = '';
+            //tree grid structure
+
             if ( $this->config->get('config_show_tree_data') ) {
             	$name_lable = '<label style="white-space: nowrap;">'.$result['basename'].'</label>';
             } else {
@@ -183,9 +182,16 @@ class ControllerResponsesListingGridCategory extends AController {
 	    if ( isset( $this->request->get['id'] ) ) {
 		    //request sent from edit form. ID in url
 		    foreach ($this->request->post as $field => $value ) {
+				if($field=='keyword'){
+					if($err = $this->html->isSEOkeywordExists('category_id='.$this->request->get['id'], $value)){
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
+					}
+				}
+
 				$this->model_catalog_category->editCategory($this->request->get['id'], array($field => $value) );
 			}
-		    return;
+		    return null;
 	    }
 		$language_id = $this->session->data['content_language_id'];
 	    //request sent from jGrid. ID is key of array
@@ -207,4 +213,3 @@ class ControllerResponsesListingGridCategory extends AController {
 	}
 
 }
-?>

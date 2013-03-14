@@ -269,7 +269,6 @@ class ControllerPagesCatalogProduct extends AController {
 			$this->session->data['success'] = sprintf($this->language->get('text_success_copy'), $name);
 			$this->redirect($this->html->getSecureURL('catalog/product'));
 		}
-    	$this->getList();
 
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -769,6 +768,10 @@ class ControllerPagesCatalogProduct extends AController {
     	if ( strlen(utf8_decode($this->request->post['model'])) > 64 ) {
       		$this->error['model'] = $this->language->get('error_model');
     	}
+
+    	if (($error_text = $this->html->isSEOkeywordExists('product_id='.$this->request->get['product_id'], $this->request->post['keyword']))) {
+      		$this->error['keyword'] = $error_text;
+    	}
 		
     	if (!$this->error) {
 			return TRUE;
@@ -800,4 +803,4 @@ class ControllerPagesCatalogProduct extends AController {
     }
 	
 }
-?>
+

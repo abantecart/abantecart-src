@@ -1409,7 +1409,8 @@ DROP TABLE IF EXISTS `ac_url_aliases`;
 CREATE TABLE `ac_url_aliases` (
   `url_alias_id` int(11) NOT NULL AUTO_INCREMENT,
   `query` varchar(255) COLLATE utf8_bin NOT NULL,
-  `keyword` varchar(255) COLLATE utf8_bin NOT NULL,
+  `keyword` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable';,
+  `language_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`url_alias_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 CREATE UNIQUE INDEX `url_aliases_index`

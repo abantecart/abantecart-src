@@ -33,7 +33,7 @@ class ModelCatalogManufacturer extends Model {
 		}
 		
 		if ($data['keyword']) {
-			$seo_key = $data['keyword'];
+			$seo_key = SEOEncode($data['keyword']);
 		}else {
 			//Default behavior to save SEO URL keword from manufacturer name 
 			$seo_key = SEOEncode( $data['name'] );
@@ -45,9 +45,18 @@ class ModelCatalogManufacturer extends Model {
 				$seo_key .= '_' . $manufacturer_id;
 			}						
 		}
-		
-		$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases SET query = 'manufacturer_id=" . (int)$manufacturer_id . "', keyword = '" . $this->db->escape( $seo_key ) . "'");
-		
+
+		if($seo_key){
+			$this->language->replaceDescriptions('url_aliases',
+												array('query' => "manufacturer_id=" . (int)$manufacturer_id),
+												array((int)$this->session->data['content_language_id'] => array('keyword'=>$seo_key)));
+		}else{
+			$this->db->query("DELETE
+							FROM " . DB_PREFIX . "url_aliases
+							WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'
+								AND language_id = '".(int)$this->session->data['content_language_id']."'");
+		}
+
 		$this->cache->delete('manufacturer');
 
 		return $manufacturer_id;
@@ -71,9 +80,16 @@ class ModelCatalogManufacturer extends Model {
 		}
 		
 		if (isset($data['keyword'])) {
-			$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases WHERE query = 'manufacturer_id=" . (int)$manufacturer_id. "'");
+			$data['keyword'] =  SEOEncode($data['keyword']);
 			if($data['keyword']){
-				$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases SET query = 'manufacturer_id=" . (int)$manufacturer_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
+				$this->language->replaceDescriptions('url_aliases',
+														array('query' => "manufacturer_id=" . (int)$manufacturer_id),
+														array((int)$this->session->data['content_language_id'] => array('keyword' => $data['keyword'])));
+			}else{
+				$this->db->query("DELETE
+								FROM " . DB_PREFIX . "url_aliases
+								WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'
+									AND language_id = '".(int)$this->session->data['content_language_id']."'");
 			}
 		}
 		
@@ -93,7 +109,8 @@ class ModelCatalogManufacturer extends Model {
 	public function getManufacturer($manufacturer_id) {
 		$query = $this->db->query("SELECT DISTINCT *, ( SELECT keyword
 														FROM " . DB_PREFIX . "url_aliases
-														WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "') AS keyword
+														WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'
+														  AND language_id='".(int)$this->session->data['content_language_id']."') AS keyword
 									FROM " . DB_PREFIX . "manufacturers
 									WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 		
