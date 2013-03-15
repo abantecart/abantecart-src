@@ -852,7 +852,98 @@ class ModelCatalogProduct extends Model {
 		}
 
 		return $error;	
-	} 
+	}
+
+	public function validateFileOption($product_id, $option_id, $data) {
+
+		$errors = array();
+		if ( empty($product_id) || empty($option_id) || empty($data) ) {
+			$errors[] = 'error_empty_file_data';
+			return $errors;
+		}
+
+		$am = new AAttribute('product_option');
+		$attribute_data = $am->getAttributeByProductOptionId($option_id);
+
+		if ( has_value($attribute_data['settings']) ) {
+			$attribute_data['settings'] = unserialize($attribute_data['settings']);
+		}
+
+		//echo_array($data);echo_array($attribute_data['settings']);exit;
+		if ( empty($data['name']) ) {
+			$errors[] = 'error_empty_file_name';
+		}
+
+		if ( !empty($attribute_data['settings']['extensions']) ) {
+			$allowed_extensions = explode(',', str_replace(' ', '', $attribute_data['settings']['extensions']));
+			$extension = substr(strrchr($data['name'], '.'), 1);
+			//echo_array($allowed_extensions);
+			//var_dump($extension);
+			if ( !in_array($extension, $allowed_extensions) ) {
+				$errors[] = 'error_file_extension';
+			}
+
+		}
+
+		if ( !empty($attribute_data['min_size']) && (int) $data['size'] < (int) $attribute_data['min_size'] ) {
+			$errors = 'error_min_file_size';
+		}
+
+		$max_size = (int)$this->config->get('config_upload_max_size') < (int) ini_get('upload_max_filesize') ? (int)$this->config->get('config_upload_max_size') : (int) ini_get('upload_max_filesize');
+		$max_size = $max_size < (int) $attribute_data['max_size'] ? (int) $attribute_data['max_size'] : $max_size;
+		$max_size *= 1024 * 1024;
+
+		if ( $max_size < (int) $data['size'] ) {
+			$errors[] = 'error_max_file_size';
+		}
+
+		return $errors;
+
+	}
+
+	public function uploadFile($data) {
+		$am = new AAttribute('product_option');
+		$attribute_data = $am->getAttributeByProductOptionId($data['option_id']);
+		if ( has_value($attribute_data['settings']) ) {
+			$attribute_data['settings'] = unserialize($attribute_data['settings']);
+		}
+
+		$file_path = DIR_ROOT . '/admin/system/uploads/' . $attribute_data['settings']['directory'] . '/';
+//var_dump($file_path);
+
+		if ( !is_dir($file_path) ) {
+			mkdir($file_path, 0777);
+		}
+
+		//$file_path .= basename($data['name']);
+
+		$ext = strrchr($data['name'], '.');
+		$file_name = substr($data['name'], 0, strlen($data['name']) - strlen($ext));
+		//var_dump($file_name);
+
+		$i = '';
+		$real_path = '';
+		do {
+			if ( $i ) {
+				$new_name = $file_name . '_' . $i;
+			} else {
+				$new_name = $file_name;
+				$i = 0;
+			}
+
+			$real_path = $file_path . $new_name . $ext;
+			$i++;
+		} while (file_exists($real_path));
+
+
+		if ( !move_uploaded_file($data['tmp_name'], $real_path) ) {
+			echo_array($_FILES);
+			echo_array($data);
+
+		}
+
+
+	}
 	
 	
 	public function getProductTags($product_id) {

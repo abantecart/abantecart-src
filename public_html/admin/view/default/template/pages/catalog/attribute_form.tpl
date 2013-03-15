@@ -38,30 +38,54 @@
 						<div class="field_err"><?php echo $error[$name]; ?></div>
 					<?php } ?>
 					<?php if ($name == 'element_type') { ?>
+
 						<div id="values">
-							<?php if( $child_count == 0 ) { ?>
-							<div style="padding-left: 40px;">
-							<span style="padding-right: 35px;"><b><?php echo $entry_element_values; ?></b></span>
-							<span><b><?php echo $column_sort_order; ?></b></span></div>
-							<?php foreach ($form['fields']['attribute_values'] as $atr_val_id => $atr_field) { ?>
-								<div class="value">
-								<?php echo $atr_field['attribute_value_ids']; ?>
-								<?php echo $atr_field['values']; ?>&nbsp;
-								<?php echo $atr_field['sort_order']; ?>
-								<a class="remove"></a>
+							<?php if( $child_count == 0 ): ?>
+								<div style="padding-left: 40px;">
+									<span style="padding-right: 35px;"><b><?php echo $entry_element_values; ?></b></span>
+									<span><b><?php echo $column_sort_order; ?></b></span>
 								</div>
-							<?php } //foreach ?>
-							<a class="add"></a>
-							<?php } else { ?>
-							<div style="padding-left: 10px;">
-							<span><b><?php echo $entry_children_attributes; ?></b></span>
-								<?php foreach ($children as $child) { ?>
-								<div class="value">
-									<a href="<?php echo $child['link']; ?>"><?php echo $child['name']; ?></a>
+								<?php foreach ($form['fields']['attribute_values'] as $atr_val_id => $atr_field): ?>
+									<div class="value">
+										<?php echo $atr_field['attribute_value_ids']; ?>
+										<?php echo $atr_field['values']; ?>&nbsp;
+										<?php echo $atr_field['sort_order']; ?>
+										<a class="remove"></a>
+									</div>
+								<?php endforeach; ?>
+								<a class="add"></a>
+							<?php else: ?>
+								<div style="padding-left: 10px;">
+
+									<span><b><?php echo $entry_children_attributes; ?></b></span>
+
+									<?php foreach ($children as $child): ?>
+										<div class="value">
+											<a href="<?php echo $child['link']; ?>"><?php echo $child['name']; ?></a>
+										</div>
+									<?php endforeach; ?>
+
 								</div>
-								<?php } //foreach ?>
-							<?php } //if ?>
+							<?php endif; ?>
 						</div>
+
+						<div id="file_settings">
+							<div style="padding-left: 14px;">
+								<span style="padding-right: 16px;"><b><?php echo $entry_allowed_extensions; ?></b></span>
+								<span style="padding-right: 9px;"><b><?php echo $entry_min_size; ?></b></span>
+								<span style="padding-right: 21px;"><b><?php echo $entry_max_size; ?></b></span>
+								<span><b><?php echo $entry_upload_dir; ?></b></span>
+							</div>
+							<div class="value">
+								<?php foreach ($form['settings_fields'] as $setting): ?>
+
+									<?php echo $setting; ?>&nbsp;
+
+								<?php endforeach; ?>
+							</div>
+
+						</div>
+
 					<?php } ?>
 				</td>
 			</tr>
@@ -131,6 +155,12 @@ jQuery(function($){
 		} else {
 			$('#values').hide();
 		}
+
+		if ( $(this).val() == 'U' ) {
+			$('#file_settings').show();
+		} else {
+			$('#file_settings').hide();
+		}
 	});
 
 	$('#editFrm_attribute_parent_id').change(function(){
@@ -167,5 +197,6 @@ jQuery(function($){
 		$(":disabled", this).removeAttr('disabled');
 	});
 
+	$('#file_settings .aform').show();
 });
 </script>

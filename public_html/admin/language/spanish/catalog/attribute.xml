@@ -96,4 +96,20 @@
 		<key>text_parent_note</key>
 		<value><![CDATA[Si esto es un atributo primario con atributos de los niños, sólo puede ser de tipo SelectBox, MultiSelect Box, Checkbox y Checkbox grupo.<br>Los niños combinación de valores se muestran como un conjunto.]]></value>
 	</definition>
+	<definition>
+		<key>entry_allowed_extensions</key>
+		<value><![CDATA[Allowed Extensions]]></value>
+	</definition>
+	<definition>
+		<key>entry_min_size</key>
+		<value><![CDATA[Min Size]]></value>
+	</definition>
+	<definition>
+		<key>entry_max_size</key>
+		<value><![CDATA[Max Size]]></value>
+	</definition>
+	<definition>
+		<key>entry_upload_dir</key>
+		<value><![CDATA[Upload Directory]]></value>
+	</definition>
 </definitions>
