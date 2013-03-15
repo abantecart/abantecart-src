@@ -23,7 +23,15 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesTotalHandling extends AController {
 	public $data = array();
 	private $error = array();
-	private $fields = array('handling_total', 'handling_fee', 'handling_tax_class_id', 'handling_status', 'handling_fee_total_type', 'handling_sort_order', 'handling_calculation_order');
+	private $fields = array('handling_total',
+							'handling_fee',
+							'handling_tax_class_id',
+							'handling_status',
+							'handling_fee_total_type',
+							'handling_sort_order',
+							'handling_calculation_order',
+							'handling_per_payment'
+	);
 
 	public function main() {
 
@@ -34,7 +42,23 @@ class ControllerPagesTotalHandling extends AController {
 		$this->loadModel('setting/setting');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validate())) {
-			$this->model_setting_setting->editSetting('handling', $this->request->post);
+			$settings = $this->request->post;
+			foreach($settings['handling_payment'] as $i=>$payment){
+				if(!trim($payment)){
+					unset($settings['handling_payment'][$i],
+						$settings['handling_payment_subtotal'][$i],
+						$settings['handling_payment_fee'][$i]);
+				}
+			}
+
+			$settings['handling_per_payment'] = serialize(
+														array('handling_payment'=>$settings['handling_payment'],
+															'handling_payment_subtotal'=>$settings['handling_payment_subtotal'],
+															'handling_payment_fee'=>$settings['handling_payment_fee']));
+
+			unset($settings['handling_payment'],$settings['handling_payment_subtotal'],$settings['handling_payment_fee']);
+
+			$this->model_setting_setting->editSetting('handling', $settings);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('total/handling'));
 		}
@@ -73,6 +97,9 @@ class ControllerPagesTotalHandling extends AController {
 
 		foreach ($this->fields as $f) {
 			$this->data [$f] = $this->config->get($f);
+			if($f=='handling_per_payment'){
+				$this->data[$f] = unserialize($this->data[$f]);
+			}
 		}
 
 		$this->data ['action'] = $this->html->getSecureURL('total/handling');
@@ -81,7 +108,7 @@ class ControllerPagesTotalHandling extends AController {
 		$this->data ['form_title'] = $this->language->get('heading_title');
 		$this->data ['update'] = $this->html->getSecureURL('listing_grid/total/update_field', '&id=handling');
 
-		$form = new AForm ('HS');
+		$form = new AForm ('HT');
 		$form->setForm(array('form_name' => 'editFrm', 'update' => $this->data ['update']));
 
 		$this->data['form']['form_open'] = $form->getFieldHtml(array('type' => 'form', 'name' => 'editFrm', 'action' => $this->data ['action']));
@@ -105,6 +132,45 @@ class ControllerPagesTotalHandling extends AController {
 			'name' => 'handling_fee',
 			'value' => $this->data['handling_fee'],
 		));
+		$payments = $this->extensions->getExtensionsList(array('filter'=>'payment','sort_order'=>array('name')));
+		$options[] = $this->language->get('text_none');
+		foreach($payments->rows as $row){
+			if($row['status']){
+				$options[$row['key']] = $row['name'];
+			}
+		}
+		if(!sizeof($this->data['handling_per_payment']['handling_payment'])){
+			$this->data['handling_per_payment'] = array(
+													'handling_payment'=> array(0 => ''),
+													'handling_payment_subtotal'=> array(0 => ''),
+													'handling_payment_fee'=> array(0 => '')
+			);
+		}
+
+		foreach($this->data['handling_per_payment']['handling_payment'] as $i=>$payment){
+			$this->data['form']['fields']['payment_fee'][] = 'Payment: '.
+				$form->getFieldHtml(array(
+								'type' => 'selectbox',
+								'name' => 'handling_payment[]',
+								'options'=>$options,
+								'value' => $payment,
+							)).' Order Sub-Total:'.
+				$form->getFieldHtml(array(
+				'type' => 'input',
+				'name' => 'handling_payment_subtotal[]',
+				'value' => $this->data['handling_per_payment']['handling_payment_subtotal'][$i],
+				'style' => 'small-field'
+							)).' Fee:'.
+				$form->getFieldHtml(array(
+				'type' => 'input',
+				'name' => 'handling_payment_fee[]',
+				'value' => $this->data['handling_per_payment']['handling_payment_fee'][$i],
+				'style' => 'small-field'
+			));
+		}
+
+
+
 		$this->data['form']['fields']['tax'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'handling_tax_class_id',
@@ -137,7 +203,7 @@ class ControllerPagesTotalHandling extends AController {
 		));
 		$this->view->assign('help_url', $this->gen_help_url('edit_handling'));
 		$this->view->batchAssign($this->data);
-		$this->processTemplate('pages/total/form.tpl');
+		$this->processTemplate('pages/total/handling.tpl');
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -153,6 +219,16 @@ class ControllerPagesTotalHandling extends AController {
 		if (!(float)$this->request->post['handling_fee']) {
 			$this->error['warning'] = $this->language->get('error_number');
 		}
+		foreach($this->request->post['handling_payment'] as $i=>$payment_id){
+			if($payment_id){
+				if (!(int)$this->request->post['handling_payment_subtotal'][$i]) {
+					$this->error['warning'] = $this->language->get('error_number');
+				}
+				if (!(float)$this->request->post['handling_payment_fee'][$i]) {
+					$this->error['warning'] = $this->language->get('error_number');
+				}
+			}
+		}
 
 
 		if (!$this->error) {
@@ -162,5 +238,3 @@ class ControllerPagesTotalHandling extends AController {
 		}
 	}
 }
-
-?>
