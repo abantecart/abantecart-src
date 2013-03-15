@@ -1164,6 +1164,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general', 'config_featured_limit', '2'),
 ('general', 'config_latest_limit', '8'),
 ('general', 'config_special_limit', '6'),
+('general', 'config_product_default_sort_order', 'sort_order-ASC'),
 ('general', 'config_stock_display', '0'),
 ('general', 'config_nostock_autodisable', '0'),
 ('general', 'config_stock_status_id', '5'),

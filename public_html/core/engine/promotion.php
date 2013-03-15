@@ -189,7 +189,8 @@ class APromotion {
 			'pd.name',
 			'p.sort_order',
 			'p.price',
-			'rating'
+			'rating',
+			'date_modified'
 		);
 			
 		if (in_array($sort, $sort_data)) {

@@ -361,6 +361,23 @@ class AConfigManager {
 			'required' => true,
 			'style' => 'small-field',
 		));
+
+		$fields[ 'product_default_sort_order' ] = $form->getFieldHtml($props[ ] = array(
+			'type' => 'selectbox',
+			'name' => 'config_product_default_sort_order',
+			'value' => $data[ 'config_product_default_sort_order' ],
+			'options' => array(
+								'sort_order-ASC'=>$this->language->get('text_sorting_sort_order_asc'),
+								'name-ASC'=>$this->language->get('text_sorting_name_asc'),
+								'name-DESC'=>$this->language->get('text_sorting_name_desc'),
+								'price-ASC'=>$this->language->get('text_sorting_price_asc'),
+								'price-DESC'=>$this->language->get('text_sorting_price_desc'),
+								'rating-DESC'=>$this->language->get('text_sorting_rating_desc'),
+								'rating-ASC'=>$this->language->get('text_sorting_rating_asc'),
+								'date_modified-DESC'=>$this->language->get('text_sorting_date_desc'),
+								'date_modified-ASC'=>$this->language->get('text_sorting_date_asc'),
+			)));
+
 		$fields[ 'stock_display' ] = $form->getFieldHtml($props[ ] = array(
 			'type' => 'checkbox',
 			'name' => 'config_stock_display',

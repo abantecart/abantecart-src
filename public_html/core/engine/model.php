@@ -44,6 +44,7 @@ if (!defined('DIR_CORE')) {
  * @property ADocument $document
  * @property ALanguageManager $language
  * @property ADataEncryption $dcrypt
+ * @property ModelCatalogCategory $model_catalog_category
  */
 abstract class Model {
 
