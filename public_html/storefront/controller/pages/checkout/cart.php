@@ -233,7 +233,6 @@ class ControllerPagesCheckoutCart extends AController {
 																			   'text' => $this->language->get('button_continue'),
 																			   'href' =>$this->html->getURL('index/home'),
 																			   'style' => 'button' ));
-		    $this->data['button_continue'] = $this->data['button_continue']->getHtml();
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );
     	}

@@ -145,7 +145,7 @@ class ControllerPagesAccountDownload extends AController {
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button',
 			                                           'href' => $this->html->getSecureURL('account/account')));
-		$this->data['button_continue'] = $continue->getHtml();
+		$this->data['button_continue'] = $continue;
 		$this->view->batchAssign($this->data);
         $this->processTemplate($template);
 

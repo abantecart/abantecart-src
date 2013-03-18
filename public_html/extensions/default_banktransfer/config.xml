@@ -52,6 +52,9 @@
             <type>checkbox</type>
             <default_value>0</default_value>
         </item>        
+		<item id="payment_minimum_total">
+			<disable>true</disable>
+		</item>   
     </settings>
     <install>
 	    <sql></sql>

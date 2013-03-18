@@ -59,6 +59,8 @@ class ControllerPagesAccountAccount extends AController {
         $this->view->assign('download', $this->html->getSecureURL('account/download') );
         $this->view->assign('newsletter', $this->html->getSecureURL('account/newsletter') );
 
+		$this->view->assign('customer_name', $this->customer->getFirstName());
+
 		$this->processTemplate('pages/account/account.tpl');
 
         //init controller data

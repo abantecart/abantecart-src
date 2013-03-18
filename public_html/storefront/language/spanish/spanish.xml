@@ -164,4 +164,8 @@
 		<key>no_payment_required</key>
 		<value><![CDATA[No Pago Requerido]]></value>
 	</definition>
+	<definition>
+		<key>gen_data_entry_error</key>
+		<value><![CDATA[Vaya, hay un error con infomación proporcionada!]]></value>
+	</definition>	
 </definitions>

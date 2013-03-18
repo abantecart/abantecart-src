@@ -216,8 +216,13 @@ abstract class AController {
 		// Look into all blocks that are loaded from latyout database or have position set for them
 		// Hardcoded children with blocks require manual inclusion to the templates.
 		foreach ($this->children as $block) {
-			if (!empty($block[ 'position' ])) {
-				array_push($blocks, $block[ 'block_txt_id' ] . '_' . $block[ 'instance_id' ]);
+			if (!empty($block['position'])) {
+				//assign count based on possition (currently div. by 10)
+				if( $block['position'] % 10 == 0 ) {
+					$blocks[ $block['position'] / 10  - 1] = $block[ 'block_txt_id' ] . '_' . $block[ 'instance_id' ];
+				} else {
+					array_push($blocks, $block[ 'block_txt_id' ] . '_' . $block[ 'instance_id' ]);
+				}
 			}
 		}
 		return $blocks;

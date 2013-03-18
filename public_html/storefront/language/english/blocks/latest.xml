@@ -5,6 +5,10 @@
 		<value><![CDATA[Latest Products]]></value>
 	</definition>
 	<definition>
+		<key>heading_subtitle</key>
+		<value><![CDATA[See Best Selling Products]]></value>
+	</definition>
+	<definition>
 		<key>text_stars</key>
 		<value><![CDATA[%s out of 5 Stars!]]></value>
 	</definition>

@@ -5,6 +5,10 @@
 		<value><![CDATA[Click image to enlarge]]></value>
 	</definition>
 	<definition>
+		<key>text_zoom</key>
+		<value><![CDATA[Mouse move on Image to zoom]]></value>
+	</definition>	
+	<definition>
 		<key>text_discount</key>
 		<value><![CDATA[Quantity Discount:]]></value>
 	</definition>

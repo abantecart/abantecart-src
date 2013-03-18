@@ -1,0 +1,281 @@
+	/* AbanteCart CSS*/
+#column_left .sep, #column_right .sep{ height: 10px; }
+
+.s_block a,
+.c_block a{ color: #f65202; text-decoration: underline; }
+.s_block a:hover,
+.c_block a:hover{ text-decoration: none; }
+.s_block a.btn_standard,
+.c_block a.btn_standard{ text-decoration: none; }
+
+/*********************************************/
+/* top block general styles */
+.t_block {
+	font:normal 11px Tahoma, Arial, Helvetica;
+	color:#2f5576;
+	float:left;
+}
+
+/* bottom block general styles */
+.b_block {
+}
+
+/* side block general styles */
+.s_block{
+}
+.s_block .block_tl{
+    background: url(../image/box_top_l_new.gif) no-repeat;
+}
+.s_block .block_tr{
+    background: url(../image/box_top_r_new.gif) no-repeat right;    
+}
+.s_block .block_tc{
+    background: url(../image/box_top_m_new.gif) repeat-x;
+    margin: 0 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    height: 35px;
+    text-transform: uppercase;
+    line-height: 35px;
+    white-space: nowrap;
+    padding-left: 10px;
+}
+
+#content_top .s_block{
+    margin-bottom: 10px;
+}
+.s_block .block_tc IMG{
+    padding-right: 10px;
+    vertical-align: middle;
+}
+
+.s_block .block_cl{
+    padding: 5px;
+    border-left: 2px solid #c1c1c1;
+    border-right: 2px solid #c1c1c1;
+	background:#fff;
+}
+.s_block .block_cr{}
+.s_block .block_cc{}
+
+.s_block .block_bl{
+    background: url(../image/box_bottom_l_new.gif) no-repeat left bottom;
+}
+.s_block .block_br{
+    background: url(../image/box_bottom_r_new.gif) no-repeat right bottom;    
+}
+.s_block .block_bc{
+    margin: 0 5px;
+    height: 3px;
+    border-bottom: 2px solid #c1c1c1;
+	background:#fff;
+}
+
+
+/* cart box styles */
+#cartbox_left {
+	background: url(../image/cartbox_left.gif) 0 100% no-repeat;
+}
+#cartbox_right {
+	background: url(../image/cartbox_right.gif) 100% 100% no-repeat;
+	padding:0 5px;
+}
+#cartbox_mid {
+	background: url(../image/cartbox_mid.gif)  0 100% repeat-x;
+	height:67px;
+	width:190px;
+	padding:0 0 0 5px;
+}
+
+/* content block general styles */
+.c_block {}
+.c_block .block_tl{
+    background: url(../image/content_top_left.png) no-repeat;
+}
+.c_block .block_tr{
+    background: url(../image/content_top_right.png) no-repeat right;    
+}
+.c_block .block_tc{
+    background: url(../image/content_top_mid.png) repeat-x;
+    margin: 0 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    height: 35px;
+    text-transform: uppercase;
+    line-height: 35px;
+    white-space: nowrap;
+    padding-left: 10px;
+}
+.c_block .block_tc IMG{
+    padding-right: 10px;
+    vertical-align: middle;
+}
+
+.c_block .block_cl{
+    padding: 5px;
+    border-left: 2px solid #c1c1c1;
+    border-right: 2px solid #c1c1c1;
+}
+.c_block .block_cr{}
+.c_block .block_cc{}
+
+.c_block .block_bl{
+    background: url(../image/box_bottom_l_new.gif) no-repeat left bottom;
+}
+.c_block .block_br{
+    background: url(../image/box_bottom_r_new.gif) no-repeat right bottom;    
+}
+.c_block .block_bc{
+    margin: 0 5px;
+    height: 3px;
+    border-bottom: 2px solid #c1c1c1;
+}
+
+/*********************************************/
+.c_block .list{
+}
+.list .sep{
+    clear:left;
+	height:5px;
+}
+.list .list_item{
+    float: left;
+    width: 25%;
+    text-align: center;
+    padding-bottom: 10px;
+}
+.list .list_category{
+    float: left;
+    width: 25%;
+    height: 160px;
+    text-align: center;
+    padding-bottom: 10px;
+}
+.list .list_item .title{
+    padding: 10px;
+	font-weight:bold;
+}
+.list .list_item .rating{
+    min-height: 15px;
+}
+.list .list_item .price-add{
+    color: #F65202;
+}
+.list .list_item .price-add .normal{
+    color: #5b656d;
+    text-decoration: line-through;
+}
+/*********************************************/
+.s_block .list_item{
+    text-align: center;
+    padding-bottom: 20px;
+}
+.s_block .list_item .rightPane{
+    float: right;
+    width: 100px;
+    text-align: left;
+}
+.s_block .list_item .rightPane .rating{
+    min-height: 15px;
+}
+.s_block .list_item .rightPane .price-add{
+    color: #F65202;
+}
+.s_block .list_item .rightPane .price-add span.price span{
+    color: #5b656d;
+    text-decoration: line-through;
+    display:block;
+}
+.s_block .list_item .title a {
+	font-weight: bold;
+}
+/*********************************************/
+.price-add .buy,
+.price-add .added,
+.price-add .info{
+    display: inline-block;
+    height: 13px;
+    width: 13px;
+    margin-left: 3px;
+    vertical-align: middle;
+}
+.price-add .info{
+    background: url(../image/info_btn.gif) no-repeat
+}
+.price-add .buy{
+    background: url(../image/add_btn.gif) no-repeat;
+}
+.price-add .added{
+    background: url(../image/added_btn.gif) no-repeat;
+    cursor: default;
+}
+
+/***********************************************/
+#wide_block{
+	margin-top: 10px;
+}
+#wide_block .tl {
+	background: url(../image/content_top_left.png) no-repeat;
+	width: 5px;
+	height: 35px;
+	float: left;
+}
+#wide_block .tr {
+	background: url(../image/content_top_right.png) no-repeat;
+	width: 5px;
+	height: 35px;
+	float: right;
+}
+#wide_block .tc {
+	background: url(../image/content_top_mid.png) repeat-x;
+	margin-left: 5px;
+	margin-right: 5px;
+	padding-top: 8px;
+	padding-bottom: 7px;
+}
+#wide_block .tc img {
+	padding: 5px 0px 9px 7px;
+	vertical-align: middle;
+	margin-right: 5px;
+
+}
+#wide_block .tc .heading {
+	color: #000;
+	font-size: 14px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	text-transform: uppercase;
+	margin: 0;
+	height: 22px;
+	margin-bottom: -6px;
+}
+#wide_block .cc {
+	background: none repeat scroll 0 0 #FFFFFF;
+    border-left: 2px solid #C1C1C1;
+    border-right: 2px solid #C1C1C1;
+    padding: 5px;
+}
+#wide_block .bl {
+	background: url(../image/box_bottom_l_new.gif) no-repeat;
+	width: 5px;
+	height: 5px;
+	float: left;
+}
+#wide_block .br {
+	background: url(../image/box_bottom_r_new.gif) no-repeat;
+	width: 5px;
+	height: 5px;
+	float: right;
+}
+#wide_block .bc {
+	background: none repeat scroll 0 0 #FFFFFF;
+    border-bottom: 2px solid #C1C1C1;
+    height: 3px;
+    margin: 0 5px;
+}
+
+
+
+

@@ -27,7 +27,7 @@ function renderStoreMenu( $menu, $level = 0 )
     if ( $level ) $result .= "<ul>\r\n";
     foreach( $menu as $item ) {
         $id = ( empty($item['id']) ? '' : ' id="menu_'.$item['id'].'" ' ); // li ID
-        $class = $level != 0 ? empty($item['children']) ? '' : ' class="parent" ' : ' class="top" '; //a class
+        $class = $level != 0 ? empty($item['children']) ? '' : ' class="parent menu_'.$item['id'].'" ' : ' class="top menu_'.$item['id'].'" '; //a class
         $href = empty($item['href']) ? '' : ' href="'.$item['href'].'" '; //a href
 
         $result .= '<li' . $id . '>';

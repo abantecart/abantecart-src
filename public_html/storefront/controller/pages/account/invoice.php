@@ -164,8 +164,9 @@ class ControllerPagesAccountInvoice extends AController {
 			$print = HtmlElementFactory::create( array ('type' => 'button',
 		                                               'name' => 'print_button',
 			                                           'text'=> $this->language->get('button_print'),
+			                                           'icon'=> 'icon-print',
 			                                           'style' => 'button'));
-			$this->data['button_print'] = $print->getHtml();
+			$this->data['button_print'] = $print;
 
 
 			$this->view->setTemplate('pages/account/invoice.tpl');
@@ -176,8 +177,9 @@ class ControllerPagesAccountInvoice extends AController {
 		$continue = HtmlElementFactory::create( array ('type' => 'button',
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
+			                                           'icon'=> 'icon-arrow-right',
 			                                           'style' => 'button'));
-		$this->data['button_continue'] = $continue->getHtml();
+		$this->data['button_continue'] = $continue;
 		
 		$this->view->batchAssign($this->data);
         $this->processTemplate();

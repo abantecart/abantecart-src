@@ -182,19 +182,22 @@ class ControllerPagesAccountAddress extends AController
 	        $edit = HtmlElementFactory::create( array (
 			                                       'type' => 'button',
 			                                       'text'=> $this->language->get('button_edit'),
-			                                       'style' => 'button',
+			                                       'style' => 'button btn-primary',
+			                                       'icon' => 'icon-edit',
 	                                               'attr' => 'onclick="location = \''.$this->html->getSecureURL('account/address/update', '&address_id=' . $result['address_id']).'\'" ' ));
 	        $delete = HtmlElementFactory::create( array (
 			                                       'type' => 'button',
 			                                       'text'=> $this->language->get('button_delete'),
 			                                       'style' => 'button',
+			                                       'icon' => 'icon-remove',
 	                                               'attr' => 'onclick="location = \''.$this->html->getSecureURL('account/address/delete', '&address_id=' . $result['address_id']).'\'" ' ));
 
             $addresses[] = array(
                 'address_id' => $result['address_id'],
                 'address' => $formated_address,
-	            'button_edit'=>$edit->getHtml(),
-	            'button_delete'=>$delete->getHtml()
+	            'button_edit' => $edit,
+	            'button_delete' => $delete,
+	            'default' => $this->customer->getAddressId() == $result['address_id'] ? true : false,
             );
         }
 
@@ -206,15 +209,17 @@ class ControllerPagesAccountAddress extends AController
 			                                       'type' => 'button',
 		                                           'name' => 'insert',
 			                                       'text'=> $this->language->get('button_new_address'),
+			                                       'icon' => 'icon-plus',	
 			                                       'style' => 'button'));
-        $this->view->assign('button_insert', $insert->getHtml() );
+        $this->view->assign('button_insert', $insert );
 
 	    $back = HtmlElementFactory::create( array (
 			                                       'type' => 'button',
 		                                           'name' => 'back',
 			                                       'text'=> $this->language->get('button_back'),
+			                                       'icon' => 'icon-arrow-left',
 			                                       'style' => 'button'));
-        $this->view->assign('button_back', $back->getHtml() );
+        $this->view->assign('button_back', $back );
         $this->view->assign('back', $this->html->getSecureURL('account/account'));
 
         $this->processTemplate('pages/account/addresses.tpl');
@@ -256,6 +261,7 @@ class ControllerPagesAccountAddress extends AController
                                            ));
         }
 
+        $this->view->assign('error_warning', $this->error['warning']);
         $this->view->assign('error_firstname', $this->error['firstname']);
         $this->view->assign('error_lastname', $this->error['lastname']);
         $this->view->assign('error_address_1', $this->error['address_1']);
@@ -432,9 +438,11 @@ class ControllerPagesAccountAddress extends AController
 			                                                        'type' => 'button',
 		                                                            'name' => 'back',
 			                                                        'text'=> $this->language->get('button_back'),
+			                                                        'icon' => 'icon-arrow-left',
 			                                                        'style' => 'button'));
 	    $this->data['form']['submit'] = $form->getFieldHtml( array (
 			                                                        'type' => 'submit',
+			                                                        'icon' => 'icon-check',
 		                                                            'name' => $this->language->get('button_continue')
 			                                                        ));
 
@@ -474,6 +482,7 @@ class ControllerPagesAccountAddress extends AController
         if (!$this->error) {
             return TRUE;
         } else {
+        	$this->error['warning'] = $this->language->get('gen_data_entry_error');
             return FALSE;
         }
     }

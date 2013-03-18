@@ -80,14 +80,16 @@ class ControllerPagesAccountNewsletter extends AController {
                                                                       ) ));
 		$this->data['form'][ 'continue' ] = $form->getFieldHtml( array(
                                                                        'type' => 'submit',
+                                                                       'icon' => 'icon-check',
 		                                                               'name' => $this->language->get('button_continue') ));
 
        	$this->data['back'] = $this->html->getURL('account/account');
 		$back = HtmlElementFactory::create( array ('type' => 'button',
 		                                           'name' => 'back',
 			                                       'text'=> $this->language->get('button_back'),
+			                                       'icon' => 'icon-arrow-left',
 			                                       'style' => 'button'));
-		$this->data['form']['back'] = $back->getHtml();
+		$this->data['form']['back'] = $back;
 
 		$this->view->batchAssign( $this->data );
 

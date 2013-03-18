@@ -189,20 +189,21 @@ class ControllerPagesProductCategory extends AController {
 					}
 					
 					$products[] = array(
-            			'product_id' => $result['product_id'],
-						'name'    	 => $result['name'],
-						'model'   	 => $result['model'],
-            			'rating'  	 => $rating,
-						'stars'   	 => sprintf($this->language->get('text_stars'), $rating),
-						'thumb'   	 => $thumbnail,
-            			'price'   	 => $price,
-            			'options' 	 => $options,
-						'special' 	 => $special,
-						'href'    	 => $this->html->getSEOURL('product/product','&path=' . $this->request->get['path'] . '&product_id=' . $result['product_id'], '&encode'),
-						'add'	  	 => $add
+            			'product_id' 	=> $result['product_id'],
+						'name'    	 	=> $result['name'],
+						'model'   	 	=> $result['model'],
+            			'rating'  	 	=> $rating,
+						'stars'   	 	=> sprintf($this->language->get('text_stars'), $rating),
+						'thumb'   	 	=> $thumbnail,
+            			'price'   	 	=> $price,
+            			'options' 	 	=> $options,
+						'special' 	 	=> $special,
+						'href'    	 	=> $this->html->getSEOURL('product/product','&path=' . $this->request->get['path'] . '&product_id=' . $result['product_id'], '&encode'),
+						'add'	  	 	=> $add,
+						'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
           			);
         		}
-            				$this->data['products'] = $products;
+            	$this->data['products'] = $products;
 
 				if ($this->config->get('config_customer_price')) {
 					$display_price = TRUE;

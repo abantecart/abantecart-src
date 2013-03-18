@@ -1,0 +1,226 @@
+/*
+ * jQuery FlexSlider v2.0
+ * http://www.woothemes.com/flexslider/
+ *
+ * Copyright 2012 WooThemes
+ * Free to use under the GPLv2 license.
+ * http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * Contributing author: Tyler Smith (@mbmufffin)
+ */
+
+ 
+/* Browser Resets */
+#mainslider { border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; -o-border-radius:4px }
+.flex-container a:active, .flexslider a:active, .flex-container a:focus, .flexslider a:focus { outline: none; }
+.slides, .flex-control-nav, .flex-direction-nav { margin: 0; padding: 0; list-style: none; }
+/* FlexSlider Necessary Styles
+*********************************/ 
+.flexslider { margin: 0; padding: 0; }
+.flexslider .slides > li { display: none; -webkit-backface-visibility: hidden; position:relative; border-radius:8px; -moz-border-radius:8px; -webkit-border-radius:8px; -o-border-radius:8px } /* Hide the slides before the JS is loaded. Avoids image jumping */
+.flexslider .slides img { width: 100%; display: block; }
+.flex-pauseplay span { text-transform: capitalize; }
+/* Clearfix for the .slides element */
+.slides:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
+html[xmlns] .slides { display: block; }
+* html .slides { height: 1%; }
+/* No JavaScript Fallback */
+/* If you are not using another script, such as Modernizr, make sure you
+ * include js that eliminates this class on page load */
+.no-js .slides > li:first-child { display: block; }
+/* FlexSlider Default Theme
+*********************************/
+.flexslider { position: relative; -webkit-border-radius: 4px;/* -moz-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,.2); -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.2); -moz-box-shadow: 0 1px 4px rgba(0,0,0,.2); -o-box-shadow: 0 1px 4px rgba(0,0,0,.2);*/ zoom: 1; }
+.flex-viewport { max-height: 2000px; -webkit-transition: all 1s ease; -moz-transition: all 1s ease; transition: all 1s ease; }
+.loading .flex-viewport { max-height: 300px; }
+.flexslider .slides { zoom: 1; }
+.carousel li { margin-right: 5px }
+.flexborder { background:#fff; margin-bottom:5px; margin-top:4px }
+/* Direction Nav */
+.flex-direction-nav a { width: 30px; height: 30px; margin: -20px 10px 0 10px; display: block; background: url(../image/bg_direction_nav.png) no-repeat 0 0; position: absolute; top: 55%; cursor: pointer; text-indent: -9999px; opacity: 0; -webkit-transition: all .3s ease;
+}
+.flex-direction-nav .flex-next { background-position: 100% 0; right: 0px; }
+.flex-direction-nav .flex-prev { left: 0px; }
+.flexslider:hover .flex-next { opacity: 0.8; right: 0px; }
+.flexslider:hover .flex-prev { opacity: 0.8; left: 0px; }
+.flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover { opacity: 1; }
+.flex-direction-nav .disabled { opacity: .3!important; filter:alpha(opacity=30); cursor: default; }
+/* Control Nav */
+.flex-control-nav { width: 100%; position: absolute; bottom: 15px; left:15px; overflow:hidden }
+.flex-control-nav li { margin: 0 6px; display: inline-block; zoom: 1; *display: inline;
+}
+.flex-control-paging li a { width: 10px; height: 10px; display: block; background: #5e626b; cursor: pointer; text-indent: 9999px; }
+.flex-control-paging li a:hover { background: #333; background: #00A1CB }
+.flex-control-paging li a.flex-active { background: #000; background: #00A1CB; cursor: default; }
+.flex-control-thumbs { margin: 5px 0 0; position: static; overflow: hidden; }
+.flex-control-thumbs li { width: 25%; float: left; margin: 0; }
+.flex-control-thumbs img { width: 100%; display: block; opacity: .7; cursor: pointer; }
+.flex-control-thumbs img:hover { opacity: 1; }
+.flex-control-thumbs .active { opacity: 1; cursor: default; }
+/* Brand */
+#advertise.flexslider { margin-top:40px; border:none }
+#advertise.flexslider .slides img { width:auto; margin:0 auto }
+#advertise .flex-control-paging li a { display:none!important }
+#advertise .flex-direction-nav a { opacity:1!important }
+/* index1 slider */
+#mainslider2_pag { margin:15px 0 0 0 }
+.html_carousel { padding: 0 }
+.html_carousel div.slide { position: relative; }
+.html_carousel div.slide div { background-color: rgba(0, 0, 0, 0.6); width: 100%; position: absolute; bottom: 0; }
+.html_carousel div.slide h4 { font-size: 35px; padding: 30px 0 20px 100px; }
+.html_carousel div.slide p { font-size: 16px; padding: 0 0 30px 100px; }
+.html_carousel div.slide h4, .html_carousel div.slide p { color: white; margin: 0; }
+div.thumbnails { text-align: center; margin: 15px 0px; }
+div.thumbnails img { cursor: pointer; background-color: white; display: inline-block; border-top:5px solid #efefef }
+div.thumbnails img:hover { background-color: #eee; }
+div.thumbnails img.selected { background-color: #00A1CB; border-top:5px solid #00A1CB }
+.clearfix { float: none; clear: both; }
+/* Product Carousal */
+.caroufredsel_wrapper { position:relative }
+#prevproductcarousal { background:url(../image/carousalarrow.png) no-repeat scroll 8px center #00A1CB; position:relative; font-size:24px; text-indent:-9999px; display:block; overflow:hidden; height:25px; width:25px; left:0; top:30px }
+#nextproductcarousal { background:url(../image/carousalarrow.png) no-repeat scroll -18px center #00A1CB; position:relative; font-size:24px; text-indent:-9999px; display:block; overflow:hidden; height:25px; width:25px; right:0; top:30px }
+/* mainslider3 Carousal */
+#mainslider3 { width:1170px }
+#mainslider3 .item { width: 1170px; float: left; }
+#mainslider3 .item > div { width: 1170px; padding: 25px 0 ; overflow: hidden; }
+#mainslider3 .item img { width: 530px; float: left; box-shadow: 0 0 20px #999; }
+#mainslider3 .item div.text { background-color: #fff; width:  530px; height:490px; padding: 20px 40px; margin-left: 20px; float: left; position: relative; box-shadow: 0 0 10px #999; border:1px solid #ccc }
+#mainslider3 .item div.text:after { content: " "; display: block; width:25px; height: 25px; margin-top: -10px; position: absolute; left: -11px; top: 50%; background:url(../image/slderleftimg.png) no-repeat 0 0; }
+/* mainslider3 Carousal */
+#carouseindex4 { padding:50px 20px 5px }
+#carouseindex4 ul.slides li { border:1px solid #efefef; border-top:5px solid #efefef; padding:0px 20px 5px 20px; cursor:pointer }
+#carouseindex4 ul.slides li.flex-active-slide { border-top:5px solid #00A1CB }
+#carouseindex4 .flex-direction-nav a  {top:70%}
+/* mainslider6 Carousal */
+
+#prevmainslider6 { float: left; margin-left: 10px; }
+#nextmainslider6 { float: right; margin-right: 10px; }
+#pagermainslider6 { float: left; width: 100%; text-align: center; }
+#pagermainslider6 a { width: 15px; height: 15px; display: inline-block; background: #5e626b; cursor: pointer; text-indent: 9999px; margin:0 5px; overflow:hidden }
+#pagermainslider6 a:hover { background: #333; background: #00A1CB }
+#pagermainslider6 a.selected { background: #000; background: #00A1CB; cursor: default; }
+#timermainslider6 { background-color: #999; height: 6px; width: 0px; }
+/* mainslider5 Carousal */
+
+			#pager.sliderindex5pager { margin-top: 5px; width: 100%; height:10px }
+#pager.sliderindex5pager:after {
+content:'', clear:both; display:block }
+#pager.sliderindex5pager a, #pager span { display: block; height: 10px; }
+#pager.sliderindex5pager a { border: 1px solid #ccc; width: 23%; margin:5px 2px; display:inline-block; }
+#pager.sliderindex5pager a:hover { border-color: #999; }
+#pager.sliderindex5pager span { background-color: #ccc; width: 0px; }
+/* Testimonailsidebar */
+#testimonialsidebar { padding-bottom:40px }
+#testimonialsidebar .flex-direction-nav { display:none }
+#testimonialsidebar ul. slides > li {
+}
+#testimonialsidebar .flex-control-paging { bottom:0px }
+#testimonialsidebar .flex-control-paging li { float:right }
+#testimonialsidebar .flex-control-paging li a { height:10px; width:10px }
+ @media screen and (max-width:1190px) {
+ #mainslider3 {
+width:970px
+}
+#mainslider3 .item {
+width: 970px;
+float: left;
+}
+#mainslider3 .item > div {
+width: 970px;
+padding: 50px 0;
+}
+#mainslider3 .item img {
+width: 430px;
+}
+#mainslider3 .item div.text {
+width:  390px;
+height:390px;
+}
+#mainslider3 .item div.text p {
+display:none
+}
+#mainslider3 ul.productpagecart li {
+margin-right:8px
+}
+}
+ @media screen and (max-width:980px) {
+ .bannerheading1 {
+top:45px
+}
+.bannerheading2 {
+top:120px
+}
+.bannerheading1, .bannerheading2 {
+font-size:26px;
+}
+.bannerbutton {
+top:200px
+}
+#brand.flexslider .slides img {
+width:60%
+}
+#mainslider3, #mainslider3 .item, #mainslider3 .item > div, #mainslider3 .item img {
+width:auto;
+text-align:center
+}
+#mainslider3 .text {
+display:none;
+clear:both
+}
+#mainslider3 .text:after {
+display:none
+}
+#mainslider3 .item img {
+float:none
+}
+}
+ @media screen and (max-width: 860px) {
+ .flex-direction-nav .flex-prev {
+opacity: 1;
+left: 0;
+}
+ .flex-direction-nav .flex-next {
+opacity: 1;
+right: 0;
+}
+ .flexslider:hover .flex-next {
+opacity: 0.8;
+right: 0px;
+}
+.flexslider:hover .flex-prev {
+opacity: 0.8;
+left: 0px;
+}
+ .flex-control-nav {
+display:none
+}
+ .html_carousel div.slide div {
+display:none!important
+}
+}
+ @media (max-width: 767px) {
+.bannerheading1 {
+top:35px
+}
+.bannerheading2 {
+top:90px
+}
+ .bannerbutton, .bannerpriceround {
+display:none!important
+}
+ .flex-control-nav {
+bottom: 10px
+}
+ #brand.flexslider .slides img {
+width:auto
+}
+}
+ @media (max-width: 480px) {
+ .bannerheading1, .bannerheading2 {
+font-size:18px;
+line-height:24px
+}
+.flex-control-nav {
+bottom:15px
+}
+}

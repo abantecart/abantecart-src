@@ -110,8 +110,6 @@ class ControllerPagesProductSearch extends AController {
 																	   'value'=> $this->request->get['category_id'],
 															 ) );
 
-		$this->data['category'] = $this->data['category']->getHtml();
-
 		$this->data['description'] = HtmlElementFactory::create( array('type' => 'checkbox',
 																		'id' => 'description',
 																		'name' => 'description',
@@ -119,7 +117,6 @@ class ControllerPagesProductSearch extends AController {
 																		'value' => 1,
 																		'label_text' => $this->language->get('entry_description')
 																   ));
-		$this->data['description'] = $this->data['description']->getHtml();
 
 		$this->data['model'] = HtmlElementFactory::create( array(     'type' => 'checkbox',
 														'id' => 'model',
@@ -129,14 +126,12 @@ class ControllerPagesProductSearch extends AController {
 			                                            'label_text' => $this->language->get('entry_model')
 		                                           ));
 
-		$this->data['model'] = $this->data['model']->getHtml();
-
 		$this->data['submit'] = HtmlElementFactory::create( array (
 			                                                    'type' => 'button',
 		                                                        'name' => 'search_button',
 			                                                    'text'=> $this->language->get('button_search'),
+			                                                    'icon' => 'icon-search',
 			                                                    'style' => 'button'));
-		$this->data['submit'] = $this->data['submit']->getHtml();
 
 
 
@@ -243,7 +238,8 @@ class ControllerPagesProductSearch extends AController {
             			'options' => $options,
 						'special' => $special,
 						'href'    => $this->html->getSEOURL('product/product','&keyword=' . $this->request->get['keyword'] . $url . '&product_id=' . $result['product_id'], '&encode'),
-						'add'	  => $add
+						'add'	  => $add,
+						'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
           			);
         		}
 

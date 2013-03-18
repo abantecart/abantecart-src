@@ -202,6 +202,11 @@ class ModelAccountAddress extends Model {
     	if ($data['zone_id'] == 'FALSE') {
       		$error['zone'] = $this->language->get('error_zone');
     	}
+    	
+		if ( count($error) ) {
+			$error['warning'] = $this->language->get('gen_data_entry_error');
+		}
+    	
     	return $error;	
 	}
 }

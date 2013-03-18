@@ -123,7 +123,7 @@ class ControllerPagesAccountHistory extends AController {
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button'));
-		$this->view->assign('button_continue', $continue->getHtml());
+		$this->view->assign('button_continue', $continue);
 		$this->processTemplate();
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);

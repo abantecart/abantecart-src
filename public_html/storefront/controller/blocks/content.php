@@ -25,11 +25,36 @@ class ControllerBlocksContent extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
+        
+		$this->data = array();
+		$this->data['heading_title'] =  $this->language->get('heading_title');        
+		$this->data['text_home'] =  $this->language->get('text_home');
+		$this->loadLanguage('common/header');
+		// build static links
+		$this->data['text_special'] =  $this->language->get('text_special');
+		$this->data['text_contact'] =  $this->language->get('text_contact');
+		$this->data['text_sitemap'] =  $this->language->get('text_sitemap');
+		$this->data['text_bookmark'] =  $this->language->get('text_bookmark');
+    	$this->data['text_account'] =  $this->language->get('text_account');
+    	$this->data['text_login'] =  $this->language->get('text_login');
+    	$this->data['text_logout'] =  $this->language->get('text_logout');
+    	$this->data['text_cart'] =  $this->language->get('text_cart');
+    	$this->data['text_checkout'] =  $this->language->get('text_checkout');
 		
-        $this->view->assign('heading_title', $this->language->get('heading_title') );
-        $this->view->assign('text_contact', $this->language->get('text_contact') );
-        $this->view->assign('text_sitemap', $this->language->get('text_sitemap') );
+		$this->data['home'] =  $this->html->getURL('index/home');
+		$this->data['special'] =  $this->html->getURL('product/special');
+		$this->data['contact'] =  $this->html->getURL('content/contact');
+    	$this->data['sitemap'] =  $this->html->getURL('content/sitemap');
+    	$this->data['account'] =  $this->html->getSecureURL('account/account');
+		$this->data['logged'] =  $this->customer->isLogged();
+		$this->data['login'] =  $this->html->getSecureURL('account/login');
+		$this->data['logout'] =  $this->html->getURL('account/logout');
+    	$this->data['cart'] =  $this->html->getURL('checkout/cart');
+		$this->data['checkout'] =  $this->html->getSecureURL('checkout/shipping');
 
+		$this->view->batchAssign($this->data);
+
+		//build dynamic content (pages) links
 		$this->loadModel('catalog/content');
 
 		$contents = $this->_buildTree($this->model_catalog_content->getContents(),0,0);
@@ -37,8 +62,8 @@ class ControllerBlocksContent extends AController {
         $this->view->assign('contents', $contents );
         $this->view->assign('contact', $this->html->getURL('content/contact') );
         $this->view->assign('sitemap', $this->html->getURL('content/sitemap') );
-
-		$this->processTemplate('blocks/content.tpl');
+        
+		$this->processTemplate();
 
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);

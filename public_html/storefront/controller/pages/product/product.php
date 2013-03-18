@@ -180,27 +180,24 @@ class ControllerPagesProductProduct extends AController {
 			));
 			$this->data['rating_element'] = $html_item->getHtml();
 
-			$html_item = HtmlElementFactory::create(array( 'type'=>'input',
+			$this->data['review_name'] = HtmlElementFactory::create(array( 'type'=>'input',
 			                                               'name' =>'name' ));
-			$this->data['review_name'] = $html_item->getHtml();
 
-			$html_item = HtmlElementFactory::create(array( 'type'=>'textarea',
+			$this->data['review_text'] = HtmlElementFactory::create(array( 'type'=>'textarea',
 			                                               'name' =>'text',
 			                                               'attr' =>' rows="8" cols="50" ',
 			                                        ));
-			$this->data['review_text'] = $html_item->getHtml();
-
-			$html_item = HtmlElementFactory::create(array( 'type'=>'input',
+			                                        
+			$this->data['review_captcha'] = HtmlElementFactory::create(array( 'type'=>'input',
 			                                               'name' =>'captcha',
 			                                               'attr' =>''));
-			$this->data['review_captcha'] = $html_item->getHtml();
 
-			$html_item = HtmlElementFactory::create(array( 'type' => 'button',
+			$this->data['review_button'] = HtmlElementFactory::create(array( 'type' => 'button',
 				                                           'name' => 'review_submit',
 			                                               'text' => $this->language->get('button_continue'),
-				                                           'style'=> 'button'
+				                                           'style'=> 'button',
+				                                           'icon' => 'icon-comment'
 			                                              ));
-			$this->data['review_button'] = $html_item->getHtml();
 
 			$this->data['product_info'] = $product_info;
 			$product_price = $product_info['price'];
@@ -274,6 +271,7 @@ class ControllerPagesProductProduct extends AController {
                                                                     'type' => 'button',
 		                                                            'name' => 'add_to_cart',
 		                                                            'text' => $this->language->get('button_add_to_cart'),
+		                                                            'href_class' => 'cart',
 		                                                            'style' => 'button1' ));
 			$this->data['form'][ 'product_id' ] = $form->getFieldHtml( array(
                                                                     'type' => 'hidden',
@@ -427,7 +425,6 @@ class ControllerPagesProductProduct extends AController {
 
 			$this->data['images'] = $resource->getResourceAllObjects('products', $product_id, $sizes,0,false);
 
-
 			$products = array();
 			$results = $this->model_catalog_product->getProductRelated($product_id);
 
@@ -549,7 +546,7 @@ class ControllerPagesProductProduct extends AController {
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button'));
-			$this->view->assign('button_continue', $continue->getHtml());
+			$this->view->assign('button_continue', $continue );
       		$this->data['continue'] =  $this->html->getURL('index/home');
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );

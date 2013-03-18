@@ -180,11 +180,13 @@ class ControllerPagesAccountEdit extends AController {
 		                                                               'required' => false ));
 		$this->data['form'][ 'continue' ] = $form->getFieldHtml( array(
                                                                        'type' => 'submit',
+                                                                       'icon' => 'icon-check',
 		                                                               'name' => $this->language->get('button_continue') ));
 		$this->data['form'][ 'back' ] = $form->getFieldHtml( array(
                                                                     'type' => 'button',
 		                                                            'name' => 'back',
 			                                                        'style' => 'button',
+			                                                        'icon' => 'icon-arrow-left',
 		                                                            'text' => $this->language->get('button_back') ));
 		$this->data['back'] = $this->html->getSecureURL('account/account');
 		$this->view->batchAssign($this->data);

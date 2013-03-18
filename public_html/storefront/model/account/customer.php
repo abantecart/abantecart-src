@@ -289,6 +289,10 @@ class ModelAccountCustomer extends Model {
 			$error['telephone'] = $this->language->get('error_telephone');
 		}
 
+		if ( count($error) && empty( $error['warning'] ) ) {
+			$error['warning'] = $this->language->get('gen_data_entry_error');
+		}
+		
     	return $error;
 	}
 	

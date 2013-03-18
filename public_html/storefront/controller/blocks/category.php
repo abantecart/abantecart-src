@@ -39,17 +39,24 @@ class ControllerBlocksCategory extends AController {
 			$this->category_id = end($this->path);
 		}
 		
+		//load main lavel categories
 		$this->view->assign('category', $this->getCategories(0) );
+		$this->view->assign('selected_category_id', $this->category_id);	
+		
 		// framed needs to show frames for generic block.
 		//If tpl used by listing block framed was set by listing block settings
 		$this->view->assign('block_framed',true);
-												
-		$this->processTemplate('blocks/category.tpl');
+
+		//Load nested categories and with all details
+		$this->view->assign('categories', $this->model_catalog_category->getCategoriesDetails());
+		
+		$this->processTemplate();
 
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 	
+	//candidate to depricate
 	protected function getCategories($parent_id, $current_path = '') {
 		$category_id = array_shift($this->path);
 		
@@ -92,5 +99,6 @@ class ControllerBlocksCategory extends AController {
 		
 		return $stdout;
 	}		
+	
 }
 ?>

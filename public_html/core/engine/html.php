@@ -196,8 +196,7 @@ class AHtml extends AController {
 	 *
 	 */
 	public function buildElement($data) {
-		$item = HtmlElementFactory::create($data);
-		return $item->getHtml();
+		return HtmlElementFactory::create($data);
 	}
 
 	/**
@@ -729,6 +728,14 @@ abstract class HtmlElement {
 		return isset($this->data[ $name ]);
 	}
 
+	public function __toString() {
+		$javascript = '';
+		if ($this->data['javascript']) {
+			$javascript = $this->data['javascript'];
+		} 
+		return $javascript . $this->getHtml();
+	}
+
 	public function getHtml() {
 		return null;
 	}
@@ -820,6 +827,7 @@ class SubmitHtmlElement extends HtmlElement {
 				'value' => $this->value,
 				'attr' => $this->attr,
 				'style' => $this->style,
+				'icon' => $this->icon,
 			)
 		);
 		$return = $this->view->fetch('form/submit.tpl');
@@ -833,6 +841,7 @@ class InputHtmlElement extends HtmlElement {
 
 		if (!isset($this->default)) $this->default = '';
 		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
+				
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -843,6 +852,7 @@ class InputHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
+				'placeholder' => $this->placeholder,
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1060,7 +1070,7 @@ class ButtonHtmlElement extends HtmlElement {
 
 	public function getHtml() {
 		$this->view->batchAssign(
-			array(
+			array( 
 				'text' => $this->text,
 				'title' => $this->title,
 				'id' => $this->element_id,
@@ -1068,6 +1078,7 @@ class ButtonHtmlElement extends HtmlElement {
 				'style' => $this->style,
 				'href' => $this->href,
 				'href_class' => $this->href_class,
+				'icon' => $this->icon,
 			)
 		);
 		$return = $this->view->fetch('form/button.tpl');

@@ -44,9 +44,16 @@ class ControllerBlocksCart extends AController {
 		$products = array();
 		
 		$qty = 0;
-		
+
+		$resource = new AResource('image');
+				
     	foreach ($this->cart->getProducts() as $result) {
         	$option_data = array();
+
+			$thumbnail = $resource->getMainThumb('products',
+			                                     $result['product_id'],
+			                                     $this->config->get('config_image_product_width'),
+			                                     $this->config->get('config_image_product_height'),true);
 
         	foreach ($result['option'] as $option) {
           		$option_data[] = array(
@@ -65,6 +72,7 @@ class ControllerBlocksCart extends AController {
 				'stock'      => $result['stock'],
 				'price'      => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
 				'href'       => $this->html->getSEOURL('product/product','&product_id=' . $result['product_id']),
+				'thumb'   		=> $thumbnail,
       		);
     	}
 
@@ -74,6 +82,10 @@ class ControllerBlocksCart extends AController {
 	
       	$display_totals = $this->cart->buildTotalDisplay();      				
     	$this->view->assign('totals', $display_totals['total_data']);
+		
+    	$this->view->assign('subtotal', $this->currency->format($this->tax->calculate($display_totals['total'], $result['tax_class_id'], $this->config->get('config_tax'))));
+		$taxes = $display_totals['taxes'];
+    	$this->view->assign('taxes', $taxes);
 		
 		$this->view->assign('ajax', $this->config->get('cart_ajax'));
         $this->processTemplate();

@@ -362,14 +362,12 @@ class AForm {
 	 */
 	public function getFieldHtml($data) {
 		$data[ 'form' ] = $this->form[ 'form_name' ];
-		$item = HtmlElementFactory::create($data);
-
-		$js = '';
+		
 		if ($data[ 'type' ] == 'form') {
-			$js = $this->addFormJs();
+			$data['javascript'] = $this->addFormJs();
 		}
-
-		return $js . $item->getHtml();
+		
+		return HtmlElementFactory::create($data);
 	}
 
 	/**

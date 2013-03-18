@@ -62,6 +62,9 @@ class ControllerCommonHead extends AController {
         $this->view->assign('cart_ajax', (int) $this->config->get('config_cart_ajax'));
         $this->view->assign('cart_ajax_url', $this->html->getURL('r/product/product/addToCart'));
 
+		//load template debug resources if needed
+		$this->view->assign('template_debug_mode', $this->config->get('storefront_template_debug'));
+
 		$this->processTemplate('common/head.tpl');
 
         //init controller data
