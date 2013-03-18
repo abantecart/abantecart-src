@@ -862,7 +862,7 @@ class ModelCatalogProduct extends Model {
 
 		$errors = array();
 		if ( empty($product_id) || empty($option_id) || empty($data) ) {
-			$errors[] = 'error_empty_file_data';
+			$errors[] = $this->language->get('error_empty_file_data');
 			return $errors;
 		}
 
@@ -875,7 +875,7 @@ class ModelCatalogProduct extends Model {
 
 		//echo_array($data);echo_array($attribute_data['settings']);exit;
 		if ( empty($data['name']) ) {
-			$errors[] = 'error_empty_file_name';
+			$errors[] = $this->language->get('error_empty_file_name');
 		}
 
 		if ( !empty($attribute_data['settings']['extensions']) ) {
@@ -884,21 +884,28 @@ class ModelCatalogProduct extends Model {
 			//echo_array($allowed_extensions);
 			//var_dump($extension);
 			if ( !in_array($extension, $allowed_extensions) ) {
-				$errors[] = 'error_file_extension';
+				$errors[] = sprintf($this->language->get('error_file_extension'), $attribute_data['settings']['extensions']);
 			}
 
 		}
 
-		if ( !empty($attribute_data['min_size']) && (int) $data['size'] < (int) $attribute_data['min_size'] ) {
-			$errors = 'error_min_file_size';
+		if ( (int) $attribute_data['settings']['min_size'] > 0 ) {
+			$min_size_kb = $attribute_data['settings']['min_size'] * 1024 * 1024;
+			//var_dump($min_size_kb);exit;
+			if ( (int) $data['size'] < $min_size_kb ) {
+				$errors[] = sprintf($this->language->get('error_min_file_size'), $attribute_data['settings']['min_size']);
+			}
 		}
 
 		$max_size = (int)$this->config->get('config_upload_max_size') < (int) ini_get('upload_max_filesize') ? (int)$this->config->get('config_upload_max_size') : (int) ini_get('upload_max_filesize');
-		$max_size = $max_size < (int) $attribute_data['max_size'] ? (int) $attribute_data['max_size'] : $max_size;
-		$max_size *= 1024 * 1024;
 
-		if ( $max_size < (int) $data['size'] ) {
-			$errors[] = 'error_max_file_size';
+		if ( (int) $attribute_data['settings']['max_size'] > 0 ) {
+			$max_size = $max_size < (int) $attribute_data['settings']['max_size'] ? (int) $attribute_data['settings']['max_size'] : $max_size;
+		}
+		$max_size_kb = $max_size * 1024 * 1024;
+
+		if ( $max_size_kb < (int) $data['size'] ) {
+			$errors[] = sprintf($this->language->get('error_max_file_size'), $max_size_kb);
 		}
 
 		return $errors;
@@ -913,17 +920,13 @@ class ModelCatalogProduct extends Model {
 		}
 
 		$file_path = DIR_ROOT . '/admin/system/uploads/' . $attribute_data['settings']['directory'] . '/';
-//var_dump($file_path);
 
 		if ( !is_dir($file_path) ) {
 			mkdir($file_path, 0777);
 		}
 
-		//$file_path .= basename($data['name']);
-
 		$ext = strrchr($data['name'], '.');
 		$file_name = substr($data['name'], 0, strlen($data['name']) - strlen($ext));
-		//var_dump($file_name);
 
 		$i = '';
 		$real_path = '';
