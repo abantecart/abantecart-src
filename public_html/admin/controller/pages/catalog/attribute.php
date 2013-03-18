@@ -266,6 +266,10 @@ class ControllerPagesCatalogAttribute extends AController {
 					$attribute_info[ 'values' ][ ] = addslashes(html_entity_decode($v[ 'value' ], ENT_COMPAT, 'UTF-8'));
 				}
 			}
+
+			if (  has_value($attribute_info['settings']) ) {
+				$attribute_info['settings'] = unserialize($attribute_info['settings']);
+			}
 		}
 //echo_array($attribute_info);
 		$fields = array(
@@ -478,25 +482,25 @@ class ControllerPagesCatalogAttribute extends AController {
 			'extensions' => $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'settings[extensions]',
-				'value' => '',
+				'value' => $attribute_info['settings']['extensions'],
 				'style' => 'no-save'
 			)),
 			'min_size' => $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'settings[min_size]',
-				'value' => '',
+				'value' => $attribute_info['settings']['min_size'],
 				'style' => 'small-field no-save'
 			)),
 			'max_size' => $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'settings[max_size]',
-				'value' => '',
+				'value' => $attribute_info['settings']['max_size'],
 				'style' => 'small-field no-save'
 			)),
 			'directory' => $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'settings[directory]',
-				'value' => '',
+				'value' => $attribute_info['settings']['directory'],
 				'style' => 'no-save'
 			)),
 		);

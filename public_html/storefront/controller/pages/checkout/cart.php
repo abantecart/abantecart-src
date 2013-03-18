@@ -54,7 +54,7 @@ class ControllerPagesCheckoutCart extends AController {
 			
 		} elseif ($this->request->server['REQUEST_METHOD'] == 'POST') {
       		if (isset($this->request->post['quantity'])) {
-				  //echo_array($this->request->post);echo_array($this->request->files);exit;
+				//  echo_array($this->request->post);echo_array($this->request->files);exit;
 				if (!is_array($this->request->post['quantity'])) {
 
 					$this->loadModel('catalog/product');
@@ -71,6 +71,13 @@ class ControllerPagesCheckoutCart extends AController {
 
 							$options[$id] = $name;
 
+							if ( $this->model_catalog_product->validateRequiredOptions($product_id, $options) ) {
+								$this->session->data['error'] = $this->language->get('error_required_options');
+								$this->redirect($_SERVER['HTTP_REFERER']);
+							} elseif ( !has_value($name) ) {
+								continue;
+							}
+
 							$file_data = array(
 								'option_id' => $id,
 								'name' => $name,
@@ -83,7 +90,7 @@ class ControllerPagesCheckoutCart extends AController {
 							$file_errors = $this->model_catalog_product->validateFileOption($product_id, $id, $file_data);
 
 							if ( has_value($file_errors) ) {
-								$this->session->data['error'] = $this->language->get($file_errors[0]);
+								$this->session->data['error'] = $file_errors[0];
 								$this->redirect($_SERVER['HTTP_REFERER']);
 							} else {
 								$this->model_catalog_product->uploadFile($file_data);

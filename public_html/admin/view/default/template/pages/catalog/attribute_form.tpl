@@ -149,6 +149,12 @@ jQuery(function($){
 		$('#values').show();
 	}
 
+	if ( $('#editFrm_element_type').val() == 'U' ) {
+		$('#file_settings').show();
+	} else {
+		$('#file_settings').hide();
+	}
+
 	$('#editFrm_element_type').change(function(){
 		if ( $.inArray( $(this).val(), elements_with_options) > -1 ) {
 			$('#values').show();
@@ -198,5 +204,6 @@ jQuery(function($){
 	});
 
 	$('#file_settings .aform').show();
+
 });
 </script>
