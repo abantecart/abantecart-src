@@ -266,17 +266,24 @@ class ControllerPagesCatalogAttribute extends AController {
 					$attribute_info[ 'values' ][ ] = addslashes(html_entity_decode($v[ 'value' ], ENT_COMPAT, 'UTF-8'));
 				}
 			}
-		}
 
-		$fields = array( 'name',
-		                 'attribute_parent_id',
-		                 'attribute_group_id',
-		                 'attribute_type_id',
-		                 'element_type',
-		                 'sort_order',
-		                 'required',
-		                 'status',
-		                 'values' );
+			if (  has_value($attribute_info['settings']) ) {
+				$attribute_info['settings'] = unserialize($attribute_info['settings']);
+			}
+		}
+//echo_array($attribute_info);
+		$fields = array(
+			'name',
+			'attribute_parent_id',
+			'attribute_group_id',
+			'attribute_type_id',
+			'element_type',
+			'sort_order',
+			'required',
+			'settings',
+			'status',
+			'values'
+		);
 		foreach ($fields as $f) {
 			if (isset($this->request->post[ $f ])) {
 				$this->data[ $f ] = $this->request->post[ $f ];
@@ -292,7 +299,7 @@ class ControllerPagesCatalogAttribute extends AController {
 		$element_types = array( '' => $this->language->get('text_select') );
 		foreach ($results as $key => $type) {
 			// allowed field types
-			if ( in_array($key,array('I','T','S','M','R','C','G','H')) ) {
+			if ( in_array($key,array('I','T','S','M','R','C','G','H','U')) ) {
 				$element_types[$key] = $type['type'];
 			}
 		}
@@ -470,6 +477,34 @@ class ControllerPagesCatalogAttribute extends AController {
 				                                            'style' => 'medium-field'
 				                                        ));				
 		}
+
+		$this->data['form']['settings_fields'] = array(
+			'extensions' => $form->getFieldHtml(array(
+				'type' => 'input',
+				'name' => 'settings[extensions]',
+				'value' => $attribute_info['settings']['extensions'],
+				'style' => 'no-save'
+			)),
+			'min_size' => $form->getFieldHtml(array(
+				'type' => 'input',
+				'name' => 'settings[min_size]',
+				'value' => $attribute_info['settings']['min_size'],
+				'style' => 'small-field no-save'
+			)),
+			'max_size' => $form->getFieldHtml(array(
+				'type' => 'input',
+				'name' => 'settings[max_size]',
+				'value' => $attribute_info['settings']['max_size'],
+				'style' => 'small-field no-save'
+			)),
+			'directory' => $form->getFieldHtml(array(
+				'type' => 'input',
+				'name' => 'settings[directory]',
+				'value' => $attribute_info['settings']['directory'],
+				'style' => 'no-save'
+			)),
+		);
+
 		$this->data['form']['fields']['attribute_values'] = $attributes_fields;
 
 		$this->view->batchAssign($this->data);

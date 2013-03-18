@@ -539,4 +539,8 @@
 		<key>text_or</key>
 		<value><![CDATA[o]]></value>
 	</definition>
+	<definition>
+		<key>error_seo_keyword</key>
+		<value><![CDATA[Clave SEO <a target="_blank" href="%s">"%s"</a> ya existe!]]></value>
+	</definition>
 </definitions>

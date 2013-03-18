@@ -160,4 +160,12 @@
     <key>error_agree</key>
     <value><![CDATA[Error: You must agree to the %s!]]></value>
   </definition>
+  <definition>
+    <key>text_full_register</key>
+    <value><![CDATA[Become a customer and register with your details]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe_register</key>
+    <value><![CDATA[Become a newsletter subscriber]]></value>
+  </definition>
 </definitions>

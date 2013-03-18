@@ -20,11 +20,12 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+
 class ModelCatalogProduct extends Model {
 
 	public function getProduct($product_id) {
 		if ( empty($product_id) ) {
-			return;
+			return null;
 		}
 		$query = $this->db->query(
 								"SELECT DISTINCT *, pd.name AS name, m.name AS manufacturer, ss.name AS stock_status, lcd.unit as length_class_name " .
@@ -41,12 +42,12 @@ class ModelCatalogProduct extends Model {
 	* Check if product or any option value require tracking stock subtract = 1
 	*/
 	public function isStockTrackable ($product_id) {
-		$track_status = 0;
+
 		//check main product
 		$query = $this->db->query( "SELECT subtract FROM " . $this->db->table("products") . " p
 									WHERE p.product_id = '" . (int)$product_id . "'");
 									
-		$track_status = $query->row['subtract'];
+		$track_status = (int)$query->row['subtract'];
 		//check product option values
 		$query = $this->db->query( "SELECT pov.subtract AS subtract FROM " . $this->db->table("product_options") . " po
 				left join " . $this->db->table("product_option_values") . " pov ON (po.product_option_id = pov.product_option_id)
@@ -61,12 +62,12 @@ class ModelCatalogProduct extends Model {
 	* Check if product or any option has any stock available
 	*/
 	public function hasAnyStock ($product_id) {
-		$total_quantity = 0;
+
 		//check main product
 		$query = $this->db->query( "SELECT quantity FROM " . $this->db->table("products") . " p
 									WHERE p.product_id = '" . (int)$product_id . "'");
 									
-		$total_quantity = $query->row['quantity'];
+		$total_quantity = (int)$query->row['quantity'];
 		//check product option values
 		$query = $this->db->query( "SELECT pov.quantity AS quantity FROM " . $this->db->table("product_options") . " po
 				left join " . $this->db->table("product_option_values") . " pov ON (po.product_option_id = pov.product_option_id)
@@ -79,7 +80,7 @@ class ModelCatalogProduct extends Model {
 	
 	public function getProductDataForCart($product_id) {
 		if ( empty($product_id) ) {
-			return;
+			return null;
 		}
 		$query = $this->db->query(
 					"SELECT *, wcd.unit AS weight_class, mcd.unit AS length_class
@@ -115,7 +116,8 @@ class ModelCatalogProduct extends Model {
 			'p.sort_order',
 			'p.price',
 			'special',
-			'rating'
+			'rating',
+			'date_modified'
 		);
 			
 		if (in_array($sort, $sort_data)) {
@@ -175,6 +177,7 @@ class ModelCatalogProduct extends Model {
 			'special',
 			'rating',
 			'p.price',
+			'date_modified'
 		);
 			
 		if (in_array($sort, $sort_data)) {
@@ -283,12 +286,13 @@ class ModelCatalogProduct extends Model {
 			
 			$products = array();
 			
-			foreach ($query->rows as $key => $value) {
+			foreach ($query->rows as $value) {
 				$products[$value['product_id']] = $this->getProduct($value['product_id']);
 			}
 			
 			return $products;
 		}
+		return array();
 	}
 	
 	public function getProductsByKeyword($keyword, $category_id = 0, $description = FALSE, $model = FALSE, $sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20) {
@@ -608,14 +612,14 @@ class ModelCatalogProduct extends Model {
 		
 	public function updateViewed($product_id) {
 		if ( empty($product_id) ) {
-			return;
+			return null;
 		}
 		$this->db->query("UPDATE " . $this->db->table("products") . " SET viewed = viewed + 1 WHERE product_id = '" . (int)$product_id . "'");
 	}
 
 	public function updateStatus($product_id, $status = 0) {
 		if ( empty($product_id) ) {
-			return;
+			return null;
 		}
 		$this->db->query("UPDATE " . $this->db->table("products") . " SET status = " . (int)$status . " WHERE product_id = '" . (int)$product_id . "'");
 		$this->cache->delete('product');
@@ -687,7 +691,7 @@ class ModelCatalogProduct extends Model {
 
 	public function getProductOptions($product_id) {
 		if ( empty($product_id) ) {
-			return;
+			return null;
 		}
 
 		$product_option_data = $this->cache->get( 'product.options.'.$product_id, $this->config->get('storefront_language_id') );
@@ -775,7 +779,7 @@ class ModelCatalogProduct extends Model {
 
 	public function getProductOption ($product_id, $product_option_id) {
 		if (empty($product_id) || empty ($product_option_id)) {
-			return;
+			return null;
 		}
 		
 		$query = $this->db->query("SELECT *
@@ -791,7 +795,7 @@ class ModelCatalogProduct extends Model {
 
 	public function getProductOptionValues ($product_id, $product_option_id) {
 		if (empty($product_id) || empty ($product_option_id)) {
-			return;
+			return null;
 		}
 		
 		$query = $this->db->query("SELECT *
@@ -805,7 +809,7 @@ class ModelCatalogProduct extends Model {
 
 	public function getProductOptionValue ($product_id, $product_option_value_id) {
 		if (empty($product_id) || empty ($product_option_value_id)) {
-			return;
+			return null;
 		}
 		
 		$query = $this->db->query("SELECT *, COALESCE(povd.name,povd2.name) as name
@@ -852,12 +856,106 @@ class ModelCatalogProduct extends Model {
 		}
 
 		return $error;	
-	} 
+	}
+
+	public function validateFileOption($product_id, $option_id, $data) {
+
+		$errors = array();
+		if ( empty($product_id) || empty($option_id) || empty($data) ) {
+			$errors[] = $this->language->get('error_empty_file_data');
+			return $errors;
+		}
+
+		$am = new AAttribute('product_option');
+		$attribute_data = $am->getAttributeByProductOptionId($option_id);
+
+		if ( has_value($attribute_data['settings']) ) {
+			$attribute_data['settings'] = unserialize($attribute_data['settings']);
+		}
+
+		//echo_array($data);echo_array($attribute_data['settings']);exit;
+		if ( empty($data['name']) ) {
+			$errors[] = $this->language->get('error_empty_file_name');
+		}
+
+		if ( !empty($attribute_data['settings']['extensions']) ) {
+			$allowed_extensions = explode(',', str_replace(' ', '', $attribute_data['settings']['extensions']));
+			$extension = substr(strrchr($data['name'], '.'), 1);
+			//echo_array($allowed_extensions);
+			//var_dump($extension);
+			if ( !in_array($extension, $allowed_extensions) ) {
+				$errors[] = sprintf($this->language->get('error_file_extension'), $attribute_data['settings']['extensions']);
+			}
+
+		}
+
+		if ( (int) $attribute_data['settings']['min_size'] > 0 ) {
+			$min_size_kb = $attribute_data['settings']['min_size'] * 1024 * 1024;
+			//var_dump($min_size_kb);exit;
+			if ( (int) $data['size'] < $min_size_kb ) {
+				$errors[] = sprintf($this->language->get('error_min_file_size'), $attribute_data['settings']['min_size']);
+			}
+		}
+
+		$max_size = (int)$this->config->get('config_upload_max_size') < (int) ini_get('upload_max_filesize') ? (int)$this->config->get('config_upload_max_size') : (int) ini_get('upload_max_filesize');
+
+		if ( (int) $attribute_data['settings']['max_size'] > 0 ) {
+			$max_size = $max_size < (int) $attribute_data['settings']['max_size'] ? (int) $attribute_data['settings']['max_size'] : $max_size;
+		}
+		$max_size_kb = $max_size * 1024 * 1024;
+
+		if ( $max_size_kb < (int) $data['size'] ) {
+			$errors[] = sprintf($this->language->get('error_max_file_size'), $max_size_kb);
+		}
+
+		return $errors;
+
+	}
+
+	public function uploadFile($data) {
+		$am = new AAttribute('product_option');
+		$attribute_data = $am->getAttributeByProductOptionId($data['option_id']);
+		if ( has_value($attribute_data['settings']) ) {
+			$attribute_data['settings'] = unserialize($attribute_data['settings']);
+		}
+
+		$file_path = DIR_ROOT . '/admin/system/uploads/' . $attribute_data['settings']['directory'] . '/';
+
+		if ( !is_dir($file_path) ) {
+			mkdir($file_path, 0777);
+		}
+
+		$ext = strrchr($data['name'], '.');
+		$file_name = substr($data['name'], 0, strlen($data['name']) - strlen($ext));
+
+		$i = '';
+		$real_path = '';
+		do {
+			if ( $i ) {
+				$new_name = $file_name . '_' . $i;
+			} else {
+				$new_name = $file_name;
+				$i = 0;
+			}
+
+			$real_path = $file_path . $new_name . $ext;
+			$i++;
+		} while (file_exists($real_path));
+
+
+		if ( !move_uploaded_file($data['tmp_name'], $real_path) ) {
+			echo_array($_FILES);
+			echo_array($data);
+
+		}
+
+
+	}
 	
 	
 	public function getProductTags($product_id) {
 		if ( empty($product_id) ) {
-			return;
+			return null;
 		}
 		$query = $this->db->query("SELECT *
 									FROM " . $this->db->table("product_tags") . "
@@ -870,7 +968,7 @@ class ModelCatalogProduct extends Model {
 	
 	public function getProductDownloads($product_id) {
 		if ( empty($product_id) ) {
-			return;
+			return null;
 		}
 		
 		$query =  $this->db->query(
@@ -888,7 +986,7 @@ class ModelCatalogProduct extends Model {
 	public function getProductRelated($product_id) {
 		$product_data = array();
 		if ( empty($product_id) ) {
-			return;
+			return null;
 		}
 
 		$product_related_query = $this->db->query("SELECT * FROM " . $this->db->table("products_related") . " WHERE product_id = '" . (int)$product_id . "'");
@@ -914,7 +1012,7 @@ class ModelCatalogProduct extends Model {
 
 	public function getCategories($product_id) {
 		if ( empty($product_id) ) {
-			return;
+			return null;
 		}
 		$query = $this->db->query( "SELECT *
 									FROM " . $this->db->table("products_to_categories") . "
@@ -1213,4 +1311,3 @@ class ModelCatalogProduct extends Model {
     }
 		
 }
-?>

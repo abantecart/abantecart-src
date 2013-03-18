@@ -302,6 +302,10 @@
 		<value><![CDATA[Status]]></value>
 	</definition>
 	<definition>
+		<key>text_sort_order</key>
+		<value><![CDATA[Sort Order]]></value>
+	</definition>
+	<definition>
 		<key>text_payment_minimum_total</key>
 		<value><![CDATA[Total Order Minimum:<span class="help">Minimum order amount to be reached to allow this payment</span>]]></value>
 	</definition>

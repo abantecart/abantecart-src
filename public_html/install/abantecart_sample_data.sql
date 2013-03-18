@@ -354,9 +354,9 @@ VALUES
 
 INSERT INTO `ac_global_attributes` 
 VALUES 
-(1,0,0,1,'S',1,1,1),
-(2,0,0,1,'C',0,0,1),
-(5,0,0,1,'G',1,1,1);
+(1,0,0,1,'S',1,1,'',1),
+(2,0,0,1,'C',0,0,'',1),
+(5,0,0,1,'G',1,1,'',1);
 
 
 
@@ -2357,22 +2357,22 @@ VALUES
 
 INSERT INTO `ac_url_aliases` 
 VALUES 
-(494,'manufacturer_id=11',''),
-(493,'category_id=36','makeup'),
-(455,'content_id=4','about_us'),
-(496,'category_id=64',''),
-(492,'category_id=48',''),
-(497,'product_id=101','pro-v_color_hair_solutions_color_preserve_shine_conditioner_with_pump'),
-(498,'product_id=102','gucci_guilty'),
-(500,'manufacturer_id=20','gucci'),
-(501,'product_id=103','jasmin_noir_l\'essence_eau_de_parfum_spray'),
-(503,'product_id=104','calvin_klein_obsession_for_women_edp_spray'),
-(504,'product_id=105','bvlgari_aqua_eau_de_toilette_spray'),
-(508,'product_id=106','omnia_eau_de_toilette'),
-(509,'product_id=107','lancome_slimissime_360_slimming_activating_concentrate_unisex_treatment'),
-(510,'product_id=108','lancome_hypnose_doll_lashes_mascara_4-piece_gift_set'),
-(513,'product_id=109','lancome_visionnaire_advanced_skin_corrector'),
-(514,'product_id=110','flora_by_gucci_eau_fraiche');
+(494,'manufacturer_id=11','',1),
+(493,'category_id=36','makeup',1),
+(455,'content_id=4','about_us',1),
+(496,'category_id=64','',1),
+(492,'category_id=48','',1),
+(497,'product_id=101','pro-v_color_hair_solutions_color_preserve_shine_conditioner_with_pump',1),
+(498,'product_id=102','gucci_guilty',1),
+(500,'manufacturer_id=20','gucci',1),
+(501,'product_id=103','jasmin_noir_l\'essence_eau_de_parfum_spray',1),
+(503,'product_id=104','calvin_klein_obsession_for_women_edp_spray',1),
+(504,'product_id=105','bvlgari_aqua_eau_de_toilette_spray',1),
+(508,'product_id=106','omnia_eau_de_toilette',1),
+(509,'product_id=107','lancome_slimissime_360_slimming_activating_concentrate_unisex_treatment',1),
+(510,'product_id=108','lancome_hypnose_doll_lashes_mascara_4-piece_gift_set',1),
+(513,'product_id=109','lancome_visionnaire_advanced_skin_corrector',1),
+(514,'product_id=110','flora_by_gucci_eau_fraiche',1);
 
 
 

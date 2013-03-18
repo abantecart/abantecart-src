@@ -60,11 +60,16 @@ class AContentManager {
 		} else {
 			$seo_key = SEOEncode($data['keyword']);
 		}
-
-		$this->db->query("INSERT INTO " . DB_PREFIX . "url_aliases
-							( `keyword`, `query`)
-							VALUES ('".$this->db->escape($seo_key)."',
-									'content_id=" . ( int )$content_id . "')");
+		if($seo_key){
+			$this->language->replaceDescriptions('url_aliases',
+												array('query' => "content_id=" . ( int )$content_id),
+												array((int)$this->session->data['content_language_id'] => array('keyword'=>$seo_key)));
+		}else{
+			$this->db->query("DELETE
+							FROM " . DB_PREFIX . "url_aliases
+							WHERE query = 'content_id=" . ( int )$content_id . "'
+								AND language_id = '".(int)$this->session->data['content_language_id']."'");
+		}
 
 		if($data[ 'parent_content_id' ]){
 			foreach ($data[ 'parent_content_id' ] as $parent_id) {
@@ -146,20 +151,20 @@ class AContentManager {
 											 array( (int)$language_id => $update) );
 		$this->_updatePageContent($content_id);
 
-		$res = $this->db->query( "SELECT *
-								  FROM " . DB_PREFIX . "url_aliases
-								  WHERE `query` = 'content_id=" . ( int )$content_id . "'" );
-		if($res->num_rows){
-				$sql = "UPDATE " . DB_PREFIX . "url_aliases
-						SET `keyword` = '".$this->db->escape($data [ 'keyword' ])."'
-						WHERE `query` = 'content_id=" . ( int )$content_id . "'";
-		}else{
-				$sql = "INSERT INTO " . DB_PREFIX . "url_aliases
-							( `keyword`, `query`)
-							VALUES ('".$this->db->escape($data [ 'keyword' ])."',
-									'content_id=" . ( int )$content_id . "')";
+
+		if(isset($data['keyword'])){
+			$data['keyword'] =  SEOEncode($data['keyword']);
+			if($data['keyword']){
+				$this->language->replaceDescriptions('url_aliases',
+														array('query' => "content_id=" . ( int )$content_id),
+														array((int)$this->session->data['content_language_id'] => array('keyword' => $data['keyword'])));
+			}else{
+				$this->db->query("DELETE
+								FROM " . DB_PREFIX . "url_aliases
+								WHERE query = 'content_id=" . ( int )$content_id . "'
+									AND language_id = '".(int)$this->session->data['content_language_id']."'");
+			}
 		}
-		$this->db->query($sql);
 
 		if ($data [ 'store_id' ]) {
 			$query = "DELETE FROM " . DB_PREFIX . "contents_to_stores	WHERE content_id='" . $content_id . "'";
@@ -204,20 +209,18 @@ class AContentManager {
 				}
 				break;
 			case 'keyword' :
-				$res = $this->db->query( "SELECT *
-										  FROM " . DB_PREFIX . "url_aliases
-										  WHERE `query` = 'content_id=" . ( int )$content_id . "'" );
-				if($res->num_rows){
-					$sql = "UPDATE " . DB_PREFIX . "url_aliases
-							SET `keyword` = '".$this->db->escape($value)."'
-							WHERE `query` = 'content_id=" . ( int )$content_id . "'";
+				$value = SEOEncode($value);
+				if($value){
+					$this->language->replaceDescriptions('url_aliases',
+															array('query' => "content_id=" . ( int )$content_id),
+															array((int)$this->session->data['content_language_id'] => array('keyword' => $value)));
 				}else{
-				 	$sql = "INSERT INTO " . DB_PREFIX . "url_aliases
-							( `keyword`, `query`)
-							VALUES ('".$this->db->escape($value)."',
-									'content_id=" . ( int )$content_id . "')";
+					$this->db->query("DELETE
+									FROM " . DB_PREFIX . "url_aliases
+									WHERE query = 'content_id=" . ( int )$content_id . "'
+										AND language_id = '".(int)$this->session->data['content_language_id']."'");
 				}
-				$this->db->query($sql);
+
 				break;
 			case 'parent_content_id':
 				$query = "SELECT parent_content_id, sort_order, status
@@ -302,7 +305,8 @@ class AContentManager {
 			}
 			$sql = "SELECT *
 					FROM " . DB_PREFIX . "url_aliases
-					WHERE `query` = 'content_id=" . ( int )$content_id . "'";
+					WHERE `query` = 'content_id=" . ( int )$content_id . "'
+						AND language_id='".(int)$this->session->data['content_language_id']."'";
 			$keyword = $this->db->query($sql);
 			if($keyword->num_rows){
 				$output[0]['keyword'] = $keyword->row['keyword'];

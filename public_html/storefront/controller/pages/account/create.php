@@ -37,9 +37,25 @@ class ControllerPagesAccountCreate extends AController {
 		$this->loadModel('account/customer');
 		
 		$request_data = $this->request->post;
+
+		if(has_value($this->request->get_or_post('subscriber')) && $this->request->get_or_post('subscriber')==1){
+				$subscriber = $this->data['subscriber'] = 1;
+				$this->data['subscriber_switch_text_full'] = $this->language->get('text_full_register');
+				$this->data['subscriber_switch_text'] = $this->language->get('text_subscribe_register');
+		}else{
+			$subscriber = 0;
+		}
+
+
+
 		if ( $this->request->server['REQUEST_METHOD'] == 'POST') {
 			$this->error = $this->model_account_customer->validateRegistrationData($request_data);
+
     		if ( !$this->error ) {
+				// generate random password for subsribers only
+				if($subscriber){
+					$request_data['password'] = md5(mt_rand(0,10000));
+				}
 				//if allow login as email, need to set loginname = email
 				if (!$this->config->get('prevent_email_as_login')) {
 					$request_data['loginname'] = $request_data['email'];
@@ -110,7 +126,13 @@ class ControllerPagesAccountCreate extends AController {
                                                                        'type' => 'form',
                                                                        'name' => 'AccountFrm',
                                                                        'action' => $this->html->getSecureURL('account/create')));
-
+		// for subscribers only
+		if($subscriber){
+		$this->data['form'][ 'subscriber' ] = $form->getFieldHtml( array(
+                                                                       'type' => 'hidden',
+		                                                               'name' => 'subscriber',
+		                                                               'value' => 1));
+		}
 		$this->data['form'][ 'loginname' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'loginname',
@@ -129,7 +151,7 @@ class ControllerPagesAccountCreate extends AController {
 		$this->data['form'][ 'email' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'email',
-		                                                               'value' => $this->request->post['email'],
+		                                                               'value' => $this->request->get_or_post('email'),
 		                                                               'required' => true ));
 		$this->data['form'][ 'telephone' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
@@ -194,11 +216,12 @@ class ControllerPagesAccountCreate extends AController {
 		                                                               'name' => 'confirm',
 		                                                               'value' => $this->request->post['confirm'],
 		                                                               'required' => true ));
+
+		$newsletter = '';
 		$this->data['form'][ 'newsletter' ] = $form->getFieldHtml( array(
                                                                        'type' => 'radio',
 		                                                               'name' => 'newsletter',
-
-		                                                               'value' => (isset($this->request->post['newsletter']) ? $this->request->post['newsletter'] : -1),
+		                                                               'value' => (!is_null($this->request->get_or_post('newsletter')) ? $this->request->get_or_post('newsletter') : -1),
 		                                                               'options' => array(
                                                                            '1' => $this->language->get('text_yes'),
                                                                            '0' => $this->language->get('text_no'),

@@ -45,7 +45,7 @@
 				           <td><?php echo $form['url'] ?></td>
 			           </tr>
 		           </table>
-	            <? }    ?>
+	            <?php }    ?>
             </td>
             <td style="width:69px; white-space: nowrap;" class="ml_field" >
 	            <?php if($upload){ ?>

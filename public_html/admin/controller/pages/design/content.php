@@ -22,6 +22,9 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesDesignContent extends AController {
 	private $error = array();
+	/**
+	 * @var AContentManager
+	 */
 	private $acm;
 	public function main() {
 
@@ -465,7 +468,9 @@ class ControllerPagesDesignContent extends AController {
 		if ((strlen(html_entity_decode($this->request->post['content'])) < 2)) {
 			$this->error['content'] = $this->language->get('error_content');
 		}
-
+		if (($error_text = $this->html->isSEOkeywordExists('content_id='.$this->request->get['content_id'], $this->request->post['keyword']))) {
+			$this->error[ 'keyword' ] = $error_text;
+		}
 
 		if (!$this->error) {
 			return TRUE;

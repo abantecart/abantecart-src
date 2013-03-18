@@ -22,35 +22,54 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ModelTotalHandling extends Model {
 	public function getTotal(&$total_data, &$total, &$taxes) {
-		$conf_hndl_tx_id = $this->config->get('handling_tax_class_id');
-		$conf_hndl_fee = $this->config->get('handling_fee');
-	
-		if ($this->config->get('handling_status') && ($this->cart->getSubTotal() < $this->config->get('handling_total'))) {
-			$this->load->language('total/handling');
-		 	
-			$this->load->model('localisation/currency');
-			
-			$total_data[] = array( 
-        		'id'         => 'handling',
-        		'title'      => $this->language->get('text_handling'),
-        		'text'       => $this->currency->format($conf_hndl_fee),
-        		'value'      => $conf_hndl_fee,
-				'sort_order' => $this->config->get('handling_sort_order'),
-				'total_type' => $this->config->get('handling_fee_total_type')
-			);
 
-			if ($conf_hndl_tx_id) {
-				if (!isset($taxes[$conf_hndl_tx_id])) {
-					$taxes[$conf_hndl_tx_id]['total'] = $conf_hndl_fee;
-					$taxes[$conf_hndl_tx_id]['tax'] = $this->tax->calcTotalTaxAmount($conf_hndl_fee, $conf_hndl_tx_id);
-				} else {
-					$taxes[$conf_hndl_tx_id]['total'] += $conf_hndl_fee;
-					$taxes[$conf_hndl_tx_id]['tax'] += $this->tax->calcTotalTaxAmount($conf_hndl_fee, $conf_hndl_tx_id);
+		if ($this->config->get('handling_status')){
+			$conf_hndl_subtotal = 0;
+			$conf_hndl_tax_id = $this->config->get('handling_tax_class_id');
+			$conf_hndl_fee = $this->config->get('handling_fee');
+			$cart_subtotal = $this->cart->getSubTotal();
+
+			$per_payment = unserialize($this->config->get('handling_per_payment'));
+
+			if(is_array($per_payment)){
+				$customer_payment = $this->session->data['payment_method']['id'];
+				foreach($per_payment['handling_payment'] as $i=>$payment_id){
+					if($customer_payment==$payment_id){
+						if($cart_subtotal<$per_payment['handling_payment_subtotal'][$i]){
+							$conf_hndl_subtotal = $per_payment['handling_payment_subtotal'][$i];
+							$conf_hndl_fee = $per_payment['handling_payment_fee'][$i];
+							break;
+						}
+					}
 				}
 			}
-			
-			$total += $conf_hndl_fee;
+			// if fee for payment is not set - use default fee
+			$conf_hndl_subtotal = !$conf_hndl_subtotal ? $this->config->get('handling_total') : $conf_hndl_subtotal;
+
+			if ($cart_subtotal < $conf_hndl_subtotal) {
+
+				$this->load->language('total/handling');
+				$this->load->model('localisation/currency');
+				$total_data[] = array(
+					'id'         => 'handling',
+					'title'      => $this->language->get('text_handling'),
+					'text'       => $this->currency->format($conf_hndl_fee),
+					'value'      => $conf_hndl_fee,
+					'sort_order' => $this->config->get('handling_sort_order'),
+					'total_type' => $this->config->get('handling_fee_total_type')
+				);
+				if ($conf_hndl_tax_id) {
+					if (!isset($taxes[$conf_hndl_tax_id])) {
+						$taxes[$conf_hndl_tax_id]['total'] = $conf_hndl_fee;
+						$taxes[$conf_hndl_tax_id]['tax'] = $this->tax->calcTotalTaxAmount($conf_hndl_fee, $conf_hndl_tax_id);
+					} else {
+						$taxes[$conf_hndl_tax_id]['total'] += $conf_hndl_fee;
+						$taxes[$conf_hndl_tax_id]['tax'] += $this->tax->calcTotalTaxAmount($conf_hndl_fee, $conf_hndl_tax_id);
+					}
+				}
+
+				$total += $conf_hndl_fee;
+			}
 		}
 	}
 }
-?>

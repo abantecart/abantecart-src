@@ -451,22 +451,25 @@ class ControllerPagesCatalogCategory extends AController {
 	private function _validateForm() {
 		
 		if (!$this->user->canModify('catalog/category')) {
-			$this->error[ 'warning' ] = $this->language->get('error_permission');
+			$this->error[ 'warning' ][] = $this->language->get('error_permission');
 		}
 
 		foreach ($this->request->post[ 'category_description' ] as $language_id => $value) {
 			if ((strlen(utf8_decode($value[ 'name' ])) < 2) || (strlen(utf8_decode($value[ 'name' ])) > 32)) {
-				$this->error[ 'name' ][ $language_id ] = $this->language->get('error_name');
+				$this->error[ 'warning' ][] = $this->language->get('error_name');
 			}
+		}
+		if (($error_text = $this->html->isSEOkeywordExists('category_id='.$this->request->get['category_id'], $this->request->post['keyword']))) {
+			$this->error[ 'warning' ][] = $error_text;
 		}
 
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			if (!isset($this->error[ 'warning' ])) {
-				$this->error[ 'warning' ] = $this->language->get('error_required_data');
+				$this->error[ 'warning' ][] = $this->language->get('error_required_data');
 			}
-
+			$this->error[ 'warning' ] = implode('<br>',$this->error[ 'warning' ]);
 			return FALSE;
 		}
 	}
@@ -585,16 +588,8 @@ class ControllerPagesCatalogCategory extends AController {
 		if (!(int)$this->request->get[ 'category_id' ] && !(int)$this->request->post[ 'category_id' ]) {
 			$this->redirect($this->html->getSecureURL('catalog/category'));
 		}
-		$url = '';
-		if (isset($this->request->get[ 'category_id' ])) {
-			$category_id = (int)$this->request->get[ 'category_id' ];
-			$url .= '&category_id=' . $this->request->get[ 'category_id' ];
-		} elseif (isset($this->request->post[ 'category_id' ])) {
-			$category_id = (int)$this->request->post[ 'category_id' ];
-			$url .= '&category_id=' . $this->request->post[ 'category_id' ];
-		}
 
-
+		$url = '&category_id=' . $this->request->get_or_post( 'category_id' );
 		$tmpl_id = $this->config->get('config_storefront_template');
 
 
@@ -634,5 +629,3 @@ class ControllerPagesCatalogCategory extends AController {
 	}
 
 }
-
-?>

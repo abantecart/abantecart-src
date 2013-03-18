@@ -479,21 +479,18 @@ class ControllerPagesToolPackageInstaller extends AController {
 				// if even one destination directory is not writable - use ftp mode
 				if ($dst_dirs) {
 					foreach ($dst_dirs as $dir) {
-						if (file_exists(DIR_ROOT . '/' . $dir)) {
-							if (!is_writable(DIR_ROOT . '/' . $dir)) {
-								$ftp = true; // enable ftp-mode
-								$non_writables[ ] = DIR_ROOT . '/' . $dir;
-							}
-						}
+                        if (!is_writable(DIR_ROOT . '/' . $dir)) {
+                            $ftp = true; // enable ftp-mode
+                            $non_writables[ ] = DIR_ROOT . '/' . $dir;
+                        }
 					}
 				}
 			} else {
 				foreach ($package_info[ 'package_content' ][ 'core' ] as $corefile) {
-					if (file_exists(DIR_ROOT . '/' . $corefile)) {
-						if (!is_writable(DIR_ROOT . '/' . $corefile)) {
+					if (!is_writable(DIR_ROOT . '/' . $corefile)
+                        || !is_writable(pathinfo(DIR_ROOT . '/' . $corefile,PATHINFO_DIRNAME))) {
 							$ftp = true; // enable ftp-mode
 							$non_writables[ ] = DIR_ROOT . '/' . $corefile;
-						}
 					}
 				}
 			}
@@ -505,12 +502,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 			$ftp_password = $this->request->post[ 'ftp_password' ];
 			$ftp_host = $this->request->post[ 'ftp_host' ];
 
-			$this->request->post[ 'ftp_path' ] = trim($this->request->post[ 'ftp_path' ], '/');
-			$this->request->post[ 'ftp_path' ] = $this->request->post[ 'ftp_path' ] ? '/' . trim($this->request->post[ 'ftp_path' ], '/') . '/' : '';
-			$ftp_path = $this->request->post[ 'ftp_path' ];
 
 			//let's try to connect
-			if (!$pmanager->checkFTP($ftp_user, $ftp_password, $ftp_host, $ftp_path)) {
+			if (!$pmanager->checkFTP($ftp_user, $ftp_password, $ftp_host)) {
 				$this->session->data[ 'error' ] = $pmanager->error;
 				$this->redirect($this->html->getSecureURL('tool/package_installer/agreement'));
 			}
@@ -636,6 +630,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 	}
 
 	public function install() {
+        $this->loadLanguage('tool/package_installer');
 		$package_info = &$this->session->data[ 'package_info' ];
 		$package_id = $package_info[ 'package_id' ];
 		$package_dirname = $package_info[ 'package_dir' ];
@@ -680,15 +675,28 @@ class ControllerPagesToolPackageInstaller extends AController {
 				}
 				$extension_id = $ext;
 			}
+            $this->data[ 'heading_title' ] = $this->language->get('heading_title_license') . '. Extension: ' . $ext;
 		}
 
 		if ($package_info[ 'package_content' ][ 'core' ]) { // for cart upgrade)
-			$result = $this->_upgradeCore();
-			if ($result === false) {
-				$this->_removeTempFiles();
-				unset($this->session->data[ 'package_info' ]);
-				$this->redirect($this->_get_begin_href());
-			}
+
+            if($upgrade_confirmed){
+			    $result = $this->_upgradeCore();
+                if ($result === false) {
+                    $this->_removeTempFiles();
+                    unset($this->session->data[ 'package_info' ]);
+                    $this->redirect($this->_get_begin_href());
+                }
+            }else{
+                $this->data['heading_title'] = 'Upgrade Core Attention';
+                $release_notes = $temp_dirname . $package_dirname . "/release_notes.txt";
+                $this->data[ 'license_text' ] .= sprintf($this->language->get('text_core_upgrade_attention'),$package_info[ 'package_version'])."\n\n\n\n";
+                if(file_exists($release_notes)){
+                    $this->data[ 'license_text' ] .= file_get_contents($release_notes);
+                }
+                $this->data[ 'license_text' ] = htmlentities($this->data[ 'license_text' ], ENT_QUOTES, 'UTF-8');
+                $this->data[ 'license_text' ] = nl2br($this->data[ 'license_text' ]);
+            }
 		}
 
 		if ($result === true) { // if all  was installed
@@ -731,11 +739,12 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$this->data[ 'form' ][ 'disagree_button' ] = $form->getFieldHtml(array( 'type' => 'button',
 			'text' => $this->language->get('text_disagree'),
 			'style' => 'button' ));
-		$this->data[ 'heading_title' ] = $this->language->get('heading_title_license') . '. Extension: ' . $ext;
 
-		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array( 'type' => 'button',
-			'text' => $this->language->get('text_agree'),
-			'style' => 'button1'
+
+		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(
+            array( 'type' => 'button',
+			        'text' => $this->language->get('text_agree'),
+			        'style' => 'button1'
 		));
 
 		$this->view->batchAssign($this->data);
@@ -822,9 +831,18 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 		// #3. if all fine - copy extension package files
 		if ($package_info[ 'ftp' ]) { // if ftp-access
-			$result = $pmanager->ftp_move($temp_dirname . $package_dirname . "/code/extensions/" . $extension_id,
+            $ftp_user = $this->session->data['package_info']['ftp_user'];
+            $ftp_password = $this->session->data['package_info']['ftp_password'];
+            $ftp_port = $this->session->data['package_info']['ftp_port'];
+            $ftp_host = $this->session->data['package_info']['ftp_host'];
+
+            $fconnect = ftp_connect($ftp_host, $ftp_port);
+            ftp_login($fconnect, $ftp_user, $ftp_password);
+            ftp_pasv($fconnect, true);
+			$result = $pmanager->ftp_move($fconnect, $temp_dirname . $package_dirname . "/code/extensions/" . $extension_id,
 										  $extension_id,
 										  $package_info[ 'ftp_path' ] . 'extensions/' . $extension_id);
+            ftp_close($fconnect);
 		} else {
 			$result = rename($temp_dirname . $package_dirname . "/code/extensions/" . $extension_id, DIR_EXT.$extension_id);
 			//this method requires permission set to be set
@@ -956,6 +974,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 		) {
 			return false;
 		}
+
+        //set ftp to false. it's not needed for temp files clean, because all files was created by apache user
+        $this->session->data[ 'package_info' ]['ftp'] = false;
 		$pmanager = new APackageManager();
 		switch ($target) {
 			case 'both':

@@ -301,6 +301,10 @@
 		<key>text_status</key>
 		<value><![CDATA[Estado]]></value>
 	</definition>
+    <definition>
+        <key>text_sort_order</key>
+        <value><![CDATA[Orden de Clasificación]]></value>
+    </definition>
 	<definition>
 		<key>text_payment_minimum_total</key>
 		<value><![CDATA[Orden mínima Total:<span class="help">Cantidad mínima de pedido para llegar a permitir el pago</span>]]></value>

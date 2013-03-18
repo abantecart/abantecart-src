@@ -62,7 +62,7 @@ class ControllerBlocksContent extends AController {
         $this->view->assign('contents', $contents );
         $this->view->assign('contact', $this->html->getURL('content/contact') );
         $this->view->assign('sitemap', $this->html->getURL('content/sitemap') );
-        
+
 		$this->processTemplate();
 
         //init controller data

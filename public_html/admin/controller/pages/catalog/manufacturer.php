@@ -301,19 +301,22 @@ class ControllerPagesCatalogManufacturer extends AController {
 	 
   	private function _validateForm() {
     	if (!$this->user->canModify('catalog/manufacturer')) {
-      		$this->error['warning'] = $this->language->get('error_permission');
+      		$this->error['warning'][] = $this->language->get('error_permission');
     	}
 
     	if ((strlen(utf8_decode($this->request->post['name'])) < 2) || (strlen(utf8_decode($this->request->post['name'])) > 64)) {
-      		$this->error['name'] = $this->language->get('error_name');
+      		$this->error['warning'][] = $this->language->get('error_name');
+		}
+		if (($error_text = $this->html->isSEOkeywordExists('manufacturer_id='.$this->request->get['manufacturer_id'], $this->request->post['keyword']))) {
+			$this->error['warning'][] = $error_text;
 		}
 		
 		if (!$this->error) {
 	  		return TRUE;
 		} else {
+			$this->error['warning'] = implode('<br>',$this->error['warning']);
 	  		return FALSE;
 		}
   	}    
 
 }
-?>

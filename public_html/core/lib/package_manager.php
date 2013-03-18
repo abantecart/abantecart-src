@@ -190,18 +190,27 @@ class APackageManager {
 			//delete previous version
 			$this->removeDir($old_path . $package_id);
 		}
-
 		return true;
 	}
 
 	public function replaceCoreFiles() {
 		$corefiles = $this->session->data['package_info']['package_content']['core'];
 		if ($this->session->data['package_info']['ftp']) {
+            $ftp_user = $this->session->data['package_info']['ftp_user'];
+            $ftp_password = $this->session->data['package_info']['ftp_password'];
+            $ftp_port = $this->session->data['package_info']['ftp_port'];
+            $ftp_host = $this->session->data['package_info']['ftp_host'];
+
+            $fconnect = ftp_connect($ftp_host, $ftp_port);
+            ftp_login($fconnect, $ftp_user, $ftp_password);
+            ftp_pasv($fconnect, true);
+
 			foreach ($corefiles as $core_filename) {
 				$remote_file = pathinfo($this->session->data['package_info']['ftp_path'] . $core_filename, PATHINFO_BASENAME);
-				$remote_dir = pathinfo($this->session->data['package_info']['ftp_path'] . $core_filename, PATHINFO_DIRNAME);
+				$remote_dir = pathinfo($this->session->data['package_info']['ftp_path'] . $core_filename, PATHINFO_DIRNAME).'/';
+
 				$src_dir = (string)$this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_dir'] . '/code/' . $core_filename;
-				$result = $this->ftp_move($src_dir, $remote_file, $remote_dir);
+				$result = $this->ftp_move($fconnect, $src_dir, $remote_file, $remote_dir);
 				if ($result) {
 					$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
 					$install_upgrade_history->addRows(array('date_added' => date("Y-m-d H:i:s", time()),
@@ -217,7 +226,9 @@ class APackageManager {
 					$error = new AError ($this->error);
 					$error->toLog()->toDebug();
 				}
-			}
+			}// end of loop
+            ftp_close($fconnect);
+
 		} else {
 			foreach ($corefiles as $core_filename) {
 				if (file_exists(DIR_ROOT . '/' . $core_filename)) {
@@ -432,53 +443,46 @@ class APackageManager {
 	 * Function for moving directory or file via ftp-connection
 	 *
 	 * @param string $local local path to file or directory
-	 * @param string $remote remote file  or directory name
+	 * @param string $remote_file remote file  or directory name
 	 * @param string $remote_dir
 	 * @return bool
 	 */
-	public function ftp_move($local, $remote, $remote_dir) {
+	public function ftp_move($fconnect, $local, $remote_file, $remote_dir) {
 		$local = (string)$local;
-		$remote = (string)$remote;
+		$remote_file = (string)$remote_file;
 		$remote_dir = (string)$remote_dir;
 
 		if (!$this->session->data['package_info']['ftp']) {
 			return false;
 		}
 
-		$ftp_user = $this->session->data['package_info']['ftp_user'];
-		$ftp_password = $this->session->data['package_info']['ftp_password'];
-		$ftp_port = $this->session->data['package_info']['ftp_port'];
-		$ftp_host = $this->session->data['package_info']['ftp_host'];
-
-		$fconnect = ftp_connect($ftp_host, $ftp_port);
-		ftp_login($fconnect, $ftp_user, $ftp_password);
-		ftp_pasv($fconnect, true);
-
 		// if destination folder does not exists - try to create
-		if (!ftp_chdir($fconnect, $remote_dir)) {
+		if (!@ftp_chdir($fconnect, $remote_dir)) {
 			$result = ftp_mkdir($fconnect, $remote_dir);
 			if (!$result) {
-				@fclose($fconnect);
 				return false;
 			}
-			@ftp_chmod($fconnect, 0777, $remote_dir);
-		}
-		ftp_chdir($fconnect, $remote_dir);
+            if(!ftp_chmod($fconnect, 0777, $remote_dir)){
+                $error = new AError('Cannot to change mode for directory '.$remote_dir);
+                $error->toLog()->toDebug();
+            }
 
+		}
+		@ftp_chdir($fconnect, $remote_dir);
 
 		if (is_dir($local)) {
 			$this->ftp_put_dir($fconnect, $local, $remote_dir);
 
 		} else {
-			if (!ftp_put($fconnect, $remote, $local, FTP_BINARY)) {
-				fclose($fconnect);
+			if (!ftp_put($fconnect, $remote_file, $local, FTP_BINARY)) {
 				return false;
 			}
-			@ftp_chmod($fconnect, 0777, $remote_dir . pathinfo($local, PATHINFO_FILENAME));
+            $remote_file = $remote_dir . pathinfo($local, PATHINFO_BASENAME);
+            if(!ftp_chmod($fconnect, 0777, $remote_file)){
+                $error = new AError('Cannot to change mode for file '.$remote_file);
+                $error->toLog()->toDebug();
+            }
 		}
-
-
-		fclose($fconnect);
 		return true;
 	}
 
@@ -665,9 +669,20 @@ class APackageManager {
 			file_put_contents(DIR_CORE . 'version.php', $content);
 		} else {
 			file_put_contents($this->session->data['package_info']['tmp_dir'] . 'version.php', $content);
-			$this->ftp_move($this->session->data['package_info']['tmp_dir'] . 'version.php',
-				'version.php',
-					$this->session->data['package_info']['ftp_path'] . 'core');
+            $ftp_user = $this->session->data['package_info']['ftp_user'];
+            $ftp_password = $this->session->data['package_info']['ftp_password'];
+            $ftp_port = $this->session->data['package_info']['ftp_port'];
+            $ftp_host = $this->session->data['package_info']['ftp_host'];
+
+            $fconnect = ftp_connect($ftp_host, $ftp_port);
+            ftp_login($fconnect, $ftp_user, $ftp_password);
+            ftp_pasv($fconnect, true);
+
+            $this->ftp_move($fconnect,
+                            $this->session->data['package_info']['tmp_dir'] . 'version.php',
+				            'version.php',
+					        $this->session->data['package_info']['ftp_path'] . 'core/');
+            ftp_close($fconnect);
 		}
 	}
 

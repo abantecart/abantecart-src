@@ -86,7 +86,12 @@ class ControllerPagesProductSearch extends AController {
 		if (isset($this->request->get['sort'])) {
 			list($sort,$order) = explode("-",$this->request->get['sort']);
 		} else {
-			$sort = 'p.sort_order';
+			list($sort,$order) = explode("-",$this->config->get('config_product_default_sort_order'));
+			if($sort=='name'){
+				$sort = 'pd.'.$sort;
+			}elseif(in_array($sort,array('sort_order','price'))){
+				$sort = 'p.'.$sort;
+			}
 		}
 
 		$this->data['keyword'] = HtmlElementFactory::create( array ( 'type' => 'input',
@@ -287,40 +292,54 @@ class ControllerPagesProductSearch extends AController {
 				);
 				
 				$sorts[] = array(
-					'text'  => $this->language->get('text_name_asc'),
+					'text'  => $this->language->get('text_sorting_name_asc'),
 					'value' => 'pd.name-ASC',
 					'href'  => $this->html->getURL('product/search', $url . '&sort=pd.name&order=ASC', '&encode')
 				); 
 
 				$sorts[] = array(
-					'text'  => $this->language->get('text_name_desc'),
+					'text'  => $this->language->get('text_sorting_name_desc'),
 					'value' => 'pd.name-DESC',
 					'href'  => $this->html->getURL('product/search', $url . '&sort=pd.name&order=DESC', '&encode')
 				);  
 
 				$sorts[] = array(
-					'text'  => $this->language->get('text_price_asc'),
+					'text'  => $this->language->get('text_sorting_price_asc'),
 					'value' => 'p.price-ASC',
 					'href'  => $this->html->getURL('product/search', $url . '&sort=p.price&order=ASC', '&encode')
 				); 
 
 				$sorts[] = array(
-					'text'  => $this->language->get('text_price_desc'),
+					'text'  => $this->language->get('text_sorting_price_desc'),
 					'value' => 'p.price-DESC',
 					'href'  => $this->html->getURL('product/search', $url . '&sort=p.price&order=DESC', '&encode')
 				); 
 				
 				$sorts[] = array(
-					'text'  => $this->language->get('text_rating_desc'),
+					'text'  => $this->language->get('text_sorting_rating_desc'),
 					'value' => 'rating-DESC',
 					'href'  => $this->html->getURL('product/search', $url . '&sort=rating&order=DESC', '&encode')
 				); 
 				
 				$sorts[] = array(
-					'text'  => $this->language->get('text_rating_asc'),
+					'text'  => $this->language->get('text_sorting_rating_asc'),
 					'value' => 'rating-ASC',
 					'href'  => $this->html->getURL('product/search', $url . '&sort=rating&order=ASC', '&encode')
 				);
+
+				$sorts[] = array(
+					'text'  => $this->language->get('text_sorting_date_desc'),
+					'value' => 'date_modified-DESC',
+					'href'  => $this->html->getSEOURL('product/search', $url . '&sort=date_modified&order=DESC', '&encode')
+				);
+
+				$sorts[] = array(
+					'text'  => $this->language->get('text_sorting_date_asc'),
+					'value' => 'date_modified-ASC',
+					'href'  => $this->html->getSEOURL('product/search', $url . '&sort=date_modified&order=ASC', '&encode')
+				);
+
+
                 $this->data['sorts'] = $sorts;
 				$options = array();
 				foreach($sorts as $item){
@@ -330,7 +349,7 @@ class ControllerPagesProductSearch extends AController {
 				$sorting = $this->html->buildSelectbox( array (
 		                                         'name' => 'sort',
 			                                     'options'=> $options,
-			                                     'value'=> $this->request->get['sort'],
+			                                     'value'=> $sort.'-'.$order
 		                                         ) );
 
 				$this->data['sorting'] = $sorting;

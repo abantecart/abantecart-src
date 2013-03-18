@@ -79,7 +79,12 @@ class ControllerPagesProductManufacturer extends AController {
 				if (isset($this->request->get['sort'])) {
 					list($sort,$order) = explode("-",$this->request->get['sort']);
 				} else {
-					$sort = 'p.sort_order';
+					list($sort,$order) = explode("-",$this->config->get('config_product_default_sort_order'));
+					if($sort=='name'){
+						$sort = 'pd.'.$sort;
+					}elseif(in_array($sort,array('sort_order','price'))){
+						$sort = 'p.'.$sort;
+					}
 				}
 				
 				$this->loadModel('catalog/review');
@@ -102,9 +107,10 @@ class ControllerPagesProductManufacturer extends AController {
 
         		foreach ($results as $result) {
 					$thumbnail = $resource->getMainThumb('products',
-			                                     $result['product_id'],
-			                                     $this->config->get('config_image_product_width'),
-			                                     $this->config->get('config_image_product_height'),true);
+			                                    $result['product_id'],
+			                                    (int)$this->config->get('config_image_product_width'),
+												(int)$this->config->get('config_image_product_height'),
+												true);
 
 					
 					$rating = $products_info[$result['product_id']]['rating'];
@@ -180,41 +186,52 @@ class ControllerPagesProductManufacturer extends AController {
 				);
 				
 				$sorts[] = array(
-					'text'  => $this->language->get('text_name_asc'),
+					'text'  => $this->language->get('text_sorting_name_asc'),
 					'value' => 'pd.name-ASC',
 					'href'  => $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=pd.name&order=ASC'.$url, '&encode')
 				);  
  
 				$sorts[] = array(
-					'text'  => $this->language->get('text_name_desc'),
+					'text'  => $this->language->get('text_sorting_name_desc'),
 					'value' => 'pd.name-DESC',
 					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=pd.name&order=DESC'.$url, '&encode')
 				);  
 
 				$sorts[] = array(
-					'text'  => $this->language->get('text_price_asc'),
+					'text'  => $this->language->get('text_sorting_price_asc'),
 					'value' => 'p.price-ASC',
 					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=p.price&order=ASC'.$url, '&encode')
 				); 
 
 				$sorts[] = array(
-					'text'  => $this->language->get('text_price_desc'),
+					'text'  => $this->language->get('text_sorting_price_desc'),
 					'value' => 'p.price-DESC',
 					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=p.price&order=DESC'.$url, '&encode')
 				); 
 				
 				$sorts[] = array(
-					'text'  => $this->language->get('text_rating_desc'),
+					'text'  => $this->language->get('text_sorting_rating_desc'),
 					'value' => 'rating-DESC',
 					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=rating&order=DESC'.$url, '&encode')
 				); 
 				
 				$sorts[] = array(
-					'text'  => $this->language->get('text_rating_asc'),
+					'text'  => $this->language->get('text_sorting_rating_asc'),
 					'value' => 'rating-ASC',
 					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=rating&order=ASC'.$url, '&encode')
 				);
 
+				$sorts[] = array(
+					'text'  => $this->language->get('text_sorting_date_desc'),
+					'value' => 'date_modified-DESC',
+					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=date_modified&order=DESC', '&encode')
+				);
+
+				$sorts[] = array(
+					'text'  => $this->language->get('text_sorting_date_asc'),
+					'value' => 'date_modified-ASC',
+					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=date_modified&order=ASC', '&encode')
+				);
 				$options = array();
 				foreach($sorts as $item){
 					$options[$item['value']] = $item['text'];
@@ -222,7 +239,7 @@ class ControllerPagesProductManufacturer extends AController {
 				$sorting = $this->html->buildSelectbox( array (
 													 'name' => 'sort',
 													 'options'=> $options,
-													 'value'=> $this->request->get['sort']
+													 'value'=> $sort.'-'.$order
 													 ) );
 				$this->view->assign( 'sorting', $sorting );
 				$this->view->assign( 'url', $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id']) );

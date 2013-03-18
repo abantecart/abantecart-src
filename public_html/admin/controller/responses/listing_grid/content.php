@@ -103,12 +103,12 @@ class ControllerResponsesListingGridContent extends AController {
 
 						if ($this->config->get('config_account_id') == $id) {
 							$this->response->setOutput($this->language->get('error_account'));
-							return;
+							return null;
 						}
 
 						if ($this->config->get('config_checkout_id') == $id) {
 							$this->response->setOutput($this->language->get('error_checkout'));
-							return;
+							return null;
 						}
 
 
@@ -159,9 +159,16 @@ class ControllerResponsesListingGridContent extends AController {
 				if (!in_array($field, $allowedFields)) {
 					continue;
 				}
+				if($field=='keyword'){
+					if($err = $this->html->isSEOkeywordExists('content_id='.$this->request->get['id'], $value)){
+						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+						return $dd->dispatch();
+					}
+				}
+
 				$this->acm->editContentField($this->request->get[ 'id' ], $field, $value);
 			}
-			return;
+			return null;
 		}
 
 		//request sent from jGrid. ID is key of array
@@ -176,5 +183,3 @@ class ControllerResponsesListingGridContent extends AController {
 	}
 
 }
-
-?>

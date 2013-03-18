@@ -317,6 +317,9 @@ class ControllerResponsesListingGridProduct extends AController {
 					$err = $this->language->get('error_model');
 				}
 				break;
+			case 'keyword' :
+				$err = $this->html->isSEOkeywordExists('product_id='.$this->request->get['id'], $value);
+				break;
 		}
 		return $err;
 	}
