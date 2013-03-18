@@ -328,6 +328,8 @@ class ControllerPagesExtensionExtensions extends AController {
 
 			switch ($data['type']) {
 				case 'selectbox':
+				case 'multiselectbox':
+				case 'checkboxgroup':
 					// if options need to extract from db
 					$data['options'] = $item['options'];
 					if ($item['model_rt'] != '') {
@@ -345,30 +347,11 @@ class ControllerPagesExtensionExtensions extends AController {
 							}
 						}
 					}
-					break;
-
-				case 'checkboxgroup':
-				    // if options need to extract from model
-				    $data[ 'options' ] =  $item['options'];
-				    if ($item['model_rt'] != '') {
-				    	$this->loadModel($item['model_rt']);
-				    	$model = $this->{'model_' . str_replace("/", "_",$item['model_rt'])};
-				    	$method_name = $item['method'];
-				    	if (method_exists($model, $method_name)) {
-				    		$res = call_user_func(array( $model, $method_name ));
-				    		if ($res) {
-				    			$field1 = $item['field1'];
-				    			$field2 = $item['field2'];
-				    			foreach ($res as $opt) {
-				    				$data[ 'options' ][ $opt[ $field1 ] ] = $opt[ $field2 ];
-				    			}
-				    		}
-				    	}
-				    }
-				    #custom settings for multivalue
-				    $data[ 'scrollbox' ] = 'true';
-				    $data['name'] = $item['name']."[]";
-				    
+				    if($data['type']=='checkboxgroup'){
+						#custom settings for multivalue
+						$data[ 'scrollbox' ] = 'true';
+						$data['name'] = $item['name']."[]";
+					}
 				    break;
 
 				case 'resource':
