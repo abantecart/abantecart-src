@@ -244,6 +244,9 @@ class AAttribute {
 
         foreach ( $this->attributes as $attribute ) {
        		if ( $attribute['attribute_id']  == $attribute_id ) {
+				if ( has_value($attribute['settings']) ) {
+					$attribute['settings'] = unserialize($attribute['settings']);
+				}
         	    return $attribute;
         	}
 		}

@@ -228,6 +228,7 @@ try {
 	require_once(DIR_CORE . 'lib/template.php');
 	require_once(DIR_CORE . 'lib/xml2array.php');
 	require_once(DIR_CORE . 'lib/data.php');
+	require_once(DIR_CORE . 'lib/file.php');
 
 // Application Classes
 	require_once(DIR_CORE . 'lib/customer.php');

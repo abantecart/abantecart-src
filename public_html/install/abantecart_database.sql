@@ -6032,6 +6032,7 @@ CREATE TABLE `ac_fields` (
   -- I - text input, T - Text area, S - Select, M - multivalue select, C - Checkbox, R - radio buttons, U - File upload, H - Hidden, G -Checkbox Group, D - Date, E - time, K - Captcha 
   `sort_order` int(3) NOT NULL,
   `attributes` varchar(255) NOT NULL,
+  `settings` text COLLATE utf8_bin NOT NULL DEFAULT '',
   `required` char(1) NOT NULL DEFAULT 'N',
   -- N - Not required, Y - required  
   `status` smallint(1) NOT NULL default '0',
