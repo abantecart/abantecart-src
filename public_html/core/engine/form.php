@@ -307,6 +307,7 @@ class AForm {
 					'required' => $field[ 'required' ],
 					'name' => $field[ 'name' ],
 					'value' => $field[ 'value' ],
+					'settings' => has_value($field['settings']) ? unserialize($field['settings']) : '',
 					'description' => $field[ 'description' ],
 				);
 			}

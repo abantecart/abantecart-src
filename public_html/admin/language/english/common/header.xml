@@ -304,4 +304,8 @@
         <key>text_all_matches</key>
         <value><![CDATA[all matches]]></value>
     </definition>
+	<definition>
+		<key>text_file_uploads</key>
+		<value><![CDATA[File Uploads]]></value>
+	</definition>
 </definitions>

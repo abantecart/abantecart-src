@@ -96,6 +96,18 @@ class ControllerPagesCheckoutCart extends AController {
 								'size' => $this->request->files['option']['size'][$id],
 							);
 
+							$dataset = new ADataset('file_uploads','admin');
+							$dataset->addRows(
+								array(
+									'date_added'=> date("Y-m-d H:i:s",time()),
+									'name' => $file_path_info['name'],
+									'type' => $file_data['type'],
+									'section' => 'product_option',
+									'section_id' => $attribute_data['attribute_id'],
+									'path' => $file_path_info['path'],
+								)
+							);
+
 							$file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
 
 							if ( has_value($file_errors) ) {

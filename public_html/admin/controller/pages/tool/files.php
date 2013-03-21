@@ -24,6 +24,103 @@
 class ControllerPagesToolFiles extends AController {
 	public $data;
 
+	public function main() {
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->loadLanguage('tool/files');
+
+		var_dump($this->language->get ( 'column_section' ));
+		$this->document->setTitle ( $this->language->get ( 'heading_title' ) );
+
+		$this->document->initBreadcrumb ();
+		$this->document->addBreadcrumb ( array (
+			'href' => $this->html->getSecureURL ( 'index/home' ),
+			'text' => $this->language->get ( 'text_home' ),
+			'separator' => FALSE ) );
+		$this->document->addBreadcrumb ( array (
+			'href' => $this->html->getSecureURL ( 'tool/files' ),
+			'text' => $this->language->get ( 'heading_title' ),
+			'separator' => ' :: ' ) );
+
+		$grid_settings = array (
+			//id of grid
+			'table_id' => 'file_uploads',
+			// url to load data from
+			'url' => $this->html->getSecureURL ( 'listing_grid/file_uploads' ),
+			// url to send data for edit / delete
+			'editurl' => '',
+			'multiselect'=>'false',
+			// url to update one field
+			'update_field' => '',
+			// default sort column
+			'sortname' => 'date_added',
+			// actions
+			'actions' => '',
+			'columns_search' => false,
+			'sortable' => true );
+
+		$grid_settings ['colNames'] = array (
+			'#',
+			$this->language->get ( 'column_date_added' ),
+			$this->language->get ( 'column_section' ),
+			$this->language->get ( 'column_path' ),
+		);
+		$grid_settings ['colModel'] = array (
+			array (
+				'name' => 'row_id',
+				'index' => 'row_id',
+				'width' => 10,
+				'align' => 'center',
+				'sortable' => false,
+				'search' => false
+			),
+			array (
+				'name' => 'date_added',
+				'index' => 'date_added',
+				'width' => 50,
+				'align' => 'center',
+				'sortable' => false,
+				'search' => false
+			),
+			array (
+				'name' => 'section',
+				'index' => 'section',
+				'width' => 50,
+				'align' => 'center',
+				'sortable' => false
+			),
+			array (
+				'name' => 'path',
+				'index' => 'path',
+				'width' => 20,
+				'align' => 'center',
+				'sortable' => false,
+				'search' => false
+			),
+		);
+
+		$grid = $this->dispatch ( 'common/listing_grid', array ( $grid_settings ) );
+		$this->view->assign ( 'listing_grid', $grid->dispatchGetOutput () );
+		$this->view->assign('help_url', $this->gen_help_url() );
+
+		if (isset($this->session->data['error'])) {
+			$this->view->assign('error_warning', $this->session->data['error']);
+			unset($this->session->data['error']);
+		}
+		if (isset($this->session->data['success'])) {
+			$this->view->assign('success', $this->session->data['success']);
+			unset($this->session->data['success']);
+		}
+
+
+		$this->view->batchAssign (  $this->language->getASet () );
+
+		$this->processTemplate ( 'pages/tool/files.tpl' );
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
+
 	public function download() {
 
 		//init controller data
@@ -32,8 +129,13 @@ class ControllerPagesToolFiles extends AController {
 		if ($this->user->canAccess('tool/files')) {
 			$filename = str_replace(array( '../', '..\\', '\\', '/' ), '', $this->request->get[ 'filename' ]);
 
-			$am = new AAttribute($this->request->get[ 'attribute_type' ]);
-			$attribute_data = $am->getAttribute($this->request->get['attribute_id']);
+			if ( $this->request->get[ 'attribute_type' ] == 'field' ) {
+				$this->loadModel('tool/file_uploads');
+				$attribute_data = $this->model_tool_file_uploads->getField($this->request->get['attribute_id']);
+			} else {
+				$am = new AAttribute($this->request->get[ 'attribute_type' ]);
+				$attribute_data = $am->getAttribute($this->request->get['attribute_id']);
+			}
 
 			if ( has_value($attribute_data['settings']['directory']) ) {
 				$file = DIR_APP_SECTION . 'system/uploads/' . $attribute_data['settings']['directory'] . '/' . $filename;
