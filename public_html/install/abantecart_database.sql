@@ -6040,7 +6040,7 @@ CREATE TABLE `ac_fields` (
   KEY `field_id` (`field_id`, `form_id`, `status`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `ac_fields` VALUES (11,2,'first_name','I',1,'','Y',1),(12,2,'email','I',2,'','Y',1),(13,2,'enquiry','T',3,'','Y',1),(14,2,'captcha','K',4,'','Y',1);
+INSERT INTO `ac_fields` VALUES (11,2,'first_name','I',1,'','','Y',1),(12,2,'email','I',2,'','','Y',1),(13,2,'enquiry','T',3,'','','Y',1),(14,2,'captcha','K',4,'','','Y',1);
 
 --
 -- DDL for table `field_descriptions`
