@@ -355,7 +355,7 @@ class AResource {
 	 */
 	public function getResources ( $object_name, $object_id, $language_id = 0 ) {
 		//Allow to load resources only for 1 object and id combination
-	    if ( !$object_name || !$object_id ) {
+	    if ( !has_value($object_name) || !has_value($object_id) ) {
 			return array();
 	    }
 
