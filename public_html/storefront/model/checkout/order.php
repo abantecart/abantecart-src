@@ -21,6 +21,9 @@ if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
 class ModelCheckoutOrder extends Model {
+
+	public $data = array();
+
 	public function getOrder($order_id) {
 		$order_query = $this->db->query("SELECT * FROM `" . $this->db->table("orders") . "` WHERE order_id = '" . (int)$order_id . "'");
 
@@ -379,7 +382,10 @@ class ModelCheckoutOrder extends Model {
 			);
 
 			$template->data['payment_address'] = $this->customer->getFormatedAdress($payment_data, $order_row['payment_address_format']);
-			$template->data['products'] = array();
+
+			if ( !has_value($this->data['products']) ) {
+				$this->data['products'] = array();
+			}
 
 			foreach ($order_product_query->rows as $product) {
 				$option_data = array();
@@ -393,7 +399,7 @@ class ModelCheckoutOrder extends Model {
 					);
 				}
 
-				$template->data['products'][] = array(
+				$this->data['products'][] = array(
 					'name' => $product['name'],
 					'model' => $product['model'],
 					'option' => $option_data,
@@ -402,6 +408,8 @@ class ModelCheckoutOrder extends Model {
 					'total' => $this->currency->format($product['total'], $order_row['currency'], $order_row['value'])
 				);
 			}
+
+			$template->data['products'] = $this->data['products'];
 
 			$template->data['totals'] = $order_total_query->rows;
 
