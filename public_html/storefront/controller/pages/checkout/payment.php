@@ -204,12 +204,12 @@ class ControllerPagesCheckoutPayment extends AController {
 		$action = $this->html->getSecureURL('checkout/payment');
 		$this->view->assign( 'coupon_status', $this->config->get('coupon_status') );
 
-		$item = HtmlElementFactory::create( array('type' => 'button',
+		$this->data['change_address'] = HtmlElementFactory::create( array('type' => 'button',
 			                                      'name' => 'change_address',
 			                                      'style' => 'button',
 		                                          'text' => $this->language->get('button_change_address')
 		                                    ));
-		$this->data['change_address'] = $item->getHTML();
+
 		$this->data['change_address_href'] = $this->html->getSecureURL('checkout/address/payment');
 
 		$form = new AForm();

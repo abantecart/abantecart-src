@@ -1,6 +1,6 @@
 <ul class="nav topcart pull-left">
   <li class="dropdown hover carticon">
-    <a href="#" class="dropdown-toggle"><?php echo $heading_title;?>&nbsp;<span class="label label-orange font14"><?php echo $total_qty;?> <?php echo $text_items;?></span> - <?php echo $subtotal; ?> <b class="caret"></b></a>
+    <a href="<?php echo $view; ?>" class="dropdown-toggle"><?php echo $heading_title;?>&nbsp;<span class="label label-orange font14"><?php echo $total_qty;?> <?php echo $text_items;?></span> - <?php echo $subtotal; ?> <b class="caret"></b></a>
     <ul class="dropdown-menu topcartopen ">
       <li>
         <table>
@@ -18,7 +18,6 @@
               </td>
               <td class="quantity">x&nbsp;<?php echo $product['quantity']; ?></td>
               <td class="total"><?php echo $product['price']; ?></td>
-              <td class="remove"><i class="cart_remove icon-remove" id="remove_<?php echo $product['key']; ?>"></i></td>
             </tr>            
       <?php } ?>            
     <?php } ?>        
@@ -34,9 +33,9 @@
       <?php } ?>             
           </tbody>
         </table>
-        <div class="well pull-right buttonwrap">
-          <a class="btn btn-orange" href="<?php echo $view; ?>"><?php echo $text_view;?></a>
-          <a class="btn btn-orange" href="<?php echo $checkout; ?>"><?php echo $text_checkout; ?></a>
+        <div class="well buttonwrap span3">
+          <a class="btn btn-orange pull-left" href="<?php echo $view; ?>"><?php echo $text_view;?></a>
+          <a class="btn btn-orange pull-right" href="<?php echo $checkout; ?>"><?php echo $text_checkout; ?></a>
         </div>
       </li>
     </ul>

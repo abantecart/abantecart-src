@@ -176,7 +176,7 @@ class ControllerPagesCheckoutShipping extends AController {
 		                                        'style' => 'button',
 		                                        'text' => $this->language->get('button_change_address')
 		                                   ));
-		$this->data[ 'change_address' ] = $item->getHTML();
+		$this->data[ 'change_address' ] = $item;
 		$this->data[ 'change_address_href' ] = $this->html->getSecureURL('checkout/address/shipping');
 
 		$form = new AForm();

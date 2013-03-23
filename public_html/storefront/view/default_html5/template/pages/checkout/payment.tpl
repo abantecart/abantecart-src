@@ -1,82 +1,95 @@
-<div id="content">
-  <div class="top">
-    <div class="left"></div>
-    <div class="right"></div>
-    <div class="center">
-      <h1><?php echo $heading_title; ?></h1>
-    </div>
-  </div>
-  <div class="middle">
-    <?php if ($success) { ?>
-    <div class="success"><?php echo $success; ?></div>
-    <?php } ?>
-    <?php if ($error_warning) { ?>
-    <div class="warning"><?php echo $error_warning; ?></div>
-    <?php } ?>
-    <b style="margin-bottom: 2px; display: block;"><?php echo $text_payment_address; ?></b>
-    <div class="content">
-      <table width="100%">
-        <tr>
-          <td width="50%" valign="top"><?php echo $text_payment_to; ?><br />
-            <br />
-            <div style="text-align: center;"><?php echo  $change_address; ?></div>
-          </td>
-          <td width="50%" valign="top"><b><?php echo $text_payment_address; ?></b><br />
-            <?php echo $address; ?></td>
-        </tr>
-      </table>
-    </div>
-    <?php if ($coupon_status) { ?>
-    <div class="content">
-	    <?php echo $form0['form_open']; ?>
-        <div style="float: left;"><p><?php echo $text_coupon; ?></p></div>
-        <div style="text-align: right;"><?php echo $entry_coupon; ?>&nbsp;
-        <?php echo $form0['coupon'].'&nbsp;&nbsp;'.$form0['submit']; ?></div>
-      </form>
-    </div>
-    <?php }
-	  echo $form['form_open'];
-	  ?>
-      <?php if ($payment_methods) { ?>
-      <b style="margin-bottom: 2px; display: block;"><?php echo $text_payment_method; ?></b>
-      <div class="content">
-        <p><?php echo $text_payment_methods; ?></p>
-        <table width="100%" cellpadding="3">
-          <?php foreach ($payment_methods as $payment_method) { ?>
-          <tr>
-            <td width="1"><?php echo $payment_method['radio']; ?></td>
-            <td><label for="payment_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;"><?php echo $payment_method['title']; ?></label></td>
-          </tr>
-          <?php } ?>
-        </table>
-      </div>
-      <?php } ?>
+<h1 class="heading1">
+  <span class="maintext"><?php echo $heading_title; ?></span>
+  <span class="subtext"></span>
+</h1>
 
-	  <?php echo $this->getHookVar('payment_extensions_hook'); ?>
-
-	  <?php echo $this->getHookVar('order_attributes'); ?>
-
-      <b style="margin-bottom: 2px; display: block;"><?php echo $text_comments; ?></b>
-      <div class="content">
-      	<?php echo $form['comment']?>
-		  <div class="clr_both"></div>
-      </div>
-      <?php echo $this->getHookVar('buttons_pre'); ?>
-      <?php echo $buttons; ?>
-      <?php echo $this->getHookVar('buttons_post'); ?>
-    </form>
-  </div>
-  <div class="bottom">
-    <div class="left"></div>
-    <div class="right"></div>
-    <div class="center"></div>
-  </div>
+<?php if ($success) { ?>
+<div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $success; ?>
 </div>
-<script type="text/javascript">
-	$('#change_address').click( function(){
-		location = '<?php echo $change_address_href; ?>';
-	} );
-	$('#payment_back').click( function(){
-		location = '<?php echo $back; ?>';
-	} );
-</script>
+<?php } ?>
+
+<?php if ($error_warning) { ?>
+<div class="alert alert-error">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $error_warning; ?>
+</div>
+<?php } ?>
+
+<div class="container-fluid">
+
+	<h4 class="heading4"><?php echo $text_payment_address; ?></h4>
+	<div class="registerbox">
+		<table class="table table-striped table-bordered">
+		<tr>
+			<td><?php echo $address; ?></td>
+			<td>
+			<div class="control-group">
+				<label class="control-label"><?php echo $text_payment_to; ?></label>
+				<div class="controls">
+					<a href="<?php echo $change_address_href; ?>" class="btn mr10" title="<?php echo $change_address->name ?>">
+					    <i class="icon-edit"></i>
+					    <?php echo $change_address->name ?>
+					</a>				
+				</div>
+			</div>									
+			</td>
+		</tr>
+		</table>		
+	</div>
+
+    <?php if ($coupon_status) { ?>
+    <h4 class="heading4"><?php echo $text_coupon; ?></h4>
+	<div class="registerbox">
+		<?php echo $form0['form_open']; ?>
+		<div class="form-inline">
+			<label class="checkbox"><?php echo $entry_coupon; ?></label>
+		    <?php echo $form0['coupon']; ?>
+		    <?php echo $form0['submit']; ?>
+		</div>
+		</form>
+	</div>
+    <?php } ?>
+
+	<?php echo $form['form_open'];?>	
+
+	<?php if( $payment_methods ) { ?>			
+	<h4 class="heading4"><?php echo $text_payment_method; ?></h4>	
+	<p><?php echo $text_payment_methods; ?></p>		
+	<div class="registerbox">		
+        <table class="table table-striped table-bordered">
+			<?php foreach ($payment_methods as $payment_method) { ?>
+			<tr>
+			  <td width="1"><?php echo $payment_method['radio']; ?></td>
+			  <td><label for="payment_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;"><?php echo $payment_method['title']; ?></label></td>
+			</tr>
+			<?php } ?>
+		</table>
+	</div>
+	<?php } ?>
+	
+	<?php echo $this->getHookVar('payment_extensions_hook'); ?>
+	
+	<?php echo $this->getHookVar('order_attributes'); ?>
+	
+	<h4 class="heading4"><?php echo $text_comments; ?></h4>	
+	<div class="registerbox">		
+		<div class="content">
+			<?php echo $form['comment']; ?>
+     	</div>
+		
+		<div class="control-group">
+			<div class="controls">
+    			<div class="form-inline mt20 mb20">
+    			<?php echo $this->getHookVar('buttons_pre'); ?>
+				<?php echo $buttons; ?>
+				<?php echo $this->getHookVar('buttons_post'); ?>
+    			</div>	
+    		</div>
+		</div>			
+	</div>
+	
+	</form>
+		
+</div>

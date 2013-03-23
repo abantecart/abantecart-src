@@ -72,8 +72,9 @@ class ControllerResponsesProductProduct extends AController {
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($this->data['group_option']));
 	}
+	
 	/*
-	 * 
+	 * Load images for product option
 	 * */
 	public function get_option_resources() {
         //init controller data
@@ -121,6 +122,49 @@ class ControllerResponsesProductProduct extends AController {
         $output['item_count'] = $this->cart->countProducts();
 		$display_totals = $this->cart->buildTotalDisplay();
 		$output['total'] = $this->currency->format($display_totals['total']);
+        //init controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($output));
+    }
+
+	
+	/*
+	 * Calculate product total based on options selected
+	 * */
+    public function calculateTotal(){
+        //init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+		
+		$output = array();
+		//can not show price
+		if (!$this->config->get('config_customer_price') && !$this->customer->isLogged()) {
+			return $output;
+		}
+				
+		if ( has_value($this->request->post['product_id']) && is_numeric($this->request->post['product_id']) ) {
+			$product_id = $this->request->post['product_id'];
+			if (isset($this->request->post['option'])) {
+				$option = $this->request->post['option'];
+			} else {
+				$option = array();	
+			}
+			
+			if (isset($this->request->post['quantity'])) {
+				$quantity = $this->request->post['quantity'];
+			} else {
+				$quantity = 1;
+			}			
+			$result = $this->cart->buildProductDetails($product_id, $quantity, $option);
+			$output['total'] = $this->tax->calculate(
+		    		$result['total'],
+		    		$result['tax_class_id'],
+		    		$this->config->get('config_tax')
+		    	);
+		    $output['total'] = $this->currency->format( $output['total'] );
+		}
+
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 

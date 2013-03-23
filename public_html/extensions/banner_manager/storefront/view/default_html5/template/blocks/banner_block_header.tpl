@@ -31,7 +31,8 @@
 <?php } else  { ?> 
 <section class="slider">
   <div class="banner_conteiner">
-		<div id="obo_slider">  		
+  		<div class="banner_fallback"><img alt="" src="<?php echo $this->templateResource('/image/banner_fallback.jpg'); ?>"></div>
+		<div id="banner_slides">
 	<?php if ($content) {
 		foreach ($content as $banner) {
 	?>	

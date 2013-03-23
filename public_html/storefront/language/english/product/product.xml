@@ -164,4 +164,12 @@
 		<key>error_captcha</key>
 		<value><![CDATA[Error: Verification code does not match the image!]]></value>
 	</definition>
+	<definition>
+		<key>text_total_price</key>
+		<value><![CDATA[Total Price:]]></value>
+	</definition>
+	<definition>
+		<key>text_login_view_price</key>
+		<value><![CDATA[Please login ot register to see price or to order.]]></value>
+	</definition>				
 </definitions>

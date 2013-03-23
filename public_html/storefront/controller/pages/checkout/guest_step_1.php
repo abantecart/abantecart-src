@@ -159,6 +159,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 		                                    'separator' => $this->language->get('text_separator')
 		                               ));
 
+		$this->view->assign('error_warning', $this->error['warning']);
 		$this->view->assign('error_firstname', $this->error[ 'firstname' ]);
 		$this->view->assign('error_lastname', $this->error[ 'lastname' ]);
 		$this->view->assign('error_email', $this->error[ 'email' ]);
@@ -585,6 +586,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 		if (!$this->error) {
 			return TRUE;
 		} else {
+			$this->error['warning'] = $this->language->get('gen_data_entry_error');
 			return FALSE;
 		}
 	}

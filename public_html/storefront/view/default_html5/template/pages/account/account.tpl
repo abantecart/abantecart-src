@@ -16,6 +16,7 @@
       <li><a href="<?php echo $information; ?>"><?php echo $text_information; ?></a></li>
       <li><a href="<?php echo $password; ?>"><?php echo $text_password; ?></a></li>
       <li><a href="<?php echo $address; ?>"><?php echo $text_address; ?></a></li>
+      <li><a href="<?php echo $logout; ?>"><?php echo $text_logout; ?></a></li>      
       <?php echo $this->getHookVar('account_links'); ?>
     </ul>
 </div>

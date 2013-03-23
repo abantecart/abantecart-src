@@ -59,6 +59,7 @@ class ControllerCommonHead extends AController {
         if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
 		    $this->view->assign('ssl', 1);
         }
+		$this->view->assign('cart_url', $this->html->getURL('checkout/cart'));
         $this->view->assign('cart_ajax', (int) $this->config->get('config_cart_ajax'));
         $this->view->assign('cart_ajax_url', $this->html->getURL('r/product/product/addToCart'));
 

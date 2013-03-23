@@ -168,6 +168,7 @@
 		<key>gen_data_entry_error</key>
 		<value><![CDATA[Vaya, hay un error con infomación proporcionada!]]></value>
 	</definition>	
+	<definition>
 		<key>text_sorting_name_asc</key>
 		<value><![CDATA[Nombre A - Z]]></value>
 	</definition>
@@ -198,5 +199,9 @@
 	<definition>
 		<key>text_sorting_date_desc</key>
 		<value><![CDATA[Nueva fecha &gt; Old]]></value>
+	</definition>
+	<definition>
+		<key>text_add_cart_confirm</key>
+		<value><![CDATA[Añadir al carro]]></value>
 	</definition>
 </definitions>

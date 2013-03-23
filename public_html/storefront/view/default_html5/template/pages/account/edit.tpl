@@ -18,7 +18,7 @@
 <?php } ?>
 
 <div class="container-fluid">
-	<?php echo $form[ 'form_open' ];?>
+	<?php echo $form['form_open'];?>
 
 	<h4 class="heading4"><?php echo $text_your_details; ?></h4>
 	<div class="registerbox form-horizontal">

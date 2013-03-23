@@ -157,13 +157,11 @@
 		
 	<!-- Sorting + pagination-->
 	<div class="sorting well">
-		<div class="pagination"><?php echo $pagination; ?></div>	
+		<?php echo $pagination_bootstrap; ?>
 		<div class="btn-group pull-right">
 		</div>
 	</div>
 	<!-- end sorting-->
-				
-	
 	
 <?php } ?>		
 

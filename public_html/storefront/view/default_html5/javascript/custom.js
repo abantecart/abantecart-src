@@ -1,29 +1,15 @@
 $('document').ready(function(){
 
 	$(function(){
-	    $('#obo_slider').oneByOne({
-			className: 'oneByOne1',	             
+	    $('#banner_slides').oneByOne({
+			className: 'oneByOneSlide',	             
 			easeType: 'random',
-			slideShow: true
+			slideShow: true,
+			slideShowDelay:6000
 		});  
 	
 	})
 
-	// Accrodian	
-	var $acdata = $('.accrodian-data'),
-		$acclick = $('.accrodian-trigger');
-
-	$acdata.hide();
-	$acclick.first().addClass('active').next().show();	
-	
-	$acclick.on('click', function(e) {
-		if( $(this).next().is(':hidden') ) {
-			$acclick.removeClass('active').next().slideUp(300);
-			$(this).toggleClass('active').next().slideDown(300);
-		}
-		e.preventDefault();
-	});
-		
 	// Toggle		
 	$('.togglehandle').click(function()
 	{

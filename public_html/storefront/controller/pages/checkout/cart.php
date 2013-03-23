@@ -122,7 +122,7 @@ class ControllerPagesCheckoutCart extends AController {
       		}
 
       		if (isset($this->request->post['remove'])) {
-	    		foreach (array_keys($this->request->post['remove']) as $key) {
+ 	    		foreach (array_keys($this->request->post['remove']) as $key) {
           			$this->cart->remove($key);
 				}
       		}

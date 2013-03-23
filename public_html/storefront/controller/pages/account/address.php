@@ -40,6 +40,7 @@ class ControllerPagesAccountAddress extends AController
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        unset($this->session->data['success']);
     }
 
     public function insert()

@@ -21,12 +21,12 @@
           </div>
           <!-- Top Nav End -->
           <div class="pull-right">
-            <form id="search_form" class="form-search top-search">
-              <input type="text" id="filter_keyword" name="filter_keyword" class="input-medium search-query" placeholder="<?php echo $text_keyword; ?>" value="" />
-            </form>  
-<!--          
-          <?php echo $search; ?><a onclick="goSearch();" class="button_search">&nbsp;</a>  
--->            
+			<form id="search_form" class="form-search top-search">
+			<input type="text" id="filter_keyword" name="filter_keyword" class="input-medium search-query" placeholder="<?php echo $text_keyword; ?>" value="" />
+			<button title="<?php echo $button_go; ?>" class="btn btn-large pull-right ml10" type="submit">
+				<img src="<?php echo $this->templateResource('/image/search_icon.png'); ?>"/>
+			</button>
+			</form>  
           </div>
         </div>
       </div>

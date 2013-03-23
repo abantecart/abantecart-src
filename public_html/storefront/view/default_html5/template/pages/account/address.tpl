@@ -52,7 +52,6 @@
 				    <?php echo $form['default']; ?>
 				</div>
 			</div>		
-		</fieldset>	
 	
 			<?php echo $this->getHookVar('address_edit_sections'); ?>
 			<div class="control-group">

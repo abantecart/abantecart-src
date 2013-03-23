@@ -112,7 +112,7 @@ class ControllerPagesCheckoutSuccess extends AController {
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button'));
-		$this->view->assign('continue_button', $continue->getHtml());
+		$this->view->assign('continue_button', $continue);
 
 		$this->processTemplate('common/success.tpl' );
 

@@ -57,16 +57,16 @@
       <div class="span5">
         <h1 class="productname"><span class="bgnone"><?php echo $heading_title; ?></span></h1>
 		<div class="productprice">        
+		<?php if ($display_price) { ?>
           <div class="productpageprice">
-			<?php if ($display_price) { ?>
 			<?php if ($special) { ?>
 			    <span class="spiral"></span><?php echo $special; ?>
 			    <span class="productpageoldprice"><?php echo $price; ?></span>
 			<?php } else { ?>
 			    <span class="spiral"></span><?php echo $price; ?>
 			<?php } ?>
-			<?php } ?>
 		</div>
+		<?php } ?>
 		
 			<?php if ($average) { ?>
 	          <ul class="rate">
@@ -101,7 +101,6 @@
 
 					<?php echo $this->getHookVar('extended_product_options'); ?>
 
-					<?php if ($display_price) { ?>
 					<?php if ($discounts) { ?>
 						<div class="control-group">
 						
@@ -118,7 +117,6 @@
 							<?php } ?>
 						</div>
 						<?php } ?>
-					<?php } ?>
 
 						<div class="control-group mt20">
 							<div class="input-prepend input-append">
@@ -132,7 +130,13 @@
 							<div class="controls"><?php echo $text_maximum; ?></div>
 							<?php } ?>
 						</div>
-					
+						
+						<div class="control-group mt20 mb10 total-price-holder">
+							<label class="control-label">Total price: <?php echo $text_total_price; ?>
+							<span class="total-price"></span>
+							</label>  
+						</div>
+						
 						<div>	
 						    <?php echo $form['product_id'].$form['redirect']; ?>
 						</div>
@@ -146,7 +150,14 @@
 						</div>
 					</fieldset>										
 				</form>
+				<?php } else { ?>
+					<div class="control-group">
+						<label class="control-label">
+						<?php echo $text_login_view_price; ?>
+						</label>
+					</div>
 				<?php } ?>
+				
         </div>
       </div>
     </div>
@@ -293,6 +304,8 @@ var orig_imgs = $('ul.bigimage').html();
 var orig_thumbs = $('ul.smallimage').html();
 
 jQuery(function($) {
+	display_total_price();
+
 	$('#current_reviews .pagination a').live('click', function() {
 		$('#current_reviews').slideUp('slow');
 		$('#current_reviews').load(this.href);
@@ -303,6 +316,74 @@ jQuery(function($) {
 	$('#current_reviews').load('index.php?rt=product/review/review&product_id=<?php echo $product_id; ?>');
 
 });
+
+$('#product_add_to_cart').click(function(){ $('#product').submit();});
+$('#review_submit').click(function(){ review();})
+
+/* Process images for product options */
+$('input[name^=\'option\'], select[name^=\'option\']').change(function(){
+	$.ajax({
+	type: 'POST',
+	url: 'index.php?rt=r/product/product/get_option_resources&attribute_value_id='+$(this).val(),
+	dataType: 'json',
+
+	success: function(data) {
+	    var html1='';
+	    var html2='';
+	    if(data.images){
+	    	for(img in data.images){
+	    		html1 += '<li class="span4">';
+	    		html2 += '<li class="producthtumb">';
+	    	
+	    		var img_url = data.images[img].main_url;
+	    		var tmb_url = data.images[img].thumb_url;
+	    		if(data.images[img].origin=='external'){
+	    			img_url	= data.images[img].main_html;
+	    			tmb_url = data.images[img].thumb_html;
+	    		}					
+	    		html1 += '<a href="'+img_url+'" rel="position: \'inside\' , showTitle: false, adjustX:-4, adjustY:-4" class="thumbnail cloud-zoom"  title="'+data.images[img].title+'"><img src="'+img_url+'" alt="'+data.images[img].title+'" title="'+data.images[img].title+'"></a>';
+	    		html2 += '<a class="thumbnail"><img src="'+tmb_url+'" alt="'+data.images[img].title+'" title="'+data.images[img].title+'"></a>';
+	    		html1 += '</li>';				
+	    		html2 += '</li>';
+	    	}
+	    } else {
+	    	html1 = orig_imgs;
+	    	html2 = orig_thumbs;
+	    }
+	    $('ul.bigimage').html(html1);
+	    $('ul.smallimage').html(html2);
+	    $('.cloud-zoom, .cloud-zoom-gallery').CloudZoom();
+	    process_thumbnails();
+	}
+	
+	});
+	
+	display_total_price();
+	
+});
+
+$('input[name=quantity]').keyup(function(){	
+	display_total_price();
+});
+
+function display_total_price () {
+
+	$.ajax({
+	type: 'POST',
+	url: 'index.php?rt=r/product/product/calculateTotal',
+	dataType: 'json',
+	data: $("#product").serialize(),
+
+	success: function(data) {
+		 if (data.total) {
+		 	$('.total-price-holder').show();
+		 	$('.total-price-holder').css('visibility', 'visible');
+		 	$('.total-price').html(data.total);
+		 }
+	}	
+	});
+
+}
 
 function review() {
 	var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
@@ -337,45 +418,5 @@ function review() {
 		}
 	});
 }
-$('#product_add_to_cart').click(function(){ $('#product').submit();});
-$('#review_submit').click(function(){ review();})
 
-/* Process images for product options */
-$('input[name^=\'option\'], select[name^=\'option\']').change(function(){
-		$.ajax({
-		type: 'POST',
-		url: 'index.php?rt=r/product/product/get_option_resources&attribute_value_id='+$(this).val(),
-		dataType: 'json',
-
-		success: function(data) {
-			var html1='';
-			var html2='';
-			if(data.images){
-				for(img in data.images){
-					html1 += '<li class="span4">';
-					html2 += '<li class="producthtumb">';
-				
-					var img_url = data.images[img].main_url;
-					var tmb_url = data.images[img].thumb_url;
-					if(data.images[img].origin=='external'){
-						img_url	= data.images[img].main_html;
-						tmb_url = data.images[img].thumb_html;
-					}					
-					html1 += '<a href="'+img_url+'" rel="position: \'inside\' , showTitle: false, adjustX:-4, adjustY:-4" class="thumbnail cloud-zoom"  title="'+data.images[img].title+'"><img src="'+img_url+'" alt="'+data.images[img].title+'" title="'+data.images[img].title+'"></a>';
-					html2 += '<a class="thumbnail"><img src="'+tmb_url+'" alt="'+data.images[img].title+'" title="'+data.images[img].title+'"></a>';
-					html1 += '</li>';				
-					html2 += '</li>';
-				}
-			} else {
-				html1 = orig_imgs;
-				html2 = orig_thumbs;
-			}
-			$('ul.bigimage').html(html1);
-			$('ul.smallimage').html(html2);
-			$('.cloud-zoom, .cloud-zoom-gallery').CloudZoom();
-			process_thumbnails();
-		}
-		
-	});
-});
 //--></script>

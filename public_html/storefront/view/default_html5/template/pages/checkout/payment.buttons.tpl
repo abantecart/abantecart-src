@@ -1,12 +1,14 @@
-<div class="buttons">
-	<table>
-		<tr>
-			<td align="left"><?php echo $form[ 'back' ]; ?></td>
-			<?php if ($text_agree) { ?>
-				<td align="right" style="padding-right: 5px;"><?php echo $text_agree; ?><a class="thickbox" href="<?php echo $text_agree_href; ?>"><b><?php echo $text_agree_href_text; ?></b></a></td>
-				<td width="5" style="padding-right: 10px;"><?php echo $form[ 'agree' ]; ?></td>
-			<?php } ?>
-			<td align="right" width="5"><?php echo $form[ 'continue' ]; ?></td>
-		</tr>
-	</table>
-</div>
+<a href="<?php echo $back; ?>" class="btn mr10 pull-left" title="<?php echo $form['back']->text ?>">
+    <i class="icon-arrow-left"></i>
+    <?php echo $form['back']->text ?>
+</a>
+<button class="btn btn-orange pull-right ml10" title="<?php echo $form['continue']->name ?>" type="submit">
+    <i class="icon-arrow-right"></i>
+    <?php echo $form['continue']->name ?>
+</button>
+<?php if ($text_agree) { ?>
+	<label class="checkbox pull-right mr10">
+	<?php echo $text_agree; ?><a class="thickbox" href="<?php echo $text_agree_href; ?>"><b><?php echo $text_agree_href_text; ?></b></a>
+	<?php echo $form[ 'agree' ]; ?>
+	</label>
+<?php } ?>

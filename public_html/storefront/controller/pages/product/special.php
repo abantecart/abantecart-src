@@ -145,7 +145,8 @@ class ControllerPagesProductSpecial extends AController {
                     'special' 		=> $special,
                     'thumb'   		=> $thumbnail,
                     'href'    		=> $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], '&encode'),
-                    'add'    		=> $add
+                    'add'    		=> $add,
+                    'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
                 );
             }
 
@@ -228,14 +229,27 @@ class ControllerPagesProductSpecial extends AController {
 
 			$this->data['sorts'] = $sorts;
 
+			$pagination_url = $this->html->getURL('product/special', '&sort=' . $this->request->get['sort'] . '&page={page}' . '&limit=' . $limit, '&encode');
 			$pagination = new APagination();
 			$pagination->total = $product_total;
 			$pagination->page = $page;
 			$pagination->limit = $limit;
-			$pagination->text = $this->language->get('text_pagination'); $pagination->text_limit = $this->language->get('text_per_page');
-			$pagination->url = $this->html->getURL('product/special', '&sort=' . $this->request->get['sort'] . '&page={page}' . '&limit=' . $limit, '&encode');
+			$pagination->text = $this->language->get('text_pagination'); 
+			$pagination->text_limit = $this->language->get('text_per_page');
+			$pagination->url = $pagination_url;
 				
 		    $this->data['pagination'] = $pagination->render();
+
+			$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
+											'type' => 'Pagination',
+											'name' => 'pagination',
+											'text'=> $this->language->get('text_pagination'),
+											'text_limit' => $this->language->get('text_per_page'),
+											'total'	=> $product_total,
+											'page'	=> $page,
+											'limit'	=> $limit,
+											'url' => $pagination_url,
+											'style' => 'pagination'));
 
             $this->data['sort'] = $sort;
             $this->data['order'] = $order;
@@ -249,7 +263,7 @@ class ControllerPagesProductSpecial extends AController {
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button'));
-			$this->view->assign('button_continue', $continue->getHtml());
+			$this->view->assign('button_continue', $continue);
       		$this->view->assign('continue',  $this->html->getURL('index/home') );
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );

@@ -67,7 +67,11 @@ if (typeof jQuery == 'undefined') {
                     dataType:'json',
                     data: {product_id:  item.attr('id') },
                     success:function (data) {
-                    	var alert_msg = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button><?php echo $text_cartadded; ?>ssssss</div>';
+                    	var alert_msg = '<div class="alert alert-info added_to_cart"> \
+                    		<button type="button" class="close" data-dismiss="alert">&times;</button> \
+                    		&nbsp;&nbsp;<a href="<?php echo $cart_url ?>"><?php echo $text_add_cart_confirm; ?> \
+                    		&nbsp;<img src="<?php echo $this->templateResource("/image/addcart.png"); ?>"></a> \
+                    		</div>';
                         item.closest('.thumbnail .pricetag').before(alert_msg);
                     }
             });

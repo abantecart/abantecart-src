@@ -239,8 +239,6 @@ class ControllerPagesAccountCreate extends AController {
 		                                                               'name' => $this->language->get('button_continue') ));
 
 
-
-
         $this->data['error_warning'] = $this->error['warning'];
 		$this->data['error_loginname'] = $this->error['loginname'];
 		$this->data['error_firstname'] = $this->error['firstname'];
@@ -257,10 +255,6 @@ class ControllerPagesAccountCreate extends AController {
 
         $this->data['action'] = $this->html->getSecureURL('account/create') ;
 		$this->data['newsletter'] = $this->request->post['newsletter'];
-
-
-		
-
 
 		if ($this->config->get('config_account_id')) {
 

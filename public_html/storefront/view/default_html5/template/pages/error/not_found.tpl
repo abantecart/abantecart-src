@@ -16,7 +16,7 @@
 	    			} 
 	    		?>	    	
 	    		<a href="<?php echo $continue; ?>" class="btn mr10" title="<?php echo $button_continue->text ?>">
-	    		    <i class="<?php echo $button_continue->{icon}; ?>"></i>
+	    		    <i class="icon-arrow-right"></i>
 	    		    <?php echo $button_continue->text ?>
 	    		</a>
 	    	</div>	

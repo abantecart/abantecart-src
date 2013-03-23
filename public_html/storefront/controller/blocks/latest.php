@@ -107,7 +107,6 @@ class ControllerBlocksLatest extends AController {
 			$display_price = FALSE;
 		}
         $this->view->assign('display_price', $display_price );
-
 		$this->processTemplate();
 
         //init controller data

@@ -1,7 +1,5 @@
 <div class="sidewidt">
-<?php if ( $block_framed ) { ?>
 	<h2 class="heading2"><span><?php echo $heading_title; ?></span></h2>
-<?php } ?>
 		<ul class="side_prd_list">
 <?php
 if ($products) {
@@ -42,6 +40,4 @@ if ($products) {
 }
 ?>
 		</ul>
-<?php if ( $block_framed ) { ?>
-<?php } ?>
 </div>

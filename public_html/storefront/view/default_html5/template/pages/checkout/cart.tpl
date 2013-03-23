@@ -52,16 +52,26 @@ echo $form['form_open'];
 <div class="container">
 <div class="pull-right">
     <div class="cart-info span4 pull-right">
-      <table class="table table-striped table-bordered">
-		<?php foreach ($totals as $total) { ?>
-		<tr>
-		  <td><span class="extra bold <?php if($total[id] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span></td>
-		  <td><span class="bold <?php if($total[id] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span></td>
-		</tr>
-		<?php } ?>
-      </table>
-      <button title="<?php echo $button_checkout; ?>" class="btn btn-orange pull-right" id="cart_checkout" type="button"><?php echo $button_checkout; ?></button>
-      <button title="<?php echo $button_update; ?>" class="btn btn-orange pull-right mr10" id="cart_update" type="submit"><?php echo $button_update; ?></button>
+		<table class="table table-striped table-bordered">
+		  <?php foreach ($totals as $total) { ?>
+		  <tr>
+		    <td><span class="extra bold <?php if($total[id] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span></td>
+		    <td><span class="bold <?php if($total[id] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span></td>
+		  </tr>
+		  <?php } ?>
+		</table>
+		<button title="<?php echo $button_checkout; ?>" class="btn btn-orange pull-right" id="cart_checkout" type="button">
+			<i class="icon-shopping-cart"></i>
+			<?php echo $button_checkout; ?>
+		</button>
+		<button title="<?php echo $button_update; ?>" class="btn pull-right mr10" id="cart_update" type="submit">
+			<i class="icon-refresh"></i>
+			<?php echo $button_update; ?>
+		</button>
+		<a href="<?php echo $continue; ?>" class="btn mr10" title="">
+		    <i class="icon-arrow-left"></i>
+		    <?php echo $button_continue ?>
+		</a>
     </div>
 </div>
 </div>
