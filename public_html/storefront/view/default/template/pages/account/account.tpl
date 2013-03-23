@@ -21,10 +21,12 @@
     <ul>
       <li><a href="<?php echo $history; ?>"><?php echo $text_history; ?></a></li>
       <li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>
+	  <?php echo $this->getHookVar('order_links'); ?>
     </ul>
     <p><b><?php echo $text_my_newsletter; ?></b></p>
     <ul>
       <li><a href="<?php echo $newsletter; ?>"><?php echo $text_newsletter; ?></a></li>
+		<?php echo $this->getHookVar('newsletter_links'); ?>
     </ul>
   </div>
   <div class="bottom">

@@ -176,7 +176,7 @@ class ControllerPagesCheckoutConfirm extends AController {
       		)); 
         }
 
-		$display_totals = $this->cart->buildTotalDisplay();      		
+		$display_totals = $this->cart->buildTotalDisplay();
 		$this->data['totals'] = $display_totals['total_data'];
 
 		$this->data['cart'] = $this->html->getSecureURL('checkout/cart');

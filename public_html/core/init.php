@@ -228,6 +228,7 @@ try {
 	require_once(DIR_CORE . 'lib/template.php');
 	require_once(DIR_CORE . 'lib/xml2array.php');
 	require_once(DIR_CORE . 'lib/data.php');
+	require_once(DIR_CORE . 'lib/file.php');
 
 // Application Classes
 	require_once(DIR_CORE . 'lib/customer.php');
@@ -259,6 +260,7 @@ try {
 		require_once(DIR_CORE . 'lib/attribute_manager.php');
 		require_once(DIR_CORE . 'lib/language_manager.php');
 		require_once(DIR_CORE . 'lib/backup.php');
+		require_once(DIR_CORE . 'lib/file_uploads_manager.php');
 	}
 
 // Registry

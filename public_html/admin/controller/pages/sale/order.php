@@ -337,6 +337,10 @@ class ControllerPagesSaleOrder extends AController {
 			$options = $this->model_sale_order->getOrderOptions($this->request->get['order_id'], $order_product['order_product_id']);
 
 			foreach ($options as $option) {
+				//generate link to download uploaded files
+				if ( $option['element_type'] == 'U' ) {
+					$option['value'] = '<a href="' . $this->html->getSecureURL('tool/files/download', '&filename=' . urlencode($option['value']) . '&attribute_id=' . (int) $option['attribute_id']) . '&attribute_type=product_option" title=" to download file" target="_blank">' . $option['value'] . '</a>';
+				}
 				$option_data[] = array(
 					'name'  => $option['name'],
 					'value' => $option['value']

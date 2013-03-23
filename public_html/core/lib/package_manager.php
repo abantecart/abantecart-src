@@ -316,7 +316,6 @@ class APackageManager {
 	 * @return bool|mixed
 	 */
 	public function getDestinationDirectories() {
-		$package_id = $this->session->data['package_info']['package_id'];
 		$package_dirname = $this->session->data['package_info']['package_dir'];
 		$output = array();
 		if (!file_exists($this->session->data['package_info']['tmp_dir'] . $package_dirname . "/code")) {
@@ -336,8 +335,8 @@ class APackageManager {
 
 		if ($d) {
 			foreach ($d as $dir) {
-				$dir = str_replace($this->session->data['package_info']['tmp_dir'] . $package_dirname . "/code/", "", $dir);
-				$output[] = str_replace($package_id, '', $dir);
+			 	$dir = str_replace($this->session->data['package_info']['tmp_dir'] . $package_dirname . "/code/", "", $dir);
+				$output[] = $dir;
 			}
 		}
 		return $output;

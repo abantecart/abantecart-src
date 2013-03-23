@@ -53,8 +53,9 @@ class ControllerPagesCheckoutCart extends AController {
 			$this->redirect($this->html->getSecureURL('checkout/cart'));
 			
 		} elseif ($this->request->server['REQUEST_METHOD'] == 'POST') {
+
       		if (isset($this->request->post['quantity'])) {
-				//  echo_array($this->request->post);echo_array($this->request->files);exit;
+
 				if (!is_array($this->request->post['quantity'])) {
 
 					$this->loadModel('catalog/product');
@@ -67,9 +68,16 @@ class ControllerPagesCheckoutCart extends AController {
 					}
 
 					if ( has_value($this->request->files['option']['name']) ) {
+
+						$am = new AAttribute('product_option');
+						$fm = new AFile();
 						foreach ( $this->request->files['option']['name'] as $id => $name ) {
 
-							$options[$id] = $name;
+							$attribute_data = $am->getAttributeByProductOptionId($id);
+
+							$file_path_info = $fm->getUploadFilePath($attribute_data['settings']['directory'], $name);
+
+							$options[$id] = $file_path_info['name'];
 
 							if ( $this->model_catalog_product->validateRequiredOptions($product_id, $options) ) {
 								$this->session->data['error'] = $this->language->get('error_required_options');
@@ -80,25 +88,42 @@ class ControllerPagesCheckoutCart extends AController {
 
 							$file_data = array(
 								'option_id' => $id,
-								'name' => $name,
+								'name' => $file_path_info['name'],
+								'path' => $file_path_info['path'],
 								'type' => $this->request->files['option']['type'][$id],
 								'tmp_name' => $this->request->files['option']['tmp_name'][$id],
 								'error' => $this->request->files['option']['error'][$id],
 								'size' => $this->request->files['option']['size'][$id],
 							);
 
-							$file_errors = $this->model_catalog_product->validateFileOption($product_id, $id, $file_data);
+							$dataset = new ADataset('file_uploads','admin');
+							$dataset->addRows(
+								array(
+									'date_added'=> date("Y-m-d H:i:s",time()),
+									'name' => $file_path_info['name'],
+									'type' => $file_data['type'],
+									'section' => 'product_option',
+									'section_id' => $attribute_data['attribute_id'],
+									'path' => $file_path_info['path'],
+								)
+							);
+
+							$file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
 
 							if ( has_value($file_errors) ) {
-								$this->session->data['error'] = $file_errors[0];
+								$this->session->data['error'] = implode('<br/>', $file_errors);
 								$this->redirect($_SERVER['HTTP_REFERER']);
 							} else {
-								$this->model_catalog_product->uploadFile($file_data);
+								$result = move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
+
+								if ( !$result || $this->request->files[ 'package_file' ]['error'] ) {
+									$this->session->data['error'] .= '<br>Error: ' . getTextUploadError($this->request->files['option']['error'][$id]);
+								}
 							}
 
 						}
 					}
-					//echo_array($options);exit;
+
 					if ( $this->model_catalog_product->validateRequiredOptions($product_id, $options) ) {
 						$this->session->data['error'] = $this->language->get('error_required_options');
 						$this->redirect($_SERVER['HTTP_REFERER']);
@@ -176,6 +201,7 @@ class ControllerPagesCheckoutCart extends AController {
                                                                        'action' => $this->html->getSecureURL('checkout/cart')));
 
 			$cart_products = $this->cart->getProducts();
+
       		foreach ($cart_products as $result) {
         		$option_data = array();
 				$thumbnail = $resource->getMainThumb('products',

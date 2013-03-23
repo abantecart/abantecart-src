@@ -6034,6 +6034,7 @@ CREATE TABLE `ac_fields` (
   -- I - text input, T - Text area, S - Select, M - multivalue select, C - Checkbox, R - radio buttons, U - File upload, H - Hidden, G -Checkbox Group, D - Date, E - time, K - Captcha 
   `sort_order` int(3) NOT NULL,
   `attributes` varchar(255) NOT NULL,
+  `settings` text COLLATE utf8_bin NOT NULL DEFAULT '',
   `required` char(1) NOT NULL DEFAULT 'N',
   -- N - Not required, Y - required  
   `status` smallint(1) NOT NULL default '0',
@@ -6041,7 +6042,7 @@ CREATE TABLE `ac_fields` (
   KEY `field_id` (`field_id`, `form_id`, `status`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `ac_fields` VALUES (11,2,'first_name','I',1,'','Y',1),(12,2,'email','I',2,'','Y',1),(13,2,'enquiry','T',3,'','Y',1),(14,2,'captcha','K',4,'','Y',1);
+INSERT INTO `ac_fields` VALUES (11,2,'first_name','I',1,'','','Y',1),(12,2,'email','I',2,'','','Y',1),(13,2,'enquiry','T',3,'','','Y',1),(14,2,'captcha','K',4,'','','Y',1);
 
 --
 -- DDL for table `field_descriptions`
@@ -6787,37 +6788,43 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (7,'backup',183),
 		(7,'migrate',184),
 		(7,'datasets',185),
-		(7,'import_export',182);
+		(7,'import_export',182),
+		(7,'file_uploads',188);
 --ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (8,'text_backup',183),
 		(8,'text_migrate',184),
 		(8,'text_datasets_manager',185),
-		(8,'text_import_export',182);
+		(8,'text_import_export',182),
+		(8,'text_file_uploads',188);
 --ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (9,'tool/backup',183),
 		(9,'tool/migration/step_one',184),
 		(9,'tool/datasets_manager',185),
-		(9,'tool/import_export',182);
+		(9,'tool/import_export',182),
+		(9,'tool/files',188);
 --PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (10,'data',183),
 		(10,'data',184),
 		(10,'data',185),
-		(10,'data',182);
+		(10,'data',182),
+		(10,'data',188);
 --SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (11,1,183),
 		(11,2,184),
 		(11,3,185),
-		(11,4,182);
+		(11,4,182),
+		(11,5,188);
 --ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (12,'core',183),
 		(12,'core',184),
 		(12,'core',185),
-		(12,'core',182);
+		(12,'core',182),
+		(12,'core',188);
 
 --
 --SUBMENU SYSTEM->LOGS
@@ -6945,6 +6952,19 @@ VALUES  (4,'date_added','timestamp',1),
 		(4,'backup_date','timestamp',5),
 		(4,'type','varchar',6),
 		(4,'user','varchar',7);
+
+--## ADD FILE UPLOADS DATASET
+INSERT INTO `ac_datasets` (`dataset_name`,`dataset_key`) VALUES ('file_uploads','admin');
+INSERT INTO `ac_dataset_properties` (`dataset_id`,`dataset_property_name`,`dataset_property_value`) VALUES ('5','controller','tool/files');
+
+INSERT INTO `ac_dataset_definition` (`dataset_id`,`dataset_column_name`,`dataset_column_type`,`dataset_column_sort_order`)
+VALUES  (5,'date_added','timestamp',1),
+		(5,'name','varchar',2),
+		(5,'type','varchar',3),
+		(5,'section','varchar',4),
+		(5,'section_id','integer',5),
+		(5,'path','varchar',6);
+
 --insert info about initial installation
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_timestamp`,`row_id`)
 VALUES  (16,NOW(),'1');

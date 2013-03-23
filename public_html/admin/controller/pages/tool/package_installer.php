@@ -477,9 +477,13 @@ class ControllerPagesToolPackageInstaller extends AController {
 				$dst_dirs = $pmanager->getDestinationDirectories();
 				$ftp = false;
 				// if even one destination directory is not writable - use ftp mode
+				if(!is_writable(DIR_EXT)){
+					$non_writables[] = DIR_EXT;
+				}
+
 				if ($dst_dirs) {
 					foreach ($dst_dirs as $dir) {
-                        if (!is_writable(DIR_ROOT . '/' . $dir)) {
+                        if (!is_writable(DIR_ROOT . '/' . $dir) && file_exists(DIR_ROOT . '/' . $dir)) {
                             $ftp = true; // enable ftp-mode
                             $non_writables[ ] = DIR_ROOT . '/' . $dir;
                         }

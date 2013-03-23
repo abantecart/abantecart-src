@@ -869,10 +869,6 @@ class ModelCatalogProduct extends Model {
 		$am = new AAttribute('product_option');
 		$attribute_data = $am->getAttributeByProductOptionId($option_id);
 
-		if ( has_value($attribute_data['settings']) ) {
-			$attribute_data['settings'] = unserialize($attribute_data['settings']);
-		}
-
 		//echo_array($data);echo_array($attribute_data['settings']);exit;
 		if ( empty($data['name']) ) {
 			$errors[] = $this->language->get('error_empty_file_name');
@@ -912,43 +908,40 @@ class ModelCatalogProduct extends Model {
 
 	}
 
-	public function uploadFile($data) {
-		$am = new AAttribute('product_option');
-		$attribute_data = $am->getAttributeByProductOptionId($data['option_id']);
-		if ( has_value($attribute_data['settings']) ) {
-			$attribute_data['settings'] = unserialize($attribute_data['settings']);
-		}
-
-		$file_path = DIR_ROOT . '/admin/system/uploads/' . $attribute_data['settings']['directory'] . '/';
+	public function getUploadFilePath($upload_dir, $file_name) {
+		$file_path = DIR_ROOT . '/admin/system/uploads/' . $upload_dir . '/';
 
 		if ( !is_dir($file_path) ) {
 			mkdir($file_path, 0777);
 		}
 
-		$ext = strrchr($data['name'], '.');
-		$file_name = substr($data['name'], 0, strlen($data['name']) - strlen($ext));
+		$ext = strrchr($file_name, '.');
+		$file_name = substr($file_name, 0, strlen($file_name) - strlen($ext));
 
 		$i = '';
 		$real_path = '';
 		do {
 			if ( $i ) {
-				$new_name = $file_name . '_' . $i;
+				$new_name = $file_name . '_' . $i . $ext;
 			} else {
-				$new_name = $file_name;
+				$new_name = $file_name . $ext;
 				$i = 0;
 			}
 
-			$real_path = $file_path . $new_name . $ext;
+			$real_path = $file_path . $new_name;
 			$i++;
 		} while (file_exists($real_path));
 
+		return array('name' => $new_name, 'path' => $real_path);
+	}
 
-		if ( !move_uploaded_file($data['tmp_name'], $real_path) ) {
+	public function uploadFile($data) {
+
+		if ( !move_uploaded_file($data['tmp_name'], $data['path']) ) {
 			echo_array($_FILES);
 			echo_array($data);
 
 		}
-
 
 	}
 	

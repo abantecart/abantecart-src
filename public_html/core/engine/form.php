@@ -183,9 +183,13 @@ class AForm {
                 AND f.status = 1
             ORDER BY f.sort_order"
 		);
+
 		$this->fields = array();
 		if ($query->num_rows) {
 			foreach ($query->rows as $row) {
+				if ( has_value($row['settings']) ) {
+					$row['settings'] = unserialize($row['settings']);
+				}
 				$this->fields[ $row[ 'field_id' ] ] = $row;
 				$query = $this->db->query("
 					SELECT *
@@ -303,6 +307,7 @@ class AForm {
 					'required' => $field[ 'required' ],
 					'name' => $field[ 'name' ],
 					'value' => $field[ 'value' ],
+					'settings' => has_value($field['settings']) ? unserialize($field['settings']) : '',
 					'description' => $field[ 'description' ],
 				);
 			}
