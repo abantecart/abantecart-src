@@ -29,7 +29,6 @@ class ControllerPagesToolFiles extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 		$this->loadLanguage('tool/files');
 
-		var_dump($this->language->get ( 'column_section' ));
 		$this->document->setTitle ( $this->language->get ( 'heading_title' ) );
 
 		$this->document->initBreadcrumb ();

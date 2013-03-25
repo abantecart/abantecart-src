@@ -492,7 +492,6 @@ function getExtensionConfigXml($extension_txt_id) {
 	$existed = $xpath->query($qry);
 	if(!is_null($existed)){
 		foreach ($existed as $node) {
-			echo $node->parentNode->nodeValue;
 			$node->parentNode->removeChild($node);
 		}
 	}
