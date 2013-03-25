@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011, 2012 Belavier Commerce LLC
+  Copyright © 2011-2013, 2012 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -60,12 +60,6 @@ final class ACart {
 		}
 
 		$product_data = array();
-		if ($this->customer->isLogged()) {
-			$customer_group_id = $this->customer->getCustomerGroupId();
-		} else {
-			$customer_group_id = $this->config->get('config_customer_group_id');
-		}
-
 		//process data in the cart session per each product in the cart
     	foreach ($this->session->data['cart'] as $key => $data) {
 			if ( $key == 'virtual' ) {
@@ -199,7 +193,7 @@ final class ACart {
             }
   		} // end of options build
     	
-		#??????? need to discuss
+		//needed for promotion 
 		$discount_quantity = $quantity; // this is used to culculate total QTY of 1 product 
     	foreach ($this->session->data['cart'] as $k => $v) {
     	    $array2 = explode(':', $k);

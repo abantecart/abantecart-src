@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -54,6 +54,17 @@ class ControllerPagesCheckoutCart extends AController {
 			
 		} elseif ($this->request->server['REQUEST_METHOD'] == 'POST') {
 
+			//if this is coupon, validate and apply
+			if ( isset($this->request->post['coupon']) && $this->_validateCoupon() ) {
+				$this->session->data[ 'coupon' ] = $this->request->post[ 'coupon' ];
+				$this->session->data[ 'success' ] = $this->language->get('text_success');
+				//process data
+				$this->extensions->hk_ProcessData($this);
+			}
+			if ($this->error['error_warning']) {
+				$error_msg[] = $this->error['error_warning'];
+			}
+			
       		if (isset($this->request->post['quantity'])) {
 
 				if (!is_array($this->request->post['quantity'])) {
@@ -281,6 +292,63 @@ class ControllerPagesCheckoutCart extends AController {
 			    $error_msg[] = sprintf($this->language->get('error_order_maximum'), $this->currency->format($cf_total_max) );	
 			}	
 			
+			//prepare coupon display
+			$this->view->assign( 'coupon_status', $this->config->get('coupon_status') );
+			$action = $this->html->getSecureURL('checkout/cart');
+			$coupon_form = $this->dispatch('blocks/coupon_codes', array('action' => $action));
+			$this->view->assign('coupon_form', $coupon_form->dispatchGetOutput() );
+
+		    $form = new AForm();
+		    $form->setForm(array( 'form_name' => 'estimate' ));
+            $this->data['form_estimate']['form_open'] = $form->getFieldHtml(
+													array(	'type' => 'form',
+															'name' => 'estimate',
+															'action' => $this->html->getSecureURL('checkout/cart')));
+
+			//candidate to be in settings
+			$this->data['estimates_enabled'] = true;
+
+			//try to get shipping address details if we have them
+			$country_id = $this->config->get('config_country_id');
+			if ($this->session->data[ 'shipping_address_id' ]) {
+				$this->loadModel('account/address');
+				$shipping_address = $this->model_account_address->getAddress($this->session->data[ 'shipping_address_id' ]);
+				$postcode = $shipping_address['postcode'];
+				$country_id = $shipping_address['country_id'];
+				$zone_id = $shipping_address['zone_id'];				
+			}
+			if ($this->request->post['postcode']) {
+				$postcode = $this->request->post['postcode'];
+			}
+			if ($this->request->post['zones'][0]) {
+				$country_id = $this->request->post['zones'][0];
+			}
+			if ($this->request->post['zones'][1]) {
+				$zone_id = $this->request->post['zones'][1];
+			}
+			if ( $zone_id ) {
+				$this->loadModel('localisation/zone');
+	    		$zone_data = $this->model_localisation_zone->getZone($zone_id);
+			}											
+
+			$this->data['form_estimate']['postcode'] = $form->getFieldHtml( array( 'type' => 'input',
+														  'name' => 'postcode',
+														  'value' => $postcode,
+														  'style' => 'short',
+														));
+														 										
+			$this->data['form_estimate']['country_zones'] = $form->getFieldHtml( array( 'type' => 'zones',
+														  'name' => 'zones',
+														  'submit_mode' => 'id',
+														  'value' => $country_id,
+														  'zone_name' => $zone_data['name'],
+														));
+														
+			$this->data['form_estimate']['submit'] = $form->getFieldHtml( array( 'type' => 'input',
+														'type' => 'submit',
+														'name' => $this->language->get('button_text_estimate') 
+														));
+				
 			$this->view->assign('error_warning', $error_msg );
 			$this->view->setTemplate( 'pages/checkout/cart.tpl' );
 
@@ -305,5 +373,19 @@ class ControllerPagesCheckoutCart extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
   	}
+
+	private function _validateCoupon() {
+		$promotion = new APromotion();
+		$coupon = $promotion->getCouponData($this->request->post['coupon']);
+		if (!$coupon) {
+			$this->error[ 'error_warning' ] = $this->language->get('error_coupon');
+		}
+
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
 
 }

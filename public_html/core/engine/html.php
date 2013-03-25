@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -1446,7 +1446,11 @@ class ZonesHtmlElement extends HtmlElement {
 		$results = $this->data[ 'registry' ]->get('model_localisation_country')->getCountries();
 		$this->options = array();
 		foreach ($results as $c) {
-			$this->options[ $c[ 'name' ] ] = $c[ 'name' ];
+			if ($this->submit_mode == 'id') {
+				$this->options[ $c[ 'country_id' ] ] = $c[ 'name' ];
+			} else {
+				$this->options[ $c[ 'name' ] ] = $c[ 'name' ];
+			}
 		}
 	}
 
@@ -1459,6 +1463,12 @@ class ZonesHtmlElement extends HtmlElement {
 		$this->element_id = preg_replace('/[\[+\]+]/', '_', $this->element_id);
 
 		$html = new AHtml($this->data[ 'registry' ]);
+		
+		if ($this->submit_mode == 'id') {
+			$url = $html->getSecureURL('common/zone');
+		} else {
+			$url = $html->getSecureURL('common/zone/names');
+		}
 
 		$this->view->batchAssign(
 			array(
@@ -1469,8 +1479,9 @@ class ZonesHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
-				'url' => $html->getSecureURL('common/zone/names'),
+				'url' => $url,
 				'zone_name' => $this->zone_name,
+				'submit_mode' => $this->submit_mode,
 			)
 		);
 		if (!empty($this->help_url)) {

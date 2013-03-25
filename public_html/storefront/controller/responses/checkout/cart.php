@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -73,4 +73,103 @@ class ControllerResponsesCheckoutCart extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
   	}
+  	
+	public function shipping_methods() {
+        //init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$output = array();
+		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
+			$this->response->setOutput(AJson::encode($output));	
+			return '';
+		}
+  	
+		$shipping_address = array( 
+				'postcode'       => $this->request->post['postcode'],
+				'country_id'     => $this->request->post['country_id'],
+				'zone_id'        => $this->request->post['zone_id'],
+		);
+
+		$this->tax->setZone($shipping_address[ 'country_id' ], $shipping_address[ 'zone_id' ]);
+
+		$this->loadModel('checkout/extension');
+
+		$results = $this->model_checkout_extension->getExtensions('shipping');
+		foreach ($results as $result) {
+		    $this->loadModel('extension/' . $result[ 'key' ]);
+
+		    /** @noinspection PhpUndefinedMethodInspection */
+		    $quote = $this->{'model_extension_' . $result[ 'key' ]}->getQuote($shipping_address);
+
+		    if ($quote) {
+		    	$output[ $result[ 'key' ] ] = array(
+		    		'title' => $quote[ 'title' ],
+		    		'quote' => $quote[ 'quote' ],
+		    		'sort_order' => $quote[ 'sort_order' ],
+		    		'error' => $quote[ 'error' ]
+		    	);
+		    }
+		}
+
+		$sort_order = array();
+		foreach ($output as $key => $value) {
+		    $sort_order[ $key ] = $value[ 'sort_order' ];
+		}
+		array_multisort($sort_order, SORT_ASC, $output);  	
+  		$this->session->data[ 'shipping_methods' ] = $output;
+  		
+ 		//add ready selectbox element  
+ 		if ( count($output)) {
+			$disp_ship = array();
+			foreach ($output as $shpg => $shp_data ) {
+				foreach ( $shp_data['quote'] as $qt => $qt_data) {
+					$disp_ship[$qt_data['id']] =  $qt_data['title'] . " - " . $qt_data['text'];
+				}
+			}
+
+			$selectbox = HtmlElementFactory::create(array(
+		                                                 'type' => 'selectbox',
+		                                                 'name' => 'shippings',
+		                                                 'options' => $disp_ship,
+													 	'style' => 'large-field'
+		                                            ));
+		    $output['selectbox'] = $selectbox->getHTML();
+		}
+ 	
+  	
+  			//init controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($output));		
+	}	  	
+
+	public function recalc_totals() {
+        //init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$output = array();
+				
+		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
+			$this->response->setOutput(AJson::encode($output));	
+			return '';
+		}
+		
+ 		if ($this->request->post['country_id'] && $this->request->post['zone_id']) {
+			$this->tax->setZone($this->request->post['country_id'], $this->request->post['zone_id']);
+		}
+		
+		if ( $this->request->post[ 'shipping_method' ] ) {
+			$shipping = explode('.', $this->request->post[ 'shipping_method' ]);
+			$this->session->data[ 'shipping_method' ] = $this->session->data[ 'shipping_methods' ][ $shipping[ 0 ] ][ 'quote' ][ $shipping[ 1 ] ];
+		}
+
+		$display_totals = $this->cart->buildTotalDisplay();      		
+		$output['totals'] = $display_totals['total_data'];;
+ 	  	
+  		//init controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($output));		
+	}	  	
+	
 }

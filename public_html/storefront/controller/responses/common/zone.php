@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -27,29 +27,32 @@ class ControllerResponsesCommonZone extends AController {
 
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-
-        $stdout = '<option value="FALSE">' . $this->language->get('text_select') . '</option>';
-
-		$this->loadModel('localisation/zone');
-
-    	$results = $this->model_localisation_zone->getZonesByCountryId($this->request->get['country_id']);
-
-      	foreach ($results as $result) {
-        	$stdout .= '<option value="' . $result['zone_id'] . '"';
-	    	if (isset($this->request->get['zone_id']) && ($this->request->get['zone_id'] == $result['zone_id'])) {
-	      		$stdout .= ' selected="selected"';
+		$stdout = '';
+		
+		if (has_value( $this->request->get['country_id'] ) && is_numeric( $this->request->get['country_id'] )) {
+			$country_id = $this->request->get['country_id'];
+	        $stdout = '<option value="FALSE">' . $this->language->get('text_select') . '</option>';
+	
+			$this->loadModel('localisation/zone');
+	
+	    	$results = $this->model_localisation_zone->getZonesByCountryId($country_id);
+	
+	      	foreach ($results as $result) {
+	        	$stdout .= '<option value="' . $result['zone_id'] . '"';
+		    	if (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name'])) {
+		      		$stdout .= ' selected="selected"';
+		    	}
+		    	$stdout .= '>' . $result['name'] . '</option>';
 	    	}
-	    	$stdout .= '>' . $result['name'] . '</option>';
-    	}
-
-		if (!$results) {
-			if (!$this->request->get['zone_id']) {
-		  		$stdout .= '<option value="0" selected="selected">' . $this->language->get('text_none') . '</option>';
-			} else {
-				$stdout .= '<option value="0">' . $this->language->get('text_none') . '</option>';
+	
+			if (!$results) {
+				if (!$this->request->get['zone_id']) {
+			  		$stdout .= '<option value="0" selected="selected">' . $this->language->get('text_none') . '</option>';
+				} else {
+					$stdout .= '<option value="0">' . $this->language->get('text_none') . '</option>';
+				}
 			}
 		}
-
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
@@ -59,30 +62,34 @@ class ControllerResponsesCommonZone extends AController {
 	public function names() {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
+		$stdout = '';
 
-		$stdout = '<option value="FALSE">' . $this->language->get('text_select') . '</option>';
+		if (has_value( $this->request->get['country_name'] )) {
+			
+			$country_name = $this->request->get['country_name'];
+			
+			$stdout = '<option value="FALSE">' . $this->language->get('text_select') . '</option>';
+	
+			$this->loadModel('localisation/zone');
 
-		$this->loadModel('localisation/zone');
-
-		$country_id = $this->model_localisation_zone->getCountryIdByName($this->request->get['country_name']);
-		$results = $this->model_localisation_zone->getZonesByCountryId($country_id);
-
-		foreach ($results as $result) {
-			$stdout .= '<option value="' . $result['name'] . '"';
-			if (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name'])) {
-				$stdout .= ' selected="selected"';
+			$country_id = $this->model_localisation_zone->getCountryIdByName($country_name);
+			$results = $this->model_localisation_zone->getZonesByCountryId($country_id);
+			foreach ($results as $result) {
+				$stdout .= '<option value="' . $result['name'] . '"';
+				if (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name'])) {
+					$stdout .= ' selected="selected"';
+				}
+				$stdout .= '>' . $result['name'] . '</option>';
 			}
-			$stdout .= '>' . $result['name'] . '</option>';
-		}
-
-		if (!$results) {
-			if (!$this->request->get['zone_name']) {
-				$stdout .= '<option value="0" selected="selected">' . $this->language->get('text_none') . '</option>';
-			} else {
-				$stdout .= '<option value="0">' . $this->language->get('text_none') . '</option>';
+	
+			if (!$results) {
+				if (!$this->request->get['zone_name']) {
+					$stdout .= '<option value="0" selected="selected">' . $this->language->get('text_none') . '</option>';
+				} else {
+					$stdout .= '<option value="0">' . $this->language->get('text_none') . '</option>';
+				}
 			}
 		}
-
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 

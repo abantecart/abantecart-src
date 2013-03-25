@@ -27,13 +27,7 @@
       </table>
     </div>
     <?php if ($coupon_status) { ?>
-    <div class="content">
-	    <?php echo $form0['form_open']; ?>
-        <div style="float: left;"><p><?php echo $text_coupon; ?></p></div>
-        <div style="text-align: right;"><?php echo $entry_coupon; ?>&nbsp;
-        <?php echo $form0['coupon'].'&nbsp;&nbsp;'.$form0['submit']; ?></div>
-      </form>
-    </div>
+	<?php echo $coupon_form ?>
     <?php }
 	  echo $form['form_open'];
 	  ?>

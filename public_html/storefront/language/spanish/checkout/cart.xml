@@ -49,6 +49,38 @@
 		<value><![CDATA[Total]]></value>
 	</definition>
 	<definition>
+		<key>text_continue_shopping</key>
+		<value><![CDATA[Continuar Compras]]></value>
+	</definition>	
+	<definition>
+		<key>text_coupon_codes</key>
+		<value><![CDATA[Aplicar código promocional]]></value>
+	</definition>
+	<definition>
+		<key>text_estimate_shipping_tax</key>
+		<value><![CDATA[Estimar Envío e Impuestos]]></value>
+	</definition>
+	<definition>
+		<key>text_estimate_country</key>
+		<value><![CDATA[País y Estado]]></value>
+	</definition>	
+	<definition>
+		<key>text_estimate_postcode</key>
+		<value><![CDATA[Código postal de envío]]></value>
+	</definition>
+	<definition>
+		<key>button_text_estimate</key>
+		<value><![CDATA[Estimate]]></value>
+	</definition>	
+	<definition>
+		<key>text_estimate_shipments</key>
+		<value><![CDATA[Envíos]]></value>
+	</definition>	
+	<definition>
+    	<key>error_coupon</key>
+    	<value><![CDATA[Error: descuento no es válido, expirado o alcanzado su límite de uso!]]></value>
+  	</definition>	
+	<definition>
 		<key>error_stock</key>
 		<value>
 			<![CDATA[Los productos marcados con *** no están disponibles en la cantidad deseada o no están en stock!]]></value>

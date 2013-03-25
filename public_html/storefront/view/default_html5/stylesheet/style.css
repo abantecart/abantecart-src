@@ -14,6 +14,7 @@ h1, h2, h3, h4, h5, h6 {line-height:normal}
 h2 {font-size:24px}
 
 .container-fluid { padding: 0; }
+form { margin: 0;}
 
 .textright { text-align:right }
 .mt0 {margin-top:0px!important}
@@ -24,6 +25,7 @@ h2 {font-size:24px}
 .mt60 {margin-top:60px!important}
 .mr10 { margin-right:10px }
 .ml10 { margin-left:10px }
+.mb10 {margin-bottom:10px}
 .mb20 {margin-bottom:20px}
 .mb40 {margin-bottom:40px}
 

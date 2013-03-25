@@ -5,6 +5,13 @@
   <?php } ?>
 </h1>
 
+<?php if ($success) { ?>
+<div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $success; ?>
+</div>
+<?php } ?>
+
 <?php if ( count($error_warning) > 0 ) {
 	foreach ($error_warning as $error) { ?>
 <div class="alert alert-error">
@@ -14,7 +21,7 @@
 	}
 echo $form['form_open'];
 ?>
-<div class="cart-info">
+<div class="cart-info container-fluid">
 	<table class="table table-striped table-bordered">
     <tr>
       <th align="center"><?php echo $column_remove; ?></th>
@@ -48,10 +55,77 @@ echo $form['form_open'];
     <?php } ?>
   </table>
 </div>  
+<div class="container">
+<div class="pull-right mb20">		
+		<?php if ( $form['checkout'] ) { ?>
+		<a href="<?php echo $checkout; ?>" id="cart_checkout" class="btn btn-orange pull-right" title="<?php echo $button_checkout; ?>">
+			<i class="icon-shopping-cart"></i>
+			<?php echo $button_checkout; ?>
+		</a>		
+		<?php } ?>		
+		<button title="<?php echo $button_update; ?>" class="btn pull-right mr10" id="cart_update" value="<?php echo $form['update']->form ?>" type="submit">
+			<i class="icon-refresh"></i>
+			<?php echo $button_update; ?>
+		</button>
+</div>
+</div>
+</form>
+
+<?php if ($estimates_enabled || $coupon_status) { ?>
+<div class="cart-info container-fluid">
+	<table class="table table-striped table-bordered">
+    <tr>
+      <?php if ($coupon_status) { ?>
+      <th align="center"><?php echo $text_coupon_codes ?></th></th>
+      <?php } ?>   
+      <?php if ($estimates_enabled) { ?>
+      <th align="center"><?php echo $text_estimate_shipping_tax ?></th> 
+      <?php } ?>   
+	</tr>
+    <tr>
+      <td>
+    <?php 
+    	if ($coupon_status) { 
+    		echo $coupon_form;
+    	} 
+    ?>
+      </td>
+      <?php if ($estimates_enabled) { ?>
+      <td>
+		<div class="registerbox">
+			<?php echo $form_estimate['form_open']; ?>
+			<div class="control-group">
+				<label class="control-label"><?php echo $text_estimate_country; ?></label>
+				<div class="controls">			
+				<?php echo $form_estimate['country_zones']; ?>
+				</div>
+			</div>
+			<div class="form-inline">
+				<label class="checkbox"><?php echo $text_estimate_postcode; ?></label>
+			    <?php echo $form_estimate['postcode']; ?>
+			    <button title="<?php echo $form_estimate['submit']->name; ?>" class="btn mr10" value="$form_estimate['submit']->form ?>" type="submit">
+				<i class="icon-check"></i>
+				<?php echo $form_estimate['submit']->name; ?>
+				</button>
+			</div>
+			
+			<div class="form-inline shippings-offered mt20">
+				<label class="control-label"><?php echo $text_estimate_shipments; ?></label>		
+				<label class="shipments"><?php echo $form_estimate['shippings']; ?></label>
+			</div>
+			
+			</form>
+		</div>
+      </td>
+      <?php } ?>
+    </tr>
+  </table>	
+</div>
+<?php } ?> 
 
 <div class="container">
 <div class="pull-right">
-    <div class="cart-info span4 pull-right">
+    <div class="cart-info totals span4 pull-right">
 		<table class="table table-striped table-bordered">
 		  <?php foreach ($totals as $total) { ?>
 		  <tr>
@@ -60,27 +134,110 @@ echo $form['form_open'];
 		  </tr>
 		  <?php } ?>
 		</table>
-		<button title="<?php echo $button_checkout; ?>" class="btn btn-orange pull-right" id="cart_checkout" type="button">
+		<?php if ( $form['checkout'] ) { ?>
+		<a href="<?php echo $checkout; ?>" id="cart_checkout" class="btn btn-orange pull-right" title="<?php echo $button_checkout; ?>">
 			<i class="icon-shopping-cart"></i>
 			<?php echo $button_checkout; ?>
-		</button>
-		<button title="<?php echo $button_update; ?>" class="btn pull-right mr10" id="cart_update" type="submit">
-			<i class="icon-refresh"></i>
-			<?php echo $button_update; ?>
-		</button>
+		</a>		
+		<?php } ?>
+		
 		<a href="<?php echo $continue; ?>" class="btn mr10" title="">
-		    <i class="icon-arrow-left"></i>
-		    <?php echo $button_continue ?>
+		    <i class="icon-arrow-right"></i>
+		    <?php echo $text_continue_shopping ?>
 		</a>
     </div>
 </div>
 </div>
- 
-</form>
+<?php if ($estimates_enabled) { ?>
+<script type="text/javascript"><!--
 
-
-<script type="text/javascript">
-	$('#cart_checkout').click( function(){
-		location = '<?php echo $checkout; ?>';
+jQuery(function($) {
+	display_shippings();
+	
+	$('#estimate_zones_zones').change(function(){ 
+		//zone is changed, need to reset poscode
+		$("#estimate input[name=\'postcode\']").val('')
+		display_shippings();
 	})
-</script>
+	
+	$('#shippings').live("change", function(){ display_totals();})
+	
+});	
+
+function display_shippings () {
+
+	var country_id = '';
+	var zone_id = '';
+	var postcode = encodeURIComponent($("#estimate input[name=\'postcode\']").val());
+	var zones = [];
+	$('#estimate select[name=\'zones[]\'] :selected').each(function(i, selected){ 
+  		zones[i] = $(selected).val(); 
+	});	
+	country_id = encodeURIComponent(zones[0]);
+	zone_id = encodeURIComponent(zones[1]);
+	var replace_obj = $('.shippings-offered label.shipments'); 
+	
+	$.ajax({
+	type: 'POST',
+	url: 'index.php?rt=r/checkout/cart/shipping_methods',
+	dataType: 'json',
+	data: 'country_id=' + country_id + '&zone_id=' + zone_id + '&postcode=' + postcode,
+	beforeSend: function() {
+			$(replace_obj).html('<div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div>');
+	},
+	complete: function() {	
+	},
+	success: function(data) {
+		 $(replace_obj).html('');
+		 if (data && data.selectbox) {
+		 	$(replace_obj).show();
+		 	$(replace_obj).css('visibility', 'visible');
+		 	$(replace_obj).html(data.selectbox);
+		 }
+		 display_totals();
+	}	
+	});
+
+}
+
+function display_totals () {
+	var shipping_method = '';
+	var coupon = encodeURIComponent($("#coupon input[name=\'coupon\']").val());
+	shipping_method = encodeURIComponent($('#shippings :selected').val());
+
+	$.ajax({
+	type: 'POST',
+	url: 'index.php?rt=r/checkout/cart/recalc_totals',
+	dataType: 'json',
+	data: 'shipping_method=' + shipping_method + '&coupon=' + coupon,
+	beforeSend: function() {
+			//$('.cart-info.totals table').html('<div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div>');
+	},
+	complete: function() {	
+	},
+	success: function(data) {
+		if (data && data.totals.length) {
+			var html = '';
+			for (var i = 0; i < data.totals.length; i++) {
+				var grand_total = '';
+				if (data.totals[i].id == 'total') {
+					grand_total = 'totalamout';
+				} 
+				html += '<tr>';
+				html += '<td><span class="extra bold '+grand_total+'">'+data.totals[i].title+'</span></td>';
+				html += '<td><span class="bold '+grand_total+'">'+data.totals[i].text+'</span></td>';
+				html += '</tr>';
+			}
+			$('.cart-info.totals table').html(html);
+		}
+	}	
+	});
+}
+
+function show_error( parent_element, message ) {
+	var html = '<div class="alert alert-error">' + message + '</div>';
+	$(parent_element).before(html);
+}
+
+//--></script>
+<?php } ?>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -56,7 +56,7 @@ class ControllerResponsesCommonZone extends AController {
 		// options for zones
       	foreach ($results as $result) {
         	$selected = FALSE;
-	    	if (isset($this->request->get['zone_id']) && ($this->request->get['zone_id'] == $result['zone_id'])) {
+	    	if (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name'])) {
 	      		$selected = TRUE;
                 $selected_name = $result['name'];
 	    	}
