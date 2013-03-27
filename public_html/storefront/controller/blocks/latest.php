@@ -106,6 +106,7 @@ class ControllerBlocksLatest extends AController {
 		} else {
 			$display_price = FALSE;
 		}
+        $this->view->assign('block_framed', true );
         $this->view->assign('display_price', $display_price );
 		$this->processTemplate();
 

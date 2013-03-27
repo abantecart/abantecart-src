@@ -74,7 +74,7 @@ li.dropdown { list-style:none }
 .headerdetails ul.topcartopen { font-size:11px }
 .headerdetails ul.topcartopen li > table { border-collapse: collapse; width: 100%; margin-bottom: 5px; padding:5px }
 .headerdetails ul.topcartopen li > table td {
-color: #; vertical-align: top; padding: 5px 5px; border-bottom: 1px dashed #E7E7E7; }
+color: #; vertical-align: top; padding: 1px 5px 1px 5px; border-bottom: 1px dashed #E7E7E7; }
 .headerdetails ul.topcartopen li > table .image { width: 1px; }
 .headerdetails ul.topcartopen li > table .image img { text-align: left; }
 .headerdetails ul.topcartopen li > table .name small { color: #999999; }
@@ -141,12 +141,17 @@ ul.categorymenu > li ul > li img { margin:3px; max-width:none }
 /* ------------ Featured Proudcts ------------ */
 #categorymenu { margin:20px 0 30px 0 }
 
-#featured:after, #latest:after, #related:after, #category:after, #popularbrands:after, #newslettersignup .container:after  {clear: both;
- visibility: hidden;
+#featured:after, #latest:after, #related:after, #category:after, #popularbrands:after, #newslettersignup .container:after  {
+	clear: both;
+	visibility: hidden;
 	display: block;
 	content: "";
 	clear: both;
-	height: 0;;}
+	height: 0;
+}
+
+.fixed_wrapper { overflow: hidden; height: 43px;  }
+.fixed { height: 50px; margin: 0 -15px 0 0; overflow:auto; }	
 .thumbnails .prdocutname { font-size:14px;  color:#5e626b; text-transform:uppercase; text-align:center; margin:0 0 10px 0; display:block }
 .thumbnails.list .thumbnail .prdocutname { font-size:16px;  color:#5e626b; text-transform:uppercase; text-align:left; margin:0 0 10px 0; display:block }
 .thumbnails.list > li { margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid #ccc }
@@ -342,7 +347,7 @@ a.fancyboxpopup { position:relative; display:block }
 a.fancyboxpopup:hover span.viewfancypopup { display:block; position:absolute; z-index:999; margin-top:-55% }
 
 /* Sidebar */
-.sidewidt { margin-bottom:40px }
+.sidewidt { margin-bottom:40px; }
 /* Side Data Links */
 .categorytitle { margin:0 0 35px 0 }
 ul.side_list { background: none repeat scroll 0 0 #FFFFFF; border-radius: 4px 4px 4px 4px; padding-top:10px; padding-bottom:10px }
@@ -406,10 +411,10 @@ a.clostalert { background: url("../image/messages.png") no-repeat scroll 0 -310p
 #footer ul { margin:0px; padding:0px; list-style:none }
 #footer ul li { list-style:none }
 #footer .info ul li:last-child { background:none }
-.footersocial .footer_block ul li { background:url(../image/sprite.png) no-repeat 0 0; padding:0px 0 0 32px; height:53px }
-.footersocial .footer_block ul li.phone { background-position:0 -502px; }
-.footersocial .footer_block ul li.mobile { background-position:0 -555px }
-.footersocial .footer_block ul li.email { background-position:0 -613px }
+.contact li { background:url(../image/sprite.png) no-repeat 0 0; padding:0px 0 0 32px; height:53px }
+.contact li.phone { background-position:0 -502px; }
+.contact li.mobile { background-position:0 -555px }
+.contact li.email { background-position:0 -613px }
 .footerlinks { padding:22px 0 18px; background:#3a3a3a; color:#969ba4 }
 .footerlinks ul li a { color:#969ba4; padding:5px 10px 5px 10px; }
 .footerlinks ul li a:hover { color:#f9f9f9 }
