@@ -142,9 +142,9 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 			$this->data['payment_address'] = '';
 		}
 
-		if (isset($this->session->data['payment_method']['title'])) {
+		if($this->session->data['payment_method']['id'] != 'no_payment_required'){
 			$this->data['payment_method'] = $this->session->data['payment_method']['title'];
-		} else {
+		}else{
 			$this->data['payment_method'] = '';
 		}
 	
@@ -189,8 +189,12 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 		} else {
 			$this->data['text_accept_agree'] = '';
 		}
-    
-		$this->addChild('responses/extension/' . $this->session->data['payment_method']['id'], 'payment');
+
+		if($this->session->data['payment_method']['id'] != 'no_payment_required'){
+			$this->addChild('responses/extension/' . $this->session->data['payment_method']['id'], 'payment');
+		}else{
+			$this->addChild('responses/checkout/no_payment', 'payment');
+		}
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/checkout/confirm.tpl' );
