@@ -46,7 +46,7 @@
 	</definition>
 	<definition>
 		<key>text_add_code</key>
-		<value><![CDATA[Add Resource HTML]]></value>
+		<value><![CDATA[Add Image URL or Resource HTML]]></value>
 	</definition>
 	<definition>
 		<key>text_add_files</key>
@@ -102,7 +102,7 @@
 	</definition>
 	<definition>
 		<key>text_resource_code</key>
-		<value><![CDATA[Resource HTML]]></value>
+		<value><![CDATA[Image URL or Resource HTML]]></value>
 	</definition>
 	<definition>
 		<key>text_name</key>

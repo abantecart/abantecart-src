@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011, 2012 Belavier Commerce LLC
+  Copyright © 2011-2013, 2012 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -367,14 +367,12 @@ class AForm {
 	 */
 	public function getFieldHtml($data) {
 		$data[ 'form' ] = $this->form[ 'form_name' ];
-		$item = HtmlElementFactory::create($data);
-
-		$js = '';
+		
 		if ($data[ 'type' ] == 'form') {
-			$js = $this->addFormJs();
+			$data['javascript'] = $this->addFormJs();
 		}
-
-		return $js . $item->getHtml();
+		
+		return HtmlElementFactory::create($data);
 	}
 
 	/**

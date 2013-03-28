@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -214,7 +214,7 @@ class ControllerPagesInstall extends AController {
 		$stdout .= '/*' . "\n";
 		$stdout .= '	AbanteCart, Ideal OpenSource Ecommerce Solution' . "\n";
 		$stdout .= '	http://www.AbanteCart.com' . "\n";
-		$stdout .= '	Copyright © 2011 Belavier Commerce LLC' . "\n\n";
+		$stdout .= '	Copyright © 2011-2013 Belavier Commerce LLC' . "\n\n";
 		$stdout .= '	Released under the Open Software License (OSL 3.0)' . "\n";
 		$stdout .= '*/' . "\n";
 		$stdout .= '// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin' . "\n";

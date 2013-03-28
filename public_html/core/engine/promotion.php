@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -167,7 +167,7 @@ class APromotion {
 
 	public function getProductSpecials($sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20) {
 
-        $sql = "SELECT DISTINCT ps.product_id, p.*, pd.name,
+        $sql = "SELECT DISTINCT ps.product_id, p.*, pd.name, pd.description,
                     (SELECT AVG(rating)
                     FROM " . $this->db->table("reviews") . " r1
                     WHERE r1.product_id = ps.product_id

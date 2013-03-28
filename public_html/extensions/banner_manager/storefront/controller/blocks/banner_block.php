@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -26,7 +26,7 @@ class ControllerBlocksBannerBlock extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-
+		
 		$instance_id = func_get_arg(0);
 		$block_data = $this->getBlockContent($instance_id);
 		$this->view->assign('block_framed',$block_data['block_framed']);

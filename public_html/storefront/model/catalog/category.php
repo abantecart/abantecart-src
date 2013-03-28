@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -61,5 +61,68 @@ class ModelCatalogCategory extends Model {
 		
 		return $query->row['total'];
 	}
+
+	public function getCategoriesDetails($pid = 0, $path = '') {
+		$this->load->model('catalog/product');
+		$this->load->model('catalog/manufacturer');
+		$resource = new AResource('image');
+		
+		$categories = array();
+		$cash_name = 'category.details.'.$pid;
+		$categories = $this->cache->get( $cash_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id') );
+		if ( count($categories) ) {
+			return $categories;
+		}
+		
+		$results = $this->getCategories($pid);
+		
+		foreach ($results as $result) {
+			if (!$path) {
+			        $new_path = $result['category_id'];
+			} else {
+			        $new_path = $path . '_' . $result['category_id'];
+			}
+			
+			$brands = array();
+			
+			if($pid == 0) {
+
+			    $data['filter'] = array();
+			    $data['filter']['category_id'] = $result['category_id'];
+			    $data['filter']['status'] = 1;
+			    
+			    $prods = $this->model_catalog_product->getProducts($data);
+			    
+			    foreach( $prods as $prod ) {
+			        if( $prod['manufacturer_id'] ) {
+			                $brand = $this->model_catalog_manufacturer->getManufacturer($prod['manufacturer_id']);
+			        
+			                $brands[$prod['manufacturer_id']] = array(
+			                        'name' => $brand['name'],
+			                        'href' => $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' .$brand['manufacturer_id'], '&encode')
+			                );
+			        }
+			    }
+			}
+
+			$thumbnail = $resource->getMainThumb('categories',
+			                                     $result['category_id'],
+			                                     $this->config->get('config_image_category_width'),
+			                                     $this->config->get('config_image_category_height'),true);
+			
+			$categories[] = array(
+			        'category_id' => $result['category_id'],
+			        'name' => $result['name'],
+			        'children' => $this->getCategoriesDetails($result['category_id'], $new_path),
+			        'href' => $this->html->getSEOURL('product/category', '&path=' . $new_path, '&encode'),
+			        'brands' => $brands,
+			        'product_count' => count($prods),
+			        'thumb' => $thumbnail['thumb_url'],
+			);
+		}
+		$this->cache->set( $cash_name, $categories, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id') );
+		return $categories;
+	}	
+
 }
 ?>

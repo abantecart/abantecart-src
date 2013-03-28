@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -61,6 +61,16 @@ class ControllerPagesProductManufacturer extends AController {
             $this->view->assign('heading_title', $manufacturer_info['name'] );
             $this->view->assign('text_sort', $this->language->get('text_sort') );
 
+			$resource = new AResource('image');
+			$thumbnail = $resource->getMainThumb('manufacturers',
+				$manufacturer_info['manufacturer_id'],
+				$this->config->get('config_image_grid_width'),
+				$this->config->get('config_image_grid_height'),
+				true);			
+			if ( !preg_match('/no_image/', $thumbnail['thumb_url'])) {
+				$this->view->assign('manufacturer_icon', $thumbnail['thumb_url']); 
+			}	
+
 			$product_total = $this->model_catalog_product->getTotalProductsByManufacturerId($this->request->get['manufacturer_id']);
 			
 			if ($product_total) {
@@ -102,8 +112,6 @@ class ControllerPagesProductManufacturer extends AController {
 					$product_ids[] = (int)$result['product_id'];
 				}
 				$products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
-
-				$resource = new AResource('image');
 
         		foreach ($results as $result) {
 					$thumbnail = $resource->getMainThumb('products',
@@ -154,7 +162,8 @@ class ControllerPagesProductManufacturer extends AController {
             			'options' => $options,
 						'special' => $special,
 						'href'    => $this->html->getSEOURL('product/product','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&product_id=' . $result['product_id'], '&encode'),
-						'add'	  => $add
+						'add'	  => $add,
+						'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
           			);
         		}
 				$this->data['products'] = $products;
@@ -244,14 +253,28 @@ class ControllerPagesProductManufacturer extends AController {
 				$this->view->assign( 'sorting', $sorting );
 				$this->view->assign( 'url', $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id']) );
 				
+				$pagination_url = $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=' . $this->request->get['sort'] . '&page={page}' . '&limit=' . $limit, '&encode');
+				
 				$pagination = new APagination();
 				$pagination->total = $product_total;
 				$pagination->page = $page;
 				$pagination->limit = $limit;
-				$pagination->text = $this->language->get('text_pagination'); $pagination->text_limit = $this->language->get('text_per_page');
-				$pagination->url = $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=' . $this->request->get['sort'] . '&page={page}' . '&limit=' . $limit, '&encode');
-			
+				$pagination->text = $this->language->get('text_pagination'); 
+				$pagination->text_limit = $this->language->get('text_per_page');
+				$pagination->url = $pagination_url;		
 				$this->view->assign('pagination', $pagination->render() );
+
+				$this->view->assign('pagination_bootstrap', HtmlElementFactory::create( array (
+											'type' => 'Pagination',
+											'name' => 'pagination',
+											'text'=> $this->language->get('text_pagination'),
+											'text_limit' => $this->language->get('text_per_page'),
+											'total'	=> $product_total,
+											'page'	=> $page,
+											'limit'	=> $limit,
+											'url' => $pagination_url,
+											'style' => 'pagination')) 
+									);
 
                 $this->view->assign('sort', $sort );
                 $this->view->assign('order', $order );
@@ -266,7 +289,7 @@ class ControllerPagesProductManufacturer extends AController {
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button'));
-				$this->view->assign('button_continue', $continue->getHtml());
+				$this->view->assign('button_continue', $continue);
 
                 $this->view->assign('continue',  $this->html->getURL('index/home') );
 
@@ -301,7 +324,7 @@ class ControllerPagesProductManufacturer extends AController {
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button'));
-			$this->view->assign('button_continue', $continue->getHtml());
+			$this->view->assign('button_continue', $continue);
       		$this->view->assign('continue',  $this->html->getURL('index/home') );
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -27,7 +27,7 @@ function renderStoreMenu( $menu, $level = 0 )
     if ( $level ) $result .= "<ul>\r\n";
     foreach( $menu as $item ) {
         $id = ( empty($item['id']) ? '' : ' id="menu_'.$item['id'].'" ' ); // li ID
-        $class = $level != 0 ? empty($item['children']) ? '' : ' class="parent" ' : ' class="top" '; //a class
+        $class = $level != 0 ? empty($item['children']) ? '' : ' class="parent menu_'.$item['id'].'" ' : ' class="top menu_'.$item['id'].'" '; //a class
         $href = empty($item['href']) ? '' : ' href="'.$item['href'].'" '; //a href
 
         $result .= '<li' . $id . '>';

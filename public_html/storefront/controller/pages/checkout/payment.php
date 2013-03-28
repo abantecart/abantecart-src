@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -202,30 +202,18 @@ class ControllerPagesCheckoutPayment extends AController {
 			unset($this->session->data[ 'success' ]);
 		}
 		$action = $this->html->getSecureURL('checkout/payment');
-		$this->view->assign( 'coupon_status', $this->config->get('coupon_status') );
 
-		$item = HtmlElementFactory::create( array('type' => 'button',
+		$this->data['change_address'] = HtmlElementFactory::create( array('type' => 'button',
 			                                      'name' => 'change_address',
 			                                      'style' => 'button',
 		                                          'text' => $this->language->get('button_change_address')
 		                                    ));
-		$this->data['change_address'] = $item->getHTML();
+
 		$this->data['change_address_href'] = $this->html->getSecureURL('checkout/address/payment');
 
-		$form = new AForm();
-		$form->setForm(array( 'form_name' => 'coupon' ));
-		$this->data['form0'][ 'form_open' ] = $form->getFieldHtml(
-                                                                array( 'type' => 'form',
-                                                                       'name' => 'coupon',
-                                                                       'action' => $action ));
-		$this->data['form0'][ 'coupon' ] = $form->getFieldHtml( array(
-                                                                       'type' => 'input',
-		                                                               'name' => 'coupon',
-		                                                               'value' => ( isset($this->request->post[ 'coupon' ]) ? $this->request->post[ 'coupon' ] : $this->session->data[ 'coupon' ] )
-		                                                       ));
-		$this->data['form0'][ 'submit' ] = $form->getFieldHtml( array(
-                                                                       'type' => 'submit',
-		                                                               'name' => $this->language->get('button_coupon') ));
+		$this->view->assign( 'coupon_status', $this->config->get('coupon_status') );
+		$coupon_form = $this->dispatch('blocks/coupon_codes', array( 'action' => $action ) );
+		$this->view->assign('coupon_form', $coupon_form->dispatchGetOutput() );
 
 		$this->data[ 'address' ] = $this->customer->getFormatedAdress($payment_address, $payment_address[ 'address_format' ] );
 

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -492,7 +492,6 @@ function getExtensionConfigXml($extension_txt_id) {
 	$existed = $xpath->query($qry);
 	if(!is_null($existed)){
 		foreach ($existed as $node) {
-			echo $node->parentNode->nodeValue;
 			$node->parentNode->removeChild($node);
 		}
 	}

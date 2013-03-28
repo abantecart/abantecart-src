@@ -49,6 +49,38 @@
 		<value><![CDATA[Total]]></value>
 	</definition>
 	<definition>
+		<key>text_continue_shopping</key>
+		<value><![CDATA[Continue Shopping]]></value>
+	</definition>	
+	<definition>
+		<key>text_coupon_codes</key>
+		<value><![CDATA[Apply Coupon Code]]></value>
+	</definition>
+	<definition>
+		<key>text_estimate_shipping_tax</key>
+		<value><![CDATA[Estimate Shipping & Taxes]]></value>
+	</definition>
+	<definition>
+		<key>text_estimate_country</key>
+		<value><![CDATA[Country and State]]></value>
+	</definition>
+	<definition>
+		<key>text_estimate_postcode</key>
+		<value><![CDATA[Post Code]]></value>
+	</definition>
+	<definition>
+		<key>button_text_estimate</key>
+		<value><![CDATA[Estimate]]></value>
+	</definition>
+	<definition>
+		<key>text_estimate_shipments</key>
+		<value><![CDATA[Shippments]]></value>
+	</definition>	
+	<definition>
+		<key>error_coupon</key>
+		<value><![CDATA[Error: Coupon is either invalid, expired or reached it's usage limit!]]></value>
+	</definition>	
+	<definition>
 		<key>error_stock</key>
 		<value><![CDATA[Products marked with *** are not available in the desired quantity or out of stock!]]></value>
 	</definition>

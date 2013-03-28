@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -115,8 +115,6 @@ class ControllerPagesProductSearch extends AController {
 																	   'value'=> $this->request->get['category_id'],
 															 ) );
 
-		$this->data['category'] = $this->data['category']->getHtml();
-
 		$this->data['description'] = HtmlElementFactory::create( array('type' => 'checkbox',
 																		'id' => 'description',
 																		'name' => 'description',
@@ -124,7 +122,6 @@ class ControllerPagesProductSearch extends AController {
 																		'value' => 1,
 																		'label_text' => $this->language->get('entry_description')
 																   ));
-		$this->data['description'] = $this->data['description']->getHtml();
 
 		$this->data['model'] = HtmlElementFactory::create( array(     'type' => 'checkbox',
 														'id' => 'model',
@@ -134,14 +131,12 @@ class ControllerPagesProductSearch extends AController {
 			                                            'label_text' => $this->language->get('entry_model')
 		                                           ));
 
-		$this->data['model'] = $this->data['model']->getHtml();
-
 		$this->data['submit'] = HtmlElementFactory::create( array (
 			                                                    'type' => 'button',
 		                                                        'name' => 'search_button',
 			                                                    'text'=> $this->language->get('button_search'),
+			                                                    'icon' => 'icon-search',
 			                                                    'style' => 'button'));
-		$this->data['submit'] = $this->data['submit']->getHtml();
 
 
 
@@ -248,7 +243,8 @@ class ControllerPagesProductSearch extends AController {
             			'options' => $options,
 						'special' => $special,
 						'href'    => $this->html->getSEOURL('product/product','&keyword=' . $this->request->get['keyword'] . $url . '&product_id=' . $result['product_id'], '&encode'),
-						'add'	  => $add
+						'add'	  => $add,
+						'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
           			);
         		}
 
@@ -391,11 +387,21 @@ class ControllerPagesProductSearch extends AController {
 				$pagination->total = $product_total;
 				$pagination->page = $page;
 				$pagination->limit = $limit;
-				$pagination->text = $this->language->get('text_pagination'); $pagination->text_limit = $this->language->get('text_per_page');
+				$pagination->text = $this->language->get('text_pagination'); 
+				$pagination->text_limit = $this->language->get('text_per_page');
 				$pagination->url = $this->html->getURL('product/search',  $url . '&page={page}', '&encode');
-				
 				$this->data['pagination'] = $pagination->render();
 
+				$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
+											'type' => 'Pagination',
+											'name' => 'pagination',
+											'text'=> $this->language->get('text_pagination'),
+											'text_limit' => $this->language->get('text_per_page'),
+											'total'	=> $product_total,
+											'page'	=> $page,
+											'limit'	=> $limit,
+											'url' => $this->html->getURL('product/search',  $url . '&page={page}', '&encode'),
+											'style' => 'pagination'));
                 $this->data['sort'] = $sort;
                 $this->data['order'] = $order;
                 $this->data['limit'] = $limit;

@@ -18,8 +18,15 @@
 </span>
 
 <script>
+	<?php 
+		if ($submit_mode == 'id') {
+			$selector = "&country_id=";
+		} else {
+			$selector = "&country_name=";		
+		}
+	?>
+	$('#<?php echo $id ?>_zones').load('<?php echo $url; ?><?php echo $selector ?>' + encodeURIComponent($('#<?php echo $id ?>').val()) +'&zone_name=<?php echo $zone_name; ?>');
 	$('#<?php echo $id ?>').change( function(){
-		$('#<?php echo $id ?>_zones').load('<?php echo $url; ?>&country_name=' + encodeURIComponent($(this).val()) + '&zone_name=<?php echo $zone_name; ?>');
+		$('#<?php echo $id ?>_zones').load('<?php echo $url; ?><?php echo $selector ?>' + encodeURIComponent($(this).val()) + '&zone_name=<?php echo $zone_name; ?>');
 	});
-	$('#<?php echo $id ?>_zones').load('<?php echo $url; ?>&country_name='+ encodeURIComponent($('#<?php echo $id ?>').val()) +'&zone_name=<?php echo $zone_name; ?>');
 </script>

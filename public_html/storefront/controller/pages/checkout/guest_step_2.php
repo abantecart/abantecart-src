@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -364,7 +364,10 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
                                                                        'type' => 'submit',
 		                                                               'name' => $this->language->get('button_continue') ));
 
+		//render buttons
 		$this->view->batchAssign($this->data);
+		$this->view->assign('buttons', $this->view->fetch('pages/checkout/payment.buttons.tpl'));
+		
 		$this->processTemplate('pages/checkout/guest_step_2.tpl' );
 
         //init controller data

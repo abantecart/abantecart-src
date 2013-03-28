@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -51,13 +51,18 @@ class ControllerCommonPage extends AController {
 		}
 		
 		$layout_css_suffix = '';
+		$comumns_count= 3;
 		if($col_left && !$col_right) {
 			$layout_css_suffix = '-right';
+			$comumns_count = 2;
 		} else if($col_right && !$col_left) {
 			$layout_css_suffix = '-left';
+			$comumns_count = 2;
 		} else if(!$col_left && !$col_right) {
 			$layout_css_suffix = '-long';
+			$comumns_count = 1;
 		}
+		$this->view->assign('layout_columns', $comumns_count);
 		$this->view->assign('layout_css_suffix', $layout_css_suffix);
 		$this->view->assign('layout_width', $this->config->get('storefront_width'));
 		$this->view->assign('rnk_link',base64_decode('aHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbQ=='));

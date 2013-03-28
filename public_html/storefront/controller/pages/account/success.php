@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -73,12 +73,14 @@ class ControllerPagesAccountSuccess extends AController {
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button'));
-		$this->view->assign('continue_button', $continue->getHtml());
+		$this->view->assign('continue_button', $continue);
 
 		$this->processTemplate('common/success.tpl');
 
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		unset($this->session->data['success']);
   	}
 }
 ?>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -65,6 +65,7 @@ class ControllerPagesAccountPassword extends AController {
         	'separator' => $this->language->get('text_separator')
       	 ));
 			
+        $this->view->assign('error_warning', $this->error['warning'] );
         $this->view->assign('error_current_password', $this->error['current_password'] );
         $this->view->assign('error_password', $this->error['password'] );
         $this->view->assign('error_confirm', $this->error['confirm'] );
@@ -95,7 +96,8 @@ class ControllerPagesAccountPassword extends AController {
 		                                       'required' => true ));
 		$submit = $form->getFieldHtml( array(
                                                'type' => 'submit',
-		                                       'name' => $this->language->get('button_continue')
+		                                       'name' => $this->language->get('button_continue'),
+		                                       'icon' => 'icon-check',
 		                                        ));
 
 		$this->view->assign('current_password', $current_password );
@@ -107,8 +109,9 @@ class ControllerPagesAccountPassword extends AController {
 		$back = HtmlElementFactory::create( array ('type' => 'button',
 		                                           'name' => 'back',
 			                                       'text'=> $this->language->get('button_back'),
+			                                       'icon' => 'icon-arrow-left',
 			                                       'style' => 'button'));
-		$this->view->assign('button_back', $back->getHtml());
+		$this->view->assign('button_back', $back);
 
         $this->processTemplate('pages/account/password.tpl');
 
@@ -133,6 +136,7 @@ class ControllerPagesAccountPassword extends AController {
 		if (!$this->error) {
 	  		return TRUE;
 		} else {
+			$this->error['warning'] = $this->language->get('gen_data_entry_error');
 	  		return FALSE;
 		}
   	}

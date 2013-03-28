@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -59,8 +59,12 @@ class ControllerCommonHead extends AController {
         if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
 		    $this->view->assign('ssl', 1);
         }
+		$this->view->assign('cart_url', $this->html->getURL('checkout/cart'));
         $this->view->assign('cart_ajax', (int) $this->config->get('config_cart_ajax'));
         $this->view->assign('cart_ajax_url', $this->html->getURL('r/product/product/addToCart'));
+
+		//load template debug resources if needed
+		$this->view->assign('template_debug_mode', $this->config->get('storefront_template_debug'));
 
 		$this->processTemplate('common/head.tpl');
 

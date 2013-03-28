@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -47,9 +47,16 @@ class ControllerBlocksCart extends AController {
 		$products = array();
 		
 		$qty = 0;
-		
+
+		$resource = new AResource('image');
+				
     	foreach ($this->cart->getProducts() as $result) {
         	$option_data = array();
+
+			$thumbnail = $resource->getMainThumb('products',
+			                                     $result['product_id'],
+			                                     $this->config->get('config_image_product_width'),
+			                                     $this->config->get('config_image_product_height'),true);
 
         	foreach ($result['option'] as $option) {
           		$option_data[] = array(
@@ -68,23 +75,26 @@ class ControllerBlocksCart extends AController {
 				'stock'      => $result['stock'],
 				'price'      => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
 				'href'       => $this->html->getSEOURL('product/product','&product_id=' . $result['product_id']),
+				'thumb'   		=> $thumbnail,
       		);
     	}
 
-        $this->data['products'] = $products;
-		
+		$this->data['products'] = $products;
 		$this->data['total_qty'] = $qty;
 	
       	$display_totals = $this->cart->buildTotalDisplay();      				
     	$this->data['totals'] = $display_totals['total_data'];
+    	$this->data['subtotal'] = $this->currency->format($this->tax->calculate($display_totals['total'], $result['tax_class_id'], $this->config->get('config_tax')));
+		$this->data['taxes'] = $display_totals['taxes'];
 		
 		$this->data['ajax'] = $this->config->get('cart_ajax');
 		$this->view->batchAssign($this->data);
-        $this->processTemplate();
+
+		$this->processTemplate();
 		
 		//init controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-		
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+
 	}
 
 }

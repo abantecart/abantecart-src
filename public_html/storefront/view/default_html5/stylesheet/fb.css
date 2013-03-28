@@ -1,0 +1,17 @@
+iframe { border:none }
+.fb_reset {overflow:hidden!important}
+#fb-root > div {overflow:hidden!important}
+.fan_box .connections { padding: 0 !important; border: 0 !important; font-family: Calibri, Arial, Helvetica, sans-serif !important;; font-size: 11px; color: #666; }
+.fan_box a:hover { color :EF4135 ; text-decoration: none; }
+.fan_box .full_widget { height: 200px; border: 0 !important; background: none !important;  }
+.fan_box .connect_top { background: none !important; padding: 0 !important; float: left !important; }
+.fan_box .profileimage, .fan_box .name_block { display: none; }
+.fan_box .connect_action { padding: 0 !important; margin-right:5px !important; }
+.fan_box .connections .connections_grid { padding-top: 10px !important; text-align:center; clear:both !important; }
+.fan_box .connections_grid .grid_item { padding: 0 11px 10px 0 !important; }
+.fan_box .connections_grid .grid_item .name { font-family: Calibri, Arial, Helvetica, sans-serif; font-weight: normal!important; color: #333 !important; padding-top: 2px !important; }
+.fan_box .connect_widget { margin: 0 0 10px !important; }
+.fan_box .connect_widget .connect_widget_interactive_area { margin: 0 !important; }
+.fan_box .connect_widget td.connect_widget_vertical_center { padding: 0 !important; }
+.connections span.total {display:block !important; margin:5px 0 0 0 !important}
+

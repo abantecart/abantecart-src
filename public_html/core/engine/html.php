@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -221,8 +221,7 @@ class AHtml extends AController {
 	 *
 	 */
 	public function buildElement($data) {
-		$item = HtmlElementFactory::create($data);
-		return $item->getHtml();
+		return HtmlElementFactory::create($data);
 	}
 
 	/**
@@ -447,6 +446,16 @@ class AHtml extends AController {
 
 	public function buildCountries($data) {
 		$item = new CountriesHtmlElement($data);
+		return $item->getHtml();
+	}
+
+	/**
+	 * @param  $data - array with element data
+	 * method to build pagination HTML elment 
+	 * @return string - html code
+	 */
+	public function buildPagination($data) {
+		$item = new PaginationHtmlElement($data);
 		return $item->getHtml();
 	}
 
@@ -755,6 +764,14 @@ abstract class HtmlElement {
 		return isset($this->data[ $name ]);
 	}
 
+	public function __toString() {
+		$javascript = '';
+		if ($this->data['javascript']) {
+			$javascript = $this->data['javascript'];
+		} 
+		return $javascript . $this->getHtml();
+	}
+
 	public function getHtml() {
 		return null;
 	}
@@ -846,6 +863,7 @@ class SubmitHtmlElement extends HtmlElement {
 				'value' => $this->value,
 				'attr' => $this->attr,
 				'style' => $this->style,
+				'icon' => $this->icon,
 			)
 		);
 		$return = $this->view->fetch('form/submit.tpl');
@@ -859,6 +877,7 @@ class InputHtmlElement extends HtmlElement {
 
 		if (!isset($this->default)) $this->default = '';
 		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
+				
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -869,6 +888,7 @@ class InputHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
+				'placeholder' => $this->placeholder,
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1086,7 +1106,7 @@ class ButtonHtmlElement extends HtmlElement {
 
 	public function getHtml() {
 		$this->view->batchAssign(
-			array(
+			array( 
 				'text' => $this->text,
 				'title' => $this->title,
 				'id' => $this->element_id,
@@ -1094,6 +1114,7 @@ class ButtonHtmlElement extends HtmlElement {
 				'style' => $this->style,
 				'href' => $this->href,
 				'href_class' => $this->href_class,
+				'icon' => $this->icon,
 			)
 		);
 		$return = $this->view->fetch('form/button.tpl');
@@ -1425,7 +1446,11 @@ class ZonesHtmlElement extends HtmlElement {
 		$results = $this->data[ 'registry' ]->get('model_localisation_country')->getCountries();
 		$this->options = array();
 		foreach ($results as $c) {
-			$this->options[ $c[ 'name' ] ] = $c[ 'name' ];
+			if ($this->submit_mode == 'id') {
+				$this->options[ $c[ 'country_id' ] ] = $c[ 'name' ];
+			} else {
+				$this->options[ $c[ 'name' ] ] = $c[ 'name' ];
+			}
 		}
 	}
 
@@ -1438,6 +1463,12 @@ class ZonesHtmlElement extends HtmlElement {
 		$this->element_id = preg_replace('/[\[+\]+]/', '_', $this->element_id);
 
 		$html = new AHtml($this->data[ 'registry' ]);
+		
+		if ($this->submit_mode == 'id') {
+			$url = $html->getSecureURL('common/zone');
+		} else {
+			$url = $html->getSecureURL('common/zone/names');
+		}
 
 		$this->view->batchAssign(
 			array(
@@ -1448,14 +1479,153 @@ class ZonesHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
-				'url' => $html->getSecureURL('common/zone/names'),
+				'url' => $url,
 				'zone_name' => $this->zone_name,
+				'submit_mode' => $this->submit_mode,
 			)
 		);
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
 		$return = $this->view->fetch('form/countries_zones.tpl');
+		return $return;
+	}
+
+}
+
+/*
+* Build pagination HTML element based on the template. 
+* Supported v 1.1.5+
+*/
+
+class PaginationHtmlElement extends HtmlElement {
+	public $sts = array();
+
+	public function __construct($data) {
+		parent::__construct($data);
+		//default settings
+		$this->sts['total'] = 0;
+		$this->sts['page'] = 1;
+		$this->sts['limit'] = 20;
+		$this->sts['split'] = 5;
+		$this->sts['limits'] = array();
+		//max pages to show in pagination
+		$this->sts['num_links'] = 10;
+		$this->sts['url'] = '';
+		$this->sts['text'] = 'Showing {start} to {end} of {total} ({pages} Pages)';
+		$this->sts['text_limit'] = 'Per Page';
+		$this->sts['text_first'] = '&lt;&lt;';
+		$this->sts['text_last'] = '&gt;&gt;';
+		$this->sts['text_next'] = '&gt;';
+		$this->sts['text_prev'] = '&lt;';
+		$this->sts['style_links'] = 'links';
+		$this->sts['style_results'] = 'results';
+		$this->sts['style_limits'] = 'limits';
+		//override default
+		foreach ($this->data as $key => $val) {
+			if ( isset( $val ) ) {
+				$this->sts[$key]= $val;
+			}
+		}
+	}
+	
+	public function getHtml() {
+		//Build pagination data and dysplay
+		$registry = $this->data['registry'];
+		$html = new AHtml($registry);
+		$s = $this->sts;
+		//some more defaults		
+		if ($s['page'] < 1 || !is_numeric($s['page'])) {
+			$s['page'] = 1;
+		}
+		if (!$s['limit'] || !is_numeric($s['limit'])) {
+			$s['limit'] = 10;
+		}
+		if(!$s['limits']){
+			$s['limits'][0] = $x = ( $s['split'] ? $s['split'] : $registry->get('config')->get('config_catalog_limit') );
+			while( $x <= 50 ){
+				$s['limits'][] = $x;
+				$x += 10;
+			}
+		}
+		
+		
+		$s['url'] = str_replace('{limit}', $s['limit'], $s['url']);
+		$s['total_pages'] = ceil($s['total'] / $s['limit']);	
+
+		if ($s['page'] > 1) {
+			//not first page
+			$this->view->assign('first_url', str_replace('{page}', 1, $s['url']));
+			$this->view->assign('prev_url', str_replace('{page}', $s['page'] - 1, $s['url']));
+		}
+		
+		if ($s['total_pages'] > 1) {
+			if ($s['total_pages'] <= $s['num_links']) {
+				$s['start'] = 1;
+				$s['end'] = $s['total_pages'];
+			} else {
+				$s['start'] = $s['page'] - floor($s['num_links'] / 2);
+				$s['end'] = $s['page'] + floor($s['num_links'] / 2);
+			
+				if ($s['start'] < 1) {
+					$s['end'] += abs($s['start']) + 1;
+					$s['start'] = 1;
+				}
+				if ($s['end'] > $s['total_pages']) {
+					$s['start'] -= ($s['end'] - $s['total_pages']);
+					$s['end'] = $s['total_pages'];
+				}
+			}
+		} else {
+			$s['start'] = $s['end'] = 1;
+		}
+		
+   		if ($s['page'] < $s['total_pages']) {
+			$this->view->assign('next_url', str_replace('{page}', $s['page'] + 1, $s['url']));
+			$this->view->assign('last_url', str_replace('{page}', $s['total_pages'], $s['url']));
+		}
+		
+		
+		$replace = array(
+			($s['total']) ? (($s['page'] - 1) * $s['limit']) + 1 : 0,
+			((($s['page'] - 1) * $s['limit']) > ($s['total'] - $s['limit'])) ? $s['total'] : ((($s['page'] - 1) * $s['limit']) + $s['limit']),
+			$s['total'], 
+			$s['total_pages']
+		);
+
+		if ( !in_array($s['limit'], $s['limits']) ) {
+			$s['limits'][] = $s['limit'];
+			sort($s['limits']);
+		}
+		$options = array();
+		foreach($s['limits'] as $item){
+			$options[$item] = $item;
+		}
+
+		$limit_select = $html->buildSelectbox( array(
+			                                'name' => 'limit',
+			                                'value'=> $s['limit'],
+			                                'options' => $options,
+			                                'style' => 'input-mini',
+			                                'attr' => ' onchange="location=\'' . str_replace('{page}', 1, $s['url']) . '&limit=\'+this.value;"',
+                    						)
+		);
+
+		$limit_select = str_replace('&', '&amp;', $limit_select);
+		$this->view->assign('limit_select',$limit_select);
+			
+		$find = array(
+			'{start}',
+			'{end}',
+			'{total}',
+			'{pages}',
+			'{limit}'
+		);		
+		$s['text'] = str_replace($find, $replace, $s['text']);
+
+		$this->view->batchAssign( $s );
+		
+		$return = $this->view->fetch('form/pagination.tpl');
 		return $return;
 	}
 

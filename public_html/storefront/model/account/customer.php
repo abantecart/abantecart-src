@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -292,6 +292,10 @@ class ModelAccountCustomer extends Model {
 			$error['telephone'] = $this->language->get('error_telephone');
 		}
 
+		if ( count($error) && empty( $error['warning'] ) ) {
+			$error['warning'] = $this->language->get('gen_data_entry_error');
+		}
+		
     	return $error;
 	}
 	
