@@ -541,4 +541,8 @@
 		<key>error_seo_keyword</key>
 		<value><![CDATA[SEO keyword <a target="_blank" href="%s">"%s"</a> is already exists!]]></value>
 	</definition>
+	<definition>
+		<key>column_update_date</key>
+		<value><![CDATA[Update Date]]></value>
+	</definition>
 </definitions>

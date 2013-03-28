@@ -58,13 +58,14 @@ class ControllerResponsesCommonAccess extends AController {
 	}
 
 	public function permission() {
-		//TODO: make permission check for extension
-		if ($this->extensions->isExtensionController($this->request->get[ 'rt' ])) return;
-
+		if ($this->extensions->isExtensionController($this->request->get[ 'rt' ])){ return null; }
 		if (isset($this->request->get[ 'rt' ])) {
 			$route = '';
-
-			$part = explode('/', $this->request->get[ 'rt' ]);
+			$rt = $this->request->get[ 'rt' ];
+			if(in_array(substr($rt,0,2),array('p/','r/'))){
+				$rt = substr($rt,2);
+			}
+			$part = explode('/', $rt);
 
 			if (isset($part[ 0 ])) {
 				$route .= $part[ 0 ];
@@ -90,4 +91,3 @@ class ControllerResponsesCommonAccess extends AController {
 		}
 	}
 }
-?>

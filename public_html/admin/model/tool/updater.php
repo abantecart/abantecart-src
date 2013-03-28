@@ -36,12 +36,13 @@ class ModelToolUpdater extends Model {
      */
     public $dataSize = 0;
 
-    /**
-     * this method checks for updates on remote server
-     * common/ant controller calls it every page load
-     * @param array $extension_list
-     * @return array|boolean
-     */
+	/**
+	 * this method checks for updates on remote server
+	 * common/ant controller calls it every page load
+	 * @param bool $mode
+	 * @internal param array $extension_list
+	 * @return array|boolean
+	 */
     public function check4Updates($mode = false) {
         $need_to_download = true;
 
@@ -57,8 +58,10 @@ class ModelToolUpdater extends Model {
         }
 
         if ($need_to_download) {
+
             $success = $this->getUpdateInfo();
             if ($success === false) {
+				file_put_contents($this->updates_path . "updates.xml",'<updates></updates>');
                 return false;
             }
         } else { // if file exists locally and session not expired - do nothing
@@ -130,7 +133,7 @@ class ModelToolUpdater extends Model {
                 $this->messages->saveNotice(str_replace('%EXTENSION%', $extension_info['name'], $this->language->get('text_notice_title')), $message_text);
             }
         }
-        return;
+        return true;
     }
 
     private function loadExtensionsList() {
@@ -177,8 +180,7 @@ class ModelToolUpdater extends Model {
         if ($info) {
             return true;
         }
+		return false;
     }
 
 }
-
-?>
