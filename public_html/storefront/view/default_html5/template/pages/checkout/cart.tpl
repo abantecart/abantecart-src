@@ -53,6 +53,7 @@ echo $form['form_open'];
       <td align="right"><?php echo $product['total']; ?></td>
     </tr>
     <?php } ?>
+		<?php echo $this->getHookVar('list_more_product_last'); ?>
   </table>
 </div>  
 <div class="container">

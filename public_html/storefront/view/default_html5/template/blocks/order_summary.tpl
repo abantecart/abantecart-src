@@ -10,7 +10,7 @@
             	<div class="category_list">
 
 
-    <?php if ($products) { ?>
+	<?php if ($products || $this->getHookVar('list_more_product_last')) { ?>
     <table cellpadding="2" cellspacing="0" style="width: 100%;">
       <?php foreach ($products as $product) { ?>
       <tr>
@@ -23,6 +23,7 @@
 		<td align="right" valign="top"><b><?php echo $product['price']; ?></b></td>
       </tr>
       <?php } ?>
+		<?php echo $this->getHookVar('list_more_product_last'); ?>
     </table>
 	<br/>
     <div class="gray_separator"></div>

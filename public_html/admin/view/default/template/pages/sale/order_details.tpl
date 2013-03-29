@@ -147,7 +147,7 @@
           <?php $order_product_row++ ?>
           <?php } ?>
 
-			<?php echo $this->getHookVar('virtuals'); ?>
+			<?php echo $this->getHookVar('list_more_product_last'); ?>
 
           <tbody id="totals">
           <?php $order_total_row = 0; $count = 0; $total = count($totals); ?>
