@@ -20,6 +20,7 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
+/** @noinspection PhpUndefinedClassInspection */
 
 /**
  * @property ModelToolUpdater $model_tool_updater
@@ -107,9 +108,9 @@ abstract class AController {
 
 	/**
 	 * @param $registry Registry
-	 * @param $instance_id
-	 * @param $controller
-	 * @param $parent_controller AController
+	 * @param int $instance_id
+	 * @param string $controller
+	 * @param string|AController $parent_controller
 	 */
 	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
 
@@ -218,8 +219,8 @@ abstract class AController {
 		foreach ($this->children as $block) {
 			if (!empty($block['position'])) {
 				//assign count based on possition (currently div. by 10)
-				if( $block['position'] % 10 == 0 ) {
-					$blocks[ $block['position'] / 10  - 1] = $block[ 'block_txt_id' ] . '_' . $block[ 'instance_id' ];
+				if( (int)$block['position'] % 10 == 0 ) {
+					$blocks[ (int)($block['position']/10 - 1)] = $block[ 'block_txt_id' ] . '_' . (int)$block[ 'instance_id' ];
 				} else {
 					array_push($blocks, $block[ 'block_txt_id' ] . '_' . $block[ 'instance_id' ]);
 				}
@@ -287,6 +288,9 @@ abstract class AController {
 											'parent_controller' => $this->parent_controller->dispatcher->getFile(),
 											'parent_tpl' => $this->parent_controller->view->data[ 'template_dir' ] . $this->parent_controller->view->getTemplate()
 							);
+							if(strpos($block_tpl_file,'.tpl')===false){
+								$this->log->write('Warning: Template for controller '.$this->dispatcher->getFile().' not found!'."		\n".print_r($args,true));
+							}
 
 							$debug_wrapper = $this->dispatch('common/template_debug', array( 'instance_id' => $this->instance_id, 'details' => $args ));
 							$debug_output = $debug_wrapper->dispatchGetOutput();
