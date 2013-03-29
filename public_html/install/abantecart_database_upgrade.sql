@@ -124,5 +124,5 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (9, 1, 'blocks/category_top.tpl', now() ),
 (9, 2, 'blocks/category_top.tpl', now() );
 
-UPDATE `ac_block_templates` set template = 'blocks/html_block_footer.tpl' where `block_id` = 17 and `parent_block_id` = 8
+UPDATE `ac_block_templates` set template = 'blocks/html_block_footer.tpl' where `block_id` = 17 and `parent_block_id` = 8;
 
