@@ -90,7 +90,7 @@
 					</tr>
 					<tr><td colspan="5"><div class="gray_separator"></div></td></tr>
 					<?php } ?>
-					<?php echo $this->getHookVar('virtuals'); ?>
+					<?php echo $this->getHookVar('list_more_product_last'); ?>
 				</table>
           </td>
 	    </tr>

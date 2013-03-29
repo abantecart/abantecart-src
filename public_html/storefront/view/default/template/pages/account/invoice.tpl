@@ -68,7 +68,7 @@
           <td align="right" valign="top"><?php echo $product['total']; ?></td>
         </tr>
         <?php } ?>
-		  <?php echo $this->getHookVar('virtuals'); ?>
+		  <?php echo $this->getHookVar('list_more_product_last'); ?>
       </table>
       <br />
       <div style="width: 100%; display: inline-block;">

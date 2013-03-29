@@ -65,6 +65,7 @@
 		    <td align="right" valign="top"><?php echo $product['total']; ?></td>
 		  </tr>
 		  <?php } ?>
+			<?php echo $this->getHookVar('list_more_product_last'); ?>
 		</table>
 
 		<div class="span4 pull-right">

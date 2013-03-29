@@ -81,6 +81,7 @@
 		  <td class="checkout_heading"><?php echo $product['total']; ?></td>
 		</tr>
 		<?php } ?>
+		<?php echo $this->getHookVar('list_more_product_last'); ?>
 		<tr>
 			<td colspan="4"></td>
 			<td>
