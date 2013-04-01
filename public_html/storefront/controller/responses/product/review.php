@@ -21,7 +21,8 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesProductReview extends AController {
-	private $error = array(); 
+	private $error = array();
+	public $data = array();
 	
 	public function review() {
         //init controller data
@@ -49,19 +50,22 @@ class ControllerResponsesProductReview extends AController {
         		'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
         	);
       	}
-        $this->view->assign('reviews', $reviews );
+		$this->data['reviews'] =  $reviews;
 		
 		$review_total = $this->model_catalog_review->getTotalReviewsByProductId($this->request->get['product_id']);
-			
-		$pagination = new APagination();
-		$pagination->total = $review_total;
-		$pagination->page = $page;
-		$pagination->limit = 5; 
-		$pagination->text = $this->language->get('text_pagination');
-		$pagination->text_limit = $this->language->get('text_per_page');
-		$pagination->url = $this->html->getURL('product/review/review','&product_id=' . $this->request->get['product_id'] . '&page={page}');
-			
-		$this->view->assign('pagination', $pagination->render() );
+
+		$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
+									'type' => 'Pagination',
+									'name' => 'pagination',
+									'text'=> $this->language->get('text_pagination'),
+									'text_limit' => $this->language->get('text_per_page'),
+									'total'	=> $review_total,
+									'page'	=> $page,
+									'limit'	=> 5,
+									'url' => $this->html->getURL('product/review/review','&product_id=' . $this->request->get['product_id'] . '&page={page}'),
+									'style' => 'pagination'));
+
+		$this->view->batchAssign($this->data);
 
         $this->processTemplate('responses/product/review.tpl' );
         //init controller data

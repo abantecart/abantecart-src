@@ -298,14 +298,6 @@ class ControllerPagesProductCategory extends AController {
 
 				$pegination_url = $this->html->getSEOURL('product/category','&path=' . $this->request->get['path'] . '&sort=' . $this->request->get['sort'] . '&page={page}' . '&limit=' . $limit, '&encode');
 
-				$pagination = new APagination();
-				$pagination->total = $product_total;
-				$pagination->page = $page;
-				$pagination->limit = $limit;
-				$pagination->text = $this->language->get('text_pagination'); $pagination->text_limit = $this->language->get('text_per_page');
-				$pagination->url = $pegination_url;			
-				$this->view->assign('pagination', $pagination->render($this->language->get('text_per_page')));
-
 				$this->view->assign('pagination_bootstrap', HtmlElementFactory::create( array (
 											'type' => 'Pagination',
 											'name' => 'pagination',

@@ -218,7 +218,7 @@ class AHtml extends AController {
 	 *   'style' => 'my-form'
 	 *   'form' => 'form id' // needed for unique element ID     *
 	 *  );
-	 *
+	 * @return object
 	 */
 	public function buildElement($data) {
 		return HtmlElementFactory::create($data);
@@ -362,16 +362,6 @@ class AHtml extends AController {
 	 */
 	public function buildRating($data) {
 		$item = new RatingHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildImage($data) {
-		$item = new ImageHtmlElement($data);
 		return $item->getHtml();
 	}
 
@@ -712,7 +702,7 @@ class HtmlElementFactory {
 	 *
 	 * @static
 	 * @param $code - element code ( from $available_elements )
-	 * @return null | element type
+	 * @return null | string
 	 */
 	static function getElementType($code) {
 		if (!array_key_exists($code, self::$available_elements)) {
@@ -721,6 +711,15 @@ class HtmlElementFactory {
 		return self::$available_elements[ $code ][ 'type' ];
 	}
 
+	/**
+	 * @param $data
+	 * @return HiddenHtmlElement | MultivalueListHtmlElement | MultivalueHtmlElement | SubmitHtmlElement | InputHtmlElement | PasswordHtmlElement
+	 * @return TextareaHtmlElement | SelectboxHtmlElement | MultiSelectboxHtmlElement | CheckboxHtmlElement | CheckboxGroupHtmlElement
+	 * @return FileHtmlElement | RadioHtmlElement | ButtonHtmlElement | FormHtmlElement | RatingHtmlElement | CaptchaHtmlElement | PasswordsetHtmlElement
+	 * @return ResourceHtmlElement | ResourceImageHtmlElement | DateHtmlElement | EmailHtmlElement | NumberHtmlElement | PhoneHtmlElement | IPaddressHtmlElement
+	 * @return CountriesHtmlElement | ZonesHtmlElement | PaginationHtmlElement
+	 * @throws AException
+	 */
 	static function create($data) {
 
 		$class = ucfirst($data[ 'type' ] . 'HtmlElement');

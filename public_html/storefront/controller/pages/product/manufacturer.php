@@ -254,15 +254,6 @@ class ControllerPagesProductManufacturer extends AController {
 				$this->view->assign( 'url', $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id']) );
 				
 				$pagination_url = $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=' . $this->request->get['sort'] . '&page={page}' . '&limit=' . $limit, '&encode');
-				
-				$pagination = new APagination();
-				$pagination->total = $product_total;
-				$pagination->page = $page;
-				$pagination->limit = $limit;
-				$pagination->text = $this->language->get('text_pagination'); 
-				$pagination->text_limit = $this->language->get('text_per_page');
-				$pagination->url = $pagination_url;		
-				$this->view->assign('pagination', $pagination->render() );
 
 				$this->view->assign('pagination_bootstrap', HtmlElementFactory::create( array (
 											'type' => 'Pagination',

@@ -31,7 +31,7 @@
       </div>
     </div>
     <?php } ?>
-    <div class="pagination"><?php echo $pagination; ?></div>
+    <div class="pagination"><?php echo $pagination_bootstrap; ?></div>
     <div class="buttons">
       <table>
         <tr>

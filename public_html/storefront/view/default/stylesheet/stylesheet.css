@@ -1249,6 +1249,14 @@ ul.list li {
 	float: left;
 }
 
+.pagination .links ul {
+	float: left;
+  	display: inline-block;
+  	margin: 0;
+	padding: 0;
+}
+
+
 .pagination .links a {
 	border: 1px solid #CCCCCC;
 	padding: 4px 7px;
@@ -1262,6 +1270,12 @@ ul.list li {
 	text-decoration: none;
 	color: #000000;
 	background: #FFFFFF;
+}
+
+.pagination .links ul, .pagination .links ul li {
+	display: inline-block;
+	list-style: none outside none;
+	float:left;
 }
 
 .pagination .results {

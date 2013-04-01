@@ -42,7 +42,7 @@
 			</tr>
 			<?php } ?>
 		</table>
-		<div class="pagination"><?php echo $pagination; ?></div>
+		<div class="pagination"><?php echo $pagination_bootstrap; ?></div>
 	</div>
 	<div class="bottom">
 		<div class="left"></div>

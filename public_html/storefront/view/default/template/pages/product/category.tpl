@@ -68,7 +68,7 @@
 			</tr>
 			<?php } ?>
 		</table>
-		<div class="pagination"><?php echo $pagination; ?></div>
+		<div class="pagination"><?php echo $pagination_bootstrap; ?></div>
 		<?php } ?>
 	</div>
 	<div class="bottom">

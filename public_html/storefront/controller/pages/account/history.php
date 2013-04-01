@@ -60,7 +60,7 @@ class ControllerPagesAccountHistory extends AController {
 		$order_total = $this->model_account_order->getTotalOrders();
 		
 		if ($order_total) {
-			$this->view->assign('action', $this->html->getURL('account/history') );
+			$this->data['action'] = $this->html->getURL('account/history');
 			
 			if (isset($this->request->get['page'])) {
 				$page = $this->request->get['page'];
@@ -98,32 +98,36 @@ class ControllerPagesAccountHistory extends AController {
         		);
       		}
 
-            $this->view->assign('order_url', $this->html->getSecureURL('account/invoice') );
-            $this->view->assign('orders', $orders );
+            $this->data['order_url'] = $this->html->getSecureURL('account/invoice');
+			$this->data['orders'] =$orders;
 
-			$pagination = new APagination();
-			$pagination->total = $order_total;
-			$pagination->page = $page;
-			$pagination->limit = $limit;
-			$pagination->text = $this->language->get('text_pagination');
-			$pagination->text_limit = $this->language->get('text_per_page');
-			$pagination->url = $this->html->getURL('account/history', '&limit=' . $limit . '&page={page}');
-			$this->view->assign('pagination', $pagination->render() );
+			$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
+										'type' => 'Pagination',
+										'name' => 'pagination',
+										'text'=> $this->language->get('text_pagination'),
+										'text_limit' => $this->language->get('text_per_page'),
+										'total'	=> $order_total,
+										'page'	=> $page,
+										'limit'	=> $limit,
+										'url' => $this->html->getURL('account/history', '&limit=' . $limit . '&page={page}'),
+										'style' => 'pagination'));
 
-            $this->view->assign('continue', $this->html->getSecureURL('account/account') );
+
+			$this->data['continue'] =  $this->html->getSecureURL('account/account');
 
 			$this->view->setTemplate('pages/account/history.tpl');
     	} else {
-      		$this->view->assign('continue', $this->html->getSecureURL('account/account') );
+			$this->data['continue'] = $this->html->getSecureURL('account/account');
 
 			$this->view->setTemplate('pages/error/not_found.tpl');
 		}
 
-		$continue = HtmlElementFactory::create( array ('type' => 'button',
-		                                               'name' => 'continue_button',
-			                                           'text'=> $this->language->get('button_continue'),
-			                                           'style' => 'button'));
-		$this->view->assign('button_continue', $continue);
+		$this->data['button_continue'] = HtmlElementFactory::create( array ('type' => 'button',
+																		   'name' => 'continue_button',
+																		   'text'=> $this->language->get('button_continue'),
+																		   'style' => 'button'));
+
+		$this->view->batchAssign($this->data);
 		$this->processTemplate();
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);

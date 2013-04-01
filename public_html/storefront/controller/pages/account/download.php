@@ -119,17 +119,23 @@ class ControllerPagesAccountDownload extends AController {
 				}
 			$k++;
 			}
-            $this->view->assign('downloads', $downloads );
+			$this->data['downloads'] = $downloads;
 		
-			$pagination = new APagination();
-			$pagination->total = sizeof($downloads);
-			$pagination->page = $page;
-			$pagination->limit = $limit;
-			$pagination->text = $this->language->get('text_pagination');
-			$pagination->text_limit = $this->language->get('text_per_page');
-			$pagination->url = $this->html->getURL('account/download&page={page}');
-			
-			$this->view->assign( 'pagination', $pagination->render() );
+
+
+			$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
+										'type' => 'Pagination',
+										'name' => 'pagination',
+										'text'=> $this->language->get('text_pagination'),
+										'text_limit' => $this->language->get('text_per_page'),
+										'total'	=> sizeof($downloads),
+										'page'	=> $page,
+										'limit'	=> $limit,
+										'url' => $this->html->getURL('account/download&page={page}', '&encode'),
+										'style' => 'pagination'));
+
+
+
 			if($downloads){
 				$template = 'pages/account/download.tpl';
 			}else{
@@ -205,4 +211,3 @@ class ControllerPagesAccountDownload extends AController {
 		}
 	}
 }
-?>

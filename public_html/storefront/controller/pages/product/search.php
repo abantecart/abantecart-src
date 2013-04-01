@@ -383,15 +383,6 @@ class ControllerPagesProductSearch extends AController {
                     $url .= '&limit=' . $this->request->get['limit'];
                 }
 
-				$pagination = new APagination();
-				$pagination->total = $product_total;
-				$pagination->page = $page;
-				$pagination->limit = $limit;
-				$pagination->text = $this->language->get('text_pagination'); 
-				$pagination->text_limit = $this->language->get('text_per_page');
-				$pagination->url = $this->html->getURL('product/search',  $url . '&page={page}', '&encode');
-				$this->data['pagination'] = $pagination->render();
-
 				$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
 											'type' => 'Pagination',
 											'name' => 'pagination',

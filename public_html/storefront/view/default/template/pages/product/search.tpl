@@ -69,7 +69,7 @@
 				</tr>
 				<?php } ?>
 			</table>
-			<div class="pagination"><?php echo $pagination; ?></div>
+			<div class="pagination"><?php echo $pagination_bootstrap; ?></div><br>
 			<?php } else { ?>
 			<div
 				style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-top: 3px; margin-bottom: 15px;"><?php echo $text_empty; ?></div>
