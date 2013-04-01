@@ -22,6 +22,9 @@ if (! defined ( 'DIR_CORE' )) {
 }
 
 class AView {
+	/**
+	 * @var $registry Registry
+	 */
 	protected $registry;	
 	protected $id;
 	protected $template;
@@ -144,8 +147,12 @@ class AView {
         $this->output = $output;
     }
 	
-	// Process the template 	
-    public function fetch($filename) {
+	// Process the template
+	/**
+	 * @param $filename
+	 * @return string
+	 */
+	public function fetch($filename) {
 
 		//#PR Build the path to the template file
 		if (!defined('INSTALL')) {
@@ -195,6 +202,7 @@ class AView {
 			$error = new AError('Error: Could not load template ' . $file . '!' , AC_ERR_LOAD);
 			$error->toDebug()->toLog();
     	}
+		return '';
 	}
 
     public function templateResource( $filename ) {
@@ -246,13 +254,14 @@ class AView {
 
     public function _fetch( $file ) {
 
-        if ( !file_exists($file) ) return ;
+        if ( !file_exists($file) ) return null;
 
         ADebug::checkpoint('fetch '.$file.' start');
         extract($this->data);
 
         ob_start();
-        require($file);
+		/** @noinspection PhpIncludeInspection */
+		require($file);
         $content = ob_get_contents();
         ob_end_clean();
 
