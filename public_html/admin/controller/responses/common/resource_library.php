@@ -428,17 +428,17 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		if (isset($this->request->get[ 'page' ])) {
 
 			$resources_total = $rm->getResourcesList($search_data, true);
-
-			$pagination = new APagination();
-			$pagination->total = $resources_total;
-			$pagination->page = $page;
-			$pagination->limit = 12;
-			$pagination->num_links = 5;
-			$pagination->text = $this->language->get('text_pagination');
-			$pagination->text_limit = $this->language->get('text_per_page');
-			$pagination->url = $this->html->getSecureURL('common/resource_library/resources', $pagination_param . '&page={page}');
-			if ($resources_total > $pagination->limit) {
-				$result[ 'pagination' ] = $pagination->render();
+			if ($resources_total > 12) {
+				$result[ 'pagination' ] = (string)HtmlElementFactory::create( array (
+															'type' => 'Pagination',
+															'name' => 'pagination',
+															'text'=> $this->language->get('text_pagination'),
+															'text_limit' => $this->language->get('text_per_page'),
+															'total'	=> $resources_total,
+															'page'	=> $page,
+															'limit'	=> 12,
+															'url' => $this->html->getSecureURL('common/resource_library/resources', $pagination_param . '&page={page}'),
+															'style' => 'pagination'));
 			}
 		}
 

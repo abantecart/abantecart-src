@@ -713,11 +713,7 @@ class HtmlElementFactory {
 
 	/**
 	 * @param $data
-	 * @return HiddenHtmlElement | MultivalueListHtmlElement | MultivalueHtmlElement | SubmitHtmlElement | InputHtmlElement | PasswordHtmlElement
-	 * @return TextareaHtmlElement | SelectboxHtmlElement | MultiSelectboxHtmlElement | CheckboxHtmlElement | CheckboxGroupHtmlElement
-	 * @return FileHtmlElement | RadioHtmlElement | ButtonHtmlElement | FormHtmlElement | RatingHtmlElement | CaptchaHtmlElement | PasswordsetHtmlElement
-	 * @return ResourceHtmlElement | ResourceImageHtmlElement | DateHtmlElement | EmailHtmlElement | NumberHtmlElement | PhoneHtmlElement | IPaddressHtmlElement
-	 * @return CountriesHtmlElement | ZonesHtmlElement | PaginationHtmlElement
+	 * @return HiddenHtmlElement | MultivalueListHtmlElement | MultivalueHtmlElement | SubmitHtmlElement | InputHtmlElement | PasswordHtmlElement | PaginationHtmlElement | TextareaHtmlElement | SelectboxHtmlElement | MultiSelectboxHtmlElement | CheckboxHtmlElement | CheckboxGroupHtmlElement | FileHtmlElement | RadioHtmlElement | ButtonHtmlElement | FormHtmlElement | RatingHtmlElement | CaptchaHtmlElement | PasswordsetHtmlElement | ResourceHtmlElement | ResourceImageHtmlElement | DateHtmlElement | EmailHtmlElement | NumberHtmlElement | PhoneHtmlElement | IPaddressHtmlElement | CountriesHtmlElement | ZonesHtmlElement |
 	 * @throws AException
 	 */
 	static function create($data) {
