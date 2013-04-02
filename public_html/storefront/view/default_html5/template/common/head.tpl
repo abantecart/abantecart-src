@@ -73,6 +73,10 @@ if (typeof jQuery == 'undefined') {
                     		&nbsp;<img src="<?php echo $this->templateResource("/image/addcart.png"); ?>"></a> \
                     		</div>';
                         item.closest('.thumbnail .pricetag').before(alert_msg);
+
+						//topcart
+						$('.nav.topcart .dropdown-toggle span').first().html(data.item_count);
+						$('.nav.topcart .dropdown-toggle .cart_total').html(data.total +'<b class="caret"></b>');
                     }
             });
         }
