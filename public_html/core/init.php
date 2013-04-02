@@ -221,6 +221,7 @@ try {
 	require_once(DIR_CORE . 'lib/log.php');
 	require_once(DIR_CORE . 'lib/mail.php');
 	require_once(DIR_CORE . 'lib/message.php');
+	require_once(DIR_CORE . 'lib/pagination.php');
 	require_once(DIR_CORE . 'lib/request.php');
 	require_once(DIR_CORE . 'lib/response.php');
 	require_once(DIR_CORE . 'lib/session.php');
