@@ -26,8 +26,13 @@ class ModelTotalHandling extends Model {
 		if ($this->config->get('handling_status')){
 			$conf_hndl_subtotal = 0;
 			$conf_hndl_tax_id = $this->config->get('handling_tax_class_id');
-			$conf_hndl_fee = $this->config->get('handling_fee');
 			$cart_subtotal = $this->cart->getSubTotal();
+
+			if($this->config->get('handling_prefix')=='%'){
+				$conf_hndl_fee = $cart_subtotal*(float)$this->config->get('handling_fee')/100.00;
+			}else{
+				$conf_hndl_fee = (float)$this->config->get('handling_fee');
+			}
 
 			$per_payment = unserialize($this->config->get('handling_per_payment'));
 
@@ -35,18 +40,24 @@ class ModelTotalHandling extends Model {
 				$customer_payment = $this->session->data['payment_method']['id'];
 				foreach($per_payment['handling_payment'] as $i=>$payment_id){
 					if($customer_payment==$payment_id){
-						if($cart_subtotal<$per_payment['handling_payment_subtotal'][$i]){
-							$conf_hndl_subtotal = $per_payment['handling_payment_subtotal'][$i];
-							$conf_hndl_fee = $per_payment['handling_payment_fee'][$i];
+						if($cart_subtotal<(float)$per_payment['handling_payment_subtotal'][$i]){
+							$conf_hndl_subtotal = (float)$per_payment['handling_payment_subtotal'][$i];
+							if($per_payment['handling_payment_prefix'][$i]=='%'){
+								if((float)$per_payment['handling_payment_fee'][$i]>0){
+									$conf_hndl_fee = $cart_subtotal*(float)$per_payment['handling_payment_fee'][$i]/100.00;
+								}
+							}else{
+								$conf_hndl_fee = (float)$per_payment['handling_payment_fee'][$i];
+							}
 							break;
 						}
 					}
 				}
 			}
 			// if fee for payment is not set - use default fee
-			$conf_hndl_subtotal = !$conf_hndl_subtotal ? $this->config->get('handling_total') : $conf_hndl_subtotal;
+			$conf_hndl_subtotal = !$conf_hndl_subtotal ? (float)$this->config->get('handling_total') : $conf_hndl_subtotal;
 
-			if ($cart_subtotal < $conf_hndl_subtotal) {
+			if ($cart_subtotal < $conf_hndl_subtotal && $conf_hndl_fee>0) {
 
 				$this->load->language('total/handling');
 				$this->load->model('localisation/currency');

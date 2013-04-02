@@ -24,6 +24,7 @@ class ControllerPagesTotalHandling extends AController {
 	public $data = array();
 	private $error = array();
 	private $fields = array('handling_total',
+							'handling_prefix',
 							'handling_fee',
 							'handling_tax_class_id',
 							'handling_status',
@@ -47,16 +48,21 @@ class ControllerPagesTotalHandling extends AController {
 				if(!trim($payment)){
 					unset($settings['handling_payment'][$i],
 						$settings['handling_payment_subtotal'][$i],
+						$settings['handling_payment_prefix'][$i],
 						$settings['handling_payment_fee'][$i]);
 				}
 			}
 
 			$settings['handling_per_payment'] = serialize(
-														array('handling_payment'=>$settings['handling_payment'],
+													array('handling_payment'=>$settings['handling_payment'],
 															'handling_payment_subtotal'=>$settings['handling_payment_subtotal'],
+															'handling_payment_prefix'=>$settings['handling_payment_prefix'],
 															'handling_payment_fee'=>$settings['handling_payment_fee']));
 
-			unset($settings['handling_payment'],$settings['handling_payment_subtotal'],$settings['handling_payment_fee']);
+			unset($settings['handling_payment'],
+					$settings['handling_payment_subtotal'],
+					$settings['handling_payment_prefix'],
+					$settings['handling_payment_fee']);
 
 			$this->model_setting_setting->editSetting('handling', $settings);
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -116,6 +122,9 @@ class ControllerPagesTotalHandling extends AController {
 		$this->data['form']['cancel'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'cancel', 'text' => $this->language->get('button_cancel'), 'style' => 'button2'));
 
 
+		$currency_symbol = $this->currency->getCurrency($this->config->get('config_currency'));
+		$currency_symbol = $currency_symbol[ 'symbol_left' ] . $currency_symbol[ 'symbol_right' ];
+
 		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'name' => 'handling_status',
@@ -128,10 +137,20 @@ class ControllerPagesTotalHandling extends AController {
 			'value' => $this->data['handling_total'],
 		));
 		$this->data['form']['fields']['fee'] = $form->getFieldHtml(array(
-			'type' => 'input',
-			'name' => 'handling_fee',
-			'value' => $this->data['handling_fee'],
+										'type' => 'selectbox',
+										'name' => 'handling_prefix',
+										'value' => $this->data['handling_prefix'],
+										'options' => array(
+											'$' => $currency_symbol,
+											'%' => '%'),
+										'style' => 'small-field'
+							)). 		$form->getFieldHtml(array(
+																'type' => 'input',
+																'name' => 'handling_fee',
+																'value' => $this->data['handling_fee'],
 		));
+
+
 		$payments = $this->extensions->getExtensionsList(array('filter'=>'payment','sort_order'=>array('name')));
 		$options[] = $this->language->get('text_none');
 		foreach($payments->rows as $row){
@@ -161,6 +180,15 @@ class ControllerPagesTotalHandling extends AController {
 				'value' => $this->data['handling_per_payment']['handling_payment_subtotal'][$i],
 				'style' => 'small-field'
 							)).' Fee:'.
+					$form->getFieldHtml(array(
+								'type' => 'selectbox',
+								'name' => 'handling_payment_prefix[' . $product_option_value_id . ']',
+								'value' => $this->data['handling_per_payment']['handling_payment_prefix'][$i],
+								'options' => array(
+									'$' => $currency_symbol,
+									'%' => '%'),
+								'style' => 'small-field'
+					)).
 				$form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'handling_payment_fee[]',
@@ -213,12 +241,7 @@ class ControllerPagesTotalHandling extends AController {
 		if (!$this->user->canModify('total/handling')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
-		if (!(int)$this->request->post['handling_total']) {
-			$this->error['warning'] = $this->language->get('error_number');
-		}
-		if (!(float)$this->request->post['handling_fee']) {
-			$this->error['warning'] = $this->language->get('error_number');
-		}
+
 		foreach($this->request->post['handling_payment'] as $i=>$payment_id){
 			if($payment_id){
 				if (!(int)$this->request->post['handling_payment_subtotal'][$i]) {
@@ -228,6 +251,13 @@ class ControllerPagesTotalHandling extends AController {
 					$this->error['warning'] = $this->language->get('error_number');
 				}
 			}
+		}
+
+		if (!has_value($this->request->post['handling_total'])) {
+			$this->error['warning'] = $this->language->get('error_number');
+		}
+		if (!has_value($this->request->post['handling_fee'])) {
+			$this->error['warning'] = $this->language->get('error_number');
 		}
 
 
