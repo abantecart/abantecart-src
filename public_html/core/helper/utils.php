@@ -488,7 +488,7 @@ function getExtensionConfigXml($extension_txt_id) {
 
 
 	//remove all disabled items from list
-	$qry = '/extension/settings/item[disabled]';
+	$qry = '/extension/settings/item[disabled="true"]';
 	$existed = $xpath->query($qry);
 	if(!is_null($existed)){
 		foreach ($existed as $node) {
