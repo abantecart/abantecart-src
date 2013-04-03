@@ -97,6 +97,9 @@ class ControllerPagesCheckoutPayment extends AController {
 
 		$this->loadModel('checkout/extension');
 		$method_data = array();
+
+		// If total amount of order is zero - do redirect on confirmation page
+		$total = $this->cart->buildTotalDisplay();
 		
 		$results = $this->model_checkout_extension->getExtensions('payment');
 		$ac_payments = array();
@@ -105,7 +108,7 @@ class ControllerPagesCheckoutPayment extends AController {
 		$ship_ext_config = $this->model_checkout_extension->getSettings($shipping_ext[0]);
 		$accept_payment_ids = $ship_ext_config[$shipping_ext[0]."_accept_payments"];
 		if ( is_array($accept_payment_ids) && count($accept_payment_ids) ) {
-			#filter only allowed payment methods
+			#filter only allowed payment methods based on shipping 
 			foreach ($results as $result) {
 				if ( in_array($result['extension_id'], $accept_payment_ids) ) {
 					$ac_payments[] = $result;
@@ -116,6 +119,15 @@ class ControllerPagesCheckoutPayment extends AController {
 		}
 
 		foreach ($ac_payments as $result) {
+			#filter only allowed payment methods based on total min/max
+			$ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
+			$min = $ext_setgs[$result['key']."_payment_minimum_total"];
+			$max = $ext_setgs[$result['key']."_payment_maximum_total"];
+			if ( 	(has_value( $min ) && $total['total'] < $min ) 
+				||  (has_value( $max ) && $total['total'] > $max )  ) {
+				continue;
+		    }			
+		
 			$this->loadModel('extension/' . $result[ 'key' ]);
 			$method = $this->{'model_extension_' . $result[ 'key' ]}->getMethod($payment_address);
 			if ($method) {
@@ -135,8 +147,6 @@ class ControllerPagesCheckoutPayment extends AController {
 			$this->redirect($this->html->getSecureURL('checkout/confirm'));
 		}
 
-		// If total amount of order is zero - do redirect on confirmation page
-		$total = $this->cart->buildTotalDisplay();
 		if($total['total']==0){
 			$this->session->data[ 'payment_method' ] = array(
 															'id'         => 'no_payment_required',

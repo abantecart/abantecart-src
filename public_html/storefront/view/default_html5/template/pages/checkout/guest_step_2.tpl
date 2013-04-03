@@ -35,6 +35,7 @@
 	<?php echo $form['form_open']; ?>
 
 	<?php if( $shipping_methods ) { ?>			
+	<div id="active_shippings">
 	<h4 class="heading4"><?php echo $text_shipping_method; ?></h4>	
 	<p><?php echo $text_shipping_methods; ?></p>		
 	<div class="registerbox">		
@@ -60,31 +61,34 @@
         <?php } ?>
         </table>
 	</div>
+	</div>
 	<?php } ?>
 	<?php echo $this->getHookVar('shipping_extensions_hook'); ?>
 	
 	<?php if( $payment_methods ) { ?>			
-	<h4 class="heading4"><?php echo $text_payment_method; ?></h4>	
-	<p><?php echo $text_payment_methods; ?></p>		
-	<div class="registerbox payment_palce_holder"></div>	
-		<div style="display: none;" id="hidden_payments">
-		        <?php if($payment_methods) { 
-		        	foreach ($payment_methods as $ship_name => $payment_methods_per_shipping) { ?>
-		        <div class="payment_group <?php echo $ship_name ?>">
-		        <table class="table table-striped table-bordered">
-		          <?php foreach ($payment_methods_per_shipping as $payment_method) { ?>
-		          <tr>
-		            <td width="1"><?php echo $payment_method['radio']; ?></td>
-		            <td><label for="guest_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;"><?php echo $payment_method['title']; ?></label></td>
-		          </tr>
-		          <?php } ?>
-		        </table>
-		        </div>
-		        <?php } } ?>
-				<?php echo $this->getHookVar('payment_extensions_hook'); ?>			          
-		</div>	
+	<div style="display: none;" id="active_payments">
+		<h4 class="heading4"><?php echo $text_payment_method; ?></h4>	
+		<p><?php echo $text_payment_methods; ?></p>		
+		<div class="registerbox payment_palce_holder"></div>	
+	</div>
+	<div style="display: none;" id="hidden_payments">
+	        <?php if($payment_methods) { 
+	        	foreach ($payment_methods as $ship_name => $payment_methods_per_shipping) { ?>
+	        <div class="payment_group <?php echo $ship_name ?>">
+	        <table class="table table-striped table-bordered">
+	          <?php foreach ($payment_methods_per_shipping as $payment_method) { ?>
+	          <tr>
+	            <td width="1"><?php echo $payment_method['radio']; ?></td>
+	            <td><label for="guest_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;"><?php echo $payment_method['title']; ?></label></td>
+	          </tr>
+	          <?php } ?>
+	        </table>
+	        </div>
+	        <?php } } ?>		          
+	</div>	
 	<?php } ?>
-	
+
+	<?php echo $this->getHookVar('payment_extensions_hook'); ?>
 	<?php echo $this->getHookVar('order_attributes'); ?>
 
 	<h4 class="heading4"><?php echo $text_comments; ?></h4>	
@@ -119,7 +123,7 @@
 		show_payment('no_shipping');
 	}
 		
-	$('.radio_element input:[name=shipping_method]').click( function(){
+	$('input[name=shipping_method]').click( function(){
 		var selection = $(this).val().split('.');
 		//hide and unselect other methods. 
 		show_payment(selection[0]);

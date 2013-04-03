@@ -12,10 +12,6 @@
     <layout></layout>
     <priority>10</priority>
     <settings>
-        <item id="default_pp_pro_status">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
         <item id="default_pp_pro_username">
             <type required="true">input</type>
             <default_value></default_value>
@@ -69,14 +65,6 @@
 					<field>name</field>
 				</fields>
 			</variants>
-        </item>
-        <item id="default_pp_pro_autoselect">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>        
-	    <item id="default_pp_pro_sort_order">
-            <type>input</type>
-            <default_value></default_value>
         </item>
     </settings>
     <install>
