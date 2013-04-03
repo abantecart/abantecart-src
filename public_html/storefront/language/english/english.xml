@@ -158,7 +158,8 @@
 	</definition>
 	<definition>
 		<key>notice_out_of_stock_body</key>
-		<value><![CDATA[Product "%s" has reached zero or negative stock count for main product or all options. <br> As a result of autodisable setting, product (%s) was auto disabled!]]></value>
+		<value>
+			<![CDATA[Product "%s" has reached zero or negative stock count for main product or all options. <br> As a result of autodisable setting, product (%s) was auto disabled!]]></value>
 	</definition>
 	<definition>
 		<key>no_payment_required</key>
@@ -168,7 +169,7 @@
 		<key>gen_data_entry_error</key>
 		<value><![CDATA[Oops, there is an error with infomation provided!]]></value>
 	</definition>
-	<definition>		
+	<definition>
 		<key>text_sorting_name_asc</key>
 		<value><![CDATA[Name A - Z]]></value>
 	</definition>
@@ -203,5 +204,9 @@
 	<definition>
 		<key>text_add_cart_confirm</key>
 		<value><![CDATA[Added to cart]]></value>
+	</definition>
+	<definition>
+		<key>text_close</key>
+		<value><![CDATA[Close]]></value>
 	</definition>
 </definitions>

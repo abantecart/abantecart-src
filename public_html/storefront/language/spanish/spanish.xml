@@ -204,4 +204,8 @@
 		<key>text_add_cart_confirm</key>
 		<value><![CDATA[Añadir al carro]]></value>
 	</definition>
+	<definition>
+		<key>text_close</key>
+		<value><![CDATA[Cerrar]]></value>
+	</definition>
 </definitions>
