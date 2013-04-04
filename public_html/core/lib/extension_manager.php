@@ -499,8 +499,13 @@ class AExtensionManager {
 
 	/**
 	 * @param string $extension_txt_id
+	 * @return bool
 	 */
 	public function delete($extension_txt_id) {
+		if(!trim($extension_txt_id)){
+			$this->log->write('Error! Abantecart tried to delete by empty extension_txt_id');
+			return false;
+		}
 
 		$info = $this->extensions->getExtensionInfo($extension_txt_id);
 		$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
@@ -526,6 +531,7 @@ class AExtensionManager {
 		// refresh data about updates
 		$this->load->model('tool/updater');
 		$this->model_tool_updater->check4updates();
+		return true;
 	}
 
 	/**

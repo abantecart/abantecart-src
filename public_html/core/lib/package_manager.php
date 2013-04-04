@@ -155,7 +155,9 @@ class APackageManager {
 
 		$old_path = !$extension_id ? DIR_ROOT . '/' . $this->session->data['package_info']['dst_dir'] : DIR_EXT;
 		$package_id = !$extension_id ? $this->session->data['package_info']['package_id'] : $extension_id;
-
+		if(!$package_id){
+			return false;
+		}
 		if (file_exists($old_path . $package_id)) {
 			$backup = new ABackup($extension_id);
 			$backup_dirname = $backup->getBackupName();
