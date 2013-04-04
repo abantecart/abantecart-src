@@ -26,6 +26,9 @@ INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
 (14, 5 ),
 (15, 3 );
 
+INSERT INTO `ac_blocks` (`block_txt_id`, `controller`, `created`) VALUES
+('newsletter_signup', 'blocks/newsletter_signup', now() );
+
 INSERT INTO `ac_block_layouts` (`layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
 (11, 1, 0, 0, 10, 1, now() ),
 (11, 2, 0, 0, 20, 1, now() ),
@@ -45,7 +48,9 @@ INSERT INTO `ac_block_layouts` (`layout_id`, `block_id`, `custom_block_id`, `par
 (11, 14, 0, 1, 20, 1, now() ),
 (11, 15, 0, 1, 30, 1, now() ),
 (11, 21, 0, 8, 10, 1, now() ),
-(11, 24, 0, 8, 20, 1, now() );
+(11, 24, 0, 8, 20, 1, now() ),
+(11, 25, 0, '?????', 20, 1, now() )
+;
 
 -- Home page
 INSERT INTO `ac_block_layouts` (`layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
@@ -68,7 +73,9 @@ INSERT INTO `ac_block_layouts` (`layout_id`, `block_id`, `custom_block_id`, `par
 (12, 14, 0, 16, 20, 1, now() ),
 (12, 17, 1, 19, 10, 1, now() ),
 (12, 21, 0, 23, 10, 1, now() ),
-(12, 24, 0, 23, 20, 1, now() );
+(12, 24, 0, 23, 20, 1, now() ),
+(12, 25, 0, ??????, 20, 1, now() )
+;
 
 -- Login page
 INSERT INTO `ac_block_layouts` (`layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
@@ -84,7 +91,8 @@ INSERT INTO `ac_block_layouts` (`layout_id`, `block_id`, `custom_block_id`, `par
 (13, 1, 0, 0, 10, 1, now() ),
 (13, 8, 0, 0, 80, 1, now() ),
 (13, 21, 0, 65, 10, 1, now() ),
-(13, 24, 0, 65, 20, 1, now() );
+(13, 24, 0, 65, 20, 1, now() )
+;
 -- Default Product page
 INSERT INTO `ac_block_layouts` (`layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
 (14, 13, 0, 75, 10, 1, now() ),
@@ -99,7 +107,8 @@ INSERT INTO `ac_block_layouts` (`layout_id`, `block_id`, `custom_block_id`, `par
 (14, 1, 0, 0, 10, 1, now() ),
 (14, 8, 0, 0, 80, 1, now() ),
 (14, 21, 0, 76, 10, 1, now() ),
-(14, 24, 0, 76, 20, 1, now() );
+(14, 24, 0, 76, 20, 1, now() ),
+(14, 25, 0, ??????, 20, 1, now() );
 -- Checkout pages
 INSERT INTO `ac_block_layouts` (`layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
 (15, 1, 0, 0, 10, 1, now() ),
@@ -116,13 +125,24 @@ INSERT INTO `ac_block_layouts` (`layout_id`, `block_id`, `custom_block_id`, `par
 (15, 15, 0, 77, 30, 1, now() ),
 (15, 16, 0, 79, 10, 1, now() ),
 (15, 21, 0, 87, 10, 1, now() ),
-(15, 24, 0, 87, 20, 1, now() );
+(15, 24, 0, 87, 20, 1, now() ),
+(15, 25, 0, ????, 20, 1, now() )
+;
 
 INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `created`) VALUES
 (11, 1, 'blocks/content_header.tpl', now() ),
 (11, 8, 'blocks/content_footer.tpl', now() ),
 (9, 1, 'blocks/category_top.tpl', now() ),
-(9, 2, 'blocks/category_top.tpl', now() );
+(9, 2, 'blocks/category_top.tpl', now() ),
+-- #NEED to check block_id!!!!!
+(25, 1, 'blocks/newsletter_signup_header.tpl', now() ),
+(25, 2, 'blocks/newsletter_signup_header_bottom.tpl', now() ),
+(25, 3, 'blocks/newsletter_signup_column_left.tpl', now() ),
+(25, 4, 'blocks/newsletter_signup_content_top.tpl', now() ),
+(25, 5, 'blocks/newsletter_signup_content_bottom.tpl', now() ),
+(25, 6, 'blocks/newsletter_signup_column_right.tpl', now() ),
+(25, 6, 'blocks/newsletter_signup_footer_top.tpl', now() ),
+(25, 6, 'blocks/newsletter_signup_footer.tpl', now() );
 
 UPDATE `ac_block_templates` set template = 'blocks/html_block_footer.tpl' where `block_id` = 17 and `parent_block_id` = 8;
 

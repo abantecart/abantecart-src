@@ -29,10 +29,10 @@
 			$field_list = array();
 			if ($noemaillogin) { array_push($field_list, 'loginname'); }
 			array_push($field_list, 'firstname', 'lastname', 'email', 'telephone', 'fax');
-			
+			$subscribe_hide = array('telephone', 'fax');
 			foreach ($field_list as $field_name) {
 		?>
-			<div class="control-group <?php if (${'error_'.$field_name}) echo 'error'; ?>">
+			<div class="control-group <?php echo (${'error_'.$field_name}?'error':'').' '. ($subscriber && in_array($field_name,$subscribe_hide) ? 'hide' :'')?>">
 				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="controls">
 				    <?php echo $form[$field_name]; ?>
@@ -44,9 +44,9 @@
 		?>	
 		</fieldset>
 	</div>
-	
-	<h4 class="heading4"><?php echo $text_your_address; ?></h4>
-	<div class="registerbox form-horizontal">
+
+	<h4 class="heading4 <?php echo $subscriber? 'hide' :''?>"><?php echo $text_your_address; ?></h4>
+	<div class="registerbox form-horizontal <?php echo $subscriber? 'hide' :''?>">
 		<fieldset>
 		<?php
 			$field_list = array('company' => 'company', 
@@ -73,8 +73,8 @@
 		</fieldset>
 	</div>
 	
-	<h4 class="heading4"><?php echo $text_your_password; ?></h4>
-	<div class="registerbox form-horizontal">
+	<h4 class="heading4 <?php echo $subscriber? 'hide' :''?>"><?php echo $text_your_password; ?></h4>
+	<div class="registerbox form-horizontal <?php echo $subscriber? 'hide' :''?>">
 		<fieldset>
 			<div class="control-group <?php if ($error_password) echo 'error'; ?>">
 				<label class="control-label"><?php echo $entry_password; ?></label>
@@ -95,8 +95,8 @@
 	
 	<?php echo $this->getHookVar('customer_attributes'); ?>
 	
-	<h4 class="heading4"><?php echo $text_newsletter; ?></h4>
-	<div class="registerbox form-horizontal">
+	<h4 class="heading4 <?php echo $subscriber? 'hide' :''?>"><?php echo $text_newsletter; ?></h4>
+	<div class="registerbox form-horizontal <?php echo $subscriber? 'hide' :''?>">
 		<fieldset>
 			<div class="control-group">
 				<label class="control-label"><?php echo $entry_newsletter; ?></label>
@@ -110,16 +110,26 @@
 
 	<div class="control-group">
 	    <div class="controls">
+			<?php if($subscriber){
+				echo $form['subscriber'];
+			?>
+
+			<div>
+				<a id="form_expander"><?php echo $subscriber_switch_text_full; ?></a>
+			</div>
+								<?php } ?>
+
 	<?php if ($text_agree) { ?>
-	    	<div class="span4 mt20 mb40">
-	    		<?php echo $text_agree; ?>
-	    		<a class="thickbox" href="<?php echo $text_agree_href; ?>"><b><?php echo $text_agree_href_text; ?></b></a>
-	    		<?php echo $form['agree']; ?>
-	    	</div>	   
+			<label class="span4 mt20 mb40 <?php echo $subscriber? 'hide' :''?>">
+				<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModal(); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
+
+				<?php echo $form['agree']; ?>
+			</label>
+
 	<?php } ?>    	
 	    	<div class="span4 mt20 mb40">
 	    		<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
-	    		    <i class="<?php echo $form['continue']->{icon}; ?>"></i>
+	    		    <i class="<?php echo $form['continue']->icon; ?>"></i>
 	    		    <?php echo $form['continue']->name ?>
 	    		</button>
 	    	</div>	
@@ -129,9 +139,47 @@
 </form>
 </div>
 
+<div id="privacyPolicyModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="privacyPolicyModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="privacyPolicyModalLabel"><?php echo $text_agree_href_text; ?></h3>
+	</div>
+	<div class="modal-body">
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $text_close; ?></button>
+	</div>
+</div>
+
 <script type="text/javascript"><!--
 $('#AccountFrm_country_id').change( function(){
     $('select[name=\'zone_id\']').load('index.php?rt=common/zone&country_id=' + $(this).val() + '&zone_id=<?php echo $zone_id; ?>');
 });
 $('select[name=\'zone_id\']').load('index.php?rt=common/zone&country_id='+ $('#AccountFrm_country_id').val() +'&zone_id=<?php echo $zone_id; ?>');
+<?php if($subscriber){ ?>
+var hiddens = $('#AccountFrm').find('.hide');
+$('#form_expander').click(function(){
+	var text = '<?php echo $subscriber_switch_text?>';
+	var text_full = '<?php echo $subscriber_switch_text_full?>';
+	var tmp = hiddens;
+	var that = this;
+	tmp.each(function(){
+		$(this).fadeToggle();
+	});
+
+
+	if($('#AccountFrm_subscriber').attr('disabled')=='disabled'){
+		$('#form_expander').html(text_full);
+		$('#AccountFrm_subscriber').removeAttr('disabled');
+	}else{
+		$('#AccountFrm_subscriber').attr('disabled','disabled');
+		$('#form_expander').html(text);
+	}
+});
+<?php } ?>
+
+function openModal(){
+	$('#privacyPolicyModal').modal({remote: '<?php echo $text_agree_href; ?>'});
+}
+
 //--></script>

@@ -5707,7 +5707,8 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `created`) VA
 (21, 'donate', 'blocks/donate', now() ),
 (22, 'special', 'blocks/special', now() ),
 (23, 'banner_block', 'blocks/banner_block', now() ),
-(24, 'credit_cards', 'blocks/credit_cards', now() );
+(24, 'credit_cards', 'blocks/credit_cards', now() ),
+(25, 'newsletter_signup', 'blocks/newsletter_signup', now() );
 
 
 
@@ -5832,7 +5833,16 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (23, 6, 'blocks/banner_block.tpl', NOW() ),
 (23, 7, 'blocks/banner_block_content.tpl', NOW() ),
 (23, 8, 'blocks/banner_block_header.tpl', NOW() ),
-(24, 8, 'blocks/credit_cards.tpl', now() );
+(24, 8, 'blocks/credit_cards.tpl', now() ),
+(25, 1, 'blocks/newsletter_signup_header.tpl', now() ),
+(25, 2, 'blocks/newsletter_signup_header_bottom.tpl', now() ),
+(25, 3, 'blocks/newsletter_signup_column_left.tpl', now() ),
+(25, 4, 'blocks/newsletter_signup_content_top.tpl', now() ),
+(25, 5, 'blocks/newsletter_signup_content_bottom.tpl', now() ),
+(25, 6, 'blocks/newsletter_signup_column_right.tpl', now() ),
+(25, 7, 'blocks/newsletter_signup_footer_top.tpl', now() ),
+(25, 8, 'blocks/newsletter_signup_footer.tpl', now() )
+;
 
 
 --
@@ -6016,7 +6026,7 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (935, 14, 17, 15, 392, 60, 1, now()),
 (886, 12, 17, 15, 356, 60, 1, now()),
 (934, 14, 11, 0, 392, 50, 1, now()),
-(933, 14, 17, 17, 392, 40, 1, now()),
+(933, 14, 25, 0, 392, 40, 1, now()),
 (932, 14, 17, 16, 392, 30, 1, now()),
 (931, 14, 17, 14, 392, 20, 1, now()),
 (930, 14, 17, 13, 392, 10, 1, now()),
@@ -6025,7 +6035,7 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (907, 15, 17, 16, 403, 30, 1, now()),
 (897, 11, 11, 0, 337, 50, 1, now()),
 (804, 13, 9, 0, 378, 50, 1, now()),
-(884, 12, 17, 17, 356, 40, 1, now()),
+(884, 12, 25, 0, 356, 40, 1, now()),
 (883, 12, 17, 16, 356, 30, 1, now()),
 (936, 14, 24, 0, 392, 70, 1, now()),
 (929, 14, 12, 0, 387, 20, 1, now()),
@@ -6048,7 +6058,7 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (870, 12, 14, 0, 349, 20, 1, now()),
 (869, 12, 13, 0, 349, 10, 1, now()),
 (906, 15, 17, 14, 403, 20, 1, now()),
-(896, 11, 17, 17, 337, 40, 1, now()),
+(896, 11, 25, 0, 337, 40, 1, now()),
 (803, 13, 15, 0, 378, 40, 1, now()),
 (409, 15, 24, 0, 87, 20, 1, now()),
 (406, 15, 15, 0, 77, 30, 1, now()),
@@ -6126,7 +6136,7 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (346, 11, 15, 0, 1, 30, 1, now()),
 (345, 11, 14, 0, 1, 20, 1, now()),
 (344, 11, 13, 0, 1, 10, 1, now()),
-(908, 15, 17, 17, 403, 40, 1, now()),
+(908, 15, 25, 0, 403, 40, 1, now()),
 (343, 11, 11, 0, 6, 20, 1, now()),
 (342, 11, 10, 0, 6, 10, 1, now()),
 (341, 11, 9, 0, 6, 30, 1, now()),
