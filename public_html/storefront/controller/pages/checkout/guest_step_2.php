@@ -111,9 +111,19 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 		}
 		
 		// Payment Methods
+		$total = $this->cart->buildTotalDisplay();
 		$method_data = array();
 		$results = $this->model_checkout_extension->getExtensions('payment');
 		foreach ($results as $result) {
+			#filter only allowed payment methods based on total min/max
+			$ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
+			$min = $ext_setgs[$result['key']."_payment_minimum_total"];
+			$max = $ext_setgs[$result['key']."_payment_maximum_total"];
+			if ( 	(has_value( $min ) && $total['total'] < $min ) 
+			    ||  (has_value( $max ) && $total['total'] > $max )  ) {
+			    continue;
+			}			
+		
 		    $this->loadModel('extension/' . $result['key']);
 		    $method = $this->{'model_extension_' . $result['key']}->getMethod($this->session->data['guest']);
 		    if ($method) {
@@ -126,6 +136,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 		foreach ($method_data as $key => $value) {
       	    $sort_order[$key] = $value['sort_order'];
     	}
+    	
     	array_multisort($sort_order, SORT_ASC, $method_data);		
 		$this->session->data['payment_methods'] = $method_data;
 						
@@ -156,7 +167,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 			$ship_ext_config = $this->model_checkout_extension->getSettings($method_name);
 			$accept_payment_ids = $ship_ext_config[$method_name."_accept_payments"];
 			if ( is_array($accept_payment_ids) && count($accept_payment_ids) ) {
-			    #filter only allowed payment methods
+			    #filter only allowed payment methods based on shipping
 			    foreach ($this->session->data['payment_methods'] as $key => $res_payment) {
 			    	if ( in_array($res_payment['extension_id'], $accept_payment_ids) ) {
 			    		$ac_payments[$key] = $res_payment;
@@ -165,6 +176,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 			} else {
 				$ac_payments = $this->session->data['payment_methods'];
 			}
+						
 			if (count($ac_payments) == 1 ) {
 			    //set only method
 			    $only_method = $ac_payments;

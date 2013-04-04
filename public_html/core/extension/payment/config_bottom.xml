@@ -9,6 +9,10 @@
             <type>input</type>
             <default_value></default_value>
         </item> 
+        <item id="autoselect">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>          
 	    <item id="sort_order">
             <type>input</type>
             <default_value></default_value>

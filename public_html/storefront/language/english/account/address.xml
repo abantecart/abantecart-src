@@ -50,7 +50,7 @@
     </definition>
     <definition>
         <key>entry_postcode</key>
-        <value><![CDATA[Post Code:]]></value>
+        <value><![CDATA[ZIP/Post Code:]]></value>
     </definition>
     <definition>
         <key>entry_city</key>
