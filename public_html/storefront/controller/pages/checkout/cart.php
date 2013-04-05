@@ -217,8 +217,8 @@ class ControllerPagesCheckoutCart extends AController {
         		$option_data = array();
 				$thumbnail = $resource->getMainThumb('products',
 			                                     $result['product_id'],
-			                                     $this->config->get('config_image_cart_width'),
-			                                     $this->config->get('config_image_cart_height'),true);
+			                                     (int)$this->config->get('config_image_cart_width'),
+			                                     (int)$this->config->get('config_image_cart_height'),true);
 
 
 
@@ -320,31 +320,34 @@ class ControllerPagesCheckoutCart extends AController {
 			if ($this->request->post['postcode']) {
 				$postcode = $this->request->post['postcode'];
 			}
-			if ($this->request->post['zones'][0]) {
-				$country_id = $this->request->post['zones'][0];
+			if ($this->request->post['country'][0]) {
+				$country_id = $this->request->post['country'][0];
 			}
-			if ($this->request->post['zones'][1]) {
-				$zone_id = $this->request->post['zones'][1];
+			if ($this->request->post['country_zones'][0]) {
+				$zone_id = $this->request->post['country_zones'][0];
 			}
 			if ( $zone_id ) {
 				$this->loadModel('localisation/zone');
 	    		$zone_data = $this->model_localisation_zone->getZone($zone_id);
 			}											
 
-			$this->data['form_estimate']['postcode'] = $form->getFieldHtml( array( 'type' => 'input',
-														  'name' => 'postcode',
-														  'value' => $postcode,
-														  'style' => 'short',
+			$this->data['form_estimate']['postcode'] = $form->getFieldHtml( array(
+														'type' => 'input',
+													 	'name' => 'postcode',
+													  	'value' => $postcode,
+													  	'style' => 'short',
 														));
 														 										
-			$this->data['form_estimate']['country_zones'] = $form->getFieldHtml( array( 'type' => 'zones',
-														  'name' => 'zones',
-														  'submit_mode' => 'id',
-														  'value' => $country_id,
-														  'zone_name' => $zone_data['name'],
+			$this->data['form_estimate']['country_zones'] = $form->getFieldHtml( array(
+														'type' => 'zones',
+													 	'name' => 'country',
+													  	'submit_mode' => 'id',
+													  	'value' => $country_id,
+													  	'zone_name' => $zone_data['name'],
+														'zone_value' => $zone_id
 														));
 														
-			$this->data['form_estimate']['submit'] = $form->getFieldHtml( array( 'type' => 'input',
+			$this->data['form_estimate']['submit'] = $form->getFieldHtml( array(
 														'type' => 'submit',
 														'name' => $this->language->get('button_text_estimate') 
 														));

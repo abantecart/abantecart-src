@@ -78,16 +78,25 @@ class ControllerResponsesCheckoutCart extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		$output = array();
+		$this->load->library('json');
 		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
 			$this->response->setOutput(AJson::encode($output));	
 			return '';
 		}
-  	
+		$this->loadModel('localisation/country');
+		$this->loadModel('localisation/zone');
+		$country_info = $this->model_localisation_country->getCountry($this->request->post[ 'country_id' ]);
+		$zone_info = $this->model_localisation_zone->getZone($this->request->post[ 'zone_id' ]);
 		$shipping_address = array( 
 				'postcode'       => $this->request->post['postcode'],
 				'country_id'     => $this->request->post['country_id'],
+				'country_iso_code2' => $country_info['iso_code_2'],
+				'iso_code_2' => $country_info['iso_code_2'],
 				'zone_id'        => $this->request->post['zone_id'],
+				'zone_code'        => $zone_info['code']
+
 		);
+
 
 		$this->tax->setZone($shipping_address[ 'country_id' ], $shipping_address[ 'zone_id' ]);
 
@@ -139,7 +148,7 @@ class ControllerResponsesCheckoutCart extends AController {
   			//init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
-		$this->load->library('json');
+
 		$this->response->setOutput(AJson::encode($output));		
 	}	  	
 

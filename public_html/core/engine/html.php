@@ -1440,6 +1440,7 @@ class ZonesHtmlElement extends HtmlElement {
 		$this->data[ 'registry' ]->get('load')->model('localisation/country');
 		$results = $this->data[ 'registry' ]->get('model_localisation_country')->getCountries();
 		$this->options = array();
+		$this->zone_options = array();
 		foreach ($results as $c) {
 			if ($this->submit_mode == 'id') {
 				$this->options[ $c[ 'country_id' ] ] = $c[ 'name' ];
@@ -1465,6 +1466,15 @@ class ZonesHtmlElement extends HtmlElement {
 			$url = $html->getSecureURL('common/zone/names');
 		}
 
+		if($this->value){
+			$this->data['registry']->get('load')->model('localisation/zone');
+			$results = $this->data['registry']->get('model_localisation_zone')->getZonesByCountryId(current($this->value));
+			if (!is_array($this->zone_value)) $this->zone_value = array( $this->zone_value => (string)$this->zone_value );
+			foreach ($results as $result) {
+				$this->zone_options[$result['zone_id']] = $result['name'];
+			}
+		}
+
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1476,6 +1486,8 @@ class ZonesHtmlElement extends HtmlElement {
 				'style' => $this->style,
 				'url' => $url,
 				'zone_name' => $this->zone_name,
+				'zone_value' => $this->zone_value,
+				'zone_options' => $this->zone_options,
 				'submit_mode' => $this->submit_mode,
 			)
 		);
