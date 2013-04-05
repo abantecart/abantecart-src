@@ -937,7 +937,10 @@ class ExtensionUtils {
 			$i = 0;
 			foreach ($this->config->settings->item as $item) {
 				//detect if setting is selialized
-				$value = $settings[(string)$item['id']];
+				$item['id'] = (string) $item['id'];
+				$value_key = substr($item['id'], -2);
+				$item['id'] = ( $value_key == '[]' ) ? substr($item['id'], 0, strlen($item['id']) - 2) : $item['id'];
+				$value = $settings[(string) $item['id']];
 				if (is_serialized($value)) {
 					$value = unserialize($value);
 				}
