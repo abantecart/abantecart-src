@@ -219,8 +219,8 @@ class ControllerBlocksListingBlock extends AController {
 					                                                         'height'=>$this->config->get('config_image_popup_height')),
 
 				                                               'thumb'=>array(
-					                                                          'width'=>$this->config->get('config_image_grid_width'),
-					                                                          'height'=>$this->config->get('config_image_grid_height'))),
+					                                                          'width'=>$this->config->get('config_image_product_width'),
+					                                                          'height'=>$this->config->get('config_image_product_height'))),
 														$limit,
 														false);
 				if(!$resources){ return null;}
@@ -306,8 +306,8 @@ class ControllerBlocksListingBlock extends AController {
 
 					$thumbnail = $resource->getMainThumb($data_source['rl_object_name'],
 			                                     $item[$data_source['data_type']],
-			                                     $this->config->get('config_image_grid_width'),
-			                                     $this->config->get('config_image_grid_height'),true);
+			                                     $this->config->get('config_image_product_width'),
+			                                     $this->config->get('config_image_product_height'),true);
 
 					$result[$k]['image'] = $result[$k]['thumb'] = $thumbnail;
 
