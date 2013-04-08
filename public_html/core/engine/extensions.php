@@ -59,7 +59,7 @@ abstract class Extension {
 	 */
 	public function loadBaseObject($object) {
 		//NOTE (Pavel): Possible futute imptovment with adding wrapper layer to controll access to base controller
-		//Can add wrapper class with set of mirror methods and properies to connect to base objects 
+		//Can add wrapper class with set of mirror methods and properies to connect to base objects
 		$this->baseObject = $object;
 	}
 
@@ -528,15 +528,8 @@ class ExtensionsApi {
 		foreach ($this->db_extensions as $ext) {
 			if ($registry->get('config')->get($ext . '_status') && !in_array($ext, $enabled_extensions)) {
 
-				$priority = $registry->get('config')->get($ext . '_priority');
-				// prevent rewriting of array if we have exts with same priority
-				if (isset($enabled_extensions[$priority])) {
-					while (isset($enabled_extensions[$priority]) && $priority < 20000) {
-						$priority++;
-					}
-				}
-				$enabled_extensions[$priority] = $ext;
-
+				$priority = (int)$registry->get('config')->get($ext . '_priority');
+				$enabled_extensions[$priority][] = $ext;
 
 				$controllers = $languages = $models = $templates = array(
 					'storefront' => array(),
@@ -559,9 +552,12 @@ class ExtensionsApi {
 		}
 
 		$this->setExtensionCollection(new ExtensionCollection($extensions));
-
+		$this->enabled_extensions = array();
 		ksort($enabled_extensions);
-		$this->enabled_extensions = $enabled_extensions;
+		foreach($enabled_extensions as $exts){
+			$this->enabled_extensions = array_merge($this->enabled_extensions,$exts);
+		}
+
 		ADebug::variable('List of loaded extensions', $enabled_extensions);
 
 		$this->setExtensionControllers($ext_controllers);
@@ -831,7 +827,7 @@ class ExtensionUtils {
 	protected $registry;
 	protected $name;
 	/**
-	 * @var SimpleXMLElement
+	 * @var SimpleXmlElement
 	 */
 	protected $config;
 	protected $store_id;
@@ -937,10 +933,7 @@ class ExtensionUtils {
 			$i = 0;
 			foreach ($this->config->settings->item as $item) {
 				//detect if setting is selialized
-				$item['id'] = (string) $item['id'];
-				$value_key = substr($item['id'], -2);
-				$item['id'] = ( $value_key == '[]' ) ? substr($item['id'], 0, strlen($item['id']) - 2) : $item['id'];
-				$value = $settings[(string) $item['id']];
+				$value = $settings[(string)$item['id']];
 				if (is_serialized($value)) {
 					$value = unserialize($value);
 				}
@@ -1031,6 +1024,7 @@ class ExtensionUtils {
 		$validate_file = DIR_EXT.$this->name.'/validate.php';
 
 		if(file_exists($validate_file)){
+			/** @noinspection PhpIncludeInspection */
 			include_once($validate_file);
 			//function settingsValidation in validate.php must to return formatted array as in caller (see phpdoc-comment: @return)
 			if(function_exists('settingsValidation')){
@@ -1051,8 +1045,11 @@ class ExtensionUtils {
 	public function checkRequiredSettings($data=array()){
 
 		if (isset($this->config->settings->item)) {
-
-			foreach ($this->config->settings->item as $item) {
+			/**
+			 * @var $items SimpleXmlElement
+			 */
+			$items = $this->config->settings->item;
+			foreach ($items as $item) {
 				if(!isset($data[(string)$item['id']])){
 					continue;//if data for check not given - do nothing
 				}
@@ -1063,6 +1060,7 @@ class ExtensionUtils {
 					$value = trim($value);
 				}
 
+				/** @noinspection PhpUndefinedMethodInspection */
 				$type_attr = $item->type->attributes();
 				if ((string)$type_attr['required'] == 'true' && !$value) {
 					return false;
