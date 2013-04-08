@@ -5573,7 +5573,8 @@ INSERT INTO `ac_pages` (`page_id`, `parent_page_id`, `controller`, `key_param`, 
 (2, 0, 'pages/index/home', '', '', now() ),
 (3, 0, 'pages/checkout', '', '', now() ),
 (4, 0, 'pages/account/login', '', '', now() ),
-(5, 0, 'pages/product/product', '', '', now() );
+(5, 0, 'pages/product/product', '', '', now()),
+(10, 0, 'pages/index/maintenance', '', '', now() );
 
 
 --
@@ -5601,12 +5602,14 @@ INSERT INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `
 (3, 1, 'Checkout Pages', '', '', '', '', '', now() ),
 (4, 1, 'Login Page', '', '', '', '', '', now() ),
 (5, 1, 'Default Product Page', '', '', '', '', '', now() ),
+(10, 1, 'Maintenance Page', '', '', '', '', '', now() ),
 
 (1, 9, 'Las demás páginas', '', '', '', '', '', now() ),
 (2, 9, 'Página de inicio', '', '', '', '', '', now() ),
 (3, 9, 'Pedido Páginas', '', '', '', '', '', now() ),
 (4, 9, 'La página de acceso', '', '', '', '', '', now() ),
-(5, 9, 'Por defecto la Hoja de Producto', '', '', '', '', '', now() );
+(5, 9, 'Por defecto la Hoja de Producto', '', '', '', '', '', now() ),
+(10, 9, 'Mantenimiento de la página.', '', '', '', '', '', now() );
 
 --
 -- DDL for table `contents`
@@ -5874,7 +5877,8 @@ INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_nam
 (13, 'default_html5', 1, 'Login Page',  now()),
 (14, 'default_html5', 1, 'Default Product Page',  now()),
 (15, 'default_html5', 1, 'Checkout Pages', now()),
-(16, 'default_html5', 1, 'Product Listing Page', now())
+(16, 'default_html5', 1, 'Product Listing Page', now()),
+(17, 'default_html5', 1, 'Maintanance Page', now())
 ;
 
 --
@@ -5897,7 +5901,8 @@ INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
 (12, 2),
 (13, 4),
 (14, 5),
-(15, 3)
+(15, 3),
+(17, 10)
 ;
 
 
@@ -6157,7 +6162,16 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (408, 15, 21, 0, 87, 10, 1, now()),
 (407, 15, 16, 0, 79, 10, 1, now());
 
-
+-- Maintenance page
+INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
+(938, 17, 1, 0, 0, 10, 1, now() ),
+(939, 17, 2, 0, 0, 20, 1, now() ),
+(940, 17, 3, 0, 0, 30, 1, now() ),
+(941, 17, 4, 0, 0, 40, 1, now() ),
+(942, 17, 5, 0, 0, 50, 1, now() ),
+(943, 17, 6, 0, 0, 60, 1, now() ),
+(944, 17, 7, 0, 0, 70, 1, now() ),
+(945, 17, 8, 0, 0, 80, 1, now() );
 --
 -- DDL for table `forms_pages`
 --
