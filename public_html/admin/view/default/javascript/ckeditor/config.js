@@ -54,4 +54,7 @@ CKEDITOR.editorConfig = function( config )
 		['TextColor','BGColor'],
 		['Maximize', 'ShowBlocks','-','About']
 	];
+
+    config.enterMode = CKEDITOR.ENTER_BR;
+    config.shiftEnterMode = CKEDITOR.ENTER_BR;
 };
