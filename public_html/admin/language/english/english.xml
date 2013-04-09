@@ -545,4 +545,8 @@
 		<key>column_update_date</key>
 		<value><![CDATA[Update Date]]></value>
 	</definition>
+	<definition>
+		<key>text_automatic</key>
+		<value><![CDATA[Automatic]]></value>
+	</definition>
 </definitions>

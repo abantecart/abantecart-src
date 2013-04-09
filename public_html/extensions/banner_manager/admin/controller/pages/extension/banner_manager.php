@@ -699,6 +699,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 		if ($custom_block_id) {
 			$lm = new ALayoutManager();
 			$block_info = $lm->getBlockDescriptions($custom_block_id);
+
 			$language_id = $this->session->data[ 'content_language_id' ];
 			if (!isset($block_info[ $language_id ])) {
 				$language_id = key($block_info);
@@ -790,17 +791,46 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 		// list of templates for block
 		$tmpl_ids = $this->extensions->getInstalled('template');
-		array_unshift($tmpl_ids, (string)$this->session->data[ 'layout_params' ][ 'tmpl_id' ]);
+
 		$this->data[ 'block_wrappers' ] = array();
 		foreach ($tmpl_ids as $tmpl_id) {
+			// for tpls of block that stores in db
 			$layout_manager = new ALayoutManager($tmpl_id);
-			$block = $layout_manager->getBlockByTxtId('banner_block');
-			$block_templates = (array)$layout_manager->getBlockTemplates($block[ 'block_id' ]);
+			$block_templates = (array)$layout_manager->getAllBlocks();
 			foreach ($block_templates as $item) {
-				$this->data[ 'block_wrappers' ][ $item[ 'template' ] ] = $item[ 'template' ];
+				if($item['template']){
+					$this->data[ 'block_wrappers' ][ $item[ 'template' ] ] = $item[ 'template' ];
+				}
+			}
+			//for tpls that stores in main.php (other extensions templates)
+			$ext_tpls = $this->extensions->getExtensionTemplates();
+			foreach($ext_tpls as $section){
+				foreach($section as $s=>$tpls){
+					if($s!='storefront'){ continue;}
+					foreach($tpls as $tpl){
+						if(isset($this->data['block_wrappers'][$tpl]) || strpos($tpl,'blocks/')===false){ continue;}
+						$this->data[ 'block_wrappers' ][ $tpl ] = $tpl;
+					}
+				}
+			}
+
+		}
+
+		$tpls = glob(DIR_STOREFRONT.'view/*/template/blocks/*.tpl');
+		foreach($tpls as $tpl){
+			$pos = strpos($tpl,'blocks/');
+			$tpl = substr($tpl,$pos);
+			if(!isset($this->data['block_wrappers'][$tpl])){
+				$this->data['block_wrappers'][$tpl] = $tpl;
 			}
 		}
-		array_unshift($this->data[ 'block_wrappers' ], 'Default');
+
+		ksort($this->data['block_wrappers']);
+		array_unshift($this->data[ 'block_wrappers' ], $this->language->get('text_automatic'));
+
+		if($this->data[ 'block_wrapper' ] && !isset($this->data['block_wrappers'][$this->data[ 'block_wrapper' ]])){
+			$this->data['block_wrappers'] = array_merge(array($this->data[ 'block_wrapper' ]=>$this->data[ 'block_wrapper' ]),$this->data['block_wrappers']);
+		}
 
 		$this->data[ 'form' ][ 'fields' ][ 'block_wrapper' ] = $form->getFieldHtml(array( 'type' => 'selectbox',
 			'name' => 'block_wrapper',
