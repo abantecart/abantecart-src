@@ -160,9 +160,15 @@ class ControllerResponsesProductProduct extends AController {
 			$output['total'] = $this->tax->calculate(
 		    		$result['total'],
 		    		$result['tax_class_id'],
-		    		$this->config->get('config_tax')
-		    	);
+					(int)$this->config->get('config_tax')
+		    );
+			$output['price'] = $this->tax->calculate(
+		    		$result['price'],
+		    		$result['tax_class_id'],
+					(int)$this->config->get('config_tax')
+		    );
 		    $output['total'] = $this->currency->format( $output['total'] );
+		    $output['price'] = $this->currency->format( $output['price'] );
 		}
 
         //init controller data

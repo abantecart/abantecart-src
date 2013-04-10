@@ -380,6 +380,9 @@ function display_total_price () {
 		 	$('.total-price-holder').css('visibility', 'visible');
 		 	$('.total-price').html(data.total);
 		 }
+		 if(data.price){
+			 $('div.productprice div.productpageprice').html('<span class="spiral"></span>'+data.price);
+		 }
 	}	
 	});
 
