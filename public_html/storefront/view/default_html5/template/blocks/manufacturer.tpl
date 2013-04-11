@@ -1,27 +1,24 @@
-<div class="side_block">
-<?php if ( $block_framed ) { ?>
-	<h2><?php echo $heading_title; ?></h2>
-<?php } ?>
-            	<div class="brands">
-            		<?php if ($product_id) { ?>  
-            			<center>
-	                    <a href="<?php echo $manufacturer['href']; ?>">
-	                    <?php if ( $manufacturer['icon'] ) { ?>  
-	                    <img src="<?php echo $manufacturer['icon']; ?>" title="<?php echo $manufacturer['name']; ?>" border="0"/>	                    
-	                    <?php } else { echo $manufacturer['name']; }  ?> 
-	                    </a>
-	                    </center>
-                    <?php } else { ?>        	
-                    	<ul>
-	                    <?php foreach ($manufacturers as $manufacturer) { ?>
-	                    <?php if ($manufacturer['manufacturer_id'] == $manufacturer_id) { ?>
-	                    <li><a href="<?php echo $manufacturer['href']; ?>"><b><?php echo $manufacturer['name']; ?></b></a></li>
-	                    <?php } else { ?>
-	                    <li><a href="<?php echo $manufacturer['href']; ?>"><?php echo $manufacturer['name']; ?></a></li>
-	                    <?php } ?>
-	                    <?php } ?>
-	                	</ul>    
-                    <?php } ?>
-                </div>
+<?php
+if ($manufacturers) { ?>
 
+<div class="sidewidt">
+<?php if ( $block_framed ) { ?>
+	<h2 class="heading2"><span><?php echo $heading_title; ?></span></h2>
+<?php } ?>
+		<ul class="side_prd_list manufacturer">
+<?php
+    foreach ($manufacturers as $manufacturer) {
+        $item = $manufacturer;
+        $item['image'] = $manufacturer['thumb'];
+        $item['info_url'] = $manufacturer['href'];
+?>
+              <li>
+              	<a href="<?php echo $item['info_url']?>"><?php echo $item['icon']['thumb_html']?></a>
+              	<a class="productname" href="<?php echo $item['info_url']?>"><?php echo $item['name']?></a>
+              </li>
+<?php } ?>
+		</ul>
+<?php if ( $block_framed ) { ?>
+<?php } ?>
 </div>
+<?php } ?>

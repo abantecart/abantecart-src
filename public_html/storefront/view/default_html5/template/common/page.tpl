@@ -30,15 +30,15 @@
 		$center_padding .= ' ct_padding_right';
 	}
 ?>  
-  
+
 	<div class="container">
 		<div class="row">
 			<?php if ( !empty(${$column_left} ) ) { ?>
-			<div class="span3 mt20">	
+			<div class="span3 mt20">
 			<?php echo ${$column_left}; ?>
 			</div>
 			<?php } ?>
-			
+
 			<?php $span = 12 - 3 * ($present_columns -1); ?>
 			<div class="span<?php echo $span ?> mt20">	
 			<?php if ( !empty( ${$content_top} ) ) { ?>
@@ -56,15 +56,15 @@
 			<?php echo ${$content_bottom}; ?>
 			<!-- content bottom blocks placeholder (EOF) -->
 			<?php } ?>
-			</div>	
-			
+			</div>
+
 			<?php if ( !empty(${$column_right} ) ) { ?>
-			<div class="span3 mt20">	
+			<div class="span3 mt20">
 			<?php echo ${$column_right}; ?>
 			</div>
 			<?php } ?>
 		</div> <!-- row-->
-	</div> <!-- content conteiner -->
+	</div><!-- content container -->
 
 </div>
 <!-- /maincontainer -->

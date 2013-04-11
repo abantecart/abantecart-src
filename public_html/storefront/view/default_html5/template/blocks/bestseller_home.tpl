@@ -1,5 +1,5 @@
 <section id="bestseller" class="row mt40">
-    <div class="container">
+    <div class="container-fluid">
 <?php if ( $block_framed ) { ?>
       <h1 class="heading1"><span class="maintext"><?php echo $heading_title; ?></span><span class="subtext"><?php echo $heading_subtitle; ?></span></h1>
 <?php } ?>

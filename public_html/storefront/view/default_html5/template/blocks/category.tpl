@@ -1,23 +1,27 @@
+<?php
+if(!$categories && $content){
+	$categories = $content;
+}
+if ($categories) { ?>
+
+<div class="sidewidt">
 <?php if ( $block_framed ) { ?>
-<div class="s_block">
-	<div class="block_tl">
-		<div class="block_tr">
-			<div class="block_tc"><img src="<?php echo $this->templateResource('/image/category.png'); ?>" alt="" /><?php echo $heading_title; ?></div>
-		</div>
-	</div>
-    <div class="block_cl">
-    	<div class="block_cr">
-        	<div class="block_cc">
+	<h2 class="heading2"><span><?php echo $heading_title; ?></span></h2>
 <?php } ?>
-            	<div class="category_list"><?php echo $category; ?></div>
+		<ul class="side_prd_list category">
+<?php
+    foreach ($categories as $category) {
+        $item = $category;
+        $item['image'] = !is_array($category['thumb']) ? '<img width="50" src="'.$category['thumb'].'"/>' : $category['thumb']['thumb_html'];
+        $item['info_url'] = $category['href'];
+?>
+              <li>
+              	<a href="<?php echo $item['info_url']?>"><?php echo $item['image']?></a>
+              	<a class="productname" href="<?php echo $item['info_url']?>"><?php echo $item['name']?></a>
+              </li>
+<?php } ?>
+		</ul>
 <?php if ( $block_framed ) { ?>
-            </div>
-        </div>
-    </div>
-	<div class="block_bl">
-		<div class="block_br">
-			<div class="block_bc">&nbsp;</div>
-		</div>
-	</div>
+<?php } ?>
 </div>
 <?php } ?>

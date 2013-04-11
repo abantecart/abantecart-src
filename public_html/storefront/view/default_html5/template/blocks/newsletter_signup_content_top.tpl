@@ -1,10 +1,8 @@
-<div class="footer_block">
-	<h2><?php echo $heading_title; ?></h2>
-	<section id="newslettersignup">
+<section id="newslettersignup">
 <div class="container-fluid">
-
+	<h2><?php echo $heading_title; ?></h2>
 <div class="pull-left newsletter"><?php echo $text_signup; ?></div>
-<div class="pull-right">
+<div class="pull-left">
 	<form id="subscribeFrm" class="form-horizontal" method="" action="<?php echo $form_action; ?>">
 		<div class="input-prepend">
 			<?php foreach($form_fields as $field_name=>$field_value){?>
@@ -17,4 +15,3 @@
 </div>
 </div>
 </section>
-</div>
