@@ -1,7 +1,10 @@
 <?php
 if(!$categories && $content){
 	$categories = $content;
+
 }
+
+
 if ($categories) { ?>
 
 <div class="sidewidt">

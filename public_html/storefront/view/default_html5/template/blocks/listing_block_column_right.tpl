@@ -1,36 +1,58 @@
 <div class="side_block">
-<?php if ( $block_framed ) { ?>
-	<h2><?php echo $heading_title; ?></h2>
-<?php }
-foreach($content as $item){
-				echo '<div class="list_item" >
-						<div style="margin-top: 12%;" class="rightPane" '.(!$item['image']['thumb_html'] ? 'style="width:160px;"' : '' ).'>';
-				if($item['name']){
-						echo '<div class="title">
-								<a href="'.$item['url'].'">'.$item['name'].'</a>
-							  </div>';
-				}
-				if ( $item['rating'] ) {
-					echo '<div class="rating">'.$item['rating'].'</div>';
-				}
-				if ( $item['price'] ) {
-					echo '<div class="price-add">
-							 <span class="price">' . $item['price'] . '</span>
-							</div>';
-				}
-				echo '</div>';
-				if(!$item['resource_code']){
-					$image = '<a '.($item['image']['resource_type']=='image'? 'class="thickbox" rel="gallery"': '').' title="'.$item['image']['title'].'" href="'.$item['image']['main_url'].'">'.$item['image']['thumb_html'].'</a>';
-					echo '<div class="image">'. $image .'</div>';
-					if($item['image']['title']){
-						echo '<div class="title"><a href="'.$item['image']['main_url'].'">'.$item['image']['title'].'</a></div>';
-					}
-					echo '<div style="clear: both;"></div>';
+	<?php if ($block_framed) { ?>
+		<h2><?php echo $heading_title; ?></h2>
+	<?php }	?>
 
+	<ul class="side_prd_list">
+		<?php
+		if ($content) {
+			foreach ($content as $item) {
+
+				if(($item['item_name']=='product' || $item['item_name']=='category') && $item['thumb']['origin']=='internal'){
+					$item['image'] = '<img width="50" src="'. $item['thumb']['thumb_url'].'"/>';
 				}else{
-			        echo $item['resource_code'];
-		        }
-				echo '</div>';
-} ?>
+					$item['image'] = $item['thumb']['thumb_html'];
+				}
+				$item['title'] = $item['name'];
+				$item['description'] = $item['model'];
+				$item['rating'] = ($item['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $item['rating'] . '.png') . "' alt='" . $item['stars'] . "' />" : '';
 
+				$item['info_url'] = $item['href'];
+				$item['buy_url'] = $item['add'];
+				if (!$display_price) {
+					$item['price'] = '';
+				}
+
+				$review = $button_write;
+				if ($item['rating']) {
+					$review = $item['rating'];
+				}
+
+				?>
+
+				<li class="span3">
+					<a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
+					<a class="productname" href="<?php echo $item['info_url'] ?>"><?php echo $item['title']?></a>
+					<span class="procategory"><?php echo $item['rating']?></span>
+			<?php if($item['price']){?>
+				   <span class="price">
+					<?php  if ($item['special']) { ?>
+						   <div class="pricenew"><?php echo $item['special']?></div>
+						   <div class="priceold"><?php echo $item['price']?></div>
+					<?php } else { ?>
+						   <div class="pricenew"><?php echo $item['price']?></div>
+					<?php } ?>
+				   </span>
+			<?php } ?>
+				</li>
+
+			<?php
+			}
+		}
+		?>
+	</ul>
+
+	<?php if ($block_framed) { ?>
+	<?php } ?>
 </div>
+</section>

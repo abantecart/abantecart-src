@@ -20,7 +20,11 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class APromotion
+ * @property ACustomer $customer
+ * @property ACart $cart
+ */
 class APromotion {
 	protected $registry;
 	protected $customer_group_id;
@@ -87,7 +91,7 @@ class APromotion {
 
 	public function getProductQtyDiscount ( $product_id, $discount_quantity ) {
 		if ( empty($product_id) && empty($discount_quantity) ) {
-			return;
+			return 0.00;
 		}
 
 		$sql = "SELECT price
@@ -103,7 +107,8 @@ class APromotion {
 				
 		if ($product_discount_query->num_rows) {
 			return $product_discount_query->row['price'];
-		} 
+		}
+		return 0.00;
 	}
 
 	public function getProductDiscount($product_id) {
@@ -197,7 +202,7 @@ class APromotion {
 			if ($sort == 'pd.name') {
 				$sql .= " ORDER BY LCASE(" . $sort . ")";
 			} else {
-				$sql .= " ORDER BY " . $sort;
+				$sql .= " ORDER BY " . $this->db->escape($sort);
 			}
 		} else {
 			$sql .= " ORDER BY p.sort_order";	
@@ -242,7 +247,7 @@ class APromotion {
 
 	public function getCouponData($coupon_code) {
 		if ( empty ($coupon_code) ) {
-			return;
+			return array();
 		}
 	
 		$status = TRUE;

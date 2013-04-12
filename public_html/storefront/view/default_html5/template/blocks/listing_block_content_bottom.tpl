@@ -1,38 +1,56 @@
-<!-- Popular Brands-->
-<section id="popularbrands" class="container mt40">
-    <div class="container">
-<?php if ( $block_framed ) { ?>
-      <h1 class="heading1"><span class="maintext"><?php echo $heading_title; ?></span><span class="subtext"><?php echo $heading_subtitle; ?></span></h1>
-<?php } ?>
-    <div class="brandcarousalrelative">
-    <ul id="brandcarousal">
-	<?php
-		foreach ($content as $item) {
-		echo '<li>';
-		if ($item[ 'resource_code' ]) {
-		    echo $item[ 'resource_code' ];
-		} else {
-		
-		    if(!$item['resource_code']){
-		    	$image = '<img src="'. $item['image']['thumb_url']. '" alt="'. $item['name'] . '" />';
-		    	$image = '<a href="'. $item['image']['main_url']. '">' . $image . '</a>';
-		    	echo '<div class="image">'. $image .'</div><div style="clear: both;"></div>';
-		    	if($item['image']['title']){
-		    		echo '<div class="title"><a href="'.$item['image']['main_url'].'">'.$item['image']['title'].'</a></div>';
-		    	}
-		    }				
-		}
-		echo '</li>';
-		}
+<div class="side_block">
+	<?php if ($block_framed) { ?>
+		<h2><?php echo $heading_title; ?></h2>
+	<?php }	?>
 
-   ?>  
-   </ul>
-   <div class="clearfix"></div>
-   <a id="prev" class="prev" href="#">&lt;</a>
-   <a id="next" class="next" href="#">&gt;</a>  
-   </div> 
-<?php if ( $block_framed ) { ?>
-<?php } ?>
-	</div>
+	<ul class="side_prd_list">
+		<?php
+		if ($content) {
+			foreach ($content as $item) {
+
+
+					$item['image'] = $item['thumb']['thumb_html'];
+
+				$item['title'] = $item['name'];
+				$item['description'] = $item['model'];
+				$item['rating'] = ($item['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $item['rating'] . '.png') . "' alt='" . $item['stars'] . "' />" : '';
+
+				$item['info_url'] = $item['href'];
+				$item['buy_url'] = $item['add'];
+				if (!$display_price) {
+					$item['price'] = '';
+				}
+
+				$review = $button_write;
+				if ($item['rating']) {
+					$review = $item['rating'];
+				}
+
+				?>
+
+				<li class="span3">
+					<a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
+					<a class="productname" href="<?php echo $item['info_url'] ?>"><?php echo $item['title']?></a>
+					<span class="procategory"><?php echo $item['rating']?></span>
+			<?php if($item['price']){?>
+				   <span class="price">
+					<?php  if ($item['special']) { ?>
+						   <div class="pricenew"><?php echo $item['special']?></div>
+						   <div class="priceold"><?php echo $item['price']?></div>
+					<?php } else { ?>
+						   <div class="pricenew"><?php echo $item['price']?></div>
+					<?php } ?>
+				   </span>
+			<?php } ?>
+				</li>
+
+			<?php
+			}
+		}
+		?>
+	</ul>
+
+	<?php if ($block_framed) { ?>
+	<?php } ?>
+</div>
 </section>
-<!-- End Popular Brands-->

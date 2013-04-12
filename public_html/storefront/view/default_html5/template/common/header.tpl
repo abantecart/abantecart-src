@@ -46,9 +46,13 @@
 			<!-- header blocks placeholder (EOF) -->
 		</div>
 
+
 		<div id="categorymenu">
 			<?php echo ${$children_blocks[4]}; ?>
 		</div>
+		<div class="pull-left"><?php echo ${$children_blocks[5]}; ?></div>
+		<div class="pull-left"><?php echo ${$children_blocks[6]}; ?></div>
+		<div class="pull-right"><?php echo ${$children_blocks[7]}; ?></div>
 	</div>
 </header>
 <!-- Header End -->

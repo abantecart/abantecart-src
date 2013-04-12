@@ -20,6 +20,7 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+/** @noinspection PhpUndefinedClassInspection */
 class ControllerBlocksListingBlock extends AController {
 	public $data;
 	public function main() {
@@ -53,7 +54,11 @@ class ControllerBlocksListingBlock extends AController {
 				                                                    ))){
 					$this->_prepareProducts( $block_data['content'], $block_data['block_wrapper'] );
 					$template_overrided = true;
+				}else{
+					$block_data['content'] = $this->_prepareItems($block_data['content']);
+
 				}
+
 
 				$this->view->assign('block_framed',(int)$block_data['block_framed']);
 				$this->view->assign('content',$block_data['content']);
@@ -110,7 +115,8 @@ class ControllerBlocksListingBlock extends AController {
 								'thumb'   		=> $result['image'],
 								'image'   		=> $result['image'],
 								'href'    		=> $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode'),
-								'add'    		=> $add
+								'add'    		=> $add,
+								'item_name'		=> 'product'
 			);
 		}
 		$data_source= array('rl_object_name'=>'products','data_type'=>'product_id');
@@ -138,6 +144,31 @@ class ControllerBlocksListingBlock extends AController {
 		$this->view->setTemplate( $template );
 	}
 
+	protected function _prepareItems($content=array()){
+		if(isset($content[0]['category_id'])){
+				$item_name = 'category';
+		}else if(isset($content[0]['manufacturer_id'])){
+				$item_name = 'manufacturer';
+		}else if(isset($content[0]['product_id'])){
+				$item_name = 'product';
+		}else if(isset($content[0]['resource_id'])){
+				$item_name = 'resource';
+		}
+
+		foreach($content as &$cn){
+			$cn['item_name'] = $item_name;
+			switch($item_name){
+				case 'category':
+					$cn['href'] = $this->html->getSecureURL('product/category','&category_id='.$cn['category_id']);
+				break;
+				case 'manufacturer':
+					$cn['href'] = $this->html->getSecureURL('product/manufacturer','&manufacturer_id='.$cn['manufacturer_id']);
+				break;
+			}
+
+		}
+		return $content;
+	}
 
 	protected function _getBlockContent($instance_id) {
 		$this->data['block_info'] = $this->layout->getBlockDetails($instance_id);
