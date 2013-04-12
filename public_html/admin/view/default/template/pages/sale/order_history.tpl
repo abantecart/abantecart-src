@@ -76,6 +76,7 @@
             <td><?php echo $entry_append; ?></td>
             <td><?php echo $form['append']; ?></td>
           </tr>
+		  <?php echo $this->getHookVar('hk_order_comment_pre'); ?>
           <tr>
             <td><?php echo $entry_comment; ?></td>
             <td><?php echo $form['comment']; ?></td>
