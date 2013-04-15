@@ -7,7 +7,11 @@
 if ($products) {
     foreach ($products as $product) {
         $item = array();
-        $item['image'] = $product['thumb']['thumb_url'];
+		if( $item['thumb']['origin']=='internal'){
+			$item['image'] = '<img width="50" src="'. $product['thumb']['thumb_url'].'"/>';
+		}else{
+			$item['image'] = $product['thumb']['thumb_html'];
+		}
         $item['title'] = $product['name'];
         $item['description'] = $product['model'];
         $item['rating'] = ($product['rating']) ? "<img src='". $this->templateResource('/image/stars_'.$product['rating'].'.png') ."' alt='".$product['stars']."' />" : '';
@@ -25,16 +29,16 @@ if ($products) {
 	    
 ?>      
               <li>
-              	<a href="<?php echo $item['info_url']?>"><img width="50" src="<?php echo $item['image']?>"/></a>
+              	<a href="<?php echo $item['info_url']?>"><?php echo $item['image']?></a>
               	<a class="productname" href="<?php echo $item['info_url']?>"><?php echo $item['title']?></a>
                 <span class="procategory"><?php echo $item['rating']?></span>
                 <span class="price">
-        <?php  if ($product['special']) { ?>
-            <div class="pricenew"><?php echo $product['special']?></div>
-        	<div class="priceold"><?php echo $product['price']?></div>
-        <?php } else { ?>
-            <div class="pricenew"><?php echo $product['price']?></div>
-  		<?php } ?>
+				<?php  if ($product['special']) { ?>
+					<div class="pricenew"><?php echo $product['special']?></div>
+					<div class="priceold"><?php echo $product['price']?></div>
+				<?php } else { ?>
+					<div class="pricenew"><?php echo $product['price']?></div>
+				<?php } ?>
                 </span>
               </li>
 <?php

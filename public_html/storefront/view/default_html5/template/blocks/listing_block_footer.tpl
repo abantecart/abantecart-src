@@ -31,6 +31,9 @@
 				?>
 
 				<li class="span1">
+				<?php if ($item[ 'resource_code' ]) {
+						echo $item[ 'resource_code' ];
+					} else {?>
 					<a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
 					<a class="productname" href="<?php echo $item['info_url'] ?>"><?php echo $item['title']?></a>
 					<span class="procategory"><?php echo $item['rating']?></span>
@@ -43,7 +46,7 @@
 						   <div class="pricenew"><?php echo $item['price']?></div>
 					<?php } ?>
 				   </span>
-			<?php } ?>
+			<?php } } ?>
 				</li>
 
 			<?php
