@@ -21,7 +21,7 @@
 // AbanteCart Version
 define('VERSION', '1.0');
 // Required PHP Version
-define('MIN_PHP_VERSION', '5.1.0');
+define('MIN_PHP_VERSION', '5.2.0');
 
 // Detect if localhost is used.
 if (!isset($_SERVER['HTTP_HOST'])) {
@@ -76,11 +76,13 @@ if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == TRUE) {
     throw new AException(AC_ERR_REQUIREMENTS, MIN_PHP_VERSION . '+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 }
 
-// Register Globals
-if (ini_get('register_globals')) {
-	ini_set('session.use_cookies', 'On');
+//set ini parameters for session
 	ini_set('session.use_trans_sid', 'Off');
-		
+	ini_set('session.use_cookies', 'On');
+	ini_set('session.cookie_httponly', 'On');
+// Process Global data if Register Globals enabled
+if (ini_get('register_globals')) {
+
 	session_set_cookie_params(0, '/');
 	session_start();
 	

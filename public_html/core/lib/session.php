@@ -21,7 +21,6 @@ if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
 
-
 final class ASession {
 	public $data = array();
 	public $ses_name = SESSION_ID;
@@ -50,8 +49,6 @@ final class ASession {
 	}
 
 	public function init( $session_name ) {
-
-
 		$path = dirname($_SERVER[ 'PHP_SELF' ]);
 		session_set_cookie_params(0,
 		    $path,

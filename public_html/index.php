@@ -23,10 +23,6 @@ define('MIN_PHP_VERSION', '5.2.0');
 if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == TRUE) {
     die( MIN_PHP_VERSION . '+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 }
-//set ini parameters for session
-ini_set('session.use_trans_sid', 0);
-ini_set('session.use_cookies', 'On');
-ini_set('session.cookie_httponly', 'On');
 
 // Load Configuration
 // Real path (operating system web root) to the directory where abantecart is installed

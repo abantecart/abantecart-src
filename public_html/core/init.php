@@ -99,8 +99,12 @@ if (defined('ADMIN_PATH') && (isset($_GET[ 's' ]) || isset($_POST[ 's' ])) && ($
 }
 
 try {
+	//set ini parameters for session
+	ini_set('session.use_trans_sid', 'Off');
+	ini_set('session.use_cookies', 'On');
+	ini_set('session.cookie_httponly', 'On');
 
-// Register Globals
+	// Process Global data if Register Globals enabled
 	if (ini_get('register_globals')) {
 
 	        $path = dirname($_SERVER[ 'PHP_SELF' ]);
