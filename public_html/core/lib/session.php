@@ -50,10 +50,8 @@ final class ASession {
 	}
 
 	public function init( $session_name ) {
-		ini_set('session.use_cookies', 'On');
-		ini_set('session.use_trans_sid', 'Off');
-		
-		ini_set('session.cookie_httponly', 'On');
+
+
 		$path = dirname($_SERVER[ 'PHP_SELF' ]);
 		session_set_cookie_params(0,
 		    $path,
