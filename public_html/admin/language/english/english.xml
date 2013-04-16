@@ -217,6 +217,10 @@
 		<value><![CDATA[Add Order History]]></value>
 	</definition>
 	<definition>
+		<key>button_actas</key>
+		<value><![CDATA[Act on behalf of]]></value>
+	</definition>
+	<definition>
 		<key>button_approve</key>
 		<value><![CDATA[Approve]]></value>
 	</definition>

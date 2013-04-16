@@ -313,7 +313,7 @@ try {
 	$registry->set('log', $log);
 
 // Session
-	$session = new ASession();
+	$session = new ASession(SESSION_ID);
 	$registry->set('session', $session);
 
 

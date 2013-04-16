@@ -213,6 +213,10 @@
 		<value><![CDATA[Añadir historial de pedidos]]></value>
 	</definition>
 	<definition>
+		<key>button_actas</key>
+		<value><![CDATA[Actuar en nombre de]]></value>
+	</definition>	
+	<definition>
 		<key>button_approve</key>
 		<value><![CDATA[Aprobar]]></value>
 	</definition>

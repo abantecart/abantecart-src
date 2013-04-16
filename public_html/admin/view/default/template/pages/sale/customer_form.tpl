@@ -74,6 +74,9 @@ function showZones(id, data)
 	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
 	    <?php endif; ?>
         <?php echo $form_language_switch; ?>
+	  	<div class="buttons">
+	  	<?php echo $button_actas; ?>
+	  	</div>
     </div>
   </div></div></div>
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">

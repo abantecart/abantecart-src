@@ -442,6 +442,29 @@ INSERT INTO `ac_customer_groups` (`customer_group_id`, `name`) VALUES
 
 
 --
+-- DDL for table table `ac_customer_transactions`
+--
+
+DROP TABLE IF EXISTS `ac_customer_transactions`;
+CREATE TABLE `ac_customer_transactions` (
+  `customer_transaction_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `order_id` int(11),
+  `transaction_type` varchar(32) COLLATE utf8_bin NOT NULL,
+  `description` text COLLATE utf8_bin NOT NULL,
+  `comments` text COLLATE utf8_bin NOT NULL,
+  `debit`  decimal(15,4) NOT NULL,
+  `credit` decimal(15,4) NOT NULL,  
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+  PRIMARY KEY (`customer_transaction_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
+--
 -- DDL for table `download`
 --
 DROP TABLE IF EXISTS `ac_downloads`;

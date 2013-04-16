@@ -75,6 +75,11 @@ class ControllerPagesSaleCustomer extends AController {
 			'multiselect' => 'true',
             // actions
             'actions' => array(
+                'clone' => array(
+                    'text' => $this->language->get('button_actas'),
+				    'href' => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id=%ID%'),
+				    'target' => 'new',
+                ),
                 'approve' => array(
                     'text' => $this->language->get('button_approve'),
 				    'href' => $this->html->getSecureURL('sale/customer/approve', '&customer_id=%ID%')
@@ -312,6 +317,13 @@ class ControllerPagesSaleCustomer extends AController {
       		'separator' => ' :: '
    		 ));
 
+        $this->data['button_actas'] = $this->html->buildButton(array(
+		    'text' => $this->language->get('button_actas'),
+		    'style' => 'button1',
+			'href' => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id='.$this->request->get['customer_id']),	
+			'target' => 'new'	    
+	    ));
+
 		$form->setForm(array(
 		    'form_name' => 'cgFrm',
 			'update' => $this->data['update'],
@@ -406,6 +418,7 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->redirect($this->html->getSecureURL('sale/customer'));
 		}
 
+		$this->model_sale_customer->editCustomerField($this->request->get['customer_id'], 'approved', true );
 		$this->_sendMail($this->request->get['customer_id']);
 
 		//update controller data
@@ -414,6 +427,23 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->redirect($this->html->getSecureURL('sale/customer'));
 	} 
 	 
+	public function actonbehalf() {
+
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+    	
+		if (isset($this->request->get['customer_id'])) {
+			session_write_close();
+			$session = new ASession('PHPSESSID_AC_SF');
+ 			$session->data['customer_id'] = $this->request->get['customer_id'];
+ 			session_write_close();
+			$this->redirect($this->html->getCatalogURL('account/account'));
+		}
+
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->redirect($this->html->getSecureURL('sale/customer'));
+	} 
+	 	 
   	private function _validateForm($customer_id = null) {
     	if (!$this->user->canModify('sale/customer')) {
       		$this->error['warning'] = $this->language->get('error_permission');
@@ -489,8 +519,6 @@ class ControllerPagesSaleCustomer extends AController {
 			// send email to customer
 			$customer_info = $this->model_sale_customer->getCustomer($id);
 
-
-
 			if ($customer_info && !$customer_info['approved'] && $this->request->post[ 'approved' ]) {
 
 				$this->loadLanguage('mail/customer');
@@ -512,7 +540,6 @@ class ControllerPagesSaleCustomer extends AController {
 				$message .= $this->language->get('text_services') . "\n\n";
 				$message .= $this->language->get('text_thanks') . "\n";
 				$message .= $store_name;
-
 				$mail = new AMail( $this->config );
 				$mail->setTo($customer_info['email']);
 				$mail->setFrom($this->config->get('store_main_email'));

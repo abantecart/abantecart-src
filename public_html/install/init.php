@@ -196,7 +196,7 @@ $registry->set('load', $loader);
 $request = new ARequest();
 $registry->set('request', $request);
 
-$session = new ASession();
+$session = new ASession(SESSION_ID);
 $registry->set('session', $session);
 
  

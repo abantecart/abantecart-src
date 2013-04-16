@@ -1110,6 +1110,7 @@ class ButtonHtmlElement extends HtmlElement {
 				'href' => $this->href,
 				'href_class' => $this->href_class,
 				'icon' => $this->icon,
+				'target' => $this->target
 			)
 		);
 		$return = $this->view->fetch('form/button.tpl');

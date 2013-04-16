@@ -24,22 +24,13 @@ if (!defined('DIR_CORE')) {
 
 final class ASession {
 	public $data = array();
+	public $ses_name = SESSION_ID;
 
-	public function __construct() {
-		if (!session_id()) {
-
-			ini_set('session.use_cookies', 'On');
-			ini_set('session.use_trans_sid', 'Off');
-
-			ini_set('session.cookie_httponly', 'On');
-			$path = dirname($_SERVER[ 'PHP_SELF' ]);
-			session_set_cookie_params(0,
-				$path,
-				null,
-				(defined('HTTPS') && HTTPS),
-				true);
-			session_name(SESSION_ID);
-			session_start();
+	public function __construct( $ses_name = '' ) {
+	
+		if (!session_id() || has_value($ses_name)) {
+			$this->ses_name = $ses_name;
+			$this->init( $this->ses_name );
 		}
 
 		$registry = Registry::getInstance();
@@ -58,8 +49,23 @@ final class ASession {
 		$this->data =& $_SESSION;
 	}
 
+	public function init( $session_name ) {
+		ini_set('session.use_cookies', 'On');
+		ini_set('session.use_trans_sid', 'Off');
+		
+		ini_set('session.cookie_httponly', 'On');
+		$path = dirname($_SERVER[ 'PHP_SELF' ]);
+		session_set_cookie_params(0,
+		    $path,
+		    null,
+		    (defined('HTTPS') && HTTPS),
+		    true);
+		session_name( $session_name );
+		session_start();
+	}
+
 	public function clear() {
-		session_name(SESSION_ID);
+		session_name($this->ses_name);
 		session_start();
 		session_unset();
 		session_destroy();
