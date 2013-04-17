@@ -146,7 +146,8 @@ var loadSubform = function (){
 						filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
 						filebrowserWindowWidth : '920',
 						filebrowserWindowHeight : '520',
-						language: '<?php echo $language_code; ?>'
+						language: '<?php echo $language_code; ?>',
+						startupMode: 'source'
 					});
 			}
         }
