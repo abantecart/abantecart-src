@@ -33,7 +33,7 @@
   <section class="copyrightbottom">
     <div class="container">
       <div class="row">
-        <div class="span4 pull-left"> 
+        <div class="span4 pull-left">
         	<?php echo ${$children_blocks[6]}; ?>
          </div>
          <div class="span4 textright"> 

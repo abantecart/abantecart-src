@@ -259,13 +259,30 @@ input:focus:invalid, textarea:focus:invalid, select:focus:invalid {
 
 .top-search input {
 	width: 210px;
-	height: 24px;
+	height: 25px;
 	border: 4px solid #F5F5F5;
 	padding: 5px;
 }
 
+.top-search ul.dropdown.dropdown-menu.span2.noclose> li.dropdown-submenu.hover{
+	height: 50px;
+}
+
+.top-search ul.dropdown.dropdown-menu.span2.noclose> li.dropdown-submenu.dropdown-submenu > a:after {
+   border: 0;
+}
+
+
+
+.top-search .submenu.dropdown-menu{
+	left: 0%;
+	top: 50px;
+}
+
+
 .headerdetails {
-	padding: 20px 0 40px 272px;
+	padding: 14px 0 0 15px;
+	float: left;
 }
 
 li.dropdown {
@@ -356,17 +373,19 @@ li.dropdown {
 }
 
 .headerdetails ul.nav.language li.dropdown {
-	border: 1px solid #f2f2f2;
+	border: 4px solid #f2f2f2;
 	padding: 7px 20px;
 	display: inline-block;
 	margin-right: 15px;
-	text-transform: uppercase
+	text-transform: uppercase;
+	background-color: #ffffff;
 }
 
 .headerdetails ul.nav.topcart li.dropdown {
-	border: 1px solid #f2f2f2;
+	border: 4px solid #f2f2f2;
 	display: inline-block;
-	text-transform: uppercase
+	text-transform: uppercase;
+	background-color: #ffffff;
 }
 
 .headerdetails .topcall {
@@ -532,7 +551,7 @@ ul.categorymenu > li ul > li img {
 /* ------------ otherddetails ------------ */
 .otherddetails {
 	border: 1px solid #dddddd;
-	margin: 30px auto 10px auto
+	margin: 0px auto 10px auto
 }
 
 .otherddetails .otherddetailspart {
@@ -616,7 +635,8 @@ ul.categorymenu > li ul > li img {
 
 /* ------------ Featured Proudcts ------------ */
 #categorymenu {
-	margin: 20px 0 30px 0
+	margin: 20px 0 20px 0;
+	clear: both;
 }
 
 #featured:after, #latest:after, #related:after, #category:after, #popularbrands:after, #newslettersignup .container:after {
@@ -901,6 +921,9 @@ ul.categorymenu > li ul > li img {
 #popularbrands.responsive {
 	width: auto;
 	margin-left: 0;
+}
+#popularbrands img.internal {
+	height: 56px;
 }
 
 .clearfix, .clr_both {
@@ -1195,7 +1218,7 @@ ul.productpagecart li {
 
 .quantitybox {
 	background: #fff;
-	border: 1px solid #ccc;
+	border: 0;
 	padding: 15px 15px 8px 0;
 	display: block;
 	margin: 10px 0 10px 0;
@@ -1297,6 +1320,9 @@ h1.productname {
 	border-radius: 3px 3px 3px 3px;
 	border-top: none;
 	padding: 15px
+}
+.tab-content div.content div.control-group {
+	clear: both;
 }
 
 ul.reveiw {
@@ -2034,6 +2060,33 @@ a.clostalert {
 .footerlinks ul li:first-child a {
 	padding-left: 0
 }
+.headerlinks {
+	padding: 7px 0 0px;
+	background: #ffffff;
+	color: #969ba4
+}
+
+.headerlinks ul li a {
+	color: #969ba4;
+	padding: 5px 10px 5px 10px;
+}
+
+.headerlinks ul li a:hover {
+	color: #000000;
+}
+
+.headerlinks .info {
+	float: left;
+	margin-top: 5px
+}
+
+.headerlinks ul li {
+	display: inline-block
+}
+
+.footerlinks ul li:first-child a {
+	padding-left: 0
+}
 
 /* footersocial  */
 .footersocial {
@@ -2613,7 +2666,25 @@ a.clostalert {
 /* END @media (max-width: 480px) */
 
 /* ------------ bootstrap overwrite ------------ */
-textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus {
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus,
+.headerdetails ul.nav.language li.dropdown:hover,
+.headerdetails ul.nav.topcart li.dropdown:hover
+{
 	border-color: rgba(242, 92, 39, 0.6);
 	outline: 0;
 	outline: thin dotted  \9; /* IE6-9 */

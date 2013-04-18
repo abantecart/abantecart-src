@@ -34,13 +34,13 @@
 	<div class="container">
 		<div class="row">
 			<?php if ( !empty(${$column_left} ) ) { ?>
-			<div class="span3 mt20">
+			<div class="span3">
 			<?php echo ${$column_left}; ?>
 			</div>
 			<?php } ?>
 
 			<?php $span = 12 - 3 * ($present_columns -1); ?>
-			<div class="span<?php echo $span ?> mt20">	
+			<div class="span<?php echo $span ?> mt20">
 			<?php if ( !empty( ${$content_top} ) ) { ?>
 			<!-- content top blocks placeholder -->
 			<?php echo ${$content_top}; ?>

@@ -22,6 +22,16 @@ $(document).ready(function() {
   		return false;
 	});
 
+    $('#search-category li').click(function(e){
+        var cat_id = $(this).find('a').attr('id').replace('category_','0,');
+        $('#filter_category_id').val(cat_id);
+        $('#category_selected').html($(this).find('a').html());
+        e.stopPropagation();
+        $('#filter_keyword').focus();
+    });
+
+
+
 	if (!route) {
 		$('#tab_home').addClass('selected');
 	} else {

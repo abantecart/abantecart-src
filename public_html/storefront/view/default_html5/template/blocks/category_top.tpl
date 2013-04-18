@@ -1,6 +1,23 @@
 <nav class="subnav">
 	<ul class="nav-pills categorymenu">
-		<li><a class="active" href="<?php echo HTTP_SERVER; ?>"><?php echo $text_home; ?></a></li>
+		<li><a class="active" href="<?php echo HTTP_SERVER; ?>"><?php echo $text_home; ?></a>
+		<div>
+			<ul id="main_menu" class="nav">
+			    <?php
+				$storefront_menu = $this->session->data['storefront_menu'];
+
+
+				foreach($storefront_menu as $i=>$menu_item){
+					if($menu_item['id']=='home'){
+						unset($storefront_menu[$i]);
+						break;
+					}
+				}?>
+				<!-- Top Nav Start -->
+				<?php echo  renderStoreMenu( $storefront_menu ); ?>
+			</ul>
+		</div>
+		</li>
 		<?php if ($categories) { ?>
 			<?php foreach ($categories as $category) { ?>
 				<li><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a>
