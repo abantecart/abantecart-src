@@ -21,11 +21,19 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
-function renderStoreMenu( $menu, $level = 0 )
-{
+function renderStoreMenu( $menu, $level = 0 ){
+	$menu = (array)$menu;
     $result = '';
     if ( $level ) $result .= "<ul>\r\n";
+	$registry = Registry::getInstance();
+	$logged = $registry->get('customer')->isLogged();
+
     foreach( $menu as $item ) {
+		if(($logged && $item['id']=='login')
+			||	(!$logged && $item['id']=='logout')){
+			continue;
+		}
+
         $id = ( empty($item['id']) ? '' : ' id="menu_'.$item['id'].'" ' ); // li ID
         $class = $level != 0 ? empty($item['children']) ? '' : ' class="parent menu_'.$item['id'].'" ' : ' class="top menu_'.$item['id'].'" '; //a class
         $href = empty($item['href']) ? '' : ' href="'.$item['href'].'" '; //a href
@@ -42,8 +50,7 @@ function renderStoreMenu( $menu, $level = 0 )
     return $result;
 }
 
-function renderAdminMenu( $menu, $level = 0 )
-{
+function renderAdminMenu( $menu, $level = 0 ){
     $result = '';
     if ( $level ) $result .= "<ul>\r\n";
     foreach( $menu as $item ) {

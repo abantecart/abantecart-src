@@ -20,6 +20,7 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+/** @noinspection PhpUndefinedClassInspection */
 class ControllerCommonMenu extends AController {
 
 	private $menu_items;
@@ -36,10 +37,14 @@ class ControllerCommonMenu extends AController {
 		if(!$this->menu_items){
 			$menu = new AMenu_Storefront();
 			$this->menu_items = $menu->getMenuItems();
+			$this->menu_items = $this->_buildMenu('');
+			//writes into cache result of calling _buildMenu func!
 			$this->cache->set($cache_name, $this->menu_items, $this->config->get('storefront_language_id'));
 		}
-		$storefront_menu = $this->_buildMenu('');
 
+		$storefront_menu = $this->menu_items;
+
+		$this->session->data['storefront_menu'] = $storefront_menu;
 		$this->view->assign('storemenu', $storefront_menu);
 		$this->processTemplate('common/menu.tpl');
 
@@ -51,17 +56,12 @@ class ControllerCommonMenu extends AController {
 		$menu = array();
 		if ( empty($this->menu_items[$parent]) ) return $menu;
 
-		$lang_id = $this->config->get('storefront_language_id');
-		$logged = $this->customer->isLogged();
+		$lang_id = (int)$this->config->get('storefront_language_id');
 
-		$resource = new AResource('image');
 
 		foreach ( $this->menu_items[$parent] as $item ) {
-			if(($logged && $item['item_id']=='login')
-				||	(!$logged && $item['item_id']=='logout')){
-				continue;
-			}
-			$href = '';
+
+
 			if( preg_match ( "/^http/i", $item ['item_url'] ) ){
 				$href = $item ['item_url'];
 			} else {
@@ -80,4 +80,3 @@ class ControllerCommonMenu extends AController {
 		return $menu;
 	}
 }
-?>
