@@ -8,6 +8,22 @@ ALTER TABLE `ac_url_aliases` MODIFY COLUMN `keyword` varchar(255) NOT NULL COMME
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('general', 'config_product_default_sort_order', 'sort_order-ASC');
 
+CREATE TABLE `ac_customer_transactions` (
+  `customer_transaction_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `order_id` int(11),
+  `transaction_type` varchar(32) COLLATE utf8_bin NOT NULL,
+  `description` text COLLATE utf8_bin NOT NULL,
+  `comments` text COLLATE utf8_bin NOT NULL,
+  `debit`  decimal(15,4) NOT NULL,
+  `credit` decimal(15,4) NOT NULL,  
+  `created_by` tinyint(1) DEFAULT NULL,
+  `created_by_id` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+  PRIMARY KEY (`customer_transaction_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 -- Install default_html5 template
 -- ??? Need solution for upgrade and layout ID conflicts
 
@@ -145,4 +161,3 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (25, 6, 'blocks/newsletter_signup_footer.tpl', now() );
 
 UPDATE `ac_block_templates` set template = 'blocks/html_block_footer.tpl' where `block_id` = 17 and `parent_block_id` = 8;
-

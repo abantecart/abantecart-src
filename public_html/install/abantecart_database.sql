@@ -455,10 +455,9 @@ CREATE TABLE `ac_customer_transactions` (
   `comments` text COLLATE utf8_bin NOT NULL,
   `debit`  decimal(15,4) NOT NULL,
   `credit` decimal(15,4) NOT NULL,  
-  `created_by` int(11) NOT NULL,
-  `updated_by` int(11) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_by` tinyint(1) DEFAULT NULL,
+  `created_by_id` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
   PRIMARY KEY (`customer_transaction_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;

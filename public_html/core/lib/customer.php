@@ -220,5 +220,74 @@ final class ACustomer {
   
   	}
   	
+  	/* Customer Transactions Section. Track account balance transactions.  */
+ 
+	/**
+	* Return customer account balance based on debit/credit culcualtion
+	*@param none
+	*@return float / bool
+	*/ 	
+  	public function getBalance() {
+  		if ( !$this->isLogged ) {
+  			return false;
+  		}
+  	
+  		$query = $this->db->query("SELECT sum(debit) as total_debit, sum(credit) as total_credit FROM " . $this->db->table("customer_transactions") . " WHERE customer_id = '" . (int)$this->getId() . "'");
+  	
+		return $query->row['total_debit'] - $query->row['total_credit'];
+  	} 
+  	
+	/**
+	* Record debit transaction 
+	*@param array( amount, order_id, transaction_type, description, comments, creator)
+	*@return bool
+	*/ 	
+  	public function debitTransaction( $tr_details ) {
+		return $this->_record_transaction('debit', $tr_details);		
+  	} 
+  	
+	/**
+	* Record credit transaction 
+	*@param array( amount, order_id, transaction_type, description, comments, creator)
+	*@return bool
+	*/ 	
+  	public function creditTransaction( $tr_details ) {	
+		return $this->_record_transaction('credit', $tr_details);	
+  	} 
+  	
+  	private function _record_transaction ( $type, $tr_details) {
+  		$amount = '';
+  		if ( !$this->isLogged ) {
+  			return false;
+  		}
+		if ( !has_value($tr_details['transaction_type']) || !has_value($tr_details['created_by_id'])  ) {
+  			return false;
+  		}
+
+  		if ( $type == 'debit' ) {
+  			$amount = 'debit = ' . $this->db->escape($data['amount']);
+  		} else if ( $type == 'credit' ) {
+  			$amount = 'credit = ' . $this->db->escape($data['amount']);
+  		} else {
+  			return false;
+  		}
+  	
+      	$this->db->query("INSERT INTO " . $this->db->table("customer_transactions") . "
+      	                SET customer_id 		= '" . (int)$this->getId() . "',
+      	                	order_id 			= '" . (int)$tr_details['order_id'] . "',
+      	                    transaction_type 	= '" . $this->db->escape($tr_details['transaction_type']) . "',
+      	                    description 		= '" . $this->db->escape($tr_details['description']) . "',
+      	                    comments 			= '" . $this->db->escape($tr_details['comments']) . "',
+							'. $amount . '
+      	                    created_by 			= '" . (int)$tr_details['created_by'] . "',
+      	                    created_by_id 			= '" . (int)$tr_details['created_by_id'] . "',
+      	                    created = NOW()");
+  	
+  		if ( $this->db->getLastId() ) {
+  			return true;	
+  		}
+  		return false;
+  	}
+  		
 }
 ?>
