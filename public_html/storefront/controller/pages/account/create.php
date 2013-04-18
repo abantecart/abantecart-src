@@ -62,36 +62,33 @@ class ControllerPagesAccountCreate extends AController {
 				}
 				
 				$this->model_account_customer->addCustomer($request_data);
-	
-				unset($this->session->data['guest']);
-	
-				$this->customer->login($request_data['loginname'], $request_data['password']);
-				
-				$this->loadLanguage('mail/account_create');
-				
-				$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
-				
-				$message = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
-				
-				if (!$this->config->get('config_customer_approval')) {
-					$message .= $this->language->get('text_login') . "\n";
-				} else {
-					$message .= $this->language->get('text_approval') . "\n";
-				}
-				
-				$message .= $this->html->getSecureURL('account/login') . "\n\n";
-				$message .= $this->language->get('text_services') . "\n\n";
-				$message .= $this->language->get('text_thanks') . "\n";
-				$message .= $this->config->get('store_name');
-				
-				$mail = new AMail( $this->config );
-				$mail->setTo($this->request->post['email']);
-		  		$mail->setFrom($this->config->get('store_main_email'));
-		  		$mail->setSender($this->config->get('store_name'));
-		  		$mail->setSubject($subject);
-				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
-	      		$mail->send();
 
+				//log in only customer, not subscriber!
+				if(!$subscriber){
+					unset($this->session->data['guest']);
+					$this->customer->login($request_data['loginname'], $request_data['password']);
+					$this->loadLanguage('mail/account_create');
+					$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
+					$message = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
+					if (!$this->config->get('config_customer_approval')) {
+						$message .= $this->language->get('text_login') . "\n";
+					} else {
+						$message .= $this->language->get('text_approval') . "\n";
+					}
+
+					$message .= $this->html->getSecureURL('account/login') . "\n\n";
+					$message .= $this->language->get('text_services') . "\n\n";
+					$message .= $this->language->get('text_thanks') . "\n";
+					$message .= $this->config->get('store_name');
+
+					$mail = new AMail( $this->config );
+					$mail->setTo($this->request->post['email']);
+					$mail->setFrom($this->config->get('store_main_email'));
+					$mail->setSender($this->config->get('store_name'));
+					$mail->setSubject($subject);
+					$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+					$mail->send();
+				}
 				$this->extensions->hk_UpdateData($this,__FUNCTION__);
 		  		$this->redirect($this->html->getSecureURL('account/success'));
 	  		}

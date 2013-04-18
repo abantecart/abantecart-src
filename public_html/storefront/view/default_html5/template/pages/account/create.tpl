@@ -29,7 +29,7 @@
 			$field_list = array();
 			if ($noemaillogin) { array_push($field_list, 'loginname'); }
 			array_push($field_list, 'firstname', 'lastname', 'email', 'telephone', 'fax');
-			$subscribe_hide = array('telephone', 'fax');
+			$subscribe_hide = array('loginname','telephone', 'fax');
 			foreach ($field_list as $field_name) {
 		?>
 			<div class="control-group <?php echo (${'error_'.$field_name}?'error':'').' '. ($subscriber && in_array($field_name,$subscribe_hide) ? 'hide' :'')?>">
