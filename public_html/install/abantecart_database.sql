@@ -7415,3 +7415,20 @@ CREATE TABLE `ac_encryption_keys` (
   PRIMARY KEY (`key_id`),
   UNIQUE KEY `encryption_keys_key_name` (`key_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `ac_transactions`;
+CREATE TABLE `ac_transactions` (
+  `transaction_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL DEFAULT '0',
+  `created_by` int(11) NOT NULL  COMMENT 'user_id for admin, customer_id for storefront section',
+  `section` smallint(1) NOT NULL DEFAULT '0' COMMENT '1 - admin, 0 - customer',
+  `credit` float DEFAULT '0',
+  `debit` float DEFAULT '0',
+  `type` varchar(255) NOT NULL DEFAULT '' COMMENT 'text type of transaction',
+  `comment` text COMMENT 'comment for internal use',
+  `description` text COMMENT 'text for customer',
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `create_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`transaction_id`)
+)ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+

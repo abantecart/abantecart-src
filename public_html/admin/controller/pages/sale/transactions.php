@@ -20,18 +20,19 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
-class ControllerPagesSaleCustomer extends AController {
+class ControllerPagesSaleTransactions extends AController {
 	public $data = array();
 	private $error = array();
 	private $fields = array('loginname', 'firstname', 'lastname', 'email', 'telephone', 'fax', 'newsletter', 'customer_group_id',
         'status', 'approved', 'password');
-  
+
   	public function main() {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->loadLanguage('sale/customer');
 
-		$this->document->setTitle( $this->language->get('heading_title') );
+		$this->document->setTitle( $this->language->get('heading_title_transactions') );
 
 		$this->document->initBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('index/home'),
@@ -39,8 +40,13 @@ class ControllerPagesSaleCustomer extends AController {
       		'separator' => FALSE
    		 ));
    		$this->document->addBreadcrumb( array (
-       		'href'      => $this->html->getSecureURL('sale/customer'),
+       		'href'      => $this->html->getSecureURL('sale/customer/update','&id='.$this->request->get['customer_id']),
        		'text'      => $this->language->get('heading_title'),
+      		'separator' => ' :: '
+   		 ));
+   		$this->document->addBreadcrumb( array (
+       		'href'      => $this->html->getSecureURL('sale/transactions','&customer_id='.$this->request->get['customer_id']),
+       		'text'      => $this->language->get('heading_title_transactions'),
       		'separator' => ' :: '
    		 ));
 
@@ -62,127 +68,120 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->data['success'] = '';
 		}
 
-		$grid_settings = array(
+		$this->data['grid_settings'] = array(
 			//id of grid
-            'table_id' => 'customer_grid',
+            'table_id' => 'transactions_grid',
             // url to load data from
-			'url' => $this->html->getSecureURL('listing_grid/customer'),
-			'editurl' => $this->html->getSecureURL('listing_grid/customer/update'),
-			'update_field' => $this->html->getSecureURL ( 'listing_grid/customer/update_field' ),
-            'sortname' => 'name',
-            'sortorder' => 'asc',
-			'multiselect' => 'true',
+			'url' => $this->html->getSecureURL('listing_grid/transactions','&customer_id='.$this->request->get['customer_id']),
+            'sortname' => 'create_date',
+            'sortorder' => 'desc',
+			'multiselect' => 'false',
             // actions
             'actions' => array(
-                'clone' => array(
-                    'text' => $this->language->get('button_actas'),
-				    'href' => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id=%ID%'),
-				    'target' => 'new',
-                ),
-                'approve' => array(
-                    'text' => $this->language->get('button_approve'),
-				    'href' => $this->html->getSecureURL('sale/customer/approve', '&customer_id=%ID%')
-                ),
-	            'edit' => array(
-                    'text' => $this->language->get('text_edit'),
-				    'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%')
-                ),
-	            'save' => array(
-                    'text' => $this->language->get('button_save'),
-                ),
-                'delete' => array(
-                    'text' => $this->language->get('button_delete'),
+                'view' => array(
+                    'text' => $this->language->get('button_view'),
+				    'href' => 'Javascript:void(0);',
                 ),
             ),
 		);
 
-		$grid_settings['colNames'] = array(
-			$this->language->get('column_name'),
-			$this->language->get('column_email'),
-			$this->language->get('column_group'),
-			$this->language->get('column_status'),
-			$this->language->get('column_approved'),
+		$this->data['grid_settings']['colNames'] = array(
+			$this->language->get('column_create_date'),
+			$this->language->get('column_created_by'),
+			$this->language->get('column_credit'),
+			$this->language->get('column_debit'),
+			$this->language->get('column_transaction_type'),
 		);
-		$grid_settings['colModel'] = array(
-			array( 'name' => 'name', 'index' => 'name', 'width' => 160, 'align' => 'center', ),
-			array( 'name' => 'email', 'index' => 'email', 'width' => 140, 'align' => 'center', ),
-			array( 'name' => 'customer_group', 'index' => 'customer_group', 'width' => 80, 'align' => 'center', 'search' => false ),
-			array( 'name' => 'status', 'index' => 'status', 'width' => 120, 'align' => 'center', 'search' => false ),
-			array( 'name' => 'approved', 'index' => 'approved', 'width' => 110, 'align' => 'center', 'search' => false ),
+		$this->data['grid_settings']['colModel'] = array(
+			array( 'name' => 'create_date',
+					'index' => 'create_date',
+					'width' => 120,
+					'align' => 'center',
+					'search' => false),
+
+			array( 'name' => 'user',
+					'index' => 'user',
+					'width' => 140,
+					'align' => 'left', ),
+
+			array( 'name' => 'credit',
+					'index' => 'credit',
+					'width' => 50,
+					'align' => 'center'),
+
+			array(  'name' => 'debit',
+					'index' => 'debit',
+					'width' => 50,
+					'align' => 'center'),
+
+			array(  'name' => 'type',
+					'index' => 'type',
+					'width' => 110,
+					'align' => 'center'),
 		);
 
-		$this->loadModel('sale/customer_group');
-		$results = $this->model_sale_customer_group->getCustomerGroups();
-		$groups = array( '' => $this->language->get('text_select_group'), );
-		foreach ( $results as $item) {
-			$groups[ $item['customer_group_id'] ] = $item['name'];
-		}
-
-		$statuses = array(
-			'' => $this->language->get('text_select_status'),
-			1 => $this->language->get('text_enabled'),
-			0 => $this->language->get('text_disabled'),
-		);
-
-		$approved = array(
-			'' => $this->language->get('text_select_approved'),
-			1 => $this->language->get('text_yes'),
-			0 => $this->language->get('text_no'),
-		);
+		$this->loadModel('sale/customer');
 
 		$form = new AForm();
 	    $form->setForm(array(
-		    'form_name' => 'customer_grid_search',
+		    'form_name' => 'transactions_grid_search',
 	    ));
 
-	    $grid_search_form = array();
-        $grid_search_form['id'] = 'customer_grid_search';
-        $grid_search_form['form_open'] = $form->getFieldHtml(array(
+	    $this->data['grid_search_form'] = array();
+        $this->data['grid_search_form']['id'] = 'transactions_grid_search';
+        $this->data['grid_search_form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
-		    'name' => 'customer_grid_search',
+		    'name' => 'transactions_grid_search',
 		    'action' => '',
 	    ));
-        $grid_search_form['submit'] = $form->getFieldHtml(array(
+        $this->data['grid_search_form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
 		    'name' => 'submit',
 		    'text' => $this->language->get('button_go'),
 		    'style' => 'button1',
 	    ));
-		$grid_search_form['reset'] = $form->getFieldHtml(array(
+		$this->data['grid_search_form']['reset'] = $form->getFieldHtml(array(
 		    'type' => 'button',
 		    'name' => 'reset',
 		    'text' => $this->language->get('button_reset'),
 		    'style' => 'button2',
 	    ));
+		$this->data['js_date_format'] = format4Datepicker($this->language->get('date_format_short'));
+        $this->data['grid_search_form']['fields']['date_start'] = $form->getFieldHtml(array(
+            'type' => 'input',
+            'name' => 'date_start',
+            'default' => dateInt2Display(time()),
+        ));
 
-		$grid_search_form['fields']['customer_group'] = $form->getFieldHtml(array(
-		    'type' => 'selectbox',
-		    'name' => 'customer_group',
-            'options' => $groups,
-	    ));
-        $grid_search_form['fields']['status'] = $form->getFieldHtml(array(
-		    'type' => 'selectbox',
-		    'name' => 'status',
-            'options' => $statuses,
-	    ));
-		$grid_search_form['fields']['approved'] = $form->getFieldHtml(array(
-		    'type' => 'selectbox',
-		    'name' => 'approved',
-            'options' => $approved,
-	    ));
+        $this->data['grid_search_form']['fields']['date_end'] = $form->getFieldHtml(array(
+            'type' => 'input',
+            'name' => 'date_end',
+            'default' => dateInt2Display(time()),
+        ));
 
-		$grid_settings['search_form'] = true;
+		$this->data['grid_settings']['search_form'] = true;
 
 
-        $grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
+        $grid = $this->dispatch('common/listing_grid', array( $this->data['grid_settings'] ) );
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
-		$this->view->assign ( 'search_form', $grid_search_form );
+		$this->view->assign ( 'search_form', $this->data['grid_search_form'] );
 
-		$this->document->setTitle( $this->language->get('heading_title') );
-		$this->view->assign( 'insert', $this->html->getSecureURL('sale/customer/insert') );
-		$this->view->assign('help_url', $this->gen_help_url('customer_listing') );
+		$this->document->setTitle( $this->language->get('heading_title_transactions') );
+		$this->view->assign( 'popup_action', $this->html->getSecureURL('listing_grid/transactions/get_transaction_info') );
+		$this->view->assign('help_url', $this->gen_help_url('customer_transactions_listing') );
+		$balance = $this->model_sale_customer->getBalance($this->request->get['customer_id']);
+		$currency = $this->currency->getCurrency($this->config->get('config_currency'));		
+		$this->data['balance'] = $this->language->get('text_balance').' '.$currency['symbol_left'].round($balance,2).$currency['symbol_right'];
 
-		$this->processTemplate('pages/sale/customer_list.tpl' );
+		$this->data['button_actas'] = $this->html->buildButton(array(
+				    'text' => $this->language->get('button_actas'),
+				    'style' => 'button1',
+					'href' => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id='.$this->request->get['customer_id']),
+					'target' => 'new'
+			    ));
+
+		$this->view->batchAssign($this->data);
+		$this->processTemplate('pages/sale/transactions.tpl' );
 
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -317,13 +316,13 @@ class ControllerPagesSaleCustomer extends AController {
    		 ));
 
 		$this->data['tabs']['general'] = array(
-										'href'  => '#',
-										'text'  => $this->language->get('tab_customer_details'),
-										'class' => 'active'
+										'href'=>'#',
+										'text'=>'Customer details',
+										'class'=>'active'
 										);
 		$this->data['tabs'][] = array(
-										'href' => $this->html->getSecureURL('sale/transactions','&customer_id='.$this->request->get['customer_id']),
-										'text' => $this->language->get('tab_transactions'),
+										'href' => $this->html->getSecureURL('sale/customer_transactions','&customer_id='.$this->request->get['customer_id']),
+										'text' =>'Transactions',
 										'class'=>''
 										);
 
@@ -407,11 +406,6 @@ class ControllerPagesSaleCustomer extends AController {
 			'style'  => 'btn_switch',
 	    ));
 		$this->view->assign('help_url', $this->gen_help_url('customer_edit') );
-
-		$balance = $this->model_sale_customer->getBalance($this->request->get['customer_id']);
-		$currency = $this->currency->getCurrency($this->config->get('config_currency'));
-
-		$this->data['balance'] = $this->language->get('text_balance').' '.$currency['symbol_left'].round($balance,2).$currency['symbol_right'];
 		$this->view->batchAssign( $this->data );
 
 		$this->processTemplate('pages/sale/customer_form.tpl' );
