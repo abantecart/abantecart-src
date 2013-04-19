@@ -261,6 +261,15 @@ class ControllerPagesCheckoutCart extends AController {
 																			'name' => 'checkout',
 																			'text' => $this->language->get('button_checkout'),
 			                                                                'style' => 'button' ));
+
+			$this->data['form'][ 'continue_shopping' ] = $form->getFieldHtml(
+				array(
+					'type' => 'button',
+					'name' => 'continue_shopping',
+					'text' => $this->language->get('button_shopping'),
+					'style' => 'button'
+				)
+			);
 			
 			if ($this->config->get('config_cart_weight')) {
 				$this->data['weight'] = $this->weight->format($this->cart->getWeight(), $this->config->get('config_weight_class'));

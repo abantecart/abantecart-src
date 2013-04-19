@@ -69,7 +69,10 @@
           <tr>
             <td align="left"><?php echo $form['update']; ?></td>
             <td align="center"></td>
-            <td align="right"><?php echo $form['checkout']; ?></td>
+            <td align="right">
+				<?php echo $form['continue_shopping']; ?>
+				<?php echo $form['checkout']; ?>
+			</td>
           </tr>
         </table>
       </div>
@@ -84,5 +87,9 @@
 <script type="text/javascript">
 	$('#cart_checkout').click( function(){
 		location = '<?php echo $checkout; ?>';
-	})
+	});
+
+	$('#cart_continue_shopping').click( function(){
+		location = '<?php echo $continue; ?>';
+	});
 </script>
