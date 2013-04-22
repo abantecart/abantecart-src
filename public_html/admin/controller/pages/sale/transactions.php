@@ -168,6 +168,19 @@ class ControllerPagesSaleTransactions extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title_transactions') );
 		$this->view->assign( 'popup_action', $this->html->getSecureURL('listing_grid/transactions/get_transaction_info') );
+
+		$this->view->assign( 'popup_action_save', $this->html->getSecureURL('listing_grid/transactions/savetransaction') );
+
+		$form = new AForm();
+		$form->setForm(array(
+			'form_name' => 'transaction_form',
+		));
+		$this->data['ajax_form_open'] = (string)$form->getFieldHtml(array(
+					'type' => 'form',
+					'name' => 'transaction_form',
+					'action' => $this->html->getSecureURL('listing_grid/transactions/savetransaction','&customer_id='.$this->request->get['customer_id']),
+				));
+
 		$this->view->assign('help_url', $this->gen_help_url('customer_transactions_listing') );
 		$balance = $this->model_sale_customer->getBalance($this->request->get['customer_id']);
 		$currency = $this->currency->getCurrency($this->config->get('config_currency'));		

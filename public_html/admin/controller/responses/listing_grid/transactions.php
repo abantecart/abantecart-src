@@ -104,111 +104,185 @@ class ControllerResponsesListingGridTransactions extends AController {
 	}
 
 
-	private function _validateForm($field, $value, $customer_id = '') {
+	private function _validateForm($data=array()) {
 
-		$err = false;
-		switch ($field) {
-			case 'loginname' :
-				$login_name_pattern = '/^[\w._-]+$/i';
-				$value = preg_replace('/\s+/', '', $value);
-   		 		if ( strlen(utf8_decode($value)) < 5 || strlen(utf8_decode($value)) > 64
-   		 			|| (!preg_match($login_name_pattern, $value) && $this->config->get('prevent_email_as_login')) ) {	
-   		   			$err = $this->language->get('error_loginname');
-   				//check uniqunes of loginname
-   		 		} else if ( !$this->model_sale_customer->is_unique_loginname($value, $customer_id) ) {
-   		   			$err = $this->language->get('error_loginname_notunique');
-   		 		}			
-				break;
-			case 'firstname' :
-				if ((strlen(utf8_decode($value)) < 1) || (strlen(utf8_decode($value)) > 32)) {
-					$err = $this->language->get('error_firstname');
-				}
-				break;
-			case 'lastname':
-				if ((strlen(utf8_decode($value)) < 1) || (strlen(utf8_decode($value)) > 32)) {
-					$err = $this->language->get('error_lastname');
-				}
-				break;
-			case 'email':
-				$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
-				if ((strlen(utf8_decode($value)) > 96) || (!preg_match($pattern, $value))) {
-					$err = $this->language->get('error_email');
-				}
-				break;
-			case 'telephone':
-				if ((strlen(utf8_decode($value)) < 3) || (strlen(utf8_decode($value)) > 32)) {
-					$err = $this->language->get('error_telephone');
-				}
-				break;
+		$output['credit'] = (float)$data['credit'];
+		$output['debit'] = (float)$data['debit'];
+
+		if($data['type'][1]){
+			$output['type'] = trim($data['type'][1]);
+			$this->cache->delete('transaction_types');
+		}else{
+			$output['type'] = trim($data['type'][0]);
 		}
 
-		return $err;
+		if(!$output['type']){
+			$this->error[] = $this->language->get('error_transaction_type');
+		}
+		$output['type'] = htmlentities($data['type'],ENT_QUOTES,'UTF-8');
+		$output['comment'] = htmlentities($data['comment'],ENT_QUOTES,'UTF-8');
+		$output['description'] = htmlentities($data['description'],ENT_QUOTES,'UTF-8');
+
+		return $output;
 	}
 
-	public function getTransactionInfo($transaction_id){
 
+	public function saveTransaction(){
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		if (!$this->user->canAccess('listing_grid/transactions')) {
+		if (!$this->user->canModify('listing_grid/transactions') || $this->request->server['REQUEST_METHOD']!='POST') {
 					$error = new AError('');
 					return $error->toJSONResponse('NO_PERMISSIONS_402',
 						array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/transactions'),
 							'reset_value' => true
 						));
-				}
+		}
 
+		$this->loadLanguage('sale/customer');
 		$this->loadModel('sale/customer');
-		$info = $this->model_sale_customer->getTransaction($this->request->get['transaction_id']);
+		$this->load->library('json');
 
-		$form = new AForm();
-		$form->setForm(array(
-			'form_name' => 'transaction_form',
-		));
-		$response['form_open'] = $form->getFieldHtml(array(
-				    'type' => 'form',
-				    'name' => 'transaction_form',
-				    'action' => '',
-			    ));
-
-
-		$response['fields'][] = array('text' => $this->language->get('column_create_date'),
-									'field' => $form->getFieldHtml(array(
-																		'type' => 'input',
-																		'name' => 'create_date',
-																		'value' => dateISO2Display($info['create_date'])
-																	)));
-		$response['fields'][] = array('text' => $this->language->get('column_created_by'),
-									'field' => $form->getFieldHtml(array(
-																		'type' => 'input',
-																		'name' => 'created_by',
-																		'value' => $info['user']
-																	)));
-		$selected = $info['credit'] ? 'credit' : 'debit';
-		$response['fields'][] = array('text' => $this->language->get('column_created_by'),
-									'field' => $form->getFieldHtml(array(
-																		'type' => 'selectbox',
-																		'name' => 'balance',
-																		'options' => array('credit'=>$this->language->get('text_option_credit'),
-																							'debit'=>$this->language->get('text_option_debit')),
-																		'value' => $selected
-																	)));
-
-		$response['fields'][] = array('text' => $this->language->get('column_created_by'),
-									'field' => $form->getFieldHtml(array(
-																		'type' => 'selectbox',
-																		'name' => 'balance',
-																		'options' => array('credit'=>$this->language->get('text_option_credit'),
-																							'debit'=>$this->language->get('text_option_debit')),
-																		'value' => $selected
-																	)));
-
-
-
-
+		//check is data valid
+		$valid_data = $this->_validateForm();
+		$response = $this->get_Transaction_Info($this->request->post);
+		if(!$this->errors){
+			$valid_data['customer_id'] = $this->request->get['customer_id'];
+			$response['transaction_id'] = $this->model_sale_customer->addTransaction($valid_data);
+			$response['success'] = $this->language->get('text_transaction_success');
+		}else{
+			$response['error'] = implode('<br>',$this->errors);
+		}
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->response->setOutput(AJson::encode($response));
+	}
+
+
+
+	public function get_Transaction_Info($default_data_set=array()){
+		if(!is_array($default_data_set)){
+			$default_data_set = array();
+		}
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->load->library('json');
+		$this->loadLanguage('sale/customer');
+		$edit = 1;
+		if (!$this->user->canAccess('listing_grid/transactions')) {
+					$error = new AError('');
+					return $error->toJSONResponse('NO_PERMISSIONS_402',
+						array( 'error_text' => sprintf($this->language->get('error_permission_access'), 'listing_grid/transactions'),
+							'reset_value' => true
+						));
+		}
+
+
+		if((int)$this->request->get['transaction_id'] || isset($default_data_set['transaction_id'])){
+			$edit = 0;
+			if (!$this->user->canModify('listing_grid/transactions')) {
+						$error = new AError('');
+						return $error->toJSONResponse('NO_PERMISSIONS_402',
+							array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/transactions'),
+								'reset_value' => true
+							));
+			}
+		}
+
+
+		$this->loadModel('sale/customer');
+
+		$info = !$default_data_set ? $this->model_sale_customer->getTransaction($this->request->get['transaction_id']) : $default_data_set;
+
+		if($edit){
+			$form = new AForm();
+			$form->setForm(array(
+				'form_name' => 'transaction_form',
+			));
+
+			$response['fields'][] = array('text' => $this->language->get('text_option_credit'),
+										'field' => (string)$form->getFieldHtml(array(
+																			'type' => 'input',
+																			'name' => 'credit',
+																			'value' => $info['credit'],
+																			'style' => 'large-field'
+																		)));
+			$response['fields'][] = array('text' => $this->language->get('text_option_debit'),
+										'field' => (string)$form->getFieldHtml(array(
+																			'type' => 'input',
+																			'name' => 'debit',
+																			'value' => $info['debit'],
+																			'style' => 'large-field'
+																		)));
+			$types = $this->model_sale_customer->getTransactionTypes();
+			$response['fields'][] = array('text' => $this->language->get('text_transaction_type'),
+										'field' => (string)$form->getFieldHtml(array(
+																			'type' => 'selectbox',
+																			'name' => 'type[0]',
+																			'options' => $types,
+																			'value' => $info['type'],
+																			'style' => 'medium-field'
+																		)));
+			$response['fields'][] = array('text' => $this->language->get('text_other_type'),
+										'field' => (string)(string)$form->getFieldHtml(array(
+																			'type' => 'input',
+																			'name' => 'type[1]',
+																			'value' => (!in_array($info['type'],$types)? $info['type'] :''),
+																			'style' => 'large-field'
+																		))
+			);
+
+			$response['fields'][] = array('text' => $this->language->get('text_transaction_comment'),
+												'field' => (string)$form->getFieldHtml(array(
+																					'type' => 'textarea',
+																					'name' => 'comment',
+																					'value' => $info['comment'],
+																					'style' => 'large-field'
+																				)));
+
+			$response['fields'][] = array('text' => $this->language->get('text_transaction_description'),
+												'field' => (string)$form->getFieldHtml(array(
+																					'type' => 'textarea',
+																					'name' => 'description',
+																					'value' => $info['description'],
+																					'style' => 'large-field'
+																				)));
+
+
+		}else{
+
+			$response['fields'][] = array('text' => $this->language->get('column_create_date').':',
+										'field' =>  dateISO2Display($info['create_date'], $this->language->get('date_format_short').' '.$this->language->get('time_format')));
+
+			$response['fields'][] = array('text' => $this->language->get('column_created_by').":",
+										'field' =>  $info['user']);
+
+			$response['fields'][] = array('text' => $this->language->get('text_option_credit').':',
+										'field' =>  $info['credit']);
+			$response['fields'][] = array('text' => $this->language->get('text_option_debit').':',
+										'field' =>  $info['debit']);
+			$response['fields'][] = array('text' => $this->language->get('text_transaction_type'),
+										'field' => (string)$info['type']);
+
+			$response['fields'][] = array('text' => $this->language->get('text_transaction_comment'),
+										'field' => htmlentities($info['comment'],ENT_QUOTES,'UTF-8'));
+
+			$response['fields'][] = array('text' => $this->language->get('text_transaction_description'),
+										'field' => htmlentities($info['description'],ENT_QUOTES,'UTF-8'));
+			$response['fields'][] = array('text' => $this->language->get('text_update_date'),
+													'field' =>  dateISO2Display($info['update_date'],$this->language->get('date_format_short').' '.$this->language->get('time_format')));
+
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		if(!$default_data_set){
+			$this->response->setOutput(AJson::encode($response));
+		}else{
+			return $response;
+		}
 	}
 
 }

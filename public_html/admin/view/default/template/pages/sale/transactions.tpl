@@ -10,13 +10,14 @@
 			<div class="popbox_tc"></div>
 		</div>
 	</div>
-	<div class="popbox_cl"><div class="popbox_cr"><div class="popbox_cc message_body" >
+	<div class="popbox_cl"><div class="popbox_cr"><div class="popbox_cc" >
 		<div class="aform">
-			<div class="afield mask2">
+			<div>
 				<div class="tl"><div class="tr"><div class="tc"></div></div></div>
 				<div class="cl"><div class="cr"><div class="cc">
-					<div class="message_text">
+					<div><?php echo $ajax_form_open?>
 						<table id="popup_text" style="width: 100%"></table>
+					</form>
 					</div>
 				</div></div></div>
 				<div class="bl"><div class="br"><div class="bc"></div></div></div>
@@ -79,7 +80,7 @@
 	});
 
 	$(document).ready(function () {
-
+		$('.icon_add').click(show_popup);
 		$(function () {
 			var dates = $("#transactions_grid_search_date_start, #transactions_grid_search_date_end").datepicker({
 
@@ -108,13 +109,8 @@
 			modal: true,
 			resizable: false,
 			width: 550,
-			minWidth: 550,
-			title: '<?php echo $popup_title;?>',
-			buttons:{
-				"close": function(event, ui) {
-					$(this).dialog('destroy');
-				}
-			},
+			autoResize:true,
+			title: (id>0 ? '<?php echo $popup_title_info;?>' : '<?php echo $popup_title_insert;?>'),
 			open: function() {},
 			resize: function(event, ui){
 			},
@@ -123,17 +119,71 @@
 			}
 		});
 
+		if(id>0){
+			$('#aPopup').dialog({buttons:
+										{"close": function(event, ui) {
+												$(this).dialog('destroy');
+											}}
+								});
+		}else{
+			$('#aPopup').dialog({buttons:
+										{"cancel": function(event, ui) {
+												$(this).dialog('destroy');
+										},
+										"save": function(event, ui) {
+											$('#transaction_form').submit();
+										}}
+								});
+		}
+
 		$aPopup.removeClass('popbox popbox2');
 
 		$.ajax({
 			url: '<?php echo $popup_action; ?>',
 			type: 'GET',
-			dataType: 'text',
+			dataType: 'json',
 			data: 'transaction_id='+id,
 			success: function(data) {
-				$('#popup_text').html(data);
+				if(data==null) return false;
+				ajaxReplace(data);
 				$aPopup.dialog('open');
 			}
 		});
 	}
+
+	function ajaxReplace(data){
+		var html = '';
+
+
+		if(data.error){
+			$('#popup_text').before('<div class="warning">'+data.error+'</div>');
+		}
+		if(data.success){
+			$('#popup_text').before('<div class="success">'+data.success+'</div>');
+		}
+		if(data.fields){
+			for(var f in data.fields){
+				html += '<tr><td>'+ data.fields[f].text + '</td><td>' + data.fields[f].field + '</td></tr>';
+			}
+		}
+		$('#popup_text').html(html);
+		$("#popup_text>input, #popup_text>select, #popup_text>textarea").aform({triggerChanged: true, showButtons: false });
+	}
+
+	$('#transaction_form').live('submit',function() {
+		console.log(this);
+			// submit the form
+			var options = {
+				dataType:'json',
+				type: 'post',
+				success:function (response) {
+					ajaxReplace(response);
+				}
+			};
+			$(this).ajaxSubmit(options);
+			// return false to prevent normal browser submit and page navigation
+			$(this).unbind('submit');
+			return false;
+		});
+
 </script>

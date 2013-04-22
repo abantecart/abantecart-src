@@ -620,13 +620,14 @@ class ModelSaleCustomer extends Model {
 		return $balance;
 	}
 
-	public function addCredit($data=array()){
+	public function addTransaction($data=array()){
 
 		if((float)$data['credit'] && (int)$data['customer_id']){
-			$sql = "INSERT INTO ".DB_PREFIX."transactions (`customer_id`,`created_by`,`credit`,`section`, `type`,`comment`,`description`,`create_date`)
+			$sql = "INSERT INTO ".DB_PREFIX."transactions (`customer_id`,`created_by`,`credit`,`debit`,`section`, `type`,`comment`,`description`,`create_date`)
 					VALUES ('".(int)$data['customer_id']."',
 							'".$this->user->getId()."',
 							'".(float)$data['credit']."',
+							'".(float)$data['debit']."',
 							'1',
 							'".$this->db->escape($data['type'])."',
 							'".$this->db->escape($data['comment'])."',
@@ -637,7 +638,21 @@ class ModelSaleCustomer extends Model {
 			$this->cache->delete('balance.'.(int)$data['customer_id']);
 		}
 
-		return true;
+		return $this->db->getLastId();
+	}
+
+	public function getTransactionTypes(){
+		$cache_name = 'transaction_types';
+		$output = $this->cache->get($cache_name);
+		if(is_null($output)){
+			$sql = "SELECT DISTINCT `type` FROM ".DB_PREFIX."transactions ORDER BY `type` ASC";
+			$result = $this->db->query($sql);
+			foreach($result->rows as $row){
+				$output[$row['type']] = $row['type'];
+			}
+			$this->cache->set($cache_name,$output);
+		}
+		return $output;
 	}
 
 }
