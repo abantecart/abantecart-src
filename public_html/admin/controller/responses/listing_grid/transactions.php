@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridTransactions extends AController {
-	private $error = array();
+	private $errors = array();
 
 	public function main() {
 
@@ -29,7 +29,7 @@ class ControllerResponsesListingGridTransactions extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->loadLanguage('sale/customer');
-		$this->loadModel('sale/customer');
+		$this->loadModel('sale/customer_transaction');
 		$this->load->library('json');
 
 
@@ -52,14 +52,14 @@ class ControllerResponsesListingGridTransactions extends AController {
 			$data['filter']['credit'] = $this->request->get[ 'credit' ];
 		if ( has_value($this->request->get['debit']) )
 			$data['filter']['debit'] = $this->request->get[ 'debit' ];
-		if ( has_value($this->request->get['type']) )
-			$data['filter']['type'] = $this->request->get[ 'type' ];
+		if ( has_value($this->request->get['transaction_type']) )
+			$data['filter']['transaction_type'] = $this->request->get[ 'transaction_type' ];
 		if ( has_value($this->request->get['date_start']) )
 			$data['filter']['date_start'] = dateDisplay2ISO($this->request->get[ 'date_start' ]);
 		if ( has_value($this->request->get['date_end']) )
 			$data['filter']['date_end'] = dateDisplay2ISO($this->request->get[ 'date_end' ]);
 
-		$allowedFields = array( 'user', 'credit', 'debit', 'type', 'date_start', 'date_end' );
+		$allowedFields = array( 'user', 'credit', 'debit', 'transaction_type', 'date_start', 'date_end' );
 		if ( isset($this->request->post[ '_search' ]) && $this->request->post[ '_search' ] == 'true') {
 			$searchData = AJson::decode(htmlspecialchars_decode($this->request->post[ 'filters' ]), true);
 
@@ -69,7 +69,7 @@ class ControllerResponsesListingGridTransactions extends AController {
 			}
 		}
 
-		$total = $this->model_sale_customer->getTotalTransactions($data);
+		$total = $this->model_sale_customer_transaction->getTotalCustomerTransactions($data);
 
 		if ($total > 0) {
 			$total_pages = ceil($total / $limit);
@@ -82,16 +82,16 @@ class ControllerResponsesListingGridTransactions extends AController {
 		$response->total = $total_pages;
 		$response->records = $total;
 
-		$results = $this->model_sale_customer->getTransactions($data);
+		$results = $this->model_sale_customer_transaction->getCustomerTransactions($data);
 		$i = 0;
 		foreach ($results as $result) {
-			$response->rows[ $i ][ 'id' ] = $result[ 'transaction_id' ];
+			$response->rows[ $i ][ 'id' ] = $result[ 'customer_transaction_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
 				$result[ 'create_date' ],
 				$result[ 'user' ],
 				$result[ 'credit' ],
 				$result[ 'debit' ],
-				$result[ 'type' ],
+				$result[ 'transaction_type' ],
 			);
 			$i++;
 		}
@@ -109,17 +109,17 @@ class ControllerResponsesListingGridTransactions extends AController {
 		$output['credit'] = (float)$data['credit'];
 		$output['debit'] = (float)$data['debit'];
 
-		if($data['type'][1]){
-			$output['type'] = trim($data['type'][1]);
+		if($data['transaction_type'][1]){
+			$output['transaction_type'] = trim($data['transaction_type'][1]);
 			$this->cache->delete('transaction_types');
 		}else{
-			$output['type'] = trim($data['type'][0]);
+			$output['transaction_type'] = trim($data['transaction_type'][0]);
 		}
 
-		if(!$output['type']){
-			$this->error[] = $this->language->get('error_transaction_type');
+		if(!$output['transaction_type']){
+			$this->errors[] = $this->language->get('error_transaction_type');
 		}
-		$output['type'] = htmlentities($data['type'],ENT_QUOTES,'UTF-8');
+		$output['transaction_type'] = htmlentities($output['transaction_type'],ENT_QUOTES,'UTF-8');
 		$output['comment'] = htmlentities($data['comment'],ENT_QUOTES,'UTF-8');
 		$output['description'] = htmlentities($data['description'],ENT_QUOTES,'UTF-8');
 
@@ -140,20 +140,21 @@ class ControllerResponsesListingGridTransactions extends AController {
 		}
 
 		$this->loadLanguage('sale/customer');
-		$this->loadModel('sale/customer');
+		$this->loadModel('sale/customer_transaction');
 		$this->load->library('json');
 
 		//check is data valid
-		$valid_data = $this->_validateForm();
-		$response = $this->get_Transaction_Info($this->request->post);
+		$valid_data = $this->_validateForm($this->request->post);
+        $valid_data['customer_id'] = $this->request->get['customer_id'];
+        $response = array();
 		if(!$this->errors){
-			$valid_data['customer_id'] = $this->request->get['customer_id'];
-			$response['transaction_id'] = $this->model_sale_customer->addTransaction($valid_data);
-			$response['success'] = $this->language->get('text_transaction_success');
+            $valid_data['customer_transaction_id'] = $this->model_sale_customer_transaction->addCustomerTransaction($valid_data);
+			$this->session->data['success'] = $this->language->get('text_transaction_success');
 		}else{
 			$response['error'] = implode('<br>',$this->errors);
 		}
 
+        $response = array_merge($response,$this->get_Transaction_Info($valid_data));
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
@@ -180,7 +181,7 @@ class ControllerResponsesListingGridTransactions extends AController {
 		}
 
 
-		if((int)$this->request->get['transaction_id'] || isset($default_data_set['transaction_id'])){
+		if((int)$this->request->get['customer_transaction_id'] || isset($default_data_set['customer_transaction_id'])){
 			$edit = 0;
 			if (!$this->user->canModify('listing_grid/transactions')) {
 						$error = new AError('');
@@ -191,10 +192,14 @@ class ControllerResponsesListingGridTransactions extends AController {
 			}
 		}
 
+		$this->loadModel('sale/customer_transaction');
+        if($default_data_set){
+        	$info = array_merge($default_data_set, $this->model_sale_customer_transaction->getCustomerTransaction($default_data_set['customer_transaction_id']));
+        }else{
+            $info = $this->model_sale_customer_transaction->getCustomerTransaction($this->request->get['customer_transaction_id']);
 
-		$this->loadModel('sale/customer');
+        }
 
-		$info = !$default_data_set ? $this->model_sale_customer->getTransaction($this->request->get['transaction_id']) : $default_data_set;
 
 		if($edit){
 			$form = new AForm();
@@ -216,11 +221,11 @@ class ControllerResponsesListingGridTransactions extends AController {
 																			'value' => $info['debit'],
 																			'style' => 'large-field'
 																		)));
-			$types = $this->model_sale_customer->getTransactionTypes();
+			$types = $this->model_sale_customer_transaction->getTransactionTypes();
 			$response['fields'][] = array('text' => $this->language->get('text_transaction_type'),
 										'field' => (string)$form->getFieldHtml(array(
 																			'type' => 'selectbox',
-																			'name' => 'type[0]',
+																			'name' => 'transaction_type[0]',
 																			'options' => $types,
 																			'value' => $info['type'],
 																			'style' => 'medium-field'
@@ -228,8 +233,8 @@ class ControllerResponsesListingGridTransactions extends AController {
 			$response['fields'][] = array('text' => $this->language->get('text_other_type'),
 										'field' => (string)(string)$form->getFieldHtml(array(
 																			'type' => 'input',
-																			'name' => 'type[1]',
-																			'value' => (!in_array($info['type'],$types)? $info['type'] :''),
+																			'name' => 'transaction_type[1]',
+																			'value' => (!in_array($info['transaction_type'],$types)? $info['transaction_type'] :''),
 																			'style' => 'large-field'
 																		))
 			);
@@ -264,7 +269,7 @@ class ControllerResponsesListingGridTransactions extends AController {
 			$response['fields'][] = array('text' => $this->language->get('text_option_debit').':',
 										'field' =>  $info['debit']);
 			$response['fields'][] = array('text' => $this->language->get('text_transaction_type'),
-										'field' => (string)$info['type']);
+										'field' => (string)$info['transaction_type']);
 
 			$response['fields'][] = array('text' => $this->language->get('text_transaction_comment'),
 										'field' => htmlentities($info['comment'],ENT_QUOTES,'UTF-8'));

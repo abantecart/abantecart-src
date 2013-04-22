@@ -277,6 +277,8 @@
 		<key>error_transaction_type</key>
 		<value><![CDATA[Error: Please fill transaction type form field.]]></value>
 	</definition>
-
-
+	<definition>
+		<key>text_transaction_success</key>
+		<value><![CDATA[Success: You have modified transaction!]]></value>
+	</definition>
 </definitions>

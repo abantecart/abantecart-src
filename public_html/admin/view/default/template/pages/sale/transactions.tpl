@@ -80,7 +80,6 @@
 	});
 
 	$(document).ready(function () {
-		$('.icon_add').click(show_popup);
 		$(function () {
 			var dates = $("#transactions_grid_search_date_start, #transactions_grid_search_date_end").datepicker({
 
@@ -98,11 +97,10 @@
 				}
 			});
 		});
-
 	});
 
 	var $aPopup = $('#aPopup');
-	var transaction_id;
+
 	function show_popup(id){
 		var $aPopup = $('#aPopup').dialog({
 			autoOpen: false,
@@ -142,7 +140,7 @@
 			url: '<?php echo $popup_action; ?>',
 			type: 'GET',
 			dataType: 'json',
-			data: 'transaction_id='+id,
+			data: 'customer_transaction_id='+id,
 			success: function(data) {
 				if(data==null) return false;
 				ajaxReplace(data);
@@ -153,13 +151,8 @@
 
 	function ajaxReplace(data){
 		var html = '';
-
-
-		if(data.error){
+		if(data.error!=undefined){
 			$('#popup_text').before('<div class="warning">'+data.error+'</div>');
-		}
-		if(data.success){
-			$('#popup_text').before('<div class="success">'+data.success+'</div>');
 		}
 		if(data.fields){
 			for(var f in data.fields){
@@ -167,7 +160,8 @@
 			}
 		}
 		$('#popup_text').html(html);
-		$("#popup_text>input, #popup_text>select, #popup_text>textarea").aform({triggerChanged: true, showButtons: false });
+       // $("#popup_text input, #popup_text  select, #popup_text textarea").aform({triggerChanged: true, showButtons: false });
+
 	}
 
 	$('#transaction_form').live('submit',function() {
@@ -177,7 +171,12 @@
 				dataType:'json',
 				type: 'post',
 				success:function (response) {
-					ajaxReplace(response);
+                    if(response.error!=undefined){
+                        ajaxReplace(response);
+                    }else{
+                        location = location;
+                    }
+
 				}
 			};
 			$(this).ajaxSubmit(options);
@@ -185,5 +184,5 @@
 			$(this).unbind('submit');
 			return false;
 		});
-
+    $('.icon_add').click(function(){ show_popup(0); });
 </script>

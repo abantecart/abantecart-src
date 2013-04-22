@@ -42,6 +42,7 @@ if (!defined('DIR_CORE')) {
  * @property ModelUserUser $model_user_user
  * @property ModelSaleOrder $model_sale_order
  * @property ModelSaleCustomer $model_sale_customer
+ * @property ModelSaleCustomerTransaction $model_sale_customer_transaction
  * @property ModelLocalisationCurrency $model_localisation_currency
  * @property ModelLocalisationCountry $model_localisation_country
  * @property ModelLocalisationZone $model_localisation_zone
