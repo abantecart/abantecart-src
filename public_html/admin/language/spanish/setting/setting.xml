@@ -780,4 +780,8 @@
 		<key>entry_product_default_sort_order</key>
 		<value><![CDATA[Organizar Productos como Predeterminado:]]></value>
 	</definition>
+	<definition>
+		<key>entry_zero_customer_balance</key>
+		<value><![CDATA[Mostrar Zero Balance de clientes:<br /><span class="help">Nota: Activar / desactivar la visualización del mensaje de saldo si el saldo de cuenta es 0</span>]]></value>
+	</definition>
 </definitions>

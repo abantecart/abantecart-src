@@ -104,13 +104,14 @@
 	<div class="pull-right">
 	    <div class="cart-info span4 pull-right">
 			<table class="table table-striped table-bordered">
-			  <?php foreach ($totals as $total) { ?>
+			  <?php
+				foreach ($totals as $total) { ?>
 			  <tr>
-			    <td><span class="extra bold <?php if($total[id] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span></td>
-			    <td><span class="bold <?php if($total[id] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span></td>
+			    <td><span class="extra bold <?php if($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span></td>
+			    <td><span class="bold <?php if($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span></td>
 			  </tr>
 			  <?php } ?>
-			</table>			
+			</table>
 			<?php echo $this->getHookVar('payment_pre'); ?>
     		<div id="payment"><?php echo $payment; ?></div>
     		<?php echo $this->getHookVar('payment_post'); ?>		

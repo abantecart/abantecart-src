@@ -84,6 +84,7 @@ class ControllerBlocksOrderSummary extends AController {
 
 
       	$display_totals = $this->cart->buildTotalDisplay();
+
 		$this->data['totals'] = $display_totals['total_data'];
 		
 		$this->view->batchAssign($this->data);

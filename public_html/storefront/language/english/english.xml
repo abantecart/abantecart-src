@@ -209,4 +209,24 @@
 		<key>text_close</key>
 		<value><![CDATA[Close]]></value>
 	</definition>
+	<definition>
+		<key>text_balance</key>
+		<value><![CDATA[Account Balance ]]></value>
+	</definition>
+	<definition>
+		<key>text_balance_checkout</key>
+		<value><![CDATA[Account Balance: ]]></value>
+	</definition>
+	<definition>
+		<key>button_apply_balance</key>
+		<value><![CDATA[Apply to Order]]></value>
+	</definition>
+	<definition>
+		<key>button_disapply_balance</key>
+		<value><![CDATA[Disapply to Order]]></value>
+	</definition>
+	<definition>
+		<key>text_applied_balance</key>
+		<value><![CDATA[applied to order]]></value>
+	</definition>
 </definitions>

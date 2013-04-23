@@ -134,7 +134,7 @@
 	</definition>
 	<definition>
 		<key>button_go</key>
-		<value><![CDATA[Buscar]]></value>
+		<value><![CDATA[Ir]]></value>
 	</definition>
 	<definition>
 		<key>button_coupon</key>
@@ -207,5 +207,13 @@
 	<definition>
 		<key>text_close</key>
 		<value><![CDATA[Cerrar]]></value>
+	</definition>
+	<definition>
+		<key>text_balance_checkout</key>
+		<value><![CDATA[Balance de la cuenta:]]></value>
+	</definition>
+	<definition>
+		<key>button_apply_balance</key>
+		<value><![CDATA[Aplicar a la Orden]]></value>
 	</definition>
 </definitions>

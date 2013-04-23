@@ -19,6 +19,7 @@
 ------------------------------------------------------------------------------*/
 
 class ControllerPagesAccountAccount extends AController {
+	public $data = array();
 	public function main() {
 
         //init controller data
@@ -26,7 +27,6 @@ class ControllerPagesAccountAccount extends AController {
 
 		if (!$this->customer->isLogged()) {
 	  		$this->session->data['redirect'] = $this->html->getSecureURL('account/account');
-	  
 	  		$this->redirect($this->html->getSecureURL('account/login'));
     	} 
 	
@@ -46,23 +46,31 @@ class ControllerPagesAccountAccount extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 
-        $this->view->assign('success', '' );
+        $this->data['success'] = '';
 		if (isset($this->session->data['success'])) {
-    		$this->view->assign('success', $this->session->data['success'] );
+			$this->data['success'] = $this->session->data['success'];
 			unset($this->session->data['success']);
 		}
 
-        $this->view->assign('information', $this->html->getSecureURL('account/edit') );
-        $this->view->assign('password', $this->html->getSecureURL('account/password') );
-        $this->view->assign('address', $this->html->getSecureURL('account/address') );
-        $this->view->assign('history', $this->html->getSecureURL('account/history') );
-        $this->view->assign('download', $this->html->getSecureURL('account/download') );
-        $this->view->assign('newsletter', $this->html->getSecureURL('account/newsletter') );
+        $this->data['information'] = $this->html->getSecureURL('account/edit');
+        $this->data['password'] = $this->html->getSecureURL('account/password');
+        $this->data['address'] = $this->html->getSecureURL('account/address');
+        $this->data['history'] = $this->html->getSecureURL('account/history');
+        $this->data['download'] = $this->html->getSecureURL('account/download');
+        $this->data['newsletter'] = $this->html->getSecureURL('account/newsletter');
 
 		$this->loadLanguage('common/header');
-        $this->view->assign('logout', $this->html->getSecureURL('account/logout') );
+        $this->data['logout'] = $this->html->getSecureURL('account/logout');
 
-		$this->view->assign('customer_name', $this->customer->getFirstName());
+		$this->data['customer_name'] = $this->customer->getFirstName();
+
+		$balance = $this->customer->getBalance();
+
+		if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance'))){
+			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance);
+		}
+
+		$this->view->batchAssign($this->data);
 
 		$this->processTemplate('pages/account/account.tpl');
 
@@ -70,4 +78,3 @@ class ControllerPagesAccountAccount extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 }
-?>

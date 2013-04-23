@@ -32,16 +32,25 @@ final class ACustomer {
 	private $newsletter;
 	private $customer_group_id;
 	private $address_id;
+	private $config;
 	private $cache;
-	
-  	public function __construct($registry) {
+	private $db;
+	private $request;
+	private $session;
+	private $dcrypt;
+
+	/**
+	 * @param $registry Registry
+	 */
+	public function __construct($registry) {
 		$this->cache = $registry->get('cache');
 		$this->config = $registry->get('config');
 		$this->db = $registry->get('db');
 		$this->request = $registry->get('request');
 		$this->session = $registry->get('session');
 		$this->dcrypt = $registry->get('dcrypt');
-				
+
+
 		if (isset($this->session->data['customer_id'])) { 
 			$customer_query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$this->session->data['customer_id'] . "' AND status = '1'");
 			
@@ -223,18 +232,19 @@ final class ACustomer {
   	/* Customer Transactions Section. Track account balance transactions.  */
  
 	/**
-	* Return customer account balance based on debit/credit culcualtion
-	*@param none
-	*@return float / bool
+	* Return customer account balance in customer currency based on debit/credit calcualtion
+	*
+	*@return float
 	*/ 	
   	public function getBalance() {
-  		if ( !$this->isLogged ) {
+  		if ( !$this->isLogged() ) {
   			return false;
   		}
-  	
-  		$query = $this->db->query("SELECT sum(debit) as total_debit, sum(credit) as total_credit FROM " . $this->db->table("customer_transactions") . " WHERE customer_id = '" . (int)$this->getId() . "'");
-  	
-		return $query->row['total_debit'] - $query->row['total_credit'];
+  		$query = $this->db->query("SELECT sum(debit) - sum(credit) as balance FROM " . $this->db->table("customer_transactions") . " WHERE customer_id = '" . (int)$this->getId() . "'");
+  		$balance = $query->row['balance'];
+		$registry = Registry::getInstance();
+		$balance = $registry->get('currency')->convert($balance,$this->config->get('config_currency'),$this->session->data['currency']);
+		return $balance;
   	} 
   	
 	/**
@@ -256,7 +266,7 @@ final class ACustomer {
   	} 
   	
   	private function _record_transaction ( $type, $tr_details) {
-  		$amount = '';
+
   		if ( !$this->isLogged ) {
   			return false;
   		}
@@ -279,8 +289,8 @@ final class ACustomer {
       	                    description 		= '" . $this->db->escape($tr_details['description']) . "',
       	                    comments 			= '" . $this->db->escape($tr_details['comments']) . "',
 							'. $amount . '
+							section				= '" . ((int)$tr_details['section'] ? (int)$tr_details['section'] : 0) . "',
       	                    created_by 			= '" . (int)$tr_details['created_by'] . "',
-      	                    created_by_id 			= '" . (int)$tr_details['created_by_id'] . "',
       	                    created = NOW()");
   	
   		if ( $this->db->getLastId() ) {
@@ -290,4 +300,3 @@ final class ACustomer {
   	}
   		
 }
-?>

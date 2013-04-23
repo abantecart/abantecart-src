@@ -8,21 +8,31 @@ ALTER TABLE `ac_url_aliases` MODIFY COLUMN `keyword` varchar(255) NOT NULL COMME
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('general', 'config_product_default_sort_order', 'sort_order-ASC');
 
+DROP TABLE IF EXISTS `ac_customer_transactions`;
 CREATE TABLE `ac_customer_transactions` (
   `customer_transaction_id` int(11) NOT NULL AUTO_INCREMENT,
-  `customer_id` int(11) NOT NULL,
-  `order_id` int(11),
-  `transaction_type` varchar(32) COLLATE utf8_bin NOT NULL,
-  `description` text COLLATE utf8_bin NOT NULL,
-  `comments` text COLLATE utf8_bin NOT NULL,
-  `debit`  decimal(15,4) NOT NULL,
-  `credit` decimal(15,4) NOT NULL,  
-  `created_by` tinyint(1) DEFAULT NULL,
-  `created_by_id` int(11) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    
+  `customer_id` int(11) NOT NULL DEFAULT '0',
+  `order_id` int(11) NOT NULL DEFAULT '0',
+  `created_by` int(11) NOT NULL  COMMENT 'user_id for admin, customer_id for storefront section',
+  `section` smallint(1) NOT NULL DEFAULT '0' COMMENT '1 - admin, 0 - customer',
+  `credit` float DEFAULT '0',
+  `debit` float DEFAULT '0',
+  `transaction_type` varchar(255) NOT NULL DEFAULT '' COMMENT 'text type of transaction',
+  `comment` text COMMENT 'comment for internal use',
+  `description` text COMMENT 'text for customer',
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `create_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`customer_transaction_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+)ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+
+INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `update_date`, `create_date`) VALUES
+('total', 'balance', '', 1, 1, '1.0', null, now(), now(), now() );
+
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
+('balance', 'balance_status', '1'),
+('balance', 'balance_sort_order', '5'),
+('balance', 'balance_calculation_order', '5'),
+('balance', 'balance_total_type', 'balance');
 
 -- Install default_html5 template
 -- ??? Need solution for upgrade and layout ID conflicts

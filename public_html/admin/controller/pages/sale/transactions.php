@@ -168,7 +168,7 @@ class ControllerPagesSaleTransactions extends AController {
 
 		$this->view->assign( 'popup_action_save', $this->html->getSecureURL('listing_grid/transactions/savetransaction') );
 
-		$form = new AForm();
+		$form = new AForm('HT');
 		$form->setForm(array(
 			'form_name' => 'transaction_form',
 		));
@@ -216,4 +216,3 @@ class ControllerPagesSaleTransactions extends AController {
 	} 
 
 }
-?>

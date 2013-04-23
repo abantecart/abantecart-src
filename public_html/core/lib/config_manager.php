@@ -584,6 +584,12 @@ class AConfigManager {
 			'value' => $data[ 'config_cart_ajax' ],
 			'style' => 'btn_switch',
 		));
+		$fields[ 'zero_customer_balance' ] = $form->getFieldHtml($props[ ] = array(
+			'type' => 'checkbox',
+			'name' => 'config_zero_customer_balance',
+			'value' => $data[ 'config_zero_customer_balance' ],
+			'style' => 'btn_switch',
+		));
 				
 		if (isset($data[ 'one_field' ])) {
 			$fields = $this->_filterField($fields, $props, $data[ 'one_field' ]);

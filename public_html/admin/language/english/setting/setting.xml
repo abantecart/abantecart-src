@@ -786,4 +786,8 @@
 		<key>entry_product_default_sort_order</key>
 		<value><![CDATA[Sort Products as default by:]]></value>
 	</definition>
+	<definition>
+		<key>entry_zero_customer_balance</key>
+		<value><![CDATA[Show Zero Customer Balance:<br /><span class="help">Note: Enable/disable display of balance message if customer account balance is 0</span>]]></value>
+	</definition>
 </definitions>

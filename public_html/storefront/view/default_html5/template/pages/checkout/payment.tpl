@@ -43,7 +43,15 @@
     	if ($coupon_status) { 
     		echo $coupon_form;
     	} 
-    ?>
+    if ($balance) { ?>
+		<h4 class="heading4"><?php echo $text_balance; ?></h4>
+    	<div class="registerbox">
+			<table class="table table-striped table-bordered">
+				<tr><td><?php echo $balance;?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $apply_balance_button; ?></td></tr>
+			</table>
+		</div>
+
+    <?php } ?>
 
 	<?php echo $form['form_open'];?>	
 

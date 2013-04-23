@@ -520,6 +520,7 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 ('total', 'sub_total', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'tax', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'total', '', 1, 1, '1.0', null, now(), now(), now() ),
+('total', 'balance', '', 1, 1, '1.0', null, now(), now(), now() ),
 
 ('block', 'cart', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('block', 'category', '', 1, 1, '1.0', null, now(), now(), now() ),
@@ -1298,8 +1299,13 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('tax', 'tax_calculation_order', '5'),
 ('tax', 'tax_total_type', 'tax'),
 
-('total', 'total_sort_order', '6'),
-('total', 'total_calculation_order', '6'),
+('balance', 'balance_status', '1'),
+('balance', 'balance_sort_order', '6'),
+('balance', 'balance_calculation_order', '6'),
+('balance', 'balance_total_type', 'balance'),
+
+('total', 'total_sort_order', '7'),
+('total', 'total_calculation_order', '7'),
 ('total', 'total_status', '1'),
 ('total', 'total_total_type', 'total'),
 

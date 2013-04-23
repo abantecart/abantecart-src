@@ -1,6 +1,9 @@
 <h1 class="heading1">
   <span class="maintext"><?php echo $heading_title; ?></span>
   <span class="subtext"><?php echo $customer_name; ?></span>
+	<?php if($balance){?>
+	<span class="subtext"><?php echo $balance; ?></span>
+			<?php }?>
 </h1>
 
 <?php if ($success) { ?>

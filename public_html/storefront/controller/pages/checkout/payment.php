@@ -44,6 +44,24 @@ class ControllerPagesCheckoutPayment extends AController {
 
 			$this->redirect($this->html->getSecureURL('checkout/payment'));
 		}
+		//process balance
+		if($this->request->get['balance']=='apply'){
+			$order_totals = $this->cart->buildTotalDisplay();
+			$total = $order_totals['total'];
+			$balance = $this->customer->getBalance();
+			if($balance>=$total){
+				$this->session->data[ 'used_balance' ] = $total;
+			}
+			unset($this->request->get['balance']);
+		}
+		if($this->request->get['balance']=='disapply'){
+			unset($this->session->data[ 'used_balance' ],$this->request->get['balance']);
+		}
+
+
+
+
+
 
 		if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
 			$this->redirect($this->html->getSecureURL('checkout/cart'));
@@ -211,7 +229,7 @@ class ControllerPagesCheckoutPayment extends AController {
 		if (isset($this->session->data[ 'success' ])) {
 			unset($this->session->data[ 'success' ]);
 		}
-		$action = $this->html->getSecureURL('checkout/payment');
+		$action = $this->html->getSecureURL('checkout/payment', '&mode='.$this->request->get['mode']);
 
 		$this->data['change_address'] = HtmlElementFactory::create( array('type' => 'button',
 			                                      'name' => 'change_address',
@@ -236,6 +254,27 @@ class ControllerPagesCheckoutPayment extends AController {
 
 		$this->data['payment_methods'] = $this->session->data[ 'payment_methods' ];
 		$payment = isset($this->request->post[ 'payment_method' ]) ? $this->request->post[ 'payment_method' ] : $this->session->data[ 'payment_method' ][ 'id' ];
+
+		//balance
+		$balance = $this->customer->getBalance();
+
+		if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance')) && (float)$this->session->data['used_balance']!=0){
+			if((float)$this->session->data['used_balance']==0){
+				$this->data['apply_balance_button'] = $this->html->buildButton(array('id' => 'apply_balance',
+																					'href' => $this->html->getSecureURL('checkout/payment','&mode=edit&balance=apply'),
+																					'text' => $this->language->get('button_apply_balance')));
+			}else{
+				$this->data['apply_balance_button'] = $this->html->buildButton(array('id' => 'apply_balance',
+																					'href' => $this->html->getSecureURL('checkout/payment','&mode=edit&balance=disapply'),
+																					'text' => $this->language->get('button_disapply_balance')));
+			}
+
+			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance);
+			if((float)$this->session->data['used_balance']!=0){
+				$this->data['balance'] .=  ' ('.$this->currency->format($balance-(float)$this->session->data['used_balance']).')';
+				$this->data['balance'] .=  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$this->currency->format((float)$this->session->data['used_balance']).' '.$this->language->get('text_applied_balance');
+			}
+		}
 
 		if($this->data['payment_methods']){
 			foreach($this->data['payment_methods'] as $k=>$v){

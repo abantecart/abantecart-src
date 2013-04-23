@@ -159,13 +159,21 @@
 				html += '<tr><td>'+ data.fields[f].text + '</td><td>' + data.fields[f].field + '</td></tr>';
 			}
 		}
+
 		$('#popup_text').html(html);
-       // $("#popup_text input, #popup_text  select, #popup_text textarea").aform({triggerChanged: true, showButtons: false });
+        $("#popup_text input, #popup_text  select, #popup_text textarea").aform({triggerChanged: true, showButtons: false, autoHide:false });
+
+		if( $('#transaction_form_transaction_type\\[1\\]').val()=='' && $('#transaction_form_transaction_type\\[0\\]').val()!='' ){
+			$('#transaction_form_transaction_type\\[1\\]').val('').parents('tr').hide();
+		}
 
 	}
 
+	$('#transaction_form_transaction_type\\[0\\]').live('change',function(){
+		$('#transaction_form_transaction_type\\[1\\]').parents('tr').show();
+	});
+
 	$('#transaction_form').live('submit',function() {
-		console.log(this);
 			// submit the form
 			var options = {
 				dataType:'json',

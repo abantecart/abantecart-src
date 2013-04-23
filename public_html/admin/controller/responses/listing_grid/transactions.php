@@ -109,6 +109,10 @@ class ControllerResponsesListingGridTransactions extends AController {
 		$output['credit'] = (float)$data['credit'];
 		$output['debit'] = (float)$data['debit'];
 
+		if(!$output['credit'] && !$output['debit']){
+			$this->errors[] = $this->language->get('error_empty_debit_credit');
+		}
+
 		if($data['transaction_type'][1]){
 			$output['transaction_type'] = trim($data['transaction_type'][1]);
 			$this->cache->delete('transaction_types');
@@ -222,12 +226,14 @@ class ControllerResponsesListingGridTransactions extends AController {
 																			'style' => 'large-field'
 																		)));
 			$types = $this->model_sale_customer_transaction->getTransactionTypes();
+			$types[''] = $this->language->get('text_option_other_type');
+			reset($types);
 			$response['fields'][] = array('text' => $this->language->get('text_transaction_type'),
 										'field' => (string)$form->getFieldHtml(array(
 																			'type' => 'selectbox',
 																			'name' => 'transaction_type[0]',
 																			'options' => $types,
-																			'value' => $info['type'],
+																			'value' => $info['transaction_type']=='' ? current($types) : $info['transaction_type'],
 																			'style' => 'medium-field'
 																		)));
 			$response['fields'][] = array('text' => $this->language->get('text_other_type'),

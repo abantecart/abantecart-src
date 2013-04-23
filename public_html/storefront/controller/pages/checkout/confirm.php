@@ -161,9 +161,10 @@ class ControllerPagesCheckoutConfirm extends AController {
         	$product_id = $this->data['products'][$i]['product_id'];
 
 	        $thumbnail = $resource->getMainThumb('products',
-			                                     $product_id,
-			                                     $this->config->get('config_image_cart_width'),
-			                                     $this->config->get('config_image_cart_height'),true);
+			                                    $product_id,
+												(int)$this->config->get('config_image_cart_width'),
+												(int)$this->config->get('config_image_cart_height'),
+												true);
 			$tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
       		$this->data['products'][$i] = array_merge( 
       			$this->data['products'][$i], 

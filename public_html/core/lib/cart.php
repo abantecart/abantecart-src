@@ -20,7 +20,13 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/** @noinspection PhpUndefinedClassInspection */
+/**
+ * Class ACart
+ * @property ModelCatalogProduct $model_catalog_product
+ * @property ATax $tax
+ * @property ModelCheckoutExtension $model_checkout_extension
+ */
 final class ACart {
   	private $registry;
   	private $cart_data = array();
@@ -29,8 +35,11 @@ final class ACart {
   	private $total_value;
   	private $final_total;
   	private $total_data;
-  	  	
-  	public function __construct($registry) {
+
+	/**
+	 * @param $registry Registry
+	 */
+	public function __construct($registry) {
   		$this->registry = $registry;
 
 		$this->attribute = new AAttribute('product_option');
@@ -512,9 +521,12 @@ final class ACart {
 		
 		$taxes = $this->getAppliedTaxes( $recalculate );		 
 		$this->load->model('checkout/extension');
+		/**
+		 *
+		 */
 		$total_extns = $this->model_checkout_extension->getExtensions('total');
-	
-		foreach ($total_extns as $key => $value) {
+
+		foreach ($total_extns as $value) {
 			$calc_order[$value['key']] = (int)$this->config->get($value['key'] . '_calculation_order');
 		}
 		array_multisort($calc_order, SORT_ASC, $total_extns);

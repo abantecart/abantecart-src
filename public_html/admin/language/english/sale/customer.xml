@@ -247,11 +247,11 @@
 
 	<definition>
 		<key>text_option_credit</key>
-		<value><![CDATA[Credit (increase balance)]]></value>
+		<value><![CDATA[Credit (decrease balance)]]></value>
 	</definition>
 	<definition>
 		<key>text_option_debit</key>
-		<value><![CDATA[Debit (decrease balance)]]></value>
+		<value><![CDATA[Debit (increase balance)]]></value>
 	</definition>
 	<definition>
 		<key>text_transaction_type</key>
@@ -260,6 +260,10 @@
 	<definition>
 		<key>text_other_type</key>
 		<value><![CDATA[Other Custom Transaction Type: ]]></value>
+	</definition>
+	<definition>
+		<key>text_option_other_type</key>
+		<value><![CDATA[Other... ]]></value>
 	</definition>
 	<definition>
 		<key>text_transaction_description</key>
@@ -276,6 +280,10 @@
 	<definition>
 		<key>error_transaction_type</key>
 		<value><![CDATA[Error: Please fill transaction type form field.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_debit_credit</key>
+		<value><![CDATA[Error: Please fill debit or credit value for customer transaction.]]></value>
 	</definition>
 	<definition>
 		<key>text_transaction_success</key>

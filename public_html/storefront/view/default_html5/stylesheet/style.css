@@ -2524,19 +2524,19 @@ a.clostalert {
 	.the-icons li {
 		display: block;
 		width: 90%;
-		padding: 10px 0
+		padding: 10px 0;
 	}
 
 	.smbanner .span3 a {
-		margin: 10px 0
+		margin: 10px 0;
 	}
 
 	.heading1 .subtext {
-		display: none
+		display: none;
 	}
 
 	.productdesc #myTab.nav-tabs li a {
-		padding: 8px
+		padding: 8px;
 	}
 
 	th.image, th.model, td.image, td.model {
@@ -2544,7 +2544,7 @@ a.clostalert {
 	}
 
 	.cart-info td, .cart-info th {
-		padding: 5px
+		padding: 5px;
 	}
 
 	#banner_slides {
