@@ -216,4 +216,20 @@
 		<key>button_apply_balance</key>
 		<value><![CDATA[Aplicar a la Orden]]></value>
 	</definition>
+	<definition>
+		<key>text_balance</key>
+		<value><![CDATA[Balance de la cuenta ]]></value>
+	</definition>
+	<definition>
+		<key>button_disapply_balance</key>
+		<value><![CDATA[Excluir a la Orden]]></value>
+	</definition>
+	<definition>
+		<key>text_applied_balance</key>
+		<value><![CDATA[aplicado a ordenar]]></value>
+	</definition>
+	<definition>
+		<key>text_applied_balance_to_order</key>
+		<value><![CDATA[%s utilizados para la orden #%s]]></value>
+	</definition>
 </definitions>

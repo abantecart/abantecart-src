@@ -322,7 +322,7 @@ class ControllerPagesSaleCustomer extends AController {
 										'class' => 'active'
 										);
 		$this->data['tabs'][] = array(
-										'href' => $this->html->getSecureURL('sale/transactions','&customer_id='.$this->request->get['customer_id']),
+										'href' => $this->html->getSecureURL('sale/customer_transaction','&customer_id='.$this->request->get['customer_id']),
 										'text' => $this->language->get('tab_transactions'),
 										'class'=>''
 										);

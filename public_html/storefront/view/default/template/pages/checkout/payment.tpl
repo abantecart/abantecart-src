@@ -26,9 +26,14 @@
         </tr>
       </table>
     </div>
-    <?php if ($coupon_status) { ?>
-	<?php echo $coupon_form ?>
-    <?php }
+    <?php if ($coupon_status) {
+		  echo $coupon_form;
+	  } ?>
+	  <div class="content">
+	  	      <div style="text-align: left;"><?php echo $balance;?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $apply_balance_button; ?></div>
+	      </div>
+
+	  <?php
 	  echo $form['form_open'];
 	  ?>
       <?php if ($payment_methods) { ?>

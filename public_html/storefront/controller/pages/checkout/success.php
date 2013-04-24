@@ -29,15 +29,16 @@ class ControllerPagesCheckoutSuccess extends AController {
 		if (isset($this->session->data['order_id'])) {
 			$this->cart->clear();
 			
-			unset($this->session->data['shipping_method']);
-			unset($this->session->data['shipping_methods']);
-			unset($this->session->data['payment_method']);
-			unset($this->session->data['payment_methods']);
-			unset($this->session->data['guest']);
-			unset($this->session->data['comment']);
-			unset($this->session->data['order_id']);	
-			unset($this->session->data['coupon']);
-		}	
+			unset(  $this->session->data['shipping_method'],
+					$this->session->data['shipping_methods'],
+					$this->session->data['payment_method'],
+					$this->session->data['payment_methods'],
+					$this->session->data['guest'],
+					$this->session->data['comment'],
+					$this->session->data['order_id'],
+					$this->session->data['coupon'],
+					$this->session->data['used_balance']);
+		}
 									   
 		$this->document->setTitle( $this->language->get('heading_title') );
 		

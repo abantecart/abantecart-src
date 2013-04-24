@@ -4,8 +4,7 @@
 		<div>
 			<ul id="main_menu" class="nav">
 			    <?php
-				$storefront_menu = $this->session->data['storefront_menu'];
-
+				$storefront_menu = (array)$this->session->data['storefront_menu'];
 
 				foreach($storefront_menu as $i=>$menu_item){
 					if($menu_item['id']=='home'){

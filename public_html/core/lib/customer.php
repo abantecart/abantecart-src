@@ -232,16 +232,25 @@ final class ACustomer {
   	/* Customer Transactions Section. Track account balance transactions.  */
  
 	/**
-	* Return customer account balance in customer currency based on debit/credit calcualtion
-	*
-	*@return float
-	*/ 	
+	 *
+	 * Return customer account balance in customer currency based on debit/credit calcualtion
+	 *
+	 *@return float|bool
+	 */
   	public function getBalance() {
   		if ( !$this->isLogged() ) {
   			return false;
   		}
-  		$query = $this->db->query("SELECT sum(debit) - sum(credit) as balance FROM " . $this->db->table("customer_transactions") . " WHERE customer_id = '" . (int)$this->getId() . "'");
-  		$balance = $query->row['balance'];
+
+		$cache_name = 'balance.'.(int)$this->getId();
+		$balance = $this->cache->get($cache_name);
+		if(is_null($balance)){
+			$query = $this->db->query("SELECT sum(debit) - sum(credit) as balance
+										FROM " . $this->db->table("customer_transactions") . "
+										WHERE customer_id = '" . (int)$this->getId() . "'");
+			$balance = $query->row['balance'];
+			$this->cache->set($cache_name,$balance);
+		}
 		$registry = Registry::getInstance();
 		$balance = $registry->get('currency')->convert($balance,$this->config->get('config_currency'),$this->session->data['currency']);
 		return $balance;
@@ -267,17 +276,17 @@ final class ACustomer {
   	
   	private function _record_transaction ( $type, $tr_details) {
 
-  		if ( !$this->isLogged ) {
+  		if ( !$this->isLogged() ) {
   			return false;
   		}
-		if ( !has_value($tr_details['transaction_type']) || !has_value($tr_details['created_by_id'])  ) {
+		if ( !has_value($tr_details['transaction_type']) || !has_value($tr_details['created_by'])  ) {
   			return false;
   		}
 
   		if ( $type == 'debit' ) {
-  			$amount = 'debit = ' . $this->db->escape($data['amount']);
+  			$amount = 'debit = ' . (float)$tr_details['amount'];
   		} else if ( $type == 'credit' ) {
-  			$amount = 'credit = ' . $this->db->escape($data['amount']);
+  			$amount = 'credit = ' . (float)$tr_details['amount'];
   		} else {
   			return false;
   		}
@@ -287,12 +296,12 @@ final class ACustomer {
       	                	order_id 			= '" . (int)$tr_details['order_id'] . "',
       	                    transaction_type 	= '" . $this->db->escape($tr_details['transaction_type']) . "',
       	                    description 		= '" . $this->db->escape($tr_details['description']) . "',
-      	                    comments 			= '" . $this->db->escape($tr_details['comments']) . "',
-							'. $amount . '
+      	                    comment 			= '" . $this->db->escape($tr_details['comment']) . "',
+							". $amount . ",
 							section				= '" . ((int)$tr_details['section'] ? (int)$tr_details['section'] : 0) . "',
       	                    created_by 			= '" . (int)$tr_details['created_by'] . "',
-      	                    created = NOW()");
-  	
+      	                    create_date = NOW()");
+  		$this->cache->delete('balance.'.(int)$this->getId());
   		if ( $this->db->getLastId() ) {
   			return true;	
   		}

@@ -20,7 +20,7 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
-class ControllerResponsesListingGridTransactions extends AController {
+class ControllerResponsesListingGridCustomerTransaction extends AController {
 	private $errors = array();
 
 	public function main() {
@@ -89,8 +89,8 @@ class ControllerResponsesListingGridTransactions extends AController {
 			$response->rows[ $i ][ 'cell' ] = array(
 				$result[ 'create_date' ],
 				$result[ 'user' ],
-				$result[ 'credit' ],
 				$result[ 'debit' ],
+				$result[ 'credit' ],
 				$result[ 'transaction_type' ],
 			);
 			$i++;
@@ -135,10 +135,10 @@ class ControllerResponsesListingGridTransactions extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		if (!$this->user->canModify('listing_grid/transactions') || $this->request->server['REQUEST_METHOD']!='POST') {
+		if (!$this->user->canModify('listing_grid/customer_transaction') || $this->request->server['REQUEST_METHOD']!='POST') {
 					$error = new AError('');
 					return $error->toJSONResponse('NO_PERMISSIONS_402',
-						array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/transactions'),
+						array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer_transaction'),
 							'reset_value' => true
 						));
 		}
@@ -176,10 +176,10 @@ class ControllerResponsesListingGridTransactions extends AController {
 		$this->load->library('json');
 		$this->loadLanguage('sale/customer');
 		$edit = 1;
-		if (!$this->user->canAccess('listing_grid/transactions')) {
+		if (!$this->user->canAccess('listing_grid/customer_transaction')) {
 					$error = new AError('');
 					return $error->toJSONResponse('NO_PERMISSIONS_402',
-						array( 'error_text' => sprintf($this->language->get('error_permission_access'), 'listing_grid/transactions'),
+						array( 'error_text' => sprintf($this->language->get('error_permission_access'), 'listing_grid/customer_transaction'),
 							'reset_value' => true
 						));
 		}
@@ -187,10 +187,10 @@ class ControllerResponsesListingGridTransactions extends AController {
 
 		if((int)$this->request->get['customer_transaction_id'] || isset($default_data_set['customer_transaction_id'])){
 			$edit = 0;
-			if (!$this->user->canModify('listing_grid/transactions')) {
+			if (!$this->user->canModify('listing_grid/customer_transaction')) {
 						$error = new AError('');
 						return $error->toJSONResponse('NO_PERMISSIONS_402',
-							array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/transactions'),
+							array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer_transaction'),
 								'reset_value' => true
 							));
 			}
@@ -211,13 +211,6 @@ class ControllerResponsesListingGridTransactions extends AController {
 				'form_name' => 'transaction_form',
 			));
 
-			$response['fields'][] = array('text' => $this->language->get('text_option_credit'),
-										'field' => (string)$form->getFieldHtml(array(
-																			'type' => 'input',
-																			'name' => 'credit',
-																			'value' => $info['credit'],
-																			'style' => 'large-field'
-																		)));
 			$response['fields'][] = array('text' => $this->language->get('text_option_debit'),
 										'field' => (string)$form->getFieldHtml(array(
 																			'type' => 'input',
@@ -225,6 +218,15 @@ class ControllerResponsesListingGridTransactions extends AController {
 																			'value' => $info['debit'],
 																			'style' => 'large-field'
 																		)));
+
+			$response['fields'][] = array('text' => $this->language->get('text_option_credit'),
+										'field' => (string)$form->getFieldHtml(array(
+																			'type' => 'input',
+																			'name' => 'credit',
+																			'value' => $info['credit'],
+																			'style' => 'large-field'
+																		)));
+
 			$types = $this->model_sale_customer_transaction->getTransactionTypes();
 			$types[''] = $this->language->get('text_option_other_type');
 			reset($types);
@@ -270,10 +272,12 @@ class ControllerResponsesListingGridTransactions extends AController {
 			$response['fields'][] = array('text' => $this->language->get('column_created_by').":",
 										'field' =>  $info['user']);
 
-			$response['fields'][] = array('text' => $this->language->get('text_option_credit').':',
-										'field' =>  $info['credit']);
 			$response['fields'][] = array('text' => $this->language->get('text_option_debit').':',
 										'field' =>  $info['debit']);
+
+			$response['fields'][] = array('text' => $this->language->get('text_option_credit').':',
+										'field' =>  $info['credit']);
+
 			$response['fields'][] = array('text' => $this->language->get('text_transaction_type'),
 										'field' => (string)$info['transaction_type']);
 

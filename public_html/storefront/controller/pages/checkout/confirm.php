@@ -68,7 +68,10 @@ class ControllerPagesCheckoutConfirm extends AController {
 		if (!isset($this->session->data['payment_method'])) {
 	  		$this->redirect($this->html->getSecureURL('checkout/payment'));
     	}
-		
+
+		if($this->request->get['balance']=='disapply'){
+			unset($this->session->data[ 'used_balance' ],$this->request->get['balance'],$this->session->data[ 'used_balance_full' ]);
+		}
 		$this->data = array();
 	
 		$order = new AOrder( $this->registry );
@@ -107,7 +110,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 		}
 		
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('checkout/payment'),
+        	'href'      => $this->html->getURL('checkout/payment', '&mode=edit'),
         	'text'      => $this->language->get('text_payment'),
         	'separator' => $this->language->get('text_separator')
       	 ));
@@ -122,6 +125,25 @@ class ControllerPagesCheckoutConfirm extends AController {
 		$this->data['success'] = $this->session->data['success'];
 		if (isset($this->session->data['success'])) {
     		unset($this->session->data['success']);
+		}
+
+		//balance
+		$balance = $this->customer->getBalance();
+
+		if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance')) && (float)$this->session->data['used_balance']!=0){
+
+			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance);
+
+			if((float)$this->session->data['used_balance']!=0){
+
+				$this->data['disapply_balance'] = array('href'=> $this->html->getSecureURL('checkout/payment','&mode=edit&balance=disapply'),
+																	'text' => $this->language->get('button_disapply_balance'));
+				$this->data['balance'] .=  ' ('.$this->currency->format($balance-(float)$this->session->data['used_balance']).')';
+				$this->data['balance'] .=  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$this->currency->format((float)$this->session->data['used_balance']).' '.$this->language->get('text_applied_balance');
+			}else{
+				$this->data['disapply_balance'] = array('href'=> $this->html->getSecureURL('checkout/payment','&mode=edit&balance=apply'),
+														'text' => $this->language->get('button_apply_balance'));
+			}
 		}
 
 		$this->loadModel('account/address');

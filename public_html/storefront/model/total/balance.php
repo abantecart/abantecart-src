@@ -23,16 +23,17 @@ if (! defined ( 'DIR_CORE' )) {
 class ModelTotalBalance extends Model {
 	public function getTotal(&$total_data, &$total, &$taxes) {
 		if ($this->config->get('balance_status')) {
-			$total_data[] = array( 
-        		'id'         => 'balance',
-        		'title'      => $this->language->get('text_balance_checkout'),
-        		'text'       => '-'.$this->currency->format($this->session->data['used_balance']),
-        		'value'      => - $this->session->data['used_balance'],
-				'sort_order' => 999,
-				'total_type' => 'balance'
-			);
-			
-			$total -= $this->session->data['used_balance'];
+			if((float)$this->session->data['used_balance']){
+				$total_data[] = array(
+					'id'         => 'balance',
+					'title'      => $this->language->get('text_balance_checkout'),
+					'text'       => '-'.$this->currency->format($this->session->data['used_balance']),
+					'value'      => - $this->session->data['used_balance'],
+					'sort_order' => 999,
+					'total_type' => 'balance'
+				);
+				$total -= $this->session->data['used_balance'];
+			}
 		}
 	}
 }

@@ -149,11 +149,12 @@ class ModelSaleCustomerTransaction extends Model {
         $cache_name = 'balance.'.$customer_id;
         $balance = $this->cache->get($cache_name);
         if(is_null($balance)){
-            $sql = "SELECT SUM(credit)-SUM(debit) as balance
+            $sql = "SELECT SUM(debit)-SUM(credit) as balance
 					FROM " . $this->db->table("customer_transactions") . "
 					WHERE customer_id=".(int)$customer_id;
             $query = $this->db->query($sql);
             $balance = (float)$query->row['balance'];
+			$this->cache->set($cache_name,$balance);
         }
         return $balance;
     }

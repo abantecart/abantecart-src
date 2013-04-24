@@ -229,4 +229,8 @@
 		<key>text_applied_balance</key>
 		<value><![CDATA[applied to order]]></value>
 	</definition>
+	<definition>
+		<key>text_applied_balance_to_order</key>
+		<value><![CDATA[%s used for order #%s]]></value>
+	</definition>
 </definitions>

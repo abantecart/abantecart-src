@@ -20,7 +20,7 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
-class ControllerPagesSaleTransactions extends AController {
+class ControllerPagesSaleCustomerTransaction extends AController {
 	public $data = array();
 	private $error = array();
 
@@ -43,7 +43,7 @@ class ControllerPagesSaleTransactions extends AController {
       		'separator' => ' :: '
    		 ));
    		$this->document->addBreadcrumb( array (
-       		'href'      => $this->html->getSecureURL('sale/transactions','&customer_id='.$this->request->get['customer_id']),
+       		'href'      => $this->html->getSecureURL('sale/customer_transaction','&customer_id='.$this->request->get['customer_id']),
        		'text'      => $this->language->get('heading_title_transactions'),
       		'separator' => ' :: '
    		 ));
@@ -69,7 +69,7 @@ class ControllerPagesSaleTransactions extends AController {
 			//id of grid
             'table_id' => 'transactions_grid',
             // url to load data from
-			'url' => $this->html->getSecureURL('listing_grid/transactions','&customer_id='.$this->request->get['customer_id']),
+			'url' => $this->html->getSecureURL('listing_grid/customer_transaction','&customer_id='.$this->request->get['customer_id']),
             'sortname' => 'create_date',
             'sortorder' => 'desc',
 			'multiselect' => 'false',
@@ -85,8 +85,8 @@ class ControllerPagesSaleTransactions extends AController {
 		$this->data['grid_settings']['colNames'] = array(
 			$this->language->get('column_create_date'),
 			$this->language->get('column_created_by'),
-			$this->language->get('column_credit'),
 			$this->language->get('column_debit'),
+			$this->language->get('column_credit'),
 			$this->language->get('column_transaction_type'),
 		);
 		$this->data['grid_settings']['colModel'] = array(
@@ -101,13 +101,13 @@ class ControllerPagesSaleTransactions extends AController {
 					'width' => 140,
 					'align' => 'left', ),
 
-			array( 'name' => 'credit',
-					'index' => 'credit',
+			array(  'name' => 'debit',
+					'index' => 'debit',
 					'width' => 50,
 					'align' => 'center'),
 
-			array(  'name' => 'debit',
-					'index' => 'debit',
+			array( 'name' => 'credit',
+					'index' => 'credit',
 					'width' => 50,
 					'align' => 'center'),
 
@@ -164,9 +164,9 @@ class ControllerPagesSaleTransactions extends AController {
 		$this->view->assign ( 'search_form', $this->data['grid_search_form'] );
 
 		$this->document->setTitle( $this->language->get('heading_title_transactions') );
-		$this->view->assign( 'popup_action', $this->html->getSecureURL('listing_grid/transactions/get_transaction_info') );
+		$this->view->assign( 'popup_action', $this->html->getSecureURL('listing_grid/customer_transaction/get_transaction_info') );
 
-		$this->view->assign( 'popup_action_save', $this->html->getSecureURL('listing_grid/transactions/savetransaction') );
+		$this->view->assign( 'popup_action_save', $this->html->getSecureURL('listing_grid/customer_transaction/savetransaction') );
 
 		$form = new AForm('HT');
 		$form->setForm(array(
@@ -175,7 +175,7 @@ class ControllerPagesSaleTransactions extends AController {
 		$this->data['ajax_form_open'] = (string)$form->getFieldHtml(array(
 					'type' => 'form',
 					'name' => 'transaction_form',
-					'action' => $this->html->getSecureURL('listing_grid/transactions/savetransaction','&customer_id='.$this->request->get['customer_id']),
+					'action' => $this->html->getSecureURL('listing_grid/customer_transaction/savetransaction','&customer_id='.$this->request->get['customer_id']),
 				));
 
 		$this->view->assign('help_url', $this->gen_help_url('customer_transactions_listing') );
@@ -191,7 +191,7 @@ class ControllerPagesSaleTransactions extends AController {
 			    ));
 
 		$this->view->batchAssign($this->data);
-		$this->processTemplate('pages/sale/transactions.tpl' );
+		$this->processTemplate('pages/sale/customer_transaction.tpl' );
 
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);

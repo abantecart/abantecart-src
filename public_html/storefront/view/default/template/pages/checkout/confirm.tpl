@@ -43,8 +43,9 @@
 	</table>
 	<div class="gray_separator"></div>
 	<?php } ?>
-<?php  if ($payment_method) { ?>
+<?php  if ($payment_method || $balance) { ?>
 	<table width="100%">
+		<?php if($payment_method){?>
         <tr>
           <td align="left" valign="top" class="checkout_heading"><?php echo $text_payment; ?></td>
           <td align="right" valign="top"><a href="<?php echo $checkout_payment_edit; ?>"><?php echo $text_edit_payment; ?></a></td>
@@ -64,6 +65,22 @@
 		     </table>
           </td>
 	    </tr>
+		<?php }
+		if($balance){?>
+			<tr>
+				<td align="left"><?php echo $balance;?></td>
+				<td align="left">&nbsp;</td>
+				<td align="left">&nbsp;</td>
+				<td align="right">
+					<?php if($disapply_balance){ ?>
+					<a class="btn btn-mini" href="<?php echo $disapply_balance['href']; ?>">
+						<?php echo $disapply_balance['text']; ?>
+					</a>
+					<?php }?>
+				</td>
+			</tr>
+
+		<?php } ?>
 	</table>
 	<div class="gray_separator"></div>
 	  <?php } ?>
