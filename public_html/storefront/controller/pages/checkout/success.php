@@ -27,6 +27,20 @@ class ControllerPagesCheckoutSuccess extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		if (isset($this->session->data['order_id'])) {
+
+			$amount = $this->currency->convert($this->session->data['used_balance'],$this->session->data['currency'], $this->config->get('config_currency'));
+			if($amount){
+				$transaction_data = array(
+										'order_id'=>(int)$this->session->data['order_id'],
+										'amount' => $amount,
+										'transaction_type'=>'order',
+										'created_by' => $this->customer->getId(),
+										'description' => sprintf($this->language->get('text_applied_balance_to_order'),
+																$this->currency->format($amount),
+																(int)$this->session->data['order_id']));
+				$this->customer->creditTransaction($transaction_data);
+			}
+
 			$this->cart->clear();
 			
 			unset(  $this->session->data['shipping_method'],
@@ -121,4 +135,3 @@ class ControllerPagesCheckoutSuccess extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 }
-?>

@@ -239,16 +239,6 @@ class ModelCheckoutOrder extends Model {
 							        comment = '" . $this->db->escape($comment) . "',
 							        date_added = NOW()");
 
-			$amount = $this->currency->convert($this->session->data['used_balance'],$this->session->data['currency'], $this->config->get('config_currency'));
-			$transaction_data = array(
-									'order_id'=>(int)$order_id,
-									'amount' => $amount,
-									'transaction_type'=>'order',
-									'created_by' => $this->customer->getId(),
-									'description' => sprintf($this->language->get('text_applied_balance_to_order'),$this->currency->format($amount),(int)$order_id));
-
-			$this->customer->creditTransaction($transaction_data);
-
 			$order_product_query = $this->db->query("SELECT *
 													 FROM " . $this->db->table("order_products") . "
 													 WHERE order_id = '" . (int)$order_id . "'");
