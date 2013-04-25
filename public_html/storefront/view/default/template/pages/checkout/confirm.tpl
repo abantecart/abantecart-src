@@ -67,10 +67,9 @@
 	    </tr>
 		<?php }
 		if($balance){?>
+
 			<tr>
 				<td align="left"><?php echo $balance;?></td>
-				<td align="left">&nbsp;</td>
-				<td align="left">&nbsp;</td>
 				<td align="right">
 					<?php if($disapply_balance){ ?>
 					<a class="btn btn-mini" href="<?php echo $disapply_balance['href']; ?>">

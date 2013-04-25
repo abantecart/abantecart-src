@@ -49,7 +49,7 @@ class ControllerPagesCheckoutPayment extends AController {
 			$order_totals = $this->cart->buildTotalDisplay(true);
 			$order_total = $order_totals['total'];
 			$balance = $this->customer->getBalance();
-			if($balance){
+			if($balance>0){
 				if($balance>=$order_total){ //if enough
 					$this->session->data[ 'used_balance' ] = $order_total;
 					$this->session->data[ 'used_balance_full' ] = true;
@@ -167,7 +167,7 @@ class ControllerPagesCheckoutPayment extends AController {
 
 			$this->redirect($this->html->getSecureURL('checkout/confirm'));
 		}
-var_dump($total['total']);
+
 		if($total['total']==0){
 			$this->session->data[ 'payment_method' ] = array(
 															'id'         => 'no_payment_required',
@@ -262,12 +262,13 @@ var_dump($total['total']);
 		$balance = $this->customer->getBalance();
 
 		if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance')) && (float)$this->session->data['used_balance']!=0){
-			if((float)$this->session->data['used_balance']==0){
+			if((float)$this->session->data['used_balance']==0 && $balance>0){
 				$this->data['apply_balance_button'] = $this->html->buildButton(array('id' => 'apply_balance',
 																					'href' => $this->html->getSecureURL('checkout/payment','&mode=edit&balance=apply'),
 																					'text' => $this->language->get('button_apply_balance'),
 																					'style'=>'button'));
-			}else{
+			}elseif((float)$this->session->data['used_balance']>0){
+
 				$this->data['apply_balance_button'] = $this->html->buildButton(array('id' => 'apply_balance',
 																					'href' => $this->html->getSecureURL('checkout/payment','&mode=edit&balance=disapply'),
 																					'text' => $this->language->get('button_disapply_balance'),
@@ -275,7 +276,7 @@ var_dump($total['total']);
 			}
 
 			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance);
-			if((float)$this->session->data['used_balance']!=0){
+			if((float)$this->session->data['used_balance']>0){
 				$this->data['balance'] .=  ' ('.$this->currency->format($balance-(float)$this->session->data['used_balance']).')';
 				$this->data['balance'] .=  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$this->currency->format((float)$this->session->data['used_balance']).' '.$this->language->get('text_applied_balance');
 			}

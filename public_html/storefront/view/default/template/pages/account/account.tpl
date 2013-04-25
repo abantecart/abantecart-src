@@ -3,7 +3,11 @@
     <div class="left"></div>
     <div class="right"></div>
     <div class="center">
-      <h1><?php echo $heading_title; ?></h1>
+      <h1><?php echo $heading_title; ?>
+		  <?php if($balance){?>
+		  	<span class="flt_right"><?php echo $balance; ?></span>
+		  			<?php }?>
+	  </h1>
     </div>
   </div>
   <div class="middle">
@@ -22,6 +26,7 @@
       <li><a href="<?php echo $history; ?>"><?php echo $text_history; ?></a></li>
       <li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>
 	  <?php echo $this->getHookVar('order_links'); ?>
+
     </ul>
     <p><b><?php echo $text_my_newsletter; ?></b></p>
     <ul>
