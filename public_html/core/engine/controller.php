@@ -103,6 +103,7 @@ abstract class AController {
 	protected $controller;
 	protected $parent_controller;
 	protected $children = array();
+	protected $block_details = array();
 	public $dispatcher;
 	public $view;
 	protected $languages = array();
@@ -136,6 +137,7 @@ abstract class AController {
 			//Load Controller template and pass to view. This can be reset in controller as well
 			$this->view->setTemplate($this->layout->getBlockTemplate($this->instance_id));
 			//Load Children from layout if any. 'instance_id', 'contorller', 'block_text_id', 'template'
+			$this->block_details = $this->layout->getBlockDetails($this->instance_id);
 			$this->children = $this->layout->getChildren($this->instance_id);
 		}
 	}
@@ -251,6 +253,7 @@ abstract class AController {
 		if (!empty($template)) {
 			$this->view->setTemplate($template);
 		}
+		$this->view->assign('block_details',$this->block_details);
 		$this->view->assign("children_blocks", $this->getChildrenBlocks());
 		$this->view->enableOutput();
 	}
