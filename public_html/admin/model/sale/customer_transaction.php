@@ -161,8 +161,10 @@ class ModelSaleCustomerTransaction extends Model {
 
     public function addCustomerTransaction($data=array()){
         if(((float)$data['credit'] || (float)$data['debit']) && (int)$data['customer_id']){
-            $sql = "INSERT INTO " . $this->db->table("customer_transactions") . " (`customer_id`,`created_by`,`credit`,`debit`,`section`, `transaction_type`,`comment`,`description`,`create_date`)
-					VALUES ('".(int)$data['customer_id']."',
+            $sql = "INSERT INTO " . $this->db->table("customer_transactions") . " (`customer_id`,`order_id`,`created_by`,`credit`,`debit`,`section`, `transaction_type`,`comment`,`description`,`create_date`)
+					VALUES (
+							'".(int)$data['customer_id']."',
+							'".(int)$data['order_id']."',
 							'".$this->user->getId()."',
 							'".(float)$data['credit']."',
 							'".(float)$data['debit']."',
