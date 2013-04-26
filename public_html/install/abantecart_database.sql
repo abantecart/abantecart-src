@@ -5739,7 +5739,7 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `created`) VA
 (24, 'credit_cards', 'blocks/credit_cards', now() ),
 (25, 'newsletter_signup', 'blocks/newsletter_signup', now() ), 
 (26, 'search', 'blocks/search', now() ),
-(27, 'menu', 'blocks/menu', now(),
+(27, 'menu', 'blocks/menu', now() ),
 (28, 'breadcrumbs', 'blocks/breadcrumbs', now() );
 
 --
