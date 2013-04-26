@@ -5739,7 +5739,8 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `created`) VA
 (24, 'credit_cards', 'blocks/credit_cards', now() ),
 (25, 'newsletter_signup', 'blocks/newsletter_signup', now() ), 
 (26, 'search', 'blocks/search', now() ),
-(27, 'menu', 'blocks/menu', now() );
+(27, 'menu', 'blocks/menu', now(),
+(28, 'breadcrumbs', 'blocks/breadcrumbs', now() );
 
 --
 -- DDL for table `ac_custom_blocks`
@@ -5813,6 +5814,9 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (9, 2, 'blocks/category_top.tpl', now()),
 (9, 3, 'blocks/category.tpl', now() ),
 (9, 6, 'blocks/category.tpl', now() ),
+(9, 7, 'blocks/category_bottom.tpl', now() ),
+(9, 8, 'blocks/category_bottom.tpl', now() ),
+
 (10, 3, 'blocks/manufacturer.tpl', now() ),
 (10, 6, 'blocks/manufacturer.tpl', now() ),
 (11, 3, 'blocks/content.tpl', now() ),
@@ -5876,7 +5880,8 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (27, 1, 'blocks/menu_top.tpl', now() ),
 (27, 2, 'blocks/menu_bottom.tpl', now() ),
 (27, 3, 'blocks/menu.tpl', now() ),
-(27, 6, 'blocks/menu.tpl', now() )
+(27, 6, 'blocks/menu.tpl', now() ),
+(28, 2, 'blocks/breadcrumbs.tpl', now() )
 ;
 
 --

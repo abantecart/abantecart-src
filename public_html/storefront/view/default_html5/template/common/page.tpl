@@ -5,8 +5,6 @@
 <body>
 <?php echo ${$header}; ?>
 
-<div id="maincontainer">
-
 <?php if ( !empty( ${$header_bottom} ) ) { ?>
 <!-- header_bottom blocks placeholder -->
 	<div class="row-fluid">
@@ -16,6 +14,10 @@
 	</div>
 <!-- header_bottom blocks placeholder -->
 <?php } ?>
+
+<div id="maincontainer">
+
+
   
 <?php
 	//check layout dynamicaly

@@ -1,5 +1,5 @@
-<div class="container">
-	<section id="categorymenu">
+<section id="categorymenu">
+	<div class="container">
 		<nav class="subnav">
 			<ul class="nav-pills categorymenu">
 				<li><a class="active menu_home" href="<?php echo HTTP_SERVER; ?>"><?php echo $text_home; ?></a>
@@ -48,5 +48,5 @@
 				<?php } ?>
 			</ul>
 		</nav>
-	</section>
-</div>
+	</div>
+</section>

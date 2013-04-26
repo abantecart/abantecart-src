@@ -55,7 +55,9 @@ INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
 INSERT INTO `ac_blocks` (`block_txt_id`, `controller`, `created`) VALUES
 ('newsletter_signup', 'blocks/newsletter_signup', now()), 
 ('search', 'blocks/search', now()),
-('menu', 'blocks/menu', now());
+('menu', 'blocks/menu', now(),
+('breadcrumbs', 'blocks/breadcrumbs', now()
+);
 
 INSERT INTO `ac_block_layouts` (`layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
 (11, 1, 0, 0, 10, 1, now() ),
@@ -162,6 +164,8 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (11, 8, 'blocks/content_footer.tpl', now() ),
 (9, 1, 'blocks/category_top.tpl', now() ),
 (9, 2, 'blocks/category_top.tpl', now() ),
+(9, 7, 'blocks/category_bottom.tpl', now() ),
+(9, 8, 'blocks/category_bottom.tpl', now() ),
 -- #NEED to check block_id!!!!!
 (25, 1, 'blocks/newsletter_signup_header.tpl', now() ),
 (25, 2, 'blocks/newsletter_signup_header_bottom.tpl', now() ),
@@ -175,9 +179,14 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (26, 2, 'blocks/search_top.tpl', now() ),
 (26, 3, 'blocks/search.tpl', now() ),
 (26, 6, 'blocks/search.tpl', now() ),
+(26, 7, 'blocks/search_bottom.tpl', now() ),
+(26, 8, 'blocks/search_bottom.tpl', now() ),
+
 (27, 1, 'blocks/menu_top.tpl', now() ),
 (27, 2, 'blocks/menu_bottom.tpl', now() ),
 (27, 3, 'blocks/menu.tpl', now() ),
-(27, 6, 'blocks/menu.tpl', now() );
+(27, 6, 'blocks/menu.tpl', now(),
+(28, 2, 'blocks/breadcrumbs.tpl', now() )
+ );
 
 UPDATE `ac_block_templates` set template = 'blocks/html_block_footer.tpl' where `block_id` = 17 and `parent_block_id` = 8;
