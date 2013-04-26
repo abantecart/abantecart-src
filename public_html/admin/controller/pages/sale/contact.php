@@ -50,22 +50,15 @@ class ControllerPagesSaleContact extends AController {
 			
 			// All customers by group
 			if (isset($this->request->post['group'])) {
-				$customers = array();
-				switch ($this->request->post['group']) {
-					case 'newsletter':
+				$customers = $results = array();
+				if($this->request->post['group'] == 'newsletter'){
 						$results = $this->model_sale_customer->getCustomersByNewsletter();
-						foreach ($results as $result) {
-							$emails[$result['customer_id']] = $result['email'];
-							$customers[] = $result['email'];
-						}
-						break;
-					case 'customer':
+				}else if($this->request->post['group'] == 'customer'){
 						$results = $this->model_sale_customer->getCustomers();
-						foreach ($results as $result) {
-							$emails[$result['customer_id']] = $result['email'];
-							$customers[] = $result['email'];
-						}						
-						break;
+				}
+				foreach ($results as $result) {
+					$customer_id = $result['customer_id'];
+					$emails[$customer_id] = $customers[$customer_id] = trim($result['email']);
 				}
 			}
 			
@@ -74,7 +67,7 @@ class ControllerPagesSaleContact extends AController {
 				foreach ($this->request->post['to'] as $customer_id) {
 					$customer_info = $this->model_sale_customer->getCustomer($customer_id);
 					if ($customer_info) {
-						$emails[] = $customer_info['email'];
+						$emails[] = trim($customer_info['email']);
 					}
 				}
 			}
@@ -88,7 +81,7 @@ class ControllerPagesSaleContact extends AController {
 					}
 					foreach ($results as $result) {
 						if($customers && in_array($result['email'],$customers)){
-							$emails[] = $result['email'];
+							$emails[] = trim($result['email']);
 						}
 					}
 				}
@@ -98,13 +91,13 @@ class ControllerPagesSaleContact extends AController {
 			$emails = array_unique($emails);
 			
 			if ($emails) {
-				$message  = '<html dir="ltr" lang="en">' . "\n";
-				$message .= '<head>' . "\n";
-				$message .= '<title>' . $this->request->post['subject'] . '</title>' . "\n";
-				$message .= '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">' . "\n";
-				$message .= '</head>' . "\n";
-				$message .= '<body>' . html_entity_decode($this->request->post['message'], ENT_QUOTES, 'UTF-8') . '</body>' . "\n";
-				$message .= '</html>' . "\n";
+				$message_html  = '<html dir="ltr" lang="en">' . "\n";
+				$message_html .= '<head>' . "\n";
+				$message_html .= '<title>' . $this->request->post['subject'] . '</title>' . "\n";
+				$message_html .= '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">' . "\n";
+				$message_html .= '</head>' . "\n";
+				$message_html .= '<body>%MESSAGEBODY%</body>' . "\n";
+				$message_html .= '</html>' . "\n";
 				
 				foreach ($emails as $email) {
 					$mail = new AMail( $this->config );
@@ -113,7 +106,18 @@ class ControllerPagesSaleContact extends AController {
 					$mail->setSender($store_name);
 					$mail->setSubject($this->request->post['subject']);					
 
-					$mail->setHtml($message);
+					$message_body = $this->request->post['message'];
+					if($this->request->post['group'] == 'newsletter'){
+						if(($customer_id = array_search($email,$customers))){
+							$message_body .= "\n\n<br><br>".sprintf($this->language->get('text_unsubscribe'),
+													 $email,
+													 $this->html->getCatalogURL('account/unsubscribe','&email='.$email.'&customer_id='.$customer_id));
+						}
+					}
+					$message_body = html_entity_decode($message_body, ENT_QUOTES, 'UTF-8');
+					$message_html = str_replace('%MESSAGEBODY%',$message_body,$message_html);
+
+					$mail->setHtml($message_html);
 					$mail->send();
 					if($mail->error){
 						$this->error['warning'] = 'Error: Emails does not sent! Please see error log for details.';

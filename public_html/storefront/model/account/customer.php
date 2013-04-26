@@ -20,11 +20,16 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/** @noinspection PhpUndefinedClassInspection */
+/**
+ * Class ModelAccountCustomer
+ * @property ModelCatalogContent $model_catalog_content
+ */
 class ModelAccountCustomer extends Model {
-
+	/**
+	 * @param array $data
+	 */
 	public function addCustomer($data) {
-	
 		$key_sql = '';
 		if ( $this->dcrypt->active ) {
 			$data = $this->dcrypt->encrypt_data($data, 'customers');
@@ -72,7 +77,10 @@ class ModelAccountCustomer extends Model {
 			$this->db->query("UPDATE " . $this->db->table("customers") . " SET approved = '1' WHERE customer_id = '" . (int)$customer_id . "'");
 		}		
 	}
-	
+
+	/**
+	 * @param array $data
+	 */
 	public function editCustomer($data) {
 		$key_sql = '';
 		if ( $this->dcrypt->active ) {
@@ -96,39 +104,62 @@ class ModelAccountCustomer extends Model {
 						  		" WHERE customer_id = '" . (int)$this->customer->getId() . "'");
 	}
 
+	/**
+	 * @param string $loginname
+	 * @param string $password
+	 */
 	public function editPassword($loginname, $password) {
 		$password = AEncryption::getHash($password);
       	$this->db->query("UPDATE " . $this->db->table("customers") . " SET password = '" . $this->db->escape($password) . "' WHERE loginname = '" . $this->db->escape($loginname) . "'");
 	}
 
-	public function editNewsletter($newsletter) {
-		$this->db->query("UPDATE " . $this->db->table("customers") . " SET newsletter = '" . (int)$newsletter . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
+	/**
+	 * @param int $newsletter
+	 * @param int $customer_id - optional parameter for unsubscribe page!
+	 */
+	public function editNewsletter($newsletter,$customer_id=0) {
+		$customer_id = (int)$customer_id ? (int)$customer_id : (int)$this->customer->getId();
+		$this->db->query("UPDATE " . $this->db->table("customers") . " SET newsletter = '" . (int)$newsletter . "' WHERE customer_id = '" . $customer_id . "'");
 	}
-			
+
+	/**
+	 * @param int $customer_id
+	 * @return array
+	 */
 	public function getCustomer($customer_id) {
 		$query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "'");
-		
-		$result_row = array();
-		$result_row = $this->dcrypt->decrypt_data($query->row, 'customers');		
+		$result_row = $this->dcrypt->decrypt_data($query->row, 'customers');
 		return $result_row;
 	}
-	
+
+	/**
+	 * @param string $email
+	 * @return int
+	 */
 	public function getTotalCustomersByEmail($email) {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("customers") . " WHERE LOWER(`email`) = LOWER('" . $this->db->escape($email) . "')");
 		
 		return $query->row['total'];
 	}
 
+	/**
+	 * @param string $email
+	 * @return int
+	 */
 	public function getCustomerByEmail($email) {
 		//assuming that data is not encrypted. Can not call these otherwise
 		$query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE LOWER(`email`) = LOWER('" . $this->db->escape($email) . "')");
 		return $query->row;
 	}
 
+	/**
+	 * @param string $loginname
+	 * @param string $email
+	 * @return array
+	 */
 	public function getCustomerByLoginnameAndEmail($loginname, $email) {
 		$query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE LOWER(`loginname`) = LOWER('" . $this->db->escape($loginname) . "')");
-		//validate it is correct row by matchign decrypted email;		
-		$result_row = array();
+		//validate it is correct row by matchign decrypted email;
 		$result_row = $this->dcrypt->decrypt_data($query->row, 'customers');		
 		if ( strtolower($result_row['email']) == strtolower($email) ) {
 			return $result_row;
@@ -137,6 +168,11 @@ class ModelAccountCustomer extends Model {
 		}				
 	}
 
+	/**
+	 * @param string $lastname
+	 * @param string $email
+	 * @return array
+	 */
 	public function getCustomerByLastnameAndEmail($lastname, $email) {
 		$query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE LOWER(`lastname`) = LOWER('" . $this->db->escape($lastname) . "')");
 		//validate if we have row with matchign decrypted email;		
@@ -156,7 +192,10 @@ class ModelAccountCustomer extends Model {
 		}				
 	}
 
-
+	/**
+	 * @param string $loginname
+	 * @return bool
+	 */
 	public function is_unique_loginname( $loginname ) {
 		if( empty($loginname) ) {
 			return false;
@@ -170,7 +209,11 @@ class ModelAccountCustomer extends Model {
       		return true;
       	}                           
 	}
-	
+
+	/**
+	 * @param array $data
+	 * @return array
+	 */
 	public function validateRegistrationData( $data ) {
 		$error = array();
 		$subscriber = $this->request->get_or_post('subscriber');
@@ -252,8 +295,11 @@ class ModelAccountCustomer extends Model {
 		
     	return $error;
 	}
-	
-	
+
+	/**
+	 * @param array $data
+	 * @return array
+	 */
 	public function validateEditData( $data ) {
 		$error = array();	
 		
@@ -300,4 +346,3 @@ class ModelAccountCustomer extends Model {
 	}
 	
 }
-?>
