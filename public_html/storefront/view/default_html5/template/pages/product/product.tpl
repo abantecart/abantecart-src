@@ -60,10 +60,10 @@
 		<?php if ($display_price) { ?>
           <div class="productpageprice">
 			<?php if ($special) { ?>
-			    <span class="spiral"></span><?php echo $special; ?>
+			    <span class="productfilneprice"><span class="spiral"></span><?php echo $special; ?></span>
 			    <span class="productpageoldprice"><?php echo $price; ?></span>
 			<?php } else { ?>
-			    <span class="spiral"></span><?php echo $price; ?>
+			    <span class="productfilneprice"<span class="spiral"></span><?php echo $price; ?></span>
 			<?php } ?>
 		</div>
 		<?php } ?>
@@ -379,9 +379,6 @@ function display_total_price () {
 		 	$('.total-price-holder').show();
 		 	$('.total-price-holder').css('visibility', 'visible');
 		 	$('.total-price').html(data.total);
-		 }
-		 if(data.price){
-			 $('div.productprice div.productpageprice').html('<span class="spiral"></span>'+data.price);
 		 }
 	}	
 	});

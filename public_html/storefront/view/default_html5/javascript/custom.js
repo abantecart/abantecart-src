@@ -24,7 +24,7 @@ $('document').ready(function(){
 		function(){			
 			$(this).removeClass('open')
 		}
-		);
+	);
 		
 	process_thumbnails();
 	

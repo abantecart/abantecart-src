@@ -14,45 +14,27 @@
 					<?php } ?>
 
 					<!-- Top Nav Start -->
-					<div class="pull-left">
-						<div class="navbar" id="topnav">
-							<div class="navbar-inner">
-								<?php echo  $menu; ?>
-							</div>
-						</div>
-					</div>
+					<div class="pull-left"><?php echo ${$children_blocks[0]}; ?></div>
 					<!-- Top Nav End -->
-					<div class="pull-right">
-						<form id="search_form" class="form-search top-search">
-							<input type="text" id="filter_keyword" name="filter_keyword"
-								   class="input-medium search-query" placeholder="<?php echo $text_keyword; ?>" value=""
-									/><button
-											title="<?php echo $button_go; ?>" class="btn btn-large pull-right ml10" type="submit">
-								<img src="<?php echo $this->templateResource('/image/search_icon.png'); ?>"/>
-							</button>
-						</form>
-					</div>
+					<div class="pull-left"><?php echo ${$children_blocks[1]}; ?></div>
+					<div class="pull-right"><?php echo ${$children_blocks[2]}; ?></div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<div class="container">
 		<div class="headerdetails">
 			<!-- header blocks placeholder -->
-			<div class="pull-left"><?php echo ${$children_blocks[0]}; ?></div>
-			<div class="pull-left"><?php echo ${$children_blocks[1]}; ?></div>
-			<div class="pull-left"><?php echo ${$children_blocks[2]}; ?></div>
-			<div class="pull-right"><?php echo ${$children_blocks[3]}; ?></div>
+			<div class="pull-left"><?php echo ${$children_blocks[3]}; ?></div>
+			<div class="pull-left"><?php echo ${$children_blocks[4]}; ?></div>			
+			<div class="pull-left"><?php echo ${$children_blocks[5]}; ?></div>
+			<div class="pull-right"><?php echo ${$children_blocks[6]}; ?></div>
 			<!-- header blocks placeholder (EOF) -->
-		</div>
-
-
+		</div>		
 		<div id="categorymenu">
-			<?php echo ${$children_blocks[4]}; ?>
-		</div>
-		<div class="pull-left"><?php echo ${$children_blocks[5]}; ?></div>
-		<div class="pull-left"><?php echo ${$children_blocks[6]}; ?></div>
-		<div class="pull-right"><?php echo ${$children_blocks[7]}; ?></div>
+			<?php echo ${$children_blocks[7]}; ?>
+		</div>		
 	</div>
 </header>
 <!-- Header End -->

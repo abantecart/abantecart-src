@@ -27,8 +27,6 @@ class ControllerCommonHeader extends AController {
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-
-
 		$this->data['title'] = $this->document->getTitle();
         $this->data['template'] = $this->config->get('config_storefront_template');
 		$this->data['breadcrumbs'] = $this->document->getBreadcrumbs();

@@ -1,6 +1,6 @@
 <ul class="nav topcart pull-left">
   <li class="dropdown hover carticon">
-    <a href="<?php echo $view; ?>" class="dropdown-toggle">&nbsp;<span class="label label-orange font14"><?php echo $total_qty;?></span> <?php echo $text_items;?> - <span class="cart_total"><?php echo $subtotal; ?></span> <b class="caret"></b></a>
+    <a href="<?php echo $view; ?>" class="dropdown-toggle"><?php /* echo $heading_title; */?>&nbsp;&nbsp;<span class="label label-orange font14"><?php echo $total_qty;?></span> <?php echo $text_items;?> - <span class="cart_total"><?php echo $subtotal; ?></span> <b class="caret"></b></a>
     <ul class="dropdown-menu topcartopen ">
       <li>
         <table>

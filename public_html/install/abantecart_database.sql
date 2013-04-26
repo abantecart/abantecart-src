@@ -5737,9 +5737,9 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `created`) VA
 (22, 'special', 'blocks/special', now() ),
 (23, 'banner_block', 'blocks/banner_block', now() ),
 (24, 'credit_cards', 'blocks/credit_cards', now() ),
-(25, 'newsletter_signup', 'blocks/newsletter_signup', now() );
-
-
+(25, 'newsletter_signup', 'blocks/newsletter_signup', now() ), 
+(26, 'search', 'blocks/search', now() ),
+(27, 'menu', 'blocks/menu', now() );
 
 --
 -- DDL for table `ac_custom_blocks`
@@ -5753,8 +5753,6 @@ CREATE TABLE `ac_custom_blocks` (
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`custom_block_id`, `block_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
 
 
 --
@@ -5870,9 +5868,16 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (25, 5, 'blocks/newsletter_signup_content_bottom.tpl', now() ),
 (25, 6, 'blocks/newsletter_signup_column_right.tpl', now() ),
 (25, 7, 'blocks/newsletter_signup_footer_top.tpl', now() ),
-(25, 8, 'blocks/newsletter_signup_footer.tpl', now() )
+(25, 8, 'blocks/newsletter_signup_footer.tpl', now() ),
+(26, 1, 'blocks/search_top.tpl', now() ),
+(26, 2, 'blocks/search_top.tpl', now() ),
+(26, 3, 'blocks/search.tpl', now() ),
+(26, 6, 'blocks/search.tpl', now() ),
+(27, 1, 'blocks/menu_top.tpl', now() ),
+(27, 2, 'blocks/menu_bottom.tpl', now() ),
+(27, 3, 'blocks/menu.tpl', now() ),
+(27, 6, 'blocks/menu.tpl', now() )
 ;
-
 
 --
 -- DDL for table `layouts`
@@ -6069,7 +6074,7 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (884, 12, 25, 0, 356, 40, 1, now()),
 (883, 12, 17, 16, 356, 30, 1, now()),
 (936, 14, 24, 0, 392, 70, 1, now()),
-(929, 14, 12, 0, 387, 20, 1, now()),
+(929, 14, 12, 0, 387, 10, 1, now()),
 (928, 14, 9, 0, 391, 50, 1, now()),
 (912, 15, 21, 0, 403, 80, 1, now()),
 (927, 14, 15, 0, 391, 40, 1, now()),

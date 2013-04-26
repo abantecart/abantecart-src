@@ -256,12 +256,25 @@ input:focus:invalid, textarea:focus:invalid, select:focus:invalid {
 .top-search {
 	margin-top: 14px;
 }
-
 .top-search input {
 	width: 210px;
 	height: 25px;
 	border: 4px solid #F5F5F5;
 	padding: 5px;
+}
+.search-bar .button-in-search {
+    position: absolute;
+ 	background: url(../image/sprite.png) no-repeat scroll right -243px #FFFFFF;
+    height: 33px;
+    left: 195px;
+    position: absolute;
+    top: 5px;
+    width: 30px;
+}
+.button-in-search {
+ 	background: url(../image/sprite.png) no-repeat scroll right -243px #FFFFFF;
+ 	cursor: hand; 
+ 	cursor: pointer;
 }
 
 .top-search ul.dropdown.dropdown-menu.span2.noclose> li.dropdown-submenu.hover{
@@ -272,8 +285,6 @@ input:focus:invalid, textarea:focus:invalid, select:focus:invalid {
    border: 0;
 }
 
-
-
 .top-search .submenu.dropdown-menu{
 	left: 0%;
 	top: 50px;
@@ -281,8 +292,11 @@ input:focus:invalid, textarea:focus:invalid, select:focus:invalid {
 
 
 .headerdetails {
-	padding: 14px 0 0 15px;
-	float: left;
+	padding: 20px 0 40px 300px;
+}
+
+.headerdetails ul.nav {
+	margin-bottom: 0px;
 }
 
 li.dropdown {
@@ -373,7 +387,7 @@ li.dropdown {
 }
 
 .headerdetails ul.nav.language li.dropdown {
-	border: 4px solid #f2f2f2;
+	border: 1px solid #f2f2f2;
 	padding: 7px 20px;
 	display: inline-block;
 	margin-right: 15px;
@@ -382,7 +396,7 @@ li.dropdown {
 }
 
 .headerdetails ul.nav.topcart li.dropdown {
-	border: 4px solid #f2f2f2;
+	border: 1px solid #f2f2f2;
 	display: inline-block;
 	text-transform: uppercase;
 	background-color: #ffffff;
@@ -407,6 +421,25 @@ li.dropdown {
 }
 
 /* ------------ Category Menu ------------ */
+.categorymenu li a.menu_home {
+	box-shadow: none;
+	text-shadow: none;
+	color: #fff;
+	font-size: 14px;
+	text-transform: uppercase;
+	background: transparent url(../image/sprite.png) no-repeat;
+	padding-left: 30px;
+	margin-right: 22px
+}
+
+.categorymenu li a.menu_home {
+	background-position: 5px 4px;
+}
+
+.categorymenu li a:hover.menu_home {
+	background-position: 5px -27px;
+}
+
 #categorymenu {
 	padding: 7px 0 7px 0;
 	background: #F5F5F5
@@ -2228,7 +2261,7 @@ a.clostalert {
 
 /* Responcive Section */
 @media (max-width: 1200px) {
-	.headerdetails {
+	.	 {
 		padding: 40px 0 40px 0 !important;
 	}
 
@@ -2750,7 +2783,7 @@ input, .btn, .label, .badge, .nav-pills > li > a,
 }
 
 .dropdown-menu .active > a, .dropdown-menu .active > a:hover {
-	color: #333333;
+	color: #ffffff;
 	text-decoration: none;
 	background: #00A1CB;
 	outline: 0;
