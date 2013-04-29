@@ -17,8 +17,6 @@
 
 <div id="maincontainer">
 
-
-  
 <?php
 	//check layout dynamicaly
 	$present_columns = 1;

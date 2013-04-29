@@ -24,7 +24,7 @@ if (! defined ( 'DIR_CORE' )) {
 function renderStoreMenu( $menu, $level = 0 ){
 	$menu = (array)$menu;
     $result = '';
-    if ( $level ) $result .= "<ul>\r\n";
+    if ( $level ) $result .= "<ul class='dropdown-menu'>\r\n";
 	$registry = Registry::getInstance();
 	$logged = $registry->get('customer')->isLogged();
 
@@ -38,7 +38,7 @@ function renderStoreMenu( $menu, $level = 0 ){
         $class = $level != 0 ? empty($item['children']) ? '' : ' class="parent menu_'.$item['id'].'" ' : ' class="top menu_'.$item['id'].'" '; //a class
         $href = empty($item['href']) ? '' : ' href="'.$item['href'].'" '; //a href
 
-        $result .= '<li' . $id . '>';
+        $result .= '<li' . $id . ' class="dropdown hover">';
         $result .= '<a' . $class . $href . '>';
 	    $result .= $item['icon'] ? '<img src="'. HTTP_DIR_RESOURCE . $item['icon'].'" alt="" />' : '';
 		$result .= '<span>' . $item['text'] . '</span></a>';
