@@ -278,6 +278,13 @@ input:focus:invalid, textarea:focus:invalid, select:focus:invalid {
 #topnav ul li a:hover.menu_checkout, #topnav ul li a.active.menu_checkout {
 	background-position: 0 -213px
 }
+#topnav ul li a.menu_specials {
+	background-position: 0 -725px
+}
+
+#topnav ul li a:hover.menu_specials, #topnav ul li a.active.menu_specials {
+	background-position: 0 -780px
+}
 
 .top-search input {
 	width: 210px;
