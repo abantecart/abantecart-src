@@ -72,11 +72,14 @@ if (typeof jQuery == 'undefined') {
                     		&nbsp;&nbsp;<a href="<?php echo $cart_url ?>"><?php echo $text_add_cart_confirm; ?> \
                     		&nbsp;<img src="<?php echo $this->templateResource("/image/addcart.png"); ?>"></a> \
                     		</div>';
-                        item.closest('.thumbnail .pricetag').before(alert_msg);
+						item.closest('.thumbnail .pricetag').before(alert_msg);
 
 						//topcart
 						$('.nav.topcart .dropdown-toggle span').first().html(data.item_count);
-						$('.nav.topcart .dropdown-toggle .cart_total').html(data.total +'<b class="caret"></b>');
+						$('.nav.topcart .dropdown-toggle .cart_total').html(data.total);
+						if($('#top_cart_product_list')){
+							$('#top_cart_product_list').html(data.cart_details);
+						};
                     }
             });
         }

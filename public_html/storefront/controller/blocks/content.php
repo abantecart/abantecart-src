@@ -21,6 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerBlocksContent extends AController {
+	public $data=array();
 	public function main() {
 
         //init controller data
@@ -52,17 +53,18 @@ class ControllerBlocksContent extends AController {
     	$this->data['cart'] =  $this->html->getURL('checkout/cart');
 		$this->data['checkout'] =  $this->html->getSecureURL('checkout/shipping');
 
-		$this->view->batchAssign($this->data);
+
 
 		//build dynamic content (pages) links
 		$this->loadModel('catalog/content');
 
 		$contents = $this->_buildTree($this->model_catalog_content->getContents(),0,0);
 
-        $this->view->assign('contents', $contents );
-        $this->view->assign('contact', $this->html->getURL('content/contact') );
-        $this->view->assign('sitemap', $this->html->getURL('content/sitemap') );
+		$this->data['contents'] = $contents;
+		$this->data['contact'] = $this->html->getURL('content/contact');
+		$this->data['sitemap'] = $this->html->getURL('content/sitemap');
 
+		$this->view->batchAssign($this->data);
 		$this->processTemplate();
 
         //init controller data
@@ -106,4 +108,3 @@ class ControllerBlocksContent extends AController {
 	return $output;
 	}
 }
-?>
