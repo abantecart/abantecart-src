@@ -2443,10 +2443,10 @@ VALUES
 
 INSERT INTO `ac_banners` VALUES
 (17,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',5,now(), now()),
-(16,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'www.abantecart.com',4,now(), now()),
-(15,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'www.abantecart.com',3,now(), now()),
-(14,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'www.abantecart.com',2,now(), now()),
-(13,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'www.abantecart.com',1,now(), now()),
+(16,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'http://www.abantecart.com',4,now(), now()),
+(15,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'http://www.abantecart.com',3,now(), now()),
+(14,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'http://www.abantecart.com',2,now(), now()),
+(13,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'http://www.abantecart.com',1,now(), now()),
 (11,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',4,now(), now()),
 (10,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',3,now(), now()),
 (9,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',2,now(), now()),

@@ -535,8 +535,6 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.0', null, now(), now(), now() );
 
 
-
-
 --
 -- DDL for tables of banner manager
 --
