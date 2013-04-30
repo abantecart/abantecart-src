@@ -6518,7 +6518,7 @@ VALUES  (5,10,1),
 		(5,40,4),
 		(5,50,5),
 		(5,60,6),
-		(5,70,7);
+		(5,11,7);
 --ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (6,'core',1),
