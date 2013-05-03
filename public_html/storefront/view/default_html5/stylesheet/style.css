@@ -697,7 +697,7 @@ ul.categorymenu > li ul > li img {
 	margin: 0
 }
 
-/* ------------ Featured Proudcts ------------ */
+/* ------------ Featured Products ------------ */
 #categorymenu {
 	margin: 20px 0 20px 0;
 	clear: both;
@@ -2368,6 +2368,10 @@ a.clostalert {
 	padding: 0 10px 0 10px;
 }
 
+.thumbnail img{
+	margin: 0;
+}
+
 /* Responcive Section */
 @media (max-width: 1200px) {
 	.	 {
@@ -2377,10 +2381,6 @@ a.clostalert {
 	#topnav ul li a {
 		font-size: 12px;
 		margin-right: 8px
-	}
-
-	.top-search input {
-		width: 180px
 	}
 
 	.thumbnails li:hover .thumbnail img {
@@ -2396,8 +2396,30 @@ a.clostalert {
 	}
 
 	.thumbnail {
-		text-align: center
+		text-align: center;
 	}
+
+	.top-search input {
+		width: 380px;
+		margin-left: auto;
+		margin-right: auto;
+		float: none;
+	}
+
+	.search-bar .button-in-search {
+	    position: absolute;
+	 	background: url(../image/sprite.png) no-repeat scroll right -243px #FFFFFF;
+	    height: 33px;
+	    left: 364px;
+	    position: absolute;
+	    top: 5px;
+	    width: 30px;
+	}
+
+	.headerdetails {
+		padding-left: 0px;
+	}
+
 }
 
 @media (min-width: 768px) and (max-width: 1200px) {
@@ -2416,16 +2438,30 @@ a.clostalert {
 	.thumbnail .price {
 		text-align: center;
 		width: 100%;
-
-		margin: 10px 0 0 0
+		margin: 10px 0 0 0;
 	}
 
 	.thumbnail a.productcart {
-		float: none
+		float: none;
 	}
 
 	.thumbnail .shortlinks {
 		top: 30%
+	}
+
+	.top-search input {
+		width: 380px;
+		margin: 10px auto 10px auto;
+	}
+
+	.search-bar .button-in-search {
+	    position: absolute;
+	 	background: url(../image/sprite.png) no-repeat scroll right -243px #FFFFFF;
+	    height: 33px;
+	    left: 364px;
+	    position: absolute;
+	    top: 15px;
+	    width: 30px;
 	}
 }
 
@@ -2482,11 +2518,6 @@ a.clostalert {
 		text-align: center
 	}
 
-	.headerstrip .pull-right .search-query {
-		width: 90%;
-		margin-top: 15px
-	}
-
 	.headerdetails {
 		margin: 0;
 		padding: 20px 0 0 0 !important
@@ -2496,10 +2527,10 @@ a.clostalert {
 		float: none
 	}
 
-	.headerdetails .pull-left {
-		float: none;
-		text-align: center
+	.headerdetails .pull-left:first-child {
+		margin-left: 15%;
 	}
+
 
 	.headerdetails .pull-right {
 		float: none;
@@ -2584,6 +2615,43 @@ a.clostalert {
 	#banner_slides .oneByOne_item span.txt_right2 {
 		margin-left: 405px;
 	}
+	.logo img{
+		background-color: white;
+		padding: 5px;
+	}
+
+	.top-search input {
+		width: 180px;
+		margin: 15px auto 10px auto;
+	}
+
+	.search-bar .button-in-search {
+	    position: absolute;
+	 	background: url(../image/sprite.png) no-repeat scroll right -243px #FFFFFF;
+	    height: 33px;
+	    left: 165px;
+	    position: absolute;
+	    top: 15px;
+	    width: 30px;
+	}
+
+	.headerdetails {
+		margin: 0;
+		padding: 20px 0 0 0 !important
+	}
+
+	.headerdetails {
+	    padding-left: 0px;
+	}
+
+
+	#footersocial {
+		float: none;
+		text-align: center;
+		clear: both;
+		margin-top: 48px;
+	}
+
 
 }
 
