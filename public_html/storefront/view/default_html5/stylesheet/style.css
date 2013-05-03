@@ -1703,13 +1703,26 @@ ul.total li span.extra {
 }
 
 .added_to_cart {
-	position: absolute;
+	/*position: absolute;
 	display: block;
 	z-index: 999;
 	margin: 10px 0 0 18px;
-	width: 200px;
-}
+	width: 200px;*/
 
+	display: block;
+	height: 27px;
+	margin-left: 10px;
+	margin-top: -4px;
+	position: absolute;
+	width: 165px;
+	z-index: 999;
+}
+.added_to_cart>button.close {
+    line-height: 20px;
+    position: relative;
+    right: -34px;
+    top: -10px;
+}
 /* javascripts */
 .accrodian-trigger {
 	padding: 8px 8px 8px 8px;
