@@ -8,7 +8,7 @@ if ($products) {
         $item['image'] = $product['thumb']['thumb_url'];
         $item['title'] = $product['name'];
         $item['description'] = $product['model'];
-        $item['rating'] = ($product['rating']) ? "<img src='". $this->templateResource('/image/stars_'.$product['rating'].'.png') ."' alt='".$product['stars']."' />" : '';
+        //$item['rating'] = ($product['rating']) ? "<img src='". $this->templateResource('/image/stars_'.$product['rating'].'.png') ."' alt='".$product['stars']."' />" : '';
                 
         $item['info_url'] = $product['href'];
         $item['buy_url'] = $product['add'];
@@ -17,9 +17,9 @@ if ($products) {
 	    }
 	    
 	    $review = $button_write;
-	    if ($item['rating']) {
+	  /*  if ($item['rating']) {
 	    	$review = $item['rating'];
-	    }
+	    }*/
 	    
 ?>      
               <li>

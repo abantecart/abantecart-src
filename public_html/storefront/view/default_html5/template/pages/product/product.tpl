@@ -6,7 +6,7 @@
 <?php } ?>
 
 <section id="product_details">
-<div class="container">    
+<div class="span9 container">
 <!-- Product Details-->
 <div class="row">
  <!-- Left Image-->
@@ -17,13 +17,18 @@
 		<li class="span4">
 		  <?php 
 		  		if( $image['origin'] == 'external' ){ 
-		  			$image_url = $image['main_html'];
+		  			$image_url = $image_main['main_html'];
 		  		} else {
-		  			$image_url = $image['main_url'];
+		  			$image_url = $image_main['main_url'];
 		  		}
 		  ?>
-	      <a rel="position: 'inside' , showTitle: false, adjustX:-4, adjustY:-4" class="thumbnail cloud-zoom"  href="<?php echo $image[ 'main_url' ]; ?>" title="<?php echo $image[ 'title' ]; ?>">
-	      <img src="<?php echo $image_url; ?>" alt="<?php echo $image[ 'title']; ?>" title="<?php echo $image[ 'title']; ?>">
+	      <a rel="position: 'inside' , showTitle: false, adjustX:-4, adjustY:-4"
+			 class="thumbnail cloud-zoom"
+			 href="<?php echo $image[ 'main_url' ]; ?>"
+			 title="<?php echo $image[ 'title' ]; ?>"
+			 style="height:1%; width: 1%;"	  >
+	      <img src="<?php echo $image_url; ?>" alt="<?php echo $image[ 'title']; ?>" title="<?php echo $image[ 'title']; ?>"
+				  style="max-height:<?php echo $image_main['sizes']['thumb']['height']?>px; max-width: <?php echo $image_main['sizes']['thumb']['width']?>px;">
 	      </a>
 		</li>
 	<?php } } ?>
@@ -63,7 +68,7 @@
 			    <span class="productfilneprice"><span class="spiral"></span><?php echo $special; ?></span>
 			    <span class="productpageoldprice"><?php echo $price; ?></span>
 			<?php } else { ?>
-			    <span class="productfilneprice"<span class="spiral"></span><?php echo $price; ?></span>
+			    <span class="productfilneprice"></span><span class="spiral"></span><?php echo $price; ?></span>
 			<?php } ?>
 		</div>
 		<?php } ?>
@@ -132,7 +137,7 @@
 						</div>
 						
 						<div class="control-group mt20 mb10 total-price-holder">
-							<label class="control-label">Total price: <?php echo $text_total_price; ?>
+							<label class="control-label"><?php echo $text_total_price; ?>
 							<span class="total-price"></span>
 							</label>  
 						</div>

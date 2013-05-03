@@ -108,7 +108,6 @@ class ControllerPagesProductProduct extends AController {
 		$promoton = new APromotion();
 				
 		$product_info = $this->model_catalog_product->getProduct($product_id);
-		$resource = new AResource('image');
 
 		//can not locate product? get out
 		if (!$product_info) { 
@@ -185,14 +184,14 @@ class ControllerPagesProductProduct extends AController {
 		    $this->data['price_num'] = $this->tax->calculate(
 		    	$discount,
 		    	$product_info['tax_class_id'],
-		    	$this->config->get('config_tax')
+				(bool)$this->config->get('config_tax')
 		    );
 		    $this->data['special'] = FALSE;
 		} else {
 		    $this->data['price_num'] = $this->tax->calculate(
 		    	$product_info['price'],
 		    	$product_info['tax_class_id'],
-		    	$this->config->get('config_tax')
+				(bool)$this->config->get('config_tax')
 		    );
 		
 		    $special = $promoton->getProductSpecial($product_id);
@@ -202,7 +201,7 @@ class ControllerPagesProductProduct extends AController {
 		    	$this->data['special_num'] =$this->tax->calculate(
 		    		$special,
 		    		$product_info['tax_class_id'],
-		    		$this->config->get('config_tax')
+					(bool)$this->config->get('config_tax')
 		    	);
 		    } else {
 		    	$this->data['special'] = FALSE;
@@ -222,7 +221,7 @@ class ControllerPagesProductProduct extends AController {
 		foreach ($product_discounts as $discount) {
 		    $discounts[] = array(
 		    	'quantity' => $discount['quantity'],
-		    	'price'    => $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax')))
+		    	'price'    => $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], (bool)$this->config->get('config_tax')))
 		    );
 		}
         $this->data['discounts'] = $discounts;
@@ -268,8 +267,8 @@ class ControllerPagesProductProduct extends AController {
 		$resource = new AResource('image');
 		$thumbnail = $resource->getMainThumb('manufacturers',
 		    $product_info['manufacturer_id'],
-		    $this->config->get('config_image_grid_width'),
-		    $this->config->get('config_image_grid_height'),
+			(int)$this->config->get('config_image_grid_width'),
+			(int)$this->config->get('config_image_grid_height'),
 		    true);			
 		if ( !preg_match('/no_image/', $thumbnail['thumb_url'])) {
 		    $this->data['manufacturer_icon'] = $thumbnail['thumb_url']; 
@@ -295,14 +294,14 @@ class ControllerPagesProductProduct extends AController {
 		    		$price = $this->tax->calculate(
 		    				($product_price * $option_value['price'] / 100),
 		    				$product_info['tax_class_id'],
-		    				$this->config->get('config_tax') );
+							(bool)$this->config->get('config_tax') );
 		    		if( $price != 0 ){
 		    			$price = $this->currency->format( $price );
 		    		}else{
 		    			$price = '';
 		    		}
 		    	} else {
-		    		$price = $this->tax->calculate(	$option_value['price'],	$product_info['tax_class_id'],	$this->config->get('config_tax') );
+		    		$price = $this->tax->calculate(	$option_value['price'],	$product_info['tax_class_id'],	(bool)$this->config->get('config_tax') );
 		    		if( $price != 0 ){
 		    			$price = $this->currency->format( $price );
 		    		}else{
@@ -392,6 +391,7 @@ class ControllerPagesProductProduct extends AController {
 		    		   'thumb'=> array('width'=>$this->config->get('config_image_thumb_width'),
 		    	                       'height' => $this->config->get('config_image_thumb_height')));
 		$this->data['image_main'] = $resource->getResourceAllObjects('products', $product_id, $sizes,1, false);
+		$this->data['image_main']['sizes'] = $sizes;
 
 		// additional images
 		$sizes = array('main'=> array( 'width'=>$this->config->get('config_image_popup_width'),
@@ -423,12 +423,12 @@ class ControllerPagesProductProduct extends AController {
 		    $special = FALSE;
 		    $discount = $promoton->getProductDiscount($result['product_id']);
 		    if ($discount) {
-		    	$price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax')));
+		    	$price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], (bool)$this->config->get('config_tax')));
 		    } else {
-		    	$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
+		    	$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], (bool)$this->config->get('config_tax')));
 		    	$special = $promoton->getProductSpecial($result['product_id']);
 		    	if ($special) {
-		    		$special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));
+		    		$special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], (bool)$this->config->get('config_tax')));
 		    	}
 		    }
 		
