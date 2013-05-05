@@ -313,4 +313,12 @@
 		<key>text_payment_maximum_total</key>
 		<value><![CDATA[Máximo Total del pedido:<span class="help">Cantidad máxima cantidad que puede llegar a rechazar el pago</span>]]></value>
 	</definition>
+	<definition>
+		<key>text_payment_storefront_icon</key>
+		<value><![CDATA[Escaparate Icono:<span class="help">Icono de Pago que se muestra en la selección de pago de pago</span>]]></value>
+	</definition>	
+	<definition>
+		<key>text_shipping_storefront_icon</key>
+		<value><![CDATA[Escaparate Icono:<span class="help">Envios Icono que se mostrará en la selección del envío checkout</span>]]></value>
+	</definition>	
 </definitions>

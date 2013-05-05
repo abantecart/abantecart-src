@@ -74,6 +74,7 @@ class ModelCheckoutExtension extends Model {
     	return $extension_data;
 	}
 
+
 	public function getSettings($extension_name, $store_id = 0 ) {
 		$data = array();
 		if ( $store_id == 0 ) {
@@ -93,6 +94,26 @@ class ModelCheckoutExtension extends Model {
 			$data[$result['key']] = $value;
 		}
 		return $data;
+	}
+
+	/*
+		Function to get image details based on RL path or RL ID
+	*/
+	public function getSettingImage( $rl_image ) {
+		$image_data = array();
+		if ( !has_value( $rl_image ) ) {
+			return array();
+		} 
+		
+		$resource = new AResource('image');
+		if (is_integer($rl_image)) {
+		    // consider this is a pure image resource ID 
+		    $image_data = $resource->getResource( $rl_image );
+		} else {
+		    $image_data = $resource->getResource( $resource->getIdFromHexPath(str_replace('image/', '', $rl_image)) );
+		}
+	
+		return $image_data;
 	}
 
 }

@@ -49,7 +49,16 @@
           <?php foreach ($shipping_method['quote'] as $quote) { ?>
 			  <tr>
 				<td width="5%"><label for="shipping_shipping_method<?php echo $quote['id']; ?>"><?php echo $quote['radio']; ?></label></td>
-				<td><label for="shipping_shipping_method<?php echo $quote['id']; ?>" title="<?php echo has_value($quote['description']) ? $quote['description'] : ''; ?>" style="cursor: pointer;"><?php echo $quote['title']; ?></label></td>
+				<td><label for="shipping_shipping_method<?php echo $quote['id']; ?>" title="<?php echo has_value($quote['description']) ? $quote['description'] : ''; ?>" style="cursor: pointer;">
+				<?php $icon = $shipping_method['icon'];
+				if ( count ($icon) ) {  ?>
+				<?php if ( is_file(DIR_RESOURCE . $icon['image']) ) { ?>
+					<span class="shipping_icon mr10"><img src="resources/<?php echo $icon['image']; ?>" title="<?php echo $icon['title']; ?>" /></span>
+					<?php } else if (!empty( $icon['resource_code'] )) { ?>
+					<span class="shipping_icon mr10"><?php echo $icon['resource_code']; ?></span>
+				<?php } } ?>												
+				<?php echo $quote['title']; ?>
+				</label></td>
 				<td align="right"><label for="<?php echo $quote['id']; ?>" style="cursor: pointer;"><?php echo $quote['text']; ?></label></td>
 			  </tr>
           <?php } ?>
@@ -79,7 +88,16 @@
 	          <?php foreach ($payment_methods_per_shipping as $payment_method) { ?>
 	          <tr>
 	            <td width="1"><?php echo $payment_method['radio']; ?></td>
-	            <td><label for="guest_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;"><?php echo $payment_method['title']; ?></label></td>
+	            <td><label for="guest_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;">
+				<?php $icon = $payment_method['icon'];
+				if ( count ($icon) ) {  ?>
+				<?php if ( is_file(DIR_RESOURCE . $icon['image']) ) { ?>
+					<span class="payment_icon mr10"><img src="resources/<?php echo $icon['image']; ?>" title="<?php echo $icon['title']; ?>" /></span>
+					<?php } else if (!empty( $icon['resource_code'] )) { ?>
+					<span class="payment_icon mr10"><?php echo $icon['resource_code']; ?></span>
+				<?php } } ?>									            
+	            <?php echo $payment_method['title']; ?>
+	            </label></td>
 	          </tr>
 	          <?php } ?>
 	        </table>

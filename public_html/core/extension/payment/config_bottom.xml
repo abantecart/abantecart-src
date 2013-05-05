@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <extension>
     <settings>
+        <item id="payment_storefront_icon">
+            <type>resource</type>
+            <resource_type>image</resource_type>
+            <default_value></default_value>
+        </item>    
         <item id="payment_minimum_total">
             <type>input</type>
             <default_value></default_value>

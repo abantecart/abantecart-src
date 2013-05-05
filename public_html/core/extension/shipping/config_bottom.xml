@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <extension>
     <settings>
+        <item id="shipping_storefront_icon">
+            <type>resource</type>
+            <resource_type>image</resource_type>
+            <default_value></default_value>
+        </item>    
         <item id="autoselect">
             <type>checkbox</type>
             <default_value>0</default_value>

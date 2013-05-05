@@ -1193,7 +1193,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 -- Checkout
 ('checkout','starting_invoice_id',001),
 ('checkout','invoice_prefix','IN#'),
-('checkout','config_cart_weight',1),
+('checkout','config_cart_weight',0),
 ('checkout','config_shipping_session',0),
 ('checkout','config_tax',1),
 ('checkout','config_tax_store',1),

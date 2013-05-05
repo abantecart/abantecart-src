@@ -113,12 +113,22 @@ class ControllerPagesCheckoutShipping extends AController {
 						'error' => $quote[ 'error' ]
 					);
 				}
+
+				//# Add storefront icon if available
+				$ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
+				$icon = $ext_setgs[$result['key']."_shipping_storefront_icon"];
+				if ( has_value( $icon ) ) {
+					$icon_data = $this->model_checkout_extension->getSettingImage($icon);
+					$icon_data['image'] =  $icon;
+					$quote_data[ $result[ 'key' ] ]['icon'] = $icon_data;
+				}			
 			}
 
 			$sort_order = array();
 			foreach ($quote_data as $key => $value) {
 				$sort_order[ $key ] = $value[ 'sort_order' ];
 			}
+			
 			array_multisort($sort_order, SORT_ASC, $quote_data);
 			$this->session->data[ 'shipping_methods' ] = $quote_data;
 		}

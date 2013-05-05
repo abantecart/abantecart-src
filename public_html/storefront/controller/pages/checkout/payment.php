@@ -124,12 +124,12 @@ class ControllerPagesCheckoutPayment extends AController {
 		
 		$results = $this->model_checkout_extension->getExtensions('payment');
 		$ac_payments = array();
-		#Check config of selected shipping method and see if we have accepted payments restriction
+		//#Check config of selected shipping method and see if we have accepted payments restriction
 		$shipping_ext = explode('.',$this->session->data['shipping_method']['id']);
 		$ship_ext_config = $this->model_checkout_extension->getSettings($shipping_ext[0]);
 		$accept_payment_ids = $ship_ext_config[$shipping_ext[0]."_accept_payments"];
 		if ( is_array($accept_payment_ids) && count($accept_payment_ids) ) {
-			#filter only allowed payment methods based on shipping 
+			//#filter only allowed payment methods based on shipping 
 			foreach ($results as $result) {
 				if ( in_array($result['extension_id'], $accept_payment_ids) ) {
 					$ac_payments[] = $result;
@@ -140,7 +140,7 @@ class ControllerPagesCheckoutPayment extends AController {
 		}
 
 		foreach ($ac_payments as $result) {
-			#filter only allowed payment methods based on total min/max
+			//#filter only allowed payment methods based on total min/max
 			$ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
 			$min = $ext_setgs[$result['key']."_payment_minimum_total"];
 			$max = $ext_setgs[$result['key']."_payment_maximum_total"];
@@ -154,6 +154,14 @@ class ControllerPagesCheckoutPayment extends AController {
 			if ($method) {
 				$method_data[ $result[ 'key' ] ] = $method;
 			}
+			
+			//# Add storefront icon if available
+			$icon = $ext_setgs[$result['key']."_payment_storefront_icon"];
+			if ( has_value( $icon ) ) {
+				$icon_data = $this->model_checkout_extension->getSettingImage($icon);
+				$icon_data['image'] =  $icon;
+				$method_data[ $result[ 'key' ] ]['icon'] = $icon_data;
+			}			
 		}
 
 		$this->session->data[ 'payment_methods' ] = $method_data;

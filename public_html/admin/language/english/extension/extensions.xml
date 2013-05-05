@@ -313,4 +313,12 @@
 		<key>text_payment_maximum_total</key>
 		<value><![CDATA[Total Order Maximum:<span class="help">Maximum order amount to be reached to disallow this payment</span>]]></value>
 	</definition>
+	<definition>
+		<key>text_payment_storefront_icon</key>
+		<value><![CDATA[Storefront Icon:<span class="help">Payment Icon to be displayed at checkout payment selection</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_storefront_icon</key>
+		<value><![CDATA[Storefront Icon:<span class="help">Shipping Icon to be displayed at checkout shipping selection</span>]]></value>
+	</definition>
 </definitions>

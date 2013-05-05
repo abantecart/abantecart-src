@@ -63,7 +63,16 @@
 			<?php foreach ($payment_methods as $payment_method) { ?>
 			<tr>
 			  <td width="1"><?php echo $payment_method['radio']; ?></td>
-			  <td><label for="payment_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;"><?php echo $payment_method['title']; ?></label></td>
+			  <td><label for="payment_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;">
+				<?php $icon = $payment_method['icon'];
+				if ( count ($icon) ) {  ?>
+				<?php if ( is_file(DIR_RESOURCE . $icon['image']) ) { ?>
+					<span class="payment_icon mr10"><img src="resources/<?php echo $icon['image']; ?>" title="<?php echo $icon['title']; ?>" /></span>
+					<?php } else if (!empty( $icon['resource_code'] )) { ?>
+					<span class="payment_icon mr10"><?php echo $icon['resource_code']; ?></span>
+				<?php } } ?>								
+				<?php echo $payment_method['title']; ?>
+			  </label></td>
 			</tr>
 			<?php } ?>
 		</table>
