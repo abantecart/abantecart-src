@@ -43,7 +43,7 @@ if ($products) {
               <div class="price">
         <?php  if ($product['special']) { ?>
             <div class="pricenew"><?php echo $product['special']?></div>
-        	<div class="priceold"><?php echo $product['price']?></div>
+			<div class="priceold"><?php echo $product['price']?></div>
         <?php } else { ?>
             <div class="pricenew"><?php echo $product['price']?></div>
   		<?php } ?>

@@ -23,7 +23,7 @@
 }
 echo $form['form_open'];
 ?>
-<div class="cart-info container-fluid">
+<div class="cart-info product-list container-fluid">
 	<table class="table table-striped table-bordered">
 		<tr>
 			<th align="center"><?php echo $column_remove; ?></th>
@@ -80,17 +80,13 @@ echo $form['form_open'];
 </form>
 
 <?php if ($estimates_enabled || $coupon_status) { ?>
-<div class="cart-info container-fluid">
-	<table class="table table-striped table-bordered">
-		<tr>
-			<?php if ($coupon_status) { ?>
-			<th align="center"><?php echo $text_coupon_codes ?></th></th>
-			<?php } ?>
-			<?php if ($estimates_enabled) { ?>
-			<th align="center"><?php echo $text_estimate_shipping_tax ?></th>
-			<?php } ?>
-		</tr>
-		<tr>
+<div class="cart-info coupon-estimate container-fluid">
+		<div class="pull-left coupon"  >
+			<table class="table table-striped "><tr>
+					<?php if ($coupon_status) { ?>
+								<th align="center"><?php echo $text_coupon_codes ?></th>
+								<?php } ?>
+			</tr><tr>
 			<td>
 				<?php
 				if ($coupon_status) {
@@ -98,7 +94,13 @@ echo $form['form_open'];
 				}
 				?>
 			</td>
+			</tr>
+			</table>
+		</div>
 			<?php if ($estimates_enabled) { ?>
+			<div class="pull-left estimate">
+				<table class="table table-striped"><tr>
+			<th align="center"><?php echo $text_estimate_shipping_tax ?></th></tr><tr>
 			<td>
 				<div class="registerbox">
 					<?php echo $form_estimate['form_open']; ?>
@@ -126,8 +128,9 @@ echo $form['form_open'];
 				</div>
 			</td>
 			<?php } ?>
-		</tr>
-	</table>
+			</tr></table>
+		</div>
+
 </div>
 <?php } ?>
 
