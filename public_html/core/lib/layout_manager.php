@@ -520,17 +520,19 @@ class ALayoutManager {
 
 					if (isset ($data ['blocks'] [$block ['block_id']] ['children'])) {
 						$this->deleteLayoutBlocks($this->layout_id, $instance_id);
+						$so = 1;
+						foreach ($data ['blocks'] [$block ['block_id']] ['children'] as $block_id) {
 
-						foreach ($data ['blocks'] [$block ['block_id']] ['children'] as $key => $block_id) {
 							$child = array();
 							if (!empty ($block_id)) {
 								$child ['layout_id'] = $this->layout_id;
 								list($child ['block_id'], $child ['custom_block_id']) = explode("_", $block_id);
 								$child ['parent_instance_id'] = $instance_id;
 								//NOTE: Blocks possitions are saved in 10th increment starting from 10
-								$child ['position'] = ($key + 1) * 10;
+								$child ['position'] = $so * 10;
 								$child ['status'] = 1;
 								$this->saveLayoutBlocks($child);
+								$so++;
 							}
 						}
 					}
