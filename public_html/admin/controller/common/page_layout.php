@@ -122,7 +122,8 @@ class ControllerCommonPageLayout extends AController {
 				                                                                $('#left_block').removeClass('block_off');}\""
 			                                            ));
 	
-			$total = count($settings['blocks'][LEFT_COLUMN]['children']) > 0 ? count($settings['blocks'][LEFT_COLUMN]['children']) : 1;
+			$total = count($settings['blocks'][LEFT_COLUMN]['children']) > 0 ? $this->_get_blocks_count($settings['blocks'][LEFT_COLUMN]['children']) : 1;
+
 			$main_left_boxes = $this->_build_block_selectboxes($settings, LEFT_COLUMN, $total, $form);
 	
 			$main_left_addbox =  $form->getFieldHtml(array(	'type' => 'button',
@@ -155,7 +156,7 @@ class ControllerCommonPageLayout extends AController {
 				                                                                $('#right_block').removeClass('block_off');}\""
 			                                            ));
 	
-			$total = count($settings['blocks'][RIGHT_COLUMN]['children']) > 0 ? count($settings['blocks'][RIGHT_COLUMN]['children']) : 1;
+			$total = count($settings['blocks'][RIGHT_COLUMN]['children']) > 0 ? $this->_get_blocks_count($settings['blocks'][RIGHT_COLUMN]['children']) : 1;
 			$main_right_boxes = $this->_build_block_selectboxes($settings, RIGHT_COLUMN, $total, $form);
 	
 			$main_right_addbox =  $form->getFieldHtml ( array (	'type' => 'button',
@@ -174,7 +175,7 @@ class ControllerCommonPageLayout extends AController {
 		 * TOP main content block
 		 * */
 		if ( $settings['blocks'][CONTENT_TOP] ) {		
-			$total = count($settings['blocks'][CONTENT_TOP]['children']) > 0 ? count($settings['blocks'][CONTENT_TOP]['children']) : 1;
+			$total = count($settings['blocks'][CONTENT_TOP]['children']) > 0 ? $this->_get_blocks_count($settings['blocks'][CONTENT_TOP]['children']) : 1;
 			$main_top_boxes = $this->_build_block_selectboxes($settings, CONTENT_TOP, $total, $form);
 	
 			$main_top_addbox =  $form->getFieldHtml(array(	'type' => 'button',
@@ -193,7 +194,7 @@ class ControllerCommonPageLayout extends AController {
 		 * BOTTOM main content block
 		 * */
 		if ( $settings['blocks'][CONTENT_BOTTOM] ) {				 
-			$total = count($settings['blocks'][CONTENT_BOTTOM]['children']) > 0 ? count($settings['blocks'][CONTENT_BOTTOM]['children']) : 1;
+			$total = count($settings['blocks'][CONTENT_BOTTOM]['children']) > 0 ? $this->_get_blocks_count($settings['blocks'][CONTENT_BOTTOM]['children']) : 1;
 			$main_bottom_boxes = $this->_build_block_selectboxes($settings, CONTENT_BOTTOM, $total, $form);
 	
 			$main_bottom_addbox =  $form->getFieldHtml(array(	'type' => 'button',
@@ -214,7 +215,7 @@ class ControllerCommonPageLayout extends AController {
 
 		// FOOTER-top-block
 		if ( $settings['blocks'][FOOTER_TOP] ) {				 
-			$total = count($settings['blocks'][FOOTER_TOP]['children']) > 0 ? count($settings['blocks'][FOOTER_TOP]['children']) : 1;
+			$total = count($settings['blocks'][FOOTER_TOP]['children']) > 0 ? $this->_get_blocks_count($settings['blocks'][FOOTER_TOP]['children']) : 1;
 			$footer_top = $this->_build_block_selectboxes($settings, FOOTER_TOP, $total, $form);
 	
 			$footer_top_create_block =  $form->getFieldHtml(array('type' => 'button',
@@ -289,6 +290,13 @@ class ControllerCommonPageLayout extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
+	/**
+	 * @param array $settings
+	 * @param int $section_id
+	 * @param int $total_blocks
+	 * @param AForm $form
+	 * @return array
+	 */
 	private function _build_block_selectboxes($settings, $section_id, $total_blocks, $form) {
 		$select_boxes = array();
 		$children_arr = $settings['blocks'][$section_id]['children'];
@@ -318,7 +326,27 @@ class ControllerCommonPageLayout extends AController {
 		}
 		return $select_boxes;
 	}
-	
+
+	/**
+	 * if some first children blocks are skipped in placeholder we need to calculate how much is it
+	 * @param  array $blocks_arr
+	 * @return int
+	 */
+	private function _get_blocks_count($blocks_arr){
+		$count = 0;
+		$first_position = current($blocks_arr);
+		$first_position = $first_position['position'];
+
+		if($first_position>10){
+			$cnt=10;
+			while($cnt<$first_position){
+				$cnt+=10;
+				$count++;
+			}
+		}
+		return $count + sizeof($blocks_arr);
+	}
+
 	private function _find_block_by_postion($blocks_arr, $position) {
 		foreach ($blocks_arr as $index => $block_s) {
 			if ( $block_s['position'] == $position ) {
