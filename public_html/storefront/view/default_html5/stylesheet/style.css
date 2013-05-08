@@ -622,7 +622,8 @@ ul.categorymenu > li ul > li img {
 /* ------------ otherddetails ------------ */
 .otherddetails {
 	border: 1px solid #dddddd;
-	margin: 0px auto 10px auto
+	margin: 0px auto 10px auto;
+	width: auto;
 }
 
 .otherddetails .otherddetailspart {
@@ -671,11 +672,13 @@ ul.categorymenu > li ul > li img {
 
 .smbanner {
 	margin: 20px auto 0 auto;
+	width: auto;
 }
 
 .smbanner .span3 a {
 	display: block;
 	border: 1px solid #ddd;
+	margin-bottom: 10px;
 }
 
 /* ------------ nesletter ------------ */
@@ -967,6 +970,11 @@ ul.categorymenu > li ul > li img {
 #popularbrands {
 	position: relative;
 	padding: 0 0 20px 0;
+	width: auto;
+}
+#popularbrands .container {
+	position: relative;
+	width: auto;
 }
 
 .brandcarousalrelative {
@@ -978,6 +986,7 @@ ul.categorymenu > li ul > li img {
 	padding: 0;
 	list-style: none;
 	display: block;
+	width: auto;
 }
 
 #popularbrands  ul#brandcarousal li {
