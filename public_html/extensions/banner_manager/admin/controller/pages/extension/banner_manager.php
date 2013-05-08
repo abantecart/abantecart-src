@@ -791,12 +791,14 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 		// list of templates for block
 		$tmpl_ids = $this->extensions->getInstalled('template');
-
+		$tmpl_ids[] = 'default';
+		$tmpl_ids[] = 'default_html5';
 		$this->data[ 'block_wrappers' ] = array();
 		foreach ($tmpl_ids as $tmpl_id) {
 			// for tpls of block that stores in db
 			$layout_manager = new ALayoutManager($tmpl_id);
-			$block_templates = (array)$layout_manager->getAllBlocks();
+			$block = $layout_manager->getBlockByTxtId('banner_block');
+			$block_templates = (array)$layout_manager->getBlockTemplates($block[ 'block_id' ]);
 			foreach ($block_templates as $item) {
 				if($item['template']){
 					$this->data[ 'block_wrappers' ][ $item[ 'template' ] ] = $item[ 'template' ];
@@ -816,14 +818,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 		}
 
-		$tpls = glob(DIR_STOREFRONT.'view/*/template/blocks/*.tpl');
-		foreach($tpls as $tpl){
-			$pos = strpos($tpl,'blocks/');
-			$tpl = substr($tpl,$pos);
-			if(!isset($this->data['block_wrappers'][$tpl])){
-				$this->data['block_wrappers'][$tpl] = $tpl;
-			}
-		}
 
 		ksort($this->data['block_wrappers']);
 		array_unshift($this->data[ 'block_wrappers' ], $this->language->get('text_automatic'));
