@@ -134,7 +134,7 @@ echo $form['form_open'];
 </div>
 <?php } ?>
 
-<div class="container">
+<div class="container cart_total">
 	<div class="pull-right">
 		<div class="cart-info totals span4 pull-right">
 			<table class="table table-striped table-bordered">

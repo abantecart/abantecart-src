@@ -124,7 +124,7 @@
 
 	<?php echo $this->getHookVar('order_attributes'); ?>
 
-	<div class="container">
+	<div class="container cart_total">
 		<div class="pull-right">
 			<div class="cart-info span4 pull-right">
 				<table class="table table-striped table-bordered">

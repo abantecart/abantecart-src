@@ -103,6 +103,10 @@ $('document').ready(function () {
         return false;
     });
 
+    $('.top-search .button-in-search').click(function(){
+        $('#search_form').submit();
+    });
+
 })
 
 // Flexsliders	  

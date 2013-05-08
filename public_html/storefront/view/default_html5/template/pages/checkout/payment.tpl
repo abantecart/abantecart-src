@@ -28,9 +28,9 @@
 			<div class="control-group">
 				<label class="control-label"><?php echo $text_payment_to; ?></label>
 				<div class="controls">
-					<a href="<?php echo $change_address_href; ?>" class="btn mr10" title="<?php echo $change_address->name ?>">
+					<a href="<?php echo $change_address_href; ?>" class="btn mr10" title="<?php echo $button_change_address ?>">
 					    <i class="icon-edit"></i>
-					    <?php echo $change_address->name ?>
+					    <?php echo $button_change_address ?>
 					</a>				
 				</div>
 			</div>									
