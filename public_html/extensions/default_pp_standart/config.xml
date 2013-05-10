@@ -16,6 +16,7 @@
         </item>
 	    <item id="default_pp_standart_test">
             <type>selectbox</type>
+			<default_value>1</default_value>
 			<variants>
 				<item>1</item>
 				<item>0</item>

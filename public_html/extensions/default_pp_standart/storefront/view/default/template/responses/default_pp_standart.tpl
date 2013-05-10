@@ -39,6 +39,7 @@
 	<input type="hidden" name="cancel_return" value="<?php echo $cancel_return; ?>"/>
 	<input type="hidden" name="paymentaction" value="<?php echo $paymentaction; ?>"/>
 	<input type="hidden" name="custom" value="<?php echo $custom; ?>"/>
+	<input type="hidden" name="bn" value="Abante_Cart">
 </form>
 <div class="buttons">
 	<table>

@@ -167,7 +167,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		$this->load->model('checkout/order');
 		
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-		
+
 		$payment_data = array(
 			'METHOD'         => 'DoDirectPayment', 
 			'VERSION'        => '51.0', 
@@ -193,7 +193,8 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			'STATE'          => ($order_info['payment_iso_code_2'] != 'US') ? $order_info['payment_zone'] : $order_info['payment_zone_code'],
 			'ZIP'            => $order_info['payment_postcode'],
 			'COUNTRYCODE'    => $order_info['payment_iso_code_2'],
-			'CURRENCYCODE'   => $order_info['currency']
+			'CURRENCYCODE'   => $order_info['currency'],
+			'BUTTONSOURCE'   => 'Abante_Cart',
 		);
 
 		$curl = curl_init($api_endpoint);
