@@ -925,7 +925,7 @@ final class AData {
 			return array();
 		}
 
-		$sql = "UPDATE `" . DB_PREFIX . $this->db->table($table_name) . "`";
+		$sql = "UPDATE `" . $this->db->table($table_name) . "`";
 		$sql .= " SET " . implode(', ', $cols);
 		$sql .= " WHERE " . implode(' AND ', $where);
 
@@ -979,7 +979,7 @@ final class AData {
 			return array();
 		}
 
-		$sql = "INSERT INTO `" . DB_PREFIX . $this->db->table($table_name) . "`";
+		$sql = "INSERT INTO `" . $this->db->table($table_name) . "`";
 		$sql .= " SET " . implode(', ', $cols);
 
 		if ($this->run_mode == 'commit') {
@@ -1040,7 +1040,7 @@ final class AData {
 			return array();
 		}
 
-		$sql = "DELETE FROM `"  . DB_PREFIX . $this->db->table($table_name) . "`";
+		$sql = "DELETE FROM `" . $this->db->table($table_name) . "`";
 		$sql .= " WHERE " . implode(' AND ', $where);
 
 		if ($this->run_mode == 'commit') {
@@ -1118,7 +1118,7 @@ final class AData {
 			return array();
 		}
 		if ( !empty ($where) ) {
-			$check_sql = "SELECT count(*) AS total FROM `" .  DB_PREFIX . $this->db->table($table_name) . "` WHERE " . implode(' AND ', $where);
+			$check_sql = "SELECT count(*) AS total FROM `" . $this->db->table($table_name) . "` WHERE " . implode(' AND ', $where);
 			if ( $this->db->query($check_sql)->row['total'] == 1 ) {
 				// We are trying to update table where all columns are keys. We have to skip it.
 				if ( empty($cols) ) {
@@ -1133,11 +1133,11 @@ final class AData {
 				$this->_status2array('error', "Update $table_name. No Data to update.");
 				return array();
 			}
-			$sql = "UPDATE `"  . DB_PREFIX . $this->db->table($table_name) . "`";
+			$sql = "UPDATE `"  . $this->db->table($table_name) . "`";
 			$sql .= " SET " . implode(', ', $cols);
 			$sql .= " WHERE " . implode(' AND ', $where);
 		} else {
-			$sql = "INSERT INTO `"  . DB_PREFIX . $this->db->table($table_name) . "`";
+			$sql = "INSERT INTO `" . $this->db->table($table_name) . "`";
 			$sql .= " SET ";
 			$set_cols = array_unique( array_merge($where, $cols) ); 
 			$sql .= implode(', ', $set_cols);
