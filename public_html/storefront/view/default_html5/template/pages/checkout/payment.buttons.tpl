@@ -8,7 +8,7 @@
 </button>
 <?php if ($text_agree) { ?>
 <label class="checkbox pull-right mr10">
-	<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModal(); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
+	<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#returnPolicyModal', '<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
 
 	<?php echo $form['agree']; ?>
 </label>
@@ -25,10 +25,4 @@
 		<button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $text_close; ?></button>
 	</div>
 </div>
-<script type="text/javascript">
-	function openModal(){
-	$('#returnPolicyModal').modal({remote: '<?php echo $text_agree_href; ?>'});
-	}
-</script>
-
 <?php } ?>

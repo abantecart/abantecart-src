@@ -121,7 +121,7 @@
 
 	<?php if ($text_agree) { ?>
 			<label class="span4 mt20 mb40 <?php echo $subscriber? 'hide' :''?>">
-				<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModal(); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
+				<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
 
 				<?php echo $form['agree']; ?>
 			</label>
@@ -177,9 +177,5 @@ $('#form_expander').click(function(){
 	}
 });
 <?php } ?>
-
-function openModal(){
-	$('#privacyPolicyModal').modal({remote: '<?php echo $text_agree_href; ?>'});
-}
 
 //--></script>

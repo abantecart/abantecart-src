@@ -17,9 +17,21 @@
 	</div>
 <?php } ?>
 
+<div id="returnPolicyModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="returnPolicyModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="returnPolicyModalLabel"><?php echo $text_accept_agree_href_link; ?></h3>
+	</div>
+	<div class="modal-body">
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $text_close; ?></button>
+	</div>
+</div>
+
 <div class="container-fluid">
 	<?php echo $form['form_open']; ?>
-	<p><?php echo $text_accept_agree ?><a
+	<p><?php echo $text_accept_agree ?><a onclick="openModalRemote('#returnPolicyModal', '<?php echo $text_accept_agree_href; ?>'); return false;"
 				href="<?php echo $text_accept_agree_href; ?>"><b><?php echo $text_accept_agree_href_link; ?></b></a></p>
 
 

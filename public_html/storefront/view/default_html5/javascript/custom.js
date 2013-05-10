@@ -202,4 +202,9 @@ $(window).scroll(function () {
     } else {
         $('#gotop').fadeOut(500);
     }
-});	
+});
+
+
+function openModalRemote(id, url){
+	$(id).modal({remote: url});
+}
