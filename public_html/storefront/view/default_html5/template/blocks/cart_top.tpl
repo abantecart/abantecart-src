@@ -9,7 +9,7 @@
 		<?php if ($products) { ?>
 		  <?php foreach ($products as $product) { ?>
 				<tr>
-				  <td class="image"><a href="<?php echo $product['href']; ?>"><img width="50" src="<?php echo $product['thumb']['thumb_url']; ?>" alt="product" title="product"></a></td>
+				  <td class="image"><a href="<?php echo $product['href']; ?>"><img style="width:50px;" src="<?php echo $product['thumb']['thumb_url']; ?>" alt="product" title="product"></a></td>
 				  <td class="name"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
 					<div>
 					<?php foreach ($product['option'] as $option) { ?>

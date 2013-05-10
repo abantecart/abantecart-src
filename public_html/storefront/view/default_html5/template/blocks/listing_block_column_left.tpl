@@ -11,7 +11,7 @@
 			foreach ($content as $item) {
 
 				if(($item['item_name']=='product' || $item['item_name']=='category') && $item['thumb']['origin']=='internal'){
-					$item['image'] = '<img width="50" src="'. $item['thumb']['thumb_url'].'"/>';
+					$item['image'] = '<img style="width:50px;" src="'. $item['thumb']['thumb_url'].'"/>';
 				}else{
 					$item['image'] = $item['thumb']['thumb_html'];
 				}
