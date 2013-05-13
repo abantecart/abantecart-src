@@ -179,6 +179,9 @@ input:focus:invalid, textarea:focus:invalid, select:focus:invalid {
 	color: #96979d;
 }
 
+section.row{
+	margin:0;
+}
 /* ------------ Header ------------ */
 .headerstrip {
 	height: 72px;
@@ -2506,9 +2509,13 @@ a.clostalert {
 	}
 
 	.top-search input {
-		width: 380px;
+		width: 180px;
 		margin: 0 auto 10px auto;
 		float: left;
+	}
+
+	#topnav .navbar-inner {
+		padding-right: 0;
 	}
 
 	#newslettersignup .input-prepend {

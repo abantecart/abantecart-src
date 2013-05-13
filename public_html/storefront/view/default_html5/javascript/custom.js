@@ -81,6 +81,10 @@ $('document').ready(function () {
         $(this).tab('show');
     });
 
+    if(self.document.location.hash=='#review'){
+        $('#myTab a:eq(1)').click();
+    }
+
     // Brand Carousal
     $(window).load(function () {
         $('#brandcarousal').carouFredSel({
