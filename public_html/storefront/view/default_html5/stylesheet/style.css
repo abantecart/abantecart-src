@@ -2178,21 +2178,26 @@ a.clostalert {
 }
 
 .contact li {
-	background: url(../image/sprite.png) no-repeat 0 0;
-	padding: 0 0 0 32px;
+	padding: 0;
 	height: 53px
 }
+.contact li>span {
+	background: url(../image/sprite.png) no-repeat 0 0;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+}
 
-.contact li.phone {
+.contact li>span.phone {
 	background-position: 0 -502px;
 }
 
-.contact li.mobile {
+.contact li>span.mobile {
 	background-position: 0 -555px
 }
 
-.contact li.email {
-	background-position: 0 -612px
+.contact li>span.email {
+	background-position: 0 -613px
 }
 
 .footerlinks {
