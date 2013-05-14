@@ -20,6 +20,7 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+/** @noinspection PhpUndefinedClassInspection */
 class ModelCatalogManufacturer extends Model {
 	public function addManufacturer($data) {
       	$this->db->query("INSERT INTO " . DB_PREFIX . "manufacturers SET name = '" . $this->db->escape($data['name']) . "', sort_order = '" . (int)$data['sort_order'] . "'");
@@ -169,16 +170,17 @@ class ModelCatalogManufacturer extends Model {
 		
 			return $query->rows;
 		} else {
-			$manufacturer_data = $this->cache->get('manufacturer');
-		
-			if (!$manufacturer_data) {
-				$query = $this->db->query("SELECT *
-										   FROM " . DB_PREFIX . "manufacturers
-										   ORDER BY name");
+			// this slice of code is duplicate of storefron model for manufacturer
+			$manufacturer_data = $this->cache->get( 'manufacturer', '', (int)$this->config->get('config_store_id') );
+			if (is_null($manufacturer_data)) {
+				$query = $this->db->query( "SELECT *
+											FROM " . DB_PREFIX . "manufacturers m
+											LEFT JOIN " . DB_PREFIX . "manufacturers_to_stores m2s ON (m.manufacturer_id = m2s.manufacturer_id)
+											WHERE m2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
+											ORDER BY sort_order, LCASE(m.name) ASC");
 	
 				$manufacturer_data = $query->rows;
-			
-				$this->cache->set('manufacturer', $manufacturer_data);
+				$this->cache->set('manufacturer', $manufacturer_data, '', (int)$this->config->get('config_store_id'));
 			}
 		 
 			return $manufacturer_data;
@@ -201,4 +203,3 @@ class ModelCatalogManufacturer extends Model {
 		return $this->getManufacturers($data, 'total_only');
 	}	
 }
-?>
