@@ -38,8 +38,8 @@ class ControllerBlocksManufacturer extends AController {
 			$resource = new AResource('image');
 			$thumbnail = $resource->getMainThumb('manufacturers',
 				$manuf_detls['manufacturer_id'],
-				$this->config->get('config_image_grid_width'),
-				$this->config->get('config_image_grid_height'),
+				(int)$this->config->get('config_image_grid_width'),
+				(int)$this->config->get('config_image_grid_height'),
 				true);			
 			$manufacturer = array(
 				'manufacturer_id' => $manuf_detls['manufacturer_id'],
@@ -63,14 +63,22 @@ class ControllerBlocksManufacturer extends AController {
 			$manufacturers = array();
 			
 			$results = $this->model_catalog_manufacturer->getManufacturers();
-			
+
+			$thumbnail_list = $this->cache->get('manufacturer.block.thumbnals','',(int)$this->config->get('config_store_id'));
+			$is_cache_exists = $this->cache->exists('manufacturer.block.thumbnals','',(int)$this->config->get('config_store_id'));
+
+			$resource = new AResource('image');
 			foreach ($results as $result) {
-				$resource = new AResource('image');
-				$thumbnail = $resource->getMainThumb('manufacturers',
-					$result['manufacturer_id'],
-					$this->config->get('config_image_grid_width'),
-					$this->config->get('config_image_grid_height'),
-					true);			
+				if(!$is_cache_exists){
+					$thumbnail = $resource->getMainThumb('manufacturers',
+															$result['manufacturer_id'],
+															(int)$this->config->get('config_image_grid_width'),
+															(int)$this->config->get('config_image_grid_height'),
+															true);
+					$thumbnails_cache[$result['manufacturer_id']] = $thumbnail;
+				}else if(has_value($thumbnail_list[$result['manufacturer_id']])) {
+					$thumbnail = $thumbnail_list[$result['manufacturer_id']];
+				}
 			
 				$manufacturers[] = array(
 					'manufacturer_id' => $result['manufacturer_id'],
@@ -78,6 +86,10 @@ class ControllerBlocksManufacturer extends AController {
 					'href'            => $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $result['manufacturer_id'], '&encode'),
 					'icon'			  => $thumbnail				
 				);
+			}
+
+			if(!$is_cache_exists){
+				$this->cache->set('manufacturer.block.thumbnals',$thumbnails_cache, '',(int)$this->config->get('config_store_id'));
 			}
 	
 	        $this->view->assign('manufacturers', $manufacturers );
@@ -92,4 +104,3 @@ class ControllerBlocksManufacturer extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
-?>

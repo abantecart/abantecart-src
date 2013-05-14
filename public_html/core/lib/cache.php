@@ -24,6 +24,8 @@ if (! defined ( 'DIR_CORE' )) {
 final class ACache { 
 	private $expire = 86400; //one day
 	private $registry;
+	private $empties = array();
+	private $exists = array();
   	public function __construct() {
 		$files = glob(DIR_CACHE . 'cache.*', GLOB_NOSORT);
 		$this->registry = Registry::getInstance ();		
@@ -50,6 +52,7 @@ final class ACache {
 		//clean up if disabled cache
 		if (!$disabled_override && !$this->registry->get('config')->get('config_cache_enable')){
 			$this->delete($key, $language_id, $store_id );
+			unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
 			return null;
 		}
 
@@ -64,12 +67,15 @@ final class ACache {
 					$handle = fopen($file, 'r');
 					$cache = fread($handle, filesize($file));
 					fclose($handle);
-					return unserialize($cache);
+					$output = unserialize($cache);
+					$this->empties[$key.'_'.$language_id.'_'.$store_id] = !empty($output); // if not empty
+					$this->exists[$key.'_'.$language_id.'_'.$store_id] = true;
+					return $output;
 				}
    		 	}
-		}else{
-			return null;
-		}	
+		}
+		unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
+		return null;
   	}
 
 	//force to set cache data based on params and ignore disable cache setting
@@ -97,11 +103,8 @@ final class ACache {
   	}
 	
   	public function delete($key, $language_id = '', $store_id = '') {
-		$suffix = '';
 		$suffix = $this->_build_sufix($language_id, $store_id);
-
 		$files = glob(DIR_CACHE . 'cache.' . $key . ($suffix ? '.'.$suffix : '') . '.*', GLOB_NOSORT);
-		
 		if ($files) {
     		foreach ($files as $file) {
       			if (file_exists($file)) {      				
@@ -124,6 +127,32 @@ final class ACache {
 		}
 
 		return $suffix;
-  	}  	
+  	}
+
+
+	/**
+	 * funtion check is empty cache data. Look php empty() function for details
+	 * @param string $key
+	 * @param string $language_id
+	 * @param string $store_id
+	 * @return bool
+	 */
+	public function isEmpty($key, $language_id = '', $store_id = ''){
+		if(isset($this->empties[$key.'_'.$language_id.'_'.$store_id])){
+			return $this->empties[$key.'_'.$language_id.'_'.$store_id];
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * function checks is cache data exists. NOTE: Check will need run after get() method run!!!
+	 * @param string $key
+	 * @param string $language_id
+	 * @param string $store_id
+	 * @return bool
+	 */
+	public function exists($key, $language_id = '', $store_id = ''){
+		return isset($this->exists[$key.'_'.$language_id.'_'.$store_id]);
+	}
 }
-?>

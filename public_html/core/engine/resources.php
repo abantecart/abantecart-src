@@ -221,7 +221,7 @@ class AResource {
 	/**
 	 * @param int $resource_id
 	 * @param int $language_id
-	 * @return arrayl
+	 * @return array
 	 */
 	public function getResource ( $resource_id, $language_id = 0 ) {
 		//Return resource details
@@ -238,7 +238,7 @@ class AResource {
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
         $resource = $this->cache->get($cache_name );
 
-        if (empty($resource)) {
+        if (is_null($resource)) {
 
             $where = "WHERE rl.resource_id = ". $this->db->escape($resource_id);
 
@@ -369,7 +369,7 @@ class AResource {
                       .'.'.$object_id;
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
         $resources = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
-        if (!empty($resources)) {
+        if (!is_null($resources)) {
             return $resources;
         }
 
@@ -403,7 +403,7 @@ class AResource {
         //attempt to load cache
         $cache_name = 'resources.types';
         $types = $this->cache->get($cache_name, '', (int)$this->config->get('config_store_id'));
-        if (!empty($types)) {
+        if (!is_null($types)) {
             return $types;
         }
 

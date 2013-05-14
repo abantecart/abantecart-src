@@ -21,8 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesCheckoutCart extends AController {
-	private $error = array();
-	
+
 	public function main() {
 
         //init controller data
@@ -73,7 +72,7 @@ class ControllerResponsesCheckoutCart extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
   	}
-  	
+
 	public function shipping_methods() {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
@@ -129,8 +128,9 @@ class ControllerResponsesCheckoutCart extends AController {
  		//add ready selectbox element  
  		if ( count($output)) {
 			$disp_ship = array();
-			foreach ($output as $shpg => $shp_data ) {
-				foreach ( $shp_data['quote'] as $qt => $qt_data) {
+			foreach ($output as $shp_data ) {
+				$shp_data['quote'] = (array)$shp_data['quote'];
+				foreach ( $shp_data['quote'] as $qt_data) {
 					$disp_ship[$qt_data['id']] =  $qt_data['title'] . " - " . $qt_data['text'];
 				}
 			}
@@ -150,7 +150,7 @@ class ControllerResponsesCheckoutCart extends AController {
 
 
 		$this->response->setOutput(AJson::encode($output));		
-	}	  	
+	}
 
 	public function recalc_totals() {
         //init controller data
@@ -179,6 +179,6 @@ class ControllerResponsesCheckoutCart extends AController {
 
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($output));		
-	}	  	
+	}
 	
 }

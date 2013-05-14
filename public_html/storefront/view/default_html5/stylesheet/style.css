@@ -182,6 +182,10 @@ input:focus:invalid, textarea:focus:invalid, select:focus:invalid {
 section.row{
 	margin:0;
 }
+
+#shippings>option{
+	width: inherit;
+}
 /* ------------ Header ------------ */
 .headerstrip {
 	height: 72px;
