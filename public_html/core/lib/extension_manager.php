@@ -248,9 +248,10 @@ class AExtensionManager {
 			$setting_name = str_replace($extension_txt_id . "_", '', $key);
 			//check if setting is multi-value (array) and save serialized value. 
 			if (is_array($value)) {
-				//validate values in array. If setting is array of all members = 0 save only single value of 0 
-				//This is to match standard post format in rerular form submit
-				if (array_sum(array_values($value)) > 0) {
+				//validate values in array. If setting is array of all members = 0 save only single value of 0
+				//This is to match standard post format in regular form submit
+				$concat = implode('',$value);
+				if (preg_match('/[^0]/',$concat)) {
 					$value = serialize($value);
 				} else {
 					$value = 0;
@@ -344,6 +345,7 @@ class AExtensionManager {
 		$this->db->query($sql);
 		$this->cache->delete('admin_menu');
 		$this->cache->delete('settings');
+
 		return true;
 	}
 

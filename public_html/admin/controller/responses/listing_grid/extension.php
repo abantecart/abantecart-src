@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridExtension extends AController {
-	private $error = array();
+
 	public $data;
 
 	public function main() {
@@ -213,7 +213,6 @@ class ControllerResponsesListingGridExtension extends AController {
 
 
 	public function update() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -224,7 +223,6 @@ class ControllerResponsesListingGridExtension extends AController {
 					'reset_value' => true
 				));
 		}
-
 
 		$this->loadLanguage('extension/extensions');
 		$store_id = $this->request->post_or_get('store_id');
@@ -251,7 +249,6 @@ class ControllerResponsesListingGridExtension extends AController {
 					  'reset_value' => true
 				));
 		}
-
 
 	}
 
