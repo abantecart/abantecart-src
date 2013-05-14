@@ -319,7 +319,8 @@ INSERT INTO `ac_countries` (`country_id`, `name`, `iso_code_2`, `iso_code_3`, `a
 (236, 'Yugoslavia', 'YU', 'YUG', '', 1),
 (237, 'Zaire', 'ZR', 'ZAR', '', 1),
 (238, 'Zambia', 'ZM', 'ZMB', '', 1),
-(239, 'Zimbabwe', 'ZW', 'ZWE', '', 1);
+(239, 'Zimbabwe', 'ZW', 'ZWE', '', 1),
+(240, 'Northern Ireland','GB','NIR','',1);
 
 
 --
@@ -1266,7 +1267,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 	('system','config_error_filename','error.txt'),
 	('system','config_upload_max_size',16000),
 
-
 --API
     ('api','config_storefront_api_status', '0'),
     ('api','config_storefront_api_key',''),
@@ -1325,7 +1325,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('banner_manager','banner_manager_date_installed',now()),
 ('banner_manager','store_id',0),
 ('banner_manager','banner_manager_status',1)
-
 ;
 
 
@@ -5480,7 +5479,14 @@ INSERT INTO `ac_zones` (`zone_id`, `country_id`, `code`, `name`, `status`) VALUE
 (3945, 105, 'VR', 'Verona', 1),
 (3946, 105, 'VV', 'Vibo Valentia', 1),
 (3947, 105, 'VI', 'Vicenza', 1),
-(3948, 105, 'VT', 'Viterbo', 1);
+(3948, 105, 'VT', 'Viterbo', 1),
+(3949, 240, '',   'Antrim',1),
+(3950, 240, '',   'Armagh',1),
+(3951, 240, '',   'Down',1),
+(3952, 240, '',   'Fermanagh',1),
+(3953, 240, '',   'Derry',1),
+(3954, 240, '',   'Tyrone',1)
+;
 
 
 
@@ -5752,7 +5758,6 @@ CREATE TABLE `ac_custom_blocks` (
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`custom_block_id`, `block_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 
 --
 -- DDL for table `ac_custom_lists`
@@ -6290,7 +6295,11 @@ CREATE TABLE `ac_fields` (
   KEY `field_id` (`field_id`, `form_id`, `status`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `ac_fields` VALUES (11,2,'first_name','I',1,'','','Y',1),(12,2,'email','I',2,'','','Y',1),(13,2,'enquiry','T',3,'','','Y',1),(14,2,'captcha','K',4,'','','Y',1);
+INSERT INTO `ac_fields` VALUES
+(11,2,'first_name','I',1,'','','Y',1),
+(12,2,'email','I',2,'','','Y',1),
+(13,2,'enquiry','T',3,'','','Y',1),
+(14,2,'captcha','K',4,'','','Y',1);
 
 --
 -- DDL for table `field_descriptions`
@@ -7461,5 +7470,3 @@ CREATE TABLE `ac_encryption_keys` (
   PRIMARY KEY (`key_id`),
   UNIQUE KEY `encryption_keys_key_name` (`key_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
-
-
