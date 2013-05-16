@@ -804,15 +804,28 @@ class ControllerPagesExtensionBannerManager extends AController {
 					$this->data[ 'block_wrappers' ][ $item[ 'template' ] ] = $item[ 'template' ];
 				}
 			}
+
+			//Automatic block template selection mode based on parent is limited to 1 template per location
+			//To extend, allow custom block's template to be selected to suppress automatic selection
+
 			//for tpls that stores in main.php (other extensions templates)
 			$ext_tpls = $this->extensions->getExtensionTemplates();
 			foreach($ext_tpls as $section){
 				foreach($section as $s=>$tpls){
 					if($s!='storefront'){ continue;}
 					foreach($tpls as $tpl){
-						if(isset($this->data['block_wrappers'][$tpl]) || strpos($tpl,'blocks/')===false){ continue;}
+						if(isset($this->data['block_wrappers'][$tpl]) || strpos($tpl,'blocks/banner_block/')===false){ continue;}
 						$this->data[ 'block_wrappers' ][ $tpl ] = $tpl;
 					}
+				}
+			}
+
+			$tpls = glob(DIR_STOREFRONT.'view/*/template/blocks/banner_block/*.tpl');
+			foreach($tpls as $tpl){
+				$pos = strpos($tpl,'blocks/banner_block/');
+				$tpl = substr($tpl,$pos);
+				if(!isset($this->data['block_wrappers'][$tpl])){
+					$this->data['block_wrappers'][$tpl] = $tpl;
 				}
 			}
 
