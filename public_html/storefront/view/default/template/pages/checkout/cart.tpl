@@ -66,6 +66,7 @@
       </div>
       <div class="buttons">
         <table>
+		  <?php echo $this->getHookVar('pre_cart_buttons'); ?>
           <tr>
             <td align="left"><?php echo $form['update']; ?></td>
             <td align="center"></td>
@@ -74,6 +75,7 @@
 				<?php echo $form['checkout']; ?>
 			</td>
           </tr>
+		  <?php echo $this->getHookVar('post_cart_buttons'); ?>
         </table>
       </div>
     </form>
