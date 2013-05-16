@@ -842,7 +842,7 @@ class ALayoutManager {
 		$block_id = (int)$block_id;
 		$custom_block_id = (int)$custom_block_id;
 		if (!$description['language_id']) {
-			$this->errors = 'Error: Can\'t save custom block, because language_id is empty!';
+			$this->errors = 'Error: Can\'t save custom block description, because language_id is empty!';
 			$this->log->write($this->errors);
 			return false;
 		}
@@ -1436,8 +1436,9 @@ class ALayoutManager {
 			$this->db->query($sql);
 			$block_id = $this->db->getLastId();
 
+			$position = (int)$block->position;
 			// if parent block exists
-			if ($parent_instance_id) {
+			if ($parent_instance_id && !$position) {
 				$sql = "SELECT MAX(position) as maxpos
 						FROM " . DB_PREFIX . "block_layouts
 						WHERE  parent_instance_id = " . ( int )$parent_instance_id;
@@ -1445,7 +1446,8 @@ class ALayoutManager {
 				$position = $result->row ['maxpos'] + 10;
 			}
 			$position = !$position ? 10 : $position;
-			$sql = "INSERT INTO " . DB_PREFIX . "block_layouts (layout_id,block_id,
+			$sql = "INSERT INTO " . DB_PREFIX . "block_layouts (layout_id,
+																block_id,
 																parent_instance_id,
 																position,
 																status,
@@ -1465,11 +1467,7 @@ class ALayoutManager {
 			// insert block's info
 			if ($block->block_descriptions->block_description) {
 				foreach ($block->block_descriptions->block_description as $block_description) {
-					$block_description->language = mb_strtolower($block_description->language, 'UTF-8');
-					$result = $this->db->query("SELECT language_id
-												  FROM " . DB_PREFIX . "languages
-												  WHERE LOWER(`name`)= '" . $this->db->escape($block_description->language) . "'");
-					$language_id = $result->row ['language_id'];
+					$language_id = $this->_getLanguageIdByName(mb_strtolower((string)$block_description->language, 'UTF-8'));
 					$this->language->replaceDescriptions('block_descriptions',
 						array('instance_id' => (int)$instance_id,
 							'block_id' => (int)$block_id),
@@ -1515,11 +1513,7 @@ class ALayoutManager {
 				// insert block's info
 				if ($block->block_descriptions->block_description) {
 					foreach ($block->block_descriptions->block_description as $block_description) {
-						$query = "SELECT language_id
-								  FROM " . DB_PREFIX . "languages
-								  WHERE `name` = '" . $this->db->escape($block_description->language) . "'";
-						$result = $this->db->query($query);
-						$language_id = $result->row ? $result->row ['language_id'] : 0;
+						$language_id = $this->_getLanguageIdByName(mb_strtolower((string)$block_description->language, 'UTF-8'));
 						// if language unknown
 						if (!$language_id) {
 							$error = "ALayout_manager Error. Unknown language for block descriptions.'."
@@ -1595,9 +1589,9 @@ class ALayoutManager {
 				$status = $block->status ? (int)$block->status : 1;
 
 				if (!$exists && $layout->action != "delete") {
-
+					$position = (int)$block->position;
 					// if parent block exists
-					if ($parent_instance_id) {
+					if ($parent_instance_id && !$position) {
 						$sql = "SELECT MAX(position) as maxpos
 								FROM " . DB_PREFIX . "block_layouts
 								WHERE  parent_instance_id = " . ( int )$parent_instance_id;
@@ -1791,7 +1785,7 @@ class ALayoutManager {
 		$language_name = mb_strtolower($language_name, 'UTF-8');
 		$query = "SELECT language_id
 				  FROM " . DB_PREFIX . "languages
-				  WHERE LOWER(name) = '" . $this->db->escape($language_name) . "'";
+				  WHERE LOWER(filename) = '" . $this->db->escape($language_name) . "'";
 		$result = $this->db->query($query);
 		return $result->row ? $result->row ['language_id'] : 0;
 	}
