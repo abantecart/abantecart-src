@@ -61,9 +61,9 @@
 				<?php } ?>
 			</div>
 			<!-- Right Details-->
-			<div class="span5">
+			<div class="span4">
 				<div class="row">
-					<div class="span5">
+					<div class="span4">
 						<h1 class="productname"><span class="bgnone"><?php echo $heading_title; ?></span></h1>
 
 						<div class="productprice">

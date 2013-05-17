@@ -39,7 +39,9 @@ class ControllerResponsesCommonZone extends AController {
 	
 	      	foreach ($results as $result) {
 	        	$stdout .= '<option value="' . $result['zone_id'] . '"';
-		    	if (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name'])) {
+		    	if ( (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name']))
+					||	(isset($this->request->get['zone_id']) && ($this->request->get['zone_id'] == $result['zone_id']))
+				) {
 		      		$stdout .= ' selected="selected"';
 		    	}
 		    	$stdout .= '>' . $result['name'] . '</option>';

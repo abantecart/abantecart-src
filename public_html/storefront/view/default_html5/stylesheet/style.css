@@ -466,6 +466,10 @@ li.dropdown {
 #top_cart_product_list table td.image, #top_cart_product_list table td.image img{
 	width: 50px;
 }
+#top_cart_product_list table td.total{
+	color: #00A1CB;
+}
+
 #top_cart_product_list .totals td{
 	text-align: right;
     width: 50%;
@@ -1479,6 +1483,10 @@ ul.reveiw ul.rate {
 	overflow: hidden;
 }
 
+#ContactUsFrm button{
+	margin-top:10px;
+}
+
 /* This is the loading message. */
 .cloud-zoom-loading {
 	color: white;
@@ -1493,6 +1501,7 @@ ul.reveiw ul.rate {
 	border-collapse: collapse;
 	border-top: 1px solid #E7E7E7;
 	border-left: 1px solid #E7E7E7;
+	border-right: 1px solid #E7E7E7;
 	background-color: #fff;
 	margin-bottom: 0;
 }
