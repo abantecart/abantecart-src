@@ -174,7 +174,8 @@ class ALayout {
 					$where .= " AND ( COALESCE( key_param, '' ) = ''
 										OR
 										( key_param = '" . $this->db->escape($key_param) . "'
-											AND key_value = '" . $this->db->escape($key_value) . "' ) )";
+											AND key_value = '" . $this->db->escape($key_value) . "' ) )
+								AND template_id = '".$this->tmpl_id."' ";
 
 				} else { //write to log this stuff. it's abnormal situation
 					$message = "Error: Error in data of page with controller: '" . $controller . "'. Please check for key_value present where key_param was set";
@@ -185,10 +186,12 @@ class ALayout {
 			}
 		}
 
-		$sql = "SELECT page_id, controller, key_param, key_value, created, updated "
-				. "FROM " . DB_PREFIX . "pages "
+		$sql = "SELECT p.page_id, controller, key_param, key_value, p.created, p.updated "
+				. "FROM " . DB_PREFIX . "pages p "
+				."LEFT JOIN pages_layouts pl ON pl.page_id = p.page_id "
+				."LEFT JOIN layouts l ON l.layout_id = pl.layout_id "
 				. $where
-				. "ORDER BY key_param DESC, key_value DESC, page_id ASC";
+				. "ORDER BY key_param DESC, key_value DESC, p.page_id ASC";
 		$query = $this->db->query($sql);
 		$pages = $query->rows;
 		$this->cache->set($cache_name, $pages, '', (int)$this->config->get('config_store_id'));
