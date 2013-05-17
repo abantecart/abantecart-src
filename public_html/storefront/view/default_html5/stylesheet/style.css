@@ -172,7 +172,7 @@ form {
 }
 
 #featured, #latest, #related, #popularbrands, #newslettersignup {
-	margin: 0 auto 0 auto
+	margin: 0 auto 0 auto;
 }
 
 input:focus:invalid, textarea:focus:invalid, select:focus:invalid {
@@ -688,7 +688,7 @@ ul.categorymenu > li ul > li img {
 	margin-bottom: 10px;
 }
 
-/* ------------ nesletter ------------ */
+/* ------------ newsletter ------------ */
 #newslettersignup input {
 	height: 32px
 }
@@ -704,7 +704,7 @@ ul.categorymenu > li ul > li img {
 #newslettersignup .newsletter {
 	padding: 0 0 0 80px;
 	background: url(../image/otherdetailicon.png) no-repeat left -500px;
-	height: 100px
+	height: 100px;
 }
 
 #newslettersignup .newsletter h2 {
@@ -1167,7 +1167,7 @@ ul.rate li.off {
 
 .mainimage li.producthtumb {
 	display: inline-block;
-	width: 100px;
+	width: auto;
 	margin-left: 25px
 }
 
@@ -1399,6 +1399,11 @@ h1.productname {
 
 .productdesc #myTab.nav-tabs li a {
 	margin: 0 !important;
+}
+
+
+#product_details, .productdesc{
+	clear: both;
 }
 
 .tab-content {
@@ -1675,6 +1680,17 @@ ul.total li span.extra {
 	margin-bottom: 20px
 }
 
+#Address2Frm .form-horizontal .control-label{
+	min-width: 75px;
+	width: auto;
+	text-align: left;
+}
+#Address2Frm .registerbox .controls{
+	width: auto;
+	margin-left: 29%;
+
+}
+
 .myaccountbox {
 	padding: 10px 15px 15px 15px;
 	margin-bottom: 10px
@@ -1747,14 +1763,23 @@ ul.total li span.extra {
 }
 
 .newcustomer, .returncustomer, .formbox {
-	width: 40%;
+	width: 43%;
 	float: left;
 	border: 1px solid #E7E7E7;
 	padding: 15px 20px;
 }
 
+.returncustomer {
+    padding-right: 0;
+	margin-right: 0;
+    width: 46%;
+}
+
 .newcustomer {
 	margin-right: 5%;
+}
+.newcustomer input {
+	margin-top: 0;
 }
 
 .privacy {
@@ -1928,7 +1953,7 @@ ul.side_list li a:hover {
 	font-size: 15px;
 }
 
-/* Bestsellter */
+/* Bestseller */
 ul.side_prd_list {
 	background: none repeat scroll 0 0 #FFFFFF;
 	border-radius: 4px 4px 4px 4px;
@@ -1969,6 +1994,8 @@ ul.side_prd_list li {
 	display: block;
 	border-bottom: 1px dashed #E7E7E7;
 	padding: 16px 10px 16px 10px;
+	height: auto;
+	min-height: 63px;
 }
 
 ul.side_prd_list li:last-child {
@@ -1977,6 +2004,48 @@ ul.side_prd_list li:last-child {
 
 ul.side_prd_list li:hover {
 }
+
+
+ul.side_prd_list li.related_product {
+	display: inline-block;
+	font-size: 15px;
+	width: 150px;
+	border: none;
+	min-height: 150px;
+	vertical-align: top;
+	zoom: 1;
+	*display: inline;
+	padding-left: 1px;
+}
+ul.side_prd_list li.related_product .productname{
+	white-space: pre-wrap;
+}
+
+ul.side_prd_list li img {
+	float: left;
+	margin: 0 5px 10px 0;
+	padding: 5px;
+	border: 1px solid #E7E7E7;
+	background: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .sidebanner {
 	background: none repeat scroll 0 0 #FFFFFF;
@@ -2522,10 +2591,13 @@ a.clostalert {
 		padding-right: 0;
 	}
 
-	#newslettersignup .input-prepend {
-		white-space: pre-wrap;
+	#newslettersignup .input-prepend input {
+		/*white-space: pre-wrap;*/
 		text-align: right;
+		float: right;
+		clear: both;
 	}
+
 
 
 	.cart-info td, .cart-info th {
@@ -2593,7 +2665,10 @@ a.clostalert {
 	}
 
 	#topnav ul {
-		padding: 6px 0 0 0
+		padding: 6px 0 0 0;
+		text-align: center;
+		margin: 0 auto;
+		float: none;
 	}
 
 	.headerstrip .pull-right {
@@ -2608,6 +2683,8 @@ a.clostalert {
 
 	.headerdetails .nav.pull-left {
 		float: none;
+		margin: 0 0 10px 0;
+		text-align: center;
 	}
 
 
@@ -2952,7 +3029,18 @@ a.clostalert {
 		text-indent: -9999px;
 		overflow: hidden
 	}
+	.container{
+		margin: 0;
+		padding: 0 5px;
+	}
+	.ct_padding_left {
+	    padding-left: 0;
+	}
 
+	.nav-tabs > li, .nav-pills > li {
+	    display: inline-block;
+		float: none;
+	}
 
 	.headerdetails .nav.pull-left {
 		float: none;
@@ -3028,9 +3116,13 @@ a.clostalert {
 		float: left !important;
 	}
 
-	#newslettersignup .input-prepend {
-		white-space: nowrap;
+	#newslettersignup .input-prepend input {
+		/*white-space: pre-wrap;*/
+		text-align: right;
+		float: right;
+		clear: both;
 	}
+
 	.side_prd_list .price .pricenew,
 	.side_prd_list .price .priceold {
 		display: inline-block;
@@ -3052,7 +3144,8 @@ a.clostalert {
 
 	.cart-info.product-list table tr td:nth-child(2), .cart-info.product-list table tr th:nth-child(2),
 	.cart-info.product-list table tr td:nth-child(4), .cart-info.product-list table tr th:nth-child(4),
-	.cart-info.product-list table tr td:nth-child(6), .cart-info.product-list table tr th:nth-child(6)
+	.cart-info.product-list table tr td:nth-child(6), .cart-info.product-list table tr th:nth-child(6),
+	.invoice_products table tr td:nth-child(2), .invoice_products table tr th:nth-child(2)
 	{
 		display: none !important;
 		visibility: hidden  !important;
@@ -3065,7 +3158,6 @@ a.clostalert {
 	.sorting.well .pull-right{
 		float: none;
 		margin-top: 10px;
-
 	}
 }
 
@@ -3094,6 +3186,11 @@ a.clostalert {
 
 	.headerstrip #topnav {
 		margin-bottom: 0;
+	}
+
+	.sorting.well .pull-right{
+		float: none;
+		margin-top: 0;
 	}
 }
 

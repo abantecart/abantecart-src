@@ -22,14 +22,14 @@
 				</li>
 				<?php if ($categories) { ?>
 					<?php foreach ($categories as $category) { ?>
-						<li><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a>
+						<li><a href="<?php echo $category['href']; ?>">&nbsp;&nbsp;<?php echo $category['name']; ?></a>
 							<?php $sub_cat = $category['children']; ?>
 							<?php if ($sub_cat) { ?>
 								<!-- Subcategories -->
 								<div>
 									<ul>
 										<?php foreach ($sub_cat as $scat) { ?>
-											<li><a href="<?php echo $scat['href']; ?>"><?php echo $scat['name']; ?></a>
+											<li><a href="<?php echo $scat['href']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $scat['name']; ?></a>
 											</li>
 										<?php } ?>
 									</ul>

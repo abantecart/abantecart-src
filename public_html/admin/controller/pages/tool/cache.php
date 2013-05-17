@@ -146,7 +146,9 @@ class ControllerPagesToolCache extends AController {
 					$this->deleteThumbnails();
 				} else {
 					if($cache=='error_log'){
-						@unlink(DIR_LOGS.$this->config->get('config_error_filename'));
+						if(is_file(DIR_LOGS.$this->config->get('config_error_filename'))){
+							unlink(DIR_LOGS.$this->config->get('config_error_filename'));
+						}
 					}
 					$keywords = explode(',', $cache);
 					if($keywords){

@@ -148,7 +148,7 @@ class ControllerPagesToolGlobalSearch extends AController {
 					$this->view->assign ( 'listing_grid_' . $search_category, $grid->dispatchGetOutput () );
 					$i++;
 				}
-				$this->view->assign ( 'search_categories', array_keys($this->session->data ['search_totals']) );
+				$this->view->assign ( 'search_categories', array_keys((array)$this->session->data ['search_totals']) );
 				$this->view->assign ( 'search_categories_icons', $search_categories_icons );
 				$this->view->assign ( 'search_categories_names', $search_categories_names );
 

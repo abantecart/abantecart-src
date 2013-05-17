@@ -43,8 +43,8 @@
         </tr>
       </table>
 	</div>
-    <div class="container-fluid">
-		<table class="table table-striped table-bordered">
+    <div class="container-fluid invoice_products">
+		<table class="table table-striped table-bordered ">
 		  <tr>
 		    <th align="left"><?php echo $text_product; ?></th>
 		    <th align="left"><?php echo $text_model; ?></th>
