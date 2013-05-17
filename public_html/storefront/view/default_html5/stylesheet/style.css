@@ -463,6 +463,13 @@ li.dropdown {
 #top_cart_product_list>table:last-child{
 	width: 90%;
 }
+#top_cart_product_list table td.image, #top_cart_product_list table td.image img{
+	width: 50px;
+}
+#top_cart_product_list .totals td{
+	text-align: right;
+    width: 50%;
+}
 
 /* ------------ Category Menu ------------ */
 .categorymenu li a.menu_home {
@@ -2504,6 +2511,11 @@ a.clostalert {
 
 .thumbnail img{
 	margin: 0;
+}
+
+#newslettersignup .input-prepend {
+    text-align: right;
+    float: right;
 }
 
 /* Responcive Section */
