@@ -188,8 +188,8 @@ class ALayout {
 
 		$sql = "SELECT p.page_id, controller, key_param, key_value, p.created, p.updated "
 				. "FROM " . DB_PREFIX . "pages p "
-				."LEFT JOIN pages_layouts pl ON pl.page_id = p.page_id "
-				."LEFT JOIN layouts l ON l.layout_id = pl.layout_id "
+				."LEFT JOIN " . DB_PREFIX . "pages_layouts pl ON pl.page_id = p.page_id "
+				."LEFT JOIN " . DB_PREFIX . "layouts l ON l.layout_id = pl.layout_id "
 				. $where
 				. "ORDER BY key_param DESC, key_value DESC, p.page_id ASC";
 		$query = $this->db->query($sql);
