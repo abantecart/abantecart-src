@@ -3,7 +3,7 @@
 	<?php echo $form['back']->text ?>
 </a>
 <button class="btn btn-orange pull-right ml10" title="<?php echo $form['continue']->name ?>" type="submit">
-	<i class="icon-arrow-right"></i>
+	<i class="icon-arrow-right icon-white"></i>
 	<?php echo $form['continue']->name ?>
 </button>
 <?php if ($text_agree) { ?>

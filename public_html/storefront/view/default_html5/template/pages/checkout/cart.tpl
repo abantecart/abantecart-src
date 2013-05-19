@@ -66,7 +66,7 @@ echo $form['form_open'];
 		<?php if ($form['checkout']) { ?>
 		<a href="<?php echo $checkout; ?>" id="cart_checkout" class="btn btn-orange pull-right"
 		   title="<?php echo $button_checkout; ?>">
-			<i class="icon-shopping-cart"></i>
+			<i class="icon-shopping-cart icon-white"></i>
 			<?php echo $button_checkout; ?>
 		</a>
 		<?php } ?>
@@ -153,7 +153,7 @@ echo $form['form_open'];
 			<?php if ($form['checkout']) { ?>
 			<a href="<?php echo $checkout; ?>" id="cart_checkout" class="btn btn-orange pull-right"
 			   title="<?php echo $button_checkout; ?>">
-				<i class="icon-shopping-cart"></i>
+				<i class="icon-shopping-cart icon-white"></i>
 				<?php echo $button_checkout; ?>
 			</a>
 			<?php } ?>

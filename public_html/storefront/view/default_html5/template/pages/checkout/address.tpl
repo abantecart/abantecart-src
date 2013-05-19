@@ -36,7 +36,7 @@
 			<div class="control-group">
 			    <div class="controls">
 			    	<button class="btn btn-orange pull-right" title="<?php echo $form0['continue']->name ?>" type="submit">
-			    	    <i class="icon-arrow-right"></i>
+			    	    <i class="icon-arrow-right icon-white"></i>
 			    	    <?php echo $form0['continue']->name ?>
 			    	</button>
 			    </div>
@@ -80,7 +80,7 @@
 			<div class="control-group">
 				<div class="controls">
 					<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
-					    <i class="icon-arrow-right"></i>
+					    <i class="icon-arrow-right icon-white"></i>
 					    <?php echo $form['continue']->name ?>
 					</button>
 				</div>

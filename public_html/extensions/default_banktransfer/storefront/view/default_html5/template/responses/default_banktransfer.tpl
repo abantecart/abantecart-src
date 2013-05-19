@@ -12,7 +12,7 @@
 </div>
 
 <a class="btn btn-orange pull-left" onclick="location = '<?php echo str_replace('&', '&amp;', $back); ?>'">
-     <i class="icon-arrow-left"></i>
+     <i class="icon-arrow-left icon-white"></i>
     <?php echo $button_back; ?>
 </a>
 <?php if (!$minimum_notmet) { ?>	

@@ -117,7 +117,7 @@
 				    <?php echo $button_continue->text ?>
 				</a>
 				<a href="javascript:window.print();" class="btn btn-orange mr10 pull-right" title="<?php echo $button_print->text ?>">
-				    <i class="<?php echo $button_print->{icon}; ?>"></i>
+				    <i class="<?php echo $button_print->{icon}; ?> icon-white"></i>
 				    <?php echo $button_print->text ?>
 				</a>
 	    	</div>	

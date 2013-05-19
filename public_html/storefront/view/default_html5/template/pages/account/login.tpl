@@ -35,7 +35,7 @@
 		      <?php echo $text_create_account; ?>
 			</div>
 			<button type="submit" class="btn btn-orange"  title="<?php echo $form1['continue']->name ?>">
-				<i class="<?php echo $form1['continue']->{icon}; ?>"></i>
+				<i class="<?php echo $form1['continue']->{icon}; ?> icon-white"></i>
 				<?php echo $form1['continue']->name ?>
 			</button>
 		</fieldset>
@@ -68,7 +68,7 @@
 			<br>
 			<br>
 			<button type="submit" class="btn btn-orange"  title="<?php echo $form2['login_submit']->name ?>">
-				<i class="<?php echo $form2['login_submit']->{icon}; ?>"></i>
+				<i class="<?php echo $form2['login_submit']->{icon}; ?> icon-white"></i>
 				<?php echo $form2['login_submit']->name ?>
 			</button>
 		</fieldset>

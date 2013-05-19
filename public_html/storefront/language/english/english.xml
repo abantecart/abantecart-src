@@ -54,7 +54,7 @@
 	</definition>
 	<definition>
 		<key>text_pagination</key>
-		<value><![CDATA[Showing {start} to {end} of {total} ({pages} Pages)]]></value>
+		<value><![CDATA[{start} - {end} of {total}]]></value>
 	</definition>
 	<definition>
 		<key>text_per_page</key>

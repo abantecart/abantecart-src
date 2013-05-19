@@ -2363,12 +2363,12 @@ a.clostalert {
 	padding: 0 0 5px 0
 }
 
-#footersocial {
+#social_icons {
 	float: right;
 	margin-right: -12px
 }
 
-#footersocial a {
+#social_icons a {
 	background: url(../image/footericon.png) no-repeat;
 	height: 30px;
 	width: 30px;
@@ -2382,81 +2382,81 @@ a.clostalert {
 	-o-transition: all .2s ease
 }
 
-#footersocial a:hover {
+#social_icons a:hover {
 	-moz-transition: all .2s ease;
 	-webkit-transition: all .2s ease;
 	-o-transition: all .2s ease
 }
 
-#footersocial a.facebook {
+#social_icons a.facebook {
 	background-position: 0 -6px;
 }
 
-#footersocial a.facebook:hover {
+#social_icons a.facebook:hover {
 	background-position: 0 -47px;
 }
 
-#footersocial a.twitter {
+#social_icons a.twitter {
 	background-position: -40px -6px
 }
 
-#footersocial a.twitter:hover {
+#social_icons a.twitter:hover {
 	background-position: -40px -47px
 }
 
-#footersocial a.linkedin {
+#social_icons a.linkedin {
 	background-position: -80px -6px
 }
 
-#footersocial a.linkedin:hover {
+#social_icons a.linkedin:hover {
 	background-position: -80px -47px
 }
 
-#footersocial a.blooger {
+#social_icons a.blooger {
 	background-position: -118px -6px
 }
 
-#footersocial a.blooger:hover {
+#social_icons a.blooger:hover {
 	background-position: -118px -47px
 }
 
-#footersocial a.rss {
+#social_icons a.rss {
 	background-position: -155px -6px
 }
 
-#footersocial a.rss:hover {
+#social_icons a.rss:hover {
 	background-position: -155px -47px
 }
 
-#footersocial a.dig {
+#social_icons a.dig {
 	background-position: -194px -6px
 }
 
-#footersocial a.dig:hover {
+#social_icons a.dig:hover {
 	background-position: -194px -47px
 }
 
-#footersocial a.googleplus {
+#social_icons a.googleplus {
 	background-position: -234px -6px
 }
 
-#footersocial a.googleplus:hover {
+#social_icons a.googleplus:hover {
 	background-position: -234px -47px
 }
 
-#footersocial a.skype {
+#social_icons a.skype {
 	background-position: -271px -6px
 }
 
-#footersocial a.skype:hover {
+#social_icons a.skype:hover {
 	background-position: -271px -47px
 }
 
-#footersocial a.flickr {
+#social_icons a.flickr {
 	background-position: -309px -6px
 }
 
-#footersocial a.flickr:hover {
+#social_icons a.flickr:hover {
 	background-position: -309px -47px
 }
 
@@ -2812,7 +2812,7 @@ a.clostalert {
 		float: left !important;
 	}
 
-	#footersocial {
+	#social_icons {
 		float: none;
 		text-align: center;
 		clear: both;
@@ -2896,7 +2896,7 @@ a.clostalert {
 		text-align: center
 	}
 
-	.footerlinks .info, #footersocial {
+	.footerlinks .info, #social_icons {
 		float: none;
 		margin: 10px 0
 	}
@@ -3079,6 +3079,10 @@ a.clostalert {
 	}
 	.headerdetails>div.pull-left div.well{
 		padding-top: 20px;
+	}
+
+	#social_icons a {
+		margin-right: 4px;
 	}
 
 	#banner_slides {
