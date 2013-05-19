@@ -636,8 +636,24 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->data['extension'] = $extension_data;
 		$this->data['target_url'] = $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $extension);
 		$this->view->assign('help_url', $this->gen_help_url('extension_edit'));
+
+		$template = 'pages/extension/extensions_edit.tpl';
+		//#PR set custom templates for extension settings page.  
+		if ( has_value( (string)$config->custom_settings_template ) ) {
+		    //build path to template directory.
+			$dir_template = DIR_EXT . $extension . DIR_EXT_ADMIN . DIR_EXT_TEMPLATE . $this->config->get('admin_template') . "/template/";
+			$dir_template .= (string)$config->custom_settings_template;
+			//validate template and report issue
+			if (!file_exists( $dir_template )) {
+            	$warning = new AWarning("Cannot load override template $dir_template in extension $extension!" );
+            	$warning->toLog()->toDebug();
+			} else {
+				$template = $dir_template;
+			}			
+		}
+
 		$this->view->batchAssign($this->data);
-		$this->processTemplate('pages/extension/extensions_edit.tpl');
+		$this->processTemplate($template);
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

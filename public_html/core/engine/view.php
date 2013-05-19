@@ -153,34 +153,37 @@ class AView {
 	 * @return string
 	 */
 	public function fetch($filename) {
+		$file = '';
 
-		//#PR Build the path to the template file
-		if (!defined('INSTALL')) {
-
-			$tmpl_id = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
-
-            $path = DIR_TEMPLATE;
-            if (is_file($path . $tmpl_id . '/template/'.  $filename)) {
-                $file = $tmpl_id . '/template/'.  $filename;
-            } else {
-                $file = 'default/template/'.  $filename;
-            }
-            
-        } else {
-            $path = DIR_TEMPLATE;
-            $file = $filename;
-        }
-
-		$file = $path . $file;
-
-        if ( $this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('T', $filename) ) {
-            if ( is_file($file) ) {
-                $warning = new AWarning("Extension <b>{$result['extension']}</b> override template <b>$filename</b>" );
-                $warning->toDebug();
-            }
-            $file = $result['file'];
-        }
-    
+		//#PR First see if we have full path to template file. Nothing to do. Higher precedence! 
+		if (is_file($filename)) {
+			//#PR set full path
+			$file = $filename;
+		} else {
+			//#PR Build the path to the template file
+			$path = DIR_TEMPLATE;
+			if (!defined('INSTALL')) {	
+			    $tmpl_id = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
+		
+		        if (is_file($path . $tmpl_id . '/template/'.  $filename)) {
+		            $file = $path . $tmpl_id . '/template/'.  $filename;
+		        } else {
+		            $file = $path . 'default/template/'.  $filename;
+		        }
+		        
+		    } else {
+		        $file = $path.$filename;
+		    }
+	
+	        if ( $this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('T', $filename) ) {
+	            if ( is_file($file) ) {
+	                $warning = new AWarning("Extension <b>{$result['extension']}</b> overrides core template with <b>$filename</b>" );
+	                $warning->toDebug();
+	            }
+	            $file = $result['file'];
+	        }
+		}
+	    
 		if (is_file($file)) {
 
             $content = '';
