@@ -51,7 +51,7 @@
 	<definition>
 		<key>text_continue_shopping</key>
 		<value><![CDATA[Continue Shopping]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_coupon_codes</key>
 		<value><![CDATA[Apply Coupon Code]]></value>
@@ -75,11 +75,11 @@
 	<definition>
 		<key>text_estimate_shipments</key>
 		<value><![CDATA[Shipments]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>error_coupon</key>
 		<value><![CDATA[Error: Coupon is either invalid, expired or reached it's usage limit!]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>error_stock</key>
 		<value><![CDATA[Products marked with *** are not available in the desired quantity or out of stock!]]></value>
@@ -90,11 +90,13 @@
 	</definition>
 	<definition>
 		<key>error_order_minimum</key>
-		<value><![CDATA[Your order sub-total amount does not meet minimum amount of %s required. Please add more products to your cart!]]></value>
+		<value>
+			<![CDATA[Your order sub-total amount does not meet minimum amount of %s required. Please add more products to your cart!]]></value>
 	</definition>
 	<definition>
 		<key>error_order_maximum</key>
-		<value><![CDATA[Your order sub-total amount exceeds maximum amount of %s allowed per order. Please remove some items from your cart!]]></value>
+		<value>
+			<![CDATA[Your order sub-total amount exceeds maximum amount of %s allowed per order. Please remove some items from your cart!]]></value>
 	</definition>
 	<definition>
 		<key>error_empty_file_data</key>
@@ -115,5 +117,9 @@
 	<definition>
 		<key>error_max_file_size</key>
 		<value><![CDATA[Maximum file size for upload is %s Mb.]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon_success</key>
+		<value><![CDATA[Success: Your coupon discount has been applied!]]></value>
 	</definition>
 </definitions>

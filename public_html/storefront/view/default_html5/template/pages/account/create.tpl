@@ -129,7 +129,6 @@
 	<?php } ?>    	
 	    	<div class="span4 mt20 mb40">
 	    		<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
-	    		    <i class="<?php echo $form['continue']->icon; ?> icon-white"></i>
 	    		    <?php echo $form['continue']->name ?>
 	    		</button>
 	    	</div>	

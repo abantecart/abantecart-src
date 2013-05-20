@@ -51,7 +51,7 @@
 	<definition>
 		<key>text_continue_shopping</key>
 		<value><![CDATA[Continuar Compras]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_coupon_codes</key>
 		<value><![CDATA[Aplicar código promocional]]></value>
@@ -63,7 +63,7 @@
 	<definition>
 		<key>text_estimate_country</key>
 		<value><![CDATA[País y Estado]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_estimate_postcode</key>
 		<value><![CDATA[Código postal de envío]]></value>
@@ -71,15 +71,15 @@
 	<definition>
 		<key>button_text_estimate</key>
 		<value><![CDATA[Estimate]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_estimate_shipments</key>
 		<value><![CDATA[Envíos]]></value>
-	</definition>	
+	</definition>
 	<definition>
-    	<key>error_coupon</key>
-    	<value><![CDATA[Error: descuento no es válido, expirado o alcanzado su límite de uso!]]></value>
-  	</definition>	
+		<key>error_coupon</key>
+		<value><![CDATA[Error: descuento no es válido, expirado o alcanzado su límite de uso!]]></value>
+	</definition>
 	<definition>
 		<key>error_stock</key>
 		<value>
@@ -91,10 +91,16 @@
 	</definition>
 	<definition>
 		<key>error_order_minimum</key>
-		<value><![CDATA[Su pedido subtotal cantidad no satisface cantidad mínima %s requerida. Por favor, añadir más productos a su carrito!]]></value>
+		<value>
+			<![CDATA[Su pedido subtotal cantidad no satisface cantidad mínima %s requerida. Por favor, añadir más productos a su carrito!]]></value>
 	</definition>
 	<definition>
 		<key>error_order_maximum</key>
-		<value><![CDATA[Su pedido subtotal importe exceda la cantidad máxima %s permitida por pedido. Elimina algunos artículos de su carrito!]]></value>
-	</definition>	
+		<value>
+			<![CDATA[Su pedido subtotal importe exceda la cantidad máxima %s permitida por pedido. Elimina algunos artículos de su carrito!]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon_success</key>
+		<value><![CDATA[Éxito: El cupón de descuento se ha aplicado!]]></value>
+	</definition>
 </definitions>

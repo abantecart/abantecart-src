@@ -57,7 +57,7 @@ class ControllerPagesCheckoutCart extends AController {
 			//if this is coupon, validate and apply
 			if ( isset($this->request->post['coupon']) && $this->_validateCoupon() ) {
 				$this->session->data[ 'coupon' ] = $this->request->post[ 'coupon' ];
-				$this->session->data[ 'success' ] = $this->language->get('text_success');
+				$this->data['success'] = $this->session->data[ 'success' ] = $this->language->get('text_coupon_success');
 				//process data
 				$this->extensions->hk_ProcessData($this);
 			}

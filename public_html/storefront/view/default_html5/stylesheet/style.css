@@ -697,6 +697,7 @@ ul.categorymenu > li ul > li img {
 	display: block;
 	border: 1px solid #ddd;
 	margin-bottom: 10px;
+	overflow: hidden;
 }
 
 /* ------------ newsletter ------------ */
@@ -1578,6 +1579,7 @@ div.cart-info.coupon-estimate{
 	margin-bottom: 20px;
 	border: 1px solid #E7E7E7;
 	border-top: none;
+	border-right: none;
 }
 
 .cart-info .coupon{
@@ -2044,24 +2046,6 @@ ul.side_prd_list li img {
 	border: 1px solid #E7E7E7;
 	background: #fff;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .sidebanner {
 	background: none repeat scroll 0 0 #FFFFFF;
@@ -2632,6 +2616,9 @@ a.clostalert {
 	.cart-info .estimate table{
 		border-left: none;
 	}
+	.cart-info .coupon table{
+		border-right: 1px solid #E7E7E7 !important;
+	}
 
 	.cart-info.totals a{
 		float: none;
@@ -2828,6 +2815,10 @@ a.clostalert {
 		border-bottom: none;
 	}
 
+	.cart-info .coupon table{
+		border-right: 1px solid #E7E7E7 !important;
+	}
+
 }
 
 /* END @media (max-width: 979px) */
@@ -2963,6 +2954,10 @@ a.clostalert {
 
 	.cart-info .coupon button{
 		margin-top: 10px;
+	}
+
+	.cart-info .coupon table{
+		border-right: 1px solid #E7E7E7 !important;
 	}
 
 	.cart-info.totals a{
@@ -3160,6 +3155,10 @@ a.clostalert {
 
 	.cart-info .estimate table{
 		border-left: none;
+	}
+
+	.cart-info .coupon table{
+		border-right: 1px solid #E7E7E7 !important;
 	}
 	.cart-info .coupon button, .cart-info .estimate button{
 		margin-top: 10px;

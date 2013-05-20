@@ -2007,9 +2007,7 @@ VALUES
 (100176,9,'az_demo_product_60_5.jpg','','','18/75/0.jpg','',now(), now()),
 (100178,1,'abantecart video','','','','<object width=\"640\" height=\"360\"><param name=\"movie\" value=\"http://www.youtube.com/v/IQ5SLJUWbdA\"></param><param name=\"allowFullScreen\" value=\"true\"></param><param name=\"allowscriptaccess\" value=\"always\"></param><embed src=\"http://www.youtube.com/v/IQ5SLJUWbdA\" type=\"application/x-shockwave-flash\" width=\"640\" height=\"360\" allowscriptaccess=\"always\" allowfullscreen=\"true\"></embed></object>',now(), now()),
 (100188,1,'smbanner.jpg','','','18/75/c.jpg','',now(), now()),
-(100188,9,'smbanner.jpg','','','18/75/c.jpg','',now(), now()),
-(100189,1,'accrodianicon.png','','','18/76/0.png','',now(), now()),
-(100189,9,'accrodianicon.png','','','18/76/0.png','',now(), now())
+(100188,9,'smbanner.jpg','','','18/75/c.jpg','',now(), now())
 ;
 
 
