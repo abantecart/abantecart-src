@@ -246,7 +246,6 @@ class ControllerPagesProductProduct extends AController {
                                                                 'type' => 'button',
 		                                                        'name' => 'add_to_cart',
 		                                                        'text' => $this->language->get('button_add_to_cart'),
-		                                                        'href_class' => 'cart',
 		                                                        'style' => 'button1' ));
 		$this->data['form'][ 'product_id' ] = $form->getFieldHtml( array(
                                                                 'type' => 'hidden',

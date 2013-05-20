@@ -998,7 +998,7 @@ button.btn_standard {
 
 #content .product_info .product_images {
 	float: right;
-	width: 180px;
+	width: auto;
 }
 
 #content .product_info .product_images .main_image {
