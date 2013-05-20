@@ -16,4 +16,8 @@
 		<key>text_subscribe</key>
 		<value><![CDATA[Subscribe to Newsletter]]></value>
 	</definition>
+	<definition>
+		<key>button_subscribe</key>
+		<value><![CDATA[Subscribe]]></value>
+	</definition>	
 </definitions>

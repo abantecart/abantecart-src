@@ -13,6 +13,10 @@
 		<value><![CDATA[Registrarse]]></value>
 	</definition>
 	<definition>
+		<key>button_subscribe</key>
+		<value><![CDATA[Suscríbete]]></value>
+	</definition>
+	<definition>
 		<key>text_subscribe</key>
 		<value><![CDATA[Suscríbete al boletín de noticias]]></value>
 	</definition>

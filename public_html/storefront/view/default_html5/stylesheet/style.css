@@ -3085,6 +3085,10 @@ a.clostalert {
 		margin-right: 4px;
 	}
 
+	.productprint{
+		display: none;
+	}
+
 	#banner_slides {
 		width: 300px;
 	}
@@ -3217,6 +3221,7 @@ a.clostalert {
 		float: none;
 		margin-top: 0;
 	}
+	
 }
 
 
@@ -3256,6 +3261,11 @@ input, .btn, .label, .badge, .nav-pills > li > a,
 .input-prepend .add-on:first-child, .input-prepend .btn:first-child
 .input-append input, .input-prepend input, .input-append select, .input-prepend select, .input-append .uneditable-input, .input-prepend .uneditable-input, select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input, .alert, .breadcrumb, .well, .btn-group > .btn:last-child, .btn-group > .dropdown-toggle,
 .btn-group > .btn:first-child, .pagination ul > li:first-child > a, .pagination ul > li:first-child > span, .pagination ul > li:last-child > a, .pagination ul > li:last-child > span {
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+.input-append .add-on:last-child, .input-append .btn:last-child, .input-append .btn-group:last-child > .dropdown-toggle {
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
 	border-radius: 0;

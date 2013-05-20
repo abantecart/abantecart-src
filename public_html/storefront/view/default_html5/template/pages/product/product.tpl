@@ -18,9 +18,9 @@
 							<li class="span4">
 								<?php
 								if ($image['origin'] == 'external') {
-									$image_url = $image_main['main_html'];
+									$image_url = $image['main_html'];
 								} else {
-									$image_url = $image_main['main_url'];
+									$image_url = $image['main_url'];
 								}
 								?>
 								<a rel="position: 'inside' , showTitle: false, adjustX:-4, adjustY:-4"
@@ -160,7 +160,7 @@
 											<li><a href="#" onclick="$(this).closest('form').submit();"
 												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
 										</ul>
-										<a class="btn btn-large" href="#" onclick="javascript:window.print()"><i
+										<a class="productprint btn btn-large" href="#" onclick="javascript:window.print()"><i
 													class="icon-print"></i> <?php echo $button_print; ?></a>
 										<?php echo $this->getHookVar('buttons'); ?>
 									</div>
