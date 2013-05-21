@@ -38,7 +38,11 @@
 
     <?php if ($checkout) { ?>
     <div class="gray_separator"></div>
-	<div align="center"><a href="<?php echo $checkout; ?>" class="btn_standard"><span class="button1"><span><?php echo $text_checkout; ?></span></span></a></div>
+	<div align="center">
+		<?php echo $this->getHookVar('pre_cart_buttons'); ?>
+		<a href="<?php echo $checkout; ?>" class="btn_standard"><span class="button1"><span><?php echo $text_checkout; ?></span></span></a>
+		<?php echo $this->getHookVar('post_cart_buttons'); ?>
+	</div>
     <?php } ?>
 
     <?php } else { ?>
