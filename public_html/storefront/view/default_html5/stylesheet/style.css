@@ -761,7 +761,8 @@ ul.categorymenu > li ul > li img {
 	text-transform: uppercase;
 	text-align: center;
 	margin: 0 0 10px 0;
-	display: block
+	display: block;
+	padding-right: 17px;
 }
 
 .thumbnails.list .thumbnail .prdocutname {
@@ -1417,7 +1418,9 @@ h1.productname {
 #product_details, .productdesc{
 	clear: both;
 }
-
+#product_details>.container{
+	width: auto;
+}
 .tab-content {
 	background-color: #FFFFFF;
 	border: 1px solid #E7E7E7;
@@ -1574,6 +1577,16 @@ ul.reveiw ul.rate {
 	font-weight: bold;
 }
 
+/* cart block */
+.block_frame_cart .image img{
+	width: 50px;
+}
+.block_frame_cart .total {
+	color: #00A1CB;
+}
+.block_frame_cart .totals.pull-right td:nth-child(2) {
+	text-align: right;
+}
 
 div.cart-info.coupon-estimate{
 	margin-bottom: 20px;
@@ -1994,7 +2007,6 @@ ul.side_prd_list li img {
 	float: left;
 	margin: 0 5px 10px 0;
 	padding: 5px;
-	border: 1px solid #E7E7E7;
 	background: #fff
 }
 
@@ -2043,7 +2055,6 @@ ul.side_prd_list li img {
 	float: left;
 	margin: 0 5px 10px 0;
 	padding: 5px;
-	border: 1px solid #E7E7E7;
 	background: #fff;
 }
 
@@ -3381,7 +3392,8 @@ input, .btn, .label, .badge, .nav-pills > li > a,
 	border: none;
 	box-shadow: none;
 	-moz-box-shadow: none;
-	-webkit-box-shadow: none
+	-webkit-box-shadow: none;
+	text-align: center;
 }
 
 table th {

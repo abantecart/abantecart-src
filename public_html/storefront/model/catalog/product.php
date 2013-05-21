@@ -669,7 +669,8 @@ class ModelCatalogProduct extends Model {
 			$sql = "SELECT op.product_id, SUM(op.quantity) AS total
 					FROM " . $this->db->table("order_products") . " op
 					LEFT JOIN `" . $this->db->table("orders") . "` o ON (op.order_id = o.order_id)
-					WHERE o.order_status_id > '0'
+					LEFT JOIN " . $this->db->table("products") . " p ON p.product_id = op.product_id
+					WHERE o.order_status_id > '0' AND p.status = '1' AND p.date_available <= NOW()
 					GROUP BY op.product_id
 					ORDER BY total DESC";
 			if((int)$limit){

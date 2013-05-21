@@ -6,7 +6,7 @@
 <?php } ?>
 
 <section id="product_details">
-	<div class="span8 container">
+	<div class="container">
 		<!-- Product Details-->
 		<div class="row">
 			<!-- Left Image-->

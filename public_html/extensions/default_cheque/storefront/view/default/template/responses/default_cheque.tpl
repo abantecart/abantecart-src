@@ -8,12 +8,15 @@
 <div class="buttons">
   <table>
     <tr>
-      <td align="left"><a onclick="location = '<?php echo str_replace('&', '&amp;', $back); ?>'" class="button"><span><?php echo $button_back; ?></span></a></td>
-      <td align="right"><a id="checkout" class="button"><span><?php echo $button_confirm; ?></span></a></td>
+      <td align="left"><?php echo $button_back; ?></td>
+      <td align="right"><?php echo $button_confirm; ?></td>
     </tr>
   </table>
 </div>
 <script type="text/javascript"><!--
+$('#back').click(function() {
+	location = '<?php echo $back; ?>';
+});
 $('#checkout').click(function() {
 	$('body').css('cursor','wait');
 	$.ajax({ 
