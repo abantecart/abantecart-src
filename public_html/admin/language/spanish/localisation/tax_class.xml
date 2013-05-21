@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>entry_tax_rate_threshold</key>
-    <value><![CDATA[Aplicar este impuesto sólo si, subtotal es … ]]></value>
+    <value><![CDATA[Aplicar este impuesto sólo si, cantidad sujeta a impuestos (producto, el envío, subtotales, etc) es ... ]]></value>
   </definition>  
   <definition>
     <key>text_absolute</key>

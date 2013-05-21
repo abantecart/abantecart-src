@@ -77,7 +77,6 @@ final class ACart {
       		$array = explode(':', $key);
       		$product_id = $array[0];
       		$quantity =	 $data['qty'];
-			$op_stock_trackable = 0;
     		
       		if (isset($data['options'])) {
         		$options = (array)$data['options'];
@@ -85,7 +84,6 @@ final class ACart {
         		$options = array();
       		}
 
-			$product_result = array();		
 			$product_result = $this->buildProductDetails($product_id, $quantity, $options);
 			if ( count($product_result) ) {
 				$product_data[$key] = $product_result;
@@ -108,7 +106,7 @@ final class ACart {
 		if (!has_value($product_id) || !is_numeric($product_id) || $quantity == 0) {
 			return array();
 		}	
-		$result = array();
+
 		$stock = TRUE;
 
 		$this->load->model('catalog/product');
@@ -465,7 +463,8 @@ final class ACart {
 		if ( has_value($this->taxes) && !$recalculate) {
 			return $this->taxes;
 		}
-		$this->taxes = array();		
+		$this->taxes = array();
+		// taxes for products
 		foreach ($this->getProducts() as $product) {
 			if ($product['tax_class_id']) {
 				//save total for each tax class to build clear tax display later
@@ -476,6 +475,16 @@ final class ACart {
 					$this->taxes[$product['tax_class_id']]['total'] += $product['total'];
 					$this->taxes[$product['tax_class_id']]['tax'] += $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']);
 				}
+			}
+		}
+		//tax for shipping
+		if($this->session->data['shipping_method']['tax_class_id']){
+			$tax_id = $this->session->data['shipping_method']['tax_class_id'];
+			$cost = $this->session->data['shipping_method']['cost'];
+			if (!isset($this->taxes[$tax_id])) {
+				$this->taxes[$tax_id]['tax'] = $this->tax->calcTotalTaxAmount($cost, $tax_id);
+			} else {
+				$this->taxes[$tax_id]['tax'] += $this->tax->calcTotalTaxAmount($cost, $tax_id);
 			}
 		}
 

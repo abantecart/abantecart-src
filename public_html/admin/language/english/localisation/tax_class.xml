@@ -78,7 +78,7 @@
   </definition>
   <definition>
     <key>entry_tax_rate_threshold</key>
-    <value><![CDATA[Apply this tax only if, subtotal is … ]]></value>
+    <value><![CDATA[Apply this tax only if, taxed amount (product, shipping, subtotal, etc.) is ... ]]></value>
   </definition>
   <definition>
     <key>text_absolute</key>
