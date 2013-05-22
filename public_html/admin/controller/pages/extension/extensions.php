@@ -316,6 +316,7 @@ class ControllerPagesExtensionExtensions extends AController {
 				}
 				$data[ 'note' ] = $note_text;
 			}
+
 			if ($item['style']) {
 				$data['style'] = $item['style'];
 			}
@@ -377,8 +378,11 @@ class ControllerPagesExtensionExtensions extends AController {
 							'field' => $item['name']));
 					$item['value'] = $preview->dispatchGetOutput();
 					if ($data['value']) {
-						$data = array('name' => $item['name'],
-							'type' => 'hidden');
+						$data = array(
+							'note' => $data['note'],
+							'name' => $item['name'],
+							'type' => 'hidden'
+						);
 						if ($resource_id) {
 							$resource_info = $resource->getResource($resource_id);
 							$data['value'] = $item['resource_type'] . '/' . $resource_info['resource_path'];
