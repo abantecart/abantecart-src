@@ -415,12 +415,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			'items' => $rm->getResourcesList($search_data),
 			'pagination' => '',
 		);
-
+// TODO: need to find solution for this hardcoded preview sizes
 		foreach ($result[ 'items' ] as $key => $item) {
 			$result[ 'items' ][ $key ][ 'thumbnail_url' ] = $rm->getResourceThumb(
 				$item[ 'resource_id' ],
-				$this->config->get('config_image_product_width'),
-				$this->config->get('config_image_product_height'),
+				100,
+				100,
 				$item[ 'language_id' ]
 			);
 		}
