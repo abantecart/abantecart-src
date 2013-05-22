@@ -1,6 +1,15 @@
+#Intellij project files
 .idea/
-public_html/lang_compare.php
-public_html/system/
+*.iml
+*.ipr
+*.iws
+
+#abantecart files
+public_html/admin/system/updates.xml
+public_html/admin/system/temp/
+public_html/admin/system/backup/
+public_html/admin/system/uploads/
+public_html/system/cache/*
+public_html/system/logs/*
 public_html/system/config.php
-public_html/extensions/
 public_html/image/thumbnails/
