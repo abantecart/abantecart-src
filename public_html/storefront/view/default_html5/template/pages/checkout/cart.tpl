@@ -63,7 +63,9 @@ echo $form['form_open'];
 </div>
 <div class="container">
 	<div class="pull-right mb20">
+		<?php echo $this->getHookVar('pre_top_cart_buttons'); ?>
 		<?php if ($form['checkout']) { ?>
+
 		<a href="<?php echo $checkout; ?>" id="cart_checkout" class="btn btn-orange pull-right"
 		   title="<?php echo $button_checkout; ?>">
 			<i class="icon-shopping-cart icon-white"></i>
@@ -75,6 +77,7 @@ echo $form['form_open'];
 			<i class="icon-refresh"></i>
 			<?php echo $button_update; ?>
 		</button>
+		<?php echo $this->getHookVar('post_top_cart_buttons'); ?>
 	</div>
 </div>
 </form>
