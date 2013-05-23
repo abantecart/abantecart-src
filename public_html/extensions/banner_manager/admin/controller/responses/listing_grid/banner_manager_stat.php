@@ -21,7 +21,6 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridBannerManagerStat extends AController {
-	private $error = array();
 
     public function main() {
 
@@ -36,23 +35,11 @@ class ControllerResponsesListingGridBannerManagerStat extends AController {
 	                                       'grid_filter_params' => $filter_params,
 	                                       'additional_filter_string' => '') );
 
-		/*$page = $this->request->post['page']; // get the requested page
-		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
-		$sord = $this->request->post['sord']; // get the direction
 
-
-
-	    $data = array(
-			'sort'  => $sidx,
-			'order' => $sord,
-			'start' => ($page - 1) * $limit,
-			'limit' => $limit
-		);*/
 
 		$total = $this->model_extension_banner_manager->getBannersStat($filter_grid->getFilterData(),'total_only');
 	    if( $total > 0 ) {
-			$total_pages = ceil($total/$limit);
+			$total_pages = ceil($total/10);
 		} else {
 			$total_pages = 0;
 		}

@@ -39,7 +39,7 @@ class AMenu_Storefront extends AMenu {
 
 	protected function _buildMenu() {
 
-		$this->dataset_rows = $this->dataset->getRows();
+		$this->dataset_rows = (array)$this->dataset->getRows();
 		$this->dataset_decription_rows = $this->dataset_decription->getRows();
 
 		// need to resort by sort_order property

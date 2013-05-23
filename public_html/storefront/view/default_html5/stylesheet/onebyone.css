@@ -221,7 +221,7 @@ font:13px 'PT Sans', Arial, Tahoma, Verdana, Sans-Serif;color:#393939;
 	border: 0;
 	float: left;
 	margin-right:5px;
-	-webkit-border-radius:13px;-moz-border-radius:13px;border-radius:13px;behavior: url(PIE.htc);
+	-webkit-border-radius:13px;-moz-border-radius:13px;border-radius:13px; /*behavior: url(PIE.htc);*/
 }
 .buttonArea a.active {
 	background-position: -5px -25px;
