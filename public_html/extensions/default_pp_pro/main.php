@@ -40,4 +40,7 @@ $languages = array(
 $templates = array(
     'storefront' => array(
 	    'responses/default_pp_pro.tpl' ),
-    'admin' => array());
+    'admin' => array(
+		'pages/extension/default_pp_pro_settings.tpl'
+	)
+);

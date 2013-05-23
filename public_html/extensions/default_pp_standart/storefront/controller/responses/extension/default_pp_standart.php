@@ -52,6 +52,19 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 		$this->data['invoice'] = $this->session->data['order_id'] . ' - ' . html_entity_decode($order_info['payment_firstname'], ENT_QUOTES, 'UTF-8') . ' ' . html_entity_decode($order_info['payment_lastname'], ENT_QUOTES, 'UTF-8');
 		$this->data['lc'] = $this->session->data['language'];
 
+		if ( has_value($this->config->get('default_pp_standart_logoimg')) ) {
+
+			if ( strpos($this->config->get('default_pp_standart_logoimg'), 'http://') || strpos($this->config->get('default_pp_standart_logoimg'), 'https://') ) {
+				$this->data['logoimg'] = $this->config->get('default_pp_standart_logoimg');
+			} else {
+				$this->data['logoimg'] = HTTPS_SERVER . $this->config->get('default_pp_standart_logoimg');
+			}
+		}
+
+		if ( has_value($this->config->get('default_pp_standart_cartbordercolor')) ) {
+			$this->data['cartbordercolor'] = $this->config->get('default_pp_standart_cartbordercolor');
+		}
+
 		$this->load->library('encryption');
 		$encryption = new AEncryption($this->config->get('encryption_key'));
 

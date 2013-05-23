@@ -63,5 +63,37 @@
   <definition>
     <key>default_pp_standart_autoselect</key>
     <value><![CDATA[Auto Select:<br /><span class="help">You can set to skip payment selection page if there is only one payment option. This payment method will be selected automatically</span>]]></value>
-  </definition>  
+  </definition>
+	<definition>
+		<key>button_signup</key>
+		<value><![CDATA[Sign Up Now]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_email</key>
+		<value><![CDATA[Re-enter E-Mail:]]></value>
+	</definition>
+	<definition>
+		<key>text_signup_account_note</key>
+		<value><![CDATA[Don't have a PayPal account? To use PayPal Payments Standard, you need a PayPal Business Account. Once you're signed up, enter your PayPal email address below to start accepting payments.]]></value>
+	</definition>
+	<definition>
+		<key>text_customize_checkout_page</key>
+		<value><![CDATA[Customize Checkout Page]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_logo_preview</key>
+		<value><![CDATA[Company Logo Preview]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_standart_logoimg</key>
+		<value><![CDATA[Upload Company Logo:<span class="help">Select Upload Logo to locate your company logo file. The logo may be a JPG, PNG, or GIF up to 190 pixels wide by 60 pixels high. This logo will appear as the header of your checkout page.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_standart_cartbordercolor</key>
+		<value><![CDATA[Enter a Background Color Code:<span class="help">It's recommended that the background color represent your brand. This color that's in your logo or that complements logo colors. Alternatively, neutral colors like black, white or gray will also create a professional look.</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_confirm_email</key>
+		<value><![CDATA[E-Mail addresses don't match.]]></value>
+	</definition>
 </definitions>
