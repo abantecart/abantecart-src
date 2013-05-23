@@ -348,10 +348,12 @@ class ControllerPagesExtensionExtensions extends AController {
 							}
 						}
 					}
-				    if($data['type']=='checkboxgroup'){
+				    if($data['type']=='checkboxgroup' || $data['type']=='multiselectbox'){
 						#custom settings for multivalue
 						$data[ 'scrollbox' ] = 'true';
-						$data['name'] = $item['name']."[]";
+						if(substr($item['name'],-2)!='[]'){
+							$data['name'] = $item['name']."[]";
+						}
 					}
 				    break;
 

@@ -387,17 +387,15 @@ class AExtensionManager {
 		}
 
 		//install default settings
+		$default_settings = $ext->getDefaultSettings();
 		$settings = array(
+			$name . '_status' => 0,
 			$name . '_layout' => (string)$config->layout,
 			$name . '_priority' => (string)$config->priority,
 			$name . '_date_installed' => date("Y-m-d H:i:s", time()),
 		);
 
-		if (isset($config->settings->item)) {
-			foreach ($config->settings->item as $item) {
-				$settings[(string)$item['id']] = $this->html->convertLinks(htmlentities((string)$item->default_value, ENT_QUOTES, 'UTF-8'));
-			}
-		}
+		$settings = array_merge($settings,$default_settings);
 
 		//write info about install into install log
 		$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
