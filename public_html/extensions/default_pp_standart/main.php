@@ -22,8 +22,10 @@ if ( !defined ( 'DIR_CORE' )) {
 }
 
 $controllers = array(
-    'storefront' => array('pages/extension/default_pp_standart',
-                          'responses/extension/default_pp_standart'),
+    'storefront' => array(
+		'pages/extension/default_pp_standart',
+		'responses/extension/default_pp_standart'
+	),
     'admin' => array( ),
 );
 
@@ -41,4 +43,7 @@ $languages = array(
 $templates = array(
     'storefront' => array(
 	    'responses/default_pp_standart.tpl' ),
-    'admin' => array());
+    'admin' => array(
+		'pages/extension/default_pp_standart_settings.tpl'
+	)
+);

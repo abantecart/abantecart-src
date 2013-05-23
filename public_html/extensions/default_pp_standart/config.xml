@@ -57,7 +57,16 @@
 				</fields>
 			</variants>
         </item>
+		<item id="default_pp_standart_logoimg">
+			<type>input</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_pp_standart_cartbordercolor">
+			<type>input</type>
+			<default_value></default_value>
+		</item>
     </settings>
+	<custom_settings_template>pages/extension/default_pp_standart_settings.tpl</custom_settings_template>
     <install>
 	    <sql></sql>
 	    <trigger></trigger>

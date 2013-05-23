@@ -40,6 +40,15 @@
 	<input type="hidden" name="paymentaction" value="<?php echo $paymentaction; ?>"/>
 	<input type="hidden" name="custom" value="<?php echo $custom; ?>"/>
 	<input type="hidden" name="bn" value="Abante_Cart">
+
+	<?php if ( $logoimg ): ?>
+		<input type="hidden" name="image_url" value="<?php echo $logoimg; ?>"/>
+	<?php endif; ?>
+
+	<?php if ( $cartbordercolor ): ?>
+		<input type="hidden" name="cpp_cart_border_color" value="<?php echo $cartbordercolor; ?>"/>
+	<?php endif; ?>
+
 </form>
 <div class="buttons">
 	<table>
