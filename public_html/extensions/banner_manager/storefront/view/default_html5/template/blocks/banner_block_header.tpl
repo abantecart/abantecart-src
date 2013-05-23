@@ -1,36 +1,33 @@
-
-<section class="slider">
-  <div class="banner_conteiner">
-  		<div class="banner_fallback"><img alt="" src="<?php echo $this->templateResource('/image/banner_fallback.jpg'); ?>"></div>
-		<div id="banner_slides">
-	<?php if ($content) {
-		foreach ($content as $banner) {
-	?>	
-			<div class="oneByOne_item banner">
-	<?php		
-			if ($banner['banner_type'] == 1) {
-				foreach ($banner['images'] as $img) {
-					echo '<a id="' . $banner['banner_id'] . '"  href="' . $banner['target_url'] . '" ' . ($banner['blank'] ? ' target="_blank" ' : '') . '>';
-					if ($img['origin'] == 'internal') {
-						echo '<img src="' . $img['main_url'] . '" title="' . $img['title'] . '" alt="' . $img['title'] . '">';
-					} else {
+<div id="banner_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>" class="container">
+<?php if ( $block_framed ) { ?>
+		<div class="block_frame block_frame_<?php echo $block_details['block_txt_id']; ?>"
+					 id="block_frame_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>">
+      	<h1 class="heading1"><span class="maintext"><?php echo $heading_title; ?></span><span class="subtext"><?php echo $heading_subtitle; ?></span></h1>
+<?php } ?>
+<?php if($content){
+		foreach($content as $banner){
+			echo '<div class="pull-left">';
+			if($banner['banner_type']==1){
+				foreach($banner['images'] as $img){
+					echo '<a id="'.$banner['banner_id'].'" href="'.$banner['target_url'].'" '.($banner['blank'] ? ' target="_blank" ': '').'>';
+					if($img['origin']=='internal'){
+						echo '<img src="'.$img['main_url'].'" title="'.$img['title'].'" alt="'.$img['title'].'">';
+					}else{
 						echo $img['main_html'];
 					}
 					echo '</a>';
 				}
-			} else {
+			}else{
 				echo $banner['description'];
 			}
-	?>		
-			</div>
-	<?php		
+		echo '</div>';
 		}
-	} ?>		
-				
-		</div>    
-  </div>
-</section>
-
+}?>
+<?php
+if ( $block_framed ) { ?>
+		</div>
+<?php } ?>
+</div>
 
 <script language="javascript">
 	$('.banner a').live('click',

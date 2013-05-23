@@ -49,7 +49,10 @@ $templates = array(
     'storefront' => array(
 	                        'blocks/banner_block.tpl',
 	                        'blocks/banner_block_content.tpl',
-	                        'blocks/banner_block_header.tpl'
+	                        'blocks/banner_block_header.tpl',
+	                        'blocks/banner_block/one_by_one_slider_banner_block.tpl',
+	                        'blocks/banner_block/flex_slider_banner_block.tpl'
+	                        
     ),
     'admin' => array( 'pages/extension/banner_manager.tpl',
                       'pages/extension/banner_manager_form.tpl',
