@@ -48,8 +48,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$cost = 0;
 				$compensation = 0;
 				
-				//$rates = explode(',', '.1:1.39,.25:1.72,.5:2.24,.75:2.75,1:3.35,1.25:4.50,1.5:5.20,1.75:5.90,2:6.60,4:8.22,6:11.02,8:13.82,10:16.62');
-				$rates = explode(',', '.1:1.58,.25:1.96,.5:2.48,.75:3.05,1:3.71,1.25:4.90,1.5:5.66,1.75:6.42,2:7.18,4:8.95,6:12.00,8:15.05,10:18.10');
+				$rates = explode(',', $this->config->get('default_royal_mail_1st_class_standard_rates'));
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
 				
@@ -57,12 +56,11 @@ class ModelExtensionDefaultRoyalMail extends Model {
 						if (isset($data[1])) {
 							$cost = $data[1];
 						}
-				
 						break;
 					}
 				}
 				
-				$rates = explode(',', '39:0,100:1,250:2.25,500:3.5');
+				$rates = explode(',', $this->config->get('default_royal_mail_1st_class_standard_compensation_rates'));
 				
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
@@ -105,8 +103,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$cost = 0;
 				$compensation = 0;
 				
-			  //$rates = explode(',', '.1:2.13,.25:2.46,.5:2.98,.75:3.49,1:4.09,1.25:5.24,1.5:5.94,1.75:6.64,2:7.34,4:8.96,6:12.50,8:15.30,10:18.10');
-				$rates = explode(',', '.1:2.35,.25:2.73,.5:3.25,.75:3.82,1:4.86,1.25:5.67,1.5:6.43,1.75:7.19,2:7.95,4:9.72,6:12.77,8:15.82,10:18.87');
+			  	$rates = explode(',',$this->config->get('default_royal_mail_1st_class_recorded_rates_gb'));
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
 				
@@ -119,7 +116,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 					}
 				}
 				
-				$rates = explode(',', '39:0');
+				$rates = explode(',', $this->config->get('default_royal_mail_1st_class_recorded_compensation_rates_gb'));
 				
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
@@ -128,7 +125,6 @@ class ModelExtensionDefaultRoyalMail extends Model {
 						if (isset($data[1])) {
 							$compensation = $data[1];
 						}
-				
 						break;
 					}
 				}
@@ -160,9 +156,8 @@ class ModelExtensionDefaultRoyalMail extends Model {
 
 			if ($this->config->get('default_royal_mail_2nd_class_standard') && $address['iso_code_2'] == 'GB') {
 				$cost = 0;
-				
-				//$rates = explode(',', '.1:1.17,.25:1.51,.5:1.95,.75:2.36,1:2.84');
-				$rates = explode(',', '.1:1.33,.25:1.72,.5:2.16,.75:2.61,1:3.15');
+
+				$rates = explode(',', $this->config->get('default_royal_mail_2nd_class_standard_rates'));
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
 				
@@ -199,9 +194,8 @@ class ModelExtensionDefaultRoyalMail extends Model {
 			if ($this->config->get('default_royal_mail_2nd_class_recorded') && $address['iso_code_2'] == 'GB') {
 				$cost = 0;
 				$compensation = 0;
-				
-				//$rates = explode(',', '.1:1.91,.25:2.25,.5:2.69,.75:3.10,1:3.58');
-				$rates = explode(',', '.1:2.10,.25:2.49,.5:2.93,.75:3.38,1:3.92');
+
+				$rates = explode(',', $this->config->get('default_royal_mail_2nd_class_recorded_rates_gb'));
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
 				
@@ -214,7 +208,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 					}
 				}
 				
-				$rates = explode(',', '39:0');
+				$rates = explode(',', $this->config->get('default_royal_mail_2nd_class_recorded_compensation_rates_gb'));
 				
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
@@ -256,9 +250,8 @@ class ModelExtensionDefaultRoyalMail extends Model {
 			if ($this->config->get('default_royal_mail_standard_parcels') && $address['iso_code_2'] == 'GB') {
 				$cost = 0;
 				$compensation = 0;
-				
-				//$rates = explode(',', '2:4.41,4:7.06,6:9.58,8:11.74,10:12.61,20:14.69');
-				$rates = explode(',', '2:4.41,4:7.66,6:10.43,8:12.67,10:13.61,20:15.86');
+
+				$rates = explode(',', $this->config->get('default_royal_mail_standard_parcels_rates_gb'));
 
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
@@ -272,7 +265,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 					}
 				}
 				
-				$rates = explode(',', '39:0,100:1,250:2.25,500:3.5');
+				$rates = explode(',', $this->config->get('default_royal_mail_standard_parcels_compensation_rates_gb'));
 				
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
@@ -314,12 +307,12 @@ class ModelExtensionDefaultRoyalMail extends Model {
 			if ($this->config->get('default_royal_mail_airmail')) {
 				$cost = 0;
 				
-				$countries = explode(',', 'AL,AD,AM,AT,AZ,BY,BE,BA,BG,HR,CY,CZ,DK,EE,FO,FI,FR,GE,DE,GI,GR,GL,HU,IS,IE,IT,KZ,KG,LV,LI,LT,LU,MK,MT,MD,MC,NL,NO,PL,PT,RO,RU,SM,SK,SI,ES,SE,CH,TJ,TR,TM,UA,UZ,VA');
-				
+				$countries = unserialize($this->config->get('default_royal_mail_airmail_countries'));
+
 				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',', '0.01:1.31,0.02:1.31,0.04:1.31,0.06:1.31,0.08:1.31,0.1:1.31,0.12:1.42,0.14:1.57,0.16:1.7,0.18:1.85,0.2:1.98,0.22');
+					$rates = explode(',', $this->config->get('default_royal_mail_airmail_in_countries_rates'));
 				} else {
-					$rates = explode(',', '0.02:1.82,0.02:1.82,0.04:1.82,0.06:1.82,0.08:1.82,0.1:1.82,0.12:2.1,0.14:2.38,0.16:2.65,0.18:2.93,0.2:3.2,0.22');
+					$rates = explode(',', $this->config->get('default_royal_mail_airmail_not_in_countries_rates'));
 				}
 
 				foreach ($rates as $rate) {
@@ -359,12 +352,12 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$cost = 0;
 				$compensation = 0;
 				
-				$countries = explode(',', 'AL,AD,AM,AT,AZ,BY,BE,BA,BG,HR,CY,CZ,DK,EE,FO,FI,FR,GE,DE,GI,GR,GL,HU,IS,IE,IT,KZ,KG,LV,LI,LT,LU,MK,MT,MD,MC,NL,NO,PL,PT,RO,RU,SM,SK,SI,ES,SE,CH,TJ,TR,TM,UA,UZ,VA');
-				
+				$countries = unserialize($this->config->get('default_royal_mail_international_signed_countries'));
+
 				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',', '.1:4.91,.12:5.01,.14:5.15,.16:5.27,.18:5.4,.2:5.52,.22:5.65,.24:5.76,.26:5.88,.28:6.01,.3:6.14,.34:6.36,.38:6.58,.42:6.8,.46:7.02,.5:7.24,.56:7.57,.62:7.9,.68:8.23,.74:8.56,.8:8.89,.9:9.44,1:9.99,1.2:10.99,1.4:11.99,1.6:12.99,1.8:13.99,2:14.99');
+					$rates = explode(',', $this->config->get('default_royal_mail_international_signed_in_countries_rates'));
 				} else {
-					$rates = explode(',', '.1:5.38,.12:5.63,.14:5.89,.16:6.14,.18:6.4,.2:6.64,.22:6.88,.24:7.11,.26:7.34,.28:7.58,.3:7.81,.34:8.29,.38:8.77,.42:9.25,.46:9.73,.5:10.21,.56:10.9,.62:11.59,.68:12.28,.74:12.97,.8:13.66,.9:14.81,1:15.96,1.2:18.16,1.4:20.36,1.6:22.56,1.8:24.76,2:26.96');
+					$rates = explode(',', $this->config->get('default_royal_mail_international_signed_not_in_countries_rates'));
 				}
 
 				foreach ($rates as $rate) {
@@ -380,9 +373,9 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				}
 				
 				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',', '39:0,250:2.20');
+					$rates = explode(',', $this->config->get('default_royal_mail_international_signed_in_countries_c_rates'));
 				} else {
-					$rates = explode(',', '39:0,250:2.20');
+					$rates = explode(',', $this->config->get('default_royal_mail_international_signed_not_in_countries_c_rates'));
 				}
 				
 				foreach ($rates as $rate) {
@@ -428,16 +421,16 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				
 				$rates = array();
 				
-				$countries = explode(',', 'AD,AT,BE,CH,DE,DK,ES,FO,FI,FR,IE,IS,LI,LU,MC,NL,PT,SE');
+				$countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries'));
 				
 				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',', '.1:5.71,.12:5.81,.14:5.95,.16:6.07,.18:6.2,.2:6.32,.22:6.45,.24:6.56,.26:6.68,.28:6.81,.3:6.94,.34:7.16,.38:7.38,.42:7.6,.46:7.82,.5:8.04,.56:8.37,.62:8.7,.68:9.03,.74:9.36,.8:9.69,.9:10.24,1:10.79,1.2:11.79,1.4:12.79,1.6:13.79,1.8:14.79,2:15.79');
+					$rates = explode(',',$this->config->get('default_royal_mail_airsure_in_countries_rates'));
 				} 
 				
-				$countries = explode(',', 'BR,CA,HK,MY,NZ,SG,US');
+				$countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries_2'));
 				
 				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',', '.1:6.18,.12:6.43,.14:6.69,.16:6.94,.18:7.2,.2:7.44,.22:7.68,.24:7.91,.26:8.14,.28:8.38,.3:8.61,.34:9.09,.38:9.57,.42:10.05,.46:10.53,.5:11.01,.56:11.7,.62:12.39,.68:13.08,.74:13.77,.8:14.46,.9:15.61,1:16.76,1.2:18.96,1.4:21.16,1.6:23.36,1.8:25.56,2:27.76');
+					$rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_2_rates'));
 				}
 				
 
@@ -455,16 +448,16 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				
 				$rates = array();
 				
-				$countries = explode(',', 'AD,AT,BE,CH,DE,DK,ES,FO,FI,FR,IE,IS,LI,LU,MC,NL,PT,SE');
+				$countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries_3'));
 				
 				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',', '39:0,500:2.2');
+					$rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_3_rates'));
 				} 
 				
-				$countries = explode(',', 'BR,CA,HK,MY,NZ,SG,US');
+				$countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries_4'));
 				
 				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',', '39:0,500:2.2');
+					$rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_4_rates'));
 				}				
 				
 				foreach ($rates as $rate) {
@@ -508,7 +501,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$cost = 0;
 				$compensation = 0;
 				
-				$rates = explode(',', '.1:0.91,.15:1.22,.2:1.53,.25:1.84,.3:2.14,.35:2.44,.4:2.76,.45:3.06,.5:3.36,.55:3.67,.6:3.98,.65:4.28,.7:4.59,.75:4.89,.8:5.2,.85:5.5,.9:5.81,1:6.42,1.1:7.03,1.2:7.65,1.3:8.25,1.4:8.87,1.5:9.48,1.6:10.09,1.7:10.61,1.8:11.13,1.9:11.65,2:12.17');
+				$rates = explode(',', $this->config->get('default_royal_mail_surface_rates'));
 
 				foreach ($rates as $rate) {
 					$data = explode(':', $rate);
