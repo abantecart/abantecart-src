@@ -5,9 +5,9 @@ $('document').ready(function () {
             className: 'oneByOneSlide',
             easeType: 'random',
             slideShow: true,
-            slideShowDelay: 6000
+            slideShowDelay: 6000,
+            responsive: true
         });
-
     })
 
     // Toggle

@@ -171,6 +171,15 @@ form {
 	-o-transition: all .2s ease
 }
 
+#maincontainer{
+	padding: 0;
+	margin: 0;
+}
+#maincontainer.container{
+	padding: 0;
+	margin: 0;
+}
+
 #featured, #latest, #related, #popularbrands, #newslettersignup {
 	margin: 0 auto 0 auto;
 }
@@ -606,7 +615,7 @@ ul.categorymenu > li ul > li {
 
 ul.categorymenu > li > div > ul.arrow li a {
 	padding: 8px 8px 8px 8px;
-	display: block
+	display: block;
 }
 
 ul.categorymenu > li ul > li > a {
@@ -620,7 +629,7 @@ ul.categorymenu > li ul > li > a {
 ul.categorymenu > li > div > ul li:hover a {
 	background-color: #00A1CB;
 	color: #fff;
-	text-shadow: none
+	text-shadow: none;
 }
 
 ul.categorymenu > li > div > ul > li > a {
@@ -2551,6 +2560,12 @@ a.clostalert {
 	float: right;
 }
 
+.form-inline .checkbox.pull-right.mr10{
+	width: auto;
+	min-width: 310px;
+	text-align: right;
+}
+
 /* Responcive Section */
 @media (max-width: 1200px) {
 	.headerdetails {
@@ -2589,10 +2604,23 @@ a.clostalert {
 		padding-left: 0px;
 	}
 
+	.form-inline .checkbox.pull-right.mr10{
+		width: auto;
+		min-width: 310px;
+		text-align: right;
+	}
+
 }
 
 @media (min-width: 768px) and (max-width: 1200px) {
-
+	header .headerstrip .container .span12{
+		width: 100%;
+	}
+	.form-inline .checkbox.pull-right.mr10{
+		width: auto;
+		min-width: 310px;
+		text-align: right;
+	}
 
 	.thumbnail .pricetag .spiral {
 	  background: url("../image/spiral.png") no-repeat scroll right 0 transparent;
@@ -2605,7 +2633,7 @@ a.clostalert {
 
 	.top-search input {
 		width: 180px;
-		margin: 0 auto 10px auto;
+		margin: 0 0 10px 0;
 		float: left;
 	}
 
@@ -2674,9 +2702,12 @@ a.clostalert {
 	}
 
 	.newcustomer {
-		margin: auto;
-		margin-bottom: 10px;
+		margin: auto auto 10px;
 		float: left;
+	}
+
+	#main_menu {
+		width: 100%;
 	}
 
 
@@ -2688,6 +2719,7 @@ a.clostalert {
 
 	.container{
 		margin:0;
+		padding: 0 0 0 20px;
 	}
 	#categorymenu {
 		margin: 0 0 10px 0
@@ -2706,10 +2738,6 @@ a.clostalert {
 
 	#categorymenu {
 		background: none
-	}
-
-	.container {
-		padding: 0 20px
 	}
 
 	nav.subnav {
@@ -2734,7 +2762,7 @@ a.clostalert {
 	}
 
 	#topnav {
-		width: 330px;
+		width: 100%;
 	}
 
 	#topnav ul {
@@ -2746,7 +2774,10 @@ a.clostalert {
 
 	.headerstrip .pull-right {
 		float: none;
-		text-align: center
+		text-align: center;
+	}
+	.headerstrip .pull-right #search_form {
+		margin-top: 25px;
 	}
 
 	.headerdetails {
@@ -2762,7 +2793,7 @@ a.clostalert {
 
 	.headerdetails .pull-right {
 		float: none;
-		text-align: center
+		text-align: center;
 	}
 
 	.headerdetails .topcall {
@@ -2770,19 +2801,19 @@ a.clostalert {
 		right: 50px;
 		top: 5px;
 		background: url(../image/sprite.png) left -659px no-repeat;
-		color: #fff
+		color: #fff;
 	}
 
 	.headerstrip {
-		height: auto
+		height: auto;
 	}
 
 	.thumbnail .pricetag {
-		margin: 0 auto
+		margin: 0 auto;
 	}
 
 	.otherddetails .otherddetailspart .innerclass h2 {
-		font-size: 18px
+		font-size: 18px;
 	}
 
 	#featured .thumbnails li:hover .thumbnail img,
@@ -2844,6 +2875,32 @@ a.clostalert {
 	#banner_slides .oneByOne_item span.txt_right2 {
 		margin-left: 405px;
 	}
+
+	#banner_slides{
+			width: 800px;
+		}
+
+		#banner_slides img.wp1_3{
+			right: auto !important;
+		}
+
+
+		#banner_slides img.wp1_3.wp1_left.slide2_bot {
+			left: -76px;
+		}
+		#banner_slides .oneByOne_item.banner:nth-child(2) span {
+			margin-left: 473px;
+		}
+		#banner_slides .oneByOne_item span.txt3 {
+			width: 240px !important;
+		}
+
+		.oneByOne_item.banner .animate0 img{
+			width: auto;
+		}
+		.oneByOne_item.banner .animate0 span{
+			font-size: 99% !important;
+		}
 
 	.logo img {
 		background-color: white;
@@ -2916,6 +2973,9 @@ a.clostalert {
 
 	.headerstrip .pull-left {
 		float: none;
+	}
+	.headerstrip .pull-right #search_form {
+		margin-top: 0px;
 	}
 
 	.headerdetails .nav.pull-left {
@@ -3178,11 +3238,21 @@ a.clostalert {
 		text-transform: none;
 	}
 
+	.cart-info .coupon button {
+		margin-top: 0;
+	}
+
 }
 
 @media only screen and (max-width: 480px) {
 	#product_details .thumbnail img{
 		max-width: 300px !important;
+	}
+
+	.form-inline .checkbox.pull-right.mr10{
+		width: 210;
+		min-width: 10px;
+		text-align: right;
 	}
 
 	.returncustomer {
@@ -3250,7 +3320,9 @@ a.clostalert {
 	.nav.topcart.pull-left>li.dropdown.hover.carticon{
 		width: 233px;
 	}
-
+	.headerstrip #topnav {
+		padding-bottom: 0px
+	}
 
 	#social_icons a {
 		margin-right: 4px;

@@ -120,14 +120,14 @@
 								<?php } ?>
 
 	<?php if ($text_agree) { ?>
-			<label class="span4 mt20 mb40 <?php echo $subscriber? 'hide' :''?>">
+			<label class="span6 mt20 mb40 <?php echo $subscriber? 'hide' :''?>">
 				<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
 
 				<?php echo $form['agree']; ?>
 			</label>
 
 	<?php } ?>    	
-	    	<div class="span4 mt20 mb40">
+	    	<div class="span2 mt20 mb40">
 	    		<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
 	    		    <i class="icon-ok icon-white"></i>
 	    		    <?php echo $form['continue']->name ?>
