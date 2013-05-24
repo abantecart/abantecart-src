@@ -108,4 +108,16 @@
     <key>error_partner</key>
     <value><![CDATA[Partner Required!]]></value>
   </definition>
+	<definition>
+		<key>text_signup_account_note</key>
+		<value><![CDATA[Don't have a PayPal account? To use PayPal Payments Pro, you need a PayPal Business Account. Once you're signed up, enter the required information below to start accepting payments.]]></value>
+	</definition>
+	<definition>
+		<key>button_signup</key>
+		<value><![CDATA[Sign Up Now]]></value>
+	</definition>
+	<definition>
+		<key>text_info_note</key>
+		<value><![CDATA[You created this information when you signed up for PayPal Website Payments Pro(UK). Enter it here to connect your account and allow payments. (Note: This is also your login information for <a href="https://manager.paypal.com/" target="_blank">PayPal Manager</a>.)]]></value>
+	</definition>
 </definitions>

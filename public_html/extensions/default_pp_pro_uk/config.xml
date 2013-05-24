@@ -71,6 +71,7 @@
 			</variants>
         </item>
     </settings>
+	<custom_settings_template>pages/extension/default_pp_pro_uk_settings.tpl</custom_settings_template>
     <install>
 	    <sql></sql>
 	    <trigger></trigger>
