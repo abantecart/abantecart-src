@@ -111,10 +111,6 @@
 		<value><![CDATA[Don't have a PayPal account? To use PayPal Payments Pro, you need a PayPal Business Account. Once you're signed up, enter the required information below to start accepting payments.]]></value>
 	</definition>
 	<definition>
-		<key></key>
-		<value><![CDATA[]]></value>
-	</definition>
-	<definition>
 		<key>button_signup</key>
 		<value><![CDATA[Sign Up Now]]></value>
 	</definition>
