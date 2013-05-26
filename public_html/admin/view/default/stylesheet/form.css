@@ -94,6 +94,13 @@ form {
 
 
 /* GLOBAL */
+div.aform_noaction, div.afield_noaction {
+	display:inline-block;
+	margin:0;
+	padding:0;
+    vertical-align:middle;
+}
+
 div.aform, div.afield {
 	display:inline-block;
 	margin:0;

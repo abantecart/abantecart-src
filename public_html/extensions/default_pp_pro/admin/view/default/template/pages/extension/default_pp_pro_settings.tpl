@@ -115,7 +115,7 @@
 						<?php echo $text_signup_account_note; ?>
 					</td>
 					<td style="padding-right: 40px;">
-						<a class="btn_standard" target="_blank" href="https://www.paypal.com/us/cgi-bin/webscr?cmd=_registration-run">
+						<a class="btn_standard" target="_blank" href="https://www.paypal.com/webapps/mpp/paypal-payments-pro">
 										<span id="button_signup" class="button3" title="Sign Up Now">
 											<span><?php echo $button_signup; ?></span>
 										</span>

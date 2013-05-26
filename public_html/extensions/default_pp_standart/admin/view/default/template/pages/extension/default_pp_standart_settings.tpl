@@ -142,7 +142,7 @@
 	</div>
 
 	<div class="fieldset">
-		<div class="heading"><?php //echo $text_optional_settings; ?></div>
+		<div class="heading"><?php echo $heading_required_settings; ?></div>
 		<div class="top_left"><div class="top_right"><div class="top_mid">
 		</div></div></div>
 		<div class="cont_left"><div class="cont_right"><div class="cont_mid">
@@ -150,6 +150,9 @@
 
 
 			<table class="form">
+					<tr>
+						<td colspan="2"><?php echo $text_paypal_email_note; ?></td>
+					</tr>						
 
 				<?php foreach ($settings as $key => $value) : ?>
 
@@ -161,6 +164,30 @@
 							echo $value['value'];
 							continue;
 						} ?>
+
+					<?php if ( $key == 'default_pp_standart_email' ) { ?>
+					<tr>
+						<td><?php echo $value['note']; ?></td>
+						<td class="ml_field">
+							<?php echo preg_replace ('/aform/', 'aform_noaction', $value['value']); ?>
+						</td>
+					</tr>						
+					<tr>
+					    <td><?php echo $text_confirm_email; ?></td>
+					    <td class="ml_field">
+					    	<span class="text_element">
+					    		<div class="aform_noaction">
+					    			<div class="afield mask1">
+					    				<div class="cl"><div class="cr"><div class="cc">
+					    					<input id="default_pp_standart_confirm_email" class="atext " type="text" ovalue="" value="" name="default_pp_standart_confirm_email">
+					    				</div></div></div>
+					    			</div>
+					    		</div>
+					    	</span>
+					    	<span class="required">*</span>
+					    </td>
+					</tr>
+					<?php } else { ?>
 					<tr>
 						<td><?php echo $value['note']; ?></td>
 						<td class="ml_field">
@@ -169,24 +196,8 @@
 							}
 							echo $value['value']; ?>
 						</td>
-					</tr>
-
-					<?php if ( $key == 'default_pp_standart_email' ): ?>
-						<tr>
-							<td><?php echo $text_confirm_email; ?></td>
-							<td class="ml_field">
-								<span class="text_element">
-									<div class="aform">
-										<div class="afield mask1">
-											<div class="cl"><div class="cr"><div class="cc">
-												<input id="default_pp_standart_confirm_email" class="atext " type="text" ovalue="" value="" name="default_pp_standart_confirm_email">
-											</div></div></div>
-										</div>
-									</div>
-								</span>
-							</td>
-						</tr>
-					<?php endif; ?>
+					</tr>						
+					<?php } ?>
 
 				<?php endforeach; ?>
 			</table>
@@ -201,12 +212,15 @@
 </div>
 
 <div class="fieldset">
-	<div class="heading"><?php echo $text_customize_checkout_page; ?></div>
+	<div class="heading"><?php echo $heading_optional_settings; ?></div>
 	<div class="top_left"><div class="top_right"><div class="top_mid">
 	</div></div></div>
 	<div class="cont_left"><div class="cont_right"><div class="cont_mid">
 		<div class="flt_left">
 			<table class="form">
+				<tr>
+					<td colspan="2"><b><?php echo $text_customize_checkout_page; ?></b></td>
+				</tr>						
 				<tr>
 					<td><?php echo $settings['default_pp_standart_logoimg']['note']; ?></td>
 					<td class="ml_field">
@@ -384,10 +398,11 @@ $(function(){
 
 	$('#default_pp_standart_confirm_email').val($('#default_pp_standart_email').val());
 
-
 	$('#editSettings').submit(function() {
 		if ( $('#default_pp_standart_confirm_email').val() != $('#default_pp_standart_email').val() ) {
-			$('.contentBox').prepend("<div class='warning'><?php echo $error_confirm_email; ?></div>");
+			$(document).scrollTop( $('#default_pp_standart_confirm_email').offset().top );
+			//$('.contentBox').prepend("<div class='warning'><?php echo $error_confirm_email; ?></div>");
+			alert("<?php echo $error_confirm_email; ?>");
 			return false;
 		}
 	});

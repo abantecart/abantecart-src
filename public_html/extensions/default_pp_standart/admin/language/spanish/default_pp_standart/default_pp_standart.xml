@@ -18,7 +18,7 @@
   </definition>
   <definition>
     <key>default_pp_standart_email</key>
-    <value><![CDATA[E-Mail:]]></value>
+    <value><![CDATA[Your PayPal Email Address:]]></value>
   </definition>
   <definition>
     <key>default_pp_standart_test</key>
@@ -70,11 +70,11 @@
 	</definition>
 	<definition>
 		<key>text_confirm_email</key>
-		<value><![CDATA[Re-enter E-Mail:]]></value>
+		<value><![CDATA[Re-enter PayPal Email Address:]]></value>
 	</definition>
 	<definition>
 		<key>text_signup_account_note</key>
-		<value><![CDATA[Don't have a PayPal account? To use PayPal Payments Standard, you need a PayPal Business Account. Once you're signed up, enter your PayPal email address below to start accepting payments.]]></value>
+		<value><![CDATA[<b>Don't have a PayPal account?</b> To use PayPal Payments Standard, you need a PayPal Business Account. Once you're signed up, enter your PayPal email address below to start accepting payments.]]></value>
 	</definition>
 	<definition>
 		<key>text_customize_checkout_page</key>
@@ -86,7 +86,7 @@
 	</definition>
 	<definition>
 		<key>default_pp_standart_logoimg</key>
-		<value><![CDATA[Upload Company Logo:<span class="help">Select Upload Logo to locate your company logo file. The logo may be a JPG, PNG, or GIF up to 190 pixels wide by 60 pixels high. This logo will appear as the header of your checkout page.</span>]]></value>
+		<value><![CDATA[Add Company Logo:<span class="help">Enter local path or URL to your company logo file. The logo may be a JPG, PNG, or GIF up to 190 pixels wide by 60 pixels high. This logo will appear as the header of your PayPal checkout page. </span>]]></value>
 	</definition>
 	<definition>
 		<key>default_pp_standart_cartbordercolor</key>
@@ -94,6 +94,18 @@
 	</definition>
 	<definition>
 		<key>error_confirm_email</key>
-		<value><![CDATA[E-Mail addresses don't match.]]></value>
+		<value><![CDATA[PayPal email addresses don't match.]]></value>
 	</definition>
+	<definition>
+		<key>text_paypal_email_note</key>
+		<value><![CDATA[To start accepting payments, enter your PayPal email address. In order for you to receive payments, this email address must be the same one you use when signing into your PayPal account.]]></value>
+	</definition>
+	<definition>
+		<key>heading_required_settings</key>
+		<value><![CDATA[Required to accept payment]]></value>
+	</definition>
+	<definition>
+		<key>heading_optional_settings</key>
+		<value><![CDATA[Optional Settings]]></value>
+	</definition>	
 </definitions>

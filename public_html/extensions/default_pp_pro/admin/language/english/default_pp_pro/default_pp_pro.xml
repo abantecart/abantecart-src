@@ -2,7 +2,7 @@
 <definitions>
 	<definition>
 		<key>default_pp_pro_name</key>
-		<value><![CDATA[PayPal Website Payment Pro]]></value>
+		<value><![CDATA[PayPal Payments Pro]]></value>
 	</definition>
 	<definition>
 		<key>default_pp_pro_status</key>
@@ -18,12 +18,12 @@
 	</definition>
 	<definition>
 		<key>text_success</key>
-		<value><![CDATA[Success: You have modified PayPal Website Payment Pro Checkout account details!]]></value>
+		<value><![CDATA[Success: You have modified PayPal Payments Pro Checkout account details!]]></value>
 	</definition>
 	<definition>
 		<key>text_default_pp_pro</key>
 		<value>
-			<![CDATA[<a onclick="window.open('https://www.paypal.com/uk/mrb/pal=W9TBB5DTD6QJW');"><img src="admin/view/default/image/payment/paypal.png" alt="PayPal Website Payment Pro" title="PayPal Website Payment Pro" style="border: 1px solid #EEEEEE;" /></a>]]></value>
+			<![CDATA[<a onclick="window.open('https://www.paypal.com/webapps/mpp/paypal-payments-pro');"><img src="admin/view/default/image/payment/paypal.png" alt="PayPal Payments Pro" title="PayPal Payments Pro" style="border: 1px solid #EEEEEE;" /></a>]]></value>
 	</definition>
 	<definition>
 		<key>text_authorization</key>
@@ -92,7 +92,7 @@
 	<definition>
 		<key>error_permission</key>
 		<value>
-			<![CDATA[Warning: You do not have permission to modify payment PayPal Website Payment Pro Checkout!]]></value>
+			<![CDATA[Warning: You do not have permission to modify payment PayPal Payments Pro Checkout!]]></value>
 	</definition>
 	<definition>
 		<key>error_username</key>
@@ -108,7 +108,7 @@
 	</definition>
 	<definition>
 		<key>text_signup_account_note</key>
-		<value><![CDATA[Don't have a PayPal account? To use PayPal Payments Pro, you need a PayPal Business Account. Once you're signed up, enter the required information below to start accepting payments.]]></value>
+		<value><![CDATA[<b>Don't have a PayPal account?</b> To use PayPal Payments Pro, you need a PayPal Business Account. Once you're signed up, enter the required information below to start accepting payments.]]></value>
 	</definition>
 	<definition>
 		<key>button_signup</key>
