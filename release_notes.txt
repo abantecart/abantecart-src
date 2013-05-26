@@ -1,3 +1,122 @@
+AbanteCart version 1.1.5 and new responsive default storefront theme
+
+We are very exceeded to present new AbanteCart version 1.1.5 and upgrade package. Distribution package can be  download or upgrade can be ran inside your existing AbanteCart.
+This release contains large number of new features, updates and fixes. We recommend to try upgrade in a test copy of AbanteCart first before applying to production sites. 
+
+Release Notes:  Version 1.1.5
+
+New Features and improvements summary:
+
+- HTML5 Responsive Storefornt template
+- Basket (shopping cart) page quick tax and shipping estimate (On HTML5 template only)
+- Basket (shopping cart) page coupon apply  (On HTML5 template only)
+- Subscription for news letter
+- Customer's account balance and money movement transactions support.
+- Customers' file uploads and management interface in admin. 
+- Administrators Act on behalf of customer feature
+- Various improvements to extension control. Global settings and ability to build custom setting pages for extensions (admin)
+- Page load improvement 
+- PayPal payment settings improvement related to PayPal partnership and certification.
+
+Many more small features added listed blow:
+
+Core:
+- default extension's setting bugfix related to serialized values for multivalue form fields + Refactoring.
+- applying tax for shipping bug-fix.
+- ALayout bugfix of wrong selection of page for layout related to a few installed templates.
+- Unsubscribe page added to storefront. Link for this page added to sale->mail page on Control Panel
+- session settings by ini_set moved to index.php
+- Fixed multiselected extension settings.
+- handling fee total extension now supports percent fees
+- engine/utils.php. Process of <disabled/> entity of config.xml of extension changed.
+- APagination moved back for old extensions support. Will be removed in major version
+- Warning message added to log for case when tpl file for controller not found .
+- now using has_value() function in AResource::getResources method to be able to get resources with id = 0.
+- default sorting setting for product listing on storefront pages added.
+- added column 'settings' in global_attributes table, updated demo data, fixed type in sql queries.
+- now seo-keywords for products, categories, brands and content pages are multilingual.
+- processing of additional config items for extensions added.
+- Customer's account balance and money movement transactions support.
+- Language manager translation of description bugfix.
+- bug fix for template debugger. Now info contain actual template(tpl) of block instead requested.
+- added methods addVirtual and removeVirtual into ACart class
+- Windows server strptime() fix
+- Add Nothern Ireland to country list with "zones"
+- Fix for extra prefix problem in Data import/export. (v1.1.4 bug only)
+
+Control Panel:
+- Act on behalf of customer feature
+- resource library popup's preview image size bugfix.
+- fixed bug when description text for extension settings fields (type resource) was missing.
+- custom block edit form changed. Wrapper list changed and now based on list of tpl-files that placed inside subdirectory of directory blocks.
+- custom block edit form changed. Wrapper list changed and now based on list of tpl-files that placed inside subdirectory of directory blocks.
+- layout_manager xml import bug fix related to positions of blocks and language of description of block
+- model for data of manufacturers changed. (cache check bugfix)
+- extension settings saving bugfix related to multivalue grouped checkboxes.
+- layout saving bugfix related to priorities of children blocks of placeholder. (if delete first from list of few blocks other blocks disappeared)
+- block edit form changes rollback(tpl selecting)
+- layout saving bugfix related to priorities of children blocks of placeholder. (if delete first from list of few blocks other blocks disappeared)
+- money transaction management added
+- added hook to extend fieldset at 'sale/order/history'.
+- Extended custom blocks to have any block's tpl as wrapper
+- now ckeditor use <br> as break line instead <p> tag
+- package installer bug fix related to deleting by empty extension_txt_id
+- added hook 'list_more_product_last' to extend products list. Storefront: added hook 'list_more_product_last' to extend products list.
+- permission checks bug fix related to prefixes "r" and "p" of rt-variable 
+- updater bug fix related to inaccessable updates.xml on abantecart-server
+- bugfix related to requests for updates.xml from abantecart.com.
+- removed unnecessary debug output in controller tool/files Core: removed unnecessary debug output in helper utils.php
+- html block edit form. ckeditor startup mode changed to "source"
+- Package installer bugfix related to ftp install procedure
+- Package installer bugfix related to ftp install procedure
+- added System -> Data -> File Uploads interface. Storefront: all info about uploads is now stored in datasets.
+- added model tool/files.php, updated sale/order controller to build download link for uploaded files in order details. Storefront: updates for "file" field type.
+- extension settings page small refactoring
+- fixed update of the file type field in global attributes. Storefront: fixed validation of the uploaded files in product options.
+- implemented interface for adding 'file' type global attribute, added admin/system/uploads directory. Core: added column 'settings' in global_attributes table, updated demo data, fixed type in sql queries. Storefront: implemented file uploading and file validation for product options.
+- package installer by ftp mode improved. Release notes now shows before cart upgrade.
+- added hook "virtuals" into order details template to show virtual products added by extensions. Storefront: template variables for cart top block are now available from extensions, added hook "virtuals" into order summary and checkout confirm template.
+- package installer by ftp mode improved.
+- mail settings. help text changed
+
+Storefront:
+- default_html5 template added
+- Added hooks to buttons at the cart page to be able to add buttons before and after cart buttons.
+- controller common/menu.php changed. cache write rebuild
+- now listing blocks can show external resources in default_html5 template
+- sample data size optimized
+- model catalog/products bugfixes related to listing block's calls. Refactoring and checks of parameters added. Phpdocumentor comments added.
+- now maintenance page can have own layout in template.
+- Added title popup for description of the shipping method at checkout.
+- APagination is not needed anymore in "default" template.
+- fixed guest checkout when order total is 0 (no payment required).
+- products are now accessible from extensions and can be hooked, fix for emailed order details with virtual products.
+- added hook 'virtual' for virtual products at account/invoice.tpl and hook 'payment_extensions_hook' for checkout/guest_step_2.tpl
+- Default template. hookvars to pages/account/account.tpl added
+- Default template thickbox(js-gallery) IE bugfix related to position of popup.
+- support for account creation for newsletter subscribers only added. Now you can use get variable subscriber=1 to open this type of form.
+- bug fix of hard set tpl for content block
+- added hook into cart.tpl
+- Added hook vars "pre_contents" and "pre_contents" to have ability to add links into "Information" block
+- skipping of payment checkout page for orders with zero total amount added.
+- Add storefront icon support for shipping and payment extenstion. Support default and defaultHTML5 templates
+- Added "Continue shopping" button for the default template.
+- Fix for thumbnails in lising block
+- Apply coupon and estimate shipping abd taxes in the cart
+
+Extensions:
+- Add support for extension custom settings templates
+- custom settings template for default_pp_pro_uk extension, language fixes for default_pp_pro.
+- Royal Mail rates moved to config.xml and not managed in extension
+- Created custom settings pages for PayPal Standart and Pro
+- updated icons for Default PayPal extensions
+- now ckeditor turns on in "source" mode on banner manager form
+- "Handling fee" core extension now have ability to set fee per payment method.
+- Small banner extension fixes
+- Add min and max settings for payments. Improve extensions settings to have defaults
+
+
+
 Release Notes: Version 1.1.4
 
 New Features and improvements summary:
