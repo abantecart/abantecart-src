@@ -45,14 +45,9 @@
         <item id="default_pp_pro_uk_order_status_id">
             <type>selectbox</type>
 			<variants>
-				<data_source>
-                   <model_rt>localisation/order_status</model_rt>
-                   <method>getOrderStatuses</method>
-				</data_source>
-				<fields>
-					<field>order_status_id</field>
-					<field>name</field>
-				</fields>
+				<item>1</item>
+				<item>2</item>
+				<item>5</item>
 			</variants>
 			<default_value>2</default_value>
         </item>
@@ -74,10 +69,10 @@
 	<custom_settings_template>pages/extension/default_pp_pro_uk_settings.tpl</custom_settings_template>
     <install>
 	    <sql></sql>
-	    <trigger></trigger>
+	    <trigger>install.php</trigger>
 	</install>
 	<uninstall>
 	    <sql></sql>
-	    <trigger></trigger>
+	    <trigger>uninstall.php</trigger>
 	</uninstall>
 </extension>

@@ -8,6 +8,7 @@
 		'default_pp_pro_signature',
 	);
 
+	$test_connection_url = $this->html->getSecureURL('r/extension/default_pp_pro/test');
 ?>
 <div id="aPopup">
 	<div class="message_body">
@@ -166,7 +167,18 @@
 					<td><?php echo $settings['default_pp_pro_signature']['note']; ?></td>
 					<td class="ml_field"><?php echo $settings['default_pp_pro_signature']['value']; ?></td>
 				</tr>
-
+				<tr>
+					<td>
+						<?php echo $text_test_connection; ?>
+					</td>
+					<td>
+						<a class="btn_standard">
+										<span id="test_connection" class="button1" title="<?php echo $text_test; ?>">
+											<span><?php echo $text_test; ?></span>
+										</span>
+						</a>
+					</td>
+				</tr>
 			</table>
 
 		</div></div></div>
@@ -363,6 +375,10 @@ $(function(){
 			type: 'GET',
 			dataType: 'json',
 			success: function(response) {
+				if ( !response ) {
+					alert('<?php echo $error_turn_extension_on; ?>');
+					return false;
+				}
 				alert(response['message']);
 			}
 		});

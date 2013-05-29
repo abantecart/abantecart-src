@@ -126,4 +126,16 @@
 		<key>text_info_note</key>
 		<value><![CDATA[You created this information when you signed up for PayPal Website Payments Pro(UK). Enter it here to connect your account and allow payments. (Note: This is also your login information for <a href="https://manager.paypal.com/" target="_blank">PayPal Manager</a>.)]]></value>
 	</definition>
+	<definition>
+		<key>default_pp_pro_uk_order_status_id_1</key>
+		<value><![CDATA[Pending]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_pro_uk_order_status_id_2</key>
+		<value><![CDATA[Processing]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_pro_uk_order_status_id_5</key>
+		<value><![CDATA[Complete]]></value>
+	</definition>
 </definitions>
