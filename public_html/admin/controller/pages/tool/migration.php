@@ -113,13 +113,10 @@ class ControllerPagesToolMigration extends AController {
 		                                                                  'name' => 'migrationFrm',
 		                                                                  'action' => $this->html->getSecureURL('tool/migration/step_one') ));
 
-		$cart_types = Array(
-							'' => $this->language->get('entry_cart_select'),
-							'osc' => $this->language->get('entry_cart_osc'),
-							'zen' => $this->language->get('entry_cart_zen'),
-							'cre' => $this->language->get('entry_cart_cre'),
-							'oc' => $this->language->get('entry_cart_opencart'),
-		);
+		$cart_types = array_merge(array('' => $this->language->get('entry_cart_select')),
+								$this->model_tool_migration->getCartList());
+
+
 		$this->data[ 'form' ][ 'cart_type' ] = $form->getFieldHtml(array( 'type' => 'selectbox',
 																		  'name' => 'cart_type',
 																		  'required' => true,
