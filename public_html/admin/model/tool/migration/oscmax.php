@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 require_once DIR_ROOT.'/admin/model/tool/migration/interface_migration.php';
 
-class Migration_Osc implements Migration {
+class Migration_Oscmax implements Migration {
 
 	private $data;
 	private $config;
@@ -35,13 +35,14 @@ class Migration_Osc implements Migration {
 		$this->error_msg = "";
 	}
 
-
-    public function getName() {
-        return 'OsCommerce';
-    }
+	function __destruct() {
+	}
 
     public function getVersion() {
-        return '2.2RC2';
+        return '';
+    }
+    public function getName() {
+        return 'OsCommerce Max';
     }
 
 	public function getCategories() {
@@ -55,7 +56,7 @@ class Migration_Osc implements Migration {
 		$categories_query = "SELECT	c.categories_id as category_id,
 									cd.categories_name as name,
 									'' as description,
-									c.categories_image as image,
+									CONCAT('categories/',c.categories_image) as image,
 									c.parent_id,
 									c.sort_order
 								FROM " . $this->data[ 'db_prefix' ] . "categories c, " . $this->data[ 'db_prefix' ] . "categories_description cd
@@ -83,7 +84,7 @@ class Migration_Osc implements Migration {
 		$this->db = mysql_connect($this->data[ 'db_host' ], $this->data[ 'db_user' ], $this->data[ 'db_password' ], true);
 		mysql_select_db($this->data[ 'db_name' ], $this->db);
 
-		$sql_query = "SELECT manufacturers_id, manufacturers_name as name, manufacturers_image as image
+		$sql_query = "SELECT manufacturers_id, manufacturers_name as name, CONCAT('manufacturers/',manufacturers_image) as image
                       FROM " . $this->data[ 'db_prefix' ] . "manufacturers
                       ORDER BY manufacturers_name";
 		$items = mysql_query($sql_query, $this->db);
@@ -111,11 +112,11 @@ class Migration_Osc implements Migration {
 		// for now use default language
 		$languages_id = 1;
 
-		$products_query = "SELECT   p.products_id,
+		 $products_query = "SELECT   p.products_id as product_id,
 									p.products_model as model,
 									p.products_quantity as quantity,
 									'7' as stock_status_id,
-									p.products_image as image,
+									CONCAT('products/',p.products_image) as image,
 									p.manufacturers_id as manufacturer_id,
 									'1' as shipping,
 									p.products_price as price,
@@ -127,35 +128,58 @@ class Migration_Osc implements Migration {
 									'5' as weight_class_id,
 									p.products_status as status,
 									p.products_date_added as date_added
-							FROM
-								" . $this->data[ 'db_prefix' ] . "products p,
-								" . $this->data[ 'db_prefix' ] . "products_description pd
-							WHERE
-								pd.products_id = p.products_id
-								AND pd.language_id = '" . (int)$languages_id . "'";
-		$items = mysql_query($products_query, $this->db);
-		if (!$items) {
+							FROM	" . $this->data[ 'db_prefix' ] . "products p
+							LEFT JOIN       " . $this->data[ 'db_prefix' ] . "products_description pd
+							 	ON pd.products_id = p.products_id AND pd.language_id='" . (int)$languages_id . "'";
+
+		$products = mysql_query($products_query, $this->db);
+		if (!$products) {
 			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
 			return false;
 		}
 
 		$result = array();
-		while ($item = mysql_fetch_assoc($items)) {
-			$result[ $item[ 'products_id' ] ] = $item;
+		while ($item = mysql_fetch_assoc($products)) {
+			$result[ $item[ 'product_id' ] ] = $item;
 		}
 
 		//add categories id
 		$sql_query = "SELECT categories_id, products_id
                       FROM " . $this->data[ 'db_prefix' ] . "products_to_categories";
-		$items = mysql_query($sql_query, $this->db);
-		if (!$items) {
+		$categories = mysql_query($sql_query, $this->db);
+		if (!$categories) {
 			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
 			return false;
 		}
 
-		while ($item = mysql_fetch_assoc($items)) {
+		while ($item = mysql_fetch_assoc($categories)) {
 			if (!empty($result[ $item[ 'products_id' ] ]))
 				$result[ $item[ 'products_id' ] ][ 'product_category' ][ ] = $item[ 'categories_id' ];
+		}
+
+
+		//add reviews
+		$sql_query = "SELECT products_id as product_id,
+						r.customers_id as review_customer_id,
+						r.customers_name as review_author,
+						rd.reviews_text as review_text,
+						r.reviews_rating as review_rating,
+						r.approved as review_status,
+						r.date_added as review_date_added,
+						r.last_modified as review_date_modified
+
+                      FROM " . $this->data[ 'db_prefix' ] . "reviews r
+                      LEFT JOIN 	" . $this->data[ 'db_prefix' ] . "reviews_description rd
+                      		ON r.reviews_id = rd.reviews_id AND rd.languages_id='" . (int)$languages_id . "'";
+		$reviews = mysql_query($sql_query, $this->db);
+		if (!$reviews) {
+			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			return false;
+		}
+
+		while ($item = mysql_fetch_assoc($reviews)) {
+			if (!empty($result[ $item[ 'product_id' ] ]))
+				$result[ $item[ 'product_id' ] ][ 'reviews' ][ ] = $item;
 		}
 
 		mysql_close($this->db);
@@ -168,7 +192,7 @@ class Migration_Osc implements Migration {
 		$this->db = mysql_connect($this->data[ 'db_host' ], $this->data[ 'db_user' ], $this->data[ 'db_password' ], true);
 		mysql_select_db($this->data[ 'db_name' ], $this->db);
 
-		$customers_query = "SELECT  c.customers_id,
+		$customers_query = "SELECT  c.customers_id as customer_id,
 									c.customers_firstname as firstname,
 									c.customers_lastname lastname,
 									c.customers_email_address as email,
@@ -216,8 +240,7 @@ class Migration_Osc implements Migration {
 	}
 
 	public function getOrders() {
-
-		
+				
 	}
 
 	public function getErrors() {

@@ -20,7 +20,7 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
-require "interface_migration.php";
+require_once DIR_ROOT.'/admin/model/tool/migration/interface_migration.php';
 
 class Migration_Cre implements Migration {
 
@@ -36,10 +36,9 @@ class Migration_Cre implements Migration {
         $this->error_msg = "";
 	}
 
-    function __destruct()
-	{
-	}
-
+    public function getName() {
+        return 'CRE Loaded';
+    }
     public function getVersion() {
         return '6.4.1 STD';
     }

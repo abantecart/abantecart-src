@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 
-require "interface_migration.php";
+require_once DIR_ROOT.'/admin/model/tool/migration/interface_migration.php';
 
 class Migration_OC implements Migration {
 
@@ -38,10 +38,9 @@ class Migration_OC implements Migration {
         $this->error_msg = "";
 	}
 
-    function __destruct()
-	{
-	}
-
+    public function getName() {
+        return 'OpenCart';
+    }
     public function getVersion() {
         return '1.4.9';
     }

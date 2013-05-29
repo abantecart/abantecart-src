@@ -20,7 +20,7 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
-require "interface_migration.php";
+require_once DIR_ROOT.'/admin/model/tool/migration/interface_migration.php';
 
 class Migration_Zen implements Migration {
 
@@ -35,6 +35,9 @@ class Migration_Zen implements Migration {
 		//		mysql_select_db($this->data['db_name'], $this->db);
 	}
 
+    public function getName() {
+        return 'ZenCart';
+    }
     public function getVersion() {
         return '1.3.9h';
     }
