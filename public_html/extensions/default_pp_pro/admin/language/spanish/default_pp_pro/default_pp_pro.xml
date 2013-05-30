@@ -38,7 +38,7 @@
 	</definition>
 	<definition>
 		<key>default_pp_pro_test</key>
-		<value><![CDATA[Modo de pruebas:<br /><span class="help">¿Usar el sistema en modo de pruebas o producción para las transacciones?</span>]]></value>
+		<value><![CDATA[Sandbox (Modo de pruebas):<br /><span class="help">¿Usar el sistema en modo de pruebas o producción para las transacciones?</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_pp_pro_test_1</key>
@@ -111,6 +111,10 @@
 	<definition>
 		<key>text_api_credentials</key>
 		<value><![CDATA[API Credentials]]></value>
+	</definition>
+	<definition>
+		<key>text_api_credentials_sandbox</key>
+		<value><![CDATA[API Sandbox Credentials]]></value>
 	</definition>
 	<definition>
 		<key>text_api_credentials_note</key>

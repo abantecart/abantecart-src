@@ -46,7 +46,7 @@
 	</definition>
 	<definition>
 		<key>default_pp_pro_test</key>
-		<value><![CDATA[Test Mode:<br /><span class="help">Use the live or testing (sandbox) gateway server to process transactions?</span>]]></value>
+		<value><![CDATA[Sandbox (Test) Mode:<br /><span class="help">Use the live or testing (sandbox) gateway server to process transactions?</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_pp_pro_test_1</key>
@@ -116,6 +116,10 @@
 	<definition>
 		<key>text_api_credentials</key>
 		<value><![CDATA[API Credentials]]></value>
+	</definition>
+	<definition>
+		<key>text_api_credentials_sandbox</key>
+		<value><![CDATA[API Sandbox Credentials]]></value>
 	</definition>
 	<definition>
 		<key>text_api_credentials_note</key>

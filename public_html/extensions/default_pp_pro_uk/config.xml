@@ -34,6 +34,7 @@
 				<item>1</item>
 				<item>0</item>
 			</variants>
+			<default_value>1</default_value>
         </item>
         <item id="default_pp_pro_uk_transaction">
             <type>selectbox</type>

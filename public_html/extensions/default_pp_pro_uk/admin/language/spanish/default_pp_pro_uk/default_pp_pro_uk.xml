@@ -42,7 +42,7 @@
   </definition>
   <definition>
     <key>default_pp_pro_uk_test</key>
-    <value><![CDATA[Test Mode:<br /><span class="help">Use the live or testing (sandbox) gateway server to process transactions?</span>]]></value>
+    <value><![CDATA[Sandbox (Test) Mode:<br /><span class="help">Use the live or testing (sandbox) gateway server to process transactions?</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_uk_test_1</key>

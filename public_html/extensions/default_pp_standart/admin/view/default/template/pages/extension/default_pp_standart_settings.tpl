@@ -150,7 +150,7 @@
 		<div class="heading"><?php echo $heading_required_settings; ?></div>
 		<div class="top_left"><div class="top_right"><div class="top_mid">
 		</div></div></div>
-		<div class="cont_left"><div class="cont_right"><div class="cont_mid">
+		<div class="cont_left"><div class="cont_right"><div class="cont_mid <?php if ( $this->config->get('default_pp_standart_test') ) { echo 'paypal_sandbox_bg'; } ?>">
 
 
 

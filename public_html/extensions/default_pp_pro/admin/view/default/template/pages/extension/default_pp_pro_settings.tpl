@@ -142,7 +142,7 @@
 	</div>
 
 	<div class="fieldset">
-		<div class="heading"><?php echo $text_api_credentials; ?></div>
+		<div class="heading"><?php echo $this->config->get('default_pp_pro_test') ? $text_api_credentials_sandbox : $text_api_credentials; ?></div>
 		<div class="top_left"><div class="top_right"><div class="top_mid">
 		</div></div></div>
 		<div class="cont_left"><div class="cont_right"><div class="cont_mid <?php if ( $this->config->get('default_pp_pro_test') ) { echo 'paypal_sandbox_bg'; } ?>">
