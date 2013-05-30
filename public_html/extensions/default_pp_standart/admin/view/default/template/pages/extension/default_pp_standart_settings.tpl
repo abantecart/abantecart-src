@@ -325,6 +325,8 @@
 <script type="text/javascript">
 	<!--
 
+	$("#<?php echo $extension['id']; ?>_test").attr('reload_on_save', 'true');
+
 	function show_help(){
 		$aPopup = $('#aPopup').dialog({
 			autoOpen: false,

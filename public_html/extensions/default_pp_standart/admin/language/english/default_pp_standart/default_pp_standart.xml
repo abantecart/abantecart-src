@@ -34,7 +34,7 @@
   </definition>
   <definition>
     <key>default_pp_standart_transaction</key>
-    <value><![CDATA[Transaction Method:]]></value>
+	<value><![CDATA[Transaction Method:<br /><span class="help">PayPal transaction to run at customer's checkout before order status is set. Authorization only or capture.</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_standart_transaction_0</key>
@@ -46,11 +46,11 @@
   </definition>
   <definition>
     <key>default_pp_standart_order_status_id</key>
-    <value><![CDATA[Order Status:]]></value>
+	<value><![CDATA[Order Status:<br /><span class="help">Order status to be set after customer's order finished based on set Transaction Method</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_standart_location_id</key>
-    <value><![CDATA[Location:]]></value>
+	<value><![CDATA[Location:<br /><span class="help">Restrict to allow only selected locations to use this payment method.</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_standart_location_id_0</key>
