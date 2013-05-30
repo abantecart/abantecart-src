@@ -140,18 +140,18 @@
 		<div class="heading"><?php echo $text_api_credentials; ?></div>
 		<div class="top_left"><div class="top_right"><div class="top_mid">
 		</div></div></div>
-		<div class="cont_left"><div class="cont_right"><div class="cont_mid">
+		<div class="cont_left"><div class="cont_right"><div class="cont_mid <?php if ( $this->config->get('default_pp_pro_test') ) { echo 'paypal_sandbox_bg'; } ?>">
 
 			<table class="form">
 				<tr>
 					<td>
-						<?php echo $text_api_credentials_note; ?>
+						<?php echo $this->config->get('default_pp_pro_test') ? $text_api_credentials_note_sandbox : $text_api_credentials_note; ?>
 					</td>
 					<td>
 						<a class="btn_standard" target="_blank" href="https://www.paypal.com/us/cgi-bin/webscr?cmd=_get-api-signature&generic-flow=true">
-										<span id="button_get_api_credentials" class="button1" title="Get Your API Credentials">
-											<span><?php echo $button_get_api_credentials; ?></span>
-										</span>
+							<span id="button_get_api_credentials" class="button1" title="Get Your API Credentials">
+								<span><?php echo $this->config->get('default_pp_pro_test') ? $button_get_api_credentials_sandbox : $button_get_api_credentials; ?></span>
+							</span>
 						</a>
 					</td>
 				</tr>

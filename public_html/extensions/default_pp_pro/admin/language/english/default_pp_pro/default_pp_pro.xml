@@ -22,8 +22,7 @@
 	</definition>
 	<definition>
 		<key>text_default_pp_pro</key>
-		<value>
-			<![CDATA[<a onclick="window.open('https://www.paypal.com/webapps/mpp/paypal-payments-pro');"><img src="admin/view/default/image/payment/paypal.png" alt="PayPal Payments Pro" title="PayPal Payments Pro" style="border: 1px solid #EEEEEE;" /></a>]]></value>
+		<value><![CDATA[<a onclick="window.open('https://www.paypal.com/webapps/mpp/paypal-payments-pro');"><img src="admin/view/default/image/payment/paypal.png" alt="PayPal Payments Pro" title="PayPal Payments Pro" style="border: 1px solid #EEEEEE;" /></a>]]></value>
 	</definition>
 	<definition>
 		<key>text_authorization</key>
@@ -115,6 +114,10 @@
 		<value><![CDATA[Sign Up Now]]></value>
 	</definition>
 	<definition>
+		<key>text_api_credentials</key>
+		<value><![CDATA[API Credentials]]></value>
+	</definition>
+	<definition>
 		<key>text_api_credentials_note</key>
 		<value><![CDATA[To process transactions, please provide your PayPal API credentials.]]></value>
 	</definition>
@@ -153,5 +156,13 @@
 	<definition>
 		<key>default_pp_pro_order_status_id_5</key>
 		<value><![CDATA[Complete]]></value>
+	</definition>
+	<definition>
+		<key>text_api_credentials_note_sandbox</key>
+		<value><![CDATA[To test transactions, please provide your Sandbox PayPal API credentials.]]></value>
+	</definition>
+	<definition>
+		<key>button_get_api_credentials_sandbox</key>
+		<value><![CDATA[Get Your Sandbox API Credentials]]></value>
 	</definition>
 </definitions>
