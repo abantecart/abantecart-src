@@ -271,7 +271,7 @@ class AResource {
         return $result;
 	}
 
-    public function getResourceThumb ( $resource_id, $width, $height, $language_id = '' ) {
+    public function getResourceThumb ( $resource_id, $width = '', $height = '', $language_id = '' ) {
 
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');

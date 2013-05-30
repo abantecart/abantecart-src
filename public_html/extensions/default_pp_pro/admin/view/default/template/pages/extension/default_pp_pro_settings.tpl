@@ -98,12 +98,17 @@
 <div class="fieldset">
 	<?php  echo $form['form_open']; ?>
 
+	<?php if ( !ctype_space($settings['store_id']['note']) ) { ?>
 	<table class="form">
 		<tr>
 			<td><?php echo $settings['store_id']['note']; ?></td>
 			<td class="ml_field"><?php echo $settings['store_id']['value']; ?></td>
 		</tr>
 	</table>
+	<?php } else { ?>
+		<?php echo $settings['store_id']['value']; ?>
+	<?php } ?>
+	
 	<div class="fieldset">
 		<div class="top_left"><div class="top_right"><div class="top_mid">
 		</div></div></div>
@@ -116,7 +121,7 @@
 						<?php echo $text_signup_account_note; ?>
 					</td>
 					<td style="padding-right: 40px;">
-						<a class="btn_standard" target="_blank" href="https://www.paypal.com/webapps/mpp/paypal-payments-pro">
+						<a class="btn_standard" target="_blank" href="https://www.paypal.com/us/webapps/mpp/referral/paypal-payments-pro?partner_id=V5VQZUVNK5RT6">
 										<span id="button_signup" class="button3" title="Sign Up Now">
 											<span><?php echo $button_signup; ?></span>
 										</span>
