@@ -63,7 +63,7 @@ With this extension you can use 2Checkout payment system to accept payments from
 	</definition>
 	<definition>
 		<key>2checkout_sort_order</key>
-		<value><![CDATA[Sort Order:]]></value>
+   		<value><![CDATA[Sort Order:<br /><span class="help">Number to indicate display position of this payment in relation to over enabled payments </span>]]></value>
 	</definition>
 	<definition>
 		<key>2checkout_autoselect</key>

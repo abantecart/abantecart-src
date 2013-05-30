@@ -94,12 +94,17 @@
 	<div class="fieldset">
 		<?php  echo $form['form_open']; ?>
 
+		<?php if ( !ctype_space($settings['store_id']['note']) ) { ?>
 		<table class="form">
 			<tr>
 				<td><?php echo $settings['store_id']['note']; ?></td>
 				<td class="ml_field"><?php echo $settings['store_id']['value']; ?></td>
 			</tr>
 		</table>
+		<?php } else { ?>
+			<?php echo $settings['store_id']['value']; ?>
+		<?php } ?>
+
 		<div class="fieldset">
 			<div class="top_left"><div class="top_right"><div class="top_mid">
 			</div></div></div>
