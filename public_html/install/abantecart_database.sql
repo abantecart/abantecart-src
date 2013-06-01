@@ -1196,7 +1196,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','invoice_prefix','IN#'),
 ('checkout','config_cart_weight',0),
 ('checkout','config_shipping_session',0),
-('checkout','config_tax',1),
+('checkout','config_tax', 0),
 ('checkout','config_tax_store',1),
 ('checkout','config_tax_customer',0),
 ('checkout','config_customer_price',1),
