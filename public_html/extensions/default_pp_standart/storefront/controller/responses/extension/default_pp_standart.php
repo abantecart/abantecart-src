@@ -141,6 +141,20 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 		} else {
 			$this->data['back'] = $this->html->getSecureURL('checkout/guest_step_2');
 		}
+
+		$back = $this->request->get[ 'rt' ] != 'checkout/guest_step_3'
+				? $this->html->getSecureURL('checkout/payment')
+				: $this->html->getSecureURL('checkout/guest_step_2');
+		$this->data[ 'back' ] = HtmlElementFactory::create(array( 'type' => 'button',
+														  'name' => 'back',
+														  'text' => $this->language->get('button_back'),
+														  'style' => 'button',
+														  'href' => $back ));
+		$this->data[ 'button_confirm' ] = HtmlElementFactory::create(
+													array( 'type' => 'submit',
+														  'name' => $this->language->get('button_confirm'),
+														  'style' => 'button',
+													));
 		
 		$this->view->batchAssign( $this->data ); 
 		$this->processTemplate('responses/default_pp_standart.tpl');
