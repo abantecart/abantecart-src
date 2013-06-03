@@ -158,8 +158,8 @@
 					if($text_agree){ ?>
 						<td id="agree_td1" align="right" style="<?php echo $subscriber ? 'display:none; ':''?>padding-right: 5px;"><?php echo $text_agree; ?><a class="thickbox" href="<?php echo $text_agree_href; ?>"><b><?php echo $text_agree_href_text; ?></b></a></td>
 						<td id="agree_td2"  width="5" style="<?php echo $subscriber ? 'display:none; ':''?>padding-right: 10px;"><?php echo $form['agree']; ?></td>
-						<td id="agree_td3"  align="right" width="5" style="<?php echo $subscriber ? 'display:none; ':''?>"><?php echo $form['continue']; ?></td>
 					<?php } ?>
+						<td id="agree_td3"  align="right" width="5" style="<?php echo $subscriber ? 'display:none; ':''?>"><?php echo $form['continue']; ?></td>
 					</tr>
 				</table>
 			</div>
