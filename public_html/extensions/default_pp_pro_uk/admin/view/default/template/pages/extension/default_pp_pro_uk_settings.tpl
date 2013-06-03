@@ -94,12 +94,17 @@
 	<div class="fieldset">
 		<?php  echo $form['form_open']; ?>
 
+		<?php if ( !ctype_space($settings['store_id']['note']) ) { ?>
 		<table class="form">
 			<tr>
 				<td><?php echo $settings['store_id']['note']; ?></td>
 				<td class="ml_field"><?php echo $settings['store_id']['value']; ?></td>
 			</tr>
 		</table>
+		<?php } else { ?>
+			<?php echo $settings['store_id']['value']; ?>
+		<?php } ?>
+
 		<div class="fieldset">
 			<div class="top_left"><div class="top_right"><div class="top_mid">
 			</div></div></div>
@@ -136,7 +141,7 @@
 		<div class="fieldset">
 			<div class="top_left"><div class="top_right"><div class="top_mid">
 			</div></div></div>
-			<div class="cont_left"><div class="cont_right"><div class="cont_mid">
+			<div class="cont_left"><div class="cont_right"><div class="cont_mid <?php if ( $this->config->get('default_pp_pro_uk_test') ) { echo 'paypal_sandbox_bg'; } ?>">
 
 				<div style="margin-left: 11px; max-width: 570px;"><?php echo $text_info_note; ?></div>
 
@@ -236,6 +241,8 @@
 <script type="text/javascript">
 	<!--
 
+	$("#<?php echo $extension['id']; ?>_test").attr('reload_on_save', 'true');
+
 	function show_help(){
 		$aPopup = $('#aPopup').dialog({
 			autoOpen: false,
@@ -314,51 +321,5 @@ $(function(){
 
 });
 
-$("#<?php echo $extension['id']; ?>_status").parents('.aswitcher').click(
-	function(){
-		var switcher = $("#<?php echo $extension['id']; ?>_status");
-		var value = switcher.val();
-		if(value==1){
-			$aPopup = $('#confirm_dialog').dialog({
-				autoOpen: false,
-				modal: true,
-				resizable: false,
-				height: 'auto',
-				minWidth: 100,
-				buttons: {
-							"<?php echo $button_agree;?>": function() {
-								$( this ).dialog( "destroy" );
-							},
-							"<?php echo $button_cancel;?>": function() {
-								$("#<?php echo $extension['id']; ?>_status").parents('.aform').find('.abuttons_grp').find('a:eq(1)').click();
-								$( this ).dialog( "destroy" );
-						}
-				},
-				close: function(event, ui) {
-							$("#<?php echo $extension['id']; ?>_status").parents('.aform').find('.abuttons_grp').find('a:eq(1)').click();
-							$(this).dialog('destroy');
-						}
-
-			});
-
-			$.ajax({
-						url: '<?php echo $dependants_url; ?>',
-						type: 'GET',
-						data: 'extension=<?php echo $extension['id']; ?>',
-						dataType: 'json',
-						success: function(data) {
-							if(data=='' || data==null){
-								return null;
-							}else{
-								if(data.text_confirm){
-									$('#confirm_dialog').html(data.text_confirm);
-								}
-								$aPopup.dialog('open');
-							}
-						}
-					});
-		}
-
-});
 -->
 </script>

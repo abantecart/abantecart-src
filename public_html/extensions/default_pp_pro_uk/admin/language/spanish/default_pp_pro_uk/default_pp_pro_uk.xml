@@ -42,7 +42,7 @@
   </definition>
   <definition>
     <key>default_pp_pro_uk_test</key>
-    <value><![CDATA[Test Mode:<br /><span class="help">Use the live or testing (sandbox) gateway server to process transactions?</span>]]></value>
+    <value><![CDATA[Sandbox (Test) Mode:<br /><span class="help">Use the live or testing (sandbox) gateway server to process transactions?</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_uk_test_1</key>
@@ -54,7 +54,7 @@
   </definition>
   <definition>
     <key>default_pp_pro_uk_transaction</key>
-    <value><![CDATA[Transaction Method:]]></value>
+	<value><![CDATA[Transaction Method:<br /><span class="help">PayPal transaction to run at customer's checkout before order status is set. Authorization only or capture.</span>]]></value>
   </definition>
 	<definition>
 		<key>default_pp_pro_uk_transaction_0</key>
@@ -66,11 +66,11 @@
 	</definition>
   <definition>
     <key>default_pp_pro_uk_order_status_id</key>
-    <value><![CDATA[Order Status:]]></value>
+	<value><![CDATA[Order Status:<br /><span class="help">Order status to be set after customer's order finished based on set Transaction Method</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_uk_location_id</key>
-    <value><![CDATA[Localidad:]]></value>
+	<value><![CDATA[Location:<br /><span class="help">Restrict to allow only selected locations to use this payment method.</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_uk_location_id_0</key>
@@ -119,5 +119,17 @@
 	<definition>
 		<key>text_info_note</key>
 		<value><![CDATA[You created this information when you signed up for PayPal Website Payments Pro(UK). Enter it here to connect your account and allow payments. (Note: This is also your login information for <a href="https://manager.paypal.com/" target="_blank">PayPal Manager</a>.)]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_pro_uk_order_status_id_1</key>
+		<value><![CDATA[Pending]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_pro_uk_order_status_id_2</key>
+		<value><![CDATA[Processing]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_pro_uk_order_status_id_5</key>
+		<value><![CDATA[Complete]]></value>
 	</definition>
 </definitions>

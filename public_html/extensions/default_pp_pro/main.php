@@ -23,7 +23,7 @@ if ( !defined ( 'DIR_CORE' )) {
 
 $controllers = array(
     'storefront' => array('responses/extension/default_pp_pro'),
-    'admin' => array( ),
+    'admin' => array('responses/extension/default_pp_pro'),
 );
 
 $models = array(

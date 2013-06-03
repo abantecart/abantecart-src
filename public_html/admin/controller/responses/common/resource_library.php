@@ -454,9 +454,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$result = $rm->getResource($this->request->get[ 'resource_id' ], $this->request->get[ 'language_id' ]);
 		$rm->setType($result[ 'type_name' ]);
 		$result[ 'thumbnail_url' ] = $rm->getResourceThumb(
-			$result[ 'resource_id' ],
-			$this->config->get('config_image_product_width'),
-			$this->config->get('config_image_product_height')
+			$result[ 'resource_id' ]
 		);
 
 		if (!empty($this->request->get[ 'resource_objects' ])) {

@@ -8,6 +8,7 @@
 		'default_pp_pro_signature',
 	);
 
+	$test_connection_url = $this->html->getSecureURL('r/extension/default_pp_pro/test');
 ?>
 <div id="aPopup">
 	<div class="message_body">
@@ -97,12 +98,17 @@
 <div class="fieldset">
 	<?php  echo $form['form_open']; ?>
 
+	<?php if ( !ctype_space($settings['store_id']['note']) ) { ?>
 	<table class="form">
 		<tr>
 			<td><?php echo $settings['store_id']['note']; ?></td>
 			<td class="ml_field"><?php echo $settings['store_id']['value']; ?></td>
 		</tr>
 	</table>
+	<?php } else { ?>
+		<?php echo $settings['store_id']['value']; ?>
+	<?php } ?>
+	
 	<div class="fieldset">
 		<div class="top_left"><div class="top_right"><div class="top_mid">
 		</div></div></div>
@@ -115,7 +121,7 @@
 						<?php echo $text_signup_account_note; ?>
 					</td>
 					<td style="padding-right: 40px;">
-						<a class="btn_standard" target="_blank" href="https://www.paypal.com/webapps/mpp/paypal-payments-pro">
+						<a class="btn_standard" target="_blank" href="https://www.paypal.com/us/webapps/mpp/referral/paypal-payments-pro?partner_id=V5VQZUVNK5RT6">
 										<span id="button_signup" class="button3" title="Sign Up Now">
 											<span><?php echo $button_signup; ?></span>
 										</span>
@@ -136,21 +142,21 @@
 	</div>
 
 	<div class="fieldset">
-		<div class="heading"><?php echo $text_api_credentials; ?></div>
+		<div class="heading"><?php echo $this->config->get('default_pp_pro_test') ? $text_api_credentials_sandbox : $text_api_credentials; ?></div>
 		<div class="top_left"><div class="top_right"><div class="top_mid">
 		</div></div></div>
-		<div class="cont_left"><div class="cont_right"><div class="cont_mid">
+		<div class="cont_left"><div class="cont_right"><div class="cont_mid <?php if ( $this->config->get('default_pp_pro_test') ) { echo 'paypal_sandbox_bg'; } ?>">
 
 			<table class="form">
 				<tr>
 					<td>
-						<?php echo $text_api_credentials_note; ?>
+						<?php echo $this->config->get('default_pp_pro_test') ? $text_api_credentials_note_sandbox : $text_api_credentials_note; ?>
 					</td>
 					<td>
 						<a class="btn_standard" target="_blank" href="https://www.paypal.com/us/cgi-bin/webscr?cmd=_get-api-signature&generic-flow=true">
-										<span id="button_get_api_credentials" class="button1" title="Get Your API Credentials">
-											<span><?php echo $button_get_api_credentials; ?></span>
-										</span>
+							<span id="button_get_api_credentials" class="button1" title="Get Your API Credentials">
+								<span><?php echo $this->config->get('default_pp_pro_test') ? $button_get_api_credentials_sandbox : $button_get_api_credentials; ?></span>
+							</span>
 						</a>
 					</td>
 				</tr>
@@ -166,7 +172,18 @@
 					<td><?php echo $settings['default_pp_pro_signature']['note']; ?></td>
 					<td class="ml_field"><?php echo $settings['default_pp_pro_signature']['value']; ?></td>
 				</tr>
-
+				<tr>
+					<td>
+						<?php echo $text_test_connection; ?>
+					</td>
+					<td>
+						<a class="btn_standard">
+										<span id="test_connection" class="button1" title="<?php echo $text_test; ?>">
+											<span><?php echo $text_test; ?></span>
+										</span>
+						</a>
+					</td>
+				</tr>
 			</table>
 
 		</div></div></div>
@@ -281,6 +298,8 @@
 <script type="text/javascript">
 	<!--
 
+	$("#<?php echo $extension['id']; ?>_test").attr('reload_on_save', 'true');
+
 	function show_help(){
 		$aPopup = $('#aPopup').dialog({
 			autoOpen: false,
@@ -363,57 +382,15 @@ $(function(){
 			type: 'GET',
 			dataType: 'json',
 			success: function(response) {
+				if ( !response ) {
+					alert('<?php echo $error_turn_extension_on; ?>');
+					return false;
+				}
 				alert(response['message']);
 			}
 		});
 	});
 });
 
-$("#<?php echo $extension['id']; ?>_status").parents('.aswitcher').click(
-	function(){
-		var switcher = $("#<?php echo $extension['id']; ?>_status");
-		var value = switcher.val();
-		if(value==1){
-			$aPopup = $('#confirm_dialog').dialog({
-				autoOpen: false,
-				modal: true,
-				resizable: false,
-				height: 'auto',
-				minWidth: 100,
-				buttons: {
-							"<?php echo $button_agree;?>": function() {
-								$( this ).dialog( "destroy" );
-							},
-							"<?php echo $button_cancel;?>": function() {
-								$("#<?php echo $extension['id']; ?>_status").parents('.aform').find('.abuttons_grp').find('a:eq(1)').click();
-								$( this ).dialog( "destroy" );
-						}
-				},
-				close: function(event, ui) {
-							$("#<?php echo $extension['id']; ?>_status").parents('.aform').find('.abuttons_grp').find('a:eq(1)').click();
-							$(this).dialog('destroy');
-						}
-
-			});
-
-			$.ajax({
-						url: '<?php echo $dependants_url; ?>',
-						type: 'GET',
-						data: 'extension=<?php echo $extension['id']; ?>',
-						dataType: 'json',
-						success: function(data) {
-							if(data=='' || data==null){
-								return null;
-							}else{
-								if(data.text_confirm){
-									$('#confirm_dialog').html(data.text_confirm);
-								}
-								$aPopup.dialog('open');
-							}
-						}
-					});
-		}
-
-});
 -->
 </script>

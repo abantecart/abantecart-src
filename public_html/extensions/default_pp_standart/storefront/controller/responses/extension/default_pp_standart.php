@@ -90,7 +90,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 			$this->data['products'][] = array(
 				'name'     => $product['name'],
 				'model'    => $product['model'],
-				'price'    => $this->currency->format($product['price'], false, false),
+				'price'    => $this->currency->format($product['price'], $order_info['currency'], $order_info['value'], FALSE),
 				'quantity' => $product['quantity'],
 				'option'   => $option_data,
 				'weight'   => $product['weight']
@@ -110,7 +110,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 			$this->data['products'][] = array(
 							'name'     => $total['title'],
 							'model'    => '',
-							'price'    => $this->currency->format($total['value'], false, false),
+							'price'    => $this->currency->format($total['value'], $order_info['currency'], $order_info['value'], FALSE),
 							'quantity' => 1,
 							'option'   => array(),
 							'weight'   => 0

@@ -22,7 +22,7 @@
   </definition>
   <definition>
     <key>default_pp_standart_test</key>
-    <value><![CDATA[Test Mode:]]></value>
+    <value><![CDATA[Sandbox (Test) Mode:<br /><span class="help">Use the live or testing (sandbox) gateway server to process transactions?</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_standart_test_1</key>
@@ -34,7 +34,7 @@
   </definition>
   <definition>
     <key>default_pp_standart_transaction</key>
-    <value><![CDATA[Transaction Method:]]></value>
+	<value><![CDATA[Transaction Method:<br /><span class="help">PayPal transaction to run at customer's checkout before order status is set. Authorization only or capture.</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_standart_transaction_0</key>
@@ -46,11 +46,11 @@
   </definition>
   <definition>
     <key>default_pp_standart_order_status_id</key>
-    <value><![CDATA[Order Status:]]></value>
+	<value><![CDATA[Order Status:<br /><span class="help">Order status to be set after customer's order finished based on set Transaction Method</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_standart_location_id</key>
-    <value><![CDATA[Location:]]></value>
+	<value><![CDATA[Location:<br /><span class="help">Restrict to allow only selected locations to use this payment method.</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_standart_location_id_0</key>
@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>default_pp_standart_sort_order</key>
-    <value><![CDATA[Sort Order:]]></value>
+	<value><![CDATA[Sort Order:<br /><span class="help">Number to indicate display position of this payment in relation to over enabled payments </span>]]></value>
   </definition>
   <definition>
     <key>default_pp_standart_autoselect</key>
@@ -107,5 +107,17 @@
 	<definition>
 		<key>heading_optional_settings</key>
 		<value><![CDATA[Optional Settings]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_standart_order_status_id_1</key>
+		<value><![CDATA[Pending]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_standart_order_status_id_2</key>
+		<value><![CDATA[Processing]]></value>
+	</definition>
+	<definition>
+		<key>default_pp_standart_order_status_id_5</key>
+		<value><![CDATA[Complete]]></value>
 	</definition>
 </definitions>
