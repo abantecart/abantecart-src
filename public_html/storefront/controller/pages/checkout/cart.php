@@ -107,6 +107,20 @@ class ControllerPagesCheckoutCart extends AController {
 								'size' => $this->request->files['option']['size'][$id],
 							);
 
+							$file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
+
+							if ( has_value($file_errors) ) {
+								$this->session->data['error'] = implode('<br/>', $file_errors);
+								$this->redirect($_SERVER['HTTP_REFERER']);
+							} else {
+								$result = move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
+
+								if ( !$result || $this->request->files[ 'package_file' ]['error'] ) {
+									$this->session->data['error'] .= '<br>Error: ' . getTextUploadError($this->request->files['option']['error'][$id]);
+									$this->redirect($_SERVER['HTTP_REFERER']);
+								}
+							}
+
 							$dataset = new ADataset('file_uploads','admin');
 							$dataset->addRows(
 								array(
@@ -118,19 +132,6 @@ class ControllerPagesCheckoutCart extends AController {
 									'path' => $file_path_info['path'],
 								)
 							);
-
-							$file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
-
-							if ( has_value($file_errors) ) {
-								$this->session->data['error'] = implode('<br/>', $file_errors);
-								$this->redirect($_SERVER['HTTP_REFERER']);
-							} else {
-								$result = move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
-
-								if ( !$result || $this->request->files[ 'package_file' ]['error'] ) {
-									$this->session->data['error'] .= '<br>Error: ' . getTextUploadError($this->request->files['option']['error'][$id]);
-								}
-							}
 
 						}
 					}
