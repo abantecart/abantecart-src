@@ -186,7 +186,7 @@ final class ACart {
             	unset($option_value_query);
             	
             } else if( $option_value_queries ) {
-            	foreach($option_value_queries as $val_id=>$item){
+            	foreach($option_value_queries as $item){
             		$option_data[] = array( 'product_option_value_id' => $item['product_option_value_id'],
             								'name'                    => $option_query['name'],
             								'value'                   => $item['name'],
@@ -339,6 +339,8 @@ final class ACart {
   	public function remove($key) {
 		if (isset($this->session->data['cart'][$key])) {
      		unset($this->session->data['cart'][$key]);
+			// remove balance credit from session when any products removed from cart
+			unset($this->session->data['used_balance']);
   		}
 	}
 

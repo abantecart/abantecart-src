@@ -128,17 +128,17 @@ class ControllerPagesCheckoutConfirm extends AController {
 		}
 
 		//balance
-		$balance = $this->customer->getBalance();
+		$balance = $this->currency->convert($this->customer->getBalance(),$this->config->get('config_currency'),$this->session->data['currency']);
 
 		if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance')) && (float)$this->session->data['used_balance']!=0){
 
-			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance);
+			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance,$this->session->data['currency'],1);
 
 			if((float)$this->session->data['used_balance']>0){
 
 				$this->data['disapply_balance'] = array('href'=> $this->html->getSecureURL('checkout/payment','&mode=edit&balance=disapply'),
 																	'text' => $this->language->get('button_disapply_balance'));
-				$this->data['balance'] .=  ' ('.$this->currency->format($balance-(float)$this->session->data['used_balance']).')';
+				$this->data['balance'] .=  ' ('.$this->currency->format($balance-(float)$this->session->data['used_balance'],$this->session->data['currency'],1).')';
 				$this->data['balance'] .=  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$this->currency->format((float)$this->session->data['used_balance']).' '.$this->language->get('text_applied_balance');
 			}elseif((float)$this->session->data['used_balance']==0 && $balance>0){
 				$this->data['disapply_balance'] = array('href'=> $this->html->getSecureURL('checkout/payment','&mode=edit&balance=apply'),
