@@ -194,19 +194,20 @@ class ControllerPagesAccountDownload extends AController {
 					ob_clean();
 					flush();
 					readfile($file,'rb');
-					exit;
 				} else {
                     throw new AException(AC_ERR_LOAD, 'Error: Could not find file ' . $file . '!');
 				}
 			} else {
 				exit('Error: Headers already sent out!');
 			}
-		
-			$this->model_account_download->updateRemaining($this->request->get['order_download_id']);
 
-			//init controller data
+            $this->model_account_download->updateRemaining($this->request->get['order_download_id']);
+
+            //init controller data
             $this->extensions->hk_UpdateData($this,__FUNCTION__);
-		} else {
+            exit;
+
+        } else {
 			$this->redirect($this->html->getSecureURL('account/download'));
 		}
 	}
