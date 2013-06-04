@@ -20,10 +20,33 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class AOrder
+ * @property ACart $cart
+ * @property AConfig $config
+ * @property ATax $tax
+ * @property ACurrency $currency
+ * @property ARequest $request
+ * @property ALoader $load
+ * @property ASession $session
+ * @property ModelAccountOrder $model_account_order
+ * @property ModelAccountAddress $model_account_address
+ * @property ModelCheckoutExtension $model_checkout_extension
+ * @property ModelCheckoutOrder $model_checkout_order
+ *
+ */
 final class AOrder {
-  	private $registry;
+	/**
+	 * @var Registry
+	 */
+	private $registry;
+	/**
+	 * @var int
+	 */
 	private $customer_id;
+	/**
+	 * @var int
+	 */
 	private $order_id;
 	private $customer;
 	private $order_data;
@@ -37,8 +60,8 @@ final class AOrder {
 		if (isset($this->session->data['order_id'])) {
       		$this->order_id = $this->session->data['order_id'];
     	}
-    	if ( class_exists($this->registry->customer) ) {		
-    		$this->customer_id = $this->registry->customer->getId();
+    	if ( class_exists($this->registry->customer) ) {
+			$this->customer_id = $this->registry->customer->getId();
     	} else {
    			$this->customer = new ACustomer($registry);
     	}		
@@ -65,7 +88,7 @@ final class AOrder {
 	public function buildOrderData( $indata ) {
 		$order_info = array();
 		if( empty( $indata ) ){
-			return;
+			return array();
 		}
 
 		$total_data = array();
@@ -86,7 +109,6 @@ final class AOrder {
 		
 		foreach ($results as $result) {
 			$this->load->model('total/' . $result['key']);
-
 			$this->{'model_total_' . $result['key']}->getTotal($total_data, $total, $taxes);
 		}
 		
@@ -231,7 +253,7 @@ final class AOrder {
 			$order_info['payment_address_format'] = $indata['guest']['address_format'];
 		
 		} else {
-			return;
+			return array();
 		}
 	
 		if (isset($indata['shipping_method']['title'])) {
@@ -270,7 +292,8 @@ final class AOrder {
 				'price'      => $product['price'],
         		'total'      => $product['total'],
 				'tax'        => $this->tax->calcTotalTaxAmount($product['total'],$product['tax_class_id']),
-				'stock'      => $product['stock']
+				'stock'      => $product['stock'],
+				'sku'        => $product['sku']
       		);
     	}
 		
@@ -306,7 +329,7 @@ final class AOrder {
 
 	public function saveOrder() {
 		if( empty( $this->order_data ) ){
-			return;
+			return null;
 		}
 		$this->order_id = $this->model_checkout_order->create( $this->order_data, $this->order_id);
 		return $this->order_id;
@@ -321,4 +344,3 @@ final class AOrder {
   	}
    	  	
 }
-?>

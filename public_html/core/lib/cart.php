@@ -25,6 +25,11 @@ if (! defined ( 'DIR_CORE' )) {
  * Class ACart
  * @property ModelCatalogProduct $model_catalog_product
  * @property ATax $tax
+ * @property ASession $session
+ * @property ADB $db
+ * @property AWeight $weight
+ * @property AConfig $config
+ * @property ALoader $load
  * @property ModelCheckoutExtension $model_checkout_extension
  */
 final class ACart {
@@ -266,7 +271,8 @@ final class ACart {
     	    'length_class' => $product_query['length_class'],					
     	    'ship_individually' => $product_query['ship_individually'],					
     	    'shipping_price' 	=> $product_query['shipping_price'],					
-    	    'free_shipping'		=> $product_query['free_shipping']					
+    	    'free_shipping'		=> $product_query['free_shipping'],
+    	    'sku'			=> $product_query['sku']
   		);
  		
  		return $result;	
