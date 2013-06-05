@@ -1,0 +1,1 @@
+ALTER TABLE `ac_orders` ADD `payment_method_data` text COLLATE utf8_bin NOT NULL

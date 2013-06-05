@@ -767,6 +767,7 @@ CREATE TABLE `ac_orders` (
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ip` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `payment_method_data` text COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`order_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
