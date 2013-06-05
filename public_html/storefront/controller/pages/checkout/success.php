@@ -28,16 +28,16 @@ class ControllerPagesCheckoutSuccess extends AController {
 
 		if (isset($this->session->data['order_id'])) {
 
-			$amount = $this->currency->convert($this->session->data['used_balance'],$this->session->data['currency'], $this->config->get('config_currency'));
+			$amount = $this->session->data['used_balance']; // in default currency
 			if($amount){
 				$transaction_data = array(
-										'order_id'=>(int)$this->session->data['order_id'],
-										'amount' => $amount,
-										'transaction_type'=>'order',
-										'created_by' => $this->customer->getId(),
-										'description' => sprintf($this->language->get('text_applied_balance_to_order'),
-																$this->currency->format($amount),
-																(int)$this->session->data['order_id']));
+							'order_id'=>(int)$this->session->data['order_id'],
+							'amount' => $amount,
+							'transaction_type'=>'order',
+							'created_by' => $this->customer->getId(),
+							'description' => sprintf($this->language->get('text_applied_balance_to_order'),
+							$this->currency->format($this->currency->convert($amount,$this->config->get('config_currency'), $this->session->data['currency']),$this->session->data['currency'],1),
+							(int)$this->session->data['order_id']));
 				$this->customer->creditTransaction($transaction_data);
 			}
 
