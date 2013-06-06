@@ -759,13 +759,12 @@ class ControllerPagesCatalogProduct extends AController {
     	if (!$this->user->canModify('catalog/product')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
-
-		if ((strlen(utf8_decode($this->request->post['product_description']['name'])) < 1)
-				|| (strlen(utf8_decode($this->request->post['product_description']['name'])) > 255)) {
+		$len = mb_strlen($this->request->post['product_description']['name']);
+		if ($len<1 || $len>255) {
 			$this->error['name'] = $this->language->get('error_name');
 		}
 
-    	if ( strlen(utf8_decode($this->request->post['model'])) > 64 ) {
+    	if ( mb_strlen($this->request->post['model']) > 64 ) {
       		$this->error['model'] = $this->language->get('error_model');
     	}
 
@@ -801,6 +800,5 @@ class ControllerPagesCatalogProduct extends AController {
         }
         return $data;
     }
-	
 }
 

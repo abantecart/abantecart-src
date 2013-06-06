@@ -360,7 +360,7 @@ class ControllerPagesCatalogCategory extends AController {
 			'value' => $this->data[ 'category_description' ][ $this->session->data[ 'content_language_id' ] ][ 'name' ],
 			'required' => true,
 			'style' => 'large-field',
-			'attr' => ' maxlength="32" ',
+			'attr' => ' maxlength="255" ',
 			'help_url' => $this->gen_help_url('name'),
 		));
 		$this->data[ 'form' ][ 'fields' ][ 'description' ] = $form->getFieldHtml(
@@ -455,7 +455,8 @@ class ControllerPagesCatalogCategory extends AController {
 		}
 
 		foreach ($this->request->post[ 'category_description' ] as $language_id => $value) {
-			if ((strlen(utf8_decode($value[ 'name' ])) < 2) || (strlen(utf8_decode($value[ 'name' ])) > 32)) {
+			$len = mb_strlen($value[ 'name' ]);
+			if (($len < 2) || ($len > 255)) {
 				$this->error[ 'warning' ][] = $this->language->get('error_name');
 			}
 		}
