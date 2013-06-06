@@ -577,5 +577,18 @@ class ModelCheckoutOrder extends Model {
 			}
 		}
 	}
+
+	public function updatePaymentMethodData($order_id, $data) {
+
+		if ( is_array($data) ) {
+			$data = serialize($data);
+		}
+
+		return $this->db->query(
+			'UPDATE ' . $this->db->table('orders') . '
+				SET payment_method_data = "' . $this->db->escape($data) . '"
+				WHERE order_id = "' . (int) $order_id . '"'
+		);
+	}
 }
 
