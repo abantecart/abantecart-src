@@ -477,4 +477,8 @@
         <key>text_hide</key>
         <value><![CDATA[- hide]]></value>
     </definition>
+	<definition>
+		<key>entry_option_placeholder</key>
+		<value><![CDATA[Placeholder:]]></value>
+	</definition>
 </definitions>

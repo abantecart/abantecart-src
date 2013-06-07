@@ -279,9 +279,9 @@ class ControllerPagesProductProduct extends AController {
         $product_options = $this->model_catalog_product->getProductOptions($product_id);
 		foreach ($product_options as $option) {
 		    $values = array();
-		    $name = '';
-		    $price = '';
-            foreach ($option['option_value'] as $option_value) {  
+		    $name = $price = $default_value = '';
+            foreach ($option['option_value'] as $option_value) {
+				$default_value = $option_value['default'] ? $option_value['product_option_value_id']: $default_value;
             	$name = $option_value['name'];     
             	//check if we disable options based on out of stock setting
                 if($option_value['subtract'] && $this->config->get('config_nostock_autodisable') && $option_value['quantity'] <= 0) {
@@ -337,9 +337,11 @@ class ControllerPagesProductProduct extends AController {
 		    	$option_data = array(
 		    			'type' => $option['html_type'],
 		    			'name' => !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements()) ? 'option['.$option['product_option_id'].']' : 'option['.$option['product_option_id'].'][]',
-		    			'value' => $value,
+		    			'value' => (!$value ? $default_value : $value),
 		    			'options' => $values,
-		    			'required' => $option['required']);
+		    			'required' => $option['required'],
+		    			'placeholder' => $option['option_placeholder']
+						);
 		    	if($option['html_type']=='checkbox'){
 		    		$option_data['label_text'] = $value;
 		    	}
@@ -347,7 +349,7 @@ class ControllerPagesProductProduct extends AController {
 		    	$options[] = array(
 		    		'name' => $option['name'],
 		    		'html' => $this->html->buildElement( $option_data),
-		    	);				
+		    	);
 		    }
 		}
         $this->data['options'] = $options;

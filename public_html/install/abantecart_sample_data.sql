@@ -918,7 +918,7 @@ VALUES
 
 
 
-INSERT INTO `ac_product_option_descriptions` 
+INSERT INTO `ac_product_option_descriptions` (`product_option_id`,`language_id`,`product_id`,`name`)
 VALUES 
 (315,9,54,'Color'),
 (318,9,53,'Color'),

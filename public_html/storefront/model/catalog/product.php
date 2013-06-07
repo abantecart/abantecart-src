@@ -800,18 +800,20 @@ class ModelCatalogProduct extends Model {
 		if ( !(int)$product_id ) {
 			return array();
 		}
-
-		$product_option_data = $this->cache->get( 'product.options.'.$product_id, $this->config->get('storefront_language_id') );
+		$language_id = 	(int)$this->config->get('storefront_language_id');
+		$product_option_data = $this->cache->get( 'product.options.'.$product_id, $language_id );
 		$elements = HtmlElementFactory::getAvailableElements();
 		if(is_null($product_option_data)){
             $product_option_data = array();
 			$product_option_query = $this->db->query(
-                "SELECT *
-                FROM " . $this->db->table("product_options") . "
-                WHERE product_id = '" . (int)$product_id . "'
-                    AND group_id = 0
-                    AND status = 1
-                ORDER BY sort_order"
+                "SELECT po.*, pod.option_placeholder
+                FROM " . $this->db->table("product_options") . " po
+                LEFT JOIN " . $this->db->table("product_option_descriptions") . " pod
+                	ON pod.product_option_id = po.product_option_id AND pod.language_id =  '".$language_id."'
+                WHERE po.product_id = '" . (int)$product_id . "'
+                    AND po.group_id = 0
+                    AND po.status = 1
+                ORDER BY po.sort_order"
             );
 			if($product_option_query){
 				foreach ($product_option_query->rows as $product_option) {
@@ -837,7 +839,7 @@ class ModelCatalogProduct extends Model {
                                 "SELECT *
                                     FROM " . $this->db->table("product_option_value_descriptions") . "
                                     WHERE product_option_value_id = '" . (int)$product_option_value['product_option_value_id'] . "'
-                                    AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'"
+                                    AND language_id = '" . (int)$language_id . "'"
                             );
 
 							$product_option_value_data[$product_option_value['product_option_value_id']] = array(
@@ -846,6 +848,7 @@ class ModelCatalogProduct extends Model {
                                 'grouped_attribute_data'  => $product_option_value['grouped_attribute_data'],
                                 'group_id'                => $product_option_value['group_id'],
                                 'name'                    => $pd_opt_val_description_qr->row['name'],
+                                'option_placeholder'      => $product_option['option_placeholder'],
                                 'children_options_names'  => $pd_opt_val_description_qr->row['children_options_names'],
                                 'sku'                     => $product_option_value['sku'],
                                 'price'                   => $product_option_value['price'],
@@ -854,6 +857,7 @@ class ModelCatalogProduct extends Model {
 								'weight_type'             => $product_option_value['weight_type'],
 								'quantity'				  => $product_option_value['quantity'],
 								'subtract'				  => $product_option_value['subtract'],
+								'default'				  => $product_option_value['default'],
 							);
 						}
 					}
@@ -861,7 +865,7 @@ class ModelCatalogProduct extends Model {
                         "SELECT *
                         FROM " . $this->db->table("product_option_descriptions") . "
                         WHERE product_option_id = '" . (int)$product_option['product_option_id'] . "'
-                            AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'"
+                            AND language_id = '" . (int)$language_id . "'"
                     );
 
 					$product_option_data[$product_option['product_option_id']] = array(
@@ -869,6 +873,7 @@ class ModelCatalogProduct extends Model {
                         'attribute_id'      => $product_option['attribute_id'],
                         'group_id'          => $product_option['group_id'],
                         'name'              => $prd_opt_description_qr->row['name'],
+                        'option_placeholder'=> $product_option['option_placeholder'],
                         'option_value'      => $product_option_value_data,
                         'sort_order'        => $product_option['sort_order'],
 						'element_type'      => $product_option['element_type'],
@@ -878,7 +883,7 @@ class ModelCatalogProduct extends Model {
 				}
 			}
 
-            $this->cache->set( 'product.options.'.$product_id, $product_option_data, $this->config->get('storefront_language_id') );
+            $this->cache->set( 'product.options.'.$product_id, $product_option_data, $language_id );
 		}	
 		return $product_option_data;
 	}
@@ -1007,8 +1012,7 @@ class ModelCatalogProduct extends Model {
 		if ( !empty($attribute_data['settings']['extensions']) ) {
 			$allowed_extensions = explode(',', str_replace(' ', '', $attribute_data['settings']['extensions']));
 			$extension = substr(strrchr($data['name'], '.'), 1);
-			//echo_array($allowed_extensions);
-			//var_dump($extension);
+
 			if ( !in_array($extension, $allowed_extensions) ) {
 				$errors[] = sprintf($this->language->get('error_file_extension'), $attribute_data['settings']['extensions']);
 			}
@@ -1017,7 +1021,7 @@ class ModelCatalogProduct extends Model {
 
 		if ( (int) $attribute_data['settings']['min_size'] > 0 ) {
 			$min_size_kb = $attribute_data['settings']['min_size'] * 1024 * 1024;
-			//var_dump($min_size_kb);exit;
+
 			if ( (int) $data['size'] < $min_size_kb ) {
 				$errors[] = sprintf($this->language->get('error_min_file_size'), $attribute_data['settings']['min_size']);
 			}

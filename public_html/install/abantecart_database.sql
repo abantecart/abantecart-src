@@ -1002,6 +1002,7 @@ CREATE TABLE `ac_product_option_descriptions` (
   `language_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `option_placeholder` varchar(255) COLLATE utf8_bin DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`product_option_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -1024,6 +1025,7 @@ CREATE TABLE `ac_product_option_values` (
   `attribute_value_id` int(11),  
   `grouped_attribute_data` text DEFAULT NULL,
   `sort_order` int(3) NOT NULL,
+  `default` smallint DEFAULT 0,
   PRIMARY KEY (`product_option_value_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 

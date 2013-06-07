@@ -660,6 +660,9 @@ class HtmlElementFactory {
 	static private $multivalue_elements = array(
 		'M', 'R', 'G',
 	);
+	static private $elements_with_placeholder = array(
+		'S','I','M','O', 'Z', 'F','N','E','D','U','T'
+	);
 
 	/**
 	 *  return array of HTML elements supported
@@ -685,6 +688,15 @@ class HtmlElementFactory {
 	 */
 	static function getElementsWithOptions() {
 		return self::$elements_with_options;
+	}
+	/**
+	 * return array of elements indexes for elements which has options
+	 *
+	 * @static
+	 * @return array
+	 */
+	static function getElementsWithPlaceholder() {
+		return self::$elements_with_placeholder;
 	}
 
 	/**
@@ -776,7 +788,7 @@ abstract class HtmlElement {
 class HiddenHtmlElement extends HtmlElement {
 
 	public function getHtml() {
-		//var_dump($this->data);
+
 		$this->view->batchAssign(
 			array(
 				'id' => $this->element_id,
@@ -910,6 +922,7 @@ class PasswordHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
+				'placeholder' => $this->placeholder,
 			)
 		);
 		$return = $this->view->fetch('form/input.tpl');
@@ -928,7 +941,8 @@ class TextareaHtmlElement extends HtmlElement {
 				'ovalue' => htmlentities($this->value, ENT_QUOTES, 'UTF-8'),
 				'attr' => $this->attr,
 				'required' => $this->required,
-				'style' => $this->style
+				'style' => $this->style,
+				'placeholder' => $this->placeholder
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -959,6 +973,7 @@ class SelectboxHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
+				'placeholder' => $this->placeholder,
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -984,6 +999,7 @@ class MultiSelectboxHtmlElement extends HtmlElement {
 				'attr' => $this->attr . ' multiple="multiple" ',
 				'required' => $this->required,
 				'style' => $this->style,
+				'placeholder' => $this->placeholder
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1068,6 +1084,7 @@ class FileHtmlElement extends HtmlElement {
 				'default_text' => $this->data[ 'registry' ]->get('language')->get('text_click_browse_file'),
 				'text_browse' => $this->data[ 'registry' ]->get('language')->get('text_browse'),
 				'help_url' => $this->help_url,
+				'placeholder' => $this->placeholder,
 			)
 		);
 		$return = $this->view->fetch('form/file.tpl');
@@ -1207,6 +1224,7 @@ class PasswordsetHtmlElement extends HtmlElement {
 				'style' => $this->style,
 				'required' => $this->required,
 				'text_confirm_password' => $this->data[ 'registry' ]->get('language')->get('text_confirm_password'),
+				'placeholder' => $this->placeholder,
 			)
 		);
 		$return = $this->view->fetch('form/passwordset.tpl');
@@ -1318,6 +1336,7 @@ class EmailHtmlElement extends HtmlElement {
 				'attr' => 'aform_field_type="email" ' . $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
+				'placeholder' => $this->placeholder,
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1344,6 +1363,7 @@ class NumberHtmlElement extends HtmlElement {
 				'attr' => 'aform_field_type="number" ' . $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
+				'placeholder' => $this->placeholder,
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1370,6 +1390,7 @@ class PhoneHtmlElement extends HtmlElement {
 				'attr' => 'aform_field_type="phone" ' . $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
+				'placeholder' => $this->placeholder,
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1423,6 +1444,7 @@ class CountriesHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
+				'placeholder' => $this->placeholder
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1490,6 +1512,7 @@ class ZonesHtmlElement extends HtmlElement {
 				'zone_value' => $this->zone_value,
 				'zone_options' => $this->zone_options,
 				'submit_mode' => $this->submit_mode,
+				'placeholder' => $this->placeholder
 			)
 		);
 		if (!empty($this->help_url)) {

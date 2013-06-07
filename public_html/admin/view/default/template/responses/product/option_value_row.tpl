@@ -1,5 +1,10 @@
 <tr id="<?php echo $row_id; ?>" class="optionRow">
 	<?php echo $form['fields']['product_option_value_id']; ?>
+	<?php
+		if($with_default){
+			echo '<td>'.$form['fields']['default'].'</td>';
+	 	}
+	?>
     <td><?php echo $form['fields']['option_value']; ?></td>
     <td><?php echo $form['fields']['quantity']; ?></td>
     <td><?php echo $form['fields']['subtract']; ?></td>
@@ -12,7 +17,7 @@
 <?php } ?>
 </tr>
 <tr>
-	<td colspan="6" >
+	<td colspan="<?php echo $with_default ? 7 : 5;?>" >
 		<div class="additionalRow" style="display:none">
 			<div class="flt_left"><?php echo $entry_sku . ' ' . $form['fields']['sku']; ?></div>
 			<div class="flt_left"><?php echo $entry_weight . ' ' . $form['fields']['weight']; ?></div>
