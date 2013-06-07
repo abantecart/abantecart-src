@@ -237,6 +237,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 				$message .= 'TRANSACTIONID: ' . $response_data['TRANSACTIONID'] . "\n";
 			}
 
+			$this->model_checkout_order->updatePaymentMethodData($this->session->data['order_id'], $response);
 			$this->model_checkout_order->update($this->session->data['order_id'], $this->config->get('default_pp_pro_order_status_id'), $message, FALSE);
 		
 			$json['success'] = $this->html->getSecureURL('checkout/success');
