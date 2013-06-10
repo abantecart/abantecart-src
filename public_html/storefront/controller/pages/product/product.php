@@ -282,6 +282,11 @@ class ControllerPagesProductProduct extends AController {
 		    $name = $price = $default_value = '';
             foreach ($option['option_value'] as $option_value) {
 				$default_value = $option_value['default'] ? $option_value['product_option_value_id']: $default_value;
+				// for case when trying to add to cart withot required options. we get option-array back inside _GET
+				if(has_value($this->request->get['option'][$option['product_option_id']])){
+					$default_value = $this->request->get['option'][$option['product_option_id']];
+				}
+
             	$name = $option_value['name'];     
             	//check if we disable options based on out of stock setting
                 if($option_value['subtract'] && $this->config->get('config_nostock_autodisable') && $option_value['quantity'] <= 0) {
@@ -340,9 +345,11 @@ class ControllerPagesProductProduct extends AController {
 					if( has_value($default_value) ) { 
 						$value = $default_value;
 					} else {
-						//set first from the list to default
-						reset($values);
-						$value = key($values);
+						if(in_array($option['element_type'], $elements_with_options) && $option['element_type']!='S'){
+							//set first from the list to default
+							reset($values);
+							$value = key($values);
+						}
 					}
 				}
 					            
