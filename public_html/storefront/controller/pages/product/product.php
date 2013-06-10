@@ -334,10 +334,22 @@ class ControllerPagesProductProduct extends AController {
 	                }
 		            $value = $name;
 	            }
+	            
+				//set default selection is nothing selected
+				if ( !has_value($value) ) {
+					if( has_value($default_value) ) { 
+						$value = $default_value;
+					} else {
+						//set first from the list to default
+						reset($values);
+						$value = key($values);
+					}
+				}
+					            
 		    	$option_data = array(
 		    			'type' => $option['html_type'],
 		    			'name' => !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements()) ? 'option['.$option['product_option_id'].']' : 'option['.$option['product_option_id'].'][]',
-		    			'value' => (!$value ? $default_value : $value),
+		    			'value' => $value,
 		    			'options' => $values,
 		    			'required' => $option['required'],
 		    			'placeholder' => $option['option_placeholder']

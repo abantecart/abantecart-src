@@ -238,7 +238,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 				}elseif (strcmp($response, 'VERIFIED') == 0 || $this->request->post['payment_status'] == 'Completed') {
 					$this->model_checkout_order->confirm($order_id, $this->config->get('default_pp_standart_order_status_id'));
 				} else {
-					$this->model_checkout_order->confirm($order_id, 1);
+					$this->model_checkout_order->confirm($order_id, $this->config->get('config_order_status_id'));
 				}
 
 				curl_close($ch);
@@ -260,10 +260,10 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 					while (!feof($fp)) {
 						$response = fgets($fp, 1024);
 					
-						if (strcmp($response, 'VERIFIED') == 0) {
+						if (strcmp($response, 'VERIFIED') == 0 || $this->request->post['payment_status'] == 'Completed') {
 							$this->model_checkout_order->confirm($order_id, $this->config->get('default_pp_standart_order_status_id'));
 						} else {
-							$this->model_checkout_order->confirm($order_id, 1);
+							$this->model_checkout_order->confirm($order_id, $this->config->get('config_order_status_id'));
 						}
 					}
 				
