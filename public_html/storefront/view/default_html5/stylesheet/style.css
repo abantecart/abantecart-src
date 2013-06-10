@@ -2707,18 +2707,15 @@ a.clostalert {
 	}
 
 	.returncustomer, .newcustomer {
-		width: 100%;
+		width: 46%;
 		padding: 10px 10px;
+		display: inline-block;
+		float: none;
+		height: 100%;
 	}
 
 	.returncustomer {
-		margin: auto;
-		float: left;
-	}
-
-	.newcustomer {
-		margin: auto auto 10px;
-		float: left;
+		margin-left: 25px;
 	}
 
 	#main_menu {
@@ -2861,9 +2858,15 @@ a.clostalert {
 		-o-transition: all 0.8s; /* Opera */
 	}
 
-	.newcustomer, .returncustomer, .formbox {
+	.formbox {
 		width: 85%;
-		margin-bottom: 10px
+		margin-bottom: 10px;
+	}
+
+	.newcustomer, .returncustomer{
+		width: 97%;
+		margin-bottom: 10px;
+		margin-left: 0;
 	}
 
 	.checkoutstep  .span4 {
@@ -3224,6 +3227,17 @@ a.clostalert {
 		text-align: center;
 	}
 
+	.formbox {
+		width: 85%;
+		margin-bottom: 10px;
+	}
+
+	.newcustomer, .returncustomer{
+		width: 97%;
+		margin-bottom: 10px;
+		margin-left: 0;
+	}
+
 
 }
 
@@ -3262,7 +3276,7 @@ a.clostalert {
 	}
 
 	.returncustomer, .newcustomer {
-		width: 96%;
+		width: 92%;
 		padding: 10px 10px;
 	}
 
