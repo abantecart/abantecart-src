@@ -2499,6 +2499,10 @@ a.clostalert {
 #social_icons a.flickr:hover {
 	background-position: -309px -47px
 }
+/* oneByOne slider*/
+#banner_slides{
+	display: none;
+}
 
 /*Copyright Bottom*/
 .copyrightbottom {
@@ -2719,6 +2723,16 @@ a.clostalert {
 
 	#main_menu {
 		width: 100%;
+	}
+	#banner_banner_block_1773 .container{
+		text-align: center;
+	}
+	#banner_banner_block_1773.container.mt20 .pull-left{
+		display: inline-block;
+		float: none;
+		margin-left: 50px;
+		margin-top: 10px;
+		text-align: center;
 	}
 
 }
@@ -2966,6 +2980,23 @@ a.clostalert {
 	.block_frame_cart td.image {
 		display: none;
 	}
+
+	#banner_banner_block_1773{
+		padding-left: 0;
+	}
+	#banner_banner_block_1773 .container{
+		text-align: center;
+		padding-left: 0;
+		max-width: 700px;
+	}
+	#banner_banner_block_1773.container.mt20 .pull-left{
+		display: inline-block;
+		float: none;
+		margin-left: 0px;
+		margin-top: 10px;
+		text-align: center;
+	}
+
 }
 
 /* END @media (max-width: 979px) */
@@ -3193,6 +3224,7 @@ a.clostalert {
 		text-align: center;
 	}
 
+
 }
 
 /* END @media (max-width: 760px) */
@@ -3259,6 +3291,17 @@ a.clostalert {
 
 	.cart-info .coupon button {
 		margin-top: 0;
+	}
+
+	#banner_banner_block_1773 .container{
+		text-align: center;
+	}
+	#banner_banner_block_1773.container.mt20 .pull-left{
+		display: inline-block;
+		float: none;
+		margin-left: 0px;
+		margin-top: 10px;
+		text-align: center;
 	}
 
 }
