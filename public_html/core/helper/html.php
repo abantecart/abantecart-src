@@ -35,8 +35,18 @@ function renderStoreMenu( $menu, $level = 0 ){
 		}
 
         $id = ( empty($item['id']) ? '' : ' id="menu_'.$item['id'].'" ' ); // li ID
-        $class = $level != 0 ? empty($item['children']) ? '' : ' class="parent menu_'.$item['id'].'" ' : ' class="top menu_'.$item['id'].'" '; //a class
-        $href = empty($item['href']) ? '' : ' href="'.$item['href'].'" '; //a href
+
+		if($level != 0){
+			if(empty($item['children'])){
+				$class='';
+			}else{
+				$class = $item['icon']? ' class="parent" style="background-image:none;" ' : ' class="parent menu_'.$item['id'].'" ';
+			}
+		}else{
+			$class = $item['icon'] ? ' class="top" style="background-image:none;" ' : ' class="top menu_'.$item['id'].'" ';
+		}
+
+		$href = empty($item['href']) ? '' : ' href="'.$item['href'].'" '; //a href
 
         $result .= '<li' . $id . ' class="dropdown hover">';
         $result .= '<a' . $class . $href . '>';
