@@ -549,6 +549,9 @@ class ControllerPagesSaleOrder extends AController {
 		foreach ( $this->data['countries'] as $country ){
 			$countries[$country['country_id']] = $country['name'];
 		}
+		if(!$this->data['shipping_country_id']){
+			$this->data['shipping_country_id'] = $this->config->get('config_country_id');
+		}
 
 		$this->data['form']['country_select'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -700,6 +703,10 @@ class ControllerPagesSaleOrder extends AController {
 		foreach ( $this->data['countries'] as $country )
 		{
 			$countries[$country['country_id']] = $country['name'];
+		}
+
+		if(!$this->data['payment_country_id']){
+			$this->data['payment_country_id'] = $this->config->get('config_country_id');
 		}
 
 		$this->data['form']['country_select'] = $form->getFieldHtml(array(
