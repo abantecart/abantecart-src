@@ -465,7 +465,8 @@ class AResource {
 
 			$resource_info = $result['resource_id'] ? $this->getResource($result['resource_id'], $this->config->get('storefront_language_id') ) : $result;
 		 	$origin = $resource_info['resource_path'] ? 'internal' : 'external';
-			$http = HTTPS==true ? HTTPS_DIR_RESOURCE : HTTP_DIR_RESOURCE;
+			$http = HTTPS===true ? HTTPS_DIR_RESOURCE : HTTP_DIR_RESOURCE;
+
 			if($origin=='internal'){
 				if($sizes['thumb']){
 					$thumb_url = $this->getResourceThumb($result['resource_id'],$sizes['thumb']['width'],$sizes['thumb']['height']);

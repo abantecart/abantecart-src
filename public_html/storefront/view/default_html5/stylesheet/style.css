@@ -202,6 +202,10 @@ section.row {
 	height: 72px;
 	background-color: #00a1cb;
 }
+/*
+.headerstrip>.container>.row{
+	margin: 0	;
+}*/
 
 .headerstrip_blocks {
 	margin-top: 14px;
@@ -312,8 +316,9 @@ section.row {
 	padding: 5px;
 	float: left;
 	vertical-align: middle;
-
 }
+
+
 
 .search-bar .button-in-search {
 	background: url(../image/sprite.png) no-repeat scroll right -243px #FFFFFF;
@@ -740,6 +745,19 @@ ul.categorymenu > li ul > li img {
 	margin: 0
 }
 
+
+.addresses>section{
+	display: inline-block;
+	width: 45%;
+}
+.addresses .old_address{
+	float: left;
+}
+.addresses .new_address{
+	float: right;
+}
+
+
 /* ------------ Featured Products ------------ */
 #categorymenu {
 	margin: 20px 0 20px 0;
@@ -804,6 +822,9 @@ ul.categorymenu > li ul > li img {
 	position: static;
 	text-align: left;
 	margin: 10px 0 25px 0
+}
+.thumbnails.list .thumbnail div.row {
+	padding-left: 30px;
 }
 
 .thumbnails.list .pricetag {
@@ -2623,6 +2644,20 @@ a.clostalert {
 
 }
 
+@media (min-width: 1024px) and (max-width: 1200px){
+
+	.addresses>section{
+		display: inline-block;
+		width: 45% !important;
+	}
+	.addresses .old_address{
+		float: left;
+	}
+	.addresses .new_address{
+		float: right;
+	}
+}
+
 @media (min-width: 768px) and (max-width: 1200px) {
 	header .headerstrip .container .span12 {
 		width: 100%;
@@ -2644,10 +2679,11 @@ a.clostalert {
 	}
 
 	.top-search input {
-		width: 180px;
+		width: 160px;
 		margin: 0 0 10px 0;
 		float: left;
 	}
+
 
 	#topnav .navbar-inner {
 		padding-right: 0;
@@ -2732,6 +2768,12 @@ a.clostalert {
 		text-align: center;
 	}
 
+
+	.addresses>section{
+		display: inline-block;
+		width: 95%;
+		float: left !important;
+	}
 }
 
 /* END @media FULL */
@@ -3000,6 +3042,11 @@ a.clostalert {
 		text-align: center;
 	}
 
+	.addresses>section{
+		display: inline-block;
+		width: 95%;
+		float: left !important;
+	}
 }
 
 /* END @media (max-width: 979px) */
@@ -3238,7 +3285,11 @@ a.clostalert {
 		margin-left: 0;
 	}
 
-
+	.addresses>section{
+		display: inline-block;
+		width: 88%;
+		float: left !important;
+	}
 }
 
 /* END @media (max-width: 760px) */
@@ -3316,6 +3367,13 @@ a.clostalert {
 		margin-left: 0px;
 		margin-top: 10px;
 		text-align: center;
+	}
+
+
+	.addresses>section{
+		display: inline-block;
+		width: 88%;
+		float: left !important;
 	}
 
 }
@@ -3567,6 +3625,11 @@ a.clostalert {
 		margin-top: 50px !important;
 	}
 
+	.addresses>section{
+		display: inline-block;
+		width: 93%;
+		float: none;
+	}
 }
 
 /* END @media (max-width: 480px) */
@@ -3721,7 +3784,7 @@ input, .btn, .label, .badge, .nav-pills > li > a,
 
 .thumbnail {
 	position: relative;
-	padding: 0;
+	padding: 0 0 5px 0;
 	border: none;
 	box-shadow: none;
 	-moz-box-shadow: none;
