@@ -21,24 +21,14 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerCommonMaintenance extends AController {
-    
     public function main() {
-
 	    //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-
-        if ($this->config->get('config_maintenance')) {
-            
-            // Show site only to control panel users if logged in.
-			require_once(DIR_CORE . 'lib/user.php');
-			$this->registry->set('user', new AUser($this->registry));
-            
-            if (!$this->user->isLogged()) {
-                return $this->dispatch('pages/index/maintenance');
-            }
+        //exclude control panel users
+        if ($this->config->get('config_maintenance') && !isset($this->session->data['merchant'])) {
+            return $this->dispatch('pages/index/maintenance');
         }
 		//init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
     }
 }
-?>

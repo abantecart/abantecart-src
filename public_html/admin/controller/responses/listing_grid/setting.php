@@ -21,7 +21,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridSetting extends AController {
-	private $error = array();
 	public $groups = array();
 
 	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
@@ -49,7 +48,6 @@ class ControllerResponsesListingGridSetting extends AController {
 		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
 
-		$resource = new AResource('image');
 		$results = $this->model_setting_setting->getAllSettings($filter_grid->getFilterData());
 
 		$i = 0;
@@ -117,8 +115,9 @@ class ControllerResponsesListingGridSetting extends AController {
 				$data = array( $key => $value );
 
 				$this->model_setting_setting->editSetting($this->request->get[ 'group' ], $data, $this->request->get[ 'store_id' ]);
+                startStorefrontSession($this->user->getId());
 			}
-			return;
+			return null;
 		}
 
 		//update controller data
@@ -132,11 +131,4 @@ class ControllerResponsesListingGridSetting extends AController {
 		$result = $config_mngr->validate($group, array( $field => $value ));
 		return is_array($result[ 'error' ]) ? current($result[ 'error' ]) : $result[ 'error' ];
 	}
-
-	private function _validateDelete($id) {
-		return;
-	}
-
 }
-
-?>

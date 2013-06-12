@@ -407,8 +407,8 @@ class ControllerPagesSaleCustomer extends AController {
 			'style'  => 'btn_switch',
 	    ));
 		$this->view->assign('help_url', $this->gen_help_url('customer_edit') );
-
-		$balance = $this->model_sale_customer->getBalance($this->request->get['customer_id']);
+        $this->loadModel('sale/customer_transaction');
+		$balance = $this->model_sale_customer_transaction->getBalance($this->request->get['customer_id']);
 		$currency = $this->currency->getCurrency($this->config->get('config_currency'));
 
 		$this->data['balance'] = $this->language->get('text_balance').' '.$currency['symbol_left'].round($balance,2).$currency['symbol_right'];
@@ -447,10 +447,7 @@ class ControllerPagesSaleCustomer extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
     	
 		if (isset($this->request->get['customer_id'])) {
-			session_write_close();
-			$session = new ASession('PHPSESSID_AC_SF');
- 			$session->data['customer_id'] = $this->request->get['customer_id'];
- 			session_write_close();
+            startStorefrontSession($this->user->getId(), array('customer_id' => $this->request->get['customer_id']));
 			$this->redirect($this->html->getCatalogURL('account/account'));
 		}
 
@@ -566,4 +563,3 @@ class ControllerPagesSaleCustomer extends AController {
 	}
 
 }
-?>
