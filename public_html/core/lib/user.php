@@ -20,12 +20,23 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
-
+/**
+ * Class AUser
+ */
 final class AUser {
-	private $user_id;
-	private $username;
-	private $last_login;
-	private $permission = array();
+    /**
+     * @var int
+     */
+    private $user_id;
+    /**
+     * @var string
+     */
+    private $username;
+    private $last_login;
+    /**
+     * @var array
+     */
+    private $permission = array();
 
 	/**
 	 * @param $registry Registry
@@ -48,7 +59,7 @@ final class AUser {
       			                  SET ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'
       			                  WHERE user_id = '" . (int)$this->session->data['user_id'] . "'");
 
-				$user_group_query = $this->db->query("SELECT permission
+                $user_group_query = $this->db->query("SELECT permission
       			                                      FROM " . DB_PREFIX . "user_groups
       			                                      WHERE user_group_id = '" . (int)$user_query->row['user_group_id'] . "'");
 				if (unserialize($user_group_query->row['permission'])) {
@@ -64,7 +75,12 @@ final class AUser {
 		}
 	}
 
-	public function login($username, $password) {
+    /**
+     * @param $username string
+     * @param $password string
+     * @return bool
+     */
+    public function login($username, $password) {
 		$user_query = $this->db->query("SELECT *
     	                                FROM " . DB_PREFIX . "users
     	                                WHERE username = '" . $this->db->escape($username) . "'
@@ -107,7 +123,12 @@ final class AUser {
 		$this->username = '';
 	}
 
-	public function hasPermission($key, $value) {
+    /**
+     * @param $key - route to controller
+     * @param $value bool
+     * @return bool
+     */
+    public function hasPermission($key, $value) {
 		//If top_admin allow all permisson. Make sure Top Admin Group is set to ID 1
 		if ($this->user_group_id == 1) {
 			return TRUE;
@@ -118,15 +139,27 @@ final class AUser {
 		}
 	}
 
-	public function canAccess($value) {
+    /**
+     * @param string $value  - route to controller
+     * @return bool
+     */
+    public function canAccess($value) {
 		return $this->hasPermission('access', $value);
 	}
 
-	public function canModify($value) {
+    /**
+     * @param string $value route to controller
+     * @return bool
+     */
+    public function canModify($value) {
 		return $this->hasPermission('modify', $value);
 	}
 
-	public function isLoggedWithToken( $token ) {
+    /**
+     * @param string $token
+     * @return bool|int
+     */
+    public function isLoggedWithToken( $token ) {
 		if ( (isset($this->session->data['token']) && !isset( $token ))
 			|| ( (isset( $token ) && (isset($this->session->data['token']) && ( $token != $this->session->data['token'])))) ) {
 			return FALSE;
@@ -135,26 +168,43 @@ final class AUser {
 		}
 	}
 
-	public function isLogged() {
+    /**
+     * @return bool|int
+     */
+    public function isLogged() {
 		if (IS_ADMIN && $this->request->get['token'] != $this->session->data['token']) {
 			return false;
 		}
 		return $this->user_id;
 	}
 
-	public function getId() {
+    /**
+     * @return int
+     */
+    public function getId() {
 		return $this->user_id;
 	}
 
-	public function getUserName() {
+    /**
+     * @return string
+     */
+    public function getUserName() {
 		return $this->username;
 	}
 
-	public function getLastLogin() {
+    /**
+     * @return string
+     */
+    public function getLastLogin() {
 		return $this->last_login;
 	}
 
-	public function validate($username, $email) {
+    /**
+     * @param string $username
+     * @param string $email
+     * @return bool
+     */
+    public function validate($username, $email) {
 		$user_query = $this->db->query(
 			"SELECT * FROM " . DB_PREFIX . "users
 			WHERE username = '" . $this->db->escape($username) . "'
@@ -166,7 +216,11 @@ final class AUser {
 			return false;
 	}
 
-	static function generatePassword($length = 8) {
+    /**
+     * @param int $length
+     * @return string
+     */
+    static function generatePassword($length = 8) {
 		$chars = "1234567890abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		$i = 0;
 		$password = "";
@@ -177,5 +231,3 @@ final class AUser {
 		return $password;
 	}
 }
-
-?>
