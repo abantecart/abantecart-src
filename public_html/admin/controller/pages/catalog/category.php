@@ -496,7 +496,7 @@ class ControllerPagesCatalogCategory extends AController {
 			$url .= '&tmpl_id=' . $this->request->get[ 'tmpl_id' ];
 			$tmpl_id = $this->request->get[ 'tmpl_id' ];
 		} else {
-			$tmpl_id = 'default';
+			$tmpl_id = $this->config->get('config_storefront_template');
 		}
 
 		$this->view->assign('error_warning', (isset($this->error[ 'warning' ]) ? $this->error[ 'warning' ] : ''));
