@@ -61,7 +61,7 @@ class ModelExtensionBannerManager extends Model {
 			$language_id = (int)$this->config->get('storefront_language_id');
 		}
 		// get block info
-		$block_info = $this->layout->getBlockDescriptions($custom_block_id);
+		$block_info = (array)$this->layout->getBlockDescriptions($custom_block_id);
 		foreach ($block_info[ $language_id ] as $k => $v) {
 			$this->data[ $k ] = $v;
 		}

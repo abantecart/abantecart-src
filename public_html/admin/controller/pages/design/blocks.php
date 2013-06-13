@@ -160,10 +160,10 @@ class ControllerPagesDesignBlocks extends AController {
                     foreach ($blocks as $block) {
                         if ($block['block_id'] == $this->session->data['layout_params']['parent_block_id']) {
                             $parent_instance_id = $block['instance_id'];
-                            $position = 10;
+                            $position = 0;
                             if ($block['children']) {
                                 foreach ($block['children'] as $child) {
-                                    $position = $position > $child['position'] ? $child['position'] : $position;
+                                    $position = $child['position']>$position  ? $child['position'] : $position;
                                 }
                             }
                             break;
