@@ -233,4 +233,8 @@
 		<key>text_applied_balance_to_order</key>
 		<value><![CDATA[%s used for order #%s]]></value>
 	</definition>
+	<definition>
+		<key>text_maintenance_notice</key>
+		<value><![CDATA[Notice: Maintenance mode is on.]]></value>
+	</definition>
 </definitions>
