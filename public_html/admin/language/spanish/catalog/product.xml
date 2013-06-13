@@ -150,7 +150,7 @@
 	</definition>
 	<definition>
 		<key>entry_keyword</key>
-		<value><![CDATA[Palabras clave SEO:]]></value>
+		<value><![CDATA[Palabras clave SEO:<br/><span class="help">Clave de SEO que se mostrará en la URL de este producto. Puede generar claves de nombre del producto.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_model</key>

@@ -287,7 +287,12 @@ class ControllerPagesCatalogProduct extends AController {
    		 ));
    		$this->document->addBreadcrumb( array ( 
        		'href'      => $this->html->getSecureURL('catalog/product'),
-       		'text' => $this->language->get('text_edit') .'&nbsp;'. $this->language->get('text_product') . ' - ' . $this->data[ 'product_description' ][ $this->session->data[ 'content_language_id' ] ][ 'name' ],
+       		'text' =>
+			($this->request->get_or_post('product_id')
+			?
+			$this->language->get('text_edit') .'&nbsp;'. $this->language->get('text_product') . ' - ' . $this->data[ 'product_description' ][ $this->session->data[ 'content_language_id' ] ][ 'name' ]
+			:
+			$this->language->get('text_insert')),
       		'separator' => ' :: '
    		 ));
 									
@@ -658,13 +663,22 @@ class ControllerPagesCatalogProduct extends AController {
 			'value' => $this->data['location'],
 			'style' => 'large-field',
 		));
-        $this->data['form']['fields']['data']['keyword'] = $form->getFieldHtml(array(
-			'type' => 'input',
-			'name' => 'keyword',
-			'value' => $this->data['keyword'],
-	        'help_url' => $this->gen_help_url('seo_keyword'),
-			'style' => 'large-field',	
-		));
+		$this->data['form']['fields']['data']['keyword'] = $form->getFieldHtml(array(
+								'type' => 'button',
+								'name' => 'generate_seo_keyword',
+								'text' => $this->language->get('button_generate'),
+								'style' => 'button'
+								));
+		$this->data['generate_seo_url'] =  $this->html->getSecureURL('listing_grid/product/getseokeyword','&id='.$this->request->get['product_id']);
+
+		$this->data['form']['fields']['data']['keyword'] .= $form->getFieldHtml(array(
+					'type' => 'input',
+					'name' => 'keyword',
+					'value' => $this->data['keyword'],
+			        'help_url' => $this->gen_help_url('seo_keyword'),
+					'style' => 'large-field',
+					'attr' => ' gen-value="'.SEOEncode($this->data['product_description']['name']).'" '
+				));
         $this->data['form']['fields']['data']['date_available'] = $form->getFieldHtml(array(
             'type' => 'date',
             'name' => 'date_available',

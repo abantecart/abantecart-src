@@ -122,7 +122,7 @@
 	</definition>
 	<definition>
 		<key>entry_keyword</key>
-		<value><![CDATA[SEO Keyword:<br/><span class="help">SEO key that will show in URL. Default value will be set to product name</span>]]></value>
+		<value><![CDATA[SEO Keyword:<br/><span class="help">SEO key that will show in URL for this product. You can generate key from product name</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_model</key>

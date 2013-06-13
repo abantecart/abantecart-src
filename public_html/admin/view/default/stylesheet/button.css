@@ -218,3 +218,7 @@ button.btn_standard {
 .list tbody a.button {
 	text-decoration: none;
 }
+
+#productFrm_generate_seo_keyword{
+	cursor: pointer;
+}
