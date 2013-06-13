@@ -719,6 +719,10 @@ ul.categorymenu > li ul > li img {
 	overflow: hidden;
 }
 
+.block_frame_banner_block{
+	clear: both;
+}
+
 /* ------------ newsletter ------------ */
 #newslettersignup input {
 	height: 32px
