@@ -3630,6 +3630,10 @@ a.clostalert {
 		width: 93%;
 		float: none;
 	}
+
+	.block_frame_cart  .btn-orange:last-child {
+		margin-top: 0px;
+	}
 }
 
 /* END @media (max-width: 480px) */

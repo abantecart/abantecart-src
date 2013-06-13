@@ -34,7 +34,7 @@
 	<div class="container">
 		<div class="row">
 			<?php if ( !empty(${$column_left} ) ) { ?>
-			<div class="span3">
+			<div class="column_left span3">
 			<?php echo ${$column_left}; ?>
 			</div>
 			<?php } ?>
@@ -59,7 +59,7 @@
 			</div>
 
 			<?php if ( !empty(${$column_right} ) ) { ?>
-			<div class="span3 mt20">
+			<div class="column_right span3 mt20">
 			<?php echo ${$column_right}; ?>
 			</div>
 			<?php } ?>
