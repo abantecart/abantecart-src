@@ -20,12 +20,22 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
+/**
+ * Class ControllerPagesSettingSetting
+ * @property AConfigManager $conf_mngr
+ */
 class ControllerPagesSettingSetting extends AController {
 	private $error = array();
 	public $groups = array();
 	public $data = array();
 
-	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
+    /**
+     * @param Registry $registry
+     * @param int $instance_id
+     * @param string $controller
+     * @param string $parent_controller
+     */
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
 		parent::__construct($registry, $instance_id, $controller, $parent_controller);
 		//load available groups for settings
 		$this->groups = $this->config->groups;
@@ -51,6 +61,10 @@ class ControllerPagesSettingSetting extends AController {
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
+            if(has_value($this->request->post['config_maintenance']) && $this->request->post['config_maintenance']){
+                //mark storefront session as merchant session
+                startStorefrontSession($this->user->getId());
+            }
 			$this->redirect($this->html->getSecureURL('setting/setting', '&active=' . $this->request->get['active'] . '&store_id=' . (int)$this->request->get['store_id']));
 		}
 
@@ -135,7 +149,7 @@ class ControllerPagesSettingSetting extends AController {
 			}
 		}
 
-		require_once(DIR_CORE . 'lib/config_manager.php');
+        require_once(DIR_CORE.'lib/config_manager.php');
 		$this->conf_mngr = new AConfigManager();
 		$this->_getForm();
 
@@ -352,25 +366,43 @@ class ControllerPagesSettingSetting extends AController {
 
 	}
 
-	private function _build_details($form, $data) {
+    /**
+     * @param AForm $form
+     * @param array $data
+     * @return array
+     */
+    private function _build_details($form, $data) {
 		$ret_data = array();
 		$ret_data['form_language_switch'] = $this->html->getContentLanguageSwitcher();
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('details', $form, $data));
 		return $ret_data;
 	}
 
-	private function _build_general($form, $data) {
+    /**
+     * @param AForm $form
+     * @param $data
+     * @return array
+     */
+    private function _build_general($form, $data) {
 		$ret_data = array();
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('general', $form, $data));
 		return $ret_data;
 	}
-
+    /**
+     * @param AForm $form
+     * @param $data
+     * @return array
+     */
 	private function _build_checkout($form, $data) {
 		$ret_data = array();
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('checkout', $form, $data));
 		return $ret_data;
 	}
-
+    /**
+     * @param AForm $form
+     * @param $data
+     * @return array
+     */
 	private function _build_appearance($form, $data) {
 		$ret_data = array();
 
@@ -409,20 +441,32 @@ class ControllerPagesSettingSetting extends AController {
 
 		return $ret_data;
 	}
-
+    /**
+     * @param AForm $form
+     * @param $data
+     * @return array
+     */
 	private function _build_mail($form, $data) {
 		$ret_data = array();
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('mail', $form, $data));
 		return $ret_data;
 	}
-
+    /**
+     * @param AForm $form
+     * @param $data
+     * @return array
+     */
 	private function _build_api($form, $data) {
 		$ret_data = array();
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('api', $form, $data));
 		return $ret_data;
 	}
 
-
+    /**
+     * @param AForm $form
+     * @param $data
+     * @return array
+     */
 	private function _build_system($form, $data) {
 		$ret_data = array();
 
@@ -462,8 +506,11 @@ class ControllerPagesSettingSetting extends AController {
 		return $ret_data;
 	}
 
-
-	private function _validate($group) {
+    /**
+     * @param string $group
+     * @return bool
+     */
+    private function _validate($group) {
 		if (!$this->user->canModify('setting/setting')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
@@ -486,5 +533,3 @@ class ControllerPagesSettingSetting extends AController {
 	}
 
 }
-
-?>

@@ -20,17 +20,48 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class ADispatcher
+ * @property ARequest $request
+ * @property AResponse $response
+ * @property AView $view
+ * @property ExtensionsApi $extensions
+ */
 final class ADispatcher {
-	protected $registry;	
-	protected $file;
-	protected $class;
-	protected $method;
-	protected $controller;
-	protected $controller_type;	
-	protected $args = array();
+    /**
+     * @var Registry
+     */
+    protected $registry;
+    /**
+     * @var string
+     */
+    protected $file;
+    /**
+     * @var string
+     */
+    protected $class;
+    /**
+     * @var string
+     */
+    protected $method;
+    /**
+     * @var string
+     */
+    protected $controller;
+    /**
+     * @var string
+     */
+    protected $controller_type;
+    /**
+     * @var array
+     */
+    protected $args = array();
 
-	public function __construct($rt, $args = array()) {
+    /**
+     * @param string $rt
+     * @param array $args
+     */
+    public function __construct($rt, $args = array()) {
 
         $this->registry = Registry::getInstance();
 		$rt = str_replace('../', '', $rt);
@@ -60,7 +91,11 @@ final class ADispatcher {
 		$this->registry->set($key, $value);
 	}
 
-	private function _process_path ( $rt ) {
+    /**
+     * @param string $rt
+     * @return bool
+     */
+    private function _process_path ( $rt ) {
 		$path_build = '';
 		$pathfound = false;
 		// Build the path based on the route, example, rt=information/contact/success
@@ -125,7 +160,7 @@ final class ADispatcher {
 
 
 	// Clear funstion is public in case controller needs to be cleaned explicitly
-	public function clear(){ 
+	public function clear(){
 		$vars = get_object_vars($this);
 		foreach($vars as $key => $val) 
 		{ 
@@ -133,6 +168,10 @@ final class ADispatcher {
 		}
 	}
 
+    /**
+     * @param string $route
+     * @return string
+     */
     protected function dispatchPrePost( $route ) {
         $result = '';
         if ( $this->extensions->isExtensionController($route) ) {
@@ -152,16 +191,25 @@ final class ADispatcher {
         return $result;
     }
 
-	//This function to dispatch the controller and get and destroy it's output
-	public function dispatchGetOutput($controller = ''){
-		$output = '';
+
+    /**
+     * This function to dispatch the controller and get and destroy it's output
+     * @param string $controller
+     * @return string
+     */
+    public function dispatchGetOutput($controller = ''){
+
 		$this->dispatch($controller);
 		$output = $this->response->getOutput();
 		$this->response->setOutput('');
 		return $output;
 	}
 
-	public function dispatch($parent_controller = ''){
+    /**
+     * @param string $parent_controller
+     * @return null|string
+     */
+    public function dispatch($parent_controller = ''){
         ADebug::checkpoint(''.$this->class.'/'.$this->method.' dispatch START');
 
 		//Process the controller, layout and children
@@ -183,41 +231,52 @@ final class ADispatcher {
 	        $error = new AError('Error: URL: '.$url.' Could not load controller ' . $this->controller . '! Call stack: ' . $function_stack . '', AC_ERR_CLASS_CLASS_NOT_EXIST );
             $error->toLog()->toDebug();
             $error->toMessages();
-	        return;
+	        return null;
         } else if ( empty($this->file) && empty($this->class) || empty($this->method)) {
 			$warning_txt = 'ADispatch: skipping unavailable controller …';
 		    $warning = new AWarning( $warning_txt );
             $warning->toLog()->toDebug(); 
-            return;
+            return null;
         }
 
         //check for controller.pre
         $output_pre = $this->dispatchPrePost($this->controller.POSTFIX_PRE);
 
-		require_once($this->file);
+        /** @noinspection PhpIncludeInspection */
+        require_once($this->file);
+        /**
+         * @var $controller AController
+         */
         $controller = null;
         if ( class_exists($this->class) ) {
             $controller = new $this->class($this->registry, $this->args["instance_id"], $this->controller, $parent_controller);
-			$controller->dispatcher = $this;
+            $controller->dispatcher = $this;
         } else {
             $error = new AError('Error: controller class not exist ' . $this->class . '!', AC_ERR_CLASS_CLASS_NOT_EXIST );
             $error->toLog()->toDebug();
         }
 		if (is_callable(array($controller, $this->method))) {
-		    $dispatch = call_user_func_array(array($controller, $this->method), $this->args);
+            /**
+             * @var $dispatch ADispatcher
+             */
+            $dispatch = call_user_func_array(array($controller, $this->method), $this->args);
 		    //Check if return is a dispatch and need to call new page
 		    if ( $dispatch && is_object($dispatch) ) {
 		    	if ($this->args["instance_id"] == 0) {
 		    		//If main controller come back for new dispatch
-		    		return $dispatch->getController() . '/' . $dispatch->getMethod();
+                    return $dispatch->getController() . '/' . $dispatch->getMethod();
 		    	} else {
 			    	// Call new dispatch for new controller and exit
 			    	//???? need to put limit for recursion to prevent overflow
 			    	$dispatch->dispatch();
-			    	return;	    	
+			    	return null;
 		    	}		    	
 		    } 
-		    //Load layout and process children controllers
+
+            /**
+             * Load layout and process children controllers
+             * @method AController getChildren()
+             */
 		    $children = $controller->getChildren();
 
 			ADebug::variable('Processing children of '.$this->controller, $children);
@@ -257,31 +316,48 @@ final class ADispatcher {
             $err->toLog()->toDebug();			
 		}		
 		ADebug::checkpoint(''.$this->class.'/'.$this->method.' dispatch END');
-		return;	
+		return null;
 	}
 
-	public function getType(){
+    /**
+     * @return string
+     */
+    public function getType(){
 		return $this->controller_type;
 	}
 
-	public function getController() {
+    /**
+     * @return string
+     */
+    public function getController() {
 		return $this->controller;
 	}
-	
-	public function getFile() {
+
+    /**
+     * @return string
+     */
+    public function getFile() {
 		return $this->file;
 	}
-	
-	public function getClass() {
+
+    /**
+     * @return string
+     */
+    public function getClass() {
 		return $this->class;
 	}
-	
-	public function getMethod() {
+
+    /**
+     * @return string
+     */
+    public function getMethod() {
 		return $this->method;
 	}
-	
-	public function getArgs() {
+
+    /**
+     * @return array
+     */
+    public function getArgs() {
 		return $this->args;
 	}
 }
-?>

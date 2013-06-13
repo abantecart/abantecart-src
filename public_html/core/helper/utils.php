@@ -90,7 +90,7 @@ function SEOEncode($string_value) {
 * Echo array with readable formal. Useful in debugging of array data. 
 */
 function echo_array($array_data) {
-	echo "<pre> $sub_table_name: ";
+	echo "<pre>";// $sub_table_name: ";
 	print_r($array_data);
 	echo'</pre>';
 }
@@ -526,4 +526,25 @@ function getExtensionConfigXml($extension_txt_id) {
 	$result = simplexml_import_dom($base_dom);
 	$registry->set($extension_txt_id.'_configXML',$result);
 	return $result;
+}
+
+/**
+ * Function for starting new storefront session for control panel user
+ * NOTE: do not try to save into session any data after this function call!
+ *
+ * @param $user_id int - control panel user_id
+ * @param array $data data for writing into new session storage
+ * @return bool
+ */
+function startStorefrontSession($user_id, $data=array()){
+    $data = (array)$data;
+    $data['merchant'] = (int)$user_id;
+    if(!$data['merchant']){ return false;}
+    session_write_close();
+    $session = new ASession('PHPSESSID_AC_SF');
+    foreach($data as $k=>$v){
+        $session->data[$k] = $v;
+    }
+    session_write_close();
+    return true;
 }

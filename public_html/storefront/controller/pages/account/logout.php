@@ -39,6 +39,7 @@ class ControllerPagesAccountLogout extends AController {
 			unset($this->session->data['comment']);
 			unset($this->session->data['order_id']);
 			unset($this->session->data['coupon']);
+			unset($this->session->data['merchant']);
 
 		    if($this->config->get('config_tax_store')){
 				$country_id = $this->config->get('config_country_id');
@@ -86,4 +87,3 @@ class ControllerPagesAccountLogout extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 }
-?>

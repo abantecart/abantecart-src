@@ -21,10 +21,27 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 final class MySQL {
-	private $connection;
+    /**
+     * @var resource
+     */
+    private $connection;
+    /**
+     * @var Registry
+     */
     private $registry;
-	
-	public function __construct($hostname, $username, $password, $database) {
+    /**
+     * @var string
+     */
+    public $error;
+
+    /**
+     * @param string $hostname
+     * @param string $username
+     * @param string $password
+     * @param string $database
+     * @throws AException
+     */
+    public function __construct($hostname, $username, $password, $database) {
 		if (!$this->connection = mysql_connect($hostname, $username, $password)) {
             throw new AException(AC_ERR_MYSQL, 'Error: Could not make a database connection using ' . $username . '@' . $hostname);
     	}
@@ -39,8 +56,14 @@ final class MySQL {
 		mysql_query("SET SQL_MODE = ''", $this->connection);
         $this->registry = Registry::getInstance();
   	}
-		
-  	public function query($sql, $noexcept = false) {
+
+    /**
+     * @param string $sql
+     * @param bool $noexcept
+     * @return bool|stdClass
+     * @throws AException
+     */
+    public function query($sql, $noexcept = false) {
 
         $time_start = microtime(true);
         $resource = mysql_query($sql, $this->connection);
@@ -87,21 +110,30 @@ final class MySQL {
 			}
     	}
   	}
-	
-	public function escape($value) {
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    public function escape($value) {
 		return mysql_real_escape_string($value, $this->connection);
 	}
-	
-  	public function countAffected() {
+
+    /**
+     * @return int
+     */
+    public function countAffected() {
     	return mysql_affected_rows($this->connection);
   	}
 
-  	public function getLastId() {
+    /**
+     * @return int
+     */
+    public function getLastId() {
     	return mysql_insert_id($this->connection);
-  	}	
-	
-	public function __destruct() {
+  	}
+
+    public function __destruct() {
 		mysql_close($this->connection);
 	}
 }
-?>
