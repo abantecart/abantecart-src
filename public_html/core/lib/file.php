@@ -90,7 +90,7 @@ class AFile {
 		$max_size = (int)$this->config->get('config_upload_max_size') < (int) ini_get('upload_max_filesize') ? (int)$this->config->get('config_upload_max_size') : (int) ini_get('upload_max_filesize');
 
 		if ( (int) $settings['max_size'] > 0 ) {
-			$max_size = $max_size < (int) $settings['max_size'] ? (int) $settings['max_size'] : $max_size;
+			$max_size = (int) $settings['max_size'] < $max_size ? (int) $settings['max_size'] : $max_size;
 		}
 		$max_size_kb = $max_size * 1024 * 1024;
 
