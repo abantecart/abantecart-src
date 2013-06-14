@@ -20,8 +20,14 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class ModelSaleCustomer
+ */
 class ModelSaleCustomer extends Model {
+	/**
+	 * @param $data
+	 * @return int
+	 */
 	public function addCustomer($data) {
 		//encrypt customer data
 		$key_sql = '';
@@ -70,7 +76,11 @@ class ModelSaleCustomer extends Model {
 
 		return $customer_id;
 	}
-	
+
+	/**
+	 * @param int $customer_id
+	 * @param array $data
+	 */
 	public function editCustomer($customer_id, $data) {
 		//encrypt address data
 		$key_sql = '';
@@ -124,6 +134,11 @@ class ModelSaleCustomer extends Model {
 		}
 	}
 
+	/**
+	 * @param int $customer_id
+	 * @param string $field
+	 * @param mixed $value
+	 */
 	public function editCustomerField($customer_id, $field, $value) {
 
 		$data = array('loginname', 'firstname', 'lastname', 'email', 'telephone', 'fax', 'newsletter', 'customer_group_id', 'status', 'approved' );
@@ -146,7 +161,11 @@ class ModelSaleCustomer extends Model {
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
 	}
-	
+
+	/**
+	 * @param int $customer_id
+	 * @return array
+	 */
 	public function getAddressesByCustomerId($customer_id) {
 		$address_data = array();
 		
@@ -205,36 +224,67 @@ class ModelSaleCustomer extends Model {
 		}		
 		
 		return $address_data;
-	}	
-	
+	}
+
+	/**
+	 * @param int $customer_id
+	 */
 	public function deleteCustomer($customer_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$customer_id . "'");
 	}
-	
+
+	/**
+	 * @param int $customer_id
+	 * @return array
+	 */
 	public function getCustomer($customer_id) {
-		$query = $this->db->query("SELECT DISTINCT *
+		$query = $this->db->query("SELECT DISTINCT *,
+									(SELECT COUNT(order_id)
+										FROM " . $this->db->table("orders") . "
+										WHERE customer_id = '" . (int)$customer_id . "') as orders_count
 								   FROM " . $this->db->table("customers") . "
 								   WHERE customer_id = '" . (int)$customer_id . "'");
 
 		$result_row = $this->dcrypt->decrypt_data($query->row, 'customers');
 		return $result_row;
 	}
-	
+
+	/**
+	 * @param array $data
+	 * @return array|int
+	 */
 	public function getTotalCustomers($data = array()) {
 		return $this->getCustomers($data, 'total_only');
-	}	
-		
+	}
+
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getCustomers($data = array(), $mode = 'default') {
 		
 		if ( $mode == 'total_only' && !$this->dcrypt->active ) {
 			$sql = "SELECT COUNT(*) as total ";
 		} else {
-			$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name,
-						cg.name AS customer_group ";
+			$sql = "SELECT c.customer_id,
+			  	c.firstname,
+  				c.lastname,
+  				c.loginname,
+  				c.email,
+  				c.status,
+  				c.approved,
+  				c.customer_group_id,
+				CONCAT(c.firstname, ' ', c.lastname) AS name,
+				cg.name AS customer_group,
+				COUNT(o.order_id) as orders_count ";
 		}
 		$sql .= " FROM " . $this->db->table("customers") . " c
-				LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";		
+				LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";
+		if ( $mode != 'total_only'){
+			$sql .= " LEFT JOIN " . $this->db->table("orders") . " o ON (c.customer_id = o.customer_id) ";
+		}
 
 		$implode = array();
 		$filter = (isset($data['filter']) ? $data['filter'] : array());
@@ -296,9 +346,23 @@ class ModelSaleCustomer extends Model {
 			'customer_group',
 			'c.status',
 			'c.approved',
-			'c.date_added'
+			'c.date_added',
+			'orders_count'
 		);	
-			
+
+		if ( $mode != 'total_only'){
+			$sql .= " GROUP BY c.customer_id,
+						  	c.firstname,
+			  				c.lastname,
+			  				c.loginname,
+			  				c.email,
+			  				c.status,
+			  				c.approved,
+			  				c.customer_group_id,
+							CONCAT(c.firstname, ' ', c.lastname),
+							cg.name ";
+		}
+
 		//Total culculation for encrypted mode 
 		// NOTE: Performance slowdown might be noticed or larger search results	
 		if ( $mode != 'total_only' ) {
@@ -350,6 +414,12 @@ class ModelSaleCustomer extends Model {
 		return $result_rows;	
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $field
+	 * @param mixed $value
+	 * @return array
+	 */
 	private function _filter_by_encrypted_field($data, $field, $value) {
 		if ( !count($data) ) {
 			return array();
@@ -370,7 +440,10 @@ class ModelSaleCustomer extends Model {
 		}	
 		return $result_rows;
 	}
-	
+
+	/**
+	 * @param int $customer_id
+	 */
 	public function approve($customer_id) {
 		$this->db->query("UPDATE " . $this->db->table("customers") . "
 						  SET approved = '1'
@@ -389,7 +462,11 @@ class ModelSaleCustomer extends Model {
 		}		
 		return $result_rows;
 	}
-	
+
+	/**
+	 * @param string $keyword
+	 * @return array
+	 */
 	public function getCustomersByKeyword($keyword) {
 		if ($keyword) {
 			$query = $this->db->query("SELECT *
@@ -407,7 +484,11 @@ class ModelSaleCustomer extends Model {
 			return array();	
 		}
 	}
-	
+
+	/**
+	 * @param int $product_id
+	 * @return array
+	 */
 	public function getCustomersByProduct($product_id) {
 		if ($product_id) {
 			$query = $this->db->query("SELECT DISTINCT `email`
@@ -424,7 +505,11 @@ class ModelSaleCustomer extends Model {
 			return array();	
 		}
 	}
-	
+
+	/**
+	 * @param int $customer_id
+	 * @return array
+	 */
 	public function getAddresses($customer_id) {
 		$query = $this->db->query("SELECT *
 									FROM " . $this->db->table("addresses") . "
@@ -436,7 +521,12 @@ class ModelSaleCustomer extends Model {
 		}		
 		return $result_rows;
 	}
-	
+
+	/**
+	 * @param string $loginname
+	 * @param string $customer_id
+	 * @return bool
+	 */
 	public function is_unique_loginname( $loginname, $customer_id = '' ) {
 		if( empty($loginname) ) {
 			return false;
@@ -463,7 +553,11 @@ class ModelSaleCustomer extends Model {
 
 		return $query->row['total'];
 	}
-	
+
+	/**
+	 * @param int $customer_id
+	 * @return mixed
+	 */
 	public function getTotalAddressesByCustomerId($customer_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM " . $this->db->table("addresses") . "
@@ -471,29 +565,41 @@ class ModelSaleCustomer extends Model {
 		
 		return $query->row['total'];
 	}
-	
+
+	/**
+	 * @param int $country_id
+	 * @return int
+	 */
 	public function getTotalAddressesByCountryId($country_id) {
 		$query = $this->db->query("SELECT COUNT(*) AS total
 									FROM " . $this->db->table("addresses") . "
 									WHERE country_id = '" . (int)$country_id . "'");
 		
-		return $query->row['total'];
-	}	
-	
+		return (int)$query->row['total'];
+	}
+
+	/**
+	 * @param int $zone_id
+	 * @return int
+	 */
 	public function getTotalAddressesByZoneId($zone_id) {
 		$query = $this->db->query("SELECT COUNT(*) AS total
 									FROM " . $this->db->table("addresses") . "
 									WHERE zone_id = '" . (int)$zone_id . "'");
 		
-		return $query->row['total'];
+		return (int)$query->row['total'];
 	}
-	
+
+	/**
+	 * @param int $customer_group_id
+	 * @return int
+	 */
 	public function getTotalCustomersByCustomerGroupId($customer_group_id) {
 		$query = $this->db->query("SELECT COUNT(*) AS total
 								   FROM " . $this->db->table("customers") . "
 								   WHERE customer_group_id = '" . (int)$customer_group_id . "'");
 		
-		return $query->row['total'];
+		return (int)$query->row['total'];
 	}
 
 }

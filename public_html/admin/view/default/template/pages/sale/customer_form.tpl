@@ -82,6 +82,7 @@
 					<?php echo $form_language_switch; ?>
 					<div class="heading"><?php echo $balance; ?></div>
 					<div class="buttons">
+						<?php echo $button_orders_count; ?>
 						<?php echo $button_actas; ?>
 					</div>
 				</div>

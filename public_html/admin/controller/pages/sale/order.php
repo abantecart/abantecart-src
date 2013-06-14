@@ -60,7 +60,7 @@ class ControllerPagesSaleOrder extends AController {
 			//id of grid
             'table_id' => 'order_grid',
             // url to load data from
-			'url' => $this->html->getSecureURL('listing_grid/order'),
+			'url' => $this->html->getSecureURL('listing_grid/order','&customer_id='.$this->request->get['customer_id']),
 			'editurl' => $this->html->getSecureURL('listing_grid/order/update'),
 			'update_field' => $this->html->getSecureURL ( 'listing_grid/order/update_field' ),
             'sortname' => 'order_id',

@@ -39,14 +39,14 @@ class ControllerResponsesListingGridOrder extends AController {
 
 		// process jGrid search parameter
 		$allowedFields = array( 'name', 'order_id', 'date_added', 'total' );
-		$allowedSortFields = array( 'order_id', 'name', 'status', 'date_added', 'total', );
+		$allowedSortFields = array('customer_id', 'order_id', 'name', 'status', 'date_added', 'total', );
 
 		$allowedDirection = array( 'asc', 'desc' );
 
 		if (!in_array($sidx, $allowedSortFields)) $sidx = $allowedSortFields[ 0 ];
 		if (!in_array($sord, $allowedDirection)) $sord = $allowedDirection[ 0 ];
 
-		if ($sidx == 'order_id' || $sidx == 'date_added' || $sidx == 'total') {
+		if (in_array($sidx,array('customer_id','order_id','date_added','total'))) {
 			$sidx = 'o.' . $sidx;
 		}
 
@@ -56,8 +56,12 @@ class ControllerResponsesListingGridOrder extends AController {
 			'start' => ($page - 1) * $limit,
 			'limit' => $limit,
 		);
-		if (isset($this->request->get[ 'status' ]) && $this->request->get[ 'status' ] != '')
+		if (isset($this->request->get[ 'status' ]) && $this->request->get[ 'status' ] != ''){
 			$data[ 'filter_order_status_id' ] = $this->request->get[ 'status' ];
+		}
+		if (has_value($this->request->get[ 'customer_id' ])){
+			$data[ 'filter_customer_id' ] = $this->request->get[ 'customer_id' ];
+		}
 
 		if (isset($this->request->post[ '_search' ]) && $this->request->post[ '_search' ] == 'true') {
 			$searchData = json_decode(htmlspecialchars_decode($this->request->post[ 'filters' ]), true);
@@ -156,6 +160,7 @@ class ControllerResponsesListingGridOrder extends AController {
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		return null;
 	}
 
 	/**

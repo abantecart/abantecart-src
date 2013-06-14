@@ -51,6 +51,7 @@
 					<div class="heading"><?php echo $balance; ?></div>
 					<div class="buttons">
 						<a style="vertical-align: top;" class="btn_toolbar" title="<?php echo $button_insert; ?>" ><span class="icon_add">&nbsp;</span></a>
+						<?php echo $button_orders_count; ?>
 						<?php echo $button_actas; ?>
 					</div>
 				</div>

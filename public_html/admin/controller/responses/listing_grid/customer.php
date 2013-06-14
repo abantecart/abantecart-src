@@ -21,7 +21,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridCustomer extends AController {
-	private $error = array();
 
 	public function main() {
 
@@ -95,6 +94,16 @@ class ControllerResponsesListingGridCustomer extends AController {
 					'value' => $result[ 'approved' ],
 					'options' => $approved,
 				)),
+				($result[ 'orders_count' ]>0 ?
+				$this->html->buildButton(array(
+					'name' => 'view orders',
+					'text' => $result[ 'orders_count' ],
+					'style' => 'button2',
+					'href'=> $this->html->getSecureURL('sale/order','&customer_id='.$result['customer_id']),
+					'title' => $this->language->get('text_view').' '.$this->language->get('tab_history'),
+					'attr' => ' target="_blank" '
+				))
+				: 0),
 			);
 			$i++;
 		}
@@ -164,7 +173,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 	/**
 	 * update only one field
 	 *
-	 * @return void
+	 * @return null
 	 */
 	public function update_field() {
 
@@ -197,7 +206,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 			}
 			//update controller data
 			$this->extensions->hk_UpdateData($this, __FUNCTION__);
-			return;
+			return null;
 		}
 
 		//request sent from jGrid. ID is key of array

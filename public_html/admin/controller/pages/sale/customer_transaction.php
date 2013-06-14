@@ -118,6 +118,7 @@ class ControllerPagesSaleCustomerTransaction extends AController {
 		);
 
 		$this->loadModel('sale/customer_transaction');
+		$this->loadModel('sale/customer');
 
 		$form = new AForm();
 	    $form->setForm(array(
@@ -190,6 +191,20 @@ class ControllerPagesSaleCustomerTransaction extends AController {
 					'target' => 'new'
 			    ));
 
+		$customer_info = $this->model_sale_customer->getCustomer($this->request->get['customer_id']);
+		if(has_value($customer_info['orders_count']) && $this->request->get['customer_id']){
+			$this->data['button_orders_count'] = $this->html->buildButton(
+							array(
+								'name' => 'view orders',
+								'text' => $this->language->get('text_order').': '.$customer_info['orders_count'],
+								'style' => 'button2',
+								'href'=> $this->html->getSecureURL('sale/order','&customer_id='.$this->request->get['customer_id']),
+								'title' => $this->language->get('text_view').' '.$this->language->get('tab_history')
+							)
+			);
+		}
+
+
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/sale/customer_transaction.tpl' );
 
@@ -203,10 +218,7 @@ class ControllerPagesSaleCustomerTransaction extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
     	
 		if (isset($this->request->get['customer_id'])) {
-			session_write_close();
-			$session = new ASession('PHPSESSID_AC_SF');
- 			$session->data['customer_id'] = $this->request->get['customer_id'];
- 			session_write_close();
+			startStorefrontSession($this->user->getId(), array('customer_id' => $this->request->get['customer_id']));
 			$this->redirect($this->html->getCatalogURL('account/account'));
 		}
 
