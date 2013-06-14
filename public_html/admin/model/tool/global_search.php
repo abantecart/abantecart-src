@@ -31,7 +31,10 @@ class ModelToolGlobalSearch extends Model {
 	 * @var string
 	 */
 	private $charset;
-
+	/**
+	 * array with descriptions of controller for search
+	 * @var array
+	 */
 	public $results_controllers = array(
 		"orders" => array(
 			'alias' => 'order',
@@ -119,6 +122,7 @@ class ModelToolGlobalSearch extends Model {
 	 *
 	 * @param string $search_category
 	 * @param string $keyword
+	 * @return int
 	 */
 	public function getTotal($search_category, $keyword) {
 
@@ -320,7 +324,8 @@ class ModelToolGlobalSearch extends Model {
 	 *
 	 * @param string $search_category
 	 * @param string $keyword
-	 * @return string(json)
+	 * @param string $mode
+	 * @return array
 	 */
 	public function getResult($search_category, $keyword, $mode = 'listing') {
 
@@ -538,14 +543,38 @@ class ModelToolGlobalSearch extends Model {
 				break;
 
 			case "settings" :
-				$sql = "SELECT setting_id, CONCAT(`group`,'-',s.`key`,'-',store_id) as active, CONCAT(`group`,' -> ',s.`key`) as title, `value` as text, e.`key` as extension
+				$sql = "SELECT setting_id,
+								CONCAT(`group`,'-',s.`key`,'-',store_id) as active,
+								CONCAT(`group`,' -> ',s.`key`) as title,
+								`value` as text,
+								e.`key` as extension
 						FROM " . DB_PREFIX . "settings s
 						LEFT JOIN " . DB_PREFIX . "extensions e ON s.`group` = e.`key`
-						WHERE (LOWER(`value`) like '%" . $needle . "%' OR LOWER(`value`) like '%" . $needle2 . "%' OR LOWER(s.`key`) like '%" . $needle . "%')
+						WHERE (LOWER(`value`) like '%" . $needle . "%'
+								OR LOWER(`value`) like '%" . $needle2 . "%'
+								OR LOWER(s.`key`) like '%" . $needle . "%')
+						UNION
+						SELECT s.setting_id,
+								CONCAT(s.`group`,'-',s.`key`,'-',s.store_id) as active,
+								CONCAT(`group`,' -> ',s.`key`) as title,
+						CONCAT_WS(' >> ',l.language_value) as text, ''
+						FROM " . DB_PREFIX . "language_definitions l
+						LEFT JOIN " . DB_PREFIX . "settings s ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
+						WHERE (LOWER(l.language_value) like '%" . $needle . "%'
+								OR LOWER(l.language_value) like '%" . $needle . "%'
+								OR LOWER(l.language_key) like '%" . $needle . "%' )
+						AND block='setting_setting' AND l.language_id ='".( int )$this->config->get('storefront_language_id')."'
 						LIMIT " . $offset . "," . $rows_count;
 
 				$result = $this->db->query($sql);
-				$result = $result->rows;
+				$rows = $result->rows;
+				$result=array();
+				foreach($rows as $row){
+					if(!isset($result[$row['setting_id']])){
+						$result[$row['setting_id']] = $row;
+					}
+				}
+				$result = array_values($result);
 				break;
 			case "messages" :
 				$sql = "SELECT DISTINCT msg_id, title as title, `message` as text
@@ -614,7 +643,6 @@ class ModelToolGlobalSearch extends Model {
 
 		$charset = $this->charset;
 		$tmp = array();
-		$url = '';
 		$text = '';
 		if ($table && is_array($table)) {
 
@@ -673,5 +701,3 @@ class ModelToolGlobalSearch extends Model {
 	}
 
 }
-
-?>
