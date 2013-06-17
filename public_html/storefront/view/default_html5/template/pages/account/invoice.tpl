@@ -116,6 +116,7 @@
 				    <i class="<?php echo $button_continue->{icon}; ?>"></i>
 				    <?php echo $button_continue->text ?>
 				</a>
+				<?php echo $this->getHookVar('hk_additional_buttons'); ?>
 				<a href="javascript:window.print();" class="btn btn-orange mr10 pull-right" title="<?php echo $button_print->text ?>">
 				    <i class="<?php echo $button_print->{icon}; ?> icon-white"></i>
 				    <?php echo $button_print->text ?>
