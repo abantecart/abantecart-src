@@ -545,25 +545,28 @@ class ModelToolGlobalSearch extends Model {
 			case "settings" :
 				$sql = "SELECT setting_id,
 								CONCAT(`group`,'-',s.`key`,'-',store_id) as active,
-								CONCAT(`group`,' -> ',s.`key`) as title,
-								`value` as text,
+								CONCAT(`group`,' -> ',COALESCE(l.language_value,s.`key`)) as title,
+								COALESCE(l.language_value,s.`key`) as text,
 								e.`key` as extension
 						FROM " . DB_PREFIX . "settings s
 						LEFT JOIN " . DB_PREFIX . "extensions e ON s.`group` = e.`key`
+						LEFT JOIN " . DB_PREFIX . "language_definitions l
+										ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
 						WHERE (LOWER(`value`) like '%" . $needle . "%'
 								OR LOWER(`value`) like '%" . $needle2 . "%'
 								OR LOWER(s.`key`) like '%" . $needle . "%')
 						UNION
 						SELECT s.setting_id,
 								CONCAT(s.`group`,'-',s.`key`,'-',s.store_id) as active,
-								CONCAT(`group`,' -> ',s.`key`) as title,
+								CONCAT(`group`,' -> ',COALESCE(l.language_value,s.`key`)) as title,
 						CONCAT_WS(' >> ',l.language_value) as text, ''
 						FROM " . DB_PREFIX . "language_definitions l
 						LEFT JOIN " . DB_PREFIX . "settings s ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
 						WHERE (LOWER(l.language_value) like '%" . $needle . "%'
 								OR LOWER(l.language_value) like '%" . $needle . "%'
 								OR LOWER(l.language_key) like '%" . $needle . "%' )
-						AND block='setting_setting' AND l.language_id ='".( int )$this->config->get('storefront_language_id')."'
+							AND block='setting_setting' AND l.language_id ='".( int )$this->config->get('storefront_language_id')."'
+							AND setting_id>0
 						LIMIT " . $offset . "," . $rows_count;
 
 				$result = $this->db->query($sql);
@@ -571,6 +574,8 @@ class ModelToolGlobalSearch extends Model {
 				$result=array();
 				foreach($rows as $row){
 					if(!isset($result[$row['setting_id']])){
+						$row['title'] = str_replace(array("	","  ","\n"),"",strip_tags($row['title']));
+						$row['text'] = str_replace(array("	","  ","\n"),"",strip_tags($row['text']));
 						$result[$row['setting_id']] = $row;
 					}
 				}
@@ -653,7 +658,7 @@ class ModelToolGlobalSearch extends Model {
 					//html_entity_decode ( $text, ENT_QUOTES, $charset );
 					// if keyword found
 					if (($pos = mb_stripos($field_decoded, $keyword, 0, $charset)) !== false && $key != 'title') {
-						$row ['title'] = '<span class="search_res_title">' . $row ['title'] . "</span>";
+						$row ['title'] = '<span class="search_res_title">' . strip_tags($row ['title']) . "</span>";
 						$start = $pos < 50 ? 0 : ($pos - 50);
 						$keyword_len = mb_strlen($keyword, $charset);
 						$field_len = mb_strlen($field_decoded, $charset);
