@@ -42,7 +42,7 @@
             </table>
 		</span>
                 <div class="well buttonwrap span3">
-                    <a class="btn btn-orange pull-left" href="<?php echo $view; ?>"><i class="icon-shopping-cart icon-white"></i> <?php echo $text_view;?></a>
+                    <a class="btn btn-orange pull-left" href="<?php echo $view; ?>"><i class="icon-shopping-cart icon-white"></i> <?php echo $text_view;?></a>&nbsp;&nbsp;
                     <a class="btn btn-orange pull-right"
                        href="<?php echo $checkout; ?>"><i class="icon-pencil icon-white"></i>  <?php echo $text_checkout; ?></a>
                 </div>

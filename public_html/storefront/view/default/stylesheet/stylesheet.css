@@ -1142,7 +1142,8 @@ button.btn_standard {
 }
 
 .list {
-	overflow: hidden
+	overflow: auto;
+	display: inline-block;
 }
 
 table.list {
