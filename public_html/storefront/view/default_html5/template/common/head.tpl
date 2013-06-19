@@ -15,6 +15,11 @@
 <link href="resources/<?php echo $icon; ?>" type="image/png" rel="icon" />
 <?php } ?>
 
+<link rel="apple-touch-icon-precomposed" sizes="57x57" href="<?php echo $this->templateResource('/image/apple-icon-57x57-precomposed.png');?>" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo $this->templateResource('/image/apple-icon-72x72-precomposed.png');?>" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo $this->templateResource('/image/apple-icon-114x114-precomposed.png');?>" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo $this->templateResource('/image/apple-icon-144x144-precomposed.png');?>" />
+
 <?php foreach ($links as $link) { ?>
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
 <?php } ?>

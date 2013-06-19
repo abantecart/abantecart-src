@@ -2662,6 +2662,7 @@ a.clostalert {
 	}
 }
 
+/* iPads (portrait and landscape) ----------- */
 @media (min-width: 768px) and (max-width: 1200px) {
 	header .headerstrip .container .span12 {
 		width: 100%;
@@ -2772,11 +2773,23 @@ a.clostalert {
 		text-align: center;
 	}
 
-
 	.addresses>section{
 		display: inline-block;
 		width: 95%;
 		float: left !important;
+	}
+
+	#banner_slides img.wp1_1 {
+		left: 250px;
+		right: 0px;
+	}
+	#banner_slides img.wp1_2 {
+		left: 250px;
+		right: 0px;
+	}
+	#banner_slides img.wp1_3 {
+		left: 250px;
+		right: 0px;
 	}
 }
 
@@ -2842,12 +2855,11 @@ a.clostalert {
 	}
 
 	.headerstrip .pull-right {
-		float: none;
-		text-align: center;
+		margin-right: 20px;
 	}
 
 	.headerstrip .pull-right #search_form {
-		margin-top: 25px;
+		margin-top: 10px;
 	}
 
 	.headerdetails {
@@ -2858,12 +2870,6 @@ a.clostalert {
 	.headerdetails .nav.pull-left {
 		float: none;
 		margin: 0 0 10px 0;
-		text-align: center;
-	}
-
-	.headerdetails .pull-right {
-		float: none;
-		text-align: center;
 	}
 
 	.headerdetails .topcall {
@@ -3064,10 +3070,6 @@ a.clostalert {
 		display: none
 	}
 
-	.headerstrip {
-		text-align: center;
-	}
-
 	.headerstrip #topnav {
 		background: #00A1CB;
 		padding-bottom: 10px
@@ -3086,9 +3088,6 @@ a.clostalert {
 	}
 
 	.headerdetails>div.pull-left {
-		margin-bottom: 10px;
-		float: none;
-		text-align: center;
 	}
 
 	.headerdetails>div.pull-left div.well {
@@ -3322,7 +3321,6 @@ a.clostalert {
 	}
 
 	.sorting.well .pull-right {
-		float: none;
 		margin-top: 0;
 	}
 
@@ -3433,20 +3431,22 @@ a.clostalert {
 		float: none;
 	}
 
-	.headerdetails>div.pull-left {
+	.headerdetails>div.pull-left {	
 		margin-bottom: 10px;
-		float: none;
-		text-align: center;
 	}
 
 	.headerdetails>div.pull-left a.btn {
-		margin-bottom: 10px;
+		margin-top: 10px;
 		float: none !important;
-		text-align: center;
 	}
 
 	.headerdetails>div.pull-left div.well {
 		padding-top: 20px;
+	}
+
+	.topcartopen .well {
+		border: none;
+		box-shadow: none;
 	}
 
 	.headerdetails ul.topcartopen {
@@ -3458,7 +3458,7 @@ a.clostalert {
 	}
 
 	.nav.topcart.pull-left>li.dropdown.hover.carticon {
-		width: 233px;
+		width: 233px;	
 	}
 
 	.headerstrip #topnav {

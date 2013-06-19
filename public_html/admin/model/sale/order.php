@@ -390,7 +390,11 @@ class ModelSaleOrder extends Model {
 				'date_added'              => $order_row['date_added'],
 				'ip'                      => $order_row['ip']
 			);
-			
+
+			if ( has_value($order_row['payment_method_data']) ) {
+				$order_data['payment_method_data'] = $order_row['payment_method_data'];
+			}
+
 			return $order_data;
 		} else {
 			return FALSE;	
