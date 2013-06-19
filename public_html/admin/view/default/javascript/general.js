@@ -309,8 +309,8 @@ var $error_dialog = null;
 httpError = function (data) {
     if ( data.show_dialog != true )
         return;
-
-    $error_dialog = $('<div></div>')
+    if($error_dialog!=null){ return;}
+    $error_dialog = $('<div id="error_dialog"></div>')
         .html(data.error_text)
         .dialog({
             title:data.error_title,

@@ -54,17 +54,21 @@ var mediaDialog = function (type, action, id, field, wrapper_id) {
     if (id) {
         src += '&resource_id=' + id;
     }
-    $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="' + src + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+    $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px; display:none;"><iframe src="' + src + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
     $('#dialog iframe').load(function (e) {
         try {
             var error_data = $.parseJSON($(this).contents().find('body').html());
         } catch (e) {
-            var error_data = null;
+				var iframedocument = $(this).contents().get(0);
+				var contentType = iframedocument.contentType || iframedocument.mimeType;
+            	var error_data = null;
         }
-        if (error_data && error_data.error_code) {
+        if ((error_data && error_data.error_code) || contentType=='application/json') {
             $('#dialog').dialog('close');
             httpError(error_data);
-        }
+        }else{
+			$('#dialog').css('display','block');
+		}
     });
 
     $('#dialog').dialog({
