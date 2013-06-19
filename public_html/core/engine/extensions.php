@@ -186,6 +186,7 @@ class ExtensionCollection {
  * @method hk_ValidateData(object $baseObject)
  * @method hk_confirm(object $baseObject, int $order_id, int $order_status_id, string $comment)
  * @method hk_query(object $baseObject, string $sql, bool $noexcept)
+ * @method hk_load(object $baseObject, string $block, string $mode)
  * @package MyExtensionsApi
  */
 class ExtensionsApi {
