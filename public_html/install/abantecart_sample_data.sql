@@ -2408,7 +2408,7 @@ VALUES
 INSERT INTO `ac_url_aliases` (`query`,`keyword`,`language_id`)
 VALUES
 ('category_id=36','makeup',1),
-('content_id=4','about_us',1),
+('content_id=1','about_us',1),
 ('product_id=101','pro-v_color_hair_solutions_color_preserve_shine_conditioner_with_pump',1),
 ('product_id=102','gucci_guilty',1),
 ('manufacturer_id=20','gucci',1),

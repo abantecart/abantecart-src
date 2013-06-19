@@ -83,22 +83,19 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if ($data['keyword']) {
-			$seo_key = SEOEncode($data['keyword']);
+			$seo_key = SEOEncode($data['keyword'],
+								'product_id',
+								$product_id);
 		} else {
 			//Default behavior to save SEO URL keword from product name in default language
-			$languages = $this->language->getAvailableLanguages();
-			$default_lang_id = $languages[$this->config->get('config_storefront_language')]['language_id'];
-
 			if (!is_int(key($data['product_description']))) { // when creates
-				$seo_key = SEOEncode($data['product_description']['name']);
+				$seo_key = SEOEncode($data['product_description']['name'],
+									'product_id',
+									$product_id);
 			}else{ // when clones
-				$seo_key = SEOEncode($data['product_description'][$default_lang_id]['name']);
-			}
-			//Check if key is unique  
-			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_aliases
-									   WHERE keyword = '" . $this->db->escape($seo_key) . "'");
-			if ($query->num_rows) {
-				$seo_key .= '_' . $product_id;
+				$seo_key = SEOEncode($data['product_description'][$this->language->getDefaultLanguageID()]['name'],
+									'product_id',
+									$product_id);
 			}
 		}
 		if($seo_key){
@@ -249,7 +246,7 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if (isset($data['keyword'])) {
-			$data['keyword'] =  SEOEncode($data['keyword']);
+			$data['keyword'] =  SEOEncode($data['keyword'],'product_id',$product_id);
 			if($data['keyword']){
 				$this->language->replaceDescriptions('url_aliases',
 													array('query' => "product_id=" . (int)$product_id),

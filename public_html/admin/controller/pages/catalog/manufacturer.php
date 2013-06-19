@@ -270,7 +270,16 @@ class ControllerPagesCatalogManufacturer extends AController {
 			'scrollbox' => true,
 			'help_url' => $this->gen_help_url('manufacturer_store'),
 		));
+
 		$this->data['form']['fields']['keyword'] = $form->getFieldHtml(array(
+								'type' => 'button',
+								'name' => 'generate_seo_keyword',
+								'text' => $this->language->get('button_generate'),
+								'style' => 'button'
+								));
+		$this->data['generate_seo_url'] =  $this->html->getSecureURL('common/common/getseokeyword','&object_key_name=manufacturer_id&id='.$this->request->get['manufacturer_id']);
+
+		$this->data['form']['fields']['keyword'] .= $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'keyword',
 			'value' => $this->data['keyword'],

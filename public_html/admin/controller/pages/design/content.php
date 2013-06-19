@@ -22,6 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesDesignContent extends AController {
 	private $error = array();
+	public $data = array();
 	/**
 	 * @var AContentManager
 	 */
@@ -258,9 +259,9 @@ class ControllerPagesDesignContent extends AController {
 
 	private function _getForm() {
 		if (isset($this->error['warning'])) {
-			$template_data['error_warning'] = $this->error['warning'];
+			$this->data['error_warning'] = $this->error['warning'];
 		} else {
-			$template_data['error_warning'] = '';
+			$this->data['error_warning'] = '';
 		}
 
         $this->view->assign('success', $this->session->data[ 'success' ]);
@@ -268,8 +269,8 @@ class ControllerPagesDesignContent extends AController {
             unset($this->session->data[ 'success' ]);
         }
 
- 		$template_data['error'] = $this->error;
- 		$template_data['language_id'] = $this->config->get('storefront_language_id');
+ 		$this->data['error'] = $this->error;
+ 		$this->data['language_id'] = $this->config->get('storefront_language_id');
 
 		$this->document->initBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('index/home'),
@@ -296,7 +297,7 @@ class ControllerPagesDesignContent extends AController {
 			   		 ));
 		}
 
-		$template_data['cancel'] = $this->html->getSecureURL('design/content');
+		$this->data['cancel'] = $this->html->getSecureURL('design/content');
 
 		if (isset($this->request->get['content_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$content_info = $this->acm->getContent($this->request->get['content_id']);
@@ -306,56 +307,56 @@ class ControllerPagesDesignContent extends AController {
 
 		foreach($allowedFields as $field){
 			if (isset($this->request->post[$field])) {
-				$template_data[$field] = $this->request->post[$field];
+				$this->data[$field] = $this->request->post[$field];
 			} elseif (isset($content_info)) {
-				$template_data[$field] = $content_info[$field];
+				$this->data[$field] = $content_info[$field];
 			} else {
-				$template_data[$field] = '';
+				$this->data[$field] = '';
 			}
 		}
 
 		if (!isset($this->request->get['content_id'])) {
-			$template_data['action'] = $this->html->getSecureURL('design/content/insert');
-			$template_data['form_title'] = $this->language->get('text_insert') . $this->language->get('heading_title');
-			$template_data['update'] = '';
+			$this->data['action'] = $this->html->getSecureURL('design/content/insert');
+			$this->data['form_title'] = $this->language->get('text_insert') . $this->language->get('heading_title');
+			$this->data['update'] = '';
 			$form = new AForm('ST');
 		} else {
-			$template_data['action'] = $this->html->getSecureURL('design/content/update', '&content_id=' . $this->request->get['content_id'] );
-			$template_data['form_title'] = $this->language->get('text_edit') . $this->language->get('heading_title');
-			$template_data['update'] = $this->html->getSecureURL('listing_grid/content/update_field','&id='.$this->request->get['content_id']);
+			$this->data['action'] = $this->html->getSecureURL('design/content/update', '&content_id=' . $this->request->get['content_id'] );
+			$this->data['form_title'] = $this->language->get('text_edit') . $this->language->get('heading_title');
+			$this->data['update'] = $this->html->getSecureURL('listing_grid/content/update_field','&id='.$this->request->get['content_id']);
 			$form = new AForm('HS');
 		}
 
 
 		$form->setForm(array(
 		    'form_name' => 'contentFrm',
-			'update' => $template_data['update'],
+			'update' => $this->data['update'],
 	    ));
 
-        $template_data['form']['id'] = 'contentFrm';
-        $template_data['form']['form_open'] = $form->getFieldHtml(array(
+        $this->data['form']['id'] = 'contentFrm';
+        $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'contentFrm',
 		    'attr' => 'confirm-exit="true"',
-		    'action' => $template_data['action'],
+		    'action' => $this->data['action'],
 	    ));
-        $template_data['form']['submit'] = $form->getFieldHtml(array(
+        $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
 		    'name' => 'submit',
 		    'text' => $this->language->get('button_save'),
 		    'style' => 'button1',
 	    ));
-		$template_data['form']['cancel'] = $form->getFieldHtml(array(
+		$this->data['form']['cancel'] = $form->getFieldHtml(array(
 		    'type' => 'button',
 		    'name' => 'cancel',
 		    'text' => $this->language->get('button_cancel'),
 		    'style' => 'button2',
 	    ));
 
-		$template_data['form']['fields']['status'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'status',
-		    'value' => $template_data['status'],
+		    'value' => $this->data['status'],
 			'style'  => 'btn_switch',
 	    ));
 
@@ -371,45 +372,53 @@ class ControllerPagesDesignContent extends AController {
 			}
 		}
 
-		$template_data['form']['fields']['parent'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['parent'] = $form->getFieldHtml(array(
 										'type' => 'multiSelectbox',
 										'name' => 'parent_content_id[]',
 										'options' => $multiSelect,
-										'value' => $template_data['parent_content_id'],
+										'value' => $this->data['parent_content_id'],
 										'attr' => 'size = "'.(sizeof($multiSelect)>10 ? 10 : sizeof($multiSelect)).'"'
 																		));
 
-		$template_data['form']['fields']['name'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'name',
-		    'value' => $template_data['name'],
+		    'value' => $this->data['name'],
 		    'required' => true,
 	    ));
 
-		$template_data['form']['fields']['title'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['title'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'title',
-		    'value' => $template_data['title'],
+		    'value' => $this->data['title'],
 		    'required' => true,
 	    ));
-		$template_data['form']['fields']['description'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['description'] = $form->getFieldHtml(array(
 		    'type' => 'textarea',
 		    'name' => 'description',
-		    'value' => $template_data['description'],
+		    'value' => $this->data['description'],
 			'required' => true,
 	    ));
 
-		$template_data['form']['fields']['content'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['content'] = $form->getFieldHtml(array(
 		    'type' => 'textarea',
 		    'name' => 'content',
-		    'value' => $template_data['content'],
+		    'value' => $this->data['content'],
 			'required' => true,
 	    ));
 
-		$template_data['form']['fields']['keyword'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['keyword'] = $form->getFieldHtml(array(
+								'type' => 'button',
+								'name' => 'generate_seo_keyword',
+								'text' => $this->language->get('button_generate'),
+								'style' => 'button'
+								));
+		$this->data['generate_seo_url'] =  $this->html->getSecureURL('common/common/getseokeyword','&object_key_name=content_id&id='.$this->request->get['content_id']);
+
+		$this->data['form']['fields']['keyword'] .= $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'keyword',
-		    'value' => $template_data['keyword'],
+		    'value' => $this->data['keyword'],
 	    ));
 
 
@@ -428,7 +437,7 @@ class ControllerPagesDesignContent extends AController {
 			}
 		}
 
-		$template_data['form']['fields']['store_id'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['store_id'] = $form->getFieldHtml(array(
 			'type' => 'checkboxgroup',
 			'name' => 'store_id[]',
 			'value' => $store_selected,
@@ -436,16 +445,16 @@ class ControllerPagesDesignContent extends AController {
             'scrollbox' => true,
 		));
 
-		$template_data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'sort_order',
-		    'value' => $template_data['sort_order'],
+		    'value' => $this->data['sort_order'],
 			'attr' => 'style="width: 30px;"'
 	    ));
 		$this->view->assign('help_url', $this->gen_help_url('content_edit') );
 		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url'));
 		$this->view->assign('language_code', $this->session->data['language']);
-		$this->view->batchAssign( $template_data );
+		$this->view->batchAssign( $this->data );
         $this->processTemplate('pages/design/content_form.tpl' );
 	}
 
@@ -599,4 +608,3 @@ class ControllerPagesDesignContent extends AController {
 	}
 
 }
-?>

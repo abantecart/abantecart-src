@@ -669,7 +669,7 @@ class ControllerPagesCatalogProduct extends AController {
 								'text' => $this->language->get('button_generate'),
 								'style' => 'button'
 								));
-		$this->data['generate_seo_url'] =  $this->html->getSecureURL('listing_grid/product/getseokeyword','&id='.$this->request->get['product_id']);
+		$this->data['generate_seo_url'] =  $this->html->getSecureURL('common/common/getseokeyword','&object_key_name=product_id&id='.$this->request->get['product_id']);
 
 		$this->data['form']['fields']['data']['keyword'] .= $form->getFieldHtml(array(
 					'type' => 'input',

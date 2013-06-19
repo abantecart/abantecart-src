@@ -328,23 +328,4 @@ class ControllerResponsesListingGridProduct extends AController {
 		return null;
 	}
 
-	public function getSeoKeyword(){
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
-		$seo_key = SEOEncode($this->request->get['seo_name']);
-
-		//Check if key is unique
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_aliases
-								   WHERE keyword = '" . $this->db->escape($seo_key) . "'
-								   AND language_id='".$this->config->get('content_language_id')."'");
-		if ($query->num_rows) {
-			$seo_key .= '_' . $this->request->get['id'];
-		}
-
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-		$this->response->setOutput($seo_key);
-	}
-
 }

@@ -54,11 +54,10 @@ class AContentManager {
 		$content_id = $this->db->getLastId();
 		unset($data[ 'parent_content_id' ][0]);
 
-		$seo_key = '';
 		if ( empty ($data['keyword'])) {
-			$seo_key = SEOEncode($data['name']);
+			$seo_key = SEOEncode($data['name'],'content_id',$content_id);
 		} else {
-			$seo_key = SEOEncode($data['keyword']);
+			$seo_key = SEOEncode($data['keyword'],'content_id',$content_id);
 		}
 		if($seo_key){
 			$this->language->replaceDescriptions('url_aliases',
@@ -153,7 +152,7 @@ class AContentManager {
 
 
 		if(isset($data['keyword'])){
-			$data['keyword'] =  SEOEncode($data['keyword']);
+			$data['keyword'] =  SEOEncode($data['keyword'],'content_id',$content_id);
 			if($data['keyword']){
 				$this->language->replaceDescriptions('url_aliases',
 														array('query' => "content_id=" . ( int )$content_id),
@@ -209,7 +208,7 @@ class AContentManager {
 				}
 				break;
 			case 'keyword' :
-				$value = SEOEncode($value);
+				$value = SEOEncode($value,'content_id',$content_id);
 				if($value){
 					$this->language->replaceDescriptions('url_aliases',
 															array('query' => "content_id=" . ( int )$content_id),
@@ -266,6 +265,7 @@ class AContentManager {
 		}
 
 		$this->cache->delete('contents');
+		return true;
 	}
 
 	public function deleteContent($content_id) {
@@ -483,7 +483,7 @@ class AContentManager {
 	private function _updatePageContent($content_id=0){
 		$content_id = (int)$content_id;
 		if(!$content_id){
-			return;
+			return null;
 		}
 
 		$page = $this->db->query("SELECT *
@@ -516,7 +516,7 @@ class AContentManager {
 	public function getPageId($content_id=0){
 		$content_id = (int)$content_id;
 		if(!$content_id){
-			return;
+			return null;
 		}
 
 		$page = $this->db->query("SELECT page_id
@@ -534,7 +534,7 @@ class AContentManager {
 	public function getLayoutId($content_id=0){
 		$content_id = (int)$content_id;
 		if(!$content_id){
-			return;
+			return null;
 		}
 		$page = $this->db->query("SELECT pl.layout_id
 								  FROM ".DB_PREFIX."pages   p

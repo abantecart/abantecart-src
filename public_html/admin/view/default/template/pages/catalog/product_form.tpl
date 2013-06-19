@@ -97,7 +97,7 @@ $(document).ready(function () {
 });
 
 $('#productFrm_generate_seo_keyword').click(function(){
-	var seo_name = $('#productFrm_product_description\\[name\\]').val();
+	var seo_name = escape($('#productFrm_product_description\\[name\\]').val());
 	$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
 		$('#productFrm_keyword').val(data).change();
 	});

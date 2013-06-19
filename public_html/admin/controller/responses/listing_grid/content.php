@@ -30,6 +30,9 @@ class ControllerResponsesListingGridContent extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->loadLanguage('design/content');
+		/**
+		 * @var AContentManager
+		 */
 		$this->acm = new AContentManager();
 
 		//Prepare filter config
