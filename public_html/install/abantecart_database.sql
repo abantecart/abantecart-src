@@ -1443,7 +1443,10 @@ CREATE TABLE `ac_url_aliases` (
   PRIMARY KEY (`url_alias_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 CREATE UNIQUE INDEX `url_aliases_index`
-ON `ac_url_aliases` ( `url_alias_id`, `keyword` );
+ON `ac_url_aliases` ( `keyword`, `language_id`);
+CREATE UNIQUE INDEX `url_aliases_index2`
+ON `ac_url_aliases` ( `query`, `language_id` );
+
 
 --
 -- DDL for table `user`

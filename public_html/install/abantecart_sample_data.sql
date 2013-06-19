@@ -1,20 +1,3 @@
--- MySQL dump 10.11
---
--- Host: localhost    Database: abantecart_new_demo_data
--- ------------------------------------------------------
--- Server version	5.0.84
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
@@ -2422,24 +2405,21 @@ VALUES
 --
 
 
-INSERT INTO `ac_url_aliases` 
-VALUES 
-(494,'manufacturer_id=11','',1),
-(493,'category_id=36','makeup',1),
-(455,'content_id=4','about_us',1),
-(496,'category_id=64','',1),
-(492,'category_id=48','',1),
-(497,'product_id=101','pro-v_color_hair_solutions_color_preserve_shine_conditioner_with_pump',1),
-(498,'product_id=102','gucci_guilty',1),
-(500,'manufacturer_id=20','gucci',1),
-(501,'product_id=103','jasmin_noir_l\'essence_eau_de_parfum_spray',1),
-(503,'product_id=104','calvin_klein_obsession_for_women_edp_spray',1),
-(504,'product_id=105','bvlgari_aqua_eau_de_toilette_spray',1),
-(508,'product_id=106','omnia_eau_de_toilette',1),
-(509,'product_id=107','lancome_slimissime_360_slimming_activating_concentrate_unisex_treatment',1),
-(510,'product_id=108','lancome_hypnose_doll_lashes_mascara_4-piece_gift_set',1),
-(513,'product_id=109','lancome_visionnaire_advanced_skin_corrector',1),
-(514,'product_id=110','flora_by_gucci_eau_fraiche',1);
+INSERT INTO `ac_url_aliases` (`query`,`keyword`,`language_id`)
+VALUES
+('category_id=36','makeup',1),
+('content_id=4','about_us',1),
+('product_id=101','pro-v_color_hair_solutions_color_preserve_shine_conditioner_with_pump',1),
+('product_id=102','gucci_guilty',1),
+('manufacturer_id=20','gucci',1),
+('product_id=103','jasmin_noir_l\'essence_eau_de_parfum_spray',1),
+('product_id=104','calvin_klein_obsession_for_women_edp_spray',1),
+('product_id=105','bvlgari_aqua_eau_de_toilette_spray',1),
+('product_id=106','omnia_eau_de_toilette',1),
+('product_id=107','lancome_slimissime_360_slimming_activating_concentrate_unisex_treatment',1),
+('product_id=108','lancome_hypnose_doll_lashes_mascara_4-piece_gift_set',1),
+('product_id=109','lancome_visionnaire_advanced_skin_corrector',1),
+('product_id=110','flora_by_gucci_eau_fraiche',1);
 
 
 INSERT INTO `ac_banners` VALUES
@@ -2475,15 +2455,3 @@ INSERT INTO `ac_banner_descriptions` VALUES
 	(8,9,'Main Banner 1','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide1_bot&quot; src=&quot;storefront/view/default_html5/image/banner_image_1.png&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Construct Looks Good On&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;ALL Screen Sizes&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Lid est laborum dolo rumes fugats untras. Et harums ser quidem sit rerum facilis dolores nemis uns voluptas sadips ipsums vitae tolu ptas nemis omnis fugiats vitaes nemo minima rerums uns.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;&quot;&gt;Purchase Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n',NULL,now(), now()),
 	(8,1,'Main Banner 1','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide1_bot&quot; src=&quot;storefront/view/default_html5/image/banner_image_1.png&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;HTML5 Responsive Storefront to look great on&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;ALL Screen Sizes&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Natively responsive template implemented with bootstrap library and HTML5. Will look good on most mobile devices and tablets.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;&quot;&gt;Try on your device!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now())
 ;
-
-
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2012-03-17 12:17:44
