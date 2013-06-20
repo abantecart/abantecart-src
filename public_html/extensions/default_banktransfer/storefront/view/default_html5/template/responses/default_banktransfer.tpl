@@ -11,13 +11,13 @@
   <?php echo $text_payment; ?>
 </div>
 
-<a class="btn btn-orange pull-left" onclick="location = '<?php echo str_replace('&', '&amp;', $back); ?>'">
-     <i class="icon-arrow-left icon-white"></i>
+<a class="btn pull-left" onclick="location = '<?php echo str_replace('&', '&amp;', $back); ?>'">
+     <i class="icon-arrow-left"></i>
     <?php echo $button_back; ?>
 </a>
 <?php if (!$minimum_notmet) { ?>	
-<a id="checkout" class="btn ml10 pull-right">
-    <i class="icon-shopping-cart"></i>
+<a id="checkout" class="btn ml10 pull-right btn-orange">
+    <i class="icon-shopping-cart icon-white"></i>
     <?php echo $button_confirm; ?>
 </a>
 <?php } ?>

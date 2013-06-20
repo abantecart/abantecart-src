@@ -237,4 +237,8 @@
 		<key>text_maintenance_notice</key>
 		<value><![CDATA[Notice: Maintenance mode is on.]]></value>
 	</definition>
+	<definition>
+		<key>text_browse</key>
+		<value><![CDATA[Select File]]></value>
+	</definition>
 </definitions>

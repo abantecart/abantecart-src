@@ -1074,6 +1074,8 @@ class CheckboxGroupHtmlElement extends HtmlElement {
 class FileHtmlElement extends HtmlElement {
 
 	public function getHtml() {
+		$registry = $this->data['registry'];
+	
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1081,12 +1083,16 @@ class FileHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
-				'default_text' => $this->data[ 'registry' ]->get('language')->get('text_click_browse_file'),
-				'text_browse' => $this->data[ 'registry' ]->get('language')->get('text_browse'),
-				'help_url' => $this->help_url,
+				'default_text' => $registry->get('language')->get('text_click_browse_file'),
+				'text_browse' => $registry->get('language')->get('text_browse'),
 				'placeholder' => $this->placeholder,
 			)
 		);
+
+		if (!empty($this->help_url)) {
+			$this->view->assign('help_url', $this->help_url);
+		}
+
 		$return = $this->view->fetch('form/file.tpl');
 		return $return;
 	}

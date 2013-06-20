@@ -32,6 +32,7 @@ final class ADocument {
 	private $links = array();
 	private $styles = array();
 	private $scripts = array();
+	private $scripts_bottom = array();
 	private $breadcrumbs = array();
 
 	public function setTitle($title) {
@@ -116,7 +117,7 @@ final class ADocument {
 	}
 
 	/**
-	 * method add new Style item
+	 * method to add new Style item
 	 *
 	 * @param array $item("href"=>"","rel"=>"","media"=>)
 	 * Examples: href => 'www.google.com', $rel = 'stylesheet', $media = 'screen'
@@ -136,12 +137,40 @@ final class ADocument {
 		$this->scripts = array();
 	}
 
+	/**
+	 * method to add new javascript file to the head
+	 *
+	 * @param web path to the file
+	 * Examples: /javascript/bootstrap.js or http//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
+	 * @return null
+	 */
 	public function addScript($script) {
 		$this->scripts[ ] = $script;
 	}
 
 	public function getScripts() {
-		return $this->scripts;
+		//Need to have only unique scripts to avoid duplicates
+		return array_unique ( $this->scripts );
+	}
+
+	/**
+	 * method to add new javascript file to the bottom before </body> tag
+	 *
+	 * @param web path to the file
+	 * Examples: /javascript/bootstrap.js or http//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
+	 * @return null
+	 */
+	public function addScriptBottom($script) {
+		$this->scripts_bottom[ ] = $script;
+	}
+
+	public function getScriptsBottom() {
+		//Need to have only unique scripts to avoid duplicates
+		return array_unique ( $this->scripts_bottom );
+	}
+
+	public function resetScriptsBottom() {
+		$this->scripts_bottom = array();
 	}
 
 	/**

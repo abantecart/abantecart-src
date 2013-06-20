@@ -65,3 +65,6 @@ Please donate via PayPal to donate@abantecart.com
 <script type="text/javascript"  src="<?php echo $this->templateResource('/javascript/jquery.ba-throttle-debounce.min.js'); ?>"></script>
 <script type="text/javascript"  src="<?php echo $this->templateResource('/javascript/jquery.onebyone.min.js'); ?>"></script>
 <script defer src="<?php echo $this->templateResource('/javascript/custom.js'); ?>"></script>
+<?php foreach ($scripts_bottom as $script) { ?>
+<script type="text/javascript" src="<?php echo $script; ?>"></script>
+<?php } ?>

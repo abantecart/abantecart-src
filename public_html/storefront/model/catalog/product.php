@@ -957,12 +957,12 @@ class ModelCatalogProduct extends Model {
 	 * @return bool
 	 */
 	public function validateRequiredOptions($product_id, $input_options) {
+
 		$error = false;	
 		if ( empty($product_id) && empty($input_options) ) {
 			return false;
 		}
 		$product_options = $this->getProductOptions($product_id);
-
 		foreach ( $product_options as $option ) {
 
 			if ( $option['required'] ) {
@@ -985,103 +985,6 @@ class ModelCatalogProduct extends Model {
 		}
 
 		return $error;	
-	}
-
-	/**
-	 * @param int $product_id
-	 * @param int $option_id
-	 * @param array $data
-	 * @return array
-	 */
-	public function validateFileOption($product_id, $option_id, $data) {
-
-		$errors = array();
-		if ( empty($product_id) || empty($option_id) || empty($data) ) {
-			$errors[] = $this->language->get('error_empty_file_data');
-			return $errors;
-		}
-
-		$am = new AAttribute('product_option');
-		$attribute_data = $am->getAttributeByProductOptionId($option_id);
-
-		//echo_array($data);echo_array($attribute_data['settings']);exit;
-		if ( empty($data['name']) ) {
-			$errors[] = $this->language->get('error_empty_file_name');
-		}
-
-		if ( !empty($attribute_data['settings']['extensions']) ) {
-			$allowed_extensions = explode(',', str_replace(' ', '', $attribute_data['settings']['extensions']));
-			$extension = substr(strrchr($data['name'], '.'), 1);
-
-			if ( !in_array($extension, $allowed_extensions) ) {
-				$errors[] = sprintf($this->language->get('error_file_extension'), $attribute_data['settings']['extensions']);
-			}
-
-		}
-
-		if ( (int) $attribute_data['settings']['min_size'] > 0 ) {
-			$min_size_kb = $attribute_data['settings']['min_size'] * 1024 * 1024;
-
-			if ( (int) $data['size'] < $min_size_kb ) {
-				$errors[] = sprintf($this->language->get('error_min_file_size'), $attribute_data['settings']['min_size']);
-			}
-		}
-
-		$max_size = (int)$this->config->get('config_upload_max_size') < (int) ini_get('upload_max_filesize') ? (int)$this->config->get('config_upload_max_size') : (int) ini_get('upload_max_filesize');
-
-		if ( (int) $attribute_data['settings']['max_size'] > 0 ) {
-			$max_size = $max_size < (int) $attribute_data['settings']['max_size'] ? (int) $attribute_data['settings']['max_size'] : $max_size;
-		}
-		$max_size_kb = $max_size * 1024 * 1024;
-
-		if ( $max_size_kb < (int) $data['size'] ) {
-			$errors[] = sprintf($this->language->get('error_max_file_size'), $max_size_kb);
-		}
-
-		return $errors;
-
-	}
-
-	/**
-	 * @param string $upload_dir
-	 * @param string $file_name
-	 * @return array
-	 */
-	public function getUploadFilePath($upload_dir, $file_name) {
-		$file_path = DIR_ROOT . '/admin/system/uploads/' . $upload_dir . '/';
-
-		if ( !is_dir($file_path) ) {
-			mkdir($file_path, 0777);
-		}
-
-		$ext = strrchr($file_name, '.');
-		$file_name = substr($file_name, 0, strlen($file_name) - strlen($ext));
-
-		$i = '';
-		$real_path = '';
-		do {
-			if ( $i ) {
-				$new_name = $file_name . '_' . $i . $ext;
-			} else {
-				$new_name = $file_name . $ext;
-				$i = 0;
-			}
-
-			$real_path = $file_path . $new_name;
-			$i++;
-		} while (file_exists($real_path));
-
-		return array('name' => $new_name, 'path' => $real_path);
-	}
-
-	public function uploadFile($data) {
-
-		if ( !move_uploaded_file($data['tmp_name'], $data['path']) ) {
-			echo_array($_FILES);
-			echo_array($data);
-
-		}
-
 	}
 
 	/**

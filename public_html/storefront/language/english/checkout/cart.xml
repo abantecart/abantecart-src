@@ -112,11 +112,11 @@
 	</definition>
 	<definition>
 		<key>error_min_file_size</key>
-		<value><![CDATA[Minimum file size for upload is %s Mb.]]></value>
+		<value><![CDATA[Minimum file size for upload is %s Kb.]]></value>
 	</definition>
 	<definition>
 		<key>error_max_file_size</key>
-		<value><![CDATA[Maximum file size for upload is %s Mb.]]></value>
+		<value><![CDATA[Maximum file size for upload is %s Kb.]]></value>
 	</definition>
 	<definition>
 		<key>text_coupon_success</key>

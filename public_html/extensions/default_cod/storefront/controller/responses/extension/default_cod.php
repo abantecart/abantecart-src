@@ -30,7 +30,7 @@ class ControllerResponsesExtensionDefaultCod extends AController {
 
 		$item = HtmlElementFactory::create( array( 'type' => 'button',
 		                                          'name' => 'checkout',
-			                                      'style' => 'button',
+			                                      'style' => 'button btn-primary',
 		                                          'text' => $this->language->get('button_confirm') ));
 		$item = $item->getHtml();
 		$this->view->assign('button_confirm', $item);

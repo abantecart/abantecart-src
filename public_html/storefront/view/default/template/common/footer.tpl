@@ -38,3 +38,8 @@
 AbanteCart is open source software and you are free to remove the Powered By AbanteCart if you want, but its generally accepted practise to make a small donatation.
 Please donate via PayPal to donate@abantecart.com
 //-->
+
+<!-- Placed at the end of the document so the pages load faster -->
+<?php foreach ($scripts_bottom as $script) { ?>
+<script type="text/javascript" src="<?php echo $script; ?>"></script>
+<?php } ?>
