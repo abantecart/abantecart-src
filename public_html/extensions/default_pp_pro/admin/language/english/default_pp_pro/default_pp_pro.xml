@@ -169,4 +169,88 @@
 		<key>button_get_api_credentials_sandbox</key>
 		<value><![CDATA[Get Your Sandbox API Credentials]]></value>
 	</definition>
+	<definition>
+		<key>text_capture_funds</key>
+		<value><![CDATA[Capture Funds:]]></value>
+	</definition>
+	<definition>
+		<key>text_capture</key>
+		<value><![CDATA[Capture]]></value>
+	</definition>
+	<definition>
+		<key>text_do_paypal_refund</key>
+		<value><![CDATA[Do PayPal Refund:<span class="help">You can enter amount that needs to be refunded.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_refund</key>
+		<value><![CDATA[Refund]]></value>
+	</definition>
+	<definition>
+		<key>text_capture_success</key>
+		<value><![CDATA[Success! Funds have been captured successfully.]]></value>
+	</definition>
+	<definition>
+		<key>error_no_payment_method_data</key>
+		<value><![CDATA[Error! There is no payment method data for this order.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_amount</key>
+		<value><![CDATA[Error! Amount is wrong.]]></value>
+	</definition>
+	<definition>
+		<key>error_no_order_id</key>
+		<value><![CDATA[Error! There is no order ID.]]></value>
+	</definition>
+	<definition>
+		<key>error_amount_exceeded</key>
+		<value><![CDATA[Error! Amount limit exceeded.]]></value>
+	</definition>
+	<definition>
+		<key>error_service_unavailable</key>
+		<value><![CDATA[Service is unavailable at the moment, please try again later.]]></value>
+	</definition>
+	<definition>
+		<key>text_refund_success</key>
+		<value><![CDATA[Success! Order has been refunded successfully.]]></value>
+	</definition>
+	<definition>
+		<key>paypal_refund_title</key>
+		<value><![CDATA[PayPal Refund]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_status</key>
+		<value><![CDATA[Payment Status:]]></value>
+	</definition>
+	<definition>
+		<key>text_already_refunded</key>
+		<value><![CDATA[Already Refunded:]]></value>
+	</definition>
+	<definition>
+		<key>text_already_captured</key>
+		<value><![CDATA[Already Captured:]]></value>
+	</definition>
+	<definition>
+		<key>error_wrong_amount</key>
+		<value><![CDATA[Error! Amount must be greater than zero.]]></value>
+	</definition>
+	<definition>
+		<key>text_reason</key>
+		<value><![CDATA[Reason:]]></value>
+	</definition>
+	<definition>
+		<key>text_pending_authorization</key>
+		<value><![CDATA[Pending (Reason: authorization)]]></value>
+	</definition>
+	<definition>
+		<key>text_partially_refunded</key>
+		<value><![CDATA[Partially Refunded]]></value>
+	</definition>
+	<definition>
+		<key>text_refunded</key>
+		<value><![CDATA[Refunded]]></value>
+	</definition>
+	<definition>
+		<key>text_completed</key>
+		<value><![CDATA[Completed]]></value>
+	</definition>
 </definitions>
