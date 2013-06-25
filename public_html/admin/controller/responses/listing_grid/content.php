@@ -21,7 +21,9 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridContent extends AController {
-	private $error = array();
+	/**
+	 * @var AContentManager
+	 */
 	private $acm;
 
 	public function main() {
@@ -30,53 +32,79 @@ class ControllerResponsesListingGridContent extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->loadLanguage('design/content');
-		/**
-		 * @var AContentManager
-		 */
 		$this->acm = new AContentManager();
 
 		//Prepare filter config
-		$grid_filter_params = array( 'sort_order', 'title', 'status' );
+		$grid_filter_params = array( 'sort_order', 'name', 'status', 'nodeid' );
 		//Build advanced filter
-		$filter_grid = new AFilter(array( 'method' => 'post',
-			'grid_filter_params' => $grid_filter_params,
-		));
-		$total = $this->acm->getTotalContents($filter_grid->getFilterData());
+		$filter_data = array( 'method' => 'post',
+							  'grid_filter_params' => $grid_filter_params);
+		$filter_grid = new AFilter($filter_data);
+		$filter_array = $filter_grid->getFilterData();
+		if ($this->request->post['nodeid'] ) {
+            list($void,$parent_id) = explode('_',$this->request->post['nodeid']);
+            $filter_array['parent_id'] = $parent_id;
+			if($filter_array['subsql_filter']){
+				$filter_array['subsql_filter'] .= " AND i.parent_content_id='".(int)$filter_array['parent_id']."' ";
+			}else{
+				$filter_array['subsql_filter'] = " AND i.parent_content_id='".(int)$filter_array['parent_id']."' ";
+			}
+			$new_level = (integer)$this->request->post["n_level"] + 1;
+		}else{
+			//Add custom params
+            $filter_array['parent_id'] = $new_level = 0;
+			if ( $this->config->get('config_show_tree_data') ) {
+				if($filter_array['subsql_filter']){
+					$filter_array['subsql_filter'] = " i.parent_content_id='0' ";
+				}
+			}
+		}
+
+
+		$leafnodes = $this->config->get('config_show_tree_data') ? $this->acm->getLeafContents() : array();
+
+		$total = $this->acm->getTotalContents($filter_array);
 		$response = new stdClass();
 		$response->page = $filter_grid->getParam('page');
 		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
-		$results = $this->acm->getContents($filter_grid->getFilterData());
+        $response->userdata = (object)array('');
+		$results = $this->acm->getContents($filter_array);
 		$results = !$results ? array() : $results;
-		$multiSelect = $this->acm->getContentsForSelect();
 		$i = 0;
-		if ($multiSelect) {
-			foreach ($results as $result) {
-				$multi_temp = $multiSelect;
-				unset($multi_temp[ $result[ 'content_id' ] ]);
 
-				$response->rows[ $i ][ 'id' ] = $result[ 'content_id' ];
-				$response->rows[ $i ][ 'cell' ] = array( strip_tags(html_entity_decode($result[ 'title' ])),
 
-					$this->html->buildMultiSelectbox(array(
-						'name' => 'parent_content_id[' . $result[ 'content_id' ] . '][]',
-						'options' => $multi_temp,
-						'value' => $result[ 'parent_content_id' ],
-						'attr' => 'size = "3"'
-					)),
-					$this->html->buildCheckbox(array(
-						'name' => 'status[' . $result[ 'content_id' ] . ']',
-						'value' => $result[ 'status' ],
-						'style' => 'btn_switch',
-					)),
-					$this->html->buildInput(array(
-						'name' => 'sort_order[' . $result[ 'content_id' ] . ']',
-						'value' => $result[ 'sort_order' ],
-					)),
-				);
-				$i++;
+		foreach ($results as $result) {
+
+			if ( $this->config->get('config_show_tree_data') ) {
+				$name_lable = '<label style="white-space: nowrap;">'.$result['name'].'</label>';
+			} else {
+				$name_lable = $result['name'];
 			}
+            $parent_content_id = current($result[ 'parent_content_id' ]);
+			$response->rows[ $i ][ 'id' ] = $parent_content_id.'_'.$result[ 'content_id' ];
+			$response->rows[ $i ][ 'cell' ] = array(
+
+				$name_lable,
+				$result[ 'parent_name' ],
+				$this->html->buildCheckbox(array(
+					'name' => 'status[' . $result[ 'content_id' ] . ']',
+					'value' => $result[ 'status' ],
+					'style' => 'btn_switch',
+				)),
+				$this->html->buildInput(array(
+					'name' => 'sort_order[' . $result[ 'content_id' ] . '_'.$parent_content_id.']',
+					'value' => $result[ 'sort_order' ][$parent_content_id],
+				)),
+				'action',
+				 $new_level,
+				 ( $this->request->post['nodeid'] ? $this->request->post['nodeid'] : null ),
+				 ( $result['content_id'] == $leafnodes[$result['content_id']] ? true : false ),
+				false
+			);
+			$i++;
 		}
+
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

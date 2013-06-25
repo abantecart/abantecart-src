@@ -16,9 +16,10 @@ foreach ( $options as $v => $text ) {
     <select name="<?php echo $name ?>" id="<?php echo $id ?>" <?php echo ($style ? 'class="'.$style.'"':''); ?> ovalue="<?php echo $ovalue; ?>" style="opacity: 0;" <?php echo $attr ?> >
 <?php } ?> 
         <?php foreach ( $options as $v => $text ) { ?>
-            <option value="<?php echo $v ?>" <?php echo (in_array((string)$v, $value, true) ? ' selected="selected" ':'') ?> >
-                <?php echo $text ?>
-            </option>
+            <option value="<?php echo $v ?>"
+                <?php echo (in_array((string)$v, $value, true) ? ' selected="selected" ':'') ?>
+                <?php echo (in_array((string)$v, $disabled, true) ? ' disabled="disabled" ':'') ?>
+                ><?php echo $text ?></option>
         <?php } ?>
     </select>
 <?php if( stristr( $attr, 'multiple' ) !== false ) { ?>

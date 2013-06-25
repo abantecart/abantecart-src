@@ -996,6 +996,7 @@ class MultiSelectboxHtmlElement extends HtmlElement {
 				'id' => $this->element_id,
 				'value' => $this->value,
 				'options' => $this->options,
+                'disabled' => $this->disabled,
 				'attr' => $this->attr . ' multiple="multiple" ',
 				'required' => $this->required,
 				'style' => $this->style,
@@ -1074,7 +1075,10 @@ class CheckboxGroupHtmlElement extends HtmlElement {
 class FileHtmlElement extends HtmlElement {
 
 	public function getHtml() {
-		$registry = $this->data['registry'];
+        /**
+         * @var $registry Registry
+         */
+        $registry = $this->data['registry'];
 	
 		$this->view->batchAssign(
 			array(
