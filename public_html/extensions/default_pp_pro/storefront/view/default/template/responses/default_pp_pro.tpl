@@ -15,7 +15,7 @@
     </tr>
     <tr>
       <td><?php echo $entry_cc_start_date; ?></td>
-      <td><?php echo $cc_start_date_month; ?> / <?php echo $cc_start_date_year.$text_start_date; ?></td>
+      <td><?php echo $cc_start_date_month; ?> / <?php echo $cc_start_date_year. '<br/>' .$text_start_date; ?></td>
     </tr>
     <tr>
       <td><?php echo $entry_cc_expire_date; ?></td>
@@ -27,7 +27,7 @@
     </tr>
     <tr>
       <td><?php echo $entry_cc_issue; ?></td>
-      <td><?php echo $cc_issue.$text_issue; ?></td>
+      <td><?php echo $cc_issue. '<br/>' .$text_issue; ?></td>
     </tr>
   </table>
 
@@ -58,7 +58,7 @@ function confirmSubmit() {
 			if (data.error) {
 				alert(data.error);
 				
-				$('#paypal_button').attr('disabled', '');
+				$('#paypal_button').removeAttr('disabled');
 			}
 			
 			$('.wait').remove();

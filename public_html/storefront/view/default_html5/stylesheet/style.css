@@ -3832,3 +3832,7 @@ table th {
 	border-bottom: 1px dashed #999;
 	padding: 0 0 5px 0
 }
+
+.ws_nowrap {
+	white-space: nowrap;
+}
