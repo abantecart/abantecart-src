@@ -172,7 +172,7 @@ class AContentManager {
 		return true;
 	}
 
-	public function editContentField($content_id, $field, $value) {
+	public function editContentField($content_id, $field, $value, $parent_content_id=null) {
 		$content_id = (int)$content_id;
 		$language_id = (int)$this->session->data['content_language_id'];
 		if(!$language_id){
@@ -181,30 +181,16 @@ class AContentManager {
 
 		switch ($field) {
 			case 'status' :
+				$this->db->query("UPDATE " . DB_PREFIX . "contents
+									SET `status` = '" . (int)$value . "'
+									WHERE content_id = '" . (int)$content_id . "'");
+				break;
 			case 'sort_order' :
+				$this->db->query("UPDATE " . DB_PREFIX . "contents
+								SET `sort_order` = '" . (int)$value . "'
+								WHERE content_id = '" . (int)$content_id . "'
+									AND parent_content_id='".(int)$parent_content_id."'");
 
-				if(!is_array($value)){
-					break;
-				}
-                $query = "SELECT parent_content_id
-                                FROM " . DB_PREFIX . "contents
-                                WHERE content_id='" . $content_id . "'";
-                $result = $this->db->query($query);
-                if ($result->num_rows) {
-                    foreach($result->rows as $row){
-                        $parents[] = $row[ 'parent_content_id' ];
-                    }
-                }
-
-				foreach($value as $option_id=>$sort_order){
-					list($void,$parent_id) = explode('_',$option_id);
-                    if(in_array($parent_id,$parents)){
-                    $this->db->query("UPDATE " . DB_PREFIX . "contents
-                                        SET `sort_order` = '" . (int)$sort_order . "'
-                                        WHERE content_id = '" . $content_id . "'
-                                            AND parent_content_id='".$parent_id."'");
-                    }
-				}
 				break;
 			case 'title' :
 			case 'name' :
@@ -482,7 +468,7 @@ class AContentManager {
 				:
 				$this->getContents(array(), '', $store_id, false);
 		if(!$without_top){
-			return array_merge(array( '0' => $this->language->get('text_top_level')),$this->buildContentTree($all,0,1));
+			return array_merge(array( '0_0' => $this->language->get('text_top_level')),$this->buildContentTree($all,0,1));
 		}else{
 			return $this->buildContentTree($all);
 		}

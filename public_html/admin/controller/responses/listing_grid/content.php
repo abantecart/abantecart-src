@@ -47,7 +47,7 @@ class ControllerResponsesListingGridContent extends AController {
 			if($filter_array['subsql_filter']){
 				$filter_array['subsql_filter'] .= " AND i.parent_content_id='".(int)$filter_array['parent_id']."' ";
 			}else{
-				$filter_array['subsql_filter'] = " AND i.parent_content_id='".(int)$filter_array['parent_id']."' ";
+				$filter_array['subsql_filter'] = " i.parent_content_id='".(int)$filter_array['parent_id']."' ";
 			}
 			$new_level = (integer)$this->request->post["n_level"] + 1;
 		}else{
@@ -55,6 +55,8 @@ class ControllerResponsesListingGridContent extends AController {
             $filter_array['parent_id'] = $new_level = 0;
 			if ( $this->config->get('config_show_tree_data') ) {
 				if($filter_array['subsql_filter']){
+					$filter_array['subsql_filter'] .= " AND i.parent_content_id='0' ";
+				}else{
 					$filter_array['subsql_filter'] = " i.parent_content_id='0' ";
 				}
 			}
@@ -88,12 +90,12 @@ class ControllerResponsesListingGridContent extends AController {
 				$name_lable,
 				$result[ 'parent_name' ],
 				$this->html->buildCheckbox(array(
-					'name' => 'status[' . $result[ 'content_id' ] . ']',
+					'name' => 'status[' . $parent_content_id.'_'. $result[ 'content_id' ].']',
 					'value' => $result[ 'status' ],
 					'style' => 'btn_switch',
 				)),
 				$this->html->buildInput(array(
-					'name' => 'sort_order[' . $result[ 'content_id' ] . '_'.$parent_content_id.']',
+					'name' => 'sort_order[' . $parent_content_id.'_'. $result[ 'content_id' ].']',
 					'value' => $result[ 'sort_order' ][$parent_content_id],
 				)),
 				'action',
@@ -179,7 +181,7 @@ class ControllerResponsesListingGridContent extends AController {
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
 				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/content'),
-					'reset_value' => true
+					   'reset_value' => true
 				));
 		}
 		$allowedFields = array( 'name', 'title', 'description', 'keyword', 'store_id', 'sort_order', 'status', 'parent_content_id' );
@@ -196,8 +198,13 @@ class ControllerResponsesListingGridContent extends AController {
 						return $dd->dispatch();
 					}
 				}
+				if($field=='sort_order'){
+					// NOTE: grid quicksave ids are not the same as id from form quick save request!
+					list($void,$parent_content_id) = explode('_',key($value));
+					$value = current($value);
+				}
 
-				$this->acm->editContentField($this->request->get[ 'id' ], $field, $value);
+				$this->acm->editContentField($this->request->get[ 'id' ], $field, $value, $parent_content_id);
 			}
 			return null;
 		}
@@ -205,9 +212,9 @@ class ControllerResponsesListingGridContent extends AController {
 		//request sent from jGrid. ID is key of array
 		foreach ($this->request->post as $field => $value) {
 			if (!in_array($field, $allowedFields)) continue;
-			foreach ($value as $k => $v) {
-				$this->acm->editContentField($k, $field, $v);
-			}
+			// NOTE: grid quicksave ids are not the same as id from form quick save request!
+			list($parent_content_id,$content_id) = explode('_',key($value));
+			$this->acm->editContentField($content_id, $field, current($value),$parent_content_id);
 		}
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
