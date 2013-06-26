@@ -135,6 +135,8 @@ class ControllerPagesToolPackageInstaller extends AController {
 				if($this->request->post['package_url']){
 					$package_info['package_url'] = $this->request->post['package_url'];
 					$this->redirect($this->html->getSecureURL('tool/package_installer/download'));
+				}else{
+					$this->session->data['error'] .= '<br>Error: ' . getTextUploadError($this->request->files['package_file']['error']);
 				}
 			}
 		}
