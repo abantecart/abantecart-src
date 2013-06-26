@@ -133,19 +133,22 @@ class ControllerResponsesListingGridContent extends AController {
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					foreach ($ids as $id) {
+						if(is_int(strpos($id,'_'))){
+							list($void,$content_id) = explode('_',$id);
+						}
 
-						if ($this->config->get('config_account_id') == $id) {
+						if ($this->config->get('config_account_id') == $content_id) {
 							$this->response->setOutput($this->language->get('error_account'));
 							return null;
 						}
 
-						if ($this->config->get('config_checkout_id') == $id) {
+						if ($this->config->get('config_checkout_id') == $content_id) {
 							$this->response->setOutput($this->language->get('error_checkout'));
 							return null;
 						}
 
 
-						$this->acm->deleteContent($id);
+						$this->acm->deleteContent($content_id);
 					}
 				break;
 			case 'save':
