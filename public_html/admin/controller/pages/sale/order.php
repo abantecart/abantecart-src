@@ -200,6 +200,11 @@ class ControllerPagesSaleOrder extends AController {
 
     	$this->document->setTitle( $this->language->get('heading_title') );
 
+		if ( has_value($this->session->data['error']) ) {
+			$this->data['error']['warning'] = $this->session->data['error'];
+			unset($this->session->data['error']);
+		}
+
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
 			$this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');

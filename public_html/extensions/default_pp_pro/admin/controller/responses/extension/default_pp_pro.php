@@ -117,17 +117,6 @@ class ControllerResponsesExtensionDefaultPpPro extends AController {
 				$payment_method_data = unserialize($order_info['payment_method_data']);
 				$already_captured = has_value($payment_method_data['captured_amount']) ? (float) $payment_method_data['captured_amount'] : 0;
 
-
-
-				/*
-				if ( $amount == $payment_method_data['PAYMENTINFO_0_AMT'] ) {
-					$completetype = 'Complete';
-
-				} else {
-					$completetype = 'NotComplete';
-				}
-				*/
-
 				$capture_data = array(
 					'METHOD'			=> 'DoCapture',
 					'VERSION'			=> '98.0',
@@ -159,16 +148,10 @@ class ControllerResponsesExtensionDefaultPpPro extends AController {
 				curl_close($curl);
 
 				$result = $this->_parse_http_query($response);
-				//var_dump($payment_method_data['PAYMENTINFO_0_TRANSACTIONID']);
-				//echo_array($result);exit;
 
 				if ( $result['ACK'] != 'Success' ) {
-					//$json['error'] = true;
-					//$json['message'] = $result['L_LONGMESSAGE0'];
 					$this->session->data['error'] = $result['L_LONGMESSAGE0'];
 				} else {
-					//$json['error'] = false;
-					//$json['message'] = $this->language->get('text_capture_success');
 
 					$this->loadModel('extension/default_pp_pro');
 
@@ -187,25 +170,16 @@ class ControllerResponsesExtensionDefaultPpPro extends AController {
 					));
 
 					$this->session->data['success'] = $this->language->get('text_capture_success');
-					//$this->redirect($this->html->getSecureURL('sale/order/details', '&order_id=' . (int) $this->request->get['order_id']));
 
 				}
 
 
 			} else {
 				// no payment method data, funds can not be captured
-				//$json['error'] = true;
-				//$json['message'] = $this->language->get('error_no_payment_method_data');
 				$this->session->data['error'] = $this->language->get('error_no_payment_method_data');
 			}
-
-
-
-
 		} else {
 			// no order_id
-			//$json['error'] = true;
-			//$json['message'] = $this->language->get('error_no_order_id');
 			$this->session->data['error'] = $this->language->get('error_no_order_id');
 		}
 
@@ -252,8 +226,6 @@ class ControllerResponsesExtensionDefaultPpPro extends AController {
 
 					if ( $amount > $payment_amount ) {
 						// Amount limit exceeded
-						//$json['error'] = true;
-						//$json['message'] = $this->language->get('error_amount_exceeded');
 						$this->session->data['error'] = $this->language->get('error_amount_exceeded');
 
 					} else {
@@ -265,7 +237,6 @@ class ControllerResponsesExtensionDefaultPpPro extends AController {
 							'PWD'				=> html_entity_decode($this->config->get('default_pp_pro_password'), ENT_QUOTES, 'UTF-8'),
 							'SIGNATURE'			=> html_entity_decode($this->config->get('default_pp_pro_signature'), ENT_QUOTES, 'UTF-8'),
 							'TRANSACTIONID'		=> $trasaction_id,
-							//'CURRENCYCODE'		=> $payment_method_data['PAYMENTINFO_0_CURRENCYCODE'],
 						);
 
 						if ( $amount == $payment_amount ) {
@@ -295,19 +266,10 @@ class ControllerResponsesExtensionDefaultPpPro extends AController {
 						curl_close($curl);
 
 						$result = $this->_parse_http_query($response);
-						//echo_array($result);exit;
 
 						if ( $result['ACK'] != 'Success' ) {
-							//$json['error'] = true;
-							//$json['message'] = $result['L_LONGMESSAGE0'];
 							$this->session->data['error'] = $result['L_LONGMESSAGE0'];
-
 						} else {
-							//$json['error'] = false;
-							//$json['message'] = $this->language->get('text_refund_success');
-
-
-
 							// update order_totals
 							$this->loadModel('extension/default_pp_pro');
 							$this->model_extension_default_pp_pro->processRefund(array(
@@ -317,8 +279,6 @@ class ControllerResponsesExtensionDefaultPpPro extends AController {
 							));
 
 							$payment_method_data['refunded_amount'] = $already_refunded + (float) $result['GROSSREFUNDAMT'];
-							//$json['refunded_amount'] = $this->currency->format($payment_method_data['refunded_amount'], $order_info['currency'], $order_info['value']);
-							//$payment_method_data['PAYMENTINFO_0_PAYMENTSTATUS'] = ( $payment_method_data['refunded_amount'] < $payment_method_data['PAYMENTINFO_0_AMT'] ) ? 'Partially Refunded' : 'Refunded';
 
 							$this->model_extension_default_pp_pro->updatePaymentMethodData($this->request->get['order_id'], $payment_method_data);
 							$this->model_extension_default_pp_pro->addOrderHistory(array(
@@ -329,29 +289,22 @@ class ControllerResponsesExtensionDefaultPpPro extends AController {
 							));
 
 							$this->session->data['success'] = $this->language->get('text_refund_success');
-							//$this->redirect($this->html->getSecureURL('sale/order/details', '&order_id=' . (int) $this->request->get['order_id']));
 						}
 					}
 
 				} else {
 					// no payment method data, funds can not be captured
-					//$json['error'] = true;
-					//$json['message'] = $this->language->get('error_no_payment_method_data');
 					$this->session->data['error'] = $this->language->get('error_no_payment_method_data');
 				}
 
 
 			} else {
 				// no amount
-				//$json['error'] = true;
-				//$json['message'] = $this->language->get('error_empty_amount');
 				$this->session->data['error'] = $this->language->get('error_empty_amount');
 			}
 
 		} else {
 			// no order_id
-			//$json['error'] = true;
-			//$json['message'] = $this->language->get('error_no_order_id');
 			$this->session->data['error'] = $this->language->get('error_no_order_id');
 		}
 

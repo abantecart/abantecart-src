@@ -25,14 +25,10 @@
 class ExtensionDefaultPpPro extends Extension {
 
 	public function onControllerPagesSaleOrder_UpdateData() {
-		//echo_array($this->baseObject->data['order_info']);
-
-		//echo_array($this->baseObject->data['order_info']['payment_method_data']);exit;
 
 		if ( has_value($this->baseObject->data['order_info']['payment_method_data']) ) {
 
 			$payment_method_data = unserialize($this->baseObject->data['order_info']['payment_method_data']);
-			//echo_array($payment_method_data);//exit;
 
 			if ( has_value($payment_method_data['payment_method']) && $payment_method_data['payment_method'] == 'default_pp_pro' ) {
 				$this->baseObject->loadLanguage('default_pp_pro/default_pp_pro');
@@ -40,44 +36,18 @@ class ExtensionDefaultPpPro extends Extension {
 				// for some reason after language loading 'button_invoice' html object is removed from baseObject->data
 				$this->baseObject->view->assign('button_invoice', $this->baseObject->html->buildButton(array('name' => 'btn_invoice', 'text' => $this->baseObject->language->get('text_invoice'), 'style' => 'button3',)));
 
-				$payment_action = strtolower($payment_method_data['PAYMENTACTION']);
-
 				$data = array();
 
 				$data['text_payment_status'] = $this->baseObject->language->get('text_payment_status');
 
 				if ( strtolower($payment_method_data['PAYMENTACTION']) == 'authorization' ) {
-					//$data['payment_status'] = $this->baseObject->language->get('text_pending_authorization');
 					// show "capture" form
 					$this->_get_capture_form($data, $payment_method_data);
 				} else {
 					// show "refund" form
-					//$this->_get_refund_form($data, $payment_method_data);
-				}
-
-
-
-
-
-
-
-				/*
-				if ( has_value($payment_method_data['PAYMENTINFO_0_PENDINGREASON']) ) {
-					$data['pending_reason'] = '(' . $this->baseObject->language->get('text_reason') . ' ' . $payment_method_data['PAYMENTINFO_0_PENDINGREASON'] . ')';
-				}
-
-				$data['error_service_unavailable'] = $this->baseObject->language->get('error_service_unavailable');
-				if ( ($payment_status == 'pending' && $payment_method_data['PAYMENTINFO_0_PENDINGREASON'] == 'authorization') || has_value($payment_method_data['captured_transaction_id']) ) {
-					// show "capture" form
-					$this->_get_capture_form($data, $payment_method_data);
-
-				} elseif ( $payment_status == 'completed' ) {
-
-					// show "refund" form/button
 					$this->_get_refund_form($data, $payment_method_data);
-
 				}
-				*/
+
 			}
 		}
 	}
@@ -112,10 +82,6 @@ class ExtensionDefaultPpPro extends Extension {
 		} else {
 			$data['payment_status'] = $this->baseObject->language->get('text_completed');
 		}
-
-		//$data['text_already_captured'] = $this->baseObject->language->get('text_already_captured');
-
-		//$data['captured_amount'] = $this->baseObject->currency->format($captured_amount, $this->baseObject->data['currency']['code'], $this->baseObject->data['order_info']['value']);
 
 		if ( $captured_amount > 0 ) {
 

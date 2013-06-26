@@ -44,9 +44,12 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 		$this->load->model('checkout/order');
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 		
-		$data[ 'cc_owner' ] = HtmlElementFactory::create(array( 'type' => 'input',
-		                                                       'name' => 'cc_owner',
-		                                                       'value' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'] ));
+		$data[ 'cc_owner' ] = HtmlElementFactory::create(array(
+			'type' => 'input',
+			'name' => 'cc_owner',
+			'value' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
+			'style' => 'input-medium'
+		));
 		$data[ 'cc_owner' ] = $data[ 'cc_owner' ]->getHtml();
 
 		$cards = array('Visa' => 'Visa',
@@ -60,15 +63,18 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 			     'name' => 'cc_type',
 			     'value' => 0,
 			     'options' => $cards,
-			     'style' => 'short'
+			     'style' => 'short input-small'
 			));
 		$data[ 'cc_type' ] = $data[ 'cc_type' ]->getHtml();
 
 
 
-        $data[ 'cc_number' ] = HtmlElementFactory::create(array( 'type' => 'input',
-		                                                       'name' => 'cc_number',
-		                                                       'value' => '' ));
+        $data[ 'cc_number' ] = HtmlElementFactory::create(array(
+			'type' => 'input',
+			'name' => 'cc_number',
+			'value' => '',
+			'style' => 'input-medium'
+		));
 		$data[ 'cc_number' ] = $data[ 'cc_number' ]->getHtml();
 
 		$months = array();
@@ -80,7 +86,7 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 			     'name' => 'cc_expire_date_month',
 			     'value' => sprintf('%02d', date('m')),
 			     'options' => $months,
-			     'style' => 'short'
+			     'style' => 'short input-small'
 			));
 		$data[ 'cc_expire_date_month' ] = $data[ 'cc_expire_date_month' ]->getHtml();
 
@@ -93,7 +99,7 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 		                                                                 'name' => 'cc_expire_date_year',
 		                                                                 'value' => sprintf('%02d', date('Y') + 1),
 		                                                                 'options' => $years,
-		                                                                 'style' => 'short' ));
+		                                                                 'style' => 'short input-small' ));
 		$data[ 'cc_expire_date_year' ] = $data[ 'cc_expire_date_year' ]->getHtml();
 
         $data[ 'cc_start_date_month' ] = HtmlElementFactory::create(
@@ -101,7 +107,7 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 			     'name' => 'cc_start_date_month',
 			     'value' => sprintf('%02d', date('m')),
 			     'options' => $months,
-			     'style' => 'short'
+			     'style' => 'short input-small'
 			));
 		$data[ 'cc_start_date_month' ] = $data[ 'cc_start_date_month' ]->getHtml();
 
@@ -113,7 +119,7 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 		                                                                 'name' => 'cc_start_date_year',
 		                                                                 'value' => sprintf('%02d', date('Y') ),
 		                                                                 'options' => $years,
-		                                                                 'style' => 'short' ));
+		                                                                 'style' => 'short input-small' ));
 		$data[ 'cc_start_date_year' ] = $data[ 'cc_start_date_year' ]->getHtml();
 
         $data[ 'cc_cvv2' ] = HtmlElementFactory::create(array( 'type' => 'input',
@@ -143,7 +149,7 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 		$data[ 'submit' ] = HtmlElementFactory::create(array( 'type' => 'button',
 			                                                  'name' => 'paypal_button',
 		                                                      'text' => $this->language->get('button_confirm'),
-			                                                  'style' => 'button',
+			                                                  'style' => 'button btn-orange',
 		                                               ));
 		$data[ 'submit' ] = $data[ 'submit' ]->getHtml();
 		$this->view->batchAssign( $data );

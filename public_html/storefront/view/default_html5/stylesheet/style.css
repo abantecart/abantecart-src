@@ -3833,6 +3833,10 @@ table th {
 	padding: 0 0 5px 0
 }
 
+.ws_nowrap {
+	white-space: nowrap;
+}
+
 
 
 /*information block (content)*/
