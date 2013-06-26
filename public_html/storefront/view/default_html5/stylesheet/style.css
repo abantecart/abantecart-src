@@ -3832,3 +3832,56 @@ table th {
 	border-bottom: 1px dashed #999;
 	padding: 0 0 5px 0
 }
+
+
+
+/*information block (content)*/
+
+
+.headerdetails ul.nav.info_links_header li.dropdown {
+	border: 1px solid #f2f2f2;
+	padding: 7px 20px;
+	display: inline-block;
+	margin-right: 15px;
+	text-transform: uppercase;
+	background-color: #ffffff;
+}
+
+.info_links_footer .dropup-menu {
+    bottom: 100%;
+    top: auto !important;
+}
+
+.info_links_footer ul li a:hover {
+	color: #3A3A3A;
+	background-color: #969BA4;
+}
+
+.info_links_footer ul {
+	background: none repeat scroll 0 0 #3A3A3A;
+	border-color: #969BA4;
+}
+
+/* position the arrow downwards, pointing to the menu */
+
+.info_links_footer .dropup-menu:before {
+    border-bottom: none !important;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid rgba(0, 0, 0, 0.2);
+    left: 7px;
+	display: none !important;
+    top: 100%;
+}
+
+.info_links_footer .dropup-menu:after {
+	border-bottom: none !important;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: none !important;
+    left: 10px;
+    top: 100%;
+    left: 6px;
+
+}
+

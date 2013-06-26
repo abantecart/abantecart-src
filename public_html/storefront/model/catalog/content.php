@@ -20,6 +20,7 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+/** @noinspection PhpUndefinedClassInspection */
 class ModelCatalogContent extends Model {
 	public function getContent($content_id) {
 		$content_id = (int)$content_id;
@@ -70,12 +71,12 @@ class ModelCatalogContent extends Model {
 				$sql .= " AND i2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
 			}
 
-			$sql .= "ORDER BY i.sort_order, LCASE(id.title) ASC";
+			$sql .= "ORDER BY i.parent_content_id, i.sort_order, LCASE(id.title) ASC";
 			$query = $this->db->query($sql);
 
 			if($query->num_rows){
 				foreach($query->rows as $row){
-						$output[$row['content_id']] = $row;
+						$output[] = $row;
 				}
 			}
 			$this->cache->set('contents',$output, $this->config->get('storefront_language_id'), $this->config->get('config_store_id') );
@@ -83,4 +84,3 @@ class ModelCatalogContent extends Model {
 		return $output;
 	}
 }
-?>
