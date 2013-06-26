@@ -242,7 +242,8 @@ class ModelSaleCustomer extends Model {
 		$query = $this->db->query("SELECT DISTINCT *,
 									(SELECT COUNT(order_id)
 										FROM " . $this->db->table("orders") . "
-										WHERE customer_id = '" . (int)$customer_id . "') as orders_count
+										WHERE customer_id = '" . (int)$customer_id . "'
+												AND order_status_id>0) as orders_count
 								   FROM " . $this->db->table("customers") . "
 								   WHERE customer_id = '" . (int)$customer_id . "'");
 
