@@ -37,12 +37,11 @@ class Migration_Oscmax implements Migration {
 
 	function __destruct() {
 	}
-
+	public function getName() {
+		return 'OSCMax';
+	}
     public function getVersion() {
-        return '';
-    }
-    public function getName() {
-        return 'OsCommerce Max';
+        return '2.2RC2';
     }
 
 	public function getCategories() {
@@ -84,7 +83,9 @@ class Migration_Oscmax implements Migration {
 		$this->db = mysql_connect($this->data[ 'db_host' ], $this->data[ 'db_user' ], $this->data[ 'db_password' ], true);
 		mysql_select_db($this->data[ 'db_name' ], $this->db);
 
-		$sql_query = "SELECT manufacturers_id, manufacturers_name as name, CONCAT('manufacturers/',manufacturers_image) as image
+		$sql_query = "SELECT manufacturers_id as manufacturer_id,
+							manufacturers_name as name,
+							CONCAT('manufacturers/',manufacturers_image) as image
                       FROM " . $this->data[ 'db_prefix' ] . "manufacturers
                       ORDER BY manufacturers_name";
 		$items = mysql_query($sql_query, $this->db);
@@ -95,7 +96,7 @@ class Migration_Oscmax implements Migration {
 
 		$result = array();
 		while ($item = mysql_fetch_assoc($items)) {
-			$result[ $item[ 'manufacturers_id' ] ] = $item;
+			$result[ $item[ 'manufacturer_id' ] ] = $item;
 		}
 
 		mysql_free_result($items);
@@ -240,10 +241,114 @@ class Migration_Oscmax implements Migration {
 	}
 
 	public function getOrders() {
-				
+
+	}
+
+	public function getProductOptions(){
+		$this->error_msg = "";
+		$this->db = mysql_connect($this->data[ 'db_host' ], $this->data[ 'db_user' ], $this->data[ 'db_password' ], true);
+		mysql_select_db($this->data[ 'db_name' ], $this->db);
+		//options
+		$sql = "SELECT DISTINCT pa.products_id as product_id, pa.options_id as product_option_id,
+								`products_options_name` as product_option_name,
+								`products_options_track_stock` as subtract,
+								  CASE WHEN `products_options_type`=0 THEN 'S'
+									WHEN `products_options_type`=4 THEN 'C'
+								    WHEN `products_options_type`=3 THEN 'R' END as element_type,
+								  `products_options_length`,
+								  `products_options_comment`,
+								  po.products_options_sort_order as sort_order,
+								  0 as products_text_attributes_id
+				FROM products_options po
+				LEFT JOIN products_options_types pot ON pot.products_options_types_id = po.products_options_type AND pot.language_id=1
+				RIGHT JOIN products_attributes pa	ON pa.options_id = po.products_options_id
+				WHERE po.language_id=1
+				UNION
+				SELECT DISTINCT ptae.products_id,
+					NULL as product_option_id,
+					products_text_attributes_name as product_option_name,
+					0 as subtract,
+					'I' as element_type,
+					'' as products_options_length,
+					'' as products_options_comment,
+					'-1' as sort_order,
+					pta.products_text_attributes_id
+				FROM products_text_attributes_enabled ptae
+				LEFT JOIN products_text_attributes pta ON pta.products_text_attributes_id = ptae.products_text_attributes_id
+				LEFT JOIN products p ON p.products_id = ptae.products_id
+				WHERE ptae.products_id>0 AND products_text_attributes_name<>''
+		order by product_id, product_option_id, sort_order";
+		$items = mysql_query($sql, $this->db);
+		if (!$items) {
+			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			return false;
+		}
+
+		$result = array();
+		while ($item = mysql_fetch_assoc($items)) {
+			$result['product_options'][] = $item;
+		}
+
+		mysql_free_result($items);
+
+		//option values
+		$sql = "SELECT DISTINCT pa.price_prefix, pa.options_values_price as price, pa.products_id as product_id, povpo.products_options_id as product_option_id,
+							povpo.products_options_values_id as product_option_value_id,
+							pov.products_options_values_name as product_option_value_name,
+		0 as products_text_attributes_id
+						FROM products_options_values_to_products_options povpo
+						LEFT JOIN products_options_values pov
+							ON pov.products_options_values_id = povpo.products_options_values_id AND pov.language_id=1
+						RIGHT JOIN products_attributes pa
+							ON pa.options_values_id = povpo.products_options_values_id AND pa.options_id = povpo.products_options_id
+		UNION
+		SELECT DISTINCT '' as price_prefix, '' as price, ptae.products_id as product_id,
+			NULL as product_option_id,
+			NULL as product_option_value_id,
+			'' as product_option_value_name, pta.products_text_attributes_id
+		FROM products_text_attributes_enabled ptae
+		LEFT JOIN products_text_attributes pta ON pta.products_text_attributes_id = ptae.products_text_attributes_id
+		LEFT JOIN products p ON p.products_id = ptae.products_id
+		WHERE ptae.products_id>0 AND products_text_attributes_name<>''
+		order by product_id, product_option_id";
+		$items = mysql_query($sql, $this->db);
+		if (!$items) {
+			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			return false;
+		}
+
+
+		while ($item = mysql_fetch_assoc($items)) {
+			$result['product_option_values'][] = $item;
+		}
+
+		mysql_free_result($items);
+
+
+		//products option values
+		$sql = "SELECT *
+				FROM products_attributes";
+		$items = mysql_query($sql, $this->db);
+		if (!$items) {
+			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			return false;
+		}
+
+
+		while ($item = mysql_fetch_assoc($items)) {
+			$result['product_attributes'][] = $item;
+		}
+
+		mysql_free_result($items);
+
+		mysql_close($this->db);
+
+		return $result;
 	}
 
 	public function getErrors() {
 		return $this->error_msg;
 	}
+
+
 }
