@@ -24,6 +24,7 @@ if (!defined('DIR_CORE')) {
  * @property  AExtensionManager $extension_manager
  * @property  AMessage $messages
  * @property  ALoader $load
+ * @property  ASession $session
  * @property  ExtensionsApi $extensions
  * @property  AUser $user
  * @property  ALanguageManager $language
@@ -65,6 +66,7 @@ class APackageManager {
 	/**
 	 * @param string $url
 	 * @param boolean $save
+	 * @param string $new_file_name
 	 * @return boolean|array
 	 */
 	public function getRemoteFile($url, $save = true, $new_file_name = '') {
@@ -244,7 +246,13 @@ class APackageManager {
 
 				$result = rename($this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_dir'] . '/code/' . $core_filename, DIR_ROOT . '/' . $core_filename);
 				if ($result) {
-					chmod(DIR_ROOT . '/' . $core_filename,0777);
+					// for index.php do not set 777 permissions because hosting providers will ban it
+					if(pathinfo($core_filename,PATHINFO_FILENAME)=='index.php'){
+						chmod(DIR_ROOT . '/' . $core_filename,0644);
+					}else{
+						chmod(DIR_ROOT . '/' . $core_filename,0777);
+					}
+
 					$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
 					$install_upgrade_history->addRows(array('date_added' => date("Y-m-d H:i:s", time()),
 						'name' => 'Upgrade core file: ' . $core_filename,
@@ -349,6 +357,7 @@ class APackageManager {
 	 * @param string $ftp_password
 	 * @param string $ftp_host
 	 * @param string $ftp_path
+	 * @param int $ftp_port
 	 * @return bool
 	 */
 	public function checkFTP($ftp_user, $ftp_password = '', $ftp_host = '', $ftp_path = '', $ftp_port=21) {
@@ -443,6 +452,7 @@ class APackageManager {
 	/**
 	 * Function for moving directory or file via ftp-connection
 	 *
+	 * @param $fconnect
 	 * @param string $local local path to file or directory
 	 * @param string $remote_file remote file  or directory name
 	 * @param string $remote_dir
@@ -505,7 +515,12 @@ class APackageManager {
 					$this->ftp_put_dir($conn_id, $src_dir . "/" . $file, $dst_dir . "/" . $file); // recursive part
 				} else {
 					ftp_put($conn_id, $dst_dir . "/" . $file, $src_dir . "/" . $file, FTP_BINARY); // put the files
-					ftp_chmod($conn_id, 0777, $dst_dir . "/" . $file);
+					// for index.php do not set 777 permissions because hosting providers will ban it
+					if(pathinfo($file,PATHINFO_BASENAME)=='index.php'){
+						ftp_chmod($conn_id, 0644, $dst_dir . "/" . $file);
+					}else{
+						ftp_chmod($conn_id, 0777, $dst_dir . "/" . $file);
+					}
 				}
 			}
 		}
@@ -596,6 +611,7 @@ class APackageManager {
 						$file = $this->session->data['package_info']['tmp_dir'] . $package_dirname . '/code/extensions/' . $extension_id . '/' . (string)$config->upgrade->trigger;
 						$file = !file_exists($file) ? DIR_EXT . $extension_id . '/' . (string)$config->upgrade->sql : $file;
 						if (file_exists($file)) {
+							/** @noinspection PhpIncludeInspection */
 							include($file);
 						}
 					}
@@ -634,6 +650,7 @@ class APackageManager {
 		if (isset($config->upgrade->trigger)) {
 			$file = $package_tmpdir . $package_dirname . '/' . (string)$config->upgrade->trigger;
 			if (is_file($file)) {
+				/** @noinspection PhpIncludeInspection */
 				include($file);
 			}
 		}
@@ -685,6 +702,7 @@ class APackageManager {
 					        $this->session->data['package_info']['ftp_path'] . 'core/');
             ftp_close($fconnect);
 		}
+		return true;
 	}
 
 	/**
@@ -692,16 +710,17 @@ class APackageManager {
 	 * @param string $path path to directory or file
 	 * @param string $filemode
 	 * @param string $dirmode
-	 * @return
+	 * @return void
 	 */
 	public function chmod_R($path, $filemode, $dirmode) {
 		$path = (string)$path;
 		if (is_dir($path)) {
 			if (!chmod($path, $dirmode)) {
 				$dirmode_str = decoct($dirmode);
-				// print "Failed applying filemode '$dirmode_str' on directory '$path'\n";
-				//  print "  `-> the directory '$path' will be skipped from recursive chmod\n";
-				return;
+				$error_text = "Notice: Failed applying filemode '".$dirmode_str."' on directory '".$path."'.\n";
+				$error_text .= "  `-> the directory '".$path."' will be skipped from recursive chmod.\n";
+				$this->log->write($error_text);
+				return null;
 			}
 			$dh = opendir($path);
 			while (($file = readdir($dh)) !== false) {
@@ -714,17 +733,21 @@ class APackageManager {
 		} else {
 			//skip if does not exists
 			if (!file_exists($path)) {
-				return;
+				return null;
 			}
 
 			if (is_link($path)) {
-				// print "link '$path' is skipped\n";
-				return;
+				$this->log->write('Notice: Recursive chmod. Symlink '.$path.' is skipped.');
+				return null;
+			}
+			// for index.php do not set 777 permissions because hosting providers will ban it
+			if(pathinfo($path,PATHINFO_BASENAME)=='index.php' && $filemode==777){
+				$filemode = 644;
 			}
 			if (!chmod($path, $filemode)) {
 				$filemode_str = decoct($filemode);
-				//print "Failed applying filemode '$filemode_str' on file '$path'\n";
-				return;
+				$this->log->write("Notice: Failed applying filemode ".$filemode_str." on file ".$path."\n");
+				return null;
 			}
 		}
 	}
