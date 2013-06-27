@@ -95,15 +95,11 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		                                                  'text' => $this->language->get('button_back'),
 		                                                  'style' => 'button',
 		                                                  'href' => $back ));
-		$data[ 'back' ] = $data[ 'back' ]->getHtml();
-
 		$data[ 'submit' ] = HtmlElementFactory::create(array( 'type' => 'button',
 			                                                  'name' => 'authorizenet_button',
 		                                                      'text' => $this->language->get('button_confirm'),
 			                                                  'style' => 'button',
 		                                               ));
-		$data[ 'submit' ] = $data[ 'submit' ]->getHtml();
-
 		$this->view->batchAssign($data);
 
 		//init controller data

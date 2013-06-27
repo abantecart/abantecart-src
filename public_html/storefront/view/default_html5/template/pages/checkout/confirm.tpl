@@ -136,9 +136,15 @@
 
 	<?php echo $this->getHookVar('order_attributes'); ?>
 
-	<div class="container cart_total">
-		<div class="pull-right">
-			<div class="cart-info span4 pull-right">
+	<div class="row-fluid confirm_total">
+	
+		<div class="span5 offset1">
+			<?php echo $this->getHookVar('payment_pre'); ?>
+			<div id="payment"><?php echo $payment; ?></div>
+			<?php echo $this->getHookVar('payment_post'); ?>	
+		</div>
+	
+		<div class="cart-info span5 offset1">
 				<table class="table table-striped table-bordered">
 					<?php
 					foreach ($totals as $total) {
@@ -153,10 +159,6 @@
 						</tr>
 					<?php } ?>
 				</table>
-				<?php echo $this->getHookVar('payment_pre'); ?>
-				<div id="payment"><?php echo $payment; ?></div>
-				<?php echo $this->getHookVar('payment_post'); ?>
-			</div>
 		</div>
 	</div>
 
