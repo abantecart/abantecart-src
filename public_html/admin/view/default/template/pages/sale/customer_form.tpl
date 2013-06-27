@@ -19,7 +19,7 @@
 	<div class="success"><?php echo $success; ?></div>
 <?php } ?>
 
-<script>
+<script type="text/javascript"><!--
 
 	function getZones(id, country_id, zone_id) {
 		if (!zone_id) {
@@ -57,7 +57,7 @@
 		selectObj.parent().find('span').text(selected_name);
 
 	}
-</script>
+//--></script>
 
 <div class="contentBox">
 	<div class="cbox_tl">
@@ -244,7 +244,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- <div class="fieldset"> -->
 				<div class="buttons align_center">
 					<button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
 					<a class="btn_standard" href="<?php echo $cancel; ?>"><?php echo $form['cancel']; ?></a>
@@ -352,8 +351,6 @@
 		}
 	}
 
-	//--></script>
-<script type="text/javascript"><!--
 	jQuery(function () {
 		$.tabs('.vtabs a');
 		$('.aform').show();
