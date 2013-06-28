@@ -24,13 +24,15 @@
 				<span class="help-inline"></span>
 			</div>
 		</div>
+		<?php if( $accepted_cards['Maestro'] ) { ?>
 		<div class="control-group ">
 			<label class="control-label"><?php echo $entry_cc_start_date; ?></label>
 			<div class="controls ws_nowrap">
-				<?php echo $cc_start_date_month; ?> / <?php echo $cc_start_date_year. '<br/>' .$text_start_date; ?>
+				<?php echo $cc_start_date_month; ?> / <?php echo $cc_start_date_year. '&nbsp;' .$text_start_date; ?>
 				<span class="help-inline"></span>
 			</div>
 		</div>
+		<?php } ?>
 		<div class="control-group ">
 			<label class="control-label"><?php echo $entry_cc_expire_date; ?></label>
 			<div class="controls ws_nowrap">
@@ -45,24 +47,30 @@
 				<span class="help-inline"></span>
 			</div>
 		</div>
+		<?php if( $accepted_cards['Maestro'] ) { ?>
 		<div class="control-group ">
 			<label class="control-label"><?php echo $entry_cc_issue; ?></label>
 			<div class="controls">
-				<?php echo $cc_issue. '<br/>' .$text_issue; ?>
+				<?php echo $cc_issue. '&nbsp;' .$text_issue; ?>
 				<span class="help-inline"></span>
 			</div>
 		</div>
-	</fieldset>
-</div>
+		<?php } ?>
 
-
-<div class="control-group">
-	<div class="controls">
-		<div class="span4 mt20 mb40">
-			<div class="pull-left"><?php echo $back; ?></div>
-			<div class="pull-right"><?php echo $submit; ?></div>
+		<div class="control-group">
+	    	<div class="controls">
+	    		<button id="<?php echo $submit->name ?>" class="btn btn-orange pull-right" title="<?php echo $submit->text ?>" type="submit">
+	    		    <i class="icon-ok icon-white"></i>
+	    		    <?php echo $submit->text; ?>
+	    		</button>
+				<a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn mr10" title="<?php echo $back->text ?>">
+				    <i class="icon-arrow-left"></i>
+				    <?php echo $back->text ?>
+				</a>
+		    </div>
 		</div>
-	</div>
+		
+	</fieldset>
 </div>
 
 

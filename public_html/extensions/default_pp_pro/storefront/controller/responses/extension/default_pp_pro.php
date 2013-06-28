@@ -24,23 +24,6 @@ if ( !defined ( 'DIR_CORE' )) {
 class ControllerResponsesExtensionDefaultPPPro extends AController {
 	public function main() {
     	$this->loadLanguage('default_pp_pro/default_pp_pro');
-		
-		$data['text_credit_card'] = $this->language->get('text_credit_card');
-		$data['text_start_date'] = $this->language->get('text_start_date');
-		$data['text_issue'] = $this->language->get('text_issue');
-		$data['text_wait'] = $this->language->get('text_wait');
-
-		$data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
-		$data['entry_cc_type'] = $this->language->get('entry_cc_type');
-		$data['entry_cc_number'] = $this->language->get('entry_cc_number');
-		$data['entry_cc_start_date'] = $this->language->get('entry_cc_start_date');
-		$data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
-		$data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
-		$data['entry_cc_issue'] = $this->language->get('entry_cc_issue');
-		
-		$data['button_confirm'] = $this->language->get('button_confirm');
-		$data['button_back'] = $this->language->get('button_back');
-
 		$this->load->model('checkout/order');
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
@@ -50,14 +33,16 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			'value' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
 			'style' => 'input-medium'
 		));
-		$data[ 'cc_owner' ] = $data[ 'cc_owner' ]->getHtml();
 
-		$cards = array('Visa' => 'Visa',
-			'MasterCard' => 'MasterCard',
-			'Maestro' => 'Maestro',
-            //'Discover'=>'Discover',
-           // 'Alex'=>'Alex'
-		);
+		//load accepted card types
+		$cards = array();
+		foreach ( unserialize($this->config->get('default_pp_pro_creditcard_types')) as $card) {
+			if ($card) {
+				$cards[$card] = $card;
+			}
+		}	
+		$data[ 'accepted_cards' ] = $cards;
+
         $data[ 'cc_type' ] = HtmlElementFactory::create(
 			array( 'type' => 'selectbox',
 			     'name' => 'cc_type',
@@ -65,9 +50,6 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			     'options' => $cards,
 			     'style' => 'short input-small'
 			));
-		$data[ 'cc_type' ] = $data[ 'cc_type' ]->getHtml();
-
-
 
         $data[ 'cc_number' ] = HtmlElementFactory::create(array(
 			'type' => 'input',
@@ -75,7 +57,6 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			'value' => '',
 			'style' => 'input-medium'
 		));
-		$data[ 'cc_number' ] = $data[ 'cc_number' ]->getHtml();
 
 		$months = array();
 		for ($i = 1; $i <= 12; $i++) {
@@ -88,7 +69,6 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			     'options' => $months,
 			     'style' => 'short input-small'
 			));
-		$data[ 'cc_expire_date_month' ] = $data[ 'cc_expire_date_month' ]->getHtml();
 
         $today = getdate();
 		$years = array();
@@ -100,8 +80,6 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		                                                                 'value' => sprintf('%02d', date('Y') + 1),
 		                                                                 'options' => $years,
 		                                                                 'style' => 'short input-small' ));
-		$data[ 'cc_expire_date_year' ] = $data[ 'cc_expire_date_year' ]->getHtml();
-
         $data[ 'cc_start_date_month' ] = HtmlElementFactory::create(
 			array( 'type' => 'selectbox',
 			     'name' => 'cc_start_date_month',
@@ -109,7 +87,6 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			     'options' => $months,
 			     'style' => 'short input-small'
 			));
-		$data[ 'cc_start_date_month' ] = $data[ 'cc_start_date_month' ]->getHtml();
 
 		$years = array();
 		for ($i = $today[ 'year' ]-10; $i < $today[ 'year' ] + 2; $i++) {
@@ -120,7 +97,6 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		                                                                 'value' => sprintf('%02d', date('Y') ),
 		                                                                 'options' => $years,
 		                                                                 'style' => 'short input-small' ));
-		$data[ 'cc_start_date_year' ] = $data[ 'cc_start_date_year' ]->getHtml();
 
         $data[ 'cc_cvv2' ] = HtmlElementFactory::create(array( 'type' => 'input',
 		                                                     'name' => 'cc_cvv2',
@@ -128,30 +104,27 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		                                                     'style' => 'short',
 		                                                     'attr' => ' size="3" maxlength="4" '
 		                                                ));
-		$data[ 'cc_cvv2' ] = $data[ 'cc_cvv2' ]->getHtml();
         $data[ 'cc_issue' ] = HtmlElementFactory::create(array( 'type' => 'input',
 		                                                     'name' => 'cc_issue',
 		                                                     'value' => '',
 		                                                     'style' => 'short',
 		                                                     'attr' => ' size="1" maxlength="2" '
 		                                                ));
-		$data[ 'cc_issue' ] = $data[ 'cc_issue' ]->getHtml();
 
 		$back = $this->request->get[ 'rt' ] != 'checkout/guest_step_3' ? $this->html->getSecureURL('checkout/payment')
 				: $this->html->getSecureURL('checkout/guest_step_2');
+				
 		$data[ 'back' ] = HtmlElementFactory::create(array( 'type' => 'button',
 		                                                  'name' => 'back',
 		                                                  'text' => $this->language->get('button_back'),
 		                                                  'style' => 'button',
 		                                                  'href' => $back ));
-		$data[ 'back' ] = $data[ 'back' ]->getHtml();
 
 		$data[ 'submit' ] = HtmlElementFactory::create(array( 'type' => 'button',
 			                                                  'name' => 'paypal_button',
 		                                                      'text' => $this->language->get('button_confirm'),
 			                                                  'style' => 'button btn-orange',
 		                                               ));
-		$data[ 'submit' ] = $data[ 'submit' ]->getHtml();
 
 		$this->view->batchAssign( $data );
 		$this->processTemplate('responses/default_pp_pro.tpl' );

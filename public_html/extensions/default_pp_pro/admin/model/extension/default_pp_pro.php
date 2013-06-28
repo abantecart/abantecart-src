@@ -56,4 +56,14 @@ class ModelExtensionDefaultPpPro extends Model {
 									comment = '" . $this->db->escape($data['comment']) . "',
 									date_added = NOW()");
 	}
+	
+	public function getCreditCardTypes() {
+		return array( 
+			array( 'name' => 'Visa', 				'code' => 'Visa'),
+			array( 'name' => 'MasterCard', 			'code' => 'MasterCard'),
+			array( 'name' => 'Maestro', 			'code' => 'Maestro'),
+			array( 'name' => 'Discover', 			'code' => 'Discover'),
+			array( 'name' => 'American Express',	'code' => 'American Express'),		
+		);
+	}	
 }

@@ -68,6 +68,10 @@
 		<key>default_pp_pro_transaction_1</key>
 		<value><![CDATA[ Sale ]]></value>
 	</definition>
+	<definition>	
+		<key>default_pp_pro_creditcard_types</key>
+		<value><![CDATA[Accepted Credit Card Types:<br /><span class="help">Check with PayPal what credit cards your can accept for your country and select from the list.</span>]]></value>
+	</definition>	
 	<definition>
 		<key>default_pp_pro_order_status_id</key>
 		<value><![CDATA[Order Status:<br /><span class="help">Order status to be set after customer's order finished based on set Transaction Method</span>]]></value>

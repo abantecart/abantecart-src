@@ -48,8 +48,14 @@ final class ALoader {
 	
 	public function model($model, $mode = '') {
 
+		//force mode alows to load models for ALL extensions to bypass extension enabled only status
+		$force = '';
+		if ($mode == 'force') {
+			$force = 'all';
+		}
+		
         $file  = DIR_APP_SECTION . 'model/' . $model . '.php';
-        if ( $this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('M', $model) ) {
+        if ( $this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('M', $model, $force) ) {
             if ( is_file($file) ) {
                 $warning = new AWarning("Extension <b>{$result['extension']}</b> override model <b>$model</b>" );
                 $warning->toDebug();

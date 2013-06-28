@@ -600,13 +600,17 @@ class ExtensionsApi {
 
 	/**
 	 * check if resource ( model, language, template ) is an extension resource
-	 * (only enabled extensions can be checked)
 	 * @param  $resource_type - resource type - M, L, T  ( model, language, template )
 	 * @param  $route - resource route to check
+	 * @param  $ext_status - extension mode for resource route to check (enabled and all)
 	 * @return array|bool - false if not found, array with extension name and file name if found
 	 */
-	public function isExtensionResource($resource_type, $route) {
-
+	public function isExtensionResource($resource_type, $route, $ext_status = '') {
+		if ( empty($ext_status) ) {
+			$ext_status = 'enabled';
+		}
+		
+		$source = array();
 		$registry = Registry::getInstance();
 		if (!$registry->has('config')) return false;
 
@@ -634,30 +638,39 @@ class ExtensionsApi {
 		}
 
 		$section = trim((IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE), '/');
-		foreach ($this->enabled_extensions as $ext) {
-			$f = DIR_EXT . $ext . $file;
-			if (in_array($route, $source[$ext][$section])) {
-				if (is_file($f)) {
-					return array(
-						'file' => $f,
-						'extension' => $ext,
-						'base_path' => $file
-					);
-				}
-				if ($resource_type == 'T') {
-					//check default template
-					$f = DIR_EXT . $ext . (IS_ADMIN ? DIR_EXT_ADMIN
-							: DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $route;
-					if (is_file($f)) {
-						return array(
-							'file' => $f,
-							'extension' => $ext,
-							'base_path' => (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $route
-						);
-					}
-				}
-			}
-		}
+		
+		//list only enabled extensions or all depending on status flag
+		$extensions_lookup_list = array();
+		if ($ext_status == 'enabled' ) {
+			$extensions_lookup_list = $this->enabled_extensions;
+		} else if ( $ext_status == 'all' ) {
+			$extensions_lookup_list = $this->extensions_dir;
+		}			
+
+		foreach ($extensions_lookup_list as $ext) {
+		    $f = DIR_EXT . $ext . $file;
+		    if ( $ext_status == 'all' || in_array($route, $source[$ext][$section]) ) {
+		    	if (is_file($f)) {
+		    		return array(
+		    			'file' => $f,
+		    			'extension' => $ext,
+		    			'base_path' => $file
+		    		);
+		    	}
+		    	if ($resource_type == 'T') {
+		    		//check default template
+		    		$f = DIR_EXT . $ext . (IS_ADMIN ? DIR_EXT_ADMIN
+		    				: DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $route;
+		    		if (is_file($f)) {
+		    			return array(
+		    				'file' => $f,
+		    				'extension' => $ext,
+		    				'base_path' => (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $route
+		    			);
+		    		}
+		    	}
+		    }
+		}	
 
 		//we can include language file from all extensions too
 		if ($resource_type == 'L') {

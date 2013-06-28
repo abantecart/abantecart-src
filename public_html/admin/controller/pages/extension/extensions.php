@@ -342,7 +342,8 @@ class ControllerPagesExtensionExtensions extends AController {
 					// if options need to extract from db
 					$data['options'] = $item['options'];
 					if ($item['model_rt'] != '') {
-						$this->loadModel($item['model_rt']);
+						//force to load models even before extension is enabled
+						$this->loadModel($item['model_rt'], 'force');
 						$model = $this->{'model_' . str_replace("/", "_", $item['model_rt'])};
 						$method_name = $item['method'];
 						if (method_exists($model, $method_name)) {
