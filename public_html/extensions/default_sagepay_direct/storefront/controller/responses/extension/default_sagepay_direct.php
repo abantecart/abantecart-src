@@ -29,25 +29,8 @@ class ControllerResponsesExtensionDefaultSagepayDirect extends AController {
 
 		$this->loadLanguage('default_sagepay_direct/default_sagepay_direct');
 		
-		$template_data['text_credit_card'] = $this->language->get('text_credit_card');
-		$template_data['text_start_date'] = $this->language->get('text_start_date');
-		$template_data['text_issue'] = $this->language->get('text_issue');
-		$template_data['text_wait'] = $this->language->get('text_wait');
-		
-		$template_data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
-		$template_data['entry_cc_type'] = $this->language->get('entry_cc_type');
-		$template_data['entry_cc_number'] = $this->language->get('entry_cc_number');
-		$template_data['entry_cc_start_date'] = $this->language->get('entry_cc_start_date');
-		$template_data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
-		$template_data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
-		$template_data[ 'entry_cc_cvv2' ] = $this->language->get('entry_cc_cvv2');
-		$template_data[ 'entry_cc_cvv2_short' ] = $this->language->get('entry_cc_cvv2_short');
 		$template_data['cc_cvv2_help_url'] = $this->html->getURL('r/extension/default_sagepay_direct/cvv2_help');
-		$template_data['entry_cc_issue'] = $this->language->get('entry_cc_issue');
-		
-		$template_data['button_confirm'] = $this->language->get('button_confirm');
-		$template_data['button_back'] = $this->language->get('button_back');
-		
+
 		$template_data['cards'] = array();
 
 		$template_data['cards'][] = array(
