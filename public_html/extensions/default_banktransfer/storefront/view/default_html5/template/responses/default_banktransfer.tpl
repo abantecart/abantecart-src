@@ -4,20 +4,20 @@
 </div>
 <?php } ?>
 
-<div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;"><?php echo $text_instructions; ?><br />
+<div class="checkout_details"><?php echo $text_instructions; ?><br />
   <?php echo $instructions; ?>
   <br />
   <br />
   <?php echo $text_payment; ?>
 </div>
 
-<a class="btn pull-left" onclick="location = '<?php echo str_replace('&', '&amp;', $back); ?>'">
+<a class="btn pull-left" href="<?php echo str_replace('&', '&amp;', $back); ?>">
      <i class="icon-arrow-left"></i>
     <?php echo $button_back; ?>
 </a>
 <?php if (!$minimum_notmet) { ?>	
 <a id="checkout" class="btn ml10 pull-right btn-orange">
-    <i class="icon-shopping-cart icon-white"></i>
+    <i class="icon-ok icon-white"></i>
     <?php echo $button_confirm; ?>
 </a>
 <?php } ?>

@@ -57,7 +57,7 @@
 		</div>
 		<?php } ?>
 
-		<div class="control-group">
+		<div class="control-group action-buttons">
 	    	<div class="controls">
 	    		<button id="<?php echo $submit->name ?>" class="btn btn-orange pull-right" title="<?php echo $submit->text ?>" type="submit">
 	    		    <i class="icon-ok icon-white"></i>
@@ -84,7 +84,7 @@ function confirmSubmit() {
 		beforeSend: function() {
 			$('#paypal_button').attr('disabled', 'disabled');
 			
-			$('#paypal').before('<div class="wait"><img src="<?php echo $template_dir; ?>image/loading_1.gif" alt="" /> <?php echo $text_wait; ?></div>');
+			$('#paypal .action-buttons').before('<div class="wait alert alert-info"><img src="<?php echo $template_dir; ?>image/loading_1.gif" alt="" /> <?php echo $text_wait; ?></div>');
 		},
 		success: function(data) {
 			if (data.error) {

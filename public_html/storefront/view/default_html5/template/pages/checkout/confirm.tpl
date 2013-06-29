@@ -138,28 +138,29 @@
 
 	<div class="row-fluid confirm_total">
 	
-		<div class="span5 offset1">
+		<div class="cart-info span5">
+			<table class="table table-striped table-bordered">
+			    <?php
+			    foreach ($totals as $total) {
+			    	?>
+			    	<tr>
+			    		<td>
+			    			<span class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span>
+			    		</td>
+			    		<td>
+			    			<span class="bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span>
+			    		</td>
+			    	</tr>
+			    <?php } ?>
+			</table>
+		</div>
+		
+		<div class="span5 offset1 payment_confirmation">
 			<?php echo $this->getHookVar('payment_pre'); ?>
 			<div id="payment"><?php echo $payment; ?></div>
 			<?php echo $this->getHookVar('payment_post'); ?>	
 		</div>
-	
-		<div class="cart-info span5 offset1">
-				<table class="table table-striped table-bordered">
-					<?php
-					foreach ($totals as $total) {
-						?>
-						<tr>
-							<td>
-								<span class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span>
-							</td>
-							<td>
-								<span class="bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span>
-							</td>
-						</tr>
-					<?php } ?>
-				</table>
-		</div>
+		
 	</div>
 
 </div>

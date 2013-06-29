@@ -27,7 +27,7 @@
 		<div class="control-group ">
 			<label class="control-label"><?php echo $entry_cc_start_date; ?></label>
 			<div class="controls ws_nowrap">
-				<?php echo $cc_start_date_month; ?> / <?php echo $cc_start_date_year. '<br/>' .$text_start_date; ?>
+				<?php echo $cc_start_date_month; ?> / <?php echo $cc_start_date_year. ' ' .$text_start_date; ?>
 				<span class="help-inline"></span>
 			</div>
 		</div>
@@ -48,23 +48,26 @@
 		<div class="control-group ">
 			<label class="control-label"><?php echo $entry_cc_issue; ?></label>
 			<div class="controls">
-				<?php echo $cc_issue. '<br/>' .$text_issue; ?>
+				<?php echo $cc_issue. ' ' .$text_issue; ?>
 				<span class="help-inline"></span>
 			</div>
 		</div>
+		
+		<div class="control-group action-buttons">
+	    	<div class="controls">
+	    		<button id="<?php echo $submit->name ?>" class="btn btn-orange pull-right" title="<?php echo $submit->text ?>" type="submit">
+	    		    <i class="icon-ok icon-white"></i>
+	    		    <?php echo $submit->text; ?>
+	    		</button>
+				<a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn mr10" title="<?php echo $back->text ?>">
+				    <i class="icon-arrow-left"></i>
+				    <?php echo $back->text ?>
+				</a>
+		    </div>
+		</div>
+				
 	</fieldset>
 </div>
-
-
-<div class="control-group">
-	<div class="controls">
-		<div class="span4 mt20 mb40">
-			<div class="pull-left"><?php echo $back; ?></div>
-			<div class="pull-right"><?php echo $submit; ?></div>
-		</div>
-	</div>
-</div>
-
 
 <script type="text/javascript"><!--
 function confirmSubmit() {
@@ -76,7 +79,7 @@ function confirmSubmit() {
 		beforeSend: function() {
 			$('#paypal_button').attr('disabled', 'disabled');
 			
-			$('#paypal').before('<div class="wait"><img src="<?php echo $template_dir; ?>image/loading_1.gif" alt="" /> <?php echo $text_wait; ?></div>');
+			$('#paypal .action-buttons').before('<div class="wait alert alert-info"><img src="<?php echo $template_dir; ?>image/loading_1.gif" alt="" /> <?php echo $text_wait; ?></div>');
 		},
 		success: function(data) {
 			if (data.error) {

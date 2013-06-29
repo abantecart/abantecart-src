@@ -8,4 +8,8 @@
     <key>text_note</key>
     <value><![CDATA[Payment needs to be established upon delivery or pickup of the product]]></value>
   </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Please wait!]]></value>
+  </definition>
 </definitions>

@@ -24,10 +24,6 @@ if ( !defined ( 'DIR_CORE' )) {
 class ControllerResponsesExtensionDefaultCheque extends AController {
 	public function main() {
 		$this->loadLanguage('default_cheque/default_cheque');
-
-		$this->view->assign('text_payable', $this->language->get('text_payable'));
-		$this->view->assign('text_address', $this->language->get('text_address'));
-		$this->view->assign('text_payment', $this->language->get('text_payment'));
 		
     	$this->view->batchAssign(  $this->language->getASet() );
 		$this->view->assign('payable', $this->config->get('default_cheque_payable'));
@@ -38,14 +34,12 @@ class ControllerResponsesExtensionDefaultCheque extends AController {
 												  'name' => 'back',
 												  'style' => 'button',
 												  'text' => $this->language->get('button_back') ));
-		$item = $item->getHtml();
 		$this->view->assign('button_back', $item);
 
 		$item = HtmlElementFactory::create( array( 'type' => 'button',
 												  'name' => 'checkout',
 												  'style' => 'button',
 												  'text' => $this->language->get('button_confirm') ));
-		$item = $item->getHtml();
 		$this->view->assign('button_confirm', $item);
 
 		if ($this->request->get['rt'] != 'checkout/guest_step_3') {

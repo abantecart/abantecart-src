@@ -1971,8 +1971,16 @@ a.fancyboxpopup:hover span.viewfancypopup {
 	margin-top: -55%
 }
 
+.checkout_details {
+	background: #F9F9F9; 
+	border: 1px solid #E7E7E7; 
+	padding: 10px; 
+	margin-bottom: 10px;
+}
+
+
 /* Sidebar */
-.sidewidt {
+.sidewidt {	
 	margin-bottom: 40px;
 }
 

@@ -25,14 +25,12 @@ class ControllerResponsesExtensionDefaultCod extends AController {
 		                                          'name' => 'back',
 			                                      'style' => 'button',
 		                                          'text' => $this->language->get('button_back') ));
-		$item = $item->getHtml();
 		$this->view->assign('button_back', $item);
 
 		$item = HtmlElementFactory::create( array( 'type' => 'button',
 		                                          'name' => 'checkout',
 			                                      'style' => 'button btn-primary',
 		                                          'text' => $this->language->get('button_confirm') ));
-		$item = $item->getHtml();
 		$this->view->assign('button_confirm', $item);
 
 		$this->view->assign('continue', $this->html->getSecureURL('checkout/success'));

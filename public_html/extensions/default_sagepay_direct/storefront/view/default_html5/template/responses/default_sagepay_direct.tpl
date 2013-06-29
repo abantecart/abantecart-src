@@ -1,5 +1,5 @@
 <h4 class="heading4"><?php echo $text_credit_card; ?></h4>
-<div id="authorizenet" class="creditcard_box form-horizontal">
+<div id="sagepay" class="creditcard_box form-horizontal">
 	<fieldset>
     <?php echo $this->getHookVar('payment_table_pre'); ?>
 		<div class="control-group <?php if ($error_cc_owner) echo 'error'; ?>">
@@ -33,13 +33,13 @@
 		<div class="control-group <?php if ($error_cc_start_date) echo 'error'; ?>">
 		    <label class="control-label"><?php echo $entry_cc_start_date; ?></label>
 		    <div class="controls">
-		      	<select name="cc_start_date_month" class="input-mini">
+		      	<select name="cc_start_date_month" class="input-small">
 		          <?php foreach ($months as $month) { ?>
 		          <option value="<?php echo $month['value']; ?>"><?php echo $month['text']; ?></option>
 		          <?php } ?>
 		        </select>
 		        /
-		        <select name="cc_start_date_year" class="input-mini">
+		        <select name="cc_start_date_year" class="input-small">
 		          <?php foreach ($year_valid as $year) { ?>
 		          <option value="<?php echo $year['value']; ?>"><?php echo $year['text']; ?></option>
 		          <?php } ?>
@@ -52,13 +52,13 @@
 		<div class="control-group <?php if ($error_cc_expire_date) echo 'error'; ?>">
 		    <label class="control-label"><?php echo $entry_cc_expire_date; ?></label>
 		    <div class="controls">
-		      	<select name="cc_expire_date_month" class="input-mini">
+		      	<select name="cc_expire_date_month" class="input-small">
 		          <?php foreach ($months as $month) { ?>
 		          <option value="<?php echo $month['value']; ?>"><?php echo $month['text']; ?></option>
 		          <?php } ?>
 		        </select>
 		        /
-		        <select name="cc_expire_date_year" class="input-mini">
+		        <select name="cc_expire_date_year" class="input-small">
 		          <?php foreach ($year_expire as $year) { ?>
 		          <option value="<?php echo $year['value']; ?>"><?php echo $year['text']; ?></option>
 		          <?php } ?>
@@ -85,13 +85,13 @@
 
 		<?php echo $this->getHookVar('payment_table_post'); ?>
 
-		<div class="control-group">
+		<div class="control-group action-buttons">
 	    	<div class="controls">
 	    		<button id="sagepay_button" class="btn btn-orange pull-right" type="submit" onclick="confirmSubmit();">
 	    		    <i class="icon-ok icon-white"></i>
 	    		    <?php echo $button_confirm; ?>
 	    		</button>
-				<a onclick="location = '<?php echo str_replace('&', '&amp;', $back); ?>'" class="btn mr10">
+				<a href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn mr10">
 				    <i class="icon-arrow-left"></i>
 				    <?php echo $button_back; ?>
 				</a>
@@ -111,7 +111,7 @@ function confirmSubmit() {
 		beforeSend: function() {
 			$('#sagepay_button').attr('disabled', 'disabled');
 			
-			$('#sagepay').before('<div class="wait"><img src="<?php echo $template_dir; ?>image/loading_1.gif" alt="" /> <?php echo $text_wait; ?></div>');
+			$('#sagepay .action-buttons').before('<div class="wait alert alert-info"><img src="<?php echo $template_dir; ?>image/loading_1.gif" alt="" /> <?php echo $text_wait; ?></div>');
 		},
 		success: function(data) {
 			if (data.ACSURL) {

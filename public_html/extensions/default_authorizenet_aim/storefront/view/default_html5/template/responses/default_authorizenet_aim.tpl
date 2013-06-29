@@ -33,7 +33,7 @@
 
 		<?php echo $this->getHookVar('payment_table_post'); ?>
 
-		<div class="control-group">
+		<div class="control-group action-buttons">
 	    	<div class="controls">
 	    		<button id="authorizenet_button" class="btn btn-orange pull-right" title="<?php echo $submit->text ?>" type="submit">
 	    		    <i class="icon-ok icon-white"></i>
@@ -61,7 +61,7 @@ function confirmSubmit() {
 		dataType: 'json',		
 		beforeSend: function() {
 			$('#authorizenet_button').attr('disabled', 'disabled');
-			$('#authorizenet').before('<div class="wait"><img src="<?php echo $template_dir; ?>image/loading_1.gif" alt="" /> <?php echo $text_wait; ?></div>');
+			$('#authorizenet .action-buttons').before('<div class="wait alert alert-info"><img src="<?php echo $template_dir; ?>image/loading_1.gif" alt="" /> <?php echo $text_wait; ?></div>');
 		},
 		success: function(data) {
 			if (data.error) {

@@ -22,10 +22,7 @@ if ( !defined ( 'DIR_CORE' )) {
 }
 
 class ControllerResponsesExtensionDefaultLiqPay extends AController {
-	public function main() {
-		$data['button_confirm'] = $this->language->get('button_confirm');
-		$data['button_back'] = $this->language->get('button_back');
-		
+	public function main() {		
 		$this->load->model('checkout/order');
 		
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
