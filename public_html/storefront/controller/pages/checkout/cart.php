@@ -52,7 +52,7 @@ class ControllerPagesCheckoutCart extends AController {
 
 			$this->redirect($this->html->getSecureURL('checkout/cart'));
 			
-		} elseif ($this->request->server['REQUEST_METHOD'] == 'POST') {
+		} else if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 
 			//if this is coupon, validate and apply
 			if ( isset($this->request->post['coupon']) && $this->_validateCoupon() ) {
@@ -373,8 +373,8 @@ class ControllerPagesCheckoutCart extends AController {
 
 		    $this->data['button_continue'] = HtmlElementFactory::create( array('name' => 'continue',
 																			   'type' => 'button',
-																			   'text' => $this->language->get('button_continue'),
-																			   'href' =>$this->html->getURL('index/home'),
+																			   'text' =>  $this->language->get('button_continue'),
+																			   'href' =>  $this->html->getURL('index/home'),
 																			   'style' => 'button' ));
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );
