@@ -137,9 +137,9 @@ echo $form['form_open'];
 </div>
 <?php } ?>
 
-<div class="container cart_total">
-	<div class="pull-right">
-		<div class="cart-info totals span4 pull-right">
+<div class="container-fluid cart_total">
+	<div class="row-fluid">
+		<div class="span5 offset7 cart-info totals pull-right">
 			<table class="table table-striped table-bordered">
 				<?php foreach ($totals as $total) { ?>
 				<tr>

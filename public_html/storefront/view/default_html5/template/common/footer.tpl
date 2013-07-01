@@ -50,7 +50,7 @@ Please donate via PayPal to donate@abantecart.com
 //-->
 
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="<?php echo $this->templateResource('/javascript/bootstrap.js'); ?>"></script>
+<script src="<?php echo $this->templateResource('/javascript/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo $this->templateResource('/javascript/respond.min.js'); ?>"></script>
 <script src="<?php echo $this->templateResource('/javascript/application.js'); ?>"></script>
 <script src="<?php echo $this->templateResource('/javascript/bootstrap-tooltip.js'); ?>"></script>

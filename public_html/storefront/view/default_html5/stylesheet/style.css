@@ -817,7 +817,8 @@ ul.categorymenu > li ul > li img {
 }
 
 .thumbnails.list .productdiscrption {
-	margin: 10px 0 25px 0
+	margin: 10px 0 25px 0;
+	text-align: left;
 }
 
 .thumbnails.list .thumbnail .shortlinks {
@@ -1978,6 +1979,11 @@ a.fancyboxpopup:hover span.viewfancypopup {
 	margin-bottom: 10px;
 }
 
+.confirm_total {
+}
+.payment_confirmation {
+	padding-top: 10px;
+}
 
 /* Sidebar */
 .sidewidt {	
@@ -3649,6 +3655,7 @@ a.clostalert {
 }
 
 /* END @media (max-width: 480px) */
+
 
 /* ------------ bootstrap overwrite ------------ */
 textarea:focus,

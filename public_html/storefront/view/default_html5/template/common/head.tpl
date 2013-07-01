@@ -24,17 +24,18 @@
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
 <?php } ?>
 
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300italic,400italic,600,600italic' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css'>
-<link href="<?php echo $this->templateResource('/stylesheet/bootstrap.css'); ?>" rel="stylesheet">
-<link href="<?php echo $this->templateResource('/stylesheet/bootstrap-responsive.css'); ?>" rel="stylesheet">
-<link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300italic,400italic,600,600italic' rel='stylesheet' type='text/css' />
+<link href='http://fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css' />
+<link href="<?php echo $this->templateResource('/stylesheet/bootstrap.min.css'); ?>" rel="stylesheet" media="all" />
+<link href="<?php echo $this->templateResource('/stylesheet/bootstrap-responsive.min.css'); ?>" rel="stylesheet" media="screen" />
+<link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" />
 <link href="<?php echo $this->templateResource('/stylesheet/flexslider.css'); ?>" type="text/css" media="screen" rel="stylesheet"  />
 <link href="<?php echo $this->templateResource('/stylesheet/jquery.fancybox.css'); ?>" rel="stylesheet">
-<link href="<?php echo $this->templateResource('/stylesheet/cloud-zoom.css'); ?>" rel="stylesheet">
-<link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet">
+<link href="<?php echo $this->templateResource('/stylesheet/cloud-zoom.css'); ?>" rel="stylesheet" />
+<link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet" />
+<link href="<?php echo $this->templateResource('/stylesheet/print.css'); ?>" rel="stylesheet" type="text/css" media="print" />
 <?php if ( $template_debug_mode ) {  ?>
-<link href="<?php echo $this->templateResource('/stylesheet/template_debug.css'); ?>" rel="stylesheet">
+<link href="<?php echo $this->templateResource('/stylesheet/template_debug.css'); ?>" rel="stylesheet" />
 <?php } ?>
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
