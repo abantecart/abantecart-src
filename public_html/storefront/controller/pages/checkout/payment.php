@@ -160,7 +160,7 @@ class ControllerPagesCheckoutPayment extends AController {
 			
 			//# Add storefront icon if available
 			$icon = $ext_setgs[$result['key']."_payment_storefront_icon"];
-			if ( has_value( $icon ) ) {
+			if ( has_value( $icon ) && isset($method_data[ $result[ 'key' ] ])) {
 				$icon_data = $this->model_checkout_extension->getSettingImage($icon);
 				$icon_data['image'] =  $icon;
 				$method_data[ $result[ 'key' ] ]['icon'] = $icon_data;

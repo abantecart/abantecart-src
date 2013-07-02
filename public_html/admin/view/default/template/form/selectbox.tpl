@@ -17,8 +17,8 @@ foreach ( $options as $v => $text ) {
 <?php } ?> 
         <?php foreach ( $options as $v => $text ) { ?>
             <option value="<?php echo $v ?>"
-                <?php echo (in_array((string)$v, $value, true) ? ' selected="selected" ':'') ?>
-                <?php echo (in_array((string)$v, $disabled, true) ? ' disabled="disabled" ':'') ?>
+                <?php echo (in_array((string)$v, (array)$value, true) ? ' selected="selected" ':'') ?>
+                <?php echo (in_array((string)$v, (array)$disabled, true) ? ' disabled="disabled" ':'') ?>
                 ><?php echo $text ?></option>
         <?php } ?>
     </select>
