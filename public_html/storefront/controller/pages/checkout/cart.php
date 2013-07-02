@@ -331,7 +331,7 @@ class ControllerPagesCheckoutCart extends AController {
 				$zone_id = $shipping_address['zone_id'];
 			}
 			// use default address of customer for estimate form whe shipping address is unknown
-			if(!$zone_id){
+			if(!$zone_id && $this->customer->isLogged()){
 				$this->loadModel('account/address');
 				$payment_address = $this->model_account_address->getAddress($this->customer->getAddressId());
 				$postcode = $payment_address['postcode'];
