@@ -284,7 +284,7 @@ class ModelSaleCustomer extends Model {
 		$sql .= " FROM " . $this->db->table("customers") . " c
 				LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";
 		if ( $mode != 'total_only'){
-			$sql .= " LEFT JOIN " . $this->db->table("orders") . " o ON (c.customer_id = o.customer_id) ";
+			$sql .= " LEFT JOIN " . $this->db->table("orders") . " o ON (c.customer_id = o.customer_id AND o.order_status_id>0) ";
 		}
 
 		$implode = array();
