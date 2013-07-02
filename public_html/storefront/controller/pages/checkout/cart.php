@@ -323,13 +323,22 @@ class ControllerPagesCheckoutCart extends AController {
 			}
 			//try to get shipping address details if we have them
 			$country_id = $this->config->get('config_country_id');
-			if ($this->session->data[ 'shipping_address_id' ]) {
+			if ($this->session->data[ 'shipping_address_id' ]	) {
 				$this->loadModel('account/address');
 				$shipping_address = $this->model_account_address->getAddress($this->session->data[ 'shipping_address_id' ]);
 				$postcode = $shipping_address['postcode'];
 				$country_id = $shipping_address['country_id'];
-				$zone_id = $shipping_address['zone_id'];				
+				$zone_id = $shipping_address['zone_id'];
 			}
+			// use default address of customer for estimate form whe shipping address is unknown
+			if(!$zone_id){
+				$this->loadModel('account/address');
+				$payment_address = $this->model_account_address->getAddress($this->customer->getAddressId());
+				$postcode = $payment_address['postcode'];
+				$country_id = $payment_address['country_id'];
+				$zone_id = $payment_address['zone_id'];
+			}
+
 			if ($this->request->post['postcode']) {
 				$postcode = $this->request->post['postcode'];
 			}
@@ -350,7 +359,7 @@ class ControllerPagesCheckoutCart extends AController {
 													  	'value' => $postcode,
 													  	'style' => 'short',
 														));
-														 										
+
 			$this->data['form_estimate']['country_zones'] = $form->getFieldHtml( array(
 														'type' => 'zones',
 													 	'name' => 'country',
