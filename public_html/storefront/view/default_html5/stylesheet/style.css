@@ -1652,18 +1652,20 @@ ul.reveiw ul.rate {
 
 div.cart-info.coupon-estimate {
 	margin-bottom: 20px;
-	border: 1px solid #E7E7E7;
-	border-top: none;
-	border-right: none;
+	border:none;
 }
 
 .cart-info .coupon {
-	width: 65%;
-	min-width: 278px;
-
+	width: 64%;
+	min-width: 27px;
+	border: 1px solid #E7E7E7;
+	margin-right: -1px;
 }
 
-.cart-info .coupon  table {
+.cart-info .coupon>table,
+.cart-info .coupon>table th,
+.cart-info .estimate>table,
+.cart-info .estimate>table th{
 	border: none !important;
 }
 
@@ -1674,7 +1676,9 @@ div.cart-info.coupon-estimate {
 
 .cart-info .estimate {
 	width: 35%;
-	min-width: 278px;
+	min-width: 276px;
+	border: 1px solid #E7E7E7;
+	float:left;
 }
 
 .cart-module .cart-heading {
@@ -2617,6 +2621,12 @@ a.clostalert {
 }
 
 /* Responcive Section */
+@media (min-width: 1200px) {
+	.cart-info .estimate{
+		float: right;
+	}
+}
+
 @media (max-width: 1200px) {
 	.headerdetails {
 		padding: 40px 0 40px 0 !important;
@@ -2660,6 +2670,7 @@ a.clostalert {
 		text-align: right;
 	}
 
+
 }
 
 @media (min-width: 1024px) and (max-width: 1200px){
@@ -2672,6 +2683,9 @@ a.clostalert {
 		float: left;
 	}
 	.addresses .new_address{
+		float: right;
+	}
+	.cart-info .estimate{
 		float: right;
 	}
 }
@@ -3198,7 +3212,7 @@ a.clostalert {
 	}
 
 	.cart-info .estimate, .cart-info .coupon {
-		width: 100%;
+		width: 99%;
 	}
 
 	.cart-info .estimate table {
@@ -3390,6 +3404,27 @@ a.clostalert {
 		display: inline-block;
 		width: 88%;
 		float: left !important;
+	}
+
+	.cart-info .estimate table {
+		border-left: none;
+	}
+
+	.cart-info #coupon_coupon {
+		display:block;
+	}
+	.cart-info .coupon table {
+		border-right: 1px solid #E7E7E7 !important;
+	}
+
+	.cart-info .coupon button, .cart-info .estimate button {
+		margin-top: 10px;
+	}
+
+	.cart-info.totals a {
+		float: none;
+		text-align: center !important;
+		margin-bottom: 10px;
 	}
 
 }

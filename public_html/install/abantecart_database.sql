@@ -1216,6 +1216,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_cart_ajax',1),
 ('checkout','total_order_maximum',0),
 ('checkout','total_order_minimum',0),
+('checkout','config_shipping_tax_estimate',1),
+('checkout','config_coupon_on_cart_page',1),
 
 -- Appearance
 

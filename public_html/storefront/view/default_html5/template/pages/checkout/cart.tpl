@@ -62,7 +62,7 @@ echo $form['form_open'];
 	</table>
 </div>
 <div class="container">
-	<div class="pull-right mb20">
+	<div class=" pull-right mb20">
 		<?php echo $this->getHookVar('pre_top_cart_buttons'); ?>
 		<?php if ($form['checkout']) { ?>
 
@@ -83,8 +83,9 @@ echo $form['form_open'];
 </form>
 
 <?php if ($estimates_enabled || $coupon_status) { ?>
-<div class="cart-info coupon-estimate container-fluid">
-		<div class="pull-left coupon"  >
+<div class="cart-info coupon-estimate container-fluid row-fluid">
+	<?php if ($coupon_status) { ?>
+		<div class=" pull-left coupon">
 			<table class="table table-striped "><tr>
 					<?php if ($coupon_status) { ?>
 								<th align="center"><?php echo $text_coupon_codes ?></th>
@@ -100,8 +101,9 @@ echo $form['form_open'];
 			</tr>
 			</table>
 		</div>
-			<?php if ($estimates_enabled) { ?>
-			<div class="pull-left estimate">
+	<?php }
+	if ($estimates_enabled) { ?>
+			<div class="estimate">
 				<table class="table table-striped"><tr>
 			<th align="center"><?php echo $text_estimate_shipping_tax ?></th></tr><tr>
 			<td>

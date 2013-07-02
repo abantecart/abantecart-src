@@ -305,21 +305,22 @@ class ControllerPagesCheckoutCart extends AController {
 			}	
 			
 			//prepare coupon display
-			$this->view->assign( 'coupon_status', $this->config->get('coupon_status') );
-			$action = $this->html->getSecureURL('checkout/cart');
-			$coupon_form = $this->dispatch('blocks/coupon_codes', array('action' => $action));
-			$this->view->assign('coupon_form', $coupon_form->dispatchGetOutput() );
+			if($this->config->get('config_coupon_on_cart_page')){
+				$this->view->assign( 'coupon_status', $this->config->get('coupon_status') );
+				$action = $this->html->getSecureURL('checkout/cart');
+				$coupon_form = $this->dispatch('blocks/coupon_codes', array('action' => $action));
+				$this->view->assign('coupon_form', $coupon_form->dispatchGetOutput() );
+			}
 
-		    $form = new AForm();
-		    $form->setForm(array( 'form_name' => 'estimate' ));
-            $this->data['form_estimate']['form_open'] = $form->getFieldHtml(
-													array(	'type' => 'form',
-															'name' => 'estimate',
-															'action' => $this->html->getSecureURL('checkout/cart')));
-
-			//candidate to be in settings
-			$this->data['estimates_enabled'] = true;
-
+			if($this->config->get('config_shipping_tax_estimate')){
+				$form = new AForm();
+				$form->setForm(array( 'form_name' => 'estimate' ));
+				$this->data['form_estimate']['form_open'] = $form->getFieldHtml(
+														array(	'type' => 'form',
+																'name' => 'estimate',
+																'action' => $this->html->getSecureURL('checkout/cart')));
+				$this->data['estimates_enabled'] = true;
+			}
 			//try to get shipping address details if we have them
 			$country_id = $this->config->get('config_country_id');
 			if ($this->session->data[ 'shipping_address_id' ]) {
