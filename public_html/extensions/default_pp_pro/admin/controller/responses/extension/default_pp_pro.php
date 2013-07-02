@@ -44,7 +44,7 @@ class ControllerResponsesExtensionDefaultPpPro extends AController {
 			'PAYMENTREQUEST_0_PAYMENTACTION'  => 'Sale',
 			'PAYMENTREQUEST_0_AMT'            => '10.00',
 			'PAYMENTREQUEST_0_CURRENCYCODE'   => 'USD',
-			'RETURNURL'		 => $this->html->getSecureURL('r/extension/default_pp_pro/callback'),
+			'RETURNURL'		 => $this->html->getCatalogURL('r/extension/default_pp_pro/callback'),
 			'CANCELURL'		 => $this->html->getSecureURL('extension/extensions/edit', '&extension=default_pp_pro'),
 		);
 

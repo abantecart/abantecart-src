@@ -196,7 +196,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		}
  
  		$response_data = array();
- 
+
 		parse_str($response, $response_data);
 		$json = array();
 		if (($response_data['ACK'] == 'Success') || ($response_data['ACK'] == 'SuccessWithWarning')) {
@@ -227,8 +227,13 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
         	$json['error'] = $response_data['L_LONGMESSAGE0'];
         }
 
+
 		
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));
+	}
+	//TODO: needs to write method that receive IPN-notifications from paypal about changes of status of order
+	public function callback(){
+
 	}
 }

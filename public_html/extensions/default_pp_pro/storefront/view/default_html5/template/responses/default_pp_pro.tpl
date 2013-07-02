@@ -59,14 +59,15 @@
 
 		<div class="control-group action-buttons">
 	    	<div class="controls">
-	    		<button id="<?php echo $submit->name ?>" class="btn btn-orange pull-right" title="<?php echo $submit->text ?>" type="submit">
+				<a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn mr10" title="<?php echo $back->text ?>">
+					<i class="icon-arrow-left"></i>
+					<?php echo $back->text ?>
+				</a>
+				<button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>" type="submit">
 	    		    <i class="icon-ok icon-white"></i>
 	    		    <?php echo $submit->text; ?>
 	    		</button>
-				<a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn mr10" title="<?php echo $back->text ?>">
-				    <i class="icon-arrow-left"></i>
-				    <?php echo $back->text ?>
-				</a>
+
 		    </div>
 		</div>
 		
