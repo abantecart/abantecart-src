@@ -146,7 +146,7 @@ if($form['fields']['store_id']){
 		});
 	});
 	var sort_order_clone = $('#sort_orders').find('span.text_element').clone();
-	console.log(sort_order_clone.html());
+
 	$('#contentFrm_parent_content_id\\[\\]').change(function(){
 		var old_values = {};
 		var that = this;
