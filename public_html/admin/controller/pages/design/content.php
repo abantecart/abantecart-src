@@ -325,6 +325,7 @@ class ControllerPagesDesignContent extends AController {
 		$multiSelect = $this->acm->getContentsForSelect(false);
 
 		$selected_parents = array();
+		$this->data['parent_content_id'] = (array)$this->data['parent_content_id'];
 		foreach ($this->data['parent_content_id'] as $parent_id) {
 			foreach ($multiSelect as $option_id => $option_value) {
 				list($void, $content_id) = explode('_', $option_id);
@@ -388,6 +389,8 @@ class ControllerPagesDesignContent extends AController {
 			'type' => 'input',
 			'name' => 'keyword',
 			'value' => $this->data['keyword'],
+			'style' => 'large-field',
+			'help_url' => $this->gen_help_url('seo_keyword'),
 		));
 
 

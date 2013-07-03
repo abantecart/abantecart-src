@@ -175,8 +175,13 @@ if($form['fields']['store_id']){
 
 			html += $(this).find('option:selected[value='+values[k]+']').text() + ': <span class="text_element">'+temp_clone.html()+'</span>';
 			$('#sort_orders').html(html);
+
 		}
 		$('#sort_orders').find('input').aform({triggerChanged: true,
+										buttons: {
+													save: '<span id="btn_save" class="button3"><span><?php echo $button_save ?></span></span>',
+													reset: '<span id="btn_reset" class="button2"><span><?php echo $button_reset ?></span></span>'
+												},
 										showButtons: <?php echo $content_id ? 'true' : 'false';?>,
 										save_url: '<?php echo $update; ?>'}).change();
 	});

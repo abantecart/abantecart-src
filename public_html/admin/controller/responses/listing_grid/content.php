@@ -134,7 +134,9 @@ class ControllerResponsesListingGridContent extends AController {
 				if (!empty($ids))
 					foreach ($ids as $id) {
 						if(is_int(strpos($id,'_'))){
-							list($void,$content_id) = explode('_',$id);
+							list($parent_content_id,$content_id) = explode('_',$id);
+						}else{
+							$content_id = $id;
 						}
 
 						if ($this->config->get('config_account_id') == $content_id) {
@@ -156,8 +158,14 @@ class ControllerResponsesListingGridContent extends AController {
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					foreach ($ids as $id) {
+						$parent_content_id = null;
+						if(is_int(strpos($id,'_'))){
+							list($parent_content_id,$content_id) = explode('_',$id);
+						}else{
+							$content_id = $id;
+						}
 						foreach ($allowedFields as $field) {
-							$this->acm->editContentField($id, $field, $this->request->post[ $field ][ $id ]);
+							$this->acm->editContentField($content_id, $field, $this->request->post[ $field ][ $id ],$parent_content_id);
 						}
 					}
 				break;

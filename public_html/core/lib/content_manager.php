@@ -219,6 +219,7 @@ class AContentManager {
 				break;
 			case 'parent_content_id':
 				// prevent deleting while updating with parent_id==content_id
+				$value = (array)$value;
 				foreach($value as $k=>$v){
 					list($void,$parent_id) = explode('_',$v);
                     if($parent_id==$content_id){ continue; }
@@ -335,7 +336,9 @@ class AContentManager {
 			if($data[ "subsql_filter" ]){
 				$data[ "subsql_filter" ] .= ' AND ';
 			}
-			$data[ "subsql_filter" ] .= "i.content_id IN (SELECT parent_content_id FROM " . DB_PREFIX . "contents WHERE parent_content_id> 0)";
+			$data[ "subsql_filter" ] .= "i.content_id IN (SELECT parent_content_id
+															FROM " . DB_PREFIX . "contents
+															WHERE parent_content_id> 0)";
 			$data[ 'sort' ] = 'i.parent_content_id, i.sort_order';
 		}
 		
@@ -353,14 +356,18 @@ class AContentManager {
 		
 		$sql = "SELECT ".$select_columns."
 				FROM " . DB_PREFIX . "contents i
-				LEFT JOIN " . DB_PREFIX . "content_descriptions id ON (i.content_id = id.content_id)
-				LEFT JOIN " . DB_PREFIX . "content_descriptions cd ON (cd.content_id = i.parent_content_id)
+				LEFT JOIN " . DB_PREFIX . "content_descriptions id
+					ON (i.content_id = id.content_id
+						AND id.language_id = '" . ( int )$this->session->data['content_language_id'] . "')
+				LEFT JOIN " . DB_PREFIX . "content_descriptions cd
+					ON (cd.content_id = i.parent_content_id
+						AND cd.language_id = '" . ( int )$this->session->data['content_language_id'] . "')
 				";
 		if((int)$store_id){
 			$sql .= " RIGHT JOIN " . DB_PREFIX . "contents_to_stores cts ON (i.content_id = cts.content_id AND cts.store_id = '".(int)$store_id."')";
 		}
 
-		$sql .= "WHERE id.language_id = '" . ( int )$this->session->data['content_language_id'] . "'";
+		$sql .= "WHERE 1=1 ";
 
 		if (!empty ($data [ 'subsql_filter' ])) {
 			$sql .= " AND " . str_replace('`name`','id.name',$data [ 'subsql_filter' ]);
