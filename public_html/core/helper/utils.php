@@ -90,9 +90,10 @@ function is_serialized ($value) {
 function SEOEncode($string_value, $object_key_name='', $object_id=0, $language_id=0) {
 
 	$seo_key = html_entity_decode($string_value, ENT_QUOTES, 'UTF-8');
-	$seo_key = preg_replace('/[^\w\d\s_-]/si', '', $seo_key);
+	//$seo_key = preg_replace('/[^\w\d\s_-]/si', '', $seo_key);
+	$seo_key = preg_replace('/[^\p{L}\p{M}\p{Z}\p{N}\p{P}%]/u', '', $seo_key);
 	$seo_key = trim(mb_strtolower($seo_key));
-	$seo_key = htmlentities(preg_replace('/\s+/', '_', $seo_key));
+	$seo_key = str_replace(array(' ','"','\'','`','/','\\'), '_', $seo_key);
 
 	if(!$object_key_name){
 		return $seo_key;

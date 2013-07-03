@@ -140,7 +140,7 @@ if($form['fields']['store_id']){
 	});
 
 	$('#contentFrm_generate_seo_keyword').click(function(){
-		var seo_name = escape($('#contentFrm_name').val());
+		var seo_name = $('#contentFrm_name').val().replace('%','');
 		$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
 			$('#contentFrm_keyword').val(data).change();
 		});
