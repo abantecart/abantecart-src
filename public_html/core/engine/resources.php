@@ -444,10 +444,12 @@ class AResource {
 
 		if(!$sizes || !is_array($sizes['main']) || !is_array($sizes['thumb']) ){
 			if(!is_array($sizes['main'])){
-				$sizes['main'] = array('width'=> $this->config->get('config_image_product_width'), 'height'=> $this->config->get('config_image_product_height'));
+				$sizes['main'] = array('width'=> $this->config->get('config_image_product_width'),
+									   'height'=> $this->config->get('config_image_product_height'));
 			}
 			if(!is_array($sizes['thumb'])){
-				$sizes['thumb'] = array('width'=> $this->config->get('config_image_thumb_width'), 'height'=> $this->config->get('config_image_thumb_height'));
+				$sizes['thumb'] = array('width'=> $this->config->get('config_image_thumb_width'),
+										'height'=> $this->config->get('config_image_thumb_height'));
 			}
 		}
 
