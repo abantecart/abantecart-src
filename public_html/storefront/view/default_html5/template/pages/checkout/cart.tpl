@@ -163,7 +163,7 @@ echo $form['form_open'];
 			</a>
 			<?php } ?>
 
-			<a href="<?php echo $continue; ?>" class="btn mr10" title="">
+			<a href="<?php echo $continue; ?>" class="btn pull-right mr10" title="">
 				<i class="icon-arrow-right"></i>
 				<?php echo $text_continue_shopping ?>
 			</a>

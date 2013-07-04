@@ -3687,6 +3687,11 @@ a.clostalert {
 	.block_frame_cart  .btn-orange:last-child {
 		margin-top: 0px;
 	}
+	
+	/* Hide second column in small screen */
+	.confirm_payment_options td:nth-child(2), .confirm_payment_options th:nth-child(2){ display: none; }
+	.confirm_products td:nth-child(2), .confirm_products th:nth-child(2){ display: none; }
+	
 }
 
 /* END @media (max-width: 480px) */

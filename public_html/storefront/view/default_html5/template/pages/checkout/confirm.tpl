@@ -60,7 +60,7 @@
 	<?php  if ($payment_method || $balance) { ?>
 		<h4 class="heading4"><?php echo $text_payment; ?></h4>
 
-		<table class="table">
+		<table class="table confirm_payment_options">
 
 			<?php if ($payment_method) { ?>
 				<tr>
@@ -101,7 +101,7 @@
 
 	<h4 class="heading4"><?php echo $text_cart_items; ?></h4>
 
-	<table class="table">
+	<table class="table confirm_products">
 		<?php foreach ($products as $product) { ?>
 			<tr>
 				<td><a href="<?php echo $product['href']; ?>"><?php echo $product['thumb']['thumb_html']; ?></a></td>
