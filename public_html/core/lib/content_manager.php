@@ -64,7 +64,7 @@ class AContentManager {
 		unset($data[ 'parent_content_id' ][0],$data [ 'sort_order' ][0]);
 
 		if ( empty ($data['keyword'])) {
-			$seo_key = SEOEncode($data['name'],'content_id',$content_id);
+			$seo_key = SEOEncode($data['title'],'content_id',$content_id);
 		} else {
 			$seo_key = SEOEncode($data['keyword'],'content_id',$content_id);
 		}
@@ -94,8 +94,7 @@ class AContentManager {
 		foreach($languages as $language){
 			$this->language->replaceDescriptions('content_descriptions',
 											 array('content_id' => (int)$content_id),
-											 array(( int )$language['language_id'] => array('name' => $data['name'],
-																							'title' => $data [ 'title' ],
+											 array(( int )$language['language_id'] => array('title' => $data [ 'title' ],
 																							'description' => $data [ 'description' ],
 																							'content' => $data [ 'content' ]
 			)));
@@ -131,8 +130,7 @@ class AContentManager {
 		}
 
 
-		$update = array('name' => $data [ 'name' ],
-						'title' => $data [ 'title' ],
+		$update = array('title' => $data [ 'title' ],
 						'description' => $data [ 'description' ],
 						'content' => $data [ 'content' ]);
 
@@ -193,15 +191,12 @@ class AContentManager {
 
 				break;
 			case 'title' :
-			case 'name' :
 			case 'description' :
 			case 'content' :
 				$this->language->replaceDescriptions('content_descriptions',
 													 array('content_id' => (int)$content_id),
 													 array((int)$language_id => array($field=>$value)) );
-				if($field == 'name'){
-					$this->_updatePageContent($content_id);
-				}
+
 				break;
 			case 'keyword' :
 				$value = SEOEncode($value,'content_id',$content_id);
@@ -337,8 +332,7 @@ class AContentManager {
 				$data[ "subsql_filter" ] .= ' AND ';
 			}
 			$data[ "subsql_filter" ] .= "i.content_id IN (SELECT parent_content_id
-															FROM " . DB_PREFIX . "contents
-															WHERE parent_content_id> 0)";
+															FROM " . DB_PREFIX . "contents WHERE parent_content_id> 0)";
 			$data[ 'sort' ] = 'i.parent_content_id, i.sort_order';
 		}
 		
@@ -349,7 +343,7 @@ class AContentManager {
 		}
 		else {
 			$select_columns = 'i.*, id.*,
-						cd.name as parent_name,
+						cd.title as parent_name,
 						( SELECT COUNT(*) FROM ' . DB_PREFIX . 'contents
 						WHERE parent_content_id=i.content_id ) as cnt';
 		}
@@ -373,8 +367,8 @@ class AContentManager {
 			$sql .= " AND " . str_replace('`name`','id.name',$data [ 'subsql_filter' ]);
 		}
 
-		if (isset($filter['name']) && !is_null($filter['name'])) {
-			$sql .= " AND id.name LIKE '%" . (float)$filter['pfrom'] ."%' ";
+		if (isset($filter['title']) && !is_null($filter['title'])) {
+			$sql .= " AND id.title LIKE '%" . (float)$filter['pfrom'] ."%' ";
 		}
 		if (isset($filter['status']) && !is_null($filter['status'])) {
 			$sql .= " AND i.status = '" . (int)$filter['status'] . "'";
@@ -495,7 +489,7 @@ class AContentManager {
 		foreach($all_contents as $content){
 			foreach($content['parent_content_id'] as $par_id){
 				if($par_id == $parent_id){
-					$output[$parent_id.'_'.$content['content_id']] = str_repeat('&nbsp;&nbsp;',$level).$content['name'];
+					$output[$parent_id.'_'.$content['content_id']] = str_repeat('&nbsp;&nbsp;',$level).$content['title'];
 					$output = array_merge($output,$this->buildContentTree($all_contents,$content['content_id'],$level+1));
 				}
 			}
@@ -554,7 +548,7 @@ class AContentManager {
 		foreach($result->rows as $row){
 			$this->language->replaceDescriptions('page_descriptions',
 												 array('page_id' => (int)$page_id),
-												 array((int)$row['language_id'] => array('name' => $row['name'])) );
+												 array((int)$row['language_id'] => array('title' => $row['title'])) );
 		}
 		return $page_id;
 	}

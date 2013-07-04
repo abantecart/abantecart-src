@@ -35,7 +35,7 @@ class ControllerResponsesListingGridContent extends AController {
 		$this->acm = new AContentManager();
 
 		//Prepare filter config
-		$grid_filter_params = array( 'sort_order', 'name', 'status', 'nodeid' );
+		$grid_filter_params = array( 'sort_order', 'title', 'status', 'nodeid' );
 		//Build advanced filter
 		$filter_data = array( 'method' => 'post',
 							  'grid_filter_params' => $grid_filter_params);
@@ -79,15 +79,15 @@ class ControllerResponsesListingGridContent extends AController {
 		foreach ($results as $result) {
 
 			if ( $this->config->get('config_show_tree_data') ) {
-				$name_lable = '<label style="white-space: nowrap;">'.$result['name'].'</label>';
+				$title_lable = '<label style="white-space: nowrap;">'.$result['title'].'</label>';
 			} else {
-				$name_lable = $result['name'];
+				$title_lable = $result['title'];
 			}
             $parent_content_id = current($result[ 'parent_content_id' ]);
 			$response->rows[ $i ][ 'id' ] = $parent_content_id.'_'.$result[ 'content_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
 
-				$name_lable,
+				$title_lable,
 				$result[ 'parent_name' ],
 				$this->html->buildCheckbox(array(
 					'name' => 'status[' . $parent_content_id.'_'. $result[ 'content_id' ].']',
@@ -195,7 +195,7 @@ class ControllerResponsesListingGridContent extends AController {
 					   'reset_value' => true
 				));
 		}
-		$allowedFields = array( 'name', 'title', 'description', 'keyword', 'store_id', 'sort_order', 'status', 'parent_content_id' );
+		$allowedFields = array( 'title', 'description', 'keyword', 'store_id', 'sort_order', 'status', 'parent_content_id' );
 
 		if (isset($this->request->get[ 'id' ])) {
 			//request sent from edit form. ID in url

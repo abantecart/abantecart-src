@@ -83,8 +83,8 @@ class ControllerPagesDesignContent extends AController {
 		);
 		$grid_settings['colModel'] = array(
 			array(
-				'name' => 'name',
-				'index' => 'name',
+				'name' => 'title',
+				'index' => 'title',
 				'width' => 250,
 				'align' => 'left',
 			),
@@ -110,7 +110,7 @@ class ControllerPagesDesignContent extends AController {
 				'search' => false,
 			));
 		if ($this->config->get('config_show_tree_data')) {
-			$grid_settings['expand_column'] = 'name';
+			$grid_settings['expand_column'] = 'title';
 			$grid_settings['multiaction_class'] = 'hidden';
 		}
 
@@ -263,7 +263,7 @@ class ControllerPagesDesignContent extends AController {
 			$content_info = $this->acm->getContent($this->request->get['content_id']);
 		}
 
-		$allowedFields = array('name', 'status', 'description', 'title', 'content', 'parent_content_id', 'sort_order', 'store_id', 'keyword');
+		$allowedFields = array('status', 'description', 'title', 'content', 'parent_content_id', 'sort_order', 'store_id', 'keyword');
 
 		foreach ($allowedFields as $field) {
 			if (isset($this->request->post[$field])) {
@@ -350,13 +350,6 @@ class ControllerPagesDesignContent extends AController {
 			'attr' => 'size = "' . (sizeof($multiSelect) > 10 ? 10 : sizeof($multiSelect)) . '"'
 		));
 
-		$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
-			'type' => 'input',
-			'name' => 'name',
-			'value' => $this->data['name'],
-			'required' => true,
-		));
-
 		$this->data['form']['fields']['title'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'title',
@@ -366,8 +359,7 @@ class ControllerPagesDesignContent extends AController {
 		$this->data['form']['fields']['description'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'description',
-			'value' => $this->data['description'],
-			'required' => true,
+			'value' => $this->data['description']
 		));
 
 		$this->data['form']['fields']['content'] = $form->getFieldHtml(array(
@@ -443,15 +435,8 @@ class ControllerPagesDesignContent extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-
-		if ((strlen(strip_tags(html_entity_decode($this->request->post['name']))) < 2) || (strlen(strip_tags(html_entity_decode($this->request->post['name']))) > 64)) {
-			$this->error['name'] = $this->language->get('error_name');
-		}
 		if ((strlen(html_entity_decode($this->request->post['title'])) < 2) || (strlen(html_entity_decode($this->request->post['title'])) > 64)) {
 			$this->error['title'] = $this->language->get('error_title');
-		}
-		if (strlen(html_entity_decode($this->request->post['description'])) < 2) {
-			$this->error['description'] = $this->language->get('error_description');
 		}
 
 		if ((strlen(html_entity_decode($this->request->post['content'])) < 2)) {

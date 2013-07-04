@@ -48,15 +48,6 @@
 			</td>
 		</tr>
 		<tr>
-			<td><?php echo $entry_name; ?></td>
-			<td class="ml_field">
-				<?php echo $form['fields']['name']; ?>
-				<?php if (!empty($error['name'])) { ?>
-					<div class="field_err"><?php echo $error['name']; ?></div>
-				<?php } ?>
-			</td>
-		</tr>
-		<tr>
 			<td><?php echo $entry_title; ?></td>
 			<td class="ml_field">
 				<?php echo $form['fields']['title']; ?>
@@ -140,7 +131,7 @@ if($form['fields']['store_id']){
 	});
 
 	$('#contentFrm_generate_seo_keyword').click(function(){
-		var seo_name = $('#contentFrm_name').val().replace('%','');
+		var seo_name = $('#contentFrm_title').val().replace('%','');
 		$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
 			$('#contentFrm_keyword').val(data).change();
 		});
