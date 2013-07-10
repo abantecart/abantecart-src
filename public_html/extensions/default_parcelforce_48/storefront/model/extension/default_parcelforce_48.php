@@ -67,7 +67,7 @@ class ModelExtensionDefaultParcelforce48 extends Model
                     if ($product['ship_individually']) {
                         $fixed_cost = $fixed_cost * $product['quantity'];
                     }
-                    $fixed_cost = $this->currency->convert($fixed_cost, 'USD', $this->currency->getCode());
+                    $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
                 } else {
                     $new_quote_data = $this->_processRate($weight, $sub_total);
                 }
@@ -85,7 +85,7 @@ class ModelExtensionDefaultParcelforce48 extends Model
 
                     $quote_data[$key]['text'] = $this->currency->format(
                         $this->tax->calculate(
-                            $this->currency->convert($quote_data[$key]['cost'], 'USD', $this->currency->getCode()),
+                            $this->currency->convert($quote_data[$key]['cost'], $this->config->get('config_currency'), $this->currency->getCode()),
                             $this->config->get('default_parcelforce_48_tax'), $this->config->get('config_tax')
                         )
                     );
