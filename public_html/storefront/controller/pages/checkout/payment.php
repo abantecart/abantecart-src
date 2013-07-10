@@ -21,7 +21,7 @@ if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
 class ControllerPagesCheckoutPayment extends AController {
-	private $error = array();
+	public $error = array();
 	public $data = array();
 
 	public function main() {
