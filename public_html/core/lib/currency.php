@@ -20,18 +20,35 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class ACurrency
+ */
 final class ACurrency {
   	private $code;
   	private $currencies = array();
-  
-  	public function __construct($registry) {
+    private $config;
+    private $db;
+    private $language;
+    private $request;
+    private $session;
+    private $log;
+    private $message;
+
+    /**
+     * @param $registry Registry
+     */
+    public function __construct($registry) {
 		$this->config = $registry->get('config');
 		$this->db = $registry->get('db');
 		$this->language = $registry->get('language');
 		$this->request = $registry->get('request');
 		$this->session = $registry->get('session');
-		
+		$this->log = $registry->get('log');
+        /**
+         * @var AMessage
+         */
+        $this->message = $registry->get('messages');
+
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "currencies");
 
     	foreach ($query->rows as $result) {
@@ -65,8 +82,11 @@ final class ACurrency {
       		$this->set($this->config->get('config_currency'));
     	}
   	}
-	
-  	public function set($currency) {
+
+    /**
+     * @param string $currency
+     */
+    public function set($currency) {
 		  // if currency disabled - set first enabled from list
 		if(!$this->currencies[$currency]['status']){
 			foreach($this->currencies as $curr){
@@ -88,17 +108,26 @@ final class ACurrency {
     	}
   	}
   	
-  	/*
-  	* Format only number part (digit based)
-  	*/
-  	public function format_number($number, $currency = '', $crr_value = '') {
+  	/**
+  	 * Format only number part (digit based)
+  	 * @param float $number
+     * @param string $currency
+     * @param string $crr_value
+     * @return string
+     */
+    public function format_number($number, $currency = '', $crr_value = '') {
 		return $this->format($number, $currency, $crr_value, FALSE);
 	}
 
-  	/*
-  	* Format number part and/or currency symbol
-  	*/
-  	public function format($number, $currency = '', $crr_value = '', $format = TRUE) {
+  	/**
+  	 * Format number part and/or currency symbol
+     * @param float $number
+     * @param string $currency
+     * @param string $crr_value
+     * @param bool $format
+     * @return string
+     */
+    public function format($number, $currency = '', $crr_value = '', $format = TRUE) {
 		if ( empty ($currency) ) {
 			$currency = $this->code;
 		}   	
@@ -113,7 +142,6 @@ final class ACurrency {
       		$value = $number;
     	}
 
-    	$string = '';
     	$symbol_left = '';
     	$symbol_right = '';
       	$decimal_place = $this->currencies[$currency]['decimal_place'];
@@ -132,19 +160,43 @@ final class ACurrency {
 
     	return $string;
   	}
-	
-  	public function convert($value, $from, $to) {
-		if (isset($this->currencies[$from])) {
-			$from = $this->currencies[$from]['value'];
+
+    /**
+     * @param float $value
+     * @param string $code_from
+     * @param string $code_to
+     * @return float|bool
+     */
+    public function convert($value, $code_from, $code_to) {
+		if (isset($this->currencies[$code_from])) {
+			$from = $this->currencies[$code_from]['value'];
 		} else {
 			$from = 0;
 		}
 		
-		if (isset($this->currencies[$to])) {
-			$to = $this->currencies[$to]['value'];
+		if (isset($this->currencies[$code_to])) {
+			$to = $this->currencies[$code_to]['value'];
 		} else {
 			$to = 0;
-		}		
+		}
+
+        $error = false;
+        if(!$to){
+            $msg = 'Error: tried to convert into unaccessable currency! Currency code is '.$code_to;
+            $this->log->write('ACurrency '.$msg);
+            $this->message->saveError('Currency convertion error', $msg );
+            $error = true;
+        }
+        if(!$from){
+            $msg = 'Error: tried to convert from unaccessable currency! Currency code is '.$code_from;
+            $this->log->write('ACurrency '.$msg);
+            $this->message->saveError('Currency convertion error .', $msg );
+            $error = true;
+        }
+
+        if($error){
+            return false;
+        }
 		
 		return $value * ($to / $from);
   	}
@@ -152,29 +204,49 @@ final class ACurrency {
   	public function getCurrencies() {
         return $this->currencies;
   	}
-  	public function getCurrency( $code = '' ) {
-        if ( $code == '' ) $code = $this->code;
+
+    /**
+     * @param string $code
+     * @return array
+     */
+    public function getCurrency( $code = '' ) {
+        if ($code == ''){
+            $code = $this->code;
+        }
 		return $this->currencies[$code];
   	}
 
+    /**
+     * @return int
+     */
     public function getId() {
 		return $this->currencies[$this->code]['currency_id'];
   	}
-	
-  	public function getCode() {
+
+    /**
+     * @return string
+     */
+    public function getCode() {
     	return $this->code;
   	}
-  
-  	public function getValue($currency) {
+
+    /**
+     * @param string $currency
+     * @return float
+     */
+    public function getValue($currency) {
 		if (isset($this->currencies[$currency])) {
 			return $this->currencies[$currency]['value'];
 		} else {
-			return 0;
+			return 0.00;
 		}
   	}
-    
-  	public function has($currency) {
-    	return isset($this->currencies[$currency]);
+
+    /**
+     * @param string $code
+     * @return bool
+     */
+    public function has($code) {
+    	return isset($this->currencies[$code]);
   	}
 }
-?>
