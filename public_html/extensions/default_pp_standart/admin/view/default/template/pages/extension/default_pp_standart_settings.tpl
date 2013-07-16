@@ -249,7 +249,7 @@
 				</tr>
 				<tr>
 					<td><?php echo $settings['default_pp_standart_cartbordercolor']['note']; ?></td>
-					<td class="ml_field"><?php echo $settings['default_pp_standart_cartbordercolor']['value']; ?></td>
+					<td class="ml_field">#<?php echo $settings['default_pp_standart_cartbordercolor']['value']; ?></td>
 					<td></td>
 				</tr>
 			</table>

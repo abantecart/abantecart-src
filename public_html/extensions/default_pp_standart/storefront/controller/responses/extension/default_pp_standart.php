@@ -54,7 +54,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 
 		if ( has_value($this->config->get('default_pp_standart_logoimg')) ) {
 
-			if ( strpos($this->config->get('default_pp_standart_logoimg'), 'http://') || strpos($this->config->get('default_pp_standart_logoimg'), 'https://') ) {
+			if (strpos($this->config->get('default_pp_standart_logoimg'), 'http')===0 ) {
 				$this->data['logoimg'] = $this->config->get('default_pp_standart_logoimg');
 			} else {
 				$this->data['logoimg'] = HTTPS_SERVER . $this->config->get('default_pp_standart_logoimg');

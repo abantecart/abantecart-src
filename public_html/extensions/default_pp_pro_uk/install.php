@@ -12,17 +12,20 @@ $rm->setType('image');
 $result = copy(DIR_EXT.'default_pp_pro_uk/image/secure_paypal_icon.jpg', DIR_RESOURCE.'image/secure_paypal_icon.jpg');
 
 $resource = array(
-	'language_id' => $this->config->get('storefront_language_id'),
-	'name' => array(),
-	'title' => 'default_pp_pro_uk_payment_storefront_icon',
-	'description' => 'Default PayPal Pro UK Default Storefront Icon',
-	'resource_path' => 'secure_paypal_icon.jpg',
-	'resource_code' => ''
+    'language_id' => $this->config->get('storefront_language_id'),
+    'name' => array(),
+    'title' => array(),
+    'description' => array(),
+    'resource_path' => 'secure_paypal_icon.jpg',
+    'resource_code' => ''
 );
 
 foreach($language_list as $lang){
-	$resource['name'][$lang['language_id']] = 'secure_paypal_icon.jpg';
+    $resource['name'][$lang['language_id']] = 'secure_paypal_icon.jpg';
+    $resource['title'][$lang['language_id']] = 'default_pp_pro_uk_payment_storefront_icon';
+    $resource['description'][$lang['language_id']] = 'Default PayPal Pro UK Default Storefront Icon';
 }
+
 $resource_id = $rm->addResource($resource);
 
 if ( $resource_id ) {

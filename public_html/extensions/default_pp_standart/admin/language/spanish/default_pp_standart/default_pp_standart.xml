@@ -90,7 +90,7 @@
 	</definition>
 	<definition>
 		<key>default_pp_standart_cartbordercolor</key>
-		<value><![CDATA[Enter a Background Color Code:<span class="help">It's recommended that the background color represent your brand. This color that's in your logo or that complements logo colors. Alternatively, neutral colors like black, white or gray will also create a professional look.</span>]]></value>
+		<value><![CDATA[Enter a Background Color HEX-Code:<span class="help">It's recommended that the background color represent your brand. This color that's in your logo or that complements logo colors. Alternatively, neutral colors like black, white or gray will also create a professional look.<br> For ex. #FFF00F</span>]]></value>
 	</definition>
 	<definition>
 		<key>error_confirm_email</key>
