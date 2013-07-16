@@ -175,7 +175,7 @@ class ControllerResponsesListingGridLanguage extends AController {
 
 		$this->loadLanguage('localisation/language');
 		$this->loadModel('localisation/language');
-		$allowedFields = array( 'name', 'code', 'sort_order', 'status' );
+		$allowedFields = array( 'name', 'code', 'sort_order', 'status', 'locale' );
 
 		if (isset($this->request->get[ 'id' ])) {
 			//request sent from edit form. ID in url
