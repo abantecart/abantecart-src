@@ -37,6 +37,7 @@
 				<item>0</item>
 				<item>1</item>
 			</variants>
+		    <default_value>1</default_value>
         </item>
 	    <item id="default_pp_standart_location_id">
             <type>selectbox</type>
