@@ -394,8 +394,9 @@ class ControllerPagesToolMigration extends AController {
 			} else {
 				if (!@mysql_select_db($this->request->post['db_name'], $connection)) {
 					$this->error['warning'] = $this->language->get('error_db_not_exist');
+					mysql_close($connection);
 				}
-				mysql_close($connection);
+
 			}
 
 		if (!$this->error) {
