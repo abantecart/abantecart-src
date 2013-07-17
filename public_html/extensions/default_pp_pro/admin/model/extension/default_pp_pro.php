@@ -61,7 +61,6 @@ class ModelExtensionDefaultPpPro extends Model {
 		return array( 
 			array( 'name' => 'Visa', 				'code' => 'Visa'),
 			array( 'name' => 'MasterCard', 			'code' => 'MasterCard'),
-			array( 'name' => 'Maestro', 			'code' => 'Maestro'),
 			array( 'name' => 'Discover', 			'code' => 'Discover'),
 			array( 'name' => 'American Express',	'code' => 'American Express'),		
 		);

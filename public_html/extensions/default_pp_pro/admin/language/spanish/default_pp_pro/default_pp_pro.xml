@@ -252,4 +252,8 @@
 		<key>text_completed</key>
 		<value><![CDATA[Completed]]></value>
 	</definition>
+	<definition>
+		<key>text_processing</key>
+		<value><![CDATA[Processing]]></value>
+	</definition>
 </definitions>

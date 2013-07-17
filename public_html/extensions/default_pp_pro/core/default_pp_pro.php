@@ -106,6 +106,8 @@ class ExtensionDefaultPpPro extends Extension {
 			$not_refunded = (float) $payment_method_data['AMT'];
 		}
 
+		$data['payment_status'] = $this->baseObject->language->get('text_processing');
+
 		if ( (float) $refunded_amount > 0 ) {
 			$data['payment_status'] = $this->baseObject->language->get('text_partially_refunded');
 			$data['refunded_amount'] = $this->baseObject->currency->format($refunded_amount, $this->baseObject->data['currency']['code'], $this->baseObject->data['order_info']['value']);
