@@ -21,7 +21,10 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesContentContact extends AController {
-	private $error = array(); 
+	private $error = array();
+	/**
+	 * @var AForm
+	 */
 	private $form;
   	public function main() {
 
@@ -143,4 +146,3 @@ class ControllerPagesContentContact extends AController {
 		}  	  
   	}
 }
-?>

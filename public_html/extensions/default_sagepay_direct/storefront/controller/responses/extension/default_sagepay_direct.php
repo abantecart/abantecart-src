@@ -345,7 +345,7 @@ class ControllerResponsesExtensionDefaultSagepayDirect extends AController {
 			
 			$data = array();
 			
-			$response_data = split(chr(10), $response);
+			$response_data = explode(chr(10), $response);
 	
 			foreach ($response_data as $string) {
 				if (strpos($string, '=')) {
@@ -424,4 +424,3 @@ class ControllerResponsesExtensionDefaultSagepayDirect extends AController {
 		$this->processTemplate('responses/content/content.tpl' );
 	}
 }
-?>

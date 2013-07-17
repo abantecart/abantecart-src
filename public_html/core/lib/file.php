@@ -62,9 +62,10 @@ class AFile {
 	}
 
 	/**
-	 * @param int $product_id
-	 * @param int $option_id
+	 * @param $settings
 	 * @param array $data
+	 * @internal param int $product_id
+	 * @internal param int $option_id
 	 * @return array
 	 */
 	public function validateFileOption($settings, $data) {

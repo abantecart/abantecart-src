@@ -98,7 +98,8 @@ final class ADocument {
 	/**
 	 * method add new Link item
 	 *
-	 * @param array $item("href"=>"","rel"=>"")
+	 * @param array $link_item
+	 * @internal param array $item ("href"=>"","rel"=>"")
 	 * Examples: href => 'www.google.com', 'rel'  => 'canonical'
 	 * @return null
 	 */
@@ -119,7 +120,8 @@ final class ADocument {
 	/**
 	 * method to add new Style item
 	 *
-	 * @param array $item("href"=>"","rel"=>"","media"=>)
+	 * @param array $style_item
+	 * @internal param array $item ("href"=>"","rel"=>"","media"=>)
 	 * Examples: href => 'www.google.com', $rel = 'stylesheet', $media = 'screen'
 	 * @return null
 	 */
@@ -140,9 +142,9 @@ final class ADocument {
 	/**
 	 * method to add new javascript file to the head
 	 *
-	 * @param web path to the file
+	 * @param string - web path to the file
 	 * Examples: /javascript/bootstrap.js or http//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
-	 * @return null
+	 * @return void
 	 */
 	public function addScript($script) {
 		$this->scripts[ ] = $script;
@@ -156,7 +158,7 @@ final class ADocument {
 	/**
 	 * method to add new javascript file to the bottom before </body> tag
 	 *
-	 * @param web path to the file
+	 * @param string - web path to the file
 	 * Examples: /javascript/bootstrap.js or http//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 	 * @return null
 	 */
@@ -176,8 +178,8 @@ final class ADocument {
 	/**
 	 * method to reset breadcrumbs array
 	 *
-	 * @param: none
-	 * @return: nothing
+	 * @internal param $ : none
+	 * @return void : nothing
 	 */
 	public function resetBreadcrumbs() {
 		$this->breadcrumbs = array();
@@ -186,8 +188,9 @@ final class ADocument {
 	/**
 	 * method to initialize Breadcrumbs aray and add root attribute
 	 *
-	 * @param array $item("href"=>"", "text"=>"", "separator"=>)
-	 * @return: nothing
+	 * @param array $breadcrumb_item
+	 * @internal param array $item ("href"=>"", "text"=>"", "separator"=>)
+	 * @return void : nothing
 	 */
 	public function initBreadcrumb($breadcrumb_item = array()) {
 		$this->resetBreadcrumbs();
@@ -198,7 +201,8 @@ final class ADocument {
 	/**
 	 * method add new Breadcrumb item
 	 *
-	 * @param array $item("href"=>"", "text"=>"", "separator"=>)
+	 * @param array $breadcrumb_item
+	 * @internal param array $item ("href"=>"", "text"=>"", "separator"=>)
 	 * @return null
 	 */
 	public function addBreadcrumb($breadcrumb_item = array()) {
@@ -243,5 +247,3 @@ final class ADocument {
 		return $trimmed_text;
 	}
 }
-
-?>

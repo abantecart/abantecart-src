@@ -22,16 +22,19 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelToolDatasetsManager extends Model {
 
-	
+	/**
+	 * @param int $dataset_id
+	 * @return array
+	 */
 	public function getDatasetInfo($dataset_id) {
 		$dataset_id = (int)$dataset_id;
 		if(!$dataset_id){
-			return false;
+			return array();
 		}
 		$sql = "SELECT dataset_name, dataset_key FROM ".DB_PREFIX."datasets WHERE dataset_id = ".$dataset_id;
 		$result = $this->db->query($sql);
 		if(!$result->row['dataset_name']){
-			return false;
+			return array();
 		}
 
 		$dataset = new ADataset($result->row['dataset_name'], $result->row['dataset_key']);
@@ -76,4 +79,3 @@ class ModelToolDatasetsManager extends Model {
 	}
 
 }
-?>

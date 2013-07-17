@@ -23,6 +23,9 @@ if (!defined('DIR_CORE')) {
 
 final class AConfig {
 	private $cnfg = array();
+	/**
+	 * @var Registry
+	 */
 	private $registry;
 	public $groups = array( 'details', 'general', 'checkout', 'appearance', 'mail', 'api', 'system' );
 
@@ -35,7 +38,7 @@ final class AConfig {
 	 * get data from config
 	 *
 	 * @param $key - data key
-	 * @return requested data; null if no data wit such key
+	 * @return mixed - requested data; null if no data wit such key
 	 */
 	public function get($key) {
 		return (isset($this->cnfg[ $key ]) ? $this->cnfg[ $key ] : NULL);
@@ -84,7 +87,13 @@ final class AConfig {
 	}
 
 	private function _load_settings() {
+		/**
+		 * @var ACache
+		 */
 		$cache = $this->registry->get('cache');
+		/**
+		 * @var ADB
+		 */
 		$db = $this->registry->get('db');
 
 		// Load default store settings first
@@ -195,5 +204,3 @@ final class AConfig {
 		}
 	}
 }
-
-?>

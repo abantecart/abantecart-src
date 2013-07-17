@@ -41,7 +41,7 @@ final class AConnect {
     /**
      * registry to provide access to cart objects
      *
-     * @var object Registry
+     * @var Registry
      */
     private $registry;
     /**
@@ -247,13 +247,15 @@ final class AConnect {
         return $this->getData($url, $port, false, false, true);
     }
 
-    /**
-     * @param string $url
-     * @param int $port
-     * @param boolean $length_only
-     * @param boolean $save_filename
-     * @return array( "mime" <string>, "length" int, "content" string) or false
-     */
+	/**
+	 * @param string $url
+	 * @param int $port
+	 * @param boolean $length_only
+	 * @param boolean $save_filename
+	 * @param bool $headers_only
+	 * @throws AException
+	 * @return array ( "mime" <string>, "length" int, "content" string) or false
+	 */
     public function getData($url, $port = 80, $length_only = false, $save_filename = null, $headers_only = false) {
         //check url
         $protocol = parse_url($url, PHP_URL_SCHEME);
@@ -330,12 +332,14 @@ final class AConnect {
         }
     }
 
-    /**
-     * @param string $url
-     * @param int $port
-     * @param boolean $length_only
-     * @return array( "mime" <string>, "length" int, "content" string) or false
-     */
+	/**
+	 * @param string $url
+	 * @param int $port
+	 * @param null $filename
+	 * @param boolean $length_only
+	 * @param bool $headers_only
+	 * @return array( "mime" <string>, "length" int, "content" string) or false
+	 */
     private function _processCurl($url, $port = 80, $filename = null, $length_only = false, $headers_only = false) {
         //Curl Connection for HTTP and HTTPS
         $authentication = $this->auth['name'] ? 1 : 0;
@@ -443,12 +447,14 @@ final class AConnect {
         return array("mime" => $content_type, "length" => $content_length, "data" => $response);
     }
 
-    /**
-     * @param string $url
-     * @param int $port
-     * @param boolean $length_only
-     * @return array( "mime" <string>, "length" int, "content" string) or false
-     */
+	/**
+	 * @param string $url
+	 * @param int $port
+	 * @param null $filename
+	 * @param boolean $length_only
+	 * @param bool $headers_only
+	 * @return array( "mime" <string>, "length" int, "content" string) or false
+	 */
     public function _processSocket($url, $port, $filename = null, $length_only = false, $headers_only = false) {
         //Socket Connection for HTTP and HTTPS
         $authentication = $this->auth['name'] ? 1 : 0;
@@ -554,13 +560,13 @@ final class AConnect {
         if (function_exists('curl_version')) {
             return true;
         }
-        return;
+        return null;
     }
     private function _check_socket() {
         if (function_exists('fsockopen')) {
             return true;
         }
-        return;
+        return null;
     }
 
     /**
@@ -582,7 +588,7 @@ final class AConnect {
 
     /**
      * @param array( "mime" <string>, "length" int, "content" string)
-     * @return multitype:|string|array|boolean
+     * @return mixed string|array|boolean
      */
     private function _convertToArray($response_array = array()) {
         if (!$response_array) {
@@ -606,10 +612,10 @@ final class AConnect {
         return $output;
     }
 
-    /**
-     * @param string $headers
-     * @return array
-     */
+	/**
+	 * @param bool|string $headers
+	 * @return array
+	 */
     private function _http_parse_headers($headers = false) {
         if ($headers === false) {
             return false;
