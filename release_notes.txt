@@ -1,7 +1,94 @@
-AbanteCart version 1.1.5 and new responsive default storefront theme
+AbanteCart version 1.1.6 with new features, improvements and bug fixes.
 
-We are very exceeded to present new AbanteCart version 1.1.5 and upgrade package. Distribution package can be  download or upgrade can be ran inside your existing AbanteCart.
-This release contains large number of new features, updates and fixes. We recommend to try upgrade in a test copy of AbanteCart first before applying to production sites. 
+Release Notes:  Version 1.1.6
+
+New Features and improvements summary:
+
+- Number of fixed for Responsive HTML5 template 
+- Improvement for content management 
+- Data Migration from osCmax shopping cart
+- Ability to add custom icons to payment methods.
+- Ability to create custom settings pages for extension
+- Customers' orders count and listing orders per customer
+- PayPal Pro now has in admin capture/refund features on order edit page. 
+- Added Ipad and Iphone icons for apple bookmark support
+
+Bug fixes and improvments
+Core:
+- internationalization of SEO-keyword usage bug fix.
+- two settings added for displaying block with form of coupon and shipping estimate (default_html5 only)
+- applying discount (core promotion) bug fix related to calculation of total quantity of product in the cart
+- table url_aliases (with seo-keywords) now have additional unique index to prevent duplicates
+- phpdoc comments added to Alanguage, ADispatcher, ADB, AUser and MySql classes
+- targz.php php open tag bugfix
+- Fixed validation of the max size of the uploaded file.
+- maintenance mode storefront session for admin bug fix
+- AResource HTPS url bugfix. (additional images had plain http-URLs instead https)
+- Product option values now can be selected as default for storefront product page display. 
+- Added placeholder (hint text) to some product option types such as selectbox and input.
+- Resources now ordered by rl.resource_id not just by rm.sort_order.
+- Updated 'ac_orders' table to store serialized data for payment services. Currently used for Paypal
+- phpdoc comments added into cart and order libraries.
+- package manager. Now index.php will not have mode 777 after upgrade (related to hosting providers security policy).
+- add API with AddScriptBottom function. Now can add JavaScript (via PHP code) before closing body tag for better performance
+
+Control Panel:
+- package installer ftp-mode check's, bug fix
+- menu management grid icons bug fix
+- content management bug fixes releted to pre-release QA task
+- selectbox template minor bug fix
+- Resource Library UI bug-fix. preview resource-> thumbnail's title attribute was broken by js-error.
+- Migration tool minor UI changes.
+- Added Migration data from oscmax.
+- quick save settings from global search suggestion bug fix.
+- package installer and backup/restore upload error handler bug fix
+- design/content management changed...tree grid added + edit form changed too. Core: html-factory changes. Property "disabled" added into Multiselectbox class. Property is array with ids of option that disabled (supports by all browsers and IE8+)
+- Error messages will now show on order details page. Extensions: Fixed credit card forms of the PayPal Pro and PayPal Pro UK extensions. Storefront: Added missing loading_1.gif image and "ws_nowrap" CSS class.
+- common controller of grid building now contains check for column with reserved name "parent"
+- SEOencode function changed. Button for auto-generate added into edit forms of products, categories, manufacturers and contents. 
+- pre-selected zone on sale->order edit page bug-fix
+- UI bug fix related to RL dialog when session expired
+- Added "payment_method_data" field to the output of the ModelSaleOrder::getOrder method.
+- global search improvment related to setting's text
+- Added button for order history of customer in menu sale/customers
+- Coupon date range bugfix
+- Bug fix of position in layout for new created block
+- Saving custom layout for categories bugfix
+- Removed limitation of length for category name.
+- Disable delete of order statuses Canceled, Complete, Pending, Processing
+- Updated migration tool. OscommerceMax added. Also added import of product reviews.
+- notice about enabled maintenance mode for admin added.
+
+Storefront:
+- Added Ipad and Iphone icons for apple bookmark support
+- default address for customer now will use for shipping estimate form on cart page
+- payment and shipping list bug fix related to icons of methods
+- Updated default_html5 template. Templates of content blocks now support trees.
+- Updated default_html5 template. Image preloader bug-fix of product page. Address edit page ui bugfix
+- menu css-icon now will replace icon from RL
+- first time selected attributes now sets as default after page refresh
+- Updated default_html5 template. login page responsiveness bug-fixes.
+- Updated default_html5 template performance.  OneByOne main slider now loads last.
+- customer balance display bugfix related to currency conversion. Account balance applied to order will be reset if not checked out yet, and cart content is changed during session.
+- download's counter bugfix
+- fixes for file uploading and new upload form style for HTML5 template.
+- fix in default template changed related to "create account" page for case when account policy is empty and continue button disappears.
+- HTML5 template. Number of fixes for checkout layout in iphone/mobile layout
+- Update of bootstrap version and print styling correction
+- Fix for file upload and HTML5 new file upload element.	
+
+Extensions:
+- banner manager default_html5 tpl improvment
+- Now icon for payment methods list will be added to Resource library upon install.
+- Updated PayPal storefront payment icons. Cleaned up code.
+- paypal standart default_html5 tpl fix related to html-buttons
+- fixed PayPal Standart not processing EUR payments
+- PayPal Pro extension will now show if Test mode is ON
+- Paypal Pro is updated to configure accepted credit card types
+- Update all default payments to HTML5 layout (buttons fix)
+- Provide ability to load modals for disabled extensions. 
+
+
 
 Release Notes:  Version 1.1.5
 
