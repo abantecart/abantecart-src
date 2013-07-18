@@ -2164,7 +2164,6 @@ VALUES
 (100155,1,now(), now()),
 (100156,1,now(), now()),
 (100157,1,now(), now()),
-(100158,1,now(), now()),
 (100159,1,now(), now()),
 (100160,1,now(), now()),
 (100162,1,now(), now()),
@@ -2184,7 +2183,6 @@ VALUES
 (100176,1,now(), now()),
 
 (100188,1,now(), now()),
-(100189,1,now(), now()),
 
 (100190,1,now(), now()),
 (100191,1,now(), now()),
@@ -2346,7 +2344,6 @@ VALUES
 (100155,'products',102,0,0,now(), now()),
 (100156,'products',102,0,0,now(), now()),
 (100157,'products',103,0,2,now(), now()),
-(100158,'products',103,0,1,now(), now()),
 (100159,'products',103,0,3,now(), now()),
 (100160,'products',104,0,0,now(), now()),
 (100162,'products',105,0,0,now(), now()),
@@ -2367,8 +2364,7 @@ VALUES
 (100188,'banners',13,0,0,now(), now()),
 (100188,'banners',14,0,0,now(), now()),
 (100188,'banners',15,0,0,now(), now()),
-(100188,'banners',16,0,0,now(), now()),
-(100189,'products',65,0,0,now(), now())
+(100188,'banners',16,0,0,now(), now())
 ;
 
 
