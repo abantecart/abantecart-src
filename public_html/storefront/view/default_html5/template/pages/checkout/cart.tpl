@@ -216,10 +216,14 @@ function display_shippings() {
 		},
 		success:function (data) {
 			$(replace_obj).html('');
+			$('.shippings-offered label.control-label').hide();
 			if (data && data.selectbox) {
-				$(replace_obj).show();
-				$(replace_obj).css('visibility', 'visible');
-				$(replace_obj).html(data.selectbox);
+				if(data.selectbox!=''){
+					$(replace_obj).show();
+					$('.shippings-offered label.control-label').show();
+					$(replace_obj).css('visibility', 'visible');
+					$(replace_obj).html(data.selectbox);
+				}
 			}
 			display_totals();
 		}

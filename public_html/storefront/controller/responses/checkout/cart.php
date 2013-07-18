@@ -82,68 +82,75 @@ class ControllerResponsesCheckoutCart extends AController {
 			$this->response->setOutput(AJson::encode($output));	
 			return '';
 		}
-		$this->loadModel('localisation/country');
-		$this->loadModel('localisation/zone');
-		$country_info = $this->model_localisation_country->getCountry($this->request->post[ 'country_id' ]);
-		$zone_info = $this->model_localisation_zone->getZone($this->request->post[ 'zone_id' ]);
-		$shipping_address = array( 
-				'postcode'       => $this->request->post['postcode'],
-				'country_id'     => $this->request->post['country_id'],
-				'country_iso_code2' => $country_info['iso_code_2'],
-				'iso_code_2' => $country_info['iso_code_2'],
-				'zone_id'        => $this->request->post['zone_id'],
-				'zone_code'        => $zone_info['code']
+		if( $this->cart->hasShipping() ){
+			$this->loadModel('localisation/country');
+			$this->loadModel('localisation/zone');
+			$country_info = $this->model_localisation_country->getCountry($this->request->post[ 'country_id' ]);
+			$zone_info = $this->model_localisation_zone->getZone($this->request->post[ 'zone_id' ]);
+			$shipping_address = array(
+					'postcode'       => $this->request->post['postcode'],
+					'country_id'     => $this->request->post['country_id'],
+					'country_iso_code2' => $country_info['iso_code_2'],
+					'iso_code_2' => $country_info['iso_code_2'],
+					'zone_id'        => $this->request->post['zone_id'],
+					'zone_code'        => $zone_info['code']
+			);
 
-		);
 
+			$this->tax->setZone($shipping_address[ 'country_id' ], $shipping_address[ 'zone_id' ]);
 
-		$this->tax->setZone($shipping_address[ 'country_id' ], $shipping_address[ 'zone_id' ]);
+			$this->loadModel('checkout/extension');
 
-		$this->loadModel('checkout/extension');
+			$results = $this->model_checkout_extension->getExtensions('shipping');
+			foreach ($results as $result) {
+				$this->loadModel('extension/' . $result[ 'key' ]);
 
-		$results = $this->model_checkout_extension->getExtensions('shipping');
-		foreach ($results as $result) {
-		    $this->loadModel('extension/' . $result[ 'key' ]);
+				/** @noinspection PhpUndefinedMethodInspection */
+				$quote = $this->{'model_extension_' . $result[ 'key' ]}->getQuote($shipping_address);
 
-		    /** @noinspection PhpUndefinedMethodInspection */
-		    $quote = $this->{'model_extension_' . $result[ 'key' ]}->getQuote($shipping_address);
-
-		    if ($quote) {
-		    	$output[ $result[ 'key' ] ] = array(
-		    		'title' => $quote[ 'title' ],
-		    		'quote' => $quote[ 'quote' ],
-		    		'sort_order' => $quote[ 'sort_order' ],
-		    		'error' => $quote[ 'error' ]
-		    	);
-		    }
-		}
-
-		$sort_order = array();
-		foreach ($output as $key => $value) {
-		    $sort_order[ $key ] = $value[ 'sort_order' ];
-		}
-		array_multisort($sort_order, SORT_ASC, $output);  	
-  		$this->session->data[ 'shipping_methods' ] = $output;
-  		
- 		//add ready selectbox element  
- 		if ( count($output)) {
-			$disp_ship = array();
-			foreach ($output as $shp_data ) {
-				$shp_data['quote'] = (array)$shp_data['quote'];
-				foreach ( $shp_data['quote'] as $qt_data) {
-					$disp_ship[$qt_data['id']] =  $qt_data['title'] . " - " . $qt_data['text'];
+				if ($quote) {
+					$output[ $result[ 'key' ] ] = array(
+						'title' => $quote[ 'title' ],
+						'quote' => $quote[ 'quote' ],
+						'sort_order' => $quote[ 'sort_order' ],
+						'error' => $quote[ 'error' ]
+					);
 				}
 			}
 
-			$selectbox = HtmlElementFactory::create(array(
-		                                                 'type' => 'selectbox',
-		                                                 'name' => 'shippings',
-		                                                 'options' => $disp_ship,
-													 	'style' => 'large-field'
-		                                            ));
-		    $output['selectbox'] = $selectbox->getHTML();
+			$sort_order = array();
+			foreach ($output as $key => $value) {
+				$sort_order[ $key ] = $value[ 'sort_order' ];
+			}
+			array_multisort($sort_order, SORT_ASC, $output);
+			$this->session->data[ 'shipping_methods' ] = $output;
+
+			//add ready selectbox element
+			if ( count($output)) {
+				$disp_ship = array();
+				foreach ($output as $shp_data ) {
+					$shp_data['quote'] = (array)$shp_data['quote'];
+					foreach ( $shp_data['quote'] as $qt_data) {
+						$disp_ship[$qt_data['id']] =  $qt_data['title'] . " - " . $qt_data['text'];
+					}
+				}
+
+				if($disp_ship){
+					$selectbox = HtmlElementFactory::create(array(
+																 'type' => 'selectbox',
+																 'name' => 'shippings',
+																 'options' => $disp_ship,
+																'style' => 'large-field'
+															));
+					$output['selectbox'] = $selectbox->getHTML();
+				}else{
+					$output['selectbox'] = '';
+				}
+			}
+
+		}else{
+			$output['selectbox'] = '';
 		}
- 	
   	
   			//init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
