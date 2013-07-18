@@ -156,7 +156,9 @@ class ControllerResponsesCheckoutCart extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		$output = array();
-				
+
+		$this->load->library('json');
+
 		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
 			$this->response->setOutput(AJson::encode($output));	
 			return '';
@@ -177,7 +179,7 @@ class ControllerResponsesCheckoutCart extends AController {
   		//init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
-		$this->load->library('json');
+
 		$this->response->setOutput(AJson::encode($output));		
 	}
 	
