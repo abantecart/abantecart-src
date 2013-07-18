@@ -35,8 +35,8 @@ Core:
 Control Panel:
 - package installer ftp-mode check's, bug fix
 - menu management grid icons bug fix
-- content management bug fixes releted to pre-release QA task
-- selectbox template minor bug fix
+- content management bug fixes related to pre-release QA task
+- select box template minor bug fix
 - Resource Library UI bug-fix. preview resource-> thumbnail's title attribute was broken by js-error.
 - Migration tool minor UI changes.
 - Added Migration data from oscmax.
@@ -49,14 +49,14 @@ Control Panel:
 - pre-selected zone on sale->order edit page bug-fix
 - UI bug fix related to RL dialog when session expired
 - Added "payment_method_data" field to the output of the ModelSaleOrder::getOrder method.
-- global search improvment related to setting's text
+- global search improvement related to setting's text
 - Added button for order history of customer in menu sale/customers
 - Coupon date range bugfix
 - Bug fix of position in layout for new created block
-- Saving custom layout for categories bugfix
+- Saving custom layout for categories fix
 - Removed limitation of length for category name.
 - Disable delete of order statuses Canceled, Complete, Pending, Processing
-- Updated migration tool. OscommerceMax added. Also added import of product reviews.
+- Updated migration tool. OscMax added. Also added import of product reviews.
 - notice about enabled maintenance mode for admin added.
 
 Storefront:
@@ -69,8 +69,8 @@ Storefront:
 - first time selected attributes now sets as default after page refresh
 - Updated default_html5 template. login page responsiveness bug-fixes.
 - Updated default_html5 template performance.  OneByOne main slider now loads last.
-- customer balance display bugfix related to currency conversion. Account balance applied to order will be reset if not checked out yet, and cart content is changed during session.
-- download's counter bugfix
+- customer balance display fix related to currency conversion. Account balance applied to order will be reset if not checked out yet, and cart content is changed during session.
+- download's counter fix
 - fixes for file uploading and new upload form style for HTML5 template.
 - fix in default template changed related to "create account" page for case when account policy is empty and continue button disappears.
 - HTML5 template. Number of fixes for checkout layout in iphone/mobile layout
@@ -81,7 +81,7 @@ Extensions:
 - banner manager default_html5 tpl improvment
 - Now icon for payment methods list will be added to Resource library upon install.
 - Updated PayPal storefront payment icons. Cleaned up code.
-- paypal standart default_html5 tpl fix related to html-buttons
+- paypal standard default_html5 tpl fix related to html-buttons
 - fixed PayPal Standart not processing EUR payments
 - PayPal Pro extension will now show if Test mode is ON
 - Paypal Pro is updated to configure accepted credit card types
