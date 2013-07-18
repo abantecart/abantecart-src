@@ -178,7 +178,11 @@ class ControllerResponsesCheckoutCart extends AController {
 		if ( $this->request->post[ 'shipping_method' ] ) {
 			$shipping = explode('.', $this->request->post[ 'shipping_method' ]);
 			$this->session->data[ 'shipping_method' ] = $this->session->data[ 'shipping_methods' ][ $shipping[ 0 ] ][ 'quote' ][ $shipping[ 1 ] ];
-		}
+		}else{
+            unset($this->session->data[ 'shipping_address_id' ]);
+            unset($this->session->data[ 'shipping_method' ]);
+            unset($this->session->data[ 'shipping_methods' ]);
+        }
 
 		$display_totals = $this->cart->buildTotalDisplay();      		
 		$output['totals'] = $display_totals['total_data'];;

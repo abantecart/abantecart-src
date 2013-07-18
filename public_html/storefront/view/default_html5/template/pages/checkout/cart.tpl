@@ -235,7 +235,9 @@ function display_totals() {
 	var shipping_method = '';
 	var coupon = encodeURIComponent($("#coupon input[name=\'coupon\']").val());
 	shipping_method = encodeURIComponent($('#shippings :selected').val());
-
+    if(shipping_method=='undefined'){
+        shipping_method = '';
+    }
 	$.ajax({
 		type:'POST',
 		url:'index.php?rt=r/checkout/cart/recalc_totals',
