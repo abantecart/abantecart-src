@@ -162,14 +162,14 @@ echo $form['form_open'];
 			</table>
 			<?php echo $this->getHookVar('pre_cart_buttons'); ?>
 			<?php if ($form['checkout']) { ?>
-			<a href="<?php echo $checkout; ?>" id="cart_checkout" class="btn btn-orange pull-right"
+			<a href="<?php echo $checkout; ?>" id="cart_checkout" class="btn btn-orange pull-right "
 			   title="<?php echo $button_checkout; ?>">
 				<i class="icon-shopping-cart icon-white"></i>
 				<?php echo $button_checkout; ?>
 			</a>
 			<?php } ?>
 
-			<a href="<?php echo $continue; ?>" class="btn pull-right mr10" title="">
+			<a href="<?php echo $continue; ?>" class="btn pull-right mr10  mb10" title="">
 				<i class="icon-arrow-right"></i>
 				<?php echo $text_continue_shopping ?>
 			</a>
