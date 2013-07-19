@@ -58,9 +58,7 @@ class ControllerBlocksContent extends AController {
 		//build dynamic content (pages) links
 		$this->loadModel('catalog/content');
 
-		$contents = $this->_buildTree($this->model_catalog_content->getContents(),0,0);
-
-		$this->data['contents'] = $contents;
+		$this->data['contents'] = $this->_buildTree($this->model_catalog_content->getContents());
 		$this->data['contact'] = $this->html->getURL('content/contact');
 		$this->data['sitemap'] = $this->html->getURL('content/sitemap');
 
@@ -71,40 +69,27 @@ class ControllerBlocksContent extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 		
 	}
-	private function _buildTree($array=array(), $parent_id=0, $level=0){
-		$output = array();
-		$array = !is_array($array) ? array() : $array;
-		foreach($array as $content){
-			if($parent_id==$content['parent_content_id']){
-				$content['title'] = str_repeat('&nbsp;&nbsp;',$level).$content['title'];
-				$content['href']  = $this->html->getSEOURL('content/content', '&content_id=' . $content['content_id'], '&encode');
-				$child = $this->_buildTree($array,$content['content_id'],($level+1));
-				if($child){
-					$content['children'] = $child;
-				}
 
-				// prevent rewriting if two items have the same sort_order
-				while(isset($output[$content['sort_order']])){
-					$content['sort_order']++;
+	/**
+	 * Recursive function for building tree of content.
+	 * Note that same content can have two parents!
+	 * @param $all_contents array with all contents. it contain element with key
+	 * 			parent_content_id that is array  - all parent ids
+	 * @param int $parent_id
+	 * @param int $level
+	 * @return array
+	 */
+	private function _buildTree($all_contents,$parent_id=0,$level=0){
+		$output= array();
+		foreach($all_contents as $content){
+				if($content['parent_content_id'] == $parent_id){
+					$output[] = array('id'=> $content['parent_content_id'].'_'.$content['content_id'],
+									  'title'=>str_repeat('&nbsp;&nbsp;',$level).$content['title'],
+									  'href' => $this->html->getSEOURL('content/content', '&content_id=' . $content['content_id'], '&encode'),
+									  'level'=> $level);
+					$output = array_merge($output,$this->_buildTree($all_contents,$content['content_id'],$level+1));
 				}
-				$output[$content['sort_order']] = $content;
-			}
 		}
-		//resort by sort_order
-		ksort($output);
-		$tmp = $output;
-		$output = array();
-		foreach($tmp as $list){
-			$output[] = array('title'=>$list['title'],
-							  'href' => $list['href']);
-			if(isset($list['children'])){
-				foreach($list['children'] as $child){
-					$output[] = array('title'=>$child['title'],
-									  'href' => $child['href']);
-				}
-			}
-		}
-
-	return $output;
+		return $output;
 	}
 }

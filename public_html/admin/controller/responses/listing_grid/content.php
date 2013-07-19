@@ -21,7 +21,9 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridContent extends AController {
-	private $error = array();
+	/**
+	 * @var AContentManager
+	 */
 	private $acm;
 
 	public function main() {
@@ -33,47 +35,78 @@ class ControllerResponsesListingGridContent extends AController {
 		$this->acm = new AContentManager();
 
 		//Prepare filter config
-		$grid_filter_params = array( 'sort_order', 'title', 'status' );
+		$grid_filter_params = array( 'sort_order', 'title', 'status', 'nodeid' );
 		//Build advanced filter
-		$filter_grid = new AFilter(array( 'method' => 'post',
-			'grid_filter_params' => $grid_filter_params,
-		));
-		$total = $this->acm->getTotalContents($filter_grid->getFilterData());
+		$filter_data = array( 'method' => 'post',
+							  'grid_filter_params' => $grid_filter_params);
+		$filter_grid = new AFilter($filter_data);
+		$filter_array = $filter_grid->getFilterData();
+		if ($this->request->post['nodeid'] ) {
+            list($void,$parent_id) = explode('_',$this->request->post['nodeid']);
+            $filter_array['parent_id'] = $parent_id;
+			if($filter_array['subsql_filter']){
+				$filter_array['subsql_filter'] .= " AND i.parent_content_id='".(int)$filter_array['parent_id']."' ";
+			}else{
+				$filter_array['subsql_filter'] = " i.parent_content_id='".(int)$filter_array['parent_id']."' ";
+			}
+			$new_level = (integer)$this->request->post["n_level"] + 1;
+		}else{
+			//Add custom params
+            $filter_array['parent_id'] = $new_level = 0;
+			if ( $this->config->get('config_show_tree_data') ) {
+				if($filter_array['subsql_filter']){
+					$filter_array['subsql_filter'] .= " AND i.parent_content_id='0' ";
+				}else{
+					$filter_array['subsql_filter'] = " i.parent_content_id='0' ";
+				}
+			}
+		}
+
+
+		$leafnodes = $this->config->get('config_show_tree_data') ? $this->acm->getLeafContents() : array();
+
+		$total = $this->acm->getTotalContents($filter_array);
 		$response = new stdClass();
 		$response->page = $filter_grid->getParam('page');
 		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
-		$results = $this->acm->getContents($filter_grid->getFilterData());
+        $response->userdata = (object)array('');
+		$results = $this->acm->getContents($filter_array);
 		$results = !$results ? array() : $results;
-		$multiSelect = $this->acm->getContentsForSelect();
 		$i = 0;
-		if ($multiSelect) {
-			foreach ($results as $result) {
-				$multi_temp = $multiSelect;
-				unset($multi_temp[ $result[ 'content_id' ] ]);
 
-				$response->rows[ $i ][ 'id' ] = $result[ 'content_id' ];
-				$response->rows[ $i ][ 'cell' ] = array( strip_tags(html_entity_decode($result[ 'title' ])),
 
-					$this->html->buildMultiSelectbox(array(
-						'name' => 'parent_content_id[' . $result[ 'content_id' ] . '][]',
-						'options' => $multi_temp,
-						'value' => $result[ 'parent_content_id' ],
-						'attr' => 'size = "3"'
-					)),
-					$this->html->buildCheckbox(array(
-						'name' => 'status[' . $result[ 'content_id' ] . ']',
-						'value' => $result[ 'status' ],
-						'style' => 'btn_switch',
-					)),
-					$this->html->buildInput(array(
-						'name' => 'sort_order[' . $result[ 'content_id' ] . ']',
-						'value' => $result[ 'sort_order' ],
-					)),
-				);
-				$i++;
+		foreach ($results as $result) {
+
+			if ( $this->config->get('config_show_tree_data') ) {
+				$title_lable = '<label style="white-space: nowrap;">'.$result['title'].'</label>';
+			} else {
+				$title_lable = $result['title'];
 			}
+            $parent_content_id = current($result[ 'parent_content_id' ]);
+			$response->rows[ $i ][ 'id' ] = $parent_content_id.'_'.$result[ 'content_id' ];
+			$response->rows[ $i ][ 'cell' ] = array(
+
+				$title_lable,
+				$result[ 'parent_name' ],
+				$this->html->buildCheckbox(array(
+					'name' => 'status[' . $parent_content_id.'_'. $result[ 'content_id' ].']',
+					'value' => $result[ 'status' ],
+					'style' => 'btn_switch',
+				)),
+				$this->html->buildInput(array(
+					'name' => 'sort_order[' . $parent_content_id.'_'. $result[ 'content_id' ].']',
+					'value' => $result[ 'sort_order' ][$parent_content_id],
+				)),
+				'action',
+				 $new_level,
+				 ( $this->request->post['nodeid'] ? $this->request->post['nodeid'] : null ),
+				 ( $result['content_id'] == $leafnodes[$result['content_id']] ? true : false ),
+				false
+			);
+			$i++;
 		}
+
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -100,19 +133,24 @@ class ControllerResponsesListingGridContent extends AController {
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					foreach ($ids as $id) {
+						if(is_int(strpos($id,'_'))){
+							list($parent_content_id,$content_id) = explode('_',$id);
+						}else{
+							$content_id = $id;
+						}
 
-						if ($this->config->get('config_account_id') == $id) {
+						if ($this->config->get('config_account_id') == $content_id) {
 							$this->response->setOutput($this->language->get('error_account'));
 							return null;
 						}
 
-						if ($this->config->get('config_checkout_id') == $id) {
+						if ($this->config->get('config_checkout_id') == $content_id) {
 							$this->response->setOutput($this->language->get('error_checkout'));
 							return null;
 						}
 
 
-						$this->acm->deleteContent($id);
+						$this->acm->deleteContent($content_id);
 					}
 				break;
 			case 'save':
@@ -120,8 +158,14 @@ class ControllerResponsesListingGridContent extends AController {
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					foreach ($ids as $id) {
+						$parent_content_id = null;
+						if(is_int(strpos($id,'_'))){
+							list($parent_content_id,$content_id) = explode('_',$id);
+						}else{
+							$content_id = $id;
+						}
 						foreach ($allowedFields as $field) {
-							$this->acm->editContentField($id, $field, $this->request->post[ $field ][ $id ]);
+							$this->acm->editContentField($content_id, $field, $this->request->post[ $field ][ $id ],$parent_content_id);
 						}
 					}
 				break;
@@ -148,10 +192,10 @@ class ControllerResponsesListingGridContent extends AController {
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
 				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/content'),
-					'reset_value' => true
+					   'reset_value' => true
 				));
 		}
-		$allowedFields = array( 'name', 'title', 'description', 'keyword', 'store_id', 'sort_order', 'status', 'parent_content_id' );
+		$allowedFields = array( 'title', 'description', 'keyword', 'store_id', 'sort_order', 'status', 'parent_content_id' );
 
 		if (isset($this->request->get[ 'id' ])) {
 			//request sent from edit form. ID in url
@@ -165,8 +209,13 @@ class ControllerResponsesListingGridContent extends AController {
 						return $dd->dispatch();
 					}
 				}
+				if($field=='sort_order'){
+					// NOTE: grid quicksave ids are not the same as id from form quick save request!
+					list($void,$parent_content_id) = explode('_',key($value));
+					$value = current($value);
+				}
 
-				$this->acm->editContentField($this->request->get[ 'id' ], $field, $value);
+				$this->acm->editContentField($this->request->get[ 'id' ], $field, $value, $parent_content_id);
 			}
 			return null;
 		}
@@ -174,9 +223,9 @@ class ControllerResponsesListingGridContent extends AController {
 		//request sent from jGrid. ID is key of array
 		foreach ($this->request->post as $field => $value) {
 			if (!in_array($field, $allowedFields)) continue;
-			foreach ($value as $k => $v) {
-				$this->acm->editContentField($k, $field, $v);
-			}
+			// NOTE: grid quicksave ids are not the same as id from form quick save request!
+			list($parent_content_id,$content_id) = explode('_',key($value));
+			$this->acm->editContentField($content_id, $field, current($value),$parent_content_id);
 		}
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

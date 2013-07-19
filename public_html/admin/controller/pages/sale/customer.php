@@ -102,13 +102,37 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->language->get('column_group'),
 			$this->language->get('column_status'),
 			$this->language->get('column_approved'),
+			$this->language->get('text_order'),
 		);
 		$grid_settings['colModel'] = array(
-			array( 'name' => 'name', 'index' => 'name', 'width' => 160, 'align' => 'center', ),
-			array( 'name' => 'email', 'index' => 'email', 'width' => 140, 'align' => 'center', ),
-			array( 'name' => 'customer_group', 'index' => 'customer_group', 'width' => 80, 'align' => 'center', 'search' => false ),
-			array( 'name' => 'status', 'index' => 'status', 'width' => 120, 'align' => 'center', 'search' => false ),
-			array( 'name' => 'approved', 'index' => 'approved', 'width' => 110, 'align' => 'center', 'search' => false ),
+			array( 'name' => 'name',
+					'index' => 'name',
+					'width' => 160,
+					'align' => 'center', ),
+			array( 'name' => 'email',
+					'index' => 'email',
+					'width' => 140,
+					'align' => 'center', ),
+			array( 'name' => 'customer_group',
+					'index' => 'customer_group',
+					'width' => 80,
+					'align' => 'center',
+					'search' => false ),
+			array( 'name' => 'status',
+					'index' => 'status',
+					'width' => 120,
+					'align' => 'center',
+					'search' => false ),
+			array( 'name' => 'approved',
+					'index' => 'approved',
+					'width' => 110,
+					'align' => 'center',
+					'search' => false ),
+			array( 'name' => 'orders',
+					'index' => 'orders_count',
+					'width' => 70,
+					'align' => 'center',
+					'search' => false ),
 		);
 
 		$this->loadModel('sale/customer_group');
@@ -232,7 +256,7 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id ) );
 		}
-    
+
     	$this->_getForm();
 
         //update controller data
@@ -271,6 +295,19 @@ class ControllerPagesSaleCustomer extends AController {
 				$this->data[$f] = '';
 			}
 		}
+
+		if(has_value($customer_info['orders_count']) && $this->request->get['customer_id']){
+			$this->data['button_orders_count'] = $this->html->buildButton(
+							array(
+								'name' => 'view orders',
+								'text' => $this->language->get('text_order').': '.$customer_info['orders_count'],
+								'style' => 'button2',
+								'href'=> $this->html->getSecureURL('sale/order','&customer_id='.$this->request->get['customer_id']),
+								'title' => $this->language->get('text_view').' '.$this->language->get('tab_history')
+							)
+			);
+		}
+
 			
     	if (!isset($this->data['customer_group_id'])) {
       		$this->data['customer_group_id'] = $this->config->get('config_customer_group_id');
@@ -407,8 +444,8 @@ class ControllerPagesSaleCustomer extends AController {
 			'style'  => 'btn_switch',
 	    ));
 		$this->view->assign('help_url', $this->gen_help_url('customer_edit') );
-
-		$balance = $this->model_sale_customer->getBalance($this->request->get['customer_id']);
+        $this->loadModel('sale/customer_transaction');
+		$balance = $this->model_sale_customer_transaction->getBalance($this->request->get['customer_id']);
 		$currency = $this->currency->getCurrency($this->config->get('config_currency'));
 
 		$this->data['balance'] = $this->language->get('text_balance').' '.$currency['symbol_left'].round($balance,2).$currency['symbol_right'];
@@ -447,19 +484,20 @@ class ControllerPagesSaleCustomer extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
     	
 		if (isset($this->request->get['customer_id'])) {
-			session_write_close();
-			$session = new ASession('PHPSESSID_AC_SF');
- 			$session->data['customer_id'] = $this->request->get['customer_id'];
- 			session_write_close();
+            startStorefrontSession($this->user->getId(), array('customer_id' => $this->request->get['customer_id']));
 			$this->redirect($this->html->getCatalogURL('account/account'));
 		}
 
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->redirect($this->html->getSecureURL('sale/customer'));
-	} 
-	 	 
-  	private function _validateForm($customer_id = null) {
+	}
+
+	/**
+	 * @param null $customer_id
+	 * @return bool
+	 */
+	private function _validateForm($customer_id = null) {
     	if (!$this->user->canModify('sale/customer')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
@@ -529,6 +567,9 @@ class ControllerPagesSaleCustomer extends AController {
 		}
   	}
 
+	/**
+	 * @param int $id  - customer_id
+	 */
 	private function _sendMail($id){
 
 			// send email to customer
@@ -566,4 +607,3 @@ class ControllerPagesSaleCustomer extends AController {
 	}
 
 }
-?>

@@ -767,6 +767,7 @@ CREATE TABLE `ac_orders` (
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ip` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `payment_method_data` text COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`order_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
@@ -1001,6 +1002,7 @@ CREATE TABLE `ac_product_option_descriptions` (
   `language_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `option_placeholder` varchar(255) COLLATE utf8_bin DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`product_option_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -1023,6 +1025,7 @@ CREATE TABLE `ac_product_option_values` (
   `attribute_value_id` int(11),  
   `grouped_attribute_data` text DEFAULT NULL,
   `sort_order` int(3) NOT NULL,
+  `default` smallint DEFAULT 0,
   PRIMARY KEY (`product_option_value_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
@@ -1196,7 +1199,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','invoice_prefix','IN#'),
 ('checkout','config_cart_weight',0),
 ('checkout','config_shipping_session',0),
-('checkout','config_tax',1),
+('checkout','config_tax', 0),
 ('checkout','config_tax_store',1),
 ('checkout','config_tax_customer',0),
 ('checkout','config_customer_price',1),
@@ -1213,6 +1216,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_cart_ajax',1),
 ('checkout','total_order_maximum',0),
 ('checkout','total_order_minimum',0),
+('checkout','config_shipping_tax_estimate',1),
+('checkout','config_coupon_on_cart_page',1),
 
 -- Appearance
 
@@ -1440,7 +1445,10 @@ CREATE TABLE `ac_url_aliases` (
   PRIMARY KEY (`url_alias_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 CREATE UNIQUE INDEX `url_aliases_index`
-ON `ac_url_aliases` ( `url_alias_id`, `keyword` );
+ON `ac_url_aliases` ( `keyword`, `language_id`);
+CREATE UNIQUE INDEX `url_aliases_index2`
+ON `ac_url_aliases` ( `query`, `language_id` );
+
 
 --
 -- DDL for table `user`
@@ -7240,7 +7248,7 @@ VALUES  (16,NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (17,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (18,'1.1.5','1');
+VALUES  (18,'1.1.6','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (19,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_timestamp`,`row_id`)

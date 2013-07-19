@@ -73,6 +73,15 @@ class ControllerPagesToolBackup extends AController {
 					$this->error[ 'warning' ] = $this->language->get('error_empty') . ' (' . pathinfo($this->request->files[ 'restore' ][ 'name' ], PATHINFO_EXTENSION) . ')';
 				} else {
 					$this->error[ 'warning' ] = $this->language->get('error_upload');
+					$uploaded_file = '';
+					if(isset($this->request->files[ 'restore' ])){
+						$uploaded_file = $this->request->files[ 'restore' ];
+					}elseif($this->request->files[ 'import' ]){
+						$uploaded_file = $this->request->files[ 'import' ];
+					}
+					if($uploaded_file){
+						$this->error[ 'warning' ] .= '<br>Error: ' . getTextUploadError($uploaded_file['error']);
+					}
 				}
 			}
 		}

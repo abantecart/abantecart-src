@@ -62,8 +62,8 @@ class ControllerResponsesListingGridProduct extends AController {
 		foreach ($results as $result) {
 			$thumbnail = $resource->getMainThumb('products',
 				$result[ 'product_id' ],
-				$this->config->get('config_image_grid_width'),
-				$this->config->get('config_image_grid_height'), true);
+				(int)$this->config->get('config_image_grid_width'),
+				(int)$this->config->get('config_image_grid_height'), true);
 
 			$response->rows[ $i ][ 'id' ] = $result[ 'product_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
@@ -240,7 +240,7 @@ class ControllerResponsesListingGridProduct extends AController {
 				$data = array( $key => $value );
 				$this->model_catalog_product->updateProductDiscount($this->request->get[ 'id' ], $data);
 			}
-			return;
+			return null;
 		}
 
 		//update controller data
@@ -268,7 +268,7 @@ class ControllerResponsesListingGridProduct extends AController {
 				$data = array( $key => $value );
 				$this->model_catalog_product->updateProductSpecial($this->request->get[ 'id' ], $data);
 			}
-			return;
+			return null;
 		}
 
 		//update controller data
@@ -296,7 +296,7 @@ class ControllerResponsesListingGridProduct extends AController {
 				$data = array( $key => $value );
 				$this->model_catalog_product->updateProductLinks($this->request->get[ 'id' ], $data);
 			}
-			return;
+			return null;
 		}
 
 		//update controller data
@@ -325,7 +325,7 @@ class ControllerResponsesListingGridProduct extends AController {
 	}
 
 	private function _validateDelete($id) {
-		return;
+		return null;
 	}
 
 }

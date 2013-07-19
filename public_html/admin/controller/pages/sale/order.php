@@ -60,7 +60,7 @@ class ControllerPagesSaleOrder extends AController {
 			//id of grid
             'table_id' => 'order_grid',
             // url to load data from
-			'url' => $this->html->getSecureURL('listing_grid/order'),
+			'url' => $this->html->getSecureURL('listing_grid/order','&customer_id='.$this->request->get['customer_id']),
 			'editurl' => $this->html->getSecureURL('listing_grid/order/update'),
 			'update_field' => $this->html->getSecureURL ( 'listing_grid/order/update_field' ),
             'sortname' => 'order_id',
@@ -199,6 +199,11 @@ class ControllerPagesSaleOrder extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
     	$this->document->setTitle( $this->language->get('heading_title') );
+
+		if ( has_value($this->session->data['error']) ) {
+			$this->data['error']['warning'] = $this->session->data['error'];
+			unset($this->session->data['error']);
+		}
 
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
 			$this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post);
@@ -549,6 +554,9 @@ class ControllerPagesSaleOrder extends AController {
 		foreach ( $this->data['countries'] as $country ){
 			$countries[$country['country_id']] = $country['name'];
 		}
+		if(!$this->data['shipping_country_id']){
+			$this->data['shipping_country_id'] = $this->config->get('config_country_id');
+		}
 
 		$this->data['form']['country_select'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -700,6 +708,10 @@ class ControllerPagesSaleOrder extends AController {
 		foreach ( $this->data['countries'] as $country )
 		{
 			$countries[$country['country_id']] = $country['name'];
+		}
+
+		if(!$this->data['payment_country_id']){
+			$this->data['payment_country_id'] = $this->config->get('config_country_id');
 		}
 
 		$this->data['form']['country_select'] = $form->getFieldHtml(array(

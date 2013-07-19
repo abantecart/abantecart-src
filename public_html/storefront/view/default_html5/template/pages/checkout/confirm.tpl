@@ -60,7 +60,7 @@
 	<?php  if ($payment_method || $balance) { ?>
 		<h4 class="heading4"><?php echo $text_payment; ?></h4>
 
-		<table class="table">
+		<table class="table confirm_payment_options">
 
 			<?php if ($payment_method) { ?>
 				<tr>
@@ -101,7 +101,7 @@
 
 	<h4 class="heading4"><?php echo $text_cart_items; ?></h4>
 
-	<table class="table">
+	<table class="table confirm_products">
 		<?php foreach ($products as $product) { ?>
 			<tr>
 				<td><a href="<?php echo $product['href']; ?>"><?php echo $product['thumb']['thumb_html']; ?></a></td>
@@ -136,28 +136,31 @@
 
 	<?php echo $this->getHookVar('order_attributes'); ?>
 
-	<div class="container cart_total">
-		<div class="pull-right">
-			<div class="cart-info span4 pull-right">
-				<table class="table table-striped table-bordered">
-					<?php
-					foreach ($totals as $total) {
-						?>
-						<tr>
-							<td>
-								<span class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span>
-							</td>
-							<td>
-								<span class="bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span>
-							</td>
-						</tr>
-					<?php } ?>
-				</table>
-				<?php echo $this->getHookVar('payment_pre'); ?>
-				<div id="payment"><?php echo $payment; ?></div>
-				<?php echo $this->getHookVar('payment_post'); ?>
-			</div>
+	<div class="row-fluid confirm_total">
+	
+		<div class="cart-info span5">
+			<table class="table table-striped table-bordered">
+			    <?php
+			    foreach ($totals as $total) {
+			    	?>
+			    	<tr>
+			    		<td>
+			    			<span class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span>
+			    		</td>
+			    		<td>
+			    			<span class="bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span>
+			    		</td>
+			    	</tr>
+			    <?php } ?>
+			</table>
 		</div>
+		
+		<div class="span5 offset1 payment_confirmation">
+			<?php echo $this->getHookVar('payment_pre'); ?>
+			<div id="payment"><?php echo $payment; ?></div>
+			<?php echo $this->getHookVar('payment_post'); ?>	
+		</div>
+		
 	</div>
 
 </div>

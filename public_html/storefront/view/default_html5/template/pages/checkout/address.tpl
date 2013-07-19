@@ -17,8 +17,8 @@
 </div>
 <?php } ?>
 
-<div class="container-fluid">
-	<section class="formbox">
+<div class="container-fluid addresses">
+	<section class="formbox old_address">
 	<?php if ($addresses) {
 	  echo  $form0['form_open'];
 	?>
@@ -45,7 +45,7 @@
 	</form>
 	</section>
 	
-	<section class="formbox ml10">
+	<section class="formbox ml10 new_address">
 	<?php }
 	   echo $form['form_open'];
 	?>

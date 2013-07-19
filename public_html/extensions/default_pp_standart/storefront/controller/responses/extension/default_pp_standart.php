@@ -54,7 +54,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 
 		if ( has_value($this->config->get('default_pp_standart_logoimg')) ) {
 
-			if ( strpos($this->config->get('default_pp_standart_logoimg'), 'http://') || strpos($this->config->get('default_pp_standart_logoimg'), 'https://') ) {
+			if (strpos($this->config->get('default_pp_standart_logoimg'), 'http')===0 ) {
 				$this->data['logoimg'] = $this->config->get('default_pp_standart_logoimg');
 			} else {
 				$this->data['logoimg'] = HTTPS_SERVER . $this->config->get('default_pp_standart_logoimg');
@@ -90,7 +90,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 			$this->data['products'][] = array(
 				'name'     => $product['name'],
 				'model'    => $product['model'],
-				'price'    => $this->currency->format($product['price'], false, false),
+				'price'    => $this->currency->format($product['price'], $order_info['currency'], $order_info['value'], FALSE),
 				'quantity' => $product['quantity'],
 				'option'   => $option_data,
 				'weight'   => $product['weight']
@@ -110,7 +110,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 			$this->data['products'][] = array(
 							'name'     => $total['title'],
 							'model'    => '',
-							'price'    => $this->currency->format($total['value'], false, false),
+							'price'    => $this->currency->format($total['value'], $order_info['currency'], $order_info['value'], FALSE),
 							'quantity' => 1,
 							'option'   => array(),
 							'weight'   => 0
@@ -141,6 +141,20 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 		} else {
 			$this->data['back'] = $this->html->getSecureURL('checkout/guest_step_2');
 		}
+
+		$back = $this->request->get[ 'rt' ] != 'checkout/guest_step_3'
+				? $this->html->getSecureURL('checkout/payment')
+				: $this->html->getSecureURL('checkout/guest_step_2');
+		$this->data[ 'back' ] = HtmlElementFactory::create(array( 'type' => 'button',
+														  'name' => 'back',
+														  'text' => $this->language->get('button_back'),
+														  'style' => 'button',
+														  'href' => $back ));
+		$this->data[ 'button_confirm' ] = HtmlElementFactory::create(
+													array( 'type' => 'submit',
+														  'name' => $this->language->get('button_confirm'),
+														  'style' => 'button',
+													));
 		
 		$this->view->batchAssign( $this->data ); 
 		$this->processTemplate('responses/default_pp_standart.tpl');
@@ -226,7 +240,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 				} else {
 					$this->model_checkout_order->confirm($order_id, $this->config->get('config_order_status_id'));
 				}
-					
+
 				curl_close($ch);
 			} else {
 				$header  = 'POST /cgi-bin/webscr HTTP/1.0' . "\r\n";
@@ -246,7 +260,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 					while (!feof($fp)) {
 						$response = fgets($fp, 1024);
 					
-						if (strcmp($response, 'VERIFIED') == 0) {
+						if (strcmp($response, 'VERIFIED') == 0 || $this->request->post['payment_status'] == 'Completed') {
 							$this->model_checkout_order->confirm($order_id, $this->config->get('default_pp_standart_order_status_id'));
 						} else {
 							$this->model_checkout_order->confirm($order_id, $this->config->get('config_order_status_id'));
@@ -256,6 +270,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 					fclose($fp);
 				}
 			}
+			$this->model_checkout_order->updatePaymentMethodData($this->session->data['order_id'], $response);
 		}
 	}
 }

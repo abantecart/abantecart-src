@@ -40,7 +40,7 @@ class AMenu_Storefront extends AMenu {
 	protected function _buildMenu() {
 
 		$this->dataset_rows = (array)$this->dataset->getRows();
-		$this->dataset_decription_rows = $this->dataset_decription->getRows();
+		$this->dataset_decription_rows = (array)$this->dataset_decription->getRows();
 
 		// need to resort by sort_order property
 		$offset = 0; // it needs for process repeating sort numbers
@@ -119,6 +119,7 @@ class AMenu_Storefront extends AMenu {
 	 * method inserts new item to the end of menu level
 	 *
 	 * @param array $item("item_id"=>"","parent_id"=>"","item_text"=>,"rt"=>"","sort_order"=>"", "item_type" => "")
+	 * @throws AException
 	 * @return boolean
 	 */
 	public function insertMenuItem($item = array()) {
@@ -250,7 +251,9 @@ class AMenu_Storefront extends AMenu {
 	/**
 	 * update dataset_description - add new language menu names
 	 *
-	 * @param  $language_id
+	 * @param $language_id
+	 * @param array $data
+	 * @throws AException
 	 * @return void
 	 */
 	public function addLanguage($language_id, $data = array()) {
@@ -290,7 +293,8 @@ class AMenu_Storefront extends AMenu {
 	/**
 	 * update dataset_description - delete language menu names
 	 *
-	 * @param  $language_id
+	 * @param $language_id
+	 * @throws AException
 	 * @return void
 	 */
 	public function deleteLanguage($language_id) {

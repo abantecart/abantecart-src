@@ -55,7 +55,7 @@ function confirmSubmit() {
 			if (data.error) {
 				alert(data.error);
 				
-				$('#paypal_button').attr('disabled', '');
+				$('#paypal_button').removeAttr('disabled');
 			}
 			
 			$('.wait').remove();

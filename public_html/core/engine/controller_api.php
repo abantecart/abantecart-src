@@ -48,7 +48,7 @@ class AControllerAPI extends AController {
 				break;
 			default:
 				$this->rest->sendResponse(405);
-				return;
+				return null;
 				break;
 		}		
 	}
@@ -56,22 +56,22 @@ class AControllerAPI extends AController {
 	//Abstract Methods
 	public function get() {
 		$this->rest->sendResponse(405);
-		return;
+		return null;
 	}
 	
 	public function post() {
 		$this->rest->sendResponse(405);
-		return;
+		return null;
 	}
 	
 	public function put() {
 		$this->rest->sendResponse(405);
-		return;
+		return null;
 	}
 	
 	public function delete() {
 		$this->rest->sendResponse(405);
-		return;
+		return null;
 	}
 
 }

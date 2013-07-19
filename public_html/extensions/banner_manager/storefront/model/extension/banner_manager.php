@@ -22,7 +22,11 @@ if (!defined('DIR_CORE')) {
 }
 
 class ModelExtensionBannerManager extends Model {
-
+	/**
+	 * @param int $banner_id
+	 * @param int $language_id
+	 * @return array
+	 */
 	public function getBanner($banner_id, $language_id) {
 		$banner_id = (int)$banner_id;
 		$language_id = (int)$language_id;
@@ -51,9 +55,13 @@ class ModelExtensionBannerManager extends Model {
 		return $result->row;
 	}
 
+	/**
+	 * @param int $custom_block_id
+	 * @return array
+	 */
 	public function getBanners($custom_block_id) {
 		$custom_block_id = (int)$custom_block_id;
-		if (!$custom_block_id) return;
+		if (!$custom_block_id) return array();
 
 		if (!empty($data[ 'content_language_id' ])) {
 			$language_id = ( int )$data[ 'content_language_id' ];
@@ -61,7 +69,7 @@ class ModelExtensionBannerManager extends Model {
 			$language_id = (int)$this->config->get('storefront_language_id');
 		}
 		// get block info
-		$block_info = $this->layout->getBlockDescriptions($custom_block_id);
+		$block_info = (array)$this->layout->getBlockDescriptions($custom_block_id);
 		foreach ($block_info[ $language_id ] as $k => $v) {
 			$this->data[ $k ] = $v;
 		}
@@ -87,7 +95,7 @@ class ModelExtensionBannerManager extends Model {
 						CASE WHEN `end_date`='0000-00-00 00:00:00'
 									OR COALESCE(`end_date`, '1970-01-01 00:00:00') = '1970-01-01 00:00:00'
 							THEN  NOW() + INTERVAL 1 MONTH ELSE `end_date` END)
-					AND (`banner_group_name` = '" . $banner_group_name . "'
+					AND (`banner_group_name` = '" . $this->db->escape($banner_group_name) . "'
 						OR b.banner_id IN (SELECT DISTINCT id
 		                            FROM " . DB_PREFIX . "custom_lists
 								    WHERE custom_block_id = '" . $custom_block_id . "' AND data_type='banner_id'))
@@ -97,6 +105,11 @@ class ModelExtensionBannerManager extends Model {
 
 	}
 
+	/**
+	 * @param int $banner_id
+	 * @param int $type
+	 * @return bool
+	 */
 	public function writeBannerStat($banner_id, $type = 1) {
 		$banner_id = (int)$banner_id;
 		$type = (int)$type;
@@ -109,7 +122,7 @@ class ModelExtensionBannerManager extends Model {
 		);
 
 		$sql = "INSERT INTO " . DB_PREFIX . "banner_stat (`banner_id`, `type`, `store_id`, `user_info`)
-				VALUES ('" . $banner_id . "', '" . $type . "', '" . $this->config->get('config_store_id') . "', '" . serialize($user_info) . "')";
+				VALUES ('" . $banner_id . "', '" . $type . "', '" .(int) $this->config->get('config_store_id') . "', '" . $this->db->escape(serialize($user_info)) . "')";
 		$this->db->query($sql);
 		return true;
 	}

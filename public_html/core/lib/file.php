@@ -61,6 +61,13 @@ class AFile {
 		$this->registry->set($key, $value);
 	}
 
+	/**
+	 * @param $settings
+	 * @param array $data
+	 * @internal param int $product_id
+	 * @internal param int $option_id
+	 * @return array
+	 */
 	public function validateFileOption($settings, $data) {
 
 		$errors = array();
@@ -80,29 +87,39 @@ class AFile {
 		}
 
 		if ( (int) $settings['min_size'] > 0 ) {
-			$min_size_kb = $settings['min_size'] * 1024 * 1024;
-
-			if ( (int) $data['size'] < $min_size_kb ) {
-				$errors[] = sprintf($this->language->get('error_min_file_size'), $settings['min_size']);
+			$min_size_kb = $settings['min_size'];
+			if ( (int) $data['size'] / 1024 < $min_size_kb ) {
+				$errors[] = sprintf($this->language->get('error_min_file_size'), $min_size_kb);
 			}
 		}
 
-		$max_size = (int)$this->config->get('config_upload_max_size') < (int) ini_get('upload_max_filesize') ? (int)$this->config->get('config_upload_max_size') : (int) ini_get('upload_max_filesize');
+		//convert all to Kb and check the limits on abantecart and php side
+		$abc_upload_limit = (int)$this->config->get('config_upload_max_size'); //comes in Kb
+		$php_upload_limit = (int)ini_get('upload_max_filesize') * 1024; //comes in Mb
+		$max_size_kb = $abc_upload_limit <  $php_upload_limit ? $abc_upload_limit : $php_upload_limit;
 
+		//check limit for attribute if set
 		if ( (int) $settings['max_size'] > 0 ) {
-			$max_size = $max_size < (int) $settings['max_size'] ? (int) $settings['max_size'] : $max_size;
+			$max_size_kb = (int) $settings['max_size'] < $max_size_kb ? (int) $settings['max_size'] : $max_size_kb;
 		}
-		$max_size_kb = $max_size * 1024 * 1024;
 
-		if ( $max_size_kb < (int) $data['size'] ) {
+		if ( $max_size_kb < (int) $data['size'] / 1024 ) {
 			$errors[] = sprintf($this->language->get('error_max_file_size'), $max_size_kb);
 		}
 
 		return $errors;
 
 	}
-	
+
+	/**
+	 * @param string $upload_dir
+	 * @param string $file_name
+	 * @return array
+	 */	
 	public function getUploadFilePath($upload_dir, $file_name) {
+		if ( empty($file_name)) {
+			return array();
+		}
 		$file_path = DIR_ROOT . '/admin/system/uploads/' . $upload_dir . '/';
 
 		if ( !is_dir($file_path) ) {
@@ -128,6 +145,5 @@ class AFile {
 
 		return array('name' => $new_name, 'path' => $real_path);
 	}
-
 
 }

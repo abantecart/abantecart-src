@@ -92,13 +92,12 @@ class ControllerResponsesListingGridMenu extends AController {
 			$results = array_slice($menu_items, ($page - 1) * -$limit, $limit);
 
 			$i = 0;
+			$resource = new AResource('image');
 			foreach ($results as $result) {
-
-				if ($result[ 'item_icon' ]) {
-					$thumb = HTTP_DIR_RESOURCE . $result[ 'item_icon' ];
-				} else {
-					$thumb = $model->resize('no_image.jpg', $this->config->get('config_image_grid_width'), $this->config->get('config_image_grid_height'));
-				}
+				$resource_id = $resource->getIdFromHexPath(str_replace('image/','',$result[ 'item_icon' ]));
+				$thumb = $resource->getResourceThumb($resource_id,
+													(int)$this->config->get('config_image_grid_width'),
+													(int)$this->config->get('config_image_grid_height'));
 
 				$response->rows[ $i ][ 'id' ] = $result[ 'item_id' ];
 				$response->rows[ $i ][ 'cell' ] = array(

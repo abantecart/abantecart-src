@@ -800,18 +800,20 @@ class ModelCatalogProduct extends Model {
 		if ( !(int)$product_id ) {
 			return array();
 		}
-
-		$product_option_data = $this->cache->get( 'product.options.'.$product_id, $this->config->get('storefront_language_id') );
+		$language_id = 	(int)$this->config->get('storefront_language_id');
+		$product_option_data = $this->cache->get( 'product.options.'.$product_id, $language_id );
 		$elements = HtmlElementFactory::getAvailableElements();
 		if(is_null($product_option_data)){
             $product_option_data = array();
 			$product_option_query = $this->db->query(
-                "SELECT *
-                FROM " . $this->db->table("product_options") . "
-                WHERE product_id = '" . (int)$product_id . "'
-                    AND group_id = 0
-                    AND status = 1
-                ORDER BY sort_order"
+                "SELECT po.*, pod.option_placeholder
+                FROM " . $this->db->table("product_options") . " po
+                LEFT JOIN " . $this->db->table("product_option_descriptions") . " pod
+                	ON pod.product_option_id = po.product_option_id AND pod.language_id =  '".$language_id."'
+                WHERE po.product_id = '" . (int)$product_id . "'
+                    AND po.group_id = 0
+                    AND po.status = 1
+                ORDER BY po.sort_order"
             );
 			if($product_option_query){
 				foreach ($product_option_query->rows as $product_option) {
@@ -837,7 +839,7 @@ class ModelCatalogProduct extends Model {
                                 "SELECT *
                                     FROM " . $this->db->table("product_option_value_descriptions") . "
                                     WHERE product_option_value_id = '" . (int)$product_option_value['product_option_value_id'] . "'
-                                    AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'"
+                                    AND language_id = '" . (int)$language_id . "'"
                             );
 
 							$product_option_value_data[$product_option_value['product_option_value_id']] = array(
@@ -846,6 +848,7 @@ class ModelCatalogProduct extends Model {
                                 'grouped_attribute_data'  => $product_option_value['grouped_attribute_data'],
                                 'group_id'                => $product_option_value['group_id'],
                                 'name'                    => $pd_opt_val_description_qr->row['name'],
+                                'option_placeholder'      => $product_option['option_placeholder'],
                                 'children_options_names'  => $pd_opt_val_description_qr->row['children_options_names'],
                                 'sku'                     => $product_option_value['sku'],
                                 'price'                   => $product_option_value['price'],
@@ -854,6 +857,7 @@ class ModelCatalogProduct extends Model {
 								'weight_type'             => $product_option_value['weight_type'],
 								'quantity'				  => $product_option_value['quantity'],
 								'subtract'				  => $product_option_value['subtract'],
+								'default'				  => $product_option_value['default'],
 							);
 						}
 					}
@@ -861,7 +865,7 @@ class ModelCatalogProduct extends Model {
                         "SELECT *
                         FROM " . $this->db->table("product_option_descriptions") . "
                         WHERE product_option_id = '" . (int)$product_option['product_option_id'] . "'
-                            AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'"
+                            AND language_id = '" . (int)$language_id . "'"
                     );
 
 					$product_option_data[$product_option['product_option_id']] = array(
@@ -869,6 +873,7 @@ class ModelCatalogProduct extends Model {
                         'attribute_id'      => $product_option['attribute_id'],
                         'group_id'          => $product_option['group_id'],
                         'name'              => $prd_opt_description_qr->row['name'],
+                        'option_placeholder'=> $product_option['option_placeholder'],
                         'option_value'      => $product_option_value_data,
                         'sort_order'        => $product_option['sort_order'],
 						'element_type'      => $product_option['element_type'],
@@ -878,7 +883,7 @@ class ModelCatalogProduct extends Model {
 				}
 			}
 
-            $this->cache->set( 'product.options.'.$product_id, $product_option_data, $this->config->get('storefront_language_id') );
+            $this->cache->set( 'product.options.'.$product_id, $product_option_data, $language_id );
 		}	
 		return $product_option_data;
 	}
@@ -952,12 +957,12 @@ class ModelCatalogProduct extends Model {
 	 * @return bool
 	 */
 	public function validateRequiredOptions($product_id, $input_options) {
+
 		$error = false;	
 		if ( empty($product_id) && empty($input_options) ) {
 			return false;
 		}
 		$product_options = $this->getProductOptions($product_id);
-
 		foreach ( $product_options as $option ) {
 
 			if ( $option['required'] ) {
@@ -980,104 +985,6 @@ class ModelCatalogProduct extends Model {
 		}
 
 		return $error;	
-	}
-
-	/**
-	 * @param int $product_id
-	 * @param int $option_id
-	 * @param array $data
-	 * @return array
-	 */
-	public function validateFileOption($product_id, $option_id, $data) {
-
-		$errors = array();
-		if ( empty($product_id) || empty($option_id) || empty($data) ) {
-			$errors[] = $this->language->get('error_empty_file_data');
-			return $errors;
-		}
-
-		$am = new AAttribute('product_option');
-		$attribute_data = $am->getAttributeByProductOptionId($option_id);
-
-		//echo_array($data);echo_array($attribute_data['settings']);exit;
-		if ( empty($data['name']) ) {
-			$errors[] = $this->language->get('error_empty_file_name');
-		}
-
-		if ( !empty($attribute_data['settings']['extensions']) ) {
-			$allowed_extensions = explode(',', str_replace(' ', '', $attribute_data['settings']['extensions']));
-			$extension = substr(strrchr($data['name'], '.'), 1);
-			//echo_array($allowed_extensions);
-			//var_dump($extension);
-			if ( !in_array($extension, $allowed_extensions) ) {
-				$errors[] = sprintf($this->language->get('error_file_extension'), $attribute_data['settings']['extensions']);
-			}
-
-		}
-
-		if ( (int) $attribute_data['settings']['min_size'] > 0 ) {
-			$min_size_kb = $attribute_data['settings']['min_size'] * 1024 * 1024;
-			//var_dump($min_size_kb);exit;
-			if ( (int) $data['size'] < $min_size_kb ) {
-				$errors[] = sprintf($this->language->get('error_min_file_size'), $attribute_data['settings']['min_size']);
-			}
-		}
-
-		$max_size = (int)$this->config->get('config_upload_max_size') < (int) ini_get('upload_max_filesize') ? (int)$this->config->get('config_upload_max_size') : (int) ini_get('upload_max_filesize');
-
-		if ( (int) $attribute_data['settings']['max_size'] > 0 ) {
-			$max_size = $max_size < (int) $attribute_data['settings']['max_size'] ? (int) $attribute_data['settings']['max_size'] : $max_size;
-		}
-		$max_size_kb = $max_size * 1024 * 1024;
-
-		if ( $max_size_kb < (int) $data['size'] ) {
-			$errors[] = sprintf($this->language->get('error_max_file_size'), $max_size_kb);
-		}
-
-		return $errors;
-
-	}
-
-	/**
-	 * @param string $upload_dir
-	 * @param string $file_name
-	 * @return array
-	 */
-	public function getUploadFilePath($upload_dir, $file_name) {
-		$file_path = DIR_ROOT . '/admin/system/uploads/' . $upload_dir . '/';
-
-		if ( !is_dir($file_path) ) {
-			mkdir($file_path, 0777);
-		}
-
-		$ext = strrchr($file_name, '.');
-		$file_name = substr($file_name, 0, strlen($file_name) - strlen($ext));
-
-		$i = '';
-		$real_path = '';
-		do {
-			if ( $i ) {
-				$new_name = $file_name . '_' . $i . $ext;
-			} else {
-				$new_name = $file_name . $ext;
-				$i = 0;
-			}
-
-			$real_path = $file_path . $new_name;
-			$i++;
-		} while (file_exists($real_path));
-
-		return array('name' => $new_name, 'path' => $real_path);
-	}
-
-	public function uploadFile($data) {
-
-		if ( !move_uploaded_file($data['tmp_name'], $data['path']) ) {
-			echo_array($_FILES);
-			echo_array($data);
-
-		}
-
 	}
 
 	/**

@@ -48,4 +48,8 @@
     <key>error_order</key>
     <value><![CDATA[Atención: Este estado del pedido no se puede eliminar porque actualmente está asignado a %s pedidos!]]></value>
   </definition>
+	<definition>
+   <key>error_nondeletable</key>
+   <value><![CDATA[Atención: Este es el estado del pedido importante que está vinculado a los pagos. No se puede eliminar este estado.]]></value>
+ </definition>
 </definitions>

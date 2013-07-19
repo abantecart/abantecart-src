@@ -17,6 +17,11 @@
 		<td><?php echo $entry_option; ?></td>
 		<td><?php echo $option_name; ?></td>
 		<td></td>
+		<?php if((string)$option_placeholder){ ?>
+			<td><?php echo $entry_option_placeholder; ?></td>
+			<td><?php echo $option_placeholder; ?></td>
+		<?php } ?>
+		<td></td>
         <td><?php echo $entry_sort_order; ?></td>
 		<td><?php echo $option_sort_order; ?></td>
 		<td></td>
@@ -27,11 +32,13 @@
 	</tr>
 </table>
 
-
 <h3><?php echo $text_option_values; ?></h3>
 <?php echo $update_option_values_form['open']; ?>
 <table id="option_values_tbl" class="list option ">
     <tr>
+		<?php if($with_default){?>
+        <td class="left"><?php echo $text_default; ?>&nbsp;&nbsp;<span class="default_uncheck">[x]</span></td>
+		<?php }?>
         <td class="left"><?php echo $entry_option_value; ?></td>
         <td class="left"><?php echo $entry_option_quantity; ?></td>
         <td class="left"><?php echo $entry_track_option_stock; ?></td>

@@ -48,15 +48,6 @@
 			</td>
 		</tr>
 		<tr>
-			<td><?php echo $entry_name; ?></td>
-			<td class="ml_field">
-				<?php echo $form['fields']['name']; ?>
-				<?php if (!empty($error['name'])) { ?>
-					<div class="field_err"><?php echo $error['name']; ?></div>
-				<?php } ?>
-			</td>
-		</tr>
-		<tr>
 			<td><?php echo $entry_title; ?></td>
 			<td class="ml_field">
 				<?php echo $form['fields']['title']; ?>
@@ -65,7 +56,7 @@
 				<?php } ?>
 			</td>
 		</tr>
-		<tr valign="top">
+		<tr style="vertical-align:top;">
 			<td><?php echo $entry_description; ?></td>
 			<td class="ml_field">
 				<?php echo $form['fields']['description']; ?>
@@ -83,7 +74,7 @@
 				<?php } ?>
 			</td>
 		</tr>
-		<tr valign="top">
+		<tr style="vertical-align:top;">
 			<td><?php echo $entry_content; ?></td>
 			<td class="ml_ckeditor">
 				<?php echo $form['fields']['content']; ?>
@@ -95,7 +86,7 @@
 <?php
 if($form['fields']['store_id']){
 ?>
-		<tr valign="top">
+		<tr style="vertical-align:top;">
 			<td><?php echo $entry_store; ?></td>
 			<td>
 				<?php echo $form['fields']['store_id']; ?>
@@ -108,7 +99,7 @@ if($form['fields']['store_id']){
 
 		<tr>
 			<td><?php echo $entry_sort_order; ?></td>
-			<td>
+			<td id="sort_orders">
 				<?php echo $form['fields']['sort_order']; ?>
 				<?php if (!empty($error['sort_order'])) { ?>
 					<div class="field_err"><?php echo $error['sort_order']; ?></div>
@@ -126,7 +117,7 @@ if($form['fields']['store_id']){
 	</form>
   </div>
 </div></div>
-	
+<?php echo $prototype_sort_order; ?>
 <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 <script type="text/javascript">
 	$('#contentFrm_content').parents('.afield').removeClass('mask2');
@@ -138,4 +129,58 @@ if($form['fields']['store_id']){
         filebrowserWindowHeight : '520',
 		language: '<?php echo $language_code; ?>'
 	});
+
+	$('#contentFrm_generate_seo_keyword').click(function(){
+		var seo_name = $('#contentFrm_title').val().replace('%','');
+		$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
+			$('#contentFrm_keyword').val(data).change();
+		});
+	});
+	var sort_order_clone = $('#sort_orders').find('span.text_element').clone();
+
+	$('#contentFrm_parent_content_id\\[\\]').change(function(){
+		var old_values = {};
+		var that = this;
+		var old_keys = $('#sort_orders').find('input[name^=sort_order]').map(function(){
+				    return this.name.replace('sort_order[','').replace(']','')
+				}).get();
+		var old_vals = $('#sort_orders').find('input[name^=sort_order]').map(function(){
+						    return this.value;
+						}).get();
+		for(var k in old_keys){
+			var name = old_keys[k];
+			old_values[name] =  old_vals[k];
+		}
+
+		var values = $(that).val();
+		var html = '';
+
+		$('#sort_orders').html('');
+		for(var k in values){
+			var temp_clone = sort_order_clone;
+			temp_clone.find('input').attr('name','sort_order\['+values[k]+'\]').attr('id','contentFrm_sort_order\['+values[k]+'\]');
+
+			if(old_values[values[k]]){
+				temp_clone.find('input').attr('value',old_values[values[k]].replace(/[^0-9]/g,''));
+			}
+
+			html += $(this).find('option:selected[value='+values[k]+']').text() + ': <span class="text_element">'+temp_clone.html()+'</span>';
+			$('#sort_orders').html(html);
+
+		}
+		$('#sort_orders').find('input').aform({triggerChanged: true,
+										buttons: {
+													save: '<span id="btn_save" class="button3"><span><?php echo $button_save ?></span></span>',
+													reset: '<span id="btn_reset" class="button2"><span><?php echo $button_reset ?></span></span>'
+												},
+										showButtons: <?php echo $content_id ? 'true' : 'false';?>,
+										save_url: '<?php echo $update; ?>'}).change();
+	});
+
+    $('#sort_orders').find('input[name^=sort_order]').keyup(function(){
+        $(this).val($(this).val().replace(/[^0-9]/g,''));
+    });
+
+
+
 </script>

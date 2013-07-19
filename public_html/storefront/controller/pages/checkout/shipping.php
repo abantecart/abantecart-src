@@ -117,7 +117,7 @@ class ControllerPagesCheckoutShipping extends AController {
 				//# Add storefront icon if available
 				$ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
 				$icon = $ext_setgs[$result['key']."_shipping_storefront_icon"];
-				if ( has_value( $icon ) ) {
+				if ( has_value( $icon ) && $quote_data[ $result[ 'key' ] ]) {
 					$icon_data = $this->model_checkout_extension->getSettingImage($icon);
 					$icon_data['image'] =  $icon;
 					$quote_data[ $result[ 'key' ] ]['icon'] = $icon_data;

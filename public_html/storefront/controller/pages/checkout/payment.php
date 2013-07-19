@@ -21,7 +21,7 @@ if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
 class ControllerPagesCheckoutPayment extends AController {
-	private $error = array();
+	public $error = array();
 	public $data = array();
 
 	public function main() {
@@ -48,7 +48,10 @@ class ControllerPagesCheckoutPayment extends AController {
 		if($this->request->get['balance']=='apply'){
 			$order_totals = $this->cart->buildTotalDisplay(true);
 			$order_total = $order_totals['total'];
-			$balance = $this->customer->getBalance();
+			$balance = $this->currency->convert($this->customer->getBalance(),$this->config->get('config_currency'),$this->session->data['currency']);
+			if($this->session->data[ 'used_balance' ]){
+				$balance = $balance-$this->session->data[ 'used_balance' ];
+			}
 			if($balance>0){
 				if($balance>=$order_total){ //if enough
 					$this->session->data[ 'used_balance' ] = $order_total;
@@ -157,7 +160,7 @@ class ControllerPagesCheckoutPayment extends AController {
 			
 			//# Add storefront icon if available
 			$icon = $ext_setgs[$result['key']."_payment_storefront_icon"];
-			if ( has_value( $icon ) ) {
+			if ( has_value( $icon ) && isset($method_data[ $result[ 'key' ] ])) {
 				$icon_data = $this->model_checkout_extension->getSettingImage($icon);
 				$icon_data['image'] =  $icon;
 				$method_data[ $result[ 'key' ] ]['icon'] = $icon_data;
@@ -267,8 +270,8 @@ class ControllerPagesCheckoutPayment extends AController {
 		$payment = isset($this->request->post[ 'payment_method' ]) ? $this->request->post[ 'payment_method' ] : $this->session->data[ 'payment_method' ][ 'id' ];
 
 		//balance
-		$balance = $this->customer->getBalance();
-
+		$balance_def_currency = $this->customer->getBalance();
+		$balance = $this->currency->convert($balance_def_currency,$this->config->get('config_currency'),$this->session->data['currency']);
 		if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance')) && (float)$this->session->data['used_balance']!=0){
 			if((float)$this->session->data['used_balance']==0 && $balance>0){
 				$this->data['apply_balance_button'] = $this->html->buildButton(array('id' => 'apply_balance',
@@ -283,9 +286,9 @@ class ControllerPagesCheckoutPayment extends AController {
 																					'style'=>'button'));
 			}
 
-			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance);
+			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance,$this->session->data['currency'],1);
 			if((float)$this->session->data['used_balance']>0){
-				$this->data['balance'] .=  ' ('.$this->currency->format($balance-(float)$this->session->data['used_balance']).')';
+				$this->data['balance'] .=  ' ('.$this->currency->format($balance_def_currency-(float)$this->session->data['used_balance']).')';
 				$this->data['balance'] .=  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$this->currency->format((float)$this->session->data['used_balance']).' '.$this->language->get('text_applied_balance');
 			}
 		}

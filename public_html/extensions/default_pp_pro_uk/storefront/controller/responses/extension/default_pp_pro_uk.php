@@ -24,29 +24,16 @@ if ( !defined ( 'DIR_CORE' )) {
 class ControllerResponsesExtensionDefaultPPProUK extends AController {
 	public function main() {
 		$this->loadLanguage('default_pp_pro_uk/default_pp_pro_uk');
-		 
-		$data['text_credit_card'] = $this->language->get('text_credit_card');
-		$data['text_start_date'] = $this->language->get('text_start_date');
-		$data['text_issue'] = $this->language->get('text_issue');
-		$data['text_wait'] = $this->language->get('text_wait');
-		
-		$data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
-		$data['entry_cc_type'] = $this->language->get('entry_cc_type');
-		$data['entry_cc_number'] = $this->language->get('entry_cc_number');
-		$data['entry_cc_start_date'] = $this->language->get('entry_cc_start_date');
-		$data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
-		$data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
-		$data['entry_cc_issue'] = $this->language->get('entry_cc_issue');
-		
-		$data['button_confirm'] = $this->language->get('button_confirm');
-		$data['button_back'] = $this->language->get('button_back');
-
+		 		
 		$this->load->model('checkout/order');
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 		
-		$data[ 'cc_owner' ] = HtmlElementFactory::create(array( 'type' => 'input',
-		                                                       'name' => 'cc_owner',
-		                                                       'value' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'] ));
+		$data[ 'cc_owner' ] = HtmlElementFactory::create(array(
+			'type' => 'input',
+			'name' => 'cc_owner',
+			'value' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
+			'style' => 'input-medium'
+		));
 		$data[ 'cc_owner' ] = $data[ 'cc_owner' ]->getHtml();
 
 		$cards = array('Visa' => 'Visa',
@@ -55,21 +42,21 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 		            //'Discover'=>'Discover',
 		           // 'Alex'=>'Alex'
 				);
+				
         $data[ 'cc_type' ] = HtmlElementFactory::create(
 			array( 'type' => 'selectbox',
 			     'name' => 'cc_type',
 			     'value' => 0,
 			     'options' => $cards,
-			     'style' => 'short'
+			     'style' => 'short input-small'
 			));
-		$data[ 'cc_type' ] = $data[ 'cc_type' ]->getHtml();
 
-
-
-        $data[ 'cc_number' ] = HtmlElementFactory::create(array( 'type' => 'input',
-		                                                       'name' => 'cc_number',
-		                                                       'value' => '' ));
-		$data[ 'cc_number' ] = $data[ 'cc_number' ]->getHtml();
+        $data[ 'cc_number' ] = HtmlElementFactory::create(array(
+			'type' => 'input',
+			'name' => 'cc_number',
+			'value' => '',
+			'style' => 'input-medium'
+		));
 
 		$months = array();
 		for ($i = 1; $i <= 12; $i++) {
@@ -80,9 +67,8 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 			     'name' => 'cc_expire_date_month',
 			     'value' => sprintf('%02d', date('m')),
 			     'options' => $months,
-			     'style' => 'short'
+			     'style' => 'short input-small'
 			));
-		$data[ 'cc_expire_date_month' ] = $data[ 'cc_expire_date_month' ]->getHtml();
 
         $today = getdate();
 		$years = array();
@@ -93,17 +79,15 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 		                                                                 'name' => 'cc_expire_date_year',
 		                                                                 'value' => sprintf('%02d', date('Y') + 1),
 		                                                                 'options' => $years,
-		                                                                 'style' => 'short' ));
-		$data[ 'cc_expire_date_year' ] = $data[ 'cc_expire_date_year' ]->getHtml();
+		                                                                 'style' => 'short input-small' ));
 
         $data[ 'cc_start_date_month' ] = HtmlElementFactory::create(
 			array( 'type' => 'selectbox',
 			     'name' => 'cc_start_date_month',
 			     'value' => sprintf('%02d', date('m')),
 			     'options' => $months,
-			     'style' => 'short'
+			     'style' => 'short input-small'
 			));
-		$data[ 'cc_start_date_month' ] = $data[ 'cc_start_date_month' ]->getHtml();
 
 		$years = array();
 		for ($i = $today[ 'year' ]-10; $i < $today[ 'year' ] + 2; $i++) {
@@ -113,8 +97,7 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 		                                                                 'name' => 'cc_start_date_year',
 		                                                                 'value' => sprintf('%02d', date('Y') ),
 		                                                                 'options' => $years,
-		                                                                 'style' => 'short' ));
-		$data[ 'cc_start_date_year' ] = $data[ 'cc_start_date_year' ]->getHtml();
+		                                                                 'style' => 'short input-small' ));
 
         $data[ 'cc_cvv2' ] = HtmlElementFactory::create(array( 'type' => 'input',
 		                                                     'name' => 'cc_cvv2',
@@ -122,14 +105,12 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 		                                                     'style' => 'short',
 		                                                     'attr' => ' size="3" '
 		                                                ));
-		$data[ 'cc_cvv2' ] = $data[ 'cc_cvv2' ]->getHtml();
         $data[ 'cc_issue' ] = HtmlElementFactory::create(array( 'type' => 'input',
 		                                                     'name' => 'cc_issue',
 		                                                     'value' => '',
 		                                                     'style' => 'short',
 		                                                     'attr' => ' size="1" '
 		                                                ));
-		$data[ 'cc_issue' ] = $data[ 'cc_issue' ]->getHtml();
 
 		$back = $this->request->get[ 'rt' ] != 'checkout/guest_step_3' ? $this->html->getSecureURL('checkout/payment')
 				: $this->html->getSecureURL('checkout/guest_step_2');
@@ -138,14 +119,12 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 		                                                  'text' => $this->language->get('button_back'),
 		                                                  'style' => 'button',
 		                                                  'href' => $back ));
-		$data[ 'back' ] = $data[ 'back' ]->getHtml();
 
 		$data[ 'submit' ] = HtmlElementFactory::create(array( 'type' => 'button',
 			                                                  'name' => 'paypal_button',
 		                                                      'text' => $this->language->get('button_confirm'),
-			                                                  'style' => 'button',
+			                                                  'style' => 'button btn-orange',
 		                                               ));
-		$data[ 'submit' ] = $data[ 'submit' ]->getHtml();
 		$this->view->batchAssign( $data );
 		$this->processTemplate('responses/default_pp_pro_uk.tpl' );
 	}
@@ -232,7 +211,8 @@ class ControllerResponsesExtensionDefaultPPProUK extends AController {
 			if (isset($response_data['TRANSACTIONID'])) {
 				$message .= 'TRANSACTIONID: ' . $response_data['TRANSACTIONID'] . "\n";
 			}
-			
+
+			$this->model_checkout_order->updatePaymentMethodData($this->session->data['order_id'], $response);
 			$this->model_checkout_order->update($this->session->data['order_id'], $this->config->get('default_pp_pro_uk_order_status_id'), $message, FALSE);
 		
 			$json['success'] = $this->html->getSecureURL('checkout/success'); 

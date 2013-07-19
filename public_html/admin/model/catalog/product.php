@@ -83,22 +83,19 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if ($data['keyword']) {
-			$seo_key = SEOEncode($data['keyword']);
+			$seo_key = SEOEncode($data['keyword'],
+								'product_id',
+								$product_id);
 		} else {
 			//Default behavior to save SEO URL keword from product name in default language
-			$languages = $this->language->getAvailableLanguages();
-			$default_lang_id = $languages[$this->config->get('config_storefront_language')]['language_id'];
-
 			if (!is_int(key($data['product_description']))) { // when creates
-				$seo_key = SEOEncode($data['product_description']['name']);
+				$seo_key = SEOEncode($data['product_description']['name'],
+									'product_id',
+									$product_id);
 			}else{ // when clones
-				$seo_key = SEOEncode($data['product_description'][$default_lang_id]['name']);
-			}
-			//Check if key is unique  
-			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_aliases
-									   WHERE keyword = '" . $this->db->escape($seo_key) . "'");
-			if ($query->num_rows) {
-				$seo_key .= '_' . $product_id;
+				$seo_key = SEOEncode($data['product_description'][$this->language->getDefaultLanguageID()]['name'],
+									'product_id',
+									$product_id);
 			}
 		}
 		if($seo_key){
@@ -249,7 +246,7 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if (isset($data['keyword'])) {
-			$data['keyword'] =  SEOEncode($data['keyword']);
+			$data['keyword'] =  SEOEncode($data['keyword'],'product_id',$product_id);
 			if($data['keyword']){
 				$this->language->replaceDescriptions('url_aliases',
 													array('query' => "product_id=" . (int)$product_id),
@@ -592,7 +589,8 @@ class ModelCatalogProduct extends Model {
 	            weight_type = '" . $this->db->escape($data['weight_type']) . "',
 	            attribute_value_id = '" . $this->db->escape($attribute_value_id) . "',
 	            grouped_attribute_data = '" . $this->db->escape($data['grouped_attribute_data']) . "',
-	            sort_order = '" . (int)$data['sort_order'] . "'");
+	            sort_order = '" . (int)$data['sort_order'] . "',
+	            `default` = '" . (int)$data['default'] . "'");
 		return $this->db->getLastId();
 	}
 
@@ -619,7 +617,8 @@ class ModelCatalogProduct extends Model {
 	            weight_type = '" . $this->db->escape($data['weight_type']) . "',
 	            attribute_value_id = '" . $this->db->escape($attribute_value_id) . "',
 	            grouped_attribute_data = '" . $this->db->escape($data['grouped_attribute_data']) . "',
-	            sort_order = '" . (int)$data['sort_order'] . "'
+	            sort_order = '" . (int)$data['sort_order'] . "',
+	            `default` = '" . (int)$data['default'] . "'
 	        WHERE product_option_value_id = '" . (int)$pd_opt_val_id . "'  ");
 		return $pd_opt_val_id;
 	}
@@ -868,7 +867,8 @@ class ModelCatalogProduct extends Model {
 												attribute_value_id = '" . $this->db->escape($pd_opt_vals['attribute_value_id']) . "',
 	            								grouped_attribute_data = '" . $this->db->escape($pd_opt_vals['grouped_attribute_data']) . "',
 	            								group_id = '" . $this->db->escape($pd_opt_vals['group_id']) . "',
-												sort_order = '" . (int)$pd_opt_vals['sort_order'] . "'");
+												sort_order = '" . (int)$pd_opt_vals['sort_order'] . "',
+												`default` = '" . (int)$pd_opt_vals['default'] . "'");
 
 						$pd_opt_val_id = $this->db->getLastId();
 						// clone resources of option value
@@ -1112,7 +1112,7 @@ class ModelCatalogProduct extends Model {
 			WHERE product_option_id = '" . (int)$option_id . "'");
 
 		foreach ($product_option_description->rows as $result) {
-			$product_option_description_data[$result['language_id']] = array('name' => $result['name']);
+			$product_option_description_data[$result['language_id']] = array('name' => $result['name'],'option_placeholder' => $result['option_placeholder']);
 		}
 
 		if ($product_option->num_rows) {
@@ -1143,7 +1143,10 @@ class ModelCatalogProduct extends Model {
 
 			$this->language->replaceDescriptions('product_option_descriptions',
 				array('product_option_id' => (int)$product_option_id),
-				array((int)$language_id => array('name' => $data['name'])));
+				array((int)$language_id => array(
+					'name' => $data['name'],
+					'option_placeholder' => $data['option_placeholder'],
+				)));
 
 		}
 
@@ -1200,6 +1203,7 @@ class ModelCatalogProduct extends Model {
 				'sort_order' => $data['sort_order'][$opt_val_id],
 				'weight' => $data['weight'][$opt_val_id],
 				'weight_type' => $data['weight_type'][$opt_val_id],
+				'default' => ($data['default']==$opt_val_id ? 1 : 0)
 			);
 
 			//Check if new, delete or update
@@ -1260,7 +1264,8 @@ class ModelCatalogProduct extends Model {
 			'weight_type' => $option_value['weight_type'],
 			'attribute_value_id' => $option_value['attribute_value_id'],
 			'grouped_attribute_data' => $option_value['grouped_attribute_data'],
-			'sort_order' => $option_value['sort_order']
+			'sort_order' => $option_value['sort_order'],
+			'default' => $option_value['default']
 		);
 
 		//get children (grouped options) data

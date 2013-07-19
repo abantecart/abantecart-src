@@ -27,6 +27,7 @@ class ALanguageManager extends Alanguage {
 	 * @param Registry $registry
 	 * @param string $code
 	 * @param string $section
+	 * @throws AException
 	 */
 	public function __construct($registry, $code = '', $section = '') {
 		parent::__construct($registry, $code, $section);
@@ -541,6 +542,8 @@ class ALanguageManager extends Alanguage {
 	 * @param string $section  - 1 or 0 - admin or storefront
 	 * @param string $specific_block - name of the block
 	 * @param string $mode - mode can be the types: update, add
+	 * @param string $language_key
+	 * @return bool
 	 */
 	public function definitionAutoLoad($language_id, $section, $specific_block, $mode = 'add', $language_key = '') {
 

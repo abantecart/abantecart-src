@@ -779,6 +779,10 @@ ul.quick_icon a:hover {
     background: #fff;
 }
 
+.fieldset .paypal_sandbox_bg {
+	background-image: url(../image/paypal_sandbox_bg.png);
+}
+
 .fieldset .bottom_left {
     background: url(../image/a_corner_bl.png) no-repeat;
 }
@@ -2043,4 +2047,7 @@ table.form tr td:first-child {
 #see_details{
 	cursor: pointer;
 	text-decoration:underline;
+}
+.default_uncheck{
+	cursor: pointer;
 }

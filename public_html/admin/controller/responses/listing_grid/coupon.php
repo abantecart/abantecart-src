@@ -160,6 +160,9 @@ class ControllerResponsesListingGridCoupon extends AController {
 				}
 
 		        $err = $this->_validateForm($field, $value );
+				if(in_array($field,array('date_start', 'date_end'))){
+					$value = dateDisplay2ISO($value);
+				}
 			    if ( !$err ) {
 			        $this->model_sale_coupon->editCoupon($this->request->get['id'], array( $field => $value) );
 			    } else {
@@ -208,6 +211,12 @@ class ControllerResponsesListingGridCoupon extends AController {
 			case 'code':
 				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 10)) {
 					$err = $this->language->get('error_code');
+				}
+				break;
+			case 'date_start':
+			case 'date_end':
+				if(!dateDisplay2ISO($value)){
+					$err = $this->language->get('error_date');
 				}
 				break;
 		}

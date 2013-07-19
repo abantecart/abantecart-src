@@ -49,19 +49,15 @@ class ModelCatalogCategory extends Model {
 		}
 		
 		if ($data['keyword']) {
-			$seo_key = SEOEncode($data['keyword']);
+			$seo_key = SEOEncode($data['keyword'],'category_id',$category_id);
 		}else {
 			//Default behavior to save SEO URL keword from category name in default language
-			$languages = $this->language->getAvailableLanguages();
-			$default_lang_id = $languages[$this->config->get('config_storefront_language')]['language_id'];
-			$seo_key = SEOEncode( $data['category_description'][$default_lang_id]['name'] );
-			 
-			//Check if key is unique  
-			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_aliases
-									   WHERE keyword = '" . $this->db->escape($seo_key) . "'");
-			if ($query->num_rows) {
-				$seo_key .= '_' . $category_id;
-			}						
+			/**
+			 * @var ALanguageManager
+			 */
+			$seo_key = SEOEncode( $data['category_description'][$this->language->getDefaultLanguageID()]['name'],
+								'category_id',
+								$category_id );
 		}
 		if($seo_key){
 			$this->language->replaceDescriptions('url_aliases',
@@ -356,4 +352,3 @@ class ModelCatalogCategory extends Model {
 		return $this->getCategoriesData($data, 'total_only');
 	}
 }
-?>

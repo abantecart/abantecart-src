@@ -103,12 +103,17 @@
 <div class="fieldset">
 	<?php  echo $form['form_open']; ?>
 
+	<?php if ( !ctype_space($settings['store_id']['note']) ) { ?>
 	<table class="form">
 		<tr>
 			<td><?php echo $settings['store_id']['note']; ?></td>
 			<td class="ml_field"><?php echo $settings['store_id']['value']; ?></td>
 		</tr>
 	</table>
+	<?php } else { ?>
+		<?php echo $settings['store_id']['value']; ?>
+	<?php } ?>
+	
 	<div class="fieldset">
 		<div class="top_left"><div class="top_right"><div class="top_mid">
 		</div></div></div>
@@ -121,7 +126,7 @@
 						<?php echo $text_signup_account_note; ?>
 					</td>
 					<td style="padding-right: 40px;">
-						<a class="btn_standard" target="_blank" href="https://www.paypal.com/us/cgi-bin/webscr?cmd=_registration-run">
+						<a class="btn_standard" target="_blank" href="https://www.paypal.com/us/webapps/mpp/referral/paypal-payments-standard?partner_id=V5VQZUVNK5RT6">
 							<span id="button_signup" class="button3" title="Sign Up Now">
 								<span><?php echo $button_signup; ?></span>
 							</span>
@@ -145,7 +150,7 @@
 		<div class="heading"><?php echo $heading_required_settings; ?></div>
 		<div class="top_left"><div class="top_right"><div class="top_mid">
 		</div></div></div>
-		<div class="cont_left"><div class="cont_right"><div class="cont_mid">
+		<div class="cont_left"><div class="cont_right"><div class="cont_mid <?php if ( $this->config->get('default_pp_standart_test') ) { echo 'paypal_sandbox_bg'; } ?>">
 
 
 
@@ -244,7 +249,7 @@
 				</tr>
 				<tr>
 					<td><?php echo $settings['default_pp_standart_cartbordercolor']['note']; ?></td>
-					<td class="ml_field"><?php echo $settings['default_pp_standart_cartbordercolor']['value']; ?></td>
+					<td class="ml_field">#<?php echo $settings['default_pp_standart_cartbordercolor']['value']; ?></td>
 					<td></td>
 				</tr>
 			</table>
@@ -319,6 +324,8 @@
 <div id="confirm_dialog"></div>
 <script type="text/javascript">
 	<!--
+
+	$("#<?php echo $extension['id']; ?>_test").attr('reload_on_save', 'true');
 
 	function show_help(){
 		$aPopup = $('#aPopup').dialog({
@@ -410,51 +417,5 @@ $(function(){
 
 });
 
-$("#<?php echo $extension['id']; ?>_status").parents('.aswitcher').click(
-	function(){
-		var switcher = $("#<?php echo $extension['id']; ?>_status");
-		var value = switcher.val();
-		if(value==1){
-			$aPopup = $('#confirm_dialog').dialog({
-				autoOpen: false,
-				modal: true,
-				resizable: false,
-				height: 'auto',
-				minWidth: 100,
-				buttons: {
-							"<?php echo $button_agree;?>": function() {
-								$( this ).dialog( "destroy" );
-							},
-							"<?php echo $button_cancel;?>": function() {
-								$("#<?php echo $extension['id']; ?>_status").parents('.aform').find('.abuttons_grp').find('a:eq(1)').click();
-								$( this ).dialog( "destroy" );
-						}
-				},
-				close: function(event, ui) {
-							$("#<?php echo $extension['id']; ?>_status").parents('.aform').find('.abuttons_grp').find('a:eq(1)').click();
-							$(this).dialog('destroy');
-						}
-
-			});
-
-			$.ajax({
-						url: '<?php echo $dependants_url; ?>',
-						type: 'GET',
-						data: 'extension=<?php echo $extension['id']; ?>',
-						dataType: 'json',
-						success: function(data) {
-							if(data=='' || data==null){
-								return null;
-							}else{
-								if(data.text_confirm){
-									$('#confirm_dialog').html(data.text_confirm);
-								}
-								$aPopup.dialog('open');
-							}
-						}
-					});
-		}
-
-});
 -->
 </script>

@@ -272,6 +272,7 @@ jQuery(function($){
 				status : ( $('#status').val() ),
 				sort_order : $('#sort_order').val(),
 				name : $('#name').val(),
+				option_placeholder : ($('#option_placeholder') ? $('#option_placeholder').val():''),
 				required : ($('#required').is(':checked') ? 1 : 0)
 			},
             type: 'GET',
@@ -318,6 +319,10 @@ jQuery(function($){
         return false;
     });
 
+	$('.default_uncheck').live('click',function(){
+		$("input[name='default']").removeAttr('checked');
+	});
+
     $("#add_option_value").live('click', function(){
         var new_row = $('#new_row').parent().find('tr').clone();
         $(new_row).attr('id', 'new'+row_id);
@@ -325,6 +330,12 @@ jQuery(function($){
 	    $("input, checkbox, select", new_row).aform({triggerChanged: true, showButtons: false });
 	    $('div.aform', new_row).show();
         //Mark rows to be new
+		$('#new' + row_id + ' input[name=default]').last()
+				.val('new'+row_id)
+				.attr('id', 'option_value_form_default_new'+row_id)
+				.removeAttr('checked')
+				.parent('label')
+				.attr('for','option_value_form_default_new'+row_id);
 		$('#new' + row_id + ' input[name^=product_option_value_id]').val('new');
 		$("#new" + row_id + " input, #new" + row_id + " textarea, #new" + row_id + " select").each(function(i){
 		  var new_name = $(this).attr('name');

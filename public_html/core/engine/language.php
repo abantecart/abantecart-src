@@ -46,7 +46,12 @@ class ALanguage {
 
 	protected $available_languages = array(); //Aray of awailable languges configured in abantecart
 	protected $current_language = array(); //current used main language array data
-
+	/**
+	 * @param $registry Registry
+	 * @param string $code
+	 * @param string $section
+	 * @throws AException
+	 */
 	public function __construct($registry, $code = '', $section = '') {
 		$this->registry = $registry;
 		if ($section === '') {
@@ -112,7 +117,7 @@ class ALanguage {
 	*/
 	public function get($key, $block = '') {
 		if (empty($key)) {
-			return;
+			return null;
 		}
 		$return_text = '';
 		//if no specific area specified return main language
@@ -200,7 +205,7 @@ class ALanguage {
 	* Return: Array with language details
 	*/
 	public function getLanguageDetails($code) {
-		if (empty($code)) return;
+		if (empty($code)) return null;
 
 		foreach ($this->available_languages as $lang) {
 			if ($lang['code'] == $code) {
@@ -230,7 +235,7 @@ class ALanguage {
 				}
 			}
 		}
-		return;
+		return null;
 	}
 
 	/*
@@ -392,7 +397,7 @@ class ALanguage {
 
 	// load language
 	public function _load($filename, $mode = '') {
-		if (empty($filename)) return;
+		if (empty($filename)) return null;
 		//Check if we already have language loaded. Skip and return the language set
 		if ($this->_is_loaded($filename)) {
 			$this->current_languages_scope[] = $filename;
@@ -493,6 +498,7 @@ class ALanguage {
 				return $lang['language_id'];
 			}
 		}
+		return null;
 	}
 
 	//Find language code by provided language ID
@@ -502,6 +508,7 @@ class ALanguage {
 				return $lang['code'];
 			}
 		}
+		return null;
 	}
 
 	//Check if block was laoded yet into memory
@@ -529,6 +536,11 @@ class ALanguage {
 		return $lang_array;
 	}
 
+	/**
+	 * @param $block
+	 * @param $lang_defns
+	 * @return bool|void
+	 */
 	protected function _save_to_db($block, $lang_defns) {
 		if (!$lang_defns) return false;
 
@@ -561,12 +573,13 @@ class ALanguage {
 			$sql = $sql . implode(', ', $values);
 			$this->db->query($sql);
 		}
+		return null;
 	}
 
 	//Detect file for default or extension language
 	protected function _detect_language_xml_file($filename, $language_dir_name = 'english') {
 		if (empty($filename)) {
-			return;
+			return null;
 		}
 		$file_path = $this->language_path . $language_dir_name . '/' . $filename . '.xml';
 		if ($this->registry->has('extensions')
@@ -584,7 +597,7 @@ class ALanguage {
 	// Load definition values from XML
 	protected function _load_from_xml($filename, $directory, $mode) {
 		if (!$filename) {
-			return;
+			return null;
 		}
 		$definitions = array();
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $filename . ' prepare loading language from XML');
@@ -631,7 +644,7 @@ class ALanguage {
 	// Call to get specific definition value for RT(block). 
 	protected function _get_language_value($key, $filename) {
 		if (empty ($filename) || empty ($key)) {
-			return;
+			return null;
 		}
 		return $this->entries[$filename][$key];
 	}
@@ -639,7 +652,7 @@ class ALanguage {
 	// Call to get specific definition value back traced in all available RTs(blocks)
 	protected function _get_last_language_value($key, $backtrace) {
 		if (empty ($key)) {
-			return;
+			return null;
 		}
 
 		//look in all blocks for last available translation based on list or all

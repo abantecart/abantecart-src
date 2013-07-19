@@ -70,20 +70,23 @@
 						</div>
 
 						<div id="file_settings">
-							<div style="padding-left: 14px;">
-								<span style="padding-right: 16px;"><b><?php echo $entry_allowed_extensions; ?></b></span>
-								<span style="padding-right: 9px;"><b><?php echo $entry_min_size; ?></b></span>
-								<span style="padding-right: 21px;"><b><?php echo $entry_max_size; ?></b></span>
-								<span><b><?php echo $entry_upload_dir; ?></b></span>
+								<div class="value">
+								<span style="padding-right: 20px;"><?php echo $entry_allowed_extensions; ?></span>
+								<?php echo $form['settings_fields']['extensions']; ?>
+								</div>
+								<div class="value">
+								<span style="padding-right: 20px;"><?php echo $entry_min_size; ?></span>
+								<?php echo $form['settings_fields']['min_size']; ?>
+								</div>
+								<div class="value">
+								<span style="padding-right: 20px;"><?php echo $entry_max_size; ?></span>
+								<?php echo $form['settings_fields']['max_size']; ?>
+								</div>
+								<div class="value">
+								<span style="padding-right: 20px;"><?php echo $entry_upload_dir; ?></span>
+								<?php echo $form['settings_fields']['directory']; ?>
+								</div>
 							</div>
-							<div class="value">
-								<?php foreach ($form['settings_fields'] as $setting): ?>
-
-									<?php echo $setting; ?>&nbsp;
-
-								<?php endforeach; ?>
-							</div>
-
 						</div>
 
 					<?php } ?>

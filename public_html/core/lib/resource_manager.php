@@ -20,7 +20,14 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
-
+/**
+ * Class AResourceManager
+ * @property ADB $db
+ * @property AHtml $html
+ * @property ACache $cache
+ * @property AConfig $config
+ * @property ALanguageManager $language
+ */
 class AResourceManager extends AResource {
 	protected $registry;
 	
@@ -39,7 +46,10 @@ class AResourceManager extends AResource {
 		$this->registry->set($key, $value);
 	}
 
-    public function setType( $type ) {
+	/**
+	 * @param string $type
+	 */
+	public function setType( $type ) {
         if ( $type ) {
 			$this->type = $type;
 			//get type details
@@ -71,8 +81,8 @@ class AResourceManager extends AResource {
     /**
      * upload resources to directory with type name (example: image)
      *
-     * @param $resource
-     * @return resource id
+     * @param array $resource
+     * @return int resource id
      */
     public function addResource( $resource ) {
 
@@ -139,7 +149,12 @@ class AResourceManager extends AResource {
 
     }
 
-    public function updateResource( $resource_id, $data ) {
+	/**
+	 * @param int $resource_id
+	 * @param array $data
+	 * @return bool
+	 */
+	public function updateResource( $resource_id, $data ) {
 
         $resource = parent::getResource($resource_id);
         if ( isset($data['resource_code']) )
@@ -181,7 +196,7 @@ class AResourceManager extends AResource {
 
         $resource = $this->getResource($resource_id);
         if ( empty($resource) ) {
-            return;
+            return null;
         }
 
         if ( $resource['resource_path'] ) {
@@ -198,11 +213,17 @@ class AResourceManager extends AResource {
         return true;
     }
 
+	/**
+	 * @param string $object_name
+	 * @param int $object_id
+	 * @param int $resource_id
+	 * @return null
+	 */
 	public function mapResource (  $object_name, $object_id, $resource_id ) {
 
         $resource = $this->getResource($resource_id);
         if ( empty($resource) ) {
-            return;
+            return null;
         }
 
 		$sql = "SELECT resource_id FROM " . DB_PREFIX . "resource_map
@@ -211,7 +232,7 @@ class AResourceManager extends AResource {
                       AND object_id = '".(int)$object_id."'";
         $result = $this->db->query($sql);
 
-        if ( $result->num_rows ) return;
+        if ( $result->num_rows ) return null;
 
         $sql = "INSERT INTO " . DB_PREFIX . "resource_map
                     SET resource_id = '".(int)$resource_id."',
@@ -225,11 +246,17 @@ class AResourceManager extends AResource {
         $this->cache->delete('resources.'. $resource['type_name']);
 	}
 
+	/**
+	 * @param string $object_name
+	 * @param int $object_id
+	 * @param int $resource_id
+	 * @return null
+	 */
 	public function unmapResource (  $object_name, $object_id, $resource_id ) {
 
         $resource = $this->getResource($resource_id);
         if ( empty($resource) ) {
-            return;
+            return null;
         }
 
 		$sql = "DELETE FROM " . DB_PREFIX . "resource_map
@@ -243,7 +270,12 @@ class AResourceManager extends AResource {
         $this->cache->delete('resources.'. $resource['type_name']);
 	}
 
-    public function updateSortOrder ( $data, $object_name, $object_id ) {
+	/**
+	 * @param array $data
+	 * @param string $object_name
+	 * @param int $object_id
+	 */
+	public function updateSortOrder ( $data, $object_name, $object_id ) {
         foreach ( $data as $resource_id => $sort_order ) {
             $resource = $this->getResource($resource_id);
             if ( empty($resource) ) {
@@ -262,9 +294,14 @@ class AResourceManager extends AResource {
         }
     }
 
-    public function getResource ( $resource_id, $language_id = '' ) {
+	/**
+	 * @param int $resource_id
+	 * @param int $language_id
+	 * @return array|null
+	 */
+	public function getResource ( $resource_id, $language_id = 0 ) {
         if ( !$resource_id ) {
-			return;
+			return null;
 	    }
         if ( $language_id ) {
             return parent::getResource($resource_id, $language_id);
@@ -285,7 +322,12 @@ class AResourceManager extends AResource {
     }
 
     //TODO: add caching if keyword not defined in search data
-    public function getResourcesList($search_data, $total = false) {
+	/**
+	 * @param array $search_data
+	 * @param bool $total
+	 * @return array|int
+	 */
+	public function getResourcesList($search_data, $total = false) {
 
         $select = "SELECT rd.*, (SELECT COUNT(resource_id) FROM " . DB_PREFIX . "resource_map rm1 WHERE rm1.resource_id = rd.resource_id) as mapped ";
         $where = " WHERE 1 ";
@@ -295,7 +337,7 @@ class AResourceManager extends AResource {
         if ( !empty($search_data['object_name']) || !empty($search_data['object_id']) ) {
             $select .= ", rm.sort_order";
             $join .= " LEFT JOIN " . DB_PREFIX . "resource_map rm ON (rl.resource_id = rm.resource_id) ";
-            $order = "ORDER BY rm.sort_order";
+            $order = "ORDER BY rm.sort_order, rl.resource_id";
         }
 
         if ( !empty($search_data['keyword']) ) {
@@ -338,7 +380,12 @@ class AResourceManager extends AResource {
 
     }
 
-    public function getResourceObjects($resource_id, $language_id = '') {
+	/**
+	 * @param int $resource_id
+	 * @param int $language_id
+	 * @return array
+	 */
+	public function getResourceObjects($resource_id, $language_id = 0) {
 
         $resource_objects = array();
 
@@ -361,7 +408,12 @@ class AResourceManager extends AResource {
 		return $resource_objects;
     }
 
-    protected function getResourceProducts($resource_id, $language_id = '') {
+	/**
+	 * @param int $resource_id
+	 * @param int $language_id
+	 * @return array
+	 */
+	protected function getResourceProducts($resource_id, $language_id = 0) {
 
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');
@@ -393,7 +445,13 @@ class AResourceManager extends AResource {
 
         return $result;
     }
-    protected function getResourceProduct_Option_Value($resource_id, $language_id = '') {
+
+	/**
+	 * @param int $resource_id
+	 * @param int $language_id
+	 * @return array
+	 */
+	protected function getResourceProduct_Option_Value($resource_id, $language_id = 0) {
 
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');
@@ -428,7 +486,12 @@ class AResourceManager extends AResource {
         return $result;
     }
 
-    protected function getResourceCategories($resource_id, $language_id = '') {
+	/**
+	 * @param int $resource_id
+	 * @param int $language_id
+	 * @return array
+	 */
+	protected function getResourceCategories($resource_id, $language_id = 0) {
 
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');
@@ -461,7 +524,12 @@ class AResourceManager extends AResource {
         return $result;
     }
 
-    protected function getResourceManufacturers($resource_id, $language_id = '') {
+	/**
+	 * @param int $resource_id
+	 * @param int $language_id
+	 * @return array
+	 */
+	protected function getResourceManufacturers($resource_id, $language_id = 0) {
 
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');

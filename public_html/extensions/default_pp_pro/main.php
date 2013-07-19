@@ -21,14 +21,18 @@ if ( !defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
+if(!class_exists('ExtensionDefaultPpPro')){
+	include_once('core/default_pp_pro.php');
+}
+
 $controllers = array(
     'storefront' => array('responses/extension/default_pp_pro'),
-    'admin' => array( ),
+    'admin' => array('responses/extension/default_pp_pro'),
 );
 
 $models = array(
     'storefront' => array( 'extension/default_pp_pro' ),
-    'admin' => array( ),
+    'admin' => array( 'extension/default_pp_pro' ),
 );
 
 $languages = array(
@@ -41,6 +45,8 @@ $templates = array(
     'storefront' => array(
 	    'responses/default_pp_pro.tpl' ),
     'admin' => array(
+		'pages/extension/paypal_capture.tpl',
+		'pages/extension/paypal_refund.tpl',
 		'pages/extension/default_pp_pro_settings.tpl'
 	)
 );

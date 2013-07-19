@@ -73,7 +73,13 @@ class ControllerResponsesCheckoutCart extends AController {
 
   	}
 
-	public function shipping_methods() {
+	/**
+	* change_zone_get_shipping_methods()
+	* Ajax function to apply new country and zone to be used in tax and/or shipping culculation.
+	* Return: List of available shipping methods and cost 
+	*/
+	
+	public function change_zone_get_shipping_methods() {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		$output = array();
@@ -82,68 +88,77 @@ class ControllerResponsesCheckoutCart extends AController {
 			$this->response->setOutput(AJson::encode($output));	
 			return '';
 		}
+
+		//need to reset zone for tax even if shipping is not needed		
 		$this->loadModel('localisation/country');
 		$this->loadModel('localisation/zone');
 		$country_info = $this->model_localisation_country->getCountry($this->request->post[ 'country_id' ]);
 		$zone_info = $this->model_localisation_zone->getZone($this->request->post[ 'zone_id' ]);
-		$shipping_address = array( 
-				'postcode'       => $this->request->post['postcode'],
-				'country_id'     => $this->request->post['country_id'],
-				'country_iso_code2' => $country_info['iso_code_2'],
-				'iso_code_2' => $country_info['iso_code_2'],
-				'zone_id'        => $this->request->post['zone_id'],
-				'zone_code'        => $zone_info['code']
-
+		$shipping_address = array(
+		    	'postcode'       => $this->request->post['postcode'],
+		    	'country_id'     => $this->request->post['country_id'],
+		    	'country_iso_code2' => $country_info['iso_code_2'],
+		    	'iso_code_2' => $country_info['iso_code_2'],
+		    	'zone_id'        => $this->request->post['zone_id'],
+		    	'zone_code'        => $zone_info['code']
 		);
 
-
 		$this->tax->setZone($shipping_address[ 'country_id' ], $shipping_address[ 'zone_id' ]);
+	
+		//skip shipping processing if not required.
+		if( $this->cart->hasShipping() ){
+			$this->loadModel('checkout/extension');
 
-		$this->loadModel('checkout/extension');
+			$results = $this->model_checkout_extension->getExtensions('shipping');
+			foreach ($results as $result) {
+				$this->loadModel('extension/' . $result[ 'key' ]);
 
-		$results = $this->model_checkout_extension->getExtensions('shipping');
-		foreach ($results as $result) {
-		    $this->loadModel('extension/' . $result[ 'key' ]);
+				/** @noinspection PhpUndefinedMethodInspection */
+				$quote = $this->{'model_extension_' . $result[ 'key' ]}->getQuote($shipping_address);
 
-		    /** @noinspection PhpUndefinedMethodInspection */
-		    $quote = $this->{'model_extension_' . $result[ 'key' ]}->getQuote($shipping_address);
-
-		    if ($quote) {
-		    	$output[ $result[ 'key' ] ] = array(
-		    		'title' => $quote[ 'title' ],
-		    		'quote' => $quote[ 'quote' ],
-		    		'sort_order' => $quote[ 'sort_order' ],
-		    		'error' => $quote[ 'error' ]
-		    	);
-		    }
-		}
-
-		$sort_order = array();
-		foreach ($output as $key => $value) {
-		    $sort_order[ $key ] = $value[ 'sort_order' ];
-		}
-		array_multisort($sort_order, SORT_ASC, $output);  	
-  		$this->session->data[ 'shipping_methods' ] = $output;
-  		
- 		//add ready selectbox element  
- 		if ( count($output)) {
-			$disp_ship = array();
-			foreach ($output as $shp_data ) {
-				$shp_data['quote'] = (array)$shp_data['quote'];
-				foreach ( $shp_data['quote'] as $qt_data) {
-					$disp_ship[$qt_data['id']] =  $qt_data['title'] . " - " . $qt_data['text'];
+				if ($quote) {
+					$output[ $result[ 'key' ] ] = array(
+						'title' => $quote[ 'title' ],
+						'quote' => $quote[ 'quote' ],
+						'sort_order' => $quote[ 'sort_order' ],
+						'error' => $quote[ 'error' ]
+					);
 				}
 			}
 
-			$selectbox = HtmlElementFactory::create(array(
-		                                                 'type' => 'selectbox',
-		                                                 'name' => 'shippings',
-		                                                 'options' => $disp_ship,
-													 	'style' => 'large-field'
-		                                            ));
-		    $output['selectbox'] = $selectbox->getHTML();
+			$sort_order = array();
+			foreach ($output as $key => $value) {
+				$sort_order[ $key ] = $value[ 'sort_order' ];
+			}
+			array_multisort($sort_order, SORT_ASC, $output);
+			$this->session->data[ 'shipping_methods' ] = $output;
+
+			//add ready selectbox element
+			if ( count($output)) {
+				$disp_ship = array();
+				foreach ($output as $shp_data ) {
+					$shp_data['quote'] = (array)$shp_data['quote'];
+					foreach ( $shp_data['quote'] as $qt_data) {
+						$disp_ship[$qt_data['id']] =  $qt_data['title'] . " - " . $qt_data['text'];
+					}
+				}
+
+				if($disp_ship){
+					$selectbox = HtmlElementFactory::create(array(
+																 'type' => 'selectbox',
+																 'name' => 'shippings',
+																 'options' => $disp_ship,
+																'style' => 'large-field'
+															));
+					$output['selectbox'] = $selectbox->getHTML();
+				}else{
+					$output['selectbox'] = '';
+				}
+			}
+
+		}else{
+			$output['selectbox'] = '';
 		}
- 	
   	
   			//init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -156,7 +171,9 @@ class ControllerResponsesCheckoutCart extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		$output = array();
-				
+
+		$this->load->library('json');
+
 		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
 			$this->response->setOutput(AJson::encode($output));	
 			return '';
@@ -169,15 +186,19 @@ class ControllerResponsesCheckoutCart extends AController {
 		if ( $this->request->post[ 'shipping_method' ] ) {
 			$shipping = explode('.', $this->request->post[ 'shipping_method' ]);
 			$this->session->data[ 'shipping_method' ] = $this->session->data[ 'shipping_methods' ][ $shipping[ 0 ] ][ 'quote' ][ $shipping[ 1 ] ];
-		}
+		}else{
+            unset($this->session->data[ 'shipping_address_id' ]);
+            unset($this->session->data[ 'shipping_method' ]);
+            unset($this->session->data[ 'shipping_methods' ]);
+        }
 
-		$display_totals = $this->cart->buildTotalDisplay();      		
+		$display_totals = $this->cart->buildTotalDisplay( true );      		
 		$output['totals'] = $display_totals['total_data'];;
  	  	
   		//init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
-		$this->load->library('json');
+
 		$this->response->setOutput(AJson::encode($output));		
 	}
 	

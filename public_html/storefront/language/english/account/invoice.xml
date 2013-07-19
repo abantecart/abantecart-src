@@ -94,6 +94,6 @@
 	</definition>
 	<definition>
 		<key>column_comment</key>
-		<value><![CDATA[Comments]]></value>
+		<value><![CDATA[Customer's order comment]]></value>
 	</definition>
 </definitions>

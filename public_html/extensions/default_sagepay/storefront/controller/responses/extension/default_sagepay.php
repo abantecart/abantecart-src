@@ -24,17 +24,16 @@ if ( !defined ( 'DIR_CORE' )) {
 class ControllerResponsesExtensionDefaultSagepay extends AController {
 	public function main() {
 		$this->loadLanguage('default_sagepay/default_sagepay');
-		
-		$template_data['button_confirm'] = $this->language->get('button_confirm');
-		$template_data['button_back'] = $this->language->get('button_back');
-		
+				
 		if ($this->config->get('default_sagepay_test') == 'live') {
     		$template_data['action'] = 'https://live.sagepay.com/gateway/service/vspform-register.vsp';
 		} elseif ($this->config->get('default_sagepay_test') == 'test') {
 			$template_data['action'] = 'https://test.sagepay.com/gateway/service/vspform-register.vsp';		
 		} elseif ($this->config->get('default_sagepay_test') == 'sim') {
     		$template_data['action'] = 'https://test.sagepay.com/simulator/vspformgateway.asp';
-  		} 
+  		} else {
+  			$template_data['action'] = 'https://test.sagepay.com/simulator/vspformgateway.asp';
+  		}
 		
 		$vendor = $this->config->get('default_sagepay_vendor');
 		$password = $this->config->get('default_sagepay_password');		

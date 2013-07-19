@@ -76,13 +76,67 @@ function is_serialized ($value) {
 }
 
 /*
-*  Convert input text to alpaha numeric string for SEO URL use
+*
 */
-function SEOEncode($string_value) {
+/**
+ * Function convert input text to alpha numeric string for SEO URL use
+ * if optional parameter object_key_name (product, category, content etc) given function will return unique SEO keyword
+ * @param $string_value
+ * @param string $object_key_name
+ * @param int $object_id
+ * @param int $language_id
+ * @return string
+ */
+function SEOEncode($string_value, $object_key_name='', $object_id=0, $language_id=0) {
 	$seo_key = html_entity_decode($string_value, ENT_QUOTES, 'UTF-8');
-	$seo_key = preg_replace('/[^\w\d\s_-]/si', '', $seo_key);
+	$seo_key = preg_replace('/[^\pL\p{Zs}0-9\s\-_]+/u', '', $seo_key);
 	$seo_key = trim(mb_strtolower($seo_key));
-	$seo_key = htmlentities(preg_replace('/\s+/', '_', $seo_key));
+	$seo_key = str_replace(' ','_', $seo_key);
+	if(!$object_key_name){
+		return $seo_key;
+	}else{
+		//if $object_key_name given - check is seo-key unique and return unique
+		return getUniqueSeoKeyword($seo_key, $object_key_name, $object_id, $language_id);
+	}
+}
+
+/**
+ * @param $seo_key
+ * @param string $object_key_name
+ * @param int $object_id
+ * @param int $language_id
+ * @return mixed
+ */
+function getUniqueSeoKeyword($seo_key, $object_key_name='', $object_id=0, $language_id=0){
+
+	$object_id=(int)$object_id;
+	$language_id = (int)$language_id;
+
+	$registry = Registry::getInstance();
+	$language_id = !$language_id ? (int)$registry->get('language')->getContentLanguageID(): $language_id;
+	$db = $registry->get('db');
+	$sql = "SELECT `keyword`
+			FROM ".$db->table('url_aliases')."
+			WHERE query like '".$db->escape($object_key_name)."=%'
+					AND `keyword` like '".$db->escape($seo_key)."%'
+					AND `language_id`= ".$language_id;
+	if($object_id){
+		// exclude keyword of given object (product, category, content etc)
+		$sql .= " AND query<>'".$db->escape($object_key_name)."=".$object_id."'";
+	}
+
+	$result = $db->query($sql);
+	if($result->num_rows){
+		foreach($result->rows as $row){
+			$keywords[] = $row['keyword'];
+		}
+
+		$i=0;
+		while(in_array($seo_key,$keywords) && $i<20){
+			$seo_key = $seo_key.'_'.($object_id?$object_id:$i);
+			$i++;
+		}
+	}
 	return $seo_key;
 }
 
@@ -90,7 +144,7 @@ function SEOEncode($string_value) {
 * Echo array with readable formal. Useful in debugging of array data. 
 */
 function echo_array($array_data) {
-	echo "<pre> $sub_table_name: ";
+	echo "<pre>";// $sub_table_name: ";
 	print_r($array_data);
 	echo'</pre>';
 }
@@ -526,4 +580,25 @@ function getExtensionConfigXml($extension_txt_id) {
 	$result = simplexml_import_dom($base_dom);
 	$registry->set($extension_txt_id.'_configXML',$result);
 	return $result;
+}
+
+/**
+ * Function for starting new storefront session for control panel user
+ * NOTE: do not try to save into session any data after this function call!
+ *
+ * @param $user_id int - control panel user_id
+ * @param array $data data for writing into new session storage
+ * @return bool
+ */
+function startStorefrontSession($user_id, $data=array()){
+    $data = (array)$data;
+    $data['merchant'] = (int)$user_id;
+    if(!$data['merchant']){ return false;}
+    session_write_close();
+    $session = new ASession('PHPSESSID_AC_SF');
+    foreach($data as $k=>$v){
+        $session->data[$k] = $v;
+    }
+    session_write_close();
+    return true;
 }

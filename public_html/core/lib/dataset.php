@@ -56,10 +56,11 @@ final class ADataset {
 	 * @var object Registry
 	 */
 	private $registry;
-	
+
 	/**
 	 * @param string $dataset_name
 	 * @param string $dataset_key (optional)
+	 * @throws AException
 	 */
 	public function __construct($dataset_name = '', $dataset_key = '') {
 		
@@ -88,7 +89,8 @@ final class ADataset {
 	// create new dataset 
 	/**
 	 * @param string $dataset_name
-	 * @param string $dataset_key 
+	 * @param string $dataset_key
+	 * @throws AException
 	 */
 	public function createDataset($dataset_name, $dataset_key = '') {
 		
@@ -106,10 +108,12 @@ final class ADataset {
 		
 		$this->dataset_id = ( int ) $this->db->getLastId ();
 	}
+
 	/**
-	 * Function for creating new columns in dataset tables. If key "dataset_column_old_name" presents in array and not empty function updates existing column definition 
-	 * 
+	 * Function for creating new columns in dataset tables. If key "dataset_column_old_name" presents in array and not empty function updates existing column definition
+	 *
 	 * @param array $new_columnset array ("dataset_column_name"=>"","dataset_column_type"=>"","dataset_column_sort_order"=>"" [, "dataset_column_old_name"=>"",])
+	 * @throws AException
 	 * @return boolean
 	 */
 	public function defineColumns($new_columnset = array()) {
@@ -200,14 +204,15 @@ final class ADataset {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Function adds new dataset rows to the end of dataset table
-	 * 
+	 *
 	 * parameter $row_values looks like array (array("some_column_name"=>"some_value", "some_column_name"=>"some_value"),
 	 * array("some_column_name"=>"some_value", "some_column_name"=>"some_value"))
-	 * 
+	 *
 	 * @param array $row_values
+	 * @throws AException
 	 * @return boolean
 	 */
 	public function addRows($row_values = array()) {
@@ -261,10 +266,12 @@ final class ADataset {
 		
 		return true;
 	}
+
 	/**
-	 * Function set properties for dataset 
-	 * 
-	 * @param array $property("property_name"=>"property_value")
+	 * Function set properties for dataset
+	 *
+	 * @param array $properties
+	 * @internal param array $property ("property_name"=>"property_value")
 	 * @return boolean
 	 */
 	public function setDatasetProperties($properties = array()) {
@@ -284,9 +291,10 @@ final class ADataset {
 		}
 		return true;
 	}
-	
-	
+
+
 	/**
+	 * @param string $property_name
 	 * @return boolean|array
 	 */
 	public function getDatasetProperties($property_name = "") {
@@ -308,12 +316,14 @@ final class ADataset {
 		}
 		return $output;
 	}
-	
-	/**	 
+
+	/**
 	 * Function set Column properties. It may be checks for value of column cell or some limits etc
-	 * 
+	 *
 	 * @param string $column_name
-	 * @param array $property("property_name"=>"property_value")
+	 * @param array $properties
+	 * @throws AException
+	 * @internal param array $property ("property_name"=>"property_value")
 	 * @return boolean
 	 */
 	public function setColumnProperties($column_name = '', $properties = array()) {
@@ -469,8 +479,10 @@ final class ADataset {
 		$order_name = $order_name == 'row_id' ? '' : $order_name;
 		return $this->_createTable ( $result, $column_list , array($order_name, $order_direction, $limit, $offset));
 	}
+
 	/**
 	 * This method return total rows count of dataset.
+	 * @param array $filter
 	 * @return integer
 	 */
 	public function getTotalRows($filter=array()) {
@@ -583,11 +595,12 @@ final class ADataset {
 		// return deleted rows count
 		return sizeof($row_ids);
 	}
-	
+
 	/**
 	 * @param array $condition array("column_name"=>string, "operator"=>string,"value"=>string )
 	 * @param array $new_values array("column_name"=>"value")
-	 * @return string|string|string
+	 * @throws AException
+	 * @return string
 	 */
 	public function updateRows($condition, $new_values) {
 		if (! $this->dataset_id || ! $this->columnset || ! is_array ( $new_values )) {
@@ -657,13 +670,14 @@ final class ADataset {
 		// return updated rows count
 		return sizeof($row_ids);
 	}
-	
+
 	/**
 	 * Function returns rows of dataset table by given search condition
-	 * @param array array $condition array("column_name"=>string, "operator"=>string,"value"=>string )
+	 * @param array $condition
 	 * @param string $order_by
 	 * @param int $limit
 	 * @param int $offset
+	 * @internal param array $array $condition array("column_name"=>string, "operator"=>string,"value"=>string )
 	 * @return array|bool
 	 */
 	public function searchRows($condition = array(), $order_by = 'row_id:ASC', $limit = 1000, $offset = 0) {
@@ -674,10 +688,11 @@ final class ADataset {
 		$this->_buildSQLSearch ( $condition );
 		return $this->getRows ( array (), $order_by, $limit, $offset );
 	}
-	
+
 	/**
-	 * function build search SQL condition by given condition array 
+	 * function build search SQL condition by given condition array
 	 * @param array $condition array("column_name"=>string, "operator"=>string,"value"=>string )
+	 * @throws AException
 	 * @return string
 	 */
 	private function _buildSQLSearch($condition = array()) {
@@ -724,10 +739,10 @@ final class ADataset {
 		$this->search_condition = " ( dv.dataset_column_id = '" . $column_id . "' AND dv.value_" . $this->columnset [$column_id] ['dataset_column_type'] . " " . $condition ['operator'] . " '" . $condition ['value'] . "') ";
 		return true;
 	}
-	
+
 	/**
 	 * drop dataset with values and columnset
-	 * @param int $dataset_id
+	 * @internal param int $dataset_id
 	 * @return boolean
 	 */
 	public function dropDataset() {
@@ -917,4 +932,3 @@ final class ADataset {
 		} // end of loop
 	}
 }
-?>

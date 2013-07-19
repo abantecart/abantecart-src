@@ -68,8 +68,11 @@ class ControllerCommonPage extends AController {
 		$this->view->assign('rnk_link',base64_decode('aHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbQ=='));
 		$this->view->assign('rnk_text',base64_decode('UG93ZXJlZCBieSBBYmFudGVjYXJ0IGVDb21tZXJjZSBTb2x1dGlvbg=='));
 
+
+		if($this->config->get('config_maintenance') && isset($this->session->data['merchant'])){
+			$this->view->assign('maintenance_warning',$this->language->get('text_maintenance_notice'));
+		}
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
-?>

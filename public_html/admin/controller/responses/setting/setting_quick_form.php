@@ -81,7 +81,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
         $this->data['setting_id'] = (int)$this->request->get['setting_id'];
 
 
-        $dispatch = $this->dispatch('responses/common/form_collector', array('form_id' => 'cgFrm', 'target' => $this->request->get['target'],'success_script' => 'CKEditor(\'destroy\'); CKEditor(\'add\');') );
+        $dispatch = $this->dispatch('responses/common/form_collector', array('form_id' => 'qsFrm', 'target' => $this->request->get['target'],'success_script' => 'CKEditor(\'destroy\'); CKEditor(\'add\');') );
         $this->data['form_collector'] = $dispatch->dispatchGetOutput();
 
 
@@ -92,14 +92,14 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
         ));
 
         $form->setForm(array(
-            'form_name' => 'cgFrm',
+            'form_name' => 'qsFrm',
             'update' => $this->data['update'],
         ));
 
-        $this->data['form']['id'] = 'cgFrm';
+        $this->data['form']['id'] = 'qsFrm';
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
             'type' => 'form',
-            'name' => 'cgFrm',
+            'name' => 'qsFrm',
             'action' => $this->data['action'],
         ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -199,5 +199,3 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
     }
 
 }
-
-?>

@@ -21,18 +21,7 @@
 class ControllerResponsesExtensionDefaultSagepayUS extends AController {
 	public function main() {
     	$this->loadLanguage('default_sagepay_us/default_sagepay_us');
-		
-		$template_data['text_credit_card'] = $this->language->get('text_credit_card');
-		$template_data['text_wait'] = $this->language->get('text_wait');
-		
-		$template_data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
-		$template_data['entry_cc_number'] = $this->language->get('entry_cc_number');
-		$template_data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
-		$template_data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
-		
-		$template_data['button_confirm'] = $this->language->get('button_confirm');
-		$template_data['button_back'] = $this->language->get('button_back');
-		
+				
 		$template_data['months'] = array();
 		
 		for ($i = 1; $i <= 12; $i++) {

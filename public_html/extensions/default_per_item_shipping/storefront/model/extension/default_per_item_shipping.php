@@ -27,19 +27,28 @@ class ModelExtensionDefaultPerItemShipping extends Model {
 		
 		if ($this->config->get('default_per_item_shipping_status')) {
       		$taxes = $this->tax->getTaxes((int)$address['country_id'], (int)$address['zone_id']);
-			if (!$this->config->get('default_per_item_shipping_location_id')) {
+
+			if (!$this->config->get('default_per_item_shipping_location_id') || $taxes) {
         		$status = TRUE;
-      		} elseif ($taxes) {
-        		$status = TRUE;
-      		} else {
-        		$status = FALSE;
+      		}else {
+				$query = $this->db->query("SELECT *
+											FROM " . DB_PREFIX . "zones_to_locations
+											WHERE location_id = '" . (int)$this->config->get('default_per_item_shipping_location_id') . "'
+												AND country_id = '" . (int)$address['country_id'] . "'
+												AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
+				if ($query->num_rows) {
+					$status = TRUE;
+				} else {
+					$status = FALSE;
+				}
+
       		}
 		} else {
 			$status = FALSE;
 		}
 		
 		$method_data = array();
-	
+
 		if ($status) {
 			$cost = 0;
 

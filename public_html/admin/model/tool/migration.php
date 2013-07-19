@@ -28,7 +28,9 @@ class ModelToolMigration extends Model {
 
 	const CLASS_LOCATION = 'admin/model/tool/migration/';
 	const CLASS_PREFIX = 'Migration_';
-
+	/**
+	 * @var $cart (oscmax|osc)
+	 */
 	protected $cart = null;
 	protected $log = '';
 	private $is_error = null;
@@ -40,6 +42,7 @@ class ModelToolMigration extends Model {
 		if (!file_exists($file))
 			return false;
 
+		/** @noinspection PhpIncludeInspection */
 		require_once($file);
 		$name = self::CLASS_PREFIX . ucfirst($cart);
 		if (!class_exists($name))
@@ -94,16 +97,19 @@ class ModelToolMigration extends Model {
 		$name = self::CLASS_PREFIX . ucfirst($cart);
 		$this->cart = new $name($this->session->data[ 'migration' ], $this->config);
 
-		if ($this->session->data[ 'migration' ][ 'migrate_products' ]) {
-			if (!$this->migrateProducts()) {
-				return $this->log;
-			}
-		}
+
 		if ($this->session->data[ 'migration' ][ 'migrate_customers' ]) {
 			if (!$this->migrateCustomers()) {
 				return $this->log;
 			}
 		}
+
+		if ($this->session->data[ 'migration' ][ 'migrate_products' ]) {
+			if (!$this->migrateProducts()) {
+				return $this->log;
+			}
+		}
+
 		if ($this->session->data[ 'migration' ][ 'migrate_orders' ]) {
 			if (!$this->migrateOrders()) {
 				return $this->log;
@@ -125,6 +131,7 @@ class ModelToolMigration extends Model {
 				}
 			}
 		}
+		return true;
 	}
 
 	protected function clearData() {
@@ -145,7 +152,18 @@ class ModelToolMigration extends Model {
 			$sql .= "DELETE FROM `" . DB_PREFIX . "products`;\n";
 			$sql .= "DELETE FROM `" . DB_PREFIX . "product_descriptions` WHERE language_id='".$languageId."';\n";
 			$sql .= "DELETE FROM `" . DB_PREFIX . "products_to_categories`;\n";
+			$sql .= "DELETE FROM `" . DB_PREFIX . "products_to_downloads`;\n";
 			$sql .= "DELETE FROM `" . DB_PREFIX . "products_to_stores`;\n";
+			$sql .= "DELETE FROM `" . DB_PREFIX . "product_options`;\n";
+			$sql .= "DELETE FROM `" . DB_PREFIX . "product_option_descriptions`;\n";
+			$sql .= "DELETE FROM `" . DB_PREFIX . "product_option_values`;\n";
+			$sql .= "DELETE FROM `" . DB_PREFIX . "product_option_value_descriptions`;\n";
+			$sql .= "DELETE FROM `" . DB_PREFIX . "product_specials`;\n";
+			$sql .= "DELETE FROM `" . DB_PREFIX . "products_featured`;\n";
+			$sql .= "DELETE FROM `" . DB_PREFIX . "products_related`;\n";
+			$sql .= "DELETE FROM `" . DB_PREFIX . "product_tags`;\n";
+
+			$sql .= "DELETE FROM `" . DB_PREFIX . "reviews`;\n";
 			$sql .= "DELETE FROM `" . DB_PREFIX . "manufacturers`;\n";
 			$sql .= "DELETE FROM `" . DB_PREFIX . "manufacturers_to_stores`;\n";
 			$sql .= "DELETE FROM `" . DB_PREFIX . "url_aliases` WHERE `query` LIKE 'product_id=%';\n";
@@ -212,6 +230,78 @@ class ModelToolMigration extends Model {
 	}
 
 
+	protected function migrateCustomers() {
+		$customers = $this->cart->getCustomers();
+
+		if (!$customers) {
+			$errors = $this->cart->getErrors();
+			$class = '';
+			if(!$errors){
+				$errors =  $this->language->get('text_no_customers');
+				$class = 'attention';
+			}
+			$this->addLog($errors,$class);
+			return false;
+		}
+
+		foreach ($customers as $data) {
+			if(!trim($data['email'])){ continue; }
+
+			$result = $this->db->query ( "INSERT INTO " . DB_PREFIX . "customers
+										SET store_id = '" . (int)$this->config->get('config_store_id') . "',
+											firstname = '" . $this->db->escape($data[ 'firstname' ]) . "',
+											lastname = '" . $this->db->escape($data[ 'lastname' ]) . "',
+											email = '" . $this->db->escape($data[ 'email' ]) . "',
+											telephone = '" . $this->db->escape($data[ 'telephone' ]) . "',
+											fax = '" . $this->db->escape($data[ 'fax' ]) . "',
+											password = '" . $this->db->escape(AEncryption::getHash($data[ 'password' ])) . "',
+											newsletter = '" . $this->db->escape($data[ 'newsletter' ]) . "',
+											customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "',
+											status = '1',
+											approved = '1',
+											date_added = NOW();",
+									   true);
+			if($result === false){
+				$this->addLog($this->db->error);
+				return null;
+			}
+
+			$customer_id = $this->db->getLastId();
+			$customer_id_map[$data['customer_id']] = $customer_id;
+			$data[ 'address' ] = (array)$data[ 'address' ];
+			foreach ($data[ 'address' ] as $address) {
+				$result = $this->db->query ( "INSERT INTO " . DB_PREFIX . "addresses
+											  SET customer_id = '" . (int)$customer_id . "',
+											   	  firstname = '" . $this->db->escape($address[ 'firstname' ]) . "',
+													lastname = '" . $this->db->escape($address[ 'lastname' ]) . "',
+													company = '" . $this->db->escape($address[ 'company' ]) . "',
+													address_1 = '" . $this->db->escape($address[ 'address_1' ]) . "',
+													city = '" . $this->db->escape($address[ 'city' ]) . "',
+													postcode = '" . $this->db->escape($address[ 'postcode' ]) . "',
+													country_id = '" . (int)$address[ 'country_id' ] . "',
+													zone_id = '" . (int)$address[ 'zone_id' ] . "'", true);
+				if($result === false){
+					$this->addLog($this->db->error);
+					return null;
+				}
+				$address_id = $this->db->getLastId();
+			}
+
+			$result = $this->db->query("UPDATE " . DB_PREFIX . "customers
+									    SET address_id = '" . (int)$address_id . "'
+								        WHERE customer_id = '" . (int)$customer_id . "'",
+			                           true);
+			if($result === false){
+				$this->addLog($this->db->error);
+				return null;
+			}
+
+		}
+		$this->addLog(count($customers) . ' customers imported','success');
+		return true;
+	}
+
+
 	protected function migrateProducts() {
 		$this->load->model('tool/image');
 		$rm = new AResourceManager();
@@ -220,12 +310,12 @@ class ModelToolMigration extends Model {
 		$language_id = $this->getDefaultLanguageId();
 		$store_id = $this->config->get('config_store_id');
 		$category_id_map = array();
-		$manufacturers_id_map = array();
+		$manufacturer_id_map = array();
 
 		$language_list = $this->language->getAvailableLanguages();
-		//////////////////////////////////////////////////////
 
 		$products = $this->cart->getProducts();
+
 		if (!$products) {
 			$errors = $this->cart->getErrors();
 			$class = 'error';
@@ -260,7 +350,7 @@ class ModelToolMigration extends Model {
 		}
 
 		// import categories
-		//   $categories = $this->cart->getCategories();
+		$categories = $this->cart->getCategories();
 		$pics = 0;
 		foreach ($categories as $data) {
 			$data[ 'name' ] = strip_tags($data[ 'name' ]);
@@ -273,16 +363,19 @@ class ModelToolMigration extends Model {
 			                           true);
 			if($result===false){
 				$this->addLog($this->db->error);
-				return;
+				return null;
 			}
 			$category_id = $this->db->getLastId();
 			$category_id_map[ $data[ 'category_id' ] ] = $category_id;
 
+			$data[ 'image' ] = trim($data[ 'image' ]);
 			if (!empty($data[ 'image' ])) {
-				$source = $this->session->data[ 'migration' ][ 'cart_url' ] . 'image/' . $data[ 'image' ];
+				$source = $this->session->data[ 'migration' ][ 'cart_url' ] . 'images/images_big/' . str_replace('categories/','',$data[ 'image' ]);
+				$source = str_replace(' ','%20',$source);
 				$src_exists = @getimagesize($source);
 				if(!$src_exists){
 					$source = $this->session->data[ 'migration' ][ 'cart_url' ] . 'images/' . $data[ 'image' ];
+					$source = str_replace(' ','%20',$source);
 				    $src_exists = @getimagesize($source);
 				}
 				if ( $src_exists ) {
@@ -319,7 +412,7 @@ class ModelToolMigration extends Model {
 							$rm->mapResource('categories', $category_id, $resource_id);
 						} else {
 							$this->addLog($this->db->error);
-							return;
+							return null;
 						}
 					}
 				}
@@ -332,7 +425,7 @@ class ModelToolMigration extends Model {
 			                            true);
 			if($result===false){
 				$this->addLog($this->db->error);
-				return;
+				return null;
 			}
 
 			$result = $this->db->query( "INSERT INTO " . DB_PREFIX . "categories_to_stores
@@ -340,7 +433,7 @@ class ModelToolMigration extends Model {
 										 VALUES ('" . (int)$category_id . "','" . (int)$store_id . "')", true);
 			if($result === false){
 				$this->addLog($this->db->error);
-				return;
+				return null;
 			}
 		}
 
@@ -354,12 +447,12 @@ class ModelToolMigration extends Model {
 										    WHERE category_id = '" . (int)$result[ 'category_id' ] . "'", true);
 				if($result === false){
 					$this->addLog($this->db->error);
-					return;
+					return null;
 				}
 		}
 		$this->addLog(count($categories) . ' categories imported ('. $pics . ' pictures)','success');
 
-		//////////////////////////////////////////////////////
+
 		// import manufacturers
 		$pics = 0;
 		foreach ($manufacturers as $data) {
@@ -368,17 +461,19 @@ class ModelToolMigration extends Model {
                                         SET name = '" . $this->db->escape($data[ 'name' ]) . "'", true);
 			if($result === false){
 				$this->addLog($this->db->error);
-				return;
+				return null;
 			}
 
 			$manufacturer_id = $this->db->getLastId();
-			$manufacturers_id_map[ $data[ 'manufacturers_id' ] ] = $manufacturer_id;
-
+			$manufacturer_id_map[ $data[ 'manufacturer_id' ] ] = $manufacturer_id;
+			$data[ 'image' ] = trim($data[ 'image' ]);
 			if (!empty($data[ 'image' ])) {
-				$source = $this->session->data[ 'migration' ][ 'cart_url' ] . 'image/' . $data[ 'image' ];
+				$source = $this->session->data[ 'migration' ][ 'cart_url' ] . 'images/images_big/' . str_replace('manufacturers/','',$data[ 'image' ]);
+				$source = str_replace(' ','%20',$source);
 				$src_exists = @getimagesize($source);
 				if(!$src_exists){
 					$source = $this->session->data[ 'migration' ][ 'cart_url' ] . 'images/' . $data[ 'image' ];
+					$source = str_replace(' ','%20',$source);
 				    $src_exists = @getimagesize($source);
 				}
 				if ( $src_exists ) {
@@ -418,7 +513,7 @@ class ModelToolMigration extends Model {
 							$rm->mapResource('manufacturers', $manufacturer_id, $resource_id);
 						} else {
 							$this->addLog($this->db->error);
-							return;
+							return null;
 						}
 					}
 				}
@@ -427,19 +522,19 @@ class ModelToolMigration extends Model {
                                         SET manufacturer_id = '" . (int)$manufacturer_id . "', store_id = '" . (int)$store_id . "'", true);
 			if($result === false){
 				$this->addLog($this->db->error);
-				return;
+				return null;
 			}
 		}
 
 		$this->addLog(count($manufacturers) . ' brands imported ('. $pics . ' pictures)','success');
 
-		//////////////////////////////////////////////////////
 		// import products
 
 		$pics = 0;
+		$i=1;
 		foreach ($products as $data) {
 
-			$data[ 'manufacturer_id' ] = empty($manufacturers_id_map[ $data[ 'manufacturer_id' ] ]) ? '' : $manufacturers_id_map[ $data[ 'manufacturer_id' ] ];
+			$data[ 'manufacturer_id' ] = empty($manufacturer_id_map[ $data[ 'manufacturer_id' ] ]) ? '' : $manufacturer_id_map[ $data[ 'manufacturer_id' ] ];
 
 			$result = $this->db->query("INSERT INTO " . DB_PREFIX . "products
 										SET model = '" . $this->db->escape($data[ 'model' ]) . "',
@@ -458,63 +553,82 @@ class ModelToolMigration extends Model {
 
 			if($result === false){
 				$this->addLog($this->db->error);
-				return;
+				return null;
 			}
 
 			$product_id = $this->db->getLastId();
+			$product_id_map[ $data[ 'product_id' ] ] = $product_id;
+			$product_prices_map[ $data[ 'product_id' ] ] = (float)$data[ 'price' ];
 
+			$data[ 'image' ] = trim($data[ 'image' ]);
 			if (!empty($data[ 'image' ])) {
 
-				//TODO: create directories automatically
-				//for now remove directories from image path
-				$source = $this->session->data[ 'migration' ][ 'cart_url' ] . 'image/' . $data[ 'image' ];
-				$src_exists = @getimagesize($source);
-				if(!$src_exists){
-					$source = $this->session->data[ 'migration' ][ 'cart_url' ] . 'images/' . $data[ 'image' ];
-				    $src_exists = @getimagesize($source);
+
+				$images = array();
+				$image_filename = $basename = pathinfo($data[ 'image' ],PATHINFO_FILENAME);
+				$ext = pathinfo($data[ 'image' ],PATHINFO_EXTENSION);
+				if(in_array(substr($basename,-2),array('_1','_2','_3','_4','_5',))){
+					$basename = substr($basename,-2);
+					$images[] = $image_filename.'.'.$ext;
+				}else{
+					$images[] = $basename.'.'.$ext;
 				}
-				if ( $src_exists ) {
-					$data['image'] = 'data/'. pathinfo($data['image'], PATHINFO_BASENAME);
-					$target = DIR_RESOURCE.'image/'. pathinfo($data['image'], PATHINFO_BASENAME);
-					if (($file = $this->downloadFile($source)) === false) {
-						$this->is_error = true;
-						$this->addLog(" Product {$data['name']} File " . $source . " couldn't be uploaded.");
+				$i=1;
+				while($i<6){
+					if(!in_array($basename.'_'.$i,$images)){
+						$images[] = $basename.'_'.$i.'.'.$ext;
 					}
+					$i++;
+				}
 
-					if (!$this->is_error){
-						if (!$this->writeToFile($file, $target)) {
+				foreach($images as $image_name){
+					$source = $this->session->data[ 'migration' ][ 'cart_url' ] . 'images/images_big/' . $image_name;
+					$source = str_replace(' ','%20',$source);
+					$src_exists = @getimagesize($source);
+					if ( $src_exists ) {
+						$data['image'] = 'data/'. pathinfo($image_name, PATHINFO_BASENAME);
+						$target = DIR_RESOURCE.'image/'. pathinfo($image_name, PATHINFO_BASENAME);
+						if (($file = $this->downloadFile($source)) === false) {
 							$this->is_error = true;
-							$this->addLog("Couln't create product {$data['name']} ({$source}) file " . $target . " in image folder ");
-						}else{
-							$pics++;
+							$this->addLog(" Product {$data['name']} File " . $source . " couldn't be uploaded.");
 						}
+
+						if (!$this->is_error){
+							if (!$this->writeToFile($file, $target)) {
+								$this->is_error = true;
+								$this->addLog("Couldn't create product {$data['name']} ({$source}) file " . $target . " in image folder ");
+							}else{
+								$pics++;
+							}
+						}
+						if (!$this->is_error){
+							$resource = array( 'language_id' => $this->config->get('storefront_language_id'),
+											   'name' => array(),
+											   'title' => '',
+											   'description' => '',
+											   'resource_path' => pathinfo($image_name, PATHINFO_BASENAME),
+											   'resource_code' => '');
+
+							$filename = pathinfo($data['image'], PATHINFO_BASENAME);
+							foreach($language_list as $lang){
+								$resource['name'][$lang['language_id']] = $filename;
+							}
+
+							$resource_id = $rm->addResource($resource);
+
+							if ( $resource_id ) {
+
+								$rm->mapResource('products', $product_id, $resource_id);
+							} else {
+								$this->addLog($this->db->error);
+								return null;
+							}
+						}
+
+					} else {
+						$this->addLog(" Product {$image_name} File " . $source . " couldn't be accessed.");
 					}
-					if (!$this->is_error){
-						$resource = array( 'language_id' => $this->config->get('storefront_language_id'),
-										   'name' => array(),
-										   'title' => '',
-										   'description' => '',
-										   'resource_path' => pathinfo($data['image'], PATHINFO_BASENAME),
-										   'resource_code' => '');
-
-						$filename = pathinfo($data['image'], PATHINFO_BASENAME);
-						foreach($language_list as $lang){
-							$resource['name'][$lang['language_id']] = $filename;
-						}
-
-						$resource_id = $rm->addResource($resource);
-						
-						if ( $resource_id ) {
-
-							$rm->mapResource('products', $product_id, $resource_id);
-						} else {
-							$this->addLog($this->db->error);
-							return;
-						}
-					}
-
-				} else {
-					$this->addLog(" Product {$data['name']} File " . $source . " couldn't be accessed.");
+				$i++;
 				}
 			}
 
@@ -525,14 +639,14 @@ class ModelToolMigration extends Model {
 											  description = '" . $this->db->escape($data[ 'description' ]) . "'", true);
 			if($result === false){
 				$this->addLog($this->db->error);
-				return;
+				return null;
 			}
 
 			$result = $this->db->query ( "INSERT INTO " . DB_PREFIX . "products_to_stores
 			                              SET product_id = '" . (int)$product_id . "', store_id = '" . (int)$store_id . "'", true);
 			if($result === false){
 				$this->addLog($this->db->error);
-				return;
+				return null;
 			}
 
 			if (isset($data[ 'product_category' ])) {
@@ -544,83 +658,120 @@ class ModelToolMigration extends Model {
                                                 VALUES ('" . (int)$product_id . "', '" . (int)$category_id_map[ $category_id ] . "')", true);
 					if($result === false){
 						$this->addLog($this->db->error);
-						return;
+						return null;
 					}
 				}
 			}
+
+			// products review
+			if($data['reviews']){
+
+				foreach($data['reviews'] as $review){
+
+					if(!(int)$product_id_map[ (int)$review['product_id'] ]){
+						continue;
+					}
+
+					$sql = "INSERT INTO " . DB_PREFIX . "reviews
+	                                             (`product_id`, `customer_id`, `author`,
+	                                             `text`,`rating`,`status`,`date_added`,`date_modified`)
+	                                            VALUES ('" . (int)$product_id_map[ $review['product_id'] ] . "',
+	                                            		'" . (int)$customer_id_map[ $data['review_customer_id'] ] . "',
+	                                            		'" .  $this->db->escape($review['review_author']) . "',
+	                                            		'" .  $this->db->escape($review['review_text']) . "',
+	                                            		'" .  (int)$review['review_rating'] . "',
+	                                            		'" .  (int)$review['review_status'] . "',
+														'" .  $this->db->escape($review['review_date_added']) . "',
+														'" .  $this->db->escape($review['review_date_modified']) . "'
+	                                            		);";
+
+					$result = $this->db->query($sql, true);
+					if($result === false){
+						$this->addLog($this->db->error);
+					}
+				}
+			}
+
+		}//end of product foreach
+
+		$options = $this->cart->getProductOptions();
+
+		foreach($options['product_options'] as $product_option){
+			//options
+			$sql = "INSERT INTO ".DB_PREFIX."product_options (product_id, sort_order,status,element_type)
+					VALUES('".$product_id_map[$product_option['product_id']]."','".$product_option['sort_order']."','1','".$this->db->escape($product_option['element_type'])."');";
+			$result = $this->db->query($sql);
+			if($result === false){
+				$this->addLog($this->db->error);
+				return null;
+			}
+			$product_option_id = $this->db->getLastId();
+			$key = $product_option['product_id'].'_'.$product_option[ 'product_option_id' ];
+			$key = empty($product_option[ 'product_option_id' ]) ? $product_option['product_id'].'_new_'.$product_option[ 'products_text_attributes_id'] : $key;
+
+			$product_option_id_map[ $key ] = $product_option_id;
+
+			//option description
+			$sql = "INSERT INTO ".DB_PREFIX."product_option_descriptions (product_option_id, language_id, product_id, name)
+					VALUES('".$product_option_id."', 1, '".$product_id_map[$product_option['product_id']]."','".$this->db->escape($product_option['product_option_name'])."');";
+			$result = $this->db->query($sql);
+			if($result === false){
+				$this->addLog($this->db->error);
+				return null;
+			}
+
+		}
+
+		//option value
+		foreach($options['product_option_values'] as $product_option_value){
+			$opt_price = 0;
+			if($product_option_value['price_prefix']=='+'){
+				$opt_price = $product_option_value['price'];
+			}else if($product_option_value['price_prefix']=='-'){
+				$opt_price = '-'.$product_option_value['price'];
+			}
+			$key = $product_option_value['product_id'].'_'.$product_option_value[ 'product_option_id' ];
+			if($product_option_value[ 'products_text_attributes_id']){
+				$key = $product_option_value['product_id'].'_new_'.$product_option_value[ 'products_text_attributes_id'];
+			}
+			$sql = "INSERT INTO ".DB_PREFIX."product_option_values (product_id,
+																product_option_id,
+																price,
+																prefix)
+					VALUES('".$product_id_map[$product_option_value['product_id']]."',
+					'".$product_option_id_map[ $key ]."',
+					'".$opt_price."',
+					'€');";
+			$result = $this->db->query($sql);
+			if($result === false){
+				$this->addLog($this->db->error);
+				return null;
+			}
+			$product_option_value_id = $this->db->getLastId();
+			$product_option_value_id_map[ $product_option_value[ 'product_option_value_id' ] ] = $product_option_value_id;
+
+			$sql = "INSERT INTO ".DB_PREFIX."product_option_value_descriptions (
+																product_option_value_id,
+																language_id,
+																product_id,
+																name)
+					VALUES(
+					'".$product_option_value_id."',
+					'1',
+					'".$product_id_map[$product_option_value['product_id']]."',
+					'".$this->db->escape($product_option_value['product_option_value_name'])."');";
+			$this->db->query($sql);
+			if($result === false){
+				$this->addLog($this->db->error);
+				return null;
+			}
+
 
 		}
 
 		$this->addLog(count($products) . ' products imported ('. $pics . ' pictures)','success');
 		return true;
 
-	}
-
-	protected function migrateCustomers() {
-		$customers = $this->cart->getCustomers();
-		if (!$customers) {
-			$errors = $this->cart->getErrors();
-			$class = '';
-			if(!$errors){
-				$errors =  $this->language->get('text_no_customers');
-				$class = 'attention';
-			}
-			$this->addLog($errors,$class);
-			return false;
-		}
-
-		foreach ($customers as $data) {
-			$result = $this->db->query ( "INSERT INTO " . DB_PREFIX . "customers
-										SET store_id = '" . (int)$this->config->get('config_store_id') . "',
-											firstname = '" . $this->db->escape($data[ 'firstname' ]) . "',
-											lastname = '" . $this->db->escape($data[ 'lastname' ]) . "',
-											email = '" . $this->db->escape($data[ 'email' ]) . "',
-											telephone = '" . $this->db->escape($data[ 'telephone' ]) . "',
-											fax = '" . $this->db->escape($data[ 'fax' ]) . "',
-											password = '" . $this->db->escape(AEncryption::getHash($data[ 'password' ])) . "',
-											newsletter = '" . $this->db->escape($data[ 'newsletter' ]) . "',
-											customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "',
-											status = '1',
-											approved = '1',
-											date_added = NOW()",
-									   true);
-			if($result === false){
-				$this->addLog($this->db->error);
-				return;
-			}
-
-			$customer_id = $this->db->getLastId();
-
-			foreach ($data[ 'address' ] as $address) {
-				$result = $this->db->query ( "INSERT INTO " . DB_PREFIX . "addresses
-											  SET customer_id = '" . (int)$customer_id . "',
-											   	  firstname = '" . $this->db->escape($address[ 'firstname' ]) . "',
-													lastname = '" . $this->db->escape($address[ 'lastname' ]) . "',
-													company = '" . $this->db->escape($address[ 'company' ]) . "',
-													address_1 = '" . $this->db->escape($address[ 'address_1' ]) . "',
-													city = '" . $this->db->escape($address[ 'city' ]) . "',
-													postcode = '" . $this->db->escape($address[ 'postcode' ]) . "',
-													country_id = '" . (int)$address[ 'country_id' ] . "',
-													zone_id = '" . (int)$address[ 'zone_id' ] . "'", true);
-				if($result === false){
-					$this->addLog($this->db->error);
-					return;
-				}
-				$address_id = $this->db->getLastId();
-			}
-
-			$result = $this->db->query("UPDATE " . DB_PREFIX . "customers
-									    SET address_id = '" . (int)$address_id . "'
-								        WHERE customer_id = '" . (int)$customer_id . "'",
-			                           true);
-			if($result === false){
-				$this->addLog($this->db->error);
-				return;
-			}
-
-		}
-		$this->addLog(count($customers) . ' customers imported','success');
-		return true;
 	}
 
 	protected function migrateOrders() {
@@ -664,10 +815,11 @@ class ModelToolMigration extends Model {
 			return $file;
 		}
 		return false;
+
 	}
 
 	function writeToFile($data, $file) {
-		if (is_dir($file)) return;
+		if (is_dir($file)) return null;
 		if (function_exists("file_put_contents")) {
 			$bytes = @file_put_contents($file, $data->body);
 			return $bytes == $data->content_length;
@@ -679,6 +831,22 @@ class ModelToolMigration extends Model {
 
 		return $bytes == $data->content_length;
 	}
-}
 
-?>
+	public function getCartList(){
+		$result = array();
+		$files = glob(DIR_ROOT.'/admin/model/tool/migration/*',GLOB_NOSORT);
+		if($files){
+			foreach($files as $file){
+				$cartname = pathinfo($file, PATHINFO_FILENAME);
+				if(strtolower($cartname) == 'interface_migration') continue;
+
+				require_once($file);
+				$name = self::CLASS_PREFIX . ucfirst($cartname);
+				$cart = new $name('', '');
+				$result[$cartname] = $cart->getName().$cart->getVersion();
+			}
+		}
+
+	return $result;
+	}
+}

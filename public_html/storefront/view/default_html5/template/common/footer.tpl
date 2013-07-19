@@ -50,14 +50,14 @@ Please donate via PayPal to donate@abantecart.com
 //-->
 
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="<?php echo $this->templateResource('/javascript/bootstrap.js'); ?>"></script>
+<script src="<?php echo $this->templateResource('/javascript/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo $this->templateResource('/javascript/respond.min.js'); ?>"></script>
 <script src="<?php echo $this->templateResource('/javascript/application.js'); ?>"></script>
 <script src="<?php echo $this->templateResource('/javascript/bootstrap-tooltip.js'); ?>"></script>
 <script src="<?php echo $this->templateResource('/javascript/bootstrap-modal.js'); ?>"></script>
 <script defer src="<?php echo $this->templateResource('/javascript/jquery.fancybox.js'); ?>"></script>
 <script defer src="<?php echo $this->templateResource('/javascript/jquery.flexslider.js'); ?>"></script>
-<script src="<?php echo $this->templateResource('/javascript/cloud-zoom.1.0.2.js'); ?>"></script>
+<script src="<?php echo $this->templateResource('/javascript/cloud-zoom.1.0.2.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.validate.js'); ?>"></script>
 <script type="text/javascript"  src="<?php echo $this->templateResource('/javascript/jquery.carouFredSel-6.1.0-packed.js'); ?>"></script>
 <script type="text/javascript"  src="<?php echo $this->templateResource('/javascript/jquery.mousewheel.min.js'); ?>"></script>
@@ -65,3 +65,6 @@ Please donate via PayPal to donate@abantecart.com
 <script type="text/javascript"  src="<?php echo $this->templateResource('/javascript/jquery.ba-throttle-debounce.min.js'); ?>"></script>
 <script type="text/javascript"  src="<?php echo $this->templateResource('/javascript/jquery.onebyone.min.js'); ?>"></script>
 <script defer src="<?php echo $this->templateResource('/javascript/custom.js'); ?>"></script>
+<?php foreach ($scripts_bottom as $script) { ?>
+<script type="text/javascript" src="<?php echo $script; ?>"></script>
+<?php } ?>

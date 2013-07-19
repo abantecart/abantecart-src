@@ -56,7 +56,9 @@ class ControllerResponsesCommonZone extends AController {
 		// options for zones
       	foreach ($results as $result) {
         	$selected = FALSE;
-	    	if (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name'])) {
+	    	if ( (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name']))
+				||
+				(isset($this->request->get['zone_id']) && ($this->request->get['zone_id'] == $result['zone_id'])) 	) {
 	      		$selected = TRUE;
                 $selected_name = $result['name'];
 	    	}
@@ -80,8 +82,8 @@ class ControllerResponsesCommonZone extends AController {
 		    $json['type'] = $this->request->get['type'];
 		    $json['selected_name'] = $selected_name;
         }
-
-		$this->response->setOutput(json_encode($json), $this->config->get('config_compression'));
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($json), $this->config->get('config_compression'));
 
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);

@@ -305,8 +305,8 @@
 
     function CKEditor(mode){
         var settings = [];
-        settings[0] = 'cgFrm_config_description_<?php echo $content_language_id; ?>';
-        settings[1] = 'cgFrm_config_meta_description';
+        settings[0] = 'qsFrm_config_description_<?php echo $content_language_id; ?>';
+        settings[1] = 'qsFrm_config_meta_description';
 
         for( var k in settings ){
 

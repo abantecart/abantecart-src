@@ -29,7 +29,7 @@ class ControllerCommonListingGrid extends AController {
         //Load input argumets for gid settings
         $this->data = func_get_arg(0);
         if (!is_array($this->data)) {
-            throw new AException (AC_ERR_LOAD, 'Error: Could create grid. Grid definition is not array.');
+            throw new AException (AC_ERR_LOAD, 'Error: Could not create grid. Grid definition is not array.');
         }
         //use to init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -93,6 +93,14 @@ class ControllerCommonListingGrid extends AController {
                 'search' => false,
             );
         }
+
+		//check for reserved column name
+		// name "parent" brokes expanding of grid tree
+		foreach($this->data['colModel'] as $col){
+			if($col['name']=='parent'){
+				throw new AException (AC_ERR_LOAD, 'Error: Could not create grid. Grid column model contains reserved column name ("'.$col['index'].'").');
+			}
+		}
 
         $this->view->assign('data', $this->data);
 

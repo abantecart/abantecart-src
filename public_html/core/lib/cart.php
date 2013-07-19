@@ -25,6 +25,11 @@ if (! defined ( 'DIR_CORE' )) {
  * Class ACart
  * @property ModelCatalogProduct $model_catalog_product
  * @property ATax $tax
+ * @property ASession $session
+ * @property ADB $db
+ * @property AWeight $weight
+ * @property AConfig $config
+ * @property ALoader $load
  * @property ModelCheckoutExtension $model_checkout_extension
  */
 final class ACart {
@@ -57,12 +62,14 @@ final class ACart {
 	public function __set($key, $value) {
 		$this->registry->set($key, $value);
 	}
-		 
-	/*
-	* Returns all products in the cart 
-	* To force recalculate pass argument as TRUE
-	*/	      
-  	public function getProducts( $recalculate = false ) {
+
+	/**
+	 * Returns all products in the cart
+	 * To force recalculate pass argument as TRUE
+	 * @param bool $recalculate
+	 * @return array
+	 */
+	public function getProducts( $recalculate = false ) {
 		//check if cart data was built before
 		if ( count($this->cart_data) && !$recalculate ) {
 			return $this->cart_data;
@@ -97,12 +104,16 @@ final class ACart {
 		return $this->cart_data;
   	}
 
-	/*
-	* Collect product information for cart based on user selections
-	* Function can be used to get totals and other product information 
-	* (based on user selection) as it is before getting into cart or after
-	*/	      
-  	public function buildProductDetails( $product_id, $quantity = 0, $options = array()  ) {
+	/**
+	 * Collect product information for cart based on user selections
+	 * Function can be used to get totals and other product information
+	 * (based on user selection) as it is before getting into cart or after
+	 * @param int $product_id
+	 * @param int $quantity
+	 * @param array $options
+	 * @return array
+	 */
+	public function buildProductDetails( $product_id, $quantity = 0, $options = array()  ) {
 		if (!has_value($product_id) || !is_numeric($product_id) || $quantity == 0) {
 			return array();
 		}	
@@ -181,7 +192,7 @@ final class ACart {
             	unset($option_value_query);
             	
             } else if( $option_value_queries ) {
-            	foreach($option_value_queries as $val_id=>$item){
+            	foreach($option_value_queries as $item){
             		$option_data[] = array( 'product_option_value_id' => $item['product_option_value_id'],
             								'name'                    => $option_query['name'],
             								'value'                   => $item['name'],
@@ -200,16 +211,21 @@ final class ACart {
             }
   		} // end of options build
     	
-		//needed for promotion 
-		$discount_quantity = $quantity; // this is used to culculate total QTY of 1 product 
+		//needed for promotion
+		$discount_quantity = 0; // this is used to calculate total QTY of 1 product in the cart
+
+		// check is product is in cart and calculate quantity to define item price with product discount
     	foreach ($this->session->data['cart'] as $k => $v) {
     	    $array2 = explode(':', $k);
     	    if ($array2[0] == $product_id) {
-    	    	$discount_quantity += $v['qty'];
+				$discount_quantity += $v['qty'];
     	    }
     	}
+		if(!$discount_quantity){
+			$discount_quantity = $quantity;
+		}
 
-    	//Apply group and quantaty discount first and if non, reply product discount
+    	//Apply group and quantity discount first and if non, reply product discount
     	$price = $this->promotion->getProductQtyDiscount($product_id, $discount_quantity);
     	if ( !$price ) {
     	    $price = $this->promotion->getProductSpecial($product_id );
@@ -266,13 +282,19 @@ final class ACart {
     	    'length_class' => $product_query['length_class'],					
     	    'ship_individually' => $product_query['ship_individually'],					
     	    'shipping_price' 	=> $product_query['shipping_price'],					
-    	    'free_shipping'		=> $product_query['free_shipping']					
+    	    'free_shipping'		=> $product_query['free_shipping'],
+    	    'sku'			=> $product_query['sku']
   		);
  		
  		return $result;	
 	}
-		  
-  	public function add($product_id, $qty = 1, $options = array()) {
+
+	/**
+	 * @param int $product_id
+	 * @param int $qty
+	 * @param array $options
+	 */
+	public function add($product_id, $qty = 1, $options = array()) {
 		$product_id = (int)$product_id;
     	if (!$options) {
       		$key = $product_id;
@@ -295,6 +317,11 @@ final class ACart {
 		$this->getProducts(TRUE);
   	}
 
+	/**
+	 * @param $key
+	 * @param $data
+	 * @return null
+	 */
 	public function addVirtual($key, $data) {
 
 		if ( !has_value($data) ) {
@@ -306,9 +333,11 @@ final class ACart {
 		}
 
 		$this->session->data['cart']['virtual'][$key] = $data;
-
 	}
 
+	/**
+	 * @param $key
+	 */
 	public function removeVirtual($key) {
 		if ( isset($this->session->data['cart']['virtual'][$key]) ) {
 			unset($this->session->data['cart']['virtual'][$key]);
@@ -318,7 +347,11 @@ final class ACart {
 		}
 	}
 
-  	public function update($key, $qty) {
+	/**
+	 * @param string $key
+	 * @param int $qty
+	 */
+	public function update($key, $qty) {
     	if ((int)$qty && ((int)$qty > 0)) {
       		$this->session->data['cart'][$key]['qty'] = (int)$qty;
     	} else {
@@ -330,21 +363,27 @@ final class ACart {
 		$this->getProducts(TRUE);
   	}
 
-  	public function remove($key) {
+	/**
+	 * @param $key
+	 */
+	public function remove($key) {
 		if (isset($this->session->data['cart'][$key])) {
      		unset($this->session->data['cart'][$key]);
+			// remove balance credit from session when any products removed from cart
+			unset($this->session->data['used_balance']);
   		}
 	}
 
   	public function clear() {
 		$this->session->data['cart'] = array();
   	}
-  	
-  	/*
-  	* Accumulative weight for all or requested products
-  	*/
-  	
-  	public function getWeight( $product_ids = array() ) {
+
+	/**
+	 * Accumulative weight for all or requested products
+	 * @param array $product_ids
+	 * @return int
+	 */
+	public function getWeight( $product_ids = array() ) {
 		$weight = 0;
     	foreach ($this->getProducts() as $product) {
       		if (count($product_ids) > 0 && !in_array((string)$product['product_id'], $product_ids) ) {
@@ -374,18 +413,16 @@ final class ACart {
 						}
 					}
 				}
-
       			$weight += $this->weight->convert($product_weight * $product['quantity'], $product['weight_class'], $this->config->get('config_weight_class'));
-      			
 			}
 		}
-
 		return $weight;
 	}
 
-	/*
-	* Products with no special settings for shippment
-	*/
+	/**
+	 * Products with no special settings for shippment
+	 * @return array
+	 */
 	public function basicShippingProducts() {
 		$basic_ship_products = array();
     	foreach ($this->getProducts() as $product) {
@@ -396,9 +433,10 @@ final class ACart {
 		return $basic_ship_products;
 	}
 
-	/*
-	* Products with special settings for shippment
-	*/
+	/**
+	 * Products with special settings for shippment
+	 * @return array
+	 */
 	public function specialShippingProducts() {
 		$special_ship_products = array();
     	foreach ($this->getProducts() as $product) {
@@ -428,12 +466,13 @@ final class ACart {
 		}
   	}
 	
-	/*
-	* Get Sub Total amount for current built order wihout any tax or any promotion
-	* To force recalculate pass argument as TRUE 
-	*/	
-	
-  	public function getSubTotal( $recalculate = false) {
+	 /**
+	 * Get Sub Total amount for current built order wihout any tax or any promotion
+	 * To force recalculate pass argument as TRUE
+	 * @param bool $recalculate
+	 * @return float
+	 */
+	public function getSubTotal( $recalculate = false) {
 		#check if value already set
 		if ( has_value($this->sub_total) && !$recalculate) {
 			return $this->sub_total;
@@ -447,17 +486,20 @@ final class ACart {
 		return $this->sub_total;
   	}
 	
-	/*
+	/**
 	* candidate to be depricated
+	* @return array
 	*/
 	public function getTaxes() {
 		return $this->getAppliedTaxes();
 	}
 	
-	/*
-	* Returns all applied taxes on products in the cart 
-	* To force recalculate pass argument as TRUE
-	*/
+	 /**
+	 * Returns all applied taxes on products in the cart
+	 * To force recalculate pass argument as TRUE
+	 * @param bool $recalculate
+	 * @return array
+	 */
 	public function getAppliedTaxes( $recalculate = false ) {
 		#check if value already set
 		if ( has_value($this->taxes) && !$recalculate) {
@@ -492,12 +534,14 @@ final class ACart {
   	}
 
 
-	/*
-	* Get Total amount for current built order with applicable taxes ( order value ) 
-	* Can be used for total value in shipping insurace or to culculate total savings.  
-	* To force recalculate pass argument as TRUE
-	*/
-  	public function getTotal( $recalculate = false ) {
+	 /**
+	 * Get Total amount for current built order with applicable taxes ( order value )
+	 * Can be used for total value in shipping insurace or to culculate total savings.
+	 * To force recalculate pass argument as TRUE
+	 * @param bool $recalculate
+	 * @return float
+	 */
+	public function getTotal( $recalculate = false ) {
 		#check if value already set
 		if ( has_value($this->total_value) && !$recalculate) {
 			return $this->total_value;
@@ -511,11 +555,12 @@ final class ACart {
   	}
 
 
-	/*
-	* Get Total amount for current built cart with all totals, taxes and applied promotions
-	* To force recalculate pass argument as TRUE
-	*/
-	
+	/**
+	 * Get Total amount for current built cart with all totals, taxes and applied promotions
+	 * To force recalculate pass argument as TRUE
+	 * @param bool $recalculate
+	 * @return int
+	 */
 	public function getFinalTotal( $recalculate = false ) {
 		#check if value already set
 		if ( has_value($this->total_data) && has_value($this->final_total) && !$recalculate) {
@@ -530,9 +575,7 @@ final class ACart {
 		
 		$taxes = $this->getAppliedTaxes( $recalculate );		 
 		$this->load->model('checkout/extension');
-		/**
-		 *
-		 */
+
 		$total_extns = $this->model_checkout_extension->getExtensions('total');
 
 		foreach ($total_extns as $value) {
@@ -553,11 +596,12 @@ final class ACart {
   		return $this->final_total;
   	}
 
-	/*
-	* Get Total Data for current built cart with all totals, taxes and applied promotions
-	* To force recalculate pass argument as TRUE
-	*/
-	
+	/**
+	 * Get Total Data for current built cart with all totals, taxes and applied promotions
+	 * To force recalculate pass argument as TRUE
+	 * @param bool $recalculate
+	 * @return mixed
+	 */
 	public function getFinalTotalData( $recalculate = false ) {
 		#check if value already set
 		if ( has_value($this->total_data) && has_value($this->final_total) && !$recalculate) {
@@ -567,11 +611,12 @@ final class ACart {
 		return $this->total_data;
 	}
 
-	/*
-	* Function to build total display based on enabled extensions/settings for total section 
-	* To force recalculate pass argument as TRUE  
-	*/
-
+	/**
+	 * Function to build total display based on enabled extensions/settings for total section
+	 * To force recalculate pass argument as TRUE
+	 * @param bool $recalculate
+	 * @return array
+	 */
 	public function buildTotalDisplay( $recalculate = false ) {
 	
 		$taxes = $this->getAppliedTaxes( $recalculate );
@@ -583,16 +628,16 @@ final class ACart {
 		foreach ($total_data as $key => $value) {
       		$sort_order[$key] = $value['sort_order'];
     	}
-
     	array_multisort($sort_order, SORT_ASC, $total_data);
     	//return result in array
     	return array('total' => $total, 'total_data' => $total_data, 'taxes' => $taxes); 	
 	}
 
-	/*
-	* Check if order/cart total has minimum amount setting met if it was set 
-	*/
- 	public function hasMinRequirement() {
+	/**
+	 * Check if order/cart total has minimum amount setting met if it was set
+	 * @return bool
+	 */
+	public function hasMinRequirement() {
 		$cf_total_min = $this->config->get('total_order_minimum'); 
 		if ( $cf_total_min && $cf_total_min > $this->getSubTotal() ) {
 			return FALSE;
@@ -600,7 +645,7 @@ final class ACart {
 		return TRUE;	 
 	} 
 
-	/*
+	/**
 	* Check if order/cart total has maximum amount setting met if it was set 
 	* @return bool
 	*/
@@ -612,11 +657,11 @@ final class ACart {
 		return TRUE; 
 	} 
 	
-	/*
-	* Return count of products in the cart including quantity per product 
-	* @return int
-	*/   	
-  	public function countProducts() {
+	/**
+	 * Return count of products in the cart including quantity per product
+	 * @return int
+	 */
+	public function countProducts() {
 		$qty = 0;
 		foreach ( $this->session->data['cart'] as $product) {
 			$qty += $product['qty'];
@@ -624,7 +669,7 @@ final class ACart {
 		return $qty;
 	}
 
-	/*
+	/**
 	* Return 0/[count] for products in the cart (quantity is not counted)
 	* @return int
 	*/   		  
@@ -632,7 +677,7 @@ final class ACart {
     	return count($this->session->data['cart']);
   	}
   
-	/*
+	/**
 	* Return TRUE if all products have stock 
 	* @return bool
 	*/   		    
@@ -648,7 +693,7 @@ final class ACart {
     	return $stock;
   	}
   
-	/*
+	/**
 	* Return FALSE if all products do NOT require shipping
 	* @return bool
 	*/   		    
@@ -658,7 +703,6 @@ final class ACart {
 		foreach ($this->getProducts() as $product) {
 	  		if ($product['shipping']) {
 	    		$shipping = TRUE;
-
 				break;
 	  		}		
 		}
@@ -666,7 +710,7 @@ final class ACart {
 		return $shipping;
 	}
 	
-	/*
+	/**
 	* Return FALSE if all products do NOT have download type
 	* @return bool
 	*/   		    
@@ -676,7 +720,6 @@ final class ACart {
 		foreach ($this->getProducts() as $product) {
 	  		if ($product['download']) {
 	    		$download = TRUE;
-				
 				break;
 	  		}		
 		}

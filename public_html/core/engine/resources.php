@@ -271,7 +271,7 @@ class AResource {
         return $result;
 	}
 
-    public function getResourceThumb ( $resource_id, $width, $height, $language_id = '' ) {
+    public function getResourceThumb ( $resource_id, $width = '', $height = '', $language_id = '' ) {
 
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');
@@ -444,10 +444,12 @@ class AResource {
 
 		if(!$sizes || !is_array($sizes['main']) || !is_array($sizes['thumb']) ){
 			if(!is_array($sizes['main'])){
-				$sizes['main'] = array('width'=> $this->config->get('config_image_product_width'), 'height'=> $this->config->get('config_image_product_height'));
+				$sizes['main'] = array('width'=> $this->config->get('config_image_product_width'),
+									   'height'=> $this->config->get('config_image_product_height'));
 			}
 			if(!is_array($sizes['thumb'])){
-				$sizes['thumb'] = array('width'=> $this->config->get('config_image_thumb_width'), 'height'=> $this->config->get('config_image_thumb_height'));
+				$sizes['thumb'] = array('width'=> $this->config->get('config_image_thumb_width'),
+										'height'=> $this->config->get('config_image_thumb_height'));
 			}
 		}
 
@@ -465,6 +467,7 @@ class AResource {
 
 			$resource_info = $result['resource_id'] ? $this->getResource($result['resource_id'], $this->config->get('storefront_language_id') ) : $result;
 		 	$origin = $resource_info['resource_path'] ? 'internal' : 'external';
+			$http = HTTPS===true ? HTTPS_DIR_RESOURCE : HTTP_DIR_RESOURCE;
 
 			if($origin=='internal'){
 				if($sizes['thumb']){
@@ -478,15 +481,15 @@ class AResource {
 					if(!$sizes['main']){
 						$main_url = $this->getResourceThumb($result['resource_id'],$sizes['main']['width'],$sizes['main']['height']);
 					}else{ // return href for image with size as-is
-						$main_url = HTTP_DIR_RESOURCE.$this->getTypeDir().$result['resource_path'];
+						$main_url = $http.$this->getTypeDir().$result['resource_path'];
 					}
 				}else{
-					$main_url = HTTP_DIR_RESOURCE.$this->getTypeDir().$result['resource_path'];
+					$main_url = $http.$this->getTypeDir().$result['resource_path'];
 				}
 
 				$resources[$k] = array( 'origin' => $origin,
 										'main_url' => $main_url,
-										'main_html'=>$this->html->buildResourceImage( array('url' => HTTP_DIR_RESOURCE.'image/'.$result['resource_path'],
+										'main_html'=>$this->html->buildResourceImage( array('url' => $http.'image/'.$result['resource_path'],
 										                                                    'width' => $sizes['main']['width'],
 										                                                    'height' => $sizes['main']['height'],
 										                                                    'attr' => 'alt="' . $resource_info['title'] . '"') ),

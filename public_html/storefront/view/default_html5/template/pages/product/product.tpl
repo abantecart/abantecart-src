@@ -17,6 +17,15 @@
 							?>
 							<li class="span4">
 								<?php
+								$im_width = $image_main['sizes']['thumb']['width'];
+								$im_height = $image_main['sizes']['thumb']['height'];
+								if ( !has_value($im_width)) {
+									$im_width = 380;
+								}
+								if ( !has_value($im_height)) {
+									$im_height = 380;
+								}
+								
 								if ($image['origin'] == 'external') {
 									$image_url = $image['main_html'];
 								} else {
@@ -30,7 +39,7 @@
 								   style="height:1%; width: 1%;">
 									<img src="<?php echo $image_url; ?>" alt="<?php echo $image['title']; ?>"
 										 title="<?php echo $image['title']; ?>"
-										 style="max-height:<?php echo $image_main['sizes']['thumb']['height'] ?>px; max-width: <?php echo $image_main['sizes']['thumb']['width'] ?>px;">
+										 style="max-height:<?php echo $im_height ?>px; max-width: <?php echo $im_width ?>px;">
 								</a>
 							</li>
 						<?php }

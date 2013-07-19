@@ -115,7 +115,7 @@
 	<definition>
 		<key>entry_maximum</key>
 		<value><![CDATA[Cantidad máxima:<br/><span class="help">Establezca un límite en quantaty que se puede seleccionar por cada pedido. 0 = sin límite</span>]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>entry_cost</key>
 		<value><![CDATA[Costo:<br/><span class="help">El costo al por mayor utilizan para la información ganancias</span>]]></value>
@@ -150,7 +150,7 @@
 	</definition>
 	<definition>
 		<key>entry_keyword</key>
-		<value><![CDATA[Palabras clave SEO:]]></value>
+		<value><![CDATA[Palabras clave SEO:<br/><span class="help">Clave de SEO que se mostrará en la URL de este producto. Puede generar claves de nombre del producto.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_model</key>
@@ -175,7 +175,7 @@
 	<definition>
 		<key>entry_ship_individually</key>
 		<value><![CDATA[Envíe el producto individual:<br/><span class="help">El producto será enviado en un paquete separado y el costo de envío adicional se añadirá a la orden con varios elementos</span>]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>entry_shipping_price</key>
 		<value><![CDATA[Precio de envío fijo:<br/><span class="help">Maestro de ajuste con el precio de envío fijo para este producto.</span>]]></value>
@@ -283,7 +283,7 @@
 	<definition>
 		<key>entry_option_price</key>
 		<value><![CDATA[Precio Modificador:]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>entry_category</key>
 		<value><![CDATA[Categorías:]]></value>
@@ -515,5 +515,9 @@
 	<definition>
         <key>text_hide</key>
         <value><![CDATA[- ocultar]]></value>
+    </definition>
+	<definition>
+        <key>entry_option_placeholder</key>
+        <value><![CDATA[Marcador de posición:]]></value>
     </definition>
 </definitions>

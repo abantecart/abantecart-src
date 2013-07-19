@@ -173,7 +173,7 @@ final class AMail {
 		$header .= 'Return-Path: ' . $this->from . $this->newline;
 		$header .= 'X-Mailer: PHP/' . phpversion() . $this->newline;
 		$header .= 'MIME-Version: 1.0' . $this->newline;
-		$header .= 'Content-Type: multipart/relative; boundary="' . $boundary . '"' . $this->newline . $this->newline;
+		$header .= 'Content-Type: multipart/related; boundary="' . $boundary . '"' . $this->newline . $this->newline;
 
 		if (!$this->html) {
 			$message = '--' . $boundary . $this->newline;
@@ -208,7 +208,7 @@ final class AMail {
 				fclose($handle);
 
 				$message .= '--' . $boundary . $this->newline;
-				$message .= 'Content-Type: application/octetstream' . $this->newline;
+				$message .= 'Content-Type: application/octet-stream' . $this->newline;
 				$message .= 'Content-Transfer-Encoding: base64' . $this->newline;
 				$message .= 'Content-Disposition: attachment; filename="' . $attachment['filename'] . '"' . $this->newline;
 				$message .= 'Content-ID: <' . basename(urlencode($attachment['filename'])) . '>' . $this->newline;

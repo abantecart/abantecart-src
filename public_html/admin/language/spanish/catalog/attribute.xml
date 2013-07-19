@@ -98,18 +98,18 @@
 	</definition>
 	<definition>
 		<key>entry_allowed_extensions</key>
-		<value><![CDATA[Allowed Extensions]]></value>
+		<value><![CDATA[Extensiones permitidas archivo (txt, jpg ...)]]></value>
 	</definition>
 	<definition>
 		<key>entry_min_size</key>
-		<value><![CDATA[Min Size]]></value>
+		<value><![CDATA[Tamaño de archivo mínimo (Kb)]]></value>
 	</definition>
 	<definition>
 		<key>entry_max_size</key>
-		<value><![CDATA[Max Size]]></value>
+		<value><![CDATA[Tamaño máximo de archivo (Kb)]]></value>
 	</definition>
 	<definition>
 		<key>entry_upload_dir</key>
-		<value><![CDATA[Upload Directory]]></value>
+		<value><![CDATA[Subir nombre del directorio]]></value>
 	</definition>
 </definitions>

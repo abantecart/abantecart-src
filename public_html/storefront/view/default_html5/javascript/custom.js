@@ -1,14 +1,17 @@
-$('document').ready(function () {
-
+$(window).bind("load", function() {
     $(function () {
-        $('#banner_slides').oneByOne({
-            className: 'oneByOneSlide',
-            easeType: 'random',
-            slideShow: true,
-            slideShowDelay: 6000,
-            responsive: true
-        });
-    })
+            $('#banner_slides').show();
+            $('#banner_slides').oneByOne({
+                className: 'oneByOneSlide',
+                easeType: 'random',
+                slideShow: true,
+                slideShowDelay: 6000,
+                responsive: true
+            });
+        })
+});
+
+$('document').ready(function () {
 
     // Toggle
     $('.togglehandle').click(function () {

@@ -784,4 +784,14 @@
 		<key>entry_zero_customer_balance</key>
 		<value><![CDATA[Mostrar Zero Balance de clientes:<br /><span class="help">Nota: Activar / desactivar la visualización del mensaje de saldo si el saldo de cuenta es 0</span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_shipping_tax_estimate</key>
+		<value><![CDATA[Envíos y Estimar Impuestos:<br /><span class="help">Permite a los clientes obtener el envío rápido y el cálculo de impuestos en el carrito de compras. (HTML5 plantilla)</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_coupon_on_cart_page</key>
+		<value><![CDATA[Promocional en la página cesta de compras:<br /><span class="help">Permite a los clientes a entrar en el código de cupón de descuento y ver en el carrito de compras. (HTML5 plantilla)</span>]]></value>
+	</definition>
+
+
 </definitions>

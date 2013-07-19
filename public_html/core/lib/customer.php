@@ -251,8 +251,6 @@ final class ACustomer {
 			$balance = $query->row['balance'];
 			$this->cache->set($cache_name,$balance);
 		}
-		$registry = Registry::getInstance();
-		$balance = $registry->get('currency')->convert($balance,$this->config->get('config_currency'),$this->session->data['currency']);
 		return $balance;
   	} 
   	

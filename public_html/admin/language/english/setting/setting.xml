@@ -790,4 +790,12 @@
 		<key>entry_zero_customer_balance</key>
 		<value><![CDATA[Show Zero Customer Balance:<br /><span class="help">Note: Enable/disable display of balance message if customer account balance is 0</span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_shipping_tax_estimate</key>
+		<value><![CDATA[Shipping and Tax Estimate:<br /><span class="help">Allow customers to get quick shipping and tax estimate in the shopping cart. (HTML5 template)</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_coupon_on_cart_page</key>
+		<value><![CDATA[Coupon on shopping cart page:<br /><span class="help">Allow customers to enter coupon code and see discount in the shopping cart. (HTML5 Template)</span>]]></value>
+	</definition>
 </definitions>

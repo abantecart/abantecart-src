@@ -16,4 +16,8 @@
     <key>text_payment</key>
     <value><![CDATA[Your order will not ship until we receive payment.]]></value>
   </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Please wait!]]></value>
+  </definition>  
 </definitions>

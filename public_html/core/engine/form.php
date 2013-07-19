@@ -25,6 +25,13 @@ if (!defined('DIR_CORE')) {
  * Load form data
  * render output
  */
+/**
+ * Class AForm
+ * @property ALayout $layout
+ * @property ACache $cache
+ * @property ADB $db
+ *
+ */
 class AForm {
 	/**
 	 * @var registry - access to application registry
@@ -86,16 +93,10 @@ class AForm {
 		$this->form_edit_action = $form_edit_action;
 	}
 
-	/**
-	 * @param  $key - key to load data from registry
-	 */
 	public function __get($key) {
 		return $this->registry->get($key);
 	}
 
-	/**
-	 * @param  $key - key to save data in registry
-	 */
 	public function __set($key, $value) {
 		$this->registry->set($key, $value);
 	}
@@ -111,7 +112,8 @@ class AForm {
 	/**
 	 * Sets the form and loads the data for the form from the database
 	 *
-	 * @param  $fname - unique form name
+	 * @param $name
+	 * @internal param $fname - unique form name
 	 * @return void
 	 */
 	public function loadFromDb($name) {
@@ -258,7 +260,7 @@ class AForm {
 	/**
 	 * return form data
 	 *
-	 * @return form
+	 * @return array
 	 */
 	public function getForm() {
 		return $this->form;
@@ -267,6 +269,7 @@ class AForm {
 	/**
 	 * set form data
 	 *
+	 * @param $form
 	 * @return void
 	 */
 	public function setForm($form) {
@@ -313,7 +316,7 @@ class AForm {
 			}
 		}
 
-		$err = new AWarning('NOT EXIST Form field with name ' . $fname);
+		$err = new AError('NOT EXIST Form field with name ' . $fname);
 		$err->toDebug()->toLog();
 		return null;
 	}
@@ -348,6 +351,8 @@ class AForm {
 
 	/**
 	 * load values to select, multiselect, checkbox group etc
+	 * @param $fname
+	 * @param $values
 	 * @return void
 	 */
 	public function loadFieldOptions($fname, $values) {
@@ -363,7 +368,7 @@ class AForm {
 	 * return field html
 	 *
 	 * @param  $data - array with field data
-	 * @return field html
+	 * @return object  - form element
 	 */
 	public function getFieldHtml($data) {
 		$data[ 'form' ] = $this->form[ 'form_name' ];
@@ -378,7 +383,7 @@ class AForm {
 	/**
 	 * Render the form elements only
 	 *
-	 * @return form html
+	 * @return string html
 	 */
 	public function loadExtendedFields() {
 		return $this->getFormHtml(true);
@@ -387,10 +392,16 @@ class AForm {
 	/**
 	 * add javascript to implement form behaviour based on form_edit_action parameter
 	 *
-	 * @return void
+	 * @return string
 	 */
 	protected function addFormJs() {
+		/**
+		 * @var AHtml
+		 */
 		$html = $this->registry->get('html');
+		/**
+		 * @var ALanguageManager
+		 */
 		$language = $this->registry->get('language');
 		$view = new AView($this->registry, 0);
 
@@ -432,7 +443,8 @@ class AForm {
 	/**
 	 * Process and render the form with HTML output.
 	 *
-	 * @return form html
+	 * @param bool $fieldsOnly
+	 * @return string html
 	 */
 	public function getFormHtml($fieldsOnly = false) {
 

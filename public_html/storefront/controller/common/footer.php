@@ -70,6 +70,8 @@ class ControllerCommonFooter extends AController {
 			 }
 		}
 
+		$this->view->assign('scripts_bottom', $this->document->getScriptsBottom());		
+
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('common/footer.tpl');
 

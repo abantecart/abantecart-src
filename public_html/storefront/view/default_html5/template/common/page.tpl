@@ -1,9 +1,15 @@
-<?php if (!strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 6')) echo '<?xml version="1.0" encoding="UTF-8"?>'. "\n"; ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="<?php echo $direction; ?>" lang="<?php echo $lang; ?>" xml:lang="<?php echo $lang; ?>" <?php echo $this->getHookVar('hk_html_attribute'); ?>>
 <head><?php	echo $head; ?></head>
 <body>
-<?php echo ${$header}; ?>
+<?php if($maintenance_warning){ ?>
+	<div class="alert">
+	 	<button type="button" class="close" data-dismiss="alert">&times;</button>
+ 		<strong><?php echo $maintenance_warning;?></strong>
+ 	</div>
+<?php
+}
+echo ${$header}; ?>
 
 <?php if ( !empty( ${$header_bottom} ) ) { ?>
 <!-- header_bottom blocks placeholder -->
@@ -34,7 +40,7 @@
 	<div class="container">
 		<div class="row">
 			<?php if ( !empty(${$column_left} ) ) { ?>
-			<div class="span3">
+			<div class="column_left span3">
 			<?php echo ${$column_left}; ?>
 			</div>
 			<?php } ?>
@@ -59,7 +65,7 @@
 			</div>
 
 			<?php if ( !empty(${$column_right} ) ) { ?>
-			<div class="span3 mt20">
+			<div class="column_right span3 mt20">
 			<?php echo ${$column_right}; ?>
 			</div>
 			<?php } ?>

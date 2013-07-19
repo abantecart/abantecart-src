@@ -20,12 +20,21 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
-
+/**
+ * Class AContentManager
+ * @property ADB $db
+ * @property ALanguageManager $language
+ * @property AConfig $config
+ * @property ASession $session
+ * @property ACache $cache
+ *
+ */
 class AContentManager {
+	/**
+	 * @var Registry
+	 */
 	protected $registry;
 	public $errors = 0;
-	private $temp = array();
-	private $level = 0;
 
 	public function __construct() {
 		if (!IS_ADMIN) { // forbid for non admin calls
@@ -44,21 +53,20 @@ class AContentManager {
 
 
 	public function addContent($data) {
-
-		$data [ 'sort_order' ] = ( int )$this->request->post [ 'sort_order' ];
-
-		$this->db->query("INSERT INTO " . DB_PREFIX . "contents
+		if(!is_array($data) || !$data){ return false;}
+		$sql = "INSERT INTO " . DB_PREFIX . "contents
 							(parent_content_id, sort_order, status)
-							 VALUES ('".(int)$data[ 'parent_content_id' ][0]."',  '" . ( int )$data [ 'sort_order' ] . "',
-								  '" . ( int )$data [ 'status' ] . "')");
+							 VALUES ('".(int)$data[ 'parent_content_id' ][0]."',  '" . ( int )$data [ 'sort_order' ][0]  . "',
+								  '" . ( int )$data [ 'status' ] . "')";
+		$this->db->query($sql);
 		$content_id = $this->db->getLastId();
-		unset($data[ 'parent_content_id' ][0]);
+		//exclude first record from loop above
+		unset($data[ 'parent_content_id' ][0],$data [ 'sort_order' ][0]);
 
-		$seo_key = '';
 		if ( empty ($data['keyword'])) {
-			$seo_key = SEOEncode($data['name']);
+			$seo_key = SEOEncode($data['title'],'content_id',$content_id);
 		} else {
-			$seo_key = SEOEncode($data['keyword']);
+			$seo_key = SEOEncode($data['keyword'],'content_id',$content_id);
 		}
 		if($seo_key){
 			$this->language->replaceDescriptions('url_aliases',
@@ -72,13 +80,13 @@ class AContentManager {
 		}
 
 		if($data[ 'parent_content_id' ]){
-			foreach ($data[ 'parent_content_id' ] as $parent_id) {
-					$query = "INSERT INTO " . DB_PREFIX . "contents (content_id,parent_content_id, sort_order, status)
+			foreach ($data[ 'parent_content_id' ] as $k => $parent_id) {
+					$sql = "INSERT INTO " . DB_PREFIX . "contents (content_id,parent_content_id, sort_order, status)
 											VALUES ('" . ( int )$content_id . "',
 													'" . (int)$parent_id . "',
-													'" . ( int )$data [ 'sort_order' ] . "',
+													'" . ( int )$data[ 'sort_order' ][$k] . "',
 													'" . ( int )$data [ 'status' ] . "')";
-				$this->db->query($query);
+					$this->db->query($sql);
 			}
 		}
 		$languages = $this->language->getAvailableLanguages();
@@ -86,8 +94,7 @@ class AContentManager {
 		foreach($languages as $language){
 			$this->language->replaceDescriptions('content_descriptions',
 											 array('content_id' => (int)$content_id),
-											 array(( int )$language['language_id'] => array('name' => $data['name'],
-																							'title' => $data [ 'title' ],
+											 array(( int )$language['language_id'] => array('title' => $data [ 'title' ],
 																							'description' => $data [ 'description' ],
 																							'content' => $data [ 'content' ]
 			)));
@@ -95,9 +102,9 @@ class AContentManager {
 		if ($data [ 'store_id' ]) {
 			foreach ($data [ 'store_id' ] as $store_id) {
 				if ((int)$store_id) {
-					$query = "INSERT INTO " . DB_PREFIX . "contents_to_stores (content_id,store_id)
+					$sql = "INSERT INTO " . DB_PREFIX . "contents_to_stores (content_id,store_id)
 								VALUES ('" . $content_id . "','" . (int)$store_id . "')";
-					$this->db->query($query);
+					$this->db->query($sql);
 				}
 			}
 		}
@@ -107,42 +114,23 @@ class AContentManager {
 	}
 
 	public function editContent($content_id, $data) {
+		if(!$content_id){return false;}
 		$language_id = (int)$this->session->data['content_language_id'];
-		$query = "SELECT parent_content_id, sort_order, status
-					FROM " . DB_PREFIX . "contents	WHERE content_id='" . $content_id . "'";
-		$result = $this->db->query($query);
-		if ($result->num_rows) {
-			foreach ($result->rows as $row) {
-				$old_parent = $row[ 'parent_content_id' ];
-			}
+
+		$sql = "DELETE FROM " . DB_PREFIX . "contents
+					WHERE content_id='" . $content_id . "'; ";
+		$this->db->query($sql);
+		foreach ($data[ 'parent_content_id' ] as $parent_id) {
+			$sql = "INSERT INTO " . DB_PREFIX . "contents (content_id,parent_content_id, sort_order, status)
+					VALUES ('" . ( int )$content_id . "',
+							'" . (int)$parent_id . "',
+							'" . ( int )$data['sort_order'][$parent_id] . "',
+							'" . ( int )$data [ 'status' ] . "'); ";
+			$this->db->query($sql);
 		}
 
-		if($data[ 'parent_content_id' ]){
-			$query = "DELETE FROM " . DB_PREFIX . "contents
-						WHERE content_id='" . $content_id . "'
-								AND parent_content_id<>'" . $old_parent . "'";
-			$this->db->query($query);
-			$i = 0;
-			foreach ($data[ 'parent_content_id' ] as $parent_id) {
-				if ($i == 0) {
-					$this->db->query("UPDATE " . DB_PREFIX . "contents
-										SET parent_content_id = '" . (int)$parent_id . "',
-											sort_order = '" . ( int )$data [ 'sort_order' ] . "',
-											status = '" . ( int )$data [ 'status' ] . "'
-										WHERE content_id = '" . ( int )$content_id . "'");
-				} else {
-					$query = "INSERT INTO " . DB_PREFIX . "contents (content_id,parent_content_id, sort_order, status)
-											VALUES ('" . ( int )$content_id . "',
-													'" . (int)$parent_id . "',
-													'" . ( int )$data [ 'sort_order' ] . "',
-													'" . ( int )$data [ 'status' ] . "')";
-				}
-				$this->db->query($query);
-				$i++;
-			}
-		}
-		$update = array('name' => $data [ 'name' ],
-						'title' => $data [ 'title' ],
+
+		$update = array('title' => $data [ 'title' ],
 						'description' => $data [ 'description' ],
 						'content' => $data [ 'content' ]);
 
@@ -153,7 +141,7 @@ class AContentManager {
 
 
 		if(isset($data['keyword'])){
-			$data['keyword'] =  SEOEncode($data['keyword']);
+			$data['keyword'] =  SEOEncode($data['keyword'],'content_id',$content_id);
 			if($data['keyword']){
 				$this->language->replaceDescriptions('url_aliases',
 														array('query' => "content_id=" . ( int )$content_id),
@@ -167,21 +155,22 @@ class AContentManager {
 		}
 
 		if ($data [ 'store_id' ]) {
-			$query = "DELETE FROM " . DB_PREFIX . "contents_to_stores	WHERE content_id='" . $content_id . "'";
-			$this->db->query($query);
+			$sql = "DELETE FROM " . DB_PREFIX . "contents_to_stores	WHERE content_id='" . $content_id . "'";
+			$this->db->query($sql);
 
 			foreach ($data [ 'store_id' ] as $store_id) {
 				if ((int)$store_id) {
-					$query = "INSERT INTO " . DB_PREFIX . "contents_to_stores (content_id,store_id)
+					$sql = "INSERT INTO " . DB_PREFIX . "contents_to_stores (content_id,store_id)
 								VALUES ('" . $content_id . "','" . $store_id . "')";
-					$this->db->query($query);
+					$this->db->query($sql);
 				}
 			}
 		}
 		$this->cache->delete('contents');
+		return true;
 	}
 
-	public function editContentField($content_id, $field, $value) {
+	public function editContentField($content_id, $field, $value, $parent_content_id=null) {
 		$content_id = (int)$content_id;
 		$language_id = (int)$this->session->data['content_language_id'];
 		if(!$language_id){
@@ -190,26 +179,27 @@ class AContentManager {
 
 		switch ($field) {
 			case 'status' :
+				$this->db->query("UPDATE " . DB_PREFIX . "contents
+									SET `status` = '" . (int)$value . "'
+									WHERE content_id = '" . (int)$content_id . "'");
+				break;
 			case 'sort_order' :
 				$this->db->query("UPDATE " . DB_PREFIX . "contents
-									SET `$field` = '" . $this->db->escape($value) . "'
-									WHERE content_id = '" . $content_id . "'");
-				$sort_order = $field=='sort_order' ? $this->db->escape($value) : null;
-				$status = $field=='status' ? $this->db->escape($value) : null;
+								SET `sort_order` = '" . (int)$value . "'
+								WHERE content_id = '" . (int)$content_id . "'
+									AND parent_content_id='".(int)$parent_content_id."'");
+
 				break;
 			case 'title' :
-			case 'name' :
 			case 'description' :
 			case 'content' :
 				$this->language->replaceDescriptions('content_descriptions',
 													 array('content_id' => (int)$content_id),
 													 array((int)$language_id => array($field=>$value)) );
-				if($field == 'name'){
-					$this->_updatePageContent($content_id);
-				}
+
 				break;
 			case 'keyword' :
-				$value = SEOEncode($value);
+				$value = SEOEncode($value,'content_id',$content_id);
 				if($value){
 					$this->language->replaceDescriptions('url_aliases',
 															array('query' => "content_id=" . ( int )$content_id),
@@ -223,23 +213,32 @@ class AContentManager {
 
 				break;
 			case 'parent_content_id':
+				// prevent deleting while updating with parent_id==content_id
+				$value = (array)$value;
+				foreach($value as $k=>$v){
+					list($void,$parent_id) = explode('_',$v);
+                    if($parent_id==$content_id){ continue; }
+					$tmp[$parent_id] = $parent_id;
+				}
+				$value = $tmp;
+				if (sizeof($value) == 1 && current($value) == $content_id) {
+					break;
+				}
+
 				$query = "SELECT parent_content_id, sort_order, status
 							FROM " . DB_PREFIX . "contents
 							WHERE content_id='" . $content_id . "'";
 				$result = $this->db->query($query);
 				if ($result->num_rows) {
-					foreach ($result->row as $row) {
-						$sort_order = $result->row[ 'sort_order' ];
-						$status = $result->row[ 'status' ];
+					$status = $result->row[ 'status' ];
+					foreach($result->rows as $row){
+						$sort_orders[$row[ 'parent_content_id' ]] = $row[ 'sort_order' ];
 					}
 				}
-				// prevent deleting while updating with parent_id==content_id
-				if (sizeof($value) == 1 && current($value) == $content_id) {
-					break;
-				}
-				$query = "DELETE FROM " . DB_PREFIX . "contents	WHERE content_id='" . $content_id . "'";
 
+				$query = "DELETE FROM " . DB_PREFIX . "contents	WHERE content_id='" . $content_id . "'";
 				$this->db->query($query);
+
 				$value = !$value ? array( 0 ) : $value;
 				foreach ($value as $parent_content_id) {
 					$parent_content_id = (int)$parent_content_id;
@@ -247,7 +246,10 @@ class AContentManager {
 						continue;
 					}
 					$query = "INSERT INTO " . DB_PREFIX . "contents (content_id,parent_content_id, sort_order, status)
-									VALUES ('" . $content_id . "','" . $parent_content_id . "','" . $sort_order . "','" . $status . "')";
+									VALUES ('" . $content_id . "',
+											'" . $parent_content_id . "',
+											'" . (int)$sort_orders[$parent_content_id] . "',
+											'" . $status . "');";
 					$this->db->query($query);
 				}
 				break;
@@ -266,6 +268,7 @@ class AContentManager {
 		}
 
 		$this->cache->delete('contents');
+		return true;
 	}
 
 	public function deleteContent($content_id) {
@@ -283,30 +286,36 @@ class AContentManager {
 	public function getContent($content_id) {
 		$output = array();
 		$content_id = (int)$content_id;
+		$language_id = ( int )$this->session->data['content_language_id'];
+
 		if(!$content_id){
 			return false;
 		}
 		$sql = "SELECT *
 				FROM " . DB_PREFIX . "contents i
-				LEFT JOIN " . DB_PREFIX . "content_descriptions id ON (i.content_id = id.content_id AND id.language_id = '" . ( int )$this->session->data['content_language_id'] . "')
+				LEFT JOIN " . DB_PREFIX . "content_descriptions id
+					ON (i.content_id = id.content_id AND id.language_id = '" .$language_id  . "')
 				WHERE i.content_id = '" . ( int )$content_id . "'
 				ORDER BY i.content_id";
 		$query = $this->db->query($sql);
 		if($query->num_rows){
 			$i=0;
 			foreach($query->rows as $row){
+				$idx = $row['parent_content_id'];
 				if($i>0 ){
-					$output[0]['parent_content_id'][$row['parent_content_id']] = $row['parent_content_id'];
+					$output[0]['parent_content_id'][] = $row['parent_content_id'];
+					$output[0]['sort_order'][$idx] = $row['sort_order'];
 					continue;
 				}
 				$row['parent_content_id'] = array($row['parent_content_id']);
+				$row['sort_order'] = array($idx=>$row['sort_order']);
 				$output[$i] = $row;
 			$i++;
 			}
 			$sql = "SELECT *
 					FROM " . DB_PREFIX . "url_aliases
 					WHERE `query` = 'content_id=" . ( int )$content_id . "'
-						AND language_id='".(int)$this->session->data['content_language_id']."'";
+						AND language_id='".$language_id."'";
 			$keyword = $this->db->query($sql);
 			if($keyword->num_rows){
 				$output[0]['keyword'] = $keyword->row['keyword'];
@@ -319,30 +328,43 @@ class AContentManager {
 
 	public function getContents($data = array(), $mode = 'default', $store_id = 0, $parent_only = false) {
 		if ($parent_only) {
-			$data[ "subsql_filter" ] = "i.content_id IN (SELECT parent_content_id FROM " . DB_PREFIX . "contents WHERE parent_content_id> 0)";
+			if($data[ "subsql_filter" ]){
+				$data[ "subsql_filter" ] .= ' AND ';
+			}
+			$data[ "subsql_filter" ] .= "i.content_id IN (SELECT parent_content_id
+															FROM " . DB_PREFIX . "contents WHERE parent_content_id> 0)";
 			$data[ 'sort' ] = 'i.parent_content_id, i.sort_order';
 		}
 		
 		$filter = (isset($data['filter']) ? $data['filter'] : array());
 
 		if ($mode == 'total_only') {
-			$total_sql = 'count(*) as total';
+			$select_columns = 'count(*) as total';
 		}
 		else {
-			$total_sql = '*';
+			$select_columns = 'i.*, id.*,
+						cd.title as parent_name,
+						( SELECT COUNT(*) FROM ' . DB_PREFIX . 'contents
+						WHERE parent_content_id=i.content_id ) as cnt';
 		}
 		
-		$sql = "SELECT $total_sql
-					FROM " . DB_PREFIX . "contents i 
-					LEFT JOIN " . DB_PREFIX . "content_descriptions id ON (i.content_id = id.content_id)";
+		$sql = "SELECT ".$select_columns."
+				FROM " . DB_PREFIX . "contents i
+				LEFT JOIN " . DB_PREFIX . "content_descriptions id
+					ON (i.content_id = id.content_id
+						AND id.language_id = '" . ( int )$this->session->data['content_language_id'] . "')
+				LEFT JOIN " . DB_PREFIX . "content_descriptions cd
+					ON (cd.content_id = i.parent_content_id
+						AND cd.language_id = '" . ( int )$this->session->data['content_language_id'] . "')
+				";
 		if((int)$store_id){
 			$sql .= " RIGHT JOIN " . DB_PREFIX . "contents_to_stores cts ON (i.content_id = cts.content_id AND cts.store_id = '".(int)$store_id."')";
 		}
 
-		$sql .= "WHERE id.language_id = '" . ( int )$this->session->data['content_language_id'] . "'";
+		$sql .= "WHERE 1=1 ";
 
 		if (!empty ($data [ 'subsql_filter' ])) {
-			$sql .= " AND " . $data [ 'subsql_filter' ];
+			$sql .= " AND " . str_replace('`name`','id.name',$data [ 'subsql_filter' ]);
 		}
 
 		if (isset($filter['title']) && !is_null($filter['title'])) {
@@ -350,6 +372,9 @@ class AContentManager {
 		}
 		if (isset($filter['status']) && !is_null($filter['status'])) {
 			$sql .= " AND i.status = '" . (int)$filter['status'] . "'";
+		}
+		if (isset($filter['parent_id']) && !is_null($filter['parent_id'])) {
+			$sql .= " AND i.parent_content_id = '" . (int)$filter['parent_id'] . "'";
 		}
 
 		//If for total, we done bulding the query
@@ -398,9 +423,11 @@ class AContentManager {
 					$parent = (int)$row[ 'parent_content_id' ];
 					if (is_array($output[ (int)$row[ 'content_id' ] ][ 'parent_content_id' ])) {
 						$output[ (int)$row[ 'content_id' ] ][ 'parent_content_id' ][ $parent ] = $parent;
+						$output[ (int)$row[ 'content_id' ] ][ 'sort_order' ][ $parent ] = (int)$row[ 'sort_order' ];
 					} else {
 						$output[ (int)$row[ 'content_id' ] ] = $row;
 						$output[ (int)$row[ 'content_id' ] ][ 'parent_content_id' ] = array( $parent => $parent );
+                        $output[ (int)$row[ 'content_id' ] ][ 'sort_order' ] = array( $parent => (int)$row['sort_order']);
 					}
 
 				}
@@ -413,6 +440,19 @@ class AContentManager {
 
 	}
 
+	public function getLeafContents() {
+			$query = $this->db->query(
+				"SELECT t1.content_id as content_id
+				 FROM " . DB_PREFIX . "contents AS t1
+				 LEFT JOIN " . DB_PREFIX . "contents as t2	ON t1.content_id = t2.parent_content_id
+				 WHERE t2.content_id IS NULL");
+			$result = array();
+			foreach ( $query->rows as $r ) {
+				$result[$r['content_id']] = $r['content_id'];
+			}
+			return $result;
+		}
+
 	public function getTotalContents($data = array()) {
 		return $this->getContents($data, 'total_only');
 	}
@@ -422,43 +462,42 @@ class AContentManager {
 	}
 
 	public function getContentsForSelect($parent_only = false, $without_top = false, $store_id=0) {
-		$output = array();
-		$all = $parent_only ? $this->getParentContents(array(),$store_id) : $this->getContents(array(), '', $store_id, false);
-		$this->load->language('design/content');
-		$tmp = array( 0 => array( 0 => $this->language->get('text_top_level') ) );
-		if ($all) {
-			foreach ($all as $item) {
-				if (is_array($item[ 'parent_content_id' ])) {
-					foreach ($item[ 'parent_content_id' ] as $parent) {
-						$tmp[ (int)$parent ][ (int)$item[ 'content_id' ] ] = $item[ 'name' ];
-					}
-				} else {
-					$tmp[ (int)$item[ 'parent_id' ] ][ (int)$item[ 'content_id' ] ] = $item[ 'name' ];
-				}
-			}
-		}
-		$this->temp = $tmp;
-		$this->level = 0;
-		if ($tmp) {
-			$i = array();
-			$prefix = '';
-			foreach ($tmp as $parent_id => $item) {
-				if (!in_array($parent_id, $i)) {
-					$i[ ] = $parent_id;
-					$prefix = '&nbsp;&nbsp;' . $prefix;
-				}
-				foreach ($item as $key => $value) {
-					$output[ $key ] = ($key ? $prefix : '') . $value;
-				}
-			}
-		}
 
-		// remove top_level from list
-		if($without_top){
-			unset($output[0]);
+		$all = $parent_only
+				?
+				$this->getParentContents(array(),$store_id)
+				:
+				$this->getContents(array(), '', $store_id, false);
+		if(!$without_top){
+			return array_merge(array( '0_0' => $this->language->get('text_top_level')),$this->buildContentTree($all,0,1));
+		}else{
+			return $this->buildContentTree($all);
+		}
+	}
+
+	/**
+	 * Recursive function for building tree of content.
+	 * Note that same content can have two parents!
+	 * @param $all_contents array with all contents. it contain element with key
+	 * 			parent_content_id that is array  - all parent ids
+	 * @param int $parent_id
+	 * @param int $level
+	 * @return array
+	 */
+	public function buildContentTree($all_contents,$parent_id=0,$level=0){
+		$output= array();
+		foreach($all_contents as $content){
+			foreach($content['parent_content_id'] as $par_id){
+				if($par_id == $parent_id){
+					$output[$parent_id.'_'.$content['content_id']] = str_repeat('&nbsp;&nbsp;',$level).$content['title'];
+					$output = array_merge($output,$this->buildContentTree($all_contents,$content['content_id'],$level+1));
+				}
+			}
 		}
 		return $output;
 	}
+
+
 
 	/**
 	 * method returns store list for selectbox for edit form of Content page
@@ -483,7 +522,7 @@ class AContentManager {
 	private function _updatePageContent($content_id=0){
 		$content_id = (int)$content_id;
 		if(!$content_id){
-			return;
+			return null;
 		}
 
 		$page = $this->db->query("SELECT *
@@ -509,14 +548,14 @@ class AContentManager {
 		foreach($result->rows as $row){
 			$this->language->replaceDescriptions('page_descriptions',
 												 array('page_id' => (int)$page_id),
-												 array((int)$row['language_id'] => array('name' => $row['name'])) );
+												 array((int)$row['language_id'] => array('title' => $row['title'])) );
 		}
 		return $page_id;
 	}
 	public function getPageId($content_id=0){
 		$content_id = (int)$content_id;
 		if(!$content_id){
-			return;
+			return null;
 		}
 
 		$page = $this->db->query("SELECT page_id
@@ -534,7 +573,7 @@ class AContentManager {
 	public function getLayoutId($content_id=0){
 		$content_id = (int)$content_id;
 		if(!$content_id){
-			return;
+			return null;
 		}
 		$page = $this->db->query("SELECT pl.layout_id
 								  FROM ".DB_PREFIX."pages   p

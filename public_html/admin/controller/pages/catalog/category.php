@@ -360,7 +360,7 @@ class ControllerPagesCatalogCategory extends AController {
 			'value' => $this->data[ 'category_description' ][ $this->session->data[ 'content_language_id' ] ][ 'name' ],
 			'required' => true,
 			'style' => 'large-field',
-			'attr' => ' maxlength="32" ',
+			'attr' => ' maxlength="255" ',
 			'help_url' => $this->gen_help_url('name'),
 		));
 		$this->data[ 'form' ][ 'fields' ][ 'description' ] = $form->getFieldHtml(
@@ -405,7 +405,16 @@ class ControllerPagesCatalogCategory extends AController {
 				'options' => $stores,
 				'scrollbox' => true,
 		));
-		$this->data[ 'form' ][ 'fields' ][ 'keyword' ] = $form->getFieldHtml(
+
+		$this->data[ 'form' ][ 'fields' ][ 'keyword' ] = $form->getFieldHtml(array(
+								'type' => 'button',
+								'name' => 'generate_seo_keyword',
+								'text' => $this->language->get('button_generate'),
+								'style' => 'button'
+								));
+		$this->data['generate_seo_url'] =  $this->html->getSecureURL('common/common/getseokeyword','&object_key_name=category_id&id='.$this->request->get['category_id']);
+
+		$this->data[ 'form' ][ 'fields' ][ 'keyword' ] .= $form->getFieldHtml(
 			array('type' => 'input',
 				'name' => 'keyword',
 				'value' => $this->data[ 'keyword' ],
@@ -455,7 +464,8 @@ class ControllerPagesCatalogCategory extends AController {
 		}
 
 		foreach ($this->request->post[ 'category_description' ] as $language_id => $value) {
-			if ((strlen(utf8_decode($value[ 'name' ])) < 2) || (strlen(utf8_decode($value[ 'name' ])) > 32)) {
+			$len = mb_strlen($value[ 'name' ]);
+			if (($len < 2) || ($len > 255)) {
 				$this->error[ 'warning' ][] = $this->language->get('error_name');
 			}
 		}
@@ -495,7 +505,7 @@ class ControllerPagesCatalogCategory extends AController {
 			$url .= '&tmpl_id=' . $this->request->get[ 'tmpl_id' ];
 			$tmpl_id = $this->request->get[ 'tmpl_id' ];
 		} else {
-			$tmpl_id = 'default';
+			$tmpl_id = $this->config->get('config_storefront_template');
 		}
 
 		$this->view->assign('error_warning', (isset($this->error[ 'warning' ]) ? $this->error[ 'warning' ] : ''));

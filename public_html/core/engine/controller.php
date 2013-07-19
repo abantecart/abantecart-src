@@ -74,7 +74,7 @@ if (!defined('DIR_CORE')) {
  * @property AConfig $config
  * @property ADB $db
  * @property ACache $cache
- * @property ALanguage $language
+ * @property ALanguageManager $language
  * @property AResource $resource
  * @property AView $view
  * @property ALoader $load

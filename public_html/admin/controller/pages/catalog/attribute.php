@@ -271,7 +271,7 @@ class ControllerPagesCatalogAttribute extends AController {
 				$attribute_info['settings'] = unserialize($attribute_info['settings']);
 			}
 		}
-//echo_array($attribute_info);
+
 		$fields = array(
 			'name',
 			'attribute_parent_id',

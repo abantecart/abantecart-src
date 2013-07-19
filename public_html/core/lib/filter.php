@@ -110,6 +110,7 @@ final class AFilter {
             }
             return implode(" AND ", $filter_params);
         }
+		return '';
     }
 
 
@@ -144,15 +145,25 @@ final class AFilter {
     }
 }
 
-
+/**
+ * Class AGrid
+ * @property ALoader $load
+ * @property ARequest $request
+ */
 final class AGrid {
-
-    private $registry;
+	/**
+	 * @var Registry
+	 */
+	private $registry;
     private $method;
     private $search;
     private $filters;
 
-    public function __construct($method, $data) {
+	/**
+	 * @param string $method
+	 * @param array $data
+	 */
+	public function __construct($method, $data) {
         $this->registry = Registry::getInstance();
         $this->method = $method;
         if (empty($this->method)) {
@@ -178,11 +189,12 @@ final class AGrid {
         $this->registry->set($key, $value);
     }
 
-    /**
-     * @var string
-     */
-
-    public function filter($adv_filter_str, $allowedFields) {
+	/**
+	 * @param string $adv_filter_str
+	 * @param array $allowedFields
+	 * @return string
+	 */
+	public function filter($adv_filter_str, $allowedFields) {
 
         $allowedOperations = array('AND', 'OR');
         $search_param = array();

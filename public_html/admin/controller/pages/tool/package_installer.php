@@ -135,6 +135,8 @@ class ControllerPagesToolPackageInstaller extends AController {
 				if($this->request->post['package_url']){
 					$package_info['package_url'] = $this->request->post['package_url'];
 					$this->redirect($this->html->getSecureURL('tool/package_installer/download'));
+				}else{
+					$this->session->data['error'] .= '<br>Error: ' . getTextUploadError($this->request->files['package_file']['error']);
 				}
 			}
 		}
@@ -491,8 +493,10 @@ class ControllerPagesToolPackageInstaller extends AController {
 				}
 			} else {
 				foreach ($package_info[ 'package_content' ][ 'core' ] as $corefile) {
-					if (!is_writable(DIR_ROOT . '/' . $corefile)
-                        || !is_writable(pathinfo(DIR_ROOT . '/' . $corefile,PATHINFO_DIRNAME))) {
+					if( (!is_writable(DIR_ROOT . '/' . $corefile) && file_exists(DIR_ROOT . '/' . $corefile))
+						||
+						(!is_writable(pathinfo(DIR_ROOT . '/' . $corefile,PATHINFO_DIRNAME)) && is_dir(pathinfo(DIR_ROOT . '/' . $corefile,PATHINFO_DIRNAME)))
+					) {
 							$ftp = true; // enable ftp-mode
 							$non_writables[ ] = DIR_ROOT . '/' . $corefile;
 					}

@@ -108,11 +108,12 @@ class AListing {
 	}
 
 
-
-
+	/**
+	 * @return array
+	 */
 	public function getCustomList(){
 		if(!$this->custom_block_id){
-			return false;
+			return array();
 		}
 		$result = $this->db->query("SELECT *
 		                            FROM ".DB_PREFIX."custom_lists

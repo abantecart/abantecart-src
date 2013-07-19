@@ -20,9 +20,14 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
+/** @noinspection PhpUndefinedClassInspection */
 class ControllerResponsesProductProduct extends AController {
 	private $error = array();
 	public $data = array();
+	/**
+	 * @var AAttribute_Manager
+	 */
+	private $attribute_manager;
 
 	public function products() {
 
@@ -300,6 +305,14 @@ class ControllerResponsesProductProduct extends AController {
 			'name' => 'name',
 			'value' => $this->data[ 'option_data' ][ 'language' ][ $this->data[ 'language_id' ] ][ 'name' ],
 		));
+
+		if(in_array($this->data[ 'option_data' ][ 'element_type' ],HtmlElementFactory::getElementsWithPlaceholder())){
+			$this->data[ 'option_placeholder' ] = $this->html->buildInput(array(
+				'name' => 'option_placeholder',
+				'value' => $this->data[ 'option_data' ][ 'language' ][ $this->data[ 'language_id' ] ][ 'option_placeholder' ],
+			));
+		}
+
 		$this->data[ 'status' ] = $this->html->buildCheckbox(array(
 			'type' => 'checkbox',
 			'name' => 'status',
@@ -425,6 +438,10 @@ class ControllerResponsesProductProduct extends AController {
 		$this->redirect($this->html->getSecureURL('product/product/load_option', '&product_id=' . $this->request->get[ 'product_id' ] . '&option_id=' . $this->request->get[ 'option_id' ]));
 	}
 
+	/**
+	 * @param $form AForm
+	 * @return string
+	 */
 	private function _option_value_form($form) {
 		$this->data[ 'option_attribute' ] = $this->attribute_manager->getAttributeByProductOptionId($this->request->get[ 'option_id' ]);
 		$this->data[ 'option_attribute' ][ 'values' ] = '';
@@ -479,7 +496,7 @@ class ControllerResponsesProductProduct extends AController {
 			$this->data[ 'row_id' ] = 'new_row';
 		}
 
-		$fields = array( 'name', 'sku', 'quantity', 'subtract', 'price', 'prefix', 'sort_order', 'weight', 'weight_type', 'attribute_value_id', 'children_options' );
+		$fields = array( 'default','name', 'sku', 'quantity', 'subtract', 'price', 'prefix', 'sort_order', 'weight', 'weight_type', 'attribute_value_id', 'children_options' );
 		foreach ($fields as $f) {
 			if (isset($this->request->post[ $f ])) {
 				$this->data[ $f ] = $this->request->post[ $f ];
@@ -489,6 +506,7 @@ class ControllerResponsesProductProduct extends AController {
 				$this->data[ $f ] = '';
 			}
 		}
+
 
 		if (isset($this->request->post[ 'name' ])) {
 			$this->data[ 'name' ] = $this->request->post[ 'name' ];
@@ -532,6 +550,18 @@ class ControllerResponsesProductProduct extends AController {
 			'name' => 'product_option_value_id[' . $product_option_value_id . ']',
 			'value' => $product_option_value_id,
 		));
+
+		if (in_array($this->data[ 'option_data' ][ 'element_type' ], $this->data[ 'elements_with_options' ])) {
+			$this->data[ 'form' ][ 'fields' ][ 'default' ] = $form->getFieldHtml(array(
+				'type' => 'radio',
+				'name' => 'default',
+				'id' => 'default_'.$product_option_value_id,
+				'value' => ($this->data[ 'default' ] ? $product_option_value_id : ''),
+				'options' => array($product_option_value_id=>''),
+			));
+			$this->data[ 'with_default' ] = 1;
+		}
+
 		$this->data[ 'form' ][ 'fields' ][ 'sku' ] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'sku[' . $product_option_value_id . ']',
@@ -613,17 +643,5 @@ class ControllerResponsesProductProduct extends AController {
 
 		$this->view->batchAssign($this->data);
 		return $this->view->fetch('responses/product/option_value_row.tpl');
-	}
-
-	private function _validateOptionValueForm() {
-		if (!$this->user->canModify('product/product')) {
-			$this->error[ 'warning' ] = $this->language->get('error_permission');
-		}
-
-		if (!$this->error) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
 	}
 }

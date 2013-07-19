@@ -24,6 +24,9 @@ class ControllerPagesDesignMenu extends AController {
 	public $data = array ();
 	private $error = array ();
 	private $columns = array ('item_id', 'item_icon', 'item_text', 'item_url', 'parent_id', 'sort_order' );
+	/**
+	 * @var AMenu_Storefront
+	 */
 	private $menu;
 
 	public function main() {
@@ -206,7 +209,7 @@ class ControllerPagesDesignMenu extends AController {
 			$update_item = array();
 
 			if ($this->request->get['item_id']) {
-				$update_item = array();
+
 				foreach ( $item_keys as $item_key ) {
 					if (isset ( $this->request->post [$item_key] )) {
 						$update_item [$item_key] = $this->request->post [$item_key];

@@ -53,7 +53,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		$data[ 'cc_cvv2' ] = HtmlElementFactory::create(array( 'type' => 'input',
 		                                                     'name' => 'cc_cvv2',
 		                                                     'value' => '',
-		                                                     'style' => 'short',
+		                                                     'style' => 'short input-mini',
 		                                                     'attr' => ' size="3" '
 		                                                ));
 		$data[ 'cc_cvv2' ] = $data[ 'cc_cvv2' ]->getHtml();
@@ -71,7 +71,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 			     'name' => 'cc_expire_date_month',
 			     'value' => sprintf('%02d', date('m')),
 			     'options' => $months,
-			     'style' => 'short'
+			     'style' => 'short input-small'
 			));
 		$data[ 'cc_expire_date_month' ] = $data[ 'cc_expire_date_month' ]->getHtml();
 
@@ -84,7 +84,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		                                                                 'name' => 'cc_expire_date_year',
 		                                                                 'value' => sprintf('%02d', date('Y') + 1),
 		                                                                 'options' => $years,
-		                                                                 'style' => 'short' ));
+		                                                                 'style' => 'short input-small' ));
 		$data[ 'cc_expire_date_year' ] = $data[ 'cc_expire_date_year' ]->getHtml();
 
 
@@ -95,15 +95,11 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		                                                  'text' => $this->language->get('button_back'),
 		                                                  'style' => 'button',
 		                                                  'href' => $back ));
-		$data[ 'back' ] = $data[ 'back' ]->getHtml();
-
 		$data[ 'submit' ] = HtmlElementFactory::create(array( 'type' => 'button',
 			                                                  'name' => 'authorizenet_button',
 		                                                      'text' => $this->language->get('button_confirm'),
 			                                                  'style' => 'button',
 		                                               ));
-		$data[ 'submit' ] = $data[ 'submit' ]->getHtml();
-
 		$this->view->batchAssign($data);
 
 		//init controller data
@@ -137,7 +133,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		$data[ 'cc_cvv2' ] = array( 'type' => 'input',
 		                            'name' => 'cc_cvv2',
 		                            'value' => '',
-		                            'style' => 'short',
+		                            'style' => 'short input-small',
 		                            'required' => true,
 		                            'attr' => ' size="3"');
 		$data[ 'button_confirm' ] = $this->language->get('button_confirm');
@@ -153,7 +149,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 			     'value' => sprintf('%02d', date('m')),
 			     'options' => $months,
 			     'required' => true,
-			     'style' => 'short'
+			     'style' => 'short input-small'
 			);
 
 		$today = getdate();
@@ -166,7 +162,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		                                        'value' => sprintf('%02d', date('Y') + 1),
 		                                        'options' => $years,
 		                                        'required' => true,
-		                                        'style' => 'short' );
+		                                        'style' => 'short input-small' );
 
 		$data[ 'process_rt' ] = 'default_authorizenet_aim/send';
 				

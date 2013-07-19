@@ -103,4 +103,24 @@
 		<key>text_coupon_success</key>
 		<value><![CDATA[Éxito: El cupón de descuento se ha aplicado!]]></value>
 	</definition>
+	<definition>
+		<key>error_empty_file_data</key>
+		<value><![CDATA[Los datos del archivo está dañado o vacío.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_file_name</key>
+		<value><![CDATA[Nombre de archivo está vacío!]]></value>
+	</definition>
+	<definition>
+		<key>error_file_extension</key>
+		<value><![CDATA[Sólo los archivos con extensión (s) %s está (n) permitido!]]></value>
+	</definition>
+	<definition>
+		<key>error_min_file_size</key>
+		<value><![CDATA[Tamaño de archivo mínimo de carga es de %s Kb.]]></value>
+	</definition>
+	<definition>
+		<key>error_max_file_size</key>
+		<value><![CDATA[Tamaño máximo de archivo para la carga es de %s Kb.]]></value>
+	</definition>	
 </definitions>

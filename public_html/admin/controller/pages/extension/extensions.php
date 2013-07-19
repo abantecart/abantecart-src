@@ -269,7 +269,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			$this->redirect($this->html->getSecureURL('extension/extensions'));
 		}
 
-		/** build aform **/
+		/** build aform with settings**/
 		$result = array('resource_field_list' => array());
 
 		// store switcher for default store Cntrol Panel only
@@ -278,19 +278,27 @@ class ControllerPagesExtensionExtensions extends AController {
 
 			$stores[0] = $this->language->get('text_default');
 			$this->loadModel('setting/store');
-			$results = $this->model_setting_store->getStores();
-			foreach ($results as $res) {
-				$stores[$res['store_id']] = $res['alias'];
+			$stores_arr = $this->model_setting_store->getStores();
+			if (count($stores_arr) > 1) {
+				foreach ($stores_arr as $res) {
+					$stores[$res['store_id']] = $res['alias'];
+				}
+				$switcher = array('name' => 'store_id',
+					'type' => 'selectbox',
+					'options' => $stores,
+					'value' => $store_id,
+					'note' => $this->language->get('tab_store'),
+					'style' => 'no-save');				
+			} else {
+				$switcher = array('type' => 'hidden',
+					'name' => 'store_id',
+					'note' => ' ',
+					'value' => 0);			
 			}
-			$switcher = array('name' => 'store_id',
-				'type' => 'selectbox',
-				'options' => $stores,
-				'value' => $store_id,
-				'note' => $this->language->get('tab_store'),
-				'style' => 'no-save');
 		} else {
 			$switcher = array('type' => 'hidden',
 				'name' => 'store_id',
+				'note' => ' ',
 				'value' => $store_id);
 		}
 
@@ -334,7 +342,8 @@ class ControllerPagesExtensionExtensions extends AController {
 					// if options need to extract from db
 					$data['options'] = $item['options'];
 					if ($item['model_rt'] != '') {
-						$this->loadModel($item['model_rt']);
+						//force to load models even before extension is enabled
+						$this->loadModel($item['model_rt'], 'force');
 						$model = $this->{'model_' . str_replace("/", "_", $item['model_rt'])};
 						$method_name = $item['method'];
 						if (method_exists($model, $method_name)) {

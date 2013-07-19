@@ -1,5 +1,7 @@
 <title><?php echo $title; ?></title>
-<meta http-equiv="x-ua-compatible" content="IE=Edge" />
+<!--[if IE]>
+	<meta http-equiv="x-ua-compatible" content="IE=Edge" />
+<![endif]-->
 <?php if ($keywords) { ?>
 <meta name="keywords" content="<?php echo $keywords; ?>" />
 <?php } ?>
@@ -7,7 +9,7 @@
 <meta name="description" content="<?php echo $description; ?>" />
 <?php } ?>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <base href="<?php echo $base; ?>" />
 
@@ -15,21 +17,27 @@
 <link href="resources/<?php echo $icon; ?>" type="image/png" rel="icon" />
 <?php } ?>
 
+<link rel="apple-touch-icon-precomposed" sizes="57x57" href="<?php echo $this->templateResource('/image/apple-icon-57x57-precomposed.png');?>" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo $this->templateResource('/image/apple-icon-72x72-precomposed.png');?>" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo $this->templateResource('/image/apple-icon-114x114-precomposed.png');?>" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo $this->templateResource('/image/apple-icon-144x144-precomposed.png');?>" />
+
 <?php foreach ($links as $link) { ?>
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
 <?php } ?>
 
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300italic,400italic,600,600italic' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css'>
-<link href="<?php echo $this->templateResource('/stylesheet/bootstrap.css'); ?>" rel="stylesheet">
-<link href="<?php echo $this->templateResource('/stylesheet/bootstrap-responsive.css'); ?>" rel="stylesheet">
-<link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300italic,400italic,600,600italic' rel='stylesheet' type='text/css' />
+<link href='http://fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css' />
+<link href="<?php echo $this->templateResource('/stylesheet/bootstrap.min.css'); ?>" rel="stylesheet" media="all" />
+<link href="<?php echo $this->templateResource('/stylesheet/bootstrap-responsive.min.css'); ?>" rel="stylesheet" media="screen" />
+<link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" />
 <link href="<?php echo $this->templateResource('/stylesheet/flexslider.css'); ?>" type="text/css" media="screen" rel="stylesheet"  />
 <link href="<?php echo $this->templateResource('/stylesheet/jquery.fancybox.css'); ?>" rel="stylesheet">
-<link href="<?php echo $this->templateResource('/stylesheet/cloud-zoom.css'); ?>" rel="stylesheet">
-<link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet">
+<link href="<?php echo $this->templateResource('/stylesheet/cloud-zoom.css'); ?>" rel="stylesheet" />
+<link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet" />
+<link href="<?php echo $this->templateResource('/stylesheet/print.css'); ?>" rel="stylesheet" type="text/css" media="print" />
 <?php if ( $template_debug_mode ) {  ?>
-<link href="<?php echo $this->templateResource('/stylesheet/template_debug.css'); ?>" rel="stylesheet">
+<link href="<?php echo $this->templateResource('/stylesheet/template_debug.css'); ?>" rel="stylesheet" />
 <?php } ?>
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->

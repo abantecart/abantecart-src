@@ -34,17 +34,14 @@ class ModelCatalogManufacturer extends Model {
 		}
 		
 		if ($data['keyword']) {
-			$seo_key = SEOEncode($data['keyword']);
+			$seo_key = SEOEncode($data['keyword'],
+								'manufacturer_id',
+								$manufacturer_id);
 		}else {
 			//Default behavior to save SEO URL keword from manufacturer name 
-			$seo_key = SEOEncode( $data['name'] );
-			 
-			//Check if key is unique  
-			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_aliases
-									   WHERE keyword = '" . $this->db->escape($seo_key) . "'");
-			if ($query->num_rows) {
-				$seo_key .= '_' . $manufacturer_id;
-			}						
+			$seo_key = SEOEncode( $data['name'],
+									'manufacturer_id',
+									$manufacturer_id);
 		}
 
 		if($seo_key){
@@ -81,7 +78,7 @@ class ModelCatalogManufacturer extends Model {
 		}
 		
 		if (isset($data['keyword'])) {
-			$data['keyword'] =  SEOEncode($data['keyword']);
+			$data['keyword'] =  SEOEncode($data['keyword'],'manufacturer_id',$manufacturer_id);
 			if($data['keyword']){
 				$this->language->replaceDescriptions('url_aliases',
 														array('query' => "manufacturer_id=" . (int)$manufacturer_id),

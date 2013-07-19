@@ -48,4 +48,8 @@
     <key>error_order</key>
     <value><![CDATA[Warning: This order status cannot be deleted as it is currently assigned to %s orders!]]></value>
   </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Warning: This is important order status that is linked to payments. You can not delete this status.]]></value>
+  </definition>
 </definitions>

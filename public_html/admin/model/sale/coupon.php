@@ -71,14 +71,20 @@ class ModelSaleCoupon extends Model {
 	public function editCoupon($coupon_id, $data) {
 		if (has_value($data[ 'date_start' ])) {
 			$data[ 'date_start' ] = "DATE('" . $data[ 'date_start' ] . "')";
-		} else {
-			$data[ 'date_start' ] = "NULL";
+		}else{
+			if(isset($data[ 'date_start' ])){
+				$data[ 'date_start' ]='NULL';
+			}
+
 		}
 
 		if (has_value($data[ 'date_end' ])) {
 			$data[ 'date_end' ] = "DATE('" . $data[ 'date_end' ] . "')";
-		} else {
-			$data[ 'date_end' ] = "NULL";
+		}else{
+			if(isset($data[ 'date_end' ])){
+				$data[ 'date_end' ] = 'NULL';
+			}
+
 		}
 
 		$coupon_table_fields = array('code',

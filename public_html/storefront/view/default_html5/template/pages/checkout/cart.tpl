@@ -62,7 +62,7 @@ echo $form['form_open'];
 	</table>
 </div>
 <div class="container">
-	<div class="pull-right mb20">
+	<div class=" pull-right mb20">
 		<?php echo $this->getHookVar('pre_top_cart_buttons'); ?>
 		<?php if ($form['checkout']) { ?>
 
@@ -82,14 +82,20 @@ echo $form['form_open'];
 </div>
 </form>
 
-<?php if ($estimates_enabled || $coupon_status) { ?>
-<div class="cart-info coupon-estimate container-fluid">
-		<div class="pull-left coupon"  >
+<?php if ($estimates_enabled || $coupon_status) { 
+	$pull_side = 'pull-right';
+	if ($estimates_enabled) { 
+		$pull_side = 'pull-left';
+	}
+?>
+<div class="cart-info coupon-estimate container-fluid row-fluid">
+	<?php if ($coupon_status) { ?>
+		<div class="<?php echo $pull_side; ?> coupon">
 			<table class="table table-striped "><tr>
-					<?php if ($coupon_status) { ?>
-								<th align="center"><?php echo $text_coupon_codes ?></th>
-								<?php } ?>
-			</tr><tr>
+				<?php if ($coupon_status) { ?>
+				<th align="center"><?php echo $text_coupon_codes ?></th>
+				<?php } ?>
+			</tr>
 			<td>
 				<?php
 				if ($coupon_status) {
@@ -100,10 +106,12 @@ echo $form['form_open'];
 			</tr>
 			</table>
 		</div>
-			<?php if ($estimates_enabled) { ?>
-			<div class="pull-left estimate">
-				<table class="table table-striped"><tr>
-			<th align="center"><?php echo $text_estimate_shipping_tax ?></th></tr><tr>
+	<?php }
+	if ($estimates_enabled) { ?>
+		<div class="pull-right estimate">
+			<table class="table table-striped"><tr>
+			<th align="center"><?php echo $text_estimate_shipping_tax ?></th>
+			</tr>
 			<td>
 				<div class="registerbox">
 					<?php echo $form_estimate['form_open']; ?>
@@ -130,38 +138,38 @@ echo $form['form_open'];
 					</form>
 				</div>
 			</td>
-			<?php } ?>
 			</tr></table>
 		</div>
+	<?php } ?>
 
 </div>
 <?php } ?>
 
-<div class="container cart_total">
-	<div class="pull-right">
-		<div class="cart-info totals span4 pull-right">
+<div class="container-fluid cart_total">
+	<div class="row-fluid">
+		<div class="span5 offset7 cart-info totals pull-right">
 			<table class="table table-striped table-bordered">
 				<?php foreach ($totals as $total) { ?>
 				<tr>
 					<td><span
-							class="extra bold <?php if ($total[id] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span>
+							class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span>
 					</td>
 					<td><span
-							class="bold <?php if ($total[id] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span>
+							class="bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span>
 					</td>
 				</tr>
 				<?php } ?>
 			</table>
 			<?php echo $this->getHookVar('pre_cart_buttons'); ?>
 			<?php if ($form['checkout']) { ?>
-			<a href="<?php echo $checkout; ?>" id="cart_checkout" class="btn btn-orange pull-right"
+			<a href="<?php echo $checkout; ?>" id="cart_checkout" class="btn btn-orange pull-right "
 			   title="<?php echo $button_checkout; ?>">
 				<i class="icon-shopping-cart icon-white"></i>
 				<?php echo $button_checkout; ?>
 			</a>
 			<?php } ?>
 
-			<a href="<?php echo $continue; ?>" class="btn mr10" title="">
+			<a href="<?php echo $continue; ?>" class="btn pull-right mr10  mb10" title="">
 				<i class="icon-arrow-right"></i>
 				<?php echo $text_continue_shopping ?>
 			</a>
@@ -204,7 +212,7 @@ function display_shippings() {
 	replace_obj;
 	$.ajax({
 		type:'POST',
-		url:'index.php?rt=r/checkout/cart/shipping_methods',
+		url:'index.php?rt=r/checkout/cart/change_zone_get_shipping_methods',
 		dataType:'json',
 		data:'country_id=' + country_id + '&zone_id=' + zone_id + '&postcode=' + postcode,
 		beforeSend:function () {
@@ -214,10 +222,14 @@ function display_shippings() {
 		},
 		success:function (data) {
 			$(replace_obj).html('');
+			$('.shippings-offered label.control-label').hide();
 			if (data && data.selectbox) {
-				$(replace_obj).show();
-				$(replace_obj).css('visibility', 'visible');
-				$(replace_obj).html(data.selectbox);
+				if(data.selectbox!=''){
+					$(replace_obj).show();
+					$('.shippings-offered label.control-label').show();
+					$(replace_obj).css('visibility', 'visible');
+					$(replace_obj).html(data.selectbox);
+				}
 			}
 			display_totals();
 		}
@@ -229,14 +241,16 @@ function display_totals() {
 	var shipping_method = '';
 	var coupon = encodeURIComponent($("#coupon input[name=\'coupon\']").val());
 	shipping_method = encodeURIComponent($('#shippings :selected').val());
-
+    if(shipping_method=='undefined'){
+        shipping_method = '';
+    }
 	$.ajax({
 		type:'POST',
 		url:'index.php?rt=r/checkout/cart/recalc_totals',
 		dataType:'json',
 		data:'shipping_method=' + shipping_method + '&coupon=' + coupon,
 		beforeSend:function () {
-			//$('.cart-info.totals table').html('<div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div>');
+			$('.cart-info.totals table').html('<div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div>');
 		},
 		complete:function () {
 		},

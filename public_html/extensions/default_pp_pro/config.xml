@@ -38,18 +38,14 @@
 				<item>0</item>
 				<item>1</item>
 			</variants>
+	        <default_value>1</default_value>
         </item>
         <item id="default_pp_pro_order_status_id">
-            <type>selectbox</type>
+			<type>selectbox</type>
 			<variants>
-				<data_source>
-                   <model_rt>localisation/order_status</model_rt>
-                   <method>getOrderStatuses</method>
-				</data_source>
-				<fields>
-					<field>order_status_id</field>
-					<field>name</field>
-				</fields>
+				<item>1</item>
+				<item>2</item>
+				<item>5</item>
 			</variants>
 			<default_value>2</default_value>
         </item>
@@ -67,14 +63,28 @@
 				</fields>
 			</variants>
         </item>
+	    <item id="default_pp_pro_creditcard_types">
+            <type>checkboxgroup</type>
+			<variants>
+				<data_source>
+                   	<model_rt>extension/default_pp_pro</model_rt>
+                   	<method>getCreditCardTypes</method>
+				</data_source>
+				<fields>
+					<field>code</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>a:5:{i:0;s:4:"Visa";i:1;s:10:"MasterCard";i:2;s:8:"Discover";i:3;s:1:"0";i:4;s:1:"0";} </default_value>
+        </item>                        
     </settings>
 	<custom_settings_template>pages/extension/default_pp_pro_settings.tpl</custom_settings_template>
     <install>
 	    <sql></sql>
-	    <trigger></trigger>
+	    <trigger>install.php</trigger>
 	</install>
 	<uninstall>
 	    <sql></sql>
-	    <trigger></trigger>
+	    <trigger>uninstall.php</trigger>
 	</uninstall>
 </extension>

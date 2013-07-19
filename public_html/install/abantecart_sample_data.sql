@@ -1,20 +1,3 @@
--- MySQL dump 10.11
---
--- Host: localhost    Database: abantecart_new_demo_data
--- ------------------------------------------------------
--- Server version	5.0.84
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
@@ -717,19 +700,19 @@ VALUES
 
 INSERT INTO `ac_orders` 
 VALUES 
-(1,0,'',0,'Your Store','http://localhost/',1,8,'fdsfdsf','czx','(092) 222-2222','','demo@abantecart.com','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Flat Shipping Rate','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Cash On Delivery','','1585.4400',1,1,1,'GBP','1.00000000',0,'0000-00-00 00:00:00','0000-00-00 00:00:00','127.0.0.1'),
-(2,0,'',0,'Web Store Name','http://abantecart/public_html/',11,8,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','','','','','','','','',0,'',0,'','','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','418.8100',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98'),
-(3,0,'',0,'Web Store Name','http://abantecart/public_html/',5,8,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Flat Shipping Rate','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','Please ASAP','246.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98'),
-(4,0,'',0,'Web Store Name','http://abantecart/public_html/',5,8,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','','','','','','','','',0,'',0,'','','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','','310.5270',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98'),
-(5,0,'',0,'Web Store Name','http://abantecart/public_html/',3,8,'Keely','Mccoy','+44 1324 483784 ','','keelymccoy@abantecart.com','Keely','Mccoy','','4842 Amet','','Grangemouth','','Gloucestershire',3552,'United Kingdom',222,'','Flat Shipping Rate','Keely','Mccoy','','4842 Amet','','Grangemouth','','Gloucestershire',3552,'United Kingdom',222,'','Cash On Delivery','','686.0925',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98'),
-(6,0,'',0,'Web Store Name','http://abantecart/public_html/',2,8,'Juliana','Davis','+44 1688 308321','','julidavis@abantecart.com','','','','','','','','',0,'',0,'','','Juliana','Davis','','Highlands and Islands PA75 6QE','','Isle of Mull','','Highlands',3559,'United Kingdom',222,'','Cash On Delivery','Bulgari','218.0850',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98'),
-(7,0,'',0,'Web Store Name','http://abantecart/public_html/',9,8,'Carlos','Compton','+1 867-874-22391','','carloscmpton@abantecart.com','','','','','','','','',0,'',0,'','','Carlos','Compton','','31 Capital Drive','','Hay River','','Nova Scotia',608,'Canada',38,'','Cash On Delivery','','175.7700',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98'),
-(8,0,'',0,'Web Store Name','http://abantecart/public_html/',8,8,'Bruce','Rosarini','+1 807-346-10763','','brucerosarini@abantecart.com','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','62.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98'),
-(9,0,'',0,'Web Store Name','http://abantecart/public_html/',8,8,'Bruce','Rosarini','+1 807-346-10763','','brucerosarini@abantecart.com','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','352.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98'),
-(10,0,'',0,'Web Store Name','http://abantecart/public_html/',12,8,'Allen','Waters','+1 540-985-59700','','allenwaters@abantecart.com','','','','','','','','',0,'',0,'','','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','155.1550',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98'),
-(11,0,'',0,'Web Store Name','http://abantecart/public_html/',12,8,'Allen','Waters','+1 540-985-59700','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','21.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98'),
-(12,0,'',0,'Web Store Name','http://abantecart/public_html/',11,8,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','487.3750',2,1,3,'GBP','0.63820000',0,now(), now(),'171.98.12.12'),
-(13,0,'',0,'Web Store Name','http://abantecart/public_html/',11,8,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','626.9600',1,1,3,'GBP','0.63820000',0,now(), now(),'171.98.12.12');
+(1,0,'',0,'Your Store','http://localhost/',1,8,'fdsfdsf','czx','(092) 222-2222','','demo@abantecart.com','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Flat Shipping Rate','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Cash On Delivery','','1585.4400',1,1,1,'GBP','1.00000000',0,'0000-00-00 00:00:00','0000-00-00 00:00:00','127.0.0.1',''),
+(2,0,'',0,'Web Store Name','http://abantecart/public_html/',11,8,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','','','','','','','','',0,'',0,'','','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','418.8100',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(3,0,'',0,'Web Store Name','http://abantecart/public_html/',5,8,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Flat Shipping Rate','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','Please ASAP','246.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(4,0,'',0,'Web Store Name','http://abantecart/public_html/',5,8,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','','','','','','','','',0,'',0,'','','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','','310.5270',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(5,0,'',0,'Web Store Name','http://abantecart/public_html/',3,8,'Keely','Mccoy','+44 1324 483784 ','','keelymccoy@abantecart.com','Keely','Mccoy','','4842 Amet','','Grangemouth','','Gloucestershire',3552,'United Kingdom',222,'','Flat Shipping Rate','Keely','Mccoy','','4842 Amet','','Grangemouth','','Gloucestershire',3552,'United Kingdom',222,'','Cash On Delivery','','686.0925',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(6,0,'',0,'Web Store Name','http://abantecart/public_html/',2,8,'Juliana','Davis','+44 1688 308321','','julidavis@abantecart.com','','','','','','','','',0,'',0,'','','Juliana','Davis','','Highlands and Islands PA75 6QE','','Isle of Mull','','Highlands',3559,'United Kingdom',222,'','Cash On Delivery','Bulgari','218.0850',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(7,0,'',0,'Web Store Name','http://abantecart/public_html/',9,8,'Carlos','Compton','+1 867-874-22391','','carloscmpton@abantecart.com','','','','','','','','',0,'',0,'','','Carlos','Compton','','31 Capital Drive','','Hay River','','Nova Scotia',608,'Canada',38,'','Cash On Delivery','','175.7700',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(8,0,'',0,'Web Store Name','http://abantecart/public_html/',8,8,'Bruce','Rosarini','+1 807-346-10763','','brucerosarini@abantecart.com','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','62.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(9,0,'',0,'Web Store Name','http://abantecart/public_html/',8,8,'Bruce','Rosarini','+1 807-346-10763','','brucerosarini@abantecart.com','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','352.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(10,0,'',0,'Web Store Name','http://abantecart/public_html/',12,8,'Allen','Waters','+1 540-985-59700','','allenwaters@abantecart.com','','','','','','','','',0,'',0,'','','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','155.1550',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(11,0,'',0,'Web Store Name','http://abantecart/public_html/',12,8,'Allen','Waters','+1 540-985-59700','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','21.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(12,0,'',0,'Web Store Name','http://abantecart/public_html/',11,8,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','487.3750',2,1,3,'GBP','0.63820000',0,now(), now(),'171.98.12.12',''),
+(13,0,'',0,'Web Store Name','http://abantecart/public_html/',11,8,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','626.9600',1,1,3,'GBP','0.63820000',0,now(), now(),'171.98.12.12','');
 
 
 
@@ -918,7 +901,7 @@ VALUES
 
 
 
-INSERT INTO `ac_product_option_descriptions` 
+INSERT INTO `ac_product_option_descriptions` (`product_option_id`,`language_id`,`product_id`,`name`)
 VALUES 
 (315,9,54,'Color'),
 (318,9,53,'Color'),
@@ -1370,57 +1353,57 @@ VALUES
 
 INSERT INTO `ac_products` (`product_id`,`model`,`sku`,`location`,`quantity`,`stock_status_id`,`manufacturer_id`,`shipping`,`price`,`tax_class_id`,`date_available`,`weight`,`weight_class_id`,`length`,`width`,`height`,`length_class_id`,`status`,`date_added`,`date_modified`,`viewed`,`sort_order`,`subtract`,`minimum`,`cost`) 
 VALUES 
-(68,'108681','','',1000,1,15,0,'42.0000',1,'2011-08-30','0.11',1,'0.00','0.00','0.00',0,1,now(), now(),0,1,1,1,'24.0000'),
-(65,'427847','','',1000,1,15,0,'105.0000',1,'2011-08-30','70.00',2,'0.00','0.00','0.00',0,1,now(), now(),21,1,0,1,'99.0000'),
-(66,'556240','','',145,1,12,0,'38.0000',1,'2011-08-30','0.40',1,'0.00','0.00','0.00',0,1,now(), now(),4,1,1,1,'0.0000'),
-(67,'463686','','',1000,1,15,0,'34.5000',1,'2011-08-30','0.30',1,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'22.0000'),
-(50,'558003','','',99,1,11,0,'29.5000',1,'2011-08-29','75.00',2,'0.00','0.00','0.00',0,1,now(), now(),8,1,0,1,'0.0000'),
+(68,'108681','','',1000,1,15,1,'42.0000',1,'2011-08-30','0.11',1,'0.00','0.00','0.00',0,1,now(), now(),0,1,1,1,'24.0000'),
+(65,'427847','','',1000,1,15,1,'105.0000',1,'2011-08-30','70.00',2,'0.00','0.00','0.00',0,1,now(), now(),21,1,0,1,'99.0000'),
+(66,'556240','','',145,1,12,1,'38.0000',1,'2011-08-30','0.40',1,'0.00','0.00','0.00',0,1,now(), now(),4,1,1,1,'0.0000'),
+(67,'463686','','',1000,1,15,1,'34.5000',1,'2011-08-30','0.30',1,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'22.0000'),
+(50,'558003','','',99,1,11,1,'29.5000',1,'2011-08-29','75.00',2,'0.00','0.00','0.00',0,1,now(), now(),8,1,0,1,'0.0000'),
 (51,'483857','','',98,1,12,1,'30.0000',1,'2011-08-29','0.05',1,'0.00','0.00','0.00',0,1,now(), now(),7,1,1,1,'0.0000'),
-(52,'523755','','',99,1,12,0,'28.0000',0,'2011-08-29','0.80',1,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,2,'0.0000'),
-(53,'380440','','',1000,3,15,0,'38.5000',1,'2011-08-29','100.00',2,'0.00','0.00','0.00',0,1,now(), now(),5,1,1,1,'22.0000'),
+(52,'523755','','',99,1,12,1,'28.0000',0,'2011-08-29','0.80',1,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,2,'0.0000'),
+(53,'380440','','',1000,3,15,1,'38.5000',1,'2011-08-29','100.00',2,'0.00','0.00','0.00',0,1,now(), now(),5,1,1,1,'22.0000'),
 (54,'74144','','',999,1,15,1,'25.0000',1,'2011-08-29','0.15',1,'0.00','0.00','0.00',0,1,now(), now(),10,1,1,1,'0.0000'),
-(55,'tw152236','','',1000,1,15,0,'29.0000',1,'2011-08-29','0.08',1,'0.00','0.00','0.00',0,1,now(), now(),5,1,1,1,'22.0000'),
-(56,'35190','','',1000,1,15,0,'29.5000',1,'2011-08-29','85.00',2,'0.00','0.00','0.00',0,1,now(), now(),9,1,1,1,'0.0000'),
-(57,'117148','','',1000,1,15,0,'29.5000',1,'2011-08-29','0.20',1,'0.00','0.00','0.00',0,1,now(), now(),12,1,1,1,'0.0000'),
+(55,'tw152236','','',1000,1,15,1,'29.0000',1,'2011-08-29','0.08',1,'0.00','0.00','0.00',0,1,now(), now(),5,1,1,1,'22.0000'),
+(56,'35190','','',1000,1,15,1,'29.5000',1,'2011-08-29','85.00',2,'0.00','0.00','0.00',0,1,now(), now(),9,1,1,1,'0.0000'),
+(57,'117148','','',1000,1,15,1,'29.5000',1,'2011-08-29','0.20',1,'0.00','0.00','0.00',0,1,now(), now(),12,1,1,1,'0.0000'),
 (58,'374002','','',0,2,12,1,'34.0000',1,'2011-08-29','25.00',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'10.0000'),
 (59,'14.50','','',1000,1,11,1,'5.0000',1,'2011-08-29','75.00',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'0.0000'),
-(60,'112423','','',1000,1,11,0,'15.0000',1,'2011-08-30','0.30',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,0,1,'0.0000'),
-(61,'529071','','',1000,1,15,0,'48.0000',1,'2011-08-30','0.13',2,'0.00','0.00','0.00',0,1,now(), now(),4,1,0,1,'29.0000'),
-(62,'601232','','',1000,1,13,0,'14.0000',1,'2011-08-30','0.50',1,'0.00','0.00','0.00',0,1,now(), now(),3,1,0,1,'8.0000'),
-(63,'374622','','',1000,1,14,0,'88.0000',1,'2011-08-30','0.75',1,'0.00','0.00','0.00',0,1,now(), now(),3,1,0,1,'55.0000'),
-(64,'497303','','',1000,1,13,0,'50.0000',1,'2011-08-30','150.00',2,'0.00','0.00','0.00',0,1,now(), now(),8,1,1,1,'33.0000'),
-(69,'SCND001','','',1000,1,16,0,'19.0000',1,'2011-08-30','0.25',1,'0.00','0.00','0.00',0,1,now(), now(),6,1,0,1,'0.0000'),
-(70,'522823','','',1000,1,14,0,'31.0000',1,'2011-08-30','0.25',2,'0.00','0.00','0.00',0,1,now(), now(),1,1,1,1,'0.0000'),
-(71,'PCND001','','',1000,1,17,0,'11.4500',1,'2011-08-30','0.30',1,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'5.0000'),
-(72,'PCND002','','',1000,1,17,0,'27.0000',1,'2011-08-30','0.40',1,'0.00','0.00','0.00',0,1,now(), now(),4,1,1,1,'0.0000'),
-(73,'PCND003','','',1000,1,17,0,'33.0000',1,'2011-08-30','0.40',1,'0.00','0.00','0.00',0,1,now(), now(),1,1,1,1,'21.0000'),
-(74,'PCND004','','',10000,1,17,0,'4.0000',1,'2011-08-30','0.35',1,'0.00','0.00','0.00',0,1,now(), now(),3,1,1,1,'0.0000'),
-(75,'DMBW0012','','',1000,1,18,0,'6.7000',1,'2011-08-30','0.20',1,'0.00','0.00','0.00',0,1,now(), now(),1,1,1,1,'0.0000'),
-(76,'DMBW0013','1235B','',99,1,18,0,'7.2000',1,'2011-08-30','0.20',1,'0.00','0.00','0.00',0,1,now(), now(),5,1,1,1,'4.0000'),
+(60,'112423','','',1000,1,11,1,'15.0000',1,'2011-08-30','0.30',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,0,1,'0.0000'),
+(61,'529071','','',1000,1,15,1,'48.0000',1,'2011-08-30','0.13',2,'0.00','0.00','0.00',0,1,now(), now(),4,1,0,1,'29.0000'),
+(62,'601232','','',1000,1,13,1,'14.0000',1,'2011-08-30','0.50',1,'0.00','0.00','0.00',0,1,now(), now(),3,1,0,1,'8.0000'),
+(63,'374622','','',1000,1,14,1,'88.0000',1,'2011-08-30','0.75',1,'0.00','0.00','0.00',0,1,now(), now(),3,1,0,1,'55.0000'),
+(64,'497303','','',1000,1,13,1,'50.0000',1,'2011-08-30','150.00',2,'0.00','0.00','0.00',0,1,now(), now(),8,1,1,1,'33.0000'),
+(69,'SCND001','','',1000,1,16,1,'19.0000',1,'2011-08-30','0.25',1,'0.00','0.00','0.00',0,1,now(), now(),6,1,0,1,'0.0000'),
+(70,'522823','','',1000,1,14,1,'31.0000',1,'2011-08-30','0.25',2,'0.00','0.00','0.00',0,1,now(), now(),1,1,1,1,'0.0000'),
+(71,'PCND001','','',1000,1,17,1,'11.4500',1,'2011-08-30','0.30',1,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'5.0000'),
+(72,'PCND002','','',1000,1,17,1,'27.0000',1,'2011-08-30','0.40',1,'0.00','0.00','0.00',0,1,now(), now(),4,1,1,1,'0.0000'),
+(73,'PCND003','','',1000,1,17,1,'33.0000',1,'2011-08-30','0.40',1,'0.00','0.00','0.00',0,1,now(), now(),1,1,1,1,'21.0000'),
+(74,'PCND004','','',10000,1,17,1,'4.0000',1,'2011-08-30','0.35',1,'0.00','0.00','0.00',0,1,now(), now(),3,1,1,1,'0.0000'),
+(75,'DMBW0012','','',1000,1,18,1,'6.7000',1,'2011-08-30','0.20',1,'0.00','0.00','0.00',0,1,now(), now(),1,1,1,1,'0.0000'),
+(76,'DMBW0013','1235B','',99,1,18,1,'7.2000',1,'2011-08-30','0.20',1,'0.00','0.00','0.00',0,1,now(), now(),5,1,1,1,'4.0000'),
 (77,'DMBW0014','1234B','',1000,1,18,1,'6.0000',1,'2011-08-30','0.30',1,'0.00','0.00','0.00',0,1,now(), now(),9,1,1,1,'2.0000'),
-(78,'Cl0001','','',1000,1,13,0,'29.0000',1,'2011-08-30','125.00',2,'0.00','0.00','0.00',0,1,now(), now(),10,1,1,1,'0.0000'),
-(79,'CKGS01','','',1000,1,13,0,'36.0000',1,'2011-08-30','250.00',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'28.0000'),
-(80,'GRM001','','',850,1,19,0,'59.0000',1,'2011-09-01','80.00',2,'0.00','0.00','0.00',0,1,now(), now(),5,1,1,1,'33.0000'),
-(81,'GRM002','','',1000,1,19,0,'61.0000',1,'2011-09-01','150.00',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'0.0000'),
-(82,'GRM003','','',1000,1,19,0,'42.0000',1,'2011-09-01','100.00',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'0.0000'),
-(83,'GRM004','','',1000,1,19,0,'37.5000',1,'2011-09-01','15.00',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'0.0000'),
-(84,'GRM005','','',1000,1,19,0,'30.0000',1,'2011-09-01','175.00',2,'0.00','0.00','0.00',0,1,now(), now(),7,1,1,1,'0.0000'),
+(78,'Cl0001','','',1000,1,13,1,'29.0000',1,'2011-08-30','125.00',2,'0.00','0.00','0.00',0,1,now(), now(),10,1,1,1,'0.0000'),
+(79,'CKGS01','','',1000,1,13,1,'36.0000',1,'2011-08-30','250.00',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'28.0000'),
+(80,'GRM001','','',850,1,19,1,'59.0000',1,'2011-09-01','80.00',2,'0.00','0.00','0.00',0,1,now(), now(),5,1,1,1,'33.0000'),
+(81,'GRM002','','',1000,1,19,1,'61.0000',1,'2011-09-01','150.00',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'0.0000'),
+(82,'GRM003','','',1000,1,19,1,'42.0000',1,'2011-09-01','100.00',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'0.0000'),
+(83,'GRM004','','',1000,1,19,1,'37.5000',1,'2011-09-01','15.00',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'0.0000'),
+(84,'GRM005','','',1000,1,19,1,'30.0000',1,'2011-09-01','175.00',2,'0.00','0.00','0.00',0,1,now(), now(),7,1,1,1,'0.0000'),
 (85,'Ck0010','','',1000,1,13,1,'45.0000',1,'2011-09-01','0.08',5,'0.00','0.00','0.00',0,1,now(), now(),3,1,1,1,'0.0000'),
 (86,'CK0009','','',1,1,13,1,'44.1000',1,'2011-09-04','0.17',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'0.0000'),
-(87,'CK0010','','',10000,1,13,0,'37.5000',1,'2011-09-04','0.20',1,'0.00','0.00','0.00',0,1,now(), now(),1,1,1,1,'0.0000'),
-(88,'CK0011','','',1,1,13,0,'31.0000',1,'2011-09-04','340.00',2,'0.00','0.00','0.00',0,1,now(), now(),1,1,1,1,'19.0000'),
-(89,'CK0012','','',1000,3,13,0,'62.0000',1,'2011-09-04','0.12',1,'0.00','0.00','0.00',0,1,now(), now(),5,1,1,1,'40.0000'),
-(90,'CK0013','','',1000,1,13,0,'39.0000',1,'2011-09-04','0.33',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'0.0000'),
-(91,'BVLG001','','',1000,1,14,0,'29.0000',1,'2011-09-04','0.16',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'20.0000'),
-(92,'BVLG002','','',1000,1,14,0,'57.0000',1,'2011-09-04','0.40',5,'0.00','0.00','0.00',0,1,now(), now(),7,1,1,1,'44.0000'),
-(93,'BVLG003','','',1000,1,14,0,'280.0000',1,'2011-09-04','0.30',5,'0.00','0.00','0.00',0,1,now(), now(),8,1,1,1,'100.0000'),
+(87,'CK0010','','',10000,1,13,1,'37.5000',1,'2011-09-04','0.20',1,'0.00','0.00','0.00',0,1,now(), now(),1,1,1,1,'0.0000'),
+(88,'CK0011','','',1,1,13,1,'31.0000',1,'2011-09-04','340.00',2,'0.00','0.00','0.00',0,1,now(), now(),1,1,1,1,'19.0000'),
+(89,'CK0012','','',1000,3,13,1,'62.0000',1,'2011-09-04','0.12',1,'0.00','0.00','0.00',0,1,now(), now(),5,1,1,1,'40.0000'),
+(90,'CK0013','','',1000,1,13,1,'39.0000',1,'2011-09-04','0.33',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'0.0000'),
+(91,'BVLG001','','',1000,1,14,1,'29.0000',1,'2011-09-04','0.16',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'20.0000'),
+(92,'BVLG002','','',1000,1,14,1,'57.0000',1,'2011-09-04','0.40',5,'0.00','0.00','0.00',0,1,now(), now(),7,1,1,1,'44.0000'),
+(93,'BVLG003','','',1000,1,14,1,'280.0000',1,'2011-09-04','0.30',5,'0.00','0.00','0.00',0,1,now(), now(),8,1,1,1,'100.0000'),
 (94,'GRMBC001','','',589,1,19,1,'263.0000',1,'2011-09-04','0.15',1,'0.00','0.00','0.00',0,1,now(), now(),3,1,1,1,'125.0000'),
-(95,'GRMBC002','','',100,3,19,0,'104.0000',1,'2011-09-04','0.15',1,'0.00','0.00','0.00',0,1,now(), now(),5,1,1,1,'0.0000'),
+(95,'GRMBC002','','',100,3,19,1,'104.0000',1,'2011-09-04','0.15',1,'0.00','0.00','0.00',0,1,now(), now(),5,1,1,1,'0.0000'),
 (96,'GRMBC003','','',100,1,19,1,'82.0000',1,'2011-09-04','80.00',2,'0.00','0.00','0.00',0,1,now(), now(),8,1,0,2,'67.0000'),
-(97,'GRMBC004','','',1,1,19,0,'126.0000',1,'2011-09-04','20.00',2,'0.00','0.00','0.00',0,1,now(), now(),9,1,1,1,'0.0000'),
+(97,'GRMBC004','','',1,1,19,1,'126.0000',1,'2011-09-04','20.00',2,'0.00','0.00','0.00',0,1,now(), now(),9,1,1,1,'0.0000'),
 (98,'GRMBC005','','',1000,1,19,1,'98.0000',1,'2011-09-04','40.00',2,'0.00','0.00','0.00',0,1,now(), now(),2,1,1,1,'87.0000'),
-(99,'GRMBC006','','',1000,1,19,0,'137.0000',1,'2011-09-04','0.09',6,'0.00','0.00','0.00',0,1,now(), now(),12,1,1,1,'0.0000'),
-(100,'GRMBC007','','',1000,1,19,0,'10.0000',1,'2011-09-04','15.00',2,'0.00','0.00','0.00',0,0,now(), now(),13,1,1,4,'8.0000'),
+(99,'GRMBC006','','',1000,1,19,1,'137.0000',1,'2011-09-04','0.09',6,'0.00','0.00','0.00',0,1,now(), now(),12,1,1,1,'0.0000'),
+(100,'GRMBC007','','',1000,1,19,1,'10.0000',1,'2011-09-04','15.00',2,'0.00','0.00','0.00',0,0,now(), now(),13,1,1,4,'8.0000'),
 (101,'Pro-V','','',1000,1,17,1,'8.2300',1,'2012-03-13','8.45',6,'2.00','3.00','15.00',1,1,now(), now(),35,1,0,1,'0.0000'),
 (102,'PRF00269','','',1000,1,20,1,'105.0000',1,'2012-03-14','2.50',6,'0.00','0.00','0.00',3,1,now(), now(),6,1,0,1,'0.0000'),
 (103,'PRF00270','','',100,1,14,1,'78.0000',1,'2012-03-14','80.00',2,'0.00','0.00','0.00',3,1,now(), now(),4,1,0,1,'0.0000'),
@@ -2007,7 +1990,19 @@ VALUES
 (100176,9,'az_demo_product_60_5.jpg','','','18/75/0.jpg','',now(), now()),
 (100178,1,'abantecart video','','','','<object width=\"640\" height=\"360\"><param name=\"movie\" value=\"http://www.youtube.com/v/IQ5SLJUWbdA\"></param><param name=\"allowFullScreen\" value=\"true\"></param><param name=\"allowscriptaccess\" value=\"always\"></param><embed src=\"http://www.youtube.com/v/IQ5SLJUWbdA\" type=\"application/x-shockwave-flash\" width=\"640\" height=\"360\" allowscriptaccess=\"always\" allowfullscreen=\"true\"></embed></object>',now(), now()),
 (100188,1,'smbanner.jpg','','','18/75/c.jpg','',now(), now()),
-(100188,9,'smbanner.jpg','','','18/75/c.jpg','',now(), now())
+(100188,9,'smbanner.jpg','','','18/75/c.jpg','',now(), now()),
+
+(100190,1,'AM_mc_vs_dc_ae_319x110.jpg','PayPal Credit Cards','PayPal logo with supported Credit Cards','18/75/e.jpg','',now(), now()),
+(100190,9,'AM_mc_vs_dc_ae_319x110.jpg','PayPal Credit Cards','PayPal logo with supported Credit Cards','18/75/e.jpg','',now(), now()),
+
+(100191,1,'AM_SbyPP_mc_vs_dc_ae_319x110.jpg','PayPal Secure Payments','Secure Payments by PayPal logo','18/75/f.jpg','',now(), now()),
+(100191,9,'AM_SbyPP_mc_vs_dc_ae_319x110.jpg','PayPal Secure Payments','Secure Payments by PayPal logo','18/75/f.jpg','',now(), now()),
+
+(100192,1,'bdg_payments_by_pp_2line_165x56.png','Payments by PayPal','Payments by PayPal Logo','18/76/0.png','',now(), now()),
+(100192,9,'bdg_payments_by_pp_2line_165x56.png','Payments by PayPal','Payments by PayPal Logo','18/76/0.png','',now(), now()),
+
+(100193,1,'pp_cc_mark_76x48.jpg','PayPal Icon','PayPal Small Icon','18/76/1.jpg','',now(), now()),
+(100193,9,'pp_cc_mark_76x48.jpg','PayPal Icon','PayPal Small Icon','18/76/1.jpg','',now(), now())
 ;
 
 
@@ -2169,7 +2164,6 @@ VALUES
 (100155,1,now(), now()),
 (100156,1,now(), now()),
 (100157,1,now(), now()),
-(100158,1,now(), now()),
 (100159,1,now(), now()),
 (100160,1,now(), now()),
 (100162,1,now(), now()),
@@ -2189,7 +2183,11 @@ VALUES
 (100176,1,now(), now()),
 
 (100188,1,now(), now()),
-(100189,1,now(), now())
+
+(100190,1,now(), now()),
+(100191,1,now(), now()),
+(100192,1,now(), now()),
+(100193,1,now(), now())
 ;
 
 
@@ -2346,7 +2344,6 @@ VALUES
 (100155,'products',102,0,0,now(), now()),
 (100156,'products',102,0,0,now(), now()),
 (100157,'products',103,0,2,now(), now()),
-(100158,'products',103,0,1,now(), now()),
 (100159,'products',103,0,3,now(), now()),
 (100160,'products',104,0,0,now(), now()),
 (100162,'products',105,0,0,now(), now()),
@@ -2367,8 +2364,7 @@ VALUES
 (100188,'banners',13,0,0,now(), now()),
 (100188,'banners',14,0,0,now(), now()),
 (100188,'banners',15,0,0,now(), now()),
-(100188,'banners',16,0,0,now(), now()),
-(100189,'products',65,0,0,now(), now())
+(100188,'banners',16,0,0,now(), now())
 ;
 
 
@@ -2405,24 +2401,21 @@ VALUES
 --
 
 
-INSERT INTO `ac_url_aliases` 
-VALUES 
-(494,'manufacturer_id=11','',1),
-(493,'category_id=36','makeup',1),
-(455,'content_id=4','about_us',1),
-(496,'category_id=64','',1),
-(492,'category_id=48','',1),
-(497,'product_id=101','pro-v_color_hair_solutions_color_preserve_shine_conditioner_with_pump',1),
-(498,'product_id=102','gucci_guilty',1),
-(500,'manufacturer_id=20','gucci',1),
-(501,'product_id=103','jasmin_noir_l\'essence_eau_de_parfum_spray',1),
-(503,'product_id=104','calvin_klein_obsession_for_women_edp_spray',1),
-(504,'product_id=105','bvlgari_aqua_eau_de_toilette_spray',1),
-(508,'product_id=106','omnia_eau_de_toilette',1),
-(509,'product_id=107','lancome_slimissime_360_slimming_activating_concentrate_unisex_treatment',1),
-(510,'product_id=108','lancome_hypnose_doll_lashes_mascara_4-piece_gift_set',1),
-(513,'product_id=109','lancome_visionnaire_advanced_skin_corrector',1),
-(514,'product_id=110','flora_by_gucci_eau_fraiche',1);
+INSERT INTO `ac_url_aliases` (`query`,`keyword`,`language_id`)
+VALUES
+('category_id=36','makeup',1),
+('content_id=1','about_us',1),
+('product_id=101','pro-v_color_hair_solutions_color_preserve_shine_conditioner_with_pump',1),
+('product_id=102','gucci_guilty',1),
+('manufacturer_id=20','gucci',1),
+('product_id=103','jasmin_noir_l\'essence_eau_de_parfum_spray',1),
+('product_id=104','calvin_klein_obsession_for_women_edp_spray',1),
+('product_id=105','bvlgari_aqua_eau_de_toilette_spray',1),
+('product_id=106','omnia_eau_de_toilette',1),
+('product_id=107','lancome_slimissime_360_slimming_activating_concentrate_unisex_treatment',1),
+('product_id=108','lancome_hypnose_doll_lashes_mascara_4-piece_gift_set',1),
+('product_id=109','lancome_visionnaire_advanced_skin_corrector',1),
+('product_id=110','flora_by_gucci_eau_fraiche',1);
 
 
 INSERT INTO `ac_banners` VALUES
@@ -2458,15 +2451,3 @@ INSERT INTO `ac_banner_descriptions` VALUES
 	(8,9,'Main Banner 1','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide1_bot&quot; src=&quot;storefront/view/default_html5/image/banner_image_1.png&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Construct Looks Good On&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;ALL Screen Sizes&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Lid est laborum dolo rumes fugats untras. Et harums ser quidem sit rerum facilis dolores nemis uns voluptas sadips ipsums vitae tolu ptas nemis omnis fugiats vitaes nemo minima rerums uns.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;&quot;&gt;Purchase Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n',NULL,now(), now()),
 	(8,1,'Main Banner 1','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide1_bot&quot; src=&quot;storefront/view/default_html5/image/banner_image_1.png&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;HTML5 Responsive Storefront to look great on&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;ALL Screen Sizes&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Natively responsive template implemented with bootstrap library and HTML5. Will look good on most mobile devices and tablets.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;&quot;&gt;Try on your device!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now())
 ;
-
-
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2012-03-17 12:17:44

@@ -282,8 +282,7 @@ class ControllerCommonPageLayout extends AController {
 		$this->view->assign('form_hidden',$form_hidden);
 		$this->view->assign('form_submit',$form_submit);
 		$this->view->assign('form_reset',$form_reset);
-			
-		$this->view->assign('new_block_url',$this->html->getSecureURL('design/blocks/insert','&tmpl_id='.( $this->request->get['templ_id'] ? $this->request->get['templ_id'] : 'default').'&page_id='.$settings['page']['page_id'].'&layout_id='.$settings['hidden']['layout_id']));
+		$this->view->assign('new_block_url',$this->html->getSecureURL('design/blocks/insert','&tmpl_id='.( $this->request->get['tmpl_id'] ? $this->request->get['tmpl_id'] : $this->config->get('config_storefront_template')).'&page_id='.$settings['page']['page_id'].'&layout_id='.$settings['hidden']['layout_id']));
 
 	    $this->processTemplate('common/page_layout.tpl');
         //update controller data

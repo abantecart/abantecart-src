@@ -54,7 +54,7 @@ if (!$active) {     ?>
 <?php } ?>
 <script type="text/javascript">
 $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent($('select[name=\'config_storefront_template\']').attr('value')));
-    $('#cgFrm_config_storefront_template').change(function () {
+    $('#qsFrm_config_storefront_template').change(function () {
         $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent(this.value))
     });
 

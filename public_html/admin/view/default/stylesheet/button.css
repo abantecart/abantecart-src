@@ -84,6 +84,7 @@ button.btn_standard {
     text-decoration: none;
     vertical-align: middle;
     text-align: center;
+	cursor: pointer;
 }
 .btn_standard span span, .button span {
 	font:normal 12px Arial, Helvetica, sans-serif;
@@ -217,4 +218,8 @@ button.btn_standard {
 .list tbody a.btn_standard,
 .list tbody a.button {
 	text-decoration: none;
+}
+
+#productFrm_generate_seo_keyword{
+	cursor: pointer;
 }

@@ -52,7 +52,7 @@ class ControllerPagesCheckoutCart extends AController {
 
 			$this->redirect($this->html->getSecureURL('checkout/cart'));
 			
-		} elseif ($this->request->server['REQUEST_METHOD'] == 'POST') {
+		} else if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 
 			//if this is coupon, validate and apply
 			if ( isset($this->request->post['coupon']) && $this->_validateCoupon() ) {
@@ -107,6 +107,20 @@ class ControllerPagesCheckoutCart extends AController {
 								'size' => $this->request->files['option']['size'][$id],
 							);
 
+							$file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
+
+							if ( has_value($file_errors) ) {
+								$this->session->data['error'] = implode('<br/>', $file_errors);
+								$this->redirect($_SERVER['HTTP_REFERER']);
+							} else {
+								$result = move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
+
+								if ( !$result || $this->request->files[ 'package_file' ]['error'] ) {
+									$this->session->data['error'] .= '<br>Error: ' . getTextUploadError($this->request->files['option']['error'][$id]);
+									$this->redirect($_SERVER['HTTP_REFERER']);
+								}
+							}
+
 							$dataset = new ADataset('file_uploads','admin');
 							$dataset->addRows(
 								array(
@@ -119,25 +133,14 @@ class ControllerPagesCheckoutCart extends AController {
 								)
 							);
 
-							$file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
-
-							if ( has_value($file_errors) ) {
-								$this->session->data['error'] = implode('<br/>', $file_errors);
-								$this->redirect($_SERVER['HTTP_REFERER']);
-							} else {
-								$result = move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
-
-								if ( !$result || $this->request->files[ 'package_file' ]['error'] ) {
-									$this->session->data['error'] .= '<br>Error: ' . getTextUploadError($this->request->files['option']['error'][$id]);
-								}
-							}
-
 						}
 					}
 
 					if ( $this->model_catalog_product->validateRequiredOptions($product_id, $options) ) {
 						$this->session->data['error'] = $this->language->get('error_required_options');
-						$this->redirect($_SERVER['HTTP_REFERER']);
+						//send options values back via _GET
+						$url = '&'.http_build_query(array('option' => $this->request->post['option']));
+						$this->redirect($this->html->getSecureURL('product/product','&product_id='.$this->request->post['product_id'].$url));
 					}
 
       				$this->cart->add($this->request->post['product_id'], $this->request->post['quantity'], $options);
@@ -302,30 +305,40 @@ class ControllerPagesCheckoutCart extends AController {
 			}	
 			
 			//prepare coupon display
-			$this->view->assign( 'coupon_status', $this->config->get('coupon_status') );
-			$action = $this->html->getSecureURL('checkout/cart');
-			$coupon_form = $this->dispatch('blocks/coupon_codes', array('action' => $action));
-			$this->view->assign('coupon_form', $coupon_form->dispatchGetOutput() );
+			if($this->config->get('config_coupon_on_cart_page')){
+				$this->view->assign( 'coupon_status', $this->config->get('coupon_status') );
+				$action = $this->html->getSecureURL('checkout/cart');
+				$coupon_form = $this->dispatch('blocks/coupon_codes', array('action' => $action));
+				$this->view->assign('coupon_form', $coupon_form->dispatchGetOutput() );
+			}
 
-		    $form = new AForm();
-		    $form->setForm(array( 'form_name' => 'estimate' ));
-            $this->data['form_estimate']['form_open'] = $form->getFieldHtml(
-													array(	'type' => 'form',
-															'name' => 'estimate',
-															'action' => $this->html->getSecureURL('checkout/cart')));
-
-			//candidate to be in settings
-			$this->data['estimates_enabled'] = true;
-
+			if($this->config->get('config_shipping_tax_estimate')){
+				$form = new AForm();
+				$form->setForm(array( 'form_name' => 'estimate' ));
+				$this->data['form_estimate']['form_open'] = $form->getFieldHtml(
+														array(	'type' => 'form',
+																'name' => 'estimate',
+																'action' => $this->html->getSecureURL('checkout/cart')));
+				$this->data['estimates_enabled'] = true;
+			}
 			//try to get shipping address details if we have them
 			$country_id = $this->config->get('config_country_id');
-			if ($this->session->data[ 'shipping_address_id' ]) {
+			if ($this->session->data[ 'shipping_address_id' ]	) {
 				$this->loadModel('account/address');
 				$shipping_address = $this->model_account_address->getAddress($this->session->data[ 'shipping_address_id' ]);
 				$postcode = $shipping_address['postcode'];
 				$country_id = $shipping_address['country_id'];
-				$zone_id = $shipping_address['zone_id'];				
+				$zone_id = $shipping_address['zone_id'];
 			}
+			// use default address of customer for estimate form whe shipping address is unknown
+			if(!$zone_id && $this->customer->isLogged()){
+				$this->loadModel('account/address');
+				$payment_address = $this->model_account_address->getAddress($this->customer->getAddressId());
+				$postcode = $payment_address['postcode'];
+				$country_id = $payment_address['country_id'];
+				$zone_id = $payment_address['zone_id'];
+			}
+
 			if ($this->request->post['postcode']) {
 				$postcode = $this->request->post['postcode'];
 			}
@@ -346,7 +359,7 @@ class ControllerPagesCheckoutCart extends AController {
 													  	'value' => $postcode,
 													  	'style' => 'short',
 														));
-														 										
+
 			$this->data['form_estimate']['country_zones'] = $form->getFieldHtml( array(
 														'type' => 'zones',
 													 	'name' => 'country',
@@ -370,8 +383,8 @@ class ControllerPagesCheckoutCart extends AController {
 
 		    $this->data['button_continue'] = HtmlElementFactory::create( array('name' => 'continue',
 																			   'type' => 'button',
-																			   'text' => $this->language->get('button_continue'),
-																			   'href' =>$this->html->getURL('index/home'),
+																			   'text' =>  $this->language->get('button_continue'),
+																			   'href' =>  $this->html->getURL('index/home'),
 																			   'style' => 'button' ));
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );

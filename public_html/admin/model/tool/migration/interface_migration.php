@@ -21,6 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 interface Migration {
+	public function getName();
 	public function getVersion();
 	public function getCategories();
     public function getManufacturers();

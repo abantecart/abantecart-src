@@ -394,7 +394,7 @@ jQuery(function ($) {
             $('textarea[name="resource_code"]', form).parent().parent().hide();
         }
 
-        var src = '<img src="' + json.thumbnail_url + '" title="' + json.name + '" />';
+        var src = '<img src="' + json.thumbnail_url + '" title="' + json.name[Object.keys(json.name)[0]] + '" />';
         if (type == 'image' && json.resource_code) {
             src = json.thumbnail_url;
         }

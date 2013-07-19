@@ -28,10 +28,10 @@
 		  </div>
           <div class="thumbnail">
           <?php  if ($product['special']) { ?>
-            <span class="sale tooltip-test"><?php $text_sale_label; ?></span>
+            <span class="sale tooltip-test"><?php echo $text_sale_label; ?></span>
           <?php } ?>  
           <?php  if ($product['new_product']) { ?>
-          	<span class="new tooltip-test" ><?php $text_new_label; ?></span>
+          	<span class="new tooltip-test" ><?php echo $text_new_label; ?></span>
           <?php } ?>            
             <a href="<?php echo $item['info_url']?>"><?php echo $item['image']?></a>
             <div class="shortlinks">
@@ -81,10 +81,10 @@
 	          <div class="row">
 	          	 <div class="span4">
 		          <?php  if ($product['special']) { ?>
-		            <span class="sale tooltip-test"><?php $text_sale_label; ?></span>
+		            <span class="sale tooltip-test"><?php echo $text_sale_label; ?></span>
 		          <?php } ?>  
 		          <?php  if ($product['new_product']) { ?>
-		          	<span class="new tooltip-test" ><?php $text_new_label; ?></span>
+		          	<span class="new tooltip-test" ><?php echo $text_new_label; ?></span>
 		          <?php } ?>            
 		            <a href="<?php echo $item['info_url']?>"><?php echo $item['image']?></a>
 	          	 </div>
