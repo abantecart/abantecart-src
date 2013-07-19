@@ -73,7 +73,13 @@ class ControllerResponsesCheckoutCart extends AController {
 
   	}
 
-	public function shipping_methods() {
+	/**
+	* change_zone_get_shipping_methods()
+	* Ajax function to apply new country and zone to be used in tax and/or shipping culculation.
+	* Return: List of available shipping methods and cost 
+	*/
+	
+	public function change_zone_get_shipping_methods() {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		$output = array();
@@ -82,23 +88,25 @@ class ControllerResponsesCheckoutCart extends AController {
 			$this->response->setOutput(AJson::encode($output));	
 			return '';
 		}
+
+		//need to reset zone for tax even if shipping is not needed		
+		$this->loadModel('localisation/country');
+		$this->loadModel('localisation/zone');
+		$country_info = $this->model_localisation_country->getCountry($this->request->post[ 'country_id' ]);
+		$zone_info = $this->model_localisation_zone->getZone($this->request->post[ 'zone_id' ]);
+		$shipping_address = array(
+		    	'postcode'       => $this->request->post['postcode'],
+		    	'country_id'     => $this->request->post['country_id'],
+		    	'country_iso_code2' => $country_info['iso_code_2'],
+		    	'iso_code_2' => $country_info['iso_code_2'],
+		    	'zone_id'        => $this->request->post['zone_id'],
+		    	'zone_code'        => $zone_info['code']
+		);
+
+		$this->tax->setZone($shipping_address[ 'country_id' ], $shipping_address[ 'zone_id' ]);
+	
+		//skip shipping processing if not required.
 		if( $this->cart->hasShipping() ){
-			$this->loadModel('localisation/country');
-			$this->loadModel('localisation/zone');
-			$country_info = $this->model_localisation_country->getCountry($this->request->post[ 'country_id' ]);
-			$zone_info = $this->model_localisation_zone->getZone($this->request->post[ 'zone_id' ]);
-			$shipping_address = array(
-					'postcode'       => $this->request->post['postcode'],
-					'country_id'     => $this->request->post['country_id'],
-					'country_iso_code2' => $country_info['iso_code_2'],
-					'iso_code_2' => $country_info['iso_code_2'],
-					'zone_id'        => $this->request->post['zone_id'],
-					'zone_code'        => $zone_info['code']
-			);
-
-
-			$this->tax->setZone($shipping_address[ 'country_id' ], $shipping_address[ 'zone_id' ]);
-
 			$this->loadModel('checkout/extension');
 
 			$results = $this->model_checkout_extension->getExtensions('shipping');
@@ -184,7 +192,7 @@ class ControllerResponsesCheckoutCart extends AController {
             unset($this->session->data[ 'shipping_methods' ]);
         }
 
-		$display_totals = $this->cart->buildTotalDisplay();      		
+		$display_totals = $this->cart->buildTotalDisplay( true );      		
 		$output['totals'] = $display_totals['total_data'];;
  	  	
   		//init controller data

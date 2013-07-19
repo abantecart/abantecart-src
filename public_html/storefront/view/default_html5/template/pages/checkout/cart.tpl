@@ -82,15 +82,20 @@ echo $form['form_open'];
 </div>
 </form>
 
-<?php if ($estimates_enabled || $coupon_status) { ?>
+<?php if ($estimates_enabled || $coupon_status) { 
+	$pull_side = 'pull-right';
+	if ($estimates_enabled) { 
+		$pull_side = 'pull-left';
+	}
+?>
 <div class="cart-info coupon-estimate container-fluid row-fluid">
 	<?php if ($coupon_status) { ?>
-		<div class=" pull-left coupon">
+		<div class="<?php echo $pull_side; ?> coupon">
 			<table class="table table-striped "><tr>
-					<?php if ($coupon_status) { ?>
-								<th align="center"><?php echo $text_coupon_codes ?></th>
-								<?php } ?>
-			</tr><tr>
+				<?php if ($coupon_status) { ?>
+				<th align="center"><?php echo $text_coupon_codes ?></th>
+				<?php } ?>
+			</tr>
 			<td>
 				<?php
 				if ($coupon_status) {
@@ -103,9 +108,10 @@ echo $form['form_open'];
 		</div>
 	<?php }
 	if ($estimates_enabled) { ?>
-			<div class="estimate">
-				<table class="table table-striped"><tr>
-			<th align="center"><?php echo $text_estimate_shipping_tax ?></th></tr><tr>
+		<div class="pull-right estimate">
+			<table class="table table-striped"><tr>
+			<th align="center"><?php echo $text_estimate_shipping_tax ?></th>
+			</tr>
 			<td>
 				<div class="registerbox">
 					<?php echo $form_estimate['form_open']; ?>
@@ -132,9 +138,9 @@ echo $form['form_open'];
 					</form>
 				</div>
 			</td>
-			<?php } ?>
 			</tr></table>
 		</div>
+	<?php } ?>
 
 </div>
 <?php } ?>
@@ -146,10 +152,10 @@ echo $form['form_open'];
 				<?php foreach ($totals as $total) { ?>
 				<tr>
 					<td><span
-							class="extra bold <?php if ($total[id] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span>
+							class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span>
 					</td>
 					<td><span
-							class="bold <?php if ($total[id] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span>
+							class="bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span>
 					</td>
 				</tr>
 				<?php } ?>
@@ -206,7 +212,7 @@ function display_shippings() {
 	replace_obj;
 	$.ajax({
 		type:'POST',
-		url:'index.php?rt=r/checkout/cart/shipping_methods',
+		url:'index.php?rt=r/checkout/cart/change_zone_get_shipping_methods',
 		dataType:'json',
 		data:'country_id=' + country_id + '&zone_id=' + zone_id + '&postcode=' + postcode,
 		beforeSend:function () {
@@ -244,7 +250,7 @@ function display_totals() {
 		dataType:'json',
 		data:'shipping_method=' + shipping_method + '&coupon=' + coupon,
 		beforeSend:function () {
-			//$('.cart-info.totals table').html('<div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div>');
+			$('.cart-info.totals table').html('<div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div>');
 		},
 		complete:function () {
 		},

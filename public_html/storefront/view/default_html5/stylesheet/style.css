@@ -3777,7 +3777,8 @@ input, .btn, .label, .badge, .nav-pills > li > a,
 }
 
 .dropdown-menu li > a {
-	padding: 5px 20px
+	padding: 5px 20px;
+	display: block;
 }
 
 .dropdown-menu li > a:hover, .dropdown-menu li > a:focus, .dropdown-submenu:hover > a {
