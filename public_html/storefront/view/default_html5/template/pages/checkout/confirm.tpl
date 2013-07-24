@@ -57,7 +57,9 @@
 		</table>
 	<?php } ?>
 
-	<?php  if ($payment_method || $balance) { ?>
+	<?php
+	if ($payment_method || $balance || $this->getHookVar('payment_method')) { ?>
+
 		<h4 class="heading4"><?php echo $text_payment; ?></h4>
 
 		<table class="table confirm_payment_options">
@@ -95,7 +97,16 @@
 					</td>
 				</tr>
 
-			<?php } ?>
+			<?php }
+			if($this->getHookVar('payment_method')){?>
+				<tr>
+					<td align="left"><?php echo $this->getHookVar('payment_method_title');?></td>
+					<td align="left">&nbsp;</td>
+					<td align="left">&nbsp;</td>
+					<td align="right"><?php echo $this->getHookVar('payment_method'); ?></td>
+				</tr>
+			<?php }	?>
+
 		</table>
 	<?php } ?>
 
@@ -141,8 +152,7 @@
 		<div class="cart-info span5">
 			<table class="table table-striped table-bordered">
 			    <?php
-			    foreach ($totals as $total) {
-			    	?>
+			    foreach ($totals as $total) { ?>
 			    	<tr>
 			    		<td>
 			    			<span class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span>

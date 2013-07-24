@@ -245,7 +245,7 @@ final class ACustomer {
 		$cache_name = 'balance.'.(int)$this->getId();
 		$balance = $this->cache->get($cache_name);
 		if(is_null($balance)){
-			$query = $this->db->query("SELECT sum(debit) - sum(credit) as balance
+			$query = $this->db->query("SELECT sum(credit) - sum(debit) as balance
 										FROM " . $this->db->table("customer_transactions") . "
 										WHERE customer_id = '" . (int)$this->getId() . "'");
 			$balance = $query->row['balance'];

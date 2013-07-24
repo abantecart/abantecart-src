@@ -332,12 +332,12 @@ class AResourceManager extends AResource {
         $select = "SELECT rd.*, (SELECT COUNT(resource_id) FROM " . DB_PREFIX . "resource_map rm1 WHERE rm1.resource_id = rd.resource_id) as mapped ";
         $where = " WHERE 1 ";
         $join = " LEFT JOIN " . DB_PREFIX . "resource_descriptions rd ON (rl.resource_id = rd.resource_id) ";
-        $order = "ORDER BY rl.resource_id";
+        $order = " ORDER BY rl.resource_id";
 
         if ( !empty($search_data['object_name']) || !empty($search_data['object_id']) ) {
             $select .= ", rm.sort_order";
             $join .= " LEFT JOIN " . DB_PREFIX . "resource_map rm ON (rl.resource_id = rm.resource_id) ";
-            $order = "ORDER BY rm.sort_order, rl.resource_id";
+            $order = " ORDER BY rm.sort_order, rl.resource_id";
         }
 
         if ( !empty($search_data['keyword']) ) {

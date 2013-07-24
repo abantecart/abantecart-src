@@ -179,7 +179,7 @@ class ControllerPagesCheckoutPayment extends AController {
 			$this->redirect($this->html->getSecureURL('checkout/confirm'));
 		}
 
-		if($total['total']==0){
+		if($total['total']==0 && $this->request->get['mode'] != 'edit'){
 			$this->session->data[ 'payment_method' ] = array(
 															'id'         => 'no_payment_required',
 															'title'      => $this->language->get('no_payment_required')

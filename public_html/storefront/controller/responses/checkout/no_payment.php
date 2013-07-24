@@ -23,15 +23,17 @@ class ControllerResponsesCheckoutNoPayment extends AController {
 
 		$item = HtmlElementFactory::create( array( 'type' => 'button',
 		                                          'name' => 'back',
-			                                      'style' => 'button',
-		                                          'text' => $this->language->get('button_back') ));
+			                                      'style' => 'button mr10',
+		                                          'text' => $this->language->get('button_back'),
+												  'icon' => 'icon-arrow-left'));
 		$item = $item->getHtml();
 		$this->view->assign('button_back', $item);
 
 		$item = HtmlElementFactory::create( array( 'type' => 'button',
 		                                          'name' => 'checkout',
-			                                      'style' => 'button',
-		                                          'text' => $this->language->get('button_confirm') ));
+			                                      'style' => 'button btn-orange pull-right',
+		                                          'text' => $this->language->get('button_confirm'),
+												  'icon' => 'icon-ok icon-white'));
 		$item = $item->getHtml();
 		$this->view->assign('button_confirm', $item);
 

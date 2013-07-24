@@ -239,5 +239,13 @@
 	<definition>
 		<key>text_browse</key>
 		<value><![CDATA[Seleccione Archivo]]></value>
-	</definition>	
+	</definition>
+	<definition>
+		<key>button_cancel</key>
+		<value><![CDATA[Cancelar]]></value>
+	</definition>
+	<definition>
+		<key>button_reset</key>
+		<value><![CDATA[Reajustar]]></value>
+	</definition>
 </definitions>

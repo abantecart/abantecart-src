@@ -3952,3 +3952,7 @@ paypal pro styles
 #paypal #paypal_button{
 	display: inline-block;
 }
+
+.table.confirm_payment_options {
+	table-layout: fixed;
+}

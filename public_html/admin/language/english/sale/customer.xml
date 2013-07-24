@@ -247,11 +247,11 @@
 
 	<definition>
 		<key>text_option_credit</key>
-		<value><![CDATA[Credit (decrease balance)]]></value>
+		<value><![CDATA[Credit (increase balance)]]></value>
 	</definition>
 	<definition>
 		<key>text_option_debit</key>
-		<value><![CDATA[Debit (increase balance)]]></value>
+		<value><![CDATA[Debit (decrease balance)]]></value>
 	</definition>
 	<definition>
 		<key>text_transaction_type</key>
@@ -271,7 +271,7 @@
 	</definition>
 	<definition>
 		<key>text_transaction_comment</key>
-		<value><![CDATA[Comment (for interal use):]]></value>
+		<value><![CDATA[Comment (for internal use):]]></value>
 	</definition>
 	<definition>
 		<key>text_update_date</key>
