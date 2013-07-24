@@ -368,12 +368,13 @@ class ControllerPagesCheckoutPayment extends AController {
 	}
 
 	private function _validate() {
-
-		if (!isset($this->request->post[ 'payment_method' ])) {
-			$this->error[ 'warning' ] = $this->language->get('error_payment');
-		} else {
-			if (!isset($this->session->data[ 'payment_methods' ][ $this->request->post[ 'payment_method' ] ])) {
+		if($this->cart->getFinalTotal()){
+			if (!isset($this->request->post[ 'payment_method' ]) ) {
 				$this->error[ 'warning' ] = $this->language->get('error_payment');
+			} else {
+				if (!isset($this->session->data[ 'payment_methods' ][ $this->request->post[ 'payment_method' ] ])) {
+					$this->error[ 'warning' ] = $this->language->get('error_payment');
+				}
 			}
 		}
 
