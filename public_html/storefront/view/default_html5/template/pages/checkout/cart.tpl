@@ -61,7 +61,7 @@ echo $form['form_open'];
 		<?php echo $this->getHookVar('list_more_product_last'); ?>
 	</table>
 </div>
-<div class="container">
+<div class="container-fluid">
 	<div class=" pull-right mb20">
 		<?php echo $this->getHookVar('pre_top_cart_buttons'); ?>
 		<?php if ($form['checkout']) { ?>
