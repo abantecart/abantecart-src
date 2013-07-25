@@ -49,7 +49,7 @@ class ControllerBlocksCart extends AController {
 		$qty = 0;
 
 		$resource = new AResource('image');
-				
+
     	foreach ($this->cart->getProducts() as $result) {
         	$option_data = array();
 

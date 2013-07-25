@@ -83,7 +83,7 @@ class ModelSaleCustomerTransaction extends Model {
             $implode[] = "ROUND(t.credit,2) = '" . round((float)$filter['credit'],2) . "'";
         }
         if (has_value($filter['transaction_type'])) {
-            $implode[] = "t.transaction_type = '" . $this->db->escape($filter['transaction_type']) . "'";
+            $implode[] = "t.transaction_type like '%" . $this->db->escape($filter['transaction_type']) . "%'";
         }
         if (has_value($filter['user'])) {
             $implode[] = "LOWER(CASE

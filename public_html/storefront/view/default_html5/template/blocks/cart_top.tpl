@@ -8,6 +8,7 @@
 		<span id="top_cart_product_list">
 			<table>
                 <tbody>
+				<?php echo $this->getHookVar('cart_top_pre_list_hook'); ?>
                 <?php if ($products) { ?>
                     <?php foreach ($products as $product) { ?>
                     <tr>
@@ -28,23 +29,28 @@
                     </tr>
                         <?php } ?>
                     <?php } ?>
+				<?php echo $this->getHookVar('cart_top_post_list_hook'); ?>
                 </tbody>
             </table>
 			<table class="totals pull-right mr20">
                 <tbody>
+				<?php echo $this->getHookVar('cart_top_pre_total_hook'); ?>
                 <?php foreach ($totals as $total) { ?>
                 <tr>
                     <td><span class="cart_block_total"><b><?php echo $total['title']; ?></b></span></td>
                     <td><span class="cart_block_total"><?php echo $total['text']; ?></span></td>
                 </tr>
                     <?php } ?>
+				<?php echo $this->getHookVar('cart_top_post_total_hook'); ?>
                 </tbody>
             </table>
 		</span>
                 <div class="well buttonwrap span3">
+					<?php echo $this->getHookVar('cart_top_pre_buttons_hook'); ?>
                     <a class="btn btn-orange pull-left" href="<?php echo $view; ?>"><i class="icon-shopping-cart icon-white"></i> <?php echo $text_view;?></a>&nbsp;&nbsp;
                     <a class="btn btn-orange pull-right"
                        href="<?php echo $checkout; ?>"><i class="icon-pencil icon-white"></i>  <?php echo $text_checkout; ?></a>
+					<?php echo $this->getHookVar('cart_top_post_buttons_hook'); ?>
                 </div>
             </li>
         </ul>

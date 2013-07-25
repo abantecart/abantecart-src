@@ -38,7 +38,7 @@ class ControllerPagesCheckoutSuccess extends AController {
 							'description' => sprintf($this->language->get('text_applied_balance_to_order'),
 							$this->currency->format($this->currency->convert($amount,$this->config->get('config_currency'), $this->session->data['currency']),$this->session->data['currency'],1),
 							(int)$this->session->data['order_id']));
-				$this->customer->creditTransaction($transaction_data);
+				$this->customer->debitTransaction($transaction_data);
 			}
 
 			$this->cart->clear();
