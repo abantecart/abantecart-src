@@ -230,7 +230,7 @@
 	<definition>
 		<key>entry_prevent_email_as_login</key>
 		<value>
-			<![CDATA[To improve security, require customers to create unique login name instead of using email address as login name. If set to ON, existing customers will be asked to create new login name at the first login. If OFF, login name is set as customer email address.</span>]]></value>
+			<![CDATA[Require Login Name:<br /><span class="help">To improve security, require customers to create unique login name instead of using email address as login name. If set to ON, existing customers will be asked to create new login name at the first login. If OFF, login name is set as customer email address.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_guest_checkout</key>
@@ -617,7 +617,6 @@
 		<key>entry_show_tree_data</key>
 		<value>
 			<![CDATA[Enable Tree Grid:<br /><span class="help">Enables admin grids to show parent/children types in one grid listing. NOTE: Pagination and multi-actions are disabled for these grids</span>]]></value>
-		f
 	</definition>
 	<definition>
 		<key>entry_cart_ajax</key>
