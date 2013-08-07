@@ -173,6 +173,7 @@ echo $form['form_open'];
 				<i class="icon-arrow-right"></i>
 				<?php echo $text_continue_shopping ?>
 			</a>
+			
 			<?php echo $this->getHookVar('post_cart_buttons'); ?>
 		</div>
 	</div>

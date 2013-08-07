@@ -3,6 +3,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- DDL for table `address`
 --
+-- NOTE: If update table keep in mind ac_addresses_enc
+--
 DROP TABLE IF EXISTS `ac_addresses`;
 CREATE TABLE `ac_addresses` (
   `address_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -399,6 +401,9 @@ INSERT INTO `ac_currencies` (`currency_id`, `title`, `code`, `symbol_left`, `sym
 --
 -- DDL for table `customers`
 --
+-- NOTE: If update table keep in mind ac_customers_enc
+--
+
 DROP TABLE IF EXISTS `ac_customers`;
 CREATE TABLE `ac_customers` (
   `customer_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -714,6 +719,8 @@ CREATE TABLE `ac_manufacturers_to_stores` (
 
 --
 -- DDL for table `orders`
+--
+-- NOTE: If update table keep in mind ac_orders_enc
 --
 DROP TABLE IF EXISTS `ac_orders`;
 CREATE TABLE `ac_orders` (
