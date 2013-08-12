@@ -436,6 +436,13 @@ class AConfigManager {
 			'value' => $data['config_show_tree_data'],
 			'style' => 'btn_switch',
 		));
+		$fields['google_analytics'] = $form->getFieldHtml($props[] = array(
+			'type' => 'input',
+			'name' => 'config_google_analytics_code',
+			'value' => $data['config_google_analytics_code'],
+			'style' => 'medium-field',
+		));
+
 
 		if (isset($data['one_field'])) {
 			$fields = $this->_filterField($fields, $props, $data['one_field']);
