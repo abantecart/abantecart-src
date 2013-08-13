@@ -794,6 +794,6 @@
 	</definition>
 	<definition>
 		<key>entry_google_analytics</key>
-		<value><![CDATA[Google Analytics Código:<br /><span class="help">Añadir el código de Google Analytics para que el sitio de seguimiento de la actividad. Esto también permite el seguimiento de la actividad de comercio electrónico. Debe habilitar el seguimiento de comercio electrónico en google en la página de configuración de perfil para su página web</span>]]></value>
+		<value><![CDATA[Número de cuenta Google Analytics:<br /><span class="help">Añadir el <a href="https://support.google.com/analytics/answer/1032385?hl=es&ref_topic=1008082" target="_blank">Número de cuenta Google Analytics</a> para que el sitio de seguimiento de la actividad. Esto también permite el seguimiento de la actividad de comercio electrónico. Debe habilitar el seguimiento de comercio electrónico en google en la página de configuración de perfil para su página web</span>]]></value>
 	</definition>
 </definitions>
