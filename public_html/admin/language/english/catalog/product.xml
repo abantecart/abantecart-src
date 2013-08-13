@@ -481,4 +481,12 @@
 		<key>entry_option_placeholder</key>
 		<value><![CDATA[Placeholder:]]></value>
 	</definition>
+	<definition>
+        <key>entry_regexp_pattern</key>
+        <value><![CDATA[Regular Expression Pattern:]]></value>
+    </definition>
+	<definition>
+        <key>entry_error_text</key>
+        <value><![CDATA[Error Message about invalid Value:]]></value>
+    </definition>
 </definitions>

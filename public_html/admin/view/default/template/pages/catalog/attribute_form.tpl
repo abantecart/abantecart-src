@@ -9,6 +9,13 @@
 <div class="contentBox">
   <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
     <div class="heading icon_title_length"><?php echo $heading_title; ?></div>
+			  <div class="heading-tabs">
+			          <?php
+			          foreach ($tabs as $tab) {
+			              echo '<a '.($tab['href'] ? 'href="'.$tab['href'].'" ':'').($tab['active'] ? 'class="active"' : '').'><span>'.$tab['text'].'</span></a>';
+			          }
+			          ?>
+			  	</div>
 	  <div class="toolbar">
 		<?php if ( !empty ($help_url) ) : ?>
 	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>

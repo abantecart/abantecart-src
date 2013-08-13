@@ -331,6 +331,20 @@ class ControllerResponsesProductProduct extends AController {
 			'value' => $this->data[ 'option_data' ][ 'required' ],
 		));
 
+		$this->data[ 'option_regexp_pattern' ] = $this->html->buildInput(array(
+			'type' => 'input',
+			'name' => 'regexp_pattern',
+			'value' => $this->data[ 'option_data' ][ 'regexp_pattern' ],
+			'style' => 'medium-field'
+		));
+
+		$this->data[ 'option_error_text' ] = $this->html->buildInput(array(
+			'type' => 'input',
+			'name' => 'error_text',
+			'value' => $this->data[ 'option_data' ][ 'language' ][ $this->data[ 'language_id' ] ][ 'error_text' ],
+			'style' => 'medium-field'
+		));
+
 		$this->data[ 'button_remove_option' ] = $this->html->buildButton(array(
 			'text' => $this->language->get('button_remove_option'),
 			'style' => 'button3',

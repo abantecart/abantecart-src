@@ -806,7 +806,7 @@ class ModelCatalogProduct extends Model {
 		if(is_null($product_option_data)){
             $product_option_data = array();
 			$product_option_query = $this->db->query(
-                "SELECT po.*, pod.option_placeholder
+                "SELECT po.*, pod.option_placeholder, pod.error_text
                 FROM " . $this->db->table("product_options") . " po
                 LEFT JOIN " . $this->db->table("product_option_descriptions") . " pod
                 	ON pod.product_option_id = po.product_option_id AND pod.language_id =  '".$language_id."'
@@ -1144,6 +1144,7 @@ class ModelCatalogProduct extends Model {
 			// options
 			$sql = "SELECT po.product_id,
 							po.product_option_id,
+							po.regexp_pattern,
 							pov.product_option_value_id,
 							pov.sku,
 							pov.quantity,
@@ -1151,6 +1152,7 @@ class ModelCatalogProduct extends Model {
 							pov.price,
 							pov.prefix,
 							pod.name as option_name,
+							pod.error_text as error_text,
 							povd.name as value_name,
 							po.sort_order
 						FROM " . $this->db->table("product_options") . " po

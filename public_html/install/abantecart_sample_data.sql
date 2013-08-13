@@ -373,7 +373,16 @@ VALUES
 
 
 
-INSERT INTO `ac_global_attributes` 
+INSERT INTO `ac_global_attributes`
+( `attribute_id`,
+  `attribute_parent_id`,
+  `attribute_group_id`,
+  `attribute_type_id`,
+  `element_type`,
+  `sort_order`,
+  `required`,
+  `settings`,
+  `status`)
 VALUES 
 (1,0,0,1,'S',1,1,'',1),
 (2,0,0,1,'C',0,0,'',1),
@@ -387,8 +396,9 @@ VALUES
 
 
 
-INSERT INTO `ac_global_attributes_descriptions` 
-VALUES 
+INSERT INTO `ac_global_attributes_descriptions`
+ (`attribute_id`,  `language_id`,  `name`)
+VALUES
 (1,1,'Size'),
 (1,9,'Tamaño'),
 (2,1,'Gift Wrapping'),
@@ -1124,7 +1134,21 @@ VALUES
 -- Dumping data for table `product_option_values`
 --
 
-INSERT INTO `ac_product_option_values` (product_option_value_id, product_option_id, product_id, group_id, sku, quantity, subtract, price, prefix, weight, weight_type, attribute_value_id, sort_order) 
+INSERT INTO `ac_product_option_values`
+(
+product_option_value_id,
+product_option_id,
+product_id,
+group_id,
+sku,
+quantity,
+subtract,
+price,
+prefix,
+weight,
+weight_type,
+attribute_value_id,
+sort_order)
 VALUES 
 (646,315,54,0,'',983,1,'5.0000','$','0.00000000','lb',0,0),
 (653,318,53,0,'',2000,1,'0.0000','$','0.00000000','lb',0,0),
@@ -1215,10 +1239,15 @@ VALUES
 --
 -- Dumping data for table `product_options`
 --
-
-
-
-INSERT INTO `ac_product_options` 
+INSERT INTO `ac_product_options`
+     (`product_option_id`,
+      `attribute_id`,
+      `product_id`,
+      `group_id`,
+      `sort_order`,
+      `status`,
+      `element_type`,
+      `required` )
 VALUES 
 (315,0,54,0,0,1,'S',0),
 (318,0,53,0,2,1,'S',0),

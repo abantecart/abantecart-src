@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 class ControllerPagesCatalogAttribute extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $attribute_manager;
 
 	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
@@ -194,7 +194,7 @@ class ControllerPagesCatalogAttribute extends AController {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && $this->_validateForm()) {
+		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && $this->validateAttributeForm()) {
 			$attribute_id = $this->attribute_manager->addAttribute($this->request->post);
 			$this->session->data[ 'success' ] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attribute_id));
@@ -217,7 +217,7 @@ class ControllerPagesCatalogAttribute extends AController {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && $this->_validateForm()) {
+		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && $this->validateAttributeForm()) {
 			$this->attribute_manager->updateAttribute($this->request->get[ 'attribute_id' ], $this->request->post);
 			$this->session->data[ 'success' ] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $this->request->get[ 'attribute_id' ]));
@@ -255,6 +255,7 @@ class ControllerPagesCatalogAttribute extends AController {
 				$this->request->get[ 'attribute_id' ],
 				$this->session->data[ 'content_language_id' ]
 			);
+
 			//load values for attributes with options
 			if (in_array($attribute_info[ 'element_type' ], $this->data[ 'elements_with_options' ])) {
 				$values = $this->attribute_manager->getAttributeValues(
@@ -280,6 +281,8 @@ class ControllerPagesCatalogAttribute extends AController {
 			'element_type',
 			'sort_order',
 			'required',
+			'regexp_pattern',
+			'error_text',
 			'settings',
 			'status',
 			'values'
@@ -304,11 +307,19 @@ class ControllerPagesCatalogAttribute extends AController {
 			}
 		}
 
-		$attribute_types = array( '' => $this->language->get('text_select') );
 		$results = $this->attribute_manager->getAttributeTypes();
 		foreach ($results as $type) {
-			$attribute_types[ $type[ 'attribute_type_id' ] ] = $type[ 'type_name' ];
+			$this->data['attribute_types'][ $type[ 'attribute_type_id' ] ] = $type[ 'type_name' ];
 		}
+
+        if(isset($attribute_info['attribute_type_id'])){
+            $attribute_type_id = (int)$attribute_info['attribute_type_id'];
+        }else{
+            $attribute_type_id = (int)$this->request->get_or_post('attribute_type_id');
+        }
+
+
+		$this->_initTabs($attribute_type_id);
 
 		//NOTE: Future inplementation
 		/*$attribute_groups = array( '' => $this->language->get('text_select'));
@@ -327,7 +338,7 @@ class ControllerPagesCatalogAttribute extends AController {
 		}
 
 		if (!isset($this->request->get[ 'attribute_id' ])) {
-			$this->data[ 'action' ] = $this->html->getSecureURL('catalog/attribute/insert');
+			$this->data[ 'action' ] = $this->html->getSecureURL('catalog/attribute/insert','&attribute_type_id='.$this->request->get[ 'attribute_type_id' ]);
 			$this->data[ 'heading_title' ] = $this->language->get('text_insert') . $this->language->get('text_attribute');
 			$this->data[ 'update' ] = '';
 			$form = new AForm('ST');
@@ -395,13 +406,7 @@ class ControllerPagesCatalogAttribute extends AController {
 			'value' => $this->data['attribute_group_id'],
 			'options' => $attribute_groups,
 		));*/
-		$this->data[ 'form' ][ 'fields' ][ 'attribute_type' ] = $form->getFieldHtml(array(
-		                                                                                 'type' => 'selectbox',
-		                                                                                 'name' => 'attribute_type_id',
-		                                                                                 'value' => $this->data[ 'attribute_type_id' ],
-		                                                                                 'required' => true,
-		                                                                                 'options' => $attribute_types,
-		                                                                            ));
+
 		$this->data[ 'form' ][ 'fields' ][ 'element_type' ] = $form->getFieldHtml(array(
 		                                                                               'type' => 'selectbox',
 		                                                                               'name' => 'element_type',
@@ -420,6 +425,18 @@ class ControllerPagesCatalogAttribute extends AController {
 		                                                                           'name' => 'required',
 		                                                                           'value' => $this->data[ 'required' ],
 		                                                                      ));
+		$this->data[ 'form' ][ 'fields' ][ 'regexp_pattern' ] = $form->getFieldHtml(array(
+				                                                                       'type' => 'input',
+				                                                                       'name' => 'regexp_pattern',
+				                                                                       'value' => $this->data[ 'regexp_pattern' ],
+				                                                                       'style' => 'large-field',
+				                                                                  ));
+		$this->data[ 'form' ][ 'fields' ][ 'error_text' ] = $form->getFieldHtml(array(
+				                                                                       'type' => 'input',
+				                                                                       'name' => 'error_text',
+				                                                                       'value' => $this->data[ 'error_text' ],
+				                                                                       'style' => 'large-field',
+				                                                                  ));
 
 
 		//Build atribute values part of the form
@@ -516,18 +533,29 @@ class ControllerPagesCatalogAttribute extends AController {
 		$this->processTemplate('pages/catalog/attribute_form.tpl');
 	}
 
-	private function _validateForm() {
+	public function validateAttributeForm() {
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
 		if (!$this->user->canModify('catalog/attribute')) {
 			$this->error[ 'warning' ] = $this->language->get('error_permission');
 		}
 
-		if ((strlen(utf8_decode($this->request->post[ 'name' ])) < 2) || (strlen(utf8_decode($this->request->post[ 'name' ])) > 32)) {
-			$this->error[ 'name' ] = $this->language->get('error_name');
+		if ((mb_strlen($this->request->post[ 'name' ]) < 2) || (mb_strlen($this->request->post[ 'name' ]) > 64)) {
+			$this->error[ 'name' ] = $this->language->get('error_attribute_name');
 		}
 
-		if (empty($this->request->post[ 'attribute_type_id' ])) {
-			$this->error[ 'attribute_type' ] = $this->language->get('error_required');
+		if (mb_strlen($this->request->post[ 'error_text' ]) > 255) {
+			$this->error[ 'error_text' ] = $this->language->get('error_error_text');
 		}
+
+		if (!has_value($this->request->get_or_post( 'attribute_type_id' ))) {
+			$this->error[ 'attribute_type' ] = $this->language->get('error_required');
+		}else{
+			$this->request->post[ 'attribute_type_id' ] = $this->request->get_or_post( 'attribute_type_id' );
+		}
+
 		if (empty($this->request->post[ 'element_type' ])) {
 			$this->error[ 'element_type' ] = $this->language->get('error_required');
 		}
@@ -536,6 +564,20 @@ class ControllerPagesCatalogAttribute extends AController {
 			$this->request->post[ 'required' ] = 0;
 		}
 
+		if (has_value($this->request->post['regexp_pattern'])) {
+            $this->request->post['regexp_pattern'] = trim($this->request->post['regexp_pattern']);
+            if($this->request->post['regexp_pattern'][0]!='/'){
+                $this->request->post['regexp_pattern'] = '/'.$this->request->post['regexp_pattern'].'/';
+            }
+			if (@preg_match($this->request->post[ 'regexp_pattern' ], "AbanteCart") === false) {
+				$this->error[ 'regexp_pattern' ] = $this->language->get('error_regexp_pattern');
+			    return false;
+			}
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
 		if (!$this->error) {
 			return TRUE;
 		} else {
@@ -543,6 +585,21 @@ class ControllerPagesCatalogAttribute extends AController {
 		}
 	}
 
+	private function _initTabs($active = null) {
+		$method = (has_value($this->request->get['attribute_id']) ? 'update' : 'insert');
+
+		foreach($this->data['attribute_types'] as $type_id=>$type_name){
+			if(!$type_id) continue;
+			$this->data['tabs'][$type_id] = array(
+				'text' => $type_name,
+				'href' => $method=='insert' ? $this->html->getSecureURL('catalog/attribute/'.$method, '&attribute_type_id=' . $type_id) : '');
+		}
+
+        if ( in_array($active, array_keys($this->data['tabs'])) ) {
+            $this->data['tabs'][$active]['active'] = 1;
+        } else {
+            $this->data['tabs'][key($this->data['tabs'])]['active'] = 1;
+        }
+    }
 }
 
-?>
