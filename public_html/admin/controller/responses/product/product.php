@@ -261,9 +261,35 @@ class ControllerResponsesProductProduct extends AController {
 					'reset_value' => true
 				));
 		}
+		//needs to validate attribute properties
+		// first - prepare data for validation
+		if (!isset($this->request->get[ 'required' ])) {
+			$this->request->get[ 'required' ] = 0;
+		}
+
+		if (has_value($this->request->get['regexp_pattern'])) {
+			$this->request->get['regexp_pattern'] = trim($this->request->get['regexp_pattern']);
+			if($this->request->get['regexp_pattern'][0]!='/'){
+				$this->request->get['regexp_pattern'] = '/'.$this->request->get['regexp_pattern'].'/';
+			}
+		}
 
 		$this->loadModel('catalog/product');
-		$this->model_catalog_product->updateProductOption($this->request->get[ 'option_id' ], $this->request->get);
+
+		$data = $this->request->get;
+		$attribute_manager = new AAttribute_Manager('product_option');
+		$option_info = $this->model_catalog_product->getProductOption($this->request->get[ 'product_id' ],$this->request->get[ 'option_id' ]);
+		$data['element_type'] = $option_info['element_type'];
+		$data['attribute_type_id'] = $attribute_manager->getAttributeTypeID('product_option');
+
+		$errors = $attribute_manager->validateAttributeCommonData($data);
+		if(!$errors){
+			$this->model_catalog_product->updateProductOption($this->request->get[ 'option_id' ], $this->request->get);
+		}else{
+			$error = new AError('');
+			return $error-> toJSONResponse('',
+				array( 'error_title' => implode('<br>',$errors)		));
+		}
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -342,7 +368,7 @@ class ControllerResponsesProductProduct extends AController {
 			'type' => 'input',
 			'name' => 'error_text',
 			'value' => $this->data[ 'option_data' ][ 'language' ][ $this->data[ 'language_id' ] ][ 'error_text' ],
-			'style' => 'medium-field'
+			'style' => 'large-field'
 		));
 
 		$this->data[ 'button_remove_option' ] = $this->html->buildButton(array(

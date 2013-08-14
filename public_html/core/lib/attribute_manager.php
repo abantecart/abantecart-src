@@ -564,4 +564,33 @@ class AAttribute_Manager extends AAttribute {
 
 		return $result;
 	}
+
+
+	public function validateAttributeCommonData($data=array()) {
+			$error = array();
+			$this->load->language('catalog/attribute');
+			// required
+			if (empty($data[ 'attribute_type_id' ])) {
+				$this->error[ 'attribute_type' ] = $this->language->get('error_required');
+			}
+			// required
+			if ((mb_strlen($data[ 'name' ]) < 2) || (mb_strlen($data[ 'name' ]) > 64)) {
+				$error[ 'name' ] = $this->language->get('error_attribute_name');
+			}
+			// not required
+			if (mb_strlen($data[ 'error_text' ]) > 255) {
+				$error[ 'error_text' ] = $this->language->get('error_error_text');
+			}
+			// required
+			if (empty($data[ 'element_type' ])) {
+				$error[ 'element_type' ] = $this->language->get('error_required');
+			}
+			if (has_value($data['regexp_pattern'])) {
+				if (@preg_match($data[ 'regexp_pattern' ], "AbanteCart") === false) {
+					$error[ 'regexp_pattern' ] = $this->language->get('error_regexp_pattern');
+				}
+			}
+
+			return $error;
+		}
 }

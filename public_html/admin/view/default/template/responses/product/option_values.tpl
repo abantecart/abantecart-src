@@ -13,15 +13,16 @@
 	<tr>
 		<td>
             <div class="option_form_div"><?php echo $entry_status; ?><?php echo $status; ?></div>
-            <div class="option_form_div"><?php echo $entry_option; ?><?php echo $option_name; ?></div>
-            <div class="option_form_div"><?php echo $entry_sort_order; ?><?php echo $option_sort_order; ?></div>
-            <div class="option_form_div"><?php echo $entry_required; ?><?php echo $required; ?>&nbsp;&nbsp;</div></td>
-	</tr>
-	<tr>
-		<td><?php if((string)$option_placeholder){
+            <div class="option_form_div"><?php echo $entry_option_name; ?><?php echo $option_name; ?></div>
+			<?php if((string)$option_placeholder){
 					echo '<div class="option_form_div">'.$entry_option_placeholder. $option_placeholder.'</div>';
 			}?>
-            <div class="option_form_div"><?php echo $entry_regexp_pattern; ?><?php echo $option_regexp_pattern; ?></div>
+			<div class="option_form_div"><?php echo $entry_sort_order; ?><?php echo $option_sort_order; ?></div>
+		</td>
+	</tr>
+	<tr>
+		<td><div class="option_form_div"><label for="required"><?php echo $entry_required; ?></label><?php echo $required; ?>&nbsp;&nbsp;</div></br>
+            <div class="option_form_div"><?php echo $entry_regexp_pattern; ?><?php echo $option_regexp_pattern; ?></div></br>
             <div class="option_form_div"><?php echo $entry_error_text; ?><?php echo $option_error_text; ?></div>
 
 		<div class="option_form_div flt_right" style="margin-right: 10px;"><a id="update_option" href="#" class="btn_standard"><?php echo $button_save; ?></a></div></td>

@@ -1,7 +1,7 @@
 <?php if ($error) { ?>
 	<div class="alert alert-error">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
-		<strong><?php echo $error; ?></strong>
+		<strong><?php echo is_array($error) ? implode('<br>',$error) : $error; ?></strong>
 	</div>
 <?php } ?>
 
@@ -113,7 +113,6 @@
 										<?php foreach ($options as $option) { ?>
 											<div class="control-group">
 												<label class="control-label"><?php echo $option['name']; ?></label>
-
 												<div class="controls">
 													<?php echo $option['html']; ?>
 												</div>

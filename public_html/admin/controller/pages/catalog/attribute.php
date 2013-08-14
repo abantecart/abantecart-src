@@ -318,6 +318,9 @@ class ControllerPagesCatalogAttribute extends AController {
             $attribute_type_id = (int)$this->request->get_or_post('attribute_type_id');
         }
 
+		if(!$attribute_type_id){
+			$attribute_type_id = key($this->data['attribute_types']);
+		}
 
 		$this->_initTabs($attribute_type_id);
 
@@ -338,15 +341,16 @@ class ControllerPagesCatalogAttribute extends AController {
 		}
 
 		if (!isset($this->request->get[ 'attribute_id' ])) {
-			$this->data[ 'action' ] = $this->html->getSecureURL('catalog/attribute/insert','&attribute_type_id='.$this->request->get[ 'attribute_type_id' ]);
+			$this->data[ 'action' ] = $this->html->getSecureURL('catalog/attribute/insert','&attribute_type_id='.$attribute_type_id);
 			$this->data[ 'heading_title' ] = $this->language->get('text_insert') . $this->language->get('text_attribute');
 			$this->data[ 'update' ] = '';
 			$form = new AForm('ST');
 		} else {
-			$this->data[ 'action' ] = $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $this->request->get[ 'attribute_id' ]);
+			$this->data[ 'action' ] = $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $this->request->get[ 'attribute_id' ].'&attribute_type_id='.$attribute_type_id);
 			$this->data[ 'heading_title' ] = $this->language->get('text_edit') . $this->language->get('text_attribute');
 			$this->data[ 'update' ] = $this->html->getSecureURL('listing_grid/attribute/update_field', '&id=' . $this->request->get[ 'attribute_id' ]);
 			$form = new AForm('HT');
+			$this->data['attribute_id'] = $this->request->get['attribute_id'];
 		}
 
 		$this->document->addBreadcrumb(array(
@@ -542,22 +546,10 @@ class ControllerPagesCatalogAttribute extends AController {
 			$this->error[ 'warning' ] = $this->language->get('error_permission');
 		}
 
-		if ((mb_strlen($this->request->post[ 'name' ]) < 2) || (mb_strlen($this->request->post[ 'name' ]) > 64)) {
-			$this->error[ 'name' ] = $this->language->get('error_attribute_name');
-		}
-
-		if (mb_strlen($this->request->post[ 'error_text' ]) > 255) {
-			$this->error[ 'error_text' ] = $this->language->get('error_error_text');
-		}
-
 		if (!has_value($this->request->get_or_post( 'attribute_type_id' ))) {
 			$this->error[ 'attribute_type' ] = $this->language->get('error_required');
 		}else{
 			$this->request->post[ 'attribute_type_id' ] = $this->request->get_or_post( 'attribute_type_id' );
-		}
-
-		if (empty($this->request->post[ 'element_type' ])) {
-			$this->error[ 'element_type' ] = $this->language->get('error_required');
 		}
 
 		if (!isset($this->request->post[ 'required' ])) {
@@ -569,11 +561,9 @@ class ControllerPagesCatalogAttribute extends AController {
             if($this->request->post['regexp_pattern'][0]!='/'){
                 $this->request->post['regexp_pattern'] = '/'.$this->request->post['regexp_pattern'].'/';
             }
-			if (@preg_match($this->request->post[ 'regexp_pattern' ], "AbanteCart") === false) {
-				$this->error[ 'regexp_pattern' ] = $this->language->get('error_regexp_pattern');
-			    return false;
-			}
 		}
+
+		$this->error = array_merge($this->error, $this->attribute_manager->validateAttributeCommonData($this->request->post));
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

@@ -265,6 +265,7 @@ jQuery(function($){
 	}
 
 	function editOption(id) {
+		$('#notify_error').remove();
 		$.ajax({
             url: opt_urls.update_option,
 			data: {
@@ -284,7 +285,7 @@ jQuery(function($){
 	            $('#notify').html('<?php echo $text_success_option?>').fadeIn(500).delay(2000).fadeOut(500);
             },
             error: function(jqXHR, textStatus, errorThrown){
-                $('#option_values').html('<div class="error" align="center"><b>'+textStatus+'</b>  '+errorThrown+'</div>');
+                $('#notify').after('<div id="notify_error" class="warning error" align="center">'+errorThrown+'</div>');
             }
         });
 		return false;

@@ -884,7 +884,7 @@ class InputHtmlElement extends HtmlElement {
 
 		if (!isset($this->default)) $this->default = '';
 		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
-				
+
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -896,6 +896,8 @@ class InputHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'regexp_pattern' => trim($this->regexp_pattern,'/'),
+				'error_text' => $this->error_text,
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -923,6 +925,8 @@ class PasswordHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'regexp_pattern' => trim($this->regexp_pattern,'/'),
+				'error_text' => $this->error_text,
 			)
 		);
 		$return = $this->view->fetch('form/input.tpl');
@@ -1347,6 +1351,8 @@ class EmailHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'regexp_pattern' => trim($this->regexp_pattern,'/'),
+				'error_text' => $this->error_text
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1374,6 +1380,8 @@ class NumberHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'regexp_pattern' => trim($this->regexp_pattern,'/'),
+				'error_text' => $this->error_text
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1401,6 +1409,8 @@ class PhoneHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'regexp_pattern' => trim($this->regexp_pattern,'/'),
+				'error_text' => $this->error_text
 			)
 		);
 		if (!empty($this->help_url)) {

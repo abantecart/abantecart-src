@@ -12,9 +12,12 @@
 			  <div class="heading-tabs">
 			          <?php
 			          foreach ($tabs as $tab) {
-			              echo '<a '.($tab['href'] ? 'href="'.$tab['href'].'" ':'').($tab['active'] ? 'class="active"' : '').'><span>'.$tab['text'].'</span></a>';
-			          }
-			          ?>
+						  $css_class = $tab['active'] ? 'active' : '';
+						  if($attribute_id && !$tab['active']){
+							  $css_class = 'inactive';
+						  }
+			              echo '<a '.($tab['href'] ? 'href="'.$tab['href'].'" ':'').' class="'.$css_class.'" '.'><span>'.$tab['text'].'</span></a>';
+			          } ?>
 			  	</div>
 	  <div class="toolbar">
 		<?php if ( !empty ($help_url) ) : ?>

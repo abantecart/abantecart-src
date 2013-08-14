@@ -565,6 +565,10 @@ ul.quick_icon a:hover {
     background: #fff url('../image/heading_tab_l.jpg') 0 0 no-repeat;
     font-weight: bold;
 }
+.cbox_tc .heading-tabs a.inactive {
+    color: #696969;
+	cursor: no-drop;
+}
 
 .cbox_tc .heading-tabs a span {
     display: block;
@@ -888,6 +892,20 @@ div#options .option_lang_field {
 .option_field .abuttons_grp {
     display: block;
     margin: 5px 0 0 5px;
+}
+
+.option_form_div {
+    display: inline-block;
+    white-space: nowrap;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.editOption{
+    background-color: #EDF0F0;
+    margin: 10px 0;
+    padding: 5px;
+	width: 100%;
 }
 
 /* Login Box */
