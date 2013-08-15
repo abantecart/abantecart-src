@@ -20,11 +20,12 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-class ControllerPagesAccountHistory extends AController {
+class ControllerPagesAccountTransactions extends AController {
 	public $data = array();
 	
 	/**
-	 * Main controller function to show order hitory
+	 * Main Controller function to show transaction hitory. 
+	 * Note: Regular orders are considered in the transactions. 
 	 */
 	public function main() {
 
@@ -32,7 +33,7 @@ class ControllerPagesAccountHistory extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
     	if (!$this->customer->isLogged()) {
-      		$this->session->data['redirect'] = $this->html->getSecureURL('account/history');
+      		$this->session->data['redirect'] = $this->html->getSecureURL('account/transactions');
 
 	  		$this->redirect($this->html->getSecureURL('account/login'));
     	}
@@ -54,17 +55,20 @@ class ControllerPagesAccountHistory extends AController {
       	 ));
 		
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/history'),
-        	'text'      => $this->language->get('text_history'),
+        	'href'      => $this->html->getURL('account/transactions'),
+        	'text'      => $this->language->get('text_transactions'),
         	'separator' => $this->language->get('text_separator')
       	 ));
 				
-		$this->loadModel('account/order');
+		$this->loadModel('account/customer');
 
-		$order_total = $this->model_account_order->getTotalOrders();
+		$trans_total = $this->model_account_customer->getTotalTransactions();
 		
-		if ($order_total) {
-			$this->data['action'] = $this->html->getURL('account/history');
+		$balance = $this->customer->getBalance();
+		$this->data['balance_amount'] = $this->currency->format($balance);
+				
+		if ($trans_total) {
+			$this->data['action'] = $this->html->getURL('account/transactions');
 			
 			if (isset($this->request->get['page'])) {
 				$page = $this->request->get['page'];
@@ -79,51 +83,44 @@ class ControllerPagesAccountHistory extends AController {
 				$limit = $this->config->get('config_catalog_limit');
 			}
 			
-      		$orders = array();
+      		$trans = array();
 			
-			$results = $this->model_account_order->getOrders(($page - 1) * $limit, $limit);
+			$results = $this->model_account_customer->getTransactions(($page - 1) * $limit, $limit);
       		
 			foreach ($results as $result) {
-        		$product_total = $this->model_account_order->getTotalOrderProductsByOrderId($result['order_id']);
-				$button = HtmlElementFactory::create( array (  'type' => 'button',
-															   'name' => 'button_edit',
-															   'text'=> $this->language->get('button_view'),
-															   'style' => 'button',
-				                                               'attr'  => ' onclick = "viewOrder('.$result['order_id'].');" ' ));
-        		$orders[] = array(
-								'order_id'   => $result['order_id'],
-								'name'       => $result['firstname'] . ' ' . $result['lastname'],
-								'status'     => $result['status'],
-								'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-								'products'   => $product_total,
-								'total'      => $this->currency->format($result['total'], $result['currency'], $result['value']),
-								'href'       => $this->html->getSecureURL('account/invoice', '&order_id=' . $result['order_id']),
-								'button'     => $button->getHtml()
+        		$trans[] = array(
+								'customer_transaction_id'   => $result['customer_transaction_id'],
+								'order_id'       => $result['order_id'],
+								'section'     => $result['section'],
+								'credit'      => $this->currency->format($result['credit']),
+								'debit'      => $this->currency->format($result['debit']),
+								'transaction_type' => $result['transaction_type'],
+								'description' => $result['description'],
+								'create_date' => date($this->language->get('date_format_short'), strtotime($result['create_date']))
         		);
       		}
 
-            $this->data['order_url'] = $this->html->getSecureURL('account/invoice');
-			$this->data['orders'] =$orders;
+			$this->data['transactions'] = $trans;
 
 			$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
 										'type' => 'Pagination',
 										'name' => 'pagination',
 										'text'=> $this->language->get('text_pagination'),
 										'text_limit' => $this->language->get('text_per_page'),
-										'total'	=> $order_total,
+										'total'	=> $trans_total,
 										'page'	=> $page,
 										'limit'	=> $limit,
-										'url' => $this->html->getURL('account/history', '&limit=' . $limit . '&page={page}'),
+										'url' => $this->html->getURL('account/transactions', '&limit=' . $limit . '&page={page}'),
 										'style' => 'pagination'));
 
 
 			$this->data['continue'] =  $this->html->getSecureURL('account/account');
 
-			$this->view->setTemplate('pages/account/history.tpl');
+			$this->view->setTemplate('pages/account/transactions.tpl');
     	} else {
 			$this->data['continue'] = $this->html->getSecureURL('account/account');
 
-			$this->view->setTemplate('pages/error/not_found.tpl');
+			$this->view->setTemplate('pages/account/transactions.tpl');
 		}
 
 		$this->data['button_continue'] = HtmlElementFactory::create( array ('type' => 'button',

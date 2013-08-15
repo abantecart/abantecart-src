@@ -5,6 +5,10 @@
     <value><![CDATA[Mi cuenta]]></value>
   </definition>
   <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[Dashboard cuenta]]></value>
+  </definition>  
+  <definition>
     <key>text_account</key>
     <value><![CDATA[Cuenta]]></value>
   </definition>
@@ -36,6 +40,10 @@
     <key>text_history</key>
     <value><![CDATA[Ver historial de pedidos]]></value>
   </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Historia Transacciones]]></value>
+  </definition>  
   <definition>
     <key>text_download</key>
     <value><![CDATA[Descargas]]></value>

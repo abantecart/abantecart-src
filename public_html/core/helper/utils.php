@@ -91,7 +91,7 @@ function SEOEncode($string_value, $object_key_name='', $object_id=0, $language_i
 	$seo_key = html_entity_decode($string_value, ENT_QUOTES, 'UTF-8');
 	$seo_key = preg_replace('/[^\pL\p{Zs}0-9\s\-_]+/u', '', $seo_key);
 	$seo_key = trim(mb_strtolower($seo_key));
-	$seo_key = str_replace(' ','_', $seo_key);
+	$seo_key = str_replace(' ',SEO_URL_SEPARATOR, $seo_key);
 	if(!$object_key_name){
 		return $seo_key;
 	}else{
