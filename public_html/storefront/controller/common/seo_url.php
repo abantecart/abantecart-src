@@ -37,6 +37,7 @@ class ControllerCommonSeoUrl extends AController {
 				//Add cacheing of the result. 
 				
 				if ($query->num_rows) {
+					//Note: query is a field contaning area=id to identify location  
 					$url = explode('=', $query->row['query']);
 					
 					if ($url[0] == 'product_id') {

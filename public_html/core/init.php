@@ -53,6 +53,9 @@ define('DIR_CONFIG', DIR_ROOT . '/core/config/');
 define('DIR_CACHE', DIR_ROOT . '/system/cache/');
 define('DIR_LOGS', DIR_ROOT . '/system/logs/');
 
+// SEO URL Keyword separator
+define('SEO_URL_SEPARATOR', '-');
+
 // Error Reporting
 error_reporting(E_ALL);
 require_once(DIR_CORE . '/lib/debug.php');
