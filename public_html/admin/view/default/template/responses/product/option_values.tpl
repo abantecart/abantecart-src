@@ -9,26 +9,23 @@
 <div class="flt_right">&nbsp;&nbsp;&nbsp;&nbsp;<a id="button_remove_option" href="<?php echo $remove_option; ?>" class="btn_standard"><?php echo $button_remove_option; ?></a></div>
 <h2 id="option_name"><?php echo $option_data['language'][$language_id]['name']; ?></h2>
 <b><?php echo $text_option_type; ?></b>: <?php echo $option_type; ?>
-<table cellpadding="4" cellspacing="0" class="editOption">
+<table cellpadding="4" cellspacing="0" class="editOption" >
 	<tr>
-		<td><?php echo $entry_status; ?></td>
-		<td><?php echo $status; ?></td>
-		<td></td>
-		<td><?php echo $entry_option; ?></td>
-		<td><?php echo $option_name; ?></td>
-		<td></td>
-		<?php if((string)$option_placeholder){ ?>
-			<td><?php echo $entry_option_placeholder; ?></td>
-			<td><?php echo $option_placeholder; ?></td>
-		<?php } ?>
-		<td></td>
-        <td><?php echo $entry_sort_order; ?></td>
-		<td><?php echo $option_sort_order; ?></td>
-		<td></td>
-        <td><?php echo $entry_required; ?></td>
-   		<td><?php echo $required; ?></td>
-   		<td></td>
-		<td><a id="update_option" href="#" class="btn_standard"><?php echo $button_save; ?></a></td>
+		<td>
+            <div class="option_form_div"><?php echo $entry_status; ?><?php echo $status; ?></div>
+            <div class="option_form_div"><?php echo $entry_option_name; ?><?php echo $option_name; ?></div>
+			<?php if((string)$option_placeholder){
+					echo '<div class="option_form_div">'.$entry_option_placeholder. $option_placeholder.'</div>';
+			}?>
+			<div class="option_form_div"><?php echo $entry_sort_order; ?><?php echo $option_sort_order; ?></div>
+		</td>
+	</tr>
+	<tr>
+		<td><div class="option_form_div"><label for="required"><?php echo $entry_required; ?></label><?php echo $required; ?>&nbsp;&nbsp;</div></br>
+            <div class="option_form_div"><?php echo $entry_regexp_pattern; ?><?php echo $option_regexp_pattern; ?></div></br>
+            <div class="option_form_div"><?php echo $entry_error_text; ?><?php echo $option_error_text; ?></div>
+
+		<div class="option_form_div flt_right" style="margin-right: 10px;"><a id="update_option" href="#" class="btn_standard"><?php echo $button_save; ?></a></div></td>
 	</tr>
 </table>
 

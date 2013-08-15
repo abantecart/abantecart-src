@@ -36,8 +36,8 @@ class ControllerApiCheckoutCart extends AControllerAPI {
 		    	} else {
 		    		$options = array();
 		    	}
-		    	if ( $this->model_catalog_product->validateRequiredOptions($product_id, $options)) {
-					$this->rest->setResponseData( array('error' => $this->language->get('error_required_options')) );	
+		    	if ( $errors = $this->model_catalog_product->validateProductOptions($product_id, $options)) {
+					$this->rest->setResponseData( array('error' => implode(' ',$errors)) );
 					$this->rest->sendResponse(206);
 		    	}
 

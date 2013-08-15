@@ -261,6 +261,10 @@
 		<value><![CDATA[Opción:]]></value>
 	</definition>
 	<definition>
+		<key>entry_option_name</key>
+		<value><![CDATA[Opción Nombre:]]></value>
+	</definition>
+	<definition>
 		<key>entry_option_value</key>
 		<value><![CDATA[Valor de la opción:]]></value>
 	</definition>
@@ -519,5 +523,13 @@
 	<definition>
         <key>entry_option_placeholder</key>
         <value><![CDATA[Marcador de posición:]]></value>
+    </definition>
+	<definition>
+        <key>entry_regexp_pattern</key>
+        <value><![CDATA[Patrón de expresión regular:]]></value>
+    </definition>
+	<definition>
+        <key>entry_error_text</key>
+        <value><![CDATA[Mensaje de error sobre el Valor válido:]]></value>
     </definition>
 </definitions>

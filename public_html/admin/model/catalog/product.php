@@ -371,24 +371,28 @@ class ModelCatalogProduct extends Model {
 		if ($attribute) {
 			$data['element_type'] = $attribute['element_type'];
 			$data['required'] = $attribute['required'];
+			$data['regexp_pattern'] = $attribute['regexp_pattern'];
 		}
 
 		$this->db->query(
-			"INSERT INTO " . DB_PREFIX . "product_options
-                (product_id,
-                 attribute_id,
-                 element_type,
-                 required,
-                 sort_order,
-                 group_id,
-                 status)
-            VALUES ('" . (int)$product_id . "',
-                '" . (int)$data['attribute_id'] . "',
-                '" . $this->db->escape($data['element_type']) . "',
-                '" . (int)$data['required'] . "',
-                '" . (int)$data['sort_order'] . "',
-                '" . (int)$data['group_id'] . "',
-                '" . (int)$data['status'] . "')");
+						"INSERT INTO " . DB_PREFIX . "product_options
+							(product_id,
+							 attribute_id,
+							 element_type,
+							 required,
+							 sort_order,
+							 group_id,
+							 status,
+							 regexp_pattern)
+						VALUES ('" . (int)$product_id . "',
+							'" . (int)$data['attribute_id'] . "',
+							'" . $this->db->escape($data['element_type']) . "',
+							'" . (int)$data['required'] . "',
+							'" . (int)$data['sort_order'] . "',
+							'" . (int)$data['group_id'] . "',
+							'" . (int)$data['status'] . "',
+							'" . $this->db->escape($data['regexp_pattern']) . "'
+							)");
 		$product_option_id = $this->db->getLastId();
 
 		if (!empty($data['option_name'])) {
@@ -398,11 +402,14 @@ class ModelCatalogProduct extends Model {
 		} else {
 			$attributeDescriptions = $am->getAttributeDescriptions($data['attribute_id']);
 		}
-		foreach ($attributeDescriptions as $language_id => $name) {
+		foreach ($attributeDescriptions as $language_id => $descr) {
 			$this->language->replaceDescriptions('product_option_descriptions',
 				array('product_option_id' => (int)$product_option_id,
-					'product_id' => (int)$product_id),
-				array($language_id => array('name' => $name)));
+					  'product_id' => (int)$product_id),
+				array($language_id => array(
+											'name' => $descr['name'],
+											'error_text' => $descr['error_text']
+				)));
 		}
 
 		//add empty option value for single value attributes
@@ -840,6 +847,9 @@ class ModelCatalogProduct extends Model {
 				if ($product_option['required']) {
 					$sql .= ", required = '" . (int)$product_option['required'] . "'";
 				}
+				if ($product_option['regexp_pattern']) {
+					$sql .= ", regexp_pattern = '" . $this->db->escape($product_option['regexp_pattern']) . "'";
+				}
 				$this->db->query($sql);
 				$product_option_id = $this->db->getLastId();
 
@@ -847,7 +857,10 @@ class ModelCatalogProduct extends Model {
 					$this->language->replaceDescriptions('product_option_descriptions',
 						array('product_option_id' => (int)$product_option_id,
 							'product_id' => (int)$product_id),
-						array($language_id => array('name' => $language['name'])));
+						array($language_id => array(
+													'name' => $language['name'],
+													'error_text' => $language['error_text'] )
+							));
 				}
 
 				if (isset($product_option['product_option_value'])) {
@@ -1112,7 +1125,10 @@ class ModelCatalogProduct extends Model {
 			WHERE product_option_id = '" . (int)$option_id . "'");
 
 		foreach ($product_option_description->rows as $result) {
-			$product_option_description_data[$result['language_id']] = array('name' => $result['name'],'option_placeholder' => $result['option_placeholder']);
+			$product_option_description_data[$result['language_id']] = array(
+																			'name' => $result['name'],
+																			'option_placeholder' => $result['option_placeholder'],
+																			'error_text' => $result['error_text']);
 		}
 
 		if ($product_option->num_rows) {
@@ -1125,7 +1141,7 @@ class ModelCatalogProduct extends Model {
 	}
 
 	public function updateProductOption($product_option_id, $data) {
-		$fields = array("sort_order", "status", "required");
+		$fields = array("sort_order", "status", "required", "regexp_pattern");
 		$update = array();
 		foreach ($fields as $f) {
 			if (isset($data[$f]))
@@ -1145,9 +1161,9 @@ class ModelCatalogProduct extends Model {
 				array('product_option_id' => (int)$product_option_id),
 				array((int)$language_id => array(
 					'name' => $data['name'],
+					'error_text' => $data['error_text'],
 					'option_placeholder' => $data['option_placeholder'],
 				)));
-
 		}
 
 		$this->cache->delete('product');
@@ -1172,7 +1188,6 @@ class ModelCatalogProduct extends Model {
 				" ORDER BY sort_order");
 
 		foreach ($product_option->rows as $product_option) {
-			$option_data = array();
 			$option_data = $this->getProductOption($product_id, $product_option['product_option_id']);
 			$option_data['product_option_value'] = $this->getProductOptionValues($product_id, $product_option['product_option_id']);
 			$product_option_data[] = $option_data;
@@ -1224,7 +1239,6 @@ class ModelCatalogProduct extends Model {
 	}
 
 	public function getProductOptionValue($product_id, $option_value_id) {
-		$result = array();
 
 		$product_option_value = $this->db->query(
 			"SELECT *
@@ -1235,9 +1249,7 @@ class ModelCatalogProduct extends Model {
             ORDER BY sort_order");
 
 		$option_value = $product_option_value->row;
-
 		$value_description_data = array();
-		$children_description_data = array();
 		$value_description = $this->db->query(
 			"SELECT *
 		    FROM " . DB_PREFIX . "product_option_value_descriptions

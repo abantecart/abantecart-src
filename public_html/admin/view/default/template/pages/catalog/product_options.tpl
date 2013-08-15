@@ -265,6 +265,7 @@ jQuery(function($){
 	}
 
 	function editOption(id) {
+		$('#notify_error').remove();
 		$.ajax({
             url: opt_urls.update_option,
 			data: {
@@ -273,6 +274,8 @@ jQuery(function($){
 				sort_order : $('#sort_order').val(),
 				name : $('#name').val(),
 				option_placeholder : ($('#option_placeholder') ? $('#option_placeholder').val():''),
+				regexp_pattern : ($('#regexp_pattern') ? $('#regexp_pattern').val():''),
+				error_text : ($('#error_text') ? $('#error_text').val():''),
 				required : ($('#required').is(':checked') ? 1 : 0)
 			},
             type: 'GET',
@@ -282,7 +285,7 @@ jQuery(function($){
 	            $('#notify').html('<?php echo $text_success_option?>').fadeIn(500).delay(2000).fadeOut(500);
             },
             error: function(jqXHR, textStatus, errorThrown){
-                $('#option_values').html('<div class="error" align="center"><b>'+textStatus+'</b>  '+errorThrown+'</div>');
+                $('#notify').after('<div id="notify_error" class="warning error" align="center">'+errorThrown+'</div>');
             }
         });
 		return false;

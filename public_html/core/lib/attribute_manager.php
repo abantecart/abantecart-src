@@ -23,7 +23,7 @@ if (! defined ( 'DIR_CORE' )) {
 
 /**
  * Class to handle access to global attributes
- * 
+ * @property Asession $session
  */
  
 class AAttribute_Manager extends AAttribute {
@@ -69,13 +69,17 @@ class AAttribute_Manager extends AAttribute {
 								sort_order = '" . $this->db->escape($data['sort_order']) . "',
 								required = '" . $this->db->escape($data['required']) . "',
 								settings = '" . $this->db->escape(serialize($data['settings'])) . "',
-								status = '" . $this->db->escape($data['status']) . "' ");
+								status = '" . $this->db->escape($data['status']) . "',
+								regexp_pattern = '" . $this->db->escape($data['regexp_pattern']) . "'");
 
 	    $attribute_id = $this->db->getLastId();
 		// insert descriptions for used content language and translate 
 		$this->language->replaceDescriptions('global_attributes_descriptions',
 											 array('attribute_id' => (int)$attribute_id),
-											 array($language_id => array('name' => $data['name'])) );
+											 array($language_id => array(
+												 						'name' => $data['name'],
+												 						'error_text' => $data['error_text'],
+											 								)) );
 
 		if ( !empty($data['values']) ) {
 			$data['values'] = array_unique($data['values']);
@@ -99,7 +103,8 @@ class AAttribute_Manager extends AAttribute {
                          'required',
                          'sort_order',
 						 'settings',
-                         'status');
+                         'status',
+						 'regexp_pattern');
 		$elements_with_options = HtmlElementFactory::getElementsWithOptions();
 	    $attribute = $this->getAttribute($attribute_id, $language_id);
 
@@ -134,7 +139,7 @@ class AAttribute_Manager extends AAttribute {
 
 		$this->language->replaceDescriptions('global_attributes_descriptions', 
 											 array('attribute_id' => (int)$attribute_id),
-											 array($language_id => array('name' => $data['name'])) );
+											 array($language_id => array( 'name' => $data['name'], 'error_text' => $data['error_text'] )) );
 
 		//Update Attribute Values
 	    if ( !empty($data['values']) && in_array($data['element_type'], $elements_with_options) ) {
@@ -420,7 +425,7 @@ class AAttribute_Manager extends AAttribute {
         }
 
         $query = $this->db->query("
-            SELECT ga.*, gad.name
+            SELECT ga.*, gad.name, gad.error_text
             FROM `".DB_PREFIX."global_attributes` ga
                 LEFT JOIN `".DB_PREFIX."global_attributes_descriptions` gad
                 ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
@@ -442,7 +447,9 @@ class AAttribute_Manager extends AAttribute {
         );
         $result = array();
         foreach ( $query->rows as $row ) {
-            $result[ $row['language_id'] ] = $row['name'];
+            $result[ $row['language_id'] ] = array( 'name'=> $row['name'],
+													'error_text'=> $row['error_text']
+												  );
         }
 	    return $result;
 	}
@@ -480,7 +487,7 @@ class AAttribute_Manager extends AAttribute {
             $language_id = $this->session->data['content_language_id'];
         }
 
-        $sql = "SELECT ga.*, gad.name
+        $sql = "SELECT ga.*, gad.name, gad.error_text
             FROM `".DB_PREFIX."global_attributes` ga
                 LEFT JOIN `".DB_PREFIX."global_attributes_descriptions` gad
                 ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )";
@@ -534,7 +541,7 @@ class AAttribute_Manager extends AAttribute {
             $data['language_id'] = $this->config->get('storefront_language_id');
         }
 
-        $sql = "SELECT ga.*, gad.name
+        $sql = "SELECT ga.*, gad.name, gad.error_text
             FROM `".DB_PREFIX."global_attributes` ga
                 LEFT JOIN `".DB_PREFIX."global_attributes_descriptions` gad
                 ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$data['language_id'] . "' )";
@@ -558,4 +565,32 @@ class AAttribute_Manager extends AAttribute {
 		return $result;
 	}
 
+
+	public function validateAttributeCommonData($data=array()) {
+			$error = array();
+			$this->load->language('catalog/attribute');
+			// required
+			if (empty($data[ 'attribute_type_id' ])) {
+				$this->error[ 'attribute_type' ] = $this->language->get('error_required');
+			}
+			// required
+			if ((mb_strlen($data[ 'name' ]) < 2) || (mb_strlen($data[ 'name' ]) > 64)) {
+				$error[ 'name' ] = $this->language->get('error_attribute_name');
+			}
+			// not required
+			if (mb_strlen($data[ 'error_text' ]) > 255) {
+				$error[ 'error_text' ] = $this->language->get('error_error_text');
+			}
+			// required
+			if (empty($data[ 'element_type' ])) {
+				$error[ 'element_type' ] = $this->language->get('error_required');
+			}
+			if (has_value($data['regexp_pattern'])) {
+				if (@preg_match($data[ 'regexp_pattern' ], "AbanteCart") === false) {
+					$error[ 'regexp_pattern' ] = $this->language->get('error_regexp_pattern');
+				}
+			}
+
+			return $error;
+		}
 }

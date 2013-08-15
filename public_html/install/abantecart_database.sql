@@ -996,6 +996,7 @@ CREATE TABLE `ac_product_options` (
   `status` int(1) NOT NULL DEFAULT '1',
   `element_type` char(1) NOT NULL DEFAULT 'I',
   `required` smallint(1) NOT NULL default '0',
+  `regexp_pattern` varchar(255) NOT NULL default '',
   PRIMARY KEY (`product_option_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
@@ -1010,6 +1011,7 @@ CREATE TABLE `ac_product_option_descriptions` (
   `product_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   `option_placeholder` varchar(255) COLLATE utf8_bin DEFAULT '' COMMENT 'translatable',
+  `error_text` 	varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_option_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -7390,6 +7392,7 @@ CREATE TABLE `ac_global_attributes` (
   `required` 			smallint(1) NOT NULL default '0',
   `settings`			text COLLATE utf8_bin NOT NULL DEFAULT '',
   `status` 				smallint(1) NOT NULL default '0',
+  `regexp_pattern` varchar(255),
   PRIMARY KEY (`attribute_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;	
 
@@ -7399,6 +7402,7 @@ CREATE TABLE `ac_global_attributes_descriptions` (
   `attribute_id` 		int(11) NOT NULL,
   `language_id` 		int(11) NOT NULL,
   `name` 				varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `error_text` 	varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`attribute_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

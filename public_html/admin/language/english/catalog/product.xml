@@ -258,6 +258,10 @@
 		<value><![CDATA[Option:]]></value>
 	</definition>
 	<definition>
+		<key>entry_option_name</key>
+		<value><![CDATA[Option Name:]]></value>
+	</definition>
+	<definition>
 		<key>entry_option_value</key>
 		<value><![CDATA[Option Value:]]></value>
 	</definition>
@@ -481,4 +485,12 @@
 		<key>entry_option_placeholder</key>
 		<value><![CDATA[Placeholder:]]></value>
 	</definition>
+	<definition>
+        <key>entry_regexp_pattern</key>
+        <value><![CDATA[Regular Expression Pattern:]]></value>
+    </definition>
+	<definition>
+        <key>entry_error_text</key>
+        <value><![CDATA[Error Message about invalid Value:]]></value>
+    </definition>
 </definitions>

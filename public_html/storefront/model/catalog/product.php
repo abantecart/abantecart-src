@@ -806,7 +806,7 @@ class ModelCatalogProduct extends Model {
 		if(is_null($product_option_data)){
             $product_option_data = array();
 			$product_option_query = $this->db->query(
-                "SELECT po.*, pod.option_placeholder
+                "SELECT po.*, pod.option_placeholder, pod.error_text
                 FROM " . $this->db->table("product_options") . " po
                 LEFT JOIN " . $this->db->table("product_option_descriptions") . " pod
                 	ON pod.product_option_id = po.product_option_id AND pod.language_id =  '".$language_id."'
@@ -849,6 +849,8 @@ class ModelCatalogProduct extends Model {
                                 'group_id'                => $product_option_value['group_id'],
                                 'name'                    => $pd_opt_val_description_qr->row['name'],
                                 'option_placeholder'      => $product_option['option_placeholder'],
+                                'regexp_pattern'          => $product_option['regexp_pattern'],
+                                'error_text'	          => $product_option['error_text'],
                                 'children_options_names'  => $pd_opt_val_description_qr->row['children_options_names'],
                                 'sku'                     => $product_option_value['sku'],
                                 'price'                   => $product_option_value['price'],
@@ -879,6 +881,8 @@ class ModelCatalogProduct extends Model {
 						'element_type'      => $product_option['element_type'],
 		                'html_type'         => $elements[ $product_option['element_type'] ]['type'],
 		                'required'          => $product_option['required'],
+						'regexp_pattern'    => $product_option['regexp_pattern'],
+						'error_text'	    => $product_option['error_text'],
                     );
 				}
 			}
@@ -950,41 +954,46 @@ class ModelCatalogProduct extends Model {
 		return $query->row;
 	}
 
-	//Check if any of inputed oprions are required and provided
+
 	/**
+	 * Check if any of inputed options are required and provided
 	 * @param int $product_id
 	 * @param array $input_options
-	 * @return bool
+	 * @return array
 	 */
-	public function validateRequiredOptions($product_id, $input_options) {
+	public function validateProductOptions($product_id, $input_options) {
 
-		$error = false;	
+		$errors = array();
 		if ( empty($product_id) && empty($input_options) ) {
-			return false;
+			return array();
 		}
 		$product_options = $this->getProductOptions($product_id);
 		foreach ( $product_options as $option ) {
 
 			if ( $option['required'] ) {
 				if ( empty($input_options[$option['product_option_id']]) ) {
-					$error = true;
-					break;
-				}
-				//check default value for input and textarea
-				if ( in_array($option['element_type'] , array('I', 'T')) ) {
-					reset($option['option_value']);
-					$key = key($option['option_value']);
-					$option_value = $option['option_value'][$key];
+					$errors[] = $option['name'].': '.$this->language->get('error_required_options');
+				}else{
+					//check default value for input and textarea
+					if ( in_array($option['element_type'] , array('I', 'T')) ) {
+						reset($option['option_value']);
+						$key = key($option['option_value']);
+						$option_value = $option['option_value'][$key];
 
-					if ( $option_value['name'] == $input_options[$option['product_option_id']] ) {
-						$error = true;
-						break;
+						if ( $option_value['name'] == $input_options[$option['product_option_id']] ) {
+							$errors[] = $option['name'].': '.$this->language->get('error_required_options');
+						}
 					}
 				}
 			}
+
+			if($option['regexp_pattern'] && !preg_match($option['regexp_pattern'], $input_options[$option['product_option_id']] )) {
+				$errors[] = $option['name'].': '.$option['error_text'];
+			}
+
 		}
 
-		return $error;	
+		return $errors;
 	}
 
 	/**
@@ -1144,6 +1153,7 @@ class ModelCatalogProduct extends Model {
 			// options
 			$sql = "SELECT po.product_id,
 							po.product_option_id,
+							po.regexp_pattern,
 							pov.product_option_value_id,
 							pov.sku,
 							pov.quantity,
@@ -1151,6 +1161,7 @@ class ModelCatalogProduct extends Model {
 							pov.price,
 							pov.prefix,
 							pod.name as option_name,
+							pod.error_text as error_text,
 							povd.name as value_name,
 							po.sort_order
 						FROM " . $this->db->table("product_options") . " po

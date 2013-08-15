@@ -112,4 +112,24 @@
 		<key>entry_upload_dir</key>
 		<value><![CDATA[Subir nombre del directorio]]></value>
 	</definition>
+	<definition>
+		<key>entry_regexp_pattern</key>
+		<value><![CDATA[Patrón de expresión regular para la validación de los valores:]]></value>
+	</definition>
+	<definition>
+		<key>entry_error_text</key>
+		<value><![CDATA[Mensaje de error de valor no válido:]]></value>
+	</definition>
+	<definition>
+		<key>error_attribute_name</key>
+		<value><![CDATA[Nombre de atributo debe estar entre 2 y 64 caracteres!]]></value>
+	</definition>
+	<definition>
+		<key>error_error_text</key>
+		<value><![CDATA[Texto del error sobre el valor de atributo no válido debe estar entre 2 y 255 caracteres!]]></value>
+	</definition>
+	<definition>
+		<key>error_regexp_pattern</key>
+		<value><![CDATA[Regular Expression Pattern is invalid!]]></value>
+	</definition>
 </definitions>
