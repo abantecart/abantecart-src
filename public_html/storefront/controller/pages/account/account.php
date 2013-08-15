@@ -58,7 +58,8 @@ class ControllerPagesAccountAccount extends AController {
         $this->data['history'] = $this->html->getSecureURL('account/history');
         $this->data['download'] = $this->html->getSecureURL('account/download');
         $this->data['newsletter'] = $this->html->getSecureURL('account/newsletter');
-
+        $this->data['transactions'] = $this->html->getSecureURL('account/transactions');
+        
 		$this->loadLanguage('common/header');
         $this->data['logout'] = $this->html->getSecureURL('account/logout');
 
@@ -66,9 +67,20 @@ class ControllerPagesAccountAccount extends AController {
 
 		$balance = $this->customer->getBalance();
 
+		$this->data['balance_amount'] = $this->currency->format($balance);
 		if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance'))){
-			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance);
+			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->data['balance_amount'];
 		}
+		
+
+		$this->loadModel('account/address');
+		$this->data['total_adresses'] = $this->model_account_address->getTotalAddresses();
+
+		$this->loadModel('account/download');
+		$this->data['total_downloads'] = $this->model_account_download->getTotalDownloads();
+
+		$this->loadModel('account/order');
+		$this->data['total_orders'] = $this->model_account_order->getTotalOrders();
 
 		$this->view->batchAssign($this->data);
 

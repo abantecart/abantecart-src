@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="icon-briefcase"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
@@ -29,21 +29,18 @@
 	    </div>
 	</div>
 	<?php } ?>
-	<div class="pagination"><?php echo $pagination; ?></div>
-	
-	<div class="control-group">
-	    <div class="controls">
-	    	<div class="span4 mt20 mb20">
-	    		<a href="<?php echo $continue; ?>" class="btn mr10" title="<?php echo $button_continue->text ?>">
-	    		    <i class="<?php echo $button_continue->{icon}; ?>"></i>
-	    		    <?php echo $button_continue->text ?>
-	    		</a>
-	    	</div>	
-	    </div>
-	</div>
 
+	<div class="pagination"><?php echo $pagination_bootstrap; ?></div>
 </div>
 
+<div class="container-fluid cart_total">
+	<div class="row-fluid">
+			<a href="<?php echo $continue; ?>" class="btn mt10 pull-right" title="<?php echo $button_continue->text ?>">
+	    		    <i class="icon-arrow-right"></i>
+	    		    <?php echo $button_continue->text ?>
+			</a>
+	</div>
+</div>
 
 <script type="text/javascript">
 	function viewOrder(order_id) {

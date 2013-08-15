@@ -344,5 +344,33 @@ class ModelAccountCustomer extends Model {
 		
     	return $error;
 	}
+
+	public function getTotalTransactions() {
+      	$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . $this->db->table("customer_transactions") . "` WHERE customer_id = '" . (int)$this->customer->getId() . "'" );
+		
+		return $query->row['total'];
+	}
+	
+	public function getTransactions($start = 0, $limit = 20) {
+		if ($start < 0) {
+			$start = 0;
+		}
+		
+		$query = $this->db->query("SELECT 
+			t.customer_transaction_id, 
+			t.order_id, 
+			t.section, 
+			t.credit, 
+			t.debit, 
+			t.transaction_type, 
+			t.description, 
+			t.create_date 
+			FROM `" . $this->db->table("customer_transactions") . "` t 
+			WHERE customer_id = '" . (int)$this->customer->getId() . "' 
+			ORDER BY t.create_date DESC LIMIT " . (int)$start . "," . (int)$limit);
+	
+		return $query->rows;
+	}
+
 	
 }

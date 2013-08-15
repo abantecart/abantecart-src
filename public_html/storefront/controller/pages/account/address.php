@@ -179,7 +179,7 @@ class ControllerPagesAccountAddress extends AController {
 				'type' => 'button',
 				'text' => $this->language->get('button_edit'),
 				'style' => 'button btn-primary',
-				'icon' => 'icon-edit',
+				'icon' => 'icon-edit icon-white',
 				'attr' => 'onclick="location = \'' . $this->html->getSecureURL('account/address/update', '&address_id=' . $result['address_id']) . '\'" '));
 			$delete = HtmlElementFactory::create(array(
 				'type' => 'button',

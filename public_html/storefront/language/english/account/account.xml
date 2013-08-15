@@ -5,6 +5,10 @@
     <value><![CDATA[My Account]]></value>
   </definition>
   <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[Account Dashboard]]></value>
+  </definition>
+  <definition>
     <key>text_account</key>
     <value><![CDATA[Account]]></value>
   </definition>
@@ -22,19 +26,23 @@
   </definition>
   <definition>
     <key>text_information</key>
-    <value><![CDATA[Edit your account information]]></value>
+    <value><![CDATA[Edit account details]]></value>
   </definition>
   <definition>
     <key>text_password</key>
-    <value><![CDATA[Change your password]]></value>
+    <value><![CDATA[Change password]]></value>
   </definition>
   <definition>
     <key>text_address</key>
-    <value><![CDATA[Modify your address book entries]]></value>
+    <value><![CDATA[Manage Address Book]]></value>
   </definition>
   <definition>
     <key>text_history</key>
-    <value><![CDATA[View your order history]]></value>
+    <value><![CDATA[Order history]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Transaction history]]></value>
   </definition>
   <definition>
     <key>text_download</key>
@@ -42,6 +50,6 @@
   </definition>
   <definition>
     <key>text_newsletter</key>
-    <value><![CDATA[Subscribe / unsubscribe to newsletter]]></value>
+    <value><![CDATA[Newsletter Subscription]]></value>
   </definition>
 </definitions>

@@ -36,6 +36,12 @@
 <link href="<?php echo $this->templateResource('/stylesheet/cloud-zoom.css'); ?>" rel="stylesheet" />
 <link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet" />
 <link href="<?php echo $this->templateResource('/stylesheet/print.css'); ?>" rel="stylesheet" type="text/css" media="print" />
+
+<link href="<?php echo $this->templateResource('/stylesheet/font-awesome.min.css'); ?>" rel="stylesheet" media="all" />
+<!--[if IE 7]>
+	<link href="<?php echo $this->templateResource('/stylesheet/font-awesome-ie7.min.css'); ?>" rel="stylesheet" />
+<![endif]-->
+
 <?php if ( $template_debug_mode ) {  ?>
 <link href="<?php echo $this->templateResource('/stylesheet/template_debug.css'); ?>" rel="stylesheet" />
 <?php } ?>

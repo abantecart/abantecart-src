@@ -1788,7 +1788,7 @@ ul.total li span.extra {
 }
 
 .myaccountbox {
-	padding: 10px 15px 15px 15px;
+	padding: 10px 15px 15px 5px;
 	margin-bottom: 10px
 }
 
@@ -1799,23 +1799,32 @@ ul.total li span.extra {
 
 .myaccountbox ul li {
 	display: block;
-	border-bottom: 1px dashed #E7E7E7
+	border-bottom: 1px dashed #E7E7E7;
 }
 
 .myaccountbox ul li:last-child {
-	border: none
+	border: none;
 }
 
 .myaccountbox ul li a {
 	display: block;
-	padding: 5px 5px 5px 30px;
-	background: url("../image/arrowcategory.png") no-repeat scroll 8px center transparent;
-	color: #999999
+	padding: 5px 5px 5px 5px;
+	background: none;
+	color: #999999;
+}
+
+.myaccountbox ul li.selected, .myaccountbox ul li.selected a  {
+	display: block;
+	padding: 5px 5px 5px 5px;
+	background: none;
+	color: #00A1CB;
 }
 
 .myaccountbox ul li a:hover {
-	color: #00A1CB
+	color: #00A1CB;
+	padding: 5px 5px 5px 5px;
 }
+ 
 
 /* Checkout */
 .checkoutsteptitle {
@@ -3893,11 +3902,7 @@ table th {
 	white-space: nowrap;
 }
 
-
-
 /*information block (content)*/
-
-
 .headerdetails ul.nav.info_links_header li.dropdown {
 	border: 1px solid #f2f2f2;
 	padding: 7px 20px;
@@ -3942,7 +3947,6 @@ table th {
     left: 10px;
     top: 100%;
     left: 6px;
-
 }
 
 
@@ -3956,3 +3960,277 @@ paypal pro styles
 .table.confirm_payment_options {
 	table-layout: fixed;
 }
+
+
+
+/* account dashboard */
+
+.tooltip {
+    z-index: 1052;
+}
+.tooltip.in {
+    opacity: 1;
+}
+.tooltip-inner {
+    background-color: #00A1CB;
+    padding: 6px;
+    margin-bottom: 8px; 
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;       
+}
+.tooltip.top .tooltip-arrow {
+    border-top-color: #00A1CB;
+    margin-bottom: 8px;    
+}
+.tooltip.right .tooltip-arrow {
+    border-right-color: #00A1CB;
+}
+.tooltip.left .tooltip-arrow {
+    border-left-color: #00A1CB;
+}
+.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #00A1CB;
+}
+
+#primary-nav ul {
+    list-style: none outside none;
+    margin: 0;
+    padding: 15px 0;
+}
+#primary-nav li a {
+    background-color: #E9E9E9;
+    color: #999999;
+    display: block;
+    margin: 5px 0 0;
+    padding: 9px 10px 6px 40px;
+}
+#primary-nav li a:hover {
+    background-color: #F6F6F6;
+    color: #777777;
+    text-decoration: none;
+}
+#primary-nav li a.active {
+    background-color: #FFFFFF;
+    border-left: 5px solid #DB4A39;
+    color: #333333;
+    margin: 5px 0 0;
+    padding-left: 35px;
+}
+#primary-nav li i {
+    color: #999999;
+    display: inline-block;
+    margin: 0 10px 0 -30px;
+    text-align: center;
+    width: 20px;
+}
+#primary-nav li span {
+    background-color: #FFFFFF;
+    border-radius: 10px 10px 10px 10px;
+    display: block;
+    float: right;
+    font-size: 12px;
+    height: 20px;
+    text-align: center;
+    width: 20px;
+}
+#primary-nav li.active > ul {
+    display: block;
+}
+#primary-nav li > ul {
+    display: none;
+    margin: 0;
+    padding: 0;
+}
+#primary-nav li > ul a {
+    background: none repeat scroll 0 0 #EEEEEE;
+    font-size: 13px;
+    margin: 0;
+}
+#primary-nav li > ul a.active {
+    margin: 0;
+}
+#nav-info {
+    background-color: #F6F6F6;
+    border-bottom: 1px solid #DDDDDD;
+    list-style: none outside none;
+    margin: -20px -20px 20px;
+    padding: 0;
+}
+#nav-info > li:first-child {
+    background: none repeat scroll 0 center transparent;
+    padding: 0 15px;
+}
+#nav-info > li {
+    background-image: url("../img/template/nav_info_seperator.png");
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: 5px 30px;
+    color: #999999;
+    float: left;
+    font-size: 12px;
+    height: 30px;
+    line-height: 33px;
+    padding: 0 15px 0 20px;
+}
+#nav-info > li > a {
+    color: #555555;
+}
+#nav-info > li.active {
+    color: #555555;
+}
+#nav-info > li.active a {
+    color: #DB4A39;
+}
+.nav-dash {
+    list-style: none outside none;
+    margin: 0 -20px 20px;
+    padding: 10px 0;
+    text-align: center;
+}
+.nav-dash > li {
+    display: inline-block;
+    margin: 0 3px;
+}
+.nav-dash > li > a {
+    background-color: #F5F5F5;
+    border: 1px solid #CCCCCC;
+    color: #777777;
+    display: block;
+    font-size: 32px;
+    height: 45px;
+    line-height: 32px;
+    margin: 0 0 5px;
+    padding: 27px 20px 13px;
+    position: relative;
+    text-align: center;
+    width: 45px;
+}
+.nav-dash > li > a:hover, .nav-dash > li.active > a {
+    background-color: #F25C27;
+    border: 1px solid #DB4A39;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.nav-dash > li > a > .badge, .nav-dash > li > a > .label {
+    margin: 0 0 0 3px;
+    padding: 3px 7px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.dash-tiles {
+    color: #333333;
+    font-family: Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.dash-tile {
+    background-color: #E9E9E9;
+    margin: 0 0 20px;
+    min-height: 190px;
+    padding: 0 20px;
+}
+.dash-tile-2x {
+    min-height: 400px;
+}
+.dash-tile-header {
+    background-color: #EEEEEE;
+    border-bottom: 2px solid #DDDDDD;
+    font-weight: bold;
+    line-height: 45px;
+    margin: 0 -20px;
+    min-height: 38px;
+    padding: 0 4px 0 10px;
+}
+.dash-tile-options {
+    float: right;
+    height: 38px;
+    line-height: 41px;
+}
+.dash-tile-options a:hover {
+    color: #333333;
+    text-decoration: none;
+}
+.dash-tile-content {
+    margin: 0 -20px;
+    padding: 10px;
+}
+.dash-tile-2x .dash-tile-content {
+    padding: 15px;
+}
+.dash-tile-content-inner {
+    height: 130px;
+}
+.dash-tile-2x .dash-tile-content-inner {
+    height: 330px;
+}
+.dash-tile-content-inner-fluid {
+    min-height: 130px;
+}
+.dash-tile-2x .dash-tile-content-inner-fluid {
+    min-height: 330px;
+}
+.dash-tile-content-light {
+    background-color: #F9F9F9;
+    padding: 10px;
+}
+.dash-tile-content .alert {
+    margin: 5px 0;
+}
+.dash-tile-icon, .dash-tile-text {
+    color: #FFFFFF;
+    line-height: normal;
+}
+.dash-tile-icon {
+    float: left;
+    font-size: 46px;
+    padding: 40px 0 0;
+    text-align: left;
+}
+.dash-tile-text {
+    float: right;
+    font-size: 24px;
+    padding: 48px 0 0;
+    text-align: right;
+}
+.dash-tile-leaf .dash-tile-header, .dash-tile-dark .dash-tile-header, .dash-tile-ocean .dash-tile-header, .dash-tile-flower .dash-tile-header, .dash-tile-fruit .dash-tile-header, .dash-tile-oil .dash-tile-header, .dash-tile-balloon .dash-tile-header, .dash-tile-doll .dash-tile-header {
+    background-color: #EEEEEE;
+    border-bottom: 2px solid #F9F9F9;
+    opacity: 0.45;
+}
+.dash-tile-leaf.no-opacity .dash-tile-header, .dash-tile-dark.no-opacity .dash-tile-header, .dash-tile-ocean.no-opacity .dash-tile-header, .dash-tile-flower.no-opacity .dash-tile-header, .dash-tile-fruit.no-opacity .dash-tile-header, .dash-tile-oil.no-opacity .dash-tile-header, .dash-tile-balloon.no-opacity .dash-tile-header, .dash-tile-doll.no-opacity .dash-tile-header {
+    opacity: 1;
+}
+.dash-tile-leaf:hover, .dash-tile-dark:hover, .dash-tile-ocean:hover, .dash-tile-flower:hover, .dash-tile-fruit:hover, .dash-tile-oil:hover, .dash-tile-balloon:hover, .dash-tile-doll:hover {
+    opacity: 0.9;
+}
+.dash-tile-leaf.no-opacity:hover, .dash-tile-dark.no-opacity:hover, .dash-tile-ocean.no-opacity:hover, .dash-tile-flower.no-opacity:hover, .dash-tile-fruit.no-opacity:hover, .dash-tile-oil.no-opacity:hover, .dash-tile-balloon.no-opacity:hover, .dash-tile-doll.no-opacity:hover {
+    opacity: 1;
+}
+.dash-tile-leaf {
+    background-color: #C2DB39;
+}
+.dash-tile-dark {
+    background-color: #555555;
+}
+.dash-tile-ocean {
+    background-color: #3991DB;
+}
+.dash-tile-flower {
+    background-color: #9139DB;
+}
+.dash-tile-fruit {
+    background-color: #DB9839;
+}
+.dash-tile-oil {
+    background-color: #D9DB39;
+}
+.dash-tile-balloon {
+    background-color: #DB6739;
+}
+.dash-tile-doll {
+    background-color: #DB39BB;
+}
+
+/* ENDOF account dashboard */
