@@ -7406,15 +7406,14 @@ DROP TABLE IF EXISTS `ac_global_attributes_types`;
 CREATE TABLE `ac_global_attributes_types` (
   `attribute_type_id` 	int(11) NOT NULL AUTO_INCREMENT,
   `type_key` 			varchar(64) NOT NULL,
-  `type_name` 			varchar(100) COLLATE utf8_bin NOT NULL,
   `controller` 			varchar(100) NOT NULL,
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   `status` 				smallint(1) NOT NULL default '0',
   PRIMARY KEY (`attribute_type_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;	
 
-INSERT INTO `ac_global_attributes_types` (`attribute_type_id`, `type_key`, `type_name`, `controller`, `sort_order`, `status`) VALUES
-(1, 'product_option', 'Product Option', '', 10, 1);
+INSERT INTO `ac_global_attributes_types` (`attribute_type_id`, `type_key`, `controller`, `sort_order`, `status`) VALUES
+(1, 'product_option', 'responses/catalog/attribute/getProductOptionSubform', 1, 1);
 -- Future support for other attribute types
 --(2, 'product_feature', 'Product Feature', '', 20, 1),
 --(3, 'category_attribute', 'Category Attribute', '', 30, 1),
@@ -7423,6 +7422,22 @@ INSERT INTO `ac_global_attributes_types` (`attribute_type_id`, `type_key`, `type
 --(6, 'customer_attribute', 'Customer Attribute', '', 60, 1),
 --(7, 'manufacturers_attribute', 'Manufacture Attribute', '', 70, 1),
 --(8, 'download_attribute', 'Download Attribute', '', 10, 1);
+
+DROP TABLE IF EXISTS `ac_global_attributes_type_descriptions`;
+CREATE TABLE `ac_global_attributes_type_descriptions` (
+`attribute_type_id` int(11) NOT NULL,
+`language_id` int(11) NOT NULL,
+`type_name` varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+`update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+`create_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+PRIMARY KEY (`attribute_type_id`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='utf8_bin';
+
+INSERT INTO `ac_global_attributes_type_descriptions` (`attribute_type_id`, `language_id`, `type_name`, `create_date`)
+VALUES
+(1, 1, 'Product Option', NOW()),
+(1, 2, 'Opción del Producto', NOW())
+;
 
 --
 -- Product Features and Filters 

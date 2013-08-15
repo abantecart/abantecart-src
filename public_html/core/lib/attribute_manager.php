@@ -137,9 +137,17 @@ class AAttribute_Manager extends AAttribute {
             $this->db->query( $sql );
         }
 
+		$update = array();
+		if(isset($data['name'])){
+			$update['name'] = $data['name'];
+		}
+		if(isset($data['error_text'])){
+			$update['error_text'] = $data['error_text'];
+		}
+
 		$this->language->replaceDescriptions('global_attributes_descriptions', 
 											 array('attribute_id' => (int)$attribute_id),
-											 array($language_id => array( 'name' => $data['name'], 'error_text' => $data['error_text'] )) );
+											 array($language_id => $update) );
 
 		//Update Attribute Values
 	    if ( !empty($data['values']) && in_array($data['element_type'], $elements_with_options) ) {
@@ -487,22 +495,33 @@ class AAttribute_Manager extends AAttribute {
             $language_id = $this->session->data['content_language_id'];
         }
 
-        $sql = "SELECT ga.*, gad.name, gad.error_text
-            FROM `".DB_PREFIX."global_attributes` ga
+        $sql = "SELECT ga.*, gad.name, gad.error_text, gatd.type_name
+            	FROM `".DB_PREFIX."global_attributes` ga
                 LEFT JOIN `".DB_PREFIX."global_attributes_descriptions` gad
-                ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )";
+                	ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
+				LEFT JOIN `".DB_PREFIX."global_attributes_type_descriptions` gatd
+					ON ( gatd.attribute_type_id = ga.attribute_type_id AND gatd.language_id = '" . (int)$language_id . "' )
+				WHERE 1=1 ";
         if ( !empty($data['search']) ) {
-            $sql .= " WHERE ".$data['search'];
+            $sql .= " AND ".$data['search'];
+        }
+        if ( !empty($data['subsql_filter']) ) {
+            $sql .= " AND ".$data['subsql_filter'];
         }
 		if (empty($data['search']) && !is_null($attribute_parent_id) ) {
-            $sql .= " WHERE ga.attribute_parent_id = '".(int)$attribute_parent_id."' ";
+            $sql .= " AND ga.attribute_parent_id = '".(int)$attribute_parent_id."' ";
         }
+
+		if ( !empty($data['attribute_type_id']) ) {
+			$sql .= " AND ga.attribute_type_id = ".(int)$data['attribute_type_id'];
+		}
+
 
         $sort_data = array(
             'gad.name',
             'ga.sort_order',
             'ga.status',
-            'ga.attribute_type_id',
+            'gatd.type_name',
         );
 
         if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {

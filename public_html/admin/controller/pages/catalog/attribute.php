@@ -59,9 +59,9 @@ class ControllerPagesCatalogAttribute extends AController {
 			'url' => $this->html->getSecureURL('listing_grid/attribute'),
 			'editurl' => $this->html->getSecureURL('listing_grid/attribute/update'),
 			'update_field' => $this->html->getSecureURL('listing_grid/attribute/update_field'),
-			'sortname' => 'ag.sort_order',
+			'sortname' => 'ga.sort_order',
 			'sortorder' => 'asc',
-			'columns_search' => false,
+			'columns_search' => true,
 			'actions' => array(
 				'edit' => array(
 					'text' => $this->language->get('text_edit'),
@@ -76,65 +76,8 @@ class ControllerPagesCatalogAttribute extends AController {
 			),
 		);
 
-		$attribute_types = array( '' => $this->language->get('text_select_type') );
-		$results = $this->attribute_manager->getAttributeTypes();
-		foreach ($results as $type) {
-			$attribute_types[ $type[ 'attribute_type_id' ] ] = $type[ 'type_name' ];
-		}
 
-		$attributes = array( '' => $this->language->get('text_select_parent') );
-		$results = $this->attribute_manager->getAttributes(array(), 0, 0);
-		foreach ($results as $type) {
-			$attributes[ $type[ 'attribute_id' ] ] = $type[ 'name' ];
-		}
-
-		$form = new AForm();
-		$form->setForm(array(
-		                    'form_name' => 'attribute_grid_search',
-		               ));
-
-		$grid_search_form = array();
-		$grid_search_form[ 'id' ] = 'attribute_grid_search';
-		$grid_search_form[ 'form_open' ] = $form->getFieldHtml(array(
-		                                                            'type' => 'form',
-		                                                            'name' => 'attribute_grid_search',
-		                                                            'action' => '',
-		                                                       ));
-		$grid_search_form[ 'submit' ] = $form->getFieldHtml(array(
-		                                                         'type' => 'button',
-		                                                         'name' => 'submit',
-		                                                         'text' => $this->language->get('button_go'),
-		                                                         'style' => 'button6',
-		                                                    ));
-		$grid_search_form[ 'reset' ] = $form->getFieldHtml(array(
-		                                                        'type' => 'button',
-		                                                        'name' => 'reset',
-		                                                        'text' => $this->language->get('button_reset'),
-		                                                        'style' => 'button2',
-		                                                   ));
-
-		$grid_search_form[ 'fields' ][ 'attribute_parent_id' ] = $form->getFieldHtml(array(
-		                                                                                  'type' => 'selectbox',
-		                                                                                  'name' => 'attribute_parent_id',
-		                                                                                  'options' => $attributes,
-		                                                                             ));
-		$grid_search_form[ 'fields' ][ 'attribute_type_id' ] = $form->getFieldHtml(array(
-		                                                                                'type' => 'selectbox',
-		                                                                                'name' => 'attribute_type_id',
-		                                                                                'options' => $attribute_types,
-		                                                                           ));
-		$grid_search_form[ 'fields' ][ 'status' ] = $form->getFieldHtml(array(
-		                                                                     'type' => 'selectbox',
-		                                                                     'name' => 'status',
-		                                                                     'value' => '',
-		                                                                     'options' => array(
-			                                                                     '' => $this->language->get('text_select_status'),
-			                                                                     1 => $this->language->get('text_enabled'),
-			                                                                     0 => $this->language->get('text_disabled'),
-		                                                                     ),
-		                                                                ));
-
-		$grid_settings[ 'search_form' ] = true;
+		$grid_settings[ 'search_form' ] = false;
 
 		$grid_settings[ 'colNames' ] = array(
 			$this->language->get('column_name'),
@@ -146,26 +89,28 @@ class ControllerPagesCatalogAttribute extends AController {
 			array(
 				'name' => 'name',
 				'index' => 'gad.name',
-				'align' => 'left',
+				'align' => 'left'
 			),
 			array(
-				'name' => 'type',
-				'index' => 'ga.attribute_type_id',
-				'align' => 'center',
-				'width' => 90,				
+				'name' => 'attribute_type',
+				'index' => 'gatd.type_name',
+				'align' => 'left',
+				'width' => 90,
 			),
 			array(
 				'name' => 'sort_order',
 				'index' => 'ga.sort_order',
 				'align' => 'center',
-				'width' => 60,				
+				'width' => 60,
+				'search' => false
 			),
 			array(
 				'name' => 'status',
 				'index' => 'ga.status',
 				'align' => 'center',
-				'width' => 80,				
-			),
+				'width' => 80,
+				'search' => false
+			)
 		);
 
 		if ( $this->config->get('config_show_tree_data') ) {
@@ -247,7 +192,6 @@ class ControllerPagesCatalogAttribute extends AController {
 		                                    'separator' => ' :: '
 		                               ));
 
-		$this->data[ 'elements_with_options' ] = HtmlElementFactory::getElementsWithOptions();
 
 
 		if (isset($this->request->get[ 'attribute_id' ]) && ($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
@@ -298,26 +242,17 @@ class ControllerPagesCatalogAttribute extends AController {
 			}
 		}
 
-		$results = HtmlElementFactory::getAvailableElements();
-		$element_types = array( '' => $this->language->get('text_select') );
-		foreach ($results as $key => $type) {
-			// allowed field types
-			if ( in_array($key,array('I','T','S','M','R','C','G','H','U')) ) {
-				$element_types[$key] = $type['type'];
-			}
-		}
 
+		// build tabs on page
 		$results = $this->attribute_manager->getAttributeTypes();
 		foreach ($results as $type) {
-			$this->data['attribute_types'][ $type[ 'attribute_type_id' ] ] = $type[ 'type_name' ];
+			$this->data['attribute_types'][ $type[ 'attribute_type_id' ] ] = $type;
 		}
-
         if(isset($attribute_info['attribute_type_id'])){
             $attribute_type_id = (int)$attribute_info['attribute_type_id'];
         }else{
             $attribute_type_id = (int)$this->request->get_or_post('attribute_type_id');
         }
-
 		if(!$attribute_type_id){
 			$attribute_type_id = key($this->data['attribute_types']);
 		}
@@ -331,14 +266,7 @@ class ControllerPagesCatalogAttribute extends AController {
 		    $attribute_groups[$type['attribute_group_id']] = $type['name'];
 	    }*/
 
-		$attributes = array( '' => $this->language->get('text_select') );
-		$results = $this->attribute_manager->getAttributes(array(), 0, 0);
-		foreach ($results as $type) {
-			if (isset($this->request->get[ 'attribute_id' ]) && $this->request->get[ 'attribute_id' ] == $type[ 'attribute_id' ]) {
-				continue;
-			}
-			$attributes[ $type[ 'attribute_id' ] ] = $type[ 'name' ];
-		}
+
 
 		if (!isset($this->request->get[ 'attribute_id' ])) {
 			$this->data[ 'action' ] = $this->html->getSecureURL('catalog/attribute/insert','&attribute_type_id='.$attribute_type_id);
@@ -397,11 +325,21 @@ class ControllerPagesCatalogAttribute extends AController {
 		                                                                       'required' => true,
 		                                                                       'style' => 'large-field',
 		                                                                  ));
+
+		$parent_attributes = array( '' => $this->language->get('text_select') );
+		$results = $this->attribute_manager->getAttributes(array('attribute_type_id'=>$attribute_type_id), 0, 0);
+		foreach ($results as $type) {
+			if (isset($this->request->get[ 'attribute_id' ]) && $this->request->get[ 'attribute_id' ] == $type[ 'attribute_id' ]) {
+				continue;
+			}
+			$parent_attributes[ $type[ 'attribute_id' ] ] = $type[ 'name' ];
+		}
+
 		$this->data[ 'form' ][ 'fields' ][ 'attribute_parent' ] = $form->getFieldHtml(array(
 		                                                                                   'type' => 'selectbox',
 		                                                                                   'name' => 'attribute_parent_id',
 		                                                                                   'value' => $this->data[ 'attribute_parent_id' ],
-		                                                                                   'options' => $attributes,
+		                                                                                   'options' => $parent_attributes,
 		                                                                              ));
 		//NOTE: Future implementation
 		/*$this->data['form']['fields']['attribute_group'] = $form->getFieldHtml(array(
@@ -411,129 +349,27 @@ class ControllerPagesCatalogAttribute extends AController {
 			'options' => $attribute_groups,
 		));*/
 
-		$this->data[ 'form' ][ 'fields' ][ 'element_type' ] = $form->getFieldHtml(array(
-		                                                                               'type' => 'selectbox',
-		                                                                               'name' => 'element_type',
-		                                                                               'value' => $this->data[ 'element_type' ],
-		                                                                               'required' => true,
-		                                                                               'options' => $element_types,
-		                                                                          ));
-		$this->data[ 'form' ][ 'fields' ][ 'sort_order' ] = $form->getFieldHtml(array(
-		                                                                             'type' => 'input',
-		                                                                             'name' => 'sort_order',
-		                                                                             'value' => $this->data[ 'sort_order' ],
-		                                                                             'style' => 'small-field'
-		                                                                        ));
-		$this->data[ 'form' ][ 'fields' ][ 'required' ] = $form->getFieldHtml(array(
-		                                                                           'type' => 'checkbox',
-		                                                                           'name' => 'required',
-		                                                                           'value' => $this->data[ 'required' ],
-		                                                                      ));
-		$this->data[ 'form' ][ 'fields' ][ 'regexp_pattern' ] = $form->getFieldHtml(array(
-				                                                                       'type' => 'input',
-				                                                                       'name' => 'regexp_pattern',
-				                                                                       'value' => $this->data[ 'regexp_pattern' ],
-				                                                                       'style' => 'large-field',
-				                                                                  ));
-		$this->data[ 'form' ][ 'fields' ][ 'error_text' ] = $form->getFieldHtml(array(
-				                                                                       'type' => 'input',
-				                                                                       'name' => 'error_text',
-				                                                                       'value' => $this->data[ 'error_text' ],
-				                                                                       'style' => 'large-field',
-				                                                                  ));
-
-
-		//Build atribute values part of the form
-		if ( $this->request->get['attribute_id'] ) {
-			
-			$this->data['child_count'] = $this->attribute_manager->totalChildren( $this->request->get['attribute_id'] );
-			if ( $this->data['child_count'] > 0) {
-				$children_attr = $this->attribute_manager->getAttributes(array(), 0, $this->request->get['attribute_id']);
-				foreach ($children_attr as $attr) {
-					$this->data['children'][] = array( 'name' => $attr['name'], 
-												 'link' => $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attr['attribute_id']) );
-				}
-			}
-			
-			$attribute_values = $this->attribute_manager->getAttributeValues( $this->request->get[ 'attribute_id' ] );
-			foreach ($attribute_values as $atr_val) {
-				$atr_val_id = $atr_val['attribute_value_id'];
-				$attributes_fields[$atr_val_id]['sort_order'] = $form->getFieldHtml(array(
-															'type' => 'input',
-															'name' => 'sort_orders['.$atr_val_id.']',
-															'value' => $atr_val['sort_order'],
-															'style' => 'small-field'
-														));
-				$attributes_fields[$atr_val_id]['values'] = $form->getFieldHtml(array(
-															'type' => 'input',
-				                                            'name' => 'values['.$atr_val_id.']',
-				                                            'value' => $atr_val['value'],
-				                                            'style' => 'medium-field'
-				                                        ));				
-				$attributes_fields[$atr_val_id]['attribute_value_ids'] = $form->getFieldHtml(array(
-															'type' => 'hidden',
-				                                            'name' => 'attribute_value_ids['.$atr_val_id.']',
-				                                            'value' => $atr_val_id,
-				                                            'style' => 'medium-field'
-				                                        ));				
-			}	
-		}
-		if ( !$attributes_fields ) {
-				$attributes_fields[0]['sort_order'] = $form->getFieldHtml(array(
-															'type' => 'input',
-															'name' => 'sort_orders[]',
-															'value' => '',
-															'style' => 'small-field no-save'
-														));
-				$attributes_fields[0]['values'] = $form->getFieldHtml(array(
-															'type' => 'input',
-				                                            'name' => 'values[]',
-				                                            'value' => '',
-				                                            'style' => 'medium-field no-save'
-				                                        ));						
-				$attributes_fields[0]['attribute_value_ids'] = $form->getFieldHtml(array(
-															'type' => 'hidden',
-				                                            'name' => 'attribute_value_ids['.$atr_val_id.']',
-				                                            'value' => 'new',
-				                                            'style' => 'medium-field'
-				                                        ));				
+		if($this->data['attribute_types'][ $attribute_type_id ]['controller']){
+			$subform = $this->dispatch($this->data['attribute_types'][ $attribute_type_id ]['controller'],
+				array(
+					array(
+							'data' => $this->data,
+							'aform' => $form,
+							'attribute_manager' => $this->attribute_manager
+					))
+			);
+			$this->data['subform'] = $subform->dispatchGetOutput();
 		}
 
-		$this->data['form']['settings_fields'] = array(
-			'extensions' => $form->getFieldHtml(array(
-				'type' => 'input',
-				'name' => 'settings[extensions]',
-				'value' => $attribute_info['settings']['extensions'],
-				'style' => 'no-save'
-			)),
-			'min_size' => $form->getFieldHtml(array(
-				'type' => 'input',
-				'name' => 'settings[min_size]',
-				'value' => $attribute_info['settings']['min_size'],
-				'style' => 'small-field no-save'
-			)),
-			'max_size' => $form->getFieldHtml(array(
-				'type' => 'input',
-				'name' => 'settings[max_size]',
-				'value' => $attribute_info['settings']['max_size'],
-				'style' => 'small-field no-save'
-			)),
-			'directory' => $form->getFieldHtml(array(
-				'type' => 'input',
-				'name' => 'settings[directory]',
-				'value' => $attribute_info['settings']['directory'],
-				'style' => 'no-save'
-			)),
-		);
 
-		$this->data['form']['fields']['attribute_values'] = $attributes_fields;
+
+		$this->data['insert'] = $this->html->getSecureURL('catalog/attribute/insert');
+		$this->data['form_language_switch'] = $this->html->getContentLanguageSwitcher();
+
+		$this->data['text_parent_note'] = $this->language->get('text_parent_note');
+		$this->data['help_url'] = $this->gen_help_url('global_attributes_edit');
 
 		$this->view->batchAssign($this->data);
-		$this->view->assign('insert', $this->html->getSecureURL('catalog/attribute/insert'));
-		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
-		$this->view->assign('language_id', $this->session->data[ 'content_language_id' ]);
-		$this->view->assign('text_parent_note', $this->language->get('text_parent_note'));
-		$this->view->assign('help_url', $this->gen_help_url('global_attributes_edit'));
 		$this->processTemplate('pages/catalog/attribute_form.tpl');
 	}
 
@@ -578,10 +414,10 @@ class ControllerPagesCatalogAttribute extends AController {
 	private function _initTabs($active = null) {
 		$method = (has_value($this->request->get['attribute_id']) ? 'update' : 'insert');
 
-		foreach($this->data['attribute_types'] as $type_id=>$type_name){
+		foreach($this->data['attribute_types'] as $type_id=>$type){
 			if(!$type_id) continue;
 			$this->data['tabs'][$type_id] = array(
-				'text' => $type_name,
+				'text' => $type[ 'type_name' ],
 				'href' => $method=='insert' ? $this->html->getSecureURL('catalog/attribute/'.$method, '&attribute_type_id=' . $type_id) : '');
 		}
 

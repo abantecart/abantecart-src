@@ -23,9 +23,7 @@ if (! defined ( 'DIR_CORE' )) {
 
 /**
  * Class to handle access to global attributes
- * 
- */
-/**
+ *
  * @property ALanguageManager $language
  * @property ADB $db
  * @property ACache $cache
@@ -66,32 +64,41 @@ class AAttribute {
 		$this->registry->set($key, $value);
 	}
 
-    private function _load_attribute_types() {
+	/**
+	 * @param int $language_id
+	 * @return bool
+	 */
+	private function _load_attribute_types($language_id =0) {
 		//Load attrribute types from DB or cache.
-        $cache_name = 'attribute.types';
-        $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
+		if ( !$language_id ) {
+			$language_id = (int)$this->config->get('storefront_language_id');
+		}
+        $cache_name = 'attribute.types.'.(int)$language_id;
         $attribute_types = $this->cache->get($cache_name,'',(int)$this->config->get('config_store_id'));
-        if (!empty($attribute_types)) {
+        if (!is_null($attribute_types)) {
             $this->attribute_types = $attribute_types;
-            return;
+            return false;
         }
-        $query = $this->db->query( "SELECT at.*
+        $query = $this->db->query( "SELECT at.*, gatd.type_name
 									FROM `".DB_PREFIX."global_attributes_types` at
+									LEFT JOIN `".DB_PREFIX."global_attributes_type_descriptions` gatd
+										ON (gatd.attribute_type_id = at.attribute_type_id AND gatd.language_id = ".(int)$language_id.")
 									WHERE at.status = 1 order by at.sort_order" );
-
         if ( !$query->num_rows ) {
-            return;
+            return false;
         }
 
         $this->cache->set($cache_name, $query->rows,'',(int)$this->config->get('config_store_id'));
 
         $this->attribute_types = $query->rows;
+		return true;
 	}
 
 	/**
 	 * load all the attributes for specified type
 	 * @param $attribute_type_id
 	 * @param int $language_id
+	 * @return array
 	 */
 	private function _load_attributes( $attribute_type_id, $language_id = 0 ) {
 		//Load attributes from DB or cache. If load from DB, cache.
@@ -106,32 +113,32 @@ class AAttribute {
         $attributes = $this->cache->get($cache_name, (int)$language_id, (int)$this->config->get('config_store_id'));
         if (!empty($attributes)) {
             $this->attributes = $attributes;
-            return;
+            return false;
         }
 
         $query = $this->db->query("
             SELECT ga.*, gad.name
             FROM `".DB_PREFIX."global_attributes` ga
-                LEFT JOIN `".DB_PREFIX."global_attributes_descriptions` gad ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
-            WHERE ga.attribute_type_id = '" . $this->db->escape( $attribute_type_id ) . "'
-                AND ga.status = 1
-            ORDER BY ga.sort_order"
-        );
+            LEFT JOIN `".DB_PREFIX."global_attributes_descriptions` gad
+				ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
+            WHERE ga.attribute_type_id = '" . $this->db->escape( $attribute_type_id ) . "' AND ga.status = 1
+            ORDER BY ga.sort_order");
 
         if ( !$query->num_rows ) {
-            return;
+            return false;
         }
 
         $this->cache->set($cache_name, $query->rows, (int)$language_id, (int)$this->config->get('config_store_id'));
 
         $this->attributes = $query->rows;
+		return true;
 	}
 
     /**
      * Get details about given group for attributes
 	 * @param $group_id
 	 * @param int $language_id
-	 * @return null
+	 * @return array
 	 */
 	public function getActiveAttributeGroup( $group_id, $language_id = 0 ) {
 
@@ -139,13 +146,12 @@ class AAttribute {
             $language_id = $this->config->get('storefront_language_id');
         }
 
-        $query = $this->db->query("
-            SELECT gag.*, gagd.name
-            FROM `".DB_PREFIX."global_attributes_groups` gag
-            LEFT JOIN `".DB_PREFIX."global_attributes_groups_descriptions` gagd ON ( gag.attribute_group_id = gagd.attribute_group_id AND gagd.language_id = '" . (int)$language_id . "' )
-            WHERE gag.attribute_group_id = '" . $this->db->escape( $group_id ) . "' AND gag.status = 1
-            ORDER BY gag.sort_order"
-        );
+        $query = $this->db->query( "SELECT gag.*, gagd.name
+									FROM `".DB_PREFIX."global_attributes_groups` gag
+									LEFT JOIN `".DB_PREFIX."global_attributes_groups_descriptions` gagd
+										ON ( gag.attribute_group_id = gagd.attribute_group_id AND gagd.language_id = '" . (int)$language_id . "' )
+									WHERE gag.attribute_group_id = '" . $this->db->escape( $group_id ) . "' AND gag.status = 1
+									ORDER BY gag.sort_order" );
 
 	    if ( $query->num_rows ) {
             return $query->row;
@@ -183,8 +189,9 @@ class AAttribute {
      * Returns total count of choldren for the atribute. No children retunrs 0
      */
     public function totalChildren( $attribute_id ) {
-	    $sql = "SELECT count(*) as total_count FROM " . DB_PREFIX . "global_attributes
-            WHERE attribute_parent_id = '" . (int)$attribute_id . "'";
+	    $sql = "SELECT count(*) as total_count
+	    		FROM " . DB_PREFIX . "global_attributes
+            	WHERE attribute_parent_id = '" . (int)$attribute_id . "'";
         $attribute_data = $this->db->query( $sql );
         return $attribute_data->rows[0]['total_count'];
 	}
@@ -234,12 +241,11 @@ class AAttribute {
 
 	/**
 	 * @param $attribute_id - load attribute with id=$attribute_id
-	 * @param int $language_id - Language id. default 0 (english)
-	 * @return null | array
+	 * @return array
 	 */
-	public function getAttribute( $attribute_id, $language_id = 0 ) {
+	public function getAttribute( $attribute_id ) {
 		if ( empty($this->attributes) ) {
-			return null;
+			return array();
 		}
 
         foreach ( $this->attributes as $attribute ) {
@@ -250,7 +256,7 @@ class AAttribute {
         	    return $attribute;
         	}
 		}
-		return null;
+		return array();
 	}
 
 	/**
@@ -270,7 +276,8 @@ class AAttribute {
         $query = $this->db->query("
             SELECT gav.sort_order, gav.attribute_value_id, gavd.*
             FROM `".DB_PREFIX."global_attributes_values` gav
-                LEFT JOIN `".DB_PREFIX."global_attributes_value_descriptions` gavd ON ( gav.attribute_value_id = gavd.attribute_value_id AND gavd.language_id = '" . (int)$language_id . "' )
+            LEFT JOIN `".DB_PREFIX."global_attributes_value_descriptions` gavd
+            	ON ( gav.attribute_value_id = gavd.attribute_value_id AND gavd.language_id = '" . (int)$language_id . "' )
             WHERE gav.attribute_id = '" . $this->db->escape( $attribute_id ) . "'
             order by gav.sort_order"
         );

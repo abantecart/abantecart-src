@@ -35,12 +35,20 @@ class ControllerResponsesListingGridAttribute extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$page = $this->request->post[ 'page' ]; // get the requested page
-		$limit = $this->request->post[ 'rows' ]; // get how many rows we want to have into the grid
-		$sidx = $this->request->post[ 'sidx' ]; // get index row - i.e. user click to sort
-		$sord = $this->request->post[ 'sord' ]; // get the direction
 
-		$search_str = '';
+		//Prepare filter config
+		$filter_params = array('attribute_parent_id', 'attribute_type_id', 'status');
+		$grid_filter_params = array( 'gad.name', 'gatd.type_name' );
+		//Build query string based on GET params first
+		$filter_form = new AFilter( array( 'method' => 'get', 'filter_params' => $filter_params ) );
+		//Build final filter
+		$filter_grid = new AFilter( array( 'method' => 'post',
+										   'grid_filter_params' => $grid_filter_params,
+										   'additional_filter_string' => $filter_form->getFilterString()
+										  ) );
+		$filter_array = $filter_grid->getFilterData();
+
+	/*	$search_str = '';
 		//process custom search form
 		$allowedSearchFilter = array( 'attribute_parent_id', 'attribute_type_id', 'status' );
 		$search_param = array();
@@ -51,17 +59,9 @@ class ControllerResponsesListingGridAttribute extends AController {
 		}
 		if (!empty($search_param)) {
 			$search_str = implode(" AND ", $search_param);
-		}
+		}*/
 
-		$data = array(
-			'sort' => $sidx,
-			'order' => $sord,
-			'start' => ($page - 1) * $limit,
-			'limit' => $limit,
-			'search' => $search_str,
-		);
-
-		$total = $this->attribute_manager->getTotalAttributes();
+		$total = $this->attribute_manager->getTotalAttributes($filter_array);
 		if ($total > 0) {
 			$total_pages = ceil($total / $limit);
 		} else {
@@ -72,20 +72,17 @@ class ControllerResponsesListingGridAttribute extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
-		$response->search = $search_str;
 
-		$attribute_types = array( '' => $this->language->get('text_select') );
-		$results = $this->attribute_manager->getAttributeTypes();
-		foreach ($results as $type) {
-			$attribute_types[ $type[ 'attribute_type_id' ] ] = $type[ 'type_name' ];
-		}
 
 		$new_level = 0;
 		$attr_parent_id = null;
-		$leafnodes = array();
+
 		//get all leave attributes 
 		$leafnodes = $this->attribute_manager->getLeafAttributes();
-		if ($this->config->get('config_show_tree_data')) {
+
+		$to_show_tree = ($this->config->get('config_show_tree_data') && !$filter_array['subsql_filter']) ? true: false;
+
+		if ($to_show_tree) {
 			if ($this->request->post[ 'nodeid' ]) {
 				$attr_parent_id = (integer)$this->request->post[ 'nodeid' ];
 				$new_level = (integer)$this->request->post[ "n_level" ] + 1;
@@ -94,27 +91,24 @@ class ControllerResponsesListingGridAttribute extends AController {
 			}
 		}
 
-		$results = $this->attribute_manager->getAttributes($data, '', $attr_parent_id);
+		$results = $this->attribute_manager->getAttributes($filter_array, '', $attr_parent_id);
 		$i = 0;
 		foreach ($results as $result) {
 			//treegrid structure
-			$name_lable = '';
-			if ($this->config->get('config_show_tree_data')) {
-				$name_lable = $result[ 'name' ];
+			if ($to_show_tree) {
+				$last_leaf = ($result[ 'attribute_id' ] == $leafnodes[ $result[ 'attribute_id' ] ] ? true : false);
 			} else {
-				$name_lable = $this->html->buildInput(array(
-					'name' => 'name[' . $result[ 'attribute_id' ] . ']',
-					'value' => $result[ 'name' ],
-				));
+				$last_leaf = true;
 			}
 
 			$response->rows[ $i ][ 'id' ] = $result[ 'attribute_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
-				$name_lable,
-				$attribute_types[ $result[ 'attribute_type_id' ] ],
+				$result[ 'name' ],
+				$result[ 'type_name' ],
 				$this->html->buildInput(array(
 					'name' => 'sort_order[' . $result[ 'attribute_id' ] . ']',
 					'value' => $result[ 'sort_order' ],
+					'style' => 'small-field'
 				)),
 				$this->html->buildCheckbox(array(
 					'name' => 'status[' . $result[ 'attribute_id' ] . ']',
@@ -124,7 +118,7 @@ class ControllerResponsesListingGridAttribute extends AController {
 				'action',
 				$new_level,
 				($attr_parent_id ? $attr_parent_id : NULL),
-				($result[ 'attribute_id' ] == $leafnodes[ $result[ 'attribute_id' ] ] ? true : false),
+				$last_leaf,
 				false
 			);
 			$i++;
@@ -224,7 +218,7 @@ class ControllerResponsesListingGridAttribute extends AController {
 		}
 
 		//request sent from jGrid. ID is key of array
-		$fields = array( 'name', 'attribute_type_id', 'sort_order', 'status' );
+		$fields = array( 'sort_order', 'status' );
 		foreach ($fields as $f) {
 			if (isset($this->request->post[ $f ]))
 				foreach ($this->request->post[ $f ] as $k => $v) {
