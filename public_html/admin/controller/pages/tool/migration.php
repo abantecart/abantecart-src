@@ -35,7 +35,6 @@ class ControllerPagesToolMigration extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->_setCommonVars();
-		$this->loadModel(self::MODULE_NAME);
 		$this->model_tool_migration->clearStepData();
 
 		//text
@@ -63,7 +62,6 @@ class ControllerPagesToolMigration extends AController {
 		if (!$this->_validateAccess()) {
 			$this->redirect($this->html->getSecureURL('tool/migration'));
 		}
-		$this->loadModel(self::MODULE_NAME);
 
 		$errors = array(
 			'warning',
@@ -88,16 +86,6 @@ class ControllerPagesToolMigration extends AController {
 			$this->model_tool_migration->saveStepData($formData);
 			$this->redirect($this->html->getSecureURL('tool/migration/step_two'));
 		}
-
-		$this->data['text_db_info'] = $this->language->get('text_db_info');
-
-		$this->data['entry_cart_type'] = $this->language->get('entry_cart_type');
-		$this->data['entry_cart_url'] = $this->language->get('entry_cart_url');
-		$this->data['entry_db_host'] = $this->language->get('entry_db_host');
-		$this->data['entry_db_user'] = $this->language->get('entry_db_user');
-		$this->data['entry_db_password'] = $this->language->get('entry_db_password');
-		$this->data['entry_db_name'] = $this->language->get('entry_db_name');
-		$this->data['entry_db_prefix'] = $this->language->get('entry_db_prefix');
 
 		$this->data['cancel'] = $this->html->getSecureURL('tool/migration');
 
@@ -180,7 +168,6 @@ class ControllerPagesToolMigration extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->_setCommonVars('heading_title_step_two');
-		$this->loadModel(self::MODULE_NAME);
 		if (!$this->_validateAccess() || !$this->model_tool_migration->isStepData()) {
 			$this->redirect($this->html->getSecureURL('tool/migration'));
 		}
@@ -201,13 +188,6 @@ class ControllerPagesToolMigration extends AController {
 			$this->model_tool_migration->saveStepData($formData);
 			$this->redirect($this->html->getSecureURL('tool/migration/step_three'));
 		}
-
-		$this->data['entry_migrate_data'] = $this->language->get('entry_migrate_data');
-		$this->data['entry_migrate_data_categories'] = $this->language->get('entry_migrate_data_categories');
-		$this->data['entry_migrate_data_products'] = $this->language->get('entry_migrate_data_products');
-		$this->data['entry_migrate_data_customers'] = $this->language->get('entry_migrate_data_customers');
-		$this->data['entry_migrate_data_orders'] = $this->language->get('entry_migrate_data_orders');
-		$this->data['entry_erase_existing_data'] = $this->language->get('entry_erase_existing_data');
 
 		// form
 		$form = new AForm('ST');
@@ -281,7 +261,6 @@ class ControllerPagesToolMigration extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->_setCommonVars('heading_title_step_three');
-		$this->loadModel(self::MODULE_NAME);
 		if (!$this->_validateAccess() || !$this->model_tool_migration->isStepData()) {
 			$this->redirect($this->html->getSecureURL('tool/migration'));
 		}
