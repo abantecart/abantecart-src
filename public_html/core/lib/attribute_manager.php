@@ -437,7 +437,7 @@ class AAttribute_Manager extends AAttribute {
             FROM `".DB_PREFIX."global_attributes` ga
                 LEFT JOIN `".DB_PREFIX."global_attributes_descriptions` gad
                 ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
-            WHERE ga.attribute_id = '" . $this->db->escape( $attribute_id ) . "'"
+            WHERE ga.attribute_id = '" . (int)$attribute_id . "'"
         );
 
 	    if ( $query->num_rows ) {

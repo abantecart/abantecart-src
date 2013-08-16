@@ -173,7 +173,7 @@ class AAttribute {
     /**
      * @param string $type
 	 * @return null | int
-     * Get attribute id based on attribute type_key
+     * Get attribute type id based on attribute type_key
      */
     public function getAttributeTypeID( $type ) {
         foreach ( $this->attribute_types as $attribute_type ) {
@@ -182,6 +182,19 @@ class AAttribute {
             }
 		}
 		return null;
+	}
+    /**
+     * @param string $type
+	 * @return array
+     * Get attribute tyoe data based on attribute type_key
+     */
+    public function getAttributeTypeInfo( $type ) {
+        foreach ( $this->attribute_types as $attribute_type ) {
+            if ( $attribute_type['type_key']  == $type ) {
+            	return $attribute_type;
+            }
+		}
+		return array();
 	}
 
     /**

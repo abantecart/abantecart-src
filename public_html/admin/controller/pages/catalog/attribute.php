@@ -416,6 +416,15 @@ class ControllerPagesCatalogAttribute extends AController {
 
 		foreach($this->data['attribute_types'] as $type_id=>$type){
 			if(!$type_id) continue;
+			// check is extension enabled
+			if($type['controller']!= 'responses/catalog/attribute/getProductOptionSubform'){
+				$controller = explode('/',$type['controller']);
+				array_pop($controller);
+				$controller = implode('/',$controller);
+				if(!$this->extensions->isExtensionController($controller)){
+					continue;
+				}}
+
 			$this->data['tabs'][$type_id] = array(
 				'text' => $type[ 'type_name' ],
 				'href' => $method=='insert' ? $this->html->getSecureURL('catalog/attribute/'.$method, '&attribute_type_id=' . $type_id) : '');

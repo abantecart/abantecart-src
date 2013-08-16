@@ -35,7 +35,7 @@ class ControllerResponsesListingGridAttribute extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-
+		$limit = $this->request->post[ 'rows' ];
 		//Prepare filter config
 		$filter_params = array('attribute_parent_id', 'attribute_type_id', 'status');
 		$grid_filter_params = array( 'gad.name', 'gatd.type_name' );
@@ -48,18 +48,6 @@ class ControllerResponsesListingGridAttribute extends AController {
 										  ) );
 		$filter_array = $filter_grid->getFilterData();
 
-	/*	$search_str = '';
-		//process custom search form
-		$allowedSearchFilter = array( 'attribute_parent_id', 'attribute_type_id', 'status' );
-		$search_param = array();
-		foreach ($allowedSearchFilter as $filter) {
-			if (isset($this->request->get[ $filter ]) && $this->request->get[ $filter ] != '') {
-				$search_param[ ] = "ga.`" . $filter . "` = '" . $this->db->escape($this->request->get[ $filter ]) . "' ";
-			}
-		}
-		if (!empty($search_param)) {
-			$search_str = implode(" AND ", $search_param);
-		}*/
 
 		$total = $this->attribute_manager->getTotalAttributes($filter_array);
 		if ($total > 0) {
