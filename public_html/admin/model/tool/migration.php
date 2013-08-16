@@ -31,7 +31,7 @@ class ModelToolMigration extends Model {
 	/**
 	 * @var $cart (oscmax|osc)
 	 */
-	protected $cart = null;
+	protected $cartObj = null;
 	protected $log = '';
 	private $is_error = null;
 
@@ -95,7 +95,7 @@ class ModelToolMigration extends Model {
 		$cart = $this->session->data[ 'migration' ][ 'cart_type' ];
 		require_once self::CLASS_LOCATION . $cart . '.php';
 		$name = self::CLASS_PREFIX . ucfirst($cart);
-		$this->cart = new $name($this->session->data[ 'migration' ], $this->config);
+		$this->cartObj = new $name($this->session->data[ 'migration' ], $this->config);
 
 
 		if ($this->session->data[ 'migration' ][ 'migrate_customers' ]) {
@@ -231,35 +231,42 @@ class ModelToolMigration extends Model {
 
 
 	protected function migrateCustomers() {
-		$customers = $this->cart->getCustomers();
+		$customers = $this->cartObj->getCustomers();
 
 		if (!$customers) {
-			$errors = $this->cart->getErrors();
+			$errors = $this->cartObj->getErrors();
 			$class = '';
 			if(!$errors){
 				$errors =  $this->language->get('text_no_customers');
 				$class = 'attention';
 			}
 			$this->addLog($errors,$class);
-			return false;
+			return true;
 		}
 
 		foreach ($customers as $data) {
 			if(!trim($data['email'])){ continue; }
 
+			$store_id = has_value($data[ 'store_id' ]) ? (int)$data[ 'store_id' ] : (int)$this->config->get('config_store_id');
+			$date_added = has_value($data[ 'date_added' ]) ? "'".$this->db->escape($data[ 'date_added' ])."'" : 'NOW()';
+			$status = has_value($data[ 'status' ]) ? $data[ 'status' ] : 1;
+			$approved = has_value($data[ 'approved' ]) ? $data[ 'approved' ] : 1;
+
 			$result = $this->db->query ( "INSERT INTO " . DB_PREFIX . "customers
-										SET store_id = '" . (int)$this->config->get('config_store_id') . "',
+										SET store_id = '" . $store_id . "',
 											firstname = '" . $this->db->escape($data[ 'firstname' ]) . "',
 											lastname = '" . $this->db->escape($data[ 'lastname' ]) . "',
 											email = '" . $this->db->escape($data[ 'email' ]) . "',
+											loginname = '" . $this->db->escape($data[ 'email' ]) . "',
 											telephone = '" . $this->db->escape($data[ 'telephone' ]) . "',
 											fax = '" . $this->db->escape($data[ 'fax' ]) . "',
 											password = '" . $this->db->escape(AEncryption::getHash($data[ 'password' ])) . "',
 											newsletter = '" . $this->db->escape($data[ 'newsletter' ]) . "',
+											ip = '" . $this->db->escape($data[ 'ip' ]) . "',
 											customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "',
-											status = '1',
-											approved = '1',
-											date_added = NOW();",
+											status = '" . $status . "',
+											approved = '" . $approved . "',
+											date_added = " . $date_added . "",
 									   true);
 			if($result === false){
 				$this->addLog($this->db->error);
@@ -314,43 +321,43 @@ class ModelToolMigration extends Model {
 
 		$language_list = $this->language->getAvailableLanguages();
 
-		$products = $this->cart->getProducts();
+		$products = $this->cartObj->getProducts();
 
 		if (!$products) {
-			$errors = $this->cart->getErrors();
+			$errors = $this->cartObj->getErrors();
 			$class = 'error';
 			if(!$errors){
 				$errors =  $this->language->get('text_no_products');
 				$class = 'attention';
 			}
 			$this->addLog($errors,$class);
-			return false;
+			return true;
 		}
-		$categories = $this->cart->getCategories();
+		$categories = $this->cartObj->getCategories();
 		if (!$categories) {
-			$errors = $this->cart->getErrors();
+			$errors = $this->cartObj->getErrors();
 			$class = 'error';
 			if(!$errors){
 				$errors =  $this->language->get('text_no_categories');
 				$class = 'attention';
 			}
 			$this->addLog($errors,$class);
-			return false;
+			return true;
 		}
-		$manufacturers = $this->cart->getManufacturers();
+		$manufacturers = $this->cartObj->getManufacturers();
 		if (!$manufacturers) {
-			$errors = $this->cart->getErrors();
+			$errors = $this->cartObj->getErrors();
 			$class = 'error';
 			if(!$errors){
 				$errors =  $this->language->get('text_no_brands');
 				$class = 'attention';
 			}
 			$this->addLog($errors,$class);
-			return false;
+			return true;
 		}
 
 		// import categories
-		$categories = $this->cart->getCategories();
+		$categories = $this->cartObj->getCategories();
 		$pics = 0;
 		foreach ($categories as $data) {
 			$data[ 'name' ] = strip_tags($data[ 'name' ]);
@@ -535,9 +542,13 @@ class ModelToolMigration extends Model {
 		foreach ($products as $data) {
 
 			$data[ 'manufacturer_id' ] = empty($manufacturer_id_map[ $data[ 'manufacturer_id' ] ]) ? '' : $manufacturer_id_map[ $data[ 'manufacturer_id' ] ];
+			$date_added = has_value($data[ 'date_added' ]) ? "'".$this->db->escape($data[ 'date_added' ])."'" : 'NOW()';
+			$date_modified = has_value($data[ 'date_modified' ]) ? "'".$this->db->escape($data[ 'date_modified' ])."'" : 'NOW()';
 
 			$result = $this->db->query("INSERT INTO " . DB_PREFIX . "products
 										SET model = '" . $this->db->escape($data[ 'model' ]) . "',
+											sku	= '" . $this->db->escape($data[ 'sku' ]) . "',
+											location = '" . $this->db->escape($data[ 'location' ]) . "',
 											quantity = '" . (int)$data[ 'quantity' ] . "',
 											stock_status_id = '" . (int)$data[ 'stock_status_id' ] . "',
 											date_available = '" . $this->db->escape($data[ 'date_available' ]) . "',
@@ -546,9 +557,17 @@ class ModelToolMigration extends Model {
 											price = '" . (float)$data[ 'price' ] . "',
 											weight = '" . (float)$data[ 'weight' ] . "',
 											weight_class_id = '" . (int)$data[ 'weight_class_id' ] . "',
+											length = '" . (float)$data[ 'length' ] . "',
+											length_class_id = '" . (int)$data[ 'length_class_id' ] . "',
+											height = '" . (float)$data[ 'height' ] . "',
 											status = '" . (int)$data[ 'status' ] . "',
+											viewed = '" . (int)$data[ 'viewed' ] . "',
+											minimum = '" . (int)$data[ 'minimum' ] . "',
+											subtract = '" . (int)$data[ 'subtract' ] . "',
 											tax_class_id = '" . (int)$data[ 'tax_class_id' ] . "',
-											date_added = NOW()",
+											sort_order = '" . (int)$data[ 'sort_order' ] . "',
+											date_added = " . $date_added . ",
+											date_modified = " . $date_modified . "",
 			                           true);
 
 			if($result === false){
@@ -636,6 +655,8 @@ class ModelToolMigration extends Model {
 										  SET product_id = '" . (int)$product_id . "',
 										  	  language_id = '" . (int)$language_id . "',
 											  name = '" . $this->db->escape($data[ 'name' ]) . "',
+											  meta_keywords = '" . $this->db->escape($data[ 'meta_keyword' ]) . "',
+											  meta_description = '" . $this->db->escape($data[ 'meta_description' ]) . "',
 											  description = '" . $this->db->escape($data[ 'description' ]) . "'", true);
 			if($result === false){
 				$this->addLog($this->db->error);
@@ -694,7 +715,9 @@ class ModelToolMigration extends Model {
 
 		}//end of product foreach
 
-		$options = $this->cart->getProductOptions();
+		if ( method_exists($this->cartObj,'getProductOptions') ) {
+			$options = $this->cartObj->getProductOptions();
+		}
 
 		foreach($options['product_options'] as $product_option){
 			//options
@@ -775,9 +798,9 @@ class ModelToolMigration extends Model {
 	}
 
 	protected function migrateOrders() {
-		$orders = $this->cart->getOrders();
+		$orders = $this->cartObj->getOrders();
 		if (!$orders) {
-			$errors = $this->cart->getErrors();
+			$errors = $this->cartObj->getErrors();
 			$class = '';
 			if(!$errors){
 				$errors =  $this->language->get('text_no_orders');
@@ -785,7 +808,7 @@ class ModelToolMigration extends Model {
 			}
 			$this->addLog($errors,$class);
 			$this->addLog($errors);
-			return false;
+			return true;
 		}
 		return true;
 	}
@@ -847,6 +870,7 @@ class ModelToolMigration extends Model {
 			}
 		}
 
-	return $result;
+		asort(&$result);
+		return $result;
 	}
 }
