@@ -165,7 +165,7 @@
 
 									<div class="mt20 ">
 										<ul class="productpagecart">
-											<li><a href="#" onclick="$(this).closest('form').submit();"
+											<li><a href="#" onclick="$(this).closest('form').submit(); return false;"
 												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
 										</ul>
 										<a class="productprint btn btn-large" href="#" onclick="javascript:window.print()"><i
