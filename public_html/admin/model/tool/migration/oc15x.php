@@ -188,9 +188,63 @@ class Migration_OC15x implements Migration {
 		$this->db = mysql_connect($this->data[ 'db_host' ], $this->data[ 'db_user' ], $this->data[ 'db_password' ], true);
 		mysql_select_db($this->data[ 'db_name' ], $this->db);
 		//build opencart options
-		// ??????
+		$option_types_map = array( 1 => 'R', 2 => 'C', 4 => 'I', 5 => 'S', 6 => 'T', 7 => 'U', 8 => 'D', 9 => 'E', 11 => 'S', 12 => 'D');
+		$result = array();
+		foreach ($option_types_map as $oc_code => $abc_code) {
+			$optons = "
+				SELECT 	po.product_id as product_id, 
+					po.product_option_id  as product_option_id,
+					od.name as product_option_name,
+					po.required as required,
+					o.sort_order as sort_order,
+					0 as products_text_attributes_id,
+					'$abc_code' as element_type 
+				FROM " . $this->data['db_prefix'] . "product_option po 
+				LEFT JOIN `" . $this->data['db_prefix'] . "option` o ON (o.option_id = po.option_id )  
+				LEFT JOIN `" . $this->data['db_prefix'] . "option_description` od ON (od.option_id = po.option_id AND od.language_id=1 ) 
+				WHERE po.option_id = $oc_code
+			";		
 
-		mysql_free_result($items);
+			$items = mysql_query($optons, $this->db);
+			if (!$items) {
+				$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+				return false;
+			}
+			while ($item = mysql_fetch_assoc($items)) {
+				$result['product_options'][] = $item;
+			}		
+			mysql_free_result($items);		
+		}
+
+		//build opencart option values
+		$option_vals = "
+			SELECT
+				pov.price_prefix as price_prefix, 
+				pov.price as price, 
+				pov.product_id as product_id, 
+				pov.product_option_id as product_option_id,
+				pov.product_option_value_id as product_option_value_id,
+				pov.quantity as quantity,
+				pov.weight as weight,
+				ovd.name as product_option_value_name,
+				0 as products_text_attributes_id,
+				ov.sort_order as sort_order
+			FROM " . $this->data['db_prefix'] . "product_option_value pov
+			LEFT JOIN " . $this->data['db_prefix'] . "option_value ov ON (ov.option_value_id = pov.option_value_id)
+			LEFT JOIN " . $this->data['db_prefix'] . "option_value_description ovd ON (ovd.option_value_id = pov.option_value_id AND language_id = 1 )
+			ORDER BY pov.product_id, pov.product_option_id	
+		";
+
+		$items = mysql_query($option_vals, $this->db);
+		if (!$items) {
+		    $this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+		    return false;
+		}
+		while ($item = mysql_fetch_assoc($items)) {
+		    $result['product_option_values'][] = $item;
+		}		
+		
+		mysql_free_result($items);		
 
 		mysql_close($this->db);
 

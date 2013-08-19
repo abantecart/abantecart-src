@@ -721,8 +721,9 @@ class ModelToolMigration extends Model {
 
 		foreach($options['product_options'] as $product_option){
 			//options
-			$sql = "INSERT INTO ".DB_PREFIX."product_options (product_id, sort_order,status,element_type)
-					VALUES('".$product_id_map[$product_option['product_id']]."','".$product_option['sort_order']."','1','".$this->db->escape($product_option['element_type'])."');";
+			$required = has_value($product_option[ 'required' ]) ? $product_option[ 'required' ] : 0;
+			$sql = "INSERT INTO ".DB_PREFIX."product_options (product_id, sort_order,status,element_type,required)
+					VALUES('".$product_id_map[$product_option['product_id']]."','".$product_option['sort_order']."','1','".$this->db->escape($product_option['element_type'])."', '".(int)$required."');";
 			$result = $this->db->query($sql);
 			if($result === false){
 				$this->addLog($this->db->error);
@@ -754,17 +755,22 @@ class ModelToolMigration extends Model {
 				$opt_price = '-'.$product_option_value['price'];
 			}
 			$key = $product_option_value['product_id'].'_'.$product_option_value[ 'product_option_id' ];
-			if($product_option_value[ 'products_text_attributes_id']){
+			if( $product_option_value[ 'products_text_attributes_id'] ){
 				$key = $product_option_value['product_id'].'_new_'.$product_option_value[ 'products_text_attributes_id'];
 			}
+
 			$sql = "INSERT INTO ".DB_PREFIX."product_option_values (product_id,
 																product_option_id,
 																price,
+																quantity,
+																weight,
 																prefix)
 					VALUES('".$product_id_map[$product_option_value['product_id']]."',
 					'".$product_option_id_map[ $key ]."',
 					'".$opt_price."',
-					'€');";
+					'".$product_option_value['quantity']."',
+					'".$product_option_value['weight']."',
+					'$');";
 			$result = $this->db->query($sql);
 			if($result === false){
 				$this->addLog($this->db->error);
@@ -788,7 +794,6 @@ class ModelToolMigration extends Model {
 				$this->addLog($this->db->error);
 				return null;
 			}
-
 
 		}
 
