@@ -180,7 +180,7 @@ class ControllerPagesCatalogProductOptions extends AController {
             'type' => 'selectbox',
             'name' => 'element_type',
             'required' => true,
-            'options' => $element_types,
+            'options' => $element_types
         ));
 
 
