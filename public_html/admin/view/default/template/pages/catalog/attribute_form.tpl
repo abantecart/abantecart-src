@@ -116,7 +116,7 @@
 							<?php } ?>
 							</td>
 							</tr>
-							<?php if ($name == 'attribute_parent') { ?>
+							<?php if ($name == 'attribute_parent' && $text_parent_note) { ?>
 								<tr>
 									<td colspan="2"><?php echo $text_parent_note; ?></td>
 								</tr>

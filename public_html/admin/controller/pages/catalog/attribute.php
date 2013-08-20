@@ -201,6 +201,9 @@ class ControllerPagesCatalogAttribute extends AController {
 			);
 
 			//load values for attributes with options
+
+			$this->data[ 'elements_with_options' ] = HtmlElementFactory::getElementsWithOptions();
+
 			if (in_array($attribute_info[ 'element_type' ], $this->data[ 'elements_with_options' ])) {
 				$values = $this->attribute_manager->getAttributeValues(
 					$this->request->get[ 'attribute_id' ],
