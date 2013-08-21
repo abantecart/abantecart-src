@@ -231,6 +231,7 @@ class Migration_Zen implements Migration {
 	}
 
 	public function getOrders() {
+		return array();
 	}
 
 	public function getErrors() {
