@@ -27,14 +27,22 @@ class Migration_OC implements Migration {
 
 	private $data;
 	private $config;
-	private $db;
+	private $src_db;
 	private $error_msg;
+	private $language_id_src;
 
 
 	function __construct($migrate_data, $oc_config) {
 		$this->config = $oc_config;
 		$this->data = $migrate_data;
 		$this->error_msg = "";
+		/**
+		 * @var ADB
+		 */
+		if ($migrate_data) {
+			require_once DIR_DATABASE . 'mysql.php';
+			$this->src_db = new Mysql($this->data['db_host'], $this->data['db_user'], $this->data['db_password'], $this->data['db_name'], true);
+		}
 	}
 
 	public function getName() {
@@ -45,12 +53,21 @@ class Migration_OC implements Migration {
 		return '1.4.9';
 	}
 
-	public function getCategories() {
-		$this->db = mysql_connect($this->data['db_host'], $this->data['db_user'], $this->data['db_password'], true);
-		mysql_select_db($this->data['db_name'], $this->db);
+	private function getSourceLanguageId(){
+		if(!$this->language_id_src){
+			$result = $this->src_db->query("SELECT language_id
+											FROM " . $this->data['db_prefix'] . "language
+											WHERE `code` = (SELECT `value`
+															FROM " . $this->data['db_prefix'] . "setting
+															WHERE `key`='config_admin_language');");
+			$this->language_id_src = $result->row['language_id'];
+		}
+		return $this->language_id_src;
+	}
 
+	public function getCategories() {
 		// for now use default language
-		$languages_id = 1;
+		$language_id = $this->getSourceLanguageId();
 
 		$categories_query = "SELECT c.category_id,
 									cd.name,
@@ -59,57 +76,45 @@ class Migration_OC implements Migration {
 									c.parent_id,
 									c.sort_order
                             FROM " . $this->data['db_prefix'] . "category c, " . $this->data['db_prefix'] . "category_description cd
-                            WHERE c.category_id = cd.category_id AND cd.language_id = '" . (int)$languages_id . "'
+                            WHERE c.category_id = cd.category_id AND cd.language_id = '" . (int)$language_id . "'
                             ORDER BY c.sort_order, cd.name";
-		$categories = mysql_query($categories_query, $this->db);
+		$categories = $this->src_db->query( $categories_query, true);
 		if (!$categories) {
-			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error . '<br>';
 			return false;
 		}
 
 		$result = array();
-		while ($item = mysql_fetch_assoc($categories)) {
+		foreach ($categories->rows as $item) {
 			$result[$item['category_id']] = $item;
 		}
-
-		mysql_free_result($categories);
-		mysql_close($this->db);
 
 		return $result;
 	}
 
 	public function getManufacturers() {
-		$this->db = mysql_connect($this->data['db_host'], $this->data['db_user'], $this->data['db_password'], true);
-		mysql_select_db($this->data['db_name'], $this->db);
-
 		$sql_query = "
             select manufacturer_id, name, image
             from " . $this->data['db_prefix'] . "manufacturer
             order by name";
-		$items = mysql_query($sql_query, $this->db);
+		$items = $this->src_db->query( $sql_query, true);
 		if (!$items) {
-			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error . '<br>';
 			return false;
 		}
 
 		$result = array();
-		while ($item = mysql_fetch_assoc($items)) {
+		foreach ($items->rows as $item) {
 			$result[$item['manufacturer_id']] = $item;
 		}
-
-		mysql_free_result($items);
-		mysql_close($this->db);
 
 		return $result;
 	}
 
 	public function getProducts() {
 		$this->error_msg = "";
-		$this->db = mysql_connect($this->data['db_host'], $this->data['db_user'], $this->data['db_password'], true);
-		mysql_select_db($this->data['db_name'], $this->db);
-
 		// for now use default language
-		$languages_id = 1;
+		$language_id = $this->getSourceLanguageId();
 
 		$products_query = "
             select
@@ -134,15 +139,15 @@ class Migration_OC implements Migration {
                 " . $this->data['db_prefix'] . "product_description pd
             where
                 pd.product_id = p.product_id
-                and pd.language_id = '" . (int)$languages_id . "'";
-		$items = mysql_query($products_query, $this->db);
+                and pd.language_id = '" . (int)$language_id . "'";
+		$items = $this->src_db->query( $products_query, true);
 		if (!$items) {
-			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error . '<br>';
 			return false;
 		}
 
 		$result = array();
-		while ($item = mysql_fetch_assoc($items)) {
+		foreach ($items->rows as $item) {
 			$result[$item['product_id']] = $item;
 		}
 
@@ -150,26 +155,21 @@ class Migration_OC implements Migration {
 		$sql_query = "
             select category_id, product_id
             from " . $this->data['db_prefix'] . "product_to_category";
-		$items = mysql_query($sql_query, $this->db);
+		$items = $this->src_db->query( $sql_query, true);
 		if (!$items) {
-			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error . '<br>';
 			return false;
 		}
 
-		while ($item = mysql_fetch_assoc($items)) {
+		foreach ($items->rows as $item) {
 			if (!empty($result[$item['product_id']]))
 				$result[$item['product_id']]['product_category'][] = $item['category_id'];
 		}
-
-		mysql_close($this->db);
 
 		return $result;
 	}
 
 	public function getCustomers() {
-		$this->db = mysql_connect($this->data['db_host'], $this->data['db_user'], $this->data['db_password'], true);
-		mysql_select_db($this->data['db_name'], $this->db);
-
 		$customers_query = "
             select
                 c.customer_id,
@@ -183,13 +183,13 @@ class Migration_OC implements Migration {
             from
                 " . $this->data['db_prefix'] . "customer c ";
 
-		$customers = mysql_query($customers_query, $this->db);
+		$customers = $this->src_db->query( $customers_query, true);
 		if (!$customers) {
-			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error . '<br>';
 			return false;
 		}
 		$result = array();
-		while ($customer = mysql_fetch_assoc($customers)) {
+		foreach ($customers->rows as $customer) {
 			$result[$customer['customer_id']] = $customer;
 		}
 
@@ -207,17 +207,17 @@ class Migration_OC implements Migration {
                 a.country_id
             from
                 " . $this->data['db_prefix'] . "address a ";
-		$addresses = mysql_query($address_query, $this->db);
+		$addresses = $this->src_db->query( $address_query, true);
 		if (!$addresses) {
-			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error . '<br>';
 			return false;
 		}
 
-		while ($address = mysql_fetch_assoc($addresses)) {
+		foreach ($addresses->rows as $address) {
 			$result[$address['customer_id']]['address'][] = $address;
 		}
 
-		mysql_close($this->db);
+
 		return $result;
 
 	}
@@ -228,5 +228,19 @@ class Migration_OC implements Migration {
 
 	public function getErrors() {
 		return $this->error_msg;
+	}
+
+	public function getCounts() {
+		$products = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."product", true);
+		$categories = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."category", true);
+		$manufacturers = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."manufacturer", true);
+		$customers = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."customer", true);
+
+		return array(
+			'products' => (int)$products->row['cnt'],
+			'categories' => (int)$categories->row['cnt'],
+			'manufacturers' => (int)$manufacturers->row['cnt'],
+			'customers' => (int)$customers->row['cnt']
+		);
 	}
 }

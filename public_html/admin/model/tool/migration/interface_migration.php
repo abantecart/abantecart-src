@@ -29,4 +29,5 @@ interface Migration {
 	public function getCustomers();
 	public function getOrders();
 	public function getErrors();
+	public function getCounts();
 }

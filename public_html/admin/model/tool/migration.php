@@ -34,6 +34,7 @@ class ModelToolMigration extends Model {
 	protected $cartObj = null;
 	protected $log = '';
 	private $is_error = null;
+	private $pic_count = 0;
 
 	private $language_id;
 
@@ -81,10 +82,20 @@ class ModelToolMigration extends Model {
 		$this->log .= '<p class="' . $class . '">' . $msg . '</p>';
 	}
 
+	public function getCounts(){
+
+		$cart = $this->session->data['migration']['cart_type'];
+		$filename = self::CLASS_LOCATION . $cart . '.php';
+		/** @noinspection PhpIncludeInspection */
+		require_once $filename;
+		$class_name = self::CLASS_PREFIX . ucfirst($cart);
+		$this->cartObj = new $class_name($this->session->data['migration'], $this->config);
+		return $this->cartObj->getCounts();
+	}
+
 	public function run() {
 		$check = $this->preCheck();
 		if (!empty($check)){ return $check; }
-
 
 		if ($this->session->data['migration']['erase_existing_data']){
 			$this->clearData();
@@ -306,15 +317,11 @@ class ModelToolMigration extends Model {
 
 	protected function migrateProducts() {
 		$this->load->model('tool/image');
-		$rm = new AResourceManager();
-		$rm->setType('image');
 
 		$language_id = $this->getDefaultLanguageId();
 		$store_id = $this->config->get('config_store_id');
 		$category_id_map = array();
 		$manufacturer_id_map = array();
-
-		$language_list = $this->language->getAvailableLanguages();
 
 		$products = $this->cartObj->getProducts();
 
@@ -351,7 +358,7 @@ class ModelToolMigration extends Model {
 		// import categories
 		$categories = $this->cartObj->getCategories();
 
-		$pic_count = 0;
+		$this->pic_count = 0;
 		foreach ($categories as $data) {
 			$data['name'] = strip_tags($data['name']);
 			$result = $this->db->query("INSERT INTO " . DB_PREFIX . "categories
@@ -369,54 +376,7 @@ class ModelToolMigration extends Model {
 			$category_id_map[$data['category_id']] = $category_id;
 
 			//IMAGE PROCESSING
-			$success_db = false; // sign of imported image from database query result(not generated additional)
-			foreach($data['image'] as $k=>$source){
-				$src_exists = @getimagesize($source); // check is image exists
-				if ($src_exists) {
-					$image_basename = basename($source);
-					$target = DIR_RESOURCE . 'image/' . $image_basename;
-					if (($file = $this->downloadFile($source)) === false) {
-						$this->is_error = true;
-						if($k=='db'){
-							$this->addLog(" Category {$data['name']} File  " . $source . " couldn't be uploaded.");
-						}
-						continue;
-					}
-
-					if (!$this->is_error) {
-						if (!is_dir(DIR_RESOURCE . 'image/')) {
-							mkdir(DIR_RESOURCE . 'image/', 0777);
-						}
-						if (!$this->writeToFile($file, $target)) {
-							$this->is_error = true;
-							if($k=='db'){
-								$this->addLog("Cannot create Category ".$data['name']." (".$source.")  file " . $target . " in resource/image folder ");
-							}
-							continue;
-						}
-						$resource = array(
-											'language_id' => $this->config->get('storefront_language_id'),
-											'name' => array(),
-											'title' => '',
-											'description' => '',
-											'resource_path' => $image_basename,
-											'resource_code' => '');
-
-						foreach ($language_list as $lang) {
-							$resource['name'][$lang['language_id']] = str_replace('%20',' ',$image_basename);
-						}
-						$resource_id = $rm->addResource($resource);
-						if ($resource_id) {
-							$rm->mapResource('categories', $category_id, $resource_id);
-							$pic_count++;
-							$success_db = $k=='db' ? true : $success_db;
-						} else {
-							$this->addLog($this->db->error);
-							continue;
-						}
-					}
-				}
-			}	// end of processing images
+			$this->_migrateImages( $data, 'categories', $category_id );
 
 			$result = $this->db->query("INSERT INTO " . DB_PREFIX . "category_descriptions
 					 				     SET category_id = '" . (int)$category_id . "',
@@ -451,11 +411,11 @@ class ModelToolMigration extends Model {
 				return null;
 			}
 		}
-		$this->addLog(count($categories) . ' categories imported (' . $pic_count . ' pictures)', 'success');
+		$this->addLog(count($categories) . ' categories imported (' . $this->pic_count . ' pictures)', 'success');
 
 
 // import manufacturers
-		$pic_count = 0;
+		$this->pic_count = 0;
 		foreach ($manufacturers as $data) {
 
 			$result = $this->db->query("INSERT INTO " . DB_PREFIX . "manufacturers
@@ -467,56 +427,8 @@ class ModelToolMigration extends Model {
 
 			$manufacturer_id = $this->db->getLastId();
 			$manufacturer_id_map[$data['manufacturer_id']] = $manufacturer_id;
-//IMAGE PROCESSING
-			$success_db = false; // sign of imported image from database query result(not generated additional)
-			foreach($data['image'] as $k=>$source){
-				$src_exists = @getimagesize($source); // check is image exists
-				if ($src_exists) {
-					$image_basename = basename($source);
-					$target = DIR_RESOURCE . 'image/' . $image_basename;
-					if (($file = $this->downloadFile($source)) === false) {
-						$this->is_error = true;
-						if($k=='db'){
-							$this->addLog(" Manufacturer {$data['name']} File  " . $source . " couldn't be uploaded.");
-						}
-						continue;
-					}
-
-					if (!$this->is_error) {
-						if (!is_dir(DIR_RESOURCE . 'image/')) {
-							mkdir(DIR_RESOURCE . 'image/', 0777);
-						}
-						if (!$this->writeToFile($file, $target)) {
-							$this->is_error = true;
-							if($k=='db'){
-								$this->addLog("Cannot create Manufacturer ".$data['name']." (".$source.")  file " . $target . " in resource/image folder ");
-							}
-							continue;
-						}
-						$resource = array(
-											'language_id' => $this->config->get('storefront_language_id'),
-											'name' => array(),
-											'title' => '',
-											'description' => '',
-											'resource_path' => $image_basename,
-											'resource_code' => '');
-
-						foreach ($language_list as $lang) {
-							$resource['name'][$lang['language_id']] = str_replace('%20',' ',$image_basename);
-						}
-						$resource_id = $rm->addResource($resource);
-						if ($resource_id) {
-							$rm->mapResource('manufacturers', $manufacturer_id, $resource_id);
-							$pic_count++;
-							$success_db = $k=='db' ? true : $success_db;
-						} else {
-							$this->addLog($this->db->error);
-							continue;
-						}
-					}
-				}
-			}	// end of processing images
-
+			//IMAGE PROCESSING
+			$this->_migrateImages( $data, 'manufacturers', $manufacturer_id );
 
 			$result = $this->db->query("INSERT INTO " . DB_PREFIX . "manufacturers_to_stores
                                         SET manufacturer_id = '" . (int)$manufacturer_id . "', store_id = '" . (int)$store_id . "'", true);
@@ -526,11 +438,11 @@ class ModelToolMigration extends Model {
 			}
 		}
 
-		$this->addLog(count($manufacturers) . ' brands imported (' . $pic_count . ' pictures)', 'success');
+		$this->addLog(count($manufacturers) . ' brands imported (' . $this->pic_count . ' pictures)', 'success');
 
 		// import products
 
-		$pic_count = 0;
+		$this->pic_count = 0;
 		foreach ($products as $data) {
 
 			$data['manufacturer_id'] = empty($manufacturer_id_map[$data['manufacturer_id']]) ? '' : $manufacturer_id_map[$data['manufacturer_id']];
@@ -571,55 +483,8 @@ class ModelToolMigration extends Model {
 			$product_id_map[$data['product_id']] = $product_id;
 			$product_prices_map[$data['product_id']] = (float)$data['price'];
 
-//IMAGE PROCESSING
-			$success_db = false; // sign of imported image from database query result(not generated additional)
-			foreach($data['image'] as $k=>$source){
-				$src_exists = @getimagesize($source); // check is image exists
-				if ($src_exists) {
-					$image_basename = basename($source);
-					$target = DIR_RESOURCE . 'image/' . $image_basename;
-					if (($file = $this->downloadFile($source)) === false) {
-						$this->is_error = true;
-						if($k=='db'){
-							$this->addLog(" Product {$data['name']} File  " . $source . " couldn't be uploaded.");
-						}
-						continue;
-					}
-
-					if (!$this->is_error) {
-						if (!is_dir(DIR_RESOURCE . 'image/')) {
-							mkdir(DIR_RESOURCE . 'image/', 0777);
-						}
-						if (!$this->writeToFile($file, $target)) {
-							$this->is_error = true;
-							if($k=='db'){
-								$this->addLog("Cannot create Product ".$data['name']." (".$source.")  file " . $target . " in resource/image folder ");
-							}
-							continue;
-						}
-						$resource = array(
-											'language_id' => $this->config->get('storefront_language_id'),
-											'name' => array(),
-											'title' => '',
-											'description' => '',
-											'resource_path' => $image_basename,
-											'resource_code' => '');
-
-						foreach ($language_list as $lang) {
-							$resource['name'][$lang['language_id']] = str_replace('%20',' ',$image_basename);
-						}
-						$resource_id = $rm->addResource($resource);
-						if ($resource_id) {
-							$rm->mapResource('products', $product_id, $resource_id);
-							$pic_count++;
-							$success_db = $k=='db' ? true : $success_db;
-						} else {
-							$this->addLog($this->db->error);
-							continue;
-						}
-					}
-				}
-			}	// end of processing images
+			//IMAGE PROCESSING
+			$this->_migrateImages( $data, 'products', $product_id );
 
 			$result = $this->db->query("INSERT INTO " . DB_PREFIX . "product_descriptions
 										  SET product_id = '" . (int)$product_id . "',
@@ -768,7 +633,7 @@ class ModelToolMigration extends Model {
 
 		}
 
-		$this->addLog(count($products) . ' products imported (' . $pic_count . ' pictures)', 'success');
+		$this->addLog(count($products) . ' products imported (' . $this->pic_count . ' pictures)', 'success');
 		return true;
 
 	}
@@ -852,5 +717,72 @@ class ModelToolMigration extends Model {
 
 		asort($result);
 		return $result;
+	}
+
+	private function _migrateImages( $data=array(), $object_txt_id = '', $object_id = 0 ){
+		$objects = array( 'products'   => 'Product',
+						  'categories' => 'Category',
+						  'manufacturers'     => 'Brand'
+		);
+
+		if( !in_array( $object_txt_id, array_keys( $objects )) || !$data || !is_array($data) ){
+			$this->addLog('Error: data array for object "'.$object_txt_id.'" wrong.');
+			return false;
+		}
+
+		$language_list = $this->language->getAvailableLanguages();
+
+		$rm = new AResourceManager();
+		$rm->setType('image');
+
+		//IMAGE PROCESSING
+		$success_db = false; // sign of imported image from database query result(not generated additional)
+		foreach($data['image'] as $k=>$source){
+			$src_exists = @getimagesize($source); // check is image exists
+			if ($src_exists) {
+				$image_basename = basename($source);
+				$target = DIR_RESOURCE . 'image/' . $image_basename;
+				if (($file = $this->downloadFile($source)) === false) {
+					$this->is_error = true;
+					if($k=='db'){
+						$this->addLog($objects[$object_txt_id]. " ".$data['name']." File  " . $source . " couldn't be uploaded.");
+					}
+					continue;
+				}
+
+				if (!$this->is_error) {
+					if (!is_dir(DIR_RESOURCE . 'image/')) {
+						mkdir(DIR_RESOURCE . 'image/', 0777);
+					}
+					if (!$this->writeToFile($file, $target)) {
+						$this->is_error = true;
+						if($k=='db'){
+							$this->addLog("Cannot create ". $objects[$object_txt_id]." ".$data['name']." ( ".$source." )  file " . $target . " in resource/image folder ");
+						}
+						continue;
+					}
+					$resource = array(  'language_id' => $this->config->get('storefront_language_id'),
+										'name' => array(),
+										'title' => '',
+										'description' => '',
+										'resource_path' => $image_basename,
+										'resource_code' => '' );
+
+					foreach ($language_list as $lang) {
+						$resource['name'][$lang['language_id']] = str_replace('%20',' ',$image_basename);
+					}
+					$resource_id = $rm->addResource($resource);
+					if ($resource_id) {
+						$rm->mapResource($object_txt_id, $object_id, $resource_id);
+						$this->pic_count++;
+						$success_db = $k=='db' ? true : $success_db;
+					} else {
+						$this->addLog($this->db->error);
+						continue;
+					}
+				}
+			}
+		}	// end of processing images
+		return true;
 	}
 }

@@ -202,8 +202,8 @@ class Migration_Oscmax implements Migration {
 			return false;
 		}
 		foreach($categories->rows as $item){
-			if (!empty($result[$item['products_id']])){
-				$result[$item['products_id']]['product_category'][] = $item['categories_id'];
+			if (!empty($result[$item['product_id']])){
+				$result[$item['product_id']]['product_category'][] = $item['category_id'];
 			}
 		}
 
@@ -290,7 +290,7 @@ class Migration_Oscmax implements Migration {
 
 	public function getProductOptions() {
 		$this->error_msg = "";
-
+		$language_id = $this->getSourceLanguageId();
 		//options
 		$sql = "SELECT DISTINCT pa.products_id as product_id, pa.options_id as product_option_id,
 								`products_options_name` as product_option_name,
@@ -303,9 +303,9 @@ class Migration_Oscmax implements Migration {
 								  po.products_options_sort_order as sort_order,
 								  0 as products_text_attributes_id
 				FROM " . $this->data['db_prefix'] . "products_options po
-				LEFT JOIN " . $this->data['db_prefix'] . "products_options_types pot ON pot.products_options_types_id = po.products_options_type AND pot.language_id=1
+				LEFT JOIN " . $this->data['db_prefix'] . "products_options_types pot ON pot.products_options_types_id = po.products_options_type AND pot.language_id = '".$language_id."'
 				RIGHT JOIN " . $this->data['db_prefix'] . "products_attributes pa	ON pa.options_id = po.products_options_id
-				WHERE po.language_id=1
+				WHERE po.language_id='".$language_id."'
 				UNION
 				SELECT DISTINCT ptae.products_id,
 					NULL as product_option_id,
@@ -339,7 +339,7 @@ class Migration_Oscmax implements Migration {
 		0 as products_text_attributes_id
 						FROM " . $this->data['db_prefix'] . "products_options_values_to_products_options povpo
 						LEFT JOIN " . $this->data['db_prefix'] . "products_options_values pov
-							ON pov.products_options_values_id = povpo.products_options_values_id AND pov.language_id=1
+							ON pov.products_options_values_id = povpo.products_options_values_id AND pov.language_id='".$language_id."'
 						RIGHT JOIN " . $this->data['db_prefix'] . "products_attributes pa
 							ON pa.options_values_id = povpo.products_options_values_id AND pa.options_id = povpo.products_options_id
 		UNION
@@ -371,7 +371,6 @@ class Migration_Oscmax implements Migration {
 			return false;
 		}
 
-
 		foreach($items->rows as $item){
 			$result['product_attributes'][] = $item;
 		}
@@ -383,5 +382,19 @@ class Migration_Oscmax implements Migration {
 		return $this->error_msg;
 	}
 
+	public function getCounts() {
+
+		$products = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."products", true);
+		$categories = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."categories", true);
+		$manufacturers = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."manufacturers", true);
+		$customers = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."customers", true);
+
+		return array(
+			'products' => (int)$products->row['cnt'],
+			'categories' => (int)$categories->row['cnt'],
+			'manufacturers' => (int)$manufacturers->row['cnt'],
+			'customers' => (int)$customers->row['cnt']
+		);
+	}
 
 }

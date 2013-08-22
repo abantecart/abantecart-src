@@ -99,7 +99,8 @@ class ControllerPagesToolMigration extends AController {
 			'action' => $this->html->getSecureURL('tool/migration/step_one')));
 
 		$cart_types = array_merge(array('' => $this->language->get('entry_cart_select')),
-			$this->model_tool_migration->getCartList());
+		$this->model_tool_migration->getCartList());
+
 		$this->data['form']['button_continue'] = $form->getFieldHtml(array(
 			'type' => 'button',
 			'name' => 'submit',
@@ -166,6 +167,7 @@ class ControllerPagesToolMigration extends AController {
 	public function step_two() {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->loadLanguage('common/header');
 
 		$this->_setCommonVars('heading_title_step_two');
 		if (!$this->_validateAccess() || !$this->model_tool_migration->isStepData()) {
@@ -183,6 +185,8 @@ class ControllerPagesToolMigration extends AController {
 			'migrate_orders',
 			'erase_existing_data',
 		);
+
+		$this->data['counts'] = $this->model_tool_migration->getCounts();
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validateStepTwo())) {
 			$this->model_tool_migration->saveStepData($formData);
@@ -217,21 +221,24 @@ class ControllerPagesToolMigration extends AController {
 			'style' => 'button',
 		));
 
+
+
+
 		$this->data['form']['migrate_products'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'value' => '1',
 			'checked' => false,
-			'name' => 'migrate_products',
-			'label_text' => $this->language->get('entry_migrate_data_products')
+			'name' => 'migrate_products'
 		));
+		$this->data['form']['migrate_products_text'] = $this->language->get('text_product')." (%s)\n".$this->language->get('text_category')." (%s)\n".$this->language->get('text_manufacturer')." (%s)\n";
 
 		$this->data['form']['migrate_customers'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'value' => '1',
 			'checked' => false,
-			'name' => 'migrate_customers',
-			'label_text' => $this->language->get('entry_migrate_data_customers')
+			'name' => 'migrate_customers'
 		));
+		$this->data['form']['migrate_customers_text'] = $this->language->get('text_customer')." (%s)";
 
 		$this->data['form']['erase_existing_data'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
@@ -367,6 +374,11 @@ class ControllerPagesToolMigration extends AController {
 			$this->error['db_name'] = $this->language->get('error_db_name');
 		}
 
+/*		if(!$this->error && !array_sum($this->data['counts'])){
+			$this->data['counts'] = $this->model_tool_migration->getCounts();
+			$this->error['warning'] = $this->language->get('error_empty_source_cart');
+		}*/
+
 		if (!$this->error)
 			if (!$connection = @mysql_connect($this->request->post['db_host'], $this->request->post['db_user'], $this->request->post['db_password'])) {
 				$this->error['warning'] = $this->language->get('error_db_connection');
@@ -386,9 +398,12 @@ class ControllerPagesToolMigration extends AController {
 	}
 
 	private function _validateStepTwo() {
-		if (empty($this->request->post['migrate_products']) &&
+		if (	(
+				empty($this->request->post['migrate_products']) &&
 				empty($this->request->post['migrate_customers']) &&
 				empty($this->request->post['migrate_orders'])
+				)
+			|| !array_sum($this->data['counts'])
 		) {
 			$this->error['migrate_data'] = $this->language->get('error_migrate_data');
 		}

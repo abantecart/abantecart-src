@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 
-require_once 'interface_migration.php';
+require_once DIR_ROOT.'/admin/model/tool/migration/interface_migration.php';
 
 class Migration_OC15x implements Migration {
 
@@ -352,5 +352,19 @@ class Migration_OC15x implements Migration {
 
 	public function getErrors() {
 		return $this->error_msg;
+	}
+
+	public function getCounts() {
+		$products = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."product", true);
+		$categories = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."category", true);
+		$manufacturers = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."manufacturer", true);
+		$customers = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."customer", true);
+
+		return array(
+			'products' => (int)$products->row['cnt'],
+			'categories' => (int)$categories->row['cnt'],
+			'manufacturers' => (int)$manufacturers->row['cnt'],
+			'customers' => (int)$customers->row['cnt']
+		);
 	}
 }

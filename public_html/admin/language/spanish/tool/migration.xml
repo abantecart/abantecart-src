@@ -180,4 +180,8 @@
     <key>text_no_categories</key>
     <value><![CDATA[Nota: No hay una categoría de producto ha sido importado.]]></value>
   </definition>
+	<definition>
+		<key>error_empty_source_cart</key>
+		<value><![CDATA[Advertencia: Elegido cesta origen está vacío!]]></value>
+	</definition>
 </definitions>

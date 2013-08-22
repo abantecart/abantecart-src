@@ -183,4 +183,8 @@
 		<key>text_no_categories</key>
 		<value><![CDATA[Note: No one product category was imported.]]></value>
 	</definition>
+	<definition>
+		<key>error_empty_source_cart</key>
+		<value><![CDATA[Warning: Chosen source cart is empty!]]></value>
+	</definition>
 </definitions>

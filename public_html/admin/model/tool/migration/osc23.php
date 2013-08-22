@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 require_once 'interface_migration.php';
 
-class Migration_Osc implements Migration {
+class Migration_Osc23 implements Migration {
 
 	private $data;
 	private $config;
@@ -49,7 +49,7 @@ class Migration_Osc implements Migration {
     }
 
     public function getVersion() {
-        return '2.2RC2';
+        return '2.3';
     }
 
 	private function getSourceLanguageId(){
