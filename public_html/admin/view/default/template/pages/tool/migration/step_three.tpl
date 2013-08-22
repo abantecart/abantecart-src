@@ -8,6 +8,8 @@
   </div>
 
   <div class="content">
-    <?php echo $result; ?>
+      <p class="success"><?php echo $result; ?></p>
+      <br><br><br><br>
+     <?php echo $log; ?>
   </div>
 </div>

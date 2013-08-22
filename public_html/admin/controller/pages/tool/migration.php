@@ -27,7 +27,6 @@ class ControllerPagesToolMigration extends AController {
 
 	private $error = array();
 	public $data = array();
-	const MODULE_NAME = 'tool/migration';
 
 	public function main() {
 
@@ -89,6 +88,10 @@ class ControllerPagesToolMigration extends AController {
 
 		$this->data['cancel'] = $this->html->getSecureURL('tool/migration');
 
+		$source = ($this->request->server['REQUEST_METHOD'] == 'POST') ? $this->request->post : $this->session->data['migration'];
+
+		$this->_setFormData($formData, $source);
+
 		// form
 		$form = new AForm('ST');
 		$form->setForm(
@@ -118,41 +121,47 @@ class ControllerPagesToolMigration extends AController {
 			'name' => 'cart_type',
 			'required' => true,
 			'options' => $cart_types,
+			'value' => $this->data['cart_type'],
+			'style' => 'large-field'
 		));
 
 
 		$this->data['form']['cart_url'] = $form->getFieldHtml(array('type' => 'input',
 			'name' => 'cart_url',
 			'required' => true,
-			'value' => $this->request->post['cart_url'],
+			'value' => $this->data['cart_url'],
+			'style' => 'large-field'
 		));
 		$this->data['form']['db_host'] = $form->getFieldHtml(array('type' => 'input',
 			'name' => 'db_host',
 			'required' => true,
-			'value' => $this->request->post['db_host'],
+			'value' => $this->data['db_host'],
+			'style' => 'large-field'
 		));
 		$this->data['form']['db_user'] = $form->getFieldHtml(array('type' => 'input',
 			'name' => 'db_user',
 			'required' => true,
-			'value' => $this->request->post['db_user'],
+			'value' => $this->data['db_user'],
+			'style' => 'large-field'
 		));
 		$this->data['form']['db_password'] = $form->getFieldHtml(array('type' => 'input',
 			'name' => 'db_password',
-			'value' => $this->request->post['db_password'],
+			'value' => $this->data['db_password'],
+			'style' => 'large-field'
 		));
 		$this->data['form']['db_name'] = $form->getFieldHtml(array('type' => 'input',
 			'name' => 'db_name',
 			'required' => true,
-			'value' => $this->request->post['db_name'],
+			'value' => $this->data['db_name'],
+			'style' => 'large-field'
 		));
 		$this->data['form']['db_prefix'] = $form->getFieldHtml(array('type' => 'input',
 			'name' => 'db_prefix',
-			'value' => $this->request->post['db_prefix'],
+			'value' => $this->data['db_prefix'],
+			'style' => 'small-field'
 		));
 
 
-		$source = ($this->request->server['REQUEST_METHOD'] == 'POST') ? $this->request->post : $this->session->data['migration'];
-		$this->_setFormData($formData, $source);
 		$this->_setErrors($errors);
 
 		$this->view->batchAssign($this->data);
@@ -186,11 +195,13 @@ class ControllerPagesToolMigration extends AController {
 			'erase_existing_data',
 		);
 
-		$this->data['counts'] = $this->model_tool_migration->getCounts();
-
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validateStepTwo())) {
 			$this->model_tool_migration->saveStepData($formData);
 			$this->redirect($this->html->getSecureURL('tool/migration/step_three'));
+		}
+		$this->data['counts'] = $this->model_tool_migration->getCounts();
+		if (!array_sum($this->data['counts'])) {
+			$this->error['warning'] .= '<br>' . $this->language->get('error_empty_source_cart');
 		}
 
 		// form
@@ -222,15 +233,13 @@ class ControllerPagesToolMigration extends AController {
 		));
 
 
-
-
 		$this->data['form']['migrate_products'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'value' => '1',
 			'checked' => false,
 			'name' => 'migrate_products'
 		));
-		$this->data['form']['migrate_products_text'] = $this->language->get('text_product')." (%s)\n".$this->language->get('text_category')." (%s)\n".$this->language->get('text_manufacturer')." (%s)\n";
+		$this->data['form']['migrate_products_text'] = $this->language->get('text_product') . " (%s)\n" . $this->language->get('text_category') . " (%s)\n" . $this->language->get('text_manufacturer') . " (%s)\n";
 
 		$this->data['form']['migrate_customers'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
@@ -238,7 +247,7 @@ class ControllerPagesToolMigration extends AController {
 			'checked' => false,
 			'name' => 'migrate_customers'
 		));
-		$this->data['form']['migrate_customers_text'] = $this->language->get('text_customer')." (%s)";
+		$this->data['form']['migrate_customers_text'] = $this->language->get('text_customer') . " (%s)";
 
 		$this->data['form']['erase_existing_data'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
@@ -272,9 +281,8 @@ class ControllerPagesToolMigration extends AController {
 			$this->redirect($this->html->getSecureURL('tool/migration'));
 		}
 
-		$this->data['result'] = $this->model_tool_migration->run();
-		$this->data['button_continue'] = $this->language->get('button_continue');
-		$this->data['continue'] = $this->html->getSecureURL('tool/migration');
+		$this->data['result'] = $this->language->get('text_finished');
+		$this->data['log'] = $this->model_tool_migration->run();
 
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('step_three'));
@@ -287,7 +295,7 @@ class ControllerPagesToolMigration extends AController {
 	}
 
 	private function _setCommonVars($heading_title = '') {
-		$this->loadLanguage(self::MODULE_NAME);
+		$this->loadLanguage('tool/migration');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -337,7 +345,7 @@ class ControllerPagesToolMigration extends AController {
 	}
 
 	private function _validateAccess() {
-		if (!$this->user->canModify(self::MODULE_NAME)) {
+		if (!$this->user->canModify('tool/migration')) {
 			$this->session->data['warning'] = $this->language->get('error_permission');
 			$this->error = TRUE;
 		}
@@ -373,22 +381,16 @@ class ControllerPagesToolMigration extends AController {
 		if (!$this->request->post['db_name']) {
 			$this->error['db_name'] = $this->language->get('error_db_name');
 		}
-
-/*		if(!$this->error && !array_sum($this->data['counts'])){
-			$this->data['counts'] = $this->model_tool_migration->getCounts();
-			$this->error['warning'] = $this->language->get('error_empty_source_cart');
-		}*/
-
-		if (!$this->error)
-			if (!$connection = @mysql_connect($this->request->post['db_host'], $this->request->post['db_user'], $this->request->post['db_password'])) {
+		//check db connection
+		if (!$this->error) {
+			try {
+				$connection = new Mysql($this->request->post['db_host'], $this->request->post['db_user'], $this->request->post['db_password'], $this->request->post['db_name'], true);
+			} catch (AException $e) {
 				$this->error['warning'] = $this->language->get('error_db_connection');
-			} else {
-				if (!@mysql_select_db($this->request->post['db_name'], $connection)) {
-					$this->error['warning'] = $this->language->get('error_db_not_exist');
-					mysql_close($connection);
-				}
-
+				$this->error['warning'] .= '<br>' . $e->getMessage();
 			}
+
+		}
 
 		if (!$this->error) {
 			return TRUE;
@@ -398,16 +400,12 @@ class ControllerPagesToolMigration extends AController {
 	}
 
 	private function _validateStepTwo() {
-		if (	(
-				empty($this->request->post['migrate_products']) &&
-				empty($this->request->post['migrate_customers']) &&
-				empty($this->request->post['migrate_orders'])
-				)
-			|| !array_sum($this->data['counts'])
+		if (empty($this->request->post['migrate_products'])
+			&& empty($this->request->post['migrate_customers'])
+			//&& empty($this->request->post['migrate_orders'])
 		) {
 			$this->error['migrate_data'] = $this->language->get('error_migrate_data');
 		}
-
 		if (!$this->error) {
 			return TRUE;
 		} else {
