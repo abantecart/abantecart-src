@@ -18,7 +18,7 @@
 					} else {
 						if(!$item['resource_code']){
 							$image = '<img src="'. $item['image']['thumb_url']. '" width="50px"  style="margin: 10px;" alt="'. $item['name'] . '" />';
-							$image = '<a href="'. $item['image']['main_url']. '">' . $image . '</a>';
+							$image = '<a href="'. $item['url']. '">' . $image . '</a>';
 
 							echo '<div class="image">'. $image .'</div><div style="clear: both;"></div>';
 							if($item['image']['title']){
@@ -27,7 +27,7 @@
 						}				
 						if($item['name']){
 							echo '<div class="title">
-									<a href="'.$item['image']['main_url'].'">'.$item['name'].'</a>
+									<a href="'.$item['url'].'">'.$item['name'].'</a>
 								  </div>';
 						}
 						if ( $item['rating'] ) {

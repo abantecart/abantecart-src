@@ -120,6 +120,7 @@ class ControllerBlocksListingBlock extends AController {
 			);
 		}
 		$data_source= array('rl_object_name'=>'products','data_type'=>'product_id');
+		//add thumbnails to list of products. 1 thumbnail per product
 		$products = $this->_addThumbnails($data_source, $products);
 
 		if ($this->config->get('config_customer_price')) {
@@ -159,10 +160,10 @@ class ControllerBlocksListingBlock extends AController {
 			$cn['item_name'] = $item_name;
 			switch($item_name){
 				case 'category':
-					$cn['href'] = $this->html->getSecureURL('product/category','&category_id='.$cn['category_id']);
+					$cn['href'] = $this->html->getSEOURL('product/category','&category_id='.$cn['category_id'],'&encode');
 				break;
 				case 'manufacturer':
-					$cn['href'] = $this->html->getSecureURL('product/manufacturer','&manufacturer_id='.$cn['manufacturer_id']);
+					$cn['href'] = $this->html->getSEOURL('product/manufacturer','&manufacturer_id='.$cn['manufacturer_id'],'&encode');
 				break;
 			}
 
@@ -297,6 +298,7 @@ class ControllerBlocksListingBlock extends AController {
 								break;
 							}
 						}
+						//add thumbnails to custom list of items. 1 thumbnail per item
 						$result = $this->_addThumbnails($data_source, $result);
 					}
 
@@ -321,6 +323,7 @@ class ControllerBlocksListingBlock extends AController {
 			$resource = new AResource('image');
 		}
 		if($result){
+			//add thumbnails to custom list of items. 1 thumbnail per item
 			$result = $this->_addThumbnails($data_source, $result);
 		}
 		//update controller data
@@ -344,9 +347,11 @@ class ControllerBlocksListingBlock extends AController {
 
 				}
 
+				//NOTE: This is wrong place to put price and url. 
 				if(isset($item['price']) && preg_match('/^[0-9\.]/',$item['price'])){
 					$result[$k]['price'] = $this->currency->format($this->tax->calculate($item['price'], $result['tax_class_id'], $this->config->get('config_tax')));
 				}
+				//Deprecate ['url'] in v2.0, it is only used in default template and replaced with ['href'] set in caller function
 				$result[$k]['url'] = $this->html->getSEOURL($data_source['storefront_view_path'],'&'.$data_source['data_type'].'='.$item[$data_source['data_type']]);
 			}
 		}
