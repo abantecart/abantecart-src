@@ -52,6 +52,10 @@ a img {
     text-align: right;
 }
 
+.top10{
+	padding-top: 10px;	
+}
+
 .hidden {
     visibility: hidden;
 }

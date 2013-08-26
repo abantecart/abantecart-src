@@ -278,6 +278,7 @@ class ModelSaleCustomer extends Model {
   				c.approved,
   				c.customer_group_id,
 				CONCAT(c.firstname, ' ', c.lastname) AS name,
+				c.key_id, 
 				cg.name AS customer_group
 				";
 		}

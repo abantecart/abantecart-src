@@ -30,11 +30,15 @@
   </definition>
   <definition>
     <key>button_encrypt_data</key>
-    <value><![CDATA[Encrypt User's Data]]></value>
+    <value><![CDATA[Encrypt Data]]></value>
   </definition>
   <definition>
     <key>error_permission</key>
     <value><![CDATA[Warning: You do not have permission to modify weight based shipping!]]></value>
+  </definition>
+  <definition>
+    <key>error_duplicate_key</key>
+    <value><![CDATA[Error: Selected key name pair already exists!]]></value>
   </definition>
   <definition>
 	<key>encryption_data_manager_note</key>
@@ -60,16 +64,12 @@
   </definition>
   <definition>
     <key>data_encryption</key>
-    <value><![CDATA[Encrypt User's Data]]></value>
+    <value><![CDATA[Encrypt Data]]></value>
   </definition>
   <definition>
     <key>error_required_data_missing</key>
     <value><![CDATA[Missing required data field(s). Please check provided vaules]]></value>
   </definition>
-  <definition>
-    <key>error_duplicate_key</key>
-    <value><![CDATA[Error: Selected key name pair already exists!]]></value>
-  </definition>  
   <definition>
     <key>entry_key_name</key>
     <value><![CDATA[Unique key pair name:<br /><span class="help">Name should not contain any spaces or special characters. Keeps it short and simple.</span>]]></value>
@@ -84,7 +84,7 @@
   </definition>
   <definition>
     <key>entry_encrypt_key</key>
-    <value><![CDATA[Enable password based key:<br /><span class="help">If enable, addtional passphrase will be required to decrypt text with use of private key. NOTE. This is not currently supported in user's data encryption.</span>]]></value>
+    <value><![CDATA[Enable password based key:<br /><span class="help">If enable, addtional passphrase will be required to decrypt text with use of private key. NOTE. This is not currently supported in data encryption.</span>]]></value>
   </definition>
   <definition>
     <key>entry_passphrase</key>
@@ -107,28 +107,65 @@
     <value><![CDATA[Table(s) to encrypt:<br /><span class="help">Shown table(s) will be encryted with the key selected. Data can only be opened with this key</span>]]></value>
   </definition>
   <definition>
-    <key>entry_enc_remove_original</key>
-    <value><![CDATA[Eliminar datos de origen:<br /><span class="help">Retire fuente de la ONU-encrepted registros de datos se completa después del cifrado</span>]]></value>
-  </definition>  
-  <definition>
     <key>entry_enc_test_mode</key>
     <value><![CDATA[Test Mode:<br /><span class="help">Check first that all is OK to be encrepted.</span>]]></value>
   </definition>
   <definition>
+    <key>entry_enc_remove_original</key>
+    <value><![CDATA[Remove source data:<br /><span class="help">Remove source un-encrepted data records after encryption is complete</span>]]></value>
+  </definition>  
+  <definition>
     <key>text_success_encrypting</key>
-    <value><![CDATA[<b>User data has been encrypted. <br />  See details:</b> <br/><br/> %s <br /><br /> <b>Add following line to file system/config.php : define('DATA_ENCRYPTION_KEYPAIR', '%s'); </b> ]]></value>
-  </definition>
+    <value><![CDATA[<b>Data has been encrypted. <br />  See details:</b> <br/><br/> %s <br /><br /> <b>If you want this key to be used for new data encryption, add following line to file system/config.php : define('DATA_ENCRYPTION_KEYPAIR', '%s'); </b> ]]></value>
+  </definition>  
   <definition>
     <key>text_encryption_test</key>
-    <value><![CDATA[<b>User data encryption test result</b> Check error log for any possible errors! <br/><br/> %s ]]></value>
+    <value><![CDATA[<b>Data encryption test result</b> Check error log for any possible errors! <br/><br/> %s ]]></value>
   </definition>
   <definition>
     <key>error_encrypting</key>
-    <value><![CDATA[User data encryption failed. Check your settings and check error log.]]></value>
+    <value><![CDATA[Data encryption failed. Check your settings and check error log.]]></value>
   </definition>
   <definition>
     <key>post_encrypting_notice</key>
     <value><![CDATA[<b>Important notes! After encryption is completed data will be copied to mirror tables with data encrypted in them. 
     		<br />Follow instructions to add configuration to system/config.php for AbanteCart to switch read/write operations to encrypted tables. </b><br /> Add following line to configuration file: define('DATA_ENCRYPTION_KEYPAIR', 'your_key_name'); <br> This will be default key for read/write operations ]]></value>
+  </definition>   
+  <definition>
+    <key>encryption_usage</key>
+    <value><![CDATA[Encryption Usage]]></value>
   </definition>
+  <definition>
+    <key>text_unencrepted_records</key>
+    <value><![CDATA[Un-encrypted data records]]></value>
+  </definition>
+  <definition>
+    <key>warn_encrypt_open_data</key>
+    <value><![CDATA[Use 'Encrypt Data' Tab for initial encryption]]></value>
+  </definition>
+  <definition>
+    <key>text_encrepted_records</key>
+    <value><![CDATA[Encrypted data records]]></value>
+  </definition>
+  <definition>
+    <key>text_usage_heading_key_id</key>
+    <value><![CDATA[Key ID]]></value>
+  </definition>
+  <definition>
+    <key>text_usage_heading_key_name</key>
+    <value><![CDATA[Key Name]]></value>
+  </definition>
+  <definition>
+    <key>text_usage_heading_key_tables</key>
+    <value><![CDATA[Encrypted Tables Usage]]></value>
+  </definition>  
+  <definition>
+    <key>text_usage_heading_key_rotate</key>
+    <value><![CDATA[Rotate (change) Encryption to new key]]></value>
+  </definition>    
+  <definition>
+    <key>text_usage_records</key>
+    <value><![CDATA[record(s)]]></value>
+  </definition>    
+  
 </definitions>

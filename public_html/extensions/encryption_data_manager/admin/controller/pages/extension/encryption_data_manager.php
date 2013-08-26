@@ -47,8 +47,16 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validate())) {
 			
 			$this->cache->delete('encryption.keys');
-			
+			$new_keys = array();
+			foreach ($this->request->post as $key => $value) {
+				$matches = array();
+				if ( preg_match('/^new_key_for_(.*)$/', $key, $matches) && (int)$value > 0 ){ 
+					$new_keys[$matches[1]] = (int)$value;
+				}
+			}
+
 			if ( !empty($this->request->post['key_name']) ) {
+				//key creation ste
 				$this->request->post['key_name'] = preformatTextID($this->request->post['key_name']);
 				$keys = $this->_create_key_pair($this->request->post); 
 				if ( $keys['public'] || $keys['private'] ) {
@@ -57,17 +65,33 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 					$this->error['warning'] = $this->language->get('error_generating_keys_failed');
 				}
 			} else if ( !empty($this->request->post['enc_key']) ) {
-				$enc_result = $this->_encrypt_user_data($this->request->post);
+				//encryption step
+				$enc_result = $this->_initial_data_encryption($this->request->post);
 				if ( $this->request->post['enc_test_mode'] ) {
 					$this->session->data['success'] = sprintf($this->language->get('text_encryption_test'), implode('<br/>', $enc_result['result']) );
 				} else if ( count($enc_result['result'])) {
-					$this->session->data['success'] = sprintf(
+					$this->session->data['success'] = '<br>' . sprintf(
 												$this->language->get('text_success_encrypting'), 
 												implode('<br/>', $enc_result['result']),
 												$enc_result['key_name']
 											);
 				} else {
 					$this->error['warning'] = $this->language->get('error_encrypting');
+				}
+			} else if ( count ($new_keys) ) {
+				//re-encryption step
+				$enc_result = array();
+				foreach($new_keys as $old_key_id => $new_key_id){
+					$enc_result = $this->_key_rotation( array('old_key' => $old_key_id, 'new_key' => $new_key_id ));
+					if ( count($enc_result['result'])) {
+						$this->session->data['success'] .= sprintf(
+													$this->language->get('text_success_encrypting'), 
+													implode('<br/>', $enc_result['result']),
+													$enc_result['key_name']
+												);
+					} else {
+						$this->error['warning'] .= $this->language->get('error_encrypting');
+					}
 				}
 			} else {
 				$this->error['warning'] = $this->language->get('error_required_data_missing');	
@@ -113,9 +137,48 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$this->data['cancel'] = $this->html->getSecureURL('extension/encryption_data_manager');
 		$this->data ['heading_title'] = $this->language->get ( 'text_additional_settings' );
 		$this->data ['update'] = $this->html->getSecureURL ( 'listing_grid/extension/update', '&id=encryption_data_manager' );
+
+		//load existing keys. 
+		$pub_keys_options = $this->_load_key_names( $enc, 1 );
+		
 		$form = new AForm ( 'HT' );
 		$form->setForm ( array ('form_name' => 'keyGenFrm', 'update' => $this->data ['update'] ) );
 
+		//encription usage section 
+		$enc_usage = array();
+		$enc_usage['section_id'] = 'enc_usage';
+
+		$enc_usage['form']['form_open'] = $form->getFieldHtml ( array ('type' => 'form', 'name' => 'keyRotaionFrm', 'action' => $this->data ['action'] ) );
+		$enc_usage['form']['submit'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'submit', 'text' => $this->language->get('button_encrypt_data'), 'style' => 'button1' ) );
+		$enc_usage['form']['cancel'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'reset', 'text' => $this->language->get('button_reset'), 'style' => 'button2' ) );
+
+		$enc_usage['name'] = $this->language->get('encryption_usage');
+		$enc_usage['form_title'] = $enc_usage['name'];
+		
+		//load un-encrepted data usage
+		$this->data['unencrypted_stats'] = $this->_load_unencrypted_stats($enc_data);
+		
+		//load encrepted data usage
+		$usage = $this->_load_usage_details($enc, $enc_data);
+		//add new key selector to each row
+		foreach ( $usage as $i => $u){
+			//remove current key
+			$key_list = $pub_keys_options;
+			unset($key_list[$u['key_id']]); 
+			$key_list[0] = "--";
+			$usage[$i]['actons'] = $form->getFieldHtml(array(
+				'type' => 'selectbox',
+				'name' => 'new_key_for_' . $u['key_id'],
+				'options' => $key_list,
+				'value'	=> 0
+			));
+	
+		}
+		$enc_usage['usage_details'] = $usage;
+
+		$this->data['sections'][] = $enc_usage;
+
+		//key generation section 
 		$key_gen = array();
 		$key_gen['section_id'] = 'key_gen';
 		$key_gen['name'] = $this->language->get('key_gen_section_name');
@@ -142,8 +205,9 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 				'name' => 'private_key_type',
 				'options' => array(
 					OPENSSL_KEYTYPE_RSA => 'OPENSSL_KEYTYPE_RSA', 
-					OPENSSL_KEYTYPE_DSA => 'OPENSSL_KEYTYPE_DSA', 
-					OPENSSL_KEYTYPE_DH => 'OPENSSL_KEYTYPE_DH'
+				// Only OPENSSL_KEYTYPE_RSA supported by PHP now
+				//	OPENSSL_KEYTYPE_DSA => 'OPENSSL_KEYTYPE_DSA', 
+				//	OPENSSL_KEYTYPE_DH => 'OPENSSL_KEYTYPE_DH'
 				),
 				'value' => $this->data['private_key_type'],
 			));
@@ -166,7 +230,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		*/
 		$this->data['sections'][] = $key_gen;
 
-		
+		//data encryption section 		
 		$form2 = new AForm ( 'HT' );
 		$form2->setForm ( array ('form_name' => 'dataEncFrm', 'update' => $this->data ['update'] ) );
 
@@ -179,8 +243,6 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$data_enc['form']['submit'] = $form2->getFieldHtml(array('type' => 'button', 'name' => 'submit', 'text' => $this->language->get('button_encrypt_data'), 'style' => 'button1' ) );
 		$data_enc['form']['cancel'] = $form2->getFieldHtml(array('type' => 'button', 'name' => 'reset', 'text' => $this->language->get('button_reset'), 'style' => 'button2' ) );
 				
-		//load existing keys. 
-		$pub_keys_options = $this->_load_keys( $enc );
 				
 		$data_enc['form']['fields']['enc_key'] = $form2->getFieldHtml(array(
 				'type' => 'selectbox',
@@ -272,26 +334,9 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		
 		return $keys;
 	}
-
-	private function _load_keys ( $enc ) {
-		//get key files from the directory
-		$files = array_filter(glob($enc->getKeyPath().'/*'), function($file) { return preg_match('/.pub$/', $file ); } );
-		$pub_keys = array_map(function($file) { return basename($file, ".pub"); }, $files );
-		$pub_keys_options = array();
-		//load active keys from db
-		$query = $this->db->query("SELECT * FROM " . $this->db->table('encryption_keys') . " WHERE `status` = 1");
-		foreach ($query->rows as $key_record) {
-			foreach ($pub_keys as $key_name ) {
-				if ($key_name == $key_record['key_name']) {
-					$pub_keys_options[$key_record['key_id']] = $key_name;
-					break;
-				}
-			}
-		}
-		return $pub_keys_options;		
-	}
 	
-	private function _encrypt_user_data ( $data ) {
+	//Encrypt data initial from original tables
+	private function _initial_data_encryption ( $data ) {
 		if ( empty($data['enc_key']) ) {
 			return array();
 		}
@@ -312,7 +357,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		foreach ($enc_data->getEcryptedTables() as $table_name) {
 			$enc_fields = $enc_data->getEcryptedFields($table_name);
 			$id_field = $enc_data->getEcryptedTableID($table_name);
-			// important to use non-encripted table
+			// important to use non-encripted table. Do NOT use table function wrapper
 			$query_read = $this->db->query("SELECT * FROM " . DB_PREFIX . $table_name );
 			$count = 0;
 			foreach($query_read->rows as $record) {			
@@ -363,4 +408,139 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		}
 		return array('key_name' => $key_name, 'result' => $result);
 	}	
+
+	//Re-encrypt data with new key
+	private function _key_rotation ( $data ) {
+		if ( empty($data['old_key']) && empty($data['new_key']) ) {
+			return array();
+		}
+		//load key details 
+		$query = $this->db->query("SELECT * FROM " . $this->db->table('encryption_keys') . 
+						" WHERE `key_id` = ". (int)$data['new_key'] );
+		if ($query->num_rows != 1 ) {
+			return array();		
+		}	
+		
+		$key_name = $query->row['key_name'];
+		$key_id = $query->row['key_id'];
+		
+		$result = array();
+								
+		//generate keys	and save	
+		$enc_data = new ADataEncryption( $key_name ); 
+		foreach ($enc_data->getEcryptedTables() as $table_name) {
+			$enc_fields = $enc_data->getEcryptedFields($table_name);
+			$id_field = $enc_data->getEcryptedTableID($table_name);
+			// important to use encripted table.
+			$query_read = $this->db->query("SELECT * FROM " . $this->db->table($table_name) . " WHERE key_id = " . (int)$data['old_key']);
+			$count = 0;
+			foreach($query_read->rows as $record) {		
+				//decrypt original data 	
+				$decrepted_row = $this->dcrypt->decrypt_data($record, $table_name);
+				//specify new key to be used for encryption 		
+				$decrepted_row['key_id'] = $key_id;
+				$enc_rec_data = $enc_data->encrypt_data($decrepted_row, $table_name);
+				//check if this is not a test mode and we can write
+				$count++;
+				
+				//Update records with new encrypte data
+				//build update statment with encrypted fields
+				$update_sql = "key_id = " . $key_id;
+				foreach ($enc_fields as $enc_fld) {
+					$update_sql .= ' ,'.$enc_fld . " = '" . $enc_rec_data[$enc_fld] . "' ";
+				}
+				$update_sql =  "UPDATE " . $this->db->table($table_name) . " SET " . $update_sql;
+				$update_sql .= " WHERE ". $id_field . "='" .$enc_rec_data[$id_field]. "'"; 
+				try {
+				    $this->db->query( $update_sql );
+				} catch (AException $e) {
+				    $result[] = "<div class='error'>Error: Table $table_name record ID: " . $enc_rec_data[$id_field] . " with key name $key_name failed updating! </div>";
+				    $count--;						
+				    continue;
+				}				
+			}			
+			$result[] = "<b>Table $table_name has encrypted $count records with key name $key_name</b>";
+		}
+		return array('key_name' => $key_name, 'result' => $result);
+	}	
+
+	
+	private function _load_usage_details($enc, $enc_data) {
+		$usage = array();
+	
+		$keys = $this->_load_keys($enc, 1);
+	
+		foreach ($keys as $key ){
+			$data = array();
+			$data['key_name'] = $key['key_name'];
+			$data['key_id'] = $key['key_id'];
+			$data['key_usage'] = $this->_load_encrypted_stats($enc_data, $key['key_id']);
+			$usage[] = $data;
+		}
+	
+		return $usage;
+	}
+
+	private function _load_key_names ( $enc, $status = '' ) {
+		//load active keys from db
+		$keys = $this->_load_keys( $enc, $status );
+		$pub_keys_options = array();
+		foreach ($keys as $key_record) {
+			foreach ($key_record as $pub_keys => $key_name ) {
+				if ($pub_keys == 'key_name') {
+					$pub_keys_options[$key_record['key_id']] = $key_name;
+					break;
+				}
+			}
+		}
+		return $pub_keys_options;		
+	}
+
+	private function _load_keys ( $enc, $status = '' ) {
+		//get key files from the directory
+		$files = array_filter(glob($enc->getKeyPath().'/*'), function($file) { return preg_match('/.pub$/', $file ); } );
+		$pub_keys = array_map(function($file) { return basename($file, ".pub"); }, $files );
+		//load active keys from db
+		$status_sql = '';
+		if ( $status ) {
+			$status_sql = " WHERE `status` = " . (int)$status;
+		}
+		
+		$query = $this->db->query("SELECT * FROM " . $this->db->table('encryption_keys') . $status_sql);
+		return $query->rows;		
+	}
+
+	//Usage of tables with encrypted data and key
+	private function _load_encrypted_stats($enc_data, $key_id) {
+		$usage = array();
+	
+		$enc_config_tables = $enc_data->getEcryptedTables();
+		foreach ($enc_config_tables as $table_name) {
+			$row = array();
+			$row['table'] = $table_name;
+			//select total counts. Important to use encripted tables with table function wrapper
+			$query = $this->db->query("SELECT count(*) as total FROM " . $this->db->table($table_name) . " WHERE key_id = ". (int)$key_id );
+			$row['count'] = $query->row['total'];
+			$usage[] = $row;
+		}
+		return $usage;
+	}
+
+	//Usage of tables with unencrypted data
+	private function _load_unencrypted_stats($enc_data) {
+		$usage = array();
+	
+		$enc_config_tables = $enc_data->getEcryptedTables();
+		foreach ($enc_config_tables as $table_name) {
+			$row = array();
+			$row['table'] = $table_name;
+			//select total counts. Important to use non-encripted table. Do NOT use table function wrapper
+			$query = $this->db->query("SELECT count(*) as total FROM " . DB_PREFIX . $table_name );
+			$row['count'] = $query->row['total'];
+			$usage[] = $row;
+		}
+		return $usage;
+	}
+
+	
 }
