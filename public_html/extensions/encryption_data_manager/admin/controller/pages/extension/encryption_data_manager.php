@@ -142,7 +142,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$pub_keys_options = $this->_load_key_names( $enc, 1 );
 		
 		$form = new AForm ( 'HT' );
-		$form->setForm ( array ('form_name' => 'keyGenFrm', 'update' => $this->data ['update'] ) );
+		$form->setForm ( array ('form_name' => 'keyRotaionFrm', 'update' => $this->data ['update'] ) );
 
 		//encription usage section 
 		$enc_usage = array();
@@ -179,6 +179,9 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$this->data['sections'][] = $enc_usage;
 
 		//key generation section 
+		$form = new AForm ( 'HT' );
+		$form->setForm ( array ('form_name' => 'keyGenFrm', 'update' => $this->data ['update'] ) );
+		
 		$key_gen = array();
 		$key_gen['section_id'] = 'key_gen';
 		$key_gen['name'] = $this->language->get('key_gen_section_name');
