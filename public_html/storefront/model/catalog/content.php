@@ -22,6 +22,10 @@ if (! defined ( 'DIR_CORE' )) {
 }
 /** @noinspection PhpUndefinedClassInspection */
 class ModelCatalogContent extends Model {
+	/**
+	 * @param $content_id
+	 * @return array
+	 */
 	public function getContent($content_id) {
 		$content_id = (int)$content_id;
 		$cache = $this->cache->get('contents.content.'.$content_id, $this->config->get('storefront_language_id'), $this->config->get('config_store_id') );
@@ -48,9 +52,12 @@ class ModelCatalogContent extends Model {
 			}
 			$this->cache->set('contents.content.'.$content_id, $cache, $this->config->get('storefront_language_id'), $this->config->get('config_store_id') );
 		}
-		return $cache;
+		return (array)$cache;
 	}
-	
+
+	/**
+	 * @return array
+	 */
 	public function getContents() {
 
 		$output = $this->cache->get('contents', $this->config->get('storefront_language_id'), $this->config->get('config_store_id') );
@@ -81,6 +88,6 @@ class ModelCatalogContent extends Model {
 			}
 			$this->cache->set('contents',$output, $this->config->get('storefront_language_id'), $this->config->get('config_store_id') );
 		}
-		return $output;
+		return (array)$output;
 	}
 }
