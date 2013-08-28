@@ -35,20 +35,35 @@ class ModelAccountCustomer extends Model {
 			$data = $this->dcrypt->encrypt_data($data, 'customers');
 			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
 		}
+		if(!(int)$data['customer_group_id']){
+			$data['customer_group_id'] = (int)$this->config->get('config_customer_group_id');
+		}
+		if(!isset($data['status'])){
+			$data['status'] = 1;
+		}
+		if(isset($data['approved'])){
+			$data['approved'] = (int)$data['approved'];
+		}else{
+			if(!$this->config->get('config_customer_approval')){
+				$data['approved'] = 1;
+			}
+		}
     
-      	$this->db->query("INSERT INTO " . $this->db->table("customers") . " 
-      					  SET	store_id = '" . (int)$this->config->get('config_store_id') . "', 
-      					  		loginname = '" . $this->db->escape($data['loginname']) . "', 
-      					  		firstname = '" . $this->db->escape($data['firstname']) . "', 
-      					  		lastname = '" . $this->db->escape($data['lastname']) . "', 
-      					  		email = '" . $this->db->escape($data['email']) . "', 
-      					  		telephone = '" . $this->db->escape($data['telephone']) . "', 
-      					  		fax = '" . $this->db->escape($data['fax']) . "', 
-      					  		password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "', 
-      					  		newsletter = '" . (int)$data['newsletter'] . "', 
-      					  		customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "', 
-      					  		status = '1'". $key_sql . ",
-      					  		date_added = NOW()");
+      	$sql = "INSERT INTO " . $this->db->table("customers") . "
+			  SET	store_id = '" . (int)$this->config->get('config_store_id') . "',
+					loginname = '" . $this->db->escape($data['loginname']) . "',
+					firstname = '" . $this->db->escape($data['firstname']) . "',
+					lastname = '" . $this->db->escape($data['lastname']) . "',
+					email = '" . $this->db->escape($data['email']) . "',
+					telephone = '" . $this->db->escape($data['telephone']) . "',
+					fax = '" . $this->db->escape($data['fax']) . "',
+					password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "',
+					newsletter = '" . (int)$data['newsletter'] . "',
+					customer_group_id = '" .(int)$data['customer_group_id'] . "',
+					approved = '".(int)$data['approved']."',
+					status = '".(int)$data['status']."'". $key_sql . ",
+					date_added = NOW()";
+		$this->db->query($sql);
 		$customer_id = $this->db->getLastId();
 			
 		$key_sql = '';
@@ -70,12 +85,7 @@ class ModelAccountCustomer extends Model {
       					  		zone_id = '" . (int)$data['zone_id'] . "'");
 		
 		$address_id = $this->db->getLastId();
-
       	$this->db->query("UPDATE " . $this->db->table("customers") . " SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
-		
-		if (!$this->config->get('config_customer_approval')) {
-			$this->db->query("UPDATE " . $this->db->table("customers") . " SET approved = '1' WHERE customer_id = '" . (int)$customer_id . "'");
-		}		
 	}
 
 	/**
@@ -144,7 +154,7 @@ class ModelAccountCustomer extends Model {
 
 	/**
 	 * @param string $email
-	 * @return int
+	 * @return array
 	 */
 	public function getCustomerByEmail($email) {
 		//assuming that data is not encrypted. Can not call these otherwise
@@ -216,12 +226,14 @@ class ModelAccountCustomer extends Model {
 	 */
 	public function validateRegistrationData( $data ) {
 		$error = array();
-		$subscriber = $this->request->get_or_post('subscriber');
-		if ( $this->config->get('prevent_email_as_login') && !$subscriber) {
+
+		if ( $this->config->get('prevent_email_as_login')) {
 			//validate only if email login is not allowed
 			$login_name_pattern = '/^[\w._-]+$/i';
-    		if ((strlen(utf8_decode($data['loginname'])) < 5) || (strlen(utf8_decode($data['loginname'])) > 64)
-    			|| (!preg_match($login_name_pattern, $data['loginname'])) ) {
+    		if ( mb_strlen($data['loginname']) < 5
+					|| mb_strlen($data['loginname']) > 64
+					|| !preg_match($login_name_pattern, $data['loginname'])
+			) {
       			$error['loginname'] = $this->language->get('error_loginname');
     		//validate uniqunes of login name
    		 	} else if ( !$this->is_unique_loginname($data['loginname']) ) {
@@ -247,52 +259,77 @@ class ModelAccountCustomer extends Model {
       		$error['warning'] = $this->language->get('error_exists');
     	}
 
+		if ((strlen(utf8_decode($data['telephone'])) < 3) || (strlen(utf8_decode($data['telephone'])) > 32)) {
+			$error['telephone'] = $this->language->get('error_telephone');
+		}
 
-		if(!$subscriber){
-			if ((strlen(utf8_decode($data['telephone'])) < 3) || (strlen(utf8_decode($data['telephone'])) > 32)) {
-				$error['telephone'] = $this->language->get('error_telephone');
-			}
+		if ((strlen(utf8_decode($data['address_1'])) < 3) || (strlen(utf8_decode($data['address_1'])) > 128)) {
+			$error['address_1'] = $this->language->get('error_address_1');
+		}
 
-			if ((strlen(utf8_decode($data['address_1'])) < 3) || (strlen(utf8_decode($data['address_1'])) > 128)) {
-				$error['address_1'] = $this->language->get('error_address_1');
-			}
+		if ((strlen(utf8_decode($data['city'])) < 3) || (strlen(utf8_decode($data['city'])) > 128)) {
+			$error['city'] = $this->language->get('error_city');
+		}
+		if ((strlen(utf8_decode($data['postcode'])) < 3) || (strlen(utf8_decode($data['postcode'])) > 128)) {
+			$error['postcode'] = $this->language->get('error_postcode');
+		}
 
-			if ((strlen(utf8_decode($data['city'])) < 3) || (strlen(utf8_decode($data['city'])) > 128)) {
-				$error['city'] = $this->language->get('error_city');
-			}
-			if ((strlen(utf8_decode($data['postcode'])) < 3) || (strlen(utf8_decode($data['postcode'])) > 128)) {
-				$error['postcode'] = $this->language->get('error_postcode');
-			}
+		if ($data['country_id'] == 'FALSE') {
+			$error['country'] = $this->language->get('error_country');
+		}
 
-			if ($data['country_id'] == 'FALSE') {
-				$error['country'] = $this->language->get('error_country');
-			}
+		if ($data['zone_id'] == 'FALSE') {
+			$error['zone'] = $this->language->get('error_zone');
+		}
 
-			if ($data['zone_id'] == 'FALSE') {
-				$error['zone'] = $this->language->get('error_zone');
-			}
+		if ((strlen(utf8_decode($data['password'])) < 4) || (strlen(utf8_decode($data['password'])) > 20)) {
+			$error['password'] = $this->language->get('error_password');
+		}
 
-			if ((strlen(utf8_decode($data['password'])) < 4) || (strlen(utf8_decode($data['password'])) > 20)) {
-				$error['password'] = $this->language->get('error_password');
-			}
+		if ($data['confirm'] != $data['password']) {
+			$error['confirm'] = $this->language->get('error_confirm');
+		}
 
-			if ($data['confirm'] != $data['password']) {
-				$error['confirm'] = $this->language->get('error_confirm');
-			}
+		if ($this->config->get('config_account_id')) {
+			$this->load->model('catalog/content');
 
-			if ($this->config->get('config_account_id')) {
-				$this->load->model('catalog/content');
+			$content_info = $this->model_catalog_content->getContent($this->config->get('config_account_id'));
 
-				$content_info = $this->model_catalog_content->getContent($this->config->get('config_account_id'));
-
-				if ($content_info) {
-					if (!isset($data['agree'])) {
-						$error['warning'] = sprintf($this->language->get('error_agree'), $content_info['title']);
-					}
+			if ($content_info) {
+				if (!isset($data['agree'])) {
+					$error['warning'] = sprintf($this->language->get('error_agree'), $content_info['title']);
 				}
 			}
 		}
+
 		
+    	return $error;
+	}
+	/**
+	 * @param array $data
+	 * @return array
+	 */
+	public function validateSubscribeData( $data ) {
+		$error = array();
+
+    	if ((strlen(utf8_decode($data['firstname'])) < 1) || (strlen(utf8_decode($data['firstname'])) > 32)) {
+      		$error['firstname'] = $this->language->get('error_firstname');
+    	}
+
+    	if ((strlen(utf8_decode($data['lastname'])) < 1) || (strlen(utf8_decode($data['lastname'])) > 32)) {
+      		$error['lastname'] = $this->language->get('error_lastname');
+    	}
+
+		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
+
+    	if ((strlen(utf8_decode($data['email'])) > 96) || (!preg_match($pattern, $data['email']))) {
+      		$error['email'] = $this->language->get('error_email');
+    	}
+
+    	if ($this->getTotalCustomersByEmail($data['email'])) {
+      		$error['warning'] = $this->language->get('error_exists');
+    	}
+
     	return $error;
 	}
 
@@ -372,5 +409,9 @@ class ModelAccountCustomer extends Model {
 		return $query->rows;
 	}
 
-	
+	public function getSubscribersCustomerGroupId() {
+		$query = $this->db->query("SELECT customer_group_id	FROM `" . $this->db->table("customer_groups") . "` WHERE `name` = 'Newsletter Subscribers' LIMIT 0,1");
+		$result = !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') :  $query->row['customer_group_id'];
+		return $result;
+	}
 }

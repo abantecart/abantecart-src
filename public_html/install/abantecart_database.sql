@@ -442,9 +442,10 @@ CREATE TABLE `ac_customer_groups` (
 -- Dumping data for table `customer_groups`
 --
 
-INSERT INTO `ac_customer_groups` (`customer_group_id`, `name`) VALUES
-(8, 'Default'),
-(6, 'Wholesalers');
+INSERT INTO `ac_customer_groups` ( `name`) VALUES
+('Default'),
+('Wholesalers'),
+('Newsletter Subscribers');
 
 
 --
@@ -1212,7 +1213,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_tax_store',1),
 ('checkout','config_tax_customer',0),
 ('checkout','config_customer_price',1),
-('checkout','config_customer_group_id',8),
+('checkout','config_customer_group_id',1),
 ('checkout','config_customer_approval',0),
 ('checkout','prevent_email_as_login',1),
 ('checkout','config_guest_checkout',1),
