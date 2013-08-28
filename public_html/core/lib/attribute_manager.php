@@ -42,6 +42,9 @@ class AAttribute_Manager extends AAttribute {
         $this->cache->delete('attribute.values');
     }
 
+	/**
+	 * @param int $attribute_id
+	 */
 	public function deleteAttribute($attribute_id) {
 
         $this->db->query("DELETE FROM `".DB_PREFIX."global_attributes`
@@ -56,7 +59,11 @@ class AAttribute_Manager extends AAttribute {
         $this->clearCache();
     }
 
-    public function addAttribute($data) {
+	/**
+	 * @param array $data
+	 * @return bool|int
+	 */
+	public function addAttribute($data) {
 		if(!$data['name']) return false;
 	    $language_id = $this->session->data['content_language_id'];
 	    
@@ -93,7 +100,11 @@ class AAttribute_Manager extends AAttribute {
         return $attribute_id;
     }
 
-    public function updateAttribute($attribute_id, $data) {
+	/**
+	 * @param int $attribute_id
+	 * @param array $data
+	 */
+	public function updateAttribute($attribute_id, $data) {
 		//Note: update is done per 1 language 
 	    $language_id = $this->session->data['content_language_id'];
         $fields = array( 'attribute_type_id',
@@ -177,21 +188,30 @@ class AAttribute_Manager extends AAttribute {
 
     }
 
-    public function addAttributeValue($attribute_id, $sort_order) {
+	/**
+	 * @param int $attribute_id
+	 * @param int $sort_order
+	 * @return bool|int
+	 */
+	public function addAttributeValue($attribute_id, $sort_order) {
 		if ( empty($attribute_id) ) {
-			return null;
+			return false;
 		}		
 		$sql = "INSERT INTO `".DB_PREFIX."global_attributes_values`
 		  		SET attribute_id = '" . (int)$attribute_id . "',
-		  			sort_order = '" . $this->db->escape($sort_order) . "'";	
+		  			sort_order = '" . (int)$sort_order . "'";
 		$this->db->query( $sql );
 		return $this->db->getLastId();		
     	
 	}
 
-    public function deleteAttributeValues($attribute_value_id) {
+	/**
+	 * @param int $attribute_value_id
+	 * @return bool
+	 */
+	public function deleteAttributeValues($attribute_value_id) {
 		if ( empty($attribute_value_id) ) {
-			return;
+			return false;
 		}
 		//Delete global_attributes_values that have no values left
     	$sql = "DELETE FROM `".DB_PREFIX."global_attributes_values`
@@ -202,21 +222,33 @@ class AAttribute_Manager extends AAttribute {
     	$this->clearCache();
 	}
 
-    public function updateAttributeValue($attribute_value_id, $sort_order) {
+	/**
+	 * @param int $attribute_value_id
+	 * @param int $sort_order
+	 * @return bool
+	 */
+	public function updateAttributeValue($attribute_value_id, $sort_order) {
 		if ( empty($attribute_value_id) ) {
-			return;
+			return false;
 		}
 		
 		$sql = "UPDATE " . DB_PREFIX . "global_attributes_values
-						SET sort_order = '" . $this->db->escape( $sort_order ) ."'
+						SET sort_order = '" . (int) $sort_order ."'
 						WHERE attribute_value_id = '" . (int)$attribute_value_id . "'";
         $this->db->query( $sql );
     	$this->clearCache();
 	}
 
+	/**
+	 * @param int $attribute_id
+	 * @param int $attribute_value_id
+	 * @param int $language_id
+	 * @param string $value
+	 * @return bool
+	 */
 	public function addAttributeValueDescription ($attribute_id, $attribute_value_id, $language_id, $value){
 		if ( empty($attribute_id) || empty($attribute_value_id) || empty($language_id) ) {
-			return;
+			return false;
 		}
 
 		$this->language->replaceDescriptions('global_attributes_value_descriptions',
@@ -226,9 +258,15 @@ class AAttribute_Manager extends AAttribute {
         $this->clearCache();       
 	}
 
-    public function updateAttributeValueDescritpion($attribute_id, $attribute_value_id, $language_id, $value) {
+	/**
+	 * @param int $attribute_id
+	 * @param int $attribute_value_id
+	 * @param int $language_id
+	 * @param string $value
+	 */
+	public function updateAttributeValueDescritpion($attribute_id, $attribute_value_id, $language_id, $value) {
 		if ( empty($attribute_id) || empty($attribute_value_id) || empty($language_id) ) {
-			return;
+			return false;
 		}
 		//Delete and add operation 
 		$this->deleteAttributeValueDescritpion($attribute_value_id, $language_id);
@@ -237,18 +275,26 @@ class AAttribute_Manager extends AAttribute {
 		$this->clearCache(); 
 	}
 
-    public function deleteAllAttributeValueDescritpions($attribute_value_id) {
+	/**
+	 * @param int $attribute_value_id
+	 * @return bool
+	 */
+	public function deleteAllAttributeValueDescritpions($attribute_value_id) {
 		if ( empty($attribute_value_id) ) {
-			return;
+			return false;
 		}
 		$this->language->deleteDescriptions('global_attributes_value_descriptions', 
 											 array('attribute_value_id' => (int)$attribute_value_id ));
         $this->clearCache();
 	}
 
-    public function deleteAttributeValueDescritpion($attribute_value_id, $language_id) {
+	/**
+	 * @param int $attribute_value_id
+	 * @param int $language_id
+	 */
+	public function deleteAttributeValueDescritpion($attribute_value_id, $language_id) {
 		if ( empty($attribute_value_id) || empty($language_id) ) {
-			return;
+			return false;
 		}
 
 		$this->language->deleteDescriptions('global_attributes_value_descriptions', 
@@ -258,28 +304,33 @@ class AAttribute_Manager extends AAttribute {
         $this->clearCache();
 	}
 
-    public function deleteAttributeGroup($group_id) {
+	/**
+	 * @param int $group_id
+	 * @return mixed
+	 */
+	public function deleteAttributeGroup($group_id) {
 
         $this->db->query("DELETE FROM `".DB_PREFIX."global_attributes_groups`
-                          WHERE attribute_group_id = '" . $this->db->escape($group_id) . "' ");
+                          WHERE attribute_group_id = '" . (int)$group_id . "' ");
         $this->db->query( "DELETE FROM `".DB_PREFIX."global_attributes_groups_descriptions`
-                           WHERE attribute_group_id = '" . $this->db->escape($group_id) . "' ");
-
+                           WHERE attribute_group_id = '" . (int)$group_id . "' ");
         $this->db->query(
             "UPDATE `".DB_PREFIX."global_attributes`
              SET attribute_group_id = ''
-             WHERE attribute_group_id = '" . $this->db->escape($group_id) . "' ");
-
+             WHERE attribute_group_id = '" . (int)$group_id . "' ");
         $this->clearCache();
-        return $group_id;
     }
 
-    public function addAttributeGroup($data) {
+	/**
+	 * @param array $data
+	 * @return int
+	 */
+	public function addAttributeGroup($data) {
 
         $this->db->query(
             "INSERT INTO `".DB_PREFIX."global_attributes_groups`
-             SET sort_order = '" . $this->db->escape($data['sort_order']) . "',
-                 status = '" . $this->db->escape($data['status']) . "' ");
+             SET sort_order = '" . (int)$data['sort_order'] . "',
+                 status = '" . (int)$data['status'] . "' ");
 
         $group_id = $this->db->getLastId();
         $language_id = $this->session->data['content_language_id'];
@@ -291,13 +342,17 @@ class AAttribute_Manager extends AAttribute {
         return $group_id;
     }
 
-    public function updateAttributeGroup($group_id, $data) {
+	/**
+	 * @param int $group_id
+	 * @param array $data
+	 */
+	public function updateAttributeGroup($group_id, $data) {
 
         $fields = array('sort_order', 'status');
         $update = array();
         foreach ( $fields as $f ) {
             if ( isset($data[$f]) )
-                $update[] = "$f = '".$this->db->escape($data[$f])."'";
+                $update[] = "$f = '".(int)$data[$f]."'";
         }
         if ( !empty($update) ) {
             $this->db->query(
@@ -313,34 +368,13 @@ class AAttribute_Manager extends AAttribute {
 											array('attribute_group_id' => (int)$group_id),
 											array($language_id=>array( 'name'=>$data['name'])));
 
-           /* $exist = $this->db->query(
-                "SELECT *
-                FROM " . DB_PREFIX . "global_attributes_groups_descriptions
-                WHERE attribute_group_id = '" . (int)$group_id . "'
-                    AND language_id = '" . (int)$language_id . "' ");
-
-            if ($exist->num_rows) {
-                $this->db->query(
-                    "UPDATE " . DB_PREFIX . "global_attributes_groups_descriptions
-                    SET name = '" . $this->db->escape($data['name']) ."'
-                    WHERE attribute_group_id = '" . (int)$group_id . "'
-                        AND language_id = '" . (int)$language_id . "' ");
-            } else {
-                $this->db->query(
-                    "INSERT INTO `".DB_PREFIX."global_attributes_groups_descriptions`
-                     SET attribute_group_id = '" . (int)$group_id . "',
-                         language_id = '" . (int)$language_id . "',
-                         name = '" . $this->db->escape($data['name']) . "' ");
-            }*/
         }
-
         $this->clearCache();
-
     }
 
 	/**
 	 * Get details about given group for attributes
-	 * @param $group_id
+	 * @param int $group_id
 	 * @param int $language_id
 	 * @return array
 	 */
@@ -355,7 +389,7 @@ class AAttribute_Manager extends AAttribute {
             FROM `".DB_PREFIX."global_attributes_groups` gag
                 LEFT JOIN `".DB_PREFIX."global_attributes_groups_descriptions` gagd
                 	ON ( gag.attribute_group_id = gagd.attribute_group_id AND gagd.language_id = '" . (int)$language_id . "' )
-            WHERE gag.attribute_group_id = '" . $this->db->escape( $group_id ) . "'"
+            WHERE gag.attribute_group_id = '" . (int) $group_id . "'"
         );
 
 	    if ( $query->num_rows ) {
@@ -365,14 +399,18 @@ class AAttribute_Manager extends AAttribute {
         }
 	}
 
-    public function getAttributeGroups( $data = array() ) {
+	/**
+	 * @param array $data
+	 * @return array
+	 */
+	public function getAttributeGroups( $data = array() ) {
 
         if ( !$data['language_id'] ) {
             $data['language_id'] = $this->config->get('storefront_language_id');
         }
 
         $sql = "SELECT gag.*, gagd.name
-            FROM `".DB_PREFIX."global_attributes_groups` gag
+            	FROM `".DB_PREFIX."global_attributes_groups` gag
                 LEFT JOIN `".DB_PREFIX."global_attributes_groups_descriptions` gagd
                 ON ( gag.attribute_group_id = gagd.attribute_group_id AND gagd.language_id = '" . (int)$data['language_id'] . "' )";
 
@@ -412,7 +450,11 @@ class AAttribute_Manager extends AAttribute {
         return $query->rows;
     }
 
-    public function getTotalAttributeGroups( $data = array() ) {
+	/**
+	 * @param array $data
+	 * @return array
+	 */
+	public function getTotalAttributeGroups( $data = array() ) {
 
         if ( !$data['language_id'] ) {
             $data['language_id'] = $this->config->get('storefront_language_id');
@@ -426,33 +468,37 @@ class AAttribute_Manager extends AAttribute {
         return $query->num_rows;
     }
 
+	/**
+	 * @param int $attribute_id
+	 * @param int $language_id
+	 * @return array|null
+	 */
 	public function getAttribute( $attribute_id, $language_id = 0 ) {
 
         if ( !$language_id ) {
             $language_id = $this->session->data['content_language_id'];
         }
 
-        $query = $this->db->query("
-            SELECT ga.*, gad.name, gad.error_text
-            FROM `".DB_PREFIX."global_attributes` ga
-                LEFT JOIN `".DB_PREFIX."global_attributes_descriptions` gad
-                ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
-            WHERE ga.attribute_id = '" . (int)$attribute_id . "'"
-        );
-
+        $query = $this->db->query( "SELECT ga.*, gad.name, gad.error_text
+									FROM `".DB_PREFIX."global_attributes` ga
+										LEFT JOIN `".DB_PREFIX."global_attributes_descriptions` gad
+										ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
+									WHERE ga.attribute_id = '" . (int)$attribute_id . "'" );
 	    if ( $query->num_rows ) {
             return $query->row;
         } else {
-            return null;
+            return array();
         }
 	}
 
-    public function getAttributeDescriptions($attribute_id) {
-        $query = $this->db->query("
-            SELECT *
-            FROM `".DB_PREFIX."global_attributes_descriptions`
-            WHERE attribute_id = '" . $this->db->escape( $attribute_id ) . "'"
-        );
+	/**
+	 * @param int $attribute_id
+	 * @return array
+	 */
+	public function getAttributeDescriptions($attribute_id) {
+        $query = $this->db->query( "SELECT *
+									FROM `".DB_PREFIX."global_attributes_descriptions`
+									WHERE attribute_id = '" . $this->db->escape( $attribute_id ) . "'" );
         $result = array();
         foreach ( $query->rows as $row ) {
             $result[ $row['language_id'] ] = array( 'name'=> $row['name'],
@@ -462,6 +508,11 @@ class AAttribute_Manager extends AAttribute {
 	    return $result;
 	}
 
+	/**
+	 * @param int $attribute_id
+	 * @param int $language_id
+	 * @return array
+	 */
 	public function getAttributeValues($attribute_id, $language_id = 0) {
         if ( !$language_id ) {
             $language_id = $this->session->data['content_language_id'];
@@ -476,6 +527,10 @@ class AAttribute_Manager extends AAttribute {
 	    return $query->rows;
 	}
 
+	/**
+	 * @param int $attribute_value_id
+	 * @return array
+	 */
 	public function getAttributeValueDescriptions($attribute_value_id) {
         $query = $this->db->query("
             SELECT *
@@ -489,6 +544,12 @@ class AAttribute_Manager extends AAttribute {
 	    return $result;
 	}
 
+	/**
+	 * @param array $data
+	 * @param int $language_id
+	 * @param null|int $attribute_parent_id
+	 * @return array
+	 */
 	public function getAttributes( $data = array(), $language_id = 0, $attribute_parent_id = null ) {
 
         if ( !$language_id ) {
@@ -547,13 +608,14 @@ class AAttribute_Manager extends AAttribute {
 
             $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
 
-
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function getTotalAttributes( $data = array() ) {
 
         if ( !$data['language_id'] ) {
@@ -572,6 +634,9 @@ class AAttribute_Manager extends AAttribute {
         return $query->num_rows;
     }
 
+	/**
+	 * @return array
+	 */
 	public function getLeafAttributes() {
 		$query = $this->db->query(
 			"SELECT t1.attribute_id as attribute_id FROM " . DB_PREFIX . "global_attributes AS t1 LEFT JOIN " . DB_PREFIX . "global_attributes as t2
@@ -584,7 +649,11 @@ class AAttribute_Manager extends AAttribute {
 		return $result;
 	}
 
-
+	/**
+	 * common method for external validation of attribute
+	 * @param array $data
+	 * @return array
+	 */
 	public function validateAttributeCommonData($data=array()) {
 			$error = array();
 			$this->load->language('catalog/attribute');
