@@ -286,7 +286,7 @@ class ModelSaleCustomer extends Model {
 		}
 
 		if ( $this->dcrypt->active ) {
-			$sql = ", c.key_id ";
+			$sql .= ", c.key_id ";
 		}
 
 		$sql .= " FROM " . $this->db->table("customers") . " c
