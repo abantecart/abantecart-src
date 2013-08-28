@@ -278,13 +278,17 @@ class ModelSaleCustomer extends Model {
   				c.approved,
   				c.customer_group_id,
 				CONCAT(c.firstname, ' ', c.lastname) AS name,
-				c.key_id, 
 				cg.name AS customer_group
 				";
 		}
 		if ( $mode != 'total_only'){
 			$sql .= ", COUNT(o.order_id) as orders_count  ";
 		}
+
+		if ( $this->dcrypt->active ) {
+			$sql = ", c.key_id ";
+		}
+
 		$sql .= " FROM " . $this->db->table("customers") . " c
 				LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";
 		if ( $mode != 'total_only'){
