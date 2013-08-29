@@ -18,7 +18,7 @@ if ($products) {
     foreach ($products as $product) {
 
         $item = array();
-        $item['image'] = "<img src='".$product['thumb']['thumb_url']."' width='50' alt='".$product['name']."' />";
+        $item['image'] = $product['thumb']['thumb_html'];
         $item['title'] = $product['name'];
         $item['description'] = $product['model'];
         $item['rating'] = ($product['rating']) ? "<img src='". $this->templateResource('/image/stars_'.$product['rating'].'.png') ."' alt='".$product['stars']."' />" : '';

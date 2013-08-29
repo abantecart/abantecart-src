@@ -121,7 +121,7 @@ class ControllerBlocksListingBlock extends AController {
 		}
 		$data_source= array('rl_object_name'=>'products','data_type'=>'product_id');
 		//add thumbnails to list of products. 1 thumbnail per product
-		$products = $this->_addThumbnails($data_source, $products);
+		$products = $this->_processItems($data_source, $products);
 
 		if ($this->config->get('config_customer_price')) {
 			$display_price = TRUE;
@@ -299,7 +299,7 @@ class ControllerBlocksListingBlock extends AController {
 							}
 						}
 						//add thumbnails to custom list of items. 1 thumbnail per item
-						$result = $this->_addThumbnails($data_source, $result);
+						$result = $this->_processItems($data_source, $result);
 					}
 
 				}
@@ -319,19 +319,24 @@ class ControllerBlocksListingBlock extends AController {
 			}
 		}
 
-		if($data_source['rl_object_name'] ){
+		/*if($data_source['rl_object_name'] ){
 			$resource = new AResource('image');
-		}
+		}*/
 		if($result){
 			//add thumbnails to custom list of items. 1 thumbnail per item
-			$result = $this->_addThumbnails($data_source, $result);
+			$result = $this->_processItems($data_source, $result);
 		}
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 		return $result;
 	}
 
-	private function _addThumbnails($data_source, $result){
+	/**
+	 * @param array $data_source
+	 * @param array $result
+	 * @return array
+	 */
+	private function _processItems($data_source, $result){
 		if(!$data_source['rl_object_name'] ){ return $result; }
 		$resource = new AResource('image');
 		if($result){
@@ -346,16 +351,13 @@ class ControllerBlocksListingBlock extends AController {
 					$result[$k]['image'] = $result[$k]['thumb'] = $thumbnail;
 
 				}
-
-				//NOTE: This is wrong place to put price and url. 
 				if(isset($item['price']) && preg_match('/^[0-9\.]/',$item['price'])){
 					$result[$k]['price'] = $this->currency->format($this->tax->calculate($item['price'], $result['tax_class_id'], $this->config->get('config_tax')));
 				}
-				//Deprecate ['url'] in v2.0, it is only used in default template and replaced with ['href'] set in caller function
+				//TODO: remove it in the future. Deprecated ['url'] in v2.0, it is only used in default template and replaced with ['href'] set in caller function
 				$result[$k]['url'] = $this->html->getSEOURL($data_source['storefront_view_path'],'&'.$data_source['data_type'].'='.$item[$data_source['data_type']]);
 			}
 		}
 	return $result;
 	}
 }
-?>
