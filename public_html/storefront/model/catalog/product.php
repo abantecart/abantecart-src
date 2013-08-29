@@ -641,11 +641,11 @@ class ModelCatalogProduct extends Model {
 		if (is_null($product_data)) {
 			$sql = "SELECT *
 					FROM " . $this->db->table("products_featured") . " f
-					LEFT JOIN " . $this->db->table("products") . " p ON (f.product_id=p.product_id)
+					LEFT JOIN " . $this->db->table("products") . " p ON (f.product_id = p.product_id)
 					LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (f.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 					LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)
 					WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
-						AND p.status='1'";
+						AND p.status='1' AND p.date_available <= NOW()";
 			if((int)$limit){
 				$sql .= " LIMIT " . (int)$limit;
 			}
@@ -750,13 +750,13 @@ class ModelCatalogProduct extends Model {
 		}
 		//get all option values of group
 		$option_values = $this->db->query(
-			"select pov.*, povd.name
-			from " . $this->db->table("product_options") . " po
-				left join " . $this->db->table("product_option_values") . " pov ON (po.product_option_id = pov.product_option_id)
-				left join " . $this->db->table("product_option_value_descriptions") . " povd
+			"SELECT pov.*, povd.name
+			 FROM " . $this->db->table("product_options") . " po
+			 LEFT JOIN " . $this->db->table("product_option_values") . " pov ON (po.product_option_id = pov.product_option_id)
+			 LEFT JOIN  " . $this->db->table("product_option_value_descriptions") . " povd
 					ON (pov.product_option_value_id = povd.product_option_value_id AND povd.language_id = '".(int)$this->config->get('storefront_language_id')."' )
-			where po.group_id = '" . (int)$product_option->row['group_id'] . "'
-			order by pov.sort_order ");
+			 WHERE po.group_id = '" . (int)$product_option->row['group_id'] . "'
+			 ORDER BY pov.sort_order ");
 
 		//find attribute_value_id of option_value
 		//find all option values with attribute_value_id
@@ -1238,7 +1238,7 @@ class ModelCatalogProduct extends Model {
 			if (isset($filter['category_id']) && !is_null($filter['category_id'])) {
 				$sql .= " LEFT JOIN " . $this->db->table("products_to_categories") . " p2c ON (p.product_id = p2c.product_id)";
 			}
-			$sql .= " WHERE pd.language_id = '" . $language_id . "'";
+			$sql .= " WHERE pd.language_id = '" . $language_id . "' AND p.date_available <= NOW() AND p.status = '1' ";
 
 			if (!empty($data['subsql_filter'])) {
 				$sql .= " AND ".$data['subsql_filter'];
@@ -1343,11 +1343,9 @@ class ModelCatalogProduct extends Model {
 				$query = $this->db->query("SELECT *
 											FROM " . $this->db->table("products") . " p
 											LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id)
-											WHERE pd.language_id = '" . $language_id . "'
+											WHERE pd.language_id = '" . $language_id . "' AND p.date_available <= NOW() AND p.status = '1'
 											ORDER BY pd.name ASC");
-	
 				$product_data = $query->rows;
-			
 				$this->cache->set('product', $product_data, $language_id);
 			}	
 	
