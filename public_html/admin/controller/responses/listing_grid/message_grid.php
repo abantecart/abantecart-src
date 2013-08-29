@@ -66,7 +66,7 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 					break;
 				case 'W':
 					$status = $this->language->get('entry_warning');
-					$response->userdata->classes[ $result [ 'msg_id' ] ] = 'attension';
+					$response->userdata->classes[ $result [ 'msg_id' ] ] = 'attention';
 					break;
 				case 'N':
 				default:
