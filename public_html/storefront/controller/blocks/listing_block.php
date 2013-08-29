@@ -94,12 +94,12 @@ class ControllerBlocksListingBlock extends AController {
 
 			$options = $products_info[$result['product_id']]['options'];
 			if ($options) {
-				$add = $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode');
+				$add_to_cart = $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode');
 			} else {
                 if($this->config->get('config_cart_ajax')){
-                    $add = '#';
+                    $add_to_cart = '#';
                 }else{
-                    $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
+                    $add_to_cart = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
                 }
 			}
 
@@ -115,14 +115,15 @@ class ControllerBlocksListingBlock extends AController {
 								'thumb'   		=> $result['image'],
 								'image'   		=> $result['image'],
 								'href'    		=> $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode'),
-								'add'    		=> $add,
+								'add'    		=> $add_to_cart,
 								'item_name'		=> 'product'
 			);
 		}
 		$data_source= array('rl_object_name'=>'products','data_type'=>'product_id');
 		//add thumbnails to list of products. 1 thumbnail per product
-		$products = $this->_processItems($data_source, $products);
+		$products = $this->_prepareCustomItems($data_source, $products);
 
+		// set sign of displaying prices on storefront
 		if ($this->config->get('config_customer_price')) {
 			$display_price = TRUE;
 		} elseif ($this->customer->isLogged()) {
@@ -130,10 +131,9 @@ class ControllerBlocksListingBlock extends AController {
 		} else {
 			$display_price = FALSE;
 		}
-
 		$this->view->assign('display_price',$display_price);
-		$this->view->assign('products',$products);
 
+		$this->view->assign('products',$products);
 		$vertical_tpl = array( 'blocks/listing_block_column_left.tpl',
 		                       'blocks/listing_block_column_right.tpl');
 
@@ -166,7 +166,6 @@ class ControllerBlocksListingBlock extends AController {
 					$cn['href'] = $this->html->getSEOURL('product/manufacturer','&manufacturer_id='.$cn['manufacturer_id'],'&encode');
 				break;
 			}
-
 		}
 		return $content;
 	}
@@ -299,7 +298,7 @@ class ControllerBlocksListingBlock extends AController {
 							}
 						}
 						//add thumbnails to custom list of items. 1 thumbnail per item
-						$result = $this->_processItems($data_source, $result);
+						$result = $this->_prepareCustomItems($data_source, $result);
 					}
 
 				}
@@ -324,7 +323,7 @@ class ControllerBlocksListingBlock extends AController {
 		}*/
 		if($result){
 			//add thumbnails to custom list of items. 1 thumbnail per item
-			$result = $this->_processItems($data_source, $result);
+			$result = $this->_prepareCustomItems($data_source, $result);
 		}
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -336,7 +335,7 @@ class ControllerBlocksListingBlock extends AController {
 	 * @param array $result
 	 * @return array
 	 */
-	private function _processItems($data_source, $result){
+	private function _prepareCustomItems($data_source, $result){
 		if(!$data_source['rl_object_name'] ){ return $result; }
 		$resource = new AResource('image');
 		if($result){
