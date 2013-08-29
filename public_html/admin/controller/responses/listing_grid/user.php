@@ -67,7 +67,7 @@ class ControllerResponsesListingGridUser extends AController {
                     'value' => $result['status'],
                     'style'  => 'btn_switch',
                 )),
-				date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				dateISO2Display($result['date_added'], $this->language->get('date_format_short'))
 			);
 			$i++;
 		}

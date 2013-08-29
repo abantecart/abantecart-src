@@ -62,7 +62,7 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
                     'name'  => 'language_value['.$result['language_definition_id'].']',
                     'value' => $result['language_value'],
                 )),
-				(strtotime($result['update_date']) ? date('Y/m/d', strtotime($result['update_date'])) : ''),
+				dateISO2Display($result['update_date'], $this->language->get('date_format_short'))
 			);
 			$i++;
 		}

@@ -73,8 +73,8 @@ class ControllerResponsesListingGridCoupon extends AController {
 				$result['name'],
 				$result['code'],
 				$result['discount'],
-				date($this->language->get('date_format_short'), strtotime($result['date_start'])),
-				date($this->language->get('date_format_short'), strtotime($result['date_end'])),
+				dateISO2Display($result['date_start'], $this->language->get('date_format_short')),
+				dateISO2Display($result['date_end'], $this->language->get('date_format_short')),
 				$this->html->buildCheckbox(array(
                     'name'  => 'status['.$result['coupon_id'].']',
                     'value' => $result['status'],

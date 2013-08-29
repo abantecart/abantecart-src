@@ -173,7 +173,4 @@ class ControllerPagesAccountSubscriber extends AController {
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
-
-  	private function validate() {
-  	}
 }

@@ -272,7 +272,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['lastname'] = $order_info['lastname'];
 		$this->data['lastname'] = $order_info['lastname'];
 		$this->data['total'] = $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value']);
-		$this->data['date_added'] = date($this->language->get('date_format_short').' '.$this->language->get('time_format'), strtotime($order_info['date_added']));
+		$this->data['date_added'] = dateISO2Display($order_info['date_added'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
 
 		$this->loadModel('localisation/order_status');
 		$status = $this->model_localisation_order_status->getOrderStatus($order_info['order_status_id']);
@@ -868,7 +868,7 @@ class ControllerPagesSaleOrder extends AController {
 		$results = $this->model_sale_order->getOrderHistory($this->request->get['order_id']);
 		foreach ($results as $result) {
 			$this->data['histories'][] = array(
-				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				'date_added' => dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
 				'status'     => $result['status'],
 				'comment'    => nl2br($result['comment']),
 				'notify'     => $result['notify'] ? $this->language->get('text_yes') : $this->language->get('text_no')

@@ -110,7 +110,7 @@ class ControllerPagesAccountDownload extends AController {
 
 					$downloads[] = array(
 						'order_id'   => $result['order_id'],
-						'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+						'date_added' => dateISO2Display($result['date_added'],$this->language->get('date_format_short')),
 						'name'       => $result['name'],
 						'remaining'  => $result['remaining'],
 						'size'       => round(substr($size, 0, strpos($size, '.') + 4), 2) . $suffix[$i],
