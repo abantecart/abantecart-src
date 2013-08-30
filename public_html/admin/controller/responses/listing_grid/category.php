@@ -57,7 +57,7 @@ class ControllerResponsesListingGridCategory extends AController {
 		$response->page = $filter->getParam('page');
 		$response->total = $filter->calcTotalPages( $total );
 		$response->records = $total;
-	    $response->userdata = (object)array('');
+	    $response->userdata = new stdClass();
 	    $results = $this->model_catalog_category->getCategoriesData($filter_data);
 
 	    $i = 0;
@@ -71,8 +71,21 @@ class ControllerResponsesListingGridCategory extends AController {
 
             $response->rows[$i]['id'] = $result['category_id'];
             $cnt = $this->model_catalog_category->getCategoriesData(array('parent_id'=>$result['category_id']),'total_only');
-            //tree grid structure
 
+			if(!$result['products_count']){
+				$products_count = $result['products_count'];
+			}else{
+				$products_count = $this->html->buildButton(array(
+																'name' => 'view products',
+																'text' => $result[ 'products_count' ],
+																'style' => 'button2',
+																'href'=> $this->html->getSecureURL('catalog/product','&category='.$result['category_id']),
+																'title' => $this->language->get('text_view').' '.$this->language->get('tab_product'),
+																'target' => '_blank'
+															));
+			}
+
+            //tree grid structure
             if ( $this->config->get('config_show_tree_data') ) {
             	$name_lable = '<label style="white-space: nowrap;">'.$result['basename'].'</label>';
             } else {
@@ -83,7 +96,7 @@ class ControllerResponsesListingGridCategory extends AController {
 				    'attr' => ' maxlength="32" '
                 ));
             }
-                   
+
 			$response->rows[$i]['cell'] = array(
                 $thumbnail['thumb_html'],
                 $name_lable,
@@ -96,7 +109,7 @@ class ControllerResponsesListingGridCategory extends AController {
                     'value' => $result['status'],
                     'style'  => 'btn_switch',
                 )),
-                $this->model_catalog_product->getProductsByCategoryId($result['category_id'], 'total_only'),
+				$products_count,
                 $cnt
                 .($cnt ?
                 '&nbsp;<a class="btn_action btn_grid grid_action_expand" href="#" rel="parent_id='.$result['category_id'].'" title="'. $this->language->get('text_view') . '">'.
