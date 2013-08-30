@@ -39,11 +39,15 @@ class ControllerResponsesListingGridCategory extends AController {
 	    //Add custom params
 	    $filter_data['parent_id'] = ( isset( $this->request->get['parent_id'] ) ? $this->request->get['parent_id'] : 0 );
 	    $new_level = 0;
-
 		//get all leave categories 
 		$leafnodes = $this->model_catalog_category->getLeafCategories();
 	    if ($this->request->post['nodeid'] ) {
+	    	$sort = $filter_data['sort'];
+	    	$order = $filter_data['order'];
+	    	//reset filter to get only parent category
 	    	$filter_data = array();
+	    	$filter_data['sort'] = $sort;
+	    	$filter_data['order'] = $order;
 	    	$filter_data['parent_id'] = (integer)$this->request->post['nodeid'];
 			$new_level = (integer)$this->request->post["n_level"] + 1;
 	    }
@@ -141,16 +145,24 @@ class ControllerResponsesListingGridCategory extends AController {
 				$allowedFields = array('category_description', 'sort_order', 'status',);
 
 				$ids = explode(',', $this->request->post['id']);
-				if ( !empty($ids) )
-				foreach( $ids as $id ) {
-					foreach ( $allowedFields as $field ) {
-						$this->model_catalog_category->editCategory($id, array($field => $this->request->post[$field][$id]) );
+				if ( !empty($ids) ) {
+					//resort required. 
+					if(  $this->request->post['resort'] == 'yes' ) {
+						//get only ids we need
+						foreach($ids as $id){
+							$array[$id] = $this->request->post['sort_order'][$id];
+						}
+						$new_sort = build_sort_order($ids, min($array), max($array), $this->request->post['sort_direction']);
+	 					$this->request->post['sort_order'] = $new_sort;
+					}
+					foreach( $ids as $id ) {
+						foreach ( $allowedFields as $field ) {
+							$this->model_catalog_category->editCategory($id, array($field => $this->request->post[$field][$id]) );
+						}
 					}
 				}
 				break;
-
 			default:
-				//print_r($this->request->post);
 
 		}
 

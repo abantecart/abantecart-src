@@ -58,6 +58,7 @@ class ControllerPagesDesignContent extends AController {
 			'update_field' => $this->html->getSecureURL('listing_grid/content/update_field'),
 			'sortname' => 'sort_order',
 			'sortorder' => 'asc',
+			'drag_sort_column' => 'sort_order',
 			'columns_search' => true,
 			'grid_ready' => 'remove_view();',
 			'actions' => array(
@@ -69,8 +70,7 @@ class ControllerPagesDesignContent extends AController {
 					'text' => $this->language->get('button_delete')
 				),
 				'save' => array(
-					'text' => $this->language->get('button_save'),
-
+					'text' => $this->language->get('button_save')
 				),
 			),
 		);
@@ -103,8 +103,8 @@ class ControllerPagesDesignContent extends AController {
 				'search' => false,
 			),
 			array(
-				'name' => 'products',
-				'index' => 'products',
+				'name' => 'sort_order',
+				'index' => 'sort_order',
 				'width' => 100,
 				'align' => 'center',
 				'search' => false,

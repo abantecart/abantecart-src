@@ -57,6 +57,7 @@ class ControllerPagesCatalogCategory extends AController {
 			'update_field' => $this->html->getSecureURL('listing_grid/category/update_field'),
 			'sortname' => 'sort_order',
 			'sortorder' => 'asc',
+			'drag_sort_column' => 'sort_order',
 			'grid_ready' => 'remove_view();',
 			'actions' => array(
 				'edit' => array(
@@ -115,6 +116,7 @@ class ControllerPagesCatalogCategory extends AController {
 				'width' => 100,
 				'align' => 'center',
 				'search' => false,
+				'sortable' => false,
 			),
 			array(
 				'name' => 'subcategories',
@@ -122,6 +124,7 @@ class ControllerPagesCatalogCategory extends AController {
 				'width' => 140,
 				'align' => 'center',
 				'search' => false,
+				'sortable' => false,
 			),
 		);
 		if ( $this->config->get('config_show_tree_data') ) {

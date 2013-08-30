@@ -68,16 +68,42 @@ final class AFilter {
 
         //Validate fileds that are allowed and build expected filter parameters
         if (sizeof($filter_conf['filter_params'])) {
-            foreach ($filter_conf['filter_params'] as $filter) {
+        	$fl_str = '';
+        	//support table name extension in fields 
+        	//check if we have associative array
+        	if ( is_assoc($filter_conf['filter_params']) ) {
+        		$keys_arr = array_keys($filter_conf['filter_params']);
+        	}
+        	else{
+        		$keys_arr = $filter_conf['filter_params'];
+        	}
+        	
+            foreach ($keys_arr as $filter) {
                 $value = isset($this->request->{$this->method}[$filter]) ? $this->request->{$this->method}[$filter] : FALSE;
                 if ($value == '') {
                     $value = NULL;
                 }
                 if (isset($value) && !is_null($value)) {
                     $this->data['filter_data']['filter'][$filter] = $value;
+                    
+                    if( is_assoc($filter_conf['filter_params']) ){
+                    	//support table name extension in fields 
+                    	$field_name = $filter_conf['filter_params'][$filter];
+                    	if (strpos($field_name, '.')) {
+                        	$parts = explode('.', $field_name);
+                        	$fl_str = ' ' . $parts[0] . '.`' . $parts[1] . '`';
+                    	} else {
+                        	$fl_str = ' `' . $field_name . '`';
+                    	}
+                    } else {
+                    	$fl_str .= " `" . $filter . "`";                    
+                    }
+                    $fl_str .= " = '" . $this->db->escape($value) . "' ";
                 }
             }
+            $this->data['filter_string'] = $fl_str;   
         }
+        
         $allowedSortDirection = array('asc', 'desc');
         if (!in_array($this->data['sord'], $allowedSortDirection)) {
             $this->data['sord'] = 'DESC';
@@ -101,18 +127,10 @@ final class AFilter {
         return $total_pages;
     }
 
-    // Buils SQL Like string for allowed input parameters
+    // Return SQL Like string for allowed input parameters
     public function getFilterString() {
-        $filter_params = array();
-        if (sizeof($this->data['filter_data']['filter'])) {
-            foreach (array_keys($this->data['filter_data']['filter']) as $filter_param) {
-                $filter_params[] = " `" . $filter_param . "` = '" . $this->db->escape($this->data['filter_data']['filter'][$filter_param]) . "' ";
-            }
-            return implode(" AND ", $filter_params);
-        }
-		return '';
+		return $this->data['filter_string'];
     }
-
 
     public function getParam($param_name) {
         return $this->data[$param_name];
@@ -204,6 +222,7 @@ final class AGrid {
             $this->load->library('json');
             $searchData = AJson::decode(htmlspecialchars_decode($this->filters), true);
             $op = $searchData['groupOp'];
+            
             if (!in_array($op, $allowedOperations)) {
                 $op = $allowedOperations[0];
             }
@@ -211,13 +230,21 @@ final class AGrid {
             if ($searchData['rules']) {
                 foreach ($searchData['rules'] as $rule) {
 
-                    if (!in_array($rule['field'], $allowedFields)) continue;
-
-                    if (strpos($rule['field'], '.')) {
-                        $parts = explode('.', $rule['field']);
+            		// $allowedFields can be simple or key based array
+            		$field_name = '';
+            		if ( is_assoc($allowedFields) ) {
+            			if( !array_key_exists($rule['field'], $allowedFields) ) continue;
+            			$field_name = $allowedFields[$rule['field']];
+            		} else {
+            			if (!in_array($rule['field'], $allowedFields)) continue;
+            			$field_name = $rule['field'];
+            		}
+					//support table name extension in fields
+                    if (strpos($field_name, '.')) {
+                        $parts = explode('.', $field_name);
                         $str = $parts[0] . '.`' . $parts[1] . '`';
                     } else {
-                        $str = '`' . $rule['field'] . '`';
+                        $str = '`' . $field_name . '`';
                     }
 
                     switch ($rule['op']) {

@@ -59,7 +59,8 @@ class ControllerPagesCatalogAttribute extends AController {
 			'url' => $this->html->getSecureURL('listing_grid/attribute'),
 			'editurl' => $this->html->getSecureURL('listing_grid/attribute/update'),
 			'update_field' => $this->html->getSecureURL('listing_grid/attribute/update_field'),
-			'sortname' => 'ga.sort_order',
+			'sortname' => 'sort_order',
+			'drag_sort_column' => 'sort_order',
 			'sortorder' => 'asc',
 			'columns_search' => true,
 			'actions' => array(
@@ -88,25 +89,25 @@ class ControllerPagesCatalogAttribute extends AController {
 		$grid_settings[ 'colModel' ] = array(
 			array(
 				'name' => 'name',
-				'index' => 'gad.name',
+				'index' => 'name',
 				'align' => 'left'
 			),
 			array(
 				'name' => 'attribute_type',
-				'index' => 'gatd.type_name',
+				'index' => 'type_name',
 				'align' => 'left',
 				'width' => 90,
 			),
 			array(
 				'name' => 'sort_order',
-				'index' => 'ga.sort_order',
+				'index' => 'sort_order',
 				'align' => 'center',
 				'width' => 60,
 				'search' => false
 			),
 			array(
 				'name' => 'status',
-				'index' => 'ga.status',
+				'index' => 'status',
 				'align' => 'center',
 				'width' => 80,
 				'search' => false
