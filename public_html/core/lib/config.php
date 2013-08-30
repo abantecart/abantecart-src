@@ -96,7 +96,13 @@ final class AConfig {
 		 */
 		$db = $this->registry->get('db');
 
-		// Load default store settings first
+		//detect URL for the store
+		$url = str_replace('www.', '', $_SERVER[ 'HTTP_HOST' ]) . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/';
+		if (defined('INSTALL')) {
+			$url = str_replace('install/', '', $url);
+		}
+
+		// Load default store settings
 		$settings = $cache->force_get('settings', '', 0);
 		if (empty($settings)) {
 			// set global settings (without extensions settings)
@@ -106,18 +112,23 @@ final class AConfig {
 					WHERE se.store_id='0' AND e.extension_id IS NULL";
 			$query = $db->query($sql);
 			$settings = $query->rows;
+			foreach ($settings as &$setting) {
+				if($setting[ 'key' ]=='config_url'){
+					$parsed_url = parse_url($setting[ 'value' ]);
+					$setting[ 'value' ] = 'http://'.$parsed_url['host'].$parsed_url['path'];
+				}
+				$this->cnfg[ $setting[ 'key' ] ] = $setting[ 'value' ];
+			}
+			unset($setting);// unset reference
 			$cache->force_set('settings', $settings, '', 0);
+		}else{
+			foreach ($settings as $setting) {
+				$this->cnfg[ $setting[ 'key' ] ] = $setting[ 'value' ];
+			}
 		}
 
-		foreach ($settings as $setting) {
-			$this->cnfg[ $setting[ 'key' ] ] = $setting[ 'value' ];
-		}
 
-		//detect URL for the store
-		$url = str_replace('www.', '', $_SERVER[ 'HTTP_HOST' ]) . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/';
-		if (defined('INSTALL')) {
-			$url = str_replace('install/', '', $url);
-		}
+
 		// if storefront and not default store try to load setting for given url
 		if (!(is_int(strpos($this->cnfg[ 'config_url' ],$url)))) { // if requested url not equal of default store url - do check other ctore urls.
 			$cache_name = 'settings.store.' . md5('http://' . $url);
@@ -141,12 +152,16 @@ final class AConfig {
 			if ($store_settings) {
 				//if(!IS_ADMIN){
 				foreach ($store_settings as $row) {
-					$this->cnfg[ $row[ 'key' ] ] = $row[ 'value' ];
+					$value = $row[ 'value' ];
+					if($row[ 'key' ]=='config_url'){
+						$value = 'http://'.$url;
+					}
+					$this->cnfg[ $row[ 'key' ] ] = $value;
 				}
 				//}
 				$this->cnfg[ 'config_store_id' ] = $store_settings[ 0 ][ 'store_id' ];
 			} else {
-				$warning = new AWarning('Warning: Accessing store with unconfigured or unknown domain. Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
+				$warning = new AWarning('Warning: Accessing store with unconfigured or unknown domain ( '.$url.' ).'."\n".' Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
 				$warning->toLog()->toMessages();
 				//set config url to current domain
 				$this->cnfg[ 'config_url' ] = 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/';
