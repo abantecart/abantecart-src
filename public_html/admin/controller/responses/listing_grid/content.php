@@ -154,7 +154,7 @@ class ControllerResponsesListingGridContent extends AController {
 					}
 				break;
 			case 'save':
-				$allowedFields = array( 'sort_order', 'status', 'parent_content_id' );
+				$allowedFields = array( 'sort_order', 'status');
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					//resort required. 
