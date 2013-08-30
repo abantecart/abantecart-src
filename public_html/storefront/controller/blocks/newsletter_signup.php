@@ -31,8 +31,7 @@ class ControllerBlocksNewsLetterSignUp extends AController {
 		$this->data['text_sign_in'] = $this->language->get('text_sign_in');
 		$this->data['text_subscribe'] = $this->language->get('text_subscribe');
 
-		$this->data['form_fields']['rt'] = 'account/create';
-		$this->data['form_fields']['subscriber'] = 1;
+		$this->data['form_fields']['rt'] = 'account/subscriber';
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate();

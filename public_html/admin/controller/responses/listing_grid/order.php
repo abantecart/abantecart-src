@@ -70,7 +70,7 @@ class ControllerResponsesListingGridOrder extends AController {
 				if (!in_array($rule[ 'field' ], $allowedFields)) continue;
 				$data[ 'filter_' . $rule[ 'field' ] ] = $rule[ 'data' ];
 				if ($rule[ 'field' ] == 'date_added') {
-					$data[ 'filter_' . $rule[ 'field' ] ] = date('Y-m-d', strtotime($rule[ 'data' ]));
+					$data[ 'filter_' . $rule[ 'field' ] ] = dateDisplay2ISO($rule[ 'data' ]);
 				}
 			}
 		}
@@ -109,7 +109,7 @@ class ControllerResponsesListingGridOrder extends AController {
 					'value' => array_search($result[ 'status' ], $statuses),
 					'options' => $statuses,
 				)),
-				date($this->language->get('date_format_short'), strtotime($result[ 'date_added' ])),
+				dateISO2Display($result[ 'date_added' ], $this->language->get('date_format_short')),
 				$this->currency->format($result[ 'total' ], $result[ 'currency' ], $result[ 'value' ]),
 			);
 			$i++;
@@ -227,7 +227,7 @@ class ControllerResponsesListingGridOrder extends AController {
 				'name' => $order_info[ 'firstname' ] . '' . $order_info[ 'lastname' ],
 				'email' => $order_info[ 'email' ],
 				'telephone' => $order_info[ 'telephone' ],
-				'date_added' => date($this->language->get('date_format_short'), strtotime($order_info[ 'date_added' ])),
+				'date_added' => dateISO2Display($order_info[ 'date_added' ], $this->language->get('date_format_short')),
 				'total' => $this->currency->format($order_info[ 'total' ], $order_info[ 'currency' ], $order_info[ 'value' ]),
 				'order_status' => $order_info[ 'order_status_id' ],
 				'shipping_method' => $order_info[ 'shipping_method' ],

@@ -493,4 +493,28 @@
         <key>entry_error_text</key>
         <value><![CDATA[Error Message about invalid Value:]]></value>
     </definition>
+	<definition>
+        <key>text_product_condition</key>
+        <value><![CDATA[Product Condition:]]></value>
+    </definition>
+	<definition>
+        <key>text_product_available</key>
+        <value><![CDATA[Available]]></value>
+    </definition>
+	<definition>
+        <key>text_product_disabled</key>
+        <value><![CDATA[Disabled]]></value>
+    </definition>
+	<definition>
+        <key>text_product_unavailable</key>
+        <value><![CDATA[Unavailable]]></value>
+    </definition>
+	<definition>
+        <key>text_product_out_of_stock</key>
+        <value><![CDATA[Out of Stock]]></value>
+    </definition>
+	<definition>
+        <key>text_product_option_out_of_stock</key>
+        <value><![CDATA[Product Option(s) Out of Stock]]></value>
+    </definition>
 </definitions>

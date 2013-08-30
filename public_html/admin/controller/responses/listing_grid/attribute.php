@@ -23,6 +23,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerResponsesListingGridAttribute extends AController {
 	private $error = array();
 	private $attribute_manager;
+	public $data;
 
 	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
 		parent::__construct($registry, $instance_id, $controller, $parent_controller);
@@ -121,7 +122,7 @@ class ControllerResponsesListingGridAttribute extends AController {
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					foreach ($ids as $id) {
-						$err = $this->_validateDelete($id);
+						$err = $this->validateDelete($id);
 						if (!empty($err)) {
 							$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
 							return $dd->dispatch();
@@ -195,7 +196,7 @@ class ControllerResponsesListingGridAttribute extends AController {
 				$data = array( $key => $value );
 				$this->attribute_manager->updateAttribute($this->request->get[ 'id' ], $data);
 			}
-			return;
+			return null;
 		}
 
 		//request sent from jGrid. ID is key of array
@@ -234,8 +235,10 @@ class ControllerResponsesListingGridAttribute extends AController {
 		return $err;
 	}
 
-	private function _validateDelete($attribute_id) {
-		return;
+	public function validateDelete($attribute_id) {
+		$this->data['error'] = '';
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		return $this->data['error'];
 	}
 
 }

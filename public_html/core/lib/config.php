@@ -118,9 +118,8 @@ final class AConfig {
 		if (defined('INSTALL')) {
 			$url = str_replace('install/', '', $url);
 		}
-		// if storefront and not default store
-		// try to load setting for given url
-		if (!($this->cnfg[ 'config_url' ] == 'http://' . $url || $this->cnfg[ 'config_url' ] == 'http://www.' . $url)) {
+		// if storefront and not default store try to load setting for given url
+		if (!(is_int(strpos($this->cnfg[ 'config_url' ],$url)))) { // if requested url not equal of default store url - do check other ctore urls.
 			$cache_name = 'settings.store.' . md5('http://' . $url);
 			$store_settings = $cache->force_get($cache_name);
 			if (empty($store_settings)) {
@@ -130,8 +129,7 @@ final class AConfig {
 		   			  LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
 		   			  WHERE se.store_id = (SELECT DISTINCT store_id FROM " . DB_PREFIX . "settings
 		   			                       WHERE `group`='details' AND `key` = 'config_url'
-		                                         AND (`value` = '" . $db->escape('http://www.' . $url) . "'
-		                                               OR `value` = '" . $db->escape('http://' . $url) . "')
+		                                         AND (`value` LIKE '%" . $db->escape($url) . "')
 		                                   LIMIT 0,1)
 		   					AND st.status = 1 AND e.extension_id IS NULL";
 

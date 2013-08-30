@@ -55,17 +55,23 @@ class ControllerResponsesListingGridProduct extends AController {
 		$response->page = $filter_grid->getParam('page');
 		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
+		$response->userdata->classes = array();
 		$results = $this->model_catalog_product->getProducts(array_merge($filter_form->getFilterData(), $filter_grid->getFilterData()));
 
 		$resource = new AResource('image');
 		$i = 0;
 		foreach ($results as $result) {
 			$thumbnail = $resource->getMainThumb('products',
-				$result[ 'product_id' ],
-				(int)$this->config->get('config_image_grid_width'),
-				(int)$this->config->get('config_image_grid_height'), true);
+												$result[ 'product_id' ],
+												(int)$this->config->get('config_image_grid_width'),
+												(int)$this->config->get('config_image_grid_height'),
+												true);
 
 			$response->rows[ $i ][ 'id' ] = $result[ 'product_id' ];
+			if( dateISO2Int($result['date_available'])> time()){
+				$response->userdata->classes[ $result[ 'product_id' ] ] = 'warning';
+			}
+
 			$response->rows[ $i ][ 'cell' ] = array(
 				$thumbnail[ 'thumb_html' ],
 				$this->html->buildInput(array(

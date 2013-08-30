@@ -54,6 +54,10 @@
 		<value><![CDATA[Correo Electrónico:]]></value>
 	</definition>
 	<definition>
+		<key>error_email_exists</key>
+		<value><![CDATA[E-Mail es ya existe!]]></value>
+	</definition>
+	<definition>
 		<key>entry_telephone</key>
 		<value><![CDATA[Teléfono:]]></value>
 	</definition>
@@ -168,5 +172,13 @@
 	<definition>
 		<key>text_subscribe_register</key>
 		<value><![CDATA[Conviértase en un suscriptor boletín]]></value>
+	</definition>
+	<definition>
+		<key>text_success_subscribe_heading</key>
+		<value><![CDATA[Usted ha sido suscrito con éxito!]]></value>
+	</definition>
+	<definition>
+		<key>text_success_subscribe</key>
+		<value><![CDATA[La suscripción al boletín se ha actualizado satisfactoriamente]]></value>
 	</definition>
 </definitions>

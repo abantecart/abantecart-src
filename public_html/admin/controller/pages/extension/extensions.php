@@ -529,10 +529,10 @@ class ControllerPagesExtensionExtensions extends AController {
 
 			$long_datetime_format = $this->language->get('date_format_long').' '.$this->language->get('time_format');
 			if($extension_info['date_installed']){
-				$extension_data['installed'] = date($long_datetime_format, strtotime($extension_info['date_installed']));
+				$extension_data['installed'] = dateISO2Display($extension_info['date_installed'], $long_datetime_format );
 			}
 			if($extension_info['create_date']){
-				$extension_data['create_date'] =  date($long_datetime_format, strtotime($extension_info['create_date']));
+				$extension_data['create_date'] =  dateISO2Display($extension_info['create_date'], $long_datetime_format );
 			}
 
 			$extension_data['license'] = $extension_info['license_key'];

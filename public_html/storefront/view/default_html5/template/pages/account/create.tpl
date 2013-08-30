@@ -29,10 +29,9 @@
 			$field_list = array();
 			if ($noemaillogin) { array_push($field_list, 'loginname'); }
 			array_push($field_list, 'firstname', 'lastname', 'email', 'telephone', 'fax');
-			$subscribe_hide = array('loginname','telephone', 'fax');
 			foreach ($field_list as $field_name) {
 		?>
-			<div class="control-group <?php echo (${'error_'.$field_name}?'error':'').' '. ($subscriber && in_array($field_name,$subscribe_hide) ? 'hide' :'')?>">
+			<div class="control-group <?php echo ${'error_'.$field_name} ? 'error' : ''; ?>">
 				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="controls">
 				    <?php echo $form[$field_name]; ?>
@@ -45,8 +44,8 @@
 		</fieldset>
 	</div>
 
-	<h4 class="heading4 <?php echo $subscriber? 'hide' :''?>"><?php echo $text_your_address; ?></h4>
-	<div class="registerbox form-horizontal <?php echo $subscriber? 'hide' :''?>">
+	<h4 class="heading4"><?php echo $text_your_address; ?></h4>
+	<div class="registerbox form-horizontal ">
 		<fieldset>
 		<?php
 			$field_list = array('company' => 'company', 
@@ -73,8 +72,8 @@
 		</fieldset>
 	</div>
 	
-	<h4 class="heading4 <?php echo $subscriber? 'hide' :''?>"><?php echo $text_your_password; ?></h4>
-	<div class="registerbox form-horizontal <?php echo $subscriber? 'hide' :''?>">
+	<h4 class="heading4 "><?php echo $text_your_password; ?></h4>
+	<div class="registerbox form-horizontal">
 		<fieldset>
 			<div class="control-group <?php if ($error_password) echo 'error'; ?>">
 				<label class="control-label"><?php echo $entry_password; ?></label>
@@ -95,8 +94,8 @@
 	
 	<?php echo $this->getHookVar('customer_attributes'); ?>
 	
-	<h4 class="heading4 <?php echo $subscriber? 'hide' :''?>"><?php echo $text_newsletter; ?></h4>
-	<div class="registerbox form-horizontal <?php echo $subscriber? 'hide' :''?>">
+	<h4 class="heading4 "><?php echo $text_newsletter; ?></h4>
+	<div class="registerbox form-horizontal">
 		<fieldset>
 			<div class="control-group">
 				<label class="control-label"><?php echo $entry_newsletter; ?></label>
@@ -110,17 +109,8 @@
 
 	<div class="control-group">
 	    <div class="controls">
-			<?php if($subscriber){
-				echo $form['subscriber'];
-			?>
-
-			<div>
-				<a id="form_expander"><?php echo $subscriber_switch_text_full; ?></a>
-			</div>
-								<?php } ?>
-
 	<?php if ($text_agree) { ?>
-			<label class="span6 mt20 mb40 <?php echo $subscriber? 'hide' :''?>">
+			<label class="span6 mt20 mb40">
 				<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
 
 				<?php echo $form['agree']; ?>
@@ -156,26 +146,5 @@ $('#AccountFrm_country_id').change( function(){
     $('select[name=\'zone_id\']').load('index.php?rt=common/zone&country_id=' + $(this).val() + '&zone_id=<?php echo $zone_id; ?>');
 });
 $('select[name=\'zone_id\']').load('index.php?rt=common/zone&country_id='+ $('#AccountFrm_country_id').val() +'&zone_id=<?php echo $zone_id; ?>');
-<?php if($subscriber){ ?>
-var hiddens = $('#AccountFrm').find('.hide');
-$('#form_expander').click(function(){
-	var text = '<?php echo $subscriber_switch_text?>';
-	var text_full = '<?php echo $subscriber_switch_text_full?>';
-	var tmp = hiddens;
-	var that = this;
-	tmp.each(function(){
-		$(this).fadeToggle();
-	});
-
-
-	if($('#AccountFrm_subscriber').attr('disabled')=='disabled'){
-		$('#form_expander').html(text_full);
-		$('#AccountFrm_subscriber').removeAttr('disabled');
-	}else{
-		$('#AccountFrm_subscriber').attr('disabled','disabled');
-		$('#form_expander').html(text);
-	}
-});
-<?php } ?>
 
 //--></script>

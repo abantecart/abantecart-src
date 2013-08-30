@@ -68,7 +68,7 @@ class ControllerApiProductReview extends AControllerAPI {
         		'author'     => $result['author'],
 				'rating'     => $result['rating'],
 				'text'       => strip_tags($result['text']),
-        		'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
+        		'date_added' => dateISO2Display($result['date_added'], $this->language->get('date_format_short'))
         	);
       	}
 
