@@ -166,7 +166,7 @@ class AAttribute_Manager extends AAttribute {
 	    	//Check if new or update			
 		    	if ( $data['attribute_value_ids'][$atr_val_id] == 'delete' ) {
 		    		//delete the description
-		    		$this->deleteAllAttributeValueDescritpions($atr_val_id);
+		    		$this->deleteAllAttributeValueDescriptions($atr_val_id);
 		    		//delete value if no other language
 		    		$this->deleteAttributeValues($atr_val_id);
 		    	}
@@ -179,7 +179,7 @@ class AAttribute_Manager extends AAttribute {
 		    	} else {
 		    		//Existing need to update
 		    		$this->updateAttributeValue($atr_val_id, $data['sort_orders'][$atr_val_id]);
-		    		$this->updateAttributeValueDescritpion($attribute_id, $atr_val_id, $language_id, $value); 		
+		    		$this->updateAttributeValueDescription($attribute_id, $atr_val_id, $language_id, $value);
 		    	}
 	    	}
         }
@@ -220,6 +220,7 @@ class AAttribute_Manager extends AAttribute {
     	    			 WHERE attribute_value_id = '" . $attribute_value_id . "' )";
     	$this->db->query( $sql );
     	$this->clearCache();
+		return true;
 	}
 
 	/**
@@ -237,6 +238,7 @@ class AAttribute_Manager extends AAttribute {
 						WHERE attribute_value_id = '" . (int)$attribute_value_id . "'";
         $this->db->query( $sql );
     	$this->clearCache();
+		return true;
 	}
 
 	/**
@@ -255,7 +257,8 @@ class AAttribute_Manager extends AAttribute {
 											 array('attribute_id' => (int)$attribute_id, 'attribute_value_id' => (int)$attribute_value_id ),
 											 array($language_id => array('value' => $value)) );
 
-        $this->clearCache();       
+        $this->clearCache();
+		return true;
 	}
 
 	/**
@@ -263,36 +266,40 @@ class AAttribute_Manager extends AAttribute {
 	 * @param int $attribute_value_id
 	 * @param int $language_id
 	 * @param string $value
+	 * @return bool
 	 */
-	public function updateAttributeValueDescritpion($attribute_id, $attribute_value_id, $language_id, $value) {
+	public function updateAttributeValueDescription($attribute_id, $attribute_value_id, $language_id, $value) {
 		if ( empty($attribute_id) || empty($attribute_value_id) || empty($language_id) ) {
 			return false;
 		}
 		//Delete and add operation 
-		$this->deleteAttributeValueDescritpion($attribute_value_id, $language_id);
+		$this->deleteAttributeValueDescription($attribute_value_id, $language_id);
 		$this->addAttributeValueDescription($attribute_id, $attribute_value_id, $language_id, $value);
 		
-		$this->clearCache(); 
+		$this->clearCache();
+		return true;
 	}
 
 	/**
 	 * @param int $attribute_value_id
 	 * @return bool
 	 */
-	public function deleteAllAttributeValueDescritpions($attribute_value_id) {
+	public function deleteAllAttributeValueDescriptions($attribute_value_id) {
 		if ( empty($attribute_value_id) ) {
 			return false;
 		}
 		$this->language->deleteDescriptions('global_attributes_value_descriptions', 
 											 array('attribute_value_id' => (int)$attribute_value_id ));
         $this->clearCache();
+		return true;
 	}
 
 	/**
 	 * @param int $attribute_value_id
 	 * @param int $language_id
+	 * @return bool
 	 */
-	public function deleteAttributeValueDescritpion($attribute_value_id, $language_id) {
+	public function deleteAttributeValueDescription($attribute_value_id, $language_id) {
 		if ( empty($attribute_value_id) || empty($language_id) ) {
 			return false;
 		}
@@ -302,6 +309,7 @@ class AAttribute_Manager extends AAttribute {
 											 		'language_id' => (int)$language_id )
 											 );
         $this->clearCache();
+		return true;
 	}
 
 	/**
@@ -548,6 +556,7 @@ class AAttribute_Manager extends AAttribute {
 	 * @param array $data
 	 * @param int $language_id
 	 * @param null|int $attribute_parent_id
+	 * @param string $mode
 	 * @return array
 	 */
 	public function getAttributes( $data = array(), $language_id = 0, $attribute_parent_id = null, $mode = 'default' ) {
@@ -638,6 +647,8 @@ class AAttribute_Manager extends AAttribute {
 
 	/**
 	 * @param array $data
+	 * @param int $language_id
+	 * @param null $attribute_parent_id
 	 * @return int
 	 */
 	public function getTotalAttributes( $data = array(), $language_id = 0, $attribute_parent_id = null ) {
@@ -690,5 +701,25 @@ class AAttribute_Manager extends AAttribute {
 			}
 
 			return $error;
-		}
+	}
+	/**
+	 * deprecated methods (typo)
+	 * @deprecated since v1.1.7
+	 */
+	public function deleteAllAttributeValueDescritpions($attribute_value_id) {
+		return $this->deleteAllAttributeValueDescriptions($attribute_value_id);
+	}
+	/**
+	 * deprecated methods
+	 * @deprecated since v1.1.7
+	 */
+	public function deleteAttributeValueDescritpion($attribute_value_id, $language_id) {
+		return $this->deleteAttributeValueDescription($attribute_value_id, $language_id);
+	}
+	/**
+	 * @deprecated since v1.1.7
+	 */
+	public function updateAttributeValueDescritpion($attribute_id, $attribute_value_id, $language_id, $value) {
+		return $this->updateAttributeValueDescription($attribute_id, $attribute_value_id, $language_id, $value);
+	}
 }

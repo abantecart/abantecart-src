@@ -604,18 +604,18 @@ function startStorefrontSession($user_id, $data=array()){
 }
 
 
-
 /**
  * Function to built array with sort_order equaly encremented
  *
- * @param $array to build sort order for
- * @param $min - minimal sort order numer (start)
- * @param $max - maximum sort order number (end)
- * @return array with sort order added. 
+ * @param array $array to build sort order for
+ * @param int $min - minimal sort order numer (start)
+ * @param int $max - maximum sort order number (end)
+ * @param string $sort_direction
+ * @return array with sort order added.
  */
 function build_sort_order($array, $min, $max, $sort_direction = 'asc'){
 	if ( empty($array) ) {
-		return;
+		return array();
 	}
 	//if no min or max, set interval to 10
 	$return_arr = array();
@@ -651,10 +651,9 @@ function build_sort_order($array, $min, $max, $sort_direction = 'asc'){
 /**
  * Function to test if array is assosiative array
  *
- * @param $array to test
- * @return true/false 
+ * @param array $test_array
+ * @return bool
  */
-
 function is_assoc($test_array) {
         return is_array($test_array) && array_diff_key($test_array,array_keys(array_keys($test_array)));
 }
