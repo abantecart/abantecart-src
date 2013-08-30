@@ -62,6 +62,7 @@ class ModelAccountCustomer extends Model {
 					customer_group_id = '" .(int)$data['customer_group_id'] . "',
 					approved = '".(int)$data['approved']."',
 					status = '".(int)$data['status']."'". $key_sql . ",
+					ip = '". $this->db->escape($data['ip']) ."',
 					date_added = NOW()";
 		$this->db->query($sql);
 		$customer_id = $this->db->getLastId();
@@ -144,10 +145,17 @@ class ModelAccountCustomer extends Model {
 
 	/**
 	 * @param string $email
+	 * @param bool $no_subscribers - sign that needed list without subscribers
 	 * @return int
 	 */
-	public function getTotalCustomersByEmail($email) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("customers") . " WHERE LOWER(`email`) = LOWER('" . $this->db->escape($email) . "')");
+	public function getTotalCustomersByEmail($email, $no_subscribers=true) {
+		$sql = "SELECT COUNT(*) AS total
+				FROM " . $this->db->table("customers") . "
+				WHERE LOWER(`email`) = LOWER('" . $this->db->escape($email) . "')";
+		if($no_subscribers){
+			$sql .= " AND customer_group_id NOT IN (SELECT customer_group_id FROM ".$this->db->table('customer_groups')." WHERE `name` = 'Newsletter Subscribers')";
+		}
+		$query = $this->db->query($sql);
 		
 		return $query->row['total'];
 	}
@@ -241,17 +249,17 @@ class ModelAccountCustomer extends Model {
    		 	}			
 		} 
 	
-    	if ((strlen(utf8_decode($data['firstname'])) < 1) || (strlen(utf8_decode($data['firstname'])) > 32)) {
+    	if ((mb_strlen($data['firstname']) < 1) || (mb_strlen($data['firstname']) > 32)) {
       		$error['firstname'] = $this->language->get('error_firstname');
     	}
 
-    	if ((strlen(utf8_decode($data['lastname'])) < 1) || (strlen(utf8_decode($data['lastname'])) > 32)) {
+    	if ((mb_strlen($data['lastname']) < 1) || (mb_strlen($data['lastname']) > 32)) {
       		$error['lastname'] = $this->language->get('error_lastname');
     	}
 
 		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
 
-    	if ((strlen(utf8_decode($data['email'])) > 96) || (!preg_match($pattern, $data['email']))) {
+    	if ((mb_strlen($data['email']) > 96) || (!preg_match($pattern, $data['email']))) {
       		$error['email'] = $this->language->get('error_email');
     	}
 
@@ -259,18 +267,18 @@ class ModelAccountCustomer extends Model {
       		$error['warning'] = $this->language->get('error_exists');
     	}
 
-		if ((strlen(utf8_decode($data['telephone'])) < 3) || (strlen(utf8_decode($data['telephone'])) > 32)) {
+		if ((mb_strlen($data['telephone']) < 3) || (mb_strlen($data['telephone']) > 32)) {
 			$error['telephone'] = $this->language->get('error_telephone');
 		}
 
-		if ((strlen(utf8_decode($data['address_1'])) < 3) || (strlen(utf8_decode($data['address_1'])) > 128)) {
+		if ((mb_strlen($data['address_1']) < 3) || (mb_strlen($data['address_1']) > 128)) {
 			$error['address_1'] = $this->language->get('error_address_1');
 		}
 
-		if ((strlen(utf8_decode($data['city'])) < 3) || (strlen(utf8_decode($data['city'])) > 128)) {
+		if ((mb_strlen($data['city']) < 3) || (mb_strlen($data['city']) > 128)) {
 			$error['city'] = $this->language->get('error_city');
 		}
-		if ((strlen(utf8_decode($data['postcode'])) < 3) || (strlen(utf8_decode($data['postcode'])) > 128)) {
+		if ((mb_strlen($data['postcode']) < 3) || (mb_strlen($data['postcode']) > 128)) {
 			$error['postcode'] = $this->language->get('error_postcode');
 		}
 
@@ -282,7 +290,7 @@ class ModelAccountCustomer extends Model {
 			$error['zone'] = $this->language->get('error_zone');
 		}
 
-		if ((strlen(utf8_decode($data['password'])) < 4) || (strlen(utf8_decode($data['password'])) > 20)) {
+		if ((mb_strlen($data['password']) < 4) || (mb_strlen($data['password']) > 20)) {
 			$error['password'] = $this->language->get('error_password');
 		}
 
@@ -312,22 +320,18 @@ class ModelAccountCustomer extends Model {
 	public function validateSubscribeData( $data ) {
 		$error = array();
 
-    	if ((strlen(utf8_decode($data['firstname'])) < 1) || (strlen(utf8_decode($data['firstname'])) > 32)) {
+    	if ((mb_strlen($data['firstname']) < 1) || (mb_strlen($data['firstname']) > 32)) {
       		$error['firstname'] = $this->language->get('error_firstname');
     	}
 
-    	if ((strlen(utf8_decode($data['lastname'])) < 1) || (strlen(utf8_decode($data['lastname'])) > 32)) {
+    	if ((mb_strlen($data['lastname']) < 1) || (mb_strlen($data['lastname']) > 32)) {
       		$error['lastname'] = $this->language->get('error_lastname');
     	}
 
 		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
 
-    	if ((strlen(utf8_decode($data['email'])) > 96) || (!preg_match($pattern, $data['email']))) {
+    	if ((mb_strlen($data['email']) > 96) || (!preg_match($pattern, $data['email']))) {
       		$error['email'] = $this->language->get('error_email');
-    	}
-
-    	if ($this->getTotalCustomersByEmail($data['email'])) {
-      		$error['warning'] = $this->language->get('error_exists');
     	}
 
     	return $error;
@@ -344,7 +348,7 @@ class ModelAccountCustomer extends Model {
 		if ( $this->config->get('prevent_email_as_login') && isset($data['loginname']) ) {
 			//validate only if email login is not allowed
 			$login_name_pattern = '/^[\w._-]+$/i';
-    		if ((strlen(utf8_decode($data['loginname'])) < 5) || (strlen(utf8_decode($data['loginname'])) > 64)
+    		if ((mb_strlen($data['loginname']) < 5) || (mb_strlen($data['loginname']) > 64)
     			|| (!preg_match($login_name_pattern, $data['loginname'])) ) {
       			$error['loginname'] = $this->language->get('error_loginname');
     		//validate uniqunes of login name
@@ -353,17 +357,17 @@ class ModelAccountCustomer extends Model {
    		 	}			
 		} 
 		
-		if ((strlen(utf8_decode($data['firstname'])) < 1) || (strlen(utf8_decode($data['firstname'])) > 32)) {
+		if ((mb_strlen($data['firstname']) < 1) || (mb_strlen($data['firstname']) > 32)) {
 			$error['firstname'] = $this->language->get('error_firstname');
 		}
 
-		if ((strlen(utf8_decode($data['lastname'])) < 1) || (strlen(utf8_decode($data['lastname'])) > 32)) {
+		if ((mb_strlen($data['lastname']) < 1) || (mb_strlen($data['lastname']) > 32)) {
 			$error['lastname'] = $this->language->get('error_lastname');
 		}
 
 		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
 
-		if ((strlen(utf8_decode($data['email'])) > 96) || (!preg_match($pattern, $data['email']))) {
+		if ((mb_strlen($data['email']) > 96) || (!preg_match($pattern, $data['email']))) {
 			$error['email'] = $this->language->get('error_email');
 		}
 		
@@ -371,7 +375,7 @@ class ModelAccountCustomer extends Model {
 			$error['warning'] = $this->language->get('error_exists');
 		}
 
-		if ((strlen(utf8_decode($data['telephone'])) < 3) || (strlen(utf8_decode($data['telephone'])) > 32)) {
+		if ((mb_strlen($data['telephone']) < 3) || (mb_strlen($data['telephone']) > 32)) {
 			$error['telephone'] = $this->language->get('error_telephone');
 		}
 

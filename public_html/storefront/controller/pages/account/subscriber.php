@@ -44,11 +44,12 @@ class ControllerPagesAccountSubscriber extends AController {
 
     		if ( !$this->error ) {
 				// generate random password for subsribers only
-				$request_data['password'] = md5(mt_rand(0,10000));
-				$request_data['loginname'] = $request_data['email'];
+				$request_data['password'] = md5(mt_rand(0,10000)); //random password
+				$request_data['loginname'] = md5(time()); // loginname must be unique!
 				$request_data['newsletter'] = 1; // sign of subscriber
 				$request_data['status'] = $request_data['approved'] = 0; //disable login ability for subscribers
 				$request_data['customer_group_id'] = $this->model_account_customer->getSubscribersCustomerGroupId();
+				$request_data['ip'] = $this->request->server['REMOTE_ADDR'];
 
 				$this->model_account_customer->addCustomer($request_data);
 				$this->extensions->hk_UpdateData($this,__FUNCTION__);

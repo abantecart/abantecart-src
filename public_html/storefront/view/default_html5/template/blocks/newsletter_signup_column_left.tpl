@@ -5,7 +5,7 @@
 
 	<div class="pull-left newsletter"><?php echo $text_signup; ?></div>
 	<div class="pull-right">
-		<form id="subscribeFrm" class="form-horizontal" method="" action="<?php echo $form_action; ?>">
+		<?php echo $form_open;?>
 			<div class="input-append">
 				<?php foreach($form_fields as $field_name=>$field_value){?>
 				<input type="hidden" name="<?php echo $field_name?>" value="<?php echo $field_value; ?>">
