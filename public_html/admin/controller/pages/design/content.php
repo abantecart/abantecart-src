@@ -142,10 +142,12 @@ class ControllerPagesDesignContent extends AController {
 
 			$savedata = $this->request->post;
 			unset($savedata['parent_content_id'], $savedata['sort_order']);
-			foreach ($this->request->post['parent_content_id'] as $par_id) {
-				list($tmp, $parent_id) = explode('_', $par_id);
-				$savedata['parent_content_id'][] = (int)$parent_id;
-				$savedata['sort_order'][] = (int)$this->request->post['sort_order'][$par_id];
+			if ( count($this->request->post['parent_content_id']) ){
+				foreach ($this->request->post['parent_content_id'] as $par_id) {
+					list($tmp, $parent_id) = explode('_', $par_id);
+					$savedata['parent_content_id'][] = (int)$parent_id;
+					$savedata['sort_order'][] = (int)$this->request->post['sort_order'][$par_id];
+				}
 			}
 
 			$content_id = $this->acm->addContent($savedata);

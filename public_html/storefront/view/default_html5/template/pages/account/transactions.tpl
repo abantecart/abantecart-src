@@ -4,7 +4,7 @@
 </h1>
 
 <div class="container-fluid">
-	<table class="table table-striped">
+	<table class="table table-striped transaction-table">
 	<thead>
 	<tr>
 		<th><?php echo $text_transaction_id; ?></th>
@@ -12,10 +12,10 @@
 		<th><?php echo $text_transaction_type; ?></th>
 		<th><?php echo $text_debit; ?></th>
 		<th><?php echo $text_credit; ?></th>
-		<th><?php echo $text_transaction_description; ?></th>
+		<th ><?php echo $text_transaction_description; ?></th>
 	</tr>
 	</thead>
-	<?php foreach ($transactions as $trn) { ?>
+	<?php if( count($transactions) ) { foreach ($transactions as $trn) { ?>
 		<tr>
 			<td><?php echo $trn['customer_transaction_id']; ?></td>
 			<td><?php echo $trn['create_date']; ?></td>
@@ -24,7 +24,7 @@
 			<td><?php echo $trn['credit']; ?></td>
 			<td class="span4"><?php echo $trn['description']; ?></td>
 		</tr>
-	<?php } ?>
+	<?php } } ?>
 	</table>
 
 	<?php
