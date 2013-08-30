@@ -86,6 +86,7 @@ class ControllerResponsesListingGridExtension extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
+		$response->userdata = new stdClass();
 
 		$i = 0;
 		$push = array();
