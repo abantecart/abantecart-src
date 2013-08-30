@@ -249,23 +249,26 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		foreach ($types as $type) {
 			$resource_types[ $type[ 'type_name' ] ] = $type[ 'type_name' ];
 		}
-		$this->data[ 'response' ] = '<table class="form">
-										<tr><td>' . $this->language->get('entry_resource_type') . '</td>
-											<td class="ml_field">' . $form->getFieldHtml(array( 'type' => 'selectbox',
-			'name' => 'resource_type',
-			'value' => (string)$content[ 'resource_type' ],
-			'options' => $resource_types,
-			'style' => 'no-save',
-			'help_url' => $this->gen_help_url('block_resource_type')
-		)) . '</td></tr>
-										<tr><td>' . $this->language->get('entry_limit') . '</td>
-											<td class="ml_field">' . $form->getFieldHtml(array( 'type' => 'input',
-			'name' => 'limit',
-			'value' => $content[ 'limit' ],
-			'style' => 'no-save',
-			'help_url' => $this->gen_help_url('block_limit') )) . '</td></tr>
-																								</table>';
+		$view = new AView($this->registry, 0);
+		$view->batchAssign(array(   'entry_media_resource_type' => $this->language->get('entry_resource_type'),
+									'media_resource_type' => $form->getFieldHtml(
+																	 array( 'type' => 'selectbox',
+																			'name' => 'resource_type',
+																			'value' => (string)$content[ 'resource_type' ],
+																			'options' => $resource_types,
+																			'style' => 'no-save',
+																			'help_url' => $this->gen_help_url('block_resource_type')
+																		)),
+									'entry_media_resource_limit' => $this->language->get('entry_limit'),
+									'media_resource_limit' => $form->getFieldHtml(
+																	array( 'type' => 'input',
+																			'name' => 'limit',
+																			'value' => $content[ 'limit' ],
+																			'style' => 'no-save',
+																			'help_url' => $this->gen_help_url('block_limit') ))
 
+		));
+		$this->data[ 'response' ] = $view->fetch('responses/design/block_media_listing_subform.tpl');
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -316,30 +319,30 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 
 				$form = new AForm ('ST');
 				$form->setForm(array( 'form_name' => $form_name ));
+				$view = new AView($this->registry, 0);
+				$view->batchAssign(array(   'form_name' => $form_name,
+											'multivalue_html' => $form->getFieldHtml(
+																		array( 'id' => 'popup',
+																			'type' => 'multivalue',
+																			'name' => 'popup',
+																			'title' => $this->language->get('text_select_from_list'),
+																			'selected' => ($listing_data ? AJson::encode($listing_data) : "{}"),
+																			'content_url' => $this->html->getSecureUrl('listing_grid/blocks_grid/getsubform',
+																					'&popup=1&custom_block_id=' . (int)$this->request->get [ 'custom_block_id' ]),
+																			'postvars' => array( 'listing_datasource' => $listing_datasource ),
+																			'return_to' => '', // placeholder's id of listing items count.
+																			'no_save' => ((int)$this->request->get [ 'custom_block_id' ] ? false : true),
+																			'text' => array(
+																				'selected' => $this->language->get('text_selected'),
+																				'edit' => $this->language->get('text_save_edit'),
+																				'apply' => $this->language->get('text_apply'),
+																				'save' => $this->language->get('button_save'),
+																				'reset' => $this->language->get('button_reset') ),
+																		))
 
-				$this->data[ 'response' ] = '<table class="form"><tr><td>
-													<div class="flt_left" style="padding: 5px 5px 5px 5px;" id="' . $form_name . '_popup_count_text">
-				                                    ' . $this->language->get('text_data_listed') . '</div>
-											</td>
-											<td class="ml_field">' .
-						$form->getFieldHtml(
-							array( 'id' => 'popup',
-								'type' => 'multivalue',
-								'name' => 'popup',
-								'title' => $this->language->get('text_select_from_list'),
-								'selected' => ($listing_data ? AJson::encode($listing_data) : "{}"),
-								'content_url' => $this->html->getSecureUrl('listing_grid/blocks_grid/getsubform',
-										'&popup=1&custom_block_id=' . (int)$this->request->get [ 'custom_block_id' ]),
-								'postvars' => array( 'listing_datasource' => $listing_datasource ),
-								'return_to' => '', // placeholder's id of listing items count.
-								'no_save' => ((int)$this->request->get [ 'custom_block_id' ] ? false : true),
-								'text' => array(
-									'selected' => $this->language->get('text_selected'),
-									'edit' => $this->language->get('text_save_edit'),
-									'apply' => $this->language->get('text_apply'),
-									'save' => $this->language->get('button_save'),
-									'reset' => $this->language->get('button_reset') ),
-							)) . '</td></tr></table>';
+				));
+				$this->data[ 'response' ] = $view->fetch('responses/design/block_custom_listing_subform.tpl');
+
 			} else {
 				$this->loadLanguage($this->data[ 'data_sources' ][ $data_source ][ 'language' ]);
 				//remember selected rows for response
@@ -410,58 +413,11 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 				$grid = $this->dispatch('common/listing_grid', array( $grid_settings ));
 				$this->data[ 'response' ] = $grid->dispatchGetOutput();
 
-				$this->data[ 'response' ] .= "
-				<script>
-				jQuery(\"#" . $grid_settings[ 'table_id' ] . "\").setGridParam({
-						'onSelectRow':function(id, status){
-										var inputname = '#sort_order\\\['+id+'\\\]';
-										if(status){
-											$('#jqg_" . $grid_settings[ 'table_id' ] . "_'+id).parents('.afield').addClass($.aform.defaults.checkedClass);
-											$(inputname).removeProp('disabled');
-											if($(inputname).parents('.aform').length==0){
-												$(inputname).aform({ showButtons:false });
-											}
-										}else{
-											$('#jqg_" . $grid_settings[ 'table_id' ] . "_'+id).parents('.afield').removeClass($.aform.defaults.checkedClass);
-											$(inputname).val('');
-											$(inputname).attr('disabled','disabled');
-										}
-										var sorting = $(inputname).val() ? $(inputname).val() : 0;
-										var tmp = jQuery.parseJSON( $('#" . $form_name . "_popup_buffer').html() );
-
-										if(!tmp[id]){
-											tmp[id] = {};
-										}
-
-										tmp[id]['name'] = $('#'+id).find('td').eq(2).html() ;
-										tmp[id]['status'] = status;
-										tmp[id]['sort_order'] = sorting;
-
-										$('#" . $form_name . "_popup_buffer').html( JSON.stringify(tmp, null, 2) ) ;
-										}
-				});
-				// hide select-all checkbox
-				$(\"#cb_" . $grid_settings[ 'table_id' ] . "\").parents('.afield').hide();
-				
-				$(\"#refresh_" . $grid_settings[ 'table_id' ] . "\").click(function(){
-					$('#" . $form_name . "_popup_buffer').html( $('#" . $form_name . "_popup_selected').html() );
-				});
-
-				function write_sorting(id){
-					var inputname = '#sort_order\\\['+id+'\\\]';
-					var sorting = $(inputname).val() ? $(inputname).val() : 0;
-					var tmp = jQuery.parseJSON($('#" . $form_name . "_popup_buffer').html());
-					if(!tmp[id]){
-						tmp[id] = {};
-					}
-					tmp[id]['name'] = $('#'+id).find('td').eq(2).html() ;
-					tmp[id]['sort_order'] = sorting;
-					$('#" . $form_name . "_popup_buffer').html( JSON.stringify(tmp, null, 2) ) ;
-				}
-				function showPopup(url){
-					window.open(url,'itemInfo','top=30, left=30, scrollbars=yes');
-				}
-				</script>";
+				$view = new AView($this->registry, 0);
+				$view->batchAssign(array(   'form_name' => $form_name,
+											'table_id' => $grid_settings[ 'table_id' ]
+				));
+				$this->data[ 'response' ] .= $view->fetch('responses/design/block_custom_listing_js.tpl');
 			}
 		} else {
 			// json-response for jqgrid
@@ -597,9 +553,6 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 						$response .= '<tr><td>' . $this->language->get('text_' . $key) . ':</td><td></td></tr>';
 						foreach ($item as $info_name => $info_value) {
 							if (!is_array($info_value)) {
-								/*if ($info_name == 'controller') {
-									$info_value = $info_value;
-								}*/
 								$response .= '<tr><td></td><td>' . $info_value . '</td></tr>';
 							} else {
 								foreach ($info_value as $v) {
