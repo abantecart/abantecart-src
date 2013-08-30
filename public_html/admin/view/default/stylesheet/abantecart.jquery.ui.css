@@ -934,3 +934,8 @@ tr.ui-search-toolbar select {
 .ui-searchFilter .divider hr {
     margin: 1px;
 }
+
+.drag_row {
+	margin: 10px 0 0 10px !important;
+	background: #CACCD2 !important;
+}

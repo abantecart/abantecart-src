@@ -37,20 +37,22 @@ class ControllerResponsesListingGridAttribute extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$limit = $this->request->post[ 'rows' ];
-		//Prepare filter config
-		$filter_params = array('attribute_parent_id', 'attribute_type_id', 'status');
-		$grid_filter_params = array( 'gad.name', 'gatd.type_name' );
-		//Build query string based on GET params first
-		$filter_form = new AFilter( array( 'method' => 'get', 'filter_params' => $filter_params ) );
-		//Build final filter
-		$filter_grid = new AFilter( array( 'method' => 'post',
-										   'grid_filter_params' => $grid_filter_params,
-										   'additional_filter_string' => $filter_form->getFilterString()
-										  ) );
-		$filter_array = $filter_grid->getFilterData();
 
+		//get all leave attributes 
+		$new_level = 0;
+		$attr_parent_id = null;
+		$leafnodes = $this->attribute_manager->getLeafAttributes();
+		$to_show_tree = ($this->config->get('config_show_tree_data') ) ? true: false;
+		if ($to_show_tree) {
+			if ($this->request->post[ 'nodeid' ]) {
+				$attr_parent_id = (int)$this->request->post[ 'nodeid' ];
+				$new_level = (int)$this->request->post[ "n_level" ] + 1;
+			} else {
+				$attr_parent_id = 0;
+			}
+		}
 
-		$total = $this->attribute_manager->getTotalAttributes($filter_array);
+		$total = $this->attribute_manager->getTotalAttributes(array(), '', $attr_parent_id);
 		if ($total > 0) {
 			$total_pages = ceil($total / $limit);
 		} else {
@@ -62,25 +64,7 @@ class ControllerResponsesListingGridAttribute extends AController {
 		$response->total = $total_pages;
 		$response->records = $total;
 
-
-		$new_level = 0;
-		$attr_parent_id = null;
-
-		//get all leave attributes 
-		$leafnodes = $this->attribute_manager->getLeafAttributes();
-
-		$to_show_tree = ($this->config->get('config_show_tree_data') && !$filter_array['subsql_filter']) ? true: false;
-
-		if ($to_show_tree) {
-			if ($this->request->post[ 'nodeid' ]) {
-				$attr_parent_id = (integer)$this->request->post[ 'nodeid' ];
-				$new_level = (integer)$this->request->post[ "n_level" ] + 1;
-			} else {
-				$attr_parent_id = 0;
-			}
-		}
-
-		$results = $this->attribute_manager->getAttributes($filter_array, '', $attr_parent_id);
+		$results = $this->attribute_manager->getAttributes(array(), '', $attr_parent_id);
 		$i = 0;
 		foreach ($results as $result) {
 			//treegrid structure
@@ -150,6 +134,15 @@ class ControllerResponsesListingGridAttribute extends AController {
 				$fields = array( 'name', 'attribute_type_id', 'sort_order', 'status' );
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
+					//resort required. 
+					if(  $this->request->post['resort'] == 'yes' ) {
+						//get only ids we need
+						foreach($ids as $id){
+							$array[$id] = $this->request->post['sort_order'][$id];
+						}
+						$new_sort = build_sort_order($ids, min($array), max($array), $this->request->post['sort_direction']);
+	 					$this->request->post['sort_order'] = $new_sort;
+					}
 					foreach ($ids as $id) {
 						foreach ($fields as $f) {
 							if (isset($this->request->post[ $f ][ $id ])) {

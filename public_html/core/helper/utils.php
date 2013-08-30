@@ -602,3 +602,60 @@ function startStorefrontSession($user_id, $data=array()){
     session_write_close();
     return true;
 }
+
+
+
+/**
+ * Function to built array with sort_order equaly encremented
+ *
+ * @param $array to build sort order for
+ * @param $min - minimal sort order numer (start)
+ * @param $max - maximum sort order number (end)
+ * @return array with sort order added. 
+ */
+function build_sort_order($array, $min, $max, $sort_direction = 'asc'){
+	if ( empty($array) ) {
+		return;
+	}
+	//if no min or max, set interval to 10
+	$return_arr = array();
+	if ($max > 0) {
+		$increment = ($max - $min ) / (count($array) - 1);	
+	} else {
+		$increment = 10;
+		$min = 10;
+	}
+	$prior_sort = 0;
+	if ( $sort_direction == 'asc') {
+		foreach( $array as $id ){
+		    if($prior_sort == 0) {
+		    	$return_arr[$id] = $min;
+		    } else {
+		    	$return_arr[$id] = round($prior_sort + $increment, 0);
+		    }
+		    $prior_sort = $return_arr[$id];
+		}
+	} else if ( $sort_direction == 'desc') {
+		foreach( $array as $id ){
+		    if($prior_sort == 0) {
+		    	$return_arr[$id] = $max;
+		    } else {
+		    	$return_arr[$id] = abs(round($prior_sort - $increment, 0));
+		    }
+		    $prior_sort = $return_arr[$id];
+		}	
+	}
+	return $return_arr;
+}
+
+/**
+ * Function to test if array is assosiative array
+ *
+ * @param $array to test
+ * @return true/false 
+ */
+
+function is_assoc($test_array) {
+        return is_array($test_array) && array_diff_key($test_array,array_keys(array_keys($test_array)));
+}
+

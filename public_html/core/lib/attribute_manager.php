@@ -550,13 +550,32 @@ class AAttribute_Manager extends AAttribute {
 	 * @param null|int $attribute_parent_id
 	 * @return array
 	 */
-	public function getAttributes( $data = array(), $language_id = 0, $attribute_parent_id = null ) {
+	public function getAttributes( $data = array(), $language_id = 0, $attribute_parent_id = null, $mode = 'default' ) {
 
         if ( !$language_id ) {
             $language_id = $this->session->data['content_language_id'];
         }
 
-        $sql = "SELECT ga.*, gad.name, gad.error_text, gatd.type_name
+		//Prepare filter config
+		$filter_params = array('attribute_parent_id', 'attribute_type_id', 'status');
+		//Build query string based on GET params first
+		$filter_form = new AFilter( array( 'method' => 'get', 'filter_params' => $filter_params ) );
+		//Build final filter
+		$grid_filter_params = array( 'name' => 'gad.name', 'type_name' => 'gatd.type_name' );
+		$filter_grid = new AFilter( array( 'method' => 'post',
+										   'grid_filter_params' => $grid_filter_params,
+										   'additional_filter_string' => $filter_form->getFilterString()
+										  ) );
+		$data = array_merge( $filter_grid->getFilterData(), $data);
+
+		if ($mode == 'total_only') {
+			$total_sql = 'count(*) as total';
+		}
+		else {
+			$total_sql = "ga.*, gad.name, gad.error_text, gatd.type_name ";
+		}
+
+        $sql = "SELECT ". $total_sql ."
             	FROM `".DB_PREFIX."global_attributes` ga
                 LEFT JOIN `".DB_PREFIX."global_attributes_descriptions` gad
                 	ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
@@ -577,16 +596,21 @@ class AAttribute_Manager extends AAttribute {
 			$sql .= " AND ga.attribute_type_id = ".(int)$data['attribute_type_id'];
 		}
 
+		//If for total, we done bulding the query
+		if ($mode == 'total_only') {
+		    $query = $this->db->query($sql);
+		    return $query->row['total'];
+		}
 
         $sort_data = array(
-            'gad.name',
-            'ga.sort_order',
-            'ga.status',
-            'gatd.type_name',
+            'name' => 'gad.name',
+            'sort_order' => 'ga.sort_order',
+            'status' => 'ga.status',
+            'type_name' => 'gatd.type_name',
         );
 
-        if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-            $sql .= " ORDER BY " . $data['sort'];
+        if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
+            $sql .= " ORDER BY " . $sort_data[$data['sort']];
         } else {
             $sql .= " ORDER BY ga.sort_order, gad.name ";
         }
@@ -616,22 +640,8 @@ class AAttribute_Manager extends AAttribute {
 	 * @param array $data
 	 * @return int
 	 */
-	public function getTotalAttributes( $data = array() ) {
-
-        if ( !$data['language_id'] ) {
-            $data['language_id'] = $this->config->get('storefront_language_id');
-        }
-
-        $sql = "SELECT ga.*, gad.name, gad.error_text
-            FROM `".DB_PREFIX."global_attributes` ga
-                LEFT JOIN `".DB_PREFIX."global_attributes_descriptions` gad
-                ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$data['language_id'] . "' )";
-        if ( !empty($data['search']) ) {
-            $sql .= " WHERE ".$data['search'];
-        }
-
-        $query = $this->db->query($sql);
-        return $query->num_rows;
+	public function getTotalAttributes( $data = array(), $language_id = 0, $attribute_parent_id = null ) {
+		return $this->getAttributes($data, $language_id, $attribute_parent_id, 'total_only');
     }
 
 	/**

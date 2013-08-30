@@ -31,23 +31,9 @@ class ControllerResponsesListingGridCoupon extends AController {
         $this->loadLanguage('sale/coupon');
 		$this->loadModel('sale/coupon');
 
-	    $page = $this->request->post['page']; // get the requested page
 		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
-		$sord = $this->request->post['sord']; // get the direction
 
-	    $data = array(
-			'sort'  => $sidx,
-			'order' => $sord,
-			'start' => ($page - 1) * $limit,
-			'limit' => $limit,
-		    'content_language_id' => $this->session->data['content_language_id'],
-		);
-	    if ( isset($this->request->get['status']) ) {
-		    $data['status'] = $this->request->get['status'];
-	    }
-
-	    $total = $this->model_sale_coupon->getTotalCoupons($data);
+	    $total = $this->model_sale_coupon->getTotalCoupons(array());
 		if( $total > 0 ) {
 			$total_pages = ceil($total/$limit);
 		} else {
@@ -59,7 +45,7 @@ class ControllerResponsesListingGridCoupon extends AController {
 		$response->total = $total_pages;
 		$response->records = $total;
 
-	    $results = $this->model_sale_coupon->getCoupons($data);
+	    $results = $this->model_sale_coupon->getCoupons(array());
 	    $i = 0;
 		$now = time();
 		foreach ($results as $result) {

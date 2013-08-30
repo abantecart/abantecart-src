@@ -165,6 +165,15 @@ class ControllerResponsesListingGridMenu extends AController {
 			case 'save':
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids)) {
+					//resort required. 
+					if(  $this->request->post['resort'] == 'yes' ) {
+						//get only ids we need
+						foreach($ids as $id){
+							$array[$id] = $this->request->post['sort_order'][$id];
+						}
+						$new_sort = build_sort_order($ids, min($array), max($array), $this->request->post['sort_direction']);
+	 					$this->request->post['sort_order'] = $new_sort;
+					}
 					foreach ($ids as $item_id) {
 						$item_values = array(
 							"item_text" => $this->request->post[ "item_text" ][ $item_id ],

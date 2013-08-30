@@ -40,6 +40,7 @@ class ControllerBlocksfeatured extends AController {
 		$this->data['products'] = array();
 		
 		$results = $this->model_catalog_product->getfeaturedProducts($this->config->get('config_featured_limit'));
+		
 		foreach($results as $result){
 			$product_ids[] = (int)$result['product_id'];
 		}

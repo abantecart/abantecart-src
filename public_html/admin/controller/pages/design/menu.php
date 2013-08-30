@@ -64,6 +64,7 @@ class ControllerPagesDesignMenu extends AController {
 			'update_field' => $this->html->getSecureURL ( 'listing_grid/menu/update_field' ),
 			'sortname' => 'sort_order',
 			'sortorder' => 'asc',
+			'drag_sort_column' => 'sort_order',
 			'columns_search' => false,
 			'actions' => array (
 				'edit' => array ( 'text' => $this->language->get ( 'text_edit' ), 'href' => $this->html->getSecureURL ( 'design/menu/update', '&item_id=%ID%' ) ),
