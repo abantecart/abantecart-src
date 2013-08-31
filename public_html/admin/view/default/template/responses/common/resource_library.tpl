@@ -115,42 +115,17 @@
             </tr>
             <tr>
                 <td><?php echo $text_name; ?></td>
-                <td>
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                    <?php if ($language_id == $lang_data['language_id']) { ?>
-                        <input type="text" name="name[<?php echo $lang_data['language_id'] ?>]" value=""/>
-                        <?php } else { ?>
-                        <input type="text" name="name[<?php echo $lang_data['language_id'] ?>]" value=""
-                               style="display:none"/>
-                        <?php } ?>
-                    <?php } ?>
-                    <span class="required">*</span></td>
+                <td><input type="text" name="name" value=""/><span class="required">*</span>
+	                <input id="resource_id" type="hidden" name="resource_id" value="<?php echo $resource_id; ?>" />
+                </td>
             </tr>
             <tr>
                 <td><?php echo $text_title; ?></td>
-                <td>
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                    <?php if ($language_id == $lang_data['language_id']) { ?>
-                        <input type="text" name="title[<?php echo $lang_data['language_id'] ?>]" value=""/>
-                        <?php } else { ?>
-                        <input type="text" name="title[<?php echo $lang_data['language_id'] ?>]" value=""
-                               style="display:none"/>
-                        <?php } ?>
-                    <?php } ?>
-                </td>
+                <td><input type="text" name="title" value=""/></td>
             </tr>
             <tr>
                 <td><?php echo $text_description; ?></td>
-                <td>
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                    <?php if ($language_id == $lang_data['language_id']) { ?>
-                        <textarea name="description[<?php echo $lang_data['language_id'] ?>]"></textarea>
-                        <?php } else { ?>
-                        <textarea name="description[<?php echo $lang_data['language_id'] ?>]"
-                                  style="display:none"></textarea>
-                        <?php } ?>
-                    <?php } ?>
-                </td>
+                <td><textarea name="description"></textarea></td>
             </tr>
             <tr>
                 <td>
@@ -195,7 +170,9 @@
             <td colspan="2" class="sub_title"><?php echo $text_resource_details; ?></td>
         </tr>
         <tr>
-            <td width="130"><?php echo $text_name; ?></td>
+            <td width="130"><?php echo $text_name; ?>
+	            <input id="resource_id" type="hidden" name="resource_id" value="<?php echo $resource_id; ?>" />
+            </td>
             <td width="380" class="name"></td>
         </tr>
         <tr>
@@ -357,14 +334,26 @@ jQuery(function ($) {
         $(this).prev().html($(this).find("option:selected").text());
 
         var form = $(this).closest('form');
+	    $(form).find('.message').html('').removeClass('error').removeClass('success');
+	    var resource_id = form.find('input[name="resource_id"]').val();
+	    if(resource_id){
+		    $.ajax({
+			    url: '<?php echo $rl_get_info;?>',
+			    type: 'GET',
+			    data: {'language_id': language_id, 'resource_id': resource_id},
+			    dataType: 'json',
+			    success: function(json) {
+				    if ( json.error ) {
+					    form.find(".message").html( json.error ).addClass('error');
+					    return;
+				    }
 
-        $('input[name^="name"]', form).hide();
-        $('input[name^="title"]', form).hide();
-        $('textarea[name^="description"]', form).hide();
-
-        $('input[name="name[' + language_id + ']"]', form).show();
-        $('input[name="title[' + language_id + ']"]', form).show();
-        $('textarea[name="description[' + language_id + ']"]', form).show();
+				    form.find('input[name="name"]').val(json.name);
+				    form.find('input[name="title"]').val(json.title);
+				    form.find('textarea[name="description"]').val(json.description);
+			    }
+		    });
+	    }
     });
     var loadedItems;
 
@@ -377,15 +366,11 @@ jQuery(function ($) {
         $(form).attr('action', urls.update_resource + '&resource_id=' + json.resource_id);
         $('select[name="language_id"]', form).val($('#language_id').val());
 
-        $.each(json.name, function (index, item) {
-            form.find('input[name="name[' + index + ']"]').val(item);
-        });
-        $.each(json.title, function (index, item) {
-            form.find('input[name="title[' + index + ']"]').val(item);
-        });
-        $.each(json.description, function (index, item) {
-            form.find('textarea[name="description[' + index + ']"]').val(item);
-        });
+
+        form.find('input[name="resource_id"]').val(json.resource_id);
+        form.find('input[name="name"]').val(json.name);
+        form.find('input[name="title"]').val(json.title);
+        form.find('textarea[name="description"]').val(json.description);
 
         if (json.resource_code) {
             $('textarea[name="resource_code"]', form).val(json.resource_code);
@@ -394,7 +379,7 @@ jQuery(function ($) {
             $('textarea[name="resource_code"]', form).parent().parent().hide();
         }
 
-        var src = '<img src="' + json.thumbnail_url + '" title="' + json.name[Object.keys(json.name)[0]] + '" />';
+        var src = '<img src="' + json.thumbnail_url + '" title="' + json.name + '" />';
         if (type == 'image' && json.resource_code) {
             src = json.thumbnail_url;
         }
@@ -705,20 +690,12 @@ jQuery(function ($) {
         if (code.length && !$(code).val()) {
             error_required_data = true;
         }
-        form.find('input[name^="name"]').each(function (index, item) {
-            if (!$(item).val()) {
+	    if(!form.find('input[name="name"]').val() ) {
                 error_required_data = true;
-                required_lang_id = $(item).attr('name').slice(5, -1);
-            }
-        });
-        if (error_required_data) {
-            if (required_lang_id) {
-                form.find('select')
-                    .val(required_lang_id)
-                    .change();
-            }
-            form.find(".message").html(errors.error_required_data + ' - ' + form.find('option:selected').text()).addClass('error');
+        }
 
+        if (error_required_data) {
+            form.find(".message").html(errors.error_required_data + ' - ' + form.find('option:selected').text()).addClass('error');
             return false;
         }
 
@@ -734,19 +711,6 @@ jQuery(function ($) {
                 hideLoading('small');
             }
         });
-		<?php if($resource_id){ ?>
-			$.ajax({
-						url:urls.get_resource,
-						type:'GET',
-						data:{resource_id: <?php echo $resource_id ?>, resource_objects:1, object_name:object_name, type:type},
-						dataType:'json',
-						success:loadEditForm
-			});
-
-			$('table.resource-details select[name="language_id"]').val(language_id).change();
-
-		<?php } ?>
-
 
         return false;
     });

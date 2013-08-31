@@ -20,29 +20,57 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class AResponse
+ */
 final class AResponse {
-	private $headers = array(); 
+	/**
+	 * @var array http-headers
+	 */
+	private $headers = array();
+	/**
+	 * @var string
+	 */
 	private $output;
+	/**
+	 * @var int level of zip compression
+	 */
 	private $level = 0;
+	/**
+	 * @var Registry
+	 */
 	private $registry;
 
     public function __construct() {
 	    $this->registry = Registry::getInstance();
         $this->output = '';
     }
-	
+
+	/**
+	 * @param string $header
+	 */
 	public function addHeader($header) {
 		$header_name = explode(":",$header);
 		$header_name = strtolower( trim ($header_name[0]));
 		$this->headers[$header_name] = $header;
 	}
 
+	public function addJSONHeader() {
+		$this->headers['Content-Type'] = 'Content-Type: application/json;';
+	}
+
+	/**
+	 * @param string $url
+	 */
 	public function redirect($url) {
 		header('Location: ' . $url);
 		exit;
 	}
 
+	/**
+	 * @param string $stdout
+	 * @param null|int $level
+	 */
 	public function setOutput($stdout, $level = null) {
 		$this->output = $stdout;
 		if(is_null($level)){
@@ -51,14 +79,22 @@ final class AResponse {
 		$this->level = $level;
 	}
 
-    public function getOutput() {
+	/**
+	 * @return string
+	 */
+	public function getOutput() {
 		return $this->output;
 	}
 
-    public function cleanOutput() {
+	public function cleanOutput() {
 		unset($this->output);
 	}
 
+	/**
+	 * @param string $data
+	 * @param int $level
+	 * @return string
+	 */
 	private function compress($data, $level = 0) {
 		if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)) {
 			$encoding = 'gzip';
@@ -105,4 +141,3 @@ final class AResponse {
 		echo $output;
 	}
 }
-?>
