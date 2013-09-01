@@ -1691,7 +1691,7 @@ class ModelCatalogProduct extends Model {
 				'sort_order' => 'p.sort_order'
 			);
 
-			if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data))) {
+			if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
 				$sql .= " ORDER BY " . $sort_data[$data['sort']];
 			} else {
 				$sql .= " ORDER BY pd.name";

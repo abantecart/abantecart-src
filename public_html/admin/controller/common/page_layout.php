@@ -283,6 +283,7 @@ class ControllerCommonPageLayout extends AController {
 		$this->view->assign('form_submit',$form_submit);
 		$this->view->assign('form_reset',$form_reset);
 		$this->view->assign('new_block_url',$this->html->getSecureURL('design/blocks/insert','&tmpl_id='.( $this->request->get['tmpl_id'] ? $this->request->get['tmpl_id'] : $this->config->get('config_storefront_template')).'&page_id='.$settings['page']['page_id'].'&layout_id='.$settings['hidden']['layout_id']));
+		$this->view->assign('block_info_url', $this->html->getSecureURL('listing_grid/blocks_grid/block_info'));
 
 	    $this->processTemplate('common/page_layout.tpl');
         //update controller data
@@ -320,6 +321,7 @@ class ControllerCommonPageLayout extends AController {
 
 			$select_boxes[] = $form->getFieldHtml(array(	'type' => 'selectbox',
 															'name' => 'blocks['.$section_id.'][children][]',
+															'style' => 'block_selector',
 															'value' => array($selected=>$selected),
 															'options' => $options));
 		}
