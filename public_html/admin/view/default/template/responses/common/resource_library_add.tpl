@@ -220,7 +220,6 @@
                     <button type="submit" style="float: right;">
                         <img src="<?php echo $template_dir?>image/icons/icon_grid_save.png" alt="<?php echo $button_save; ?>" border="0" /><?php echo $button_save; ?>
                     </button>
-
                 </td>
 	        </tr>
         </table>
@@ -230,7 +229,7 @@
     </tr>
 </script>
 
-<script type="text/javascript" >
+<script type="text/javascript">
 jQuery(function($){
 
     var type = '<?php echo $type; ?>';
@@ -291,7 +290,6 @@ jQuery(function($){
 		}
 		if(!form.find('input[name="name"]').val() ) {
                 error_required_data = true;
-               // required_lang_id = $(item).attr('name').slice(5,-1);
         }
 
 		if ( error_required_data ) {

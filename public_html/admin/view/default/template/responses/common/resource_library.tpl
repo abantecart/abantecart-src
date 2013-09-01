@@ -27,9 +27,9 @@
             <div class="cl">
                 <div class="cr">
                     <div class="cc">
-                        <form id="searchform" action="<?php echo $search_action; ?>" method="post">
+	                    <?php echo $search_form_open; //echo $search_field_input; ?>
                             <span class="icon_search">&nbsp;</span>
-                            <input type="text" name="search" value="<?php echo $text_search; ?>"
+                            <input type="text" name="search" placeholder="<?php echo $text_search; ?>" value="<?php echo $text_search; ?>"
                                    onFocus="if(this.value == '<?php echo $text_search; ?>') {this.value = '';}"
                                    onBlur="if (this.value == '') {this.value = '<?php echo $text_search; ?>';}"/>
                             <a href="#" class="btn_search btn_standard"><?php echo $button_go; ?></a>
@@ -75,23 +75,18 @@
 
         <div id="column_right"></div>
     </div>
-    <?php if ($mode == '') : ?>
+    <?php if ($mode == ''){ ?>
     <div id="multiactions">
         <?php echo $text_with_selected ?>
-        <select name="actions">
-            <option value=""><?php echo $text_select ?></option>
-            <option value="map"><?php echo $text_map; ?></option>
-            <option value="unmap"><?php echo $text_unmap; ?></option>
-            <option value="delete"><?php echo $button_delete; ?></option>
-        </select>&nbsp;<a style="vertical-align: middle; margin-top: -1px;" id="perform_action"
+        <?php echo $batch_actions ?>&nbsp;<a style="vertical-align: middle; margin-top: -1px;" id="perform_action"
                           class="btn_standard"><?php echo $button_go_actions ?></a>
     </div>
-    <?php endif; ?>
+    <?php } ?>
     <div id="pagination"></div>
 </div>
 
 <div id="edit_frm" style="display:none">
-    <form method="post" action="">
+    <?php echo $edit_form_open;?>
         <div class="resource_image"></div>
         <table class="files resource-details" cellpadding="0" cellspacing="0">
             <tr>
@@ -102,30 +97,24 @@
                 <td class="message"></td>
             </tr>
             <tr>
-                <td>
-                    <?php echo $text_language; ?>
-                </td>
-                <td>
-                    <?php echo $language; ?>
-                </td>
+                <td><?php echo $text_language; ?></td>
+                <td><?php echo $language; ?></td>
             </tr>
             <tr>
                 <td><?php echo $text_resource_code; ?></td>
-                <td><textarea name="resource_code"></textarea><span class="required">*</span></td>
+                <td><?php echo $field_resource_code;?></td>
             </tr>
             <tr>
                 <td><?php echo $text_name; ?></td>
-                <td><input type="text" name="name" value=""/><span class="required">*</span>
-	                <input id="resource_id" type="hidden" name="resource_id" value="<?php echo $resource_id; ?>" />
-                </td>
+                <td><?php echo $field_name; ?></td>
             </tr>
             <tr>
                 <td><?php echo $text_title; ?></td>
-                <td><input type="text" name="title" value=""/></td>
+                <td><?php echo $field_title; ?></td>
             </tr>
             <tr>
                 <td><?php echo $text_description; ?></td>
-                <td><textarea name="description"></textarea></td>
+                <td><?php echo $field_description; ?></td>
             </tr>
             <tr>
                 <td>
@@ -610,10 +599,10 @@ jQuery(function ($) {
         $('#resource_details a.close').click();
         return false;
     });
-
+	$('#multiactions select#actions').aform({triggerChanged: false});
     $('#perform_action').click(function () {
         var url = '';
-        switch ($('#multiactions select').val()) {
+        switch ($('#multiactions select#actions').val()) {
             case 'map':
                 $.ajax({
                     url:urls.map,
@@ -622,6 +611,7 @@ jQuery(function ($) {
                     dataType:'json',
                     success:function (json) {
                         $('#object').click();
+	                    $('#multiactions select#actions').val('').change();
                     }
                 });
                 break;
@@ -633,6 +623,7 @@ jQuery(function ($) {
                     dataType:'json',
                     success:function (json) {
                         loadResources();
+	                    $('#multiactions select#actions').val('').change();
                     }
                 });
                 break;
@@ -673,6 +664,7 @@ jQuery(function ($) {
                     });
                     $("#confirm_dialog").dialog('open');
                 }
+	            $('#multiactions select#actions').val('').change();
                 break;
             default:
                 return;
@@ -758,7 +750,7 @@ jQuery(function ($) {
     });
 
     $('#done_resource').click(function () {
-    <?php if ($mode == 'url') : ?>
+    <?php if ($mode == 'url'){ ?>
         var item = null;
 
         if ($('#resource_details').is(':visible')) {
@@ -783,7 +775,7 @@ jQuery(function ($) {
             }
         }
 
-        <?php endif; ?>
+        <?php } ?>
         parent.$('#dialog').dialog('close');
         parent.$('#dialog').remove();
 
@@ -867,9 +859,9 @@ jQuery(function ($) {
         return false;
     });
 
-<?php if ($add) : ?>
+<?php if ($add){ ?>
     $('#add_resource').click();
-    <?php elseif ($update) : ?>
+    <?php }elseif ($update){ ?>
     showLoading();
     $.ajax({
         url:urls.get_resource,
@@ -878,9 +870,9 @@ jQuery(function ($) {
         dataType:'json',
         success:loadEditForm
     });
-    <?php else : ?>
+    <?php }else{ ?>
     loadResources();
-    <?php endif; ?>
+    <?php } ?>
 });
 
 $("#language_id").ready(function () {

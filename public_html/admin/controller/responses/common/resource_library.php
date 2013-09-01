@@ -39,7 +39,10 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$this->data['types'] = $rm->getResourceTypes();
 		}
 
-		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+		if (isset($this->request->server['HTTPS'])
+			&&
+			(($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+
 			$this->data['base'] = HTTPS_SERVER;
 			$this->data['ssl'] = 1;
 		} else {
@@ -69,7 +72,23 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['rl_map'] = $this->html->getSecureURL('common/resource_library/map', '&object_name=' . $this->request->get['object_name'] . '&object_id=' . $this->request->get['object_id']);
 		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=' . $this->request->get['object_name'] . '&object_id=' . $this->request->get['object_id']);
 		$this->data['default_type'] = $this->request->get['type'];
-		$this->data['language_id'] = $this->config->get('storefront_language_id');
+
+		//search form
+		$form = new AForm('ST');
+		$this->data['search_form_open'] = $form->getFieldHtml(
+															array(
+																'type' => 'form',
+																'name' => 'searchform',
+																'action' => '',
+															));
+		$this->data['search_field_input'] = $form->getFieldHtml(
+			array(  'type'=>'input',
+					'name'=>'search',
+					'placeholder'=>$this->language->get('text_search'),
+					'icon'=>'icon-search')
+		);
+
+		$this->data['language_id'] = $language_id = (int)$this->config->get('storefront_language_id');
 
 		$this->data['languages'] = array();
 		$result = $this->language->getAvailableLanguages();
@@ -78,13 +97,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$languages[$lang['language_id']] = $lang['name'];
 		}
 
-		$this->data['language'] =
-				$this->html->buildSelectbox(
+		$this->data['language'] = $this->html->buildSelectbox(
 					array(
 						'id' => 'language_id',
 						'name' => 'language_id',
 						'options' => $languages,
-						'value' => array((int)$this->config->get('storefront_language_id') => $this->config->get('storefront_language_id')),
+						'value' => $language_id
 					));
 
 		$this->data['button_go'] = $this->html->buildButton(
@@ -93,6 +111,8 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				'text' => $this->language->get('button_go'),
 				'style' => 'button5'
 			));
+		//end search form
+
 		$this->data['button_go_actions'] = $this->html->buildButton(
 			array(
 				'name' => 'go',
@@ -122,7 +142,54 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				'text' => $this->language->get('text_save_sort_order'),
 				'style' => 'button1_small'
 			));
+
+		//Resource edit form fields
+		$form = new AForm('ST');
+		$this->data['edit_form_open' ] = $form->getFieldHtml(
+														array(
+		                                                    'type' => 'form',
+		                                                    'name' => 'editRlFrm',
+		                                                    'action' => '',
+		                                                ));
+
+		$this->data['field_resource_code'] = $form->getFieldHtml(
+						array(  'type'=>'textarea',
+								'name'=>'resource_code',
+								'required'=>true)
+		);
+		$this->data['field_name'] = $form->getFieldHtml(
+						array(  'type'=>'input',
+								'name'=>'name',
+								'required'=>true)
+		);
+		$this->data['field_name'] .= $form->getFieldHtml(
+						array(  'type'=>'hidden',
+								'name'=>'resource_id')
+		);
+
+		$this->data['field_title'] = $form->getFieldHtml(
+			array(  'type'=>'input',
+					'name'=>'title')
+		);
+		$this->data['field_description'] = $form->getFieldHtml(
+			array(  'type'=>'textarea',
+					'name'=>'description'
+				)
+		);
 		$this->data['rl_get_info'] = $this->html->getSecureURL('common/resource_library/get_resource_details');
+
+		$this->data['batch_actions'] = $this->html->buildSelectbox(
+			array(
+				'name' => 'actions',
+				'options' => array(
+					''=>$this->language->get('text_select'),
+					'map'=>$this->language->get('text_map'),
+					'unmap'=>$this->language->get('text_unmap'),
+					'unmap'=>$this->language->get('text_unmap'),
+					'delete'=>$this->language->get('button_delete')
+				)
+			));
+
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/common/resource_library.tpl');
 	}
