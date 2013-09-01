@@ -135,9 +135,108 @@
   </div>
   <div id="layout_hidden_fields"><?php echo $form_hidden; ?></div>
   </form>
-<script>
-	function createBlock(parent_block_id) {
-			url = '<?php echo $new_block_url;?>&parent_block_id=';
-		this.window.location = url+parent_block_id;
+<script><!--
+jQuery(function($){
+
+	$('.block_selector').on('change', function() {
+		var block_id = $(this).val();
+		var elm = $(this).closest('.select_element');
+		destroy_popover(elm);
+		if (!block_id) {
+			return false;
+		}
+		load_popover(elm,block_id)
+	});
+
+	$('.block_selector').mouseover(function(curr){
+		var block_id = $(this).val();
+		var elm = $(this).closest('.select_element');
+		if (!block_id) {
+			return false;
+		}
+			
+		load_popover(elm,block_id)
+	});
+
+});
+
+function load_popover( elm, block_id ) {
+	var template = '';
+	var page_id = '';
+	var layout_id = '';
+	if ($('#layout_template').val()) {
+		template = $('#layout_template').val();
+	}
+	if ($('input[name="page_id"]').val()) {
+		page_id = $('input[name="page_id"]').val();
+	}
+	if ($('input[name="layout_id"]').val()) {
+		layout_id = $('input[name="layout_id"]').val();
+	}
+	
+	if ( elm.attr('data-toggle') !== 'undefined' && elm.attr('data-toggle') == 'popover' ) {
+	    elm.popover('show');
+	    return true;
+	}
+
+	$.ajax({
+	    url: '<?php echo $block_info_url; ?>',
+	    type: 'GET',
+	    dataType: 'json',
+	    data: 'block_id='+block_id+'&template='+template+'&page_id='+page_id+'&layout_id='+layout_id,
+	    success: function(data) {
+	    	build_popover(elm, data);
+	    },
+	    error: function(error) {
+	    	alert(error.responseText);
+	    } 
+	});
 }
-</script>
+
+function build_popover( elm, data ) {
+	elm.attr('data-toggle', 'popover');	
+	elm.popover({
+		trigger: 'manual', 
+		html: true, 
+		placement: 'top',
+		delay: { show: 100, hide: 900 }, 
+		title: data.title, 
+		content: function() {
+			var html = data.description;
+			if (data.allow_edit == 'true') {
+				html += '<br/><center>' + data.block_edit_brn + '</center>';
+			}
+			return html;
+		} 
+	}).click(function(e) {
+		e.preventDefault() ;
+	}).on("mouseenter", function () {
+		var _this = this;
+		$(this).popover("show");
+		$(this).siblings(".popover").on("mouseleave", function () {
+			$(_this).popover('hide');
+		});
+    }).on("mouseleave", function () {
+		var _this = this;
+		setTimeout(function () {
+			if (!$(".popover:hover").length) {
+				$(_this).popover("hide")
+			}
+		}, 200);
+	});
+	elm.popover('show');
+}
+
+function destroy_popover( elm ) {
+	elm.removeAttr('data-placement');
+	elm.removeAttr('data-toggle');
+	elm.popover('destroy');
+	elm.data('popover', false);
+}
+
+
+function createBlock(parent_block_id) {
+	url = '<?php echo $new_block_url;?>&parent_block_id=';
+	this.window.location = url+parent_block_id;
+}
+--></script>

@@ -56,6 +56,7 @@ class ControllerPagesCatalogManufacturer extends AController {
             'update_field' => $this->html->getSecureURL('listing_grid/manufacturer/update_field'),
 			'sortname' => 'sort_order',
 			'sortorder' => 'asc',
+			'drag_sort_column' => 'sort_order',
             'actions' => array(
                 'edit' => array(
                     'text' => $this->language->get('text_edit'),

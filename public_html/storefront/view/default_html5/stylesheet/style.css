@@ -3697,9 +3697,12 @@ a.clostalert {
 		margin-top: 0px;
 	}
 	
-	/* Hide second column in small screen */
+	/* Hide some columns in tables for small screen */
 	.confirm_payment_options td:nth-child(2), .confirm_payment_options th:nth-child(2){ display: none; }
 	.confirm_products td:nth-child(2), .confirm_products th:nth-child(2){ display: none; }
+
+	.transaction-table td:nth-child(2), .transaction-table th:nth-child(2){ display: none; }
+	.transaction-table td:nth-child(6), .transaction-table th:nth-child(6){ display: none; }
 	
 }
 

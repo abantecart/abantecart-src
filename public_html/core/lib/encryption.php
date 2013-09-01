@@ -581,9 +581,6 @@ final class ADataEncryption {
 			return $open_data_arr;
 		}
 
-		if ($open_data_arr['key_id']) {
-		
-		}
 		$key_name = $this->_detect_encrypt_key($open_data_arr['key_id']);
 		$open_data_arr['key_id'] = $this->_get_key_id_by_name($key_name);
 

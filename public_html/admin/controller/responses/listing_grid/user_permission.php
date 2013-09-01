@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridUserPermission extends AController {
-	private $error = array();
+
 
     public function main() {
 
@@ -35,8 +35,6 @@ class ControllerResponsesListingGridUserPermission extends AController {
 		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
 		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
 		$sord = $this->request->post['sord']; // get the direction
-
-	    $search_str = '';
 
         // process jGrid search parameter
 	    $allowedDirection = array('asc', 'desc');
@@ -61,6 +59,7 @@ class ControllerResponsesListingGridUserPermission extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
+		$response->userdata = new stdClass();
 
 	    $results = $this->model_user_user_group->getUserGroups($data);
 	    $i = 0;
@@ -213,9 +212,7 @@ class ControllerResponsesListingGridUserPermission extends AController {
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
-		//$this->load->library('json');
 		$this->response->setOutput(AJson::encode($response));
 	}
 
 }
-?>

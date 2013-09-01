@@ -308,4 +308,40 @@
 		<key>text_file_uploads</key>
 		<value><![CDATA[File Uploads]]></value>
 	</definition>
+	<definition>
+		<key>text_all_settings</key>
+		<value><![CDATA[All Settings]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_details</key>
+		<value><![CDATA[Details]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_general</key>
+		<value><![CDATA[General]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_checkout</key>
+		<value><![CDATA[Checkout]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_appearance</key>
+		<value><![CDATA[Appearance]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_mail</key>
+		<value><![CDATA[Mail]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_api</key>
+		<value><![CDATA[API]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_system</key>
+		<value><![CDATA[System]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_newstore</key>
+		<value><![CDATA[Create New Store]]></value>
+	</definition>	
 </definitions>

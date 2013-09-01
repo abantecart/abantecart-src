@@ -73,7 +73,7 @@ class ControllerResponsesListingGridCurrency extends AController {
 					'name' => 'value[' . $result[ 'currency_id' ] . ']',
 					'value' => $result[ 'value' ],
 				)),
-				date($this->language->get('date_format_short'), strtotime($result[ 'date_modified' ])),
+				dateISO2Display($result[ 'date_modified' ], $this->language->get('date_format_short')),
 				$this->html->buildCheckbox(array(
 					'name' => 'status[' . $result[ 'currency_id' ] . ']',
 					'value' => $result[ 'status' ],

@@ -86,6 +86,7 @@ class ControllerResponsesListingGridExtension extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
+		$response->userdata = new stdClass();
 
 		$i = 0;
 		$push = array();
@@ -180,7 +181,8 @@ class ControllerResponsesListingGridExtension extends AController {
 				$extension,
 				$name,
 				$category,
-				(strtotime($row['update_date']) ? date('Y/m/d', strtotime($row['update_date'])) : ''));
+				dateISO2Display($row['update_date'], $this->language->get('date_format_short'))
+			);
 			if (!$this->config->get('config_store_id')) {
 				$response->rows[$i]['cell'][] = $row['store_name'] ? $row['store_name'] : $this->language->get('text_default');
 			}

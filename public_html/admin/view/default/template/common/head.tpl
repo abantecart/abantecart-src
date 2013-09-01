@@ -17,6 +17,7 @@
 <link rel="<?php echo $style['rel']; ?>" type="text/css" href="<?php echo $style['href']; ?>"
       media="<?php echo $style['media']; ?>"/>
 <?php } ?>
+<link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/bootstrap.custom.css" media="all" />
 <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/stylesheet.css"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/abantecart.jquery.ui.css"/>
 
@@ -35,6 +36,12 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/superfish/js/superfish.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/tab.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.number_format.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
+
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap.min.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap-modal.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap-popover.js"></script>
 
 <?php foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>"></script>

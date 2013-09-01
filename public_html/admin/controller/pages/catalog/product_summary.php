@@ -21,9 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesCatalogProductSummary extends AController {
-	private $error = array();
 	public $data = array();
-     
   	public function main() {
 
           //init controller data
@@ -35,17 +33,18 @@ class ControllerPagesCatalogProductSummary extends AController {
 		$this->data['product'] = $product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
         $this->data['product']['product_id'] = '#'.$this->data['product']['product_id'];
         $this->data['product']['price'] = $this->currency->format($this->data['product']['price']);
+		$this->data['product']['condition'] = $this->model_catalog_product->getProductCondition($this->request->get['product_id']);
+
+		$this->data['text_product_condition'] = $this->language->get('text_product_condition');
+		$this->data['text_product_available'] = $this->language->get('text_product_available');
 
         $resource = new AResource('image');
 		$thumbnail = $resource->getMainThumb('products',
 			                                     $this->request->get['product_id'],
 			                                     $this->config->get('config_image_grid_width'),
 			                                     $this->config->get('config_image_grid_height'),true);
-		  
         $this->data['product']['image'] = $thumbnail;
-
         $this->data['product']['preview'] = $this->html->getCatalogURL('product/product', '&product_id='.$product_info['product_id']);
-
 		$this->view->assign('help_url', $this->gen_help_url('product_summary') );
         $this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/catalog/product_summary.tpl' );

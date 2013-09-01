@@ -94,7 +94,7 @@ class ALayoutManager {
 			}
 		}
 
-		$this->layout_id = $this->active_layout ['layout_id'];
+		$this->layout_id = $this->active_layout['layout_id'];
 
 		ADebug::variable('Template id', $this->tmpl_id);
 		ADebug::variable('Page id', $this->page_id);
@@ -638,6 +638,14 @@ class ALayoutManager {
 	public function getBlockInfo($block_id) {
 		$block_id = (int)$block_id;
 		if (!$block_id) return array();
+		$where = '';
+		
+		if ($this->layout_id) {
+			$where .= " AND l.layout_id = " . (int)$this->layout_id . "";
+		}
+		if ($this->page_id) {
+			$where .= " AND pl.page_id = " . (int)$this->page_id . "";
+		}
 
 		$sql = "SELECT DISTINCT b.block_id as block_id,
 				b.block_txt_id as block_txt_id,
@@ -655,8 +663,9 @@ class ALayoutManager {
 			LEFT JOIN " . DB_PREFIX . "block_layouts bl ON bl.block_id=b.block_id
 			LEFT JOIN " . DB_PREFIX . "layouts l ON l.layout_id = bl.layout_id
 			LEFT JOIN " . DB_PREFIX . "pages_layouts pl ON pl.layout_id = l.layout_id
-			WHERE b.block_id='" . $block_id . "'
+			WHERE b.block_id='" . $block_id . "' " . $where . " 
 			ORDER BY bl.layout_id ASC";
+
 		$result = $this->db->query($sql);
 		return $result->rows;
 	}

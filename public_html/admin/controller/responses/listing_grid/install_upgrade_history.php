@@ -45,7 +45,7 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController {
 
 		$filter = array();
 		//process custom search form
-		$allowedSearchFilter = array ('name', 'date_added', 'type','user' );
+		//$allowedSearchFilter = array ('name', 'date_added', 'type','user' );
 
 		if (isset ( $this->request->post ['filters'] ) && $this->request->post ['filters'] != '') {
 				$this->request->post ['filters'] = json_decode(html_entity_decode($this->request->post ['filters']));
@@ -69,6 +69,7 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
+		$response->userdata = new stdClass();
 
 			$results = $this->model_tool_install_upgrade_history->getLog ( $data );
 			$i = 0;

@@ -31,8 +31,7 @@
 						<div class="cont_left">
 							<div class="cont_right">
 								<div class="cont_mid">
-									<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data"
-									      id="form">
+									<?php echo $form_open; ?>
 										<table class="form">
 											<tr>
 												<td><?php echo $entry_store; ?></td>
@@ -40,12 +39,12 @@
 											</tr>
 											<tr>
 												<td><?php echo $entry_to; ?></td>
-												<td><?php echo $form[ 'group' ]; ?></td>
+												<td><?php echo $form[ 'recipient' ]; ?></td>
 											</tr>
 											<tr>
 												<td></td>
 												<td>
-													<table width="100%" id="mail_personaly">
+													<table  id="mail_personaly">
 														<tr>
 															<td colspan="3">
 																<div class="flt_left"><?php echo $form[ 'search' ]; ?>
@@ -80,13 +79,8 @@
 												<td>
 													<table>
 														<tr>
-															<td colspan="3"><select id="category"
-															                        style="margin-bottom: 5px;"
-															                        onchange="getProducts();">
-																<?php foreach ($categories as $category) { ?>
-																<option value="<?php echo $category[ 'category_id' ]; ?>"><?php echo $category[ 'name' ]; ?></option>
-																<?php } ?>
-															</select>
+															<td colspan="3">
+																<?php echo $form['category']; ?>
 																<br/><br/>
 															</td>
 														</tr>
@@ -95,12 +89,10 @@
 															                                id="product" size="10"
 															                                style="width: 350px;">
 															</select></td>
-															<td style="vertical-align: middle;"><input type="button"
-															                                           value="--&gt;"
-															                                           onclick="addItem();"/>
+															<td style="vertical-align: middle;">
+																<input type="button" value="--&gt;" onclick="addItem();"/>
 																<br/>
-																<input type="button" value="&lt;--"
-																       onclick="removeItem();"/></td>
+																<input type="button" value="&lt;--" onclick="removeItem();"/></td>
 															<td style="padding: 0;"><select multiple="multiple"
 															                                id="item" size="10"
 															                                style="width: 350px;">
@@ -144,8 +136,8 @@
 					</div>
 					<!-- <div class="fieldset"> -->
 					<div class="buttons align_center">
-						<button type="submit" class="btn_standard"><?php echo $form[ 'submit' ]; ?></button>
 						<a class="btn_standard" href="<?php echo $cancel; ?>"><?php echo $form[ 'cancel' ]; ?></a>
+						<button type="submit" class="btn_standard button_loader"><?php echo $form[ 'submit' ]; ?></button>
 					</div>
 					</form>
 
@@ -159,15 +151,15 @@
 		</div>
 	</div>
 	<script type="text/javascript"><!--
-	$('#form_group').change(function(){
+	$('#mail_form_recipient').change(function(){
 		if($(this).val()=='' || $(this).val()=='FALSE'){
 			$('#mail_personaly').fadeIn(500);
 		}else{
 			$('#mail_personaly').fadeOut(500);
 		}
 	});
-	if($('#form_group').val()){
-		$('#form_group').change();
+	if($('#mail_form_recipient').val()){
+		$('#mail_form_recipient').change();
 	}
 	function addCustomer() {
 		$('#customer :selected').each(function() {
@@ -188,7 +180,7 @@
 	function getCustomers() {
 		$('#customer option').remove();
 		$.ajax({
-			url: '<?php echo $customers_list; ?>&keyword=' + encodeURIComponent($('#form_search').attr('value')),
+			url: '<?php echo $customers_list; ?>&keyword=' + encodeURIComponent($('#mail_form_search').attr('value')),
 			dataType: 'json',
 			success: function(data) {
 				for (i = 0; i < data.length; i++) {
@@ -197,8 +189,7 @@
 			}
 		});
 	}
-	//--></script>
-	<script type="text/javascript"><!--
+
 	function addItem() {
 		$('#product :selected').each(function() {
 			$(this).remove();
@@ -219,7 +210,7 @@
 	function getProducts() {
 		$('#product option').remove();
 		$.ajax({
-			url: '<?php echo $category_products; ?>&category_id=' + $('#category').attr('value'),
+			url: '<?php echo $category_products; ?>&category_id=' + $('#mail_form_category_id').attr('value'),
 			dataType: 'json',
 			success: function(data) {
 				for (i = 0; i < data.length; i++) {
@@ -230,18 +221,21 @@
 	}
 
 	getProducts();
-	//--></script>
-	<script><!--
-jQuery(function($){
-	$("input, select, .scrollbox", '#form').aform({
-		triggerChanged: false,
+
+	jQuery(function($){
+		$("input, select, .scrollbox", '#form').aform({
+			triggerChanged: false
+		});
+		$.aform.styleGridForm('#customer');
+		$.aform.styleGridForm('#to');
+		$.aform.styleGridForm('#product');
+		$.aform.styleGridForm('#item');
+	})
+
+	$('#mail_form_category_id').change(function(){
+		getProducts();
 	});
-	$.aform.styleGridForm('#customer');
-	$.aform.styleGridForm('#to');
-	$.aform.styleGridForm('#category');
-	$.aform.styleGridForm('#product');
-	$.aform.styleGridForm('#item');
-})
+
 --></script>
 
 

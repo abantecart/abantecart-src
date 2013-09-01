@@ -60,7 +60,7 @@ class ControllerPagesCatalogProduct extends AController {
 
 		$grid_settings = array(
 			'table_id' => 'product_grid',
-			'url' => $this->html->getSecureURL('listing_grid/product'),
+			'url' => $this->html->getSecureURL('listing_grid/product','&category='.(int)$this->request->get['category']),
 			'editurl' => $this->html->getSecureURL('listing_grid/product/update'),
             'update_field' => $this->html->getSecureURL('listing_grid/product/update_field'),
 			'sortname' => 'name',
@@ -186,7 +186,8 @@ class ControllerPagesCatalogProduct extends AController {
 		    'type' => 'selectbox',
 		    'name' => 'category',
             'options' => $this->data['categories'],
-			'style' =>'medium-field'
+			'style' =>'medium-field',
+			'value' => $this->request->get['category']
 	    ));
 		$grid_search_form['fields']['status'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',

@@ -305,6 +305,41 @@ class ControllerPagesSettingSetting extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
+	public function details () {
+		$this->request->get['active'] = 'details';
+		$this->main();
+	}
+
+	public function general () {
+		$this->request->get['active'] = 'general';
+		$this->main();
+	}
+
+	public function checkout () {
+		$this->request->get['active'] = 'checkout';
+		$this->main();
+	}
+
+	public function appearance () {
+		$this->request->get['active'] = 'appearance';
+		$this->main();
+	}
+
+	public function mail () {
+		$this->request->get['active'] = 'mail';
+		$this->main();
+	}
+
+	public function api () {
+		$this->request->get['active'] = 'api';
+		$this->main();
+	}
+
+	public function system () {
+		$this->request->get['active'] = 'system';
+		$this->main();
+	}
+
 	private function _getForm() {
 
 		$this->data['action'] = $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active'] . '&store_id=' . $this->data['store_id']);

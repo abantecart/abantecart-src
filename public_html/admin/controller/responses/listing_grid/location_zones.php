@@ -69,7 +69,7 @@ class ControllerResponsesListingGridLocationZones extends AController {
 			$response->rows[ $i ][ 'cell' ] = array(
 				$result[ 'country_name' ],
 				$result[ 'name' ],
-				date($this->language->get('date_format_short'), strtotime($result[ 'date_added' ])),
+				dateISO2Display($result[ 'date_added' ], $this->language->get('date_format_short'))
 			);
 			$i++;
 		}

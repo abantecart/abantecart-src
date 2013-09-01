@@ -30,8 +30,6 @@ foreach($templates as $t) {
 	<?php echo $layoutform; ?>
 </div>
 <script><!--
-jQuery(function($){
-
     $('#layout_template').width('150')
         .aform({
             triggerChanged: false,
@@ -40,6 +38,4 @@ jQuery(function($){
             window.location = '<?php echo $page_url?>&tmpl_id='+this.value;
         });
     $.aform.styleGridForm('#layout_template');
-
-});
 --></script>

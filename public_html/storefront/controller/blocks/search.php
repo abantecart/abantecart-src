@@ -30,7 +30,13 @@ class ControllerBlocksSearch extends AController {
 
 		$this->data['text_advanced'] = $this->language->get('text_advanced');
 		$this->data['entry_search'] = $this->language->get('entry_search');
-		
+		$this->data['search'] = $this->html->buildInput(
+												array (
+					                                    'name'=>'filter_keyword',
+					                                    'value'=> (isset($this->request->get['keyword']) ? $this->request->get['keyword'] : $this->language->get('text_keyword')),
+														'placeholder' => $this->language->get('text_keyword')
+
+												));
 		$this->data['button_go'] = $this->language->get('button_go');
 
 		$this->view->batchAssign($this->data);

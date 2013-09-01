@@ -94,12 +94,12 @@ class ControllerBlocksListingBlock extends AController {
 
 			$options = $products_info[$result['product_id']]['options'];
 			if ($options) {
-				$add = $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode');
+				$add_to_cart = $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode');
 			} else {
                 if($this->config->get('config_cart_ajax')){
-                    $add = '#';
+                    $add_to_cart = '#';
                 }else{
-                    $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
+                    $add_to_cart = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
                 }
 			}
 
@@ -115,13 +115,15 @@ class ControllerBlocksListingBlock extends AController {
 								'thumb'   		=> $result['image'],
 								'image'   		=> $result['image'],
 								'href'    		=> $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode'),
-								'add'    		=> $add,
+								'add'    		=> $add_to_cart,
 								'item_name'		=> 'product'
 			);
 		}
 		$data_source= array('rl_object_name'=>'products','data_type'=>'product_id');
-		$products = $this->_addThumbnails($data_source, $products);
+		//add thumbnails to list of products. 1 thumbnail per product
+		$products = $this->_prepareCustomItems($data_source, $products);
 
+		// set sign of displaying prices on storefront
 		if ($this->config->get('config_customer_price')) {
 			$display_price = TRUE;
 		} elseif ($this->customer->isLogged()) {
@@ -129,10 +131,9 @@ class ControllerBlocksListingBlock extends AController {
 		} else {
 			$display_price = FALSE;
 		}
-
 		$this->view->assign('display_price',$display_price);
-		$this->view->assign('products',$products);
 
+		$this->view->assign('products',$products);
 		$vertical_tpl = array( 'blocks/listing_block_column_left.tpl',
 		                       'blocks/listing_block_column_right.tpl');
 
@@ -159,13 +160,12 @@ class ControllerBlocksListingBlock extends AController {
 			$cn['item_name'] = $item_name;
 			switch($item_name){
 				case 'category':
-					$cn['href'] = $this->html->getSecureURL('product/category','&category_id='.$cn['category_id']);
+					$cn['href'] = $this->html->getSEOURL('product/category','&category_id='.$cn['category_id'],'&encode');
 				break;
 				case 'manufacturer':
-					$cn['href'] = $this->html->getSecureURL('product/manufacturer','&manufacturer_id='.$cn['manufacturer_id']);
+					$cn['href'] = $this->html->getSEOURL('product/manufacturer','&manufacturer_id='.$cn['manufacturer_id'],'&encode');
 				break;
 			}
-
 		}
 		return $content;
 	}
@@ -297,7 +297,8 @@ class ControllerBlocksListingBlock extends AController {
 								break;
 							}
 						}
-						$result = $this->_addThumbnails($data_source, $result);
+						//add thumbnails to custom list of items. 1 thumbnail per item
+						$result = $this->_prepareCustomItems($data_source, $result);
 					}
 
 				}
@@ -317,18 +318,24 @@ class ControllerBlocksListingBlock extends AController {
 			}
 		}
 
-		if($data_source['rl_object_name'] ){
+		/*if($data_source['rl_object_name'] ){
 			$resource = new AResource('image');
-		}
+		}*/
 		if($result){
-			$result = $this->_addThumbnails($data_source, $result);
+			//add thumbnails to custom list of items. 1 thumbnail per item
+			$result = $this->_prepareCustomItems($data_source, $result);
 		}
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 		return $result;
 	}
 
-	private function _addThumbnails($data_source, $result){
+	/**
+	 * @param array $data_source
+	 * @param array $result
+	 * @return array
+	 */
+	private function _prepareCustomItems($data_source, $result){
 		if(!$data_source['rl_object_name'] ){ return $result; }
 		$resource = new AResource('image');
 		if($result){
@@ -343,14 +350,13 @@ class ControllerBlocksListingBlock extends AController {
 					$result[$k]['image'] = $result[$k]['thumb'] = $thumbnail;
 
 				}
-
 				if(isset($item['price']) && preg_match('/^[0-9\.]/',$item['price'])){
 					$result[$k]['price'] = $this->currency->format($this->tax->calculate($item['price'], $result['tax_class_id'], $this->config->get('config_tax')));
 				}
+				//TODO: remove it in the future. Deprecated ['url'] in v2.0, it is only used in default template and replaced with ['href'] set in caller function
 				$result[$k]['url'] = $this->html->getSEOURL($data_source['storefront_view_path'],'&'.$data_source['data_type'].'='.$item[$data_source['data_type']]);
 			}
 		}
 	return $result;
 	}
 }
-?>

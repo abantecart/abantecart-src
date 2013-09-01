@@ -39,11 +39,15 @@ class ControllerResponsesListingGridCategory extends AController {
 	    //Add custom params
 	    $filter_data['parent_id'] = ( isset( $this->request->get['parent_id'] ) ? $this->request->get['parent_id'] : 0 );
 	    $new_level = 0;
-
 		//get all leave categories 
 		$leafnodes = $this->model_catalog_category->getLeafCategories();
 	    if ($this->request->post['nodeid'] ) {
+	    	$sort = $filter_data['sort'];
+	    	$order = $filter_data['order'];
+	    	//reset filter to get only parent category
 	    	$filter_data = array();
+	    	$filter_data['sort'] = $sort;
+	    	$filter_data['order'] = $order;
 	    	$filter_data['parent_id'] = (integer)$this->request->post['nodeid'];
 			$new_level = (integer)$this->request->post["n_level"] + 1;
 	    }
@@ -53,7 +57,7 @@ class ControllerResponsesListingGridCategory extends AController {
 		$response->page = $filter->getParam('page');
 		$response->total = $filter->calcTotalPages( $total );
 		$response->records = $total;
-	    $response->userdata = (object)array('');
+	    $response->userdata = new stdClass();
 	    $results = $this->model_catalog_category->getCategoriesData($filter_data);
 
 	    $i = 0;
@@ -67,8 +71,21 @@ class ControllerResponsesListingGridCategory extends AController {
 
             $response->rows[$i]['id'] = $result['category_id'];
             $cnt = $this->model_catalog_category->getCategoriesData(array('parent_id'=>$result['category_id']),'total_only');
-            //tree grid structure
 
+			if(!$result['products_count']){
+				$products_count = $result['products_count'];
+			}else{
+				$products_count = $this->html->buildButton(array(
+																'name' => 'view products',
+																'text' => $result[ 'products_count' ],
+																'style' => 'button2',
+																'href'=> $this->html->getSecureURL('catalog/product','&category='.$result['category_id']),
+																'title' => $this->language->get('text_view').' '.$this->language->get('tab_product'),
+																'target' => '_blank'
+															));
+			}
+
+            //tree grid structure
             if ( $this->config->get('config_show_tree_data') ) {
             	$name_lable = '<label style="white-space: nowrap;">'.$result['basename'].'</label>';
             } else {
@@ -79,7 +96,7 @@ class ControllerResponsesListingGridCategory extends AController {
 				    'attr' => ' maxlength="32" '
                 ));
             }
-                   
+
 			$response->rows[$i]['cell'] = array(
                 $thumbnail['thumb_html'],
                 $name_lable,
@@ -92,7 +109,7 @@ class ControllerResponsesListingGridCategory extends AController {
                     'value' => $result['status'],
                     'style'  => 'btn_switch',
                 )),
-                $this->model_catalog_product->getProductsByCategoryId($result['category_id'], 'total_only'),
+				$products_count,
                 $cnt
                 .($cnt ?
                 '&nbsp;<a class="btn_action btn_grid grid_action_expand" href="#" rel="parent_id='.$result['category_id'].'" title="'. $this->language->get('text_view') . '">'.
@@ -141,16 +158,24 @@ class ControllerResponsesListingGridCategory extends AController {
 				$allowedFields = array('category_description', 'sort_order', 'status',);
 
 				$ids = explode(',', $this->request->post['id']);
-				if ( !empty($ids) )
-				foreach( $ids as $id ) {
-					foreach ( $allowedFields as $field ) {
-						$this->model_catalog_category->editCategory($id, array($field => $this->request->post[$field][$id]) );
+				if ( !empty($ids) ) {
+					//resort required. 
+					if(  $this->request->post['resort'] == 'yes' ) {
+						//get only ids we need
+						foreach($ids as $id){
+							$array[$id] = $this->request->post['sort_order'][$id];
+						}
+						$new_sort = build_sort_order($ids, min($array), max($array), $this->request->post['sort_direction']);
+	 					$this->request->post['sort_order'] = $new_sort;
+					}
+					foreach( $ids as $id ) {
+						foreach ( $allowedFields as $field ) {
+							$this->model_catalog_category->editCategory($id, array($field => $this->request->post[$field][$id]) );
+						}
 					}
 				}
 				break;
-
 			default:
-				//print_r($this->request->post);
 
 		}
 

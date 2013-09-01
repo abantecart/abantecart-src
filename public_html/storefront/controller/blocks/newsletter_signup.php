@@ -26,13 +26,17 @@ class ControllerBlocksNewsLetterSignUp extends AController {
 
 		$this->loadLanguage('blocks/newsletter_signup');
 
+		$form  =  new AForm();
+		$this->data['form_open'] = $form->getFieldHtml( array( 'type' => 'form',
+															   'name' => 'subscribeFrm',
+															   'method' => 'get',
+															   'action' => $this->html->getSecureURL('account/subscriber')));
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		$this->data['text_signup'] = $this->language->get('text_signup');
 		$this->data['text_sign_in'] = $this->language->get('text_sign_in');
 		$this->data['text_subscribe'] = $this->language->get('text_subscribe');
 
-		$this->data['form_fields']['rt'] = 'account/create';
-		$this->data['form_fields']['subscriber'] = 1;
+		$this->data['form_fields']['rt'] = 'account/subscriber';
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate();

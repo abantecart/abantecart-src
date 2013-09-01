@@ -21,7 +21,6 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridLanguageDefinitions extends AController {
-	private $error = array();
 
     public function main() {
 
@@ -46,6 +45,8 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
 		$response->page = $filter_grid->getParam('page');
 		$response->total = $filter_grid->calcTotalPages( $total );
 		$response->records = $total;
+		$response->userdata = new stdClass();
+
 		$results = $this->model_localisation_language_definitions->getLanguageDefinitions( $filter_data );
 
 	    $i = 0;
@@ -62,7 +63,7 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
                     'name'  => 'language_value['.$result['language_definition_id'].']',
                     'value' => $result['language_value'],
                 )),
-				(strtotime($result['update_date']) ? date('Y/m/d', strtotime($result['update_date'])) : ''),
+				dateISO2Display($result['update_date'], $this->language->get('date_format_short'))
 			);
 			$i++;
 		}
@@ -174,7 +175,7 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
 				}
 
 			}
-		    return;
+		    return null;
 	    }
 
 	    //request sent from jGrid. ID is key of array
@@ -217,4 +218,3 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
 	}
 
 }
-?>

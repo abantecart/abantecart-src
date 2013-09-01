@@ -41,6 +41,7 @@ class ControllerResponsesListingGridDownload extends AController {
 		$response->page = $filter->getParam('page');
 		$response->total = $filter->calcTotalPages($total);
 		$response->records = $total;
+		$response->userdata = new stdClass();
 		$results = $this->model_catalog_download->getDownloads($filter_data);
 		$i = 0;
 		foreach ($results as $result) {
@@ -126,11 +127,9 @@ class ControllerResponsesListingGridDownload extends AController {
 				$data = array( $key => $value );
 				$this->model_catalog_download->editDownload($this->request->get[ 'id' ], $data);
 			}
-			return;
+			return null;
 		}
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 }
-
-?>

@@ -52,6 +52,10 @@ a img {
     text-align: right;
 }
 
+.top10{
+	padding-top: 10px;	
+}
+
 .hidden {
     visibility: hidden;
 }
@@ -366,7 +370,7 @@ a img {
 }
 
 .breadcrumb {
-    padding: 8px 0 10px;
+    padding: 8px 15px 8px 15px;
     margin-top: 7px;
     width: auto;
 }

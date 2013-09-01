@@ -47,6 +47,8 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 		$response->page = $filter->getParam('page');
 		$response->total = $filter->calcTotalPages($total);
 		$response->records = $total;
+		$response->userdata = new stdClass();
+
 		$sort_array = $filter->getFilterData();
 		if ($sort_array[ 'sort' ] == 'sort_order') {
 			$sort_array[ 'sort' ] = 'viewed';
@@ -66,7 +68,7 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 					break;
 				case 'W':
 					$status = $this->language->get('entry_warning');
-					$response->userdata->classes[ $result [ 'msg_id' ] ] = 'attension';
+					$response->userdata->classes[ $result [ 'msg_id' ] ] = 'attention';
 					break;
 				case 'N':
 				default:
@@ -100,6 +102,9 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function update() {
 
 		if (!$this->user->canModify('listing_grid/message_grid')) {
@@ -144,7 +149,6 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 			$this->load->library('json');
 			$this->response->setOutput(AJson::encode($message));
 		}
-
 	}
 
 	public function getNotify() {

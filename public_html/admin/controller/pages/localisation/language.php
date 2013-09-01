@@ -57,6 +57,8 @@ class ControllerPagesLocalisationLanguage extends AController {
 			'update_field' => $this->html->getSecureURL('listing_grid/language/update_field'),
             // default sort column
 			'sortname' => 'sort_order',
+			// columns for drag sort
+			'drag_sort_column' => 'sort_order',
             // actions
             'actions' => array(
                 'edit' => array(

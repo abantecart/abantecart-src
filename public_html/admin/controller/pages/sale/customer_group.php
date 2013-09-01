@@ -78,7 +78,7 @@ class ControllerPagesSaleCustomerGroup extends AController {
 				'name' => 'name',
 				'index' => 'name',
 				'width' => 700,
-				'align' => 'center',
+				'align' => 'left',
 			),
 		);
 
@@ -243,4 +243,3 @@ class ControllerPagesSaleCustomerGroup extends AController {
 	}
 
 }
-?>
