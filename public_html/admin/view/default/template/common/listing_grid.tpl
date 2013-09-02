@@ -25,9 +25,7 @@
     </form>
 </div>
 
-<!--<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery.ui.datepicker.js"></script>
-	-->
-<script>
+<script type="text/javascript">
 
 var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 

@@ -72,7 +72,7 @@
 	<?php } //foreach ?>
 </table>
 
-<script>
+<script type="text/javascript">
 	jQuery(function ($) {
 
 		var elements_with_options = [];
