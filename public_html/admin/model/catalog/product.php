@@ -1669,7 +1669,7 @@ class ModelCatalogProduct extends Model {
 			if (isset($filter['pto']) && !is_null($filter['pto'])) {
 				$sql .= " AND p.price <= '" . (float)$filter['pto'] . "'";
 			}
-			if (isset($filter['category']) && !is_null($filter['category'])) {
+			if ($filter['category'] ){
 				$sql .= " AND p2c.category_id = '" . (int)$filter['category'] . "'";
 			}
 			if (isset($filter['status']) && !is_null($filter['status'])) {
