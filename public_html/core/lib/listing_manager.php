@@ -25,7 +25,7 @@ class AListingManager extends AListing {
 	protected $registry;
 	public    $errors = 0;
 	protected   $custom_block_id;
-	public    $data_sources = array();
+	public    $data_sources;
 
 	//NOTE: This class is loaded in INIT for admin only
 	public function __construct($custom_block_id) {
@@ -77,7 +77,6 @@ class AListingManager extends AListing {
 
 		$listing_properties = $this->getListingDataSources();
 		if( !isset($data['data_type']) && isset( $data['listing_datasource'] ) ){
-			$listing_properties = $this->getListingDataSources();
 			$data['data_type'] = $listing_properties[$data['listing_datasource']]['data_type'];
 		}
 

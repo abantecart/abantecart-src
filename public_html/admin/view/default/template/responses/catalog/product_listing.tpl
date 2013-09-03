@@ -69,6 +69,7 @@ jQuery("#<?php echo $table_id; ?>").setGridParam({
 
 						tmp[id]['name'] = $('#'+id).find('td').eq(2).html() ;
 						tmp[id]['status'] = status;
+						tmp[id]['status'] = tmp[id]['status'] ? tmp[id]['status'] : 0;
 						$('#<?php echo $form_name; ?>_buffer').html( JSON.stringify(tmp) ) ;
 						}
 		});

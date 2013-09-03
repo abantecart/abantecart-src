@@ -815,11 +815,13 @@ class MultivalueListHtmlElement extends HtmlElement {
 			'form_name' => $this->form,
 			'multivalue_hidden_id' => $this->multivalue_hidden_id,
 			'return_to' => ($this->return_to ? $this->return_to : $this->form . '_' . $this->multivalue_hidden_id . '_item_count'),
+			'with_sorting' => $this->with_sorting
 		);
 
 		$data[ 'text' ][ 'delete' ] = $this->text[ 'delete' ] ? $this->text[ 'delete' ] : 'delete';
 		$data[ 'text' ][ 'delete_confirm' ] = $this->text[ 'delete_confirm' ] ? $this->text[ 'delete_confirm' ] : 'Confirm to delete?';
-
+		$data['text']['column_action'] = $this->data[ 'registry' ]->get('language')->get('column_action');
+		$data['text']['column_sort_order'] = $this->data[ 'registry' ]->get('language')->get('text_sort_order');
 		$this->view->batchAssign($data);
 		$return = $this->view->fetch('form/multivalue_list.tpl');
 		return $return;
@@ -827,9 +829,7 @@ class MultivalueListHtmlElement extends HtmlElement {
 }
 
 class MultivalueHtmlElement extends HtmlElement {
-
 	public function getHtml() {
-
 		$data = array(
 			'id' => $this->element_id,
 			'name' => $this->name,

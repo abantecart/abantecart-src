@@ -15,7 +15,6 @@
 							}
 							var sorting = $(inputname).val() ? $(inputname).val() : 0;
 							var tmp = jQuery.parseJSON( $('#<?php echo $form_name; ?>_popup_buffer').html() );
-							//tmp = tmp==null ? {} : tmp;
 
 							if(tmp[id]==null){
 								tmp[id] = {};
@@ -23,7 +22,7 @@
 
 							tmp[id]['name'] = $('#'+id).find('td').eq(2).html() ;
 							tmp[id]['status'] = status;
-							tmp[id]['sort_order'] = sorting;
+							//tmp[id]['sort_order'] = sorting;
 
 							$('#<?php echo $form_name; ?>_popup_buffer').html( JSON.stringify(tmp, null, 2) ) ;
 							}

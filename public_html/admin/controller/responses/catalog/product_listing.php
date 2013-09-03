@@ -212,7 +212,7 @@ class ControllerResponsesCatalogProductListing extends AController {
 
 			$id_list = array();
 			foreach ($list as $id => $row) {
-				if($id == $this->session->data['multivalue_excludes']['product_id'] ) continue;
+				if($id == $this->session->data['multivalue_excludes']['product_id'] ){ continue; }
 				if ($row[ 'status' ]) {
 					$id_list[ ] = $id;
 				}
@@ -220,7 +220,7 @@ class ControllerResponsesCatalogProductListing extends AController {
 
 			if ($results) {
 				foreach ($results as $result) {
-					if($result[ $data_type ] == $this->session->data['multivalue_excludes']['product_id'] ) continue;
+					if($result[ $data_type ] == $this->session->data['multivalue_excludes']['product_id'] ){ continue; }
 
 					if (in_array($result[ $data_type ], $id_list)) {
 						$response->userdata->selId[ ] = $result[ $data_type ];
