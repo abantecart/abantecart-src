@@ -246,6 +246,14 @@ class ModelToolMigration extends Model {
 			return true;
 		}
 
+		// get all loginnames to prevent conflicts.
+		$query = $this->db->query("SELECT LOWER(`loginname`) AS loginname
+								   FROM " . $this->db->table("customers"));
+		$logins = array();
+		foreach($query->rows as $row){
+			$logins[] = $row['loginname'];
+		}
+
 		foreach ($customers as $data) {
 			if (!trim($data['email'])) {
 				continue;
@@ -255,13 +263,28 @@ class ModelToolMigration extends Model {
 			$date_added = has_value($data['date_added']) ? "'" . $this->db->escape($data['date_added']) . "'" : 'NOW()';
 			$status = has_value($data['status']) ? $data['status'] : 1;
 			$approved = has_value($data['approved']) ? $data['approved'] : 1;
+			$data['email'] = mb_strtolower($data['email']);
+
+			//process unique loginname
+			$loginname = $data['loginname'] ? $data['loginname'] : '';
+			$loginname = mb_strtolower($loginname);
+
+			if(!$loginname && !$this->config->get('prevent_email_as_login') && $data['email'] && !in_array($data['email'],$logins)){
+				$loginname = $data['email'];
+			}
+			if(in_array($loginname,$logins)){
+				$loginname = '';
+			}
+			if(!$loginname){
+				$loginname = 'gen_'.md5(microtime());
+			}
 
 			$sql = "INSERT INTO " . DB_PREFIX . "customers
 					SET store_id = '" . $store_id . "',
 						firstname = '" . $this->db->escape($data['firstname']) . "',
 						lastname = '" . $this->db->escape($data['lastname']) . "',
 						email = '" . $this->db->escape($data['email']) . "',
-						loginname = '" . $this->db->escape($data['email']) . "',
+						loginname = '" . $this->db->escape($loginname) . "',
 						telephone = '" . $this->db->escape($data['telephone']) . "',
 						fax = '" . $this->db->escape($data['fax']) . "',
 						password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "',
@@ -271,8 +294,8 @@ class ModelToolMigration extends Model {
 						status = '" . $status . "',
 						approved = '" . $approved . "',
 						date_added = " . $date_added . "";
-
 			$result = $this->db->query($sql,true);
+			$logins[] = $loginname;
 
 			if ($result === false) {
 					$this->addLog($this->db->error);
@@ -283,16 +306,26 @@ class ModelToolMigration extends Model {
 			$customer_id_map[$data['customer_id']] = $customer_id;
 			$data['address'] = (array)$data['address'];
 			foreach ($data['address'] as $address) {
-				$result = $this->db->query("INSERT INTO " . DB_PREFIX . "addresses
-											  SET customer_id = '" . (int)$customer_id . "',
-											   	  firstname = '" . $this->db->escape($address['firstname']) . "',
-													lastname = '" . $this->db->escape($address['lastname']) . "',
-													company = '" . $this->db->escape($address['company']) . "',
-													address_1 = '" . $this->db->escape($address['address_1']) . "',
-													city = '" . $this->db->escape($address['city']) . "',
-													postcode = '" . $this->db->escape($address['postcode']) . "',
-													country_id = '" . (int)$address['country_id'] . "',
-													zone_id = '" . (int)$address['zone_id'] . "'", true);
+				$sql = "INSERT INTO " . DB_PREFIX . "addresses
+					  SET customer_id = '" . (int)$customer_id . "',
+						  firstname = '" . $this->db->escape($address['firstname']) . "',
+							lastname = '" . $this->db->escape($address['lastname']) . "',
+							company = '" . $this->db->escape($address['company']) . "',
+							address_1 = '" . $this->db->escape($address['address_1']) . "',
+							city = '" . $this->db->escape($address['city']) . "',
+							postcode = '" . $this->db->escape($address['postcode']) . "',
+							country_id = " . ($address['country_iso_code2'] ? "(SELECT country_id
+																				FROM ".DB_PREFIX."countries
+																				WHERE country_iso_code2='".$this->db->escape($address['country_iso_code2'])."'
+																				LIMIT 0,1)"
+																			: "'0'") . ",
+							zone_id = " . ($address['zone_iso_code2'] ? "(SELECT zone_id
+																			FROM ".DB_PREFIX."zones
+																			WHERE code='".$this->db->escape($address['zone_iso_code2'])."'
+																			LIMIT 0,1)"
+																		: "'0'");
+
+				$result = $this->db->query($sql, true);
 				if ($result === false) {
 					$this->addLog($this->db->error);
 					return null;
@@ -496,6 +529,18 @@ class ModelToolMigration extends Model {
 			if ($result === false) {
 				$this->addLog($this->db->error);
 				return null;
+			}
+
+			// add seo keyword
+			if($this->config->get('enable_seo_url')){
+				if(!$data['seo_keyword']){
+					$seo_key = SEOEncode($data['name'],	'product_id',	$product_id);
+				}else{
+					$seo_key = SEOEncode($data['seo_keyword'],	'product_id',	$product_id);
+				}
+				$this->language->replaceDescriptions('url_aliases',
+														array('query' => "product_id=" . (int)$product_id),
+														array((int)$language_id => array('keyword'=>$seo_key)));
 			}
 
 			$result = $this->db->query("INSERT INTO " . DB_PREFIX . "products_to_stores

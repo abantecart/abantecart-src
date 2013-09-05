@@ -194,7 +194,7 @@ class Migration_Oscmax implements Migration {
 		}
 
 		//add categories id
-		$sql_query = "SELECT categories_id, products_id
+		$sql_query = "SELECT categories_id as category_id, products_id as product_id
                       FROM " . $this->data['db_prefix'] . "products_to_categories";
 		$categories = $this->src_db->query($sql_query,true);
 		if (!$categories) {
@@ -256,11 +256,11 @@ class Migration_Oscmax implements Migration {
 
 		$result = array();
 		foreach($customers->rows as $customer){
-			$result[$customer['customers_id']] = $customer;
+			$result[$customer['customer_id']] = $customer;
 		}
 
 		// add customers addresses
-		$address_query = "SELECT a.customers_id,
+		$address_query = "SELECT a.customers_id as customer_id,
 								a.entry_company as company,
 								a.entry_firstname as firstname,
 								a.entry_lastname as lastname,
@@ -277,7 +277,7 @@ class Migration_Oscmax implements Migration {
 		}
 
 		foreach($addresses->rows as $address){
-			$result[$address['customers_id']]['address'][] = $address;
+			$result[$address['customer_id']]['address'][] = $address;
 		}
 
 		return $result;
