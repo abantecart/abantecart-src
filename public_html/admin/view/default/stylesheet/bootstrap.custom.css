@@ -239,12 +239,13 @@ a {
   text-decoration: none;
 }
 
+/*
 a:hover,
 a:focus {
   color: #005580;
   text-decoration: underline;
 }
-
+*/
 .img-rounded {
   -webkit-border-radius: 6px;
      -moz-border-radius: 6px;
@@ -761,6 +762,7 @@ h6 small {
   color: #999999;
 }
 
+/*
 h1,
 h2,
 h3 {
@@ -806,7 +808,7 @@ h3 small {
 h4 small {
   font-size: 14px;
 }
-
+*/
 .page-header {
   padding-bottom: 9px;
   margin: 20px 0 30px;

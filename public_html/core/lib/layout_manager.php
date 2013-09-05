@@ -638,13 +638,15 @@ class ALayoutManager {
 	public function getBlockInfo($block_id) {
 		$block_id = (int)$block_id;
 		if (!$block_id) return array();
-		$where = '';
 		
+		//Note: Cannot restrict select block based on page_id and layout_id. Some pages, might use default layout and have no pages_layouts entry
+		// Use OR to select all options and order by layout_id
+		$where = '';	
 		if ($this->layout_id) {
-			$where .= " AND l.layout_id = " . (int)$this->layout_id . "";
+			$where .= " OR l.layout_id = " . (int)$this->layout_id . "";
 		}
 		if ($this->page_id) {
-			$where .= " AND pl.page_id = " . (int)$this->page_id . "";
+			$where .= " OR l.layout_id = " . (int)$this->page_id . "";
 		}
 
 		$sql = "SELECT DISTINCT b.block_id as block_id,

@@ -640,7 +640,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 			$data['title'] = $alang->get('heading_title');
 			$data['description'] = $this->language->get('text_controller') . ": " . $data['controller'];
 			$data['description'] .= "<br/>" . $this->language->get('text_templates') . ": ";
-			$data['description'] .= "<br/>" . implode("<br/>", split(',', $data['templates']));	
+			$data['description'] .= "<br/>" . implode("<br/>", explode(',', $data['templates']));	
 		}
 		
 		//update controller data
