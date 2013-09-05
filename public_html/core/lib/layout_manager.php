@@ -642,13 +642,6 @@ class ALayoutManager {
 		//Note: Cannot restrict select block based on page_id and layout_id. Some pages, might use default layout and have no pages_layouts entry
 		// Use OR to select all options and order by layout_id
 		$where = '';	
-		if ($this->layout_id) {
-			$where .= " OR l.layout_id = " . (int)$this->layout_id . "";
-		}
-		if ($this->page_id) {
-			$where .= " OR l.layout_id = " . (int)$this->page_id . "";
-		}
-
 		$sql = "SELECT DISTINCT b.block_id as block_id,
 				b.block_txt_id as block_txt_id,
 				b.controller as controller,
