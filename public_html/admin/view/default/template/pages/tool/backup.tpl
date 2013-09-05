@@ -98,7 +98,7 @@
 <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
 
-<script>
+<script type="text/javascript">
 
 	function selectAll()
 	{

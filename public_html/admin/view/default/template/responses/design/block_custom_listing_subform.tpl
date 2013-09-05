@@ -5,6 +5,8 @@
 		</td>
 		<td class="ml_field">
 			<?php echo $multivalue_html;?>
+			<br>
+			<?php echo $multivalue_list;?>
 		</td>
 	</tr>
 </table>

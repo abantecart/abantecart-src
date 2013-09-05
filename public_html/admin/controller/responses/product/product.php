@@ -33,9 +33,7 @@ class ControllerResponsesProductProduct extends AController {
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-
 		$this->loadModel('catalog/product');
-
 		if (isset($this->request->post[ 'coupon_product' ])) {
 			$products = $this->request->post[ 'coupon_product' ];
 		} else {
@@ -49,7 +47,8 @@ class ControllerResponsesProductProduct extends AController {
 				$product_data[ ] = array(
 					'product_id' => $product_info[ 'product_id' ],
 					'name' => $product_info[ 'name' ],
-					'model' => $product_info[ 'model' ]
+					'model' => $product_info[ 'model' ],
+					'sort_order' => (int)$product_info[ 'sort_order' ]
 				);
 			}
 		}
@@ -58,6 +57,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($product_data));
 	}
 
@@ -160,6 +160,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($product_data));
 	}
 
@@ -180,7 +181,8 @@ class ControllerResponsesProductProduct extends AController {
 		foreach ($categories as $category_id) {
 			$category_data[ ] = array(
 				'id' => $category_id,
-				'name' => $this->model_catalog_category->getPath($category_id)
+				'name' => $this->model_catalog_category->getPath($category_id),
+				'sort_order' => 0
 			);
 
 		}
@@ -189,6 +191,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($category_data));
 	}
 
@@ -216,7 +219,8 @@ class ControllerResponsesProductProduct extends AController {
 					'id' => $product_info[ 'product_id' ],
 					'product_id' => $product_info[ 'product_id' ],
 					'name' => $product_info[ 'name' ],
-					'model' => $product_info[ 'model' ]
+					'model' => $product_info[ 'model' ],
+					'sort_order' => 0
 				);
 			}
 		}
@@ -225,6 +229,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($product_data));
 	}
 
@@ -246,6 +251,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($result));
 	}
 

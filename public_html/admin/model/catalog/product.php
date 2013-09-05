@@ -1621,7 +1621,7 @@ class ModelCatalogProduct extends Model {
 							ON (p.product_id = pd.product_id AND pd.language_id = '" . $language_id . "')";
 			}
 
-			if (isset($filter['category']) && !is_null($filter['category'])) {
+			if (isset($filter['category']) && $filter['category']>0) {
 				$sql .= " LEFT JOIN " . DB_PREFIX . "products_to_categories p2c ON (p.product_id = p2c.product_id)";
 			}
 
@@ -1669,7 +1669,7 @@ class ModelCatalogProduct extends Model {
 			if (isset($filter['pto']) && !is_null($filter['pto'])) {
 				$sql .= " AND p.price <= '" . (float)$filter['pto'] . "'";
 			}
-			if (isset($filter['category']) && !is_null($filter['category'])) {
+			if ($filter['category'] ){
 				$sql .= " AND p2c.category_id = '" . (int)$filter['category'] . "'";
 			}
 			if (isset($filter['status']) && !is_null($filter['status'])) {

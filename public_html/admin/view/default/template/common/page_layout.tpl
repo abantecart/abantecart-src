@@ -135,7 +135,7 @@
   </div>
   <div id="layout_hidden_fields"><?php echo $form_hidden; ?></div>
   </form>
-<script><!--
+<script type="text/javascript"><!--
 jQuery(function($){
 
 	$('.block_selector').on('change', function() {

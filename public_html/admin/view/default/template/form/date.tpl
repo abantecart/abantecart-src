@@ -6,7 +6,7 @@
 <?php if ( $required == 'Y' ) : ?>
 <span class="required">*</span>
 <?php endif; ?>
-<script>
+<script type="text/javascript">
 	$('#<?php echo $id ?>').datepicker({dateFormat:'<?php echo $dateformat ?>'});
 <?php if ( $highlight == 'pased' ) : ?>
 	var startdate = $('#<?php echo $id ?>').val();

@@ -181,6 +181,7 @@ class ControllerPagesCatalogProductRelations extends AController {
         ));
         $this->data['form']['cancel'] = $form->getFieldHtml(array(
             'type' => 'button',
+			'href' => $this->html->getSecureURL('catalog/product/update','&product_id='.$this->request->get['product_id']),
             'name' => 'cancel',
             'text' => $this->language->get('button_cancel'),
             'style' => 'button2',
@@ -211,7 +212,7 @@ class ControllerPagesCatalogProductRelations extends AController {
                 $product_info = $this->model_catalog_product->getProduct($product_id);
                 $listing_data[$product_id] = array('id' => $product_id,
                     'name' => html_entity_decode($product_info['name'] . ' (' . $product_info['model'] . ')'),
-                    'status' => 1);
+					'status' => 1);
 
             }
         }
@@ -259,7 +260,6 @@ class ControllerPagesCatalogProductRelations extends AController {
 // CATEGORY
         $listing_data = array();
         if ($this->data['product_category']) {
-
             foreach ($this->data['product_category'] as $category_id) {
                 $listing_data[$category_id] = array('id' => $category_id,
                     'name' => html_entity_decode($this->model_catalog_category->getPath($category_id)),

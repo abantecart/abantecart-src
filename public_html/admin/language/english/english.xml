@@ -553,4 +553,8 @@
 		<key>text_automatic</key>
 		<value><![CDATA[Automatic]]></value>
 	</definition>
+	<definition>
+		<key>text_sort_order</key>
+		<value><![CDATA[Sort Order]]></value>
+	</definition>
 </definitions>

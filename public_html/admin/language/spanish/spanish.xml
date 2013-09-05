@@ -555,4 +555,8 @@
 		<key>text_automatic</key>
 		<value><![CDATA[Automático]]></value>
 	</definition>
+	<definition>
+		<key>text_sort_order</key>
+		<value><![CDATA[Orden de Clasificación]]></value>
+	</definition>
 </definitions>
