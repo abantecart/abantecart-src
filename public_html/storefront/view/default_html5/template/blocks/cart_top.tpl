@@ -5,7 +5,7 @@
             class="cart_total"><?php echo $subtotal; ?></span> <b class="caret"></b></a>
         <ul class="dropdown-menu topcartopen ">
             <li>
-		<span id="top_cart_product_list">
+		<div id="top_cart_product_list">
 			<table>
                 <tbody>
 				<?php echo $this->getHookVar('cart_top_pre_list_hook'); ?>
@@ -44,7 +44,7 @@
 				<?php echo $this->getHookVar('cart_top_post_total_hook'); ?>
                 </tbody>
             </table>
-		</span>
+		</div>
                 <div class="well buttonwrap span3">
 					<?php echo $this->getHookVar('cart_top_pre_buttons_hook'); ?>
                     <a class="btn btn-orange pull-left" href="<?php echo $view; ?>"><i class="icon-shopping-cart icon-white"></i> <?php echo $text_view;?></a>&nbsp;&nbsp;

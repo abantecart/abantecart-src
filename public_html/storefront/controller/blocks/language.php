@@ -56,9 +56,10 @@ class ControllerBlocksLanguage extends AController {
         	$rt = $this->request->get['rt'];
         	$unset[] = 'rt';
 			$URI = '&'.$this->html->buildURI($this->request->get, $unset);
+			$URI = $URI=='&' ? '' : $URI;
         }
 		foreach($this->data['languages'] as &$lang){
-			$lang['href'] = $this->html->getURL($rt, $URI.'&language='.$lang['code']);
+			$lang['href'] = $this->html->getURL($rt, $URI.'&language='.$lang['code'],true);
 		}
 
 		$this->view->batchAssign($this->data);

@@ -2,7 +2,7 @@
 		<ul class="nav info_links_header">
 			<li class="dropdown hover">
 				<a class="dropdown-toggle" data-toggle=""><span><?php echo $heading_title; ?></span></a>
-					<ul class="dropdown-menu dropup-menu" role="button">
+					<ul class="dropdown-menu dropup-menu">
 			<?php echo $this->getHookVar('pre_contents'); ?>
 			<?php foreach ($contents as $content) {	?>
 			    <li><a href="<?php echo $content['href']; ?>"><?php echo $content['title']; ?></a></li>

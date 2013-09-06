@@ -8,7 +8,7 @@
 				<li><div class="dropdown">
 					<a href="<?php echo $content['href']; ?>"><?php echo $content['title']; ?></a>
 			<?php if($contents[$k+1]['level']){?>
-					<ul class="dropdown-menu dropup-menu" role="button">
+					<ul class="dropdown-menu dropup-menu">
 			<?php }
 			}else{ ?>
 					<li class="hover">

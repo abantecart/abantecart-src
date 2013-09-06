@@ -40,7 +40,8 @@ if ($products) {
 				<?php echo $product['buttons']?>
             </div>
             <div class="pricetag">
-              <span class="spiral"></span><a id="<?php echo $product['product_id']?>" href="<?php echo $item['buy_url']?>" class="productcart"><?php echo $button_add_to_cart?></a>
+              <span class="spiral"></span>
+				<a data-id="<?php echo $product['product_id']?>" href="<?php echo $item['buy_url']?>" class="productcart"><?php echo $button_add_to_cart?></a>
               <div class="price">
         <?php  if ($product['special']) { ?>
             <div class="pricenew"><?php echo $product['special']?></div>

@@ -13,4 +13,5 @@
 			<?php if ($block_framed) { ?>
 			<?php } ?>
 		</div>
+	</div>
 </section>

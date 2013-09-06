@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="view/javascript/ui/themes/ui-lightness/ui.all.css"/>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script language="Javascript">
+<script type="text/javascript">
 if (!jQuery){
    var include = '<script type="text/javascript" src="view/javascript/jquery-1.7.2.min.js">';
    document.write(include);

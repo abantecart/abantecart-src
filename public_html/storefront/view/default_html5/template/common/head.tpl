@@ -48,7 +48,7 @@
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
-      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script type="text/javascript" src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 <!-- fav -->
 
@@ -74,12 +74,12 @@ if (typeof jQuery == 'undefined') {
 <script type="text/javascript">
     $('a[href=\\#].productcart').live('click',function(){
         var item = $(this);
-        if(item.attr('id')){
+        if(item.attr('data-id')){
             $.ajax({
                     url:'<?php echo $cart_ajax_url; ?>',
                     type:'GET',
                     dataType:'json',
-                    data: {product_id:  item.attr('id') },
+                    data: {product_id:  item.attr('data-id') },
                     success:function (data) {
                     	var alert_msg = '<div class="alert alert-info added_to_cart"> \
                     		<button type="button" class="close" data-dismiss="alert">&times;</button> \
