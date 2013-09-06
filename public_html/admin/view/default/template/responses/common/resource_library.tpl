@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/button.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/resource.css"/>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script language="Javascript">
+    <script type="text/javascript">
         if (typeof jQuery == 'undefined') {
             var include = '<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-1.7.2.min.js"><\/script>';
             document.write(include);

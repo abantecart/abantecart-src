@@ -318,6 +318,9 @@ section.row {
 	vertical-align: middle;
 }
 
+ul#search-category{
+	margin: 0;
+}
 
 
 .search-bar .button-in-search {
@@ -2796,7 +2799,7 @@ a.clostalert {
 		margin-left: 25px;
 	}
 
-	#main_menu {
+	.main_menu {
 		width: 100%;
 	}
 	#banner_banner_block_1773 .container{

@@ -57,7 +57,7 @@
 			</div>
 		</div>
 	</div>
-<script language="JavaScript">
+<script type="text/javascript">
 	$('span.icon_search').click(function(){
 		$('#search_form').submit();
 	});

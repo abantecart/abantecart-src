@@ -1,7 +1,7 @@
 
 <div id="notify" class="align_center success" style="display: none;"></div>
 <?php if ($success) { ?>
-<script language="JavaScript">
+<script type="text/javascript">
 	$('#notify').html('<?php echo $success?>').fadeIn(500).delay(2000).fadeOut(500);
 </script>
 <?php } ?>

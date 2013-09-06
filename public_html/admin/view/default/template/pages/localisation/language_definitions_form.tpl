@@ -71,7 +71,7 @@
 <?php
 if(!$language_definition_id){?>
 <div id="dialog"></div>
-<script language="JavaScript">
+<script type="text/javascript">
 	$('#definitionFrm_block, #definitionFrm_language_key').blur(function(){
 		if($('#definitionFrm_language_key').val()==''){
 			return false;

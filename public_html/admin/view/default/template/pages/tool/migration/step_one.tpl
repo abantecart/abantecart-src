@@ -94,7 +94,7 @@
 		</div>
 	</div>
 </div>
-<script language="javascript">
+<script type="text/javascript">
 	<!--
 	$(function () {
 		$('select[name=cart_type]').val('<?php echo $cart_type?>');

@@ -5,11 +5,11 @@
 <title><?php echo $title; ?></title>
 <base href="<?php echo $base; ?>"/>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-<script src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-<script src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.iframe-transport.js"></script>
-<script src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload.js"></script>
-<script src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></script>
+<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></script>
 
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" id="theme">
 <link rel="stylesheet" type="text/css"href="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.css"/>

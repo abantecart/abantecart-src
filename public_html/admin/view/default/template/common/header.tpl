@@ -133,7 +133,7 @@
 <div id="suggest_popup_dialog"></div>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
-<script language="JavaScript">
+<script type="text/javascript">
     $(function () {
         if (!$('#global_search')) return;
         $('#global_search').click(function () {
