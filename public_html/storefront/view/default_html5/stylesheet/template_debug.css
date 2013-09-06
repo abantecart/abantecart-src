@@ -67,20 +67,17 @@ header.headerstrip .postit_notes_box_parent {
 	text-decoration: none;
 }
 
-.postit_notes a.icon_xpandarrow {
-	background: url(../image/icon_collapse.png) 100% 50% no-repeat;
-	padding-right: 12px;
+.postit_notes a.xpand {
+	padding-right: 15px;
 	color: #000;
 	font-weight: bold;
+	cursor: pointer;
 }
 
-.postit_notes a.icon_xpandarrow:hover {
+.postit_notes a.xpand:hover {
 	text-decoration: underline;
 }
 
-.postit_notes a.icon_xpandarrow.expand {
-	background: url(../image/icon_expand.png) 100% 50% no-repeat;
-}
 
 .postit_notes.show {
 	display: block;
@@ -97,11 +94,6 @@ header.headerstrip .postit_notes_box_parent {
 .postit_close {
 	position: absolute;
 	right: 8px;
+	cursor: pointer;
 }
 
-.postit_close .icon_close {
-	display: inline-block;
-	background: url(../image/close_icon.gif) no-repeat;
-	width: 11px;
-	height: 11px;
-}

@@ -186,7 +186,7 @@ form {
 }
 
 input:focus:invalid, textarea:focus:invalid, select:focus:invalid {
-	color: #96979d;
+	color: #e41918;
 }
 
 section.row {
@@ -356,7 +356,7 @@ ul#search-category{
 }
 
 .headerdetails ul.nav {
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 
 li.dropdown {
@@ -661,7 +661,7 @@ ul.categorymenu > li ul > li img {
 /* ------------ otherddetails ------------ */
 .otherddetails {
 	border: 1px solid #dddddd;
-	margin: 0px auto 10px auto;
+	margin: 0 auto 10px auto;
 	width: auto;
 }
 
@@ -1312,6 +1312,9 @@ ul.rate li.off {
 	background: url(../image/spiral.png) no-repeat right 0;
 	height: 50px;
 	width: 35px
+}
+.productfilneprice{
+	display: inline-block;
 }
 
 .productpageoldprice {
@@ -2458,12 +2461,12 @@ a.clostalert {
 	padding: 0 0 5px 0
 }
 
-#social_icons {
+#social_icons, .social_icons {
 	float: right;
 	margin-right: -12px
 }
 
-#social_icons a {
+#social_icons a, .social_icons a  {
 	background: url(../image/footericon.png) no-repeat;
 	height: 30px;
 	width: 30px;
@@ -2477,81 +2480,81 @@ a.clostalert {
 	-o-transition: all .2s ease
 }
 
-#social_icons a:hover {
+#social_icons a:hover, .social_icons a:hover {
 	-moz-transition: all .2s ease;
 	-webkit-transition: all .2s ease;
 	-o-transition: all .2s ease
 }
 
-#social_icons a.facebook {
+#social_icons a.facebook, .social_icons a.facebook {
 	background-position: 0 -6px;
 }
 
-#social_icons a.facebook:hover {
+#social_icons a.facebook:hover, .social_icons a.facebook:hover {
 	background-position: 0 -47px;
 }
 
-#social_icons a.twitter {
+#social_icons a.twitter, .social_icons a.twitter  {
 	background-position: -40px -6px
 }
 
-#social_icons a.twitter:hover {
+#social_icons a.twitter:hover, .social_icons a.twitter:hover {
 	background-position: -40px -47px
 }
 
-#social_icons a.linkedin {
+#social_icons a.linkedin, .social_icons a.linkedin {
 	background-position: -80px -6px
 }
 
-#social_icons a.linkedin:hover {
+#social_icons a.linkedin:hover, .social_icons a.linkedin:hover {
 	background-position: -80px -47px
 }
 
-#social_icons a.blooger {
+#social_icons a.blooger, .social_icons a.blooger {
 	background-position: -118px -6px
 }
 
-#social_icons a.blooger:hover {
+#social_icons a.blooger:hover, .social_icons a.blooger:hover {
 	background-position: -118px -47px
 }
 
-#social_icons a.rss {
+#social_icons a.rss, .social_icons a.rss {
 	background-position: -155px -6px
 }
 
-#social_icons a.rss:hover {
+#social_icons a.rss:hover, .social_icons a.rss:hover {
 	background-position: -155px -47px
 }
 
-#social_icons a.dig {
+#social_icons a.dig, .social_icons a.dig {
 	background-position: -194px -6px
 }
 
-#social_icons a.dig:hover {
+#social_icons a.dig:hover, .social_icons a.dig:hover {
 	background-position: -194px -47px
 }
 
-#social_icons a.googleplus {
+#social_icons a.googleplus, .social_icons a.googleplus {
 	background-position: -234px -6px
 }
 
-#social_icons a.googleplus:hover {
+#social_icons a.googleplus:hover, .social_icons a.googleplus:hover {
 	background-position: -234px -47px
 }
 
-#social_icons a.skype {
+#social_icons a.skype, .social_icons a.skype {
 	background-position: -271px -6px
 }
 
-#social_icons a.skype:hover {
+#social_icons a.skype:hover, .social_icons a.skype:hover {
 	background-position: -271px -47px
 }
 
-#social_icons a.flickr {
+#social_icons a.flickr, .social_icons a.flickr {
 	background-position: -309px -6px
 }
 
-#social_icons a.flickr:hover {
+#social_icons a.flickr:hover, .social_icons a.flickr:hover {
 	background-position: -309px -47px
 }
 /* oneByOne slider*/
@@ -2673,7 +2676,7 @@ a.clostalert {
 	}
 
 	.headerdetails {
-		padding-left: 0px;
+		padding-left: 0;
 	}
 
 	.form-inline .checkbox.pull-right.mr10 {
@@ -2821,15 +2824,15 @@ a.clostalert {
 
 	#banner_slides img.wp1_1 {
 		left: 250px;
-		right: 0px;
+		right: 0;
 	}
 	#banner_slides img.wp1_2 {
 		left: 250px;
-		right: 0px;
+		right: 0;
 	}
 	#banner_slides img.wp1_3 {
 		left: 250px;
-		right: 0px;
+		right: 0;
 	}
 }
 
@@ -3036,7 +3039,7 @@ a.clostalert {
 		float: left !important;
 	}
 
-	#social_icons {
+	#social_icons, .social_icons {
 		float: none;
 		text-align: center;
 		clear: both;
@@ -3087,7 +3090,7 @@ a.clostalert {
 	#banner_banner_block_1773.container.mt20 .pull-left{
 		display: inline-block;
 		float: none;
-		margin-left: 0px;
+		margin-left: 0;
 		margin-top: 10px;
 		text-align: center;
 	}
@@ -3120,7 +3123,7 @@ a.clostalert {
 	}
 
 	.headerstrip .pull-right #search_form {
-		margin-top: 0px;
+		margin-top: 0;
 	}
 
 	.headerdetails .nav.pull-left {
@@ -3166,7 +3169,7 @@ a.clostalert {
 		text-align: center
 	}
 
-	.footerlinks .info, #social_icons {
+	.footerlinks .info, #social_icons, .social_icons {
 		float: none;
 		margin: 10px 0
 	}
@@ -3379,8 +3382,7 @@ a.clostalert {
 	}
 
 	.newcustomer {
-		margin: auto;
-		margin-bottom: 10px;
+		margin: auto auto 10px;
 		float: left;
 	}
 
@@ -3406,7 +3408,7 @@ a.clostalert {
 	#banner_banner_block_1773.container.mt20 .pull-left{
 		display: inline-block;
 		float: none;
-		margin-left: 0px;
+		margin-left: 0;
 		margin-top: 10px;
 		text-align: center;
 	}
@@ -3447,7 +3449,7 @@ a.clostalert {
 	}
 
 	.form-inline .checkbox.pull-right.mr10 {
-		width: 210;
+		width: 210px;
 		min-width: 10px;
 		text-align: right;
 	}
@@ -3460,8 +3462,7 @@ a.clostalert {
 	}
 
 	.newcustomer {
-		margin: auto;
-		margin-bottom: 10px;
+		margin: auto auto 10px;
 		float: left;
 	}
 
@@ -3523,10 +3524,10 @@ a.clostalert {
 	}
 
 	.headerstrip #topnav {
-		padding-bottom: 0px
+		padding-bottom: 0;
 	}
 
-	#social_icons a {
+	#social_icons a, .social_icons a {
 		margin-right: 4px;
 	}
 
@@ -3697,7 +3698,7 @@ a.clostalert {
 	}
 
 	.block_frame_cart  .btn-orange:last-child {
-		margin-top: 0px;
+		margin-top: 0;
 	}
 	
 	/* Hide some columns in tables for small screen */
@@ -3950,7 +3951,6 @@ table th {
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-top: none !important;
-    left: 10px;
     top: 100%;
     left: 6px;
 }
@@ -4068,9 +4068,8 @@ paypal pro styles
     padding: 0 15px;
 }
 #nav-info > li {
-    background-position: left top;
-    background-repeat: no-repeat;
-    background-size: 5px 30px;
+	background: no-repeat left top;
+	background-size: 5px 30px;
     color: #999999;
     float: left;
     font-size: 12px;

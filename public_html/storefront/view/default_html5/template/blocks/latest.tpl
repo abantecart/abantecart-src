@@ -23,17 +23,17 @@ if ($products) {
 	    
 ?>      
               <li>
-              	<a href="<?php echo $item['info_url']?>"><img style="width:50px;" src="<?php echo $item['image']?>"/></a>
+              	<a href="<?php echo $item['info_url']?>"><img style="width:50px;" src="<?php echo $item['image']?>" alt=""/></a>
               	<a class="productname" href="<?php echo $item['info_url']?>"><?php echo $item['title']?></a>
                 <span class="procategory"><?php echo $item['rating']?></span>
-                <span class="price">
+                <div class="price">
         <?php  if ($product['special']) { ?>
             <div class="pricenew"><?php echo $product['special']?></div>
         	<div class="priceold"><?php echo $product['price']?></div>
         <?php } else { ?>
             <div class="pricenew"><?php echo $product['price']?></div>
   		<?php } ?>
-                </span>
+                </div>
               </li>
 <?php
 	}
