@@ -179,9 +179,9 @@ class APromotion {
                         AND r1.status = '1'
                     GROUP BY r1.product_id) AS rating
                 FROM " . $this->db->table("product_specials") . " ps
-                    LEFT JOIN " . $this->db->table("products") . " p ON (ps.product_id = p.product_id)
-                    LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id)
-                    LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)
+                LEFT JOIN " . $this->db->table("products") . " p ON (ps.product_id = p.product_id)
+                LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id AND language_id=".(int)$this->config->get('storefront_language_id').")
+                LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)
                 WHERE p.status = '1'
                     AND p.date_available <= NOW()
                     AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
