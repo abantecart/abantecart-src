@@ -39,15 +39,15 @@
 		<h4 class="heading4"><?php echo $text_shipping; ?></h4>
 		<table class="table">
 			<tr>
-				<td align="left"><?php echo $shipping_firstname . ' ' . $shipping_lastname; ?>
+				<td class="align_left"><?php echo $shipping_firstname . ' ' . $shipping_lastname; ?>
 					<br/><?php echo $telephone; ?></td>
-				<td align="left">
+				<td class="align_left">
 					<?php echo $shipping_address_1 . ' ' . $shipping_address_2; ?><br/>
 					<?php echo $shipping_city . ' ' . $shipping_zone . ' ' . $shipping_postcode; ?><br/>
 					<?php echo $shipping_country ?>
 				</td>
-				<td align="left"><?php echo $shipping_method; ?></td>
-				<td align="right">
+				<td class="align_left"><?php echo $shipping_method; ?></td>
+				<td class="align_right">
 					<a class="btn btn-mini" href="<?php echo $checkout_shipping_edit; ?>">
 						<i class="icon-edit"></i>
 						<?php echo $text_edit_shipping; ?>
@@ -66,15 +66,15 @@
 
 			<?php if ($payment_method) { ?>
 				<tr>
-					<td align="left"><?php echo $payment_firstname . ' ' . $payment_lastname; ?>
+					<td class="align_left"><?php echo $payment_firstname . ' ' . $payment_lastname; ?>
 						<br/><?php echo $telephone; ?></td>
-					<td align="left">
+					<td class="align_left">
 						<?php echo $payment_address_1 . ' ' . $payment_address_2; ?><br/>
 						<?php echo $payment_city . ' ' . $payment_zone . ' ' . $payment_postcode; ?><br/>
 						<?php echo $payment_country ?>
 					</td>
-					<td align="left"><?php echo $payment_method; ?></td>
-					<td align="right">
+					<td class="align_left"><?php echo $payment_method; ?></td>
+					<td class="align_right">
 						<a class="btn btn-mini" href="<?php echo $checkout_payment_edit; ?>">
 							<i class="icon-edit"></i>
 							<?php echo $text_edit_payment; ?>
@@ -84,10 +84,10 @@
 			<?php }
 			if($balance){?>
 				<tr>
-					<td align="left"><?php echo $balance;?></td>
-					<td align="left">&nbsp;</td>
-					<td align="left">&nbsp;</td>
-					<td align="right">
+					<td class="align_left"><?php echo $balance;?></td>
+					<td class="align_left">&nbsp;</td>
+					<td class="align_left">&nbsp;</td>
+					<td class="align_right">
 						<?php if($disapply_balance){ ?>
 						<a class="btn btn-mini" href="<?php echo $disapply_balance['href']; ?>">
 							<i class="icon-edit"></i>
@@ -100,10 +100,10 @@
 			<?php }
 			if($this->getHookVar('payment_method')){?>
 				<tr>
-					<td align="left"><?php echo $this->getHookVar('payment_method_title');?></td>
-					<td align="left">&nbsp;</td>
-					<td align="left">&nbsp;</td>
-					<td align="right"><?php echo $this->getHookVar('payment_method'); ?></td>
+					<td class="align_left"><?php echo $this->getHookVar('payment_method_title');?></td>
+					<td class="align_left">&nbsp;</td>
+					<td class="align_left">&nbsp;</td>
+					<td class="align_right"><?php echo $this->getHookVar('payment_method'); ?></td>
 				</tr>
 			<?php }	?>
 

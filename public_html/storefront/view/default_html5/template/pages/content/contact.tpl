@@ -21,12 +21,12 @@
 	<h4 class="heading4"><?php echo $text_edit_address; ?></h4>
 
 	<div class="content">
-	  <div style="display: inline-block; width: 100%;">
-	    <div style="float: left; display: inline-block; width: 49%;">
+	  <div class="row-fluid">
+	    <div class="span6 pull-left">
 	    <b><?php echo $text_address; ?></b><br />
 	      <?php echo $store; ?><br />
 	      <?php echo $address; ?></div>
-	    <div style="float: right; display: inline-block; width: 49%;">
+	    <div class="span6 pull-right">
 	      <?php if ($telephone) { ?>
 	      <b><?php echo $text_telephone; ?></b><br />
 	      <?php echo $telephone; ?><br />
@@ -39,12 +39,11 @@
 	    </div>
 	  </div>
 	</div>
-	<div class="content">
-	  <table width="100%">
-	    <tr>
-	      <td><?php echo $form_output; ?></td>
-	    </tr>
-	  </table>
-	</div>
+	<table class="row-fluid pull-left mt40">
+		<tr>
+		  <td><?php echo $form_output; ?></td>
+		</tr>
+	</table>
+
 
 </div>

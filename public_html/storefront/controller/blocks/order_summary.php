@@ -74,7 +74,7 @@ class ControllerBlocksOrderSummary extends AController {
         		'quantity'   => $result['quantity'],
 				'stock'      => $result['stock'],
 				'price'      => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
-				'href'       => $this->html->getSEOURL('product/product','&product_id=' . $result['product_id']),
+				'href'       => $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], true),
       		);
     	}
 

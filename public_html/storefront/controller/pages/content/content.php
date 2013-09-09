@@ -47,7 +47,7 @@ class ControllerPagesContentContent extends AController {
 	  		$this->document->setTitle( $content_info['title'] );
 
       		$this->document->addBreadcrumb( array ( 
-        		'href'      => $this->html->getURL('content/content', '&content_id=' . $this->request->get['content_id']),
+        		'href'      => $this->html->getSEOURL('content/content', '&content_id=' . $this->request->get['content_id'], true),
         		'text'      => $content_info['title'],
         		'separator' => $this->language->get('text_separator')
       		 ));		
@@ -67,7 +67,7 @@ class ControllerPagesContentContent extends AController {
             $this->view->setTemplate( 'pages/content/content.tpl' );
     	} else {
       		$this->document->addBreadcrumb( array ( 
-        		'href'      => $this->html->getURL('content/content','&content_id=' . $this->request->get['content_id']),
+        		'href'      => $this->html->getSEOURL('content/content','&content_id=' . $this->request->get['content_id'], true),
         		'text'      => $this->language->get('text_error'),
         		'separator' => $this->language->get('text_separator')
       		 ));
@@ -91,4 +91,3 @@ class ControllerPagesContentContent extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 }
-?>

@@ -27,8 +27,8 @@
 			<table class="table table-striped">
 			<?php foreach ($addresses as $address) { ?>		
 				<tr>
-					<td align="left"><?php echo $address['radio'];?></td>
-					<td align="left"><label class="control-label inline" for="address_1_address_id<?php echo $address['address_id']; ?>" style="cursor: pointer;"><?php echo $address['address']; ?></label></td>
+					<td class="align_left"><?php echo $address['radio'];?></td>
+					<td class="align_left"><label class="control-label inline" for="address_1_address_id<?php echo $address['address_id']; ?>" style="cursor: pointer;"><?php echo $address['address']; ?></label></td>
 				</tr>
 			<?php } ?>
 			</table>

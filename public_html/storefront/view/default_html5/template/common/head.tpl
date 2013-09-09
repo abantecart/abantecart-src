@@ -1,4 +1,5 @@
 <title><?php echo $title; ?></title>
+<meta charset="UTF-8">
 <!--[if IE]>
 	<meta http-equiv="x-ua-compatible" content="IE=Edge" />
 <![endif]-->

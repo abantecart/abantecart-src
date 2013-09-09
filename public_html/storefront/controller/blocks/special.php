@@ -74,7 +74,7 @@ class ControllerBlocksSpecial extends AController {
 			$options = $this->model_catalog_product->getProductOptions($result['product_id']);
 			
 			if ($options) {
-				$add = $this->html->getSEOURL('product/product','&product_id=' . $result['product_id']);
+				$add = $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'],'&encode');
 			} else {
                 if($this->config->get('config_cart_ajax')){
                     $add = '#';
@@ -93,7 +93,7 @@ class ControllerBlocksSpecial extends AController {
 				'options'   	=> $options,
 				'special' 		=> $special,
 				'thumb'   		=> $thumbnail,
-				'href'    		=> $this->html->getSEOURL('product/product','&product_id=' . $result['product_id']),
+				'href'    		=> $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'],'&encode'),
 				'add'    		=> $add
 			);
 		}

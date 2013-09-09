@@ -354,7 +354,7 @@ class ControllerBlocksListingBlock extends AController {
 					$result[$k]['price'] = $this->currency->format($this->tax->calculate($item['price'], $result['tax_class_id'], $this->config->get('config_tax')));
 				}
 				//TODO: remove it in the future. Deprecated ['url'] in v2.0, it is only used in default template and replaced with ['href'] set in caller function
-				$result[$k]['url'] = $this->html->getSEOURL($data_source['storefront_view_path'],'&'.$data_source['data_type'].'='.$item[$data_source['data_type']]);
+				$result[$k]['url'] = $this->html->getSEOURL($data_source['storefront_view_path'],'&'.$data_source['data_type'].'='.$item[$data_source['data_type']],true);
 			}
 		}
 	return $result;

@@ -8,12 +8,8 @@
   </div>
   <div class="middle"><?php echo $description; ?></div>
   <div class="middle"><?php echo $content; ?>
-    <div class="buttons">
-      <table>
-        <tr>
-          <td align="right"><?php echo $button_continue;?></td>
-        </tr>
-      </table>
+    <div class="buttons pull-right">
+      <?php echo $button_continue;?>
     </div>
   </div>
   <div class="bottom">

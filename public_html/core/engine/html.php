@@ -1215,7 +1215,8 @@ class CaptchaHtmlElement extends HtmlElement {
 			array(
 				'name' => $this->name,
 				'id' => $this->element_id,
-				'attr' => 'aform_field_type="captcha" ' . $this->attr,
+				//TODO: remove deprecated attribute aform_field_type
+				'attr' => 'aform_field_type="captcha" '.$this->attr.' data-aform-field-type="captcha"',
 				'style' => $this->style,
 				'required' => $this->required,
 				'captcha_url' => $this->data[ 'registry' ]->get('html')->getURL('common/captcha'),
@@ -1319,7 +1320,8 @@ class DateHtmlElement extends HtmlElement {
 				'type' => 'text',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
-				'attr' => 'aform_field_type="date" ' . $this->attr,
+				//TODO: remove deprecated attribute aform_field_type
+				'attr' => 'aform_field_type="date" ' . $this->attr.' data-aform-field-type="captcha"',
 				'required' => $this->required,
 				'style' => $this->style,
 				'dateformat' => $this->dateformat,
@@ -1347,7 +1349,8 @@ class EmailHtmlElement extends HtmlElement {
 				'type' => 'text',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
-				'attr' => 'aform_field_type="email" ' . $this->attr,
+				//TODO: remove deprecated attribute aform_field_type
+				'attr' => 'aform_field_type="email" ' . $this->attr.' data-aform-field-type="captcha"',
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
@@ -1376,7 +1379,8 @@ class NumberHtmlElement extends HtmlElement {
 				'type' => 'text',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
-				'attr' => 'aform_field_type="number" ' . $this->attr,
+				//TODO: remove deprecated attribute aform_field_type
+				'attr' => 'aform_field_type="number" ' . $this->attr.' data-aform-field-type="captcha"',
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
@@ -1405,7 +1409,8 @@ class PhoneHtmlElement extends HtmlElement {
 				'type' => 'text',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
-				'attr' => 'aform_field_type="phone" ' . $this->attr,
+				//TODO: remove deprecated attribute aform_field_type
+				'attr' => 'aform_field_type="phone" ' . $this->attr.' data-aform-field-type="captcha"',
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
@@ -1429,7 +1434,8 @@ class IPaddressHtmlElement extends HtmlElement {
 				'id' => $this->element_id,
 				'name' => $this->name,
 				'value' => $_SERVER[ 'REMOTE_ADDR' ],
-				'attr' => 'aform_field_type="ipaddress" ' . $this->attr,
+				//TODO: remove deprecated attribute aform_field_type
+				'attr' => 'aform_field_type="ipaddress" ' . $this->attr.' data-aform-field-type="captcha"',
 			)
 		);
 		$return = $this->view->fetch('form/hidden.tpl');

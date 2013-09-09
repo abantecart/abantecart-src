@@ -46,23 +46,23 @@
     <div class="container-fluid invoice_products">
 		<table class="table table-striped table-bordered ">
 		  <tr>
-		    <th align="left"><?php echo $text_product; ?></th>
-		    <th align="left"><?php echo $text_model; ?></th>
-		    <th align="right"><?php echo $text_quantity; ?></th>
-		    <th align="right"><?php echo $text_price; ?></th>
-		    <th align="right"><?php echo $text_total; ?></th>
+		    <th class="align_left"><?php echo $text_product; ?></th>
+		    <th class="align_left"><?php echo $text_model; ?></th>
+		    <th class="align_right"><?php echo $text_quantity; ?></th>
+		    <th class="align_right"><?php echo $text_price; ?></th>
+		    <th class="align_right"><?php echo $text_total; ?></th>
 		  </tr>
 		  <?php foreach ($products as $product) { ?>
 		  <tr>
-		    <td align="left" valign="top"><a href="<?php echo str_replace('%ID%', $product['id'], $product_link) ?>"><?php echo $product['name']; ?></a>
+		    <td class="align_left  valign_top"><a href="<?php echo str_replace('%ID%', $product['id'], $product_link) ?>"><?php echo $product['name']; ?></a>
 		      <?php foreach ($product['option'] as $option) { ?>
 		      <br />
 		      &nbsp;<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
 		      <?php } ?></td>
-		    <td align="left" valign="top"><?php echo $product['model']; ?></td>
-		    <td align="right" valign="top"><?php echo $product['quantity']; ?></td>
-		    <td align="right" valign="top"><?php echo $product['price']; ?></td>
-		    <td align="right" valign="top"><?php echo $product['total']; ?></td>
+		    <td class="align_left valign_top"><?php echo $product['model']; ?></td>
+		    <td class="align_right valign_top"><?php echo $product['quantity']; ?></td>
+		    <td class="align_right valign_top"><?php echo $product['price']; ?></td>
+		    <td class="align_right valign_top"><?php echo $product['total']; ?></td>
 		  </tr>
 		  <?php } ?>
 			<?php echo $this->getHookVar('list_more_product_last'); ?>
@@ -72,8 +72,8 @@
         <table class="table table-striped table-bordered">
           <?php foreach ($totals as $total) { ?>
           <tr>
-            <td align="right"><?php echo $total['title']; ?></td>
-            <td align="right"><?php echo $total['text']; ?></td>
+            <td class="align_right"><?php echo $total['title']; ?></td>
+            <td class="align_right"><?php echo $total['text']; ?></td>
           </tr>
           <?php } ?>
         </table>
@@ -94,15 +94,15 @@
     <h4 class="heading4"><?php echo $text_order_history; ?></h4>
 		<table class="table table-striped table-bordered">
 		  <tr>
-		    <th align="left"><?php echo $column_date_added; ?></th>
-		    <th align="left"><?php echo $column_status; ?></th>
-		    <th align="left"><?php echo $column_comment; ?></th>
+		    <th class="align_left"><?php echo $column_date_added; ?></th>
+		    <th class="align_left"><?php echo $column_status; ?></th>
+		    <th class="align_left"><?php echo $column_comment; ?></th>
 		  </tr>
 		  <?php foreach ($historys as $history) { ?>
 		  <tr>
-		    <td valign="top"><?php echo $history['date_added']; ?></td>
-		    <td valign="top"><?php echo $history['status']; ?></td>
-		    <td valign="top"><?php echo $history['comment']; ?></td>
+		    <td class="valign_top"><?php echo $history['date_added']; ?></td>
+		    <td class="valign_top"><?php echo $history['status']; ?></td>
+		    <td class="valign_top"><?php echo $history['comment']; ?></td>
 		  </tr>
 		  <?php } ?>
 		</table>

@@ -43,38 +43,25 @@ class ControllerPagesContentSitemap extends AController {
       	 ));	
 		
 		$this->loadModel('catalog/category');
-		
 		$this->loadModel('tool/seo_url');
 		
-		$this->view->assign('category', $this->getCategories(0));
+		$this->view->assign('category', $this->_buildCategoriesTree(0));
+        $this->view->assign('special', $this->html->getSEOURL('product/special'));
+        $this->view->assign('account', $this->html->getSEOURL('account/account'));
+        $this->view->assign('edit',    $this->html->getSEOURL('account/edit'));
+        $this->view->assign('password',$this->html->getSEOURL('account/password'));
+        $this->view->assign('address', $this->html->getSEOURL('account/address'));
+        $this->view->assign('history', $this->html->getSEOURL('account/history'));
+        $this->view->assign('download',$this->html->getSEOURL('account/download'));
+        $this->view->assign('checkout',$this->html->getSEOURL('checkout/shipping'));
 
-        $this->view->assign('special', $this->html->getSecureURL('product/special'));
-        $this->view->assign('account', $this->html->getSecureURL('account/account'));
-        $this->view->assign('edit', $this->html->getSecureURL('account/edit'));
-        $this->view->assign('password', $this->html->getSecureURL('account/password'));
-        $this->view->assign('address', $this->html->getSecureURL('account/address'));
-        $this->view->assign('history', $this->html->getSecureURL('account/history'));
-        $this->view->assign('download', $this->html->getSecureURL('account/download'));
-        $this->view->assign('checkout', $this->html->getSecureURL('checkout/shipping'));
-
-        $this->view->assign('cart', $this->html->getURL('checkout/cart'));
-        $this->view->assign('search', $this->html->getURL('product/search'));
-        $this->view->assign('contact', $this->html->getURL('content/contact'));
+        $this->view->assign('cart',    $this->html->getSecureURL('checkout/cart'));
+        $this->view->assign('search',  $this->html->getURL('product/search'));
+        $this->view->assign('contact', $this->html->getSecureURL('content/contact'));
 
 		$this->loadModel('catalog/content');
-		
-		$contents = array();
     	$content_pages = $this->model_catalog_content->getContents();
-
-		if($content_pages){
-			foreach ($content_pages as $result) {
-				$contents[] = array(
-					'title' => $result['title'],
-					'href'  => $this->html->getSEOURL('content/content', '&content_id=' . $result['content_id'])
-				);
-			}
-		}
-        $this->view->assign('contents', $contents);
+        $this->view->assign('contents', $this->_buildContentTree($content_pages));
 		
 		$this->processTemplate('pages/content/sitemap.tpl');
 
@@ -82,13 +69,13 @@ class ControllerPagesContentSitemap extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 	
-	protected function getCategories($parent_id, $current_path = '') {
-		$stdout = '';
+	protected function _buildCategoriesTree($parent_id, $current_path = '') {
+		$output = '';
 		
 		$results = $this->model_catalog_category->getCategories($parent_id);
 		
 		if ($results) {
-			$stdout .= '<ul>';
+			$output .= '<ul>';
     	}
 		
 		foreach ($results as $result) {	
@@ -98,20 +85,34 @@ class ControllerPagesContentSitemap extends AController {
 				$new_path = $current_path . '_' . $result['category_id'];
 			}
 			
-			$stdout .= '<li>';
-			
-			$stdout .= '<a href="' . $this->html->getSEOURL('product/category', '&path=' . $new_path)  . '">' . $result['name'] . '</a>';
-			
-        	$stdout .= $this->getCategories($result['category_id'], $new_path);
-        
-        	$stdout .= '</li>'; 
+			$output .= '<li><a href="' . $this->html->getSEOURL('product/category', '&path=' . $new_path, true)  . '">' . $result['name'] . '</a>';
+        	$output .= $this->_buildCategoriesTree($result['category_id'], $new_path);
+        	$output .= '</li>';
 		}
- 
 		if ($results) {
-			$stdout .= '</ul>';
+			$output .= '</ul>';
 		}
-		
-		return $stdout;
-	}	
+		return $output;
+	}
+
+	protected function _buildContentTree($contents, $parent_id=0, $deep=0){
+		$output = array();
+		if(!is_array($contents)){
+			return $output;
+		}
+
+		foreach($contents as $content){
+			if($content['parent_content_id'] != $parent_id){
+				continue;
+			}
+
+			$output[] = array(
+								'title' => str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;',$deep).$content['title'],
+								'href'  => $this->html->getSEOURL('content/content', '&content_id=' . $content['content_id'],true)
+							);
+			$output = array_merge($output, $this->_buildContentTree($contents,$content['content_id'],($deep+1)));
+		}
+		return $output;
+	}
+
 }
-?>

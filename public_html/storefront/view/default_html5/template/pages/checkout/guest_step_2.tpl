@@ -59,7 +59,7 @@
 				<?php } } ?>												
 				<?php echo $quote['title']; ?>
 				</label></td>
-				<td align="right"><label for="<?php echo $quote['id']; ?>" style="cursor: pointer;"><?php echo $quote['text']; ?></label></td>
+				<td class="align_right"><label for="<?php echo $quote['id']; ?>" style="cursor: pointer;"><?php echo $quote['text']; ?></label></td>
 			  </tr>
           <?php } ?>
           <?php } else { ?>
