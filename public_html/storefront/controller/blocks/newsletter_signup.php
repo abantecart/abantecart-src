@@ -30,7 +30,7 @@ class ControllerBlocksNewsLetterSignUp extends AController {
 		$this->data['form_open'] = $form->getFieldHtml( array( 'type' => 'form',
 															   'name' => 'subscribeFrm',
 															   'method' => 'get',
-															   'action' => $this->html->getSecureURL('account/subscriber')));
+															   'action' => $this->html->getSecureURL('account/subscriber','',true)));
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		$this->data['text_signup'] = $this->language->get('text_signup');
 		$this->data['text_sign_in'] = $this->language->get('text_sign_in');

@@ -48,7 +48,7 @@ class ControllerBlocksContent extends AController {
     	$this->data['sitemap'] =  $this->html->getURL('content/sitemap');
     	$this->data['account'] =  $this->html->getSecureURL('account/account');
 		$this->data['logged'] =  $this->customer->isLogged();
-		$this->data['login'] =  $this->html->getSecureURL('account/login');
+		$this->data['login'] =  $this->html->getSecureURL('account/login','',true);
 		$this->data['logout'] =  $this->html->getURL('account/logout');
     	$this->data['cart'] =  $this->html->getURL('checkout/cart');
 		$this->data['checkout'] =  $this->html->getSecureURL('checkout/shipping');
