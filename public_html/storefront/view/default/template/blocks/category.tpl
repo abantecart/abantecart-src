@@ -9,7 +9,15 @@
     	<div class="block_cr">
         	<div class="block_cc">
 <?php } ?>
-            	<div class="category_list"><?php echo $category; ?></div>
+            	<div class="category_list">
+		            <ul>
+		            <?php
+		            foreach($category_list as $item){
+			            $cname = $item['category_id']==$selected_category_id ? '<b>'.$item['name'].'</b>' : $item['name'];
+			         echo '<li>'.str_repeat('&nbsp;&nbsp;&nbsp;',$item['level']).'<a href="'.$item['href'].'">'.$cname.'</a></li>';
+		            }?>
+	            </ul>
+	            </div>
 <?php if ( $block_framed ) { ?>
             </div>
         </div>
