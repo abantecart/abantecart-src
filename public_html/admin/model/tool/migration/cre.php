@@ -123,6 +123,17 @@ class Migration_Cre implements Migration {
 		$result = array();
 		foreach ($items->rows as $item) {
 			$result[$item['manufacturer_id']] = $item;
+			$result[$item['manufacturer_id']] = $item;
+			$item['image'] = trim($item['image']);
+			$result[$item['manufacturer_id']]['image'] = array();
+			if ($item['image']) {
+				$img_uri = $this->data['cart_url'];
+				if (substr($img_uri, -1) != '/') {
+					$img_uri .= '/';
+				}
+				$img_uri .= 'image/';
+				$result[$item['manufacturer_id']]['image']['db'] = str_replace(' ', '%20', $img_uri . $item['image']);
+			}
 		}
 		return $result;
 	}
@@ -174,7 +185,7 @@ class Migration_Cre implements Migration {
 					$img_uri .= '/';
 				}
 				$img_uri .= 'images/';
-				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.'images_big/' . pathinfo($item['image'], PATHINFO_BASENAME));
+				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.pathinfo($item['image'], PATHINFO_BASENAME));
 				//additional images that used by oscmax mod
 				/*$basename = pathinfo($item['image'], PATHINFO_FILENAME);
 				$ext = pathinfo($item['image'], PATHINFO_EXTENSION);
