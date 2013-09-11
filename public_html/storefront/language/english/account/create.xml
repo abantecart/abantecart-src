@@ -181,4 +181,8 @@
 		<key>text_success_subscribe</key>
 		<value><![CDATA[Success: Your newsletter subscription has been successfully created!]]></value>
 	</definition>
+	<definition>
+		<key>error_subscriber_exists</key>
+		<value><![CDATA[Our records indicate that you have an account with us. Please login to your account to manage your newsletter subscription.]]></value>
+	</definition>
 </definitions>

@@ -48,6 +48,18 @@ class ModelAccountCustomer extends Model {
 				$data['approved'] = 1;
 			}
 		}
+		// delete subscription accounts for given email
+		$subscriber = $this->db->query("SELECT customer_id
+										FROM " . $this->db->table("customers") . "
+										WHERE LOWER(`email`) = LOWER('" . $this->db->escape($data['email']) . "')
+											AND customer_group_id IN (SELECT customer_group_id
+																		  FROM ".$this->db->table('customer_groups')."
+																		  WHERE `name` = 'Newsletter Subscribers')");
+		foreach($subscriber->rows as $row){
+			$this->db->query("DELETE FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$row['customer_id'] . "'");
+			$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$row['customer_id'] . "'");
+		}
+
     
       	$sql = "INSERT INTO " . $this->db->table("customers") . "
 			  SET	store_id = '" . (int)$this->config->get('config_store_id') . "',
@@ -333,6 +345,10 @@ class ModelAccountCustomer extends Model {
     	if ((mb_strlen($data['email']) > 96) || (!preg_match($pattern, $data['email']))) {
       		$error['email'] = $this->language->get('error_email');
     	}
+
+		if ( $this->getTotalCustomersByEmail($data['email'])) {
+			$error['warning'] = $this->language->get('error_subscriber_exists');
+		}
 
     	return $error;
 	}

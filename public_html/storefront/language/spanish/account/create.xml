@@ -14,8 +14,7 @@
 	</definition>
 	<definition>
 		<key>text_account_already</key>
-		<value>
-			<![CDATA[Si ya tienes una cuenta con nosotros, por favor conectate en <a style="text-decoration: underline" href="%s">la página de conexión</a>.]]></value>
+		<value><![CDATA[Si ya tienes una cuenta con nosotros, por favor conectate en <a style="text-decoration: underline" href="%s">la página de conexión</a>.]]></value>
 	</definition>
 	<definition>
 		<key>text_your_details</key>
@@ -180,5 +179,9 @@
 	<definition>
 		<key>text_success_subscribe</key>
 		<value><![CDATA[La suscripción al boletín se ha actualizado satisfactoriamente]]></value>
+	</definition>
+	<definition>
+		<key>error_subscriber_exists</key>
+		<value><![CDATA[Nuestros registros indican que usted tiene una cuenta con nosotros. Por favor, ingrese a su cuenta para administrar su suscripción al boletín.]]></value>
 	</definition>
 </definitions>
