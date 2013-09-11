@@ -79,9 +79,9 @@
 				</table>
 
 				<div class="buttons align_center">
-					<button type="submit" class="btn_standard"><?php echo $form['button_continue']; ?></button>
 					<a onclick="location = '<?php echo $cancel; ?>';" class="btn_standard"
 					   href="<?php echo $cancel; ?>"><?php echo $form['button_cancel']; ?></a>
+					<button type="submit" class="btn_standard"><?php echo $form['button_continue']; ?></button>
 				</div>
 
 				</form>

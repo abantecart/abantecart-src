@@ -190,10 +190,10 @@ class Migration_OC15x implements Migration {
 				$img_uri .= 'image/';
 				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri . $item['image']);
 				//additional images
-				$imgs = $this->src_db->query("SELECT * FROM " . $this->data['db_prefix'] . "product_image ORDER BY product_id, sort_order");
+				$imgs = $this->src_db->query("SELECT * FROM " . $this->data['db_prefix'] . "product_image WHERE product_id = '".$item['product_id']."' ORDER BY product_id, sort_order");
 				foreach ($imgs->rows as $img) {
 					$uri = str_replace(' ', '%20', $img_uri . $img['image']);
-					if (!in_array($uri, $result[$img['product_id']]['image'])) {
+					if (!in_array($uri, (array)$result[$img['product_id']]['image'])) {
 						$result[$img['product_id']]['image'][] = $uri;
 					}
 				}

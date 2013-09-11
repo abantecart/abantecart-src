@@ -71,7 +71,7 @@ class Migration_Oscmax implements Migration {
 		$categories_query = "SELECT	c.categories_id as category_id,
 									cd.categories_name as name,
 									'' as description,
-									CONCAT('categories/',c.categories_image) as image,
+									c.categories_image as image,
 									c.parent_id,
 									c.sort_order
 								FROM " . $this->data['db_prefix'] . "categories c, " . $this->data['db_prefix'] . "categories_description cd
@@ -95,6 +95,7 @@ class Migration_Oscmax implements Migration {
 				}
 				$img_uri .= 'images/';
 				$result[$item['category_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.'categories/' . pathinfo($item['image'], PATHINFO_BASENAME));
+				$result[$item['category_id']]['image'][] = str_replace(' ', '%20', $img_uri . $item['image']);
 			}
 		}
 		return $result;
@@ -105,7 +106,7 @@ class Migration_Oscmax implements Migration {
 
 		$sql_query = "SELECT manufacturers_id as manufacturer_id,
 							manufacturers_name as name,
-							CONCAT('manufacturers/',manufacturers_image) as image
+							manufacturers_image as image
                       FROM " . $this->data['db_prefix'] . "manufacturers
                       ORDER BY manufacturers_name";
 		$items = $this->src_db->query($sql_query, true);
@@ -126,6 +127,7 @@ class Migration_Oscmax implements Migration {
 				}
 				$img_uri .= 'images/';
 				$result[$item['manufacturer_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.'manufacturers/' . pathinfo($item['image'], PATHINFO_BASENAME));
+				$result[$item['manufacturer_id']]['image'][] = str_replace(' ', '%20', $img_uri. $item['image']);
 			}
 		}
 		return $result;
@@ -141,7 +143,7 @@ class Migration_Oscmax implements Migration {
 									p.products_model as model,
 									p.products_quantity as quantity,
 									'7' as stock_status_id,
-									CONCAT('products/',p.products_image) as image,
+									p.products_image as image,
 									p.manufacturers_id as manufacturer_id,
 									'1' as shipping,
 									p.products_price as price,
@@ -175,6 +177,7 @@ class Migration_Oscmax implements Migration {
 				}
 				$img_uri .= 'images/';
 				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.'images_big/' . pathinfo($item['image'], PATHINFO_BASENAME));
+				$result[$item['product_id']]['image'][] = str_replace(' ', '%20', $img_uri . $item['image']);
 				//additional images that used by oscmax mod
 				$basename = pathinfo($item['image'], PATHINFO_FILENAME);
 				$ext = pathinfo($item['image'], PATHINFO_EXTENSION);
@@ -189,6 +192,7 @@ class Migration_Oscmax implements Migration {
 				}
 				foreach($postfixes as $postfix){
 					$result[$item['product_id']]['image'][] = str_replace(' ', '%20', $img_uri.'images_big/' . $basename.$postfix.'.'.$ext);
+					$result[$item['product_id']]['image'][] = str_replace(' ', '%20', $img_uri. $basename.$postfix.'.'.$ext);
 				}
 			}
 		}
@@ -364,7 +368,7 @@ class Migration_Oscmax implements Migration {
 
 		//products option values
 		$sql = "SELECT *
-				FROM products_attributes";
+				FROM " . $this->data['db_prefix'] . "products_attributes";
 		$items = $this->src_db->query($sql,true);
 		if (!$items) {
 			$this->error_msg = 'Migration Error: ' . $this->src_db->error. '<br>';

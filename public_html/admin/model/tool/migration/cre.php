@@ -99,7 +99,7 @@ class Migration_Cre implements Migration {
 				if (substr($img_uri, -1) != '/') {
 					$img_uri .= '/';
 				}
-				$img_uri .= 'image/';
+				$img_uri .= 'images/';
 				$result[$item['category_id']]['image']['db'] = str_replace(' ', '%20', $img_uri . $item['image']);
 			}
 		}
@@ -131,7 +131,7 @@ class Migration_Cre implements Migration {
 				if (substr($img_uri, -1) != '/') {
 					$img_uri .= '/';
 				}
-				$img_uri .= 'image/';
+				$img_uri .= 'images/';
 				$result[$item['manufacturer_id']]['image']['db'] = str_replace(' ', '%20', $img_uri . $item['image']);
 			}
 		}
@@ -185,7 +185,7 @@ class Migration_Cre implements Migration {
 					$img_uri .= '/';
 				}
 				$img_uri .= 'images/';
-				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.pathinfo($item['image'], PATHINFO_BASENAME));
+				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.$item['image']);
 				//additional images that used by oscmax mod
 				/*$basename = pathinfo($item['image'], PATHINFO_FILENAME);
 				$ext = pathinfo($item['image'], PATHINFO_EXTENSION);

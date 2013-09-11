@@ -599,7 +599,7 @@ class ModelToolMigration extends Model {
 		if (method_exists($this->cartObj, 'getProductOptions')) {
 			$options = $this->cartObj->getProductOptions();
 		}
-
+		$options['product_options'] = (array)$data['image'];
 		foreach ($options['product_options'] as $product_option) {
 			//options
 			$required = has_value($product_option['required']) ? $product_option['required'] : 0;
@@ -626,7 +626,7 @@ class ModelToolMigration extends Model {
 			}
 
 		}
-
+		$options['product_option_values'] = (array)$options['product_option_values'];
 		//option value
 		foreach ($options['product_option_values'] as $product_option_value) {
 			$opt_price = 0;
@@ -782,6 +782,7 @@ class ModelToolMigration extends Model {
 
 		//IMAGE PROCESSING
 		$success_db = false; // sign of imported image from database query result(not generated additional)
+		$data['image'] = (array)$data['image'];
 		foreach($data['image'] as $k=>$source){
 			$src_exists = @getimagesize($source); // check is image exists
 			if ($src_exists) {

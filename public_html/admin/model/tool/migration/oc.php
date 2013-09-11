@@ -87,6 +87,14 @@ class Migration_OC implements Migration {
 		$result = array();
 		foreach ($categories->rows as $item) {
 			$result[$item['category_id']] = $item;
+			if($item['image']){
+				$img_uri = $this->data['cart_url'];
+				if(substr($img_uri,-1)!='/'){
+					$img_uri .= '/';
+				}
+				$img_uri .= 'image/';
+				$result[$item['category_id']]['image']['db'] = str_replace(' ', '%20', $img_uri. $item['image']);
+			}
 		}
 
 		return $result;
@@ -94,9 +102,9 @@ class Migration_OC implements Migration {
 
 	public function getManufacturers() {
 		$sql_query = "
-            select manufacturer_id, name, image
-            from " . $this->data['db_prefix'] . "manufacturer
-            order by name";
+            SELECT manufacturer_id, name, image
+            FROM " . $this->data['db_prefix'] . "manufacturer
+            ORDER BY name";
 		$items = $this->src_db->query( $sql_query, true);
 		if (!$items) {
 			$this->error_msg = 'Migration Error: ' . $this->src_db->error . '<br>';
@@ -105,7 +113,15 @@ class Migration_OC implements Migration {
 
 		$result = array();
 		foreach ($items->rows as $item) {
-			$result[$item['manufacturer_id']] = $item;
+			$result[$item['']] = $item;
+			if($item['image']){
+				$img_uri = $this->data['cart_url'];
+				if(substr($img_uri,-1)!='/'){
+					$img_uri .= '/';
+				}
+				$img_uri .= 'image/';
+				$result[$item['manufacturer_id']]['image']['db'] = str_replace(' ', '%20', $img_uri. $item['image']);
+			}
 		}
 
 		return $result;
@@ -149,6 +165,24 @@ class Migration_OC implements Migration {
 		$result = array();
 		foreach ($items->rows as $item) {
 			$result[$item['product_id']] = $item;
+			$item['image'] = trim($item['image']);
+			$result[$item['product_id']]['image'] = array();
+			if ($item['image']) {
+				$img_uri = $this->data['cart_url'];
+				if (substr($img_uri, -1) != '/') {
+					$img_uri .= '/';
+				}
+				$img_uri .= 'image/';
+				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri . $item['image']);
+				//additional images
+				$imgs = $this->src_db->query("SELECT * FROM " . $this->data['db_prefix'] . "product_image WHERE product_id = '".$item['product_id']."' ORDER BY product_id");
+				foreach ($imgs->rows as $img) {
+					$uri = str_replace(' ', '%20', $img_uri . $img['image']);
+					if (!in_array($uri, $result[$img['product_id']]['image'])) {
+						$result[$img['product_id']]['image'][] = $uri;
+					}
+				}
+			}
 		}
 
 		//add categories id
