@@ -45,12 +45,12 @@ class Migration_Cre implements Migration {
 
 	private function getSourceLanguageId(){
 		if(!$this->language_id_src){
-			$result = $this->src_db->query("SELECT language_id
-											FROM " . $this->data['db_prefix'] . "language
-											WHERE `code` = (SELECT `value`
-															FROM " . $this->data['db_prefix'] . "setting
-															WHERE `key`='config_admin_language');");
-			$this->language_id_src = $result->row['language_id'];
+			$result = $this->src_db->query("SELECT languages_id
+											FROM " . $this->data['db_prefix'] . "languages
+											WHERE `code` = (SELECT `configuration_value`
+															FROM " . $this->data['db_prefix'] . "configuration
+															WHERE configuration_key = 'DEFAULT_LANGUAGE' );");
+			$this->language_id_src = $result->row['languages_id'];
 		}
 		return $this->language_id_src;
 	}
