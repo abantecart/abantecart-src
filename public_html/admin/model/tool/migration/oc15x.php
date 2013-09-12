@@ -209,7 +209,7 @@ class Migration_OC15x implements Migration {
 			return false;
 		}
 
-		foreach ($items as $item) {
+		foreach ($items->rows as $item) {
 			if (!empty($result[$item['product_id']]))
 				$result[$item['product_id']]['product_category'][] = $item['category_id'];
 		}

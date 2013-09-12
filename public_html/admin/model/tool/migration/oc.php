@@ -87,6 +87,7 @@ class Migration_OC implements Migration {
 		$result = array();
 		foreach ($categories->rows as $item) {
 			$result[$item['category_id']] = $item;
+			$result[$item['category_id']]['image']= array();
 			if($item['image']){
 				$img_uri = $this->data['cart_url'];
 				if(substr($img_uri,-1)!='/'){
@@ -113,7 +114,8 @@ class Migration_OC implements Migration {
 
 		$result = array();
 		foreach ($items->rows as $item) {
-			$result[$item['']] = $item;
+			$result[$item['manufacturer_id']] = $item;
+			$result[$item['manufacturer_id']]['image']= array();
 			if($item['image']){
 				$img_uri = $this->data['cart_url'];
 				if(substr($img_uri,-1)!='/'){

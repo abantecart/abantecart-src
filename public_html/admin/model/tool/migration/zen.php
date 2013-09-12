@@ -52,16 +52,15 @@ class Migration_Zen implements Migration {
 
 	private function getSourceLanguageId() {
 		if (!$this->language_id_src) {
-			$result = $this->src_db->query("SELECT language_id
-											FROM " . $this->data['db_prefix'] . "language
-											WHERE `code` = (SELECT `value`
-															FROM " . $this->data['db_prefix'] . "setting
-															WHERE `key`='config_admin_language');");
+			$result = $this->src_db->query("SELECT languages_id as language_id
+											FROM " . $this->data['db_prefix'] . "languages
+											WHERE `code` = (SELECT `configuration_value`
+															FROM " . $this->data['db_prefix'] . "configuration
+															WHERE `configuration_key`='DEFAULT_LANGUAGE');");
 			$this->language_id_src = $result->row['language_id'];
 		}
 		return $this->language_id_src;
 	}
-
 
 	public function getCategories() {
 
@@ -99,7 +98,7 @@ class Migration_Zen implements Migration {
 				if (substr($img_uri, -1) != '/') {
 					$img_uri .= '/';
 				}
-				$img_uri .= 'image/';
+				$img_uri .= 'images/';
 				$result[$item['category_id']]['image']['db'] = str_replace(' ', '%20', $img_uri . $item['image']);
 			}
 		}
@@ -183,22 +182,24 @@ class Migration_Zen implements Migration {
 					$img_uri .= '/';
 				}
 				$img_uri .= 'images/';
-				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.'images_big/' . pathinfo($item['image'], PATHINFO_BASENAME));
+				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri. pathinfo($item['image'], PATHINFO_BASENAME));
+				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.'large/' . pathinfo($item['image'], PATHINFO_BASENAME));
 				//additional images that used by oscmax mod
-				/*$basename = pathinfo($item['image'], PATHINFO_FILENAME);
+				$basename = pathinfo($item['image'], PATHINFO_FILENAME);
 				$ext = pathinfo($item['image'], PATHINFO_EXTENSION);
 
-				$postfixes = array( '_1'=>'_1',
-									'_2'=>'_2',
-									'_3'=>'_3',
-									'_4'=>'_4',
-									'_5'=>'_5');
+				$postfixes = array( '_1'=>'_00_LRG',
+									'_2'=>'_02_LRG',
+									'_3'=>'_03_LRG',
+									'_4'=>'_04_LRG',
+									'_5'=>'_05_LRG');
 				if (in_array(substr($basename, -2), $postfixes )) {
 					unset($postfixes[substr($basename, -2)]);
 				}
 				foreach($postfixes as $postfix){
-					$result[$item['product_id']]['image'][] = str_replace(' ', '%20', $img_uri.'images_big/' . $basename.$postfix.'.'.$ext);
-				}*/
+					$result[$item['product_id']]['image'][] = str_replace(' ', '%20', $img_uri.'large/' . $basename.$postfix.'.'.$ext);
+					$result[$item['product_id']]['image'][] = str_replace(' ', '%20', $img_uri. $basename.$postfix.'.'.$ext);
+				}
 			}
 		}
 
