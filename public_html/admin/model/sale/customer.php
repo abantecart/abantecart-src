@@ -45,8 +45,9 @@ class ModelSaleCustomer extends Model {
       	                    newsletter = '" . (int)$data['newsletter'] . "',
       	                    customer_group_id = '" . (int)$data['customer_group_id'] . "',
       	                    password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "',
-      	                    status = '" . (int)$data['status'] . "'"
-      	                    .$key_sql . ", 
+      	                    status = '" . (int)$data['status'] . "',
+      	                    approved = '" . (int)$data['approved'] . "'"
+      	                    .$key_sql . ",
       	                    date_added = NOW()");
       	
       	$customer_id = $this->db->getLastId();

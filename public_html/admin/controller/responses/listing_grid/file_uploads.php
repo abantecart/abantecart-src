@@ -70,7 +70,7 @@ class ControllerResponsesListingGridFileUploads extends AController {
 		$response->total = $total_pages;
 		$response->records = $total;
 
-		$results = $this->model_tool_file_uploads->getLog ( $data );
+		$results = (array)$this->model_tool_file_uploads->getLog ( $data );
 		$i = 0;
 		foreach ( $results as $k=>$result ) {
 			$k++;

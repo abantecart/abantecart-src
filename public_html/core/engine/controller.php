@@ -96,6 +96,7 @@ if (!defined('DIR_CORE')) {
  * @property ADocument $document
  * @property ADispatcher $dispatcher
  * @property ADataEncryption $dcrypt
+ * @property ModelToolFileUploads $model_tool_file_uploads
  */
 abstract class AController {
 	protected $registry;
