@@ -107,6 +107,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($this->data));
 	}
 
@@ -560,7 +561,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		$this->response->setOutput(AJson::encode($response));
 	}
 
-
+//TODO: need to create separate tpl for this method
 	public function info() {
 
 		//init controller data
@@ -618,7 +619,6 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
 		$this->response->setOutput($this->data);
 	}
 
@@ -644,6 +644,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		} else {
 			//error
 			$this->load->library('json');
+			$this->response->addJSONHeader();
 			$this->response->setOutput(AJson::encode(array('error' => 'Incorrect Block ID')));
 			return null;
 		}
@@ -682,6 +683,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 			$alang = new ALanguage($this->registry, $language_id, 0);
 			$alang->load($data['controller'], 'silent');
 			$data['title'] = $alang->get('heading_title');
+			$data['title'] = $data['title'] == 'heading_title' ? $data['block_txt_id'] : $data['title'];
 			$data['description'] = $this->language->get('text_controller') . ": " . $data['controller'];
 			$data['description'] .= "<br/>" . $this->language->get('text_templates') . ": ";
 			$data['description'] .= "<br/>" . str_replace(',', '<br/>', $data['templates']);
@@ -691,6 +693,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($data));
 	}
 }
