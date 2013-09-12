@@ -363,9 +363,9 @@ jQuery(function ($) {
 
         if (json.resource_code) {
             $('textarea[name="resource_code"]', form).val(json.resource_code);
-            $('textarea[name="resource_code"]', form).parent().parent().show();
+            $('textarea[name="resource_code"]', form).parents('tr').show();
         } else {
-            $('textarea[name="resource_code"]', form).parent().parent().hide();
+            $('textarea[name="resource_code"]', form).parents('tr').hide();
         }
 
         var src = '<img src="' + json.thumbnail_url + '" title="' + json.name + '" />';
