@@ -59,7 +59,7 @@ class ModelCatalogProduct extends Model {
 		// if new product
 		if (!is_int(key($data['product_description']))) {
 			foreach ($data['product_description'] as $field => $value) {
-				$update[(int)$this->session->data['content_language_id']][$field] = $value;
+				$update[(int)$this->language->getContentLanguageID()][$field] = $value;
 			}
 			$this->language->replaceDescriptions('product_descriptions',
 												array('product_id' => (int)$product_id),
@@ -101,12 +101,12 @@ class ModelCatalogProduct extends Model {
 		if($seo_key){
 			$this->language->replaceDescriptions('url_aliases',
 												array('query' => "product_id=" . (int)$product_id),
-												array((int)$this->session->data['content_language_id'] => array('keyword'=>$seo_key)));
+												array((int)$this->language->getContentLanguageID() => array('keyword'=>$seo_key)));
 		}else{
 			$this->db->query("DELETE
 							FROM " . DB_PREFIX . "url_aliases
 							WHERE query = 'product_id=" . (int)$product_id . "'
-								AND language_id = '".(int)$this->session->data['content_language_id']."'");
+								AND language_id = '".(int)$this->language->getContentLanguageID()."'");
 		}
 
 		if ($data['product_tags']) {
@@ -122,7 +122,7 @@ class ModelCatalogProduct extends Model {
 					$this->language->addDescriptions('product_tags',
 						array('product_id' => (int)$product_id,
 							'tag' => $tag),
-						array((int)$this->session->data['content_language_id'] => array('tag' => $tag)));
+						array((int)$this->language->getContentLanguageID() => array('tag' => $tag)));
 				}
 			}
 		}
@@ -251,7 +251,7 @@ class ModelCatalogProduct extends Model {
 				if (!empty($update)) {
 					$this->language->replaceDescriptions('product_descriptions',
 						array('product_id' => (int)$product_id),
-						array((int)$this->session->data['content_language_id'] => $update));
+						array((int)$this->language->getContentLanguageID() => $update));
 				}
 			}
 		}
@@ -264,17 +264,17 @@ class ModelCatalogProduct extends Model {
 			if($data['keyword']){
 				$this->language->replaceDescriptions('url_aliases',
 													array('query' => "product_id=" . (int)$product_id),
-													array((int)$this->session->data['content_language_id'] => array('keyword'=>$data['keyword'])));
+													array((int)$this->language->getContentLanguageID() => array('keyword'=>$data['keyword'])));
 			}else{
 				$this->db->query("DELETE
 								FROM " . DB_PREFIX . "url_aliases
 								WHERE query = 'product_id=" . (int)$product_id . "'
-									AND language_id = '".(int)$this->session->data['content_language_id']."'");
+									AND language_id = '".(int)$this->language->getContentLanguageID()."'");
 			}
 		}
 
 		if (isset($data['product_tags'])) {
-			$language_id = $this->session->data['content_language_id'];
+			$language_id = $this->language->getContentLanguageID();
 			$tags = explode(',', $data['product_tags']);
 
 			foreach ($tags as &$tag) {
@@ -423,9 +423,9 @@ class ModelCatalogProduct extends Model {
 		$product_option_id = $this->db->getLastId();
 
 		if (!empty($data['option_name'])) {
-			$attributeDescriptions = array(
-				$this->session->data['content_language_id'] => $data['option_name'],
-			);
+			$attributeDescriptions = array( $this->language->getContentLanguageID() => array(
+																							'name'=>$data['option_name'],
+																							'error_text'=>$data['error_text']	));
 		} else {
 			$attributeDescriptions = $am->getAttributeDescriptions($data['attribute_id']);
 		}
@@ -549,9 +549,7 @@ class ModelCatalogProduct extends Model {
 		} else {
 			if (!$data['attribute_value_id']) {
 				//We save custom option value for current language
-				$valueDescriptions = array(
-					$this->session->data['content_language_id'] => $data['name'],
-				);
+				$valueDescriptions = array(	$this->language->getContentLanguageID() => $data['name']);
 			} else {
 				//We have global attributes, copy option value text from there.
 				$valueDescriptions = $am->getAttributeValueDescriptions($data['attribute_value_id']);
@@ -1078,7 +1076,7 @@ class ModelCatalogProduct extends Model {
 										(SELECT keyword
 										 FROM " . DB_PREFIX . "url_aliases
 										 WHERE query = 'product_id=" . (int)$product_id . "'
-										 	AND language_id='".(int)$this->session->data['content_language_id']."' ) AS keyword
+										 	AND language_id='".(int)$this->language->getContentLanguageID()."' ) AS keyword
 									FROM " . DB_PREFIX . "products p
 									LEFT JOIN " . DB_PREFIX . "products_featured pf ON pf.product_id = p.product_id
 									LEFT JOIN " . DB_PREFIX . "product_descriptions pd
@@ -1300,7 +1298,7 @@ class ModelCatalogProduct extends Model {
 
 		if (!empty($data['name'])) {
 
-			$language_id = $this->session->data['content_language_id'];
+			$language_id = $this->language->getContentLanguageID();
 
 			$this->language->replaceDescriptions('product_option_descriptions',
 				array('product_option_id' => (int)$product_option_id),
@@ -1350,7 +1348,7 @@ class ModelCatalogProduct extends Model {
 		if (!is_array($data['product_option_value_id']) || !$option_id || !$product_id) {
 			return null;
 		}
-		$language_id = $this->session->data['content_language_id'];
+		$language_id = $this->language->getContentLanguageID();
 
 		foreach ($data['product_option_value_id'] as $opt_val_id => $status) {
 			$option_value_data = array(
