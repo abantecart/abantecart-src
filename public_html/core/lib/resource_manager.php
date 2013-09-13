@@ -234,10 +234,19 @@ class AResourceManager extends AResource {
 
         if ( $result->num_rows ) return null;
 
+		//need to get sort order
+		$sql = "SELECT MAX(sort_order) as sort_order
+				FROM " . DB_PREFIX . "resource_map
+				WHERE object_name = '".$this->db->escape($object_name)."'
+					  AND object_id = '".(int)$object_id."'";
+		$result = $this->db->query($sql);
+		$new_sort_order = $result->row['sort_order']+1;
+
         $sql = "INSERT INTO " . DB_PREFIX . "resource_map
                     SET resource_id = '".(int)$resource_id."',
                         object_name = '".$this->db->escape($object_name)."',
                         object_id = '".(int)$object_id."',
+                        sort_order = '".(int)$new_sort_order."',
                         created = NOW()";
         $this->db->query($sql);
 
