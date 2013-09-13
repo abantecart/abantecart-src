@@ -299,7 +299,6 @@ class ModelToolMigration extends Model {
 
 			if ($result === false) {
 					$this->addLog($this->db->error);
-				return null;
 			}
 
 			$customer_id = $this->db->getLastId();
@@ -314,21 +313,20 @@ class ModelToolMigration extends Model {
 							address_1 = '" . $this->db->escape($address['address_1']) . "',
 							city = '" . $this->db->escape($address['city']) . "',
 							postcode = '" . $this->db->escape($address['postcode']) . "',
-							country_id = " . ($address['country_iso_code2'] ? "(SELECT country_id
+							country_id = " . ($address['country_iso_code2'] ? " COALESCE((SELECT country_id
 																				FROM ".DB_PREFIX."countries
 																				WHERE iso_code_2='".$this->db->escape($address['country_iso_code2'])."'
-																				LIMIT 0,1)"
+																				LIMIT 0,1),0)"
 																			: "'0'") . ",
-							zone_id = " . ($address['zone_iso_code2'] ? "(SELECT zone_id
+							zone_id = " . ($address['zone_iso_code2'] ? "COALESCE((SELECT zone_id
 																			FROM ".DB_PREFIX."zones
 																			WHERE code='".$this->db->escape($address['zone_iso_code2'])."'
-																			LIMIT 0,1)"
+																			LIMIT 0,1),0)"
 																		: "'0'");
 
 				$result = $this->db->query($sql, true);
 				if ($result === false) {
 					$this->addLog($this->db->error);
-					return null;
 				}
 				$address_id = $this->db->getLastId();
 			}
@@ -339,7 +337,6 @@ class ModelToolMigration extends Model {
 				true);
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 
 		}
@@ -403,7 +400,6 @@ class ModelToolMigration extends Model {
 										true);
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 			$category_id = $this->db->getLastId();
 			$category_id_map[$data['category_id']] = $category_id;
@@ -419,7 +415,6 @@ class ModelToolMigration extends Model {
 										true);
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 
 			$result = $this->db->query("INSERT INTO " . DB_PREFIX . "categories_to_stores
@@ -427,7 +422,6 @@ class ModelToolMigration extends Model {
 										 VALUES ('" . (int)$category_id . "','" . (int)$store_id . "')", true);
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 		}
 
@@ -441,7 +435,6 @@ class ModelToolMigration extends Model {
 										    WHERE category_id = '" . (int)$result['category_id'] . "'", true);
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 		}
 		$this->addLog(count($categories) . ' categories imported (' . $this->pic_count . ' pictures)', 'success');
@@ -455,7 +448,6 @@ class ModelToolMigration extends Model {
                                         SET name = '" . $this->db->escape($data['name']) . "'", true);
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 
 			$manufacturer_id = $this->db->getLastId();
@@ -467,7 +459,6 @@ class ModelToolMigration extends Model {
                                         SET manufacturer_id = '" . (int)$manufacturer_id . "', store_id = '" . (int)$store_id . "'", true);
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 		}
 
@@ -509,7 +500,6 @@ class ModelToolMigration extends Model {
 
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 
 			$product_id = $this->db->getLastId();
@@ -528,7 +518,6 @@ class ModelToolMigration extends Model {
 											  description = '" . $this->db->escape($data['description']) . "'", true);
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 
 			// add seo keyword
@@ -547,7 +536,6 @@ class ModelToolMigration extends Model {
 			                              SET product_id = '" . (int)$product_id . "', store_id = '" . (int)$store_id . "'", true);
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 
 			if (isset($data['product_category'])) {
@@ -559,7 +547,6 @@ class ModelToolMigration extends Model {
                                                 VALUES ('" . (int)$product_id . "', '" . (int)$category_id_map[$category_id] . "')", true);
 					if ($result === false) {
 						$this->addLog($this->db->error);
-						return null;
 					}
 				}
 			}
@@ -608,7 +595,6 @@ class ModelToolMigration extends Model {
 			$result = $this->db->query($sql);
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 			$product_option_id = $this->db->getLastId();
 			$key = $product_option['product_id'] . '_' . $product_option['product_option_id'];
@@ -622,7 +608,6 @@ class ModelToolMigration extends Model {
 			$result = $this->db->query($sql);
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 
 		}
@@ -655,7 +640,6 @@ class ModelToolMigration extends Model {
 			$result = $this->db->query($sql);
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 			$product_option_value_id = $this->db->getLastId();
 			$product_option_value_id_map[$product_option_value['product_option_value_id']] = $product_option_value_id;
@@ -673,7 +657,6 @@ class ModelToolMigration extends Model {
 			$this->db->query($sql);
 			if ($result === false) {
 				$this->addLog($this->db->error);
-				return null;
 			}
 
 		}
@@ -694,7 +677,6 @@ class ModelToolMigration extends Model {
 			}
 			$this->addLog($errors, $class);
 			$this->addLog($errors);
-			return true;
 		}
 		return true;
 	}
