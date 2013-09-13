@@ -78,6 +78,9 @@ class ControllerPagesCheckoutSuccess extends AController {
 					$this->session->data['order_id'],
 					$this->session->data['coupon'],
 					$this->session->data['used_balance']);
+					
+			//Redirect back. Fix for clearing shopping cart content
+			$this->redirect($this->html->getSecureURL('checkout/success'));
 		}
 									   
 		$this->document->setTitle( $this->language->get('heading_title') );
