@@ -354,15 +354,17 @@ class ControllerPagesSaleCustomer extends AController {
    		 ));
 
 		$this->data['tabs']['general'] = array(
-										'href'  => '#',
+										'href'  => "Javascript:void(0);",
 										'text'  => $this->language->get('tab_customer_details'),
 										'class' => 'active'
 										);
+		if(has_value($this->request->get['customer_id'])){
 		$this->data['tabs'][] = array(
 										'href' => $this->html->getSecureURL('sale/customer_transaction','&customer_id='.$this->request->get['customer_id']),
 										'text' => $this->language->get('tab_transactions'),
 										'class'=>''
 										);
+		}
 
         $this->data['button_actas'] = $this->html->buildButton(array(
 		    'text' => $this->language->get('button_actas'),

@@ -29,6 +29,10 @@ class ControllerPagesSaleCustomerTransaction extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		$this->loadLanguage('sale/customer');
+		$this->loadModel('sale/customer_transaction');
+		$this->loadModel('sale/customer');
+
+		$customer_info = $this->model_sale_customer->getCustomer($this->request->get['customer_id']);
 
 		$this->document->setTitle( $this->language->get('heading_title_transactions') );
 
@@ -38,8 +42,13 @@ class ControllerPagesSaleCustomerTransaction extends AController {
       		'separator' => FALSE
    		 ));
    		$this->document->addBreadcrumb( array (
-       		'href'      => $this->html->getSecureURL('sale/customer/update','&id='.$this->request->get['customer_id']),
+       		'href'      => $this->html->getSecureURL('sale/customer'),
        		'text'      => $this->language->get('heading_title'),
+      		'separator' => ' :: '
+   		 ));
+   		$this->document->addBreadcrumb( array (
+       		'href'      => $this->html->getSecureURL('sale/customer/update','&customer_id='.$this->request->get['customer_id']),
+       		'text'      => $this->language->get('text_edit') .' '. $this->language->get('text_customer').' - '.$customer_info['firstname'].' '.$customer_info['lastname'],
       		'separator' => ' :: '
    		 ));
    		$this->document->addBreadcrumb( array (
@@ -117,9 +126,6 @@ class ControllerPagesSaleCustomerTransaction extends AController {
 					'align' => 'center'),
 		);
 
-		$this->loadModel('sale/customer_transaction');
-		$this->loadModel('sale/customer');
-
 		$form = new AForm();
 	    $form->setForm(array(
 		    'form_name' => 'transactions_grid_search',
@@ -191,7 +197,7 @@ class ControllerPagesSaleCustomerTransaction extends AController {
 					'target' => 'new'
 			    ));
 
-		$customer_info = $this->model_sale_customer->getCustomer($this->request->get['customer_id']);
+
 		if(has_value($customer_info['orders_count']) && $this->request->get['customer_id']){
 			$this->data['button_orders_count'] = $this->html->buildButton(
 							array(
