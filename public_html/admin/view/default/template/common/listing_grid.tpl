@@ -78,19 +78,22 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 	$(table_id).tableDnD({
 		onDragClass: 'drag_row',
         onDrop: function(table, row) {
-			var sort_by = $(table_id).jqGrid('getGridParam','sortname')
+			var sort_by = $(table_id).jqGrid('getGridParam','sortname');
 			var sort_direction = $(table_id).jqGrid('getGridParam','sortorder');
-			var ids_order = new Array();	
+			var ids_order = [];
 			var rows = table.tBodies[0].rows;
 			var draged_id = row.id;
-			
+
 			//check for depth if this is a nesteted tree greed.
 			var depth = $(table_id).getNodeDepth( $(table_id).getRowData(draged_id) );
 			if (depth > 0) {
 				//build sort for only children
 				var parent = $(table_id).getNodeParent( $(table_id).getRowData(draged_id) );
+				if(!parent){
+					return;
+				}
 				var children = $(table_id).getNodeChildren( parent );
-				var children_ids = new Array();
+				var children_ids = [];
 				for (var i=0; i<children.length; i++) {
 			    	children_ids.push(children[i]._id_);
 				}
@@ -102,7 +105,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				}
 			} else {
 				for (var i=1; i<rows.length; i++) {
-			    	ids_order.push(rows[i].id);
+			    		ids_order.push(rows[i].id);
 				}
 			}
             //save new sorting and reload the grid
@@ -110,6 +113,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
         },
         onDragStart: function(table, row) {
             var rowid = row.id;
+			$('#'+rowid).css('width',$(table).css('width'));
         }	    
 	});
 	<?php } ?>

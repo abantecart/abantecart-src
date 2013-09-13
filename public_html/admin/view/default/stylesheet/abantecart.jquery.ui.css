@@ -937,5 +937,6 @@ tr.ui-search-toolbar select {
 
 .drag_row {
 	margin: 10px 0 0 10px !important;
-	background: #CACCD2 !important;
+	background: #C9C9C9 !important;
+	position: absolute;
 }
