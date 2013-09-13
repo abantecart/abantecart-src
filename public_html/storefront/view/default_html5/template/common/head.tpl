@@ -73,8 +73,13 @@ if (typeof jQuery == 'undefined') {
 
 <?php if($cart_ajax){ //event for adding product to cart by ajax ?>
 <script type="text/javascript">
-    $('a[href=\\#].productcart').live('click',function(){
+    $('a.productcart').live('click',function(){
         var item = $(this);
+        //check if href provided for product details access
+        if ( item.attr('href') && item.attr('href') != '#') {
+        	return true;
+        }
+        
         if(item.attr('data-id')){
             $.ajax({
                     url:'<?php echo $cart_ajax_url; ?>',
