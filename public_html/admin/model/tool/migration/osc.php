@@ -96,7 +96,7 @@ class Migration_Osc implements Migration {
 					$img_uri .= '/';
 				}
 				$img_uri .= 'images/';
-				$result[$item['category_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.'categories/' . pathinfo($item['image'], PATHINFO_BASENAME));
+				$result[$item['category_id']]['image']['db'] = str_replace(' ', '%20', $img_uri. $item['image']);
 			}
 		}
 
@@ -126,7 +126,7 @@ class Migration_Osc implements Migration {
 					$img_uri .= '/';
 				}
 				$img_uri .= 'images/';
-				$result[$item['manufacturer_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.'manufacturers/' . pathinfo($item['image'], PATHINFO_BASENAME));
+				$result[$item['manufacturer_id']]['image']['db'] = str_replace(' ', '%20', $img_uri. $item['image']);
 			}
 		}
 		return $result;
@@ -176,7 +176,7 @@ class Migration_Osc implements Migration {
 					$img_uri .= '/';
 				}
 				$img_uri .= 'images/';
-				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.'images_big/' . pathinfo($item['image'], PATHINFO_BASENAME));
+				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.$item['image']);
 			}
 		}
 
