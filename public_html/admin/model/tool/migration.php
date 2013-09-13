@@ -316,7 +316,7 @@ class ModelToolMigration extends Model {
 							postcode = '" . $this->db->escape($address['postcode']) . "',
 							country_id = " . ($address['country_iso_code2'] ? "(SELECT country_id
 																				FROM ".DB_PREFIX."countries
-																				WHERE country_iso_code2='".$this->db->escape($address['country_iso_code2'])."'
+																				WHERE iso_code_2='".$this->db->escape($address['country_iso_code2'])."'
 																				LIMIT 0,1)"
 																			: "'0'") . ",
 							zone_id = " . ($address['zone_iso_code2'] ? "(SELECT zone_id

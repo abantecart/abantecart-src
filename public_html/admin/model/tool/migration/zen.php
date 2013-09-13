@@ -182,8 +182,8 @@ class Migration_Zen implements Migration {
 					$img_uri .= '/';
 				}
 				$img_uri .= 'images/';
-				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri. pathinfo($item['image'], PATHINFO_BASENAME));
-				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.'large/' . pathinfo($item['image'], PATHINFO_BASENAME));
+				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri. $item['image']);
+				$result[$item['product_id']]['image'][] = str_replace(' ', '%20', $img_uri.'large/' .$item['image']);
 				//additional images that used by oscmax mod
 				$basename = pathinfo($item['image'], PATHINFO_FILENAME);
 				$ext = pathinfo($item['image'], PATHINFO_EXTENSION);
