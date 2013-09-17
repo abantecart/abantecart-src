@@ -143,7 +143,6 @@ final class ASSLEncryption {
 	private $prkey;
 	private $key_path;
 	private $failed_str = "*****";
-	private $error;
 	public $active = false;
 	
 	//To generate new keys, class can be instintiated with no data passed
@@ -179,11 +178,13 @@ final class ASSLEncryption {
 	}
 
 	/**
-	* Generate new Key Private/Public keys pair. 
-	* Incput is $config array with standard openssl_csr_new configargs 
-	* $passphrase is set if want to have a passphrase to access private key
-	* @return array
-	*/
+	 * Generate new Key Private/Public keys pair.
+	 * Incput is $config array with standard openssl_csr_new configargs
+	 * $passphrase is set if want to have a passphrase to access private key
+	 * @param array $config
+	 * @param null|string $passphrase
+	 * @return array
+	 */
   	public function generate_ssl_key_pair($config = array(), $passphrase = null) {
   	  $default_length = 2048;
 
@@ -216,12 +217,14 @@ final class ASSLEncryption {
     }
 
 	/**
-	* Save Private/Public keys pair to set key_path location
-	* Incput: Private/Public keys pair array
-	* 		  keyname
-	* 
-	* @return mixed
-	*/
+	 * Save Private/Public keys pair to set key_path location
+	 * Incput: Private/Public keys pair array
+	 *          keyname
+	 *
+	 * @param array $keys
+	 * @param string $key_name
+	 * @return string
+	 */
   	public function save_ssl_key_pair($keys = array(), $key_name) {
 		if(!file_exists( $this->key_path )){
 			$result = mkdir($this->key_path,0700,TRUE); // create dir with nested folders
@@ -255,13 +258,15 @@ final class ASSLEncryption {
 			fwrite($handle, $key . "\n");
 			fclose($handle); 
 		}
+		return '';
 	}
-	
+
 	/**
-	* Get public key based on key name provided. It is loaded if not yet loaded
-	* Key's are stored in the path based on the configuration
-	* @return string 
-	*/
+	 * Get public key based on key name provided. It is loaded if not yet loaded
+	 * Key's are stored in the path based on the configuration
+	 * @param string $key_name
+	 * @return string
+	 */
 	public function getPublicKey( $key_name ) {
 		if ( empty($this->pubkey) ) {
 	    	$this->pubkey = openssl_pkey_get_public("file://".$this->key_path.$key_name);
@@ -270,12 +275,14 @@ final class ASSLEncryption {
 	}
 
 	/**
-	* Load private key based on key name provided. 
-	* Input : Key name and passphrase (if used)
-	* Key's are stored in the path based on the configuration
-	* NOTE: Private key value never returned back 
-	* @return bool 
-	*/
+	 * Load private key based on key name provided.
+	 * Input : Key name and passphrase (if used)
+	 * Key's are stored in the path based on the configuration
+	 * NOTE: Private key value never returned back
+	 * @param string $key_name
+	 * @param string $passphrase
+	 * @return bool
+	 */
 	public function loadPrivateKey($key_name, $passphrase = '') {	
 		$this->prkey = openssl_pkey_get_private("file://".$this->key_path.$key_name, $passphrase);
 		if ($this->prkey){
@@ -284,11 +291,12 @@ final class ASSLEncryption {
 		  return false;
 		} 
 	}
-	
+
 	/**
-	* Dectript value based on private key ONLY
-	* @return string
-	*/
+	 * Dectript value based on private key ONLY
+	 * @param string $crypttext
+	 * @return string
+	 */
   	public function decrypt( $crypttext ) {
 		if (empty($crypttext)) {
 		 	return '';
@@ -315,9 +323,10 @@ final class ASSLEncryption {
     }
 
 	/**
-	* Encrypt value based on public key ONLY
-	* @return string
-	*/
+	 * Encrypt value based on public key ONLY
+	 * @param string $cleartext
+	 * @return string
+	 */
   	public function encrypt( $cleartext) {
 		if (empty($cleartext)) {
 			return '';
@@ -351,7 +360,7 @@ final class ASSLEncryption {
 
 // SSL Based data encryption class based on ASSLEncryption class
 // Manual Configuration is required
-/* 
+/**
 This class is managin encryption/decription of data in AbanteCart database tables 
 configured in $this->enc_data array
 These tables need to have specific postfix in the name like '_enc'
@@ -373,7 +382,7 @@ Encryption Data Manager extension runs SQL on install
 
 Limitation: passphrase is not supported to data encryption.
 
-*/
+**/
 
 final class ADataEncryption {
 	private $key_name;
@@ -396,6 +405,7 @@ final class ADataEncryption {
 		if ($key_name ){
 			$this->key_name = $key_name;
 		} else {
+			/** @noinspection PhpUndefinedConstantInspection */
 			$this->key_name = DATA_ENCRYPTION_KEYPAIR;
 		} 
 		if ($passphrase) {
@@ -471,25 +481,26 @@ final class ADataEncryption {
 	}
 
 	/**
-	* Get list of tables containing encrypted data 
-	*@param none
-	*@return array
+	* Get list of tables containing encrypted data
+	* @return array
 	*/	
 	public function getEcryptedTables(){		
 		if ( has_value($this->enc_data) ) {
 			return array_keys($this->enc_data);
 		}
+		return array();
 	}	
 
 	/**
 	* Get ID field name for table containing encrypted data 
-	*@param string
-	*@return string
+	* @param string
+	* @return string
 	*/	
 	public function getEcryptedTableID( $table ){		
 		if ( has_value($this->enc_data) ) {
 			return $this->enc_data[ $table ]['id'];
 		}
+		return '';
 	}	
 	
 	/**
@@ -501,12 +512,13 @@ final class ADataEncryption {
 		if ( has_value($this->enc_data) ) {
 			return $this->enc_data[ $table ]['fields'];
 		}
+		return array();
 	}	
 
 	/**
 	* Add to the list of encrypted tables/fields containing encrypted data 
-	*@param array
-	*@return none
+	* @param array $table_data
+	* @return null
 	*/	
 	public function addEcryptedTables( $table_data ) {
 		foreach ( $table_data as $table => $data ) {
@@ -517,16 +529,18 @@ final class ADataEncryption {
 				$this->enc_data[$table] = $data;			
 			}
 		}
-	}	
+		return null;
+	}
 
 	/**
-	* Add to the list of fields to existing tables containing encrypted data 
-	*@param string, array
-	*@return none
-	*/	
+	 * Add to the list of fields to existing tables containing encrypted data
+	 * @param string $table
+	 * @param array $fields
+	 * @return null
+	 */
 	public function addEcryptedFields( $table, $fields ){
 		if ( empty($table) ) {
-			return;
+			return null;
 		}
 	
 		foreach ( $fields as $field ) {
@@ -534,13 +548,16 @@ final class ADataEncryption {
 				$this->enc_data[$table][] = $field;			
 			}
 		}
-	}	
+		return null;
+	}
 
 	/**
-	* Decrypt 1 row of data in table for fields that are encrypted
-	*@param array, string, string
-	*@return array
-	*/	
+	 * Decrypt 1 row of data in table for fields that are encrypted
+	 * @param array $crypt_data_arr
+	 * @param string $table
+	 * @param null|string $pass
+	 * @return array
+	 */
 	public function decrypt_data ( $crypt_data_arr, $table, $pass = null) {
 		if ( empty($pass) ) {
 			$pass = $this->passphrase;
@@ -568,10 +585,11 @@ final class ADataEncryption {
 	}
 
 	/**
-	* Encrypt 1 row of data in table for fields that are encrypted
-	*@param array, string
-	*@return array
-	*/	
+	 * Encrypt 1 row of data in table for fields that are encrypted
+	 * @param array $open_data_arr
+	 * @param string $table
+	 * @return array
+	 */
 	public function encrypt_data ( $open_data_arr, $table ) {
 		if ( empty($table) ) {
 			return array();
@@ -596,10 +614,11 @@ final class ADataEncryption {
 	}
 
 	/**
-	* Encrypt 1 field of data
-	*@param string
-	*@return string
-	*/	
+	 * Encrypt 1 field of data
+	 * @param string $open_data
+	 * @param int $key_id
+	 * @return string
+	 */
 	public function encrypt_field( $open_data, $key_id = 0 ) {
 		//if encryption off return pure data
 		if ( !$this->active ) {
@@ -613,10 +632,12 @@ final class ADataEncryption {
 	}
 
 	/**
-	* Decrypt 1 field of data
-	*@param string, string
-	*@return string
-	*/	
+	 * Decrypt 1 field of data
+	 * @param string $crypt_data
+	 * @param int $key_id
+	 * @param null|string $pass
+	 * @return string
+	 */
 	public function decrypt_field( $crypt_data, $key_id = 0, $pass = null) {
 		if ( empty($pass) ) {
 			$pass = $this->passphrase;
@@ -659,10 +680,8 @@ final class ADataEncryption {
 	 * @throws AException
 	 */
 	private function _detect_encrypt_key( $key_id ) {
-		$key_name = '';
 		//detect key to use (set default first) 
 		$key_name = $this->key_name;
-		
 		$key_id = (int)$key_id;
 		if ( $key_id > 0 ) {
 			//we have specific key set for record
@@ -675,8 +694,9 @@ final class ADataEncryption {
 		        $this->message->saveError('Data decryption error',$error);
 				throw new AException (AC_ERR_LOAD, $error);
 			}
-		} 
-		
+		}
+
+		/** @noinspection PhpUndefinedConstantInspection */
 		if ( $key_name == DATA_ENCRYPTION_KEYPAIR && !defined('DATA_ENCRYPTION_KEYPAIR') ) {
 		        $error = "Error: Can not locate default key in configuration file. Refer to data encryption configuration help!";
 		        $this->log->write($error);
@@ -707,7 +727,8 @@ final class ADataEncryption {
 				throw new AException (AC_ERR_LOAD, $error);
 			}
 		}
-		
+
+		/** @noinspection PhpUndefinedConstantInspection */
 		if ( $key_name == DATA_ENCRYPTION_KEYPAIR && !defined('DATA_ENCRYPTION_KEYPAIR') ) {
 		        $error = "Error: Can not locate default key in configuration file. Refer to data encryption configuration help!";
 		        $this->log->write($error);
@@ -727,5 +748,6 @@ final class ADataEncryption {
 				return $id;
 			}
 		}
+		return 0;
 	}				
 }

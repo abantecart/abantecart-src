@@ -20,7 +20,9 @@
 if ( !defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class ControllerPagesExtensionEncryptionDataManager
+ */
 class ControllerPagesExtensionEncryptionDataManager extends AController {
 	private $error = array();
 	public $data = array();
@@ -34,11 +36,13 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$this->loadLanguage('encryption_data_manager/encryption_data_manager');
 		$this->document->setTitle( $this->language->get('encryption_data_manager_name') );
 		$this->load->model('setting/setting');
-				 
-		$enc = new ASSLEncryption(); 
+
+		/** @var $enc ASSLEncryption */
+		$enc = new ASSLEncryption();
 		if ( !$enc->active || !$enc->getKeyPath() ) {
 			$this->error['warning'] = $this->language->get('error_openssl_disabled');	
-		}		 
+		}
+		/** @var $enc_data ADataEncryption */
 		$enc_data = new ADataEncryption(); 
 		if ( !$enc_data->active ) {
 			$this->error['warning'] = $this->language->get('error_data_encryption_disabled');	
@@ -484,6 +488,11 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		return $usage;
 	}
 
+	/**
+	 * @param ASSLEncryption $enc
+	 * @param string $status
+	 * @return array
+	 */
 	private function _load_key_names ( $enc, $status = '' ) {
 		//load active keys from db
 		$keys = $this->_load_keys( $enc, $status );
@@ -499,6 +508,11 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		return $pub_keys_options;		
 	}
 
+	/**
+	 * @param ASSLEncryption $enc
+	 * @param string $status
+	 * @return array
+	 */
 	private function _load_keys ( $enc, $status = '' ) {
 		//get key files from the directory
 		$files = array_filter(glob($enc->getKeyPath().'/*'), function($file) { return preg_match('/.pub$/', $file ); } );
@@ -514,6 +528,11 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 	}
 
 	//Usage of tables with encrypted data and key
+	/**
+	 * @param ADataEncryption $enc_data
+	 * @param int $key_id
+	 * @return array
+	 */
 	private function _load_encrypted_stats($enc_data, $key_id) {
 		$usage = array();
 	
@@ -529,7 +548,11 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		return $usage;
 	}
 
-	//Usage of tables with unencrypted data
+	/**
+	 * Usage of tables with unencrypted data
+	 * @param ADataEncryption $enc_data
+	 * @return array
+	 */
 	private function _load_unencrypted_stats($enc_data) {
 		$usage = array();
 	
@@ -544,6 +567,5 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		}
 		return $usage;
 	}
-
 	
 }
