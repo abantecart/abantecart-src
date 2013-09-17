@@ -1,7 +1,4 @@
---
---SUBMENU SYSTEM->SETTINGS
---ITEM_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES
 (7,'all_settings',191),
 (7,'settings_details',192),
@@ -13,8 +10,7 @@ VALUES
 (7,'settings_system',198),
 (7,'settings_newstore',199);
 
---ITEM_TEXT
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES
 (8,'text_all_settings',191),
 (8,'text_settings_details',192),
@@ -26,8 +22,7 @@ VALUES
 (8,'text_settings_system',198),
 (8,'text_settings_newstore',199);
 
---ITEM_URL
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES
 (9,'setting/setting/all',191),
 (9,'setting/setting/details',192),
@@ -38,8 +33,8 @@ VALUES
 (9,'setting/setting/api',197),
 (9,'setting/setting/system',198),
 (9,'setting/store/insert',199);
---PARENT_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES
 (10,'setting',191),
 (10,'setting',192),
@@ -50,7 +45,7 @@ VALUES
 (10,'setting',197),
 (10,'setting',198),
 (10,'setting',199);
---SORT_ORDER
+
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES
 (11,1,191),
@@ -62,8 +57,8 @@ VALUES
 (11,7,197),
 (11,8,198),
 (11,9,199);
---ITEM_TYPE
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES
 (12,'core',191),
 (12,'core',192),
@@ -82,7 +77,6 @@ ALTER TABLE `ac_product_options` ADD COLUMN `regexp_pattern` varchar(255);
 ALTER TABLE `ac_global_attributes_descriptions` ADD COLUMN `error_text` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable';
 ALTER TABLE `ac_product_option_descriptions` ADD COLUMN `error_text` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable';
 
---
 CREATE TABLE IF NOT EXISTS `ac_global_attributes_type_descriptions` (
           `attribute_type_id` int(11) NOT NULL,
           `language_id` int(11) NOT NULL,
