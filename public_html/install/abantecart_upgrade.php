@@ -16,5 +16,5 @@ foreach($balances->rows as $row){
 	$this->db->query($sql,true); // do safe update
 }
 
-// clear text definitions
-$this->db->query("DELETE FROM ".$this->db->table('language_definitions')." WHERE `section` = 1 AND `block` = 'sale_customer'");
+// clear text definitions for admin
+$this->db->query("DELETE FROM ".$this->db->table('language_definitions')." WHERE `section` = 1");

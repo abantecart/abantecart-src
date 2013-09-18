@@ -566,7 +566,10 @@ class AAttribute_Manager extends AAttribute {
         }
 
 		//Prepare filter config
-		$filter_params = array('attribute_parent_id', 'attribute_type_id', 'status');
+		$filter_params = array('attribute_parent_id', 'status');
+		if(!has_value($data['attribute_type_id'])){
+			$filter_params[] = 'attribute_type_id'; // to prevent ambigious fields in sql query
+		}
 		//Build query string based on GET params first
 		$filter_form = new AFilter( array( 'method' => 'get', 'filter_params' => $filter_params ) );
 		//Build final filter
