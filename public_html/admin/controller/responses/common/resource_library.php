@@ -185,7 +185,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 					''=>$this->language->get('text_select'),
 					'map'=>$this->language->get('text_map'),
 					'unmap'=>$this->language->get('text_unmap'),
-					'unmap'=>$this->language->get('text_unmap'),
 					'delete'=>$this->language->get('button_delete')
 				)
 			));
@@ -642,6 +641,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	 */
 	public function get_resource_html_single($type = 'image', $wrapper_id = '', $resource_id = 0, $field = '') {
 		$this->data['type'] = $type;
+		$wrapper_id = is_numeric($wrapper_id[0]) ? '_'.$wrapper_id : $wrapper_id; // id do not to start from number!!! jquery will not work
 		$this->data['wrapper_id'] = $wrapper_id;
 		$this->data['resource_id'] = $resource_id;
 		$this->data['field'] = $field;
@@ -692,6 +692,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	 */
 	private function _getObjectTitle($object_name, $object_id) {
 		if (is_callable(array($this, '_get' . $object_name . 'Title'))) {
+			/**
+			 * @see _getProductsTitle()
+			 * @see _getCategoriesTitle()
+			 * @see _getStoreTitle()
+			 * @see _getManufacturersTitle()
+			 */
 			return call_user_func_array(array($this, '_get' . $object_name . 'Title'), array($object_id));
 		} else
 			return '';
