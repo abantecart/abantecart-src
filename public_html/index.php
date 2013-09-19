@@ -54,20 +54,6 @@ ADebug::checkpoint('init end');
 
 if (!defined('IS_ADMIN') || !IS_ADMIN ) { // storefront load
 
-	define('HTTP_SERVER', $config->get('config_url'));
-	define('HTTP_IMAGE', HTTP_SERVER . 'image/');
-	define('HTTP_EXT', HTTP_SERVER . 'extensions/');
-
-	if ($config->get('config_ssl')) {
-		define('HTTPS_SERVER', 'https://' . substr($config->get('config_url'), 7));
-		define('HTTPS_IMAGE', HTTPS_SERVER . 'image/');
-		define('HTTPS_EXT', HTTPS_SERVER . 'extensions/');
-	} else {
-		define('HTTPS_SERVER', HTTP_SERVER);
-		define('HTTPS_IMAGE', HTTP_IMAGE);	
-		define('HTTPS_EXT', HTTP_EXT);
-	}
-
 	// Relative paths and directories
 	define('RDIR_TEMPLATE',  'storefront/view/' . $config->get('config_storefront_template') . '/');
 

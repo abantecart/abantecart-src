@@ -74,24 +74,6 @@ if (defined('ADMIN_PATH') && (isset($_GET[ 's' ]) || isset($_POST[ 's' ])) && ($
 	define('DIR_TEMPLATE', DIR_ROOT . '/admin/view/');
 	define('DIR_STOREFRONT', DIR_ROOT . '/storefront/');
 	define('DIR_BACKUP', DIR_ROOT . '/admin/system/backup/');
-	// Admin
-	// HTTP
-	define('HTTP_SERVER', 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/');
-	define('HTTP_CATALOG', 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/');
-	define('HTTP_IMAGE', 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/image/');
-	define('HTTP_EXT', 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/extensions/');
-	// HTTPS
-	if (defined('HTTPS') && HTTPS) {
-		define('HTTPS_SERVER', 'https://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/');
-		define('HTTPS_CATALOG', 'https://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/');
-		define('HTTPS_IMAGE', 'https://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/image/');
-		define('HTTPS_EXT', 'https://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/extensions/');
-	} else {
-		define('HTTPS_SERVER', HTTP_SERVER);
-		define('HTTPS_CATALOG', HTTP_CATALOG);
-		define('HTTPS_IMAGE', HTTP_IMAGE);
-		define('HTTPS_EXT', HTTP_EXT);
-	}
 	define('SESSION_ID', 'PHPSESSID_AC_CP');
 } else {
 	define('IS_ADMIN', false);
@@ -184,8 +166,6 @@ try {
 
 //resources
 	define('DIR_RESOURCE', DIR_ROOT . '/resources/');
-	define('HTTP_DIR_RESOURCE', 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/resources/');
-	define('HTTPS_DIR_RESOURCE', 'https://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/resources/');
 
 //postfixes for template override
 	define('POSTFIX_OVERRIDE', '.override');
@@ -304,11 +284,55 @@ try {
 	$config = new AConfig($registry);
 	$registry->set('config', $config);
 
+// Set up HTTP and HTTPS based automatic and based on config
 	if (IS_ADMIN) {
+	
+		// Admin HTTP
+		define('HTTP_SERVER', 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/');
+		define('HTTP_CATALOG', 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/');
+		define('HTTP_IMAGE', 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/image/');
+		define('HTTP_EXT', 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/extensions/');
+		//Admin HTTPS
+		if (defined('HTTPS') && HTTPS) {
+			define('HTTPS_SERVER', 'https://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/');
+			define('HTTPS_CATALOG', 'https://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/');
+			define('HTTPS_IMAGE', 'https://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/image/');
+			define('HTTPS_EXT', 'https://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/extensions/');
+		} else {
+			define('HTTPS_SERVER', HTTP_SERVER);
+			define('HTTPS_CATALOG', HTTP_CATALOG);
+			define('HTTPS_IMAGE', HTTP_IMAGE);
+			define('HTTPS_EXT', HTTP_EXT);
+		}		
+	
 		//Admin specific loads
 		$extension_manager = new AExtensionManager();
 		$registry->set('extension_manager', $extension_manager);
+		
+	} else {
+		// Storefront HTTP
+		define('HTTP_SERVER', $config->get('config_url'));
+		define('HTTP_IMAGE', HTTP_SERVER . 'image/');
+		define('HTTP_EXT', HTTP_SERVER . 'extensions/');
+		// Storefront HTTPS
+		if ($config->get('config_ssl')) {
+			$store_url = $config->get('config_url');
+			if ( $config->get('config_ssl_url') ) {
+				$store_url = $config->get('config_ssl_url');
+			}
+			define('HTTPS_SERVER', 'https://' . preg_replace('/\w+:\/\//','', $store_url));
+			define('HTTPS_IMAGE', HTTPS_SERVER . 'image/');
+			define('HTTPS_EXT', HTTPS_SERVER . 'extensions/');
+		} else {
+			define('HTTPS_SERVER', HTTP_SERVER);
+			define('HTTPS_IMAGE', HTTP_IMAGE);	
+			define('HTTPS_EXT', HTTP_EXT);
+		}	
 	}
+	//web URL to resource library
+	define('HTTP_DIR_RESOURCE', HTTP_SERVER . 'resources/');
+	define('HTTPS_DIR_RESOURCE', HTTPS_SERVER . 'resources/');
+
 
 //Messages
 	$messages = new AMessage();
