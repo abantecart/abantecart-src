@@ -586,7 +586,7 @@ class ModelToolMigration extends Model {
 		if (method_exists($this->cartObj, 'getProductOptions')) {
 			$options = $this->cartObj->getProductOptions();
 		}
-		$options['product_options'] = (array)$data['image'];
+		$options['product_options'] = (array)$options['product_options'];
 		foreach ($options['product_options'] as $product_option) {
 			//options
 			$required = has_value($product_option['required']) ? $product_option['required'] : 0;

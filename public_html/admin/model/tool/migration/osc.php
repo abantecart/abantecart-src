@@ -247,6 +247,77 @@ class Migration_Osc implements Migration {
 		return array();
 	}
 
+
+	public function getProductOptions() {
+		$this->error_msg = "";
+		$language_id = $this->getSourceLanguageId();
+		//options
+		$sql = "SELECT DISTINCT pa.products_id as product_id,
+								pa.options_id as product_option_id,
+								`products_options_name` as product_option_name,
+								0 as subtract,
+								'S' as element_type,
+								0 as products_text_attributes_id,
+								0 as sort_order
+				FROM " . $this->data['db_prefix'] . "products_options po
+				RIGHT JOIN " . $this->data['db_prefix'] . "products_attributes pa	ON pa.options_id = po.products_options_id
+				WHERE po.language_id='".$language_id."'
+				ORDER BY product_id, product_option_id";
+
+		$items = $this->src_db->query($sql,true);
+		if (!$items) {
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error. '<br>';
+			return false;
+		}
+
+		$result = array();
+		foreach($items->rows as $item){
+			$result['product_options'][] = $item;
+		}
+
+		//option values
+		$sql = "SELECT DISTINCT pa.price_prefix,
+						pa.options_values_price as price,
+						pa.products_id as product_id,
+						povpo.products_options_id as product_option_id,
+						povpo.products_options_values_id as product_option_value_id,
+						pov.products_options_values_name as product_option_value_name,
+						0 as products_text_attributes_id
+				FROM " . $this->data['db_prefix'] . "products_options_values_to_products_options povpo
+				LEFT JOIN " . $this->data['db_prefix'] . "products_options_values pov
+						ON pov.products_options_values_id = povpo.products_options_values_id AND pov.language_id='".$language_id."'
+				RIGHT JOIN " . $this->data['db_prefix'] . "products_attributes pa
+						ON pa.options_values_id = povpo.products_options_values_id AND pa.options_id = povpo.products_options_id
+		WHERE pa.products_id>0 AND povpo.products_options_id<>''
+		ORDER BY product_option_id, product_option_value_name, product_id";
+		$items = $this->src_db->query($sql,true);
+		if (!$items) {
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error. '<br>';
+			return false;
+		}
+
+		foreach($items->rows as $item){
+			$result['product_option_values'][] = $item;
+		}
+
+		//products option values
+		$sql = "SELECT *, options_values_price as price
+				FROM " . $this->data['db_prefix'] . "products_attributes";
+		$items = $this->src_db->query($sql,true);
+		if (!$items) {
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error. '<br>';
+			return false;
+		}
+
+		foreach($items->rows as $item){
+			$result['product_attributes'][] = $item;
+		}
+
+		return $result;
+	}
+
+
+
 	public function getErrors() {
 		return $this->error_msg;
 	}

@@ -321,8 +321,8 @@ class Migration_Oscmax implements Migration {
 					'-1' as sort_order,
 					pta.products_text_attributes_id
 				FROM " . $this->data['db_prefix'] . "products_text_attributes_enabled ptae
-				LEFT " . $this->data['db_prefix'] . "JOIN products_text_attributes pta ON pta.products_text_attributes_id = ptae.products_text_attributes_id
-				LEFT " . $this->data['db_prefix'] . "JOIN products p ON p.products_id = ptae.products_id
+				LEFT JOIN " . $this->data['db_prefix'] . "products_text_attributes pta ON pta.products_text_attributes_id = ptae.products_text_attributes_id
+				LEFT JOIN " . $this->data['db_prefix'] . "products p ON p.products_id = ptae.products_id
 				WHERE ptae.products_id>0 AND products_text_attributes_name<>''
 		order by product_id, product_option_id, sort_order";
 		$items = $this->src_db->query($sql,true);
