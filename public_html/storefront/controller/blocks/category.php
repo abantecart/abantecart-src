@@ -44,7 +44,10 @@ class ControllerBlocksCategory extends AController {
 		$all_categories = $this->model_catalog_category->getAllCategories();
 		$this->view->assign('category_list', $this->_buildCategoryTree($all_categories));
 		$this->view->assign('selected_category_id', $this->category_id);
-		
+
+
+		$this->view->assign('category', $this->getCategories($all_categories,0) );
+
 		// framed needs to show frames for generic block.
 		//If tpl used by listing block framed was set by listing block settings
 		$this->view->assign('block_framed',true);
@@ -120,6 +123,60 @@ class ControllerBlocksCategory extends AController {
 			$category['brands'] = $this->model_catalog_category->getCategoriesBrands($category['parents']);
 			$category['href'] = $this->html->getSEOURL('product/category', '&path=' . $category['path'], '&encode');
 			$output[] = $category;
+		}
+		return $output;
+	}
+
+
+	/**
+	 * @deprecated since 1.1.7       DO NOT USE!!!
+	 * @param array $all_categories
+	 * @param $parent_id
+	 * @param string $current_path
+	 * @return string
+	 */
+	protected function getCategories($all_categories=array(),$parent_id, $current_path = '') {
+		$category_id = array_shift($this->path);
+		$stdout = '';
+		$results = $this->getCategoryChildren($all_categories, $parent_id);
+		if ($results) {
+			$stdout .= '<ul>';
+    	}
+		foreach ($results as $result) {
+			if (!$current_path) {
+				$new_path = $result['category_id'];
+			} else {
+				$new_path = $current_path . '_' . $result['category_id'];
+			}
+			$stdout .= '<li>';
+			$children = '';
+			if ($category_id == $result['category_id']) {
+				$children = $this->getCategories($all_categories,$result['category_id'], $new_path);
+			}
+			$cname = $result['name'];
+			if ($this->category_id == $result['category_id']) {
+				$cname = '<b>' . $cname . '</b>';
+			}
+			$stdout .= '<a href="' . $this->html->getSEOURL('product/category', '&path=' . $new_path, '&encode')  . '">'.$cname.'</a>';
+        	$stdout .= $children;
+        	$stdout .= '</li>';
+		}
+		if ($results) {
+			$stdout .= '</ul>';
+		}
+		return $stdout;
+	}
+
+	/**
+	 * @deprecated since 1.1.7
+	 * DO NOT USE!!!
+	 */
+	protected function getCategoryChildren($all_categories=array(),$parent_id=0){
+		$output = array();
+		foreach($all_categories as $category ){
+			if($category['parent_id']==$parent_id){
+				$output [] = $category;
+			}
 		}
 		return $output;
 	}
