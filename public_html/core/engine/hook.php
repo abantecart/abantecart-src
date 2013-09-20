@@ -20,8 +20,15 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class AHook
+ * @property ExtensionsApi $extensions
+ * @method hk_InitEnd
+ */
 final class AHook {
+	/**
+	 * @var Registry
+	 */
 	public $registry;
 	
 	public function __construct($registry) {
@@ -38,10 +45,10 @@ final class AHook {
 
     public function __call($method, $args) {
 	    if ( !$this->registry->has('extensions') )
-            return;
+            return null;
 
         array_unshift($args, $this);
-        $return = call_user_func_array(array($this->extensions, $method), $args);
+		$return = call_user_func_array(array($this->extensions, $method), $args);
         return $return;
     }
 }
