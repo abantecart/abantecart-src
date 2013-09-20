@@ -20,11 +20,16 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
-
+/**
+ * Class ASession
+ */
 final class ASession {
 	public $data = array();
 	public $ses_name = SESSION_ID;
 
+	/**
+	 * @param string $ses_name
+	 */
 	public function __construct( $ses_name = '' ) {
 	
 		if (!session_id() || has_value($ses_name)) {
@@ -48,14 +53,27 @@ final class ASession {
 		$this->data =& $_SESSION;
 	}
 
+	/**
+	 * @param string $session_name
+	 */
 	public function init( $session_name ) {
-		$path = dirname($_SERVER[ 'PHP_SELF' ]);
-		session_set_cookie_params(0,
+		$path =  dirname($_SERVER[ 'PHP_SELF' ]);
+		session_set_cookie_params(
+			0,
 		    $path,
 		    null,
 		    (defined('HTTPS') && HTTPS),
 		    true);
 		session_name( $session_name );
+		// for shared ssl domain set session id of non-secure domain
+		$registry = Registry::getInstance();
+		if ($registry->get('config')) {
+			if( $registry->get('config')->get('config_shared_session') && isset($_GET['session_id'])){
+				header('P3P: CP="CAO COR CURa ADMa DEVa OUR IND ONL COM DEM PRE"');
+				session_id($_GET['session_id']);
+				setcookie($session_name, $_GET['session_id'], 0, $path, null,(defined('HTTPS') && HTTPS),true);
+			}
+		}
 		session_start();
 	}
 

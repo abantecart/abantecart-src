@@ -151,4 +151,12 @@
         <key>entry_clone_store</key>
         <value><![CDATA[ Copy Settings:<br/><span class="help">You can select copy of all settings from some existing store</span> ]]></value>
     </definition>
+	<definition>
+		<key>entry_ssl_url</key>
+		<value><![CDATA[Secure Store URL:<br /><span class="help">Include the full SSL URL(HTTPS) to your store. Make sure to add '/' at the end. Example: https://www.yourdomain.com/path/</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_ssl_url</key>
+		<value><![CDATA[Secure URL required!]]></value>
+	</definition>
 </definitions>

@@ -190,6 +190,9 @@ class ModelSettingSetting extends Model {
 		if(has_value($data['config_url']) && substr($data['config_url'],-1)!='/'){
 			$data['config_url'] .= '/';
 		}
+		if(has_value($data['config_ssl_url']) && substr($data['config_ssl_url'],-1)!='/'){
+			$data['config_ssl_url'] .= '/';
+		}
 
 		foreach ($data as $key => $value) {
 			$sql = "DELETE FROM " . DB_PREFIX . "settings

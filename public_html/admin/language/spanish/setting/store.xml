@@ -26,8 +26,7 @@
     </definition>
     <definition>
         <key>entry_url</key>
-        <value>
-            <![CDATA[Tienda URL:<br /><span class="help">Incluye la URL completa a tu tienda. Asegurate de agregar '/' al final. Ejemplo: http://wwww.tudominio.com/path/</span>]]></value>
+        <value><![CDATA[Tienda URL:<br /><span class="help">Incluye la URL completa a tu tienda. Asegurate de agregar '/' al final. Ejemplo: http://wwww.tudominio.com/path/</span>]]></value>
     </definition>
     <definition>
         <key>entry_ssl</key>
@@ -154,4 +153,12 @@
         <value>
             <![CDATA[ Configuración de copia:<br/><span class="help">Puede seleccionar todas las opciones de copia de alguna tienda existente</span> ]]></value>
     </definition>
+	<definition>
+		<key>entry_ssl_url</key>
+		<value><![CDATA[Segura Tienda URL:<br/><span class="help">Incluya la URL completa SSL (HTTPS) para su tienda. Asegúrese de añadir '/' al final. Ejemplo: https://www.yourdomain.com/path/</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_ssl_url</key>
+		<value><![CDATA[URL Segura necesario!]]></value>
+	</definition>
 </definitions>

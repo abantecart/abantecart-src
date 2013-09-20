@@ -286,18 +286,18 @@ try {
 
 // Set up HTTP and HTTPS based automatic and based on config
 	if (IS_ADMIN) {
-	
+		define('HTTP_DIR_NAME', rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') );
 		// Admin HTTP
-		define('HTTP_SERVER', 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/');
-		define('HTTP_CATALOG', 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/');
-		define('HTTP_IMAGE', 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/image/');
-		define('HTTP_EXT', 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/extensions/');
+		define('HTTP_SERVER', 'http://' . REAL_HOST . HTTP_DIR_NAME . '/');
+		define('HTTP_CATALOG', 'http://' . REAL_HOST . HTTP_DIR_NAME . '/');
+		define('HTTP_IMAGE', 'http://' . REAL_HOST . HTTP_DIR_NAME . '/image/');
+		define('HTTP_EXT', 'http://' . REAL_HOST . HTTP_DIR_NAME . '/extensions/');
 		//Admin HTTPS
 		if (defined('HTTPS') && HTTPS) {
-			define('HTTPS_SERVER', 'https://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/');
-			define('HTTPS_CATALOG', 'https://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/');
-			define('HTTPS_IMAGE', 'https://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/image/');
-			define('HTTPS_EXT', 'https://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/extensions/');
+			define('HTTPS_SERVER', 'https://' . REAL_HOST . HTTP_DIR_NAME . '/');
+			define('HTTPS_CATALOG', 'https://' . REAL_HOST . HTTP_DIR_NAME . '/');
+			define('HTTPS_IMAGE', 'https://' . REAL_HOST . HTTP_DIR_NAME . '/image/');
+			define('HTTPS_EXT', 'https://' . REAL_HOST . HTTP_DIR_NAME . '/extensions/');
 		} else {
 			define('HTTPS_SERVER', HTTP_SERVER);
 			define('HTTPS_CATALOG', HTTP_CATALOG);
@@ -327,7 +327,11 @@ try {
 			define('HTTPS_SERVER', HTTP_SERVER);
 			define('HTTPS_IMAGE', HTTP_IMAGE);	
 			define('HTTPS_EXT', HTTP_EXT);
-		}	
+		}
+		//set internal sign of shared ssl domains
+		if(preg_replace('/\w+:\/\//','',HTTPS_SERVER) != preg_replace('/\w+:\/\//','',HTTP_SERVER) ){
+			$registry->get('config')->set('config_shared_session',true);
+		}
 	}
 	//web URL to resource library
 	define('HTTP_DIR_RESOURCE', HTTP_SERVER . 'resources/');

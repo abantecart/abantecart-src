@@ -20,8 +20,15 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class ModelSettingStore
+ */
+/** @noinspection PhpUndefinedClassInspection */
 class ModelSettingStore extends Model {
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function addStore($data) {
 		if (empty($data['alias'])) {
 			$data['alias'] = substr(str_replace(' ', '', $data['name']), 0, 15);
@@ -59,7 +66,8 @@ class ModelSettingStore extends Model {
 		//Copy some data to details 
 		$this->model_setting_setting->editSetting('details', array('config_url'=>$data['config_url']),$store_id);
 		$this->model_setting_setting->editSetting('details', array('store_name'=>$data['name']),$store_id);
-		$this->model_setting_setting->editSetting('system', array('config_ssl'=>$data['config_ssl']),$store_id);
+		$this->model_setting_setting->editSetting('details', array('config_ssl'=>$data['config_ssl']),$store_id);
+		$this->model_setting_setting->editSetting('details', array('config_ssl_url'=>$data['config_ssl_url']),$store_id);
 		
 		$this->cache->delete('settings.store');
 		$this->cache->delete('stores');
@@ -74,7 +82,11 @@ class ModelSettingStore extends Model {
 		
 		return $store_id;
 	}
-	
+
+	/**
+	 * @param int $store_id
+	 * @param array $data
+	 */
 	public function editStore($store_id, $data) {
 
 		if ( !empty($data['store_description']) ) {
@@ -115,13 +127,16 @@ class ModelSettingStore extends Model {
             $this->model_setting_setting->editSetting('details',array('config_url'=>$data['config_url']),$store_id);
         }
         if ( isset($data['config_ssl']) ){
-            $this->model_setting_setting->editSetting('system',array('config_ssl'=>$data['config_ssl']),$store_id);
+            $this->model_setting_setting->editSetting('details',array('config_ssl'=>$data['config_ssl']),$store_id);
         }
 
 		$this->cache->delete('settings.store');
 		$this->cache->delete('stores');
 	}
-	
+
+	/**
+	 * @param int $store_id
+	 */
 	public function deleteStore($store_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "stores WHERE store_id = '" . (int)$store_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "settings WHERE store_id = '" . (int)$store_id . "'");
@@ -134,9 +149,13 @@ class ModelSettingStore extends Model {
 		$this->cache->delete('settings.store');
 		$this->cache->delete('stores');
 	}
-	
+
+	/**
+	 * @param int $store_id
+	 * @return array
+	 */
 	public function getStore($store_id) {
-		$output = array();
+
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "stores
 								   WHERE store_id = '" . (int)$store_id . "'");
 		$output = $query->rows[0];
@@ -150,7 +169,11 @@ class ModelSettingStore extends Model {
 		}
 		return $output;
 	}
-	
+
+	/**
+	 * @param int $store_id
+	 * @return array
+	 */
 	public function getStoreDescriptions($store_id) {
 		$store_description_data = array();
 		
@@ -162,7 +185,11 @@ class ModelSettingStore extends Model {
 		
 		return $store_description_data;
 	}
-	
+
+	/**
+	 * @param array $data
+	 * @return array
+	 */
 	public function getStores($data = array()) {
 		$store_data = $this->cache->get('stores');
 		if (is_null($store_data)) {
@@ -174,23 +201,33 @@ class ModelSettingStore extends Model {
 		
 			$this->cache->set('stores', $store_data);
 		}
-		return $store_data;
+		return (array)$store_data;
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getTotalStores() {
       	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "stores");
 		
 		return $query->row['total'];
-	}	
+	}
 
+	/**
+	 * @param string $language
+	 * @return int
+	 */
 	public function getTotalStoresByLanguage($language) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM " . DB_PREFIX . "settings
       	                            WHERE `key` = 'config_storefront_language' AND  `value` = '" . $this->db->escape($language) . "'");
-		
 		return $query->row['total'];		
 	}
-	
+
+	/**
+	 * @param string $currency
+	 * @return int
+	 */
 	public function getTotalStoresByCurrency($currency) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM " . DB_PREFIX . "settings
@@ -198,7 +235,11 @@ class ModelSettingStore extends Model {
 		
 		return $query->row['total'];		
 	}
-	
+
+	/**
+	 * @param int $country_id
+	 * @return int
+	 */
 	public function getTotalStoresByCountryId($country_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM " . DB_PREFIX . "settings
@@ -206,23 +247,33 @@ class ModelSettingStore extends Model {
 		
 		return $query->row['total'];		
 	}
-	
+
+	/**
+	 * @param int $zone_id
+	 * @return int
+	 */
 	public function getTotalStoresByZoneId($zone_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM " . DB_PREFIX . "settings
       	                            WHERE `key` = 'config_zone_id' AND  `value` = '" . (int)$zone_id . "'");
-		
 		return $query->row['total'];		
 	}
-	
+
+	/**
+	 * @param int $customer_group_id
+	 * @return int
+	 */
 	public function getTotalStoresByCustomerGroupId($customer_group_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM " . DB_PREFIX . "settings
       	                            WHERE `key` = 'config_customer_group_id' AND `value` = '" . (int)$customer_group_id . "'");
-		
 		return $query->row['total'];		
-	}	
-	
+	}
+
+	/**
+	 * @param int $information_id
+	 * @return int
+	 */
 	public function getTotalStoresByInformationId($information_id) {
       	$account_query = $this->db->query("SELECT COUNT(*) AS total
       	                                    FROM " . DB_PREFIX . "settings
@@ -234,7 +285,11 @@ class ModelSettingStore extends Model {
 		
 		return ($account_query->row['total'] + $checkout_query->row['total']);
 	}
-	
+
+	/**
+	 * @param int $order_status_id
+	 * @return int
+	 */
 	public function getTotalStoresByOrderStatusId($order_status_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM " . DB_PREFIX . "settings
@@ -243,4 +298,3 @@ class ModelSettingStore extends Model {
 		return $query->row['total'];		
 	}	
 }
-?>

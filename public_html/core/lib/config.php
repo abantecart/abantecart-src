@@ -78,6 +78,7 @@ final class AConfig {
 		if (file_exists($file)) {
 			$cfg = array();
 
+			/** @noinspection PhpIncludeInspection */
 			require($file);
 
 			$this->data = array_merge($this->data, $cfg);
@@ -117,6 +118,10 @@ final class AConfig {
 					$parsed_url = parse_url($setting[ 'value' ]);
 					$setting[ 'value' ] = 'http://'.$parsed_url['host'].$parsed_url['path'];
 				}
+				if($setting[ 'key' ]=='config_ssl_url'){
+					$parsed_url = parse_url($setting[ 'value' ]);
+					$setting[ 'value' ] = 'https://'.$parsed_url['host'].$parsed_url['path'];
+				}
 				$this->cnfg[ $setting[ 'key' ] ] = $setting[ 'value' ];
 			}
 			unset($setting);// unset reference
@@ -139,8 +144,11 @@ final class AConfig {
 		   			  RIGHT JOIN " . DB_PREFIX . "stores st ON se.store_id=st.store_id
 		   			  LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
 		   			  WHERE se.store_id = (SELECT DISTINCT store_id FROM " . DB_PREFIX . "settings
-		   			                       WHERE `group`='details' AND `key` = 'config_url'
-		                                         AND (`value` LIKE '%" . $db->escape($url) . "')
+		   			                       WHERE `group`='details'
+		   			                       AND
+		   			                       ( (`key` = 'config_url' AND (`value` LIKE '%" . $db->escape($url) . "'))
+		   			                       XOR
+		   			                       (`key` = 'config_ssl_url' AND (`value` LIKE '%" . $db->escape($url) . "')) )
 		                                   LIMIT 0,1)
 		   					AND st.status = 1 AND e.extension_id IS NULL";
 
@@ -150,15 +158,12 @@ final class AConfig {
 			}
 
 			if ($store_settings) {
-				//if(!IS_ADMIN){
+
 				foreach ($store_settings as $row) {
 					$value = $row[ 'value' ];
-					if($row[ 'key' ]=='config_url'){
-						$value = 'http://'.$url;
-					}
 					$this->cnfg[ $row[ 'key' ] ] = $value;
 				}
-				//}
+
 				$this->cnfg[ 'config_store_id' ] = $store_settings[ 0 ][ 'store_id' ];
 			} else {
 				$warning = new AWarning('Warning: Accessing store with unconfigured or unknown domain ( '.$url.' ).'."\n".' Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
