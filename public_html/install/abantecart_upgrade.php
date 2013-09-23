@@ -18,3 +18,5 @@ foreach($balances->rows as $row){
 
 // clear text definitions for admin
 $this->db->query("DELETE FROM ".$this->db->table('language_definitions')." WHERE `section` = 1");
+
+chmod(DIR_ROOT.'/index.php',0755);

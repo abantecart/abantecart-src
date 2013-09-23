@@ -383,6 +383,11 @@ class APackageManager {
 
 
 		$fconnect = ftp_connect($ftp_host, $ftp_port);
+		if(!$fconnect && $ftp_host=='localhost'){ //check dns perversion :-)
+			$ftp_host = '127.0.0.1';
+			$fconnect = ftp_connect($ftp_host, $ftp_port);
+		}
+
 		if ($fconnect) {
 			$login = ftp_login($fconnect, $ftp_user, $ftp_password);
 			if (!$login) {
