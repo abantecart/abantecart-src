@@ -62,7 +62,7 @@ class AHtml extends AController {
 		if ($this->registry->get('config')->get('storefront_template_debug') && isset($this->registry->get('request')->get[ 'tmpl_debug' ])) {
 			$params .= '&tmpl_debug=' . $this->registry->get('request')->get[ 'tmpl_debug' ];
 		}
-		// add session id for crossdomain transition from secure to plain
+		// add session id for crossdomain transition in secure mode
 		if($this->registry->get('config')->get('config_shared_session')	&& HTTPS===true){
 			$params .= '&session_id='.session_id();
 		}
@@ -73,7 +73,7 @@ class AHtml extends AController {
 
 	//#PR Build secure URL with session token
 	public function getSecureURL($rt, $params = '', $encode = '') {
-		// add session id for crossdomain transition from plain to secure
+		// add session id for crossdomain transition in non-secure mode
 		if($this->registry->get('config')->get('config_shared_session')	&& HTTPS!==true){
 			$params .= '&session_id='.session_id();
 		}

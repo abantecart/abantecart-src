@@ -527,7 +527,7 @@ class APackageManager {
 					ftp_put($conn_id, $dst_dir . "/" . $file, $src_dir . "/" . $file, FTP_BINARY); // put the files
 					// for index.php do not set 777 permissions because hosting providers will ban it
 					if(pathinfo($file,PATHINFO_BASENAME)=='index.php'){
-						ftp_chmod($conn_id, 0644, $dst_dir . "/" . $file);
+						ftp_chmod($conn_id, 0755, $dst_dir . "/" . $file);
 					}else{
 						ftp_chmod($conn_id, 0777, $dst_dir . "/" . $file);
 					}
