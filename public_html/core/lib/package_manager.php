@@ -494,7 +494,12 @@ class APackageManager {
 				return false;
 			}
             $remote_file = $remote_dir . pathinfo($local, PATHINFO_BASENAME);
-            if(!ftp_chmod($fconnect, 0777, $remote_file)){
+			if(pathinfo($remote_file,PATHINFO_BASENAME)=='index.php'){
+				$chmod_result = ftp_chmod($fconnect, 0755, $remote_file);
+			}else{
+				$chmod_result = ftp_chmod($fconnect, 0777, $remote_file);
+			}
+            if(!$chmod_result){
                 $error = new AError('Cannot to change mode for file '.$remote_file);
                 $error->toLog()->toDebug();
             }
