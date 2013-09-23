@@ -247,8 +247,8 @@ class APackageManager {
 				$result = rename($this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_dir'] . '/code/' . $core_filename, DIR_ROOT . '/' . $core_filename);
 				if ($result) {
 					// for index.php do not set 777 permissions because hosting providers will ban it
-					if(pathinfo($core_filename,PATHINFO_FILENAME)=='index.php'){
-						chmod(DIR_ROOT . '/' . $core_filename,0644);
+					if(pathinfo($core_filename,PATHINFO_BASENAME)=='index.php'){
+						chmod(DIR_ROOT . '/' . $core_filename,0755);
 					}else{
 						chmod(DIR_ROOT . '/' . $core_filename,0777);
 					}
