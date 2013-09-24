@@ -114,6 +114,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
         onDragStart: function(table, row) {
             var rowid = row.id;
 			$('#'+rowid).css('width',$(table).css('width'));
+			$(table_id).find('tr.jqgfirstrow').addClass('nodrop');
         }	    
 	});
 	<?php } ?>

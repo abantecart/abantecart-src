@@ -936,7 +936,12 @@ tr.ui-search-toolbar select {
 }
 
 .drag_row {
-	margin: 10px 0 0 10px !important;
+	z-index: 999;
 	background: #C9C9C9 !important;
-	position: absolute;
+	-moz-box-shadow:    13px 14px 28px rgba(50, 50, 50, 0.7);
+	box-shadow:         13px 14px 28px rgba(50, 50, 50, 0.7);
+}
+
+.drag_row td{
+	-webkit-box-shadow: 13px 14px 28px rgba(50, 50, 50, 0.7);
 }
