@@ -621,7 +621,6 @@ function build_sort_order($array, $min, $max, $sort_direction = 'asc'){
 	if(!$min && !$max){
 		$max = sizeof($array)*10;
 	}
-	$min = $min==0 ? 10 : $min;
 	//if no min or max, set interval to 10
 	$return_arr = array();
 	if ($max > 0) {
@@ -630,10 +629,10 @@ function build_sort_order($array, $min, $max, $sort_direction = 'asc'){
 		$increment = 10;
 		$min = 10;
 	}
-	$prior_sort = 0;
+	$prior_sort = -1;
 	if ( $sort_direction == 'asc') {
 		foreach( $array as $id ){
-		    if($prior_sort == 0) {
+		    if($prior_sort < 0) {
 		    	$return_arr[$id] = $min;
 		    } else {
 		    	$return_arr[$id] = round($prior_sort + $increment, 0);
@@ -642,7 +641,7 @@ function build_sort_order($array, $min, $max, $sort_direction = 'asc'){
 		}
 	} else if ( $sort_direction == 'desc') {
 		foreach( $array as $id ){
-		    if($prior_sort == 0) {
+		    if($prior_sort < 0) {
 		    	$return_arr[$id] = $max;
 		    } else {
 		    	$return_arr[$id] = abs(round($prior_sort - $increment, 0));
