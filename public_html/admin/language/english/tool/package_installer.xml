@@ -87,7 +87,7 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>warning_ftp</key>
-		<value><![CDATA[ Warning: Directory with extensions does not have write permission (<span id="see_details">see more details</span>)<br>You can change this right or<br>use ftp-access to server for installing package (usually hosting provider sends it via email)<br> ]]></value>
+		<value><![CDATA[ Warning: Some file or directory does not have write permission (<span id="see_details">see more details</span>)<br>You can change this right or<br>use ftp-access to server for installing package (usually hosting provider sends it via email)<br> ]]></value>
 	</definition>
 	<definition>
 		<key>warning_already_installed</key>

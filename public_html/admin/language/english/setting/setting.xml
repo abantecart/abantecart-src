@@ -230,7 +230,7 @@
 	<definition>
 		<key>entry_prevent_email_as_login</key>
 		<value>
-			<![CDATA[Require login name:<br /><span class="help">Para mejorar la seguridad, preguntar a los clientes a crear el nombre de inicio de sesión único. Si se establece en ON, los clientes existentes se les pedirá que crear nuevo nombre de usuario en el primer inicio de sesión. Si OFF, nombre de usuario es la misma que la dirección de correo electrónico.</span>]]></value>
+			<![CDATA[Require Login Name:<br /><span class="help">To improve security, require customers to create unique login name instead of using email address as login name. If set to ON, existing customers will be asked to create new login name at the first login. If OFF, login name is set as customer email address.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_guest_checkout</key>
@@ -617,7 +617,6 @@
 		<key>entry_show_tree_data</key>
 		<value>
 			<![CDATA[Enable Tree Grid:<br /><span class="help">Enables admin grids to show parent/children types in one grid listing. NOTE: Pagination and multi-actions are disabled for these grids</span>]]></value>
-		f
 	</definition>
 	<definition>
 		<key>entry_cart_ajax</key>
@@ -797,5 +796,17 @@
 	<definition>
 		<key>entry_coupon_on_cart_page</key>
 		<value><![CDATA[Coupon on shopping cart page:<br /><span class="help">Allow customers to enter coupon code and see discount in the shopping cart. (HTML5 Template)</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_google_analytics</key>
+		<value><![CDATA[Google Analytics Account Number:<br /><span class="help">Add your <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Google Analytics Account Number</a> to enable site activity tracking. This also enables ecommerce activity tracking. You must enable ecommerce tracking in google on the profile settings page for your website</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_ssl_url</key>
+		<value><![CDATA[Secure Store URL:<br /><span class="help">Include the full SSL URL(HTTPS) to your store. Make sure to add '/' at the end. Example: https://www.yourdomain.com/path/</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_ssl_url</key>
+		<value><![CDATA[Secure URL required!]]></value>
 	</definition>
 </definitions>

@@ -10,8 +10,8 @@
     <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/abantecart.jquery.ui.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/button.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/resource.css"/>
-    <script type="text/javascript" src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script language="Javascript">
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript">
         if (typeof jQuery == 'undefined') {
             var include = '<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-1.7.2.min.js"><\/script>';
             document.write(include);
@@ -27,9 +27,9 @@
             <div class="cl">
                 <div class="cr">
                     <div class="cc">
-                        <form id="searchform" action="<?php echo $search_action; ?>" method="post">
+	                    <?php echo $search_form_open; //echo $search_field_input; ?>
                             <span class="icon_search">&nbsp;</span>
-                            <input type="text" name="search" value="<?php echo $text_search; ?>"
+                            <input type="text" name="search" placeholder="<?php echo $text_search; ?>" value="<?php echo $text_search; ?>"
                                    onFocus="if(this.value == '<?php echo $text_search; ?>') {this.value = '';}"
                                    onBlur="if (this.value == '') {this.value = '<?php echo $text_search; ?>';}"/>
                             <a href="#" class="btn_search btn_standard"><?php echo $button_go; ?></a>
@@ -75,23 +75,18 @@
 
         <div id="column_right"></div>
     </div>
-    <?php if ($mode == '') : ?>
+    <?php if ($mode == ''){ ?>
     <div id="multiactions">
         <?php echo $text_with_selected ?>
-        <select name="actions">
-            <option value=""><?php echo $text_select ?></option>
-            <option value="map"><?php echo $text_map; ?></option>
-            <option value="unmap"><?php echo $text_unmap; ?></option>
-            <option value="delete"><?php echo $button_delete; ?></option>
-        </select>&nbsp;<a style="vertical-align: middle; margin-top: -1px;" id="perform_action"
+        <?php echo $batch_actions ?>&nbsp;<a style="vertical-align: middle; margin-top: -1px;" id="perform_action"
                           class="btn_standard"><?php echo $button_go_actions ?></a>
     </div>
-    <?php endif; ?>
+    <?php } ?>
     <div id="pagination"></div>
 </div>
 
 <div id="edit_frm" style="display:none">
-    <form method="post" action="">
+    <?php echo $edit_form_open;?>
         <div class="resource_image"></div>
         <table class="files resource-details" cellpadding="0" cellspacing="0">
             <tr>
@@ -102,55 +97,24 @@
                 <td class="message"></td>
             </tr>
             <tr>
-                <td>
-                    <?php echo $text_language; ?>
-                </td>
-                <td>
-                    <?php echo $language; ?>
-                </td>
+                <td><?php echo $text_language; ?></td>
+                <td><?php echo $language; ?></td>
             </tr>
             <tr>
                 <td><?php echo $text_resource_code; ?></td>
-                <td><textarea name="resource_code"></textarea><span class="required">*</span></td>
+                <td><?php echo $field_resource_code;?></td>
             </tr>
             <tr>
                 <td><?php echo $text_name; ?></td>
-                <td>
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                    <?php if ($language_id == $lang_data['language_id']) { ?>
-                        <input type="text" name="name[<?php echo $lang_data['language_id'] ?>]" value=""/>
-                        <?php } else { ?>
-                        <input type="text" name="name[<?php echo $lang_data['language_id'] ?>]" value=""
-                               style="display:none"/>
-                        <?php } ?>
-                    <?php } ?>
-                    <span class="required">*</span></td>
+                <td><?php echo $field_name; ?></td>
             </tr>
             <tr>
                 <td><?php echo $text_title; ?></td>
-                <td>
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                    <?php if ($language_id == $lang_data['language_id']) { ?>
-                        <input type="text" name="title[<?php echo $lang_data['language_id'] ?>]" value=""/>
-                        <?php } else { ?>
-                        <input type="text" name="title[<?php echo $lang_data['language_id'] ?>]" value=""
-                               style="display:none"/>
-                        <?php } ?>
-                    <?php } ?>
-                </td>
+                <td><?php echo $field_title; ?></td>
             </tr>
             <tr>
                 <td><?php echo $text_description; ?></td>
-                <td>
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                    <?php if ($language_id == $lang_data['language_id']) { ?>
-                        <textarea name="description[<?php echo $lang_data['language_id'] ?>]"></textarea>
-                        <?php } else { ?>
-                        <textarea name="description[<?php echo $lang_data['language_id'] ?>]"
-                                  style="display:none"></textarea>
-                        <?php } ?>
-                    <?php } ?>
-                </td>
+                <td><?php echo $field_description; ?></td>
             </tr>
             <tr>
                 <td>
@@ -195,7 +159,9 @@
             <td colspan="2" class="sub_title"><?php echo $text_resource_details; ?></td>
         </tr>
         <tr>
-            <td width="130"><?php echo $text_name; ?></td>
+            <td width="130"><?php echo $text_name; ?>
+	            <input id="resource_id" type="hidden" name="resource_id" value="<?php echo $resource_id; ?>" />
+            </td>
             <td width="380" class="name"></td>
         </tr>
         <tr>
@@ -357,14 +323,26 @@ jQuery(function ($) {
         $(this).prev().html($(this).find("option:selected").text());
 
         var form = $(this).closest('form');
+	    $(form).find('.message').html('').removeClass('error').removeClass('success');
+	    var resource_id = form.find('input[name="resource_id"]').val();
+	    if(resource_id){
+		    $.ajax({
+			    url: '<?php echo $rl_get_info;?>',
+			    type: 'GET',
+			    data: {'language_id': language_id, 'resource_id': resource_id},
+			    dataType: 'json',
+			    success: function(json) {
+				    if ( json.error ) {
+					    form.find(".message").html( json.error ).addClass('error');
+					    return;
+				    }
 
-        $('input[name^="name"]', form).hide();
-        $('input[name^="title"]', form).hide();
-        $('textarea[name^="description"]', form).hide();
-
-        $('input[name="name[' + language_id + ']"]', form).show();
-        $('input[name="title[' + language_id + ']"]', form).show();
-        $('textarea[name="description[' + language_id + ']"]', form).show();
+				    form.find('input[name="name"]').val(json.name);
+				    form.find('input[name="title"]').val(json.title);
+				    form.find('textarea[name="description"]').val(json.description);
+			    }
+		    });
+	    }
     });
     var loadedItems;
 
@@ -377,24 +355,20 @@ jQuery(function ($) {
         $(form).attr('action', urls.update_resource + '&resource_id=' + json.resource_id);
         $('select[name="language_id"]', form).val($('#language_id').val());
 
-        $.each(json.name, function (index, item) {
-            form.find('input[name="name[' + index + ']"]').val(item);
-        });
-        $.each(json.title, function (index, item) {
-            form.find('input[name="title[' + index + ']"]').val(item);
-        });
-        $.each(json.description, function (index, item) {
-            form.find('textarea[name="description[' + index + ']"]').val(item);
-        });
+
+        form.find('input[name="resource_id"]').val(json.resource_id);
+        form.find('input[name="name"]').val(json.name);
+        form.find('input[name="title"]').val(json.title);
+        form.find('textarea[name="description"]').val(json.description);
 
         if (json.resource_code) {
             $('textarea[name="resource_code"]', form).val(json.resource_code);
-            $('textarea[name="resource_code"]', form).parent().parent().show();
+            $('textarea[name="resource_code"]', form).parents('tr').show();
         } else {
-            $('textarea[name="resource_code"]', form).parent().parent().hide();
+            $('textarea[name="resource_code"]', form).parents('tr').hide();
         }
 
-        var src = '<img src="' + json.thumbnail_url + '" title="' + json.name[Object.keys(json.name)[0]] + '" />';
+        var src = '<img src="' + json.thumbnail_url + '" title="' + json.name + '" />';
         if (type == 'image' && json.resource_code) {
             src = json.thumbnail_url;
         }
@@ -625,10 +599,10 @@ jQuery(function ($) {
         $('#resource_details a.close').click();
         return false;
     });
-
+	$('#multiactions select#actions').aform({triggerChanged: false});
     $('#perform_action').click(function () {
         var url = '';
-        switch ($('#multiactions select').val()) {
+        switch ($('#multiactions select#actions').val()) {
             case 'map':
                 $.ajax({
                     url:urls.map,
@@ -637,6 +611,7 @@ jQuery(function ($) {
                     dataType:'json',
                     success:function (json) {
                         $('#object').click();
+	                    $('#multiactions select#actions').val('').change();
                     }
                 });
                 break;
@@ -648,6 +623,7 @@ jQuery(function ($) {
                     dataType:'json',
                     success:function (json) {
                         loadResources();
+	                    $('#multiactions select#actions').val('').change();
                     }
                 });
                 break;
@@ -688,6 +664,7 @@ jQuery(function ($) {
                     });
                     $("#confirm_dialog").dialog('open');
                 }
+	            $('#multiactions select#actions').val('').change();
                 break;
             default:
                 return;
@@ -705,20 +682,12 @@ jQuery(function ($) {
         if (code.length && !$(code).val()) {
             error_required_data = true;
         }
-        form.find('input[name^="name"]').each(function (index, item) {
-            if (!$(item).val()) {
+	    if(!form.find('input[name="name"]').val() ) {
                 error_required_data = true;
-                required_lang_id = $(item).attr('name').slice(5, -1);
-            }
-        });
-        if (error_required_data) {
-            if (required_lang_id) {
-                form.find('select')
-                    .val(required_lang_id)
-                    .change();
-            }
-            form.find(".message").html(errors.error_required_data + ' - ' + form.find('option:selected').text()).addClass('error');
+        }
 
+        if (error_required_data) {
+            form.find(".message").html(errors.error_required_data + ' - ' + form.find('option:selected').text()).addClass('error');
             return false;
         }
 
@@ -734,19 +703,6 @@ jQuery(function ($) {
                 hideLoading('small');
             }
         });
-		<?php if($resource_id){ ?>
-			$.ajax({
-						url:urls.get_resource,
-						type:'GET',
-						data:{resource_id: <?php echo $resource_id ?>, resource_objects:1, object_name:object_name, type:type},
-						dataType:'json',
-						success:loadEditForm
-			});
-
-			$('table.resource-details select[name="language_id"]').val(language_id).change();
-
-		<?php } ?>
-
 
         return false;
     });
@@ -794,7 +750,7 @@ jQuery(function ($) {
     });
 
     $('#done_resource').click(function () {
-    <?php if ($mode == 'url') : ?>
+    <?php if ($mode == 'url'){ ?>
         var item = null;
 
         if ($('#resource_details').is(':visible')) {
@@ -819,7 +775,7 @@ jQuery(function ($) {
             }
         }
 
-        <?php endif; ?>
+        <?php } ?>
         parent.$('#dialog').dialog('close');
         parent.$('#dialog').remove();
 
@@ -903,9 +859,9 @@ jQuery(function ($) {
         return false;
     });
 
-<?php if ($add) : ?>
+<?php if ($add){ ?>
     $('#add_resource').click();
-    <?php elseif ($update) : ?>
+    <?php }elseif ($update){ ?>
     showLoading();
     $.ajax({
         url:urls.get_resource,
@@ -914,9 +870,9 @@ jQuery(function ($) {
         dataType:'json',
         success:loadEditForm
     });
-    <?php else : ?>
+    <?php }else{ ?>
     loadResources();
-    <?php endif; ?>
+    <?php } ?>
 });
 
 $("#language_id").ready(function () {

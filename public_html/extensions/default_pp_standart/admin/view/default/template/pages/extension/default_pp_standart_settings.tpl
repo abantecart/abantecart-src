@@ -245,7 +245,7 @@
 				</tr>
 				<tr>
 					<td><?php echo $text_custom_logo_preview; ?></td>
-					<td><img src="<?php echo $custom_logo; ?>" /></td>
+					<td><img id="custom_logo_preview" src="<?php echo $custom_logo; ?>" /></td>
 				</tr>
 				<tr>
 					<td><?php echo $settings['default_pp_standart_cartbordercolor']['note']; ?></td>
@@ -373,6 +373,17 @@
 }
 
 $(function(){
+
+	$('#default_pp_standart_logoimg').change(function(){
+		$('#custom_logo_preview').attr('src', $(this).val());
+		$('#custom_logo_preview')
+		            .load()
+		            .error(function(){
+		        		alert('resource not found');
+		        });
+		return false;
+	});
+
 	$("input, textarea, select, .scrollbox", '.contentBox #editSettings').not('.no-save').aform({
 		triggerChanged: true,
         buttons: {

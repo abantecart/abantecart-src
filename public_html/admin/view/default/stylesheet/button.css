@@ -73,7 +73,8 @@ button.btn_standard {
 	overflow:visible;
 	cursor: pointer;
 }
-.btn_standard { display:inline-block; }
+.btn_standard { display:inline-block;}
+.btn_standard:hover{  text-decoration: none;}
 .btn_standard span, .button {
 	display:block;
 	white-space: nowrap;
@@ -86,6 +87,7 @@ button.btn_standard {
     text-align: center;
 	cursor: pointer;
 }
+
 .btn_standard span span, .button span {
 	font:normal 12px Arial, Helvetica, sans-serif;
     height: 14px;

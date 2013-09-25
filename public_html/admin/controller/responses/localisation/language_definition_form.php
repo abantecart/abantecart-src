@@ -167,14 +167,16 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 		));
 
 		$this->data[ 'form' ][ 'fields' ][ 'section' ] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
+			'type' => 'hidden',
 			'name' => 'section',
-			'options' => array(
-				1 => $this->language->get('text_admin'),
-				0 => $this->language->get('text_storefront'),
-			),
-			'value' => $this->data[ 'section' ],
+			'value' => $this->data[ 'section' ]
+		)).
+		$form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'section_text',
+			'value' => ($this->data[ 'section' ]? $this->language->get('text_admin') : $this->language->get('text_storefront')),
 			'required' => true,
+			'attr'=>' readonly="true" '
 		));
 		$this->data[ 'form' ][ 'fields' ][ 'block' ] = $form->getFieldHtml(array(
 			'type' => 'input',

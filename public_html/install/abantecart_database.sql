@@ -3,6 +3,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- DDL for table `address`
 --
+-- NOTE: If update table keep in mind ac_addresses_enc
+--
 DROP TABLE IF EXISTS `ac_addresses`;
 CREATE TABLE `ac_addresses` (
   `address_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -399,6 +401,9 @@ INSERT INTO `ac_currencies` (`currency_id`, `title`, `code`, `symbol_left`, `sym
 --
 -- DDL for table `customers`
 --
+-- NOTE: If update table keep in mind ac_customers_enc
+--
+
 DROP TABLE IF EXISTS `ac_customers`;
 CREATE TABLE `ac_customers` (
   `customer_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -437,9 +442,10 @@ CREATE TABLE `ac_customer_groups` (
 -- Dumping data for table `customer_groups`
 --
 
-INSERT INTO `ac_customer_groups` (`customer_group_id`, `name`) VALUES
-(8, 'Default'),
-(6, 'Wholesalers');
+INSERT INTO `ac_customer_groups` ( `name`) VALUES
+('Default'),
+('Wholesalers'),
+('Newsletter Subscribers');
 
 
 --
@@ -715,6 +721,8 @@ CREATE TABLE `ac_manufacturers_to_stores` (
 --
 -- DDL for table `orders`
 --
+-- NOTE: If update table keep in mind ac_orders_enc
+--
 DROP TABLE IF EXISTS `ac_orders`;
 CREATE TABLE `ac_orders` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -989,6 +997,7 @@ CREATE TABLE `ac_product_options` (
   `status` int(1) NOT NULL DEFAULT '1',
   `element_type` char(1) NOT NULL DEFAULT 'I',
   `required` smallint(1) NOT NULL default '0',
+  `regexp_pattern` varchar(255) NOT NULL default '',
   PRIMARY KEY (`product_option_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
@@ -1003,6 +1012,7 @@ CREATE TABLE `ac_product_option_descriptions` (
   `product_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   `option_placeholder` varchar(255) COLLATE utf8_bin DEFAULT '' COMMENT 'translatable',
+  `error_text` 	varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_option_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -1203,7 +1213,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_tax_store',1),
 ('checkout','config_tax_customer',0),
 ('checkout','config_customer_price',1),
-('checkout','config_customer_group_id',8),
+('checkout','config_customer_group_id',1),
 ('checkout','config_customer_approval',0),
 ('checkout','prevent_email_as_login',1),
 ('checkout','config_guest_checkout',1),
@@ -5612,7 +5622,8 @@ INSERT INTO `ac_pages` (`page_id`, `parent_page_id`, `controller`, `key_param`, 
 (3, 0, 'pages/checkout', '', '', now() ),
 (4, 0, 'pages/account/login', '', '', now() ),
 (5, 0, 'pages/product/product', '', '', now()),
-(10, 0, 'pages/index/maintenance', '', '', now() );
+(10, 0, 'pages/index/maintenance', '', '', now() ),
+(11, 0, 'pages/account', '', '', now() );
 
 
 --
@@ -5641,13 +5652,15 @@ INSERT INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `
 (4, 1, 'Login Page', '', '', '', '', '', now() ),
 (5, 1, 'Default Product Page', '', '', '', '', '', now() ),
 (10, 1, 'Maintenance Page', '', '', '', '', '', now() ),
+(11, 1, 'Customer Account Pages', '', '', '', '', '', now() ),
 
 (1, 9, 'Las demás páginas', '', '', '', '', '', now() ),
 (2, 9, 'Página de inicio', '', '', '', '', '', now() ),
 (3, 9, 'Pedido Páginas', '', '', '', '', '', now() ),
 (4, 9, 'La página de acceso', '', '', '', '', '', now() ),
 (5, 9, 'Por defecto la Hoja de Producto', '', '', '', '', '', now() ),
-(10, 9, 'Mantenimiento de la página.', '', '', '', '', '', now() );
+(10, 9, 'Mantenimiento de la página.', '', '', '', '', '', now() ),
+(11, 9, 'Cuenta Cliente Páginas', '', '', '', '', '', now() );
 
 --
 -- DDL for table `contents`
@@ -5752,7 +5765,8 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `created`) VA
 (25, 'newsletter_signup', 'blocks/newsletter_signup', now() ), 
 (26, 'search', 'blocks/search', now() ),
 (27, 'menu', 'blocks/menu', now() ),
-(28, 'breadcrumbs', 'blocks/breadcrumbs', now() );
+(28, 'breadcrumbs', 'blocks/breadcrumbs', now() ), 
+(29, 'account', 'blocks/account', now());
 
 --
 -- DDL for table `ac_custom_blocks`
@@ -5892,7 +5906,9 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (27, 8, 'blocks/menu_bottom.tpl', now() ),
 (27, 3, 'blocks/menu.tpl', now() ),
 (27, 6, 'blocks/menu.tpl', now() ),
-(28, 2, 'blocks/breadcrumbs.tpl', now() )
+(28, 2, 'blocks/breadcrumbs.tpl', now() ),
+(29, 3, 'blocks/account.tpl', now() ),
+(29, 6, 'blocks/account.tpl', now() )
 ;
 
 --
@@ -5925,7 +5941,8 @@ INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_nam
 (14, 'default_html5', 1, 'Default Product Page',  now()),
 (15, 'default_html5', 1, 'Checkout Pages', now()),
 (16, 'default_html5', 1, 'Product Listing Page', now()),
-(17, 'default_html5', 1, 'Maintanance Page', now())
+(17, 'default_html5', 1, 'Maintanance Page', now()),
+(18, 'default_html5', 1, 'Customer Account Pages', now())
 ;
 
 --
@@ -5949,7 +5966,8 @@ INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
 (13, 4),
 (14, 5),
 (15, 3),
-(17, 10)
+(17, 10),
+(18, 11)
 ;
 
 
@@ -6055,7 +6073,6 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (81, 7, 2, 0, 0, 20, 1, now() ),
 (82, 7, 3, 0, 0, 30, 0, now() ),
 (83, 7, 4, 0, 0, 40, 1, now() ),
-(84, 7, 5, 0, 0, 50, 1, now() ),
 (87, 7, 8, 0, 0, 80, 1, now() ),
 (91, 7, 13, 0, 77, 10, 1, now() ),
 (92, 7, 14, 0, 77, 20, 1, now() ),
@@ -6067,179 +6084,212 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 
 -- DEFAULT HTML5 template's layouts
 INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`,`updated`) VALUES
-	(1839,11,25,0,337,40,1,NOW(),NOW()),
-	(338,11,9,0,3,10,1,NOW(),NOW()),
-	(337,11,8,0,0,80,1,NOW(),NOW()),
-	(336,11,7,0,0,70,1,NOW(),NOW()),
-	(335,11,6,0,0,60,1,NOW(),NOW()),
-	(334,11,5,0,0,50,1,NOW(),NOW()),
-	(333,11,4,0,0,40,1,NOW(),NOW()),
-	(332,11,3,0,0,30,1,NOW(),NOW()),
-	(331,11,2,0,0,20,1,NOW(),NOW()),
-	(1836,11,17,13,337,10,1,NOW(),NOW()),
-	(1831,11,14,0,330,50,1,NOW(),NOW()),
-	(1833,11,15,0,330,70,1,NOW(),NOW()),
-	(339,11,10,0,3,20,1,NOW(),NOW()),
-	(340,11,11,0,3,30,1,NOW(),NOW()),
-	(341,11,9,0,6,30,1,NOW(),NOW()),
-	(1841,11,17,15,337,60,1,NOW(),NOW()),
-	(1840,11,11,0,337,50,1,NOW(),NOW()),
-	(1838,11,17,16,337,30,1,NOW(),NOW()),
-	(1837,11,17,14,337,20,1,NOW(),NOW()),
-	(1832,11,13,0,330,60,1,NOW(),NOW()),
-	(348,11,24,0,8,20,1,NOW(),NOW()),
-	(347,11,21,0,8,10,1,NOW(),NOW()),
-	(346,11,15,0,1,30,1,NOW(),NOW()),
-	(345,11,14,0,1,20,1,NOW(),NOW()),
-	(344,11,13,0,1,10,1,NOW(),NOW()),
-	(343,11,11,0,6,20,1,NOW(),NOW()),
-	(342,11,10,0,6,10,1,NOW(),NOW()),
-	(330,11,1,0,0,10,1,NOW(),NOW()),
-	(1835,11,9,0,331,10,1,NOW(),NOW()),
-	(1842,11,24,0,337,70,1,NOW(),NOW()),
-	(1843,11,21,0,337,80,1,NOW(),NOW()),
-	(1830,11,26,0,330,40,1,NOW(),NOW()),
-	(1829,11,27,0,330,30,1,NOW(),NOW()),
-	(1834,11,17,15,330,80,1,NOW(),NOW()),
-	(1782,12,21,0,356,80,1,NOW(),NOW()),
-	(354,12,6,0,0,60,0,NOW(),NOW()),
-	(352,12,4,0,0,40,1,NOW(),NOW()),
-	(351,12,3,0,0,30,0,NOW(),NOW()),
-	(350,12,2,0,0,20,1,NOW(),NOW()),
-	(353,12,5,0,0,50,1,NOW(),NOW()),
-	(1780,12,17,15,356,60,1,NOW(),NOW()),
-	(1781,12,24,0,356,70,1,NOW(),NOW()),
-	(355,12,7,0,0,70,1,NOW(),NOW()),
-	(356,12,8,0,0,80,1,NOW(),NOW()),
-	(368,12,24,0,23,20,1,NOW(),NOW()),
-	(367,12,21,0,23,10,1,NOW(),NOW()),
-	(366,12,17,1,19,10,1,NOW(),NOW()),
-	(365,12,14,0,16,20,1,NOW(),NOW()),
-	(364,12,13,0,16,10,1,NOW(),NOW()),
-	(363,12,15,0,16,30,1,NOW(),NOW()),
-	(362,12,19,0,21,20,1,NOW(),NOW()),
-	(361,12,18,0,21,10,1,NOW(),NOW()),
-	(360,12,12,0,20,10,1,NOW(),NOW()),
-	(359,12,11,0,18,30,1,NOW(),NOW()),
-	(358,12,10,0,18,20,1,NOW(),NOW()),
-	(357,12,9,0,18,10,1,NOW(),NOW()),
-	(349,12,1,0,0,10,1,NOW(),NOW()),
-	(1774,12,20,12,353,60,1,NOW(),NOW()),
-	(1775,12,17,13,356,10,1,NOW(),NOW()),
-	(1763,12,14,0,349,60,1,NOW(),NOW()),
-	(1764,12,15,0,349,70,1,NOW(),NOW()),
-	(1765,12,17,15,349,80,1,NOW(),NOW()),
-	(1761,12,26,0,349,40,1,NOW(),NOW()),
-	(1776,12,17,14,356,20,1,NOW(),NOW()),
-	(1767,12,23,9,350,20,1,NOW(),NOW()),
-	(1768,12,17,10,352,10,1,NOW(),NOW()),
-	(1762,12,13,0,349,50,1,NOW(),NOW()),
-	(1770,12,12,0,353,20,1,NOW(),NOW()),
-	(1771,12,18,0,353,30,1,NOW(),NOW()),
-	(1772,12,22,0,353,40,1,NOW(),NOW()),
-	(1773,12,23,11,353,50,1,NOW(),NOW()),
-	(1766,12,9,0,350,10,1,NOW(),NOW()),
-	(1779,12,11,0,356,50,1,NOW(),NOW()),
-	(1777,12,17,16,356,30,1,NOW(),NOW()),
-	(1769,12,19,0,353,10,1,NOW(),NOW()),
-	(1778,12,25,0,356,40,1,NOW(),NOW()),
-	(1760,12,27,0,349,30,1,NOW(),NOW()),
-	(1799,13,27,0,378,30,1,NOW(),NOW()),
-	(1810,13,11,0,379,50,1,NOW(),NOW()),
-	(1805,13,9,0,375,10,1,NOW(),NOW()),
-	(1801,13,13,0,378,50,1,NOW(),NOW()),
-	(1813,13,21,0,379,80,1,NOW(),NOW()),
-	(1809,13,25,0,379,40,1,NOW(),NOW()),
-	(1808,13,17,16,379,30,1,NOW(),NOW()),
-	(1811,13,17,15,379,60,1,NOW(),NOW()),
-	(1807,13,17,14,379,20,1,NOW(),NOW()),
-	(1806,13,17,13,379,10,1,NOW(),NOW()),
-	(1800,13,26,0,378,40,1,NOW(),NOW()),
-	(1812,13,24,0,379,70,1,NOW(),NOW()),
-	(369,13,13,0,55,10,1,NOW(),NOW()),
-	(1802,13,14,0,378,60,1,NOW(),NOW()),
-	(1803,13,15,0,378,70,1,NOW(),NOW()),
-	(1804,13,17,15,378,80,1,NOW(),NOW()),
-	(381,13,24,0,65,20,1,NOW(),NOW()),
-	(380,13,21,0,65,10,1,NOW(),NOW()),
-	(379,13,8,0,0,80,1,NOW(),NOW()),
-	(378,13,1,0,0,10,1,NOW(),NOW()),
-	(377,13,14,0,55,20,1,NOW(),NOW()),
-	(376,13,15,0,55,30,1,NOW(),NOW()),
-	(370,13,7,0,0,70,1,NOW(),NOW()),
-	(371,13,6,0,0,60,0,NOW(),NOW()),
-	(372,13,5,0,0,50,1,NOW(),NOW()),
-	(373,13,4,0,0,40,1,NOW(),NOW()),
-	(374,13,3,0,0,30,0,NOW(),NOW()),
-	(375,13,2,0,0,20,1,NOW(),NOW()),
-	(1795,14,11,0,392,50,1,NOW(),NOW()),
-	(1794,14,25,0,392,40,1,NOW(),NOW()),
-	(1793,14,17,16,392,30,1,NOW(),NOW()),
-	(1790,14,12,0,387,10,1,NOW(),NOW()),
-	(1792,14,17,14,392,20,1,NOW(),NOW()),
-	(1796,14,17,15,392,60,1,NOW(),NOW()),
-	(1783,14,27,0,391,30,1,NOW(),NOW()),
-	(1784,14,26,0,391,40,1,NOW(),NOW()),
-	(1791,14,17,13,392,10,1,NOW(),NOW()),
-	(1785,14,13,0,391,50,1,NOW(),NOW()),
-	(1786,14,14,0,391,60,1,NOW(),NOW()),
-	(1789,14,9,0,388,10,1,NOW(),NOW()),
-	(1788,14,17,15,391,80,1,NOW(),NOW()),
-	(1787,14,15,0,391,70,1,NOW(),NOW()),
-	(1797,14,24,0,392,70,1,NOW(),NOW()),
-	(1798,14,21,0,392,80,1,NOW(),NOW()),
-	(388,14,2,0,0,20,1,NOW(),NOW()),
-	(386,14,4,0,0,40,1,NOW(),NOW()),
-	(387,14,3,0,0,30,1,NOW(),NOW()),
-	(384,14,6,0,0,60,0,NOW(),NOW()),
-	(383,14,7,0,0,70,1,NOW(),NOW()),
-	(389,14,15,0,75,30,1,NOW(),NOW()),
-	(390,14,14,0,75,20,1,NOW(),NOW()),
-	(382,14,13,0,75,10,1,NOW(),NOW()),
-	(391,14,1,0,0,10,1,NOW(),NOW()),
-	(392,14,8,0,0,80,1,NOW(),NOW()),
-	(393,14,21,0,76,10,1,NOW(),NOW()),
-	(394,14,24,0,76,20,1,NOW(),NOW()),
-	(385,14,5,0,0,50,1,NOW(),NOW()),
-	(1827,15,24,0,403,70,1,NOW(),NOW()),
-	(1818,15,15,0,395,70,1,NOW(),NOW()),
-	(1817,15,14,0,395,60,1,NOW(),NOW()),
-	(1816,15,13,0,395,50,1,NOW(),NOW()),
-	(1828,15,21,0,403,80,1,NOW(),NOW()),
-	(1815,15,26,0,395,40,1,NOW(),NOW()),
-	(1814,15,27,0,395,30,1,NOW(),NOW()),
-	(1820,15,9,0,399,10,1,NOW(),NOW()),
-	(1819,15,17,15,395,80,1,NOW(),NOW()),
-	(1822,15,17,14,403,20,1,NOW(),NOW()),
-	(1825,15,11,0,403,50,1,NOW(),NOW()),
-	(402,15,5,0,0,50,1,NOW(),NOW()),
-	(401,15,4,0,0,40,1,NOW(),NOW()),
-	(400,15,3,0,0,30,0,NOW(),NOW()),
-	(399,15,2,0,0,20,1,NOW(),NOW()),
-	(398,15,5,0,0,50,1,NOW(),NOW()),
-	(397,15,6,0,0,60,1,NOW(),NOW()),
-	(396,15,7,0,0,70,1,NOW(),NOW()),
-	(1821,15,17,13,403,10,1,NOW(),NOW()),
-	(395,15,1,0,0,10,1,NOW(),NOW()),
-	(1824,15,25,0,403,40,1,NOW(),NOW()),
-	(1823,15,17,16,403,30,1,NOW(),NOW()),
-	(403,15,8,0,0,80,1,NOW(),NOW()),
-	(404,15,13,0,77,10,1,NOW(),NOW()),
-	(405,15,14,0,77,20,1,NOW(),NOW()),
-	(406,15,15,0,77,30,1,NOW(),NOW()),
-	(409,15,24,0,87,20,1,NOW(),NOW()),
-	(1826,15,17,15,403,60,1,NOW(),NOW()),
-	(408,15,21,0,87,10,1,NOW(),NOW()),
-	(407,15,16,0,79,10,1,NOW(),NOW()),
-	(942,17,5,0,0,50,1,NOW(),NOW()),
-	(943,17,6,0,0,60,1,NOW(),NOW()),
-	(944,17,7,0,0,70,1,NOW(),NOW()),
-	(945,17,8,0,0,80,1,NOW(),NOW()),
-	(940,17,3,0,0,30,1,NOW(),NOW()),
-	(939,17,2,0,0,20,1,NOW(),NOW()),
-	(938,17,1,0,0,10,1,NOW(),NOW()),
-	(941,17,4,0,0,40,1,NOW(),NOW())
-;
+(1839,11,25,0,337,40,1,NOW(),NOW()),
+(338,11,9,0,3,10,1,NOW(),NOW()),
+(337,11,8,0,0,80,1,NOW(),NOW()),
+(336,11,7,0,0,70,1,NOW(),NOW()),
+(335,11,6,0,0,60,1,NOW(),NOW()),
+(334,11,5,0,0,50,1,NOW(),NOW()),
+(333,11,4,0,0,40,1,NOW(),NOW()),
+(332,11,3,0,0,30,1,NOW(),NOW()),
+(331,11,2,0,0,20,1,NOW(),NOW()),
+(1836,11,17,13,337,10,1,NOW(),NOW()),
+(1831,11,14,0,330,50,1,NOW(),NOW()),
+(1833,11,15,0,330,70,1,NOW(),NOW()),
+(339,11,10,0,3,20,1,NOW(),NOW()),
+(340,11,11,0,3,30,1,NOW(),NOW()),
+(341,11,9,0,6,30,1,NOW(),NOW()),
+(1841,11,17,15,337,60,1,NOW(),NOW()),
+(1840,11,11,0,337,50,1,NOW(),NOW()),
+(1838,11,17,16,337,30,1,NOW(),NOW()),
+(1837,11,17,14,337,20,1,NOW(),NOW()),
+(1832,11,13,0,330,60,1,NOW(),NOW()),
+(348,11,24,0,8,20,1,NOW(),NOW()),
+(347,11,21,0,8,10,1,NOW(),NOW()),
+(346,11,15,0,1,30,1,NOW(),NOW()),
+(345,11,14,0,1,20,1,NOW(),NOW()),
+(344,11,13,0,1,10,1,NOW(),NOW()),
+(343,11,11,0,6,20,1,NOW(),NOW()),
+(342,11,10,0,6,10,1,NOW(),NOW()),
+(330,11,1,0,0,10,1,NOW(),NOW()),
+(1835,11,9,0,331,10,1,NOW(),NOW()),
+(1842,11,24,0,337,70,1,NOW(),NOW()),
+(1843,11,21,0,337,80,1,NOW(),NOW()),
+(1830,11,26,0,330,40,1,NOW(),NOW()),
+(1829,11,27,0,330,30,1,NOW(),NOW()),
+(1834,11,17,15,330,80,1,NOW(),NOW()),
+(1782,12,21,0,356,80,1,NOW(),NOW()),
+(354,12,6,0,0,60,0,NOW(),NOW()),
+(352,12,4,0,0,40,1,NOW(),NOW()),
+(351,12,3,0,0,30,0,NOW(),NOW()),
+(350,12,2,0,0,20,1,NOW(),NOW()),
+(353,12,5,0,0,50,1,NOW(),NOW()),
+(1780,12,17,15,356,60,1,NOW(),NOW()),
+(1781,12,24,0,356,70,1,NOW(),NOW()),
+(355,12,7,0,0,70,1,NOW(),NOW()),
+(356,12,8,0,0,80,1,NOW(),NOW()),
+(368,12,24,0,23,20,1,NOW(),NOW()),
+(367,12,21,0,23,10,1,NOW(),NOW()),
+(366,12,17,1,19,10,1,NOW(),NOW()),
+(365,12,14,0,16,20,1,NOW(),NOW()),
+(364,12,13,0,16,10,1,NOW(),NOW()),
+(363,12,15,0,16,30,1,NOW(),NOW()),
+(362,12,19,0,21,20,1,NOW(),NOW()),
+(361,12,18,0,21,10,1,NOW(),NOW()),
+(360,12,12,0,20,10,1,NOW(),NOW()),
+(359,12,11,0,18,30,1,NOW(),NOW()),
+(358,12,10,0,18,20,1,NOW(),NOW()),
+(357,12,9,0,18,10,1,NOW(),NOW()),
+(349,12,1,0,0,10,1,NOW(),NOW()),
+(1774,12,20,12,353,60,1,NOW(),NOW()),
+(1775,12,17,13,356,10,1,NOW(),NOW()),
+(1763,12,14,0,349,60,1,NOW(),NOW()),
+(1764,12,15,0,349,70,1,NOW(),NOW()),
+(1765,12,17,15,349,80,1,NOW(),NOW()),
+(1761,12,26,0,349,40,1,NOW(),NOW()),
+(1776,12,17,14,356,20,1,NOW(),NOW()),
+(1767,12,23,9,350,20,1,NOW(),NOW()),
+(1768,12,17,10,352,10,1,NOW(),NOW()),
+(1762,12,13,0,349,50,1,NOW(),NOW()),
+(1770,12,12,0,353,20,1,NOW(),NOW()),
+(1771,12,18,0,353,30,1,NOW(),NOW()),
+(1772,12,22,0,353,40,1,NOW(),NOW()),
+(1773,12,23,11,353,50,1,NOW(),NOW()),
+(1766,12,9,0,350,10,1,NOW(),NOW()),
+(1779,12,11,0,356,50,1,NOW(),NOW()),
+(1777,12,17,16,356,30,1,NOW(),NOW()),
+(1769,12,19,0,353,10,1,NOW(),NOW()),
+(1778,12,25,0,356,40,1,NOW(),NOW()),
+(1760,12,27,0,349,30,1,NOW(),NOW()),
+(1799,13,27,0,378,30,1,NOW(),NOW()),
+(1810,13,11,0,379,50,1,NOW(),NOW()),
+(1805,13,9,0,375,10,1,NOW(),NOW()),
+(1801,13,13,0,378,50,1,NOW(),NOW()),
+(1813,13,21,0,379,80,1,NOW(),NOW()),
+(1809,13,25,0,379,40,1,NOW(),NOW()),
+(1808,13,17,16,379,30,1,NOW(),NOW()),
+(1811,13,17,15,379,60,1,NOW(),NOW()),
+(1807,13,17,14,379,20,1,NOW(),NOW()),
+(1806,13,17,13,379,10,1,NOW(),NOW()),
+(1800,13,26,0,378,40,1,NOW(),NOW()),
+(1812,13,24,0,379,70,1,NOW(),NOW()),
+(369,13,13,0,55,10,1,NOW(),NOW()),
+(1802,13,14,0,378,60,1,NOW(),NOW()),
+(1803,13,15,0,378,70,1,NOW(),NOW()),
+(1804,13,17,15,378,80,1,NOW(),NOW()),
+(381,13,24,0,65,20,1,NOW(),NOW()),
+(380,13,21,0,65,10,1,NOW(),NOW()),
+(379,13,8,0,0,80,1,NOW(),NOW()),
+(378,13,1,0,0,10,1,NOW(),NOW()),
+(377,13,14,0,55,20,1,NOW(),NOW()),
+(376,13,15,0,55,30,1,NOW(),NOW()),
+(370,13,7,0,0,70,1,NOW(),NOW()),
+(371,13,6,0,0,60,0,NOW(),NOW()),
+(372,13,5,0,0,50,1,NOW(),NOW()),
+(373,13,4,0,0,40,1,NOW(),NOW()),
+(374,13,3,0,0,30,0,NOW(),NOW()),
+(375,13,2,0,0,20,1,NOW(),NOW()),
+(1795,14,11,0,392,50,1,NOW(),NOW()),
+(1794,14,25,0,392,40,1,NOW(),NOW()),
+(1793,14,17,16,392,30,1,NOW(),NOW()),
+(1790,14,12,0,387,10,1,NOW(),NOW()),
+(1792,14,17,14,392,20,1,NOW(),NOW()),
+(1796,14,17,15,392,60,1,NOW(),NOW()),
+(1783,14,27,0,391,30,1,NOW(),NOW()),
+(1784,14,26,0,391,40,1,NOW(),NOW()),
+(1791,14,17,13,392,10,1,NOW(),NOW()),
+(1785,14,13,0,391,50,1,NOW(),NOW()),
+(1786,14,14,0,391,60,1,NOW(),NOW()),
+(1789,14,9,0,388,10,1,NOW(),NOW()),
+(1788,14,17,15,391,80,1,NOW(),NOW()),
+(1787,14,15,0,391,70,1,NOW(),NOW()),
+(1797,14,24,0,392,70,1,NOW(),NOW()),
+(1798,14,21,0,392,80,1,NOW(),NOW()),
+(388,14,2,0,0,20,1,NOW(),NOW()),
+(386,14,4,0,0,40,1,NOW(),NOW()),
+(387,14,3,0,0,30,1,NOW(),NOW()),
+(384,14,6,0,0,60,0,NOW(),NOW()),
+(383,14,7,0,0,70,1,NOW(),NOW()),
+(389,14,15,0,75,30,1,NOW(),NOW()),
+(390,14,14,0,75,20,1,NOW(),NOW()),
+(382,14,13,0,75,10,1,NOW(),NOW()),
+(391,14,1,0,0,10,1,NOW(),NOW()),
+(392,14,8,0,0,80,1,NOW(),NOW()),
+(393,14,21,0,76,10,1,NOW(),NOW()),
+(394,14,24,0,76,20,1,NOW(),NOW()),
+(385,14,5,0,0,50,1,NOW(),NOW()),
+(1827,15,24,0,403,70,1,NOW(),NOW()),
+(1818,15,15,0,395,70,1,NOW(),NOW()),
+(1817,15,14,0,395,60,1,NOW(),NOW()),
+(1816,15,13,0,395,50,1,NOW(),NOW()),
+(1828,15,21,0,403,80,1,NOW(),NOW()),
+(1815,15,26,0,395,40,1,NOW(),NOW()),
+(1814,15,27,0,395,30,1,NOW(),NOW()),
+(1820,15,9,0,399,10,1,NOW(),NOW()),
+(1819,15,17,15,395,80,1,NOW(),NOW()),
+(1822,15,17,14,403,20,1,NOW(),NOW()),
+(1825,15,11,0,403,50,1,NOW(),NOW()),
+(402,15,5,0,0,50,1,NOW(),NOW()),
+(401,15,4,0,0,40,1,NOW(),NOW()),
+(400,15,3,0,0,30,0,NOW(),NOW()),
+(399,15,2,0,0,20,1,NOW(),NOW()),
+(398,15,5,0,0,50,1,NOW(),NOW()),
+(397,15,6,0,0,60,1,NOW(),NOW()),
+(396,15,7,0,0,70,1,NOW(),NOW()),
+(1821,15,17,13,403,10,1,NOW(),NOW()),
+(395,15,1,0,0,10,1,NOW(),NOW()),
+(1824,15,25,0,403,40,1,NOW(),NOW()),
+(1823,15,17,16,403,30,1,NOW(),NOW()),
+(403,15,8,0,0,80,1,NOW(),NOW()),
+(404,15,13,0,77,10,1,NOW(),NOW()),
+(405,15,14,0,77,20,1,NOW(),NOW()),
+(406,15,15,0,77,30,1,NOW(),NOW()),
+(409,15,24,0,87,20,1,NOW(),NOW()),
+(1826,15,17,15,403,60,1,NOW(),NOW()),
+(408,15,21,0,87,10,1,NOW(),NOW()),
+(407,15,16,0,79,10,1,NOW(),NOW()),
+(942,17,5,0,0,50,1,NOW(),NOW()),
+(943,17,6,0,0,60,1,NOW(),NOW()),
+(944,17,7,0,0,70,1,NOW(),NOW()),
+(945,17,8,0,0,80,1,NOW(),NOW()),
+(940,17,3,0,0,30,1,NOW(),NOW()),
+(939,17,2,0,0,20,1,NOW(),NOW()),
+(938,17,1,0,0,10,1,NOW(),NOW()),
+(941,17,4,0,0,40,1,NOW(),NOW());
+
+-- DEFAULT HTML5 template's layouts
+INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`,`updated`) VALUES
+(1900,18,5,0,0,50,1,NOW(),NOW()),
+(1901,18,4,0,0,40,1,NOW(),NOW()),
+(1902,18,3,0,0,30,0,NOW(),NOW()),
+(1903,18,2,0,0,20,1,NOW(),NOW()),
+(1904,18,5,0,0,50,1,NOW(),NOW()),
+(1905,18,6,0,0,60,1,NOW(),NOW()),
+(1906,18,7,0,0,70,1,NOW(),NOW()),
+(1907,18,1,0,0,10,1,NOW(),NOW()),
+(1908,18,8,0,0,80,1,NOW(),NOW()),
+(1909,18,13,0,77,10,1,NOW(),NOW()),
+(1910,18,14,0,77,20,1,NOW(),NOW()),
+(1911,18,15,0,77,30,1,NOW(),NOW()),
+(1912,18,24,0,87,20,1,NOW(),NOW()),
+(1913,18,21,0,87,10,1,NOW(),NOW()),
+(1914,18,16,0,79,10,1,NOW(),NOW()),
+(1920,18,24,0,1908,70,1,NOW(),NOW()),
+(1921,18,15,0,1907,70,1,NOW(),NOW()),
+(1922,18,14,0,1907,60,1,NOW(),NOW()),
+(1923,18,13,0,1907,50,1,NOW(),NOW()),
+(1924,18,21,0,1908,80,1,NOW(),NOW()),
+(1925,18,26,0,1907,40,1,NOW(),NOW()),
+(1926,18,27,0,1907,30,1,NOW(),NOW()),
+(1927,18,9,0,1903,10,1,NOW(),NOW()),
+(1928,18,17,15,1907,80,1,NOW(),NOW()),
+(1929,18,17,14,1908,20,1,NOW(),NOW()),
+(1930,18,11,0,1908,50,1,NOW(),NOW()),
+(1931,18,17,13,1908,10,1,NOW(),NOW()),
+(1932,18,25,0,1908,40,1,NOW(),NOW()),
+(1933,18,17,16,1908,30,1,NOW(),NOW()),
+(1934,18,17,15,1908,60,1,NOW(),NOW()),
+(1935,18,29,0,1905,10,1,NOW(),NOW());
 
 --
 -- DDL for table `forms_pages`
@@ -6945,6 +6995,84 @@ VALUES  (12,'core',131),
 		(12,'core',134),
 		(12,'core',135),
 		(12,'extension',136);
+		
+--		
+--SUBMENU SYSTEM->SETTINGS
+--ITEM_ID		
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(7,'all_settings',191),
+(7,'settings_details',192),
+(7,'settings_general',193),
+(7,'settings_checkout',194),
+(7,'settings_appearance',195),
+(7,'settings_mail',196),
+(7,'settings_api',197),
+(7,'settings_system',198),
+(7,'settings_newstore',199);
+
+--ITEM_TEXT		
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(8,'text_all_settings',191),
+(8,'text_settings_details',192),
+(8,'text_settings_general',193),
+(8,'text_settings_checkout',194),
+(8,'text_settings_appearance',195),
+(8,'text_settings_mail',196),
+(8,'text_settings_api',197),
+(8,'text_settings_system',198),
+(8,'text_settings_newstore',199);
+
+--ITEM_URL
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(9,'setting/setting/all',191),
+(9,'setting/setting/details',192),
+(9,'setting/setting/general',193),
+(9,'setting/setting/checkout',194),
+(9,'setting/setting/appearance',195),
+(9,'setting/setting/mail',196),
+(9,'setting/setting/api',197),
+(9,'setting/setting/system',198),
+(9,'setting/store/insert',199);
+--PARENT_ID		
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(10,'setting',191),
+(10,'setting',192),
+(10,'setting',193),
+(10,'setting',194),
+(10,'setting',195),
+(10,'setting',196),
+(10,'setting',197),
+(10,'setting',198),
+(10,'setting',199);
+--SORT_ORDER		
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
+VALUES
+(11,1,191),
+(11,2,192),
+(11,3,193),
+(11,4,194),
+(11,5,195),
+(11,6,196),
+(11,7,197),
+(11,8,198),
+(11,9,199);
+--ITEM_TYPE	
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(12,'core',191),
+(12,'core',192),
+(12,'core',193),
+(12,'core',194),
+(12,'core',195),
+(12,'core',196),
+(12,'core',197),
+(12,'core',198),
+(12,'core',199);
+		
 --
 --SUBMENU USERS OF SUBMENU SYSTEM 
 --ITEM_ID		
@@ -7248,7 +7376,7 @@ VALUES  (16,NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (17,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (18,'1.1.6','1');
+VALUES  (18,'1.1.7','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (19,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_timestamp`,`row_id`)
@@ -7343,6 +7471,7 @@ CREATE TABLE `ac_global_attributes` (
   `required` 			smallint(1) NOT NULL default '0',
   `settings`			text COLLATE utf8_bin NOT NULL DEFAULT '',
   `status` 				smallint(1) NOT NULL default '0',
+  `regexp_pattern` varchar(255),
   PRIMARY KEY (`attribute_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;	
 
@@ -7352,6 +7481,7 @@ CREATE TABLE `ac_global_attributes_descriptions` (
   `attribute_id` 		int(11) NOT NULL,
   `language_id` 		int(11) NOT NULL,
   `name` 				varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `error_text` 	varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`attribute_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -7396,15 +7526,14 @@ DROP TABLE IF EXISTS `ac_global_attributes_types`;
 CREATE TABLE `ac_global_attributes_types` (
   `attribute_type_id` 	int(11) NOT NULL AUTO_INCREMENT,
   `type_key` 			varchar(64) NOT NULL,
-  `type_name` 			varchar(100) COLLATE utf8_bin NOT NULL,
   `controller` 			varchar(100) NOT NULL,
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   `status` 				smallint(1) NOT NULL default '0',
   PRIMARY KEY (`attribute_type_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;	
 
-INSERT INTO `ac_global_attributes_types` (`attribute_type_id`, `type_key`, `type_name`, `controller`, `sort_order`, `status`) VALUES
-(1, 'product_option', 'Product Option', '', 10, 1);
+INSERT INTO `ac_global_attributes_types` (`attribute_type_id`, `type_key`, `controller`, `sort_order`, `status`) VALUES
+(1, 'product_option', 'responses/catalog/attribute/getProductOptionSubform', 1, 1);
 -- Future support for other attribute types
 --(2, 'product_feature', 'Product Feature', '', 20, 1),
 --(3, 'category_attribute', 'Category Attribute', '', 30, 1),
@@ -7413,6 +7542,22 @@ INSERT INTO `ac_global_attributes_types` (`attribute_type_id`, `type_key`, `type
 --(6, 'customer_attribute', 'Customer Attribute', '', 60, 1),
 --(7, 'manufacturers_attribute', 'Manufacture Attribute', '', 70, 1),
 --(8, 'download_attribute', 'Download Attribute', '', 10, 1);
+
+DROP TABLE IF EXISTS `ac_global_attributes_type_descriptions`;
+CREATE TABLE `ac_global_attributes_type_descriptions` (
+`attribute_type_id` int(11) NOT NULL,
+`language_id` int(11) NOT NULL,
+`type_name` varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+`update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+`create_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+PRIMARY KEY (`attribute_type_id`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='utf8_bin';
+
+INSERT INTO `ac_global_attributes_type_descriptions` (`attribute_type_id`, `language_id`, `type_name`, `create_date`)
+VALUES
+(1, 1, 'Product Option', NOW()),
+(1, 2, 'Opción del Producto', NOW())
+;
 
 --
 -- Product Features and Filters 

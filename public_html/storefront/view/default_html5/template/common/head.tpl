@@ -1,4 +1,5 @@
 <title><?php echo $title; ?></title>
+<meta charset="UTF-8">
 <!--[if IE]>
 	<meta http-equiv="x-ua-compatible" content="IE=Edge" />
 <![endif]-->
@@ -26,8 +27,8 @@
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
 <?php } ?>
 
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300italic,400italic,600,600italic' rel='stylesheet' type='text/css' />
-<link href='http://fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css' />
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300italic,400italic,600,600italic' rel='stylesheet' type='text/css' />
+<link href='//fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css' />
 <link href="<?php echo $this->templateResource('/stylesheet/bootstrap.min.css'); ?>" rel="stylesheet" media="all" />
 <link href="<?php echo $this->templateResource('/stylesheet/bootstrap-responsive.min.css'); ?>" rel="stylesheet" media="screen" />
 <link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" />
@@ -36,13 +37,19 @@
 <link href="<?php echo $this->templateResource('/stylesheet/cloud-zoom.css'); ?>" rel="stylesheet" />
 <link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet" />
 <link href="<?php echo $this->templateResource('/stylesheet/print.css'); ?>" rel="stylesheet" type="text/css" media="print" />
+
+<link href="<?php echo $this->templateResource('/stylesheet/font-awesome.min.css'); ?>" rel="stylesheet" media="all" />
+<!--[if IE 7]>
+	<link href="<?php echo $this->templateResource('/stylesheet/font-awesome-ie7.min.css'); ?>" rel="stylesheet" />
+<![endif]-->
+
 <?php if ( $template_debug_mode ) {  ?>
 <link href="<?php echo $this->templateResource('/stylesheet/template_debug.css'); ?>" rel="stylesheet" />
 <?php } ?>
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script type="text/javascript" src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 <!-- fav -->
 
@@ -66,14 +73,19 @@ if (typeof jQuery == 'undefined') {
 
 <?php if($cart_ajax){ //event for adding product to cart by ajax ?>
 <script type="text/javascript">
-    $('a[href=\\#].productcart').live('click',function(){
+    $('a.productcart').live('click',function(){
         var item = $(this);
-        if(item.attr('id')){
+        //check if href provided for product details access
+        if ( item.attr('href') && item.attr('href') != '#') {
+        	return true;
+        }
+        
+        if(item.attr('data-id')){
             $.ajax({
                     url:'<?php echo $cart_ajax_url; ?>',
                     type:'GET',
                     dataType:'json',
-                    data: {product_id:  item.attr('id') },
+                    data: {product_id:  item.attr('data-id') },
                     success:function (data) {
                     	var alert_msg = '<div class="alert alert-info added_to_cart"> \
                     		<button type="button" class="close" data-dismiss="alert">&times;</button> \

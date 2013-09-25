@@ -234,10 +234,19 @@ class AResourceManager extends AResource {
 
         if ( $result->num_rows ) return null;
 
+		//need to get sort order
+		$sql = "SELECT MAX(sort_order) as sort_order
+				FROM " . DB_PREFIX . "resource_map
+				WHERE object_name = '".$this->db->escape($object_name)."'
+					  AND object_id = '".(int)$object_id."'";
+		$result = $this->db->query($sql);
+		$new_sort_order = $result->row['sort_order']+1;
+
         $sql = "INSERT INTO " . DB_PREFIX . "resource_map
                     SET resource_id = '".(int)$resource_id."',
                         object_name = '".$this->db->escape($object_name)."',
                         object_id = '".(int)$object_id."',
+                        sort_order = '".(int)$new_sort_order."',
                         created = NOW()";
         $this->db->query($sql);
 
@@ -332,12 +341,12 @@ class AResourceManager extends AResource {
         $select = "SELECT rd.*, (SELECT COUNT(resource_id) FROM " . DB_PREFIX . "resource_map rm1 WHERE rm1.resource_id = rd.resource_id) as mapped ";
         $where = " WHERE 1 ";
         $join = " LEFT JOIN " . DB_PREFIX . "resource_descriptions rd ON (rl.resource_id = rd.resource_id) ";
-        $order = "ORDER BY rl.resource_id";
+        $order = " ORDER BY rl.resource_id";
 
         if ( !empty($search_data['object_name']) || !empty($search_data['object_id']) ) {
             $select .= ", rm.sort_order";
             $join .= " LEFT JOIN " . DB_PREFIX . "resource_map rm ON (rl.resource_id = rm.resource_id) ";
-            $order = "ORDER BY rm.sort_order, rl.resource_id";
+            $order = " ORDER BY rm.sort_order, rl.resource_id";
         }
 
         if ( !empty($search_data['keyword']) ) {

@@ -38,8 +38,6 @@ if (!defined('DIR_CORE')) {
 class AConfigManager {
 	protected $registry;
 	public $errors = 0;
-	private $temp = array();
-	private $level = 0;
 	private $groups = array();
 
 	public function __construct() {
@@ -114,6 +112,19 @@ class AConfigManager {
 			'type' => 'input',
 			'name' => 'config_url',
 			'value' => $data['config_url'],
+			'required' => true,
+			'style' => 'large-field',
+		));
+		$fields['ssl'] = $form->getFieldHtml($props[] = array(
+			'type' => 'checkbox',
+			'name' => 'config_ssl',
+			'value' => $data['config_ssl'],
+			'style' => 'btn_switch',
+		));
+		$fields['ssl_url'] = $form->getFieldHtml($props[] = array(
+			'type' => 'input',
+			'name' => 'config_ssl_url',
+			'value' => $data['config_ssl_url'],
 			'required' => true,
 			'style' => 'large-field',
 		));
@@ -436,6 +447,13 @@ class AConfigManager {
 			'value' => $data['config_show_tree_data'],
 			'style' => 'btn_switch',
 		));
+		$fields['google_analytics'] = $form->getFieldHtml($props[] = array(
+			'type' => 'input',
+			'name' => 'config_google_analytics_code',
+			'value' => $data['config_google_analytics_code'],
+			'style' => 'medium-field',
+		));
+
 
 		if (isset($data['one_field'])) {
 			$fields = $this->_filterField($fields, $props, $data['one_field']);
@@ -926,13 +944,7 @@ class AConfigManager {
 	 */
 	private function _build_form_system($form, $data) {
 		$fields = array();
-		//system section 
-		$fields['ssl'] = $form->getFieldHtml($props[] = array(
-			'type' => 'checkbox',
-			'name' => 'config_ssl',
-			'value' => $data['config_ssl'],
-			'style' => 'btn_switch',
-		));
+		//system section
 		$fields['session_ttl'] = $form->getFieldHtml($props[] = array(
 			'type' => 'input',
 			'name' => 'config_session_ttl',
@@ -1061,6 +1073,9 @@ class AConfigManager {
 
 					if ($field_name == 'config_url' && !$field_value) {
 						$error['url'] = $this->language->get('error_url');
+					}
+					if ($field_name == 'config_ssl_url' && !$field_value && $this->request->get['config_ssl']) {
+						$error['ssl_url'] = $this->language->get('error_ssl_url');
 					}
 					if (sizeof($fields) > 1) {
 						if ((strlen(utf8_decode($fields['config_owner'])) < 2) || (strlen(utf8_decode($fields['config_owner'])) > 64)) {

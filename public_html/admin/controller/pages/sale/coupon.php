@@ -84,7 +84,7 @@ class ControllerPagesSaleCoupon extends AController {
             'sortname' => 'name',
             'sortorder' => 'asc',
             'multiselect' => 'true',
-            'columns_search' => false,
+            'columns_search' => true,
             // actions
             'actions' => array(
                 'edit' => array(
@@ -109,12 +109,12 @@ class ControllerPagesSaleCoupon extends AController {
             $this->language->get('column_status'),
         );
         $grid_settings['colModel'] = array(
-            array('name' => 'name', 'index' => 'cd.name', 'width' => 160, 'align' => 'left',),
-            array('name' => 'code', 'index' => 'c.code', 'width' => 80, 'align' => 'left',),
-            array('name' => 'discount', 'index' => 'c.discount', 'width' => 80, 'align' => 'center', 'search' => false),
-            array('name' => 'date_start', 'index' => 'c.date_start', 'width' => 80, 'align' => 'center', 'search' => false),
-            array('name' => 'date_end', 'index' => 'c.date_end', 'width' => 80, 'align' => 'center', 'search' => false),
-            array('name' => 'status', 'index' => 'c.status', 'width' => 120, 'align' => 'center', 'search' => false),
+            array('name' => 'name', 'index' => 'name', 'width' => 160, 'align' => 'left', 'search' => true),
+            array('name' => 'code', 'index' => 'code', 'width' => 80, 'align' => 'left', 'search' => true),
+            array('name' => 'discount', 'index' => 'discount', 'width' => 80, 'align' => 'center', 'search' => false),
+            array('name' => 'date_start', 'index' => 'date_start', 'width' => 80, 'align' => 'center', 'search' => false),
+            array('name' => 'date_end', 'index' => 'date_end', 'width' => 80, 'align' => 'center', 'search' => false),
+            array('name' => 'status', 'index' => 'status', 'width' => 120, 'align' => 'center', 'search' => false),
         );
 
         $statuses = array(

@@ -77,7 +77,7 @@
 
 <?php echo $progressbar_scripts; ?>
 
-<script language="JavaScript">
+<script type="text/javascript">
     var messages = { 3:'Writing configuration file ...',
         4:'Installing Default Language. This might take a moment ... ',
         error:'Sorry, but error occurred during installation:</br>'

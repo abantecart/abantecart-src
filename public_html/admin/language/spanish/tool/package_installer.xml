@@ -86,7 +86,7 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 	<definition>
 		<key>warning_ftp</key>
 		<value>
-			<![CDATA[ Advertencia: El directorio de extensiones no tiene permiso de escritura  (<span id="see_details">ver más detalles</span>)<br> Puede cambiar este derecho de uso o <br> ftp de acceso al servidor para la instalación del paquete (normalmente el proveedor de hosting se envía por correo electrónico).<br> ]]></value>
+			<![CDATA[ Advertencia: Algunas archivo o directorio no tiene permiso de escritura  (<span id="see_details">ver más detalles</span>)<br> Puede cambiar este derecho de uso o <br> ftp de acceso al servidor para la instalación del paquete (normalmente el proveedor de hosting se envía por correo electrónico).<br> ]]></value>
 	</definition>
 	<definition>
 		<key>warning_already_installed</key>

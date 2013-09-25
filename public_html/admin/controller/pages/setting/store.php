@@ -274,6 +274,14 @@ class ControllerPagesSettingStore extends AController {
             'style' => 'btn_switch',
         ));
 
+		$this->data['form']['fields']['general']['ssl_url'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'config_ssl_url',
+			'value' => $store_info['config_ssl_url'],
+			'required' => true,
+			'style' => 'large-field',
+		));
+
         if (!isset($this->request->get['store_id'])) {
             $stores_selectior = array_merge(array('' => ' --- '), $stores);
             $this->data['form']['fields']['general']['clone_store'] = $form->getFieldHtml(array(
@@ -335,5 +343,3 @@ class ControllerPagesSettingStore extends AController {
     }
 
 }
-
-?>

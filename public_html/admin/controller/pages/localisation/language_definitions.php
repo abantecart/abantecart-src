@@ -110,8 +110,8 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 			'name' => 'section',
 			'options' => array(
 				'' => $this->language->get('text_all_section'),
-				1 => $this->language->get('text_admin'),
-				0 => $this->language->get('text_storefront'),
+				'admin' => $this->language->get('text_admin'),
+				'storefront' => $this->language->get('text_storefront'),
 			),
 		));
 

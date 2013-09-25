@@ -318,7 +318,7 @@ class ModelCheckoutOrder extends Model {
 
 			$template->data['order_id'] = $order_id;
 			$template->data['customer_id'] = $order_row['customer_id'];
-			$template->data['date_added'] = date($language->get('date_format_short'), strtotime($order_row['date_added']));
+			$template->data['date_added'] = dateISO2Display($order_row['date_added'],$language->get('date_format_short'));
 			$template->data['logo'] = 'cid:' . md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
 			$template->data['store_name'] = $order_row['store_name'];
 			$template->data['address'] = nl2br($this->config->get('config_address'));
@@ -418,7 +418,7 @@ class ModelCheckoutOrder extends Model {
 			// Text Mail
 			$text = sprintf($language->get('text_greeting'), html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8')) . "\n\n";
 			$text .= $language->get('text_order_id') . ' ' . $order_id . "\n";
-			$text .= $language->get('text_date_added') . ' ' . date($language->get('date_format_short'), strtotime($order_row['date_added'])) . "\n";
+			$text .= $language->get('text_date_added') . ' ' . dateISO2Display($order_row['date_added'], $language->get('date_format_short')) . "\n";
 			$text .= $language->get('text_order_status') . ' ' . $order_status_query->row['name'] . "\n\n";
 			$text .= $language->get('text_product') . "\n";
 
@@ -545,7 +545,7 @@ class ModelCheckoutOrder extends Model {
 				$subject = sprintf($language->get('text_subject'), html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8'), $order_id);
 
 				$message = $language->get('text_order') . ' ' . $order_id . "\n";
-				$message .= $language->get('text_date_added') . ' ' . date($language->get('date_format_short'), strtotime($order_row['date_added'])) . "\n\n";
+				$message .= $language->get('text_date_added') . ' ' . dateISO2Display($order_row['date_added'], $language->get('date_format_short')) . "\n\n";
 
 				$order_status_query = $this->db->query("SELECT *
 														FROM " . $this->db->table("order_statuses") . "

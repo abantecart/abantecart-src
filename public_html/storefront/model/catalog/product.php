@@ -641,11 +641,14 @@ class ModelCatalogProduct extends Model {
 		if (is_null($product_data)) {
 			$sql = "SELECT *
 					FROM " . $this->db->table("products_featured") . " f
-					LEFT JOIN " . $this->db->table("products") . " p ON (f.product_id=p.product_id)
+					LEFT JOIN " . $this->db->table("products") . " p ON (f.product_id = p.product_id)
 					LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (f.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 					LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)
 					WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
-						AND p.status='1'";
+						AND p.status='1'
+						AND p.date_available <= NOW()
+					ORDER BY p.sort_order ASC, p.date_available DESC
+					";
 			if((int)$limit){
 				$sql .= " LIMIT " . (int)$limit;
 			}
@@ -750,13 +753,13 @@ class ModelCatalogProduct extends Model {
 		}
 		//get all option values of group
 		$option_values = $this->db->query(
-			"select pov.*, povd.name
-			from " . $this->db->table("product_options") . " po
-				left join " . $this->db->table("product_option_values") . " pov ON (po.product_option_id = pov.product_option_id)
-				left join " . $this->db->table("product_option_value_descriptions") . " povd
+			"SELECT pov.*, povd.name
+			 FROM " . $this->db->table("product_options") . " po
+			 LEFT JOIN " . $this->db->table("product_option_values") . " pov ON (po.product_option_id = pov.product_option_id)
+			 LEFT JOIN  " . $this->db->table("product_option_value_descriptions") . " povd
 					ON (pov.product_option_value_id = povd.product_option_value_id AND povd.language_id = '".(int)$this->config->get('storefront_language_id')."' )
-			where po.group_id = '" . (int)$product_option->row['group_id'] . "'
-			order by pov.sort_order ");
+			 WHERE po.group_id = '" . (int)$product_option->row['group_id'] . "'
+			 ORDER BY pov.sort_order ");
 
 		//find attribute_value_id of option_value
 		//find all option values with attribute_value_id
@@ -806,7 +809,7 @@ class ModelCatalogProduct extends Model {
 		if(is_null($product_option_data)){
             $product_option_data = array();
 			$product_option_query = $this->db->query(
-                "SELECT po.*, pod.option_placeholder
+                "SELECT po.*, pod.option_placeholder, pod.error_text
                 FROM " . $this->db->table("product_options") . " po
                 LEFT JOIN " . $this->db->table("product_option_descriptions") . " pod
                 	ON pod.product_option_id = po.product_option_id AND pod.language_id =  '".$language_id."'
@@ -849,6 +852,8 @@ class ModelCatalogProduct extends Model {
                                 'group_id'                => $product_option_value['group_id'],
                                 'name'                    => $pd_opt_val_description_qr->row['name'],
                                 'option_placeholder'      => $product_option['option_placeholder'],
+                                'regexp_pattern'          => $product_option['regexp_pattern'],
+                                'error_text'	          => $product_option['error_text'],
                                 'children_options_names'  => $pd_opt_val_description_qr->row['children_options_names'],
                                 'sku'                     => $product_option_value['sku'],
                                 'price'                   => $product_option_value['price'],
@@ -879,6 +884,8 @@ class ModelCatalogProduct extends Model {
 						'element_type'      => $product_option['element_type'],
 		                'html_type'         => $elements[ $product_option['element_type'] ]['type'],
 		                'required'          => $product_option['required'],
+						'regexp_pattern'    => $product_option['regexp_pattern'],
+						'error_text'	    => $product_option['error_text'],
                     );
 				}
 			}
@@ -950,41 +957,46 @@ class ModelCatalogProduct extends Model {
 		return $query->row;
 	}
 
-	//Check if any of inputed oprions are required and provided
+
 	/**
+	 * Check if any of inputed options are required and provided
 	 * @param int $product_id
 	 * @param array $input_options
-	 * @return bool
+	 * @return array
 	 */
-	public function validateRequiredOptions($product_id, $input_options) {
+	public function validateProductOptions($product_id, $input_options) {
 
-		$error = false;	
+		$errors = array();
 		if ( empty($product_id) && empty($input_options) ) {
-			return false;
+			return array();
 		}
 		$product_options = $this->getProductOptions($product_id);
 		foreach ( $product_options as $option ) {
 
 			if ( $option['required'] ) {
 				if ( empty($input_options[$option['product_option_id']]) ) {
-					$error = true;
-					break;
-				}
-				//check default value for input and textarea
-				if ( in_array($option['element_type'] , array('I', 'T')) ) {
-					reset($option['option_value']);
-					$key = key($option['option_value']);
-					$option_value = $option['option_value'][$key];
+					$errors[] = $option['name'].': '.$this->language->get('error_required_options');
+				}else{
+					//check default value for input and textarea
+					if ( in_array($option['element_type'] , array('I', 'T')) ) {
+						reset($option['option_value']);
+						$key = key($option['option_value']);
+						$option_value = $option['option_value'][$key];
 
-					if ( $option_value['name'] == $input_options[$option['product_option_id']] ) {
-						$error = true;
-						break;
+						if ( $option_value['name'] == $input_options[$option['product_option_id']] ) {
+							$errors[] = $option['name'].': '.$this->language->get('error_required_options');
+						}
 					}
 				}
 			}
+
+			if($option['regexp_pattern'] && !preg_match($option['regexp_pattern'], $input_options[$option['product_option_id']] )) {
+				$errors[] = $option['name'].': '.$option['error_text'];
+			}
+
 		}
 
-		return $error;	
+		return $errors;
 	}
 
 	/**
@@ -1144,6 +1156,7 @@ class ModelCatalogProduct extends Model {
 			// options
 			$sql = "SELECT po.product_id,
 							po.product_option_id,
+							po.regexp_pattern,
 							pov.product_option_value_id,
 							pov.sku,
 							pov.quantity,
@@ -1151,6 +1164,7 @@ class ModelCatalogProduct extends Model {
 							pov.price,
 							pov.prefix,
 							pod.name as option_name,
+							pod.error_text as error_text,
 							povd.name as value_name,
 							po.sort_order
 						FROM " . $this->db->table("product_options") . " po
@@ -1227,7 +1241,7 @@ class ModelCatalogProduct extends Model {
 			if (isset($filter['category_id']) && !is_null($filter['category_id'])) {
 				$sql .= " LEFT JOIN " . $this->db->table("products_to_categories") . " p2c ON (p.product_id = p2c.product_id)";
 			}
-			$sql .= " WHERE pd.language_id = '" . $language_id . "'";
+			$sql .= " WHERE pd.language_id = '" . $language_id . "' AND p.date_available <= NOW() AND p.status = '1' ";
 
 			if (!empty($data['subsql_filter'])) {
 				$sql .= " AND ".$data['subsql_filter'];
@@ -1332,11 +1346,9 @@ class ModelCatalogProduct extends Model {
 				$query = $this->db->query("SELECT *
 											FROM " . $this->db->table("products") . " p
 											LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id)
-											WHERE pd.language_id = '" . $language_id . "'
+											WHERE pd.language_id = '" . $language_id . "' AND p.date_available <= NOW() AND p.status = '1'
 											ORDER BY pd.name ASC");
-	
 				$product_data = $query->rows;
-			
 				$this->cache->set('product', $product_data, $language_id);
 			}	
 	

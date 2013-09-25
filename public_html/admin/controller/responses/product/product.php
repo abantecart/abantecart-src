@@ -33,9 +33,7 @@ class ControllerResponsesProductProduct extends AController {
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-
 		$this->loadModel('catalog/product');
-
 		if (isset($this->request->post[ 'coupon_product' ])) {
 			$products = $this->request->post[ 'coupon_product' ];
 		} else {
@@ -49,7 +47,8 @@ class ControllerResponsesProductProduct extends AController {
 				$product_data[ ] = array(
 					'product_id' => $product_info[ 'product_id' ],
 					'name' => $product_info[ 'name' ],
-					'model' => $product_info[ 'model' ]
+					'model' => $product_info[ 'model' ],
+					'sort_order' => (int)$product_info[ 'sort_order' ]
 				);
 			}
 		}
@@ -58,6 +57,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($product_data));
 	}
 
@@ -160,6 +160,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($product_data));
 	}
 
@@ -180,7 +181,8 @@ class ControllerResponsesProductProduct extends AController {
 		foreach ($categories as $category_id) {
 			$category_data[ ] = array(
 				'id' => $category_id,
-				'name' => $this->model_catalog_category->getPath($category_id)
+				'name' => $this->model_catalog_category->getPath($category_id),
+				'sort_order' => 0
 			);
 
 		}
@@ -189,6 +191,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($category_data));
 	}
 
@@ -216,7 +219,8 @@ class ControllerResponsesProductProduct extends AController {
 					'id' => $product_info[ 'product_id' ],
 					'product_id' => $product_info[ 'product_id' ],
 					'name' => $product_info[ 'name' ],
-					'model' => $product_info[ 'model' ]
+					'model' => $product_info[ 'model' ],
+					'sort_order' => 0
 				);
 			}
 		}
@@ -225,6 +229,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($product_data));
 	}
 
@@ -246,6 +251,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($result));
 	}
 
@@ -261,9 +267,35 @@ class ControllerResponsesProductProduct extends AController {
 					'reset_value' => true
 				));
 		}
+		//needs to validate attribute properties
+		// first - prepare data for validation
+		if (!isset($this->request->get[ 'required' ])) {
+			$this->request->get[ 'required' ] = 0;
+		}
+
+		if (has_value($this->request->get['regexp_pattern'])) {
+			$this->request->get['regexp_pattern'] = trim($this->request->get['regexp_pattern']);
+			if($this->request->get['regexp_pattern'][0]!='/'){
+				$this->request->get['regexp_pattern'] = '/'.$this->request->get['regexp_pattern'].'/';
+			}
+		}
 
 		$this->loadModel('catalog/product');
-		$this->model_catalog_product->updateProductOption($this->request->get[ 'option_id' ], $this->request->get);
+
+		$data = $this->request->get;
+		$attribute_manager = new AAttribute_Manager('product_option');
+		$option_info = $this->model_catalog_product->getProductOption($this->request->get[ 'product_id' ],$this->request->get[ 'option_id' ]);
+		$data['element_type'] = $option_info['element_type'];
+		$data['attribute_type_id'] = $attribute_manager->getAttributeTypeID('product_option');
+
+		$errors = $attribute_manager->validateAttributeCommonData($data);
+		if(!$errors){
+			$this->model_catalog_product->updateProductOption($this->request->get[ 'option_id' ], $this->request->get);
+		}else{
+			$error = new AError('');
+			return $error-> toJSONResponse('',
+				array( 'error_title' => implode('<br>',$errors)		));
+		}
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -329,6 +361,20 @@ class ControllerResponsesProductProduct extends AController {
 			'type' => 'checkbox',
 			'name' => 'required',
 			'value' => $this->data[ 'option_data' ][ 'required' ],
+		));
+
+		$this->data[ 'option_regexp_pattern' ] = $this->html->buildInput(array(
+			'type' => 'input',
+			'name' => 'regexp_pattern',
+			'value' => $this->data[ 'option_data' ][ 'regexp_pattern' ],
+			'style' => 'medium-field'
+		));
+
+		$this->data[ 'option_error_text' ] = $this->html->buildInput(array(
+			'type' => 'input',
+			'name' => 'error_text',
+			'value' => $this->data[ 'option_data' ][ 'language' ][ $this->data[ 'language_id' ] ][ 'error_text' ],
+			'style' => 'large-field'
 		));
 
 		$this->data[ 'button_remove_option' ] = $this->html->buildButton(array(

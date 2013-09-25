@@ -1,7 +1,7 @@
 <?php if ($error) { ?>
 	<div class="alert alert-error">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
-		<strong><?php echo $error; ?></strong>
+		<strong><?php echo is_array($error) ? implode('<br>', $error) : $error; ?></strong>
 	</div>
 <?php } ?>
 
@@ -19,20 +19,22 @@
 								<?php
 								$im_width = $image_main['sizes']['thumb']['width'];
 								$im_height = $image_main['sizes']['thumb']['height'];
-								if ( !has_value($im_width)) {
+								if (!has_value($im_width)) {
 									$im_width = 380;
 								}
-								if ( !has_value($im_height)) {
+								if (!has_value($im_height)) {
 									$im_height = 380;
 								}
-								
+
 								if ($image['origin'] == 'external') {
 									$image_url = $image['main_html'];
 								} else {
 									$image_url = $image['main_url'];
 								}
+								//TODO! attribute rel below contains non-standart content. This content needed for cloud-zoom 3dparty js-script
+								//needs to delete it in the future or to upgrade up to v3.0
 								?>
-								<a rel="position: 'inside' , showTitle: false, adjustX:-4, adjustY:-4"
+								<a rel="position: 'inside', showTitle: false, adjustX:-4, adjustY:-4"
 								   class="thumbnail cloud-zoom"
 								   href="<?php echo $image['main_url']; ?>"
 								   title="<?php echo $image['title']; ?>"
@@ -42,7 +44,8 @@
 										 style="max-height:<?php echo $im_height ?>px; max-width: <?php echo $im_width ?>px;">
 								</a>
 							</li>
-						<?php }
+						<?php
+						}
 					} ?>
 				</ul>
 				<?php if ($image_main) { ?>
@@ -79,12 +82,12 @@
 							<?php if ($display_price) { ?>
 								<div class="productpageprice">
 									<?php if ($special) { ?>
-										<span class="productfilneprice"><span
-													class="spiral"></span><?php echo $special; ?></span>
+										<div class="productfilneprice">
+											<span class="spiral"></span><?php echo $special; ?></div>
 										<span class="productpageoldprice"><?php echo $price; ?></span>
 									<?php } else { ?>
 										<span class="productfilneprice"></span><span
-												class="spiral"></span><?php echo $price; ?></span>
+												class="spiral"></span><?php echo $price; ?>
 									<?php } ?>
 								</div>
 							<?php } ?>
@@ -135,7 +138,7 @@
 											<?php foreach ($discounts as $discount) { ?>
 												<div class="controls">
 													<?php echo $discount['quantity']; ?>
-													<?php echo $discount['price'];     ?>
+													<?php echo $discount['price']; ?>
 												</div>
 											<?php } ?>
 										</div>
@@ -143,7 +146,7 @@
 
 									<div class="control-group mt20">
 										<div class="input-prepend input-append">
-											<span class="add-on"><?php echo $text_qty;?></span>
+											<span class="add-on"><?php echo $text_qty; ?></span>
 											<?php echo $form['minimum']; ?>
 										</div>
 										<?php if ($minimum > 1) { ?>
@@ -166,10 +169,11 @@
 
 									<div class="mt20 ">
 										<ul class="productpagecart">
-											<li><a href="#" onclick="$(this).closest('form').submit();"
+											<li><a href="#" onclick="$(this).closest('form').submit(); return false;"
 												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
 										</ul>
-										<a class="productprint btn btn-large" href="#" onclick="javascript:window.print()"><i
+										<a class="productprint btn btn-large" href="#"
+										   onclick="javascript:window.print()"><i
 													class="icon-print"></i> <?php echo $button_print; ?></a>
 										<?php echo $this->getHookVar('buttons'); ?>
 									</div>
@@ -229,9 +233,10 @@
 								<span class="productinfoleft"><?php echo $text_manufacturer; ?></span>
 								<a href="<?php echo $manufacturers; ?>">
 									<?php if ($manufacturer_icon) { ?>
-										<img src="<?php echo $manufacturer_icon; ?>"
-											 title="<?php echo $manufacturer; ?>" border="0"/>
-									<?php } else {
+										<img alt="<?php echo $manufacturer; ?>" src="<?php echo $manufacturer_icon; ?>"
+											 title="<?php echo $manufacturer; ?>"/>
+									<?php
+									} else {
 										echo $manufacturer;
 									}  ?>
 								</a>
@@ -303,23 +308,25 @@
 					<div class="tab-pane" id="relatedproducts">
 						<ul class="side_prd_list">
 							<?php foreach ($related_products as $related_product) {
-								$item['rating'] = ($related_product['rating']) ? "<img src='". $this->templateResource('/image/stars_'.$related_product['rating'].'.png') ."' alt='".$related_product['stars']."' />" : '';
-								if(!$display_price){
+								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' alt='" . $related_product['stars'] . "' />" : '';
+								if (!$display_price) {
 									$related_product['price'] = $related_product['special'] = '';
 								}
 								?>
 								<li class="related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
-									<a class="productname" href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
-									<span class="procategory"><?php echo $item['rating']?></span>
-								   <span class="price">
-									<?php  if ($related_product['special']) { ?>
-										   <div class="pricenew"><?php echo $related_product['special']?></div>
-										   <div class="priceold"><?php echo $related_product['price']?></div>
-									   <?php } else { ?>
-										   <div class="pricenew"><?php echo $related_product['price']?></div>
-									   <?php } ?>
-								   </span>
+									<a class="productname"
+									   href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
+									<span class="procategory"><?php echo $item['rating'] ?></span>
+
+									<div class="price">
+										<?php if ($related_product['special']) { ?>
+											<div class="pricenew"><?php echo $related_product['special'] ?></div>
+											<div class="priceold"><?php echo $related_product['price'] ?></div>
+										<?php } else { ?>
+											<div class="pricenew"><?php echo $related_product['price'] ?></div>
+										<?php } ?>
+									</div>
 								</li>
 
 

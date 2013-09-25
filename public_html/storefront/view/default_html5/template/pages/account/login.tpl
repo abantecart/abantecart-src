@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="icon-lock"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
@@ -35,7 +35,7 @@
 		      <?php echo $text_create_account; ?>
 			</div>
 			<button type="submit" class="btn btn-orange"  title="<?php echo $form1['continue']->name ?>">
-				<i class="<?php echo $form1['continue']->{icon}; ?> icon-white"></i>
+				<i class="<?php echo $form1['continue']->icon; ?> icon-white"></i>
 				<?php echo $form1['continue']->name ?>
 			</button>
 		</fieldset>
@@ -48,30 +48,31 @@
 	<div class="loginbox">
 		<h4 class="heading4"><?php echo $text_i_am_returning_customer; ?></h4>
 		<?php echo $form2[ 'form_open' ]; ?>
-		<fieldset>
-			<div class="control-group">
-			  <label  class="control-label"><?php echo $entry_loginname; ?></label>
-			  <div class="controls">
-			    <?php echo $form2[ 'loginname' ]?>
-			  </div>
-			</div>
-			<div class="control-group">
-			  <label  class="control-label"><?php echo $entry_password; ?></label>
-			  <div class="controls">
-			    <?php echo $form2[ 'password' ]?>
-			  </div>
-			</div>
-			<a href="<?php echo $forgotten_pass; ?>"><?php echo $text_forgotten_password; ?></a>
-			<?php if($noemaillogin) { ?>
-			&nbsp;&nbsp;<a href="<?php echo $forgotten_login; ?>"><?php echo $text_forgotten_login; ?></a>
-			<?php } ?>
-			<br>
-			<br>
-			<button type="submit" class="btn btn-orange"  title="<?php echo $form2['login_submit']->name ?>">
-				<i class="<?php echo $form2['login_submit']->{icon}; ?> icon-white"></i>
-				<?php echo $form2['login_submit']->name ?>
-			</button>
-		</fieldset>
+			<fieldset>
+				<div class="control-group">
+				  <label  class="control-label"><?php echo $entry_loginname; ?></label>
+				  <div class="controls">
+					<?php echo $form2[ 'loginname' ]?>
+				  </div>
+				</div>
+				<div class="control-group">
+				  <label  class="control-label"><?php echo $entry_password; ?></label>
+				  <div class="controls">
+					<?php echo $form2[ 'password' ]?>
+				  </div>
+				</div>
+				<a href="<?php echo $forgotten_pass; ?>"><?php echo $text_forgotten_password; ?></a>
+				<?php if($noemaillogin) { ?>
+				&nbsp;&nbsp;<a href="<?php echo $forgotten_login; ?>"><?php echo $text_forgotten_login; ?></a>
+				<?php } ?>
+				<br>
+				<br>
+				<button type="submit" class="btn btn-orange"  title="<?php echo $form2['login_submit']->name ?>">
+					<i class="<?php echo $form2['login_submit']->{icon}; ?> icon-white"></i>
+					<?php echo $form2['login_submit']->name ?>
+				</button>
+			</fieldset>
+		</form>
 	</div>
 	<?php echo $this->getHookVar('login_extension'); ?>
 </section> 

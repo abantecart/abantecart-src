@@ -44,8 +44,9 @@ class ControllerBlocksCurrency extends AController {
         	$rt = $this->request->get['rt'];
         	$unset[] = 'rt';
 			$URI = '&'.$this->html->buildURI($this->request->get, $unset);
+			$URI = $URI=='&' ? '' : $URI;
         }
-		
+
 		$this->loadModel('localisation/currency');
 		$results = $this->model_localisation_currency->getCurrencies();
 
@@ -56,7 +57,7 @@ class ControllerBlocksCurrency extends AController {
 					'title' => $result['title'],
 					'code'  => $result['code'],
 					'symbol' => ( !empty( $result['symbol_left'] ) ? $result['symbol_left'] : $result['symbol_right'] ),
-					'href'  => $this->html->getURL($rt, $URI.'&currency='.$result['code'])
+					'href'  => $this->html->getURL($rt, $URI.'&currency='.$result['code'],true)
 				);
 			}
 		}

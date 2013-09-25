@@ -55,6 +55,11 @@ $(document).ready(function() {
 			$(this).siblings('.postit_notes').css('right', '30px');
 		}
 	});
+	
+	$('.nav-dash a').hover(function() {
+		$(this).tooltip('show');
+	});
+
 });
 
 function search_submit () {

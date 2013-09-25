@@ -101,7 +101,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 					'style' => 'button2',
 					'href'=> $this->html->getSecureURL('sale/order','&customer_id='.$result['customer_id']),
 					'title' => $this->language->get('text_view').' '.$this->language->get('tab_history'),
-					'attr' => ' target="_blank" '
+					'target' => '_blank'
 				))
 				: 0),
 			);

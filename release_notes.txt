@@ -1,3 +1,133 @@
+AbanteCart version 1.1.7 with new features, improvements and bug fixes.
+
+Release Notes:  Version 1.1.7
+
+New Features and improvements summary:
+
+- New customers' dashboard design for HTML5 template
+- Font icons added to storefront sections   
+- Google Analytics with ecommerce tracking support 
+- Product status and condition highlight in admin listing and details page
+- Layout manager UI improvement 
+- Drag and Drop sort order in admin grids
+- Suport for shared SSL  
+- HTML5 template validation fixed
+- Many other small improvements
+
+Bug fixes and improvements
+Core:
+- refactoring attribute manager and core/utils.php
+- added new setting config_ssl_url. Support forshared ssl domain.
+- replace of strtotime by wrapper function dateIso2Display. It needed for global setting of format of date and time which takes from language.xml file.
+- changed recognizing of store by requested URL. Now protocol will ignore(http and https). Added Phpdoc comments.
+- phpdoc comments added to attribute manager library
+- added regexp validation with text about errors of product options
+- global attributes + product Options changes related to validation properties of attributes.
+- language definitions changes related to google analytics code in general settings. Refs added on google-help
+- engine/extension.php bug fix related to config.xml of extension and php 5.4
+- AMail attachment headers bug fix
+- core/lib/currency.php refactored. some checks of variables and phpdoc comments added.
+- internationalization of SEO-keyword usage bug fix.
+- 2 settings added to control coupon and shipping estimate blocks dysplay (default_html5 only)
+- applying discount (core promotion) bug fix (related to calculation of total quantity of product in the cart)
+- table url_aliases (with SEO keywords) now have additional unique index to prevent duplicates
+- phpdoc comments added into Alanguage and Extension classes
+- targz.php php open tag bugfix
+- Fixed validation of the max size of the uploaded file.
+- maintenance mode storefront session for admin fix
+- phpdoc comments added to ADispatcher class
+- phpdoc comments added to ADB, AUser and MySql classes
+- fixed wrong image extension of the one of the PayPal icons upon install.
+- AResource ssl urls bugfix. (additional images had plain http-URLs instead https)
+- one of product option values now can be selected as default(for storefront product page). Also placeholder(hint text) added for some product option types such as selectbox, input.
+- Getting resources will now be ordered by rl.resource_id not just by rm.sort_order in case rm.sort_order is equal.
+- changed language definition quick edit form. Now user can not to edit "section" of definition.
+- language definitions of setting "require login name" fix
+- migration abstract class mysql connect bug fix
+- language details quick save fix. (locale)
+- package installer ftp-mode check's fix
+- menu management grid icons fix
+
+
+Control Panel:
+- migration data of oscmax added
+- Update migration tool for opencart 1.5.x support
+- migration bug-fix related to oscommerce 2.2 and adding oscommerce 2.3.3
+- attribute manager sql bug-fix
+- fix related to language definitions for common(default, global) extension settings
+- Resource library fix related to id of html-elements which starts by numbers
+- fix of sorting of new added resources in Resource library.
+- fix of links on customer management pages
+- sorting by dragging in jqgrid. (appeared when all sort order numbers are zero)
+- Resource library javascript fix related to edit form 
+- Resource library edit form refactoring. Now form fields will created by aform class
+- Resource library saving details redone by ajax call. Now details use autotranslate scheme. Core: Added wrapper addJSONHeader into AResponse class.
+- minor fixes related to new css of admin template Extensions: Google Talk changes related to renaming of google talk to google hangout
+- design-layout fixes
+- fix for migration driver of CRE loaded
+- refactoring of controller for editing of listing block
+- add product count to category listing and link to product list
+- refactoring of design/content page controller
+- added product condition check in listing grid and edit page of products
+- sale/mail improved (refactoring + minor ui changes)
+- filtration of language definition grid by section bug fix
+- global attributes listing and edit page changes related to rebuilding page structure.
+- global attributes listing and edit page was rewritten. Global attribute form now broken on two parts: main attribute data and other (subform). Subform creates by another controllers: core (for product options) and extensions(for other attribute types) Core: global attribute type name now multilingual.
+- quick save settings from global search suggestion fix.
+- design/content management changed...tree grid added + edit form changed too. Core: html-factory changes. Property "disabled" added into Multiselect box class. Property is array with ids of option that disabled (supports by all browsers and IE8+)
+- common controller of grid building now contains check for column with reserved name "parent"
+- button for auto-generate added into edit forms of products, categories, manufacturers and contents. SEOencode function changed.
+- global search improvement to display setting's text instead of key name
+- button for order history of customer added in menu sale/customers
+- coupon date range fix
+- removed category name length limitation.
+- saving custom layout for categories fix
+- Block deletion of important order statuses: Canceled, Complete, Pending, Processing.
+- customer transactions bug fix. (debit/credit) 
+- notice about enabled maintenance mode for admin added.
+- download's counter fix
+- Add System Sub Menu for faster settings access.
+
+Storefront:
+- added controller for newsletter subscription with tpl. Now subscribers will adds to it's own customer group. 
+- added attribute type to tag <script>
+- refactoring of controller of listing block. + sort order column added to multivaluehidden_list aform element. Now we can set sort order for selected items of custom list
+- fix related to notices about stdClass properties
+- minor bug fix related to notices about stdClass properties
+- css-changes related to product option form
+- google analytics code added 
+- Added missing loading_1.gif image and "ws_nowrap" CSS class.
+- fix related to coupon in guest checkout. Appeared when total amount is 0 but payment method was still required.
+- HTML5 template validation fixes
+- Fixes of newsletter subscription
+- refactoring of category block's controller. Also fix of category tree that appears in case when seo-support enabled.
+- fix of special products list related to language settings and product's description.
+- condition to prevent selecting of unavailable products in some methods of model catalog/product
+- added type casting into model content.php + phpdoc comments
+- validation of address data refactoring
+- default_html5 template changes related empty content inside of column left/right blocks.
+- default_html5 template changes related to hook for product listing additional buttons
+- checkout/payment controller bug fix related to "error" property access. Not it accessible for extension hook
+- default address for customer now will use for shipping estimate form on the cart page
+- template default_html5 changed. login page responsiveness bug-fixes.
+- template default_html5 changed. OneByOne main slider now loads last.
+- customer balance display bugfix related to currency conversion. Also balance applying to order will discard when some products removes from cart during session.
+- default template "create account" page fix for account policy is empty and missing continue button.
+
+Extensions:
+- Update all default payments to HTML5 layout
+- Provide ability to load modals for disabled extensions. Paypal Pro is updated to configure accepted creditcards
+- Fixed credit card forms of the PayPal Pro and PayPal Pro UK extensions.
+- default_paypal_standart now have method SALE as default in settings
+- paypal pro default payment confirm buttons css fix
+- fixed PayPal Standart for processing EUR payments
+- PayPal Pro now has capture/refund features in admin order details page.
+- banner manager default_html5 tpl bugfix
+- Data Encryption extension update. Key rotation is added
+- shipping-per-item location limitation fix
+
+
+
 AbanteCart version 1.1.6 with new features, improvements and bug fixes.
 
 Release Notes:  Version 1.1.6
@@ -13,7 +143,7 @@ New Features and improvements summary:
 - PayPal Pro now has in admin capture/refund features on order edit page. 
 - Added Ipad and Iphone icons for apple bookmark support
 
-Bug fixes and improvments
+Bug fixes and improvements
 Core:
 - internationalization of SEO-keyword usage bug fix.
 - two settings added for displaying block with form of coupon and shipping estimate (default_html5 only)

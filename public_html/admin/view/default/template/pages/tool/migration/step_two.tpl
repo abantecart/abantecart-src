@@ -3,7 +3,17 @@
 <?php } ?>
 <?php if ($success) { ?>
 	<div class="success"><?php echo $success; ?></div>
-<?php } ?>
+<?php }
+
+foreach($counts as &$val){
+	if($val>1000){
+		$val = '<span class="required">'.$val.'</span>';
+	}
+} unset($val);
+
+$form['migrate_products_text'] = nl2br(sprintf($form['migrate_products_text'], $counts['products'], $counts['categories'], $counts['manufacturers']));
+$form['migrate_customers_text'] = sprintf($form['migrate_customers_text'], $counts['customers']);
+?>
 <div class="box">
 	<div class="left"></div>
 	<div class="right"></div>
@@ -13,21 +23,25 @@
 
 	<div class="content">
 		<?php echo $form['form_open']; ?>
+		<?php if ($error_migrate_data) { ?>
+			<span class="required"><?php echo $error_migrate_data; ?></span>
+		<?php } ?>
 		<table class="form">
 			<tr>
 				<td><?php echo $entry_migrate_data; ?></td>
-				<td>
-					<?php echo $form['migrate_products'] ?><br/>
-					<?php echo $form['migrate_customers'] ?><br/>
-					<br/>
-					<?php if ($error_migrate_data) { ?>
-						<span class="required"><?php echo $error_migrate_data; ?></span>
-					<?php } ?>
-				</td>
+				<td style="width: 1px;"><?php echo $form['migrate_products'] ?></td>
+				<td><?php echo $form['migrate_products_text'];?></td>
+
+			</tr>
+			<tr>
+				<td></td>
+				<td><?php echo $form['migrate_customers'] ?></td>
+				<td><?php echo $form['migrate_customers_text'] ?></td>
 			</tr>
 			<tr>
 				<td><?php echo $entry_erase_existing_data; ?></td>
 				<td><?php echo $form['erase_existing_data'] ?></td>
+				<td></td>
 			</tr>
 		</table>
 		<div class="buttons align_center">

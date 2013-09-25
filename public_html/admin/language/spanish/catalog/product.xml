@@ -261,6 +261,10 @@
 		<value><![CDATA[Opción:]]></value>
 	</definition>
 	<definition>
+		<key>entry_option_name</key>
+		<value><![CDATA[Opción Nombre:]]></value>
+	</definition>
+	<definition>
 		<key>entry_option_value</key>
 		<value><![CDATA[Valor de la opción:]]></value>
 	</definition>
@@ -519,5 +523,37 @@
 	<definition>
         <key>entry_option_placeholder</key>
         <value><![CDATA[Marcador de posición:]]></value>
+    </definition>
+	<definition>
+        <key>entry_regexp_pattern</key>
+        <value><![CDATA[Patrón de expresión regular:]]></value>
+    </definition>
+	<definition>
+        <key>entry_error_text</key>
+        <value><![CDATA[Mensaje de error sobre el Valor válido:]]></value>
+    </definition>
+	<definition>
+        <key>text_product_condition</key>
+        <value><![CDATA[Condición del producto:]]></value>
+    </definition>
+	<definition>
+        <key>text_product_available</key>
+        <value><![CDATA[Disponible]]></value>
+    </definition>
+	<definition>
+        <key>text_product_disabled</key>
+        <value><![CDATA[Discapacitado]]></value>
+    </definition>
+	<definition>
+        <key>text_product_unavailable</key>
+        <value><![CDATA[Indisponible]]></value>
+    </definition>
+	<definition>
+        <key>text_product_out_of_stock</key>
+        <value><![CDATA[Fuera de Stock]]></value>
+    </definition>
+	<definition>
+        <key>text_product_option_out_of_stock</key>
+        <value><![CDATA[Opción del producto (s) Fuera de Stock]]></value>
     </definition>
 </definitions>

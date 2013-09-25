@@ -20,7 +20,16 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+/** @noinspection PhpUndefinedClassInspection */
+/**
+ * Class ModelCatalogCategory
+ * @property ModelCatalogProduct $model_catalog_product
+ */
 class ModelCatalogCategory extends Model {
+	/**
+	 * @param int $category_id
+	 * @return array
+	 */
 	public function getCategory($category_id) {
 		$query = $this->db->query("SELECT DISTINCT *
 									FROM " . DB_PREFIX . "categories c
@@ -32,7 +41,12 @@ class ModelCatalogCategory extends Model {
 		
 		return $query->row;
 	}
-	
+
+	/**
+	 * @param int $parent_id
+	 * @param int $limit
+	 * @return array
+	 */
 	public function getCategories($parent_id = 0, $limit=0) {
 		$cache_name = 'category.list.'. $parent_id.'.'.$limit;
 		$cache = $this->cache->get($cache_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
@@ -50,7 +64,18 @@ class ModelCatalogCategory extends Model {
 		}
 		return $cache;
 	}
-				
+
+	/**
+	 * @return array
+	 */
+	public function getAllCategories(){
+		return $this->getCategories(-1);
+	}
+
+	/**
+	 * @param int $parent_id
+	 * @return int
+	 */
 	public function getTotalCategoriesByCategoryId($parent_id = 0) {
 		$query = $this->db->query("SELECT COUNT(*) AS total
 									FROM " . DB_PREFIX . "categories c
@@ -62,19 +87,26 @@ class ModelCatalogCategory extends Model {
 		return $query->row['total'];
 	}
 
-	public function getCategoriesDetails($pid = 0, $path = '') {
+
+	/**
+	 * @deprecated since 1.1.7
+	 * @param int $parent_id
+	 * @param string $path
+	 * @return array
+	 */
+	public function getCategoriesDetails($parent_id = 0, $path = '') {
 		$this->load->model('catalog/product');
 		$this->load->model('catalog/manufacturer');
 		$resource = new AResource('image');
-		
-		$categories = array();
-		$cash_name = 'category.details.'.$pid;
-		$categories = $this->cache->get( $cash_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id') );
+		$cash_name = 'category.details.'.$parent_id;
+		$categories = $this->cache->get( $cash_name,
+										(int)$this->config->get('storefront_language_id'),
+										(int)$this->config->get('config_store_id') );
 		if ( count($categories) ) {
 			return $categories;
 		}
 		
-		$results = $this->getCategories($pid);
+		$results = $this->getCategories($parent_id);
 		
 		foreach ($results as $result) {
 			if (!$path) {
@@ -85,7 +117,7 @@ class ModelCatalogCategory extends Model {
 			
 			$brands = array();
 			
-			if($pid == 0) {
+			if($parent_id == 0) {
 
 			    $data['filter'] = array();
 			    $data['filter']['category_id'] = $result['category_id'];
@@ -122,7 +154,47 @@ class ModelCatalogCategory extends Model {
 		}
 		$this->cache->set( $cash_name, $categories, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id') );
 		return $categories;
-	}	
+	}
+
+	/**
+	 * @param array $categories
+	 * @return int
+	 */
+	public function getCategoriesProductsCount($categories=array()){
+		$categories = (array)$categories;
+		foreach($categories as &$val){
+			$val = (int)$val;
+		} unset($val);
+		$categories = array_unique($categories);
+
+		$query = $this->db->query("SELECT COUNT(DISTINCT ptc.product_id) AS total
+									FROM " . DB_PREFIX . "products_to_categories ptc
+									WHERE ptc.category_id IN (".implode(', ',$categories).");");
+
+		return (int)$query->row['total'];
+	}
+
+
+	/**
+	 * @param array $categories
+	 * @return array
+	 */
+	public function getCategoriesBrands($categories=array()){
+		$categories = (array)$categories;
+		foreach($categories as &$val){
+			$val = (int)$val;
+		} unset($val);
+		$categories = array_unique($categories);
+
+		$sql = "SELECT DISTINCT p.manufacturer_id, m.name
+				FROM ".$this->db->table('products')." p
+				LEFT JOIN ".$this->db->table('manufacturers')." m ON p.manufacturer_id = m.manufacturer_id
+				WHERE p.product_id IN (SELECT DISTINCT ptc.product_id
+									   FROM " . $this->db->table('products_to_categories') . " ptc
+									   WHERE ptc.category_id IN (".implode(', ',$categories)."));";
+
+		$query = $this->db->query($sql);
+		return $query->rows;
+	}
 
 }
-?>

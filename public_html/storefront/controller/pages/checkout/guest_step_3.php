@@ -130,7 +130,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 		}
 		
     	$this->data['checkout_shipping'] = $this->html->getSecureURL('checkout/guest_step_2');
-    	$this->data['checkout_shipping_edit'] = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit');
+    	$this->data['checkout_shipping_edit'] = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
 
     	$this->data['checkout_shipping_address'] = $this->html->getSecureURL('checkout/guest_step_1');
 		
@@ -149,7 +149,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 		}
 	
     	$this->data['checkout_payment'] = $this->html->getSecureURL('checkout/guest_step_2');
-    	$this->data['checkout_payment_edit'] = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit');
+    	$this->data['checkout_payment_edit'] = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
 		$this->data['cart'] = $this->html->getSecureURL('checkout/cart');
     	$this->data['checkout_payment_address'] = $this->html->getSecureURL('checkout/guest_step_1');
 		
@@ -172,7 +172,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 														'tax'        => $this->currency->format($tax),
 														'price'      => $this->currency->format($this->data['products'][$i]['price']),
 														'total'      => $this->currency->format($this->data['products'][$i]['total']),
-														'href'       => $this->html->getURL('product/product', '&product_id=' . $product_id )
+														'href'       => $this->html->getSEOURL('product/product', '&product_id=' . $product_id, true )
       		)); 
         }
 
@@ -181,7 +181,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 			$content_info = $this->model_catalog_content->getContent($this->config->get('config_checkout_id'));
 			if ($content_info) {
 				$this->data['text_accept_agree'] = $this->language->get('text_accept_agree');
-				$this->data['text_accept_agree_href'] = $this->html->getURL('r/content/content/loadInfo','&content_id=' . $this->config->get('config_checkout_id'));
+				$this->data['text_accept_agree_href'] = $this->html->getSEOURL('r/content/content/loadInfo','&content_id=' . $this->config->get('config_checkout_id'), true);
 				$this->data['text_accept_agree_href_link'] = $content_info['title'];
 			} else {
 				$this->data['text_accept_agree'] = '';
@@ -203,4 +203,3 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
-?>

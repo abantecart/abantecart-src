@@ -154,34 +154,63 @@ class ModelSaleCoupon extends Model {
 		return $query->row;
 	}
 	
-	public function getCoupons($data = array()) {
-
+	
+	public function getCoupons($data = array(), $mode = 'default') {
 		if ( !empty($data['content_language_id']) ) {
 			$language_id = ( int )$data['content_language_id'];
 		} else {
 			$language_id = (int)$this->config->get('storefront_language_id');
 		}
 
-		$sql = "SELECT c.coupon_id, cd.name, c.code, c.discount, c.date_start, c.date_end, c.status
-			FROM " . DB_PREFIX . "coupons c
-				LEFT JOIN " . DB_PREFIX . "coupon_descriptions cd
+		//Prepare filter config
+		$filter_params = array('status' => 'c.status');
+		//Build query string based on GET params first
+		$filter_form = new AFilter( array( 'method' => 'get', 'filter_params' => $filter_params ) );
+		//Build final filter
+		$grid_filter_params = array( 'name' => 'cd.name', 'code' => 'c.code' );
+		$filter_grid = new AFilter( array( 'method' => 'post',
+										   'grid_filter_params' => $grid_filter_params,
+										   'additional_filter_string' => $filter_form->getFilterString()
+										  ) );
+		$data = array_merge( $filter_grid->getFilterData(), $data);
+
+
+		if ($mode == 'total_only') {
+			$total_sql = 'count(*) as total';
+		}
+		else {
+			$total_sql = "c.coupon_id, cd.name, c.code, c.discount, c.date_start, c.date_end, c.status ";
+		}
+
+		$sql = "SELECT ". $total_sql ." 
+				FROM " . DB_PREFIX . "coupons c
+				JOIN " . DB_PREFIX . "coupon_descriptions cd
 					ON (c.coupon_id = cd.coupon_id AND cd.language_id = '" . $language_id . "')";
 
-		if ( isset($data['status']) && in_array($data['status'], array(0,1)) ) {
-			$sql .= " WHERE c.status = ".$data['status'];
+        if ( !empty($data['search']) ) {
+            $sql .= " AND ".$data['search'];
+        }
+        if ( !empty($data['subsql_filter']) ) {
+            $sql .= " AND ".$data['subsql_filter'];
+        }
+
+		//If for total, we done bulding the query
+		if ($mode == 'total_only') {
+		    $query = $this->db->query($sql);
+		    return $query->row['total'];
 		}
 
 		$sort_data = array(
-			'cd.name',
-			'c.code',
-			'c.discount',
-			'c.date_start',
-			'c.date_end',
-			'c.status'
+			'name' => 'cd.name',
+			'code' => 'c.code',
+			'discount' => 'c.discount',
+			'date_start' => 'c.date_start',
+			'date_end' => 'c.date_end',
+			'status' => 'c.status'
 		);	
 			
-		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-			$sql .= " ORDER BY " . $data['sort'];	
+        if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
+            $sql .= " ORDER BY " . $sort_data[$data['sort']];
 		} else {
 			$sql .= " ORDER BY cd.name";	
 		}
@@ -202,12 +231,14 @@ class ModelSaleCoupon extends Model {
 			}	
 			
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
-		}		
-		
+		}			
 		$query = $this->db->query($sql);
-		
 		return $query->rows;
 	}
+
+	public function getTotalCoupons( $data ) {
+		return $this->getCoupons($data,'total_only');
+	}		
 	
 	public function getCouponDescriptions($coupon_id) {
 		$coupon_description_data = array();
@@ -240,14 +271,5 @@ class ModelSaleCoupon extends Model {
 		return $coupon_product_data;
 	}
 	
-	public function getTotalCoupons( $data) {
-      	$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "coupons";
-		if ( isset($data['status']) && in_array($data['status'], array(0,1)) ) {
-			$sql .= " WHERE status = ".$data['status'];
-		}
-		$query = $this->db->query($sql);
-		
-		return $query->row['total'];
-	}		
 }
 ?>

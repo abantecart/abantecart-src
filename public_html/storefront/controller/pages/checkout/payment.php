@@ -179,7 +179,7 @@ class ControllerPagesCheckoutPayment extends AController {
 			$this->redirect($this->html->getSecureURL('checkout/confirm'));
 		}
 
-		if($total['total']==0){
+		if($total['total']==0 && $this->request->get['mode'] != 'edit'){
 			$this->session->data[ 'payment_method' ] = array(
 															'id'         => 'no_payment_required',
 															'title'      => $this->language->get('no_payment_required')
@@ -243,7 +243,7 @@ class ControllerPagesCheckoutPayment extends AController {
 		if (isset($this->session->data[ 'success' ])) {
 			unset($this->session->data[ 'success' ]);
 		}
-		$action = $this->html->getSecureURL('checkout/payment', '&mode='.$this->request->get['mode']);
+		$action = $this->html->getSecureURL('checkout/payment', '&mode='.$this->request->get['mode'],true);
 
 		$this->data['change_address'] = HtmlElementFactory::create( array('type' => 'button',
 			                                      'name' => 'change_address',
@@ -274,14 +274,14 @@ class ControllerPagesCheckoutPayment extends AController {
 		$balance = $this->currency->convert($balance_def_currency,$this->config->get('config_currency'),$this->session->data['currency']);
 		if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance')) && (float)$this->session->data['used_balance']!=0){
 			if((float)$this->session->data['used_balance']==0 && $balance>0){
-				$this->data['apply_balance_button'] = $this->html->buildButton(array('id' => 'apply_balance',
-																					'href' => $this->html->getSecureURL('checkout/payment','&mode=edit&balance=apply'),
+				$this->data['apply_balance_button'] = $this->html->buildButton(array('name' => 'apply_balance',
+																					'href' => $this->html->getSecureURL('checkout/payment','&mode=edit&balance=apply',true),
 																					'text' => $this->language->get('button_apply_balance'),
 																					'style'=>'button'));
 			}elseif((float)$this->session->data['used_balance']>0){
 
-				$this->data['apply_balance_button'] = $this->html->buildButton(array('id' => 'apply_balance',
-																					'href' => $this->html->getSecureURL('checkout/payment','&mode=edit&balance=disapply'),
+				$this->data['apply_balance_button'] = $this->html->buildButton(array('name' => 'apply_balance',
+																					'href' => $this->html->getSecureURL('checkout/payment','&mode=edit&balance=disapply',true),
 																					'text' => $this->language->get('button_disapply_balance'),
 																					'style'=>'button'));
 			}
@@ -326,7 +326,7 @@ class ControllerPagesCheckoutPayment extends AController {
 			$content_info = $this->model_catalog_content->getContent($this->config->get('config_checkout_id'));
 			if ($content_info) {
 				$this->data['text_agree'] = $this->language->get('text_agree');
-				$this->data['text_agree_href'] = $this->html->getURL('r/content/content/loadInfo', '&content_id=' . $this->config->get('config_checkout_id'));
+				$this->data['text_agree_href'] = $this->html->getURL('r/content/content/loadInfo', '&content_id=' . $this->config->get('config_checkout_id'),true);
 				$this->data['text_agree_href_text'] = $content_info[ 'title' ];
 			} else {
 				$this->data['text_agree'] = '';
@@ -368,12 +368,13 @@ class ControllerPagesCheckoutPayment extends AController {
 	}
 
 	private function _validate() {
-
-		if (!isset($this->request->post[ 'payment_method' ])) {
-			$this->error[ 'warning' ] = $this->language->get('error_payment');
-		} else {
-			if (!isset($this->session->data[ 'payment_methods' ][ $this->request->post[ 'payment_method' ] ])) {
+		if($this->cart->getFinalTotal()){
+			if (!isset($this->request->post[ 'payment_method' ]) ) {
 				$this->error[ 'warning' ] = $this->language->get('error_payment');
+			} else {
+				if (!isset($this->session->data[ 'payment_methods' ][ $this->request->post[ 'payment_method' ] ])) {
+					$this->error[ 'warning' ] = $this->language->get('error_payment');
+				}
 			}
 		}
 

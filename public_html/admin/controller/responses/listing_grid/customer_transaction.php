@@ -211,13 +211,6 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 				'form_name' => 'transaction_form',
 			));
 
-			$response['fields'][] = array('text' => $this->language->get('text_option_debit'),
-										'field' => (string)$form->getFieldHtml(array(
-																			'type' => 'input',
-																			'name' => 'debit',
-																			'value' => $info['debit'],
-																			'style' => 'large-field'
-																		)));
 
 			$response['fields'][] = array('text' => $this->language->get('text_option_credit'),
 										'field' => (string)$form->getFieldHtml(array(
@@ -226,6 +219,15 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 																			'value' => $info['credit'],
 																			'style' => 'large-field'
 																		)));
+
+			$response['fields'][] = array('text' => $this->language->get('text_option_debit'),
+										'field' => (string)$form->getFieldHtml(array(
+																			'type' => 'input',
+																			'name' => 'debit',
+																			'value' => $info['debit'],
+																			'style' => 'large-field'
+																		)));
+
 
 			$types = $this->model_sale_customer_transaction->getTransactionTypes();
 			$types[''] = $this->language->get('text_option_other_type');

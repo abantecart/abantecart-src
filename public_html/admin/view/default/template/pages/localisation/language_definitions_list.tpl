@@ -49,7 +49,7 @@
     </div>
 </div>
 <div id="edit_dialog"></div>
-<script language="JavaScript">
+<script type="text/javascript">
 
     function openEditDiag(id) {
         var $Popup = $('#edit_dialog').dialog({

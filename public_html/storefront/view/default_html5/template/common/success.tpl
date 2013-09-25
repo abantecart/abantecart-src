@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="icon-thumbs-up"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 

@@ -202,6 +202,16 @@ class ModelAccountAddress extends Model {
     	if ($data['zone_id'] == 'FALSE') {
       		$error['zone'] = $this->language->get('error_zone');
     	}
+
+		if(!$error){
+			$sql = "SELECT * FROM " . $this->db->table("zones") . "
+					WHERE country_id = '".(int)$data['country_id']."'
+						AND zone_id = '".(int)$data['zone_id']."';";
+			$result = $this->db->query($sql);
+			if(!$result->num_rows){
+				$error['zone'] = $this->language->get('error_zone');
+			}
+		}
     	
 		if ( count($error) ) {
 			$error['warning'] = $this->language->get('gen_data_entry_error');
@@ -210,4 +220,3 @@ class ModelAccountAddress extends Model {
     	return $error;	
 	}
 }
-?>

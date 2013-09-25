@@ -22,6 +22,10 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ControllerPagesAccountHistory extends AController {
 	public $data = array();
+	
+	/**
+	 * Main controller function to show order hitory
+	 */
 	public function main() {
 
         //init controller data
@@ -90,7 +94,7 @@ class ControllerPagesAccountHistory extends AController {
 								'order_id'   => $result['order_id'],
 								'name'       => $result['firstname'] . ' ' . $result['lastname'],
 								'status'     => $result['status'],
-								'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+								'date_added' => dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
 								'products'   => $product_total,
 								'total'      => $this->currency->format($result['total'], $result['currency'], $result['value']),
 								'href'       => $this->html->getSecureURL('account/invoice', '&order_id=' . $result['order_id']),
@@ -132,5 +136,5 @@ class ControllerPagesAccountHistory extends AController {
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
+
 }
-?>

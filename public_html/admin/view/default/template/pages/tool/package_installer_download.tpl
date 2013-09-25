@@ -41,7 +41,7 @@
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
 <?php if ($loading) { ?>
-	<script language="JavaScript">
+	<script type="text/javascript">
 		$(function() {
 			$.ajax({  type: 'POST',
 				url: '<?php echo $url; ?>&start=1',

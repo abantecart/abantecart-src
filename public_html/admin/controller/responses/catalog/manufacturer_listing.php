@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesCatalogManufacturerListing extends AController {
-	private $error = array();
+
 	public $data = array();
 
 	/*
@@ -164,6 +164,49 @@ class ControllerResponsesCatalogManufacturerListing extends AController {
 
 		$this->response->setOutput($this->data[ 'response' ]);
 
+	}
+
+
+	public function getManufacturers(){
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$this->loadModel('catalog/manufacturer');
+
+		if (isset($this->request->post[ 'id' ])) { // variant for popup listing
+			$manufacturers = $this->request->post[ 'id' ];
+		} else {
+			$manufacturers = array();
+		}
+		$manufacturer_data = array();
+
+		foreach ($manufacturers as &$manufacturer_id) {
+
+			$manufacturer_id = (int)$manufacturer_id;
+		} unset($manufacturer_id);
+
+
+		$manufacturers = array_unique($manufacturers);
+		if($manufacturers){
+			$filter['subsql_filter'] .= 'manufacturer_id IN  ('.implode(',',$manufacturers).') ';
+			$manufacturers_data = $this->model_catalog_manufacturer->getManufacturers($filter);
+		}
+
+		foreach ($manufacturers_data as $manufacturer) {
+			$manufacturer_data[ ] = array(
+				'id' => $manufacturer['manufacturer_id'],
+				'name' => $manufacturer['name'],
+				'sort_order' => 0
+			);
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($manufacturer_data));
 	}
 
 }

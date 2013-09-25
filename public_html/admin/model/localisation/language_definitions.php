@@ -21,8 +21,11 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ModelLocalisationLanguageDefinitions extends Model {
-
-	public function addLanguageDefinition($data) {
+    /**
+     * @param array $data
+     * @return bool|int
+     */
+    public function addLanguageDefinition($data) {
 		if (!is_array($data) || !$data) return false;
 
 		$update_data = array();
@@ -66,7 +69,12 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		return $this->db->getLastId();
 	}
 
-	public function editLanguageDefinition($id, $data) {
+    /**
+     * @param int $id
+     * @param array $data
+     * @return bool
+     */
+    public function editLanguageDefinition($id, $data) {
 		if (empty($id) || !is_array($data) || !$data) return false;
 
 		$lang_value = (string)$data['language_value'];
@@ -98,9 +106,13 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		$this->cache->delete('lang');
 		$this->cache->delete('language_definitions');
 		$this->cache->delete('admin_menu');
+        return true;
 	}
 
-	public function deleteLanguageDefinition($id) {
+    /**
+     * @param int $id
+     */
+    public function deleteLanguageDefinition($id) {
 		$result = $this->db->query("SELECT language_id, `section`, `language_key`, `block`
 						FROM " . DB_PREFIX . "language_definitions
 						WHERE language_definition_id = '" . (int)$id . "'");
@@ -115,25 +127,41 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		$this->cache->delete('admin_menu');
 	}
 
-	public function getLanguageDefinition($id) {
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function getLanguageDefinition($id) {
 		$query = $this->db->query("SELECT DISTINCT *
 									FROM " . DB_PREFIX . "language_definitions
 									WHERE language_definition_id = '" . (int)$id . "'");
-
 		return $query->row;
 	}
 
-	public function getLanguageDefinitionIdByKey($key, $language_id, $block, $section) {
+    /**
+     * @param string $key
+     * @param int $language_id
+     * @param string $block
+     * @param int $section
+     * @return int
+     */
+    public function getLanguageDefinitionIdByKey($key, $language_id, $block, $section) {
 		$query = $this->db->query("SELECT language_definition_id
 									FROM " . DB_PREFIX . "language_definitions
 									WHERE language_key = '" . $this->db->escape($key) . "'
 										AND block='" . $this->db->escape($block) . "'
 										AND language_id='" . $this->db->escape($language_id) . "'
 										AND section='" . (int)$section . "'");
-		return $query->row['language_definition_id'];
+		return (int)$query->row['language_definition_id'];
 	}
 
-	public function getAllLanguageDefinitionsIdByKey($key, $block, $section) {
+    /**
+     * @param string $key
+     * @param string $block
+     * @param int $section
+     * @return array
+     */
+    public function getAllLanguageDefinitionsIdByKey($key, $block, $section) {
 		$query = $this->db->query("SELECT language_definition_id
 									FROM " . DB_PREFIX . "language_definitions
 									WHERE language_key = '" . $this->db->escape($key) . "'
@@ -143,10 +171,16 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		return $query->rows;
 	}
 
-	public function getLanguageDefinitions($data = array(), $mode = 'default') {
+    /**
+     * @param array $data
+     * @param string $mode
+     * @return array
+     */
+    public function getLanguageDefinitions($data = array(), $mode = 'default') {
 
 		if ($data || $mode == 'total_only') {
 			$filter = (isset($data['filter']) ? $data['filter'] : array());
+
 			if ($mode == 'total_only') {
 				$sql = "SELECT count(*) as total
 						FROM " . DB_PREFIX . "language_definitions ld
@@ -157,8 +191,9 @@ class ModelLocalisationLanguageDefinitions extends Model {
 						LEFT JOIN " . DB_PREFIX . "languages l ON l.language_id = ld.language_id";
 			}
 
-			if (isset($filter['section']) && !empty($filter['section'])) {
-				$sql .= " WHERE `section` = '" . $this->db->escape($filter['section']) . "' ";
+			if (has_value($filter['section'])) {
+                $filter['section'] = $filter['section']=='admin' ? 1 :0;
+				$sql .= " WHERE `section` = '" . (int)$filter['section'] . "' ";
 			} else {
 				$sql .= " WHERE 1=1 ";
 			}
@@ -269,9 +304,11 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		}
 	}
 
-	public function getTotalDefinitions($data = array()) {
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function getTotalDefinitions($data = array()) {
 		return $this->getLanguageDefinitions($data, 'total_only');
 	}
 }
-
-?>

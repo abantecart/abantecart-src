@@ -29,17 +29,13 @@ foreach($templates as $t) {
 <div id="page_layout">
 	<?php echo $layoutform; ?>
 </div>
-<script><!--
-jQuery(function($){
-
+<script type="text/javascript"><!--
     $('#layout_template').width('150')
         .aform({
-            triggerChanged: false,
+            triggerChanged: false
         })
         .change(function(){
             window.location = '<?php echo $page_url?>&tmpl_id='+this.value;
         });
     $.aform.styleGridForm('#layout_template');
-
-});
 --></script>

@@ -43,7 +43,7 @@
 	</table>
 	<div class="gray_separator"></div>
 	<?php } ?>
-<?php  if ($payment_method || $balance) { ?>
+<?php  if ($payment_method || $balance || $this->getHookVar('payment_method')) { ?>
 	<table width="100%">
 		<?php if($payment_method){?>
         <tr>
@@ -79,7 +79,16 @@
 				</td>
 			</tr>
 
-		<?php } ?>
+		<?php }
+
+		if($this->getHookVar('payment_method')){?>
+			<tr>
+				<td align="left"><?php echo $this->getHookVar('payment_method_title');?></td>
+				<td align="left">&nbsp;</td>
+				<td align="right"><?php echo $this->getHookVar('payment_method'); ?></td>
+			</tr>
+		<?php }	?>
+
 	</table>
 	<div class="gray_separator"></div>
 	  <?php } ?>

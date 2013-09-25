@@ -90,8 +90,8 @@ class ControllerPagesCheckoutCart extends AController {
 
 							$options[$id] = $file_path_info['name'];
 
-							if ( $this->model_catalog_product->validateRequiredOptions($product_id, $options) ) {
-								$this->session->data['error'] = $this->language->get('error_required_options');
+							if ( $text_errors =  $this->model_catalog_product->validateProductOptions($product_id, $options) ) {
+								$this->session->data['error'] = implode('<br>',$text_errors);
 								$this->redirect($_SERVER['HTTP_REFERER']);
 							} elseif ( !has_value($name) ) {
 								continue;
@@ -136,8 +136,8 @@ class ControllerPagesCheckoutCart extends AController {
 						}
 					}
 
-					if ( $this->model_catalog_product->validateRequiredOptions($product_id, $options) ) {
-						$this->session->data['error'] = $this->language->get('error_required_options');
+					if ($text_errors = $this->model_catalog_product->validateProductOptions($product_id, $options) ) {
+						$this->session->data['error'] = $text_errors;
 						//send options values back via _GET
 						$url = '&'.http_build_query(array('option' => $this->request->post['option']));
 						$this->redirect($this->html->getSecureURL('product/product','&product_id='.$this->request->post['product_id'].$url));
@@ -250,7 +250,7 @@ class ControllerPagesCheckoutCart extends AController {
           			'stock'    => $result['stock'],
 					'price'    => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
 					'total'    => $this->currency->format($this->tax->calculate($result['total'], $result['tax_class_id'], $this->config->get('config_tax'))),
-					'href'     => $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'])
+					'href'     => $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'],true)
         		);
       		}
             $this->data['products'] =  $products ;

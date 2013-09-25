@@ -277,6 +277,7 @@ class ControllerPagesProductProduct extends AController {
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
 		$options = array();
         $product_options = $this->model_catalog_product->getProductOptions($product_id);
+
 		foreach ($product_options as $option) {
 		    $values = array();
 		    $name = $price = $default_value = '';
@@ -359,7 +360,9 @@ class ControllerPagesProductProduct extends AController {
 		    			'value' => $value,
 		    			'options' => $values,
 		    			'required' => $option['required'],
-		    			'placeholder' => $option['option_placeholder']
+		    			'placeholder' => $option['option_placeholder'],
+		    			'regexp_pattern' => $option['regexp_pattern'],
+		    			'error_text' => $option['error_text']
 						);
 		    	if($option['html_type']=='checkbox'){
 		    		$option_data['label_text'] = $value;
@@ -367,7 +370,7 @@ class ControllerPagesProductProduct extends AController {
 	
 		    	$options[] = array(
 		    		'name' => $option['name'],
-		    		'html' => $this->html->buildElement( $option_data),
+		    		'html' => $this->html->buildElement( $option_data),  // not a string!!! it's object!
 		    	);
 		    }
 		}

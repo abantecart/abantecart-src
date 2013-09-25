@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="icon-credit-card"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
@@ -22,6 +22,7 @@
 	<h4 class="heading4"><?php echo $text_payment_address; ?></h4>
 	<div class="registerbox">
 		<table class="table table-striped table-bordered">
+		<?php echo $this->getHookVar('payment_extensions_pre_address_hook'); ?>
 		<tr>
 			<td><?php echo $address; ?></td>
 			<td>
@@ -36,13 +37,14 @@
 			</div>									
 			</td>
 		</tr>
+		<?php echo $this->getHookVar('payment_extensions_post_address_hook'); ?>
 		</table>		
 	</div>
 
     <?php 
-    	if ($coupon_status) { 
-    		echo $coupon_form;
-    	} 
+	if ($coupon_status) {
+		echo $coupon_form;
+	}
     if ($balance) { ?>
 		<h4 class="heading4"><?php echo $text_balance; ?></h4>
     	<div class="registerbox">
@@ -53,6 +55,8 @@
 
     <?php } ?>
 
+	<?php echo $this->getHookVar('payment_extensions_pre_hook'); ?>
+
 	<?php echo $form['form_open'];?>	
 
 	<?php if( $payment_methods ) { ?>			
@@ -60,9 +64,10 @@
 	<p><?php echo $text_payment_methods; ?></p>		
 	<div class="registerbox">		
         <table class="table table-striped table-bordered">
+			<?php echo $this->getHookVar('payment_extensions_pre_payments_hook'); ?>
 			<?php foreach ($payment_methods as $payment_method) { ?>
 			<tr>
-			  <td width="1"><?php echo $payment_method['radio']; ?></td>
+			  <td style="width:1px;"><?php echo $payment_method['radio']; ?></td>
 			  <td><label for="payment_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;">
 				<?php $icon = $payment_method['icon'];
 				if ( count ($icon) ) {  ?>
@@ -75,6 +80,7 @@
 			  </label></td>
 			</tr>
 			<?php } ?>
+			<?php echo $this->getHookVar('payment_extensions_post_payments_hook'); ?>
 		</table>
 	</div>
 	<?php } ?>

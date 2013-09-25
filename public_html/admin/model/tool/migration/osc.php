@@ -20,19 +20,27 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
-require_once DIR_ROOT.'/admin/model/tool/migration/interface_migration.php';
+require_once 'interface_migration.php';
 
 class Migration_Osc implements Migration {
 
 	private $data;
 	private $config;
-	private $db;
+	private $src_db;
 	private $error_msg;
+	private $language_id_src;
 
 	function __construct($migrate_data, $oc_config) {
 		$this->config = $oc_config;
 		$this->data = $migrate_data;
 		$this->error_msg = "";
+		/**
+		 * @var ADB
+		 */
+		if($migrate_data){
+			require_once DIR_DATABASE.'mysql.php';
+			$this->src_db = new Mysql($this->data['db_host'], $this->data['db_user'], $this->data['db_password'], $this->data['db_name'], true);
+		}
 	}
 
 
@@ -44,13 +52,23 @@ class Migration_Osc implements Migration {
         return '2.2RC2';
     }
 
+	private function getSourceLanguageId(){
+		if(!$this->language_id_src){
+			$result = $this->src_db->query("SELECT languages_id as language_id
+											FROM " . $this->data['db_prefix'] . "languages
+											WHERE `code` = (SELECT `configuration_value`
+															FROM " . $this->data['db_prefix'] . "configuration
+															WHERE `configuration_key`='DEFAULT_LANGUAGE');");
+			$this->language_id_src = $result->row['language_id'];
+		}
+		return $this->language_id_src;
+	}
+
 	public function getCategories() {
 		$this->error_msg = "";
-		$this->db = mysql_connect($this->data[ 'db_host' ], $this->data[ 'db_user' ], $this->data[ 'db_password' ], true);
-		mysql_select_db($this->data[ 'db_name' ], $this->db);
 
 		// for now use default language
-		$languages_id = 1;
+		$languages_id = $this->getSourceLanguageId();
 
 		$categories_query = "SELECT	c.categories_id as category_id,
 									cd.categories_name as name,
@@ -61,57 +79,65 @@ class Migration_Osc implements Migration {
 								FROM " . $this->data[ 'db_prefix' ] . "categories c, " . $this->data[ 'db_prefix' ] . "categories_description cd
 								WHERE c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "'
 								ORDER BY c.sort_order, cd.categories_name";
-		$categories = mysql_query($categories_query, $this->db);
+		$categories = $this->src_db->query( $categories_query, true);
 		if (!$categories) {
-			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error. '<br>';
 			return false;
 		}
 
 		$result = array();
-		while ($item = mysql_fetch_assoc($categories)) {
+		foreach($categories->rows as $item){
 			$result[ $item[ 'category_id' ] ] = $item;
+			$item['image'] = trim($item['image']);
+			$result[$item['category_id']]['image'] = array();
+			if($item['image']){
+				$img_uri = $this->data['cart_url'];
+				if(substr($img_uri,-1)!='/'){
+					$img_uri .= '/';
+				}
+				$img_uri .= 'images/';
+				$result[$item['category_id']]['image']['db'] = str_replace(' ', '%20', $img_uri. $item['image']);
+			}
 		}
-
-		mysql_free_result($categories);
-		mysql_close($this->db);
 
 		return $result;
 	}
 
 	public function getManufacturers() {
 		$this->error_msg = "";
-		$this->db = mysql_connect($this->data[ 'db_host' ], $this->data[ 'db_user' ], $this->data[ 'db_password' ], true);
-		mysql_select_db($this->data[ 'db_name' ], $this->db);
 
-		$sql_query = "SELECT manufacturers_id, manufacturers_name as name, manufacturers_image as image
+		$sql_query = "SELECT manufacturers_id as manufacturer_id, manufacturers_name as name, manufacturers_image as image
                       FROM " . $this->data[ 'db_prefix' ] . "manufacturers
                       ORDER BY manufacturers_name";
-		$items = mysql_query($sql_query, $this->db);
+		$items = $this->src_db->query( $sql_query, true);
 		if (!$items) {
-			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error. '<br>';
 			return false;
 		}
 
 		$result = array();
-		while ($item = mysql_fetch_assoc($items)) {
-			$result[ $item[ 'manufacturers_id' ] ] = $item;
+		foreach($items->rows as $item){
+			$result[ $item[ 'manufacturer_id' ] ] = $item;
+			$item['image'] = trim($item['image']);
+			$result[$item['manufacturer_id']]['image'] = array();
+			if($item['image']){
+				$img_uri = $this->data['cart_url'];
+				if(substr($img_uri,-1)!='/'){
+					$img_uri .= '/';
+				}
+				$img_uri .= 'images/';
+				$result[$item['manufacturer_id']]['image']['db'] = str_replace(' ', '%20', $img_uri. $item['image']);
+			}
 		}
-
-		mysql_free_result($items);
-		mysql_close($this->db);
-
 		return $result;
 	}
 
 	public function getProducts() {
 		$this->error_msg = "";
-		$this->db = mysql_connect($this->data[ 'db_host' ], $this->data[ 'db_user' ], $this->data[ 'db_password' ], true);
-		mysql_select_db($this->data[ 'db_name' ], $this->db);
-
 		// for now use default language
-		$languages_id = 1;
+		$languages_id = $this->getSourceLanguageId();
 
-		$products_query = "SELECT   p.products_id,
+		$products_query = "SELECT   p.products_id as product_id,
 									p.products_model as model,
 									p.products_quantity as quantity,
 									'7' as stock_status_id,
@@ -133,42 +159,46 @@ class Migration_Osc implements Migration {
 							WHERE
 								pd.products_id = p.products_id
 								AND pd.language_id = '" . (int)$languages_id . "'";
-		$items = mysql_query($products_query, $this->db);
+		$items = $this->src_db->query( $products_query, true);
 		if (!$items) {
-			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error. '<br>';
 			return false;
 		}
 
 		$result = array();
-		while ($item = mysql_fetch_assoc($items)) {
-			$result[ $item[ 'products_id' ] ] = $item;
+		foreach($items->rows as $item){
+			$result[ $item[ 'product_id' ] ] = $item;
+			$item['image'] = trim($item['image']);
+			$result[$item['product_id']]['image'] = array();
+			if($item['image']){
+				$img_uri = $this->data['cart_url'];
+				if(substr($img_uri,-1)!='/'){
+					$img_uri .= '/';
+				}
+				$img_uri .= 'images/';
+				$result[$item['product_id']]['image']['db'] = str_replace(' ', '%20', $img_uri.$item['image']);
+			}
 		}
 
 		//add categories id
-		$sql_query = "SELECT categories_id, products_id
+		$sql_query = "SELECT categories_id as category_id, products_id as product_id
                       FROM " . $this->data[ 'db_prefix' ] . "products_to_categories";
-		$items = mysql_query($sql_query, $this->db);
+		$items = $this->src_db->query( $sql_query, true);
 		if (!$items) {
-			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error. '<br>';
 			return false;
 		}
-
-		while ($item = mysql_fetch_assoc($items)) {
-			if (!empty($result[ $item[ 'products_id' ] ]))
-				$result[ $item[ 'products_id' ] ][ 'product_category' ][ ] = $item[ 'categories_id' ];
+		foreach($items->rows as $item){
+			if (!empty($result[ $item[ 'product_id' ] ]))
+				$result[ $item[ 'product_id' ] ][ 'product_category' ][ ] = $item[ 'category_id' ];
 		}
-
-		mysql_close($this->db);
 
 		return $result;
 	}
 
 	public function getCustomers() {
 		$this->error_msg = "";
-		$this->db = mysql_connect($this->data[ 'db_host' ], $this->data[ 'db_user' ], $this->data[ 'db_password' ], true);
-		mysql_select_db($this->data[ 'db_name' ], $this->db);
-
-		$customers_query = "SELECT  c.customers_id,
+		$customers_query = "SELECT  c.customers_id as customer_id,
 									c.customers_firstname as firstname,
 									c.customers_lastname lastname,
 									c.customers_email_address as email,
@@ -178,19 +208,19 @@ class Migration_Osc implements Migration {
 									c.customers_newsletter as newsletter
 							FROM " . $this->data[ 'db_prefix' ] . "customers c ";
 
-		$customers = mysql_query($customers_query, $this->db);
+		$customers = $this->src_db->query( $customers_query, true);
 		if (!$customers) {
-			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error. '<br>';
 			return false;
 		}
 
 		$result = array();
-		while ($customer = mysql_fetch_assoc($customers)) {
-			$result[ $customer[ 'customers_id' ] ] = $customer;
+		foreach($customers->rows as $customer){
+			$result[ $customer[ 'customer_id' ] ] = $customer;
 		}
 
 		// add customers addresses
-		$address_query = "SELECT a.customers_id,
+		$address_query = "SELECT a.customers_id as customer_id,
 								a.entry_company as company,
 								a.entry_firstname as firstname,
 								a.entry_lastname as lastname,
@@ -200,27 +230,109 @@ class Migration_Osc implements Migration {
 								a.entry_zone_id as zone_id,
 								a.entry_country_id as country_id
 						  FROM " . $this->data[ 'db_prefix' ] . "address_book a ";
-		$addresses = mysql_query($address_query, $this->db);
+		$addresses = $this->src_db->query( $address_query, true);
 		if (!$addresses) {
-			$this->error_msg = 'Migration Error: ' . mysql_error() . '<br>File :' . __FILE__ . '<br>Line :' . __LINE__ . '<br>';
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error. '<br>';
 			return false;
 		}
 
-		while ($address = mysql_fetch_assoc($addresses)) {
-			$result[ $address[ 'customers_id' ] ][ 'address' ][ ] = $address;
+		foreach($addresses->row as $address){
+			$result[ $address[ 'customer_id' ] ][ 'address' ][ ] = $address;
 		}
 
-		mysql_close($this->db);
 		return $result;
-
 	}
 
 	public function getOrders() {
-
-		
+		return array();
 	}
+
+
+	public function getProductOptions() {
+		$this->error_msg = "";
+		$language_id = $this->getSourceLanguageId();
+		//options
+		$sql = "SELECT DISTINCT pa.products_id as product_id,
+								pa.options_id as product_option_id,
+								`products_options_name` as product_option_name,
+								0 as subtract,
+								'S' as element_type,
+								0 as products_text_attributes_id,
+								0 as sort_order
+				FROM " . $this->data['db_prefix'] . "products_options po
+				RIGHT JOIN " . $this->data['db_prefix'] . "products_attributes pa	ON pa.options_id = po.products_options_id
+				WHERE po.language_id='".$language_id."'
+				ORDER BY product_id, product_option_id";
+
+		$items = $this->src_db->query($sql,true);
+		if (!$items) {
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error. '<br>';
+			return false;
+		}
+
+		$result = array();
+		foreach($items->rows as $item){
+			$result['product_options'][] = $item;
+		}
+
+		//option values
+		$sql = "SELECT DISTINCT pa.price_prefix,
+						pa.options_values_price as price,
+						pa.products_id as product_id,
+						povpo.products_options_id as product_option_id,
+						povpo.products_options_values_id as product_option_value_id,
+						pov.products_options_values_name as product_option_value_name,
+						0 as products_text_attributes_id
+				FROM " . $this->data['db_prefix'] . "products_options_values_to_products_options povpo
+				LEFT JOIN " . $this->data['db_prefix'] . "products_options_values pov
+						ON pov.products_options_values_id = povpo.products_options_values_id AND pov.language_id='".$language_id."'
+				RIGHT JOIN " . $this->data['db_prefix'] . "products_attributes pa
+						ON pa.options_values_id = povpo.products_options_values_id AND pa.options_id = povpo.products_options_id
+		WHERE pa.products_id>0 AND povpo.products_options_id<>''
+		ORDER BY product_option_id, product_option_value_name, product_id";
+		$items = $this->src_db->query($sql,true);
+		if (!$items) {
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error. '<br>';
+			return false;
+		}
+
+		foreach($items->rows as $item){
+			$result['product_option_values'][] = $item;
+		}
+
+		//products option values
+		$sql = "SELECT *, options_values_price as price
+				FROM " . $this->data['db_prefix'] . "products_attributes";
+		$items = $this->src_db->query($sql,true);
+		if (!$items) {
+			$this->error_msg = 'Migration Error: ' . $this->src_db->error. '<br>';
+			return false;
+		}
+
+		foreach($items->rows as $item){
+			$result['product_attributes'][] = $item;
+		}
+
+		return $result;
+	}
+
+
 
 	public function getErrors() {
 		return $this->error_msg;
+	}
+
+	public function getCounts() {
+		$products = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."products", true);
+		$categories = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."categories", true);
+		$manufacturers = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."manufacturers", true);
+		$customers = $this->src_db->query("SELECT COUNT(*) as cnt FROM ".$this->data['db_prefix']."customers", true);
+
+		return array(
+			'products' => (int)$products->row['cnt'],
+			'categories' => (int)$categories->row['cnt'],
+			'manufacturers' => (int)$manufacturers->row['cnt'],
+			'customers' => (int)$customers->row['cnt']
+		);
 	}
 }

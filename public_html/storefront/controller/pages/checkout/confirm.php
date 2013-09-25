@@ -110,7 +110,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 		}
 		
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('checkout/payment', '&mode=edit'),
+        	'href'      => $this->html->getURL('checkout/payment', '&mode=edit',true),
         	'text'      => $this->language->get('text_payment'),
         	'separator' => $this->language->get('text_separator')
       	 ));
@@ -137,12 +137,12 @@ class ControllerPagesCheckoutConfirm extends AController {
 
 			if((float)$this->session->data['used_balance']>0){
 
-				$this->data['disapply_balance'] = array('href'=> $this->html->getSecureURL('checkout/payment','&mode=edit&balance=disapply'),
-																	'text' => $this->language->get('button_disapply_balance'));
+				$this->data['disapply_balance'] = array('href'=> $this->html->getSecureURL('checkout/payment','&mode=edit&balance=disapply',true),
+														'text' => $this->language->get('button_disapply_balance'));
 				$this->data['balance'] .=  ' ('.$this->currency->format($balance_def_currency-(float)$this->session->data['used_balance']).')';
 				$this->data['balance'] .=  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$this->currency->format((float)$this->session->data['used_balance']).' '.$this->language->get('text_applied_balance');
 			}elseif((float)$this->session->data['used_balance']==0 && $balance>0){
-				$this->data['disapply_balance'] = array('href'=> $this->html->getSecureURL('checkout/payment','&mode=edit&balance=apply'),
+				$this->data['disapply_balance'] = array('href'=> $this->html->getSecureURL('checkout/payment','&mode=edit&balance=apply',true),
 														'text' => $this->language->get('button_apply_balance'));
 			}
 		}
@@ -157,7 +157,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 		
         $this->data['shipping_method'] = $this->session->data['shipping_method']['title'];
         $this->data['shipping_method_price'] = $this->session->data['shipping_method']['title'];
-		$this->data['checkout_shipping_edit'] = $this->html->getSecureURL('checkout/shipping', '&mode=edit');
+		$this->data['checkout_shipping_edit'] = $this->html->getSecureURL('checkout/shipping', '&mode=edit',true);
     	$this->data['checkout_shipping_address'] = $this->html->getSecureURL('checkout/address/shipping');
 
 		$payment_address = $this->model_account_address->getAddress($this->session->data['payment_address_id']);
@@ -172,7 +172,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 			$this->data['payment_method'] = '';
 		}
 
-		$this->data['checkout_payment_edit'] = $this->html->getSecureURL('checkout/payment', '&mode=edit');
+		$this->data['checkout_payment_edit'] = $this->html->getSecureURL('checkout/payment', '&mode=edit',true);
 		$this->data['checkout_payment_address'] = $this->html->getSecureURL('checkout/address/payment');
 
 		$this->loadModel('tool/seo_url');
@@ -196,7 +196,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 				'tax'        => $this->currency->format($tax),
         		'price'      => $this->currency->format($this->data['products'][$i]['price']),
         		'total'      => $this->currency->format($this->data['products'][$i]['total']),
-				'href'       => $this->html->getURL('product/product', '&product_id=' . $product_id )
+				'href'       => $this->html->getSEOURL('product/product', '&product_id=' . $product_id, true )
       		)); 
         }
 
@@ -210,7 +210,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 			$content_info = $this->model_catalog_content->getContent($this->config->get('config_checkout_id'));
 			if ($content_info) {
 				$this->data['text_accept_agree'] = $this->language->get('text_accept_agree');
-				$this->data['text_accept_agree_href'] = $this->html->getURL('r/content/content/loadInfo','&content_id=' . $this->config->get('config_checkout_id'));
+				$this->data['text_accept_agree_href'] = $this->html->getSEOURL('r/content/content/loadInfo','&content_id=' . $this->config->get('config_checkout_id'),true);
 				$this->data['text_accept_agree_href_link'] = $content_info['title'];
 			} else {
 				$this->data['text_accept_agree'] = '';

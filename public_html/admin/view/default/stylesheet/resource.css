@@ -354,6 +354,9 @@ img {
 .resource-details td {
 	vertical-align: top;
 }
+.resource-details td:first-child {
+	width: 83px;
+}
 
 .resource-details td a {
 	text-decoration: underline;

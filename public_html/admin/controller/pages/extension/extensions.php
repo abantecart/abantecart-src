@@ -255,6 +255,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			'separator' => ' :: '));
 
 		$extension = $this->request->get['extension'];
+		$this->loadLanguage('extension/extensions');
 		$this->loadLanguage($extension . '/' . $extension);
 
 		$store_id = (int)$this->config->get('config_store_id');
@@ -320,7 +321,11 @@ class ControllerPagesExtensionExtensions extends AController {
 				$note_text = $this->language->get($data[ 'name' ]);
 				// if text definition not found - seek it in default settings definitions
 				if($note_text==$data[ 'name' ]){
-					$note_text = $this->language->get(str_replace($extension . '_','text_',$data[ 'name' ]));
+					$new_text_key = str_replace($extension . '_','text_',$data[ 'name' ]);
+					$note_text = $this->language->get($new_text_key);
+				}
+				if($note_text==$new_text_key){
+					$note_text = $this->language->get($new_text_key.'_'.$extension_info['type']);
 				}
 				$data[ 'note' ] = $note_text;
 			}
@@ -529,10 +534,10 @@ class ControllerPagesExtensionExtensions extends AController {
 
 			$long_datetime_format = $this->language->get('date_format_long').' '.$this->language->get('time_format');
 			if($extension_info['date_installed']){
-				$extension_data['installed'] = date($long_datetime_format, strtotime($extension_info['date_installed']));
+				$extension_data['installed'] = dateISO2Display($extension_info['date_installed'], $long_datetime_format );
 			}
 			if($extension_info['create_date']){
-				$extension_data['create_date'] =  date($long_datetime_format, strtotime($extension_info['create_date']));
+				$extension_data['create_date'] =  dateISO2Display($extension_info['create_date'], $long_datetime_format );
 			}
 
 			$extension_data['license'] = $extension_info['license_key'];

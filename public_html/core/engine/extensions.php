@@ -965,7 +965,7 @@ class ExtensionUtils {
 					'field1' => (string)$item->variants->fields->field[0],
 					'field2' => (string)$item->variants->fields->field[1],
 				);
-				if ($item->variants->item[0]) { // if just hardcoded selectbox options
+				if ($item->variants->item) { // if just hardcoded selectbox options
 					foreach ($item->variants->item as $k) {
 						$k = (string)$k;
 						$result[$i]['options'][$k] = $this->registry->get('language')->get((string)$item['id'] . '_' . $k);

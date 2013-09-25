@@ -249,7 +249,7 @@ class ModelSaleOrder extends Model {
 				$subject = sprintf($language->get('text_subject'), $order_query->row['store_name'], $order_id);
 	
 				$message  = $language->get('text_order') . ' ' . $order_id . "\n";
-				$message .= $language->get('text_date_added') . ' ' . date($language->get('date_format_short'), strtotime($order_query->row['date_added'])) . "\n\n";
+				$message .= $language->get('text_date_added') . ' ' . dateISO2Display($order_query->row['date_added'], $language->get('date_format_short')) . "\n\n";
 				$message .= $language->get('text_order_status') . "\n\n";
 				$message .= $order_query->row['status'] . "\n\n";
 				$message .= $language->get('text_invoice') . "\n";

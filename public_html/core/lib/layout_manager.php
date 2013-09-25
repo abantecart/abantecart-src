@@ -94,7 +94,7 @@ class ALayoutManager {
 			}
 		}
 
-		$this->layout_id = $this->active_layout ['layout_id'];
+		$this->layout_id = $this->active_layout['layout_id'];
 
 		ADebug::variable('Template id', $this->tmpl_id);
 		ADebug::variable('Page id', $this->page_id);
@@ -638,7 +638,10 @@ class ALayoutManager {
 	public function getBlockInfo($block_id) {
 		$block_id = (int)$block_id;
 		if (!$block_id) return array();
-
+		
+		//Note: Cannot restrict select block based on page_id and layout_id. Some pages, might use default layout and have no pages_layouts entry
+		// Use OR to select all options and order by layout_id
+		$where = '';	
 		$sql = "SELECT DISTINCT b.block_id as block_id,
 				b.block_txt_id as block_txt_id,
 				b.controller as controller,
@@ -655,8 +658,9 @@ class ALayoutManager {
 			LEFT JOIN " . DB_PREFIX . "block_layouts bl ON bl.block_id=b.block_id
 			LEFT JOIN " . DB_PREFIX . "layouts l ON l.layout_id = bl.layout_id
 			LEFT JOIN " . DB_PREFIX . "pages_layouts pl ON pl.layout_id = l.layout_id
-			WHERE b.block_id='" . $block_id . "'
+			WHERE b.block_id='" . $block_id . "' " . $where . " 
 			ORDER BY bl.layout_id ASC";
+
 		$result = $this->db->query($sql);
 		return $result->rows;
 	}

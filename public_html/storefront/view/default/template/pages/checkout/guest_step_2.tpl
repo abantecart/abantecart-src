@@ -144,6 +144,7 @@
 	} );	
 	
 	function show_payment( shp_name ) {
+		if(<?php echo $order_totals['total'];?><=0){return;}
 		$('#active_payments').show();
 		$('.payment_palce_holder').html('');
 		$('.payment_palce_holder').html( $('#hidden_payments .'+shp_name).html() );

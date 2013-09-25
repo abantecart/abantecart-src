@@ -20,7 +20,13 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+/**
+ * Class ModelSettingSetting
+ */
 class ModelSettingSetting extends Model {
+	/**
+	 * @return array
+	 */
 	public function getGroups() {
 		$data = array();
 		$query = $this->db->query("SELECT DISTINCT `group` FROM " . DB_PREFIX . "settings");
@@ -30,6 +36,11 @@ class ModelSettingSetting extends Model {
 		return $data;
 	}
 
+	/**
+	 * @param string $setting_key
+	 * @param int $store_id
+	 * @return array
+	 */
 	public function getSettingGroup( $setting_key, $store_id = 0 ) {
 		$data = array();
 		$query = $this->db->query("SELECT DISTINCT `group` FROM " . DB_PREFIX . "settings 
@@ -42,6 +53,11 @@ class ModelSettingSetting extends Model {
 		return $data;
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array
+	 */
 	public function getAllSettings($data = array(), $mode = 'default') {
 
 		if ($mode == 'total_only') {
@@ -99,10 +115,19 @@ class ModelSettingSetting extends Model {
 		return $query->rows;
 	}
 
+	/**
+	 * @param array $data
+	 * @return array
+	 */
 	public function getTotalSettings($data = array()) {
 		return $this->getAllSettings($data, 'total_only');
 	}
 
+	/**
+	 * @param string $group
+	 * @param int $store_id
+	 * @return array
+	 */
 	public function getSetting($group,$store_id=0) {
 		$data = array();
 
@@ -116,7 +141,12 @@ class ModelSettingSetting extends Model {
 		}
 		return $data;
 	}
-	
+
+	/**
+	 * @param string $group
+	 * @param array $data
+	 * @param int|null $store_id
+	 */
 	public function editSetting($group, $data, $store_id=null) {
 		$store_id = is_null($store_id) ? ($this->config->get('config_store_id')) : (int)$store_id;
 		$languages = $this->language->getAvailableLanguages();
@@ -149,14 +179,19 @@ class ModelSettingSetting extends Model {
 
 		// if need translate
 		if($locales){
-
-
 			if($src_lang_id){
 				$src_text =  isset($data['config_description_'.$src_lang_id]) ? $data['config_description_'.$src_lang_id] : $this->config->get('config_description_'.$src_lang_id);
 				foreach($locales as $dst_lang_id=>$dst_code){
 					$data['config_description_'.$dst_lang_id] = $this->language->translate ($this->config->get('translate_src_lang_code'), $src_text, $dst_code);
 				}
 			}
+		}
+		//need to add slash at the end because browsers do it too automatically
+		if(has_value($data['config_url']) && substr($data['config_url'],-1)!='/'){
+			$data['config_url'] .= '/';
+		}
+		if(has_value($data['config_ssl_url']) && substr($data['config_ssl_url'],-1)!='/'){
+			$data['config_ssl_url'] .= '/';
 		}
 
 		foreach ($data as $key => $value) {
@@ -178,7 +213,10 @@ class ModelSettingSetting extends Model {
 		$this->cache->delete('stores');
 	}
 
-	
+	/**
+	 * @param string $group
+	 * @param int $store_id
+	 */
 	public function deleteSetting($group, $store_id=0) {
 		$store_id = (int)$store_id;
 		$this->db->query("DELETE FROM " . DB_PREFIX . "settings
@@ -189,4 +227,3 @@ class ModelSettingSetting extends Model {
 		$this->cache->delete('stores');
 	}
 }
-?>

@@ -1,8 +1,8 @@
 <div class="buttons">
   <table>
     <tr>
-      <td align="left"><?php echo $button_back; ?></td>
-      <td align="right"><?php echo $button_confirm; ?></td>
+      <td class="align_left"><?php echo $button_back; ?></td>
+      <td class="align_right"><?php echo $button_confirm; ?></td>
     </tr>
   </table>
 </div>

@@ -66,6 +66,7 @@ class AListing {
 												'storefront_model' => 'catalog/product',
 												'storefront_method' => 'getProduct',
 												'storefront_view_path' => 'product/product',
+												'items_list_url' => 'product/product/related'
 												),
 
 						'custom_categories' => array(
@@ -80,6 +81,7 @@ class AListing {
 												'storefront_model' => 'catalog/category',
 												'storefront_method' => 'getCategory',
 												'storefront_view_path' => 'product/category',
+												'items_list_url' => 'product/product/product_categories'
 												),
 
 						'custom_manufacturers' => array(
@@ -94,6 +96,7 @@ class AListing {
 												'storefront_model' => 'catalog/manufacturer',
 												'storefront_method' => 'getManufacturer',
 												'storefront_view_path' => 'product/manufacturer',
+												'items_list_url' => 'catalog/manufacturer_listing/getManufacturers'
 												));
 	}
 

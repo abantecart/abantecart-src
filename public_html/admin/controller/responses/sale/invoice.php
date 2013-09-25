@@ -150,7 +150,7 @@ class ControllerResponsesSaleInvoice extends AController {
 				$this->data[ 'orders' ][ ] = array(
 					'order_id' => $order_id,
 					'invoice_id' => $invoice_id,
-					'date_added' => date($this->language->get('date_format_short'), strtotime($order_info[ 'date_added' ])),
+					'date_added' => dateISO2Display($order_info[ 'date_added' ], $this->language->get('date_format_short')),
 					'store_name' => $order_info[ 'store_name' ],
 					'store_url' => rtrim($order_info[ 'store_url' ], '/'),
 					'address' => nl2br($this->config->get('config_address')),

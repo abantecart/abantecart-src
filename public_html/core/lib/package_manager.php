@@ -247,8 +247,8 @@ class APackageManager {
 				$result = rename($this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_dir'] . '/code/' . $core_filename, DIR_ROOT . '/' . $core_filename);
 				if ($result) {
 					// for index.php do not set 777 permissions because hosting providers will ban it
-					if(pathinfo($core_filename,PATHINFO_FILENAME)=='index.php'){
-						chmod(DIR_ROOT . '/' . $core_filename,0644);
+					if(pathinfo($core_filename,PATHINFO_BASENAME)=='index.php'){
+						chmod(DIR_ROOT . '/' . $core_filename,0755);
 					}else{
 						chmod(DIR_ROOT . '/' . $core_filename,0777);
 					}
@@ -383,6 +383,11 @@ class APackageManager {
 
 
 		$fconnect = ftp_connect($ftp_host, $ftp_port);
+		if(!$fconnect && $ftp_host=='localhost'){ //check dns perversion :-)
+			$ftp_host = '127.0.0.1';
+			$fconnect = ftp_connect($ftp_host, $ftp_port);
+		}
+
 		if ($fconnect) {
 			$login = ftp_login($fconnect, $ftp_user, $ftp_password);
 			if (!$login) {
@@ -489,7 +494,12 @@ class APackageManager {
 				return false;
 			}
             $remote_file = $remote_dir . pathinfo($local, PATHINFO_BASENAME);
-            if(!ftp_chmod($fconnect, 0777, $remote_file)){
+			if(pathinfo($remote_file,PATHINFO_BASENAME)=='index.php'){
+				$chmod_result = ftp_chmod($fconnect, 0755, $remote_file);
+			}else{
+				$chmod_result = ftp_chmod($fconnect, 0777, $remote_file);
+			}
+            if(!$chmod_result){
                 $error = new AError('Cannot to change mode for file '.$remote_file);
                 $error->toLog()->toDebug();
             }
@@ -517,7 +527,7 @@ class APackageManager {
 					ftp_put($conn_id, $dst_dir . "/" . $file, $src_dir . "/" . $file, FTP_BINARY); // put the files
 					// for index.php do not set 777 permissions because hosting providers will ban it
 					if(pathinfo($file,PATHINFO_BASENAME)=='index.php'){
-						ftp_chmod($conn_id, 0644, $dst_dir . "/" . $file);
+						ftp_chmod($conn_id, 0755, $dst_dir . "/" . $file);
 					}else{
 						ftp_chmod($conn_id, 0777, $dst_dir . "/" . $file);
 					}

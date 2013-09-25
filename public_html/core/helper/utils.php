@@ -91,7 +91,7 @@ function SEOEncode($string_value, $object_key_name='', $object_id=0, $language_i
 	$seo_key = html_entity_decode($string_value, ENT_QUOTES, 'UTF-8');
 	$seo_key = preg_replace('/[^\pL\p{Zs}0-9\s\-_]+/u', '', $seo_key);
 	$seo_key = trim(mb_strtolower($seo_key));
-	$seo_key = str_replace(' ','_', $seo_key);
+	$seo_key = str_replace(' ',SEO_URL_SEPARATOR, $seo_key);
 	if(!$object_key_name){
 		return $seo_key;
 	}else{
@@ -602,3 +602,58 @@ function startStorefrontSession($user_id, $data=array()){
     session_write_close();
     return true;
 }
+
+
+/**
+ * Function to built array with sort_order equaly encremented
+ *
+ * @param array $array to build sort order for
+ * @param int $min - minimal sort order numer (start)
+ * @param int $max - maximum sort order number (end)
+ * @param string $sort_direction
+ * @return array with sort order added.
+ */
+function build_sort_order($array, $min, $max, $sort_direction = 'asc'){
+	if ( empty($array) ) {
+		return array();
+	}
+
+	//if no min or max, set interval to 10
+	$return_arr = array();
+	if ($max > 0) {
+		$increment = ($max - $min ) / (count($array) - 1);	
+	} else {
+		$increment = 10;
+		$min = 10;
+		$max = sizeof($array)*10;
+	}
+	$prior_sort = -1;
+	if ( $sort_direction == 'asc') {
+		foreach( $array as $id ){
+		    if($prior_sort < 0) {
+		    	$return_arr[$id] = $min;
+		    } else {
+		    	$return_arr[$id] = round($prior_sort + $increment, 0);
+		    }
+		    $prior_sort = $return_arr[$id];
+		}
+	} else if ( $sort_direction == 'desc') {
+		$prior_sort = $max+$increment;
+		foreach( $array as $id ){
+		   $return_arr[$id] = abs(round($prior_sort - $increment, 0));
+		   $prior_sort = $return_arr[$id];
+		}	
+	}
+	return $return_arr;
+}
+
+/**
+ * Function to test if array is assosiative array
+ *
+ * @param array $test_array
+ * @return bool
+ */
+function is_assoc($test_array) {
+        return is_array($test_array) && array_diff_key($test_array,array_keys(array_keys($test_array)));
+}
+

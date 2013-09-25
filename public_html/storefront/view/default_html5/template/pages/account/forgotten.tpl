@@ -28,8 +28,8 @@
 		<div class="buttons">
 			<table>
 				<tr>
-					<td align="left"><?php echo $form['back']; ?></td>
-					<td align="right"><?php echo $form['continue']; ?></td>
+					<td class="align_left"><?php echo $form['back']; ?></td>
+					<td class="align_right"><?php echo $form['continue']; ?></td>
 				</tr>
 			</table>
 		</div>

@@ -54,8 +54,8 @@ class ControllerCommonFooter extends AController {
     	$this->data['cart'] =  $this->html->getURL('checkout/cart');
 		$this->data['checkout'] =  $this->html->getSecureURL('checkout/shipping');
 
-		if ($this->config->get('google_analytics_status')) {
-			$this->data['google_analytics'] =  html_entity_decode($this->config->get('google_analytics_code'), ENT_QUOTES, 'UTF-8');
+		if ($this->config->get('config_google_analytics_code')) {
+			$this->data['google_analytics'] =  $this->config->get('config_google_analytics_code');
 		} else {
 			$this->data['google_analytics'] =  '';
 		}
@@ -80,4 +80,3 @@ class ControllerCommonFooter extends AController {
 
 	}
 }
-?>

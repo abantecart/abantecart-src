@@ -21,6 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerBlocksLatest extends AController {
+	public $data;
 	public function main() {
 
         //init controller data
@@ -33,7 +34,7 @@ class ControllerBlocksLatest extends AController {
 		$this->loadModel('tool/image');
 		
 	    $this->view->assign('button_add_to_cart', $this->language->get('button_add_to_cart') );
-		$products = array();
+		$this->data['products'] = array();
 		
 		$results = $this->model_catalog_product->getLatestProducts($this->config->get('config_latest_limit'));
 
@@ -80,7 +81,7 @@ class ControllerBlocksLatest extends AController {
                 }
 			}
 
-			$products[] = array(
+			$this->data['products'][] = array(
 				'product_id'    => $result['product_id'],
 				'name'    		=> $result['name'],
 				'model'   		=> $result['model'],
@@ -95,9 +96,7 @@ class ControllerBlocksLatest extends AController {
 			);
 		}
 
-
-
-        $this->view->assign('products', $products );
+        $this->view->assign('products', $this->data['products'] );
 
 		if ($this->config->get('config_customer_price')) {
 			$display_price = TRUE;
@@ -115,4 +114,3 @@ class ControllerBlocksLatest extends AController {
 
 	}
 }
-?>

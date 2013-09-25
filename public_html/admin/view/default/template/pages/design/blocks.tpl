@@ -46,7 +46,7 @@
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
 
-<script language="JavaScript">
+<script type="text/javascript">
 	$('.view.btn_action').live('click',function(){
 		show_popup($(this).attr('id'));
 	});

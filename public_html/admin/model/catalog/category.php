@@ -208,14 +208,18 @@ class ModelCatalogCategory extends Model {
 			$total_sql = 'count(*) as total';
 		}
 		else {
-			$total_sql = '*, c.category_id';
+			$total_sql = "*,
+						  c.category_id,
+						  (SELECT count(*) as cnt
+						  	FROM ".$this->db->table('products_to_categories')." p
+						  	WHERE p.category_id = c.category_id) as products_count ";
 		}
         $where = (isset($data['parent_id']) ? "WHERE c.parent_id = '" . (int)$data['parent_id'] . "'" : '' );
 		$sql = "SELECT ". $total_sql ."
 				FROM " . DB_PREFIX . "categories c
 				LEFT JOIN " . DB_PREFIX . "category_descriptions cd
 					ON (c.category_id = cd.category_id AND cd.language_id = '" . (int)$language_id . "')
-				".$where;
+				" . $where;
 
 		if ( !empty($data['subsql_filter']) ) {
 			$sql .= ($where ? " AND " : 'WHERE ').$data['subsql_filter'];
@@ -266,6 +270,7 @@ class ModelCatalogCategory extends Model {
 				'basename'    => $result['name'],
 				'status'  	  => $result['status'],
 				'sort_order'  => $result['sort_order'],
+				'products_count'=>$result['products_count']
 
 			);
 		}

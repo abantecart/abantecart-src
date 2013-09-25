@@ -38,11 +38,37 @@ class ControllerPagesCheckoutSuccess extends AController {
 							'description' => sprintf($this->language->get('text_applied_balance_to_order'),
 							$this->currency->format($this->currency->convert($amount,$this->config->get('config_currency'), $this->session->data['currency']),$this->session->data['currency'],1),
 							(int)$this->session->data['order_id']));
-				$this->customer->creditTransaction($transaction_data);
+				$this->customer->debitTransaction($transaction_data);
 			}
 
+			// google analytics data for js-script in footer.tpl
+
+			$order = new AOrder( $this->registry );
+			$order_data = $order->buildOrderData( $this->session->data );
+			$order_tax = $order_total = $order_shipping = 0.0;
+			foreach($order_data['totals'] as $total ){
+				if($total['total_type']=='total'){
+					$order_total += $total['value'];
+				}elseif($total['total_type']=='tax'){
+					$order_tax += $total['value'];
+				}elseif($total['total_type']=='shipping'){
+					$order_shipping += $total['value'];
+				}
+			}
+
+			$this->registry->set('google_analytics_data',
+								array('transaction_id' => (int)$this->session->data['order_id'],
+									  'store_name' => $this->config->get('store_name'),
+									  'currency_code' => $order_data['currency'],
+									  'total' => $order_total,
+									  'tax' => $order_tax,
+									  'shipping'=> $order_shipping,
+									  'city'=>$order_data['shipping_city'],
+									  'state'=>$order_data['shipping_zone'],
+									  'country'=> $order_data['shipping_country']	));
+
 			$this->cart->clear();
-			
+
 			unset(  $this->session->data['shipping_method'],
 					$this->session->data['shipping_methods'],
 					$this->session->data['payment_method'],
@@ -52,6 +78,9 @@ class ControllerPagesCheckoutSuccess extends AController {
 					$this->session->data['order_id'],
 					$this->session->data['coupon'],
 					$this->session->data['used_balance']);
+					
+			//Redirect back. Fix for clearing shopping cart content
+			$this->redirect($this->html->getSecureURL('checkout/success'));
 		}
 									   
 		$this->document->setTitle( $this->language->get('heading_title') );

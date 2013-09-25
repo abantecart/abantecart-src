@@ -7,10 +7,10 @@
     </div>
   </div>
   <div class="middle">
-    <table width="100%">
+    <table class="row-fluid">
       <tr>
-        <td style="width: 50%; vertical-align: top;"><?php echo $category; ?></td>
-        <td style="width: 50%; vertical-align: top;"><ul>
+        <td class="span6"><?php echo $category; ?></td>
+        <td class="span6"><ul>
             <li><a href="<?php echo $special; ?>"><?php echo $text_special; ?></a></li>
             <li><a href="<?php echo $account; ?>"><?php echo $text_account; ?></a>
               <ul>

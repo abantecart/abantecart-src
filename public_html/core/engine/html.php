@@ -62,6 +62,10 @@ class AHtml extends AController {
 		if ($this->registry->get('config')->get('storefront_template_debug') && isset($this->registry->get('request')->get[ 'tmpl_debug' ])) {
 			$params .= '&tmpl_debug=' . $this->registry->get('request')->get[ 'tmpl_debug' ];
 		}
+		// add session id for crossdomain transition in secure mode
+		if($this->registry->get('config')->get('config_shared_session')	&& HTTPS===true){
+			$params .= '&session_id='.session_id();
+		}
 
 		$url = $server . INDEX_FILE . $this->url_encode($this->buildURL($rt, $params), $encode);
 		return $url;
@@ -69,6 +73,11 @@ class AHtml extends AController {
 
 	//#PR Build secure URL with session token
 	public function getSecureURL($rt, $params = '', $encode = '') {
+		// add session id for crossdomain transition in non-secure mode
+		if($this->registry->get('config')->get('config_shared_session')	&& HTTPS!==true){
+			$params .= '&session_id='.session_id();
+		}
+
 		$suburl = $this->buildURL($rt, $params);
 		//#PR Add session
 		if (isset($this->session->data[ 'token' ]) && $this->session->data[ 'token' ]) {
@@ -815,11 +824,13 @@ class MultivalueListHtmlElement extends HtmlElement {
 			'form_name' => $this->form,
 			'multivalue_hidden_id' => $this->multivalue_hidden_id,
 			'return_to' => ($this->return_to ? $this->return_to : $this->form . '_' . $this->multivalue_hidden_id . '_item_count'),
+			'with_sorting' => $this->with_sorting
 		);
 
 		$data[ 'text' ][ 'delete' ] = $this->text[ 'delete' ] ? $this->text[ 'delete' ] : 'delete';
 		$data[ 'text' ][ 'delete_confirm' ] = $this->text[ 'delete_confirm' ] ? $this->text[ 'delete_confirm' ] : 'Confirm to delete?';
-
+		$data['text']['column_action'] = $this->data[ 'registry' ]->get('language')->get('column_action');
+		$data['text']['column_sort_order'] = $this->data[ 'registry' ]->get('language')->get('text_sort_order');
 		$this->view->batchAssign($data);
 		$return = $this->view->fetch('form/multivalue_list.tpl');
 		return $return;
@@ -827,9 +838,7 @@ class MultivalueListHtmlElement extends HtmlElement {
 }
 
 class MultivalueHtmlElement extends HtmlElement {
-
 	public function getHtml() {
-
 		$data = array(
 			'id' => $this->element_id,
 			'name' => $this->name,
@@ -884,7 +893,7 @@ class InputHtmlElement extends HtmlElement {
 
 		if (!isset($this->default)) $this->default = '';
 		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
-				
+
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -896,6 +905,8 @@ class InputHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'regexp_pattern' => trim($this->regexp_pattern,'/'),
+				'error_text' => $this->error_text,
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -923,6 +934,8 @@ class PasswordHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'regexp_pattern' => trim($this->regexp_pattern,'/'),
+				'error_text' => $this->error_text,
 			)
 		);
 		$return = $this->view->fetch('form/input.tpl');
@@ -1211,7 +1224,8 @@ class CaptchaHtmlElement extends HtmlElement {
 			array(
 				'name' => $this->name,
 				'id' => $this->element_id,
-				'attr' => 'aform_field_type="captcha" ' . $this->attr,
+				//TODO: remove deprecated attribute aform_field_type
+				'attr' => 'aform_field_type="captcha" '.$this->attr.' data-aform-field-type="captcha"',
 				'style' => $this->style,
 				'required' => $this->required,
 				'captcha_url' => $this->data[ 'registry' ]->get('html')->getURL('common/captcha'),
@@ -1315,7 +1329,8 @@ class DateHtmlElement extends HtmlElement {
 				'type' => 'text',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
-				'attr' => 'aform_field_type="date" ' . $this->attr,
+				//TODO: remove deprecated attribute aform_field_type
+				'attr' => 'aform_field_type="date" ' . $this->attr.' data-aform-field-type="captcha"',
 				'required' => $this->required,
 				'style' => $this->style,
 				'dateformat' => $this->dateformat,
@@ -1343,10 +1358,13 @@ class EmailHtmlElement extends HtmlElement {
 				'type' => 'text',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
-				'attr' => 'aform_field_type="email" ' . $this->attr,
+				//TODO: remove deprecated attribute aform_field_type
+				'attr' => 'aform_field_type="email" ' . $this->attr.' data-aform-field-type="captcha"',
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'regexp_pattern' => trim($this->regexp_pattern,'/'),
+				'error_text' => $this->error_text
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1370,10 +1388,13 @@ class NumberHtmlElement extends HtmlElement {
 				'type' => 'text',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
-				'attr' => 'aform_field_type="number" ' . $this->attr,
+				//TODO: remove deprecated attribute aform_field_type
+				'attr' => 'aform_field_type="number" ' . $this->attr.' data-aform-field-type="captcha"',
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'regexp_pattern' => trim($this->regexp_pattern,'/'),
+				'error_text' => $this->error_text
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1397,10 +1418,13 @@ class PhoneHtmlElement extends HtmlElement {
 				'type' => 'text',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
-				'attr' => 'aform_field_type="phone" ' . $this->attr,
+				//TODO: remove deprecated attribute aform_field_type
+				'attr' => 'aform_field_type="phone" ' . $this->attr.' data-aform-field-type="captcha"',
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'regexp_pattern' => trim($this->regexp_pattern,'/'),
+				'error_text' => $this->error_text
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1419,7 +1443,8 @@ class IPaddressHtmlElement extends HtmlElement {
 				'id' => $this->element_id,
 				'name' => $this->name,
 				'value' => $_SERVER[ 'REMOTE_ADDR' ],
-				'attr' => 'aform_field_type="ipaddress" ' . $this->attr,
+				//TODO: remove deprecated attribute aform_field_type
+				'attr' => 'aform_field_type="ipaddress" ' . $this->attr.' data-aform-field-type="captcha"',
 			)
 		);
 		$return = $this->view->fetch('form/hidden.tpl');

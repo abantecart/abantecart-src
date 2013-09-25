@@ -4,14 +4,14 @@
 <head>
 <title><?php echo $title; ?></title>
 <base href="<?php echo $base; ?>"/>
-<script type="text/javascript" src="<?php echo $ssl ? 'https': 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-<script src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-<script src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.iframe-transport.js"></script>
-<script src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload.js"></script>
-<script src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></script>
 
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" id="theme">
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" id="theme">
 <link rel="stylesheet" type="text/css"href="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.css"/>
 <link rel="stylesheet" type="text/css"href="<?php echo $template_dir; ?>stylesheet/stylesheet.css"/>
 
@@ -76,38 +76,20 @@
             <tr>
 		        <td><?php echo $text_name; ?><span class="required">*</span></td>
 		        <td>
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                        <?php if ( $language_id == $lang_data['language_id'] ) { ?>
-                            <input type="text" name="name[<?php echo $lang_data['language_id'] ?>]" value="" />
-                        <?php } else {?>
-                            <input type="text" name="name[<?php echo $lang_data['language_id'] ?>]" value="" style="display:none" />
-                        <?php } ?>
-                    <?php } ?>
-                    </td>
+                    <input type="text" name="name" value="" /><input id="resource_id" type="hidden" name="resource_id" value="" />
+                </td>
 	        </tr>
 	        <tr>
 		        <td><?php echo $text_title; ?></td>
 		        <td>
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                        <?php if ( $language_id == $lang_data['language_id'] ) { ?>
-                            <input type="text" name="title[<?php echo $lang_data['language_id'] ?>]" value="" />
-                        <?php } else {?>
-                            <input type="text" name="title[<?php echo $lang_data['language_id'] ?>]" value="" style="display:none" />
-                        <?php } ?>
-                    <?php } ?>
+                    <input type="text" name="title" value="" />
 		        </td>
 	        </tr>
 	        <tr>
 		        <td><?php echo $text_description; ?></td>
 		        <td>
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                        <?php if ( $language_id == $lang_data['language_id'] ) { ?>
-                            <textarea name="description[<?php echo $lang_data['language_id'] ?>]"></textarea>
-                        <?php } else { ?>
-                            <textarea style="display:none" name="description[<?php echo $lang_data['language_id'] ?>]"></textarea>
-                        <?php } ?>
-                    <?php } ?>
-                    </td>
+                    <textarea name="description"></textarea>
+                </td>
 	        </tr>
             <tr>
 		        <td></td>
@@ -213,38 +195,21 @@
             <tr>
 		        <td><?php echo $text_name; ?><span class="required">*</span></td>
 		        <td>
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                        <?php if ( $language_id == $lang_data['language_id'] ) { ?>
-                            <input type="text" name="name[<?php echo $lang_data['language_id'] ?>]" value="${name}" />
-                        <?php } else {?>
-                            <input type="text" name="name[<?php echo $lang_data['language_id'] ?>]" value="${name}" style="display:none" />
-                        <?php } ?>
-                    <?php } ?>
-                    </td>
+                    <input type="text" name="name" value="${name}" />
+			        <input id="resource_id" type="hidden" name="resource_id" value="${resource_id}" />
+                </td>
 	        </tr>
 	        <tr>
 		        <td><?php echo $text_title; ?></td>
 		        <td>
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                        <?php if ( $language_id == $lang_data['language_id'] ) { ?>
-                            <input type="text" name="title[<?php echo $lang_data['language_id'] ?>]" value="" />
-                        <?php } else {?>
-                            <input type="text" name="title[<?php echo $lang_data['language_id'] ?>]" value="" style="display:none" />
-                        <?php } ?>
-                    <?php } ?>
+                   <input type="text" name="title" value="${title}" />
 		        </td>
 	        </tr>
 	        <tr>
 		        <td><?php echo $text_description; ?></td>
 		        <td>
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                        <?php if ( $language_id == $lang_data['language_id'] ) { ?>
-                            <textarea name="description[<?php echo $lang_data['language_id'] ?>]"></textarea>
-                        <?php } else { ?>
-                            <textarea style="display:none" name="description[<?php echo $lang_data['language_id'] ?>]"></textarea>
-                        <?php } ?>
-                    <?php } ?>
-                    </td>
+                    <textarea name="description"></textarea>
+                </td>
 	        </tr>
             <tr>
 		        <td></td>
@@ -255,7 +220,6 @@
                     <button type="submit" style="float: right;">
                         <img src="<?php echo $template_dir?>image/icons/icon_grid_save.png" alt="<?php echo $button_save; ?>" border="0" /><?php echo $button_save; ?>
                     </button>
-
                 </td>
 	        </tr>
         </table>
@@ -265,7 +229,7 @@
     </tr>
 </script>
 
-<script type="text/javascript" >
+<script type="text/javascript">
 jQuery(function($){
 
     var type = '<?php echo $type; ?>';
@@ -293,14 +257,25 @@ jQuery(function($){
     $('select[name="language_id"]').live('change',function(){
         var language_id = $(this).val();
         var form  = $(this).closest('form');
+	    var resource_id = form.find('input[name="resource_id"]').val();
+	    if(resource_id){
+		    $.ajax({
+			    url: '<?php echo $rl_get_info;?>',
+			    type: 'GET',
+			    data: {'language_id': language_id, 'resource_id': resource_id},
+			    dataType: 'json',
+			    success: function(json) {
+				    if ( json.error ) {
+					    form.find(".message").html( json.error ).addClass('error');
+					    return;
+				    }
 
-        $('input[name^="name"]', form).hide();
-        $('input[name^="title"]', form).hide();
-        $('textarea[name^="description"]', form).hide();
-
-        $('input[name="name['+language_id+']"]', form).show();
-        $('input[name="title['+language_id+']"]', form).show();
-        $('textarea[name="description['+language_id+']"]', form).show();
+				    form.find('input[name="name"]').val(json.name);
+				    form.find('input[name="title"]').val(json.title);
+				    form.find('textarea[name="description"]').val(json.description);
+			    }
+		    });
+	    }
     });
 
     $('td.save button').live('click', function(){
@@ -313,20 +288,13 @@ jQuery(function($){
         if ( code.length && !$(code).val() ) {
 			error_required_data = true;
 		}
-		form.find('input[name^="name"]').each(function(index, item){
-            if ( !$(item).val() ) {
+		if(!form.find('input[name="name"]').val() ) {
                 error_required_data = true;
-                required_lang_id = $(item).attr('name').slice(5,-1);
-            }
-		});
-		if ( error_required_data ) {
-			if (required_lang_id) {
-                form.find('select')
-                    .val(required_lang_id)
-                    .change();
-            }
-            form.find(".message").html( errors.error_required_data + ' - ' + form.find('option:selected').text() ).addClass('error');
+        }
 
+		if ( error_required_data ) {
+            form.find(".message").html( errors.error_required_data + ' - ' + form.find('option:selected').text() ).addClass('error');
+			$('body').parent('iframe').scrollTop(0);
 			return false;
 		}
 
@@ -354,8 +322,8 @@ jQuery(function($){
                     var tbl = $('<table class="files" width="100%" cellpadding="0" cellspacing="0">\
                         <tr>\
                             <td class="preview" >'+src+'</td>\
-                            <td class="name" width="100%">'+json.name[<?php echo $language_id; ?>]+'</td>\
-                            <td class="name" width="100%">'+json.name[<?php echo $language_id; ?>]+'</td>\
+                            <td class="name" width="100%">'+json.name+'</td>\
+                            <td class="name" width="100%">'+json.name+'</td>\
 		                    <td class="edit"><button><img src="<?php echo $template_dir?>image/desc.png" alt="<?php echo $button_edit; ?>" border="0" /></button></td>\
                         </tr>\
                     </table>');
@@ -365,19 +333,14 @@ jQuery(function($){
                     edit_frm.find('div.close').show();
 
                     edit_frm.find('textarea[name="resource_code"]').val(json.resource_code);
-                    $.each(json.name, function(index, item){
-                        edit_frm.find('input[name="name['+index+']"]').val(item);
-                    });
-                    $.each(json.title, function(index, item){
-                        edit_frm.find('input[name="title['+index+']"]').val(item);
-                    });
-                    $.each(json.description, function(index, item){
-                        edit_frm.find('textarea[name="description['+index+']"]').val(item);
-                    });
+                    edit_frm.find('input[name="name"]').val(json.name);
+                    edit_frm.find('input[name="title"]').val(json.title);
+                    edit_frm.find('textarea[name="description"]').val(json.description);
+                    edit_frm.find('input[name="resource_id"]').val(json.resource_id);
 
                     form.find("select, input, textarea").val('');
                 } else {
-                    $(form).find('.message').addClass('success').html( text.text_success );
+                    form.find('.message').addClass('success').html( text.text_success );
                 }
             }
         });

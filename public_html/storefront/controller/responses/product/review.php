@@ -47,7 +47,7 @@ class ControllerResponsesProductReview extends AController {
 				'rating'     => $result['rating'],
 				'text'       => strip_tags($result['text']),
         		'stars'      => sprintf($this->language->get('text_stars'), $result['rating']),
-        		'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
+        		'date_added' => dateISO2Display($result['date_added'],$this->language->get('date_format_short'))
         	);
       	}
 		$this->data['reviews'] =  $reviews;
@@ -119,4 +119,3 @@ class ControllerResponsesProductReview extends AController {
 		}	
 	}
 }
-?>

@@ -28,7 +28,7 @@
 				}
 				echo '</div>';
 				if(!$item['resource_code']){
-					$image = '<a '.($item['image']['resource_type']=='image'? 'class="thickbox" rel="gallery"': '').' title="'.$item['image']['title'].'" href="'.$item['image']['main_url'].'">'.$item['image']['thumb_html'].'</a>';
+					$image = '<a '.($item['image']['resource_type']=='image'? 'class="thickbox" rel="gallery"': '').' title="'.$item['image']['title'].'" href="'.$item['url'].'">'.$item['image']['thumb_html'].'</a>';
 					echo '<div class="image">'. $image .'</div>';
 					if($item['image']['title']){
 						echo '<div class="title"><a href="'.$item['image']['main_url'].'">'.$item['image']['title'].'</a></div>';

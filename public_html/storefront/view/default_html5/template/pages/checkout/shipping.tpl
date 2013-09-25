@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="icon-truck"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
@@ -53,7 +53,7 @@
           <?php if (!$shipping_method['error']) { ?>
           <?php foreach ($shipping_method['quote'] as $quote) { ?>
 			  <tr>
-				<td width="5%"><label for="shipping_shipping_method<?php echo $quote['id']; ?>"><?php echo $quote['radio']; ?></label></td>
+				<td style="width: 5%"><?php echo $quote['radio']; ?></td>
 				<td>
 				<label for="shipping_shipping_method<?php echo $quote['id']; ?>" title="<?php echo has_value($quote['description']) ? $quote['description'] : ''; ?>" style="cursor: pointer;">
 				<?php $icon = $shipping_method['icon'];
@@ -66,7 +66,7 @@
 				<?php echo $quote['title']; ?>
 				</label>
 				</td>
-				<td align="right"><label for="<?php echo $quote['id']; ?>" style="cursor: pointer;"><?php echo $quote['text']; ?></label></td>
+				<td class="align_right"><label for="shipping_shipping_method<?php echo $quote['id']; ?>" style="cursor: pointer;"><?php echo $quote['text']; ?></label></td>
 			  </tr>
           <?php } ?>
           <?php } else { ?>

@@ -64,6 +64,13 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && isset($this->request->post['coupon']) && $this->_validateCoupon()) {
 			$this->session->data['coupon'] = $this->request->post['coupon'];
 			$this->session->data['success'] = $this->language->get('text_success');
+			if($this->cart->getFinalTotal()==0 && $this->request->get['mode'] != 'edit'){
+				$this->session->data[ 'payment_method' ] = array(
+																'id'         => 'no_payment_required',
+																'title'      => $this->language->get('no_payment_required')
+							);
+			}
+
 			$this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
 		}
 		
@@ -72,8 +79,14 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 				$shipping = explode('.', $this->request->post['shipping_method']);
 				$this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
 			}
-			
-			$this->session->data['payment_method'] = $this->session->data['payment_methods'][$this->request->post['payment_method']];
+			if($this->cart->getFinalTotal()==0 && $this->request->get['mode'] != 'edit'){
+				$this->session->data[ 'payment_method' ] = array(
+																'id'         => 'no_payment_required',
+																'title'      => $this->language->get('no_payment_required')
+							);
+			}else{
+				$this->session->data['payment_method'] = $this->session->data['payment_methods'][$this->request->post['payment_method']];
+			}
 			$this->session->data['comment'] = $this->request->post['comment'];
 	  		$this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
     	}		
@@ -121,6 +134,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 		
 		// Payment Methods
 		$total = $this->cart->buildTotalDisplay();
+		$this->data['order_totals'] = $total;
 		$method_data = array();
 		$results = $this->model_checkout_extension->getExtensions('payment');
 		foreach ($results as $result) {
@@ -415,15 +429,15 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 				}
 			}
 		}
-		
-    	if (!isset($this->request->post['payment_method'])) {
-	  		$this->error['warning'] = $this->language->get('error_payment');
-		} else {
-			if (!isset($this->session->data['payment_methods'][$this->request->post['payment_method']])) {
+		if($this->cart->getFinalTotal()){
+			if (!isset($this->request->post['payment_method'])) {
 				$this->error['warning'] = $this->language->get('error_payment');
+			} else {
+				if (!isset($this->session->data['payment_methods'][$this->request->post['payment_method']])) {
+					$this->error['warning'] = $this->language->get('error_payment');
+				}
 			}
 		}
-		
 		if ($this->config->get('config_checkout_id')) {
 			$this->loadModel('catalog/content');
 			

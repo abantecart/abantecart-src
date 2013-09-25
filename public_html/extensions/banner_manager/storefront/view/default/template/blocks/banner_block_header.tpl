@@ -42,7 +42,7 @@
 </div>
 <?php } ?>
 
-<script language="javascript">
+<script type="text/javascript">
 	$('.banner a').live('click',
 		function () {
 			var that = this;

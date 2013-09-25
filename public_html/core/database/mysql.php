@@ -24,7 +24,7 @@ final class MySQL {
     /**
      * @var resource
      */
-    private $connection;
+    protected $connection;
     /**
      * @var Registry
      */
@@ -34,27 +34,30 @@ final class MySQL {
      */
     public $error;
 
-    /**
-     * @param string $hostname
-     * @param string $username
-     * @param string $password
-     * @param string $database
-     * @throws AException
-     */
-    public function __construct($hostname, $username, $password, $database) {
-		if (!$this->connection = mysql_connect($hostname, $username, $password)) {
+	/**
+	 * @param string $hostname
+	 * @param string $username
+	 * @param string $password
+	 * @param string $database
+	 * @param bool $new_link
+	 * @throws AException
+	 */
+    public function __construct($hostname, $username, $password, $database, $new_link=false) {
+		$connection = mysql_connect($hostname, $username, $password, $new_link);
+		if (!$connection) {
             throw new AException(AC_ERR_MYSQL, 'Error: Could not make a database connection using ' . $username . '@' . $hostname);
     	}
 
-    	if (!mysql_select_db($database, $this->connection)) {
+    	if (!mysql_select_db($database, $connection)) {
       		throw new AException(AC_ERR_MYSQL, 'Error: Could not connect to database ' . $database);
     	}
 		
-		mysql_query("SET NAMES 'utf8'", $this->connection);
-		mysql_query("SET CHARACTER SET utf8", $this->connection);
-		mysql_query("SET CHARACTER_SET_CONNECTION=utf8", $this->connection);
-		mysql_query("SET SQL_MODE = ''", $this->connection);
+		mysql_query("SET NAMES 'utf8'",$connection);
+		mysql_query("SET CHARACTER SET utf8", $connection);
+		mysql_query("SET CHARACTER_SET_CONNECTION=utf8", $connection);
+		mysql_query("SET SQL_MODE = ''", $connection);
         $this->registry = Registry::getInstance();
+		$this->connection = $connection;
   	}
 
     /**
@@ -64,7 +67,7 @@ final class MySQL {
      * @throws AException
      */
     public function query($sql, $noexcept = false) {
-
+		//echo $this->database_name;
         $time_start = microtime(true);
         $resource = mysql_query($sql, $this->connection);
         $time_exec = microtime(true) - $time_start;

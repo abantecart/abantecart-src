@@ -58,6 +58,7 @@ class ControllerPagesDesignContent extends AController {
 			'update_field' => $this->html->getSecureURL('listing_grid/content/update_field'),
 			'sortname' => 'sort_order',
 			'sortorder' => 'asc',
+			'drag_sort_column' => 'sort_order',
 			'columns_search' => true,
 			'grid_ready' => 'remove_view();',
 			'actions' => array(
@@ -69,8 +70,7 @@ class ControllerPagesDesignContent extends AController {
 					'text' => $this->language->get('button_delete')
 				),
 				'save' => array(
-					'text' => $this->language->get('button_save'),
-
+					'text' => $this->language->get('button_save')
 				),
 			),
 		);
@@ -103,8 +103,8 @@ class ControllerPagesDesignContent extends AController {
 				'search' => false,
 			),
 			array(
-				'name' => 'products',
-				'index' => 'products',
+				'name' => 'sort_order',
+				'index' => 'sort_order',
 				'width' => 100,
 				'align' => 'center',
 				'search' => false,
@@ -139,10 +139,10 @@ class ControllerPagesDesignContent extends AController {
 		$this->document->addScript(RDIR_TEMPLATE . 'javascript/ckeditor/ckeditor.js');
 		$this->acm = new AContentManager();
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
-
 			$savedata = $this->request->post;
 			unset($savedata['parent_content_id'], $savedata['sort_order']);
-			foreach ($this->request->post['parent_content_id'] as $par_id) {
+			$content_ids = (array)$this->request->post['parent_content_id'];
+			foreach ($content_ids as $par_id) {
 				list($tmp, $parent_id) = explode('_', $par_id);
 				$savedata['parent_content_id'][] = (int)$parent_id;
 				$savedata['sort_order'][] = (int)$this->request->post['sort_order'][$par_id];
@@ -159,7 +159,8 @@ class ControllerPagesDesignContent extends AController {
 
 			$this->view->assign('languages', $languages);
 			$this->view->assign('language_code', $this->session->data['content_language']); //selected in selectbox
-			foreach ($this->request->get as $name => $value) {
+			$get = $this->request->get;
+			foreach ($get as $name => $value) {
 				if ($name == 'content_language_code') continue;
 				$hiddens[$name] = $value;
 			}
@@ -195,7 +196,8 @@ class ControllerPagesDesignContent extends AController {
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
 			$savedata = $this->request->post;
 			unset($savedata['parent_content_id'], $savedata['sort_order']);
-			foreach ($this->request->post['parent_content_id'] as $par_id) {
+			$content_ids = (array)$this->request->post['parent_content_id'];
+			foreach ($content_ids as $par_id) {
 				list($tmp, $parent_id) = explode('_', $par_id);
 				$savedata['parent_content_id'][] = (int)$parent_id;
 				$savedata['sort_order'][$parent_id] = (int)$this->request->post['sort_order'][$par_id];
@@ -392,12 +394,10 @@ class ControllerPagesDesignContent extends AController {
 		$store_selected[0] = 0;
 
 		$stores = $this->acm->getContentStores($this->request->get['content_id']);
-		if ($stores) {
-			foreach ($stores as $store_id => $store) {
-				$store_values[$store_id] = trim(current($store));
-				if (isset($store[$this->request->get['content_id']])) {
-					$store_selected[$store_id] = $store_id;
-				}
+		foreach ($stores as $store_id => $store) {
+			$store_values[$store_id] = trim(current($store));
+			if (isset($store[$this->request->get['content_id']])) {
+				$store_selected[$store_id] = $store_id;
 			}
 		}
 
@@ -409,19 +409,16 @@ class ControllerPagesDesignContent extends AController {
 			'scrollbox' => true,
 		));
 
-		if ($selected_parents) {
-			foreach ($selected_parents as $option_id) {
-				list($void, $parent_id) = explode('_', $option_id);
-				$this->data['form']['fields']['sort_order'] .= ' ' . $multiSelect[$option_id] . ': '
-						. $form->getFieldHtml(array(
-							'type' => 'input',
-							'name' => 'sort_order[' . $option_id . ']',
-							'value' => $this->data['sort_order'][$parent_id],
-							'attr' => 'style="width: 30px;"'
-						)) . '';
-			}
+		foreach ($selected_parents as $option_id) {
+			list($void, $parent_id) = explode('_', $option_id);
+			$this->data['form']['fields']['sort_order'] .= ' ' . $multiSelect[$option_id] . ': '
+					. $form->getFieldHtml(array(
+						'type' => 'input',
+						'name' => 'sort_order[' . $option_id . ']',
+						'value' => $this->data['sort_order'][$parent_id],
+						'attr' => 'style="width: 30px;"'
+					)) . '';
 		}
-
 
 		$this->view->assign('help_url', $this->gen_help_url('content_edit'));
 		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url'));
@@ -568,7 +565,5 @@ class ControllerPagesDesignContent extends AController {
 			$this->redirect($this->html->getSecureURL('design/content/edit_layout', $url));
 		}
 		$this->redirect($this->html->getSecureURL('design/content/'));
-
 	}
-
 }

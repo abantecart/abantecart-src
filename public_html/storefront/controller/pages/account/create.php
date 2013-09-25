@@ -38,24 +38,10 @@ class ControllerPagesAccountCreate extends AController {
 		
 		$request_data = $this->request->post;
 
-		if(has_value($this->request->get_or_post('subscriber')) && $this->request->get_or_post('subscriber')==1){
-				$subscriber = $this->data['subscriber'] = 1;
-				$this->data['subscriber_switch_text_full'] = $this->language->get('text_full_register');
-				$this->data['subscriber_switch_text'] = $this->language->get('text_subscribe_register');
-		}else{
-			$subscriber = 0;
-		}
-
-
 
 		if ( $this->request->server['REQUEST_METHOD'] == 'POST') {
 			$this->error = $this->model_account_customer->validateRegistrationData($request_data);
-
     		if ( !$this->error ) {
-				// generate random password for subsribers only
-				if($subscriber){
-					$request_data['password'] = md5(mt_rand(0,10000));
-				}
 				//if allow login as email, need to set loginname = email
 				if (!$this->config->get('prevent_email_as_login')) {
 					$request_data['loginname'] = $request_data['email'];
@@ -63,32 +49,31 @@ class ControllerPagesAccountCreate extends AController {
 				
 				$this->model_account_customer->addCustomer($request_data);
 
-				//log in only customer, not subscriber!
-				if(!$subscriber){
-					unset($this->session->data['guest']);
-					$this->customer->login($request_data['loginname'], $request_data['password']);
-					$this->loadLanguage('mail/account_create');
-					$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
-					$message = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
-					if (!$this->config->get('config_customer_approval')) {
-						$message .= $this->language->get('text_login') . "\n";
-					} else {
-						$message .= $this->language->get('text_approval') . "\n";
-					}
 
-					$message .= $this->html->getSecureURL('account/login') . "\n\n";
-					$message .= $this->language->get('text_services') . "\n\n";
-					$message .= $this->language->get('text_thanks') . "\n";
-					$message .= $this->config->get('store_name');
-
-					$mail = new AMail( $this->config );
-					$mail->setTo($this->request->post['email']);
-					$mail->setFrom($this->config->get('store_main_email'));
-					$mail->setSender($this->config->get('store_name'));
-					$mail->setSubject($subject);
-					$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
-					$mail->send();
+				unset($this->session->data['guest']);
+				$this->customer->login($request_data['loginname'], $request_data['password']);
+				$this->loadLanguage('mail/account_create');
+				$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
+				$message = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
+				if (!$this->config->get('config_customer_approval')) {
+					$message .= $this->language->get('text_login') . "\n";
+				} else {
+					$message .= $this->language->get('text_approval') . "\n";
 				}
+
+				$message .= $this->html->getSecureURL('account/login') . "\n\n";
+				$message .= $this->language->get('text_services') . "\n\n";
+				$message .= $this->language->get('text_thanks') . "\n";
+				$message .= $this->config->get('store_name');
+
+				$mail = new AMail( $this->config );
+				$mail->setTo($this->request->post['email']);
+				$mail->setFrom($this->config->get('store_main_email'));
+				$mail->setSender($this->config->get('store_name'));
+				$mail->setSubject($subject);
+				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+				$mail->send();
+
 				$this->extensions->hk_UpdateData($this,__FUNCTION__);
 		  		$this->redirect($this->html->getSecureURL('account/success'));
 	  		}
@@ -118,23 +103,17 @@ class ControllerPagesAccountCreate extends AController {
 
         $form = new AForm();
         $form->setForm(array( 'form_name' => 'AccountFrm' ));
-        $this->data['form'][ 'form_open' ] = $form->getFieldHtml(
-                                                                array(
-                                                                       'type' => 'form',
-                                                                       'name' => 'AccountFrm',
-                                                                       'action' => $this->html->getSecureURL('account/create')));
-		// for subscribers only
-		if($subscriber){
-		$this->data['form'][ 'subscriber' ] = $form->getFieldHtml( array(
-                                                                       'type' => 'hidden',
-		                                                               'name' => 'subscriber',
-		                                                               'value' => 1));
+        $this->data['form'][ 'form_open' ] = $form->getFieldHtml( array( 'type' => 'form',
+                                                                         'name' => 'AccountFrm',
+                                                                         'action' => $this->html->getSecureURL('account/create')));
+
+		if($this->config->get('prevent_email_as_login')){ // require login name
+			$this->data['form'][ 'loginname' ] = $form->getFieldHtml( array(
+																		   'type' => 'input',
+																		   'name' => 'loginname',
+																		   'value' => $this->request->post['loginname'],
+																		   'required' => true ));
 		}
-		$this->data['form'][ 'loginname' ] = $form->getFieldHtml( array(
-                                                                       'type' => 'input',
-		                                                               'name' => 'loginname',
-		                                                               'value' => $this->request->post['loginname'],
-		                                                               'required' => true ));
 		$this->data['form'][ 'firstname' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'firstname',
@@ -280,6 +259,4 @@ class ControllerPagesAccountCreate extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 
-  	private function validate() {
-  	}
 }

@@ -223,7 +223,7 @@
 	</definition>
 	<definition>
 		<key>button_disapply_balance</key>
-		<value><![CDATA[Disapply to Order]]></value>
+		<value><![CDATA[Remove from Order]]></value>
 	</definition>
 	<definition>
 		<key>text_applied_balance</key>
@@ -240,5 +240,13 @@
 	<definition>
 		<key>text_browse</key>
 		<value><![CDATA[Select File]]></value>
+	</definition>
+	<definition>
+		<key>button_cancel</key>
+		<value><![CDATA[Cancel]]></value>
+	</definition>
+	<definition>
+		<key>button_reset</key>
+		<value><![CDATA[Reset]]></value>
 	</definition>
 </definitions>

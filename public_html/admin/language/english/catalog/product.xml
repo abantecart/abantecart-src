@@ -258,6 +258,10 @@
 		<value><![CDATA[Option:]]></value>
 	</definition>
 	<definition>
+		<key>entry_option_name</key>
+		<value><![CDATA[Option Name:]]></value>
+	</definition>
+	<definition>
 		<key>entry_option_value</key>
 		<value><![CDATA[Option Value:]]></value>
 	</definition>
@@ -481,4 +485,36 @@
 		<key>entry_option_placeholder</key>
 		<value><![CDATA[Placeholder:]]></value>
 	</definition>
+	<definition>
+        <key>entry_regexp_pattern</key>
+        <value><![CDATA[Regular Expression Pattern:]]></value>
+    </definition>
+	<definition>
+        <key>entry_error_text</key>
+        <value><![CDATA[Error Message about invalid Value:]]></value>
+    </definition>
+	<definition>
+        <key>text_product_condition</key>
+        <value><![CDATA[Product Condition:]]></value>
+    </definition>
+	<definition>
+        <key>text_product_available</key>
+        <value><![CDATA[Available]]></value>
+    </definition>
+	<definition>
+        <key>text_product_disabled</key>
+        <value><![CDATA[Disabled]]></value>
+    </definition>
+	<definition>
+        <key>text_product_unavailable</key>
+        <value><![CDATA[Unavailable]]></value>
+    </definition>
+	<definition>
+        <key>text_product_out_of_stock</key>
+        <value><![CDATA[Out of Stock]]></value>
+    </definition>
+	<definition>
+        <key>text_product_option_out_of_stock</key>
+        <value><![CDATA[Product Option(s) Out of Stock]]></value>
+    </definition>
 </definitions>

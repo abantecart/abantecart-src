@@ -39,4 +39,156 @@ class ControllerResponsesCatalogAttribute extends AController {
 		$this->response->setOutput(AJson::encode($this->data['attribute_info']['attribute_type_id']));
 	}
 
+	/**
+	 * method that return part of attribute form
+	 * @internal param array $param
+	 * @param array $params
+	 */
+	public function getProductOptionSubform( $params=array() ){
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$this->data = array_merge($this->data, $params['data']);
+
+		unset($this->data['form']['fields']); // remove form fields that do not needed here
+
+		$this->data[ 'elements_with_options' ] = HtmlElementFactory::getElementsWithOptions();
+
+		$results = HtmlElementFactory::getAvailableElements();
+		$element_types = array( '' => $this->language->get('text_select') );
+		foreach ($results as $key => $type) {
+			// allowed field types
+			if ( in_array($key,array('I','T','S','M','R','C','G','H','U')) ) {
+				$element_types[$key] = $type['type'];
+			}
+		}
+
+		$form = $params['aform'];
+		$attribute_manager = $params['attribute_manager'];
+
+		$this->data[ 'form' ][ 'fields' ][ 'element_type' ] = $form->getFieldHtml(array(
+		                                                                               'type' => 'selectbox',
+		                                                                               'name' => 'element_type',
+		                                                                               'value' => $this->data[ 'element_type' ],
+		                                                                               'required' => true,
+		                                                                               'options' => $element_types,
+		                                                                          ));
+		$this->data[ 'form' ][ 'fields' ][ 'sort_order' ] = $form->getFieldHtml(array(
+		                                                                             'type' => 'input',
+		                                                                             'name' => 'sort_order',
+		                                                                             'value' => $this->data[ 'sort_order' ],
+		                                                                             'style' => 'small-field'
+		                                                                        ));
+		$this->data[ 'form' ][ 'fields' ][ 'required' ] = $form->getFieldHtml(array(
+		                                                                           'type' => 'checkbox',
+		                                                                           'name' => 'required',
+		                                                                           'value' => $this->data[ 'required' ],
+		                                                                      ));
+		$this->data[ 'form' ][ 'fields' ][ 'regexp_pattern' ] = $form->getFieldHtml(array(
+				                                                                       'type' => 'input',
+				                                                                       'name' => 'regexp_pattern',
+				                                                                       'value' => $this->data[ 'regexp_pattern' ],
+				                                                                       'style' => 'large-field',
+				                                                                  ));
+		$this->data[ 'form' ][ 'fields' ][ 'error_text' ] = $form->getFieldHtml(array(
+				                                                                       'type' => 'input',
+				                                                                       'name' => 'error_text',
+				                                                                       'value' => $this->data[ 'error_text' ],
+				                                                                       'style' => 'large-field',
+				                                                                  ));
+
+
+		//Build atribute values part of the form
+		if ( $this->request->get['attribute_id'] ) {
+
+			$this->data['child_count'] = $attribute_manager->totalChildren( $this->request->get['attribute_id'] );
+			if ( $this->data['child_count'] > 0) {
+				$children_attr = $attribute_manager->getAttributes(array(), 0, $this->request->get['attribute_id']);
+				foreach ($children_attr as $attr) {
+					$this->data['children'][] = array( 'name' => $attr['name'],
+												 'link' => $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attr['attribute_id']) );
+				}
+			}
+
+			$attribute_values = $attribute_manager->getAttributeValues( $this->request->get[ 'attribute_id' ] );
+			foreach ($attribute_values as $atr_val) {
+				$atr_val_id = $atr_val['attribute_value_id'];
+				$attributes_fields[$atr_val_id]['sort_order'] = $form->getFieldHtml(array(
+															'type' => 'input',
+															'name' => 'sort_orders['.$atr_val_id.']',
+															'value' => $atr_val['sort_order'],
+															'style' => 'small-field'
+														));
+				$attributes_fields[$atr_val_id]['values'] = $form->getFieldHtml(array(
+															'type' => 'input',
+				                                            'name' => 'values['.$atr_val_id.']',
+				                                            'value' => $atr_val['value'],
+				                                            'style' => 'medium-field'
+				                                        ));
+				$attributes_fields[$atr_val_id]['attribute_value_ids'] = $form->getFieldHtml(array(
+															'type' => 'hidden',
+				                                            'name' => 'attribute_value_ids['.$atr_val_id.']',
+				                                            'value' => $atr_val_id,
+				                                            'style' => 'medium-field'
+				                                        ));
+			}
+		}
+		if ( !$attributes_fields ) {
+				$attributes_fields[0]['sort_order'] = $form->getFieldHtml(array(
+															'type' => 'input',
+															'name' => 'sort_orders[]',
+															'value' => '',
+															'style' => 'small-field no-save'
+														));
+				$attributes_fields[0]['values'] = $form->getFieldHtml(array(
+															'type' => 'input',
+				                                            'name' => 'values[]',
+				                                            'value' => '',
+				                                            'style' => 'medium-field no-save'
+				                                        ));
+				$attributes_fields[0]['attribute_value_ids'] = $form->getFieldHtml(array(
+															'type' => 'hidden',
+				                                            'name' => 'attribute_value_ids['.$atr_val_id.']',
+				                                            'value' => 'new',
+				                                            'style' => 'medium-field'
+				                                        ));
+		}
+
+		$this->data['form']['settings_fields'] = array(
+			'extensions' => $form->getFieldHtml(array(
+				'type' => 'input',
+				'name' => 'settings[extensions]',
+				'value' => $attribute_info['settings']['extensions'],
+				'style' => 'no-save'
+			)),
+			'min_size' => $form->getFieldHtml(array(
+				'type' => 'input',
+				'name' => 'settings[min_size]',
+				'value' => $attribute_info['settings']['min_size'],
+				'style' => 'small-field no-save'
+			)),
+			'max_size' => $form->getFieldHtml(array(
+				'type' => 'input',
+				'name' => 'settings[max_size]',
+				'value' => $attribute_info['settings']['max_size'],
+				'style' => 'small-field no-save'
+			)),
+			'directory' => $form->getFieldHtml(array(
+				'type' => 'input',
+				'name' => 'settings[directory]',
+				'value' => $attribute_info['settings']['directory'],
+				'style' => 'no-save'
+			)),
+		);
+
+		$this->data['form']['fields']['attribute_values'] = $attributes_fields;
+
+		$this->view->batchAssign($this->data);
+
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->processTemplate('responses/catalog/global_attribute_product_option_subform.tpl');
+	}
 }

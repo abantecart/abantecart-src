@@ -83,7 +83,7 @@ class ModelSaleCustomerTransaction extends Model {
             $implode[] = "ROUND(t.credit,2) = '" . round((float)$filter['credit'],2) . "'";
         }
         if (has_value($filter['transaction_type'])) {
-            $implode[] = "t.transaction_type = '" . $this->db->escape($filter['transaction_type']) . "'";
+            $implode[] = "t.transaction_type like '%" . $this->db->escape($filter['transaction_type']) . "%'";
         }
         if (has_value($filter['user'])) {
             $implode[] = "LOWER(CASE
@@ -149,7 +149,7 @@ class ModelSaleCustomerTransaction extends Model {
         $cache_name = 'balance.'.$customer_id;
         $balance = $this->cache->get($cache_name);
         if(is_null($balance)){
-            $sql = "SELECT SUM(debit)-SUM(credit) as balance
+            $sql = "SELECT SUM(credit) - SUM(debit) as balance
 					FROM " . $this->db->table("customer_transactions") . "
 					WHERE customer_id=".(int)$customer_id;
             $query = $this->db->query($sql);
