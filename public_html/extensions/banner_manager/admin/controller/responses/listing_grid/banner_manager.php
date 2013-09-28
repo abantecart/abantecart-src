@@ -288,7 +288,7 @@ class ControllerResponsesListingGridBannerManager extends AController {
 	public function getListing() {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-		$this->load->
+		$this->load->library('json');
 		$form_name = 'BannerBlockFrm';
 		$multivalue_hidden_id = isset($this->request->get['multivalue_hidden_id']) ? $this->request->get['multivalue_hidden_id'] : 'popup';
 
