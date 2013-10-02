@@ -3,10 +3,19 @@
 	<?php if ($products) { ?>
 		<?php foreach ($products as $product) { ?>
 			<tr>
-				<td class="image"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']['thumb_url']; ?>"
-																				 ></a></td>
-				<td class="name"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
-
+				<td class="image">
+					<?php if($product['href']){ ?>
+					<a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']['thumb_url']; ?>"></a>
+					<?php }else{ ?>
+						<img src="<?php echo $product['thumb']['thumb_url']; ?>">
+					<?php }?>
+				</td>
+				<td class="name">
+					<?php if($product['href']){ ?>
+						<a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
+					<?php }else{
+						echo $product['name'];
+					}?>
 					<div>
 						<?php foreach ($product['option'] as $option) { ?>
 							-

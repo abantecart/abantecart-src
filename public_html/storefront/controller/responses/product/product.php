@@ -25,8 +25,7 @@ class ControllerResponsesProductProduct extends AController {
 
 	public $data = array();
 
-	public function main() {
-	}
+	public function main() {}
 
 	public function is_group_option() {
 		//init controller data
@@ -39,39 +38,18 @@ class ControllerResponsesProductProduct extends AController {
 			$this->request->get['option_value_id']
 		);
 
-		//$product_price = $this->request->get['product_price'];
-		//$tax_class_id = $this->request->get['tax_class_id'];
-
 		foreach ($group_options as $option_id => $option_values) {
 			foreach ($option_values as $option_value_id => $option_value) {
 				$name = $option_value['name'];
-				/*if ( (float)$option_value['price'] ) {
-					if ( $option_value['prefix'] == '%' ) {
-						$name .= ' '. $this->currency->format(
-							$this->tax->calculate(
-								($product_price * $option_value['price'] / 100),
-								$tax_class_id,
-								$this->config->get('config_tax')
-							)
-						);
-					} else {
-						$name .= ' '. $this->currency->format(
-							$this->tax->calculate(
-								$option_value['price'],
-								$tax_class_id,
-								$this->config->get('config_tax')
-							)
-						);
-					}
-				}*/
 				$this->data['group_option'][$option_id][$option_value_id] = $name;
 			}
 		}
 
-		//init controller data
+		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($this->data['group_option']));
 	}
 
@@ -108,14 +86,12 @@ class ControllerResponsesProductProduct extends AController {
 			if (!$output['images']) {
 				unset($output['images']);
 			}
-
 		}
-
-
-		//init controller data
+		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($output));
 	}
 
@@ -124,24 +100,25 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->cart->add($this->request->get['product_id'], 1);
-
-
 		$display_totals = $this->cart->buildTotalDisplay();
 
 		$dispatch = $this->dispatch('responses/product/product/get_cart_details',array($display_totals));
 
-		$output['cart_details'] = $dispatch->dispatchGetOutput();
-		$output['item_count'] = $this->cart->countProducts();
+		$this->data['cart_details'] = $dispatch->dispatchGetOutput();
+		$this->data['item_count'] = $this->cart->countProducts();
 
-		$output['total'] = $this->currency->format($display_totals['total']);
-		//init controller data
+		$this->data['total'] = $this->currency->format($display_totals['total']);
+		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($output));
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($this->data));
 	}
 
 	public function get_cart_details($totals){
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		if(!$this->view->isTemplateExists('responses/checkout/cart_details.tpl')){
 			return '';
@@ -182,6 +159,9 @@ class ControllerResponsesProductProduct extends AController {
 		$this->data['taxes'] = $totals['taxes'];
 
 		$this->view->batchAssign($this->data);
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		$this->processTemplate('responses/checkout/cart_details.tpl');
 	}
 
