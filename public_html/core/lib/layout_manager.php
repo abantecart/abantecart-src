@@ -90,7 +90,9 @@ class ALayoutManager {
 		if (count($this->active_layout) == 0) {
 			$this->active_layout = $this->getLayouts(0);
 			if (count($this->active_layout) == 0) {
-				throw new AException (AC_ERR_LOAD_LAYOUT, 'No layout found for page_id/controller ' . $this->page_id . '::' . $this->page ['controller'] . '!');
+				$message_text = 'No layout found for page_id/controller ' . $this->page_id . '::' . $this->page ['controller'] . '!';
+				$message_text .= ' Requested data: template: '.$tmpl_id.', page_id: '.$page_id.', layout_id: '.$layout_id;
+				throw new AException (AC_ERR_LOAD_LAYOUT, $message_text);
 			}
 		}
 
