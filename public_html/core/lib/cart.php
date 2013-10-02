@@ -163,7 +163,7 @@ final class ACart {
     	    			$option_value_queries[$val_id] = $this->model_catalog_product->getProductOptionValue($product_id, $val_id);
     	    		}
     	    	}else{
-    	    		$option_value_query = $this->model_catalog_product->getProductOptionValue($product_id, $product_option_value_id);
+    	    		$option_value_query = $this->model_catalog_product->getProductOptionValue($product_id, (int)$product_option_value_id);
     	    	}
     	    }
 
@@ -333,6 +333,10 @@ final class ACart {
 		}
 
 		$this->session->data['cart']['virtual'][$key] = $data;
+	}
+
+	public function getVirtualProducts() {
+		return (array)$this->session->data['cart']['virtual'];
 	}
 
 	/**
