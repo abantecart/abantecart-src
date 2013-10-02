@@ -22,16 +22,16 @@
 					} ?>
 				</div>
 				<div class="toolbar">
-					<?php if (!empty ($help_url)) : ?>
+					<?php if (!empty ($help_url)) { ?>
 						<div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img
 										src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-					<?php endif; ?>
-					<?php echo $form_language_switch; ?>
+					<?php }
+					echo $form_language_switch; ?>
 					<div class="buttons">
 						<a class="btn_toolbar" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>">
 							<span class="icon_add">&nbsp;</span>
+						</a>
 					</div>
-					</a>
 				</div>
 			</div>
 		</div>
@@ -138,8 +138,8 @@
 			</div>
 			<!-- <div class="fieldset"> -->
 			<div class="buttons align_center">
-				<button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
 				<a class="btn_standard" href="<?php echo $cancel; ?>"><?php echo $form['cancel']; ?></a>
+				<button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
 			</div>
 			</form>
 
