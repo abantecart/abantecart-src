@@ -111,7 +111,7 @@ class ControllerCommonMenu extends AController {
 					),
 					'edit_details' => array(
 						'id' => 'edit_details_item',
-						'href' => $this->html->getSecureURL('index/edit_details'),
+						'href' => $this->html->getSecureURL('index/edit_details', '', true),
 						'text' => sprintf($this->language->get('text_edit_details')),
 					)
 				),
@@ -129,7 +129,7 @@ class ControllerCommonMenu extends AController {
 					$this->loadLanguage($item [ 'language' ], 'silent');
 				}
 				$childen = $this->_getChildItems($item[ 'item_id' ], $menu_items);
-				$menu_link = $item [ 'item_url' ] ? (strpos($item [ 'item_url' ], "http") ? $item [ 'item_url' ] : $this->html->getSecureURL($item [ 'item_url' ])) : "";
+				$menu_link = $item [ 'item_url' ] ? (strpos($item [ 'item_url' ], "http") ? $item [ 'item_url' ] : $this->html->getSecureURL($item [ 'item_url' ],'',true)) : "";
 				$link_keyname = strpos($item [ 'item_url' ], "http") ? "onclick" : "href";
 				$temp = Array( 'id' => $item [ 'item_id' ],
 					$link_keyname => $menu_link,
@@ -143,5 +143,3 @@ class ControllerCommonMenu extends AController {
 		return $result;
 	}
 }
-
-?>
