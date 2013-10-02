@@ -33,7 +33,12 @@ class AHtml extends AController {
 		$this->registry = $registry;
 	}
 
-	//#PR Build sub URL
+	/**
+	 * PR Build sub URL
+	 * @param string $rt
+	 * @param string $params
+	 * @return string
+	 */
 	private function buildURL($rt, $params = '') {
 		$suburl = '';
 		//#PR Add admin path if we are in admin
@@ -49,7 +54,13 @@ class AHtml extends AController {
 		return $suburl;
 	}
 
-	//#PR Build non-secure URL
+	/**
+	 * Build non-secure URL
+	 * @param string $rt
+	 * @param string $params
+	 * @param string $encode
+	 * @return string
+	 */
 	public function getURL($rt, $params = '', $encode = '') {
 		if (isset($this->registry->get('request')->server[ 'HTTPS' ])
 				&& (($this->registry->get('request')->server[ 'HTTPS' ] == 'on') || ($this->registry->get('request')->server[ 'HTTPS' ] == '1'))) {
@@ -71,7 +82,13 @@ class AHtml extends AController {
 		return $url;
 	}
 
-	//#PR Build secure URL with session token
+	/**
+	 * Build secure URL with session token
+	 * @param string $rt
+	 * @param string $params
+	 * @param string $encode
+	 * @return string
+	 */
 	public function getSecureURL($rt, $params = '', $encode = '') {
 		// add session id for crossdomain transition in non-secure mode
 		if($this->registry->get('config')->get('config_shared_session')	&& HTTPS!==true){
@@ -92,23 +109,39 @@ class AHtml extends AController {
 		return $url;
 	}
 
-	//#PR Build non-secure SEO URL
+	/**
+	 * Build non-secure SEO URL
+	 * @param string $rt
+	 * @param string $params
+	 * @param string $encode
+	 * @return string
+	 */
 	public function getSEOURL($rt, $params = '', $encode = '') {
 		//#PR Generate SEO URL based on standard URL
 		$this->loadModel('tool/seo_url');
 		return $this->url_encode($this->model_tool_seo_url->rewrite($this->getURL($rt, $params)), $encode);
 	}
 
-	//#PR This builds URL to the catalog to be used in admin
+	/**This builds URL to the catalog to be used in admin
+	 * @param string $rt
+	 * @param string $params
+	 * @param string $encode
+	 * @return string
+	 */
 	public function getCatalogURL($rt, $params = '', $encode = '') {
 		$suburl = '?' . ($rt ? 'rt=' . $rt : '') . $params;
 		$url = HTTP_SERVER . INDEX_FILE . $this->url_encode($suburl, $encode);
 		return $url;
 	}
 
-	//#PR encode URLfor & to be &amp;
-	public function url_encode($url, $encode = '') {
-		if ($encode == '&encode') {
+	/**
+	 * encode URLfor & to be &amp
+	 * @param string $url
+	 * @param bool $encode
+	 * @return string
+	 */
+	public function url_encode($url, $encode = false) {
+		if ($encode) {
 			return str_replace('&', '&amp;', $url);
 		} else {
 			return $url;
@@ -212,9 +245,6 @@ class AHtml extends AController {
 
 		return '';
 	}
-
-
-
 
 	/**
 	 * create html code based on passed data
@@ -407,42 +437,67 @@ class AHtml extends AController {
 		return $item->getHtml();
 	}
 
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildMultivalue($data) {
 		$item = new MultivalueHtmlElement($data);
 		return $item->getHtml();
 	}
 
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildResourceImage($data) {
 		$item = new ResourceImageHtmlElement($data);
 		return $item->getHtml();
 	}
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildDate($data) {
 		$item = new DateHtmlElement($data);
 		return $item->getHtml();
 	}
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildEmail($data) {
 		$item = new EmailHtmlElement($data);
 		return $item->getHtml();
 	}
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildNumber($data) {
 		$item = new NumberHtmlElement($data);
 		return $item->getHtml();
 	}
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildPhone($data) {
 		$item = new PhoneHtmlElement($data);
 		return $item->getHtml();
 	}
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildIPaddress($data) {
 		$item = new IPaddressHtmlElement($data);
 		return $item->getHtml();
 	}
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildCountries($data) {
 		$item = new CountriesHtmlElement($data);
 		return $item->getHtml();
@@ -450,7 +505,7 @@ class AHtml extends AController {
 
 	/**
 	 * @param  $data - array with element data
-	 * method to build pagination HTML elment 
+	 * method to build pagination HTML element
 	 * @return string - html code
 	 */
 	public function buildPagination($data) {
@@ -562,8 +617,10 @@ class AHtml extends AController {
 
 }
 
+/**
+ * Class HtmlElementFactory
+ */
 class HtmlElementFactory {
-
 	static private $available_elements = array(
 		'I' => array(
 			'type' => 'input',
@@ -747,12 +804,19 @@ class HtmlElementFactory {
 	}
 }
 
+/**
+ * @abstract
+ * Class HtmlElement
+ */
 abstract class HtmlElement {
 
 	protected $data = array();
 	protected $view;
 	public $element_id;
 
+	/**
+	 * @param array $data
+	 */
 	function __construct($data) {
 		if (!isset($data[ 'value' ])) $data[ 'value' ] = '';
 		if (isset($data[ 'required' ]) && $data[ 'required' ] == 1) $data[ 'required' ] = 'Y';
@@ -768,6 +832,10 @@ abstract class HtmlElement {
 			$this->element_id = $data[ 'form' ] . '_' . $data[ 'name' ];
 	}
 
+	/**
+	 * @param string $name
+	 * @return null|string
+	 */
 	public function __get($name) {
 
 		if (array_key_exists($name, $this->data)) {
@@ -776,6 +844,10 @@ abstract class HtmlElement {
 		return null;
 	}
 
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
 	public function __isset($name) {
 		return isset($this->data[ $name ]);
 	}
@@ -1597,6 +1669,9 @@ class PaginationHtmlElement extends HtmlElement {
 	
 	public function getHtml() {
 		//Build pagination data and dysplay
+		/**
+		 * @var $registry Registry
+		 */
 		$registry = $this->data['registry'];
 		$html = new AHtml($registry);
 		$s = $this->sts;
