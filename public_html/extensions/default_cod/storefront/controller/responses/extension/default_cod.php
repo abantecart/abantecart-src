@@ -36,7 +36,7 @@ class ControllerResponsesExtensionDefaultCod extends AController {
 		$this->view->assign('continue', $this->html->getSecureURL('checkout/success'));
 
 		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
-			$this->view->assign('back', $this->html->getSecureURL('checkout/payment'));
+			$this->view->assign('back', $this->html->getSecureURL('checkout/payment','&mode=edit',true)); // to prevent coming back when payment method only one
 		} else {
 			$this->view->assign('back', $this->html->getSecureURL('checkout/guest_step_2'));
 		}
@@ -70,4 +70,3 @@ class ControllerResponsesExtensionDefaultCod extends AController {
 		$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_cod_order_status_id'));
 	}
 }
-?>
