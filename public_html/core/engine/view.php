@@ -28,7 +28,6 @@ class AView {
 	protected $registry;	
 	protected $id;
 	protected $template;
-	protected $controller_name;
 	protected $instance_id;
     protected $enableOutput = false;
     protected $output = '';
@@ -79,7 +78,7 @@ class AView {
 	
 	public function assign($template_variable, $value = '', $default_value = ''){
 		if (empty($template_variable)){
-			return;
+			return null;
 		}
         if ( !is_null($value) ) {
 		    $this->data[$template_variable] = $value;
@@ -91,7 +90,7 @@ class AView {
 	//Call append if you need to add values to earlier assigned value
 	public function append($template_variable, $value = '', $default_value = ''){
 		if (empty($template_variable)){
-			return;
+			return null;
 		}
         if ( !is_null($value) ) {
 		    $this->data[$template_variable] = $this->data[$template_variable] . $value;
@@ -102,11 +101,24 @@ class AView {
 
 	public function batchAssign($assign_arr){
 		if (empty($assign_arr)){
-			return;
+			return null;
 		}
 
 		foreach($assign_arr as $key => $value) {
-			$this->data[$key] =  $value;		
+			//when key already defined and type of old and new values are different send warning in debug-mode
+			if(isset($this->data[$key]) && is_object($this->data[$key])){
+				$warning_text = 'Warning! Variable "'.$key.'" in template "'.$this->template.'" overriding value and data type "object." ';
+				$warning_text .= 'Possibly need to review your code! (also check that extensions do not load language definitions in UpdateData hook).';
+				$warning = new AWarning($warning_text);
+				$warning->toDebug();
+				continue; // prevent overriding.
+			}elseif( isset($this->data[$key]) && gettype($this->data[$key]) != gettype($value) ){
+				$warning_text = 'Warning! Variable "'.$key.'" in template "'.$this->template.'" overriding value and data type "'.gettype($this->data[$key]).'" ';
+				$warning_text .= 'Forcing new data type '.gettype($value).'. Possibly need to review your code!';
+				$warning = new AWarning($warning_text);
+				$warning->toDebug();
+			}
+			$this->data[$key] =  $value;
 		}
 	}
 
@@ -153,7 +165,6 @@ class AView {
 	 * @return string
 	 */
 	public function fetch($filename) {
-		$file = '';
 
 		//#PR First see if we have full path to template file. Nothing to do. Higher precedence! 
 		if (is_file($filename)) {
