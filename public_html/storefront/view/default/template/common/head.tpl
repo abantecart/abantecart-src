@@ -6,6 +6,9 @@
 <?php if ($description) { ?>
 <meta name="description" content="<?php echo $description; ?>" />
 <?php } ?>
+
+<meta name="generator" content="AbanteCart v<?php echo VERSION; ?> - Open Source eCommerce solution" />
+
 <base href="<?php echo $base; ?>" />
 
 <?php if ( is_file( DIR_RESOURCE . $icon ) ) {  ?>
