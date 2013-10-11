@@ -26,14 +26,16 @@ if ($products) {
               	<a href="<?php echo $item['info_url']?>"><img style="width:50px;" src="<?php echo $item['image']?>" alt=""/></a>
               	<a class="productname" href="<?php echo $item['info_url']?>"><?php echo $item['title']?></a>
                 <span class="procategory"><?php echo $item['rating']?></span>
-                <div class="price">
-        <?php  if ($product['special']) { ?>
-            <div class="pricenew"><?php echo $product['special']?></div>
-        	<div class="priceold"><?php echo $product['price']?></div>
-        <?php } else { ?>
-            <div class="pricenew"><?php echo $product['price']?></div>
+        <?php if ($display_price) { ?>        
+	                <div class="price">
+	        <?php  if ($product['special']) { ?>
+	            <div class="pricenew"><?php echo $product['special']?></div>
+	        	<div class="priceold"><?php echo $product['price']?></div>
+	        <?php } else { ?>
+	            <div class="pricenew"><?php echo $product['price']?></div>
+	  		<?php } ?>
+	                </div>
   		<?php } ?>
-                </div>
               </li>
 <?php
 	}
