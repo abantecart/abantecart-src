@@ -174,9 +174,11 @@ class ControllerApiCheckoutPayment extends AControllerAPI {
 
 		if (!isset($request[ 'payment_method' ])) {
 			$this->error[ 'warning' ] = $this->language->get('error_payment');
+			return FALSE;
 		} else {
 			if (!isset($this->session->data[ 'payment_methods' ][ $request[ 'payment_method' ] ])) {
 				$this->error[ 'warning' ] = $this->language->get('error_payment');
+				return FALSE;
 			}
 		}
 
@@ -188,6 +190,7 @@ class ControllerApiCheckoutPayment extends AControllerAPI {
 			if ($content_info) {
 				if (!isset($request[ 'agree' ])) {
 					$this->error[ 'warning' ] = sprintf($this->language->get('error_agree'), $content_info[ 'title' ]);
+					return FALSE;
 				}
 			}
 		}
