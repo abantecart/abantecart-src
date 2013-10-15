@@ -43,7 +43,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		$total = $layout->getBlocksList($filter_grid->getFilterData(), 'total_only');
 		$blocks = $layout->getBlocksList($filter_grid->getFilterData());
 
-
+		$tmp = array();
 		// prepare block list (delete template duplicates)
 		foreach ($blocks as $block) {
 			// skip base custom blocks
