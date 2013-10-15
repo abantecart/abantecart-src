@@ -621,7 +621,11 @@ function build_sort_order($array, $min, $max, $sort_direction = 'asc'){
 	//if no min or max, set interval to 10
 	$return_arr = array();
 	if ($max > 0) {
-		$increment = ($max - $min ) / (count($array) - 1);	
+		$divider = 1;
+		if (count($array) > 1) {
+			$divider = (count($array) - 1);
+		}
+		$increment = ($max - $min ) / $divider;	
 	} else {
 		$increment = 10;
 		$min = 10;
