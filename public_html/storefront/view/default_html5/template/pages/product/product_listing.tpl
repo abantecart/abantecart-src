@@ -39,17 +39,19 @@
               <a class="compare" href="<?php echo $item['info_url']?>#review"><?php echo $review ?></a>
 			  <?php echo $product['buttons'];?>
             </div>
+            <?php if ($display_price) { ?>
             <div class="pricetag">
               <span class="spiral"></span><a data-id="<?php echo $product['product_id']?>" href="<?php echo $item['buy_url']?>" class="productcart"><?php echo $button_add_to_cart?></a>
               <div class="price">
-        <?php  if ($product['special']) { ?>
-            <div class="pricenew"><?php echo $product['special']?></div>
-        	<div class="priceold"><?php echo $product['price']?></div>
-        <?php } else { ?>
-            <div class="pricenew"><?php echo $product['price']?></div>
-  		<?php } ?>
+	        <?php  if ($product['special']) { ?>
+	            <div class="pricenew"><?php echo $product['special']?></div>
+	        	<div class="priceold"><?php echo $product['price']?></div>
+	        <?php } else { ?>
+	            <div class="pricenew"><?php echo $product['price']?></div>
+	  		<?php } ?>
               </div>
             </div>
+            <?php } ?>
           </div>
         </li>
 <?php

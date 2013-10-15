@@ -371,9 +371,11 @@ class ControllerPagesCheckoutPayment extends AController {
 		if($this->cart->getFinalTotal()){
 			if (!isset($this->request->post[ 'payment_method' ]) ) {
 				$this->error[ 'warning' ] = $this->language->get('error_payment');
+				return FALSE;
 			} else {
 				if (!isset($this->session->data[ 'payment_methods' ][ $this->request->post[ 'payment_method' ] ])) {
 					$this->error[ 'warning' ] = $this->language->get('error_payment');
+					return FALSE;
 				}
 			}
 		}
@@ -386,6 +388,7 @@ class ControllerPagesCheckoutPayment extends AController {
 			if ($content_info) {
 				if (!isset($this->request->post[ 'agree' ])) {
 					$this->error[ 'warning' ] = sprintf($this->language->get('error_agree'), $content_info[ 'title' ]);
+					return FALSE;
 				}
 			}
 		}
