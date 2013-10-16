@@ -36,7 +36,9 @@ if ($products) {
             <a href="<?php echo $item['info_url']?>"><?php echo $item['image']?></a>
             <div class="shortlinks">
               <a class="details" href="<?php echo $item['info_url']?>"><?php echo $button_view ?></a>
+              <?php if ($review_status) { ?>
               <a class="compare" href="<?php echo $item['info_url']?>#review"><?php echo $review ?></a>
+              <?php } ?>
 				<?php echo $product['buttons']?>
             </div>
             <?php if ($display_price) { ?>

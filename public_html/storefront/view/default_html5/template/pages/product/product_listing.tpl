@@ -36,7 +36,9 @@
             <a href="<?php echo $item['info_url']?>"><?php echo $item['image']?></a>
             <div class="shortlinks">
               <a class="details" href="<?php echo $item['info_url']?>"><?php echo $button_view ?></a>
+              <?php if ($review_status) { ?>
               <a class="compare" href="<?php echo $item['info_url']?>#review"><?php echo $review ?></a>
+              <?php } ?>
 			  <?php echo $product['buttons'];?>
             </div>
             <?php if ($display_price) { ?>
@@ -96,7 +98,9 @@
 					<div class="productdiscrption"><?php echo $product['description']?></div>
 		            <div class="shortlinks">
 		              <a class="details" href="<?php echo $item['info_url']?>"><?php echo $button_view ?></a>
+		              <?php if ($review_status) { ?>
 		              <a class="compare" href="<?php echo $item['info_url']?>#review"><?php echo $review ?></a>
+		              <?php } ?>
 		            </div>
 		            <div class="pricetag">
 		              <span class="spiral"></span><a data-id="<?php echo $product['product_id']?>" href="<?php echo $item['buy_url']?>" class="productcart"><?php echo $button_add_to_cart?></a>

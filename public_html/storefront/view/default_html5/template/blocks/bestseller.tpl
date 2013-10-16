@@ -31,7 +31,9 @@ if ($products) {
               <li>
               	<a href="<?php echo $item['info_url']?>"><img style="width:50px;" src="<?php echo $item['image']?>"/></a>
               	<a class="productname" href="<?php echo $item['info_url']?>"><?php echo $item['title']?></a>
+              	<?php if ($review_status) { ?>
                 <span class="procategory"><?php echo $item['rating']?></span>
+                <?php } ?>
                 <span class="price">
         <?php  if ($product['special']) { ?>
             <div class="pricenew"><?php echo $product['special']?></div>
