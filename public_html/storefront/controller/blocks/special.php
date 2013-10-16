@@ -105,6 +105,7 @@ class ControllerBlocksSpecial extends AController {
 		} else {
 			$this->data['display_price'] = FALSE;
 		}
+		$this->data['review_status'] = $this->config->get('enable_reviews');
 		// framed needs to show frames for generic block.
 		//If tpl used by listing block framed was set by listing block settings
 		$this->data['block_framed'] = true;

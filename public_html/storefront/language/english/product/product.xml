@@ -170,6 +170,6 @@
 	</definition>
 	<definition>
 		<key>text_login_view_price</key>
-		<value><![CDATA[Please login ot register to see price or to order.]]></value>
+		<value><![CDATA[Please login or register to see price or to order.]]></value>
 	</definition>				
 </definitions>

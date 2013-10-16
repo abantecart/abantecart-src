@@ -40,7 +40,9 @@
 							<a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
 							<a class="productname"
 							   href="<?php echo $item['info_url'] ?>"><?php echo $item['title']?></a>
+							<?php if ($review_status) { ?>
 							<span class="procategory"><?php echo $item['rating']?></span>
+							<?php } ?>
 							<?php if ($item['price']) { ?>
 								<span class="price">
 					<?php  if ($item['special']) { ?>
