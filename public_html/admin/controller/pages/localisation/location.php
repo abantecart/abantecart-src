@@ -253,7 +253,7 @@ class ControllerPagesLocalisationLocation extends AController {
                 $exists[] = $row['zone_id'];
             }
             // exclude zones that already in database
-            $this->request->post['zone_id'] = array_diff($this->request->post['zone_id'], $exists);
+            $this->request->post['zone_id'] = array_diff((array)$this->request->post['zone_id'], $exists);
             $zone_to_location_id = $this->model_localisation_location->addLocationZone($this->request->get['location_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->redirect($this->html->getSecureURL('localisation/location/locations', '&location_id=' . $this->request->get['location_id'] . '&zone_to_location_id=' . $zone_to_location_id));
