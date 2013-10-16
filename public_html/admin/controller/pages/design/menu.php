@@ -248,7 +248,7 @@ class ControllerPagesDesignMenu extends AController {
 		$menu_item = null;
 		$parent_id = array();
 		$menu_ids = $this->menu->getItemIds();
-		foreach ( $menu_ids as $k => $v ) {
+		foreach ( $menu_ids as $v ) {
 			$parent_id[$v] = $v;
 		}
 		if ( isset($this->request->get ['item_id']) ) {
@@ -372,7 +372,7 @@ class ControllerPagesDesignMenu extends AController {
         foreach ( $results as $c ) {
             if (! $c ['status'])
                 continue;
-            $options [$c ['content_id']] = $c ['name'];
+			$options [$c ['content_id']] = $c ['title'];
         }
 
 		$this->data ['pages'] = $this->html->buildSelectbox (
