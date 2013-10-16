@@ -155,15 +155,11 @@ echo $form['form_open'];
 <div class="container-fluid cart_total">
 	<div class="row-fluid">
 		<div class="span5 offset7 cart-info totals pull-right">
-			<table class="table table-striped table-bordered">
+			<table id="totals_table" class="table table-striped table-bordered">
 				<?php foreach ($totals as $total) { ?>
 					<tr>
-						<td><span
-									class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span>
-						</td>
-						<td><span
-									class="bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span>
-						</td>
+						<td><span class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span></td>
+						<td><span class="bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span></td>
 					</tr>
 				<?php } ?>
 			</table>
@@ -211,7 +207,7 @@ echo $form['form_open'];
 
 		});
 
-		function display_shippings() {
+		var  display_shippings = function() {
 			var postcode = encodeURIComponent($("#estimate input[name=\'postcode\']").val());
 			var country_id = encodeURIComponent($('#estimate_country').val());
 			var zone_id = $('#estimate_country_zones').val();
@@ -245,7 +241,7 @@ echo $form['form_open'];
 
 		}
 
-		function display_totals() {
+		var display_totals = function () {
 			var shipping_method = '';
 			var coupon = encodeURIComponent($("#coupon input[name=\'coupon\']").val());
 			shipping_method = encodeURIComponent($('#shippings :selected').val());
@@ -258,7 +254,7 @@ echo $form['form_open'];
 				dataType: 'json',
 				data: 'shipping_method=' + shipping_method + '&coupon=' + coupon,
 				beforeSend: function () {
-					$('.cart-info.totals table').html('<div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div>');
+					$('.cart-info.totals table#totals_table').html('<div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div>');
 				},
 				complete: function () {
 				},
@@ -275,13 +271,13 @@ echo $form['form_open'];
 							html += '<td><span class="bold ' + grand_total + '">' + data.totals[i].text + '</span></td>';
 							html += '</tr>';
 						}
-						$('.cart-info.totals table').html(html);
+						$('.cart-info.totals table#totals_table').html(html);
 					}
 				}
 			});
 		}
 
-		function show_error(parent_element, message) {
+		var  show_error = function(parent_element, message) {
 			var html = '<div class="alert alert-error">' + message + '</div>';
 			$(parent_element).before(html);
 		}

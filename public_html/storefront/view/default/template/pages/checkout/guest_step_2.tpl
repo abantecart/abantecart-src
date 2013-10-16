@@ -60,6 +60,7 @@
       </div>
       </div>
       <?php } ?>
+	  <?php echo $this->getHookVar('payment_extensions_pre_hook'); ?>
       <?php if ($payment_methods) { ?>
       <div style="display: none;" id="active_payments">
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_payment_method; ?></b>
