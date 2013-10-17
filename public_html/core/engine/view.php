@@ -179,7 +179,10 @@ class AView {
 		        if (is_file($path . $tmpl_id . '/template/'.  $filename)) {
 		            $file = $path . $tmpl_id . '/template/'.  $filename;
 		        } else {
-		            $file = $path . 'default/template/'.  $filename;
+		            $file = $path . 'default_html5/template/'.  $filename;
+					if (!is_file($file)) {
+						$file = $path . 'default/template/'.  $filename;
+					}
 		        }
 		        
 		    } else {
@@ -224,7 +227,10 @@ class AView {
         $extensions = $this->extensions->getEnabledExtensions();
 
         $file = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . $template . $filename;
-        $file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default' . $filename;
+        $file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default_html5' . $filename;
+		if(!is_file($file_default)){
+			$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default' . $filename;
+		}
 
 	    foreach ( $extensions as $ext ) {
             if ( is_file(DIR_EXT . $ext . $file) ) {
@@ -239,7 +245,7 @@ class AView {
         if (is_file( DIR_TEMPLATE . $template . $filename)) {
             return 'storefront/view/' . $template . $filename;
         } else {
-            return 'storefront/view/default' . $filename;
+            return 'storefront/view/default_html5' . $filename;
         }
     }
     public function isTemplateExists( $filename ) {
@@ -247,7 +253,10 @@ class AView {
         $extensions = $this->extensions->getEnabledExtensions();
 
         $file = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . $template .'/template/'. $filename;
-		$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $filename;
+		$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default_html5/template/' . $filename;
+		if(!is_file($file_default)){
+			$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $filename;
+		}
 
 	    foreach ( $extensions as $ext ) {
             if ( is_file(DIR_EXT . $ext . $file) ) {

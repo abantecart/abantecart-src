@@ -50,6 +50,35 @@ function preformatTextID($value) {
 	return strtolower(preg_replace("/[^A-Za-z0-9_]/", "", $value));
 }
 
+/**
+ * format float based on locale
+ * @since 1.1.8
+ * @param $value
+ * @return string
+ */
+
+function numberDisplayFormat($value){
+	$registry = Registry::getInstance();
+
+	$decimal_point = $registry->get('language')->get('decimal_point');
+	$decimal_point = !$decimal_point ? '.' : $decimal_point;
+
+	$decimal_place = $registry->get('currency')->getCurrency();
+
+	$decimal_place = (int)$decimal_place['decimal_place'];
+
+	$decimal_place = !$decimal_place ? 2 : $decimal_place;
+	//if only zeros after decimal point - hide zeros
+	if(round($value) == round($value,$decimal_place)){
+		$decimal_place = 0;
+	}
+
+	$thousand_point = $registry->get('language')->get('thousand_point');
+	$thousand_point = !$thousand_point ? ' ' : $thousand_point;
+
+	return number_format((float)$value, $decimal_place, $decimal_point,$thousand_point);
+}
+
 /*
  * check that argument variable has value (even 0 is a value)  
  * */
