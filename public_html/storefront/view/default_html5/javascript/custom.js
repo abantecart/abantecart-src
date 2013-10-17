@@ -63,6 +63,19 @@ $('document').ready(function () {
         window.location = $(this).find("option:selected").val();
     });
 
+	//show selected category
+	$(".subcategories ul li").hover(function () {
+		var curr_image = $(this).find('img').clone();
+		var parent = $(this).closest('.subcategories').find('.cat_image');
+		$(parent).html(curr_image);
+		$(parent).find('img').show();
+    }, function(){
+        // change to parent category
+		var parent_image = $(this).closest('.subcategories').find('.parent_cat_image');
+		var parent = $(this).closest('.subcategories').find('.cat_image');
+		$(parent).html($(parent_image).find('img').clone());
+    });
+    	
     // List & Grid View
     $('#list').click(function () {
         $(this).addClass('btn-orange').children('i').addClass('icon-white')
