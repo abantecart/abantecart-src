@@ -24,10 +24,28 @@ class ControllerCommonPageLayout extends AController {
 	public function main() {
 		//use to init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
+        
         $this->session->data['content_language_id'] = $this->config->get('storefront_language_id');
+		//set settings and build layout data from passed layout object
 		$settings = func_get_arg(0);
+		$layout = func_get_arg(1);
 		$settings['button_save'] = $this->language->get('button_save');
+		$settings['page'] = $layout->getPageData();
+		$settings['layout'] = $layout->getActiveLayout();
+		$settings['layout_drafts'] = $layout->getLayoutDrafts();
+		$settings['layout_templates'] = $layout->getLayoutTemplates();
+		$settings['_blocks'] = $layout->getInstalledBlocks();
+		$settings['blocks'] = $layout->getLayoutBlocks();		
 		$this->view->batchAssign($settings);
+
+		//build layout reset data
+		$layout_data['pages'] = $layout->getAllPages();	
+		$av_layouts = array( "0" => $this->language->get('text_select_copy_layout'));
+		foreach($layout_data['pages'] as $page){
+			if ( $page['layout_id'] != $settings['page']['layout_id'] ) {
+				$av_layouts[$page['layout_id']] = $page['layout_name'];
+			}
+		}
 
 		//degine some constants 
 		define('HEADER_MAIN', 	1);
@@ -43,6 +61,21 @@ class ControllerCommonPageLayout extends AController {
 		$form->setForm(array(
 		    'form_name' => 'layout_form',
 	    ));
+	    
+		$change_layout = $form->getFieldHtml(array('type' => 'selectbox',
+													'name' => 'layout_change',
+													'value' => '',
+													'options' => $av_layouts ));
+
+		$form_submit = $form->getFieldHtml( array(	'type' => 'button',
+													'name' => 'submit',
+													'text' => $this->language->get('text_apply_layout'),
+													'style' => 'button1'));
+
+		$this->view->assign('change_layout_select',$change_layout);
+		$this->view->assign('change_layout_button',$form_submit);
+	    
+	    
 		$form_begin = $form->getFieldHtml(array('type' => 'form',
 		                                        'name' => 'layout_form',
 		                                        'attr' => 'confirm-exit="true"',

@@ -500,23 +500,14 @@ class ControllerPagesDesignContent extends AController {
 
 
 		$layout = new ALayoutManager($tmpl_id, $page_id, (int)$layout_id);
-
-		$settings['page'] = $layout->getPageData();
-		$settings['page']['content'] = $content['content'];
-
-
-		$settings['layout'] = $layout->getActiveLayout();
-		$settings['layout_drafts'] = $layout->getLayoutDrafts();
-		$settings['layout_templates'] = $layout->getLayoutTemplates();
-		$settings['_blocks'] = $layout->getInstalledBlocks();
-		$settings['blocks'] = $layout->getLayoutBlocks();
+		$settings = array();
 		$settings['action'] = $this->html->getSecureURL('design/content/save_layout', $url);
 		// hidden fields of layout form
 		$settings['hidden']['page_id'] = $page_id;
 		$settings['hidden']['layout_id'] = $layout_id;
 		$settings['hidden']['content_id'] = $content_id;
-
-		$layoutform = $this->dispatch('common/page_layout', array($settings));
+		$settings['allow_clone'] = true;
+		$layoutform = $this->dispatch('common/page_layout', array($settings, $layout));
 
 		$this->view->assign('heading_title', $this->language->get('heading_title'));
 		$this->view->assign('layoutform', $layoutform->dispatchGetOutput());
@@ -556,10 +547,17 @@ class ControllerPagesDesignContent extends AController {
 				$content_info = $this->acm->getContent($content_id);
 				$this->request->post['layout_name'] = 'Content: ' . $content_info['name'];
 			}
-			$this->request->post['controller'] = 'pages/content/content';
-			$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
 
-			$layout->savePageLayout($this->request->post);
+			$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+		
+			if (has_value($this->request->post['layout_change'])) {	
+				//update layout request. Clone source layout
+				$layout->clonePageLayout($this->request->post['layout_change'], $layout_id, $this->request->post['layout_name']);
+			} else {
+				//save new layout
+				$this->request->post['controller'] = 'pages/content/content';
+				$layout->savePageLayout($this->request->post);
+			}
 
 			$this->session->data['success'] = $this->language->get('text_success_layout');
 			$this->redirect($this->html->getSecureURL('design/content/edit_layout', $url));

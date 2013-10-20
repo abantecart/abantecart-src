@@ -61,6 +61,10 @@ a img {
 }
 
 /* Layout */
+.layout_controls {
+	padding: 15px 10px 5px 20px; 
+}
+
 .wrapper {
     text-align: center;
 }
@@ -1441,6 +1445,12 @@ table.form tr td:first-child {
 }
 
 /* Layout & Blocks */
+.delete_page_layout{
+	position: relative;
+	top: -25px;
+	z-index: 10000;
+}
+
 #page_links {
     list-style: none;
     margin: 0;
@@ -1459,12 +1469,14 @@ table.form tr td:first-child {
     border-top: 0;
     position: relative;
 }
-
 #page_links li a {
     font: normal 12px Arial, Helvetica, sans-serif;
     color: #11558f;
-    padding: 5px 8px;
     display: block;
+    padding: 5px 8px;
+}
+#page_links li a:first-child {
+    padding: 5px 20px 5px 8px;
 }
 
 #page_links li a:hover {
@@ -2068,3 +2080,45 @@ table.form tr td:first-child {
 .default_uncheck{
 	cursor: pointer;
 }
+
+@-webkit-keyframes blinker {  
+  from { opacity: 1.0; }
+  to { opacity: 0.0; }
+}
+.text-blink {
+  -webkit-animation-name: blinker;  
+  -webkit-animation-iteration-count: infinite;  
+  -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+  -webkit-animation-duration: 1s; 
+}
+
+/* Voice commands */
+#results{
+	padding: 10px 0 0 0;
+}
+
+#voice_start, #voice_disabled{
+	padding: 10px 10px 0 20px;
+}
+#div_language{
+	display: inline-block;
+}
+
+.final_speech {
+	font-weight: bold;
+}
+.interim_speech {
+	font-weight: normal;
+	color: gray;
+}
+.mic_on {
+	color: red;
+	padding: 0 10px 0 10px;
+}
+.mic_off, .try_again {
+	padding: 0 10px 0 10px;
+}
+.voice-close {
+	padding: 0 0 0 10px;
+}
+

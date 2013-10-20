@@ -557,4 +557,12 @@
 		<key>text_sort_order</key>
 		<value><![CDATA[Sort Order]]></value>
 	</definition>
+	<definition>
+		<key>text_select_copy_layout</key>
+		<value><![CDATA[Apply different layout for this page]]></value>
+	</definition>
+	<definition>
+		<key>text_apply_layout</key>
+		<value><![CDATA[Apply Now]]></value>
+	</definition>
 </definitions>

@@ -18,10 +18,16 @@ foreach($templates as $t) {
 <div class="flt_left">
   <ul id="page_links">
     <?php foreach($pages as $pg) { ?>
-    <?php if(!empty($pg['name'])) { ?>
-    <li><a href="<?php echo $page_url . '&tmpl_id='.$tmpl_id.'&page_id='.$pg['page_id'].'&layout_id='.$pg['layout_id'] ; ?>"
+    <?php if(!empty($pg['name'])) { 
+    	$uri = '&tmpl_id='.$tmpl_id.'&page_id='.$pg['page_id'].'&layout_id='.$pg['layout_id'];
+    ?>
+    <li><a href="<?php echo $page_url . $uri; ?>"
           <?php echo ($pg['page_id'] == $page['page_id'] && $pg['layout_id'] == $page['layout_id']  ? 'class="shover"' : '')?>
-           title="<?php echo $pg['layout_name']; ?>"><?php echo $pg['name']; ?></a></li>
+           title="<?php echo $pg['layout_name']; ?>"><?php echo $pg['name']; ?></a>
+           <?php if(empty($pg['restricted'])) { ?>
+    	   <a data-delete-url="<?php echo $page_delete_url . $uri; ?>" class="delete_page_layout close"><i class="icon-trash"></i></a>
+    	   <?php } ?>
+    </li>
     <?php } ?>
     <?php } ?>
   </ul>
@@ -30,6 +36,7 @@ foreach($templates as $t) {
 	<?php echo $layoutform; ?>
 </div>
 <script type="text/javascript"><!--
+
     $('#layout_template').width('150')
         .aform({
             triggerChanged: false
@@ -38,4 +45,12 @@ foreach($templates as $t) {
             window.location = '<?php echo $page_url?>&tmpl_id='+this.value;
         });
     $.aform.styleGridForm('#layout_template');
+    
+    $('.delete_page_layout').click(function() {
+    	if ( confirm('<?php echo $text_delete_confirm; ?>' )) {
+    		var url = $(this).attr('data-delete-url');
+    		window.location = url + '&confirmed_delete=yes';	
+    	}
+    });
+    
 --></script>

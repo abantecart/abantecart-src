@@ -81,42 +81,37 @@ class ControllerPagesCatalogManufacturerLayout extends AController {
 		$this->view->batchAssign($this->data);
 
 		$layout = new ALayoutManager();
-		$page = $layout->getPage('pages/product/manufacturer', 'manufacturer_id', $manufacturer_id);
-
-		if ($page) {
-			$page_id = $page[ 0 ][ 'page_id' ];
-			$layout_id = $page[ 0 ][ 'layout_id' ];
+		$pages = $layout->getPages('pages/product/manufacturer', 'manufacturer_id', $manufacturer_id);
+		//test if we find exect matching page's layout
+		if ( count($pages) && has_value($pages[0]['page_id']) ) {
+			$page_id = $pages[0]['page_id'];
+			$layout_id = $pages[0]['layout_id'];
 		} else {
-			$page = $layout->getPage('pages/product/manufacturer');
-			if ($page && !$page[0]['key_param']) {
-				$page_id = $page[ 0 ][ 'page_id' ];
-				$layout_id = $page[ 0 ][ 'layout_id' ];
+			$pages = $layout->getPages('pages/product/manufacturer');
+
+			if(count($pages) && !$pages[0]['key_param']){ 
+				$page_id = $pages[0]['page_id'];
+				$layout_id = $pages[0]['layout_id'];
 			}else{
-				$page = $layout->getPage('generic');
-				$page_id = $page[0]['page_id'];
-				$layout_id = $page[0]['layout_id'];
+				$pages = $layout->getPages('generic');
+				$page_id = $pages[0]['page_id'];
+				$layout_id = $pages[0]['layout_id'];
 			}
 		}
 
-
 		$tmpl_id = $this->config->get('config_storefront_template');
-
 
 		// insert external form of layout
 		$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-		$settings[ 'page' ] = $layout->getPageData();
-		$settings[ 'layout' ] = $layout->getActiveLayout();
-		$settings[ 'layout_drafts' ] = $layout->getLayoutDrafts();
-		$settings[ 'layout_templates' ] = $layout->getLayoutTemplates();
-		$settings[ '_blocks' ] = $layout->getInstalledBlocks();
-		$settings[ 'blocks' ] = $layout->getLayoutBlocks();
+		$settings = array();
 		$settings[ 'action' ] = $this->html->getSecureURL('catalog/manufacturer_layout/save');
 		// hidden fields of layout form
 		$settings[ 'hidden' ][ 'page_id' ] = $page_id;
 		$settings[ 'hidden' ][ 'layout_id' ] = $layout_id;
 		$settings[ 'hidden' ][ 'manufacturer_id' ] = $manufacturer_id;
+		$settings['allow_clone'] = true;
 
-		$layoutform = $this->dispatch('common/page_layout', array( $settings ));
+		$layoutform = $this->dispatch('common/page_layout', array( $settings, $layout ));
 
 		$this->view->assign('help_url', $this->gen_help_url('manufacturer_layout') );
 		$this->view->assign('layoutform', $layoutform->dispatchGetOutput());
@@ -145,16 +140,14 @@ class ControllerPagesCatalogManufacturerLayout extends AController {
 			$this->redirect($this->html->getSecureURL('catalog/manufacturer/update'));
 		}
 
-
 		$tmpl_id = $this->config->get('config_storefront_template');
 
 		// need to know unique page existing
 		$layout = new ALayoutManager();
-		$page = $layout->getPage('pages/product/manufacturer', 'manufacturer_id', $manufacturer_id);
-
-		if ($page) {
-			$page_id = $page[ 0 ][ 'page_id' ];
-			$layout_id = $page[ 0 ][ 'layout_id' ];
+		$pages = $layout->getPages('pages/product/manufacturer', 'manufacturer_id', $manufacturer_id);
+		if ( count($pages) ) {
+			$page_id = $pages[0]['page_id'];
+			$layout_id = $pages[0]['layout_id'];
 		} else {
 
 			$page_info = array( 'controller' => 'pages/product/manufacturer',
@@ -176,9 +169,18 @@ class ControllerPagesCatalogManufacturerLayout extends AController {
 			// need to generate layout name
 			$this->request->post[ 'layout_name' ] = 'Manufacturer: ' . $manufacturer_info[ 'name' ];
 		}
-		$this->request->post['controller'] = 'pages/product/manufacturer';
+
+		//create new instance with specific template/page/layout data
 		$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-		$layout->savePageLayout($this->request->post);
+		if (has_value($this->request->post['layout_change'])) {	
+			//update layout request. Clone source layout
+			$layout->clonePageLayout($this->request->post['layout_change'], $layout_id, $this->request->post['layout_name']);
+		} else {
+			//save new layout
+			$this->request->post['controller'] = 'pages/product/manufacturer';
+			$layout->savePageLayout($this->request->post);
+		}
+
 		$this->session->data[ 'success' ] = $this->language->get('text_success_layout');
 		$this->redirect($this->html->getSecureURL('catalog/manufacturer_layout', '&manufacturer_id=' . $manufacturer_id));
 	}

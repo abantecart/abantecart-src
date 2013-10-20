@@ -559,4 +559,12 @@
 		<key>text_sort_order</key>
 		<value><![CDATA[Orden de Clasificación]]></value>
 	</definition>
+	<definition>
+		<key>text_select_copy_layout</key>
+		<value><![CDATA[Aplicar diseño diferente para esta página]]></value>
+	</definition>
+	<definition>
+		<key>text_apply_layout</key>
+		<value><![CDATA[Aplicar ahora]]></value>
+	</definition>	
 </definitions>

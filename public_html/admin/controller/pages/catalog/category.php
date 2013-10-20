@@ -542,40 +542,33 @@ class ControllerPagesCatalogCategory extends AController {
 
 		// need to know unique page existing
 		$layout = new ALayoutManager();
-		$page = $layout->getPage('pages/product/category', 'path', $this->request->get[ 'category_id' ]);
+		$pages = $layout->getPages('pages/product/category', 'path', $this->request->get[ 'category_id' ]);
+		//test if we find exect matching page's layout
+		if ( count($pages) && has_value($pages[0]['page_id']) ) {
+			$page_id = $pages[0]['page_id'];
+			$layout_id = $pages[0]['layout_id'];
+		} else {
+			$pages = $layout->getPages('pages/product/category');
 
-		if ($page) {
-			$page_id = $page[ 0 ][ 'page_id' ];
-			$layout_id = $page[ 0 ][ 'layout_id' ];
-		}else{
-			$page = $layout->getPage('pages/product/category');
-
-			if($page && !$page[0]['key_param']){ // common layout for all catagories
-				$page_id = $page[0]['page_id'];
-				$layout_id = $page[0]['layout_id'];
+			if(count($pages) && !$pages[0]['key_param']){ // common layout for all catagories
+				$page_id = $pages[0]['page_id'];
+				$layout_id = $pages[0]['layout_id'];
 			}else{
-				$page = $layout->getPage('generic');
-				$page_id = $page[0]['page_id'];
-				$layout_id = $page[0]['layout_id'];
+				$pages = $layout->getPages('generic');
+				$page_id = $pages[0]['page_id'];
+				$layout_id = $pages[0]['layout_id'];
 			}
 		}
 
 		$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-
-		$settings[ 'page' ] = $layout->getPageData();
-		$settings[ 'layout' ] = $layout->getActiveLayout();
-		$settings[ 'layout_drafts' ] = $layout->getLayoutDrafts();
-		$settings[ 'layout_templates' ] = $layout->getLayoutTemplates();
-		$settings[ '_blocks' ] = $layout->getInstalledBlocks();
-		$settings[ 'blocks' ] = $layout->getLayoutBlocks();
-
+		$settings = array();
 		$settings[ 'action' ] = $this->html->getSecureURL('catalog/category/save_layout', $url);
 		// hidden fields of layout form
 		$settings[ 'hidden' ][ 'page_id' ] = $page_id;
 		$settings[ 'hidden' ][ 'layout_id' ] = $layout_id;
 		$settings[ 'hidden' ][ 'category_id' ] = $category_id;
-
-		$layoutform = $this->dispatch('common/page_layout', array( $settings ));
+		$settings['allow_clone'] = true;
+		$layoutform = $this->dispatch('common/page_layout', array( $settings, $layout ));
 		if (isset($this->request->get[ 'category_id' ]) && ($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
 			$this->loadModel('catalog/category');
 			$this->data[ 'category_description' ] = $this->model_catalog_category->getCategoryDescriptions($this->request->get[ 'category_id' ]);
@@ -608,11 +601,11 @@ class ControllerPagesCatalogCategory extends AController {
 
 		// need to know unique page existing
 		$layout = new ALayoutManager();
-		$page = $layout->getPage('pages/product/category', 'path', $this->request->post[ 'category_id' ]);
+		$pages = $layout->getPages('pages/product/category', 'path', $this->request->post[ 'category_id' ]);
 
-		if ($page) {
-			$page_id = $page[ 0 ][ 'page_id' ];
-			$layout_id = $page[ 0 ][ 'layout_id' ];
+		if (count($pages)) {
+			$page_id = $pages[0]['page_id'];
+			$layout_id = $pages[0]['layout_id'];
 		} else {
 			$page_info = array( 'controller' => 'pages/product/category',
 			                    'key_param' => 'path',
@@ -629,13 +622,21 @@ class ControllerPagesCatalogCategory extends AController {
 			$page_id = $layout->savePage($page_info);
             $layout_id = '';
 			// need to generate layout name
-			$this->request->post[ 'layout_name' ] = 'Category: ' . $category_info[ 1 ][ 'name' ];
+			$default_language_id = $this->language->getDefaultLanguageID();
+			$this->request->post[ 'layout_name' ] = 'Category: ' . $category_info[ $default_language_id ][ 'name' ];
 		}
-
-		$this->request->post['controller'] = 'pages/product/category';
-		$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
 		
-		$layout->savePageLayout($this->request->post);
+		//create new instance with specific template/page/layout data
+		$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+		if (has_value($this->request->post['layout_change'])) {	
+			//update layout request. Clone source layout
+			$layout->clonePageLayout($this->request->post['layout_change'], $layout_id, $this->request->post['layout_name']);
+		} else {
+			//save new layout
+			$this->request->post['controller'] = 'pages/product/category';
+			$layout->savePageLayout($this->request->post);
+		}
+		
 		$url .= '&layout_id=' . $layout_id;
 		$this->session->data[ 'success' ] = $this->language->get('text_success_layout');
 		$this->redirect($this->html->getSecureURL('catalog/category/edit_layout', $url));
