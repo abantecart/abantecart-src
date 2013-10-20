@@ -635,9 +635,9 @@ class ALayoutManager {
 	 * @param $controller, $key_param, $key_value (all required)
 	 * @return bool
 	 */
-	public function deletePageLayout($controller, $key_param, $key_value, $layout_id = 0) {
+	public function deletePageLayout( $controller, $key_param, $key_value ) {
 		if (empty($controller) || empty($key_param) || empty($key_value)) return false;
-		$pages = $this->getPage($controller, $key_param, $key_value, $layout_id);
+		$pages = $this->getPages($controller, $key_param, $key_value);
 		if ($pages) {
 			foreach ($pages as $page) {
 				$this->deletePageLayoutByID($page['page_id'], $page['layout_id']);
