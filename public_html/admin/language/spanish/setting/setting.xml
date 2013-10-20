@@ -225,6 +225,11 @@
 			<![CDATA[En Modo de Mantenimiento:<br /><span class="help">Evita que los clientes de la navegación por su tienda. En su lugar, aparecerá un mensaje de mantenimiento. Si iniciado sesión como administrador, verá la tienda como de costumbre.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_voicecontrol</key>
+		<value>
+			<![CDATA[Vontrol por voz:<br /><span class="help">Activar el control de voz de administrador para activar la función de comandos de voz. Actualmente sólo se admite en la versión de Chrome 25 o posterior.</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_help_links</key>
 		<value>
 			<![CDATA[Ayuda Enlaces:<br /><span class="help">Si quieres ver los iconos de ayuda y enlaces al sitio AbanteCart. Esto le ayudará a aprender sobre las características y la forma de utilizarlos. Si el usuario avanzado y no quieren ver a estos iconos de ayuda, se puede desactivar.</span>]]></value>

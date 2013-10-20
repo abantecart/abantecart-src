@@ -1,5 +1,31 @@
-<div class="header_logo"><a href="<?php echo $home; ?>"><img src="<?php echo $template_dir; ?>image/logo.png"
-                                                             title="<?php echo $heading_title; ?>"/></a></div>
+<div class="header_logo">
+	<a href="<?php echo $home; ?>">
+	<img src="<?php echo $template_dir; ?>image/logo.png"title="<?php echo $heading_title; ?>"/>
+	</a>
+</div>
+
+<div class="header_logo">
+
+<?php if ($logged) { ?>
+<?php if( $config_voicecontrol ) { ?>
+	<div id="voice_start">
+	  <p id="info_start">
+	  	<a data-toggle="modal" href="#voiceModal" id="start_button" onclick="startButton(event)" title="Click on the microphone icon and begin speaking for as long as you like."><i class="icon-microphone icon-2x"></i></a>
+	  </p>
+	</div>
+
+	<?php include( $template_dir .'/template/common/voice_controls.tpl' ); ?>
+<?php } else { ?>
+	<div id="voice_disabled">
+	  <p>
+	  	<a href="<?php echo $voicecontrol_setting_url; ?>" class="activate_setting" title="Click on the microphone to enable this setting."><i class="icon-microphone-off icon-2x"></i></a>
+	  </p>
+	</div>
+<?php } ?>
+<?php } ?>
+
+</div>
+
 <div class="section1">
     <?php if ($logged) { ?>
 
@@ -131,8 +157,6 @@
     <?php } ?>
 </div><br class="clr_both">
 <div id="suggest_popup_dialog"></div>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript">
     $(function () {
         if (!$('#global_search')) return;

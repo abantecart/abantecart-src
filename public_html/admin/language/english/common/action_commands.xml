@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<definitions>
+    <definition>
+        <key>text_possible_commands</key>
+        <value><![CDATA[Possible Commands:]]></value>
+    </definition>
+    <definition>
+        <key>text_multiple_result_found</key>
+        <value><![CDATA[Multiple action result found:]]></value>
+    </definition>
+    <definition>
+        <key>text_action_confirm</key>
+        <value><![CDATA[Please confirm your request:]]></value>
+    </definition>
+
+    <definition>
+        <key>command_open</key>
+        <value><![CDATA[open,open page, open menu]]></value>
+    </definition>
+
+    <definition>
+        <key>command_find</key>
+        <value><![CDATA[locate, find, search, search for, search 4]]></value>
+    </definition>
+
+
+</definitions>
