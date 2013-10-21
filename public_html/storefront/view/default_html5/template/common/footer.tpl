@@ -30,12 +30,12 @@
 			</div>
 		</div>
 	</section>
-	<section class="copyrightbottom">
+	<section class="copyrightbottom align_center">
 		<div class="container">
 			<div class="pull-left">
 				<?php echo ${$children_blocks[6]}; ?>
 			</div>
-			<div class="pull-right textright"> <?php echo $text_powered_by ?> <a href="http://www.abantecart.com"
+			<div class="pull-right align_center"> <?php echo $text_powered_by ?> <a href="http://www.abantecart.com"
 																				 onclick="window.open(this.href);return false;"
 																				 title="Ideal OpenSource E-commerce Solution">AbanteCart</a>
 			</div>

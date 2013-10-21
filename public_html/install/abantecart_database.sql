@@ -1284,6 +1284,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 	('system','storefront_template_debug',0),
 	('system','config_error_filename','error.txt'),
 	('system','config_upload_max_size',16000),
+	('system','config_voicecontrol', 1),
 
 --API
     ('api','config_storefront_api_status', '0'),

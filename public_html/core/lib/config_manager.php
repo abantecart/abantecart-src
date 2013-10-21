@@ -956,6 +956,12 @@ class AConfigManager {
 			'value' => $data['config_maintenance'],
 			'style' => 'btn_switch',
 		));
+		$fields['voicecontrol'] = $form->getFieldHtml($props[] = array(
+			'type' => 'checkbox',
+			'name' => 'config_voicecontrol',
+			'value' => $data['config_voicecontrol'],
+			'style' => 'btn_switch',
+		));
 		$fields['encryption'] = $form->getFieldHtml($props[] = array(
 			'type' => 'input',
 			'name' => 'encryption_key',

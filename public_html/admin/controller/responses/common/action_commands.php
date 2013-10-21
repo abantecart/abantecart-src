@@ -1,0 +1,231 @@
+<?php
+/*------------------------------------------------------------------------------
+  $Id$
+
+  AbanteCart, Ideal OpenSource Ecommerce Solution
+  http://www.AbanteCart.com
+
+  Copyright © 2011-2013 Belavier Commerce LLC
+
+  This source file is subject to Open Software License (OSL 3.0)
+  License details is bundled with this package in the file LICENSE.txt.
+  It is also available at this URL:
+  <http://www.opensource.org/licenses/OSL-3.0>
+  
+ UPGRADE NOTE: 
+   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+   versions in the future. If you wish to customize AbanteCart for your
+   needs please refer to http://www.AbanteCart.com for more information.  
+------------------------------------------------------------------------------*/
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+	header('Location: static_pages/');
+}
+class ControllerResponsesCommonActionCommands extends AController {
+	private $error = array();
+	public $commands = array();
+
+	//main method to load commands 
+	public function main() {
+		$result = array();
+		$text_data = $this->language->getASet('common/action_commands');	
+		$keys = preg_grep("/^command.*/", array_keys($text_data));
+		foreach($keys as $key) {
+			$this->commands[$key] = $text_data[$key];
+		}
+		unset($text_data);
+		unset($keys);
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		//load all commands from languages. 
+		$term = $this->request->get['term'];
+		if ( !$term ) {			
+			$this->extensions->hk_UpdateData($this, __FUNCTION__);
+			return $this->_no_match();
+		}
+
+		//search for possible commands
+		foreach($this->commands as $key => $command){
+			$variations = explode(',', $command);
+			//loor for command in the term
+			foreach ($variations as $test) {
+				$test = trim($test);
+				preg_match("/^$test\s+(.*)/i", $term, $matches);
+				if (count($matches)) {
+
+					$result['command'] = $test;
+					$result['key'] = $key;
+					$result['request'] = $matches[1];
+					//no breack. Take last matching command
+				}
+			}			
+		} 
+
+		if ( !$result ) {			
+			$this->extensions->hk_UpdateData($this, __FUNCTION__);
+			return $this->_no_match();
+		}else{
+			//call method to perform action on the request in the command
+			$function = "_".$result['key'];
+			if( method_exists( $this, $function )){
+				$result['found_actions'] = $this->$function($result['request']);
+			} else {
+				$this->extensions->hk_UpdateData($this, __FUNCTION__);
+				return $this->_no_match();			
+			}
+		}
+
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($result));		
+	}
+
+	private function _no_match() {
+		$result = array();
+		$result['message'] = $this->language->get('text_possible_commands');
+		//load all possible commands from language definitions.		
+		foreach($this->commands as $command){
+			$result['commands'][] = $command;
+		}
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($result));
+		return null;
+	}
+
+	private function _command_open( $request ) {
+		//return format (array): url =>, title =>, confirmation => (true, false)
+		$result = array();
+		//remove junk words 
+		$request = preg_replace('/menu|tab|page/', '', $request);
+		$request = trim($request);
+		//look for page in the menu matching 
+		//assume we have cache
+		$menu_arr = $this->cache->get('admin_menu');
+		foreach($menu_arr as $menu){
+			$sub_res = array();
+			if (preg_match("/$request/i", $menu['item_id'])){
+				$sub_res["title"] = $this->language->get($menu['item_text']);
+				$sub_res["url"] = $this->html->getSecureURL($menu['item_url']);
+				$sub_res["confirmation"] = false;
+				$result[] = $sub_res;
+			}
+		}
+		
+		return $result;
+	}
+
+	public function xxxmain() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->loadModel('tool/global_search');
+		$this->loadLanguage('tool/global_search');
+
+		$page = (int)$this->request->post[ 'page' ]; // get the requested page
+		$limit = $this->request->post[ 'rows' ]; // get how many rows we want to have into the grid
+
+
+		$results = $this->model_tool_global_search->getResult($this->request->get[ 'search_category' ], $this->request->get[ 'keyword' ]);
+		// preverse repeat request to db for total
+		if (!isset($this->session->data[ 'search_totals' ][ $this->request->get[ 'search_category' ] ])) {
+			$total = $this->model_tool_global_search->getTotal($this->request->get[ 'search_category' ], $this->request->get[ 'keyword' ]);
+		} else {
+			$total = $this->session->data[ 'search_totals' ][ $this->request->get[ 'search_category' ] ];
+			unset($this->session->data[ 'search_totals' ][ $this->request->get[ 'search_category' ] ]);
+		}
+
+		if ($total > 0) {
+			$total_pages = (int)ceil($total / $limit);
+		} else {
+			$total_pages = 0;
+		}
+
+		//$page = $page>$total_pages ? $total_pages : $page;
+
+		$response = new stdClass();
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $total;
+
+		//	$response->search_str = $search_str;
+
+
+		$i = 0;
+		foreach ($results[ 'result' ] as $result) {
+
+			$response->rows[ $i ][ 'id' ] = $i + 1;
+			$response->rows[ $i ][ 'cell' ] = array( $i + 1,
+				$result[ 'text' ]
+			);
+			$i++;
+		}
+
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($response));
+
+	}
+
+	/**
+	 * function check access rights to search results
+	 * @param string $permissions
+	 * @return boolean
+	 */
+	private function validate($permissions = null) {
+		// check access to global search
+		if (!$this->user->canAccess('tool/global_search')) {
+			$this->error [ 'warning' ] = $this->language->get('error_permission');
+		}
+		return !$this->error ? true : false;
+	}
+
+	public function lookup() {
+		$this->loadModel('tool/global_search');
+		$this->loadLanguage('tool/global_search');
+
+		$search_categories = $this->model_tool_global_search->getSearchSources('all');
+		$result_controllers = $this->model_tool_global_search->results_controllers;
+		$results[ 'response' ] = array();
+
+		foreach ($search_categories as $id => $name) {
+			$r = $this->model_tool_global_search->getResult($id, $this->request->get[ 'term' ], 'suggest');
+			foreach ($r[ 'result' ] as $item) {
+				if ($item) {
+					$tmp = array();
+					// exception for extension settings
+					if( $id=='settings' && !empty($item['extension'])){
+						$tmp_id='extensions';
+					}else{
+						$tmp_id = $id;
+					}
+
+					if (!is_array($result_controllers[ $tmp_id ][ 'id' ])) {
+						$tmp[ ] = $result_controllers[ $tmp_id ][ 'id' ] . '=' . $item[ $result_controllers[ $tmp_id ][ 'id' ] ];
+					} else {
+						foreach ($result_controllers[ $tmp_id ][ 'id' ] as $al => $j) {
+							// if some id have alias - build link with it
+							$tmp[ ] = $j . '=' . $item[ $j ];
+						}
+					}
+
+
+					$item[ 'controller' ] = $result_controllers[ $tmp_id ][ 'response' ] ? $this->html->getSecureURL($result_controllers[ $tmp_id ][ 'response' ], ($tmp_id == 'languages' ? '&popup=1&target=suggest_popup_dialog' : '') . '&' . implode('&', $tmp)) : '';
+					$item[ 'page' ] = $this->html->getSecureURL($result_controllers[ $tmp_id ][ 'page' ], '&' . implode('&', $tmp));
+					$item[ 'category' ] = $id;
+					$item[ 'category_name' ] = $this->language->get('text_' . $id);
+					$item[ 'label' ] = mb_strlen($item[ 'title' ]) > 40 ? mb_substr($item[ 'title' ], 0, 40) . '...' : $item[ 'title' ];
+					$results[ 'response' ][ ] = $item;
+				}
+			}
+		}
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($results));
+
+	}
+}
+
+?>

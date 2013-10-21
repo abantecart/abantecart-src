@@ -21,6 +21,11 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/stylesheet.css"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/abantecart.jquery.ui.css"/>
 
+<link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/font-awesome.min.css" media="all" />
+<!--[if IE 7]>
+	<link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/font-awesome-ie7.min.css" media="all" />
+<![endif]-->
+
 <script type="text/javascript"
         src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript">
@@ -40,7 +45,6 @@
 
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap-tooltip.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap-modal.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap-popover.js"></script>
 
 <?php foreach ($scripts as $script) { ?>
@@ -74,3 +78,6 @@
 </script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/aform.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/general.js"></script>
+
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>

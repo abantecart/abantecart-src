@@ -1,0 +1,1 @@
+insert into ac_settings (store_id, `group`,`key`,`value`) values (0,'system','config_voicecontrol', 1);

@@ -14,11 +14,11 @@
 	<?php if ($categories) { ?>
 	<ul class="thumbnails row">
 	    <?php for ($i = 0; $i < sizeof($categories); $i++) { ?>
-	     <li class="span2">
+	     <li class="span2 align_center">
 	    	<a href="<?php echo $categories[ $i ][ 'href' ]; ?>">
 	    		<?php echo $categories[ $i ][ 'thumb' ][ 'thumb_html' ]; ?>
 	    	</a>
-	    	<div class="span2">
+	    	<div class="mt10 align_center">
 	    	<a href="<?php echo $categories[ $i ][ 'href' ]; ?>"><?php echo $categories[ $i ][ 'name' ]; ?></a>
 	    	</div>
 	    </li>

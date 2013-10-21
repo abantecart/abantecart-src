@@ -42,6 +42,9 @@ class ALayoutManager {
 	private $custom_blocks = array();
 	public $errors = 0;
 
+	//Layout Manager Class to handle layout in the admin
+	//NOTES: Object can be constructed with specific template, page or layout id provided
+	//	     Possible to create an object with no specifics to access layout methods. 
 	public function __construct($tmpl_id = '', $page_id = '', $layout_id = '') {
 		if (!IS_ADMIN) { // forbid for non admin calls
 			throw new AException (AC_ERR_LOAD, 'Error: permission denied to change page layout');
@@ -51,28 +54,36 @@ class ALayoutManager {
 
 		$this->tmpl_id = !empty ($tmpl_id) ? $tmpl_id : $this->config->get('config_storefront_template');
 
-		$this->pages = $this->getPage('', '', '', $layout_id);
-
+		if ($layout_id) {
+			//load pages pecific to the template if layout_id provided
+			$this->pages = $this->getPages('', '', '', $this->tmpl_id);
+		} else {
+			//preload all pages for this object. No layout_id provided
+			$this->pages = $this->getPages();		
+		}
+	
+		//find page used for this instance. If page_id is not specified for the instance, generic page/layout is used.
 		foreach ($this->pages as $page) {
 			if (!empty ($page_id)) {
-				if ($page ['page_id'] == $page_id) {
-					if (!$layout_id || ($layout_id && $layout_id == $page ['layout_id'])) {
+				if ($page['page_id'] == $page_id) {
+					if (!$layout_id || ($layout_id && $layout_id == $page['layout_id'])) {
 						$this->page = $page;
 						break;
 					}
 				}
 			} else {
-				if ($page ['controller'] == 'generic') {
+				if ($page['controller'] == 'generic') {
 					$this->page = $page;
 					break;
 				}
 			}
 		}
-		$this->page_id = $this->page ['page_id'];
+		$this->page_id = $this->page['page_id'];
 
-		//Get the page layouts
+		//preload all layouts for this page and template
+		//NOTE: layout_type: 0 Default, 1 Active layout, 2 draft layout, 3 template layout
 		$this->layouts = $this->getLayouts();
-
+		//locate layout for the page instance. If not specified for this instance fist active layout is used 
 		foreach ($this->layouts as $layout) {
 			if (!empty ($layout_id)) {
 				if ($layout ['layout_id'] == $layout_id) {
@@ -87,6 +98,7 @@ class ALayoutManager {
 			}
 		}
 
+		//if not layout set, use default (layout_type=0) layout 
 		if (count($this->active_layout) == 0) {
 			$this->active_layout = $this->getLayouts(0);
 			if (count($this->active_layout) == 0) {
@@ -115,11 +127,19 @@ class ALayoutManager {
 		$this->registry->set($key, $value);
 	}
 
-	//???? this is duplicate. Class must be extend ALayout and this method need to delete
-	public function getPage($controller = '', $key_param = '', $key_value = '', $layout_id = 0) {
+	/**
+     * Select pages on specified parameters. 
+     * Note: returns an array of matching pages. 
+	 * @param string $controller
+	 * @param string $key_param
+	 * @param string $key_value
+	 * @param string $template_id
+	 * @return array
+	 */
+	public function getPages($controller = '', $key_param = '', $key_value = '', $template_id = 0) {
 		$language_id = $this->session->data['content_language_id'];
 		$where = "";
-		if (!empty ($controller)) { //????
+		if (!empty($controller)) { 
 			$where = "WHERE p.controller = '" . $this->db->escape($controller) . "' ";
 
 			if (!empty ($key_param)) {
@@ -127,8 +147,8 @@ class ALayoutManager {
 				$where .= empty ($key_value) ? "" : "AND p.key_value = '" . $this->db->escape($key_value) . "' ";
 			}
 		}
-		if ($layout_id) {
-			$where .= (empty($where) ? "WHERE " : " AND ") . "l.template_id = '" . $this->db->escape($this->tmpl_id) . "'";
+		if ($template_id) {
+			$where .= (empty($where) ? "WHERE " : " AND ") . "l.template_id = '" . $this->db->escape($template_id) . "'";
 		}
 
 		$sql = " SELECT p.page_id,
@@ -154,6 +174,13 @@ class ALayoutManager {
 
 		$query = $this->db->query($sql);
 		$pages = $query->rows;
+		//process pages and tag restricted layout/pages
+		//rescticted layouts are the once without key_param and key_value
+		foreach($pages as $count => $page) {
+			if (!has_value($page['key_param']) && !has_value($page['key_value'])) {
+				$pages[$count]['restricted'] = true; 
+			}
+		}
 		return $pages;
 	}
 
@@ -345,9 +372,10 @@ class ALayoutManager {
 	}
 
 	/**
+	 * Returns all pages for this instance (template)
 	 * @return array
 	 */
-	public function getPages() {
+	public function getAllPages() {
 		return $this->pages;
 	}
 
@@ -489,6 +517,7 @@ class ALayoutManager {
 	}
 
 	/**
+	 * Save Page/Layout and Layout Blocks
 	 * @param $data array
 	 * @return bool
 	 */
@@ -544,6 +573,79 @@ class ALayoutManager {
 		return true;
 	}
 
+
+	/**
+	 * Funcnction to clone layout linked to the page
+	 * @param $source layout id, destination layout id
+	 * @return bool
+	 */
+	public function clonePageLayout($src_layout_id, $dest_layout_id = '', $layout_name = '') {
+		if ( !has_value( $src_layout_id )) {
+			return false;
+		}
+
+		$page = $this->page;
+		$layout = $this->active_layout;
+
+		//this is a new layout
+		if ( !$dest_layout_id ) {
+			if ($layout_name) {
+				$layout ['layout_name'] = $layout_name;
+			}
+			$layout ['layout_type'] = 1;
+			$this->layout_id = $this->saveLayout($layout);
+			$dest_layout_id = $this->layout_id;
+
+			$this->db->query("INSERT INTO " . DB_PREFIX . "pages_layouts (layout_id,page_id)
+								VALUES ('" . ( int )$this->layout_id . "','" . ( int )$this->page_id . "')");
+		} else {
+			#delete existing layout data if provided cannot delete based on $this->layout_id (done on purpose for confirmation)
+			$this->deleteAllLayoutBlocks($dest_layout_id);
+		}
+
+		#clone blocks from source layout
+		$this->cloneLayoutBlocks($src_layout_id, $dest_layout_id);
+
+		$this->cache->delete('layout');
+		return true;
+	}
+
+	/**
+	 * Funcnction to delete page and layout linked to the page
+	 * @param $page_id layout id (all required)
+	 * @return bool
+	 */
+	public function deletePageLayoutByID($page_id, $layout_id) {
+		if ( !has_value( $page_id ) || !has_value( $layout_id )) {
+			return false;
+		}
+
+		$this->db->query("DELETE FROM " . DB_PREFIX . "layouts WHERE layout_id = '" . (int)$layout_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "pages WHERE page_id = '" . (int)$page_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "page_descriptions WHERE page_id = '" . (int)$page_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "pages_layouts WHERE layout_id = '" . (int)$layout_id . "' AND page_id = '".(int)$page_id."'");
+		$this->deleteAllLayoutBlocks($layout_id);
+
+		$this->cache->delete('layout');
+		return true;
+	}
+
+	/**
+	 * Funcnction to delete page and layout linked to the page
+	 * @param $controller, $key_param, $key_value (all required)
+	 * @return bool
+	 */
+	public function deletePageLayout( $controller, $key_param, $key_value ) {
+		if (empty($controller) || empty($key_param) || empty($key_value)) return false;
+		$pages = $this->getPages($controller, $key_param, $key_value);
+		if ($pages) {
+			foreach ($pages as $page) {
+				$this->deletePageLayoutByID($page['page_id'], $page['layout_id']);
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * @param $data array
 	 * @param int $instance_id
@@ -581,6 +683,7 @@ class ALayoutManager {
 	}
 
 	/**
+	 * Delete blocks from the layout based on instance ID
 	 * @param int $layout_id
 	 * @param int $parent_instance_id
 	 * @return bool
@@ -593,6 +696,23 @@ class ALayoutManager {
 			$this->db->query("DELETE FROM " . DB_PREFIX . "block_layouts
 								WHERE layout_id = '" . ( int )$layout_id . "' AND parent_instance_id = '" . ( int )$parent_instance_id . "'");
 
+			$this->cache->delete('layout.a.blocks');
+			$this->cache->delete('layout.blocks');
+		}
+		return true;
+	}
+
+	/**
+	 * Delete All blocks from the layout
+	 * @param int $layout_id
+	 * @return bool
+	 * @throws AException
+	 */
+	public function deleteAllLayoutBlocks($layout_id = 0) {
+		if (!$layout_id) {
+			throw new AException (AC_ERR_LOAD, 'Error: Cannot to delete layout blocks. Missing layout ID!');
+		} else {
+			$this->db->query("DELETE FROM " . DB_PREFIX . "block_layouts WHERE layout_id = '" . ( int )$layout_id . "'");
 			$this->cache->delete('layout.a.blocks');
 			$this->cache->delete('layout.blocks');
 		}
@@ -1036,10 +1156,14 @@ class ALayoutManager {
 	}
 
 	/**
+	 * Clone Template layouts to new template
 	 * @param $new_template
 	 * @return bool
 	 */
 	public function cloneTemplateLayouts($new_template) {
+		if ( empty($new_template) ) {
+			return false;
+		}
 
 		$sql = "SELECT * FROM " . DB_PREFIX . "layouts WHERE template_id = '" . $this->tmpl_id . "' ";
 		$result = $this->db->query($sql);
@@ -1064,27 +1188,45 @@ class ALayoutManager {
 			}
 
 			//clone blocks
-			$blocks = $this->_getLayoutBlocks($layout['layout_id']);
-			$instance_map = array();
-			// insert top level block first
-			foreach ($blocks as $block) {
-				if ($block['parent_instance_id'] == 0) {
-					$block['layout_id'] = $layout_id;
-					$b_id = $this->saveLayoutBlocks($block);
-					$instance_map[$block['instance_id']] = $b_id;
-				}
-			}
-			// insert child blocks
-			foreach ($blocks as $block) {
-				if ($block['parent_instance_id'] != 0) {
-					$block['layout_id'] = $layout_id;
-					$block['parent_instance_id'] = $instance_map[$block['parent_instance_id']];
-					$this->saveLayoutBlocks($block);
-				}
+			if ( !$this->cloneLayoutBlocks($layout['layout_id'], $layout_id) ) {
+				return false;
 			}
 		}
 		return true;
 	}
+
+	/**
+	 * Clone layout blocks to new layout ( update block instances)
+	 * @param $source_layout_id $new_layout_id
+	 * @return bool
+	 */
+	public function cloneLayoutBlocks( $source_layout_id, $new_layout_id ) {
+		if ( !has_value($source_layout_id) || !has_value($new_layout_id) ) {
+			return false;
+		}
+
+		$blocks = $this->_getLayoutBlocks($source_layout_id);
+		$instance_map = array();
+		// insert top level block first
+		foreach ($blocks as $block) {
+		    if ($block['parent_instance_id'] == 0) {
+		    	$block['layout_id'] = $new_layout_id;
+		    	$b_id = $this->saveLayoutBlocks($block);
+		    	$instance_map[$block['instance_id']] = $b_id;
+		    }
+		}
+		// insert child blocks
+		foreach ($blocks as $block) {
+		    if ($block['parent_instance_id'] != 0) {
+		    	$block['layout_id'] = $new_layout_id;
+		    	$block['parent_instance_id'] = $instance_map[$block['parent_instance_id']];
+		    	$this->saveLayoutBlocks($block);
+		    }
+		}
+
+		return true;
+	}
+
 
 	/**
 	 * @return bool
@@ -1816,27 +1958,6 @@ class ALayoutManager {
 																	WHERE block_txt_id='" . $block_txt_id . "')";
 		$result = $this->db->query($sql);
 		return $result->row ['instance_id'];
-	}
-
-	public function deletePageLayout($controller, $key_param, $key_value, $layout_id = 0) {
-		if (empty($controller) || empty($key_param) || empty($key_value)) return null;
-		$pages = $this->getPage($controller, $key_param, $key_value, $layout_id);
-		if ($pages) {
-			foreach ($pages as $page) {
-				$this->db->query("DELETE FROM " . DB_PREFIX . "layouts
-									WHERE layout_id = '" . $page['layout_id'] . "' ");
-				$this->db->query("DELETE FROM " . DB_PREFIX . "pages_layouts
-									WHERE layout_id = '" . $page['layout_id'] . "' ");
-				$this->db->query("DELETE FROM " . DB_PREFIX . "block_layouts
-									WHERE layout_id = '" . $page['layout_id'] . "' ");
-				$this->db->query("DELETE FROM " . DB_PREFIX . "pages
-									WHERE page_id = '" . $page['page_id'] . "' ");
-				$this->db->query("DELETE FROM " . DB_PREFIX . "page_descriptions
-									WHERE page_id = '" . $page['page_id'] . "' ");
-			}
-			$this->cache->delete('layout');
-		}
-		return true;
 	}
 
 	/*
