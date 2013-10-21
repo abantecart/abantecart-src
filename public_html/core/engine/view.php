@@ -237,16 +237,21 @@ class AView {
 				return DIR_EXTENSIONS . $ext . $file;
 			}
             //check default template
-            if ( $template != 'default' && is_file(DIR_EXT . $ext . $file_default) ) {
+            if ( $template != 'default' && $template != 'default_html5' && is_file(DIR_EXT . $ext . $file_default) ) {
 				return DIR_EXTENSIONS . $ext . $file_default;
 			}
         }
 		//TODO : need to check how it will work with admin templates. i suspect not work.
-        if (is_file( DIR_TEMPLATE . $template . $filename)) {
-            return 'storefront/view/' . $template . $filename;
-        } else {
-            return 'storefront/view/default_html5' . $filename;
-        }
+		if (is_file( DIR_TEMPLATE . $template . $filename)) {
+			return 'storefront/view/' . $template . $filename;
+		} else {
+			if(is_file(DIR_ROOT.'/storefront/view/default' . $filename)){
+				return 'storefront/view/default' . $filename;
+			}else{
+				return 'storefront/view/default_html5' . $filename;
+			}
+
+		}
     }
     public function isTemplateExists( $filename ) {
         $template = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
