@@ -52,7 +52,7 @@
 </div>
 
 <script type="text/javascript"><!--
-function getProducts() {
+var getProducts = function() {
 	$('#reviewFrm_product_id option').remove();
 	$.ajax({
 		url: '<?php echo $category_products; ?>&category_id=' + $('#reviewFrm_review_categories').attr('value'),

@@ -250,7 +250,7 @@
             }
         });
 
-        function openSuggestDiag(item) {
+        var openSuggestDiag = function(item) {
             $('#suggest_popup_dialog').focus();
             var $Popup = $('#suggest_popup_dialog').dialog({
                 title:'<?php echo $dialog_title; ?>',
@@ -303,7 +303,7 @@
 
     });
 
-    function CKEditor(mode){
+    var CKEditor = function(mode){
         var settings = [];
         settings[0] = 'qsFrm_config_description_<?php echo $content_language_id; ?>';
         settings[1] = 'qsFrm_config_meta_description';

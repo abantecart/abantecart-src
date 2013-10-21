@@ -61,7 +61,7 @@
 </div>
 
 <script type="text/javascript"><!--
-function addRelated() {
+var  addRelated = function() {
 	$('#product_form_product :selected').each(function() {
 		$(this).remove();
 		$('#product_form_related option[value=\'' + $(this).attr('value') + '\']').remove();
@@ -71,14 +71,14 @@ function addRelated() {
 	});
 }
 
-function removeRelated() {
+var removeRelated = function() {
 	$('#product_form_related :selected').each(function() {
 		$(this).remove();
 		$('#product_related input[value=\'' + $(this).attr('value') + '\']').remove();
 	});
 }
 
-function getProducts() {
+var getProducts = function() {
 	$('#product_form_product option').remove();
 
 	$.ajax({
@@ -92,7 +92,7 @@ function getProducts() {
 	});
 }
 
-function getRelated() {
+var getRelated = function() {
 	$('#product_form_related option').remove();
 
 	$.ajax({
