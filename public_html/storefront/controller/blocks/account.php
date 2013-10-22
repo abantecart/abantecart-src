@@ -40,7 +40,9 @@ class ControllerBlocksAccount extends AController {
 			if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance'))){
 				$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance);
 			}
-
+			$this->data['login'] = $this->html->getSecureURL('account/login');
+			$this->data['register'] = $this->html->getSecureURL('account/create');
+			$this->data['forgotten'] = $this->html->getSecureURL('account/forgotten');
 			$this->data['account'] = $this->html->getSecureURL('account/account');
 			$this->data['information'] = $this->html->getSecureURL('account/edit');
 			$this->data['password'] = $this->html->getSecureURL('account/password');
