@@ -179,9 +179,9 @@ class AView {
 		        if (is_file($path . $tmpl_id . '/template/'.  $filename)) {
 		            $file = $path . $tmpl_id . '/template/'.  $filename;
 		        } else {
-		            $file = $path . 'default_html5/template/'.  $filename;
+		            $file = $path . 'default/template/'.  $filename;
 					if (!is_file($file)) {
-						$file = $path . 'default/template/'.  $filename;
+						$file = $path . 'default_html5/template/'.  $filename;
 					}
 		        }
 		        
@@ -242,25 +242,25 @@ class AView {
 			}
         }
 		//TODO : need to check how it will work with admin templates. i suspect not work.
-		if (is_file( DIR_TEMPLATE . $template . $filename)) {
-			return 'storefront/view/' . $template . $filename;
-		} else {
+        if (is_file( DIR_TEMPLATE . $template . $filename)) {
+            return 'storefront/view/' . $template . $filename;
+        } else {
 			if(is_file(DIR_ROOT.'/storefront/view/default' . $filename)){
 				return 'storefront/view/default' . $filename;
 			}else{
 				return 'storefront/view/default_html5' . $filename;
 			}
 
-		}
+        }
     }
     public function isTemplateExists( $filename ) {
         $template = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
         $extensions = $this->extensions->getEnabledExtensions();
 
         $file = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . $template .'/template/'. $filename;
-		$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default_html5/template/' . $filename;
+		$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $filename;
 		if(!is_file($file_default)){
-			$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $filename;
+			$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default_html5/template/' . $filename;
 		}
 
 	    foreach ( $extensions as $ext ) {
@@ -268,7 +268,7 @@ class AView {
 				return true;
 			}
             //check default template
-            if ( $template != 'default' && is_file(DIR_EXT . $ext . $file_default) ) {
+            if ( $template != 'default' && $template != 'default_html5' && is_file(DIR_EXT . $ext . $file_default) ) {
 				return true;
 			}
         }
