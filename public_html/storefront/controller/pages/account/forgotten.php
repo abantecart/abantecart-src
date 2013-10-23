@@ -24,8 +24,9 @@ class ControllerPagesAccountForgotten extends AController {
 	private $error = array();
 	public $data = array();
 	public function main() {
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->password();
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
 	public function password() {
