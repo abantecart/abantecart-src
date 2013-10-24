@@ -471,10 +471,6 @@ class ControllerPagesDesignContent extends AController {
 		$url .= '&content_id=' . $content_id;
 		$content = $this->acm->getContent($content_id);
 
-		$page_id = $this->acm->getPageId($content_id);
-		//$layout_id = $this->acm->getPageId($layout_id);
-		$tmpl_id = $this->config->get('config_storefront_template');
-
 		$this->view->assign('error_warning', (isset($this->error['warning']) ? $this->error['warning'] : ''));
 		$this->view->assign('success', (isset($this->session->data['success']) ? $this->session->data['success'] : ''));
 		if (isset($this->session->data['success'])) {
@@ -498,8 +494,11 @@ class ControllerPagesDesignContent extends AController {
 		$this->view->assign('tab_form', $this->language->get('tab_form'));
 		$this->view->assign('tab_layout', $this->language->get('tab_layout'));
 
+		$page_id = $this->acm->getPageId($content_id);
+		$layout_id = $this->acm->getLayoutId($content_id);
+		$tmpl_id = $this->config->get('config_storefront_template');
 
-		$layout = new ALayoutManager($tmpl_id, $page_id, (int)$layout_id);
+		$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
 		$settings = array();
 		$settings['action'] = $this->html->getSecureURL('design/content/save_layout', $url);
 		// hidden fields of layout form
@@ -507,6 +506,7 @@ class ControllerPagesDesignContent extends AController {
 		$settings['hidden']['layout_id'] = $layout_id;
 		$settings['hidden']['content_id'] = $content_id;
 		$settings['allow_clone'] = true;
+		
 		$layoutform = $this->dispatch('common/page_layout', array($settings, $layout));
 
 		$this->view->assign('heading_title', $this->language->get('heading_title'));

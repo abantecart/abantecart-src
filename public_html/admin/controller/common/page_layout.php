@@ -39,7 +39,7 @@ class ControllerCommonPageLayout extends AController {
 		$this->view->batchAssign($settings);
 
 		//build layout reset data
-		$layout_data['pages'] = $layout->getAllPages();	
+		$layout_data['pages'] = $layout->getAllPages();
 		$av_layouts = array( "0" => $this->language->get('text_select_copy_layout'));
 		foreach($layout_data['pages'] as $page){
 			if ( $page['layout_id'] != $settings['page']['layout_id'] ) {
@@ -59,7 +59,7 @@ class ControllerCommonPageLayout extends AController {
 
 		$form = new AForm('HT');
 		$form->setForm(array(
-		    'form_name' => 'layout_form',
+		    'form_name' => 'change_layout_form',
 	    ));
 	    
 		$change_layout = $form->getFieldHtml(array('type' => 'selectbox',
@@ -72,16 +72,23 @@ class ControllerCommonPageLayout extends AController {
 													'text' => $this->language->get('text_apply_layout'),
 													'style' => 'button1'));
 
+		$form_begin = $form->getFieldHtml(array('type' => 'form',
+		                                        'name' => 'change_layout_form',
+			                                    'action' => $settings['action']));
+
+		$this->view->assign('change_layout_form',$form_begin);
 		$this->view->assign('change_layout_select',$change_layout);
 		$this->view->assign('change_layout_button',$form_submit);
 	    
+		$form = new AForm('HT');
+		$form->setForm(array(
+		    'form_name' => 'layout_form',
+	    ));
 	    
 		$form_begin = $form->getFieldHtml(array('type' => 'form',
 		                                        'name' => 'layout_form',
 		                                        'attr' => 'confirm-exit="true"',
 			                                    'action' => $settings['action']));
-
-
 
 		$form_submit = $form->getFieldHtml( array(	'type' => 'button',
 													'name' => 'submit',

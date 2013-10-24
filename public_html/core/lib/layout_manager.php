@@ -54,30 +54,10 @@ class ALayoutManager {
 
 		$this->tmpl_id = !empty ($tmpl_id) ? $tmpl_id : $this->config->get('config_storefront_template');
 
-		if ($layout_id) {
-			//load pages pecific to the template if layout_id provided
-			$this->pages = $this->getPages('', '', '', $this->tmpl_id);
-		} else {
-			//preload all pages for this object. No layout_id provided
-			$this->pages = $this->getPages();		
-		}
-	
-		//find page used for this instance. If page_id is not specified for the instance, generic page/layout is used.
-		foreach ($this->pages as $page) {
-			if (!empty ($page_id)) {
-				if ($page['page_id'] == $page_id) {
-					if (!$layout_id || ($layout_id && $layout_id == $page['layout_id'])) {
-						$this->page = $page;
-						break;
-					}
-				}
-			} else {
-				if ($page['controller'] == 'generic') {
-					$this->page = $page;
-					break;
-				}
-			}
-		}
+		//load all pages specific to set template. No cross template page/layouts
+		$this->pages = $this->getPages();
+		//set current page for this object instance 
+		$this->_set_current_page($page_id, $layout_id);
 		$this->page_id = $this->page['page_id'];
 
 		//preload all layouts for this page and template
@@ -128,7 +108,7 @@ class ALayoutManager {
 	}
 
 	/**
-     * Select pages on specified parameters. 
+     * Select pages on specified parameters linked to layout and template. 
      * Note: returns an array of matching pages. 
 	 * @param string $controller
 	 * @param string $key_param
@@ -136,20 +116,21 @@ class ALayoutManager {
 	 * @param string $template_id
 	 * @return array
 	 */
-	public function getPages($controller = '', $key_param = '', $key_value = '', $template_id = 0) {
+	public function getPages($controller = '', $key_param = '', $key_value = '', $template_id = '') {
+		if (!$template_id) {
+			$template_id = $this->tmpl_id;
+		}
+	
 		$language_id = $this->session->data['content_language_id'];
-		$where = "";
+		$where = "WHERE l.template_id = '" . $this->db->escape($template_id) . "' ";
 		if (!empty($controller)) { 
-			$where = "WHERE p.controller = '" . $this->db->escape($controller) . "' ";
+			$where .= "AND p.controller = '" . $this->db->escape($controller) . "' ";
 
 			if (!empty ($key_param)) {
 				$where .= empty ($key_param) ? "" : "AND p.key_param = '" . $this->db->escape($key_param) . "' ";
 				$where .= empty ($key_value) ? "" : "AND p.key_value = '" . $this->db->escape($key_value) . "' ";
 			}
-		}
-		if ($template_id) {
-			$where .= (empty($where) ? "WHERE " : " AND ") . "l.template_id = '" . $this->db->escape($template_id) . "'";
-		}
+		}	
 
 		$sql = " SELECT p.page_id,
 						p.controller,
@@ -1287,6 +1268,48 @@ class ALayoutManager {
 		}
 		return true;
 	}
+
+
+	private function _set_current_page ($page_id = '', $layout_id = '') {
+		//find page used for this instance. If page_id is not specified for the instance, generic page/layout is used.
+		if ( has_value($page_id) && has_value($layout_id)) {
+			foreach ($this->pages as $page) {
+				if ($page['page_id'] == $page_id && $page['layout_id'] == $layout_id) {
+					$this->page = $page;
+					break;
+				}
+			}
+		} else if(has_value($page_id)) {
+			//we have page not related to any layout yet. need to pull differently
+			$language_id = $this->session->data['content_language_id'];
+			$sql = " SELECT p.page_id,
+							p.controller,
+							p.key_param,
+							p.key_value,
+							p.created,
+							p.updated,
+							pd.title,
+							pd.seo_url,
+							pd.keywords,
+							pd.description,
+							pd.content
+					FROM " . DB_PREFIX . "pages p " . "
+					LEFT JOIN " . DB_PREFIX . "page_descriptions pd ON (p.page_id = pd.page_id AND pd.language_id = '" . (int)$language_id . "' )
+					WHERE p.page_id = '" . $page_id . "'";
+			$query = $this->db->query($sql);
+			$this->pages[] = $query->row;
+			$this->page = $query->row;
+		} else {
+			//set generic layout
+			foreach ($this->pages as $page) {
+				if ($page['controller'] == 'generic') {
+					$this->page = $page;
+					break;
+				}
+			}
+		}	
+	}
+
 
 	/**
 	 * @param object $xml_obj

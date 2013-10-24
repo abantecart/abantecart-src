@@ -222,6 +222,11 @@ class AView {
 		return '';
 	}
 
+	/**
+	 * Storefront function to return path to the resource
+	 * @param $filename
+	 * @return string with relative path
+	 */
     public function templateResource( $filename ) {
         $template = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
         $extensions = $this->extensions->getEnabledExtensions();
@@ -241,11 +246,13 @@ class AView {
 				return DIR_EXTENSIONS . $ext . $file_default;
 			}
         }
-		//TODO : need to check how it will work with admin templates. i suspect not work.
+
         if (is_file( DIR_TEMPLATE . $template . $filename)) {
             return 'storefront/view/' . $template . $filename;
-        } else {
+        } else if (is_file( DIR_TEMPLATE . 'default_html5/' . $filename)) {
             return 'storefront/view/default_html5' . $filename;
+        } else {
+            return 'storefront/view/default' . $filename;        
         }
     }
     public function isTemplateExists( $filename ) {

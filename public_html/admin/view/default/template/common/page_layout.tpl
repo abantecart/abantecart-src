@@ -1,8 +1,8 @@
 <?php if ( !$page['restricted'] || $allow_clone) { ?>
-<?php echo $form_begin; ?>
+<?php echo $change_layout_form; ?>
 <div class="layout_controls">
 	<?php echo $change_layout_select; ?>
-	<button class="btn_standard" type="submit"><?php echo $change_layout_button; ?></button>
+	<button class="btn btn_standard" type="submit"><?php echo $change_layout_button; ?></button>
 	<div id="layout_hidden_fields"><?php echo $form_hidden; ?></div>
 </div>
 </form>
@@ -167,7 +167,7 @@
 			if (!block_id) {
 				return false;
 			}
-
+			$('.popover').hide();
 			load_popover(elm, block_id);
 			return true;
 		});

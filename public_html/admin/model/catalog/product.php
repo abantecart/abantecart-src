@@ -907,6 +907,10 @@ class ModelCatalogProduct extends Model {
 				);
 			}
 			$this->cache->delete('product');
+
+			//clone layout for the product if present
+			$this->_clone_product_layout($product_id, $new_product_id);
+
 			return $data['name'];
 		}
 
@@ -1008,6 +1012,46 @@ class ModelCatalogProduct extends Model {
 			}
 		}
 		$this->cache->delete('product');
+	}
+
+
+	/**
+	 * @param int $product_id
+	 * @param array $new_product_id
+	 */
+	private function _clone_product_layout($product_id, $new_product_id) {
+		if(!has_value($product_id) && !has_value($new_product_id)){
+		    return;
+		}
+	
+		//clone layout for the product if present
+		$lm = new ALayoutManager();
+		$pages = $lm->getPages('pages/product/product', 'product_id', (int)$product_id);
+		if ( count($pages) && has_value($pages[0]['page_id']) ) {
+		    $tmpl_id = $this->config->get('config_storefront_template');
+		    $src_layout_id = $pages[0]['layout_id'];
+		    $src_page_id = $pages[0]['page_id'];
+		    //create instance for source layout
+		    $lm = new ALayoutManager($tmpl_id, $src_page_id, $src_layout_id);
+		    //create new page
+			$page_info = array( 'controller' => 'pages/product/product',
+			                    'key_param' => 'product_id',
+			                    'key_value' => $new_product_id );
+			$new_page_id = $lm->savePage($page_info);
+			
+			$product_info = $this->getProductDescriptions($new_product_id);
+			if($product_info){
+			    foreach($product_info as $language_id=>$description){
+			    	if(!(int)$language_id){ continue;}
+			    	$page_info['page_descriptions'][$language_id]['name'] = $description['name'];
+			    }
+			}
+			$default_language_id = $this->language->getDefaultLanguageID();
+		    $layout_name = 'Product: ' . $product_info[ $default_language_id ][ 'name' ];
+		    //create instance for new layout
+		    $lm = new ALayoutManager($tmpl_id, $new_page_id, '');
+		    $lm->clonePageLayout($src_layout_id, '', $layout_name);
+		}
 	}
 
 	/**
