@@ -21,7 +21,7 @@
 </div>
 
 <script type="text/javascript">
-function <?php echo $id; ?>_buildList() {
+var <?php echo $id; ?>_buildList = function () {
 	var tmp = jQuery.parseJSON( $('#<?php echo  $form_name.'_'.$multivalue_hidden_id; ?>_selected').html());
 	var id = [];
 	var i=0;
@@ -96,7 +96,7 @@ $("#<?php echo $id; ?> a.remove").live('click', function(){
      return false;
 });
 
-function <?php echo $id; ?>_delete_item( id ) {
+var <?php echo $id; ?>_delete_item = function( id ) {
 	var prefix = '<?php echo $form_name.'_'.$multivalue_hidden_id; ?>';
 	var tmp = jQuery.parseJSON( $('#'+prefix+'_selected').html());
 	if(!tmp){

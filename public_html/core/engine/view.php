@@ -179,9 +179,9 @@ class AView {
 		        if (is_file($path . $tmpl_id . '/template/'.  $filename)) {
 		            $file = $path . $tmpl_id . '/template/'.  $filename;
 		        } else {
-		            $file = $path . 'default_html5/template/'.  $filename;
+		            $file = $path . 'default/template/'.  $filename;
 					if (!is_file($file)) {
-						$file = $path . 'default/template/'.  $filename;
+						$file = $path . 'default_html5/template/'.  $filename;
 					}
 		        }
 		        
@@ -242,7 +242,7 @@ class AView {
 				return DIR_EXTENSIONS . $ext . $file;
 			}
             //check default template
-            if ( $template != 'default' && is_file(DIR_EXT . $ext . $file_default) ) {
+            if ( $template != 'default' && $template != 'default_html5' && is_file(DIR_EXT . $ext . $file_default) ) {
 				return DIR_EXTENSIONS . $ext . $file_default;
 			}
         }
@@ -260,9 +260,9 @@ class AView {
         $extensions = $this->extensions->getEnabledExtensions();
 
         $file = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . $template .'/template/'. $filename;
-		$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default_html5/template/' . $filename;
+		$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $filename;
 		if(!is_file($file_default)){
-			$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $filename;
+			$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default_html5/template/' . $filename;
 		}
 
 	    foreach ( $extensions as $ext ) {
@@ -270,7 +270,7 @@ class AView {
 				return true;
 			}
             //check default template
-            if ( $template != 'default' && is_file(DIR_EXT . $ext . $file_default) ) {
+            if ( $template != 'default' && $template != 'default_html5' && is_file(DIR_EXT . $ext . $file_default) ) {
 				return true;
 			}
         }

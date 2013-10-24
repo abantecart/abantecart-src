@@ -59,7 +59,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
     var updatePager = false;
 
-    function updatePerPage(records) {
+    var updatePerPage = function(records) {
         if (updatePager) return;
         var html, rowNum, rowList = [<?php echo implode(',', $data['rowList']) ?>];
         for (var i = 0; i < rowList.length; i++) {
@@ -469,7 +469,7 @@ if ($custom_buttons) {
 		}	
 	}
 
-    function resize_the_grid() {
+    var resize_the_grid = function() {
         if($.browser.msie!=true){
             $(table_id).fluidGrid({base:table_id + '_wrapper', offset:-10});
             //update input width

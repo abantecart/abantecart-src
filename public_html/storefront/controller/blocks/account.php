@@ -26,35 +26,37 @@ class ControllerBlocksAccount extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
+		if($this->customer->isLogged()){
+			$this->loadLanguage('account/account');
+			$this->view->assign('heading_title', $this->language->get('heading_title') );
 
-		$this->loadLanguage('account/account');
-      	$this->view->assign('heading_title', $this->language->get('heading_title') );
+			$this->loadLanguage('common/header');
+			$this->data['logout'] = $this->html->getSecureURL('account/logout');
 
-		$this->loadLanguage('common/header');
-        $this->data['logout'] = $this->html->getSecureURL('account/logout');
+			$this->data['customer_name'] = $this->customer->getFirstName();
 
-		$this->data['customer_name'] = $this->customer->getFirstName();
+			$balance = $this->customer->getBalance();
 
-		$balance = $this->customer->getBalance();
+			if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance'))){
+				$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance);
+			}
+			$this->data['login'] = $this->html->getSecureURL('account/login');
+			$this->data['register'] = $this->html->getSecureURL('account/create');
+			$this->data['forgotten'] = $this->html->getSecureURL('account/forgotten');
+			$this->data['account'] = $this->html->getSecureURL('account/account');
+			$this->data['information'] = $this->html->getSecureURL('account/edit');
+			$this->data['password'] = $this->html->getSecureURL('account/password');
+			$this->data['address'] = $this->html->getSecureURL('account/address');
+			$this->data['history'] = $this->html->getSecureURL('account/history');
+			$this->data['transactions'] = $this->html->getSecureURL('account/transactions');
+			$this->data['download'] = $this->html->getSecureURL('account/download');
+			$this->data['newsletter'] = $this->html->getSecureURL('account/newsletter');
+			$this->data['current'] = $this->html->getSecureURL($this->request->get['rt']);
 
-		if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance'))){
-			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance);
+			$this->view->batchAssign($this->data);
+
+			$this->processTemplate();
 		}
-
-       	$this->data['account'] = $this->html->getSecureURL('account/account');
-       	$this->data['information'] = $this->html->getSecureURL('account/edit');
-        $this->data['password'] = $this->html->getSecureURL('account/password');
-        $this->data['address'] = $this->html->getSecureURL('account/address');
-        $this->data['history'] = $this->html->getSecureURL('account/history');
-        $this->data['transactions'] = $this->html->getSecureURL('account/transactions');
-        $this->data['download'] = $this->html->getSecureURL('account/download');
-        $this->data['newsletter'] = $this->html->getSecureURL('account/newsletter');
-        $this->data['current'] = $this->html->getSecureURL($this->request->get['rt']);
-        
-		$this->view->batchAssign($this->data);
-
-		$this->processTemplate();
-
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 

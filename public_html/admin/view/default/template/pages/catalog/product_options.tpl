@@ -138,14 +138,14 @@
 </div>
 <?php echo $resources_scripts; ?>
 <script type="text/javascript"><!--
-function setRLparams(attr_val_id) {
+var setRLparams = function(attr_val_id) {
 	urls.resource_library = '<?php echo $rl_rl_path; ?>&object_id=' + attr_val_id;
 	urls.resources = '<?php echo $rl_resources_path; ?>&object_id=' + attr_val_id;
 	urls.unmap = '<?php echo $rl_unmap_path; ?>&object_id=' + attr_val_id;
 	urls.attr_val_id = attr_val_id;
 }
 
-function openRL(attr_val_id) {
+var openRL = function(attr_val_id) {
 	setRLparams(attr_val_id);
 	mediaDialog('image', 'add', attr_val_id);
 }
@@ -273,7 +273,7 @@ jQuery(function ($) {
 		}
 	});
 
-	function updateOptions() {
+var updateOptions = function() {
 		$.ajax({
 			url: opt_urls.get_options_list,
 			type: 'GET',
@@ -290,7 +290,7 @@ jQuery(function ($) {
 		});
 	}
 
-	function editOption(id) {
+	var editOption = function(id) {
 		$('#notify_error').remove();
 		$.ajax({
 			url: opt_urls.update_option,

@@ -174,7 +174,7 @@
 
 	});
 
-	function load_popover(elm, block_id) {
+	var load_popover = function(elm, block_id) {
 		var template = '';
 		var page_id = '';
 		var layout_id = '';
@@ -207,7 +207,7 @@
 		});
 	}
 
-	function build_popover(elm, data) {
+	var build_popover = function(elm, data) {
 		elm.attr('data-toggle', 'popover');
 		elm.popover({
 			trigger: 'manual',
@@ -241,7 +241,7 @@
 		elm.popover('show');
 	}
 
-	function destroy_popover(elm) {
+	var destroy_popover = function(elm) {
 		elm.removeAttr('data-placement');
 		elm.removeAttr('data-toggle');
 		elm.popover('destroy');
@@ -249,7 +249,7 @@
 	}
 
 
-	function createBlock(parent_block_id) {
+	var createBlock = function(parent_block_id) {
 		var url = '<?php echo $new_block_url;?>&parent_block_id=';
 		this.window.location = url + parent_block_id;
 	}

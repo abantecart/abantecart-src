@@ -53,7 +53,7 @@
 
 	var $aPopup = $('#aPopup');
 	var msg_id;
-	function show_popup(id){
+	var show_popup = function(id){
 		var $aPopup = $('#aPopup').dialog({
 			autoOpen: false,
 			modal: true,
