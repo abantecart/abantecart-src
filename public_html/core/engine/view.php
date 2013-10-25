@@ -174,17 +174,7 @@ class AView {
 			//#PR Build the path to the template file
 			$path = DIR_TEMPLATE;
 			if (!defined('INSTALL')) {	
-			    $tmpl_id = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
-		
-		        if (is_file($path . $tmpl_id . '/template/'.  $filename)) {
-		            $file = $path . $tmpl_id . '/template/'.  $filename;
-		        } else {
-		            $file = $path . 'default/template/'.  $filename;
-					if (!is_file($file)) {
-						$file = $path . 'default_html5/template/'.  $filename;
-					}
-		        }
-		        
+		        $file = $this->_get_template_path($path, '/template/'.$filename, 'full');
 		    } else {
 		        $file = $path.$filename;
 		    }
@@ -228,59 +218,129 @@ class AView {
 	 * @return string with relative path
 	 */
     public function templateResource( $filename ) {
-        $template = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
-        $extensions = $this->extensions->getEnabledExtensions();
+    	if ( !$filename ) {
+    		return null;    	
+    	} 
+		$res_arr = $this->_extensions_resource_map($filename);
 
-        $file = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . $template . $filename;
-        $file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default_html5' . $filename;
-		if(!is_file($file_default)){
-			$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default' . $filename;
+		//get first exact template extension resource or default template resource othewise.
+		if ( count($res_arr['original'])) {
+			return $res_arr['original'][0];
+		} else if(count($res_arr['default'])) {
+			return $res_arr['default'][0];
 		}
-
-	    foreach ( $extensions as $ext ) {
-            if ( is_file(DIR_EXT . $ext . $file) ) {
-				return DIR_EXTENSIONS . $ext . $file;
-			}
-            //check default template
-            if ( $template != 'default' && $template != 'default_html5' && is_file(DIR_EXT . $ext . $file_default) ) {
-				return DIR_EXTENSIONS . $ext . $file_default;
-			}
-        }
-
-        if (is_file( DIR_TEMPLATE . $template . $filename)) {
-            return 'storefront/view/' . $template . $filename;
-        } else if (is_file( DIR_TEMPLATE . 'default_html5/' . $filename)) {
-            return 'storefront/view/default_html5' . $filename;
-        } else {
-            return 'storefront/view/default' . $filename;        
-        }
+		
+		//no extension found, use resource from core templates
+		return $this->_get_template_path(DIR_TEMPLATE, $filename, 'relative');
     }
-    public function isTemplateExists( $filename ) {
-        $template = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
+    
+    public function isTemplateExists( $filename ) { 
+    	if ( !$filename ) {
+    		return false;    	
+    	} 
+       
+    	//check if this template file in extensions or in core
+    	if ( $this->templateResource('template/'. $filename) ) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+
+	//full directory path
+	private function _extension_view_dir( $entension_name ) {
+		return  $this->_extension_section_dir( $entension_name ) . DIR_EXT_TEMPLATE;
+	}
+
+	//relative path 
+	private function _extension_view_path( $entension_name ) {
+		return  $this->_extension_section_path( $entension_name ) . DIR_EXT_TEMPLATE;
+	}
+
+	//full directory path
+	private function _extension_section_dir( $entension_name ) {
+		$rel_view_path = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE);
+		return  DIR_EXT . $entension_name . $rel_view_path;
+	}
+
+	//relative path 
+	private function _extension_section_path( $entension_name ) {
+		$rel_view_path = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE);
+		return  DIR_EXTENSIONS . $entension_name . $rel_view_path;
+	}
+
+	//build template source map for enabled extensions
+	private function _extensions_resource_map($filename) {
+ 		if (empty($filename)) {
+ 			return array();
+ 		}
+ 		$ret_arr = array();
         $extensions = $this->extensions->getEnabledExtensions();
-
-        $file = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . $template .'/template/'. $filename;
-		$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $filename;
-		if(!is_file($file_default)){
-			$file_default = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default_html5/template/' . $filename;
-		}
-
+		//loop through each extension and locate resource to use 
+		//Note: first extension with exact resource or default resource will be used 
 	    foreach ( $extensions as $ext ) {
-            if ( is_file(DIR_EXT . $ext . $file) ) {
-				return true;
-			}
-            //check default template
-            if ( $template != 'default' && $template != 'default_html5' && is_file(DIR_EXT . $ext . $file_default) ) {
-				return true;
-			}
+	    	$res_arr = $this->_test_template_paths( $this->_extension_view_dir($ext), $filename, 'relative' );
+	    	if ( $res_arr ) {
+	    		$ret_arr[$res_arr['match']][] = $this->_extension_section_path($ext) . $res_arr['path'];
+	    	} 	    
         }
 
-        if (is_file( DIR_TEMPLATE . $template .'/template/'. $filename)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+		return $ret_arr;
+	}
+	
+	//return path to the template resource 
+	private function _get_template_path($path, $filename, $mode) {
+		$template_path_arr = $this->_test_template_paths($path, $filename, $mode);
+		return $template_path_arr['path'];
+	}
+		
+	//function to test file paths and location of original or default file
+	private function _test_template_paths($path, $filename, $mode = 'relative') {
+    	$ret_path = '';
+        $template = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
+		$match = 'original';
+	
+		if (IS_ADMIN) {
+	        if (is_file( $path . $template . $filename)) {
+	        	$ret_path = $path . $template . $filename;
+	        	if ($mode == 'relative') {
+	            	$ret_path = 'admin/view/' . $template . $filename;
+	        	}
+	        } else if (is_file( $path . 'default/' . $filename)) {
+	        	$ret_path = $path . 'default/' . $filename;
+	        	if ($mode == 'relative') {
+	            	$ret_path = 'admin/view/default/' . $filename;
+	            	$match = 'default';
+	        	}
+	        }
+		} else {
+	        if (is_file( $path . $template . $filename)) {
+	        	$ret_path = $path . $template . $filename;
+	        	if ($mode == 'relative') {
+	            	$ret_path = 'storefront/view/' . $template . $filename;
+	        	}
+	        } else if (is_file( $path . 'default/' . $filename)) {
+	        	$ret_path = $path . 'default/' . $filename;
+	        	if ($mode == 'relative') {
+	            	$ret_path = 'storefront/view/default/' . $filename;
+	            	$match = 'default';
+	        	}
+	        } else if (is_file( $path . 'default_html5/' . $filename)) {
+	        	$ret_path = $path . 'default_html5/' . $filename;
+	        	if ($mode == 'relative') {
+	            	$ret_path = 'storefront/view/default_html5/' . $filename;
+	            	$match = 'default';
+	        	}
+	        }		
+		}
+		//return path. Empty path indicates, nothing found
+		if ( $ret_path ) {
+			return array( 'match' => $match,  'path' => $ret_path );
+		} else {
+			return null;
+		}
+		
+	}
 
     public function _fetch( $file ) {
 
