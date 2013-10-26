@@ -180,7 +180,7 @@ if (!('webkitSpeechRecognition' in window)) {
     var interim_transcript = '';
     if (typeof(event.results) == 'undefined') {
       recognition.onend = null;
-      recognition.stop();
+      recognition.stop();	
       upgrade();
       return;
     }
