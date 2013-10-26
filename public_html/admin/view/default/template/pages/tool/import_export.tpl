@@ -1,13 +1,13 @@
 <?php if ( !empty($error) ) { ?>
-	<div class="warning"><?php echo $error; ?></div>
+	<div class="warning alert alert-error"><?php echo $error; ?></div>
 <?php } ?>
 <?php if ( !empty($success) ) { ?>
-	<div class="success"><?php echo $success; ?></div>
+	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 <?php if ( isset($results) ) { ?>
 
 	<?php if ( isset($results['sql']) ): ?>
-		<div class="success">
+		<div class="success alert alert-success">
 			<?php echo $text_test_completed . $count_test_sqls; ?>.&nbsp;
 			<a id="show_results" href="javascript:void(0);"><b><?php echo $text_show_details; ?></b></a>
 		</div>
@@ -19,15 +19,15 @@
 	<?php endif; ?>
 
 	<?php if ( !empty($results) ) { ?>
-		<div class="success"><?php echo $text_loaded . $count_loaded . '. ' . $text_updated . $count_updated . '. ' . $text_created . $count_created . '. ' . $text_errors . $count_errors; ?></div>
+		<div class="success alert alert-success"><?php echo $text_loaded . $count_loaded . '. ' . $text_updated . $count_updated . '. ' . $text_created . $count_created . '. ' . $text_errors . $count_errors; ?></div>
 	<?php } ?>
 	<?php if ( is_array($results['error']) ): ?>
-		<div class="warning">
+		<div class="warning alert alert-error">
 			<?php echo $text_some_errors; ?> <a id="show_errors" href="javascript:void(0);"><b><?php echo $text_show_details; ?></b></a>
 		</div>
 		<div id="error_results" style="margin:20px; width: 800px; display: none;">
 			<?php foreach ($results['error'] as $val) { ?>
-				<div class="warning"><?php echo $val; ?></div>
+				<div class="warning alert alert-error"><?php echo $val; ?></div>
 			<?php } ?>
 		</div>
 	<?php endif; ?>

@@ -1,5 +1,5 @@
 <?php if ( !empty($error['warning']) ) { ?>
-<div class="warning"><?php echo $error['warning']; ?></div>
+<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
 <?php } ?>
 <a name="top"></a>
 <?php echo $resources_scripts ?>

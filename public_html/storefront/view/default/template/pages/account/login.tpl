@@ -1,8 +1,8 @@
 <?php if ($success) { ?>
-			<div class="success"><?php echo $success; ?></div>
+			<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 <?php if ($error) { ?>
-<div class="warning"><?php echo $error; ?></div>
+<div class="warning alert alert-error"><?php echo $error; ?></div>
 <?php } ?>
 
 <div id="content" class="login">

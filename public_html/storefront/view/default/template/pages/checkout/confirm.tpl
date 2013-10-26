@@ -11,10 +11,10 @@
   </div>
   <div class="middle">
     <?php if ($success) { ?>
-    <div class="success"><?php echo $success; ?></div>
+    <div class="success alert alert-success"><?php echo $success; ?></div>
     <?php } ?>
     <?php if ($error_warning) { ?>
-    <div class="warning"><?php echo $error_warning; ?></div>
+    <div class="warning alert alert-error"><?php echo $error_warning; ?></div>
     <?php } ?>
 	<?php echo $text_accept_agree ?><a class="thickbox" href="<?php echo $text_accept_agree_href; ?>"><b><?php echo $text_accept_agree_href_link; ?></b></a>
 	<div class="gray_separator"></div>

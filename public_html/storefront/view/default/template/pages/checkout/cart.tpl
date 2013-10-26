@@ -14,7 +14,7 @@
   <div class="middle">
     <?php if ( count($error_warning) > 0 ) {
     	  foreach ($error_warning as $error) { ?>
-    <div class="warning"><?php echo $error; ?></div>    
+    <div class="warning alert alert-error"><?php echo $error; ?></div>    
     <?php } 
       }
 	  echo $form['form_open'];

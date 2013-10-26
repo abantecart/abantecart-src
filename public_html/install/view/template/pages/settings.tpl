@@ -24,7 +24,7 @@
 	</div>
 </div>
 <?php if ($error_warning) { ?>
-<div class="warning"><?php echo $error_warning; ?></div>
+<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
 <?php } ?>
 <div class="main_content">
 	<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">

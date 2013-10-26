@@ -1,8 +1,8 @@
 <?php if ( !empty($error['warning']) ) { ?>
-<div class="warning"><?php echo $error['warning']; ?></div>
+<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success"><?php echo $success; ?></div>
+<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
 

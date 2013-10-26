@@ -12,7 +12,7 @@
   </div>
   <div class="middle">
     <?php if ($success) { ?>
-    <div class="success"><?php echo $success; ?></div>
+    <div class="success alert alert-success"><?php echo $success; ?></div>
     <?php } ?>
     <p><b><?php echo $text_my_account; ?></b></p>
     <ul>
