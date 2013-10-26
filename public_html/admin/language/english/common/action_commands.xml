@@ -23,5 +23,10 @@
         <value><![CDATA[locate, find, search, search for, search 4]]></value>
     </definition>
 
+    <definition>
+        <key>command_clear_cache</key>
+        <value><![CDATA[clear cache, cache clear, clear cash, cash clear]]></value>
+    </definition>
+
 
 </definitions>

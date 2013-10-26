@@ -139,9 +139,15 @@ class ControllerPagesToolCache extends AController {
 
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
+		
+		if($this->request->post['selected']) {
+			$selected = $this->request->post['selected'];
+		} else if($this->request->get['selected']){
+			$selected = $this->request->get['selected'];
+		}
 
-		if (isset($this->request->post['selected']) && $this->request->post['selected'] && $this->_validateDelete()) {
-			foreach ($this->request->post['selected'] as $cache) {
+		if (isset($selected) && $selected && $this->_validateDelete()) {
+			foreach ($selected as $cache) {
 				if($cache == 'image') {
 					$this->deleteThumbnails();
 				} else {

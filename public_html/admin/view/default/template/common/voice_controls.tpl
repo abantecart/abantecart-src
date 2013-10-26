@@ -13,41 +13,36 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Voice Command Prompt</h4>
+          <h4 class="modal-title"><?php echo $text_voice_command_prompt; ?></h4>
         </div>
         <div class="modal-body">
 	      <div class="compact marquee">
 	        <div id="info">
-	          <p id="info_speak_now" style="display:none">
-	            <a class="mic_on text-blink" style="display:none" title="Microphone is active. Speak now."><i class="icon-microphone icon-2x"></i></a>
-	            <span> Speak now.<span>
-	          </p>
-	          <p id="info_no_speech" style="display:none">
-	            No speech was detected. You may need to adjust your <a href=
-	            "//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">microphone settings</a>.
-	          </p>
-	          <p id="info_no_microphone" style="display:none">
-	            No microphone was found. Ensure that a microphone is installed and that
-	            <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-	            microphone settings</a> are configured correctly.
-	          </p>
-	          <p id="info_allow" style="display:none">
-	            Click the "Allow" button above to enable your microphone.
-	          </p>
-	          <p id="info_denied" style="display:none">
-	            Permission to use microphone was denied.
-	          </p>
-	          <p id="info_blocked" style="display:none">
-	            Permission to use microphone is blocked. To change, go to
-	            chrome://settings/contentExceptions#media-stream
-	          </p>
-	          <p id="info_upgrade" style="display:none">
-	            Web Speech API is not supported by this browser. Upgrade to <a href=
-	            "//www.google.com/chrome">Chrome</a> version 25 or later.
-	          </p>
+	          <div id="info_speak_now" style="display:none">
+	            <a class="mic_on text-blink" style="display:none" title="<?php echo $text_voice_speak_now; ?>"><i class="icon-microphone icon-2x"></i></a>
+	            <span> <?php echo $text_voice_speak_now; ?> <span>
+	          </div>
+	          <div id="info_allow" class="alert alert-info" style="display:none">
+	            <?php echo $text_voice_click_allow; ?>
+	          </div>
+	          <div id="info_no_speech" class="alert" style="display:none">
+	          	<?php echo $text_voice_no_speach_detected; ?>
+	          </div>
+	          <div id="info_no_microphone" class="alert alert-error" style="display:none">
+	          	<?php echo $text_voice_no_mic_detected; ?>
+	          </div>
+	          <div id="info_denied" class="alert alert-error" style="display:none">
+	            <?php echo $text_voice_mic_denied; ?>
+	          </div>
+	          <div id="info_blocked" class="alert alert-error" style="display:none">
+				<?php echo $text_voice_mic_permission; ?>				
+	          </div>
+	          <div id="info_upgrade" class="alert alert-error" style="display:none">
+				<?php echo $text_voice_not_supported; ?>
+	          </div>
 	        </div>
 
-	        <div id="results">
+	        <div id="results" style="display:none">
 	          <i class="icon-quote-right"></i> 
 	          <span class="final_speech" id="final_speech_span"></span>
 	          <span class="interim_speech" id="interim_speech_span"></span>
@@ -62,17 +57,13 @@
         <div class="modal-footer">
 
 	       <div class="compact marquee" id="div_language" style="display:none" >
-	          <select id="select_language" onchange="updateCountry()">
-	          </select>&nbsp;&nbsp; 
-	          Select your dialect
+	          <input type="hidden" id="select_language" value="<?php echo $language_code; ?>">
+	          <?php echo $text_voice_select_dialect; ?>
 	          <select id="select_dialect">
 	          </select>
 	       </div>
 
-	      <a class="try_again_now mic_off" style="display:none" title="Microphone is off. ">
-	      	<i class="icon-microphone-off icon-2x"></i>
-	      </a>
-	      <a class="try_again_now try_again" style="display:none" title="Restat recognition">
+	      <a class="try_again_now try_again" style="display:none" title="Retry" onclick="startButton(event)">
 	      	<i class="icon-refresh icon-2x"></i>
 	      </a>
           <a class="voice-close" data-dismiss="modal"><i class="icon-remove icon-2x"></i></a>
@@ -81,90 +72,49 @@
     </div>
   </div>
 
-<script type="text/javascript" src="/intl/en/chrome/assets/common/js/chrome.min.js"></script> 
 <script type="text/javascript">
-var langs =
-[['Afrikaans',       ['af-ZA']],
- ['Bahasa Indonesia',['id-ID']],
- ['Bahasa Melayu',   ['ms-MY']],
- ['Català',          ['ca-ES']],
- ['Čeština',         ['cs-CZ']],
- ['Deutsch',         ['de-DE']],
- ['English',         ['en-AU', 'Australia'],
-                     ['en-CA', 'Canada'],
-                     ['en-IN', 'India'],
-                     ['en-NZ', 'New Zealand'],
-                     ['en-ZA', 'South Africa'],
-                     ['en-GB', 'United Kingdom'],
-                     ['en-US', 'United States']],
- ['Español',         ['es-AR', 'Argentina'],
-                     ['es-BO', 'Bolivia'],
-                     ['es-CL', 'Chile'],
-                     ['es-CO', 'Colombia'],
-                     ['es-CR', 'Costa Rica'],
-                     ['es-EC', 'Ecuador'],
-                     ['es-SV', 'El Salvador'],
-                     ['es-ES', 'España'],
-                     ['es-US', 'Estados Unidos'],
-                     ['es-GT', 'Guatemala'],
-                     ['es-HN', 'Honduras'],
-                     ['es-MX', 'México'],
-                     ['es-NI', 'Nicaragua'],
-                     ['es-PA', 'Panamá'],
-                     ['es-PY', 'Paraguay'],
-                     ['es-PE', 'Perú'],
-                     ['es-PR', 'Puerto Rico'],
-                     ['es-DO', 'República Dominicana'],
-                     ['es-UY', 'Uruguay'],
-                     ['es-VE', 'Venezuela']],
- ['Euskara',         ['eu-ES']],
- ['Français',        ['fr-FR']],
- ['Galego',          ['gl-ES']],
- ['Hrvatski',        ['hr_HR']],
- ['IsiZulu',         ['zu-ZA']],
- ['Íslenska',        ['is-IS']],
- ['Italiano',        ['it-IT', 'Italia'],
-                     ['it-CH', 'Svizzera']],
- ['Magyar',          ['hu-HU']],
- ['Nederlands',      ['nl-NL']],
- ['Norsk bokmål',    ['nb-NO']],
- ['Polski',          ['pl-PL']],
- ['Português',       ['pt-BR', 'Brasil'],
-                     ['pt-PT', 'Portugal']],
- ['Română',          ['ro-RO']],
- ['Slovenčina',      ['sk-SK']],
- ['Suomi',           ['fi-FI']],
- ['Svenska',         ['sv-SE']],
- ['Türkçe',          ['tr-TR']],
- ['български',       ['bg-BG']],
- ['Pусский',         ['ru-RU']],
- ['Српски',          ['sr-RS']],
- ['한국어',            ['ko-KR']],
- ['中文',             ['cmn-Hans-CN', '普通话 (中国大陆)'],
-                     ['cmn-Hans-HK', '普通话 (香港)'],
-                     ['cmn-Hant-TW', '中文 (台灣)'],
-                     ['yue-Hant-HK', '粵語 (香港)']],
- ['日本語',           ['ja-JP']],
- ['Lingua latīna',   ['la']]];
 
-for (var i = 0; i < langs.length; i++) {
-  select_language.options[i] = new Option(langs[i][0], i);
-}
-select_language.selectedIndex = 6;
-updateCountry();
-select_dialect.selectedIndex = 6;
+var dialects = [
+['en',     ['en-US', 'United States'],
+           ['en-CA', 'Canada'],
+		   ['en-GB', 'United Kingdom'],
+		   ['en-AU', 'Australia'],
+           ['en-IN', 'India'],
+           ['en-NZ', 'New Zealand'],
+           ['en-ZA', 'South Africa']],
+ ['es',    ['es-AR', 'Argentina'],
+           ['es-BO', 'Bolivia'],
+           ['es-CL', 'Chile'],
+           ['es-CO', 'Colombia'],
+           ['es-CR', 'Costa Rica'],
+           ['es-EC', 'Ecuador'],
+           ['es-SV', 'El Salvador'],
+           ['es-ES', 'España'],
+           ['es-US', 'Estados Unidos'],
+           ['es-GT', 'Guatemala'],
+           ['es-HN', 'Honduras'],
+           ['es-MX', 'México'],
+           ['es-NI', 'Nicaragua'],
+           ['es-PA', 'Panamá'],
+           ['es-PY', 'Paraguay'],
+           ['es-PE', 'Perú'],
+           ['es-PR', 'Puerto Rico'],
+           ['es-DO', 'República Dominicana'],
+           ['es-UY', 'Uruguay'],
+           ['es-VE', 'Venezuela']],
+ ['it',    ['it-IT', 'Italia'],
+           ['it-CH', 'Svizzera']],
+ ['pt',    ['pt-BR', 'Brasil'],
+           ['pt-PT', 'Portugal']],
+ ['cmn',   ['cmn-Hans-CN', '普通话 (中国大陆)'],
+           ['cmn-Hans-HK', '普通话 (香港)'],
+           ['cmn-Hant-TW', '中文 (台灣)'],
+           ['yue-Hant-HK', '粵語 (香港)']]
+];
+
+
+updateDialect('<?php echo $language_code; ?>');
 showInfo('info_start');
-
-function updateCountry() {
-  for (var i = select_dialect.options.length - 1; i >= 0; i--) {
-    select_dialect.remove(i);
-  }
-  var list = langs[select_language.selectedIndex];
-  for (var i = 1; i < list.length; i++) {
-    select_dialect.options.add(new Option(list[i][1], list[i][0]));
-  }
-  select_dialect.style.visibility = list[1].length == 1 ? 'hidden' : 'visible';
-}
 
 var create_email = false;
 var final_transcript = '';
@@ -241,6 +191,7 @@ if (!('webkitSpeechRecognition' in window)) {
         interim_transcript += event.results[i][0].transcript;
       }
     }
+    $("#results").show();
     final_transcript = capitalize(final_transcript);
     final_speech_span.innerHTML = linebreak(final_transcript);
     interim_speech_span.innerHTML = linebreak(interim_transcript);
@@ -248,6 +199,46 @@ if (!('webkitSpeechRecognition' in window)) {
       lookupCommand(final_transcript);
     }
   };
+}
+
+$(function () {
+
+	$('#select_dialect').on('change', function () {
+		startButton(event);
+	});
+	
+	$('#voiceModal').on('hide.bs.modal', function () {
+   		recognition.stop();
+   		$('#result_comands').html('');
+   		$('#result_comands').hide();
+   		$('.try_again_now').hide();
+	});
+	
+	$('.mic_on').on('click', function () {
+		recognition.stop();
+		startButton(event);
+		$(".try_again_now").show(); 
+	});	
+});
+
+function updateDialect( lang_code ) {
+  for (var i = select_dialect.options.length - 1; i >= 0; i--) {
+    select_dialect.remove(i);
+  }
+  var list = [];
+  for (var i = 0; i < dialects.length; i++) {
+  	if (dialects[i][0] == lang_code) {
+  		list = dialects[i];
+  	}
+  } 
+  if (list) {
+  	for (var i = 1; i < list.length; i++) {
+    	select_dialect.options.add(new Option(list[i][1], list[i][0]));
+  	}
+  	if(list.length > 1) {
+  		$('#div_language').show();
+  	}
+  }
 }
 
 function upgrade() {
@@ -266,14 +257,19 @@ function capitalize(s) {
   return s.replace(first_char, function(m) { return m.toUpperCase(); });
 }
 
-
 function startButton(event) {
   if (recognizing) {
     recognition.stop();
     return;
   }
+  $('#result_comands').html('');
+  $("#results").hide();
   final_transcript = '';
-  recognition.lang = '<?php echo $language_code; ?>';
+  var lang_code =  $('#select_dialect option:selected').val();
+  if (!lang_code) {
+  	lang_code = '<?php echo $language_code; ?>';
+  }
+  recognition.lang = lang_code;
   recognition.start();
   ignore_onend = false;
   final_speech_span.innerHTML = '';
@@ -302,7 +298,6 @@ function lookupCommand( command ) {
          type:'GET',
          dataType:'json',
          success:function (data) {
-         	console.log(data);
          	display_result(data);
          }
      });
@@ -321,10 +316,17 @@ function display_result(data) {
 		    $('#result_comands').append('</ul>');
 		}
 	} else {
-		if(data.found_actions.length == 1 && data.found_actions[0]['confirmation'] == false){
-			window.location.href = data.found_actions[0]['url'];
+		if( data.found_actions.length == 1 ){
+			if (data.found_actions[0]['confirmation'] == true) {
+				if ( confirm('<?php echo $text_voice_confirm_action; ?>') ) {
+					window.location.href = data.found_actions[0]['url'];
+				}
+			} else {
+				window.location.href = data.found_actions[0]['url'];
+			}
+			
 		} else {
-			$('#result_comands').append('<h4>Multiple match <span class="badge">'+ data.found_actions.length +'</span></h4>');
+			$('#result_comands').append('<h4>Commands matched <span class="badge">'+ data.found_actions.length +'</span></h4>');
 		    $('#result_comands').append('<ul class="list-group">');
 		    for (i = 0; i < data.found_actions.length; ++i) {
 		    	$('#result_comands').append('<li class="list-group-item"><a href="'+ data.found_actions[i]['url'] + '">' + data.found_actions[i]['title'] + '</a></li>');	
@@ -337,20 +339,5 @@ function display_result(data) {
     $(".try_again_now").show();  
 	return;
 }
-
-$(function () {
-	$('#voiceModal').on('hide.bs.modal', function () {
-   		recognition.stop();
-   		$('#result_comands').html('');
-   		$('#result_comands').hide();
-   		$('.try_again_now').hide();
-	});
-	
-	$('.mic_on').on('click', function () {
-		recognition.stop();
-		startButton(event);
-		$(".try_again_now").show(); 
-	});	
-});
 
 </script>
