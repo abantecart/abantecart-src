@@ -262,7 +262,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 			unset($this->session->data['success']);
 		}
 
-		$action = $this->html->getSecureURL('checkout/guest_step_2');
+		$action = $this->html->getSecureURL('checkout/guest_step_2',($this->request->get['mode'] ? '&mode='.$this->request->get['mode'] : ''));
 
 		$this->data['coupon_status'] = $this->config->get('coupon_status');
 
