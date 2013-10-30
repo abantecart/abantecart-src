@@ -199,8 +199,8 @@ class AResourceManager extends AResource {
             return null;
         }
 
-        if ( $resource['resource_path'] ) {
-            unlink( DIR_RESOURCE . $resource['type_name'] . '/' . $resource['resource_path'] );
+        if ( $resource['resource_path'] && is_file( DIR_RESOURCE . $resource['type_name'] . '/' . $resource['resource_path']) ) {
+            unlink( DIR_RESOURCE.$resource['type_name'].'/'.$resource['resource_path'] );
         }
 
         $this->db->query("DELETE FROM " . DB_PREFIX . "resource_map WHERE resource_id = '".(int)$resource_id."' ");

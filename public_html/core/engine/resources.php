@@ -24,7 +24,7 @@ if (!defined('DIR_CORE')) {
 if(!function_exists('mime_content_type')) {
 
     function mime_content_type($filename) {
-
+		$filename = (string)$filename;
         $mime_types = array(
 
             'txt' => 'text/plain',
