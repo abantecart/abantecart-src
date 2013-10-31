@@ -37,7 +37,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController {
 		$this->loadModel('catalog/manufacturer');
 		$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer( $manufacturer_id );
 
-		if (isset($manufacturer_id) && ($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
+		if (has_value($manufacturer_id) && ($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
 			if (!$manufacturer_info) {
 				$this->session->data[ 'warning' ] = $this->language->get('error_manufacturer_not_found');
 				$this->redirect($this->html->getSecureURL('catalog/manufacturer'));
@@ -122,7 +122,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 		$this->loadLanguage('catalog/manufacturer');
 
-		if (!$manufacturer_id) {
+		if (!has_value($manufacturer_id)) {
 			$this->session->data[ 'error' ] = $this->language->get('error_product_not_found');
 			$this->redirect($this->html->getSecureURL('catalog/manufacturer/update'));
 		}

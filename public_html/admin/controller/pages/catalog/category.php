@@ -492,6 +492,10 @@ class ControllerPagesCatalogCategory extends AController {
 		$page_controller = 'pages/product/category';
 		$page_key_param = 'path';
 		$category_id = (int)$this->request->get['category_id'];
+		//note: category can not be ID of 0.
+		if (!has_value($category_id)) {
+			$this->redirect($this->html->getSecureURL('catalog/category'));
+		}
 
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
@@ -500,9 +504,6 @@ class ControllerPagesCatalogCategory extends AController {
 		$this->view->assign('help_url', $this->gen_help_url('category_layout_edit') );
 
 		$url = '';
-		if (!isset($category_id) || !(int)$category_id) {
-			$this->redirect($this->html->getSecureURL('catalog/category'));
-		}
 
 		$url .= '&category_id=' . $category_id;
 
@@ -556,7 +557,7 @@ class ControllerPagesCatalogCategory extends AController {
 		$settings[ 'hidden' ][ 'category_id' ] = $category_id;
 		$settings['allow_clone'] = true;
 		$layoutform = $this->dispatch('common/page_layout', array( $settings, $layout ));
-		if (isset($category_id) && ($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
+		if ( has_value($category_id) && ($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
 			$this->loadModel('catalog/category');
 			$this->data[ 'category_description' ] = $this->model_catalog_category->getCategoryDescriptions($category_id);
 		}

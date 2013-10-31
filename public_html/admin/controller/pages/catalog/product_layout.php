@@ -36,7 +36,7 @@ class ControllerPagesCatalogProductLayout extends AController {
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->loadModel('catalog/product');
 
-		if (isset($product_id) && ($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
+		if (has_value($product_id) && ($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
 			$product_info = $this->model_catalog_product->getProduct( $product_id );
 			if (!$product_info) {
 				$this->session->data['warning'] = $this->language->get('error_product_not_found');
