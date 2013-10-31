@@ -137,7 +137,6 @@ class AContentManager {
 		$this->language->replaceDescriptions('content_descriptions',
 											 array('content_id' => (int)$content_id),
 											 array( (int)$language_id => $update) );
-		$this->_updatePageContent($content_id);
 
 
 		if(isset($data['keyword'])){
@@ -283,11 +282,13 @@ class AContentManager {
 		$this->cache->delete('contents');
 	}
 
-	public function getContent($content_id) {
+	public function getContent($content_id, $language_id = '') {
 		$output = array();
 		$content_id = (int)$content_id;
-		$language_id = ( int )$this->session->data['content_language_id'];
-
+		if ( !has_value($language_id) ) {
+			$language_id = ( int )$this->session->data['content_language_id'];
+		}
+		
 		if(!$content_id){
 			return false;
 		}
@@ -519,68 +520,4 @@ class AContentManager {
 		return $output;
 	}
 
-	private function _updatePageContent($content_id=0){
-		$content_id = (int)$content_id;
-		if(!$content_id){
-			return null;
-		}
-
-		$page = $this->db->query("SELECT *
-									 FROM ".DB_PREFIX."pages
-									 WHERE controller = 'pages/content/content'
-									        AND key_param = 'content_id' AND key_value = '".$content_id."'" );
-		$page_id = (int)$page->row['page_id'];
-		if(!$page_id){
-			$sql = "INSERT INTO " . DB_PREFIX . "pages (controller, key_param, key_value, created, updated)
-									VALUES ('pages/content/content',
-											'content_id',
-											'" . $content_id . "',
-											NOW(),
-											NOW())";
-			$this->db->query($sql);
-			$page_id = $this->db->getLastId();
-		}
-
-		$sql = "SELECT *
-				FROM ".DB_PREFIX."content_descriptions
-				WHERE content_id= '".$content_id."'";
-		$result = $this->db->query( $sql);
-		foreach($result->rows as $row){
-			$this->language->replaceDescriptions('page_descriptions',
-												 array('page_id' => (int)$page_id),
-												 array((int)$row['language_id'] => array('title' => $row['title'])) );
-		}
-		return $page_id;
-	}
-	public function getPageId($content_id=0){
-		$content_id = (int)$content_id;
-		if(!$content_id){
-			return null;
-		}
-
-		$page = $this->db->query("SELECT page_id
-								  FROM ".DB_PREFIX."pages
-								  WHERE controller = 'pages/content/content'
-								        AND key_param = 'content_id' AND key_value = '".$content_id."'" );
-		$page_id = $page->row['page_id'];
-		if(!$page_id){
-			$page_id = $this->_updatePageContent($content_id); // insert new
-		}
-
-		return $page_id;
-	}
-
-	public function getLayoutId($content_id=0){
-		$content_id = (int)$content_id;
-		if(!$content_id){
-			return null;
-		}
-		$page = $this->db->query("SELECT pl.layout_id
-								  FROM ".DB_PREFIX."pages   p
-								  LEFT JOIN ".DB_PREFIX."pages_layouts pl ON pl.page_id = p.page_id
-								  WHERE controller = 'pages/content/content'
-								        AND key_param = 'content_id' AND key_value = '".$content_id."'" );
-
-		return $page->row['layout_id'];
-	}
 }

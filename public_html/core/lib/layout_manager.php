@@ -165,6 +165,11 @@ class ALayoutManager {
 		return $pages;
 	}
 
+	/**
+     * get available layouts for layout instance and layout types provided 
+	 * @param string $layout_type
+	 * @return array
+	 */
 	public function getLayouts($layout_type = '') {
 		$cache_name = 'layout.a.layouts.' . $this->tmpl_id . '.' . $this->page_id . (!empty ($layout_type) ? '.' . $layout_type : '');
 		if (( string )$layout_type == '0') {
@@ -212,6 +217,41 @@ class ALayoutManager {
 		return $layouts;
 	}
 
+	/**
+     * Run logic to detect page ID and layout ID for given parameters
+     * This will detect if requested page already has layout or return default overwise. 
+	 * @param string $controller
+	 * @param string $key_param
+	 * @param string $key_value
+	 * @param string $template_id
+	 * @return array
+	 */
+	public function getPageLayoutIDs($controller = '', $key_param = '', $key_value = '') {
+		$ret_arr = array();
+		if ( !has_value($controller) ) {
+			return $ret_arr;
+		}
+		$pages = $this->getPages($controller, $key_param, $key_value);
+		//check if we got most specific page/layout
+		if ( count($pages) && has_value($pages[0]['page_id']) ) {
+			$ret_arr['page_id'] = $pages[0]['page_id'];
+			$ret_arr['layout_id'] = $pages[0]['layout_id'];
+		} else {
+			$pages = $this->getPages($controller);
+			if(count($pages) && !$pages[0]['key_param']){ 
+				$ret_arr['page_id'] = $pages[0]['page_id'];
+				$ret_arr['layout_id'] = $pages[0]['layout_id'];
+			}else{
+				$pages = $this->getPages('generic');
+				$ret_arr['page_id'] = $pages[0]['page_id'];
+				$ret_arr['layout_id'] = $pages[0]['layout_id'];
+			}
+		}
+		unset($pages);
+		return $ret_arr;
+	}
+	
+	
 	private function _getLayoutBlocks($layout_id = 0) {
 		$layout_id = !$layout_id ? $this->layout_id : $layout_id;
 

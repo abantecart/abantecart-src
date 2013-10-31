@@ -455,7 +455,9 @@ class ControllerPagesDesignContent extends AController {
 
 
 	public function edit_layout() {
-
+		$page_controller = 'pages/content/content';
+		$page_key_param = 'content_id';
+		
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -494,10 +496,12 @@ class ControllerPagesDesignContent extends AController {
 		$this->view->assign('tab_form', $this->language->get('tab_form'));
 		$this->view->assign('tab_layout', $this->language->get('tab_layout'));
 
-		$page_id = $this->acm->getPageId($content_id);
-		$layout_id = $this->acm->getLayoutId($content_id);
+		$layout = new ALayoutManager();
+		$page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $content_id);
+		$page_id = $page_layout['page_id'];
+		$layout_id = $page_layout['layout_id'];
 		$tmpl_id = $this->config->get('config_storefront_template');
-
+		// insert external form of layout
 		$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
 		$settings = array();
 		$settings['action'] = $this->html->getSecureURL('design/content/save_layout', $url);
@@ -506,8 +510,10 @@ class ControllerPagesDesignContent extends AController {
 		$settings['hidden']['layout_id'] = $layout_id;
 		$settings['hidden']['content_id'] = $content_id;
 		$settings['allow_clone'] = true;
-		
-		$layoutform = $this->dispatch('common/page_layout', array($settings, $layout));
+				
+		//process layout template with passing settings and layout object
+		$layoutform = $this->dispatch('common/page_layout', array( $settings, $layout));
+
 
 		$this->view->assign('heading_title', $this->language->get('heading_title'));
 		$this->view->assign('layoutform', $layoutform->dispatchGetOutput());
@@ -521,6 +527,8 @@ class ControllerPagesDesignContent extends AController {
 	}
 
 	public function save_layout() {
+		$page_controller = 'pages/content/content';
+		$page_key_param = 'content_id';
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -541,22 +549,43 @@ class ControllerPagesDesignContent extends AController {
 
 			$tmpl_id = $this->config->get('config_storefront_template');
 
-			$page_id = $this->acm->getPageId($content_id);
-			$layout_id = (string)$this->acm->getLayoutId($content_id);
-			if (!$layout_id) {
-				$content_info = $this->acm->getContent($content_id);
-				$this->request->post['layout_name'] = 'Content: ' . $content_info['name'];
+			// need to know unique page existing
+			$post_data = $this->request->post;
+			$layout = new ALayoutManager();
+			$pages = $layout->getPages($page_controller, $page_key_param, $content_id);
+			if ( count($pages) ) {
+				$page_id = $pages[0]['page_id'];
+				$layout_id = $pages[0]['layout_id'];
+			} else {
+				// create new page record
+				$page_info = array( 'controller' => $page_controller,
+				                    'key_param' => $page_key_param,
+				                    'key_value' => $content_id );
+	
+				$default_language_id = $this->language->getDefaultLanguageID();
+				$content_info = $this->acm->getContent($content_id, $default_language_id);		
+				if($content_info){
+					if ( $content_info['title'] ) {
+						$page_info['page_descriptions'][$default_language_id]['name'] = $content_info['title'];
+					} else {
+						$page_info['page_descriptions'][$default_language_id]['name'] = 'Unnamed content page';
+					}
+				}
+				$page_id = $layout->savePage($page_info);	
+	            $layout_id = '';
+				// need to generate layout name
+				$post_data['layout_name'] = 'Content: ' . $content_info['title'];
 			}
 
+			//create new instance with specific template/page/layout data
 			$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-		
-			if (has_value($this->request->post['layout_change'])) {	
+			if (has_value($post_data['layout_change'])) {	
 				//update layout request. Clone source layout
-				$layout->clonePageLayout($this->request->post['layout_change'], $layout_id, $this->request->post['layout_name']);
+				$layout->clonePageLayout($post_data['layout_change'], $layout_id, $post_data['layout_name']);
 			} else {
 				//save new layout
-				$this->request->post['controller'] = 'pages/content/content';
-				$layout->savePageLayout($this->request->post);
+				$post_data['controller'] = $page_controller;
+				$layout->savePageLayout( $post_data );
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success_layout');
