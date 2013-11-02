@@ -167,17 +167,11 @@ class ControllerPagesCatalogProductSpecial extends AController {
 		$this->data['error'] = $this->error;
 		$this->data['cancel'] = $this->html->getSecureURL('catalog/product_promotions', '&product_id=' . $this->request->get['product_id'] );
 
-		$this->data['link_general'] = $this->html->getSecureURL('catalog/product/update', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_images'] = $this->html->getSecureURL('catalog/product_images', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_relations'] = $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_options'] = $this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_promotions'] = $this->html->getSecureURL('catalog/product_promotions', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_extensions'] = $this->html->getSecureURL('catalog/product_extensions', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_layout'] = $this->html->getSecureURL('catalog/product_layout', '&product_id=' . $this->request->get['product_id'] );
-
 		$this->data['active'] = 'promotions';
-		$this->view->batchAssign( $this->data );
-		$this->data['product_tabs'] = $this->view->fetch('pages/catalog/product_tabs.tpl');
+		//load tabs controller
+		$tabs_obj = $this->dispatch('pages/catalog/product_tabs', array( $this->data ) );
+		$this->data['product_tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
 
 		$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
 		$this->data['heading_title'] = $this->language->get('text_edit')  .'&nbsp;'. $this->language->get('text_product') . ' - '. $this->data['product_description'][$this->session->data['content_language_id']]['name'];

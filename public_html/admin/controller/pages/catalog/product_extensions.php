@@ -71,17 +71,11 @@ class ControllerPagesCatalogProductExtensions extends AController {
 			'separator' => ' :: '
 		 ));
 
-		$this->data['link_general'] = $this->html->getSecureURL('catalog/product/update', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_images'] = $this->html->getSecureURL('catalog/product_images', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_relations'] = $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_options'] = $this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_promotions'] = $this->html->getSecureURL('catalog/product_promotions', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_extensions'] = $this->html->getSecureURL('catalog/product_extensions', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_layout'] = $this->html->getSecureURL('catalog/product_layout', '&product_id=' . $this->request->get['product_id'] );
-
 		$this->data['active'] = 'extensions';
-		$this->view->batchAssign( $this->data );
-		$this->data['product_tabs'] = $this->view->fetch('pages/catalog/product_tabs.tpl');
+		//load tabs controller
+		$tabs_obj = $this->dispatch('pages/catalog/product_tabs', array( $this->data ) );
+		$this->data['product_tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
 
         $this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');
 

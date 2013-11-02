@@ -37,10 +37,6 @@
 		        <div style="padding-top: 5px;"><?php echo $form['fields']['list_hidden'];?></div></td>
           </tr>
           <tr>
-            <td><?php echo $entry_download; ?></td>
-	        <td><div class="scrollbox"><?php echo $form['fields']['product_download']; ?></div></td>
-         </tr>
-          <tr>
             <td><?php echo $entry_store; ?></td>
             <td><div class="scrollbox"><?php echo $form['fields']['product_store']; ?></div></td>
           </tr>
