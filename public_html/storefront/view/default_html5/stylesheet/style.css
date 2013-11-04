@@ -2006,18 +2006,6 @@ span.viewfancypopup {
 	margin-bottom: -38px
 }
 
-a.fancyboxpopup {
-	position: relative;
-	display: block
-}
-
-a.fancyboxpopup:hover span.viewfancypopup {
-	display: block;
-	position: absolute;
-	z-index: 999;
-	margin-top: -55%
-}
-
 .checkout_details {
 	background: #F9F9F9; 
 	border: 1px solid #E7E7E7; 

@@ -132,11 +132,6 @@ $('document').ready(function () {
 // Flexsliders	  
 $(window).load(function () {
 
-    // Fancyboxpopup
-    $("a.fancyboxpopup").fancybox().each(function () {
-        $(this).append('<span class="viewfancypopup">&nbsp;</span>');
-    });
-
     // Flexslider index banner
     $('#mainslider').flexslider({
         animation: "slide",

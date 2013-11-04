@@ -57,7 +57,6 @@ Please donate via PayPal to donate@abantecart.com
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/respond.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/bootstrap-tooltip.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/bootstrap-modal.js'); ?>"></script>
-<script type="text/javascript" defer src="<?php echo $this->templateResource('/javascript/jquery.fancybox.js'); ?>"></script>
 <script type="text/javascript" defer src="<?php echo $this->templateResource('/javascript/jquery.flexslider.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/cloud-zoom.1.0.2.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.validate.js'); ?>"></script>
