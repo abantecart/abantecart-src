@@ -25,57 +25,110 @@ class AView {
 	/**
 	 * @var $registry Registry
 	 */
-	protected $registry;	
+	protected $registry;
+	/**
+	 * @var
+	 */
 	protected $id;
+	/**
+	 * @var string
+	 */
 	protected $template;
+	/**
+	 * @var int
+	 */
 	protected $instance_id;
-    protected $enableOutput = false;
-    protected $output = '';
-    protected $hook_vars = array();
-
+	/**
+	 * @var bool
+	 */
+	protected $enableOutput = false;
+	/**
+	 * @var string
+	 */
+	protected $output = '';
+	/**
+	 * @var array
+	 */
+	protected $hook_vars = array();
+	/**
+	 * @var array
+	 */
 	public $data = array();
 
 	protected $render;
-	
+
+	/**
+	 * @param Registry $registry
+	 * @param int $instance_id
+	 */
 	public function __construct($registry, $instance_id) {
 		$this->registry = $registry;	
 		$this->data['template_dir'] = RDIR_TEMPLATE;
 		$this->instance_id = $instance_id;
 	}
-	
+
 	public function __get($key) {
 		return $this->registry->get($key);
 	}
-	
+
 	public function __set($key, $value) {
 		$this->registry->set($key, $value);
 	}
 
-    protected function redirect($url) {
+	/**
+	 * @param string $url
+	 */
+	protected function redirect($url) {
 		header('Location: ' . str_replace('&amp;', '&', $url));
 		die();
 	}
 
-    public function enableOutput() {
+	/**
+	 * @void
+	 */
+	public function enableOutput() {
         $this->enableOutput = true;
     }
 
-    public function disableOutput() {
+	/**
+	 * @void
+	 */
+	public function disableOutput() {
         $this->enableOutput = false;
     }
-	
+
+	/**
+	 * @param string $template
+	 */
 	public function setTemplate($template){
 		$this->template = $template;
 	}
-	
+
+	/**
+	 * @return string
+	 */
 	public function getTemplate(){
 		return $this->template;
 	}
 
-    public function getData() {
-        return $this->data;
+	/**
+	 * @param string $key - optional parameter for better access from hook that called by "_UpdateData".
+	 * @return array | mixed
+	 */
+	public function getData($key='') {
+		if($key){
+			return $this->data[$key];
+		}else{
+        	return $this->data;
+		}
     }
-	
+
+	/**
+	 * @param string $template_variable
+	 * @param string $value
+	 * @param string $default_value
+	 * @return null
+	 */
 	public function assign($template_variable, $value = '', $default_value = ''){
 		if (empty($template_variable)){
 			return null;
@@ -87,7 +140,13 @@ class AView {
         }
 	}
 	
-	//Call append if you need to add values to earlier assigned value
+	/**
+	 * Call append if you need to add values to earlier assigned value
+	 * @param string $template_variable
+	 * @param string $value
+	 * @param string $default_value
+	 * @return null
+	 */
 	public function append($template_variable, $value = '', $default_value = ''){
 		if (empty($template_variable)){
 			return null;
@@ -99,8 +158,12 @@ class AView {
         }
 	}
 
+	/**
+	 * @param array $assign_arr - associative array
+	 * @return null
+	 */
 	public function batchAssign($assign_arr){
-		if (empty($assign_arr)){
+		if (empty($assign_arr) || !is_array($assign_arr)){
 			return null;
 		}
 
@@ -122,13 +185,21 @@ class AView {
 		}
 	}
 
-    public function addHookVar($name, $value) {
+	/**
+	 * @param string $name
+	 * @param string $value
+	 */
+	public function addHookVar($name, $value) {
         if (!empty($name)){
             $this->hook_vars[$name] .= $value;
         }
     }
 
-    public function getHookVar($name) {
+	/**
+	 * @param string $name
+	 * @return string
+	 */
+	public function getHookVar($name) {
         if (isset($this->hook_vars[$name])) {
             return $this->hook_vars[$name];
         }
@@ -151,21 +222,27 @@ class AView {
      	}
      }
 
-    public function getOutput() { 
+	/**
+	 * @return string
+	 */
+	public function getOutput() {
         return !empty( $this->output ) ? $this->output : !empty($this->template) ? $this->fetch($this->template) : '';
     }
 
-    public function setOutput( $output ) {
+	/**
+	 * @param string $output
+	 * @void
+	 */
+	public function setOutput( $output ) {
         $this->output = $output;
     }
-	
-	// Process the template
+
 	/**
+	 * Process the template
 	 * @param $filename
 	 * @return string
 	 */
 	public function fetch($filename) {
-
 		//#PR First see if we have full path to template file. Nothing to do. Higher precedence! 
 		if (is_file($filename)) {
 			//#PR set full path
@@ -181,7 +258,7 @@ class AView {
 	
 	        if ( $this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('T', $filename) ) {
 	            if ( is_file($file) ) {
-	                $warning = new AWarning("Extension <b>{$result['extension']}</b> overrides core template with <b>$filename</b>" );
+	                $warning = new AWarning("Extension <b>".$result['extension']."</b> overrides core template with <b>".$filename."</b>" );
 	                $warning->toDebug();
 	            }
 	            $file = $result['file'];
@@ -233,8 +310,12 @@ class AView {
 		//no extension found, use resource from core templates
 		return $this->_get_template_path(DIR_TEMPLATE, $filename, 'relative');
     }
-    
-    public function isTemplateExists( $filename ) { 
+
+	/**
+	 * @param string $filename
+	 * @return bool
+	 */
+	public function isTemplateExists( $filename ) {
     	if ( !$filename ) {
     		return false;    	
     	} 
@@ -247,29 +328,50 @@ class AView {
     	}
     }
 
-	//full directory path
+	/**
+	 * full directory path
+	 * @param string $entension_name
+	 * @return string
+	 */
 	private function _extension_view_dir( $entension_name ) {
 		return  $this->_extension_section_dir( $entension_name ) . DIR_EXT_TEMPLATE;
 	}
 
-	//relative path 
+	/**
+	 * relative path
+	 * @param string $entension_name
+	 * @return string
+	 */
 	private function _extension_view_path( $entension_name ) {
 		return  $this->_extension_section_path( $entension_name ) . DIR_EXT_TEMPLATE;
 	}
 
-	//full directory path
+	/**
+	 * full directory path
+	 * @param string $entension_name
+	 * @return string
+	 */
 	private function _extension_section_dir( $entension_name ) {
 		$rel_view_path = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE);
 		return  DIR_EXT . $entension_name . $rel_view_path;
 	}
 
-	//relative path 
+	/**
+	 * relative path
+	 * @internal param string $extension_name
+	 * @param $entension_name
+	 * @return string
+	 */
 	private function _extension_section_path( $entension_name ) {
 		$rel_view_path = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE);
 		return  DIR_EXTENSIONS . $entension_name . $rel_view_path;
 	}
 
-	//build template source map for enabled extensions
+	/**
+	 * Build template source map for enabled extensions
+	 * @param string $filename
+	 * @return array
+	 */
 	private function _extensions_resource_map($filename) {
  		if (empty($filename)) {
  			return array();
@@ -287,14 +389,26 @@ class AView {
 
 		return $ret_arr;
 	}
-	
-	//return path to the template resource 
+
+	/**
+	 * return path to the template resource
+	 * @param string $path
+	 * @param string $filename
+	 * @param string $mode
+	 * @return mixed
+	 */
 	private function _get_template_path($path, $filename, $mode) {
 		$template_path_arr = $this->_test_template_paths($path, $filename, $mode);
 		return $template_path_arr['path'];
 	}
-		
-	//function to test file paths and location of original or default file
+
+	/**
+	 * Function to test file paths and location of original or default file
+	 * @param string $path
+	 * @param string $filename
+	 * @param string $mode
+	 * @return array|null
+	 */
 	private function _test_template_paths($path, $filename, $mode = 'relative') {
     	$ret_path = '';
         $template = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
@@ -339,12 +453,15 @@ class AView {
 		} else {
 			return null;
 		}
-		
 	}
 
-    public function _fetch( $file ) {
+	/**
+	 * @param $file string - full path of file
+	 * @return string
+	 */
+	public function _fetch( $file ) {
 
-        if ( !file_exists($file) ) return null;
+        if ( !file_exists($file) ) return '';
 
         ADebug::checkpoint('fetch '.$file.' start');
         extract($this->data);
@@ -358,5 +475,4 @@ class AView {
         ADebug::checkpoint('fetch '.$file.' end');
         return $content;
     }
-
 }
