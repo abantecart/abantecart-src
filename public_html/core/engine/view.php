@@ -250,7 +250,7 @@ class AView {
 		} else {
 			//#PR Build the path to the template file
 			$path = DIR_TEMPLATE;
-			if (!defined('INSTALL')) {	
+			if (!defined('INSTALL')) {
 		        $file = $this->_get_template_path($path, '/template/'.$filename, 'full');
 		    } else {
 		        $file = $path.$filename;
@@ -266,9 +266,7 @@ class AView {
 		}
 	    
 		if (is_file($file)) {
-
             $content = '';
-
             $file_pre = str_replace('.tpl', POSTFIX_PRE.'.tpl', $filename );
             if ( $result = $this->extensions->isExtensionResource('T', $file_pre) ) {
                 $content .= $this->_fetch($result['file']);
@@ -330,41 +328,41 @@ class AView {
 
 	/**
 	 * full directory path
-	 * @param string $entension_name
+	 * @param string $extension_name
 	 * @return string
 	 */
-	private function _extension_view_dir( $entension_name ) {
-		return  $this->_extension_section_dir( $entension_name ) . DIR_EXT_TEMPLATE;
+	private function _extension_view_dir( $extension_name ) {
+		return  $this->_extension_section_dir( $extension_name ) . DIR_EXT_TEMPLATE;
 	}
 
 	/**
 	 * relative path
-	 * @param string $entension_name
+	 * @param string $extension_name
 	 * @return string
 	 */
-	private function _extension_view_path( $entension_name ) {
-		return  $this->_extension_section_path( $entension_name ) . DIR_EXT_TEMPLATE;
+	private function _extension_view_path( $extension_name ) {
+		return  $this->_extension_section_path( $extension_name ) . DIR_EXT_TEMPLATE;
 	}
 
 	/**
 	 * full directory path
-	 * @param string $entension_name
+	 * @param string $extension_name
 	 * @return string
 	 */
-	private function _extension_section_dir( $entension_name ) {
+	private function _extension_section_dir( $extension_name ) {
 		$rel_view_path = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE);
-		return  DIR_EXT . $entension_name . $rel_view_path;
+		return  DIR_EXT . $extension_name . $rel_view_path;
 	}
 
 	/**
 	 * relative path
 	 * @internal param string $extension_name
-	 * @param $entension_name
+	 * @param $extension_name
 	 * @return string
 	 */
-	private function _extension_section_path( $entension_name ) {
+	private function _extension_section_path( $extension_name ) {
 		$rel_view_path = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE);
-		return  DIR_EXTENSIONS . $entension_name . $rel_view_path;
+		return  DIR_EXTENSIONS . $extension_name . $rel_view_path;
 	}
 
 	/**
@@ -383,7 +381,7 @@ class AView {
 	    foreach ( $extensions as $ext ) {
 	    	$res_arr = $this->_test_template_paths( $this->_extension_view_dir($ext), $filename, 'relative' );
 	    	if ( $res_arr ) {
-	    		$ret_arr[$res_arr['match']][] = $this->_extension_section_path($ext) . $res_arr['path'];
+	    		$ret_arr[$res_arr['match']][] = DIR_EXTENSIONS . $ext .'/'. $res_arr['path'];
 	    	} 	    
         }
 
@@ -413,17 +411,17 @@ class AView {
     	$ret_path = '';
         $template = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
 		$match = 'original';
-	
+
 		if (IS_ADMIN) {
 	        if (is_file( $path . $template . $filename)) {
 	        	$ret_path = $path . $template . $filename;
 	        	if ($mode == 'relative') {
 	            	$ret_path = 'admin/view/' . $template . $filename;
 	        	}
-	        } else if (is_file( $path . 'default/' . $filename)) {
-	        	$ret_path = $path . 'default/' . $filename;
+	        } else if (is_file( $path . 'default' . $filename)) {
+	        	$ret_path = $path . 'default' . $filename;
 	        	if ($mode == 'relative') {
-	            	$ret_path = 'admin/view/default/' . $filename;
+	            	$ret_path = 'admin/view/default' . $filename;
 	            	$match = 'default';
 	        	}
 	        }
@@ -433,19 +431,21 @@ class AView {
 	        	if ($mode == 'relative') {
 	            	$ret_path = 'storefront/view/' . $template . $filename;
 	        	}
-	        } else if (is_file( $path . 'default/' . $filename)) {
-	        	$ret_path = $path . 'default/' . $filename;
+	        } else if (is_file( $path . 'default' . $filename)) {
+	        	$ret_path = $path . 'default' . $filename;
 	        	if ($mode == 'relative') {
-	            	$ret_path = 'storefront/view/default/' . $filename;
+	            	$ret_path = 'storefront/view/default' . $filename;
 	            	$match = 'default';
 	        	}
-	        } else if (is_file( $path . 'default_html5/' . $filename)) {
-	        	$ret_path = $path . 'default_html5/' . $filename;
+	        } else if (is_file( $path . 'default_html5' . $filename)) {
+	        	$ret_path = $path . 'default_html5' . $filename;
 	        	if ($mode == 'relative') {
-	            	$ret_path = 'storefront/view/default_html5/' . $filename;
+	            	$ret_path = 'storefront/view/default_html5' . $filename;
 	            	$match = 'default';
 	        	}
-	        }		
+	        }
+
+
 		}
 		//return path. Empty path indicates, nothing found
 		if ( $ret_path ) {
