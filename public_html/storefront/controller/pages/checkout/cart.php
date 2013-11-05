@@ -265,15 +265,7 @@ class ControllerPagesCheckoutCart extends AController {
 																			'text' => $this->language->get('button_checkout'),
 			                                                                'style' => 'button' ));
 
-			$this->data['form'][ 'continue_shopping' ] = $form->getFieldHtml(
-				array(
-					'type' => 'button',
-					'name' => 'continue_shopping',
-					'text' => $this->language->get('button_shopping'),
-					'style' => 'button'
-				)
-			);
-			
+
 			if ($this->config->get('config_cart_weight')) {
 				$this->data['weight'] = $this->weight->format($this->cart->getWeight(), $this->config->get('config_weight_class'));
 			} else {
@@ -284,11 +276,20 @@ class ControllerPagesCheckoutCart extends AController {
             $this->data['totals'] = $display_totals['total_data'];;
 			
 			if (isset($this->session->data['redirect'])) {
-      			$this->data['continue'] = $this->session->data['redirect'];
+				$this->data['continue'] = str_replace('&amp;','&',$this->session->data['redirect']);
 				unset($this->session->data['redirect']);
 			} else {
                 $this->data['continue'] = $this->html->getURL('index/home');
 			}
+			$this->data['form'][ 'continue_shopping' ] = $form->getFieldHtml(
+				array(
+					'type' => 'button',
+					'name' => 'continue_shopping',
+					'text' => $this->language->get('button_shopping'),
+					'style' => 'button',
+					'href' => $this->data['continue']
+				)
+			);
 			
             $this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
 
