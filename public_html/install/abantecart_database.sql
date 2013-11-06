@@ -6353,11 +6353,12 @@ CREATE TABLE `ac_fields` (
   `required` char(1) NOT NULL DEFAULT 'N',
   -- N - Not required, Y - required  
   `status` smallint(1) NOT NULL default '0',
+  `regexp_pattern` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`field_id`),
   KEY `field_id` (`field_id`, `form_id`, `status`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `ac_fields` VALUES
+INSERT INTO `ac_fields` (field_id, form_id, field_name, element_type, sort_order, attributes,settings, required, status) VALUES
 (11,2,'first_name','I',1,'','','Y',1),
 (12,2,'email','I',2,'','','Y',1),
 (13,2,'enquiry','T',3,'','','Y',1),
@@ -6372,10 +6373,20 @@ CREATE TABLE `ac_field_descriptions` (
   `name` varchar(255) NOT NULL COMMENT 'translatable',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
+  `error_text` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`field_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `ac_field_descriptions` VALUES (11,'First name:','',1),(11,'Nombre de pila:','',9),(12,'Email:','',1),(12,'Email:','',9),(13,'Enquiry:','',1),(13,'Consulta:','',9),(14,'Enter the code in the box below:','',1),(14,'Introduzca el código en el cuadro a continuación:','',9);
+INSERT INTO `ac_field_descriptions` (field_id, name, description, language_id)
+VALUES
+(11,'First name:','',1),
+(11,'Nombre de pila:','',9),
+(12,'Email:','',1),
+(12,'Email:','',9),
+(13,'Enquiry:','',1),
+(13,'Consulta:','',9),
+(14,'Enter the code in the box below:','',1),
+(14,'Introduzca el código en el cuadro a continuación:','',9);
 
 --
 -- DDL for table `ac_field_values`
