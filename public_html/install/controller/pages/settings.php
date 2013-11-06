@@ -72,7 +72,7 @@ class ControllerPagesSettings extends AController {
 			$this->error['warning'] = 'Warning: AbanteCart will not work with session.auto_start enabled!';
 		}
 
-		if (!extension_loaded('mysql')) {
+		if (!extension_loaded('mysql') && !extension_loaded('mysqli')) {
 			$this->error['warning'] = 'Warning: MySQL extension needs to be loaded for AbanteCart to work!';
 		}
 
@@ -155,5 +155,3 @@ class ControllerPagesSettings extends AController {
 		}
 	}
 }
-
-?>

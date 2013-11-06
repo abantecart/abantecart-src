@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' )) {
 }
 final class ADB {
     /**
-     * @var MySql
+     * @var MySql|AMySQLi
      */
     private $driver;
 	public $error='';

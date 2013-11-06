@@ -37,16 +37,13 @@ class ALanguageManager extends Alanguage {
 	}
 
 	#### Language Descriptions admin API Section #####
-
-	/*
-	* Insert new definitions and translate if configured
-	* Arguments:
-	* 	table name (database table name with no prefix)
-	*   unique index to perform select
-	*		Format: [key] => [value]
-	*   text data array
-	*		Format: [language id][key] => [value]
-	*/
+	/**
+	 * Insert new definitions and translate if configured
+	 * @param string $table_name  - database table name with no prefix
+	 * @param array $index - unique index to perform select (associative array with column name as key)
+	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
+	 * @return null
+	 */
 	public function addDescriptions($table_name, $index, $txt_data) {
 		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 		//Insert data provided per language in $data array
@@ -56,17 +53,15 @@ class ALanguageManager extends Alanguage {
 		return null;
 	}
 
-	/*
-	* Insert new definitions and translate if configured of serialized data by given keys
-	* Arguments:
-	* 	table name (database table name with no prefix)
-	*   unique index to perform select
-	*		Format: [key] => [value]
-	*   text data array
-	*		Format: [language id][key] => [value]
-	*  ser_keys array with key's list of serialized array one of txt_data value
-	* 		Format: $txt_data[language id][key] = array(key1,key2,key3)
-	*/
+	/**
+	 * Insert new definitions and translate if configured of serialized data by given keys
+	 * @param string $table_name  - database table name with no prefix
+	 * @param array $index - unique index to perform select (associative array with column name as key)
+	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
+	 * @param array $ser_keys - array with key's list of serialized array one of txt_data value
+	 * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
+	 * @return null
+	 */
 	public function addDescriptionsSerialized($table_name, $index, $txt_data, $ser_keys = array()) {
 		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 		//Insert data provided per language in $data array
@@ -76,15 +71,13 @@ class ALanguageManager extends Alanguage {
 		return null;
 	}
 
-	/*
-	* Update definitions and translate if configured
-	* Arguments:
-	* 	table name (database table name with no prefix)
-	*   unique index to perform select
-	*		Format: [key] => [value]
-	*   text data array
-	*		Format: [language id][key] => [value]
-	*/
+	/**
+	 * Update definitions and translate if configured
+	 * @param string $table_name  - database table name with no prefix
+	 * @param array $index - unique index to perform select (associative array with column name as key)
+	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
+	 * @return null
+	 */
 	public function updateDescriptions($table_name, $index, $txt_data) {
 		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 		//update provided lang data
@@ -94,17 +87,16 @@ class ALanguageManager extends Alanguage {
 		return null;
 	}
 
-	/*
-	* Update definitions and translate if configured of serialized data by given keys
-	* Arguments:
-	* 	table name (database table name with no prefix)
-	*   unique index to perform select
-	*		Format: [key] => [value]
-	*   text data array
-	*		Format: [language id][key] => [value]
-	*  ser_keys array with key's list of serialized array one of txt_data value
-	* 		Format: $txt_data[language id][key] = array(key1,key2,key3)
-	*/
+	/**
+	 * Update definitions and translate if configured of serialized data by given keys
+	 * @param string $table_name  - database table name with no prefix
+	 * @param array $index - unique index to perform select (associative array with column name as key)
+	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
+	 * @param array $ser_keys - array with key's list of serialized array one of txt_data value
+	 * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
+	 * @return null
+	 */
+
 	public function updateDescriptionsSerialized($table_name, $index, $txt_data, $ser_keys = array()) {
 		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 		//update provided lang data
@@ -114,16 +106,14 @@ class ALanguageManager extends Alanguage {
 		return null;
 	}
 
-	/*
-	* Insert or Update definitions and translate if configured
-	* More stable aproach, but add extra select. If sure that you do update use updateDescriptions
-	* Arguments:
-	* 	table name (database table name with no prefix)
-	*   unique index to perform select
-	*		Format: [key] => [value]
-	*   text data array
-	*		Format: [language id][key] => [value]
-	*/
+	/**
+	 * Insert or Update definitions and translate if configured
+	 * More stable aproach, but add extra select. If sure that you do update use updateDescriptions
+	 * @param string $table_name  - database table name with no prefix
+	 * @param array $index - unique index to perform select (associative array with column name as key)
+	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
+	 * @return null
+	 */
 	public function replaceDescriptions($table_name, $index, $txt_data) {
 		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 
@@ -142,18 +132,16 @@ class ALanguageManager extends Alanguage {
 		return null;
 	}
 
-	/*
-	* Insert or Update definitions and translate if configured of serialized data by given keys
-	* More stable aproach, but add extra select. If sure that you do update use updateDescriptionsSerialized
-	* Arguments:
-	* 	table name (database table name with no prefix)
-	*   unique index to perform select
-	*		Format: [key] => [value]
-	*   text data array
-	*		Format: [language id][key] => [value]
-	*  ser_keys array with key's list of serialized array one of txt_data value
-	* 		Format: $txt_data[language id][key] = array(key1,key2,key3)
-	*/
+	/**
+	 * Insert or Update definitions and translate if configured of serialized data by given keys
+	 * More stable aproach, but add extra select. If sure that you do update use updateDescriptionsSerialized
+	 * @param string $table_name  - database table name with no prefix
+	 * @param array $index - unique index to perform select (associative array with column name as key)
+	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
+	 * @param array $ser_keys - array with key's list of serialized array one of txt_data value
+	 * 		Format: $txt_data[language id][key] = array(key1,key2,key3)
+	 * @return null
+	 */
 	public function replaceDescriptionsSerialized($table_name, $index, $txt_data, $ser_keys = array()) {
 		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 
@@ -173,17 +161,15 @@ class ALanguageManager extends Alanguage {
 	}
 
 
-	/*
-	* Insert or Update definitions and translate if configured based on array of values
-	* This is the case when unique index represents multiple [key] => [value] conbinations
-	* Example: product_tags table 
-	* Arguments:
-	* 	table name (database table name with no prefix)
-	*   unique index to perform select
-	*		Format: [key] => [value]
-	*   text data array
-	*		Format: [language id] => [key] => {'value1', 'value2', … }  
-	*/
+	/**
+	 * Insert or Update definitions and translate if configured based on array of values
+	 * This is the case when unique index represents multiple [key] => [value] conbinations
+	 * Example: product_tags table
+	 * @param string $table_name  - database table name with no prefix
+	 * @param array $index - unique index to perform select (associative array with column name as key)
+	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
+	 * @return null
+	 */
 	public function replaceMultipleDescriptions($table_name, $index, $txt_data) {
 		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0){ return null; }
 
@@ -255,13 +241,12 @@ class ALanguageManager extends Alanguage {
 		return null;
 	}
 
-	/*
-	* Delete definitions
-	* Arguments:
-	* 	table name (database table name with no prefix)
-	*   unique index to perform select
-	*		Format: [key] => [value]
-	*/
+	/**
+	 * Delete definitions
+	 * @param string $table_name  - database table name with no prefix
+	 * @param array $index - unique index to perform select (associative array with column name as key)
+	 * @return null
+	 */
 	public function deleteDescriptions($table_name, $index) {
 		if (empty($table_name) || empty($index)) return null;
 
@@ -274,17 +259,15 @@ class ALanguageManager extends Alanguage {
 		$sql = "DELETE FROM " . DB_PREFIX . $table_name . " ";
 		$sql .= "WHERE " . implode(" AND ", $del_index);
 		$this->db->query($sql);
-
 		return null;
 	}
 
-	/*
+	/**
 	* Select definitions
-	* Arguments:
-	* 	table name (database table name with no prefix)
-	*   unique index to perform select
-	*		Format: [key] => [value]
-	*/
+	 * @param string $table_name  - database table name with no prefix
+	 * @param array $index - unique index to perform select (associative array with column name as key)
+	 * @return array
+	 */
 	public function getDescriptions($table_name, $index) {
 		if (empty($table_name) || empty($index)) return array();
 
@@ -305,11 +288,11 @@ class ALanguageManager extends Alanguage {
 		}
 	}
 
-	// Perform SQL update
 	/**
-	 * @param $table_name
-	 * @param $index
-	 * @param $txt_data
+	 * Perform SQL update
+	 * @param string $table_name  - database table name with no prefix
+	 * @param array $index - unique index to perform select (associative array with column name as key)
+	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
 	 * @return null
 	 */
 	private function _do_update_descriptions($table_name, $index, $txt_data) {
@@ -337,13 +320,17 @@ class ALanguageManager extends Alanguage {
 		return null;
 	}
 
-	// Perform SQL insert
+	/** Perform SQL insert
+	 * @param string $table_name  - database table name with no prefix
+	 * @param array $index - unique index to perform select (associative array with column name as key)
+	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
+	 * @return null
+	 */
 	private function _do_insert_descriptions($table_name, $index, $txt_data) {
 		if (empty($table_name) || empty($index) || empty($txt_data)) return null;
 
 		foreach ($txt_data as $lang_id => $lang_data) {
-			//sanitize data 
-			$load_data = array();
+			//sanitize data
 			foreach ($lang_data as $key => $value) {
 				$lang_data[ $key ] = $this->db->escape($value);
 			}
@@ -355,11 +342,11 @@ class ALanguageManager extends Alanguage {
 		return null;
 	}
 
-	//translate descriptions
 	/**
-	 * @param string $table_name
-	 * @param array $index
-	 * @param array $txt_data
+	 * translate descriptions
+	 * @param string $table_name  - database table name with no prefix
+	 * @param array $index - unique index to perform select (associative array with column name as key)
+	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
 	 * @param array $serialized_roadmap
 	 * @return bool|null
 	 */
@@ -447,7 +434,11 @@ class ALanguageManager extends Alanguage {
 
 	#### END Language Descriptions admin API Section #####
 
-	//Function to delete all data in tables that have language id specified
+	/**
+	 * Function to delete all data in tables that have language id specified
+	 * @param int $language_id
+	 * @return null
+	 */
 	public function deleteAllLanguageEntries($language_id) {
 		if (empty($language_id)) return null;
 
@@ -461,7 +452,12 @@ class ALanguageManager extends Alanguage {
 		}
 	}
 
-	//Clone record to all availabe langauges from specified language ID.
+	/**
+	 * Clone record to all availabe langauges from specified language ID.
+	 * @param string $table
+	 * @param int $source_language
+	 * @return string
+	 */
 	public function cloneToAllLanguages($table, $source_language) {
 		$ret_str = '';
 		// for each langauge Call _clone_language_rows
@@ -470,15 +466,17 @@ class ALanguageManager extends Alanguage {
 			if ($language_id == $source_language) {
 				continue;
 			}
-			$pkeys = array();
 			$pkeys = $this->_get_primary_keys($table);
-
 			$ret_str .= $this->_clone_language_rows($table, $pkeys, $language_id, $source_language);
 		}
 		return $ret_str;
 	}
 
-	//Convert block name from database to XML file name
+	/**
+	 * Convert block name from database to XML file name
+	 * @param $block
+	 * @return bool|string
+	 */
 	public function convert_block_to_file($block) {
 		$filename = $block;
 		$parts = explode('_', $filename);
@@ -501,8 +499,13 @@ class ALanguageManager extends Alanguage {
 		return false;
 	}
 
-
-	//Function to populate all tables that have language linked data with new language data. Copy from default if source language is not provided
+	/**
+	 * Function to populate all tables that have language linked data with new language data. Copy from default if source language is not provided
+	 * @param int $language_id
+	 * @param int $source_language_id
+	 * @param string $translate_method
+	 * @return null|string
+	 */
 	public function fillMissingLanguageEntries($language_id, $source_language_id = 1, $translate_method = '') {
 		if (empty($language_id)) {
 			return null;
@@ -533,12 +536,10 @@ class ALanguageManager extends Alanguage {
 		return $ret_str;
 	}
 
-	/*
-	 * method for reloading definitions from xml-file to database
-	 */
 
 	/**
-	 * @param $language_id -  if 0 - all languages
+	 * Method for reloading definitions from xml-file to database
+	 * @param int $language_id -  if 0 - all languages
 	 * @param string $section  - 1 or 0 - admin or storefront
 	 * @param string $specific_block - name of the block
 	 * @param string $mode - mode can be the types: update, add
@@ -564,7 +565,7 @@ class ALanguageManager extends Alanguage {
 		$sections = $section == 'all' ? array( 'admin', 'storefront' ) : '';
 		$sections = in_array($section, array( 'admin', 1 ), true) ? array( 'admin' ) : $sections;
 		$sections = in_array($section, array( 'storefront', 0 ), true) ? array( 'storefront' ) : $sections;
-
+		$language_ids = array();
 		foreach ($this->available_languages as $lang) {
 			if ($language_id != 'all' && $language_id == $lang[ 'language_id' ]) {
 				$language_ids[ $lang[ 'directory' ] ] = $lang[ 'language_id' ];
@@ -576,7 +577,7 @@ class ALanguageManager extends Alanguage {
 			}
 		}
 
-		if ($mode == 'update') {
+		if ($mode == 'update' && $language_ids) {
 			//For update mode delete updated languages
 			$sql = "DELETE FROM " . DB_PREFIX . "language_definitions ";
 			$sql .= " WHERE language_id IN ('" . implode("', '", $language_ids) . "') ";
@@ -627,7 +628,7 @@ class ALanguageManager extends Alanguage {
 					$language_blocks[ 'extensions' ][ $sect ] = !isset($language_blocks[ 'extensions' ][ $sect ]) ? array() : $language_blocks[ 'extensions' ][ $sect ];
 				}
 			}
-
+			$language_codes = array();
 			foreach ($sections as $sect) {
 				$alang = new ALanguage($this->registry, $language_codes[ $lang_name ], ($sect == 'admin' ? 1 : 0));
 				// load into db extensions definitions
@@ -644,9 +645,13 @@ class ALanguageManager extends Alanguage {
 				}
 			}
 		}
-
+		return true;
 	}
 
+	/**
+	 * @param string $language_name
+	 * @return array|bool
+	 */
 	public function getAllLanguageBlocks($language_name = 'english') {
 		if (empty($language_name)) {
 			$this->error = "Can't get language blocks because language name is empty.";
@@ -659,7 +664,7 @@ class ALanguageManager extends Alanguage {
 		);
 		// admin
 		$lang_dir = DIR_LANGUAGE . $language_name;
-		$xml_files = array();
+
 		$xml_files = getFilesInDir($lang_dir, 'xml');
 		foreach ($xml_files as $file) {
 			$result[ 'admin' ][ ] = str_replace('.xml', '', str_replace($lang_dir . '/', '', $file));
@@ -695,10 +700,15 @@ class ALanguageManager extends Alanguage {
 		return $result;
 	}
 
-	/*
-	* Clone language_definition text that is present in source language and missing in destination
-	* Possibly USLESS NOW ????
-	*/
+	/**
+	 * @deprecated
+	 * Clone language_definition text that is present in source language and missing in destination
+	 * Possibly USLESS NOW ????
+	 * @param $block
+	 * @param $language_id
+	 * @param $source_language
+	 * @return null|string
+	 */
 	public function cloneMissingDefinitions($block, $language_id, $source_language) {
 		$pkeys = array();
 		ADebug::checkpoint('ALanguage ' . $this->language_details[ 'name' ] . ' ' . $block . ' clone missing text from ' . $source_language);
@@ -709,27 +719,19 @@ class ALanguageManager extends Alanguage {
 	}
 
 	/**
-	* Translate provided text to requested language
-	* Configured method is used (default translation is a COPY)
-	* Arguments:
-	* 	source language code (2 char ISO 639-1 Code)
-	*   UTF8 text to translate
-	*   destination language code (2 char ISO 639-1 Code)
-	*	translate_method (optional)
-	*
-	* Return:
-	*	UTF8 Translation text
-	*
-	 * @param string $source_lang_code - two-letters language code
+	 * Translate provided text to requested language
+	 * Configured method is used (default translation is a COPY)
+	 *
+	 * @param string $source_lang_code - two-letters language code (ISO 639-1)
 	 * @param string $src_text
-	 * @param string $dest_lang_code - two-letters language code
-	 * @param string $translate_method
+	 * @param string $dest_lang_code - two-letters language code (ISO 639-1)
+	 * @param string $translate_method (optional)
 	 * @return null
 	 * @throws AException
 	 */
 	public function translate($source_lang_code, $src_text, $dest_lang_code, $translate_method = '') {
 		$this->registry->get('extensions')->hk_InitData($this, __FUNCTION__);
-		$result_txt = '';
+
 		if (empty($source_lang_code) || empty($src_text) || empty($dest_lang_code)) {
 			return null;
 		}
@@ -741,6 +743,7 @@ class ALanguageManager extends Alanguage {
 		if (in_array($translate_method, $extensions)) {
 			$ex_class = DIR_EXT . $translate_method . '/core/translator.php';
 			if (file_exists($ex_class)) {
+				/** @noinspection PhpIncludeInspection */
 				require_once($ex_class);
 			} else {
 				throw new AException(AC_ERR_LOAD, 'Error: Could not load translations class ' . $ex_class . '!');
@@ -762,6 +765,14 @@ class ALanguageManager extends Alanguage {
 		return $result_txt;
 	}
 
+	/**
+	 * @param array $unserialized
+	 * @param array $roadmap
+	 * @param string $source_lang_code
+	 * @param string $dest_lang_code
+	 * @param string $translate_method
+	 * @return array|null
+	 */
 	private function _translateSerializedData($unserialized, $roadmap, $source_lang_code, $dest_lang_code, $translate_method = '') {
 
 		if (empty($source_lang_code) || empty($unserialized) || empty($dest_lang_code)) {
@@ -780,6 +791,14 @@ class ALanguageManager extends Alanguage {
 		return $unserialized;
 	}
 
+	/**
+	 * @param array $array
+	 * @param string $translate_key
+	 * @param string $source_lang_code
+	 * @param string $dest_lang_code
+	 * @param string $translate_method
+	 * @return array
+	 */
 	private function _translateArrayRecursive($array, $translate_key, $source_lang_code, $dest_lang_code, $translate_method) {
 		if (!is_array($array)) return $array;
 
@@ -798,10 +817,10 @@ class ALanguageManager extends Alanguage {
 		return $array;
 	}
 
-	/*
-	* Get available translation methods
-	* Return Array [tranlate_code] => [translation name]
-	*/
+	/**
+	 * Get available translation methods
+	 * @return array
+	 */
 	public function getTranslationMethods() {
 		$this->registry->get('extensions')->hk_InitData($this, __FUNCTION__);
 		//default copy method
@@ -818,7 +837,16 @@ class ALanguageManager extends Alanguage {
 	}
 
 
-	//#PR Duplicate row from default langauge to new and translate if needed
+	/**
+	 * PR: Duplicate row from default language to new and translate if needed
+	 * @param string $table
+	 * @param $pkeys
+	 * @param int $new_language
+	 * @param int $from_language
+	 * @param string $specific_sql
+	 * @param string $translate_method
+	 * @return null|string
+	 */
 	private function _clone_language_rows($table, $pkeys, $new_language, $from_language = 1, $specific_sql = '', $translate_method = '') {
 		if (empty($table) || empty ($pkeys) || empty($new_language)) {
 			return null;
@@ -829,7 +857,6 @@ class ALanguageManager extends Alanguage {
 		$auto_column = $autoincrement->row[ 'Field' ];
 
 		//get all fields that are translatable
-		$translatable_fields = array();
 		$translatable_fields = $this->_get_translatable_fields($table);
 
 		//Build a keys string for select
@@ -923,7 +950,10 @@ class ALanguageManager extends Alanguage {
 		return "Total: " . $tcount . " language entries cloned for table " . $table . "<br>";
 	}
 
-	//#PR select all tables that use language_id field and related to language  
+	/**
+	 * #PR select all tables that use language_id field and related to language
+	 * @return array
+	 */
 	private function _get_language_based_tables() {
 		$cache_file = 'tables.language_based_tables';
 		$load_data = array();
@@ -943,9 +973,13 @@ class ALanguageManager extends Alanguage {
 		return $load_data;
 	}
 
-	//#PR select all fields for the table that can be translated   
+	/**
+	 * #PR select all fields for the table that can be translated
+	 * @param $table_name
+	 * @return array
+	 */
 	private function _get_translatable_fields($table_name) {
-		if (empty($table_name)) return null;
+		if (empty($table_name)) return array();
 
 		$cache_file = "tables.translatable.$table_name";
 		$load_data = array();
@@ -965,7 +999,11 @@ class ALanguageManager extends Alanguage {
 		return $load_data;
 	}
 
-	//#PR select al primary keys for the table
+	/**
+	 * #PR select al primary keys for the table
+	 * @param $table_name
+	 * @return array
+	 */
 	private function _get_primary_keys($table_name) {
 		$pkeys = array();
 		#get primary keys
@@ -978,6 +1016,10 @@ class ALanguageManager extends Alanguage {
 		return $pkeys;
 	}
 
+	/**
+	 * @param $locale
+	 * @return null|string
+	 */
 	public function getLanguageCodeByLocale($locale) {
 		if (empty($locale)) return null;
 		$locale = explode(",", $locale);
@@ -990,6 +1032,10 @@ class ALanguageManager extends Alanguage {
 		return $lng_code;
 	}
 
+	/**
+	 * @param string $code - 2-letter iso code
+	 * @return null|int
+	 */
 	public function getLanguageIdByCode($code) {
 		foreach ($this->available_languages as $lang) {
 			if (is_int(stripos($lang[ 'locale' ], $code))) {

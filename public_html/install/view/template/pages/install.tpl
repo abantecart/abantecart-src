@@ -30,6 +30,14 @@
       <div class="section">
         <table>
           <tr>
+            <td width="185">Database Driver:</td>
+            <td><?php echo $form['db_driver']; ?>
+              <br />
+              <?php if ( !empty($error['db_driver']) ) { ?>
+              <span class="required"><?php echo $error['db_driver']; ?></span>
+              <?php } ?></td>
+          </tr>
+          <tr>
             <td width="185">Database Host:</td>
             <td><?php echo $form['db_host']; ?>
               <br />
