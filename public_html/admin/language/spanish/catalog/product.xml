@@ -17,6 +17,10 @@
 		<value><![CDATA[Envío]]></value>
 	</definition>
 	<definition>
+		<key>tab_files</key>
+		<value><![CDATA[Ficheros]]></value>
+	</definition>
+	<definition>
 		<key>tab_relations</key>
 		<value><![CDATA[Relaciones]]></value>
 	</definition>

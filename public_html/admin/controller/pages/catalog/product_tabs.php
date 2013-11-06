@@ -35,13 +35,15 @@ class ControllerPagesCatalogProductTabs extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage('catalog/product');
-        $this->data['link_general'] = $this->html->getSecureURL('catalog/product/update', '&product_id=' . $this->request->get['product_id'] );
-        $this->data['link_images'] = $this->html->getSecureURL('catalog/product_images', '&product_id=' . $this->request->get['product_id'] );
-        $this->data['link_relations'] = $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $this->request->get['product_id'] );
-        $this->data['link_options'] = $this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] );
-        $this->data['link_promotions'] = $this->html->getSecureURL('catalog/product_promotions', '&product_id=' . $this->request->get['product_id'] );
-        $this->data['link_extensions'] = $this->html->getSecureURL('catalog/product_extensions', '&product_id=' . $this->request->get['product_id'] );
-        $this->data['link_layout'] = $this->html->getSecureURL('catalog/product_layout', '&product_id=' . $this->request->get['product_id'] );
+		$product_id = $this->request->get['product_id'];
+        $this->data['link_general'] = $this->html->getSecureURL('catalog/product/update', '&product_id=' . $product_id );
+        $this->data['link_images'] = $this->html->getSecureURL('catalog/product_images', '&product_id=' . $product_id );
+        $this->data['link_options'] = $this->html->getSecureURL('catalog/product_options', '&product_id=' . $product_id );
+        $this->data['link_files'] = $this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id );
+        $this->data['link_relations'] = $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $product_id );
+        $this->data['link_promotions'] = $this->html->getSecureURL('catalog/product_promotions', '&product_id=' . $product_id );
+        $this->data['link_extensions'] = $this->html->getSecureURL('catalog/product_extensions', '&product_id=' . $product_id );
+        $this->data['link_layout'] = $this->html->getSecureURL('catalog/product_layout', '&product_id=' . $product_id );
 
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/catalog/product_tabs.tpl');

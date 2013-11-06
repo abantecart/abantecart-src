@@ -34,7 +34,6 @@
 <link href="<?php echo $this->templateResource('/stylesheet/bootstrap-responsive.min.css'); ?>" rel="stylesheet" media="screen" />
 <link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" />
 <link href="<?php echo $this->templateResource('/stylesheet/flexslider.css'); ?>" type="text/css" media="screen" rel="stylesheet"  />
-<link href="<?php echo $this->templateResource('/stylesheet/jquery.fancybox.css'); ?>" rel="stylesheet">
 <link href="<?php echo $this->templateResource('/stylesheet/cloud-zoom.css'); ?>" rel="stylesheet" />
 <link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet" />
 <link href="<?php echo $this->templateResource('/stylesheet/print.css'); ?>" rel="stylesheet" type="text/css" media="print" />
