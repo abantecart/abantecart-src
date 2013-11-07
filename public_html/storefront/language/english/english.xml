@@ -249,4 +249,8 @@
 		<key>button_reset</key>
 		<value><![CDATA[Reset]]></value>
 	</definition>
+	<definition>
+		<key>text_field_required</key>
+		<value><![CDATA[is required field!]]></value>
+	</definition>
 </definitions>

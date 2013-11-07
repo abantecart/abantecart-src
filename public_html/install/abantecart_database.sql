@@ -6358,11 +6358,13 @@ CREATE TABLE `ac_fields` (
   KEY `field_id` (`field_id`, `form_id`, `status`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `ac_fields` (field_id, form_id, field_name, element_type, sort_order, attributes,settings, required, status) VALUES
-(11,2,'first_name','I',1,'','','Y',1),
-(12,2,'email','I',2,'','','Y',1),
-(13,2,'enquiry','T',3,'','','Y',1),
-(14,2,'captcha','K',4,'','','Y',1);
+INSERT INTO `ac_fields`
+(field_id, form_id, field_name, element_type, sort_order, attributes,settings, required, regexp_pattern, status)
+VALUES
+(11,2,'first_name','I',1,'','','Y','/^.{3,100}$/u',1),
+(12,2,'email','I',2,'','','Y','/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i',1),
+(13,2,'enquiry','T',3,'','','Y','/^.{3,1000}$/u',1),
+(14,2,'captcha','K',4,'','','Y','',1);
 
 --
 -- DDL for table `field_descriptions`
@@ -6377,16 +6379,16 @@ CREATE TABLE `ac_field_descriptions` (
   PRIMARY KEY (`field_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `ac_field_descriptions` (field_id, name, description, language_id)
+INSERT INTO `ac_field_descriptions` (field_id, name, error_text, language_id)
 VALUES
-(11,'First name:','',1),
-(11,'Nombre de pila:','',9),
-(12,'Email:','',1),
-(12,'Email:','',9),
-(13,'Enquiry:','',1),
-(13,'Consulta:','',9),
-(14,'Enter the code in the box below:','',1),
-(14,'Introduzca el código en el cuadro a continuación:','',9);
+(11,'First name:','Name must be between 3 and 32 characters!',1),
+(11,'Nombre de pila:','El nombre debe tener entre 3 y 32 caractéres!',9),
+(12,'Email:','E-Mail Address does not appear to be valid!',1),
+(12,'Email:','El Correo electrónico no parece válido!',9),
+(13,'Enquiry:','Enquiry must be between 10 and 3000 characters!',1),
+(13,'Consulta:','La petición debe ser superior de 10 caracteres y menos de 1000!',9),
+(14,'Enter the code in the box below:','Verification code does not match the image!',1),
+(14,'Introduzca el código en el cuadro a continuación:','El código de verificación no coincide con la imagen!',9);
 
 --
 -- DDL for table `ac_field_values`

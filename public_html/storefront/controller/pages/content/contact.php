@@ -35,6 +35,7 @@ class ControllerPagesContentContact extends AController {
 
 	    $this->form = new AForm('ContactUsFrm');
 		$this->form->loadFromDb('ContactUsFrm');
+	    $form = $this->form->getForm();
 
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
 			$mail = new AMail( $this->config );
@@ -44,8 +45,8 @@ class ControllerPagesContentContact extends AController {
 	  		$mail->setSubject(sprintf($this->language->get('email_subject'), $this->request->post['name']));
 	  		$mail->setText(strip_tags(html_entity_decode($this->request->post['enquiry'], ENT_QUOTES, 'UTF-8')));
       		$mail->send();
-
-	  		$this->redirect($this->html->getSecureURL('content/contact/success'));
+		    //get success_page
+	  		$this->redirect($this->html->getSecureURL($form['success_page']));
     	}
 
 	    if (($this->request->server['REQUEST_METHOD'] == 'POST')){
@@ -88,7 +89,6 @@ class ControllerPagesContentContact extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-
 		$this->document->setTitle( $this->language->get('heading_title') ); 
 
       	$this->document->resetBreadcrumbs();
@@ -118,25 +118,11 @@ class ControllerPagesContentContact extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
-  	private function _validate() {
-
-    	if ((strlen(utf8_decode($this->request->post['first_name'])) < 3) || (strlen(utf8_decode($this->request->post['first_name'])) > 32)) {
-		    $this->error['first_name'] = $this->language->get('error_name');
-    	}
-
-		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
-
-    	if (!preg_match($pattern, $this->request->post['email'])) {
-      		$this->error['email'] = $this->language->get('error_email');
-    	}
-
-    	if ((strlen(utf8_decode($this->request->post['enquiry'])) < 10) || (strlen(utf8_decode($this->request->post['enquiry'])) > 3000)) {
-      		$this->error['enquiry'] = $this->language->get('error_enquiry');
-    	}
-
-    	if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
-      		$this->error['captcha'] = $this->language->get('error_captcha');
-    	}
+	/**
+	 * @return bool
+	 */
+	private function _validate() {
+	    $this->error = array_merge($this->form->validateFormData($this->request->post),$this->error);
 		
 		if (!$this->error) {
 	  		return TRUE;
