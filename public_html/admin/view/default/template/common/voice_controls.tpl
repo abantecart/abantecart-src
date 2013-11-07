@@ -19,8 +19,10 @@
 	      <div class="compact marquee">
 	        <div id="info">
 	          <div id="info_speak_now" style="display:none">
-	            <a class="mic_on text-blink" style="display:none" title="<?php echo $text_voice_speak_now; ?>"><i class="icon-microphone icon-2x"></i></a>
-	            <span> <?php echo $text_voice_speak_now; ?> <span>
+	            <a class="mic_on text-blink" style="display:none" title="<?php echo $text_voice_speak_now; ?>">
+		            <i class="icon-microphone icon-2x"></i>
+	            </a>
+	            <span><?php echo $text_voice_speak_now; ?></span>
 	          </div>
 	          <div id="info_allow" class="alert alert-info" style="display:none">
 	            <?php echo $text_voice_click_allow; ?>
@@ -50,8 +52,8 @@
 	        </div>	        
 	        
 	        <div id="result_comands" style="display:none">
-	        </div>
-	        
+	    </div>
+
 	    </div>
         </div>
         <div class="modal-footer">
