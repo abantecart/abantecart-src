@@ -143,9 +143,9 @@ class ControllerResponsesProductProduct extends AController {
 			}
 
 			if (!empty($this->request->get[ 'currency' ]) && !empty($this->request->get[ 'value' ])) {
-				$price = $this->currency->format($price, $this->request->get[ 'currency' ], $this->request->get[ 'value' ]);
+				$price = $this->currency->format((float)$price, $this->request->get[ 'currency' ], $this->request->get[ 'value' ]);
 			} else {
-				$price = $this->currency->format($price);
+				$price = $this->currency->format((float)$price);
 			}
 
 			$product_data[ ] = array(
@@ -275,9 +275,6 @@ class ControllerResponsesProductProduct extends AController {
 
 		if (has_value($this->request->get['regexp_pattern'])) {
 			$this->request->get['regexp_pattern'] = trim($this->request->get['regexp_pattern']);
-			if($this->request->get['regexp_pattern'][0]!='/'){
-				$this->request->get['regexp_pattern'] = '/'.$this->request->get['regexp_pattern'].'/';
-			}
 		}
 
 		$this->loadModel('catalog/product');

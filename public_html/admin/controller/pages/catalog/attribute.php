@@ -121,7 +121,6 @@ class ControllerPagesCatalogAttribute extends AController {
 
 		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ));
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
-		$this->view->assign('search_form', $grid_search_form);
 
 		$this->view->assign('insert', $this->html->getSecureURL('catalog/attribute/insert'));
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
@@ -398,9 +397,6 @@ class ControllerPagesCatalogAttribute extends AController {
 
 		if (has_value($this->request->post['regexp_pattern'])) {
             $this->request->post['regexp_pattern'] = trim($this->request->post['regexp_pattern']);
-            if($this->request->post['regexp_pattern'][0]!='/'){
-                $this->request->post['regexp_pattern'] = '/'.$this->request->post['regexp_pattern'].'/';
-            }
 		}
 
 		$this->error = array_merge($this->error, $this->attribute_manager->validateAttributeCommonData($this->request->post));
