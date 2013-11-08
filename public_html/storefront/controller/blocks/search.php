@@ -23,7 +23,8 @@ if (! defined ( 'DIR_CORE' )) {
 class ControllerBlocksSearch extends AController {
 	public $data=array();
 	public function main() {
-
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 		$this->loadLanguage('blocks/search');
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
@@ -41,5 +42,6 @@ class ControllerBlocksSearch extends AController {
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate();
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
