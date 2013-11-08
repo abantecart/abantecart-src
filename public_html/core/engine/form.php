@@ -537,7 +537,7 @@ class AForm {
 				'type' => 'form',
 				'name' => $this->form[ 'form_name' ],
 				'attr' => ' class="form" ',
-				'action' => $this->html->getSecureURL($this->form[ 'controller' ],'',true),
+				'action' => $this->html->getSecureURL($this->form[ 'controller' ],'&form_id='.$this->form['form_id'],true),
 			);
 			$form_open = HtmlElementFactory::create($data);
 			$form_close = $view->fetch('form/form_close.tpl');
