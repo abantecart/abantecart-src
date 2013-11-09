@@ -38,15 +38,26 @@ class ControllerPagesContentContact extends AController {
 	    $form = $this->form->getForm();
 
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+		    // move all uploaded files to their directories
+		    $file_pathes = $this->form->processFileUploads($this->request->files);
+
 			$mail = new AMail( $this->config );
 			$mail->setTo($this->config->get('store_main_email'));
 	  		$mail->setFrom($this->request->post['email']);
 	  		$mail->setSender($this->request->post['first_name']);
 	  		$mail->setSubject(sprintf($this->language->get('email_subject'), $this->request->post['name']));
 	  		$mail->setText(strip_tags(html_entity_decode($this->request->post['enquiry'], ENT_QUOTES, 'UTF-8')));
+		    foreach($file_pathes as $path){
+		        $mail->addAttachment($path);
+		    }
       		$mail->send();
 		    //get success_page
-	  		$this->redirect($this->html->getSecureURL($form['success_page']));
+		    if($form['success_page']){
+			    $success_url = $this->html->getSecureURL($form['success_page']);
+		    }else{
+			    $success_url = $this->html->getSecureURL('content/contact/success');
+		    }
+	  		$this->redirect($success_url);
     	}
 
 	    if (($this->request->server['REQUEST_METHOD'] == 'POST')){
