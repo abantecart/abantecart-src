@@ -27,19 +27,7 @@ final class ACache {
 	private $empties = array();
 	private $exists = array();
   	public function __construct() {
-		$files = glob(DIR_CACHE . 'cache.*', GLOB_NOSORT);
 		$this->registry = Registry::getInstance ();		
-		if ($files) {
-			foreach ($files as $file) {
-				$time = substr(strrchr($file, '.'), 1);
-
-      			if ($time < time()) {
-					if (file_exists($file)) {
-						unlink($file);
-					}
-      			}
-    		}
-		}
   	}
 
 	//force to get cache data based on params and ignore disable cache setting
@@ -55,14 +43,23 @@ final class ACache {
 			unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
 			return null;
 		}
-
-		$suffix = $this->_build_sufix($language_id, $store_id);
-		$cache_filename = DIR_CACHE . 'cache.' . $key . ($suffix ? '.'.$suffix : '');
+		//load all cache file names for the section (key)
+		$cache_filename =  $this->_build_name($key, $language_id, $store_id);
 		$cache_files = glob( $cache_filename. '.*', GLOB_NOSORT);
-
+	
 		if ($cache_files) {
     		foreach ($cache_files as $file) {
-				$ch_base = substr($file,0,-11); // remove timestamp with dot from the end of file name TODO: check this spike
+    			//Check if file expired and deleted it
+    			$file_time = substr(strrchr($file, '.'), 1);
+      			if ($file_time < time()) {
+					if (file_exists($file)) {
+						unlink($file);
+						continue;
+					}
+      			}
+      			    			
+    			// remove timestamp with dot from the end of file name TODO: check this spike
+				$ch_base = substr($file,0,-11); 
 				if(strlen($cache_filename) == strlen($ch_base)){
 					$handle = fopen($file, 'r');
 					$cache = fread($handle, filesize($file));
@@ -86,8 +83,6 @@ final class ACache {
 	//set cache parameter
   	public function set($key, $value, $language_id = '', $store_id = '', $create_override = false) {
 
-		$suffix = $this->_build_sufix($language_id, $store_id);
-
     	$this->delete($key, $language_id, $store_id );
 
     	if($this->registry->get('request')->get['rt']=='tool/cache'){
@@ -95,7 +90,10 @@ final class ACache {
     	}
     			
 		if ($create_override || $this->registry->get('config')->get('config_cache_enable')){	
-			$file = DIR_CACHE . 'cache.' . $key . ($suffix ? '.'.$suffix : '') . '.' . (time() + $this->expire);
+			//build new cache file name
+			$file = $this->_build_name($key, $language_id, $store_id) . '.' . (time() + $this->expire);
+			//create subdirectory if needed
+			$this->_test_create_directory($key);
 			$handle = fopen($file, 'w');		
 		   	fwrite($handle, serialize($value));				
 		   	fclose($handle);
@@ -103,8 +101,15 @@ final class ACache {
   	}
 	
   	public function delete($key, $language_id = '', $store_id = '') {
-		$suffix = $this->_build_sufix($language_id, $store_id);
-		$files = glob(DIR_CACHE . 'cache.' . $key . ($suffix ? '.'.$suffix : '') . '.*', GLOB_NOSORT);
+  		
+  		$section = substr($key, 0,strpos($key, '.'));
+  		if ($section) {
+  			//delete match within directory
+			$files = glob($this->_build_name($key, $language_id, $store_id) . '.*', GLOB_NOSORT);
+  		} else {
+  			//delete whole content of directory for section/key
+  			$files = glob(DIR_CACHE . $key . '/*', GLOB_NOSORT);
+  		}
 		if ($files) {
     		foreach ($files as $file) {
       			if (file_exists($file)) {      				
@@ -114,22 +119,6 @@ final class ACache {
 		}
   	}
   	
-  	private function _build_sufix($language_id = '', $store_id = ''){
-		$suffix = '';
-		if($language_id){
-			$language_id = (int)$language_id;
-		}
-		if($store_id){
-			$store_id = (int)$store_id;
-		}
-		if($language_id || $store_id){
-			$suffix = $language_id.'_'.(int)$store_id;
-		}
-
-		return $suffix;
-  	}
-
-
 	/**
 	 * funtion check is empty cache data. Look php empty() function for details
 	 * @param string $key
@@ -155,4 +144,46 @@ final class ACache {
 	public function exists($key, $language_id = '', $store_id = ''){
 		return isset($this->exists[$key.'_'.$language_id.'_'.$store_id]);
 	}
+
+
+	private function _test_create_directory ($key) {
+		//get section by first part of the key
+		$section = substr($key, 0,strpos($key, '.'));
+		//if no match use key as seciton 
+		if ( !$section ) {
+			$section = $key;
+		}
+		if (!is_file(DIR_CACHE . $section) && !is_dir(DIR_CACHE . $section)) {
+			mkdir(DIR_CACHE . $section, 0777);
+		}
+
+	}
+
+  	private function _build_name($key, $language_id = '', $store_id = ''){
+		//get section by first part of the key
+		$section = substr($key, 0,strpos($key, '.'));
+		$suffix = $this->_build_sufix($language_id, $store_id);
+		//if no match use key as seciton 
+		if ( !$section ) {
+			$section = $key;	
+		}
+		return DIR_CACHE . $section . '/' . $key . ($suffix ? '.'.$suffix : '');
+	}
+  	
+  	
+  	private function _build_sufix($language_id = '', $store_id = ''){
+		$suffix = '';
+		if($language_id){
+			$language_id = (int)$language_id;
+		}
+		if($store_id){
+			$store_id = (int)$store_id;
+		}
+		if($language_id || $store_id){
+			$suffix = $language_id.'_'.(int)$store_id;
+		}
+
+		return $suffix;
+  	}
+
 }
