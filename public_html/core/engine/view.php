@@ -281,7 +281,7 @@ class AView {
 
       		return $content;
     	} else {
-			$error = new AError('Error: Could not load template ' . $file . '!' , AC_ERR_LOAD);
+			$error = new AError('Error: Could not load template ' . $filename . '!' , AC_ERR_LOAD);
 			$error->toDebug()->toLog();
     	}
 		return '';
