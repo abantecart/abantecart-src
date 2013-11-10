@@ -112,14 +112,14 @@ final class AMySQLi {
      * @return string
      */
     public function escape($value) {
-	    if(!is_null($value) && !is_string($value) && !is_numeric($value)){
+	    if(is_array($value)){
 		    $dump = var_export($value,true);
 		    $message = 'aMySQLi class error: Try to escape non-string value: '.$dump;
 		    $error = new AError($message);
 		    $error->toLog()->toDebug()->toMessages();
 		    return false;
 	    }
-		return $this->connection->real_escape_string($value);
+		return $this->connection->real_escape_string((string)$value);
 	}
 
     /**
