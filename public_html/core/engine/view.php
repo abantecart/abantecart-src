@@ -20,7 +20,13 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class AView
+ * @property AConfig $config
+ * @property ExtensionsAPI $extensions
+ * @property AResponse $response
+ *
+ */
 class AView {
 	/**
 	 * @var $registry Registry
@@ -281,7 +287,7 @@ class AView {
 
       		return $content;
     	} else {
-			$error = new AError('Error: Could not load template ' . $file . '!' , AC_ERR_LOAD);
+			$error = new AError('Error: Could not load template ' . $filename . '!' , AC_ERR_LOAD);
 			$error->toDebug()->toLog();
     	}
 		return '';
@@ -297,14 +303,14 @@ class AView {
     		return null;    	
     	} 
 		$res_arr = $this->_extensions_resource_map($filename);
-
 		//get first exact template extension resource or default template resource othewise.
 		if ( count($res_arr['original'])) {
 			return $res_arr['original'][0];
 		} else if(count($res_arr['default'])) {
 			return $res_arr['default'][0];
 		}
-		
+
+
 		//no extension found, use resource from core templates
 		return $this->_get_template_path(DIR_TEMPLATE, $filename, 'relative');
     }
@@ -319,7 +325,7 @@ class AView {
     	} 
        
     	//check if this template file in extensions or in core
-    	if ( $this->templateResource('template/'. $filename) ) {
+    	if ( $this->templateResource('/template/'. $filename) ) {
     		return true;
     	} else {
     		return false;
@@ -336,15 +342,6 @@ class AView {
 	}
 
 	/**
-	 * relative path
-	 * @param string $extension_name
-	 * @return string
-	 */
-	private function _extension_view_path( $extension_name ) {
-		return  $this->_extension_section_path( $extension_name ) . DIR_EXT_TEMPLATE;
-	}
-
-	/**
 	 * full directory path
 	 * @param string $extension_name
 	 * @return string
@@ -354,16 +351,6 @@ class AView {
 		return  DIR_EXT . $extension_name . $rel_view_path;
 	}
 
-	/**
-	 * relative path
-	 * @internal param string $extension_name
-	 * @param $extension_name
-	 * @return string
-	 */
-	private function _extension_section_path( $extension_name ) {
-		$rel_view_path = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE);
-		return  DIR_EXTENSIONS . $extension_name . $rel_view_path;
-	}
 
 	/**
 	 * Build template source map for enabled extensions
@@ -444,6 +431,7 @@ class AView {
 	            	$match = 'default';
 	        	}
 	        }
+
 
 
 		}

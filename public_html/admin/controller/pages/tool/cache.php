@@ -139,7 +139,6 @@ class ControllerPagesToolCache extends AController {
 
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-		
 		if($this->request->post['selected']) {
 			$selected = $this->request->post['selected'];
 		} else if($this->request->get['selected']){
@@ -159,7 +158,7 @@ class ControllerPagesToolCache extends AController {
 					$keywords = explode(',', $cache);
 					if($keywords){
 						foreach($keywords as $keyword) {
-							$this->cache->delete($keyword);
+							$this->cache->delete(trim($keyword));
 						}
 					}
 				}

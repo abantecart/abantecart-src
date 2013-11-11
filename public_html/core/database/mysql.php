@@ -121,7 +121,15 @@ final class MySQL {
      * @return string
      */
     public function escape($value) {
-		return mysql_real_escape_string($value, $this->connection);
+
+	    if(is_array($value)){
+		    $dump = var_export($value,true);
+		    $message = 'MySQL class error: Try to escape non-string value: '.$dump;
+		    $error = new AError($message);
+		    $error->toLog()->toDebug()->toMessages();
+		    return false;
+	    }
+		return mysql_real_escape_string((string)$value, $this->connection);
 	}
 
     /**

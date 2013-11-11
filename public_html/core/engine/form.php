@@ -561,7 +561,7 @@ class AForm {
 
 	/**
 	 * method for validation of data based on form fields requirements
-	 * @param array $data
+	 * @param array $data - usually it's a $_POST
 	 * @return array - array with error text for each of invalid field data
 	 */
 	public function validateFormData($data = array()){
@@ -569,9 +569,7 @@ class AForm {
 		$this->_loadFields();
 		$this->load->language('checkout/cart'); // load language for file upload text errors
 
-		$field_set = $this->fields;
-
-		foreach($field_set as $field){
+		foreach($this->fields as $field){
 			if(!trim($data[$field['field_name']]) && $field['required']=='Y'
 				&& !in_array($field['element_type'],array('K','U'))){
 				$errors[$field['field_name']] = $field['name'].' '.$this->language->get('text_field_required');
@@ -581,7 +579,8 @@ class AForm {
 			}
 			//for captcha
 			if($field['element_type']=='K'
-				&& (!isset($this->session->data['captcha']) || $this->session->data['captcha'] != $data[$field['field_name']])){
+				&& (!isset($this->session->data['captcha']) || $this->session->data['captcha'] != $data[$field['field_name']])
+			){
 				$errors[$field['field_name']] .= ' '.$field['error_text'];
 			}
 			// for file
@@ -600,25 +599,53 @@ class AForm {
 
 				$file_errors = $fm->validateFileOption($field['settings'], $file_data);
 
-				if (!$file_errors && !$errors) {
-					move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
-
-					$dataset = new ADataset('file_uploads', 'admin');
-					$dataset->addRows(
-						array(
-							'date_added' => date("Y-m-d H:i:s", time()),
-							'name' => $file_path_info['name'],
-							'type' => $file_data['type'],
-							'section' => 'AForm: '.$this->form[ 'form_name' ],
-							'section_id' => '',
-							'path' => $file_path_info['path'],
-						)
-					);
-				}else{
+				if ($file_errors) {
 					$errors[$field['field_name']] .= implode(' ', $file_errors);
 				}
 			}
 		}
 		return $errors;
+	}
+
+	/**
+	 * process uploads of files from form file element
+	 * @param array $files - usually it's a $_FILES array
+	 * @return array - list of absolute pathes of moved files
+	 */
+	public function processFileUploads($files=array()){
+		if($this->fields){
+			$this->_loadFields();
+		}
+
+		$output = array();
+		foreach($this->fields as $field){
+			if($field['element_type']!='U'){ continue;}
+
+			$fm = new AFile();
+			$file_path_info = $fm->getUploadFilePath($field['settings']['directory'],
+													 $files[$field['field_name']]['name']);
+
+			$result = move_uploaded_file($files[$field['field_name']]['tmp_name'], $file_path_info['path']);
+
+			if($result){
+				$output[] = $file_path_info['path'];
+			}else{
+				$err = new AError("AForm error: can't to move uploaded file ".$files[$field['field_name']]['tmp_name']." to ".$file_path_info['path']);
+				$err->toLog()->toDebug();
+			}
+
+			$dataset = new ADataset('file_uploads', 'admin');
+			$dataset->addRows(
+				array(
+					'date_added' => date("Y-m-d H:i:s", time()),
+					'name' => $file_path_info['name'],
+					'type' => $files[$field['field_name']]['type'],
+					'section' => 'AForm: '.$this->form[ 'form_name' ],
+					'section_id' => '',
+					'path' => $file_path_info['path'],
+				)
+			);
+		}
+		return $output;
 	}
 }

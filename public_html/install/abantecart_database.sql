@@ -6362,8 +6362,8 @@ INSERT INTO `ac_fields`
 (field_id, form_id, field_name, element_type, sort_order, attributes,settings, required, regexp_pattern, status)
 VALUES
 (11,2,'first_name','I',1,'','','Y','/^.{3,100}$/u',1),
-(12,2,'email','I',2,'','','Y','/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i',1),
-(13,2,'enquiry','T',3,'','','Y','/^.{3,1000}$/u',1),
+(12,2,'email','E',2,'','','Y','/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i',1),
+(13,2,'enquiry','T',3,'','','Y','/^.{3,1000}/u',1),
 (14,2,'captcha','K',4,'','','Y','',1);
 
 --
