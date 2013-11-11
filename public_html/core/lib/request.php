@@ -48,6 +48,13 @@ final class ARequest {
 		$this->files = $_FILES;
 		$this->server = $_SERVER;
 
+		//check if there is any encrypted data
+		if ( has_value($this->get['__e'])) {
+			$this->get = array_replace_recursive($this->get, $this->decodeURI($this->get['__e'])); 
+		}
+		if ( has_value($this->post['__e'])) {
+			$this->post = array_replace_recursive($this->post, $this->decodeURI($this->post['__e'])); 
+		}
         $this->_detectBrowser();
 	}
 	
@@ -97,6 +104,22 @@ final class ARequest {
 
 		return $data;
 	}
+
+	/**
+	 * @param string base64 $uri
+	 * @return array
+	 */
+	public function decodeURI($uri) {
+		$parms = array();
+		$open_uri = base64_decode($uri);
+    	$split_parameters = explode('&', $open_uri);
+
+    	for($i = 0; $i < count($split_parameters); $i++) {
+        	$final_split = explode('=', $split_parameters[$i]);
+        	$parms[$final_split[0]] = $final_split[1];
+    	}	
+    	return $parms;	
+	} 
 
     private function _detectBrowser() {
 

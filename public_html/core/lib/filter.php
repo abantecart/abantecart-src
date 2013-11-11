@@ -143,14 +143,34 @@ final class AFilter {
     public function getFilterData() {
         return $this->data['filter_data'];
     }
-
-    public function getFilterURI() {
+	
+	//Build URI based on current filter params used
+    public function buildFilterURI( $exclude_list = array() ) {
         $uri = '';
-        foreach (array_keys($this->data) as $param) {
-            if (!in_array($param, array('filter_data'))) {
-                $uri .= "&" . $param . "=" . $this->data[$param];
+        $process_array = array();
+        //add input params from different parts of filter    
+        foreach (array_keys( $this->data ) as $param) {
+        	//skip some params
+        	if ( in_array($param, array('filter_data','filter_string')) ) {
+        		continue;
+        	}
+        
+            if ( has_value($this->data[$param]) ) {
+                $process_array[$param] = $this->data[$param];
             }
+        }   
+        $filter_arr = $this->data['filter_data']['filter'];
+        if ( $filter_arr ) {
+	        foreach (array_keys( $filter_arr ) as $param) {
+	            if ( has_value($filter_arr[$param]) ) {
+	                $process_array[$param] = $filter_arr[$param];
+	            }
+	        }       
         }
+        
+        //sort array to mintain the order
+        asort($process_array);                 
+        $uri = $this->html->buildURI($process_array, $exclude_list);                             
         return $uri;
     }
 

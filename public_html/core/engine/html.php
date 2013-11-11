@@ -171,6 +171,22 @@ class AHtml extends AController {
 	}
 
 	/**
+	 * URI entrypt parameteres in URI
+	 *
+	 * @param $uri
+	 * @param $filter_params array - array of vars to filter
+	 * @return string - url without unwanted filter parameters
+	 */
+	public function encryptURI($uri) {		
+		$encrypted = base64_encode( $uri );
+		if ( strlen( $encrypted ) <= 250 ) {
+			return '__e='.$encrypted;
+		} else {
+			return $uri;
+		}		
+	}
+
+	/**
 	 * Build URI from array provided
 	 *
 	 * @param $params_arr array - data array to process
