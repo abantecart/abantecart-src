@@ -6298,13 +6298,12 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 -- add breadcrumbs 
 
 INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`,`updated`) VALUES
-(1950,11,28,0,331,10,1,NOW(),NOW()),
-(1951,13,28,0,375,10,1,NOW(),NOW()),
-(1952,14,28,0,388,10,1,NOW(),NOW()),
-(1953,15,28,0,399,10,1,NOW(),NOW()),
-(1954,17,28,0,939,10,1,NOW(),NOW()),
-(1955,18,28,0,1903,10,1,NOW(),NOW());
-
+(1950,11,28,0,331,20,1,NOW(),NOW()),
+(1951,13,28,0,375,20,1,NOW(),NOW()),
+(1952,14,28,0,388,20,1,NOW(),NOW()),
+(1953,15,28,0,399,20,1,NOW(),NOW()),
+(1954,17,28,0,939,20,1,NOW(),NOW()),
+(1955,18,28,0,1903,20,1,NOW(),NOW());
 
 --
 -- DDL for table `forms_pages`
