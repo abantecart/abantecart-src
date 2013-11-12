@@ -150,8 +150,8 @@ final class AFilter {
         $process_array = array();
         //add input params from different parts of filter    
         foreach (array_keys( $this->data ) as $param) {
-        	//skip some params
-        	if ( in_array($param, array('filter_data','filter_string')) ) {
+        	//skip some params.
+        	if ( in_array($param, array('filter_data','filter_string','page')) ) {
         		continue;
         	}
         
