@@ -248,4 +248,8 @@
 		<key>button_reset</key>
 		<value><![CDATA[Reajustar]]></value>
 	</definition>
+	<definition>
+	   <key>error_captcha</key>
+	   <value><![CDATA[El código de verificación no coincide con la imagen!]]></value>
+	 </definition>
 </definitions>

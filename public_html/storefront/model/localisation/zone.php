@@ -17,38 +17,72 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+	header('Location: static_pages/');
 }
+/**
+ * Class ModelLocalisationZone
+ */
+/** @noinspection PhpUndefinedClassInspection */
 class ModelLocalisationZone extends Model {
+	/**
+	 * @param int $zone_id
+	 * @return array
+	 */
 	public function getZone($zone_id) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zones WHERE zone_id = '" . (int)$zone_id . "' AND status = '1'");
-		
 		return $query->row;
-	}		
-	
+	}
+
+	/**
+	 * @param int $country_id
+	 * @return array
+	 */
 	public function getZonesByCountryId($country_id) {
 		$zone_data = $this->cache->get('zone.' . $country_id);
-	
+
 		if (is_null($zone_data)) {
 			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zones WHERE country_id = '" . (int)$country_id . "' AND status = '1' ORDER BY name");
-	
+
 			$zone_data = $query->rows;
-			
+
 			$this->cache->set('zone.' . $country_id, $zone_data);
 		}
-	
+
 		return $zone_data;
 	}
 
+	/**
+	 * @param string $country_name
+	 * @return array
+	 */
+	public function getZonesByCountryName($country_name) {
+		$zone_data = $this->cache->get('zone.' . $country_name);
+
+		if (is_null($zone_data)) {
+			$sql = "SELECT *
+					FROM " . DB_PREFIX . "zones
+					WHERE country_id = '" . (int)$this->getCountryIdByName($country_name) . "' AND status = '1'
+					ORDER BY name";
+			$query = $this->db->query($sql);
+			$zone_data = $query->rows;
+
+			$this->cache->set('zone.' . $country_name, $zone_data);
+		}
+
+		return $zone_data;
+	}
+
+	/**
+	 * @param string $name
+	 * @return int
+	 */
 	public function getCountryIdByName($name) {
 		$query = $this->db->query("SELECT country_id FROM " . DB_PREFIX . "countries WHERE name = '" . $this->db->escape($name) . "' AND status = '1' LIMIT 1");
 
-		if ( $query->num_rows > 0 ) {
+		if ($query->num_rows > 0) {
 			return $query->row['country_id'];
 		}
 		return 0;
 	}
-
 }
-?>
