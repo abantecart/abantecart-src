@@ -6295,6 +6295,16 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (1934,18,17,15,1908,60,1,NOW(),NOW()),
 (1935,18,29,0,1905,10,1,NOW(),NOW());
 
+-- add breadcrumbs 
+
+INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`,`updated`) VALUES
+(1950,11,28,0,331,20,1,NOW(),NOW()),
+(1951,13,28,0,375,20,1,NOW(),NOW()),
+(1952,14,28,0,388,20,1,NOW(),NOW()),
+(1953,15,28,0,399,20,1,NOW(),NOW()),
+(1954,17,28,0,939,20,1,NOW(),NOW()),
+(1955,18,28,0,1903,20,1,NOW(),NOW());
+
 --
 -- DDL for table `forms_pages`
 --
@@ -6362,8 +6372,8 @@ INSERT INTO `ac_fields`
 (field_id, form_id, field_name, element_type, sort_order, attributes,settings, required, regexp_pattern, status)
 VALUES
 (11,2,'first_name','I',1,'','','Y','/^.{3,100}$/u',1),
-(12,2,'email','E',2,'','','Y','/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i',1),
-(13,2,'enquiry','T',3,'','','Y','/^.{3,1000}/u',1),
+(12,2,'email','I',2,'','','Y','/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i',1),
+(13,2,'enquiry','T',3,'','','Y','/^.{3,1000}$/u',1),
 (14,2,'captcha','K',4,'','','Y','',1);
 
 --
