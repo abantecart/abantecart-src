@@ -161,10 +161,6 @@
 		<value><![CDATA[Error: Please select a review rating!]]></value>
 	</definition>
 	<definition>
-		<key>error_captcha</key>
-		<value><![CDATA[Error: Verification code does not match the image!]]></value>
-	</definition>
-	<definition>
 		<key>text_total_price</key>
 		<value><![CDATA[Total Price:]]></value>
 	</definition>

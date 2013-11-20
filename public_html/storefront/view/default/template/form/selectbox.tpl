@@ -5,7 +5,7 @@
 			<option value=""><?php echo $placeholder; ?></option>
 		<?php }
 		foreach ( $options as $v => $text ) { ?>
-            <option value="<?php echo $v ?>" <?php echo (in_array($v, $value) ? ' selected="selected" ':'') ?> >
+            <option value="<?php echo $v ?>" <?php echo (in_array($v, (array)$value) ? ' selected="selected" ':'') ?> >
                 <?php echo $text ?>
             </option>
         <?php } ?>

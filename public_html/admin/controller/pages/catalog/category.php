@@ -507,6 +507,11 @@ class ControllerPagesCatalogCategory extends AController {
 
 		$url .= '&category_id=' . $category_id;
 
+		if ( has_value($category_id) && ($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
+			$this->loadModel('catalog/category');
+			$this->data[ 'category_description' ] = $this->model_catalog_category->getCategoryDescriptions($category_id);
+		}
+
 		if (isset($this->request->get[ 'tmpl_id' ])) {
 			$url .= '&tmpl_id=' . $this->request->get[ 'tmpl_id' ];
 			$tmpl_id = $this->request->get[ 'tmpl_id' ];
@@ -532,7 +537,16 @@ class ControllerPagesCatalogCategory extends AController {
 		                                    'text' => $this->language->get('heading_title'),
 		                                    'separator' => ' :: '
 		                               ));
-
+		$this->document->addBreadcrumb(array(
+											'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=' . $category_id),
+											'text' => $this->language->get('text_edit') .' '. $this->language->get('text_category') . ' - ' . $this->data[ 'category_description' ][ $this->session->data[ 'content_language_id' ] ][ 'name' ],
+											'separator' => ' :: '
+										));
+		$this->document->addBreadcrumb(array(
+		                                    'href' => $this->html->getSecureURL('catalog/edit_layout', '&category_id=' . $category_id),
+		                                    'text' => $this->language->get('tab_layout'),
+		                                    'separator' => ' :: '
+		                               ));
 
 		$this->view->assign('category_form_general', $this->html->getSecureURL('catalog/category/update', '&category_id=' . $category_id) . '#general');
 		$this->view->assign('category_form_data', $this->html->getSecureURL('catalog/category/update', '&category_id=' . $category_id) . '#data');
@@ -557,10 +571,6 @@ class ControllerPagesCatalogCategory extends AController {
 		$settings[ 'hidden' ][ 'category_id' ] = $category_id;
 		$settings['allow_clone'] = true;
 		$layoutform = $this->dispatch('common/page_layout', array( $settings, $layout ));
-		if ( has_value($category_id) && ($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
-			$this->loadModel('catalog/category');
-			$this->data[ 'category_description' ] = $this->model_catalog_category->getCategoryDescriptions($category_id);
-		}
 
 		$this->view->assign('heading_title', $this->language->get('text_edit') . $this->language->get('text_category') . ' - ' . $this->data[ 'category_description' ][ $this->session->data[ 'content_language_id' ] ][ 'name' ]);
 		$this->view->assign('layoutform', $layoutform->dispatchGetOutput());
@@ -606,8 +616,8 @@ class ControllerPagesCatalogCategory extends AController {
 			$category_info = $this->model_catalog_category->getCategoryDescriptions($category_id);
 			if($category_info){
 				foreach($category_info as $language_id=>$description){
-					if(!(int)$language_id){ continue;}
-					$page_info['page_descriptions'][$language_id]['name'] = 'Category: '.$description['name'];
+					if(!has_value($language_id)){ continue;}
+					$page_info['page_descriptions'][$language_id] = $description;
 				}
 			}
 

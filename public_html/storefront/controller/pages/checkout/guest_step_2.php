@@ -70,7 +70,8 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 																'title'      => $this->language->get('no_payment_required')
 							);
 			}
-
+			//process data
+			$this->extensions->hk_ProcessData($this, __FUNCTION__);
 			$this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
 		}
 		

@@ -1042,17 +1042,19 @@ class ModelCatalogProduct extends Model {
 			$page_info = array('controller' => 'pages/product/product',
 				'key_param' => 'product_id',
 				'key_value' => $new_product_id);
-			$new_page_id = $lm->savePage($page_info);
 
 			$product_info = $this->getProductDescriptions($new_product_id);
 			if ($product_info) {
 				foreach ($product_info as $language_id => $description) {
-					if (!(int)$language_id) {
+					if (!has_value($language_id)) {
 						continue;
 					}
-					$page_info['page_descriptions'][$language_id]['name'] = $description['name'];
+					$page_info['page_descriptions'][$language_id] = $description;
 				}
 			}
+			//save new page
+			$new_page_id = $lm->savePage($page_info);
+
 			$default_language_id = $this->language->getDefaultLanguageID();
 			$layout_name = 'Product: ' . $product_info[$default_language_id]['name'];
 			//create instance for new layout

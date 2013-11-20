@@ -577,7 +577,7 @@ class ControllerPagesSaleCustomer extends AController {
 			// send email to customer
 			$customer_info = $this->model_sale_customer->getCustomer($id);
 
-			if ($customer_info && !$customer_info['approved'] && $this->request->post[ 'approved' ]) {
+			if ($customer_info) {
 
 				$this->loadLanguage('mail/customer');
 				$this->loadModel('setting/store');

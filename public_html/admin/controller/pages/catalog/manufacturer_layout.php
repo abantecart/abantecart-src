@@ -146,7 +146,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController {
 			$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($manufacturer_id);
 			if($manufacturer_info){
                 foreach ( $languages as $l ) {
-                    $page_info['page_descriptions'][ $l['language_id'] ]['name'] = 'Manufacturer: '.$manufacturer_info['name'];
+                    $page_info['page_descriptions'][ $l['language_id'] ] = $manufacturer_info;
                 }
 			}
 			$page_id = $layout->savePage($page_info);

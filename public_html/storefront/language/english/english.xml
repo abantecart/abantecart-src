@@ -253,4 +253,8 @@
 		<key>text_field_required</key>
 		<value><![CDATA[is required field!]]></value>
 	</definition>
+	<definition>
+		<key>error_captcha</key>
+		<value><![CDATA[Verification code does not match the image!]]></value>
+    </definition>
 </definitions>

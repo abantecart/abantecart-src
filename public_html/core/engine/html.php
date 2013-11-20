@@ -171,6 +171,22 @@ class AHtml extends AController {
 	}
 
 	/**
+	 * URI entrypt parameteres in URI
+	 *
+	 * @param $uri
+	 * @param $filter_params array - array of vars to filter
+	 * @return string - url without unwanted filter parameters
+	 */
+	public function encryptURI($uri) {		
+		$encrypted = base64_encode( $uri );
+		if ( strlen( $encrypted ) <= 250 ) {
+			return '__e='.$encrypted;
+		} else {
+			return $uri;
+		}		
+	}
+
+	/**
 	 * Build URI from array provided
 	 *
 	 * @param $params_arr array - data array to process
@@ -1405,7 +1421,7 @@ class DateHtmlElement extends HtmlElement {
 				'attr' => 'aform_field_type="date" ' . $this->attr.' data-aform-field-type="captcha"',
 				'required' => $this->required,
 				'style' => $this->style,
-				'dateformat' => $this->dateformat,
+				'dateformat' => $this->dateformat ? $this->dateformat : format4Datepicker($this->data[ 'registry' ]->get('language')->get('date_format_short')),
 				'highlight' => $this->highlight
 			)
 		);
@@ -1564,14 +1580,18 @@ class CountriesHtmlElement extends HtmlElement {
 }
 
 class ZonesHtmlElement extends HtmlElement {
-
+	//private $default_zone_value, $default_value;
 	public function __construct($data) {
 		parent::__construct($data);
 		$this->data[ 'registry' ]->get('load')->model('localisation/country');
 		$results = $this->data[ 'registry' ]->get('model_localisation_country')->getCountries();
 		$this->options = array();
 		$this->zone_options = array();
+		$config_country_id = $this->data['registry']->get('config')->get('config_country_id');
 		foreach ($results as $c) {
+			if($c[ 'country_id' ]== $config_country_id){
+				$this->default_value = $this->submit_mode == 'id' ? array($config_country_id) : array($c[ 'name' ]=>$c[ 'name' ]);
+			}
 			if ($this->submit_mode == 'id') {
 				$this->options[ $c[ 'country_id' ] ] = $c[ 'name' ];
 			} else {
@@ -1581,8 +1601,11 @@ class ZonesHtmlElement extends HtmlElement {
 	}
 
 	public function getHtml() {
-
-		if (!is_array($this->value)) $this->value = array( $this->value => (string)$this->value );
+		if($this->value && !is_array($this->value)){
+			$this->value = array( $this->value => (string)$this->value );
+		}else{
+			$this->value = array();
+		}
 
 		$this->zone_name = !$this->zone_name ? '' : urlencode($this->zone_name);
 		$this->options = !$this->options ? array() : $this->options;
@@ -1596,12 +1619,39 @@ class ZonesHtmlElement extends HtmlElement {
 			$url = $html->getSecureURL('common/zone/names');
 		}
 
-		if($this->value){
-			$this->data['registry']->get('load')->model('localisation/zone');
-			$results = $this->data['registry']->get('model_localisation_zone')->getZonesByCountryId(current($this->value));
-			if (!is_array($this->zone_value)) $this->zone_value = array( $this->zone_value => (string)$this->zone_value );
-			foreach ($results as $result) {
+
+		$this->data['registry']->get('load')->model('localisation/zone');
+
+		if($this->submit_mode=='id'){
+			$id = $this->value ? key($this->value) : $this->data['registry']->get('config')->get('config_country_id');
+			$results = $this->data['registry']->get('model_localisation_zone')->getZonesByCountryId($id);
+
+		}else{
+			if($this->value){
+				$name = current($this->value);
+			}else{
+				$this->data['registry']->get('load')->model('localisation/country');
+				$temp = $this->data['registry']->get('model_localisation_country')->getCountry($this->data['registry']->get('config')->get('config_country_id'));
+				$name = $temp['name'];
+			}
+			$results = $this->data['registry']->get('model_localisation_zone')->getZonesByCountryName($name);
+		}
+
+		if (!is_array($this->zone_value)){
+			$this->zone_value = $this->zone_value ? array( $this->zone_value => (string)$this->zone_value ) : array();
+		}
+		$config_zone_id = $this->data['registry']->get('config')->get('config_zone_id');
+		foreach ($results as $result) {
+			// default zone_id is zone of shop
+			if($result[ 'zone_id' ]== $config_zone_id){
+				$this->default_zone_value = $this->submit_mode == 'id' ? array($config_zone_id) : array($result[ 'name' ]=>$result[ 'name' ]);
+				$this->default_zone_name = $result[ 'name' ];
+			}
+
+			if ($this->submit_mode == 'id') {
 				$this->zone_options[$result['zone_id']] = $result['name'];
+			}else{
+				$this->zone_options[$result['name']] = $result['name'];
 			}
 		}
 
@@ -1609,14 +1659,14 @@ class ZonesHtmlElement extends HtmlElement {
 			array(
 				'name' => $this->name,
 				'id' => $this->element_id,
-				'value' => $this->value,
+				'value' => $this->value ? $this->value : $this->default_value,
 				'options' => $this->options,
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
 				'url' => $url,
-				'zone_name' => $this->zone_name,
-				'zone_value' => $this->zone_value,
+				'zone_name' => $this->zone_name ? $this->zone_name : $this->default_zone_name,
+				'zone_value' => $this->zone_value ? $this->zone_value : $this->default_zone_value,
 				'zone_options' => $this->zone_options,
 				'submit_mode' => $this->submit_mode,
 				'placeholder' => $this->placeholder

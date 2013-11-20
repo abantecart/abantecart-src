@@ -530,6 +530,7 @@ class AForm {
 				'type' => 'submit',
 				'form' => $this->form[ 'form_name' ],
 				'name' => $this->language->get('button_continue'),
+				'icon' => 'icon-arrow-right'
 			);
 			$submit = HtmlElementFactory::create($data);
 
@@ -570,21 +571,50 @@ class AForm {
 		$this->load->language('checkout/cart'); // load language for file upload text errors
 
 		foreach($this->fields as $field){
-			if(!trim($data[$field['field_name']]) && $field['required']=='Y'
-				&& !in_array($field['element_type'],array('K','U'))){
+			// for multivalue required fields
+			if(in_array($field['element_type'], HtmlElementFactory::getMultivalueElements())
+				&& !sizeof($data[$field['field_name']])
+				&& $field['required']=='Y'
+			){
 				$errors[$field['field_name']] = $field['name'].' '.$this->language->get('text_field_required');
 			}
-			if(has_value($field['regexp_pattern']) && !preg_match($field['regexp_pattern'],$data[$field['field_name']])){
-				$errors[$field['field_name']] .= ' '.$field['error_text'];
+			// for required string values
+			if($field['required']=='Y' && !in_array($field['element_type'],array('K','U'))){
+				if(!is_array( $data[$field['field_name']] )){
+					$data[$field['field_name']] = trim($data[$field['field_name']]);
+					if($data[$field['field_name']]==''){	//if empty string!
+						$errors[$field['field_name']] = $field['name'].' '.$this->language->get('text_field_required');
+					}
+				}else{
+					if(!$data[$field['field_name']]){	// if empty array
+						$errors[$field['field_name']] = $field['name'].' '.$this->language->get('text_field_required');
+					}
+				}
 			}
+			// check by regexp
+			if(has_value($field['regexp_pattern'])){
+				if(!is_array($data[$field['field_name']])){ //for string value
+					if(!preg_match($field['regexp_pattern'],$data[$field['field_name']])){
+						$errors[$field['field_name']] .= ' '. $field['error_text'];
+					}
+				}else{ // for array's values
+					foreach($data[$field['field_name']] as $dd){
+						if(!preg_match($field['regexp_pattern'],$dd)){
+							$errors[$field['field_name']] .= ' '. $field['error_text'];
+							break;
+						}
+					}
+				}
+			}
+
 			//for captcha
 			if($field['element_type']=='K'
 				&& (!isset($this->session->data['captcha']) || $this->session->data['captcha'] != $data[$field['field_name']])
 			){
-				$errors[$field['field_name']] .= ' '.$field['error_text'];
+				$errors[$field['field_name']] = $this->language->get('error_captcha');
 			}
 			// for file
-			if($field['element_type']=='U'){
+			if($field['element_type']=='U' && ($this->request->files[$field['field_name']]['tmp_name'] || $field['required']=='Y') ){
 				$fm = new AFile();
 				$file_path_info = $fm->getUploadFilePath($data['settings']['directory'],
 														$this->request->files[$field['field_name']]['name']);

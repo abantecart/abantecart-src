@@ -863,7 +863,7 @@ class ALayoutManager {
 		// page description
 		if ($data ['page_descriptions']) {
 			foreach ($data ['page_descriptions'] as $language_id => $description) {
-				if (!(int)$language_id) {
+				if (!has_value($language_id)) {
 					continue;
 				}
 

@@ -120,4 +120,8 @@
 		<key>default_pp_standart_order_status_id_5</key>
 		<value><![CDATA[Complete]]></value>
 	</definition>
+	<definition>
+		<key>default_pp_standart_note</key>
+		<value><![CDATA[Note: you can to enable Auto return option for your Paypal Account. <a href="https://www.paypal.com/cgi-bin/webscr?cmd=p/mer/express_return_summary-outside" target="_blank">See details</a>. You return URL is #storefront#rt=checkout/success]]></value>
+	</definition>
 </definitions>

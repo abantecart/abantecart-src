@@ -149,10 +149,6 @@
 		<value><![CDATA[Error: Por favor indique una valoración!]]></value>
 	</definition>
 	<definition>
-		<key>error_captcha</key>
-		<value><![CDATA[Error: El código de verificación no coincide con la imagen!]]></value>
-	</definition>
-	<definition>
 		<key>text_tags</key>
 		<value><![CDATA[Tags:]]></value>
 	</definition>

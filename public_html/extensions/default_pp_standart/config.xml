@@ -62,6 +62,7 @@
 			<default_value></default_value>
 		</item>
     </settings>
+	<note>true</note>
 	<custom_settings_template>pages/extension/default_pp_standart_settings.tpl</custom_settings_template>
     <install>
 	    <sql></sql>
