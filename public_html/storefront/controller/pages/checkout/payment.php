@@ -40,7 +40,7 @@ class ControllerPagesCheckoutPayment extends AController {
 			$this->session->data[ 'success' ] = $this->language->get('text_success');
 
 			//process data
-			$this->extensions->hk_ProcessData($this);
+			$this->extensions->hk_ProcessData($this, __FUNCTION__);
 
 			$this->redirect($this->html->getSecureURL('checkout/payment'));
 		}
