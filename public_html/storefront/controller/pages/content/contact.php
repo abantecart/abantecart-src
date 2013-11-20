@@ -48,7 +48,7 @@ class ControllerPagesContentContact extends AController {
 	  		$mail->setSubject(sprintf($this->language->get('email_subject'), $this->request->post['name']));
 	  		$mail->setText(strip_tags(html_entity_decode($this->request->post['enquiry'], ENT_QUOTES, 'UTF-8')));
 		    foreach($file_pathes as $path){
-		        $mail->addAttachment($path);
+		        $mail->addAttachment($path, pathinfo($path,PATHINFO_BASENAME));
 		    }
       		$mail->send();
 		    //get success_page
@@ -133,6 +133,7 @@ class ControllerPagesContentContact extends AController {
 	 * @return bool
 	 */
 	private function _validate() {
+		$aform_errors = $this->form->validateFormData($this->request->post);
 	    $this->error = array_merge($this->form->validateFormData($this->request->post),$this->error);
 		
 		if (!$this->error) {
