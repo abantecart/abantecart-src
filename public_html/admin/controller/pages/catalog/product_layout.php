@@ -145,7 +145,7 @@ class ControllerPagesCatalogProductLayout extends AController {
 			if($product_info){
 				foreach($product_info as $language_id=>$description){
 					if(!(int)$language_id){ continue;}
-					$page_info['page_descriptions'][$language_id]['name'] = $description['name'];
+					$page_info['page_descriptions'][$language_id] = $description;
 				}
 			}
 			$page_id = $layout->savePage($page_info);

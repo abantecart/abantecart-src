@@ -23,7 +23,7 @@ foreach($templates as $t) {
     ?>
     <li><a href="<?php echo $page_url . $uri; ?>"
           <?php echo ($pg['page_id'] == $page['page_id'] && $pg['layout_id'] == $page['layout_id']  ? 'class="shover"' : '')?>
-           title="<?php echo $pg['layout_name']; ?>"><?php echo $pg['name']; ?></a>
+           title="<?php echo $pg['name']; ?>"><?php echo $pg['layout_name']; ?></a>
            <?php if(empty($pg['restricted'])) { ?>
     	   <a data-delete-url="<?php echo $page_delete_url . $uri; ?>" class="delete_page_layout close"><i class="icon-trash"></i></a>
     	   <?php } ?>
