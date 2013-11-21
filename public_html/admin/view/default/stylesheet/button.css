@@ -79,7 +79,6 @@ button.btn_standard {
 	display:block;
 	white-space: nowrap;
 	margin:0;
-	overflow:hidden;
 	height: 24px;
     padding-right: 9px; /* sliding doors padding */
     text-decoration: none;
