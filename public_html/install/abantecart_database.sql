@@ -540,8 +540,8 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 ('shipping', 'default_flat_rate_shipping', 'shipping', 1, 1, '1.0', null, now(), now(), now() ),
 
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.0', null, now(), now(), now() ),
-('extensions', 'default_pp_standart', 'payment', 0, 1, '1.0.1', null, now(), now() + INTERVAL 1 HOUR , now() ),
-('extensions', 'default_pp_pro', 'payment', 0, 1, '1.0.0', null, now(), now() + INTERVAL 1 HOUR , now() )
+('payment', 'default_pp_standart', 'payment', 0, 1, '1.0.1', null, now(), now() + INTERVAL 1 HOUR , now() ),
+('payment', 'default_pp_pro', 'payment', 0, 1, '1.0.0', null, now(), now() + INTERVAL 1 HOUR , now() )
 ;
 
 
