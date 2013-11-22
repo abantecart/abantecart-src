@@ -46,6 +46,11 @@ class ALanguageManager extends Alanguage {
 	 */
 	public function addDescriptions($table_name, $index, $txt_data) {
 		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
+		//when txt data does not contain default language
+		$default_lang_id = $this->getDefaultLanguageID();
+		if(!in_array($default_lang_id, array_keys($txt_data))){
+			$txt_data[$default_lang_id] = current($txt_data);
+		}
 		//Insert data provided per language in $data array
 		$this->_do_insert_descriptions($table_name, $index, $txt_data);
 		//translate to other languages
@@ -64,6 +69,11 @@ class ALanguageManager extends Alanguage {
 	 */
 	public function addDescriptionsSerialized($table_name, $index, $txt_data, $ser_keys = array()) {
 		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
+		//when txt data does not contain default language
+		$default_lang_id = $this->getDefaultLanguageID();
+		if(!in_array($default_lang_id, array_keys($txt_data))){
+			$txt_data[$default_lang_id] = current($txt_data);
+		}
 		//Insert data provided per language in $data array
 		$this->_do_insert_descriptions($table_name, $index, $txt_data);
 		//translate to other languages
@@ -117,6 +127,20 @@ class ALanguageManager extends Alanguage {
 	public function replaceDescriptions($table_name, $index, $txt_data) {
 		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 
+		// check is definition with default language presents in table
+		// we need to know it for case when content language id is not default language id
+		$is_default_definition_exists = 1;
+		$default_lang_id = $this->getDefaultLanguageID();
+		$content_lang_id = $this->getContentLanguageID();
+		if($content_lang_id!=$default_lang_id){
+			$is_default_definition_exists = $this->getDescriptions($table_name,$index,$default_lang_id);
+		}
+		// just use data for default language too
+		if(!$is_default_definition_exists){
+			if(!in_array($default_lang_id, array_keys($txt_data))){
+				$txt_data[$default_lang_id] = current($txt_data);
+			}
+		}
 		//see if exists and update if it does. Do this per language
 		foreach ($txt_data as $lang_id => $lang_data) {
 			$select_index = $index;
@@ -263,22 +287,26 @@ class ALanguageManager extends Alanguage {
 	}
 
 	/**
-	* Select definitions
+	 * Select definitions
 	 * @param string $table_name  - database table name with no prefix
 	 * @param array $index - unique index to perform select (associative array with column name as key)
+	 * @param null|int $language_id
 	 * @return array
 	 */
-	public function getDescriptions($table_name, $index) {
+	public function getDescriptions($table_name, $index, $language_id = null) {
 		if (empty($table_name) || empty($index)) return array();
 
 		$sel_index = array();
 		foreach ($index as $i => $v) {
 			if (has_value($v)) {
-				$sel_index[ ] = "$i = '" . $this->db->escape($v) . "'";
+				$sel_index[ ] = $i." = '" . $this->db->escape($v) . "'";
 			}
 		}
 		$sql = "SELECT * FROM " . DB_PREFIX . $table_name . " ";
 		$sql .= "WHERE " . implode(" AND ", $sel_index);
+		if( !is_null($language_id) ){
+			$sql .= " AND language_id=".(int)$language_id;
+		}
 		$query_result = $this->db->query($sql);
 
 		if ($query_result->num_rows) {
