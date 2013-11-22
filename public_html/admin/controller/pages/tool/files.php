@@ -131,7 +131,13 @@ class ControllerPagesToolFiles extends AController {
 			if ( $this->request->get[ 'attribute_type' ] == 'field' ) {
 				$this->loadModel('tool/file_uploads');
 				$attribute_data = $this->model_tool_file_uploads->getField($this->request->get['attribute_id']);
-			} else {
+			} elseif(strpos($this->request->get[ 'attribute_type' ],'AForm:')===0){
+				// for aform fields
+				$form_info = explode(':',$this->request->get[ 'attribute_type' ]);
+				$aform = new AForm('ST');
+				$aform->loadFromDb($form_info[1]);
+				$attribute_data = $aform->getField($form_info[2]);
+			}else {
 				$am = new AAttribute($this->request->get[ 'attribute_type' ]);
 				$attribute_data = $am->getAttribute($this->request->get['attribute_id']);
 			}

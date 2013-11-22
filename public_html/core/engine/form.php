@@ -320,7 +320,7 @@ class AForm {
 					'required' => $field[ 'required' ],
 					'name' => $field[ 'name' ],
 					'value' => $field[ 'value' ],
-					'settings' => has_value($field['settings']) ? unserialize($field['settings']) : '',
+					'settings' => $field['settings'],
 					'description' => $field[ 'description' ],
 				);
 			}
@@ -670,7 +670,7 @@ class AForm {
 					'date_added' => date("Y-m-d H:i:s", time()),
 					'name' => $file_path_info['name'],
 					'type' => $files[$field['field_name']]['type'],
-					'section' => 'AForm: '.$this->form[ 'form_name' ],
+					'section' => 'AForm:'.$this->form[ 'form_name' ].":".$field['field_name'],
 					'section_id' => '',
 					'path' => $file_path_info['path'],
 				)

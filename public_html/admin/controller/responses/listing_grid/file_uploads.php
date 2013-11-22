@@ -21,6 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridFileUploads extends AController {
+	public $data;
 	private $error = array ();
 
 	public function main() {
@@ -80,17 +81,18 @@ class ControllerResponsesListingGridFileUploads extends AController {
 				$k,
 				$result ['date_added'],
 				$result ['section'],
-				($result ['path'] ? '<a target="_blank" title="'.$this->language->get ( 'text_download' ).'" href="'.$this->html->getSecureUrl('tool/files/download','&filename='.urlencode($result ['name']) ).'&attribute_type=' . $result['section'] . '&attribute_id=' . $result['section_id'] . '">'.$result ['name'].'</a>': ''),
+				(is_file($result ['path']) ? '<a target="_blank" title="'.$this->language->get ( 'text_download' ).'" href="'.$this->html->getSecureUrl('tool/files/download','&filename='.urlencode($result ['name']) ).'&attribute_type=' . $result['section'] . '&attribute_id=' . $result['section_id'] . '">'.$result ['name'].'</a>': ''),
 			);
 
 			$i ++;
 		}
-
+		$this->data = $response; // for hook access
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($this->data));
 
 	}
 
