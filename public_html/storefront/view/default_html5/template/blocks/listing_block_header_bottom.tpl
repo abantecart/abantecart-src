@@ -49,7 +49,7 @@
 										<div class="pricenew"><?php echo $item['special']?></div>
 										<div class="priceold"><?php echo $item['price']?></div>
 									<?php } else { ?>
-										<div class="pricenew"><?php echo $item['price']?></div>
+										<div class="oneprice"><?php echo $item['price']?></div>
 									<?php } ?>
 				   </span>
 							<?php }
