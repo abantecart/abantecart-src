@@ -32,25 +32,30 @@ class ControllerPagesAccountDownload extends AController {
 
 			$this->redirect($this->html->getSecureURL('account/login'));
 		}
+         
+        //if disabled downloads redirect to 
+        if (!$this->config->get('config_download')) {
+        	$this->redirect($this->html->getSecureURL('account/account'));
+        }
          		
 		$this->document->setTitle( $this->language->get('heading_title') );
 
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('index/home'),
+        	'href'      => $this->html->getSecureURL('index/home'),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/account'),
+        	'href'      => $this->html->getSecureURL('account/account'),
         	'text'      => $this->language->get('text_account'),
         	'separator' => $this->language->get('text_separator')
       	 ));
 		
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/download'),
+        	'href'      => $this->html->getSecureURL('account/download'),
         	'text'      => $this->language->get('text_downloads'),
         	'separator' => $this->language->get('text_separator')
       	 ));
