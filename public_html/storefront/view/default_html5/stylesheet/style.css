@@ -966,16 +966,18 @@ ul.categorymenu > li ul > li img {
 	background-position: 0 -462px
 }
 
-.thumbnail .price {
-	float: right;
-	margin-right: 19px;
-	text-align: right
+.thumbnail .price .oneprice {
+	line-height: 35px;
+	vertical-align: middle;
+	font-size: 14px;
+	color: #5e626b;
+	font-weight: bold;
 }
 
 .thumbnail .price .pricenew {
 	font-size: 14px;
 	color: #5e626b;
-	font-weight: bold
+	font-weight: bold;
 }
 
 .thumbnail .price .priceold {

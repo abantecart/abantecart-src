@@ -324,7 +324,7 @@
 											<div class="pricenew"><?php echo $related_product['special'] ?></div>
 											<div class="priceold"><?php echo $related_product['price'] ?></div>
 										<?php } else { ?>
-											<div class="pricenew"><?php echo $related_product['price'] ?></div>
+											<div class="oneprice"><?php echo $related_product['price'] ?></div>
 										<?php } ?>
 									</div>
 								</li>

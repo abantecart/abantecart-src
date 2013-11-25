@@ -43,11 +43,13 @@
 	</a>
 	</li>
 	<?php echo $this->getHookVar('account_order_dash_icons'); ?>
+	<?php if ($this->config->get('config_download')) { ?>
 	<li>
 	<a title="<?php echo $text_download; ?>" data-toggle="tooltip" href="<?php echo $download; ?>" data-original-title="<?php echo $text_download; ?>">
 	<i class="icon-cloud-download"></i> <span class="badge badge-success"><?php echo $total_downloads; ?></span>
 	</a>
 	</li>
+	<?php } ?>
 	<li>
 	<a title="<?php echo $text_newsletter; ?>" data-toggle="tooltip" href="<?php echo $newsletter; ?>" data-original-title="<?php echo $text_newsletter; ?>">
 	<i class="icon-bullhorn"></i>
@@ -86,6 +88,7 @@
 			<div class="dash-tile-text"><?php echo $total_orders; ?></div>
 		</div>
 	</div>
+	<?php if ($this->config->get('config_download')) { ?>
 	<div class="span3">
 		<div class="dash-tile dash-tile-oil clearfix">
 			<div class="dash-tile-header">
@@ -98,6 +101,7 @@
 			<div class="dash-tile-text"><?php echo $total_downloads; ?></div>
 		</div>
 	</div>
+	<?php }?>
 	<div class="span3">
 		<div class="dash-tile dash-tile-balloon clearfix">
 			<div class="dash-tile-header">

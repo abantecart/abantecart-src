@@ -54,7 +54,7 @@
 								<div class="pricenew"><?php echo $product['special'] ?></div>
 								<div class="priceold"><?php echo $product['price'] ?></div>
 							<?php } else { ?>
-								<div class="pricenew"><?php echo $product['price'] ?></div>
+								<div class="oneprice"><?php echo $product['price'] ?></div>
 							<?php } ?>
 						</div>
 					</div>
@@ -121,7 +121,7 @@
 									<div class="pricenew"><?php echo $product['special'] ?></div>
 									<div class="priceold"><?php echo $product['price'] ?></div>
 								<?php } else { ?>
-									<div class="pricenew"><?php echo $product['price'] ?></div>
+									<div class="oneprice"><?php echo $product['price'] ?></div>
 								<?php } ?>
 							</div>
 						</div>
