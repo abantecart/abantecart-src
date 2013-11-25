@@ -658,7 +658,8 @@ class AForm {
 			$result = move_uploaded_file($files[$field['field_name']]['tmp_name'], $file_path_info['path']);
 
 			if($result){
-				$output[] = $file_path_info['path'];
+				$output[$field['field_name']] = array('display_name'=>$field['name'],
+													  'path'=>$file_path_info['path']);
 			}else{
 				$err = new AError("AForm error: can't to move uploaded file ".$files[$field['field_name']]['tmp_name']." to ".$file_path_info['path']);
 				$err->toLog()->toDebug();

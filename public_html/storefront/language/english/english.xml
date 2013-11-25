@@ -257,4 +257,8 @@
 		<key>error_captcha</key>
 		<value><![CDATA[Verification code does not match the image!]]></value>
     </definition>
+	<definition>
+		<key>entry_attached</key>
+		<value><![CDATA[Attached]]></value>
+    </definition>
 </definitions>

@@ -46,10 +46,16 @@ class ControllerPagesContentContact extends AController {
 	  		$mail->setFrom($this->request->post['email']);
 	  		$mail->setSender($this->request->post['first_name']);
 	  		$mail->setSubject(sprintf($this->language->get('email_subject'), $this->request->post['name']));
-	  		$mail->setText(strip_tags(html_entity_decode($this->request->post['enquiry'], ENT_QUOTES, 'UTF-8')));
-		    foreach($file_pathes as $path){
-		        $mail->addAttachment($path, pathinfo(str_replace(' ','_',$path),PATHINFO_BASENAME));
-		    }
+	  		$msg = $this->request->post['enquiry'];
+			if($file_pathes){
+				$msg .= "\r\n".$this->language->get('entry_attached').": \r\n";
+				foreach($file_pathes as $file_info){
+					$basename = pathinfo(str_replace(' ','_',$file_info['path']),PATHINFO_BASENAME);
+					$msg .= "\t" .$file_info['display_name'] . ': ' . $basename . " (". round(filesize($file_info['path'])/1024,2) ."Kb)\r\n";
+					$mail->addAttachment($file_info['path'], $basename);
+				}
+			}
+			$mail->setText(strip_tags(html_entity_decode($msg, ENT_QUOTES, 'UTF-8')));
       		$mail->send();
 		    //get success_page
 		    if($form['success_page']){
