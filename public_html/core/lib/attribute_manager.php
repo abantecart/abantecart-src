@@ -305,8 +305,7 @@ class AAttribute_Manager extends AAttribute {
 		}
 
 		$this->language->deleteDescriptions('global_attributes_value_descriptions', 
-											 array(	'attribute_value_id' => (int)$attribute_value_id, 
-											 		'language_id' => (int)$language_id )
+											 array(	'attribute_value_id' => (int)$attribute_value_id )
 											 );
         $this->clearCache();
 		return true;
