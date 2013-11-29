@@ -21,13 +21,44 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
-final class ACache { 
+final class ACache {
+	/**
+	 * @var int
+	 */
 	private $expire = 86400; //one day
+	/**
+	 * @var Registry
+	 */
 	private $registry;
+	/**
+	 * @var array
+	 */
 	private $empties = array();
+	/**
+	 * @var array
+	 */
 	private $exists = array();
+	/**
+	 * @var array
+	 */
+	private $cache_map = array();
+
   	public function __construct() {
-		$this->registry = Registry::getInstance ();		
+		$this->registry = Registry::getInstance ();
+		$cache_files = glob( DIR_CACHE. '*/*', GLOB_NOSORT);
+		foreach ($cache_files as $file) {
+			//fiest af all check if file expired and deleted it
+			$file_time = substr(strrchr($file, '.'), 1);
+			if ($file_time < time()) {
+				if (file_exists($file)) {
+					unlink($file);
+					continue;
+				}
+			}
+			//build cache map as array {cache_file_name_without_timestamp=>expire_time}
+			$ch_base = substr($file,0,-11);
+			$this->cache_map[$ch_base] = $file_time;
+		}
   	}
 
 	//force to get cache data based on params and ignore disable cache setting
@@ -43,34 +74,30 @@ final class ACache {
 			unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
 			return null;
 		}
-		//load all cache file names for the section (key)
+		//load cache file name for the section (key)
 		$cache_filename =  $this->_build_name($key, $language_id, $store_id);
-		$cache_files = glob( $cache_filename. '.*', GLOB_NOSORT);
-	
-		if ($cache_files) {
-    		foreach ($cache_files as $file) {
-    			//Check if file expired and deleted it
-    			$file_time = substr(strrchr($file, '.'), 1);
-      			if ($file_time < time()) {
-					if (file_exists($file)) {
-						unlink($file);
-						continue;
-					}
-      			}
-      			    			
-    			// remove timestamp with dot from the end of file name TODO: check this spike
-				$ch_base = substr($file,0,-11); 
-				if(strlen($cache_filename) == strlen($ch_base)){
-					$handle = fopen($file, 'r');
-					$cache = fread($handle, filesize($file));
-					fclose($handle);
-					$output = unserialize($cache);
-					$this->empties[$key.'_'.$language_id.'_'.$store_id] = !empty($output); // if not empty
-					$this->exists[$key.'_'.$language_id.'_'.$store_id] = true;
-					return $output;
-				}
-   		 	}
+		$cache_file_full_name = $cache_filename.'.'.$this->cache_map[$cache_filename];
+
+		//if file expired or not exists
+		if (!isset($this->cache_map[$cache_filename]) || $this->cache_map[$cache_filename] < time()) {
+			if (file_exists($cache_file_full_name)) {
+				unlink($cache_file_full_name);
+				unset($this->cache_map[$cache_filename]);
+				unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
+			}
+			return null;
+		}else{ // if all good
+			if(file_exists($cache_file_full_name)){
+				$handle = fopen($cache_file_full_name, 'r');
+				$cache = fread($handle, filesize($cache_file_full_name));
+				fclose($handle);
+				$output = unserialize($cache);
+				$this->empties[$key.'_'.$language_id.'_'.$store_id] = !empty($output); // if not empty
+				$this->exists[$key.'_'.$language_id.'_'.$store_id] = true;
+				return $output;
+			}
 		}
+
 		unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
 		return null;
   	}
@@ -91,7 +118,11 @@ final class ACache {
     			
 		if ($create_override || $this->registry->get('config')->get('config_cache_enable')){	
 			//build new cache file name
-			$file = $this->_build_name($key, $language_id, $store_id) . '.' . (time() + $this->expire);
+			$ch_base = $this->_build_name($key, $language_id, $store_id);
+			$timestamp = (time() + $this->expire);
+			$file =  $ch_base . '.' . $timestamp;
+			// write into cache map
+			$this->cache_map[$ch_base] = $timestamp;
 			//create subdirectory if needed
 			$this->_test_create_directory($key);
 			$handle = fopen($file, 'w');		
@@ -112,15 +143,19 @@ final class ACache {
   		}
 		if ($files) {
     		foreach ($files as $file) {
+				if(pathinfo($file,PATHINFO_FILENAME)=='index.html'){ continue; }
       			if (file_exists($file)) {      				
 					unlink($file);
+					//clear cache map
+					$ch_base = substr($file,0,-11);
+					unset($this->cache_map[$ch_base]);
 				}
     		}
 		}
   	}
   	
 	/**
-	 * funtion check is empty cache data. Look php empty() function for details
+	 * function check is empty cache data. Look php empty() function for details
 	 * @param string $key
 	 * @param string $language_id
 	 * @param string $store_id
