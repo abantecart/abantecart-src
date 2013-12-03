@@ -126,7 +126,7 @@ class ControllerPagesToolFiles extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		if ($this->user->canAccess('tool/files')) {
-			$filename = str_replace(array( '../', '..\\', '\\', '/' ), '', $this->request->get[ 'filename' ]);
+			$filename = str_replace(array( '../', '..\\', '\\', '/', ' ' ), '', $this->request->get[ 'filename' ]);
 
 			if ( $this->request->get[ 'attribute_type' ] == 'field' ) {
 				$this->loadModel('tool/file_uploads');
