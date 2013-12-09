@@ -476,11 +476,16 @@ CREATE TABLE `ac_downloads` (
   `download_id` int(11) NOT NULL AUTO_INCREMENT,
   `filename` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
   `mask` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `remaining` int(11) NOT NULL DEFAULT '0',
+  `max_downloads` int(11) DEFAULT NULL, -- remaining, NULL -> No limit 
+  `expire_days` int(11) DEFAULT NULL,  -- defalut to NULL -> No expiration
+  `sort_order` int(11) NOT NULL,  
+  `activate_order_status_id` int(11) NOT NULL DEFAULT '0', 
+  `shared` int(1) NOT NULL DEFAULT '0', -- if used by other products set to 1
+  `status` int(1) NOT NULL DEFAULT '0', -- in migration set to 1
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`download_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
-
 
 --
 -- DDL for table `download_descriptions`
@@ -493,6 +498,16 @@ CREATE TABLE `ac_download_descriptions` (
   PRIMARY KEY (`download_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+
+-- All data is taken from global attribute
+DROP TABLE IF EXISTS `ac_download_attribute_values`;
+CREATE TABLE `ac_download_attribute_values` (
+  `download_attribute_id` int(11) NOT NULL AUTO_INCREMENT,
+  `attribute_id` int(11) NOT NULL,
+  `download_id` int(11) NOT NULL,
+  `attribute_value_ids` text COLLATE utf8_bin  DEFAULT NULL,  -- serialized aray with value IDs
+  PRIMARY KEY (`download_attribute_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
 --
 -- DDL for table `extensions`
@@ -794,8 +809,43 @@ CREATE TABLE `ac_order_downloads` (
   `name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `filename` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
   `mask` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `remaining` int(3) NOT NULL DEFAULT '0',
+
+  `download_id` int(11) NOT NULL, 
+  `status` int(1) NOT NULL DEFAULT '0',
+  `remaining_count` int(11) DEFAULT NULL,
+  `expire_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00', 
+  `sort_order` int(11) NOT NULL, 
+  `activate_order_status_id` int(11) NOT NULL DEFAULT '0', 
+  `attributes_data` text COLLATE utf8_bin  DEFAULT NULL,  -- serialized values 
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
+
   PRIMARY KEY (`order_download_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+
+
+--
+-- DDL for table `ac_order_data`
+-- Table to keep other order details (future dev)
+--
+DROP TABLE IF EXISTS `ac_order_data`;
+CREATE TABLE `ac_order_data` (
+  `order_id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `data` text COLLATE utf8_bin DEFAULT NULL,  -- serialized values
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
+  PRIMARY KEY (`order_id`, `type_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DROP TABLE IF EXISTS `ac_order_data_types`;
+CREATE TABLE `ac_order_data_types` (
+  `type_id` int(11) NOT NULL AUTO_INCREMENT,
+  `language_id` int(11) NOT NULL,
+  `name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
+  PRIMARY KEY (`type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
 
