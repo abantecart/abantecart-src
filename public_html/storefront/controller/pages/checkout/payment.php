@@ -156,15 +156,14 @@ class ControllerPagesCheckoutPayment extends AController {
 			$method = $this->{'model_extension_' . $result[ 'key' ]}->getMethod($payment_address);
 			if ($method) {
 				$method_data[ $result[ 'key' ] ] = $method;
+				//# Add storefront icon if available
+				$icon = $ext_setgs[$result['key']."_payment_storefront_icon"];
+				if ( has_value( $icon ) ) {
+					$icon_data = $this->model_checkout_extension->getSettingImage($icon);
+					$icon_data['image'] =  $icon;
+					$method_data[ $result[ 'key' ] ]['icon'] = $icon_data;
+				}
 			}
-			
-			//# Add storefront icon if available
-			$icon = $ext_setgs[$result['key']."_payment_storefront_icon"];
-			if ( has_value( $icon ) && isset($method_data[ $result[ 'key' ] ])) {
-				$icon_data = $this->model_checkout_extension->getSettingImage($icon);
-				$icon_data['image'] =  $icon;
-				$method_data[ $result[ 'key' ] ]['icon'] = $icon_data;
-			}			
 		}
 
 		$this->session->data[ 'payment_methods' ] = $method_data;

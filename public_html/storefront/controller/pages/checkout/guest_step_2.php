@@ -113,16 +113,16 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 						'sort_order' => $quote['sort_order'],
 						'error'      => $quote['error']
 					);
+
+					//# Add storefront icon if available
+					$ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
+					$icon = $ext_setgs[$result['key']."_shipping_storefront_icon"];
+					if ( has_value( $icon ) ) {
+						$icon_data = $this->model_checkout_extension->getSettingImage($icon);
+						$icon_data['image'] =  $icon;
+						$quote_data[ $result[ 'key' ] ]['icon'] = $icon_data;
+					}
 				}
-				
-				//# Add storefront icon if available
-				$ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
-				$icon = $ext_setgs[$result['key']."_shipping_storefront_icon"];
-				if ( has_value( $icon ) ) {
-					$icon_data = $this->model_checkout_extension->getSettingImage($icon);
-					$icon_data['image'] =  $icon;
-					$quote_data[ $result[ 'key' ] ]['icon'] = $icon_data;
-				}				
 			}
 	
 			$sort_order = array();
@@ -153,15 +153,15 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 		    if ($method) {
 		    	$method_data[ $result['key'] ] = $method;
 		    	$method_data[ $result['key'] ]['extension_id'] = $result['extension_id'];
-		    }
 		    
-			//# Add storefront icon if available
-			$icon = $ext_setgs[$result['key']."_payment_storefront_icon"];
-			if ( has_value( $icon ) ) {
-				$icon_data = $this->model_checkout_extension->getSettingImage($icon);
-				$icon_data['image'] =  $icon;
-				$method_data[ $result[ 'key' ] ]['icon'] = $icon_data;
-			}			
+				//# Add storefront icon if available
+				$icon = $ext_setgs[$result['key']."_payment_storefront_icon"];
+				if ( has_value( $icon ) ) {
+					$icon_data = $this->model_checkout_extension->getSettingImage($icon);
+					$icon_data['image'] =  $icon;
+					$method_data[ $result[ 'key' ] ]['icon'] = $icon_data;
+				}
+			}
 		}
 		//sort payments 
 		$sort_order = array();

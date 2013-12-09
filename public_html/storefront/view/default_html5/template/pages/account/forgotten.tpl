@@ -3,7 +3,10 @@
 		<div class="left"></div>
 		<div class="right"></div>
 		<div class="center">
-			<h1><?php echo $heading_title; ?></h1>
+			<h1 class="heading1">
+				<span class="maintext"><i class=""></i><?php echo $heading_title; ?></span>
+				<span class="subtext"></span>
+			</h1>
 		</div>
 	</div>
 	<div class="middle">

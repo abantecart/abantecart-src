@@ -510,7 +510,7 @@ final class ADataEncryption {
 	*/	
 	public function getEcryptedFields( $table ){		
 		if ( has_value($this->enc_data) ) {
-			return $this->enc_data[ $table ]['fields'];
+			return (array)$this->enc_data[ $table ]['fields'];
 		}
 		return array();
 	}	
