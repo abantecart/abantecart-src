@@ -937,6 +937,30 @@ ul.categorymenu > li ul > li img {
 	background: #0e5f86 url(../image/prodcutcart.png) right 7px no-repeat;
 }
 
+.thumbnail a.call_for_order, .productpageprice a.call_for_order {
+	background: #00A1CB;
+	color: #fff;
+	padding: 8px;
+	max-width: 195px;
+	min-width: 112px;
+	font-size: 13px;
+	text-transform: uppercase;
+	border: none;
+	box-shadow: none;
+	text-shadow: none;
+	float: right;
+	margin: 5px 10px;
+}
+
+.thumbnail a.call_for_order {
+	text-align: right;
+	margin:0;
+}
+
+.thumbnail a.call_for_order i {
+	font-size: 18px;
+}
+
 .thumbnails>li.span3 {
 	min-width: 270px;
 }

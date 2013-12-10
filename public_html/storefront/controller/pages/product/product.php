@@ -115,6 +115,7 @@ class ControllerPagesProductProduct extends AController {
 			return;
 		}
 
+
 		$url = $this->_build_url();
 				    			
 		$this->view->assign('error', '' );
@@ -175,58 +176,9 @@ class ControllerPagesProductProduct extends AController {
 		                                              ));
 
 		$this->data['product_info'] = $product_info;
-		$product_price = $product_info['price'];
 
-		$discount = $promoton->getProductDiscount($product_id);
-		
-		if ($discount) {
-		    $product_price = $discount;
-		    $this->data['price_num'] = $this->tax->calculate(
-		    	$discount,
-		    	$product_info['tax_class_id'],
-				(bool)$this->config->get('config_tax')
-		    );
-		    $this->data['special'] = FALSE;
-		} else {
-		    $this->data['price_num'] = $this->tax->calculate(
-		    	$product_info['price'],
-		    	$product_info['tax_class_id'],
-				(bool)$this->config->get('config_tax')
-		    );
-		
-		    $special = $promoton->getProductSpecial($product_id);
-		
-		    if ($special) {
-		    	$product_price = $special;
-		    	$this->data['special_num'] =$this->tax->calculate(
-		    		$special,
-		    		$product_info['tax_class_id'],
-					(bool)$this->config->get('config_tax')
-		    	);
-		    } else {
-		    	$this->data['special'] = FALSE;
-		    }
-		}
 
-		$this->data['price'] = $this->currency->format($this->data['price_num']);
 
-		if ( isset($this->data['special_num']) ) {
-		    $this->data['special'] = $this->currency->format($this->data['special_num']);
-		}
-
-		$product_discounts = $promoton->getProductDiscounts($product_id);
-		
-		$discounts = array();
-		
-		foreach ($product_discounts as $discount) {
-		    $discounts[] = array(
-		    	'quantity' => $discount['quantity'],
-		    	'price'    => $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], (bool)$this->config->get('config_tax')))
-		    );
-		}
-        $this->data['discounts'] = $discounts;
-        $this->data['product_price'] = $product_price;
-        $this->data['tax_class_id'] = $product_info['tax_class_id'];
 
 		$form = new AForm();
 		$form->setForm(array( 'form_name' => 'product' ));
@@ -235,18 +187,75 @@ class ControllerPagesProductProduct extends AController {
 		    														   'type' => 'form',
 		    														   'name' => 'product',
 		    														   'action' => $this->html->getSecureURL('checkout/cart')));
+		if(!$product_info['call_for_order']){
+			$product_price = $product_info['price'];
 
-		$this->data['form']['minimum'] = $form->getFieldHtml( array(
-                                                            'type' => 'input',
-		                                                    'name' => 'quantity',
-		                                                    'value' => ( $product_info['minimum'] ? (int)$product_info['minimum'] : 1),
-		                                                    'style' => 'short',
-		                                                    'attr' => ' size="3" '));
-		$this->data['form'][ 'add_to_cart' ] = $form->getFieldHtml( array(
-                                                                'type' => 'button',
-		                                                        'name' => 'add_to_cart',
-		                                                        'text' => $this->language->get('button_add_to_cart'),
-		                                                        'style' => 'button1' ));
+			$discount = $promoton->getProductDiscount($product_id);
+
+			if ($discount) {
+				$product_price = $discount;
+				$this->data['price_num'] = $this->tax->calculate(
+					$discount,
+					$product_info['tax_class_id'],
+					(bool)$this->config->get('config_tax')
+				);
+				$this->data['special'] = FALSE;
+			} else {
+				$this->data['price_num'] = $this->tax->calculate(
+					$product_info['price'],
+					$product_info['tax_class_id'],
+					(bool)$this->config->get('config_tax')
+				);
+
+				$special = $promoton->getProductSpecial($product_id);
+
+				if ($special) {
+					$product_price = $special;
+					$this->data['special_num'] =$this->tax->calculate(
+						$special,
+						$product_info['tax_class_id'],
+						(bool)$this->config->get('config_tax')
+					);
+				} else {
+					$this->data['special'] = FALSE;
+				}
+			}
+
+			$this->data['price'] = $this->currency->format($this->data['price_num']);
+
+			if ( isset($this->data['special_num']) ) {
+				$this->data['special'] = $this->currency->format($this->data['special_num']);
+			}
+
+			$product_discounts = $promoton->getProductDiscounts($product_id);
+
+			$discounts = array();
+
+			foreach ($product_discounts as $discount) {
+				$discounts[] = array(
+					'quantity' => $discount['quantity'],
+					'price'    => $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], (bool)$this->config->get('config_tax')))
+				);
+			}
+			$this->data['discounts'] = $discounts;
+			$this->data['product_price'] = $product_price;
+			$this->data['tax_class_id'] = $product_info['tax_class_id'];
+
+			$this->data['form']['minimum'] = $form->getFieldHtml( array(
+																'type' => 'input',
+																'name' => 'quantity',
+																'value' => ( $product_info['minimum'] ? (int)$product_info['minimum'] : 1),
+																'style' => 'short',
+																'attr' => ' size="3" '));
+
+			$this->data['form'][ 'add_to_cart' ] = $form->getFieldHtml( array(
+																	'type' => 'button',
+																	'name' => 'add_to_cart',
+																	'text' => $this->language->get('button_add_to_cart'),
+																	'style' => 'button1' ));
+
+
+		}
 		$this->data['form'][ 'product_id' ] = $form->getFieldHtml( array(
                                                                 'type' => 'hidden',
 		                                                        'name' => 'product_id',
@@ -325,7 +334,9 @@ class ControllerPagesProductProduct extends AController {
 		    			}
 		    		}					
 		    	}
-		    	
+		    	if($product_info['call_for_order']){
+					$price = '-';
+				}
                 $values[$option_value['product_option_value_id']] = $option_value['name'] . ' ' . $price . ' ' . $opt_stock_message;
 		    }
 
@@ -474,14 +485,15 @@ class ControllerPagesProductProduct extends AController {
 		    					'rating'  		=> $rating,
 		    					'stars'   		=> sprintf($this->language->get('text_stars'), $rating),
 		    					'price'   		=> $price,
+								'call_for_order'=> $result['call_for_order'],
 		    					'options'   	=> $options,
 		    					'special' 		=> $special,
 		    					'image'   		=> $image,
 		    					'href'    		=> $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], '&encode'),
 		    					'add'    		=> $add
 		    );
-
 		}
+
         $this->data['related_products'] = $products;
 
 		if ($this->config->get('config_customer_price')) {

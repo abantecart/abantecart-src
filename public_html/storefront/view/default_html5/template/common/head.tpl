@@ -70,9 +70,8 @@ if (typeof jQuery == 'undefined') {
 <?php foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>"></script>
 <?php } ?>
-
-<?php if($cart_ajax){ //event for adding product to cart by ajax ?>
 <script type="text/javascript">
+<?php if($cart_ajax){ //event for adding product to cart by ajax ?>
     $('a.productcart').live('click',function(){
         var item = $(this);
         //check if href provided for product details access
@@ -105,5 +104,10 @@ if (typeof jQuery == 'undefined') {
         }
     return false;
 });
-</script>
 <?php }?>
+$('a.call_for_order').live('click',function(){
+	location='<?php echo $call_for_order_url;?>';
+	return false;
+});
+</script>
+

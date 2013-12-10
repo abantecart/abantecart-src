@@ -991,6 +991,7 @@ CREATE TABLE `ac_products` (
   `minimum` int(11) NOT NULL DEFAULT '1',
   `maximum` int(11) NOT NULL DEFAULT '0',
   `cost` DECIMAL(15,4) NOT NULL DEFAULT '0.0000',
+  `call_for_order` smallint NOT NULL default '0',
   PRIMARY KEY (`product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 

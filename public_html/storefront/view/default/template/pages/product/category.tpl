@@ -47,20 +47,27 @@
 							<img src="<?php echo $this->templateResource('/image/stars_' . $products[ $j ][ 'rating' ] . '.png'); ?>"
 							     alt="<?php echo $products[ $j ][ 'stars' ]; ?>"/>
 						</div>
-						<?php } ?>
-					<div class="price-add">
-						<?php if ($display_price) { ?>
-						<?php if (!$products[ $j ][ 'special' ]) { ?>
-							<span class="price"><?php echo $products[ $j ][ 'price' ]; ?></span>
-							<?php } else { ?>
-							<span class="regular-price"><?php echo $products[ $j ][ 'price' ]; ?></span> <span
-									class="special-price"><?php echo $products[ $j ][ 'special' ]; ?></span>
-							<?php } ?>
-						<?php } ?>
-						<a class="info" href="<?php echo $products[ $j ][ 'href' ]; ?>"></a>
-						<a class="buy" id="<?php echo $products[ $j ][ 'product_id' ]; ?>"
-						   href="<?php echo $products[ $j ][ 'add' ]; ?>" title="<?php echo $button_add_to_cart; ?>"></a>
-					</div>
+						<?php }
+						if(!$products[ $j ]['call_for_order']){ ?>
+							<div class="price-add">
+								<?php if ($display_price) { ?>
+								<?php if (!$products[ $j ][ 'special' ]) { ?>
+									<span class="price"><?php echo $products[ $j ][ 'price' ]; ?></span>
+									<?php } else { ?>
+									<span class="regular-price"><?php echo $products[ $j ][ 'price' ]; ?></span> <span
+											class="special-price"><?php echo $products[ $j ][ 'special' ]; ?></span>
+									<?php } ?>
+								<?php } ?>
+								<a class="info" href="<?php echo $products[ $j ][ 'href' ]; ?>"></a>
+								<a class="buy" id="<?php echo $products[ $j ][ 'product_id' ]; ?>"
+								   href="<?php echo $products[ $j ][ 'add' ]; ?>" title="<?php echo $button_add_to_cart; ?>"></a>
+							</div>
+						<?php }else{ ?>
+							<div class="price-add">
+								<a href="#" class="call_for_order"><span class="price"><?php echo $text_call_for_order;?></span></a>
+							</div>
+						<?php }?>
+
 					<br/>
 					<?php echo $products[ $j ][ 'buttons' ]; ?>
 					<?php } ?></td>

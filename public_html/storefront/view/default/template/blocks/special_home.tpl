@@ -47,6 +47,9 @@ if ($products) {
 			<?php if($item['rating']){ ?>
 				<div class="rating"><?php echo $item['rating']?></div>
 			<?php } ?>
+		<?php
+			if(!$product['call_for_order']){
+			?>
 			<div class="price-add">
 				<?php if ($display_price) { ?>
 					<?php if (!$products[$j]['special']) { ?>
@@ -55,9 +58,16 @@ if ($products) {
 					<span style="color: #900; font-weight: bold; text-decoration: line-through;"><?php echo $products[$j]['price']; ?></span> <span style="color: #F00;"><?php echo $products[$j]['special']; ?></span>
 				<?php } ?>
 				<span class="price"><?php echo $item['price']?></span>
-                <a class="info" href="<?php echo $item['info_url']?>"></a>
-                <a class="buy" id="<?php echo $product['product_id']?>" href="<?php echo $item['buy_url']?>"></a>
+				<a class="info" href="<?php echo $item['info_url']?>"></a>
+				<a class="buy" id="<?php echo $product['product_id']?>" href="<?php echo $item['buy_url']?>"></a>
 			</div>
+			<?php }else{ ?>
+				<div class="price-add">
+					<a href="#" class="call_for_order"><span class="price"><?php echo $text_call_for_order;?></span></a>
+					<a class="info" href="<?php echo $item['info_url']?>"></a>
+				</div>
+			<?php }?>
+
 		</div>
     <?php }?>
 <?php

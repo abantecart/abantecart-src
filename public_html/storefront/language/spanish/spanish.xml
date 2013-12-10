@@ -256,4 +256,8 @@
 		<key>entry_attached</key>
 		<value><![CDATA[Adjunto]]></value>
     </definition>
+	<definition>
+		<key>text_call_for_order</key>
+		<value><![CDATA[Llamar al orden]]></value>
+    </definition>
 </definitions>

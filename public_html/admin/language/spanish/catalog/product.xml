@@ -560,4 +560,12 @@
         <key>text_product_option_out_of_stock</key>
         <value><![CDATA[Opción del producto (s) Fuera de Stock]]></value>
     </definition>
+	<definition>
+        <key>text_call_for_order</key>
+        <value><![CDATA[Llamar al orden]]></value>
+    </definition>
+	<definition>
+        <key>entry_call_for_order</key>
+        <value><![CDATA[Bloquear Producto De Pedidos:<br/><span class="help">Esto pondrá producto a modo de mostrar sólo sin posibilidad de pedir. Póngase en contacto con nosotros por mensaje de pedido se visualizará. </span>]]></value>
+    </definition>
 </definitions>

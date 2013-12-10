@@ -79,7 +79,9 @@
 						<h1 class="productname"><span class="bgnone"><?php echo $heading_title; ?></span></h1>
 
 						<div class="productprice">
-							<?php if ($display_price) { ?>
+							<?php
+
+							if ($display_price && !$product_info['call_for_order']) { ?>
 								<div class="productpageprice">
 									<?php if ($special) { ?>
 										<div class="productfilneprice">
@@ -90,9 +92,17 @@
 												class="spiral"></span><?php echo $price; ?>
 									<?php } ?>
 								</div>
-							<?php } ?>
+							<?php }elseif($product_info['call_for_order']){ ?>
+								<div class="productpageprice">
+									<div class="productfilneprice">
+										<span class="spiral"></span></div>
+										<a data-id="<?php echo $product_info['product_id'] ?>" href="#"
+										   class="btn call_for_order"><?php echo $text_call_for_order?>&nbsp;&nbsp;<i class="icon-phone"></i></a>
+								</div>
 
-							<?php if ($average) { ?>
+							<?php }
+
+							if ($average) { ?>
 								<ul class="rate">
 									<?php
 									#Show stars based on avarage rating
@@ -143,7 +153,7 @@
 											<?php } ?>
 										</div>
 									<?php } ?>
-
+									<?php if(!$product_info['call_for_order']){ ?>
 									<div class="control-group mt20">
 										<div class="input-prepend input-append">
 											<span class="add-on"><?php echo $text_qty; ?></span>
@@ -162,12 +172,14 @@
 											<span class="total-price"></span>
 										</label>
 									</div>
+									<?php }?>
 
 									<div>
 										<?php echo $form['product_id'] . $form['redirect']; ?>
 									</div>
 
 									<div class="mt20 ">
+										<?php if(!$product_info['call_for_order']){ ?>
 										<ul class="productpagecart">
 											<li><a href="#" onclick="$(this).closest('form').submit(); return false;"
 												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
@@ -175,11 +187,12 @@
 										<a class="productprint btn btn-large" href="#"
 										   onclick="javascript:window.print()"><i
 													class="icon-print"></i> <?php echo $button_print; ?></a>
+										<?php }?>
 										<?php echo $this->getHookVar('buttons'); ?>
 									</div>
 								</fieldset>
 								</form>
-							<?php } else { ?>
+							<?php } elseif(!$product_info['call_for_order']) { ?>
 								<div class="control-group">
 									<label class="control-label">
 										<?php echo $text_login_view_price; ?>
@@ -311,6 +324,10 @@
 								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' alt='" . $related_product['stars'] . "' />" : '';
 								if (!$display_price) {
 									$related_product['price'] = $related_product['special'] = '';
+								}
+								if($related_product['call_for_order']){
+									$related_product['special'] = '';
+									$related_product['price'] = $text_call_for_order.'&nbsp;&nbsp;<i class="icon-phone"></i>';
 								}
 								?>
 								<li class="related_product">

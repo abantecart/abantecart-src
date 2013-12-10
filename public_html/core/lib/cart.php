@@ -124,7 +124,7 @@ final class ACart {
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
 
   	  	$product_query = $this->model_catalog_product->getProductDataForCart($product_id);
-  	  	if ( count($product_query) <= 0 ) {
+  	  	if ( count($product_query) <= 0 || $product_query['call_for_order']) {
   	  		return array();
   	  	}
   		$option_price = 0;

@@ -20,26 +20,28 @@
 			</div>
 			<div class="middle">
 				<div class="price-wrapper">
-					<?php if ($display_price) { ?>
+					<?php if (!$product_info['call_for_order'] && $display_price) { ?>
 					<?php if (!$special) { ?>
-						<span class="price"><?php echo $price; ?></span>
+
 						<?php } else { ?>
 						<span class="old_price"><?php echo $price; ?></span> <span
 								class="special_price"><?php echo $special; ?></span>
 						<?php } ?>
+					<?php }elseif($product_info['call_for_order']){ ?>
+						<a href="#" class="call_for_order"><span class="price"><?php echo $text_call_for_order; ?></span></a>
 					<?php } ?>
 
 					<?php echo $this->getHookVar('extended_product_options'); ?>
 
 				</div>
-				<div class="flt_right"><a class="btn_standard" onclick="javascript:window.print()"><span
-						class="button2"><span><img src="<?php echo $this->templateResource('/image/icon_print.png'); ?>"
-				                                   alt="print" /><?php echo $button_print; ?></span></span></a>
-				</div>
-				<br class="clr_both"/>
-
+				<?php if (!$product_info['call_for_order']){ ?>
+					<div class="flt_right"><a class="btn_standard" onclick="javascript:window.print()"><span
+							class="button2"><span><img src="<?php echo $this->templateResource('/image/icon_print.png'); ?>"
+													   alt="print" /><?php echo $button_print; ?></span></span></a>
+					</div>
+					<br class="clr_both"/>
+				<?php }?>
 				<div class="separator"></div>
-
 				<?php if ($display_price) { ?>
 					<?php echo $form['form_open'];
 
@@ -61,7 +63,7 @@
 					</table>
 					<?php } ?>
 
-					<?php if ($display_price) { ?>
+					<?php if ($display_price && !$product_info['call_for_order']) { ?>
 					<?php if ($discounts) { ?>
 						<b><?php echo $text_discount; ?></b><br/>
 						<table style="width: 100%;">
@@ -81,11 +83,11 @@
 					<?php } ?>
 
 					<table cellspacing="0" cellpadding="0" width="100%">
-						<tr>
-							<td><span style="float: left; margin-top: 3px;"><?php echo $text_qty;?></span><?php echo $form['minimum']; ?></td>
+						<?php if($form['minimum']){ ?>
+						<tr><td><span style="float: left; margin-top: 3px;"><?php echo $text_qty;?></span><?php echo $form['minimum']; ?></td>
 							<td align="right"><?php echo $form['add_to_cart'];?></td>
 						</tr>
-						<?php if ($minimum > 1) { ?>
+						<?php  if ($minimum > 1) { ?>
 						<tr>
 							<td colspan="2">
 								<small><?php echo $text_minimum; ?></small>
@@ -97,8 +99,8 @@
 							<td colspan="2">
 								<small><?php echo $text_maximum; ?></small>
 							</td>
-						</tr>
-						<?php } ?>
+						</tr><?php }
+						} ?>
 						<?php echo $this->getHookVar('buttons'); ?>
 					</table>
 
@@ -289,17 +291,25 @@
 						<a href="<?php echo $related_product[ 'href' ]; ?>"><?php echo $related_product['image'][ 'thumb_html' ] ?></a><br/>
 						<a href="<?php echo $related_product[ 'href' ]; ?>"><?php echo $related_product[ 'name' ]; ?></a><br/>
 						<span style="color: #999; font-size: 11px;"><?php echo $related_product[ 'model' ]; ?></span><br/>
-						<div class="price-add">
-						<?php if ($display_price) { ?>
-						<?php if (!$related_product[ 'special' ]) { ?>
-							<span style="color: #900; font-weight: bold;"><?php echo $related_product[ 'price' ]; ?></span>
-							<?php } else { ?>
-							<span style="color: #900; font-weight: bold; text-decoration: line-through;"><?php echo $related_product[ 'price' ]; ?></span>
-							<span style="color: #F00;"><?php echo $related_product[ 'special' ]; ?></span>
+						<?php if(!$related_product['call_for_order']){ ?>
+							<div class="price-add">
+							<?php if ($display_price) { ?>
+							<?php if (!$related_product[ 'special' ]) { ?>
+								<span style="color: #900; font-weight: bold;"><?php echo $related_product[ 'price' ]; ?></span>
+								<?php } else { ?>
+								<span style="color: #900; font-weight: bold; text-decoration: line-through;"><?php echo $related_product[ 'price' ]; ?></span>
+								<span style="color: #F00;"><?php echo $related_product[ 'special' ]; ?></span>
+								<?php } ?>
 							<?php } ?>
-						<?php } ?>
-						<a class="buy" id="<?php echo $related_product['product_id']?>" href="<?php echo $related_product[ 'add' ]?>" title="<?php echo $button_add_to_cart; ?>"></a>
-						</div>
+							<a class="buy" id="<?php echo $related_product['product_id']?>" href="<?php echo $related_product[ 'add' ]?>" title="<?php echo $button_add_to_cart; ?>"></a>
+							</div>
+						<?php }else{ ?>
+							<div class="price-add">
+								<a href="#" class="call_for_order"><span class="price"><?php echo $text_call_for_order;?></span></a>
+							</div>
+						<?php }?>
+
+
 						<br/>
 						<?php if ($related_product[ 'rating' ]) { ?>
 						<img src="<?php echo $this->templateResource('/image/stars_' . $related_product[ 'rating' ] . '.png'); ?>"

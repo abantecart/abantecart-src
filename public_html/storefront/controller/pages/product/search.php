@@ -240,6 +240,7 @@ class ControllerPagesProductSearch extends AController {
 						'stars'   => sprintf($this->language->get('text_stars'), $rating),
             			'thumb'   => $thumbnail,
             			'price'   => $price,
+						'call_for_order'=> $result['call_for_order'],
             			'options' => $options,
 						'special' => $special,
 						'href'    => $this->html->getSEOURL('product/product','&keyword=' . $this->request->get['keyword'] . $url . '&product_id=' . $result['product_id'], '&encode'),
@@ -440,4 +441,3 @@ class ControllerPagesProductSearch extends AController {
 		return $data;
 	}	
 }
-?>

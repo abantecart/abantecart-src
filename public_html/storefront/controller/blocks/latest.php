@@ -88,6 +88,7 @@ class ControllerBlocksLatest extends AController {
 				'rating'  		=> $rating,
 				'stars'   		=> sprintf($this->language->get('text_stars'), $rating),
 				'price'   		=> $price,
+				'call_for_order'=> $result['call_for_order'],
 				'options'   	=> $options,
 				'special' 		=> $special,
 				'thumb'   		=> $thumbnail,
