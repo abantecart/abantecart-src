@@ -62,7 +62,7 @@ class ControllerPagesInstall extends AController {
 		$fields = array( 'db_driver', 'db_host', 'db_user', 'db_password', 'db_name', 'db_prefix', 'username', 'password',
 			'password_confirm', 'email', 'admin_path',
 		);
-		$defaults = array( 'localhost', '', '', '', '', 'admin', '', '', '', 'your_admin' );
+		$defaults = array( '', 'localhost', '', '', '', '', 'admin', '', '', '', 'your_admin' );
 
 		foreach ($fields as $k => $field) {
 			if (isset($this->request->post[ $field ])) {
