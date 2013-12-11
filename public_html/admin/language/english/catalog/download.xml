@@ -2,11 +2,11 @@
 <definitions>
   <definition>
     <key>heading_title</key>
-    <value><![CDATA[Downloads]]></value>
+    <value><![CDATA[Shared Downloads]]></value>
   </definition>
   <definition>
     <key>text_download</key>
-    <value><![CDATA[Download]]></value>
+    <value><![CDATA[Shared Download]]></value>
   </definition>
   <definition>
     <key>insert_title</key>

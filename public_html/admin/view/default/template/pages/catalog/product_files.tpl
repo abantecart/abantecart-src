@@ -61,5 +61,22 @@
 
 <script type="text/javascript"><!--
 
+	$("#option_values_tbl a.expandRow").live('click', function () {
+		var additional_row = $(this).parent().parent().next().find('div.additionalRow');
+		if ($(additional_row).is(':visible')) {
+			$(additional_row).hide();
+			$(this).text(text.text_expand);
+			$(this).parent().parent().next().find('div.add_resource').html();
+		} else {
+			$(additional_row).show();
+			$(this).text(text.text_hide);
+			$('div.aform', additional_row).show();
+			setRLparams($(this).attr('id'));
+
+			loadMedia('image');
+		}
+
+		return false;
+	});
 
 //--></script>

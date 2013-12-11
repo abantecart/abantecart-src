@@ -23,15 +23,27 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ModelCatalogDownload extends Model {
 	public function addDownload($data) {
 		$this->db->query("INSERT INTO " . DB_PREFIX . "downloads
-      	                  SET remaining = '" . (int)$data[ 'remaining' ] . "', date_added = NOW()");
+        	              SET filename = '" . $this->db->escape($data[ 'download' ]) . "',
+        	                  mask = '" . $this->db->escape($data[ 'mask' ]) . "',
+      	                  	  max_downloads = '" . (int)$data[ 'max_downloads' ] . "',
+      	                  	  expire_days = '" . (int)$data[ 'expire_days' ] . "',
+      	                  	  sort_order = '" . (int)$data[ 'sort_order' ] . "',
+      	                  	  activate_order_status_id = '" . (int)$data[ 'activate_order_status_id' ] . "',
+      	                  	  status = '" . (int)$data[ 'status' ] . "',
+      	                  	  date_added = NOW()");
 
 		$download_id = $this->db->getLastId();
 
 		if (isset($data[ 'download' ])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "downloads
         	                  SET filename = '" . $this->db->escape($data[ 'download' ]) . "',
-        	                      mask = '" . $this->db->escape($data[ 'mask' ]) . "'
-        	                  WHERE download_id = '" . (int)$download_id . "'");
+	        	                  mask = '" . $this->db->escape($data[ 'mask' ]) . "'
+	      	                  	  max_downloads = '" . (int)$data[ 'max_downloads' ] . "',
+	      	                  	  expire_days = '" . (int)$data[ 'expire_days' ] . "',
+	      	                  	  sort_order = '" . (int)$data[ 'sort_order' ] . "',
+	      	                  	  activate_order_status_id = '" . (int)$data[ 'activate_order_status_id' ] . "',
+	      	                  	  status = '" . (int)$data[ 'status' ] . "'
+	        	              WHERE download_id = '" . (int)$download_id . "'");
 		}
 
 		foreach ($data[ 'download_description' ] as $language_id => $value) {
@@ -40,13 +52,15 @@ class ModelCatalogDownload extends Model {
 												 array($language_id => array('name' => $value[ 'name' ] )));
 		}
 
+		$this->addDownloadAttributes($download_id, $data);
+
 		return $download_id;
 	}
 
 	public function editDownload($download_id, $data) {
-		if (isset($data[ 'remaining' ])) {
+		if (isset($data[ 'max_downloads' ])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "downloads
-								SET remaining = '" . (int)$data[ 'remaining' ] . "'
+								SET max_downloads = '" . (int)$data[ 'max_downloads' ] . "'
 								WHERE download_id = '" . (int)$download_id . "'");
 		}
 
@@ -57,6 +71,7 @@ class ModelCatalogDownload extends Model {
       		                  SET `filename` = '" . $this->db->escape($data[ 'download' ]) . "',
       		                       mask = '" . $this->db->escape(basename($data[ 'mask' ])) . "'
       		                  WHERE `filename` = '" . $this->db->escape($filename) . "'");
+      		                  ///???? Need to be selecting off download id if available 1.1.8+
 		}
 
 		if (isset($data[ 'download' ])) {
@@ -80,11 +95,17 @@ class ModelCatalogDownload extends Model {
 				}
 			}
 		}
+		
+		if (!empty($data['download_attributes'])) {
+			$this->editDownloadAttributes($download_id, $data);
+		}
+		
 	}
 
 	public function deleteDownload($download_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "downloads WHERE download_id = '" . (int)$download_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "download_descriptions WHERE download_id = '" . (int)$download_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "download_attribute_values WHERE download_id = '" . (int)$download_id . "'");
 	}
 
 	public function getDownload($download_id) {
@@ -172,6 +193,21 @@ class ModelCatalogDownload extends Model {
 		}
 
 		return $download_description_data;
+	}
+
+	public function addDownloadAttributes($download_id, $data) {
+		//Add download attributes 
+		//?????
+	}
+
+	public function editDownloadAttributes($download_id, $data) {
+		//Update download attributes 
+		//?????
+	}	
+
+	public function getDownloadAttributes($download_id) {
+		//get download attributes based on download_attribute_values joined with global attributes and attributes_values
+		//??????
 	}
 }
 
