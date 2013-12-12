@@ -141,7 +141,7 @@ class ControllerPagesProductSpecial extends AController {
                     'rating'  		=> $rating,
                     'stars'   		=> sprintf($this->language->get('text_stars'), $rating),
                     'price'   		=> $price,
-					'call_for_order'=> $result['call_for_order'],
+					'call_to_order'=> $result['call_to_order'],
                     'options'   	=> $options,
                     'special' 		=> $special,
                     'thumb'   		=> $thumbnail,

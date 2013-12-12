@@ -20,21 +20,21 @@
 			</div>
 			<div class="middle">
 				<div class="price-wrapper">
-					<?php if (!$product_info['call_for_order'] && $display_price) { ?>
+					<?php if (!$product_info['call_to_order'] && $display_price) { ?>
 					<?php if (!$special) { ?>
 
 						<?php } else { ?>
 						<span class="old_price"><?php echo $price; ?></span> <span
 								class="special_price"><?php echo $special; ?></span>
 						<?php } ?>
-					<?php }elseif($product_info['call_for_order']){ ?>
-						<a href="#" class="call_for_order"><span class="price"><?php echo $text_call_for_order; ?></span></a>
+					<?php }elseif($product_info['call_to_order']){ ?>
+						<a href="#" class="call_to_order"><span class="price"><?php echo $text_call_to_order; ?></span></a>
 					<?php } ?>
 
 					<?php echo $this->getHookVar('extended_product_options'); ?>
 
 				</div>
-				<?php if (!$product_info['call_for_order']){ ?>
+				<?php if (!$product_info['call_to_order']){ ?>
 					<div class="flt_right"><a class="btn_standard" onclick="javascript:window.print()"><span
 							class="button2"><span><img src="<?php echo $this->templateResource('/image/icon_print.png'); ?>"
 													   alt="print" /><?php echo $button_print; ?></span></span></a>
@@ -63,7 +63,7 @@
 					</table>
 					<?php } ?>
 
-					<?php if ($display_price && !$product_info['call_for_order']) { ?>
+					<?php if ($display_price && !$product_info['call_to_order']) { ?>
 					<?php if ($discounts) { ?>
 						<b><?php echo $text_discount; ?></b><br/>
 						<table style="width: 100%;">
@@ -291,7 +291,7 @@
 						<a href="<?php echo $related_product[ 'href' ]; ?>"><?php echo $related_product['image'][ 'thumb_html' ] ?></a><br/>
 						<a href="<?php echo $related_product[ 'href' ]; ?>"><?php echo $related_product[ 'name' ]; ?></a><br/>
 						<span style="color: #999; font-size: 11px;"><?php echo $related_product[ 'model' ]; ?></span><br/>
-						<?php if(!$related_product['call_for_order']){ ?>
+						<?php if(!$related_product['call_to_order']){ ?>
 							<div class="price-add">
 							<?php if ($display_price) { ?>
 							<?php if (!$related_product[ 'special' ]) { ?>
@@ -305,7 +305,7 @@
 							</div>
 						<?php }else{ ?>
 							<div class="price-add">
-								<a href="#" class="call_for_order"><span class="price"><?php echo $text_call_for_order;?></span></a>
+								<a href="#" class="call_to_order"><span class="price"><?php echo $text_call_to_order;?></span></a>
 							</div>
 						<?php }?>
 

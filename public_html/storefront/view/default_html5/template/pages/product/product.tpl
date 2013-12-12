@@ -81,7 +81,7 @@
 						<div class="productprice">
 							<?php
 
-							if ($display_price && !$product_info['call_for_order']) { ?>
+							if ($display_price && !$product_info['call_to_order']) { ?>
 								<div class="productpageprice">
 									<?php if ($special) { ?>
 										<div class="productfilneprice">
@@ -92,12 +92,12 @@
 												class="spiral"></span><?php echo $price; ?>
 									<?php } ?>
 								</div>
-							<?php }elseif($product_info['call_for_order']){ ?>
+							<?php }elseif($product_info['call_to_order']){ ?>
 								<div class="productpageprice">
 									<div class="productfilneprice">
 										<span class="spiral"></span></div>
 										<a data-id="<?php echo $product_info['product_id'] ?>" href="#"
-										   class="btn call_for_order"><?php echo $text_call_for_order?>&nbsp;&nbsp;<i class="icon-phone"></i></a>
+										   class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;<i class="icon-phone"></i></a>
 								</div>
 
 							<?php }
@@ -153,7 +153,7 @@
 											<?php } ?>
 										</div>
 									<?php } ?>
-									<?php if(!$product_info['call_for_order']){ ?>
+									<?php if(!$product_info['call_to_order']){ ?>
 									<div class="control-group mt20">
 										<div class="input-prepend input-append">
 											<span class="add-on"><?php echo $text_qty; ?></span>
@@ -179,7 +179,7 @@
 									</div>
 
 									<div class="mt20 ">
-										<?php if(!$product_info['call_for_order']){ ?>
+										<?php if(!$product_info['call_to_order']){ ?>
 										<ul class="productpagecart">
 											<li><a href="#" onclick="$(this).closest('form').submit(); return false;"
 												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
@@ -192,7 +192,7 @@
 									</div>
 								</fieldset>
 								</form>
-							<?php } elseif(!$product_info['call_for_order']) { ?>
+							<?php } elseif(!$product_info['call_to_order']) { ?>
 								<div class="control-group">
 									<label class="control-label">
 										<?php echo $text_login_view_price; ?>
@@ -325,9 +325,9 @@
 								if (!$display_price) {
 									$related_product['price'] = $related_product['special'] = '';
 								}
-								if($related_product['call_for_order']){
+								if($related_product['call_to_order']){
 									$related_product['special'] = '';
-									$related_product['price'] = $text_call_for_order.'&nbsp;&nbsp;<i class="icon-phone"></i>';
+									$related_product['price'] = $text_call_to_order.'&nbsp;&nbsp;<i class="icon-phone"></i>';
 								}
 								?>
 								<li class="related_product">

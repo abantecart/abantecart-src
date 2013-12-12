@@ -46,7 +46,7 @@ $ctr++;
     <div class="description"><?php echo $item['description']?></div>
     <div class="rating"><?php echo $item['rating']?></div>
 	<?php
-	if(!$product['call_for_order']){
+	if(!$product['call_to_order']){
 	?>
 	<div class="price-add">
 		<span class="price"><?php echo $item['price']?></span>
@@ -55,7 +55,7 @@ $ctr++;
 	</div>
 	<?php }else{ ?>
 		<div class="price-add">
-			<a href="#" class="call_for_order"><span class="price"><?php echo $text_call_for_order;?></span></a>
+			<a href="#" class="call_to_order"><span class="price"><?php echo $text_call_to_order;?></span></a>
 			<a class="info" href="<?php echo $item['info_url']?>"></a>
 		</div>
 	<?php }?>

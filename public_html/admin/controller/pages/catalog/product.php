@@ -355,7 +355,7 @@ class ControllerPagesCatalogProduct extends AController {
 	                    'featured',
                         'product_store',
                         'model',
-                        'call_for_order',
+                        'call_to_order',
                         'sku',
                         'location',
                         'keyword',
@@ -598,12 +598,12 @@ class ControllerPagesCatalogProduct extends AController {
 	        'required' => false,
 		));
 
-		$this->data['form']['fields']['data']['call_for_order'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['data']['call_to_order'] = $form->getFieldHtml(array(
 				    'type' => 'checkbox',
-				    'name' => 'call_for_order',
-				    'value' => $this->data['call_for_order'],
+				    'name' => 'call_to_order',
+				    'value' => $this->data['call_to_order'],
 					'style'  => 'btn_switch',
-			        'help_url' => $this->gen_help_url('call_for_order')
+			        'help_url' => $this->gen_help_url('call_to_order')
 		));
 
         $this->data['form']['fields']['data']['price'] = $form->getFieldHtml(array(

@@ -257,7 +257,7 @@
 		<value><![CDATA[Adjunto]]></value>
     </definition>
 	<definition>
-		<key>text_call_for_order</key>
+		<key>text_call_to_order</key>
 		<value><![CDATA[Llamar al orden]]></value>
     </definition>
 </definitions>

@@ -187,7 +187,7 @@ class ControllerPagesProductProduct extends AController {
 		    														   'type' => 'form',
 		    														   'name' => 'product',
 		    														   'action' => $this->html->getSecureURL('checkout/cart')));
-		if(!$product_info['call_for_order']){
+		if(!$product_info['call_to_order']){
 			$product_price = $product_info['price'];
 
 			$discount = $promoton->getProductDiscount($product_id);
@@ -334,7 +334,7 @@ class ControllerPagesProductProduct extends AController {
 		    			}
 		    		}					
 		    	}
-		    	if($product_info['call_for_order']){
+		    	if($product_info['call_to_order']){
 					$price = '-';
 				}
                 $values[$option_value['product_option_value_id']] = $option_value['name'] . ' ' . $price . ' ' . $opt_stock_message;
@@ -485,7 +485,7 @@ class ControllerPagesProductProduct extends AController {
 		    					'rating'  		=> $rating,
 		    					'stars'   		=> sprintf($this->language->get('text_stars'), $rating),
 		    					'price'   		=> $price,
-								'call_for_order'=> $result['call_for_order'],
+								'call_to_order'=> $result['call_to_order'],
 		    					'options'   	=> $options,
 		    					'special' 		=> $special,
 		    					'image'   		=> $image,

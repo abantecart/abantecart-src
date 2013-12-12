@@ -11,7 +11,7 @@
 
 			$item['info_url'] = $product['href'];
 			$item['buy_url'] = $product['add'];
-			if ($product['call_for_order']) {
+			if ($product['call_to_order']) {
 				$display_price = false;
 			} else {
 				$display_price = $display_prices;
@@ -66,11 +66,11 @@
 							</div>
 						</div>
 					<?php
-					}elseif($product['call_for_order']){ ?>
+					}elseif($product['call_to_order']){ ?>
 						<div class="pricetag">
 							<span class="spiral"></span>
 							<a data-id="<?php echo $product['product_id'] ?>" href="#"
-							   class="btn call_for_order"><?php echo $text_call_for_order?>&nbsp;&nbsp;<i class="icon-phone"></i></a>
+							   class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;<i class="icon-phone"></i></a>
 						</div>
 
 					<?php }

@@ -991,7 +991,7 @@ CREATE TABLE `ac_products` (
   `minimum` int(11) NOT NULL DEFAULT '1',
   `maximum` int(11) NOT NULL DEFAULT '0',
   `cost` DECIMAL(15,4) NOT NULL DEFAULT '0.0000',
-  `call_for_order` smallint NOT NULL default '0',
+  `call_to_order` smallint NOT NULL default '0',
   PRIMARY KEY (`product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
@@ -7611,15 +7611,13 @@ CREATE TABLE `ac_global_attributes_types` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;	
 
 INSERT INTO `ac_global_attributes_types` (`attribute_type_id`, `type_key`, `controller`, `sort_order`, `status`) VALUES
-(1, 'product_option', 'responses/catalog/attribute/getProductOptionSubform', 1, 1);
+(1, 'product_option', 'responses/catalog/attribute/getProductOptionSubform', 1, 1),
+(2, 'download_attribute', 'Download Attribute', 'responses/catalog/attribute/getDownloadAttributeSubform', 2, 1);
 -- Future support for other attribute types
---(2, 'product_feature', 'Product Feature', '', 20, 1),
 --(3, 'category_attribute', 'Category Attribute', '', 30, 1),
 --(4, 'page_attribute', 'Page Attribute', '', 40, 1),
---(5, 'order_attribute', 'Order Attribute', '', 50, 1),
---(6, 'customer_attribute', 'Customer Attribute', '', 60, 1),
---(7, 'manufacturers_attribute', 'Manufacture Attribute', '', 70, 1),
---(8, 'download_attribute', 'Download Attribute', '', 10, 1);
+--(5, 'manufacturers_attribute', 'Manufacture Attribute', '', 70, 1),
+
 
 DROP TABLE IF EXISTS `ac_global_attributes_type_descriptions`;
 CREATE TABLE `ac_global_attributes_type_descriptions` (
@@ -7634,7 +7632,9 @@ PRIMARY KEY (`attribute_type_id`,`language_id`)
 INSERT INTO `ac_global_attributes_type_descriptions` (`attribute_type_id`, `language_id`, `type_name`, `create_date`)
 VALUES
 (1, 1, 'Product Option', NOW()),
-(1, 2, 'Opción del Producto', NOW())
+(1, 2, 'Opción del Producto', NOW()),
+(2, 1, 'Download Attribute', NOW()),
+(2, 2, 'Descargar Atributo', NOW())
 ;
 
 --

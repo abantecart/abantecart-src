@@ -522,11 +522,11 @@
         <value><![CDATA[Product Option(s) Out of Stock]]></value>
     </definition>
 	<definition>
-        <key>text_call_for_order</key>
-        <value><![CDATA[Call For Order]]></value>
+        <key>text_call_to_order</key>
+        <value><![CDATA[Call To Order]]></value>
     </definition>
 	<definition>
-        <key>entry_call_for_order</key>
+        <key>entry_call_to_order</key>
         <value><![CDATA[Block Product From Ordering:<br /><span class="help">This will put product to display mode only with no ability to order. Contact us for order message will be displayed.</span>]]></value>
     </definition>
 </definitions>

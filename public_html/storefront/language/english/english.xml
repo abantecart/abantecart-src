@@ -262,7 +262,7 @@
 		<value><![CDATA[Attached]]></value>
     </definition>
 	<definition>
-		<key>text_call_for_order</key>
-		<value><![CDATA[Call For Order]]></value>
+		<key>text_call_to_order</key>
+		<value><![CDATA[Call To Order]]></value>
     </definition>
 </definitions>

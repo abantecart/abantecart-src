@@ -46,7 +46,7 @@
 						<span class="model"><?php echo $products[$j]['model']; ?></span><br/>
 
 						<?php
-							if(!$products[$j]['call_for_order']){ ?>
+							if(!$products[$j]['call_to_order']){ ?>
 								<div class="price-add">
 									<?php if ($display_price) { ?>
 										<?php if (!$products[$j]['special']) { ?>
@@ -62,7 +62,7 @@
 								</div>
 							<?php }else{ ?>
 								<div class="price-add">
-									<a href="#" class="call_for_order"><span class="price"><?php echo $text_call_for_order;?></span></a>
+									<a href="#" class="call_to_order"><span class="price"><?php echo $text_call_to_order;?></span></a>
 								</div>
 							<?php }?>
 

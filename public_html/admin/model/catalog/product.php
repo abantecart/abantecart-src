@@ -206,7 +206,7 @@ class ModelCatalogProduct extends Model {
 			"ship_individually",
 			"free_shipping",
 			"shipping_price",
-			"call_for_order",
+			"call_to_order",
 			"price",
 			"cost",
 			"weight",

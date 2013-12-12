@@ -73,8 +73,8 @@ class ControllerResponsesListingGridProduct extends AController {
 			}
 
 
-			if($result['call_for_order']>0){
-				$price = $this->language->get('text_call_for_order');
+			if($result['call_to_order']>0){
+				$price = $this->language->get('text_call_to_order');
 			}else{
 				$price = $this->html->buildInput(
 								array(
@@ -145,7 +145,7 @@ class ControllerResponsesListingGridProduct extends AController {
 					}
 				break;
 			case 'save':
-				$fields = array( 'product_description', 'model', 'call_for_order', 'price', 'quantity', 'status' );
+				$fields = array( 'product_description', 'model', 'call_to_order', 'price', 'quantity', 'status' );
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					foreach ($ids as $id) {
@@ -216,7 +216,7 @@ class ControllerResponsesListingGridProduct extends AController {
 		}
 
 		//request sent from jGrid. ID is key of array
-		$fields = array( 'product_description', 'model', 'price', 'call_for_order', 'quantity', 'status' );
+		$fields = array( 'product_description', 'model', 'price', 'call_to_order', 'quantity', 'status' );
 		foreach ($fields as $f) {
 			if (isset($this->request->post[ $f ]))
 				foreach ($this->request->post[ $f ] as $k => $v) {
