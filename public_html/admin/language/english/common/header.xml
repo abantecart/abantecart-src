@@ -347,7 +347,7 @@
 	
 	<definition>
 		<key>text_voice_command_prompt</key>
-		<value><![CDATA[Voice Command Prompt]]></value>
+		<value><![CDATA[Voice Command Prompt. (beta)]]></value>
 	</definition>
 	<definition>
 		<key>text_voice_select_dialect</key>
@@ -383,7 +383,7 @@
 	</definition>
 	<definition>
 		<key>text_voice_not_supported</key>
-		<value><![CDATA[Voice control is not supported by this browser. Upgrade to <a href="//www.google.com/chrome">Chrome</a> version 25 or later.]]></value>
+		<value><![CDATA[Voice control is not supported by this browser. <a href="//www.google.com/chrome" target="_new">Chrome</a> version 25 or later required.]]></value>
 	</definition>
 
 </definitions>
