@@ -187,7 +187,7 @@ form {
 
 .gray_separator {
 	border-bottom: 1px solid #dedede;
-	height: 0	px;
+	height: 0px;
 	margin: 10px 0;
 }
 
@@ -960,6 +960,15 @@ ul.categorymenu > li ul > li img {
 .thumbnail a.call_to_order i {
 	font-size: 18px;
 }
+
+ul.productpagecart a.call_to_order{
+	background-image: none;
+	padding: 15px 15px 15px 16px;
+}
+ul.productpagecart a.call_to_order > i{
+	font-size: 26px;
+}
+
 
 .thumbnails>li.span3 {
 	min-width: 270px;

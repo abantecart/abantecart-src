@@ -47,8 +47,8 @@
 							<img src="<?php echo $this->templateResource('/image/stars_' . $products[ $j ][ 'rating' ] . '.png'); ?>"
 							     alt="<?php echo $products[ $j ][ 'stars' ]; ?>"/>
 						</div>
-						<?php }
-						if(!$products[ $j ]['call_to_order']){ ?>
+						<?php } ?>
+
 							<div class="price-add">
 								<?php if ($display_price) { ?>
 								<?php if (!$products[ $j ][ 'special' ]) { ?>
@@ -59,15 +59,13 @@
 									<?php } ?>
 								<?php } ?>
 								<a class="info" href="<?php echo $products[ $j ][ 'href' ]; ?>"></a>
-								<a class="buy" id="<?php echo $products[ $j ][ 'product_id' ]; ?>"
-								   href="<?php echo $products[ $j ][ 'add' ]; ?>" title="<?php echo $button_add_to_cart; ?>"></a>
-							</div>
-						<?php }else{ ?>
-							<div class="price-add">
-								<a href="#" class="call_to_order"><span class="price"><?php echo $text_call_to_order;?></span></a>
-							</div>
-						<?php }?>
 
+							<?php if(!$products[ $j ]['call_to_order']){ ?>
+								<a class="buy" id="<?php echo $products[ $j ][ 'product_id' ]; ?>" href="<?php echo $products[ $j ][ 'add' ]; ?>" title="<?php echo $button_add_to_cart; ?>"></a>
+							<?php }else{ ?>
+								<a href="#" class="call_to_order"><span class="price"><?php echo $text_call_to_order;?></span></a>
+							<?php }?>
+							</div>
 					<br/>
 					<?php echo $products[ $j ][ 'buttons' ]; ?>
 					<?php } ?></td>

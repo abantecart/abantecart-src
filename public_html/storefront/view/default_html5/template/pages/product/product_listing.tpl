@@ -1,6 +1,5 @@
 <ul class="thumbnails grid row">
 	<?php
-	$display_prices = $display_price;
 	foreach ($products as $product) {
 		$item = array();
 		$item['image'] = $product['thumb']['thumb_html'];
@@ -11,11 +10,6 @@
 		$item['info_url'] = $product['href'];
 		$item['buy_url'] = $product['add'];
 
-		if ($product['call_to_order']) {
-			$display_price = false;
-		} else {
-			$display_price = $display_prices;
-		}
 		if (!$display_price) {
 			$item['price'] = '';
 		}
@@ -52,10 +46,15 @@
 				</div>
 				<?php if ($display_price) { ?>
 					<div class="pricetag">
-						<span class="spiral"></span><a data-id="<?php echo $product['product_id'] ?>"
+						<span class="spiral"></span>
+						<?php if($product['call_to_order']){ ?>
+							<a data-id="<?php echo $product['product_id'] ?>" href="#"
+								   class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;<i class="icon-phone"></i></a>
+						<?php }else{ ?>
+							<a data-id="<?php echo $product['product_id'] ?>"
 													   href="<?php echo $item['buy_url'] ?>"
 													   class="productcart"><?php echo $button_add_to_cart ?></a>
-
+						<?php } ?>
 						<div class="price">
 							<?php if ($product['special']) { ?>
 								<div class="pricenew"><?php echo $product['special'] ?></div>
@@ -64,14 +63,11 @@
 								<div class="oneprice"><?php echo $product['price'] ?></div>
 							<?php } ?>
 						</div>
-					</div>
-				<?php } elseif($product['call_to_order']){ ?>
-					<div class="pricetag">
-						<span class="spiral"></span>
-						<a data-id="<?php echo $product['product_id'] ?>" href="#"
-						   class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;<i class="icon-phone"></i></a>
+
 					</div>
 				<?php } ?>
+
+
 			</div>
 		</li>
 	<?php

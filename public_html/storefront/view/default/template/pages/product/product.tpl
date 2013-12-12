@@ -20,27 +20,29 @@
 			</div>
 			<div class="middle">
 				<div class="price-wrapper">
-					<?php if (!$product_info['call_to_order'] && $display_price) { ?>
+					<?php if ($display_price) { ?>
 					<?php if (!$special) { ?>
-
+						<span class="price"><?php echo $price; ?></span>
 						<?php } else { ?>
-						<span class="old_price"><?php echo $price; ?></span> <span
-								class="special_price"><?php echo $special; ?></span>
-						<?php } ?>
-					<?php }elseif($product_info['call_to_order']){ ?>
-						<a href="#" class="call_to_order"><span class="price"><?php echo $text_call_to_order; ?></span></a>
-					<?php } ?>
+						<span class="old_price"><?php echo $price; ?></span>
+						<span class="special_price"><?php echo $special; ?></span>
+						<?php }
+					}?>
 
 					<?php echo $this->getHookVar('extended_product_options'); ?>
 
 				</div>
+				<div class="flt_right">
 				<?php if (!$product_info['call_to_order']){ ?>
-					<div class="flt_right"><a class="btn_standard" onclick="javascript:window.print()"><span
+					<a class="btn_standard" onclick="javascript:window.print()"><span
 							class="button2"><span><img src="<?php echo $this->templateResource('/image/icon_print.png'); ?>"
 													   alt="print" /><?php echo $button_print; ?></span></span></a>
-					</div>
-					<br class="clr_both"/>
+
+				<?php }else{?>
+					<a href="#" class="btn_standard call_to_order"><span class="button2"><span><?php echo $text_call_to_order; ?></span></span></a>
 				<?php }?>
+				</div>
+				<br class="clr_both"/>
 				<div class="separator"></div>
 				<?php if ($display_price) { ?>
 					<?php echo $form['form_open'];
@@ -63,7 +65,7 @@
 					</table>
 					<?php } ?>
 
-					<?php if ($display_price && !$product_info['call_to_order']) { ?>
+					<?php if ($display_price) { ?>
 					<?php if ($discounts) { ?>
 						<b><?php echo $text_discount; ?></b><br/>
 						<table style="width: 100%;">
@@ -291,7 +293,7 @@
 						<a href="<?php echo $related_product[ 'href' ]; ?>"><?php echo $related_product['image'][ 'thumb_html' ] ?></a><br/>
 						<a href="<?php echo $related_product[ 'href' ]; ?>"><?php echo $related_product[ 'name' ]; ?></a><br/>
 						<span style="color: #999; font-size: 11px;"><?php echo $related_product[ 'model' ]; ?></span><br/>
-						<?php if(!$related_product['call_to_order']){ ?>
+
 							<div class="price-add">
 							<?php if ($display_price) { ?>
 							<?php if (!$related_product[ 'special' ]) { ?>
@@ -301,13 +303,13 @@
 								<span style="color: #F00;"><?php echo $related_product[ 'special' ]; ?></span>
 								<?php } ?>
 							<?php } ?>
-							<a class="buy" id="<?php echo $related_product['product_id']?>" href="<?php echo $related_product[ 'add' ]?>" title="<?php echo $button_add_to_cart; ?>"></a>
-							</div>
-						<?php }else{ ?>
-							<div class="price-add">
+
+							<?php if(!$related_product['call_to_order']){ ?>
+								<a class="buy" id="<?php echo $related_product['product_id']?>" href="<?php echo $related_product[ 'add' ]?>" title="<?php echo $button_add_to_cart; ?>"></a>
+							<?php }else{ ?>
 								<a href="#" class="call_to_order"><span class="price"><?php echo $text_call_to_order;?></span></a>
 							</div>
-						<?php }?>
+							<?php }?>
 
 
 						<br/>

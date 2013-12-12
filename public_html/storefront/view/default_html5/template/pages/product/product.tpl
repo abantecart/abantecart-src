@@ -81,7 +81,7 @@
 						<div class="productprice">
 							<?php
 
-							if ($display_price && !$product_info['call_to_order']) { ?>
+							if ($display_price) { ?>
 								<div class="productpageprice">
 									<?php if ($special) { ?>
 										<div class="productfilneprice">
@@ -92,14 +92,6 @@
 												class="spiral"></span><?php echo $price; ?>
 									<?php } ?>
 								</div>
-							<?php }elseif($product_info['call_to_order']){ ?>
-								<div class="productpageprice">
-									<div class="productfilneprice">
-										<span class="spiral"></span></div>
-										<a data-id="<?php echo $product_info['product_id'] ?>" href="#"
-										   class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;<i class="icon-phone"></i></a>
-								</div>
-
 							<?php }
 
 							if ($average) { ?>
@@ -187,7 +179,11 @@
 										<a class="productprint btn btn-large" href="#"
 										   onclick="javascript:window.print()"><i
 													class="icon-print"></i> <?php echo $button_print; ?></a>
-										<?php }?>
+										<?php }else{?>
+											<ul class="productpagecart call_to_order">
+												<li><a href="#" class="call_to_order"><i class="icon-phone-sign"></i>&nbsp;&nbsp;<?php echo $text_call_to_order; ?></a></li>
+											</ul>
+										<?php } ?>
 										<?php echo $this->getHookVar('buttons'); ?>
 									</div>
 								</fieldset>
@@ -325,10 +321,10 @@
 								if (!$display_price) {
 									$related_product['price'] = $related_product['special'] = '';
 								}
-								if($related_product['call_to_order']){
+								/*if($related_product['call_to_order']){
 									$related_product['special'] = '';
 									$related_product['price'] = $text_call_to_order.'&nbsp;&nbsp;<i class="icon-phone"></i>';
-								}
+								}*/
 								?>
 								<li class="related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
