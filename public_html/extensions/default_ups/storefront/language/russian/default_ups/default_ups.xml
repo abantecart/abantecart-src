@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[United Parcel Service]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Вес:]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_01</key>
+    <value><![CDATA[ИБП Next Day Air]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_02</key>
+    <value><![CDATA[ИБП 2 День воздуха]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_03</key>
+    <value><![CDATA[Земля UPS]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_07</key>
+    <value><![CDATA[ИБП Worldwide Express]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_08</key>
+    <value><![CDATA[ИБП всему миру ускоренная]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_11</key>
+    <value><![CDATA[ИБП Стандартный]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_12</key>
+    <value><![CDATA[ИБП 3 день Выбрать]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_13</key>
+    <value><![CDATA[ИБП Next Day Air Saver]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_14</key>
+    <value><![CDATA[ИБП Next Day Air Ранний AM]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_54</key>
+    <value><![CDATA[ИБП Worldwide Express Plus]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_59</key>
+    <value><![CDATA[ИБП 2 День воздуха AM]]></value>
+  </definition>
+  <definition>
+    <key>text_us_origin_65</key>
+    <value><![CDATA[Вкладчик UPS]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_01</key>
+    <value><![CDATA[Экспресс UPS]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_02</key>
+    <value><![CDATA[UPS ускорил]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_07</key>
+    <value><![CDATA[ИБП Worldwide Express]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_08</key>
+    <value><![CDATA[ИБП всему миру ускоренная]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_11</key>
+    <value><![CDATA[ИБП Стандартный]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_12</key>
+    <value><![CDATA[ИБП 3 день Выбрать]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_13</key>
+    <value><![CDATA[Вкладчик UPS]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_14</key>
+    <value><![CDATA[Экспресс UPS Ранний AM]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_54</key>
+    <value><![CDATA[ИБП Worldwide Express Plus]]></value>
+  </definition>
+  <definition>
+    <key>text_ca_origin_65</key>
+    <value><![CDATA[Вкладчик UPS]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_07</key>
+    <value><![CDATA[ИБП Worldwide Express]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_08</key>
+    <value><![CDATA[ИБП всему миру ускоренная]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_11</key>
+    <value><![CDATA[ИБП Стандартный]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_54</key>
+    <value><![CDATA[ИБП Worldwide Express Plus]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_65</key>
+    <value><![CDATA[Вкладчик UPS]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_82</key>
+    <value><![CDATA[ИБП Сегодня Стандартный]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_83</key>
+    <value><![CDATA[ИБП Сегодня Посвящается Курьер]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_84</key>
+    <value><![CDATA[ИБП Сегодня межгород]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_85</key>
+    <value><![CDATA[ИБП Сегодня Экспресс]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_86</key>
+    <value><![CDATA[ИБП Сегодня Экспресс Saver]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_01</key>
+    <value><![CDATA[ИБП Next Day Air]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_02</key>
+    <value><![CDATA[ИБП 2 День воздуха]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_03</key>
+    <value><![CDATA[Земля UPS]]></value>
+  </definition>
+  <definition>
+    <key>text_eu_origin_14</key>
+    <value><![CDATA[ИБП Next Day Air Ранний AM]]></value>
+  </definition>
+  <definition>
+    <key>text_mx_origin_07</key>
+    <value><![CDATA[Экспресс UPS]]></value>
+  </definition>
+  <definition>
+    <key>text_mx_origin_08</key>
+    <value><![CDATA[UPS ускорил]]></value>
+  </definition>
+  <definition>
+    <key>text_mx_origin_54</key>
+    <value><![CDATA[ИБП Express Plus]]></value>
+  </definition>
+  <definition>
+    <key>text_mx_origin_65</key>
+    <value><![CDATA[Вкладчик UPS]]></value>
+  </definition>
+  <definition>
+    <key>text_other_origin_07</key>
+    <value><![CDATA[Экспресс UPS]]></value>
+  </definition>
+  <definition>
+    <key>text_other_origin_08</key>
+    <value><![CDATA[ИБП всему миру ускоренная]]></value>
+  </definition>
+  <definition>
+    <key>text_other_origin_11</key>
+    <value><![CDATA[ИБП Стандартный]]></value>
+  </definition>
+  <definition>
+    <key>text_other_origin_54</key>
+    <value><![CDATA[ИБП Worldwide Express Plus]]></value>
+  </definition>
+  <definition>
+    <key>text_other_origin_65</key>
+    <value><![CDATA[Вкладчик UPS]]></value>
+  </definition>
+</definitions>

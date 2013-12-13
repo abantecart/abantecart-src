@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Корзина]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Корзина]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[Итого:]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Корзина Вес:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Ваша корзина пуста!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[Удалять]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Изображение]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Название]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Модель]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Количество]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Цена за штуку]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Общий]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[Продолжить покупки]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[Применить Купон]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[Пересылка &amp; Налоги]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[Страна и государство]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[ZIP / Почтовый индекс]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[Оценка]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[Отгрузки]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Ошибка: Купон либо недействительным, истек или достиг своего предела использование!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[Продукты, отмеченные *** не доступны в нужном количестве или нет в наличии!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[Пожалуйста, выберите все необходимые параметры!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[Ваш заказ суб-Общая сумма не соответствует минимальное количество %s требуется. Пожалуйста, добавьте больше продуктов в корзину!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[Ваш заказ Промежуточный итог сумма превышает максимальное количество %s позволило за заказ. Пожалуйста, удалите некоторые элементы из корзины!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[Данные файл поврежден или пуст.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[Имя файла пуст!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[Только файлы с расширением (ы) %s (ются) допускается!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[Минимальный размер файла для загрузки является %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[Максимальный размер файла для загрузки является %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[Успех: Ваш купон скидки был применен!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Длина Classess]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Длина класс]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Вы изменили классы длины!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Длина Название]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Длина Единица]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Значение]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Действие]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Длина Название:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Длина штуку:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Значение: <br /> <span class="help">Установите в 1,00000, если это ваша длина по умолчанию.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение классы длины!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Длина Название должно быть между 2 и 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Длина блока должна быть от 1 до 4 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Предупреждение: Этот класс Длина не может быть удален, так как в настоящее время назначен класса длиной магазин по умолчанию!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Предупреждение: Этот класс Длина не может быть удален, так как в настоящее время назначены %s продукты!]]></value>
+  </definition>
+</definitions>

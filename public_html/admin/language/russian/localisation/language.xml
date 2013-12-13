@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Языки]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Язык]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Вы изменили языки!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Название языка]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Код]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Сортировку]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Действие]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Название языка:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Код: <br /> <span class="help">Не изменяйте, если это ваш язык по умолчанию.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_locale</key>
+    <value><![CDATA[Язык:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Изображение:]]></value>
+  </definition>
+  <definition>
+    <key>entry_directory</key>
+    <value><![CDATA[Каталог:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Имя файла:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Порядок сортировки:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение языков!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Название языка должно быть между 2 и 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Код языка должны не менее 2 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_locale</key>
+    <value><![CDATA[Язык не требуется!]]></value>
+  </definition>
+  <definition>
+    <key>error_image</key>
+    <value><![CDATA[Изображение Супер должна быть от 2 до 64 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[Каталог требуется!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Супер должна быть от 2 до 64 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Предупреждение: Этот язык не может быть удален, так как в настоящее время назначен магазине умолчанию языка по!]]></value>
+  </definition>
+  <definition>
+    <key>error_admin</key>
+    <value><![CDATA[Предупреждение: Данное Язык не может быть удален, так как в настоящее время назначен в качестве языка администрации!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Предупреждение: Этот язык не может быть удален, так как в настоящее время назначены %s магазины!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Предупреждение: Этот язык не может быть удален, так как в настоящее время назначены %s заказы!]]></value>
+  </definition>
+  <definition>
+    <key>language_edit_title</key>
+    <value><![CDATA[Изменить сведения Язык]]></value>
+  </definition>
+  <definition>
+    <key>load_language_title</key>
+    <value><![CDATA[Загрузите данные пропавшего язык]]></value>
+  </definition>
+  <definition>
+    <key>load_language_data_txt</key>
+    <value><![CDATA[Источник Язык:]]></value>
+  </definition>
+  <definition>
+    <key>language_translate_method_txt</key>
+    <value><![CDATA[Метод Перевод текста:]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[ПРИМЕЧАНИЕ: Эта операция может занять несколько минут, чтобы запустить. Не закрывайте браузер, оставить или обновите страницу!]]></value>
+  </definition>
+  <definition>
+    <key>create_language_note</key>
+    <value><![CDATA[ПРИМЕЧАНИЕ: Мы рекомендуем язык создания как расширение. Проверьте существующие расширения языка. Если вы все еще хотите, чтобы создать новый язык вручную, необходимо добавить язык Отметить для администратора / языка / [Язык каталог] / flag.png и витрины / язык / [Язык Каталог] flag.png После язык создается данные языковые нагрузки хватает для перевести или скопировать содержание текста с языка оригинала.]]></value>
+  </definition>
+  <definition>
+    <key>button_load_language</key>
+    <value><![CDATA[Нагрузка]]></value>
+  </definition>
+</definitions>

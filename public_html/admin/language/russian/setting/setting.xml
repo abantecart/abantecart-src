@@ -1,0 +1,759 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Настройки]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[Магазин]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Группа]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[Ключ]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Значение]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Вы успешно сохранили свои настройки!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Диспетчер]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Выбор группы -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Дефолт]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[Изменить настройки:]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Редактировать магазин]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[Почта]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[Все]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Название магазина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Сохранение URL: <br /> <span class="help">Включите полный URL в ваш магазин. Убедитесь в том, чтобы добавить &#39;/&#39; в конце. Пример: http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[Владелец магазина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[Адрес:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-Mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[Дополнительные Бдительные электронная почта: <br /> <span class="help">Любые дополнительные электронные письма, которые вы хотите получить уведомление по электронной почте, в дополнение к основной магазине электронной почте. (Разделенные запятой)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Телефон:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Факс:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Название: <br /> <span class="help">Это отображается в названии браузера витрины</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Мета-тегов Описание: <br /> <span class="help">Витрина главную страницу мета-тег описания</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Meta Keywords: <br /> <span class="help">Storefront Главная мета-тег ключевых слов (разделенные запятой)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Добро пожаловать сообщение:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Шаблон: <span class="help">Шаблон витрина. Это может быть основной или расширение шаблон</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[Шаблон Панель управления:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Страна:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Регион / Штат:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Витрина Язык:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[Администрация Язык:]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[Валюта: <span class="help">ПРИМЕЧАНИЕ: Изменение Базовая валюта не конвертировать все цены на продукцию</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[Автоматическое обновление Валюта: <br /> <span class="help">Установите магазин для автоматического обновления валюты ежедневно. Yahoo сервер используется.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Вес Класс:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Длина Класс:]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[AutoTranslate Статус: <br /> <span class="help">Это позволило перевод недостающих определений текстовых или языковых данных конкретных если текстовые значения отсутствуют для используемого языка.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[Исходный язык для перевода: <br /> <span class="help">Выберите исходный язык, который будет использоваться для автоперевод.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[Перевод текста Метод: <br /> <span class="help">Выберите метод, который вы хотите использовать для перевода. Метод по умолчанию является прямой копией текста исходного языка</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[Перекрыть если текст исходного языка было изменено: <br /> <span class="help">Если установлено, текст на всех языках будет заменен новым переводом, если текст исходного языка редактируется. ПРИМЕЧАНИЕ: Может вызвать много переводов.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[Предупреждать пропавшего текста языка: <br /> <span class="help">Получить предупреждающее сообщение, если текст отсутствует язык обнаружено.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Дисплей цены с НДС:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[По умолчанию магазин Налоговая ставка:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[Нет Налоговый]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[Магазин умолчанию зона]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[Используйте клиентов Налоговый адрес:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[Адрес доставки]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[Адрес для выставления счета]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[Счет Старт №: <br /> <span class="help">Установите стартовый номер счета-фактуры будут начинаться от.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[Счет префикс: <br /> <span class="help">Установите счета префикс например IN/001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Группа клиентов: <br /> <span class="help">Группа клиентов умолчанию.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[Вход Показать цены: <br /> <span class="help">Показать цены, даже если клиент не зашли</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[Утвердить новых клиентов: <br /> <span class="help">Не позволяйте новый клиент для входа, пока их счет не был одобрен.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[Требовать Имя: <br /> <span class="help">Для повышения безопасности, требуют от клиентов, чтобы создать уникальный логин вместо использования электронной почты в качестве логина. Если функция включена, существующие клиенты будут предложено создать новый логин при первом входе в систему. Если OFF, Войти Имя установлен как электронная почта клиентов адресу.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[Гость заказ: <br /> <span class="help">Позвольте клиентам пойти в кассу без создания учетной записи. Это не будет доступна, когда загружаемое продукт в корзине.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[Данные Условия: <br /> <span class="help">Заставляет людей согласиться на условия, прежде чем счет может быть создан.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[Оформить заказ Условия: <br /> <span class="help">Заставляет людей согласиться на условия, прежде чем клиент может оформить.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[Статус заказа: <br /> <span class="help">Установить статус по умолчанию, когда заказ будет обработан.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[Дисплей Наличие на складе: <br /> <span class="help">Дисплей количество штока на странице продукта.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[Нет со Авто отключение: <br /> <span class="help">Отключите ваш продукт или значение опции для просмотра, если акция падает до 0. Уведомление Сообщение будет отправлено</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[Фото со заказ: <br /> <span class="help">Позвольте клиентам еще в кассу, если продукты они заказывают нет на складе.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Состояние запасов: <br /> <span class="help">Значение по умолчанию для из сообщения склада для продукта. Используется на редактирования странице продукта.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[Магазин Логотип:]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[Иконка: <br /> <span class="help">Значок может быть PNG или тип значок, который 16px х 16px.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[Ширина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[Высота:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[Изображение Размер картинок:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[Изображение Thumb ширина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[Изображение Thumb Рост:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[Изображение всплывающих Размер:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[Большой окне предварительного просмотра Ширина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[Большой окне предварительного просмотра Рост:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[Список категорий Размер:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[Список категорий ширина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[Список категорий Рост:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[Список продуктов Размер:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[Список продуктов Рост:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[Список Ширина изделия:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[Дополнительная Размер Изображение:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[Дополнительная Ширина изделия изображения:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[Дополнительный Ассортимент Высота изображения:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[Связанные Размер Изображение:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[Связанные Ширина изделия изображения:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[Родственный продукт Высота изображения:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[Размер Корзина изображения:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[Корзина Ширина изображения:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[Корзина Высота изображения:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[Размер сетки изображения:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[Сетка Ширина изображения:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[Сетка Высота изображения:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[Почтового предупреждения: <br /> <span class="help">Отправить сообщение владельцу магазина, когда новый порядок создается.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[Разрешить скачивание:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[Скачать статуса заказа: <br /> <span class="help">Установите статус заказа порядок клиенты должны достичь прежде чем они могут получить доступ к своим загружаемых продуктов.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[Протокол Mail: <span class="help">Mail: Основной сервер почтовый сервер будет использоваться. Убедитесь, что он настроен и способен посылать почту с PHP почте.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[Почтовые Параметры: <span class="help">При использовании &#39;Почта&#39;, дополнительные параметры почты могут быть добавлены здесь (например, &quot;-Femail @ storeaddress.com&quot;.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[SMTP хоста: <br /> <span class="help">Использовать SSL :/ / smtp.yourdomain.com для безопасного соединения SMTP</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[SMTP Имя пользователя:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[Пароль SMTP:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[SMTP порт:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[Время ожидания для SMTP:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Используйте SSL: <br /> <span class="help">Для использования проверки SSL с вашего хоста, если установлен сертификат SSL.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[Панель управления сессии годности: <br /> <span class="help">Эта величина определяет временной интервал в минутах, прежде чем будет предложено войти снова из-за отсутствия активности.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[Ключ шифрования: <br /> <span class="help">Пожалуйста, секретный ключ, который будет использоваться для шифрования конфиденциальной информации при обработке заказов.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[Использование SEO URL &#39;s: <br /> <span class="help">Для использования модуля Apache мод-переписать SEO URL должны быть установлены, и вы должны переименовать htaccess.txt в. Htaccess.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[Уровень выходного сжатия: <br /> <span class="help">GZIP для более эффективного перехода к запрашивающим клиентам. Уровень сжатия должно быть между 0 - 9</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[Показать ошибки: <br /> <span class="help">Установите да, если вы хотите увидеть исключения и ошибки</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[Войти ошибки: <br /> <span class="help">Установите да, если вы хотите сохранить исключения и ошибки в журнал</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[Включить Отзывы: <br /><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[Включен Кэш: <br /> <span class="help">Пожалуйста, будьте осторожны, когда отключает кэширование. Сохраненная копия страницы не будут воссозданы и сайт может начать загрузку медленно.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[Витрина API положение:]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[Витрина ключ API: <br /> <span class="help">Установите этот ключ, чтобы обеспечить ограниченный (более безопасный) доступ к электронной витрины API.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[Витрина API со доступа: <br /> <span class="help">Включить, если вы позволите магазина API, чтобы проверить наличие штока</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[Админ API положение:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[Админ ключ API: <br /> <span class="help">Установите этот ключ, чтобы обеспечить ограниченный (более безопасный) доступ к админ-API.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[IP-адреса Админ API доступа: <br /> <span class="help">Обеспечить список IP-адресов (через запятую), которые будут разрешен доступ администратора API. Другие IP-адреса будут заблокированы</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[Библиотека ресурсов Загрузить Max Размер файла, Кб]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[Показать Debug информация: <br /> <span class="help">Установите ПО, если вы хотите, чтобы увидеть детали исполнения и показать отладочные данные.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[От]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[Шоу]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[Вход]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[Уровень отладки: <br /> <span class="help">Выберите глубину деталей, которые нужно увидеть в выводе отладки.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[Уровень 0 - нет бревна, только исключения ошибок]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[Уровень 1 - ошибки и предупреждения]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[Уровень 2 - # 1 + нагрузки MySQL сайт, время выполнения PHP-файлов и элементы страницы загрузки время]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[Уровень 3 - № 2 + основные журналы и стек исполнения]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[Уровень 4 - # 3 + заявления свалка MySQL]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[Уровень 5 - # + промежуточную переменную 4]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[Шаблон отладки: <br /> <span class="help">Включите этот параметр, если вам нужно проверить вопросы с шаблоном в витрины и панели управления.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[Журнал ошибок Имя файла: <br /> <span class="help">Это файл, где ошибки сохраняются.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[Используйте Доставка Сессия: <br /> <span class="help">Сохраняет доставки котировки сессии, чтобы избежать повторного цитируя излишне. Цитаты будет вновь цитирует только если корзина или адрес меняется.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[По умолчанию Предметов на странице (Storefront): <br /> <span class="help">Наборы сколько витрины элементы отображаются на странице (продукты, категории и т.д.)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[По умолчанию Предметов на странице (администратора): <br /> <span class="help">Наборы сколько администратора элементы, показанные на странице в листинге сетки (заказов, клиенты и т.д.)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[Количество пунктов в бестселлер блока]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[Всего новостей в Лучшее блока]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[Всего новостей в последней блока]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[Количество пунктов в специальный блок]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[Дисплей Вес на корзину Страница: <br /> <span class="help">Показать тележки вес на странице заказа</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[Разрешить Отзывы: <br /> <span class="help">Включение / выключение новую запись обзор и отображение существующих обзоров</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[Режим обслуживания: <br /> <span class="help">Предотвращает клиентов от просмотра вашего магазина. Вместо этого они будут видеть сообщение обслуживания. Если войти в систему как администратор, вы увидите магазин, как обычно.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[Управление голосом: <br /> <span class="help">Включить администратора голосового управления для активации голосовых команд имеют. В настоящее время поддерживается только в Chrome версии 25 или более поздней версии.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[Помощь Ссылки: <br /> <span class="help">Если вы хотите увидеть Иконки помощи и ссылки на сайт AbanteCart. Это поможет вам узнать об особенностях и как их использовать. Если вы расширенный пользователя и не хочу, чтобы эти справки иконы, вы можете отключить.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[Включить Tree сетки: <br /> <span class="help">Позволяет администратора сетки, чтобы показать родительские / дети типов в одном сетки листинга. ПРИМЕЧАНИЕ: Разбивка на страницы и мульти-действия отключена для этих сетей</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[То же самое: добавить в корзину: <br /> <span class="help">Это позволит AJAX добавить в корзину функции. Продукт может быть добавлен в корзину без перенаправления в корзину странице</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[Витрина сайта Ширина: <br /> <span class="help">Пример: 100% или 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[Админ сайта Ширина: <br /> <span class="help">Пример: 100% или 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[Максимальная сумма заказа допускаются: <br /> <span class="help">Предотвратить выезд с большими порядка Итого количествах. не 0 = без ограничений</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[Минимальный заказ: <br /> <span class="help">Предотвратить выезд если заказ Промежуточный итог не достигает минимального набора сумму. 0 = НЕТ МИНИМУМ</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Новый магазин]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение настроек!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Войти Имя должно быть буквенно-цифровой только и от 5 до 64 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Это имя Логин не доступен. Попробуйте другое имя для входа!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Название магазина должна быть от 2 до 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[URL магазин требуется!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Название должно быть между 2 и 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[Владелец магазина должен быть от 2 до 64 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Адрес магазина должна быть от 10 до 256 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-Mail, кажется, не действует!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Телефон должен быть от 2 до 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Размеры Изображение Thumb Размер требуется!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Размеры продукта картинка Всплывающее Размер требуется!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Размеры Список категорий Размер требуется!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Размеры Список продуктов Размер требуется!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Размеры Размер изображения Дополнительная товаров требуется!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Похожие размеры Размер изображения продукта требуется!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Размеры Размер Корзина изображения требуется!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Размеры размер сетки изображения требуется!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[Журнал ошибок Супер требуется!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Данные, необходимые не был введен. Проверьте наличие ошибок полевых!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[Загруженный файл %s не образ и не сломаны!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Ограничение требуется!]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[Store Front]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[Админ]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[Пожалуйста, заполните необходимые поля для SMTP-протокола!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[Продукта сортировку Низкие&gt; Высокие]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Имени А - Я]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Имя Я - А]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Низкие&gt; Высокие]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Цена высокая&gt; низкая]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[Самая низкая оценка]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[Рейтинг Лидеры]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Дата Старый&gt; Новый]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Дата Новые&gt; Старые]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[Сортировать продукты как дефолта:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[Показать нулевой баланс клиентов: <br /> <span class="help">Примечание: Включить / выключить вывод на экран баланса сообщения, если счета клиента баланс 0</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[Доставка и налоги Оценка: <br /> <span class="help">Разрешить клиентам получить быструю перевозку груза и налогового оценку в корзине. (HTML5 шаблон)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[Купон на Корзину странице: <br /> <span class="help">Позвольте клиентам введите код купона и посмотреть скидку в корзине. (HTML5 Шаблон)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[Google Analytics счета: <br /> <span class="help">Добавить <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Google Analytics номер счета</a> , чтобы включить отслеживание активности сайта. Это также позволяет отслеживать активность электронной коммерции. Вы должны включить отслеживание электронной коммерции в Google на странице настроек профиля для вашего сайта</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Безопасный URL магазин: <br /> <span class="help">Включите полный URL SSL (HTTPS) в ваш магазин. Убедитесь в том, чтобы добавить &#39;/&#39; в конце. Пример: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[Безопасный URL требуется!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_pp_standart_name</key>
+    <value><![CDATA[PayPal]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Вы изменили PayPal реквизиты!]]></value>
+  </definition>
+  <definition>
+    <key>text_pp_standard</key>
+    <value><![CDATA[<a onclick="window.open('https://www.paypal.com/uk/mrb/pal=W9TBB5DTD6QJW');"><img src="admin/view/default/image/payment/paypal.png" alt="PayPal" title="PayPal" style="border: 1px solid #EEEEEE;" /></a>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_email</key>
+    <value><![CDATA[Ваш PayPal E-mail адрес:]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_test</key>
+    <value><![CDATA[Песочница (Тест) режим: <br /> <span class="help">Используйте живую или тестирования (песочницы) сервера шлюза для обработки транзакций?</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_test_1</key>
+    <value><![CDATA[Да]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_test_0</key>
+    <value><![CDATA[Нет]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_transaction</key>
+    <value><![CDATA[Метод сделка: <br /> <span class="help">PayPal сделка работать на кассе клиента, затем статус заказа устанавливается. Авторизация только или захвата.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_transaction_0</key>
+    <value><![CDATA[Разрешение]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_transaction_1</key>
+    <value><![CDATA[Продажа]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_order_status_id</key>
+    <value><![CDATA[Статус заказа: <br /> <span class="help">Статус заказа должен быть установлен после заказа клиента закончил на основе метода множество сделка</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_location_id</key>
+    <value><![CDATA[Расположение: <br /> <span class="help">Ограничить, чтобы только выбранные места, чтобы использовать этот способ оплаты.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_sort_order</key>
+    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Количество чтобы указать позицию отображения этого платежа в связи с более включены платежи</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_autoselect</key>
+    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить платежную страницу выбора, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_signup</key>
+    <value><![CDATA[Зарегистрироваться]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_email</key>
+    <value><![CDATA[Повторно введите Ваш PayPal E-mail адрес:]]></value>
+  </definition>
+  <definition>
+    <key>text_signup_account_note</key>
+    <value><![CDATA[<b>У вас нет учетной записи PayPal?</b> Чтобы использовать PayPal платежей Standard, вам нужен PayPal Business Account. После того, как вы зарегистрировались, введите свой PayPal адрес электронной почты ниже, чтобы начать принимать платежи.]]></value>
+  </definition>
+  <definition>
+    <key>text_customize_checkout_page</key>
+    <value><![CDATA[Настроить заказ Page]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_logo_preview</key>
+    <value><![CDATA[Логотип компании Предварительный]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_logoimg</key>
+    <value><![CDATA[Добавить логотип фирмы: <span class="help">Введите локальный путь или URL в ваш логотип компании файле. Логотип может быть JPG, PNG, GIF или до 190 пикселей в ширину и 60 пикселей в высоту. Этот логотип будет отображаться как заголовок вашей страницы PayPal контроля.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_cartbordercolor</key>
+    <value><![CDATA[Введите цвет фона HEX-код: <span class="help">Рекомендуется, что цвет фона представляют свой ​​бренд. Это цвет, который находится в вашим логотипом или что дополняет логотип цвета. С другой стороны, нейтральные цвета, такие как черный, белый или серый также создаст профессиональный вид. <br> Для бывших. # FFF00F</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm_email</key>
+    <value><![CDATA[PayPal адреса электронной почты не совпадают.]]></value>
+  </definition>
+  <definition>
+    <key>text_paypal_email_note</key>
+    <value><![CDATA[Чтобы начать принимать платежи, введите свой PayPal адрес электронной почты. Для того, чтобы получать платежи, этот адрес должен быть таким же, который вы используете при подписании в свой аккаунт PayPal.]]></value>
+  </definition>
+  <definition>
+    <key>heading_required_settings</key>
+    <value><![CDATA[Требуется принимать платежи]]></value>
+  </definition>
+  <definition>
+    <key>heading_optional_settings</key>
+    <value><![CDATA[Дополнительные настройки]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_order_status_id_1</key>
+    <value><![CDATA[В ожидании]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_order_status_id_2</key>
+    <value><![CDATA[Обработка]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_order_status_id_5</key>
+    <value><![CDATA[Полный]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_standart_note</key>
+    <value><![CDATA[Примечание: вы можете включить обратный вариант Auto для вашего Paypal счет. <a href="https://www.paypal.com/cgi-bin/webscr?cmd=p/mer/express_return_summary-outside" target="_blank">См. подробности</a> . Вы возвращаетесь URL является # витрина # RT = проверки / успеха]]></value>
+  </definition>
+</definitions>

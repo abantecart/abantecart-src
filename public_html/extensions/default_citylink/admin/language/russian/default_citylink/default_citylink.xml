@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_citylink_name</key>
+    <value><![CDATA[Ситилинк]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Перевозка груза]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Вы изменили Citylink доставка!]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_rates</key>
+    <value><![CDATA[Ситилинк Цены: <br /> <span class="help">Введите значения ДО 5,2 знаков после запятой. (12345,67) Пример: .1:1, .25:1.27 - Вес меньше или равна 0,1 кг будет стоить 1,00, вес меньше или равна 0,25 г но больше, чем 0,1 кг будет стоить 1,27. Не вводите KG или символы.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_tax_class_id</key>
+    <value><![CDATA[Налоговый класс:]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_tax_class_id_0</key>
+    <value><![CDATA[не --- Не учитывать ---]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_location_id</key>
+    <value><![CDATA[Расположение:]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_sort_order</key>
+    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Количество чтобы указать позицию отображения этого платежа в связи с более включены платежи</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_autoselect</key>
+    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить по транспортировке страницу выбора, если есть только один вариант доставки. Этот метод доставка будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_accept_payments</key>
+    <value><![CDATA[Примите эти платежи: <br /> <span class="help">Если только конкретные способы оплаты необходимы для этого способ доставки, выбрать их здесь. Если ничего не выбрано, все доступные способы оплаты будет показано</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Внимание: Вы не имеете прав на изменение Citylink доставка!]]></value>
+  </definition>
+</definitions>

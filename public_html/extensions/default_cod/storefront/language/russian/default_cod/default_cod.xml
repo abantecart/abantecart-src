@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Наложенным платежом]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Нуждается Оплата будет создан при доставке, либо пикап продукта]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Пожалуйста, подождите!]]></value>
+  </definition>
+</definitions>

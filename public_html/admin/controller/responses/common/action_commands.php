@@ -51,7 +51,7 @@ class ControllerResponsesCommonActionCommands extends AController {
 			//loop for command in the term
 			foreach ($variations as $test) {
 				$test = trim($test);
-				preg_match("/^$test\s*(.*)/i", $term, $matches);
+				preg_match("/^$test\s*(.*)/iu", $term, $matches);
 				if (count($matches)) {
 					$result['command'] = $test;
 					$result['key'] = $key;
@@ -149,7 +149,7 @@ class ControllerResponsesCommonActionCommands extends AController {
 					$this->loadLanguage($menu['item_url'], 'silent');
 					$title = $this->language->get($menu['item_text']) . " / " . $this->language->get('heading_title');
 				}
-				if (preg_match("/$request/i", $title)){
+				if (preg_match("/$request/iu", $title)){
 					$sub_res["title"] = $title;
 					$sub_res["url"] = $this->html->getSecureURL($menu['item_url']);
 					$sub_res["confirmation"] = false;
@@ -219,7 +219,7 @@ class ControllerResponsesCommonActionCommands extends AController {
 		$request = trim($request);
 		$possible_matches = $this->insert_controllers();
 		foreach ($possible_matches as $key => $rt) {
-			if (preg_match("/$request/i",  $this->language->get($key))){
+			if (preg_match("/$request/iu",  $this->language->get($key))){
 			    $sub_res["title"] = $key;
 			    $sub_res["url"] = $this->html->getSecureURL($rt);
 			    $sub_res["confirmation"] = false;

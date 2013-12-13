@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_authorizenet_aim_name</key>
+    <value><![CDATA[Authorize.Net (AIM)]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Вы изменили детали Authorize.Net (AIM) счета!]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_mode_test</key>
+    <value><![CDATA[Тест]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_mode_live</key>
+    <value><![CDATA[Жить]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_method_authorization</key>
+    <value><![CDATA[Разрешение]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_method_capture</key>
+    <value><![CDATA[Захват]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_login</key>
+    <value><![CDATA[Вход ID:]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_key</key>
+    <value><![CDATA[Сделка Ключ:]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_hash</key>
+    <value><![CDATA[MD5 хеш:]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_server</key>
+    <value><![CDATA[Transaction Server:]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_mode</key>
+    <value><![CDATA[Режим сделка:]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_method</key>
+    <value><![CDATA[Метод сделка:]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_order_status_id</key>
+    <value><![CDATA[Статус заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_location_id</key>
+    <value><![CDATA[Расположение:]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_sort_order</key>
+    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Количество чтобы указать позицию отображения этого платежа в связи с более включены платежи</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_authorizenet_aim_autoselect</key>
+    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить платежную страницу выбора, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение платежного Authorize.Net (SIM)!]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Логин ID обязательно!]]></value>
+  </definition>
+  <definition>
+    <key>error_key</key>
+    <value><![CDATA[Ключ сделка обязательно!]]></value>
+  </definition>
+  <definition>
+    <key>error_hash</key>
+    <value><![CDATA[MD5 Hash обязательно!]]></value>
+  </definition>
+</definitions>

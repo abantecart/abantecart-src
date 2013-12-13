@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_ups_name</key>
+    <value><![CDATA[ИБП]]></value>
+  </definition>
+  <definition>
+    <key>default_ups_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ИБП]]></value>
+  </definition>
+  <definition>
+    <key>text_additional_settings</key>
+    <value><![CDATA[Дополнительные настройки]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Перевозка груза]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Вы изменили доставки ИБП!]]></value>
+  </definition>
+  <definition>
+    <key>text_regular_daily_pickup</key>
+    <value><![CDATA[Регулярный Ежедневный Пикап]]></value>
+  </definition>
+  <definition>
+    <key>text_daily_pickup</key>
+    <value><![CDATA[Ежедневно Пикап]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_counter</key>
+    <value><![CDATA[Счетчик клиентов]]></value>
+  </definition>
+  <definition>
+    <key>text_one_time_pickup</key>
+    <value><![CDATA[Единовременно Пикап]]></value>
+  </definition>
+  <definition>
+    <key>text_on_call_air_pickup</key>
+    <value><![CDATA[По вызову Air Pickup]]></value>
+  </definition>
+  <definition>
+    <key>text_letter_center</key>
+    <value><![CDATA[Письмо центр]]></value>
+  </definition>
+  <definition>
+    <key>text_air_service_center</key>
+    <value><![CDATA[Air Service Center]]></value>
+  </definition>
+  <definition>
+    <key>text_suggested_retail_rates</key>
+    <value><![CDATA[Рекомендованная розничная цены (UPS Store)]]></value>
+  </definition>
+  <definition>
+    <key>text_package</key>
+    <value><![CDATA[Пакет]]></value>
+  </definition>
+  <definition>
+    <key>text_default_ups_letter</key>
+    <value><![CDATA[ИБП Письмо]]></value>
+  </definition>
+  <definition>
+    <key>text_default_ups_tube</key>
+    <value><![CDATA[Труба ИБП]]></value>
+  </definition>
+  <definition>
+    <key>text_default_ups_pak</key>
+    <value><![CDATA[ИБП Пак]]></value>
+  </definition>
+  <definition>
+    <key>text_default_ups_express_box</key>
+    <value><![CDATA[Экспресс UPS Box]]></value>
+  </definition>
+  <definition>
+    <key>text_default_ups_25kg_box</key>
+    <value><![CDATA[ИБП 25 кг коробка]]></value>
+  </definition>
+  <definition>
+    <key>text_default_ups_10kg_box</key>
+    <value><![CDATA[ИБП 10кг окно]]></value>
+  </definition>
+  <definition>
+    <key>default_ups_autoselect</key>
+    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить по транспортировке страницу выбора, если есть только один вариант доставки. Этот метод доставка будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_ups_accept_payments</key>
+    <value><![CDATA[Примите эти платежи: <br /> <span class="help">Если только конкретные способы оплаты необходимы для этого способ доставки, выбрать их здесь. Если ничего не выбрано, все доступные способы оплаты будет показано</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_us</key>
+    <value><![CDATA[США Происхождение]]></value>
+  </definition>
+  <definition>
+    <key>text_ca</key>
+    <value><![CDATA[Канада Происхождение]]></value>
+  </definition>
+  <definition>
+    <key>text_eu</key>
+    <value><![CDATA[Европейский союз Происхождение]]></value>
+  </definition>
+  <definition>
+    <key>text_pr</key>
+    <value><![CDATA[Пуэрто-Рико Происхождение]]></value>
+  </definition>
+  <definition>
+    <key>text_mx</key>
+    <value><![CDATA[Мексика Происхождение]]></value>
+  </definition>
+  <definition>
+    <key>text_other</key>
+    <value><![CDATA[Все Другие Происхождение]]></value>
+  </definition>
+  <definition>
+    <key>text_test</key>
+    <value><![CDATA[Тест]]></value>
+  </definition>
+  <definition>
+    <key>text_production</key>
+    <value><![CDATA[Производство]]></value>
+  </definition>
+  <definition>
+    <key>text_residential</key>
+    <value><![CDATA[Жилой]]></value>
+  </definition>
+  <definition>
+    <key>text_commercial</key>
+    <value><![CDATA[Коммерческий]]></value>
+  </definition>
+  <definition>
+    <key>text_next_day_air</key>
+    <value><![CDATA[ИБП Next Day Air]]></value>
+  </definition>
+  <definition>
+    <key>text_2nd_day_air</key>
+    <value><![CDATA[ИБП Второй день воздуха]]></value>
+  </definition>
+  <definition>
+    <key>text_ground</key>
+    <value><![CDATA[Земля UPS]]></value>
+  </definition>
+  <definition>
+    <key>text_3_day_select</key>
+    <value><![CDATA[Три дня ИБП Выберите]]></value>
+  </definition>
+  <definition>
+    <key>text_next_day_air_saver</key>
+    <value><![CDATA[ИБП Next Day Air Saver]]></value>
+  </definition>
+  <definition>
+    <key>text_next_day_air_early_am</key>
+    <value><![CDATA[ИБП Next Day Air Ранний AM]]></value>
+  </definition>
+  <definition>
+    <key>text_2nd_day_air_am</key>
+    <value><![CDATA[ИБП Второй день воздуха AM]]></value>
+  </definition>
+  <definition>
+    <key>text_saver</key>
+    <value><![CDATA[Вкладчик UPS]]></value>
+  </definition>
+  <definition>
+    <key>text_worldwide_express</key>
+    <value><![CDATA[ИБП Worldwide Express]]></value>
+  </definition>
+  <definition>
+    <key>text_worldwide_expedited</key>
+    <value><![CDATA[ИБП всему миру ускоренная]]></value>
+  </definition>
+  <definition>
+    <key>text_standard</key>
+    <value><![CDATA[ИБП Стандартный]]></value>
+  </definition>
+  <definition>
+    <key>text_worldwide_express_plus</key>
+    <value><![CDATA[ИБП Worldwide Express Plus]]></value>
+  </definition>
+  <definition>
+    <key>text_express</key>
+    <value><![CDATA[Экспресс UPS]]></value>
+  </definition>
+  <definition>
+    <key>text_expedited</key>
+    <value><![CDATA[UPS ускорил]]></value>
+  </definition>
+  <definition>
+    <key>text_express_early_am</key>
+    <value><![CDATA[Экспресс UPS Ранний AM]]></value>
+  </definition>
+  <definition>
+    <key>text_express_plus</key>
+    <value><![CDATA[ИБП Express Plus]]></value>
+  </definition>
+  <definition>
+    <key>text_today_standard</key>
+    <value><![CDATA[ИБП Сегодня Стандартный]]></value>
+  </definition>
+  <definition>
+    <key>text_today_dedicated_courier</key>
+    <value><![CDATA[ИБП Сегодня Посвящается Курьер]]></value>
+  </definition>
+  <definition>
+    <key>text_today_intercity</key>
+    <value><![CDATA[ИБП Сегодня межгород]]></value>
+  </definition>
+  <definition>
+    <key>text_today_express</key>
+    <value><![CDATA[ИБП Сегодня Экспресс]]></value>
+  </definition>
+  <definition>
+    <key>text_today_express_saver</key>
+    <value><![CDATA[ИБП Сегодня Экспресс Saver]]></value>
+  </definition>
+  <definition>
+    <key>entry_key</key>
+    <value><![CDATA[Ключ доступа: <span class="help">Введите ставки XML доступ ключ, назначенный ИБП.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Имя пользователя: <span class="help">Введите текст вашего счета UPS Services логин.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Пароль: <span class="help">Введите ваш ИБП Услуги пароль.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_pickup</key>
+    <value><![CDATA[Метод Пикап: <span class="help">Как вы даете пакеты к ИБП (используется только при происхождение США)?</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_packaging</key>
+    <value><![CDATA[Тип упаковки: <span class="help">Какого вида упаковки вы используете?</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_classification</key>
+    <value><![CDATA[Классификация клиентов Код: <span class="help">01 - Если вы биллинг на счет UPS и есть ежедневное пикап ИБП, 03 - Если у вас нет учетной записи ИБП или вы биллинг на счет UPS, но не имеют ежедневный пикап, 04 - Если Вы отправляете от розничной торговли (используется только при происхождение США)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_origin</key>
+    <value><![CDATA[Доставка Происхождение код: <span class="help">Что исходная точка должна использоваться (эта настройка влияет только то, что ИБП названия продуктов показаны пользователю)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[Происхождение Город: <span class="help">Введите имя происхождения города.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_state</key>
+    <value><![CDATA[Происхождение Штат / провинция: <span class="help">Введите двухбуквенный код для вашего происхождения государства / провинции.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Происхождение Страна: <span class="help">Введите двухбуквенный код для вашего стране происхождения.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[Происхождение Zip / Postal Code: <span class="help">Введите текст вашего происхождения Zip / PostalCode.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_test</key>
+    <value><![CDATA[Тестовый режим: <span class="help">Используйте этот модуль в тест (Да) или в режиме Production (NO)?</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_quote_type</key>
+    <value><![CDATA[Цитата Тип: <span class="help">Цитата для жилых или коммерческих Доставка.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_service</key>
+    <value><![CDATA[Услуги: <span class="help">Выберите службы UPS, которые будут предложены.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_display_weight</key>
+    <value><![CDATA[Дисплей Доставка Вес: <br /> <span class="help">Вы хотите, чтобы отобразить вес груза? (Например, поставки Вес: 2,7674 кг в)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_code</key>
+    <value><![CDATA[Вес Код: <br /> <span class="help">Разрешены кг или фунтов. Убедитесь, что вы соответствовать весовой категории с ИБП принято веса код.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Вес Класс: <span class="help">указан в килограммах или фунтах.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Длина Класс: <span class="help">дюймах или сантиметрах</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_dimensions</key>
+    <value><![CDATA[Размеры (Д х Ш х В): <span class="help">Это считается ваш средний размер упаковки коробки. Индивидуальные размеры товаром не поддерживаются в это время, так что вы должны ввести средние размеры, как 5x5x5.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Налоговый класс:]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[Расположение:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Порядок сортировки:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Внимание: Вы не имеете прав на изменение ИБП (США) доставка!]]></value>
+  </definition>
+  <definition>
+    <key>error_key</key>
+    <value><![CDATA[Ключ доступа обязательно!]]></value>
+  </definition>
+  <definition>
+    <key>error_username</key>
+    <value><![CDATA[Логин Обязательное!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[Требуется пароль!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[Происхождение города!]]></value>
+  </definition>
+  <definition>
+    <key>error_state</key>
+    <value><![CDATA[Происхождение Штат / Провинция обязательно!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[Происхождение Страна Обязательное!]]></value>
+  </definition>
+</definitions>

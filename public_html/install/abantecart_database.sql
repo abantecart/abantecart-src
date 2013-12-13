@@ -649,6 +649,7 @@ INSERT INTO `ac_languages` (`language_id`, `name`, `code`, `locale`, `image`, `d
 (1, 'English', 'en', 'en_US.UTF-8,en_US,en-gb,english', '', 'english', 'english', 1, 1);
 INSERT INTO `ac_languages` (`language_id`, `name`, `code`, `locale`, `image`, `directory`, `filename`, `sort_order`, `status`) VALUES
 (9, 'Español', 'es', 'es_ES.UTF-8,es_ES,spanish', '', 'spanish', 'spanish', 2, 1);
+(10, 'Русский', 'ru', 'es_RU.UTF-8,ru_RU,russian', '', 'russian', 'russian', 3, 1);
 
 --
 -- DDL for table `language_definitions`

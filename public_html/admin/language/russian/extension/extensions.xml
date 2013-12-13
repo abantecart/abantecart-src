@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Расширения]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Устанавливать]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Удаление]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_delete</key>
+    <value><![CDATA[Удалить / Удалить]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_confirm</key>
+    <value><![CDATA[Пожалуйста, подтвердите, что вы хотите удалить расширение [% расширения%]. Все настройки расширения и связанные с ними данные могут быть удалены, а проиграл.]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Удалять]]></value>
+  </definition>
+  <definition>
+    <key>text_enlarge</key>
+    <value><![CDATA[Нажмите на изображение, чтобы увеличить]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Активизировать]]></value>
+  </definition>
+  <definition>
+    <key>text_deactivate</key>
+    <value><![CDATA[Дезактивировать]]></value>
+  </definition>
+  <definition>
+    <key>text_left</key>
+    <value><![CDATA[Слева]]></value>
+  </definition>
+  <definition>
+    <key>text_right</key>
+    <value><![CDATA[Право]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Добавлено]]></value>
+  </definition>
+  <definition>
+    <key>column_icon</key>
+    <value><![CDATA[Значок]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[Расширение ID]]></value>
+  </definition>
+  <definition>
+    <key>column_required</key>
+    <value><![CDATA[Требуется]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Имя внутреннего абонента]]></value>
+  </definition>
+  <definition>
+    <key>column_position</key>
+    <value><![CDATA[Положение]]></value>
+  </definition>
+  <definition>
+    <key>column_update_date</key>
+    <value><![CDATA[Обновление Дата]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Категория]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Статус]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Сортировку]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Быстрые действия]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение расширений!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_field</key>
+    <value><![CDATA[Внимание: Пожалуйста, заполните обязательные поля!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment_uninstall</key>
+    <value><![CDATA[Внимание: Отключить расширение до удаления!]]></value>
+  </definition>
+  <definition>
+    <key>error_uninstall</key>
+    <value><![CDATA[Предупреждение: расширение Удаление до удаления!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Вы изменили настройки модуля!]]></value>
+  </definition>
+  <definition>
+    <key>text_restore_success</key>
+    <value><![CDATA[Успех: Вы восстановили настройки модуля по умолчанию!]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Расширения магазин]]></value>
+  </definition>
+  <definition>
+    <key>text_required</key>
+    <value><![CDATA[Требуется]]></value>
+  </definition>
+  <definition>
+    <key>text_optional</key>
+    <value><![CDATA[Необязательный]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new</key>
+    <value><![CDATA[Установить расширение]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Поиск]]></value>
+  </definition>
+  <definition>
+    <key>text_search_for_extension</key>
+    <value><![CDATA[Поиск Extension]]></value>
+  </definition>
+  <definition>
+    <key>text_missing_extension</key>
+    <value><![CDATA[&quot;Расширение% EXT%: Источник не может быть расположен Пожалуйста, удалите его и посетить поставщика расширением, чтобы получить полный источник и intall его снова&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_broken_extension</key>
+    <value><![CDATA[&quot;Расширение% EXT%: Источник испорченный Не можете найти config.xml или main.php файлы Пожалуйста, удалите его и посетить поставщика расширением, чтобы получить полный источник и intall его снова.&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_pagination</key>
+    <value><![CDATA[Расширение (я) {start} к {end} из {total}]]></value>
+  </definition>
+  <definition>
+    <key>text_per_page</key>
+    <value><![CDATA[на странице]]></value>
+  </definition>
+  <definition>
+    <key>text_error_in_ajax</key>
+    <value><![CDATA[Ошибка в Ajax вызова]]></value>
+  </definition>
+  <definition>
+    <key>text_saved</key>
+    <value><![CDATA[Сохраненные]]></value>
+  </definition>
+  <definition>
+    <key>text_save</key>
+    <value><![CDATA[Экономить]]></value>
+  </definition>
+  <definition>
+    <key>text_reset</key>
+    <value><![CDATA[Сброс]]></value>
+  </definition>
+  <definition>
+    <key>text_back</key>
+    <value><![CDATA[Назад]]></value>
+  </definition>
+  <definition>
+    <key>text_additional_settings</key>
+    <value><![CDATA[Дополнительные настройки]]></value>
+  </definition>
+  <definition>
+    <key>text_reload</key>
+    <value><![CDATA[Перезагружать]]></value>
+  </definition>
+  <definition>
+    <key>text_version</key>
+    <value><![CDATA[Версия]]></value>
+  </definition>
+  <definition>
+    <key>text_installed_on</key>
+    <value><![CDATA[Установленный на]]></value>
+  </definition>
+  <definition>
+    <key>text_installed</key>
+    <value><![CDATA[Установленная]]></value>
+  </definition>
+  <definition>
+    <key>text_not_installed</key>
+    <value><![CDATA[Не установлен]]></value>
+  </definition>
+  <definition>
+    <key>text_visit_repository</key>
+    <value><![CDATA[Пожалуйста, посетите% extensions_store% расширения хранилища для загрузки расширение]]></value>
+  </definition>
+  <definition>
+    <key>text_license</key>
+    <value><![CDATA[Лицензия]]></value>
+  </definition>
+  <definition>
+    <key>text_dependency</key>
+    <value><![CDATA[Зависимость]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration_settings</key>
+    <value><![CDATA[Параметры конфигурации]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade</key>
+    <value><![CDATA[Модернизация]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[Помогите]]></value>
+  </definition>
+  <definition>
+    <key>text_dependencies</key>
+    <value><![CDATA[Зависимости]]></value>
+  </definition>
+  <definition>
+    <key>text_update_it</key>
+    <value><![CDATA[Новая версия (% NEWVERSION%) доступно]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Вы уверены, что хотите удалить расширение?]]></value>
+  </definition>
+  <definition>
+    <key>error_config_load</key>
+    <value><![CDATA[Ошибка: не удалось загрузить конфигурации для %s !]]></value>
+  </definition>
+  <definition>
+    <key>error_required_extension</key>
+    <value><![CDATA[%s расширение не может быть установлен: %s внутренний номер]]></value>
+  </definition>
+  <definition>
+    <key>error_required_phpmodule</key>
+    <value><![CDATA[%s расширение не может быть установлен: %s Модуль PHP требуется]]></value>
+  </definition>
+  <definition>
+    <key>button_restore_defaults</key>
+    <value><![CDATA[Восстановить настройки по умолчанию]]></value>
+  </definition>
+  <definition>
+    <key>additional_settings_confirm</key>
+    <value><![CDATA[Чтобы установить дополнительные параметры расширения другом магазине, Вам нужно войти в панель управления на другом доменном имени. Хорошо?]]></value>
+  </definition>
+  <definition>
+    <key>error_no_help_file</key>
+    <value><![CDATA[К сожалению, нет файл справки для этого расширения.]]></value>
+  </definition>
+  <definition>
+    <key>text_more_help</key>
+    <value><![CDATA[Дополнительная помощь]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_type</key>
+    <value><![CDATA[Тип]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Общий]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[Итого]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Перевозка груза]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[Налог]]></value>
+  </definition>
+  <definition>
+    <key>text_fee</key>
+    <value><![CDATA[Плата]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Скидка]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_disable_dependants</key>
+    <value><![CDATA[Расширение %s есть иждивенцы являются: <br>%s<br> Это будет отключена автоматически тоже. <br> Подтверждаете ли вы?]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Статус]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_order</key>
+    <value><![CDATA[Сортировку]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_minimum_total</key>
+    <value><![CDATA[Всего Заказать Минимальные: <span class="help">Минимальный заказ должен быть достигнут, чтобы этот платеж</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_maximum_total</key>
+    <value><![CDATA[Всего Максимальная Заказать: <span class="help">Максимальная сумма заказа должна быть достигнута, чтобы запретить этот платеж</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_storefront_icon</key>
+    <value><![CDATA[Витрина Иконка: <span class="help">Оплата Иконка для отображения при подборе компенсации проверки</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_storefront_icon</key>
+    <value><![CDATA[Витрина Иконка: <span class="help">Доставка Иконка для отображения при оформлении заказа отбора груза</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_autoselect_payment</key>
+    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить платежную страницу выбора, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_autoselect_shipping</key>
+    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить по транспортировке страницу выбора, если есть только один вариант доставки. Этот метод доставка будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_accept_payments_shipping</key>
+    <value><![CDATA[Примите эти платежи: <br /> <span class="help">Если только конкретные способы оплаты необходимы для этого способ доставки, выбрать их здесь. Если ничего не выбрано, все доступные способы оплаты будет показано</span>]]></value>
+  </definition>
+</definitions>
