@@ -360,9 +360,17 @@ VALUES
 
 
 
-INSERT INTO `ac_downloads` 
+INSERT INTO `ac_downloads`
+(`download_id`,
+ `filename`,
+ `max_downloads`,
+ `date_added` )
 VALUES 
-(1,'download/18/74/c.zip','Visionnaire.zip',150,'2012-03-15 06:43:16');
+(1,
+ 'download/18/74/c.zip',
+ --'Visionnaire.zip',
+ 150,
+ NOW());
 
 
 

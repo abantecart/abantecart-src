@@ -57,4 +57,4 @@ CREATE TABLE `ac_order_data_types` (
   PRIMARY KEY (`type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
-ALTER TABLE `ac_products` ADD COLUMN `call_for_order` smallint NOT NULL default '0' AFTER `cost`;
+ALTER TABLE `ac_products` ADD COLUMN `call_to_order` smallint NOT NULL default '0' AFTER `cost`;
