@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_liqpay_name</key>
+    <value><![CDATA[LIQPAY]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Вы изменили детали LIQPAY счета!]]></value>
+  </definition>
+  <definition>
+    <key>text_pay</key>
+    <value><![CDATA[LIQPAY]]></value>
+  </definition>
+  <definition>
+    <key>text_card</key>
+    <value><![CDATA[Кредитная карта]]></value>
+  </definition>
+  <definition>
+    <key>default_liqpay_merchant</key>
+    <value><![CDATA[Торговец ID:]]></value>
+  </definition>
+  <definition>
+    <key>default_liqpay_signature</key>
+    <value><![CDATA[Подпись:]]></value>
+  </definition>
+  <definition>
+    <key>default_liqpay_type</key>
+    <value><![CDATA[Тип:]]></value>
+  </definition>
+  <definition>
+    <key>default_liqpay_type_pay</key>
+    <value><![CDATA[Платить]]></value>
+  </definition>
+  <definition>
+    <key>default_liqpay_type_card</key>
+    <value><![CDATA[Карта]]></value>
+  </definition>
+  <definition>
+    <key>default_liqpay_order_status_id</key>
+    <value><![CDATA[Статус заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_liqpay_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>default_liqpay_location_id</key>
+    <value><![CDATA[Расположение:]]></value>
+  </definition>
+  <definition>
+    <key>default_liqpay_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>default_liqpay_sort_order</key>
+    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Количество чтобы указать позицию отображения этого платежа в связи с более включены платежи</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_liqpay_autoselect</key>
+    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить платежную страницу выбора, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение оплаты LiqPAY!]]></value>
+  </definition>
+  <definition>
+    <key>error_merchant</key>
+    <value><![CDATA[Торговец ID обязательно!]]></value>
+  </definition>
+  <definition>
+    <key>error_signature</key>
+    <value><![CDATA[Подпись обязательно!]]></value>
+  </definition>
+</definitions>

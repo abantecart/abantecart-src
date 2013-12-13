@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Почтовая служба Соединенных Штатов]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Вес:]]></value>
+  </definition>
+  <definition>
+    <key>text_eta</key>
+    <value><![CDATA[Расчетное время:]]></value>
+  </definition>
+</definitions>

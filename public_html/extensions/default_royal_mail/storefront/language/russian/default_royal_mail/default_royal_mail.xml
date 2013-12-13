@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Royal Mail]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Вес:]]></value>
+  </definition>
+  <definition>
+    <key>text_insurance</key>
+    <value><![CDATA[Страхователь ДО:]]></value>
+  </definition>
+  <definition>
+    <key>text_eta</key>
+    <value><![CDATA[Расчетное время:]]></value>
+  </definition>
+  <definition>
+    <key>text_1st_class_standard</key>
+    <value><![CDATA[Первый класс Стандарт Сообщение]]></value>
+  </definition>
+  <definition>
+    <key>text_1st_class_recorded</key>
+    <value><![CDATA[Первый класс записи Сообщение]]></value>
+  </definition>
+  <definition>
+    <key>text_2nd_class_standard</key>
+    <value><![CDATA[Второго класса Стандарт Сообщение]]></value>
+  </definition>
+  <definition>
+    <key>text_2nd_class_recorded</key>
+    <value><![CDATA[Второго класса записи Сообщение]]></value>
+  </definition>
+  <definition>
+    <key>text_standard_parcels</key>
+    <value><![CDATA[Стандартные Посылки]]></value>
+  </definition>
+  <definition>
+    <key>text_airmail</key>
+    <value><![CDATA[Воздушная почта]]></value>
+  </definition>
+  <definition>
+    <key>text_international_signed</key>
+    <value><![CDATA[Международный Подпись]]></value>
+  </definition>
+  <definition>
+    <key>text_airsure</key>
+    <value><![CDATA[Airsure]]></value>
+  </definition>
+  <definition>
+    <key>text_surface</key>
+    <value><![CDATA[Поверхность]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_footer_left</key>
+    <value><![CDATA[AbanteCart является торговой маркой компании Belavier Commerce LLC <br /> Copyright (C) %s Belavier Commerce LLC]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[<a href="http://www.abantecart.com" target="_blank">AbanteCart</a> © 2009 - %s Все права защищены. Версия]]></value>
+  </definition>
+</definitions>

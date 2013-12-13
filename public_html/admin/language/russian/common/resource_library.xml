@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Библиотека ресурсов]]></value>
+  </definition>
+  <definition>
+    <key>view_title</key>
+    <value><![CDATA[Просмотреть Ресурсы объекта]]></value>
+  </definition>
+  <definition>
+    <key>confirm_title</key>
+    <value><![CDATA[Подтвердите ресурс (ы) удалить]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Вы уверены, что хотите удалить ресурс (ы)?]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete_title</key>
+    <value><![CDATA[Ресурс (ы) удалить]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete</key>
+    <value><![CDATA[Не могу удалить ресурс (ы), потому что один или более ресурсов связана с объекта]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_resource</key>
+    <value><![CDATA[Изменение ресурса]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_details</key>
+    <value><![CDATA[Подробности в ресурсах]]></value>
+  </definition>
+  <definition>
+    <key>text_mapped_to</key>
+    <value><![CDATA[Подключенные Для]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Продукты]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Добавить файл ресурсов]]></value>
+  </definition>
+  <definition>
+    <key>text_add_code</key>
+    <value><![CDATA[Добавить URL изображения или ресурсов HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_add_files</key>
+    <value><![CDATA[Добавить файлы ...]]></value>
+  </definition>
+  <definition>
+    <key>text_upload_files</key>
+    <value><![CDATA[Загрузка файлов]]></value>
+  </definition>
+  <definition>
+    <key>text_drag</key>
+    <value><![CDATA[или Перетащите их здесь, чтобы начать загрузку]]></value>
+  </definition>
+  <definition>
+    <key>text_start_upload</key>
+    <value><![CDATA[Начните загрузку]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel_upload</key>
+    <value><![CDATA[Отменить загрузку]]></value>
+  </definition>
+  <definition>
+    <key>text_start</key>
+    <value><![CDATA[Начало]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel</key>
+    <value><![CDATA[Отменить]]></value>
+  </definition>
+  <definition>
+    <key>text_save_sort_order</key>
+    <value><![CDATA[Сохранить сортировку]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Ошибка]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_files</key>
+    <value><![CDATA[Удалить файлы]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[поиск]]></value>
+  </definition>
+  <definition>
+    <key>text_type</key>
+    <value><![CDATA[Тип]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Язык]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_code</key>
+    <value><![CDATA[URL изображения или ресурс HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[Название]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Название]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Описание]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[Успех: Ресурс был загружен!]]></value>
+  </definition>
+  <definition>
+    <key>text_add</key>
+    <value><![CDATA[Добавлять]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Редактировать]]></value>
+  </definition>
+  <definition>
+    <key>text_map</key>
+    <value><![CDATA[Карта объекта]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap</key>
+    <value><![CDATA[Unmap предмета]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[Ресурс удален!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Успех: Ваш ресурсов было удалено!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[Предупреждение: неправильный тип файла!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[Предупреждение: Файл к большому пожалуйста, имейте ниже 300Кб и не более 1000px высоту или ширину!]]></value>
+  </definition>
+  <definition>
+    <key>error_maxFileSize</key>
+    <value><![CDATA[Файл слишком большой]]></value>
+  </definition>
+  <definition>
+    <key>error_minFileSize</key>
+    <value><![CDATA[Файл слишком мал]]></value>
+  </definition>
+  <definition>
+    <key>error_acceptFileTypes</key>
+    <value><![CDATA[Тип файла не допускается]]></value>
+  </definition>
+  <definition>
+    <key>error_maxNumberOfFiles</key>
+    <value><![CDATA[Максимальное количество файлов превысил]]></value>
+  </definition>
+  <definition>
+    <key>error_uploadedBytes</key>
+    <value><![CDATA[Загружено байт превышать размер файла]]></value>
+  </definition>
+  <definition>
+    <key>error_emptyResult</key>
+    <value><![CDATA[Пустой результат загрузки файлов. Возможно файл поврежден или слишком большой. Размер файла ограничен 16 Мб. Если размер файла меньше предела пожалуйста, проверьте настройки PHP для upload_max_filesize &amp; post_max_size]]></value>
+  </definition>
+  <definition>
+    <key>error_1</key>
+    <value><![CDATA[Файл превышает upload_max_filesize (директива php.ini)]]></value>
+  </definition>
+  <definition>
+    <key>error_2</key>
+    <value><![CDATA[Файл превышает MAX_FILE_SIZE (директива форма HTML)]]></value>
+  </definition>
+  <definition>
+    <key>error_3</key>
+    <value><![CDATA[Файл был загружен лишь частично]]></value>
+  </definition>
+  <definition>
+    <key>error_4</key>
+    <value><![CDATA[Файл не был загружен]]></value>
+  </definition>
+  <definition>
+    <key>error_5</key>
+    <value><![CDATA[Временная папка]]></value>
+  </definition>
+  <definition>
+    <key>error_6</key>
+    <value><![CDATA[Не удалось записать файл на диск]]></value>
+  </definition>
+  <definition>
+    <key>error_7</key>
+    <value><![CDATA[Загрузка файла остановили расширение]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[Предупреждение: Файл не могли быть загружены по неизвестной причине!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_type</key>
+    <value><![CDATA[Пожалуйста, выберите тип ресурса]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Данные, необходимые не был введен]]></value>
+  </definition>
+  <definition>
+    <key>error_not_added</key>
+    <value><![CDATA[Ресурс не добавил. Пожалуйста, проверьте журнал ошибок для получения дополнительной информации]]></value>
+  </definition>
+  <definition>
+    <key>error_ajax</key>
+    <value><![CDATA[Ошибка данных нагрузки. Пожалуйста, проверьте журнал ошибок для получения дополнительной информации]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Отказано в разрешении!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Отказано в разрешении!]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[Удалять]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[Добавить ресурс]]></value>
+  </definition>
+  <definition>
+    <key>button_done</key>
+    <value><![CDATA[Сделанный]]></value>
+  </definition>
+  <definition>
+    <key>button_select</key>
+    <value><![CDATA[Выберите Ресурсы]]></value>
+  </definition>
+  <definition>
+    <key>text_with_selected</key>
+    <value><![CDATA[С выбранными:]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Ресурс успешно обновлен]]></value>
+  </definition>
+  <definition>
+    <key>text_no_resources</key>
+    <value><![CDATA[Не доступные никаких ресурсов]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Предварительный / Скачать]]></value>
+  </definition>
+  <definition>
+    <key>error_file size</key>
+    <value><![CDATA[Внимание: Максимальный размер файла для загрузки является %s . Вы можете увеличить это значение в php.ini.]]></value>
+  </definition>
+  <definition>
+    <key>text_product_option_value</key>
+    <value><![CDATA[Варианты продукта значение]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Продукты]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[Категории]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Производители]]></value>
+  </definition>
+</definitions>

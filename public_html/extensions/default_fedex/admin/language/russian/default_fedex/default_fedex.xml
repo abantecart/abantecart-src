@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_fedex_name</key>
+    <value><![CDATA[FEDEX]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Перевозка груза]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Вы изменили доставки FEDEX!]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_status</key>
+    <value><![CDATA[Статус]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_key</key>
+    <value><![CDATA[Fedex Производство Ключ: <br /> <span class="help">Введите Fedex Производство ключ для Вас, требуется.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_password</key>
+    <value><![CDATA[Fedex Производство Пароль: <br /><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_account</key>
+    <value><![CDATA[Номер счета: <br /> <span class="help">Введите FedEx Номер счета для Вас, требуется.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_meter</key>
+    <value><![CDATA[Fedex метр Количество: <br /> <span class="help">Введите FedEx Meter номер.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_address</key>
+    <value><![CDATA[Адрес: <br /> <span class="help">Доставка от уличного адресу.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_city</key>
+    <value><![CDATA[Город: <br /> <span class="help">Доставка из города.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_state</key>
+    <value><![CDATA[Штат: <br /> <span class="help">Доставка от государства (две буквы).</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_zip</key>
+    <value><![CDATA[Zip / Почтовый индекс: <br /> <span class="help">Доставка из Zip-кода.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_country</key>
+    <value><![CDATA[Страна: <br /> <span class="help">Доставка от страны (две буквы).</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_quote_type</key>
+    <value><![CDATA[Цитата Тип: <br /> <span class="help">Цитата для жилых или коммерческих Доставка.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_quote_type_residential</key>
+    <value><![CDATA[Жилой]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_quote_type_commercial</key>
+    <value><![CDATA[Коммерческий]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_add_chrg</key>
+    <value><![CDATA[Дополнительные сборы: <br /> <span class="help">Дополнительная плата применяется для Федерал Ехпресс цитатой.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_default_fedex_us_01</key>
+    <value><![CDATA[FEDEX Первая Ночь]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_default_fedex_us_02</key>
+    <value><![CDATA[FEDEX Приоритет Ночь]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_default_fedex_us_03</key>
+    <value><![CDATA[FEDEX Стандартный Ночь]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_default_fedex_us_04</key>
+    <value><![CDATA[FEDEX 2 день]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_default_fedex_us_05</key>
+    <value><![CDATA[FEDEX Экспресс Saver]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_default_fedex_us_06</key>
+    <value><![CDATA[FedEx Ground]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_sort_order</key>
+    <value><![CDATA[Порядок сортировки:]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_autoselect</key>
+    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить по транспортировке страницу выбора, если есть только один вариант доставки. Этот метод доставка будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_accept_payments</key>
+    <value><![CDATA[Примите эти платежи: <br /> <span class="help">Если только конкретные способы оплаты необходимы для этого способ доставки, выбрать их здесь. Если ничего не выбрано, все доступные способы оплаты будет показано</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Внимание: Вы не имеете прав на изменение доставки FEDEX!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[ID счета обязательно!]]></value>
+  </definition>
+  <definition>
+    <key>error_meter</key>
+    <value><![CDATA[Fedex метр требуется удостоверение!]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_note</key>
+    <value><![CDATA[Чтобы получить Meter Количество и авторизации ключ, вам нужно будет выполнить следующие действия: </br> К <a href="http://fedex.com/us/developer" target="_blank">http://fedex.com/us/developer</a> <br> Войти с использованием FedEx имя пользователя и пароль или нажмите Зарегистрировать сейчас, если они не имеют один. <br> Нажмите &quot;Технические ресурсы&quot; (левая сторона). <br> В соответствии с этим нажмите &quot;FedEx веб-сервисов для судоходства. <br> Нажмите на кнопку &quot;перейти на выпуск&quot; (правая сторона). <br> Прокрутите вниз, чтобы кнопки и нажмите &quot;Получить Production ключ&quot;. <br> На форме выберите &quot;Нет&quot; на вопрос 1. <br> Проверьте первый ящик на вопрос 2. <br> Выберите «Корпоративное Developer&quot; на вопрос 3. <br> Принять соглашение. <br> Заполните форму (не используйте тире в номер счета). <br> Получите номер счетчика и ключ мгновенно. Ваш Производство Пароль будет отправлен к вам, как только вы выполните описанные выше шаги.]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_test</key>
+    <value><![CDATA[Тестовый режим: <br /> <span class="help">Используйте живую или тестирования шлюза сервер?</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_test_1</key>
+    <value><![CDATA[Да]]></value>
+  </definition>
+  <definition>
+    <key>default_fedex_test_0</key>
+    <value><![CDATA[Нет]]></value>
+  </definition>
+</definitions>

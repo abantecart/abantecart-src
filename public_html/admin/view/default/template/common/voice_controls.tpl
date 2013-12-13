@@ -210,7 +210,10 @@ $(function () {
 	});
 	
 	$('#voiceModal').on('hide.bs.modal', function () {
-   		recognition.stop();
+  		if( recognition ) {
+   			recognition.stop();
+  		}
+
    		$('#result_comands').html('');
    		$('#result_comands').hide();
    		$('.try_again_now').hide();
@@ -237,14 +240,16 @@ function updateDialect( lang_code ) {
   	for (var i = 1; i < list.length; i++) {
     	select_dialect.options.add(new Option(list[i][1], list[i][0]));
   	}
-  	if(list.length > 1) {
+  	if(list.length > 1 ) {
   		$('#div_language').show();
   	}
   }
 }
 
 function upgrade() {
-  start_button.style.visibility = 'hidden';
+  $('#start_button i').addClass('grey_out');
+  $('#start_button i').addClass('icon-microphone-off');
+  //start_button.style.visibility = 'hidden';
   showInfo('info_upgrade');
 }
 
@@ -260,6 +265,10 @@ function capitalize(s) {
 }
 
 function startButton(event) {
+  if( !recognition ) {
+  	return;
+  }
+
   if (recognizing) {
     recognition.stop();
     return;

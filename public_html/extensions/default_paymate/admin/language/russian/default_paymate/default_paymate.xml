@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_paymate_name</key>
+    <value><![CDATA[Paymate]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Вы изменили детали PayMate счета!]]></value>
+  </definition>
+  <definition>
+    <key>default_paymate_username</key>
+    <value><![CDATA[Paymate Имя пользователя:]]></value>
+  </definition>
+  <definition>
+    <key>default_paymate_order_status_id</key>
+    <value><![CDATA[Статус заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_paymate_location_id</key>
+    <value><![CDATA[Расположение:]]></value>
+  </definition>
+  <definition>
+    <key>default_paymate_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>default_paymate_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>default_paymate_sort_order</key>
+    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Количество чтобы указать позицию отображения этого платежа в связи с более включены платежи</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_paymate_autoselect</key>
+    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить платежную страницу выбора, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение платежного PayMate!]]></value>
+  </definition>
+  <definition>
+    <key>error_username</key>
+    <value><![CDATA[Требуется Paymate Имя пользователя!]]></value>
+  </definition>
+</definitions>

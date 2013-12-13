@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Банковский перевод]]></value>
+  </definition>
+  <definition>
+    <key>text_instructions</key>
+    <value><![CDATA[Следуйте инструкциям, чтобы сделать платеж:]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Ваш заказ не будет поставляться или завершены, пока платеж не получил.]]></value>
+  </definition>
+  <definition>
+    <key>text_minimum_notmet</key>
+    <value><![CDATA[Заказать общее минимум не встретились оплаты через банковский перевод.]]></value>
+  </definition>
+</definitions>

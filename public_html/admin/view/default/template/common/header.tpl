@@ -14,7 +14,7 @@
 				</p>
 			</div>
 
-			<?php include($template_dir . '/template/common/voice_controls.tpl'); ?>
+		<?php include($template_dir . '/template/common/voice_controls.tpl'); ?>
 		<?php } else { ?>
 			<div id="voice_disabled">
 				<p>

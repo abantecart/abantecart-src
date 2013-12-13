@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Отказано в разрешении!]]></value>
+  </definition>
+  <definition>
+    <key>text_permission</key>
+    <value><![CDATA[Вы не имеете доступа к этой странице, пожалуйста, обратитесь к вашему системному администратору.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Весовые категории]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Вес Класс]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Вы изменили весовые категории!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Вес Название]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Вес Блок]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Значение]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Действие]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Вес Название:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Вес единицы товара:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Значение: <br /> <span class="help">Установите в 1,00000, если это ваш вес по умолчанию.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение весовых!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Вес Название должно быть между 2 и 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Вес Блок должен быть от 1 до 4 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Предупреждение: Этот класс вес не может быть удален, так как в настоящее время назначен магазине умолчанию весовой категории на!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Предупреждение: Этот класс вес не может быть удален, так как в настоящее время назначены %s продукты!]]></value>
+  </definition>
+</definitions>

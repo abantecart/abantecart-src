@@ -139,13 +139,9 @@ class ControllerPagesToolCache extends AController {
 
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-		if($this->request->post['selected']) {
-			$selected = $this->request->post['selected'];
-		} else if($this->request->get['selected']){
-			$selected = $this->request->get['selected'];
-		}
+        $selected = $this->request->get_or_post('selected');
 
-		if (isset($selected) && $selected && $this->_validateDelete()) {
+		if (is_array($selected) && count($selected) && $this->_validateDelete()) {
 			foreach ($selected as $cache) {
 				if($cache == 'image') {
 					$this->deleteThumbnails();
@@ -163,6 +159,10 @@ class ControllerPagesToolCache extends AController {
 					}
 				}
 	  		}
+			$this->session->data['success'] = $this->language->get('text_success');
+		} else if ( $this->request->get_or_post('clear_all') == 'all' ) {
+			//delete entire cache
+			$this->cache->delete('*');
 			$this->session->data['success'] = $this->language->get('text_success');
 		}
 		//update controller data

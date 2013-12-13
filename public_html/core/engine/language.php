@@ -393,7 +393,7 @@ class ALanguage {
 			$xml = simplexml_load_file($file);
 			if (isset($xml->definition))
 				foreach ($xml->definition as $item) {
-					$definitions[(string)$item->key] = trim((string)$item->value);
+					$definitions[(string)$item->key] = (string)$item->value;
 				}
 		}
 		return $definitions;
@@ -440,6 +440,14 @@ class ALanguage {
 		}
 
 		if (is_null($load_data)) {
+
+			//Check that filename has proper name with no other special characters. 
+			if ( preg_match("/[\W]+/", $block_name) ) {
+				$error = new AError('Error! Trying to load language with invalid path: "' . $block_name . '"!');
+				$error->toLog()->toDebug()->toMessages();		
+				return array();
+			}
+
 			$directory = $this->language_details['directory'];
 			// nothing in cache. Start loading
 			ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $filename . ' no cache, so loading');
@@ -567,11 +575,11 @@ class ALanguage {
 		$lang_array = array();
 		$sql = "SELECT * FROM `" . DB_PREFIX . "language_definitions`
                 WHERE language_id = '" . (int)$language_id . "'
-                              AND section =" . (int)$section . " AND block='" . $block_name . "'";
+                              AND section =" . (int)$section . " AND block='" . $this->db->escape($block_name) . "'";
 		$language_query = $this->db->query($sql);
 		if ($language_query->num_rows) {
 			foreach ($language_query->rows as $language) {
-				$lang_array[$language['language_key']] = trim($language['language_value']);
+				$lang_array[$language['language_key']] = $language['language_value'];
 			}
 		}
 		return $lang_array;

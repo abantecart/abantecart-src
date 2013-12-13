@@ -2097,6 +2097,11 @@ table.form tr td:first-child {
 	padding: 10px 0 0 0;
 }
 
+.grey_out {
+    opacity: 0.2;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
 #voice_start, #voice_disabled{
 	padding: 10px 10px 0 20px;
 }
