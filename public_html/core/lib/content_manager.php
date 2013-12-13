@@ -486,10 +486,11 @@ class AContentManager {
 	 * @return array
 	 */
 	public function buildContentTree($all_contents,$parent_id=0,$level=0){
-		$output= array();
+		$output= array();	
 		foreach($all_contents as $content){
 			foreach($content['parent_content_id'] as $par_id){
-				if($par_id == $parent_id){
+				//look for leave content (leave cannot be of 0 ID)
+				if($par_id == $parent_id && $content['content_id'] ){
 					$output[$parent_id.'_'.$content['content_id']] = str_repeat('&nbsp;&nbsp;',$level).$content['title'];
 					$output = array_merge($output,$this->buildContentTree($all_contents,$content['content_id'],$level+1));
 				}
