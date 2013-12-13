@@ -39,9 +39,10 @@
 	        <th class="left"><?php echo $column_action; ?></th>
 	    </tr>
 	    <?php //echo $product_id; ?>
+	    <?php if (is_array($file_rows) && count($file_rows) ) { ?>
 	    <?php foreach ($file_rows as $file_html) { ?>
 	        <?php echo $file_html; ?>
-	    <?php } ?>
+	    <?php } } ?>
 	
 	</table>
 	<div style="margin-top: 13px;" align="center" style="width: 80%; float:right;">

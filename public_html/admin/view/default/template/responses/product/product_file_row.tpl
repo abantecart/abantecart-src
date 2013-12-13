@@ -90,15 +90,14 @@
 				<div class="cont_left">
 					<div class="cont_right">
 						<div class="cont_mid">
+							<?php if ( is_array($attributes) && count($attributes) ) {  ?>
 							<?php foreach ($attributes as $id => $attribute) { ?>
 								<div style="vertical-align: top; margin-top: 20px; width: 130px;"
 									 class="flt_left"><?php echo ${'entry_attribute_' . $id} ?></div>
 								<div style="vertical-align: top; margin-top: 20px;"
 									 class="flt_left"><?php echo $attribute; ?></div>
 								<div class="clr_both"></div>
-							<?php } ?>
-
-
+							<?php } } ?>
 						</div>
 					</div>
 				</div>
