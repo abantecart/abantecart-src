@@ -1218,7 +1218,7 @@ CREATE TABLE `ac_settings` (
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
---details of store
+-- details of store
 ('details','store_name','Web Store Name'),
 ('details','config_url',''),
 ('details','config_owner','Your Name'),
@@ -1243,7 +1243,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','translate_override_existing',0),
 ('details','warn_lang_text_missing',0),
 ('details','config_description_9','Welcome to web store!'),
---general
+-- general
 ('general','config_admin_limit',10),
 ('general','config_catalog_limit',20),
 ('general','config_bestseller_limit',4),
@@ -1310,7 +1310,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_storefront_template','default_html5'),
 
 
---mail
+-- mail
 ('mail', 'config_mail_protocol', 'mail'),
 ('mail', 'config_mail_parameter', ''),
 ('mail', 'config_smtp_host', ''),
@@ -1321,7 +1321,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('mail', 'config_alert_mail', '0'),
 ('mail', 'config_alert_emails', ''),
 
---system
+-- system
 	('system','config_session_ttl',120),
 	('system','config_ssl',0),
 	('system','config_maintenance',0),
@@ -1338,7 +1338,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 	('system','config_upload_max_size',16000),
 	('system','config_voicecontrol', 1),
 
---API
+-- API
     ('api','config_storefront_api_status', '0'),
     ('api','config_storefront_api_key',''),
     ('api','config_storefront_api_stock_check',0),
@@ -1346,7 +1346,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
     ('api','config_admin_api_key',''),
     ('api','config_admin_access_ip_list',''),
 
---EXTENSIONS
+-- EXTENSIONS
 ('sub_total', 'sub_total_sort_order', '1'),
 ('sub_total', 'sub_total_calculation_order', '1'),
 ('sub_total', 'sub_total_status', '1'),
@@ -6620,7 +6620,7 @@ VALUES  (1,'item_id','varchar',1),
         (1,'parent_id','varchar',4),
         (1,'sort_order','integer',5),
         (1,'item_type','varchar',6);
---ITEM_ID
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (1,'home',1),
 		(1,'login',2),
@@ -6629,7 +6629,7 @@ VALUES  (1,'home',1),
 		(1,'cart',5),
 		(1,'checkout',6),
 		(1,'specials',7);
---ITEM_ICON
+-- ITEM_ICON
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (2,'',1),
 		(2,'',2),
@@ -6638,7 +6638,7 @@ VALUES  (2,'',1),
 		(2,'',5),
 		(2,'',6),
 		(2,'',7);
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (3,'index/home',1),
 		(3,'account/login',2),
@@ -6647,7 +6647,7 @@ VALUES  (3,'index/home',1),
 		(3,'checkout/cart',5),
 		(3,'checkout/shipping',6),
 		(3,'product/special',7);
---PARENT_ID
+-- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (4,'',1),
 		(4,'',2),
@@ -6656,7 +6656,7 @@ VALUES  (4,'',1),
 		(4,'',5),
 		(4,'',6),
 		(4,'',7);
---SORT_ORDER
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (5,10,1),
 		(5,20,2),
@@ -6665,7 +6665,7 @@ VALUES  (5,10,1),
 		(5,50,5),
 		(5,60,6),
 		(5,11,7);
---ITEM_TYPE
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (6,'core',1),
 		(6,'core',2),
@@ -6676,7 +6676,7 @@ VALUES  (6,'core',1),
 		(6,'core',7);
 
 --
---ADMIN MENU SECTION
+-- ADMIN MENU SECTION
 --
 INSERT INTO `ac_datasets` (`dataset_name`,`dataset_key`) VALUES ('menu','admin');
 INSERT INTO `ac_dataset_definition` (`dataset_id`,`dataset_column_name`,`dataset_column_type`,`dataset_column_sort_order`) 
@@ -6687,10 +6687,10 @@ VALUES  (2,'item_id','varchar',1),
 		(2,'sort_order','integer',5),
 		(2,'item_type','varchar',6);
 --		
---MAIN (PARENT) MENU
+-- MAIN (PARENT) MENU
 --
 --		
---ITEM_ID
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (7,'catalog',1),
 		(7,'sale',2),
@@ -6699,7 +6699,7 @@ VALUES  (7,'catalog',1),
 		(7,'system',5),
 		(7,'reports',6),
 		(7,'help',7);
---ITEM_TEXT		
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_catalog',1),
 		(8,'text_sale',2),
@@ -6708,7 +6708,7 @@ VALUES  (8,'text_catalog',1),
 		(8,'text_system',5),
 		(8,'text_reports',6),
 		(8,'text_help',7);
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'catalog/category',1),
 		(9,'sale/order',2),
@@ -6717,7 +6717,7 @@ VALUES  (9,'catalog/category',1),
 		(9,'setting/setting',5),
 		(9,'report/sale',6),
 		(9,'',7);
---PARENT_ID		
+-- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'',1),
 		(10,'',2),
@@ -6726,7 +6726,7 @@ VALUES  (10,'',1),
 		(10,'',5),
 		(10,'',6),
 		(10,'',7);
---SORT_ORDER		
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,1),
 		(11,2,2),
@@ -6735,7 +6735,7 @@ VALUES  (11,1,1),
 		(11,5,5),
 		(11,6,6),
 		(11,7,7);
---ITEM_TYPE	
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',1),
 		(12,'core',2),
@@ -6745,8 +6745,8 @@ VALUES  (12,'core',1),
 		(12,'core',6),
 		(12,'core',7);
 --		
---SUBMENU CATEGORY
---ITEM_ID		
+-- SUBMENU CATEGORY
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (7,'category',11),
 		(7,'product',12),
@@ -6754,7 +6754,7 @@ VALUES  (7,'category',11),
 		(7,'download',14),
 		(7,'review',15),
 		(7,'attributes',16);
---ITEM_TEXT
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_category',11),
 		(8,'text_product',12),
@@ -6762,7 +6762,7 @@ VALUES  (8,'text_category',11),
 		(8,'text_download',14),
 		(8,'text_review',15),
 		(8,'text_attribute',16);
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'catalog/category',11),
 		(9,'catalog/product',12),
@@ -6770,7 +6770,7 @@ VALUES  (9,'catalog/category',11),
 		(9,'catalog/download',14),
 		(9,'catalog/review',15),
 		(9,'catalog/attribute',16);
---PARENT_ID
+-- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'catalog',11),
 		(10,'catalog',12),
@@ -6778,7 +6778,7 @@ VALUES  (10,'catalog',11),
 		(10,'catalog',14),
 		(10,'catalog',15),
 		(10,'catalog',16);
---SORT_ORDER
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,11),
 		(11,2,12),
@@ -6786,7 +6786,7 @@ VALUES  (11,1,11),
 		(11,4,14),
 		(11,5,15),
 		(11,6,16);
---ITEM_TYPE
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',11),
 		(12,'core',12),
@@ -6795,8 +6795,8 @@ VALUES  (12,'core',11),
 		(12,'core',15),
 		(12,'core',16);
 --
---SUBMENU EXTENSION
---ITEM_ID		
+-- SUBMENU EXTENSION
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (7,'extensions',31),
 		(7,'shipping',32),
@@ -6805,7 +6805,7 @@ VALUES  (7,'extensions',31),
 		(7,'total',35),
 		(7,'add_extension',36),
 		(7,'extensions_store',37);
---ITEM_TEXT
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_extensions',31),
 		(8,'text_shipping',32),
@@ -6814,7 +6814,7 @@ VALUES  (8,'text_extensions',31),
 		(8,'text_total',35),
 		(8,'text_add_extension',36),
 		(8,'text_extensions_store',37);
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'extension/extensions/extensions',31),
 		(9,'extension/extensions/shipping',32),
@@ -6823,7 +6823,7 @@ VALUES  (9,'extension/extensions/extensions',31),
 		(9,'extension/total',35),
 		(9,'tool/package_installer',36),
 		(9,'extension/extensions_store',37);
---PARENT_ID
+-- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'extension',31),
 		(10,'extension',32),
@@ -6832,7 +6832,7 @@ VALUES  (10,'extension',31),
 		(10,'extension',35),
 		(10,'extension',36),
 		(10,'extension',37);
---SORT_ORDER
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,31),
 		(11,2,32),
@@ -6841,7 +6841,7 @@ VALUES  (11,1,31),
 		(11,5,35),
 		(11,5,36),
 		(11,5,37);
---ITEM_TYPE
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',31),
 		(12,'core',32),
@@ -6849,43 +6849,43 @@ VALUES  (12,'core',31),
 		(12,'core',34),
 		(12,'core',35);
 --
---SUBMENU SALE
---ITEM_ID		
+-- SUBMENU SALE
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (7,'order',51),
 		(7,'customer',52),
 		(7,'customer_group',53),
 		(7,'coupon',54),
 		(7,'contact',55);
---ITEM_TEXT		
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_order',51),
 		(8,'text_customer',52),
 		(8,'text_customer_group',53),
 		(8,'text_coupon',54),
 		(8,'text_contact',55);		
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'sale/order',51),
 		(9,'sale/customer',52),
 		(9,'sale/customer_group',53),
 		(9,'sale/coupon',54),
 		(9,'sale/contact',55);
---PARENT_ID		
+-- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'sale',51),
 		(10,'sale',52),
 		(10,'sale',53),
 		(10,'sale',54),
 		(10,'sale',55);
---SORT_ORDER		
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,51),
 		(11,2,52),
 		(11,3,53),
 		(11,4,54),
 		(11,5,55);
---ITEM_TYPE	
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',51),
 		(12,'core',52),
@@ -6893,8 +6893,8 @@ VALUES  (12,'core',51),
 		(12,'core',54),		
 		(12,'core',55);
 --		
---SUBMENU SYSTEM
---ITEM_ID
+-- SUBMENU SYSTEM
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (7,'setting',71),
 		(7,'users',72),
@@ -6904,7 +6904,7 @@ VALUES  (7,'setting',71),
 		(7,'cache',78),
 		(7,'messages',79),
 		(7,'logs',80);
---ITEM_TEXT
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_setting',71),
 		(8,'text_users',72),
@@ -6914,7 +6914,7 @@ VALUES  (8,'text_setting',71),
 		(8,'text_cache',78),
 		(8,'text_messages',79),
 		(8,'text_logs',80);
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'setting/setting',71),
 		(9,'',72),
@@ -6924,7 +6924,7 @@ VALUES  (9,'setting/setting',71),
 		(9,'tool/cache',78),
 		(9,'tool/message_manager',79),
 		(9,'',80);
---PARENT_ID
+-- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'system',71),
 		(10,'system',72),
@@ -6934,7 +6934,7 @@ VALUES  (10,'system',71),
 		(10,'system',78),
 		(10,'system',79),
 		(10,'system',80);
---SORT_ORDER
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,71),
 		(11,2,72),
@@ -6944,7 +6944,7 @@ VALUES  (11,1,71),
 		(11,8,78),
 		(11,9,79),
 		(11,10,80);
---ITEM_TYPE
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',71),
 		(12,'core',72),
@@ -6955,78 +6955,78 @@ VALUES  (12,'core',71),
 		(12,'core',79),
 		(12,'core',80);
 --
---SUBMENU REPORTS
---ITEM_ID
+-- SUBMENU REPORTS
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (7,'report_sale',91),
 		(7,'viewed',92),
 		(7,'purchased',93),
 		(7,'banner_manager_stat',94 );
---ITEM_TEXT
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_report_sale',91),
 		(8,'text_report_viewed',92),
 		(8,'text_report_purchased',93),
 		(8,'banner_manager_name_stat',94);
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'report/sale',91),
 		(9,'report/viewed',92),
 		(9,'report/purchased',93),
 		(9,'extension/banner_manager_stat',94);
---PARENT_ID
+-- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'reports',91),
 		(10,'reports',92),
 		(10,'reports',93),
 		(10,'reports',94);
---SORT_ORDER
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,91),
 		(11,2,92),
 		(11,3,93),
 		(11,4,94);
---ITEM_TYPE
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',91),
 		(12,'core',92),		
 		(12,'core',93),
 		(12,'extension',94);
 --
---SUBMENU HELP
---ITEM_ID		
+-- SUBMENU HELP
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (7,'abantecart',111),
 		(7,'documentation',112),
 		(7,'support',113);
---ITEM_TEXT		
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_abantecart',111),
 		(8,'text_documentation',112),
 		(8,'text_support',113);
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'window.open(\'http://www.abantecart.com\');',111),
 		(9,'window.open(\'http://www.abantecart.com/ecommerce-documentation\');',112),
 		(9,'window.open(\'http://forum.abantecart.com\');',113);
---PARENT_ID		
+-- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'help',111),
 		(10,'help',112),
 		(10,'help',113);
---SORT_ORDER		
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,111),
 		(11,2,112),
 		(11,3,113);
---ITEM_TYPE	
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',111),
 		(12,'core',112),		
 		(12,'core',113);
 --		
---SUBMENU DESIGN
---ITEM_ID		
+-- SUBMENU DESIGN
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (7,'template',131),
 		(7,'layout',132),
@@ -7034,7 +7034,7 @@ VALUES  (7,'template',131),
 		(7,'menu',134),
 		(7,'content',135),
 		(7,'banner_manager',136);
---ITEM_TEXT
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_templates',131),
 		(8,'text_layout',132),
@@ -7042,7 +7042,7 @@ VALUES  (8,'text_templates',131),
 		(8,'text_menu',134),
 		(8,'text_content',135),
 		(8,'banner_manager_name',136);
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'extension/extensions/template',131),
 		(9,'design/layout',132),
@@ -7050,7 +7050,7 @@ VALUES  (9,'extension/extensions/template',131),
 		(9,'design/menu',134),
 		(9,'design/content',135),
 		(9,'extension/banner_manager',136);
---PARENT_ID
+-- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'design',131),
 		(10,'design',132),
@@ -7058,7 +7058,7 @@ VALUES  (10,'design',131),
 		(10,'design',134),
 		(10,'design',135),
 		(10,'design',136);
---SORT_ORDER
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,131),
 		(11,2,132),
@@ -7066,7 +7066,7 @@ VALUES  (11,1,131),
 		(11,4,134),
 		(11,5,135),
 		(11,6,136);
---ITEM_TYPE
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',131),
 		(12,'core',132),		
@@ -7076,8 +7076,8 @@ VALUES  (12,'core',131),
 		(12,'extension',136);
 		
 --		
---SUBMENU SYSTEM->SETTINGS
---ITEM_ID		
+-- SUBMENU SYSTEM->SETTINGS
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES
 (7,'all_settings',191),
@@ -7090,7 +7090,7 @@ VALUES
 (7,'settings_system',198),
 (7,'settings_newstore',199);
 
---ITEM_TEXT		
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES
 (8,'text_all_settings',191),
@@ -7103,7 +7103,7 @@ VALUES
 (8,'text_settings_system',198),
 (8,'text_settings_newstore',199);
 
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES
 (9,'setting/setting/all',191),
@@ -7115,7 +7115,7 @@ VALUES
 (9,'setting/setting/api',197),
 (9,'setting/setting/system',198),
 (9,'setting/store/insert',199);
---PARENT_ID		
+-- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES
 (10,'setting',191),
@@ -7127,7 +7127,7 @@ VALUES
 (10,'setting',197),
 (10,'setting',198),
 (10,'setting',199);
---SORT_ORDER		
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES
 (11,1,191),
@@ -7139,7 +7139,7 @@ VALUES
 (11,7,197),
 (11,8,198),
 (11,9,199);
---ITEM_TYPE	
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES
 (12,'core',191),
@@ -7153,34 +7153,34 @@ VALUES
 (12,'core',199);
 		
 --
---SUBMENU USERS OF SUBMENU SYSTEM 
---ITEM_ID		
+-- SUBMENU USERS OF SUBMENU SYSTEM
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (7,'user',151),
 		(7,'permission',152);
---ITEM_TEXT		
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_user',151),
 		(8,'text_user_group',152);		
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'user/user',151),
 		(9,'user/user_permission',152);
---PARENT_ID	(submenu SYSTEM)	
+-- PARENT_ID	(submenu SYSTEM)
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'users',151),
 		(10,'users',152);
---SORT_ORDER		
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,151),
 		(11,2,152);
---ITEM_TYPE	
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',151),		
 		(12,'core',152);
 --		
---SUBMENU SYSTEM->LOCALIZATION
---ITEM_ID		
+-- SUBMENU SYSTEM->LOCALIZATION
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (7,'language',171),
 		(7,'language_definitions',172),
@@ -7193,7 +7193,7 @@ VALUES  (7,'language',171),
 		(7,'taxclass',179),
 		(7,'lengthclass',180),
 		(7,'weightclass',181);
---ITEM_TEXT		
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_language',171),
 		(8,'text_language_definitions',172),
@@ -7206,7 +7206,7 @@ VALUES  (8,'text_language',171),
 		(8,'text_tax_class',179),
 		(8,'text_length_class',180),
 		(8,'text_weight_class',181);		
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'localisation/language',171),
 		(9,'localisation/language_definitions',172),
@@ -7219,7 +7219,7 @@ VALUES  (9,'localisation/language',171),
 		(9,'localisation/tax_class',179),
 		(9,'localisation/length_class',180),
 		(9,'localisation/weight_class',181);
---PARENT_ID		
+-- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'localisation',171),
 		(10,'localisation',172),
@@ -7232,7 +7232,7 @@ VALUES  (10,'localisation',171),
 		(10,'localisation',179),
 		(10,'localisation',180),
 		(10,'localisation',181);
---SORT_ORDER		
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,171),
 		(11,2,172),
@@ -7245,7 +7245,7 @@ VALUES  (11,1,171),
 		(11,9,179),
 		(11,10,180),
 		(11,11,181);
---ITEM_TYPE	
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',171),
 		(12,'core',172),
@@ -7260,43 +7260,43 @@ VALUES  (12,'core',171),
 		(12,'core',181);
 
 --
---SUBMENU SYSTEM->DATA
---ITEM_ID
+-- SUBMENU SYSTEM->DATA
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (7,'backup',183),
 		(7,'migrate',184),
 		(7,'datasets',185),
 		(7,'import_export',182),
 		(7,'file_uploads',188);
---ITEM_TEXT
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (8,'text_backup',183),
 		(8,'text_migrate',184),
 		(8,'text_datasets_manager',185),
 		(8,'text_import_export',182),
 		(8,'text_file_uploads',188);
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (9,'tool/backup',183),
 		(9,'tool/migration/step_one',184),
 		(9,'tool/datasets_manager',185),
 		(9,'tool/import_export',182),
 		(9,'tool/files',188);
---PARENT_ID
+-- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (10,'data',183),
 		(10,'data',184),
 		(10,'data',185),
 		(10,'data',182),
 		(10,'data',188);
---SORT_ORDER
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (11,1,183),
 		(11,2,184),
 		(11,3,185),
 		(11,4,182),
 		(11,5,188);
---ITEM_TYPE
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (12,'core',183),
 		(12,'core',184),
@@ -7305,57 +7305,57 @@ VALUES  (12,'core',183),
 		(12,'core',188);
 
 --
---SUBMENU SYSTEM->LOGS
---ITEM_ID
+-- SUBMENU SYSTEM->LOGS
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (7,'installlog',186),
 		(7,'error_log',187);
---ITEM_TEXT
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (8,'text_install_upgrade_history',186),
 		(8,'text_error_log',187);
---ITEM_URL
+-- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (9,'tool/install_upgrade_history',186),
 		(9,'tool/error_log',187);
---PARENT_ID
+-- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (10,'logs',186),
 		(10,'logs',187);
---SORT_ORDER
+-- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (11,1,186),
 		(11,2,187);
---ITEM_TYPE
+-- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (12,'core',186),
 		(12,'core',187);
 
 --
---SUBMENU ATTRIBUTES OF SUBMENU CATALOG
---ITEM_ID
---INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
---VALUES  (7,'attribute',201),
+-- SUBMENU ATTRIBUTES OF SUBMENU CATALOG
+-- ITEM_ID
+-- INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+-- VALUES  (7,'attribute',201),
 --		(7,'attribute_groups',202);
---ITEM_TEXT
---INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
---VALUES  (8,'text_attribute',201),
+-- ITEM_TEXT
+-- INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+-- VALUES  (8,'text_attribute',201),
 --		  (8,'text_attribute_groups',202);
---ITEM_URL
---INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
---VALUES  (9,'catalog/attribute',201),
+-- ITEM_URL
+-- INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+-- VALUES  (9,'catalog/attribute',201),
 --		(9,'catalog/attribute_groups',202);
---PARENT_ID	(submenu ATTRIBUTES)
---INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
---VALUES  (10,'attributes',201),
+-- PARENT_ID	(submenu ATTRIBUTES)
+-- INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+-- VALUES  (10,'attributes',201),
 --		(10,'attributes',202);
---SORT_ORDER
---INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
---VALUES  (11,1,201),
+-- SORT_ORDER
+-- INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
+-- VALUES  (11,1,201),
 --		(11,2,202);
---ITEM_TYPE
---INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
---VALUES  (12,'core',201),
+-- ITEM_TYPE
+-- INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+-- VALUES  (12,'core',201),
 --		(12,'core',202);
 
 --
@@ -7366,7 +7366,7 @@ INSERT INTO `ac_dataset_definition` (`dataset_id`,`dataset_column_name`,`dataset
 VALUES  (3,'item_id','varchar',1),
 		(3,'item_text','varchar',2),
 		(3,'language_id','integer',3);
---ITEM_ID
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (13,'home',1),
 		(13,'login',2),
@@ -7375,7 +7375,7 @@ VALUES  (13,'home',1),
 		(13,'cart',5),
 		(13,'checkout',6),
 		(13,'specials',14);
---ITEM_TEXT
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (14,'Home',1),
 		(14,'Login',2),
@@ -7384,7 +7384,7 @@ VALUES  (14,'Home',1),
 		(14,'Cart',5),
 		(14,'Checkout',6),
 		(14,'Specials',14);
---LANGUAGE_ID
+-- LANGUAGE_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (15,1,1),
 		(15,1,2),
@@ -7393,8 +7393,8 @@ VALUES  (15,1,1),
 		(15,1,5),
 		(15,1,6),
 		(15,1,14);
---spanish
---ITEM_ID
+-- spanish
+-- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (13,'home',7),
 		(13,'login',8),
@@ -7403,7 +7403,7 @@ VALUES  (13,'home',7),
 		(13,'cart',11),
 		(13,'checkout',12),
 		(13,'specials',13);
---ITEM_TEXT
+-- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (14,'Casa',7),
 		(14,'Iniciar Sesión',8),
@@ -7412,7 +7412,7 @@ VALUES  (14,'Casa',7),
 		(14,'Carro',11),
 		(14,'Caja',12),
 		(14,'Especiales',13);
---LANGUAGE_ID
+-- LANGUAGE_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (15,9,7),
 		(15,9,8),
@@ -7424,7 +7424,7 @@ VALUES  (15,9,7),
 
 
 
---## ADD INSTALL/UPGRADE HISTORY DATASET
+-- ## ADD INSTALL/UPGRADE HISTORY DATASET
 INSERT INTO `ac_datasets` (`dataset_name`,`dataset_key`) VALUES ('install_upgrade_history','admin');
 INSERT INTO `ac_dataset_properties` (`dataset_id`,`dataset_property_name`,`dataset_property_value`) VALUES ('4','controller','tool/install_upgrade_history');
 
@@ -7437,7 +7437,7 @@ VALUES  (4,'date_added','timestamp',1),
 		(4,'type','varchar',6),
 		(4,'user','varchar',7);
 
---## ADD FILE UPLOADS DATASET
+-- ## ADD FILE UPLOADS DATASET
 INSERT INTO `ac_datasets` (`dataset_name`,`dataset_key`) VALUES ('file_uploads','admin');
 INSERT INTO `ac_dataset_properties` (`dataset_id`,`dataset_property_name`,`dataset_property_value`) VALUES ('5','controller','tool/files');
 
@@ -7449,7 +7449,7 @@ VALUES  (5,'date_added','timestamp',1),
 		(5,'section_id','integer',5),
 		(5,'path','varchar',6);
 
---insert info about initial installation
+-- insert info about initial installation
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_timestamp`,`row_id`)
 VALUES  (16,NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -7613,11 +7613,7 @@ CREATE TABLE `ac_global_attributes_types` (
 
 INSERT INTO `ac_global_attributes_types` (`attribute_type_id`, `type_key`, `controller`, `sort_order`, `status`) VALUES
 (1, 'product_option', 'responses/catalog/attribute/getProductOptionSubform', 1, 1),
-(2, 'download_attribute', 'Download Attribute', 'responses/catalog/attribute/getDownloadAttributeSubform', 2, 1);
--- Future support for other attribute types
---(3, 'category_attribute', 'Category Attribute', '', 30, 1),
---(4, 'page_attribute', 'Page Attribute', '', 40, 1),
---(5, 'manufacturers_attribute', 'Manufacture Attribute', '', 70, 1),
+(2, 'download_attribute', 'responses/catalog/attribute/getDownloadAttributeSubform', 2, 1);
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_type_descriptions`;
