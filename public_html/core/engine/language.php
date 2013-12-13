@@ -393,7 +393,7 @@ class ALanguage {
 			$xml = simplexml_load_file($file);
 			if (isset($xml->definition))
 				foreach ($xml->definition as $item) {
-					$definitions[(string)$item->key] = (string)$item->value;
+					$definitions[(string)$item->key] = trim((string)$item->value, "\t\n\r\0\x0B");
 				}
 		}
 		return $definitions;
@@ -579,7 +579,7 @@ class ALanguage {
 		$language_query = $this->db->query($sql);
 		if ($language_query->num_rows) {
 			foreach ($language_query->rows as $language) {
-				$lang_array[$language['language_key']] = $language['language_value'];
+				$lang_array[$language['language_key']] = trim($language['language_value'], "\t\n\r\0\x0B");
 			}
 		}
 		return $lang_array;
