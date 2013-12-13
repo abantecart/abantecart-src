@@ -524,12 +524,12 @@ class AAttribute_Manager extends AAttribute {
         if ( !$language_id ) {
             $language_id = $this->session->data['content_language_id'];
         }
-        $query = $this->db->query("SELECT ga.*, gad.value
-            FROM `".DB_PREFIX."global_attributes_values` ga
-                LEFT JOIN `".DB_PREFIX."global_attributes_value_descriptions` gad
-                ON ( ga.attribute_value_id = gad.attribute_value_id AND gad.language_id = '" . (int)$language_id . "' )
-            WHERE ga.attribute_id = '" . $this->db->escape( $attribute_id ) . "'
-            ORDER BY sort_order"                
+        $query = $this->db->query( "SELECT ga.*, gad.value
+									FROM `".DB_PREFIX."global_attributes_values` ga
+										LEFT JOIN `".DB_PREFIX."global_attributes_value_descriptions` gad
+										ON ( ga.attribute_value_id = gad.attribute_value_id AND gad.language_id = '" . (int)$language_id . "' )
+									WHERE ga.attribute_id = '" . $this->db->escape( $attribute_id ) . "'
+									ORDER BY sort_order"
         );	
 	    return $query->rows;
 	}

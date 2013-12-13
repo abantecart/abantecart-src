@@ -19,7 +19,6 @@
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
 
 	<?php echo $summary_form; ?>
-	<?php echo $form['form_open']; ?>
 
 	<div id="notify" class="align_center success" style="display: none;"></div>
 	<?php if ($success) { ?>
@@ -28,17 +27,18 @@
 	</script>
 	<?php } ?>
 
-	<table id="option_values_tbl" class="list option ">
+	<table id="product_download_form" class="list option ">
 	    <tr>
-	        <td class="left"><?php echo $entry_file_icon; ?></td>
-	        <td class="left"><?php echo $entry_file_name; ?></td>
-	        <td class="left"><?php echo $entry_file_max_downloads; ?></td>
-	        <td class="left"><?php echo $entry_file_sort_order; ?></td>
-	        <td class="left"><?php echo $entry_file_status; ?></td>
-	        <td class="left"></td>
-	        <td class="left"><?php echo $column_action; ?></td>
+	        <th class="left"><?php echo $entry_file_id; ?></th>
+	        <th class="left"><?php echo $entry_file_icon; ?></th>
+	        <th class="left"><?php echo $entry_file_name; ?></th>
+	        <th class="left"><?php echo $entry_file_max_downloads; ?></th>
+	        <th class="left"><?php echo $entry_file_sort_order; ?></th>
+	        <th class="left"><?php echo $entry_file_status; ?></th>
+	        <th class="left"></th>
+	        <th class="left"><?php echo $column_action; ?></th>
 	    </tr>
-	    <?php echo $product_id; ?>
+	    <?php //echo $product_id; ?>
 	    <?php foreach ($file_rows as $file_html) { ?>
 	        <?php echo $file_html; ?>
 	    <?php } ?>
@@ -52,28 +52,31 @@
 		<?php echo $new_file_row ?>
 	</table>
 
-
-	</form>
-
   </div></div></div>
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
 
 <script type="text/javascript"><!--
+	var text = {
+		error_attribute_not_selected: '<?php echo $error_attribute_not_selected ?>',
+		text_expand: '<?php echo $text_expand ?>',
+		text_hide: '<?php echo $text_hide ?>'
+	};
 
-	$("#option_values_tbl a.expandRow").live('click', function () {
+	$("#product_download_form a.expandRow").live('click', function () {
 		var additional_row = $(this).parent().parent().next().find('div.additionalRow');
 		if ($(additional_row).is(':visible')) {
-			$(additional_row).hide();
+			$(additional_row).slideUp();
 			$(this).text(text.text_expand);
 			$(this).parent().parent().next().find('div.add_resource').html();
 		} else {
-			$(additional_row).show();
-			$(this).text(text.text_hide);
 			$('div.aform', additional_row).show();
-			setRLparams($(this).attr('id'));
+			$(additional_row).slideDown();
+			$(this).text(text.text_hide);
 
-			loadMedia('image');
+			//setRLparams($(this).attr('id'));
+
+			//loadMedia('image');
 		}
 
 		return false;

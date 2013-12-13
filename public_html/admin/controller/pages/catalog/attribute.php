@@ -23,6 +23,9 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesCatalogAttribute extends AController {
 	public $data = array();
 	public $error = array();
+	/**
+	 * @var AAttribute_Manager
+	 */
 	private $attribute_manager;
 
 	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
@@ -200,6 +203,8 @@ class ControllerPagesCatalogAttribute extends AController {
 				$this->session->data[ 'content_language_id' ]
 			);
 
+			$attribute_type_info = $this->attribute_manager->getAttributeTypeInfoById((int)$attribute_info[ 'attribute_type_id' ]);
+
 			//load values for attributes with options
 
 			$this->data[ 'elements_with_options' ] = HtmlElementFactory::getElementsWithOptions();
@@ -220,9 +225,12 @@ class ControllerPagesCatalogAttribute extends AController {
 			}
 		}
 
+		if(has_value($this->request->get[ 'attribute_type_id' ])){
+			$attribute_type_info = $this->attribute_manager->getAttributeTypeInfoById((int)$this->request->get[ 'attribute_type_id' ]);
+		}
+
 		$fields = array(
 			'name',
-			'attribute_parent_id',
 			'attribute_group_id',
 			'attribute_type_id',
 			'element_type',
@@ -234,6 +242,11 @@ class ControllerPagesCatalogAttribute extends AController {
 			'status',
 			'values'
 		);
+
+		if($attribute_type_info['type_key']!='download_attribute'){
+			$fileds[] = 'attribute_parent_id';
+		}
+
 		foreach ($fields as $f) {
 			if (isset($this->request->post[ $f ])) {
 				$this->data[ $f ] = $this->request->post[ $f ];
@@ -251,6 +264,7 @@ class ControllerPagesCatalogAttribute extends AController {
 		foreach ($results as $type) {
 			$this->data['attribute_types'][ $type[ 'attribute_type_id' ] ] = $type;
 		}
+
         if(isset($attribute_info['attribute_type_id'])){
             $attribute_type_id = (int)$attribute_info['attribute_type_id'];
         }else{
@@ -329,21 +343,22 @@ class ControllerPagesCatalogAttribute extends AController {
 		                                                                       'style' => 'large-field',
 		                                                                  ));
 
-		$parent_attributes = array( '' => $this->language->get('text_select') );
-		$results = $this->attribute_manager->getAttributes(array('attribute_type_id'=>$attribute_type_id), 0, 0);
-		foreach ($results as $type) {
-			if (isset($this->request->get[ 'attribute_id' ]) && $this->request->get[ 'attribute_id' ] == $type[ 'attribute_id' ]) {
-				continue;
+		if($attribute_type_info['type_key']!='download_attribute'){
+			$parent_attributes = array( '' => $this->language->get('text_select') );
+			$results = $this->attribute_manager->getAttributes(array('attribute_type_id'=>$attribute_type_id), 0, 0);
+			foreach ($results as $type) {
+				if (isset($this->request->get[ 'attribute_id' ]) && $this->request->get[ 'attribute_id' ] == $type[ 'attribute_id' ]) {
+					continue;
+				}
+				$parent_attributes[ $type[ 'attribute_id' ] ] = $type[ 'name' ];
 			}
-			$parent_attributes[ $type[ 'attribute_id' ] ] = $type[ 'name' ];
+			$this->data[ 'form' ][ 'fields' ][ 'attribute_parent' ] = $form->getFieldHtml(array(
+																							   'type' => 'selectbox',
+																							   'name' => 'attribute_parent_id',
+																							   'value' => $this->data[ 'attribute_parent_id' ],
+																							   'options' => $parent_attributes,
+																						  ));
 		}
-
-		$this->data[ 'form' ][ 'fields' ][ 'attribute_parent' ] = $form->getFieldHtml(array(
-		                                                                                   'type' => 'selectbox',
-		                                                                                   'name' => 'attribute_parent_id',
-		                                                                                   'value' => $this->data[ 'attribute_parent_id' ],
-		                                                                                   'options' => $parent_attributes,
-		                                                                              ));
 		//NOTE: Future implementation
 		/*$this->data['form']['fields']['attribute_group'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -417,13 +432,14 @@ class ControllerPagesCatalogAttribute extends AController {
 		foreach($this->data['attribute_types'] as $type_id=>$type){
 			if(!$type_id) continue;
 			// check is extension enabled
-			if($type['controller']!= 'responses/catalog/attribute/getProductOptionSubform'){
+			if(!in_array($type['controller'],$this->attribute_manager->getCoreAttributeTypesControllers())) {
 				$controller = explode('/',$type['controller']);
 				array_pop($controller);
 				$controller = implode('/',$controller);
 				if(!$this->extensions->isExtensionController($controller)){
 					continue;
-				}}
+				}
+			}
 
 			$this->data['tabs'][$type_id] = array(
 				'text' => $type[ 'type_name' ],

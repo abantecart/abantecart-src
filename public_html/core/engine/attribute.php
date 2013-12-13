@@ -36,7 +36,14 @@ class AAttribute {
     protected $registry;
     private $attributes = array();
     private $attribute_types = array();
-	
+	/**
+	 * @var array of core attribute types controllers
+	 */
+	private $core_attribute_types_controllers = array(
+														'responses/catalog/attribute/getProductOptionSubform',
+														'responses/catalog/attribute/getDownloadAttributeSubform'
+													);
+
 	public function __construct($attribute_type = '', $language_id = 0 ) {
 		$this->registry = Registry::getInstance();
         $this->errors = array();
@@ -169,6 +176,14 @@ class AAttribute {
 		return $this->attribute_types;
 	}
 
+    /**
+     * Get array of all core attribute types controllers (for recognizing of core attribute types)
+	 * @return array
+     */
+    public function getCoreAttributeTypesControllers( ) {
+		return $this->core_attribute_types_controllers;
+	}
+
 
     /**
      * @param string $type
@@ -186,11 +201,24 @@ class AAttribute {
     /**
      * @param string $type
 	 * @return array
-     * Get attribute tyoe data based on attribute type_key
+     * Get attribute type data based on attribute type_key
      */
     public function getAttributeTypeInfo( $type ) {
         foreach ( $this->attribute_types as $attribute_type ) {
             if ( $attribute_type['type_key']  == $type ) {
+            	return $attribute_type;
+            }
+		}
+		return array();
+	}
+	/**
+     * @param int $type_id
+	 * @return array
+     * Get attribute type data based on attribute type id
+     */
+    public function getAttributeTypeInfoById( $type_id ) {
+        foreach ( $this->attribute_types as $attribute_type ) {
+            if ( $attribute_type['attribute_type_id']  == $type_id ) {
             	return $attribute_type;
             }
 		}

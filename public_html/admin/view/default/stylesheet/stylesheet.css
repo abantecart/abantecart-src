@@ -152,8 +152,7 @@ a img {
 }
 
 .search_box .cl, .search_box .cr, .search_box .cc {
-    background-image: url(../image/form/field_mask1.png);
-    background-repeat: no-repeat;
+	background: url(../image/form/field_mask1.png) no-repeat;
 }
 
 .search_box .cl {
@@ -1421,7 +1420,7 @@ table.form tr td:first-child {
 }
 
 .add {
-    -moz-background-clip: border;
+    -moz-background-clip: border-box;
     -moz-background-inline-policy: continuous;
     -moz-background-origin: padding;
     background: url(../image/add.png) 100% 0 no-repeat;
@@ -1433,7 +1432,7 @@ table.form tr td:first-child {
 }
 
 .remove {
-    -moz-background-clip: border;
+    -moz-background-clip: border-box;
     -moz-background-inline-policy: continuous;
     -moz-background-origin: padding;
     background: url(../image/delete.png) 100% 0 no-repeat;
@@ -2127,3 +2126,41 @@ table.form tr td:first-child {
 	padding: 0 0 0 10px;
 }
 
+
+/* downloads */
+
+#product_download_form a{
+    height: 26px;
+    background-position: left center;
+    padding: 0px;
+    margin: 0px;
+    vertical-align: middle
+}
+
+#product_download_form td {
+    padding: 4px;
+}
+
+#product_download_form .toDelete {
+    opacity: 0.3;
+}
+
+#product_download_form a.expandRow {
+    background: none;
+    margin: 0;
+    text-decoration: none;
+    text-align: center;
+}
+
+#product_download_form .additionalRow{
+	padding-top: 20px;
+}
+
+#product_download_form .fieldset{
+	width: 46%;
+	margin: auto 16px;
+}
+
+#product_download_form .table td{
+	border:0;
+}

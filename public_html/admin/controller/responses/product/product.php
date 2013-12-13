@@ -687,4 +687,9 @@ class ControllerResponsesProductProduct extends AController {
 		$this->view->batchAssign($this->data);
 		return $this->view->fetch('responses/product/option_value_row.tpl');
 	}
+
+
+	public function loadDownloadForm(){
+
+	}
 }
