@@ -20,10 +20,17 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
-class ModelCheckoutOrder extends Model {
+/**
+ * Class ModelCheckoutOrder
+ */
 
+class ModelCheckoutOrder extends Model {
 	public $data = array();
 
+	/**
+	 * @param $order_id
+	 * @return array|bool
+	 */
 	public function getOrder($order_id) {
 		$order_query = $this->db->query("SELECT * FROM `" . $this->db->table("orders") . "` WHERE order_id = '" . (int)$order_id . "'");
 
@@ -79,6 +86,11 @@ class ModelCheckoutOrder extends Model {
 		}
 	}
 
+	/**
+	 * @param array $data
+	 * @param int|string $old_order_id
+	 * @return bool|int
+	 */
 	public function create($data, $old_order_id = '') {
 		//reuse same order_id or unused one order_status_id = 0
 		if ($old_order_id) {
@@ -207,10 +219,20 @@ class ModelCheckoutOrder extends Model {
 		return $order_id;
 	}
 
+	/**
+	 * @param int $order_id
+	 * @param int $order_status_id
+	 * @param string $comment
+	 */
 	public function confirm($order_id, $order_status_id, $comment = '') {
 		$this->extensions->hk_confirm($this, $order_id, $order_status_id, $comment);
 	}
 
+	/**
+	 * @param int $order_id
+	 * @param int $order_status_id
+	 * @param string $comment
+	 */
 	public function _confirm($order_id, $order_status_id, $comment = '') {
 		$order_query = $this->db->query("SELECT *,
 												l.filename AS filename,
@@ -238,6 +260,7 @@ class ModelCheckoutOrder extends Model {
 							        notify = '1',
 							        comment = '" . $this->db->escape($comment) . "',
 							        date_added = NOW()");
+			$order_row['comment'] = $order_row['comment'] .' '. $comment;
 
 			$order_product_query = $this->db->query("SELECT *
 													 FROM " . $this->db->table("order_products") . "
@@ -516,6 +539,12 @@ class ModelCheckoutOrder extends Model {
 		}
 	}
 
+	/**
+	 * @param int $order_id
+	 * @param int $order_status_id
+	 * @param string $comment
+	 * @param bool $notify
+	 */
 	public function update($order_id, $order_status_id, $comment = '', $notify = FALSE) {
 		$order_query = $this->db->query("SELECT *
 										 FROM `" . $this->db->table("orders") . "` o
@@ -578,6 +607,11 @@ class ModelCheckoutOrder extends Model {
 		}
 	}
 
+	/**
+	 * @param int $order_id
+	 * @param string|array $data
+	 * @return bool|stdClass
+	 */
 	public function updatePaymentMethodData($order_id, $data) {
 
 		if ( is_array($data) ) {
