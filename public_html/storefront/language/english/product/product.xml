@@ -6,7 +6,7 @@
 	</definition>
 	<definition>
 		<key>text_zoom</key>
-		<value><![CDATA[Mouse move on Image to zoom]]></value>
+		<value><![CDATA[Move pointer over the image to zoom in]]></value>
 	</definition>	
 	<definition>
 		<key>text_discount</key>

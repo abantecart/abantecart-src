@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013, 2012 Belavier Commerce LLC
+  Copyright © 2011-2013, Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -22,6 +22,9 @@ if (!defined('DIR_CORE')) {
 }
 
 class ALanguageManager extends Alanguage {
+
+	private $translatable_fields = array();
+
 	//NOTE: This class is loaded in INIT for admin only
 	/**
 	 * @param Registry $registry
@@ -916,7 +919,6 @@ class ALanguageManager extends Alanguage {
 							$where_sql_1 .= " AND $key = '" . $langs[ $new_language ] . "'";
 							$where_sql_2 .= " AND $key = '" . $langs[ $from_language ] . "'";
 						} else {
-
 							$where_sql_1 .= " AND $key = '" . $row[ $key ] . "'";
 							$where_sql_2 .= " AND $key = '" . $row[ $key ] . "'";
 						}
@@ -936,11 +938,12 @@ class ALanguageManager extends Alanguage {
 						foreach ($drow as $fld_name => $value) {
 							if ($fld_name == 'language_id') {
 								$value = $new_language;
-							}
-							if ($fld_name == $auto_column) {
+							} else if ($fld_name == $auto_column) {
 								$value = '';
-							}
-							if (in_array($fld_name, $translatable_fields)) {
+							} else if ($fld_name == 'block' && $value == $langs[$from_language]) {
+								//language specific field for main language block. use destination language
+								$value = $langs[ $new_language ];
+							} else if (count($translatable_fields) && in_array($fld_name, $translatable_fields)) {
 								//we need to translate
 								$value = $this->translate($this->_get_language_code($from_language),
 									$value,
@@ -962,6 +965,14 @@ class ALanguageManager extends Alanguage {
 							if (!$this->_is_definition_in_db($insert_data)) {
 								$this->db->query($insrt_sql);
 							} else {
+								continue;
+							}
+						} else if ($table == DB_PREFIX . 'product_tags') {
+							// TODO. ac_product_tags still an issue. Will be clonned as duplication on each translation. 
+							//		 Issue. Can not check if translation is present because of no IDs present in ac_product_tags
+							// Offset duplicate error for now. 
+							if ( !$this->db->query($insrt_sql, true) ) {
+								//skip count on error
 								continue;
 							}
 						} else {
@@ -1011,20 +1022,36 @@ class ALanguageManager extends Alanguage {
 
 		$cache_file = "tables.translatable.$table_name";
 		$load_data = array();
-		if ($this->cache) {
+		// check memory first and cache next
+		if ($this->translatable_fields[$table_name]) {
+			return $this->translatable_fields[$table_name];
+		}
+		else if ($this->cache) {
 			$load_data = $this->cache->get($cache_file);
 		}
-		if (!$load_data) {
+		if ($load_data) {
+			//save to memory
+			$this->translatable_fields[$table_name] = $load_data;
+			return $load_data;
+		} else {
+			$result = array();
 			$sql = "SELECT column_name
 			    	FROM information_schema.columns 
-			    	WHERE table_name='" . $this->db->escape($table_name) . "' and column_comment='translatable'";
+			    	WHERE table_name='" . $this->db->escape($table_name) . "' and column_comment='translatable' group by column_name";
 			$load_sql = $this->db->query($sql);
 			$load_data = $load_sql->rows;
-			if ($this->cache) {
-				$this->cache->set($cache_file, $load_data);
+			//transform to single dimention
+			foreach ($load_data as $row) {
+			  $result[] = $row['column_name']; 
 			}
+			//save cache
+			if ($this->cache) {
+				$this->cache->set($cache_file, $result);
+			}
+			//save to memory
+			$this->translatable_fields[$table_name] = $result;
+			return $result;
 		}
-		return $load_data;
 	}
 
 	/**
