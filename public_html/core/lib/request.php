@@ -58,7 +58,7 @@ final class ARequest {
         $this->_detectBrowser();
 	}
 	
-	//????? Include PHP module filter to process input params. http://us3.php.net/manual/en/book.filter.php	 
+	//todo: Include PHP module filter to process input params. http://us3.php.net/manual/en/book.filter.php
 	/**
 	 * function returns variable value from $_GET first
 	 * @param string $key
@@ -70,7 +70,7 @@ final class ARequest {
 		} else if ( isset($this->post[$key]) ) {
 			return $this->post[$key];
 		} 
-		return;
+		return null;
 	}
 
 	/**
@@ -106,7 +106,7 @@ final class ARequest {
 	}
 
 	/**
-	 * @param string base64 $uri
+	 * @param string  - base64 $uri
 	 * @return array
 	 */
 	public function decodeURI($uri) {
@@ -200,5 +200,18 @@ final class ARequest {
     public function getVersion(){
         return $this->version;
     }
+
+	/**
+	 * @return bool
+	 */
+	public function is_POST(){
+		return ($this->server['REQUEST_METHOD']=='POST' ? true : false);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function is_GET(){
+		return ($this->server['REQUEST_METHOD']=='GET' ? true : false);
+	}
 }
-?>
