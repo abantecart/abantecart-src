@@ -639,9 +639,11 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	 * @param int $resource_id
 	 * @param string $field
 	 */
+
 	public function get_resource_html_single($type = 'image', $wrapper_id = '', $resource_id = 0, $field = '') {
+
 		$this->data['type'] = $type;
-		$wrapper_id = is_numeric($wrapper_id[0]) ? '_'.$wrapper_id : $wrapper_id; // id do not to start from number!!! jquery will not work
+		$wrapper_id = is_numeric($wrapper_id[0]) ? '_'.$wrapper_id : $wrapper_id; // html-id can not to start by number!!! jquery will not work
 		$this->data['wrapper_id'] = $wrapper_id;
 		$this->data['resource_id'] = $resource_id;
 		$this->data['field'] = $field;
@@ -652,11 +654,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 	public function get_resources_scripts() {
 
-		$num_args = func_num_args();
-		if ($num_args > 0) $object_name = func_get_arg(0);
-		if ($num_args > 1) $object_id = func_get_arg(1);
-		if ($num_args > 2) $types = func_get_arg(2);
-		if ($num_args > 3) $mode = func_get_arg(3);
+		list($object_name,$object_id,$types,$mode, $wrapper_id,) = func_get_args();
 
 		$rm = new AResourceManager();
 		$this->data['types'] = $rm->getResourceTypes();
@@ -673,7 +671,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['default_type'] = reset($this->data['types']);
 		$this->data['object_name'] = $object_name;
 		$this->data['object_id'] = $object_id;
-
+		$this->data['wrapper_id'] = !$wrapper_id ? 'wrapper' : $wrapper_id;
 
 		$this->data['rl_resource_library'] = $this->html->getSecureURL('common/resource_library', '&object_name=' . $object_name . '&object_id=' . $object_id . '&mode=' . $mode);
 		$this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources', '&object_name=' . $object_name . '&object_id=' . $object_id . '&mode=' . $mode);
@@ -743,6 +741,15 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	private function _getManufacturersTitle($object_id) {
 		$this->loadModel('catalog/manufacturer');
 		$description = $this->model_catalog_manufacturer->getManufacturer($object_id);
+		return $description['name'];
+	}
+	/**
+	 * @param int $object_id
+	 * @return string
+	 */
+	private function _getDownloadsTitle($object_id) {
+		$this->loadModel('catalog/download');
+		$description = $this->model_catalog_download->getDownload($object_id);
 		return $description['name'];
 	}
 

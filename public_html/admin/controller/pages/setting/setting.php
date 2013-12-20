@@ -288,7 +288,8 @@ class ControllerPagesSettingSetting extends AController {
 				'object_name' => 'store',
 				'object_id' => '0',
 				'types' => 'image',
-				'mode' => 'url'
+				'mode' => 'url',
+				'wrapper_id'=> 'listing_rl'
 			)
 		);
 		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
@@ -452,6 +453,18 @@ class ControllerPagesSettingSetting extends AController {
 				'resource_id' => $resource->getIdFromHexPath(str_replace('image/', '', $data['config_logo'])),
 				'field' => 'config_logo'));
 		$ret_data['logo'] = $ret_data['logo']->dispatchGetOutput();
+		$resources_scripts = $this->dispatch(
+			'responses/common/resource_library/get_resources_scripts',
+			array(
+				'object_name' => 'store',
+				'object_id' => '0',
+				'types' => 'image',
+				'mode' => 'url',
+				'wrapper_id' => 'config_logo',
+			)
+		);
+		$ret_data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+		unset($resources_scripts);
 
 		$ret_data['icon'] = $this->dispatch(
 			'responses/common/resource_library/get_resource_html_single',
@@ -467,10 +480,11 @@ class ControllerPagesSettingSetting extends AController {
 				'object_name' => 'store',
 				'object_id' => '0',
 				'types' => 'image',
-				'mode' => 'url'
+				'mode' => 'url',
+				'wrapper_id' => 'config_icon'
 			)
 		);
-		$ret_data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+		$ret_data['resources_scripts'] .= $resources_scripts->dispatchGetOutput();
 
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('appearance', $form, $data));
 

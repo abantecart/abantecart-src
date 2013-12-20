@@ -406,7 +406,8 @@ class ControllerPagesDesignMenu extends AController {
                         'object_name' => 'storefront_menu_item',
                         'object_id' => $this->request->get['item_id'],
                         'types' => 'image',
-                        'mode' => 'url'
+						'mode' => 'url',
+						'wrapper_id' => 'item_icon'
                     )
                 );
         $this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
