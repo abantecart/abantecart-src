@@ -373,29 +373,26 @@ class ControllerPagesExtensionExtensions extends AController {
 
 				case 'resource':
 					$item['resource_type'] = (string)$item['resource_type'];
-					//preview of resource
-					$resource = new AResource($item['resource_type']);
-					$resource_id = $resource->getIdFromHexPath(str_replace($item['resource_type'] . '/', '', $item['value']));
+					if (!$result['rl_scripts']) {
 					$scripts = $this->dispatch('responses/common/resource_library/get_resources_scripts',
 											array('object_name' => '',
 												'object_id' => '',
 												'types' => $item['resource_type'],
-												'mode' => 'url',
-												'wrapper_id' => $item['name']
+								'mode' => 'url'
 											));
-					$item['value'] = $scripts->dispatchGetOutput();
+						$result['rl_scripts'] = $scripts->dispatchGetOutput();
 					unset($scripts);
-
+					}
+					//preview of resource
+					$resource = new AResource($item['resource_type']);
+					$resource_id = $resource->getIdFromHexPath(str_replace($item['resource_type'] . '/', '', $item['value']));
 					$preview = $this->dispatch(
 						'responses/common/resource_library/get_resource_html_single',
 						array('type' => 'image',
 							'wrapper_id' => $item['name'],
 							'resource_id' => $resource_id,
 							'field' => $item['name']));
-					$item['value'] .= ' '.$preview->dispatchGetOutput();
-
-
-
+					$item['value'] = $preview->dispatchGetOutput();
 					if ($data['value']) {
 						$data = array(
 							'note' => $data['note'],
@@ -424,6 +421,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->data['settings'] = $result['html'];
 		$this->data['resource_field_list'] = $result['resource_field_list'];
 		$this->data['resource_edit_link'] =
+		$this->data['resources_scripts'] = $result['rl_scripts'];
 		$this->data['target_url'] = $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $extension . '&store_id=' . $store_id);
 
 		if (isset($this->request->get['restore']) && $this->request->get['restore']) {

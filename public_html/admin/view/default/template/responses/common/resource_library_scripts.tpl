@@ -2,21 +2,15 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery.ui.resizable.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>/javascript/jquery/ui/external/bgiframe/jquery.bgiframe.js"></script>
 <script type="text/javascript">
-if(urls == undefined){
-	var urls = {};
-}
-	urls['<?php echo $wrapper_id?>'] =
-										{
+var urls = {
 										resource_library:'<?php echo $rl_resource_library; ?>',
 										resources:'<?php echo $rl_resources; ?>',
 										resource_single:'<?php echo $rl_resource_single; ?>',
 										unmap:'<?php echo $rl_unmap; ?>',
 										del:'<?php echo $rl_delete; ?>',
-										resource:'<?php echo HTTP_DIR_RESOURCE; ?>',
-										default_type: '<?php echo $default_type["type_name"]; ?>'
-									};
-
-
+        resource:'<?php echo HTTP_DIR_RESOURCE; ?>'
+    },
+    default_type = '<?php echo $default_type["type_name"]; ?>';
 onSelectClose = function (e, ui) {
 }
 
@@ -55,7 +49,7 @@ var mediaDialog = function (type, action, id, field, wrapper_id) {
     window.wrapper_id = wrapper_id;
 
     $('#dialog').remove();
-    var src = urls[wrapper_id].resource_library + '&' + action + '=1&type=' + type;
+    var src = urls.resource_library + '&' + action + '=1&type=' + type;
     if (id) {
         src += '&resource_id=' + id;
     }
@@ -80,7 +74,7 @@ var mediaDialog = function (type, action, id, field, wrapper_id) {
         title:'<?php echo $text_resource_library; ?>',
         close:function (event, ui) {
         <?php foreach ($types as $type) { ?>
-            loadMedia('<?php echo $type['type_name']?>','<?php echo $wrapper_id?>');
+            loadMedia('<?php echo $type['type_name']?>');
             <?php } ?>
         },
         width:900,
@@ -90,15 +84,15 @@ var mediaDialog = function (type, action, id, field, wrapper_id) {
     });
 };
 
-var loadMedia = function (type, wrapper_id) {
+var loadMedia = function (type) {
     $.ajax({
-        url:urls[wrapper_id].resources,
+        url:urls.resources,
         type:'GET',
         data:{ type:type },
         dataType:'json',
         success:function (json) {
 
-            if (!json.items.length && type != urls[wrapper_id].default_type) {
+            if (!json.items.length && type != default_type) {
                 $('#type_' + type).hide();
                 return;
             }
@@ -118,7 +112,7 @@ var loadMedia = function (type, wrapper_id) {
                 </span>';
             });
             html += '<span class="image_block"><a class="resource_add" type="' + type + '"><img src="<?php echo $template_dir . '/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>"/></a></span>';
-            $('#type_' + type + ' td.type_blocks').html(html);
+				$('#type_' + type + ' td.type_blocks').html(html);
         },
         error:function (jqXHR, textStatus, errorThrown) {
             $('#type_' + type).show();
@@ -137,13 +131,13 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
         modal:true
     });
     $.ajax({
-        url:urls[wrapper_id].resource_single + '&resource_id=' + resource_id,
+        url:urls.resource_single + '&resource_id=' + resource_id,
         type:'GET',
         data:{ type:type },
         dataType:'json',
         success:function (item) {
 
-            if (!item.length && type != urls[wrapper_id].default_type) {
+            if (!item.length && type != default_type) {
                 $('#type_' + type).hide();
                 return;
             }
@@ -201,11 +195,11 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 jQuery(function () {
 
     <?php foreach ($types as $type) { ?>
-        loadMedia('<?php echo $type['type_name']?>','<?php echo $wrapper_id?>');
+        loadMedia('<?php echo $type['type_name']?>');
         <?php } ?>
 
     $('a.resource_add').live('click', function () {
-        mediaDialog($(this).attr('type'), 'add', '', '', '<?php echo $wrapper_id?>');
+        mediaDialog($(this).prop('type'), 'add');
         return false;
     });
 
@@ -221,7 +215,7 @@ jQuery(function () {
         $("#confirm_del_dialog").dialog('option', 'buttons', {
             "<?php echo $button_delete ?>":function () {
                 $.ajax({
-                    url:urls[wrapper_id].del + '&resource_id=' + $(that).prop('id'),
+                    url:urls.del + '&resource_id=' + $(that).prop('id'),
                     type:'GET',
                     dataType:'json',
                     success:function (json) {
@@ -252,7 +246,7 @@ jQuery(function () {
         $("#confirm_unmap_dialog").dialog('option', 'buttons', {
             "<?php echo $button_unmap ?>":function () {
                 $.ajax({
-                    url:urls[wrapper_id].unmap + '&resource_id=' + $(that).prop('id'),
+                    url:urls.unmap + '&resource_id=' + $(that).prop('id'),
                     type:'GET',
                     dataType:'json',
                     success:function (json) {
@@ -272,7 +266,7 @@ jQuery(function () {
     });
 
     $('a.resource_edit').live('click', function () {
-        mediaDialog($(this).attr('type'), 'update', $(this).prop('id'),null,'<?php echo $wrapper_id?>');
+        mediaDialog($(this).prop('type'), 'update', $(this).prop('id'));
         return false;
     });
 });
