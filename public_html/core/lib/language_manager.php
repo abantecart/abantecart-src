@@ -551,7 +551,7 @@ class ALanguageManager extends Alanguage {
 		$tables = $this->_get_language_based_tables();
 		foreach ($tables as $table_name) {
 			$pkeys = array();
-			//Set special case table and
+			//Set special case table
 			if (strstr($table_name[ 'table_name' ], 'language_definitions')) {
 				array_push($pkeys, 'language_definition_id', 'language_id', 'section', 'block', 'language_key');
 			} else if (strstr($table_name[ 'table_name' ], 'orders') || strstr($table_name[ 'table_name' ], 'languages')) {
@@ -908,7 +908,7 @@ class ALanguageManager extends Alanguage {
 			}
 
 			foreach ($tables_query->rows as $row) {
-				#Check if to be save data exists for new language
+				#Check if to be saved data exists for new language
 				$sql1 = "SELECT * FROM " . $table . " WHERE language_id = " . $new_language;
 				$sql2 = "SELECT * FROM " . $table . " WHERE language_id = " . $from_language;
 				$where_sql_1 = $where_sql_2 = '';

@@ -176,15 +176,16 @@ class ModelSaleCustomer extends Model {
 	
 		foreach ($query->rows as $result) {
 			$result = $this->dcrypt->decrypt_data($result, 'addresses');
-			$country_query = $this->db->query("SELECT *
-												FROM `" . $this->db->table("countries") . "`
-												WHERE country_id = '" . (int)$result['country_id'] . "'");
 			
-			if ($country_query->num_rows) {
-				$country = $country_query->row['name'];
-				$iso_code_2 = $country_query->row['iso_code_2'];
-				$iso_code_3 = $country_query->row['iso_code_3'];
-				$address_format = $country_query->row['address_format'];
+			$this->load->model('localisation/country');
+			$this->load->model('localisation/zone');
+			
+			$country_row = $this->model_localisation_country->getCountry($result['country_id']);						
+			if ( $country_row ) {
+				$country = $country_row['name'];
+				$iso_code_2 = $country_row['iso_code_2'];
+				$iso_code_3 = $country_row['iso_code_3'];
+				$address_format = $country_row['address_format'];
 			} else {
 				$country = '';
 				$iso_code_2 = '';
@@ -192,13 +193,10 @@ class ModelSaleCustomer extends Model {
 				$address_format = '';
 			}
 			
-			$zone_query = $this->db->query("SELECT *
-										    FROM `" . $this->db->table("zones") . "`
-										    WHERE zone_id = '" . (int)$result['zone_id'] . "'");
-			
-			if ($zone_query->num_rows) {
-				$zone = $zone_query->row['name'];
-				$code = $zone_query->row['code'];
+			$zone_row = $this->model_localisation_zone->getZone($result['zone_id']);			
+			if ( $zone_row ) {
+				$zone = $zone_row['name'];
+				$code = $zone_row['code'];
 			} else {
 				$zone = '';
 				$code = '';

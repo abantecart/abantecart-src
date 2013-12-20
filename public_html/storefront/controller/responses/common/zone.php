@@ -36,18 +36,17 @@ class ControllerResponsesCommonZone extends AController {
 			$this->loadModel('localisation/zone');
 	
 	    	$results = $this->model_localisation_zone->getZonesByCountryId($country_id);
-	
-	      	foreach ($results as $result) {
-	        	$stdout .= '<option value="' . $result['zone_id'] . '"';
-		    	if ( (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name']))
-					||	(isset($this->request->get['zone_id']) && ($this->request->get['zone_id'] == $result['zone_id']))
-				) {
-		      		$stdout .= ' selected="selected"';
+			if ( count($results) ){
+		      	foreach ($results as $result) {
+		        	$stdout .= '<option value="' . $result['zone_id'] . '"';
+			    	if ( (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name']))
+						||	(isset($this->request->get['zone_id']) && ($this->request->get['zone_id'] == $result['zone_id']))
+					) {
+			      		$stdout .= ' selected="selected"';
+			    	}
+			    	$stdout .= '>' . $result['name'] . '</option>';
 		    	}
-		    	$stdout .= '>' . $result['name'] . '</option>';
-	    	}
-	
-			if (!$results) {
+	    	} else {
 				if (!$this->request->get['zone_id']) {
 			  		$stdout .= '<option value="0" selected="selected">' . $this->language->get('text_none') . '</option>';
 				} else {

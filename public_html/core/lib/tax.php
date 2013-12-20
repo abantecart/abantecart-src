@@ -77,24 +77,33 @@ final class ATax {
 
 	/*
 	* Get available tax classes for country ID and zone ID
-	* 
+	* Storefront use only!!!
 	*/
 
 	public function getTaxes($country_id, $zone_id){
 		$country_id = (int)$country_id;
 		$zone_id = (int)$zone_id;
-
+		
+		$language = $this->registry->get('language');
+		$language_id = $language->getLanguageID();
+		$default_language_id = $language->getDefaultLanguageID();
+		
 		$cache_name = 'tax_class.'.$country_id.'.'.$zone_id;
 		$results = $this->cache->get($cache_name);
 
 		if(is_null($results)){
+			//Note: Default language text is picked up if no selected language available
 			$sql = "SELECT tr.tax_class_id,
 							tr.rate AS rate, tr.rate_prefix AS rate_prefix, 
 							tr.threshold_condition AS threshold_condition, tr.threshold AS threshold,
-							CASE WHEN tr.description='' THEN tc.title ELSE tr.description END as description,
+							COALESCE( td1.title,td2.title) as description,
 							tr.priority
 					FROM " . DB_PREFIX . "tax_rates tr
 					LEFT JOIN " . DB_PREFIX . "tax_classes tc ON tc.tax_class_id = tr.tax_class_id
+					LEFT JOIN " . DB_PREFIX . "tax_class_descriptions td1 ON 
+						(tc.tax_class_id = td1.tax_class_id AND td1.language_id = '" . (int)$language_id . "')
+					LEFT JOIN " . DB_PREFIX . "tax_class_descriptions td2 ON 
+						(tc.tax_class_id = td2.tax_class_id AND td2.language_id = '" . (int)$default_lang_id . "')
 					WHERE (tr.zone_id = '0' OR tr.zone_id = '" . $zone_id . "')
 						AND tr.location_id in (SELECT z2l.location_id
 											   FROM " . DB_PREFIX . "zones_to_locations z2l, " . DB_PREFIX . "locations l

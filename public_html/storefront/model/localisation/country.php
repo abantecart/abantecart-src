@@ -21,21 +21,49 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ModelLocalisationCountry extends Model {
+
 	public function getCountry($country_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "countries WHERE country_id = '" . (int)$country_id . "' AND status = '1'");
-		
+		$language_id = $this->language->getLanguageID();
+		$default_lang_id = $this->language->getDefaultLanguageID();	
+
+		$query = $this->db->query("SELECT *, COALESCE( cd1.name,cd2.name) as name
+										FROM " . $this->db->table("countries") . " c
+										LEFT JOIN " . $this->db->table("country_descriptions") . " cd1
+											ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "')
+			    						LEFT JOIN " . $this->db->table("country_descriptions") . " cd2
+			    							ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "')
+										WHERE c.country_id = '" . (int)$country_id . "' AND status = '1'");
 		return $query->row;
-	}	
+	}
 	
 	public function getCountries() {
-		$country_data = $this->cache->get('country');
+		$language_id = $this->language->getLanguageID();
+		$default_language_id = $this->language->getDefaultLanguageID();		
+		$country_data = $this->cache->get('country', $language_id);
 		
 		if (is_null($country_data)) {
-			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "countries WHERE status = '1' ORDER BY name ASC");
+			if ($language_id == $default_language_id) {
+			    $query = $this->db->query( "SELECT *
+			    						FROM " . $this->db->table("countries") . " c
+			    						LEFT JOIN " . $this->db->table("country_descriptions") . " cd 
+			    							ON (c.country_id = cd.country_id AND cd.language_id = '" . (int)$language_id . "') 
+			    						ORDER BY cd.name ASC");
+			    		
+			} else {
+			    //merge text for missing country translations. 
+			    $query = $this->db->query("SELECT *, COALESCE( cd1.name,cd2.name) as name
+			    		FROM " . $this->db->table("countries") . " c
+			    		LEFT JOIN " . $this->db->table("country_descriptions") . " cd1
+			    			ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "')
+			    		LEFT JOIN " . $this->db->table("country_descriptions") . " cd2
+			    			ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "')
+			    		WHERE c.status = '1'
+			    		ORDER BY cd1.name,cd2.name ASC");	
+			}
 	
 			$country_data = $query->rows;
 		
-			$this->cache->set('country', $country_data);
+			$this->cache->set('country', $country_data, $language_id);
 		}
 
 		return $country_data;

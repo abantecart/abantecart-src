@@ -27,28 +27,47 @@ if (!defined('DIR_CORE')) {
 class ModelLocalisationZone extends Model {
 	/**
 	 * @param int $zone_id
+	 * Note: Default language text is picked up if no selected language available
 	 * @return array
 	 */
 	public function getZone($zone_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zones WHERE zone_id = '" . (int)$zone_id . "' AND status = '1'");
+		$language_id = $this->language->getLanguageID();
+		$default_lang_id = $this->language->getDefaultLanguageID();
+		
+		$query = $this->db->query("SELECT z.*, COALESCE(zd1.name,zd2.name) as name 
+									FROM " . $this->db->table("zones") . " z
+									LEFT JOIN " . $this->db->table("zone_descriptions") . " zd1
+									ON (z.zone_id = zd1.zone_id AND zd1.language_id = '" . (int)$language_id . "')		
+									LEFT JOIN " . $this->db->table("zone_descriptions") . " zd2
+									ON (z.zone_id = zd2.zone_id AND zd2.language_id = '" . (int)$default_lang_id . "')		
+								  	WHERE z.zone_id = '" . (int)$zone_id . "' AND status = '1'");
 		return $query->row;
 	}
 
 	/**
 	 * @param int $country_id
+	 * Note: Default language text is picked up if no selected language available
 	 * @return array
 	 */
 	public function getZonesByCountryId($country_id) {
-		$zone_data = $this->cache->get('zone.' . $country_id);
+		$language_id = $this->language->getLanguageID();
+		$default_lang_id = $this->language->getDefaultLanguageID();
+
+		$zone_data = $this->cache->get('zone.' . $country_id, $language_id);
 
 		if (is_null($zone_data)) {
-			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zones WHERE country_id = '" . (int)$country_id . "' AND status = '1' ORDER BY name");
+			$query = $this->db->query("SELECT z.*, COALESCE(zd1.name,zd2.name) as name 
+										FROM " . $this->db->table("zones") . " z
+										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd1
+										ON (z.zone_id = zd1.zone_id AND zd1.language_id = '" . (int)$language_id . "')		
+										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd2
+										ON (z.zone_id = zd2.zone_id AND zd2.language_id = '" . (int)$default_lang_id . "')		
+										WHERE z.country_id = '" . (int)$country_id . "' AND status = '1' ORDER BY zd1.name,zd2.name");
 
 			$zone_data = $query->rows;
 
-			$this->cache->set('zone.' . $country_id, $zone_data);
+			$this->cache->set('zone.' . $country_id, $zone_data, $language_id);
 		}
-
 		return $zone_data;
 	}
 
@@ -57,32 +76,30 @@ class ModelLocalisationZone extends Model {
 	 * @return array
 	 */
 	public function getZonesByCountryName($country_name) {
-		$zone_data = $this->cache->get('zone.' . $country_name);
-
-		if (is_null($zone_data)) {
-			$sql = "SELECT *
-					FROM " . DB_PREFIX . "zones
-					WHERE country_id = '" . (int)$this->getCountryIdByName($country_name) . "' AND status = '1'
-					ORDER BY name";
-			$query = $this->db->query($sql);
-			$zone_data = $query->rows;
-
-			$this->cache->set('zone.' . $country_name, $zone_data);
+		if (empty($country_name)) {
+			return array();
 		}
-
-		return $zone_data;
+		return $this->getZonesByCountryId( $this->getCountryIdByName($country_name) );
 	}
 
 	/**
 	 * @param string $name
+	 * Note: Default language text is picked up if no selected language available
 	 * @return int
 	 */
 	public function getCountryIdByName($name) {
-		$query = $this->db->query("SELECT country_id FROM " . DB_PREFIX . "countries WHERE name = '" . $this->db->escape($name) . "' AND status = '1' LIMIT 1");
+		$language_id = $this->language->getLanguageID();
+		$default_language_id = $this->language->getDefaultLanguageID();
+		
+		$query = $this->db->query("SELECT c.country_id FROM " . $this->db->table("countries") . " c
+								   LEFT JOIN " . $this->db->table("country_descriptions") . " cd1 ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "')
+								   LEFT JOIN " . $this->db->table("country_descriptions") . " cd2 ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "')
+								   WHERE cd1.name = '" . $this->db->escape($name) . "' OR cd2.name = '" . $this->db->escape($name) . "' AND status = '1' LIMIT 1");
 
-		if ($query->num_rows > 0) {
+		if ( $query->num_rows > 0 ) {
 			return $query->row['country_id'];
 		}
 		return 0;
 	}
+	 
 }

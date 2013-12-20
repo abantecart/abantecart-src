@@ -1622,6 +1622,7 @@ class ZonesHtmlElement extends HtmlElement {
 
 		$this->data['registry']->get('load')->model('localisation/zone');
 
+		$results = array();
 		if($this->submit_mode=='id'){
 			$id = $this->value ? key($this->value) : $this->data['registry']->get('config')->get('config_country_id');
 			$results = $this->data['registry']->get('model_localisation_zone')->getZonesByCountryId($id);

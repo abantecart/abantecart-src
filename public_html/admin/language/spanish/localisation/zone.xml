@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>error_name</key>
-    <value><![CDATA[Nombre de zona debe ser mayor de 2 caracteres y menor de 32!]]></value>
+    <value><![CDATA[Nombre de zona debe ser mayor de 2 caracteres y menor de 128!]]></value>
   </definition>
   <definition>
     <key>error_default</key>

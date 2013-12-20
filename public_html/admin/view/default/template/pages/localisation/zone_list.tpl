@@ -23,6 +23,7 @@ if ( !empty($search_form) ) {
 		<?php if ( !empty ($help_url) ) : ?>
 	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
 	    <?php endif; ?>
+	    <?php echo $form_language_switch; ?>
 		<div class="buttons">
       <a class="btn_toolbar" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>">
 		<span class="icon_add">&nbsp;</span>
