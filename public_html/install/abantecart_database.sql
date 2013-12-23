@@ -410,7 +410,8 @@ CREATE TABLE `ac_languages` (
   PRIMARY KEY (`language_id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
-
+CREATE UNIQUE INDEX `ac_languages_index`
+ON `ac_languages` ( `language_id`,`code` );
 --
 -- Dumping data for table `languages`
 --
@@ -475,11 +476,7 @@ CREATE TABLE `ac_length_class_descriptions` (
 INSERT INTO `ac_length_class_descriptions` (`length_class_id`, `language_id`, `title`, `unit`) VALUES
 (1, 1, 'Centimeter', 'cm'),
 (2, 1, 'Millimeter', 'mm'),
-(3, 1, 'Inch', 'in'),
-
-(1, 9, 'Centímetro', 'cm'),
-(2, 9, 'Milímetro', 'mm'),
-(3, 9, 'Pulgada', 'in');
+(3, 1, 'Inch', 'in');
 
 --
 -- DDL for table `manufacturers`
@@ -694,19 +691,7 @@ INSERT INTO `ac_order_statuses` (`order_status_id`, `language_id`, `name`) VALUE
 (10, 1, 'Failed'),
 (11, 1, 'Refunded'),
 (12, 1, 'Reversed'),
-(13, 1, 'Chargeback'),
-
-(1, 9, 'Pendiente'),
-(2, 9, 'Tratamiento'),
-(3, 9, 'Enviado'),
-(7, 9, 'Cancelado'),
-(5, 9, 'Completo'),
-(8, 9, 'Denegado'),
-(9, 9, 'Reversión cancelado'),
-(10, 9, 'Fracasado'),
-(11, 9, 'Devuelto'),
-(12, 9, 'Invertido'),
-(13, 9, 'Devolución de cargo');
+(13, 1, 'Chargeback');
 
 --
 -- DDL for table `order_totals`
@@ -1186,11 +1171,6 @@ INSERT INTO `ac_stock_statuses` (`stock_status_id`, `language_id`, `name`) VALUE
 (2, 1, 'Out Of Stock'),
 (3, 1, 'Pre-Order');
 
-INSERT INTO `ac_stock_statuses` (`stock_status_id`, `language_id`, `name`) VALUES
-(1, 9, 'En stock'),
-(2, 9, 'Agotado'),
-(3, 9, 'Pre-Orden');
-
 --
 -- DDL for table `stores`
 --
@@ -1390,12 +1370,6 @@ INSERT INTO `ac_weight_class_descriptions` (`weight_class_id`, `language_id`, `t
 (2, 1, 'Gram', 'g'),
 (5, 1, 'Pound ', 'lb'),
 (6, 1, 'Ounce', 'oz');
-
-INSERT INTO `ac_weight_class_descriptions` (`weight_class_id`, `language_id`, `title`, `unit`) VALUES
-(1, 9, 'Kilogramo', 'kg'),
-(2, 9, 'Gramo', 'g'),
-(5, 9, 'Libra ', 'lb'),
-(6, 9, 'Onza', 'oz');
 
 --
 -- DDL for table `zone`
@@ -9442,15 +9416,7 @@ INSERT INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `
 (4, 1, 'Login Page', '', '', '', '', '', now() ),
 (5, 1, 'Default Product Page', '', '', '', '', '', now() ),
 (10, 1, 'Maintenance Page', '', '', '', '', '', now() ),
-(11, 1, 'Customer Account Pages', '', '', '', '', '', now() ),
-
-(1, 9, 'Las demás páginas', '', '', '', '', '', now() ),
-(2, 9, 'Página de inicio', '', '', '', '', '', now() ),
-(3, 9, 'Pedido Páginas', '', '', '', '', '', now() ),
-(4, 9, 'La página de acceso', '', '', '', '', '', now() ),
-(5, 9, 'Por defecto la Hoja de Producto', '', '', '', '', '', now() ),
-(10, 9, 'Mantenimiento de la página.', '', '', '', '', '', now() ),
-(11, 9, 'Cuenta Cliente Páginas', '', '', '', '', '', now() );
+(11, 1, 'Customer Account Pages', '', '', '', '', '', now() );
 
 --
 -- DDL for table `contents`
@@ -10130,7 +10096,7 @@ CREATE TABLE `ac_form_descriptions` (
   PRIMARY KEY (`form_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `ac_form_descriptions` VALUES (2,1,'Contact Us Form'),(2,9,'Formulario de Contacto');
+INSERT INTO `ac_form_descriptions` VALUES (2,1,'Contact Us Form');
 
 --
 -- DDL for table `fields`
@@ -10178,13 +10144,9 @@ CREATE TABLE `ac_field_descriptions` (
 INSERT INTO `ac_field_descriptions` (`field_id`, `name`, `error_text`, `language_id`)
 VALUES
 (11,'First name:','Name must be between 3 and 32 characters!',1),
-(11,'Nombre de pila:','El nombre debe tener entre 3 y 32 caractéres!',9),
 (12,'Email:','E-Mail Address does not appear to be valid!',1),
-(12,'Email:','El Correo electrónico no parece válido!',9),
 (13,'Enquiry:','Enquiry must be between 10 and 3000 characters!',1),
-(13,'Consulta:','La petición debe ser superior de 10 caracteres y menos de 1000!',9),
-(14,'Enter the code in the box below:','Verification code does not match the image!',1),
-(14,'Introduzca el código en el cuadro a continuación:','El código de verificación no coincide con la imagen!',9);
+(14,'Enter the code in the box below:','Verification code does not match the image!',1);
 
 --
 -- DDL for table `ac_field_values`

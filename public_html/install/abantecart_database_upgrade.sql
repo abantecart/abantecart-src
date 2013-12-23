@@ -1,5 +1,8 @@
 --NOTE! need to add item to extensions menu with langauges
 
+CREATE UNIQUE INDEX `ac_languages_index`
+ON `ac_languages` ( `language_id`,`code` );
+
 
 CREATE TABLE `ac_country_descriptions` (
   `country_id` int(11) NOT NULL,

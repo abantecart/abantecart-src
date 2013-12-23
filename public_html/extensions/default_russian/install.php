@@ -21,13 +21,30 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+
+//before install validate it is unique 
+$lng_code = 'ru';
+$lng_name = 'Русский';
+$lng_directory = 'russian';
+$lng_locale = 'ru_RU.UTF-8,ru_RU,russian';
+$lng_flag_path = 'extensions/default_russian/storefront/language/russian/flag.png';
+$lng_sort = 2; // sorting order with other langauges
+$lng_status = 0; // Status on installation of extension
+
+$query = $this->db->query("SELECT language_id FROM ".DB_PREFIX."languages WHERE code='".$lng_code."'");
+if ($query->row['language_id']) {
+	$this->session->data['error'] = "Error: Language with $lng_code code is already installed! Can not install duplicate languages! Uninstall this extension before attempting again.";
+	$error = new AError ($this->session->data['error']);
+	$error->toLog()->toDebug();
+	return false;
+}
+
 $this->db->query("INSERT INTO ".DB_PREFIX."languages (`name`,`code`,`locale`,`image`,`directory`,`filename`,`sort_order`, `status`)
-				  VALUES ('Russian', 'ru', 'ru_RU.UTF-8,ru_RU,russian', 'extensions/default_russian/storefront/language/russian/flag.png','russian','russian','3',0);");
+				  VALUES ('".$lng_name."', '".$lng_code."', '".$lng_locale."', '".$lng_flag_path."','".$lng_directory."','".$lng_directory."','".$lng_sort."',".$lng_status.");");
 $new_language_id = $this->db->getLastId();
-$xml = simplexml_load_file(DIR_EXT.'default_russian/menu.xml');
 
 //Load langaunge specific data
-
+$xml = simplexml_load_file(DIR_EXT.'default_russian/menu.xml');
 $routes = array(
 			'text_index_home_menu'=>'index/home',
 			'text_account_login_menu'=>'account/login',
