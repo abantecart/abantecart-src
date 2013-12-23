@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Популярные]]></value>
+  </definition>
+  <definition>
+    <key>heading_subtitle</key>
+    <value><![CDATA[Рекомендуемые товары]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s из 5 звезд!]]></value>
+  </definition>
+</definitions>

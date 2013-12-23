@@ -583,14 +583,14 @@ class ExtensionsApi {
 	 * check if language file exists in extension resource
 	 *
 	 */
-	public function isExtensionLanguageFile($route, $lang_directory, $section) {
+	public function isExtensionLanguageFile($route, $language_name, $section) {
 		$registry = Registry::getInstance();
 		if (!$registry->has('config')) return false;
 
 		$file = ($section ? DIR_EXT_ADMIN : DIR_EXT_STORE) . 'language/' .
-				$lang_directory . '/' . $route . '.xml';
+				$language_name . '/' . $route . '.xml';
 
-		//we can include language file from all extensions too
+		//include language file from first matching extension
 		foreach ($this->extensions_dir as $ext) {
 			$f = DIR_EXT . $ext . $file;
 			if (is_file($f)) {

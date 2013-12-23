@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>text_insurance</key>
-    <value><![CDATA[Страхователь ДО:]]></value>
+    <value><![CDATA[Страховка до:]]></value>
   </definition>
   <definition>
     <key>text_time</key>

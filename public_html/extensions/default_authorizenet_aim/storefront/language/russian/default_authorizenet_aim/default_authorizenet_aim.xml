@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>text_title</key>
-    <value><![CDATA[Кредитная карта / дебетовая карта (Authorize.Net)]]></value>
+    <value><![CDATA[Кредитная карта/дебетовая карта (Authorize.Net)]]></value>
   </definition>
   <definition>
     <key>text_credit_card</key>
@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>entry_cc_owner</key>
-    <value><![CDATA[Карты Владелец:]]></value>
+    <value><![CDATA[Владелец карты:]]></value>
   </definition>
   <definition>
     <key>entry_cc_number</key>
@@ -22,11 +22,11 @@
   </definition>
   <definition>
     <key>entry_cc_expire_date</key>
-    <value><![CDATA[Карты срок действия:]]></value>
+    <value><![CDATA[Срок действия карты:]]></value>
   </definition>
   <definition>
     <key>entry_cc_cvv2</key>
-    <value><![CDATA[Карточка Код]]></value>
+    <value><![CDATA[Код карты]]></value>
   </definition>
   <definition>
     <key>entry_cc_cvv2_short</key>

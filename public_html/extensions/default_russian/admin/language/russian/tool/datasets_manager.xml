@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Менеджер наборов данных]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили список сообщений!]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[Id]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Наименование набора данных]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[Ключ набора данных]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Действие]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_name</key>
+    <value><![CDATA[Наименование набора данных]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_key</key>
+    <value><![CDATA[Ключ набора данных]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_properties</key>
+    <value><![CDATA[Свойства набора данных]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_column_properties</key>
+    <value><![CDATA[Свойства колонок набора данных]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_column_definition</key>
+    <value><![CDATA[Колонки наборов данных]]></value>
+  </definition>
+  <definition>
+    <key>text_num_rows</key>
+    <value><![CDATA[Счетчик строк набора данных]]></value>
+  </definition>
+  <definition>
+    <key>text_popup_title</key>
+    <value><![CDATA[Информация о наборе данных]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Подтверждаете?]]></value>
+  </definition>
+  <definition>
+    <key>text_date</key>
+    <value><![CDATA[Дата]]></value>
+  </definition>
+  <definition>
+    <key>text_show</key>
+    <value><![CDATA[Показать]]></value>
+  </definition>
+  <definition>
+    <key>text_repeats</key>
+    <value><![CDATA[Количество повторений:]]></value>
+  </definition>
+</definitions>

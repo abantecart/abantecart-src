@@ -6,14 +6,14 @@
   </definition>
   <definition>
     <key>text_instructions</key>
-    <value><![CDATA[Следуйте инструкциям, чтобы сделать платеж:]]></value>
+    <value><![CDATA[Следуйте инструкциям, чтобы совершить оплату:]]></value>
   </definition>
   <definition>
     <key>text_payment</key>
-    <value><![CDATA[Ваш заказ не будет поставляться или завершены, пока платеж не получил.]]></value>
+    <value><![CDATA[Ваш заказ не будет доставлен или завершен, пока платеж не получен.]]></value>
   </definition>
   <definition>
     <key>text_minimum_notmet</key>
-    <value><![CDATA[Заказать общее минимум не встретились оплаты через банковский перевод.]]></value>
+    <value><![CDATA[Минимальная сумма заказа. Ниже этой суммы метод будет недоступен.]]></value>
   </definition>
 </definitions>

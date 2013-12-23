@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_low_order_fee</key>
+    <value><![CDATA[Дополнительная оплата при мелких заказах:]]></value>
+  </definition>
+</definitions>

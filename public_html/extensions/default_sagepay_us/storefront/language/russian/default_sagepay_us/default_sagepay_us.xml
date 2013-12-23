@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>entry_cc_owner</key>
-    <value><![CDATA[Карты Владелец:]]></value>
+    <value><![CDATA[Владелец карты:]]></value>
   </definition>
   <definition>
     <key>entry_cc_number</key>
@@ -22,10 +22,10 @@
   </definition>
   <definition>
     <key>entry_cc_expire_date</key>
-    <value><![CDATA[Карты срок действия:]]></value>
+    <value><![CDATA[Срок действия карты:]]></value>
   </definition>
   <definition>
     <key>entry_cc_cvv2</key>
-    <value><![CDATA[Карточка Код (CVV2):]]></value>
+    <value><![CDATA[Код карты (CVV2):]]></value>
   </definition>
 </definitions>

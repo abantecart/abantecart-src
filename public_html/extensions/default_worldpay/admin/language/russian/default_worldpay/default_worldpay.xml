@@ -10,15 +10,15 @@
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Успех: Вы изменили детали WorldPay счета!]]></value>
+    <value><![CDATA[Успешно: Вы изменили детали WorldPay аккаунта!]]></value>
   </definition>
   <definition>
     <key>text_successful</key>
-    <value><![CDATA[На - Всегда Успешная]]></value>
+    <value><![CDATA[Включено - Всегда успешно]]></value>
   </definition>
   <definition>
     <key>text_declined</key>
-    <value><![CDATA[На - Всегда Отклонено]]></value>
+    <value><![CDATA[Включено - Всегда Отклонено]]></value>
   </definition>
   <definition>
     <key>text_off</key>
@@ -26,11 +26,11 @@
   </definition>
   <definition>
     <key>default_worldpay_merchant</key>
-    <value><![CDATA[Торговец ID:]]></value>
+    <value><![CDATA[ID продавца:]]></value>
   </definition>
   <definition>
     <key>default_worldpay_password</key>
-    <value><![CDATA[Пароля Оплата отклика: <br /> <span class="help">Это должен быть установлен на панели управления WordPay.</span>]]></value>
+    <value><![CDATA[Пароль ответа платежной системы:<br /><span class="help">Должен быть указан в панели управления WordPay.</span>]]></value>
   </definition>
   <definition>
     <key>default_worldpay_test</key>
@@ -42,11 +42,11 @@
   </definition>
   <definition>
     <key>default_worldpay_test_100</key>
-    <value><![CDATA[На - Всегда Успешная]]></value>
+    <value><![CDATA[Включено - Всегда Успешно]]></value>
   </definition>
   <definition>
     <key>default_worldpay_test_101</key>
-    <value><![CDATA[На - Всегда Отклонено]]></value>
+    <value><![CDATA[Включено - Всегда Отклонено]]></value>
   </definition>
   <definition>
     <key>default_worldpay_order_status_id</key>
@@ -54,7 +54,7 @@
   </definition>
   <definition>
     <key>default_worldpay_location_id</key>
-    <value><![CDATA[Расположение:]]></value>
+    <value><![CDATA[Географическая зона:]]></value>
   </definition>
   <definition>
     <key>default_worldpay_location_id_0</key>
@@ -70,15 +70,15 @@
   </definition>
   <definition>
     <key>default_worldpay_autoselect</key>
-    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить платежную страницу выбора, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+    <value><![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора метода оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>
-    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение платежного WorldPay!]]></value>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение WorldPay!]]></value>
   </definition>
   <definition>
     <key>error_merchant</key>
-    <value><![CDATA[Торговец ID обязательно!]]></value>
+    <value><![CDATA[ID продавца обязательно!]]></value>
   </definition>
   <definition>
     <key>error_password</key>

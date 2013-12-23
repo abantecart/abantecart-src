@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Связаться с Нами]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Адрес:]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-Mail:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Телефон:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Факс:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Ваш запрос был успешно отправлен владельцу магазина! </p>]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Имя:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-Mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_enquiry</key>
+    <value><![CDATA[Запрос:]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[Введите код, указанный на картинке:]]></value>
+  </definition>
+  <definition>
+    <key>email_subject</key>
+    <value><![CDATA[Запрос %s]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Имя должно быть от 3 до 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-Mail, введен неверно!]]></value>
+  </definition>
+  <definition>
+    <key>error_enquiry</key>
+    <value><![CDATA[Запрос должен быть от 10 до 3000 символов!]]></value>
+  </definition>
+</definitions>

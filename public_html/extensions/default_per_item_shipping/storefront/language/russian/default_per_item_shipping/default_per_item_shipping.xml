@@ -2,10 +2,10 @@
 <definitions>
   <definition>
     <key>text_title</key>
-    <value><![CDATA[За единицу]]></value>
+    <value><![CDATA[Доставка с оплатой за единицу]]></value>
   </definition>
   <definition>
     <key>text_description</key>
-    <value><![CDATA[За единицу стоимость доставки]]></value>
+    <value><![CDATA[Доставка с оплатой за единицу]]></value>
   </definition>
 </definitions>

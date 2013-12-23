@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>text_title</key>
-    <value><![CDATA[Кредитная или дебетовая карта (в защищенном режиме по PayPal)]]></value>
+    <value><![CDATA[Кредитная или дебетовая карта (в защищенном режиме PayPal)]]></value>
   </definition>
   <definition>
     <key>text_credit_card</key>
@@ -22,7 +22,7 @@
   </definition>
   <definition>
     <key>entry_cc_owner</key>
-    <value><![CDATA[Карты Владелец:]]></value>
+    <value><![CDATA[Владелец карты:]]></value>
   </definition>
   <definition>
     <key>entry_cc_type</key>
@@ -38,31 +38,31 @@
   </definition>
   <definition>
     <key>entry_cc_expire_date</key>
-    <value><![CDATA[Карты срок действия:]]></value>
+    <value><![CDATA[Срок действия карты:]]></value>
   </definition>
   <definition>
     <key>entry_cc_cvv2</key>
-    <value><![CDATA[Карточка Код (CVV2):]]></value>
+    <value><![CDATA[Код карточки (CVV2):]]></value>
   </definition>
   <definition>
     <key>entry_cc_issue</key>
-    <value><![CDATA[Выпуск Номер карты:]]></value>
+    <value><![CDATA[Номер выпуска карты:]]></value>
   </definition>
   <definition>
     <key>error_required</key>
-    <value><![CDATA[Ошибка: Вся информация об оплате поля обязательны для заполнения.]]></value>
+    <value><![CDATA[Ошибка: Поля обязательны для заполнения.]]></value>
   </definition>
   <definition>
     <key>error_general</key>
-    <value><![CDATA[Ошибка: Общая проблема произошла с транзакцией. Пожалуйста, попробуйте еще раз.]]></value>
+    <value><![CDATA[Ошибка: С транзакцией произошла общая проблема. Пожалуйста, попробуйте еще раз.]]></value>
   </definition>
   <definition>
     <key>error_config</key>
-    <value><![CDATA[Ошибка: расширение Оплата ошибка конфигурации. Пожалуйста, проверьте данные учетной записи,.]]></value>
+    <value><![CDATA[Ошибка: Ошибка конфигурации расширения. Пожалуйста, проверьте данные учетной записи.]]></value>
   </definition>
   <definition>
     <key>error_address</key>
-    <value><![CDATA[Ошибка: матч Оплата Адрес Город, область, и почтовый индекс не удалось. Пожалуйста, попробуйте еще раз.]]></value>
+    <value><![CDATA[Ошибка: Совпадений Платежного Адреса Город, области, и почтовый индекса не найдено. Пожалуйста, попробуйте еще раз.]]></value>
   </definition>
   <definition>
     <key>error_declined</key>
@@ -70,6 +70,6 @@
   </definition>
   <definition>
     <key>error_invalid</key>
-    <value><![CDATA[Ошибка: Представленная информация кредитная карта недействительна. Пожалуйста, попробуйте еще раз.]]></value>
+    <value><![CDATA[Ошибка: Представленная информация кредитной карты недействительна. Пожалуйста, попробуйте еще раз.]]></value>
   </definition>
 </definitions>

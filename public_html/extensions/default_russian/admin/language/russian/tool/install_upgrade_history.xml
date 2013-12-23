@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[История установки / обновлений]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Тип]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Добавлено]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ключ Пакета]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Версия]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_date</key>
+    <value><![CDATA[Дата резервного копирования]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_file</key>
+    <value><![CDATA[Резервное копирование файлов]]></value>
+  </definition>
+  <definition>
+    <key>column_user</key>
+    <value><![CDATA[Имя пользователя]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[чтобы скачать файл]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Информация о доставке]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Корзина]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Доставка]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_to</key>
+    <value><![CDATA[Пожалуйста, выберите из адресной книги, куда доставить.]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Адрес доставки]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Способ доставки]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Пожалуйста, выберите предпочтительные способы доставки для использования в этот заказе.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Добавить комментарии о вашем заказе]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Ошибка: Необходимо указать способ доставки!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Ошибка: Доставка по данному адресу невозможна.. Пожалуйста, <a href="index.php?rt=content/contact">свяжитесь с нами</a>!]]></value>
+  </definition>
+</definitions>

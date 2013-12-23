@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Резервное копирование / Восстановление / Загрузка]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Скачать резервную копию]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Успешно: Вы успешно создали файл резервной копии!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы успешно импортировали базу данных!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Успешно: Вы успешно импортировали ваш XML!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Восстановить резервную копию:]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup</key>
+    <value><![CDATA[Резервное копирование:]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Восстановление из SQL или XML файла:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Загрузка XML-файла:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[Резервное копирование]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[Восстановление]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Макет и набор данных загрузка XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Внимание: Вы не имеете прав модифицировать резервные копии!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Предупреждение: Загруженный файл был пуст или имеет неправильный тип файла!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Предупреждение: Файл не был загружен. Проверьте post_max_size или file_upload директивы в файле php.ini.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Предупреждение: Загруженный файл не загружается как XML! Пожалуйста, см. лог-файл для подробностей]]></value>
+  </definition>
+  <definition>
+    <key>note_rl</key>
+    <value><![CDATA[Файлы библиотеки ресурсов]]></value>
+  </definition>
+  <definition>
+    <key>note_config</key>
+    <value><![CDATA[Файл сonfig.php. Примечание: Храните резервную копию в безопасном месте. Файл будет содержать &quot;salt&quot; для шифрования.]]></value>
+  </definition>
+</definitions>

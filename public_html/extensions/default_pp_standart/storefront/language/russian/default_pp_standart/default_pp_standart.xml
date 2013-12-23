@@ -6,10 +6,10 @@
   </definition>
   <definition>
     <key>text_suspect_subj</key>
-    <value><![CDATA[Внимание. Наверное оплаты конфликт. Заказать # %s]]></value>
+    <value><![CDATA[Внимание. Вероятно конфликт оплаты. Заказ #%s]]></value>
   </definition>
   <definition>
     <key>text_suspect</key>
-    <value><![CDATA[Оплата должна ручной проверки. <br> Paypal подробнее уведомления являются: <br>]]></value>
+    <value><![CDATA[Оплата должна проверится вручную.<br>Детали уведомления Paypal:<br>]]></value>
   </definition>
 </definitions>

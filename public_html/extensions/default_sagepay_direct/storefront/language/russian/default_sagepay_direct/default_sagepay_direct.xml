@@ -22,7 +22,7 @@
   </definition>
   <definition>
     <key>entry_cc_owner</key>
-    <value><![CDATA[Карты Владелец:]]></value>
+    <value><![CDATA[Владелец rарты:]]></value>
   </definition>
   <definition>
     <key>entry_cc_type</key>
@@ -34,15 +34,15 @@
   </definition>
   <definition>
     <key>entry_cc_start_date</key>
-    <value><![CDATA[Карта Действует с даты:]]></value>
+    <value><![CDATA[Карта действует с даты:]]></value>
   </definition>
   <definition>
     <key>entry_cc_expire_date</key>
-    <value><![CDATA[Карты срок действия:]]></value>
+    <value><![CDATA[Срок действия карты:]]></value>
   </definition>
   <definition>
     <key>entry_cc_cvv2</key>
-    <value><![CDATA[Карточка Код]]></value>
+    <value><![CDATA[Код Карточки]]></value>
   </definition>
   <definition>
     <key>entry_cc_cvv2_short</key>
@@ -54,6 +54,6 @@
   </definition>
   <definition>
     <key>entry_cc_issue</key>
-    <value><![CDATA[Выпуск Номер карты:]]></value>
+    <value><![CDATA[Номер выпуска карты:]]></value>
   </definition>
 </definitions>

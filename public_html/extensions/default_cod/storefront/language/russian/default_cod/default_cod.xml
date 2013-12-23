@@ -2,11 +2,11 @@
 <definitions>
   <definition>
     <key>text_title</key>
-    <value><![CDATA[Наложенным платежом]]></value>
+    <value><![CDATA[Оплата при доставке]]></value>
   </definition>
   <definition>
     <key>text_note</key>
-    <value><![CDATA[Нуждается Оплата будет создан при доставке, либо пикап продукта]]></value>
+    <value><![CDATA[Оплата при доставке будет создан при доставке, либо самовывозе товара]]></value>
   </definition>
   <definition>
     <key>text_wait</key>

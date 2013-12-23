@@ -27,7 +27,7 @@ class ControllerPagesExtensionExtensions extends AController {
 
 	public function main() {
 
-		if (!in_array($this->session->data['extension_filter'], array('extensions', 'payment', 'shipping', 'template'))) {
+		if (!in_array($this->session->data['extension_filter'], array('extensions', 'payment', 'shipping', 'template', 'language'))) {
 			$this->session->data['extension_filter'] = 'extensions';
 		}
 		unset($this->session->data['package_info']);
@@ -228,6 +228,11 @@ class ControllerPagesExtensionExtensions extends AController {
 
 	public function template() {
 		$this->session->data['extension_filter'] = 'template';
+		$this->main();
+	}
+
+	public function language() {
+		$this->session->data['extension_filter'] = 'language';
 		$this->main();
 	}
 

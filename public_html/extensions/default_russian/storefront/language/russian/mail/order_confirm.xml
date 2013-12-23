@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Заказ %s]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Благодарим за интерес к товарам %s . Ваш заказ получен и поступит в обработку после подтверждения оплаты.]]></value>
+  </definition>
+  <definition>
+    <key>text_received</key>
+    <value><![CDATA[Вы получили заказ.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_detail</key>
+    <value><![CDATA[Сведения о заказе]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[Номер заказа:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Дата заказа:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Статус заказа:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Для просмотра вашего заказа нажмите на ссылку ниже:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Способ доставки:]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Способ оплаты:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Адрес доставки]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Платежный адрес]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Телефон:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Факс:]]></value>
+  </definition>
+  <definition>
+    <key>text_ip</key>
+    <value><![CDATA[IP-адрес:]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Товары:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Итого:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Как только ваш платеж будет подтвержден Вы сможете нажать на ссылку ниже, чтобы получить доступ к загружаемым продуктам:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Комментарии заказа:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[Пожалуйста, ответьте на это письмо, если у вас есть какие-либо вопросы.]]></value>
+  </definition>
+  <definition>
+    <key>text_powered_by</key>
+    <value><![CDATA[При поддержке]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order</key>
+    <value><![CDATA[Новый заказ - #]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order_text</key>
+    <value><![CDATA[Клиент %s добавил новый заказ]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[Товар]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Модель]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Количество]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Цена]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Итого]]></value>
+  </definition>
+</definitions>

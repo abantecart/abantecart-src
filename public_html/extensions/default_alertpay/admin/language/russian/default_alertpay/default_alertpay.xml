@@ -10,11 +10,11 @@
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Успех: Вы изменили детали AlertPay счета!]]></value>
+    <value><![CDATA[Успешно: Вы изменили детали AlertPay аккаунта!]]></value>
   </definition>
   <definition>
     <key>default_alertpay_merchant</key>
-    <value><![CDATA[Торговец ID:]]></value>
+    <value><![CDATA[ID продавца:]]></value>
   </definition>
   <definition>
     <key>default_alertpay_security</key>
@@ -22,7 +22,7 @@
   </definition>
   <definition>
     <key>default_alertpay_callback</key>
-    <value><![CDATA[Оповещения URL: <br /> <span class="help">Это должен быть установлен на панели управления AlertPay. Кроме того, необходимо будет проверить &quot;IPN Статус&quot;, чтобы включить.</span>]]></value>
+    <value><![CDATA[Оповещения URL: <br /><span class="help">Должен быть установлен в панели управления AlertPay. Кроме того, необходимо будет проверить что &quot;IPN Status&quot; включен.</span>]]></value>
   </definition>
   <definition>
     <key>default_alertpay_order_status_id</key>
@@ -34,7 +34,7 @@
   </definition>
   <definition>
     <key>default_alertpay_location_id</key>
-    <value><![CDATA[Расположение:]]></value>
+    <value><![CDATA[Географическая зона:]]></value>
   </definition>
   <definition>
     <key>default_alertpay_status</key>
@@ -42,22 +42,22 @@
   </definition>
   <definition>
     <key>default_alertpay_sort_order</key>
-    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Количество чтобы указать позицию отображения этого платежа в связи с более включены платежи</span>]]></value>
+    <value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа оплаты наряду с другими</span>]]></value>
   </definition>
   <definition>
     <key>default_alertpay_autoselect</key>
-    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить платежную страницу выбора, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+    <value><![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора способа оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>
-    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение оплаты AlertPay!]]></value>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение AlertPay!]]></value>
   </definition>
   <definition>
     <key>error_merchant</key>
-    <value><![CDATA[Торговец ID обязательно!]]></value>
+    <value><![CDATA[ID продавца обязателен!]]></value>
   </definition>
   <definition>
     <key>error_security</key>
-    <value><![CDATA[Код безопасности обязательно!]]></value>
+    <value><![CDATA[Код безопасности обязателен!]]></value>
   </definition>
 </definitions>

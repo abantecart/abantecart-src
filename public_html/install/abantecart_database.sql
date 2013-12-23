@@ -417,9 +417,6 @@ CREATE TABLE `ac_languages` (
 
 INSERT INTO `ac_languages` (`language_id`, `name`, `code`, `locale`, `image`, `directory`, `filename`, `sort_order`, `status`) VALUES
 (1, 'English', 'en', 'en_US.UTF-8,en_US,en-gb,english', '', 'english', 'english', 1, 1);
-INSERT INTO `ac_languages` (`language_id`, `name`, `code`, `locale`, `image`, `directory`, `filename`, `sort_order`, `status`) VALUES
-(9, 'Español', 'es', 'es_ES.UTF-8,es_ES,spanish', '', 'spanish', 'spanish', 2, 1),
-(10, 'Русский', 'ru', 'es_RU.UTF-8,ru_RU,russian', '', 'russian', 'russian', 3, 1);
 
 --
 -- DDL for table `language_definitions`
@@ -482,11 +479,7 @@ INSERT INTO `ac_length_class_descriptions` (`length_class_id`, `language_id`, `t
 
 (1, 9, 'Centímetro', 'cm'),
 (2, 9, 'Milímetro', 'mm'),
-(3, 9, 'Pulgada', 'in'),
-
-(1,10,'Сантиметр','см'),
-(2,10,'Миллиметр','мм'),
-(3,10,'Дюйм','дм');
+(3, 9, 'Pulgada', 'in');
 
 --
 -- DDL for table `manufacturers`
@@ -713,19 +706,7 @@ INSERT INTO `ac_order_statuses` (`order_status_id`, `language_id`, `name`) VALUE
 (10, 9, 'Fracasado'),
 (11, 9, 'Devuelto'),
 (12, 9, 'Invertido'),
-(13, 9, 'Devolución de cargo'),
-
-(10,10, 'Не удалось'),
-(9,10, 'Отменен'),
-(8,10, 'Отказано'),
-(7,10, 'Отменен'),
-(5,10, 'Завершен'),
-(3,10, 'Поставляется'),
-(2,10, 'В обработке'),
-(1,10, 'В ожидании'),
-(11,10, 'Возмещенный'),
-(12,10, 'Обратный'),
-(13,10, 'Платежам');
+(13, 9, 'Devolución de cargo');
 
 --
 -- DDL for table `order_totals`
@@ -1210,9 +1191,6 @@ INSERT INTO `ac_stock_statuses` (`stock_status_id`, `language_id`, `name`) VALUE
 (2, 9, 'Agotado'),
 (3, 9, 'Pre-Orden');
 
-INSERT INTO `ac_stock_statuses` (`stock_status_id`, `language_id`, `name`) VALUES
-(1,10,'На складе'),(2,10,'Распродано'),(3,10,'Предварительный заказ');
-
 --
 -- DDL for table `stores`
 --
@@ -1418,12 +1396,6 @@ INSERT INTO `ac_weight_class_descriptions` (`weight_class_id`, `language_id`, `t
 (2, 9, 'Gramo', 'g'),
 (5, 9, 'Libra ', 'lb'),
 (6, 9, 'Onza', 'oz');
-
-INSERT INTO `ac_weight_class_descriptions` (`weight_class_id`, `language_id`, `title`, `unit`) VALUES
-(1,10,'Килограмм','кг'),
-(2,10,'Грамм','г'),
-(5,10,'Фунт','фт'),
-(6,10,'Унция','ун');
 
 --
 -- DDL for table `zone`
@@ -9478,15 +9450,7 @@ INSERT INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `
 (4, 9, 'La página de acceso', '', '', '', '', '', now() ),
 (5, 9, 'Por defecto la Hoja de Producto', '', '', '', '', '', now() ),
 (10, 9, 'Mantenimiento de la página.', '', '', '', '', '', now() ),
-(11, 9, 'Cuenta Cliente Páginas', '', '', '', '', '', now() ),
-
-(1,10, 'Все другие страницы','','','','','',now() ),
-(2,10, 'Главная страница','','','','','',now() ),
-(3,10, 'Оформить заказ Страницы','','','','','',now()),
-(4,10, 'Введите логин и пароль','','','','','',now()),
-(5,10, 'По умолчанию Продукт','','','','','',now()),
-(10,10, 'Техническое обслуживание','','','','','',now()),
-(11,10, 'Страницы для Клиента','','','','','',now());
+(11, 9, 'Cuenta Cliente Páginas', '', '', '', '', '', now() );
 
 --
 -- DDL for table `contents`
@@ -9537,12 +9501,7 @@ VALUES
 (1, 9, 'Acerca de Nosotros', 'Acerca de Nosotros', 'alguna descripción', 'texto acerca de su tienda', now() ),
 (2, 9, 'Política de Privacidad', 'Política de Privacidad', 'alguna descripción', 'un texto sobre la política', now()),
 (3, 9, 'Política de devoluciones', 'Política de devoluciones', 'alguna descripción', 'un texto sobre la política de retorno', now()),
-(4, 9, 'Entrega', 'Entrega', 'alguna descripción', 'un texto sobre el envío', now()),
-
-(1,10,'О нас','О нас','некоторые описание','текст о вашем магазине',now()),
-(2,10,'Политика конфиденциальности','Политика конфиденциальности','некоторые описание','некоторый текст о правилах конфиденциальности',now()),
-(3,10,'Возвращенная политика','Возвращенная политика','некоторые описание','некоторый текст о политике возвращения',now()),
-(4,10,'Перевозка груза','Перевозка','некоторые описание','некоторый текст о доставке',now());
+(4, 9, 'Entrega', 'Entrega', 'alguna descripción', 'un texto sobre el envío', now());
 
 --
 -- DDL for table `content_to_store`
@@ -10171,7 +10130,7 @@ CREATE TABLE `ac_form_descriptions` (
   PRIMARY KEY (`form_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `ac_form_descriptions` VALUES (2,1,'Contact Us Form'),(2,9,'Formulario de Contacto'),(2,10,'Свяжитесь с Нами');
+INSERT INTO `ac_form_descriptions` VALUES (2,1,'Contact Us Form'),(2,9,'Formulario de Contacto');
 
 --
 -- DDL for table `fields`
@@ -10216,7 +10175,7 @@ CREATE TABLE `ac_field_descriptions` (
   PRIMARY KEY (`field_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `ac_field_descriptions` (field_id, name, error_text, language_id)
+INSERT INTO `ac_field_descriptions` (`field_id`, `name`, `error_text`, `language_id`)
 VALUES
 (11,'First name:','Name must be between 3 and 32 characters!',1),
 (11,'Nombre de pila:','El nombre debe tener entre 3 y 32 caractéres!',9),
@@ -10225,11 +10184,7 @@ VALUES
 (13,'Enquiry:','Enquiry must be between 10 and 3000 characters!',1),
 (13,'Consulta:','La petición debe ser superior de 10 caracteres y menos de 1000!',9),
 (14,'Enter the code in the box below:','Verification code does not match the image!',1),
-(14,'Introduzca el código en el cuadro a continuación:','El código de verificación no coincide con la imagen!',9),
-(11,'Имя:','',10,'Имя должно быть от 3 до 32 символов!'),
-(12,'E-mail:','',10,'E-Mail, кажется, не действует!'),
-(13,'Запрос:','',10,'Запрос должен быть между 10 и 3000 символов!'),
-(14,'Введите код, указанный на картинке:','',10,'Проверка код не совпадает изображение!');
+(14,'Introduzca el código en el cuadro a continuación:','El código de verificación no coincide con la imagen!',9);
 
 --
 -- DDL for table `ac_field_values`
@@ -10599,9 +10554,10 @@ VALUES  (9,'extension/extensions/extensions',31),
 		(9,'extension/extensions/shipping',32),
 		(9,'extension/extensions/payment',33),
 		(9,'extension/extensions/template',34),
-		(9,'extension/total',35),
-		(9,'tool/package_installer',36),
-		(9,'extension/extensions_store',37);
+		(9,'extension/extensions/language',35),
+		(9,'extension/total',36),
+		(9,'tool/package_installer',37),
+		(9,'extension/extensions_store',38);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'extension',31),
@@ -11410,9 +11366,7 @@ VALUES
 (1, 1, 'Product Option', NOW()),
 (1, 2, 'Opción del Producto', NOW()),
 (2, 1, 'Download Attribute', NOW()),
-(2, 2, 'Descargar Atributo', NOW()),
-(1,10, 'Продуктов Вариант', NOW()),
-(2,10, 'Скачать Атрибут', NOW())
+(2, 2, 'Descargar Atributo', NOW())
 ;
 
 --

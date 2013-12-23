@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Группа покупателей]]></value>
+  </definition>
+  <definition>
+    <key>breadcrumb_title</key>
+    <value><![CDATA[Группы клиентов]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили группы клиентов!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Название группы покупателей]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Действие]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Название группы покупателей:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение группы клиентов!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Название группы покупателей должно быть от 2 до 64 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Предупреждение: Эта группу покупателей нельзя удалить, поскольку она назначена для основного магазина!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Предупреждение: Эту группу покупателей нельзя удалить, поскольку она используется в %s магазине(ах)!]]></value>
+  </definition>
+  <definition>
+    <key>error_customer</key>
+    <value><![CDATA[Предупреждение: Эту группу покупателей нельзя удалить, поскольку в нее входит %s покупатель(ей)!]]></value>
+  </definition>
+</definitions>

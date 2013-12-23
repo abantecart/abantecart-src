@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>default_sagepay_direct_name</key>
-    <value><![CDATA[SagePay Прямая]]></value>
+    <value><![CDATA[SagePay Direct]]></value>
   </definition>
   <definition>
     <key>text_payment</key>
@@ -10,7 +10,7 @@
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Успех: Вы изменили детали SagePay счета!]]></value>
+    <value><![CDATA[Успешно: Вы изменили детали SagePay аккаунта!]]></value>
   </definition>
   <definition>
     <key>text_sagepay</key>
@@ -26,11 +26,11 @@
   </definition>
   <definition>
     <key>text_live</key>
-    <value><![CDATA[Жить]]></value>
+    <value><![CDATA[Рабочий режим]]></value>
   </definition>
   <definition>
     <key>text_defered</key>
-    <value><![CDATA[Defered]]></value>
+    <value><![CDATA[Отложенный]]></value>
   </definition>
   <definition>
     <key>text_authenticate</key>
@@ -54,11 +54,11 @@
   </definition>
   <definition>
     <key>default_sagepay_direct_test_live</key>
-    <value><![CDATA[Жить]]></value>
+    <value><![CDATA[Рабочий режим]]></value>
   </definition>
   <definition>
     <key>default_sagepay_direct_transaction</key>
-    <value><![CDATA[Метод сделка:]]></value>
+    <value><![CDATA[Метод транзакций:]]></value>
   </definition>
   <definition>
     <key>default_sagepay_direct_transaction_AUTHENTICATE</key>
@@ -78,7 +78,7 @@
   </definition>
   <definition>
     <key>default_sagepay_direct_location_id</key>
-    <value><![CDATA[Расположение:]]></value>
+    <value><![CDATA[Географическая зона:]]></value>
   </definition>
   <definition>
     <key>default_sagepay_direct_location_id_0</key>
@@ -90,18 +90,18 @@
   </definition>
   <definition>
     <key>default_sagepay_direct_sort_order</key>
-    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Количество чтобы указать позицию отображения этого платежа в связи с более включены платежи</span>]]></value>
+    <value><![CDATA[Порядок сортировки: <br /><span class="help">Номер указывающий позицию отображения этого платежного метода наряду с другими</span>]]></value>
   </definition>
   <definition>
     <key>default_sagepay_direct_autoselect</key>
-    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить платежную страницу выбора, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+    <value><![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора способа оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>
-    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение платежного SagePay!]]></value>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение SagePay!]]></value>
   </definition>
   <definition>
     <key>error_vendor</key>
-    <value><![CDATA[Vendor ID обязательно!]]></value>
+    <value><![CDATA[Vendor ID обязателен!]]></value>
   </definition>
 </definitions>

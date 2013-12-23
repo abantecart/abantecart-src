@@ -6,19 +6,19 @@
   </definition>
   <definition>
     <key>text_shipping</key>
-    <value><![CDATA[Перевозка груза]]></value>
+    <value><![CDATA[Доставка]]></value>
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Успех: Вы изменили Parcelforce 48 доставка!]]></value>
+    <value><![CDATA[Успешно: Вы изменили Parcelforce 48 доставку!]]></value>
   </definition>
   <definition>
     <key>default_parcelforce_48_rate</key>
-    <value><![CDATA[Parcelforce 48 Цены: <br /> <span class="help">Введите значения ДО 5,2 знаков после запятой. (12345,67) Пример: .1:1, .25:1.27 - Вес меньше или равна 0,1 кг будет стоить 1,00, вес меньше или равна 0,25 г но больше, чем 0,1 кг будет стоить 1,27. Не вводите KG или символы.</span>]]></value>
+    <value><![CDATA[Parcelforce 48 цены:<br /><span class="help">Введите значения до 5,2 знаков после запятой. (12345,67) Пример: .1:1,.25:1.27 - Вес меньше или равен 0,1 кг будет стоить 1,00, вес меньше или равный 0,25 г но больше, чем 0,1 кг будет стоить 1,27. Не вводить КГ или символы!</span>]]></value>
   </definition>
   <definition>
     <key>default_parcelforce_48_display_weight</key>
-    <value><![CDATA[Дисплей Доставка Вес: <br /> <span class="help">Вы хотите, чтобы отобразить вес груза? (Например, поставки Вес: 2,7674 кг в)</span>]]></value>
+    <value><![CDATA[Отображать Вес доставки:<br /><span class="help">Вы хотите отобразить вес груза? (Например, Вес поставки: 2,7674 кг)</span>]]></value>
   </definition>
   <definition>
     <key>default_parcelforce_48_display_weight_1</key>
@@ -30,7 +30,7 @@
   </definition>
   <definition>
     <key>default_parcelforce_48_display_insurance</key>
-    <value><![CDATA[Показать Страхование: <br /> <span class="help">Вы хотите, чтобы отобразить страхование груза? (Например застрахованного до 500)</span>]]></value>
+    <value><![CDATA[Показать Страховку:<br /><span class="help">Вы хотите отображать страховку груза? (Например застраховано до 500)</span>]]></value>
   </definition>
   <definition>
     <key>default_parcelforce_48_display_insurance_1</key>
@@ -42,7 +42,7 @@
   </definition>
   <definition>
     <key>default_parcelforce_48_display_time</key>
-    <value><![CDATA[Отображение времени поставки: <br /> <span class="help">Вы хотите, чтобы отобразить время доставки? (Например, поставляется в течение от 3 ​​до 5 дней)</span>]]></value>
+    <value><![CDATA[Отображение времени поставки:<br /><span class="help">Вы хотите отображать время доставки? (Например, поставка в течение от 3 ​​до 5 дней)</span>]]></value>
   </definition>
   <definition>
     <key>default_parcelforce_48_display_time_1</key>
@@ -54,7 +54,7 @@
   </definition>
   <definition>
     <key>default_parcelforce_48_compensation</key>
-    <value><![CDATA[Parcelforce48 компенсации Тарифы: <br /> <span class="help">Введите значения ДО 5,2 знаков после запятой. (12345,67) Пример: 34:0,100:1,250:2.25 - Страховое покрытие для корзину значений Шифрование до 34 будет стоить 0.00 дополнительные, эти значения более чем 100 и до 250 будет стоить 2.25 дополнительно. Не вводите символы валют.</span>]]></value>
+    <value><![CDATA[Parcelforce48 тарифы компенсации:<br /><span class="help">Введите значение ДО 5,2 знаков после запятой. (12345,67) Пример: 34:0,100:1,250:2.25 - Страховка покрывает для значений корзины до 34 будет стоить 0.00, значение более чем 100 и до 250 будет стоить 2.25 дополнительно. Не вводите символы валют.</span>]]></value>
   </definition>
   <definition>
     <key>default_parcelforce_48_tax</key>
@@ -62,11 +62,11 @@
   </definition>
   <definition>
     <key>default_parcelforce_48_tax_0</key>
-    <value><![CDATA[не --- Не учитывать ---]]></value>
+    <value><![CDATA[--- Не учитывать ---]]></value>
   </definition>
   <definition>
     <key>default_parcelforce_48_location_id</key>
-    <value><![CDATA[Расположение:]]></value>
+    <value><![CDATA[Географическая зона:]]></value>
   </definition>
   <definition>
     <key>default_parcelforce_48_location_id_0</key>
@@ -82,7 +82,7 @@
   </definition>
   <definition>
     <key>default_parcelforce_48_autoselect</key>
-    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить по транспортировке страницу выбора, если есть только один вариант доставки. Этот метод доставка будет выбран автоматически</span>]]></value>
+    <value><![CDATA[Автоматический выбор:<br /><span class="help">Включить, чтобы пропустить по страницу выбора доставки, если есть только один вариант доставки. Этот метод доставка будет выбран автоматически</span>]]></value>
   </definition>
   <definition>
     <key>default_parcelforce_48_accept_payments</key>
@@ -90,6 +90,6 @@
   </definition>
   <definition>
     <key>error_permission</key>
-    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение Parcelforce 48 доставка!]]></value>
+    <value><![CDATA[Допустимые методы оплаты:<br /><span class="help">В случае если необходимы только конкретные способы оплаты для этого способа доставки, выберите здесь. Если ничего не выбрано, все доступные способы оплаты будут показаны</span>]]></value>
   </definition>
 </definitions>

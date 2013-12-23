@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Адресная книга]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Личный Кабинет]]></value>
+  </definition>
+  <definition>
+    <key>text_address_book</key>
+    <value><![CDATA[Записи в адресной книге]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_address</key>
+    <value><![CDATA[Изменить адрес]]></value>
+  </definition>
+  <definition>
+    <key>text_insert</key>
+    <value><![CDATA[Ваш адрес был успешно добавлен]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[Ваш адрес был успешно обновлен]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Ваш адрес был успешно удален]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Имя:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Фамилия:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[Компания:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[Адрес 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[Адрес 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[Почтовый индекс:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[Город:]]></value>
+  </definition>
+  <definition>
+    <key>error_postcode</key>
+    <value><![CDATA[Zip / почтовый индекс должен быть от 2 до 10 символов!]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Страна:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Регион / Область:]]></value>
+  </definition>
+  <definition>
+    <key>entry_default</key>
+    <value><![CDATA[Адрес по умолчанию:]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Ошибка: У Вас должно быть не менее одного адреса!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Ошибка: Вы не можете удалить основной адрес!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Имя должно быть от 1 до 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Фамилия должна быть от 1 до 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[Адрес должен быть от 3 до 128 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[Город должен быть от 3 до 128 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[Пожалуйста, выберите страну!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[Пожалуйста, выберите регион / область!]]></value>
+  </definition>
+</definitions>
