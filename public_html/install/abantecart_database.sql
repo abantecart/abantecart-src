@@ -10536,18 +10536,20 @@ VALUES  (7,'extensions',31),
 		(7,'shipping',32),
 		(7,'payment',33),
 		(7,'templates',34),
-		(7,'total',35),
-		(7,'add_extension',36),
-		(7,'extensions_store',37);
+		(7,'languages',35),
+		(7,'total',36),
+		(7,'add_extension',37),
+		(7,'extensions_store',38);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (8,'text_extensions',31),
 		(8,'text_shipping',32),
 		(8,'text_payment',33),
 		(8,'text_templates',34),
-		(8,'text_total',35),
-		(8,'text_add_extension',36),
-		(8,'text_extensions_store',37);
+		(8,'text_language',35),
+		(8,'text_total',36),
+		(8,'text_add_extension',37),
+		(8,'text_extensions_store',38);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (9,'extension/extensions/extensions',31),
@@ -10566,7 +10568,8 @@ VALUES  (10,'extension',31),
 		(10,'extension',34),
 		(10,'extension',35),
 		(10,'extension',36),
-		(10,'extension',37);
+		(10,'extension',37),
+		(10,'extension',38);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (11,1,31),
@@ -10574,15 +10577,17 @@ VALUES  (11,1,31),
 		(11,3,33),
 		(11,4,34),
 		(11,5,35),
-		(11,5,36),
-		(11,5,37);
+		(11,6,36),
+		(11,7,37),
+		(11,8,38);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'core',31),
 		(12,'core',32),
 		(12,'core',33),
 		(12,'core',34),
-		(12,'core',35);
+		(12,'core',35),
+		(12,'core',36);
 --
 -- SUBMENU SALE
 -- ITEM_ID

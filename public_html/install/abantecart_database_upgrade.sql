@@ -1,5 +1,5 @@
-insert into `ac_languages` (`language_id`, `name`, `code`, `locale`, `image`, `directory`, `filename`, `sort_order`, `status`) VALUES
-(null, 'Русский', 'ru', 'es_RU.UTF-8,ru_RU,russian', '', 'russian', 'russian', 3, 1);
+--NOTE! need to add item to extensions menu with langauges
+
 
 CREATE TABLE `ac_country_descriptions` (
   `country_id` int(11) NOT NULL,
