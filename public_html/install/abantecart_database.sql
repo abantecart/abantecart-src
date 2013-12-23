@@ -11369,9 +11369,7 @@ PRIMARY KEY (`attribute_type_id`,`language_id`)
 INSERT INTO `ac_global_attributes_type_descriptions` (`attribute_type_id`, `language_id`, `type_name`, `create_date`)
 VALUES
 (1, 1, 'Product Option', NOW()),
-(1, 2, 'Opción del Producto', NOW()),
-(2, 1, 'Download Attribute', NOW()),
-(2, 2, 'Descargar Atributo', NOW())
+(2, 1, 'Download Attribute', NOW())
 ;
 
 --

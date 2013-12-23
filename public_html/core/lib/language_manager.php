@@ -611,9 +611,7 @@ class ALanguageManager extends Alanguage {
 		//get list of lang blocks for every language
 		$language_blocks = array();
 		if ($specific_block == 'all') {
-		    if (($language_blocks = $this->getAllLanguageBlocks($language_name)) === false) {
-		    	continue;
-		    }
+		   	$language_blocks = $this->getAllLanguageBlocks($language_name);
 		} else {
 		    // create list of language blocks when $block is set
 		    $blocks = $this->getAllLanguageBlocks($language_name);
@@ -634,20 +632,24 @@ class ALanguageManager extends Alanguage {
 		    	$language_blocks[ 'extensions' ][ $sect ] = !isset($language_blocks[ 'extensions' ][ $sect ]) ? array() : $language_blocks[ 'extensions' ][ $sect ];
 		    }
 		}
-		
+	
 		foreach ($sections as $sect) {
 		    $alang = new ALanguage($this->registry, $language_code, ($sect == 'admin' ? 1 : 0));
 		    // load into db extensions definitions
-		    foreach ($language_blocks[ 'extensions' ][ $sect ] as $rt) {
-		    	if ($specific_block != 'all' && $rt != $specific_block) {
-		    		continue;
-		    	}
-		    	$alang->load($rt, 'silent');
+		    if ( $language_blocks[ 'extensions' ][ $sect ] ){
+			    foreach ($language_blocks[ 'extensions' ][ $sect ] as $rt) {
+			    	if ($specific_block != 'all' && $rt != $specific_block) {
+			    		continue;
+			    	}
+			    	$alang->load($rt, 'silent');
+			    }
 		    }
 
 		    // load into db core admin & storefront
-		    foreach ($language_blocks[ $sect ] as $rt) {
-		    	$alang->load($rt, 'silent');
+		    if ( $language_blocks[ $sect ] ){
+		    	foreach ($language_blocks[ $sect ] as $rt) {
+		    		$alang->load($rt, 'silent');
+		    	}
 		    }
 		}
 

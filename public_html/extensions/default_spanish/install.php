@@ -2,12 +2,22 @@
 /*------------------------------------------------------------------------------
   $Id$
 
-  For AbanteCart, E-commerce Solution
+  AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright (c) 2011 - 2013 Belavier Commerce LLC
+  Copyright © 2011-2013 Belavier Commerce LLC
 
+  This source file is subject to Open Software License (OSL 3.0)
+  License details is bundled with this package in the file LICENSE.txt.
+  It is also available at this URL:
+  <http://www.opensource.org/licenses/OSL-3.0>
+
+ UPGRADE NOTE:
+   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+   versions in the future. If you wish to customize AbanteCart for your
+   needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
+
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
@@ -4270,8 +4280,8 @@ $this->db->query("INSERT INTO ".DB_PREFIX."page_descriptions
 
 $this->db->query("INSERT INTO ".DB_PREFIX."global_attributes_type_descriptions 
 (`attribute_type_id`, `language_id`, `type_name`, `create_date`) VALUES 
-(1,$new_language_id, 'Атрибуты Продуктов', NOW()),
-(2,$new_language_id, 'Атрибуты Файлов', NOW());
+(1, $new_language_id, 'Opción del Producto', NOW()),
+(2, $new_language_id, 'Descargar Atributo', NOW());
 ");
 
 $this->db->query("INSERT INTO ".DB_PREFIX."form_descriptions 
