@@ -44,7 +44,7 @@
             <td class="left"><?php echo $locations[ $tax_rate['location_id'] ] ?></td>
             <td class="left"><?php echo $zones[  $tax_rate['zone_id'] ]; ?></td>
             <td class="left"><?php echo $tax_rate['description']; ?></td>
-            <td class="left"><?php echo $tax_rate['rate']; ?></td>
+            <td class="left"><?php echo $tax_rate['rate_prefix'] . $tax_rate['rate']; ?></td>
             <td class="left"><?php echo $tax_rate['priority']; ?></td>
             <td class="left">
 	            <a class="btn_action btn_grid" title="<?php echo $button_edit; ?>" href="<?php echo str_replace('%ID%', $tax_rate['tax_rate_id'], $update_rate); ?>">

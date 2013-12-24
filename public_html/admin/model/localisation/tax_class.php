@@ -76,12 +76,21 @@ class ModelLocalisationTaxClass extends Model {
 							  WHERE tax_class_id = '" . (int)$tax_class_id . "'");
 							  
 			foreach ($data['tax_class'] as $language_id => $value) {
-				$this->language->replaceDescriptions('tax_class_descriptions',
+				//save only if value defined
+				if (isset($value['title'])) {
+					$this->language->replaceDescriptions('tax_class_descriptions',
 											 array('tax_class_id' => (int)$tax_class_id),
 											 array($language_id => array(
 												 'title' => $value['title'],
+											 )) );
+				}
+				if (isset($value['description'])) {
+					$this->language->replaceDescriptions('tax_class_descriptions',
+											 array('tax_class_id' => (int)$tax_class_id),
+											 array($language_id => array(
 												 'description' => $value['description'],
 											 )) );
+				}
 			}
 							  						  
 			$this->cache->delete('tax_class');
@@ -89,12 +98,15 @@ class ModelLocalisationTaxClass extends Model {
 	}
 
 	public function editTaxRate($tax_rate_id, $data) {
-		$fields = array('location_id', 'zone_id', 'priority', 'rate', 'rate_prefix', 'threshold_condition', 'threshold' );
+		$fields = array('location_id', 'zone_id', 'priority','rate_prefix', 'threshold_condition' );
 		$update = array('date_modified = NOW()');
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )
 				$update[] = "$f = '".$this->db->escape($data[$f])."'";
 		}
+		$update[] = "rate = '" . preformatFloat($data['rate'], $this->language->get('decimal_point'))."'";
+		$update[] = "threshold = '" . preformatFloat($data['threshold'], $this->language->get('decimal_point'))."'";
+		
 		if ( !empty($update) ) {
 			$this->db->query("UPDATE `" . DB_PREFIX . "tax_rates`
 								SET ". implode(',', $update) ."

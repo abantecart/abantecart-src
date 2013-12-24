@@ -89,7 +89,7 @@ final class ATax {
 		$default_language_id = $language->getDefaultLanguageID();
 		
 		$cache_name = 'tax_class.'.$country_id.'.'.$zone_id;
-		$results = $this->cache->get($cache_name);
+		$results = $this->cache->get($cache_name, $language_id);
 
 		if(is_null($results)){
 			//Note: Default language text is picked up if no selected language available
@@ -111,7 +111,7 @@ final class ATax {
 					ORDER BY tr.priority ASC";
 			$tax_rate_query = $this->db->query( $sql );
 			$results = $tax_rate_query->rows;
-			$this->cache->set($cache_name,$results);
+			$this->cache->set($cache_name,$results, $language_id);
 		}
 		return $results;
 	}

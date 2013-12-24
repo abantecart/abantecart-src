@@ -38,7 +38,7 @@
   </definition>
   <definition>
     <key>default_citylink_sort_order</key>
-    value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа наряду с другими</span>]]></value>
+    <value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа наряду с другими</span>]]></value>
   </definition>
   <definition>
     <key>default_citylink_autoselect</key>

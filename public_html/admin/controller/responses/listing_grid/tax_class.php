@@ -98,11 +98,13 @@ class ControllerResponsesListingGridTaxClass extends AController {
 				foreach( $ids as $id ) {
 					if (isset($this->request->post[ 'tax_class' ][ $id ])) {
 						foreach ($this->request->post[ 'tax_class' ][ $id ] as $lang => $value) {
+							if ( isset($value['title']) ) {
 		    					$err = $this->_validateField('title', $value['title']);
 		    					if (!empty($err)) {							
 									$this->response->setOutput($err);
 									return;
 								}
+							}
 						}
 						$this->model_localisation_tax_class->editTaxClass($id, array( 'tax_class' => $this->request->post['tax_class'][ $id ] ));
 					}						
@@ -140,8 +142,10 @@ class ControllerResponsesListingGridTaxClass extends AController {
 		    foreach ($this->request->post as $key => $value ) {
 				$err = '';
 				if ( $key == 'tax_class' ) {
-					foreach ($value as $lang => $dvalue) {		
-		    			$err .= $this->_validateField('title', $dvalue['title']);
+					foreach ($value as $lang => $dvalue) {	
+						if ( isset($dvalue['title']) ) {	
+		    				$err .= $this->_validateField('title', $dvalue['title']);
+		    			}
 		    		}				
 				} else {
 					$err = $this->_validateField($key, $value);			

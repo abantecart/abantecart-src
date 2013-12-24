@@ -1,8 +1,9 @@
 --NOTE! need to add item to extensions menu with langauges
 
+ALTER TABLE `ac_tax_rates` change `rate` `rate` decimal(15,4) NOT NULL DEFAULT '0.0000';
+
 CREATE UNIQUE INDEX `ac_languages_index`
 ON `ac_languages` ( `language_id`,`code` );
-
 
 CREATE TABLE `ac_country_descriptions` (
   `country_id` int(11) NOT NULL,
@@ -25,6 +26,10 @@ CREATE TABLE `ac_zone_descriptions` (
 INSERT INTO `ac_zone_descriptions` (`zone_id`, `language_id`, `name`)
 SELECT `zone_id`, 1, `name` from `ac_zones`; 
 ALTER TABLE `ac_zones` drop column `name`;
+update `ac_zone_descriptions` set `name` = 'Kharkiv' where `zone_id` = 3487;
+update `ac_zone_descriptions` set `name` = 'Kyiv' where `zone_id` = 3490;
+update `ac_zone_descriptions` set `name` = 'Kherson' where `zone_id` = 3491;
+update `ac_zones` set `code` = 'KS' where `zone_id` = 3491;
 
 CREATE TABLE `ac_tax_class_descriptions` (
   `tax_class_id` int(11) NOT NULL,
