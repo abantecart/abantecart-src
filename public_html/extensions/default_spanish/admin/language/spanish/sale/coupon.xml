@@ -83,7 +83,7 @@
 	</definition>
 	<definition>
 		<key>entry_total</key>
-		<value><![CDATA[Cantidad total:]]></value>
+		<value><![CDATA[Cantidad total: La cantidad subtotal que debe alcanzar antes de que el cupón es válido.]]></value>
 	</definition>
 	<definition>
 		<key>entry_product</key>
