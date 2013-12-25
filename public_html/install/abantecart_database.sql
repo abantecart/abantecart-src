@@ -477,9 +477,10 @@ CREATE TABLE `ac_downloads` (
   `filename` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
   `mask` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
   `max_downloads` int(11) DEFAULT NULL, -- remaining, NULL -> No limit 
-  `expire_days` int(11) DEFAULT NULL,  -- defalut to NULL -> No expiration
+  `expire_days` int(11) DEFAULT NULL,  -- default to NULL -> No expiration
   `sort_order` int(11) NOT NULL,  
-  `activate_order_status_id` int(11) NOT NULL DEFAULT '0', 
+  `activate` varchar(64) NOT NULL,
+  `activate_order_status_id` int(11) NOT NULL DEFAULT '0',
   `shared` int(1) NOT NULL DEFAULT '0', -- if used by other products set to 1
   `status` int(1) NOT NULL DEFAULT '0', -- in migration set to 1
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -7515,8 +7516,9 @@ INSERT INTO `ac_resource_types` (`type_id`, `type_name`, `default_icon`, `defaul
 (2, 'audio', 'icon_resource_audio.png', 'audio/', '/.+(mp3|wav)$/i', 0),
 (3, 'video', 'icon_resource_video.png', 'video/', '/.+(avi|mpg|mov|flv)$/i', 0),
 (4, 'pdf', 'icon_resource_pdf.png', 'pdf_document/', '/.+(pdf)$/i', 0),
-(5, 'archive', 'icon_resource_archive.png', 'download/', '/.+(zip|rar|gz|7z)$/i', 1);
-		
+(5, 'archive', 'icon_resource_archive.png', 'download/', '/.+(zip|rar|gz|7z)$/i', 1),
+(6, 'download', 'icon_resource_download.png', 'download/', '/.+$/i', 1);
+
 --
 -- DDL for table `ac_resource_map`
 --

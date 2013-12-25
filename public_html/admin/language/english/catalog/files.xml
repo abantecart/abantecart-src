@@ -17,8 +17,16 @@
 		<value><![CDATA[File Icon]]></value>
 	</definition>
 	<definition>
-		<key>entry_file_name</key>
-		<value><![CDATA[File Name]]></value>
+		<key>entry_name</key>
+		<value><![CDATA[ Name]]></value>
+	</definition>
+	<definition>
+		<key>entry_download_name</key>
+		<value><![CDATA[Download Name]]></value>
+	</definition>
+	<definition>
+		<key>entry_mask</key>
+		<value><![CDATA[Download mask <span class="help">Filename alias for customer download output</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_file_full_path</key>
@@ -30,7 +38,7 @@
 	</definition>
 	<definition>
 		<key>entry_file_sort_order</key>
-		<value><![CDATA[Sort Order]]></value>
+		<value><![CDATA[Sort order]]></value>
 	</definition>
 	<definition>
 		<key>entry_file_status</key>
@@ -70,15 +78,19 @@
 	</definition>
 	<definition>
 		<key>entry_max_downloads</key>
-		<value><![CDATA[Max Download]]></value>
+		<value><![CDATA[Max downloads]]></value>
 	</definition>
 	<definition>
 		<key>entry_activate</key>
-		<value><![CDATA[Activate]]></value>
+		<value><![CDATA[Activate download]]></value>
 	</definition>
 	<definition>
 		<key>entry_sort_order</key>
 		<value><![CDATA[Sort Order]]></value>
+	</definition>
+	<definition>
+		<key>entry_expire_days</key>
+		<value><![CDATA[Expire days]]></value>
 	</definition>
 	<definition>
 		<key>text_before_order</key>
@@ -96,7 +108,87 @@
 		<key>text_manually</key>
 		<value><![CDATA[Manually]]></value>
 	</definition>
+	<definition>
+		<key>text_success_download_save</key>
+		<value><![CDATA[Success: You have modified file! ]]></value>
+	</definition>
 
+	<definition>
+		<key>error_download_exists</key>
+		<value><![CDATA[Error: Cannot to update download because it does not exists in database! ]]></value>
+	</definition>
+	<definition>
+		<key>error_download_name</key>
+		<value><![CDATA[Error: Download name must have length between 2 and 128 characters! ]]></value>
+	</definition>
+	<definition>
+		<key>error_max_downloads</key>
+		<value><![CDATA[Error: maximum downloads count must be greater 0! ]]></value>
+	</definition>
+	<definition>
+		<key>error_activate</key>
+		<value><![CDATA[Error: select action for activation of download! ]]></value>
+	</definition>
+	<definition>
+		<key>error_order_status</key>
+		<value><![CDATA[Error: select order status for activation of download! ]]></value>
+	</definition>
+	<definition>
+		<key>error_download_attributes</key>
+		<value><![CDATA[Download Attributes Error(s):]]></value>
+	</definition>
+	<definition>
+		<key>text_shared_downloads</key>
+		<value><![CDATA[Shared Downloads]]></value>
+	</definition>
+	<definition>
+		<key>text_create_download</key>
+		<value><![CDATA[Create new download]]></value>
+	</definition>
+	<definition>
+		<key>text_path</key>
+		<value><![CDATA[Relative path to file]]></value>
+	</definition>
+	<definition>
+		<key>text_preview</key>
+		<value><![CDATA[Preview]]></value>
+	</definition>
+	<definition>
+		<key>entry_shared</key>
+		<value><![CDATA[Shared Download]]></value>
+	</definition>
+	<definition>
+		<key>text_assign</key>
+		<value><![CDATA[Assign ]]></value>
+	</definition>
+	<definition>
+		<key>text_assigned_to</key>
+		<value><![CDATA[Also assigned to: ]]></value>
+	</definition>
+	<definition>
+		<key>text_select_shared_downloads</key>
+		<value><![CDATA[Select shared downloads: ]]></value>
+	</definition>
+	<definition>
+		<key>error_selected_downloads</key>
+		<value><![CDATA[Warning: Please select the shared downloads for assign.]]></value>
+	</definition>
+	<definition>
+		<key>text_map_success</key>
+		<value><![CDATA[Success: You have assigned shared downloads to product!]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_or_refuse</key>
+		<value><![CDATA[delete or refuse (for shared)]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_delete</key>
+		<value><![CDATA[Confirm download delete/refuse]]></value>
+	</definition>
+	<definition>
+		<key>text_success_remove</key>
+		<value><![CDATA[Success: product files list changed!]]></value>
+	</definition>
 
 
 	<definition>

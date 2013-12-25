@@ -331,4 +331,84 @@ class AAttribute {
         return $query->rows;		
 	}
 
+	/**
+	 * method for validation of data based on global attributes requirements
+	 * @param array $data - usually it's a $_POST
+	 * @return array - array with error text for each of invalid field data
+	 */
+	public function validateAttributeData($data = array()){
+		$errors = array();
+
+//		$this->load->language('checkout/cart'); // load language for file upload text errors
+		$this->load->language('catalog/attribute'); // load language for file upload text errors
+
+
+		foreach($this->attributes as $attribute_info){
+
+			// for multivalue required fields
+			if(in_array($attribute_info['element_type'], HtmlElementFactory::getMultivalueElements())
+				&& !sizeof($data[$attribute_info['attribute_id']])
+				&& $attribute_info['required']=='1'
+			){
+				$errors[$attribute_info['attribute_id']] = $this->language->get('entry_required').' '. $attribute_info['name'];
+			}
+			// for required string values
+			if($attribute_info['required']=='1' && !in_array($attribute_info['element_type'],array('K','U'))){
+				if(!is_array( $data[$attribute_info['attribute_id']] )){
+					$data[$attribute_info['attribute_id']] = trim($data[$attribute_info['attribute_id']]);
+					if($data[$attribute_info['attribute_id']]==''){	//if empty string!
+						$errors[$attribute_info['attribute_id']] = $this->language->get('entry_required').' '. $attribute_info['name'];
+					}
+				}else{
+					if(!$data[$attribute_info['attribute_id']]){	// if empty array
+						$errors[$attribute_info['attribute_id']] = $this->language->get('entry_required').' '. $attribute_info['name'];
+					}
+				}
+			}
+			// check by regexp
+			if(has_value($attribute_info['regexp_pattern'])){
+				if(!is_array($data[$attribute_info['attribute_id']])){ //for string value
+					if(!preg_match($attribute_info['regexp_pattern'],$data[$attribute_info['attribute_id']])){
+						$errors[$attribute_info['attribute_id']] .= ' '. $attribute_info['error_text'];
+					}
+				}else{ // for array's values
+					foreach($data[$attribute_info['attribute_id']] as $dd){
+						if(!preg_match($attribute_info['regexp_pattern'],$dd)){
+							$errors[$attribute_info['attribute_id']] .= ' '. $attribute_info['error_text'];
+							break;
+						}
+					}
+				}
+			}
+
+			//for captcha
+			if($attribute_info['element_type']=='K'
+				&& (!isset($this->session->data['captcha']) || $this->session->data['captcha'] != $data[$attribute_info['attribute_id']])
+			){
+				$errors[$attribute_info['attribute_id']] = $this->language->get('error_captcha');
+			}
+			// for file
+			if($attribute_info['element_type']=='U' && ($this->request->files[$attribute_info['attribute_id']]['tmp_name'] || $attribute_info['required']=='1') ){
+				$fm = new AFile();
+				$file_path_info = $fm->getUploadFilePath($data['settings']['directory'],
+														$this->request->files[$attribute_info['attribute_id']]['name']);
+				$file_data = array(
+					'name' => $file_path_info['name'],
+					'path' => $file_path_info['path'],
+					'type' => $this->request->files[$attribute_info['attribute_id']]['type'],
+					'tmp_name' => $this->request->files[$attribute_info['attribute_id']]['tmp_name'],
+					'error' => $this->request->files[$attribute_info['attribute_id']]['error'],
+					'size' => $this->request->files[$attribute_info['attribute_id']]['size'],
+				);
+
+				$file_errors = $fm->validateFileOption($attribute_info['settings'], $file_data);
+
+				if ($file_errors) {
+					$errors[$attribute_info['attribute_id']] .= implode(' ', $file_errors);
+				}
+			}
+		}
+		return $errors;
+	}
+
 }

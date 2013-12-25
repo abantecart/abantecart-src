@@ -32,8 +32,8 @@ class ControllerResponsesListingGridDownload extends AController {
 		$this->loadModel('catalog/download');
 
 		//Prepare filter config
-		$grid_filter_params = array( 'name' );
-		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
+		$grid_filter_params = array( 'name');
+		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params,'additional_filter_string' => 'shared=1'));
 		$filter_data = $filter->getFilterData();
 
 		$total = $this->model_catalog_download->getTotalDownloads($filter_data);

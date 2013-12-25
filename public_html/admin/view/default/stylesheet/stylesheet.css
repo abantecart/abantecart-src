@@ -119,22 +119,19 @@ a img {
     width: 52px;
     float: right;
     padding-right: 5px;
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 #header .e_msg_box {
-    background-image: url(../image/icons/msg_e_icon.gif);
-    background-repeat: no-repeat;
+	background: url(../image/icons/msg_e_icon.gif) no-repeat;
 }
 
 #header .w_msg_box {
-    background-image: url(../image/icons/msg_w_icon.gif);
-    background-repeat: no-repeat;
+	background: url(../image/icons/msg_w_icon.gif) no-repeat;
 }
 
 #header .n_msg_box {
-    background-image: url(../image/icons/msg_n_icon.gif);
-    background-repeat: no-repeat;
+	background: url(../image/icons/msg_n_icon.gif) no-repeat;
 }
 
 #header .msg_count {
@@ -167,7 +164,7 @@ a img {
 .search_box .cc {
     background-position: 0 -69px;
     background-repeat: repeat-x;
-    height: 23px;
+	height: 23px;
 }
 
 #searchform {
@@ -201,7 +198,7 @@ a img {
 .search_category_heading {
     background-position: 2px 50%;
     background-repeat: no-repeat;
-    height: 47px;
+	height: 47px;
     color: #09487D;
     font: 18px/47px Arial, Helvetica, sans-serif;
     padding: 3px 20px 0 40px;
@@ -233,7 +230,7 @@ a img {
 .language_box .cc {
     background-position: 0 -69px;
     background-repeat: repeat-x;
-    height: 23px;
+	height: 23px;
 }
 
 .language_box .switcher a {
@@ -547,8 +544,7 @@ ul.quick_icon a:hover {
     margin: 0;
     line-height: 47px;
     float: left;
-    background-position: 2px 50%;
-    background-repeat: no-repeat;
+	background: no-repeat 2px 50%;
 }
 
 .cbox_tc .heading-tabs {
@@ -726,7 +722,7 @@ ul.quick_icon a:hover {
 .filter .btn_filter {
     display: inline-block;
     float: left;
-    margin: 0px 0 0 12px;
+    margin: 0 0 0 12px;
 }
 
 .cbox_tc .filter {
@@ -817,7 +813,7 @@ ul.quick_icon a:hover {
 .box > .heading {
     height: 40px;
     background: url('../image/box_center.png') repeat-x;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .box > .left {
@@ -835,10 +831,9 @@ ul.quick_icon a:hover {
 }
 
 .box > .heading h1 {
-    background-position: 2px 9px;
-    background-repeat: no-repeat;
-    margin: 0px;
-    padding: 11px 0px 11px 30px;
+	background: no-repeat 2px 9px;
+	margin: 0;
+    padding: 11px 0 11px 30px;
     color: #003A88;
     font-size: 16px;
     float: left;
@@ -934,9 +929,8 @@ div#options .option_lang_field {
     margin: 0;
     line-height: 47px;
     float: left;
-    background-position: 2px 50%;
-    background-repeat: no-repeat;
-    white-space: nowrap;
+	background: no-repeat 2px 50%;
+	white-space: nowrap;
 }
 
 .loginBox .btn_standard .btn_text {
@@ -968,7 +962,7 @@ div#options .option_lang_field {
     text-align: center;
     height: 40px;
     font: normal 14px Arial, Helvetica, sans-serif;
-    text-shadow: 0 1px 0px rgba(127, 144, 158, 0.5);
+    text-shadow: 0 1px 0 rgba(127, 144, 158, 0.5);
     color: #2a465e;
 }
 
@@ -1025,26 +1019,26 @@ div#options .option_lang_field {
 
 .list_curve_tl {
     background: url(../image/table_list_tl.png) no-repeat;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
 }
 
 .list_curve_tr {
     background: url(../image/table_list_tr.png) no-repeat;
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
 }
 
 .list_curve_bl {
     background: url(../image/table_list_bl.png) no-repeat;
-    bottom: 0px;
-    left: 0px;
+    bottom: 0;
+    left: 0;
 }
 
 .list_curve_br {
     background: url(../image/table_list_br.png) no-repeat;
-    bottom: 0px;
-    right: 0px;
+    bottom: 0;
+    right: 0;
 }
 
 .list_curve {
@@ -1108,7 +1102,7 @@ div#options .option_lang_field {
 }
 
 .list thead td {
-    padding: 0px 5px;
+    padding: 0 5px;
 }
 
 .list thead td a, .list thead td {
@@ -1123,13 +1117,13 @@ div#options .option_lang_field {
 
 .list.option tbody td {
     vertical-align: middle;
-    padding: 0px 5px;
+    padding: 0 5px;
     height: auto;
 }
 
 .list tbody td {
     vertical-align: middle;
-    padding: 0px 5px;
+    padding: 0 5px;
     height: 37px;
 }
 
@@ -1290,11 +1284,9 @@ table.form tr td:first-child {
 }
 
 .extension_info {
-    border-top: none;
-    border-bottom: 1px solid #aaa;
-    border-left: none;
-    border-right: none;
-    margin: 5px 0;
+	border-style: none;
+	border-bottom: 1px solid #aaa;
+	margin: 5px 0;
     padding: 5px 0;
 }
 
@@ -1343,7 +1335,7 @@ table.form tr td:first-child {
 .required {
     color: #FF0000;
     font-weight: bold;
-    margin: 0 0px 0 5px;
+    margin: 0 0 0 5px;
 }
 
 .error {
@@ -1355,7 +1347,7 @@ table.form tr td:first-child {
 }
 
 .htabs {
-    padding: 0px 0px 0px 10px;
+    padding: 0 0 0 10px;
     height: 30px;
     border-bottom: 1px solid #ddd;
     margin-bottom: 15px;
@@ -1384,7 +1376,7 @@ table.form tr td:first-child {
 
 .vtabs {
     width: 180px;
-    padding: 10px 0px;
+    padding: 10px 0;
     min-height: 300px;
     float: left;
     display: block;
@@ -1686,7 +1678,7 @@ table.form tr td:first-child {
 
 .debug_info {
     text-align: left;
-    margin: 50px 0px 0;
+    margin: 50px 0 0;
     width: 100%;
     clear: both;
 }
@@ -1867,11 +1859,10 @@ table.form tr td:first-child {
     line-height: 18px;
     padding: 5px;
     color: black;
-    background-color: white !important;
-    height: 380px;
+	height: 380px;
     width: 528px;
     overflow: auto;
-    background-image: none !important;
+	background: white none !important;
 }
 
 .message_text a {
@@ -1974,7 +1965,7 @@ table.form tr td:first-child {
     height: 20px;
     line-height: 20px;
     background-position: left center;
-    padding: 0px;
+    padding: 0;
     margin: 2px 6px;
     vertical-align: middle
 }
@@ -2132,13 +2123,19 @@ table.form tr td:first-child {
 #product_download_form a{
     height: 26px;
     background-position: left center;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     vertical-align: middle
 }
 
 #product_download_form td {
     padding: 4px;
+	border-bottom: 1px solid #CACCD2;
+	border-top: 1px solid #CACCD2;
+}
+
+#product_download_form>tbody>tr>td:last-child {
+	width: 100px;
 }
 
 #product_download_form .toDelete {
@@ -2150,17 +2147,32 @@ table.form tr td:first-child {
     margin: 0;
     text-decoration: none;
     text-align: center;
+	padding-left: 10px;
 }
 
+#product_download_form a.remove, #product_download_form a.add  {
+	width: 16px;
+	margin-right: 30px;
+}
+
+#product_download_form .additionalRow .table>tbody>tr{
+	background-color: #FFFFFF;
+}
 #product_download_form .additionalRow{
 	padding-top: 20px;
 }
 
+
 #product_download_form .fieldset{
-	width: 46%;
-	margin: auto 16px;
+	width: 49%;
+	margin: 5px;
 }
 
 #product_download_form .table td{
 	border:0;
+}
+
+#product_download_form .clean, #product_download_form tr.clean>td{
+	border:0;
+	background-color: white;
 }

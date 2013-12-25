@@ -299,7 +299,12 @@ jQuery(function ($) {
     });
 
     $('#pagination a').live('click', function () {
-        page = querySt($(this).attr('href'), 'page');
+		try{
+			page = querySt($(this).attr('href'), 'page');
+		}catch(e){
+			page = $(this).html();
+		}
+
         loadResources();
         return false;
     });
@@ -825,6 +830,7 @@ jQuery(function ($) {
                     });
                     $('#resource_details td.mapped').html(html);
                     loadedItems[0] = json;
+
                     if (mode != 'url') {
                         if (already_mapped) {
                             $('#do_map_info').hide();

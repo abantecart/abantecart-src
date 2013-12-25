@@ -234,12 +234,13 @@ class ControllerPagesCatalogDownload extends AController {
 			$this->data['action'] = $this->html->getSecureURL('catalog/download/insert');
 			$this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_download');
 			$this->data['update'] = '';
-			$form = new AForm('ST');
+			$download_info = array('download_id' => 0);
 		} else {
 			$this->data['action'] = $this->html->getSecureURL('catalog/download/update', '&download_id=' . $this->request->get['download_id'] );
 			$this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_download'). ' - ' . $this->data['download_description'][$this->session->data['content_language_id']]['name'];
 			$this->data['update'] = $this->html->getSecureURL('listing_grid/download/update_field','&id='.$this->request->get['download_id']);
-			$form = new AForm('HS');
+
+			$download_info = $this->model_catalog_download->getDownload($this->request->get['download_id']);
 		}
 		  
 		$this->document->addBreadcrumb( array (
@@ -248,80 +249,14 @@ class ControllerPagesCatalogDownload extends AController {
       		'separator' => ' :: '
    		 ));  
 
-		$form->setForm(array(
-		    'form_name' => 'downloadFrm',
-			'update' => $this->data['update'],
-	    ));
-
-        $this->data['form']['id'] = 'downloadFrm';
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
-		    'type' => 'form',
-		    'name' => 'downloadFrm',
-		    'action' => $this->data['action'],
-		    'attr' => 'confirm-exit="true"',
-	    ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
-		    'type' => 'button',
-		    'name' => 'submit',
-		    'text' => $this->language->get('button_save'),
-		    'style' => 'button1',
-	    ));
-		$this->data['form']['cancel'] = $form->getFieldHtml(array(
-		    'type' => 'button',
-		    'name' => 'cancel',
-		    'text' => $this->language->get('button_cancel'),
-		    'style' => 'button2',
-	    ));
-
-		$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
-		    'type' => 'input',
-		    'name' => 'download_description['.$this->session->data['content_language_id'].'][name]',
-		    'value' => $this->data['download_description'][$this->session->data['content_language_id']]['name'],
-			'required' => true,
-			'attr' => ' maxlength="64" ',
-			'help_url' => $this->gen_help_url('name'),
-	    ));
-		$this->data['form']['fields']['download'] = $form->getFieldHtml(array(
-		    'type' => 'hidden',
-		    'name' => 'download',
-		    'value' => htmlspecialchars($this->data['filename'], ENT_COMPAT, 'UTF-8'),
-	    ));
-        $this->data['form']['fields']['mask'] = $form->getFieldHtml(array(
-		    'type' => 'hidden',
-		    'name' => 'mask',
-		    'value' => $this->data['mask'],
-	    ));
-		$this->data['form']['fields']['remaining'] = $form->getFieldHtml(array(
-		    'type' => 'input',
-		    'name' => 'remaining',
-		    'value' => $this->data['remaining']
-	    ));
-		if ($this->data['show_update']) {
-			$this->data['form']['fields']['update'] = $form->getFieldHtml(array(
-				'type' => 'checkbox',
-				'name' => 'update',
-				'value' => $this->data['update'],
-				'style' => 'no-save'
-			));
-		}
-
 		$this->view->assign('help_url', $this->gen_help_url('download_edit') );
 
 		$this->view->batchAssign( $this->data );
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('language_id', $this->session->data['content_language_id']);
 
-        $resources_scripts = $this->dispatch(
-            'responses/common/resource_library/get_resources_scripts',
-            array(
-                'object_name' => '',
-                'object_id' => '',
-                'types' => 'archive',
-                'mode' => 'url',
-            )
-        );
-		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
-        $this->view->assign('rl_get_preview', $this->html->getSecureURL('common/resource_library/get_resource_preview'));
+		$form_html = $this->dispatch('responses/product/product/buildDownloadForm',array($download_info,'responses/catalog/download_form.tpl'));
+		$this->view->assign('form', $form_html->dispatchGetOutput());
 
         $this->processTemplate('pages/catalog/download_form.tpl' );
   	}

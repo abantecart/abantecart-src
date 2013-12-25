@@ -64,4 +64,8 @@
     <key>error_product</key>
     <value><![CDATA[Warning: This download cannot be deleted as it is currently assigned to %s products!]]></value>
   </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Image]]></value>
+  </definition>
 </definitions>

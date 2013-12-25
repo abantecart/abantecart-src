@@ -14,6 +14,7 @@
 	    <?php if ( !empty ($help_url) ) : ?>
 	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
 	    <?php endif; ?>
+		<?php echo $form_language_switch; ?>
     </div>
   </div></div></div>
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
@@ -29,29 +30,17 @@
 
 	<table id="product_download_form" class="list option ">
 	    <tr>
-	        <th class="left"><?php echo $entry_file_id; ?></th>
 	        <th class="left"><?php echo $entry_file_icon; ?></th>
-	        <th class="left"><?php echo $entry_file_name; ?></th>
+	        <th class="left"><?php echo $entry_name; ?></th>
 	        <th class="left"><?php echo $entry_file_max_downloads; ?></th>
 	        <th class="left"><?php echo $entry_file_sort_order; ?></th>
 	        <th class="left"><?php echo $entry_file_status; ?></th>
-	        <th class="left"></th>
 	        <th class="left"><?php echo $column_action; ?></th>
 	    </tr>
-	    <?php //echo $product_id; ?>
 	    <?php foreach ($file_rows as $file_html) { ?>
 	        <?php echo $file_html; ?>
 	    <?php } ?>
-	
 	</table>
-	<div style="margin-top: 13px;" align="center" style="width: 80%; float:right;">
-		<a href="#" id="add_new_file" class="flt_right add"></a>
-	</div>
-	
-	<table style="display:none;" id="new_row_table">
-		<?php echo $new_file_row ?>
-	</table>
-
   </div></div></div>
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
@@ -63,23 +52,63 @@
 		text_hide: '<?php echo $text_hide ?>'
 	};
 
-	$("#product_download_form a.expandRow").live('click', function () {
-		var additional_row = $(this).parent().parent().next().find('div.additionalRow');
+	$("#product_download_form a.expandRow").live('click', function (hide) {
+		var additional_row = $(this).parents('tr').next().find('div.additionalRow');
 		if ($(additional_row).is(':visible')) {
 			$(additional_row).slideUp();
-			$(this).text(text.text_expand);
-			$(this).parent().parent().next().find('div.add_resource').html();
+			if($(this).hasClass('toggleicon')){
+				$(this).attr('title',text.text_expand);
+				$(this).removeClass('icon-arrow-up').addClass('icon-arrow-down');
+			}
+			$(this).parents('tr').next().find('div.add_resource').html();
 		} else {
-			$('div.aform', additional_row).show();
-			$(additional_row).slideDown();
-			$(this).text(text.text_hide);
-
-			//setRLparams($(this).attr('id'));
-
-			//loadMedia('image');
+			if(hide!=true){
+				$('div.aform', additional_row).show();
+				$(additional_row).slideDown();
+				if($(this).hasClass('toggleicon')){
+					$(this).attr('title',text.text_hide);
+					$(this).removeClass('icon-arrow-down').addClass('icon-arrow-up');
+				}
+			}
 		}
 
 		return false;
+	});
+
+	$("#product_download_form a.add").on('click', function () {
+		var additional_row = $(this).parents('tr').next().find('div.additionalRow');
+		$('div.aform', additional_row).show();
+		$(additional_row).slideDown();
+		$(this).hide();
+		return false;
+	});
+
+	$(".optionRow>td a.remove").on('click', function () {
+		if(!confirm('<?php echo $text_confirm_delete;?>')){
+			return false;
+		}
+	});
+
+	$('#downloadFrmnew_cancel').on('click',function(){
+		$("#product_download_form a.add").show();
+		var additional_row = $(this).parents('div.additionalRow');
+		$('div.aform', additional_row).show();
+		$(additional_row).slideUp();
+		return false;
+	});
+
+	$(document).ready(function(){
+
+		$.each($('select[id*="_activate"]'),function(){
+			$(this).change();
+		});
+
+		<?php if($download_id){?>
+		$("#download_<?php echo $download_id?> a.expandRow").click();
+		<?php } ?>
+		$("#product_download_form tr").dblclick(function(){
+			$(this).find('a.expandRow').click();
+		});
 	});
 
 //--></script>

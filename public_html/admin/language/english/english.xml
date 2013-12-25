@@ -565,4 +565,8 @@
 		<key>text_apply_layout</key>
 		<value><![CDATA[Apply Now]]></value>
 	</definition>
+	<definition>
+		<key>text_new_download</key>
+		<value><![CDATA[New Download]]></value>
+	</definition>
 </definitions>

@@ -424,7 +424,7 @@ div.aswitcher.checked span {
 }
 
 .multivalue.count_text{
-	padding: 5px 5px 5px 5px;
+	line-height: 22px;
 	vertical-align: middle;
 	float: left;
     display: inline-block;

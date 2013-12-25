@@ -1553,7 +1553,8 @@ class ModelCatalogProduct extends Model {
 		}
 		
 		$query =  $this->db->query(
-					"SELECT * FROM " . $this->db->table("products_to_downloads") . " p2d
+					"SELECT dd.*, d.*, p2d.*
+					 FROM " . $this->db->table("products_to_downloads") . " p2d
 					 LEFT JOIN " . $this->db->table("downloads") . " d ON (p2d.download_id = d.download_id)
 					 LEFT JOIN " . $this->db->table("download_descriptions") . " dd
 					 	ON (d.download_id = dd.download_id

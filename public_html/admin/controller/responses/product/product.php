@@ -77,7 +77,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->loadLanguage('catalog/product');
 		$this->loadModel('catalog/product');
 
-		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST')) {
+		if ($this->request->is_POST()) {
 			$this->model_catalog_product->updateProduct($this->request->get[ 'product_id' ], $this->request->post);
 			$result = 'Saved!';
 		}
@@ -689,7 +689,459 @@ class ControllerResponsesProductProduct extends AController {
 	}
 
 
-	public function loadDownloadForm(){
+	public function processDownloadForm(){
 
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		if (!$this->user->canModify('product/product')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'product/product'),
+					'reset_value' => true
+				));
+		}
+
+		if(!$this->request->is_POST()){ return null;}
+
+		$this->loadModel('catalog/download');
+		if($this->_validateDownloadForm($this->request->post)){
+			$post_data = $this->request->post;
+			$post_data['filename'] = (string)$this->request->post['download_rl_path_'.$this->request->post['download_id']];
+			// for shared downloads
+			if(!isset($post_data['shared']) && !$this->request->get['product_id']){
+				$post_data['shared'] = 1;
+			}
+
+			if((int)$this->request->post['download_id']){
+				$this->model_catalog_download->editDownload($this->request->post['download_id'],$post_data);
+				$download_id = (int)$this->request->post['download_id'];
+			}else{
+				unset($post_data['download_id']);
+				$post_data['product_id'] = (int)$this->request->get['product_id'];
+				$download_id = $this->model_catalog_download->addDownload($post_data);
+			}
+			$this->session->data['success'] = $this->language->get('text_success_download_save');
+			$this->data['output'] = array('download_id' => $download_id,
+										  'success'=>true,
+											'text'=> $this->language->get('text_success'));
+
+		}else{
+			$error = new AError( '' );
+			$err_data = array(
+				'error_title' => implode( '<br>', $this->error )
+			);
+			return $error->toJSONResponse('VALIDATION_ERROR_406', $err_data );
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->response->addJSONHeader();
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($this->data['output']));
+	}
+
+	private function _validateDownloadForm($data = array()){
+		$this->error = array();
+		$this->load->language('catalog/files');
+
+		if (!empty($data[ 'download_id' ]) && !$this->model_catalog_download->getDownload($data[ 'download_id' ])) {
+			$this->error[ 'download_id' ] = $this->language->get('error_download_exists');
+		}
+		if ( mb_strlen($data[ 'name' ]) < 2 || mb_strlen($data[ 'name' ]) > 64 ) {
+			$this->error[ 'name' ] = $this->language->get('error_download_name');
+		}
+		if ( !(int)$data[ 'max_downloads' ] ) {
+			$this->error[ 'max_downloads' ] = $this->language->get('error_max_downloads');
+		}
+
+		if ( !in_array($data[ 'activate' ],array('before_order','immediately','order_status','manually')) ) {
+			$this->error[ 'activate' ] = $this->language->get('error_activate');
+		}else{
+			if($data[ 'activate' ]=='order_status' && !(int)$data['activate_order_status_id']){
+				$this->error[ 'order_status' ] = $this->language->get('error_order_status');
+			}
+		}
+
+		$attr_mngr = new AAttribute_Manager('download_attribute');
+
+		$attr_errors = $attr_mngr->validateAttributeData($data['attributes'][$data[ 'download_id' ]]);
+		if($attr_errors){
+			$this->error['atributes'] = $this->language->get('error_download_attributes').'<br>&nbsp;&nbsp;&nbsp;'. implode('<br>&nbsp;&nbsp;&nbsp;',$attr_errors);
+		}
+
+		return $this->error ? false : true;
+	}
+
+
+	public function buildDownloadForm($file_data, $tpl) {
+		$this->data = array();
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$this->loadLanguage('catalog/files');
+		$this->loadModel('localisation/order_status');
+		$this->loadModel('catalog/download');
+
+		$product_id = $file_data['product_id'];
+
+		$order_statuses = $this->model_localisation_order_status->getOrderStatuses();
+
+		$this->data['date_added'] = dateISO2Display($file_data['date_added'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
+		$this->data['date_modified'] = dateISO2Display($file_data['date_modified'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
+
+		$this->data['action'] = $this->html->getSecureURL('r/product/product/processDownloadForm', '&product_id=' . $product_id);
+		$this->data['form_title'] = $this->language->get('text_edit') . '&nbsp;' . $this->language->get('text_product');
+
+		$this->data['download_id'] = (int)$file_data['download_id'];
+
+		$form = new AForm('HT');
+		$form->setForm(array(
+					'form_name' => 'downloadFrm'.$file_data['download_id'],
+					'update' => $this->data['update'],
+				));
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
+					'type' => 'form',
+					'name' => 'downloadFrm'.$file_data['download_id'],
+					'attr' => 'confirm-exit="true"',
+					'action' => $this->data['action']
+				));
+		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array(
+																	 'type' => 'button',
+																	 'name' => 'submit',
+																	 'text' => ((int)$this->data['download_id'] ? $this->language->get('button_save'): $this->language->get('text_add')),
+																	 'style' => 'button1',
+																));
+
+		$this->data[ 'form' ][ 'cancel' ] = $form->getFieldHtml(array(
+																	 'type' => 'button',
+																	 'name' => 'cancel',
+																	 'href' => $this->html->getSecureURL('catalog/product_files','&product_id='.$product_id),
+																	 'text' => $this->language->get('button_cancel'),
+																	 'style' => 'button2',
+																));
+		$rl = new AResource('download');
+		$rl_dir = $rl->getTypeDir();
+		$resource_id = $rl->getIdFromHexPath(str_replace($rl_dir,'',$file_data['filename']));
+
+		$resource_info = $rl->getResource($resource_id);
+		$thumbnail = $rl->getResourceThumb($resource_id,30, 30);
+		if($resource_info['resource_path']){
+			$this->data[ 'icon' ] = $this->html->buildResourceImage(
+														array('url' => $thumbnail,
+															'width' => 30,
+															'height' => 30,
+															'attr' => 'alt="' . $resource_info['title'] . '"') );
+		}else{
+			$this->data[ 'icon' ] = $resource_info['resource_code'];
+		}
+		if($resource_id){
+			$this->data['preview']['href'] = $this->html->getSecureURL('common/resource_library/get_resource_preview','&resource_id='.$resource_id, true);
+			$this->data['preview']['path'] = 'resources/'.$file_data['filename'];
+		}
+
+		$r = $this->dispatch(
+					'responses/common/resource_library/get_resource_html_single',
+				array('type'=>'download',
+					  'wrapper_id' => 'download_'.(int)$this->data['download_id'],
+					  'resource_id'=> $resource_id,
+					  'field' => 'download_rl_path_'.$this->data['download_id'] ));
+		$this->data['resource'] = $r->dispatchGetOutput();
+
+		$resources_scripts = $this->dispatch(
+				   'responses/common/resource_library/get_resources_scripts',
+					array(
+						'object_name' => 'downloads',
+						'object_id' => (int)$this->data['download_id'],
+						'types' => 'download',
+						'mode' => 'url'
+					)
+				);
+		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+
+		$this->data['form']['fields']['download_rl_path'] = $form->getFieldHtml(
+		            array(
+		                'type' => 'hidden',
+		                'name' => 'download_rl_path_'.$this->data['download_id'],
+		                'value' => htmlspecialchars($file_data['filename'], ENT_COMPAT, 'UTF-8'),
+		));
+
+		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
+					'type' => 'checkbox',
+					'name' => 'status',
+					'value' => $file_data['status'],
+					'style' => 'btn_switch',
+		));
+
+
+		$this->data['maplist'] = array();
+		foreach($file_data['map_list'] as $map_id => $map_name){
+			if($map_id==$product_id){ continue;}
+			$this->data['maplist'][] = array('href'=> $this->html->getSecureURL('catalog/product_files','&product_id='.$map_id.'&download_id='.$this->data['download_id'], true),
+											 'text' => $map_name);
+		}
+		if(!sizeof($this->data['maplist'])){
+			$this->data['already_shared'] = false;
+		}else{
+			$this->data['already_shared'] = true;
+		}
+
+		$this->data['delete_unmap_href'] = $this->html->getSecureURL('catalog/product_files','&act='.($file_data['shared']? 'unmap' : 'delete').'&product_id='.$product_id.'&download_id='.$this->data['download_id'], true);
+
+		$this->data['form']['fields']['shared'] = $form->getFieldHtml(array(
+							'type' => 'checkbox',
+							'name' => 'shared',
+							'value' => $file_data['shared'],
+							'attr'=> ($this->data['already_shared'] ? ' disabled=disabled':'')
+		));
+
+		$this->data['form']['fields']['download_id'] = $form->getFieldHtml(array(
+			'type' => 'hidden',
+			'name' => 'download_id',
+			'value' => $this->data['download_id'],
+		));
+		$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'name',
+			'value' => $file_data['name'],
+		));
+		$this->data['form']['fields']['mask'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'mask',
+			'value' => $file_data['mask'],
+		));
+		$this->data['form']['fields']['max_downloads'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'max_downloads',
+			'value' => $file_data['max_downloads'],
+			'style' => 'small-field'
+		));
+		$this->data['form']['fields']['activate'] = $form->getFieldHtml(array(
+			'type' => 'selectbox',
+			'name' => 'activate',
+			'value' => $file_data['activate'],
+			'options' => array( '' => $this->language->get('text_select'),
+								'before_order' => $this->language->get('text_before_order'),
+								'immediately' => $this->language->get('text_immediately'),
+								'order_status' => $this->language->get('text_on_order_status'),
+								'manually' => $this->language->get('text_manually'), ),
+			'required' => true,
+			'style' => 'download_activate'
+		));
+
+		$options = array('' => $this->language->get('text_select'));
+		foreach($order_statuses as $order_status){
+			$options[$order_status['order_status_id']] = $order_status['name'];
+		}
+
+		$this->data['form']['fields']['order_statuses'] = $form->getFieldHtml(array(
+			'type' => 'selectbox',
+			'name' => 'activate_order_status_id',
+			'value' => $file_data['activate_order_status_id'],
+			'options' => $options,
+			'required' => true
+		));
+
+		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'sort_order',
+			'style' => 'small-field',
+			'value' => $file_data['sort_order'],
+		));
+		$this->data['form']['fields']['expire_days'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'expire_days',
+			'style' => 'small-field',
+			'value' => $file_data['expire_days'],
+		));
+
+		/*
+		 * DOWNLOAD ATTRIBUTES PIECE OF FORM
+		 * */
+		$attributes = $this->model_catalog_download->getDownloadAttributes($this->data['download_id']);
+		$elements = HtmlElementFactory::getAvailableElements();
+
+
+		$html_multivalue_elements = HtmlElementFactory::getMultivalueElements();
+		$html_elements_with_options = HtmlElementFactory::getElementsWithOptions();
+
+		foreach ($attributes as $attribute) {
+			$html_type = $elements[$attribute['element_type']]['type'];
+			if (!$html_type || !$attribute['status']) {
+				continue;
+			}
+			$values = $value = array();
+			//values that was setted
+			if (in_array($attribute['element_type'], $html_elements_with_options) && $attribute['element_type']!='R') {
+
+				if(is_array($attribute['selected_values'])){
+					foreach ($attribute['selected_values'] as $val) {
+						$value[$val] = $val;
+					}
+				}else{
+					$value = $attribute['selected_values'];
+				}
+			} else {
+				if (isset($attribute['selected_values'])) {
+					$value = $attribute['selected_values'];
+					if($attribute['element_type']=='R' && is_array($value)){
+						$value = current($value);
+					}
+
+				} else {
+					$value = $attribute['values'][0]['value'];
+				}
+			}
+			// possible values
+			foreach ($attribute['values'] as $val) {
+				$values[$val['attribute_value_id']] = $val['value'];
+			}
+
+			if (!in_array($attribute['element_type'], $html_multivalue_elements)) {
+				$option_name = 'attributes['.$this->data['download_id'].'][' . $attribute['attribute_id'] . ']';
+			} else {
+				$option_name = 'attributes['.$this->data['download_id'].'][' . $attribute['attribute_id'] . '][' . $attribute['attribute_value_id'] . ']';
+			}
+
+			$disabled = '';
+			$required = $attribute['required'];
+
+			$option_data = array(
+				'type' => $html_type,
+				'name' => $option_name,
+				'value' => $value,
+				'options' => $values,
+				'required' => $required,
+				'attr' => $disabled,
+				'style' => 'large-field'
+			);
+
+			if ($html_type == 'checkboxgroup') {
+				$option_data['scrollbox'] = true;
+			}
+
+			$this->data['entry_attribute_' .$this->data['download_id'].'_'. $attribute['attribute_id']] = $attribute['name'];
+			$this->data['attributes'][$this->data['download_id'].'_' . $attribute['attribute_id']] = $form->getFieldHtml($option_data);
+		}
+
+		// for new download - create form for mapping shared downloads to product
+		if(!$file_data['download_id']){
+
+			if (!$this->registry->has('jqgrid_script')) {
+				$locale = $this->session->data['language'];
+				if (!file_exists(DIR_ROOT . '/' . RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js')) {
+					$locale = 'en';
+				}
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js');
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.jqGrid.min.js');
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.grid.fluid.js');
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.ba-bbq.min.js');
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/grid.history.js');
+
+				//set flag to not include scripts/css twice
+				$this->registry->set('jqgrid_script', true);
+			}
+
+
+			$form0 = new AForm('ST');
+			$form0->setForm(array(
+						'form_name' => 'SharedFrm',
+						'update' => $this->data['update'],
+					));
+			$this->data['form0']['form_open'] = $form0->getFieldHtml(array(
+						'type' => 'form',
+						'name' => 'SharedFrm'.$file_data['download_id'],
+						'attr' => 'confirm-exit="true"',
+						'action' => $this->html->getSecureURL('catalog/product_files','&product_id='.$product_id)
+					));
+			$this->data[ 'form0' ][ 'submit' ] = $form0->getFieldHtml(array(
+																		 'type' => 'button',
+																		 'name' => 'submit',
+																		 'text' => $this->language->get('text_assign'),
+																		 'style' => 'button1',
+																	));
+
+			$this->data[ 'form0' ][ 'cancel' ] = $form0->getFieldHtml(array(
+																		 'type' => 'button',
+																		 'name' => 'cancel',
+																		 'href' => $this->html->getSecureURL('catalog/product_files','&product_id='.$product_id),
+																		 'text' => $this->language->get('button_cancel'),
+																		 'style' => 'button2',
+																	));
+
+			// exclude this product from multivalue list. why we need relate recursion?
+			$this->session->data['multivalue_excludes']['product_id'] = $this->request->get['product_id'];
+			$this->data['form0']['fields']['list'] = $form0->getFieldHtml(array(
+				'id' => 'shared_downloads_list',
+				'type' => 'multivaluelist',
+				'name' => 'shared_downloads',
+				'content_url' => $this->html->getSecureUrl('product/product/downloads'),
+				'edit_url' => '',
+				'multivalue_hidden_id' => 'popup',
+				'values' => $listing_data,
+				'return_to' => 'SharedFrm_popup_item_count',
+				'text' => array(
+					'delete' => $this->language->get('button_delete'),
+					'delete_confirm' => $this->language->get('text_delete_confirm'),
+				)
+			));
+
+
+			$this->data['form0']['fields']['list_hidden'] = $form0->getFieldHtml(
+				array('id' => 'popup',
+					'type' => 'multivalue',
+					'name' => 'popup',
+					'title' => $this->language->get('text_select_from_list'),
+					'selected' => ($listing_data ? AJson::encode($listing_data) : "{}"),
+					'content_url' => $this->html->getSecureUrl('catalog/download_listing', '&form_name=SharedFrm&multivalue_hidden_id=popup'),
+					'postvars' => '',
+					'return_to' => '', // placeholder's id of listing items count.
+					'popup_height' => 708,
+					'js' => array(
+						'apply'  => "SharedFrm_shared_downloads_buildList();",
+						'cancel' => "SharedFrm_shared_downloads_buildList();",
+					),
+					'text' => array(
+						'selected' => $this->language->get('text_count_selected'),
+						'edit' => $this->language->get('text_save_edit'),
+						'apply' => $this->language->get('text_apply'),
+						'save' => $this->language->get('button_save'),
+						'reset' => $this->language->get('button_reset')),
+				));
+
+		}
+
+
+		$this->view->batchAssign($this->data);
+		$this->processTemplate($tpl);
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
+
+	public function downloads() {
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->loadModel('catalog/download');
+		if($this->request->post['id']){
+			$downloads = $this->model_catalog_download->getDownloads(array('subsql_filter'=>' shared = 1 AND d.download_id IN ('.implode(',',$this->request->post['id']).')'));
+		}
+
+		$download_data = array();
+		foreach ($downloads as $download) {
+			$download_data[ ] = array(
+				'id' => $download[ 'download_id' ],
+				'name' => $download[ 'name' ],
+				'sort_order' => (int)$download[ 'sort_order' ]
+			);
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($download_data));
 	}
 }
