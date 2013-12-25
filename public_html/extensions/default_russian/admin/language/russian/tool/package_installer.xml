@@ -118,7 +118,7 @@
   </definition>
   <definition>
     <key>error_ftp_path_array</key>
-    <value><![CDATA[Ошибка: не удается автоматически установить корневой каталог AbanteCart в FTP-режиме. <br> Пожалуйста, введите FTP-путь в поле формы. <br> Возможные варианты пути:]]></value>
+    <value><![CDATA[Ошибка: не удается автоматически установить корневой каталог AbanteCart в FTP-режиме. <br> Введите FTP-путь в поле формы. <br> Возможные варианты пути:]]></value>
   </definition>
   <definition>
     <key>error_dir_permission</key>

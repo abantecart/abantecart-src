@@ -56,6 +56,12 @@ class ControllerPagesSaleOrder extends AController {
 			$this->data['success'] = '';
 		}
 
+        //set content language to main language.
+        if ( $this->language->getContentLanguageID() != $this->language->getLanguageID()) { 
+        	//reset content language
+        	$this->language->setCurrentContentLanguage( $this->language->getLanguageID() );
+        }
+
 		$grid_settings = array(
 			//id of grid
             'table_id' => 'order_grid',
@@ -219,6 +225,12 @@ class ControllerPagesSaleOrder extends AController {
 
     	$order_info = $this->model_sale_order->getOrder($order_id);
         $this->data['order_info'] = $order_info;
+        
+        //set content language to order language ID.
+        if ( $this->language->getContentLanguageID() != $order_info['language_id']) { 
+        	//reset content language
+        	$this->language->setCurrentContentLanguage($order_info['language_id']);
+        }
 
 		if (empty($order_info)) {
 			$this->session->data['error'] = $this->language->get('error_order_load');
@@ -422,7 +434,6 @@ class ControllerPagesSaleOrder extends AController {
 
 		$this->view->batchAssign( $this->data );
 		$this->view->assign('help_url', $this->gen_help_url('order_details') );
-		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		
 		$this->processTemplate('pages/sale/order_details.tpl' );
 
@@ -461,6 +472,12 @@ class ControllerPagesSaleOrder extends AController {
 			$this->session->data['error'] = $this->language->get('error_order_load');
 			$this->redirect($this->html->getSecureURL('sale/order'));
 		}
+
+        //set content language to order language ID.
+        if ( $this->language->getContentLanguageID() != $order_info['language_id']) { 
+        	//reset content language
+        	$this->language->setCurrentContentLanguage($order_info['language_id']);
+        }
 
 		$this->document->initBreadcrumb( array (
 			'href'      => $this->html->getSecureURL('index/home'),
@@ -577,7 +594,6 @@ class ControllerPagesSaleOrder extends AController {
 
         $this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
 		$this->view->assign('help_url', $this->gen_help_url('order_shipping') );
-		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->batchAssign( $this->data );
 
 		$this->processTemplate('pages/sale/order_shipping.tpl' );
@@ -617,6 +633,12 @@ class ControllerPagesSaleOrder extends AController {
 			$this->session->data['error'] = $this->language->get('error_order_load');
 			$this->redirect($this->html->getSecureURL('sale/order'));
 		}
+
+        //set content language to order language ID.
+        if ( $this->language->getContentLanguageID() != $order_info['language_id']) { 
+        	//reset content language
+        	$this->language->setCurrentContentLanguage($order_info['language_id']);
+        }
 
 		$this->document->initBreadcrumb( array (
 			'href'      => $this->html->getSecureURL('index/home'),
@@ -734,7 +756,6 @@ class ControllerPagesSaleOrder extends AController {
 
         $this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
 
-		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url('order_payment') );
 		$this->view->batchAssign( $this->data );
 
@@ -770,6 +791,12 @@ class ControllerPagesSaleOrder extends AController {
 			$this->session->data['error'] = $this->language->get('error_order_load');
 			$this->redirect($this->html->getSecureURL('sale/order'));
 		}
+
+        //set content language to order language ID.
+        if ( $this->language->getContentLanguageID() != $order_info['language_id']) { 
+        	//reset content language
+        	$this->language->setCurrentContentLanguage($order_info['language_id']);
+        }
 
 		$this->document->initBreadcrumb( array (
 			'href'      => $this->html->getSecureURL('index/home'),
@@ -865,8 +892,6 @@ class ControllerPagesSaleOrder extends AController {
 			'style' => 'large-field',
 	    ));
 
-
-
 		$this->data['histories'] = array();
 		$results = $this->model_sale_order->getOrderHistory($this->request->get['order_id']);
 		foreach ($results as $result) {
@@ -880,7 +905,6 @@ class ControllerPagesSaleOrder extends AController {
 
         $this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
 
-		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url('order_history') );
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/sale/order_history.tpl' );

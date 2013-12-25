@@ -58,16 +58,17 @@ class ModelLocalisationOrderStatus extends Model {
 	}
 		
 	public function getOrderStatus($order_status_id) {
+		$language_id = $this->language->getContentLanguageID();
+
 		$query = $this->db->query("SELECT *
 									FROM " . DB_PREFIX . "order_statuses
 									WHERE order_status_id = '" . (int)$order_status_id . "'
-											AND language_id = '" . (int)$this->language->getLanguageID() . "'");
+											AND language_id = '" . (int)$language_id . "'");
 		return $query->row;
 	}
 		
 	public function getOrderStatuses($data = array()) {
-
-		$language_id = $this->language->getLanguageID();
+		$language_id = $this->language->getContentLanguageID();
 
       	if ($data) {
 

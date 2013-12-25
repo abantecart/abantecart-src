@@ -10,7 +10,7 @@
   </definition>
   <definition>
     <key>text_login</key>
-    <value><![CDATA[Пожалуйста, введите свои регистрационные данные.]]></value>
+    <value><![CDATA[Введите свои регистрационные данные.]]></value>
   </definition>
   <definition>
     <key>entry_username</key>
