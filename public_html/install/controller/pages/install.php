@@ -359,6 +359,6 @@ class progressbar implements AProgressBar {
 		define('IS_ADMIN', true);
 		$language = new ALanguageManager($this->registry, 'en');
 		//Load default language (1) English on install only.
-		return $language->definitionAutoLoad(1, 'all', 'all', 'update');
+		return $language->definitionAutoLoad(1, 'all', 'all');
 	}
 }

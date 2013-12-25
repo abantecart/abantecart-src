@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>text_title</key>
-    <value><![CDATA[Кредитная карта / дебетовая карта (Paymate)]]></value>
+    <value><![CDATA[Кредитная карта/дебетовая карта (Paymate)]]></value>
   </definition>
   <definition>
     <key>text_unable</key>
@@ -10,14 +10,14 @@
   </definition>
   <definition>
     <key>text_declined</key>
-    <value><![CDATA[Оплата была отклонено PayMate]]></value>
+    <value><![CDATA[Оплата была отклонена PayMate]]></value>
   </definition>
   <definition>
     <key>text_failed</key>
-    <value><![CDATA[Paymate сделка удалось]]></value>
+    <value><![CDATA[Paymate транзакция не удалась]]></value>
   </definition>
   <definition>
     <key>text_failed_message</key>
-    <value><![CDATA[<p> К сожалению, была ошибка обработки транзакции PayMate. </p><p> <b>Ошибка:</b> %s</p><p> Пожалуйста, проверьте свой баланс PayMate счета, прежде чем пытаться повторно процесс этот порядок </p><p> Если вы считаете, эта сделка успешно завершена, или показывает как уменьшение в своем аккаунте PayMate, пожалуйста <a href="%s">Контакты</a> с ваши детали заказа. </p>]]></value>
+    <value><![CDATA[<p>К сожалению, возникла ошибка обработки транзакции PayMate.</p><p><b>Error: </b>%s</p><p>Пожалуйста, проверьте свой баланс PayMate счета, прежде чем пытаться повторить этот заказ.</p><p>Если вы считаете,что  эта сделка успешно завершена, или отображается как уменьшение в вашем аккаунте PayMate, пожалуйста <a href="%s">Свяжитесь с нами</a> с вашими деталями заказа.</p>]]></value>
   </definition>
 </definitions>

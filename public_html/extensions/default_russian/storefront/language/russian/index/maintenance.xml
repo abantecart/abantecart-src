@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Обслуживание]]></value>
+  </definition>
+  <definition>
+    <key>text_maintenance</key>
+    <value><![CDATA[Обслуживание]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<h1 style="text-align:center;"> Магазин временно закрыт: мы выполняем профилактические работы. <br/> Вскоре магазин будет доступен. Пожалуйста, зайдите позже. </h1>]]></value>
+  </definition>
+</definitions>

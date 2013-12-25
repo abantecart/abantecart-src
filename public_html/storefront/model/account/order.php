@@ -38,39 +38,37 @@ class ModelAccountOrder extends Model {
 	
 		if ($order_query->num_rows) {
 			$order_row = $this->dcrypt->decrypt_data($order_query->row, 'orders');
-			
-			$country_query = $this->db->query("SELECT * FROM `" . $this->db->table("countries") . "` WHERE country_id = '" . (int)$order_row['shipping_country_id'] . "'");
-			
-			if ($country_query->num_rows) {
-				$shipping_iso_code_2 = $country_query->row['iso_code_2'];
-				$shipping_iso_code_3 = $country_query->row['iso_code_3'];
+
+			$this->load->model('localisation/country');
+			$this->load->model('localisation/zone');
+			$country_row = $this->model_localisation_country->getCountry($order_row['shipping_country_id']);					
+			if ( $country_row ) {
+				$shipping_iso_code_2 = $country_row['iso_code_2'];
+				$shipping_iso_code_3 = $country_row['iso_code_3'];
 			} else {
 				$shipping_iso_code_2 = '';
 				$shipping_iso_code_3 = '';				
 			}
 			
-			$zone_query = $this->db->query("SELECT * FROM `" . $this->db->table("zones") . "` WHERE zone_id = '" . (int)$order_row['shipping_zone_id'] . "'");
-			
-			if ($zone_query->num_rows) {
-				$shipping_zone_code = $zone_query->row['code'];
+			$zone_row = $this->model_localisation_zone->getZone($$order_row['shipping_zone_id']);
+			if ( $zone_row ) {
+				$shipping_zone_code = $zone_row['code'];
 			} else {
 				$shipping_zone_code = '';
 			}
 			
-			$country_query = $this->db->query("SELECT * FROM `" . $this->db->table("countries") . "` WHERE country_id = '" . (int)$order_row['payment_country_id'] . "'");
-			
-			if ($country_query->num_rows) {
-				$payment_iso_code_2 = $country_query->row['iso_code_2'];
-				$payment_iso_code_3 = $country_query->row['iso_code_3'];
+			$country_row = $this->model_localisation_country->getCountry($order_row['payment_country_id']);					
+			if ( $country_row ) {
+				$payment_iso_code_2 = $country_row['iso_code_2'];
+				$payment_iso_code_3 = $country_row['iso_code_3'];
 			} else {
 				$payment_iso_code_2 = '';
 				$payment_iso_code_3 = '';				
 			}
 			
-			$zone_query = $this->db->query("SELECT * FROM `" . $this->db->table("zones") . "` WHERE zone_id = '" . (int)$order_row['payment_zone_id'] . "'");
-			
-			if ($zone_query->num_rows) {
-				$payment_zone_code = $zone_query->row['code'];
+			$zone_row = $this->model_localisation_zone->getZone($$order_row['payment_zone_id']);
+			if ( $zone_row ) {
+				$payment_zone_code = $zone_row;
 			} else {
 				$payment_zone_code = '';
 			}

@@ -32,7 +32,7 @@ class ControllerResponsesListingGridCountry extends AController {
 		$this->loadModel('localisation/country');
 
 		//Prepare filter config
-		$grid_filter_params = array( 'name', 'iso_code_2', 'iso_code_3' );
+		$grid_filter_params = array( 'name' => 'cd.name', 'iso_code_2' => 'c.iso_code_2', 'iso_code_3' => 'c.iso_code_3' );
 		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
 
 		$total = $this->model_localisation_country->getTotalCountries($filter->getFilterData());
@@ -48,7 +48,7 @@ class ControllerResponsesListingGridCountry extends AController {
 			$response->rows[ $i ][ 'id' ] = $result[ 'country_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
 				$this->html->buildInput(array(
-					'name' => 'name[' . $result[ 'country_id' ] . ']',
+					'name' => 'country_name[' . $result[ 'country_id' ] . '][' . $this->session->data[ 'content_language_id' ] . '][name]',
 					'value' => $result[ 'name' ],
 				)),
 				$this->html->buildInput(array(
@@ -108,8 +108,9 @@ class ControllerResponsesListingGridCountry extends AController {
 					}
 				break;
 			case 'save':
-				$fields = array( 'iso_code_2', 'iso_code_3', 'name', 'status' );
+				$fields = array( 'iso_code_2', 'iso_code_3', 'status' );
 				$ids = explode(',', $this->request->post[ 'id' ]);
+				
 				if (!empty($ids))
 					foreach ($ids as $id) {
 						foreach ($fields as $f) {
@@ -120,12 +121,23 @@ class ControllerResponsesListingGridCountry extends AController {
 							if (isset($this->request->post[ $f ][ $id ])) {
 								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
 								if (!empty($err)) {
-									$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-									return $dd->dispatch();
-								}
+									$this->response->setOutput($err);
+									return;								}
 								$this->model_localisation_country->editCountry($id, array( $f => $this->request->post[ $f ][ $id ] ));
 							}
+							
 						}
+						
+						if (isset($this->request->post[ 'country_name' ][ $id ])) {
+							foreach ($this->request->post[ 'country_name' ][ $id ] as $lang => $value) {
+		    					$err = $this->_validateField('name', $value['name']);
+		    					if (!empty($err)) {							
+									$this->response->setOutput($err);
+									return;
+								}
+							}
+							$this->model_localisation_country->editCountry($id, array( 'country_name' => $this->request->post['country_name'][ $id ] ));
+						}						
 					}
 
 				break;
@@ -162,10 +174,17 @@ class ControllerResponsesListingGridCountry extends AController {
 		if (isset($this->request->get[ 'id' ])) {
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $key => $value) {
-				$err = $this->_validateField($key, $value);
+				$err = '';
+				if ( $key == 'country_name' ) {
+					foreach ($value as $lang => $dvalue) {		
+		    			$err .= $this->_validateField('name', $dvalue['name']);
+		    		}				
+				} else {
+					$err = $this->_validateField($key, $value);			
+				}
 				if (!empty($err)) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 				}
 				$data = array( $key => $value );
 				$this->model_localisation_country->editCountry($this->request->get[ 'id' ], $data);
@@ -174,19 +193,31 @@ class ControllerResponsesListingGridCountry extends AController {
 		}
 
 		//request sent from jGrid. ID is key of array
-		$fields = array( 'iso_code_2', 'iso_code_3', 'name', 'status' );
+		$fields = array( 'iso_code_2', 'iso_code_3', 'status' );
 		foreach ($fields as $f) {
 			if (isset($this->request->post[ $f ]))
 				foreach ($this->request->post[ $f ] as $k => $v) {
 					$err = $this->_validateField($f, $v);
 					if (!empty($err)) {
-						$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-						return $dd->dispatch();
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 					$this->model_localisation_country->editCountry($k, array( $f => $v ));
 				}
 		}
-
+		if (isset($this->request->post['country_name'])) {
+			foreach ($this->request->post[ 'country_name' ] as $id => $v) {
+				foreach ($v as $lang => $value) {
+		    		$err = $this->_validateField('name', $value['name']);
+		    		if (!empty($err)) {
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
+					}
+				}
+				$this->model_localisation_country->editCountry($id, array( 'country_name' => $v ));
+			}
+		}
+		
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}

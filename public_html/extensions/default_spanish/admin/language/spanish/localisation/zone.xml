@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Zonas]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[Zona]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Correcto: Has modificado las zonas!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nombre de zona]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Código de zona]]></value>
+  </definition>
+  <definition>
+    <key>column_country</key>
+    <value><![CDATA[País]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Acción]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Estado]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Estado de Zona:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Nombre de zona:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Código de zona:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[País:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_country</key>
+    <value><![CDATA[- Seleccione el país -]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Atención: No tiene permisos para modificar las zonas!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Nombre de zona debe ser mayor de 2 caracteres y menor de 128!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Advertencia: Esta zona no se pueden eliminar, ya que está actualmente asignado a la zona de almacenamiento por defecto!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Advertencia: Esta zona no puede suprimirse, ya que esta actualmente asignado a %s tiendas!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Atención: Esta zona no puede ser eliminada porque actualmente está asignada a %s direcciones!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone_to_location</key>
+    <value><![CDATA[Atención: Esta zona no puede ser eliminada porque actualmente está asignada a %s to geozonas!]]></value>
+  </definition>
+</definitions>

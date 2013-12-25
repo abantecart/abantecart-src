@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Страница не найдена!]]></value>
+  </definition>
+  <definition>
+    <key>text_not_found</key>
+    <value><![CDATA[Страница, которую вы ищете, не найдена! Пожалуйста, обратитесь к администратору, если проблема не устранена.]]></value>
+  </definition>
+</definitions>

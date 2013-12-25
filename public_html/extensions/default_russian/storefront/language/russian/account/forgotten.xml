@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Забыли пароль?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Забыли свой Логин?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Личный Кабинет]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[Забыли пароль]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Ваш E-Mail]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Введите адрес электронной почты Вашей учетной записи. Нажмите кнопку Продолжить, чтобы получить пароль по электронной почте.]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Введите имя пользователя и адрес электронной почты, указанный в вашей учетной записи. Нажмите Продолжить, чтобы получить ваш пароль по электронной почте]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Введите фамилию и адрес электронной почты, указанный в вашей учетной записи. Нажмите Продолжить, чтобы получить ваш логин по электронной почте]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Новый пароль был отправлен на Ваш адрес электронной почты.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Успешно: Ваш Логин был отправлен на ваш адрес электронной почты.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Логин:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Фамилия:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-Mail:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Ошибка: E-Mail адрес не был найден в наших записях, пожалуйста проверьте и попробуйте еще раз!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Ошибка: Логин не найден в наших записях, попробуйте еще раз!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Ошибка: Фамилия не была предоставлена ​​или не найдена в наших записях, попробуйте еще раз!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Ошибка: Не найдено записей соответствующих введенной информации, пожалуйста, проверьте ваши данные и попробуйте еще раз!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Забыли Логин]]></value>
+  </definition>
+</definitions>

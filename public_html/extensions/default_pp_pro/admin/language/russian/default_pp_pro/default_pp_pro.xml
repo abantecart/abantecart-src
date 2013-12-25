@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>default_pp_pro_name</key>
-    <value><![CDATA[PayPal Оплата Pro]]></value>
+    <value><![CDATA[PayPal Payments Pro]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_status</key>
@@ -18,15 +18,15 @@
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Успех: Вы изменили платежи Paypal Pro детали заказ счета!]]></value>
+    <value><![CDATA[Успешно: Вы изменили реквизиты PayPal Payments Pro!]]></value>
   </definition>
   <definition>
     <key>text_default_pp_pro</key>
-    <value><![CDATA[<a onclick="window.open('https://www.paypal.com/webapps/mpp/paypal-payments-pro');"><img src="admin/view/default/image/payment/paypal.png" alt="PayPal Payments Pro" title="PayPal Оплата Pro" style="border: 1px solid #EEEEEE;" /></a>]]></value>
+    <value><![CDATA[<a onclick="window.open('https://www.paypal.com/webapps/mpp/paypal-payments-pro');"><img src="admin/view/default/image/payment/paypal.png" alt="PayPal Payments Pro" title="PayPal Payments Pro" style="border: 1px solid #EEEEEE;" /></a>]]></value>
   </definition>
   <definition>
     <key>text_authorization</key>
-    <value><![CDATA[Разрешение]]></value>
+    <value><![CDATA[Авторизация]]></value>
   </definition>
   <definition>
     <key>text_sale</key>
@@ -34,7 +34,7 @@
   </definition>
   <definition>
     <key>default_pp_pro_username</key>
-    <value><![CDATA[API Имя пользователя:]]></value>
+    <value><![CDATA[Имя пользователя API:]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_password</key>
@@ -46,7 +46,7 @@
   </definition>
   <definition>
     <key>default_pp_pro_test</key>
-    <value><![CDATA[Песочница (Тест) режим: <br /> <span class="help">Используйте живую или тестирования (песочницы) сервера шлюза для обработки транзакций?</span>]]></value>
+    <value><![CDATA[Sandbox (Тест) режим:<br /><span class="help">Используйте рабочий или тестовый (Sandbox) шлюз сервера для обработки транзакций?</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_test_1</key>
@@ -58,11 +58,11 @@
   </definition>
   <definition>
     <key>default_pp_pro_transaction</key>
-    <value><![CDATA[Метод сделка: <br /> <span class="help">PayPal сделка работать на кассе клиента, затем статус заказа устанавливается. Авторизация только или захвата.</span>]]></value>
+    <value><![CDATA[Метод транзакций:<br /><span class="help">Запуск PayPal транзакции при оормлении заказа клиентом перед тем как устанавливается статус заказа. Только авторизация или захват.</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_transaction_0</key>
-    <value><![CDATA[Разрешение]]></value>
+    <value><![CDATA[Авторизация]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_transaction_1</key>
@@ -70,15 +70,15 @@
   </definition>
   <definition>
     <key>default_pp_pro_creditcard_types</key>
-    <value><![CDATA[Принимаемые типы кредитных карт: <br /> <span class="help">Проверьте с PayPal какие кредитные карточки Ваш может принять для вашей страны и выберите из списка.</span>]]></value>
+    <value><![CDATA[Принимаемые типы кредитных карт:<br /><span class="help">Проверьте PayPal какие кредитные карточки может принять ваша страна и выберите из списка.</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_order_status_id</key>
-    <value><![CDATA[Статус заказа: <br /> <span class="help">Статус заказа должен быть установлен после заказа клиента закончил на основе метода множество сделка</span>]]></value>
+    <value><![CDATA[Статус заказа:<br /><span class="help">Статус заказа который устанавливается после того как завершается заказа клиента основан на установке Метода Транзакций</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_location_id</key>
-    <value><![CDATA[Расположение: <br /> <span class="help">Ограничить, чтобы только выбранные места, чтобы использовать этот способ оплаты.</span>]]></value>
+    <value><![CDATA[Географическая зона:<br /><span class="help">Разрешить только выбранные географические зоны для испольования этого способа оплаты.</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_location_id_0</key>
@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>default_pp_pro_sort_order</key>
-    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Количество чтобы указать позицию отображения этого платежа в связи с более включены платежи</span>]]></value>
+ <value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа оплаты наряду с другими</span>]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_autoselect</key>
@@ -94,7 +94,7 @@
   </definition>
   <definition>
     <key>error_permission</key>
-    <value><![CDATA[Внимание: Вы не имеете прав на изменение оплаты PayPal Payments Pro Checkout!]]></value>
+    <value><![CDATA[Внимание: Вы не имеете прав на изменение PayPal Payments Pro Checkout!]]></value>
   </definition>
   <definition>
     <key>error_username</key>
@@ -102,15 +102,15 @@
   </definition>
   <definition>
     <key>error_password</key>
-    <value><![CDATA[API Требуется пароль!]]></value>
+    <value><![CDATA[Требуется API пароль!]]></value>
   </definition>
   <definition>
     <key>error_signature</key>
-    <value><![CDATA[API Подпись обязательно!]]></value>
+    <value><![CDATA[API Подпись обязательна!]]></value>
   </definition>
   <definition>
     <key>text_signup_account_note</key>
-    <value><![CDATA[<b>У вас нет учетной записи PayPal?</b> Чтобы использовать PayPal Оплата Pro, вам нужен PayPal Business Account. После того, как вы зарегистрировались, введите необходимую информацию ниже, чтобы начать принимать платежи.]]></value>
+    <value><![CDATA[У вас нет учетной записи PayPal? Для использования PayPal Pro, вам нужен PayPal Business Account. После того, как вы зарегистрировались, введите необходимую информацию ниже, чтобы начать принимать платежи.]]></value>
   </definition>
   <definition>
     <key>button_signup</key>
@@ -118,19 +118,19 @@
   </definition>
   <definition>
     <key>text_api_credentials</key>
-    <value><![CDATA[API Полномочия]]></value>
+    <value><![CDATA[API удостоверение]]></value>
   </definition>
   <definition>
     <key>text_api_credentials_sandbox</key>
-    <value><![CDATA[API Песочница Полномочия]]></value>
+    <value><![CDATA[API sandbox удостоверение]]></value>
   </definition>
   <definition>
     <key>text_api_credentials_note</key>
-    <value><![CDATA[Для обработки транзакций, пожалуйста, предоставить данные PayPal API.]]></value>
+    <value><![CDATA[Для обработки транзакций, пожалуйста, предоставите данные PayPal API.]]></value>
   </definition>
   <definition>
     <key>button_get_api_credentials</key>
-    <value><![CDATA[Get Your API верительные]]></value>
+    <value><![CDATA[Получить API удостоверение]]></value>
   </definition>
   <definition>
     <key>text_optional_settings</key>
@@ -138,7 +138,7 @@
   </definition>
   <definition>
     <key>text_test_connection</key>
-    <value><![CDATA[Проверка соединения: <span class="help">Вы можете проверить, если API учетные данные, которые вы ввели правильно.</span>]]></value>
+    <value><![CDATA[Проверка соединения:<span class="help">Вы можете проверить ввели ли вы правильно API учетные данные.</span>]]></value>
   </definition>
   <definition>
     <key>text_test</key>
@@ -146,11 +146,11 @@
   </definition>
   <definition>
     <key>text_connection_success</key>
-    <value><![CDATA[Соединения успешно и API Полномочия настроены правильно.]]></value>
+    <value><![CDATA[Успешное Соединение и API удостоверение настроены правильно.]]></value>
   </definition>
   <definition>
     <key>error_turn_extension_on</key>
-    <value><![CDATA[Ошибка! Пожалуйста, проверьте, если расширение включено.]]></value>
+    <value><![CDATA[Ошибка! Пожалуйста, проверьте, включено ли расширение.]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_order_status_id_1</key>
@@ -158,23 +158,23 @@
   </definition>
   <definition>
     <key>default_pp_pro_order_status_id_2</key>
-    <value><![CDATA[Обработка]]></value>
+    <value><![CDATA[В обработке]]></value>
   </definition>
   <definition>
     <key>default_pp_pro_order_status_id_5</key>
-    <value><![CDATA[Полный]]></value>
+    <value><![CDATA[Завершен]]></value>
   </definition>
   <definition>
     <key>text_api_credentials_note_sandbox</key>
-    <value><![CDATA[Чтобы проверить сделки, пожалуйста, предоставить данные Песочница PayPal API.]]></value>
+    <value><![CDATA[Чтобы протестировать транзакции, пожалуйста, предоставте данные вашего Sandbox PayPal API.]]></value>
   </definition>
   <definition>
     <key>button_get_api_credentials_sandbox</key>
-    <value><![CDATA[Get Your Песочница API верительные]]></value>
+    <value><![CDATA[Получить удостоверение Sanbox API]]></value>
   </definition>
   <definition>
     <key>text_capture_funds</key>
-    <value><![CDATA[Захват фонды:]]></value>
+    <value><![CDATA[Захват средств:]]></value>
   </definition>
   <definition>
     <key>text_capture</key>
@@ -182,7 +182,7 @@
   </definition>
   <definition>
     <key>text_do_paypal_refund</key>
-    <value><![CDATA[У PayPal Возврат: <span class="help">Вы можете ввести сумму, которая должна быть возвращена.</span>]]></value>
+    <value><![CDATA[PayPal возврат:<span class="help">Вы можете ввести сумму, которая должна быть возвращена.</span>]]></value>
   </definition>
   <definition>
     <key>text_refund</key>
@@ -190,19 +190,19 @@
   </definition>
   <definition>
     <key>text_capture_success</key>
-    <value><![CDATA[Успех! Средства были успешно захвачены в плен.]]></value>
+    <value><![CDATA[Успешно! Средства были успешно захвачены.]]></value>
   </definition>
   <definition>
     <key>error_no_payment_method_data</key>
-    <value><![CDATA[Ошибка! Там нет данных способ оплаты для этого заказа.]]></value>
+    <value><![CDATA[Ошибка! Нет способа оплаты для этого заказа.]]></value>
   </definition>
   <definition>
     <key>error_empty_amount</key>
-    <value><![CDATA[Ошибка! Сумма не так.]]></value>
+    <value><![CDATA[Ошибка! Сумма не правильно.]]></value>
   </definition>
   <definition>
     <key>error_no_order_id</key>
-    <value><![CDATA[Ошибка! Там нет порядка ID.]]></value>
+    <value><![CDATA[Ошибка! Нет ID заказа.]]></value>
   </definition>
   <definition>
     <key>error_amount_exceeded</key>
@@ -214,15 +214,15 @@
   </definition>
   <definition>
     <key>text_refund_success</key>
-    <value><![CDATA[Успех! Заказать успешно возвращен.]]></value>
+    <value><![CDATA[Успешно! Заказ был успешно возвращен.]]></value>
   </definition>
   <definition>
     <key>paypal_refund_title</key>
-    <value><![CDATA[PayPal Возврат]]></value>
+    <value><![CDATA[PayPal возврат]]></value>
   </definition>
   <definition>
     <key>text_payment_status</key>
-    <value><![CDATA[Оплата Статус:]]></value>
+    <value><![CDATA[Статус платежа:]]></value>
   </definition>
   <definition>
     <key>text_already_refunded</key>
@@ -230,7 +230,7 @@
   </definition>
   <definition>
     <key>text_already_captured</key>
-    <value><![CDATA[Уже создан:]]></value>
+    <value><![CDATA[Уже захвачен:]]></value>
   </definition>
   <definition>
     <key>error_wrong_amount</key>
@@ -242,7 +242,7 @@
   </definition>
   <definition>
     <key>text_pending_authorization</key>
-    <value><![CDATA[В ожидании (Причина: авторизации)]]></value>
+    <value><![CDATA[В ожидании (Причина: авторизация)]]></value>
   </definition>
   <definition>
     <key>text_partially_refunded</key>
@@ -250,7 +250,7 @@
   </definition>
   <definition>
     <key>text_refunded</key>
-    <value><![CDATA[Возмещенный]]></value>
+    <value><![CDATA[Возвращено]]></value>
   </definition>
   <definition>
     <key>text_completed</key>

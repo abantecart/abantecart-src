@@ -10,11 +10,11 @@
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Успех: Вы изменили детали PayMate счета!]]></value>
+    <value><![CDATA[Успешно: Вы изменили детали PayMate аккаунта!]]></value>
   </definition>
   <definition>
     <key>default_paymate_username</key>
-    <value><![CDATA[Paymate Имя пользователя:]]></value>
+    <value><![CDATA[Имя пользователя Paymate:]]></value>
   </definition>
   <definition>
     <key>default_paymate_order_status_id</key>
@@ -22,7 +22,7 @@
   </definition>
   <definition>
     <key>default_paymate_location_id</key>
-    <value><![CDATA[Расположение:]]></value>
+    <value><![CDATA[Географическая зона:]]></value>
   </definition>
   <definition>
     <key>default_paymate_location_id_0</key>
@@ -34,15 +34,15 @@
   </definition>
   <definition>
     <key>default_paymate_sort_order</key>
-    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Количество чтобы указать позицию отображения этого платежа в связи с более включены платежи</span>]]></value>
+   <value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа оплаты наряду с другими</span>]]></value>
   </definition>
   <definition>
     <key>default_paymate_autoselect</key>
-    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить платежную страницу выбора, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+    <value><![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора способа оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>
-    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение платежного PayMate!]]></value>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение PayMate!]]></value>
   </definition>
   <definition>
     <key>error_username</key>

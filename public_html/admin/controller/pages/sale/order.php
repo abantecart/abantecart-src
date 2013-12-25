@@ -422,6 +422,7 @@ class ControllerPagesSaleOrder extends AController {
 
 		$this->view->batchAssign( $this->data );
 		$this->view->assign('help_url', $this->gen_help_url('order_details') );
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		
 		$this->processTemplate('pages/sale/order_details.tpl' );
 
@@ -576,6 +577,7 @@ class ControllerPagesSaleOrder extends AController {
 
         $this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
 		$this->view->assign('help_url', $this->gen_help_url('order_shipping') );
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->batchAssign( $this->data );
 
 		$this->processTemplate('pages/sale/order_shipping.tpl' );
@@ -732,6 +734,7 @@ class ControllerPagesSaleOrder extends AController {
 
         $this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
 
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url('order_payment') );
 		$this->view->batchAssign( $this->data );
 
@@ -877,6 +880,7 @@ class ControllerPagesSaleOrder extends AController {
 
         $this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
 
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url('order_history') );
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/sale/order_history.tpl' );

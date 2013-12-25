@@ -1251,6 +1251,10 @@ ul.productinfo li .productinfoleft {
 	text-align: left !important;
 }
 
+.form-horizontal .align_left .control-label {
+	text-align: left;
+}
+
 .productaddtocart {
 	margin: 10px 10px 10px 160px;
 	float: left !important

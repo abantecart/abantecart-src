@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>default_cheque_name</key>
-    <value><![CDATA[Чек / Денежный перевод]]></value>
+    <value><![CDATA[Чек/Денежный перевод]]></value>
   </definition>
   <definition>
     <key>default_cheque_status</key>
@@ -14,11 +14,11 @@
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Успех: Вы изменили данные своей учетной записи Проверка / денежный перевод!]]></value>
+    <value><![CDATA[Успешно: Вы изменили данные своей учетной записи Чек/Денежный перевод!]]></value>
   </definition>
   <definition>
     <key>default_cheque_payable</key>
-    <value><![CDATA[Оплачивается в:]]></value>
+    <value><![CDATA[ВЫПИСЫВАТЬ НА:]]></value>
   </definition>
   <definition>
     <key>default_cheque_order_status_id</key>
@@ -26,7 +26,7 @@
   </definition>
   <definition>
     <key>default_cheque_location_id</key>
-    <value><![CDATA[Расположение:]]></value>
+    <value><![CDATA[Географическая зона:]]></value>
   </definition>
   <definition>
     <key>default_cheque_location_id_0</key>
@@ -34,18 +34,18 @@
   </definition>
   <definition>
     <key>default_cheque_sort_order</key>
-    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Количество чтобы указать позицию отображения этого платежа в связи с более включены платежи</span>]]></value>
+    <value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа оплаты наряду с другими</span>]]></value>
   </definition>
   <definition>
     <key>default_cheque_autoselect</key>
-    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить платежную страницу выбора, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+    <value><![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора способа оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>
-    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение подтверждения оплаты / денежный перевод!]]></value>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение Чек/Денежный перевод!]]></value>
   </definition>
   <definition>
     <key>error_payable</key>
-    <value><![CDATA[Оплачивается с требуемыми!]]></value>
+    <value><![CDATA[Требуется ВЫПИСЫВАТЬ НА!]]></value>
   </definition>
 </definitions>

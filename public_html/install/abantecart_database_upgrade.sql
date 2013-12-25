@@ -1,5 +1,59 @@
-insert into `ac_languages` (`language_id`, `name`, `code`, `locale`, `image`, `directory`, `filename`, `sort_order`, `status`) VALUES
-(null, 'Русский', 'ru', 'es_RU.UTF-8,ru_RU,russian', '', 'russian', 'russian', 3, 1);
+--NOTE! need to add item to extensions menu with langauges
+
+ALTER TABLE `ac_tax_rates` change `rate` `rate` decimal(15,4) NOT NULL DEFAULT '0.0000';
+
+CREATE UNIQUE INDEX `ac_languages_index`
+ON `ac_languages` ( `language_id`,`code` );
+
+CREATE TABLE `ac_country_descriptions` (
+  `country_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `name` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  PRIMARY KEY (`country_id`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+INSERT INTO `ac_country_descriptions` (`country_id`, `language_id`, `name`)
+SELECT `country_id`, 1, `name` from `ac_countries`; 
+ALTER TABLE `ac_countries` drop column `name`;
+
+CREATE TABLE `ac_zone_descriptions` (
+  `zone_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `name` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  PRIMARY KEY (`zone_id`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+INSERT INTO `ac_zone_descriptions` (`zone_id`, `language_id`, `name`)
+SELECT `zone_id`, 1, `name` from `ac_zones`; 
+ALTER TABLE `ac_zones` drop column `name`;
+update `ac_zone_descriptions` set `name` = 'Kharkiv' where `zone_id` = 3487;
+update `ac_zone_descriptions` set `name` = 'Kyiv' where `zone_id` = 3490;
+update `ac_zone_descriptions` set `name` = 'Kherson' where `zone_id` = 3491;
+update `ac_zones` set `code` = 'KS' where `zone_id` = 3491;
+
+CREATE TABLE `ac_tax_class_descriptions` (
+  `tax_class_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `title` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `description` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  PRIMARY KEY (`tax_class_id`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+INSERT INTO `ac_tax_class_descriptions` (`tax_class_id`, `language_id`, `title`, `description`)
+SELECT `tax_class_id`, 1, `title`, `description` from `ac_tax_classes`; 
+ALTER TABLE `ac_tax_classes` drop column `title`;
+ALTER TABLE `ac_tax_classes` drop column `description`;
+
+CREATE TABLE `ac_tax_rate_descriptions` (
+  `tax_rate_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `description` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  PRIMARY KEY (`tax_rate_id`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+INSERT INTO `ac_tax_rate_descriptions` (`tax_rate_id`, `language_id`, `description`)
+SELECT `tax_rate_id`, 1, `description` from `ac_tax_rates`; 
+ALTER TABLE `ac_tax_rates` drop column `description`;
 
 insert into `ac_settings` (store_id, `group`,`key`,`value`) values (0,'system','config_voicecontrol', 1);
 

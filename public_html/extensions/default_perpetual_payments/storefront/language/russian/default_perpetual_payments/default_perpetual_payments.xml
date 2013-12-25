@@ -26,11 +26,11 @@
   </definition>
   <definition>
     <key>text_avs</key>
-    <value><![CDATA[AVS / CVV:]]></value>
+    <value><![CDATA[AVS/CVV:]]></value>
   </definition>
   <definition>
     <key>text_avs_full_match</key>
-    <value><![CDATA[Полный матч]]></value>
+    <value><![CDATA[Полное соответствие]]></value>
   </definition>
   <definition>
     <key>text_avs_not_match</key>
@@ -38,7 +38,7 @@
   </definition>
   <definition>
     <key>text_authorisation</key>
-    <value><![CDATA[Код полномочий:]]></value>
+    <value><![CDATA[Код авторизации:]]></value>
   </definition>
   <definition>
     <key>entry_cc_number</key>
@@ -50,14 +50,14 @@
   </definition>
   <definition>
     <key>entry_cc_expire_date</key>
-    <value><![CDATA[Карты срок действия:]]></value>
+    <value><![CDATA[Срок действия Карты:]]></value>
   </definition>
   <definition>
     <key>entry_cc_cvv2</key>
-    <value><![CDATA[Карточка Код (CVV2):]]></value>
+    <value><![CDATA[Код карты (CVV2):]]></value>
   </definition>
   <definition>
     <key>entry_cc_issue</key>
-    <value><![CDATA[Выпуск Номер карты:]]></value>
+    <value><![CDATA[Номер выпуска карты:]]></value>
   </definition>
 </definitions>

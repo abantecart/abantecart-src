@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>heading_title</key>
-    <value><![CDATA[Благодарим Вас за покупками с %s ....]]></value>
+    <value><![CDATA[Благодарим Вас за покупки с %s ....]]></value>
   </definition>
   <definition>
     <key>text_title</key>
@@ -18,7 +18,7 @@
   </definition>
   <definition>
     <key>text_success_wait</key>
-    <value><![CDATA[<span style="color: #FF0000"><b>Пожалуйста, подождите ...</b></span> в то время как мы закончим обработку Вашего заказа. <br> Если вы не автоматически перенаправлены в 10 секунд, пожалуйста, нажмите <a href="%s">здесь</a> .]]></value>
+    <value><![CDATA[<b><span style="color: #FF0000">Пожалуйста, подождите ...</span></b> в то время как мы закончим обработку Вашего заказа. <br> Если вы не перенаправлены автоматически за 10 секунд, пожалуйста, нажмите <a href="%s">здесь</a>.]]></value>
   </definition>
   <definition>
     <key>text_failure</key>
@@ -26,6 +26,6 @@
   </definition>
   <definition>
     <key>text_failure_wait</key>
-    <value><![CDATA[<span style="color: #FF0000"><b>Пожалуйста, подождите ...</b></span> <br> Если вы не автоматически перенаправлены в 10 секунд, пожалуйста, нажмите <a href="%s">здесь</a> .]]></value>
+    <value><![CDATA[<b><span style="color: #FF0000">Пожалуйста, подождите ...</span></b><br>Если вы не перенаправлены автоматически за 10 секунд, пожалуйста, нажмите <a href="%s">здесь</a>.]]></value>
   </definition>
 </definitions>

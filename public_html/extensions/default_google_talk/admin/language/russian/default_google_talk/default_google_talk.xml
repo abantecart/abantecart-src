@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>default_google_talk_name</key>
-    <value><![CDATA[Google Hangout чат]]></value>
+    <value><![CDATA[Чат Google Hangout]]></value>
   </definition>
   <definition>
     <key>default_google_talk_status</key>
@@ -10,7 +10,7 @@
   </definition>
   <definition>
     <key>default_google_talk_status_0</key>
-    <value><![CDATA[Инвалид]]></value>
+    <value><![CDATA[Выключено]]></value>
   </definition>
   <definition>
     <key>default_google_talk_status_1</key>
@@ -18,6 +18,6 @@
   </definition>
   <definition>
     <key>default_google_talk_code</key>
-    <value><![CDATA[Добавить на страницу HTML-код <span class="help">На <u><a onclick="window.open('https://developers.google.com/+/hangouts/button');">Создать chatback значок Google Hangout</a></u> и скопировать и вставить сгенерированный код в текстовое поле.</span>]]></value>
+    <value><![CDATA[Добавить на страницу HTML-код <span class="help">Goto <a onclick="window.open('https://developers.google.com/+/hangouts/button');"><u>Создать значок Google Hangout</u></a> и скопируйте и вставте сгенерированный код в текстовое поле.</span>]]></value>
   </definition>
 </definitions>

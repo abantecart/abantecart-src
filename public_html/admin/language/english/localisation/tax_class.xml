@@ -38,7 +38,7 @@
   </definition>
   <definition>
     <key>entry_description</key>
-    <value><![CDATA[Description:]]></value>
+    <value><![CDATA[Description visible to customers:]]></value>
   </definition>
   <definition>
     <key>entry_location</key>

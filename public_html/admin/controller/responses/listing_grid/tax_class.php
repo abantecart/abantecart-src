@@ -50,8 +50,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
             $response->rows[$i]['id'] = $result['tax_class_id'];
 			$response->rows[$i]['cell'] = array(
 				$this->html->buildInput(array(
-                    'name'  => 'title['.$result['tax_class_id'].']',
-                    'value' => $result['title'],
+                    'name'  => 'tax_class[' . $result[ 'tax_class_id' ] . '][' . $this->session->data[ 'content_language_id' ] . '][title]',                    					'value' => $result['title'],
                 )),
 			);
 			$i++;
@@ -94,21 +93,21 @@ class ControllerResponsesListingGridTaxClass extends AController {
 				}
 				break;
 			case 'save':
-				$fields = array('title');
 				$ids = explode(',', $this->request->post['id']);
 				if ( !empty($ids) )
 				foreach( $ids as $id ) {
-					foreach ( $fields as $f ) {
-
-						if ( isset($this->request->post[$f][$id]) ) {
-							$err = $this->_validateField($f, $this->request->post[$f][$id]);
-							if ( !empty($err) ) {
-								$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-								return $dd->dispatch();
+					if (isset($this->request->post[ 'tax_class' ][ $id ])) {
+						foreach ($this->request->post[ 'tax_class' ][ $id ] as $lang => $value) {
+							if ( isset($value['title']) ) {
+		    					$err = $this->_validateField('title', $value['title']);
+		    					if (!empty($err)) {							
+									$this->response->setOutput($err);
+									return;
+								}
 							}
-							$this->model_localisation_tax_class->editTaxClass($id, array($f => $this->request->post[$f][$id]) );
 						}
-					}
+						$this->model_localisation_tax_class->editTaxClass($id, array( 'tax_class' => $this->request->post['tax_class'][ $id ] ));
+					}						
 				}
 
 				break;
@@ -141,10 +140,19 @@ class ControllerResponsesListingGridTaxClass extends AController {
 		if ( isset( $this->request->get['id'] ) ) {
 		    //request sent from edit form. ID in url
 		    foreach ($this->request->post as $key => $value ) {
-				$err = $this->_validateField($key, $value);
+				$err = '';
+				if ( $key == 'tax_class' ) {
+					foreach ($value as $lang => $dvalue) {	
+						if ( isset($dvalue['title']) ) {	
+		    				$err .= $this->_validateField('title', $dvalue['title']);
+		    			}
+		    		}				
+				} else {
+					$err = $this->_validateField($key, $value);			
+				}
 			    if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 			    }
 			    $data = array( $key => $value );
 				$this->model_localisation_tax_class->editTaxClass($this->request->get['id'], $data);
@@ -153,18 +161,18 @@ class ControllerResponsesListingGridTaxClass extends AController {
 	    }
 
 	    //request sent from jGrid. ID is key of array
-	    $fields = array('title',);
-	    foreach ( $fields as $f ) {
-		    if ( isset($this->request->post[$f]) )
-			foreach ( $this->request->post[$f] as $k => $v ) {
-				$err = $this->_validateField($f, $v);
-				if ( !empty($err) ) {
-					$error = new AError('');
-					return $error->toJSONResponse('NO_VALID_406', array( 'error_text' => $err) );
+		if (isset($this->request->post['tax_class'])) {
+			foreach ($this->request->post['tax_class'] as $id => $v) {
+				foreach ($v as $lang => $value) {
+		    		$err = $this->_validateField('title', $value['title']);
+		    		if (!empty($err)) {
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
+					}
 				}
-				$this->model_localisation_tax_class->editTaxClass($k, array($f => $v) );
+				$this->model_localisation_tax_class->editTaxClass($id, array( 'tax_class' => $v ));
 			}
-	    }
+		}
 
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -196,7 +204,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
 				$err = $this->_validateField($key, $value);
 			    if ( !empty($err) ) {
 					$error = new AError('');
-					return $error->toJSONResponse('NO_VALID_406', array( 'error_text' => $err) );
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 			    }
 			    $data = array( $key => $value );
 				$this->model_localisation_tax_class->editTaxRate($this->request->get['id'], $data);

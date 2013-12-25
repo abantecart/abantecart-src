@@ -83,7 +83,7 @@ class ControllerResponsesListingGridZone extends AController {
 			$response->rows[ $i ][ 'cell' ] = array(
 				$result[ 'country' ],
 				$this->html->buildInput(array(
-					'name' => 'name[' . $result[ 'zone_id' ] . ']',
+					'name' => 'zone_name[' . $result[ 'zone_id' ] . '][' . $this->session->data[ 'content_language_id' ] . '][name]',
 					'value' => $result[ 'name' ],
 				)),
 				$this->html->buildInput(array(
@@ -142,24 +142,35 @@ class ControllerResponsesListingGridZone extends AController {
 					}
 				break;
 			case 'save':
-				$fields = array( 'status', 'name', 'code', );
+				$fields = array( 'status', 'code' );
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					foreach ($ids as $id) {
 						foreach ($fields as $f) {
-
 							if ($f == 'status' && !isset($this->request->post[ 'status' ][ $id ]))
 								$this->request->post[ 'status' ][ $id ] = 0;
 
 							if (isset($this->request->post[ $f ][ $id ])) {
 								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
 								if (!empty($err)) {
-									$error = new AError('');
-									return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
+									$this->response->setOutput($err);
+									return;
 								}
 								$this->model_localisation_zone->editZone($id, array( $f => $this->request->post[ $f ][ $id ] ));
 							}
 						}
+						
+						$err = '';
+						if (isset($this->request->post['zone_name'][ $id ]) ) {
+							foreach ($this->request->post[ 'zone_name' ][ $id ] as $lang => $value) {
+		    					$err = $this->_validateField('name', $value['name']);
+		    					if (!empty($err)) {
+									$this->response->setOutput($err);
+									return;
+								}
+							}
+							$this->model_localisation_zone->editZone($id, array( 'zone_name' => $this->request->post['zone_name'][ $id ] ));
+						}												
 					}
 
 				break;
@@ -195,7 +206,14 @@ class ControllerResponsesListingGridZone extends AController {
 		if (isset($this->request->get[ 'id' ])) {
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $key => $value) {
-				$err = $this->_validateField($key, $value);
+				$err = '';
+				if ( $key == 'zone_name' ) {
+					foreach ($value as $lang => $dvalue) {		
+		    			$err .= $this->_validateField('name', $dvalue['name']);
+		    		}				
+				} else {
+					$err = $this->_validateField($key, $value);			
+				}
 				if (!empty($err)) {
 					$error = new AError('');
 					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
@@ -207,7 +225,7 @@ class ControllerResponsesListingGridZone extends AController {
 		}
 
 		//request sent from jGrid. ID is key of array
-		$fields = array( 'status', 'name', 'code', );
+		$fields = array( 'status', 'code' );
 		foreach ($fields as $f) {
 			if (isset($this->request->post[ $f ]))
 				foreach ($this->request->post[ $f ] as $k => $v) {
@@ -219,6 +237,19 @@ class ControllerResponsesListingGridZone extends AController {
 					$this->model_localisation_zone->editZone($k, array( $f => $v ));
 				}
 		}
+
+		if (isset($this->request->post['zone_name']) ) {
+			foreach ($this->request->post['zone_name'] as $id => $v) {
+				foreach ($v as $lang => $value) {		
+		    		$err = $this->_validateField('name', $value['name']);
+		    		if (!empty($err)) {
+		    			$error = new AError('');
+		    			return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
+		    		}
+		    	}
+		    	$this->model_localisation_zone->editZone($id, array( 'zone_name' => $this->request->post['zone_name'][ $id ] ));
+		    }
+		}												
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

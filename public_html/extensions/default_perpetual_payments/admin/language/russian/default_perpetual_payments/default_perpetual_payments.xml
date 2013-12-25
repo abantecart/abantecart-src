@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>default_perpetual_payments_name</key>
-    <value><![CDATA[Perpetual Платежи]]></value>
+    <value><![CDATA[Perpetual Payments]]></value>
   </definition>
   <definition>
     <key>text_payment</key>
@@ -10,19 +10,19 @@
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Успех: Вы модифицированные Perpetual Платежи реквизиты счета!]]></value>
+    <value><![CDATA[Успеiyj: Вы модифицировали реквизиты Perpetual Payments!]]></value>
   </definition>
   <definition>
     <key>default_perpetual_payments_auth_id</key>
-    <value><![CDATA[Авторизация ID:]]></value>
+    <value><![CDATA[ID авторизации:]]></value>
   </definition>
   <definition>
     <key>default_perpetual_payments_auth_pass</key>
-    <value><![CDATA[Авторизация Пароль:]]></value>
+    <value><![CDATA[Пароль авторизации:]]></value>
   </definition>
   <definition>
     <key>default_perpetual_payments_test</key>
-    <value><![CDATA[Тестовый режим: <span class="help">Используйте этот модуль в тест (Да) или в режиме Production (NO)?</span>]]></value>
+    <value><![CDATA[Тестовый режим:<span class="help">Использовать этот модуль в тестовом (Да) или в рабочем режиме (НЕТ)?</span>]]></value>
   </definition>
   <definition>
     <key>default_perpetual_payments_test_1</key>
@@ -38,7 +38,7 @@
   </definition>
   <definition>
     <key>default_perpetual_payments_location_id</key>
-    <value><![CDATA[Расположение:]]></value>
+    <value><![CDATA[Географическая зона:]]></value>
   </definition>
   <definition>
     <key>default_perpetual_payments_location_id_0</key>
@@ -50,22 +50,22 @@
   </definition>
   <definition>
     <key>default_perpetual_payments_sort_order</key>
-    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Количество чтобы указать позицию отображения этого платежа в связи с более включены платежи</span>]]></value>
+    <value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа оплаты наряду с другими</span>]]></value>
   </definition>
   <definition>
     <key>default_perpetual_payments_autoselect</key>
-    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить платежную страницу выбора, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+    <value><![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора способа оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>
-    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение платежных Perpetual Оплата!]]></value>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение Perpetual Payment!]]></value>
   </definition>
   <definition>
     <key>error_auth_id</key>
-    <value><![CDATA[Авторизация требуется удостоверение!]]></value>
+    <value><![CDATA[Требуется ID авторизации!]]></value>
   </definition>
   <definition>
     <key>error_auth_pass</key>
-    <value><![CDATA[Авторизация Пароль обязательно!]]></value>
+    <value><![CDATA[Требуется пароль авторизации!]]></value>
   </definition>
 </definitions>

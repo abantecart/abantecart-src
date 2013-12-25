@@ -188,7 +188,7 @@ class ControllerResponsesProductProduct extends AController {
 			}
 
 			if (isset($this->request->post['quantity'])) {
-				$quantity = $this->request->post['quantity'];
+				$quantity = (int)$this->request->post['quantity'];
 			} else {
 				$quantity = 1;
 			}

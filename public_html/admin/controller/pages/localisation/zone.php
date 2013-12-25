@@ -23,7 +23,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerPagesLocalisationZone extends AController {
 	public $data = array();
 	private $error = array(); 
-	private $fields = array('status', 'name', 'code', 'country_id');
+	private $fields = array('status', 'code', 'country_id');
  
 	public function main() {
 
@@ -149,6 +149,7 @@ class ControllerPagesLocalisationZone extends AController {
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 		$this->view->assign ( 'search_form', $grid_search_form );
 
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign( 'insert', $this->html->getSecureURL('localisation/zone/insert') );
 		$this->view->assign('help_url', $this->gen_help_url('zone_listing') );
 
@@ -236,6 +237,11 @@ class ControllerPagesLocalisationZone extends AController {
 			}
 		}
 
+		$this->data['zone_name'] = array();
+		if ( $zone_info['zone_name'] ) {
+			$this->data['zone_name'] = $zone_info['zone_name'];
+		}
+
 		if (!isset($this->request->get['zone_id'])) {
 			$this->data['action'] = $this->html->getSecureURL('localisation/zone/insert');
 			$this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_zone');
@@ -281,8 +287,8 @@ class ControllerPagesLocalisationZone extends AController {
 
 		$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
 			'type' => 'input',
-			'name' => 'name',
-			'value' => $this->data['name'],
+			'name' => 'zone_name['.$this->session->data['content_language_id'].'][name]',
+			'value' => $this->data['zone_name'][$this->session->data['content_language_id']]['name'],			
 			'required' => true,
 			'help_url' => $this->gen_help_url('name'),
 		));
@@ -306,22 +312,25 @@ class ControllerPagesLocalisationZone extends AController {
 	    ));
 
 		$this->view->batchAssign( $this->data );
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());		
 		$this->view->assign('help_url', $this->gen_help_url('zone_edit') );
         $this->processTemplate('pages/localisation/zone_form.tpl' );
 	}
 
 	private function _validateForm() {
 		if(!isset($this->request->post['status'])){
-			$this->request->post['status'] =0;
+			$this->request->post['status'] = 0;
 		}
 
 		if (!$this->user->canModify('localisation/zone')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if ((strlen(utf8_decode($this->request->post['name'])) < 2) || (strlen(utf8_decode($this->request->post['name'])) > 64)) {
-			$this->error['name'] = $this->language->get('error_name');
-		}
+    	foreach ($this->request->post['zone_name'] as $language_id => $value) {
+      		if ((strlen(utf8_decode($value['name'])) < 2) || (strlen(utf8_decode($value['name'])) > 128)) {
+        		$this->error['warning'] = $this->language->get('error_name');
+      		}
+    	}
 
 		if (!$this->error) {
 			return TRUE;

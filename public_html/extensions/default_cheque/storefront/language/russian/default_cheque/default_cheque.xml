@@ -2,11 +2,11 @@
 <definitions>
   <definition>
     <key>text_title</key>
-    <value><![CDATA[Чек / Денежный перевод]]></value>
+    <value><![CDATA[Чек/Денежный перевод]]></value>
   </definition>
   <definition>
     <key>text_payable</key>
-    <value><![CDATA[Сделать оплачивается в:]]></value>
+    <value><![CDATA[ВЫПИСЫВАТЬ НА:]]></value>
   </definition>
   <definition>
     <key>text_address</key>
@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>text_payment</key>
-    <value><![CDATA[Ваш заказ не будет поставляться, пока мы не получить компенсацию.]]></value>
+    <value><![CDATA[Ваш заказ не будет доставлен, пока мы не получим платеж.]]></value>
   </definition>
   <definition>
     <key>text_wait</key>

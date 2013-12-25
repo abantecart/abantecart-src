@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013, 2012 Belavier Commerce LLC
+  Copyright © 2011-2013, Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -22,6 +22,9 @@ if (!defined('DIR_CORE')) {
 }
 
 class ALanguageManager extends Alanguage {
+
+	private $translatable_fields = array();
+
 	//NOTE: This class is loaded in INIT for admin only
 	/**
 	 * @param Registry $registry
@@ -539,16 +542,16 @@ class ALanguageManager extends Alanguage {
 			return null;
 		}
 
-		//First make sure source language definition XML files are all loaded (refreshed)
-		$this->definitionAutoLoad((int)$source_language_id, 'all', 'all', 'add');
-		//Now make sure destination language definition XML files are all loaded (refreshed)
-		$this->definitionAutoLoad((int)$language_id, 'all', 'all', 'add');
+		//First make sure source language definition XML files are all loaded to database
+		$this->definitionAutoLoad((int)$source_language_id, 'all', 'all');
+		//Now make sure destination language definition XML files are all loaded to database
+		$this->definitionAutoLoad((int)$language_id, 'all', 'all');
 
 		$ret_str = '';
 		$tables = $this->_get_language_based_tables();
 		foreach ($tables as $table_name) {
 			$pkeys = array();
-			//Set special case table and
+			//Set special case table
 			if (strstr($table_name[ 'table_name' ], 'language_definitions')) {
 				array_push($pkeys, 'language_definition_id', 'language_id', 'section', 'block', 'language_key');
 			} else if (strstr($table_name[ 'table_name' ], 'orders') || strstr($table_name[ 'table_name' ], 'languages')) {
@@ -567,112 +570,89 @@ class ALanguageManager extends Alanguage {
 
 	/**
 	 * Method for reloading definitions from xml-file to database
-	 * @param int $language_id -  if 0 - all languages
+	 * @param int $language_id 
 	 * @param string $section  - 1 or 0 - admin or storefront
 	 * @param string $specific_block - name of the block
-	 * @param string $mode - mode can be the types: update, add
-	 * @param string $language_key
 	 * @return bool
 	 */
-	public function definitionAutoLoad($language_id, $section, $specific_block, $mode = 'add', $language_key = '') {
+	public function definitionAutoLoad( $language_id, $section, $specific_block ) {
 
-		if ((int)$language_id === 0 && $language_id != 'all') {
-			$this->error = 'Can\'t to reload definitions when language id is unknown ("' . $language_id . '").';
+		if ((int)$language_id === 0 && !is_integer($language_id) ) {
+			$this->error = 'Cannot reload definitions when language id is unknown ("' . $language_id . '").';
 			return false;
 		}
 		if (!in_array($section, array( 1, 0, 'all', 'admin', 'storefront' ), true)) {
-			$this->error = 'Can\'t to reload definitions when section is not in array( 1, 0, "all" ).';
+			$this->error = 'Cannot reload definitions when section is not in array( 1, 0, "all" ).';
 			return false;
 		}
 
-		if (!in_array($mode, array( 'add', 'update' ))) {
-			$this->error = 'Can\'t to reload definitions when mode is unknown("' . $mode . '"). Only "add" or "update" are permitted.';
-			return false;
-		}
 		ini_set('max_execution_time', 600);
 		$sections = $section == 'all' ? array( 'admin', 'storefront' ) : '';
 		$sections = in_array($section, array( 'admin', 1 ), true) ? array( 'admin' ) : $sections;
 		$sections = in_array($section, array( 'storefront', 0 ), true) ? array( 'storefront' ) : $sections;
-		$language_ids = array();
+		$language_name = '';
+		$language_code = '';
+
 		foreach ($this->available_languages as $lang) {
-			if ($language_id != 'all' && $language_id == $lang[ 'language_id' ]) {
-				$language_ids[ $lang[ 'directory' ] ] = $lang[ 'language_id' ];
-				$language_codes[ $lang[ 'directory' ] ] = $lang[ 'code' ];
+			if ( $language_id == $lang['language_id'] ) {
+				$language_name = $lang[ 'directory' ];
+				$language_code = $lang[ 'code' ];
 				break;
-			} else {
-				$language_ids[ $lang[ 'directory' ] ] = $lang[ 'language_id' ];
-				$language_codes[ $lang[ 'directory' ] ] = $lang[ 'code' ];
 			}
 		}
 
-		if ($mode == 'update' && $language_ids) {
-			//For update mode delete updated languages
-			$sql = "DELETE FROM " . DB_PREFIX . "language_definitions ";
-			$sql .= " WHERE language_id IN ('" . implode("', '", $language_ids) . "') ";
-			if ($language_key) {
-				$sql .= "AND language_key='" . $language_key . "' ";
-			}
-			if ($specific_block != 'all') {
-				$sql .= "AND block='" . $this->db->escape(str_replace('/', '_', $specific_block)) . "' ";
-			}
-			if ($section != 'all') {
-				$section = $section == 'admin' ? 1 : 0;
-				$sql .= "AND section='" . (int)$section . "' ";
-			}
-
-			$this->db->query($sql);
-		}
-
+		//delete cash before loading
 		if (is_object($this->cache)) {
 			$this->cache->delete('lang');
 			$this->cache->delete('language_definitions');
 			$this->cache->delete('storefront_menu');
 		}
 
-		foreach ($language_ids as $lang_name => $lang_id) {
-			//get list of lang blocks for every language
-			if ($specific_block == 'all') {
-				if (($language_blocks = $this->getAllLanguageBlocks($lang_name)) === false) {
-					continue;
-				}
-			} else {
-				// create list of language blocks when $block is set
-				$language_blocks = array();
-				$blocks = $this->getAllLanguageBlocks($lang_name);
-				foreach ($sections as $sect) {
-					foreach ($blocks[ $sect ] as $rt) {
-						if ($rt == $specific_block) {
-							$language_blocks[ $sect ][ ] = $rt;
-							break;
-						}
-					}
-					foreach ($blocks[ 'extensions' ][ $sect ] as $rt) {
-						if ($rt == $specific_block) {
-							$language_blocks[ 'extensions' ][ $sect ][ ] = $rt;
-							break;
-						}
-					}
-					$language_blocks[ $sect ] = !isset($language_blocks[ $sect ]) ? array() : $language_blocks[ $sect ];
-					$language_blocks[ 'extensions' ][ $sect ] = !isset($language_blocks[ 'extensions' ][ $sect ]) ? array() : $language_blocks[ 'extensions' ][ $sect ];
-				}
-			}
-			$language_codes = array();
-			foreach ($sections as $sect) {
-				$alang = new ALanguage($this->registry, $language_codes[ $lang_name ], ($sect == 'admin' ? 1 : 0));
-				// load into db extensions definitions
-				foreach ($language_blocks[ 'extensions' ][ $sect ] as $rt) {
-					if ($specific_block != 'all' && $rt != $specific_block) {
-						continue;
-					}
-					$alang->load($rt, 'silent');
-				}
-
-				// load into db core admin & storefront
-				foreach ($language_blocks[ $sect ] as $rt) {
-					$alang->load($rt, 'silent');
-				}
-			}
+		//get list of lang blocks for every language
+		$language_blocks = array();
+		if ($specific_block == 'all') {
+		   	$language_blocks = $this->getAllLanguageBlocks($language_name);
+		} else {
+		    // create list of language blocks when $block is set
+		    $blocks = $this->getAllLanguageBlocks($language_name);
+		    foreach ($sections as $sect) {
+		    	foreach ($blocks[ $sect ] as $rt) {
+		    		if ($rt == $specific_block) {
+		    			$language_blocks[ $sect ][ ] = $rt;
+		    			break;
+		    		}
+		    	}
+		    	foreach ($blocks[ 'extensions' ][ $sect ] as $rt) {
+		    		if ($rt == $specific_block) {
+		    			$language_blocks[ 'extensions' ][ $sect ][ ] = $rt;
+		    			break;
+		    		}
+		    	}
+		    	$language_blocks[ $sect ] = !isset($language_blocks[ $sect ]) ? array() : $language_blocks[ $sect ];
+		    	$language_blocks[ 'extensions' ][ $sect ] = !isset($language_blocks[ 'extensions' ][ $sect ]) ? array() : $language_blocks[ 'extensions' ][ $sect ];
+		    }
 		}
+	
+		foreach ($sections as $sect) {
+		    $alang = new ALanguage($this->registry, $language_code, ($sect == 'admin' ? 1 : 0));
+		    // load into db extensions definitions
+		    if ( $language_blocks[ 'extensions' ][ $sect ] ){
+			    foreach ($language_blocks[ 'extensions' ][ $sect ] as $rt) {
+			    	if ($specific_block != 'all' && $rt != $specific_block) {
+			    		continue;
+			    	}
+			    	$alang->load($rt, 'silent');
+			    }
+		    }
+
+		    // load into db core admin & storefront
+		    if ( $language_blocks[ $sect ] ){
+		    	foreach ($language_blocks[ $sect ] as $rt) {
+		    		$alang->load($rt, 'silent');
+		    	}
+		    }
+		}
+
 		return true;
 	}
 
@@ -905,7 +885,7 @@ class ALanguageManager extends Alanguage {
 			}
 
 			foreach ($tables_query->rows as $row) {
-				#Check if to be save data exists for new language
+				#Check if to be saved data exists for new language
 				$sql1 = "SELECT * FROM " . $table . " WHERE language_id = " . $new_language;
 				$sql2 = "SELECT * FROM " . $table . " WHERE language_id = " . $from_language;
 				$where_sql_1 = $where_sql_2 = '';
@@ -916,7 +896,6 @@ class ALanguageManager extends Alanguage {
 							$where_sql_1 .= " AND $key = '" . $langs[ $new_language ] . "'";
 							$where_sql_2 .= " AND $key = '" . $langs[ $from_language ] . "'";
 						} else {
-
 							$where_sql_1 .= " AND $key = '" . $row[ $key ] . "'";
 							$where_sql_2 .= " AND $key = '" . $row[ $key ] . "'";
 						}
@@ -936,11 +915,12 @@ class ALanguageManager extends Alanguage {
 						foreach ($drow as $fld_name => $value) {
 							if ($fld_name == 'language_id') {
 								$value = $new_language;
-							}
-							if ($fld_name == $auto_column) {
+							} else if ($fld_name == $auto_column) {
 								$value = '';
-							}
-							if (in_array($fld_name, $translatable_fields)) {
+							} else if ($fld_name == 'block' && $value == $langs[$from_language]) {
+								//language specific field for main language block. use destination language
+								$value = $langs[ $new_language ];
+							} else if (count($translatable_fields) && in_array($fld_name, $translatable_fields)) {
 								//we need to translate
 								$value = $this->translate($this->_get_language_code($from_language),
 									$value,
@@ -964,6 +944,14 @@ class ALanguageManager extends Alanguage {
 							} else {
 								continue;
 							}
+						} else if ($table == DB_PREFIX . 'product_tags') {
+							// TODO. ac_product_tags still an issue. Will be clonned as duplication on each translation. 
+							//		 Issue. Can not check if translation is present because of no IDs present in ac_product_tags
+							// Offset duplicate error for now. 
+							if ( !$this->db->query($insrt_sql, true) ) {
+								//skip count on error
+								continue;
+							}
 						} else {
 							$this->db->query($insrt_sql);
 						}
@@ -976,6 +964,14 @@ class ALanguageManager extends Alanguage {
 			}
 		}
 		return "Total: " . $tcount . " language entries cloned for table " . $table . "<br>";
+	}
+
+	/**
+	 * Public method to get multilingual tables
+	 * @return array
+	 */
+	private function getMultilingualTables() {
+		$this->_get_language_based_tables();
 	}
 
 	/**
@@ -1011,20 +1007,36 @@ class ALanguageManager extends Alanguage {
 
 		$cache_file = "tables.translatable.$table_name";
 		$load_data = array();
-		if ($this->cache) {
+		// check memory first and cache next
+		if ($this->translatable_fields[$table_name]) {
+			return $this->translatable_fields[$table_name];
+		}
+		else if ($this->cache) {
 			$load_data = $this->cache->get($cache_file);
 		}
-		if (!$load_data) {
+		if ($load_data) {
+			//save to memory
+			$this->translatable_fields[$table_name] = $load_data;
+			return $load_data;
+		} else {
+			$result = array();
 			$sql = "SELECT column_name
 			    	FROM information_schema.columns 
-			    	WHERE table_name='" . $this->db->escape($table_name) . "' and column_comment='translatable'";
+			    	WHERE table_name='" . $this->db->escape($table_name) . "' and column_comment='translatable' group by column_name";
 			$load_sql = $this->db->query($sql);
 			$load_data = $load_sql->rows;
-			if ($this->cache) {
-				$this->cache->set($cache_file, $load_data);
+			//transform to single dimention
+			foreach ($load_data as $row) {
+			  $result[] = $row['column_name']; 
 			}
+			//save cache
+			if ($this->cache) {
+				$this->cache->set($cache_file, $result);
+			}
+			//save to memory
+			$this->translatable_fields[$table_name] = $result;
+			return $result;
 		}
-		return $load_data;
 	}
 
 	/**

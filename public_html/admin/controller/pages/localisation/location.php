@@ -230,6 +230,7 @@ class ControllerPagesLocalisationLocation extends AController {
         $grid = $this->dispatch('common/listing_grid', array($grid_settings));
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('location_listing'));
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/localisation/location_data_list.tpl');
@@ -423,7 +424,6 @@ class ControllerPagesLocalisationLocation extends AController {
                 'scrollbox' => true,
                 'style' => 'medium-field'
             ));
-
 
         $this->view->assign('help_url', $this->gen_help_url('location_edit'));
         $this->view->batchAssign($this->data);

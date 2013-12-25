@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>text_title</key>
-    <value><![CDATA[Вес основании Доставка]]></value>
+    <value><![CDATA[Доставка на основе веса]]></value>
   </definition>
   <definition>
     <key>text_weight</key>

@@ -80,7 +80,7 @@
 	<definition>
 		<key>entry_total</key>
 		<value>
-			<![CDATA[Total Amount:<br /><span class="help">The total amount that must reached before the coupon is valid.</span>]]></value>
+			<![CDATA[Total Amount:<br /><span class="help">The sub-total amount that must reached before the coupon is valid.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_product</key>

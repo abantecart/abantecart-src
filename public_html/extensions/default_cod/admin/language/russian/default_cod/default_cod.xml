@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>default_cod_name</key>
-    <value><![CDATA[Наложенным платежом]]></value>
+    <value><![CDATA[Оплата при доставке]]></value>
   </definition>
   <definition>
     <key>text_payment</key>
@@ -10,7 +10,7 @@
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Успех: Вы изменили денежные средства на модуль оплаты Доставка!]]></value>
+    <value><![CDATA[Успешно: Вы изменили Оплату при доставке!]]></value>
   </definition>
   <definition>
     <key>default_cod_order_status_id</key>
@@ -18,7 +18,7 @@
   </definition>
   <definition>
     <key>default_cod_location_id</key>
-    <value><![CDATA[Расположение:]]></value>
+    <value><![CDATA[Географическая зона:]]></value>
   </definition>
   <definition>
     <key>default_cod_location_id_0</key>
@@ -30,14 +30,14 @@
   </definition>
   <definition>
     <key>default_cod_sort_order</key>
-    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Количество чтобы указать позицию отображения этого платежа в связи с более включены платежи</span>]]></value>
+    <value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа оплаты наряду с другими</span>]]></value>
   </definition>
   <definition>
     <key>default_cod_autoselect</key>
-    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить платежную страницу выбора, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+    <value><![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора способа оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>
-    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение платеж наложенный платеж!]]></value>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение Оплаты при доставке!]]></value>
   </definition>
 </definitions>

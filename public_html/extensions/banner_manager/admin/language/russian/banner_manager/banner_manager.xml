@@ -6,15 +6,15 @@
   </definition>
   <definition>
     <key>banner_manager_note</key>
-    <value><![CDATA[Для управления баннеры следовать меню <b>Дизайн -&gt; Баннер Mannger</b> после расширения включена <br> Чтобы увидеть баннер статистики следовать <b>Отчеты -&gt; Баннер Статистика</b> после расширения включена и баннеры созданы]]></value>
+    <value><![CDATA[Для управления баннерами перейдите в меню <b>Дизайн -&gt; Баннер менеджер</b> после того как будет включено расширение<br> Чтобы увидеть статистику баннера следуйте <b>Отчеты -&gt; Статистика Баннеров</b> после включений расширения и создания баннера]]></value>
   </definition>
   <definition>
     <key>banner_manager_list</key>
-    <value><![CDATA[Баннер Список]]></value>
+    <value><![CDATA[Список баннеров]]></value>
   </definition>
   <definition>
     <key>banner_manager_name_stat</key>
-    <value><![CDATA[Баннер Статистика]]></value>
+    <value><![CDATA[Статистика Баннеров]]></value>
   </definition>
   <definition>
     <key>banner_manager_status</key>
@@ -22,7 +22,7 @@
   </definition>
   <definition>
     <key>banner_manager_sort_order</key>
-    <value><![CDATA[Сортировку]]></value>
+    <value><![CDATA[Порядок сортировки]]></value>
   </definition>
   <definition>
     <key>column_banner_id</key>
@@ -46,11 +46,11 @@
   </definition>
   <definition>
     <key>column_update_date</key>
-    <value><![CDATA[Обновление Дата]]></value>
+    <value><![CDATA[Дата Обновления]]></value>
   </definition>
   <definition>
     <key>column_clicked</key>
-    <value><![CDATA[Щелчки]]></value>
+    <value><![CDATA[Клики]]></value>
   </definition>
   <definition>
     <key>column_viewed</key>
@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>column_percent</key>
-    <value><![CDATA[Преобразование]]></value>
+    <value><![CDATA[Конверсия]]></value>
   </definition>
   <definition>
     <key>text_create</key>
@@ -70,7 +70,7 @@
   </definition>
   <definition>
     <key>text_text_banner</key>
-    <value><![CDATA[Текст Баннер]]></value>
+    <value><![CDATA[Текстовый Баннер]]></value>
   </definition>
   <definition>
     <key>entry_banner_name</key>
@@ -78,7 +78,7 @@
   </definition>
   <definition>
     <key>entry_banner_group_name</key>
-    <value><![CDATA[Баннер Название группы:]]></value>
+    <value><![CDATA[Название группы баннеров:]]></value>
   </definition>
   <definition>
     <key>entry_banner_description</key>
@@ -86,11 +86,11 @@
   </definition>
   <definition>
     <key>entry_banner_html</key>
-    <value><![CDATA[Баннер HTML-код:]]></value>
+    <value><![CDATA[HTML-код баннера:]]></value>
   </definition>
   <definition>
     <key>entry_banner_meta</key>
-    <value><![CDATA[Мета информация: <span class="help">SEO ключевые слова и т.д.</span>]]></value>
+    <value><![CDATA[Мета информация:<span class="help">SEO ключевые слова и т.д.</span>]]></value>
   </definition>
   <definition>
     <key>entry_banner_url</key>
@@ -102,11 +102,11 @@
   </definition>
   <definition>
     <key>entry_banner_sort_order</key>
-    <value><![CDATA[Сортировку в группе:]]></value>
+    <value><![CDATA[Порядок сортировки в группе:]]></value>
   </definition>
   <definition>
     <key>entry_banner_daterange</key>
-    <value><![CDATA[Диапазон дат деятельности:]]></value>
+    <value><![CDATA[Диапазон дат:]]></value>
   </definition>
   <definition>
     <key>entry_banner_rl</key>
@@ -118,7 +118,7 @@
   </definition>
   <definition>
     <key>text_put_new_group</key>
-    <value><![CDATA[Положите новую группу Имя Здесь]]></value>
+    <value><![CDATA[Введите имя новой группы здесь]]></value>
   </definition>
   <definition>
     <key>error_empty</key>
@@ -126,11 +126,11 @@
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Успех: Вы изменили баннер.]]></value>
+    <value><![CDATA[Успешно: Вы изменили баннер.]]></value>
   </definition>
   <definition>
     <key>text_view_stat</key>
-    <value><![CDATA[Посмотреть Статистика]]></value>
+    <value><![CDATA[Посмотреть Статистику]]></value>
   </definition>
   <definition>
     <key>text_banner_block</key>
@@ -138,7 +138,7 @@
   </definition>
   <definition>
     <key>text_create_block</key>
-    <value><![CDATA[Создать Баннер Блокировать]]></value>
+    <value><![CDATA[Создать Баннер Блок]]></value>
   </definition>
   <definition>
     <key>text_banner</key>
@@ -170,6 +170,6 @@
   </definition>
   <definition>
     <key>text_count</key>
-    <value><![CDATA[считать]]></value>
+    <value><![CDATA[просчитать]]></value>
   </definition>
 </definitions>

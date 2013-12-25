@@ -26,6 +26,7 @@
 					<a href="<?php echo $invoice ?>" class="btn_standard"
 					   target="_invoice"><?php echo $button_invoice ?></a>
 				</div>
+				<?php echo $form_language_switch; ?>
 			</div>
 		</div>
 	</div>

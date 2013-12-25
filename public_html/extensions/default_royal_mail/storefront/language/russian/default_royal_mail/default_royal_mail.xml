@@ -10,7 +10,7 @@
   </definition>
   <definition>
     <key>text_insurance</key>
-    <value><![CDATA[Страхователь ДО:]]></value>
+    <value><![CDATA[Страховка до:]]></value>
   </definition>
   <definition>
     <key>text_eta</key>
@@ -18,31 +18,31 @@
   </definition>
   <definition>
     <key>text_1st_class_standard</key>
-    <value><![CDATA[Первый класс Стандарт Сообщение]]></value>
+    <value><![CDATA[First Class Standard Post]]></value>
   </definition>
   <definition>
     <key>text_1st_class_recorded</key>
-    <value><![CDATA[Первый класс записи Сообщение]]></value>
+    <value><![CDATA[First Class Recorded Post]]></value>
   </definition>
   <definition>
     <key>text_2nd_class_standard</key>
-    <value><![CDATA[Второго класса Стандарт Сообщение]]></value>
+    <value><![CDATA[Second Class Standard Post]]></value>
   </definition>
   <definition>
     <key>text_2nd_class_recorded</key>
-    <value><![CDATA[Второго класса записи Сообщение]]></value>
+    <value><![CDATA[Second Class Recorded Post]]></value>
   </definition>
   <definition>
     <key>text_standard_parcels</key>
-    <value><![CDATA[Стандартные Посылки]]></value>
+    <value><![CDATA[Standard Parcels]]></value>
   </definition>
   <definition>
     <key>text_airmail</key>
-    <value><![CDATA[Воздушная почта]]></value>
+    <value><![CDATA[Airmail]]></value>
   </definition>
   <definition>
     <key>text_international_signed</key>
-    <value><![CDATA[Международный Подпись]]></value>
+    <value><![CDATA[International Signed]]></value>
   </definition>
   <definition>
     <key>text_airsure</key>
@@ -50,6 +50,6 @@
   </definition>
   <definition>
     <key>text_surface</key>
-    <value><![CDATA[Поверхность]]></value>
+    <value><![CDATA[Surface]]></value>
   </definition>
 </definitions>

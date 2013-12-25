@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ваш заказ был обработан!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Ваш заказ был успешно обработан! </p><p> Вы можете просматривать историю заказов, зайдя в <a href="%s">Личный кабинет</a> и нажав на <a href="%s">История Заказов</a>. </p><p> Пожалуйста, направляйте ваши вопросы <a href="%s">владельцу магазина</a> . </p><p> Спасибо за покупками с нами онлайн! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p> Ваш заказ был успешно обработан! </p><p> Пожалуйста, направляйте ваши вопросы <a href="%s">владельцу магазина</a> . </p><p> Спасибо за покупками с нами онлайн! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Корзина]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Доставка]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Оформить заказ без регистрации]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Подтверждение заказа]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно]]></value>
+  </definition>
+</definitions>

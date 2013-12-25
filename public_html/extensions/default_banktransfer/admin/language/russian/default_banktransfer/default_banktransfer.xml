@@ -14,15 +14,15 @@
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Успех: Вы изменили параметры передачи банковских и детали!]]></value>
+    <value><![CDATA[Успешно: Вы изменили параметры Банковского перевода!]]></value>
   </definition>
   <definition>
     <key>default_banktransfer_instructions</key>
-    <value><![CDATA[Инструкции банковский перевод: <span class="help">Инструкция показано, клиентов, чтобы сделать банк или банковский перевод на ваш банковский счет</span>]]></value>
+    <value><![CDATA[Инструкции Банковского перевода:<span class="help">Инструкция отображаемая для клиентов, чтобы совершить банковский перевод на ваш банковский счет</span>]]></value>
   </definition>
   <definition>
     <key>default_banktransfer_order_min</key>
-    <value><![CDATA[Общий лимит для заказа: <span class="help">Минимальный заказ должен быть достигнут, чтобы этот платеж</span>]]></value>
+    <value><![CDATA[Минимальная сумма заказа:<span class="help">Минимальный заказ после достижения которого будет доступен этот способ оплаты</span>]]></value>
   </definition>
   <definition>
     <key>default_banktransfer_order_status_id</key>
@@ -30,7 +30,7 @@
   </definition>
   <definition>
     <key>default_banktransfer_location_id</key>
-    <value><![CDATA[Расположение:]]></value>
+    <value><![CDATA[Географическая зона:]]></value>
   </definition>
   <definition>
     <key>default_banktransfer_location_id_0</key>
@@ -38,18 +38,18 @@
   </definition>
   <definition>
     <key>default_banktransfer_sort_order</key>
-    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Количество чтобы указать позицию отображения этого платежа в связи с более включены платежи</span>]]></value>
+     <value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа оплаты наряду с другими</span>]]></value>
   </definition>
   <definition>
     <key>default_banktransfer_autoselect</key>
-    <value><![CDATA[Автоматический выбор: <br /> <span class="help">Вы можете установить, чтобы пропустить платежную страницу выбора, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+    <value><![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора способа оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>
-    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение платежного Banktransfer!]]></value>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение Банковского перевода!]]></value>
   </definition>
   <definition>
     <key>error_instructions</key>
-    <value><![CDATA[Инструкции Банковский перевод обязательны для заполнения!]]></value>
+    <value><![CDATA[Инструкции Банковского перевода обязательны для заполнения!]]></value>
   </definition>
 </definitions>

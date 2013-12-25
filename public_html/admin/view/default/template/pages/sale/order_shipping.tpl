@@ -22,6 +22,7 @@
 	<div class="buttons">
 		<a href="<?php echo $invoice?>" class="btn_standard" target="_invoice"><?php echo $button_invoice?></a>
 	</div>
+	<?php echo $form_language_switch; ?>
 	</div>
   </div></div></div>
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">

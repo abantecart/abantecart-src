@@ -6,6 +6,6 @@
   </definition>
   <definition>
     <key>text_description</key>
-    <value><![CDATA[Пункты %s Приказ №: %s]]></value>
+    <value><![CDATA[Штук %s в заказе №: %s]]></value>
   </definition>
 </definitions>
