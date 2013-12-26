@@ -3744,6 +3744,7 @@ a.clostalert {
 	}
 	
 	/* Hide some columns in tables for small screen */
+	.confirm_shippment_options td:nth-child(2), .confirm_shippment_options th:nth-child(2){ display: none; }
 	.confirm_payment_options td:nth-child(2), .confirm_payment_options th:nth-child(2){ display: none; }
 	.confirm_products td:nth-child(2), .confirm_products th:nth-child(2){ display: none; }
 
@@ -4005,10 +4006,9 @@ paypal pro styles
 	display: inline-block;
 }
 
-.table.confirm_payment_options {
+.table.confirm_payment_options, .table.confirm_shippment_options {
 	table-layout: fixed;
 }
-
 
 
 /* account dashboard */
