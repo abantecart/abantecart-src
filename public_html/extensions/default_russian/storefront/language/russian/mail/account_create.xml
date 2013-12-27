@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>text_subject</key>
-    <value><![CDATA[%s - Благодарим Вас за регистрацию;]]></value>
+    <value><![CDATA[%s - Благодарим Вас за регистрацию]]></value>
   </definition>
   <definition>
     <key>text_welcome</key>
