@@ -213,15 +213,6 @@ class ControllerPagesSaleOrder extends AController {
 
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
 			$this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post);
-			if(has_value($this->request->post['downloads'])){
-				$data = $this->request->post['downloads'];
-				$this->loadModel('catalog/download');
-				foreach($data as $order_download_id=>$item){
-					$item['expire_date'] = dateDisplay2ISO($item['expire_date'], $this->language->get('date_format_short'));
-					$this->model_catalog_download->editOrderDownload($order_download_id, $item);
-				}
-			}
-
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('sale/order/details', '&order_id='.$this->request->get['order_id']));
 		}
@@ -481,9 +472,18 @@ class ControllerPagesSaleOrder extends AController {
 		}
 
 
+<<<<<<< Updated upstream
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('order_details'));
 		
+=======
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->batchAssign( $this->data );
+		$this->view->assign('help_url', $this->gen_help_url('order_details') );
+		
+		$this->processTemplate('pages/sale/order_details.tpl' );
+
+>>>>>>> Stashed changes
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
