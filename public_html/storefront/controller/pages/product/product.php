@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesProductProduct extends AController {
-	private $error = array(); 
+
 	public $data = array();
 	public function main() {
 
@@ -517,6 +517,35 @@ class ControllerPagesProductProduct extends AController {
 		    }
 		}
         $this->data['tags'] = $tags;
+
+
+		//downloads before order
+		$dwn = new ADownload();
+		$download_list = $dwn->getDownloadsBeforeOrder($product_id);
+
+		if($download_list){
+			$r = new AResource('download');
+			$dir_name = $r->getTypeDir();
+
+			foreach($download_list as $download){
+				$href = $this->html->getURL('account/download/startdownload','&download_id='.$download['download_id']);
+				$resource_id = $r->getHexPath(str_replace($dir_name,'',$download['filename']));
+				$download['thumbnail'] = $r->getResourceThumb($resource_id, 30, 30);
+
+				$download['href'] = $form->getFieldHtml(
+						array(  'type'=> 'button',
+								'id' => 'download_'. $download['download_id'],
+								'href'=> $href,
+								'title' => $this->language->get('text_start_download'),
+								'style' => 'button1 icon-download-alt'	));
+
+				$downloads[] = $download;
+			}
+
+
+		$this->data['downloads'] = $downloads;
+		}
+
 
 		$this->view->setTemplate( 'pages/product/product.tpl' );
 

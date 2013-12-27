@@ -240,21 +240,27 @@
 										</table>
 								</tr>
 							</table>
-							<?php if ($downloads) { ?>
-								<table class="list" style="margin-top: 30px;">
+							<?php if ($downloads) { echo  $resources_scripts; ?>
+								<table class="list download-list">
 									<thead>
-									<tr>
-										<td class="left"><b><?php echo $column_download; ?></b></td>
-										<td class="left"><b><?php echo $column_filename; ?></b></td>
-										<td class="right"><b><?php echo $column_remaining; ?></b></td>
-									</tr>
+										<tr>
+											<th class="left"><?php echo $column_download; ?></th>
+											<th class="left"><?php echo $column_file; ?></th>
+											<th class="left"><?php echo $column_mask; ?></th>
+											<th class="center"><?php echo $column_status; ?></th>
+											<th class="right"><?php echo $column_remaining; ?></th>
+											<th class="right"><?php echo $column_expire_date; ?></th>
+										</tr>
 									</thead>
 									<tbody>
 									<?php foreach ($downloads as $download) { ?>
 										<tr>
 											<td class="left"><?php echo $download['name']; ?></td>
-											<td class="left"><?php echo $download['filename']; ?></td>
+											<td class="left"><?php echo $download['resource']; ?></td>
+											<td class="left"><?php echo $download['mask']; ?></td>
+											<td class="center"><?php echo $download['status']; ?></td>
 											<td class="right"><?php echo $download['remaining']; ?></td>
+											<td class="right"><?php echo $download['expire_date']; ?></td>
 										</tr>
 									<?php } ?>
 									</tbody>

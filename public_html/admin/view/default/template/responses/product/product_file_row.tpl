@@ -6,9 +6,10 @@
 		<td><?php echo $form['fields']['sort_order']->value; ?></td>
 		<td><?php echo $form['fields']['status']; ?></td>
 		<td>
-			<a id="<?php echo $download_id; ?>" href="#" class="toggleicon expandRow icon-arrow-down" title="<?php echo $text_expand ?>"></a>
+			<a id="<?php echo $download_id; ?>" href="#" class="flt_left toggleicon expandRow icon-arrow-down" style="margin-top: 3px;" title="<?php echo $text_expand ?>">
 
-			<div class="flt_right"><a href="<?php echo $delete_unmap_href;?>" class="remove" title="<?php echo $text_delete_or_refuse; ?>"></a></div>
+			</a><div class="flt_left">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $push_to_customers; ?></div>
+			<a href="<?php echo $delete_unmap_href;?>" class="flt_right remove" title="<?php echo $text_delete_or_refuse; ?>"></a>
 		</td>
 	</tr>
 <?php }else{ ?>

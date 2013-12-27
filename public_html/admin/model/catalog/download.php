@@ -306,12 +306,25 @@ class ModelCatalogDownload extends Model {
 		return $output;
 	}
 
+	public function editOrderDownload($order_download_id, $data){
 
-//todo
-	public function editOrderDownload($order_download_id){
-		$this->db->query("UPDATE " . DB_PREFIX . "order_downloads
-						  SET `filename` = '" . $this->db->escape($data[ 'download' ]) . "',
-							   mask = '" . $this->db->escape(basename($data[ 'mask' ])) . "'
-						  WHERE order_download_id='".(int)$order_download_id."'");
+		if(!(int)$order_download_id){ return false;}
+		$update = array();
+
+		if(has_value($data[ 'expire_date' ])){
+			$update[] = "`expire_date` = '" . $this->db->escape($data[ 'expire_date' ])."'";
+		}
+		if(has_value($data[ 'remaining_count' ])){
+			$update[] = "`remaining_count` = '" . (int)$data[ 'remaining_count' ]."'";
+		}
+		if(has_value($data[ 'status' ])){
+			$update[] = "`status` = '" . (int)$data[ 'status' ]."'";
+		}
+		if($update){
+			$this->db->query("UPDATE " . DB_PREFIX . "order_downloads
+							  SET ".implode(', ',$update)."
+							  WHERE order_download_id='".(int)$order_download_id."'");
+			return true;
+		}
 	}
 }

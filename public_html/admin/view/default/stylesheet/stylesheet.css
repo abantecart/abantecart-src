@@ -2152,7 +2152,9 @@ table.form tr td:first-child {
 
 #product_download_form a.remove, #product_download_form a.add  {
 	width: 16px;
-	margin-right: 30px;
+}
+#product_download_form a.add  {
+	width: 16px;
 }
 
 #product_download_form .additionalRow .table>tbody>tr{
@@ -2176,3 +2178,14 @@ table.form tr td:first-child {
 	border:0;
 	background-color: white;
 }
+/*order downloads*/
+.download-list{
+	margin-top: 30px;
+}
+.download-list th{
+	border: medium none;
+	color: #2A465E;
+	font: 15px Arial,Helvetica,sans-serif;
+	font-weight: bold;
+}
+

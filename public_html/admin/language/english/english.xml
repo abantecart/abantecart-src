@@ -21,6 +21,10 @@
 		<value><![CDATA[h:i:s A]]></value>
 	</definition>
 	<definition>
+		<key>time_format_short</key>
+		<value><![CDATA[H:i]]></value>
+	</definition>
+	<definition>
 		<key>decimal_point</key>
 		<value><![CDATA[.]]></value>
 	</definition>

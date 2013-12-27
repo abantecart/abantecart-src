@@ -189,6 +189,14 @@
 		<key>text_success_remove</key>
 		<value><![CDATA[Success: product files list changed!]]></value>
 	</definition>
+	<definition>
+		<key>text_push</key>
+		<value><![CDATA[Push]]></value>
+	</definition>
+	<definition>
+		<key>text_push_to_customers</key>
+		<value><![CDATA[Push to Customers]]></value>
+	</definition>
 
 
 	<definition>
