@@ -240,7 +240,8 @@ class ModelSaleOrder extends Model {
         	                                WHERE o.order_id = '" . (int)$order_id . "'");
 	    	
 			if ($order_query->num_rows) {
-				$language = new ALanguage( Registry::getInstance(), $order_query->row['code']);
+				//load language specific for the order in admin section 
+				$language = new ALanguage( Registry::getInstance(), $order_query->row['code'], 1);
 				$language->load($order_query->row['filename']);
 				$language->load('mail/order');
 
@@ -392,12 +393,14 @@ class ModelSaleOrder extends Model {
 	}
 	
 	public function getOrders($data = array()) {
+		$language_id = $this->language->getLanguageID();
+				
 		$sql = "SELECT o.order_id,
 						CONCAT(o.firstname, ' ', o.lastname) AS name,
 						(SELECT os.name
 						 FROM " . $this->db->table("order_statuses") . " os
 						 WHERE os.order_status_id = o.order_status_id
-						    AND os.language_id = '" . (int)$this->config->get('storefront_language_id') . "') AS status,
+						    AND os.language_id = '" . (int)$language_id . "') AS status,
 						 o.date_added,
 						 o.total,
 						 o.currency,
@@ -529,13 +532,19 @@ class ModelSaleOrder extends Model {
 	}	
 
 	public function getOrderHistory($order_id) { 
+		$language_id = $this->language->getContentLanguageID();
+		$default_language_id = $this->language->getDefaultLanguageID();
+		
 		$query = $this->db->query("SELECT oh.date_added,
-										os.name AS status,
+										COALESCE( os1.name, os1.name) AS status,
 										oh.comment,
 										oh.notify
 									FROM " . $this->db->table("order_history") . " oh
-									LEFT JOIN " . $this->db->table("order_statuses") . " os ON oh.order_status_id = os.order_status_id
-									WHERE oh.order_id = '" . (int)$order_id . "' AND os.language_id = '" . (int)$this->config->get('storefront_language_id') . "'
+									LEFT JOIN " . $this->db->table("order_statuses") . " os1 ON oh.order_status_id = os1.order_status_id  
+										 AND os1.language_id = '" . (int)$language_id . "'
+									LEFT JOIN " . $this->db->table("order_statuses") . " os2 ON oh.order_status_id = os2.order_status_id
+										 AND os2.language_id = '" . (int)$default_language_id . "'
+									WHERE oh.order_id = '" . (int)$order_id . "' 
 									ORDER BY oh.date_added");
 	
 		return $query->rows;

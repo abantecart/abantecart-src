@@ -400,6 +400,8 @@ class ControllerPagesProductSearch extends AController {
 
 			}
 		}
+		$this->data['review_status'] = $this->config->get('enable_reviews');
+		
         $this->view->batchAssign($this->data);
 		$this->processTemplate('pages/product/search.tpl');
         //init controller data

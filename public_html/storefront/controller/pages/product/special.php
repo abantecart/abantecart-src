@@ -244,7 +244,9 @@ class ControllerPagesProductSpecial extends AController {
 
             $this->data['sort'] = $sort;
             $this->data['order'] = $order;
-
+			
+			$this->data['review_status'] = $this->config->get('enable_reviews');
+			
             $this->view->batchAssign($this->data);
 			$this->view->setTemplate( 'pages/product/special.tpl' );
 		} else {

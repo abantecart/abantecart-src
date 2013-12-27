@@ -297,16 +297,31 @@ class ALanguage {
 		$config->set('storefront_language_id', $this->current_language['language_id']);
 
 		if ($this->is_admin) {
-			// set up language for content separately (admin only)
+		// set up language for content separately (admin only)
+			$cont_lang_code = $config->get('admin_language');
 			if (isset($request->get['content_language_code'])) {
-				$session->data['content_language'] = $request->get['content_language_code'];
+			    $cont_lang_code = $request->get['content_language_code'];
 			} else {
-				$session->data['content_language'] = !isset($session->data['content_language']) ? $lang_code : $session->data['content_language'];
+			    $cont_lang_code = !isset($session->data['content_language']) ? $lang_code : $session->data['content_language'];
 			}
-			if (!$session->data['content_language']) {
-				$session->data['content_language'] = $config->get('admin_language');
-			}
-			$session->data['content_language_id'] = $languages[$session->data['content_language']]['language_id'];
+			$this->setCurrentContentLanguage('',$cont_lang_code);
+		}
+	}
+
+	/**
+	 * Set New Content Language in admin
+	 * @return NULL
+	 */
+	public function setCurrentContentLanguage( $language_id = '', $language_code = '') {
+		$session = $this->registry->get('session');
+		if ( $language_id ) {
+			$session->data['content_language'] = $this->_get_language_code($language_id);
+			$session->data['content_language_id'] = $language_id;
+			return null;
+		} else if ( $language_code ) {
+			$session->data['content_language_id'] = $this->_get_language_id($language_code);
+			$session->data['content_language'] = $language_code;
+			return null;		
 		}
 	}
 

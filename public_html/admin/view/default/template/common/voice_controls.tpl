@@ -293,7 +293,7 @@ function showInfo(s) {
   if (s) {
     for (var child = info.firstChild; child; child = child.nextSibling) {
       if (child.style) {
-        child.style.display = child.id == s ? 'inline' : 'none';
+        child.style.display = child.id == s ? 'inherit' : 'none';
       }
     }
     info.style.visibility = 'visible';
