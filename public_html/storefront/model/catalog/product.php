@@ -119,36 +119,34 @@ class ModelCatalogProduct extends Model {
 	 * @return array
 	 */
 	public function getProductsByCategoryId($category_id, $sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20) {
-		$sql = "SELECT *, pd.name AS name, m.name AS manufacturer, ss.name AS stock,
-						(SELECT AVG(r.rating)
-						 FROM " . $this->db->table("reviews") . " r
-						 WHERE p.product_id = r.product_id
-						 GROUP BY r.product_id) AS rating
+		$sql = "SELECT *,
+						p.product_id,
+						". $this->_sql_final_price_string() . ", 
+						pd.name AS name, 
+						m.name AS manufacturer, 
+						ss.name AS stock,
+						". $this->_sql_avg_rating_string() . " 
 		". $this->_sql_join_string() ."
 		LEFT JOIN " . $this->db->table("products_to_categories") . " p2c ON (p.product_id = p2c.product_id)
 		WHERE p.status = '1' AND p.date_available <= NOW()
 		AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
 		AND p2c.category_id = '" . (int)$category_id . "'";
-		
+
 		$sort_data = array(
-			'pd.name',
-			'p.sort_order',
-			'p.price',
-			'special',
-			'rating',
-			'date_modified'
-		);
-			
-		if (in_array($sort, $sort_data)) {
-			if ($sort == 'pd.name') {
-				$sql .= " ORDER BY LCASE(" . $sort . ")";
-			} else {
-				$sql .= " ORDER BY " . $sort;
-			}
+		    'pd.name' => 'LCASE(pd.name)',
+		    'p.sort_order' => 'p.sort_order',
+		    'p.price' => 'final_price',
+		    'special' => 'final_price',
+		    'rating' => 'rating',
+		    'date_modified' => 'p.date_available'
+		);	
+		
+		if (isset($sort) && in_array($sort, array_keys($sort_data)) ) {
+		    $sql .= " ORDER BY " . $sort_data[$sort];	
 		} else {
-			$sql .= " ORDER BY p.sort_order";	
+		    $sql .= " ORDER BY p.sort_order";	
 		}
-			
+		
 		if ($order == 'DESC') {
 			$sql .= " DESC";
 		} else {
@@ -160,7 +158,6 @@ class ModelCatalogProduct extends Model {
 		}
 		
 		$sql .= " LIMIT " . (int)$start . "," . (int)$limit;
-
 		$query = $this->db->query($sql);
 								  
 		return $query->rows;
@@ -194,33 +191,30 @@ class ModelCatalogProduct extends Model {
 		if(!(int)$manufacturer_id){
 			return array();
 		}
-		$sql = "SELECT *, pd.name AS name, m.name AS manufacturer, ss.name AS stock,
-						(SELECT AVG(r.rating)
-						FROM " . $this->db->table("reviews") . " r
-						WHERE p.product_id = r.product_id
-						GROUP BY r.product_id) AS rating " .
-		$this->_sql_join_string() ." 
+		$sql = "SELECT *, p.product_id,
+						". $this->_sql_final_price_string() . ", 
+						pd.name AS name, 
+						m.name AS manufacturer, 
+						ss.name AS stock,
+						". $this->_sql_avg_rating_string() . " 
+		" . $this->_sql_join_string() ." 
 		WHERE p.status = '1' AND p.date_available <= NOW()
 		AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' 
 		AND m.manufacturer_id = '" . (int)$manufacturer_id. "'";
 
 		$sort_data = array(
-			'pd.name',
-			'p.sort_order',
-			'special',
-			'rating',
-			'p.price',
-			'date_modified'
-		);
-			
-		if (in_array($sort, $sort_data)) {
-			if ($sort == 'pd.name') {
-				$sql .= " ORDER BY LCASE(" . $sort . ")";
-			} else {
-				$sql .= " ORDER BY " . $this->db->escape($sort);
-			}
+		    'pd.name' => 'LCASE(pd.name)',
+		    'p.sort_order' => 'p.sort_order',
+		    'p.price' => 'final_price',
+		    'special' => 'final_price',
+		    'rating' => 'rating',
+		    'date_modified' => 'p.date_available'
+		);	
+		
+		if (isset($sort) && in_array($sort, array_keys($sort_data)) ) {
+		    $sql .= " ORDER BY " . $sort_data[$sort];	
 		} else {
-			$sql .= " ORDER BY p.sort_order";	
+		    $sql .= " ORDER BY p.sort_order";	
 		}
 			
 		if ($order == 'DESC') {
@@ -266,11 +260,12 @@ class ModelCatalogProduct extends Model {
 	public function getProductsByTag($tag, $category_id = 0, $sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20) {
 		if ($tag) {
 		
-			$sql = "SELECT *, pd.name AS name, m.name AS manufacturer, ss.name AS stock,
-							(SELECT AVG(r.rating)
-							FROM " . $this->db->table("reviews") . " r
-							WHERE p.product_id = r.product_id
-							GROUP BY r.product_id) AS rating
+			$sql = "SELECT *, p.product_id,
+							". $this->_sql_final_price_string() . ", 
+							pd.name AS name, 
+							m.name AS manufacturer, 
+							ss.name AS stock,
+							". $this->_sql_avg_rating_string() . " 
 					". $this->_sql_join_string() ."
 					LEFT JOIN " . $this->db->table("product_tags") . " pt ON (p.product_id = pt.product_id AND pt.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 					WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
@@ -297,25 +292,22 @@ class ModelCatalogProduct extends Model {
 			}
 		
 			$sql .= " AND p.status = '1' AND p.date_available <= NOW() GROUP BY p.product_id";
-		
+
 			$sort_data = array(
-				'pd.name',
-				'p.sort_order',
-				'p.price',
-				'special',
-				'rating'
-			);
-				
-			if (in_array($sort, $sort_data)) {
-				if ($sort == 'pd.name') {
-					$sql .= " ORDER BY LCASE(" . $sort . ")";
-				} else {
-					$sql .= " ORDER BY " . $this->db->escape($sort);
-				}
+				'pd.name' => 'LCASE(pd.name)',
+				'p.sort_order' => 'p.sort_order',
+				'p.price' => 'final_price',
+				'special' => 'final_price',
+				'rating' => 'rating',
+				'date_modified' => 'p.date_available'
+			);	
+			
+			if (isset($sort) && in_array($sort, array_keys($sort_data)) ) {
+				$sql .= " ORDER BY " . $sort_data[$sort];	
 			} else {
 				$sql .= " ORDER BY p.sort_order";	
 			}
-			
+				
 			if ($order == 'DESC') {
 				$sql .= " DESC";
 			} else {
@@ -354,12 +346,14 @@ class ModelCatalogProduct extends Model {
 	 */
 	public function getProductsByKeyword($keyword, $category_id = 0, $description = FALSE, $model = FALSE, $sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20) {
 		if ($keyword) {
-			$sql = "SELECT  *, p.product_id, pd.name AS name, m.name AS manufacturer, ss.name AS stock,
-							(SELECT AVG(r.rating)
-							FROM " . $this->db->table("reviews") . " r
-							WHERE p.product_id = r.product_id
-							GROUP BY r.product_id) AS rating ".
-			$this->_sql_join_string() ."
+			$sql = "SELECT  *,
+							p.product_id,  
+							". $this->_sql_final_price_string() . ", 
+							pd.name AS name, 
+							m.name AS manufacturer, 
+							ss.name AS stock,
+							". $this->_sql_avg_rating_string() . " 
+			" . $this->_sql_join_string() ."
 		    LEFT JOIN " . $this->db->table("product_tags") . " pt ON (p.product_id = pt.product_id)
 			WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ";
 
@@ -402,24 +396,21 @@ class ModelCatalogProduct extends Model {
 		
 			$sql .= " AND p.status = '1' AND p.date_available <= NOW()
 					 GROUP BY p.product_id";
-		
+
 			$sort_data = array(
-				'pd.name',
-				'p.price',
-				'p.sort_order',
-				'special',
-				'rating'
-			);
-				
-			if (in_array($sort, $sort_data)) {
-				if ($sort == 'pd.name') {
-					$sql .= " ORDER BY LCASE(" . $sort . ")";
-				} else {
-					$sql .= " ORDER BY " . $this->db->escape($sort);
-				}
+				'pd.name' => 'LCASE(pd.name)',
+				'p.sort_order' => 'p.sort_order',
+				'p.price' => 'final_price',
+				'special' => 'final_price',
+				'rating' => 'rating',
+				'date_modified' => 'p.date_available'
+			);	
+			
+			if (isset($sort) && in_array($sort, array_keys($sort_data)) ) {
+				$sql .= " ORDER BY " . $sort_data[$sort];	
 			} else {
 				$sql .= " ORDER BY p.sort_order";	
-			}
+			}		
 			
 			if ($order == 'DESC') {
 				$sql .= " DESC";
@@ -587,11 +578,8 @@ class ModelCatalogProduct extends Model {
 					pd.name AS name,
 					m.name AS manufacturer,
 					ss.name AS stock,
-					(SELECT AVG(r.rating)
-					FROM " . $this->db->table("reviews") . " r
-					WHERE p.product_id = r.product_id
-					GROUP BY r.product_id) AS rating " .
-					$this->_sql_join_string() . "
+					". $this->_sql_avg_rating_string() . " 
+					". $this->_sql_join_string() . "
 					WHERE p.status = '1'
 							AND p.date_available <= NOW()
 							AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
@@ -616,10 +604,7 @@ class ModelCatalogProduct extends Model {
 	public function getPopularProducts($limit=0) {
 
 		$sql = "SELECT *, pd.name AS name, m.name AS manufacturer, ss.name AS stock,
-													(SELECT AVG(r.rating)
-														FROM " . $this->db->table("reviews") . " r
-														WHERE p.product_id = r.product_id
-														GROUP BY r.product_id) AS rating
+													". $this->_sql_avg_rating_string() . " 
 											" .	$this->_sql_join_string() . "
 											WHERE p.status = '1'
 												AND p.date_available <= NOW()
@@ -1049,10 +1034,7 @@ class ModelCatalogProduct extends Model {
 		
 		foreach ($product_related_query->rows as $result) { 
 			$product_query = $this->db->query("SELECT DISTINCT *, pd.name AS name, m.name AS manufacturer, ss.name AS stock,
-														(SELECT AVG(r.rating)
-														FROM " . $this->db->table("reviews") . " r
-														WHERE p.product_id = r.product_id
-														GROUP BY r.product_id) AS rating " .
+														". $this->_sql_avg_rating_string() . " " .
 												$this->_sql_join_string() ."
 												WHERE p.product_id = '" . (int)$result['related_id'] . "'
 													AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
@@ -1080,7 +1062,38 @@ class ModelCatalogProduct extends Model {
 		return $query->rows;
 	}
 	
-	private function _sql_join_string(){
+	private function _sql_avg_rating_string(){	
+		$sql = " ( SELECT AVG(r.rating)
+						 FROM " . $this->db->table("reviews") . " r
+						 WHERE p.product_id = r.product_id
+						 GROUP BY r.product_id 
+				 ) AS rating ";
+		return $sql;
+	}
+
+	private function _sql_final_price_string(){	
+		//special prices
+		if ($this->customer->isLogged()) {
+			$customer_group_id = (int)$this->customer->getCustomerGroupId();
+		} else {
+			$customer_group_id = (int)$this->config->get('config_customer_group_id');
+		}
+
+		$sql = " ( SELECT p2sp.price
+					FROM " . $this->db->table("product_specials") . " p2sp
+					WHERE p2sp.product_id = p.product_id
+							AND p2sp.customer_group_id = '" . $customer_group_id . "'
+							AND ((p2sp.date_start = '0000-00-00' OR p2sp.date_start < NOW())
+							AND (p2sp.date_end = '0000-00-00' OR p2sp.date_end > NOW()))
+					ORDER BY p2sp.priority ASC, p2sp.price ASC LIMIT 1
+				 ) ";
+		$sql = "COALESCE( ". $sql. ", p.price) as final_price"; 			
+					
+		return $sql;
+	}
+	
+	private function _sql_join_string(){	
+	
 		return "FROM " . $this->db->table("products") . " p
 				LEFT JOIN " . $this->db->table("product_descriptions") . " pd
 					ON (p.product_id = pd.product_id
