@@ -628,7 +628,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->data[ 'form' ][ 'fields' ][ 'price' ] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'price[' . $product_option_value_id . ']',
-			'value' => $this->data[ 'price' ],
+			'value' => moneyDisplayFormat($this->data[ 'price' ]),
 			'style' => 'small-field'
 		));
 
