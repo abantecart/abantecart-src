@@ -242,18 +242,8 @@ final class ACart {
     	    	$option_price += $item['price'];
     	    }
     	}
-
-    	$download_data = array();     		
-    	$download_query_rows = $this->model_catalog_product->getProductDownloads( $product_id );
-    	foreach ($download_query_rows as $download) {
-    	    $download_data[] = array(
-      	    	'download_id' => $download['download_id'],
-    	    	'name'        => $download['name'],
-    	    	'filename'    => $download['filename'],
-    	    	'mask'        => $download['mask'],
-    	    	'remaining'   => $download['remaining']
-    	    );
-    	}
+		// product downloads
+    	$download_data = $this->download->getProductOrderDownloads($product_id);
     	
     	//check if we need to check main product stock. Do only if no stock trakable options selected
     	if ( !$op_stock_trackable && $product_query['subtract'] && $product_query['quantity'] < $quantity ) {

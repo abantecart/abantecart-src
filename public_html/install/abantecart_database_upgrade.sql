@@ -76,7 +76,8 @@ alter table `ac_order_downloads` add column
 (
   `download_id` int(11) NOT NULL DEFAULT '0', 
   `status` int(1) NOT NULL DEFAULT '0',
-  `expire_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00', 
+  `expire_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `percentage` int(11) DEFAULT '0',
   `sort_order` int(11) NOT NULL,
   `activate` varchar(64) NOT NULL,
   `activate_order_status_id` int(11) NOT NULL DEFAULT '0', 

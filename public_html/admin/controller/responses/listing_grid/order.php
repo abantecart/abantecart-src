@@ -184,10 +184,22 @@ class ControllerResponsesListingGridOrder extends AController {
 				));
 		}
 
+		if(has_value($this->request->post['downloads'])){
+			$data = $this->request->post['downloads'];
+			$this->loadModel('catalog/download');
+			foreach($data as $order_download_id=>$item){
+				$item['expire_date'] = dateDisplay2ISO($item['expire_date'], $this->language->get('date_format_short'));
+				$this->model_catalog_download->editOrderDownload($order_download_id, $item);
+			}
+			return null;
+		}
+
 		if (isset($this->request->get[ 'id' ])) {
 			$this->model_sale_order->editOrder($this->request->get[ 'id' ], $this->request->post);
-			return;
+			return null;
 		}
+
+
 
 		//request sent from jGrid. ID is key of array
 		foreach ($this->request->post as $field => $value) {

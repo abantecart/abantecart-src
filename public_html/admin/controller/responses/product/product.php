@@ -874,6 +874,16 @@ class ControllerResponsesProductProduct extends AController {
 					'style' => 'btn_switch',
 		));
 
+		$this->data['push_to_customers'] = $this->html->buildButton(
+																	array(
+																		'name' => 'push_to_customers',
+																		'title' => $this->language->get('text_push_to_customers'),
+																		'text'=> $this->language->get('text_push'),
+																		'href' => $this->html->getSecureURL('catalog/product_files/pushtocustomers',
+																											'&product_id='.$product_id.'&download_id='.$this->data['download_id']),
+																		'icon' => 'icon-shopping-cart',
+																		'style' => 'button2'));
+
 
 		$this->data['maplist'] = array();
 		foreach($file_data['map_list'] as $map_id => $map_name){
@@ -1144,4 +1154,5 @@ class ControllerResponsesProductProduct extends AController {
 		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($download_data));
 	}
+
 }

@@ -157,4 +157,18 @@ class ControllerPagesCatalogProductFiles extends AController {
 			return FALSE;
 		}
 	}
+
+	public function pushToCustomers(){
+		if(!has_value($this->request->get['download_id']) || !has_value($this->request->get['product_id'])){
+			$this->redirect($this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id));
+		}
+		$this->loadModel('catalog/download');
+		$this->loadModel('catalog/product');
+		$download_info = $this->model_catalog_download->getDownload($this->request->get['download_id']);
+		if($download_info){
+		//TODO UNFINISHED!!!!
+		}
+
+		$this->redirect($this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id));
+	}
 }

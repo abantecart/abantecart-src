@@ -167,5 +167,13 @@
 	<definition>
 		<key>text_login_view_price</key>
 		<value><![CDATA[Please login or register to see price or to order.]]></value>
-	</definition>				
+	</definition>
+	<definition>
+		<key>tab_downloads</key>
+		<value><![CDATA[Downloads]]></value>
+	</definition>
+	<definition>
+		<key>text_start_download</key>
+		<value><![CDATA[Start Download]]></value>
+	</definition>
 </definitions>

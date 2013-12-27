@@ -110,7 +110,7 @@ class AAttribute {
 	private function _load_attributes( $attribute_type_id, $language_id = 0 ) {
 		//Load attributes from DB or cache. If load from DB, cache.
 		// group attribute and sort by attribute_group_id (if any) and sort by attribute inside the group.
-
+		$this->attributes = array();
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');
         }
@@ -134,11 +134,19 @@ class AAttribute {
         if ( !$query->num_rows ) {
             return false;
         }
+		foreach($query->rows as $row){
+			$this->attributes[$row['attribute_id']] = $row;
+		}
 
-        $this->cache->set($cache_name, $query->rows, (int)$language_id, (int)$this->config->get('config_store_id'));
-
-        $this->attributes = $query->rows;
+        $this->cache->set($cache_name, $this->attributes, (int)$language_id, (int)$this->config->get('config_store_id'));
 		return true;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getAttributes(){
+		return $this->attributes;
 	}
 
     /**
@@ -306,11 +314,14 @@ class AAttribute {
 	 * @return array
 	 */
 	public function getAttributeValues( $attribute_id, $language_id = 0 ) {
+		if(!(int)$language_id){
+			$language_id = $this->language->getLanguageID();
+		}
 		//get attrib values
         $cache_name = 'attribute.values.'.$attribute_id.'.'.$language_id;
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
         $attribute_vals = $this->cache->get($cache_name,'',(int)$this->config->get('config_store_id'));
-        if (!empty($attribute_vals)) {
+        if (!is_null($attribute_vals)) {
             return $attribute_vals;
         }
 
@@ -326,7 +337,6 @@ class AAttribute {
         if ( !$query->num_rows ) {
             return array();
         }
-
         $this->cache->set($cache_name, $query->rows,'',(int)$this->config->get('config_store_id'));
         return $query->rows;		
 	}

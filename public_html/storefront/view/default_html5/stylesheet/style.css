@@ -4280,3 +4280,20 @@ paypal pro styles
 }
 
 /* ENDOF account dashboard */
+
+/* product downloads */
+
+.downloads>li img{
+	width: 40px;
+	vertical-align: top;
+	display: inline-block;
+}
+
+.downloads>li>div{
+	display: inline-block;
+	line-height: 40px;
+	vertical-align: middle;
+}
+.downloads>li:hover{
+	background-color: #f0f0f0;
+}

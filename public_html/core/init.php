@@ -215,6 +215,7 @@ try {
 	require_once(DIR_CORE . 'lib/xml2array.php');
 	require_once(DIR_CORE . 'lib/data.php');
 	require_once(DIR_CORE . 'lib/file.php');
+	require_once(DIR_CORE . 'lib/download.php');
 
 // Application Classes
 	require_once(DIR_CORE . 'lib/customer.php');
@@ -430,6 +431,10 @@ try {
 
 // Create Global Layout Instance
 	$registry->set('layout', new ALayout($registry, $template));
+
+// load download class
+	$dwnload = new ADownload();
+	$registry->set('download',$dwnload);
 
 //load main language section
 	$registry->set('language', $language);

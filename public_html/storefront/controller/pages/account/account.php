@@ -76,8 +76,7 @@ class ControllerPagesAccountAccount extends AController {
 		$this->loadModel('account/address');
 		$this->data['total_adresses'] = $this->model_account_address->getTotalAddresses();
 
-		$this->loadModel('account/download');
-		$this->data['total_downloads'] = $this->model_account_download->getTotalDownloads();
+		$this->data['total_downloads'] = $this->download->getTotalDownloads();
 
 		$this->loadModel('account/order');
 		$this->data['total_orders'] = $this->model_account_order->getTotalOrders();

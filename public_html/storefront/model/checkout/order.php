@@ -201,7 +201,12 @@ class ModelCheckoutOrder extends Model {
 			}
 
 			foreach ($product['download'] as $download) {
-				$this->db->query("INSERT INTO " . $this->db->table("order_downloads") . " SET order_id = '" . (int)$order_id . "', order_product_id = '" . (int)$order_product_id . "', name = '" . $this->db->escape($download['name']) . "', filename = '" . $this->db->escape($download['filename']) . "', mask = '" . $this->db->escape($download['mask']) . "', remaining = '" . (int)($download['remaining'] * $product['quantity']) . "'");
+				$download['expire_days'] = (int)$download['expire_days'] > 0 ? $download['expire_days'] : 365*20; // if expire days not setted - set 20 years as "unexpired"
+				$download['remaining_count'] = (int)$download['max_downloads'] * $product['quantity'];
+				$download['status'] = $download['activate']=='manually' ? 0 : 1; //disable download for manual mode for customer
+				$download['attributes_data'] = serialize($this->download->getDownloadAttributesValues($download['download_id']));
+
+				$this->download->addProductDownloadToOrder($order_product_id, $order_id, $download);
 			}
 		}
 

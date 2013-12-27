@@ -575,11 +575,11 @@ CREATE TABLE `ac_order_downloads` (
   `name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
   `filename` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
   `mask` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
-
   `download_id` int(11) NOT NULL, 
   `status` int(1) NOT NULL DEFAULT '0',
   `remaining_count` int(11) DEFAULT NULL,
-  `expire_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00', 
+  `percentage` int(11) DEFAULT '0',
+  `expire_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `sort_order` int(11) NOT NULL, 
   `activate_order_status_id` int(11) NOT NULL DEFAULT '0', 
   `attributes_data` text COLLATE utf8_bin  DEFAULT NULL,  -- serialized values 

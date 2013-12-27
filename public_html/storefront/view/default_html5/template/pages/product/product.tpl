@@ -217,8 +217,10 @@
 					<li><a href="#producttag"><?php echo $text_tags; ?></a></li>
 				<?php } ?>
 				<?php if ($related_products) { ?>
-					<li><a href="#relatedproducts"><?php echo $tab_related; ?> (<?php echo count($related_products); ?>
-							)</a></li>
+					<li><a href="#relatedproducts"><?php echo $tab_related; ?> (<?php echo count($related_products); ?>)</a></li>
+				<?php } ?>
+				<?php if ($downloads) { ?>
+					<li><a href="#productdownloads"><?php echo $tab_downloads; ?></a></li>
 				<?php } ?>
 				<?php echo $this->getHookVar('product_features_tab'); ?>
 			</ul>
@@ -306,8 +308,7 @@
 					<div class="tab-pane" id="producttag">
 						<ul class="tags">
 							<?php foreach ($tags as $tag) { ?>
-							<li><a href="<?php echo $tag['href']; ?>"><i class="icon-tag"></i><?php echo $tag['tag']; ?>
-								</a>
+							<li><a href="<?php echo $tag['href']; ?>"><i class="icon-tag"></i><?php echo $tag['tag']; ?></a></li>
 								<?php } ?>
 						</ul>
 					</div>
@@ -321,10 +322,6 @@
 								if (!$display_price) {
 									$related_product['price'] = $related_product['special'] = '';
 								}
-								/*if($related_product['call_to_order']){
-									$related_product['special'] = '';
-									$related_product['price'] = $text_call_to_order.'&nbsp;&nbsp;<i class="icon-phone"></i>';
-								}*/
 								?>
 								<li class="related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
@@ -345,6 +342,20 @@
 
 
 							<?php } ?>
+						</ul>
+					</div>
+				<?php } ?>
+
+				<?php if ($downloads) { ?>
+					<div class="tab-pane" id="productdownloads">
+						<ul class="downloads">
+							<?php foreach ($downloads as $download) { ?>
+							<li class="row">
+								<div class="pull-left"><img src="<?php echo $download['thumbnail']?>"></div>
+								<div class="pull-left ml20"><?php echo $download['name']; ?></div>
+								<div class="pull-right mr10"><?php echo $download['href']; ?></div>
+							</li>
+								<?php } ?>
 						</ul>
 					</div>
 				<?php } ?>

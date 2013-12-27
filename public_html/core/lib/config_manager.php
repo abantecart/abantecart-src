@@ -423,18 +423,7 @@ class AConfigManager {
 			'value' => $data['config_download'],
 			'style' => 'btn_switch',
 		));
-		$this->load->model('localisation/order_status');
-		$order_statuses = array();
-		$results = $this->model_localisation_order_status->getOrderStatuses();
-		foreach ($results as $item) {
-			$order_statuses[$item['order_status_id']] = $item['name'];
-		}
-		$fields['download_status'] = $form->getFieldHtml($props[] = array(
-			'type' => 'selectbox',
-			'name' => 'config_download_status',
-			'value' => $data['config_download_status'],
-			'options' => $order_statuses,
-		));
+
 		$fields['help_links'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
 			'name' => 'config_help_links',
