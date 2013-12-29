@@ -1604,8 +1604,8 @@ VALUES
 (100190,1,'AM_mc_vs_dc_ae_319x110.jpg','PayPal Credit Cards','PayPal logo with supported Credit Cards','18/75/e.jpg','',now(), now()),
 (100191,1,'AM_SbyPP_mc_vs_dc_ae_319x110.jpg','PayPal Secure Payments','Secure Payments by PayPal logo','18/75/f.jpg','',now(), now()),
 (100192,1,'bdg_payments_by_pp_2line_165x56.png','Payments by PayPal','Payments by PayPal Logo','18/76/0.png','',now(), now()),
-(100193,1,'pp_cc_mark_76x48.jpg','PayPal Icon','PayPal Small Icon','18/76/1.jpg','',now(), now());
-
+(100193,1,'pp_cc_mark_76x48.jpg','PayPal Icon','PayPal Small Icon','18/76/1.jpg','',now(), now()),
+(100194,1,'banner_fallback.jpg','Fall back banner for small screen resolutions','Fall back banner for small screen resolutions','18/76/2.jpg','',now(), now());
 
 --
 -- Dumping data for table `resource_library`
@@ -1787,7 +1787,8 @@ VALUES
 (100190,1,now(), now()),
 (100191,1,now(), now()),
 (100192,1,now(), now()),
-(100193,1,now(), now())
+(100193,1,now(), now()),
+(100194,1,now(), now())
 ;
 
 
@@ -1964,7 +1965,7 @@ VALUES
 (100188,'banners',13,0,0,now(), now()),
 (100188,'banners',14,0,0,now(), now()),
 (100188,'banners',15,0,0,now(), now()),
-(100188,'banners',16,0,0,now(), now())
+(100194,'banners',18,0,1,now(), now())
 ;
 
 
@@ -2019,6 +2020,7 @@ VALUES
 
 
 INSERT INTO `ac_banners` VALUES
+(18,1,1,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',6,now(), now()),
 (17,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',5,now(), now()),
 (16,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'http://www.abantecart.com',4,now(), now()),
 (15,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'http://www.abantecart.com',3,now(), now()),
@@ -2032,6 +2034,7 @@ INSERT INTO `ac_banners` VALUES
 
 
 INSERT INTO `ac_banner_descriptions` VALUES
+	(18,1,'fallback','','',now(), now()),
 	(17,1,'Main Banner 5','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide2_bot&quot; src=&quot;storefront/view/default_html5/image/banner_image_5.png&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Application and data security&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;Secure Solution&lt;/span&gt; &lt;span class=&quot;txt3&quot;&gt;Very secure solution with up to date industry security practices and inline with PCI compliance. Customer information protection with data encryption&lt;/span&gt; &lt;span class=&quot;txt4&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Install Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
 	(16,1,'banner4','','',now(), now()),
 	(15,1,'banner3','','',now(), now()),

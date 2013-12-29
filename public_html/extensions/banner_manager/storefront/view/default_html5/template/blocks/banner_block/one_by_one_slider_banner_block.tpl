@@ -1,9 +1,28 @@
 <section class="slider">
-  <div class="banner_conteiner">
-  		<div class="banner_fallback"><img alt="" src="<?php echo $this->templateResource('/image/banner_fallback.jpg'); ?>"></div>
-		<div id="banner_slides">
-	<?php if ($content) {
+  <div class="banner_conteiner">  		
+	<?php if ($content) { 
+		//first find banner_fallback
 		foreach ($content as $banner) {
+			//skip fallback banner
+			if ( $banner['name'] != 'fallback') {
+				continue;
+			} else {
+				foreach ($banner['images'] as $img) {
+					echo '<div class="banner_fallback"><a id="' . $banner['banner_id'] . '"  href="' . $banner['target_url'] . '" ' . ($banner['blank'] ? ' target="_blank" ' : '') . '>';
+					echo '<img src="' . $img['main_url'] . '" title="' . $img['title'] . '" alt="' . $img['title'] . '">';
+					echo '</a></div>';
+				}
+				break;	
+			}
+		}		
+	?>
+		<div id="banner_slides">		
+	<?php
+		foreach ($content as $banner) {
+			//skip fallback banner
+			if ( $banner['name'] == 'fallback') {
+				continue;
+			}
 	?>	
 			<div class="oneByOne_item banner">
 	<?php		

@@ -504,7 +504,7 @@ li.dropdown {
 
 .buttonwrap {
 	padding: 10px;
-	margin: 5px 10px 10px 0
+	margin: 5px 10px 5px 10px;
 }
 
 #top_cart_product_list>table:last-child {
@@ -519,10 +519,21 @@ li.dropdown {
 	color: #00A1CB;
 }
 
+#top_cart_product_list .totals {
+	margin-top: 10px;
+}
+
 #top_cart_product_list .totals td {
 	text-align: right;
 	width: 50%;
 }
+
+/* Uncoment if you want to set view limit wiht scroll to products in the cart dropdown 
+#top_cart_product_list .products {
+	overflow: auto;
+	height: 300px;
+}
+*/
 
 /* ------------ Category Menu ------------ */
 .categorymenu li a.menu_home {
