@@ -249,7 +249,7 @@ class AView {
 	 * @return string
 	 */
 	public function fetch($filename) {
-		//#PR First see if we have full path to template file. Nothing to do. Higher precedence! 
+		//#PR First see if we have full path to template file. Nothing to do. Higher precedence!
 		if (is_file($filename)) {
 			//#PR set full path
 			$file = $filename;
@@ -298,10 +298,10 @@ class AView {
 	 * @param $filename
 	 * @return string with relative path
 	 */
-    public function templateResource( $filename ) {
+    public function templateResource( $filename) {
     	if ( !$filename ) {
     		return null;    	
-    	} 
+    	}
 		$res_arr = $this->_extensions_resource_map($filename);
 		//get first exact template extension resource or default template resource othewise.
 		if ( count($res_arr['original'])) {
@@ -383,6 +383,15 @@ class AView {
 	 * @return mixed
 	 */
 	private function _get_template_path($path, $filename, $mode) {
+		//look into extensions first
+		$res_arr = $this->_extensions_resource_map($filename);
+		//get first exact template extension resource or default template resource othewise.
+		if ( count($res_arr['original'])) {
+			return $res_arr['original'][0];
+		} else if(count($res_arr['default'])) {
+			return $res_arr['default'][0];
+		}
+
 		$template_path_arr = $this->_test_template_paths($path, $filename, $mode);
 		return $template_path_arr['path'];
 	}
@@ -413,7 +422,7 @@ class AView {
 	        	}
 	        }
 		} else {
-	        if (is_file( $path . $template . $filename)) {
+			if (is_file( $path . $template . $filename)) {
 	        	$ret_path = $path . $template . $filename;
 	        	if ($mode == 'relative') {
 	            	$ret_path = 'storefront/view/' . $template . $filename;
