@@ -58,7 +58,7 @@ class ControllerResponsesListingGridCoupon extends AController {
 			$response->rows[$i]['cell'] = array(
 				$result['name'],
 				$result['code'],
-				$result['discount'],
+				moneyDisplayFormat($result['discount']),
 				dateISO2Display($result['date_start'], $this->language->get('date_format_short')),
 				dateISO2Display($result['date_end'], $this->language->get('date_format_short')),
 				$this->html->buildCheckbox(array(

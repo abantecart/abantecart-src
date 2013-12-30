@@ -720,6 +720,7 @@ VALUES
 (73,1,'Highlighting Expressions','','','&lt;p&gt;\r\n	WHAT&lt;br /&gt;\r\n	Pantene Pro-V COLOUR HAIR SOLUTIONS Highlighting Expressions™ Conditioner protects and enhances colour treated hair and infuses blonde highlights with shine. The advanced Pro-Vitamin formula restores shine to dull highlights and protects hair from daily damage. This non-colour depositing formula works for all blonde highlights.&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHY&lt;br /&gt;\r\n	Pantene uncovered that oxidative colouring changes hair’s structure. Internally, the chemistry in hair colour attacks strength-giving proteins in hair and makes the fibre more porous, leading to weaker hair that fades more quickly. The surface of the hair fibres becomes uneven and the protective layer of the hair fibre disintegrates. Without the protective layer, the hair fibre is prone to micro-scarring and damage, which changes the way it interacts with light and leads to a dull appearance.&lt;/p&gt;\r\n&lt;p&gt;\r\n	HOW&lt;br /&gt;\r\n	Pantene’s non-colour depositing conditioner is designed to reinforce the structure of blonde highlighted hair and give it what it needs to reveal vibrant, glossy colour. Conditioning ingredients help revitalize and replenish highlighted hair while delivering brilliant shine and protecting from future damage. The result is healthy-looking hair rejuvenated with shimmering blonde highlights.&lt;/p&gt;\r\n&lt;p&gt;\r\n	USE&lt;br /&gt;\r\n	For rich, vibrant colour that’s shiny and healthy-looking, use with Pantene Pro-V Pantene COLOUR HAIR SOLUTIONS Highlighting Expressions™ Shampoo and Colour Nourishing Treatment.&lt;/p&gt;\r\n'),
 (74,1,'Curls to straight Shampoo','','','&lt;p&gt;\r\n	YOUR HAIR’S STARTING POINT&lt;br /&gt;\r\n	Curly&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHAT&lt;br /&gt;\r\n	Pantene Curly Hair Series Curls to Straight Shampoo gently removes build-up, adding softness and control to your curls. The cleansing formula helps align and smooth the hair fibers. The result is healthy-looking hair that’s protected from frizz and ready for straight styling.&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHY&lt;br /&gt;\r\n	Research shows that each curly hair fibre grows in a unique pattern, twisting and turning in all directions. This unpredictable pattern makes it difficult to create and control straight styles. The curved fibres of curly hair intersect with each other more often than any other hair type, causing friction which can result in breakage. The curvature of the hair fibre also provides a large amount of volume in curly hair, which can be hard to tame.&lt;/p&gt;\r\n&lt;p&gt;\r\n	HOW&lt;br /&gt;\r\n	Pantene’s straight shampoo contains micro-smoothers that aid you in loosening and unwinding curls from their natural pattern. Curly hair is left ready for frizz controlled straight styling, and protected from styling damage.&lt;/p&gt;\r\n&lt;p&gt;\r\n	USE&lt;br /&gt;\r\n	For healthy-looking, curly hair that’s styled straight, use with Curls to Straight Conditioner and Anti-Frizz Straightening Crème.&lt;/p&gt;\r\n'),
 (75,1,'Dove Men +Care Body Wash','','','&lt;p&gt;\r\n	A body and face wash developed for men\'s skin with Micromoisture technology.&lt;br /&gt;\r\n	Micromoisture activates on skin when lathering up, clinically proven to fight skin dryness.&lt;br /&gt;\r\n	Deep cleansing gel that rinses off easily. With purifying grains.&lt;br /&gt;\r\n	Dermatologist recommended.&lt;/p&gt;\r\n'),
+(76,1,'Men+Care Clean Comfort Deodorant','','','&lt;p&gt;\r\n        The first scented deodorant from Dove® specifically designed with a non-irritating formula to give men the power of 48-hour protection against underarm odor with advanced ¼ moisturizer technology. The bottom line? It’s tough on odor, not on skin&lt;/p&gt;\r\n'),
 (77,1,'Men+Care Active Clean Shower Tool','tool, man','','&lt;p&gt;\r\n	Dove® Men+CareTM Active Clean Dual-Sided Shower Tool works with body wash for extra scrubbing power you can’t get from just using your hands. The mesh side delivers the perfect amount of thick cleansing lather, and the scrub side helps exfoliate for a deeper clean. Easy to grip and easy to hang. For best results, replace every 4-6 weeks.&lt;/p&gt;\r\n'),
 (78,1,'ck IN2U Eau De Toilette Spray for Him','','','&lt;p&gt;\r\n	Fresh but warm; a tension that creates sexiness.Spontaneous - sexy - connectedCK IN2U him is a fresh woody oriental that penetrates with lime gin fizz and rushes into a combination of cool musks that radiate from top to bottom and leaves you wanting more.&lt;/p&gt;\r\n'),
 (79,1,'ck One Gift Set','','','&lt;p&gt;\r\n	2 PC Gift Set includes 3.4 oz EDT Spray + Magnets. Ck One Cologne by Calvin Klein, Two bodies, two minds, and two souls are merged into the heat and passion of one. This erotic cologne combines man and woman with one provocative scent. This clean, refreshing fragrance has notes of bergamot, cardamom, pineapple, papaya, amber, and green tea.&lt;/p&gt;\r\n'),
@@ -1604,8 +1605,8 @@ VALUES
 (100190,1,'AM_mc_vs_dc_ae_319x110.jpg','PayPal Credit Cards','PayPal logo with supported Credit Cards','18/75/e.jpg','',now(), now()),
 (100191,1,'AM_SbyPP_mc_vs_dc_ae_319x110.jpg','PayPal Secure Payments','Secure Payments by PayPal logo','18/75/f.jpg','',now(), now()),
 (100192,1,'bdg_payments_by_pp_2line_165x56.png','Payments by PayPal','Payments by PayPal Logo','18/76/0.png','',now(), now()),
-(100193,1,'pp_cc_mark_76x48.jpg','PayPal Icon','PayPal Small Icon','18/76/1.jpg','',now(), now());
-
+(100193,1,'pp_cc_mark_76x48.jpg','PayPal Icon','PayPal Small Icon','18/76/1.jpg','',now(), now()),
+(100194,1,'banner_fallback.jpg','Fall back banner for small screen resolutions','Fall back banner for small screen resolutions','18/76/2.jpg','',now(), now());
 
 --
 -- Dumping data for table `resource_library`
@@ -1787,7 +1788,8 @@ VALUES
 (100190,1,now(), now()),
 (100191,1,now(), now()),
 (100192,1,now(), now()),
-(100193,1,now(), now())
+(100193,1,now(), now()),
+(100194,1,now(), now())
 ;
 
 
@@ -1964,7 +1966,7 @@ VALUES
 (100188,'banners',13,0,0,now(), now()),
 (100188,'banners',14,0,0,now(), now()),
 (100188,'banners',15,0,0,now(), now()),
-(100188,'banners',16,0,0,now(), now())
+(100194,'banners',18,0,1,now(), now())
 ;
 
 
@@ -2019,6 +2021,7 @@ VALUES
 
 
 INSERT INTO `ac_banners` VALUES
+(18,1,1,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',6,now(), now()),
 (17,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',5,now(), now()),
 (16,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'http://www.abantecart.com',4,now(), now()),
 (15,1,1,'Main bottom banners','2013-03-10 00:00:00',NULL,0,'http://www.abantecart.com',3,now(), now()),
@@ -2032,6 +2035,7 @@ INSERT INTO `ac_banners` VALUES
 
 
 INSERT INTO `ac_banner_descriptions` VALUES
+	(18,1,'fallback','','',now(), now()),
 	(17,1,'Main Banner 5','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide2_bot&quot; src=&quot;storefront/view/default_html5/image/banner_image_5.png&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Application and data security&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;Secure Solution&lt;/span&gt; &lt;span class=&quot;txt3&quot;&gt;Very secure solution with up to date industry security practices and inline with PCI compliance. Customer information protection with data encryption&lt;/span&gt; &lt;span class=&quot;txt4&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Install Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
 	(16,1,'banner4','','',now(), now()),
 	(15,1,'banner3','','',now(), now()),

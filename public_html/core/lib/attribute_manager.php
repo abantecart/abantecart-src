@@ -272,6 +272,7 @@ class AAttribute_Manager extends AAttribute {
 		if ( empty($attribute_id) || empty($attribute_value_id) || empty($language_id) ) {
 			return false;
 		}
+		
 		//Delete and add operation 
 		$this->deleteAttributeValueDescription($attribute_value_id, $language_id);
 		$this->addAttributeValueDescription($attribute_id, $attribute_value_id, $language_id, $value);
@@ -305,7 +306,9 @@ class AAttribute_Manager extends AAttribute {
 		}
 
 		$this->language->deleteDescriptions('global_attributes_value_descriptions', 
-											 array(	'attribute_value_id' => (int)$attribute_value_id )
+											 array(	'attribute_value_id' => (int)$attribute_value_id, 
+											 		'language_id' => (int)$language_id
+											 	  )
 											 );
         $this->clearCache();
 		return true;

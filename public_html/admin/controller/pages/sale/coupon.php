@@ -439,12 +439,12 @@ class ControllerPagesSaleCoupon extends AController {
         $this->data['form']['fields']['discount'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'discount',
-            'value' => $this->data['discount'],
+            'value' => moneyDisplayFormat($this->data['discount']),
         ));
         $this->data['form']['fields']['total'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'total',
-            'value' => $this->data['total'],
+            'value' => moneyDisplayFormat($this->data['total']),
         ));
         $this->data['form']['fields']['logged'] = $form->getFieldHtml(array(
             'type' => 'selectbox',

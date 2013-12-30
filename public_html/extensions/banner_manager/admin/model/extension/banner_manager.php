@@ -58,7 +58,7 @@ class ModelExtensionBannerManager extends Model {
 			array( (int)$this->session->data[ 'content_language_id' ] => array(
 				'name' => $data[ 'name' ],
 				'meta' => $data[ 'meta' ],
-				'description' => $data[ 'description' ]
+				'description' => $data[ 'description' ],
 			) ));
 
 		return $banner_id;

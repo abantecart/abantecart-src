@@ -1,7 +1,16 @@
+<div class="products">
 <table>
 	<tbody>
-	<?php if ($products) { ?>
-		<?php foreach ($products as $product) { ?>
+	<?php echo $this->getHookVar('cart_top_pre_list_hook'); ?>
+	<?php 
+	    $total_items = count($products);
+	    //To remove limit set $cart_view_limit = $total_items; 
+	    //To enable scroll for all products look for #top_cart_product_list .products in styles.css
+	    $cart_view_limit = 5;
+	    if ($total_items > 0) { 
+	    	for ($i = 0; $i < $cart_view_limit && $i < $total_items; $i++) {
+	    		$product = $products[$i];
+	?>
 			<tr>
 				<td class="image">
 					<?php if($product['href']){ ?>
@@ -26,14 +35,23 @@
 				<td class="quantity">x&nbsp;<?php echo $product['quantity']; ?></td>
 				<td class="total"><?php echo $product['price']; ?></td>
 			</tr>
-		<?php } ?>
-	<?php } ?>
+		        <?php } ?>
+		    <?php } ?>
+		<?php echo $this->getHookVar('cart_top_post_list_hook'); ?>
+		<?php if ($total_items > $cart_view_limit) {  ?>
+		    <tr>
+		        <td colspan="4" align="center"><a href="<?php echo $view; ?>">
+		        <i class="icon-chevron-down"></i>
+		        </a></td>
+		    </tr>		                
+		<?php } ?>		                	
 	</tbody>
 </table>
-<table class="pull-right mr20">
+</div>
+<table class="totals pull-right mr20">
 	<tbody>
 	<?php foreach ($totals as $total) { ?>
-		<tr >
+		<tr>
 			<td><span class="cart_block_total"><b><?php echo $total['title']; ?></b></span></td>
 			<td><span class="cart_block_total"><?php echo $total['text']; ?></span></td>
 		</tr>

@@ -100,6 +100,15 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->cart->add($this->request->get['product_id'], 1);
+
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		return $this->getCartContent();
+	}
+
+	public function getCartContent() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
 		$display_totals = $this->cart->buildTotalDisplay();
 
 		$dispatch = $this->dispatch('responses/product/product/get_cart_details',array($display_totals));
@@ -113,9 +122,9 @@ class ControllerResponsesProductProduct extends AController {
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($this->data));
+		$this->response->setOutput(AJson::encode($this->data));	
 	}
-
+	
 	public function get_cart_details($totals){
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -157,7 +166,8 @@ class ControllerResponsesProductProduct extends AController {
 		$this->data['totals'] = $totals['total_data'];
 		$this->data['subtotal'] = $this->currency->format($this->tax->calculate($totals['total'], $result['tax_class_id'], $this->config->get('config_tax')));
 		$this->data['taxes'] = $totals['taxes'];
-
+		$this->data['view'] = $this->html->getURL('checkout/cart');
+		
 		$this->view->batchAssign($this->data);
 
 		//update controller data

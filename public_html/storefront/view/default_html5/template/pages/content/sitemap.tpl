@@ -1,16 +1,20 @@
-<div id="content">
-  <div class="top">
-    <div class="left"></div>
-    <div class="right"></div>
-    <div class="center">
-      <h1><?php echo $heading_title; ?></h1>
-    </div>
-  </div>
-  <div class="middle">
-    <table class="row-fluid">
-      <tr>
-        <td class="span6"><?php echo $category; ?></td>
-        <td class="span6"><ul>
+<h1 class="heading1">
+  <span class="maintext"><i class="icon-asterisk"></i> <?php echo $heading_title; ?></span>
+  <span class="subtext"></span>
+</h1>
+
+<div class="container-fluid">
+
+	<div class="content">
+	  <div class="row-fluid">
+	    
+	    <div class="span6 pull-left">
+		<?php echo $category; ?>
+		<?php echo $this->getHookVar('post_sitemap_categories'); ?>	
+	    </div>
+
+	    <div class="span6 pull-left">
+        <ul>
             <li><a href="<?php echo $special; ?>"><?php echo $text_special; ?></a></li>
             <li><a href="<?php echo $account; ?>"><?php echo $text_account; ?></a>
               <ul>
@@ -34,13 +38,11 @@
                 <li><a href="<?php echo $contact; ?>"><?php echo $text_contact; ?></a></li>
               </ul>
             </li>
-          </ul></td>
-      </tr>
-    </table>
-  </div>
-  <div class="bottom">
-    <div class="left"></div>
-    <div class="right"></div>
-    <div class="center"></div>
-  </div>
+        </ul>
+        <?php echo $this->getHookVar('post_sitemap_info'); ?>
+		</div>
+	    
+	  </div>
+	</div>
+
 </div>

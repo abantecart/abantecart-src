@@ -5,6 +5,10 @@
     <value><![CDATA[Дом]]></value>
   </definition>
   <definition>
+    <key>text_index_special_menu</key>
+    <value><![CDATA[Pаспродажа]]></value>
+  </definition>  
+  <definition>
     <key>text_account_login_menu</key>
     <value><![CDATA[Вход]]></value>
   </definition>

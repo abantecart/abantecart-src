@@ -156,12 +156,14 @@ echo $form['form_open'];
 	<div class="row-fluid">
 		<div class="span5 offset7 cart-info totals pull-right">
 			<table id="totals_table" class="table table-striped table-bordered">
+				<?php /* Total now loaded with ajax. ?>
 				<?php foreach ($totals as $total) { ?>
 					<tr>
 						<td><span class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span></td>
 						<td><span class="bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span></td>
 					</tr>
 				<?php } ?>
+				<?php */ ?>
 			</table>
 			<?php echo $this->getHookVar('pre_cart_buttons'); ?>
 			<?php if ($form['checkout']) { ?>
@@ -241,6 +243,7 @@ echo $form['form_open'];
 
 		}
 
+		//load total with AJAX call
 		var display_totals = function () {
 			var shipping_method = '';
 			var coupon = encodeURIComponent($("#coupon input[name=\'coupon\']").val());
@@ -254,7 +257,11 @@ echo $form['form_open'];
 				dataType: 'json',
 				data: 'shipping_method=' + shipping_method + '&coupon=' + coupon,
 				beforeSend: function () {
-					$('.cart-info.totals table#totals_table').html('<div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div>');
+					var html = '';
+					html += '<tr>';
+					html += '<td><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></td>';
+					html += '</tr>';
+					$('.cart-info.totals table#totals_table').html(html);
 				},
 				complete: function () {
 				},

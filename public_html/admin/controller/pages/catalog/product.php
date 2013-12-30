@@ -609,12 +609,12 @@ class ControllerPagesCatalogProduct extends AController {
         $this->data['form']['fields']['data']['price'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'price',
-			'value' => number_format((double)$this->data['price'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+			'value' => moneyDisplayFormat($this->data['price']),
 	    ));
         $this->data['form']['fields']['data']['cost'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'cost',
-			'value' => number_format((double)$this->data['cost'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+			'value' => moneyDisplayFormat($this->data['cost']),
 	    ));
         $this->data['form']['fields']['data']['tax_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -724,7 +724,7 @@ class ControllerPagesCatalogProduct extends AController {
         $this->data['form']['fields']['data']['shipping_price'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'shipping_price',
-			'value' => number_format((float)$this->data['shipping_price'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+			'value' => moneyDisplayFormat($this->data['shipping_price']),
 
 		));
 

@@ -51,30 +51,40 @@ function preformatTextID($value) {
 }
 
 /**
- * format float based on locale
+ * format money float based on locale
  * @since 1.1.8
  * @param $value
+ * @param $mode (no_round => show number with real decimal, hide_zero_decimal => remove zeros from decimal part) 
  * @return string
  */
 
-function numberDisplayFormat($value){
+function moneyDisplayFormat($value, $mode = 'no_round'){
 	$registry = Registry::getInstance();
 
 	$decimal_point = $registry->get('language')->get('decimal_point');
 	$decimal_point = !$decimal_point ? '.' : $decimal_point;
 
-	$decimal_place = $registry->get('currency')->getCurrency();
+	$thousand_point = $registry->get('language')->get('thousand_point');
+	$thousand_point = !$thousand_point ? '' : $thousand_point;
 
-	$decimal_place = (int)$decimal_place['decimal_place'];
-
+	$currency = $registry->get('currency')->getCurrency();
+	$decimal_place = (int)$currency['decimal_place'];
 	$decimal_place = !$decimal_place ? 2 : $decimal_place;
-	//if only zeros after decimal point - hide zeros
-	if(round($value) == round($value,$decimal_place)){
-		$decimal_place = 0;
+
+	// detect if need to show raw number for decimal points 
+	// In admin, this is regardless of currency format. Need to show real number
+	if ($mode == 'no_round' && $value != round($value,$decimal_place)) {
+		//count if we have more decimal than currency configuration
+		$decim_portion = explode('.', $value);
+		if ($decimal_place < strlen($decim_portion[1])) {
+			$decimal_place = strlen($decim_portion[1]);
+		}
 	}
 
-	$thousand_point = $registry->get('language')->get('thousand_point');
-	$thousand_point = !$thousand_point ? ' ' : $thousand_point;
+	//if only zeros after decimal point - hide zeros
+	if($mode == 'hide_zero_decimal' && round($value) == round($value,$decimal_place)){
+		$decimal_place = 0;
+	}
 
 	return number_format((float)$value, $decimal_place, $decimal_point,$thousand_point);
 }
