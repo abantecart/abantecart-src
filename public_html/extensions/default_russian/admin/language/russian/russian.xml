@@ -378,7 +378,7 @@
   </definition>
   <definition>
     <key>text_insert</key>
-    <value><![CDATA[Вставить]]></value>
+    <value><![CDATA[Вставить ]]></value>
   </definition>
   <definition>
     <key>text_edit</key>
@@ -390,7 +390,7 @@
   </definition>
   <definition>
     <key>button_go</key>
-    <value><![CDATA[ВПЕРЕД]]></value>
+    <value><![CDATA[GO]]></value>
   </definition>
   <definition>
     <key>search_everywhere</key>

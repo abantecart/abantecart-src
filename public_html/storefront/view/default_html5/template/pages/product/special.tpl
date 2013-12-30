@@ -9,7 +9,7 @@
 	<!-- Sorting + pagination-->
 	<div class="sorting well">
 	  <form class=" form-inline pull-left">
-	    <?php echo $text_sort; ?> : <?php echo $sorting; ?>
+	    <?php echo $text_sort; ?>&nbsp;&nbsp;<?php echo $sorting; ?>
 	  </form>
 	  <div class="btn-group pull-right">
 	    <button class="btn" id="list"><i class="icon-th-list"></i>
