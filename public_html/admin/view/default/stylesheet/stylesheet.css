@@ -2135,7 +2135,8 @@ table.form tr td:first-child {
 }
 
 #product_download_form>tbody>tr>td:last-child {
-	width: 100px;
+	width: 115px;
+    text-align: center;
 }
 
 #product_download_form .toDelete {
@@ -2150,7 +2151,10 @@ table.form tr td:first-child {
 	padding-left: 10px;
 }
 
-#product_download_form a.remove, #product_download_form a.add  {
+#product_download_form a.delete, #product_download_form a.push {
+    margin-left: 10px;
+}
+#product_download_form a.add  {
 	width: 16px;
 }
 #product_download_form a.add  {
@@ -2172,6 +2176,9 @@ table.form tr td:first-child {
 
 #product_download_form .table td{
 	border:0;
+}
+#product_download_form .table td:first-child{
+	width: 40%;
 }
 
 #product_download_form .clean, #product_download_form tr.clean>td{

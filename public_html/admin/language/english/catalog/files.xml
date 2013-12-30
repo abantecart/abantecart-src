@@ -197,6 +197,14 @@
 		<key>text_push_to_customers</key>
 		<value><![CDATA[Push to Customers]]></value>
 	</definition>
+	<definition>
+		<key>text_push_to_orders</key>
+		<value><![CDATA[Push Download to %s Orders]]></value>
+	</definition>
+    <definition>
+        <key>text_no_download_attributes_yet</key>
+        <value><![CDATA[ No download attributes yet. <a href="%s" target="_blank">Click to add</a>]]></value>
+    </definition>
 
 
 	<definition>

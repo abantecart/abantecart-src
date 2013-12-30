@@ -873,19 +873,24 @@ class ControllerResponsesProductProduct extends AController {
 					'value' => $file_data['status'],
 					'style' => 'btn_switch',
 		));
-
-		$this->data['push_to_customers'] = $this->html->buildButton(
-																	array(
-																		'name' => 'push_to_customers',
-																		'title' => $this->language->get('text_push_to_customers'),
-																		'text'=> $this->language->get('text_push'),
-																		'href' => $this->html->getSecureURL('catalog/product_files/pushtocustomers',
-																											'&product_id='.$product_id.'&download_id='.$this->data['download_id']),
-																		'icon' => 'icon-shopping-cart',
-																		'style' => 'button2'));
+		$orders_count = $this->model_catalog_download->getTotalOrdersWithProduct($product_id, $this->data['download_id']);
+		if($orders_count){
+			$this->data['push_to_customers'] = $this->html->buildElement(
+					array(
+						'type' => 'button',
+						'name' => 'push_to_customers',
+						'title' => sprintf($this->language->get('text_push_to_orders'),
+											$orders_count),
+						'text'=> $this->language->get('text_push'),
+						'href' => $this->html->getSecureURL('r/product/product/pushToCustomers',
+															'&product_id='.$product_id.'&download_id='.$this->data['download_id']),
+						'style' => 'button2',
+						'attr' => 'data-orders-count="'.$orders_count.'"'));
+		}
 
 
 		$this->data['maplist'] = array();
+		$file_data['map_list'] = (array)$file_data['map_list'];
 		foreach($file_data['map_list'] as $map_id => $map_name){
 			if($map_id==$product_id){ continue;}
 			$this->data['maplist'][] = array('href'=> $this->html->getSecureURL('catalog/product_files','&product_id='.$map_id.'&download_id='.$this->data['download_id'], true),
@@ -975,66 +980,72 @@ class ControllerResponsesProductProduct extends AController {
 
 		$html_multivalue_elements = HtmlElementFactory::getMultivalueElements();
 		$html_elements_with_options = HtmlElementFactory::getElementsWithOptions();
-
-		foreach ($attributes as $attribute) {
-			$html_type = $elements[$attribute['element_type']]['type'];
-			if (!$html_type || !$attribute['status']) {
-				continue;
-			}
-			$values = $value = array();
-			//values that was setted
-			if (in_array($attribute['element_type'], $html_elements_with_options) && $attribute['element_type']!='R') {
-
-				if(is_array($attribute['selected_values'])){
-					foreach ($attribute['selected_values'] as $val) {
-						$value[$val] = $val;
-					}
-				}else{
-					$value = $attribute['selected_values'];
+		if(!$attributes){
+			$attr_mng = new AAttribute_Manager('download_attribute');
+			$attr_type_id = $attr_mng->getAttributeTypeID('download_attribute');
+			$this->data['text_no_download_attributes_yet'] = sprintf($this->language->get('text_no_download_attributes_yet'),
+																	 $this->html->getSecureURL('catalog/attribute/insert',
+																		                        '&attribute_type_id='.$attr_type_id));
+		}else{
+			foreach ($attributes as $attribute) {
+				$html_type = $elements[$attribute['element_type']]['type'];
+				if (!$html_type || !$attribute['status']) {
+					continue;
 				}
-			} else {
-				if (isset($attribute['selected_values'])) {
-					$value = $attribute['selected_values'];
-					if($attribute['element_type']=='R' && is_array($value)){
-						$value = current($value);
-					}
+				$values = $value = array();
+				//values that was setted
+				if (in_array($attribute['element_type'], $html_elements_with_options) && $attribute['element_type']!='R') {
 
+					if(is_array($attribute['selected_values'])){
+						foreach ($attribute['selected_values'] as $val) {
+							$value[$val] = $val;
+						}
+					}else{
+						$value = $attribute['selected_values'];
+					}
 				} else {
-					$value = $attribute['values'][0]['value'];
+					if (isset($attribute['selected_values'])) {
+						$value = $attribute['selected_values'];
+						if($attribute['element_type']=='R' && is_array($value)){
+							$value = current($value);
+						}
+
+					} else {
+						$value = $attribute['values'][0]['value'];
+					}
 				}
+				// possible values
+				foreach ($attribute['values'] as $val) {
+					$values[$val['attribute_value_id']] = $val['value'];
+				}
+
+				if (!in_array($attribute['element_type'], $html_multivalue_elements)) {
+					$option_name = 'attributes['.$this->data['download_id'].'][' . $attribute['attribute_id'] . ']';
+				} else {
+					$option_name = 'attributes['.$this->data['download_id'].'][' . $attribute['attribute_id'] . '][' . $attribute['attribute_value_id'] . ']';
+				}
+
+				$disabled = '';
+				$required = $attribute['required'];
+
+				$option_data = array(
+					'type' => $html_type,
+					'name' => $option_name,
+					'value' => $value,
+					'options' => $values,
+					'required' => $required,
+					'attr' => $disabled,
+					'style' => 'large-field'
+				);
+
+				if ($html_type == 'checkboxgroup') {
+					$option_data['scrollbox'] = true;
+				}
+
+				$this->data['entry_attribute_' .$this->data['download_id'].'_'. $attribute['attribute_id']] = $attribute['name'];
+				$this->data['attributes'][$this->data['download_id'].'_' . $attribute['attribute_id']] = $form->getFieldHtml($option_data);
 			}
-			// possible values
-			foreach ($attribute['values'] as $val) {
-				$values[$val['attribute_value_id']] = $val['value'];
-			}
-
-			if (!in_array($attribute['element_type'], $html_multivalue_elements)) {
-				$option_name = 'attributes['.$this->data['download_id'].'][' . $attribute['attribute_id'] . ']';
-			} else {
-				$option_name = 'attributes['.$this->data['download_id'].'][' . $attribute['attribute_id'] . '][' . $attribute['attribute_value_id'] . ']';
-			}
-
-			$disabled = '';
-			$required = $attribute['required'];
-
-			$option_data = array(
-				'type' => $html_type,
-				'name' => $option_name,
-				'value' => $value,
-				'options' => $values,
-				'required' => $required,
-				'attr' => $disabled,
-				'style' => 'large-field'
-			);
-
-			if ($html_type == 'checkboxgroup') {
-				$option_data['scrollbox'] = true;
-			}
-
-			$this->data['entry_attribute_' .$this->data['download_id'].'_'. $attribute['attribute_id']] = $attribute['name'];
-			$this->data['attributes'][$this->data['download_id'].'_' . $attribute['attribute_id']] = $form->getFieldHtml($option_data);
 		}
-
 		// for new download - create form for mapping shared downloads to product
 		if(!$file_data['download_id']){
 
@@ -1133,6 +1144,8 @@ class ControllerResponsesProductProduct extends AController {
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$downloads = array();
 		$this->loadModel('catalog/download');
 		if($this->request->post['id']){
 			$downloads = $this->model_catalog_download->getDownloads(array('subsql_filter'=>' shared = 1 AND d.download_id IN ('.implode(',',$this->request->post['id']).')'));
@@ -1153,6 +1166,39 @@ class ControllerResponsesProductProduct extends AController {
 		$this->load->library('json');
 		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($download_data));
+	}
+
+	public function pushToCustomers(){
+		sleep(10);
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$download_id = (int)$this->request->get['download_id'];
+		$product_id = (int)$this->request->get['product_id'];
+
+		$download_info = $this->download->getDownloadInfo($download_id);
+
+		if(!$download_info || !$product_id){
+			$this->redirect($this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id));
+		}
+
+		$download_info['attributes_data'] = serialize($this->download->getDownloadAttributesValues($download_id));
+		$this->loadModel('catalog/download');
+		$orders_for_push = $this->model_catalog_download->getOrdersWithProduct($product_id,$download_id);
+		if($orders_for_push){
+			foreach($orders_for_push as $row){
+				$this->download->addProductDownloadToOrder($row['order_product_id'],$row['order_id'], $download_info);
+			}
+		}
+
+		$output = array('progress'=>100, 'text'=>$this->language->get('text_success_pushed'));
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($output));
+
 	}
 
 }

@@ -35,7 +35,7 @@
 	        <th class="left"><?php echo $entry_file_max_downloads; ?></th>
 	        <th class="left"><?php echo $entry_file_sort_order; ?></th>
 	        <th class="left"><?php echo $entry_file_status; ?></th>
-	        <th class="left"><?php echo $column_action; ?></th>
+	        <th class="center"><?php echo $column_action; ?></th>
 	    </tr>
 	    <?php foreach ($file_rows as $file_html) { ?>
 	        <?php echo $file_html; ?>
@@ -52,23 +52,19 @@
 		text_hide: '<?php echo $text_hide ?>'
 	};
 
-	$("#product_download_form a.expandRow").live('click', function (hide) {
+	$("#product_download_form div.expandRow").live('click', function (hide) {
 		var additional_row = $(this).parents('tr').next().find('div.additionalRow');
 		if ($(additional_row).is(':visible')) {
 			$(additional_row).slideUp();
-			if($(this).hasClass('toggleicon')){
-				$(this).attr('title',text.text_expand);
-				$(this).removeClass('icon-arrow-up').addClass('icon-arrow-down');
-			}
+			$(this).attr('title',text.text_expand);
+			$(this).removeClass('tree-minus').addClass('tree-plus');
 			$(this).parents('tr').next().find('div.add_resource').html();
 		} else {
 			if(hide!=true){
 				$('div.aform', additional_row).show();
 				$(additional_row).slideDown();
-				if($(this).hasClass('toggleicon')){
-					$(this).attr('title',text.text_hide);
-					$(this).removeClass('icon-arrow-down').addClass('icon-arrow-up');
-				}
+				$(this).attr('title',text.text_hide);
+				$(this).removeClass('tree-plus').addClass('tree-minus');
 			}
 		}
 
@@ -83,10 +79,29 @@
 		return false;
 	});
 
-	$(".optionRow>td a.remove").on('click', function () {
+	$(".optionRow>td a.delete").on('click', function () {
 		if(!confirm('<?php echo $text_confirm_delete;?>')){
 			return false;
 		}
+	});
+	$(".optionRow>td a.push").on('click', function () {
+		if(confirm('<?php echo $text_confirm_push;?>')){
+			$(this).append('<span class="ajax_loading">&nbsp;</span>').show();
+			var t = $(this);
+			$.ajax({
+				url: $(this).attr('href'),
+				type: 'GET',
+				dataType: 'json',
+				success: function (data) {
+					if(data['progress']==100){
+						t.hide();
+						t.find('.ajax_loading').remove();
+					}
+				}
+
+				});
+		}
+		return false;
 	});
 
 	$('#downloadFrmnew_cancel').on('click',function(){
@@ -98,7 +113,6 @@
 	});
 
 	$(document).ready(function(){
-
 		$.each($('select[id*="_activate"]'),function(){
 			$(this).change();
 		});
@@ -107,7 +121,7 @@
 		$("#download_<?php echo $download_id?> a.expandRow").click();
 		<?php } ?>
 		$("#product_download_form tr").dblclick(function(){
-			$(this).find('a.expandRow').click();
+			$(this).find('div.expandRow').click();
 		});
 	});
 

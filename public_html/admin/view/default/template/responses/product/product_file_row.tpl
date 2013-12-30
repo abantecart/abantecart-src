@@ -1,16 +1,20 @@
 <?php if($download_id!='new'){?>
 	<tr id="download_<?php echo $download_id; ?>" class="optionRow">
 		<td><?php echo $icon; ?></td>
-		<td><?php echo $form['fields']['name']->value; ?></td>
+		<td class="ui-jqgrid">
+			<div class="expandRow tree-plus"></div>&nbsp;<?php echo $form['fields']['name']->value; ?>
+		</td>
 		<td><?php echo $form['fields']['max_downloads']->value; ?></td>
 		<td><?php echo $form['fields']['sort_order']->value; ?></td>
 		<td><?php echo $form['fields']['status']; ?></td>
-		<td>
-			<a id="<?php echo $download_id; ?>" href="#" class="flt_left toggleicon expandRow icon-arrow-down" style="margin-top: 3px;" title="<?php echo $text_expand ?>">
-
-			</a><div class="flt_left">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $push_to_customers; ?></div>
-			<a href="<?php echo $delete_unmap_href;?>" class="flt_right remove" title="<?php echo $text_delete_or_refuse; ?>"></a>
-		</td>
+		<td><?php if($push_to_customers){?>
+			<a href="<?php echo $push_to_customers->href;?>" class="align_center push" title="<?php echo $push_to_customers->title; ?>"
+				<?php echo $push_to_customers->attr; ?>
+				><img src="<?php echo RDIR_TEMPLATE.'image/icons/icon_add6.png'; ?>"
+			          alt="<?php echo $push_to_customers->text; ?>"/></a><?php } ?><a
+				href="<?php echo $delete_unmap_href;?>" class="align_center delete"
+				title="<?php echo $text_delete_or_refuse; ?>"><img src="<?php echo RDIR_TEMPLATE.'image/icons/icon_grid_delete.png'; ?>" alt="<?php echo $text_delete; ?>"
+				/></a></td>
 	</tr>
 <?php }else{ ?>
 	<tr class="clean" id="<?php echo $download_id; ?>">
@@ -78,7 +82,7 @@
 
 							<table class="table">
 								<tr>
-									<td style="width: 250px; height: 180px;">
+									<td style="height: 180px;">
 										<?php echo $resources_scripts . $resource . $form['fields']['download_rl_path']; ?>
 									</td>
 									<td><?php echo $entry_file_status. '&nbsp;'. $form['fields']['status'];?>
@@ -148,12 +152,16 @@
 				<div class="cont_left">
 					<div class="cont_right">
 						<div class="cont_mid">
-							<?php foreach ($attributes as $id => $attribute) { ?>
+							<?php
+							if($attributes){
+							foreach ($attributes as $id => $attribute) { ?>
 								<div style="vertical-align: top; margin-top: 20px; width: 130px;"
 									 class="flt_left"><?php echo ${'entry_attribute_' . $id} ?></div>
 								<div style="vertical-align: top; margin-top: 20px;"
 									 class="flt_left"><?php echo $attribute; ?></div>
 								<div class="clr_both"></div>
+							<?php }}else{ ?>
+								<div style="vertical-align: top; text-align: center"><?php echo $text_no_download_attributes_yet; ?></div>
 							<?php } ?>
 						</div>
 					</div>

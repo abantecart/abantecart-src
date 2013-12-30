@@ -327,4 +327,21 @@ class ModelCatalogDownload extends Model {
 			return true;
 		}
 	}
+
+	public function getOrdersWithProduct($product_id, $download_id){
+		if(!(int)$product_id || !(int)$download_id){ return false; }
+		$sql = "SELECT DISTINCT op.order_product_id, op.order_id
+				FROM ".$this->db->table('order_products')." op
+				WHERE op.product_id = " . (int)$product_id."
+					AND op.order_id NOT IN (SELECT DISTINCT order_id
+											FROM ".$this->db->table('order_downloads')."
+											WHERE download_id='".(int)$download_id."')";
+		$result = $this->db->query($sql);
+		return $result->rows;
+	}
+
+	public function getTotalOrdersWithProduct($product_id, $download_id){
+		return sizeof($this->getOrdersWithProduct($product_id, $download_id));
+	}
+
 }
