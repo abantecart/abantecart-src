@@ -205,12 +205,13 @@
         <key>text_no_download_attributes_yet</key>
         <value><![CDATA[ No download attributes yet. <a href="%s" target="_blank">Click to add</a>]]></value>
     </definition>
-
-
+    <definition>
+        <key>text_confirm_push</key>
+        <value><![CDATA[ Confirm? ]]></value>
+    </definition>
 	<definition>
 		<key>error_downloads_disabled</key>
-		<value>
-			<![CDATA[Warning: Downloads are disabled in store settings. <a href="#admin#rt=setting/setting&active=general" target="new">Click to Edit</a>!]]></value>
+		<value><![CDATA[Warning: Downloads are disabled in store settings. <a href="#admin#rt=setting/setting&active=general" target="new">Click to Edit</a>!]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>

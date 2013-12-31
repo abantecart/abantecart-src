@@ -85,7 +85,7 @@
 		}
 	});
 	$(".optionRow>td a.push").on('click', function () {
-		if(confirm('<?php echo $text_confirm_push;?>')){
+		if(confirm($(this).attr('title')+ '. <?php echo $text_confirm_push;?>')){
 			$(this).append('<span class="ajax_loading">&nbsp;</span>').show();
 			var t = $(this);
 			$.ajax({

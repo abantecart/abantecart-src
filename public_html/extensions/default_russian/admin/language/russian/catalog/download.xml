@@ -64,4 +64,8 @@
     <key>error_product</key>
     <value><![CDATA[Этот файл не может быть удален, поскольку в настоящее время он прикреплен к %s товару(ам)!]]></value>
   </definition>
+	<definition>
+   <key>column_image</key>
+   <value><![CDATA[Картинка]]></value>
+ </definition>
 </definitions>
