@@ -240,7 +240,12 @@ class ExtensionsApi {
 	 * @var $extension_templates - array of extensions templates
 	 */
 	protected $extension_templates;
-	protected $extension_types = array('extensions', 'payment', 'shipping', 'template');
+	protected $extension_types = array( 'extensions',
+										'payment',
+										'shipping',
+										'template',
+										'language'
+										);
 
 	public function __construct() {
 
