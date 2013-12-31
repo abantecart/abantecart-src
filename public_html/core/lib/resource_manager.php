@@ -338,9 +338,23 @@ class AResourceManager extends AResource {
 	 */
 	public function getResourcesList($search_data, $total = false) {
 
-        $select = "SELECT rd.*, (SELECT COUNT(resource_id) FROM " . DB_PREFIX . "resource_map rm1 WHERE rm1.resource_id = rd.resource_id) as mapped ";
+        $select = "SELECT rl.resource_id,
+        				  rd.name,
+        				  rd.title,
+        				  rd.description,
+        				  COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
+        				  COALESCE(rd.resource_code,rdd.resource_code) as resource_code,
+        				  (SELECT COUNT(resource_id) FROM " . DB_PREFIX . "resource_map rm1 WHERE rm1.resource_id = rd.resource_id) as mapped ";
         $where = " WHERE 1 ";
-        $join = " LEFT JOIN " . DB_PREFIX . "resource_descriptions rd ON (rl.resource_id = rd.resource_id) ";
+
+		if ( !empty($search_data['language_id']) ) {
+			$language_id = (int)$search_data['language_id'];
+		} else {
+			$language_id = (int)$this->language->getContentLanguageID();
+		}
+
+        $join = " LEFT JOIN " . DB_PREFIX . "resource_descriptions rd ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."') ";
+        $join .= " LEFT JOIN " . DB_PREFIX . "resource_descriptions rdd ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '".$this->language->getDefaultLanguageID()."') ";
         $order = " ORDER BY rl.resource_id";
 
         if ( !empty($search_data['object_name']) || !empty($search_data['object_id']) ) {
@@ -353,11 +367,7 @@ class AResourceManager extends AResource {
             $where .= " AND ( LCASE(rd.name) LIKE '%" . $this->db->escape(strtolower($search_data['keyword'])) . "%'";
 			$where .= " OR LCASE(rd.title) LIKE '%" . $this->db->escape(strtolower($search_data['keyword'])) . "%' )";
         }
-        if ( !empty($search_data['language_id']) ) {
-            $where .= " AND rd.language_id = '".(int)$search_data['language_id']."'";
-        } else {
-            $where .= " AND rd.language_id = '".(int)$this->config->get('storefront_language_id')."'";
-        }
+
         if ( !empty($search_data['type_id']) ) {
             $where .= " AND rl.type_id = '".(int)$search_data['type_id']."'";
         }
@@ -434,10 +444,9 @@ class AResourceManager extends AResource {
         if ( is_null($resource_objects) ) {
             $sql = "SELECT rm.object_id, pd.name
                     FROM " . DB_PREFIX . "resource_map rm
-                    LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON ( rm.object_id = pd.product_id )
+                    LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON ( rm.object_id = pd.product_id AND pd.language_id = '".(int)$language_id."')
                     WHERE rm.resource_id = '".(int)$resource_id."'
-                        AND rm.object_name = 'products'
-                        AND pd.language_id = '".(int)$language_id."'";
+                        AND rm.object_name = 'products'";
             $query = $this->db->query($sql);
             $resource_objects = $query->rows;
             $this->cache->set($cache_name, $resource_objects, $language_id, (int)$this->config->get('config_store_id') );
@@ -473,10 +482,9 @@ class AResourceManager extends AResource {
             $sql = "SELECT rm.object_id, pd.name, pov.product_id
                     FROM " . DB_PREFIX . "resource_map rm
                     LEFT JOIN " . DB_PREFIX . "product_option_value_descriptions pd ON ( rm.object_id = pd.product_option_value_id )
-                    LEFT JOIN " . DB_PREFIX . "product_option_values pov ON ( pd.product_option_value_id = pov.product_option_value_id )
+                    LEFT JOIN " . DB_PREFIX . "product_option_values pov ON ( pd.product_option_value_id = pov.product_option_value_id AND pd.language_id = '".(int)$language_id."')
                     WHERE rm.resource_id = '".(int)$resource_id."'
-                        AND rm.object_name = 'product_option_value'
-                        AND pd.language_id = '".(int)$language_id."'";
+                        AND rm.object_name = 'product_option_value'";
             $query = $this->db->query($sql);
             $resource_objects = $query->rows;
             $this->cache->set($cache_name, $resource_objects, $language_id, (int)$this->config->get('config_store_id') );
@@ -512,10 +520,9 @@ class AResourceManager extends AResource {
         if ( is_null($resource_objects) ) {
             $sql = "SELECT rm.object_id, cd.name
                 FROM " . DB_PREFIX . "resource_map rm
-                LEFT JOIN " . DB_PREFIX . "category_descriptions cd ON ( rm.object_id = cd.category_id )
+                LEFT JOIN " . DB_PREFIX . "category_descriptions cd ON ( rm.object_id = cd.category_id AND cd.language_id = '".(int)$language_id."')
                 WHERE rm.resource_id = '".(int)$resource_id."'
-                    AND rm.object_name = 'categories'
-                    AND cd.language_id = '".(int)$language_id."'";
+                    AND rm.object_name = 'categories'";
             $query = $this->db->query($sql);
             $resource_objects = $query->rows;
             $this->cache->set($cache_name, $resource_objects, $language_id, (int)$this->config->get('config_store_id'));
@@ -549,10 +556,10 @@ class AResourceManager extends AResource {
         $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
         if ( is_null($resource_objects) ) {
             $sql = "SELECT rm.object_id, m.name
-                FROM " . DB_PREFIX . "resource_map rm
-                LEFT JOIN " . DB_PREFIX . "manufacturers m ON ( rm.object_id = m.manufacturer_id )
-                WHERE rm.resource_id = '".(int)$resource_id."'
-                    AND rm.object_name = 'manufacturers'";
+					FROM " . DB_PREFIX . "resource_map rm
+					LEFT JOIN " . DB_PREFIX . "manufacturers m ON ( rm.object_id = m.manufacturer_id )
+					WHERE rm.resource_id = '".(int)$resource_id."'
+						AND rm.object_name = 'manufacturers'";
             $query = $this->db->query($sql);
             $resource_objects = $query->rows;
             $this->cache->set($cache_name, $resource_objects, $language_id, (int)$this->config->get('config_store_id') );
