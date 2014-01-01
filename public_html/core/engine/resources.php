@@ -338,14 +338,29 @@ class AResource {
 				return HTTP_IMAGE . $new_image;
 			}
 
-	    }else{// returns ico-file as is
-		    if ( HTTPS===true ) {
-				return HTTPS_DIR_RESOURCE . $this->type_dir . $resource['resource_path'];
-			} else {
-				return HTTP_DIR_RESOURCE . $this->type_dir . $resource['resource_path'];
-			}
+	    } else { // returns ico-file as is
+	    	return $this->buildResourceURL($resource['resource_path'], 'full');
 	    }
     }
+
+
+	/**
+	 * @param string $resource_path (hashed resource path from database) 
+	 * @param string $mode full (with http and domain) or relative (from store url up) 
+	 * @param int $language_id
+	 * @return array
+	 */
+    public function buildResourceURL ( $resource_path, $mode = 'full' ) {
+		if ( $mode == 'full') {
+		    if ( HTTPS===true ) {
+				return HTTPS_DIR_RESOURCE . $this->type_dir . $resource_path;
+			} else {
+				return HTTP_DIR_RESOURCE . $this->type_dir . $resource_path;
+			}
+		} else {
+			return "/resources/" . $this->type_dir . $resource_path;
+		}
+	}
 
 	/**
 	 * @param string $object_name

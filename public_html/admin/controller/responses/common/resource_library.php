@@ -505,6 +505,8 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				$this->thumb_sizes['height'],
 				$item['language_id']
 			);
+			$result['items'][$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
+			$result['items'][$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
 		}
 
 		if (isset($this->request->get['page'])) {
@@ -545,7 +547,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$this->thumb_sizes['width'],
 			$this->thumb_sizes['height']
 		);
-
+		$result['url'] = $rm->buildResourceURL($result['resource_path'], 'full');
+		$result['relative_url'] = $rm->buildResourceURL($result['resource_path'], 'relative');
+		
 		if (!empty($this->request->get['resource_objects'])) {
 			$result['resource_objects'] = $rm->getResourceObjects($result['resource_id'], $this->request->get['language_id']);
 			if (!$result['resource_objects']) {

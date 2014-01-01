@@ -789,7 +789,8 @@ jQuery(function ($) {
     function placeInCKE(item) {
         if (window.opener.CKEDITOR) {
             var dialog = window.opener.CKEDITOR.dialog.getCurrent();
-            dialog.getContentElement('info', 'txtUrl').setValue(item.thumbnail_url);
+            //Note: Return full image path to allow in editor size control
+            dialog.getContentElement('info', 'txtUrl').setValue(item.url);
         }
     }
 
