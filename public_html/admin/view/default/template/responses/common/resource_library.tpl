@@ -378,6 +378,7 @@ jQuery(function ($) {
             src = json.thumbnail_url;
         }
         $('div.resource_image', form).html(src + '<a target="_preview" href="' + urls.get_preview + '&resource_id=' + json.resource_id + '&language_id=' + json.language_id + '">' + text.text_preview + '</a>');
+        $('div.resource_image', form).append('<br><br><span class="resource_path">'+json.relative_url+'</span>');
 
         if (!json.resource_objects) {
             $('td.mapped', form).html(text.text_none);
@@ -809,6 +810,8 @@ jQuery(function ($) {
                     src = json.thumbnail_url;
                 }
                 $('#resource_details div.resource_image').html(src + '<a target="_preview" href="' + urls.get_preview + '&resource_id=' + json.resource_id + '&language_id=' + json.language_id + '">' + text.text_preview + '</a>');
+        		$('#resource_details div.resource_image').append('<br><br><span class="resource_path">'+json.relative_url+'</span>');
+                
                 $('#resource_details td.name').html(json.name);
                 $('#resource_details td.description').html(json.description);
 

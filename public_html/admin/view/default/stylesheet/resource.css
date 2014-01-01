@@ -337,11 +337,14 @@ img {
 }
 
 .resource_image {
-	width: 120px;
+	width: 130px;
 	height: 140px;
 	overflow: hidden;
 	float: left;
 	text-align: center;
+}
+.resource_image .resource_path {
+	font-size: 8px;
 }
 
 .resource-details {
