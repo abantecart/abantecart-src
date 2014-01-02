@@ -402,6 +402,7 @@ class ModelCatalogProduct extends Model {
 			$data['element_type'] = $attribute['element_type'];
 			$data['required'] = $attribute['required'];
 			$data['regexp_pattern'] = $attribute['regexp_pattern'];
+			$data['sort_order'] = $attribute['sort_order'];
 		}
 
 		$this->db->query(
@@ -1381,8 +1382,8 @@ class ModelCatalogProduct extends Model {
 		$product_option = $this->db->query("SELECT *
 											 FROM " . DB_PREFIX . "product_options
 											 WHERE product_id = '" . (int)$product_id . "' "
-			. $group_select .
-			" ORDER BY sort_order");
+											 . $group_select .
+											" ORDER BY sort_order");
 		foreach ($product_option->rows as $product_option) {
 			$option_data = $this->getProductOption($product_id, $product_option['product_option_id']);
 			$option_data['product_option_value'] = $this->getProductOptionValues($product_id, $product_option['product_option_id']);

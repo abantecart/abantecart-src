@@ -55,6 +55,8 @@ class ControllerPagesCatalogProductOptions extends AController {
 				'search' => " ga.attribute_type_id = '".$this->attribute_manager->getAttributeTypeID('product_option')."'
 				AND ga.status = 1
 				AND ga.attribute_parent_id = 0 ",
+				'sort' => 'sort_order',
+				'order' => 'ASC'
 			),
 			$this->session->data['content_language_id']
 		);

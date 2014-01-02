@@ -158,25 +158,25 @@ class ControllerResponsesCatalogAttribute extends AController {
 			'extensions' => $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'settings[extensions]',
-				'value' => $attribute_info['settings']['extensions'],
+				'value' => $this->data['settings']['extensions'],
 				'style' => 'no-save'
 			)),
 			'min_size' => $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'settings[min_size]',
-				'value' => $attribute_info['settings']['min_size'],
+				'value' => $this->data['settings']['min_size'],
 				'style' => 'small-field no-save'
 			)),
 			'max_size' => $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'settings[max_size]',
-				'value' => $attribute_info['settings']['max_size'],
+				'value' => $this->data['settings']['max_size'],
 				'style' => 'small-field no-save'
 			)),
 			'directory' => $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'settings[directory]',
-				'value' => $attribute_info['settings']['directory'],
+				'value' => $this->data['settings']['directory'],
 				'style' => 'no-save'
 			)),
 		);
@@ -238,19 +238,6 @@ class ControllerResponsesCatalogAttribute extends AController {
 		                                                                           'name' => 'required',
 		                                                                           'value' => $this->data[ 'required' ],
 		                                                                      ));
-		/*$this->data[ 'form' ][ 'fields' ][ 'regexp_pattern' ] = $form->getFieldHtml(array(
-				                                                                       'type' => 'input',
-				                                                                       'name' => 'regexp_pattern',
-				                                                                       'value' => $this->data[ 'regexp_pattern' ],
-				                                                                       'style' => 'large-field',
-				                                                                  ));
-		$this->data[ 'form' ][ 'fields' ][ 'error_text' ] = $form->getFieldHtml(array(
-				                                                                       'type' => 'input',
-				                                                                       'name' => 'error_text',
-				                                                                       'value' => $this->data[ 'error_text' ],
-				                                                                       'style' => 'large-field',
-				                                                                  ));*/
-
 
 		//Build atribute values part of the form
 		if ( $this->request->get['attribute_id'] ) {
@@ -307,33 +294,6 @@ class ControllerResponsesCatalogAttribute extends AController {
 				                                            'style' => 'medium-field'
 				                                        ));
 		}
-
-		/*$this->data['form']['settings_fields'] = array(
-			'extensions' => $form->getFieldHtml(array(
-				'type' => 'input',
-				'name' => 'settings[extensions]',
-				'value' => $attribute_info['settings']['extensions'],
-				'style' => 'no-save'
-			)),
-			'min_size' => $form->getFieldHtml(array(
-				'type' => 'input',
-				'name' => 'settings[min_size]',
-				'value' => $attribute_info['settings']['min_size'],
-				'style' => 'small-field no-save'
-			)),
-			'max_size' => $form->getFieldHtml(array(
-				'type' => 'input',
-				'name' => 'settings[max_size]',
-				'value' => $attribute_info['settings']['max_size'],
-				'style' => 'small-field no-save'
-			)),
-			'directory' => $form->getFieldHtml(array(
-				'type' => 'input',
-				'name' => 'settings[directory]',
-				'value' => $attribute_info['settings']['directory'],
-				'style' => 'no-save'
-			)),
-		);*/
 
 		$this->data['form']['fields']['attribute_values'] = $attributes_fields;
 
