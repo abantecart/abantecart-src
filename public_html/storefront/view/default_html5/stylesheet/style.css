@@ -624,6 +624,7 @@ ul.categorymenu > li > div {
 }
 
 .dropdown-menu {
+	white-space: normal;
 	padding: 15px;
 	position: absolute;
 	top: 97%;
