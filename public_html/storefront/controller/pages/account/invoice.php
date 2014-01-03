@@ -78,12 +78,14 @@ class ControllerPagesAccountInvoice extends AController {
 		$order_info = $this->model_account_order->getOrder($order_id);
 		
 		if ($order_info) {
-            $this->data['order_id'] = $this->request->get['order_id'];
+            $this->data['order_id'] = $order_id;
             $this->data['invoice_id'] = $order_info['invoice_id'] ? $order_info['invoice_prefix'] . $order_info['invoice_id']:'';
 
             $this->data['email'] = $order_info['email'];
             $this->data['telephone'] = $order_info['telephone'];
             $this->data['fax'] = $order_info['fax'];
+
+			$this->data['status'] = $this->model_account_order->getOrderStatus($order_id);
 
     		$shipping_data = array(
 	  			'firstname' => $order_info['shipping_firstname'],
@@ -119,10 +121,10 @@ class ControllerPagesAccountInvoice extends AController {
 			
 			$products = array();
 			
-			$order_products = $this->model_account_order->getOrderProducts($this->request->get['order_id']);
+			$order_products = $this->model_account_order->getOrderProducts($order_id);
 
       		foreach ($order_products as $product) {
-				$options = $this->model_account_order->getOrderOptions($this->request->get['order_id'], $product['order_product_id']);
+				$options = $this->model_account_order->getOrderOptions($order_id, $product['order_product_id']);
 
         		$option_data = array();
 
@@ -144,13 +146,13 @@ class ControllerPagesAccountInvoice extends AController {
         		);
       		}
             $this->data['products'] = $products;
-            $this->data['totals'] = $this->model_account_order->getOrderTotals($this->request->get['order_id']);
+            $this->data['totals'] = $this->model_account_order->getOrderTotals($order_id);
             $this->data['comment'] = $order_info['comment'];
             $this->data['product_link'] = $this->html->getSecureURL('product/product', '&product_id=%ID%');
 
 			$historys = array();
 
-			$results = $this->model_account_order->getOrderHistories($this->request->get['order_id']);
+			$results = $this->model_account_order->getOrderHistories($order_id);
 
       		foreach ($results as $result) {
         		$historys[] = array(

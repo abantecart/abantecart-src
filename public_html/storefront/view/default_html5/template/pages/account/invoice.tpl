@@ -16,6 +16,9 @@
             <b><?php echo $text_order_id; ?></b><br />
             #<?php echo $order_id; ?><br />
             <br />
+            <b><?php echo $column_status; ?></b><br />
+            <?php echo $status; ?><br />
+            <br />
             <b><?php echo $text_email; ?></b><br />
             <?php echo $email; ?><br />
             <br />

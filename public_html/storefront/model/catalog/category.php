@@ -31,9 +31,10 @@ class ModelCatalogCategory extends Model {
 	 * @return array
 	 */
 	public function getCategory($category_id) {
+		$language_id = (int)$this->config->get('storefront_language_id');
 		$query = $this->db->query("SELECT DISTINCT *
 									FROM " . DB_PREFIX . "categories c
-									LEFT JOIN " . DB_PREFIX . "category_descriptions cd ON (c.category_id = cd.category_id AND cd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
+									LEFT JOIN " . DB_PREFIX . "category_descriptions cd ON (c.category_id = cd.category_id AND cd.language_id = '" . $language_id . "')
 									LEFT JOIN " . DB_PREFIX . "categories_to_stores c2s ON (c.category_id = c2s.category_id)
 									WHERE c.category_id = '" . (int)$category_id . "'
 										AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
@@ -48,19 +49,20 @@ class ModelCatalogCategory extends Model {
 	 * @return array
 	 */
 	public function getCategories($parent_id = 0, $limit=0) {
+		$language_id = (int)$this->config->get('storefront_language_id');
 		$cache_name = 'category.list.'. $parent_id.'.'.$limit;
-		$cache = $this->cache->get($cache_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
+		$cache = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
 		if(is_null($cache)){
 			$query = $this->db->query("SELECT *
 										FROM " . DB_PREFIX . "categories c
-										LEFT JOIN " . DB_PREFIX . "category_descriptions cd ON (c.category_id = cd.category_id AND cd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
+										LEFT JOIN " . DB_PREFIX . "category_descriptions cd ON (c.category_id = cd.category_id AND cd.language_id = '" . $language_id . "')
 										LEFT JOIN " . DB_PREFIX . "categories_to_stores c2s ON (c.category_id = c2s.category_id)
 										WHERE ".($parent_id<0 ? "" : "c.parent_id = '" . (int)$parent_id . "' AND ")."
 										     c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND c.status = '1'
 										ORDER BY c.sort_order, LCASE(cd.name)
 										".((int)$limit ? "LIMIT ".(int)$limit : '')."										");
 			$cache =  $query->rows;
-			$this->cache->set($cache_name, $cache, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
+			$this->cache->set($cache_name, $cache, $language_id, (int)$this->config->get('config_store_id'));
 		}
 		return $cache;
 	}
@@ -95,13 +97,13 @@ class ModelCatalogCategory extends Model {
 	 * @return array
 	 */
 	public function getCategoriesDetails($parent_id = 0, $path = '') {
+		$language_id = (int)$this->config->get('storefront_language_id');
+		$store_id = (int)$this->config->get('config_store_id');
 		$this->load->model('catalog/product');
 		$this->load->model('catalog/manufacturer');
 		$resource = new AResource('image');
 		$cash_name = 'category.details.'.$parent_id;
-		$categories = $this->cache->get( $cash_name,
-										(int)$this->config->get('storefront_language_id'),
-										(int)$this->config->get('config_store_id') );
+		$categories = $this->cache->get( $cash_name, $language_id, $store_id );
 		if ( count($categories) ) {
 			return $categories;
 		}
@@ -152,7 +154,7 @@ class ModelCatalogCategory extends Model {
 			        'thumb' => $thumbnail['thumb_url'],
 			);
 		}
-		$this->cache->set( $cash_name, $categories, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id') );
+		$this->cache->set( $cash_name, $categories, $language_id, $store_id );
 		return $categories;
 	}
 
