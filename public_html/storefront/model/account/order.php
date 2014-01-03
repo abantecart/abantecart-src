@@ -135,11 +135,27 @@ class ModelAccountOrder extends Model {
 	}
 	 
 	public function getOrders($start = 0, $limit = 20) {
+	
+		$language_id = (int)$this->config->get('storefront_language_id');
+		
 		if ($start < 0) {
 			$start = 0;
 		}
 		
-		$query = $this->db->query("SELECT o.order_id, o.firstname, o.lastname, os.name as status, o.date_added, o.total, o.currency, o.value FROM `" . $this->db->table("orders") . "` o LEFT JOIN " . $this->db->table("order_statuses") . " os ON (o.order_status_id = os.order_status_id) WHERE customer_id = '" . (int)$this->customer->getId() . "' AND o.order_status_id > '0' ORDER BY o.order_id DESC LIMIT " . (int)$start . "," . (int)$limit);
+		$query = $this->db->query("SELECT	o.order_id, 
+										 	o.firstname, 
+										 	o.lastname, 
+										 	os.name as status, 
+										 	o.date_added, 
+										 	o.total, 
+										 	o.currency, 
+										 	o.value 	 	
+								   FROM `" . $this->db->table("orders") . "` o 
+								   LEFT JOIN " . $this->db->table("order_statuses") . " os 
+								   		ON (o.order_status_id = os.order_status_id AND os.language_id = '" . (int)$language_id . "')
+								   WHERE customer_id = '" . (int)$this->customer->getId() . "' 
+								   		AND o.order_status_id > '0' 
+								   ORDER BY o.order_id DESC LIMIT " . (int)$start . "," . (int)$limit);
 	
 		return $query->rows;
 	}
@@ -162,8 +178,32 @@ class ModelAccountOrder extends Model {
 		return $query->rows;
 	}	
 
+	public function getOrderStatus($order_id) {
+		$language_id = (int)$this->config->get('storefront_language_id');
+		
+		$query = $this->db->query("SELECT os.name AS status
+									FROM " . $this->db->table("orders") . " o, 
+									" . $this->db->table("order_statuses") . " os
+									WHERE o.order_id = '" . (int)$order_id . "' 
+										AND o.order_status_id = os.order_status_id 
+										AND os.language_id = '" . (int)$language_id . "'"
+								);
+		
+		return $query->row['status'];
+	}	
+
 	public function getOrderHistories($order_id) {
-		$query = $this->db->query("SELECT date_added, os.name AS status, oh.comment, oh.notify FROM " . $this->db->table("order_history") . " oh LEFT JOIN " . $this->db->table("order_statuses") . " os ON oh.order_status_id = os.order_status_id WHERE oh.order_id = '" . (int)$order_id . "' AND oh.notify = '1' AND os.language_id = '" . (int)$this->config->get('storefront_language_id') . "' ORDER BY oh.date_added");
+		$language_id = (int)$this->config->get('storefront_language_id');
+		
+		$query = $this->db->query("SELECT 	date_added, 
+											os.name AS status, 
+											oh.comment, 
+											oh.notify 
+									FROM " . $this->db->table("order_history") . " oh 
+									LEFT JOIN " . $this->db->table("order_statuses") . " os ON oh.order_status_id = os.order_status_id 
+									WHERE oh.order_id = '" . (int)$order_id . "' AND oh.notify = '1' 
+										AND os.language_id = '" . (int)$language_id . "' 
+									ORDER BY oh.date_added");
 	
 		return $query->rows;
 	}	
