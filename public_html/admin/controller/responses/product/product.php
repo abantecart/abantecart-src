@@ -88,31 +88,6 @@ class ControllerResponsesProductProduct extends AController {
 		$this->response->setOutput($result);
 	}
 
-	private function _validateForm() {
-		if (!$this->user->canModify('catalog/product')) {
-			$this->error[ 'warning' ] = $this->language->get('error_permission');
-		}
-
-		foreach ($this->request->post[ 'product_description' ] as $language_id => $value) {
-			if ((strlen(utf8_decode($value[ 'name' ])) < 1) || (strlen(utf8_decode($value[ 'name' ])) > 255)) {
-				$this->error[ 'name' ][ $language_id ] = $this->language->get('error_name');
-			}
-		}
-
-		if ((strlen(utf8_decode($this->request->post[ 'model' ])) < 1) || (strlen(utf8_decode($this->request->post[ 'model' ])) > 64)) {
-			$this->error[ 'model' ] = $this->language->get('error_model');
-		}
-
-		if (!$this->error) {
-			return TRUE;
-		} else {
-			if (!isset($this->error[ 'warning' ])) {
-				$this->error[ 'warning' ] = $this->language->get('error_required_data');
-			}
-			return FALSE;
-		}
-	}
-
 	public function category() {
 
 		//init controller data
@@ -505,7 +480,11 @@ class ControllerResponsesProductProduct extends AController {
 				$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'type' ] = 'hidden';
 				if (in_array($attribute[ 'element_type' ], $this->data[ 'elements_with_options' ])) {
 					$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'type' ] = 'selectbox';
-					$values = $this->getProductOptionValues($attribute[ 'attribute_id' ], $this->language->getContentLanguageID());
+					if(is_null($product_option_value_id)){ // for new row values
+						$values = $this->attribute_manager->getAttributeValues($attribute[ 'attribute_id' ], $this->language->getContentLanguageID());
+					}else{
+						$values = $this->getProductOptionValues($attribute[ 'attribute_id' ], $this->language->getContentLanguageID());
+					}
 
 					foreach ($values as $v) {
 						$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'values' ][ $v[ 'attribute_value_id' ] ] = addslashes(html_entity_decode($v[ 'value' ], ENT_COMPAT, 'UTF-8'));
@@ -516,10 +495,17 @@ class ControllerResponsesProductProduct extends AController {
 		} else {
 			if (in_array($this->data[ 'option_attribute' ][ 'element_type' ], $this->data[ 'elements_with_options' ])) {
 				$this->data[ 'option_attribute' ][ 'type' ] = 'selectbox';
-				$values = $this->getProductOptionValues(
-					$this->data[ 'option_attribute' ][ 'attribute_id' ],
-					$this->language->getContentLanguageID()
-				);
+				if(is_null($product_option_value_id)){ // for new row values
+					$values = $this->attribute_manager->getAttributeValues(
+						$this->data[ 'option_attribute' ][ 'attribute_id' ],
+						$this->language->getContentLanguageID()
+					);
+				}else{
+					$values = $this->getProductOptionValues(
+						$this->data[ 'option_attribute' ][ 'attribute_id' ],
+						$this->language->getContentLanguageID()
+					);
+				}
 
 				foreach ($values as $v) {
 					$this->data[ 'option_attribute' ][ 'values' ][ $v[ 'attribute_value_id' ] ] = addslashes(html_entity_decode($v[ 'value' ], ENT_COMPAT, 'UTF-8'));
@@ -761,6 +747,10 @@ class ControllerResponsesProductProduct extends AController {
 		$this->response->setOutput(AJson::encode($this->data['output']));
 	}
 
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
 	private function _validateDownloadForm($data = array()){
 		$this->error = array();
 		$this->load->language('catalog/files');
@@ -793,6 +783,10 @@ class ControllerResponsesProductProduct extends AController {
 		return $this->error ? false : true;
 	}
 
+	/**
+	 * @param array $file_data
+	 * @param string $tpl
+	 */
 	public function buildDownloadForm($file_data, $tpl) {
 		$this->data = array();
 		//init controller data
