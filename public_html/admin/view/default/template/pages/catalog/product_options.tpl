@@ -355,6 +355,16 @@ var updateOptions = function() {
 	$("#add_option_value").live('click', function () {
 		var new_row = $('#new_row').parent().find('tr').clone();
 		$(new_row).attr('id', 'new' + row_id);
+
+		var so = $('#option_values_tbl').find("input[name^='sort_order']");
+		if(so.length>0){
+			var highest = 0;
+			so.each(function() {
+				highest = Math.max(highest, parseInt(this.value));
+			});
+			$(new_row).find("input[name^='sort_order']").val(highest+1);
+		}
+
 		$('#option_values_tbl tr:last-child').after(new_row);
 		$("input, checkbox, select", new_row).aform({triggerChanged: true, showButtons: false });
 		$('div.aform', new_row).show();
