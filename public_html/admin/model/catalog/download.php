@@ -21,6 +21,10 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ModelCatalogDownload extends Model {
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function addDownload($data) {
 		$this->db->query("INSERT INTO " . $this->db->table('downloads') . "
         	              SET filename  = '" . $this->db->escape($data[ 'filename' ]) . "',
@@ -48,6 +52,11 @@ class ModelCatalogDownload extends Model {
 		return $download_id;
 	}
 
+	/**
+	 * @param int $download_id
+	 * @param array $data
+	 * @return bool
+	 */
 	public function editDownload($download_id, $data) {
 		if(!(int) $download_id || !$data){
 			return false;
@@ -86,6 +95,11 @@ class ModelCatalogDownload extends Model {
 		
 	}
 
+	/**
+	 * @param int $download_id
+	 * @param int $product_id
+	 * @return bool
+	 */
 	public function mapDownload($download_id, $product_id){
 		$download_id = (int)$download_id;
 		$product_id = (int)$product_id;
@@ -103,6 +117,12 @@ class ModelCatalogDownload extends Model {
 								download_id = '" . (int)$download_id . "'");
 
 	}
+
+	/**
+	 * @param int $download_id
+	 * @param int $product_id
+	 * @return bool
+	 */
 	public function unmapDownload($download_id, $product_id){
 		$download_id = (int)$download_id;
 		$product_id = (int)$product_id;
@@ -115,6 +135,10 @@ class ModelCatalogDownload extends Model {
 							AND download_id = '" . (int)$download_id."'");
 	}
 
+	/**
+	 * @param int $download_id
+	 * @return array
+	 */
 	public function getDownloadMapList($download_id){
 		$download_id = (int)$download_id;
 		if(!$download_id){
@@ -133,18 +157,19 @@ class ModelCatalogDownload extends Model {
 		return $output;
 	}
 
-
-
-
-
-
-
+	/**
+	 * @param int $download_id
+	 */
 	public function deleteDownload($download_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "downloads WHERE download_id = '" . (int)$download_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "download_descriptions WHERE download_id = '" . (int)$download_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "download_attribute_values WHERE download_id = '" . (int)$download_id . "'");
 	}
 
+	/**
+	 * @param int $download_id
+	 * @return array
+	 */
 	public function getDownload($download_id) {
 		$query = $this->db->query("SELECT d.download_id,
 										  dc.name,
@@ -165,6 +190,11 @@ class ModelCatalogDownload extends Model {
 		return $query->row;
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array
+	 */
 	public function getDownloads($data = array(), $mode = 'default') {
 
 		if (!empty($data[ 'content_language_id' ])) {
@@ -223,16 +253,22 @@ class ModelCatalogDownload extends Model {
 
 			$sql .= " LIMIT " . (int)$data[ 'start' ] . "," . (int)$data[ 'limit' ];
 		}
-
 		$query = $this->db->query($sql);
-
 		return $query->rows;
 	}
 
+	/**
+	 * @param array $data
+	 * @return array
+	 */
 	public function getTotalDownloads($data = array()) {
 		return $this->getDownloads($data, 'total_only');
 	}
 
+	/**
+	 * @param int $download_id
+	 * @return array
+	 */
 	public function getDownloadDescriptions($download_id) {
 		$download_description_data = array();
 
@@ -247,6 +283,10 @@ class ModelCatalogDownload extends Model {
 		return $download_description_data;
 	}
 
+	/**
+	 * @param int $download_id
+	 * @param array $data
+	 */
 	public function addDownloadAttributeValues($download_id, $data) {
 		$attr_mngr = new AAttribute_Manager('download_attribute');
 		$attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
@@ -261,6 +301,10 @@ class ModelCatalogDownload extends Model {
 		}
 	}
 
+	/**
+	 * @param int $download_id
+	 * @param array $data
+	 */
 	public function editDownloadAttributes($download_id, $data) {
 		$attr_mngr = new AAttribute_Manager('download_attribute');
 		$attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
@@ -282,6 +326,10 @@ class ModelCatalogDownload extends Model {
 		}
 	}
 
+	/**
+	 * @param int $download_id
+	 * @return array
+	 */
 	public function getDownloadAttributes($download_id) {
 		$attr_mngr = new AAttribute_Manager('download_attribute');
 		$attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
@@ -306,6 +354,11 @@ class ModelCatalogDownload extends Model {
 		return $output;
 	}
 
+	/**
+	 * @param int $order_download_id
+	 * @param array $data
+	 * @return bool
+	 */
 	public function editOrderDownload($order_download_id, $data){
 
 		if(!(int)$order_download_id){ return false;}
@@ -328,8 +381,13 @@ class ModelCatalogDownload extends Model {
 		}
 	}
 
+	/**
+	 * @param $product_id
+	 * @param $download_id
+	 * @return array
+	 */
 	public function getOrdersWithProduct($product_id, $download_id){
-		if(!(int)$product_id || !(int)$download_id){ return false; }
+		if(!(int)$product_id || !(int)$download_id){ return array(); }
 		$sql = "SELECT DISTINCT op.order_product_id, op.order_id
 				FROM ".$this->db->table('order_products')." op
 				WHERE op.product_id = " . (int)$product_id."
@@ -340,6 +398,11 @@ class ModelCatalogDownload extends Model {
 		return $result->rows;
 	}
 
+	/**
+	 * @param int $product_id
+	 * @param int $download_id
+	 * @return int
+	 */
 	public function getTotalOrdersWithProduct($product_id, $download_id){
 		return sizeof($this->getOrdersWithProduct($product_id, $download_id));
 	}
