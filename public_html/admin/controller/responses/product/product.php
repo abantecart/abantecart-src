@@ -243,7 +243,7 @@ class ControllerResponsesProductProduct extends AController {
 
 		$result = array();
 		foreach ($product_options as $option) {
-			$option_name = trim($option[ 'language' ][ $this->session->data[ 'content_language_id' ] ][ 'name' ]);
+			$option_name = trim($option[ 'language' ][ $this->language->getContentLanguageID() ][ 'name' ]);
 			$result[ $option[ 'product_option_id' ] ] = $option_name ? $option_name : 'n/a';
 		}
 
@@ -314,16 +314,15 @@ class ControllerResponsesProductProduct extends AController {
 			$this->request->get[ 'option_id' ]
 		);
 
-		$this->data[ 'language_id' ] = $this->session->data[ 'content_language_id' ];
+		$this->data[ 'language_id' ] = $this->language->getContentLanguageID();
 		$this->data[ 'element_types' ] = HtmlElementFactory::getAvailableElements();
 		$this->data[ 'elements_with_options' ] = HtmlElementFactory::getElementsWithOptions();
 		$this->data[ 'selectable' ] = in_array($this->data[ 'option_data' ][ 'element_type' ], $this->data[ 'elements_with_options' ]) ? 1 : 0;
 		$this->data[ 'option_type' ] = $this->data[ 'element_types' ][ $this->data[ 'option_data' ][ 'element_type' ] ][ 'type' ];
 
-		$this->attribute_manager = new AAttribute_Manager();
+		$this->attribute_manager = new AAttribute_Manager('product_option');
 
 		$this->data[ 'action' ] = $this->html->getSecureURL('product/product/update_option_values', '&product_id=' . $this->request->get[ 'product_id' ] . '&option_id=' . $this->request->get[ 'option_id' ]);
-		$this->data[ 'language_id' ] = $this->session->data[ 'content_language_id' ];
 
 		$this->data[ 'option_values' ] = $this->model_catalog_product->getProductOptionValues(
 			$this->request->get[ 'product_id' ],
@@ -493,7 +492,6 @@ class ControllerResponsesProductProduct extends AController {
 		$group_attribute = array();
 		if ($this->data[ 'option_attribute' ][ 'attribute_id' ]) {
 			$group_attribute = $this->attribute_manager->getAttributes(array(), $this->data[ 'language_id' ], $this->data[ 'option_attribute' ][ 'attribute_id' ]);
-
 		}
 
 		$this->data[ 'elements_with_options' ] = HtmlElementFactory::getElementsWithOptions();
@@ -507,7 +505,7 @@ class ControllerResponsesProductProduct extends AController {
 				$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'type' ] = 'hidden';
 				if (in_array($attribute[ 'element_type' ], $this->data[ 'elements_with_options' ])) {
 					$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'type' ] = 'selectbox';
-					$values = $this->attribute_manager->getAttributeValues($attribute[ 'attribute_id' ], $this->session->data[ 'content_language_id' ]);
+					$values = $this->getProductOptionValues($attribute[ 'attribute_id' ], $this->language->getContentLanguageID());
 
 					foreach ($values as $v) {
 						$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'values' ][ $v[ 'attribute_value_id' ] ] = addslashes(html_entity_decode($v[ 'value' ], ENT_COMPAT, 'UTF-8'));
@@ -518,10 +516,11 @@ class ControllerResponsesProductProduct extends AController {
 		} else {
 			if (in_array($this->data[ 'option_attribute' ][ 'element_type' ], $this->data[ 'elements_with_options' ])) {
 				$this->data[ 'option_attribute' ][ 'type' ] = 'selectbox';
-				$values = $this->attribute_manager->getAttributeValues(
+				$values = $this->getProductOptionValues(
 					$this->data[ 'option_attribute' ][ 'attribute_id' ],
-					$this->session->data[ 'content_language_id' ]
+					$this->language->getContentLanguageID()
 				);
+
 				foreach ($values as $v) {
 					$this->data[ 'option_attribute' ][ 'values' ][ $v[ 'attribute_value_id' ] ] = addslashes(html_entity_decode($v[ 'value' ], ENT_COMPAT, 'UTF-8'));
 				}
@@ -554,7 +553,7 @@ class ControllerResponsesProductProduct extends AController {
 		if (isset($this->request->post[ 'name' ])) {
 			$this->data[ 'name' ] = $this->request->post[ 'name' ];
 		} elseif (isset($item_info)) {
-			$this->data[ 'name' ] = $item_info[ 'language' ][ $this->session->data[ 'content_language_id' ] ][ 'name' ];
+			$this->data[ 'name' ] = $item_info[ 'language' ][ $this->language->getContentLanguageID() ][ 'name' ];
 		}
 
 
@@ -689,6 +688,26 @@ class ControllerResponsesProductProduct extends AController {
 	}
 
 
+	/**
+	 * @param int $attribute_id
+	 * @param int $language_id
+	 * @return array
+	 */
+	public function getProductOptionValues($attribute_id, $language_id = 0) {
+        if ( !$language_id ) {
+            $language_id = $this->language->getContentLanguageID();
+        }
+        $query = $this->db->query( "SELECT pov.*, povd.name as value
+									FROM ".$this->db->table('product_options')." po
+									LEFT JOIN ".$this->db->table('product_option_values')." pov ON po.product_option_id = pov.product_option_id
+									LEFT JOIN ".$this->db->table('product_option_value_descriptions')." povd
+										ON ( pov.product_option_value_id = povd.product_option_value_id AND povd.language_id = '" . (int)$language_id . "' )
+									WHERE po.attribute_id = '" . $this->db->escape( $attribute_id ) . "'
+									ORDER BY pov.sort_order" );
+	    return $query->rows;
+	}
+
+
 	public function processDownloadForm(){
 
 		//init controller data
@@ -773,7 +792,6 @@ class ControllerResponsesProductProduct extends AController {
 
 		return $this->error ? false : true;
 	}
-
 
 	public function buildDownloadForm($file_data, $tpl) {
 		$this->data = array();
