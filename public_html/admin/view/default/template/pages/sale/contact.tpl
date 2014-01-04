@@ -72,6 +72,9 @@
 															</select></td>
 														</tr>
 													</table>
+													<?php if ($error_recipient) { ?>
+														<span class="error"><?php echo $error_recipient; ?></span>
+													<?php } ?>													
 												</td>
 											</tr>
 											<tr>

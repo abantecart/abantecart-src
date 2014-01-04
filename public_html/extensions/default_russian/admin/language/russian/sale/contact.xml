@@ -74,7 +74,7 @@
   </definition>
   <definition>
     <key>text_total_to_be_sent</key>
-    <value><![CDATA[(Итого будет отпарвлено: %s )]]></value>
+    <value><![CDATA[(Итого будет отправлено: %s )]]></value>
   </definition>
   <definition>
     <key>text_search_placeholder</key>

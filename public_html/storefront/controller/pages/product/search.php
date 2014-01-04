@@ -194,60 +194,62 @@ class ControllerPagesProductSearch extends AController {
                 );
 
 				$resource = new AResource('image');
-
-				foreach ($results as $result) {
-					$thumbnail = $resource->getMainThumb('products',
-			                                     $result['product_id'],
-			                                     $this->config->get('config_image_product_width'),
-			                                     $this->config->get('config_image_product_height'),true);
-
-					if ($this->config->get('enable_reviews')) {
-						$rating = $this->model_catalog_review->getAverageRating($result['product_id']);	
-					} else {
-						$rating = false;
-					}
-					
-					$special = FALSE;
-					
-					$discount = $promoton->getProductDiscount($result['product_id']);
- 					
-					if ($discount) {
-						$price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax')));
-					} else {
-						$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
-						$special = $promoton->getProductSpecial($result['product_id']);
-						if ($special) {
-							$special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));
-						}					
-					}
-					
-					$options = $this->model_catalog_product->getProductOptions($result['product_id']);
-					if ($options) {
-						$add = $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], '&encode');
-					} else {
-                        if($this->config->get('config_cart_ajax')){
-                            $add = '#';
-                        }else{
-                            $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
-                        }
-					}
-					
-					$products[] = array(
-						'product_id' => $result['product_id'],
-            			'name'    => $result['name'],
-						'model'   => $result['model'],
-						'rating'  => $rating,
-						'stars'   => sprintf($this->language->get('text_stars'), $rating),
-            			'thumb'   => $thumbnail,
-            			'price'   => $price,
-						'call_to_order'=> $result['call_to_order'],
-            			'options' => $options,
-						'special' => $special,
-						'href'    => $this->html->getSEOURL('product/product','&keyword=' . $this->request->get['keyword'] . $url . '&product_id=' . $result['product_id'], '&encode'),
-						'add'	  => $add,
-						'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
-          			);
-        		}
+				
+				if (is_array($results) && $results) {
+					foreach ($results as $result) {
+						$thumbnail = $resource->getMainThumb('products',
+				                                     $result['product_id'],
+				                                     $this->config->get('config_image_product_width'),
+				                                     $this->config->get('config_image_product_height'),true);
+	
+						if ($this->config->get('enable_reviews')) {
+							$rating = $this->model_catalog_review->getAverageRating($result['product_id']);	
+						} else {
+							$rating = false;
+						}
+						
+						$special = FALSE;
+						
+						$discount = $promoton->getProductDiscount($result['product_id']);
+	 					
+						if ($discount) {
+							$price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax')));
+						} else {
+							$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
+							$special = $promoton->getProductSpecial($result['product_id']);
+							if ($special) {
+								$special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));
+							}					
+						}
+						
+						$options = $this->model_catalog_product->getProductOptions($result['product_id']);
+						if ($options) {
+							$add = $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], '&encode');
+						} else {
+	                        if($this->config->get('config_cart_ajax')){
+	                            $add = '#';
+	                        }else{
+	                            $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
+	                        }
+						}
+						
+						$products[] = array(
+							'product_id' => $result['product_id'],
+	            			'name'    => $result['name'],
+							'model'   => $result['model'],
+							'rating'  => $rating,
+							'stars'   => sprintf($this->language->get('text_stars'), $rating),
+	            			'thumb'   => $thumbnail,
+	            			'price'   => $price,
+							'call_to_order'=> $result['call_to_order'],
+	            			'options' => $options,
+							'special' => $special,
+							'href'    => $this->html->getSEOURL('product/product','&keyword=' . $this->request->get['keyword'] . $url . '&product_id=' . $result['product_id'], '&encode'),
+							'add'	  => $add,
+							'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+	          			);
+	        		}
+				}
 
 				$this->data['products'] = $products;
 				

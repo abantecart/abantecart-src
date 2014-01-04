@@ -117,8 +117,9 @@
 									<?php if ($options) { ?>
 										<?php foreach ($options as $option) { ?>
 											<div class="control-group">
+												<?php if ($option['html']->type != 'hidden') { ?>
 												<label class="control-label"><?php echo $option['name']; ?></label>
-
+												<?php } ?>
 												<div class="controls">
 													<?php echo $option['html']; ?>
 												</div>
