@@ -97,7 +97,7 @@ if(!function_exists('mime_content_type')) {
     }
 }
 
-/**
+/** @noinspection PhpUndefinedClassInspection
  * @property ModelToolImage $model_tool_image
  */
 class AResource {
@@ -346,8 +346,7 @@ class AResource {
 
 	/**
 	 * @param string $resource_path (hashed resource path from database) 
-	 * @param string $mode full (with http and domain) or relative (from store url up) 
-	 * @param int $language_id
+	 * @param string $mode full (with http and domain) or relative (from store url up)
 	 * @return array
 	 */
     public function buildResourceURL ( $resource_path, $mode = 'full' ) {
