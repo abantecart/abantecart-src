@@ -6,7 +6,7 @@
   </definition>
   <definition>
     <key>text_account_dashboard</key>
-    <value><![CDATA[Информационная панель аккаунта]]></value>
+    <value><![CDATA[Информационная панель]]></value>
   </definition>
   <definition>
     <key>text_account</key>
@@ -26,7 +26,7 @@
   </definition>
   <definition>
     <key>text_information</key>
-    <value><![CDATA[Изменить информацию об учетной записи]]></value>
+    <value><![CDATA[Изменить учетные записи]]></value>
   </definition>
   <definition>
     <key>text_password</key>
@@ -34,11 +34,11 @@
   </definition>
   <definition>
     <key>text_address</key>
-    <value><![CDATA[Изменение записей адресной книги]]></value>
+    <value><![CDATA[Изменить адресную книгу]]></value>
   </definition>
   <definition>
     <key>text_history</key>
-    <value><![CDATA[Просмотр истории заказов]]></value>
+    <value><![CDATA[История заказов]]></value>
   </definition>
   <definition>
     <key>text_transactions</key>
