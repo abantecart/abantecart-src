@@ -4313,3 +4313,8 @@ paypal pro styles
 .downloads>li:hover{
 	background-color: #f0f0f0;
 }
+
+.download-list-attributes{
+	line-height: 14px;
+	margin-left: 20px;
+}

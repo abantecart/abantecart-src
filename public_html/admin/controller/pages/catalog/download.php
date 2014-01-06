@@ -64,19 +64,26 @@ class ControllerPagesCatalogDownload extends AController {
 
         $grid_settings['colNames'] = array(
             $this->language->get('column_name'),
-			$this->language->get('column_remaining'),
+			$this->language->get('column_status'),
+			$this->language->get('column_products_count'),
 		);
 		$grid_settings['colModel'] = array(
 			array(
 				'name' => 'name',
 				'index' => 'name',
-				'width' => 600,
-                'align' => 'center',
+				'width' => 300,
+                'align' => 'left',
 			),
 			array(
-				'name' => 'remaining',
-				'index' => 'remaining',
-				'width' => 200,
+				'name' => 'status',
+				'index' => 'status',
+
+                'align' => 'center',
+                'search' => false,
+			),
+			array(
+				'name' => 'product_count',
+				'index' => 'product_count',
                 'align' => 'center',
                 'search' => false,
 			),
@@ -208,20 +215,12 @@ class ControllerPagesCatalogDownload extends AController {
 			$this->data['show_update'] = FALSE;
  		}
 
-		if (isset($this->request->post['download_description'])) {
-			$this->data['download_description'] = $this->request->post['download_description'];
-		} elseif (isset($this->request->get['download_id'])) {
-			$this->data['download_description'] = $this->model_catalog_download->getDownloadDescriptions($this->request->get['download_id']);
-		} else {
-			$this->data['download_description'] = array();
-		}   	
-		
-		if (isset($this->request->post['remaining'])) {
-      		$this->data['remaining'] = $this->request->post['remaining'];
-    	} elseif (isset($download_info['remaining'])) {
-      		$this->data['remaining'] = $download_info['remaining'];
+		if (isset($this->request->post['remaining_count'])) {
+      		$this->data['remaining_count'] = $this->request->post['remaining_count'];
+    	} elseif (isset($download_info['remaining_count'])) {
+      		$this->data['remaining_count'] = $download_info['remaining_count'];
     	} else {
-      		$this->data['remaining'] = 1;
+      		$this->data['remaining_count'] = 1;
     	}
     	
     	if (isset($this->request->post['update'])) {
@@ -306,4 +305,3 @@ class ControllerPagesCatalogDownload extends AController {
 		} 
   	}
 }
-?>

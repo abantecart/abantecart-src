@@ -70,4 +70,8 @@
 		<key>column_image</key>
 		<value><![CDATA[Imagen]]></value>
 	</definition>
+	<definition>
+		<key>column_products_count</key>
+		<value><![CDATA[Productos Contar]]></value>
+	</definition>
 </definitions>

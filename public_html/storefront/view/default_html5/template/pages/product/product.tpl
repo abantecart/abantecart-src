@@ -351,8 +351,11 @@
 						<ul class="downloads">
 							<?php foreach ($downloads as $download) { ?>
 							<li class="row">
-								<div class="pull-left"><img src="<?php echo $download['thumbnail']?>"></div>
-								<div class="pull-left ml20"><?php echo $download['name']; ?></div>
+								<div class="pull-left"><?php echo $download['name']; ?><div class="download-list-attributes">
+								<?php foreach($download['attributes'] as $name=>$value){
+									echo '- <small>'.$name.': '.$value.'</small>';
+									}?></div>
+								</div>
 								<div class="pull-right mr10"><?php echo $download['href']; ?></div>
 							</li>
 								<?php } ?>

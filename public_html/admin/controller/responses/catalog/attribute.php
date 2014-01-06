@@ -233,10 +233,10 @@ class ControllerResponsesCatalogAttribute extends AController {
 		                                                                             'value' => $this->data[ 'sort_order' ],
 		                                                                             'style' => 'small-field'
 		                                                                        ));
-		$this->data[ 'form' ][ 'fields' ][ 'required' ] = $form->getFieldHtml(array(
+		$this->data[ 'form' ][ 'fields' ][ 'show_to_customer' ] = $form->getFieldHtml(array(
 		                                                                           'type' => 'checkbox',
-		                                                                           'name' => 'required',
-		                                                                           'value' => $this->data[ 'required' ],
+		                                                                           'name' => 'settings[show_to_customer]',
+		                                                                           'value' => $this->data['settings']['show_to_customer' ],
 		                                                                      ));
 
 		//Build atribute values part of the form

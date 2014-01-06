@@ -30,6 +30,7 @@ class ModelCatalogDownload extends Model {
         	              SET filename  = '" . $this->db->escape($data[ 'filename' ]) . "',
         	                  mask = '" . $this->db->escape($data[ 'mask' ]) . "',
       	                  	  max_downloads = '" . (int)$data[ 'max_downloads' ] . "',
+      	                  	  ".(isset($data['shared']) ? "shared = ".(int)$data['shared'].", " : '')."
       	                  	  expire_days = '" . (int)$data[ 'expire_days' ] . "',
       	                  	  sort_order = '" . (int)$data[ 'sort_order' ] . "',
       	                  	  activate = '" . $this->db->escape($data[ 'activate' ]) . "',
@@ -62,18 +63,30 @@ class ModelCatalogDownload extends Model {
 			return false;
 		}
 
-		$this->db->query("UPDATE " . $this->db->table('downloads')."
-		        	              SET
-		        	                  filename  = '" . $this->db->escape($data[ 'filename' ]) . "',
-		        	                  mask = '" . $this->db->escape($data[ 'mask' ]) . "',
-		      	                  	  max_downloads = '" . (int)$data[ 'max_downloads' ] . "',
-		      	                  	  ".(isset($data['shared']) ? "shared = ".(int)$data['shared'].", " : '')."
-		      	                  	  expire_days = '" . (int)$data[ 'expire_days' ] . "',
-		      	                  	  sort_order = '" . (int)$data[ 'sort_order' ] . "',
-		      	                  	  activate = '" . $this->db->escape($data[ 'activate' ]) . "',
-		      	                  	  activate_order_status_id = '" . (int)$data[ 'activate_order_status_id' ] . "',
-		      	                  	  status = '" . (int)$data[ 'status' ] . "'
-		      	           WHERE download_id = ".(int)$download_id);
+		$fields = array('filename'=>'string',
+						'mask'=>'string',
+						'max_downloads'=>'int',
+						'shared'=>'int',
+						'expire_days'=>'int',
+						'sort_order'=>'int',
+						'activate'=>'string',
+						'activate_order_status_id'=>'int',
+						'status'=>'int');
+		$update = array();
+		foreach($fields as $field_name=>$type){
+			if(isset($data[$field_name])){
+				if($type=='string'){
+					$update[] = "`".$field_name."` = '".$this->db->escape($data[$field_name])."'";
+				}elseif($type=='int'){
+					$update[] = "`".$field_name."` = '".(int)$data[$field_name]."'";
+				}
+			}
+		}
+		if($update){
+			$this->db->query("UPDATE " . $this->db->table('downloads')."
+									  SET ".implode(', ',$update)."
+							   WHERE download_id = ".(int)$download_id);
+		}
 
 
 
@@ -207,7 +220,7 @@ class ModelCatalogDownload extends Model {
 			$total_sql = 'count(*) as total';
 		}
 		else {
-			$total_sql = 'dd.*, d.*';
+			$total_sql = 'dd.*, d.*, (SELECT COUNT(*) as cnt FROM ' . DB_PREFIX . 'products_to_downloads ptd WHERE ptd.download_id = d.download_id) as product_count';
 		}
 
 		$sql = "SELECT $total_sql
@@ -226,8 +239,7 @@ class ModelCatalogDownload extends Model {
 		}
 
 		$sort_data = array(
-			'name' => 'dd.name',
-			'remaining' => 'd.remaining',
+			'name' => 'dd.name'
 		);
 
 		if (isset($data[ 'sort' ]) && in_array($data[ 'sort' ], array_keys($sort_data))) {

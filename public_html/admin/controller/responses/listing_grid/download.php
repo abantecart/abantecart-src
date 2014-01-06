@@ -45,13 +45,22 @@ class ControllerResponsesListingGridDownload extends AController {
 		$results = $this->model_catalog_download->getDownloads($filter_data);
 		$i = 0;
 		foreach ($results as $result) {
-			if (!file_exists(DIR_RESOURCE . $result[ 'filename' ]) || !is_file(DIR_RESOURCE . $result[ 'filename' ])) {
+			if (!is_file(DIR_RESOURCE . $result[ 'filename' ])) {
 				$response->userdata->classes[ $result[ 'download_id' ] ] = 'warning';
 			}
 			$response->rows[ $i ][ 'id' ] = $result[ 'download_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
-				$result[ 'name' ],
-				$result[ 'remaining' ],
+				$this->html->buildInput(array(
+				                    'name'  => 'name['.$result['download_id'].']',
+				                    'value' => $result['name'],
+								    'attr' => ' maxlength="64" '
+				                )),
+				$this->html->buildCheckbox(array(
+				                    'name'  => 'status['.$result[ 'download_id' ].']',
+				                    'value' => $result['status'],
+				                    'style'  => 'btn_switch',
+				                )),
+				$result[ 'product_count' ],
 			);
 			$i++;
 		}
@@ -118,16 +127,61 @@ class ControllerResponsesListingGridDownload extends AController {
 
 		$this->loadLanguage('catalog/download');
 		$this->loadModel('catalog/download');
-		$allowedFields = array( 'download_description', 'remaining' );
+		$allowedFields = array( 'filename',
+								'mask',
+								'max_downloads',
+								'shared',
+								'expire_days',
+								'sort_order',
+								'activate_order_status_id',
+								'status',
+								'attributes');
+
 
 		if (isset($this->request->get[ 'id' ])) {
+			$download_id = (int)$this->request->get[ 'id' ];
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $key => $value) {
 				if (!in_array($key, $allowedFields)) continue;
-				$data = array( $key => $value );
-				$this->model_catalog_download->editDownload($this->request->get[ 'id' ], $data);
+				// check first
+				if($key=='name' && (mb_strlen($value)<2 || mb_strlen($value)>64) ) {
+					$error = $this->language->get('error_download_name');
+				}elseif($key=='max_downloads' && !(int)$data[ 'max_downloads' ] ) {
+					$error = $this->language->get('error_max_downloads');
+				}elseif($key=='activate' && !in_array($data[ 'activate' ],array('before_order','immediately','order_status','manually')) ) {
+					$error = $this->language->get('error_activate');
+				}elseif($key=='attributes'){
+					$attr_mngr = new AAttribute_Manager('download_attribute');
+					$attr_errors = $attr_mngr->validateAttributeData($value[$download_id]);
+					if($attr_errors){
+						$error = $this->language->get('error_download_attributes').'<br>&nbsp;&nbsp;&nbsp;'. implode('<br>&nbsp;&nbsp;&nbsp;',$attr_errors);
+					}
+				}
+
+
+				if(!$error){
+					$data = array( $key => $value );
+					$this->model_catalog_download->editDownload($download_id, $data);
+				}else{
+					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text'=>$error ));
+					return $dd->dispatch();
+				}
 			}
 			return null;
+		}else{
+			//request sent from jGrid. ID is key of array
+			foreach ($this->request->post as $field => $value ) {
+				foreach ( $value as $k => $v ) {
+					 if($field=='name'){
+						if (mb_strlen($v) < 2 || mb_strlen($v) >64 ) {
+							$err = $this->language->get('error_name');
+							$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+							return $dd->dispatch();
+						}
+					}
+					$this->model_catalog_download->editDownload($k, array($field => $v) );
+				}
+			}
 		}
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

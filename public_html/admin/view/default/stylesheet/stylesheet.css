@@ -2135,7 +2135,7 @@ table.form tr td:first-child {
 }
 
 #product_download_form>tbody>tr>td:last-child {
-	width: 115px;
+	width: 130px;
     text-align: center;
 }
 
@@ -2149,6 +2149,9 @@ table.form tr td:first-child {
     text-decoration: none;
     text-align: center;
 	padding-left: 10px;
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
 }
 
 #product_download_form a.delete, #product_download_form a.push {
@@ -2194,5 +2197,10 @@ table.form tr td:first-child {
 	color: #2A465E;
 	font: 15px Arial,Helvetica,sans-serif;
 	font-weight: bold;
+}
+
+.maplist{
+	max-height: 100px;
+	overflow: auto;
 }
 

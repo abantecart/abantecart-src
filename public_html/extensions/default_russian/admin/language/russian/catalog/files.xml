@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>entry_activate</key>
-		<value><![CDATA[Активировать загрузку]]></value>
+		<value><![CDATA[Доступность загрузки]]></value>
 	</definition>
 	<definition>
 		<key>entry_sort_order</key>
@@ -158,7 +158,7 @@
 	</definition>
 	<definition>
 		<key>text_assign</key>
-		<value><![CDATA[Assign ]]></value>
+		<value><![CDATA[Сохранить]]></value>
 	</definition>
 	<definition>
 		<key>text_assigned_to</key>
@@ -190,11 +190,11 @@
 	</definition>
 	<definition>
 		<key>text_push</key>
-		<value><![CDATA[Push]]></value>
+		<value><![CDATA[Добавить к заказам]]></value>
 	</definition>
 	<definition>
 		<key>text_push_to_customers</key>
-		<value><![CDATA[Отправить покупателям]]></value>
+		<value><![CDATA[Добавить к заказам]]></value>
 	</definition>
 	<definition>
 		<key>text_push_to_orders</key>
@@ -207,5 +207,9 @@
 	<definition>
 		<key>text_confirm_push</key>
 		<value><![CDATA[ Подтверждаете? ]]></value>
+	</definition>
+	<definition>
+		<key>attention_shared</key>
+		<value><![CDATA[Редактирование общей загрузки коснется и других товаров.]]></value>
 	</definition>
 </definitions>

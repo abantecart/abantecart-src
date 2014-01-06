@@ -808,7 +808,13 @@ class ControllerResponsesProductProduct extends AController {
 
 		$this->data['download_id'] = (int)$file_data['download_id'];
 
-		$form = new AForm('HT');
+		if($this->data['download_id']){
+			$form = new AForm('HS');
+			$this->data[ 'update' ] = $this->html->getSecureURL('listing_grid/download/update_field', '&id=' . $this->data['download_id']);
+		}else{
+			$form = new AForm('HT');
+		}
+
 		$form->setForm(array(
 					'form_name' => 'downloadFrm'.$file_data['download_id'],
 					'update' => $this->data['update'],
@@ -923,6 +929,10 @@ class ControllerResponsesProductProduct extends AController {
 							'attr'=> ($this->data['already_shared'] ? ' disabled=disabled':'')
 		));
 
+		if($file_data['shared']){
+			$this->data['text_attention_shared'] = $this->language->get('attention_shared');
+		}
+
 		$this->data['form']['fields']['download_id'] = $form->getFieldHtml(array(
 			'type' => 'hidden',
 			'name' => 'download_id',
@@ -932,6 +942,7 @@ class ControllerResponsesProductProduct extends AController {
 			'type' => 'input',
 			'name' => 'name',
 			'value' => $file_data['name'],
+			'attr' => ' maxlength="64" '
 		));
 		$this->data['form']['fields']['mask'] = $form->getFieldHtml(array(
 			'type' => 'input',
@@ -954,10 +965,10 @@ class ControllerResponsesProductProduct extends AController {
 								'order_status' => $this->language->get('text_on_order_status'),
 								'manually' => $this->language->get('text_manually'), ),
 			'required' => true,
-			'style' => 'download_activate'
+			'style' => 'download_activate no-save'
 		));
 
-		$options = array('' => $this->language->get('text_select'));
+		$options = array();
 		foreach($order_statuses as $order_status){
 			$options[$order_status['order_status_id']] = $order_status['name'];
 		}
@@ -967,7 +978,8 @@ class ControllerResponsesProductProduct extends AController {
 			'name' => 'activate_order_status_id',
 			'value' => $file_data['activate_order_status_id'],
 			'options' => $options,
-			'required' => true
+			'required' => true,
+			'style' => 'no-save'
 		));
 
 		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(

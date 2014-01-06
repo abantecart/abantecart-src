@@ -52,19 +52,17 @@
 		text_hide: '<?php echo $text_hide ?>'
 	};
 
-	$("#product_download_form div.expandRow").live('click', function (hide) {
+	$("#product_download_form a.expandRow").live('click', function (hide) {
 		var additional_row = $(this).parents('tr').next().find('div.additionalRow');
 		if ($(additional_row).is(':visible')) {
 			$(additional_row).slideUp();
-			$(this).attr('title',text.text_expand);
-			$(this).removeClass('tree-minus').addClass('tree-plus');
+			$(this).html(text.text_expand);
 			$(this).parents('tr').next().find('div.add_resource').html();
 		} else {
 			if(hide!=true){
 				$('div.aform', additional_row).show();
 				$(additional_row).slideDown();
-				$(this).attr('title',text.text_hide);
-				$(this).removeClass('tree-plus').addClass('tree-minus');
+				$(this).html(text.text_hide);
 			}
 		}
 
@@ -121,7 +119,7 @@
 		$("#download_<?php echo $download_id?> a.expandRow").click();
 		<?php } ?>
 		$("#product_download_form tr").dblclick(function(){
-			$(this).find('div.expandRow').click();
+			$(this).find('a.expandRow').click();
 		});
 	});
 

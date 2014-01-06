@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>entry_activate</key>
-		<value><![CDATA[Activate download]]></value>
+		<value><![CDATA[Available]]></value>
 	</definition>
 	<definition>
 		<key>entry_sort_order</key>
@@ -159,7 +159,7 @@
 	</definition>
 	<definition>
 		<key>text_assign</key>
-		<value><![CDATA[Assign ]]></value>
+		<value><![CDATA[ Save ]]></value>
 	</definition>
 	<definition>
 		<key>text_assigned_to</key>
@@ -220,5 +220,9 @@
 	<definition>
 		<key>error_file</key>
 		<value><![CDATA[Please set the file for download.]]></value>
+	</definition>
+	<definition>
+		<key>attention_shared</key>
+		<value><![CDATA[You are about to edit shared download. Edit will effect other products.]]></value>
 	</definition>
 </definitions>

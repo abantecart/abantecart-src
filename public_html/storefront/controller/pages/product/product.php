@@ -522,15 +522,11 @@ class ControllerPagesProductProduct extends AController {
 		//downloads before order
 		$dwn = new ADownload();
 		$download_list = $dwn->getDownloadsBeforeOrder($product_id);
-
 		if($download_list){
-			$r = new AResource('download');
-			$dir_name = $r->getTypeDir();
 
 			foreach($download_list as $download){
 				$href = $this->html->getURL('account/download/startdownload','&download_id='.$download['download_id']);
-				$resource_id = $r->getHexPath(str_replace($dir_name,'',$download['filename']));
-				$download['thumbnail'] = $r->getResourceThumb($resource_id, 30, 30);
+				$download['attributes'] = $this->download->getDownloadAttributesValues($download['download_id'],'to_customer');
 
 				$download['href'] = $form->getFieldHtml(
 						array(  'type'=> 'button',

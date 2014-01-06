@@ -349,7 +349,6 @@ class AAttribute {
 	public function validateAttributeData($data = array()){
 		$errors = array();
 
-//		$this->load->language('checkout/cart'); // load language for file upload text errors
 		$this->load->language('catalog/attribute'); // load language for file upload text errors
 
 
