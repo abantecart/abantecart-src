@@ -151,7 +151,7 @@ class ControllerPagesDesignMenu extends AController {
 
 		$this->menu = new AMenu_Storefront();
 
-		if (($this->request->server ['REQUEST_METHOD'] == 'POST') && $this->_validateForm ()) {
+		if (($this->request->server ['REQUEST_METHOD'] == 'POST') && $this->_validateForm() ) {
 
     	    $languages = $this->language->getAvailableLanguages();
 		    foreach ( $languages as $l ) {
@@ -269,7 +269,7 @@ class ControllerPagesDesignMenu extends AController {
 
 		if (! isset ( $this->request->get ['item_id'] )) {
 			$this->data ['action'] = $this->html->getSecureURL ( 'design/menu/insert' );
-			$this->data ['heading_title'] = $this->language->get('text_insert') . $this->language->get('heading_title');
+			$this->data ['heading_title'] = $this->language->get('text_insert') . '&nbsp;' . $this->language->get('heading_title');
 			$this->data ['update'] = '';
 			$form = new AForm ( 'ST' );
 		} else {
@@ -420,13 +420,15 @@ class ControllerPagesDesignMenu extends AController {
 
 	private function _validateForm() {
 		if (! $this->user->canModify('design/menu' )) {
-			$this->error ['warning'] = $this->language->get ( 'error_permission' );
+			$this->error['warning'] = $this->language->get ( 'error_permission' );
 		}
 
 		if ( !empty($this->request->post ['item_id']) ) {
 			$ids = $this->menu->getItemIds ();
-			if (in_array ( $this->request->post ['item_id'], $ids )) {
-				$this->error ['item_id'] = $this->language->get ( 'error_non_unique' );
+			if (!ctype_alnum($this->request->post['item_id'])) {
+				$this->error['item_id'] = $this->language->get ( 'error_non_ascii' );
+			} else if (in_array ( $this->request->post['item_id'], $ids )) {
+				$this->error['item_id'] = $this->language->get ( 'error_non_unique' );
 			}
 		}
 		if (empty ($this->request->post['item_id'] ) && empty ($this->request->get['item_id'] )) {

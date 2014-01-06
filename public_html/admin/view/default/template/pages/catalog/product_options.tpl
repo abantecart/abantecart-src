@@ -348,6 +348,13 @@ var updateOptions = function() {
 		return false;
 	});
 
+	$('.open_newtab').live('click', function () {
+		var href = $(this).attr('link');
+		top.open(href, '_blank');
+		return false;
+	});
+
+
 	$('.default_uncheck').live('click', function () {
 		$("input[name='default']").removeAttr('checked');
 	});

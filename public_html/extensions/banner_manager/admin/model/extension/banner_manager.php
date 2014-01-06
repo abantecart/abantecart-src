@@ -305,7 +305,9 @@ class ModelExtensionBannerManager extends Model {
 			foreach ($result->rows as &$row) {
 				$row[ 'clicked' ] = isset($stats[ $row[ 'banner_id' ] ][ 'clicked' ]) ? $stats[ $row[ 'banner_id' ] ][ 'clicked' ] : 0;
 				$row[ 'viewed' ] = isset($stats[ $row[ 'banner_id' ] ][ 'viewed' ]) ? $stats[ $row[ 'banner_id' ] ][ 'viewed' ] : 0;
-				$row[ 'percent' ] = round($row[ 'clicked' ] * 100 / $row[ 'viewed' ], 2);
+				if ($row[ 'viewed' ] > 0) {
+					$row[ 'percent' ] = round($row[ 'clicked' ] * 100 / $row[ 'viewed' ], 2);
+				}
 				$index[ ] = $row[ 'percent' ];
 			}
 			unset($row);

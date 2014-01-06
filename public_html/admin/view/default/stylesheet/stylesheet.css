@@ -2067,7 +2067,7 @@ table.form tr td:first-child {
 	cursor: pointer;
 	text-decoration:underline;
 }
-.default_uncheck{
+.default_uncheck, .pointer{
 	cursor: pointer;
 }
 

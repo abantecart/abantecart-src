@@ -564,6 +564,11 @@ class ControllerResponsesProductProduct extends AController {
 					'value' => $this->data[ 'attribute_value_id' ],
 					'options' => $this->data[ 'option_attribute' ][ 'values' ],
 				));
+			} else if ( $this->data[ 'option_attribute' ][ 'element_type' ] == 'U') {
+				//for file there is no option value 	
+				$attribute_id = $this->data['option_attribute']['attribute_id'];
+				$edit_url = $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attribute_id);
+				$this->data[ 'form' ][ 'fields' ][ 'option_value' ] = '<span link="'.$edit_url.'" class="open_newtab pointer">'.$this->language->get('text_edit').'</span>';
 			} else {
 				$this->data[ 'form' ][ 'fields' ][ 'option_value' ] = $form->getFieldHtml(array(
 					'type' => 'input',
@@ -968,7 +973,7 @@ class ControllerResponsesProductProduct extends AController {
 			'style' => 'download_activate no-save'
 		));
 
-		$options = array();
+		$options = array('' => $this->language->get('text_select'));
 		foreach($order_statuses as $order_status){
 			$options[$order_status['order_status_id']] = $order_status['name'];
 		}

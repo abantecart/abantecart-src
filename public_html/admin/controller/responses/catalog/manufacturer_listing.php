@@ -193,12 +193,14 @@ class ControllerResponsesCatalogManufacturerListing extends AController {
 			$manufacturers_data = $this->model_catalog_manufacturer->getManufacturers($filter);
 		}
 
-		foreach ($manufacturers_data as $manufacturer) {
-			$manufacturer_data[ ] = array(
-				'id' => $manufacturer['manufacturer_id'],
-				'name' => $manufacturer['name'],
-				'sort_order' => 0
-			);
+		if ($manufacturers_data) {
+			foreach ($manufacturers_data as $manufacturer) {
+				$manufacturer_data[ ] = array(
+					'id' => $manufacturer['manufacturer_id'],
+					'name' => $manufacturer['name'],
+					'sort_order' => 0
+				);
+			}
 		}
 
 		//update controller data

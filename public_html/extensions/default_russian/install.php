@@ -4282,7 +4282,7 @@ $this->db->query("INSERT INTO ".DB_PREFIX."order_statuses
 (1,$new_language_id, 'В ожидании'),
 (11,$new_language_id, 'Возмещенный'),
 (12,$new_language_id, 'Обратный'),
-(13,$new_language_id, 'Платежам');
+(13,$new_language_id, 'Chargeback');
 ");
 
 $this->db->query("INSERT INTO ".DB_PREFIX."page_descriptions 
