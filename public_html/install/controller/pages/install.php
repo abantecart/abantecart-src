@@ -106,7 +106,8 @@ class ControllerPagesInstall extends AController {
 				));
 			}else{
 				$options = array();
-				if(extension_loaded('mysql')){
+				//regular mysql is not supported on PHP 5.5.+
+				if(extension_loaded('mysql') && version_compare(phpversion(), '5.5.0', '<') == TRUE ){
 					$options['mysql'] = 'MySQL';
 				}
 				if(extension_loaded('mysqli')){
@@ -269,7 +270,7 @@ class ControllerPagesInstall extends AController {
 	private function _prepare_registry() {
 		$registry = Registry::getInstance();
 		//This is ran after config is saved and we ahve database connection now		
-		$db = new ADB('mysql', DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+		$db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 		$registry->set('db', $db);
 		define('DIR_LANGUAGE', DIR_ABANTECART . 'admin/language/');
 

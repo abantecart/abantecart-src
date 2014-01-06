@@ -91,10 +91,9 @@ if(!defined('SALT')){
 
 $data_exist = false;
 if ( defined('DB_HOSTNAME') && DB_HOSTNAME ) {
-    $connection = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
-    mysql_select_db(DB_DATABASE, $connection);
-    $r = mysql_query("SELECT product_id FROM ".DB_PREFIX."products", $connection);
-    $data_exist = mysql_num_rows($r);
+	$db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+    $r = $db->query("SELECT product_id FROM ".DB_PREFIX."products");
+    $data_exist = $r->num_rows;
 } else {
     unset($session->data['finish']);
 }
