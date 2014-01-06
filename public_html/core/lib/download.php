@@ -167,7 +167,7 @@ final class ADownload {
 	 * @param int $download_id
 	 * @return array
 	 */
-	public function getDownloadAttributesValues($download_id) {
+	public function getDownloadAttributesValues($download_id, $mode='full') {
 		if(!(int)$download_id){
 			return array();
 		}
@@ -177,6 +177,10 @@ final class ADownload {
 
 		$ids = array();
 		foreach($attributes as $attribute){
+			if($mode=='to_customer'){
+				$attribute['settings'] = unserialize($attribute['settings']);
+				if(!$attribute['settings']['show_to_customer']){ continue; }
+			}
 			$ids[] = (int)$attribute['attribute_id'];
 			$attribute_values = $attr->getAttributeValues($attribute['attribute_id']);
 
@@ -189,11 +193,8 @@ final class ADownload {
 			$attributes_with_options = HtmlElementFactory::getElementsWithOptions();
 			foreach($result->rows as $row){
 				if(!in_array($row['attribute_id'], $ids)){continue;}
-
 				$row['value'] = unserialize($row['value']);
-
 				if(in_array($attributes[$row['attribute_id']]['element_type'],$attributes_with_options)){
-
 					foreach($attribute_values as $values){
 						if($values['attribute_value_id']==$row['value']){
 						 	$output[$attributes[$row['attribute_id']]['name']] = $values['value'];
