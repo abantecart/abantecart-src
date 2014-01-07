@@ -643,6 +643,10 @@ ul.categorymenu > li > div {
 	-webkit-border-radius: 0
 }
 
+.dropdown-menu > li > a {
+	white-space: normal;
+}
+
 ul.categorymenu > li:hover > div {
 	display: table;
 	width: 100%;
@@ -673,7 +677,7 @@ ul.categorymenu > li > div > ul.arrow li a {
 ul.categorymenu > li ul > li > a {
 	text-decoration: none;
 	display: block;
-	white-space: nowrap;
+	white-space: normal;
 	min-width: 120px;
 	padding: 8px;
 }
