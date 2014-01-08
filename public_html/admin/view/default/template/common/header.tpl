@@ -1,6 +1,14 @@
 <div class="header_logo">
 	<a href="<?php echo $home; ?>">
-		<img src="<?php echo $template_dir; ?>image/logo.png" title="<?php echo $heading_title; ?>"/>
+		<?php 
+			if( $this->getHookVar('logoimage_hookvar') ) {
+				echo $this->getHookVar('logoimage_hookvar');
+			} else {
+		?> 
+			<img src="<?php echo $template_dir; ?>image/logo.png" title="<?php echo $heading_title; ?>"/>
+		<?php 
+			}
+		?> 
 	</a>
 </div>
 

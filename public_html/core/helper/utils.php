@@ -697,6 +697,17 @@ function build_sort_order($array, $min, $max, $sort_direction = 'asc'){
  * @return bool
  */
 function is_assoc($test_array) {
-        return is_array($test_array) && array_diff_key($test_array,array_keys(array_keys($test_array)));
+	return is_array($test_array) && array_diff_key($test_array,array_keys(array_keys($test_array)));
 }
 
+/**
+ * Return project base
+ *
+ * @return string
+ */
+
+function project_base() {
+	$base = 'PGEgaHJlZj0iaHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbSIgb25jbGljaz0id2luZG93Lm9wZW4odGhpcy5ocmVm';
+	$base .= 'KTtyZXR1cm4gZmFsc2U7IiB0aXRsZT0iSWRlYWwgT3BlblNvdXJjZSBFLWNvbW1lcmNlIFNvbHV0aW9uIj5BYmFudGVDYXJ0PC9hPg==';
+	return base64_decode($base);
+}

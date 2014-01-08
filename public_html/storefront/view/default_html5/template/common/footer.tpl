@@ -35,9 +35,10 @@
 			<div class="pull-left">
 				<?php echo ${$children_blocks[6]}; ?>
 			</div>
-			<div class="pull-right align_center"> <?php echo $text_powered_by ?> <a href="http://www.abantecart.com"
-																				 onclick="window.open(this.href);return false;"
-																				 title="Ideal OpenSource E-commerce Solution">AbanteCart</a>
+			<div class="pull-right align_center">
+				<?php echo $text_project_label ?>
+				<br />
+	    		<?php echo $text_copy; ?>				
 			</div>
 			<div class="pull-right mr20">
 				<?php echo ${$children_blocks[7]}; ?>

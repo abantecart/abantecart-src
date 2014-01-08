@@ -612,7 +612,7 @@ ul.categorymenu > li > div {
 	z-index: 99999;
 	display: none;
 	float: left;
-	min-width: 120px;
+	min-width: 150px;
 	margin: 1px 0 0;
 	list-style: none;
 	background-color: #ffffff;
@@ -632,7 +632,7 @@ ul.categorymenu > li > div {
 	z-index: 99999;
 	display: none;
 	float: left;
-	min-width: 120px;
+	min-width: 150px;
 	margin: 1px 0 0;
 	list-style: none;
 	background-color: #ffffff;
@@ -678,7 +678,7 @@ ul.categorymenu > li ul > li > a {
 	text-decoration: none;
 	display: block;
 	white-space: normal;
-	min-width: 120px;
+	min-width: 150px;
 	padding: 8px;
 }
 
@@ -3856,7 +3856,7 @@ input, .btn, .label, .badge, .nav-pills > li > a,
 }
 
 .dropdown-menu li > a {
-	padding: 5px 20px;
+	padding: 5px 10px;
 	display: block;
 }
 

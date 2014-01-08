@@ -30,9 +30,11 @@
     <!-- footer blocks placeholder (EOF) -->
     <div class="clr_both"></div>
   <div class="f_section2">
-    <div id="copyright"><?php echo $text_powered_by?>
-	    <a href="http://www.abantecart.com" onclick="window.open(this.href);return false;" title="Ideal OpenSource E-commerce Solution">AbanteCart</a><br />
-	    <?php echo $text_copy; ?></div>
+    <div id="copyright">
+    	<?php echo $text_project_label?>
+		<br />
+	    <?php echo $text_copy; ?>
+	 </div>
   </div>
   <!--
 AbanteCart is open source software and you are free to remove the Powered By AbanteCart if you want, but its generally accepted practise to make a small donatation.

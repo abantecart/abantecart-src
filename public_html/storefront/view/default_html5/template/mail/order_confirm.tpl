@@ -135,9 +135,10 @@
 	</tr>
 	<?php } ?>
 	<tr>
-		<td class="align_center" style="font-size: 10px; border-top: 1px solid #069;">
-			<a href="<?php echo $store_url; ?>" style="color: #069; font-weight: bold; text-decoration: none;"><?php echo $store_name; ?></a> <?php echo $text_powered_by; ?>
-			<a href="http://www.abantecart.com" style="text-decoration: none; color: #374953;">AbanteCart</a></td>
+		<td class="align_center" style="font-size: 10px; border-top: 1px solid #069; text-decoration: none; color: #374953;">
+			<a href="<?php echo $store_url; ?>" style="color: #069; font-weight: bold; text-decoration: none;"><?php echo $store_name; ?></a> 
+			<?php echo $text_project_label; ?>
+		</td>
 	</tr>
 </table>
 </body>

@@ -334,6 +334,7 @@ class ModelCheckoutOrder extends Model {
 			$template->data['text_payment_method'] = $language->get('text_payment_method');
 			$template->data['text_comment'] = $language->get('text_comment');
 			$template->data['text_powered_by'] = $language->get('text_powered_by');
+			$template->data['text_project_label'] = $language->get('text_powered_by')  . ' ' .  project_base();
 
 			$template->data['column_product'] = $language->get('column_product');
 			$template->data['column_model'] = $language->get('column_model');
@@ -360,6 +361,11 @@ class ModelCheckoutOrder extends Model {
 			$template->data['customer_telephone'] = $order_row['telephone'];
 			$template->data['customer_ip'] = $order_row['ip'];
 			$template->data['comment'] = $order_row['comment'];
+
+			//override with the data from the before hooks 
+			if ($this->data){
+				$template->data = $this->data;
+			}
 
 			$this->load->model('localisation/zone');
 			$zone_row = $this->model_localisation_zone->getZone($order_row['shipping_zone_id']);
