@@ -579,7 +579,7 @@ CREATE TABLE `ac_order_downloads` (
   `status` int(1) NOT NULL DEFAULT '0',
   `remaining_count` int(11) DEFAULT NULL,
   `percentage` int(11) DEFAULT '0',
-  `expire_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `expire_date` datetime NULL,
   `sort_order` int(11) NOT NULL, 
   `activate_order_status_id` int(11) NOT NULL DEFAULT '0', 
   `attributes_data` text COLLATE utf8_bin  DEFAULT NULL,  -- serialized values 

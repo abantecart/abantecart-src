@@ -264,12 +264,11 @@ class ControllerPagesCatalogDownload extends AController {
     	if (!$this->user->canModify('catalog/download')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
-		foreach ($this->request->post['download_description'] as $language_id => $value) {
+		foreach ($this->request->post['download_description'] as $value) {
       		if ((mb_strlen($value['name']) < 2) || mb_strlen($value['name']) > 64) {
         		$this->error['name'] = $this->language->get('error_name');
       		}
     	}
-
 
 
     	if (!$this->request->post['download']) {
@@ -283,25 +282,4 @@ class ControllerPagesCatalogDownload extends AController {
 		}
   	}
 
-  	private function _validateDelete() {
-    	if (!$this->user->canModify('catalog/download')) {
-      		$this->error['warning'] = $this->language->get('error_permission');
-    	}	
-		
-		$this->loadModel('catalog/product');
-
-		foreach ($this->request->post['selected'] as $download_id) {
-  			$product_total = $this->model_catalog_product->getTotalProductsByDownloadId($download_id);
-    
-			if ($product_total) {
-	  			$this->error['warning'] = sprintf($this->language->get('error_product'), $product_total);	
-			}	
-		}	
-			  	  	 
-		if (!$this->error) {
-	  		return TRUE;
-		} else {
-	  		return FALSE;
-		} 
-  	}
 }

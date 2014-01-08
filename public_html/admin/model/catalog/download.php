@@ -31,7 +31,7 @@ class ModelCatalogDownload extends Model {
         	                  mask = '" . $this->db->escape($data[ 'mask' ]) . "',
       	                  	  max_downloads = '" . (int)$data[ 'max_downloads' ] . "',
       	                  	  ".(isset($data['shared']) ? "shared = ".(int)$data['shared'].", " : '')."
-      	                  	  expire_days = '" . (int)$data[ 'expire_days' ] . "',
+      	                  	  expire_days = " . ((int)$data[ 'expire_days' ]? "'".(int)$data[ 'expire_days' ]."'" : 'NULL'). ",
       	                  	  sort_order = '" . (int)$data[ 'sort_order' ] . "',
       	                  	  activate = '" . $this->db->escape($data[ 'activate' ]) . "',
       	                  	  activate_order_status_id = '" . (int)$data[ 'activate_order_status_id' ] . "',
@@ -78,7 +78,11 @@ class ModelCatalogDownload extends Model {
 				if($type=='string'){
 					$update[] = "`".$field_name."` = '".$this->db->escape($data[$field_name])."'";
 				}elseif($type=='int'){
-					$update[] = "`".$field_name."` = '".(int)$data[$field_name]."'";
+					if($field_name=='expire_days'){
+						$update[] =  "`".$field_name."` = " . ((int)$data[ 'expire_days' ]? "'".(int)$data[ 'expire_days' ]."'" : 'NULL');
+					}else{
+						$update[] = "`".$field_name."` = '".(int)$data[$field_name]."'";
+					}
 				}
 			}
 		}
@@ -376,8 +380,13 @@ class ModelCatalogDownload extends Model {
 		if(!(int)$order_download_id){ return false;}
 		$update = array();
 
-		if(has_value($data[ 'expire_date' ])){
-			$update[] = "`expire_date` = '" . $this->db->escape($data[ 'expire_date' ])."'";
+		if(isset($data[ 'expire_date' ])){
+			if($data[ 'expire_date' ]){
+				$expire = "'" . $this->db->escape($data[ 'expire_date' ])."'";
+			}else{
+				$expire = 'NULL';
+			}
+			$update[] = "`expire_date` = " . $expire;
 		}
 		if(has_value($data[ 'remaining_count' ])){
 			$update[] = "`remaining_count` = '" . (int)$data[ 'remaining_count' ]."'";

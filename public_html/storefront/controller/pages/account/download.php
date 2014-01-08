@@ -79,7 +79,7 @@ class ControllerPagesAccountDownload extends AController {
 			$downloads = array();
 			//get only enabled, not expired, which have remaining count > 0 and available
 			$customer_downloads = $this->download->getCustomerDownloads(($page-1) * $limit, $limit);
-
+			$resource = new AResource('image');
 			foreach ($customer_downloads as $download_info) {
 				$text_status = $this->download->getTextStatusForOrderDownload($download_info);
 
@@ -115,7 +115,16 @@ class ControllerPagesAccountDownload extends AController {
 					$link = $text_status;
 				}
 
+				$thumbnail = $resource->getMainThumb( 'products',
+													  $download_info['product_id'],
+													  $this->config->get('config_image_cart_width'),
+													  $this->config->get('config_image_cart_height'),
+													  false );
+				$attributes = $this->download->getDownloadAttributesValues($download_info['download_id'],'to_customer');
+
 				$downloads[] = array(
+					'thumbnail'  => $thumbnail,
+					'attributes' => $attributes,
 					'order_id'   => $download_info['order_id'],
 					'date_added' => dateISO2Display($download_info['date_added'],$this->language->get('date_format_short')),
 					'name'       => $download_info['name'],

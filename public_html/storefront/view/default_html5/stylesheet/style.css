@@ -4322,3 +4322,16 @@ paypal pro styles
 	line-height: 14px;
 	margin-left: 20px;
 }
+
+.download-list {
+	width: 100%;
+}
+
+.download-list>tbody>tr>td:first-child div{
+	display: inline-block;
+}
+
+.download-list>tbody>tr>td:last-child{
+	vertical-align: middle;
+	text-align: right;
+}

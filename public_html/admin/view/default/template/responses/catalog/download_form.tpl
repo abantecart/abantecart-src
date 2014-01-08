@@ -44,14 +44,14 @@
 							<td><?php echo $form['fields']['mask']?></td>
 						</tr>
 						<tr>
-							<td><?php echo $entry_max_downloads ?></td>
-							<td><?php echo $form['fields']['max_downloads'] ?></td>
-						</tr>
-						<tr>
 							<td><?php echo $entry_activate ?></td>
 							<td><?php echo $form['fields']['activate'] . '&nbsp;' . $form['fields']['order_statuses']; ?></td>
 						</tr>
-						<tr>
+						<tr class="max_downloads">
+							<td><?php echo $entry_max_downloads ?></td>
+							<td><?php echo $form['fields']['max_downloads'] ?></td>
+						</tr>
+						<tr class="expire_days">
 							<td><?php echo $entry_expire_days ?></td>
 							<td><?php echo $form['fields']['expire_days'] ?></td>
 						</tr>
@@ -116,8 +116,16 @@
 		$('#downloadFrm<?php echo $download_id; ?>_activate').on('change', function () {
 			if ($(this).val() != 'order_status') {
 				$('#downloadFrm<?php echo $download_id; ?>_activate_order_status_id').parents('.select_element').hide().next('.required').hide();
+
+				if($(this).val() == 'before_order'){
+					$(this).parents('table').find('tr.max_downloads,tr.expire_days').hide();
+				}else{
+					$(this).parents('table').find('tr.max_downloads,tr.expire_days').show();
+				}
+
 			} else {
 				$('#downloadFrm<?php echo $download_id; ?>_activate_order_status_id').parents('.select_element').show().next('.required').show();
+				$(this).parents('table').find('tr.max_downloads,tr.expire_days').show();
 			}
 		});
 

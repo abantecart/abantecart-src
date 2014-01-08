@@ -146,6 +146,11 @@ final class ADownload {
 		if ( !(int)$order_product_id || !(int)$order_id ) {
 			return false;
 		}
+		if((int)$download['expire_days']){
+			$expire = "(NOW() + INTERVAL ".(int)$download['expire_days']." DAY)";
+		}else{
+			$expire = NULL;
+		}
 		$this->db->query("INSERT INTO " . $this->db->table("order_downloads") . "
 							SET order_id = '" . (int)$order_id . "',
 								order_product_id = '" . (int)$order_product_id . "',
@@ -156,7 +161,7 @@ final class ADownload {
 								remaining_count = '" . (int)$download['remaining_count']. "',
 								status = '" . (int)$download['status'] . "',
 								activate_order_status_id = '" . (int)$download['activate_order_status_id'] . "',
-								expire_date = (NOW() + INTERVAL ".(int)$download['expire_days']." DAY),
+								expire_date = ".$expire.",
 								attributes_data = '".$this->db->escape($download['attributes_data'])."',
 								date_added = NOW()");
 
@@ -165,6 +170,7 @@ final class ADownload {
 
 	/**
 	 * @param int $download_id
+	 * @param string $mode - can be "full" or "to_customer"
 	 * @return array
 	 */
 	public function getDownloadAttributesValues($download_id, $mode='full') {
@@ -197,11 +203,13 @@ final class ADownload {
 				if(in_array($attributes[$row['attribute_id']]['element_type'],$attributes_with_options)){
 					foreach($attribute_values as $values){
 						if($values['attribute_value_id']==$row['value']){
+							if(!$values['value'] && $mode=='to_customer'){ break 1;} // do not include empty value for display for customer
 						 	$output[$attributes[$row['attribute_id']]['name']] = $values['value'];
-							break;
+							break 1;
 						}
 					}
 				}else{
+					if(!$row['value'] && $mode=='to_customer'){ continue;} // do not include empty value for display for customer
 				 	$output[$attributes[$row['attribute_id']]['name']] = $row['value'];
 				}
 
@@ -223,7 +231,7 @@ final class ADownload {
 
 		if( $this->customer->isLogged() && $download_info['activate']!='before_order'){
 			$customer_downloads = $this->getCustomerDownloads();
-			if(!in_array($download_info['download_id'],array_keys($customer_downloads))){
+			if(!in_array($download_info['order_download_id'],array_keys($customer_downloads))){
 				return false;
 			}
 
@@ -309,10 +317,12 @@ final class ADownload {
 					  od.filename,
 					  od.mask,
 					  od.remaining_count,
-					  od.expire_date
+					  od.expire_date,
+					  op.product_id
 			   FROM " . $this->db->table("order_downloads") . " od
 			   LEFT JOIN " . $this->db->table("orders") . " o ON (od.order_id = o.order_id)
 			   LEFT JOIN " . $this->db->table("downloads") . " d ON (d.download_id = od.download_id)
+			   LEFT JOIN " . $this->db->table("order_products") . " op ON (op.order_product_id = od.order_product_id)
 			   WHERE o.customer_id = '" . $customer_id . "'
 			   ORDER BY  o.date_added DESC, od.sort_order ASC ";
 		if($limit){
@@ -322,7 +332,7 @@ final class ADownload {
 		$query = $this->db->query($sql);
 
 		foreach ($query->rows as $download_info) {
-			$downloads[$download_info['download_id']] = $download_info;
+			$downloads[$download_info['order_download_id']] = $download_info;
 		}
 
 		return $downloads;

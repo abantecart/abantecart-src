@@ -1,4 +1,4 @@
-<h1 class="heading1">
+<h1 class="heading1" style="border:none;">
 	<span class="maintext"><i class="icon-cloud-download"></i> <?php echo $heading_title; ?></span>
 	<span class="subtext"></span>
 </h1>
@@ -6,24 +6,30 @@
 <div class="container-fluid">
 
 	<?php foreach ($downloads as $download) { ?>
-		<div class="row-fluid mb20">
+		<div class="row-fluid mb20" style="border-top: 1px solid #EFEFEF;">
 			<div style="width: 45%; float: left; margin-bottom: 2px;">
 				<b><?php echo $text_order; ?></b> <?php echo $download['order_id']; ?></div>
 			<div style="width: 45%; float: right; margin-bottom: 2px; text-align: right;">
 				<b><?php echo $text_size; ?></b> <?php echo $download['size']; ?></div>
 			<div class="content" style="clear: both;">
 				<div style="padding: 5px;">
-					<table width="100%">
+					<table class="download-list">
 						<tr>
-							<td width="25%"><?php echo $text_name; ?> <?php echo $download['name']; ?></td>
-							<td width="25%"><?php echo $text_remaining; ?> <?php echo $download['remaining']; ?></td>
-							<td width="25%"><?php echo $download['expire_date'] ? $text_expire_date .'&nbsp;&nbsp;'. $download['expire_date'] : ''; ?></td>
-							<td rowspan="2" style="vertical-align: top; text-align: right;">
-								<?php echo $download['link']; ?>
+							<td><div><?php echo $download['thumbnail']['thumb_html']; ?></div>
+								<div><?php echo $text_name.' '.$download['name'];
+									if($download['attributes']){
+									?>
+									<br><div class="download-list-attributes">
+										<?php foreach($download['attributes'] as $name=>$value){
+												echo '- <small>'.$name.': '.$value.'</small>';
+										}?>
+									</div>
+									<?php } ?>
+								<br><?php echo $text_date_added; ?> <?php echo $download['date_added']; ?></div>
 							</td>
-						</tr>
-						<tr>
-							<td colspan="3"><?php echo $text_date_added; ?> <?php echo $download['date_added']; ?></td>
+							<td><?php echo $text_remaining; ?> <?php echo $download['remaining']; ?></td>
+							<td><?php echo $download['expire_date'] ? $text_expire_date .'&nbsp;&nbsp;'. $download['expire_date'] : ''; ?></td>
+							<td rowspan="2" ><?php echo $download['link']; ?></td>
 						</tr>
 					</table>
 				</div>

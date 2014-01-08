@@ -21,7 +21,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridDownload extends AController {
-	private $error = array();
 
 	public function main() {
 
@@ -95,22 +94,31 @@ class ControllerResponsesListingGridDownload extends AController {
 					}
 				break;
 			case 'save':
+				$allowedFields = array('name', 'status');
 
+				$ids = explode(',', $this->request->post['id']);
+				if ( !empty($ids) ) {
+					foreach( $ids as $id ) {
+						foreach ( $allowedFields as $field ) {
+							$this->model_catalog_download->editDownload($id, array($field => $this->request->post[$field][$id]) );
+						}
+					}
+				}
 				break;
 
 			default:
-				//print_r($this->request->post);
+
 
 		}
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		return null;
 	}
 
 	/**
 	 * update only one field
 	 *
-	 * @return void
 	 */
 	public function update_field() {
 
@@ -185,5 +193,6 @@ class ControllerResponsesListingGridDownload extends AController {
 		}
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		return null;
 	}
 }

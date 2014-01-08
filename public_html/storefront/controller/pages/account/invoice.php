@@ -122,9 +122,15 @@ class ControllerPagesAccountInvoice extends AController {
 			$products = array();
 			
 			$order_products = $this->model_account_order->getOrderProducts($order_id);
-
+			$resource = new AResource('image');
       		foreach ($order_products as $product) {
 				$options = $this->model_account_order->getOrderOptions($order_id, $product['order_product_id']);
+
+				$thumbnail = $resource->getMainThumb( 'products',
+													  $product['product_id'],
+													  $this->config->get('config_image_cart_width'),
+													  $this->config->get('config_image_cart_height'),
+													  false );
 
         		$option_data = array();
 
@@ -137,6 +143,7 @@ class ControllerPagesAccountInvoice extends AController {
 
         		$products[] = array(
           			'id'       => $product['product_id'],
+					'thumbnail'=> $thumbnail,
           			'name'     => $product['name'],
           			'model'    => $product['model'],
           			'option'   => $option_data,

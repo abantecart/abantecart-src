@@ -249,6 +249,7 @@ class AView {
 	 * @return string
 	 */
 	public function fetch($filename) {
+		ADebug::checkpoint('fetch '.$filename.' start');
 		//#PR First see if we have full path to template file. Nothing to do. Higher precedence!
 		if (is_file($filename)) {
 			//#PR set full path
@@ -284,12 +285,13 @@ class AView {
             if ( $result = $this->extensions->isExtensionResource('T', $file_post) ) {
                 $content .= $this->_fetch($result['file']);
             }
-
+			ADebug::checkpoint('fetch '.$filename.' end');
       		return $content;
     	} else {
 			$error = new AError('Error: Could not load template ' . $filename . '!' , AC_ERR_LOAD);
 			$error->toDebug()->toLog();
     	}
+
 		return '';
 	}
 
@@ -460,7 +462,7 @@ class AView {
 
         if ( !file_exists($file) ) return '';
 
-        ADebug::checkpoint('fetch '.$file.' start');
+        ADebug::checkpoint('_fetch '.$file.' start');
         extract($this->data);
 
         ob_start();
@@ -469,7 +471,7 @@ class AView {
         $content = ob_get_contents();
         ob_end_clean();
 
-        ADebug::checkpoint('fetch '.$file.' end');
+        ADebug::checkpoint('_fetch '.$file.' end');
         return $content;
     }
 }

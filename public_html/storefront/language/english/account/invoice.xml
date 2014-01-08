@@ -81,6 +81,10 @@
 		<value><![CDATA[Order Comments]]></value>
 	</definition>
 	<definition>
+		<key>text_image</key>
+		<value><![CDATA[Image]]></value>
+	</definition>
+	<definition>
 		<key>text_error</key>
 		<value><![CDATA[The invoice you requested could not be found!]]></value>
 	</definition>
