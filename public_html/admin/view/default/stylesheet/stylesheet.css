@@ -2155,7 +2155,7 @@ table.form tr td:first-child {
 }
 
 #product_download_form a.delete, #product_download_form a.push {
-    margin-left: 10px;
+    margin-left: 6px;
 }
 #product_download_form a.add  {
 	width: 16px;
@@ -2189,8 +2189,11 @@ table.form tr td:first-child {
 	background-color: white;
 }
 /*order downloads*/
-.download-list{
+div.download-list{
 	margin-top: 30px;
+}
+table.download-list{
+	margin-top: 10px;
 }
 .download-list th{
 	border: medium none;

@@ -551,13 +551,27 @@ class ModelSaleOrder extends Model {
 	}	
 
 	public function getOrderDownloads($order_id) {
-		$query = $this->db->query("SELECT *
-								   FROM " . $this->db->table("order_downloads") . "
-								   WHERE order_id = '" . (int)$order_id . "'
-								   ORDER BY name");
-	
-		return $query->rows; 
-	}	
+		$query = $this->db->query("SELECT op.product_id, op.name as product_name, od.*
+								   FROM " . $this->db->table("order_downloads") . " od
+								   LEFT JOIN " . $this->db->table("order_products")." op
+								   		ON op.order_product_id = od.order_product_id
+								   WHERE od.order_id = '" . (int)$order_id . "'
+								   ORDER BY op.order_product_id, od.sort_order, od.name");
+		$output = array();
+		foreach($query->rows as $row){
+			$output[$row['product_id']]['product_name'] = $row['product_name'];
+			$output[$row['product_id']]['downloads'][] = $row;
+		}
+		return $output;
+	}
+
+	public function getTotalOrderDownloads($order_id) {
+		$query = $this->db->query("SELECT COUNT(*) as total
+								   FROM " . $this->db->table("order_downloads") . " od
+								   WHERE od.order_id = '" . (int)$order_id . "'");
+
+		return $query->row['total'];
+	}
 				
 	public function getTotalOrders($data = array()) {
       	$sql = "SELECT COUNT(*) AS total FROM `" . $this->db->table("orders") . "`";
@@ -667,4 +681,3 @@ class ModelSaleOrder extends Model {
 		return $query->row['total'];
 	}	
 }
-?>

@@ -52,14 +52,6 @@
 												 style="height: 25px; line-height: 24px; padding: 5px;"><?php echo $text_select_shared_downloads; ?></div>
 											<div class="flt_left">
 												<div style="padding-top: 5px;"><?php echo $form0['fields']['list_hidden']; ?></div>
-												<div style="margin-left: 0px;"><?php echo $form0['fields']['list']; ?></div>
-											</div>
-											<br>
-
-											<div class="buttons align_center" style="clear:both;">
-												<?php echo $form0['cancel']; ?>
-												<button type="submit"
-														class="btn_standard"><?php echo $form0['submit']; ?></button>
 											</div>
 											</form>
 										</td>
@@ -77,7 +69,7 @@
 				<h2 style="text-transform: uppercase; "><?php echo $text_or ?></h2>
 			<?php } ?>
 
-			<div id="notify_<?php echo $download_id; ?>" class="align_left success" style="display: none;"></div>
+			<div id="notify_<?php echo $download_id; ?>" class="success alert alert-success" style="display: none;"></div>
 			<?php echo $form['form_open'] . $form['fields']['download_id']; ?>
 			<div class="fieldset flt_left">
 				<div class="heading"><?php echo $text_download_information; ?></div>
@@ -227,7 +219,7 @@
 									location = location.href + '&download_id=' + json.download_id;
 								}
 						).fail(function (xhr, textStatus, errorThrown) {
-									$('#notify_<?php echo $download_id; ?>').removeClass('success').addClass('warning error');
+									$('#notify_<?php echo $download_id; ?>').removeClass('success alert-success').addClass('warning alert-error');
 									$('#notify_<?php echo $download_id; ?>').html(errorThrown).fadeIn(500);
 								});
 						return false;

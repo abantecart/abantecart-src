@@ -20,7 +20,15 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+/**
+ * Class ModelAccountOrder
+ */
 class ModelAccountOrder extends Model {
+	/**
+	 * @param int $order_id
+	 * @param string $order_status_id
+	 * @return array|bool
+	 */
 	public function getOrder($order_id, $order_status_id = '') {
 		if ( $order_status_id == '') {
 			//processed order
@@ -34,7 +42,10 @@ class ModelAccountOrder extends Model {
 			$status_check = " AND order_status_id = '".$order_status_id."'";
 		}
 	
-		$order_query = $this->db->query("SELECT * FROM `" . $this->db->table("orders") . "` WHERE order_id = '" . (int)$order_id . "' AND customer_id = '" . (int)$this->customer->getId() . "'" . $status_check);
+		$order_query = $this->db->query("SELECT *
+										FROM `" . $this->db->table("orders") . "`
+										WHERE order_id = '" . (int)$order_id . "'
+											AND customer_id = '" . (int)$this->customer->getId() . "'" . $status_check);
 	
 		if ($order_query->num_rows) {
 			$order_row = $this->dcrypt->decrypt_data($order_query->row, 'orders');
@@ -133,16 +144,18 @@ class ModelAccountOrder extends Model {
 			return FALSE;	
 		}
 	}
-	 
+
+	/**
+	 * @param int $start
+	 * @param int $limit
+	 * @return array
+	 */
 	public function getOrders($start = 0, $limit = 20) {
-	
 		$language_id = (int)$this->config->get('storefront_language_id');
-		
 		if ($start < 0) {
 			$start = 0;
 		}
-		
-		$query = $this->db->query("SELECT	o.order_id, 
+		$query = $this->db->query( "SELECT	o.order_id,
 										 	o.firstname, 
 										 	o.lastname, 
 										 	os.name as status, 
@@ -155,29 +168,52 @@ class ModelAccountOrder extends Model {
 								   		ON (o.order_status_id = os.order_status_id AND os.language_id = '" . (int)$language_id . "')
 								   WHERE customer_id = '" . (int)$this->customer->getId() . "' 
 								   		AND o.order_status_id > '0' 
-								   ORDER BY o.order_id DESC LIMIT " . (int)$start . "," . (int)$limit);
+								   ORDER BY o.order_id DESC LIMIT " . (int)$start . "," . (int)$limit );
 	
 		return $query->rows;
 	}
-	
+
+	/**
+	 * @param int $order_id
+	 * @return array
+	 */
 	public function getOrderProducts($order_id) {
-		$query = $this->db->query("SELECT * FROM " . $this->db->table("order_products") . " WHERE order_id = '" . (int)$order_id . "'");
+		$query = $this->db->query( "SELECT *
+									FROM " . $this->db->table("order_products") . "
+									WHERE order_id = '" . (int)$order_id . "'" );
 	
 		return $query->rows;
 	}
-	
+
+	/**
+	 * @param int $order_id
+	 * @param int $order_product_id
+	 * @return array
+	 */
 	public function getOrderOptions($order_id, $order_product_id) {
-		$query = $this->db->query("SELECT * FROM " . $this->db->table("order_options") . " WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$order_product_id . "'");
+		$query = $this->db->query("SELECT *
+									FROM " . $this->db->table("order_options") . "
+									WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$order_product_id . "'");
 	
 		return $query->rows;
 	}
 
+	/**
+	 * @param int $order_id
+	 * @return array
+	 */
 	public function getOrderTotals($order_id) {
-		$query = $this->db->query("SELECT * FROM " . $this->db->table("order_totals") . " WHERE order_id = '" . (int)$order_id . "' ORDER BY sort_order");
-	
+		$query = $this->db->query("SELECT *
+									FROM " . $this->db->table("order_totals") . "
+									WHERE order_id = '" . (int)$order_id . "'
+									ORDER BY sort_order");
 		return $query->rows;
-	}	
+	}
 
+	/**
+	 * @param int $order_id
+	 * @return string
+	 */
 	public function getOrderStatus($order_id) {
 		$language_id = (int)$this->config->get('storefront_language_id');
 		
@@ -188,10 +224,13 @@ class ModelAccountOrder extends Model {
 										AND o.order_status_id = os.order_status_id 
 										AND os.language_id = '" . (int)$language_id . "'"
 								);
-		
 		return $query->row['status'];
-	}	
+	}
 
+	/**
+	 * @param int $order_id
+	 * @return array
+	 */
 	public function getOrderHistories($order_id) {
 		$language_id = (int)$this->config->get('storefront_language_id');
 		
@@ -204,26 +243,39 @@ class ModelAccountOrder extends Model {
 									WHERE oh.order_id = '" . (int)$order_id . "' AND oh.notify = '1' 
 										AND os.language_id = '" . (int)$language_id . "' 
 									ORDER BY oh.date_added");
-	
 		return $query->rows;
-	}	
-
-	public function getOrderDownloads($order_id) {
-		$query = $this->db->query("SELECT * FROM " . $this->db->table("order_downloads") . " WHERE order_id = '" . (int)$order_id . "' ORDER BY name");
-	
-		return $query->rows; 
-	}	
-
-	public function getTotalOrders() {
-      	$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . $this->db->table("orders") . "` WHERE customer_id = '" . (int)$this->customer->getId() . "' AND order_status_id > '0'");
-		
-		return $query->row['total'];
 	}
-		
+
+	/**
+	 * @param int $order_id
+	 * @return array
+	 */
+	public function getOrderDownloads($order_id) {
+		$query = $this->db->query("SELECT *
+									FROM " . $this->db->table("order_downloads") . "
+									WHERE order_id = '" . (int)$order_id . "'
+									ORDER BY sort_order ASC");
+		return $query->rows; 
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTotalOrders() {
+      	$query = $this->db->query("SELECT COUNT(*) AS total
+      								FROM `" . $this->db->table("orders") . "`
+      								WHERE customer_id = '" . (int)$this->customer->getId() . "' AND order_status_id > '0'");
+		return (int)$query->row['total'];
+	}
+
+	/**
+	 * @param int $order_id
+	 * @return int
+	 */
 	public function getTotalOrderProductsByOrderId($order_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("order_products") . " WHERE order_id = '" . (int)$order_id . "'");
-		
-		return $query->row['total'];
+		$query = $this->db->query("SELECT COUNT(*) AS total
+									FROM " . $this->db->table("order_products") . "
+									WHERE order_id = '" . (int)$order_id . "'");
+		return (int)$query->row['total'];
 	}
 }
-?>

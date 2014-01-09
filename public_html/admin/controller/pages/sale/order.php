@@ -394,16 +394,6 @@ class ControllerPagesSaleOrder extends AController {
 
 		$this->data['totals'] = $this->model_sale_order->getOrderTotals($this->request->get['order_id']);
 
-		$this->data['downloads'] = array();
-		$results = $this->model_sale_order->getOrderDownloads($this->request->get['order_id']);
-		foreach ($results as $result) {
-			$this->data['downloads'][] = array(
-				'name' => $result['name'],
-				'filename' => $result['mask'],
-				'remaining' => $result['remaining']
-			);
-		}
-
 		$this->data['form_title'] = $this->language->get('edit_title_details');
 		$this->data['update'] = $this->html->getSecureURL('listing_grid/order/update_field', '&id=' . $this->request->get['order_id']);
 		$form = new AForm('HS');
@@ -444,46 +434,6 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['form']['fields']['payment_method'] = $this->data['payment_method'];
 
 		$this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
-
-		/** ORDER DOWNLOADS */
-		$this->data['downloads'] = array();
-
-		$downloads = $this->model_sale_order->getOrderDownloads($this->request->get['order_id']);
-		if ($downloads) {
-
-			foreach ($downloads as $download_info) {
-
-				$this->data['downloads'][] = array(
-					'name' => $download_info['name'],
-
-
-					'resource' => $download_info['filename'],
-					'mask' => $download_info['mask'],
-					'status' => $form->getFieldHtml(array(
-						'type' => 'checkbox',
-						'name' => 'downloads[' . (int)$download_info['order_download_id'] . '][status]',
-						'value' => $download_info['status'],
-						'style' => 'btn_switch',
-					)),
-					'remaining' => $form->getFieldHtml(array(
-						'type' => 'input',
-						'name' => 'downloads[' . (int)$download_info['order_download_id'] . '][remaining_count]',
-						'value' => $download_info['remaining_count'],
-						'style' => 'small-field'
-					)),
-					'expire_date' => $form->getFieldHtml(
-						array(
-							'type' => 'date',
-							'name' => 'downloads[' . (int)$download_info['order_download_id'] . '][expire_date]',
-							'value' => ($download_info['expire_date'] ? dateISO2Display($download_info['expire_date']) : ''),
-							'default' => '',
-							'dateformat' => format4Datepicker($this->language->get('date_format_short')),
-							'highlight' => 'future',
-							'style' => 'medium-field'))
-				);
-			}
-		}
-
 
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('order_details'));
@@ -990,11 +940,18 @@ class ControllerPagesSaleOrder extends AController {
 			'payment' => array(
 				'href' => $this->html->getSecureURL('sale/order/payment', '&order_id=' . $this->request->get['order_id']),
 				'text' => $this->language->get('tab_payment'),
-			),
-			'history' => array(
-				'href' => $this->html->getSecureURL('sale/order/history', '&order_id=' . $this->request->get['order_id']),
-				'text' => $this->language->get('tab_history'),
-			),
+			));
+		//show tab only when downloads exists in order
+		if($this->model_sale_order->getTotalOrderDownloads($this->request->get['order_id'])){
+			$this->data['tabs']['files'] = array(
+				'href' => $this->html->getSecureURL('sale/order/files', '&order_id=' . $this->request->get['order_id']),
+				'text' => $this->language->get('tab_files'),
+			);
+		}
+
+		$this->data['tabs']['history'] = array(
+			'href' => $this->html->getSecureURL('sale/order/history', '&order_id=' . $this->request->get['order_id']),
+			'text' => $this->language->get('tab_history')
 		);
 
 		if (in_array($active, array_keys($this->data['tabs']))) {
@@ -1002,6 +959,216 @@ class ControllerPagesSaleOrder extends AController {
 		} else {
 			$this->data['tabs']['details']['active'] = 1;
 		}
+	}
+
+	public function files() {
+
+		$this->data = array();
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		if (has_value($this->session->data['error'])) {
+			$this->data['error']['warning'] = $this->session->data['error'];
+			unset($this->session->data['error']);
+		}
+
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+			if (has_value($this->request->post['downloads'])) {
+				$data = $this->request->post['downloads'];
+				$this->loadModel('catalog/download');
+				foreach ($data as $order_download_id => $item) {
+					if (isset($item['expire_date'])) {
+						$item['expire_date'] = $item['expire_date'] ? dateDisplay2ISO($item['expire_date'], $this->language->get('date_format_short')) : '';
+					}
+					$this->model_catalog_download->editOrderDownload($order_download_id, $item);
+				}
+			}
+
+			$this->session->data['success'] = $this->language->get('text_success');
+			$this->redirect($this->html->getSecureURL('sale/order/files', '&order_id=' . $this->request->get['order_id']));
+		}
+
+		if (isset($this->request->get['order_id'])) {
+			$order_id = $this->request->get['order_id'];
+		} else {
+			$order_id = 0;
+		}
+
+		$order_info = $this->model_sale_order->getOrder($order_id);
+		$this->data['order_info'] = $order_info;
+
+		//set content language to order language ID.
+		if ($this->language->getContentLanguageID() != $order_info['language_id']) {
+			//reset content language
+			$this->language->setCurrentContentLanguage($order_info['language_id']);
+		}
+
+		if (empty($order_info)) {
+			$this->session->data['error'] = $this->language->get('error_order_load');
+			$this->redirect($this->html->getSecureURL('sale/order'));
+		}
+
+		$this->document->initBreadcrumb(array(
+			'href' => $this->html->getSecureURL('index/home'),
+			'text' => $this->language->get('text_home'),
+			'separator' => FALSE
+		));
+
+		$this->document->addBreadcrumb(array(
+			'href' => $this->html->getSecureURL('sale/order'),
+			'text' => $this->language->get('heading_title'),
+			'separator' => ' :: '
+		));
+		$this->document->addBreadcrumb(array(
+			'href' => $this->html->getSecureURL('sale/order/files', '&order_id=' . $this->request->get['order_id']),
+			'text' => $this->language->get('heading_title') . ' #' . $order_info['order_id'],
+			'separator' => ' :: '
+		));
+
+		if (isset($this->session->data['success'])) {
+			$this->data['success'] = $this->session->data['success'];
+			unset($this->session->data['success']);
+		} else {
+			$this->data['success'] = '';
+		}
+
+		$this->data['heading_title'] = $this->language->get('heading_title') . ' #' . $order_info['order_id'];
+		$this->data['token'] = $this->session->data['token'];
+		$this->data['invoice'] = $this->html->getSecureURL('sale/invoice', '&order_id=' . (int)$this->request->get['order_id']);
+		$this->data['button_invoice'] = $this->html->buildButton(array('name' => 'btn_invoice', 'text' => $this->language->get('text_invoice'), 'style' => 'button3',));
+		$this->data['invoice_generate'] = $this->html->getSecureURL('sale/invoice/generate');
+		$this->data['category_products'] = $this->html->getSecureURL('product/product/category');
+		$this->data['product_update'] = $this->html->getSecureURL('catalog/product/update');
+		$this->data['order_id'] = $this->request->get['order_id'];
+		$this->data['action'] = $this->html->getSecureURL('sale/order/files', '&order_id=' . $this->request->get['order_id']);
+		$this->data['cancel'] = $this->html->getSecureURL('sale/order');
+
+		$this->_initTabs('files');
+
+		$this->loadModel('localisation/order_status');
+		$status = $this->model_localisation_order_status->getOrderStatus($order_info['order_status_id']);
+		if ($status) {
+			$this->data['order_status'] = $status['name'];
+		} else {
+			$this->data['order_status'] = '';
+		}
+
+		$this->loadModel('sale/customer_group');
+		$customer_group_info = $this->model_sale_customer_group->getCustomerGroup($order_info['customer_group_id']);
+		if ($customer_group_info) {
+			$this->data['customer_group'] = $customer_group_info['name'];
+		} else {
+			$this->data['customer_group'] = '';
+		}
+
+		foreach ($fields as $f) {
+			if (isset ($this->request->post [$f])) {
+				$this->data [$f] = $this->request->post [$f];
+			} elseif (isset($order_info[$f])) {
+				$this->data[$f] = $order_info[$f];
+			} else {
+				$this->data[$f] = '';
+			}
+		}
+
+		$this->data['downloads'] = array();
+		$results = $this->model_sale_order->getOrderDownloads($this->request->get['order_id']);
+		foreach ($results as $result) {
+			$this->data['downloads'][] = array(
+				'name' => $result['name'],
+				'filename' => $result['mask'],
+				'remaining' => $result['remaining']
+			);
+		}
+
+		$this->data['form_title'] = $this->language->get('edit_title_files');
+		$this->data['update'] = $this->html->getSecureURL('listing_grid/order/update_field', '&id=' . $this->request->get['order_id']);
+		$form = new AForm('HS');
+
+		$form->setForm(array(
+			'form_name' => 'orderFrm',
+			'update' => $this->data['update'],
+		));
+
+		$this->data['form']['id'] = 'orderFrm';
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
+			'type' => 'form',
+			'name' => 'orderFrm',
+			'attr' => 'confirm-exit="true"',
+			'action' => $this->data['action'],
+		));
+		$this->data['form']['submit'] = $form->getFieldHtml(array(
+			'type' => 'button',
+			'name' => 'submit',
+			'text' => $this->language->get('button_save'),
+			'style' => 'button1',
+		));
+		$this->data['form']['cancel'] = $form->getFieldHtml(array(
+			'type' => 'button',
+			'name' => 'cancel',
+			'text' => $this->language->get('button_cancel'),
+			'style' => 'button2',
+		));
+
+		$this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
+
+		/** ORDER DOWNLOADS */
+		$this->data['downloads'] = array();
+
+		$order_downloads = $this->model_sale_order->getOrderDownloads($this->request->get['order_id']);
+		if ($order_downloads) {
+			$rl = new AResource('image');
+
+			foreach ($order_downloads as $product_id=>$order_download) {
+				$downloads = $order_download['downloads'];
+				$this->data['order_downloads'][$product_id]['product_name'] = $order_download['product_name'];
+				$this->data['order_downloads'][$product_id]['product_thumbnail'] = $rl->getMainThumb( 'products',
+																										$product_id,
+																										$this->config->get('config_image_grid_width'),
+																										$this->config->get('config_image_grid_height')
+				);
+				foreach ($downloads as $download_info) {
+					$this->data['order_downloads'][$product_id]['downloads'][] = array(
+							'name' => $download_info['name'],
+							'href' => $this->html->getSecureURL('catalog/product_files','&product_id='.$product_id.'&download_id='.$download_info['download_id']),
+							'resource' => $download_info['filename'],
+							'mask' => $download_info['mask'],
+							'status' => $form->getFieldHtml(array(
+								'type' => 'checkbox',
+								'name' => 'downloads[' . (int)$download_info['order_download_id'] . '][status]',
+								'value' => $download_info['status'],
+								'style' => 'btn_switch',
+							)),
+							'remaining' => $form->getFieldHtml(array(
+								'type' => 'input',
+								'name' => 'downloads[' . (int)$download_info['order_download_id'] . '][remaining_count]',
+								'value' => $download_info['remaining_count'],
+								'style' => 'small-field'
+							)),
+							'expire_date' => $form->getFieldHtml(
+								array(
+									'type' => 'date',
+									'name' => 'downloads[' . (int)$download_info['order_download_id'] . '][expire_date]',
+									'value' => ($download_info['expire_date'] ? dateISO2Display($download_info['expire_date']) : ''),
+									'default' => '',
+									'dateformat' => format4Datepicker($this->language->get('date_format_short')),
+									'highlight' => 'future',
+									'style' => 'medium-field'))
+						);
+				}
+			}
+		}
+
+
+		$this->view->batchAssign($this->data);
+		$this->view->assign('help_url', $this->gen_help_url('order_files'));
+
+		$this->processTemplate('pages/sale/order_files.tpl');
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
 }

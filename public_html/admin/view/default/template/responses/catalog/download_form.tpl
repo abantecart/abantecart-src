@@ -1,6 +1,6 @@
 <div id="product_download_form" class="additionalRow clean">
 
-	<div id="notify_<?php echo $download_id; ?>" class="align_left success" style="display: none;"></div>
+	<div id="notify_<?php echo $download_id; ?>" class="success alert alert-success" style="display: none;"></div>
 	<?php echo $form['form_open'] . $form['fields']['download_id']; ?>
 	<div class="fieldset flt_left">
 		<div class="heading"><?php echo $text_download_information; ?></div>
@@ -134,14 +134,14 @@
 					$(this).serialize(),
 					function (json) {
 						<?php if($download_id){ ?>
-						$('#notify_<?php echo $download_id; ?>').removeClass('warning error').addClass('success');
+						$('#notify_<?php echo $download_id; ?>').removeClass('warning alert-error').addClass('success alert-success');
 						$('#notify_<?php echo $download_id; ?>').html(json.text).fadeIn(500).delay(2000).fadeOut(500);
 						<?php }else{?>
 						location = location.href+'&download_id='+json.download_id;
 						<?php } ?>
 					}
 			).fail(function (xhr, textStatus, errorThrown) {
-						$('#notify_<?php echo $download_id; ?>').removeClass('success').addClass('warning error');
+						$('#notify_<?php echo $download_id; ?>').removeClass('success alert-success').addClass('warning alert-error');
 						$('#notify_<?php echo $download_id; ?>').html(errorThrown).fadeIn(500);
 					});
 			return false;

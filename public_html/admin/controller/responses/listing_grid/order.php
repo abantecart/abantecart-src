@@ -188,10 +188,8 @@ class ControllerResponsesListingGridOrder extends AController {
 			$data = $this->request->post['downloads'];
 			$this->loadModel('catalog/download');
 			foreach($data as $order_download_id=>$item){
-				if ($item['expire_date']) {
-					$item['expire_date'] = dateDisplay2ISO($item['expire_date'], $this->language->get('date_format_short'));
-				} else {
-					$item['expire_date'] = '';
+				if (isset($item['expire_date'])) {
+					$item['expire_date'] = $item['expire_date'] ? dateDisplay2ISO($item['expire_date'], $this->language->get('date_format_short')) : '';
 				}
 				$this->model_catalog_download->editOrderDownload($order_download_id, $item);
 			}

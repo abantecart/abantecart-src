@@ -181,6 +181,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['batch_actions'] = $this->html->buildSelectbox(
 			array(
 				'name' => 'actions',
+				'value' => 'map',
 				'options' => array(
 					''=>$this->language->get('text_select'),
 					'map'=>$this->language->get('text_map'),

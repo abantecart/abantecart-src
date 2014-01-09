@@ -72,7 +72,7 @@ class ControllerPagesCatalogDownload extends AController {
 				'name' => 'name',
 				'index' => 'name',
 				'width' => 300,
-                'align' => 'left',
+                'align' => 'center',
 			),
 			array(
 				'name' => 'status',
@@ -175,6 +175,9 @@ class ControllerPagesCatalogDownload extends AController {
 		} else {
 			$this->data['error_warning'] = '';
 		}
+		if (isset($this->request->get['download_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+			$download_info = $this->model_catalog_download->getDownload($this->request->get['download_id']);
+		}
 
  		$this->data['error'] = $this->error;
  		$this->data['language_id'] = $this->config->get('storefront_language_id');
@@ -192,9 +195,6 @@ class ControllerPagesCatalogDownload extends AController {
 
 		$this->data['cancel'] = $this->html->getSecureURL('catalog/download');
 
-		if (isset($this->request->get['download_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$download_info = $this->model_catalog_download->getDownload($this->request->get['download_id']);
-		}
 
     	if (isset($download_info['filename']) ) {
             if ( is_file(DIR_RESOURCE.$download_info['filename']) ) {
@@ -236,7 +236,7 @@ class ControllerPagesCatalogDownload extends AController {
 			$download_info = array('download_id' => 0);
 		} else {
 			$this->data['action'] = $this->html->getSecureURL('catalog/download/update', '&download_id=' . $this->request->get['download_id'] );
-			$this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_download'). ' - ' . $this->data['download_description'][$this->session->data['content_language_id']]['name'];
+			$this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_download'). ' - ' .$download_info['name'];
 			$this->data['update'] = $this->html->getSecureURL('listing_grid/download/update_field','&id='.$this->request->get['download_id']);
 
 			$download_info = $this->model_catalog_download->getDownload($this->request->get['download_id']);
