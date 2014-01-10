@@ -111,7 +111,7 @@ class ControllerPagesCatalogProductFiles extends AController {
 		$this->loadModel('catalog/download');
 		$this->data['downloads'] = array();
 
-		$prod_files = $this->model_catalog_product->getProductDownloadsDetails($product_id);
+		$prod_files = $this->model_catalog_download->getProductDownloadsDetails($product_id);
 		$prod_files[] = array( 'download_id' => 0 );
 
 		$this->session->data['multivalue_excludes'] = array(); // array for excluding assigned downloads from multivalue list of create form

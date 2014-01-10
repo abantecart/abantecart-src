@@ -22,10 +22,10 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 class ControllerResponsesCatalogDownloadListing extends AController {
 	public $data = array();
-
-	/*
+	/**
 	 * response method, if response type is html - it send jqgrid, otherwise - json-data for grid
-	 * */
+	 *
+	 */
 	public function Main() {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
@@ -36,77 +36,15 @@ class ControllerResponsesCatalogDownloadListing extends AController {
 		} else {
 			$this->_json_response();
 		}
-
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-
 		$this->response->setOutput($this->data[ 'response' ]);
-
 	}
 
-	private function _json_response(){
-			// json-response for jqgrid
-			$this->loadLanguage('catalog/download');
-			$this->loadModel('catalog/download');
-
-
-			//Prepare filter config
-
-			$grid_filter_params = array( 'name' );
-			$filter_grid = new AFilter( array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params, 'additional_filter_string' => 'shared=1') );
-
-			$total = $this->model_catalog_download->getTotalDownloads( $filter_grid->getFilterData() );
-			$response = new stdClass();
-			$response->page = $filter_grid->getParam('page');
-			$response->total = $filter_grid->calcTotalPages( $total );
-			$response->records = $total;
-
-			$results = $this->model_catalog_download->getDownloads( $filter_grid->getFilterData() );
-			$i = 0;
-			$resource = new AResource('image');
-			$response->userdata = (object)array('page'=>$page);
-			$data_type = 'download_id';
-
-			$rl = new AResource('download');
-			$rl_dir = $rl->getTypeDir();
-
-			if ($results) {
-				foreach ($results as $result) {
-					if(in_array($result[ $data_type ], $this->session->data['multivalue_excludes']) ){ continue; }
-
-					$resource_id = $rl->getIdFromHexPath(str_replace($rl_dir,'',$result['filename']));
-
-					$resource_info = $rl->getResource($resource_id);
-					$thumbnail = $rl->getResourceThumb($resource_id,27, 27);
-					if($resource_info['resource_path']){
-						$thumbnail = $this->html->buildResourceImage(
-																	array('url' => $thumbnail,
-																		'width' => 27,
-																		'height' => 27,
-																		'attr' => 'alt="' . $resource_info['title'] . '"') );
-					}else{
-						$thumbnail = $resource_info['resource_code'];
-					}
-
-
-					$response->rows[ $i ][ 'id' ] = $result[ 'download_id' ];
-					$response->rows[ $i ][ 'cell' ] = array(
-						$thumbnail,
-						$result[ 'name' ],
-						'<a class="btn_action" href="JavaScript:void(0);"
-							onclick="showPopup(\'' . $this->html->getSecureURL('catalog/download/update', '&' . $data_type . '=' . $result[ $data_type ]) . '\')" title="' . $this->language->get('text_view') . '">' .
-						'<img height="27" src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_view.png" alt="' . $this->language->get('text_edit') . '" /></a>' );
-					$i++;
-				}
-			}
-
-			$this->data[ 'response' ] = AJson::encode($response);
-	}
 
 	private function _html_response(){
 
 		$this->loadLanguage('catalog/download');
-
 		$form_name = isset($this->request->get[ 'form_name' ]) ? $this->request->get[ 'form_name' ] : 'SharedFrm';
 		$multivalue_hidden_id = isset($this->request->get[ 'multivalue_hidden_id' ]) ? $this->request->get[ 'multivalue_hidden_id' ] : 'popup';
 
@@ -115,9 +53,9 @@ class ControllerResponsesCatalogDownloadListing extends AController {
 			$this->session->data[ 'listing_selected' ] = AJson::decode(html_entity_decode($this->request->post[ 'selected' ]), true);
 		}
 		$grid_settings = array(
-			'table_id' => 'download_grid',
+			'table_id' => 'download_grid_'.$multivalue_hidden_id,
 			'url' => $this->html->getSecureURL('catalog/download_listing',
-			                                   '&response_type=json'),
+			                                   '&response_type=json&product_id='.$this->request->get['product_id']),
 			'editurl' => '',
 			'sortname' => 'name',
 			'sortorder' => 'asc',
@@ -153,12 +91,9 @@ class ControllerResponsesCatalogDownloadListing extends AController {
 
 
 		$grid_settings[ 'search_form' ] = true;
-
-
 		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ));
 		$listing_grid = $grid->dispatchGetOutput();
 		unset($grid);
-
 
 		// add js-scripts for grid rows selecting (redeclare onSelectRow event for grid)
 		$view = new AView($this->registry, 0);
@@ -170,6 +105,75 @@ class ControllerResponsesCatalogDownloadListing extends AController {
 									'filter_price_max' => $this->language->get('filter_price_max'),
 		                   ));
 		$this->data[ 'response' ] = $view->fetch('responses/catalog/download_listing.tpl');
+	}
+
+
+	private function _json_response(){
+		// json-response for jqgrid
+		$this->loadLanguage('catalog/download');
+		$this->loadModel('catalog/download');
+
+		$excludes = $this->session->data['multivalue_excludes'];
+
+		$grid_filter_params = array( 'name' );
+		// if need to show all downloads of product
+		if($this->request->get['product_id']){
+			$filter_grid = new AFilter( array( 'method' => 'post',
+												'grid_filter_params' => $grid_filter_params ,
+												'additional_filter_string' => (sizeof($excludes) ? "AND p2d.download_id NOT IN (".implode(', ',$excludes).")" : '' ))
+			);
+			$results = $this->model_catalog_download->getProductDownloadsDetails( $this->request->get['product_id'], $filter_grid->getFilterData() );
+			$total = sizeof($results);
+		}else{
+			//Prepare filter config
+			$filter_grid = new AFilter( array( 'method' => 'post',
+												'grid_filter_params' => $grid_filter_params,
+												'additional_filter_string' => 'shared=1'.(sizeof($excludes) ? " AND d.download_id NOT IN (".implode(', ',$excludes).")" : '' )
+			) );
+
+			$total = $this->model_catalog_download->getTotalDownloads( $filter_grid->getFilterData() );
+			$results = $this->model_catalog_download->getDownloads( $filter_grid->getFilterData() );
+		}
+
+		$response = new stdClass();
+		$response->page = $filter_grid->getParam('page');
+		$response->total = $filter_grid->calcTotalPages( $total );
+		$response->records = $total;
+
+		$i = 0;
+		$response->userdata = (object)array('page'=>$page);
+		$data_type = 'download_id';
+
+		$rl = new AResource('download');
+		$rl_dir = $rl->getTypeDir();
+
+		if ($results) {
+			foreach ($results as $result) {
+				$resource_id = $rl->getIdFromHexPath(str_replace($rl_dir,'',$result['filename']));
+				$resource_info = $rl->getResource($resource_id);
+				$thumbnail = $rl->getResourceThumb($resource_id,27, 27);
+				if($resource_info['resource_path']){
+					$thumbnail = $this->html->buildResourceImage(
+																array('url' => $thumbnail,
+																	'width' => 27,
+																	'height' => 27,
+																	'attr' => 'alt="' . $resource_info['title'] . '"') );
+				}else{
+					$thumbnail = $resource_info['resource_code'];
+				}
+
+				$response->rows[ $i ][ 'id' ] = $result[ 'download_id' ];
+				$response->rows[ $i ][ 'cell' ] = array(
+					$thumbnail,
+					$result[ 'name' ],
+					'<a class="btn_action" href="JavaScript:void(0);"
+						onclick="showPopup(\'' . $this->html->getSecureURL('catalog/download/update', '&' . $data_type . '=' . $result[ $data_type ]) . '\')" title="' . $this->language->get('text_view') . '">' .
+					'<img height="27" src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_view.png" alt="' . $this->language->get('text_edit') . '" /></a>' );
+				$i++;
+			}
+		}
+
+		$this->data[ 'response' ] = AJson::encode($response);
 	}
 
 }

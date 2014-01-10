@@ -40,4 +40,16 @@
     <key>text_error</key>
     <value><![CDATA[Нет доступных файлов для скачивания!]]></value>
   </definition>
+	<definition>
+   <key>text_expire_date</key>
+   <value><![CDATA[Доступен до:]]></value>
+ </definition>
+ <definition>
+   <key>text_expired</key>
+   <value><![CDATA[Недоступен]]></value>
+ </definition>
+ <definition>
+   <key>text_pending</key>
+   <value><![CDATA[В ожидании]]></value>
+ </definition>
 </definitions>

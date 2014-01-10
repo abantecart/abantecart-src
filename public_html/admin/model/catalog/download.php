@@ -208,6 +208,31 @@ class ModelCatalogDownload extends Model {
 	}
 
 	/**
+	 * @param int $product_id
+	 * @param array $data
+	 * @return array
+	 */
+	public function getProductDownloadsDetails($product_id, $data=array()) {
+		if ( !(int)$product_id ) {
+			return array();
+		}
+		$sql = "SELECT dd.*, d.*, p2d.*
+							 FROM " . $this->db->table("products_to_downloads") . " p2d
+							 LEFT JOIN " . $this->db->table("downloads") . " d ON (p2d.download_id = d.download_id)
+							 LEFT JOIN " . $this->db->table("download_descriptions") . " dd
+							 	ON (d.download_id = dd.download_id
+							 			AND dd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
+							 WHERE p2d.product_id = '" . (int)$product_id . "'";
+		if (!empty($data[ 'subsql_filter' ])){
+			$sql .= " " . $data[ 'subsql_filter' ];
+		}
+		$sql .= " ORDER BY d.sort_order ASC";
+		$query =  $this->db->query($sql);
+
+		return $query->rows;
+	}
+
+	/**
 	 * @param array $data
 	 * @param string $mode
 	 * @return array

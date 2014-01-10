@@ -34,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>entry_file_max_downloads</key>
-		<value><![CDATA[Макс. количество закачек]]></value>
+		<value><![CDATA[Макс. количество закачек <span class="help">Количество закачек, позволяемых покупателю</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_file_sort_order</key>
@@ -90,7 +90,7 @@
 	</definition>
 	<definition>
 		<key>entry_expire_days</key>
-		<value><![CDATA[Количество дней до истечения]]></value>
+		<value><![CDATA[Количество дней до истечения<span class="help">Количество дней с момента покупки</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_before_order</key>

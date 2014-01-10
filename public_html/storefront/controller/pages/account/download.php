@@ -120,7 +120,7 @@ class ControllerPagesAccountDownload extends AController {
 													  $this->config->get('config_image_cart_width'),
 													  $this->config->get('config_image_cart_height'),
 													  false );
-				$attributes = $this->download->getDownloadAttributesValues($download_info['download_id'],'to_customer');
+				$attributes = $this->download->getDownloadAttributesValuesForCustomer($download_info['download_id']);
 
 				$downloads[] = array(
 					'thumbnail'  => $thumbnail,

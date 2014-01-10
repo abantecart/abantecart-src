@@ -526,7 +526,7 @@ class ControllerPagesProductProduct extends AController {
 
 			foreach($download_list as $download){
 				$href = $this->html->getURL('account/download/startdownload','&download_id='.$download['download_id']);
-				$download['attributes'] = $this->download->getDownloadAttributesValues($download['download_id'],'to_customer');
+				$download['attributes'] = $this->download->getDownloadAttributesValuesForCustomer($download['download_id']);
 
 				$download['href'] = $form->getFieldHtml(
 						array(  'type'=> 'button',

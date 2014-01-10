@@ -974,6 +974,12 @@ class ControllerPagesSaleOrder extends AController {
 			unset($this->session->data['error']);
 		}
 
+		if (isset($this->request->get['order_id'])) {
+			$order_id = $this->request->get['order_id'];
+		} else {
+			$order_id = 0;
+		}
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
 			if (has_value($this->request->post['downloads'])) {
 				$data = $this->request->post['downloads'];
@@ -985,16 +991,26 @@ class ControllerPagesSaleOrder extends AController {
 					$this->model_catalog_download->editOrderDownload($order_download_id, $item);
 				}
 			}
+			//add download to order
+			if(has_value($this->request->post['push'])){
+				$this->load->library('json');
+				foreach($this->request->post['push'] as $order_product_id=>$items){
+					$items = AJson::decode(html_entity_decode($items), true);
+					if($items){
+						foreach($items as $download_id=>$info){
+							$download_info = $this->download->getDownloadInfo($download_id);
+							$download_info['remaining_count'] = $download_info['max_downloads'];
+							$download_info['attributes_data'] = serialize($this->download->getDownloadAttributesValues($download_id));
+							$this->download->addProductDownloadToOrder($order_product_id, $order_id,$download_info);
+						}
+					}
+				}
+			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('sale/order/files', '&order_id=' . $this->request->get['order_id']));
 		}
 
-		if (isset($this->request->get['order_id'])) {
-			$order_id = $this->request->get['order_id'];
-		} else {
-			$order_id = 0;
-		}
 
 		$order_info = $this->model_sale_order->getOrder($order_id);
 		$this->data['order_info'] = $order_info;
@@ -1118,9 +1134,26 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['downloads'] = array();
 
 		$order_downloads = $this->model_sale_order->getOrderDownloads($this->request->get['order_id']);
+
 		if ($order_downloads) {
 			$rl = new AResource('image');
 
+
+			if (!$this->registry->has('jqgrid_script')) {
+				$locale = $this->session->data['language'];
+				if (!file_exists(DIR_ROOT . '/' . RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js')) {
+					$locale = 'en';
+				}
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js');
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.jqGrid.min.js');
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.grid.fluid.js');
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.ba-bbq.min.js');
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/grid.history.js');
+
+				//set flag to not include scripts/css twice
+				$this->registry->set('jqgrid_script', true);
+			}
+			$this->session->data['multivalue_excludes'] = array();
 			foreach ($order_downloads as $product_id=>$order_download) {
 				$downloads = $order_download['downloads'];
 				$this->data['order_downloads'][$product_id]['product_name'] = $order_download['product_name'];
@@ -1129,9 +1162,13 @@ class ControllerPagesSaleOrder extends AController {
 																										$this->config->get('config_image_grid_width'),
 																										$this->config->get('config_image_grid_height')
 				);
+
 				foreach ($downloads as $download_info) {
+					$attributes = $this->download->getDownloadAttributesValuesForDisplay($download_info['download_id']);
+					$order_product_id = $download_info['order_product_id'];
 					$this->data['order_downloads'][$product_id]['downloads'][] = array(
 							'name' => $download_info['name'],
+							'attributes' => $attributes,
 							'href' => $this->html->getSecureURL('catalog/product_files','&product_id='.$product_id.'&download_id='.$download_info['download_id']),
 							'resource' => $download_info['filename'],
 							'mask' => $download_info['mask'],
@@ -1156,8 +1193,31 @@ class ControllerPagesSaleOrder extends AController {
 									'dateformat' => format4Datepicker($this->language->get('date_format_short')),
 									'highlight' => 'future',
 									'style' => 'medium-field'))
-						);
+					);
 				}
+
+				// exclude downloads from multivalue list. why we need relate recursion?
+				$this->session->data['multivalue_excludes'][] = $download_info['download_id'];
+
+				$this->data['order_downloads'][$product_id]['push'] = $form->getFieldHtml(
+					array('id' => 'popup'.$product_id,
+						'type' => 'multivalue',
+						'name' => 'popup'.$product_id,
+						'title' => $this->language->get('text_select_from_list'),
+						'selected_name' => 'push['.$order_product_id.']',
+						'selected' => "{}",
+						'content_url' => $this->html->getSecureUrl('catalog/download_listing',
+																   '&product_id='.$product_id.'&form_name=orderFrm&multivalue_hidden_id=popup'.$product_id),
+						'postvars' => '',
+						'return_to' => '', // placeholder's id of listing items count.
+						'popup_height' => 708,
+						'text' => array(
+							'selected' => $this->language->get('text_count_selected'),
+							'edit' => $this->language->get('text_save_edit'),
+							'apply' => $this->language->get('text_apply'),
+							'save' => $this->language->get('text_add'),
+							'reset' => $this->language->get('button_reset')),
+					));
 			}
 		}
 

@@ -45,7 +45,7 @@
 				</div>
 				<div class="cont_left">
 					<div class="cont_right">
-						<div class="cont_mid">
+						<div class="cont_mid order_files">
 							<?php
 							if ($order_downloads) { echo  $resources_scripts; ?>
 								<?php foreach ($order_downloads as $product_id => $val) { ?>
@@ -69,18 +69,27 @@
 									<tbody>
 										<tr></tr>
 										<tr>
-											<td class="left"><a href="<?php echo $download['href']?>" target="_blank"><?php echo $download['name']; ?></a></td>
+											<td class="left"><a href="<?php echo $download['href']?>" target="_blank"><?php echo $download['name']; ?></a>
+											<?php if($download['attributes']){	?>
+												<br><div class="download-list-attributes">
+													<?php foreach($download['attributes'] as $name=>$value){
+															echo '<small>- '.$name.': '.$value.'</small>';
+													}?>
+												</div>
+											<?php } ?>
+											</td>
 											<td class="left"><?php echo $download['resource']; ?></td>
 											<td class="left"><?php echo $download['mask']; ?></td>
 											<td class="center"><?php echo $download['status']; ?></td>
 											<td class="right"><?php echo $download['remaining']; ?></td>
 											<td class="right"><?php echo $download['expire_date']; ?></td>
 										</tr>
-
 									</tbody>
 								</table>
-							<?php }} ?>
 							<?php } ?>
+								<a class="pull-right add">&nbsp;</a>
+								<div class="pull-right push-download"><?php echo $val['push']; ?></div>
+							<?php	} } ?>
 						</div>
 					</div>
 				</div>
@@ -106,3 +115,14 @@
 	</div>
 </div>
 </div>
+
+
+<script type="text/javascript"><!--
+
+	$(".order_files a.add").on('click', function () {
+		$(this).hide();
+		$(this).next().show();
+		return false;
+	});
+
+--></script>

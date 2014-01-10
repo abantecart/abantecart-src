@@ -170,7 +170,9 @@ final class ADownload {
 
 	/**
 	 * @param int $download_id
-	 * @param string $mode - can be "full" or "to_customer"
+	 * @param string $mode - can be "full" - all download attributes (with empty values too),
+	 * "to_customer" - download atributes with values that allowed to display for customers,
+	 * "to_display"  - all download atributes with values
 	 * @return array
 	 */
 	public function getDownloadAttributesValues($download_id, $mode='full') {
@@ -189,7 +191,6 @@ final class ADownload {
 			}
 			$ids[] = (int)$attribute['attribute_id'];
 			$attribute_values = $attr->getAttributeValues($attribute['attribute_id']);
-
 		}
 		if($ids){
 			$result = $this->db->query( "SELECT attribute_id, attribute_value_ids as value
@@ -203,13 +204,15 @@ final class ADownload {
 				if(in_array($attributes[$row['attribute_id']]['element_type'],$attributes_with_options)){
 					foreach($attribute_values as $values){
 						if($values['attribute_value_id']==$row['value']){
-							if(!$values['value'] && $mode=='to_customer'){ break 1;} // do not include empty value for display for customer
+							// do not include empty value for display for customer
+							if(!$values['value'] && in_array($mode,array('to_customer','to_display'))){ break 1; }
 						 	$output[$attributes[$row['attribute_id']]['name']] = $values['value'];
 							break 1;
 						}
 					}
 				}else{
-					if(!$row['value'] && $mode=='to_customer'){ continue;} // do not include empty value for display for customer
+					 // do not include empty value for display for customer or admin display
+					if( !$row['value'] && in_array($mode,array('to_customer','to_display'))){ continue;}
 				 	$output[$attributes[$row['attribute_id']]['name']] = $row['value'];
 				}
 
@@ -218,12 +221,25 @@ final class ADownload {
 		return $output;
 	}
 
-
+	public function getDownloadAttributesValuesForCustomer($download_id) {
+		return $this->getDownloadAttributesValues($download_id,'to_customer');
+	}
+	public function getDownloadAttributesValuesForDisplay($download_id) {
+		return $this->getDownloadAttributesValues($download_id,'to_display');
+	}
 
 	public function sendDownload($download_info=array()){
+		// do checks
 		if(!$download_info || !$this->isFileAvailable($download_info['filename'])){
 			return false;
 		}
+		if($download_info['remaining_count']!='' && $download_info['remaining_count']<1){
+			return false;
+		}
+		if($download_info['expire_date']!='' && dateISO2Int($download_info['expire_date']) < time()){
+			return false;
+		}
+
 		if( $this->customer->isLogged() && $download_info['activate']!='before_order'){
 			$customer_downloads = $this->getCustomerDownloads();
 			if(!in_array($download_info['order_download_id'],array_keys($customer_downloads))){
@@ -258,7 +274,10 @@ final class ADownload {
 					}else{
 						$bytes_sent += 1024*8;
 						$prc = round($bytes_sent*100/$filesize,0);
-						$this->db->query("UPDATE ".$this->db->table('order_downloads')." SET percentage='".$prc."'");
+						$prc = $prc>100 ? 100 : $prc;
+						$this->db->query("UPDATE ".$this->db->table('order_downloads')."
+											SET percentage='".$prc."'
+											WHERE order_download_id='".(int)$download_info['order_download_id']."'");
 					}
 				}
 				fclose($file_handler);
@@ -364,14 +383,14 @@ final class ADownload {
 		$text_status = '';
 
 		if($download_info['status']==0){
-			$text_status = $this->language->get('text_disabled');
+			$text_status = $this->language->get('text_pending');
 		}elseif( dateISO2Int($download_info['expire_date']) < time() || $download_info['remaining_count'] == '0' ) {
 			$text_status = $this->language->get('text_expired');
 		}
 
 		if((int)$download_info['activate_order_status_id']>0){
 			if((int)$download_info['activate_order_status_id'] != (int)$download_info['order_status_id']){
-				$text_status = $this->language->get('text_disabled');
+				$text_status = $this->language->get('text_pending');
 			}
 		}
 

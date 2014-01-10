@@ -2202,8 +2202,35 @@ table.download-list{
 	font-weight: bold;
 }
 
+.download-list-attributes small{
+	clear: both;
+	float: none;
+	display: block;
+	margin-left: 20px;
+}
+div.download-list-attributes{
+	min-width: 110px;
+	max-width: 160px;
+	max-height: 150px;
+	overflow: auto;
+	display: block;
+}
+
 .maplist{
 	max-height: 100px;
 	overflow: auto;
+}
+
+.push-download{
+	margin: 10px;
+	display: none;
+}
+.order_files{
+	padding-bottom: 40px !important;
+}
+.order_files a.add{
+	width: 10px;
+	margin: 10px 40px 10px;
+	display: block;
 }
 
