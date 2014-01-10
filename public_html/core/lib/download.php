@@ -149,7 +149,7 @@ final class ADownload {
 		if((int)$download['expire_days']){
 			$expire = "(NOW() + INTERVAL ".(int)$download['expire_days']." DAY)";
 		}else{
-			$expire = NULL;
+			$expire = 'NULL';
 		}
 		$this->db->query("INSERT INTO " . $this->db->table("order_downloads") . "
 							SET order_id = '" . (int)$order_id . "',
@@ -158,7 +158,7 @@ final class ADownload {
 								name = '" . $this->db->escape($download['name']) . "',
 								filename = '" . $this->db->escape($download['filename']) . "',
 								mask = '" . $this->db->escape($download['mask']) . "',
-								remaining_count = '" . (int)$download['remaining_count']. "',
+								remaining_count = " . ( (int)$download['remaining_count'] ? "'".(int)$download['remaining_count']."'" : 'NULL'). ",
 								status = '" . (int)$download['status'] . "',
 								activate_order_status_id = '" . (int)$download['activate_order_status_id'] . "',
 								expire_date = ".$expire.",
@@ -221,23 +221,15 @@ final class ADownload {
 
 
 	public function sendDownload($download_info=array()){
-		if(!$download_info){
+		if(!$download_info || !$this->isFileAvailable($download_info['filename'])){
 			return false;
 		}
-
-		if(!$this->isFileAvailable($download_info['filename'])){
-			return false;
-		}
-
 		if( $this->customer->isLogged() && $download_info['activate']!='before_order'){
 			$customer_downloads = $this->getCustomerDownloads();
 			if(!in_array($download_info['order_download_id'],array_keys($customer_downloads))){
 				return false;
 			}
-
 		}
-
-
 
 		$file = DIR_RESOURCE . $download_info['filename'];
 		$mask = basename($download_info['mask']);
@@ -278,7 +270,9 @@ final class ADownload {
 			exit('Error: Headers already sent out!');
 		}
 
-		$this->updateRemaining($this->request->get['order_download_id']);
+		if($download_info['remaining_count']!=''){ //if count is not NULL (unlimited)
+			$this->updateRemaining($this->request->get['order_download_id']);
+		}
 
 		//init controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -371,7 +365,7 @@ final class ADownload {
 
 		if($download_info['status']==0){
 			$text_status = $this->language->get('text_disabled');
-		}elseif( dateISO2Int($download_info['expire_date']) < time() || (int)$download_info['remaining_count'] == 0 ) {
+		}elseif( dateISO2Int($download_info['expire_date']) < time() || $download_info['remaining_count'] == '0' ) {
 			$text_status = $this->language->get('text_expired');
 		}
 

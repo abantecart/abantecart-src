@@ -753,42 +753,6 @@ class ControllerResponsesProductProduct extends AController {
 	}
 
 	/**
-	 * @param array $data
-	 * @return bool
-	 */
-	private function _validateDownloadForm($data = array()){
-		$this->error = array();
-		$this->load->language('catalog/files');
-
-		if (!empty($data[ 'download_id' ]) && !$this->model_catalog_download->getDownload($data[ 'download_id' ])) {
-			$this->error[ 'download_id' ] = $this->language->get('error_download_exists');
-		}
-		if ( mb_strlen($data[ 'name' ]) < 2 || mb_strlen($data[ 'name' ]) > 64 ) {
-			$this->error[ 'name' ] = $this->language->get('error_download_name');
-		}
-		if ( !(int)$data[ 'max_downloads' ] ) {
-			$this->error[ 'max_downloads' ] = $this->language->get('error_max_downloads');
-		}
-
-		if ( !in_array($data[ 'activate' ],array('before_order','immediately','order_status','manually')) ) {
-			$this->error[ 'activate' ] = $this->language->get('error_activate');
-		}else{
-			if($data[ 'activate' ]=='order_status' && !(int)$data['activate_order_status_id']){
-				$this->error[ 'order_status' ] = $this->language->get('error_order_status');
-			}
-		}
-
-		$attr_mngr = new AAttribute_Manager('download_attribute');
-
-		$attr_errors = $attr_mngr->validateAttributeData($data['attributes'][$data[ 'download_id' ]]);
-		if($attr_errors){
-			$this->error['atributes'] = $this->language->get('error_download_attributes').'<br>&nbsp;&nbsp;&nbsp;'. implode('<br>&nbsp;&nbsp;&nbsp;',$attr_errors);
-		}
-
-		return $this->error ? false : true;
-	}
-
-	/**
 	 * @param array $file_data
 	 * @param string $tpl
 	 */
@@ -1105,38 +1069,9 @@ class ControllerResponsesProductProduct extends AController {
 						'attr' => 'confirm-exit="true"',
 						'action' => $this->html->getSecureURL('catalog/product_files','&product_id='.$product_id)
 					));
-			$this->data[ 'form0' ][ 'submit' ] = $form0->getFieldHtml(array(
-																		 'type' => 'button',
-																		 'name' => 'submit',
-																		 'text' => $this->language->get('text_assign'),
-																		 'style' => 'button1',
-																	));
-
-			$this->data[ 'form0' ][ 'cancel' ] = $form0->getFieldHtml(array(
-																		 'type' => 'button',
-																		 'name' => 'cancel',
-																		 'href' => $this->html->getSecureURL('catalog/product_files','&product_id='.$product_id),
-																		 'text' => $this->language->get('button_cancel'),
-																		 'style' => 'button2',
-																	));
 
 			// exclude this product from multivalue list. why we need relate recursion?
 			$this->session->data['multivalue_excludes']['product_id'] = $this->request->get['product_id'];
-			$this->data['form0']['fields']['list'] = $form0->getFieldHtml(array(
-				'id' => 'shared_downloads_list',
-				'type' => 'multivaluelist',
-				'name' => 'shared_downloads',
-				'content_url' => $this->html->getSecureUrl('product/product/downloads'),
-				'edit_url' => '',
-				'multivalue_hidden_id' => 'popup',
-				'values' => $listing_data,
-				'return_to' => 'SharedFrm_popup_item_count',
-				'text' => array(
-					'delete' => $this->language->get('button_delete'),
-					'delete_confirm' => $this->language->get('text_delete_confirm'),
-				)
-			));
-
 
 			$this->data['form0']['fields']['list_hidden'] = $form0->getFieldHtml(
 				array('id' => 'popup',
@@ -1148,10 +1083,6 @@ class ControllerResponsesProductProduct extends AController {
 					'postvars' => '',
 					'return_to' => '', // placeholder's id of listing items count.
 					'popup_height' => 708,
-					'js' => array(
-						'apply'  => "SharedFrm_shared_downloads_buildList();",
-						'cancel' => "SharedFrm_shared_downloads_buildList();",
-					),
 					'text' => array(
 						'selected' => $this->language->get('text_count_selected'),
 						'edit' => $this->language->get('text_save_edit'),
@@ -1167,6 +1098,33 @@ class ControllerResponsesProductProduct extends AController {
 		$this->processTemplate($tpl);
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
+	private function _validateDownloadForm($data = array()){
+		$this->error = array();
+		$this->load->language('catalog/files');
+		if (!empty($data[ 'download_id' ]) && !$this->model_catalog_download->getDownload($data[ 'download_id' ])) {
+			$this->error[ 'download_id' ] = $this->language->get('error_download_exists');
+		}
+		if ( mb_strlen($data[ 'name' ]) < 2 || mb_strlen($data[ 'name' ]) > 64 ) {
+			$this->error[ 'name' ] = $this->language->get('error_download_name');
+		}
+		if ( !in_array($data[ 'activate' ],array('before_order','immediately','order_status','manually')) ) {
+			$this->error[ 'activate' ] = $this->language->get('error_activate');
+		}else{
+			if($data[ 'activate' ]=='order_status' && !(int)$data['activate_order_status_id']){
+				$this->error[ 'order_status' ] = $this->language->get('error_order_status');
+			}
+		}
+		$attr_mngr = new AAttribute_Manager('download_attribute');
+		$attr_errors = $attr_mngr->validateAttributeData($data['attributes'][$data[ 'download_id' ]]);
+		if($attr_errors){
+			$this->error['atributes'] = $this->language->get('error_download_attributes').'<br>&nbsp;&nbsp;&nbsp;'. implode('<br>&nbsp;&nbsp;&nbsp;',$attr_errors);
+		}
+		return $this->error ? false : true;
 	}
 
 	public function downloads() {
@@ -1198,7 +1156,7 @@ class ControllerResponsesProductProduct extends AController {
 	}
 
 	public function pushToCustomers(){
-		sleep(10);
+
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$download_id = (int)$this->request->get['download_id'];
@@ -1227,7 +1185,5 @@ class ControllerResponsesProductProduct extends AController {
 		$this->load->library('json');
 		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($output));
-
 	}
-
 }

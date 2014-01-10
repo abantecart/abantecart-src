@@ -280,4 +280,12 @@
 		<key>tab_history</key>
 		<value><![CDATA[Status & Comments]]></value>
 	</definition>
+	<definition>
+		<key>tab_files</key>
+		<value><![CDATA[Files]]></value>
+	</definition>
+	<definition>
+		<key>edit_title_files</key>
+		<value><![CDATA[Edit Order Files]]></value>
+	</definition>
 </definitions>

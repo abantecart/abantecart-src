@@ -3,18 +3,18 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>/javascript/jquery/ui/external/bgiframe/jquery.bgiframe.js"></script>
 <script type="text/javascript">
 var urls = {
-										resource_library:'<?php echo $rl_resource_library; ?>',
-										resources:'<?php echo $rl_resources; ?>',
-										resource_single:'<?php echo $rl_resource_single; ?>',
-										unmap:'<?php echo $rl_unmap; ?>',
-										del:'<?php echo $rl_delete; ?>',
+		resource_library:'<?php echo $rl_resource_library; ?>',
+		resources:'<?php echo $rl_resources; ?>',
+		resource_single:'<?php echo $rl_resource_single; ?>',
+		unmap:'<?php echo $rl_unmap; ?>',
+		del:'<?php echo $rl_delete; ?>',
         resource:'<?php echo HTTP_DIR_RESOURCE; ?>'
-    },
+    	},
     default_type = '<?php echo $default_type["type_name"]; ?>';
 onSelectClose = function (e, ui) {
 }
 
-function selectDialog(type, field) {
+var selectDialog = function (type, field) {
     $('#dialog').remove();
 
     window.selectField = field;

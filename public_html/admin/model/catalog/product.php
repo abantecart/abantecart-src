@@ -1560,7 +1560,8 @@ class ModelCatalogProduct extends Model {
 					 LEFT JOIN " . $this->db->table("download_descriptions") . " dd
 					 	ON (d.download_id = dd.download_id
 					 			AND dd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
-					 WHERE p2d.product_id = '" . (int)$product_id . "'");
+					 WHERE p2d.product_id = '" . (int)$product_id . "'
+					 ORDER BY d.sort_order ASC");
 	
 		return $query->rows;
 	}

@@ -144,7 +144,6 @@ class ControllerPagesCatalogProductFiles extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		$this->load->library('json');
-		//$this->request->post[ 'selected' ] = AJson::decode(html_entity_decode($this->request->post[ 'selected' ]), true);
 		$this->request->post[ 'selected' ] = AJson::decode(html_entity_decode(current($this->request->post[ 'selected' ])), true);
 
 		if(!$this->request->post['selected']){

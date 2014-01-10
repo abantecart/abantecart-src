@@ -29,7 +29,7 @@ class ModelCatalogDownload extends Model {
 		$this->db->query("INSERT INTO " . $this->db->table('downloads') . "
         	              SET filename  = '" . $this->db->escape($data[ 'filename' ]) . "',
         	                  mask = '" . $this->db->escape($data[ 'mask' ]) . "',
-      	                  	  max_downloads = '" . (int)$data[ 'max_downloads' ] . "',
+      	                  	  max_downloads = " .( (int)$data[ 'max_downloads' ] ? "'".(int)$data[ 'max_downloads' ]."'" : 'NULL' ). ",
       	                  	  ".(isset($data['shared']) ? "shared = ".(int)$data['shared'].", " : '')."
       	                  	  expire_days = " . ((int)$data[ 'expire_days' ]? "'".(int)$data[ 'expire_days' ]."'" : 'NULL'). ",
       	                  	  sort_order = '" . (int)$data[ 'sort_order' ] . "',
@@ -78,8 +78,8 @@ class ModelCatalogDownload extends Model {
 				if($type=='string'){
 					$update[] = "`".$field_name."` = '".$this->db->escape($data[$field_name])."'";
 				}elseif($type=='int'){
-					if($field_name=='expire_days'){
-						$update[] =  "`".$field_name."` = " . ((int)$data[ 'expire_days' ]? "'".(int)$data[ 'expire_days' ]."'" : 'NULL');
+					if(in_array($field_name,array('max_downloads','expire_days')) ){
+						$update[] =  "`".$field_name."` = " . ((int)$data[ $field_name ]? "'".(int)$data[ $field_name ]."'" : 'NULL');
 					}else{
 						$update[] = "`".$field_name."` = '".(int)$data[$field_name]."'";
 					}

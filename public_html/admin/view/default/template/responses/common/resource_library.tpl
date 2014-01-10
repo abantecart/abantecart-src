@@ -85,7 +85,7 @@
     <div id="pagination"></div>
 </div>
 
-<div id="edit_frm" style="display:none">
+<div id="edit_frm" style="display:none;">
     <?php echo $edit_form_open;?>
         <div class="resource_image"></div>
         <table class="files resource-details" cellpadding="0" cellspacing="0">
@@ -179,7 +179,7 @@
                 <a class="btn_action resource_unmap" id="map_this_info"><span class="icon_s_save">&nbsp;<span
                     class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
                 <?php } else { ?>
-                <a class="btn_action resource_unmaps use" id="map_this_info" rel="0"><span
+                <a class="btn_action resource_unmaps use" id="map_this_info" rel="1"><span
                     class="icon_s_save">&nbsp;<span
                     class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
                 <?php } ?>

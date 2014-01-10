@@ -154,8 +154,6 @@ class ControllerResponsesListingGridDownload extends AController {
 				// check first
 				if($key=='name' && (mb_strlen($value)<2 || mb_strlen($value)>64) ) {
 					$error = $this->language->get('error_download_name');
-				}elseif($key=='max_downloads' && !(int)$data[ 'max_downloads' ] ) {
-					$error = $this->language->get('error_max_downloads');
 				}elseif($key=='activate' && !in_array($data[ 'activate' ],array('before_order','immediately','order_status','manually')) ) {
 					$error = $this->language->get('error_activate');
 				}elseif($key=='attributes'){
@@ -165,7 +163,6 @@ class ControllerResponsesListingGridDownload extends AController {
 						$error = $this->language->get('error_download_attributes').'<br>&nbsp;&nbsp;&nbsp;'. implode('<br>&nbsp;&nbsp;&nbsp;',$attr_errors);
 					}
 				}
-
 
 				if(!$error){
 					$data = array( $key => $value );
