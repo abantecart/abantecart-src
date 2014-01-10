@@ -40,15 +40,9 @@
 
 
 <script type="text/javascript"><!--
-	jQuery(function ($) {
-		$('#download').click(function () {
-			selectDialog('archive', $(this).attr('id'));
-			return false;
-		});
-	});
 	onSelectClose = function (e, ui) {
 		if (typeof selectResource == 'undefined')  return;
 		$('input[name="mask"]').val(selectResource.name);
 		$('#download_link').html('<a href="<?php echo $rl_get_preview; ?>&resource_id=' + selectResource.resource_id + '" target="_blank">' + selectResource.name + '</a>');
 	}
-	//--></script>
+//--></script>
