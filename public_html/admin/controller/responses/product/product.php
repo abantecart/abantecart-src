@@ -1060,7 +1060,7 @@ class ControllerResponsesProductProduct extends AController {
 
 			$form0 = new AForm('ST');
 			$form0->setForm(array(
-						'form_name' => 'SharedFrm',
+						'form_name' => 'SharedFrm'.$file_data['download_id'],
 						'update' => $this->data['update'],
 					));
 			$this->data['form0']['form_open'] = $form0->getFieldHtml(array(
@@ -1079,7 +1079,7 @@ class ControllerResponsesProductProduct extends AController {
 					'name' => 'popup',
 					'title' => $this->language->get('text_select_from_list'),
 					'selected' => ($listing_data ? AJson::encode($listing_data) : "{}"),
-					'content_url' => $this->html->getSecureUrl('catalog/download_listing', '&form_name=SharedFrm&multivalue_hidden_id=popup'),
+					'content_url' => $this->html->getSecureUrl('catalog/download_listing', '&form_name=SharedFrm'.$file_data['download_id'].'&multivalue_hidden_id=popup'),
 					'postvars' => '',
 					'return_to' => '', // placeholder's id of listing items count.
 					'popup_height' => 708,

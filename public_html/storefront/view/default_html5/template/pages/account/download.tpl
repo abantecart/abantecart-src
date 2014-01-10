@@ -4,7 +4,6 @@
 </h1>
 
 <div class="container-fluid">
-
 	<?php foreach ($downloads as $download) { ?>
 		<div class="row-fluid mb20" style="border-top: 1px solid #EFEFEF;">
 			<div style="width: 45%; float: left; margin-bottom: 2px;">
@@ -15,20 +14,20 @@
 				<div style="padding: 5px;">
 					<table class="download-list">
 						<tr>
-							<td><div><?php echo $download['thumbnail']['thumb_html']; ?></div>
+							<td style="width: 40%"><div><?php echo $download['thumbnail']['thumb_html']; ?></div>
 								<div><?php echo $text_name.' '.$download['name'];
 									if($download['attributes']){
 									?>
 									<br><div class="download-list-attributes">
 										<?php foreach($download['attributes'] as $name=>$value){
-												echo '- <small>'.$name.': '.$value.'</small>';
+												echo '<small>- '.$name.': '.$value.'</small>';
 										}?>
 									</div>
 									<?php } ?>
 								<br><?php echo $text_date_added; ?> <?php echo $download['date_added']; ?></div>
 							</td>
-							<td><?php echo $text_remaining; ?> <?php echo $download['remaining']; ?></td>
-							<td><?php echo $download['expire_date'] ? $text_expire_date .'&nbsp;&nbsp;'. $download['expire_date'] : ''; ?></td>
+							<td style="width: 20%"><?php if($download['remaining']){ echo $text_remaining; ?> <?php echo $download['remaining']; }?></td>
+							<td style="width: 20%"><?php if($download['expire_date']) { echo $text_expire_date; ?> <?php echo $download['expire_date'];} ?></td>
 							<td rowspan="2" ><?php echo $download['link']; ?></td>
 						</tr>
 					</table>

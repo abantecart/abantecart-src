@@ -34,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>entry_file_max_downloads</key>
-		<value><![CDATA[Max Descargar]]></value>
+		<value><![CDATA[Max Descargar<span class="help">Conde de descargas permitidas para el cliente</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_file_sort_order</key>
@@ -90,7 +90,7 @@
 	</definition>
 	<definition>
 		<key>entry_expire_days</key>
-		<value><![CDATA[Caduca días]]></value>
+		<value><![CDATA[Caduca días<span class="help">Conde de días desde la fecha de compra</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_before_order</key>

@@ -30,11 +30,9 @@
 										<br><?php echo $text_date_added; ?> <?php echo $download['date_added']; ?>
 
 								</td>
-								<td width="40%"><?php echo $text_remaining; ?> <?php echo $download['remaining']; ?></td>
-								<td width="11%" rowspan="2" style="text-align: right;">
-									<?php if ($download['remaining'] > 0) {
-										echo $download['link'];
-									} ?>
+								<td width="20%"><?php if($download['remaining']){ echo $text_remaining; ?> <?php echo $download['remaining']; }?></td>
+								<td width="20%"><?php if($download['expire_date']) { echo $text_expire_date; ?> <?php echo $download['expire_date'];} ?></td>
+								<td width="11%" rowspan="2" style="text-align: right;"><?php echo $download['link']; ?>
 								</td>
 							</tr>
 						</table>
