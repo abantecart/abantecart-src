@@ -288,4 +288,28 @@
 		<key>edit_title_files</key>
 		<value><![CDATA[Edit Order Files]]></value>
 	</definition>
+	<definition>
+		<key>text_missing_file</key>
+		<value><![CDATA[Missing File]]></value>
+	</definition>
+	<definition>
+		<key>order_download_history</key>
+		<value><![CDATA[Download History]]></value>
+	</definition>
+	<definition>
+		<key>text_time</key>
+		<value><![CDATA[Time]]></value>
+	</definition>
+	<definition>
+		<key>text_filename</key>
+		<value><![CDATA[Filename]]></value>
+	</definition>
+	<definition>
+		<key>text_mask</key>
+		<value><![CDATA[Mask]]></value>
+	</definition>
+	<definition>
+		<key>text_download_percent</key>
+		<value><![CDATA[Download Percents]]></value>
+	</definition>
 </definitions>

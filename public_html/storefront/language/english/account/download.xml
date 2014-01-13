@@ -21,6 +21,10 @@
 		<value><![CDATA[Date Added:]]></value>
 	</definition>
 	<definition>
+		<key>text_date_purchased</key>
+		<value><![CDATA[Date Purchased:]]></value>
+	</definition>
+	<definition>
 		<key>text_name</key>
 		<value><![CDATA[Name:]]></value>
 	</definition>
@@ -51,5 +55,9 @@
 	<definition>
 		<key>text_pending</key>
 		<value><![CDATA[Pending]]></value>
+	</definition>
+	<definition>
+		<key>text_unavailable</key>
+		<value><![CDATA[Unavailable]]></value>
 	</definition>
 </definitions>

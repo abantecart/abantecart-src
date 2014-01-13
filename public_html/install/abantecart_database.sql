@@ -588,6 +588,23 @@ CREATE TABLE `ac_order_downloads` (
 
   PRIMARY KEY (`order_download_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+--
+-- DDL for table `order_downloads`
+--
+DROP TABLE IF EXISTS `ac_order_downloads_history`;
+CREATE TABLE `ac_order_downloads_history` (
+  `order_download_history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_download_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `order_product_id` int(11) NOT NULL,
+  `filename` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `mask` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `download_id` int(11) NOT NULL,
+  `download_percent` int(11) DEFAULT '0',
+  `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+
+  PRIMARY KEY (`order_download_history_id`,`order_download_id`, `order_id`,`order_product_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
 
 --

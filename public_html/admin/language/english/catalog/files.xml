@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>entry_activate</key>
-		<value><![CDATA[Available]]></value>
+		<value><![CDATA[Activated<span class="help">Download will be activates on the event selected.<br>Example: Immediately. Download is activate  after order is placed, regardless of the order status</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_sort_order</key>

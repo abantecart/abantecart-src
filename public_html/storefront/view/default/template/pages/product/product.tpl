@@ -244,6 +244,15 @@
 		</span>
 
 	</a>
+	<?php if ($downloads) { ?>
+			<a rel="#tab_download">
+				<span class="tab_right"></span>
+				<span class="tab_left"></span>
+				<span class="tab_text">
+					<?php echo $tab_downloads; ?>
+				</span>
+			</a>
+		<?php } ?>
 
 	<?php echo $this->getHookVar('product_features_tab'); ?>
 
@@ -326,6 +335,24 @@
 				<div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;"><?php echo $text_no_related; ?></div>
 				<?php } ?>
 			</div>
+
+			<?php if ($downloads) { ?>
+				<div id="tab_download" class="tab_page">
+				<div class="tab-pane" id="productdownloads">
+					<ul class="downloads">
+						<?php foreach ($downloads as $download) { ?>
+						<li class="row">
+							<div class="pull-left"><?php echo $download['name']; ?><div class="download-list-attributes">
+							<?php foreach($download['attributes'] as $name=>$value){
+								echo '<small>- '.$name.': '.(is_array($value) ? implode(' ',$value) : $value).'</small>';
+								}?></div>
+							</div>
+							<div style="float:right;"><?php echo $download['href']; ?></div>
+						</li>
+							<?php } ?>
+					</ul>
+				</div>
+			<?php } ?>
 
 			<?php echo $this->getHookVar('product_features'); ?>
 

@@ -58,9 +58,9 @@
 								<table class="list download-list">
 									<thead>
 										<tr>
-											<th class="left"><?php echo $column_download; ?></th>
-											<th class="left"><?php echo $column_file; ?></th>
-											<th class="left"><?php echo $column_mask; ?></th>
+											<th class="left" style="width: 16%;"><?php echo $column_download; ?></th>
+											<th class="left" style="width: 18%;"><?php echo $column_file; ?></th>
+											<th class="left" style="width: 11%;"><?php echo $column_mask; ?></th>
 											<th class="center"><?php echo $column_status; ?></th>
 											<th class="right"><?php echo $column_remaining; ?></th>
 											<th class="right"><?php echo $column_expire_date; ?></th>
@@ -68,22 +68,64 @@
 									</thead>
 									<tbody>
 										<tr></tr>
-										<tr>
+										<tr <?php echo !$download['is_file'] ? 'class="warning alert alert-error"' :''?>>
 											<td class="left"><a href="<?php echo $download['href']?>" target="_blank"><?php echo $download['name']; ?></a>
 											<?php if($download['attributes']){	?>
 												<br><div class="download-list-attributes">
 													<?php foreach($download['attributes'] as $name=>$value){
-															echo '<small>- '.$name.': '.$value.'</small>';
+															echo '<small>- '.$name.': '.(is_array($value) ? implode(' ',$value) : $value).'</small>';
 													}?>
 												</div>
 											<?php } ?>
 											</td>
-											<td class="left"><?php echo $download['resource']; ?></td>
+											<td class="left">
+												<?php echo !$download['is_file'] ? '<p style="display:inline;" class="error">'.$text_missing_file.'</p>' :''?>
+												&nbsp;<?php echo $download['resource']; ?>
+											</td>
 											<td class="left"><?php echo $download['mask']; ?></td>
 											<td class="center"><?php echo $download['status']; ?></td>
 											<td class="right"><?php echo $download['remaining']; ?></td>
 											<td class="right"><?php echo $download['expire_date']; ?></td>
 										</tr>
+										<tr><td colspan="6"><?php if($download['download_history']){ ?>
+												<div class="caption"><?php echo $order_download_history;?></div>
+												<div class="download-history">
+												<table>
+													<tr>
+														<th>
+														<?php echo $text_time;?>
+														</th>
+														<th>
+														<?php echo $text_filename?>
+														</th>
+														<th>
+														<?php echo $text_mask?>
+														</th>
+														<th>
+														<?php echo $text_download_percent?>
+														</th>
+													</tr>
+
+													<?php foreach($download['download_history'] as $history){?>
+													<tr>
+														<td>
+														<?php echo $history['time'];?>
+														</td>
+														<td>
+														<?php echo $history['filename']?>
+														</td>
+														<td>
+														<?php echo $history['mask']?>
+														</td>
+														<td>
+														<?php echo $history['download_percent']?>%
+														</td>
+													</tr>
+													<?php }?>
+												</table></div>
+
+											<?php } ?>
+										</td></tr>
 									</tbody>
 								</table>
 							<?php } ?>

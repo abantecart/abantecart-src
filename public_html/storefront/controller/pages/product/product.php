@@ -533,6 +533,7 @@ class ControllerPagesProductProduct extends AController {
 								'id' => 'download_'. $download['download_id'],
 								'href'=> $href,
 								'title' => $this->language->get('text_start_download'),
+								'text' => $this->language->get('text_start_download'),
 								'style' => 'button1 icon-download-alt'	));
 
 				$downloads[] = $download;

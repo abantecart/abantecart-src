@@ -2201,6 +2201,9 @@ table.download-list{
 	font: 15px Arial,Helvetica,sans-serif;
 	font-weight: bold;
 }
+.download-list>tbody>tr>td:first-child{
+	width:10%;
+}
 
 .download-list-attributes small{
 	clear: both;
@@ -2233,4 +2236,28 @@ div.download-list-attributes{
 	margin: 10px 40px 10px;
 	display: block;
 }
+
+.download-history{
+	width: 40%;
+	font-size: 12px;
+	height: 150px;
+	overflow: auto;
+	margin: 10px 0;
+}
+
+.download-history table{
+	width: 98%;
+}
+.download-history th{
+	font-size: 12px;
+}
+
+.caption{
+	text-align: left;
+	font-size: 13px;
+	color: #696969;
+	font-weight: bold;
+	margin-top: 10px;
+}
+
 

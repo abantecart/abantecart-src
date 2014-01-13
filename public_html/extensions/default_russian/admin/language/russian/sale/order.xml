@@ -280,4 +280,28 @@
 		<key>edit_title_files</key>
 		<value><![CDATA[Редактировать Файлы Заказа]]></value>
 	</definition>
+	<definition>
+		<key>text_missing_file</key>
+		<value><![CDATA[Потеряный файл]]></value>
+	</definition>
+	<definition>
+		<key>order_download_history</key>
+		<value><![CDATA[История загрузки]]></value>
+	</definition>
+	<definition>
+		<key>text_time</key>
+		<value><![CDATA[Время]]></value>
+	</definition>
+	<definition>
+		<key>text_filename</key>
+		<value><![CDATA[Имя Файла]]></value>
+	</definition>
+	<definition>
+		<key>text_mask</key>
+		<value><![CDATA[Маска]]></value>
+	</definition>
+	<definition>
+		<key>text_download_percent</key>
+		<value><![CDATA[Проценты загрузки]]></value>
+	</definition>
 </definitions>

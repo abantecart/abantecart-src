@@ -1707,3 +1707,44 @@ input.error  {
 #captcha {
 	margin-top: 5px;
 }
+
+/* product downloads */
+.downloads>li{
+}
+
+.downloads>li img{
+	width: 40px;
+	vertical-align: top;
+	display: inline-block;
+}
+
+.downloads>li>div{
+	display: inline-block;
+	line-height: 40px;
+	vertical-align: middle;
+}
+.downloads>li:hover{
+	background-color: #f0f0f0;
+}
+
+.downloads>li small{
+	display: block;
+}
+
+.download-list-attributes{
+	line-height: 14px;
+	margin-left: 20px;
+}
+
+.download-list {
+	width: 100%;
+}
+
+.download-list>tbody>tr>td:first-child div{
+	display: inline-block;
+}
+
+.download-list>tbody>tr>td:last-child{
+	vertical-align: middle;
+	text-align: right;
+}

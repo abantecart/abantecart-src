@@ -560,6 +560,13 @@ class ModelSaleOrder extends Model {
 		$output = array();
 		foreach($query->rows as $row){
 			$output[$row['product_id']]['product_name'] = $row['product_name'];
+			// get download_history
+			$result = $this->db->query("SELECT *
+										FROM " . $this->db->table("order_downloads_history") . "
+										WHERE order_id = '" . (int)$order_id . "' AND order_download_id = '".$row['order_download_id']."'
+										ORDER BY `time` DESC");
+			$row['download_history'] = $result->rows;
+
 			$output[$row['product_id']]['downloads'][] = $row;
 		}
 		return $output;

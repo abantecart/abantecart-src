@@ -354,7 +354,7 @@
 							<li class="row">
 								<div class="pull-left"><?php echo $download['name']; ?><div class="download-list-attributes">
 								<?php foreach($download['attributes'] as $name=>$value){
-									echo '- <small>'.$name.': '.$value.'</small>';
+									echo '<small>- '.$name.': '.(is_array($value) ? implode(' ',$value) : $value).'</small>';
 									}?></div>
 								</div>
 								<div class="pull-right mr10"><?php echo $download['href']; ?></div>

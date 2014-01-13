@@ -23,7 +23,7 @@
 										<?php if($download['attributes']){	?>
 												<br><div>
 													<?php foreach($download['attributes'] as $name=>$value){
-															echo '- <small>'.$name.': '.$value.'</small>';
+															echo '- <small>'.$name.': '.(is_array($value) ? implode(' ',$value) : $value).'</small>';
 													}?>
 												</div>
 										<?php } ?>

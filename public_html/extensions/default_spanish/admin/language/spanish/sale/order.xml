@@ -284,4 +284,28 @@
 		<key>edit_title_files</key>
 		<value><![CDATA[Editar Archivos de Orden]]></value>
 	</definition>
+	<definition>
+		<key>text_missing_file</key>
+		<value><![CDATA[Falta archivo]]></value>
+	</definition>
+	<definition>
+		<key>order_download_history</key>
+		<value><![CDATA[Historial de descargas]]></value>
+	</definition>
+	<definition>
+		<key>text_time</key>
+		<value><![CDATA[Еiempo]]></value>
+	</definition>
+	<definition>
+		<key>text_filename</key>
+		<value><![CDATA[Nombre de Archivo]]></value>
+	</definition>
+	<definition>
+		<key>text_mask</key>
+		<value><![CDATA[Enmascarar]]></value>
+	</definition>
+	<definition>
+		<key>text_download_percent</key>
+		<value><![CDATA[Descarga Porcentajes]]></value>
+	</definition>
 </definitions>

@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>entry_activate</key>
-		<value><![CDATA[Disponible]]></value>
+		<value><![CDATA[Activado<span class="help"> Descargar estará activa en el evento seleccionado<br>Ejemplo: Inmediatamente. Download es activa después se hace el pedido, sin importar el estado de su pedido </span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_sort_order</key>

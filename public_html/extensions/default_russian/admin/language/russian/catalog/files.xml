@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>entry_activate</key>
-		<value><![CDATA[Доступность загрузки]]></value>
+		<value><![CDATA[Активавировать<span class="help">Загрузка будет доаступна по выбранному событию.<br>Пример: Немедленно. Загрузка активируется сразу после размещения заказа, независимо от его статуса.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_sort_order</key>

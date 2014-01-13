@@ -1089,15 +1089,6 @@ class ControllerPagesSaleOrder extends AController {
 			}
 		}
 
-		$this->data['downloads'] = array();
-		$results = $this->model_sale_order->getOrderDownloads($this->request->get['order_id']);
-		foreach ($results as $result) {
-			$this->data['downloads'][] = array(
-				'name' => $result['name'],
-				'filename' => $result['mask'],
-				'remaining' => $result['remaining']
-			);
-		}
 
 		$this->data['form_title'] = $this->language->get('edit_title_files');
 		$this->data['update'] = $this->html->getSecureURL('listing_grid/order/update_field', '&id=' . $this->request->get['order_id']);
@@ -1132,7 +1123,6 @@ class ControllerPagesSaleOrder extends AController {
 
 		/** ORDER DOWNLOADS */
 		$this->data['downloads'] = array();
-
 		$order_downloads = $this->model_sale_order->getOrderDownloads($this->request->get['order_id']);
 
 		if ($order_downloads) {
@@ -1166,11 +1156,17 @@ class ControllerPagesSaleOrder extends AController {
 				foreach ($downloads as $download_info) {
 					$attributes = $this->download->getDownloadAttributesValuesForDisplay($download_info['download_id']);
 					$order_product_id = $download_info['order_product_id'];
+					$is_file = $this->download->isFileAvailable($download_info['filename']);
+					foreach($download_info['download_history'] as &$h){
+						$h['time'] = dateISO2Display($h['time'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
+					}unset($h);
+
 					$this->data['order_downloads'][$product_id]['downloads'][] = array(
 							'name' => $download_info['name'],
 							'attributes' => $attributes,
 							'href' => $this->html->getSecureURL('catalog/product_files','&product_id='.$product_id.'&download_id='.$download_info['download_id']),
 							'resource' => $download_info['filename'],
+							'is_file' => $is_file,
 							'mask' => $download_info['mask'],
 							'status' => $form->getFieldHtml(array(
 								'type' => 'checkbox',
@@ -1192,7 +1188,8 @@ class ControllerPagesSaleOrder extends AController {
 									'default' => '',
 									'dateformat' => format4Datepicker($this->language->get('date_format_short')),
 									'highlight' => 'future',
-									'style' => 'medium-field'))
+									'style' => 'medium-field')),
+							'download_history' => $download_info['download_history']
 					);
 				}
 

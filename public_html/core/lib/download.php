@@ -203,11 +203,17 @@ final class ADownload {
 				$row['value'] = unserialize($row['value']);
 				if(in_array($attributes[$row['attribute_id']]['element_type'],$attributes_with_options)){
 					foreach($attribute_values as $values){
-						if($values['attribute_value_id']==$row['value']){
+						if( (is_array($row['value']) && in_array($values['attribute_value_id'],$row['value']) )){
+							// do not include empty value for display for customer
+							if(!$row['value'] && in_array($mode,array('to_customer','to_display'))){ break 1; }
+							$output[$attributes[$row['attribute_id']]['name']][] = $values['value'];
+
+						}elseif(!is_array($row['value']) && $values['attribute_value_id']==$row['value'] ){
 							// do not include empty value for display for customer
 							if(!$values['value'] && in_array($mode,array('to_customer','to_display'))){ break 1; }
-						 	$output[$attributes[$row['attribute_id']]['name']] = $values['value'];
-							break 1;
+							if(is_array($row['value'])){
+								$output[$attributes[$row['attribute_id']]['name']] = $values['value'];
+							}
 						}
 					}
 				}else{
@@ -265,6 +271,7 @@ final class ADownload {
 				header('Content-Length: ' . $filesize);
 				ob_clean();
 				$bytes_sent = 0;
+				$order_download_history_id = 'NULL';
 				while(!feof($file_handler) ){// if we haven't got to the End Of File
 					print(fread($file_handler, 1024*8) );//read 8k from the file and send to the user
 					flush();//force the previous line to send its info
@@ -275,9 +282,33 @@ final class ADownload {
 						$bytes_sent += 1024*8;
 						$prc = round($bytes_sent*100/$filesize,0);
 						$prc = $prc>100 ? 100 : $prc;
-						$this->db->query("UPDATE ".$this->db->table('order_downloads')."
-											SET percentage='".$prc."'
-											WHERE order_download_id='".(int)$download_info['order_download_id']."'");
+						//do insert or update
+						$sql = "INSERT INTO ".$this->db->table('order_downloads_history')."
+														(order_download_history_id,
+														 order_download_id,
+														 order_id,
+														 order_product_id,
+														 filename,
+														 mask,
+														 download_id,
+														 download_percent,
+														 `time`)
+						VALUES (".$order_download_history_id.",
+								'".$download_info['order_download_id']."',
+								'".$download_info['order_id']."',
+								'".$download_info['order_product_id']."',
+								'".$download_info['filename']."',
+								'".$download_info['mask']."',
+								'".$download_info['download_id']."',
+								'".$prc."',
+								NOW())
+						ON DUPLICATE KEY UPDATE
+						 download_percent = '".$prc."'";
+
+						$this->db->query($sql);
+						if($order_download_history_id == 'NULL'){
+							$order_download_history_id = $this->db->getLastId();
+						}
 					}
 				}
 				fclose($file_handler);
@@ -399,7 +430,7 @@ final class ADownload {
 		if(!$this->isFileAvailable($download_info['filename'])){
 			$err = new AError('Error: file "'.$download_info['filename'].'" (download_id = '.$download_info['order_id'].') of order #'.$download_info['order_id'].' is unavailable for download!');
 			$err->toLog()->toDebug()->toMessages();
-			$text_status = $this->language->get('text_expired');
+			$text_status = $this->language->get('text_');
 		}
 
 		return $text_status;
