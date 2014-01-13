@@ -226,9 +226,10 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['image_width'] = $this->config->get('config_image_grid_width');
 		$this->data['image_height'] = $this->config->get('config_image_grid_height');
 
-		$this->data['rl_add_code'] = $this->html->getSecureURL('common/resource_library/add_code', '&type=' . $this->request->get['type'] . '&object_name=' . $this->request->get['object_name'] . '&object_id=' . $this->request->get['object_id']);
+		$params = '&type='.$this->request->get['type'].'&object_name='.$this->request->get['object_name'].'&object_id=' . $this->request->get['object_id'];
+		$this->data['rl_add_code'] = $this->html->getSecureURL('common/resource_library/add_code', $params);
 		$this->data['rl_get_info'] = $this->html->getSecureURL('common/resource_library/get_resource_details');
-		$this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', '&type=' . $this->request->get['type'] . '&object_name=' . $this->request->get['object_name'] . '&object_id=' . $this->request->get['object_id']);
+		$this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', $params);
 		if ((int)ini_get('post_max_size') <= 2) { // because 2Mb is default value for php
 			$this->data['attention'] = sprintf($this->language->get('error_file size'), ini_get('post_max_size'));
 		}
@@ -675,11 +676,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['object_name'] = $object_name;
 		$this->data['object_id'] = $object_id;
 
-		$this->data['rl_resource_library'] = $this->html->getSecureURL('common/resource_library', '&object_name=' . $object_name . '&object_id=' . $object_id . '&mode=' . $mode);
-		$this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources', '&object_name=' . $object_name . '&object_id=' . $object_id . '&mode=' . $mode);
-		$this->data['rl_resource_single'] = $this->html->getSecureURL('common/resource_library/get_resource_details', '&object_name=' . $object_name . '&object_id=' . $object_id . '&mode=' . $mode);
+		$params = '&object_name=' . $object_name . '&object_id=' . $object_id . '&mode=' . $mode;
+		$this->data['rl_resource_library'] = $this->html->getSecureURL('common/resource_library', $params);
+		$this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources', $params);
+		$this->data['rl_resource_single'] = $this->html->getSecureURL('common/resource_library/get_resource_details', $params);
 		$this->data['rl_delete'] = $this->html->getSecureURL('common/resource_library/delete');
-		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=' . $object_name . '&object_id=' . $object_id . '&mode=' . $mode);
+		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', $params);
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/common/resource_library_scripts.tpl');
@@ -700,7 +702,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			 */
 			return call_user_func_array(array($this, '_get' . $object_name . 'Title'), array($object_id));
 		} else
-			return '';
+			return 'Add/Edit';
 	}
 
 	/**

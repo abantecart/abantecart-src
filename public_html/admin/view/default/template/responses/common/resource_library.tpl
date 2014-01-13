@@ -64,12 +64,12 @@
     </div>
     <div id="column_right_wrapper">
         <ul class="tabs">
-            <?php if ($mode == '') : ?>
-            <li><a class="selected" href="#column_right" id="object"><?php echo $object_title; ?></a></li>
-            <?php endif; ?>
-            <li style="float: right; margin-right:15px;"><a <?php if ($mode == 'url') {
-                echo 'class="selected"';
-            } ?> href="#column_right" id="library"><?php echo $heading_title; ?></a></li>
+            <li>
+            	<a class="selected" href="#column_right" id="object"><?php echo $object_title; ?></a>
+            </li>
+            <li style="float: right; margin-right:15px;">
+            	<a href="#column_right" id="library"><?php echo $heading_title; ?></a>
+            </li>
         </ul>
         <a href="#" id="button_save_order" class="btn_standard"><?php echo $button_save_order; ?></a>
 
@@ -446,6 +446,7 @@ jQuery(function ($) {
             keyword:keyword,
             page:page
         }
+        //show resource for given object and id
         if (show_object_resource) {
             resource_data.object_name = object_name;
             resource_data.object_id = object_id;
@@ -538,6 +539,7 @@ jQuery(function ($) {
         return false;
     });
 
+	//Resource selected, choose action
     $('#column_right a.use, #map_this_info').live('click', function () {
 
         var item = loadedItems[$(this).attr('rel')];
@@ -555,7 +557,9 @@ jQuery(function ($) {
             parent.$('input[name="' + parent.selectField + '"]').val(item['resource_code']);
         } else {
             parent.loadSingle(type, parent.wrapper_id, item['resource_id'], parent.selectField);
-            parent.$('input[name="' + parent.selectField + '"]').val(types[type].dir + item['resource_path']);
+            //change hidden element and mark ad changed 
+            parent.$('input[name="' + parent.selectField + '"]').val(types[type].dir + item['resource_path']).addClass('afield changed');
+            parent.$('form').prop('changed', 'true');
         }
 
         parent.$('#dialog').dialog('close');

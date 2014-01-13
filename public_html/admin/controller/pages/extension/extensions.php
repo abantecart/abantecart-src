@@ -380,13 +380,14 @@ class ControllerPagesExtensionExtensions extends AController {
 					$item['resource_type'] = (string)$item['resource_type'];
 					if (!$result['rl_scripts']) {
 					$scripts = $this->dispatch('responses/common/resource_library/get_resources_scripts',
-											array('object_name' => '',
+											array(
+												'object_name' => '',
 												'object_id' => '',
 												'types' => $item['resource_type'],
-								'mode' => 'url'
+												'mode' => 'url'
 											));
 						$result['rl_scripts'] = $scripts->dispatchGetOutput();
-					unset($scripts);
+						unset($scripts);
 					}
 					//preview of resource
 					$resource = new AResource($item['resource_type']);
