@@ -531,19 +531,9 @@ VALUES
 
 
 
---
--- Dumping data for table `order_products`
---
 
-
-
-INSERT INTO `ac_order_products` 
-VALUES 
-(1,1,46,'Sony VAIO','Product 19','1000.0000','1000.0000','0.0000',1,0),
-(2,1,36,'iPod Nano','Product 9','100.0000','100.0000','0.0000',1,0),
-(3,1,42,'Apple Cinema 30&quot;','Product 15','100.0000','100.0000','0.0000',1,0),
-(4,2,48,'iPod Classic','product 20','100.0000','100.0000','0.0000',1,0),
-(5,2,41,'iMac','Product 14','500.0000','500.0000','0.0000',1,0),
+INSERT INTO `ac_order_products` (`order_product_id`, `order_id`, `product_id`,`name`,`model`,`price`,`total`,`tax`,`quantity`,`subtract`)
+VALUES
 (6,2,97,'Eye Rejuvenating Serum','GRMBC004','126.0000','126.0000','8.5000',1,0),
 (7,2,100,'Smooth silk lip pencils','GRMBC007','10.0000','40.0000','8.5000',4,0),
 (8,2,93,'Creme Precieuse Nuit 50ml','BVLG003','220.0000','220.0000','8.5000',1,0),
