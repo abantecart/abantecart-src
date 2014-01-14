@@ -308,4 +308,16 @@
 		<key>text_download_percent</key>
 		<value><![CDATA[Descarga Porcentajes]]></value>
 	</definition>
+	<definition>
+		<key>text_download_expired</key>
+		<value><![CDATA[Fecha de Vencimiento]]></value>
+	</definition>
+	<definition>
+		<key>text_download_remaining_count</key>
+		<value><![CDATA[Número Restante]]></value>
+	</definition>
+	<definition>
+		<key>text_order_status_required</key>
+		<value><![CDATA[Estado del pedido "%s" Obligatorio]]></value>
+	</definition>
 </definitions>

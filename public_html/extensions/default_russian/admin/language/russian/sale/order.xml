@@ -304,4 +304,16 @@
 		<key>text_download_percent</key>
 		<value><![CDATA[Проценты загрузки]]></value>
 	</definition>
+	<definition>
+		<key>text_download_expired</key>
+		<value><![CDATA[Дата истекла]]></value>
+	</definition>
+	<definition>
+		<key>text_download_remaining_count</key>
+		<value><![CDATA[Количество разрещенных загрузок]]></value>
+	</definition>
+	<definition>
+		<key>text_order_status_required</key>
+		<value><![CDATA[Требуется статус заказа "%s"]]></value>
+	</definition>
 </definitions>

@@ -2195,6 +2195,9 @@ div.download-list{
 table.download-list{
 	margin-top: 10px;
 }
+table.download-list .warning{
+	border: none;
+}
 .download-list th{
 	border: medium none;
 	color: #2A465E;
@@ -2238,7 +2241,7 @@ div.download-list-attributes{
 }
 
 .download-history{
-	width: 700px;
+	width: 100%;
 	font-size: 12px;
 	height: 150px;
 	overflow: auto;
@@ -2246,7 +2249,7 @@ div.download-list-attributes{
 }
 
 .download-history table{
-	width: 98%;
+	width: 100%;
 }
 .download-history th{
 	font-size: 12px;

@@ -1133,6 +1133,7 @@ class ControllerPagesSaleOrder extends AController {
 				$this->registry->set('jqgrid_script', true);
 			}
 			$this->session->data['multivalue_excludes'] = array();
+			$this->loadModel('catalog/download');
 			foreach ($order_downloads as $product_id=>$order_download) {
 				$downloads = (array)$order_download['downloads'];
 				$this->data['order_downloads'][$product_id]['product_name'] = $order_download['product_name'];
@@ -1150,6 +1151,19 @@ class ControllerPagesSaleOrder extends AController {
 						$h['time'] = dateISO2Display($h['time'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
 					}unset($h);
 
+					$status_text = $this->model_catalog_download->getTextStatusForOrderDownload($download_info);
+
+					if($status_text){
+						$status = $status_text;
+					}else{
+						$status = $form->getFieldHtml(array(
+													'type' => 'checkbox',
+													'name' => 'downloads[' . (int)$download_info['order_download_id'] . '][status]',
+													'value' => $download_info['status'],
+													'style' => 'btn_switch',
+												));
+					}
+
 					$this->data['order_downloads'][$product_id]['downloads'][] = array(
 							'name' => $download_info['name'],
 							'attributes' => $attributes,
@@ -1157,16 +1171,12 @@ class ControllerPagesSaleOrder extends AController {
 							'resource' => $download_info['filename'],
 							'is_file' => $is_file,
 							'mask' => $download_info['mask'],
-							'status' => $form->getFieldHtml(array(
-								'type' => 'checkbox',
-								'name' => 'downloads[' . (int)$download_info['order_download_id'] . '][status]',
-								'value' => $download_info['status'],
-								'style' => 'btn_switch',
-							)),
+							'status' => $status,
 							'remaining' => $form->getFieldHtml(array(
 								'type' => 'input',
 								'name' => 'downloads[' . (int)$download_info['order_download_id'] . '][remaining_count]',
 								'value' => $download_info['remaining_count'],
+								'placeholder' => '-',
 								'style' => 'small-field'
 							)),
 							'expire_date' => $form->getFieldHtml(

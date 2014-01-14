@@ -413,8 +413,12 @@ class ModelCatalogDownload extends Model {
 			}
 			$update[] = "`expire_date` = " . $expire;
 		}
-		if(has_value($data[ 'remaining_count' ])){
-			$update[] = "`remaining_count` = '" . (int)$data[ 'remaining_count' ]."'";
+		if(isset($data[ 'remaining_count' ])){
+			if($data[ 'remaining_count' ]!=''){
+				$update[] = "`remaining_count` = '" . (int)$data[ 'remaining_count' ]."'";
+			}else{
+				$update[] = "`remaining_count` = NULL";
+			}
 		}
 		if(has_value($data[ 'status' ])){
 			$update[] = "`status` = '" . (int)$data[ 'status' ]."'";
@@ -452,5 +456,38 @@ class ModelCatalogDownload extends Model {
 	public function getTotalOrdersWithProduct($product_id, $download_id){
 		return sizeof($this->getOrdersWithProduct($product_id, $download_id));
 	}
+
+	/**
+	 * @param $download_info
+	 * @return string
+	 */
+	public function getTextStatusForOrderDownload($download_info){
+
+			$text_status = array();
+
+			if( dateISO2Int($download_info['expire_date']) < time()){
+				$text_status[] = $this->language->get('text_download_expired');
+			}
+
+			if( $download_info['remaining_count'] == '0' ) {
+				$text_status[] = $this->language->get('text_download_remaining_count').': 0';
+			}
+
+			if((int)$download_info['activate_order_status_id']>0){
+				if((int)$download_info['activate_order_status_id'] != (int)$download_info['order_status_id']){
+					$this->load->model('localisation/order_status');
+					$order_status_info = $this->model_localisation_order_status->getOrderStatus($download_info['activate_order_status_id']);
+					$text_status[] = sprintf($this->language->get('text_order_status_required'),$order_status_info['name']);
+				}
+			}
+
+			//2. check is file exists
+			$download_info['filename'] = trim($download_info['filename']);
+			if(!$this->download->isFileAvailable($download_info['filename'])){
+				$text_status[] = $this->language->get('text_missing_file');
+			}
+
+			return $text_status;
+		}
 
 }

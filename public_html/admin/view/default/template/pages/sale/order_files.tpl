@@ -61,9 +61,10 @@
 											<th class="left" style="width: 16%;"><?php echo $column_download; ?></th>
 											<th class="left" style="width: 18%;"><?php echo $column_file; ?></th>
 											<th class="left" style="width: 11%;"><?php echo $column_mask; ?></th>
-											<th class="center"><?php echo $column_status; ?></th>
-											<th class="right"><?php echo $column_remaining; ?></th>
-											<th class="right"><?php echo $column_expire_date; ?></th>
+
+											<th class="right" style="width: 8%;"><?php echo $column_remaining; ?></th>
+											<th class="right" style="width: 22%;"><?php echo $column_expire_date; ?></th>
+											<th class="right"><?php echo $column_status; ?></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -79,13 +80,22 @@
 											<?php } ?>
 											</td>
 											<td class="left">
-												<?php echo !$download['is_file'] ? '<p style="display:inline;" class="error">'.$text_missing_file.'</p>' :''?>
-												&nbsp;<?php echo $download['resource']; ?>
+												<?php echo $download['resource']; ?>
 											</td>
 											<td class="left"><?php echo $download['mask']; ?></td>
-											<td class="center"><?php echo $download['status']; ?></td>
+
 											<td class="right"><?php echo $download['remaining']; ?></td>
 											<td class="right"><?php echo $download['expire_date']; ?></td>
+											<td class="right"><?php
+												if(is_array($download['status'])){ ?>
+												<div class="error">
+												<?php echo implode('<br>',$download['status']);?>
+												</div>
+											<?php }else{
+													echo $download['status'];
+												}
+
+												?></td>
 										</tr>
 										<tr><td colspan="6"><?php if($download['download_history']){ ?>
 												<div class="caption"><?php echo $order_download_history;?></div>
@@ -105,7 +115,7 @@
 														<?php echo $text_download_percent?>
 														</th>
 													</tr>
-
+													<tr></tr>
 													<?php foreach($download['download_history'] as $history){?>
 													<tr>
 														<td>

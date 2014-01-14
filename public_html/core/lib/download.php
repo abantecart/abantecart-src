@@ -430,7 +430,7 @@ final class ADownload {
 		if(!$this->isFileAvailable($download_info['filename'])){
 			$err = new AError('Error: file "'.$download_info['filename'].'" (download_id = '.$download_info['order_id'].') of order #'.$download_info['order_id'].' is unavailable for download!');
 			$err->toLog()->toDebug()->toMessages();
-			$text_status = $this->language->get('text_');
+			$text_status = $this->language->get('text_unavailable');
 		}
 
 		return $text_status;
