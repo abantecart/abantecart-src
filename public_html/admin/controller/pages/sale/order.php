@@ -1079,17 +1079,6 @@ class ControllerPagesSaleOrder extends AController {
 			$this->data['customer_group'] = '';
 		}
 
-		foreach ($fields as $f) {
-			if (isset ($this->request->post [$f])) {
-				$this->data [$f] = $this->request->post [$f];
-			} elseif (isset($order_info[$f])) {
-				$this->data[$f] = $order_info[$f];
-			} else {
-				$this->data[$f] = '';
-			}
-		}
-
-
 		$this->data['form_title'] = $this->language->get('edit_title_files');
 		$this->data['update'] = $this->html->getSecureURL('listing_grid/order/update_field', '&id=' . $this->request->get['order_id']);
 		$form = new AForm('HS');
@@ -1145,7 +1134,7 @@ class ControllerPagesSaleOrder extends AController {
 			}
 			$this->session->data['multivalue_excludes'] = array();
 			foreach ($order_downloads as $product_id=>$order_download) {
-				$downloads = $order_download['downloads'];
+				$downloads = (array)$order_download['downloads'];
 				$this->data['order_downloads'][$product_id]['product_name'] = $order_download['product_name'];
 				$this->data['order_downloads'][$product_id]['product_thumbnail'] = $rl->getMainThumb( 'products',
 																										$product_id,
