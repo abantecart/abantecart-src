@@ -1140,8 +1140,7 @@ class ControllerPagesSaleOrder extends AController {
 				$this->data['order_downloads'][$product_id]['product_thumbnail'] = $rl->getMainThumb( 'products',
 																										$product_id,
 																										$this->config->get('config_image_grid_width'),
-																										$this->config->get('config_image_grid_height')
-				);
+																										$this->config->get('config_image_grid_height'));
 
 				foreach ($downloads as $download_info) {
 					$attributes = $this->download->getDownloadAttributesValuesForDisplay($download_info['download_id']);
@@ -1190,10 +1189,11 @@ class ControllerPagesSaleOrder extends AController {
 									'style' => 'medium-field')),
 							'download_history' => $download_info['download_history']
 					);
+					// exclude downloads from multivalue list. why we need relate recursion?
+					$this->session->data['multivalue_excludes'][] = $download_info['download_id'];
 				}
 
-				// exclude downloads from multivalue list. why we need relate recursion?
-				$this->session->data['multivalue_excludes'][] = $download_info['download_id'];
+
 
 				$this->data['order_downloads'][$product_id]['push'] = $form->getFieldHtml(
 					array('id' => 'popup'.$product_id,
@@ -1216,7 +1216,6 @@ class ControllerPagesSaleOrder extends AController {
 					));
 			}
 		}
-
 
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('order_files'));
