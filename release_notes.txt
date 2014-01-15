@@ -19,7 +19,6 @@ Core:
 - resource manager fixes related to empty descriptions of resource for fresh installed new language
 - AView fix related to coping of default template by devtools
 - added methods is_POST() and is_GET() in ARequest class
-- downloads related changes (incomplete!)
 - ALanguage changes related to import language definitions to database.
 - new feature setting "call_to_order" related fix
 - added feature setting "call_for_order" for product to control panel and storefront default templates
@@ -53,7 +52,7 @@ Control Panel:
 - uploaded filed management fix related to aform changes
 - fix for ALanguageManager related to insert of new definitions for non-default language
 - customer approve fix
-- minor fix related to regexp-validation of product options
+- minor fix related to regex validation of product options
 - model catalog/product minor fix
 - js-function refactoring part1. All functions now variables. It done for future overriding.
 - now paypal extension will be first in extension list after installation of cart
@@ -73,8 +72,8 @@ Control Panel:
 Storefront:
 - Category menu to show images for subcategories with mouse over.
 - checkout/confirmation fix related to comments for html-view of email letter for customer.
-- icon for shipping/payment method minor fix. Forgot pass default_html5 minor fix. Core: aencryption minor fix
-- minor change of default_html5 tpl for captcha.
+- icon for shipping/payment method minor fix. Forgot pass default_html5 minor fix. Core: encryption minor fix
+- minor change of default_html5 template for captcha.
 - minor changes of "contact us" controller.
 - contact us form changes related to processing of uploaded files
 - changed hook "processData" call to checkout guest_step_2 and payment controller in checkout directory.
