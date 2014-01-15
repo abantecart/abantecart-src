@@ -1,3 +1,106 @@
+AbanteCart version 1.1.8 with new features and improvements.
+
+Release Notes:  Version 1.1.8
+
+New Features and improvements summary:
+- New Improved Digital Products support (Product Downloads)
+- Admin voice command controls (beta)
+- PHP 5.4/5.5 and MySqli support 
+- Adding human verified Russian language to the core
+- "Call for order" or view only mode products setting
+- Cache engine improvement 
+- Countries, zones and taxes are now multi-lingual
+- Number of HTML5 storefront template updates and improvements
+Many other features and improvements
+
+Core:
+- Resource library improvment
+- ACache optimization. Now file modification time use for expire time definition instead timestamp inside file name.
+- resource manager fixes related to empty descriptions of resource for fresh installed new language
+- AView fix related to coping of default template by devtools
+- added methods is_POST() and is_GET() in ARequest class
+- downloads related changes (incomplete!)
+- ALanguage changes related to import language definitions to database.
+- new feature setting "call_to_order" related fix
+- added feature setting "call_for_order" for product to control panel and storefront default templates
+- AMail lib fix related to unicode subject and sender name
+- added property-sign about currency switch
+- added phpdoc comments ACustomer class
+- added var type check to escape method of db-driver classes
+- AForm changes. form_id will append to action url of form.
+- changed ALanguageManager class.Php-doc comments added. Also changed method for pre-loading of definitions for installation process. Install: implemented setting for db-driver(mysql or mysqli).
+- database changes related to regexp for flexy form fields and error text for that check.
+- changed method getData of AView class. Added optional parameter $key for better use by hooks. Also phpdoc comment added.
+- changed ALanguage class. Now all language definitions values can't to start and end with CRLF. (js-related rule)
+- added mysqli db-driver
+- changed AView class related to default template tpl fetching. Also added function numberDisplayFormat into engine/helper/utils.php
+- changed ExtensionAPI class. Added protected property $baseObject_method. It's a name of caller of hook method.
+- changed ALanguage class. Added "silent" mode to method get(). Also php-documentor comments added.
+- added warning for overriding of template data by values with different types.
+- added minor change into method url_encode of AHtml class + phpdoc comments
+- added new method getVirtualAProducts into ACart class
+- ALayoutManager minor fix related to error text in constructor.
+- mysql connection now will have 60 sec for wait_timeout. Also added directive output_buffering = 4096; into php.ini to prevent disabling buffering for some php-cgi and php-cli builds of web-servers.
+- Ability to encrypt URLs with base64. Add buildFilterURI() method to filter class.
+- Devision by zero fix in utils
+- Add robots.txt to block some directories from access by search engines
+
+Control Panel:
+- product option values sort order js-improvement
+- downloads related changes
+- product option fix related to deleted option value of global attribute
+- Resource library js-fix related to multiple usage on same page
+- uploaded filed management fix related to aform changes
+- fix for ALanguageManager related to insert of new definitions for non-default language
+- customer approve fix
+- minor fix related to regexp-validation of product options
+- model catalog/product minor fix
+- js-function refactoring part1. All functions now variables. It done for future overriding.
+- now paypal extension will be first in extension list after installation of cart
+- location edit page minor fix related to php-warnings
+- listing blocks minor fix related to php-warnings
+- added ampersand of URL conversion into menu controller
+- minor fix of global attribute form's tpl. Native spellchecker of browser now enabled by default in CKeditor
+- jQgrid drag bug fix with click event
+- Improvement to marketplace and search for extensions
+- Better money decimal points formatting in admin.
+- Language auto-translate fix and improvement
+- Update success/warning confirmation message to Bootstrap style
+- In resource library add view of resource files's path
+- Category deletion fix. Removal of relationship to products
+- Adding control for fallback banner in HTML5 slider
+
+Storefront:
+- Category menu to show images for subcategories with mouse over.
+- checkout/confirmation fix related to comments for html-view of email letter for customer.
+- icon for shipping/payment method minor fix. Forgot pass default_html5 minor fix. Core: aencryption minor fix
+- minor change of default_html5 tpl for captcha.
+- minor changes of "contact us" controller.
+- contact us form changes related to processing of uploaded files
+- changed hook "processData" call to checkout guest_step_2 and payment controller in checkout directory.
+- default_html5 minor fix related to product listing buttons for product
+- minor fix related to html-validation
+- cart controller redirect fix
+- fixed incorrect text breadcrumb on forgotten-login-name page
+- redirect url fixed on guest checkout page Core: AResource and AResourceManager minor fix
+- guest_step_2 fix related to ignoring of agreement with policy after turning back from step3 page.
+- now default method (main) of account/forgotten is password();
+- account block data added (urls of login, register and forgot pass pages )
+- account/create form for customer.. validation improvement related to extension's hook validator
+- account block now will hide info if user is not logged
+- added "hook var" call to checkout guest tpl step2 of default templates. Also added id for table with order summary on cart page in default_html5 template
+- added typo fix for account/create
+- minor fixes relates to hooks call
+- Product sorting by Price includes discounted price.
+- storefront menu edit form fix related to list of content pages
+
+Extensions:
+- default flat rate shipping fix related to location setting
+- added note for return URL on paypal standart settings page
+- fixed URL of COD controller (was loop redirect on confirm page when press back button)install: demo sql data consistency fix
+
+
+
 AbanteCart version 1.1.7 with new features, improvements and bug fixes.
 
 Release Notes:  Version 1.1.7
@@ -856,6 +959,4 @@ Storefront:
 
 Other:
 - language files updates
-
-Работает на WebSVN 2.3.0 и Subversion 1.6.1
 
