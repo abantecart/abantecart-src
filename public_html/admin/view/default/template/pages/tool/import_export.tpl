@@ -96,8 +96,8 @@
 			  </div>
 
 			  <div class="buttons align_center">
-				  <button type="submit" class="btn_standard button_loader" id="file_submit" name="file_submit"><?php echo $form['submit']; ?></button>
 				  <a class="btn_standard" href="<?php echo ${'link_'.$active}; ?>" ><?php echo $form['cancel']; ?></a>
+				  <button type="submit" class="btn_standard button_loader" id="file_submit" name="file_submit"><?php echo $form['submit']; ?></button>
 			  </div>
 			</form>
 
@@ -206,8 +206,9 @@
 
 
 			<div class="buttons align_center">
+		      <a class="btn_standard" href="<?php echo ${'link_'.$active}; ?>" ><?php echo $form['cancel']; ?></a>
 			  <button type="submit" class="btn_standard" id="submit" name="submit" value="<?php echo $active; ?>"><?php echo $form['submit']; ?></button>
-			  <a class="btn_standard" href="<?php echo ${'link_'.$active}; ?>" ><?php echo $form['cancel']; ?></a>
+
 			</div>
 		  <?php endif; ?>
 

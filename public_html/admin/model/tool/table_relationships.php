@@ -259,10 +259,15 @@ class ModelToolTableRelationships extends Model {
 		);
 	}
 
-	//check if requested table exist and return its array 
+	/**
+	 * check if requested table exist and return its array
+	 * @param string $table_name
+	 * @param array $search_in_input
+	 * @return null|array
+	 */
 	public function find_table_cfg ( $table_name, $search_in_input = array() ) {
 		if ( empty($table_name) ) {
-			return;
+			return null;
 		}
 
 		if (count($search_in_input) <= 0) {
@@ -283,9 +288,13 @@ class ModelToolTableRelationships extends Model {
 				}
 			}
 		}
-		return;
+		return null;
 	}
 
+	/**
+	 * @param array $sections
+	 * @return bool
+	 */
 	public function setSections($sections = array()){
 		if ( !empty($sections) )
 		{
@@ -295,6 +304,9 @@ class ModelToolTableRelationships extends Model {
 		return false;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getSections(){
 		return $this->sections;
 	}
@@ -345,14 +357,23 @@ class ModelToolTableRelationships extends Model {
 
 	private function _build_relathionship() {
 		//Need o connect tables with relationship IDs. 
-		//NOT IMPLEMENTED. Issue with logic to detect id and connet. Slow and unreliable solution. 
+		//NOT IMPLEMENTED. Issue with logic to detect id and content. Slow and unreliable solution.
+		// Looking for better solution to automate or us TRUE relational DB with Postgres ot InnoDB with mysql
+	}
+	private function _apply_special_cases() {
+		//Need o connect tables with relationship IDs.
+		//NOT IMPLEMENTED. Issue with logic to detect id and content. Slow and unreliable solution.
 		// Looking for better solution to automate or us TRUE relational DB with Postgres ot InnoDB with mysql
 	}
 
+	/**
+	 * @param string $table_name
+	 * @return null|array
+	 */
 	public function get_table_cfg ( $table_name ) {
 		//NOTE: DO not use. Not implemented yet. 
 		if ( empty($table_name) ) {
-			return;
+			return null;
 		}
 
 		if (!$this->tables_data ) {
@@ -367,6 +388,10 @@ class ModelToolTableRelationships extends Model {
 
 	}
 
+	/**
+	 * @param string $table_name
+	 * @return array
+	 */
 	public function get_table_columns ( $table_name ) {
 		$sql = 'SHOW COLUMNS FROM `' . $this->db->escape(DB_PREFIX.$table_name) . '` FROM `' . DB_DATABASE . '`';
 
