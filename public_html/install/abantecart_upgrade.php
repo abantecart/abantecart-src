@@ -19,6 +19,6 @@ $this->db->query("INSERT INTO `".DB_PREFIX."global_attributes_types` (`type_key`
 							('download_attribute', 'responses/catalog/attribute/getDownloadAttributeSubform', 2, 1);");
 $attr_id = $this->db->getLastId();
 
-$this->db->query("INSERT INTO `".DB_PREFIX."global_attributes_type_descriptions` (`attribute_id`,`language_id`, `type_name`, `create_date`)
+$this->db->query("INSERT INTO `".DB_PREFIX."global_attributes_type_descriptions` (`attribute_type_id`,`language_id`, `type_name`, `create_date`)
 				VALUES ('".$attr_id."', 1, 'Download Attribute', NOW()),
        					('".$attr_id."', 9, 'Descargar Atributo', NOW());");
