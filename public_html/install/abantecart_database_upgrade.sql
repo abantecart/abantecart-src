@@ -1,4 +1,3 @@
---NOTE! need to add item to extensions menu with langauges
 
 ALTER TABLE `ac_tax_rates` change `rate` `rate` decimal(15,4) NOT NULL DEFAULT '0.0000';
 
