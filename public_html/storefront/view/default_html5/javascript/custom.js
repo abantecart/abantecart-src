@@ -15,8 +15,8 @@ $('document').ready(function () {
 
     // Toggle
     $('.togglehandle').click(function () {
-        $(this).toggleClass('active')
-        $(this).next('.toggledata').slideToggle()
+        $(this).toggleClass('active');
+        $(this).next('.toggledata').slideToggle();
     });
 
     // Dropdowns

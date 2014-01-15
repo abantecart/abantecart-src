@@ -298,39 +298,6 @@ VALUES
 (12,0,'Allen','Waters','allenwaters@abantecart.com','allenwaters@abantecart.com','+1 540-985-59700','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,11,1,1,1,'109.104.166.98','2013-09-01 09:12:56'),
 (13,0,'qqqqqq','qqqqqq','1@abantecart','1@abantecart','55 555 5555 5555','','f73469b693cecf7fa70c3e39b6fde1f4','a:1:{s:3:\"97.\";i:1;}',0,12,1,1,1,'109.104.166.98','2013-09-08 11:28:20');
 
-
-
---
--- Dumping data for table `download_descriptions`
---
-
-
-
-INSERT INTO `ac_download_descriptions` 
-VALUES 
-(1,1,'visionare pdf file');
-
-
---
--- Dumping data for table `downloads`
---
-
-
-
-INSERT INTO `ac_downloads`
-(`download_id`,
- `filename`,
- `max_downloads`,
- `date_added` )
-VALUES 
-(1,
- 'download/18/74/c.zip',
- --'Visionnaire.zip',
- 150,
- NOW());
-
-
-
 --
 -- Dumping data for table `global_attributes`
 --

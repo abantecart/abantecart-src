@@ -28,7 +28,7 @@
 </tr>
 <?php endif; ?>
 
-<script>
+<script type="text/javascript">
 
 	$('#pp_refund_submit').click(function() {
 

@@ -20,10 +20,23 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class AWeight
+ */
 final class AWeight {
 	private $weights = array();
-	
+	/**
+	 * @var ADB
+	 */
+	private $db;
+	/**
+	 * @var AConfig
+	 */
+	private $config;
+
+	/**
+	 * @param $registry Registry
+	 */
 	public function __construct($registry) {
 		$this->db = $registry->get('db');
 		$this->config = $registry->get('config');
@@ -41,11 +54,14 @@ final class AWeight {
     	}
   	}
 
-	/*
-	* convert weigth unit based
-	*/
-	  
-  	public function convert($value, $unit_from, $unit_to) {
+	/**
+	 * convert weigth unit based
+	 * @param float $value
+	 * @param string $unit_from
+	 * @param string $unit_to
+	 * @return float
+	 */
+	public function convert($value, $unit_from, $unit_to) {
 		if ($unit_from == $unit_to) {
       		return $value;
 		}
@@ -60,17 +76,26 @@ final class AWeight {
 		}
   	}
 
-	/*
-	* convert weigth id based
-	*/
-	
-  	public function convertByID($value, $from_id, $to_id) {
+	/**
+	 * convert weigth id based
+	 * @param float $value
+	 * @param int $from_id
+	 * @param int $to_id
+	 * @return float
+	 */
+
+	public function convertByID($value, $from_id, $to_id) {
 		return $this->convert( $value, $this->getUnit($from_id), $this->getUnit($to_id) );
 	}
 
-	/*
-	* convert format unit based
-	*/
+	/**
+	 * convert format unit based
+	 * @param float $value
+	 * @param string $unit
+	 * @param string $decimal_point
+	 * @param string $thousand_point
+	 * @return string
+	 */
 	public function format($value, $unit, $decimal_point = '.', $thousand_point = ',') {
 		if (isset($this->weights[strtolower($unit)])) {
     		return number_format($value, 2, $decimal_point, $thousand_point) . $this->weights[strtolower($unit)]['unit'];
@@ -79,17 +104,24 @@ final class AWeight {
 		}
 	}
 
-	/*
-	* convert format id based
-	*/
+	/**
+	 * convert format id based
+	 * @param float $value
+	 * @param int $weight_class_id
+	 * @param string $decimal_point
+	 * @param string $thousand_point
+	 * @return string
+	 */
 	public function formatByID($value, $weight_class_id, $decimal_point = '.', $thousand_point = ',') {
 		return $this->format($value, $this->getUnit($weight_class_id), $decimal_point, $thousand_point);
 	}
 
-	/*
-	* get weigth unit code based on $weigth_class_id
-	*/
-	
+	/**
+	 * get weigth unit code based on $weigth_class_id
+	 * @param int $weight_class_id
+	 * @return string
+	 */
+
 	public function getUnit($weight_class_id) {
 		foreach ($this->weights as $wth) {
 			if ( $wth['weight_class_id'] == $weight_class_id ) {
@@ -99,17 +131,17 @@ final class AWeight {
 		return '';
 	}	  	
 
-	/*
-	* get weigth_class_id based on unit code
-	*/
-	
+	/**
+	 * get weigth_class_id based on unit code
+	 * @param string $weight_unit
+	 * @return string|int
+	 */
+
 	public function getClassID($weight_unit) {
 		if (isset($this->weights[$weight_unit])) {
     		return $this->weights[$weight_unit]['weight_class_id'];
 		} else {
 			return '';
 		}
-	}	  	
-	
+	}
 }
-?>

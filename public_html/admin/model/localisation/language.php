@@ -164,8 +164,6 @@ class ModelLocalisationLanguage extends Model {
 						if(file_exists(DIR_ROOT.'/admin/language/'.$result['directory'].'/flag.png')){
 							$result['image'] = 'admin/language/'.$result['directory'].'/flag.png';
 						}
-					}else{
-						$result['image'] = $result['image'];
 					}
 
       				$language_data[$result['code']] = array(
@@ -191,4 +189,3 @@ class ModelLocalisationLanguage extends Model {
 		return $this->getLanguages( $data, 'total_only' );
 	}
 }
-?>

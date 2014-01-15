@@ -32,7 +32,7 @@
      			<?php 
      				$unc_count = 0; 
      				foreach ($unencrypted_stats as $unc_stats) {
-     					$unc_count += $unc_stats[count]; 
+     					$unc_count += $unc_stats['count'];
      				}
      			?>
      			<?php if ($unc_count > 0) { ?>
@@ -43,8 +43,8 @@
      				<ul>
      				<?php $unc_count = 0; 
      					foreach ($unencrypted_stats as $unc_stats) { ?>
-     					<li><?php echo $unc_stats[table]; ?> : <?php echo $unc_stats[count]; ?> <?php echo $text_usage_records; ?></li>
-     				<?php $unc_count += $unc_stats[count]; 
+     					<li><?php echo $unc_stats['table']; ?> : <?php echo $unc_stats['count']; ?> <?php echo $text_usage_records; ?></li>
+     				<?php $unc_count += $unc_stats['count'];
      					 } ?>
      				</ul>
      				</td>
@@ -66,18 +66,18 @@
      			</tr>
      			<?php foreach ($section['usage_details'] as $usage) { ?>
      			<tr>
-     				<td width="60"><?php echo $usage[key_id]; ?></td>
-     				<td width="120"><?php echo $usage[key_name]; ?></td>
+     				<td width="60"><?php echo $usage['key_id']; ?></td>
+     				<td width="120"><?php echo $usage['key_name']; ?></td>
      				<td width="400">
      				<ul>
      				<?php $enc_count = 0; 
-     					foreach ($usage[key_usage] as $enc_stats) { ?>
-     					<li><?php echo $enc_stats[table]; ?> : <?php echo $enc_stats[count]; ?> <?php echo $text_usage_records; ?></li>
-     				<?php $enc_count += $enc_stats[count]; 
+     					foreach ($usage['key_usage'] as $enc_stats) { ?>
+     					<li><?php echo $enc_stats['table']; ?> : <?php echo $enc_stats['count']; ?> <?php echo $text_usage_records; ?></li>
+     				<?php $enc_count += $enc_stats['count'];
      					 } ?>
      				</ul>     				
 					</td>
-     				<td><?php if($enc_count > 0) { echo $usage[actons]; } ?></td>
+     				<td><?php if($enc_count > 0) { echo $usage['actons']; } ?></td>
      			</tr>
      			<?php } ?>
      			</table>

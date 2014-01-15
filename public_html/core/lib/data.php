@@ -22,9 +22,17 @@ if (! defined ( 'DIR_CORE' )) {
 }
 
 final class AData {
-
+	/**
+	 * @var Registry
+	 */
 	private $registry;
+	/**
+	 * @var AMessage
+	 */
 	private $message;
+	/**
+	 * @var ADB
+	 */
 	private $db;
 	private $csvDelimiters = array(',',';','\t');
 	private $status_arr = array();
@@ -60,16 +68,19 @@ final class AData {
 		return $this->sections;
 	}
 
+	/**
+	 * @param string $table_name
+	 * @return mixed
+	 */
 	public function getTableColumns($table_name) {
 		return $this->model_tool_table_relationships->get_table_columns($table_name);
 	}
 
-	/*
-	 Main Fincion to generate Data Array.
-	 input	request Array() 	. See manual for more details
-	 		skip_innter_ids true/false - Exclude IDs for nested structured related to parent level
-	 output Data Arary()
-	*/
+	/**
+	 * @param array $request - See manual for more details
+	 * @param bool $skip_inner_ids - Exclude IDs for nested structured related to parent level
+	 * @return array
+	 */
 	public function exportData( $request, $skip_inner_ids = true ) {
 		$result_arr = array();
 		$result_arr['timestamp'] = date('m/d/Y H:i:s');
@@ -89,12 +100,13 @@ final class AData {
 		return $result_arr;
 	}
 
-	/*
-	 Main Fincion to import Data Array to the database
-	 input	data array() . See manual for more details
-	 		mode string : commit or test
-	 output Status Arary 
-	*/
+	/**
+	 * Main Function to import Data Array to the database
+	 *
+	 * @param array $data_array - See manual for more details
+	 * @param string $mode - commit or test
+	 * @return array
+	 */
 	public function importData( $data_array, $mode = 'commit'  ) {	
 		$this->run_mode = $mode;
 		//validate the array. 
@@ -115,10 +127,12 @@ final class AData {
 		return $this->status_arr;
 	}
 
-
-	/*
-	*	Specific Data Array conversion to XML format 
-	*/
+	/**
+	 * Specific Data Array conversion to XML format
+	 * @param array  $data_array
+	 * @param string $file_output
+	 * @return int|string
+	 */
 	public function array2XML ( $data_array, $file_output = '' ) {
 		$xml = simplexml_load_string('<?xml version="1.0" encoding="utf-8"?><XMLExport />');
 		$this->_array_part2XML($data_array, $xml);
@@ -135,9 +149,12 @@ final class AData {
 		}
 	}
 
-	/*
-	*	Specific CSV format from file
-	*/
+	/**
+	 * Specific CSV format from file
+	 * @param $file
+	 * @param $delimIndex
+	 * @return array
+	 */
 	public function CSV2ArrayFromFile($file, $delimIndex) {
 		$results = array();
 		if ( isset($this->csvDelimiters[$delimIndex]) ){
@@ -155,10 +172,18 @@ final class AData {
 		$results['tables'][] = $this->_csv_file2array($file, $delimiter);
 		return $results;
 	}
-	
-	/*
-	*	Specific Data Array conversion to CSV format 
-	*/
+
+	/**
+	 * Specific Data Array conversion to CSV format
+	 * @param array $in_array
+	 * @param string $fileName
+	 * @param int $delimIndex
+	 * @param string $format
+	 * @param string $enclose
+	 * @param string $escape
+	 * @param bool $asFile
+	 * @return bool|string
+	 */
 	public function array2CSV($in_array, $fileName, $delimIndex = 0, $format = '.csv', $enclose = '"', $escape = '"', $asFile = false) {
 
 		if (!is_writable(DIR_BACKUP)) {
@@ -235,6 +260,12 @@ final class AData {
 		return false;
 	}
 
+	/**
+	 * @param string $tar_filename
+	 * @param string $tar_dir
+	 * @param string $filename
+	 * @return bool
+	 */
 	private function _archive($tar_filename, $tar_dir, $filename ) {
 		//Archive the backup to DIR_BACKUP, delete tmp files in directory $this->backup_dir
 		//And create record in the database for created archive.
@@ -266,7 +297,7 @@ final class AData {
 	/**
 	 * method removes non-empty directory (use it carefully)
 	 *
-	 * @param srting $dir
+	 * @param string $dir
 	 * @return boolean
 	 */
 	private function _removeDir( $dir='' ) {
@@ -290,7 +321,13 @@ final class AData {
 			}
 	}
 
-	//generate 1 dimention aray per row of the main table
+	/**
+	 * generate 1 dimention aray per row of the main table
+	 * @param array $data_array
+	 * @param string $append
+	 * @param bool $root
+	 * @return array
+	 */
 	private function _flatten_array( &$data_array, $append = '', $root = true) {
 		$return = array();
 		$row_flat = array();
@@ -331,8 +368,13 @@ final class AData {
 		}
 	}
 
-	/*
+	/**
 	 * Get flat array from csv file
+	 * @param string $file
+	 * @param string $delimiter
+	 * @param string $enclose
+	 * @param string $escape
+	 * @return array|bool
 	 */
 	private function _csv_file2array($file, $delimiter = ',', $enclose = '"', $escape = '"') {
 		ini_set('auto_detect_line_endings', true);
@@ -383,7 +425,11 @@ final class AData {
 		}
 	}
 
-	//generate multi dimention aray from flat structure
+	/**
+	 * generate multi dimention aray from flat structure
+	 * @param array $flat_array
+	 * @return array
+	 */
 	private function _build_nested( $flat_array ) {
 		$md_array = array();
 
@@ -621,7 +667,7 @@ final class AData {
 	private function _get_table_data($table_name, $table_cfg, $request){
 		//Future expansion. Provide date_create and date_updated range within $request to build incremental backup. 
 		if ( empty($table_name) || empty ($table_cfg)) {
-			return;
+			return null;
 		}
 
 		$sql = 'SELECT * FROM `'. DB_PREFIX . $table_name .'`';
@@ -1000,15 +1046,14 @@ final class AData {
 		}
 
 		if ( !empty($this->db->error) ) {
-			$this->_status2array('error', "Insert data error for $table_name." . $this->db->error);
+			$this->_status2array('error', "Insert data error for ". $table_name." " . $this->db->error);
 		} else {
-			$this->_status2array('insert', "Insert into table $table_name done successfully");
+			$this->_status2array('insert', "Insert into table ". $table_name." done successfully");
 		}
 		return $return;
 	}
 
 	private function _delete_fromArray($table_name, $table_cfg, $data_row, $parent_vals){
-		$where = array();
 
 		//set ids to where from parent they might not be in there 
 		$where = $this->_build_id_columns($table_cfg, $parent_vals);
@@ -1201,7 +1246,11 @@ final class AData {
 		return $list;
 	}
 
-	//recurcive function to convert nested array to XML
+	/**
+	 * recurcive function to convert nested array to XML
+	 * @param $data_array
+	 * @param SimpleXMLElement $xml
+	 */
 	private function _array_part2XML($data_array, $xml) {
 		foreach ($data_array as $akey => $aval ) {
 			if ( $akey == 'tables' || $akey == 'rows' ) {
@@ -1227,10 +1276,17 @@ final class AData {
 		}
 	}
 
-	//recurcive function to convert nested XML to array 
+	/**
+	 * recurcive function to convert nested XML to array
+	 * @param SimpleXMLElement $xml
+	 * @return array
+	 */
 	private function _XML_part2array ($xml) {
 		$results = array();
 		foreach ($xml->children() as $column){
+			/**
+			 * @var $column SimpleXMLElement
+			 */
 			$col_name = $column->getName();
 			if ($col_name == "tables" || $col_name == "rows") {
 				$results[$col_name] = array();
@@ -1244,7 +1300,12 @@ final class AData {
 		return $results;
 	}
 
-	//append message to rurrent node
+	/**
+	 * append message to rurrent node
+	 * @param SimpleXMLElement $node
+	 * @param $ermessage
+	 * @param string $type
+	 */
 	private function _error2xml( $node, $ermessage, $type = '') {
 		$new_node = $node->addChild('error');
 		$new_node->addAttribute('type', $type);
@@ -1253,7 +1314,11 @@ final class AData {
 		return;
 	}
 
-	//Build columns based on most available data nodes
+	/**
+	 * Build columns based on most available data nodes
+	 * @param array $data_array
+	 * @return array
+	 */
 	private function _build_columns( $data_array ){
 		$merged_arr = array();
 		foreach ($data_array['rows'] as $arow) {
@@ -1265,6 +1330,9 @@ final class AData {
 		return array_keys($flat_columns[0]);
 	}
 
+	/**
+	 * @return array
+	 */
 	private function _array_merge_replace_recursive() {
 		$arrays = func_get_args();
 		$base = array_shift($arrays);
@@ -1287,14 +1355,24 @@ final class AData {
 		}
 		return $base;
 	}
-		
+
+	/**
+	 * @param string $title
+	 * @param string $error
+	 * @param string $level
+	 * @return string
+	 */
 	private function processError($title, $error, $level = 'warning') {
 		$this->message->{'save'.ucfirst($level)}($title, $error);
-		$wrn = new AWarning($error);
+		$wrn = new AError($error);
 		$wrn->toDebug()->toLog();
 		return $error;
 	}
 
+	/**
+	 * @param string $table_name
+	 * @param string $id
+	 */
 	private function _clear_layouts_tables($table_name, $id) {
 		if ( $key = $this->_get_layout_key($table_name) ) {
 
@@ -1308,7 +1386,11 @@ final class AData {
 		}
 	}
 
-	// get "key_param" to be able to get page_id and layout_id for custom layout
+	/**
+	 * get "key_param" to be able to get page_id and layout_id for custom layout
+	 * @param $table_name
+	 * @return bool|string
+	 */
 	private function _get_layout_key($table_name) {
 		switch ( $table_name ) {
 			case 'products':
@@ -1327,7 +1409,12 @@ final class AData {
 		return $key;
 	}
 
-	// get page_id and layout_id to be able to delete propper rows from database
+	/**
+	 * get page_id and layout_id to be able to delete propper rows from database
+	 * @param string $key_param
+	 * @param string $key_value
+	 * @return array
+	 */
 	private function _get_layout_ids($key_param, $key_value) {
 		$result = $this->db->query(
 			'SELECT p.page_id, pl.layout_id FROM ' . DB_PREFIX . 'pages p
@@ -1342,6 +1429,9 @@ final class AData {
 		return array();
 	}
 
+	/**
+	 * @param int $page_id
+	 */
 	private function _clear_pages($page_id) {
 		$this->db->query(
 			'DELETE FROM ' . DB_PREFIX . 'pages
@@ -1353,19 +1443,28 @@ final class AData {
 		);
 	}
 
+	/**
+	 * @param int $page_id
+	 * @return bool
+	 */
 	private function _clear_pages_layouts($page_id) {
-		return $this->db->query(
+		$this->db->query(
 			'DELETE FROM ' . DB_PREFIX . 'pages_layouts
 			WHERE page_id = "' . (int) $page_id . '"'
 		);
+		return true;
 	}
 
-
+	/**
+	 * @param int $layout_id
+	 * @return bool
+	 */
 	private function _clear_layouts($layout_id) {
-		return $this->db->query(
+		$this->db->query(
 			'DELETE FROM ' . DB_PREFIX . 'layouts
 			WHERE layout_id = "' . (int) $layout_id . '"'
 		);
+		return true;
 	}
 
 }

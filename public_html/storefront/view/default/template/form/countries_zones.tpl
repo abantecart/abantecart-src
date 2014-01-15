@@ -17,7 +17,7 @@
 	</select>
 </span>
 
-<script>
+<script type="text/javascript">
 	<?php 
 		if ($submit_mode == 'id') {
 			$selector = "&country_id=";

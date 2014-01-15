@@ -178,7 +178,7 @@
 												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
 										</ul>
 										<a class="productprint btn btn-large" href="#"
-										   onclick="javascript:window.print()"><i
+										   onclick="window.print()"><i
 													class="icon-print"></i> <?php echo $button_print; ?></a>
 										<?php }else{?>
 											<ul class="productpagecart call_to_order">

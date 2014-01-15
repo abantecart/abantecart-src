@@ -38,11 +38,11 @@
 
 	<div class="span4 pull-right mt20 mb20">
 		<a href="<?php echo $insert;  ?>" class="btn btn-orange pull-right" title="<?php echo $button_insert->text ?>">
-		    <i class="<?php echo $button_insert->{icon}; ?> icon-white"></i>
+		    <i class="<?php echo $button_insert->{'icon'}; ?> icon-white"></i>
 		    <?php echo $button_insert->text ?>
 		</a>
 		<a href="<?php echo $back; ?>" class="btn pull-right mr10" title="<?php echo $button_back->text ?>">
-		    <i class="<?php echo $button_back->{icon}; ?>"></i>
+		    <i class="<?php echo $button_back->{'icon'}; ?>"></i>
 		    <?php echo $button_back->text ?>
 		</a>
 	</div>

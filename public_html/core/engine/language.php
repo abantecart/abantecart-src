@@ -310,6 +310,8 @@ class ALanguage {
 
 	/**
 	 * Set New Content Language in admin
+	 * @param int|string $language_id
+	 * @param string $language_code
 	 * @return NULL
 	 */
 	public function setCurrentContentLanguage( $language_id = '', $language_code = '') {

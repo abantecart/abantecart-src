@@ -34,7 +34,7 @@
 				</div>
 				<div class="flt_right">
 				<?php if (!$product_info['call_to_order']){ ?>
-					<a class="btn_standard" onclick="javascript:window.print()"><span
+					<a class="btn_standard" onclick="window.print();"><span
 							class="button2"><span><img src="<?php echo $this->templateResource('/image/icon_print.png'); ?>"
 													   alt="print" /><?php echo $button_print; ?></span></span></a>
 
