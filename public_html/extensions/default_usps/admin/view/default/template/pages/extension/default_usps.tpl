@@ -48,8 +48,8 @@
       <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
 	</div><!-- <div class="fieldset"> -->
 	<div class="buttons align_center">
-	  <button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
 	  <a class="btn_standard" href="<?php echo $cancel; ?>" ><?php echo $form['cancel']; ?></a>
+		<button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
     </div>
 	</form>
 
