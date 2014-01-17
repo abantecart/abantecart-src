@@ -41,6 +41,10 @@ class AView {
 	 */
 	protected $template;
 	/**
+	 * @var string
+	 */
+	protected $default_template;
+	/**
 	 * @var int
 	 */
 	protected $instance_id;
@@ -62,13 +66,18 @@ class AView {
 	public $data = array();
 
 	protected $render;
-
+	/**
+	 * @var bool
+	 */
+	protected $has_extensions;
 	/**
 	 * @param Registry $registry
 	 * @param int $instance_id
 	 */
 	public function __construct($registry, $instance_id) {
-		$this->registry = $registry;	
+		$this->registry = $registry;
+		$this->has_extensions = $this->registry->has('extensions');
+		$this->default_template = IS_ADMIN ? $this->registry->get('config')->get('admin_template') : $this->registry->get('config')->get('config_storefront_template');
 		$this->data['template_dir'] = RDIR_TEMPLATE;
 		$this->instance_id = $instance_id;
 	}
@@ -263,7 +272,7 @@ class AView {
 		        $file = $path.$filename;
 		    }
 	
-	        if ( $this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('T', $filename) ) {
+	        if ( $this->has_extensions && $result = $this->extensions->isExtensionResource('T', $filename) ) {
 	            if ( is_file($file) ) {
 	                $warning = new AWarning("Extension <b>".$result['extension']."</b> overrides core template with <b>".$filename."</b>" );
 	                $warning->toDebug();
@@ -407,7 +416,7 @@ class AView {
 	 */
 	private function _test_template_paths($path, $filename, $mode = 'relative') {
     	$ret_path = '';
-        $template = IS_ADMIN ? $this->config->get('admin_template') : $this->config->get('config_storefront_template');
+        $template = $this->default_template;
 		$match = 'original';
 
 		if (IS_ADMIN) {
