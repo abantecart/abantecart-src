@@ -4322,7 +4322,9 @@ paypal pro styles
 	line-height: 14px;
 	margin-left: 20px;
 }
-
+.download-list-attributes small{
+	display: block;
+}
 .download-list {
 	width: 100%;
 }

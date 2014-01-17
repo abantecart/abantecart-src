@@ -1079,7 +1079,7 @@ class ControllerResponsesProductProduct extends AController {
 					'name' => 'popup',
 					'title' => $this->language->get('text_select_from_list'),
 					'selected' => ($listing_data ? AJson::encode($listing_data) : "{}"),
-					'content_url' => $this->html->getSecureUrl('catalog/download_listing', '&form_name=SharedFrm'.$file_data['download_id'].'&multivalue_hidden_id=popup'),
+					'content_url' => $this->html->getSecureUrl('catalog/download_listing', '&shared_only=1&form_name=SharedFrm'.$file_data['download_id'].'&multivalue_hidden_id=popup'),
 					'postvars' => '',
 					'return_to' => '', // placeholder's id of listing items count.
 					'popup_height' => 708,
@@ -1170,7 +1170,7 @@ class ControllerResponsesProductProduct extends AController {
 
 		$download_info['attributes_data'] = serialize($this->download->getDownloadAttributesValues($download_id));
 		$this->loadModel('catalog/download');
-		$orders_for_push = $this->model_catalog_download->getOrdersWithProduct($product_id,$download_id);
+		$orders_for_push = $this->model_catalog_download->getOrdersWithProduct($product_id);
 		if($orders_for_push){
 			foreach($orders_for_push as $row){
 				$this->download->addProductDownloadToOrder($row['order_product_id'],$row['order_id'], $download_info);

@@ -415,8 +415,10 @@ final class ADownload {
 
 		if($download_info['status']==0){
 			$text_status = $this->language->get('text_pending');
-		}elseif( dateISO2Int($download_info['expire_date']) < time() || $download_info['remaining_count'] == '0' ) {
+		}elseif( dateISO2Int($download_info['expire_date']) < time()){
 			$text_status = $this->language->get('text_expired');
+		}elseif( $download_info['remaining_count'] == '0' ) {
+			$text_status = $this->language->get('text_reached_limit');
 		}
 
 		if((int)$download_info['activate_order_status_id']>0){

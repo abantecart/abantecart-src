@@ -221,7 +221,7 @@ class ModelCatalogDownload extends Model {
 							 LEFT JOIN " . $this->db->table("downloads") . " d ON (p2d.download_id = d.download_id)
 							 LEFT JOIN " . $this->db->table("download_descriptions") . " dd
 							 	ON (d.download_id = dd.download_id
-							 			AND dd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
+							 			AND dd.language_id = '" . (int)$this->language->getContentLanguageID() . "')
 							 WHERE p2d.product_id = '" . (int)$product_id . "'";
 		if (!empty($data[ 'subsql_filter' ])){
 			$sql .= " " . $data[ 'subsql_filter' ];
@@ -242,7 +242,7 @@ class ModelCatalogDownload extends Model {
 		if (!empty($data[ 'content_language_id' ])) {
 			$language_id = ( int )$data[ 'content_language_id' ];
 		} else {
-			$language_id = (int)$this->config->get('storefront_language_id');
+			$language_id = (int)$this->language->getContentLanguageID();
 		}
 
 		if ($mode == 'total_only') {
@@ -374,7 +374,13 @@ class ModelCatalogDownload extends Model {
 	public function getDownloadAttributes($download_id) {
 		$attr_mngr = new AAttribute_Manager('download_attribute');
 		$attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
-		$attributes = $attr_mngr->getAttributes(array('attribute_type_id'=>$attribute_info['attribute_type_id']));
+		$attributes = $attr_mngr->getAttributes(
+											array(
+												'attribute_type_id'=>$attribute_info['attribute_type_id'],
+												'sort'=>'sort_order',
+												'order'=>'ASC')
+												);
+
 		$ids = array();
 		foreach($attributes as $attribute){
 			$ids[] = (int)$attribute['attribute_id'];

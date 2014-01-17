@@ -2124,9 +2124,9 @@ table.form tr td:first-child {
     height: 26px;
     background-position: left center;
     padding: 0;
-    margin: 0;
     vertical-align: middle
 }
+
 
 #product_download_form td {
     padding: 4px;

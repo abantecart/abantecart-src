@@ -348,18 +348,6 @@ class ControllerPagesSaleOrder extends AController {
 
 		$this->data['order_products'] = array();
 		$order_products = $this->model_sale_order->getOrderProducts($this->request->get['order_id']);
-		/*if($this->data['shipping_method']){
-			$shipping_methods = array();
-		}else{
-			$shipping_methods = array(0=>$this->language->get('text_none'));
-
-		}
-
-        $extensions = $this->extension_manager->getExtensionsList( array('filter' => 'shipping','status'=>1) );
-        foreach ($extensions->rows as $row) {
-            $this->loadLanguage( $row['key'].'/'.$row['key']);
-			$shipping_methods[$this->language->get($row['key'].'_name')] = $this->language->get($row['key'].'_name');
-        }*/
 
 		foreach ($order_products as $order_product) {
 			$option_data = array();
@@ -1203,7 +1191,7 @@ class ControllerPagesSaleOrder extends AController {
 						'selected_name' => 'push['.$order_product_id.']',
 						'selected' => "{}",
 						'content_url' => $this->html->getSecureUrl('catalog/download_listing',
-																   '&product_id='.$product_id.'&form_name=orderFrm&multivalue_hidden_id=popup'.$product_id),
+																   '&form_name=orderFrm&multivalue_hidden_id=popup'.$product_id),
 						'postvars' => '',
 						'return_to' => '', // placeholder's id of listing items count.
 						'popup_height' => 708,

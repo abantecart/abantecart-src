@@ -20,10 +20,6 @@
 							</td>
 							<td><?php echo $entry_file_status . '&nbsp;' . $form['fields']['status']; ?>
 								<br><br>
-								<?php if($preview){
-									echo '<a href="'.$preview['href'].'">'.$preview['path'].'</a>';
-								}?>
-								<br><br>
 								<?php echo $date_added ? $entry_date_added . '&nbsp;&nbsp;&nbsp;' . $date_added : ''; ?>
 								<br>
 								<?php echo $date_modified ? $entry_date_modified . '&nbsp;&nbsp;&nbsp;' . $date_modified : ''; ?>
@@ -83,13 +79,15 @@
 		<div class="cont_left">
 			<div class="cont_right">
 				<div class="cont_mid">
-					<?php foreach ($attributes as $id => $attribute) { ?>
+					<?php
+					if($attributes){
+					foreach ($attributes as $id => $attribute) { ?>
 						<div style="vertical-align: top; margin-top: 20px; width: 130px;"
 							 class="flt_left"><?php echo ${'entry_attribute_' . $id} ?></div>
 						<div style="vertical-align: top; margin-top: 20px;"
 							 class="flt_left"><?php echo $attribute; ?></div>
 						<div class="clr_both"></div>
-					<?php } ?>
+					<?php }} ?>
 				</div>
 			</div>
 		</div>
@@ -133,12 +131,7 @@
 			$.post($(this).attr('action'),
 					$(this).serialize(),
 					function (json) {
-						<?php if($download_id){ ?>
-						$('#notify_<?php echo $download_id; ?>').removeClass('warning alert-error').addClass('success alert-success');
-						$('#notify_<?php echo $download_id; ?>').html(json.text).fadeIn(500).delay(2000).fadeOut(500);
-						<?php }else{?>
-						location = location.href+'&download_id='+json.download_id;
-						<?php } ?>
+						location = location.href+'&download_id=<?php echo $download_id ? $download_id."'" : "'+json.download_id"; ?>;
 					}
 			).fail(function (xhr, textStatus, errorThrown) {
 						$('#notify_<?php echo $download_id; ?>').removeClass('success alert-success').addClass('warning alert-error');

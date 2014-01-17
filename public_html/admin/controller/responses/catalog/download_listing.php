@@ -55,7 +55,8 @@ class ControllerResponsesCatalogDownloadListing extends AController {
 		$grid_settings = array(
 			'table_id' => 'download_grid_'.$multivalue_hidden_id,
 			'url' => $this->html->getSecureURL('catalog/download_listing',
-			                                   '&response_type=json&product_id='.$this->request->get['product_id']),
+			                                   '&response_type=json&product_id='.$this->request->get['product_id']
+											   .(isset($this->request->get['shared_only']) ? '&shared_only=1':'')),
 			'editurl' => '',
 			'sortname' => 'name',
 			'sortorder' => 'asc',
@@ -118,17 +119,26 @@ class ControllerResponsesCatalogDownloadListing extends AController {
 		$grid_filter_params = array( 'name' );
 		// if need to show all downloads of product
 		if($this->request->get['product_id']){
+			$additional_filter_string = (sizeof($excludes) ? "AND p2d.download_id NOT IN (".implode(', ',$excludes).")" : '' );
+			if(isset($this->request->get['shared_only'])){
+				$additional_filter_string .= 'AND shared=1';
+			}
+
 			$filter_grid = new AFilter( array( 'method' => 'post',
 												'grid_filter_params' => $grid_filter_params ,
-												'additional_filter_string' => (sizeof($excludes) ? "AND p2d.download_id NOT IN (".implode(', ',$excludes).")" : '' ))
+												'additional_filter_string' => $additional_filter_string)
 			);
 			$results = $this->model_catalog_download->getProductDownloadsDetails( $this->request->get['product_id'], $filter_grid->getFilterData() );
 			$total = sizeof($results);
 		}else{
 			//Prepare filter config
+			$additional_filter_string = sizeof($excludes) ? " d.download_id NOT IN (".implode(', ',$excludes).")" : '';
+			if(isset($this->request->get['shared_only'])){
+				$additional_filter_string .= 'AND shared=1';
+			}
 			$filter_grid = new AFilter( array( 'method' => 'post',
 												'grid_filter_params' => $grid_filter_params,
-												'additional_filter_string' => 'shared=1'.(sizeof($excludes) ? " AND d.download_id NOT IN (".implode(', ',$excludes).")" : '' )
+												'additional_filter_string' => $additional_filter_string
 			) );
 
 			$total = $this->model_catalog_download->getTotalDownloads( $filter_grid->getFilterData() );

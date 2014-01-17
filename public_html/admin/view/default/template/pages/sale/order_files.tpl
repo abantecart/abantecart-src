@@ -58,13 +58,12 @@
 								<table class="list download-list">
 									<thead>
 										<tr>
-											<th class="left" style="width: 16%;"><?php echo $column_download; ?></th>
+											<th class="left" style="width: 22%;"><?php echo $column_download; ?></th>
 											<th class="left" style="width: 18%;"><?php echo $column_file; ?></th>
-											<th class="left" style="width: 11%;"><?php echo $column_mask; ?></th>
-
-											<th class="right" style="width: 8%;"><?php echo $column_remaining; ?></th>
+											<th class="left" style="width: 10%;"><?php echo $column_mask; ?></th>
+											<th class="right" style="width: 12%;"><?php echo $column_remaining; ?></th>
 											<th class="right" style="width: 22%;"><?php echo $column_expire_date; ?></th>
-											<th class="right"><?php echo $column_status; ?></th>
+											<th class="right" style="width: 15%;"><?php echo $column_status; ?></th>
 										</tr>
 									</thead>
 									<tbody>

@@ -135,7 +135,8 @@ class ControllerResponsesListingGridDownload extends AController {
 
 		$this->loadLanguage('catalog/download');
 		$this->loadModel('catalog/download');
-		$allowedFields = array( 'filename',
+		$allowedFields = array( 'name',
+								'filename',
 								'mask',
 								'max_downloads',
 								'shared',

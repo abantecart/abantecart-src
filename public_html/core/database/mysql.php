@@ -147,6 +147,8 @@ final class MySQL {
   	}
 
     public function __destruct() {
-		mysql_close($this->connection);
+		if(is_resource($this->connection)){
+			mysql_close($this->connection);
+		}
 	}
 }

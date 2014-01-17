@@ -10,10 +10,10 @@
 		<td>
 			<a class="expandRow pull-left"><?php echo $text_expand ?></a>&nbsp;
 			<?php if ($push_to_customers) { ?>
-			<a href="<?php echo $push_to_customers->href; ?>" class="align_left push"
+			<a href="<?php echo $push_to_customers->href; ?>" class="align_left push" style="display: inline-block; margin-top: 4px;"
 			   title="<?php echo $push_to_customers->title; ?>"
 					<?php echo $push_to_customers->attr; ?>
-					><img src="<?php echo RDIR_TEMPLATE . 'image/icons/icon_add6.png'; ?>"
+					><img src="<?php echo RDIR_TEMPLATE . 'image/icons/Bluepin.png'; ?>"
 						  alt="<?php echo $push_to_customers->text; ?>"/></a><?php } ?><a
 					href="<?php echo $delete_unmap_href; ?>" class="delete  pull-right"
 					title="<?php echo $text_delete_or_refuse; ?>"><img
