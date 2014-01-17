@@ -146,7 +146,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
             }
 
             var html = '';
-            var src = '<img src="' + item['thumbnail_url'] + '" title="' + (item['name'] ? item['name'][item['language_id']] : '') + '" />';
+            var src = '<img src="' + item['thumbnail_url'] + '" title="' + item['name'] + '" />';
 
             if (type == 'image' && item['resource_code']) {
                 src = item['thumbnail_url'];
