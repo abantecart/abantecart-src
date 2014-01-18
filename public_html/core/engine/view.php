@@ -39,7 +39,7 @@ class AView {
 	/**
 	 * @var string
 	 */
-	protected $template;
+	protected $template = '';
 	/**
 	 * @var string
 	 */
@@ -77,7 +77,9 @@ class AView {
 	public function __construct($registry, $instance_id) {
 		$this->registry = $registry;
 		$this->has_extensions = $this->registry->has('extensions');
-		$this->default_template = IS_ADMIN ? $this->registry->get('config')->get('admin_template') : $this->registry->get('config')->get('config_storefront_template');
+		if ( $this->registry->get('config') ) {
+			$this->default_template = IS_ADMIN ? $this->registry->get('config')->get('admin_template') : $this->registry->get('config')->get('config_storefront_template');
+		}
 		$this->data['template_dir'] = RDIR_TEMPLATE;
 		$this->instance_id = $instance_id;
 	}
