@@ -197,12 +197,18 @@ class ControllerPagesDesignContent extends AController {
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
 			$savedata = $this->request->post;
 			unset($savedata['parent_content_id'], $savedata['sort_order']);
-			$content_ids = (array)$this->request->post['parent_content_id'];
-			foreach ($content_ids as $par_id) {
-				list($tmp, $parent_id) = explode('_', $par_id);
-				$savedata['parent_content_id'][] = (int)$parent_id;
-				$savedata['sort_order'][$parent_id] = (int)$this->request->post['sort_order'][$par_id];
+			//process parents IDs
+			$parents_ids = (array)$this->request->post['parent_content_id'];
+			//build an array for each parent id
+			if ( count($parents_ids) == 0 ) {
+				//set top parent by default
+				$parents_ids[] = '0_0';
 			}
+			foreach ($parents_ids as $par_id) {
+			    list($tmp, $parent_id) = explode('_', $par_id);
+			    $savedata['parent_content_id'][] = (int)$parent_id;
+			    $savedata['sort_order'][$parent_id] = (int)$this->request->post['sort_order'][$par_id];
+			}			
 			$this->acm->editContent($content_id, $savedata);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->html->redirect($this->html->getSecureURL('design/content/update', '&content_id=' . $content_id));
@@ -330,6 +336,10 @@ class ControllerPagesDesignContent extends AController {
 		$selected_parents = array();
 		$this->data['parent_content_id'] = (array)$this->data['parent_content_id'];
 		foreach ($this->data['parent_content_id'] as $parent_id) {
+			//check if we have combined ID
+			if ( preg_match('/\d+_\d+/', $parent_id) ) {
+				list($void, $parent_id) = explode('_', $parent_id);	
+			}
 			foreach ($multiSelect as $option_id => $option_value) {
 				list($void, $p_content_id) = explode('_', $option_id);
 				if ($parent_id == $p_content_id) {
@@ -341,7 +351,7 @@ class ControllerPagesDesignContent extends AController {
 			}
 		}
 		if (!$selected_parents) {
-			$selected_parents = array('0' => '0');
+			$selected_parents = array('0_0' => '0_0');
 		}
 
 		$this->data['form']['fields']['parent'] = $form->getFieldHtml(array(

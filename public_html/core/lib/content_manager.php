@@ -117,9 +117,12 @@ class AContentManager {
 		if(!$content_id){return false;}
 		$language_id = (int)$this->session->data['content_language_id'];
 
+		//Delete store and instert back again with the same ID.
+		//Area for improvment 
 		$sql = "DELETE FROM " . DB_PREFIX . "contents
 					WHERE content_id='" . $content_id . "'; ";
 		$this->db->query($sql);
+		//insert back
 		foreach ($data[ 'parent_content_id' ] as $parent_id) {
 			$sql = "INSERT INTO " . DB_PREFIX . "contents (content_id,parent_content_id, sort_order, status)
 					VALUES ('" . ( int )$content_id . "',
