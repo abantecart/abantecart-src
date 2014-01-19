@@ -48,6 +48,15 @@
 	<a id="gotop" href="#">Back to top</a>
 </footer>
 
+<div id="msgModal" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close callback-btn" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3></h3>
+  </div>
+  <div class="modal-body">
+  </div>
+</div>
+
 <!--
 AbanteCart is open source software and you are free to remove the Powered By AbanteCart if you want, but its generally accepted practise to make a small donatation.
 Please donate via PayPal to donate@abantecart.com

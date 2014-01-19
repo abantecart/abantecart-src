@@ -99,12 +99,16 @@ function getURLVar(urlVarName) {
 jQuery(function($){
     $('#footer').ajaxError(function(e, jqXHR, settings, exception){
         var error_msg = $.parseJSON(jqXHR.responseText);
+        var error_text = 'Unknown Error!'
+        if (error_msg) {
+        	error_text = error_msg.error;
+        } 
         $('#ajax_error').remove();
         var error_box = $('<div id="ajax_error"><a href="#TB_inline?height=115&width=300&inlineId=hiddenModalContent&modal=true" class="thickbox"></a></div>')
             .css('display','none');
         $('#footer').after(error_box);
         var $dialog = $('<div id="hiddenModalContent"></div>')
-            .html('<div style="text-align: center;"><b>' + exception + '</b><br/><br/>' + error_msg.error + '<p><input type="button" onclick="tb_remove()" value="  Ok  "></p></div>')
+            .html('<div style="text-align: center;"><b>' + exception + '</b><br/><br/>' + error_text + '<p><input type="button" onclick="tb_remove()" value="  Ok  "></p></div>')
             .css({'display':'none'});
         $('#ajax_error a').after($dialog);
         tb_init('#ajax_error a.thickbox');
