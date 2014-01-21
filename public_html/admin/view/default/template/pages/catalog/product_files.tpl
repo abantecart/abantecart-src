@@ -21,12 +21,8 @@
 
 	<?php echo $summary_form; ?>
 
-	<div id="notify" class="align_center success" style="display: none;"></div>
-	<?php if ($success) { ?>
-	<script type="text/javascript">
-		$('#notify').html('<?php echo $success?>').fadeIn(500).delay(2000).fadeOut(500);
-	</script>
-	<?php } ?>
+	<div id="notify_success" class="success alert alert-success" style="display: none;"></div>
+	<div id="notify_error" class="error alert alert-success" style="display: none;"></div>
 
 	<table id="product_download_form" class="list option ">
 	    <tr>
@@ -92,11 +88,17 @@
 				dataType: 'json',
 				success: function (data) {
 					if(data['progress']==100){
+						$('#notify_success').html(data['text']).fadeIn(500).delay(2000).fadeOut(500);
 						t.hide();
 						t.find('.ajax_loading').remove();
+					} else {
+						$('#notify_error').html(data['text']).fadeIn(500).delay(2000).fadeOut(500);					
 					}
+				},
+				error:function(data) {
+					var $json = $.parseJSON(data.responseText);
+					$('#notify_error').html($json.error_text).fadeIn(500).delay(2000).fadeOut(500);				
 				}
-
 				});
 		}
 		return false;

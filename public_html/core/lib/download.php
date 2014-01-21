@@ -96,7 +96,13 @@ final class ADownload {
 		return $result->row;
 	}
 
-	public function getOrderDownloadInfo($order_download_id){
+	/**
+	 * Method returns order download info selected by order_download_id
+	 * @param int $order_download_id
+	 * @param int $language_id (optional)	 
+	 * @return array
+	 */	
+	public function getOrderDownloadInfo($order_download_id, $language_id = ''){
 		if(!(int)$order_download_id){ return array(); }
 		if(!$language_id){
 			if(IS_ADMIN===true){
@@ -136,11 +142,75 @@ final class ADownload {
 	}
 
 	/**
+	 * Method to add/update download in order
 	 * Method returns list of downloads that will be append to order
 	 * @param (int) $order_product_id
 	 * @param (int) $order_id
 	 * @param array $download
-	 * @return bool
+	 * @return array (added/updated ids)
+	 */
+	public function addUpdateOrderDownload($order_product_id, $order_id, $download = array()) {
+		if ( !(int)$order_product_id || !(int)$order_id || !(int)$download['download_id'] ) {
+			return false;
+		}
+		//check if we have download yet
+		$check = $this->db->query("SELECT od.order_download_id
+									FROM ". $this->db->table('order_downloads')." od
+									WHERE 	od.order_id='".(int)$order_id."' 
+											AND od.order_product_id='" . (int)$order_product_id . "' 
+											AND od.download_id='" . (int)$download['download_id'] . "'");
+		if($check->num_rows) {
+			//need to update
+			$return = array();
+			//loop cause we can have multiple records
+			foreach($check->rows as $row){
+				$return[] = $this->updateProductDownloadToOrder($row['order_download_id'], $download);
+			}
+			return $return;
+		} else {
+			//create new
+			return array( $this->addProductDownloadToOrder($order_product_id, $order_id, $download) );
+		}
+	}
+
+	/**
+	 * Method to update download to the order
+	 * @param (int) $order_download_id
+	 * @param array $download
+	 * @return int (added id)
+	 */
+	public function updateProductDownloadToOrder($order_download_id, $download = array()) {
+		if ( !(int)$order_download_id || empty($download)) {
+			return false;
+		}
+		if((int)$download['expire_days']){
+			$expire = "(NOW() + INTERVAL ".(int)$download['expire_days']." DAY)";
+		}else{
+			$expire = 'NULL';
+		}
+
+		$this->db->query("UPDATE " . $this->db->table("order_downloads") . "
+							SET name = '" . $this->db->escape($download['name']) . "',
+								filename = '" . $this->db->escape($download['filename']) . "',
+								mask = '" . $this->db->escape($download['mask']) . "',
+								remaining_count = " . ( (int)$download['remaining_count'] ? "'".(int)$download['remaining_count']."'" : 'NULL'). ",
+								status = '" . (int)$download['status'] . "',
+								activate_order_status_id = '" . (int)$download['activate_order_status_id'] . "',
+								expire_date = ".$expire.",
+								attributes_data = '".$this->db->escape($download['attributes_data'])."',
+								date_modified = NOW()
+							WHERE order_download_id = '" . (int)$order_download_id . "'");
+
+		return $order_download_id;
+	}
+
+
+	/**
+	 * Method to add download to the order
+	 * @param (int) $order_product_id
+	 * @param (int) $order_id
+	 * @param array $download
+	 * @return int (added id)
 	 */
 	public function addProductDownloadToOrder($order_product_id, $order_id, $download = array()) {
 		if ( !(int)$order_product_id || !(int)$order_id ) {
@@ -163,6 +233,7 @@ final class ADownload {
 								activate_order_status_id = '" . (int)$download['activate_order_status_id'] . "',
 								expire_date = ".$expire.",
 								attributes_data = '".$this->db->escape($download['attributes_data'])."',
+								date_modified = NOW(),
 								date_added = NOW()");
 
 		return $this->db->getLastId();

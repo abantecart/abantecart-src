@@ -860,7 +860,7 @@ class ControllerResponsesProductProduct extends AController {
 					'value' => $file_data['status'],
 					'style' => 'btn_switch',
 		));
-		$orders_count = $this->model_catalog_download->getTotalOrdersWithProduct($product_id, $this->data['download_id']);
+		$orders_count = $this->model_catalog_download->getTotalOrdersWithProduct($product_id);
 		if($orders_count){
 			$this->data['push_to_customers'] = $this->html->buildElement(
 					array(
@@ -1171,13 +1171,18 @@ class ControllerResponsesProductProduct extends AController {
 		$download_info['attributes_data'] = serialize($this->download->getDownloadAttributesValues($download_id));
 		$this->loadModel('catalog/download');
 		$orders_for_push = $this->model_catalog_download->getOrdersWithProduct($product_id);
+		$updated_array = array();
 		if($orders_for_push){
 			foreach($orders_for_push as $row){
-				$this->download->addProductDownloadToOrder($row['order_product_id'],$row['order_id'], $download_info);
+				$updated_array = array_merge(
+						$updated_array, 
+						$this->download->addUpdateOrderDownload($row['order_product_id'],$row['order_id'], $download_info)
+						);
 			}
 		}
-
-		$output = array('progress'=>100, 'text'=>$this->language->get('text_success_pushed'));
+		
+		$this->load->language('catalog/files');
+		$output = array('progress'=> 100, 'text'=> sprintf($this->language->get('text_push_to_orders'), count($updated_array)) );
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
