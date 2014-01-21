@@ -206,7 +206,7 @@ img {
 	cursor: pointer;
 }
 
-. button : hover {
+. button:hover {
 	background-color: #EEEEEE;
 }
 
@@ -286,7 +286,7 @@ img {
 
 #add_resource {
 	position: absolute;
-	bottom: 0px;
+	bottom: 0;
 	left: 70px;
 }
 
@@ -299,7 +299,7 @@ img {
 
 #done_resource {
 	position: absolute;
-	bottom: 0px;
+	bottom: 0;
 	left: 10px;
 }
 
@@ -338,7 +338,7 @@ img {
 
 .resource_image {
 	width: 130px;
-	height: 148px;
+	min-height: 148px;
 	overflow: hidden;
 	float: left;
 	text-align: center;
