@@ -444,13 +444,17 @@ class ModelCatalogDownload extends Model {
 	 */
 	public function getOrdersWithProduct($product_id, $download_id = ''){
 		if( !(int)$product_id ){ return array(); }
-		$sql = "SELECT DISTINCT op.order_id, op.order_product_id
+		if ($download_id) {
+			$sql = "SELECT DISTINCT op.order_id, op.order_product_id
 				FROM ".$this->db->table('order_products')." op, 
 					 ".$this->db->table('order_downloads')." od
 				WHERE 	od.order_id = op.order_id 
-						AND op.product_id = '" . (int)$product_id."'";
-		if ($download_id) {
-			$sql .= " AND od.download_id='".(int)$download_id."'";
+						AND op.product_id = '" . (int)$product_id."' 
+						AND od.download_id='".(int)$download_id."'";
+		} else {
+			$sql = "SELECT DISTINCT op.order_id, op.order_product_id
+				FROM ".$this->db->table('order_products')." op 
+				WHERE  op.product_id = '" . (int)$product_id."'";
 		} 				
 						
 		$result = $this->db->query($sql);
