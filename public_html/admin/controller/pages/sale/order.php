@@ -1131,6 +1131,7 @@ class ControllerPagesSaleOrder extends AController {
 																										$this->config->get('config_image_grid_height'));
 
 				foreach ($downloads as $download_info) {
+					$download_info['order_status_id'] = $order_info['order_status_id'];
 					$attributes = $this->download->getDownloadAttributesValuesForDisplay($download_info['download_id']);
 					$order_product_id = $download_info['order_product_id'];
 					$is_file = $this->download->isFileAvailable($download_info['filename']);

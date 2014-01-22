@@ -255,42 +255,47 @@ final class ADownload {
 		$attributes = $attr->getAttributes();
 
 		$ids = array();
-		foreach($attributes as $attribute){
+		foreach($attributes as &$attribute){
 			if($mode=='to_customer'){
 				$attribute['settings'] = unserialize($attribute['settings']);
 				if(!$attribute['settings']['show_to_customer']){ continue; }
 			}
 			$ids[] = (int)$attribute['attribute_id'];
-			$attribute_values = $attr->getAttributeValues($attribute['attribute_id']);
-		}
+			$attribute['attribute_values'] = $attr->getAttributeValues($attribute['attribute_id']);
+		} unset($attribute);
+
 		if($ids){
-			$result = $this->db->query( "SELECT attribute_id, attribute_value_ids as value
-										  FROM ".$this->db->table('download_attribute_values')."
-										  WHERE attribute_id IN (".implode(',',$ids).") AND download_id = '".$download_id."'");
+			$result = $this->db->query( "SELECT dav.attribute_id, dav.attribute_value_ids as value
+										  FROM ".$this->db->table('download_attribute_values')." dav
+										  LEFT JOIN ".$this->db->table('global_attributes')." ga
+										        ON ga.attribute_id = dav.attribute_id
+										  WHERE dav.attribute_id IN (".implode(',',$ids).") AND dav.download_id = '".$download_id."'
+										  ORDER BY ga.sort_order ASC");
 
 			$attributes_with_options = HtmlElementFactory::getElementsWithOptions();
 			foreach($result->rows as $row){
 				if(!in_array($row['attribute_id'], $ids)){continue;}
 				$row['value'] = unserialize($row['value']);
 				if(in_array($attributes[$row['attribute_id']]['element_type'],$attributes_with_options)){
-					foreach($attribute_values as $values){
+					foreach($attributes[$row['attribute_id']]['attribute_values'] as $values){
 						if( (is_array($row['value']) && in_array($values['attribute_value_id'],$row['value']) )){
 							// do not include empty value for display for customer
-							if(!$row['value'] && in_array($mode,array('to_customer','to_display'))){ break 1; }
+							if(!$row['value'] && in_array($mode,array('to_customer','to_display'))){ continue 1; }
 							$output[$attributes[$row['attribute_id']]['name']][] = $values['value'];
-
 						}elseif(!is_array($row['value']) && $values['attribute_value_id']==$row['value'] ){
 							// do not include empty value for display for customer
-							if(!$values['value'] && in_array($mode,array('to_customer','to_display'))){ break 1; }
-							if(is_array($row['value'])){
-								$output[$attributes[$row['attribute_id']]['name']] = $values['value'];
-							}
+							if(!$row['value'] && in_array($mode,array('to_customer','to_display'))){ continue 1; }
+							$output[$attributes[$row['attribute_id']]['name']] = $values['value'];
 						}
 					}
 				}else{
 					 // do not include empty value for display for customer or admin display
-					if( !$row['value'] && in_array($mode,array('to_customer','to_display'))){ continue;}
+					if( !has_value($row['value']) && in_array($mode,array('to_customer','to_display'))){ continue;}
 				 	$output[$attributes[$row['attribute_id']]['name']] = $row['value'];
+					// for checkbox value show text yes or no
+					if($attributes[$row['attribute_id']]['element_type']=='C'){
+						$output[$attributes[$row['attribute_id']]['name']] = $row['value'] ? $this->language->get('text_yes') : $this->language->get('text_no');
+					}
 				}
 
 			}
