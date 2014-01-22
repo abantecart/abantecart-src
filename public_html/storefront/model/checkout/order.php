@@ -202,7 +202,7 @@ class ModelCheckoutOrder extends Model {
 
 			foreach ($product['download'] as $download) {
 				$download['expire_days'] = (int)$download['expire_days'] > 0 ? $download['expire_days'] : 365*20; // if expire days not setted - set 20 years as "unexpired"
-				$download['remaining_count'] = ((int)$download['max_downloads'] ? (int)$download['max_downloads'] * $product['quantity'] : '');
+				$download['max_downloads'] = ((int)$download['max_downloads'] ? (int)$download['max_downloads'] * $product['quantity'] : '');
 				$download['status'] = $download['activate']=='manually' ? 0 : 1; //disable download for manual mode for customer
 				$download['attributes_data'] = serialize($this->download->getDownloadAttributesValues($download['download_id']));
 

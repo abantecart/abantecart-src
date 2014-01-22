@@ -987,7 +987,6 @@ class ControllerPagesSaleOrder extends AController {
 					if($items){
 						foreach($items as $download_id=>$info){
 							$download_info = $this->download->getDownloadInfo($download_id);
-							$download_info['remaining_count'] = $download_info['max_downloads'];
 							$download_info['attributes_data'] = serialize($this->download->getDownloadAttributesValues($download_id));
 							$this->download->addProductDownloadToOrder($order_product_id, $order_id,$download_info);
 						}

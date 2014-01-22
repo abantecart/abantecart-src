@@ -439,7 +439,7 @@ class ModelCatalogDownload extends Model {
 
 	/**
 	 * @param $product_id
-	 * @param $download_id (optional)
+	 * @param int|string $download_id (optional)
 	 * @return array
 	 */
 	public function getOrdersWithProduct($product_id, $download_id = ''){
@@ -463,7 +463,7 @@ class ModelCatalogDownload extends Model {
 
 	/**
 	 * @param int $product_id
-	 * @param int $download_id
+	 * @param int|string $download_id
 	 * @return int
 	 */
 	public function getTotalOrdersWithProduct($product_id, $download_id = ''){

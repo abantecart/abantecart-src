@@ -138,7 +138,6 @@
 									<td><?php echo $entry_sort_order ?></td>
 									<td><?php echo $form['fields']['sort_order'] ?></td>
 								</tr>
-
 							</table>
 
 						</div>
@@ -196,18 +195,21 @@
 			<script type="text/javascript"><!--
 				$(document).ready(function () {
 
-					$('#downloadFrm<?php echo $download_id; ?>_activate').change(function () {
+					$('#downloadFrm<?php echo $download_id; ?>_activate').on('change',function () {
+
 						if ($(this).val() != 'order_status') {
 							$('#downloadFrm<?php echo $download_id; ?>_activate_order_status_id').parents('.select_element').hide().next('.required').hide();
 							if($(this).val() == 'before_order'){
-								$(this).parents('table').find('tr.max_downloads,tr.expire_days').hide();
+								$(this).parents('.table').find('tr.max_downloads,tr.expire_days').hide();
 							}else{
-								$(this).parents('table').find('tr.max_downloads,tr.expire_days').show();
+								$(this).parents('.table').find('tr.max_downloads,tr.expire_days').show();
+
 							}
 						} else {
 							$('#downloadFrm<?php echo $download_id; ?>_activate_order_status_id').parents('.select_element').show().next('.required').show();
-							$(this).parents('table').find('tr.max_downloads,tr.expire_days').show();
+							$(this).parents('.table').find('tr.max_downloads,tr.expire_days').show();
 						}
+
 					});
 
 					$('#<?php echo $form['form_open']->name ?>').on('submit', function () {
@@ -223,6 +225,8 @@
 						return false;
 					});
 
+
+					$('#downloadFrm<?php echo $download_id; ?>_activate').change();
 				});
 			//--></script>
 			</form>

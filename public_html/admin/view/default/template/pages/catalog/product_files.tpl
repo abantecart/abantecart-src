@@ -113,10 +113,6 @@
 	});
 
 	$(document).ready(function(){
-		$.each($('select[id*="_activate"]'),function(){
-			$(this).change();
-		});
-
 		<?php if($download_id){?>
 		$("#download_<?php echo $download_id?> a.expandRow").click();
 		<?php } ?>

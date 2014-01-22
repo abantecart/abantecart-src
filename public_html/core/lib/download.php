@@ -193,7 +193,7 @@ final class ADownload {
 							SET name = '" . $this->db->escape($download['name']) . "',
 								filename = '" . $this->db->escape($download['filename']) . "',
 								mask = '" . $this->db->escape($download['mask']) . "',
-								remaining_count = " . ( (int)$download['remaining_count'] ? "'".(int)$download['remaining_count']."'" : 'NULL'). ",
+								remaining_count = " . ( (int)$download['max_downloads'] ? "'".(int)$download['max_downloads']."'" : 'NULL'). ",
 								status = '" . (int)$download['status'] . "',
 								activate_order_status_id = '" . (int)$download['activate_order_status_id'] . "',
 								expire_date = ".$expire.",
@@ -228,7 +228,7 @@ final class ADownload {
 								name = '" . $this->db->escape($download['name']) . "',
 								filename = '" . $this->db->escape($download['filename']) . "',
 								mask = '" . $this->db->escape($download['mask']) . "',
-								remaining_count = " . ( (int)$download['remaining_count'] ? "'".(int)$download['remaining_count']."'" : 'NULL'). ",
+								remaining_count = " . ( (int)$download['max_downloads'] ? "'".(int)$download['max_downloads']."'" : 'NULL'). ",
 								status = '" . (int)$download['status'] . "',
 								activate_order_status_id = '" . (int)$download['activate_order_status_id'] . "',
 								expire_date = ".$expire.",
@@ -450,7 +450,7 @@ final class ADownload {
 		}
 
 		$query = $this->db->query($sql);
-
+		$downloads = array();
 		foreach ($query->rows as $download_info) {
 			$downloads[$download_info['order_download_id']] = $download_info;
 		}
