@@ -6,10 +6,10 @@
 <?php } ?>
 <?php if(is_array($content) && $content){
 		foreach($content as $banner){
-			echo '<div class="pull-left">';
+			echo '<div class="pull-left" data-banner-id="'.$banner['banner_id'].'">';
 			if($banner['banner_type']==1 && is_array($banner['images'])){
 				foreach($banner['images'] as $img){
-					echo '<a id="'.$banner['banner_id'].'" href="'.$banner['target_url'].'" '.($banner['blank'] ? ' target="_blank" ': '').'>';
+					echo '<a href="'.$banner['target_url'].'" '.($banner['blank'] ? ' target="_blank" ': '').'>';
 					if($img['origin']=='internal'){
 						echo '<img src="'.$img['main_url'].'" title="'.$img['title'].'" alt="'.$img['title'].'">';
 					}else{
@@ -28,16 +28,3 @@ if ( $block_framed ) { ?>
 		</div>
 <?php } ?>
 </div>
-
-<script type="text/javascript">
-	$('.banner a').live('click',
-		function(){
-			var that = this;
-			$.ajax({
-                    url: '<?php echo $stat_url; ?>'+'&type=2&banner_id=' + $(that).prop('id'),
-                    type: 'GET',
-                    dataType: 'json'
-                });
-		}
-	);
-</script>

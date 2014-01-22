@@ -33,6 +33,8 @@ class ControllerBlocksBannerBlock extends AController {
 		$this->view->assign('content',$block_data['content']);
     	$this->view->assign('heading_title', $block_data['title'] );
     	$this->view->assign('stat_url', $this->html->getURL('r/extension/banner_manager') );
+		//load JS to register clicks
+		$this->document->addScriptBottom($this->view->templateResource('/javascript/banner_manager.js'));
 
 		if($block_data['content']){
 			// need to set wrapper for non products listing blocks
@@ -53,10 +55,10 @@ class ControllerBlocksBannerBlock extends AController {
 			$key = $this->config->get('storefront_language_id');
 		}else{
 			$key = $descriptions ? key($descriptions) : null;
-			}
+		}
 
 		$this->loadModel('extension/banner_manager');
-		$results = $this->model_extension_banner_manager->getBanners($custom_block_id);
+		$results = $this->model_extension_banner_manager->getBanners($custom_block_id);		
 		if($results){
 			$rl = new AResource('image');
 			foreach($results as $row){
@@ -65,7 +67,11 @@ class ControllerBlocksBannerBlock extends AController {
 					if($images){
 						$row['images'] = $images;
 					}
-				}else{
+					//add click registration wrapper to each URL
+					//NOTE: You can remove below line to use traking javascript instead. Javascript tracks HTML banner clicks 
+					$row['target_url'] = $this->html->getURL('r/extension/banner_manager/click', '&banner_id='.$row['banner_id']);
+					
+				} else {
 					$row['description'] = html_entity_decode($row['description']);
 				}
 				$banners[] = $row;

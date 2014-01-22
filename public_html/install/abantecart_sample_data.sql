@@ -1923,6 +1923,7 @@ VALUES
 (100188,'banners',13,0,0,now(), now()),
 (100188,'banners',14,0,0,now(), now()),
 (100188,'banners',15,0,0,now(), now()),
+(100188,'banners',16,0,0,now(), now()),
 (100194,'banners',18,0,1,now(), now())
 ;
 

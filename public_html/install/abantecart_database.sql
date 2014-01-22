@@ -607,7 +607,7 @@ CREATE TABLE `ac_banner_descriptions` (
 DROP TABLE IF EXISTS `ac_banner_stat`;
 CREATE TABLE `ac_banner_stat` (
   `banner_id` int(11) NOT NULL,
-  `type` int(11) NOT NULL,
+  `type` int(11) NOT NULL, -- 1 = view, 2 = click
   `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `store_id` int(11) NOT NULL,
   `user_info` text(1500) DEFAULT ''
