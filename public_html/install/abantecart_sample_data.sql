@@ -430,15 +430,6 @@ VALUES
 
 
 --
--- Dumping data for table `order_downloads`
---
-
-
-
-
-
-
---
 -- Dumping data for table `order_history`
 --
 
@@ -1297,19 +1288,6 @@ VALUES
 (108,45),
 (109,46),
 (110,50);
-
-
-
---
--- Dumping data for table `products_to_downloads`
---
-
-
-
-INSERT INTO `ac_products_to_downloads` 
-VALUES 
-(109,1);
-
 
 
 --
