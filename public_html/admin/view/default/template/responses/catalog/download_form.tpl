@@ -87,7 +87,9 @@
 						<div style="vertical-align: top; margin-top: 20px;"
 							 class="flt_left"><?php echo $attribute; ?></div>
 						<div class="clr_both"></div>
-					<?php }} ?>
+					<?php }}else { ?>
+						<div style="vertical-align: top; text-align: center"><?php echo $text_no_download_attributes_yet; ?></div>
+					<?php } ?>
 				</div>
 			</div>
 		</div>

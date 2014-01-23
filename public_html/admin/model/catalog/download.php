@@ -26,6 +26,14 @@ class ModelCatalogDownload extends Model {
 	 * @return int
 	 */
 	public function addDownload($data) {
+		if($data['activate']!='order_status'){
+			$data['activate_order_status_id'] = 0;
+		}
+		if($data['activate']=='before_order'){
+			$data['expire_days'] = 0;
+			$data['max_downloads'] = 0;
+		}
+
 		$this->db->query("INSERT INTO " . $this->db->table('downloads') . "
         	              SET filename  = '" . $this->db->escape($data[ 'filename' ]) . "',
         	                  mask = '" . $this->db->escape($data[ 'mask' ]) . "',
@@ -72,6 +80,16 @@ class ModelCatalogDownload extends Model {
 						'activate'=>'string',
 						'activate_order_status_id'=>'int',
 						'status'=>'int');
+
+		if(isset($data['activate'])){
+			if($data['activate']!='order_status'){
+				$data['activate_order_status_id'] = 0;
+			}
+			if($data['activate']=='before_order'){
+				$data['expire_days'] = 0;
+				$data['max_downloads'] = 0;
+			}
+		}
 		$update = array();
 		foreach($fields as $field_name=>$type){
 			if(isset($data[$field_name])){
@@ -109,13 +127,13 @@ class ModelCatalogDownload extends Model {
 		if (isset($data['product_id'])) {
 			$this->mapDownload($download_id,$data['product_id']);
 		}
-		
+		return true;
 	}
 
 	/**
 	 * @param int $download_id
 	 * @param int $product_id
-	 * @return bool
+	 * @return bool|int
 	 */
 	public function mapDownload($download_id, $product_id){
 		$download_id = (int)$download_id;
@@ -133,6 +151,7 @@ class ModelCatalogDownload extends Model {
 								product_id = '" . (int)$product_id . "',
 								download_id = '" . (int)$download_id . "'");
 
+		return $this->db->getLastId();
 	}
 
 	/**
@@ -150,6 +169,7 @@ class ModelCatalogDownload extends Model {
 		$this->db->query("DELETE FROM " . $this->db->table('products_to_downloads') . "
 						  WHERE product_id = '" . (int)$product_id . "'
 							AND download_id = '" . (int)$download_id."'");
+		return true;
 	}
 
 	/**
@@ -433,8 +453,8 @@ class ModelCatalogDownload extends Model {
 			$this->db->query("UPDATE " . DB_PREFIX . "order_downloads
 							  SET ".implode(', ',$update)."
 							  WHERE order_download_id='".(int)$order_download_id."'");
-			return true;
 		}
+		return true;
 	}
 
 	/**

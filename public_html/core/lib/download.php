@@ -99,9 +99,9 @@ final class ADownload {
 	/**
 	 * Method returns order download info selected by order_download_id
 	 * @param int $order_download_id
-	 * @param int $language_id (optional)	 
+	 * @param int|string $language_id (optional)
 	 * @return array
-	 */	
+	 */
 	public function getOrderDownloadInfo($order_download_id, $language_id = ''){
 		if(!(int)$order_download_id){ return array(); }
 		if(!$language_id){
@@ -153,6 +153,15 @@ final class ADownload {
 		if ( !(int)$order_product_id || !(int)$order_id || !(int)$download['download_id'] ) {
 			return false;
 		}
+
+		if($download['activate']!='order_status'){
+			$download['activate_order_status_id'] = 0;
+		}
+		if($download['activate'] == 'before_order'){
+			$download['max_downloads'] = '';
+			$download['expire_days'] = '';
+		}
+
 		//check if we have download yet
 		$check = $this->db->query("SELECT od.order_download_id
 									FROM ". $this->db->table('order_downloads')." od
