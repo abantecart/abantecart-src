@@ -20,6 +20,11 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+/** @noinspection PhpUndefinedClassInspection */
+/**
+ * Class ControllerBlocksBannerBlock
+ * @property ModelExtensionBannerManager $model_extension_banner_manager
+ */
 class ControllerBlocksBannerBlock extends AController {
 	
 	public function main() {
@@ -58,18 +63,19 @@ class ControllerBlocksBannerBlock extends AController {
 		}
 
 		$this->loadModel('extension/banner_manager');
-		$results = $this->model_extension_banner_manager->getBanners($custom_block_id);		
+		$results = $this->model_extension_banner_manager->getBanners($custom_block_id);
+		$banners = array();
 		if($results){
 			$rl = new AResource('image');
 			foreach($results as $row){
 				if($row['banner_type']==1){ // if graphic type
-					$images = $rl->getResourceAllObjects('banners',$row['banner_id']);
-					if($images){
-						$row['images'] = $images;
-					}
+					/**
+					 * @var array
+					 */
+					$row['images'] = $rl->getResourceAllObjects('banners',$row['banner_id']);
 					//add click registration wrapper to each URL
 					//NOTE: You can remove below line to use traking javascript instead. Javascript tracks HTML banner clicks 
-					$row['target_url'] = $this->html->getURL('r/extension/banner_manager/click', '&banner_id='.$row['banner_id']);
+					$row['target_url'] = $this->html->getURL('r/extension/banner_manager/click', '&banner_id='.$row['banner_id'], true);
 					
 				} else {
 					$row['description'] = html_entity_decode($row['description']);
@@ -88,4 +94,3 @@ class ControllerBlocksBannerBlock extends AController {
 		return $output;
 	}
 }
-?>
