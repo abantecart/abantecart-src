@@ -143,25 +143,30 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
         $this->loadModel('localisation/language_definitions');
 		$allowedFields = array('block', 'language_key', 'language_value', 'section');
 
-	    if ( isset( $this->request->get['id'] ) ) {
+		$save_id = $this->request->get['id'];
+	    if ( isset( $save_id ) ) {
 		    //request sent from edit form. ID in url
 		    foreach ($this->request->post as $key => $value ) {
 				if ( !in_array($key, $allowedFields) ) continue;
 				$data = array( $key => $value );
 				if($key=='language_value'){
-					$def = $this->model_localisation_language_definitions->getLanguageDefinition($this->request->get['id']);
-					$def['language_id'] = $data['language_id'] = key($value);
-					$def_id = $this->model_localisation_language_definitions->getLanguageDefinitionIdByKey(
-																									$def['language_key'],
-																									$def['language_id'],
-																									$def['block'],
-																									$def['section']);
-					$this->request->get['id'] = $def_id;
-					$data['language_value'] = current($value);
-					$this->model_localisation_language_definitions->editLanguageDefinition($this->request->get['id'], $data);
+					//load definition values. 
+					$def = $this->model_localisation_language_definitions->getLanguageDefinition($save_id);
+					//if defintion does not match lagnuage this means we create new one
+					if ( $def['language_id'] != key($value)) {
+						//save new
+						$def['language_id'] = key($value);
+						$def['language_definition_id'] = '';
+						$def['language_value'] = current($value);
+						$this->model_localisation_language_definitions->addLanguageDefinition($def);
+					} else {
+						//edit
+						$def['language_value'] = current($value);
+						$this->model_localisation_language_definitions->editLanguageDefinition($save_id, $def);
+					}
 				}
 				if(in_array($key,array('block','section','language_key'))){
-					$def = $this->model_localisation_language_definitions->getLanguageDefinition($this->request->get['id']);
+					$def = $this->model_localisation_language_definitions->getLanguageDefinition($save_id);
 					$def_ids = $this->model_localisation_language_definitions->getAllLanguageDefinitionsIdByKey(
 																									$def['language_key'],
 																									$def['block'],
