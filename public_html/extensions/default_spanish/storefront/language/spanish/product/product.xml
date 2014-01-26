@@ -168,6 +168,10 @@
 		<key>text_login_view_price</key>
 		<value><![CDATA[Por favor ingresa ot registrarse para ver los precios o para.]]></value>
 	</definition>
+    <definition>
+        <key>tab_downloads</key>
+        <value><![CDATA[Descargas]]></value>
+    </definition>
 	<definition>
 		<key>text_start_download</key>
 		<value><![CDATA[Iniciar Descarga]]></value>
