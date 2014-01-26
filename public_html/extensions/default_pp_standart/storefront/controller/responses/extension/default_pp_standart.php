@@ -105,7 +105,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 			if(in_array($total['id'],array('subtotal','total'))){ continue;}
 			if(in_array($total['id'],array('promotion','coupon'))){
 			 	$total['value'] = $total['value']<0 ? $total['value']*-1 : $total['value'];
-				$this->data['discount_amount_cart'] += $total['value'];
+				$this->data['discount_amount_cart'] += $this->currency->format($total['value'], $order_info['currency'], $order_info['value'], FALSE);
 			}else{
 			$this->data['products'][] = array(
 							'name'     => $total['title'],
