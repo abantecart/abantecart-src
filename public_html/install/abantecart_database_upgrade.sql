@@ -112,12 +112,11 @@ ALTER TABLE `ac_downloads` CHANGE `remaining` `max_downloads` INT(11) DEFAULT NU
 ALTER TABLE `ac_downloads` ADD COLUMN
 (
 `status` INT(1) NOT NULL DEFAULT '0',
-`expire_date` DATETIME NULL,
+`shared` int(1) NOT NULL DEFAULT '0', -- if used by other products set to 1
+`expire_days` DATETIME NULL,
 `sort_order` INT(11) NOT NULL,
 `activate` VARCHAR(64) NOT NULL,
 `activate_order_status_id` INT(11) NOT NULL DEFAULT '0',
-`attributes_data` TEXT
-COLLATE utf8_bin DEFAULT NULL,
 `date_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
@@ -142,11 +141,11 @@ ALTER TABLE `ac_order_downloads` ADD COLUMN
 `download_id` INT(11) NOT NULL DEFAULT '0',
 `status` INT(1) NOT NULL DEFAULT '0',
 `expire_date` DATETIME NULL,
+`percentage`  int(11) NULL DEFAULT 0,
 `sort_order` INT(11) NOT NULL,
 `activate` VARCHAR(64) NOT NULL,
 `activate_order_status_id` INT(11) NOT NULL DEFAULT '0',
-`attributes_data` TEXT
-COLLATE utf8_bin DEFAULT NULL,
+`attributes_data` TEXT COLLATE utf8_bin DEFAULT NULL,
 `date_added` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
 `date_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

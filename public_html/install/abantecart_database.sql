@@ -1638,7 +1638,6 @@ CREATE TABLE `ac_zones` (
   `zone_id` int(11) NOT NULL AUTO_INCREMENT,
   `country_id` int(11) NOT NULL,
   `code` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `name` varchar(128) COLLATE utf8_bin NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   `sort_order` int(3) NOT NULL DEFAULT '0',  
   PRIMARY KEY (`zone_id`)
