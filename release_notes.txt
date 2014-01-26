@@ -10,6 +10,7 @@ New Features and improvements summary:
 - "Call for order" or view only mode products setting
 - Cache engine improvement 
 - Countries, zones and taxes are now multi-lingual
+- Language definition add/edit improvement
 - Number of HTML5 storefront template updates and improvements
 Many other features and improvements
 
