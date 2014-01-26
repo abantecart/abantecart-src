@@ -35,7 +35,7 @@
                                         <?php echo $form['fields']['language_definition_id'][$lang_id]; ?>
                                         <?php if (!empty($error[$name][$lang_id])) { ?>
                                         <div class="field_err"><?php echo $error[$name][$lang_id]; ?></div>
-                                        <?php } //if (!empty($error[$name])) { ?>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                                 <?php } ?>
@@ -46,11 +46,11 @@
                                     <?php echo $field; ?>
                                     <?php if (!empty($error[$name])) { ?>
                                     <div class="field_err"><?php echo $error[$name]; ?></div>
-                                    <?php } //if (!empty($error[$name])) { ?>
+                                    <?php } ?>
                                 </td>
                             </tr>
                             <?php } ?>
-                        <?php } //foreach ($form['fields'] as $name => $field)  ?>
+                        <?php }  ?>
                     </table>
                 </div>
             </div>

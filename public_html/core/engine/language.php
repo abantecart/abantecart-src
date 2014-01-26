@@ -221,6 +221,22 @@ class ALanguage {
 	}
 
 	/**
+	 * Load all information about specified language from language table.
+	 * @param int $id - Language ID
+	 * @return array - Array with language details
+	 */
+	public function getLanguageDetailsByID($id) {
+		if (!is_numeric($id)) return array();
+
+		foreach ($this->available_languages as $lang) {
+			if ($lang['language_id'] == $id) {
+				return $lang;
+			}
+		}
+		return array();
+	}
+	
+	/**
 	 * Detect language used by the client's browser
 	 * @return int|null|string - language code for detected locale
 	 */
@@ -397,6 +413,29 @@ class ALanguage {
 	public function getContentLanguageCode() {
 		$session = $this->registry->get('session');
 		return $session->data['content_language'];
+	}
+
+	/**
+	 * Check if block id a special case with main file (english, russian, etc ).
+	 * NOTE: Candidate for improvment. Rename these files to main.xml 
+	 * @param string $block - block name
+	 * @param string $lang_id - language ID (optional) if missing check if main block in any language 
+	 * @return bool
+	 */
+	public function isMainBlock( $block, $lang_id = '') {
+		if ( has_value($lang_id) ) {
+			$lang_det = $this->getLanguageDetailsByID( $lang_id );	
+			if ($lang_det['filename'] == $block) {
+					return true;
+			}	
+		} else {
+			foreach ($this->available_languages as $lang) {
+				if ($lang['filename'] == $block) {
+					return true;
+				}
+			}		
+		}
+		return false;
 	}
 
 	/**

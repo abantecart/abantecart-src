@@ -23,8 +23,8 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesLocalisationLanguageDefinitions extends AController {
 	public $data = array();
 	private $error = array();
-	private $fields = array( 'language_key', 'language_value', 'block', 'section' );
-
+	private $rt = 'localisation/language_definitions';
+	
 	public function main() {
 
 		//init controller data
@@ -41,7 +41,7 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 			'separator' => FALSE
 		));
 		$this->document->addBreadcrumb(array(
-			'href' => $this->html->getSecureURL('localisation/language_definitions'),
+			'href' => $this->html->getSecureURL($this->rt),
 			'text' => $this->language->get('heading_title'),
 			'separator' => ' :: '
 		));
@@ -95,17 +95,17 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 		$languages = $this->language->getAvailableLanguages();
 		$options = array( -1 => $this->language->get('text_all_languages') );
 		foreach ($languages as $lang) {
-			$options[ $lang[ 'language_id' ] ] = $lang[ 'name' ];
+			$options[$lang['language_id']] = $lang[ 'name' ];
 		}
 
-		$grid_search_form[ 'fields' ][ 'language_id' ] = $form->getFieldHtml(array(
+		$grid_search_form['fields']['language_id'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'language_id',
 			'options' => $options,
-			'value' => $this->request->get[ 'language_id' ]
+			'value' => $this->request->get['language_id']
 		));
 
-		$grid_search_form[ 'fields' ][ 'section' ] = $form->getFieldHtml(array(
+		$grid_search_form['fields']['section'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'section',
 			'options' => array(
@@ -115,16 +115,15 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 			),
 		));
 
-		$grid_settings[ 'search_form' ] = true;
+		$grid_settings['search_form'] = true;
 
-
-		$grid_settings[ 'colNames' ] = array(
+		$grid_settings['colNames'] = array(
 			$this->language->get('column_block'),
 			$this->language->get('column_key'),
 			$this->language->get('column_translation'),
 			$this->language->get('column_update_date'),
 		);
-		$grid_settings[ 'colModel' ] = array(
+		$grid_settings['colModel'] = array(
 			array(
 				'name' => 'block',
 				'index' => 'block',
@@ -162,7 +161,7 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 		$this->view->assign('search_form', $grid_search_form);
 
 		$this->document->setTitle($this->language->get('heading_title'));
-		$this->view->assign('insert', $this->html->getSecureURL('localisation/language_definitions/insert'));
+		$this->view->assign('insert', $this->html->getSecureURL($this->rt.'/insert'));
 		$this->view->assign('help_url', $this->gen_help_url('language_definitions_listing'));
 		$this->view->assign('dialog_url', $this->html->getSecureURL('localisation/language_definition_form/update', '&target=edit_dialog'));
 
@@ -181,19 +180,42 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && $this->_validateForm()) {
+			//First check if special case of main block is present
+			$main_block = false;
 			foreach ($this->request->post[ 'language_definition_id' ] as $lang_id => $id) {
+				if ($this->language->isMainBlock($this->request->post['block']	, $lang_id)) {
+					$main_block = true;
+				}
+			}
+			//now process
+			foreach ($this->request->post[ 'language_definition_id' ] as $lang_id => $id) {
+				$block = $this->request->post['block'];
+				$section = $this->request->post[ 'section' ];
+				$language_key = $this->request->post[ 'language_key' ];
+				//for main block use correct language name as block name
+				if ($main_block) {
+					$lang_det = $this->language->getLanguageDetailsByID( $lang_id );
+					$block = $lang_det['filename'];
+				}		
+
 				$data = array(
 					'language_id' => $lang_id,
-					'section' => $this->request->post[ 'section' ],
-					'block' => $this->request->post[ 'block' ],
-					'language_key' => $this->request->post[ 'language_key' ],
+					'section' => $section,
+					'block' => $block,
+					'language_key' => $language_key,
 					'language_value' => $this->request->post[ 'language_value' ][ $lang_id ],
 				);
-				$language_definition_id = $this->model_localisation_language_definitions->addLanguageDefinition($data);
-			}
 
+				$this->model_localisation_language_definitions->addLanguageDefinition($data);
+
+				//get new created language_definition_id (need only 1)
+				$new_def = $this->model_localisation_language_definitions->LoadDefinitionSetEmpty( $section, $block, $language_key, $lang_id);
+				$language_definition_id = $new_def['language_definition_id'];
+			}
 			$this->session->data[ 'success' ] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('localisation/language_definitions/update', '&language_definition_id=' . $language_definition_id));
+			$parms = '&view_mode='.$this->request->get['view_mode'];	
+			$parms .= '&language_definition_id='.$language_definition_id;
+			$this->redirect($this->html->getSecureURL($this->rt.'/update', $parms));
 		}
 
 		$this->_getForm();
@@ -213,6 +235,7 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
+
 		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && $this->_validateForm()) {
 			foreach ($this->request->post[ 'language_definition_id' ] as $lang_id => $id) {
 				$data = array(
@@ -221,16 +244,20 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 					'block' => $this->request->post[ 'block' ],
 					'language_key' => $this->request->post[ 'language_key' ],
 					'language_value' => $this->request->post[ 'language_value' ][ $lang_id ],
+					'language_definition_id' => $this->request->post[ 'language_definition_id' ][ $lang_id ],
 				);
 				if ($id) {
 					$this->model_localisation_language_definitions->editLanguageDefinition($id, $data);
 				} else {
-					$language_definition_id = $this->model_localisation_language_definitions->addLanguageDefinition($data);
+					$this->model_localisation_language_definitions->addLanguageDefinition($data);
 				}
 			}
 
-			$this->session->data[ 'success' ] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('localisation/language_definitions/update', '&language_definition_id=' . $this->request->get[ 'language_definition_id' ]));
+			$this->session->data[ 'success' ] = $this->language->get('text_success');$view_mode = $this->request->get['view_mode'];	
+			
+			$parms = '&view_mode='.$this->request->get['view_mode'];	
+			$parms .= '&language_definition_id='.$this->request->get['language_definition_id'];
+			$this->redirect($this->html->getSecureURL($this->rt.'/update', $parms));
 		}
 
 		$this->_getForm();
@@ -248,6 +275,8 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 		}
 
 		$this->data[ 'error' ] = $this->error;
+		$language_definition_id = $this->request->get['language_definition_id'];
+		$view_mode = $this->request->get['view_mode'];		
 
 		$this->document->initBreadcrumb(array(
 			'href' => $this->html->getSecureURL('index/home'),
@@ -255,55 +284,31 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 			'separator' => FALSE
 		));
 		$this->document->addBreadcrumb(array(
-			'href' => $this->html->getSecureURL('localisation/language_definitions'),
+			'href' => $this->html->getSecureURL($this->rt),
 			'text' => $this->language->get('heading_title'),
 			'separator' => ' :: '
 		));
+		
+		if($view_mode == 'all') {
+		    $this->data['view_mode'] = $this->html->getSecureURL($this->rt.'/update', '&view_mode=less&language_definition_id='.$language_definition_id);
+		} else {	
+		    $this->data['view_mode'] = $this->html->getSecureURL($this->rt.'/update', '&view_mode=all&language_definition_id='.$language_definition_id);
+		}
+		
 		$this->data['form_language_switch'] = $this->html->getContentLanguageSwitcher();
-		$this->data[ 'cancel' ] = $this->html->getSecureURL('localisation/language_definitions');
-		$languages = $this->language->getAvailableLanguages();
-		foreach ($languages as $lang) {
-			if($lang[ 'language_id' ] != $this->session->data['content_language_id']) continue;
-			$this->data[ 'languages' ][ $lang[ 'language_id' ] ] = $lang;
-		}
+		$this->data[ 'cancel' ] = $this->html->getSecureURL($this->rt);
 
-		if (isset($this->request->get[ 'language_definition_id' ])) {
-			//language_definition_id is provieded, need to load definition for all languages.
-			$item = $this->model_localisation_language_definitions->getLanguageDefinition($this->request->get[ 'language_definition_id' ]);
-			//make sure we load all the langaues properly in case they were not used yet.
-			foreach ($languages as $lang) {
-				$new_lang_obj = new ALanguageManager($this->registry, $lang[ 'code' ], $item[ 'section' ]);
-				$block = $new_lang_obj->convert_block_to_file($item[ 'block' ]);
-				if($block){
-					$new_lang_obj->_load($block);
-				}
-			}
-			//load definitions for all languages now
-			$items = $this->model_localisation_language_definitions->getLanguageDefinitions(array(
-				'subsql_filter' => "section = '" . $item[ 'section' ] . "' AND block = '" . $item[ 'block' ] . "' AND language_key = '" . $item[ 'language_key' ] . "'  " ));
-		}
-
-		foreach ($this->fields as $field) {
-			if (isset($this->request->post[ $field ])) {
-				$this->data[ $field ] = $this->request->post[ $field ];
-			} elseif (isset($item)) {
-				$this->data[ $field ] = $item[ $field ];
-			} else {
-				$this->data[ $field ] = '';
-			}
-		}
-
-		if (!isset($this->request->get[ 'language_definition_id' ])) {
-			$this->data[ 'action' ] = $this->html->getSecureURL('localisation/language_definitions/insert');
+		if (!has_value($language_definition_id)) {
+			//this is create new definition request
+			$this->data[ 'action' ] = $this->html->getSecureURL($this->rt.'/insert', '&view_mode='.$view_mode);
 			$this->data[ 'heading_title' ] = $this->language->get('text_insert') . ' ' . $this->language->get('text_definition');
-			$this->data[ 'update' ] = '';
 			$form = new AForm('ST');
-			$this->data[ 'language_definition_id' ] = (int)$this->request->get[ 'language_definition_id' ];
+			$this->data[ 'language_definition_id' ] = (int)$language_definition_id;
 			$this->data[ 'check_url' ] = $this->html->getSecureURL('listing_grid/language_definitions/checkdefinition');
 		} else {
-			$this->data[ 'action' ] = $this->html->getSecureURL('localisation/language_definitions/update', '&language_definition_id=' . $this->request->get[ 'language_definition_id' ]);
+			$this->data[ 'action' ] = $this->html->getSecureURL('localisation/language_definitions/update', '&view_mode='.$view_mode.'&language_definition_id='.$language_definition_id);
 			$this->data[ 'heading_title' ] = $this->language->get('text_edit') . ' ' . $this->language->get('text_definition');
-			$this->data[ 'update' ] = $this->html->getSecureURL('listing_grid/language_definitions/update_field', '&id=' . $this->request->get[ 'language_definition_id' ]);
+			$this->data[ 'update' ] = $this->html->getSecureURL('listing_grid/language_definitions/update_field', '&id=' . $language_definition_id);
 			$form = new AForm('HS');
 		}
 
@@ -313,101 +318,32 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 			'separator' => ' :: '
 		));
 
+		//build the form
 		$form->setForm(array(
 			'form_name' => 'definitionFrm',
 			'update' => $this->data[ 'update' ],
 		));
-
-		$this->data[ 'form' ][ 'id' ] = 'definitionFrm';
-		$this->data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(array(
+		$this->data['form']['id'] = 'definitionFrm';
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'definitionFrm',
 			'attr' => 'confirm-exit="true"',
-			'action' => $this->data[ 'action' ],
-		));
-		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array(
-			'type' => 'button',
-			'name' => 'submit',
-			'text' => $this->language->get('button_save'),
-			'style' => 'button1',
-		));
-		$this->data[ 'form' ][ 'cancel' ] = $form->getFieldHtml(array(
-			'type' => 'button',
-			'name' => 'cancel',
-			'text' => $this->language->get('button_cancel'),
-			'style' => 'button2',
+			'action' => $this->data['action'],
 		));
 
-		$this->data[ 'form' ][ 'fields' ][ 'section' ] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
-			'name' => 'section',
-			'options' => array(
-				1 => $this->language->get('text_admin'),
-				0 => $this->language->get('text_storefront'),
-			),
-			'value' => $this->data[ 'section' ],
-			'required' => true,
-		));
-		$this->data[ 'form' ][ 'fields' ][ 'block' ] = $form->getFieldHtml(array(
-			'type' => 'input',
-			'name' => 'block',
-			'value' => $this->data[ 'block' ],
-			'required' => true,
-			'help_url' => $this->gen_help_url('block'),
-		));
-		$this->data[ 'form' ][ 'fields' ][ 'language_key' ] = $form->getFieldHtml(array(
-			'type' => 'input',
-			'name' => 'language_key',
-			'value' => $this->data[ 'language_key' ],
-			'required' => true,
-			'help_url' => $this->gen_help_url('language_key'),
-		));
-
-
-		foreach ($this->data[ 'languages' ] as $i) {
-			$value = '';
-			$id = '';
-			if (!empty($this->request->post[ 'language_value' ][ $i[ 'language_id' ] ])) {
-				$value = $this->request->post[ 'language_value' ][ $i[ 'language_id' ] ];
-				foreach ($items as $ii) {
-					if ($ii[ 'language_id' ] == $i[ 'language_id' ]) {
-						$id = $ii[ 'language_definition_id' ];
-						break;
-					}
-				}
-			} else if (!empty($items)) {
-				foreach ($items as $ii) {
-					if ($ii[ 'language_id' ] == $i[ 'language_id' ]) {
-						$value = $ii[ 'language_value' ];
-						$id = $ii[ 'language_definition_id' ];
-						break;
-					}
-				}
-			}
-			$this->data[ 'form' ][ 'fields' ][ 'language_value' ][ $i[ 'language_id' ] ] = $form->getFieldHtml(array(
-				'type' => 'textarea',
-				'name' => 'language_value[' . $i[ 'language_id' ] . ']',
-				'value' => $value,
-				'required' => true,
-				'style' => 'large-field',
-			));
-
-			$this->data[ 'form' ][ 'fields' ][ 'language_definition_id' ][ $i[ 'language_id' ] ] = $form->getFieldHtml(array(
-				'type' => 'hidden',
-				'name' => 'language_definition_id[' . $i[ 'language_id' ] . ']',
-				'value' => $id,
-				'required' => true,
-			));
-
-
+		//build the rest of the form and data
+		$ret_data = $this->model_localisation_language_definitions->buildFormData($this->request, $this->data, $form);
+		if ($ret_data['redirect_params']) {
+			$this->redirect($this->html->getSecureURL($this->rt.'/update', $ret_data['redirect_params']));
 		}
+				
 		$this->view->assign('help_url', $this->gen_help_url('language_definition_edit'));
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/localisation/language_definitions_form.tpl');
 	}
 
 	private function _validateForm() {
-		if (!$this->user->canModify('localisation/language_definitions')) {
+		if (!$this->user->canModify($this->rt)) {
 			$this->error[ 'warning' ] = $this->language->get('error_permission');
 		}
 

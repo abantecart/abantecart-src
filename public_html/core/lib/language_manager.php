@@ -45,9 +45,10 @@ class ALanguageManager extends Alanguage {
 	 * @param string $table_name  - database table name with no prefix
 	 * @param array $index - unique index to perform select (associative array with column name as key)
 	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
+	 * @param bool $do_auto_translation - to skip autotranslation pass false. Translate by default
 	 * @return null
 	 */
-	public function addDescriptions($table_name, $index, $txt_data) {
+	public function addDescriptions($table_name, $index, $txt_data, $do_auto_translation = true) {
 		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 		//when txt data does not contain default language
 		$default_lang_id = $this->getDefaultLanguageID();
@@ -57,7 +58,9 @@ class ALanguageManager extends Alanguage {
 		//Insert data provided per language in $data array
 		$this->_do_insert_descriptions($table_name, $index, $txt_data);
 		//translate to other languages
-		$this->_do_translate_descriptions($table_name, $index, $txt_data);
+		if ($do_auto_translation) {
+			$this->_do_translate_descriptions($table_name, $index, $txt_data);
+		}
 		return null;
 	}
 
@@ -89,14 +92,17 @@ class ALanguageManager extends Alanguage {
 	 * @param string $table_name  - database table name with no prefix
 	 * @param array $index - unique index to perform select (associative array with column name as key)
 	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
+	 * @param bool $do_auto_translation - to skip autotranslation pass false. Translate by default
 	 * @return null
 	 */
-	public function updateDescriptions($table_name, $index, $txt_data) {
+	public function updateDescriptions($table_name, $index, $txt_data, $do_auto_translation = true) {
 		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 		//update provided lang data
 		$this->_do_update_descriptions($table_name, $index, $txt_data);
 		//translate to other languages
-		$this->_do_translate_descriptions($table_name, $index, $txt_data);
+		if ($do_auto_translation) {
+			$this->_do_translate_descriptions($table_name, $index, $txt_data);
+		}
 		return null;
 	}
 
@@ -125,9 +131,10 @@ class ALanguageManager extends Alanguage {
 	 * @param string $table_name  - database table name with no prefix
 	 * @param array $index - unique index to perform select (associative array with column name as key)
 	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
+	 * @param bool $do_auto_translation - to skip autotranslation pass false. Translate by default
 	 * @return null
 	 */
-	public function replaceDescriptions($table_name, $index, $txt_data) {
+	public function replaceDescriptions($table_name, $index, $txt_data, $do_auto_translation = true) {
 		if (empty($table_name) || empty($index) || !is_array($txt_data) || count($txt_data) <= 0) return null;
 
 		// check is definition with default language presents in table
@@ -139,11 +146,13 @@ class ALanguageManager extends Alanguage {
 			$is_default_definition_exists = $this->getDescriptions($table_name,$index,$default_lang_id);
 		}
 		// just use data for default language too
-		if(!$is_default_definition_exists){
+		// special case for non-transation 
+		if(!$is_default_definition_exists && $do_auto_translation){
 			if(!in_array($default_lang_id, array_keys($txt_data))){
 				$txt_data[$default_lang_id] = current($txt_data);
 			}
 		}
+
 		//see if exists and update if it does. Do this per language
 		foreach ($txt_data as $lang_id => $lang_data) {
 			$select_index = $index;
@@ -155,7 +164,9 @@ class ALanguageManager extends Alanguage {
 			}
 		}
 		//translate to other languages
-		$this->_do_translate_descriptions($table_name, $index, $txt_data);
+		if ($do_auto_translation) {
+			$this->_do_translate_descriptions($table_name, $index, $txt_data);
+		}
 		return null;
 	}
 
