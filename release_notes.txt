@@ -98,7 +98,8 @@ Extensions:
 - default flat rate shipping fix related to location setting
 - added note for return URL on paypal standart settings page
 - fixed URL of COD controller (was loop redirect on confirm page when press back button)install: demo sql data consistency fix
-
+- PayPal Standard summery fix 
+- PayPal Pro callback (IPN support implemented) 
 
 
 AbanteCart version 1.1.7 with new features, improvements and bug fixes.
