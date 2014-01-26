@@ -56,4 +56,82 @@ class ModelExtensionDefaultPPPro extends Model {
    
     	return $method_data;
   	}
+
+	public function getCreditCardTypes() {
+		return array( 'Visa' => 'Visa',
+			          'MasterCard' => 'MasterCard',
+					  'Discover' => 'Discover',
+					  'Amex' => 'American Express' );
+	}
+
+
+	public function addShippingAddress($data) {
+
+		//encrypt customer data
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$data = $this->dcrypt->encrypt_data($data, 'addresses');
+			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+		}
+
+		if ( !has_value($data['country_id']) ) {
+			$data['country_id'] = $this->getCountryIdByCode2($data['iso_code_2']);
+		}
+
+		if ( !has_value($data['zone_id']) ) {
+			$data['zone_id'] = $this->getZoneId($data['country_id'], $data['zone_code']);
+		}
+
+		$this->db->query(
+			"INSERT INTO " . $this->db->table("addresses") . "
+			SET
+				customer_id = '" . (int)$this->customer->getId() . "',
+				company = '" . (has_value($data['company']) ? $this->db->escape($data['company']) : '') . "',
+				firstname = '" . $this->db->escape($data['firstname']) . "',
+				lastname = '" . $this->db->escape($data['lastname']) . "',
+				address_1 = '" . $this->db->escape($data['address_1']) . "',
+				address_2 = '" . (has_value($data['address_2']) ? $this->db->escape($data['address_2']) : '') . "',
+				postcode = '" . $this->db->escape($data['postcode']) . "',
+				city = '" . $this->db->escape($data['city']) . "',
+				zone_id = '" . (int)$data['zone_id'] . "',
+				country_id = '" . (int)$data['country_id'] . "'"
+			. $key_sql
+		);
+
+		$address_id = $this->db->getLastId();
+
+		if (isset($data['default']) && $data['default'] == '1') {
+			$this->db->query("UPDATE " . $this->db->table("customers") . "
+			SET address_id = '" . (int)$address_id . "'
+			WHERE customer_id = '" . (int)$this->customer->getId() . "'");
+		}
+
+		return $address_id;
+
+	}
+
+	public function getCountryIdByCode2($code) {
+		$result = $this->db->query(
+			'SELECT country_id FROM ' . $this->db->table('countries') . '
+			WHERE iso_code_2 = "' . strtoupper($this->db->escape($code)) . '"'
+		);
+
+		if ( $result->num_rows > 0 ) {
+			return $result->row['country_id'];
+		}
+		return null;
+	}
+
+	public function getZoneId($country_id, $zone_code) {
+		$result = $this->db->query(
+			'SELECT zone_id FROM ' . $this->db->table('zones') . '
+			WHERE country_id = "' . (int) $country_id . '"
+			AND code = "' . strtoupper($this->db->escape($zone_code)) . '"'
+		);
+
+		if ( $result->num_rows > 0 ) {
+			return $result->row['zone_id'];
+		}
+		return null;
+	}
 }

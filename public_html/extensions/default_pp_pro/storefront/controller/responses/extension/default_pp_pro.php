@@ -20,11 +20,17 @@
 if ( !defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/** @noinspection PhpUndefinedClassInspection
+ *
+ * Class ControllerResponsesExtensionDefaultPPPro
+ * @property ModelExtensionDefaultPPPro $model_extension_default_pp_pro
+ */
 class ControllerResponsesExtensionDefaultPPPro extends AController {
+	private $data = array();
 	public function main() {
     	$this->loadLanguage('default_pp_pro/default_pp_pro');
 		$this->load->model('checkout/order');
+		$this->load->model('extension/default_pp_pro');
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
 		$data[ 'cc_owner' ] = HtmlElementFactory::create(array(
@@ -35,20 +41,22 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		));
 
 		//load accepted card types
-		$cards = array();
-		foreach ( unserialize($this->config->get('default_pp_pro_creditcard_types')) as $card) {
-			if ($card) {
-				$cards[$card] = $card;
+		$cardtypes = $this->model_extension_default_pp_pro->getCreditCardTypes();
+		$cards = unserialize($this->config->get('default_pp_pro_creditcard_types'));
+		$options = array();
+		foreach ( $cards as $card) {
+			if ($card && isset($cardtypes[$card])) {
+				$options[$card] = $cardtypes[$card];
 			}
 		}	
-		$data[ 'accepted_cards' ] = $cards;
+		$data[ 'accepted_cards' ] = $options;
 
         $data[ 'cc_type' ] = HtmlElementFactory::create(
 			array( 'type' => 'selectbox',
 			     'name' => 'cc_type',
 			     'value' => '',
-			     'options' => $cards,
-			     'style' => 'short input-small'
+			     'options' => $options,
+			     'style' => 'input-medium'
 			));
 
         $data[ 'cc_number' ] = HtmlElementFactory::create(array(
@@ -147,6 +155,13 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
+		$order_total = $this->currency->format($order_info['total'], $order_info['currency'],'',false);
+
+		$products_data = $this->_get_products_data(array(
+			'currency' => $order_info['currency'],
+			'value' => ''
+		));
+
 		$payment_data = array(
 			'METHOD'         => 'DoDirectPayment', 
 			'VERSION'        => '51.0', 
@@ -154,8 +169,14 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			'PWD'            => html_entity_decode($this->config->get('default_pp_pro_password'), ENT_QUOTES, 'UTF-8'),
 			'SIGNATURE'      => html_entity_decode($this->config->get('default_pp_pro_signature'), ENT_QUOTES, 'UTF-8'),
 			'CUSTREF'        => $order_info['order_id'],
+			'CUSTOM'         => $order_info['order_id'],
+			'INVNUM'         => $order_info['order_id'],
 			'PAYMENTACTION'  => $payment_type,
 			'AMT'            => $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], FALSE),
+			'ITEMAMT'        => (float)$this->data['items_total'],
+			'TAXAMT'         => (float)$this->data['tax_total'],
+			'SHIPPINGAMT'    => (float)$this->data['shipping_total'],
+			'HANDLINGAMT'    => (float)$this->data['handling_total'],
 			'CREDITCARDTYPE' => $this->request->post['cc_type'],
 			'ACCT'           => str_replace(' ', '', $this->request->post['cc_number']),
 			'CARDSTART'      => $this->request->post['cc_start_date_month'] . $this->request->post['cc_start_date_year'],
@@ -174,8 +195,33 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			'COUNTRYCODE'    => $order_info['payment_iso_code_2'],
 			'CURRENCYCODE'   => $order_info['currency'],
 			'BUTTONSOURCE'   => 'Abante_Cart',
+			'NOTIFYURL'		 => $this->html->getSecureURL('extension/default_pp_pro/callback')
 		);
 
+		//items list
+		//check amounts
+		$calc_total = $this->data['items_total']
+						+ $this->data['shipping_total']
+						+ $this->data['tax_total']
+						+ $this->data['handling_total'];
+
+		if(($calc_total - $order_total)!==0.0){
+			$skip_item_list = true;
+			$payment_data['ITEMAMT'] = 0;
+			$payment_data['TAXAMT'] = 0;
+			$payment_data['SHIPPINGAMT'] = 0;
+			$payment_data['HANDLINGAMT'] = 0;
+		}
+		if(!$skip_item_list){
+			foreach ( $products_data as $key => $product ) {
+				$payment_data['L_NAME' . $key] = $product['name'];
+				$payment_data['L_AMT' . $key] = (float)$product['price'];
+				$payment_data['L_NUMBER' . $key] = $product['model'];
+				$payment_data['L_QTY' . $key] = $product['quantity'];
+			}
+		}
+
+//$this->log->write(var_export($payment_data, true));
 		$curl = curl_init($api_endpoint);
 		
 		curl_setopt($curl, CURLOPT_PORT, 443);
@@ -227,13 +273,114 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
         	$json['error'] = $response_data['L_LONGMESSAGE0'];
         }
 
-
-		
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));
 	}
-	//TODO: needs to write method that receive IPN-notifications from paypal about changes of status of order
-	public function callback(){
 
+	private function _get_products_data($order_info) {
+
+		$this->load->library('encryption');
+		$encryption = new AEncryption($this->config->get('encryption_key'));
+
+		$this->data['products'] = array();
+		$this->data['items_total'] = 0.0;
+		$products = $this->cart->getProducts();
+		foreach ($products as $product) {
+			$option_data = array();
+
+			foreach ($product['option'] as $option) {
+				if ($option['type'] != 'file') {
+					$value = $option['value'];
+				} else {
+					$filename = $encryption->decrypt($option['value']);
+					$value = mb_substr($filename, 0, mb_strrpos($filename, '.'));
+				}
+
+				$option_data[] = array(
+					'name'  => $option['name'],
+					'value' => (mb_strlen($value) > 20 ? mb_substr($value, 0, 20) . '..' : $value)
+				);
+			}
+			$price = $this->currency->format($product['price'], $order_info['currency'], $order_info['value'], FALSE);
+			$this->data['products'][] = array(
+				'name'     => $product['name'],
+				'model'    => $product['model'],
+				'price'    => $price,
+				'quantity' => $product['quantity'],
+				'option'   => $option_data,
+				'weight'   => $product['weight'],
+				'weight_type' => $product['weight_type']
+			);
+			$this->data['items_total'] += $price*$product['quantity'];
+		}
+
+
+		$this->data['discount_amount_cart'] = 0;
+		$totals = $this->cart->buildTotalDisplay();
+
+		foreach($totals['total_data'] as $total){
+			if(in_array($total['id'],array('subtotal','total'))){ continue;}
+			if(in_array($total['id'],array('promotion','coupon'))){
+				$total['value'] = $total['value']<0 ? $total['value']*-1 : $total['value'];
+				$this->data['discount_amount_cart'] += $total['value'];
+			}else{
+				$price = $this->currency->format($total['value'], $order_info['currency'], $order_info['value'], FALSE);
+
+			    if(in_array($total['id'],array('tax'))){
+					$this->data['tax_total'] += $price;
+				}elseif(in_array($total['id'],array('shipping'))){
+					$this->data['shipping_total'] += $price;
+				}elseif(in_array($total['id'],array('handling'))){
+					$this->data['handling_total'] += $price;
+				}else{
+				    $this->data['items_total'] += $price;
+			    }
+
+				$this->data['products'][] = array(
+					'name'     => $total['title'],
+					'model'    => '',
+					'price'    => $price,
+					'quantity' => 1,
+					'option'   => array(),
+					'weight'   => 0
+				);
+
+			}
+		}
+
+		if($this->data['discount_amount_cart']>0){
+			$price = -1*$this->currency->format($this->data['discount_amount_cart'], $order_info['currency'], $order_info['value'], FALSE);
+			$this->data['products'][] = array(
+				'name'     => $this->language->get('text_discount'),
+				'model'    => '',
+				'price'    => $price,
+				'quantity' => 1,
+				'option'   => array(),
+				'weight'   => 0
+			);
+			$this->data['items_total'] += $price;
+		}
+
+		return $this->data['products'];
 	}
+
+	public function callback() {
+
+		if (isset($this->request->post['invoice'])) {
+			$order_id = (int)$this->request->post['invoice'];
+		} else {
+			$order_id = 0;
+		}
+
+		$this->load->model('checkout/order');
+		$order_info = $this->model_checkout_order->getOrder($order_id);
+
+		if ($order_info && $this->request->post['payment_status'] == 'Refunded') {
+			$result = $this->db->query("SELECT * from ".$this->db->table('order_statuses')." WHERE order_status_id=11");
+			if($result->num_rows){
+				$this->model_checkout_order->update($order_id, 11);
+			}
+		}
+	}
+
 }

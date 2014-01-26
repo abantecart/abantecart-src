@@ -36,7 +36,7 @@
 		<div class="control-group ">
 			<label class="control-label"><?php echo $entry_cc_expire_date; ?></label>
 			<div class="controls ws_nowrap">
-				<?php echo $cc_expire_date_month; ?> / <?php echo $cc_expire_date_year; ?>
+				<?php echo $cc_expire_date_month; ?><?php echo $cc_expire_date_year; ?>
 				<span class="help-inline"></span>
 			</div>
 		</div>
@@ -103,4 +103,8 @@ function confirmSubmit() {
 	});
 }
 $('#paypal_button').click ( confirmSubmit );
+$(document).ready(function(){
+	$('#cc_expire_date_year').width('50');
+	$('#cc_expire_date_month').width('85');
+});
 //--></script>
