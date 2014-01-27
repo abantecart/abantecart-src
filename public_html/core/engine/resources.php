@@ -512,12 +512,14 @@ class AResource {
 										                                                    'width' => $sizes['thumb']['width'],
 										                                                    'height' => $sizes['thumb']['height'],
 										                                                    'attr' => 'alt="' . $resource_info['title'] . '"') ),
+										'description' =>  $resource_info['decription'],
 										'title' => $resource_info['title']);
 			}else{
 				$resources[$k] = array( 'origin' => $origin,
 										'main_html'=>$resource_info['resource_code'],
 										'thumb_html' => $resource_info['resource_code'],
-										'title' => $resource_info['title']);
+										'title' => $resource_info['title'],
+										'description' =>  $resource_info['decription']);
 			}
 		}
 
@@ -541,7 +543,11 @@ class AResource {
 		$result =  $this->getResourceAllObjects($object_name, $object_id, $sizes,1, $noimage);
 
 		if($result){
-			$output = array( 'origin' => $result['origin'],'thumb_html'=>$result['thumb_html'], 'title'=>$result['title']);
+			$output = array( 'origin' => $result['origin'],
+							 'thumb_html'=>$result['thumb_html'],
+							 'title'=>$result['title'],
+							 'description'=>$result['description']
+			);
 			if($result['thumb_url']) $output['thumb_url'] = $result['thumb_url'];
 		}
 	return $output;
@@ -559,7 +565,11 @@ class AResource {
 		$sizes=array('main'=>array('width'=>$width, 'height'=> $height));
 		$result =  $this->getResourceAllObjects($object_name, $object_id, $sizes,1, $noimage);
 		if($result){
-			$output = array( 'origin' => $result['origin'],'main_html'=>$result['main_html'], 'title'=>$result['title']);
+			$output = array( 'origin' => $result['origin'],
+							'main_html'=>$result['main_html'],
+							'description'=>$result['description'],
+							'title'=>$result['title']
+			);
 			if($result['main_url']) $output['main_url'] = $result['main_url'];
 		}
 	return $output;
