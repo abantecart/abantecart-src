@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Глобальные атрибуты]]></value>
+	</definition>
+	<definition>
+		<key>text_attribute</key>
+		<value><![CDATA[Глобальный Атрибут]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успех: Вы изменили атрибут!]]></value>
+	</definition>
+	<definition>
+		<key>text_select_type</key>
+		<value><![CDATA[- Выберите тип -]]></value>
+	</definition>
+	<definition>
+		<key>text_select_parent</key>
+		<value><![CDATA[- Выберите родителя -]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Имя]]></value>
+	</definition>
+	<definition>
+		<key>column_type</key>
+		<value><![CDATA[Тип]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[Порядок сортировки]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Статус]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Действие]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Имя:]]></value>
+	</definition>
+	<definition>
+		<key>entry_attribute_parent</key>
+		<value><![CDATA[Атрибут Родитель:]]></value>
+	</definition>
+	<definition>
+		<key>entry_attribute_group</key>
+		<value><![CDATA[Группа атрибутов:]]></value>
+	</definition>
+	<definition>
+		<key>entry_attribute_type</key>
+		<value><![CDATA[Тип атрибута:]]></value>
+	</definition>
+	<definition>
+		<key>entry_element_type</key>
+		<value><![CDATA[Тип элемента:]]></value>
+	</definition>
+	<definition>
+		<key>entry_element_values</key>
+		<value><![CDATA[Значение элемента:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Порядок сортировки:]]></value>
+	</definition>
+	<definition>
+		<key>entry_required</key>
+		<value><![CDATA[Необходимо:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Статус:]]></value>
+	</definition>
+	<definition>
+		<key>entry_children_attributes</key>
+		<value><![CDATA[Дочерние атрибуты:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Внимание: У Вас нет прав для изменения глобальных атрибутов!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Имя группы должно быть от 2 до 32 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_required</key>
+		<value><![CDATA[Это поле обязательно для заполнения!]]></value>
+	</definition>
+	<definition>
+		<key>text_parent_note</key>
+		<value>
+			<![CDATA[Если это родительский атрибут с дочерними атрибутами, он может быть только следующих типов: SelectBox, MultiSelect Box, Checkbox and Checkbox group. <br> Комбинация дочерних значений будет показана, как один набор.]]></value>
+	</definition>
+	<definition>
+		<key>entry_allowed_extensions</key>
+		<value><![CDATA[Допустимые расширения файлов (TXT, JPG ...)]]></value>
+	</definition>
+	<definition>
+		<key>entry_min_size</key>
+		<value><![CDATA[Минимальный размер файла (Kb)]]></value>
+	</definition>
+	<definition>
+		<key>entry_max_size</key>
+		<value><![CDATA[Максимальный размер файла (Kb)]]></value>
+	</definition>
+	<definition>
+		<key>entry_upload_dir</key>
+		<value><![CDATA[Добавить имя каталога]]></value>
+	</definition>
+	<definition>
+		<key>entry_regexp_pattern</key>
+		<value><![CDATA[Шаблон регулярного выражения для проверки значений:]]></value>
+	</definition>
+	<definition>
+		<key>entry_error_text</key>
+		<value><![CDATA[Сообщение об ошибке при недопустимом значении:]]></value>
+	</definition>
+	<definition>
+		<key>error_attribute_name</key>
+		<value><![CDATA[Имя атрибута должно быть между 2 и 64 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_error_text</key>
+		<value><![CDATA[Текст ошибки о недопустимом значении атрибута должен быть между 2 и 255 символов!]]></value>
+	</definition>
+	<definition>
+		<key>error_regexp_pattern</key>
+		<value><![CDATA[Шаблон регулярного выражения недействительный!]]></value>
+	</definition>
+	<definition>
+		<key>entry_show_to_customer</key>
+		<value><![CDATA[Показывать покупателям]]></value>
+	</definition>
+</definitions>

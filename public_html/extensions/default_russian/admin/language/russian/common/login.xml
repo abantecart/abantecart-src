@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Авторизация]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Авторизация]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Введите свои регистрационные данные.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Имя пользователя:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Пароль:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Забыли пароль?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Войти]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Такой логин и/или пароль не существует.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Недопустимый токен сессии. Пожалуйста, войдите снова.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Не удачная попытка войти в админ панель с IP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Данный логин пользователя:]]></value>
+  </definition>
+</definitions>

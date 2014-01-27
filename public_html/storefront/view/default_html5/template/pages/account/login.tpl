@@ -68,7 +68,7 @@
 				<br>
 				<br>
 				<button type="submit" class="btn btn-orange"  title="<?php echo $form2['login_submit']->name ?>">
-					<i class="<?php echo $form2['login_submit']->{icon}; ?> icon-white"></i>
+					<i class="<?php echo $form2['login_submit']->{'icon'}; ?> icon-white"></i>
 					<?php echo $form2['login_submit']->name ?>
 				</button>
 			</fieldset>

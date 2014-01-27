@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Менеджер Изображений]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[Успешно: Ваш файл был загружен!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[Файл был удален!]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[Успешно: Каталог создан!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Успешно: Ваш файл или каталог был удален!]]></value>
+  </definition>
+  <definition>
+    <key>text_move</key>
+    <value><![CDATA[Успешно: Ваш файл или каталог был перемещен!]]></value>
+  </definition>
+  <definition>
+    <key>text_copy</key>
+    <value><![CDATA[Успешно: Ваш файл или каталог был скопирован!]]></value>
+  </definition>
+  <definition>
+    <key>text_rename</key>
+    <value><![CDATA[Успешно: Ваш файл или каталог был переименован!]]></value>
+  </definition>
+  <definition>
+    <key>entry_folder</key>
+    <value><![CDATA[Новый каталог:]]></value>
+  </definition>
+  <definition>
+    <key>entry_move</key>
+    <value><![CDATA[Переместить:]]></value>
+  </definition>
+  <definition>
+    <key>entry_copy</key>
+    <value><![CDATA[Имя:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rename</key>
+    <value><![CDATA[Имя:]]></value>
+  </definition>
+  <definition>
+    <key>error_select</key>
+    <value><![CDATA[Внимание: Пожалуйста, выберите файл или каталог!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Внимание: Пожалуйста, выберите файл!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[Внимание: Пожалуйста, выберите каталог!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Предупреждение: Не удается изменить каталог по умолчанию!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Внимание: Вы не можете удалить этот каталог!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Внимание: Имя файла должно быть от 3 до 255!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing</key>
+    <value><![CDATA[Предупреждение: файл или каталог не существует!]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[Внимание: файл или каталог с таким же именем уже существует!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Внимание: Пожалуйста, введите новое имя!]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Внимание: Переход к каталогу не существует!]]></value>
+  </definition>
+  <definition>
+    <key>error_copy</key>
+    <value><![CDATA[Предупреждение: Не удается скопировать этот файл или каталог!]]></value>
+  </definition>
+  <definition>
+    <key>error_rename</key>
+    <value><![CDATA[Предупреждение: Не удается переименовать эту папку!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[Внимание: неверный тип файла!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[Внимание: Файл слишком большой, он должен быть не более 300Кб и не более 1000px высоту или ширину!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[Внимание: Файл не может быть загружен по неизвестной причине!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Внимание: Отказано в доступе!]]></value>
+  </definition>
+  <definition>
+    <key>button_folder</key>
+    <value><![CDATA[Новая папка]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[Удалить]]></value>
+  </definition>
+  <definition>
+    <key>button_move</key>
+    <value><![CDATA[Переместить]]></value>
+  </definition>
+  <definition>
+    <key>button_copy</key>
+    <value><![CDATA[Скопировать]]></value>
+  </definition>
+  <definition>
+    <key>button_rename</key>
+    <value><![CDATA[Переименовать]]></value>
+  </definition>
+  <definition>
+    <key>button_upload</key>
+    <value><![CDATA[Загрузить]]></value>
+  </definition>
+  <definition>
+    <key>button_refresh</key>
+    <value><![CDATA[Обновить]]></value>
+  </definition>
+</definitions>

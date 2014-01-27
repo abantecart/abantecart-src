@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Чек/Денежный перевод]]></value>
+  </definition>
+  <definition>
+    <key>text_payable</key>
+    <value><![CDATA[ВЫПИСЫВАТЬ НА:]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Отправить:]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Ваш заказ не будет доставлен, пока мы не получим платеж.]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Пожалуйста, подождите!]]></value>
+  </definition>
+</definitions>

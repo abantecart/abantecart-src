@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -55,6 +55,8 @@ class ControllerPagesCatalogProductOptions extends AController {
 				'search' => " ga.attribute_type_id = '".$this->attribute_manager->getAttributeTypeID('product_option')."'
 				AND ga.status = 1
 				AND ga.attribute_parent_id = 0 ",
+				'sort' => 'sort_order',
+				'order' => 'ASC'
 			),
 			$this->session->data['content_language_id']
 		);
@@ -106,17 +108,11 @@ class ControllerPagesCatalogProductOptions extends AController {
 			'separator' => ' :: '
 		));
 
-		$this->data['link_general'] = $this->html->getSecureURL('catalog/product/update', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_images'] = $this->html->getSecureURL('catalog/product_images', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_relations'] = $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_options'] = $this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_promotions'] = $this->html->getSecureURL('catalog/product_promotions', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_extensions'] = $this->html->getSecureURL('catalog/product_extensions', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_layout'] = $this->html->getSecureURL('catalog/product_layout', '&product_id=' . $this->request->get['product_id'] );
-
 		$this->data['active'] = 'options';
-		$this->view->batchAssign( $this->data );
-		$this->data['product_tabs'] = $this->view->fetch('pages/catalog/product_tabs.tpl');
+		//load tabs controller
+		$tabs_obj = $this->dispatch('pages/catalog/product_tabs', array( $this->data ) );
+		$this->data['product_tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
 
         $results = HtmlElementFactory::getAvailableElements();
         $element_types = array( '' => $this->language->get('text_select'));

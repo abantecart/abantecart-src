@@ -1,8 +1,8 @@
 <?php if ($error_warning) { ?>
-<div class="warning"><?php echo $error_warning; ?></div>
+<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success"><?php echo $success; ?></div>
+<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
 <div class="contentBox">
@@ -13,6 +13,9 @@
 	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
 	    <?php endif; ?>
 		<?php echo $form_language_switch; ?>
+		<?php if ($view_mode) { ?> 
+		<div class="help_element"><a href="<?php echo $view_mode; ?>"><img src="<?php echo $template_dir; ?>image/language.png"/></a></div>
+		<?php } ?> 
     </div>  
   </div></div></div>
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
@@ -38,7 +41,7 @@
 					<?php echo $form['fields']['language_definition_id'][$lang_id]; ?>
 					<?php if (!empty($error[$name][$lang_id])) { ?>
 						<div class="field_err"><?php echo $error[$name][$lang_id]; ?></div>
-					<?php } //if (!empty($error[$name])) { ?>
+					<?php } ?>
 				</td>
 			</tr>
             <?php } ?>
@@ -49,7 +52,7 @@
 					<?php echo $field; ?>
 					<?php if (!empty($error[$name])) { ?>
 						<div class="field_err"><?php echo $error[$name]; ?></div>
-					<?php } //if (!empty($error[$name])) { ?>
+					<?php } ?>
 				</td>
 			</tr>
         <?php } ?>
@@ -102,9 +105,6 @@ if(!$language_definition_id){?>
 			});
 
 	});
-
-
-
 </script>
 
 <?php } ?>

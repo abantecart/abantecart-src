@@ -23,9 +23,12 @@
 		  <li <?php if ( $transactions == $current) echo 'class="selected"'; ?>>
 		  	<a href="<?php echo $transactions; ?>"><i class="icon-money"></i> <?php echo $text_transactions; ?></a>
 		  </li>	  		
+		  
+		  <?php if ($this->config->get('config_download')) { ?>
 		  <li <?php if ( $download == $current) echo 'class="selected"'; ?>>
 		  	<a href="<?php echo $download; ?>"><i class="icon-cloud-download"></i> <?php echo $text_download; ?></a>
 		  </li>	  		
+	      <?php } ?>
 	      
       	  <?php echo $this->getHookVar('account_order_links'); ?>
 	      

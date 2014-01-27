@@ -1,3 +1,4 @@
+<?php if ( count($languages) > 1 ) { ?>  
 <ul class="nav language pull-left">
 <?php if ($languages) { ?>
   <li class="dropdown hover">
@@ -23,3 +24,4 @@
   </li>
 <?php } ?>  
 </ul>
+<?php } ?>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -84,6 +84,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
         $grid = $this->dispatch('common/listing_grid', array($grid_settings));
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('insert', $this->html->getSecureURL('localisation/tax_class/insert'));
         $this->view->assign('help_url', $this->gen_help_url('tax_class_listing'));
 
@@ -159,9 +160,11 @@ class ControllerPagesLocalisationTaxClass extends AController {
             'text' => $this->language->get('heading_title'),
             'separator' => ' :: '
         ));
+        
+        $tax_title = $tax_class_info['tax_class'][$this->session->data['content_language_id']]['title'];
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $this->request->get['tax_class_id']),
-            'text' => $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_class_info['title'],
+            'text' => $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title,
             'separator' => ' :: '
         ));
         $this->document->addBreadcrumb(array(
@@ -172,7 +175,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
 
         $this->data = array();
-        $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_class_info['title'];
+        $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title;
         $this->data['error'] = $this->error;
         $this->data['tax_rates'] = $this->model_localisation_tax_class->getTaxRates($this->request->get['tax_class_id']);
         $this->data['insert_rate'] = $this->html->getSecureURL('localisation/tax_class/insert_rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
@@ -204,6 +207,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
         }
         unset($results, $tmp);
 
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('rates_listing'));
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/localisation/tax_class_data_list.tpl');
@@ -290,9 +294,10 @@ class ControllerPagesLocalisationTaxClass extends AController {
             'text' => $this->language->get('heading_title'),
             'separator' => ' :: '
         ));
+        $tax_title = $tax_class_info['tax_class'][$this->session->data['content_language_id']]['title'];
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $this->request->get['tax_class_id']),
-            'text' => $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_class_info['title'],
+            'text' => $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title,
             'separator' => ' :: '
         ));
         $this->document->addBreadcrumb(array(
@@ -306,7 +311,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
             $rate_info = $this->model_localisation_tax_class->getTaxRate($this->request->get['tax_rate_id']);
         }
 
-        $fields = array('location_id', 'zone_id', 'description', 'rate', 'priority', 'rate_prefix', 'threshold_condition', 'threshold');
+        $fields = array('location_id', 'zone_id', 'rate', 'priority', 'rate_prefix', 'threshold_condition', 'threshold');
         foreach ($fields as $f) {
             if (isset ($this->request->post [$f])) {
                 $this->data [$f] = $this->request->post [$f];
@@ -316,6 +321,12 @@ class ControllerPagesLocalisationTaxClass extends AController {
                 $this->data[$f] = '';
             }
         }
+
+		//set multilingual fields
+		$this->data['tax_rate'] = array();
+		if ( $rate_info['tax_rate'] ) {
+			$this->data['tax_rate'] = $rate_info['tax_rate'];
+		}
 
         $this->loadModel('localisation/location');
         $results = $this->model_localisation_location->getLocations();
@@ -344,13 +355,13 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
         if (!isset($this->request->get['tax_rate_id'])) {
             $form_action = $this->html->getSecureURL('localisation/tax_class/insert_rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
-            $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_class_info['title'];
+            $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title;
             $this->data['form_title'] = $this->language->get('text_insert') . $this->language->get('text_rate');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
             $form_action = $this->html->getSecureURL('localisation/tax_class/update_rates', '&tax_class_id=' . $this->request->get['tax_class_id'] . '&tax_rate_id=' . $this->request->get['tax_rate_id']);
-            $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_class_info['title'];
+            $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title;
             $this->data['form_title'] = $this->language->get('text_edit') . $this->language->get('text_rate');
             $this->data['update'] = $this->html->getSecureURL('listing_grid/tax_class/update_rate_field', '&id=' . $this->request->get['tax_rate_id']);
             $form = new AForm('ST');
@@ -411,8 +422,8 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
         $this->data['form']['fields']['description'] = $form->getFieldHtml(array(
             'type' => 'input',
-            'name' => 'description',
-            'value' => $this->data['description'],
+			'name' => 'tax_rate['.$this->session->data['content_language_id'].'][description]',
+			'value' => $this->data['tax_rate'][$this->session->data['content_language_id']]['description'],
             'style' => 'large-field',
         ));
         $this->data['form']['fields']['rate'] = $form->getFieldHtml(array(
@@ -467,6 +478,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
             'name' => 'priority',
             'value' => (int)$this->data['priority']
         ));
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('rate_edit'));
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/localisation/tax_class_rate_form.tpl');
@@ -489,21 +501,17 @@ class ControllerPagesLocalisationTaxClass extends AController {
             'separator' => ' :: '
         ));
 
-        if (isset($this->request->get['tax_class_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+        if (isset($this->request->get['tax_class_id'])) {
             $tax_class_info = $this->model_localisation_tax_class->getTaxClass($this->request->get['tax_class_id']);
         }
+		//set multilingual fields
+		$this->data['tax_class'] = array();
+		if ( $tax_class_info['tax_class'] ) {
+			$this->data['tax_class'] = $tax_class_info['tax_class'];
+		}
 
-        $fields = array('title', 'description');
-        foreach ($fields as $f) {
-            if (isset ($this->request->post [$f])) {
-                $this->data [$f] = $this->request->post [$f];
-            } elseif (isset($tax_class_info)) {
-                $this->data[$f] = $tax_class_info[$f];
-            } else {
-                $this->data[$f] = '';
-            }
-        }
-
+		$tax_title = $tax_class_info['tax_class'][$this->session->data['content_language_id']]['title'];
+		$tax_desc  = $tax_class_info['tax_class'][$this->session->data['content_language_id']]['description'];
         $this->data['active'] = 'details';
         if (!isset($this->request->get['tax_class_id'])) {
             $this->data['action'] = $this->html->getSecureURL('localisation/tax_class/insert');
@@ -513,7 +521,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
         } else {
             $this->data['rates'] = $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
             $this->data['action'] = $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $this->request->get['tax_class_id']);
-            $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $this->data['title'];
+            $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title;
             $this->data['update'] = $this->html->getSecureURL('listing_grid/tax_class/update_field', '&id=' . $this->request->get['tax_class_id']);
             $form = new AForm('HS');
         }
@@ -551,16 +559,17 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
         $this->data['form']['fields']['title'] = $form->getFieldHtml(array(
             'type' => 'input',
-            'name' => 'title',
-            'value' => $this->data['title'],
+			'name' => 'tax_class['.$this->session->data['content_language_id'].'][title]',
+			'value' => $tax_title,
             'required' => true,
         ));
         $this->data['form']['fields']['description'] = $form->getFieldHtml(array(
             'type' => 'input',
-            'name' => 'description',
-            'value' => $this->data['description'],
+			'name' => 'tax_class['.$this->session->data['content_language_id'].'][description]',
+			'value' => $tax_desc,
             'style' => 'large-field',
         ));
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('tax_class_edit'));
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/localisation/tax_class_form.tpl');
@@ -571,9 +580,15 @@ class ControllerPagesLocalisationTaxClass extends AController {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
-        if ((strlen(utf8_decode($this->request->post['title'])) < 2) || (strlen(utf8_decode($this->request->post['title'])) > 32)) {
-            $this->error['title'] = $this->language->get('error_title');
-        }
+		if ( count($this->request->post['tax_class']) ) {
+	    	foreach ($this->request->post['tax_class'] as $language_id => $value) {
+	      		if ((strlen(utf8_decode($value['title'])) < 2) || (strlen(utf8_decode($value['title'])) > 32)) {
+	        		$this->error['title'] = $this->language->get('error_tax_title');
+	      		}
+	    	}
+		} else {
+			$this->error['title'] = $this->language->get('error_tax_title');
+		}
 
         if (isset($this->request->post['tax_rate'])) {
             foreach ($this->request->post['tax_rate'] as $value) {

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -139,9 +139,10 @@ class ControllerPagesToolCache extends AController {
 
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
+        $selected = $this->request->get_or_post('selected');
 
-		if (isset($this->request->post['selected']) && $this->request->post['selected'] && $this->_validateDelete()) {
-			foreach ($this->request->post['selected'] as $cache) {
+		if (is_array($selected) && count($selected) && $this->_validateDelete()) {
+			foreach ($selected as $cache) {
 				if($cache == 'image') {
 					$this->deleteThumbnails();
 				} else {
@@ -153,11 +154,15 @@ class ControllerPagesToolCache extends AController {
 					$keywords = explode(',', $cache);
 					if($keywords){
 						foreach($keywords as $keyword) {
-							$this->cache->delete($keyword);
+							$this->cache->delete(trim($keyword));
 						}
 					}
 				}
 	  		}
+			$this->session->data['success'] = $this->language->get('text_success');
+		} else if ( $this->request->get_or_post('clear_all') == 'all' ) {
+			//delete entire cache
+			$this->cache->delete('*');
 			$this->session->data['success'] = $this->language->get('text_success');
 		}
 		//update controller data

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -36,7 +36,7 @@ class ControllerResponsesExtensionDefaultCod extends AController {
 		$this->view->assign('continue', $this->html->getSecureURL('checkout/success'));
 
 		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
-			$this->view->assign('back', $this->html->getSecureURL('checkout/payment'));
+			$this->view->assign('back', $this->html->getSecureURL('checkout/payment','&mode=edit',true)); // to prevent coming back when payment method only one
 		} else {
 			$this->view->assign('back', $this->html->getSecureURL('checkout/guest_step_2'));
 		}
@@ -70,4 +70,3 @@ class ControllerResponsesExtensionDefaultCod extends AController {
 		$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_cod_order_status_id'));
 	}
 }
-?>

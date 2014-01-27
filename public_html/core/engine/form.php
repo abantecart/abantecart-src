@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013, 2012 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -20,37 +20,42 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
+/** @noinspection PhpUndefinedClassInspection */
 
 /**
- * Load form data
- * render output
- */
-/**
+ * Load form data, render output
+ *
  * Class AForm
  * @property ALayout $layout
  * @property ACache $cache
  * @property ADB $db
+ * @property AConfig $config
+ * @property AHtml $html
+ * @property ASession $session
+ * @property ARequest $request
+ * @property ALoader $load
+ * @property ALanguageManager $language
+ * @property ModelLocalisationCountry $model_localisation_country
  *
  */
 class AForm {
 	/**
-	 * @var registry - access to application registry
+	 * @var Registry
 	 */
 	protected $registry;
 	/**
-	 * @var $form - form data array
+	 * @var array $form - form data array
 	 * Array (
 	 *      [form_id]
 	 *      [form_name]
 	 *      [controller]
 	 *      [success_page]
 	 *      [status]
-	 *      [description]
-	 * )
+	 *      [description] )
 	 */
 	private $form;
 	/**
-	 * @var $fields - array of form fields
+	 * @var array $fields - array of form fields
 	 * Array
 	 *   (
 	 *       [field_id]
@@ -84,7 +89,7 @@ class AForm {
 	private $form_edit_action;
 
 	/**
-	 * @param  $form_edit_action
+	 * @param  string $form_edit_action
 	 */
 	public function __construct($form_edit_action = '') {
 		$this->registry = Registry::getInstance();
@@ -102,8 +107,8 @@ class AForm {
 	}
 
 	/**
-	 * @param  $errors - array of validation errors - field_name -=> error
-	 * @return void
+	 * @param  array $errors - array of validation errors - field_name -=> error
+	 * @void
 	 */
 	public function setErrors($errors) {
 		$this->errors = $errors;
@@ -112,19 +117,19 @@ class AForm {
 	/**
 	 * Sets the form and loads the data for the form from the database
 	 *
-	 * @param $name
+	 * @param string $name
+	 * @return null
 	 * @internal param $fname - unique form name
-	 * @return void
 	 */
 	public function loadFromDb($name) {
 
 		$this->_loadForm($name);
 		// if no form return
-		if (empty($this->form)) return;
+		if (empty($this->form)) return null;
 
 		$this->_loadFields();
 		// if no fields no need to get groups
-		if (empty($this->fields)) return;
+		if (empty($this->fields)) return null;
 
 		$this->_loadGroups();
 	}
@@ -132,8 +137,8 @@ class AForm {
 	/**
 	 * load form data into this->form variable
 	 *
-	 * @param  $name - unique form name
-	 * @return void
+	 * @param string $name - unique form name
+	 * @return null
 	 */
 	private function _loadForm($name) {
 
@@ -156,7 +161,7 @@ class AForm {
 		if (!$query->num_rows) {
 			$err = new AError('NOT EXIST Form with name ' . $name);
 			$err->toDebug()->toLog();
-			return;
+			return null;
 		}
 		$this->cache->set($cache_name, $query->row, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
 		$this->form = $query->row;
@@ -172,20 +177,20 @@ class AForm {
 		$cache_name = 'forms.' . $this->form[ 'form_name' ] . '.fields';
 		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
 		$fields = $this->cache->get($cache_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
-		if (isset($fields)) {
+		if (!is_null($fields)) {
 			$this->fields = $fields;
-			return;
+			return null;
 		}
 
 		$query = $this->db->query("
-            SELECT f.*, fd.name, fd.description
+            SELECT f.*, fd.name, fd.description, fd.error_text
             FROM `" . DB_PREFIX . "fields` f
-                LEFT JOIN `" . DB_PREFIX . "field_descriptions` fd ON ( f.field_id = fd.field_id AND fd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
+            LEFT JOIN `" . DB_PREFIX . "field_descriptions` fd
+                ON ( f.field_id = fd.field_id AND fd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
             WHERE f.form_id = '" . $this->form[ 'form_id' ] . "'
                 AND f.status = 1
             ORDER BY f.sort_order"
 		);
-
 		$this->fields = array();
 		if ($query->num_rows) {
 			foreach ($query->rows as $row) {
@@ -214,6 +219,11 @@ class AForm {
 		$this->cache->set($cache_name, $this->fields, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
 	}
 
+	/**
+	 * @param array $a
+	 * @param array $b
+	 * @return int
+	 */
 	private function _sort_by_sort_order($a, $b) {
 		if ($a[ 'sort_order' ] == $b[ 'sort_order' ]) {
 			return 0;
@@ -269,7 +279,7 @@ class AForm {
 	/**
 	 * set form data
 	 *
-	 * @param $form
+	 * @param array $form
 	 * @return void
 	 */
 	public function setForm($form) {
@@ -298,7 +308,7 @@ class AForm {
 	/**
 	 * Get given field, type, values and selected/default
 	 *
-	 * @param  $fname
+	 * @param string $fname
 	 * @return array with field data
 	 */
 	public function getField($fname) {
@@ -310,7 +320,7 @@ class AForm {
 					'required' => $field[ 'required' ],
 					'name' => $field[ 'name' ],
 					'value' => $field[ 'value' ],
-					'settings' => has_value($field['settings']) ? unserialize($field['settings']) : '',
+					'settings' => $field['settings'],
 					'description' => $field[ 'description' ],
 				);
 			}
@@ -324,7 +334,7 @@ class AForm {
 	/**
 	 * assign value(s) to given field name
 	 *
-	 * @param  $fname
+	 * @param string $fname
 	 * @param string $value
 	 * @return void
 	 */
@@ -340,7 +350,7 @@ class AForm {
 	/**
 	 * assign array of field with values.
 	 *
-	 * @param  $values - array of field name -> value
+	 * @param  array $values - array of field name -> value
 	 * @return void
 	 */
 	public function batchAssign($values) {
@@ -351,8 +361,8 @@ class AForm {
 
 	/**
 	 * load values to select, multiselect, checkbox group etc
-	 * @param $fname
-	 * @param $values
+	 * @param string $fname
+	 * @param array $values
 	 * @return void
 	 */
 	public function loadFieldOptions($fname, $values) {
@@ -367,8 +377,8 @@ class AForm {
 	/**
 	 * return field html
 	 *
-	 * @param  $data - array with field data
-	 * @return object  - form element
+	 * @param array $data - array with field data
+	 * @return object  - AHtml form element
 	 */
 	public function getFieldHtml($data) {
 		$data[ 'form' ] = $this->form[ 'form_name' ];
@@ -520,6 +530,7 @@ class AForm {
 				'type' => 'submit',
 				'form' => $this->form[ 'form_name' ],
 				'name' => $this->language->get('button_continue'),
+				'icon' => 'icon-arrow-right'
 			);
 			$submit = HtmlElementFactory::create($data);
 
@@ -527,7 +538,7 @@ class AForm {
 				'type' => 'form',
 				'name' => $this->form[ 'form_name' ],
 				'attr' => ' class="form" ',
-				'action' => str_replace('&', '&amp;', $this->html->getSecureURL($this->form[ 'controller' ])),
+				'action' => $this->html->getSecureURL($this->form[ 'controller' ],'&form_id='.$this->form['form_id'],true),
 			);
 			$form_open = HtmlElementFactory::create($data);
 			$form_close = $view->fetch('form/form_close.tpl');
@@ -549,15 +560,123 @@ class AForm {
 		return $output;
 	}
 
-	private function _getCountries() {
-		$countries = array();
-		$this->load->model('localisation/country', '');
-		$results = $this->model_localisation_country->getCountries();
-		$data[ 'options' ] = array();
-		foreach ($results as $c) {
-			$countries[ $c[ 'name' ] ] = $c[ 'name' ];
+	/**
+	 * method for validation of data based on form fields requirements
+	 * @param array $data - usually it's a $_POST
+	 * @return array - array with error text for each of invalid field data
+	 */
+	public function validateFormData($data = array()){
+		$errors = array();
+		$this->_loadFields();
+		$this->load->language('checkout/cart'); // load language for file upload text errors
+
+		foreach($this->fields as $field){
+			// for multivalue required fields
+			if(in_array($field['element_type'], HtmlElementFactory::getMultivalueElements())
+				&& !sizeof($data[$field['field_name']])
+				&& $field['required']=='Y'
+			){
+				$errors[$field['field_name']] = $field['name'].' '.$this->language->get('text_field_required');
+			}
+			// for required string values
+			if($field['required']=='Y' && !in_array($field['element_type'],array('K','U'))){
+				if(!is_array( $data[$field['field_name']] )){
+					$data[$field['field_name']] = trim($data[$field['field_name']]);
+					if($data[$field['field_name']]==''){	//if empty string!
+						$errors[$field['field_name']] = $field['name'].' '.$this->language->get('text_field_required');
+					}
+				}else{
+					if(!$data[$field['field_name']]){	// if empty array
+						$errors[$field['field_name']] = $field['name'].' '.$this->language->get('text_field_required');
+					}
+				}
+			}
+			// check by regexp
+			if(has_value($field['regexp_pattern'])){
+				if(!is_array($data[$field['field_name']])){ //for string value
+					if(!preg_match($field['regexp_pattern'],$data[$field['field_name']])){
+						$errors[$field['field_name']] .= ' '. $field['error_text'];
+					}
+				}else{ // for array's values
+					foreach($data[$field['field_name']] as $dd){
+						if(!preg_match($field['regexp_pattern'],$dd)){
+							$errors[$field['field_name']] .= ' '. $field['error_text'];
+							break;
+						}
+					}
+				}
+			}
+
+			//for captcha
+			if($field['element_type']=='K'
+				&& (!isset($this->session->data['captcha']) || $this->session->data['captcha'] != $data[$field['field_name']])
+			){
+				$errors[$field['field_name']] = $this->language->get('error_captcha');
+			}
+			// for file
+			if($field['element_type']=='U' && ($this->request->files[$field['field_name']]['tmp_name'] || $field['required']=='Y') ){
+				$fm = new AFile();
+				$file_path_info = $fm->getUploadFilePath($data['settings']['directory'],
+														$this->request->files[$field['field_name']]['name']);
+				$file_data = array(
+					'name' => $file_path_info['name'],
+					'path' => $file_path_info['path'],
+					'type' => $this->request->files[$field['field_name']]['type'],
+					'tmp_name' => $this->request->files[$field['field_name']]['tmp_name'],
+					'error' => $this->request->files[$field['field_name']]['error'],
+					'size' => $this->request->files[$field['field_name']]['size'],
+				);
+
+				$file_errors = $fm->validateFileOption($field['settings'], $file_data);
+
+				if ($file_errors) {
+					$errors[$field['field_name']] .= implode(' ', $file_errors);
+				}
+			}
 		}
-		return $countries;
+		return $errors;
 	}
 
+	/**
+	 * process uploads of files from form file element
+	 * @param array $files - usually it's a $_FILES array
+	 * @return array - list of absolute pathes of moved files
+	 */
+	public function processFileUploads($files=array()){
+		if($this->fields){
+			$this->_loadFields();
+		}
+
+		$output = array();
+		foreach($this->fields as $field){
+			if($field['element_type']!='U'){ continue;}
+
+			$fm = new AFile();
+			$file_path_info = $fm->getUploadFilePath($field['settings']['directory'],
+													 $files[$field['field_name']]['name']);
+
+			$result = move_uploaded_file($files[$field['field_name']]['tmp_name'], $file_path_info['path']);
+
+			if($result){
+				$output[$field['field_name']] = array('display_name'=>$field['name'],
+													  'path'=>$file_path_info['path']);
+			}else{
+				$err = new AError("AForm error: can't to move uploaded file ".$files[$field['field_name']]['tmp_name']." to ".$file_path_info['path']);
+				$err->toLog()->toDebug();
+			}
+
+			$dataset = new ADataset('file_uploads', 'admin');
+			$dataset->addRows(
+				array(
+					'date_added' => date("Y-m-d H:i:s", time()),
+					'name' => $file_path_info['name'],
+					'type' => $files[$field['field_name']]['type'],
+					'section' => 'AForm:'.$this->form[ 'form_name' ].":".$field['field_name'],
+					'section_id' => '',
+					'path' => $file_path_info['path'],
+				)
+			);
+		}
+		return $output;
+	}
 }

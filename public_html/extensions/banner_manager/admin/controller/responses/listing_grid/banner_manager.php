@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -288,7 +288,7 @@ class ControllerResponsesListingGridBannerManager extends AController {
 	public function getListing() {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-		$this->load->
+		$this->load->library('json');
 		$form_name = 'BannerBlockFrm';
 		$multivalue_hidden_id = isset($this->request->get['multivalue_hidden_id']) ? $this->request->get['multivalue_hidden_id'] : 'popup';
 

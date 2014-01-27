@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Ваш аккаунт был активирован!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Добро пожаловать и спасибо за регистрацию на сайте %s !]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Ваша учетная запись в настоящее время создана и вы можете войти в систему, используя Ваш адрес электронной почты (логин) и пароль, посетив наш сайт или по адресу:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[После входа в систему, Вы сможете воспользоваться дополнительными возможностями: просмотр истории заказов, печать счета, изменение информации Вашей учетной записи.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Спасибо,]]></value>
+  </definition>
+</definitions>

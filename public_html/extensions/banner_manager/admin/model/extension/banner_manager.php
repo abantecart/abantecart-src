@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -58,7 +58,7 @@ class ModelExtensionBannerManager extends Model {
 			array( (int)$this->session->data[ 'content_language_id' ] => array(
 				'name' => $data[ 'name' ],
 				'meta' => $data[ 'meta' ],
-				'description' => $data[ 'description' ]
+				'description' => $data[ 'description' ],
 			) ));
 
 		return $banner_id;
@@ -305,7 +305,9 @@ class ModelExtensionBannerManager extends Model {
 			foreach ($result->rows as &$row) {
 				$row[ 'clicked' ] = isset($stats[ $row[ 'banner_id' ] ][ 'clicked' ]) ? $stats[ $row[ 'banner_id' ] ][ 'clicked' ] : 0;
 				$row[ 'viewed' ] = isset($stats[ $row[ 'banner_id' ] ][ 'viewed' ]) ? $stats[ $row[ 'banner_id' ] ][ 'viewed' ] : 0;
-				$row[ 'percent' ] = round($row[ 'clicked' ] * 100 / $row[ 'viewed' ], 2);
+				if ($row[ 'viewed' ] > 0) {
+					$row[ 'percent' ] = round($row[ 'clicked' ] * 100 / $row[ 'viewed' ], 2);
+				}
 				$index[ ] = $row[ 'percent' ];
 			}
 			unset($row);

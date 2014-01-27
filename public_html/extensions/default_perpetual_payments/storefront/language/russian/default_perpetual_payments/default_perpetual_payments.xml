@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Кредитная или дебетовая карта (Обработано надежно Вечный платежей)]]></value>
+  </definition>
+  <definition>
+    <key>text_credit_card</key>
+    <value><![CDATA[Данные кредитной карты]]></value>
+  </definition>
+  <definition>
+    <key>text_start_date</key>
+    <value><![CDATA[(Если имеется)]]></value>
+  </definition>
+  <definition>
+    <key>text_issue</key>
+    <value><![CDATA[(Только для Maestro и Solo карт)]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Пожалуйста, подождите!]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction</key>
+    <value><![CDATA[Идентификатор транзакции:]]></value>
+  </definition>
+  <definition>
+    <key>text_avs</key>
+    <value><![CDATA[AVS/CVV:]]></value>
+  </definition>
+  <definition>
+    <key>text_avs_full_match</key>
+    <value><![CDATA[Полное соответствие]]></value>
+  </definition>
+  <definition>
+    <key>text_avs_not_match</key>
+    <value><![CDATA[Не соответствует]]></value>
+  </definition>
+  <definition>
+    <key>text_authorisation</key>
+    <value><![CDATA[Код авторизации:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_number</key>
+    <value><![CDATA[Номер карты:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_start_date</key>
+    <value><![CDATA[Карта Действует с даты:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_expire_date</key>
+    <value><![CDATA[Срок действия Карты:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_cvv2</key>
+    <value><![CDATA[Код карты (CVV2):]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_issue</key>
+    <value><![CDATA[Номер выпуска карты:]]></value>
+  </definition>
+</definitions>

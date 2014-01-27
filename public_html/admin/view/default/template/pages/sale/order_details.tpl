@@ -1,8 +1,8 @@
 <?php if (!empty($error['warning'])) { ?>
-	<div class="warning"><?php echo $error['warning']; ?></div>
+	<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-	<div class="success"><?php echo $success; ?></div>
+	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
 <div class="contentBox">
@@ -26,6 +26,7 @@
 					<a href="<?php echo $invoice ?>" class="btn_standard"
 					   target="_invoice"><?php echo $button_invoice ?></a>
 				</div>
+				<?php echo $form_language_switch; ?>
 			</div>
 		</div>
 	</div>
@@ -239,26 +240,6 @@
 										</table>
 								</tr>
 							</table>
-							<?php if ($downloads) { ?>
-								<table class="list" style="margin-top: 30px;">
-									<thead>
-									<tr>
-										<td class="left"><b><?php echo $column_download; ?></b></td>
-										<td class="left"><b><?php echo $column_filename; ?></b></td>
-										<td class="right"><b><?php echo $column_remaining; ?></b></td>
-									</tr>
-									</thead>
-									<tbody>
-									<?php foreach ($downloads as $download) { ?>
-										<tr>
-											<td class="left"><?php echo $download['name']; ?></td>
-											<td class="left"><?php echo $download['filename']; ?></td>
-											<td class="right"><?php echo $download['remaining']; ?></td>
-										</tr>
-									<?php } ?>
-									</tbody>
-								</table>
-							<?php } ?>
 						</div>
 					</div>
 				</div>

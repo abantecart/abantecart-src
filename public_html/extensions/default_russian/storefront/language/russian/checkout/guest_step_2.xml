@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Оформить заказ без регистрации - Шаг 2]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Корзина]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Оформить заказ без регистрации - Шаг 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Оформить заказ без регистрации - Шаг 2]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Способ доставки]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Пожалуйста, выберите предпочтительные способы доставки для использования в этом заказе.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Способ оплаты]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[Пожалуйста, выберите предпочтительный способ оплаты для использования в этом заказе.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Добавить комментарии о вашем заказе]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Я прочитал и согласен с ]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Введите код, нажмите кнопку &quot;Применить Купон&quot; скидки немедленно будут применены к вашему заказу.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Купон был успешно применен!]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Способ доставки:]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Способ оплаты:]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[Купон:]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Ошибка: Необходимо указать способ доставки!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Ошибка: Доставка по данному адресу невозможна. Пожалуйста, <a href="index.php?rt=content/contact">свяжитесь с нами</a>!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Ошибка: Необходимо указать способ оплаты!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Ошибка: Вы должны согласиться с %s !]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Ошибка: Купон либо недействительный, истек или достиг предела использования!]]></value>
+  </definition>
+</definitions>

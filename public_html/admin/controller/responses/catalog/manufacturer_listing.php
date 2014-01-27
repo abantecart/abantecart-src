@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -193,12 +193,14 @@ class ControllerResponsesCatalogManufacturerListing extends AController {
 			$manufacturers_data = $this->model_catalog_manufacturer->getManufacturers($filter);
 		}
 
-		foreach ($manufacturers_data as $manufacturer) {
-			$manufacturer_data[ ] = array(
-				'id' => $manufacturer['manufacturer_id'],
-				'name' => $manufacturer['name'],
-				'sort_order' => 0
-			);
+		if ($manufacturers_data) {
+			foreach ($manufacturers_data as $manufacturer) {
+				$manufacturer_data[ ] = array(
+					'id' => $manufacturer['manufacturer_id'],
+					'name' => $manufacturer['name'],
+					'sort_order' => 0
+				);
+			}
 		}
 
 		//update controller data

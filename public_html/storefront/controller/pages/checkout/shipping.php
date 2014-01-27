@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -112,16 +112,15 @@ class ControllerPagesCheckoutShipping extends AController {
 						'sort_order' => $quote[ 'sort_order' ],
 						'error' => $quote[ 'error' ]
 					);
+					//# Add storefront icon if available
+					$ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
+					$icon = $ext_setgs[$result['key']."_shipping_storefront_icon"];
+					if ( has_value( $icon ) ) {
+						$icon_data = $this->model_checkout_extension->getSettingImage($icon);
+						$icon_data['image'] =  $icon;
+						$quote_data[ $result[ 'key' ] ]['icon'] = $icon_data;
+					}
 				}
-
-				//# Add storefront icon if available
-				$ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
-				$icon = $ext_setgs[$result['key']."_shipping_storefront_icon"];
-				if ( has_value( $icon ) && $quote_data[ $result[ 'key' ] ]) {
-					$icon_data = $this->model_checkout_extension->getSettingImage($icon);
-					$icon_data['image'] =  $icon;
-					$quote_data[ $result[ 'key' ] ]['icon'] = $icon_data;
-				}			
 			}
 
 			$sort_order = array();

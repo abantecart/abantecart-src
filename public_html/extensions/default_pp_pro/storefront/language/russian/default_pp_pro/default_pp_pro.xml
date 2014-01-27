@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Кредитная или дебетовая карта (в защищенном режиме PayPal)]]></value>
+  </definition>
+  <definition>
+    <key>text_credit_card</key>
+    <value><![CDATA[Данные кредитной карты]]></value>
+  </definition>
+  <definition>
+    <key>text_start_date</key>
+    <value><![CDATA[(Если имеется)]]></value>
+  </definition>
+  <definition>
+    <key>text_issue</key>
+    <value><![CDATA[(Только для Maestro и Solo карт)]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Пожалуйста, подождите!]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_owner</key>
+    <value><![CDATA[Владелец карты:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_type</key>
+    <value><![CDATA[Тип карты:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_number</key>
+    <value><![CDATA[Номер карты:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_start_date</key>
+    <value><![CDATA[Карта Действует с даты:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_expire_date</key>
+    <value><![CDATA[Срок действия карты:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_cvv2</key>
+    <value><![CDATA[Код карточки (CVV2):]]></value>
+  </definition>
+  <definition>
+    <key>entry_cc_issue</key>
+    <value><![CDATA[Номер выпуска карты:]]></value>
+  </definition>
+</definitions>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -159,6 +159,7 @@ class ControllerPagesProductManufacturer extends AController {
 						'stars'   => sprintf($this->language->get('text_stars'), $rating),            			
 						'thumb'   => $thumbnail,
             			'price'   => $price,
+						'call_to_order'=> $result['call_to_order'],
             			'options' => $options,
 						'special' => $special,
 						'href'    => $this->html->getSEOURL('product/product','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&product_id=' . $result['product_id'], '&encode'),
@@ -320,6 +321,8 @@ class ControllerPagesProductManufacturer extends AController {
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );
 		}
+		
+		$this->data['review_status'] = $this->config->get('enable_reviews');
 		
 		$this->view->batchAssign( $this->data );
 

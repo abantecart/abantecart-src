@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Валюты]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[Валюта]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили валюту!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Название валюты]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Код]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Значение]]></value>
+  </definition>
+  <definition>
+    <key>column_date_modified</key>
+    <value><![CDATA[Последнее обновление]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Статус]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Действие]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Название валюты:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Код:<br /><span class="help">Не изменяйте, если это ваша валюта по умолчанию.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Значение:<br /><span class="help">Используйте 1,00000, если это ваша валюта по умолчанию.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_left</key>
+    <value><![CDATA[Символ слева:]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_right</key>
+    <value><![CDATA[Символ Справа:]]></value>
+  </definition>
+  <definition>
+    <key>entry_decimal_place</key>
+    <value><![CDATA[Число знаков после запятой:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Внимание: Вы не имеете прав модифицировать валюты!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Название валюты должно быть от 2 до 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Код валюты должен быть из 3-х символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Внимание: Эта валюта не может быть удалена, так как в настоящее время назначена в качестве валюты по умолчанию магазина!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Внимание: Эта валюта не может быть удалена, так как в настоящее время используется в %s магазинах!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Внимание: Эта валюта не может быть удалена, так как в настоящее время используется в %s заказах!]]></value>
+  </definition>
+</definitions>

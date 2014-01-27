@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Благодарим Вас за покупками с %s ....]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Кредитная карта / дебетовая карта (WorldPay)]]></value>
+  </definition>
+  <definition>
+    <key>text_response</key>
+    <value><![CDATA[Ответ WorldPay:]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[... ваш платеж был успешно получен.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_wait</key>
+    <value><![CDATA[<span style="color: #FF0000"><b>Пожалуйста, подождите ...</b></span> пока мы закончим обработку Вашего заказа. <br> Если вы не будете автоматически перенаправлены за 10 секунд, пожалуйста, нажмите <a href="%s">здесь</a>.]]></value>
+  </definition>
+  <definition>
+    <key>text_failure</key>
+    <value><![CDATA[... Ваш платеж был отменен!]]></value>
+  </definition>
+  <definition>
+    <key>text_failure_wait</key>
+    <value><![CDATA[<span style="color: #FF0000"><b>Пожалуйста, подождите ...</b></span> <br> Если вы не будете автоматически перенаправлены за 10 секунд, пожалуйста, нажмите <a href="%s">здесь</a> .]]></value>
+  </definition>
+</definitions>

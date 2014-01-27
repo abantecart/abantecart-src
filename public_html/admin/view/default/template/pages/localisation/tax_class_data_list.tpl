@@ -1,8 +1,8 @@
 <?php if ($error_warning) { ?>
-<div class="warning"><?php echo $error_warning; ?></div>
+<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success"><?php echo $success; ?></div>
+<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
 <div class="contentBox">
@@ -18,6 +18,7 @@
 		<?php if ( !empty ($help_url) ) : ?>
 	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
 	    <?php endif; ?>
+	    <?php echo $form_language_switch; ?>
 		<div class="buttons">
       <a class="btn_toolbar" title="<?php echo $button_insert; ?>" href="<?php echo $insert_rate; ?>">
 		<span class="icon_add">&nbsp;</span>
@@ -43,7 +44,7 @@
             <td class="left"><?php echo $locations[ $tax_rate['location_id'] ] ?></td>
             <td class="left"><?php echo $zones[  $tax_rate['zone_id'] ]; ?></td>
             <td class="left"><?php echo $tax_rate['description']; ?></td>
-            <td class="left"><?php echo $tax_rate['rate']; ?></td>
+            <td class="left"><?php echo $tax_rate['rate_prefix'] . $tax_rate['rate']; ?></td>
             <td class="left"><?php echo $tax_rate['priority']; ?></td>
             <td class="left">
 	            <a class="btn_action btn_grid" title="<?php echo $button_edit; ?>" href="<?php echo str_replace('%ID%', $tax_rate['tax_rate_id'], $update_rate); ?>">

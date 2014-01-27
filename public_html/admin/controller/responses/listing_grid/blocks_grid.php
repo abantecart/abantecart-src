@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridBlocksGrid extends AController {
-	public $data;
+	public $data=array();
 
 	public function main() {
 
@@ -43,7 +43,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		$total = $layout->getBlocksList($filter_grid->getFilterData(), 'total_only');
 		$blocks = $layout->getBlocksList($filter_grid->getFilterData());
 
-
+		$tmp = array();
 		// prepare block list (delete template duplicates)
 		foreach ($blocks as $block) {
 			// skip base custom blocks
@@ -651,42 +651,44 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 
 		$info = $lm->getBlockInfo((int)$block_id);
 		//expect only 1 block details per layout
-		$data = $info[0];
+		$this->data = array_merge($info[0],$this->data);
 		//get specific description 
 		if ($custom_block_id > 0) {
 			$descr = $lm->getBlockDescriptions((int)$custom_block_id);
 			$language_id = $this->language->getContentLanguageID();
-			$data['title'] = $descr[$language_id]['title'];
-			$data['description'] = $descr[$language_id]['description'];
+			$this->data['block_id'] =  $block_id;
+			$this->data['custom_block_id'] = $custom_block_id;
+			$this->data['title'] = $descr[$language_id]['title'];
+			$this->data['description'] = $descr[$language_id]['description'];
 
 			//detect edit URL and build button
-			if ($data['block_txt_id'] == 'html_block' || $data['block_txt_id'] == 'listing_block') {
+			if ($this->data['block_txt_id'] == 'html_block' || $this->data['block_txt_id'] == 'listing_block') {
 				$edit_url = $this->html->getSecureURL('design/blocks/edit', '&custom_block_id=' . $custom_block_id);
-			} else if ($data['block_txt_id'] == 'banner_block') {
+			} else if ($this->data['block_txt_id'] == 'banner_block') {
 				$edit_url = $this->html->getSecureURL('extension/banner_manager/edit_block', '&custom_block_id=' . $custom_block_id);
 			} else {
 				//just list all 
 				$edit_url = $this->html->getSecureURL('design/blocks');
 			}
 
-			$data['block_edit_brn'] = $this->html->buildButton(array('type' => 'button',
+			$this->data['block_edit_brn'] = $this->html->buildButton(array('type' => 'button',
 				'name' => 'btn_edit',
 				'id' => 'btn_edit',
 				'text' => $this->language->get('text_edit'),
 				'href' => $edit_url,
 				'target' => '_new',
 				'style' => 'button1'));
-			$data['allow_edit'] = 'true';
+			$this->data['allow_edit'] = 'true';
 
 		} else {
 			//get details from language for static blocks from storefront
 			$alang = new ALanguage($this->registry, $language_id, 0);
-			$alang->load($data['controller'], 'silent');
-			$data['title'] = $alang->get('heading_title');
-			$data['title'] = $data['title'] == 'heading_title' ? $data['block_txt_id'] : $data['title'];
-			$data['description'] = $this->language->get('text_controller') . ": " . $data['controller'];
-			$data['description'] .= "<br/>" . $this->language->get('text_templates') . ": ";
-			$data['description'] .= "<br/>" . str_replace(',', '<br/>', $data['templates']);
+			$alang->load($this->data['controller'], 'silent');
+			$this->data['title'] = $alang->get('heading_title');
+			$this->data['title'] = $this->data['title'] == 'heading_title' ? $this->data['block_txt_id'] : $this->data['title'];
+			$this->data['description'] = $this->language->get('text_controller') . ": " . $this->data['controller'];
+			$this->data['description'] .= "<br/>" . $this->language->get('text_templates') . ": ";
+			$this->data['description'] .= "<br/>" . str_replace(',', '<br/>', $this->data['templates']);
 		}
 
 		//update controller data
@@ -694,6 +696,6 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($data));
+		$this->response->setOutput(AJson::encode($this->data));
 	}
 }

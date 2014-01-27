@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -72,6 +72,17 @@ class ControllerResponsesListingGridProduct extends AController {
 				$response->userdata->classes[ $result[ 'product_id' ] ] = 'warning';
 			}
 
+
+			if($result['call_to_order']>0){
+				$price = $this->language->get('text_call_to_order');
+			}else{
+				$price = $this->html->buildInput(
+								array(
+									'name' => 'price[' . $result[ 'product_id' ] . ']',
+									'value' => moneyDisplayFormat( $result[ 'price' ] )
+								));
+			}
+
 			$response->rows[ $i ][ 'cell' ] = array(
 				$thumbnail[ 'thumb_html' ],
 				$this->html->buildInput(array(
@@ -82,10 +93,7 @@ class ControllerResponsesListingGridProduct extends AController {
 					'name' => 'model[' . $result[ 'product_id' ] . ']',
 					'value' => $result[ 'model' ],
 				)),
-				$this->html->buildInput(array(
-					'name' => 'price[' . $result[ 'product_id' ] . ']',
-					'value' => number_format((float)$result[ 'price' ], 2)
-				)),
+				$price,
 				$this->html->buildInput(array(
 					'name' => 'quantity[' . $result[ 'product_id' ] . ']',
 					'value' => $result[ 'quantity' ],
@@ -137,7 +145,7 @@ class ControllerResponsesListingGridProduct extends AController {
 					}
 				break;
 			case 'save':
-				$fields = array( 'product_description', 'model', 'price', 'quantity', 'status' );
+				$fields = array( 'product_description', 'model', 'call_to_order', 'price', 'quantity', 'status' );
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					foreach ($ids as $id) {
@@ -208,7 +216,7 @@ class ControllerResponsesListingGridProduct extends AController {
 		}
 
 		//request sent from jGrid. ID is key of array
-		$fields = array( 'product_description', 'model', 'price', 'quantity', 'status' );
+		$fields = array( 'product_description', 'model', 'price', 'call_to_order', 'quantity', 'status' );
 		foreach ($fields as $f) {
 			if (isset($this->request->post[ $f ]))
 				foreach ($this->request->post[ $f ] as $k => $v) {
@@ -313,13 +321,12 @@ class ControllerResponsesListingGridProduct extends AController {
 		$err = '';
 		switch ($field) {
 			case 'product_description' :
-				if (isset($value[ 'name' ]) && ((strlen(utf8_decode($value[ 'name' ])) < 1) || (strlen(utf8_decode($value[ 'name' ])) > 255))) {
+				if (isset($value[ 'name' ]) && ((mb_strlen($value[ 'name' ]) < 1) || (mb_strlen($value[ 'name' ]) > 255))) {
 					$err = $this->language->get('error_name');
 				}
-
 				break;
 			case 'model' :
-				if ((strlen(utf8_decode($value)) < 1) || (strlen(utf8_decode($value)) > 64)) {
+				if ((mb_strlen($value) < 1) || (mb_strlen($value) > 64)) {
 					$err = $this->language->get('error_model');
 				}
 				break;

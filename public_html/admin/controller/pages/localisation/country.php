@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -21,7 +21,7 @@
 class ControllerPagesLocalisationCountry extends AController {
 	public $data = array();
 	private $error = array();
-	private $fields = array('status', 'name', 'iso_code_2', 'iso_code_3', 'address_format');
+	private $fields = array('status', 'iso_code_2', 'iso_code_3', 'address_format');
  
 	public function main() {
 
@@ -106,6 +106,7 @@ class ControllerPagesLocalisationCountry extends AController {
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
 		$this->view->assign( 'insert', $this->html->getSecureURL('localisation/country/insert') );
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url('country_listing') );
 		$this->processTemplate('pages/localisation/country_list.tpl' );
 
@@ -182,15 +183,23 @@ class ControllerPagesLocalisationCountry extends AController {
 				$this->data[$f] = '';
 			}
 		}
+		
+		//set multilingual fields
+		$this->data['country_name'] = array();
+		if ( $country_info['country_name'] ) {
+			$this->data['country_name'] = $country_info['country_name'];
+		}
 
+		$country_name = '';
 		if (!isset($this->request->get['country_id'])) {
 			$this->data['action'] = $this->html->getSecureURL('localisation/country/insert');
 			$this->data['heading_title'] = $this->language->get('text_insert') .' '. $this->language->get('heading_title');
 			$this->data['update'] = '';
 			$form = new AForm('ST');
 		} else {
+			$country_name = $this->data['country_name'][$this->session->data['content_language_id']]['name'];
 			$this->data['action'] = $this->html->getSecureURL('localisation/country/update', '&country_id=' . $this->request->get['country_id'] );
-			$this->data['heading_title'] = $this->language->get('text_edit') .' '. $this->language->get('text_country') . ' - ' . $this->data['name'];
+			$this->data['heading_title'] = $this->language->get('text_edit') .' '. $this->language->get('text_country') . ' - ' . $country_name;
 			$this->data['update'] = $this->html->getSecureURL('listing_grid/country/update_field','&id='.$this->request->get['country_id']);
 			$form = new AForm('HS');
 		}
@@ -227,8 +236,8 @@ class ControllerPagesLocalisationCountry extends AController {
 
 		$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
 			'type' => 'input',
-			'name' => 'name',
-			'value' => $this->data['name'],
+			'name' => 'country_name['.$this->session->data['content_language_id'].'][name]',
+			'value' => $country_name,
 			'required' => true,
 		));
 		$this->data['form']['fields']['iso_code_2'] = $form->getFieldHtml(array(
@@ -253,6 +262,8 @@ class ControllerPagesLocalisationCountry extends AController {
 		    'value' => $this->data['status'],
 			'style'  => 'btn_switch',
 	    ));
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->assign('language_id', $this->session->data['content_language_id']);
 		$this->view->assign('help_url', $this->gen_help_url('country_edit') );
 
 		$this->view->batchAssign( $this->data );
@@ -264,10 +275,12 @@ class ControllerPagesLocalisationCountry extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if ((strlen(utf8_decode($this->request->post['name'])) < 2) || (strlen(utf8_decode($this->request->post['name'])) > 128)) {
-			$this->error['name'] = $this->language->get('error_name');
-		}
-
+    	foreach ($this->request->post['country_name'] as $language_id => $value) {
+      		if ((strlen(utf8_decode($value['name'])) < 2) || (strlen(utf8_decode($value['name'])) > 128)) {
+        		$this->error['warning'] = $this->language->get('error_name');
+      		}
+    	}
+    	
 		if (!$this->error) {
 			return TRUE;
 		} else {

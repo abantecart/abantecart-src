@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_pp_pro_uk_name</key>
+    <value><![CDATA[PayPal Website Payment Pro (UK)]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили реквизиты Paypal Direct (UK)!]]></value>
+  </definition>
+  <definition>
+    <key>text_pp_pro_uk</key>
+    <value><![CDATA[<a onclick="window.open('https://www.paypal.com/uk/mrb/pal=W9TBB5DTD6QJW');"><img src="admin/view/default/image/payment/paypal.png" alt="PayPal Website Payment Pro (UK)" title="PayPal Website Payment Pro (UK)" style="border: 1px solid #EEEEEE;" /></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_authorization</key>
+    <value><![CDATA[Авторизация]]></value>
+  </definition>
+  <definition>
+    <key>text_sale</key>
+    <value><![CDATA[Продажа]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_vendor</key>
+    <value><![CDATA[Поставщик:<br /><span class="help">Ваш Логин ID, который вы создали, когда регистрировались на Website Payments Pro.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_user</key>
+    <value><![CDATA[Пользователь:<br /><span class="help">Если вы создали один или несколько дополнительных пользователей в аккаунте, это значение является идентификатором пользователя, уполномоченного для обработки транзакций. Если, однако, вы не настроили дополнительных пользователей в аккаунте, Пользователь имеет то же значение, что и Поставщик.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_password</key>
+    <value><![CDATA[Пароль:<br /><span class="help">Пароль от 6 до 32 символов, созданный при регистрации учетной записи.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_partner</key>
+    <value><![CDATA[Партнер:<br /><span class="help">ID предоставленное вам уполномоченным PayPal Reseller, который зарегистрировал Вас на Payflow SDK. Если вы приобрели свой ​​аккаунт непосредственно у PayPal, используйте PayPalUK.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_test</key>
+    <value><![CDATA[Sandbox (Тест) режим:<br /><span class="help">Используйте рабочий или тестовый (Sandbox) шлюз сервера для обработки транзакций?</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_test_1</key>
+    <value><![CDATA[Да]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_test_0</key>
+    <value><![CDATA[Нет]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_transaction</key>
+    <value><![CDATA[Метод транзакций:<br /><span class="help">Запуск PayPal транзакции при оормлении заказа клиентом перед тем как устанавливается статус заказа. Только авторизация или захват.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_transaction_0</key>
+    <value><![CDATA[Авторизация]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_transaction_1</key>
+    <value><![CDATA[Продажа]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_order_status_id</key>
+    <value><![CDATA[Статус заказа:<br /><span class="help">Статус заказа который устанавливается после того как завершается заказа клиента основан на установке Метода Транзакций</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_location_id</key>
+     <value><![CDATA[Географическая зона:<br /><span class="help">Разрешить только выбранные географические зоны для испольования этого способа оплаты.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_sort_order</key>
+    <value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа оплаты наряду с другими</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_autoselect</key>
+    <value><![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора способа оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение PayPal Website Payment Pro (UK)!]]></value>
+  </definition>
+  <definition>
+    <key>error_vendor</key>
+    <value><![CDATA[Поставщик обязателен!]]></value>
+  </definition>
+  <definition>
+    <key>error_user</key>
+    <value><![CDATA[Пользователь обязателен!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[Требуется пароль!]]></value>
+  </definition>
+  <definition>
+    <key>error_partner</key>
+    <value><![CDATA[Партнер обязателен!]]></value>
+  </definition>
+  <definition>
+    <key>text_signup_account_note</key>
+    <value><![CDATA[У вас нет учетной записи PayPal? Для использования PayPal Pro, вам нужен PayPal Business Account. После того, как вы зарегистрировались, введите необходимую информацию ниже, чтобы начать принимать платежи.]]></value>
+  </definition>
+  <definition>
+    <key>button_signup</key>
+    <value><![CDATA[Зарегистрироваться]]></value>
+  </definition>
+  <definition>
+    <key>text_info_note</key>
+    <value><![CDATA[Вы создали эту информацию, когда вы регистрировались в PayPal Website Payments Pro (UK). Введите ее здесь, чтобы подключить учетную запись и разрешить платежи. (Примечание: Это также ваша логин информация для <a href="https://manager.paypal.com/" target="_blank">PayPal Manager</a>.)]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_order_status_id_1</key>
+    <value><![CDATA[В ожидании]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_order_status_id_2</key>
+    <value><![CDATA[В обработке]]></value>
+  </definition>
+  <definition>
+    <key>default_pp_pro_uk_order_status_id_5</key>
+    <value><![CDATA[Завершен]]></value>
+  </definition>
+</definitions>

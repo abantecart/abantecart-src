@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -439,12 +439,12 @@ class ControllerPagesSaleCoupon extends AController {
         $this->data['form']['fields']['discount'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'discount',
-            'value' => $this->data['discount'],
+            'value' => moneyDisplayFormat($this->data['discount']),
         ));
         $this->data['form']['fields']['total'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'total',
-            'value' => $this->data['total'],
+            'value' => moneyDisplayFormat($this->data['total']),
         ));
         $this->data['form']['fields']['logged'] = $form->getFieldHtml(array(
             'type' => 'selectbox',

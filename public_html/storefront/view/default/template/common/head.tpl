@@ -6,6 +6,9 @@
 <?php if ($description) { ?>
 <meta name="description" content="<?php echo $description; ?>" />
 <?php } ?>
+
+<meta name="generator" content="AbanteCart v<?php echo VERSION; ?> - Open Source eCommerce solution" />
+
 <base href="<?php echo $base; ?>" />
 
 <?php if ( is_file( DIR_RESOURCE . $icon ) ) {  ?>
@@ -41,8 +44,9 @@ if (typeof jQuery == 'undefined') {
 <script type="text/javascript" src="<?php echo $script; ?>"></script>
 <?php } ?>
 
-<?php if($cart_ajax){ //event for adding product to cart by ajax ?>
+
 <script type="text/javascript">
+<?php if($cart_ajax){ //event for adding product to cart by ajax ?>
     $('a[href=\\#].buy').live('click',function(){
         var item = $(this);
         if(item.attr('id')){
@@ -65,5 +69,10 @@ if (typeof jQuery == 'undefined') {
         }
     return false;
 });
-</script>
 <?php }?>
+$('a.call_to_order').live('click',function(){
+	location='<?php echo $call_to_order_url;?>';
+	return false;
+});
+</script>
+

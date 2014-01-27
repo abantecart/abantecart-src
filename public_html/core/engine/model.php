@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -45,6 +45,7 @@ if (!defined('DIR_CORE')) {
  * @property ALanguageManager $language
  * @property ADataEncryption $dcrypt
  * @property ModelCatalogCategory $model_catalog_category
+ * @property ADownload $download
  */
 abstract class Model {
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Единицы веса]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Единица веса]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили единицы веса!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Название единицы веса]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Единица веса]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Значение]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Действие]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Название единицы веса:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Единица веса:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Значение: <br /> <span class="help">Установите на 1,00000, если это Единица веса по умолчанию.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Внимание: Вы не имеете прав модифицировать единицы веса!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Название единицы веса должно быть от 2 до 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Единица веса должна быть от 1 до 4-х символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Предупреждение: Эта единица веса не может быть удалена, так как в настоящее время назначен единицей веса по умолчанию!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Предупреждение: Эта единица веса не может быть удалена, так как в настоящее время привязана к %s продуктам!]]></value>
+  </definition>
+</definitions>

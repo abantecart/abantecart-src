@@ -1,8 +1,8 @@
 <?php if ( !empty($error['warning']) ) { ?>
-<div class="warning"><?php echo $error['warning']; ?></div>
+<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success"><?php echo $success; ?></div>
+<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 <a name="top"></a>
 
@@ -44,7 +44,7 @@
               <td class="left"><?php echo $customer_groups[ $product_discount['customer_group_id'] ]; ?></td>
               <td class="left"><?php echo $product_discount['quantity']; ?></td>
               <td class="left"><?php echo $product_discount['priority']; ?></td>
-              <td class="left"><?php echo number_format((float)$product_discount['price'], 2 ); ?></td>
+              <td class="left"><?php echo moneyDisplayFormat( $product_discount['price'] ); ?></td>
               <td class="left"><?php echo $product_discount['date_start']; ?></td>
               <td class="left"><?php echo $product_discount['date_end']; ?></td>
               <td class="left">
@@ -89,7 +89,7 @@
             <tr>
               <td class="left"><?php echo $customer_groups[ $item['customer_group_id'] ]; ?></td>
               <td class="left"><?php echo $item['priority']; ?></td>
-              <td class="left"><?php echo number_format((float)$item['price'], 2); ?></td>
+              <td class="left"><?php echo moneyDisplayFormat( $item['price'] ); ?></td>
               <td class="left"><?php echo $item['date_start']; ?></td>
               <td class="left"><?php echo $item['date_end']; ?></td>
               <td class="left">

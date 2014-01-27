@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -132,6 +132,7 @@ class ControllerBlocksListingBlock extends AController {
 			$display_price = FALSE;
 		}
 		$this->view->assign('display_price',$display_price);
+		$this->view->assign('review_status', $this->config->get('enable_reviews'));
 
 		$this->view->assign('products',$products);
 		$vertical_tpl = array( 'blocks/listing_block_column_left.tpl',

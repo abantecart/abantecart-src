@@ -1,97 +1,211 @@
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES
-(7,'all_settings',191),
-(7,'settings_details',192),
-(7,'settings_general',193),
-(7,'settings_checkout',194),
-(7,'settings_appearance',195),
-(7,'settings_mail',196),
-(7,'settings_api',197),
-(7,'settings_system',198),
-(7,'settings_newstore',199);
+ALTER TABLE `ac_tax_rates` CHANGE `rate` `rate` DECIMAL(15, 4) NOT NULL DEFAULT '0.0000';
 
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES
-(8,'text_all_settings',191),
-(8,'text_settings_details',192),
-(8,'text_settings_general',193),
-(8,'text_settings_checkout',194),
-(8,'text_settings_appearance',195),
-(8,'text_settings_mail',196),
-(8,'text_settings_api',197),
-(8,'text_settings_system',198),
-(8,'text_settings_newstore',199);
+CREATE UNIQUE INDEX `ac_languages_index`
+ON `ac_languages` (`language_id`, `code`);
 
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES
-(9,'setting/setting/all',191),
-(9,'setting/setting/details',192),
-(9,'setting/setting/general',193),
-(9,'setting/setting/checkout',194),
-(9,'setting/setting/appearance',195),
-(9,'setting/setting/mail',196),
-(9,'setting/setting/api',197),
-(9,'setting/setting/system',198),
-(9,'setting/store/insert',199);
+CREATE TABLE `ac_country_descriptions` (
+  `country_id`  INT(11)          NOT NULL,
+  `language_id` INT(11)          NOT NULL,
+  `name`        VARCHAR(128)
+                COLLATE utf8_bin NOT NULL
+  COMMENT 'translatable',
+  PRIMARY KEY (`country_id`, `language_id`)
+)
+  ENGINE =MyISAM
+  DEFAULT CHARSET =utf8
+  COLLATE =utf8_bin;
 
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES
-(10,'setting',191),
-(10,'setting',192),
-(10,'setting',193),
-(10,'setting',194),
-(10,'setting',195),
-(10,'setting',196),
-(10,'setting',197),
-(10,'setting',198),
-(10,'setting',199);
+INSERT INTO `ac_country_descriptions` (`country_id`, `language_id`, `name`)
+  SELECT
+    `country_id`,
+    1,
+    `name`
+  FROM `ac_countries`;
+ALTER TABLE `ac_countries` DROP COLUMN `name`;
 
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
-VALUES
-(11,1,191),
-(11,2,192),
-(11,3,193),
-(11,4,194),
-(11,5,195),
-(11,6,196),
-(11,7,197),
-(11,8,198),
-(11,9,199);
+CREATE TABLE `ac_zone_descriptions` (
+  `zone_id`     INT(11)          NOT NULL,
+  `language_id` INT(11)          NOT NULL,
+  `name`        VARCHAR(128)
+                COLLATE utf8_bin NOT NULL
+  COMMENT 'translatable',
+  PRIMARY KEY (`zone_id`, `language_id`)
+)
+  ENGINE =MyISAM
+  DEFAULT CHARSET =utf8
+  COLLATE =utf8_bin;
 
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES
-(12,'core',191),
-(12,'core',192),
-(12,'core',193),
-(12,'core',194),
-(12,'core',195),
-(12,'core',196),
-(12,'core',197),
-(12,'core',198),
-(12,'core',199);
+INSERT INTO `ac_zone_descriptions` (`zone_id`, `language_id`, `name`)
+  SELECT
+    `zone_id`,
+    1,
+    `name`
+  FROM `ac_zones`;
+
+ALTER TABLE `ac_zones` DROP COLUMN `name`;
+UPDATE `ac_zone_descriptions`
+SET `name` = 'Kharkiv'
+WHERE `zone_id` = 3487;
+UPDATE `ac_zone_descriptions`
+SET `name` = 'Kyiv'
+WHERE `zone_id` = 3490;
+UPDATE `ac_zone_descriptions`
+SET `name` = 'Kherson'
+WHERE `zone_id` = 3491;
+UPDATE `ac_zones`
+SET `code` = 'KS'
+WHERE `zone_id` = 3491;
+
+CREATE TABLE `ac_tax_class_descriptions` (
+  `tax_class_id` INT(11)          NOT NULL,
+  `language_id`  INT(11)          NOT NULL,
+  `title`        VARCHAR(128)
+                 COLLATE utf8_bin NOT NULL
+  COMMENT 'translatable',
+  `description`  VARCHAR(255)
+                 COLLATE utf8_bin NOT NULL DEFAULT ''
+  COMMENT 'translatable',
+  PRIMARY KEY (`tax_class_id`, `language_id`)
+)
+  ENGINE =MyISAM
+  DEFAULT CHARSET =utf8
+  COLLATE =utf8_bin;
+
+INSERT INTO `ac_tax_class_descriptions` (`tax_class_id`, `language_id`, `title`, `description`)
+  SELECT
+    `tax_class_id`,
+    1,
+    `title`,
+    `description`
+  FROM `ac_tax_classes`;
+ALTER TABLE `ac_tax_classes` DROP COLUMN `title`;
+ALTER TABLE `ac_tax_classes` DROP COLUMN `description`;
+
+CREATE TABLE `ac_tax_rate_descriptions` (
+  `tax_rate_id` INT(11)          NOT NULL,
+  `language_id` INT(11)          NOT NULL,
+  `description` VARCHAR(255)
+                COLLATE utf8_bin NOT NULL DEFAULT ''
+  COMMENT 'translatable',
+  PRIMARY KEY (`tax_rate_id`, `language_id`)
+)
+  ENGINE =MyISAM
+  DEFAULT CHARSET =utf8
+  COLLATE =utf8_bin;
+
+INSERT INTO `ac_tax_rate_descriptions` (`tax_rate_id`, `language_id`, `description`)
+  SELECT
+    `tax_rate_id`,
+    1,
+    `description`
+  FROM `ac_tax_rates`;
+ALTER TABLE `ac_tax_rates` DROP COLUMN `description`;
+
+INSERT INTO `ac_settings` (store_id, `group`, `key`, `value`) VALUES (0, 'system', 'config_voicecontrol', 1);
+
+ALTER TABLE `ac_fields` ADD COLUMN `regexp_pattern` VARCHAR(255) NOT NULL DEFAULT ''
+AFTER `status`;
+ALTER TABLE `ac_field_descriptions` ADD COLUMN `error_text` VARCHAR(255) NOT NULL DEFAULT ''
+AFTER `language_id`, COMMENT = 'translatable';
+
+ALTER TABLE `ac_downloads` CHANGE `remaining` `max_downloads` INT(11) DEFAULT NULL;
+ALTER TABLE `ac_downloads` ADD COLUMN
+(
+`status` INT(1) NOT NULL DEFAULT '0',
+`shared` int(1) NOT NULL DEFAULT '0', -- if used by other products set to 1
+`expire_days` DATETIME NULL,
+`sort_order` INT(11) NOT NULL,
+`activate` VARCHAR(64) NOT NULL,
+`activate_order_status_id` INT(11) NOT NULL DEFAULT '0',
+`date_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+UPDATE `ac_downloads` SET `shared`=1, `status`=1;
+
+DROP TABLE IF EXISTS `ac_download_attribute_values`;
+CREATE TABLE `ac_download_attribute_values` (
+  `download_attribute_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `attribute_id`          INT(11) NOT NULL,
+  `download_id`           INT(11) NOT NULL,
+  `attribute_value_ids`   TEXT
+                          COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`download_attribute_id`)
+)
+  ENGINE =MyISAM
+  DEFAULT CHARSET =utf8
+  COLLATE =utf8_bin
+  AUTO_INCREMENT =1;
 
 
-ALTER TABLE `ac_global_attributes` ADD COLUMN `regexp_pattern` varchar(255);
-ALTER TABLE `ac_product_options` ADD COLUMN `regexp_pattern` varchar(255);
+ALTER TABLE `ac_order_downloads` CHANGE `remaining` `remaining_count` INT(11) DEFAULT NULL;
+ALTER TABLE `ac_order_downloads` ADD COLUMN
+(
+`download_id` INT(11) NOT NULL DEFAULT '0',
+`status` INT(1) NOT NULL DEFAULT '0',
+`expire_date` DATETIME NULL,
+`percentage`  int(11) NULL DEFAULT 0,
+`sort_order` INT(11) NOT NULL,
+`activate` VARCHAR(64) NOT NULL,
+`activate_order_status_id` INT(11) NOT NULL DEFAULT '0',
+`attributes_data` TEXT COLLATE utf8_bin DEFAULT NULL,
+`date_added` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+`date_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
-ALTER TABLE `ac_global_attributes_descriptions` ADD COLUMN `error_text` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable';
-ALTER TABLE `ac_product_option_descriptions` ADD COLUMN `error_text` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable';
+DROP TABLE IF EXISTS `ac_order_downloads_history`;
+CREATE TABLE `ac_order_downloads_history` (
+  `order_download_history_id` INT(11)          NOT NULL AUTO_INCREMENT,
+  `order_download_id`         INT(11)          NOT NULL,
+  `order_id`                  INT(11)          NOT NULL,
+  `order_product_id`          INT(11)          NOT NULL,
+  `filename`                  VARCHAR(128)
+                              COLLATE utf8_bin NOT NULL DEFAULT '',
+  `mask`                      VARCHAR(128)
+                              COLLATE utf8_bin NOT NULL DEFAULT '',
+  `download_id`               INT(11)          NOT NULL,
+  `download_percent`          INT(11) DEFAULT '0',
+  `time`                      TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-CREATE TABLE IF NOT EXISTS `ac_global_attributes_type_descriptions` (
-          `attribute_type_id` int(11) NOT NULL,
-          `language_id` int(11) NOT NULL,
-          `type_name` varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-          `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-          `create_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-PRIMARY KEY (`attribute_type_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='utf8_bin';
+  PRIMARY KEY (`order_download_history_id`, `order_download_id`, `order_id`, `order_product_id`)
+)
+  ENGINE =MyISAM
+  DEFAULT CHARSET =utf8
+  COLLATE =utf8_bin
+  AUTO_INCREMENT =1;
 
-INSERT INTO `ac_global_attributes_type_descriptions` (`attribute_type_id`, `language_id`, `type_name`, `update_date`, `create_date`)
-SELECT `attribute_type_id`, 1 as language_id, `type_name`, NOW() as update_date, NOW() as create_date
-FROM `ac_global_attributes_types`;
 
-ALTER TABLE `ac_global_attributes_types` DROP COLUMN `type_name`;
+DROP TABLE IF EXISTS `ac_order_data`;
+CREATE TABLE `ac_order_data` (
+  `order_id`      INT(11)   NOT NULL,
+  `type_id`       INT(11)   NOT NULL,
+  `data`          TEXT
+                  COLLATE utf8_bin DEFAULT NULL, -- serialized values
+  `date_added`    TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`order_id`, `type_id`)
+)
+  ENGINE =MyISAM
+  DEFAULT CHARSET =utf8
+  COLLATE =utf8_bin;
 
-UPDATE `ac_global_attributes_types` SET `controller` = 'responses/catalog/attribute/getProductOptionSubform' WHERE `type_key`='product_option';
+DROP TABLE IF EXISTS `ac_order_data_types`;
+CREATE TABLE `ac_order_data_types` (
+  `type_id`       INT(11)          NOT NULL AUTO_INCREMENT,
+  `language_id`   INT(11)          NOT NULL,
+  `name`          VARCHAR(64)
+                  COLLATE utf8_bin NOT NULL DEFAULT ''
+  COMMENT 'translatable',
+  `date_added`    TIMESTAMP        NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`type_id`)
+)
+  ENGINE =MyISAM
+  DEFAULT CHARSET =utf8
+  COLLATE =utf8_bin
+  AUTO_INCREMENT =1;
 
-INSERT INTO `ac_customer_groups` (`name`) VALUES ('Newsletter Subscribers');
+ALTER TABLE `ac_products` ADD COLUMN `call_to_order` SMALLINT NOT NULL DEFAULT '0'
+AFTER `cost`;
+
+INSERT INTO `ac_resource_types` (`type_name`, `default_icon`, `default_directory`, `file_types`, `access_type`) VALUES
+('download', 'icon_resource_download.png', 'download/', '/.+$/i', 1);

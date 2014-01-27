@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -72,7 +72,7 @@ class ControllerPagesSettings extends AController {
 			$this->error['warning'] = 'Warning: AbanteCart will not work with session.auto_start enabled!';
 		}
 
-		if (!extension_loaded('mysql')) {
+		if (!extension_loaded('mysql') && !extension_loaded('mysqli')) {
 			$this->error['warning'] = 'Warning: MySQL extension needs to be loaded for AbanteCart to work!';
 		}
 
@@ -155,5 +155,3 @@ class ControllerPagesSettings extends AController {
 		}
 	}
 }
-
-?>

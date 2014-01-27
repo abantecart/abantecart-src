@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Меню]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили меню!]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_id</key>
+    <value><![CDATA[Уникальный идентификатор]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_icon</key>
+    <value><![CDATA[Иконка]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_text</key>
+    <value><![CDATA[Текст]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_url</key>
+    <value><![CDATA[Ссылка<br /><span class="help">Для внешних ссылок добавите http:// или https:// в начале</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent_id</key>
+    <value><![CDATA[Родитель]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Порядок сортировки]]></value>
+  </definition>
+  <definition>
+    <key>entry_link_category</key>
+    <value><![CDATA[Ссылка на категории]]></value>
+  </definition>
+  <definition>
+    <key>entry_link_page</key>
+    <value><![CDATA[Ссылка на страницу]]></value>
+  </definition>
+  <definition>
+    <key>text_link</key>
+    <value><![CDATA[Ссылка]]></value>
+  </definition>
+  <definition>
+    <key>text_select_parent_id</key>
+    <value><![CDATA[- Главное Меню -]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Поле не может быть пустым!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_unique</key>
+    <value><![CDATA[ID не уникальный!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_ascii</key>
+    <value><![CDATA[Только латинские буквенно-цифровые символы, разрешенные для меню ID!]]></value>
+  </definition>  
+</definitions>

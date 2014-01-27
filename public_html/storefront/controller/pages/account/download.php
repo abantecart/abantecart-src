@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -32,33 +32,34 @@ class ControllerPagesAccountDownload extends AController {
 
 			$this->redirect($this->html->getSecureURL('account/login'));
 		}
+         
+        //if disabled downloads redirect to 
+        if (!$this->config->get('config_download')) {
+        	$this->redirect($this->html->getSecureURL('account/account'));
+        }
          		
 		$this->document->setTitle( $this->language->get('heading_title') );
 
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('index/home'),
+        	'href'      => $this->html->getSecureURL('index/home'),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/account'),
+        	'href'      => $this->html->getSecureURL('account/account'),
         	'text'      => $this->language->get('text_account'),
         	'separator' => $this->language->get('text_separator')
       	 ));
 		
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/download'),
+        	'href'      => $this->html->getSecureURL('account/download'),
         	'text'      => $this->language->get('text_downloads'),
         	'separator' => $this->language->get('text_separator')
       	 ));
-				
-		$download_total = $this->model_account_download->getTotalDownloads();
-		if(!$this->config->get('config_download')){
-			$download_total =0;
-		}
+
 
 		if (isset($this->request->get['limit'])) {
 	        $limit = (int)$this->request->get['limit'];
@@ -67,7 +68,7 @@ class ControllerPagesAccountDownload extends AController {
 	        $limit = $this->config->get('config_catalog_limit');
 	    }
 
-		if ($download_total) {
+		if ($this->config->get('config_download')) {
 
 			if (isset($this->request->get['page'])) {
 				$page = $this->request->get['page'];
@@ -76,52 +77,66 @@ class ControllerPagesAccountDownload extends AController {
 			}			
 	
 			$downloads = array();
-			
-			$results = $this->model_account_download->getDownloads(($page - 1) * $limit, $limit);
-			$k=0;
-			foreach ($results as $result) {
-				$result['filename'] = trim($result['filename']);
-				if (file_exists(DIR_RESOURCE . $result['filename']) && $result['filename'] ) {
-					$size = filesize(DIR_RESOURCE . $result['filename']);
-					$i = 0;
-					$suffix = array(
-						'B',
-						'KB',
-						'MB',
-						'GB',
-						'TB',
-						'PB',
-						'EB',
-						'ZB',
-						'YB'
-					);
-					while (($size / 1024) > 1) {
-						$size = $size / 1024;
-						$i++;
-					}
+			//get only enabled, not expired, which have remaining count > 0 and available
+			$customer_downloads = $this->download->getCustomerDownloads(($page-1) * $limit, $limit);
+			$resource = new AResource('image');
+			foreach ($customer_downloads as $download_info) {
+				$text_status = $this->download->getTextStatusForOrderDownload($download_info);
 
-					$link = HtmlElementFactory::create( array ('type' => 'button',
-		                                               'name' => 'download_button_'.$k,
-			                                           'text'=> $this->language->get('text_download'),
-			                                           'style' => 'button',
-			                                           'href' => $this->html->getSecureURL('account/download/download','&order_download_id=' . $result['order_download_id'])
-					                                    )
-					);
-
-					$downloads[] = array(
-						'order_id'   => $result['order_id'],
-						'date_added' => dateISO2Display($result['date_added'],$this->language->get('date_format_short')),
-						'name'       => $result['name'],
-						'remaining'  => $result['remaining'],
-						'size'       => round(substr($size, 0, strpos($size, '.') + 4), 2) . $suffix[$i],
-						'link'       => $link->getHtml()
-					);
+				$size = filesize(DIR_RESOURCE . $download_info['filename']);
+				$i = 0;
+				$suffix = array(
+					'B',
+					'KB',
+					'MB',
+					'GB',
+					'TB',
+					'PB',
+					'EB',
+					'ZB',
+					'YB'
+				);
+				while (($size / 1024) > 1) {
+					$size = $size / 1024;
+					$i++;
 				}
-			$k++;
-			}
-			$this->data['downloads'] = $downloads;
-		
+				if(!$text_status){
+					$link = HtmlElementFactory::create(
+							array ( 'type' => 'button',
+									'name' => 'download_button_'.$download_info['order_download_id'],
+									'title'=> $this->language->get('text_download'),
+									'text' => $this->language->get('text_download'),
+									'style' => 'button',
+									'href' => $this->html->getSecureURL('account/download/startdownload','&order_download_id='. $download_info['order_download_id']),
+									'icon' => 'icon-download-alt'
+									)
+					);
+				}else{
+					$link = $text_status;
+				}
 
+				$thumbnail = $resource->getMainThumb( 'products',
+													  $download_info['product_id'],
+													  $this->config->get('config_image_cart_width'),
+													  $this->config->get('config_image_cart_height'),
+													  false );
+				$attributes = $this->download->getDownloadAttributesValuesForCustomer($download_info['download_id']);
+
+				$downloads[] = array(
+					'thumbnail'  => $thumbnail,
+					'attributes' => $attributes,
+					'order_id'   => $download_info['order_id'],
+					'date_added' => dateISO2Display($download_info['date_added'],$this->language->get('date_format_short')),
+					'name'       => $download_info['name'],
+					'remaining'  => $download_info['remaining_count'],
+					'size'       => round(substr($size, 0, strpos($size, '.') + 4), 2) . $suffix[$i],
+					'link'       => $link,
+					'expire_date'=> dateISO2Display($download_info['expire_date'], $this->language->get('date_format_short').' '.$this->language->get('time_format_short'))
+				);
+
+			}
+
+			$this->data['downloads'] = $downloads;
 
 			$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
 										'type' => 'Pagination',
@@ -142,7 +157,6 @@ class ControllerPagesAccountDownload extends AController {
 				$template = 'pages/error/not_found.tpl';
 			}
 		} else {
-
 			$template = 'pages/error/not_found.tpl';
 		}
 
@@ -150,6 +164,7 @@ class ControllerPagesAccountDownload extends AController {
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button',
+														'icon' => 'icon-arrow-right',
 			                                           'href' => $this->html->getSecureURL('account/account')));
 		$this->data['button_continue'] = $continue;
 		$this->view->batchAssign($this->data);
@@ -159,56 +174,38 @@ class ControllerPagesAccountDownload extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
-	public function download() {
-
-		if (!$this->customer->isLogged()) {
-			$this->session->data['redirect'] = $this->html->getSecureURL('account/download');
-			$this->redirect($this->html->getSecureURL('account/login'));
-		}
+	public function startdownload() {
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if (isset($this->request->get['order_download_id'])) {
-			$order_download_id = $this->request->get['order_download_id'];
-		} else {
-			$order_download_id = 0;
+		if(!$this->config->get('config_download')){ // if downloads not allowed
+			$this->redirect($this->html->getSecureURL('account/account'));
 		}
-		$this->loadModel('account/download');
-		$download_info = $this->model_account_download->getDownload($order_download_id);
-		
-		if ($download_info) {
-			$file = DIR_RESOURCE . $download_info['filename'];
-			$mask = basename($download_info['mask']);
-			$mime = 'application/octet-stream';
-			$encoding = 'binary';
 
-			if (!headers_sent()) {
-				if (file_exists($file)) {
-					header('Pragma: public');
-					header('Expires: 0');
-					header('Content-Description: File Transfer');
-					header('Content-Type: ' . $mime);
-					header('Content-Transfer-Encoding: ' . $encoding);
-					header('Content-Disposition: attachment; filename=' . ($mask ? $mask : basename($file)));
-					header('Content-Length: ' . filesize($file));
-					ob_clean();
-					flush();
-					readfile($file,'rb');
-				} else {
-                    throw new AException(AC_ERR_LOAD, 'Error: Could not find file ' . $file . '!');
-				}
-			} else {
-				exit('Error: Headers already sent out!');
+		if (has_value($this->request->get['download_id'])) {
+			$download_info = $this->download->getDownloadinfo((int)$this->request->get['download_id']);
+		} elseif(has_value($this->request->get['order_download_id'])) {
+			// check is customer logged
+			if (!$this->customer->isLogged()) {
+				$this->session->data['redirect'] = $this->html->getSecureURL('account/download');
+				$this->redirect($this->html->getSecureURL('account/login'));
 			}
+			$download_info = $this->download->getOrderDownloadInfo($this->request->get['order_download_id']);
+		}else {
+			$download_info = array();
+		}
 
-            $this->model_account_download->updateRemaining($this->request->get['order_download_id']);
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
-            //init controller data
-            $this->extensions->hk_UpdateData($this,__FUNCTION__);
-            exit;
-
+		if ($download_info) {
+			$result = $this->download->sendDownload($download_info);
+			if($result===false){
+				$this->redirect($this->html->getSecureURL('account/download'));
+			}
         } else {
+			$this->session->data['warning'] = $this->language->get('error_download_not_exists');
 			$this->redirect($this->html->getSecureURL('account/download'));
 		}
 	}
+
 }

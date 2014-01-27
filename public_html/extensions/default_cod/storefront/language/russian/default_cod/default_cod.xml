@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Оплата при доставке]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Оплата при доставке будет создан при доставке, либо самовывозе товара]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Пожалуйста, подождите!]]></value>
+  </definition>
+</definitions>

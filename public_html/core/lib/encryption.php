@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -510,7 +510,7 @@ final class ADataEncryption {
 	*/	
 	public function getEcryptedFields( $table ){		
 		if ( has_value($this->enc_data) ) {
-			return $this->enc_data[ $table ]['fields'];
+			return (array)$this->enc_data[ $table ]['fields'];
 		}
 		return array();
 	}	

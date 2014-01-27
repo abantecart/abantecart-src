@@ -21,6 +21,10 @@
 		<value><![CDATA[h:i:s A]]></value>
 	</definition>
 	<definition>
+		<key>time_format_short</key>
+		<value><![CDATA[H:i]]></value>
+	</definition>
+	<definition>
 		<key>decimal_point</key>
 		<value><![CDATA[.]]></value>
 	</definition>
@@ -556,5 +560,17 @@
 	<definition>
 		<key>text_sort_order</key>
 		<value><![CDATA[Sort Order]]></value>
+	</definition>
+	<definition>
+		<key>text_select_copy_layout</key>
+		<value><![CDATA[Apply different layout for this page]]></value>
+	</definition>
+	<definition>
+		<key>text_apply_layout</key>
+		<value><![CDATA[Apply Now]]></value>
+	</definition>
+	<definition>
+		<key>text_new_download</key>
+		<value><![CDATA[New Download]]></value>
 	</definition>
 </definitions>

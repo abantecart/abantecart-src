@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -79,17 +79,11 @@ class ControllerPagesCatalogProductImages extends AController {
 
 		$this->data['no_image'] = $this->model_tool_image->resize('no_image.jpg', 100, 100);
 
-		$this->data['link_general'] = $this->html->getSecureURL('catalog/product/update', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_images'] = $this->html->getSecureURL('catalog/product_images', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_relations'] = $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_options'] = $this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_promotions'] = $this->html->getSecureURL('catalog/product_promotions', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_extensions'] = $this->html->getSecureURL('catalog/product_extensions', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_layout'] = $this->html->getSecureURL('catalog/product_layout', '&product_id=' . $this->request->get['product_id'] );
-
 		$this->data['active'] = 'images';
-		$this->view->batchAssign( $this->data );
-		$this->data['product_tabs'] = $this->view->fetch('pages/catalog/product_tabs.tpl');
+		//load tabs controller
+		$tabs_obj = $this->dispatch('pages/catalog/product_tabs', array( $this->data ) );
+		$this->data['product_tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
 
 		$this->data['button_add_image'] = $this->html->buildButton(array(
 			'text' => $this->language->get('button_add_image'),

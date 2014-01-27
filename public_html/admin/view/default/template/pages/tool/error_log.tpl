@@ -1,5 +1,5 @@
 <?php if ($success) { ?>
-<div class="success"><?php echo $success; ?></div>
+<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 <div class="box">
   <div class="left"></div>

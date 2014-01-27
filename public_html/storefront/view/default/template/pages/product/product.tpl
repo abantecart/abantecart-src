@@ -1,5 +1,5 @@
 <?php if ($error) { ?>
-<div class="warning"><?php echo $error; ?></div>
+<div class="warning alert alert-error"><?php echo $error; ?></div>
 <?php } ?>
 
 <div id="content">
@@ -24,22 +24,26 @@
 					<?php if (!$special) { ?>
 						<span class="price"><?php echo $price; ?></span>
 						<?php } else { ?>
-						<span class="old_price"><?php echo $price; ?></span> <span
-								class="special_price"><?php echo $special; ?></span>
-						<?php } ?>
-					<?php } ?>
+						<span class="old_price"><?php echo $price; ?></span>
+						<span class="special_price"><?php echo $special; ?></span>
+						<?php }
+					}?>
 
 					<?php echo $this->getHookVar('extended_product_options'); ?>
 
 				</div>
-				<div class="flt_right"><a class="btn_standard" onclick="javascript:window.print()"><span
-						class="button2"><span><img src="<?php echo $this->templateResource('/image/icon_print.png'); ?>"
-				                                   alt="print" /><?php echo $button_print; ?></span></span></a>
+				<div class="flt_right">
+				<?php if (!$product_info['call_to_order']){ ?>
+					<a class="btn_standard" onclick="window.print();"><span
+							class="button2"><span><img src="<?php echo $this->templateResource('/image/icon_print.png'); ?>"
+													   alt="print" /><?php echo $button_print; ?></span></span></a>
+
+				<?php }else{?>
+					<a href="#" class="btn_standard call_to_order"><span class="button2"><span><?php echo $text_call_to_order; ?></span></span></a>
+				<?php }?>
 				</div>
 				<br class="clr_both"/>
-
 				<div class="separator"></div>
-
 				<?php if ($display_price) { ?>
 					<?php echo $form['form_open'];
 
@@ -81,11 +85,11 @@
 					<?php } ?>
 
 					<table cellspacing="0" cellpadding="0" width="100%">
-						<tr>
-							<td><span style="float: left; margin-top: 3px;"><?php echo $text_qty;?></span><?php echo $form['minimum']; ?></td>
+						<?php if($form['minimum']){ ?>
+						<tr><td><span style="float: left; margin-top: 3px;"><?php echo $text_qty;?></span><?php echo $form['minimum']; ?></td>
 							<td align="right"><?php echo $form['add_to_cart'];?></td>
 						</tr>
-						<?php if ($minimum > 1) { ?>
+						<?php  if ($minimum > 1) { ?>
 						<tr>
 							<td colspan="2">
 								<small><?php echo $text_minimum; ?></small>
@@ -97,8 +101,8 @@
 							<td colspan="2">
 								<small><?php echo $text_maximum; ?></small>
 							</td>
-						</tr>
-						<?php } ?>
+						</tr><?php }
+						} ?>
 						<?php echo $this->getHookVar('buttons'); ?>
 					</table>
 
@@ -240,6 +244,15 @@
 		</span>
 
 	</a>
+	<?php if ($downloads) { ?>
+			<a rel="#tab_download">
+				<span class="tab_right"></span>
+				<span class="tab_left"></span>
+				<span class="tab_text">
+					<?php echo $tab_downloads; ?>
+				</span>
+			</a>
+		<?php } ?>
 
 	<?php echo $this->getHookVar('product_features_tab'); ?>
 
@@ -289,17 +302,25 @@
 						<a href="<?php echo $related_product[ 'href' ]; ?>"><?php echo $related_product['image'][ 'thumb_html' ] ?></a><br/>
 						<a href="<?php echo $related_product[ 'href' ]; ?>"><?php echo $related_product[ 'name' ]; ?></a><br/>
 						<span style="color: #999; font-size: 11px;"><?php echo $related_product[ 'model' ]; ?></span><br/>
-						<div class="price-add">
-						<?php if ($display_price) { ?>
-						<?php if (!$related_product[ 'special' ]) { ?>
-							<span style="color: #900; font-weight: bold;"><?php echo $related_product[ 'price' ]; ?></span>
-							<?php } else { ?>
-							<span style="color: #900; font-weight: bold; text-decoration: line-through;"><?php echo $related_product[ 'price' ]; ?></span>
-							<span style="color: #F00;"><?php echo $related_product[ 'special' ]; ?></span>
+
+							<div class="price-add">
+							<?php if ($display_price) { ?>
+							<?php if (!$related_product[ 'special' ]) { ?>
+								<span style="color: #900; font-weight: bold;"><?php echo $related_product[ 'price' ]; ?></span>
+								<?php } else { ?>
+								<span style="color: #900; font-weight: bold; text-decoration: line-through;"><?php echo $related_product[ 'price' ]; ?></span>
+								<span style="color: #F00;"><?php echo $related_product[ 'special' ]; ?></span>
+								<?php } ?>
 							<?php } ?>
-						<?php } ?>
-						<a class="buy" id="<?php echo $related_product['product_id']?>" href="<?php echo $related_product[ 'add' ]?>" title="<?php echo $button_add_to_cart; ?>"></a>
-						</div>
+
+							<?php if(!$related_product['call_to_order']){ ?>
+								<a class="buy" id="<?php echo $related_product['product_id']?>" href="<?php echo $related_product[ 'add' ]?>" title="<?php echo $button_add_to_cart; ?>"></a>
+							<?php }else{ ?>
+								<a href="#" class="call_to_order"><span class="price"><?php echo $text_call_to_order;?></span></a>
+							</div>
+							<?php }?>
+
+
 						<br/>
 						<?php if ($related_product[ 'rating' ]) { ?>
 						<img src="<?php echo $this->templateResource('/image/stars_' . $related_product[ 'rating' ] . '.png'); ?>"
@@ -314,6 +335,24 @@
 				<div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;"><?php echo $text_no_related; ?></div>
 				<?php } ?>
 			</div>
+
+			<?php if ($downloads) { ?>
+				<div id="tab_download" class="tab_page">
+				<div class="tab-pane" id="productdownloads">
+					<ul class="downloads">
+						<?php foreach ($downloads as $download) { ?>
+						<li class="row">
+							<div class="pull-left"><?php echo $download['name']; ?><div class="download-list-attributes">
+							<?php foreach($download['attributes'] as $name=>$value){
+								echo '<small>- '.$name.': '.(is_array($value) ? implode(' ',$value) : $value).'</small>';
+								}?></div>
+							</div>
+							<div style="float:right;"><?php echo $download['href']; ?></div>
+						</li>
+							<?php } ?>
+					</ul>
+				</div>
+			<?php } ?>
 
 			<?php echo $this->getHookVar('product_features'); ?>
 
@@ -365,10 +404,10 @@ function review() {
 		},
 		success: function(data) {
 			if (data.error) {
-				$('#review_title').after('<div class="warning">' + data.error + '</div>');
+				$('#review_title').after('<div class="warning alert alert-error">' + data.error + '</div>');
 			}
 			if (data.success) {
-				$('#review_title').after('<div class="success">' + data.success + '</div>');
+				$('#review_title').after('<div class="success alert alert-success">' + data.success + '</div>');
 
 				$('input[name=\'name\']').val('');
 				$('textarea[name=\'text\']').val('');

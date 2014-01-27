@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -78,12 +78,14 @@ class ControllerPagesAccountInvoice extends AController {
 		$order_info = $this->model_account_order->getOrder($order_id);
 		
 		if ($order_info) {
-            $this->data['order_id'] = $this->request->get['order_id'];
+            $this->data['order_id'] = $order_id;
             $this->data['invoice_id'] = $order_info['invoice_id'] ? $order_info['invoice_prefix'] . $order_info['invoice_id']:'';
 
             $this->data['email'] = $order_info['email'];
             $this->data['telephone'] = $order_info['telephone'];
             $this->data['fax'] = $order_info['fax'];
+
+			$this->data['status'] = $this->model_account_order->getOrderStatus($order_id);
 
     		$shipping_data = array(
 	  			'firstname' => $order_info['shipping_firstname'],
@@ -119,10 +121,16 @@ class ControllerPagesAccountInvoice extends AController {
 			
 			$products = array();
 			
-			$order_products = $this->model_account_order->getOrderProducts($this->request->get['order_id']);
-
+			$order_products = $this->model_account_order->getOrderProducts($order_id);
+			$resource = new AResource('image');
       		foreach ($order_products as $product) {
-				$options = $this->model_account_order->getOrderOptions($this->request->get['order_id'], $product['order_product_id']);
+				$options = $this->model_account_order->getOrderOptions($order_id, $product['order_product_id']);
+
+				$thumbnail = $resource->getMainThumb( 'products',
+													  $product['product_id'],
+													  $this->config->get('config_image_cart_width'),
+													  $this->config->get('config_image_cart_height'),
+													  false );
 
         		$option_data = array();
 
@@ -135,6 +143,7 @@ class ControllerPagesAccountInvoice extends AController {
 
         		$products[] = array(
           			'id'       => $product['product_id'],
+					'thumbnail'=> $thumbnail,
           			'name'     => $product['name'],
           			'model'    => $product['model'],
           			'option'   => $option_data,
@@ -144,13 +153,13 @@ class ControllerPagesAccountInvoice extends AController {
         		);
       		}
             $this->data['products'] = $products;
-            $this->data['totals'] = $this->model_account_order->getOrderTotals($this->request->get['order_id']);
+            $this->data['totals'] = $this->model_account_order->getOrderTotals($order_id);
             $this->data['comment'] = $order_info['comment'];
             $this->data['product_link'] = $this->html->getSecureURL('product/product', '&product_id=%ID%');
 
 			$historys = array();
 
-			$results = $this->model_account_order->getOrderHistories($this->request->get['order_id']);
+			$results = $this->model_account_order->getOrderHistories($order_id);
 
       		foreach ($results as $result) {
         		$historys[] = array(

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -105,7 +105,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 			if(in_array($total['id'],array('subtotal','total'))){ continue;}
 			if(in_array($total['id'],array('promotion','coupon'))){
 			 	$total['value'] = $total['value']<0 ? $total['value']*-1 : $total['value'];
-				$this->data['discount_amount_cart'] += $total['value'];
+				$this->data['discount_amount_cart'] += $this->currency->format($total['value'], $order_info['currency'], $order_info['value'], FALSE);
 			}else{
 			$this->data['products'][] = array(
 							'name'     => $total['title'],

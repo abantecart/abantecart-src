@@ -2,11 +2,11 @@
 <definitions>
   <definition>
     <key>heading_title</key>
-    <value><![CDATA[Downloads]]></value>
+    <value><![CDATA[Shared Downloads]]></value>
   </definition>
   <definition>
     <key>text_download</key>
-    <value><![CDATA[Download]]></value>
+    <value><![CDATA[Shared Download]]></value>
   </definition>
   <definition>
     <key>insert_title</key>
@@ -63,5 +63,13 @@
   <definition>
     <key>error_product</key>
     <value><![CDATA[Warning: This download cannot be deleted as it is currently assigned to %s products!]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Image]]></value>
+  </definition>
+  <definition>
+    <key>column_products_count</key>
+    <value><![CDATA[Products Count]]></value>
   </definition>
 </definitions>

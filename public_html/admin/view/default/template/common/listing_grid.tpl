@@ -59,7 +59,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
     var updatePager = false;
 
-    function updatePerPage(records) {
+    var updatePerPage = function(records) {
         if (updatePager) return;
         var html, rowNum, rowList = [<?php echo implode(',', $data['rowList']) ?>];
         for (var i = 0; i < rowList.length; i++) {
@@ -75,14 +75,19 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
     }
 
 	<?php if( $data["drag_sort_column"] ) { ?>
+	var startpos;
 	$(table_id).tableDnD({
 		onDragClass: 'drag_row',
         onDrop: function(table, row) {
-			var sort_by = $(table_id).jqGrid('getGridParam','sortname');
 			var sort_direction = $(table_id).jqGrid('getGridParam','sortorder');
 			var ids_order = [];
 			var rows = table.tBodies[0].rows;
 			var draged_id = row.id;
+			var newpos = $('#'+row.id).position();
+			//slip if row was not moved (single click of incompleted drag fix)
+			if (newpos.top == startpos.top && newpos.left == startpos.left) {
+				return false;
+			}
 
 			//check for depth if this is a nesteted tree greed.
 			var depth = $(table_id).getNodeDepth( $(table_id).getRowData(draged_id) );
@@ -115,6 +120,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
             var rowid = row.id;
 			$('#'+rowid).css('width',$(table).css('width'));
 			$(table_id).find('tr.jqgfirstrow').addClass('nodrop');
+			startpos = $('#'+row.id).position();
         }	    
 	});
 	<?php } ?>
@@ -469,7 +475,7 @@ if ($custom_buttons) {
 		}	
 	}
 
-    function resize_the_grid() {
+    var resize_the_grid = function() {
         if($.browser.msie!=true){
             $(table_id).fluidGrid({base:table_id + '_wrapper', offset:-10});
             //update input width

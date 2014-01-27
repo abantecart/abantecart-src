@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -20,7 +20,7 @@
 
 class ControllerPagesActivation extends AController {
 
-    private $connection;
+    private $db;
 
 	public function main() {
 
@@ -31,14 +31,13 @@ class ControllerPagesActivation extends AController {
 
         $_GET['admin_path'] = ADMIN_PATH;
 
-        $this->connection = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
-        mysql_select_db(DB_DATABASE, $this->connection);
-        $r = mysql_query("SELECT product_id FROM ".DB_PREFIX."products", $this->connection);
-        $data_exist = mysql_num_rows($r);
+        $this->db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+        $r = $this->db->query("SELECT product_id FROM ".DB_PREFIX."products");
+        $data_exist = $r->num_rows;
 
         // redirect to storefront in case more than day has passed from date of installation
-        $r = mysql_query("SELECT value FROM ".DB_PREFIX."settings WHERE `key` = 'install_date' ", $this->connection);
-        $install_date = mysql_fetch_assoc($r);
+        $r = $this->db->query("SELECT value FROM ".DB_PREFIX."settings WHERE `key` = 'install_date' ");
+        $install_date = $r->row;
         if ( $data_exist || strtotime($install_date['value']) + 60*60*24 < time() ) {
             header('Location: ../');
         }
@@ -69,10 +68,9 @@ class ControllerPagesActivation extends AController {
 	}
 
 	public function install_demo($data) {
-		$connection = $this->connection;
-		
-		mysql_query("SET NAMES 'utf8'", $connection);
-		mysql_query("SET CHARACTER SET utf8", $connection);
+			
+		$this->db->query("SET NAMES 'utf8'");
+		$this->db->query("SET CHARACTER SET utf8");
 		
 		$file = DIR_APP_SECTION . 'abantecart_sample_data.sql';
 	
@@ -90,10 +88,10 @@ class ControllerPagesActivation extends AController {
 						$query = str_replace("CREATE TABLE `ac_", "CREATE TABLE `" . $data['db_prefix'], $query);
 						$query = str_replace("INSERT INTO `ac_", "INSERT INTO `" . $data['db_prefix'], $query);
 						
-						$result = mysql_query($query, $connection);
+						$result = $this->db->query($query);
   
-						if (!$result) {
-							die(mysql_error().'<br>'.$query);
+						if (!$result || $this->db->error) {
+							die($this->db->error . '<br>'. $query);
 						}
 	
 						$query = '';
@@ -101,9 +99,9 @@ class ControllerPagesActivation extends AController {
 				}
 			}
 			
-			mysql_query("SET CHARACTER SET utf8", $connection);
-			mysql_query("SET @@session.sql_mode = 'MYSQL40'", $connection);
-			mysql_close($connection);	
+			$this->db->query("SET CHARACTER SET utf8");
+			$this->db->query("SET @@session.sql_mode = 'MYSQL40'");
+
 		}		
 	}	
 }

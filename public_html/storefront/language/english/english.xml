@@ -21,6 +21,10 @@
 		<value><![CDATA[h:i:s A]]></value>
 	</definition>
 	<definition>
+		<key>time_format_short</key>
+		<value><![CDATA[H:i]]></value>
+	</definition>
+	<definition>
 		<key>decimal_point</key>
 		<value><![CDATA[.]]></value>
 	</definition>
@@ -249,4 +253,20 @@
 		<key>button_reset</key>
 		<value><![CDATA[Reset]]></value>
 	</definition>
+	<definition>
+		<key>text_field_required</key>
+		<value><![CDATA[is required field!]]></value>
+	</definition>
+	<definition>
+		<key>error_captcha</key>
+		<value><![CDATA[Verification code does not match the image!]]></value>
+    </definition>
+	<definition>
+		<key>entry_attached</key>
+		<value><![CDATA[Attached]]></value>
+    </definition>
+	<definition>
+		<key>text_call_to_order</key>
+		<value><![CDATA[Call To Order]]></value>
+    </definition>
 </definitions>

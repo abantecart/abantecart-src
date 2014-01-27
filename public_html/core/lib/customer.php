@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -20,27 +20,77 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class ACustomer
+ */
 final class ACustomer {
+	/**
+	 * @var int
+	 */
 	private $customer_id;
+	/**
+	 * @var string
+	 */
 	private $loginname;
+	/**
+	 * @var string
+	 */
 	private $firstname;
+	/**
+	 * @var string
+	 */
 	private $lastname;
+	/**
+	 * @var string
+	 */
 	private $email;
+	/**
+	 * @var string
+	 */
 	private $telephone;
+	/**
+	 * @var string
+	 */
 	private $fax;
+	/**
+	 * @var int
+	 */
 	private $newsletter;
+	/**
+	 * @var int
+	 */
 	private $customer_group_id;
+	/**
+	 * @var int
+	 */
 	private $address_id;
+	/**
+	 * @var AConfig
+	 */
 	private $config;
+	/**
+	 * @var ACache
+	 */
 	private $cache;
+	/**
+	 * @var ADB
+	 */
 	private $db;
+	/**
+	 * @var ARequest
+	 */
 	private $request;
+	/**
+	 * @var ASession
+	 */
 	private $session;
+	/**
+	 * @var ADataEncryption
+	 */
 	private $dcrypt;
 
 	/**
-	 * @param $registry Registry
+	 * @param  Registry $registry
 	 */
 	public function __construct($registry) {
 		$this->cache = $registry->get('cache');
@@ -68,7 +118,7 @@ final class ACustomer {
 					$this->telephone = $customer_query->row['telephone'];
 					$this->fax = $customer_query->row['fax'];					
 				}
-				$this->newsletter = $customer_query->row['newsletter'];
+				$this->newsletter = (int)$customer_query->row['newsletter'];
 				$this->customer_group_id = $customer_query->row['customer_group_id'];
 				$this->address_id = $customer_query->row['address_id'];
 							
@@ -78,8 +128,13 @@ final class ACustomer {
 			}
   		}
 	}
-		
-  	public function login($loginname, $password) {
+
+	/**
+	 * @param string $loginname
+	 * @param string $password
+	 * @return bool
+	 */
+	public function login($loginname, $password) {
 		
 		$approved_only = '';
 		if ($this->config->get('config_customer_approval')) {
@@ -129,8 +184,11 @@ final class ACustomer {
       		return FALSE;
     	}
   	}
-  
-  	public function logout() {
+
+	/**
+	 * @void
+	 */
+	public function logout() {
 		unset($this->session->data['customer_id']);
 
 		$this->customer_id = '';
@@ -146,6 +204,10 @@ final class ACustomer {
 		$this->cache->delete('storefront_menu');
   	}
 
+	/**
+	 * @param string $token
+	 * @return bool|int
+	 */
 	public function isLoggedWithToken( $token ) {
 		if ( (isset($this->session->data['token']) && !isset( $token ))
 			|| ( (isset( $token ) && (isset($this->session->data['token']) && ( $token != $this->session->data['token'])))) ) {
@@ -154,19 +216,25 @@ final class ACustomer {
 			return $this->customer_id;
 		}
 	}
-  
-  	public function isLogged() {
-    	return $this->customer_id;
-  	}
 
-  	public function getId() {
+	/**
+	 * @return int
+	 */
+	public function isLogged() {
     	return $this->customer_id;
   	}
 
 	/**
-	*Validate if loginname is the same as email.
-	*@param none
-	*@return bool
+	 * @return int
+	 */
+	public function getId() {
+    	return $this->customer_id;
+  	}
+
+	/**
+	* Validate if loginname is the same as email.
+	* @param none
+	* @return bool
 	*/
   	public function isLoginnameAsEmail() {
   		if ( $this->loginname == $this->email) {
@@ -175,44 +243,78 @@ final class ACustomer {
 			return false;
   		}
   	}
-      
-  	public function getFirstName() {
+
+	/**
+	 * @return string
+	 */
+	public function getFirstName() {
 		return $this->firstname;
   	}
-  
-  	public function getLastName() {
+
+	/**
+	 * @return string
+	 */
+	public function getLastName() {
 		return $this->lastname;
   	}
 
-  	public function getLoginName() {
+	/**
+	 * @return string
+	 */
+	public function getLoginName() {
 		return $this->loginname;
   	}
-  
-  	public function getEmail() {
+
+	/**
+	 * @return string
+	 */
+	public function getEmail() {
 		return $this->email;
   	}
-  
-  	public function getTelephone() {
+
+	/**
+	 * @return string
+	 */
+	public function getTelephone() {
 		return $this->telephone;
   	}
-  
-  	public function getFax() {
+
+	/**
+	 * @return string
+	 */
+	public function getFax() {
 		return $this->fax;
   	}
-	
-  	public function getNewsletter() {
+
+	/**
+	 * @return mixed
+	 */
+	public function getNewsletter() {
 		return $this->newsletter;	
   	}
 
-  	public function getCustomerGroupId() {
+	/**
+	 * @return int
+	 */
+	public function getCustomerGroupId() {
 		return $this->customer_group_id;	
   	}
-	
-  	public function getAddressId() {
+
+	/**
+	 * @return int
+	 */
+	public function getAddressId() {
 		return $this->address_id;	
   	}
-  	
-  	public function getFormatedAdress( $data_array, $format = '', $locate = array() ) {
+
+	/**
+	 * @param array $data_array
+	 * @param string $format
+	 * @param array $locate
+	 * @return string
+	 */
+	public function getFormatedAdress( $data_array, $format = '', $locate = array() ) {
+		$data_array = (array)$data_array;
   		// Set default format
 		if ( $format == '' ) {
 			$format = '{firstname} {lastname}' . "\n" . '{company}' . "\n" . '{address_1}' . "\n" . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
@@ -228,14 +330,12 @@ final class ACustomer {
 		return str_replace(array( "\r\n", "\r", "\n" ), '<br />', preg_replace(array( "/\s\s+/", "/\r\r+/", "/\n\n+/" ), '<br />', trim(str_replace($locate, $data_array, $format))));
   
   	}
-  	
-  	/* Customer Transactions Section. Track account balance transactions.  */
- 
+
 	/**
-	 *
+	 * Customer Transactions Section. Track account balance transactions.
 	 * Return customer account balance in customer currency based on debit/credit calcualtion
 	 *
-	 *@return float|bool
+	 * @return float|bool
 	 */
   	public function getBalance() {
   		if ( !$this->isLogged() ) {
@@ -256,8 +356,8 @@ final class ACustomer {
   	
 	/**
 	* Record debit transaction 
-	*@param array( amount, order_id, transaction_type, description, comments, creator)
-	*@return bool
+	* @param array $tr_details - amount, order_id, transaction_type, description, comments, creator
+	* @return bool
 	*/ 	
   	public function debitTransaction( $tr_details ) {
 		return $this->_record_transaction('debit', $tr_details);		
@@ -265,14 +365,19 @@ final class ACustomer {
   	
 	/**
 	* Record credit transaction 
-	*@param array( amount, order_id, transaction_type, description, comments, creator)
-	*@return bool
+	* @param array $tr_details - amount, order_id, transaction_type, description, comments, creator
+	* @return bool
 	*/ 	
   	public function creditTransaction( $tr_details ) {	
 		return $this->_record_transaction('credit', $tr_details);	
-  	} 
-  	
-  	private function _record_transaction ( $type, $tr_details) {
+  	}
+
+	/**
+	 * @param string $type
+	 * @param array $tr_details - amount, order_id, transaction_type, description, comments, creator
+	 * @return bool
+	 */
+	private function _record_transaction ( $type, $tr_details) {
 
   		if ( !$this->isLogged() ) {
   			return false;

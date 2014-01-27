@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesAccountCreate extends AController {
-	private $error = array();
+	public $errors = array();
 	public $data;
   	public function main() {
 
@@ -40,8 +40,8 @@ class ControllerPagesAccountCreate extends AController {
 
 
 		if ( $this->request->server['REQUEST_METHOD'] == 'POST') {
-			$this->error = $this->model_account_customer->validateRegistrationData($request_data);
-    		if ( !$this->error ) {
+			$this->errors = array_merge($this->errors,$this->model_account_customer->validateRegistrationData($request_data));
+    		if ( !$this->errors ) {
 				//if allow login as email, need to set loginname = email
 				if (!$this->config->get('prevent_email_as_login')) {
 					$request_data['loginname'] = $request_data['email'];
@@ -215,19 +215,19 @@ class ControllerPagesAccountCreate extends AController {
 		                                                               'name' => $this->language->get('button_continue') ));
 
 
-        $this->data['error_warning'] = $this->error['warning'];
-		$this->data['error_loginname'] = $this->error['loginname'];
-		$this->data['error_firstname'] = $this->error['firstname'];
-		$this->data['error_lastname'] = $this->error['lastname'];
-		$this->data['error_email'] = $this->error['email'];
-		$this->data['error_telephone'] = $this->error['telephone'];
-		$this->data['error_password'] = $this->error['password'];
-		$this->data['error_confirm'] = $this->error['confirm'];
-		$this->data['error_address_1'] = $this->error['address_1'];
-		$this->data['error_city'] = $this->error['city'];
-		$this->data['error_postcode'] = $this->error['postcode'];
-		$this->data['error_country'] = $this->error['country'];
-		$this->data['error_zone'] = $this->error['zone'];
+        $this->data['error_warning'] = $this->errors['warning'];
+		$this->data['error_loginname'] = $this->errors['loginname'];
+		$this->data['error_firstname'] = $this->errors['firstname'];
+		$this->data['error_lastname'] = $this->errors['lastname'];
+		$this->data['error_email'] = $this->errors['email'];
+		$this->data['error_telephone'] = $this->errors['telephone'];
+		$this->data['error_password'] = $this->errors['password'];
+		$this->data['error_confirm'] = $this->errors['confirm'];
+		$this->data['error_address_1'] = $this->errors['address_1'];
+		$this->data['error_city'] = $this->errors['city'];
+		$this->data['error_postcode'] = $this->errors['postcode'];
+		$this->data['error_country'] = $this->errors['country'];
+		$this->data['error_zone'] = $this->errors['zone'];
 
         $this->data['action'] = $this->html->getSecureURL('account/create') ;
 		$this->data['newsletter'] = $this->request->post['newsletter'];

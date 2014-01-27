@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -27,7 +27,7 @@ class ControllerPagesExtensionExtensions extends AController {
 
 	public function main() {
 
-		if (!in_array($this->session->data['extension_filter'], array('extensions', 'payment', 'shipping', 'template'))) {
+		if (!in_array($this->session->data['extension_filter'], array('extensions', 'payment', 'shipping', 'template', 'language'))) {
 			$this->session->data['extension_filter'] = 'extensions';
 		}
 		unset($this->session->data['package_info']);
@@ -231,6 +231,11 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->main();
 	}
 
+	public function language() {
+		$this->session->data['extension_filter'] = 'language';
+		$this->main();
+	}
+
 	public function edit() {
 
 		//init controller data
@@ -323,9 +328,9 @@ class ControllerPagesExtensionExtensions extends AController {
 				if($note_text==$data[ 'name' ]){
 					$new_text_key = str_replace($extension . '_','text_',$data[ 'name' ]);
 					$note_text = $this->language->get($new_text_key);
-				}
-				if($note_text==$new_text_key){
-					$note_text = $this->language->get($new_text_key.'_'.$extension_info['type']);
+					if($note_text==$new_text_key){
+						$note_text = $this->language->get($new_text_key.'_'.$extension_info['type']);
+					}
 				}
 				$data[ 'note' ] = $note_text;
 			}
@@ -374,12 +379,13 @@ class ControllerPagesExtensionExtensions extends AController {
 				case 'resource':
 					$item['resource_type'] = (string)$item['resource_type'];
 					if (!$result['rl_scripts']) {
-						$scripts = $this->dispatch('responses/common/resource_library/get_resources_scripts',
-							array('object_name' => '',
-								'object_id' => '',
-								'types' => $item['resource_type'],
-								'mode' => 'url'
-							));
+					$scripts = $this->dispatch('responses/common/resource_library/get_resources_scripts',
+											array(
+												'object_name' => '',
+												'object_id' => '',
+												'types' => $item['resource_type'],
+												'mode' => 'url'
+											));
 						$result['rl_scripts'] = $scripts->dispatchGetOutput();
 						unset($scripts);
 					}

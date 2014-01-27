@@ -1,8 +1,8 @@
 <?php if ($error_warning) { ?>
-	<div class="warning"><?php echo $error_warning; ?></div>
+	<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-	<div class="success"><?php echo $success; ?></div>
+	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 <div id="aPopup">
 	<div class="popbox_tl" style="margin-top: 10px;">
@@ -153,7 +153,7 @@
 	function ajaxReplace(data){
 		var html = '';
 		if(data.error!=undefined){
-			$('#popup_text').before('<div class="warning">'+data.error+'</div>');
+			$('#popup_text').before('<div class="warning alert alert-error">'+data.error+'</div>');
 		}
 		if(data.fields){
 			for(var f in data.fields){

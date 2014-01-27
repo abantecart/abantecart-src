@@ -7,9 +7,9 @@
 	<?php echo $form['continue']->name ?>
 </button>
 <?php if ($text_agree) { ?>
-<label class="checkbox pull-right mr10">
+<label class="checkbox pull-right">
 	<?php echo $form['agree']; ?>
-	<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#returnPolicyModal', '<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
+	<?php echo $text_agree; ?> <a class="mr10" href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#returnPolicyModal', '<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
 </label>
 
 

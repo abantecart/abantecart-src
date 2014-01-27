@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -77,7 +77,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->loadLanguage('catalog/product');
 		$this->loadModel('catalog/product');
 
-		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST')) {
+		if ($this->request->is_POST()) {
 			$this->model_catalog_product->updateProduct($this->request->get[ 'product_id' ], $this->request->post);
 			$result = 'Saved!';
 		}
@@ -86,31 +86,6 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->response->setOutput($result);
-	}
-
-	private function _validateForm() {
-		if (!$this->user->canModify('catalog/product')) {
-			$this->error[ 'warning' ] = $this->language->get('error_permission');
-		}
-
-		foreach ($this->request->post[ 'product_description' ] as $language_id => $value) {
-			if ((strlen(utf8_decode($value[ 'name' ])) < 1) || (strlen(utf8_decode($value[ 'name' ])) > 255)) {
-				$this->error[ 'name' ][ $language_id ] = $this->language->get('error_name');
-			}
-		}
-
-		if ((strlen(utf8_decode($this->request->post[ 'model' ])) < 1) || (strlen(utf8_decode($this->request->post[ 'model' ])) > 64)) {
-			$this->error[ 'model' ] = $this->language->get('error_model');
-		}
-
-		if (!$this->error) {
-			return TRUE;
-		} else {
-			if (!isset($this->error[ 'warning' ])) {
-				$this->error[ 'warning' ] = $this->language->get('error_required_data');
-			}
-			return FALSE;
-		}
 	}
 
 	public function category() {
@@ -143,9 +118,9 @@ class ControllerResponsesProductProduct extends AController {
 			}
 
 			if (!empty($this->request->get[ 'currency' ]) && !empty($this->request->get[ 'value' ])) {
-				$price = $this->currency->format($price, $this->request->get[ 'currency' ], $this->request->get[ 'value' ]);
+				$price = $this->currency->format((float)$price, $this->request->get[ 'currency' ], $this->request->get[ 'value' ]);
 			} else {
-				$price = $this->currency->format($price);
+				$price = $this->currency->format((float)$price);
 			}
 
 			$product_data[ ] = array(
@@ -243,7 +218,7 @@ class ControllerResponsesProductProduct extends AController {
 
 		$result = array();
 		foreach ($product_options as $option) {
-			$option_name = trim($option[ 'language' ][ $this->session->data[ 'content_language_id' ] ][ 'name' ]);
+			$option_name = trim($option[ 'language' ][ $this->language->getContentLanguageID() ][ 'name' ]);
 			$result[ $option[ 'product_option_id' ] ] = $option_name ? $option_name : 'n/a';
 		}
 
@@ -275,9 +250,6 @@ class ControllerResponsesProductProduct extends AController {
 
 		if (has_value($this->request->get['regexp_pattern'])) {
 			$this->request->get['regexp_pattern'] = trim($this->request->get['regexp_pattern']);
-			if($this->request->get['regexp_pattern'][0]!='/'){
-				$this->request->get['regexp_pattern'] = '/'.$this->request->get['regexp_pattern'].'/';
-			}
 		}
 
 		$this->loadModel('catalog/product');
@@ -317,16 +289,15 @@ class ControllerResponsesProductProduct extends AController {
 			$this->request->get[ 'option_id' ]
 		);
 
-		$this->data[ 'language_id' ] = $this->session->data[ 'content_language_id' ];
+		$this->data[ 'language_id' ] = $this->language->getContentLanguageID();
 		$this->data[ 'element_types' ] = HtmlElementFactory::getAvailableElements();
 		$this->data[ 'elements_with_options' ] = HtmlElementFactory::getElementsWithOptions();
 		$this->data[ 'selectable' ] = in_array($this->data[ 'option_data' ][ 'element_type' ], $this->data[ 'elements_with_options' ]) ? 1 : 0;
 		$this->data[ 'option_type' ] = $this->data[ 'element_types' ][ $this->data[ 'option_data' ][ 'element_type' ] ][ 'type' ];
 
-		$this->attribute_manager = new AAttribute_Manager();
+		$this->attribute_manager = new AAttribute_Manager('product_option');
 
 		$this->data[ 'action' ] = $this->html->getSecureURL('product/product/update_option_values', '&product_id=' . $this->request->get[ 'product_id' ] . '&option_id=' . $this->request->get[ 'option_id' ]);
-		$this->data[ 'language_id' ] = $this->session->data[ 'content_language_id' ];
 
 		$this->data[ 'option_values' ] = $this->model_catalog_product->getProductOptionValues(
 			$this->request->get[ 'product_id' ],
@@ -496,7 +467,6 @@ class ControllerResponsesProductProduct extends AController {
 		$group_attribute = array();
 		if ($this->data[ 'option_attribute' ][ 'attribute_id' ]) {
 			$group_attribute = $this->attribute_manager->getAttributes(array(), $this->data[ 'language_id' ], $this->data[ 'option_attribute' ][ 'attribute_id' ]);
-
 		}
 
 		$this->data[ 'elements_with_options' ] = HtmlElementFactory::getElementsWithOptions();
@@ -510,7 +480,11 @@ class ControllerResponsesProductProduct extends AController {
 				$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'type' ] = 'hidden';
 				if (in_array($attribute[ 'element_type' ], $this->data[ 'elements_with_options' ])) {
 					$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'type' ] = 'selectbox';
-					$values = $this->attribute_manager->getAttributeValues($attribute[ 'attribute_id' ], $this->session->data[ 'content_language_id' ]);
+					if(is_null($product_option_value_id)){ // for new row values
+						$values = $this->attribute_manager->getAttributeValues($attribute[ 'attribute_id' ], $this->language->getContentLanguageID());
+					}else{
+						$values = $this->getProductOptionValues($attribute[ 'attribute_id' ], $this->language->getContentLanguageID());
+					}
 
 					foreach ($values as $v) {
 						$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'values' ][ $v[ 'attribute_value_id' ] ] = addslashes(html_entity_decode($v[ 'value' ], ENT_COMPAT, 'UTF-8'));
@@ -521,10 +495,18 @@ class ControllerResponsesProductProduct extends AController {
 		} else {
 			if (in_array($this->data[ 'option_attribute' ][ 'element_type' ], $this->data[ 'elements_with_options' ])) {
 				$this->data[ 'option_attribute' ][ 'type' ] = 'selectbox';
-				$values = $this->attribute_manager->getAttributeValues(
-					$this->data[ 'option_attribute' ][ 'attribute_id' ],
-					$this->session->data[ 'content_language_id' ]
-				);
+				if(is_null($product_option_value_id)){ // for new row values
+					$values = $this->attribute_manager->getAttributeValues(
+						$this->data[ 'option_attribute' ][ 'attribute_id' ],
+						$this->language->getContentLanguageID()
+					);
+				}else{
+					$values = $this->getProductOptionValues(
+						$this->data[ 'option_attribute' ][ 'attribute_id' ],
+						$this->language->getContentLanguageID()
+					);
+				}
+
 				foreach ($values as $v) {
 					$this->data[ 'option_attribute' ][ 'values' ][ $v[ 'attribute_value_id' ] ] = addslashes(html_entity_decode($v[ 'value' ], ENT_COMPAT, 'UTF-8'));
 				}
@@ -557,7 +539,7 @@ class ControllerResponsesProductProduct extends AController {
 		if (isset($this->request->post[ 'name' ])) {
 			$this->data[ 'name' ] = $this->request->post[ 'name' ];
 		} elseif (isset($item_info)) {
-			$this->data[ 'name' ] = $item_info[ 'language' ][ $this->session->data[ 'content_language_id' ] ][ 'name' ];
+			$this->data[ 'name' ] = $item_info[ 'language' ][ $this->language->getContentLanguageID() ][ 'name' ];
 		}
 
 
@@ -582,6 +564,11 @@ class ControllerResponsesProductProduct extends AController {
 					'value' => $this->data[ 'attribute_value_id' ],
 					'options' => $this->data[ 'option_attribute' ][ 'values' ],
 				));
+			} else if ( $this->data[ 'option_attribute' ][ 'element_type' ] == 'U') {
+				//for file there is no option value 	
+				$attribute_id = $this->data['option_attribute']['attribute_id'];
+				$edit_url = $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attribute_id);
+				$this->data[ 'form' ][ 'fields' ][ 'option_value' ] = '<span link="'.$edit_url.'" class="open_newtab pointer">'.$this->language->get('text_edit').'</span>';
 			} else {
 				$this->data[ 'form' ][ 'fields' ][ 'option_value' ] = $form->getFieldHtml(array(
 					'type' => 'input',
@@ -631,7 +618,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->data[ 'form' ][ 'fields' ][ 'price' ] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'price[' . $product_option_value_id . ']',
-			'value' => $this->data[ 'price' ],
+			'value' => moneyDisplayFormat($this->data[ 'price' ]),
 			'style' => 'small-field'
 		));
 
@@ -689,5 +676,519 @@ class ControllerResponsesProductProduct extends AController {
 
 		$this->view->batchAssign($this->data);
 		return $this->view->fetch('responses/product/option_value_row.tpl');
+	}
+
+
+	/**
+	 * @param int $attribute_id
+	 * @param int $language_id
+	 * @return array
+	 */
+	public function getProductOptionValues($attribute_id, $language_id = 0) {
+        if ( !$language_id ) {
+            $language_id = $this->language->getContentLanguageID();
+        }
+        $query = $this->db->query( "SELECT pov.*, povd.name as value
+									FROM ".$this->db->table('product_options')." po
+									LEFT JOIN ".$this->db->table('product_option_values')." pov ON po.product_option_id = pov.product_option_id
+									LEFT JOIN ".$this->db->table('product_option_value_descriptions')." povd
+										ON ( pov.product_option_value_id = povd.product_option_value_id AND povd.language_id = '" . (int)$language_id . "' )
+									WHERE po.attribute_id = '" . $this->db->escape( $attribute_id ) . "'
+									ORDER BY pov.sort_order" );
+	    return $query->rows;
+	}
+
+
+	public function processDownloadForm(){
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		if (!$this->user->canModify('product/product')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'product/product'),
+					'reset_value' => true
+				));
+		}
+
+		if(!$this->request->is_POST()){ return null;}
+
+		$this->loadModel('catalog/download');
+		if($this->_validateDownloadForm($this->request->post)){
+			$post_data = $this->request->post;
+			$post_data['filename'] = (string)$this->request->post['download_rl_path_'.$this->request->post['download_id']];
+			// for shared downloads
+			if(!isset($post_data['shared']) && !$this->request->get['product_id']){
+				$post_data['shared'] = 1;
+			}
+
+			if((int)$this->request->post['download_id']){
+				$this->model_catalog_download->editDownload($this->request->post['download_id'],$post_data);
+				$download_id = (int)$this->request->post['download_id'];
+			}else{
+				unset($post_data['download_id']);
+				$post_data['product_id'] = (int)$this->request->get['product_id'];
+				$download_id = $this->model_catalog_download->addDownload($post_data);
+			}
+			$this->session->data['success'] = $this->language->get('text_success_download_save');
+			$this->data['output'] = array('download_id' => $download_id,
+										  'success'=>true,
+											'text'=> $this->language->get('text_success'));
+
+		}else{
+			$error = new AError( '' );
+			$err_data = array(
+				'error_title' => implode( '<br>', $this->error )
+			);
+			return $error->toJSONResponse('VALIDATION_ERROR_406', $err_data );
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->response->addJSONHeader();
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($this->data['output']));
+	}
+
+	/**
+	 * @param array $file_data
+	 * @param string $tpl
+	 */
+	public function buildDownloadForm($file_data, $tpl) {
+		$this->data = array();
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$this->loadLanguage('catalog/files');
+		$this->loadModel('localisation/order_status');
+		$this->loadModel('catalog/download');
+
+		$product_id = $file_data['product_id'];
+
+		$order_statuses = $this->model_localisation_order_status->getOrderStatuses();
+
+		$this->data['date_added'] = dateISO2Display($file_data['date_added'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
+		$this->data['date_modified'] = dateISO2Display($file_data['date_modified'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
+
+		$this->data['action'] = $this->html->getSecureURL('r/product/product/processDownloadForm', '&product_id=' . $product_id);
+		$this->data['form_title'] = $this->language->get('text_edit') . '&nbsp;' . $this->language->get('text_product');
+
+		$this->data['download_id'] = (int)$file_data['download_id'];
+
+		if($this->data['download_id']){
+			$form = new AForm('HS');
+			$this->data[ 'update' ] = $this->html->getSecureURL('listing_grid/download/update_field', '&id=' . $this->data['download_id']);
+		}else{
+			$form = new AForm('HT');
+		}
+
+		$form->setForm(array(
+					'form_name' => 'downloadFrm'.$file_data['download_id'],
+					'update' => $this->data['update'],
+				));
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
+					'type' => 'form',
+					'name' => 'downloadFrm'.$file_data['download_id'],
+					'attr' => 'confirm-exit="true"',
+					'action' => $this->data['action']
+				));
+		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array(
+																	 'type' => 'button',
+																	 'name' => 'submit',
+																	 'text' => ((int)$this->data['download_id'] ? $this->language->get('button_save'): $this->language->get('text_add')),
+																	 'style' => 'button1',
+																));
+
+		$this->data[ 'form' ][ 'cancel' ] = $form->getFieldHtml(array(
+																	 'type' => 'button',
+																	 'name' => 'cancel',
+																	 'href' => $this->html->getSecureURL('catalog/product_files','&product_id='.$product_id),
+																	 'text' => $this->language->get('button_cancel'),
+																	 'style' => 'button2',
+																));
+		$rl = new AResource('download');
+		$rl_dir = $rl->getTypeDir();
+		$resource_id = $rl->getIdFromHexPath(str_replace($rl_dir,'',$file_data['filename']));
+
+		$resource_info = $rl->getResource($resource_id);
+		$thumbnail = $rl->getResourceThumb($resource_id,30, 30);
+		if($resource_info['resource_path']){
+			$this->data[ 'icon' ] = $this->html->buildResourceImage(
+														array('url' => $thumbnail,
+															'width' => 30,
+															'height' => 30,
+															'attr' => 'alt="' . $resource_info['title'] . '"') );
+		}else{
+			$this->data[ 'icon' ] = $resource_info['resource_code'];
+		}
+		if($resource_id){
+			$this->data['preview']['href'] = $this->html->getSecureURL('common/resource_library/get_resource_preview','&resource_id='.$resource_id, true);
+			$this->data['preview']['path'] = 'resources/'.$file_data['filename'];
+		}
+
+		$r = $this->dispatch(
+					'responses/common/resource_library/get_resource_html_single',
+				array('type'=>'download',
+					  'wrapper_id' => 'download_'.(int)$this->data['download_id'],
+					  'resource_id'=> $resource_id,
+					  'field' => 'download_rl_path_'.$this->data['download_id'] ));
+		$this->data['resource'] = $r->dispatchGetOutput();
+
+		$resources_scripts = $this->dispatch(
+				   'responses/common/resource_library/get_resources_scripts',
+					array(
+						'object_name' => 'downloads',
+						'object_id' => (int)$this->data['download_id'],
+						'types' => 'download',
+						'mode' => 'url'
+					)
+				);
+		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+
+		$this->data['form']['fields']['download_rl_path'] = $form->getFieldHtml(
+		            array(
+		                'type' => 'hidden',
+		                'name' => 'download_rl_path_'.$this->data['download_id'],
+		                'value' => htmlspecialchars($file_data['filename'], ENT_COMPAT, 'UTF-8'),
+		));
+
+		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
+					'type' => 'checkbox',
+					'name' => 'status',
+					'value' => $file_data['status'],
+					'style' => 'btn_switch',
+		));
+		$orders_count = $this->model_catalog_download->getTotalOrdersWithProduct($product_id);
+		if($orders_count){
+			$this->data['push_to_customers'] = $this->html->buildElement(
+					array(
+						'type' => 'button',
+						'name' => 'push_to_customers',
+						'title' => sprintf($this->language->get('text_push_to_orders'),
+											$orders_count),
+						'text'=> $this->language->get('text_push'),
+						'href' => $this->html->getSecureURL('r/product/product/pushToCustomers',
+															'&product_id='.$product_id.'&download_id='.$this->data['download_id']),
+						'style' => 'button2',
+						'attr' => 'data-orders-count="'.$orders_count.'"'));
+		}
+
+
+		$this->data['maplist'] = array();
+		$file_data['map_list'] = (array)$file_data['map_list'];
+		foreach($file_data['map_list'] as $map_id => $map_name){
+			if($map_id==$product_id){ continue;}
+			$this->data['maplist'][] = array('href'=> $this->html->getSecureURL('catalog/product_files','&product_id='.$map_id.'&download_id='.$this->data['download_id'], true),
+											 'text' => $map_name);
+		}
+		if(!sizeof($this->data['maplist'])){
+			$this->data['already_shared'] = false;
+		}else{
+			$this->data['already_shared'] = true;
+		}
+
+		$this->data['delete_unmap_href'] = $this->html->getSecureURL('catalog/product_files','&act='.($file_data['shared']? 'unmap' : 'delete').'&product_id='.$product_id.'&download_id='.$this->data['download_id'], true);
+
+		$this->data['form']['fields']['shared'] = $form->getFieldHtml(array(
+							'type' => 'checkbox',
+							'name' => 'shared',
+							'value' => $file_data['shared'],
+							'attr'=> ($this->data['already_shared'] ? ' disabled=disabled':'')
+		));
+
+		if($file_data['shared']){
+			$this->data['text_attention_shared'] = $this->language->get('attention_shared');
+		}
+
+		$this->data['form']['fields']['download_id'] = $form->getFieldHtml(array(
+			'type' => 'hidden',
+			'name' => 'download_id',
+			'value' => $this->data['download_id'],
+		));
+		$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'name',
+			'value' => $file_data['name'],
+			'attr' => ' maxlength="64" '
+		));
+		$this->data['form']['fields']['mask'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'mask',
+			'value' => $file_data['mask'],
+		));
+		$this->data['form']['fields']['max_downloads'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'max_downloads',
+			'value' => $file_data['max_downloads'],
+			'style' => 'small-field'
+		));
+		$this->data['form']['fields']['activate'] = $form->getFieldHtml(array(
+			'type' => 'selectbox',
+			'name' => 'activate',
+			'value' => $file_data['activate'],
+			'options' => array( '' => $this->language->get('text_select'),
+								'before_order' => $this->language->get('text_before_order'),
+								'immediately' => $this->language->get('text_immediately'),
+								'order_status' => $this->language->get('text_on_order_status'),
+								'manually' => $this->language->get('text_manually'), ),
+			'required' => true,
+			'style' => 'download_activate no-save'
+		));
+
+		$options = array('' => $this->language->get('text_select'));
+		foreach($order_statuses as $order_status){
+			$options[$order_status['order_status_id']] = $order_status['name'];
+		}
+
+		$this->data['form']['fields']['order_statuses'] = $form->getFieldHtml(array(
+			'type' => 'selectbox',
+			'name' => 'activate_order_status_id',
+			'value' => $file_data['activate_order_status_id'],
+			'options' => $options,
+			'required' => true,
+			'style' => 'no-save'
+		));
+
+		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'sort_order',
+			'style' => 'small-field',
+			'value' => $file_data['sort_order'],
+		));
+		$this->data['form']['fields']['expire_days'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'expire_days',
+			'style' => 'small-field',
+			'value' => $file_data['expire_days'],
+		));
+
+		/*
+		 * DOWNLOAD ATTRIBUTES PIECE OF FORM
+		 * */
+		$attributes = $this->model_catalog_download->getDownloadAttributes($this->data['download_id']);
+		$elements = HtmlElementFactory::getAvailableElements();
+
+
+		$html_multivalue_elements = HtmlElementFactory::getMultivalueElements();
+		$html_elements_with_options = HtmlElementFactory::getElementsWithOptions();
+		if(!$attributes){
+			$attr_mng = new AAttribute_Manager('download_attribute');
+			$attr_type_id = $attr_mng->getAttributeTypeID('download_attribute');
+			$this->data['text_no_download_attributes_yet'] = sprintf($this->language->get('text_no_download_attributes_yet'),
+																	 $this->html->getSecureURL('catalog/attribute/insert',
+																		                        '&attribute_type_id='.$attr_type_id));
+		}else{
+			foreach ($attributes as $attribute) {
+				$html_type = $elements[$attribute['element_type']]['type'];
+				if (!$html_type || !$attribute['status']) {
+					continue;
+				}
+				$values = $value = array();
+				//values that was setted
+				if (in_array($attribute['element_type'], $html_elements_with_options) && $attribute['element_type']!='R') {
+
+					if(is_array($attribute['selected_values'])){
+						foreach ($attribute['selected_values'] as $val) {
+							$value[$val] = $val;
+						}
+					}else{
+						$value = $attribute['selected_values'];
+					}
+				} else {
+					if (isset($attribute['selected_values'])) {
+						$value = $attribute['selected_values'];
+						if($attribute['element_type']=='R' && is_array($value)){
+							$value = current($value);
+						}
+
+					} else {
+						$value = $attribute['values'][0]['value'];
+					}
+				}
+				// possible values
+				foreach ($attribute['values'] as $val) {
+					$values[$val['attribute_value_id']] = $val['value'];
+				}
+
+				if (!in_array($attribute['element_type'], $html_multivalue_elements)) {
+					$option_name = 'attributes['.$this->data['download_id'].'][' . $attribute['attribute_id'] . ']';
+				} else {
+					$option_name = 'attributes['.$this->data['download_id'].'][' . $attribute['attribute_id'] . '][' . $attribute['attribute_value_id'] . ']';
+				}
+
+				$disabled = '';
+				$required = $attribute['required'];
+
+				$option_data = array(
+					'type' => $html_type,
+					'name' => $option_name,
+					'value' => $value,
+					'options' => $values,
+					'required' => $required,
+					'attr' => $disabled,
+					'style' => 'large-field'
+				);
+
+				if ($html_type == 'checkboxgroup') {
+					$option_data['scrollbox'] = true;
+				}
+
+				$this->data['entry_attribute_' .$this->data['download_id'].'_'. $attribute['attribute_id']] = $attribute['name'];
+				$this->data['attributes'][$this->data['download_id'].'_' . $attribute['attribute_id']] = $form->getFieldHtml($option_data);
+			}
+		}
+		// for new download - create form for mapping shared downloads to product
+		if(!$file_data['download_id']){
+
+			if (!$this->registry->has('jqgrid_script')) {
+				$locale = $this->session->data['language'];
+				if (!file_exists(DIR_ROOT . '/' . RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js')) {
+					$locale = 'en';
+				}
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js');
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.jqGrid.min.js');
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.grid.fluid.js');
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.ba-bbq.min.js');
+				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/grid.history.js');
+
+				//set flag to not include scripts/css twice
+				$this->registry->set('jqgrid_script', true);
+			}
+
+
+			$form0 = new AForm('ST');
+			$form0->setForm(array(
+						'form_name' => 'SharedFrm'.$file_data['download_id'],
+						'update' => $this->data['update'],
+					));
+			$this->data['form0']['form_open'] = $form0->getFieldHtml(array(
+						'type' => 'form',
+						'name' => 'SharedFrm'.$file_data['download_id'],
+						'attr' => 'confirm-exit="true"',
+						'action' => $this->html->getSecureURL('catalog/product_files','&product_id='.$product_id)
+					));
+
+			// exclude this product from multivalue list. why we need relate recursion?
+			$this->session->data['multivalue_excludes']['product_id'] = $this->request->get['product_id'];
+
+			$this->data['form0']['fields']['list_hidden'] = $form0->getFieldHtml(
+				array('id' => 'popup',
+					'type' => 'multivalue',
+					'name' => 'popup',
+					'title' => $this->language->get('text_select_from_list'),
+					'selected' => ($listing_data ? AJson::encode($listing_data) : "{}"),
+					'content_url' => $this->html->getSecureUrl('catalog/download_listing', '&shared_only=1&form_name=SharedFrm'.$file_data['download_id'].'&multivalue_hidden_id=popup'),
+					'postvars' => '',
+					'return_to' => '', // placeholder's id of listing items count.
+					'popup_height' => 708,
+					'text' => array(
+						'selected' => $this->language->get('text_count_selected'),
+						'edit' => $this->language->get('text_save_edit'),
+						'apply' => $this->language->get('text_apply'),
+						'save' => $this->language->get('button_save'),
+						'reset' => $this->language->get('button_reset')),
+				));
+
+		}
+
+
+		$this->view->batchAssign($this->data);
+		$this->processTemplate($tpl);
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
+	private function _validateDownloadForm($data = array()){
+		$this->error = array();
+		$this->load->language('catalog/files');
+		if (!empty($data[ 'download_id' ]) && !$this->model_catalog_download->getDownload($data[ 'download_id' ])) {
+			$this->error[ 'download_id' ] = $this->language->get('error_download_exists');
+		}
+		if ( mb_strlen($data[ 'name' ]) < 2 || mb_strlen($data[ 'name' ]) > 64 ) {
+			$this->error[ 'name' ] = $this->language->get('error_download_name');
+		}
+		if ( !in_array($data[ 'activate' ],array('before_order','immediately','order_status','manually')) ) {
+			$this->error[ 'activate' ] = $this->language->get('error_activate');
+		}else{
+			if($data[ 'activate' ]=='order_status' && !(int)$data['activate_order_status_id']){
+				$this->error[ 'order_status' ] = $this->language->get('error_order_status');
+			}
+		}
+		$attr_mngr = new AAttribute_Manager('download_attribute');
+		$attr_errors = $attr_mngr->validateAttributeData($data['attributes'][$data[ 'download_id' ]]);
+		if($attr_errors){
+			$this->error['atributes'] = $this->language->get('error_download_attributes').'<br>&nbsp;&nbsp;&nbsp;'. implode('<br>&nbsp;&nbsp;&nbsp;',$attr_errors);
+		}
+		return $this->error ? false : true;
+	}
+
+	public function downloads() {
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$downloads = array();
+		$this->loadModel('catalog/download');
+		if($this->request->post['id']){
+			$downloads = $this->model_catalog_download->getDownloads(array('subsql_filter'=>' shared = 1 AND d.download_id IN ('.implode(',',$this->request->post['id']).')'));
+		}
+
+		$download_data = array();
+		foreach ($downloads as $download) {
+			$download_data[ ] = array(
+				'id' => $download[ 'download_id' ],
+				'name' => $download[ 'name' ],
+				'sort_order' => (int)$download[ 'sort_order' ]
+			);
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($download_data));
+	}
+
+	public function pushToCustomers(){
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$download_id = (int)$this->request->get['download_id'];
+		$product_id = (int)$this->request->get['product_id'];
+
+		$download_info = $this->download->getDownloadInfo($download_id);
+
+		if(!$download_info || !$product_id){
+			$this->redirect($this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id));
+		}
+
+		$download_info['attributes_data'] = serialize($this->download->getDownloadAttributesValues($download_id));
+		$this->loadModel('catalog/download');
+		$orders_for_push = $this->model_catalog_download->getOrdersWithProduct($product_id);
+		$updated_array = array();
+		if($orders_for_push){
+			foreach($orders_for_push as $row){
+				$updated_array = array_merge(
+						$updated_array, 
+						$this->download->addUpdateOrderDownload($row['order_product_id'],$row['order_id'], $download_info)
+						);
+			}
+		}
+		
+		$this->load->language('catalog/files');
+		$output = array('progress'=> 100, 'text'=> sprintf($this->language->get('text_push_to_orders'), count($updated_array)) );
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($output));
 	}
 }

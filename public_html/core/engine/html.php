@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -33,7 +33,12 @@ class AHtml extends AController {
 		$this->registry = $registry;
 	}
 
-	//#PR Build sub URL
+	/**
+	 * PR Build sub URL
+	 * @param string $rt
+	 * @param string $params
+	 * @return string
+	 */
 	private function buildURL($rt, $params = '') {
 		$suburl = '';
 		//#PR Add admin path if we are in admin
@@ -49,7 +54,13 @@ class AHtml extends AController {
 		return $suburl;
 	}
 
-	//#PR Build non-secure URL
+	/**
+	 * Build non-secure URL
+	 * @param string $rt
+	 * @param string $params
+	 * @param string $encode
+	 * @return string
+	 */
 	public function getURL($rt, $params = '', $encode = '') {
 		if (isset($this->registry->get('request')->server[ 'HTTPS' ])
 				&& (($this->registry->get('request')->server[ 'HTTPS' ] == 'on') || ($this->registry->get('request')->server[ 'HTTPS' ] == '1'))) {
@@ -71,7 +82,13 @@ class AHtml extends AController {
 		return $url;
 	}
 
-	//#PR Build secure URL with session token
+	/**
+	 * Build secure URL with session token
+	 * @param string $rt
+	 * @param string $params
+	 * @param string $encode
+	 * @return string
+	 */
 	public function getSecureURL($rt, $params = '', $encode = '') {
 		// add session id for crossdomain transition in non-secure mode
 		if($this->registry->get('config')->get('config_shared_session')	&& HTTPS!==true){
@@ -92,23 +109,39 @@ class AHtml extends AController {
 		return $url;
 	}
 
-	//#PR Build non-secure SEO URL
+	/**
+	 * Build non-secure SEO URL
+	 * @param string $rt
+	 * @param string $params
+	 * @param string $encode
+	 * @return string
+	 */
 	public function getSEOURL($rt, $params = '', $encode = '') {
 		//#PR Generate SEO URL based on standard URL
 		$this->loadModel('tool/seo_url');
 		return $this->url_encode($this->model_tool_seo_url->rewrite($this->getURL($rt, $params)), $encode);
 	}
 
-	//#PR This builds URL to the catalog to be used in admin
+	/**This builds URL to the catalog to be used in admin
+	 * @param string $rt
+	 * @param string $params
+	 * @param string $encode
+	 * @return string
+	 */
 	public function getCatalogURL($rt, $params = '', $encode = '') {
 		$suburl = '?' . ($rt ? 'rt=' . $rt : '') . $params;
 		$url = HTTP_SERVER . INDEX_FILE . $this->url_encode($suburl, $encode);
 		return $url;
 	}
 
-	//#PR encode URLfor & to be &amp;
-	public function url_encode($url, $encode = '') {
-		if ($encode == '&encode') {
+	/**
+	 * encode URLfor & to be &amp
+	 * @param string $url
+	 * @param bool $encode
+	 * @return string
+	 */
+	public function url_encode($url, $encode = false) {
+		if ($encode) {
 			return str_replace('&', '&amp;', $url);
 		} else {
 			return $url;
@@ -135,6 +168,22 @@ class AHtml extends AController {
 		}
 		$URI = '&' . $this->buildURI($params_arr, $filter_params);
 		return $this->getURL($rt, $URI);
+	}
+
+	/**
+	 * URI entrypt parameteres in URI
+	 *
+	 * @param $uri
+	 * @internal param array $filter_params - array of vars to filter
+	 * @return string - url without unwanted filter parameters
+	 */
+	public function encryptURI($uri) {		
+		$encrypted = base64_encode( $uri );
+		if ( strlen( $encrypted ) <= 250 ) {
+			return '__e='.$encrypted;
+		} else {
+			return $uri;
+		}		
 	}
 
 	/**
@@ -212,9 +261,6 @@ class AHtml extends AController {
 
 		return '';
 	}
-
-
-
 
 	/**
 	 * create html code based on passed data
@@ -407,42 +453,67 @@ class AHtml extends AController {
 		return $item->getHtml();
 	}
 
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildMultivalue($data) {
 		$item = new MultivalueHtmlElement($data);
 		return $item->getHtml();
 	}
 
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildResourceImage($data) {
 		$item = new ResourceImageHtmlElement($data);
 		return $item->getHtml();
 	}
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildDate($data) {
 		$item = new DateHtmlElement($data);
 		return $item->getHtml();
 	}
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildEmail($data) {
 		$item = new EmailHtmlElement($data);
 		return $item->getHtml();
 	}
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildNumber($data) {
 		$item = new NumberHtmlElement($data);
 		return $item->getHtml();
 	}
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildPhone($data) {
 		$item = new PhoneHtmlElement($data);
 		return $item->getHtml();
 	}
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildIPaddress($data) {
 		$item = new IPaddressHtmlElement($data);
 		return $item->getHtml();
 	}
-
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildCountries($data) {
 		$item = new CountriesHtmlElement($data);
 		return $item->getHtml();
@@ -450,7 +521,7 @@ class AHtml extends AController {
 
 	/**
 	 * @param  $data - array with element data
-	 * method to build pagination HTML elment 
+	 * method to build pagination HTML element
 	 * @return string - html code
 	 */
 	public function buildPagination($data) {
@@ -562,8 +633,10 @@ class AHtml extends AController {
 
 }
 
+/**
+ * Class HtmlElementFactory
+ */
 class HtmlElementFactory {
-
 	static private $available_elements = array(
 		'I' => array(
 			'type' => 'input',
@@ -747,12 +820,19 @@ class HtmlElementFactory {
 	}
 }
 
+/**
+ * @abstract
+ * Class HtmlElement
+ */
 abstract class HtmlElement {
 
 	protected $data = array();
 	protected $view;
 	public $element_id;
 
+	/**
+	 * @param array $data
+	 */
 	function __construct($data) {
 		if (!isset($data[ 'value' ])) $data[ 'value' ] = '';
 		if (isset($data[ 'required' ]) && $data[ 'required' ] == 1) $data[ 'required' ] = 'Y';
@@ -768,6 +848,10 @@ abstract class HtmlElement {
 			$this->element_id = $data[ 'form' ] . '_' . $data[ 'name' ];
 	}
 
+	/**
+	 * @param string $name
+	 * @return null|string
+	 */
 	public function __get($name) {
 
 		if (array_key_exists($name, $this->data)) {
@@ -776,6 +860,10 @@ abstract class HtmlElement {
 		return null;
 	}
 
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
 	public function __isset($name) {
 		return isset($this->data[ $name ]);
 	}
@@ -1333,7 +1421,7 @@ class DateHtmlElement extends HtmlElement {
 				'attr' => 'aform_field_type="date" ' . $this->attr.' data-aform-field-type="captcha"',
 				'required' => $this->required,
 				'style' => $this->style,
-				'dateformat' => $this->dateformat,
+				'dateformat' => $this->dateformat ? $this->dateformat : format4Datepicker($this->data[ 'registry' ]->get('language')->get('date_format_short')),
 				'highlight' => $this->highlight
 			)
 		);
@@ -1492,14 +1580,18 @@ class CountriesHtmlElement extends HtmlElement {
 }
 
 class ZonesHtmlElement extends HtmlElement {
-
+	//private $default_zone_value, $default_value;
 	public function __construct($data) {
 		parent::__construct($data);
 		$this->data[ 'registry' ]->get('load')->model('localisation/country');
 		$results = $this->data[ 'registry' ]->get('model_localisation_country')->getCountries();
 		$this->options = array();
 		$this->zone_options = array();
+		$config_country_id = $this->data['registry']->get('config')->get('config_country_id');
 		foreach ($results as $c) {
+			if($c[ 'country_id' ]== $config_country_id){
+				$this->default_value = $this->submit_mode == 'id' ? array($config_country_id) : array($c[ 'name' ]=>$c[ 'name' ]);
+			}
 			if ($this->submit_mode == 'id') {
 				$this->options[ $c[ 'country_id' ] ] = $c[ 'name' ];
 			} else {
@@ -1509,8 +1601,11 @@ class ZonesHtmlElement extends HtmlElement {
 	}
 
 	public function getHtml() {
-
-		if (!is_array($this->value)) $this->value = array( $this->value => (string)$this->value );
+		if($this->value && !is_array($this->value)){
+			$this->value = array( $this->value => (string)$this->value );
+		}else{
+			$this->value = array();
+		}
 
 		$this->zone_name = !$this->zone_name ? '' : urlencode($this->zone_name);
 		$this->options = !$this->options ? array() : $this->options;
@@ -1524,12 +1619,40 @@ class ZonesHtmlElement extends HtmlElement {
 			$url = $html->getSecureURL('common/zone/names');
 		}
 
-		if($this->value){
-			$this->data['registry']->get('load')->model('localisation/zone');
-			$results = $this->data['registry']->get('model_localisation_zone')->getZonesByCountryId(current($this->value));
-			if (!is_array($this->zone_value)) $this->zone_value = array( $this->zone_value => (string)$this->zone_value );
-			foreach ($results as $result) {
+
+		$this->data['registry']->get('load')->model('localisation/zone');
+
+		$results = array();
+		if($this->submit_mode=='id'){
+			$id = $this->value ? key($this->value) : $this->data['registry']->get('config')->get('config_country_id');
+			$results = $this->data['registry']->get('model_localisation_zone')->getZonesByCountryId($id);
+
+		}else{
+			if($this->value){
+				$name = current($this->value);
+			}else{
+				$this->data['registry']->get('load')->model('localisation/country');
+				$temp = $this->data['registry']->get('model_localisation_country')->getCountry($this->data['registry']->get('config')->get('config_country_id'));
+				$name = $temp['name'];
+			}
+			$results = $this->data['registry']->get('model_localisation_zone')->getZonesByCountryName($name);
+		}
+
+		if (!is_array($this->zone_value)){
+			$this->zone_value = $this->zone_value ? array( $this->zone_value => (string)$this->zone_value ) : array();
+		}
+		$config_zone_id = $this->data['registry']->get('config')->get('config_zone_id');
+		foreach ($results as $result) {
+			// default zone_id is zone of shop
+			if($result[ 'zone_id' ]== $config_zone_id){
+				$this->default_zone_value = $this->submit_mode == 'id' ? array($config_zone_id) : array($result[ 'name' ]=>$result[ 'name' ]);
+				$this->default_zone_name = $result[ 'name' ];
+			}
+
+			if ($this->submit_mode == 'id') {
 				$this->zone_options[$result['zone_id']] = $result['name'];
+			}else{
+				$this->zone_options[$result['name']] = $result['name'];
 			}
 		}
 
@@ -1537,14 +1660,14 @@ class ZonesHtmlElement extends HtmlElement {
 			array(
 				'name' => $this->name,
 				'id' => $this->element_id,
-				'value' => $this->value,
+				'value' => $this->value ? $this->value : $this->default_value,
 				'options' => $this->options,
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
 				'url' => $url,
-				'zone_name' => $this->zone_name,
-				'zone_value' => $this->zone_value,
+				'zone_name' => $this->zone_name ? $this->zone_name : $this->default_zone_name,
+				'zone_value' => $this->zone_value ? $this->zone_value : $this->default_zone_value,
 				'zone_options' => $this->zone_options,
 				'submit_mode' => $this->submit_mode,
 				'placeholder' => $this->placeholder
@@ -1597,6 +1720,9 @@ class PaginationHtmlElement extends HtmlElement {
 	
 	public function getHtml() {
 		//Build pagination data and dysplay
+		/**
+		 * @var $registry Registry
+		 */
 		$registry = $this->data['registry'];
 		$html = new AHtml($registry);
 		$s = $this->sts;

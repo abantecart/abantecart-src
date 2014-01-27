@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Поиск]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Товары, удовлетворяющие критериям поиска]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Ключевые слова]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Все категории]]></value>
+  </definition>
+  <definition>
+    <key>text_critea</key>
+    <value><![CDATA[Критерии поиска]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[Нет товаров, которые соответствуют критериям поиска.]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s из 5 звезд!]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[Сортировать по:]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[По умолчанию]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[Название (А - Я)]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[Название (Я - А)]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[Цена (низкая &gt; высокая)]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[Цена (высокая &gt; низкая)]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[Рейтинг (начиная с низкого)]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[Рейтинг (начиная с высокого)]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Поиск по сайту:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Искать в описании товаров]]></value>
+  </definition>
+  <definition>
+    <key>entry_model</key>
+    <value><![CDATA[Искать в модели продукта]]></value>
+  </definition>
+</definitions>

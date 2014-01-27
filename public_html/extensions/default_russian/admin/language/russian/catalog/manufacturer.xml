@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Производители и бренды]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[Производитель или бренд]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили производителей!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[По умолчанию]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Менеджер Изображений]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Название производителя]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Порядок сортировки]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Действие]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Название производителя:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[Магазины:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO Ключевое слово:]]></value>
+  </definition>
+  <definition>
+    <key>entry_edit</key>
+    <value><![CDATA[Редактировать]]></value>
+  </definition>
+  <definition>
+    <key>entry_layout</key>
+    <value><![CDATA[Макет]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Изображение:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Порядок сортировки:]]></value>
+  </definition>
+  <definition>
+    <key>error_manufacturer_not_found</key>
+    <value><![CDATA[Ошибка: Производитель не найден!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Внимание: Вы не имеете права модифицировать производителей!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Название производителя должно быть от 2 до 64 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Внимание: Этот производитель не может быть удален, поскольку в настоящее время он прикреплен к %s товару(ам)!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Успешно: Вы изменили макет страницы производителя.]]></value>
+  </definition>
+</definitions>

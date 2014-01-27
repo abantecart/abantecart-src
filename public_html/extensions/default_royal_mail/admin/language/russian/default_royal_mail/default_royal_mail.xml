@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_royal_mail_name</key>
+    <value><![CDATA[Royal Mail]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Доставка]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили Royal Mail!]]></value>
+  </definition>
+	<definition>
+		<key>default_royal_mail_1st_class_standard</key>
+		<value><![CDATA[First Class Standard Post (for GB only)]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_1st_class_standard_rates</key>
+		<value><![CDATA[First Class Standard Post Rates (for GB only)]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_1st_class_standard_compensation_rates</key>
+		<value><![CDATA[First Class Standard Post Compensation Rates (for GB only)]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_1st_class_recorded</key>
+		<value><![CDATA[First Class Recorded Post (for GB only)]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_1st_class_recorded_rates_gb</key>
+		<value><![CDATA[First Class Recorded Post Rates (for GB only)]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_1st_class_recorded_compensation_rates_gb</key>
+		<value><![CDATA[First Class Recorded Post Compensation Rates (for GB only)]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_2nd_class_standard</key>
+		<value><![CDATA[Second Class Standard Post]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_2nd_class_standard_rates</key>
+		<value><![CDATA[Second Class Standard Post Rates (for GB only)]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_2nd_class_recorded</key>
+		<value><![CDATA[Second Class Recorded Post]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_2nd_class_recorded_rates_gb</key>
+		<value><![CDATA[Second Class Recorded Post Rates (for GB only)]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_2nd_class_recorded_compensation_rates_gb</key>
+		<value><![CDATA[Second Class Recorded Post Compensation Rates (for GB only)]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_standard_parcels</key>
+		<value><![CDATA[Standard Parcels]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_standard_parcels_rates_gb</key>
+		<value><![CDATA[Standard Parcels Rates (for GB only)]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_standard_parcels_compensation_rates_gb</key>
+		<value><![CDATA[Standard Parcels Compensation Rates (for GB only)]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_airmail</key>
+		<value><![CDATA[Airmail]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_airmail_countries</key>
+		<value><![CDATA[Airmail Country List]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_airmail_in_countries_rates</key>
+		<value><![CDATA[Airmail Rates for Countries From List]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_airmail_not_in_countries_rates</key>
+		<value><![CDATA[Airmail Rates for Other Countries]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_international_signed</key>
+		<value><![CDATA[International Signed]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_international_signed_countries</key>
+		<value><![CDATA[International Signed Country List]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_international_signed_in_countries_rates</key>
+		<value><![CDATA[International Signed Rates for Countries From List]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_international_signed_in_countries_c_rates</key>
+		<value><![CDATA[International Signed Compensation Rates for Countries From List]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_international_signed_not_in_countries_rates</key>
+		<value><![CDATA[International Signed Rates for Other Countries]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_international_signed_not_in_countries_c_rates</key>
+		<value><![CDATA[International Signed Compensation Rates for Other Countries]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_airsure</key>
+		<value><![CDATA[Airsure]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_airsure_countries</key>
+		<value><![CDATA[Airsure 1st Country List]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_airsure_in_countries_rates</key>
+		<value><![CDATA[Airsure 1st Country List Rates]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_airsure_countries_2</key>
+		<value><![CDATA[Airsure 2nd Country List]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_airsure_in_countries_2_rates</key>
+		<value><![CDATA[Airsure 2nd Country List Rates]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_airsure_countries_3</key>
+		<value><![CDATA[Airsure 3d Country List]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_airsure_in_countries_3_rates</key>
+		<value><![CDATA[Airsure 3d Country List Rates]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_airsure_countries_4</key>
+		<value><![CDATA[Airsure 4th Country List]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_airsure_in_countries_4_rates</key>
+		<value><![CDATA[Airsure 4th Country List Rates]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_surface</key>
+		<value><![CDATA[Surface]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_surface_rates</key>
+		<value><![CDATA[Surface Rates]]></value>
+	</definition>
+  <definition>
+    <key>default_royal_mail_service</key>
+    <value><![CDATA[Услуги:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_display_weight</key>
+    <value><![CDATA[Отображать Вес доставки:<br /><span class="help">Вы хотите, чтобы отображать вес груза? (Например, поставки Вес: 2,7674 кг в)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_display_insurance</key>
+    <value><![CDATA[Показать страхование:<br /><span class="help">Вы хотите, чтобы отобразить страхование груза? (Например застраховано ДО £500)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_display_time</key>
+    <value><![CDATA[Отображение времени поставки: <br /> <span class="help">Вы хотите, чтобы отобразить время доставки? (Например, В течение от 3 ​​до 5 дней)</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_weight_class</key>
+    <value><![CDATA[Единица веса:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_tax</key>
+    <value><![CDATA[Налоговый класс:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_tax_0</key>
+    <value><![CDATA[--- Не учитывать ---]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_location_id</key>
+    <value><![CDATA[Географическая зона:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_sort_order</key>
+    <value><![CDATA[Порядок сортировки:]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_autoselect</key>
+    <value><![CDATA[Автоматический выбор:<br /><span class="help">Включить, чтобы пропустить по страницу выбора доставки, если есть только один вариант доставки. Этот метод доставка будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_royal_mail_accept_payments</key>
+    <value><![CDATA[Допустимые методы оплаты:<br /><span class="help">В случае если необходимы только конкретные способы оплаты для этого способа доставки, выберите здесь. Если ничего не выбрано, все доступные способы оплаты будут показаны</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение Royal Mail!]]></value>
+  </definition>
+</definitions>

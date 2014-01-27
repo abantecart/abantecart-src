@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -39,8 +39,11 @@ class ControllerPagesSaleContact extends AController {
 
 		$this->data['token'] = $this->session->data['token'];
 		
- 		if (isset($this->error['warning'])) {
-			$this->data['error_warning'] = $this->error['warning'];
+ 		if (isset($this->error)) {
+ 			$this->data['error_warning'] = '';
+ 			foreach($this->error as $message) {
+ 				$this->data['error_warning'] .= $message . '<br/>';
+ 			}
 		} else {
 			$this->data['error_warning'] = '';
 		}
@@ -55,6 +58,12 @@ class ControllerPagesSaleContact extends AController {
 			$this->data['error_message'] = $this->error['message'];
 		} else {
 			$this->data['error_message'] = '';
+		}	
+
+		if (isset($this->error['recipient'])) {
+			$this->data['error_recipient'] = $this->error['recipient'];
+		} else {
+			$this->data['error_recipient'] = '';
 		}	
 
   		$this->document->initBreadcrumb( array (
@@ -238,101 +247,105 @@ class ControllerPagesSaleContact extends AController {
 			$this->redirect($this->html->getSecureURL('sale/contact'));
 		}
 
-		if ($this->_validate()) {
-			$this->loadModel('sale/customer');
-			$this->loadModel('setting/store');
-			$store_info = $this->model_setting_store->getStore($this->request->post['store_id']);
-			if ($store_info) {
-				$store_name = $store_info['store_name'];
-			} else {
-				$store_name = $this->config->get('store_name');
-			}
-
-			$emails = array();
-
-			// All customers by group
-			if (isset($this->request->post['recipient'])) {
-				$customers = $results = array();
-				if($this->request->post['recipient'] == 'newsletter'){
-						$results = $this->model_sale_customer->getCustomersByNewsletter();
-				}else if($this->request->post['recipient'] == 'customer'){
-						$results = $this->model_sale_customer->getCustomers();
-				}
-				foreach ($results as $result) {
-					$customer_id = $result['customer_id'];
-					$emails[$customer_id] = $customers[$customer_id] = trim($result['email']);
-				}
-			}
-
-			// All customers by name/email
-			if (isset($this->request->post['to']) && $this->request->post['to']) {
-				foreach ($this->request->post['to'] as $customer_id) {
-					$customer_info = $this->model_sale_customer->getCustomer($customer_id);
-					if ($customer_info) {
-						$emails[] = trim($customer_info['email']);
-					}
-				}
-			}
-
-			// All customers by product
-			if (isset($this->request->post['product'])) {
-				foreach ($this->request->post['product'] as $product_id) {
-					$results = $this->model_sale_customer->getCustomersByProduct($product_id);
-					if( $customers ){
-						$emails = array();
-					}
-					foreach ($results as $result) {
-						if($customers && in_array($result['email'],$customers)){
-							$emails[] = trim($result['email']);
-						}
-					}
-				}
-			}
-
-			// Prevent Duplicates
-			$emails = array_unique($emails);
-
-			if ($emails) {
-				$message_html  = '<html dir="ltr" lang="en">' . "\n";
-				$message_html .= '<head>' . "\n";
-				$message_html .= '<title>' . $this->request->post['subject'] . '</title>' . "\n";
-				$message_html .= '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">' . "\n";
-				$message_html .= '</head>' . "\n";
-				$message_html .= '<body>%MESSAGEBODY%</body>' . "\n";
-				$message_html .= '</html>' . "\n";
-
-				foreach ($emails as $email) {
-					$mail = new AMail( $this->config );
-					$mail->setTo($email);
-					$mail->setFrom($this->config->get('store_main_email'));
-					$mail->setSender($store_name);
-					$mail->setSubject($this->request->post['subject']);
-
-					$message_body = $this->request->post['message'];
-					if($this->request->post['recipient'] == 'newsletter'){
-						if(($customer_id = array_search($email,$customers))){
-							$message_body .= "\n\n<br><br>".sprintf($this->language->get('text_unsubscribe'),
-													 $email,
-													 $this->html->getCatalogURL('account/unsubscribe','&email='.$email.'&customer_id='.$customer_id));
-						}
-					}
-					$message_body = html_entity_decode($message_body, ENT_QUOTES, 'UTF-8');
-					$message_html = str_replace('%MESSAGEBODY%',$message_body,$message_html);
-
-					$mail->setHtml($message_html);
-					$mail->send();
-					if($mail->error){
-						$this->error['warning'] = 'Error: Emails does not sent! Please see error log for details.';
-						break;
-					}
-				}
-
-			}
-			if(!$mail->error){
-				$this->session->data['success'] = $this->language->get('text_success');
-				$this->redirect($this->html->getSecureURL('sale/contact'));
-			}
+		if (!$this->_validate()) {
+			$this->main();
+			return null;
 		}
+
+		$this->loadModel('sale/customer');
+		$this->loadModel('setting/store');
+		$store_info = $this->model_setting_store->getStore($this->request->post['store_id']);
+		if ($store_info) {
+		    $store_name = $store_info['store_name'];
+		} else {
+		    $store_name = $this->config->get('store_name');
+		}
+
+		$emails = array();
+
+		// All customers by group
+		if (isset($this->request->post['recipient'])) {
+		    $customers = $results = array();
+		    if($this->request->post['recipient'] == 'newsletter'){
+		    		$results = $this->model_sale_customer->getCustomersByNewsletter();
+		    }else if($this->request->post['recipient'] == 'customer'){
+		    		$results = $this->model_sale_customer->getCustomers();
+		    }
+		    foreach ($results as $result) {
+		    	$customer_id = $result['customer_id'];
+		    	$emails[$customer_id] = $customers[$customer_id] = trim($result['email']);
+		    }
+		}
+
+		// All customers by name/email
+		if (isset($this->request->post['to']) && $this->request->post['to']) {
+		    foreach ($this->request->post['to'] as $customer_id) {
+		    	$customer_info = $this->model_sale_customer->getCustomer($customer_id);
+		    	if ($customer_info) {
+		    		$emails[] = trim($customer_info['email']);
+		    	}
+		    }
+		}
+
+		// All customers by product
+		if (isset($this->request->post['product'])) {
+		    foreach ($this->request->post['product'] as $product_id) {
+		    	$results = $this->model_sale_customer->getCustomersByProduct($product_id);
+		    	if( $customers ){
+		    		$emails = array();
+		    	}
+		    	foreach ($results as $result) {
+		    		if($customers && in_array($result['email'],$customers)){
+		    			$emails[] = trim($result['email']);
+		    		}
+		    	}
+		    }
+		}
+
+		// Prevent Duplicates
+		$emails = array_unique($emails);
+
+		if ($emails) {
+		    $message_html  = '<html dir="ltr" lang="en">' . "\n";
+		    $message_html .= '<head>' . "\n";
+		    $message_html .= '<title>' . $this->request->post['subject'] . '</title>' . "\n";
+		    $message_html .= '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">' . "\n";
+		    $message_html .= '</head>' . "\n";
+		    $message_html .= '<body>%MESSAGEBODY%</body>' . "\n";
+		    $message_html .= '</html>' . "\n";
+
+		    foreach ($emails as $email) {
+		    	$mail = new AMail( $this->config );
+		    	$mail->setTo($email);
+		    	$mail->setFrom($this->config->get('store_main_email'));
+		    	$mail->setSender($store_name);
+		    	$mail->setSubject($this->request->post['subject']);
+
+		    	$message_body = $this->request->post['message'];
+		    	if($this->request->post['recipient'] == 'newsletter'){
+		    		if(($customer_id = array_search($email,$customers))){
+		    			$message_body .= "\n\n<br><br>".sprintf($this->language->get('text_unsubscribe'),
+		    									 $email,
+		    									 $this->html->getCatalogURL('account/unsubscribe','&email='.$email.'&customer_id='.$customer_id));
+		    		}
+		    	}
+		    	$message_body = html_entity_decode($message_body, ENT_QUOTES, 'UTF-8');
+		    	$message_html = str_replace('%MESSAGEBODY%',$message_body,$message_html);
+
+		    	$mail->setHtml($message_html);
+		    	$mail->send();
+		    	if($mail->error){
+		    		$this->error['warning'] = 'Error: Emails does not sent! Please see error log for details.';
+		    		break;
+		    	}
+		    }
+
+		}
+		if(!$mail->error){
+		    $this->session->data['success'] = $this->language->get('text_success');
+		    $this->redirect($this->html->getSecureURL('sale/contact'));
+		}
+
 		 //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
@@ -352,7 +365,7 @@ class ControllerPagesSaleContact extends AController {
 		}
 
 		if(!$this->request->post['recipient'] && !$this->request->post['to']){
-			$this->error['warning'] = $this->language->get('error_recipients');
+			$this->error['recipient'] = $this->language->get('error_recipients');
 		}
 
 		if (!$this->error) {

@@ -26,18 +26,25 @@
 							<?php $sub_cat = $category['children']; ?>
 							<?php if ($sub_cat) { ?>
 								<!-- Subcategories -->
-								<div>
+								<div class="subcategories">
 									<ul>
 										<?php foreach ($sub_cat as $scat) { ?>
 											<li><a href="<?php echo $scat['href']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $scat['name']; ?></a>
+											<img class="sub_cat_image" style="display:none" src="<?php echo $scat['thumb']; ?>"
+													 alt="<?php echo $scat['name']; ?>"
+													 title="<?php echo $scat['name']; ?>">
 											</li>
 										<?php } ?>
 									</ul>
 									<?php if ($category['thumb']) { ?>
 										<ul>
-											<li><img style="display:block" src="<?php echo $scat['thumb']; ?>"
-													 alt="<?php echo $scat['name']; ?>"
-													 title="<?php echo $scat['name']; ?>">
+											<li class="parent_cat_image" style="display:none"><img class="root_cat_image" style="display:block" src="<?php echo $category['thumb']; ?>"
+													 alt="<?php echo $category['name']; ?>"
+													 title="<?php echo $category['name']; ?>">
+											</li>
+											<li class="cat_image"><img class="root_cat_image" style="display:block" src="<?php echo $category['thumb']; ?>"
+													 alt="<?php echo $category['name']; ?>"
+													 title="<?php echo $category['name']; ?>">
 											</li>
 										</ul>
 									<?php } ?>

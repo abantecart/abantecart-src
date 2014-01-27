@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -22,15 +22,25 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelLocalisationCountry extends Model {
 	public function addCountry($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "countries SET status = '" . (int)$data['status'] . "', name = '" . $this->db->escape($data['name']) . "', iso_code_2 = '" . $this->db->escape($data['iso_code_2']) . "', iso_code_3 = '" . $this->db->escape($data['iso_code_3']) . "', address_format = '" . $this->db->escape($data['address_format']) . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "countries SET status = '" . (int)$data['status'] . "', iso_code_2 = '" . $this->db->escape($data['iso_code_2']) . "', iso_code_3 = '" . $this->db->escape($data['iso_code_3']) . "', address_format = '" . $this->db->escape($data['address_format']) . "'");
+
+		$country_id = $this->db->getLastId();
+
+		foreach ($data['country_name'] as $language_id => $value) {
+			$this->language->replaceDescriptions('country_descriptions',
+											 array('country_id' => (int)$country_id),
+											 array($language_id => array(
+												 'name' => $value['name'],
+											 )) );
+		}
 	
 		$this->cache->delete('country');
-		return $this->db->getLastId();
+		return $country_id;
 	}
 	
 	public function editCountry($country_id, $data) {
 
-		$fields = array('status', 'name', 'iso_code_2', 'iso_code_3', 'address_format', );
+		$fields = array('status', 'iso_code_2', 'iso_code_3', 'address_format', );
 		$update = array();
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )
@@ -40,29 +50,73 @@ class ModelLocalisationCountry extends Model {
 			$this->db->query("UPDATE `" . DB_PREFIX . "countries` SET ". implode(',', $update) ." WHERE country_id = '" . (int)$country_id . "'");
 			$this->cache->delete('country');
 		}
+
+		if ( count($data['country_name']) ) {
+			foreach ($data['country_name'] as $language_id => $value) {
+				$this->language->replaceDescriptions('country_descriptions',
+												 array('country_id' => (int)$country_id),
+												 array($language_id => array(
+													 'name' => $value['name'],
+												 )) );
+			}
+		}
 	}
 	
 	public function deleteCountry($country_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "countries WHERE country_id = '" . (int)$country_id . "'");
-		
+		$this->db->query("DELETE FROM " . DB_PREFIX . "country_descriptions WHERE country_id = '" . (int)$country_id . "'");		
 		$this->cache->delete('country');
 	}
 	
 	public function getCountry($country_id) {
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "countries WHERE country_id = '" . (int)$country_id . "'");
-		
-		return $query->row;
+		$language_id = $this->session->data['content_language_id'];
+		$default_lang_id = $this->language->getDefaultLanguageID();	
+
+		$query = $this->db->query("SELECT DISTINCT *
+										FROM " . DB_PREFIX . "countries c
+										LEFT JOIN " . DB_PREFIX . "country_descriptions cd
+										ON (c.country_id = cd.country_id AND cd.language_id = '" . (int)$language_id . "')
+										WHERE c.country_id = '" . (int)$country_id . "'");
+		$ret_data = $query->row;
+		$ret_data['country_name'] = $this->getCountryDescriptions($country_id); 
+		return $ret_data;
 	}
+
+	public function getCountryDescriptions($country_id) {
+		$country_data = array();
+		
+		$query = $this->db->query( "SELECT *
+									FROM " . DB_PREFIX . "country_descriptions
+									WHERE country_id = '" . (int)$country_id . "'");
+		
+		foreach ($query->rows as $result) {
+			$country_data[$result['language_id']] = array('name' => $result['name']);
+		}
+		
+		return $country_data;
+	}
+
 		
 	public function getCountries($data = array(), $mode = 'default') {
+		$language_id = $this->session->data['content_language_id'];
+		$default_language_id = $this->language->getDefaultLanguageID();
+		
 		if ($data) {
 			if ($mode == 'total_only') {
-				$sql = "SELECT count(*) as total FROM " . DB_PREFIX . "countries";
+				$sql = "SELECT count(*) as total FROM " . DB_PREFIX . "countries c ";
 			}
 			else {
-				$sql = "SELECT * FROM " . DB_PREFIX . "countries";
+				$sql = "SELECT c.country_id, 
+							   c.iso_code_2,
+							   c.iso_code_3, 
+							   c.address_format, 
+							   c.status, 
+							   c.sort_order, 
+							   cd.name  
+						FROM " . DB_PREFIX . "countries c ";
 			}
-
+			$sql .= "LEFT JOIN " . DB_PREFIX . "country_descriptions cd ON (c.country_id = cd.country_id AND cd.language_id = '" . (int)$language_id . "') ";
+			
 			if ( !empty($data['subsql_filter']) ) {
 				$sql .= " WHERE ".$data['subsql_filter'];
 			}
@@ -74,16 +128,16 @@ class ModelLocalisationCountry extends Model {
 			}
 
 			$sort_data = array(
-				'name',
-				'status',
-				'iso_code_2',
-				'iso_code_3'
+				'name' => 'cd.name',
+				'status' => 'c.status',
+				'iso_code_2' => 'c.iso_code_2',
+				'iso_code_3' => 'c.iso_code_3'
 			);	
 			
 			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-				$sql .= " ORDER BY " . $data['sort'];	
+				$sql .= " ORDER BY " . $sort_data[$data['sort']];	
 			} else {
-				$sql .= " ORDER BY name";	
+				$sql .= " ORDER BY cd.name";	
 			}
 			
 			if (isset($data['order']) && ($data['order'] == 'DESC')) {
@@ -108,16 +162,30 @@ class ModelLocalisationCountry extends Model {
 
 			return $query->rows;
 		} else {
-			$country_data = $this->cache->get('country');
+			$country_data = $this->cache->get('country', $language_id);
 		
 			if (!$country_data) {
-				$query = $this->db->query( "SELECT *
-											FROM " . DB_PREFIX . "countries
-											ORDER BY name ASC");
+				if ($language_id == $default_language_id) {
+					$query = $this->db->query( "SELECT *
+											FROM " . DB_PREFIX . "countries c
+											LEFT JOIN " . DB_PREFIX . "country_descriptions cd 
+												ON (c.country_id = cd.country_id AND cd.language_id = '" . (int)$language_id . "') 
+											ORDER BY cd.name ASC");
+							
+				} else {
+					//merge text for missing country translations. 
+					$query = $this->db->query("SELECT *, COALESCE( cd1.name,cd2.name) as name
+							FROM " . DB_PREFIX . "countries c
+							LEFT JOIN " . DB_PREFIX . "country_descriptions cd1
+							ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "')
+							LEFT JOIN " . DB_PREFIX . "country_descriptions cd2
+							ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "')
+							ORDER BY cd1.name,cd2.name ASC");	
+				}								
 	
 				$country_data = $query->rows;
 			
-				$this->cache->set('country', $country_data);
+				$this->cache->set('country', $country_data, $language_id);
 			}
 
 			return $country_data;			

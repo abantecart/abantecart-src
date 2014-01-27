@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -50,6 +50,19 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		}
 		unset($update_data['language_definition_id']);
 
+		//Handle special case of main block (english.xml, spanish.xml … )
+		//do not auto translate this case. autotranslate will not save to right key 
+		$autotranslate = true;
+		if ( $this->language->isMainBlock($update_data['block'], $update_data['language_id']) ) {
+			$autotranslate = false;
+		} else if ( $this->language->isMainBlock($update_data['block'] ) ) {
+			$autotranslate = false;
+			//this is a main block in other language. Need to get right block name
+			$lang_det = $this->language->getLanguageDetailsByID( $update_data['language_id'] );
+			$update_data['block'] = $lang_det['filename'];
+		}		
+	
+		//save definition. 
 		$this->language->replaceDescriptions('language_definitions',
 			array('section' => (int)$update_data['section'],
 				'block' => $update_data['block'],
@@ -60,13 +73,15 @@ class ModelLocalisationLanguageDefinitions extends Model {
 				'block' => $update_data['block'],
 				'language_key' => $update_data['language_key'],
 				'language_value' => $update_data['language_value']
-			)));
+			)),
+			$autotranslate
+			);
 
 		$this->cache->delete('lang');
 		$this->cache->delete('language_definitions');
 		$this->cache->delete('admin_menu');
 
-		return $this->db->getLastId();
+		return true;
 	}
 
     /**
@@ -77,8 +92,22 @@ class ModelLocalisationLanguageDefinitions extends Model {
     public function editLanguageDefinition($id, $data) {
 		if (empty($id) || !is_array($data) || !$data) return false;
 
+		//NOTE: On edit we only care about new definition value.
+		//Other details are loaded from definition 
 		$lang_value = (string)$data['language_value'];
 		$update_data = $this->getLanguageDefinition($id);
+
+		//Handle special case of main block (english.xml, spanish.xml … )
+		//do not auto translate this case. autotranslate will not save to right key 
+		$autotranslate = true;
+		if ( $this->language->isMainBlock($update_data['block'], $update_data['language_id']) ) {
+			$autotranslate = false;
+		} else if ( $this->language->isMainBlock($update_data['block'] ) ) {
+			$autotranslate = false;
+			//this is a main block in other language. Need to get right block name
+			$lang_det = $this->language->getLanguageDetailsByID( $update_data['language_id'] );
+			$update_data['block'] = $lang_det['filename'];
+		}		
 
 		if (isset($update_data['language_key'])) {
 			$this->language->replaceDescriptions('language_definitions',
@@ -86,21 +115,25 @@ class ModelLocalisationLanguageDefinitions extends Model {
 					'block' => $update_data['block'],
 					'language_key' => $update_data['language_key']
 				),
-				array((int)$this->session->data['content_language_id'] => array(
+				array((int)$update_data['language_id'] => array(
 					'section' => (int)$update_data['section'],
 					'block' => $update_data['block'],
 					'language_key' => $update_data['language_key'],
 					'language_value' => html_entity_decode($lang_value, ENT_QUOTES, 'UTF-8')
-				)));
+				)),
+				$autotranslate
+				);
 		} else {
 			$this->language->replaceDescriptions('language_definitions',
 				array('section' => (int)$update_data['section'],
 					'block' => $update_data['block'],
 					'language_key' => $update_data['language_key']
 				),
-				array((int)$this->session->data['content_language_id'] => array(
+				array((int)$update_data['language_id'] => array(
 					'language_value' => html_entity_decode($lang_value, ENT_QUOTES, 'UTF-8')
-				)));
+				)),
+				$autotranslate
+				);
 		}
 
 		$this->cache->delete('lang');
@@ -311,4 +344,241 @@ class ModelLocalisationLanguageDefinitions extends Model {
     public function getTotalDefinitions($data = array()) {
 		return $this->getLanguageDefinitions($data, 'total_only');
 	}
+
+    /**
+	 * Load needed data and build form for definitions add or edit
+     * @param array ref $request Data from request object
+     * @param array ref $data from requester
+     * @param array ref $form form object
+     * @return array ($data imputed processed and returned back)
+     */
+	public function buildFormData( &$request, &$data, &$form ) {
+		
+		$fields = array( 'language_key', 'language_value', 'block', 'section' );
+		$language_definition_id = $request->get['language_definition_id'];
+		$view_mode = $request->get['view_mode'];		
+		//if existing definition disable edit for some fields
+		$disable_attr = '';
+		if (has_value($language_definition_id)) {
+			$disable_attr = ' readonly ';
+		}
+		
+		$languages = $this->language->getAvailableLanguages();
+		$content_lang_id = $this->language->getContentLanguageID();
+		//load current content language to data
+		foreach ($languages as $lang) {
+			if($view_mode != 'all' && $lang['language_id'] != $content_lang_id ) {
+				continue;
+			}
+			$data['languages'][$lang['language_id']] = $lang;
+		}
+
+		$def_det = array();
+		$all_defs = array();
+		//!!!! ATTENTION: Important to understand this process flow. See comments
+		if (has_value($language_definition_id)) {
+			// 1. language_definition_id is provieded, load definition based on ID
+			$def_det = $this->getLanguageDefinition($language_definition_id);
+			if ( empty($def_det) ) {
+				//this is incorrect ID redirect to create new
+				$parms = '&view_mode='.$view_mode;
+				return ( array( 'redirect_params' => $parms ));				
+			}
+			
+			//special case then main file is edited (english, russian, etc ).
+			//Candidate for improvment. Rename these files to main.xml 			
+			$main_block = $this->language->isMainBlock($def_det['block'], $def_det['language_id']);	
+
+			// 2. make sure we load all the langaues from XML in case they were not used yet.
+			foreach ($languages as $lang) {				
+				$new_lang_obj = new ALanguageManager($this->registry, $lang['code'], $def_det['section']);
+				if ($main_block) {
+					$block_path = $lang['filename'];
+					$block = $lang['filename'];
+				} else {
+					$block = $def_det['block'];
+					$block_path = $new_lang_obj->convert_block_to_file($def_det['block']);
+					if ( empty($block_path)) {
+						$block_path = $block;
+					}
+				}		
+				if($block_path){
+					$new_lang_obj->_load($block_path);				
+					//now load definition for all languages to be available in the template		
+					$all_defs[] = $this->LoadDefinitionSetEmpty( $def_det['section'], $block, $def_det['language_key'], $lang['language_id']); 
+				}
+			}
+			// 3. Redirect to correct definition for current content language selected
+			//if different from selected language_definition_id
+			if ( $def_det['language_id'] != $content_lang_id ) {
+				if ($main_block) {
+					$block = $data['languages'][$content_lang_id]['filename'];
+				} else {
+					$block = $def_det['block'];
+				}
+				$new_def = $this->LoadDefinitionSetEmpty( $def_det['section'], $block, $def_det['language_key'], $content_lang_id);
+				//if exists redirect with correct language_definition_id for content language 
+				if (has_value($new_def['language_definition_id'])) {
+					$parms = '&view_mode='.$view_mode;	
+					$parms .= '&language_definition_id='.$new_def['language_definition_id'];
+					return ( array( 'redirect_params' => $parms ));		
+				} else {
+					//alow to create new one with blank defintion value
+					$def_det = $new_def;
+				}
+			}
+		}			
+ 
+		foreach ($fields as $field) {
+			if (isset($request->post[ $field ])) {
+				$data[ $field ] = $request->post[ $field ];
+			} elseif (isset($def_det)) {
+				$data[ $field ] = $def_det[ $field ];
+			} else {
+				$data[ $field ] = '';
+			}
+		}
+
+		$data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array(
+			'type' => 'button',
+			'name' => 'submit',
+			'text' => $this->language->get('button_save'),
+			'style' => 'button1',
+		));
+		$data[ 'form' ][ 'cancel' ] = $form->getFieldHtml(array(
+			'type' => 'button',
+			'name' => 'cancel',
+			'text' => $this->language->get('button_cancel'),
+			'style' => 'button2',
+		));
+
+		if ($disable_attr) {
+			$section_txt = $this->language->get('text_storefront');
+			if ($data['section']){
+				$section_txt = $this->language->get('text_admin');
+			}
+			$data['form']['fields']['section'] = $section_txt . 
+				$form->getFieldHtml(array(	
+					'type' => 'hidden',
+					'name' => 'section',
+					'value' =>  $data['section'],
+				));	
+			$data['form']['fields']['block'] = $data['block'] . 
+				$form->getFieldHtml(array(	
+					'type' => 'hidden',
+					'name' => 'block',
+					'value' =>  $data['block'],
+				));	
+			$data['form']['fields']['language_key'] = $data['language_key'] .
+				$form->getFieldHtml(array(	
+					'type' => 'hidden',
+					'name' => 'language_key',
+					'value' =>  $data['language_key'],
+				));	
+		} else { 
+			$data['form']['fields']['section'] = $form->getFieldHtml(array(
+			    'type' => 'selectbox',
+			    'name' => 'section',
+			    'options' => array(
+			    	1 => $this->language->get('text_admin'),
+			    	0 => $this->language->get('text_storefront'),
+			    ),
+			    'value' => $data['section'],
+			    'required' => true,
+			));
+	
+			$data['form']['fields']['block'] = $form->getFieldHtml(array(
+				'type' => 'input',
+				'name' => 'block',
+				'value' => $data['block'],
+				'required' => true,
+				'help_url' => $this->gen_help_url('block'),
+			));
+			$data['form']['fields']['language_key'] = $form->getFieldHtml(array(
+				'type' => 'input',
+				'name' => 'language_key',
+				'value' => $data['language_key'],
+				'required' => true,
+				'help_url' => $this->gen_help_url('language_key'),
+			));
+		}
+
+		if ($main_block) {
+				$data['form']['fields']['main_block'] = $form->getFieldHtml(array(	
+					'type' => 'hidden',
+					'name' => 'main_block',
+					'value' =>  1,
+				));			
+		}
+
+		//load all language fields for this definition to be awailable in the template
+		foreach ($data['languages'] as $i) {
+			$value = '';
+			$id = '';
+			if (!empty($request->post['language_value'][ $i['language_id'] ])) {
+				$value = $request->post['language_value'][ $i['language_id'] ];
+				foreach ($all_defs as $ii) {
+					if ($ii['language_id'] == $i['language_id']) {
+						$id = $ii['language_definition_id'];
+						break;
+					}
+				}
+			} else if (!empty($all_defs)) {
+				foreach ($all_defs as $ii) {
+					if ($ii['language_id'] == $i['language_id']) {
+						$value = $ii['language_value'];
+						$id = $ii['language_definition_id'];
+						break;
+					}
+				}
+			}
+			$data['form']['fields']['language_value'][$i['language_id']] = $form->getFieldHtml(array(
+				'type' => 'textarea',
+				'name' => 'language_value[' . $i['language_id'] . ']',
+				'value' => $value,
+				'required' => true,
+				'style' => 'large-field',
+			));
+
+			$data['form']['fields']['language_definition_id'][$i['language_id']] = $form->getFieldHtml(array(
+				'type' => 'hidden',
+				'name' => 'language_definition_id[' . $i['language_id'] . ']',
+				'value' => $id,
+			));
+		}
+		return(array());
+	}
+
+    /**
+     * Special load for definition, with value or set empty value if not found
+     * @param string $section
+     * @param string $block
+     * @param string $lang_key
+     * @param int $lang_id
+     * @return array 
+     */
+	public function LoadDefinitionSetEmpty( $section, $block, $lang_key, $lang_id) {
+		$ret_arr = array();
+		$ret_arr = $this->getLanguageDefinitions(
+		    array(
+		    	'subsql_filter' => "section = '" . $section . "'
+		 					AND block = '" . $block . "' 
+		 					AND language_key = '" . $lang_key . "'  ",
+		 		'language_id' =>  $lang_id
+		 		)
+		 );
+		 if(isset($ret_arr[0])) {
+		 	return $ret_arr[0]; 
+		 } else {
+		 	//not found any details return only some values (new)
+		 	$ret_arr['block'] = $block;
+		 	$ret_arr['section'] = $section;
+		 	$ret_arr['language_key'] = $lang_key;
+		 	$ret_arr['language_id'] = $lang_id;
+		 	$ret_arr['language_definition_id'] = '';
+		 	return $ret_arr;
+		 } 
+
+	}
+
 }

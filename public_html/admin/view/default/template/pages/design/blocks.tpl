@@ -1,8 +1,8 @@
 <?php if ($error_warning) { ?>
-<div class="warning"><?php echo $error_warning; ?></div>
+<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success"><?php echo $success; ?></div>
+<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 <div id="aPopup">
 	<div class="popbox_tl" style="margin-top: 10px;">
@@ -53,7 +53,7 @@
 
 	var $aPopup = $('#aPopup');
 	var msg_id;
-	function show_popup(id){
+	var show_popup = function(id){
 		var $aPopup = $('#aPopup').dialog({
 			autoOpen: false,
 			modal: true,

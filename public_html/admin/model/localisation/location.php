@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -167,10 +167,17 @@ class ModelLocalisationLocation extends Model {
     }
 
     public function getZoneToLocations($data) {
-        $sql = "SELECT zl.*, c.name as country_name, z.name
+		$language_id = $this->session->data['content_language_id'];
+		$default_language_id = $this->language->getDefaultLanguageID();
+        
+        $sql = "SELECT zl.*, COALESCE( cd1.name,cd2.name) as country_name, COALESCE( zd1.name, zd2.name) as name
 				FROM " . DB_PREFIX . "zones_to_locations zl
 				LEFT JOIN " . DB_PREFIX . "countries c ON c.country_id = zl.country_id
+				LEFT JOIN " . DB_PREFIX . "country_descriptions cd1 ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "')
+				LEFT JOIN " . DB_PREFIX . "country_descriptions cd2 ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "')
 				LEFT JOIN " . DB_PREFIX . "zones z ON z.zone_id = zl.zone_id
+				LEFT JOIN " . DB_PREFIX . "zone_descriptions zd1 ON (z.zone_id = zd1.zone_id AND zd1.language_id = '" . (int)$language_id . "')
+				LEFT JOIN " . DB_PREFIX . "zone_descriptions zd2 ON (z.zone_id = zd2.zone_id AND zd2.language_id = '" . (int)$default_language_id . "') 
 				WHERE zl.location_id = '" . (int)$data['location_id'] . "'";
 
         if (isset($data['sort'])) {

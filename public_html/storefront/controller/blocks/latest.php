@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -88,6 +88,7 @@ class ControllerBlocksLatest extends AController {
 				'rating'  		=> $rating,
 				'stars'   		=> sprintf($this->language->get('text_stars'), $rating),
 				'price'   		=> $price,
+				'call_to_order'=> $result['call_to_order'],
 				'options'   	=> $options,
 				'special' 		=> $special,
 				'thumb'   		=> $thumbnail,
@@ -107,6 +108,7 @@ class ControllerBlocksLatest extends AController {
 		}
         $this->view->assign('block_framed', true );
         $this->view->assign('display_price', $display_price );
+        $this->view->assign('review_status', $this->config->get('enable_reviews'));
 		$this->processTemplate();
 
         //init controller data

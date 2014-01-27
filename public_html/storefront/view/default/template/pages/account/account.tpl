@@ -12,7 +12,7 @@
   </div>
   <div class="middle">
     <?php if ($success) { ?>
-    <div class="success"><?php echo $success; ?></div>
+    <div class="success alert alert-success"><?php echo $success; ?></div>
     <?php } ?>
     <p><b><?php echo $text_my_account; ?></b></p>
     <ul>
@@ -24,7 +24,9 @@
     <p><b><?php echo $text_my_orders; ?></b></p>
     <ul>
       <li><a href="<?php echo $history; ?>"><?php echo $text_history; ?></a></li>
+      <?php if ($this->config->get('config_download')) { ?>
       <li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>
+      <?php } ?>
 	  <?php echo $this->getHookVar('order_links'); ?>
 
     </ul>

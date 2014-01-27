@@ -12,7 +12,7 @@
     <div class="bl"><div class="br"><div class="bc"></div></div></div>
 </div>
 <?php if ( !empty($error['warning']) ) { ?>
-<div class="warning"><?php echo $error['warning']; ?></div>
+<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
 <?php } ?>
 
 <div class="main_content">    
@@ -29,6 +29,14 @@
       <p>1 . Please enter your database connection details.</p>
       <div class="section">
         <table>
+          <tr>
+            <td width="185">Database Driver:</td>
+            <td><?php echo $form['db_driver']; ?>
+              <br />
+              <?php if ( !empty($error['db_driver']) ) { ?>
+              <span class="required"><?php echo $error['db_driver']; ?></span>
+              <?php } ?></td>
+          </tr>
           <tr>
             <td width="185">Database Host:</td>
             <td><?php echo $form['db_host']; ?>

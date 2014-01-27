@@ -41,10 +41,10 @@
 	</div>
 </div>
 <?php if ($error_warning) { ?>
-<div class="warning"><?php echo $error_warning; ?></div>
+<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success"><?php echo $success; ?></div>
+<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 <?php echo $resources_scripts ?>
 <div class="contentBox">

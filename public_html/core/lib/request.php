@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -48,10 +48,17 @@ final class ARequest {
 		$this->files = $_FILES;
 		$this->server = $_SERVER;
 
+		//check if there is any encrypted data
+		if ( has_value($this->get['__e'])) {
+			$this->get = array_replace_recursive($this->get, $this->decodeURI($this->get['__e'])); 
+		}
+		if ( has_value($this->post['__e'])) {
+			$this->post = array_replace_recursive($this->post, $this->decodeURI($this->post['__e'])); 
+		}
         $this->_detectBrowser();
 	}
 	
-	//????? Include PHP module filter to process input params. http://us3.php.net/manual/en/book.filter.php	 
+	//todo: Include PHP module filter to process input params. http://us3.php.net/manual/en/book.filter.php
 	/**
 	 * function returns variable value from $_GET first
 	 * @param string $key
@@ -63,7 +70,7 @@ final class ARequest {
 		} else if ( isset($this->post[$key]) ) {
 			return $this->post[$key];
 		} 
-		return;
+		return null;
 	}
 
 	/**
@@ -97,6 +104,22 @@ final class ARequest {
 
 		return $data;
 	}
+
+	/**
+	 * @param string  - base64 $uri
+	 * @return array
+	 */
+	public function decodeURI($uri) {
+		$parms = array();
+		$open_uri = base64_decode($uri);
+    	$split_parameters = explode('&', $open_uri);
+
+    	for($i = 0; $i < count($split_parameters); $i++) {
+        	$final_split = explode('=', $split_parameters[$i]);
+        	$parms[$final_split[0]] = $final_split[1];
+    	}	
+    	return $parms;	
+	} 
 
     private function _detectBrowser() {
 
@@ -177,5 +200,18 @@ final class ARequest {
     public function getVersion(){
         return $this->version;
     }
+
+	/**
+	 * @return bool
+	 */
+	public function is_POST(){
+		return ($this->server['REQUEST_METHOD']=='POST' ? true : false);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function is_GET(){
+		return ($this->server['REQUEST_METHOD']=='GET' ? true : false);
+	}
 }
-?>

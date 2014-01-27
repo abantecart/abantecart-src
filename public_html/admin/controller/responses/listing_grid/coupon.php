@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -58,7 +58,7 @@ class ControllerResponsesListingGridCoupon extends AController {
 			$response->rows[$i]['cell'] = array(
 				$result['name'],
 				$result['code'],
-				$result['discount'],
+				moneyDisplayFormat($result['discount']),
 				dateISO2Display($result['date_start'], $this->language->get('date_format_short')),
 				dateISO2Display($result['date_end'], $this->language->get('date_format_short')),
 				$this->html->buildCheckbox(array(

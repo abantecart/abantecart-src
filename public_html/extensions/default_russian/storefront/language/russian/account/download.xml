@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Файлы для скачивания]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Личный Кабинет]]></value>
+	</definition>
+	<definition>
+		<key>text_downloads</key>
+		<value><![CDATA[Файлы для скачивания]]></value>
+	</definition>
+	<definition>
+		<key>text_order</key>
+		<value><![CDATA[Номер заказа:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Добавлено:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_purchased</key>
+		<value><![CDATA[Дата покупки:]]></value>
+	</definition>
+	<definition>
+		<key>text_name</key>
+		<value><![CDATA[Имя:]]></value>
+	</definition>
+	<definition>
+		<key>text_remaining</key>
+		<value><![CDATA[Осталось:]]></value>
+	</definition>
+	<definition>
+		<key>text_size</key>
+		<value><![CDATA[Размер:]]></value>
+	</definition>
+	<definition>
+		<key>text_download</key>
+		<value><![CDATA[Скачать]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Нет доступных файлов для скачивания!]]></value>
+	</definition>
+	<definition>
+		<key>text_expire_date</key>
+		<value><![CDATA[Доступен до:]]></value>
+	</definition>
+	<definition>
+		<key>text_expired</key>
+		<value><![CDATA[Недоступен]]></value>
+	</definition>
+	<definition>
+		<key>text_pending</key>
+		<value><![CDATA[В ожидании]]></value>
+	</definition>
+	<definition>
+		<key>text_unavailable</key>
+		<value><![CDATA[Недоступен (ошибка)]]></value>
+	</definition>
+	<definition>
+		<key>text_reached_limit</key>
+		<value><![CDATA[Достигнут лимит загрузок]]></value>
+	</definition>
+</definitions>

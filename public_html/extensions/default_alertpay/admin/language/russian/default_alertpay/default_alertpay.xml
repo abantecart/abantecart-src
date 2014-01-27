@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_alertpay_name</key>
+    <value><![CDATA[AlertPay]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили детали AlertPay аккаунта!]]></value>
+  </definition>
+  <definition>
+    <key>default_alertpay_merchant</key>
+    <value><![CDATA[ID продавца:]]></value>
+  </definition>
+  <definition>
+    <key>default_alertpay_security</key>
+    <value><![CDATA[Код безопасности:]]></value>
+  </definition>
+  <definition>
+    <key>default_alertpay_callback</key>
+    <value><![CDATA[Оповещения URL: <br /><span class="help">Должен быть установлен в панели управления AlertPay. Кроме того, необходимо будет проверить что &quot;IPN Status&quot; включен.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_alertpay_order_status_id</key>
+    <value><![CDATA[Статус заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_alertpay_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>default_alertpay_location_id</key>
+    <value><![CDATA[Географическая зона:]]></value>
+  </definition>
+  <definition>
+    <key>default_alertpay_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>default_alertpay_sort_order</key>
+    <value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа оплаты наряду с другими</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_alertpay_autoselect</key>
+    <value><![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора способа оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение AlertPay!]]></value>
+  </definition>
+  <definition>
+    <key>error_merchant</key>
+    <value><![CDATA[ID продавца обязателен!]]></value>
+  </definition>
+  <definition>
+    <key>error_security</key>
+    <value><![CDATA[Код безопасности обязателен!]]></value>
+  </definition>
+</definitions>

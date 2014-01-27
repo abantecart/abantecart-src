@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -28,20 +28,7 @@ class ControllerCommonFooter extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		
 		$this->loadLanguage('common/header');
-		$this->data['text_powered_by'] =  $this->language->get('text_powered_by');
 		$this->data['text_copy'] = $this->config->get('store_name') .' &copy; '. date('Y', time());
-
-
-		$this->data['text_home'] =  $this->language->get('text_home');
-		$this->data['text_special'] =  $this->language->get('text_special');
-		$this->data['text_contact'] =  $this->language->get('text_contact');
-		$this->data['text_sitemap'] =  $this->language->get('text_sitemap');
-		$this->data['text_bookmark'] =  $this->language->get('text_bookmark');
-    	$this->data['text_account'] =  $this->language->get('text_account');
-    	$this->data['text_login'] =  $this->language->get('text_login');
-    	$this->data['text_logout'] =  $this->language->get('text_logout');
-    	$this->data['text_cart'] =  $this->language->get('text_cart');
-    	$this->data['text_checkout'] =  $this->language->get('text_checkout');
 		
 		$this->data['home'] =  $this->html->getURL('index/home');
 		$this->data['special'] =  $this->html->getURL('product/special');
@@ -69,6 +56,8 @@ class ControllerCommonFooter extends AController {
 				 $this->data['credit_cards'] = 'credit_cards_'.$child['instance_id'];
 			 }
 		}
+		
+		$this->data['text_project_label'] = $this->language->get('text_powered_by') . ' ' . project_base();
 
 		$this->view->assign('scripts_bottom', $this->document->getScriptsBottom());		
 

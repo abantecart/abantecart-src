@@ -1,3 +1,13 @@
+<?php if ( !$page['restricted'] || $allow_clone) { ?>
+<?php echo $change_layout_form; ?>
+<div class="layout_controls">
+	<?php echo $change_layout_select; ?>
+	<button class="btn btn_standard" type="submit"><?php echo $change_layout_button; ?></button>
+	<div id="layout_hidden_fields"><?php echo $form_hidden; ?></div>
+</div>
+</form>
+<?php } ?>
+
 <?php echo $form_begin; ?>
 <div class="page_wrapper">
 	<div id="header_block">
@@ -157,14 +167,14 @@
 			if (!block_id) {
 				return false;
 			}
-
+			$('.popover').hide();
 			load_popover(elm, block_id);
 			return true;
 		});
 
 	});
 
-	function load_popover(elm, block_id) {
+	var load_popover = function(elm, block_id) {
 		var template = '';
 		var page_id = '';
 		var layout_id = '';
@@ -197,7 +207,7 @@
 		});
 	}
 
-	function build_popover(elm, data) {
+	var build_popover = function(elm, data) {
 		elm.attr('data-toggle', 'popover');
 		elm.popover({
 			trigger: 'manual',
@@ -231,7 +241,7 @@
 		elm.popover('show');
 	}
 
-	function destroy_popover(elm) {
+	var destroy_popover = function(elm) {
 		elm.removeAttr('data-placement');
 		elm.removeAttr('data-toggle');
 		elm.popover('destroy');
@@ -239,7 +249,7 @@
 	}
 
 
-	function createBlock(parent_block_id) {
+	var createBlock = function(parent_block_id) {
 		var url = '<?php echo $new_block_url;?>&parent_block_id=';
 		this.window.location = url + parent_block_id;
 	}

@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -19,7 +19,10 @@
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------  
 */
-
+/**\
+ * Class ControllerPagesInstall
+ * @property ModelInstall $model_install
+ */
 class ControllerPagesInstall extends AController {
 	private $error = array();
 	public $data = array();
@@ -56,10 +59,10 @@ class ControllerPagesInstall extends AController {
 		$this->data[ 'error' ] = $this->error;
 		$this->data[ 'action' ] = HTTP_SERVER . 'index.php?rt=install';
 
-		$fields = array( 'db_host', 'db_user', 'db_password', 'db_name', 'db_prefix', 'username', 'password',
+		$fields = array( 'db_driver', 'db_host', 'db_user', 'db_password', 'db_name', 'db_prefix', 'username', 'password',
 			'password_confirm', 'email', 'admin_path',
 		);
-		$defaults = array( 'localhost', '', '', '', '', 'admin', '', '', '', 'your_admin' );
+		$defaults = array( '', 'localhost', '', '', '', '', 'admin', '', '', '', 'your_admin' );
 
 		foreach ($fields as $k => $field) {
 			if (isset($this->request->post[ $field ])) {
@@ -94,13 +97,32 @@ class ControllerPagesInstall extends AController {
 		));
 
 		foreach ($fields as $field) {
-			$this->data[ 'form' ][ $field ] = $form->getFieldHtml(array(
-				'type' => (in_array($field, array( 'password', 'password_confirm' ))
-						? 'password' : 'input'),
-				'name' => $field,
-				'value' => $this->data[ $field ],
-				'required' => in_array($field, array( 'db_host', 'db_user', 'db_name', 'username', 'password', 'password_confirm', 'email' )),
-			));
+			if($field != 'db_driver'){
+				$this->data[ 'form' ][ $field ] = $form->getFieldHtml(array(
+					'type' => (in_array($field, array( 'password', 'password_confirm' )) ? 'password' : 'input'),
+					'name' => $field,
+					'value' => $this->data[ $field ],
+					'required' => in_array($field, array( 'db_host', 'db_user', 'db_name', 'username', 'password', 'password_confirm', 'email' )),
+				));
+			}else{
+				$options = array();
+				//regular mysql is not supported on PHP 5.5.+
+				if(extension_loaded('mysql') && version_compare(phpversion(), '5.5.0', '<') == TRUE ){
+					$options['mysql'] = 'MySQL';
+				}
+				if(extension_loaded('mysqli')){
+					$options['amysqli'] = 'MySQLi';
+				}
+
+				$this->data[ 'form' ][ $field ] = $form->getFieldHtml(array(
+					'type' => 'selectbox',
+					'name' => $field,
+					'value' => $this->data[ $field ],
+					'options' => $options,
+					'required' => true
+				));
+
+			}
 		}
 
 		$this->addChild('common/header', 'header', 'common/header.tpl');
@@ -117,6 +139,9 @@ class ControllerPagesInstall extends AController {
 			$this->error[ 'admin_path' ] = 'Admin unique name contains non-alphanumeric characters!';
 		}
 
+		if (!$this->request->post[ 'db_driver' ]) {
+			$this->error[ 'db_driver' ] = 'Driver required!';
+		}
 		if (!$this->request->post[ 'db_host' ]) {
 			$this->error[ 'db_host' ] = 'Host required!';
 		}
@@ -150,15 +175,20 @@ class ControllerPagesInstall extends AController {
 			$this->error[ 'db_prefix' ] = 'DB prefix contains non-alphanumeric characters!';
 		}
 
-		if ($this->request->post[ 'db_host' ] && $this->request->post[ 'db_user' ] && $this->request->post[ 'db_password' ]) {
-			if (!$connection = @mysql_connect($this->request->post[ 'db_host' ], $this->request->post[ 'db_user' ], $this->request->post[ 'db_password' ])) {
-				$this->error[ 'warning' ] = 'Error: Could not connect to the database please make sure the database server, username and password is correct!';
-			} else {
-				if (!@mysql_select_db($this->request->post[ 'db_name' ], $connection)) {
-					$this->error[ 'warning' ] = 'Error: Database does not exist!';
-				}
-
-				mysql_close($connection);
+		if ($this->request->post[ 'db_driver' ]
+			&& $this->request->post[ 'db_host' ]
+			&& $this->request->post[ 'db_user' ]
+			&& $this->request->post[ 'db_password' ]
+			&& $this->request->post[ 'db_name' ]
+		) {
+			try{
+			$db = new ADB($this->request->post[ 'db_driver' ],
+						  $this->request->post[ 'db_host' ],
+				          $this->request->post[ 'db_user' ],
+						  $this->request->post[ 'db_password' ],
+						  $this->request->post[ 'db_name' ]);
+			}catch(AException $exception){
+				$this->error[ 'warning' ] = $exception->getMessage();
 			}
 		}
 
@@ -178,15 +208,15 @@ class ControllerPagesInstall extends AController {
 		$this->load->library('json');
 		if ($step == 2) {
 			$this->_install_SQL();
-			$this->response->addHeader('Content-Type: application/json');
+			$this->response->addJSONHeader();
 			return AJson::encode(array( 'ret_code' => 50 ));
 		} elseif ($step == 3) {
 			$this->_configure();
-			$this->response->addHeader('Content-Type: application/json');
+			$this->response->addJSONHeader();
 			return AJson::encode(array( 'ret_code' => 100 ));
 		} elseif ($step == 4) {
 			// Load languages with progress bar approach
-			$this->response->addHeader('Content-Type: application/json');
+			$this->response->addJSONHeader();
 			return AJson::encode(array( 'ret_code' => 150 ));
 		}
 
@@ -198,40 +228,40 @@ class ControllerPagesInstall extends AController {
 		$this->addChild('common/header', 'header', 'common/header.tpl');
 		$this->addChild('common/footer', 'footer', 'common/footer.tpl');
 		$this->processTemplate('pages/install_progress.tpl');
+		return null;
 	}
 
 
 	private function _install_SQL() {
 		$this->load->model('install');
-		$this->model_install->mysql($this->session->data[ 'install_step_data' ]);
+		$this->model_install->RunSQL($this->session->data[ 'install_step_data' ]);
 
 	}
 
 	private function _configure() {
 		define('DB_PREFIX', $this->session->data[ 'install_step_data' ][ 'db_prefix' ]);
 
-		$stdout = '<?php' . "\n";
-		$stdout .= '/*' . "\n";
-		$stdout .= '	AbanteCart, Ideal OpenSource Ecommerce Solution' . "\n";
-		$stdout .= '	http://www.AbanteCart.com' . "\n";
-		$stdout .= '	Copyright © 2011-2013 Belavier Commerce LLC' . "\n\n";
-		$stdout .= '	Released under the Open Software License (OSL 3.0)' . "\n";
-		$stdout .= '*/' . "\n";
-		$stdout .= '// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin' . "\n";
-		$stdout .= 'define(\'ADMIN_PATH\', \'' . $this->session->data[ 'install_step_data' ][ 'admin_path' ] . '\');' . "\n\n";
-		$stdout .= '// Database Configuration' . "\n";
-		$stdout .= 'define(\'DB_DRIVER\', \'mysql\');' . "\n";
-		$stdout .= 'define(\'DB_HOSTNAME\', \'' . $this->session->data[ 'install_step_data' ][ 'db_host' ] . '\');' . "\n";
-		$stdout .= 'define(\'DB_USERNAME\', \'' . $this->session->data[ 'install_step_data' ][ 'db_user' ] . '\');' . "\n";
-		$stdout .= 'define(\'DB_PASSWORD\', \'' . $this->session->data[ 'install_step_data' ][ 'db_password' ] . '\');' . "\n";
-		$stdout .= 'define(\'DB_DATABASE\', \'' . $this->session->data[ 'install_step_data' ][ 'db_name' ] . '\');' . "\n";
-		$stdout .= 'define(\'DB_PREFIX\', \'' . DB_PREFIX . '\');' . "\n";
-		$stdout .= 'define(\'SALT\', \'' . SALT . '\');' . "\n";
-		$stdout .= 'define(\'UNIQUE_ID\', \'' . md5(time()) . '\');' . "\n";
-		$stdout .= '?>';
+		$content = "<?php\n";
+		$content .= "/**\n";
+		$content .= "	AbanteCart, Ideal OpenSource Ecommerce Solution\n";
+		$content .= "	http://www.AbanteCart.com\n";
+		$content .= "	Copyright © 2011-'.date('Y').' Belavier Commerce LLC\n\n";
+		$content .= "	Released under the Open Software License (OSL 3.0)\n";
+		$content .= "*/\n";
+		$content .= "// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin\n";
+		$content .= "define('ADMIN_PATH', '" . $this->session->data[ 'install_step_data' ][ 'admin_path' ] . "');\n\n";
+		$content .= "// Database Configuration\n";
+		$content .= "define('DB_DRIVER', '".$this->session->data[ 'install_step_data' ][ 'db_driver' ]."');\n";
+		$content .= "define('DB_HOSTNAME', '" . $this->session->data[ 'install_step_data' ][ 'db_host' ] . "');\n";
+		$content .= "define('DB_USERNAME', '" . $this->session->data[ 'install_step_data' ][ 'db_user' ] . "');\n";
+		$content .= "define('DB_PASSWORD', '" . $this->session->data[ 'install_step_data' ][ 'db_password' ] . "');\n";
+		$content .= "define('DB_DATABASE', '" . $this->session->data[ 'install_step_data' ][ 'db_name' ] . "');\n";
+		$content .= "define('DB_PREFIX', '" . DB_PREFIX . "');\n";
+		$content .= "define('SALT', '" . SALT . "');\n";
+		$content .= "define('UNIQUE_ID', '" . md5(time()) . "');\n";
 
 		$file = fopen(DIR_ABANTECART . 'system/config.php', 'w');
-		fwrite($file, $stdout);
+		fwrite($file, $content);
 		fclose($file);
 		unset($this->session->data[ 'install_step_data' ], $this->session->data[ 'SALT' ]);
 
@@ -240,7 +270,7 @@ class ControllerPagesInstall extends AController {
 	private function _prepare_registry() {
 		$registry = Registry::getInstance();
 		//This is ran after config is saved and we ahve database connection now		
-		$db = new ADB('mysql', DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+		$db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 		$registry->set('db', $db);
 		define('DIR_LANGUAGE', DIR_ABANTECART . 'admin/language/');
 
@@ -264,16 +294,16 @@ class ControllerPagesInstall extends AController {
 	public function progressbar() {
 		session_write_close(); // unlock session !important!
 		$dbprg = new progressbar($this->_prepare_registry(), $this);
-		$this->response->addHeader('Content-Type: application/json');
+		$this->response->addJSONHeader();
 		switch ($this->request->get[ "work" ]) {
 			case "max":
 				echo AJson::encode(array( 'total' => $dbprg->get_max() ));
 				break;
 			case "do":
 				$result = $dbprg->do_work();
-				if ($result) {
+				if (!$result) {
 					$result = array( 'status' => 406,
-						'errorText' => $result );
+									 'errorText' => $result );
 				} else {
 					$result = array( 'status' => 100 );
 				}
@@ -291,11 +321,15 @@ class ControllerPagesInstall extends AController {
 	}
 }
 
-require_once(DIR_CORE . 'lib/progressbar.php');
+/** @noinspection PhpIncludeInspection */
+require_once(DIR_CORE . "lib/progressbar.php");
 /*
  * Interface for progressbar
  * */
 class progressbar implements AProgressBar {
+	/**
+	 * @var Registry
+	 */
 	private $registry;
 
 	function __construct($registry) {
@@ -312,7 +346,10 @@ class progressbar implements AProgressBar {
 	}
 
 	function get_progress() {
-		$res = $this->registry->get('db')->query('SELECT section, COUNT(DISTINCT `block`) as cnt FROM ' . DB_PREFIX . 'language_definitions GROUP by section');
+		$cnt = 0;
+		$res = $this->registry->get('db')->query('SELECT section, COUNT(DISTINCT `block`) as cnt
+													FROM ' . DB_PREFIX . 'language_definitions
+													GROUP by section');
 		foreach ($res->rows as $row) {
 			$cnt += $row[ 'cnt' ];
 		}
@@ -323,6 +360,6 @@ class progressbar implements AProgressBar {
 		define('IS_ADMIN', true);
 		$language = new ALanguageManager($this->registry, 'en');
 		//Load default language (1) English on install only.
-		return $language->definitionAutoLoad(1, 'all', 'all', 'update');
+		return $language->definitionAutoLoad(1, 'all', 'all');
 	}
 }

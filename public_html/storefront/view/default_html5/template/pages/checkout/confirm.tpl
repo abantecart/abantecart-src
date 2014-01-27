@@ -37,7 +37,7 @@
 
 	<?php if ($shipping_method) { ?>
 		<h4 class="heading4"><?php echo $text_shipping; ?></h4>
-		<table class="table">
+		<table class="table confirm_shippment_options">
 			<tr>
 				<td class="align_left"><?php echo $shipping_firstname . ' ' . $shipping_lastname; ?>
 					<br/><?php echo $telephone; ?></td>

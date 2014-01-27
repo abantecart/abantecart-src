@@ -1,7 +1,7 @@
 <span class="select_element">
     <select name="<?php echo $name ?>[]" id="<?php echo $id ?>" <?php echo $attr ?> <?php echo ($style ? 'class="'.$style.'"':''); ?>>
 	<?php foreach ( $options as $v => $text ) { ?>
-            <option value="<?php echo $v ?>" <?php echo (in_array($v, $value) ? ' selected="selected" ':'') ?> >
+            <option value="<?php echo $v ?>" <?php echo (in_array($v, (array)$value) ? ' selected="selected" ':'') ?> >
 			<?php echo $text ?>
 			</option>
 	<?php } ?>
@@ -17,7 +17,7 @@
 	</select>
 </span>
 
-<script>
+<script type="text/javascript">
 	<?php 
 		if ($submit_mode == 'id') {
 			$selector = "&country_id=";
@@ -25,8 +25,8 @@
 			$selector = "&country_name=";		
 		}
 	?>
-	$('#<?php echo $id ?>_zones').load('<?php echo $url; ?><?php echo $selector ?>' + encodeURIComponent($('#<?php echo $id ?>').val()) +'&zone_name=<?php echo $zone_name; ?>');
+	$('#<?php echo $id ?>_zones').load('<?php echo $url; ?><?php echo $selector ?>' + encodeURIComponent($('#<?php echo $id ?>').val()) + '&' + encodeURIComponent('zone_name=<?php echo $zone_name; ?>'));
 	$('#<?php echo $id ?>').change( function(){
-		$('#<?php echo $id ?>_zones').load('<?php echo $url; ?><?php echo $selector ?>' + encodeURIComponent($(this).val()) + '&zone_name=<?php echo $zone_name; ?>');
+		$('#<?php echo $id ?>_zones').load('<?php echo $url; ?><?php echo $selector ?>' + encodeURIComponent($(this).val()) + '&' + encodeURIComponent('zone_name=<?php echo $zone_name; ?>'));
 	});
 </script>

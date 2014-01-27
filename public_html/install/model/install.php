@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -21,16 +21,10 @@
 */
 
 class ModelInstall extends Model {
-	public function mysql($data) {
-		$connection = mysql_connect($data['db_host'], $data['db_user'], $data['db_password']);
-		
-		mysql_select_db($data['db_name'], $connection);
-		
-		mysql_query("SET NAMES 'utf8'", $connection);
-		mysql_query("SET CHARACTER SET utf8", $connection);
-		
+	public function RunSQL($data) {
+		$db = new ADB($data['db_driver'],$data['db_host'], $data['db_user'], $data['db_password'], $data['db_name']);
+
 		$file = DIR_APP_SECTION . 'abantecart_database.sql';
-	
 		if ($sql = file($file)) {
 			$query = '';
 
@@ -46,42 +40,31 @@ class ModelInstall extends Model {
 						$query = str_replace("INSERT INTO `ac_", "INSERT INTO `" . $data['db_prefix'], $query);
 						$query = str_replace("ON `ac_", "ON `" . $data['db_prefix'], $query);
 
-                        $result = mysql_query($query, $connection);
-  
-						if (!$result) {
-							throw new AException(AC_ERR_MYSQL, mysql_errno($connection) . ' Error: ' . mysql_error($connection) . ' in query:  ' . $query);
-						}
-	
+                        $db->query($query); //no silence mode! if error - will throw to exception
 						$query = '';
 					}
 				}
 			}
-			
-			mysql_query("SET CHARACTER SET utf8", $connection);
-	
-			mysql_query("SET @@session.sql_mode = 'MYSQL40'", $connection);
-		
-			mysql_query("DELETE FROM from `" . $data['db_prefix'] . "users` WHERE user_id = '1'");
-		
-			mysql_query(
+
+			$db->query("SET CHARACTER SET utf8;");
+			$db->query("SET @@session.sql_mode = 'MYSQL40';");
+			$db->query(
 				"INSERT INTO `" . $data['db_prefix'] . "users`
 				SET user_id = '1',
 					user_group_id = '1',
-					email = '".mysql_real_escape_string($data['email'])."',
-				    username = '" . mysql_real_escape_string($data['username']) . "',
-				    password = '" . mysql_real_escape_string(AEncryption::getHash($data['password'])) . "',
+					email = '".$db->escape($data['email'])."',
+				    username = '" . $db->escape($data['username']) . "',
+				    password = '" . $db->escape(AEncryption::getHash($data['password'])) . "',
 				    status = '1',
-				    date_added = NOW()",
-				$connection
-			);
+				    date_added = NOW();");
 
-			mysql_query("UPDATE `" . $data['db_prefix'] . "settings` SET value = '" . mysql_real_escape_string($data['email']) . "' WHERE `key` = 'store_main_email' ", $connection);
-			mysql_query("UPDATE `" . $data['db_prefix'] . "settings` SET value = '" . mysql_real_escape_string(HTTP_ABANTECART) . "' WHERE `key` = 'config_url' ", $connection);
-			mysql_query("INSERT INTO `" . $data['db_prefix'] . "settings` SET `group` = 'config', `key` = 'install_date', value = NOW() ", $connection);
+			$db->query("UPDATE `" . $data['db_prefix'] . "settings` SET value = '" . $db->escape($data['email']) . "' WHERE `key` = 'store_main_email'; ");
+			$db->query("UPDATE `" . $data['db_prefix'] . "settings` SET value = '" . $db->escape(HTTP_ABANTECART) . "' WHERE `key` = 'config_url'; ");
+			$db->query("INSERT INTO `" . $data['db_prefix'] . "settings` SET `group` = 'config', `key` = 'install_date', value = NOW(); ");
 
-			mysql_query("UPDATE `" . $data['db_prefix'] . "products` SET `viewed` = '0'", $connection);
-			
-			mysql_close($connection);	
+			$db->query("UPDATE `" . $data['db_prefix'] . "products` SET `viewed` = '0';");
+			//run descructor and close db-connection
+			unset($db);
 		}
 
         //clear cache dir in case of reinstall
@@ -89,11 +72,12 @@ class ModelInstall extends Model {
         $cache->delete('*');
 
 	}
-    public function getLanguages() {
 
+    public function getLanguages() {
         $query = $this->db->query( "SELECT *
                                     FROM " . DB_PREFIX . "languages
                                     ORDER BY sort_order, name");
+	    $language_data= array();
 
         foreach ($query->rows as $result) {
             $language_data[$result['code']] = array(
@@ -111,4 +95,3 @@ class ModelInstall extends Model {
     return $language_data;
     }
 }
-?>

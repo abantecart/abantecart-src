@@ -1,49 +1,47 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery.ui.draggable.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery.ui.resizable.js"></script>
-<script type="text/javascript"
-        src="<?php echo $template_dir; ?>/javascript/jquery/ui/external/bgiframe/jquery.bgiframe.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>/javascript/jquery/ui/external/bgiframe/jquery.bgiframe.js"></script>
 <script type="text/javascript">
 var urls = {
-        resource_library:'<?php echo $rl_resource_library; ?>',
-        resources:'<?php echo $rl_resources; ?>',
-        resource_single:'<?php echo $rl_resource_single; ?>',
-        unmap:'<?php echo $rl_unmap; ?>',
-        del:'<?php echo $rl_delete; ?>',
-        resource:'<?php echo HTTP_DIR_RESOURCE; ?>'
-    },
-    default_type = '<?php echo $default_type["type_name"]; ?>';
-onSelectClose = function (e, ui) {
-}
+	resource_library:'<?php echo $rl_resource_library; ?>',
+	resources:'<?php echo $rl_resources; ?>',
+	resource_single:'<?php echo $rl_resource_single; ?>',
+	unmap:'<?php echo $rl_unmap; ?>',
+	del:'<?php echo $rl_delete; ?>',
+	resource:'<?php echo HTTP_DIR_RESOURCE; ?>'
+	},
+	default_type = '<?php echo $default_type["type_name"]; ?>';	
 
-function selectDialog(type, field) {
-    $('#dialog').remove();
+onSelectClose = function (e, ui) {}
 
-    window.selectField = field;
-    var src = urls.resource_library + '&type=' + type;
-
-    $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="' + src + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
-    $('#dialog iframe').load(function (e) {
-        try {
-            var error_data = $.parseJSON($(this).contents().find('body').html());
-        } catch (e) {
-            var error_data = null;
-        }
-        if (error_data && error_data.error_code) {
-            $('#dialog').dialog('close');
-            httpError(error_data);
-        }
-    });
-
-    $('#dialog').dialog({
-        title:'<?php echo $text_resource_library; ?>',
-        close:onSelectClose,
-        width:900,
-        height:500,
-        resizable:false,
-        modal:true
-    });
-}
-;
+var selectDialog = function (type, field) {
+	$('#dialog').remove();
+	
+	window.selectField = field;
+	var src = urls.resource_library + '&type=' + type;
+	
+	$('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="' + src + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+	$('#dialog iframe').load(function (e) {
+	    try {
+	        var error_data = $.parseJSON($(this).contents().find('body').html());
+	    } catch (e) {
+	        var error_data = null;
+	    }
+	    if (error_data && error_data.error_code) {
+	        $('#dialog').dialog('close');
+	        httpError(error_data);
+	    }
+	});
+	
+	$('#dialog').dialog({
+	    title:'<?php echo $text_resource_library; ?>',
+	    close:onSelectClose,
+	    width:900,
+	    height:500,
+	    resizable:false,
+	    modal:true
+	});
+};
 
 var mediaDialog = function (type, action, id, field, wrapper_id) {
     window.selectField = field;
@@ -74,9 +72,13 @@ var mediaDialog = function (type, action, id, field, wrapper_id) {
     $('#dialog').dialog({
         title:'<?php echo $text_resource_library; ?>',
         close:function (event, ui) {
-        <?php foreach ($types as $type) { ?>
+        //reload original media list to show new selections
+        //not for URL mode
+        <?php if($mode != 'url') { ?>
+        <?php 	foreach ($types as $type) { ?>
             loadMedia('<?php echo $type['type_name']?>');
-            <?php } ?>
+        <?php 	} ?>
+        <?php } ?>
         },
         width:900,
         height:500,
@@ -113,7 +115,7 @@ var loadMedia = function (type) {
                 </span>';
             });
             html += '<span class="image_block"><a class="resource_add" type="' + type + '"><img src="<?php echo $template_dir . '/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>"/></a></span>';
-            $('#type_' + type + ' td.type_blocks').html(html);
+				$('#type_' + type + ' td.type_blocks').html(html);
         },
         error:function (jqXHR, textStatus, errorThrown) {
             $('#type_' + type).show();
@@ -144,7 +146,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
             }
 
             var html = '';
-            var src = '<img src="' + item['thumbnail_url'] + '" title="' + (item['name'] ? item['name'][item['language_id']] : '') + '" />';
+            var src = '<img src="' + item['thumbnail_url'] + '" title="' + item['name'] + '" />';
 
             if (type == 'image' && item['resource_code']) {
                 src = item['thumbnail_url'];
@@ -152,7 +154,8 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
             html += '<span id="' + wrapper_id + '_' + item['resource_id'] + '" class="image_block">\
                 <a class="resource_edit" type="' + type + '" id="' + item['resource_id'] + '">' + src + '</a><br />';
             if (item['resource_id']) {
-                html += ( item['mapped'] > 1 ? '' : '<a class="btn_action resource_delete" id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_unlink ?></span></span></a>') + '\
+                html += ( item['mapped'] > 1
+						? '' : '<a class="btn_action resource_delete" id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_unlink ?></span></span></a>') + '\
 					<a class="btn_action resource_edit" type="' + type + '" id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>';
             }
             html += '</span>';
@@ -171,7 +174,9 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
                 $("#confirm_del_dialog_" + wrapper_id).dialog('option', 'buttons', {
                     "<?php echo $button_unlink ?>":function () {
                         $(that).parent().remove();
-                        $('input[name="' + field + '"]').val('');
+                        //change hidden element and mark ad changed 
+                        $('input[name="' + field + '"]').val('').addClass('afield changed');
+                        $('form').prop('changed', 'true');
                         loadSingle(type, wrapper_id, '', field);
                         $(this).dialog("close");
                     },
@@ -196,7 +201,7 @@ jQuery(function () {
 
     <?php foreach ($types as $type) { ?>
         loadMedia('<?php echo $type['type_name']?>');
-        <?php } ?>
+    <?php } ?>
 
     $('a.resource_add').live('click', function () {
         mediaDialog($(this).prop('type'), 'add');

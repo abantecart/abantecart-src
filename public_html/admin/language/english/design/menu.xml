@@ -57,4 +57,8 @@
     <key>error_non_unique</key>
     <value><![CDATA[Item ID not unique!]]></value>
   </definition>
+  <definition>
+    <key>error_non_ascii</key>
+    <value><![CDATA[Only alphanumeric characters allowed for menu ID field!]]></value>
+  </definition>
 </definitions>

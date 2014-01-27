@@ -25,8 +25,8 @@
 			$selector = "&country_name=";		
 		}
 	?>
-	$('#<?php echo $id ?>_zones').load('<?php echo $url; ?><?php echo $selector ?>' + encodeURIComponent($('#<?php echo $id ?>').val()) +'&zone_name=<?php echo $zone_name; ?>');
+	$('#<?php echo $id ?>_zones').load('<?php echo $url; ?><?php echo $selector ?>' + encodeURIComponent($('#<?php echo $id ?>').val()) +'&'+encodeURIComponent('zone_name=<?php echo $zone_name; ?>'));
 	$('#<?php echo $id ?>').change( function(){
-		$('#<?php echo $id ?>_zones').load('<?php echo $url; ?><?php echo $selector ?>' + encodeURIComponent($(this).val()) + '&zone_name=<?php echo $zone_name; ?>');
+		$('#<?php echo $id ?>_zones').load('<?php echo $url; ?><?php echo $selector ?>' + encodeURIComponent($(this).val()) + '&'+encodeURIComponent('zone_name=<?php echo $zone_name; ?>'));
 	});
 </script>

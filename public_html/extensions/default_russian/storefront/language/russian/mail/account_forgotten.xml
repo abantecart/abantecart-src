@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Новый пароль]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Был запрошен новый пароль %s .]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Ваш новый пароль:]]></value>
+  </definition>
+</definitions>

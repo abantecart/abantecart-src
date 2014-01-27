@@ -8,10 +8,10 @@
   </div>
   <div class="middle">
     <?php if ($success) { ?>
-    <div class="success"><?php echo $success; ?></div>
+    <div class="success alert alert-success"><?php echo $success; ?></div>
     <?php } ?>
     <?php if ($error_warning) { ?>
-    <div class="warning"><?php echo $error_warning; ?></div>
+    <div class="warning alert alert-error"><?php echo $error_warning; ?></div>
     <?php } ?>
     <?php if ($coupon_status) { ?>
     <div class="content">
@@ -60,6 +60,7 @@
       </div>
       </div>
       <?php } ?>
+	  <?php echo $this->getHookVar('payment_extensions_pre_hook'); ?>
       <?php if ($payment_methods) { ?>
       <div style="display: none;" id="active_payments">
       <b style="margin-bottom: 2px; display: block;"><?php echo $text_payment_method; ?></b>

@@ -216,6 +216,35 @@
                 }
             });
         }
+        function doRadio(elem) {
+            var $el = $(elem);
+
+            var $wrapper = '', $field = $el.closest('.afield');
+
+            if (!$el.parents('.scrollbox').length) {
+                $field.wrap($.aform.wrapper);
+                $wrapper = $el.closest('.aform');
+            }
+
+            if ($el.is(':hidden') && o.autoHide) {
+                $wrapper.hide();
+            }
+
+            if ($el.prop("disabled")) {
+                $field.addClass(o.disabledClass);
+            }
+
+            $el.bind({
+                "change.aform":function () {
+                    if (!$el.prop("checked")) {
+                        $field.removeClass(o.checkedClass);
+                    } else {
+                        $field.addClass(o.checkedClass);
+                    }
+                    onChangedAction($el, $(this).prop("checked"), $(this).attr('ovalue'));
+                }
+            });
+        }
 
         function doSwitchButton(elem) {
             var $el = $(elem);
@@ -446,6 +475,8 @@
             } else if (elem.is(":radio")) {
                 if (elem.hasClass('star')) {
                     doRating(elem);
+                }else{
+                    doRadio(elem);
                 }
             } else if (elem.is(":text, :password, input[type='email']")) {
                 if (elem.is(":password") && $(elem).is('[name$="_confirm"]')) {

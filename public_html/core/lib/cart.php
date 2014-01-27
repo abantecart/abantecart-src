@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013, 2012 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -124,7 +124,7 @@ final class ACart {
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
 
   	  	$product_query = $this->model_catalog_product->getProductDataForCart($product_id);
-  	  	if ( count($product_query) <= 0 ) {
+  	  	if ( count($product_query) <= 0 || $product_query['call_to_order']) {
   	  		return array();
   	  	}
   		$option_price = 0;
@@ -163,7 +163,7 @@ final class ACart {
     	    			$option_value_queries[$val_id] = $this->model_catalog_product->getProductOptionValue($product_id, $val_id);
     	    		}
     	    	}else{
-    	    		$option_value_query = $this->model_catalog_product->getProductOptionValue($product_id, $product_option_value_id);
+    	    		$option_value_query = $this->model_catalog_product->getProductOptionValue($product_id, (int)$product_option_value_id);
     	    	}
     	    }
 
@@ -242,18 +242,8 @@ final class ACart {
     	    	$option_price += $item['price'];
     	    }
     	}
-
-    	$download_data = array();     		
-    	$download_query_rows = $this->model_catalog_product->getProductDownloads( $product_id );
-    	foreach ($download_query_rows as $download) {
-    	    $download_data[] = array(
-      	    	'download_id' => $download['download_id'],
-    	    	'name'        => $download['name'],
-    	    	'filename'    => $download['filename'],
-    	    	'mask'        => $download['mask'],
-    	    	'remaining'   => $download['remaining']
-    	    );
-    	}
+		// product downloads
+    	$download_data = $this->download->getProductOrderDownloads($product_id);
     	
     	//check if we need to check main product stock. Do only if no stock trakable options selected
     	if ( !$op_stock_trackable && $product_query['subtract'] && $product_query['quantity'] < $quantity ) {
@@ -333,6 +323,10 @@ final class ACart {
 		}
 
 		$this->session->data['cart']['virtual'][$key] = $data;
+	}
+
+	public function getVirtualProducts() {
+		return (array)$this->session->data['cart']['virtual'];
 	}
 
 	/**

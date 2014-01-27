@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -140,7 +140,9 @@ class ModelCatalogCategory extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_descriptions WHERE category_id = '" . (int)$category_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "categories_to_stores WHERE category_id = '" . (int)$category_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases WHERE query = 'category_id=" . (int)$category_id . "'");
-
+		$this->db->query("DELETE FROM " . DB_PREFIX . "products_to_categories WHERE category_id = '" . (int)$category_id . "'");
+		
+		//delete children categories
 		$query = $this->db->query("SELECT category_id FROM " . DB_PREFIX . "categories WHERE parent_id = '" . (int)$category_id . "'");
 		$lm = new ALayoutManager();
 		foreach ($query->rows as $result) {

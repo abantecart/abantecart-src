@@ -609,6 +609,11 @@
 			<![CDATA[Maintenance Mode:<br /><span class="help">Prevents customers from browsing your store. They will instead see a maintenance message. If logged in as admin, you will see the store as normal.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_voicecontrol</key>
+		<value>
+			<![CDATA[Voice Control:<br /><span class="help">Enable admin voice control to activate voice commands feature. Currently only supported in Chrome version 25 or later.</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_help_links</key>
 		<value>
 			<![CDATA[Help Links:<br /><span class="help">If you want to see Help Icons and links to AbanteCart site. This will help you learn about features and how to use them. If you advanced user and do not want to see these help icons, you can disable.</span>]]></value>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -20,10 +20,18 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class ALoader
+ */
 final class ALoader {
+	/**
+	 * @var Registry
+	 */
 	public $registry;
-	
+
+	/**
+	 * @param $registry Registry
+	 */
 	public function __construct($registry) {
 		$this->registry = $registry;
 	}
@@ -35,17 +43,28 @@ final class ALoader {
 	public function __set($key, $value) {
 		$this->registry->set($key, $value);
 	}
-	
+
+	/**
+	 * @param string $library
+	 * @throws AException
+	 */
 	public function library($library) {
 		$file = DIR_CORE . 'lib/' . $library . '.php';
 		
 		if (file_exists($file)) {
+			/** @noinspection PhpIncludeInspection */
 			include_once($file);
 		} else {
 			throw new AException(AC_ERR_LOAD, 'Error: Could not load library ' . $library . '!');
 		}
 	}
-	
+
+	/**
+	 * @param string $model
+	 * @param string $mode
+	 * @return bool
+	 * @throws AException
+	 */
 	public function model($model, $mode = '') {
 
 		//force mode alows to load models for ALL extensions to bypass extension enabled only status
@@ -74,7 +93,17 @@ final class ALoader {
             return false;
         }
 	}
-	 
+
+	/**
+	 * @param string $driver
+	 * @param string $hostname
+	 * @param string $username
+	 * @param string $password
+	 * @param string $database
+	 * @param string | null $prefix
+	 * @param string $charset
+	 * @throws AException
+	 */
 	public function database($driver, $hostname, $username, $password, $database, $prefix = NULL, $charset = 'UTF8') {
 		$file  = DIR_DATABASE . $driver . '.php';
 		$class = 'Database' . preg_replace('/[^a-zA-Z0-9]/', '', $driver);
@@ -87,7 +116,11 @@ final class ALoader {
             throw new AException(AC_ERR_LOAD, 'Error: Could not load database ' . $driver . '!');
 		}
 	}
-	
+
+	/**
+	 * @param string $helper
+	 * @throws AException
+	 */
 	public function helper($helper) {
 		$file = DIR_CORE . 'helper/' . $helper . '.php';
 	
@@ -97,13 +130,20 @@ final class ALoader {
             throw new AException(AC_ERR_LOAD, 'Error: Could not load helper ' . $helper . '!');
 		}
 	}
-	
+
+	/**
+	 * @param string $config
+	 */
 	public function config($config) {
 		$this->config->load($config);
 	}
-	
+
+	/**
+	 * @param string $language
+	 * @param string $mode
+	 * @return array|null|void
+	 */
 	public function language($language, $mode = '') {
 		return $this->language->load($language, $mode);
 	}
-} 
-?>
+}

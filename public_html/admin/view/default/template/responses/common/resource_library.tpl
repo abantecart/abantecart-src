@@ -64,12 +64,12 @@
     </div>
     <div id="column_right_wrapper">
         <ul class="tabs">
-            <?php if ($mode == '') : ?>
-            <li><a class="selected" href="#column_right" id="object"><?php echo $object_title; ?></a></li>
-            <?php endif; ?>
-            <li style="float: right; margin-right:15px;"><a <?php if ($mode == 'url') {
-                echo 'class="selected"';
-            } ?> href="#column_right" id="library"><?php echo $heading_title; ?></a></li>
+            <li>
+            	<a class="selected" href="#column_right" id="object"><?php echo $object_title; ?></a>
+            </li>
+            <li style="float: right; margin-right:15px;">
+            	<a href="#column_right" id="library"><?php echo $heading_title; ?></a>
+            </li>
         </ul>
         <a href="#" id="button_save_order" class="btn_standard"><?php echo $button_save_order; ?></a>
 
@@ -85,7 +85,7 @@
     <div id="pagination"></div>
 </div>
 
-<div id="edit_frm" style="display:none">
+<div id="edit_frm" style="display:none;">
     <?php echo $edit_form_open;?>
         <div class="resource_image"></div>
         <table class="files resource-details" cellpadding="0" cellspacing="0">
@@ -179,7 +179,7 @@
                 <a class="btn_action resource_unmap" id="map_this_info"><span class="icon_s_save">&nbsp;<span
                     class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
                 <?php } else { ?>
-                <a class="btn_action resource_unmaps use" id="map_this_info" rel="0"><span
+                <a class="btn_action resource_unmaps use" id="map_this_info" rel="1"><span
                     class="icon_s_save">&nbsp;<span
                     class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
                 <?php } ?>
@@ -299,7 +299,12 @@ jQuery(function ($) {
     });
 
     $('#pagination a').live('click', function () {
-        page = querySt($(this).attr('href'), 'page');
+		try{
+			page = querySt($(this).attr('href'), 'page');
+		}catch(e){
+			page = $(this).html();
+		}
+
         loadResources();
         return false;
     });
@@ -373,6 +378,7 @@ jQuery(function ($) {
             src = json.thumbnail_url;
         }
         $('div.resource_image', form).html(src + '<a target="_preview" href="' + urls.get_preview + '&resource_id=' + json.resource_id + '&language_id=' + json.language_id + '">' + text.text_preview + '</a>');
+        $('div.resource_image', form).append('<br><br><span class="resource_path">'+json.relative_url+'</span>');
 
         if (!json.resource_objects) {
             $('td.mapped', form).html(text.text_none);
@@ -440,6 +446,7 @@ jQuery(function ($) {
             keyword:keyword,
             page:page
         }
+        //show resource for given object and id
         if (show_object_resource) {
             resource_data.object_name = object_name;
             resource_data.object_id = object_id;
@@ -532,6 +539,7 @@ jQuery(function ($) {
         return false;
     });
 
+	//Resource selected, choose action
     $('#column_right a.use, #map_this_info').live('click', function () {
 
         var item = loadedItems[$(this).attr('rel')];
@@ -549,7 +557,9 @@ jQuery(function ($) {
             parent.$('input[name="' + parent.selectField + '"]').val(item['resource_code']);
         } else {
             parent.loadSingle(type, parent.wrapper_id, item['resource_id'], parent.selectField);
-            parent.$('input[name="' + parent.selectField + '"]').val(types[type].dir + item['resource_path']);
+            //change hidden element and mark ad changed 
+            parent.$('input[name="' + parent.selectField + '"]').val(types[type].dir + item['resource_path']).addClass('afield changed');
+            parent.$('form').prop('changed', 'true');
         }
 
         parent.$('#dialog').dialog('close');
@@ -784,7 +794,8 @@ jQuery(function ($) {
     function placeInCKE(item) {
         if (window.opener.CKEDITOR) {
             var dialog = window.opener.CKEDITOR.dialog.getCurrent();
-            dialog.getContentElement('info', 'txtUrl').setValue(item.thumbnail_url);
+            //Note: Return full image path to allow in editor size control
+            dialog.getContentElement('info', 'txtUrl').setValue(item.url);
         }
     }
 
@@ -803,6 +814,8 @@ jQuery(function ($) {
                     src = json.thumbnail_url;
                 }
                 $('#resource_details div.resource_image').html(src + '<a target="_preview" href="' + urls.get_preview + '&resource_id=' + json.resource_id + '&language_id=' + json.language_id + '">' + text.text_preview + '</a>');
+        		$('#resource_details div.resource_image').append('<br><br><span class="resource_path">'+json.relative_url+'</span>');
+                
                 $('#resource_details td.name').html(json.name);
                 $('#resource_details td.description').html(json.description);
 
@@ -825,6 +838,7 @@ jQuery(function ($) {
                     });
                     $('#resource_details td.mapped').html(html);
                     loadedItems[0] = json;
+
                     if (mode != 'url') {
                         if (already_mapped) {
                             $('#do_map_info').hide();

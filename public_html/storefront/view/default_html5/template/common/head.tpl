@@ -9,6 +9,7 @@
 <?php if ($description) { ?>
 <meta name="description" content="<?php echo $description; ?>" />
 <?php } ?>
+<meta name="generator" content="AbanteCart v<?php echo VERSION; ?> - Open Source eCommerce solution" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -33,7 +34,6 @@
 <link href="<?php echo $this->templateResource('/stylesheet/bootstrap-responsive.min.css'); ?>" rel="stylesheet" media="screen" />
 <link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" />
 <link href="<?php echo $this->templateResource('/stylesheet/flexslider.css'); ?>" type="text/css" media="screen" rel="stylesheet"  />
-<link href="<?php echo $this->templateResource('/stylesheet/jquery.fancybox.css'); ?>" rel="stylesheet">
 <link href="<?php echo $this->templateResource('/stylesheet/cloud-zoom.css'); ?>" rel="stylesheet" />
 <link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet" />
 <link href="<?php echo $this->templateResource('/stylesheet/print.css'); ?>" rel="stylesheet" type="text/css" media="print" />
@@ -70,9 +70,8 @@ if (typeof jQuery == 'undefined') {
 <?php foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>"></script>
 <?php } ?>
-
-<?php if($cart_ajax){ //event for adding product to cart by ajax ?>
 <script type="text/javascript">
+<?php if($cart_ajax){ //event for adding product to cart by ajax ?>
     $('a.productcart').live('click',function(){
         var item = $(this);
         //check if href provided for product details access
@@ -105,5 +104,10 @@ if (typeof jQuery == 'undefined') {
         }
     return false;
 });
-</script>
 <?php }?>
+$('a.call_to_order').live('click',function(){
+	location='<?php echo $call_to_order_url;?>';
+	return false;
+});
+</script>
+

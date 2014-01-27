@@ -14,3 +14,7 @@ public_html/system/logs/*
 public_html/system/config.php
 public_html/image/thumbnails/
 
+
+public_html/admin/view/default/template/pages/catalog/product_files.tpl
+
+*.swp

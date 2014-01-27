@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013, 2012 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -215,6 +215,7 @@ try {
 	require_once(DIR_CORE . 'lib/xml2array.php');
 	require_once(DIR_CORE . 'lib/data.php');
 	require_once(DIR_CORE . 'lib/file.php');
+	require_once(DIR_CORE . 'lib/download.php');
 
 // Application Classes
 	require_once(DIR_CORE . 'lib/customer.php');
@@ -430,6 +431,10 @@ try {
 
 // Create Global Layout Instance
 	$registry->set('layout', new ALayout($registry, $template));
+
+// load download class
+	$dwnload = new ADownload();
+	$registry->set('download',$dwnload);
 
 //load main language section
 	$registry->set('language', $language);

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -48,6 +48,45 @@ function preformatInteger($value) {
  * */
 function preformatTextID($value) {
 	return strtolower(preg_replace("/[^A-Za-z0-9_]/", "", $value));
+}
+
+/**
+ * format money float based on locale
+ * @since 1.1.8
+ * @param $value
+ * @param $mode (no_round => show number with real decimal, hide_zero_decimal => remove zeros from decimal part) 
+ * @return string
+ */
+
+function moneyDisplayFormat($value, $mode = 'no_round'){
+	$registry = Registry::getInstance();
+
+	$decimal_point = $registry->get('language')->get('decimal_point');
+	$decimal_point = !$decimal_point ? '.' : $decimal_point;
+
+	$thousand_point = $registry->get('language')->get('thousand_point');
+	$thousand_point = !$thousand_point ? '' : $thousand_point;
+
+	$currency = $registry->get('currency')->getCurrency();
+	$decimal_place = (int)$currency['decimal_place'];
+	$decimal_place = !$decimal_place ? 2 : $decimal_place;
+
+	// detect if need to show raw number for decimal points 
+	// In admin, this is regardless of currency format. Need to show real number
+	if ($mode == 'no_round' && $value != round($value,$decimal_place)) {
+		//count if we have more decimal than currency configuration
+		$decim_portion = explode('.', $value);
+		if ($decimal_place < strlen($decim_portion[1])) {
+			$decimal_place = strlen($decim_portion[1]);
+		}
+	}
+
+	//if only zeros after decimal point - hide zeros
+	if($mode == 'hide_zero_decimal' && round($value) == round($value,$decimal_place)){
+		$decimal_place = 0;
+	}
+
+	return number_format((float)$value, $decimal_place, $decimal_point,$thousand_point);
 }
 
 /*
@@ -621,7 +660,11 @@ function build_sort_order($array, $min, $max, $sort_direction = 'asc'){
 	//if no min or max, set interval to 10
 	$return_arr = array();
 	if ($max > 0) {
-		$increment = ($max - $min ) / (count($array) - 1);	
+		$divider = 1;
+		if (count($array) > 1) {
+			$divider = (count($array) - 1);
+		}
+		$increment = ($max - $min ) / $divider;	
 	} else {
 		$increment = 10;
 		$min = 10;
@@ -654,6 +697,17 @@ function build_sort_order($array, $min, $max, $sort_direction = 'asc'){
  * @return bool
  */
 function is_assoc($test_array) {
-        return is_array($test_array) && array_diff_key($test_array,array_keys(array_keys($test_array)));
+	return is_array($test_array) && array_diff_key($test_array,array_keys(array_keys($test_array)));
 }
 
+/**
+ * Return project base
+ *
+ * @return string
+ */
+
+function project_base() {
+	$base = 'PGEgaHJlZj0iaHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbSIgb25jbGljaz0id2luZG93Lm9wZW4odGhpcy5ocmVm';
+	$base .= 'KTtyZXR1cm4gZmFsc2U7IiB0aXRsZT0iSWRlYWwgT3BlblNvdXJjZSBFLWNvbW1lcmNlIFNvbHV0aW9uIj5BYmFudGVDYXJ0PC9hPg==';
+	return base64_decode($base);
+}

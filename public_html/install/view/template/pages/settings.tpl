@@ -24,7 +24,7 @@
 	</div>
 </div>
 <?php if ($error_warning) { ?>
-<div class="warning"><?php echo $error_warning; ?></div>
+<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
 <?php } ?>
 <div class="main_content">
 	<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -98,9 +98,13 @@
 								</tr>
 								<tr>
 									<td>MySQL:</td>
-									<td><?php echo extension_loaded('mysql') ? 'On' : 'Off'; ?></td>
+									<td><?php echo extension_loaded('mysql') || extension_loaded('mysqli')
+												? 'On'
+												: 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo extension_loaded('mysql') ? '<img src="' . $template_dir . 'image/good.png" alt="Good" />' : '<img src="' . $template_dir . 'image/bad.png" alt="Bad" />'; ?></td>
+									<td align="center"><?php echo extension_loaded('mysql') || extension_loaded('mysqli')
+																? '<img src="' . $template_dir . 'image/good.png" alt="Good" />'
+																: '<img src="' . $template_dir . 'image/bad.png" alt="Bad" />'; ?></td>
 								</tr>
 								<tr>
 									<td>GD:</td>

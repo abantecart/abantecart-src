@@ -79,7 +79,9 @@
 						<h1 class="productname"><span class="bgnone"><?php echo $heading_title; ?></span></h1>
 
 						<div class="productprice">
-							<?php if ($display_price) { ?>
+							<?php
+
+							if ($display_price) { ?>
 								<div class="productpageprice">
 									<?php if ($special) { ?>
 										<div class="productfilneprice">
@@ -90,9 +92,9 @@
 												class="spiral"></span><?php echo $price; ?>
 									<?php } ?>
 								</div>
-							<?php } ?>
+							<?php }
 
-							<?php if ($average) { ?>
+							if ($average) { ?>
 								<ul class="rate">
 									<?php
 									#Show stars based on avarage rating
@@ -115,8 +117,9 @@
 									<?php if ($options) { ?>
 										<?php foreach ($options as $option) { ?>
 											<div class="control-group">
+												<?php if ($option['html']->type != 'hidden') { ?>
 												<label class="control-label"><?php echo $option['name']; ?></label>
-
+												<?php } ?>
 												<div class="controls">
 													<?php echo $option['html']; ?>
 												</div>
@@ -143,7 +146,7 @@
 											<?php } ?>
 										</div>
 									<?php } ?>
-
+									<?php if(!$product_info['call_to_order']){ ?>
 									<div class="control-group mt20">
 										<div class="input-prepend input-append">
 											<span class="add-on"><?php echo $text_qty; ?></span>
@@ -162,24 +165,31 @@
 											<span class="total-price"></span>
 										</label>
 									</div>
+									<?php }?>
 
 									<div>
 										<?php echo $form['product_id'] . $form['redirect']; ?>
 									</div>
 
 									<div class="mt20 ">
+										<?php if(!$product_info['call_to_order']){ ?>
 										<ul class="productpagecart">
 											<li><a href="#" onclick="$(this).closest('form').submit(); return false;"
 												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
 										</ul>
 										<a class="productprint btn btn-large" href="#"
-										   onclick="javascript:window.print()"><i
+										   onclick="window.print()"><i
 													class="icon-print"></i> <?php echo $button_print; ?></a>
+										<?php }else{?>
+											<ul class="productpagecart call_to_order">
+												<li><a href="#" class="call_to_order"><i class="icon-phone-sign"></i>&nbsp;&nbsp;<?php echo $text_call_to_order; ?></a></li>
+											</ul>
+										<?php } ?>
 										<?php echo $this->getHookVar('buttons'); ?>
 									</div>
 								</fieldset>
 								</form>
-							<?php } else { ?>
+							<?php } elseif(!$product_info['call_to_order']) { ?>
 								<div class="control-group">
 									<label class="control-label">
 										<?php echo $text_login_view_price; ?>
@@ -208,8 +218,10 @@
 					<li><a href="#producttag"><?php echo $text_tags; ?></a></li>
 				<?php } ?>
 				<?php if ($related_products) { ?>
-					<li><a href="#relatedproducts"><?php echo $tab_related; ?> (<?php echo count($related_products); ?>
-							)</a></li>
+					<li><a href="#relatedproducts"><?php echo $tab_related; ?> (<?php echo count($related_products); ?>)</a></li>
+				<?php } ?>
+				<?php if ($downloads) { ?>
+					<li><a href="#productdownloads"><?php echo $tab_downloads; ?></a></li>
 				<?php } ?>
 				<?php echo $this->getHookVar('product_features_tab'); ?>
 			</ul>
@@ -297,8 +309,7 @@
 					<div class="tab-pane" id="producttag">
 						<ul class="tags">
 							<?php foreach ($tags as $tag) { ?>
-							<li><a href="<?php echo $tag['href']; ?>"><i class="icon-tag"></i><?php echo $tag['tag']; ?>
-								</a>
+							<li><a href="<?php echo $tag['href']; ?>"><i class="icon-tag"></i><?php echo $tag['tag']; ?></a></li>
 								<?php } ?>
 						</ul>
 					</div>
@@ -324,7 +335,7 @@
 											<div class="pricenew"><?php echo $related_product['special'] ?></div>
 											<div class="priceold"><?php echo $related_product['price'] ?></div>
 										<?php } else { ?>
-											<div class="pricenew"><?php echo $related_product['price'] ?></div>
+											<div class="oneprice"><?php echo $related_product['price'] ?></div>
 										<?php } ?>
 									</div>
 								</li>
@@ -332,6 +343,23 @@
 
 
 							<?php } ?>
+						</ul>
+					</div>
+				<?php } ?>
+
+				<?php if ($downloads) { ?>
+					<div class="tab-pane" id="productdownloads">
+						<ul class="downloads">
+							<?php foreach ($downloads as $download) { ?>
+							<li class="row">
+								<div class="pull-left"><?php echo $download['name']; ?><div class="download-list-attributes">
+								<?php foreach($download['attributes'] as $name=>$value){
+									echo '<small>- '.$name.': '.(is_array($value) ? implode(' ',$value) : $value).'</small>';
+									}?></div>
+								</div>
+								<div class="pull-right mr10"><?php echo $download['href']; ?></div>
+							</li>
+								<?php } ?>
 						</ul>
 					</div>
 				<?php } ?>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_sagepay_name</key>
+    <value><![CDATA[SagePay]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили детали SagePay аккаунта!]]></value>
+  </definition>
+  <definition>
+    <key>text_sagepay</key>
+    <value><![CDATA[<a onclick="window.open('https://support.sagepay.com/apply/default.aspx?PartnerID=E511AF91-E4A0-42DE-80B0-09C981A3FB61');"><img src="admin/view/default/image/payment/sagepay.png" alt="SagePay" title="SagePay" style="border: 1px solid #EEEEEE;" /></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_sim</key>
+    <value><![CDATA[Симулятор]]></value>
+  </definition>
+  <definition>
+    <key>text_test</key>
+    <value><![CDATA[Тест]]></value>
+  </definition>
+  <definition>
+    <key>text_live</key>
+    <value><![CDATA[Рабочий режим]]></value>
+  </definition>
+  <definition>
+    <key>text_defered</key>
+    <value><![CDATA[Отложенный]]></value>
+  </definition>
+  <definition>
+    <key>text_authenticate</key>
+    <value><![CDATA[Проверять подлинность]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_vendor</key>
+    <value><![CDATA[Производитель:]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_password</key>
+    <value><![CDATA[Пароль:]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_test</key>
+    <value><![CDATA[Тестовый режим:]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_test_sim</key>
+    <value><![CDATA[Симулятор]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_test_test</key>
+    <value><![CDATA[Тест]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_test_live</key>
+    <value><![CDATA[Рабочий режим]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_transaction</key>
+    <value><![CDATA[Метод транзакций:]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_transaction_AUTHENTICATE</key>
+    <value><![CDATA[Проверять подлинность]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_transaction_PAYMENT</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_transaction_DEFERRED</key>
+    <value><![CDATA[Отложенный]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_order_status_id</key>
+    <value><![CDATA[Статус заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_location_id</key>
+    <value><![CDATA[Географическая зона:]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_sort_order</key>
+    <value><![CDATA[Порядок сортировки: <br /> <span class="help">Номер указывающий позицию отображения этого платежного метода наряду с другими</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_autoselect</key>
+    <value><![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора способа оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение SagePay!]]></value>
+  </definition>
+  <definition>
+    <key>error_vendor</key>
+    <value><![CDATA[Vendor ID обязателен!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[Требуется пароль!]]></value>
+  </definition>
+</definitions>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -90,6 +90,7 @@ class ControllerBlocksSpecial extends AController {
 				'rating'  		=> $rating,
 				'stars'   		=> sprintf($this->language->get('text_stars'), $rating),
 				'price'   		=> $price,
+				'call_to_order'=> $result['call_to_order'],
 				'options'   	=> $options,
 				'special' 		=> $special,
 				'thumb'   		=> $thumbnail,
@@ -105,6 +106,7 @@ class ControllerBlocksSpecial extends AController {
 		} else {
 			$this->data['display_price'] = FALSE;
 		}
+		$this->data['review_status'] = $this->config->get('enable_reviews');
 		// framed needs to show frames for generic block.
 		//If tpl used by listing block framed was set by listing block settings
 		$this->data['block_framed'] = true;

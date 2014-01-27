@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -168,17 +168,11 @@ class ControllerPagesCatalogProductDiscount extends AController {
 		$this->data['error'] = $this->error;
 		$this->data['cancel'] = $this->html->getSecureURL('catalog/product_promotions', '&product_id=' . $this->request->get['product_id'] );
 
-		$this->data['link_general'] = $this->html->getSecureURL('catalog/product/update', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_images'] = $this->html->getSecureURL('catalog/product_images', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_relations'] = $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_options'] = $this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_promotions'] = $this->html->getSecureURL('catalog/product_promotions', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_extensions'] = $this->html->getSecureURL('catalog/product_extensions', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['link_layout'] = $this->html->getSecureURL('catalog/product_layout', '&product_id=' . $this->request->get['product_id'] );
-
-		$this->data['active'] = 'promotions';
-		$this->view->batchAssign( $this->data );
-		$this->data['product_tabs'] = $this->view->fetch('pages/catalog/product_tabs.tpl');
+		$this->data['active'] = 'promotions';	
+		//load tabs controller
+		$tabs_obj = $this->dispatch('pages/catalog/product_tabs', array( $this->data ) );
+		$this->data['product_tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
 
 		$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
 		$this->data['heading_title'] = $this->language->get('text_edit') .'&nbsp;'. $this->language->get('text_product') . ' - ' . $this->data['product_description'][$this->session->data['content_language_id']]['name'];
@@ -297,7 +291,7 @@ class ControllerPagesCatalogProductDiscount extends AController {
         $this->data['form']['fields']['price'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'price',
-			'value' => number_format((float)$this->data['price'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+			'value' => moneyDisplayFormat($this->data['price']),
 		));
 
 		$this->data['js_date_format'] = format4Datepicker($this->language->get('date_format_short'));

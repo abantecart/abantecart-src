@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -56,6 +56,8 @@ final class MySQL {
 		mysql_query("SET CHARACTER SET utf8", $connection);
 		mysql_query("SET CHARACTER_SET_CONNECTION=utf8", $connection);
 		mysql_query("SET SQL_MODE = ''", $connection);
+		mysql_query("SET session wait_timeout=60;", $connection);
+
         $this->registry = Registry::getInstance();
 		$this->connection = $connection;
   	}
@@ -119,7 +121,15 @@ final class MySQL {
      * @return string
      */
     public function escape($value) {
-		return mysql_real_escape_string($value, $this->connection);
+
+	    if(is_array($value)){
+		    $dump = var_export($value,true);
+		    $message = 'MySQL class error: Try to escape non-string value: '.$dump;
+		    $error = new AError($message);
+		    $error->toLog()->toDebug()->toMessages();
+		    return false;
+	    }
+		return mysql_real_escape_string((string)$value, $this->connection);
 	}
 
     /**
@@ -137,6 +147,8 @@ final class MySQL {
   	}
 
     public function __destruct() {
-		mysql_close($this->connection);
+		if(is_resource($this->connection)){
+			mysql_close($this->connection);
+		}
 	}
 }

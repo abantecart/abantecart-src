@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -20,6 +20,11 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+/** @noinspection PhpUndefinedClassInspection */
+/**
+ * Class ControllerBlocksBannerBlock
+ * @property ModelExtensionBannerManager $model_extension_banner_manager
+ */
 class ControllerBlocksBannerBlock extends AController {
 	
 	public function main() {
@@ -33,6 +38,8 @@ class ControllerBlocksBannerBlock extends AController {
 		$this->view->assign('content',$block_data['content']);
     	$this->view->assign('heading_title', $block_data['title'] );
     	$this->view->assign('stat_url', $this->html->getURL('r/extension/banner_manager') );
+		//load JS to register clicks
+		$this->document->addScriptBottom($this->view->templateResource('/javascript/banner_manager.js'));
 
 		if($block_data['content']){
 			// need to set wrapper for non products listing blocks
@@ -53,19 +60,24 @@ class ControllerBlocksBannerBlock extends AController {
 			$key = $this->config->get('storefront_language_id');
 		}else{
 			$key = $descriptions ? key($descriptions) : null;
-			}
+		}
 
 		$this->loadModel('extension/banner_manager');
 		$results = $this->model_extension_banner_manager->getBanners($custom_block_id);
+		$banners = array();
 		if($results){
 			$rl = new AResource('image');
 			foreach($results as $row){
 				if($row['banner_type']==1){ // if graphic type
-					$images = $rl->getResourceAllObjects('banners',$row['banner_id']);
-					if($images){
-						$row['images'] = $images;
-					}
-				}else{
+					/**
+					 * @var array
+					 */
+					$row['images'] = $rl->getResourceAllObjects('banners',$row['banner_id']);
+					//add click registration wrapper to each URL
+					//NOTE: You can remove below line to use traking javascript instead. Javascript tracks HTML banner clicks 
+					$row['target_url'] = $this->html->getURL('r/extension/banner_manager/click', '&banner_id='.$row['banner_id'], true);
+					
+				} else {
 					$row['description'] = html_entity_decode($row['description']);
 				}
 				$banners[] = $row;
@@ -82,4 +94,3 @@ class ControllerBlocksBannerBlock extends AController {
 		return $output;
 	}
 }
-?>

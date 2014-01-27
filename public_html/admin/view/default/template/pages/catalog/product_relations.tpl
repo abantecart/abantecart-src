@@ -1,8 +1,8 @@
 <?php if ( !empty($error['warning']) ) { ?>
-<div class="warning"><?php echo $error['warning']; ?></div>
+<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success"><?php echo $success; ?></div>
+<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 <a name="top"></a>
 
@@ -37,10 +37,6 @@
 		        <div style="padding-top: 5px;"><?php echo $form['fields']['list_hidden'];?></div></td>
           </tr>
           <tr>
-            <td><?php echo $entry_download; ?></td>
-	        <td><div class="scrollbox"><?php echo $form['fields']['product_download']; ?></div></td>
-         </tr>
-          <tr>
             <td><?php echo $entry_store; ?></td>
             <td><div class="scrollbox"><?php echo $form['fields']['product_store']; ?></div></td>
           </tr>
@@ -61,7 +57,7 @@
 </div>
 
 <script type="text/javascript"><!--
-function addRelated() {
+var  addRelated = function() {
 	$('#product_form_product :selected').each(function() {
 		$(this).remove();
 		$('#product_form_related option[value=\'' + $(this).attr('value') + '\']').remove();
@@ -71,14 +67,14 @@ function addRelated() {
 	});
 }
 
-function removeRelated() {
+var removeRelated = function() {
 	$('#product_form_related :selected').each(function() {
 		$(this).remove();
 		$('#product_related input[value=\'' + $(this).attr('value') + '\']').remove();
 	});
 }
 
-function getProducts() {
+var getProducts = function() {
 	$('#product_form_product option').remove();
 
 	$.ajax({
@@ -92,7 +88,7 @@ function getProducts() {
 	});
 }
 
-function getRelated() {
+var getRelated = function() {
 	$('#product_form_related option').remove();
 
 	$.ajax({

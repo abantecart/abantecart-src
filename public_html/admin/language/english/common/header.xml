@@ -343,5 +343,47 @@
 	<definition>
 		<key>text_settings_newstore</key>
 		<value><![CDATA[Create New Store]]></value>
-	</definition>	
+	</definition>
+	
+	<definition>
+		<key>text_voice_command_prompt</key>
+		<value><![CDATA[Voice Command Prompt. (beta)]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_select_dialect</key>
+		<value><![CDATA[Select your dialect]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_confirm_action</key>
+		<value><![CDATA[Confirm this action or cancel]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_speak_now</key>
+		<value><![CDATA[Speak now.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_no_speach_detected</key>
+		<value><![CDATA[No speech was detected. You may need to adjust your <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">microphone settings</a>.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_no_mic_detected</key>
+		<value><![CDATA[No microphone was found. Ensure that a microphone is installed and that <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892"> microphone settings</a> are configured correctly.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_click_allow</key>
+		<value><![CDATA[Click the "Allow" button above to enable your microphone.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_mic_denied</key>
+		<value><![CDATA[Permission to use microphone was denied.]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_mic_permission</key>
+		<value><![CDATA[Permission to use microphone is blocked. To change, go to browser <a href="chrome://settings/contentExceptions#media-stream">media settings</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_voice_not_supported</key>
+		<value><![CDATA[Voice control is not supported by this browser. <a href="//www.google.com/chrome" target="_new">Chrome</a> version 25 or later required.]]></value>
+	</definition>
+
 </definitions>

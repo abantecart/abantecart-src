@@ -1,5 +1,8 @@
 <?php
 	//Add styles and jafascript for boootstrap file upload
+	/**
+	 * @var ADocument $doc
+	 */
 	$doc = $this->registry->get('document');
 	$doc->addStyle(array(
 	    'href' => $this->templateResource('/stylesheet/bootstrap-fileupload.css'),

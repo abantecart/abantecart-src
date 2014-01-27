@@ -1,8 +1,8 @@
 <?php if (!empty($error['warning'])) { ?>
-	<div class="warning"><?php echo $error['warning']; ?></div>
+	<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success"><?php echo $success; ?></div>
+<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
 <div class="contentBox">
@@ -22,6 +22,7 @@
 	<div class="buttons">
 		<a href="<?php echo $invoice?>" class="btn_standard" target="_invoice"><?php echo $button_invoice?></a>
 	</div>
+	<?php echo $form_language_switch; ?>
 	</div>
   </div></div></div>
   <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">

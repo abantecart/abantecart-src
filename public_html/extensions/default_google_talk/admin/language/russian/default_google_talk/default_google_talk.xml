@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_google_talk_name</key>
+    <value><![CDATA[Чат Google Hangout]]></value>
+  </definition>
+  <definition>
+    <key>default_google_talk_status</key>
+    <value><![CDATA[Статус]]></value>
+  </definition>
+  <definition>
+    <key>default_google_talk_status_0</key>
+    <value><![CDATA[Выключено]]></value>
+  </definition>
+  <definition>
+    <key>default_google_talk_status_1</key>
+    <value><![CDATA[Включено]]></value>
+  </definition>
+  <definition>
+    <key>default_google_talk_code</key>
+    <value><![CDATA[Добавить на страницу HTML-код <span class="help">Goto <a onclick="window.open('https://developers.google.com/+/hangouts/button');"><u>Создать значок Google Hangout</u></a> и скопируйте и вставте сгенерированный код в текстовое поле.</span>]]></value>
+  </definition>
+</definitions>

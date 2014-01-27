@@ -30,22 +30,32 @@
 			</div>
 		</div>
 	</section>
-	<section class="copyrightbottom">
+	<section class="copyrightbottom align_center">
 		<div class="container">
-			<div class="pull-left">
+			<div class="pull-left mt10">
 				<?php echo ${$children_blocks[6]}; ?>
 			</div>
-			<div class="pull-right textright"> <?php echo $text_powered_by ?> <a href="http://www.abantecart.com"
-																				 onclick="window.open(this.href);return false;"
-																				 title="Ideal OpenSource E-commerce Solution">AbanteCart</a>
+			<div class="pull-right align_center">
+				<?php echo $text_project_label ?>
+				<br />
+	    		<?php echo $text_copy; ?>				
 			</div>
-			<div class="pull-right mr20">
+			<div class="pull-right mr20 mt10">
 				<?php echo ${$children_blocks[7]}; ?>
 			</div>
 		</div>
 	</section>
 	<a id="gotop" href="#">Back to top</a>
 </footer>
+
+<div id="msgModal" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close callback-btn" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3></h3>
+  </div>
+  <div class="modal-body">
+  </div>
+</div>
 
 <!--
 AbanteCart is open source software and you are free to remove the Powered By AbanteCart if you want, but its generally accepted practise to make a small donatation.
@@ -57,7 +67,6 @@ Please donate via PayPal to donate@abantecart.com
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/respond.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/bootstrap-tooltip.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/bootstrap-modal.js'); ?>"></script>
-<script type="text/javascript" defer src="<?php echo $this->templateResource('/javascript/jquery.fancybox.js'); ?>"></script>
 <script type="text/javascript" defer src="<?php echo $this->templateResource('/javascript/jquery.flexslider.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/cloud-zoom.1.0.2.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.validate.js'); ?>"></script>

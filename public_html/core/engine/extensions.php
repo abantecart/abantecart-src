@@ -49,18 +49,23 @@ abstract class Extension {
 	 */
 	protected $baseObject = null;
 
-
+	/**
+	 * @var string  - name of method of controller that call hook
+	 */
+	protected $baseObject_method = '';
 	const REPLACED_METHOD = 'Indicates that a method with void return has been replaced';
 
 
 	/**
 	 * Load the current object being plugged into.
 	 * @param object $object The current object being plugged into.
+	 * @param string $method
 	 */
-	public function loadBaseObject($object) {
+	public function loadBaseObject($object,$method) {
 		//NOTE (Pavel): Possible futute imptovment with adding wrapper layer to controll access to base controller
 		//Can add wrapper class with set of mirror methods and properies to connect to base objects
 		$this->baseObject = $object;
+		$this->baseObject_method = $method;
 	}
 
 	/**
@@ -139,7 +144,7 @@ class ExtensionCollection {
 			// If another extension needs to access the dispatching extension,
 			//   it can use $this->ExtensionsApi->extensionName.
 			if (($baseObject instanceof Extension) === false) {
-				$extension->loadBaseObject($baseObject);
+				$extension->loadBaseObject($baseObject, $args[0]);
 				$extension->loadExtensionsApi($baseObject->ExtensionsApi);
 			}
 
@@ -235,7 +240,12 @@ class ExtensionsApi {
 	 * @var $extension_templates - array of extensions templates
 	 */
 	protected $extension_templates;
-	protected $extension_types = array('extensions', 'payment', 'shipping', 'template');
+	protected $extension_types = array( 'extensions',
+										'payment',
+										'shipping',
+										'template',
+										'language'
+										);
 
 	public function __construct() {
 
@@ -578,14 +588,14 @@ class ExtensionsApi {
 	 * check if language file exists in extension resource
 	 *
 	 */
-	public function isExtensionLanguageFile($route, $lang_directory, $section) {
+	public function isExtensionLanguageFile($route, $language_name, $section) {
 		$registry = Registry::getInstance();
 		if (!$registry->has('config')) return false;
 
 		$file = ($section ? DIR_EXT_ADMIN : DIR_EXT_STORE) . 'language/' .
-				$lang_directory . '/' . $route . '.xml';
+				$language_name . '/' . $route . '.xml';
 
-		//we can include language file from all extensions too
+		//include language file from first matching extension
 		foreach ($this->extensions_dir as $ext) {
 			$f = DIR_EXT . $ext . $file;
 			if (is_file($f)) {

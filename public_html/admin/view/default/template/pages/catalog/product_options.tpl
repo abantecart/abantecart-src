@@ -1,8 +1,8 @@
 <?php if (!empty($error['warning'])) { ?>
-	<div class="warning"><?php echo $error['warning']; ?></div>
+	<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-	<div class="success"><?php echo $success; ?></div>
+	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 <a name="top"></a>
 
@@ -138,14 +138,14 @@
 </div>
 <?php echo $resources_scripts; ?>
 <script type="text/javascript"><!--
-function setRLparams(attr_val_id) {
+var setRLparams = function(attr_val_id) {
 	urls.resource_library = '<?php echo $rl_rl_path; ?>&object_id=' + attr_val_id;
 	urls.resources = '<?php echo $rl_resources_path; ?>&object_id=' + attr_val_id;
 	urls.unmap = '<?php echo $rl_unmap_path; ?>&object_id=' + attr_val_id;
 	urls.attr_val_id = attr_val_id;
 }
 
-function openRL(attr_val_id) {
+var openRL = function(attr_val_id) {
 	setRLparams(attr_val_id);
 	mediaDialog('image', 'add', attr_val_id);
 }
@@ -273,7 +273,7 @@ jQuery(function ($) {
 		}
 	});
 
-	function updateOptions() {
+var updateOptions = function() {
 		$.ajax({
 			url: opt_urls.get_options_list,
 			type: 'GET',
@@ -290,7 +290,7 @@ jQuery(function ($) {
 		});
 	}
 
-	function editOption(id) {
+	var editOption = function(id) {
 		$('#notify_error').remove();
 		$.ajax({
 			url: opt_urls.update_option,
@@ -348,6 +348,13 @@ jQuery(function ($) {
 		return false;
 	});
 
+	$('.open_newtab').live('click', function () {
+		var href = $(this).attr('link');
+		top.open(href, '_blank');
+		return false;
+	});
+
+
 	$('.default_uncheck').live('click', function () {
 		$("input[name='default']").removeAttr('checked');
 	});
@@ -355,6 +362,16 @@ jQuery(function ($) {
 	$("#add_option_value").live('click', function () {
 		var new_row = $('#new_row').parent().find('tr').clone();
 		$(new_row).attr('id', 'new' + row_id);
+
+		var so = $('#option_values_tbl').find("input[name^='sort_order']");
+		if(so.length>0){
+			var highest = 0;
+			so.each(function() {
+				highest = Math.max(highest, parseInt(this.value));
+			});
+			$(new_row).find("input[name^='sort_order']").val(highest+1);
+		}
+
 		$('#option_values_tbl tr:last-child').after(new_row);
 		$("input, checkbox, select", new_row).aform({triggerChanged: true, showButtons: false });
 		$('div.aform', new_row).show();

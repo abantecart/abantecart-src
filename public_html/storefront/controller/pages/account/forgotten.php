@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,8 +24,9 @@ class ControllerPagesAccountForgotten extends AController {
 	private $error = array();
 	public $data = array();
 	public function main() {
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->password();
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
 	public function password() {
@@ -153,8 +154,6 @@ class ControllerPagesAccountForgotten extends AController {
 			if (!empty($cust_detatils['email'])) {
 				$this->loadLanguage('mail/account_forgotten_login');
 				
-				$password = substr(md5(rand()), 0, 7);
-				
 				$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
 				
 				$message  = sprintf($this->language->get('text_greeting'), $this->config->get('store_name')) . "\n\n";
@@ -190,7 +189,7 @@ class ControllerPagesAccountForgotten extends AController {
 		
       	$this->document->addBreadcrumb( array ( 
         	'href'      => $this->html->getURL('account/forgotten/loginname'),
-        	'text'      => $this->language->get('text_forgotten'),
+        	'text'      => $this->language->get('text_forgotten_loginname'),
         	'separator' => $this->language->get('text_separator')
       	 ));
         
@@ -275,4 +274,3 @@ class ControllerPagesAccountForgotten extends AController {
 		}		
 	}
 }
-?>

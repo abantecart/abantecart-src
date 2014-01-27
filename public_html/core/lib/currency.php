@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -33,6 +33,10 @@ final class ACurrency {
     private $session;
     private $log;
     private $message;
+	/**
+	 * @var bool - sign that currency was switched
+	 */
+	private $is_switched = false;
 
     /**
      * @param $registry Registry
@@ -64,24 +68,36 @@ final class ACurrency {
       		); 
     	}		
 		
-		if (isset($this->request->get['currency']) && (array_key_exists($this->request->get['currency'], $this->currencies))) {
+		if (isset($this->request->get['currency']) && array_key_exists($this->request->get['currency'], $this->currencies) ) {
 			$this->set($this->request->get['currency']);
+			$this->is_switched = true; // set sign for external use via isSwitched method
 			unset($this->request->get['currency'],
 				  $this->session->data['shipping_methods'],
 				  $this->session->data['shipping_method']);
 
-    	} elseif ((isset($this->session->data['currency'])) && (array_key_exists($this->session->data['currency'], $this->currencies))) {
+    	} elseif (isset($this->session->data['currency']) && array_key_exists($this->session->data['currency'], $this->currencies) ) {
       		$this->set($this->session->data['currency']);
-    	} elseif ((isset($this->request->cookie['currency'])) && (array_key_exists($this->request->cookie['currency'], $this->currencies))) {
+    	} elseif (isset($this->request->cookie['currency']) && array_key_exists($this->request->cookie['currency'], $this->currencies) ) {
 			if(IS_ADMIN===true){
 				$this->set($this->config->get('config_currency'));
 			}else{
       			$this->set($this->request->cookie['currency']);
 			}
     	} else {
+			// need to know about currency switch. Check if currency was setted but not in list of available currencies
+			if(isset($this->request->get['currency']) || isset($this->session->data['currency']) || isset($this->request->cookie['currency'])){
+				$this->is_switched = true; // set sign for external use via isSwitched method
+			}
       		$this->set($this->config->get('config_currency'));
     	}
   	}
+
+	/**
+	 * @return bool
+	 */
+	public function isSwitched(){
+		return $this->is_switched;
+	}
 
     /**
      * @param string $currency

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -29,12 +29,17 @@ class ModelExtensionDefaultFlatRateShipping extends Model {
 		if ($this->config->get('default_flat_rate_shipping_status')) {
 
 			$taxes = $this->tax->getTaxes((int)$address['country_id'], (int)$address['zone_id']);
+			$zones = $this->db->query("SELECT *
+										FROM " . DB_PREFIX . "zones_to_locations
+										WHERE location_id = '" . (int)$location_id . "'
+											AND country_id = '" . (int)$address['country_id'] . "'
+											AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 
-      		if (!$location_id) {
+      		if ($zones->num_rows) {
+				$status = TRUE;
+			}elseif (!$location_id) {
         		$status = TRUE;
-      		} elseif ($taxes) {
-        		$status = TRUE;
-      		} else {
+      		}else {
         		$status = FALSE;
       		}
 		} else {

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -36,7 +36,14 @@ class AAttribute {
     protected $registry;
     private $attributes = array();
     private $attribute_types = array();
-	
+	/**
+	 * @var array of core attribute types controllers
+	 */
+	private $core_attribute_types_controllers = array(
+														'responses/catalog/attribute/getProductOptionSubform',
+														'responses/catalog/attribute/getDownloadAttributeSubform'
+													);
+
 	public function __construct($attribute_type = '', $language_id = 0 ) {
 		$this->registry = Registry::getInstance();
         $this->errors = array();
@@ -103,7 +110,7 @@ class AAttribute {
 	private function _load_attributes( $attribute_type_id, $language_id = 0 ) {
 		//Load attributes from DB or cache. If load from DB, cache.
 		// group attribute and sort by attribute_group_id (if any) and sort by attribute inside the group.
-
+		$this->attributes = array();
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');
         }
@@ -127,11 +134,19 @@ class AAttribute {
         if ( !$query->num_rows ) {
             return false;
         }
+		foreach($query->rows as $row){
+			$this->attributes[$row['attribute_id']] = $row;
+		}
 
-        $this->cache->set($cache_name, $query->rows, (int)$language_id, (int)$this->config->get('config_store_id'));
-
-        $this->attributes = $query->rows;
+        $this->cache->set($cache_name, $this->attributes, (int)$language_id, (int)$this->config->get('config_store_id'));
 		return true;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getAttributes(){
+		return $this->attributes;
 	}
 
     /**
@@ -169,6 +184,14 @@ class AAttribute {
 		return $this->attribute_types;
 	}
 
+    /**
+     * Get array of all core attribute types controllers (for recognizing of core attribute types)
+	 * @return array
+     */
+    public function getCoreAttributeTypesControllers( ) {
+		return $this->core_attribute_types_controllers;
+	}
+
 
     /**
      * @param string $type
@@ -186,11 +209,24 @@ class AAttribute {
     /**
      * @param string $type
 	 * @return array
-     * Get attribute tyoe data based on attribute type_key
+     * Get attribute type data based on attribute type_key
      */
     public function getAttributeTypeInfo( $type ) {
         foreach ( $this->attribute_types as $attribute_type ) {
             if ( $attribute_type['type_key']  == $type ) {
+            	return $attribute_type;
+            }
+		}
+		return array();
+	}
+	/**
+     * @param int $type_id
+	 * @return array
+     * Get attribute type data based on attribute type id
+     */
+    public function getAttributeTypeInfoById( $type_id ) {
+        foreach ( $this->attribute_types as $attribute_type ) {
+            if ( $attribute_type['attribute_type_id']  == $type_id ) {
             	return $attribute_type;
             }
 		}
@@ -278,11 +314,14 @@ class AAttribute {
 	 * @return array
 	 */
 	public function getAttributeValues( $attribute_id, $language_id = 0 ) {
+		if(!(int)$language_id){
+			$language_id = $this->language->getLanguageID();
+		}
 		//get attrib values
         $cache_name = 'attribute.values.'.$attribute_id.'.'.$language_id;
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
         $attribute_vals = $this->cache->get($cache_name,'',(int)$this->config->get('config_store_id'));
-        if (!empty($attribute_vals)) {
+        if (!is_null($attribute_vals)) {
             return $attribute_vals;
         }
 
@@ -298,9 +337,87 @@ class AAttribute {
         if ( !$query->num_rows ) {
             return array();
         }
-
         $this->cache->set($cache_name, $query->rows,'',(int)$this->config->get('config_store_id'));
         return $query->rows;		
+	}
+
+	/**
+	 * method for validation of data based on global attributes requirements
+	 * @param array $data - usually it's a $_POST
+	 * @return array - array with error text for each of invalid field data
+	 */
+	public function validateAttributeData($data = array()){
+		$errors = array();
+
+		$this->load->language('catalog/attribute'); // load language for file upload text errors
+
+
+		foreach($this->attributes as $attribute_info){
+
+			// for multivalue required fields
+			if(in_array($attribute_info['element_type'], HtmlElementFactory::getMultivalueElements())
+				&& !sizeof($data[$attribute_info['attribute_id']])
+				&& $attribute_info['required']=='1'
+			){
+				$errors[$attribute_info['attribute_id']] = $this->language->get('entry_required').' '. $attribute_info['name'];
+			}
+			// for required string values
+			if($attribute_info['required']=='1' && !in_array($attribute_info['element_type'],array('K','U'))){
+				if(!is_array( $data[$attribute_info['attribute_id']] )){
+					$data[$attribute_info['attribute_id']] = trim($data[$attribute_info['attribute_id']]);
+					if($data[$attribute_info['attribute_id']]==''){	//if empty string!
+						$errors[$attribute_info['attribute_id']] = $this->language->get('entry_required').' '. $attribute_info['name'];
+					}
+				}else{
+					if(!$data[$attribute_info['attribute_id']]){	// if empty array
+						$errors[$attribute_info['attribute_id']] = $this->language->get('entry_required').' '. $attribute_info['name'];
+					}
+				}
+			}
+			// check by regexp
+			if(has_value($attribute_info['regexp_pattern'])){
+				if(!is_array($data[$attribute_info['attribute_id']])){ //for string value
+					if(!preg_match($attribute_info['regexp_pattern'],$data[$attribute_info['attribute_id']])){
+						$errors[$attribute_info['attribute_id']] .= ' '. $attribute_info['error_text'];
+					}
+				}else{ // for array's values
+					foreach($data[$attribute_info['attribute_id']] as $dd){
+						if(!preg_match($attribute_info['regexp_pattern'],$dd)){
+							$errors[$attribute_info['attribute_id']] .= ' '. $attribute_info['error_text'];
+							break;
+						}
+					}
+				}
+			}
+
+			//for captcha
+			if($attribute_info['element_type']=='K'
+				&& (!isset($this->session->data['captcha']) || $this->session->data['captcha'] != $data[$attribute_info['attribute_id']])
+			){
+				$errors[$attribute_info['attribute_id']] = $this->language->get('error_captcha');
+			}
+			// for file
+			if($attribute_info['element_type']=='U' && ($this->request->files[$attribute_info['attribute_id']]['tmp_name'] || $attribute_info['required']=='1') ){
+				$fm = new AFile();
+				$file_path_info = $fm->getUploadFilePath($data['settings']['directory'],
+														$this->request->files[$attribute_info['attribute_id']]['name']);
+				$file_data = array(
+					'name' => $file_path_info['name'],
+					'path' => $file_path_info['path'],
+					'type' => $this->request->files[$attribute_info['attribute_id']]['type'],
+					'tmp_name' => $this->request->files[$attribute_info['attribute_id']]['tmp_name'],
+					'error' => $this->request->files[$attribute_info['attribute_id']]['error'],
+					'size' => $this->request->files[$attribute_info['attribute_id']]['size'],
+				);
+
+				$file_errors = $fm->validateFileOption($attribute_info['settings'], $file_data);
+
+				if ($file_errors) {
+					$errors[$attribute_info['attribute_id']] .= implode(' ', $file_errors);
+				}
+			}
+		}
+		return $errors;
 	}
 
 }

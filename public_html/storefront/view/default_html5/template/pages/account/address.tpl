@@ -58,11 +58,11 @@
 				<div class="controls">
 					<div class="span4 mt20 mb20">
 						<button class="btn btn-orange pull-right" title="<?php echo $form['submit']->name ?>" type="submit">
-						    <i class="<?php echo $form['submit']->{icon}; ?> icon-white"></i>
+						    <i class="<?php echo $form['submit']->{'icon'}; ?> icon-white"></i>
 						    <?php echo $form['submit']->name ?>
 						</button>
 						<a href="<?php echo $back; ?>" class="btn mr10" title="<?php echo $form['back']->text ?>">
-						    <i class="<?php echo $form['back']->{icon}; ?>"></i>
+						    <i class="<?php echo $form['back']->{'icon'}; ?>"></i>
 						    <?php echo $form['back']->text ?>
 						</a>
 					</div>	

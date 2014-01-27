@@ -73,7 +73,8 @@
 	</div>
 	<?php } ?>
 	<?php echo $this->getHookVar('shipping_extensions_hook'); ?>
-	
+
+	<?php echo $this->getHookVar('payment_extensions_pre_hook'); ?>
 	<?php if( $payment_methods ) { ?>			
 	<div style="display: none;" id="active_payments">
 		<h4 class="heading4"><?php echo $text_payment_method; ?></h4>	

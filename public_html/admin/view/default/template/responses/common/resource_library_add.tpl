@@ -351,35 +351,43 @@ jQuery(function($){
         autoUpload: true,
         singleFileUploads: true
     });
-		$('#fileupload').bind('fileuploaddone', function (e, data) {
+	
+	$('#fileupload').bind('fileuploaddone', function (e, data) {
 
-				if(parent.rl_mode!='url' || data['result'][0].error ){ return; }
-
-				var item =	data['result'][0];
-				var types = [];
-				<?php
-					foreach ($types as $t) {
-						echo 'types["'.$t['type_name'].'"] = {
-											id: "'.$t['type_id'].'",
-											name: "'.$t['type_name'].'",
-											dir: "'.$t['default_directory'].'"};';
-							} ?>
-
-				if(parent.window.opener){
-					if(parent.window.opener.CKEDITOR){ 
-						var dialog = parent.window.opener.CKEDITOR.dialog.getCurrent();
-							dialog.getContentElement( 'info','txtUrl').setValue( item.thumbnail_url );
-					}
-					parent.window.self.close();
-					return;
-				}
-
-				parent.parent.selectResource = item;
-				parent.parent.$('#'+parent.parent.selectField).html('<img src="' + item['thumbnail_url'] + '" title="' + item['name'] + '" />');
-				parent.parent.$('input[name="'+parent.parent.selectField+'"]').val(types[type].dir+item['resource_path']);
-
-				parent.parent.$('#dialog').dialog('close');
-				parent.parent.$('#dialog').remove();
+		if(parent.rl_mode!='url' || data['result'][0].error ){ return; }
+		
+		var item =	data['result'][0];
+		var types = [];
+		<?php
+		    foreach ($types as $t) {
+		    	echo 'types["'.$t['type_name'].'"] = {
+		    						id: "'.$t['type_id'].'",
+		    						name: "'.$t['type_name'].'",
+		    						dir: "'.$t['default_directory'].'"};';
+		    } 
+		?>
+		
+		if(parent.window.opener){
+		    if(parent.window.opener.CKEDITOR){ 
+		    	var dialog = parent.window.opener.CKEDITOR.dialog.getCurrent();
+		    		dialog.getContentElement( 'info','txtUrl').setValue( item.thumbnail_url );
+		    }
+		    parent.window.self.close();
+		    return;
+		}
+		
+		//Adding 
+		parent2 = parent.parent;
+		parent2.selectResource = item;
+		parent2.$('#' + parent.parent.selectField).html('<img src="' + item['thumbnail_url'] + '" title="' + item['name'] + '" />');
+		parent2.loadSingle(type, parent2.wrapper_id, item['resource_id'], parent2.selectField);
+		//change hidden element and mark ad changed 
+		parent2.$('input[name="'+ parent2.selectField + '"]').val(types[type].dir + item['resource_path']).addClass('afield changed');
+		parent2.$('form').prop('changed', 'true');
+		
+		parent2.$('#dialog').dialog('close');
+		parent2.$('#dialog').remove();
+		
 	});
     // Open download dialogs via iframes,
     // to prevent aborting current uploads:

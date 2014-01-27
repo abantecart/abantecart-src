@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013, 2012 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -20,34 +20,69 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+/**
+ * Class ACache
+ */
 
-final class ACache { 
+final class ACache {
+	/**
+	 * @var int
+	 */
 	private $expire = 86400; //one day
+	/**
+	 * @var Registry
+	 */
 	private $registry;
+	/**
+	 * @var array
+	 */
 	private $empties = array();
+	/**
+	 * @var array
+	 */
 	private $exists = array();
-  	public function __construct() {
-		$files = glob(DIR_CACHE . 'cache.*', GLOB_NOSORT);
-		$this->registry = Registry::getInstance ();		
-		if ($files) {
-			foreach ($files as $file) {
-				$time = substr(strrchr($file, '.'), 1);
+	/**
+	 * @var array
+	 */
+	private $cache_map = array();
 
-      			if ($time < time()) {
-					if (file_exists($file)) {
-						unlink($file);
-					}
-      			}
-    		}
+  	public function __construct() {
+		$this->registry = Registry::getInstance ();
+		$cache_files = glob( DIR_CACHE. '*/*', GLOB_NOSORT);
+		foreach ($cache_files as $file) {
+			//first of all check if file expired. delete it if needed
+			$file_time = filemtime($file);
+			if ( (time() - $file_time) > $this->expire ) {
+				if (file_exists($file)) {
+					unlink($file);
+					continue;
+				}
+			}
+			//build cache map as array {cache_file_name_without_timestamp=>expire_time}
+			$ch_base = substr($file,0,-11);
+			$this->cache_map[$ch_base] = $file_time + $this->expire;
 		}
   	}
 
-	//force to get cache data based on params and ignore disable cache setting
+	/**
+	 * force to get cache data based on params and ignore disable cache setting
+	 * @param string $key
+	 * @param mixed $language_id
+	 * @param mixed $store_id
+	 * @return mixed|null
+	 */
 	public function force_get($key, $language_id = '', $store_id = '' ) {
 		return $this->get($key, $language_id, $store_id, true );
 	}
-	
-	//get cache data based on params. 
+
+	/**
+	 * get cache data based on params.
+	 * @param string $key
+	 * @param mixed $language_id
+	 * @param mixed $store_id
+	 * @param bool $disabled_override
+	 * @return mixed|null
+	 */
 	public function get($key, $language_id = '', $store_id = '', $disabled_override = false) {
 		//clean up if disabled cache
 		if (!$disabled_override && !$this->registry->get('config')->get('config_cache_enable')){
@@ -55,83 +90,107 @@ final class ACache {
 			unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
 			return null;
 		}
+		//load cache file name for the section (key)
+		$cache_filename =  $this->_build_name($key, $language_id, $store_id);
+		$cache_file_full_name = $cache_filename.'.'.$this->cache_map[$cache_filename];
 
-		$suffix = $this->_build_sufix($language_id, $store_id);
-		$cache_filename = DIR_CACHE . 'cache.' . $key . ($suffix ? '.'.$suffix : '');
-		$cache_files = glob( $cache_filename. '.*', GLOB_NOSORT);
-
-		if ($cache_files) {
-    		foreach ($cache_files as $file) {
-				$ch_base = substr($file,0,-11); // remove timestamp with dot from the end of file name TODO: check this spike
-				if(strlen($cache_filename) == strlen($ch_base)){
-					$handle = fopen($file, 'r');
-					$cache = fread($handle, filesize($file));
-					fclose($handle);
-					$output = unserialize($cache);
-					$this->empties[$key.'_'.$language_id.'_'.$store_id] = !empty($output); // if not empty
-					$this->exists[$key.'_'.$language_id.'_'.$store_id] = true;
-					return $output;
-				}
-   		 	}
+		//if file expired or not exists
+		if (!isset($this->cache_map[$cache_filename]) || $this->cache_map[$cache_filename] < time()) {
+			if (file_exists($cache_file_full_name)) {
+				unlink($cache_file_full_name);
+				unset($this->cache_map[$cache_filename]);
+				unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
+			}
+			return null;
+		}else{ // if all good
+			if(file_exists($cache_file_full_name)){
+				$handle = fopen($cache_file_full_name, 'r');
+				$cache = fread($handle, filesize($cache_file_full_name));
+				fclose($handle);
+				$output = unserialize($cache);
+				$this->empties[$key.'_'.$language_id.'_'.$store_id] = !empty($output); // if not empty
+				$this->exists[$key.'_'.$language_id.'_'.$store_id] = true;
+				return $output;
+			}
 		}
+
 		unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
 		return null;
   	}
 
-	//force to set cache data based on params and ignore disable cache setting
+	/**
+	 * force to set cache data based on params and ignore disable cache setting
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 * @param mixed $language_id
+	 * @param mixed $store_id
+	 * @return null
+	 */
 	public function force_set( $key, $value, $language_id = '', $store_id = '' ) {
 		return $this->set($key, $value, $language_id, $store_id, true );
 	}
 
-	//set cache parameter
-  	public function set($key, $value, $language_id = '', $store_id = '', $create_override = false) {
-
-		$suffix = $this->_build_sufix($language_id, $store_id);
+	/**
+	 * set cache parameter
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 * @param mixed $language_id
+	 * @param mixed $store_id
+	 * @param bool $create_override
+	 * @return null
+	 */
+	public function set($key, $value, $language_id = '', $store_id = '', $create_override = false) {
 
     	$this->delete($key, $language_id, $store_id );
-
     	if($this->registry->get('request')->get['rt']=='tool/cache'){
     		return null;
     	}
-    			
 		if ($create_override || $this->registry->get('config')->get('config_cache_enable')){	
-			$file = DIR_CACHE . 'cache.' . $key . ($suffix ? '.'.$suffix : '') . '.' . (time() + $this->expire);
-			$handle = fopen($file, 'w');		
+			//build new cache file name
+			$ch_base = $this->_build_name($key, $language_id, $store_id);
+			$timestamp = (time() + $this->expire); // probably it's a rudiment
+			$file =  $ch_base . '.' . $timestamp;
+			// write into cache map
+			$this->cache_map[$ch_base] = $timestamp;
+			//create subdirectory if needed
+			$this->_test_create_directory($key);
+			$handle = fopen($file, 'w');
 		   	fwrite($handle, serialize($value));				
 		   	fclose($handle);
 		}
   	}
-	
-  	public function delete($key, $language_id = '', $store_id = '') {
-		$suffix = $this->_build_sufix($language_id, $store_id);
-		$files = glob(DIR_CACHE . 'cache.' . $key . ($suffix ? '.'.$suffix : '') . '.*', GLOB_NOSORT);
+
+	/**
+	 * @param string $key
+	 * @param mixed $language_id
+	 * @param mixed $store_id
+	 */
+	public function delete($key, $language_id = '', $store_id = '') {
+  		$section = substr($key, 0,strpos($key, '.'));
+  		if ($section) {
+  			//delete match within directory
+			$files = glob($this->_build_name($key, $language_id, $store_id) . '.*', GLOB_NOSORT);
+  		} else {
+  			//delete whole content of directory for section/key
+  			$files = glob(DIR_CACHE . $key . '/*', GLOB_NOSORT);
+  		}
 		if ($files) {
     		foreach ($files as $file) {
+				if(pathinfo($file,PATHINFO_FILENAME) == 'index.html'){ continue; }
       			if (file_exists($file)) {      				
 					unlink($file);
+					//clear cache map
+					$ch_base = substr($file,0,-11);
+					unset($this->cache_map[$ch_base]);
 				}
     		}
 		}
   	}
   	
-  	private function _build_sufix($language_id = '', $store_id = ''){
-		$suffix = '';
-		if($language_id){
-			$language_id = (int)$language_id;
-		}
-		if($store_id){
-			$store_id = (int)$store_id;
-		}
-		if($language_id || $store_id){
-			$suffix = $language_id.'_'.(int)$store_id;
-		}
-
-		return $suffix;
-  	}
-
-
 	/**
-	 * funtion check is empty cache data. Look php empty() function for details
+	 * function check is empty cache data. Look php empty() function for details
 	 * @param string $key
 	 * @param string $language_id
 	 * @param string $store_id
@@ -155,4 +214,56 @@ final class ACache {
 	public function exists($key, $language_id = '', $store_id = ''){
 		return isset($this->exists[$key.'_'.$language_id.'_'.$store_id]);
 	}
+
+	/**
+	 * @param string $key
+	 * @void
+	 */
+	private function _test_create_directory ($key) {
+		//get section by first part of the key
+		$section = substr($key, 0,strpos($key, '.'));
+		//if no match use key as seciton 
+		if ( !$section ) {
+			$section = $key;
+		}
+		if (!is_file(DIR_CACHE . $section) && !is_dir(DIR_CACHE . $section)) {
+			mkdir(DIR_CACHE . $section, 0777);
+		}
+	}
+
+	/**
+	 * @param string $key
+	 * @param mixed $language_id
+	 * @param mixed $store_id
+	 * @return string
+	 */
+	private function _build_name($key, $language_id = '', $store_id = ''){
+		//get section by first part of the key
+		$section = substr($key, 0,strpos($key, '.'));
+		$suffix = $this->_build_sufix($language_id, $store_id);
+		//if no match use key as seciton 
+		if ( !$section ) {
+			$section = $key;	
+		}
+		return DIR_CACHE . $section . '/' . $key . ($suffix ? '.'.$suffix : '');
+	}
+
+	/**
+	 * @param mixed $language_id
+	 * @param mixed $store_id
+	 * @return string
+	 */
+	private function _build_sufix($language_id = '', $store_id = ''){
+		$suffix = '';
+		if($language_id){
+			$language_id = (int)$language_id;
+		}
+		if($store_id){
+			$store_id = (int)$store_id;
+		}
+		if($language_id || $store_id){
+			$suffix = $language_id.'_'.(int)$store_id;
+		}
+		return $suffix;
+  	}
 }

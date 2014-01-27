@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -144,10 +144,10 @@ class ModelLocalisationLanguage extends Model {
 			foreach($result as $i=>$row){
 				if(empty($row['image'])){
 					if(file_exists(DIR_ROOT.'/admin/language/'.$row['directory'].'/flag.png')){
-						$result[$i]['image'] = HTTP_CATALOG.'admin/language/'.$row['directory'].'/flag.png';
+						$result[$i]['image'] = 'admin/language/'.$row['directory'].'/flag.png';
 					}
 				}else{
-					$result[$i]['image'] = HTTP_CATALOG.$row['image'];
+					$result[$i]['image'] = $row['image'];
 				}
 			}
 			return $result;
@@ -162,10 +162,8 @@ class ModelLocalisationLanguage extends Model {
     			foreach ($query->rows as $result) {
 					if(empty($result['image'])){
 						if(file_exists(DIR_ROOT.'/admin/language/'.$result['directory'].'/flag.png')){
-							$result['image'] = HTTP_CATALOG.'admin/language/'.$result['directory'].'/flag.png';
+							$result['image'] = 'admin/language/'.$result['directory'].'/flag.png';
 						}
-					}else{
-						$result['image'] = HTTP_CATALOG.$result['image'];
 					}
 
       				$language_data[$result['code']] = array(
@@ -191,4 +189,3 @@ class ModelLocalisationLanguage extends Model {
 		return $this->getLanguages( $data, 'total_only' );
 	}
 }
-?>

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[¿Olvidó la contraseña?]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_loginname</key>
+		<value><![CDATA[¿Olvidó su nombre de usuario?]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Cuenta]]></value>
+	</definition>
+	<definition>
+		<key>text_forgotten</key>
+		<value><![CDATA[Olvidó la contraseña]]></value>
+	</definition>
+	<definition>
+		<key>text_your_email</key>
+		<value><![CDATA[Su correo electrónico]]></value>
+	</definition>
+	<definition>
+		<key>text_email</key>
+		<value>
+			<![CDATA[Introduzca el correo electrónico asociado con su cuenta. Pulse en enviar para que se le envíe la contraseña por correo electrónico]]></value>
+	</definition>
+	<definition>
+		<key>text_loginname_email</key>
+		<value>
+			<![CDATA[Introduzca el nombre de usuario y dirección de correo electrónico asociada a tu cuenta. Haga clic en enviar para que su contraseña por correo electrónico]]></value>
+	</definition>
+	<definition>
+		<key>text_lastname_email</key>
+		<value>
+			<![CDATA[Ingrese el apellido y dirección de correo electrónico asociada a tu cuenta. Haga clic en enviar para que su nombre de usuario enviado por correo electrónico]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Exito: Una nueva contraseña se le ha enviado por correo electrónico.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_loginname</key>
+		<value><![CDATA[Éxito: El recordatorio nombre de usuario ha sido enviada a su e-mail.]]></value>
+	</definition>
+	<definition>
+		<key>entry_loginname</key>
+		<value><![CDATA[Nombre de conexión:]]></value>
+	</definition>
+	<definition>
+		<key>entry_lastname</key>
+		<value><![CDATA[Apellido:]]></value>
+	</definition>
+	<definition>
+		<key>entry_email</key>
+		<value><![CDATA[Dirección de correo electrónico:]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value>
+			<![CDATA[Error: No se ha encontrado el correo electrónico en nuestra Base de Datos, por favor, inténtelo de nuevo]]></value>
+	</definition>
+	<definition>
+		<key>error_loginname</key>
+		<value>
+			<![CDATA[Error: El nombre de inicio de sesión no se proporcionó o no se encuentra en nuestros registros, por favor intente de nuevo!]]></value>
+	</definition>
+	<definition>
+		<key>error_lastname</key>
+		<value>
+			<![CDATA[Error: El último nombre no fue proporcionado o que no se encuentra en nuestros registros, por favor inténtelo de nuevo!]]></value>
+	</definition>
+	<definition>
+		<key>error_not_found</key>
+		<value>
+			<![CDATA[Error: No hay registros que se ajusten a la información de su proporcionada, por favor revise su información y vuelva a intentarlo!]]></value>
+	</definition>
+	<definition>
+		<key>text_forgotten_loginname</key>
+		<value><![CDATA[¿Has olvidado tu nombre de conexión]]></value>
+	</definition>
+</definitions>

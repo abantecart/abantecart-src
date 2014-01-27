@@ -1,36 +1,24 @@
 <?php
 /**
- * @var $this APackageManager
- */
-// do account page as separate layout for html5 core template
-$file = $package_tmpdir . $package_dirname . '/upgrade_layout.xml';
-$layout = new ALayoutManager();
-$layout->loadXml(array('file' => $file));
-// bugfix of column names meanings
-$balances = $this->db->query("SELECT customer_transaction_id, debit, credit FROM ".$this->db->table('customer_transactions'));
-foreach($balances->rows as $row){
-	$sql = "UPDATE ".$this->db->table('customer_transactions')."
-			SET credit = ".$row['debit'].",
-				debit = ".$row['credit']."
-			WHERE customer_transaction_id='".$row['customer_transaction_id']."';";
-	$this->db->query($sql,true); // do safe update
-}
+* @var $this APackageManager
+*/
 
-// clear text definitions for admin
-$this->db->query("DELETE FROM ".$this->db->table('language_definitions')." WHERE `section` = 1");
-if (!$this->session->data['package_info']['ftp']) {
-	chmod(DIR_ROOT.'/index.php',0755);
-} else {
-	$ftp_user = $this->session->data['package_info']['ftp_user'];
-	$ftp_password = $this->session->data['package_info']['ftp_password'];
-	$ftp_port = $this->session->data['package_info']['ftp_port'];
-	$ftp_host = $this->session->data['package_info']['ftp_host'];
+//add item to admin menu
+$m = new AMenu('admin');
+$m->insertMenuItem(
+		array(
+			'item_id' => 'languages',
+			'item_text' => 'text_language',
+			"item_url" => 'extension/extensions/language',
+			"parent_id" => 'extension',
+			"sort_order" => 5,
+			"item_type" => 'core'));
 
-	$fconnect = ftp_connect($ftp_host, $ftp_port);
-	ftp_login($fconnect, $ftp_user, $ftp_password);
-	ftp_pasv($fconnect, true);
+//insert download attribute types
+$this->db->query("INSERT INTO `".DB_PREFIX."global_attributes_types` (`type_key`, `controller`, `sort_order`, `status`) VALUES
+							('download_attribute', 'responses/catalog/attribute/getDownloadAttributeSubform', 2, 1);");
+$attr_id = $this->db->getLastId();
 
-	$index_file = $this->_ftp_find_app_root($fconnect).'index.php';
-	ftp_chmod($fconnect,0755,$index_file);
-	ftp_close($fconnect);
-}
+$this->db->query("INSERT INTO `".DB_PREFIX."global_attributes_type_descriptions` (`attribute_type_id`,`language_id`, `type_name`, `create_date`)
+				VALUES ('".$attr_id."', 1, 'Download Attribute', NOW()),
+       					('".$attr_id."', 9, 'Descargar Atributo', NOW());");

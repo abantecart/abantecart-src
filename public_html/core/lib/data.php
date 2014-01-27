@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -20,11 +20,22 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-
+/**
+ * Class AData
+ * @property ModelToolTableRelationships $model_tool_table_relationships
+ */
 final class AData {
-
+	/**
+	 * @var Registry
+	 */
 	private $registry;
+	/**
+	 * @var AMessage
+	 */
 	private $message;
+	/**
+	 * @var ADB
+	 */
 	private $db;
 	private $csvDelimiters = array(',',';','\t');
 	private $status_arr = array();
@@ -51,25 +62,34 @@ final class AData {
 		$this->registry->set($key, $value);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getDelimiters() {
 		return $this->csvDelimiters;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getSections()
 	{
 		return $this->sections;
 	}
 
+	/**
+	 * @param string $table_name
+	 * @return mixed
+	 */
 	public function getTableColumns($table_name) {
 		return $this->model_tool_table_relationships->get_table_columns($table_name);
 	}
 
-	/*
-	 Main Fincion to generate Data Array.
-	 input	request Array() 	. See manual for more details
-	 		skip_innter_ids true/false - Exclude IDs for nested structured related to parent level
-	 output Data Arary()
-	*/
+	/**
+	 * @param array $request - See manual for more details
+	 * @param bool $skip_inner_ids - Exclude IDs for nested structured related to parent level
+	 * @return array
+	 */
 	public function exportData( $request, $skip_inner_ids = true ) {
 		$result_arr = array();
 		$result_arr['timestamp'] = date('m/d/Y H:i:s');
@@ -89,12 +109,13 @@ final class AData {
 		return $result_arr;
 	}
 
-	/*
-	 Main Fincion to import Data Array to the database
-	 input	data array() . See manual for more details
-	 		mode string : commit or test
-	 output Status Arary 
-	*/
+	/**
+	 * Main Function to import Data Array to the database
+	 *
+	 * @param array $data_array - See manual for more details
+	 * @param string $mode - commit or test
+	 * @return array
+	 */
 	public function importData( $data_array, $mode = 'commit'  ) {	
 		$this->run_mode = $mode;
 		//validate the array. 
@@ -115,10 +136,12 @@ final class AData {
 		return $this->status_arr;
 	}
 
-
-	/*
-	*	Specific Data Array conversion to XML format 
-	*/
+	/**
+	 * Specific Data Array conversion to XML format
+	 * @param array  $data_array
+	 * @param string $file_output
+	 * @return int|string
+	 */
 	public function array2XML ( $data_array, $file_output = '' ) {
 		$xml = simplexml_load_string('<?xml version="1.0" encoding="utf-8"?><XMLExport />');
 		$this->_array_part2XML($data_array, $xml);
@@ -135,9 +158,12 @@ final class AData {
 		}
 	}
 
-	/*
-	*	Specific CSV format from file
-	*/
+	/**
+	 * Specific CSV format from file
+	 * @param $file
+	 * @param $delimIndex
+	 * @return array
+	 */
 	public function CSV2ArrayFromFile($file, $delimIndex) {
 		$results = array();
 		if ( isset($this->csvDelimiters[$delimIndex]) ){
@@ -155,10 +181,18 @@ final class AData {
 		$results['tables'][] = $this->_csv_file2array($file, $delimiter);
 		return $results;
 	}
-	
-	/*
-	*	Specific Data Array conversion to CSV format 
-	*/
+
+	/**
+	 * Specific Data Array conversion to CSV format
+	 * @param array $in_array
+	 * @param string $fileName
+	 * @param int $delimIndex
+	 * @param string $format
+	 * @param string $enclose
+	 * @param string $escape
+	 * @param bool $asFile
+	 * @return bool|string
+	 */
 	public function array2CSV($in_array, $fileName, $delimIndex = 0, $format = '.csv', $enclose = '"', $escape = '"', $asFile = false) {
 
 		if (!is_writable(DIR_BACKUP)) {
@@ -235,6 +269,12 @@ final class AData {
 		return false;
 	}
 
+	/**
+	 * @param string $tar_filename
+	 * @param string $tar_dir
+	 * @param string $filename
+	 * @return bool
+	 */
 	private function _archive($tar_filename, $tar_dir, $filename ) {
 		//Archive the backup to DIR_BACKUP, delete tmp files in directory $this->backup_dir
 		//And create record in the database for created archive.
@@ -266,7 +306,7 @@ final class AData {
 	/**
 	 * method removes non-empty directory (use it carefully)
 	 *
-	 * @param srting $dir
+	 * @param string $dir
 	 * @return boolean
 	 */
 	private function _removeDir( $dir='' ) {
@@ -290,7 +330,13 @@ final class AData {
 			}
 	}
 
-	//generate 1 dimention aray per row of the main table
+	/**
+	 * generate 1 dimention aray per row of the main table
+	 * @param array $data_array
+	 * @param string $append
+	 * @param bool $root
+	 * @return array
+	 */
 	private function _flatten_array( &$data_array, $append = '', $root = true) {
 		$return = array();
 		$row_flat = array();
@@ -331,8 +377,13 @@ final class AData {
 		}
 	}
 
-	/*
+	/**
 	 * Get flat array from csv file
+	 * @param string $file
+	 * @param string $delimiter
+	 * @param string $enclose
+	 * @param string $escape
+	 * @return array|bool
 	 */
 	private function _csv_file2array($file, $delimiter = ',', $enclose = '"', $escape = '"') {
 		ini_set('auto_detect_line_endings', true);
@@ -383,7 +434,11 @@ final class AData {
 		}
 	}
 
-	//generate multi dimention aray from flat structure
+	/**
+	 * generate multi dimention aray from flat structure
+	 * @param array $flat_array
+	 * @return array
+	 */
 	private function _build_nested( $flat_array ) {
 		$md_array = array();
 
@@ -458,9 +513,13 @@ final class AData {
 		return $md_array;
 	}
 
-	/*
+	/**
 	 * Finds if all columns of the given table are empty.
 	 * Remove sub-array if yes, leave untouched otherwise.
+	 * @param array $data
+	 * @param array|null $parent
+	 * @param mixed $parent_key
+	 * @param int $i
 	 */
 	private function _filter_empty( & $data, & $parent = null, $parent_key = null, & $i = 0) {
 		ini_set('max_execution_time', 300);
@@ -490,8 +549,10 @@ final class AData {
 		}
 	}
 
-	/*
+	/**
 	 * Return False if some of the elements of the array is not empty.
+	 * @param array $data
+	 * @return bool
 	 */
 	private function _empty($data) {
 		foreach ( $data as $key => $val ) {
@@ -502,10 +563,11 @@ final class AData {
 		return true;
 	}
 
-
-	/*
-	* 	Specific XML file converion to Data Array
-	*/
+	/**
+	 * Specific XML file converion to Data Array
+	 * @param string $xml_file
+	 * @return array
+	 */
 	public function XML2ArrayFromFile( $xml_file ){
 		if (!file_exists( $xml_file )) {
 			$this->_status2array('error', "XML file $xml_file does not exists or can not be open.");
@@ -514,10 +576,11 @@ final class AData {
 		return $this->XML2Array( simplexml_load_file($xml_file) );
 	}
 
-
-	/*
-	*	Specific XML string converion to Data Array
-	*/
+	/**
+	 * Specific XML string converion to Data Array
+	 * @param string $xml_str
+	 * @return array
+	 */
 	public function XML2Array( $xml_str ) {
 		$ret_array = array();
 		if (empty( $xml_str )) {
@@ -534,7 +597,14 @@ final class AData {
 		return $ret_array;
 	}
 
-	//process section (table)
+	/**
+	 * Process section (table)
+	 * @param string $table_name
+	 * @param array $request
+	 * @param array $table_cfg
+	 * @param array $skip_inner_ids
+	 * @return array
+	 */
 	private function _process_section( $table_name, $request, $table_cfg, $skip_inner_ids ) {
 		$result_arr = array();
 		$result_arr['name'] =  $table_name;
@@ -617,11 +687,17 @@ final class AData {
 		return $result_arr;
 	}
 
-	//return result for given table and specific range. 
+	/**
+	 * return result for given table and specific range.
+	 * @param string $table_name
+	 * @param array $table_cfg
+	 * @param array $request
+	 * @return null
+	 */
 	private function _get_table_data($table_name, $table_cfg, $request){
 		//Future expansion. Provide date_create and date_updated range within $request to build incremental backup. 
 		if ( empty($table_name) || empty ($table_cfg)) {
-			return;
+			return null;
 		}
 
 		$sql = 'SELECT * FROM `'. DB_PREFIX . $table_name .'`';
@@ -691,9 +767,17 @@ final class AData {
 		return $this->db->query($sql)->rows;
 	}
 
-	///  Import Part ///
+	//####  Import Part ####
 
-	//Process each table level recursively
+	/**
+	 * Process each table level recursively
+	 * @param string $table_name
+	 * @param array $table_cfg
+	 * @param array $data_arr
+	 * @param array $parent_vals
+	 * @param bool $action_delete
+	 * @return array
+	 */
 	private function _process_import_table( $table_name, $table_cfg, $data_arr, $parent_vals = array(), $action_delete = false ){
 
 		ADebug::checkpoint('AData::importData processing table ' . $table_name);
@@ -788,9 +872,16 @@ final class AData {
 		return $new_vals;
 	}
 
-	//Detect action for XML node
-	// <action>insert|update|delete|update_or_insert</action>
-	//Note update_or_insert is best guess action 
+	/**
+	 * Detect action for XML node
+	 * <action>insert|update|delete|update_or_insert</action>
+	 * Note update_or_insert is best guess action
+	 *
+	 * @param string $table_name
+	 * @param array $table_cfg
+	 * @param array $data_arr
+	 * @return string
+	 */
 	private function _get_action($table_name, $table_cfg, $data_arr) {
 		if( $data_arr['action'] && in_array($data_arr['action'], $this->actions) ){
 			return $data_arr['action'];
@@ -809,7 +900,14 @@ final class AData {
 		}
 	}
 
-	//validate keys and action for XML node
+	/**
+	 * validate keys and action for XML node
+	 * @param string $action
+	 * @param string $table_name
+	 * @param array $table_cfg
+	 * @param array $new_vals
+	 * @return bool
+	 */
 	private function _validate_action($action, $table_name, $table_cfg, $new_vals) {
 		if ($action == 'delete' || $action == 'update') {
 			if( $table_cfg['id'] &&  ( !isset( $new_vals[$table_cfg['id']] ) || $new_vals[$table_cfg['id']] == '' ) ){
@@ -847,13 +945,24 @@ final class AData {
 		return true;
 	}
 
-
-	//store status of updates in the array
+	/**
+	 * store status of updates in the array
+	 * @param string $status
+	 * @param string $message
+	 */
 	private function _status2array ($status, $message) {
 		$this->status_arr[$status][] =  $message;
 	}
 
-	//Process database from Array
+	/**
+	 * Process database from Array
+	 * @param string $action
+	 * @param string $table_name
+	 * @param array $table_cfg
+	 * @param array $data_row
+	 * @param array $parent_vals
+	 * @return array
+	 */
 	private function _do_fromArray($action, $table_name, $table_cfg, $data_row, $parent_vals) {
 		$results = array();
 		switch ( $action ) {
@@ -880,6 +989,13 @@ final class AData {
 		return $results;
 	}
 
+	/**
+	 * @param string $table_name
+	 * @param array $table_cfg
+	 * @param array $data_row
+	 * @param array $parent_vals
+	 * @return array
+	 */
 	private function _update_fromArray($table_name, $table_cfg, $data_row, $parent_vals){
 		$cols = array();
 		$where = array();
@@ -943,6 +1059,13 @@ final class AData {
 		return array();
 	}
 
+	/**
+	 * @param string $table_name
+	 * @param array $table_cfg
+	 * @param array $data_row
+	 * @param array $parent_vals
+	 * @return array
+	 */
 	private function _insert_fromArray($table_name, $table_cfg, $data_row, $parent_vals){
 		$return = array();
 		$cols = array();
@@ -1000,15 +1123,21 @@ final class AData {
 		}
 
 		if ( !empty($this->db->error) ) {
-			$this->_status2array('error', "Insert data error for $table_name." . $this->db->error);
+			$this->_status2array('error', "Insert data error for ". $table_name." " . $this->db->error);
 		} else {
-			$this->_status2array('insert', "Insert into table $table_name done successfully");
+			$this->_status2array('insert', "Insert into table ". $table_name." done successfully");
 		}
 		return $return;
 	}
 
+	/**
+	 * @param string $table_name
+	 * @param array $table_cfg
+	 * @param array $data_row
+	 * @param array $parent_vals
+	 * @return array
+	 */
 	private function _delete_fromArray($table_name, $table_cfg, $data_row, $parent_vals){
-		$where = array();
 
 		//set ids to where from parent they might not be in there 
 		$where = $this->_build_id_columns($table_cfg, $parent_vals);
@@ -1057,6 +1186,13 @@ final class AData {
 		return array();
 	}
 
+	/**
+	 * @param string $table_name
+	 * @param array $table_cfg
+	 * @param array $data_row
+	 * @param array $parent_vals
+	 * @return array
+	 */
 	private function _update_or_insert_fromArray( $table_name, $table_cfg, $data_row, $parent_vals){
 		$return = array();
 		$where = array();
@@ -1173,6 +1309,11 @@ final class AData {
 		return $return;
 	}
 
+	/**
+	 * @param array $table_cfg
+	 * @param array $parent_vals
+	 * @return array
+	 */
 	private function _build_id_columns ($table_cfg, $parent_vals) {
 		$list = array();
 		//set ids from parent they might not be in there 
@@ -1201,7 +1342,11 @@ final class AData {
 		return $list;
 	}
 
-	//recurcive function to convert nested array to XML
+	/**
+	 * recursive function to convert nested array to XML
+	 * @param $data_array
+	 * @param SimpleXMLElement $xml - it is a reference!!!
+	 */
 	private function _array_part2XML($data_array, $xml) {
 		foreach ($data_array as $akey => $aval ) {
 			if ( $akey == 'tables' || $akey == 'rows' ) {
@@ -1227,10 +1372,17 @@ final class AData {
 		}
 	}
 
-	//recurcive function to convert nested XML to array 
+	/**
+	 * recurcive function to convert nested XML to array
+	 * @param SimpleXMLElement $xml
+	 * @return array
+	 */
 	private function _XML_part2array ($xml) {
 		$results = array();
 		foreach ($xml->children() as $column){
+			/**
+			 * @var $column SimpleXMLElement
+			 */
 			$col_name = $column->getName();
 			if ($col_name == "tables" || $col_name == "rows") {
 				$results[$col_name] = array();
@@ -1244,16 +1396,26 @@ final class AData {
 		return $results;
 	}
 
-	//append message to rurrent node
+	/**
+	 * append message to rurrent node
+	 * @param SimpleXMLElement $node
+	 * @param $ermessage
+	 * @param string $type
+	 * @return null
+	 */
 	private function _error2xml( $node, $ermessage, $type = '') {
 		$new_node = $node->addChild('error');
 		$new_node->addAttribute('type', $type);
 		$dom = dom_import_simplexml($new_node);
 		$dom->appendChild($dom->ownerDocument->createCDATASection($ermessage));
-		return;
+		return null;
 	}
 
-	//Build columns based on most available data nodes
+	/**
+	 * Build columns based on most available data nodes
+	 * @param array $data_array
+	 * @return array
+	 */
 	private function _build_columns( $data_array ){
 		$merged_arr = array();
 		foreach ($data_array['rows'] as $arow) {
@@ -1265,6 +1427,9 @@ final class AData {
 		return array_keys($flat_columns[0]);
 	}
 
+	/**
+	 * @return array
+	 */
 	private function _array_merge_replace_recursive() {
 		$arrays = func_get_args();
 		$base = array_shift($arrays);
@@ -1287,14 +1452,24 @@ final class AData {
 		}
 		return $base;
 	}
-		
+
+	/**
+	 * @param string $title
+	 * @param string $error
+	 * @param string $level
+	 * @return string
+	 */
 	private function processError($title, $error, $level = 'warning') {
 		$this->message->{'save'.ucfirst($level)}($title, $error);
-		$wrn = new AWarning($error);
+		$wrn = new AError($error);
 		$wrn->toDebug()->toLog();
 		return $error;
 	}
 
+	/**
+	 * @param string $table_name
+	 * @param string $id
+	 */
 	private function _clear_layouts_tables($table_name, $id) {
 		if ( $key = $this->_get_layout_key($table_name) ) {
 
@@ -1308,7 +1483,11 @@ final class AData {
 		}
 	}
 
-	// get "key_param" to be able to get page_id and layout_id for custom layout
+	/**
+	 * get "key_param" to be able to get page_id and layout_id for custom layout
+	 * @param $table_name
+	 * @return bool|string
+	 */
 	private function _get_layout_key($table_name) {
 		switch ( $table_name ) {
 			case 'products':
@@ -1327,7 +1506,12 @@ final class AData {
 		return $key;
 	}
 
-	// get page_id and layout_id to be able to delete propper rows from database
+	/**
+	 * get page_id and layout_id to be able to delete propper rows from database
+	 * @param string $key_param
+	 * @param string $key_value
+	 * @return array
+	 */
 	private function _get_layout_ids($key_param, $key_value) {
 		$result = $this->db->query(
 			'SELECT p.page_id, pl.layout_id FROM ' . DB_PREFIX . 'pages p
@@ -1342,6 +1526,9 @@ final class AData {
 		return array();
 	}
 
+	/**
+	 * @param int $page_id
+	 */
 	private function _clear_pages($page_id) {
 		$this->db->query(
 			'DELETE FROM ' . DB_PREFIX . 'pages
@@ -1353,19 +1540,28 @@ final class AData {
 		);
 	}
 
+	/**
+	 * @param int $page_id
+	 * @return bool
+	 */
 	private function _clear_pages_layouts($page_id) {
-		return $this->db->query(
+		$this->db->query(
 			'DELETE FROM ' . DB_PREFIX . 'pages_layouts
 			WHERE page_id = "' . (int) $page_id . '"'
 		);
+		return true;
 	}
 
-
+	/**
+	 * @param int $layout_id
+	 * @return bool
+	 */
 	private function _clear_layouts($layout_id) {
-		return $this->db->query(
+		$this->db->query(
 			'DELETE FROM ' . DB_PREFIX . 'layouts
 			WHERE layout_id = "' . (int) $layout_id . '"'
 		);
+		return true;
 	}
 
 }

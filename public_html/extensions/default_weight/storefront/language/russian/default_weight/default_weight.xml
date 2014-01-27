@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Доставка на основе веса]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Вес:]]></value>
+  </definition>
+</definitions>

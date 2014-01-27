@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -21,7 +21,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridDownload extends AController {
-	private $error = array();
 
 	public function main() {
 
@@ -32,8 +31,8 @@ class ControllerResponsesListingGridDownload extends AController {
 		$this->loadModel('catalog/download');
 
 		//Prepare filter config
-		$grid_filter_params = array( 'name' );
-		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
+		$grid_filter_params = array( 'name');
+		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params,'additional_filter_string' => 'shared=1'));
 		$filter_data = $filter->getFilterData();
 
 		$total = $this->model_catalog_download->getTotalDownloads($filter_data);
@@ -45,13 +44,22 @@ class ControllerResponsesListingGridDownload extends AController {
 		$results = $this->model_catalog_download->getDownloads($filter_data);
 		$i = 0;
 		foreach ($results as $result) {
-			if (!file_exists(DIR_RESOURCE . $result[ 'filename' ]) || !is_file(DIR_RESOURCE . $result[ 'filename' ])) {
+			if (!is_file(DIR_RESOURCE . $result[ 'filename' ])) {
 				$response->userdata->classes[ $result[ 'download_id' ] ] = 'warning';
 			}
 			$response->rows[ $i ][ 'id' ] = $result[ 'download_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
-				$result[ 'name' ],
-				$result[ 'remaining' ],
+				$this->html->buildInput(array(
+				                    'name'  => 'name['.$result['download_id'].']',
+				                    'value' => $result['name'],
+								    'attr' => ' maxlength="64" '
+				                )),
+				$this->html->buildCheckbox(array(
+				                    'name'  => 'status['.$result[ 'download_id' ].']',
+				                    'value' => $result['status'],
+				                    'style'  => 'btn_switch',
+				                )),
+				$result[ 'product_count' ],
 			);
 			$i++;
 		}
@@ -86,22 +94,31 @@ class ControllerResponsesListingGridDownload extends AController {
 					}
 				break;
 			case 'save':
+				$allowedFields = array('name', 'status');
 
+				$ids = explode(',', $this->request->post['id']);
+				if ( !empty($ids) ) {
+					foreach( $ids as $id ) {
+						foreach ( $allowedFields as $field ) {
+							$this->model_catalog_download->editDownload($id, array($field => $this->request->post[$field][$id]) );
+						}
+					}
+				}
 				break;
 
 			default:
-				//print_r($this->request->post);
+
 
 		}
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		return null;
 	}
 
 	/**
 	 * update only one field
 	 *
-	 * @return void
 	 */
 	public function update_field() {
 
@@ -118,18 +135,62 @@ class ControllerResponsesListingGridDownload extends AController {
 
 		$this->loadLanguage('catalog/download');
 		$this->loadModel('catalog/download');
-		$allowedFields = array( 'download_description', 'remaining' );
+		$allowedFields = array( 'name',
+								'filename',
+								'mask',
+								'max_downloads',
+								'shared',
+								'expire_days',
+								'sort_order',
+								'activate_order_status_id',
+								'status',
+								'attributes');
+
 
 		if (isset($this->request->get[ 'id' ])) {
+			$download_id = (int)$this->request->get[ 'id' ];
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $key => $value) {
 				if (!in_array($key, $allowedFields)) continue;
-				$data = array( $key => $value );
-				$this->model_catalog_download->editDownload($this->request->get[ 'id' ], $data);
+				// check first
+				if($key=='name' && (mb_strlen($value)<2 || mb_strlen($value)>64) ) {
+					$error = $this->language->get('error_download_name');
+				}elseif($key=='activate' && !in_array($data[ 'activate' ],array('before_order','immediately','order_status','manually')) ) {
+					$error = $this->language->get('error_activate');
+				}elseif($key=='attributes'){
+					$attr_mngr = new AAttribute_Manager('download_attribute');
+					$attr_errors = $attr_mngr->validateAttributeData($value[$download_id]);
+					if($attr_errors){
+						$error = $this->language->get('error_download_attributes').'<br>&nbsp;&nbsp;&nbsp;'. implode('<br>&nbsp;&nbsp;&nbsp;',$attr_errors);
+					}
+				}
+
+				if(!$error){
+					$data = array( $key => $value );
+					$this->model_catalog_download->editDownload($download_id, $data);
+				}else{
+					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text'=>$error ));
+					return $dd->dispatch();
+				}
 			}
 			return null;
+		}else{
+			//request sent from jGrid. ID is key of array
+			foreach ($this->request->post as $field => $value ) {
+				foreach ( $value as $k => $v ) {
+					 if($field=='name'){
+						if (mb_strlen($v) < 2 || mb_strlen($v) >64 ) {
+							$err = $this->language->get('error_name');
+							$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
+							return $dd->dispatch();
+						}
+					}
+					$this->model_catalog_download->editDownload($k, array($field => $v) );
+				}
+			}
 		}
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		return null;
 	}
 }

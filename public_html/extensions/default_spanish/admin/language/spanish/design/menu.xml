@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Menú]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Éxito: Se ha modificado el menú!]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_id</key>
+    <value><![CDATA[ID único]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_icon</key>
+    <value><![CDATA[Icono]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_text</key>
+    <value><![CDATA[Texto]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_url</key>
+    <value><![CDATA[Enlace]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent_id</key>
+    <value><![CDATA[Padre]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Orden de Clasificación]]></value>
+  </definition>
+  <definition>
+    <key>entry_link_category</key>
+    <value><![CDATA[Enlace a la Categoría]]></value>
+  </definition>
+  <definition>
+    <key>entry_link_page</key>
+    <value><![CDATA[Enlace a la página]]></value>
+  </definition>
+  <definition>
+    <key>text_link</key>
+    <value><![CDATA[Enlace]]></value>
+  </definition>
+  <definition>
+    <key>text_select_parent_id</key>
+    <value><![CDATA[- Menú raíz -]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[El campo no puede estar vacío!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_unique</key>
+    <value><![CDATA[Item ID no es única!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_ascii</key>
+    <value><![CDATA[Sólo caracteres alfanuméricos ingleses permitieron campo de menú ID]]></value>
+  </definition>  
+</definitions>

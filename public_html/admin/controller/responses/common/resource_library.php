@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -181,6 +181,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['batch_actions'] = $this->html->buildSelectbox(
 			array(
 				'name' => 'actions',
+				'value' => 'map',
 				'options' => array(
 					''=>$this->language->get('text_select'),
 					'map'=>$this->language->get('text_map'),
@@ -225,9 +226,10 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['image_width'] = $this->config->get('config_image_grid_width');
 		$this->data['image_height'] = $this->config->get('config_image_grid_height');
 
-		$this->data['rl_add_code'] = $this->html->getSecureURL('common/resource_library/add_code', '&type=' . $this->request->get['type'] . '&object_name=' . $this->request->get['object_name'] . '&object_id=' . $this->request->get['object_id']);
+		$params = '&type='.$this->request->get['type'].'&object_name='.$this->request->get['object_name'].'&object_id=' . $this->request->get['object_id'];
+		$this->data['rl_add_code'] = $this->html->getSecureURL('common/resource_library/add_code', $params);
 		$this->data['rl_get_info'] = $this->html->getSecureURL('common/resource_library/get_resource_details');
-		$this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', '&type=' . $this->request->get['type'] . '&object_name=' . $this->request->get['object_name'] . '&object_id=' . $this->request->get['object_id']);
+		$this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', $params);
 		if ((int)ini_get('post_max_size') <= 2) { // because 2Mb is default value for php
 			$this->data['attention'] = sprintf($this->language->get('error_file size'), ini_get('post_max_size'));
 		}
@@ -505,6 +507,8 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				$this->thumb_sizes['height'],
 				$item['language_id']
 			);
+			$result['items'][$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
+			$result['items'][$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
 		}
 
 		if (isset($this->request->get['page'])) {
@@ -545,7 +549,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$this->thumb_sizes['width'],
 			$this->thumb_sizes['height']
 		);
-
+		$result['url'] = $rm->buildResourceURL($result['resource_path'], 'full');
+		$result['relative_url'] = $rm->buildResourceURL($result['resource_path'], 'relative');
+		
 		if (!empty($this->request->get['resource_objects'])) {
 			$result['resource_objects'] = $rm->getResourceObjects($result['resource_id'], $this->request->get['language_id']);
 			if (!$result['resource_objects']) {
@@ -652,11 +658,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 	public function get_resources_scripts() {
 
-		$num_args = func_num_args();
-		if ($num_args > 0) $object_name = func_get_arg(0);
-		if ($num_args > 1) $object_id = func_get_arg(1);
-		if ($num_args > 2) $types = func_get_arg(2);
-		if ($num_args > 3) $mode = func_get_arg(3);
+		list($object_name,$object_id,$types,$mode) = func_get_args();
 
 		$rm = new AResourceManager();
 		$this->data['types'] = $rm->getResourceTypes();
@@ -674,12 +676,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['object_name'] = $object_name;
 		$this->data['object_id'] = $object_id;
 
-
-		$this->data['rl_resource_library'] = $this->html->getSecureURL('common/resource_library', '&object_name=' . $object_name . '&object_id=' . $object_id . '&mode=' . $mode);
-		$this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources', '&object_name=' . $object_name . '&object_id=' . $object_id . '&mode=' . $mode);
-		$this->data['rl_resource_single'] = $this->html->getSecureURL('common/resource_library/get_resource_details', '&object_name=' . $object_name . '&object_id=' . $object_id . '&mode=' . $mode);
+		$params = '&object_name=' . $object_name . '&object_id=' . $object_id . '&mode=' . $mode;
+		$this->data['rl_resource_library'] = $this->html->getSecureURL('common/resource_library', $params);
+		$this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources', $params);
+		$this->data['rl_resource_single'] = $this->html->getSecureURL('common/resource_library/get_resource_details', $params);
 		$this->data['rl_delete'] = $this->html->getSecureURL('common/resource_library/delete');
-		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=' . $object_name . '&object_id=' . $object_id . '&mode=' . $mode);
+		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', $params);
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/common/resource_library_scripts.tpl');
@@ -700,7 +702,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			 */
 			return call_user_func_array(array($this, '_get' . $object_name . 'Title'), array($object_id));
 		} else
-			return '';
+			return 'Add/Edit';
 	}
 
 	/**
@@ -745,5 +747,13 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$description = $this->model_catalog_manufacturer->getManufacturer($object_id);
 		return $description['name'];
 	}
-
+	/**
+	 * @param int $object_id
+	 * @return string
+	 */
+	private function _getDownloadsTitle($object_id) {
+		$this->loadModel('catalog/download');
+		$description = $this->model_catalog_download->getDownload($object_id);
+		return $description['name'] ? $description['name'] : $this->language->get('text_new_download');
+	}
 }

@@ -15,8 +15,8 @@ $('document').ready(function () {
 
     // Toggle
     $('.togglehandle').click(function () {
-        $(this).toggleClass('active')
-        $(this).next('.toggledata').slideToggle()
+        $(this).toggleClass('active');
+        $(this).next('.toggledata').slideToggle();
     });
 
     // Dropdowns
@@ -63,6 +63,19 @@ $('document').ready(function () {
         window.location = $(this).find("option:selected").val();
     });
 
+	//show selected category
+	$(".subcategories ul li").hover(function () {
+		var curr_image = $(this).find('img').clone();
+		var parent = $(this).closest('.subcategories').find('.cat_image');
+		$(parent).html(curr_image);
+		$(parent).find('img').show();
+    }, function(){
+        // change to parent category
+		var parent_image = $(this).closest('.subcategories').find('.parent_cat_image');
+		var parent = $(this).closest('.subcategories').find('.cat_image');
+		$(parent).html($(parent_image).find('img').clone());
+    });
+    	
     // List & Grid View
     $('#list').click(function () {
         $(this).addClass('btn-orange').children('i').addClass('icon-white')
@@ -118,11 +131,6 @@ $('document').ready(function () {
 
 // Flexsliders	  
 $(window).load(function () {
-
-    // Fancyboxpopup
-    $("a.fancyboxpopup").fancybox().each(function () {
-        $(this).append('<span class="viewfancypopup">&nbsp;</span>');
-    });
 
     // Flexslider index banner
     $('#mainslider').flexslider({

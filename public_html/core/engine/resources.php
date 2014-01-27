@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,7 +24,7 @@ if (!defined('DIR_CORE')) {
 if(!function_exists('mime_content_type')) {
 
     function mime_content_type($filename) {
-
+		$filename = (string)$filename;
         $mime_types = array(
 
             'txt' => 'text/plain',
@@ -97,7 +97,7 @@ if(!function_exists('mime_content_type')) {
     }
 }
 
-/**
+/** @noinspection PhpUndefinedClassInspection
  * @property ModelToolImage $model_tool_image
  */
 class AResource {
@@ -338,14 +338,28 @@ class AResource {
 				return HTTP_IMAGE . $new_image;
 			}
 
-	    }else{// returns ico-file as is
-		    if ( HTTPS===true ) {
-				return HTTPS_DIR_RESOURCE . $this->type_dir . $resource['resource_path'];
-			} else {
-				return HTTP_DIR_RESOURCE . $this->type_dir . $resource['resource_path'];
-			}
+	    } else { // returns ico-file as is
+	    	return $this->buildResourceURL($resource['resource_path'], 'full');
 	    }
     }
+
+
+	/**
+	 * @param string $resource_path (hashed resource path from database) 
+	 * @param string $mode full (with http and domain) or relative (from store url up)
+	 * @return array
+	 */
+    public function buildResourceURL ( $resource_path, $mode = 'full' ) {
+		if ( $mode == 'full') {
+		    if ( HTTPS===true ) {
+				return HTTPS_DIR_RESOURCE . $this->type_dir . $resource_path;
+			} else {
+				return HTTP_DIR_RESOURCE . $this->type_dir . $resource_path;
+			}
+		} else {
+			return "/resources/" . $this->type_dir . $resource_path;
+		}
+	}
 
 	/**
 	 * @param string $object_name

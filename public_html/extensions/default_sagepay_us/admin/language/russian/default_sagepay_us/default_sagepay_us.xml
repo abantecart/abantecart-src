@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_sagepay_us_name</key>
+    <value><![CDATA[SagePay (США)]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили детали SagePay аккаунта!]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_us_merchant_id</key>
+    <value><![CDATA[ID продавца:]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_us_merchant_key</key>
+    <value><![CDATA[Ключ продавца:]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_us_order_status_id</key>
+    <value><![CDATA[Статус заказа:]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_us_location_id</key>
+    <value><![CDATA[Географическая зона:]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_us_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_us_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_us_sort_order</key>
+    <value><![CDATA[Порядок сортировки:]]></value>
+  </definition>
+  <definition>
+    <key>default_sagepay_us_autoselect</key>
+    <value><![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора способа оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение SagePay!]]></value>
+  </definition>
+  <definition>
+    <key>error_merchant_id</key>
+    <value><![CDATA[ID продавца обязателен!]]></value>
+  </definition>
+  <definition>
+    <key>error_merchant_key</key>
+    <value><![CDATA[Ключ продавца обязателен!]]></value>
+  </definition>
+</definitions>

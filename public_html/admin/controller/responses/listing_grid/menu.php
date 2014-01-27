@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -147,7 +147,7 @@ class ControllerResponsesListingGridMenu extends AController {
 		}
 
 		$menu = new AMenu_Storefront();
-		$item_keys = array( 'item_text', 'item_rt', 'parent_id', 'sort_order', 'item_type' );
+		$item_keys = array( 'item_text', 'item_url', 'parent_id', 'sort_order' );
 
 		switch ($this->request->post[ 'oper' ]) {
 			case 'del':
@@ -175,23 +175,21 @@ class ControllerResponsesListingGridMenu extends AController {
 	 					$this->request->post['sort_order'] = $new_sort;
 					}
 					foreach ($ids as $item_id) {
-						$item_values = array(
-							"item_text" => $this->request->post[ "item_text" ][ $item_id ],
-							"item_url" => $this->request->post[ "item_url" ][ $item_id ],
-							"parent_id" => $this->request->post[ "parent_id" ][ $item_id ],
-							"sort_order" => $this->request->post[ "sort_order" ][ $item_id ]
-						);
+						$item_values = array();
+						foreach($item_keys as $key) {
+							if ( isset($this->request->post[$key][$item_id]) ) {
+								$item_values[$key] = $this->request->post[$key][$item_id];
+							}
+						}
 						// if item already in menu dataset
 						if ($menu->getMenuItem($item_id)) {
 							$menu->updateMenuItem($item_id, $item_values);
 						}
 					}
-
 				}
 				break;
 
 			default:
-				//print_r($this->request->post);
 
 		}
 

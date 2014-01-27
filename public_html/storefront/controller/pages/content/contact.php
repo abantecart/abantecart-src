@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -35,17 +35,35 @@ class ControllerPagesContentContact extends AController {
 
 	    $this->form = new AForm('ContactUsFrm');
 		$this->form->loadFromDb('ContactUsFrm');
+	    $form = $this->form->getForm();
 
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+		    // move all uploaded files to their directories
+		    $file_pathes = $this->form->processFileUploads($this->request->files);
+
 			$mail = new AMail( $this->config );
 			$mail->setTo($this->config->get('store_main_email'));
 	  		$mail->setFrom($this->request->post['email']);
 	  		$mail->setSender($this->request->post['first_name']);
 	  		$mail->setSubject(sprintf($this->language->get('email_subject'), $this->request->post['name']));
-	  		$mail->setText(strip_tags(html_entity_decode($this->request->post['enquiry'], ENT_QUOTES, 'UTF-8')));
+	  		$msg = $this->request->post['enquiry'];
+			if($file_pathes){
+				$msg .= "\r\n".$this->language->get('entry_attached').": \r\n";
+				foreach($file_pathes as $file_info){
+					$basename = pathinfo(str_replace(' ','_',$file_info['path']),PATHINFO_BASENAME);
+					$msg .= "\t" .$file_info['display_name'] . ': ' . $basename . " (". round(filesize($file_info['path'])/1024,2) ."Kb)\r\n";
+					$mail->addAttachment($file_info['path'], $basename);
+				}
+			}
+			$mail->setText(strip_tags(html_entity_decode($msg, ENT_QUOTES, 'UTF-8')));
       		$mail->send();
-
-	  		$this->redirect($this->html->getSecureURL('content/contact/success'));
+		    //get success_page
+		    if($form['success_page']){
+			    $success_url = $this->html->getSecureURL($form['success_page']);
+		    }else{
+			    $success_url = $this->html->getSecureURL('content/contact/success');
+		    }
+	  		$this->redirect($success_url);
     	}
 
 	    if (($this->request->server['REQUEST_METHOD'] == 'POST')){
@@ -88,7 +106,6 @@ class ControllerPagesContentContact extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-
 		$this->document->setTitle( $this->language->get('heading_title') ); 
 
       	$this->document->resetBreadcrumbs();
@@ -118,25 +135,12 @@ class ControllerPagesContentContact extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
-  	private function _validate() {
-
-    	if ((strlen(utf8_decode($this->request->post['first_name'])) < 3) || (strlen(utf8_decode($this->request->post['first_name'])) > 32)) {
-		    $this->error['first_name'] = $this->language->get('error_name');
-    	}
-
-		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
-
-    	if (!preg_match($pattern, $this->request->post['email'])) {
-      		$this->error['email'] = $this->language->get('error_email');
-    	}
-
-    	if ((strlen(utf8_decode($this->request->post['enquiry'])) < 10) || (strlen(utf8_decode($this->request->post['enquiry'])) > 3000)) {
-      		$this->error['enquiry'] = $this->language->get('error_enquiry');
-    	}
-
-    	if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
-      		$this->error['captcha'] = $this->language->get('error_captcha');
-    	}
+	/**
+	 * @return bool
+	 */
+	private function _validate() {
+		$aform_errors = $this->form->validateFormData($this->request->post);
+	    $this->error = array_merge($this->form->validateFormData($this->request->post),$this->error);
 		
 		if (!$this->error) {
 	  		return TRUE;

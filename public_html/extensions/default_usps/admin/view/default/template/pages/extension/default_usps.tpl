@@ -1,8 +1,8 @@
 <?php if ($error_warning) { ?>
-<div class="warning"><?php echo $error_warning; ?></div>
+<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success"><?php echo $success; ?></div>
+<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
 <div class="contentBox">
@@ -48,8 +48,8 @@
       <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
 	</div><!-- <div class="fieldset"> -->
 	<div class="buttons align_center">
-	  <button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
 	  <a class="btn_standard" href="<?php echo $cancel; ?>" ><?php echo $form['cancel']; ?></a>
+		<button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
     </div>
 	</form>
 

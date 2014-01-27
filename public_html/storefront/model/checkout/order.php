@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -20,46 +20,52 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
-class ModelCheckoutOrder extends Model {
+/**
+ * Class ModelCheckoutOrder
+ */
 
+class ModelCheckoutOrder extends Model {
 	public $data = array();
 
+	/**
+	 * @param $order_id
+	 * @return array|bool
+	 */
 	public function getOrder($order_id) {
 		$order_query = $this->db->query("SELECT * FROM `" . $this->db->table("orders") . "` WHERE order_id = '" . (int)$order_id . "'");
 
 		if ($order_query->num_rows) {
-			$country_query = $this->db->query("SELECT * FROM `" . $this->db->table("countries") . "` WHERE country_id = '" . (int)$order_query->row['shipping_country_id'] . "'");
 
-			if ($country_query->num_rows) {
-				$shipping_iso_code_2 = $country_query->row['iso_code_2'];
-				$shipping_iso_code_3 = $country_query->row['iso_code_3'];
+			$this->load->model('localisation/country');
+			$this->load->model('localisation/zone');
+			$country_row = $this->model_localisation_country->getCountry($order_query->row['shipping_country_id']);					
+			if ( $country_row ) {
+				$shipping_iso_code_2 = $country_row['iso_code_2'];
+				$shipping_iso_code_3 = $country_row['iso_code_3'];
 			} else {
 				$shipping_iso_code_2 = '';
 				$shipping_iso_code_3 = '';
 			}
 
-			$zone_query = $this->db->query("SELECT * FROM `" . $this->db->table("zones") . "` WHERE zone_id = '" . (int)$order_query->row['shipping_zone_id'] . "'");
-
-			if ($zone_query->num_rows) {
-				$shipping_zone_code = $zone_query->row['code'];
+			$zone_row = $this->model_localisation_zone->getZone($order_query->row['shipping_zone_id']);
+			if ( $zone_row ) {
+				$shipping_zone_code = $zone_row['code'];
 			} else {
 				$shipping_zone_code = '';
 			}
 
-			$country_query = $this->db->query("SELECT * FROM `" . $this->db->table("countries") . "` WHERE country_id = '" . (int)$order_query->row['payment_country_id'] . "'");
-
-			if ($country_query->num_rows) {
-				$payment_iso_code_2 = $country_query->row['iso_code_2'];
-				$payment_iso_code_3 = $country_query->row['iso_code_3'];
+			$country_row = $this->model_localisation_country->getCountry($order_query->row['payment_country_id']);	
+			if ( $country_row ) {
+				$payment_iso_code_2 = $country_row['iso_code_2'];
+				$payment_iso_code_3 = $country_row['iso_code_3'];
 			} else {
 				$payment_iso_code_2 = '';
 				$payment_iso_code_3 = '';
 			}
 
-			$zone_query = $this->db->query("SELECT * FROM `" . $this->db->table("zones") . "` WHERE zone_id = '" . (int)$order_query->row['payment_zone_id'] . "'");
-
-			if ($zone_query->num_rows) {
-				$payment_zone_code = $zone_query->row['code'];
+			$zone_row = $this->model_localisation_zone->getZone($order_query->row['payment_zone_id']);
+			if ( $zone_row ) {
+				$payment_zone_code = $zone_row['code'];
 			} else {
 				$payment_zone_code = '';
 			}
@@ -79,6 +85,11 @@ class ModelCheckoutOrder extends Model {
 		}
 	}
 
+	/**
+	 * @param array $data
+	 * @param int|string $old_order_id
+	 * @return bool|int
+	 */
 	public function create($data, $old_order_id = '') {
 		//reuse same order_id or unused one order_status_id = 0
 		if ($old_order_id) {
@@ -190,7 +201,12 @@ class ModelCheckoutOrder extends Model {
 			}
 
 			foreach ($product['download'] as $download) {
-				$this->db->query("INSERT INTO " . $this->db->table("order_downloads") . " SET order_id = '" . (int)$order_id . "', order_product_id = '" . (int)$order_product_id . "', name = '" . $this->db->escape($download['name']) . "', filename = '" . $this->db->escape($download['filename']) . "', mask = '" . $this->db->escape($download['mask']) . "', remaining = '" . (int)($download['remaining'] * $product['quantity']) . "'");
+				$download['expire_days'] = (int)$download['expire_days'] > 0 ? $download['expire_days'] : 365*20; // if expire days not setted - set 20 years as "unexpired"
+				$download['max_downloads'] = ((int)$download['max_downloads'] ? (int)$download['max_downloads'] * $product['quantity'] : '');
+				$download['status'] = $download['activate']=='manually' ? 0 : 1; //disable download for manual mode for customer
+				$download['attributes_data'] = serialize($this->download->getDownloadAttributesValues($download['download_id']));
+
+				$this->download->addProductDownloadToOrder($order_product_id, $order_id, $download);
 			}
 		}
 
@@ -207,10 +223,20 @@ class ModelCheckoutOrder extends Model {
 		return $order_id;
 	}
 
+	/**
+	 * @param int $order_id
+	 * @param int $order_status_id
+	 * @param string $comment
+	 */
 	public function confirm($order_id, $order_status_id, $comment = '') {
 		$this->extensions->hk_confirm($this, $order_id, $order_status_id, $comment);
 	}
 
+	/**
+	 * @param int $order_id
+	 * @param int $order_status_id
+	 * @param string $comment
+	 */
 	public function _confirm($order_id, $order_status_id, $comment = '') {
 		$order_query = $this->db->query("SELECT *,
 												l.filename AS filename,
@@ -238,17 +264,16 @@ class ModelCheckoutOrder extends Model {
 							        notify = '1',
 							        comment = '" . $this->db->escape($comment) . "',
 							        date_added = NOW()");
+			$order_row['comment'] = $order_row['comment'] .' '. $comment;
 
 			$order_product_query = $this->db->query("SELECT *
 													 FROM " . $this->db->table("order_products") . "
 													 WHERE order_id = '" . (int)$order_id . "'");
 
 			foreach ($order_product_query->rows as $product) {
-				if ($product['subtract']) {
-					$this->db->query("UPDATE " . $this->db->table("products") . "
+				$this->db->query("UPDATE " . $this->db->table("products") . "
 									  SET quantity = (quantity - " . (int)$product['quantity'] . ")
-									  WHERE product_id = '" . (int)$product['product_id'] . "'");
-				}
+									  WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1");
 
 				$order_option_query = $this->db->query("SELECT *
 														FROM " . $this->db->table("order_options") . "
@@ -309,6 +334,7 @@ class ModelCheckoutOrder extends Model {
 			$template->data['text_payment_method'] = $language->get('text_payment_method');
 			$template->data['text_comment'] = $language->get('text_comment');
 			$template->data['text_powered_by'] = $language->get('text_powered_by');
+			$template->data['text_project_label'] = $language->get('text_powered_by')  . ' ' .  project_base();
 
 			$template->data['column_product'] = $language->get('column_product');
 			$template->data['column_model'] = $language->get('column_model');
@@ -336,12 +362,15 @@ class ModelCheckoutOrder extends Model {
 			$template->data['customer_ip'] = $order_row['ip'];
 			$template->data['comment'] = $order_row['comment'];
 
-			$zone_query = $this->db->query("SELECT *
-											FROM `" . $this->db->table("zones") . "`
-											WHERE zone_id = '" . (int)$order_row['shipping_zone_id'] . "'");
+			//override with the data from the before hooks 
+			if ($this->data){
+				$template->data = $this->data;
+			}
 
-			if ($zone_query->num_rows) {
-				$zone_code = $zone_query->row['code'];
+			$this->load->model('localisation/zone');
+			$zone_row = $this->model_localisation_zone->getZone($order_row['shipping_zone_id']);
+			if ( $zone_row ) {
+				$zone_code = $zone_row['code'];
 			} else {
 				$zone_code = '';
 			}
@@ -360,10 +389,9 @@ class ModelCheckoutOrder extends Model {
 			);
 
 			$template->data['shipping_address'] = $this->customer->getFormatedAdress($shipping_data, $order_row['shipping_address_format']);
-			$zone_query = $this->db->query("SELECT * FROM `" . $this->db->table("zones") . "` WHERE zone_id = '" . (int)$order_row['payment_zone_id'] . "'");
-
-			if ($zone_query->num_rows) {
-				$zone_code = $zone_query->row['code'];
+			$zone_row = $this->model_localisation_zone->getZone($order_row['payment_zone_id']);
+			if ( $zone_row ) {
+				$zone_code = $zone_row['code'];
 			} else {
 				$zone_code = '';
 			}
@@ -516,6 +544,12 @@ class ModelCheckoutOrder extends Model {
 		}
 	}
 
+	/**
+	 * @param int $order_id
+	 * @param int $order_status_id
+	 * @param string $comment
+	 * @param bool $notify
+	 */
 	public function update($order_id, $order_status_id, $comment = '', $notify = FALSE) {
 		$order_query = $this->db->query("SELECT *
 										 FROM `" . $this->db->table("orders") . "` o
@@ -578,6 +612,11 @@ class ModelCheckoutOrder extends Model {
 		}
 	}
 
+	/**
+	 * @param int $order_id
+	 * @param string|array $data
+	 * @return bool|stdClass
+	 */
 	public function updatePaymentMethodData($order_id, $data) {
 
 		if ( is_array($data) ) {

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -184,10 +184,24 @@ class ControllerResponsesListingGridOrder extends AController {
 				));
 		}
 
+		if(has_value($this->request->post['downloads'])){
+			$data = $this->request->post['downloads'];
+			$this->loadModel('catalog/download');
+			foreach($data as $order_download_id=>$item){
+				if (isset($item['expire_date'])) {
+					$item['expire_date'] = $item['expire_date'] ? dateDisplay2ISO($item['expire_date'], $this->language->get('date_format_short')) : '';
+				}
+				$this->model_catalog_download->editOrderDownload($order_download_id, $item);
+			}
+			return null;
+		}
+
 		if (isset($this->request->get[ 'id' ])) {
 			$this->model_sale_order->editOrder($this->request->get[ 'id' ], $this->request->post);
-			return;
+			return null;
 		}
+
+
 
 		//request sent from jGrid. ID is key of array
 		foreach ($this->request->post as $field => $value) {

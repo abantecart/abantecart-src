@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Кредитная карта/дебетовая карта (Paymate)]]></value>
+  </definition>
+  <definition>
+    <key>text_unable</key>
+    <value><![CDATA[Не удалось найти или обновить статус заказа]]></value>
+  </definition>
+  <definition>
+    <key>text_declined</key>
+    <value><![CDATA[Оплата была отклонена PayMate]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[Paymate транзакция не удалась]]></value>
+  </definition>
+  <definition>
+    <key>text_failed_message</key>
+    <value><![CDATA[<p>К сожалению, возникла ошибка обработки транзакции PayMate.</p><p><b>Error: </b>%s</p><p>Пожалуйста, проверьте свой баланс PayMate счета, прежде чем пытаться повторить этот заказ.</p><p>Если вы считаете,что  эта сделка успешно завершена, или отображается как уменьшение в вашем аккаунте PayMate, пожалуйста <a href="%s">Свяжитесь с нами</a> с вашими деталями заказа.</p>]]></value>
+  </definition>
+</definitions>

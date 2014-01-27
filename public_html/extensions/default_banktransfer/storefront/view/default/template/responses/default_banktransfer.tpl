@@ -1,5 +1,5 @@
 <?php if ($minimum_notmet) { ?>
-<div class="warning"><?php echo $minimum_notmet; ?></div>
+<div class="warning alert alert-error"><?php echo $minimum_notmet; ?></div>
 <?php } ?>
 
 <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;"><?php echo $text_instructions; ?><br />

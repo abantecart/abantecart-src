@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Cupon]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon</key>
+		<value><![CDATA[Coupon]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Exito: Se han modificado los cupones!]]></value>
+	</definition>
+	<definition>
+		<key>text_percent</key>
+		<value><![CDATA[Porcentaje]]></value>
+	</definition>
+	<definition>
+		<key>text_amount</key>
+		<value><![CDATA[Cantidad fija]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nombre cupon]]></value>
+	</definition>
+	<definition>
+		<key>column_code</key>
+		<value><![CDATA[Codigo]]></value>
+	</definition>
+	<definition>
+		<key>column_discount</key>
+		<value><![CDATA[Descuento]]></value>
+	</definition>
+	<definition>
+		<key>column_date_start</key>
+		<value><![CDATA[Fecha inicio]]></value>
+	</definition>
+	<definition>
+		<key>column_date_end</key>
+		<value><![CDATA[Fecha finalizacion]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Estado]]></value>
+	</definition>
+	<definition>
+		<key>entry_total_coupon_usage</key>
+		<value><![CDATA[Uso Cupón total:]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Accion]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nombre cupon:]]></value>
+	</definition>
+	<definition>
+		<key>entry_description</key>
+		<value><![CDATA[Descripcion:]]></value>
+	</definition>
+	<definition>
+		<key>entry_code</key>
+		<value><![CDATA[Codigo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_type</key>
+		<value><![CDATA[Tipo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_discount</key>
+		<value><![CDATA[Descuento:]]></value>
+	</definition>
+	<definition>
+		<key>entry_logged</key>
+		<value>
+			<![CDATA[Login cliente:<br /><span class="help">El cliente debe estar conectado para usar el cupon.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_shipping</key>
+		<value><![CDATA[Envio gratuito:]]></value>
+	</definition>
+	<definition>
+		<key>entry_total</key>
+		<value><![CDATA[Cantidad total: La cantidad subtotal que debe alcanzar antes de que el cupón es válido.]]></value>
+	</definition>
+	<definition>
+		<key>entry_product</key>
+		<value><![CDATA[Productos seleccionados:]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_start</key>
+		<value><![CDATA[Fecha inicio:]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_end</key>
+		<value><![CDATA[Fecha finalizacion:]]></value>
+	</definition>
+	<definition>
+		<key>entry_uses_total</key>
+		<value><![CDATA[Usos por cupon:]]></value>
+	</definition>
+	<definition>
+		<key>entry_uses_customer</key>
+		<value><![CDATA[Usos por cliente:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Estado:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Advertencia: No tiene permiso para modificar los cupones!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Nombre del cupon debe ser mayor de 2 y menor de 64 caracteres!]]></value>
+	</definition>
+	<definition>
+		<key>error_description</key>
+		<value><![CDATA[Descripcion de descuento debe ser mayor de 2 caracteres!]]></value>
+	</definition>
+	<definition>
+		<key>error_code</key>
+		<value><![CDATA[Un codigo debe ser mayor de 2 y menor de 10 caracteres!]]></value>
+	</definition>
+	<definition>
+		<key>error_date</key>
+		<value><![CDATA[Por favor, establece rango de fechas!]]></value>
+	</definition>
+</definitions>

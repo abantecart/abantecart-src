@@ -14,11 +14,11 @@
 	<?php if ($categories) { ?>
 	<ul class="thumbnails row">
 	    <?php for ($i = 0; $i < sizeof($categories); $i++) { ?>
-	     <li class="span2">
+	     <li class="span2 align_center">
 	    	<a href="<?php echo $categories[ $i ][ 'href' ]; ?>">
 	    		<?php echo $categories[ $i ][ 'thumb' ][ 'thumb_html' ]; ?>
 	    	</a>
-	    	<div class="span2">
+	    	<div class="mt10 align_center">
 	    	<a href="<?php echo $categories[ $i ][ 'href' ]; ?>"><?php echo $categories[ $i ][ 'name' ]; ?></a>
 	    	</div>
 	    </li>
@@ -30,7 +30,7 @@
 	<!-- Sorting + pagination-->
 	<div class="sorting well">
 	  <form class=" form-inline pull-left">
-	    <?php echo $text_sort; ?> : <?php echo $sorting; ?>
+	    <?php echo $text_sort; ?>&nbsp;&nbsp;<?php echo $sorting; ?>
 	  </form>
 	  <div class="btn-group pull-right">
 	    <button class="btn" id="list"><i class="icon-th-list"></i>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Почта]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Ваше сообщение было успешно отправлено!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[По умолчанию]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_send</key>
+    <value><![CDATA[Пользовательская отправка]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Подписчики на новости]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Все покупатели]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Поиск]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[От:]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[Для клиентов, которые заказали продукты:]]></value>
+  </definition>
+  <definition>
+    <key>entry_to</key>
+    <value><![CDATA[Кому:]]></value>
+  </definition>
+  <definition>
+    <key>entry_subject</key>
+    <value><![CDATA[Тема:]]></value>
+  </definition>
+  <definition>
+    <key>entry_message</key>
+    <value><![CDATA[Сообщение:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав для отправки E-Mail!]]></value>
+  </definition>
+  <definition>
+    <key>error_subject</key>
+    <value><![CDATA[Укажите тему E-Mail!]]></value>
+  </definition>
+  <definition>
+    <key>error_message</key>
+    <value><![CDATA[Введите сообщение!]]></value>
+  </definition>
+  <definition>
+    <key>error_recipients</key>
+    <value><![CDATA[Укажите получателей!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_sent</key>
+    <value><![CDATA[&#39;Ошибка: Письмо не отправлено! Пожалуйста, смотрите подробности в журнале ошибок.&#39;]]></value>
+  </definition>
+  <definition>
+    <key>text_unsubscribe</key>
+    <value><![CDATA[Это сообщение было отправлено %s , потому что ваши почтовые предпочтения установлены получать рассылку новостей. Нажмите <a href="%s">здесь, чтобы Отказаться</a>.]]></value>
+  </definition>
+  <definition>
+    <key>text_total_to_be_sent</key>
+    <value><![CDATA[(Итого будет отправлено: %s )]]></value>
+  </definition>
+  <definition>
+    <key>text_search_placeholder</key>
+    <value><![CDATA[Поиск покупателей]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- Выберите категорию -]]></value>
+  </definition>
+</definitions>

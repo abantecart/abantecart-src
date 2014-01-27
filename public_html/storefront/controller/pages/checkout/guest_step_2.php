@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -70,7 +70,8 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 																'title'      => $this->language->get('no_payment_required')
 							);
 			}
-
+			//process data
+			$this->extensions->hk_ProcessData($this, __FUNCTION__);
 			$this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
 		}
 		
@@ -112,16 +113,16 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 						'sort_order' => $quote['sort_order'],
 						'error'      => $quote['error']
 					);
+
+					//# Add storefront icon if available
+					$ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
+					$icon = $ext_setgs[$result['key']."_shipping_storefront_icon"];
+					if ( has_value( $icon ) ) {
+						$icon_data = $this->model_checkout_extension->getSettingImage($icon);
+						$icon_data['image'] =  $icon;
+						$quote_data[ $result[ 'key' ] ]['icon'] = $icon_data;
+					}
 				}
-				
-				//# Add storefront icon if available
-				$ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
-				$icon = $ext_setgs[$result['key']."_shipping_storefront_icon"];
-				if ( has_value( $icon ) ) {
-					$icon_data = $this->model_checkout_extension->getSettingImage($icon);
-					$icon_data['image'] =  $icon;
-					$quote_data[ $result[ 'key' ] ]['icon'] = $icon_data;
-				}				
 			}
 	
 			$sort_order = array();
@@ -152,15 +153,15 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 		    if ($method) {
 		    	$method_data[ $result['key'] ] = $method;
 		    	$method_data[ $result['key'] ]['extension_id'] = $result['extension_id'];
-		    }
 		    
-			//# Add storefront icon if available
-			$icon = $ext_setgs[$result['key']."_payment_storefront_icon"];
-			if ( has_value( $icon ) ) {
-				$icon_data = $this->model_checkout_extension->getSettingImage($icon);
-				$icon_data['image'] =  $icon;
-				$method_data[ $result[ 'key' ] ]['icon'] = $icon_data;
-			}			
+				//# Add storefront icon if available
+				$icon = $ext_setgs[$result['key']."_payment_storefront_icon"];
+				if ( has_value( $icon ) ) {
+					$icon_data = $this->model_checkout_extension->getSettingImage($icon);
+					$icon_data['image'] =  $icon;
+					$method_data[ $result[ 'key' ] ]['icon'] = $icon_data;
+				}
+			}
 		}
 		//sort payments 
 		$sort_order = array();
@@ -262,7 +263,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 			unset($this->session->data['success']);
 		}
 
-		$action = $this->html->getSecureURL('checkout/guest_step_2');
+		$action = $this->html->getSecureURL('checkout/guest_step_2',($this->request->get['mode'] ? '&mode='.$this->request->get['mode'] : ''),true);
 
 		$this->data['coupon_status'] = $this->config->get('coupon_status');
 
@@ -421,20 +422,24 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 		if ($this->cart->hasShipping()) {
     		if (!isset($this->request->post['shipping_method']) || !$this->request->post['shipping_method']) {
 		  		$this->error['warning'] = $this->language->get('error_shipping');
+		  		return FALSE;
 			} else {
 				$shipping = explode('.', $this->request->post['shipping_method']);
 				
 				if (!isset($this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]])) {			
 					$this->error['warning'] = $this->language->get('error_shipping');
+					return FALSE;
 				}
 			}
 		}
 		if($this->cart->getFinalTotal()){
 			if (!isset($this->request->post['payment_method'])) {
 				$this->error['warning'] = $this->language->get('error_payment');
+				return FALSE;
 			} else {
 				if (!isset($this->session->data['payment_methods'][$this->request->post['payment_method']])) {
 					$this->error['warning'] = $this->language->get('error_payment');
+					return FALSE;
 				}
 			}
 		}
@@ -446,6 +451,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 			if ($content_info) {
     			if (!isset($this->request->post['agree'])) {
       				$this->error['warning'] = sprintf($this->language->get('error_agree'), $content_info['title']);
+      				return FALSE;
     			}
 			}
 		}

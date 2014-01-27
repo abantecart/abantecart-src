@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -230,6 +230,7 @@ class ControllerPagesLocalisationLocation extends AController {
         $grid = $this->dispatch('common/listing_grid', array($grid_settings));
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('location_listing'));
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/localisation/location_data_list.tpl');
@@ -253,7 +254,7 @@ class ControllerPagesLocalisationLocation extends AController {
                 $exists[] = $row['zone_id'];
             }
             // exclude zones that already in database
-            $this->request->post['zone_id'] = array_diff($this->request->post['zone_id'], $exists);
+            $this->request->post['zone_id'] = array_diff((array)$this->request->post['zone_id'], $exists);
             $zone_to_location_id = $this->model_localisation_location->addLocationZone($this->request->get['location_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->redirect($this->html->getSecureURL('localisation/location/locations', '&location_id=' . $this->request->get['location_id'] . '&zone_to_location_id=' . $zone_to_location_id));
@@ -423,7 +424,6 @@ class ControllerPagesLocalisationLocation extends AController {
                 'scrollbox' => true,
                 'style' => 'medium-field'
             ));
-
 
         $this->view->assign('help_url', $this->gen_help_url('location_edit'));
         $this->view->batchAssign($this->data);

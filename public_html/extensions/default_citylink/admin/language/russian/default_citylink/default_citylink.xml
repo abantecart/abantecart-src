@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_citylink_name</key>
+    <value><![CDATA[Citylink]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Доставка]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили Citylink доставку!]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_rates</key>
+    <value><![CDATA[Тарифы Citylink:<br /><span class="help">Введите значения ДО 5,2 знаков после запятой. (12345,67) Пример: .1:1,.25:1.27 - Вес меньше или равный 0,1 кг будет стоить 1,00, вес меньше или равный 0,25 г но больше, чем 0,1 кг будет стоить 1,27. Не вводите КГ или символы.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_tax_class_id</key>
+    <value><![CDATA[Налоговый класс:]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_tax_class_id_0</key>
+    <value><![CDATA[--- Не учитывать ---]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_location_id</key>
+    <value><![CDATA[Географическая зона:]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_location_id_0</key>
+    <value><![CDATA[Все местоположения]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_sort_order</key>
+    <value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа наряду с другими</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_autoselect</key>
+    <value><![CDATA[Автоматический выбор:<br /><span class="help">Включить, чтобы пропустить по страницу выбора доставки, если есть только один вариант доставки. Этот метод доставка будет выбран автоматически</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_citylink_accept_payments</key>
+    <value><![CDATA[Допустимые методы оплаты:<br /><span class="help">В случае если необходимы только конкретные способы оплаты для этого способа доставки, выберите здесь. Если ничего не выбрано, все доступные способы оплаты будут показаны</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Внимание: Вы не имеете прав на изменение Citylink доставки!]]></value>
+  </definition>
+</definitions>

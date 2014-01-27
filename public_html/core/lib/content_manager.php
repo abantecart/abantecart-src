@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -117,9 +117,12 @@ class AContentManager {
 		if(!$content_id){return false;}
 		$language_id = (int)$this->session->data['content_language_id'];
 
+		//Delete store and instert back again with the same ID.
+		//Area for improvment 
 		$sql = "DELETE FROM " . DB_PREFIX . "contents
 					WHERE content_id='" . $content_id . "'; ";
 		$this->db->query($sql);
+		//insert back
 		foreach ($data[ 'parent_content_id' ] as $parent_id) {
 			$sql = "INSERT INTO " . DB_PREFIX . "contents (content_id,parent_content_id, sort_order, status)
 					VALUES ('" . ( int )$content_id . "',
@@ -137,7 +140,6 @@ class AContentManager {
 		$this->language->replaceDescriptions('content_descriptions',
 											 array('content_id' => (int)$content_id),
 											 array( (int)$language_id => $update) );
-		$this->_updatePageContent($content_id);
 
 
 		if(isset($data['keyword'])){
@@ -283,11 +285,13 @@ class AContentManager {
 		$this->cache->delete('contents');
 	}
 
-	public function getContent($content_id) {
+	public function getContent($content_id, $language_id = '') {
 		$output = array();
 		$content_id = (int)$content_id;
-		$language_id = ( int )$this->session->data['content_language_id'];
-
+		if ( !has_value($language_id) ) {
+			$language_id = ( int )$this->session->data['content_language_id'];
+		}
+		
 		if(!$content_id){
 			return false;
 		}
@@ -485,10 +489,11 @@ class AContentManager {
 	 * @return array
 	 */
 	public function buildContentTree($all_contents,$parent_id=0,$level=0){
-		$output= array();
+		$output= array();	
 		foreach($all_contents as $content){
 			foreach($content['parent_content_id'] as $par_id){
-				if($par_id == $parent_id){
+				//look for leave content (leave cannot be of 0 ID)
+				if($par_id == $parent_id && $content['content_id'] ){
 					$output[$parent_id.'_'.$content['content_id']] = str_repeat('&nbsp;&nbsp;',$level).$content['title'];
 					$output = array_merge($output,$this->buildContentTree($all_contents,$content['content_id'],$level+1));
 				}
@@ -519,68 +524,4 @@ class AContentManager {
 		return $output;
 	}
 
-	private function _updatePageContent($content_id=0){
-		$content_id = (int)$content_id;
-		if(!$content_id){
-			return null;
-		}
-
-		$page = $this->db->query("SELECT *
-									 FROM ".DB_PREFIX."pages
-									 WHERE controller = 'pages/content/content'
-									        AND key_param = 'content_id' AND key_value = '".$content_id."'" );
-		$page_id = (int)$page->row['page_id'];
-		if(!$page_id){
-			$sql = "INSERT INTO " . DB_PREFIX . "pages (controller, key_param, key_value, created, updated)
-									VALUES ('pages/content/content',
-											'content_id',
-											'" . $content_id . "',
-											NOW(),
-											NOW())";
-			$this->db->query($sql);
-			$page_id = $this->db->getLastId();
-		}
-
-		$sql = "SELECT *
-				FROM ".DB_PREFIX."content_descriptions
-				WHERE content_id= '".$content_id."'";
-		$result = $this->db->query( $sql);
-		foreach($result->rows as $row){
-			$this->language->replaceDescriptions('page_descriptions',
-												 array('page_id' => (int)$page_id),
-												 array((int)$row['language_id'] => array('title' => $row['title'])) );
-		}
-		return $page_id;
-	}
-	public function getPageId($content_id=0){
-		$content_id = (int)$content_id;
-		if(!$content_id){
-			return null;
-		}
-
-		$page = $this->db->query("SELECT page_id
-								  FROM ".DB_PREFIX."pages
-								  WHERE controller = 'pages/content/content'
-								        AND key_param = 'content_id' AND key_value = '".$content_id."'" );
-		$page_id = $page->row['page_id'];
-		if(!$page_id){
-			$page_id = $this->_updatePageContent($content_id); // insert new
-		}
-
-		return $page_id;
-	}
-
-	public function getLayoutId($content_id=0){
-		$content_id = (int)$content_id;
-		if(!$content_id){
-			return null;
-		}
-		$page = $this->db->query("SELECT pl.layout_id
-								  FROM ".DB_PREFIX."pages   p
-								  LEFT JOIN ".DB_PREFIX."pages_layouts pl ON pl.page_id = p.page_id
-								  WHERE controller = 'pages/content/content'
-								        AND key_param = 'content_id' AND key_value = '".$content_id."'" );
-
-		return $page->row['layout_id'];
-	}
 }

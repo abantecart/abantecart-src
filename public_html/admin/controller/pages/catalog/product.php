@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -355,6 +355,7 @@ class ControllerPagesCatalogProduct extends AController {
 	                    'featured',
                         'product_store',
                         'model',
+                        'call_to_order',
                         'sku',
                         'location',
                         'keyword',
@@ -486,17 +487,11 @@ class ControllerPagesCatalogProduct extends AController {
 			$this->data['update'] = $this->html->getSecureURL('listing_grid/product/update_field','&id='.$this->request->get['product_id']);
 			$form = new AForm('HS');
 
-            $this->data['link_general'] = $this->html->getSecureURL('catalog/product/update', '&product_id=' . $this->request->get['product_id'] );
-            $this->data['link_images'] = $this->html->getSecureURL('catalog/product_images', '&product_id=' . $this->request->get['product_id'] );
-            $this->data['link_relations'] = $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $this->request->get['product_id'] );
-            $this->data['link_options'] = $this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] );
-            $this->data['link_promotions'] = $this->html->getSecureURL('catalog/product_promotions', '&product_id=' . $this->request->get['product_id'] );
-            $this->data['link_extensions'] = $this->html->getSecureURL('catalog/product_extensions', '&product_id=' . $this->request->get['product_id'] );
-            $this->data['link_layout'] = $this->html->getSecureURL('catalog/product_layout', '&product_id=' . $this->request->get['product_id'] );
-
 			$this->data['active'] = 'general';
-			$this->view->batchAssign( $this->data );
-			$this->data['product_tabs'] = $this->view->fetch('pages/catalog/product_tabs.tpl');
+			//load tabs controller
+			$tabs_obj = $this->dispatch('pages/catalog/product_tabs', array( $this->data ) );
+			$this->data['product_tabs'] = $tabs_obj->dispatchGetOutput();
+			unset($tabs_obj);
             $this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');
 		}
 
@@ -602,15 +597,24 @@ class ControllerPagesCatalogProduct extends AController {
 			'style' => 'large-field',			
 	        'required' => false,
 		));
+
+		$this->data['form']['fields']['data']['call_to_order'] = $form->getFieldHtml(array(
+				    'type' => 'checkbox',
+				    'name' => 'call_to_order',
+				    'value' => $this->data['call_to_order'],
+					'style'  => 'btn_switch',
+			        'help_url' => $this->gen_help_url('call_to_order')
+		));
+
         $this->data['form']['fields']['data']['price'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'price',
-			'value' => number_format((double)$this->data['price'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+			'value' => moneyDisplayFormat($this->data['price']),
 	    ));
         $this->data['form']['fields']['data']['cost'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'cost',
-			'value' => number_format((double)$this->data['cost'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+			'value' => moneyDisplayFormat($this->data['cost']),
 	    ));
         $this->data['form']['fields']['data']['tax_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -720,7 +724,7 @@ class ControllerPagesCatalogProduct extends AController {
         $this->data['form']['fields']['data']['shipping_price'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'shipping_price',
-			'value' => number_format((float)$this->data['shipping_price'], 2, $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+			'value' => moneyDisplayFormat($this->data['shipping_price']),
 
 		));
 

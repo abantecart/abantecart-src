@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -151,7 +151,7 @@ class ControllerPagesDesignMenu extends AController {
 
 		$this->menu = new AMenu_Storefront();
 
-		if (($this->request->server ['REQUEST_METHOD'] == 'POST') && $this->_validateForm ()) {
+		if (($this->request->server ['REQUEST_METHOD'] == 'POST') && $this->_validateForm() ) {
 
     	    $languages = $this->language->getAvailableLanguages();
 		    foreach ( $languages as $l ) {
@@ -248,7 +248,7 @@ class ControllerPagesDesignMenu extends AController {
 		$menu_item = null;
 		$parent_id = array();
 		$menu_ids = $this->menu->getItemIds();
-		foreach ( $menu_ids as $k => $v ) {
+		foreach ( $menu_ids as $v ) {
 			$parent_id[$v] = $v;
 		}
 		if ( isset($this->request->get ['item_id']) ) {
@@ -269,7 +269,7 @@ class ControllerPagesDesignMenu extends AController {
 
 		if (! isset ( $this->request->get ['item_id'] )) {
 			$this->data ['action'] = $this->html->getSecureURL ( 'design/menu/insert' );
-			$this->data ['heading_title'] = $this->language->get('text_insert') . $this->language->get('heading_title');
+			$this->data ['heading_title'] = $this->language->get('text_insert') . '&nbsp;' . $this->language->get('heading_title');
 			$this->data ['update'] = '';
 			$form = new AForm ( 'ST' );
 		} else {
@@ -372,7 +372,7 @@ class ControllerPagesDesignMenu extends AController {
         foreach ( $results as $c ) {
             if (! $c ['status'])
                 continue;
-            $options [$c ['content_id']] = $c ['name'];
+			$options [$c ['content_id']] = $c ['title'];
         }
 
 		$this->data ['pages'] = $this->html->buildSelectbox (
@@ -420,13 +420,15 @@ class ControllerPagesDesignMenu extends AController {
 
 	private function _validateForm() {
 		if (! $this->user->canModify('design/menu' )) {
-			$this->error ['warning'] = $this->language->get ( 'error_permission' );
+			$this->error['warning'] = $this->language->get ( 'error_permission' );
 		}
 
 		if ( !empty($this->request->post ['item_id']) ) {
 			$ids = $this->menu->getItemIds ();
-			if (in_array ( $this->request->post ['item_id'], $ids )) {
-				$this->error ['item_id'] = $this->language->get ( 'error_non_unique' );
+			if (!ctype_alnum($this->request->post['item_id'])) {
+				$this->error['item_id'] = $this->language->get ( 'error_non_ascii' );
+			} else if (in_array ( $this->request->post['item_id'], $ids )) {
+				$this->error['item_id'] = $this->language->get ( 'error_non_unique' );
 			}
 		}
 		if (empty ($this->request->post['item_id'] ) && empty ($this->request->get['item_id'] )) {

@@ -11,7 +11,7 @@
     </div></div></div>
     <div class="bl"><div class="br"><div class="bc"></div></div></div>
 </div>
-<div class="warning"><?php echo $message; ?></div>
+<div class="warning alert alert-error"><?php echo $message; ?></div>
 <div class="main_content">  
   <div class="contentBox">
     <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">

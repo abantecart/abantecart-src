@@ -1,7 +1,7 @@
 <?php if (!empty($error['warning'])) { ?>
-	<div class="warning"><?php echo $error['warning']; ?></div>
+	<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
 <?php } else if (count(array_keys($error))) { ?>
-	<div class="warning">
+	<div class="warning alert alert-error">
 		<?php
 		foreach ($error as $key => $error_text) {
 			if (is_array($error_text)) {
@@ -16,7 +16,7 @@
 <?php } ?>
 
 <?php if ($success) { ?>
-	<div class="success"><?php echo $success; ?></div>
+	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
 <script type="text/javascript"><!--

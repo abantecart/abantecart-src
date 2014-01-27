@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Налоговые классы]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Налоговый класс]]></value>
+  </definition>
+  <definition>
+    <key>text_rate</key>
+    <value><![CDATA[Налоговая ставка]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Вы изменили налоговые классы!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Название налогового класса]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Действие]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[Детали]]></value>
+  </definition>
+  <definition>
+    <key>tab_rates</key>
+    <value><![CDATA[Ставка]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Название налогового класса:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Описание:]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[Географическая зона:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Регион / Область:]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[Приоритет:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rate</key>
+    <value><![CDATA[Налоговая ставка:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Внимание: Вы не имеете прав для изменения налоговых классов!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_title</key>
+    <value><![CDATA[Название класса налога должно быть от 2 до 32 символов!]]></value>
+  </definition>
+  <definition>
+    <key>error_rate</key>
+    <value><![CDATA[Требуется ставка налога!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Внимание: этот налоговый класс не может быть удален, так как в настоящее время назначен к %s продуктам!]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_all_zones</key>
+    <value><![CDATA[Все географические зоны]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_rate_threshold</key>
+    <value><![CDATA[Применить этот налог только если, облагаемая налогом сумма (товар, доставка, предварительная сумма и т.д.) ...]]></value>
+  </definition>
+  <definition>
+    <key>text_absolute</key>
+    <value><![CDATA[абсолютная величина]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[Процент]]></value>
+  </definition>
+</definitions>

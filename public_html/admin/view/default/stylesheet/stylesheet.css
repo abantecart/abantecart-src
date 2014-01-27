@@ -61,6 +61,10 @@ a img {
 }
 
 /* Layout */
+.layout_controls {
+	padding: 15px 10px 5px 20px; 
+}
+
 .wrapper {
     text-align: center;
 }
@@ -115,22 +119,19 @@ a img {
     width: 52px;
     float: right;
     padding-right: 5px;
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 #header .e_msg_box {
-    background-image: url(../image/icons/msg_e_icon.gif);
-    background-repeat: no-repeat;
+	background: url(../image/icons/msg_e_icon.gif) no-repeat;
 }
 
 #header .w_msg_box {
-    background-image: url(../image/icons/msg_w_icon.gif);
-    background-repeat: no-repeat;
+	background: url(../image/icons/msg_w_icon.gif) no-repeat;
 }
 
 #header .n_msg_box {
-    background-image: url(../image/icons/msg_n_icon.gif);
-    background-repeat: no-repeat;
+	background: url(../image/icons/msg_n_icon.gif) no-repeat;
 }
 
 #header .msg_count {
@@ -148,8 +149,7 @@ a img {
 }
 
 .search_box .cl, .search_box .cr, .search_box .cc {
-    background-image: url(../image/form/field_mask1.png);
-    background-repeat: no-repeat;
+	background: url(../image/form/field_mask1.png) no-repeat;
 }
 
 .search_box .cl {
@@ -164,7 +164,7 @@ a img {
 .search_box .cc {
     background-position: 0 -69px;
     background-repeat: repeat-x;
-    height: 23px;
+	height: 23px;
 }
 
 #searchform {
@@ -198,7 +198,7 @@ a img {
 .search_category_heading {
     background-position: 2px 50%;
     background-repeat: no-repeat;
-    height: 47px;
+	height: 47px;
     color: #09487D;
     font: 18px/47px Arial, Helvetica, sans-serif;
     padding: 3px 20px 0 40px;
@@ -230,7 +230,7 @@ a img {
 .language_box .cc {
     background-position: 0 -69px;
     background-repeat: repeat-x;
-    height: 23px;
+	height: 23px;
 }
 
 .language_box .switcher a {
@@ -544,8 +544,7 @@ ul.quick_icon a:hover {
     margin: 0;
     line-height: 47px;
     float: left;
-    background-position: 2px 50%;
-    background-repeat: no-repeat;
+	background: no-repeat 2px 50%;
 }
 
 .cbox_tc .heading-tabs {
@@ -723,7 +722,7 @@ ul.quick_icon a:hover {
 .filter .btn_filter {
     display: inline-block;
     float: left;
-    margin: 0px 0 0 12px;
+    margin: 0 0 0 12px;
 }
 
 .cbox_tc .filter {
@@ -814,7 +813,7 @@ ul.quick_icon a:hover {
 .box > .heading {
     height: 40px;
     background: url('../image/box_center.png') repeat-x;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .box > .left {
@@ -832,10 +831,9 @@ ul.quick_icon a:hover {
 }
 
 .box > .heading h1 {
-    background-position: 2px 9px;
-    background-repeat: no-repeat;
-    margin: 0px;
-    padding: 11px 0px 11px 30px;
+	background: no-repeat 2px 9px;
+	margin: 0;
+    padding: 11px 0 11px 30px;
     color: #003A88;
     font-size: 16px;
     float: left;
@@ -931,9 +929,8 @@ div#options .option_lang_field {
     margin: 0;
     line-height: 47px;
     float: left;
-    background-position: 2px 50%;
-    background-repeat: no-repeat;
-    white-space: nowrap;
+	background: no-repeat 2px 50%;
+	white-space: nowrap;
 }
 
 .loginBox .btn_standard .btn_text {
@@ -965,7 +962,7 @@ div#options .option_lang_field {
     text-align: center;
     height: 40px;
     font: normal 14px Arial, Helvetica, sans-serif;
-    text-shadow: 0 1px 0px rgba(127, 144, 158, 0.5);
+    text-shadow: 0 1px 0 rgba(127, 144, 158, 0.5);
     color: #2a465e;
 }
 
@@ -1022,26 +1019,26 @@ div#options .option_lang_field {
 
 .list_curve_tl {
     background: url(../image/table_list_tl.png) no-repeat;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
 }
 
 .list_curve_tr {
     background: url(../image/table_list_tr.png) no-repeat;
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
 }
 
 .list_curve_bl {
     background: url(../image/table_list_bl.png) no-repeat;
-    bottom: 0px;
-    left: 0px;
+    bottom: 0;
+    left: 0;
 }
 
 .list_curve_br {
     background: url(../image/table_list_br.png) no-repeat;
-    bottom: 0px;
-    right: 0px;
+    bottom: 0;
+    right: 0;
 }
 
 .list_curve {
@@ -1105,7 +1102,7 @@ div#options .option_lang_field {
 }
 
 .list thead td {
-    padding: 0px 5px;
+    padding: 0 5px;
 }
 
 .list thead td a, .list thead td {
@@ -1120,13 +1117,13 @@ div#options .option_lang_field {
 
 .list.option tbody td {
     vertical-align: middle;
-    padding: 0px 5px;
+    padding: 0 5px;
     height: auto;
 }
 
 .list tbody td {
     vertical-align: middle;
-    padding: 0px 5px;
+    padding: 0 5px;
     height: 37px;
 }
 
@@ -1287,11 +1284,9 @@ table.form tr td:first-child {
 }
 
 .extension_info {
-    border-top: none;
-    border-bottom: 1px solid #aaa;
-    border-left: none;
-    border-right: none;
-    margin: 5px 0;
+	border-style: none;
+	border-bottom: 1px solid #aaa;
+	margin: 5px 0;
     padding: 5px 0;
 }
 
@@ -1340,7 +1335,7 @@ table.form tr td:first-child {
 .required {
     color: #FF0000;
     font-weight: bold;
-    margin: 0 0px 0 5px;
+    margin: 0 0 0 5px;
 }
 
 .error {
@@ -1352,7 +1347,7 @@ table.form tr td:first-child {
 }
 
 .htabs {
-    padding: 0px 0px 0px 10px;
+    padding: 0 0 0 10px;
     height: 30px;
     border-bottom: 1px solid #ddd;
     margin-bottom: 15px;
@@ -1381,7 +1376,7 @@ table.form tr td:first-child {
 
 .vtabs {
     width: 180px;
-    padding: 10px 0px;
+    padding: 10px 0;
     min-height: 300px;
     float: left;
     display: block;
@@ -1417,7 +1412,7 @@ table.form tr td:first-child {
 }
 
 .add {
-    -moz-background-clip: border;
+    -moz-background-clip: border-box;
     -moz-background-inline-policy: continuous;
     -moz-background-origin: padding;
     background: url(../image/add.png) 100% 0 no-repeat;
@@ -1429,7 +1424,7 @@ table.form tr td:first-child {
 }
 
 .remove {
-    -moz-background-clip: border;
+    -moz-background-clip: border-box;
     -moz-background-inline-policy: continuous;
     -moz-background-origin: padding;
     background: url(../image/delete.png) 100% 0 no-repeat;
@@ -1441,6 +1436,12 @@ table.form tr td:first-child {
 }
 
 /* Layout & Blocks */
+.delete_page_layout{
+	position: relative;
+	top: -25px;
+	z-index: 10000;
+}
+
 #page_links {
     list-style: none;
     margin: 0;
@@ -1459,12 +1460,14 @@ table.form tr td:first-child {
     border-top: 0;
     position: relative;
 }
-
 #page_links li a {
     font: normal 12px Arial, Helvetica, sans-serif;
     color: #11558f;
-    padding: 5px 8px;
     display: block;
+    padding: 5px 8px;
+}
+#page_links li a:first-child {
+    padding: 5px 20px 5px 8px;
 }
 
 #page_links li a:hover {
@@ -1675,7 +1678,7 @@ table.form tr td:first-child {
 
 .debug_info {
     text-align: left;
-    margin: 50px 0px 0;
+    margin: 50px 0 0;
     width: 100%;
     clear: both;
 }
@@ -1856,11 +1859,10 @@ table.form tr td:first-child {
     line-height: 18px;
     padding: 5px;
     color: black;
-    background-color: white !important;
-    height: 380px;
+	height: 380px;
     width: 528px;
     overflow: auto;
-    background-image: none !important;
+	background: white none !important;
 }
 
 .message_text a {
@@ -1963,7 +1965,7 @@ table.form tr td:first-child {
     height: 20px;
     line-height: 20px;
     background-position: left center;
-    padding: 0px;
+    padding: 0;
     margin: 2px 6px;
     vertical-align: middle
 }
@@ -2065,6 +2067,200 @@ table.form tr td:first-child {
 	cursor: pointer;
 	text-decoration:underline;
 }
-.default_uncheck{
+.default_uncheck, .pointer{
 	cursor: pointer;
 }
+
+@-webkit-keyframes blinker {  
+  from { opacity: 1.0; }
+  to { opacity: 0.0; }
+}
+.text-blink {
+  -webkit-animation-name: blinker;  
+  -webkit-animation-iteration-count: infinite;  
+  -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+  -webkit-animation-duration: 1s; 
+}
+
+/* Voice commands */
+#results{
+	padding: 10px 0 0 0;
+}
+
+.grey_out {
+    opacity: 0.2;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+#voice_start, #voice_disabled{
+	padding: 10px 10px 0 20px;
+}
+#div_language{
+	display: inline-block;
+}
+
+.final_speech {
+	font-weight: bold;
+}
+.interim_speech {
+	font-weight: normal;
+	color: gray;
+}
+.mic_on {
+	color: red;
+	padding: 0 10px 0 10px;
+}
+.mic_off, .try_again {
+	padding: 0 10px 0 10px;
+}
+.voice-close {
+	padding: 0 0 0 10px;
+}
+
+
+/* downloads */
+
+#product_download_form a{
+    height: 26px;
+    background-position: left center;
+    padding: 0;
+    vertical-align: middle
+}
+
+
+#product_download_form td {
+    padding: 4px;
+	border-bottom: 1px solid #CACCD2;
+	border-top: 1px solid #CACCD2;
+}
+
+#product_download_form>tbody>tr>td:last-child {
+	width: 170px;
+    text-align: center;
+}
+
+#product_download_form .toDelete {
+    opacity: 0.3;
+}
+
+#product_download_form a.expandRow {
+    background: none;
+    margin: 0;
+    text-decoration: none;
+    text-align: center;
+	padding-left: 10px;
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+}
+
+#product_download_form a.delete, #product_download_form a.push {
+    margin-left: 6px;
+}
+#product_download_form a.add  {
+	width: 16px;
+}
+#product_download_form a.add  {
+	width: 16px;
+}
+
+#product_download_form .additionalRow .table>tbody>tr{
+	background-color: #FFFFFF;
+}
+#product_download_form .additionalRow{
+	padding-top: 20px;
+}
+
+
+#product_download_form .fieldset{
+	width: 49%;
+	margin: 5px;
+}
+
+#product_download_form .table td{
+	border:0;
+}
+#product_download_form .table td:first-child{
+	width: 40%;
+}
+
+#product_download_form .clean, #product_download_form tr.clean>td{
+	border:0;
+	background-color: white;
+}
+/*order downloads*/
+div.download-list{
+	margin-top: 30px;
+}
+table.download-list{
+	margin-top: 10px;
+}
+table.download-list .warning{
+	border: none;
+}
+.download-list th{
+	border: medium none;
+	color: #2A465E;
+	font: 15px Arial,Helvetica,sans-serif;
+	font-weight: bold;
+}
+.download-list>tbody>tr>td:first-child{
+	width:10%;
+}
+
+.download-list-attributes small{
+	clear: both;
+	float: none;
+	display: block;
+	margin-left: 20px;
+}
+div.download-list-attributes{
+	min-width: 110px;
+	max-width: 160px;
+	max-height: 150px;
+	overflow: auto;
+	display: block;
+}
+
+.maplist{
+	max-height: 100px;
+	overflow: auto;
+}
+
+.push-download{
+	margin: 10px;
+	display: none;
+}
+.order_files{
+	padding-bottom: 40px !important;
+}
+.order_files a.add{
+	width: 10px;
+	margin: 10px 40px 10px;
+	display: block;
+}
+
+.download-history{
+	width: 100%;
+	font-size: 12px;
+	height: 150px;
+	overflow: auto;
+	margin: 10px 0;
+}
+
+.download-history table{
+	width: 100%;
+}
+.download-history th{
+	font-size: 12px;
+}
+
+.caption{
+	text-align: left;
+	font-size: 13px;
+	color: #696969;
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+

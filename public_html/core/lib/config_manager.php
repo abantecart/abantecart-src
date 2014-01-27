@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2013, 2012 Belavier Commerce LLC
+  Copyright © 2011-2014 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -423,18 +423,7 @@ class AConfigManager {
 			'value' => $data['config_download'],
 			'style' => 'btn_switch',
 		));
-		$this->load->model('localisation/order_status');
-		$order_statuses = array();
-		$results = $this->model_localisation_order_status->getOrderStatuses();
-		foreach ($results as $item) {
-			$order_statuses[$item['order_status_id']] = $item['name'];
-		}
-		$fields['download_status'] = $form->getFieldHtml($props[] = array(
-			'type' => 'selectbox',
-			'name' => 'config_download_status',
-			'value' => $data['config_download_status'],
-			'options' => $order_statuses,
-		));
+
 		$fields['help_links'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
 			'name' => 'config_help_links',
@@ -954,6 +943,12 @@ class AConfigManager {
 			'type' => 'checkbox',
 			'name' => 'config_maintenance',
 			'value' => $data['config_maintenance'],
+			'style' => 'btn_switch',
+		));
+		$fields['voicecontrol'] = $form->getFieldHtml($props[] = array(
+			'type' => 'checkbox',
+			'name' => 'config_voicecontrol',
+			'value' => $data['config_voicecontrol'],
 			'style' => 'btn_switch',
 		));
 		$fields['encryption'] = $form->getFieldHtml($props[] = array(
