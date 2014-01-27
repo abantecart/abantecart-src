@@ -120,7 +120,7 @@ ALTER TABLE `ac_downloads` ADD COLUMN
 `date_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-UPDATE `ac_downloads` SET `shared`=1;
+UPDATE `ac_downloads` SET `shared`=1, `status`=1;
 
 DROP TABLE IF EXISTS `ac_download_attribute_values`;
 CREATE TABLE `ac_download_attribute_values` (
