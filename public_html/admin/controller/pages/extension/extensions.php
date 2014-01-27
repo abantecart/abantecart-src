@@ -325,10 +325,10 @@ class ControllerPagesExtensionExtensions extends AController {
 			} else {
 				$note_text = $this->language->get($data[ 'name' ]);
 				// if text definition not found - seek it in default settings definitions
-				if($note_text==$data[ 'name' ]){
+				if ($note_text == $data[ 'name' ]) {
 					$new_text_key = str_replace($extension . '_','text_',$data[ 'name' ]);
 					$note_text = $this->language->get($new_text_key);
-					if($note_text==$new_text_key){
+					if ($note_text == $new_text_key) {
 						$note_text = $this->language->get($new_text_key.'_'.$extension_info['type']);
 					}
 				}
