@@ -1,4 +1,6 @@
-;(function($){
+/*jshint eqeqeq:false, eqnull:true, devel:true */
+/*global jQuery, xmlJsonClass */
+(function($){
 /*
  * jqGrid extension for constructing Grid Data from external file
  * Tony Tomov tony@trirand.com
@@ -7,8 +9,6 @@
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl-2.0.html
 **/ 
-//jsHint options
-/*global jQuery, $, alert, xmlJsonClass */
 
 "use strict";
     $.jgrid.extend({
@@ -33,11 +33,11 @@
                 var $t = this;
                 var xmlConvert = function (xml,o) {
                     var cnfg = $(o.xmlGrid.config,xml)[0];
-                    var xmldata = $(o.xmlGrid.data,xml)[0], jstr, jstr1;
+                    var xmldata = $(o.xmlGrid.data,xml)[0], jstr, jstr1, key;
                     if(xmlJsonClass.xml2json && $.jgrid.parse) {
                         jstr = xmlJsonClass.xml2json(cnfg," ");
                         jstr = $.jgrid.parse(jstr);
-                        for(var key in jstr) {
+                        for(key in jstr) {
                             if(jstr.hasOwnProperty(key)) {
                                 jstr1=jstr[key];
                             }
@@ -57,7 +57,7 @@
                     }
                 };
                 var jsonConvert = function (jsonstr,o){
-                    if (jsonstr && typeof jsonstr == 'string') {
+                    if (jsonstr && typeof jsonstr === 'string') {
 						var _jsonparse = false;
 						if($.jgrid.useJSON) {
 							$.jgrid.useJSON = false;
@@ -85,7 +85,7 @@
                             data: o.impData,
                             dataType:"xml",
                             complete: function(xml,stat) {
-                                if(stat == 'success') {
+                                if(stat === 'success') {
                                     xmlConvert(xml.responseXML,o);
                                     $($t).triggerHandler("jqGridImportComplete", [xml, o]);
                                     if($.isFunction(o.importComplete)) {
@@ -98,8 +98,8 @@
                         break;
                     case 'xmlstring' :
                         // we need to make just the conversion and use the same code as xml
-                        if(o.impstring && typeof o.impstring == 'string') {
-                            var xmld = $.jgrid.stringToDoc(o.impstring);
+                        if(o.impstring && typeof o.impstring === 'string') {
+                            var xmld = $.parseXML(o.impstring);
                             if(xmld) {
                                 xmlConvert(xmld,o);
                                 $($t).triggerHandler("jqGridImportComplete", [xmld, o]);
@@ -130,7 +130,7 @@
                         }, o.ajaxOptions ));
                         break;
                     case 'jsonstring' :
-                        if(o.impstring && typeof o.impstring == 'string') {
+                        if(o.impstring && typeof o.impstring === 'string') {
                             jsonConvert(o.impstring,o );
                             $($t).triggerHandler("jqGridImportComplete", [o.impstring, o]);
                             if($.isFunction(o.importComplete)) {
@@ -151,7 +151,7 @@
             var ret = null;
             this.each(function () {
                 if(!this.grid) { return;}
-                var gprm = $.extend(true, {},$(this).jqGrid("getGridParam"));
+                var key, gprm = $.extend(true, {},$(this).jqGrid("getGridParam"));
                 // we need to check for:
                 // 1.multiselect, 2.subgrid  3. treegrid and remove the unneded columns from colNames
                 if(gprm.rownumbers) {
@@ -168,7 +168,7 @@
                 }
                 gprm.knv = null;
                 if(gprm.treeGrid) {
-                    for (var key in gprm.treeReader) {
+                    for (key in gprm.treeReader) {
                         if(gprm.treeReader.hasOwnProperty(key)) {
                             gprm.colNames.splice(gprm.colNames.length-1);
                             gprm.colModel.splice(gprm.colModel.length-1);
@@ -201,11 +201,11 @@
             return this.each(function(){
                 if(!this.grid) { return;}
                 var url;
-                if(o.exptype == "remote") {
+                if(o.exptype === "remote") {
                     var pdata = $.extend({},this.p.postData);
                     pdata[o.oper] = o.tag;
                     var params = jQuery.param(pdata);
-                    if(o.url.indexOf("?") != -1) { url = o.url+"&"+params; }
+                    if(o.url.indexOf("?") !== -1) { url = o.url+"&"+params; }
                     else { url = o.url+"?"+params; }
                     window.location = url;
                 }

@@ -78,7 +78,7 @@ var <?php echo $id; ?>_buildList = function () {
 		}
 	});
 }
-$('#<?php echo $id; ?> input[name^="sort_order"]').live('change', function(){
+$('#<?php echo $id; ?> input[name^="sort_order"]').on('change', function(){
 	var tmp = jQuery.parseJSON( $('#<?php echo  $form_name.'_'.$multivalue_hidden_id; ?>_selected').html());
 	for (var e in tmp) {
 		if (tmp[e].hasOwnProperty('status')) {

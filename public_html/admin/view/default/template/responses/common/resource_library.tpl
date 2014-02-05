@@ -5,19 +5,19 @@
     <meta http-equiv="x-ua-compatible" content="IE=8"/>
     <title><?php echo $title; ?></title>
     <base href="<?php echo $base; ?>"/>
-    <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>javascript/jquery/ui/themes/ui-lightness/ui.all.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>javascript/jquery/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/stylesheet.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/abantecart.jquery.ui.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/button.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/resource.css"/>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript">
         if (typeof jQuery == 'undefined') {
-            var include = '<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-1.7.2.min.js"><\/script>';
+            var include = '&lt;script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-1.11.0.min.js"&rt;&lt;\/script&rt;';
             document.write(include);
         }
     </script>
-    <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery-ui-1.8.22.custom.min.js"></script>
+    <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-ui/js/jquery-ui-1.10.4.custom.min.js"></script>
     <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/aform.js"></script>
 </head>
 <body>

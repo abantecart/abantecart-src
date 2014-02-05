@@ -417,7 +417,7 @@ $(document).ready(function() {
 	});
 
 	$('.button_loader').unbind('click');
-	$('.button_loader').live('click', function(e) {
+	$('.button_loader').on('click', function(e) {
 		$(this).click(function () { return false; });
 		$(this).find("span").hide();
 		$(this).append('<span class="ajax_loading">Processing…</span>').show();

@@ -48,7 +48,7 @@
 		text_hide: '<?php echo $text_hide ?>'
 	};
 
-	$("#product_download_form a.expandRow").live('click', function (hide) {
+	$("#product_download_form a.expandRow").on('click', function (hide) {
 		var additional_row = $(this).parents('tr').next().find('div.additionalRow');
 		if ($(additional_row).is(':visible')) {
 			$(additional_row).slideUp();

@@ -129,8 +129,7 @@
 				<?php if ($extension['preview']) { ?>
 				<div class="product_images">
 					<div class="main_image">
-						<a href="<?php echo $extension['preview'][0]; ?>" title="<?php echo $heading_title; ?>"
-						   class="thickbox" rel="gallery">
+						<a href="<?php echo $extension['preview'][0]; ?>" title="<?php echo $heading_title; ?>">
 							<img width="150" src="<?php echo $extension['preview'][0]; ?>"
 								 title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" id="image"/>
 						</a>
@@ -139,8 +138,7 @@
 					<div class="additional_images">
 						<?php for ($i = 1; $i < count($extension['preview']); $i++) { ?>
 						<div>
-							<a href="<?php echo $extension['preview'][$i]; ?>" title="<?php echo $heading_title; ?>"
-							   class="thickbox" rel="gallery">
+							<a href="<?php echo $extension['preview'][$i]; ?>" title="<?php echo $heading_title; ?>">
 								<img width="50" src="<?php echo $extension['preview'][$i]; ?>"
 									 title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"/>
 							</a>

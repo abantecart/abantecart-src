@@ -240,17 +240,6 @@ class ControllerPagesExtensionExtensions extends AController {
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-
-		$this->document->addScript($this->view->templateResource('/javascript/jquery/thickbox/thickbox-compressed.js'));
-		$this->document->addStyle(
-			array(
-				'href' => $this->view->templateResource('/javascript/jquery/thickbox/thickbox.css'),
-				'rel' => 'stylesheet',
-				'media' => 'screen',
-			)
-		);
-
-
 		$this->document->resetBreadcrumbs();
 		$this->document->addBreadcrumb(array('href' => $this->html->getSecureURL('index/home'),
 			'text' => $this->language->get('text_home'),

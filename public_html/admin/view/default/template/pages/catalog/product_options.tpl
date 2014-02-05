@@ -317,7 +317,7 @@ var updateOptions = function() {
 		return false;
 	}
 
-	$("#option_values_tbl a.remove").live('click', function () {
+	$("#option_values_tbl a.remove").on('click', function () {
 		if ($(this).closest('tr').find('input[name^=product_option_value_id]').val() == 'new') {
 			//remove new completely
 			$(this).closest('tr').next().remove();
@@ -330,7 +330,7 @@ var updateOptions = function() {
 		return false;
 	});
 
-	$("#option_values_tbl a.expandRow").live('click', function () {
+	$("#option_values_tbl a.expandRow").on('click', function () {
 		var additional_row = $(this).parent().parent().next().find('div.additionalRow');
 		if ($(additional_row).is(':visible')) {
 			$(additional_row).hide();
@@ -348,14 +348,14 @@ var updateOptions = function() {
 		return false;
 	});
 
-	$('.open_newtab').live('click', function () {
+	$('.open_newtab').on('click', function () {
 		var href = $(this).attr('link');
 		top.open(href, '_blank');
 		return false;
 	});
 
 
-	$('.default_uncheck').live('click', function () {
+	$('.default_uncheck').on('click', function () {
 		$("input[name='default']").removeAttr('checked');
 	});
 

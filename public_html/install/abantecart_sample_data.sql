@@ -21,56 +21,6 @@ VALUES
 (12,13,'','qqqqqq','qqqqqq','qqqqqq','','','qqqqqq',222,3529);
 
 
---
--- Dumping data for table `block_layouts`
---
-
-
-
-INSERT INTO `ac_block_layouts` VALUES
-(97,8,1,0,0,10,1,now(), now()),
-(123,8,15,0,97,30,1,now(), now()),
-(122,8,14,0,97,20,1,now(), now()),
-(121,8,13,0,97,10,1,now(), now()),
-(101,8,2,0,0,20,1,now(), now()),
-(102,8,3,0,0,30,0,now(), now()),
-(124,8,20,2,102,10,1,now(), now()),
-(104,8,4,0,0,40,1,now(), now()),
-(105,8,5,0,0,50,1,now(), now()),
-(106,8,6,0,0,60,0,now(), now()),
-(107,8,7,0,0,70,1,now(), now()),
-(108,8,8,0,0,80,1,now(), now()),
-(126,8,21,0,108,10,1,now(), now()),
-(174,8,24,0,108,10,1,now(), now()),
-(127,9,1,0,0,10,1,now(), now()),
-(125,8,20,2,105,10,1,now(), now()),
-(128,9,13,0,127,10,1,now(), now()),
-(129,9,14,0,127,20,1,now(), now()),
-(130,9,15,0,127,30,1,now(), now()),
-(131,9,2,0,0,20,1,now(), now()),
-(132,9,3,0,0,30,1,now(), now()),
-(133,9,20,3,132,10,1,now(), now()),
-(134,9,4,0,0,40,1,now(), now()),
-(135,9,5,0,0,50,1,now(), now()),
-(136,9,6,0,0,60,0,now(), now()),
-(137,9,7,0,0,70,1,now(), now()),
-(138,9,8,0,0,80,1,now(), now()),
-(139,9,21,0,138,10,1,now(), now()),
-(175,9,24,0,138,10,1,now(), now()),
-(140,10,1,0,0,10,1,now(), now()),
-(160,10,15,0,140,30,1,now(), now()),
-(159,10,14,0,140,20,1,now(), now()),
-(158,10,13,0,140,10,1,now(), now()),
-(144,10,2,0,0,20,1,now(), now()),
-(145,10,3,0,0,30,0,now(), now()),
-(146,10,4,0,0,40,1,now(), now()),
-(147,10,5,0,0,50,1,now(), now()),
-(148,10,6,0,0,60,0,now(), now()),
-(149,10,7,0,0,70,1,now(), now()),
-(151,10,8,0,0,80,1,now(), now()),
-(161,10,21,0,151,10,1,now(), now()),
-(173,10,24,0,151,10,1,now(), now());
-
 
 
 --
@@ -374,17 +324,6 @@ INSERT INTO `ac_global_attributes_value_descriptions` VALUES
 (77,5,1,'Eau de Cologne'),
 (75,5,1,'Eau de Parfum');
 
---
--- Dumping data for table `layouts`
---
-
-
-INSERT INTO `ac_layouts` 
-VALUES 
-(8,'default',0,'Product: Pro-V Color Hair Solutions Color Preserve Shine Conditioner (product_id=101)',1,now(), now()),
-(9,'default',0,'Product: Flora By Gucci Eau Fraiche (product_id=110)',1,now(), now()),
-(10,'default',0,'Product: Lancome Slimissime 360 Slimming Activating Concentrate Unisex Treatment (product_id=107)',1,now(), now());
-
 
 
 --
@@ -613,47 +552,6 @@ VALUES
 (11,0,'',0,'Web Store Name','http://abantecart/public_html/',12,8,'Allen','Waters','+1 540-985-59700','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','21.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
 (12,0,'',0,'Web Store Name','http://abantecart/public_html/',11,8,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','487.3750',2,1,3,'GBP','0.63820000',0,now(), now(),'171.98.12.12',''),
 (13,0,'',0,'Web Store Name','http://abantecart/public_html/',11,8,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','626.9600',1,1,3,'GBP','0.63820000',0,now(), now(),'171.98.12.12','');
-
-
-
---
--- Dumping data for table `page_descriptions`
---
-
-
-
-INSERT INTO `ac_page_descriptions` 
-VALUES 
-(6,1,'Pro-V Color Hair Solutions Color Preserve Shine Conditioner','','','','','',now(), now()),
-(7,1,'Flora By Gucci Eau Fraiche','','','','','',now(), now()),
-(8,1,'Lancome Slimissime 360 Slimming Activating Concentrate Unisex Treatment','','','','','',now(), now());
-
-
---
--- Dumping data for table `pages`
---
-
-
-
-INSERT INTO `ac_pages` 
-VALUES 
-(6,0,'pages/product/product','product_id','101',now(), now()),
-(7,0,'pages/product/product','product_id','110',now(), now()),
-(8,0,'pages/product/product','product_id','107',now(), now());
-
-
-
---
--- Dumping data for table `pages_layouts`
---
-
-
-
-INSERT INTO `ac_pages_layouts` 
-VALUES 
-(8,6),
-(9,7),
-(10,8);
 
 
 

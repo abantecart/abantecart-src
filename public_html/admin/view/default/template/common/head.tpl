@@ -12,7 +12,7 @@
 <?php } ?>
 
 <link rel="stylesheet" type="text/css"
-      href="<?php echo $template_dir; ?>javascript/jquery/ui/themes/ui-lightness/ui.all.css"/>
+      href="<?php echo $template_dir; ?>javascript/jquery/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>
 <?php foreach ($styles as $style) { ?>
 <link rel="<?php echo $style['rel']; ?>" type="text/css" href="<?php echo $style['href']; ?>"
       media="<?php echo $style['media']; ?>"/>
@@ -27,25 +27,21 @@
 <![endif]-->
 
 <script type="text/javascript"
-        src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript">
     if (typeof jQuery == 'undefined') {
-        var include = '<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-1.7.2.min.js"><\/script>';
+        var include = '<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-1.11.0.min.js"><\/script>';
         document.write(include);
     }
 </script>
-<script type="text/javascript"
-        src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery-ui-1.8.22.custom.min.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-ui/js/jquery-ui-1.10.4.custom.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.form.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/superfish/js/hoverIntent.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/superfish/js/superfish.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/tab.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.number_format.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/browser.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
 
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap.min.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap-tooltip.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap-popover.js"></script>
 
 <?php foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>"></script>

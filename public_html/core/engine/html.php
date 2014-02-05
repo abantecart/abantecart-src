@@ -1389,11 +1389,11 @@ class DateHtmlElement extends HtmlElement {
 		if (!$this->data[ 'registry' ]->has('date-field')) {
 
 			$doc = $this->data[ 'registry' ]->get('document');
-			$doc->addScript($this->view->templateResource('/javascript/jquery/ui/jquery-ui-1.8.22.custom.min.js'));
-			$doc->addScript($this->view->templateResource('/javascript/jquery/ui/jquery.ui.datepicker.js'));
+			$doc->addScript($this->view->templateResource('/javascript/jquery-ui/js/jquery-ui-1.10.4.custom.min.js'));
+			$doc->addScript($this->view->templateResource('/javascript/jquery-ui/js/jquery.ui.datepicker.js'));
 
 			$doc->addStyle(array(
-				'href' => $this->view->templateResource('/javascript/jquery/ui/themes/ui-lightness/ui.all.css'),
+				'href' => $this->view->templateResource('/javascript/jquery-ui/js/css/ui-lightness/ui.all.css'),
 				'rel' => 'stylesheet',
 				'media' => 'screen',
 			));
