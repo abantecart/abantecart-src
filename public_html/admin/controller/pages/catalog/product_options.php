@@ -56,7 +56,8 @@ class ControllerPagesCatalogProductOptions extends AController {
 				AND ga.status = 1
 				AND ga.attribute_parent_id = 0 ",
 				'sort' => 'sort_order',
-				'order' => 'ASC'
+				'order' => 'ASC',
+				'limit' => null // !set unlimit rows
 			),
 			$this->session->data['content_language_id']
 		);
