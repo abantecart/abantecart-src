@@ -9,18 +9,18 @@ DROP TABLE IF EXISTS `ac_addresses`;
 CREATE TABLE `ac_addresses` (
   `address_id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_id` int(11) NOT NULL,
-  `company` varchar(32) COLLATE utf8_bin NOT NULL,
-  `firstname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `lastname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `address_1` varchar(128) COLLATE utf8_bin NOT NULL,
-  `address_2` varchar(128) COLLATE utf8_bin NOT NULL,
-  `postcode` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `city` varchar(128) COLLATE utf8_bin NOT NULL,
+  `company` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `address_1` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `address_2` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `postcode` varchar(10) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `city` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `country_id` int(11) NOT NULL DEFAULT '0',
   `zone_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`address_id`),
   KEY `customer_id` (`customer_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `ac_categories` (
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -45,13 +45,13 @@ DROP TABLE IF EXISTS `ac_category_descriptions`;
 CREATE TABLE `ac_category_descriptions` (
   `category_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
-  `meta_keywords` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `meta_description` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
+  `meta_keywords` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `meta_description` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`category_id`,`language_id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `ac_categories_to_stores` (
   `category_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
   PRIMARY KEY (`category_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `countries`
@@ -70,13 +70,13 @@ CREATE TABLE `ac_categories_to_stores` (
 DROP TABLE IF EXISTS `ac_countries`;
 CREATE TABLE `ac_countries` (
   `country_id` int(11) NOT NULL AUTO_INCREMENT,
-  `iso_code_2` varchar(2) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `iso_code_3` varchar(3) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `address_format` text COLLATE utf8_bin NOT NULL,
+  `iso_code_2` varchar(2) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `iso_code_3` varchar(3) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `address_format` text COLLATE utf8_general_ci NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   `sort_order` int(3) NOT NULL DEFAULT '0',  
   PRIMARY KEY (`country_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `countries`
@@ -330,9 +330,9 @@ DROP TABLE IF EXISTS `ac_country_descriptions`;
 CREATE TABLE `ac_country_descriptions` (
   `country_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(128) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`country_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_country_descriptions` (`country_id`, `language_id`, `name`) VALUES (1,1,'Afghanistan'),(2,1,'Albania'),(3,1,'Algeria'),(4,1,'American Samoa'),(5,1,'Andorra'),(6,1,'Angola'),(7,1,'Anguilla'),(8,1,'Antarctica'),(9,1,'Antigua and Barbuda'),(10,1,'Argentina'),(11,1,'Armenia'),(12,1,'Aruba'),(13,1,'Australia'),(14,1,'Austria'),(15,1,'Azerbaijan'),(16,1,'Bahamas'),(17,1,'Bahrain'),(18,1,'Bangladesh'),(19,1,'Barbados'),(20,1,'Belarus'),(21,1,'Belgium'),(22,1,'Belize'),(23,1,'Benin'),(24,1,'Bermuda'),(25,1,'Bhutan'),(26,1,'Bolivia'),(27,1,'Bosnia and Herzegowina'),(28,1,'Botswana'),(29,1,'Bouvet Island'),(30,1,'Brazil'),(31,1,'British Indian Ocean Territory'),(32,1,'Brunei Darussalam'),(33,1,'Bulgaria'),(34,1,'Burkina Faso'),(35,1,'Burundi'),(36,1,'Cambodia'),(37,1,'Cameroon'),(38,1,'Canada'),(39,1,'Cape Verde'),(40,1,'Cayman Islands'),(41,1,'Central African Republic'),(42,1,'Chad'),(43,1,'Chile'),(44,1,'China'),(45,1,'Christmas Island'),(46,1,'Cocos (Keeling) Islands'),(47,1,'Colombia'),(48,1,'Comoros'),(49,1,'Congo'),(50,1,'Cook Islands'),(51,1,'Costa Rica'),(52,1,'Cote D\'Ivoire'),(53,1,'Croatia'),(54,1,'Cuba'),(55,1,'Cyprus'),(56,1,'Czech Republic'),(57,1,'Denmark'),(58,1,'Djibouti'),(59,1,'Dominica'),(60,1,'Dominican Republic'),(61,1,'East Timor'),(62,1,'Ecuador'),(63,1,'Egypt'),(64,1,'El Salvador'),(65,1,'Equatorial Guinea'),(66,1,'Eritrea'),(67,1,'Estonia'),(68,1,'Ethiopia'),(69,1,'Falkland Islands (Malvinas)'),(70,1,'Faroe Islands'),(71,1,'Fiji'),(72,1,'Finland'),(73,1,'France'),(74,1,'France, Metropolitan'),(75,1,'French Guiana'),(76,1,'French Polynesia'),(77,1,'French Southern Territories'),(78,1,'Gabon'),(79,1,'Gambia'),(80,1,'Georgia'),(81,1,'Germany'),(82,1,'Ghana'),(83,1,'Gibraltar'),(84,1,'Greece'),(85,1,'Greenland'),(86,1,'Grenada'),(87,1,'Guadeloupe'),(88,1,'Guam'),(89,1,'Guatemala'),(90,1,'Guinea'),(91,1,'Guinea-bissau'),(92,1,'Guyana'),(93,1,'Haiti'),(94,1,'Heard and Mc Donald Islands'),(95,1,'Honduras'),(96,1,'Hong Kong'),(97,1,'Hungary'),(98,1,'Iceland'),(99,1,'India'),(100,1,'Indonesia'),(101,1,'Iran (Islamic Republic of)'),(102,1,'Iraq'),(103,1,'Ireland'),(104,1,'Israel'),(105,1,'Italy'),(106,1,'Jamaica'),(107,1,'Japan'),(108,1,'Jordan'),(109,1,'Kazakhstan'),(110,1,'Kenya'),(111,1,'Kiribati'),(112,1,'North Korea'),(113,1,'Korea, Republic of'),(114,1,'Kuwait'),(115,1,'Kyrgyzstan'),(116,1,'Lao People\'s Democratic Republic'),(117,1,'Latvia'),(118,1,'Lebanon'),(119,1,'Lesotho'),(120,1,'Liberia'),(121,1,'Libyan Arab Jamahiriya'),(122,1,'Liechtenstein'),(123,1,'Lithuania'),(124,1,'Luxembourg'),(125,1,'Macau'),(126,1,'Macedonia'),(127,1,'Madagascar'),(128,1,'Malawi'),(129,1,'Malaysia'),(130,1,'Maldives'),(131,1,'Mali'),(132,1,'Malta'),(133,1,'Marshall Islands'),(134,1,'Martinique'),(135,1,'Mauritania'),(136,1,'Mauritius'),(137,1,'Mayotte'),(138,1,'Mexico'),(139,1,'Micronesia, Federated States of'),(140,1,'Moldova, Republic of'),(141,1,'Monaco'),(142,1,'Mongolia'),(143,1,'Montserrat'),(144,1,'Morocco'),(145,1,'Mozambique'),(146,1,'Myanmar'),(147,1,'Namibia'),(148,1,'Nauru'),(149,1,'Nepal'),(150,1,'Netherlands'),(151,1,'Netherlands Antilles'),(152,1,'New Caledonia'),(153,1,'New Zealand'),(154,1,'Nicaragua'),(155,1,'Niger'),(156,1,'Nigeria'),(157,1,'Niue'),(158,1,'Norfolk Island'),(159,1,'Northern Mariana Islands'),(160,1,'Norway'),(161,1,'Oman'),(162,1,'Pakistan'),(163,1,'Palau'),(164,1,'Panama'),(165,1,'Papua New Guinea'),(166,1,'Paraguay'),(167,1,'Peru'),(168,1,'Philippines'),(169,1,'Pitcairn'),(170,1,'Poland'),(171,1,'Portugal'),(172,1,'Puerto Rico'),(173,1,'Qatar'),(174,1,'Reunion'),(175,1,'Romania'),(176,1,'Russia'),(177,1,'Rwanda'),(178,1,'Saint Kitts and Nevis'),(179,1,'Saint Lucia'),(180,1,'Saint Vincent and the Grenadines'),(181,1,'Samoa'),(182,1,'San Marino'),(183,1,'Sao Tome and Principe'),(184,1,'Saudi Arabia'),(185,1,'Senegal'),(186,1,'Seychelles'),(187,1,'Sierra Leone'),(188,1,'Singapore'),(189,1,'Slovak Republic'),(190,1,'Slovenia'),(191,1,'Solomon Islands'),(192,1,'Somalia'),(193,1,'South Africa'),(194,1,'South Georgia &amp; South Sandwich Islands'),(195,1,'Spain'),(196,1,'Sri Lanka'),(197,1,'St. Helena'),(198,1,'St. Pierre and Miquelon'),(199,1,'Sudan'),(200,1,'Suriname'),(201,1,'Svalbard and Jan Mayen Islands'),(202,1,'Swaziland'),(203,1,'Sweden'),(204,1,'Switzerland'),(205,1,'Syrian Arab Republic'),(206,1,'Taiwan'),(207,1,'Tajikistan'),(208,1,'Tanzania, United Republic of'),(209,1,'Thailand'),(210,1,'Togo'),(211,1,'Tokelau'),(212,1,'Tonga'),(213,1,'Trinidad and Tobago'),(214,1,'Tunisia'),(215,1,'Turkey'),(216,1,'Turkmenistan'),(217,1,'Turks and Caicos Islands'),(218,1,'Tuvalu'),(219,1,'Uganda'),(220,1,'Ukraine'),(221,1,'United Arab Emirates'),(222,1,'United Kingdom'),(223,1,'United States'),(224,1,'United States Minor Outlying Islands'),(225,1,'Uruguay'),(226,1,'Uzbekistan'),(227,1,'Vanuatu'),(228,1,'Vatican City State (Holy See)'),(229,1,'Venezuela'),(230,1,'Viet Nam'),(231,1,'Virgin Islands (British)'),(232,1,'Virgin Islands (U.S.)'),(233,1,'Wallis and Futuna Islands'),(234,1,'Western Sahara'),(235,1,'Yemen'),(236,1,'Yugoslavia'),(237,1,'Zaire'),(238,1,'Zambia'),(239,1,'Zimbabwe'),(240,1,'Northern Ireland');
 
@@ -343,8 +343,8 @@ INSERT INTO `ac_country_descriptions` (`country_id`, `language_id`, `name`) VALU
 DROP TABLE IF EXISTS `ac_coupons`;
 CREATE TABLE `ac_coupons` (
   `coupon_id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(10) COLLATE utf8_bin NOT NULL,
-  `type` char(1) COLLATE utf8_bin NOT NULL,
+  `code` varchar(10) COLLATE utf8_general_ci NOT NULL,
+  `type` char(1) COLLATE utf8_general_ci NOT NULL,
   `discount` decimal(15,4) NOT NULL,
   `logged` int(1) NOT NULL,
   `shipping` int(1) NOT NULL,
@@ -352,11 +352,11 @@ CREATE TABLE `ac_coupons` (
   `date_start` date NOT NULL DEFAULT '0000-00-00',
   `date_end` date NOT NULL DEFAULT '0000-00-00',
   `uses_total` int(11) NOT NULL,
-  `uses_customer` varchar(11) COLLATE utf8_bin NOT NULL,
+  `uses_customer` varchar(11) COLLATE utf8_general_ci NOT NULL,
   `status` int(1) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`coupon_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -366,10 +366,10 @@ DROP TABLE IF EXISTS `ac_coupon_descriptions`;
 CREATE TABLE `ac_coupon_descriptions` (
   `coupon_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(128) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`coupon_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -381,7 +381,7 @@ CREATE TABLE `ac_coupons_products` (
   `coupon_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   PRIMARY KEY (`coupon_product_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -390,16 +390,16 @@ CREATE TABLE `ac_coupons_products` (
 DROP TABLE IF EXISTS `ac_currencies`;
 CREATE TABLE `ac_currencies` (
   `currency_id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `code` varchar(3) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `symbol_left` varchar(12) COLLATE utf8_bin NOT NULL,	
-  `symbol_right` varchar(12) COLLATE utf8_bin NOT NULL,
-  `decimal_place` char(1) COLLATE utf8_bin NOT NULL,
+  `title` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `code` varchar(3) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `symbol_left` varchar(12) COLLATE utf8_general_ci NOT NULL,	
+  `symbol_right` varchar(12) COLLATE utf8_general_ci NOT NULL,
+  `decimal_place` char(1) COLLATE utf8_general_ci NOT NULL,
   `value` decimal(15,8) NOT NULL,
   `status` int(1) NOT NULL,
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`currency_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `currency`
@@ -420,24 +420,24 @@ DROP TABLE IF EXISTS `ac_customers`;
 CREATE TABLE `ac_customers` (
   `customer_id` int(11) NOT NULL AUTO_INCREMENT,
   `store_id` int(11) NOT NULL DEFAULT '0',
-  `firstname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `lastname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `loginname` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `email` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `telephone` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `fax` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `password` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `cart` text COLLATE utf8_bin,
+  `firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `loginname` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `email` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `telephone` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `fax` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `password` varchar(40) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `cart` text COLLATE utf8_general_ci,
   `newsletter` int(1) NOT NULL DEFAULT '0',
   `address_id` int(11) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL,
   `approved` int(1) NOT NULL DEFAULT '0',
   `customer_group_id` int(11) NOT NULL,
-  `ip` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`customer_id`),
   UNIQUE KEY `customers_loginname` (`loginname`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -446,9 +446,9 @@ CREATE TABLE `ac_customers` (
 DROP TABLE IF EXISTS `ac_customer_groups`;
 CREATE TABLE `ac_customer_groups` (
   `customer_group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) COLLATE utf8_bin NOT NULL,
+  `name` varchar(32) COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`customer_group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `customer_groups`
@@ -478,7 +478,7 @@ CREATE TABLE `ac_customer_transactions` (
   `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `create_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`customer_transaction_id`)
-)ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+)ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- DDL for table `download`
@@ -486,8 +486,8 @@ CREATE TABLE `ac_customer_transactions` (
 DROP TABLE IF EXISTS `ac_downloads`;
 CREATE TABLE `ac_downloads` (
   `download_id` int(11) NOT NULL AUTO_INCREMENT,
-  `filename` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `mask` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `filename` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `mask` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `max_downloads` int(11) DEFAULT NULL, -- remaining, NULL -> No limit 
   `expire_days` int(11) DEFAULT NULL,  -- default to NULL -> No expiration
   `sort_order` int(11) NOT NULL,  
@@ -498,7 +498,7 @@ CREATE TABLE `ac_downloads` (
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`download_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- DDL for table `download_descriptions`
@@ -507,9 +507,9 @@ DROP TABLE IF EXISTS `ac_download_descriptions`;
 CREATE TABLE `ac_download_descriptions` (
   `download_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`download_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 -- All data is taken from global attribute
@@ -518,9 +518,9 @@ CREATE TABLE `ac_download_attribute_values` (
   `download_attribute_id` int(11) NOT NULL AUTO_INCREMENT,
   `attribute_id` int(11) NOT NULL,
   `download_id` int(11) NOT NULL,
-  `attribute_value_ids` text COLLATE utf8_bin  DEFAULT NULL,  -- serialized aray with value IDs
+  `attribute_value_ids` text COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized aray with value IDs
   PRIMARY KEY (`download_attribute_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- DDL for table `extensions`
@@ -528,9 +528,9 @@ CREATE TABLE `ac_download_attribute_values` (
 DROP TABLE IF EXISTS `ac_extensions`;
 CREATE TABLE `ac_extensions` (
   `extension_id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(32) COLLATE utf8_bin NOT NULL,
-  `key` varchar(32) COLLATE utf8_bin NOT NULL,
-  `category` varchar(32) COLLATE utf8_bin NOT NULL,
+  `type` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `key` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `category` varchar(32) COLLATE utf8_general_ci NOT NULL,
   `status` smallint(1) NOT NULL,
   `priority` smallint(1) NOT NULL DEFAULT 0,
   `version` varchar(32),
@@ -540,7 +540,7 @@ CREATE TABLE `ac_extensions` (
   `create_date` timestamp NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY (`extension_id`),
   UNIQUE KEY `extension_key` (`key`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `extension`
@@ -585,24 +585,24 @@ CREATE TABLE `ac_banners` (
 	`start_date` timestamp NULL DEFAULT NULL,
 	`end_date` timestamp NULL DEFAULT NULL,
 	`blank` tinyint(1) NOT NULL DEFAULT '0',
-	`target_url` text COLLATE utf8_bin DEFAULT '',
+	`target_url` text COLLATE utf8_general_ci DEFAULT '',
 	`sort_order` int(11) NOT NULL,
 	`date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
 	PRIMARY KEY (`banner_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `ac_banner_descriptions`;
 CREATE TABLE `ac_banner_descriptions` (
   `banner_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL COMMENT 'translatable',
-  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `meta` text(1500) DEFAULT '' COMMENT 'translatable',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`banner_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `ac_banner_stat`;
 CREATE TABLE `ac_banner_stat` (
@@ -611,7 +611,7 @@ CREATE TABLE `ac_banner_stat` (
   `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `store_id` int(11) NOT NULL,
   `user_info` text(1500) DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 CREATE INDEX `banner_stat_idx` ON `ac_banner_stat` (`banner_id`, `type`, `time`, `store_id`);
 
 
@@ -621,12 +621,12 @@ CREATE INDEX `banner_stat_idx` ON `ac_banner_stat` (`banner_id`, `type`, `time`,
 DROP TABLE IF EXISTS `ac_locations`;
 CREATE TABLE `ac_locations` (
   `location_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `description` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `description` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`location_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `ac_locations`
@@ -641,17 +641,17 @@ INSERT INTO `ac_locations` (`location_id`, `name`, `description`, `date_added`) 
 DROP TABLE IF EXISTS `ac_languages`;
 CREATE TABLE `ac_languages` (
   `language_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `code` varchar(5) COLLATE utf8_bin NOT NULL,
-  `locale` varchar(255) COLLATE utf8_bin NOT NULL,
-  `image` varchar(255) COLLATE utf8_bin NOT NULL,
-  `directory` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `filename` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `code` varchar(5) COLLATE utf8_general_ci NOT NULL,
+  `locale` varchar(255) COLLATE utf8_general_ci NOT NULL,
+  `image` varchar(255) COLLATE utf8_general_ci NOT NULL,
+  `directory` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `filename` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `sort_order` int(3) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL,
   PRIMARY KEY (`language_id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 CREATE UNIQUE INDEX `ac_languages_index`
 ON `ac_languages` ( `language_id`,`code` );
 --
@@ -670,7 +670,7 @@ CREATE TABLE `ac_language_definitions` (
   `language_id` int(11) NOT NULL,
   `section` tinyint(1) NOT NULL default '0' COMMENT '0-SF, 1-ADMIN',
   `block` varchar(160) NOT NULL,
-  `language_key` varchar(170) character set utf8 collate utf8_bin NOT NULL,
+  `language_key` varchar(170) character set utf8 collate utf8_general_ci NOT NULL,
   `language_value` text NOT NULL COMMENT 'translatable',
   `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `create_date` timestamp NOT NULL default '0000-00-00 00:00:00',
@@ -687,7 +687,7 @@ CREATE TABLE `ac_length_classes` (
   `length_class_id` int(11) NOT NULL AUTO_INCREMENT,
   `value` decimal(15,8) NOT NULL,
   PRIMARY KEY (`length_class_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `length_class`
@@ -706,10 +706,10 @@ DROP TABLE IF EXISTS `ac_length_class_descriptions`;
 CREATE TABLE `ac_length_class_descriptions` (
   `length_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `title` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `unit` varchar(4) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `title` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `unit` varchar(4) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`length_class_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `length_class_descriptions`
@@ -726,10 +726,10 @@ INSERT INTO `ac_length_class_descriptions` (`length_class_id`, `language_id`, `t
 DROP TABLE IF EXISTS `ac_manufacturers`;
 CREATE TABLE `ac_manufacturers` (
   `manufacturer_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `sort_order` int(3) NOT NULL,
   PRIMARY KEY (`manufacturer_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -740,7 +740,7 @@ CREATE TABLE `ac_manufacturers_to_stores` (
   `manufacturer_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
   PRIMARY KEY (`manufacturer_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -752,57 +752,57 @@ DROP TABLE IF EXISTS `ac_orders`;
 CREATE TABLE `ac_orders` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
   `invoice_id` int(11) NOT NULL DEFAULT '0',
-  `invoice_prefix` varchar(10) COLLATE utf8_bin NOT NULL,
+  `invoice_prefix` varchar(10) COLLATE utf8_general_ci NOT NULL,
   `store_id` int(11) NOT NULL DEFAULT '0',
-  `store_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `store_url` varchar(255) COLLATE utf8_bin NOT NULL,
+  `store_name` varchar(64) COLLATE utf8_general_ci NOT NULL,
+  `store_url` varchar(255) COLLATE utf8_general_ci NOT NULL,
   `customer_id` int(11) NOT NULL DEFAULT '0',
   `customer_group_id` int(11) NOT NULL DEFAULT '0',
-  `firstname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `lastname` varchar(32) COLLATE utf8_bin NOT NULL,
-  `telephone` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `fax` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `email` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `shipping_firstname` varchar(32) COLLATE utf8_bin NOT NULL,
-  `shipping_lastname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `shipping_company` varchar(32) COLLATE utf8_bin NOT NULL,
-  `shipping_address_1` varchar(128) COLLATE utf8_bin NOT NULL,
-  `shipping_address_2` varchar(128) COLLATE utf8_bin NOT NULL,
-  `shipping_city` varchar(128) COLLATE utf8_bin NOT NULL,
-  `shipping_postcode` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `shipping_zone` varchar(128) COLLATE utf8_bin NOT NULL,
+  `firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `lastname` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `telephone` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `fax` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `email` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `shipping_firstname` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `shipping_lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `shipping_company` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `shipping_address_1` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `shipping_address_2` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `shipping_city` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `shipping_postcode` varchar(10) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `shipping_zone` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `shipping_zone_id` int(11) NOT NULL,
-  `shipping_country` varchar(128) COLLATE utf8_bin NOT NULL,
+  `shipping_country` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `shipping_country_id` int(11) NOT NULL,
-  `shipping_address_format` text COLLATE utf8_bin NOT NULL,
-  `shipping_method` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `payment_firstname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `payment_lastname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `payment_company` varchar(32) COLLATE utf8_bin NOT NULL,
-  `payment_address_1` varchar(128) COLLATE utf8_bin NOT NULL,
-  `payment_address_2` varchar(128) COLLATE utf8_bin NOT NULL,
-  `payment_city` varchar(128) COLLATE utf8_bin NOT NULL,
-  `payment_postcode` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `payment_zone` varchar(128) COLLATE utf8_bin NOT NULL,
+  `shipping_address_format` text COLLATE utf8_general_ci NOT NULL,
+  `shipping_method` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `payment_firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `payment_lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `payment_company` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `payment_address_1` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `payment_address_2` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `payment_city` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `payment_postcode` varchar(10) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `payment_zone` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `payment_zone_id` int(11) NOT NULL,
-  `payment_country` varchar(128) COLLATE utf8_bin NOT NULL,
+  `payment_country` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `payment_country_id` int(11) NOT NULL,
-  `payment_address_format` text COLLATE utf8_bin NOT NULL,
-  `payment_method` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `comment` text COLLATE utf8_bin NOT NULL,
+  `payment_address_format` text COLLATE utf8_general_ci NOT NULL,
+  `payment_method` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `comment` text COLLATE utf8_general_ci NOT NULL,
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `order_status_id` int(11) NOT NULL DEFAULT '0',
   `language_id` int(11) NOT NULL,
   `currency_id` int(11) NOT NULL,
-  `currency` varchar(3) COLLATE utf8_bin NOT NULL,
+  `currency` varchar(3) COLLATE utf8_general_ci NOT NULL,
   `value` decimal(15,8) NOT NULL,
   `coupon_id` int(11) NOT NULL,
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ip` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `payment_method_data` text COLLATE utf8_bin NOT NULL,
+  `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `payment_method_data` text COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -813,9 +813,9 @@ CREATE TABLE `ac_order_downloads` (
   `order_download_id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
   `order_product_id` int(11) NOT NULL,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `filename` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `mask` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `filename` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `mask` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `download_id` int(11) NOT NULL, 
   `status` int(1) NOT NULL DEFAULT '0',
   `remaining_count` int(11) DEFAULT NULL,
@@ -824,12 +824,12 @@ CREATE TABLE `ac_order_downloads` (
   `sort_order` int(11) NOT NULL,
   `activate` VARCHAR(64) NOT NULL,
   `activate_order_status_id` int(11) NOT NULL DEFAULT '0', 
-  `attributes_data` text COLLATE utf8_bin  DEFAULT NULL,  -- serialized values 
+  `attributes_data` text COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized values 
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
 
   PRIMARY KEY (`order_download_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 --
 -- DDL for table `order_downloads`
 --
@@ -839,14 +839,14 @@ CREATE TABLE `ac_order_downloads_history` (
   `order_download_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `order_product_id` int(11) NOT NULL,
-  `filename` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `mask` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `filename` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `mask` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `download_id` int(11) NOT NULL,
   `download_percent` int(11) DEFAULT '0',
   `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
 
   PRIMARY KEY (`order_download_history_id`,`order_download_id`, `order_id`,`order_product_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -857,21 +857,21 @@ DROP TABLE IF EXISTS `ac_order_data`;
 CREATE TABLE `ac_order_data` (
   `order_id` int(11) NOT NULL,
   `type_id` int(11) NOT NULL,
-  `data` text COLLATE utf8_bin DEFAULT NULL,  -- serialized values
+  `data` text COLLATE utf8_general_ci DEFAULT NULL,  -- serialized values
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
   PRIMARY KEY (`order_id`, `type_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `ac_order_data_types`;
 CREATE TABLE `ac_order_data_types` (
   `type_id` int(11) NOT NULL AUTO_INCREMENT,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
   PRIMARY KEY (`type_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -883,10 +883,10 @@ CREATE TABLE `ac_order_history` (
   `order_id` int(11) NOT NULL,
   `order_status_id` int(5) NOT NULL,
   `notify` int(1) NOT NULL DEFAULT '0',
-  `comment` text COLLATE utf8_bin NOT NULL,
+  `comment` text COLLATE utf8_general_ci NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`order_history_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -898,12 +898,12 @@ CREATE TABLE `ac_order_options` (
   `order_id` int(11) NOT NULL,
   `order_product_id` int(11) NOT NULL,
   `product_option_value_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `value` text COLLATE utf8_bin NOT NULL,
+  `name` varchar(255) COLLATE utf8_general_ci NOT NULL,
+  `value` text COLLATE utf8_general_ci NOT NULL,
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `prefix` char(1) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`order_option_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -914,15 +914,15 @@ CREATE TABLE `ac_order_products` (
   `order_product_id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `model` varchar(24) COLLATE utf8_bin NOT NULL,
+  `name` varchar(255) COLLATE utf8_general_ci NOT NULL,
+  `model` varchar(24) COLLATE utf8_general_ci NOT NULL,
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `tax` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `quantity` int(4) NOT NULL DEFAULT '0',
   `subtract` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`order_product_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -932,9 +932,9 @@ DROP TABLE IF EXISTS `ac_order_statuses`;
 CREATE TABLE `ac_order_statuses` (
   `order_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`order_status_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `order_statuses`
@@ -960,14 +960,14 @@ DROP TABLE IF EXISTS `ac_order_totals`;
 CREATE TABLE `ac_order_totals` (
   `order_total_id` int(10) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
-  `title` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `text` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `title` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `text` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `value` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `sort_order` int(3) NOT NULL,
-  `type` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `type` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`order_total_id`),
   KEY `idx_orders_total_orders_id` (`order_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -976,9 +976,9 @@ CREATE TABLE `ac_order_totals` (
 DROP TABLE IF EXISTS `ac_products`;
 CREATE TABLE `ac_products` (
   `product_id` int(11) NOT NULL AUTO_INCREMENT,
-  `model` varchar(64) COLLATE utf8_bin NOT NULL,
-  `sku` varchar(64) COLLATE utf8_bin NOT NULL,
-  `location` varchar(128) COLLATE utf8_bin NOT NULL,
+  `model` varchar(64) COLLATE utf8_general_ci NOT NULL,
+  `sku` varchar(64) COLLATE utf8_general_ci NOT NULL,
+  `location` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `quantity` int(4) NOT NULL DEFAULT '0',
   `stock_status_id` int(11) NOT NULL,
   `manufacturer_id` int(11) NOT NULL,
@@ -1006,7 +1006,7 @@ CREATE TABLE `ac_products` (
   `cost` DECIMAL(15,4) NOT NULL DEFAULT '0.0000',
   `call_to_order` smallint NOT NULL default '0',
   PRIMARY KEY (`product_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1016,13 +1016,13 @@ DROP TABLE IF EXISTS `ac_product_descriptions`;
 CREATE TABLE `ac_product_descriptions` (
   `product_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `meta_keywords` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `meta_description` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `meta_keywords` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `meta_description` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_id`,`language_id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1039,7 +1039,7 @@ CREATE TABLE `ac_product_discounts` (
   `date_start` date NOT NULL DEFAULT '0000-00-00',
   `date_end` date NOT NULL DEFAULT '0000-00-00',
   PRIMARY KEY (`product_discount_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1048,7 +1048,7 @@ CREATE TABLE `ac_product_discounts` (
 DROP TABLE IF EXISTS `ac_products_featured`;
 CREATE TABLE `ac_products_featured` (
   `product_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1066,7 +1066,7 @@ CREATE TABLE `ac_product_options` (
   `required` smallint(1) NOT NULL default '0',
   `regexp_pattern` varchar(255) NOT NULL default '',
   PRIMARY KEY (`product_option_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1077,11 +1077,11 @@ CREATE TABLE `ac_product_option_descriptions` (
   `product_option_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `option_placeholder` varchar(255) COLLATE utf8_bin DEFAULT '' COMMENT 'translatable',
-  `error_text` 	varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `option_placeholder` varchar(255) COLLATE utf8_general_ci DEFAULT '' COMMENT 'translatable',
+  `error_text` 	varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_option_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `product_option_values`
@@ -1096,15 +1096,15 @@ CREATE TABLE `ac_product_option_values` (
   `quantity` int(4) NOT NULL DEFAULT '0',
   `subtract` int(1) NOT NULL DEFAULT '0',
   `price` decimal(15,4) NOT NULL,
-  `prefix` char(1) COLLATE utf8_bin NOT NULL, -- % or $ 
+  `prefix` char(1) COLLATE utf8_general_ci NOT NULL, -- % or $ 
   `weight` decimal(15,8) NOT NULL,
-  `weight_type` varchar(3) COLLATE utf8_bin NOT NULL, -- lbs or %
+  `weight_type` varchar(3) COLLATE utf8_general_ci NOT NULL, -- lbs or %
   `attribute_value_id` int(11),  
   `grouped_attribute_data` text DEFAULT NULL,
   `sort_order` int(3) NOT NULL,
   `default` smallint DEFAULT 0,
   PRIMARY KEY (`product_option_value_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1115,10 +1115,10 @@ CREATE TABLE `ac_product_option_value_descriptions` (
   `product_option_value_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `name` text COLLATE utf8_bin DEFAULT NULL COMMENT 'translatable',
-  `grouped_attribute_names` text COLLATE utf8_bin DEFAULT NULL,  
+  `name` text COLLATE utf8_general_ci DEFAULT NULL COMMENT 'translatable',
+  `grouped_attribute_names` text COLLATE utf8_general_ci DEFAULT NULL,  
   PRIMARY KEY (`product_option_value_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1129,7 +1129,7 @@ CREATE TABLE `ac_products_related` (
   `product_id` int(11) NOT NULL,
   `related_id` int(11) NOT NULL,
   PRIMARY KEY (`product_id`,`related_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1145,7 +1145,7 @@ CREATE TABLE `ac_product_specials` (
   `date_start` date NOT NULL DEFAULT '0000-00-00',
   `date_end` date NOT NULL DEFAULT '0000-00-00',
   PRIMARY KEY (`product_special_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1154,10 +1154,10 @@ CREATE TABLE `ac_product_specials` (
 DROP TABLE IF EXISTS `ac_product_tags`;
 CREATE TABLE `ac_product_tags` (
   `product_id` int(11) NOT NULL,
-  `tag` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `tag` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY  (`product_id`,`tag`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1168,7 +1168,7 @@ CREATE TABLE `ac_products_to_categories` (
   `product_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   PRIMARY KEY (`product_id`,`category_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1179,7 +1179,7 @@ CREATE TABLE `ac_products_to_downloads` (
   `product_id` int(11) NOT NULL,
   `download_id` int(11) NOT NULL,
   PRIMARY KEY (`product_id`,`download_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1190,7 +1190,7 @@ CREATE TABLE `ac_products_to_stores` (
   `product_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`product_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1201,14 +1201,14 @@ CREATE TABLE `ac_reviews` (
   `review_id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
-  `author` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `text` text COLLATE utf8_bin NOT NULL,
+  `author` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `text` text COLLATE utf8_general_ci NOT NULL,
   `rating` int(1) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`review_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1218,11 +1218,11 @@ DROP TABLE IF EXISTS `ac_settings`;
 CREATE TABLE `ac_settings` (
   `setting_id` int(11) NOT NULL AUTO_INCREMENT,
   `store_id` int(11) NOT NULL DEFAULT 0,
-  `group` varchar(32) COLLATE utf8_bin NOT NULL,
-  `key` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `value` text COLLATE utf8_bin NOT NULL,
+  `group` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `key` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `value` text COLLATE utf8_general_ci NOT NULL,
  PRIMARY KEY (`setting_id`,`store_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `settings`
@@ -1418,9 +1418,9 @@ DROP TABLE IF EXISTS `ac_stock_statuses`;
 CREATE TABLE `ac_stock_statuses` (
   `stock_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`stock_status_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `stock_status`
@@ -1437,11 +1437,11 @@ INSERT INTO `ac_stock_statuses` (`stock_status_id`, `language_id`, `name`) VALUE
 DROP TABLE IF EXISTS `ac_stores`;
 CREATE TABLE `ac_stores` (
   `store_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `alias` varchar(15) COLLATE utf8_bin NOT NULL,
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL,
+  `alias` varchar(15) COLLATE utf8_general_ci NOT NULL,
   `status` int(1) NOT NULL,
    PRIMARY KEY (`store_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=0;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=0;
 
 INSERT INTO `ac_stores` VALUES	(0,'default','default',1);
 
@@ -1452,9 +1452,9 @@ DROP TABLE IF EXISTS `ac_store_descriptions`;
 CREATE TABLE `ac_store_descriptions` (
   `store_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`store_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1466,7 +1466,7 @@ CREATE TABLE `ac_tax_classes` (
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`tax_class_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `tax_class`
@@ -1481,10 +1481,10 @@ DROP TABLE IF EXISTS `ac_tax_class_descriptions`;
 CREATE TABLE `ac_tax_class_descriptions` (
   `tax_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `title` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `description` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `title` varchar(128) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `description` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`tax_class_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_tax_class_descriptions` (`tax_class_id`, `language_id`, `title`, `description`) VALUES (1, 1, 'Taxable Goods', 'Taxed Products');
 
@@ -1499,13 +1499,13 @@ CREATE TABLE `ac_tax_rates` (
   `tax_class_id` int(11) NOT NULL,
   `priority` int(5) NOT NULL DEFAULT '1',
   `rate` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `rate_prefix` char(1) COLLATE utf8_bin NOT NULL DEFAULT '%', -- % or $ 
-  `threshold_condition` char(2) COLLATE utf8_bin NOT NULL, -- '<=', '>=', '==' or '<'
+  `rate_prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '%', -- % or $ 
+  `threshold_condition` char(2) COLLATE utf8_general_ci NOT NULL, -- '<=', '>=', '==' or '<'
   `threshold` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`tax_rate_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `tax_rate`
@@ -1520,9 +1520,9 @@ DROP TABLE IF EXISTS `ac_tax_rate_descriptions`;
 CREATE TABLE `ac_tax_rate_descriptions` (
   `tax_rate_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `description` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `description` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`tax_rate_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `tax_rate_descriptions`
@@ -1536,11 +1536,11 @@ INSERT INTO `ac_tax_rate_descriptions` (`tax_rate_id`, `language_id`, `descripti
 DROP TABLE IF EXISTS `ac_url_aliases`;
 CREATE TABLE `ac_url_aliases` (
   `url_alias_id` int(11) NOT NULL AUTO_INCREMENT,
-  `query` varchar(255) COLLATE utf8_bin NOT NULL,
-  `keyword` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `query` varchar(255) COLLATE utf8_general_ci NOT NULL,
+  `keyword` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `language_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`url_alias_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 CREATE UNIQUE INDEX `url_aliases_index`
 ON `ac_url_aliases` ( `keyword`, `language_id`);
 CREATE UNIQUE INDEX `url_aliases_index2`
@@ -1554,17 +1554,17 @@ DROP TABLE IF EXISTS `ac_users`;
 CREATE TABLE `ac_users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_group_id` int(11) NOT NULL,
-  `username` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `password` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `firstname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `lastname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `email` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `username` varchar(20) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `password` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `email` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` int(1) NOT NULL,
-  `ip` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=2;
 
 
 --
@@ -1573,12 +1573,12 @@ CREATE TABLE `ac_users` (
 DROP TABLE IF EXISTS `ac_user_groups`;
 CREATE TABLE `ac_user_groups` (
   `user_group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `permission` text COLLATE utf8_bin NOT NULL,
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL,
+  `permission` text COLLATE utf8_general_ci NOT NULL,
   `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `user_group`
@@ -1596,7 +1596,7 @@ CREATE TABLE `ac_weight_classes` (
   `weight_class_id` int(11) NOT NULL AUTO_INCREMENT,
   `value` decimal(15,8) NOT NULL DEFAULT '0.00000000',
   PRIMARY KEY (`weight_class_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `weight_class`
@@ -1616,10 +1616,10 @@ DROP TABLE IF EXISTS `ac_weight_class_descriptions`;
 CREATE TABLE `ac_weight_class_descriptions` (
   `weight_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `title` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `unit` varchar(4) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `title` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `unit` varchar(4) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`weight_class_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `weight_class_description`
@@ -1638,11 +1638,11 @@ DROP TABLE IF EXISTS `ac_zones`;
 CREATE TABLE `ac_zones` (
   `zone_id` int(11) NOT NULL AUTO_INCREMENT,
   `country_id` int(11) NOT NULL,
-  `code` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `code` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` int(1) NOT NULL DEFAULT '1',
   `sort_order` int(3) NOT NULL DEFAULT '0',  
   PRIMARY KEY (`zone_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `zone`
@@ -5589,9 +5589,9 @@ DROP TABLE IF EXISTS `ac_zone_descriptions`;
 CREATE TABLE `ac_zone_descriptions` (
   `zone_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(128) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`zone_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 INSERT INTO `ac_zone_descriptions` (`zone_id`, `language_id`,`name`) VALUES 
@@ -9543,7 +9543,7 @@ CREATE TABLE `ac_zones_to_locations` (
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`zone_to_location_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `ac_zones_to_locations`
@@ -9687,7 +9687,7 @@ CREATE TABLE `ac_contents` (
     `sort_order` int(3) NOT NULL DEFAULT '0',
     `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`content_id`,`parent_content_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `contents`
@@ -9736,7 +9736,7 @@ CREATE TABLE `ac_contents_to_stores` (
   `content_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
   PRIMARY KEY (`content_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -10370,7 +10370,7 @@ CREATE TABLE `ac_fields` (
   -- I - text input, T - Text area, S - Select, M - multivalue select, C - Checkbox, R - radio buttons, U - File upload, H - Hidden, G -Checkbox Group, D - Date, E - time, K - Captcha 
   `sort_order` int(3) NOT NULL,
   `attributes` varchar(255) NOT NULL,
-  `settings` text COLLATE utf8_bin NOT NULL DEFAULT '',
+  `settings` text COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `required` char(1) NOT NULL DEFAULT 'N',
   -- N - Not required, Y - required  
   `status` smallint(1) NOT NULL default '0',
@@ -10414,7 +10414,7 @@ DROP TABLE IF EXISTS `ac_field_values`;
 CREATE TABLE `ac_field_values` (
   `value_id` int(11) NOT NULL auto_increment,
   `field_id` int(11) NOT NULL DEFAULT '0',
-  `value` text COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `value` text COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`value_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -10472,7 +10472,7 @@ CREATE TABLE `ac_messages` (
   `viewed` int(11) NOT NULL default '0',
   `repeated` int(11) NOT NULL default '0',
   PRIMARY KEY  (`msg_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- DDL for table `ac_ant_messages`
@@ -10493,7 +10493,7 @@ CREATE TABLE `ac_ant_messages` (
   `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`, `language_code`),
   KEY `daterange_idx` (`start_date`,`end_date`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -10505,7 +10505,7 @@ CREATE TABLE `ac_datasets` (
   `dataset_name` varchar(255) CHARACTER SET utf8 NOT NULL,
   `dataset_key` varchar(255) CHARACTER SET utf8 default '',
   PRIMARY KEY (`dataset_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -10517,7 +10517,7 @@ CREATE TABLE `ac_dataset_properties` (
   `dataset_property_name` varchar(255) NOT NULL,
   `dataset_property_value` varchar(255),
   KEY `dataset_property_idx` (`dataset_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `ac_dataset_definition`
@@ -10531,7 +10531,7 @@ CREATE TABLE `ac_dataset_definition` (
   `dataset_column_sort_order` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`dataset_column_id`),
   KEY `dataset_definition_idx` (`dataset_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- DDL for table `ac_dataset_column_properties`
@@ -10542,7 +10542,7 @@ CREATE TABLE `ac_dataset_column_properties` (
   `dataset_column_property_name` varchar(255) NOT NULL,
   `dataset_column_property_value` varchar(255) DEFAULT NULL,
   KEY `dataset_column_properties_idx` (`dataset_column_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `ac_dataset_values`
@@ -10560,7 +10560,7 @@ CREATE TABLE `ac_dataset_values` (
   `row_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`value_sort_order`),
   KEY `dataset_values_index` (`value_integer`,`value_float`,`value_varchar`,`value_boolean`,`row_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 --
 -- Storefront menu inserts
 --
@@ -11436,7 +11436,7 @@ CREATE TABLE `ac_resource_library` (
   `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`resource_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=100000;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=100000;
 
 --
 -- DDL for table `ac_resource_descriptions`
@@ -11449,7 +11449,7 @@ CREATE TABLE `ac_resource_descriptions` (
   `name` varchar(255) NOT NULL DEFAULT '' NULL COMMENT 'translatable',
   `title` varchar(255) NOT NULL DEFAULT '' NULL COMMENT 'translatable',
   `description` text DEFAULT NULL NULL COMMENT 'translatable',
-  `resource_path` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `resource_path` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
   `resource_code` text DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -11463,13 +11463,13 @@ DROP TABLE IF EXISTS `ac_resource_types`;
 CREATE TABLE `ac_resource_types` (
   `type_id` int(11) NOT NULL AUTO_INCREMENT,
   `type_name` varchar(40) NOT NULL default '',
-  `default_directory` varchar(255) COLLATE utf8_bin NOT NULL,
-  `default_icon` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `default_directory` varchar(255) COLLATE utf8_general_ci NOT NULL,
+  `default_icon` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
   `file_types` varchar(40) NOT NULL default '',
   `access_type`tinyint(1) NOT NULL default '0' COMMENT '0-Public, 1-Secured',
   PRIMARY KEY (`type_id`),
   KEY `group_id` (`type_id`, `type_name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 		
 INSERT INTO `ac_resource_types` (`type_id`, `type_name`, `default_icon`, `default_directory`, `file_types`, `access_type`) VALUES
 (1, 'image', 'icon_resource_image.png', 'image/', '/.+(jpe?g|gif|png|ico)$/i', 0),
@@ -11492,7 +11492,7 @@ CREATE TABLE `ac_resource_map` (
   `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   KEY `group_id` (`resource_id`, `object_name`, `object_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 CREATE UNIQUE INDEX `resource_map_index`
 ON `ac_resource_map` ( `resource_id`, `object_name`, `object_id` );
 
@@ -11510,21 +11510,21 @@ CREATE TABLE `ac_global_attributes` (
   -- I - text input, T - Text area, S - Select, M - multivalue select, C - Checkbox, R - radio buttons, U - File upload, H - Hidden, G -Checkbox Group, D - Date, E - time, K - Captcha
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   `required` 			smallint(1) NOT NULL default '0',
-  `settings`			text COLLATE utf8_bin NOT NULL DEFAULT '',
+  `settings`			text COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` 				smallint(1) NOT NULL default '0',
   `regexp_pattern` varchar(255),
   PRIMARY KEY (`attribute_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;	
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;	
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_descriptions`;
 CREATE TABLE `ac_global_attributes_descriptions` (
   `attribute_id` 		int(11) NOT NULL,
   `language_id` 		int(11) NOT NULL,
-  `name` 				varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `error_text` 	varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` 				varchar(64) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `error_text` 	varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`attribute_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_values`;
@@ -11533,16 +11533,16 @@ CREATE TABLE `ac_global_attributes_values` (
   `attribute_id` 		int(11) NOT NULL,
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`attribute_value_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;	
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;	
 
 DROP TABLE IF EXISTS `ac_global_attributes_value_descriptions`;
 CREATE TABLE `ac_global_attributes_value_descriptions` (
   `attribute_value_id` int(11) NOT NULL,
   `attribute_id` int(11) NOT NULL,
   `language_id`	int(11) NOT NULL,
-  `value` text COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable', 
+  `value` text COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable', 
   PRIMARY KEY (`attribute_value_id`, `attribute_id`, `language_id` )
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;	 
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;	 
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_groups`;
@@ -11551,16 +11551,16 @@ CREATE TABLE `ac_global_attributes_groups` (
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   `status` 				smallint(1) NOT NULL default '0',
   PRIMARY KEY (`attribute_group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_groups_descriptions`;
 CREATE TABLE `ac_global_attributes_groups_descriptions` (
   `attribute_group_id` 	int(11) NOT NULL,
   `language_id` 		int(11) NOT NULL,
-  `name` 				varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` 				varchar(64) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`attribute_group_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_types`;
@@ -11571,7 +11571,7 @@ CREATE TABLE `ac_global_attributes_types` (
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   `status` 				smallint(1) NOT NULL default '0',
   PRIMARY KEY (`attribute_type_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;	
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;	
 
 INSERT INTO `ac_global_attributes_types` (`attribute_type_id`, `type_key`, `controller`, `sort_order`, `status`) VALUES
 (1, 'product_option', 'responses/catalog/attribute/getProductOptionSubform', 1, 1),
@@ -11582,11 +11582,11 @@ DROP TABLE IF EXISTS `ac_global_attributes_type_descriptions`;
 CREATE TABLE `ac_global_attributes_type_descriptions` (
 `attribute_type_id` int(11) NOT NULL,
 `language_id` int(11) NOT NULL,
-`type_name` varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+`type_name` varchar(64) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
 `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 `create_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
 PRIMARY KEY (`attribute_type_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='utf8_bin';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='utf8_general_ci';
 
 INSERT INTO `ac_global_attributes_type_descriptions` (`attribute_type_id`, `language_id`, `type_name`, `create_date`)
 VALUES
@@ -11652,9 +11652,9 @@ CREATE TABLE `ac_extension_dependencies` (
 DROP TABLE IF EXISTS `ac_encryption_keys`;
 CREATE TABLE `ac_encryption_keys` (
   `key_id` int(3) NOT NULL AUTO_INCREMENT,
-  `key_name` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `key_name` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` int(1) NOT NULL,  
-  `comment` text COLLATE utf8_bin NOT NULL,  
+  `comment` text COLLATE utf8_general_ci NOT NULL,  
   PRIMARY KEY (`key_id`),
   UNIQUE KEY `encryption_keys_key_name` (`key_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
