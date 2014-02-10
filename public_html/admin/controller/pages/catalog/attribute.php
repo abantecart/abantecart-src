@@ -345,7 +345,7 @@ class ControllerPagesCatalogAttribute extends AController {
 
 		if($attribute_type_info['type_key']!='download_attribute'){
 			$parent_attributes = array( '' => $this->language->get('text_select') );
-			$results = $this->attribute_manager->getAttributes(array('attribute_type_id'=>$attribute_type_id), 0, 0);
+			$results = $this->attribute_manager->getAttributes(array('attribute_type_id'=>$attribute_type_id, 'limit'=>null), 0, 0);
 			foreach ($results as $type) {
 				if (isset($this->request->get[ 'attribute_id' ]) && $this->request->get[ 'attribute_id' ] == $type[ 'attribute_id' ]) {
 					continue;

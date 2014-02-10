@@ -461,7 +461,7 @@ class ModelCatalogProduct extends Model {
 
 		$am = new AAttribute_Manager();
 		$attribute = $am->getAttributeByProductOptionId($product_option_id);
-		$group_attribute = $am->getAttributes(array(), 0, $attribute['attribute_id']);
+		$group_attribute = $am->getAttributes(array('limit'=>null), 0, $attribute['attribute_id']);
 		if (count($group_attribute)) {
 			//delete children options/values
 			$children = $this->db->query(
