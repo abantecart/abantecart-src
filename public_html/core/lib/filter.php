@@ -41,8 +41,11 @@ final class AFilter {
         $this->data['page'] = $this->request->{$this->method}['page']; // get the requested page
         $this->data['page'] = $this->data['page'] ? $this->data['page'] : 1;
         $this->data['rows'] = $this->request->{$this->method}['rows']; // get how many rows we want to have into the grid
+
+        $this->data['rows'] = $this->data['limit'] ? $this->data['limit'] : 0;
         $this->data['rows'] = $this->data['rows'] ? $this->data['rows'] : 10;
-        $this->data['sidx'] = $this->request->{$this->method}['sidx']; // get index row - i.e. user click to sort
+
+		$this->data['sidx'] = $this->request->{$this->method}['sidx']; // get index row - i.e. user click to sort
         $this->data['sidx'] = $this->data['sidx'] ? $this->data['sidx'] : 'sort_order';
         $this->data['sord'] = $this->request->{$this->method}['sord']; // get the direction of sorting
         $this->data['sord'] = $this->data['sord'] ? $this->data['sord'] : 'DESC';
