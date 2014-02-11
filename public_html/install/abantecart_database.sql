@@ -1247,7 +1247,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','config_storefront_language','en'),
 ('details','admin_language','en'),
 ('details','config_currency','USD'),
-('details','config_currency_auto',1),
+('details','config_currency_auto',0),
 ('details','config_length_class','in'),
 ('details','config_weight_class','lb'),
 ('details','auto_translate_status',1),
