@@ -40,9 +40,9 @@ final class AFilter {
         //Build data request parameters
         $this->data['page'] = $this->request->{$this->method}['page']; // get the requested page
         $this->data['page'] = $this->data['page'] ? $this->data['page'] : 1;
-        $this->data['rows'] = $this->request->{$this->method}['rows']; // get how many rows we want to have into the grid
 
-        $this->data['rows'] = $this->data['limit'] ? $this->data['limit'] : 0;
+        $this->data['rows'] = $this->request->{$this->method}['limit']; // get how many rows we want to have into the grid
+        $this->data['rows'] = $this->data['rows'] ? $this->data['rows'] : $this->request->{$this->method}['rows'];
         $this->data['rows'] = $this->data['rows'] ? $this->data['rows'] : 10;
 
 		$this->data['sidx'] = $this->request->{$this->method}['sidx']; // get index row - i.e. user click to sort
