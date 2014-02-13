@@ -20,6 +20,11 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ControllerPagesExtensionExtensionsStore
+ * @property ModelToolMPAPI $model_tool_mp_api
+ */
 class ControllerPagesExtensionExtensionsStore extends AController {
 	public $data;
 	public function main(){
@@ -50,7 +55,112 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 			$this->data[ 'error_warning' ] = '';
 		}
 
-		$this->view->assign( 'src', $this->html->getSecureURL('tool/extensions_store'));
+		$this->loadModel('tool/mp_api');
+
+		$request_data = $this->request->get;
+		if(!has_value($request_data['sidx'])){
+			$request_data['sidx'] = 'rating';
+		}
+		if(!has_value($request_data['sord'])){
+			$request_data['sord'] = 'desc';
+		}
+		/*TODO: need to solve with this url */
+		//$mp_url = 'http://www.abantecart.com/blablabla';
+		$result = $this->model_tool_mp_api->processRequest($mp_url, $request_data);
+		$this->view->assign('content', $result);
+		$this->view->assign('remote_store_product_url', $mp_url.'?rt=product/product' );
+
+
+
+		$form = new AForm('ST');
+		$form->setForm(array(
+							'form_name' => 'extension_store_search',
+					   ));
+
+		$this->data['form']['form_open'] = $form->getFieldHtml(
+													array(
+														'type' => 'form',
+														'name' => 'extension_store_search',
+														'action' => $this->html->getSecureURL('extension/extensions_store'),
+														'method' => 'get'
+												   ));
+
+		$this->data['form']['input'] = $form->getFieldHtml(array(
+														'type' => 'input',
+														'name' => 'keyword',
+														'value' => $this->request->get['keyword'],
+														'style'=> 'pull-left',
+														'placeholder'=> $this->language->get('search'),
+												   ));
+		$this->data['form']['input'] .= $form->getFieldHtml(array(
+														'type' => 'hidden',
+														'name' => 'rt',
+														'value' => $this->request->get['rt']
+												   ));
+		$this->data['form']['input'] .= $form->getFieldHtml(array(
+														'type' => 'hidden',
+														'name' => 's',
+														'value' => $this->request->get['s']
+												   ));
+		$this->data['form']['input'] .= $form->getFieldHtml(array(
+														'type' => 'hidden',
+														'name' => 'token',
+														'value' => $this->request->get['token']
+												   ));
+
+		$this->data['form']['submit'] = $form->getFieldHtml(array(
+														'type' => 'submit',
+														'name' => $this->language->get('button_go'),
+														'attr' => 'class="pull-left button2"'
+												   ));
+
+		if(has_value($this->request->get['keyword']) || has_value($this->request->get['category_id']) || has_value($this->request->get['manufacturer_id']) ){
+			$uri = '&limit='.$result['products']['limit'];
+			if(has_value($this->request->get['keyword'])){
+				$uri .= '&keyword='.$this->request->get['keyword'];
+			}
+			if(has_value($this->request->get['category_id'])){
+				$uri .= '&category_id='.$this->request->get['category_id'];
+			}
+			if(has_value($this->request->get['manufacturer_id'])){
+				$uri .= '&manufacturer_id='.$this->request->get['manufacturer_id'];
+			}
+			$sort_order = '&sidx='.$result['products']['sidx'].'&sord='.strtoupper($result['products']['sord']);
+
+			$this->data['pagination_bootstrap'] = HtmlElementFactory::create(array(
+							'type' => 'Pagination',
+							'name' => 'pagination',
+							'text' => $this->language->get('text_pagination'),
+							'text_limit' => $this->language->get('text_per_page'),
+							'total' => $result['products']['records'],
+							'page' => $result['products']['page'],
+							'limit' => $result['products']['limit'],
+							'url' => $this->html->getSecureURL('extension/extensions_store', $uri.$sort_order . '&page={page}', '&encode'),
+							'style' => 'pagination'));
+
+			$sorts = array();
+
+			$sorts['&sidx=review&sord=DESC'] = $this->language->get('text_sorting_review_desc');
+			$sorts['&sidx=review&sord=ASC'] = $this->language->get('text_sorting_review_asc');
+			$sorts['&sidx=price&sord=ASC'] = $this->language->get('text_sorting_price_asc');
+			$sorts['&sidx=price&sord=DESC'] = $this->language->get('text_sorting_price_desc');
+			$sorts['&sidx=rating&sord=DESC'] = $this->language->get('text_sorting_rating_desc');
+			$sorts['&sidx=rating&sord=ASC'] = $this->language->get('text_sorting_rating_asc');
+			$sorts['&sidx=date_modified&sord=ASC'] = $this->language->get('text_sorting_date_modified_desc');
+			$sorts['&sidx=date_modified&sord=DESC'] = $this->language->get('text_sorting_date_modified_asc');
+
+			$this->data['listing_url'] = $this->html->getSecureURL('extension/extensions_store', $uri);
+			$this->data['sorting'] = HtmlElementFactory::create(array(
+							'type' => 'selectbox',
+							'name' => 'sorting',
+							'value'=> $sort_order,
+							'options' => $sorts));
+		}
+
+
+		$this->view->batchAssign($this->data);
+
 		$this->processTemplate('pages/extension/extensions_store.tpl');
+
 	}
 }

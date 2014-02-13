@@ -125,7 +125,8 @@ class ModelCatalogProduct extends Model {
 						pd.name AS name, 
 						m.name AS manufacturer, 
 						ss.name AS stock,
-						". $this->_sql_avg_rating_string() . " 
+						". $this->_sql_avg_rating_string() . ",
+						". $this->_sql_review_count_string() . "
 		". $this->_sql_join_string() ."
 		LEFT JOIN " . $this->db->table("products_to_categories") . " p2c ON (p.product_id = p2c.product_id)
 		WHERE p.status = '1' AND p.date_available <= NOW()
@@ -138,7 +139,8 @@ class ModelCatalogProduct extends Model {
 		    'p.price' => 'final_price',
 		    'special' => 'final_price',
 		    'rating' => 'rating',
-		    'date_modified' => 'p.date_available'
+		    'date_modified' => 'p.date_modified',
+			'review' => 'review'
 		);	
 		
 		if (isset($sort) && in_array($sort, array_keys($sort_data)) ) {
@@ -196,7 +198,8 @@ class ModelCatalogProduct extends Model {
 						pd.name AS name, 
 						m.name AS manufacturer, 
 						ss.name AS stock,
-						". $this->_sql_avg_rating_string() . " 
+						". $this->_sql_avg_rating_string() . ",
+						". $this->_sql_review_count_string() . "
 		" . $this->_sql_join_string() ." 
 		WHERE p.status = '1' AND p.date_available <= NOW()
 		AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' 
@@ -208,7 +211,8 @@ class ModelCatalogProduct extends Model {
 		    'p.price' => 'final_price',
 		    'special' => 'final_price',
 		    'rating' => 'rating',
-		    'date_modified' => 'p.date_available'
+			'date_modified' => 'p.date_modified',
+			'review' => 'review'
 		);	
 		
 		if (isset($sort) && in_array($sort, array_keys($sort_data)) ) {
@@ -265,7 +269,8 @@ class ModelCatalogProduct extends Model {
 							pd.name AS name, 
 							m.name AS manufacturer, 
 							ss.name AS stock,
-							". $this->_sql_avg_rating_string() . " 
+							". $this->_sql_avg_rating_string() . ",
+							". $this->_sql_review_count_string() . "
 					". $this->_sql_join_string() ."
 					LEFT JOIN " . $this->db->table("product_tags") . " pt ON (p.product_id = pt.product_id AND pt.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 					WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
@@ -299,7 +304,8 @@ class ModelCatalogProduct extends Model {
 				'p.price' => 'final_price',
 				'special' => 'final_price',
 				'rating' => 'rating',
-				'date_modified' => 'p.date_available'
+				'date_modified' => 'p.date_modified',
+				'review' => 'review'
 			);	
 			
 			if (isset($sort) && in_array($sort, array_keys($sort_data)) ) {
@@ -352,7 +358,8 @@ class ModelCatalogProduct extends Model {
 							pd.name AS name, 
 							m.name AS manufacturer, 
 							ss.name AS stock,
-							". $this->_sql_avg_rating_string() . " 
+							". $this->_sql_avg_rating_string() . ",
+							". $this->_sql_review_count_string() . "
 			" . $this->_sql_join_string() ."
 		    LEFT JOIN " . $this->db->table("product_tags") . " pt ON (p.product_id = pt.product_id)
 			WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ";
@@ -403,7 +410,8 @@ class ModelCatalogProduct extends Model {
 				'p.price' => 'final_price',
 				'special' => 'final_price',
 				'rating' => 'rating',
-				'date_modified' => 'p.date_available'
+				'date_modified' => 'p.date_modified',
+				'review' => 'review'
 			);	
 			
 			if (isset($sort) && in_array($sort, array_keys($sort_data)) ) {
@@ -578,7 +586,8 @@ class ModelCatalogProduct extends Model {
 					pd.name AS name,
 					m.name AS manufacturer,
 					ss.name AS stock,
-					". $this->_sql_avg_rating_string() . " 
+					". $this->_sql_avg_rating_string() . ",
+					". $this->_sql_review_count_string() . "
 					". $this->_sql_join_string() . "
 					WHERE p.status = '1'
 							AND p.date_available <= NOW()
@@ -604,7 +613,8 @@ class ModelCatalogProduct extends Model {
 	public function getPopularProducts($limit=0) {
 
 		$sql = "SELECT *, pd.name AS name, m.name AS manufacturer, ss.name AS stock,
-													". $this->_sql_avg_rating_string() . " 
+													". $this->_sql_avg_rating_string() . ",
+													". $this->_sql_review_count_string() . "
 											" .	$this->_sql_join_string() . "
 											WHERE p.status = '1'
 												AND p.date_available <= NOW()
@@ -1036,7 +1046,8 @@ class ModelCatalogProduct extends Model {
 		
 		foreach ($product_related_query->rows as $result) { 
 			$product_query = $this->db->query("SELECT DISTINCT *, pd.name AS name, m.name AS manufacturer, ss.name AS stock,
-														". $this->_sql_avg_rating_string() . " " .
+														". $this->_sql_avg_rating_string() . ", " .
+														 $this->_sql_review_count_string() .
 												$this->_sql_join_string() ."
 												WHERE p.product_id = '" . (int)$result['related_id'] . "'
 													AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
@@ -1070,6 +1081,14 @@ class ModelCatalogProduct extends Model {
 						 WHERE p.product_id = r.product_id
 						 GROUP BY r.product_id 
 				 ) AS rating ";
+		return $sql;
+	}
+	private function _sql_review_count_string(){
+		$sql = " ( SELECT COUNT(rw.review_id)
+						 FROM " . $this->db->table("reviews") . " rw
+						 WHERE p.product_id = rw.product_id
+						 GROUP BY rw.product_id
+				 ) AS review ";
 		return $sql;
 	}
 
@@ -1242,15 +1261,20 @@ class ModelCatalogProduct extends Model {
 			$filter = (isset($data['filter']) ? $data['filter'] : array());
 	
 			if ($mode == 'total_only') {
-				$sql = "SELECT COUNT(*) as total
+				$sql = "SELECT COUNT(DISTINCT p.product_id) as total
 						FROM " . $this->db->table("products") . " p
 						LEFT JOIN " . $this->db->table("product_descriptions") . " pd
 							ON (p.product_id = pd.product_id)";
 			} else {
-				$sql = "SELECT *
-						FROM " . $this->db->table("products") . " p
-						LEFT JOIN " . $this->db->table("product_descriptions") . " pd
-							ON (p.product_id = pd.product_id)";
+				$sql = "SELECT *,
+								p.product_id,
+								". $this->_sql_final_price_string() . ",
+								pd.name AS name,
+								m.name AS manufacturer,
+								ss.name AS stock,
+								". $this->_sql_avg_rating_string() . ",
+								". $this->_sql_review_count_string() . "
+						". $this->_sql_join_string() ;
 			}
 
 			if (isset($filter['category_id']) && !is_null($filter['category_id'])) {
@@ -1325,8 +1349,11 @@ class ModelCatalogProduct extends Model {
 				'quantity' => 'p.quantity',
 				'price' => 'p.price',
 				'status' => 'p.status',
-				'sort_order' => 'p.sort_order'
-			);	
+				'sort_order' => 'p.sort_order',
+				'date_modified' => 'p.date_modified',
+				'review' => 'review',
+				'rating' => 'rating'
+			);
 			
 			if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data)) ) {
 				$sql .= " ORDER BY " . $sort_data[$data['sort']];	

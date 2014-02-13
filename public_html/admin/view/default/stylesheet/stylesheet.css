@@ -630,6 +630,7 @@ ul.quick_icon a:hover {
     border-left: 1px solid #caccd2;
     border-right: 1px solid #caccd2;
     background-color: white;
+	overflow: hidden;
 }
 
 .cbox_bl {
@@ -2261,6 +2262,109 @@ div.download-list-attributes{
 	color: #696969;
 	font-weight: bold;
 	margin-top: 10px;
+}
+
+/* EXTENSION STORE CSS*/
+
+.extension-store-list #menu {
+	vertical-align: top;
+}
+
+.extension-store-list li.search-tab input {
+	height: 20px;
+	width: 146px;
+	font-size: 14px;
+
+}
+.extension-store-list li.search-tab .aform {
+	margin: 6px 0 6px 6px;
+
+}
+.extension-store-list .store-menu{
+	margin: 5px;
+}
+.extension-store-list .store-menu li{
+	background-color: #f4f4f4;
+	border-radius: 5px;
+}
+.extension-store-list .store-menu li.selected{
+	background-color: #e1e1e1;
+}
+
+.extension-store-list .product-list {
+	width: 100%;
+	margin: 0;
+}
+
+
+.extension-store-list .product-list li, .extension-store-list .thumbnails{
+	width: 48.3%;
+	list-style: none;
+	margin: 5px;
+	overflow: hidden;
+}
+
+.extension-store-list .product-list  .preview img{
+	margin: 10px;
+	border-radius: 10px;
+	border: 2px solid #e1e1e1;
+}
+
+.extension-store-list .product-list .description{
+	margin: 10px;
+	max-width: 72%;
+
+}
+.extension-store-list .product-list .product-description{
+	margin: 0 0 5px 0;
+	font-size: 10px;
+	line-height: 15px;
+	height: 70px;
+	overflow: auto;
+}
+
+.extension-store-list .product-list .pricetag{
+	width: 50px;
+}
+
+.extension-store-list .product-list .rating{
+	width: 60px;
+}
+
+.extension-store-list .product-list .product-name{
+	color: #242424;
+	font: 15px Arial,Helvetica,sans-serif;
+}
+
+.extension-store-list .product-list .pagination .links{
+	margin: 0;
+}
+
+.extension-store-list .sorting {
+	height: 42px;
+	margin-top: 18px;
+	margin-right: 10px;
+}
+.extension-store-list .pagination {
+	width: 83%;
+}
+.extension-store-list .pagination .limits {
+	float: none;
+}
+.extension-store-list .pagination>div {
+	display: inline-block;
+	line-height: 25px;
+}
+.extension-store-list .pagination ul>li>a{
+	padding: 3px 6px;
+	text-decoration: none;
+}
+
+.extensionStoreBox 	.alert{
+	position: absolute;
+	width: 160px;
+	height: 17px;
+	cursor: pointer;
 }
 
 
