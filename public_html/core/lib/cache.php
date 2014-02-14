@@ -49,6 +49,9 @@ final class ACache {
   	public function __construct() {
 		$this->registry = Registry::getInstance ();
 		$cache_files = glob( DIR_CACHE. '*/*', GLOB_NOSORT);
+		if(!is_array($cache_files)){
+			$this->registry->get('log')->write('Cache directory is not accessible or writable.  Caching operation was skipped!');
+		}
 		foreach ($cache_files as $file) {
 			//first of all check if file expired. delete it if needed
 			$file_time = filemtime($file);
