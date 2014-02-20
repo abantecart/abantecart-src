@@ -193,6 +193,11 @@ class ControllerPagesProductSearch extends AController {
 																				$limit
                 );
 
+				//if single result, redirect to the product
+				if (count($results) == 1) {
+					$this->redirect($this->html->getSEOURL('product/product','&product_id=' . key($results), '&encode'));		
+				}
+
 				$resource = new AResource('image');
 				
 				if (is_array($results) && $results) {
