@@ -146,19 +146,16 @@ function SEOEncode($string_value, $object_key_name='', $object_id=0, $language_i
  * @param int $language_id
  * @return mixed
  */
-function getUniqueSeoKeyword($seo_key, $object_key_name='', $object_id=0, $language_id=0){
+function getUniqueSeoKeyword($seo_key, $object_key_name='', $object_id=0){
 
 	$object_id=(int)$object_id;
-	$language_id = (int)$language_id;
 
 	$registry = Registry::getInstance();
-	$language_id = !$language_id ? (int)$registry->get('language')->getContentLanguageID(): $language_id;
 	$db = $registry->get('db');
 	$sql = "SELECT `keyword`
 			FROM ".$db->table('url_aliases')."
 			WHERE query like '".$db->escape($object_key_name)."=%'
-					AND `keyword` like '".$db->escape($seo_key)."%'
-					AND `language_id`= ".$language_id;
+					AND `keyword` like '".$db->escape($seo_key)."%'";
 	if($object_id){
 		// exclude keyword of given object (product, category, content etc)
 		$sql .= " AND query<>'".$db->escape($object_key_name)."=".$object_id."'";
