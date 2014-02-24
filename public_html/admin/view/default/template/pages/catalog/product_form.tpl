@@ -18,6 +18,11 @@
                         src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
                     <?php endif; ?>
                     <?php echo $form_language_switch; ?>
+					<div class="buttons">
+						<a class="btn_toolbar" title="<?php echo $text_clone; ?>" href="<?php echo $clone_url; ?>">
+							<span class="icon_grid_clone">&nbsp;</span>
+						</a>
+					</div>                    
                 </div>
             </div>
         </div>
