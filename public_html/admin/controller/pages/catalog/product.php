@@ -765,6 +765,10 @@ class ControllerPagesCatalogProduct extends AController {
 		));
 
 		$this->view->batchAssign( $this->data );
+
+		$this->view->assign('text_clone',  $this->language->get('text_clone'));
+		$this->view->assign('clone_url',  $this->html->getSecureURL('catalog/product/copy', '&product_id='.$this->request->get['product_id']));        
+
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('language_id', $this->session->data['content_language_id']);
 		$this->view->assign('language_code', $this->session->data['language']);
