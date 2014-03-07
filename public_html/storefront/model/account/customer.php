@@ -28,6 +28,7 @@ if (! defined ( 'DIR_CORE' )) {
 class ModelAccountCustomer extends Model {
 	/**
 	 * @param array $data
+	 * @return int
 	 */
 	public function addCustomer($data) {
 		$key_sql = '';
@@ -39,7 +40,11 @@ class ModelAccountCustomer extends Model {
 			$data['customer_group_id'] = (int)$this->config->get('config_customer_group_id');
 		}
 		if(!isset($data['status'])){
-			$data['status'] = 1;
+			if($this->config->get('config_customer_email_activation')){ // if need to activate via email  - disable status
+				$data['status'] = 0;
+			}else{
+				$data['status'] = 1;
+			}
 		}
 		if(isset($data['approved'])){
 			$data['approved'] = (int)$data['approved'];
@@ -99,6 +104,7 @@ class ModelAccountCustomer extends Model {
 		
 		$address_id = $this->db->getLastId();
       	$this->db->query("UPDATE " . $this->db->table("customers") . " SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
+		return $customer_id;
 	}
 
 	/**
@@ -143,6 +149,21 @@ class ModelAccountCustomer extends Model {
 	public function editNewsletter($newsletter,$customer_id=0) {
 		$customer_id = (int)$customer_id ? (int)$customer_id : (int)$this->customer->getId();
 		$this->db->query("UPDATE " . $this->db->table("customers") . " SET newsletter = '" . (int)$newsletter . "' WHERE customer_id = '" . $customer_id . "'");
+	}
+
+	/**
+	 * @param $customer_id
+	 * @param $status
+	 * @return bool
+	 */
+	public function editStatus($customer_id, $status) {
+		$customer_id = (int)$customer_id;
+		$status = (int)$status;
+		if(!$customer_id){ return false; }
+		$this->db->query( "UPDATE " . $this->db->table("customers") . "
+						   SET status = '" . (int)$status . "'
+						   WHERE customer_id = '" . $customer_id . "'" );
+		return true;
 	}
 
 	/**

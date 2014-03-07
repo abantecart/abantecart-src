@@ -60,4 +60,20 @@
     <key>error_login</key>
     <value><![CDATA[Error: No match for E-Mail Address and/or Password.]]></value>
   </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Success: Your account was activated successfully. Please login with your credentials.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Your account is already activated. Please login with your credentials.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Your account is already activated. Please login with your credentials.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Error: Your activation code not found. To send new code please click this <a href=" %s ">link</a>]]></value>
+  </definition>
 </definitions>

@@ -34,7 +34,7 @@ class ControllerPagesAccountLogin extends AController {
 	
     	$this->document->setTitle( $this->language->get('heading_title') );
 						
-		if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
+		if (($this->request->is_POST())) {
 			if (isset($this->request->post['account'])) {
 				$this->session->data['account'] = $this->request->post['account'];
 				
@@ -66,7 +66,42 @@ class ControllerPagesAccountLogin extends AController {
 					$this->redirect($this->html->getSecureURL('account/account'));
 				} 
 			}
-    	}  
+		// activation of account via email-code
+    	}elseif( has_value($this->request->get['activation']) ){
+			if( $this->session->data['activation'] ){
+				$customer_id = (int)$this->session->data['activation']['customer_id'];
+				//if activation code presents in session
+				if($this->request->get['activation'] == $this->session->data['activation']['code']){
+					$this->loadModel('account/customer');
+					$customer_info = $this->model_account_customer->getCustomer( $customer_id );
+
+					// if account exists
+					if( $customer_info ){
+						if(!$customer_info['status'] ){ //if disabled - activate!
+							$this->model_account_customer->editStatus( $customer_id, 1 );
+							$this->session->data['success'] = $this->language->get('text_success_activated');
+						}else{
+							$this->session->data['success'] = $this->language->get('text_already_activated');
+						}
+					}
+				}else{
+					if($this->request->get['email']){
+						$this->error['message'] = sprintf( $this->language->get('text_resend_activation_email'),
+																				 "\n".$this->html->getSecureURL('account/success/sendcode',
+																						 						'&email='.$this->request->get['email'])
+																				);
+					}
+				}
+			}elseif(has_value($this->request->get['email'])){ // if session expired - show link for resend activation code to email
+				if($this->request->get['email']){
+					$this->error['message'] = sprintf( $this->language->get('text_resend_activation_email'),
+															 "\n".$this->html->getSecureURL('account/success/sendcode',
+																	 						'&email='.$this->request->get['email'])
+															);
+				}
+			}
+
+		}
 		
       	$this->document->resetBreadcrumbs();
 
