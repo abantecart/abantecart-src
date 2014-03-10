@@ -102,8 +102,9 @@ class ModelUserUserGroup extends Model {
 	}
 	
 	public function getUserGroups($data = array()) {
-		$sql = "SELECT * FROM " . DB_PREFIX . "user_groups";
-		$sql .= " ORDER BY name";
+		$sql = "SELECT *
+				FROM " . DB_PREFIX . "user_groups
+				ORDER BY name";
 			
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
 			$sql .= " DESC";
@@ -124,7 +125,6 @@ class ModelUserUserGroup extends Model {
 		}
 			
 		$query = $this->db->query($sql);
-		
 		return $query->rows;
 	}
 	
@@ -134,11 +134,13 @@ class ModelUserUserGroup extends Model {
 
 		return $query->row['total'];
 	}
-/**
- * method returns array with all controllers of admin section
- * @return array
- */
-	public function getAllControllers(){
+
+	/**
+	 * method returns array with all controllers of admin section
+	 * @param string $order
+	 * @return array
+	 */
+	public function getAllControllers($order = 'asc'){
 
 		$ignore = array('index/home',
 						'common/layout',
@@ -174,8 +176,12 @@ class ModelUserUserGroup extends Model {
 				$controllers_list[] = $controller;
 			}
 		}
-		$controllers_list = array_unique($controllers_list,SORT_STRING);
+
+		$controllers_list = array_unique($controllers_list);
+		sort($controllers_list,SORT_STRING);
+		if($order=='desc'){
+			$controllers_list = array_reverse($controllers_list);
+		}
 		return $controllers_list;
 	}
 }
-?>
