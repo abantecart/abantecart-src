@@ -492,6 +492,32 @@ class ModelSaleCustomer extends Model {
 			return array();	
 		}
 	}
+	/**
+	 * @param array $emails
+	 * @return array
+	 */
+	public function getCustomersByEmails($emails) {
+		$emails = (array)$emails;
+		if ($emails) {
+			$sql = "SELECT *
+				   FROM " . $this->db->table("customers") . "
+				   WHERE ";
+			foreach($emails as $email){
+				$where[] = "LCASE(email) LIKE '%" . $this->db->escape(strtolower($email)) . "%'";
+			}
+			$sql .= implode(' OR ', $where);
+			$sql .= "ORDER BY firstname, lastname, email";
+
+			$query = $this->db->query($sql);
+			$result_rows = array();
+			foreach ($query->rows as $row) {
+				$result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
+			}
+			return $result_rows;
+		} else {
+			return array();
+		}
+	}
 
 	/**
 	 * @param int $product_id
