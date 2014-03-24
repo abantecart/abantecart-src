@@ -67,7 +67,7 @@ $(document).ready(function() {
 
         error_text = '<div class="alert alert-error">' + error_text + '</div>';
 		//show error message
-        if(error_text.lenth>0){
+        if(error_text.length>0){
 		    showMsg( 'AJAX Error', error_text, function () { } );
         }
 
