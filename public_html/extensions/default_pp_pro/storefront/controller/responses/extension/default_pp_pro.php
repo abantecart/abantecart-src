@@ -159,7 +159,8 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 
 		$products_data = $this->_get_products_data(array(
 			'currency' => $order_info['currency'],
-			'value' => ''
+			'value' => '',
+			'order_total' => $order_total
 		));
 
 		$payment_data = array(
@@ -336,7 +337,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 				    $this->data['items_total'] += $price;
 			    }
 
-				$this->data['products'][] = array(
+				$this->data['products'][$total['id']] = array(
 					'name'     => $total['title'],
 					'model'    => '',
 					'price'    => $price,
@@ -347,6 +348,31 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 
 			}
 		}
+
+		$calc_total = $this->data['items_total']
+					+ $this->data['shipping_total']
+					+ $this->data['tax_total']
+					+ $this->data['handling_total'];
+
+		if(($calc_total - $order_info['order_total'])!==0.0){
+			foreach($totals['total_data'] as $total){
+				if(in_array($total['id'],array('subtotal','total','promotion','coupon'))){ continue;}
+
+				$price = $this->currency->format($total['value'], $order_info['currency'], $order_info['value'], FALSE);
+				$this->data['products'][$total['id']] = array(
+					'name'     => $total['title'],
+					'model'    => '',
+					'price'    => $price,
+					'quantity' => 1,
+					'option'   => array(),
+					'weight'   => 0
+				);
+			}
+		}
+
+
+
+
 
 		if($this->data['discount_amount_cart']>0){
 			$price = -1*$this->currency->format($this->data['discount_amount_cart'], $order_info['currency'], $order_info['value'], FALSE);
