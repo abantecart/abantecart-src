@@ -364,7 +364,7 @@ class ModelCheckoutOrder extends Model {
 
 			//override with the data from the before hooks 
 			if ($this->data){
-				$template->data = $this->data;
+				$template->data = array_merge($template->data,$this->data);
 			}
 
 			$this->load->model('localisation/zone');
@@ -510,11 +510,7 @@ class ModelCheckoutOrder extends Model {
 				$template->data['invoice'] = '';
 				$template->data['text_invoice'] = '';
 
-				if (file_exists(DIR_TEMPLATE . $this->config->get('config_storefront_template') . '/template/mail/order_confirm.tpl')) {
-					$html = $template->fetch('mail/order_confirm.tpl');
-				} else {
-					$html = $template->fetch('mail/order_confirm.tpl');
-				}
+				$html = $template->fetch('mail/order_confirm.tpl');
 
 				$subject = sprintf($language->get('text_subject'), html_entity_decode($this->config->get('store_name'), ENT_QUOTES, 'UTF-8'), $order_id . ' (' . $order_total . ')');
 
@@ -531,7 +527,6 @@ class ModelCheckoutOrder extends Model {
 						$mail->send();
 					}
 				}
-
 			}
 
 			$msg_text = sprintf($language->get('text_new_order_text'), $order_row['firstname'] . ' ' . $order_row['lastname']);

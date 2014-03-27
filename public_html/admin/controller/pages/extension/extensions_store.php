@@ -161,6 +161,5 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 		$this->view->batchAssign($this->data);
 
 		$this->processTemplate('pages/extension/extensions_store.tpl');
-
 	}
 }
