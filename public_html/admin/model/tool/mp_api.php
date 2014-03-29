@@ -27,7 +27,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 
 class ModelToolMPAPI extends Model {
-
+	protected $data = array();
 	public function processRequest($mpurl, $params=array()){
 		$output = array(
 					'categories'=>array(),
@@ -35,6 +35,30 @@ class ModelToolMPAPI extends Model {
 		);
 		$connect = new AConnect();
 
+		if(!has_value($this->session->data['mp_token'])){
+			$extensions_list = $this->extensions->getDbExtensions();
+			$auth_params =  array( 'rt' => 'a/account/authorize/post',
+								   'store_id' => UNIQUE_ID,
+								   'store_ip' => $_SERVER ['SERVER_ADDR'],
+								   'store_url' => HTTP_SERVER,
+								   'store_version' => ''
+								 );
+
+			if ($extensions_list) {
+				foreach ( $extensions_list as $ext )
+					$auth_params["extensions[" . $ext ['name'] . "]"] = $ext ['version'];
+			}
+
+			$auth = $this->send($mpurl,
+								$connect,
+								$auth_params
+			);
+
+			if($auth['mp_token']){
+				$this->session->data['mp_token'] = $auth['mp_token'];
+				$this->session->data['mp_hash'] = $auth['mp_hash'];
+			}
+		}
 
 		// prepare parameters
 		if(has_value($params['limit'])){
@@ -59,7 +83,8 @@ class ModelToolMPAPI extends Model {
 		$output['categories'] = $this->send($mpurl,
 											$connect,
 											array( 'rt' => 'a/product/category',
-													 'category_id' => 0
+												   'category_id' => 0,
+													'mp_token' => $this->session->data['mp_token']
 		));
 
 		foreach($output['categories']['subcategories'] as &$category){
@@ -102,7 +127,7 @@ class ModelToolMPAPI extends Model {
 	/**
 	 * @param string $url
 	 * @param AConnect $connect
-	 * @param array $params
+	 * @param array $params - plain associative array
 	 * @return mixed
 	 */
 	private function send($url, $connect, $params=array()){
