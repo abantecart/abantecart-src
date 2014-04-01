@@ -73,7 +73,7 @@ final class AConnect {
      *
      * @var array
      */
-    private $curl_options;
+    private $curl_options = array();
     /**
      * array with http-headers of socket request
      *
@@ -574,7 +574,7 @@ final class AConnect {
      * @return boolean
      */
     public function setCurlOptions($opt) {
-        if (!is_array($opt)) {
+        if (is_array($opt)) {
             $this->curl_options = $opt;
         }
         return true;
