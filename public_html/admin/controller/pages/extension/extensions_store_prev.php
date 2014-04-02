@@ -50,9 +50,6 @@ class ControllerPagesExtensionExtensionsStorePrev extends AController {
 			$this->data[ 'error_warning' ] = '';
 		}
 
-$m = new AMenu('admin');
-var_dump($m ->getMenuItem('extensions_store'));
-
 		$this->view->assign( 'src', $this->html->getSecureURL('tool/extensions_store_prev'));
 		$this->processTemplate('pages/extension/extensions_store_prev.tpl');
 	}

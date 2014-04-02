@@ -21,6 +21,11 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
+
+/**
+ * Class ControllerResponsesListingGridExtension
+ * @property ModelToolMPApi $model_tool_mp_api
+ */
 class ControllerResponsesListingGridExtension extends AController {
 
 	public $data;
@@ -74,6 +79,10 @@ class ControllerResponsesListingGridExtension extends AController {
 		//extensions list
 		$extensions = $this->extension_manager->getExtensionsList($data);
 
+		// get extensions for install
+		$this->loadModel('tool/mp_api');
+		$ready_to_install = $this->model_tool_mp_api->getExtensions();
+
 		$total = $extensions->total;
 		if ($total > 0) {
 			$total_pages = ceil($total / $limit);
@@ -90,11 +99,47 @@ class ControllerResponsesListingGridExtension extends AController {
 
 		$i = 0;
 		$push = array();
-		foreach ($extensions->rows as $row) {
+		$to_install = array();
+		if($ready_to_install && is_array($ready_to_install)){
+			foreach( $ready_to_install as $pack ){
+				$to_install[$pack['extension_name']] =
+						  array('remote_install' => true,
+								'key' => $pack['extension_name'],
+								'name' => $pack['download_name'],
+								'extension_version' => $pack['extension_version'],
+								'installation_key' => $pack['installation_key'],
+								'update_date' => $pack['update_date']);
+				$to_inst_keys[] = $pack['extension_name'];
+			}
+		}
+
+		//filter already installed from remote list (ignores new versions too)
+		foreach($extensions->rows as $row){
+			if(in_array($row['key'],$to_inst_keys)){
+				unset($to_install[$row['key']]);
+			}
+		}
+
+		$rows = array_merge( $to_install, $extensions->rows);
+
+		foreach ($rows as $row) {
 			$extension = $row['key'];
 			$name = !isset($row['name']) ? trim($this->extensions->getExtensionName($extension)) : $row['name'];
 
-			if (in_array($extension, $missing_extensions)) {
+			//for new extensions
+			if( $row['remote_install'] ){
+
+				$action = '<a class="btn_action"
+							  href="'.$this->html->getSecureURL( 'tool/package_installer', '&extension_key=' . $row['installation_key'] ) . '"
+							  title="' . $this->language->get('text_install') . '">' .
+						  '<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_install.png" alt="' . $this->language->get('text_install') . '" /></a>';
+
+				$icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="" border="0" />';
+				$category = '';
+				$status = 'Ready to install';
+				$response->userdata->classes[$extension . '_' . $row['store_id']] = 'success';
+
+			}elseif (in_array($extension, $missing_extensions)) {
 
 				$action = '<a class="btn_action" href="' . $this->html->getSecureURL('extension/extensions/delete', $this->data['url'] . '&extension=' . $extension) . '"
 			 	onclick="return confirm(\'' . $this->language->get('text_delete_confirm') . '\')" title="' . $this->language->get('text_delete') . '">' .

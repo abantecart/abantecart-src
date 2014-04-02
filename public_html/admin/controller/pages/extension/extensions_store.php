@@ -64,12 +64,12 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 		if(!has_value($request_data['sord'])){
 			$request_data['sord'] = 'desc';
 		}
-		/*TODO: need to solve with this url */ //vendor :)
-		//$mp_url = 'http://abantecart.no-ip.org/github/1.1.9_mv/public_html/';
-		$result = $this->model_tool_mp_api->processRequest($mp_url, $request_data);
+
+		// vendor related
+		$result = $this->model_tool_mp_api->processRequest($request_data);
 		$this->view->assign('content', $result);
 
-		$remote_store_product_url = $mp_url.'?rt=product/product&mp_token='.$this->session->data['mp_token'].'&mp_hash='.$this->session->data['mp_hash'];
+		$remote_store_product_url = $this->model_tool_mp_api->getMPURL().'?rt=product/product&mp_token='.$this->session->data['mp_token'].'&mp_hash='.$this->session->data['mp_hash'];
 		$this->view->assign('remote_store_product_url',$remote_store_product_url);
 
 		$form = new AForm('ST');
