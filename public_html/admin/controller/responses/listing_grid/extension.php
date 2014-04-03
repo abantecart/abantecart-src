@@ -24,7 +24,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 /**
  * Class ControllerResponsesListingGridExtension
- * @property ModelToolMPApi $model_tool_mp_api
  */
 class ControllerResponsesListingGridExtension extends AController {
 
@@ -79,9 +78,6 @@ class ControllerResponsesListingGridExtension extends AController {
 		//extensions list
 		$extensions = $this->extension_manager->getExtensionsList($data);
 
-		// get extensions for install
-		$this->loadModel('tool/mp_api');
-		$ready_to_install = $this->model_tool_mp_api->getExtensions();
 
 		$total = $extensions->total;
 		if ($total > 0) {
@@ -99,6 +95,9 @@ class ControllerResponsesListingGridExtension extends AController {
 
 		$i = 0;
 		$push = array();
+
+		// get extensions for install
+		$ready_to_install = $this->session->data['ready_to_install'];
 		$to_install = array();
 		if($ready_to_install && is_array($ready_to_install)){
 			foreach( $ready_to_install as $pack ){

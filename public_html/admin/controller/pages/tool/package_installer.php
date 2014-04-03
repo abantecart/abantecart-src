@@ -25,6 +25,10 @@ if (defined('IS_DEMO') && IS_DEMO) {
     header('Location: static_pages/demo_mode.php');
 }
 
+/**
+ * Class ControllerPagesToolPackageInstaller
+ * @property ModelToolMPApi $model_tool_mp_api
+ */
 class ControllerPagesToolPackageInstaller extends AController {
     private $data;
 
@@ -291,8 +295,15 @@ class ControllerPagesToolPackageInstaller extends AController {
 			unset($this->session->data[ 'package_info' ]);
 			$this->redirect($this->html->getSecureURL('tool/package_installer'));
 		}
+		//do condition for new and old MPs
+		$this->loadModel('tool/mp_api');
+
 		if($extension_key) {
-			$url = "/?option=com_abantecartrepository&format=raw";
+			if( substr($extension_key,0,4) == 'acmp' ){ // if prefix for new mp presents
+				$url = $this->model_tool_mp_api->getMPURL().'?rt=r/account/download/getdownloadbykey';
+			}else{ // for old marketplace
+				$url = "/?option=com_abantecartrepository&format=raw";
+			}
 			$url .= "&store_id=" . UNIQUE_ID;
 			$url .= "&store_ip=" . $_SERVER [ 'SERVER_ADDR' ];
 			$url .= "&store_url=" . HTTP_SERVER;

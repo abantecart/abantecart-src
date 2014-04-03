@@ -34,6 +34,33 @@ class ModelToolMPAPI extends Model {
 		return $this->mp_url;
 	}
 
+	public function authorize(){
+
+		$auth_params =  array( 'rt' => 'a/account/authorize/post',
+							   'store_id' => UNIQUE_ID,
+							   'store_ip' => $_SERVER ['SERVER_ADDR'],
+							   'store_url' => HTTP_SERVER,
+							   'store_version' => VERSION
+							 );
+		$extensions_list = $this->extensions->getExtensionsList();
+		if ($extensions_list) {
+			foreach ( $extensions_list->rows as $ext ){
+				$auth_params["extensions[" . $ext['key'] . "]"] = $ext['version'];
+			}
+		}
+
+		$connect = new AConnect();
+		$connect->connect_method = 'curl'; // set curl as default connection type
+		$auth = $this->send( $connect, $auth_params );
+
+		//TODO: need to add validation for authorized stores count later
+
+		if($auth['mp_token']){
+			$this->session->data['mp_token'] = $auth['mp_token'];
+			$this->session->data['mp_hash'] = $auth['mp_hash'];
+		}
+	}
+
 	public function processRequest($params=array()){
 		$output = array(
 					'categories'=>array(),
@@ -43,30 +70,8 @@ class ModelToolMPAPI extends Model {
 		$connect->connect_method = 'curl'; // set curl as default connection type
 
 		if(!has_value($this->session->data['mp_token'])){
-
-			$auth_params =  array( 'rt' => 'a/account/authorize/post',
-								   'store_id' => UNIQUE_ID,
-								   'store_ip' => $_SERVER ['SERVER_ADDR'],
-								   'store_url' => HTTP_SERVER,
-								   'store_version' => VERSION
-								 );
-			$extensions_list = $this->extensions->getExtensionsList();
-			if ($extensions_list) {
-				foreach ( $extensions_list->rows as $ext )
-
-					$auth_params["extensions[" . $ext['key'] . "]"] = $ext['version'];
-			}
-
-			$auth = $this->send($connect,
-								$auth_params
-			);
-
-			if($auth['mp_token']){
-				$this->session->data['mp_token'] = $auth['mp_token'];
-				$this->session->data['mp_hash'] = $auth['mp_hash'];
-			}
+			$this->authorize();
 		}
-
 
 		// prepare parameters
 		if(has_value($params['limit'])){
@@ -106,14 +111,14 @@ class ModelToolMPAPI extends Model {
 		if(has_value($params['category_id'])){
 			$get_params['rt'] = 'a/product/filter';
 			$get_params['category_id'] = (int)$params['category_id'];
-			$output['products'] = $this->send( $mpurl, $connect, $get_params);
+			$output['products'] = $this->send( $connect, $get_params);
 		}elseif(has_value($params['keyword'])){//get products by keyword
 			$get_params['rt'] = 'a/product/filter';
 			$get_params['keyword'] = $params['keyword'];
-			$output['products'] = $this->send( $mpurl, $connect, $get_params );
+			$output['products'] = $this->send( $connect, $get_params );
 		}else{
 			$get_params['rt'] = 'a/product/latest';
-			$output['products'] = $this->send( $mpurl, $connect, $get_params );
+			$output['products'] = $this->send( $connect, $get_params );
 		}
 
 
@@ -142,7 +147,7 @@ class ModelToolMPAPI extends Model {
 		if(!is_object($connect)){
 			return false;
 		}
-		$GET['api_key'] = 'abolabo';
+
 		$GET['store_id'] = UNIQUE_ID;
 		$GET['store_ip'] = $_SERVER ['SERVER_ADDR'];
 		$GET['store_url'] = HTTP_SERVER;
@@ -162,7 +167,8 @@ class ModelToolMPAPI extends Model {
 		// add session id as cookie for autostart remote session on MP-side (non-token)
 		if($this->session->data['mp_token']){ // if server-server connect was created
 			$connect->setCurlOptions(array(
-					CURLOPT_CONNECTTIMEOUT => $this->timeout,
+					CURLOPT_CONNECTTIMEOUT => 2,
+					CURLOPT_TIMEOUT_MS => 5000,
 					CURLOPT_HTTPHEADER => array('Expect:'),
 					CURLOPT_MAXREDIRS => 4,
 					CURLOPT_RETURNTRANSFER => true,
@@ -175,8 +181,13 @@ class ModelToolMPAPI extends Model {
 	}
 
 	public function getExtensions($params=array()){
+		$params = array($params);
 		$connect = new AConnect(true);
 		$connect->connect_method = 'curl'; // set curl as default connection type
+
+		if(!has_value($this->session->data['mp_token'])){ // do auto-authorize...
+			$this->authorize();
+		}
 
 		if(has_value($this->session->data['mp_token'])){
 
@@ -186,6 +197,7 @@ class ModelToolMPAPI extends Model {
 								   'store_url' => HTTP_SERVER,
 								   'store_version' => VERSION
 								 );
+			$auth_params = array_merge($auth_params, $params);
 
 			$response = $this->send( $connect, $auth_params	);
 
