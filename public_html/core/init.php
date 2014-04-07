@@ -421,12 +421,12 @@ try {
 		$config->set('original_admin_template', $config->get('admin_template'));
 		$config->set('admin_template', $template);
 		// Load language
-		$language = new ALanguageManager($registry);
+		$lang_obj = new ALanguageManager($registry);
 	} else {
 		$config->set('original_config_storefront_template', $config->get('config_storefront_template'));
 		$config->set('config_storefront_template', $template);
 		// Load language
-		$language = new ALanguage($registry);
+		$lang_obj = new ALanguage($registry);
 	}
 
 // Create Global Layout Instance
@@ -437,7 +437,7 @@ try {
 	$registry->set('download',$dwnload);
 
 //load main language section
-	$registry->set('language', $language);
+	$registry->set('language', $lang_obj);
 	$registry->get('language')->load();
 	$hook->hk_InitEnd();
 
