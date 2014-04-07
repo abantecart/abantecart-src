@@ -269,7 +269,7 @@ class ModelAccountCustomer extends Model {
       		$error['lastname'] = $this->language->get('error_lastname');
     	}
 
-		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
+		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}\.[A-Z]{2,6}$/i';
 
     	if ((mb_strlen($data['email']) > 96) || (!preg_match($pattern, $data['email']))) {
       		$error['email'] = $this->language->get('error_email');

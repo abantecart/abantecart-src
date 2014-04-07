@@ -1081,7 +1081,7 @@ class AConfigManager {
 							$error['address'] = $this->language->get('error_address');
 						}
 
-						$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
+						$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}\.[A-Z]{2,6}$/i';
 						if ((strlen(utf8_decode($fields['store_main_email'])) > 96) || (!preg_match($pattern, $fields['store_main_email']))) {
 							$error['email'] = $this->language->get('error_email');
 						}
