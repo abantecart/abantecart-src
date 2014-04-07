@@ -63,10 +63,13 @@ $(document).ready(function() {
         var error_text = 'Unknown AJAX Error!'
         if (error_msg) {
         	error_text = error_msg.error;
-        } 
+        }
+
         error_text = '<div class="alert alert-error">' + error_text + '</div>';
 		//show error message
-		showMsg( 'AJAX Error', error_text, function () { } );     
+        if(error_text.length>0){
+		    showMsg( 'AJAX Error', error_text, function () { } );
+        }
 
     });	
 });

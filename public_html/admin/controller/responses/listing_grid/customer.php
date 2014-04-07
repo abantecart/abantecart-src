@@ -82,7 +82,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 			$response->rows[ $i ][ 'id' ] = $result[ 'customer_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
 				$result[ 'name' ],
-				$result[ 'email' ],
+				'<a href="'.$this->html->getSecureURL('sale/contact','&email[]='.$result[ 'email' ]).'">'.$result[ 'email' ].'</a>',
 				$result[ 'customer_group' ],
 				$this->html->buildCheckbox(array(
 					'name' => 'status[' . $result[ 'customer_id' ] . ']',

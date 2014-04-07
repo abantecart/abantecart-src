@@ -223,6 +223,11 @@ class ControllerPagesSaleContact extends AController {
 		    'style' => 'button2',
 	    ));
 
+		//if email address given
+		if(has_value($this->request->get['email'])){
+			$this->data['emails'] = (array)$this->request->get['email'];
+		}
+
         $this->view->batchAssign( $this->data );
 
 

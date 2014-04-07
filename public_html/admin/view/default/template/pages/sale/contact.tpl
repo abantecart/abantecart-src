@@ -164,7 +164,7 @@
 	if($('#mail_form_recipient').val()){
 		$('#mail_form_recipient').change();
 	}
-	function addCustomer() {
+	var addCustomer = function () {
 		$('#customer :selected').each(function() {
 			$(this).remove();
 			$('#to option[value=\'' + $(this).attr('value') + '\']').remove();
@@ -172,6 +172,7 @@
 			$('#customer_to').append('<input type="hidden" name="to[]" value="' + $(this).attr('value') + '" />');
 		});
 	}
+	$.fn.addCustomer = addCustomer; // for chain call after ajax call
 
 	function removeCustomer() {
 		$('#to :selected').each(function() {
@@ -180,14 +181,25 @@
 		});
 	}
 
-	function getCustomers() {
+	function getCustomers(emails) {
 		$('#customer option').remove();
+		var url = '<?php echo $customers_list; ?>';
+		if(emails && emails.length>0){
+			for(var k in emails){
+				url += '&email[]=' + emails[k];
+			}
+		}else{
+			url += '&keyword=' + encodeURIComponent($('#mail_form_search').attr('value'));
+		}
 		$.ajax({
-			url: '<?php echo $customers_list; ?>&keyword=' + encodeURIComponent($('#mail_form_search').attr('value')),
+			url: url,
 			dataType: 'json',
 			success: function(data) {
 				for (i = 0; i < data.length; i++) {
 					$('#customer').append('<option value="' + data[i]['customer_id'] + '">' + data[i]['name'] + '</option>');
+				}
+				if(emails && emails.length>0){
+					$('#customer option').attr('selected', 'selected').addCustomer();
 				}
 			}
 		});
@@ -237,6 +249,15 @@
 
 	$('#mail_form_category_id').change(function(){
 		getProducts();
+	});
+
+	//load customers to selectbox by gival email address list
+	$(document).ready(function(){
+		<?php if($emails){?>
+		var emails = [<?php echo  "'".implode("', '",$emails) ."'"?>];
+		getCustomers(emails);
+
+		<?php } ?>
 	});
 
 --></script>

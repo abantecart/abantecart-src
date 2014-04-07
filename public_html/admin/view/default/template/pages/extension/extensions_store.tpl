@@ -22,6 +22,7 @@
 				</div>
 				<iframe
 						id="remote_store"
+						name="remote_store"
 						src=""
 						frameBorder="0"
 						height="100"
@@ -111,16 +112,22 @@
 
 	$('li.product-item, .pricetag a.btn_standard').click(function () {
 		var product_id = $(this).attr('data-product-id');
+		if(!product_id) return false;
+
 		var ifrwp = $('#frame_wrapper');
 		var ifr = $('#remote_store');
 		var hh = $('.extension-store-list').outerHeight();
+		hh = hh<900 ? 900 : hh;
 		var ww = $('.extension-store-list').outerWidth();
 		ifr.attr('height',hh).attr('width',ww);
 		ifrwp.slideDown(1000);
 		$('.extension-store-list').hide();
-		ifr.attr('src','<?php echo $remote_store_product_url;?>&product_id=' + product_id);
+
 		var ending_right     = ($(window).width() - (ifrwp.offset().left + ifrwp.outerWidth()));
 		ifrwp.css('height',hh).css('width',ww).find('.alert').css('right',ending_right);
+
+		//load iframe
+		ifr.attr('src', '<?php echo $remote_store_product_url;?>&product_id=' + product_id).load( );
 	});
 
 	$('.pricetag a.btn_standard').click(function(){

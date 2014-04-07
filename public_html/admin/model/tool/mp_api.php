@@ -27,14 +27,51 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 
 class ModelToolMPAPI extends Model {
+	protected $data = array();
+	protected $mp_url = 'http://abantecart.no-ip.org/github/1.1.9_mv/public_html/';
 
-	public function processRequest($mpurl, $params=array()){
+	public function getMPURL(){
+		return $this->mp_url;
+	}
+
+	public function authorize(){
+
+		$auth_params =  array( 'rt' => 'a/account/authorize/post',
+							   'store_id' => UNIQUE_ID,
+							   'store_ip' => $_SERVER ['SERVER_ADDR'],
+							   'store_url' => HTTP_SERVER,
+							   'store_version' => VERSION
+							 );
+		$extensions_list = $this->extensions->getExtensionsList();
+		if ($extensions_list) {
+			foreach ( $extensions_list->rows as $ext ){
+				$auth_params["extensions[" . $ext['key'] . "]"] = $ext['version'];
+			}
+		}
+
+		$connect = new AConnect();
+		$connect->connect_method = 'curl'; // set curl as default connection type
+		$auth = $this->send( $connect, $auth_params );
+
+		//TODO: need to add validation for authorized stores count later
+
+		if($auth['mp_token']){
+			$this->session->data['mp_token'] = $auth['mp_token'];
+			$this->session->data['mp_hash'] = $auth['mp_hash'];
+		}
+	}
+
+	public function processRequest($params=array()){
 		$output = array(
 					'categories'=>array(),
 					'products'=>array()
 		);
 		$connect = new AConnect();
+		$connect->connect_method = 'curl'; // set curl as default connection type
 
+		if(!has_value($this->session->data['mp_token'])){
+			$this->authorize();
+		}
 
 		// prepare parameters
 		if(has_value($params['limit'])){
@@ -56,11 +93,13 @@ class ModelToolMPAPI extends Model {
 			$get_params['sord'] = 'DESC';
 		}
 		// get category list
-		$output['categories'] = $this->send($mpurl,
-											$connect,
+		$output['categories'] = $this->send($connect,
 											array( 'rt' => 'a/product/category',
-													 'category_id' => 0
+												   'category_id' => 0,
+													'mp_token' => $this->session->data['mp_token']
 		));
+
+
 
 		foreach($output['categories']['subcategories'] as &$category){
 			$category['href'] = $this->html->getSecureURL('extension/extensions_store',
@@ -72,14 +111,14 @@ class ModelToolMPAPI extends Model {
 		if(has_value($params['category_id'])){
 			$get_params['rt'] = 'a/product/filter';
 			$get_params['category_id'] = (int)$params['category_id'];
-			$output['products'] = $this->send( $mpurl, $connect, $get_params);
+			$output['products'] = $this->send( $connect, $get_params);
 		}elseif(has_value($params['keyword'])){//get products by keyword
 			$get_params['rt'] = 'a/product/filter';
 			$get_params['keyword'] = $params['keyword'];
-			$output['products'] = $this->send( $mpurl, $connect, $get_params );
+			$output['products'] = $this->send( $connect, $get_params );
 		}else{
 			$get_params['rt'] = 'a/product/latest';
-			$output['products'] = $this->send( $mpurl, $connect, $get_params );
+			$output['products'] = $this->send( $connect, $get_params );
 		}
 
 
@@ -100,16 +139,15 @@ class ModelToolMPAPI extends Model {
 	}
 
 	/**
-	 * @param string $url
 	 * @param AConnect $connect
-	 * @param array $params
+	 * @param array $params - plain associative array
 	 * @return mixed
 	 */
-	private function send($url, $connect, $params=array()){
-		if(!$url){
+	private function send( $connect, $params=array()){
+		if(!is_object($connect)){
 			return false;
 		}
-		$GET['api_key'] = 'abolabo';
+
 		$GET['store_id'] = UNIQUE_ID;
 		$GET['store_ip'] = $_SERVER ['SERVER_ADDR'];
 		$GET['store_url'] = HTTP_SERVER;
@@ -126,7 +164,44 @@ class ModelToolMPAPI extends Model {
 
 		$href .= '?'.http_build_query($GET);
 
-		$response = $connect->getResponse($url.$href);
+		// add session id as cookie for autostart remote session on MP-side (non-token)
+		if($this->session->data['mp_token']){ // if server-server connect was created
+			$connect->setCurlOptions(array(
+					CURLOPT_CONNECTTIMEOUT => 2,
+					CURLOPT_TIMEOUT_MS => 5000,
+					CURLOPT_HTTPHEADER => array('Expect:'),
+					CURLOPT_MAXREDIRS => 4,
+					CURLOPT_RETURNTRANSFER => true,
+					CURLOPT_SSL_VERIFYPEER => false,
+					CURLOPT_COOKIE => 'PHPSESSID_AC_SF='.$this->session->data['mp_token'] ));
+		}
+
+		$response = $connect->getResponse($this->getMPURL().$href);
 		return $response;
+	}
+
+	public function getExtensions($params=array()){
+		$params = array($params);
+		$connect = new AConnect(true);
+		$connect->connect_method = 'curl'; // set curl as default connection type
+
+		if(!has_value($this->session->data['mp_token'])){ // do auto-authorize...
+			$this->authorize();
+		}
+
+		if(has_value($this->session->data['mp_token'])){
+
+			$auth_params =  array( 'rt' => 'a/account/account/get',
+								   'store_id' => UNIQUE_ID,
+								   'store_ip' => $_SERVER ['SERVER_ADDR'],
+								   'store_url' => HTTP_SERVER,
+								   'store_version' => VERSION
+								 );
+			$auth_params = array_merge($auth_params, $params);
+
+			$response = $this->send( $connect, $auth_params	);
+
+			return $response;
+		}
 	}
 }

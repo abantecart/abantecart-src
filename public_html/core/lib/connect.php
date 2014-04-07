@@ -73,7 +73,7 @@ final class AConnect {
      *
      * @var array
      */
-    private $curl_options;
+    private $curl_options = array();
     /**
      * array with http-headers of socket request
      *
@@ -348,7 +348,8 @@ final class AConnect {
         $this->registry->get('session')->data['curl_handler'] = $curl_sock;
         if (!$this->curl_options) {
             $this->curl_options = Array(
-                CURLOPT_CONNECTTIMEOUT => $this->timeout,
+                CURLOPT_CONNECTTIMEOUT => 3,  //wait for connect
+                CURLOPT_TIMEOUT => $this->timeout,  // timeout for open connection
                 CURLOPT_HTTPHEADER => array('Expect:'),
                 CURLOPT_MAXREDIRS => 4,
                 CURLOPT_RETURNTRANSFER => true,
@@ -574,7 +575,7 @@ final class AConnect {
      * @return boolean
      */
     public function setCurlOptions($opt) {
-        if (!is_array($opt)) {
+        if (is_array($opt)) {
             $this->curl_options = $opt;
         }
         return true;
