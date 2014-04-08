@@ -57,7 +57,7 @@ final class ACache {
 			$file_time = filemtime($file);
 			if ( (time() - $file_time) > $this->expire ) {
 				if (file_exists($file)) {
-					unlink($file);
+					$this->_remove($file);
 					continue;
 				}
 			}
@@ -100,7 +100,7 @@ final class ACache {
 		//if file expired or not exists
 		if (!isset($this->cache_map[$cache_filename]) || $this->cache_map[$cache_filename] < time()) {
 			if (file_exists($cache_file_full_name)) {
-				unlink($cache_file_full_name);
+				$this->_remove($cache_file_full_name);
 				unset($this->cache_map[$cache_filename]);
 				unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
 			}
@@ -183,16 +183,10 @@ final class ACache {
     		foreach ($files as $file) {
 			if(pathinfo($file,PATHINFO_FILENAME) == 'index.html'){ continue; }
       				if (file_exists($file)) {      				
-					unlink($file);
+					$this_>_remove($file);
 					//clear cache map
 					$ch_base = substr($file,0,-11);
 					unset($this->cache_map[$ch_base]);
-					//double check that the cache file to be removed
-					if (file_exists($file))	
-						$err_text = sprintf('Error: Cannot delete cache file: %s! Check file or directory permissions.', $file);
-						$error = new AError($err_text);
-						$error->toLog()->toDebug();
-      					}
 				}
     			}
 		}
@@ -275,4 +269,24 @@ final class ACache {
 		}
 		return $suffix;
   	}
+
+
+	/**
+	 * @param string $file
+	 * @void
+	 */
+	private function _remove($file){
+		if(empty($file)){
+			return null;
+		}
+
+		unlink($file);
+		//double check that the cache file to be removed
+		if (file_exists($file))	
+			$err_text = sprintf('Error: Cannot delete cache file: %s! Check file or directory permissions.', $file);
+			$error = new AError($err_text);
+			$error->toLog()->toDebug();
+		}
+		return null;
+	}
 }
