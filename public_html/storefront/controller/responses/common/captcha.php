@@ -31,9 +31,10 @@ class ControllerResponsesCommonCaptcha extends AController {
 		$this->load->library('captcha');
 		$captcha = new Captcha();
 		$this->session->data['captcha'] = $captcha->getCode();
-		$captcha->showImage();
 
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$captcha->showImage();
 	}
 }
