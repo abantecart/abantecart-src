@@ -181,14 +181,20 @@ final class ACache {
   		}
 		if ($files) {
     		foreach ($files as $file) {
-				if(pathinfo($file,PATHINFO_FILENAME) == 'index.html'){ continue; }
-      			if (file_exists($file)) {      				
+			if(pathinfo($file,PATHINFO_FILENAME) == 'index.html'){ continue; }
+      				if (file_exists($file)) {      				
 					unlink($file);
 					//clear cache map
 					$ch_base = substr($file,0,-11);
 					unset($this->cache_map[$ch_base]);
+					//double check that the cache file to be removed
+					if (file_exists($file))	
+						$err_text = sprintf('Error: Cannot delete cache file: %s! Check file or directory permissions.', $file);
+						$error = new AError($err_text);
+						$error->toLog()->toDebug();
+      					}
 				}
-    		}
+    			}
 		}
   	}
   	
