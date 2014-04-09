@@ -199,4 +199,21 @@ class ModelCatalogCategory extends Model {
 		return $query->rows;
 	}
 
+	/**
+	 * @param int $category_id
+	 * @return string\
+	 */
+	public function buildPath($category_id) {
+		$query = $this->db->query("SELECT c.category_id, c.parent_id
+		                            FROM " . DB_PREFIX . "categories c
+		                            WHERE c.category_id = '" . (int)$category_id . "'
+		                            ORDER BY c.sort_order");
+		
+		$category_info = $query->row;
+		if ($category_info['parent_id']) {
+			return $this->buildPath($category_info['parent_id']) . "_" . $category_info['category_id'];
+		} else {
+			return $category_info['category_id'];
+		}
+	}
 }
