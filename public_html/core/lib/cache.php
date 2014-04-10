@@ -230,7 +230,8 @@ final class ACache {
 			$section = $key;
 		}
 		if (!is_file(DIR_CACHE . $section) && !is_dir(DIR_CACHE . $section)) {
-			mkdir(DIR_CACHE . $section, 0777);
+			mkdir(DIR_CACHE . $section, 0777, true);
+			chmod(DIR_CACHE . $section, 0777); //change mode for nested directories
 		}
 	}
 
