@@ -28,7 +28,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ModelToolMPAPI extends Model {
 	protected $data = array();
-	protected $mp_url = 'http://abantecart.no-ip.org/github/1.1.9_mv/public_html/';
+	protected $mp_url = 'http://dev01.algozone.net/abc_marketplace/';
 
 	public function getMPURL(){
 		return $this->mp_url;
@@ -96,17 +96,17 @@ class ModelToolMPAPI extends Model {
 		$output['categories'] = $this->send($connect,
 											array( 'rt' => 'a/product/category',
 												   'category_id' => 0,
-													'mp_token' => $this->session->data['mp_token']
+												   'mp_token' => $this->session->data['mp_token']
 		));
 
 
-
-		foreach($output['categories']['subcategories'] as &$category){
-			$category['href'] = $this->html->getSecureURL('extension/extensions_store',
-														  '&category_id='.$category['category_id'].'&sidx='.$get_params['sidx'].'&sord='.$get_params['sord'].'&limit='.$get_params['limit']);
-			$category['active'] = $category['category_id']==$params['category_id'] ? true : false;
-		} unset($category);
-
+		if( $output['categories'] ){
+			foreach($output['categories']['subcategories'] as &$category){
+				$category['href'] = $this->html->getSecureURL('extension/extensions_store',
+															  '&category_id='.$category['category_id'].'&sidx='.$get_params['sidx'].'&sord='.$get_params['sord'].'&limit='.$get_params['limit']);
+				$category['active'] = $category['category_id']==$params['category_id'] ? true : false;
+			} unset($category);
+		}
 		// get products of category
 		if(has_value($params['category_id'])){
 			$get_params['rt'] = 'a/product/filter';
@@ -121,19 +121,24 @@ class ModelToolMPAPI extends Model {
 			$output['products'] = $this->send( $connect, $get_params );
 		}
 
-
 		//prepare products
-		foreach($output['products']['rows'] as &$product){
-			$info = $product['cell'];
-			$info['rating'] = (int)$info['rating'];
-			$info['description'] = substr(strip_tags(html_entity_decode($info['description'],ENT_QUOTES)),0,344).'...';
-			$info['price'] = $this->currency->format($info['price'],$info['currency_code']);
-			$info['addtocart'] = $this->html->buildElement(array(
-																'type' => 'button',
-																'text' =>$info['price'],
-																'style' => 'button3',
-																'href' => '#'));
-			$product['cell'] = $info;
+		if($output['products']){
+			foreach($output['products']['rows'] as &$product){
+				$info = $product['cell'];
+				$info['rating'] = (int)$info['rating'];
+				$info['description'] = substr(strip_tags(html_entity_decode($info['description'],ENT_QUOTES)),0,344).'...';
+				$info['price'] = $this->currency->format($info['price'],$info['currency_code']);
+				$info['addtocart'] = $this->html->buildElement(array(
+																	'type' => 'button',
+																	'text' =>$info['price'],
+																	'style' => 'button3',
+																	'href' => '#'));
+				$product['cell'] = $info;
+			}
+		}
+
+		if(!$output['categories'] && !$output['products']  ){
+			$output = array();
 		}
 		return $output;
 	}

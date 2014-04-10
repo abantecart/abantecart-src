@@ -15,7 +15,7 @@
 	</div>
 	<div class="cbox_cl">
 		<div class="cbox_cr">
-			<div id="frame_wrapper" style=" display: none;">
+			<div id="frame_wrapper" class="cbox_cc" style=" display: none;">
 				<div class="alert alert-info alert-dismissable">
 				  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				  <strong>Back to Extensions List</strong>
@@ -28,6 +28,7 @@
 						height="100"
 						width="100%"></iframe>
 			</div>
+			<?php if($content){	?>
 			<table class="extension-store-list cbox_cc">
 				<tr>
 					<td id="menu" class="span3 pull-left">
@@ -96,6 +97,11 @@
 					</td>
 				</tr>
 			</table>
+			<?php }else{ ?>
+				<div class="cbox_cc" style="overflow: hidden;">
+				<div class="warning alert-warning">Sorry, can not to connect with AbanteCart MarketPlace for now. Please check later or ask your service provider support.</div>
+				</div>
+			<?php }?>
 		</div>
 	</div>
 
