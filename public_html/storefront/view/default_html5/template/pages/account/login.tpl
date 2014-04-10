@@ -50,7 +50,15 @@
 		<?php echo $form2[ 'form_open' ]; ?>
 			<fieldset>
 				<div class="control-group">
-				  <label  class="control-label"><?php echo $entry_loginname; ?></label>
+				  <label  class="control-label">
+				  <?php 
+				  	if ($noemaillogin) {
+				  		echo $entry_loginname; 
+				  	} else {
+				  		echo $entry_email_address;
+				  	}
+				  ?>
+				  </label>
 				  <div class="controls">
 					<?php echo $form2[ 'loginname' ]?>
 				  </div>
