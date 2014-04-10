@@ -98,7 +98,8 @@ if (!empty($request->get['rt'])) {
 }
 
 // Output
-$response->output();
+$registry->get('response')->output();
+
 
 ADebug::checkpoint('app end');
 

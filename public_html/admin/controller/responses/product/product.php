@@ -857,7 +857,8 @@ class ControllerResponsesProductProduct extends AController {
 		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
 					'type' => 'checkbox',
 					'name' => 'status',
-					'value' => $file_data['status'],
+					'value' => 1,
+					'checked' => $file_data['status'] ? true : false,
 					'style' => 'btn_switch',
 		));
 		$orders_count = $this->model_catalog_download->getTotalOrdersWithProduct($product_id);
