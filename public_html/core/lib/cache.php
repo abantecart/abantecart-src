@@ -283,7 +283,7 @@ final class ACache {
 
 		unlink($file);
 		//double check that the cache file to be removed
-		if (file_exists($file))	
+		if (file_exists($file)){
 			$err_text = sprintf('Error: Cannot delete cache file: %s! Check file or directory permissions.', $file);
 			$error = new AError($err_text);
 			$error->toLog()->toDebug();
