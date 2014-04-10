@@ -183,7 +183,7 @@ final class ACache {
     		foreach ($files as $file) {
 			if(pathinfo($file,PATHINFO_FILENAME) == 'index.html'){ continue; }
       				if (file_exists($file)) {      				
-					$this_>_remove($file);
+					$this->_remove($file);
 					//clear cache map
 					$ch_base = substr($file,0,-11);
 					unset($this->cache_map[$ch_base]);
@@ -274,6 +274,7 @@ final class ACache {
 
 	/**
 	 * @param string $file
+	 * @return null
 	 * @void
 	 */
 	private function _remove($file){
