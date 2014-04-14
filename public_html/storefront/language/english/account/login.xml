@@ -46,7 +46,7 @@
   </definition>
   <definition>
     <key>entry_loginname</key>
-    <value><![CDATA[Login Name or E-Mail Address:]]></value>
+    <value><![CDATA[Login Name:]]></value>
   </definition>
   <definition>
     <key>entry_email_address</key>
