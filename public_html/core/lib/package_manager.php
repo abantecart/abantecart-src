@@ -139,9 +139,18 @@ class APackageManager {
 		}
 
 		if ($exit_code) {
-			$this->load->library('targz');
-			$targz = new Atargz();
-			$targz->extractTar($tar_filename, $dst_dir);
+			if(class_exists('PharData') ){
+				//remove destination folder first
+				$this->removeDir($dst_dir . $this->session->data['package_info']['tmp_dir']);
+				try {
+					$phar = new PharData($tar_filename);
+					$phar->extractTo($dst_dir);
+				} catch (Exception $e){}
+			}else{
+				$this->load->library('targz');
+				$targz = new Atargz();
+				$targz->extractTar($tar_filename, $dst_dir);
+			}
 		}
 
 		$this->chmod_R($dst_dir . $this->session->data['package_info']['tmp_dir'], 0777, 0777);
