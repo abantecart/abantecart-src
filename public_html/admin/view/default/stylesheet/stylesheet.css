@@ -2265,6 +2265,9 @@ div.download-list-attributes{
 }
 
 /* EXTENSION STORE CSS*/
+.extension-store-list.cbox_cc{
+	width: 100%;
+}
 
 .extension-store-list #menu {
 	vertical-align: top;
@@ -2293,15 +2296,24 @@ div.download-list-attributes{
 
 .extension-store-list .product-list {
 	width: 100%;
-	margin: 0;
+	display: block;
+	overflow: hidden;
 }
 
 
 .extension-store-list .product-list li, .extension-store-list .thumbnails{
-	width: 48.3%;
+	width: 125px;
+	height: 125px;
 	list-style: none;
 	margin: 5px;
 	overflow: hidden;
+	display: inline-block;
+	text-align: center;
+}
+
+.extension-store-list .product-list li{
+	margin: 5px;
+	cursor: pointer;
 }
 
 .extension-store-list .product-list  .preview img{
@@ -2312,8 +2324,9 @@ div.download-list-attributes{
 
 .extension-store-list .product-list .description{
 	margin: 10px;
-	max-width: 72%;
-
+	max-width: 45%;
+	height: 150px;
+	overflow: auto;
 }
 .extension-store-list .product-list .product-description{
 	margin: 0 0 5px 0;
@@ -2324,12 +2337,19 @@ div.download-list-attributes{
 }
 
 .extension-store-list .product-list .pricetag{
-	width: 50px;
+	width: 80px;
+	display: inline-block;
+	text-align: right;
+	font-size: 20px;
+	font-weight: bold;
 }
 
 .extension-store-list .product-list .rating{
 	width: 60px;
+	display: inline-block;
+	line-height: 21px;
 }
+
 
 .extension-store-list .product-list .product-name{
 	color: #242424;
@@ -2346,16 +2366,27 @@ div.download-list-attributes{
 	margin-right: 10px;
 }
 .extension-store-list .pagination {
-	width: 83%;
+	clear: none;
+	width:100%;
+	text-align: left;
 }
-.extension-store-list .pagination .limits {
+
+.extension-store-list .pagination .sorting{
+	display: inline-block;
+}
+
+.extension-store-list .pages {
+	display: inline-block;
+	width: 70%;
+}
+.extension-store-list .pages .limits {
 	float: none;
 }
-.extension-store-list .pagination>div {
+.extension-store-list .pages>div {
 	display: inline-block;
 	line-height: 25px;
 }
-.extension-store-list .pagination ul>li>a{
+.extension-store-list .pages ul>li>a{
 	padding: 3px 6px;
 	text-decoration: none;
 }
@@ -2365,6 +2396,31 @@ div.download-list-attributes{
 	width: 160px;
 	height: 17px;
 	cursor: pointer;
+}
+
+.product-list .popover{
+	width: auto;
+	max-width: 500px;
+	height: auto;
+}
+
+.product-list .popover-title{
+	font-size: 18px;
+	font-weight: bold;
+}
+.product-list .popover-content .reviews{
+	margin-left: 20px;
+	display: inline-block;
+	line-height: 21px;
+	font-weight: bold;
+}
+
+.product-list .popover-content .summary{
+	width: 97%;
+	overflow: hidden;
+	background-color: #efefef;
+	border-radius: 5px;
+	padding: 7px;
 }
 
 

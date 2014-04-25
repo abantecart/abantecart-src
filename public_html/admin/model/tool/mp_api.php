@@ -28,7 +28,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ModelToolMPAPI extends Model {
 	protected $data = array();
-	protected $mp_url = 'http://dev01.algozone.net/abc_marketplace/';
+	protected $mp_url = 'http://marketplace.abantecart.com/';
 
 	public function getMPURL(){
 		return $this->mp_url;
@@ -75,9 +75,9 @@ class ModelToolMPAPI extends Model {
 
 		// prepare parameters
 		if(has_value($params['limit'])){
-			$get_params['limit'] = $params['limit'];
+			$get_params['limit'] = $get_params['rows'] = $params['limit'];
 		}else{
-			$get_params['limit'] = 20;
+			$get_params['limit'] = $get_params['rows'] = 20;
 		}
 		if(has_value($params['page'])){
 			$get_params['page'] = $params['page'];

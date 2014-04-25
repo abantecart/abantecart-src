@@ -49,13 +49,13 @@
 							<?php } ?>
 						</ul>
 					</td>
-					<td class="pull-left">
-						<ul class="product-list pull-left">
+					<td class="pull-left" style="text-align: center; width: 100%;">
+						<ul class="product-list">
 							<?php
 							foreach ($content['products']['rows'] as $product) {
 								$item = array();
 
-								$item['image'] = $product['cell']['thumb'];
+								$item['image'] = $product['cell']['main_image'];
 								$item['title'] = $product['cell']['name'];
 								$item['description'] = html_entity_decode($product['cell']['description'], ENT_QUOTES);
 
@@ -71,29 +71,36 @@
 								}
 
 								?>
-								<li data-product-id="<?php echo $product['id'] ?>"
-									class="product-item thumbnail pull-left">
-
+								<li data-trigger="hover" data-placement="right" data-product-id="<?php echo $product['id'] ?>" class="product-item thumbnail pull-left">
 									<div class="preview pull-left">
-										<img src="<?php echo $item['image'] ?>" style="width: 120px;">
+										<img src="<?php echo $item['image'] ?>" style="width: 100px;">
 									</div>
-									<div class="description pull-left">
-										<a class="product-name" href="<?php echo $item['info_url'] ?>">
-											<?php echo $item['title'] ?> <?php echo $product['model'] ? "(" . $product['model'] . ")" : '' ?>
-										</a>
-
-										<div class="product-description"><?php echo $item['description'] ?></div>
-										<div>
+									<div class="popover_content" style="display: none;" data-title="<?php echo $item['title'] ?>">
+										<div class="preview pull-left">
+											<img src="<?php echo $item['image'] ?>" style="width: 200px;">
+										</div>
+										<div class="description pull-left">
+											<a class="product-name" href="<?php echo $item['info_url'] ?>">
+												<?php echo $item['title'] ?> <?php echo $product['model'] ? "(" . $product['model'] . ")" : '' ?>
+											</a>
+											<div class="product-description"><?php echo $item['description'] ?></div>
+										</div>
+										<div class="summary">
 											<div class="pull-left rating"><?php echo $item['rating'] ?></div>
-											<div class="pull-right pricetag"><?php echo $product['cell']['addtocart']; ?></div>
+											<?php if( $product['cell']['review_count'] ){ ?>
+											<div class="pull-left reviews"><?php echo $product['cell']['review_count'] ?> review(s)</div>
+											<?php } ?>
+											<div class="pull-right pricetag"><?php echo $product['cell']['price']; ?></div>
 										</div>
 									</div>
 
 								</li>
 							<?php } ?>
 						</ul>
-						<div class="pull-left sorting"><?php echo $sorting; ?></div>
-						<div class="pull-right pagination"><?php echo $pagination_bootstrap; ?></div>
+						<div class="pagination" >
+							<div class="sorting" style=""><?php echo $sorting; ?></div>
+							<div class="pages"  style="display: inline-block; text-align: left;"><?php echo $pagination_bootstrap; ?></div>
+						</div>
 					</td>
 				</tr>
 			</table>
@@ -120,20 +127,20 @@
 		var product_id = $(this).attr('data-product-id');
 		if(!product_id) return false;
 
-		var ifrwp = $('#frame_wrapper');
-		var ifr = $('#remote_store');
-		var hh = $('.extension-store-list').outerHeight();
-		hh = hh<900 ? 900 : hh;
-		var ww = $('.extension-store-list').outerWidth();
-		ifr.attr('height',hh).attr('width',ww);
-		ifrwp.slideDown(1000);
-		$('.extension-store-list').hide();
+		window.open('<?php echo $remote_store_product_url;?>&product_id=' + product_id,
+					'MPside');
+		//,					'width='+($(window).width()-100)+', height='+($(window).height()-100)+', toolbars=no, resizable=yes, scrollbars=yes');
+	});
 
-		var ending_right     = ($(window).width() - (ifrwp.offset().left + ifrwp.outerWidth()));
-		ifrwp.css('height',hh).css('width',ww).find('.alert').css('right',ending_right);
+	//show popover
 
-		//load iframe
-		ifr.attr('src', '<?php echo $remote_store_product_url;?>&product_id=' + product_id).load( );
+	$('li.product-item').popover({
+		html: true,
+		content: function(){
+			return $(this).children('.popover_content').html();
+		},
+		title: 	function(){ return $(this).children('.popover_content').attr('data-title'); },
+		delay: {'hide': 700}
 	});
 
 	$('.pricetag a.btn_standard').click(function(){

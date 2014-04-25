@@ -64,6 +64,9 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 		if(!has_value($request_data['sord'])){
 			$request_data['sord'] = 'desc';
 		}
+		if(has_value($request_data['limit'])){
+			$request_data['rows'] = $request_data['limit'];
+		}
 
 		// vendor related
 		$result = $this->model_tool_mp_api->processRequest($request_data);
@@ -114,7 +117,8 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 														'attr' => 'class="pull-left button2"'
 												   ));
 
-		if(has_value($this->request->get['keyword']) || has_value($this->request->get['category_id']) || has_value($this->request->get['manufacturer_id']) ){
+		if((has_value($this->request->get['keyword']) || has_value($this->request->get['category_id']) || has_value($this->request->get['manufacturer_id']) )
+			&& $result['products']['rows']	){
 			$uri = '&limit='.$result['products']['limit'];
 			if(has_value($this->request->get['keyword'])){
 				$uri .= '&keyword='.$this->request->get['keyword'];
