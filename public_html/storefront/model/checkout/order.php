@@ -360,7 +360,7 @@ class ModelCheckoutOrder extends Model {
 			$template->data['customer_email'] = $order_row['email'];
 			$template->data['customer_telephone'] = $order_row['telephone'];
 			$template->data['customer_ip'] = $order_row['ip'];
-			$template->data['comment'] = $order_row['comment'];
+			$template->data['comment'] = nl2br($order_row['comment']);
 
 			//override with the data from the before hooks 
 			if ($this->data){

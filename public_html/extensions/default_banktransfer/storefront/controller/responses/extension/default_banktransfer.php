@@ -29,7 +29,7 @@ class ControllerResponsesExtensionDefaultBanktransfer extends AController {
 		$this->view->assign('text_payment', $this->language->get('text_payment'));
 		
     	$this->view->batchAssign(  $this->language->getASet() );
-		$this->view->assign('instructions', html_entity_decode($this->config->get('default_banktransfer_instructions')));
+		$this->view->assign('instructions', nl2br($this->config->get('default_banktransfer_instructions')));
 		$this->view->assign('continue', $this->html->getSecureURL('checkout/success'));		
 
 		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
@@ -53,7 +53,7 @@ class ControllerResponsesExtensionDefaultBanktransfer extends AController {
 		$this->load->model('checkout/order');
 		
 		$comment  = $this->language->get('text_instructions') . "\n";
-		$comment .= html_entity_decode($this->config->get('default_banktransfer_instructions')) . "\n\n";
+		$comment .= $this->config->get('default_banktransfer_instructions') . "\n\n";
 		$comment .= $this->language->get('text_payment') . "\n";
 		
 		$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_banktransfer_order_status_id'), $comment);
