@@ -345,8 +345,9 @@ class ControllerPagesSaleContact extends AController {
 		    	$mail->setHtml($html);
 		    	$mail->send();
 		    	if($mail->error){
-		    		$this->error['warning'] = 'Error: Emails does not sent! Please see error log for details.';
-		    		break;
+		    		$this->error[] = 'Error: Emails does not sent! Please see error log for details.';
+					$this->main();
+					return null;
 		    	}
 				unset($mail);
 		    }
