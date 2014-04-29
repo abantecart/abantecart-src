@@ -573,4 +573,8 @@
 		<key>text_new_download</key>
 		<value><![CDATA[New Download]]></value>
 	</definition>
+	<definition>
+		<key>text_free</key>
+		<value><![CDATA[Free]]></value>
+	</definition>
 </definitions>

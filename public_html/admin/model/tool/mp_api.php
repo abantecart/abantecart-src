@@ -40,7 +40,8 @@ class ModelToolMPAPI extends Model {
 							   'store_id' => UNIQUE_ID,
 							   'store_ip' => $_SERVER ['SERVER_ADDR'],
 							   'store_url' => HTTP_SERVER,
-							   'store_version' => VERSION
+							   'store_version' => VERSION,
+							   'installer_url' => $this->html->getSecureURL('tool/package_installer')
 							 );
 		$extensions_list = $this->extensions->getExtensionsList();
 		if ($extensions_list) {
@@ -127,7 +128,9 @@ class ModelToolMPAPI extends Model {
 				$info = $product['cell'];
 				$info['rating'] = (int)$info['rating'];
 				$info['description'] = substr(strip_tags(html_entity_decode($info['description'],ENT_QUOTES)),0,344).'...';
-				$info['price'] = $this->currency->format($info['price'],$info['currency_code']);
+
+				$info['price'] = $info['price']>0 ? $this->currency->format($info['price'],$info['currency_code']) : $this->language->get('text_free');
+
 				$info['addtocart'] = $this->html->buildElement(array(
 																	'type' => 'button',
 																	'text' =>$info['price'],
