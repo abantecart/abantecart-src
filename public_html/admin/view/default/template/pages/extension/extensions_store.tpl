@@ -68,9 +68,7 @@
 								$review = $button_write;
 								if ($item['rating']) {
 									$review = $item['rating'];
-								}
-
-								?>
+								} ?>
 								<li data-trigger="hover" data-placement="right" data-product-id="<?php echo $product['id'] ?>" class="product-item thumbnail pull-left">
 									<div class="preview pull-left">
 										<img src="<?php echo $item['image'] ?>" style="width: 100px;">

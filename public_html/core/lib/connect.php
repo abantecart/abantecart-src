@@ -120,7 +120,7 @@ final class AConnect {
         if (!$url = $this->_checkURL($url)) {
             return false;
         }
-        $output = $this->getData($url, 80);
+        $output = $this->getData($url);
         return $output;
     }
 
@@ -256,7 +256,7 @@ final class AConnect {
 	 * @throws AException
 	 * @return array ( "mime" <string>, "length" int, "content" string) or false
 	 */
-    public function getData($url, $port = 80, $length_only = false, $save_filename = null, $headers_only = false) {
+    public function getData($url, $port = null, $length_only = false, $save_filename = null, $headers_only = false) {
         //check url
         $protocol = parse_url($url, PHP_URL_SCHEME);
         if (!in_array($protocol, array('http', 'https'))) {
@@ -264,7 +264,7 @@ final class AConnect {
             return false;
         }
 
-        $port = is_null($port) ? 80 : (int)$port;
+        $port = !$port ? ($protocol=='http' ? 80 : 443) : (int)$port;
         if (!$port) {
             $this->error = "ERROR: wrong port number!";
             return false;
@@ -358,7 +358,7 @@ final class AConnect {
         }
 
 // for safemode part. Problem is redirects while connect.
-
+		$this->curl_options[CURLOPT_SSL_VERIFYPEER] = false;
         $mr = 5;
         if (ini_get('open_basedir') == '' && ini_get('safe_mode') == 'sss') {
             $this->curl_options[CURLOPT_FOLLOWLOCATION] = true;

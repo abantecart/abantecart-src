@@ -2324,15 +2324,16 @@ div.download-list-attributes{
 
 .extension-store-list .product-list .description{
 	margin: 10px;
-	max-width: 45%;
-	height: 150px;
-	overflow: auto;
+	width: 220px;
+	height: 190px;
+	overflow: hidden;
 }
 .extension-store-list .product-list .product-description{
 	margin: 0 0 5px 0;
 	font-size: 10px;
 	line-height: 15px;
-	height: 70px;
+	height: 190px;
+	width: 220px;
 	overflow: auto;
 }
 

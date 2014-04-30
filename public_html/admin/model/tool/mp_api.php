@@ -28,10 +28,9 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ModelToolMPAPI extends Model {
 	protected $data = array();
-	protected $mp_url = 'http://marketplace.abantecart.com/';
-
+	protected $mp_url = 'bWFya2V0cGxhY2UuYWJhbnRlY2FydC5jb20v';
 	public function getMPURL(){
-		return $this->mp_url;
+		return (HTTPS===true ? 'https://' : 'http://') . base64_decode($this->mp_url);
 	}
 
 	public function authorize(){
@@ -127,7 +126,7 @@ class ModelToolMPAPI extends Model {
 			foreach($output['products']['rows'] as &$product){
 				$info = $product['cell'];
 				$info['rating'] = (int)$info['rating'];
-				$info['description'] = substr(strip_tags(html_entity_decode($info['description'],ENT_QUOTES)),0,344).'...';
+				$info['description'] = substr(strip_tags(html_entity_decode(str_replace('&nbsp;','',$info['description']),ENT_QUOTES)),0,344).'...';
 
 				$info['price'] = $info['price']>0 ? $this->currency->format($info['price'],$info['currency_code']) : $this->language->get('text_free');
 
@@ -185,6 +184,7 @@ class ModelToolMPAPI extends Model {
 		}
 
 		$response = $connect->getResponse($this->getMPURL().$href);
+
 		return $response;
 	}
 
