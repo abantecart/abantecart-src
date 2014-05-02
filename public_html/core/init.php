@@ -172,6 +172,13 @@ try {
 	define('POSTFIX_PRE', '.pre');
 	define('POSTFIX_POST', '.post');
 
+//Static order ids 1,2,5,7
+	define('ORDER_INIT', 0);
+	define('ORDER_PENDING', 1);
+	define('ORDER_PROCESSING', 2);
+	define('ORDER_COMPLETED', 5);
+	define('ORDER_CANCELED', 7);
+
 // Include Engine
 	require_once(DIR_CORE . 'engine/router.php');
 	require_once(DIR_CORE . 'engine/page.php');
