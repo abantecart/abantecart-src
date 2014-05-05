@@ -708,3 +708,17 @@ function project_base() {
 	$base .= 'KTtyZXR1cm4gZmFsc2U7IiB0aXRsZT0iSWRlYWwgT3BlblNvdXJjZSBFLWNvbW1lcmNlIFNvbHV0aW9uIj5BYmFudGVDYXJ0PC9hPg==';
 	return base64_decode($base);
 }
+
+/**
+ * Validate if string is HTML
+ *
+ * @param string $test_string
+ * @return bool
+ */
+
+function is_html($test_string) {
+	if($test_string != strip_tags($test_string)) {
+		return true;
+	}
+	return false;
+}

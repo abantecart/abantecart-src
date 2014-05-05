@@ -539,7 +539,7 @@ jQuery(function ($) {
         return false;
     });
 
-	//Resource selected, choose action
+	//Resource selected, choose action to assign resource to object
     $('#column_right a.use, #map_this_info').live('click', function () {
 
         var item = loadedItems[$(this).attr('rel')];
@@ -554,6 +554,13 @@ jQuery(function ($) {
 
         if (item['resource_code']) {
             parent.$('#' + parent.selectField).html(item['resource_code']);
+            //new! add resource id to parrent for better mapping of single items
+            //see example in SF menu
+			var rl_id_field = parent.$('input[name="' + parent.selectField + '_rl_id' + '"]');
+            if (rl_id_field.length) {
+            	rl_id_field.val(item['resource_id']);
+            } 
+           
             parent.$('input[name="' + parent.selectField + '"]').val(item['resource_code']);
         } else {
             parent.loadSingle(type, parent.wrapper_id, item['resource_id'], parent.selectField);
