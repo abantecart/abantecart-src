@@ -175,7 +175,6 @@ class ModelToolMPAPI extends Model {
 		if($this->session->data['mp_token']){ // if server-server connect was created
 			$connect->setCurlOptions(array(
 					CURLOPT_CONNECTTIMEOUT => 2,
-					CURLOPT_TIMEOUT_MS => 5000,
 					CURLOPT_HTTPHEADER => array('Expect:'),
 					CURLOPT_MAXREDIRS => 4,
 					CURLOPT_RETURNTRANSFER => true,
