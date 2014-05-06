@@ -44,6 +44,27 @@ $m->insertMenuItem(
 			"sort_order" => 2,
 			"item_type" => 'core'));
 
+$dataset = new ADataset ('menu', 'storefront');
+$columns[] = array( 'name' => 'item_icon_rl_id',
+					'type' => 'integer',
+					'sort_order' => "7");
+$dataset->defineColumns($columns);
+
+//after insert of column need to insert empty values for data consistency (for 1.1.8 only)
+
+$sql_query = "SELECT DISTINCT dv.row_id
+			  FROM ". $this->db->table('dataset_values')." dv
+			  INNER JOIN ". $this->db->table('dataset_definition')." dd ON dd.dataset_column_id = dv.dataset_column_id
+			  WHERE dd.dataset_id = '".$this->dataset_id."' AND dv.row_id>0";
+$res = $this->db->query($sql_query);
+if($res->num_rows){
+	foreach($res->rows as $r){
+		$this->db->query( "INSERT INTO ". $this->db->table('dataset_values')." (dataset_column_id, row_id)
+							VALUES ('".$dataset_column_id."','".$r['row_id']."')");
+	}
+}
+
+
 
 
 //insert download attribute types

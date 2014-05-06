@@ -446,7 +446,7 @@ class ALanguage {
 	 */
 	public function ReadXmlFile($file) {
 		$definitions = array();
-		if (file_exists($file)) {
+		if (file_exists($file) && filesize($file)>0) {
 			$xml = simplexml_load_file($file);
 			if (isset($xml->definition))
 				foreach ($xml->definition as $item) {

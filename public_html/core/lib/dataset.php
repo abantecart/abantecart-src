@@ -140,8 +140,8 @@ final class ADataset {
 					throw new AException ( AC_ERR_LOAD, 'Error: Could not write dataset columns! column definition is not array.' );
 				}
 				//check keys of definition
-				if (array_diff ( array_keys ( $column_definition ), $column_checklist )) {
-					throw new AException ( AC_ERR_LOAD, 'Error: Could not write dataset column definition! Definition format error.' );
+				if (!array_intersect( array_keys ( $column_definition ), $column_checklist )) {
+					throw new AException ( AC_ERR_LOAD, 'Error: Could not write dataset column definition! Definition format error.');
 				}
 				// check column type
 				if (! in_array ( $column_definition ['type'], $this->column_type_checklist )) {
@@ -160,6 +160,27 @@ final class ADataset {
 	  									        '" . $column_definition['type']  . "',
 	  									        '" . $column_definition['sort_order']  . "' );\n";
 					$this->db->query ( $sql_query );
+					$dataset_column_id = $this->db->getLastId();
+
+					//after insert of column need to insert empty values for data consistency
+
+					$sql_query = "SELECT DISTINCT dv.row_id
+								  FROM ". $this->db->table('dataset_values')." dv
+								  INNER JOIN ". $this->db->table('dataset_definition')." dd ON dd.dataset_column_id = dv.dataset_column_id
+								  WHERE dd.dataset_id = '".$this->dataset_id."' AND dv.row_id>0";
+					$res = $this->db->query($sql_query);
+					if($res->num_rows){
+						foreach($res->rows as $r){
+							$this->db->query( "INSERT INTO ". $this->db->table('dataset_values')." (dataset_column_id, row_id)
+												VALUES ('".$dataset_column_id."','".$r['row_id']."')");
+						}
+					}
+
+
+
+
+
+
 					// update new column
 				} else {
 					// if old name present - update column definition.
