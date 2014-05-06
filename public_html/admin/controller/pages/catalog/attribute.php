@@ -244,13 +244,13 @@ class ControllerPagesCatalogAttribute extends AController {
 		);
 
 		if($attribute_type_info['type_key']!='download_attribute'){
-			$fileds[] = 'attribute_parent_id';
+			$fields[] = 'attribute_parent_id';
 		}
 
 		foreach ($fields as $f) {
 			if (isset($this->request->post[ $f ])) {
 				$this->data[ $f ] = $this->request->post[ $f ];
-			} elseif (isset($attribute_info)) {
+			} elseif (isset($attribute_info[$f])) {
 				$this->data[ $f ] = $attribute_info[ $f ];
 			} else {
 				$this->data[ $f ] = '';

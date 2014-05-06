@@ -103,7 +103,7 @@ class ControllerPagesAccountSuccess extends AController {
 		$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
 		$message = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
 
-		$code = md5(mt_rand(1 - 3000));
+		$code = md5(mt_rand(1,3000));
 
 		$this->session->data['activation'] = array(
 				'customer_id' => $customer_id,

@@ -63,7 +63,7 @@ class ControllerPagesAccountCreate extends AController {
 				if (!$this->config->get('config_customer_approval')) {
 					if($this->config->get('config_customer_email_activation')){
 						$activation = true; // sign of activation email
-						$code = md5(mt_rand(1-3000));
+						$code = md5(mt_rand(1,3000));
 						$email = $this->request->post['email'];
 						$this->session->data['activation'] = array(
 																	'customer_id' => $customer_id,

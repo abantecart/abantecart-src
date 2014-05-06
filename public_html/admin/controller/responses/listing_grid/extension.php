@@ -98,7 +98,7 @@ class ControllerResponsesListingGridExtension extends AController {
 
 		// get extensions for install
 		$ready_to_install = $this->session->data['ready_to_install'];
-		$to_install = array();
+		$to_install = $to_inst_keys = array();
 		if($ready_to_install && is_array($ready_to_install)){
 			foreach( $ready_to_install as $pack ){
 				$to_install[$pack['extension_name']] =
