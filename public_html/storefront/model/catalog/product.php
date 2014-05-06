@@ -840,6 +840,11 @@ class ModelCatalogProduct extends Model {
                                     AND language_id = '" . (int)$language_id . "'"
                             );
 
+							// ignore option value with 0 quantity and disabled subtract
+							if( (!$product_option_value['subtract'])
+							  ||
+								($product_option_value['quantity'] && $product_option_value['subtract'])
+							){
 							$product_option_value_data[$product_option_value['product_option_value_id']] = array(
                                 'product_option_value_id' => $product_option_value['product_option_value_id'],
                                 'attribute_value_id'      => $product_option_value['attribute_value_id'],
@@ -859,6 +864,7 @@ class ModelCatalogProduct extends Model {
 								'subtract'				  => $product_option_value['subtract'],
 								'default'				  => $product_option_value['default'],
 							);
+							}
 						}
 					}
 					$prd_opt_description_qr = $this->db->query(
@@ -986,7 +992,7 @@ class ModelCatalogProduct extends Model {
 					}
 				}
 	
-				if($option['regexp_pattern'] && !preg_match($option['regexp_pattern'], $input_options[$option['product_option_id']] )) {
+				if($option['regexp_pattern'] && !preg_match($option['regexp_pattern'], (string)$input_options[$option['product_option_id']] )) {
 					$errors[] = $option['name'].': '.$option['error_text'];
 				}
 	
