@@ -2,7 +2,7 @@
 <definitions>
 	<definition>
 		<key>heading_title</key>
-		<value><![CDATA[Extensions Store (beta)]]></value>
+		<value><![CDATA[Extension Marketplace (beta)]]></value>
 	</definition>
 	<definition>
 		<key>text_install</key>

@@ -2267,6 +2267,7 @@ div.download-list-attributes{
 /* EXTENSION STORE CSS*/
 .extension-store-list.cbox_cc{
 	width: 100%;
+	border-collapse: separate;
 }
 
 .extension-store-list #menu {
