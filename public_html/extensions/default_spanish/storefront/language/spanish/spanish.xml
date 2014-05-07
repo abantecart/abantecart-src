@@ -260,4 +260,8 @@
 		<key>text_call_to_order</key>
 		<value><![CDATA[Llamar al orden]]></value>
     </definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Descuento]]></value>
+    </definition>
 </definitions>

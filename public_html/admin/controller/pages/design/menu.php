@@ -165,6 +165,7 @@ class ControllerPagesDesignMenu extends AController {
 			$result = $this->menu->insertMenuItem ( array (
 				'item_id' => $textid,
 				'item_icon' => $this->request->post ['item_icon'],
+				'item_icon_rl_id' => $this->request->post ['item_icon_rl_id'],
 				'item_text' => $this->request->post ['item_text'],
 				'parent_id' => $this->request->post ['parent_id'],
 				'item_url' => $this->request->post ['item_url'],
@@ -200,13 +201,13 @@ class ControllerPagesDesignMenu extends AController {
 			unset($this->session->data['success']);
 		}
 
-		if (($this->request->server ['REQUEST_METHOD'] == 'POST') && $this->_validateForm ()) {
+		if (($this->request->is_POST()) && $this->_validateForm ()) {
 
             if (isset ( $this->request->post ['item_icon'] )) {
                 $this->request->post['item_icon'] = html_entity_decode($this->request->post['item_icon'], ENT_COMPAT, 'UTF-8');
             }
 
-			$item_keys = array('item_icon', 'item_text', 'item_url', 'parent_id', 'sort_order' );
+			$item_keys = array('item_icon', 'item_text', 'item_url', 'parent_id', 'sort_order', 'item_icon_rl_id' );
 
 			$update_item = array();
 

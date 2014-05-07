@@ -242,9 +242,9 @@ class ALanguage {
 	 */
 	public function getClientBrowserLanguage() {
 		$request = $this->registry->get('request');
-
 		if (isset($request->server['HTTP_ACCEPT_LANGUAGE']) && ($request->server['HTTP_ACCEPT_LANGUAGE'])) {
-			$browser_languages = explode(',', $request->server['HTTP_ACCEPT_LANGUAGE']);
+			$parse = explode(';', $request->server['HTTP_ACCEPT_LANGUAGE']);
+			$browser_languages = explode(',',$parse[0]);
 
 			foreach ($browser_languages as $browser_language) {
 				if(!$browser_language){ continue;}
@@ -252,7 +252,7 @@ class ALanguage {
 					$locale = explode(',', $value['locale']);
 					if(!$locale){ continue; }
 					if (preg_grep("/$browser_language/i", $locale)) {
-						return $key;
+						return $value['code'];
 					}
 				}
 			}

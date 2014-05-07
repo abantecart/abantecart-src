@@ -39,7 +39,7 @@ class ControllerPagesAccountSubscriber extends AController {
 
 		$request_data = $this->request->post;
 
-		if ( $this->request->server['REQUEST_METHOD'] == 'POST') {
+		if ( $this->request->is_POST()) {
 			$this->error = $this->model_account_customer->validateSubscribeData($request_data);
 
     		if ( !$this->error ) {

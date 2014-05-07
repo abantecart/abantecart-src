@@ -130,7 +130,7 @@ class AMenu_Storefront extends AMenu {
 		//clean text id 
 		$item [ "item_id" ] = preformatTextID($item [ "item_id" ]);
 
-		$check_array = array( "item_id", "item_icon", "item_text", "item_url", "parent_id", "sort_order", "item_type" );
+		$check_array = array( "item_id", "item_icon", "item_text", "item_url", "parent_id", "sort_order", "item_type", "item_icon_rl_id" );
 
 		if (!$item [ "item_id" ] || !$item [ "item_text" ] || sizeof(array_intersect($check_array, array_keys($item))) < 7) {
 			return 'Error: Cannot to add menu item because item array is wrong.';
