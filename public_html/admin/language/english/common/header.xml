@@ -234,7 +234,7 @@
     </definition>
     <definition>
         <key>text_extension_store_new</key>
-        <value><![CDATA[Extensions Store (beta)]]></value>
+        <value><![CDATA[Extension Marketplace (beta)]]></value>
     </definition>
     <definition>
         <key>text_extension_store_prev</key>
