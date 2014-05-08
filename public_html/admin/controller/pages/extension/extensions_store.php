@@ -135,7 +135,7 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 							'type' => 'Pagination',
 							'name' => 'pagination',
 							'text' => $this->language->get('text_pagination'),
-							'text_limit' => $this->language->get('text_per_page'),
+							'text_limit' => '',
 							'total' => $result['products']['records'],
 							'page' => $result['products']['page'],
 							'limit' => $result['products']['limit'],

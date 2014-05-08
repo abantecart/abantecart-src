@@ -94,7 +94,7 @@ img {
 	display: inline-block;
 	text-align: center;
 	border: 1px solid #EEEEEE;
-	margin: 10px;
+	margin: 5px 10px 5px 10px;
 	padding: 5px;
 	width: 120px;
 	overflow-x: hidden;
@@ -338,7 +338,7 @@ img {
 
 .resource_image {
 	width: 130px;
-	min-height: 148px;
+	max-height: 148px;
 	overflow: hidden;
 	float: left;
 	text-align: center;
@@ -348,6 +348,7 @@ img {
 }
 
 .resource-details {
+	margin: 5px 10px 5px 10px;
 }
 
 .resource-details tr.border {
