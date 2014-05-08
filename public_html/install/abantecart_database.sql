@@ -10586,15 +10586,16 @@ VALUES  (1,'home',1),
         (1,'cart',5),
         (1,'checkout',6),
         (1,'specials',7);
+
 -- ITEM_ICON
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (2,'',1),
-        (2,'',2),
-        (2,'',3),
-        (2,'',4),
-        (2,'',5),
-        (2,'',6),
-        (2,'',7);
+VALUES  (2,'<i class="icon-home"></i>&nbsp;',1),
+        (2,'<i class="icon-lock"></i>&nbsp;&nbsp;',2),
+        (2,'<i class="icon-lock"></i>&nbsp;&nbsp;',3),
+        (2,'<i class="icon-user"></i>&nbsp;',4),
+        (2,'<i class="icon-shopping-cart"></i>&nbsp;',5),
+        (2,'<i class="icon-barcode"></i>&nbsp;&nbsp;',6),
+        (2,'<i class="icon-star"></i>&nbsp;&nbsp;',7);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (3,'index/home',1),
@@ -10632,14 +10633,14 @@ VALUES  (6,'core',1),
         (6,'core',6),
         (6,'core',7);
 -- item_icon_rl_id
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (7,'',1),
-        (7,'',2),
-        (7,'',3),
-        (7,'',4),
-        (7,'',5),
-        (7,'',6),
-		    (7,'',7);
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
+VALUES  (7,2,1),
+        (7,3,2),
+        (7,3,3),
+        (7,4,4),
+        (7,5,5),
+        (7,6,6),
+		    (7,1,7);
 
 --
 -- ADMIN MENU SECTION
@@ -11461,6 +11462,16 @@ CREATE TABLE `ac_resource_library` (
   PRIMARY KEY (`resource_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=100000;
 
+#storefront menu icons
+INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `created`)
+VALUES
+(1,1,now()),
+(2,1,now()),
+(3,1,now()),
+(4,1,now()),
+(5,1,now()),
+(6,1,now());
+
 --
 -- DDL for table `ac_resource_descriptions`
 --
@@ -11478,6 +11489,17 @@ CREATE TABLE `ac_resource_descriptions` (
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`resource_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `ac_resource_descriptions`
+(`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `created`)
+VALUES
+(1,1,'Star Icon','','','','<i class="icon-star"></i>&nbsp;&nbsp;',now()),
+(2,1,'Icon Home','','','','<i class="icon-home"></i>&nbsp;',now()),
+(3,1,'Login Icon','','','','<i class="icon-lock"></i>&nbsp;&nbsp;',now()),
+(4,1,'Account Icon','','','','<i class="icon-user"></i>&nbsp;',now()),
+(5,1,'Cart Icon','','','','<i class="icon-shopping-cart"></i>&nbsp;',now()),
+(6,1,'Checkout Icon','','','','<i class="icon-barcode"></i>&nbsp;&nbsp;',now());
 
 --
 -- DDL for table `ac_resource_types`
@@ -11518,6 +11540,16 @@ CREATE TABLE `ac_resource_map` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 CREATE UNIQUE INDEX `resource_map_index`
 ON `ac_resource_map` ( `resource_id`, `object_name`, `object_id` );
+
+INSERT INTO `ac_resource_map` ( `resource_id`, `object_name`, `object_id`, `default`, `sort_order`, `created`)
+VALUES
+(1,'storefront_menu_item',0,0,0, now()),
+(2,'storefront_menu_item',0,0,0, now()),
+(3,'storefront_menu_item',0,0,0, now()),
+(4,'storefront_menu_item',0,0,0, now()),
+(5,'storefront_menu_item',0,0,0, now()),
+(6,'storefront_menu_item',0,0,0, now());
+
 
 --		
 -- DDL For Global Attributes 		

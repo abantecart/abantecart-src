@@ -45,17 +45,26 @@ $m->insertMenuItem(
 			"item_type" => 'core'));
 
 $dataset = new ADataset ('menu', 'storefront');
+
 $columns[] = array( 'name' => 'item_icon_rl_id',
 					'type' => 'integer',
 					'sort_order' => "7");
 $dataset->defineColumns($columns);
+
+$all_columns = $dataset->getColumnDefinitions();
+foreach($all_columns as $c){
+	if($c['dataset_column_name']=='item_icon_rl_id'){
+		$dataset_column_id = $c['dataset_column_id'];
+		break;
+	}
+}
 
 //after insert of column need to insert empty values for data consistency (for 1.1.8 only)
 
 $sql_query = "SELECT DISTINCT dv.row_id
 			  FROM ". $this->db->table('dataset_values')." dv
 			  INNER JOIN ". $this->db->table('dataset_definition')." dd ON dd.dataset_column_id = dv.dataset_column_id
-			  WHERE dd.dataset_id = '".$this->dataset_id."' AND dv.row_id>0";
+			  WHERE dd.dataset_id = '1' AND dv.row_id>0";
 $res = $this->db->query($sql_query);
 if($res->num_rows){
 	foreach($res->rows as $r){
