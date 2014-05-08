@@ -138,7 +138,7 @@
 			return $(this).children('.popover_content').html();
 		},
 		title: 	function(){ return $(this).children('.popover_content').attr('data-title'); },
-		delay: {'hide': 700}
+		delay: {'hide': 100}
 	});
 
 	$('.pricetag a.btn_standard').click(function(){

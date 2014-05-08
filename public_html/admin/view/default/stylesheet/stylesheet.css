@@ -2393,6 +2393,10 @@ div.download-list-attributes{
 	text-decoration: none;
 }
 
+.extension-store-list .pagination{
+	padding-left: 30px;
+}
+
 .extensionStoreBox 	.alert{
 	position: absolute;
 	width: 160px;
