@@ -10,24 +10,22 @@
 		<div class="cbox_tr">
 			<div class="cbox_tc">
 				<div class="heading"><?php echo $heading_title; ?></div>
+				<div class="toolbar">
+					<div class="buttons">
+						<div class="flt_left align_left">
+							<?php echo $btn_my_extensions; ?>
+						</div>&nbsp;&nbsp;
+						<div class="flt_left align_left">
+							<?php echo $btn_my_account; ?>
+						</div>
+
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 	<div class="cbox_cl">
 		<div class="cbox_cr">
-			<div id="frame_wrapper" class="cbox_cc" style=" display: none;">
-				<div class="alert alert-info alert-dismissable">
-				  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				  <strong>Back to Extensions List</strong>
-				</div>
-				<iframe
-						id="remote_store"
-						name="remote_store"
-						src=""
-						frameBorder="0"
-						height="100"
-						width="100%"></iframe>
-			</div>
 			<?php if($content){	?>
 			<table class="extension-store-list cbox_cc">
 				<tr>
@@ -125,9 +123,8 @@
 		var product_id = $(this).attr('data-product-id');
 		if(!product_id) return false;
 
-		window.open('<?php echo $remote_store_product_url;?>&product_id=' + product_id,
-					'MPside');
-		//,					'width='+($(window).width()-100)+', height='+($(window).height()-100)+', toolbars=no, resizable=yes, scrollbars=yes');
+		window.open('<?php echo $remote_store_product_url;?>&product_id=' + product_id,	'MPside');
+
 	});
 
 	//show popover

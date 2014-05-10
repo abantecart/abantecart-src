@@ -87,12 +87,8 @@
 	</definition>
 	<definition>
 		<key>error_connect</key>
-		<value>
-			<![CDATA[Sorry, Your Abantecart cannot connect with extension store. Please see System->Error logs for details.]]></value>
+		<value><![CDATA[Sorry, Your Abantecart cannot connect with extension store. Please see System->Error logs for details.]]></value>
 	</definition>
-
-
-
 	<definition>
 		<key>text_sorting_review_asc</key>
 		<value><![CDATA[Review Count Low > High]]></value>
@@ -124,5 +120,13 @@
 	<definition>
 		<key>text_sorting_date_modified_desc</key>
 		<value><![CDATA[Date Old to New]]></value>
+	</definition>
+	<definition>
+		<key>text_my_extensions</key>
+		<value><![CDATA[My Extensions]]></value>
+	</definition>
+	<definition>
+		<key>text_my_account</key>
+		<value><![CDATA[My Account]]></value>
 	</definition>
 </definitions>

@@ -161,6 +161,19 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 							'options' => $sorts));
 		}
 
+		$this->data['btn_my_extensions'] = $this->html->buildButton(
+										array(  'name'  => 'btn_my_exts',
+												'text'  => $this->language->get('text_my_extensions'),
+												'style' => 'button3',
+												'href'  => $this->html->getSecureURL('extension/extensions')
+										));
+		$this->data['btn_my_account'] = $this->html->buildButton(
+										array(  'name'   => 'btn_my_account',
+												'text'   => $this->language->get('text_my_account'),
+												'style'  => 'button1',
+												'href'   => $this->model_tool_mp_api->getMPURL().'?rt=account/account',
+												'target' => '_blank'
+										));
 
 		$this->view->batchAssign($this->data);
 

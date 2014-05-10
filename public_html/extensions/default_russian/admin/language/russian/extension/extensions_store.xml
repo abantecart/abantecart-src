@@ -1,91 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[Магазин Расширений]]></value>
-  </definition>
-  <definition>
-    <key>text_install</key>
-    <value><![CDATA[Установить]]></value>
-  </definition>
-  <definition>
-    <key>text_uninstall</key>
-    <value><![CDATA[Удалить]]></value>
-  </definition>
-  <definition>
-    <key>text_uninstall_delete</key>
-    <value><![CDATA[Деинсталлировать / Удалить]]></value>
-  </definition>
-  <definition>
-    <key>text_uninstall_confirm</key>
-    <value><![CDATA[Пожалуйста, подтвердите, удаление расширения [%% расширение]. Все настройки модуля и связанные с ними данные могут быть удалены и утрачены.]]></value>
-  </definition>
-  <definition>
-    <key>text_delete</key>
-    <value><![CDATA[Удалить]]></value>
-  </definition>
-  <definition>
-    <key>text_enlarge</key>
-    <value><![CDATA[Нажмите на изображение, чтобы увеличить]]></value>
-  </definition>
-  <definition>
-    <key>text_activate</key>
-    <value><![CDATA[Активировать]]></value>
-  </definition>
-  <definition>
-    <key>text_deactivate</key>
-    <value><![CDATA[Деактивировать]]></value>
-  </definition>
-  <definition>
-    <key>text_left</key>
-    <value><![CDATA[Лево]]></value>
-  </definition>
-  <definition>
-    <key>text_right</key>
-    <value><![CDATA[Право]]></value>
-  </definition>
-  <definition>
-    <key>text_date_added</key>
-    <value><![CDATA[Добавлено]]></value>
-  </definition>
-  <definition>
-    <key>error_permission</key>
-    <value><![CDATA[Внимание: Вы не имеете прав для изменения расширений!]]></value>
-  </definition>
-  <definition>
-    <key>error_required_field</key>
-    <value><![CDATA[Внимание: Пожалуйста, заполните необходимые поля!]]></value>
-  </definition>
-  <definition>
-    <key>error_payment_uninstall</key>
-    <value><![CDATA[Внимание: Отключите расширение до удаления!]]></value>
-  </definition>
-  <definition>
-    <key>error_uninstall</key>
-    <value><![CDATA[Внимание: Деинсталлируйте расширение до удаления!]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Успешно: Вы изменили настройки модуля!]]></value>
-  </definition>
-  <definition>
-    <key>text_extensions_store</key>
-    <value><![CDATA[Магазин Расширений]]></value>
-  </definition>
-  <definition>
-    <key>text_required</key>
-    <value><![CDATA[Необходимо]]></value>
-  </definition>
-  <definition>
-    <key>text_optional</key>
-    <value><![CDATA[Необязательно]]></value>
-  </definition>
-  <definition>
-    <key>text_add_new</key>
-    <value><![CDATA[Добавить расширение]]></value>
-  </definition>
-  <definition>
-    <key>error_connect</key>
-    <value><![CDATA[К сожалению, Ваш Abantecart не может соединиться с магазином расширений. См. Система-&gt;Журналы Ошибок.]]></value>
-  </definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Магазин Расширений]]></value>
+	</definition>
+	<definition>
+		<key>text_install</key>
+		<value><![CDATA[Установить]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall</key>
+		<value><![CDATA[Удалить]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall_delete</key>
+		<value><![CDATA[Деинсталлировать / Удалить]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall_confirm</key>
+		<value>
+			<![CDATA[Пожалуйста, подтвердите, удаление расширения [%% расширение]. Все настройки модуля и связанные с ними данные могут быть удалены и утрачены.]]></value>
+	</definition>
+	<definition>
+		<key>text_delete</key>
+		<value><![CDATA[Удалить]]></value>
+	</definition>
+	<definition>
+		<key>text_enlarge</key>
+		<value><![CDATA[Нажмите на изображение, чтобы увеличить]]></value>
+	</definition>
+	<definition>
+		<key>text_activate</key>
+		<value><![CDATA[Активировать]]></value>
+	</definition>
+	<definition>
+		<key>text_deactivate</key>
+		<value><![CDATA[Деактивировать]]></value>
+	</definition>
+	<definition>
+		<key>text_left</key>
+		<value><![CDATA[Лево]]></value>
+	</definition>
+	<definition>
+		<key>text_right</key>
+		<value><![CDATA[Право]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Добавлено]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Внимание: Вы не имеете прав для изменения расширений!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_field</key>
+		<value><![CDATA[Внимание: Пожалуйста, заполните необходимые поля!]]></value>
+	</definition>
+	<definition>
+		<key>error_payment_uninstall</key>
+		<value><![CDATA[Внимание: Отключите расширение до удаления!]]></value>
+	</definition>
+	<definition>
+		<key>error_uninstall</key>
+		<value><![CDATA[Внимание: Деинсталлируйте расширение до удаления!]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы изменили настройки модуля!]]></value>
+	</definition>
+	<definition>
+		<key>text_extensions_store</key>
+		<value><![CDATA[Магазин Расширений]]></value>
+	</definition>
+	<definition>
+		<key>text_required</key>
+		<value><![CDATA[Необходимо]]></value>
+	</definition>
+	<definition>
+		<key>text_optional</key>
+		<value><![CDATA[Необязательно]]></value>
+	</definition>
+	<definition>
+		<key>text_add_new</key>
+		<value><![CDATA[Добавить расширение]]></value>
+	</definition>
+	<definition>
+		<key>error_connect</key>
+		<value><![CDATA[К сожалению, Ваш Abantecart не может соединиться с магазином расширений. См. Система-&gt;Журналы Ошибок.]]></value>
+	</definition>
+	<definition>
+		<key>text_my_extensions</key>
+		<value><![CDATA[Мои расширения]]></value>
+	</definition>
+	<definition>
+		<key>text_my_account</key>
+		<value><![CDATA[Моя учетная запись]]></value>
+	</definition>
 </definitions>
