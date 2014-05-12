@@ -349,7 +349,7 @@ final class AConnect {
 		// set default options for curl
         if (!$this->curl_options) {
             $this->curl_options = Array(
-                CURLOPT_CONNECTTIMEOUT => 3,  //wait for connect
+                CURLOPT_CONNECTTIMEOUT => $this->timeout,  //wait for connect
                 CURLOPT_TIMEOUT => $this->timeout,  // timeout for open connection
                 CURLOPT_HTTPHEADER => array('Expect:'),
                 CURLOPT_MAXREDIRS => 4,
@@ -402,7 +402,6 @@ final class AConnect {
 			}
 			$url = $newurl;
 		}
-
 
         $this->curl_options[CURLOPT_URL] = $url;
 
