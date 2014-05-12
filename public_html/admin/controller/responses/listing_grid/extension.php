@@ -99,16 +99,21 @@ class ControllerResponsesListingGridExtension extends AController {
 		// get extensions for install
 		$ready_to_install = $this->session->data['ready_to_install'];
 		$to_install = $to_inst_keys = array();
-		if($ready_to_install && is_array($ready_to_install)){
-			foreach( $ready_to_install as $pack ){
-				$to_install[$pack['extension_name']] =
-						  array('remote_install' => true,
-								'key' => $pack['extension_name'],
-								'name' => $pack['download_name'],
-								'extension_version' => $pack['extension_version'],
-								'installation_key' => $pack['installation_key'],
-								'update_date' => $pack['update_date']);
-				$to_inst_keys[] = $pack['extension_name'];
+
+		if(!has_value( $this->session->data['extension_filter'])
+			|| $this->session->data['extension_filter']=='extensions'){
+
+			if($ready_to_install && is_array($ready_to_install)){
+				foreach( $ready_to_install as $pack ){
+					$to_install[$pack['extension_name']] =
+							  array('remote_install' => true,
+									'key' => $pack['extension_name'],
+									'name' => $pack['download_name'],
+									'extension_version' => $pack['extension_version'],
+									'installation_key' => $pack['installation_key'],
+									'update_date' => $pack['update_date']);
+					$to_inst_keys[] = $pack['extension_name'];
+				}
 			}
 		}
 

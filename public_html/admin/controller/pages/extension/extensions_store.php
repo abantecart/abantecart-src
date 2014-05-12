@@ -171,7 +171,7 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 										array(  'name'   => 'btn_my_account',
 												'text'   => $this->language->get('text_my_account'),
 												'style'  => 'button1',
-												'href'   => $this->model_tool_mp_api->getMPURL().'?rt=account/account',
+												'href'   => $this->model_tool_mp_api->getMPURL().'?rt=account/account&mp_token='.$this->session->data['mp_token'].'&mp_hash='.$this->session->data['mp_hash'],
 												'target' => '_blank'
 										));
 
