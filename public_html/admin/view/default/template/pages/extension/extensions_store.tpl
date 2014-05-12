@@ -14,8 +14,6 @@
 					<div class="buttons">
 						<div class="flt_left align_left">
 							<?php echo $btn_my_extensions; ?>
-						</div>&nbsp;&nbsp;
-						<div class="flt_left align_left">
 							<?php echo $btn_my_account; ?>
 						</div>
 
