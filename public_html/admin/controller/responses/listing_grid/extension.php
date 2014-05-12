@@ -129,7 +129,7 @@ class ControllerResponsesListingGridExtension extends AController {
 			if( $row['remote_install'] ){
 
 				$action = '<a class="btn_action"
-							  href="'.$this->html->getSecureURL( 'tool/package_installer', '&extension_key=' . $row['installation_key'] ) . '"
+							  href="'.$this->html->getSecureURL( 'tool/package_installer/download', '&extension_key=' . $row['installation_key'] ) . '"
 							  title="' . $this->language->get('text_install') . '">' .
 						  '<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_install.png" alt="' . $this->language->get('text_install') . '" /></a>';
 
