@@ -47,8 +47,7 @@ $m->insertMenuItem(
 $dataset = new ADataset ('menu', 'storefront');
 
 $columns[] = array( 'name' => 'item_icon_rl_id',
-					'type' => 'integer',
-					'sort_order' => "7");
+					'type' => 'integer'	);
 $dataset->defineColumns($columns);
 
 $all_columns = $dataset->getColumnDefinitions();
