@@ -40,7 +40,7 @@ class ModelToolMPAPI extends Model {
 							   'store_ip' => $_SERVER ['SERVER_ADDR'],
 							   'store_url' => HTTP_SERVER,
 							   'store_version' => VERSION,
-							   'installer_url' => $this->html->getSecureURL('tool/package_installer')
+							   'installer_url' => $this->html->getSecureURL('tool/package_installer/download')
 							 );
 		$extensions_list = $this->extensions->getExtensionsList();
 		if ($extensions_list) {
