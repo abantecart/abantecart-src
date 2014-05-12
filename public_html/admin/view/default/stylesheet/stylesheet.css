@@ -2265,6 +2265,7 @@ div.download-list-attributes{
 }
 
 /* EXTENSION STORE CSS*/
+
 .extension-store-list.cbox_cc{
 	width: 100%;
 	border-collapse: separate;
@@ -2295,72 +2296,6 @@ div.download-list-attributes{
 	background-color: #e1e1e1;
 }
 
-.extension-store-list .product-list {
-	width: 100%;
-	display: block;
-	overflow: hidden;
-}
-
-
-.extension-store-list .product-list li, .extension-store-list .thumbnails{
-	width: 125px;
-	height: 125px;
-	list-style: none;
-	margin: 5px;
-	overflow: hidden;
-	display: inline-block;
-	text-align: center;
-}
-
-.extension-store-list .product-list li{
-	margin: 5px;
-	cursor: pointer;
-}
-
-.extension-store-list .product-list  .preview img{
-	margin: 10px;
-	border-radius: 10px;
-	border: 2px solid #e1e1e1;
-}
-
-.extension-store-list .product-list .description{
-	margin: 10px;
-	width: 220px;
-	height: 190px;
-	overflow: hidden;
-}
-.extension-store-list .product-list .product-description{
-	margin: 0 0 5px 0;
-	font-size: 10px;
-	line-height: 15px;
-	height: 190px;
-	width: 220px;
-	overflow: auto;
-}
-
-.extension-store-list .product-list .pricetag{
-	width: 80px;
-	display: inline-block;
-	text-align: right;
-	font-size: 20px;
-	font-weight: bold;
-}
-
-.extension-store-list .product-list .rating{
-	width: 60px;
-	display: inline-block;
-	line-height: 21px;
-}
-
-
-.extension-store-list .product-list .product-name{
-	color: #242424;
-	font: 15px Arial,Helvetica,sans-serif;
-}
-
-.extension-store-list .product-list .pagination .links{
-	margin: 0;
-}
 
 .extension-store-list .sorting {
 	height: 42px;
@@ -2404,29 +2339,146 @@ div.download-list-attributes{
 	cursor: pointer;
 }
 
-.product-list .popover{
-	width: auto;
-	max-width: 500px;
-	height: auto;
+/* Extension listing section */
+.thumbnails.grid .span3 {
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
-
-.product-list .popover-title{
-	font-size: 18px;
+.ext_thumbnail{
+	float: left;
+}
+.ext_thumbnail .product_thumb {
+	display: block;
+	width: 60px;
+}
+.ext_details {
+	float: left;
+	min-width: 200px;
+	line-height: 18px;
+}
+.ext_details .ext_name {
+	padding: 5px 5px 5px 5px;
+	text-align: left;
+	white-space: nowrap;
+	overflow-x: hidden;
+	width: 200px;
+	height: 18px;
+}
+/* Cool zoom */
+.text_zoom {
+	-webkit-transition: all .3s ease-out;
+	-moz-transition: all .3s ease-out;
+	-o-transition: all .3s ease-out;
+	transition: all .3s ease-out;
+}
+.text_zoom:hover {
+	position: absolute;
+	z-index: 999;
+	min-width: 300px; 
+	padding: 5px;
+	margin: 0 200px 5px 0;
+	text-align: center;
+	background: rgb(255, 255, 255) transparent;
+	background: rgba(255, 255, 255, 0.8);   
+    border: 1px solid #DCDCDC;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.06);
+	-moz-transform: scale(2);
+	-webkit-transform: scale(2);
+	-o-transform: scale(2);
+	transform: scale(2);
+	-ms-transform: scale(2);
+	filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=2, M12=-0, M21=0, M22=2);
+}
+.ext_more {
+	background-color: #F5F5F5;
+	padding: 5px 5px;	
+	height: 18px;
+}
+.ext_more .ext_review {
+	float: left;
+	text-align: left;
+	width: 70px;
+	font-size: 11px;	
+}
+.ext_more .ext_price {
+	font-size: 14px;
+	float: left;
+	text-align: right;
+	width: 100px;
+}
+.ext_more .pricenew, .ext_more .oneprice {
+	text-align: right;
+	float: right;
+	font-size: 16px;
 	font-weight: bold;
 }
-.product-list .popover-content .reviews{
-	margin-left: 20px;
-	display: inline-block;
-	line-height: 21px;
+.ext_more .priceold {
+	text-align: right;
+	float: right;
+	font-size: 12px;
+	text-decoration: line-through;
+}
+.ext_more .ext_icons {
+	text-align: right;
+	float: right;
+	font-size: 16px;
+	color: #00A1CB;
+	width: 30px;
+}
+.thumbnails .prdocutname {
+	font-size: 12px;
+	color: #5e626b;
+	/*text-transform: uppercase;*/;
+	text-align: center;
+	margin: 0 0 10px 0;
+	display: block;
+	padding-right: 17px;
+}
+.thumbnails > li.span3 {
+	min-width: 270px;
+}
+.product_data .prdocut_title {
+	display: block;
+	float: left;
+	text-align: left;
+	padding: 10px 5px 10px 20px;	
+	font-size: 13px;
+	color: #fff;
+	width: 180px;
+}
+.product_data .review {
+	display: block;
+	float: left;
+	text-align: right;
+	padding: 10px 5px 10px 5px;	
+	font-size: 13px;
+	color: #fff;
+	width: 80px;
+}
+.product_data .price {
+	display: block;
+	float: left;
+	text-align: right;
+	padding: 10px 5px 10px 5px;	
+	font-size: 14px;
+	color: #fff;
+	width: 80px;
+}
+.product_data .pricenew, .product_data .oneprice {
+	font-size: 16px;
+	color: #fff;
 	font-weight: bold;
 }
-
-.product-list .popover-content .summary{
-	width: 97%;
-	overflow: hidden;
-	background-color: #efefef;
-	border-radius: 5px;
-	padding: 7px;
+.product_data .priceold {
+	font-size: 12px;
+	color: #fff;
+	text-decoration: line-through;
 }
-
+.product_data .prdocut_image {
+	width: 400px;
+}
+.tooltip-inner {
+    max-width: 400px;
+}
+/* Extension listing section END */
 

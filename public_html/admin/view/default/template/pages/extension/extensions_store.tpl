@@ -48,55 +48,82 @@
 						</ul>
 					</td>
 					<td class="pull-left" style="text-align: center; width: 100%;">
-						<ul class="product-list">
+								
+						<div class="container-fluid">					
+						<ul class="thumbnails">
 							<?php
-							foreach ($content['products']['rows'] as $product) {
-								$item = array();
-
-								$item['image'] = $product['cell']['main_image'];
-								$item['title'] = $product['cell']['name'];
-								$item['description'] = html_entity_decode($product['cell']['description'], ENT_QUOTES);
-
-								$item['rating'] = ((int)$product['cell']['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . (int)$product['cell']['rating'] . '.png') . "' alt='" . $product['stars'] . "' />" : '';
-
-								$item['info_url'] = $product['href'];
-								$item['buy_url'] = $product['add'];
-
-								$item['price'] = $product['cell']['price'];
-								$review = $button_write;
-								if ($item['rating']) {
-									$review = $item['rating'];
-								} ?>
-								<li data-trigger="hover" data-placement="right" data-product-id="<?php echo $product['id'] ?>" class="product-item thumbnail pull-left">
-									<div class="preview pull-left">
-										<img src="<?php echo $item['image'] ?>" style="width: 100px;">
-									</div>
-									<div class="popover_content" style="display: none;" data-title="<?php echo $item['title'] ?>">
-										<div class="preview pull-left">
-											<img src="<?php echo $item['image'] ?>" style="width: 200px;">
-										</div>
-										<div class="description pull-left">
-											<a class="product-name" href="<?php echo $item['info_url'] ?>">
-												<?php echo $item['title'] ?> <?php echo $product['model'] ? "(" . $product['model'] . ")" : '' ?>
+							if ($content['products']['rows']) {
+								foreach ($content['products']['rows'] as $product) {
+								
+									$item = array();
+									$item['image'] = $product['cell']['thumb'];
+									$item['main_image'] = $product['cell']['main_image'];
+									$item['title'] = $product['cell']['name'];
+									$item['description'] = $product['cell']['model'];
+									$item['rating'] = "<img src='" . $this->templateResource('/image/stars_' . (int)$product['cell']['rating'] . '.png') . "' alt='" . (int)$product['stars'] . "' />";
+						
+									$item['price'] = $product['cell']['price'];
+									if ( substr( $product['cell']['price'],1) == '0.00' ) {
+										$item['price'] = 'FREE';
+									}
+						
+									if ($item['rating']) {
+										$review = $item['rating'];
+									}
+						
+									?>
+									<li class="product-item row span3" data-product-id="<?php echo $product['id'] ?>">
+										<div class="ext_thumbnail">
+											<a class="product_thumb" title='' data-html="true" rel="tooltip">
+											<img width="57" alt="" src="<?php echo $item['image'] ?>">
 											</a>
-											<div class="product-description"><?php echo $item['description'] ?></div>
+											<div class="tooltip-data hidden" style="display: none;">
+											<div class="product_data">
+												<span class="prdocut_title" title="<?php echo $item['title'] ?>"><?php echo $item['title'] ?></span>
+												<span class="review"><?php echo $review ?></span>
+												<span class="price">
+												    <span class="oneprice"><?php echo $item['price'] ?></span>
+												</span>	
+											</div>			
+											<div class="product_image">	
+												<img src="<?php echo $this->templateResource('/image/loading_row.gif'); ?>" class="load_ondemand" data-src="<?php echo $item['main_image'] ?>">
+											</div>	
+											</div>			
 										</div>
-										<div class="summary">
-											<div class="pull-left rating"><?php echo $item['rating'] ?></div>
-											<?php if( $product['cell']['review_count'] ){ ?>
-											<div class="pull-left reviews"><?php echo $product['cell']['review_count'] ?> review(s)</div>
-											<?php } ?>
-											<div class="pull-right pricetag"><?php echo $product['cell']['price']; ?></div>
-										</div>
-									</div>
-
-								</li>
-							<?php } ?>
-						</ul>
+										<div class="ext_details">
+											<div class="ext_name">
+												<div class="text_zoom">
+												<a title="<?php echo $item['title']; ?>"><?php echo $item['title'] ?></a>
+												</div>
+											</div>
+						
+											<div class="ext_more">
+												<div class="ext_review"><a class="compare"><?php echo $review ?></a></div>
+												<div class="ext_price">
+												    <div class="oneprice"><?php echo $item['price'] ?></div>
+												</div>
+						
+												<div class="ext_icons">
+													<a class="productcart" data-id="<?php echo $product['product_id'] ?>">
+													<i class="icon-shopping-cart"></i>
+													</a>
+												</div>
+											</div>
+										</div>				
+									</li>
+								<?php
+								}
+							}
+							?>
+						</ul>					
+						</div>	
+						
+						<?php if( $sorting && $pagination_bootstrap ) { ?>
 						<div class="pagination" >
 							<div class="sorting" style=""><?php echo $sorting; ?></div>
 							<div class="pages"  style="display: inline-block; text-align: left;"><?php echo $pagination_bootstrap; ?></div>
 						</div>
+						<?php }?>
 					</td>
 				</tr>
 			</table>
@@ -115,39 +142,49 @@
 </div>
 </div>
 <script type="text/javascript">
-	$("#sorting").change(function () {
-		location = '<?php echo $listing_url?>&' + $(this).val();
-	});
-
-	$('li.product-item, .pricetag a.btn_standard').click(function () {
-		var product_id = $(this).attr('data-product-id');
-		if(!product_id) return false;
-
-		window.open('<?php echo $remote_store_product_url;?>&product_id=' + product_id,	'MPside');
-
-	});
-
-	//show popover
-
-	$('li.product-item').popover({
-		html: true,
-		content: function(){
-			return $(this).children('.popover_content').html();
-		},
-		title: 	function(){ return $(this).children('.popover_content').attr('data-title'); },
-		delay: {'hide': 100}
-	});
-
-	$('.pricetag a.btn_standard').click(function(){
-		$(this).parents('li.product-item').click();
-		return false;
-	});
-
 	$('#frame_wrapper .alert').click(function(){
 		$('.extension-store-list').show();
 		$('#frame_wrapper').slideUp(1000);
 		$('#remote_store').attr('src','');
 	});
 
+	$("#sorting").change(function () {
+		location = '<?php echo $listing_url?>&' + $(this).val();
+	});
 
+	$('a.productcart, a.product_thumb, .ext_name a').click(function(){
+		var product_id = $(this).parents('li.product-item').attr('data-product-id');
+		if(!product_id) return false;
+		window.open('<?php echo $remote_store_product_url;?>&rt=product/product&product_id=' + product_id, 'MPside');
+		return false;
+	});
+
+	$('a.productcart').click(function(){
+		var product_id = $(this).parents('li.product-item').attr('data-product-id');
+		if(!product_id) return false;
+		window.open('<?php echo $remote_store_product_url;?>&rt=checkout/cart&product_id=' + product_id, 'MPside');
+		return false;
+	});
+
+	$('.ext_review a').click(function () {
+		var product_id = $(this).parents('li.product-item').attr('data-product-id');
+		if(!product_id) return false;
+		window.open('<?php echo $remote_store_product_url;?>&rt=product/product/reviews&product_id=' + product_id, 'MPside');
+		return false;
+	});
+
+
+	//tooltip for products
+	$('.ext_thumbnail').tooltip({
+  		selector: "a[rel=tooltip]",
+  		//placement: 'auto', //Only bootstrap 3
+  		animation: false,
+        title: function() {
+          var tooltipdata = $(this).parent().find('.tooltip-data');
+          var img_src = tooltipdata.find('.load_ondemand').attr('data-src');
+          tooltipdata.find('.load_ondemand').attr('src',img_src);
+          return tooltipdata.html();
+        }
+	})
+	
 </script>
