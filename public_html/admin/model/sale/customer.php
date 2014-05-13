@@ -296,7 +296,7 @@ class ModelSaleCustomer extends Model {
 
 		$implode = array();
 		$filter = (isset($data['filter']) ? $data['filter'] : array());
-		
+
 		if (has_value($filter['name'])) {
 			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($filter['name']) . "%' collate utf8_general_ci";
 		}
@@ -322,7 +322,16 @@ class ModelSaleCustomer extends Model {
 		
 		if (has_value($filter['customer_group_id'])) {
 			$implode[] = "cg.customer_group_id = '" . $this->db->escape($filter['customer_group_id']) . "'";
-		}	
+		}
+		// select only subscribers (group + customers with sucscription)
+		if (has_value($filter['all_subscribers'])) {
+			$implode[] = "c.newsletter=1";
+		}
+
+		// select only customers without newsletter subscribers
+		if (has_value($filter['only_customers'])) {
+			$implode[] = "cg.customer_group_id NOT IN (".(int)$this->getSubscribersCustomerGroupId().") ";
+		}
 		
 		if (has_value($filter['status'])) {
 			$implode[] = "c.status = '" . (int)$filter['status'] . "'";
@@ -398,7 +407,7 @@ class ModelSaleCustomer extends Model {
 				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 			}			
 		}	
-		
+
 		$query = $this->db->query($sql);
 		$result_rows = $query->rows;
 		if ( $this->dcrypt->active ) {
@@ -634,6 +643,28 @@ class ModelSaleCustomer extends Model {
 								   WHERE customer_group_id = '" . (int)$customer_group_id . "'");
 		
 		return (int)$query->row['total'];
+	}
+
+	public function getAllSubscribers($data, $mode = 'default'){
+		$data['filter']['all_subscribers'] = 1;
+		return $this->getCustomers($data, $mode);
+	}
+
+	public function getOnlyNewsletterSubscribers($data, $mode = 'default'){
+		$data['filter']['customer_group_id'] = $this->getSubscribersCustomerGroupId();
+		return $this->getCustomers($data, $mode);
+	}
+
+	public function getOnlyCustomers($data, $mode = 'default'){
+		$data['filter']['only_customers'] = 1;
+		return $this->getCustomers($data, $mode);
+	}
+
+
+	public function getSubscribersCustomerGroupId() {
+		$query = $this->db->query("SELECT customer_group_id	FROM `" . $this->db->table("customer_groups") . "` WHERE `name` = 'Newsletter Subscribers' LIMIT 0,1");
+		$result = !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') :  $query->row['customer_group_id'];
+		return $result;
 	}
 
 }
