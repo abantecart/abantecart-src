@@ -371,6 +371,10 @@ class ModelAccountCustomer extends Model {
 			$error['warning'] = $this->language->get('error_subscriber_exists');
 		}
 
+		if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
+			$error['captcha'] = $this->language->get('error_captcha');
+		}
+
     	return $error;
 	}
 

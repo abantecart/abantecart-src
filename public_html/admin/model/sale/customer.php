@@ -323,9 +323,10 @@ class ModelSaleCustomer extends Model {
 		if (has_value($filter['customer_group_id'])) {
 			$implode[] = "cg.customer_group_id = '" . $this->db->escape($filter['customer_group_id']) . "'";
 		}
-		// select only subscribers (group + customers with sucscription)
+		// select only subscribers (group + customers with subscription)
 		if (has_value($filter['all_subscribers'])) {
-			$implode[] = "c.newsletter=1";
+			$implode[] = "( (c.newsletter=1 AND c.status = 1 AND c.approved = 1) OR
+						(c.newsletter=1 AND cg.customer_group_id = '".(int)$this->getSubscribersCustomerGroupId()."'))";
 		}
 
 		// select only customers without newsletter subscribers
@@ -645,17 +646,17 @@ class ModelSaleCustomer extends Model {
 		return (int)$query->row['total'];
 	}
 
-	public function getAllSubscribers($data, $mode = 'default'){
+	public function getAllSubscribers($data=array(), $mode = 'default'){
 		$data['filter']['all_subscribers'] = 1;
 		return $this->getCustomers($data, $mode);
 	}
 
-	public function getOnlyNewsletterSubscribers($data, $mode = 'default'){
+	public function getOnlyNewsletterSubscribers($data=array(), $mode = 'default'){
 		$data['filter']['customer_group_id'] = $this->getSubscribersCustomerGroupId();
 		return $this->getCustomers($data, $mode);
 	}
 
-	public function getOnlyCustomers($data, $mode = 'default'){
+	public function getOnlyCustomers($data=array(), $mode = 'default'){
 		$data['filter']['only_customers'] = 1;
 		return $this->getCustomers($data, $mode);
 	}

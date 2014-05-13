@@ -277,10 +277,10 @@ class ControllerPagesSaleContact extends AController {
 		if (isset($this->request->post['recipient'])) {
 		    $customers = $results = array();
 		    if($this->request->post['recipient'] == 'all_subscribers'){
-				$all_subscribers = $this->model_sale_customer->getAllSubscribers(array('status'=>1, 'approved'=>1));
+				$all_subscribers = $this->model_sale_customer->getAllSubscribers();
 				$results = $this->_unify_customer_list($all_subscribers);
 		    }else if($this->request->post['recipient'] == 'only_subscribers'){
-				$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers(array('status'=>1, 'approved'=>1));
+				$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers();
 				$results = $this->_unify_customer_list($only_subscribers);
 		    }else if($this->request->post['recipient'] == 'only_customers'){
 				$only_customers = $this->model_sale_customer->getOnlyCustomers(array('status'=>1, 'approved'=>1));
