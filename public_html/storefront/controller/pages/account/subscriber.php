@@ -39,7 +39,7 @@ class ControllerPagesAccountSubscriber extends AController {
 
 		$request_data = $this->request->post;
 
-		if ( $this->request->server['REQUEST_METHOD'] == 'POST') {
+		if ( $this->request->is_POST()) {
 			$this->error = $this->model_account_customer->validateSubscribeData($request_data);
 
     		if ( !$this->error ) {
@@ -113,24 +113,26 @@ class ControllerPagesAccountSubscriber extends AController {
 																		   'name' => 'email',
 																		   'value' => $this->request->get_or_post('email'),
 																		   'required' => true ));
+			$this->data['form']['captcha'] = $form->getFieldHtml( array(    'type'=>'captcha',
+					                                               			'name' =>'captcha',
+																			'required' => true
+																		));
 
 
-			$this->data['form'][ 'confirm' ] = $form->getFieldHtml( array(
-																		   'type' => 'password',
-																		   'name' => 'confirm',
-																		   'value' => $this->request->post['confirm'],
-																		   'required' => true ));
+			$this->data[ 'continue' ] = $form->getFieldHtml( array(
+																	'type' => 'submit',
+																	'name' => $this->language->get('button_continue'),
+																	'icon' => 'icon-ok',
+																	'style' => 'btn-orange'
+			));
 
-			$agree = isset($this->request->post['agree']) ? $this->request->post['agree'] : FALSE;
-			$this->data['form'][ 'agree' ] = $form->getFieldHtml( array(
-																		'type' => 'checkbox',
-																		'name' => 'agree',
-																		'value' => 1,
-																		'checked' => $agree ));
 
-			$this->data['form'][ 'continue' ] = $form->getFieldHtml( array(
-																		   'type' => 'submit',
-																		   'name' => $this->language->get('button_continue') ));
+			$this->data[ 'create_account' ] = $form->getFieldHtml( array(
+																	'type' => 'button',
+																	'text' => $this->language->get('text_customer_registration'),
+																	'href' => $this->html->getSecureURL('account/create'),
+																	'icon' => 'icon-user',
+			));
 
 
 			$this->data['error_warning'] = $this->error['warning'];
@@ -138,10 +140,8 @@ class ControllerPagesAccountSubscriber extends AController {
 			$this->data['error_firstname'] = $this->error['firstname'];
 			$this->data['error_lastname'] = $this->error['lastname'];
 			$this->data['error_email'] = $this->error['email'];
-
 			$this->data['error_confirm'] = $this->error['confirm'];
-
-			$this->data['action_full'] = $this->html->getSecureURL('account/create') ;
+			$this->data['error_captcha'] = $this->error['captcha'];
 
 
 			if ($this->config->get('config_account_id')) {
@@ -163,8 +163,6 @@ class ControllerPagesAccountSubscriber extends AController {
 
 			$text_account_already = sprintf($this->language->get('text_account_already'), $this->html->getSecureURL('account/login') );
 			$this->data['text_account_already'] = $text_account_already;
-			$this->data['subscriber_switch_text_full'] = $this->language->get('text_full_register');
-			$this->data['subscriber_switch_text'] = $this->language->get('text_subscribe_register');
 
 		}
 

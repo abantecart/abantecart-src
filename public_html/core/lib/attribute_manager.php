@@ -580,7 +580,8 @@ class AAttribute_Manager extends AAttribute {
 										   'grid_filter_params' => $grid_filter_params,
 										   'additional_filter_string' => $filter_form->getFilterString()
 										  ) );
-		$data = array_merge( $filter_grid->getFilterData(), $data);
+		$filter_data = $filter_grid->getFilterData();
+		$data = array_merge($filter_data, $data);
 
 		if ($mode == 'total_only') {
 			$total_sql = 'count(*) as total';
@@ -635,7 +636,7 @@ class AAttribute_Manager extends AAttribute {
             $sql .= " ASC";
         }
 
-        if (isset($data['start']) || isset($data['limit'])) {
+        if (has_value($data['start']) || has_value($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
@@ -646,6 +647,7 @@ class AAttribute_Manager extends AAttribute {
 
             $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
         }
+
         $query = $this->db->query($sql);
         return $query->rows;
     }

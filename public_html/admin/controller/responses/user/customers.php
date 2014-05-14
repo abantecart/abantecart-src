@@ -20,8 +20,11 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ControllerResponsesUserCustomers
+ */
 class ControllerResponsesUserCustomers extends AController {
-	private $error = array();
 
 	public function main() {
 
@@ -29,10 +32,15 @@ class ControllerResponsesUserCustomers extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
         $this->loadModel('sale/customer');
-		$customer_data = array();
+		$results = $customer_data = array();
 		
-		if (isset($this->request->get['keyword']) && $this->request->get['keyword']) {
-			$results = $this->model_sale_customer->getCustomersByKeyword($this->request->get['keyword']);		
+		if (has_value($this->request->get['keyword'])) {
+			$results = $this->model_sale_customer->getCustomersByKeyword($this->request->get['keyword']);
+		}elseif(has_value($this->request->get['email'])){
+			$results = $this->model_sale_customer->getCustomersByEmails($this->request->get['email']);
+		}
+
+		if($results){
 			foreach ($results as $result) {
 				$customer_data[] = array(
 					'customer_id' => $result['customer_id'],
@@ -45,8 +53,8 @@ class ControllerResponsesUserCustomers extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
         $this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($customer_data));
 	}
 
 }
-?>

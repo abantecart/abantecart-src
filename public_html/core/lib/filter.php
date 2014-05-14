@@ -40,27 +40,30 @@ final class AFilter {
         //Build data request parameters
         $this->data['page'] = $this->request->{$this->method}['page']; // get the requested page
         $this->data['page'] = $this->data['page'] ? $this->data['page'] : 1;
-        $this->data['rows'] = $this->request->{$this->method}['rows']; // get how many rows we want to have into the grid
+
+        $this->data['rows'] = $this->request->{$this->method}['limit']; // get how many rows we want to have into the grid
+        $this->data['rows'] = $this->data['rows'] ? $this->data['rows'] : $this->request->{$this->method}['rows'];
         $this->data['rows'] = $this->data['rows'] ? $this->data['rows'] : 10;
-        $this->data['sidx'] = $this->request->{$this->method}['sidx']; // get index row - i.e. user click to sort
+
+		$this->data['sidx'] = $this->request->{$this->method}['sidx']; // get index row - i.e. user click to sort
         $this->data['sidx'] = $this->data['sidx'] ? $this->data['sidx'] : 'sort_order';
         $this->data['sord'] = $this->request->{$this->method}['sord']; // get the direction of sorting
-        $this->data['sord'] = $this->data['sord'] ? $this->data['sord'] : 'DESC';
+        $this->data['sord'] = $this->data['sord'] ? strtoupper($this->data['sord']) : 'DESC';
         $this->data['_search'] = $this->request->{$this->method}['_search'];
         $this->data['filters'] = $this->request->{$this->method}['filters'];
         //If this data is provided in the input override values of the request.
-        if (sizeof($filter_conf['input_params'])) {
-            foreach ($filter_conf['input_params'] as $input) {
-                if ($filter_conf['input_params'][$input]) {
-                    $this->data[$input] = $filter_conf['input_params'][$input];
-                }
-            }
-        }
+		if (sizeof($filter_conf['input_params'])) {
+			foreach ($filter_conf['input_params'] as $k=>$v) {
+				if (has_value($v)) {
+					$this->data[$k] = $v;
+				}
+			}
+		}
 
         //Build Filter Data for result output and model query
         $this->data['filter_data'] = array(
             'sort' => $this->data['sidx'],
-            'order' => strtoupper($this->data['sord']),
+            'order' => $this->data['sord'],
             'limit' => $this->data['rows'],
             'start' => ($this->data['page'] - 1) * $this->data['rows'],
             'content_language_id' => $this->session->data['content_language_id'],
@@ -104,7 +107,7 @@ final class AFilter {
             $this->data['filter_string'] = $fl_str;   
         }
         
-        $allowedSortDirection = array('asc', 'desc');
+        $allowedSortDirection = array('ASC', 'DESC');
         if (!in_array($this->data['sord'], $allowedSortDirection)) {
             $this->data['sord'] = 'DESC';
         }

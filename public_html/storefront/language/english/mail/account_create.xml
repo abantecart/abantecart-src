@@ -17,6 +17,13 @@
     <value><![CDATA[Your account must be approved before you can login. Once approved you can log in by using your email address and password by visiting our website or at the following URL:]]></value>
   </definition>
   <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Before we can activate your account one last step must be taken to complete your registration.
+    Please note - you must complete this last step to become a registered member. You will only need to visit this URL once to activate your account.
+    To complete your registration, please visit this URL:
+    %s ]]></value>
+  </definition>
+  <definition>
     <key>text_services</key>
     <value><![CDATA[Upon logging in, you will be able to access other services including reviewing past orders, printing invoices and editing your account information.]]></value>
   </definition>

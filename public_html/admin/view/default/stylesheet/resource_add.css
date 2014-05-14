@@ -1,0 +1,21 @@
+/*
+	CSS for add resource tab
+*/
+.resource-details { margin: 0 !important;}
+.resource-details input,
+.resource-details select,
+.resource-details textarea{ border: 1px solid #aaa; border-radius: 4px; }
+.resource-details input,
+.resource-details textarea{ width:400px; }
+.resource-details textarea{ height:50px; }
+
+#code { padding: 5px 5px; }
+#code table{ border-top: 1px solid #ccc; }
+#code form table{ border: none; }
+
+.sub_title {
+    padding: 0 0 5px;
+    font-size: 14px;
+    font-weight: bold;
+    border-top: 1px solid #ccc
+}

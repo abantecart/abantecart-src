@@ -28,7 +28,7 @@ class ControllerApiProductFilter extends AControllerAPI {
         
 	    $this->loadModel('catalog/product');
 
-	    $filter_params = array('category_id', 'manufacturer_id', 'keyword', 'match', 'pfrom', 'pto');
+	    $filter_params = array('category_id', 'manufacturer_id', 'keyword', 'match', 'pfrom', 'pto' );
  		$grid_filter_params = array( 'name', 'description', 'model', 'sku' );
 		$filter_data = array(
 			'method' => 'get',
@@ -37,14 +37,28 @@ class ControllerApiProductFilter extends AControllerAPI {
 		);
 
 		$filter = new AFilter( $filter_data );
-		
-		if ( !$filter->getFilterParam('category_id') && !$filter->getFilterParam('manufacturer_id') && !$filter->getFilterParam('keyword')) {
+
+
+		$filters = $filter->getFilterData();
+		$category_id = $filter->getFilterParam('category_id');
+		$manufacturer_id = $filter->getFilterParam('manufacturer_id');
+		$keyword = $filter->getFilterParam('keyword');
+
+		if ( !$category_id && !$manufacturer_id && !$keyword) {
 			$this->rest->setResponseData( array('Error' => 'Missing one of required product filter parameters') );
 			$this->rest->sendResponse(200);
 			return;
-		}		
-		
-	    $total = $this->model_catalog_product->getTotalProducts( $filter->getFilterData() );
+		}
+
+
+	    //get total
+		if($keyword){
+			$total = $this->model_catalog_product->getTotalProducts( $filters );
+		}elseif($category_id){
+			$total = $this->model_catalog_product->getTotalProductsByCategoryId( $category_id );
+		}elseif($manufacturer_id){
+			$total = $this->model_catalog_product->getTotalProductsByManufacturerId( $manufacturer_id );
+		}
 
 	    if ($total > 0) {
 	    	$total_pages = ceil($total / $filter->getParam('rows'));
@@ -57,11 +71,30 @@ class ControllerApiProductFilter extends AControllerAPI {
 	    $response->page = $filter->getParam('page');
 	    $response->total = $total_pages;
 	    $response->records = $total;
+	    $response->limit = $filters['limit'];
+	    $response->sidx = $filters['sort'];
+	    $response->sord = $filters['order'];
+	    $response->params = $filters;
 
 	    $resource = new AResource('image');
-	    $results = $this->model_catalog_product->getProducts( $filter->getFilterData() );
-	    $i = 0;
 
+		if($keyword){
+	    	$results = $this->model_catalog_product->getProducts( $filters );
+		}elseif($category_id){
+	    	$results = $this->model_catalog_product->getProductsByCategoryId( $category_id,
+																			  $filters['sort'],
+	    																	  $filters['order'],
+	    																	  $filters['start'],
+	    																	  $filters['limit'] );
+		}elseif($manufacturer_id){
+	    	$results = $this->model_catalog_product->getProductsByManufacturerId( $manufacturer_id,
+																				  $filters['sort'],
+																				  $filters['order'],
+																				  $filters['start'],
+																				  $filters['limit'] );
+		}
+
+	    $i = 0;
 	    if ($results) {
 	    	foreach ($results as $result) {
 			    $thumbnail = $resource->getMainThumb('products',
@@ -74,8 +107,9 @@ class ControllerApiProductFilter extends AControllerAPI {
 	    		$response->rows[ $i ]['cell']['name'] = $result['name'];
 	    		$response->rows[ $i ]['cell']['description'] = $result['description'];
 	    		$response->rows[ $i ]['cell']['model'] = $result['model'];
-	    		// Need global methos to get the price. 
-	    		$response->rows[ $i ]['cell']['price'] = '';
+	    		$response->rows[ $i ]['cell']['price'] = $this->currency->convert($result['final_price'], $this->config->get('config_currency'), $this->currency->getCode());
+				$response->rows[ $i ]['cell']['currency_code'] = $this->currency->getCode();
+	    		$response->rows[ $i ]['cell']['rating'] = $result['rating'];
 	    		$i++;
 	    	}
 	    }

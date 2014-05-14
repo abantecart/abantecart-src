@@ -56,7 +56,7 @@ class ControllerBlocksHTMLBlock extends AController {
 
 		$output = array(
 			'title' => $descriptions[$key]['title'],
-			'content' => html_entity_decode($descriptions[$key]['content']),
+			'content' => html_entity_decode($descriptions[$key]['content'], ENT_QUOTES, 'utf-8'),
 			'block_wrapper' => $descriptions[$key]['block_wrapper'],
 			'block_framed' => $descriptions[$key]['block_framed'],
 		);

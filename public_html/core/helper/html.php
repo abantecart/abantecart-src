@@ -21,6 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
+//Possibly legacy and only for old template. Remove in 1.2
 function renderStoreMenu( $menu, $level = 0 ){
 	$menu = (array)$menu;
     $result = '';
@@ -59,6 +60,60 @@ function renderStoreMenu( $menu, $level = 0 ){
     if ( $level ) $result .= "</ul>\r\n";
     return $result;
 }
+
+
+//New menu tree builder (1.1.9) 
+function buildStoreFrontMenuTree( $menu_array, $level = 0 ){
+    $menu_array = (array)$menu_array;
+    if (!$menu_array) {
+    	return '';
+    }
+    $result = '';
+    //for submenus build new UL node
+    if ( $level > 0 ) $result .= "<ul class='sub_menu dropdown-menu'>\r\n";
+    $registry = Registry::getInstance();
+    $logged = $registry->get('customer')->isLogged();
+
+    foreach( $menu_array as $item ) {
+    	if(($logged && $item['id']=='login')
+    		||	(!$logged && $item['id']=='logout')){
+    		continue;
+    	}
+
+		//build appropriate menu id and classes for css controll
+    	$id = ( empty($item['id']) ? '' : ' data-id="menu_'.$item['id'].'" ' ); // li ID
+    	if($level != 0){
+    		if(empty($item['children'])){
+    			$class = $item['icon'] ? ' class="top nobackground"' : ' class="sub menu_'.$item['id'].'" ';
+    		}else{
+    			$class = $item['icon']? ' class="parent nobackground" ' : ' class="parent menu_'.$item['id'].'" ';
+    		}
+    	}else{
+    		$class = $item['icon'] ? ' class="top nobackground"' : ' class="top menu_'.$item['id'].'" ';
+    	}
+    	$href = empty($item['href']) ? '' : ' href="'.$item['href'].'" '; 
+    	//construct HTML
+    	$result .= '<li ' . $id . ' class="dropdown hover">';
+    	$result .= '<a ' . $class . $href . '>';
+    	
+    	//check icon rl type html, image or none. 
+    	if ( is_html( $item['icon'] ) ) {
+    		$result .= $item['icon'];
+    	} else if ($item['icon']) {
+    		$result .= '<img class="menu_image" src="'. HTTP_DIR_RESOURCE . $item['icon'].'" alt="" />';
+    	}
+    	$result .= '<span class="menu_text">' . $item['text'] . '</span></a>';
+
+		//if children build inner clild tree
+    	if ( !empty($item['children']) ) {
+    		$result .= "\r\n" . buildStoreFrontMenuTree($item['children'], $level+1);
+    	}
+    	$result .= "</li>\r\n";
+    }
+    if ( $level > 0 ) $result .= "</ul>\r\n";
+    return $result;
+}
+
 
 function renderAdminMenu( $menu, $level = 0 ){
     $result = '';

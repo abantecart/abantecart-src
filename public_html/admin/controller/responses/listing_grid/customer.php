@@ -82,7 +82,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 			$response->rows[ $i ][ 'id' ] = $result[ 'customer_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
 				$result[ 'name' ],
-				$result[ 'email' ],
+				'<a href="'.$this->html->getSecureURL('sale/contact','&email[]='.$result[ 'email' ]).'">'.$result[ 'email' ].'</a>',
 				$result[ 'customer_group' ],
 				$this->html->buildCheckbox(array(
 					'name' => 'status[' . $result[ 'customer_id' ] . ']',
@@ -256,7 +256,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 				}
 				break;
 			case 'email':
-				$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
+				$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}\.[A-Z]{2,6}$/i';
 				if ((strlen(utf8_decode($value)) > 96) || (!preg_match($pattern, $value))) {
 					$err = $this->language->get('error_email');
 				}

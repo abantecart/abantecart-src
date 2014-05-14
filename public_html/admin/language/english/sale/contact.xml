@@ -17,12 +17,16 @@
 		<value><![CDATA[Custom Send]]></value>
 	</definition>
 	<definition>
-		<key>text_newsletter</key>
-		<value><![CDATA[All Newsletter Subscribers]]></value>
+		<key>text_all_subscribers</key>
+		<value><![CDATA[All Subscribers]]></value>
 	</definition>
 	<definition>
-		<key>text_customer</key>
-		<value><![CDATA[All Customers]]></value>
+		<key>text_subscribers_only</key>
+		<value><![CDATA[Only Newsletter Subscribers]]></value>
+	</definition>
+	<definition>
+		<key>text_customers_only</key>
+		<value><![CDATA[Only Customers]]></value>
 	</definition>
 	<definition>
 		<key>text_search</key>

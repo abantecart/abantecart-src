@@ -23,7 +23,7 @@ if (! defined ( 'DIR_CORE' )) {
 class ModelToolImage extends Model {
 	function resize($filename, $width = 0, $height = 0) {
 		if (!is_file(DIR_IMAGE . $filename)) {
-			return;
+			return null;
 		} 
 		
 		$info = pathinfo($filename);
@@ -59,4 +59,3 @@ class ModelToolImage extends Model {
 		}	
 	}
 }
-?>

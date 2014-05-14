@@ -177,8 +177,7 @@
 											<li><a href="#" onclick="$(this).closest('form').submit(); return false;"
 												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
 										</ul>
-										<a class="productprint btn btn-large" href="#"
-										   onclick="window.print()"><i
+										<a class="productprint btn btn-large" href="javascript:window.print();"><i
 													class="icon-print"></i> <?php echo $button_print; ?></a>
 										<?php }else{?>
 											<ul class="productpagecart call_to_order">

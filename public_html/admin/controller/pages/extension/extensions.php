@@ -20,6 +20,11 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
+
+/**
+ * Class ControllerPagesExtensionExtensions
+ * @property ModelToolMPApi $model_tool_mp_api
+ */
 class ControllerPagesExtensionExtensions extends AController {
 
 	public $data;
@@ -34,6 +39,12 @@ class ControllerPagesExtensionExtensions extends AController {
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		//put extension_list for remote install into session to prevent multiple requests for grid
+
+		$this->loadModel('tool/mp_api');
+		$this->session->data['ready_to_install'] = $this->model_tool_mp_api->getExtensions();
+
 
 		$this->document->setTitle($this->language->get('heading_title'));
 

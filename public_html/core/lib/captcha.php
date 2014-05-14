@@ -60,10 +60,10 @@ class Captcha {
         imagestring($image, 10, intval(($width - (strlen($this->code) * 9)) / 2),  intval(($height - 15) / 2), $this->code, $black);
 	
 		header('Content-type: image/jpeg');
-		
+
+
 		imagejpeg($image);
-		
-		imagedestroy($image);		
+		imagedestroy($image);
+		exit;
 	}
 }
-?>

@@ -172,6 +172,13 @@ try {
 	define('POSTFIX_PRE', '.pre');
 	define('POSTFIX_POST', '.post');
 
+//Static order ids 1,2,5,7
+	define('ORDER_INIT', 0);
+	define('ORDER_PENDING', 1);
+	define('ORDER_PROCESSING', 2);
+	define('ORDER_COMPLETED', 5);
+	define('ORDER_CANCELED', 7);
+
 // Include Engine
 	require_once(DIR_CORE . 'engine/router.php');
 	require_once(DIR_CORE . 'engine/page.php');
@@ -254,8 +261,7 @@ try {
 	$registry = Registry::getInstance();
 
 // Loader
-	$loader = new ALoader($registry);
-	$registry->set('load', $loader);
+	$registry->set('load', new ALoader($registry));
 
 // Request
 	$request = new ARequest();
@@ -265,21 +271,19 @@ try {
 	$response = new AResponse();
 	$response->addHeader('Content-Type: text/html; charset=utf-8');
 	$registry->set('response', $response);
+	unset($response);
 
 // URL Class
-	$html = new AHtml($registry);
-	$registry->set('html', $html);
+	$registry->set('html', new AHtml($registry));
 
 //Hook class
 	$hook = new AHook($registry);
 
-// Database 
-	$db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-	$registry->set('db', $db);
+// Database
+	$registry->set('db', new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE));
 
 // Cache
-	$cache = new ACache();
-	$registry->set('cache', $cache);
+	$registry->set('cache', new ACache());
 
 // Config
 	$config = new AConfig($registry);
@@ -307,8 +311,7 @@ try {
 		}		
 	
 		//Admin specific loads
-		$extension_manager = new AExtensionManager();
-		$registry->set('extension_manager', $extension_manager);
+		$registry->set('extension_manager', new AExtensionManager());
 		
 	} else {
 		// Storefront HTTP
@@ -340,16 +343,13 @@ try {
 
 
 //Messages
-	$messages = new AMessage();
-	$registry->set('messages', $messages);
+	$registry->set('messages', new AMessage());
 
-// Log 
-	$log = new ALog(DIR_LOGS . $config->get('config_error_filename'));
-	$registry->set('log', $log);
+// Log
+	$registry->set('log', new ALog(DIR_LOGS . $config->get('config_error_filename')) );
 
 // Session
-	$session = new ASession(SESSION_ID);
-	$registry->set('session', $session);
+	$registry->set('session', new ASession(SESSION_ID) );
 
 
 // Document
@@ -367,8 +367,7 @@ try {
 	$registry->set('uri', $_SERVER[ 'REQUEST_URI' ]);
 
 //main instance of data encryption 
-	$data_encryption = new ADataEncryption( );
-	$registry->set('dcrypt', $data_encryption);
+	$registry->set('dcrypt', new ADataEncryption());
 
 // Extensions api
 	$extensions = new ExtensionsApi();
@@ -378,6 +377,7 @@ try {
 //validate template
 	$is_valid = false;
 	$enabled_extensions = $extensions->getEnabledExtensions();
+	unset($extensions);
 
 //check if we specify template directly
 	if (!IS_ADMIN && !empty($request->get[ 'sf' ])) {
@@ -421,23 +421,23 @@ try {
 		$config->set('original_admin_template', $config->get('admin_template'));
 		$config->set('admin_template', $template);
 		// Load language
-		$language = new ALanguageManager($registry);
+		$lang_obj = new ALanguageManager($registry);
 	} else {
 		$config->set('original_config_storefront_template', $config->get('config_storefront_template'));
 		$config->set('config_storefront_template', $template);
 		// Load language
-		$language = new ALanguage($registry);
+		$lang_obj = new ALanguage($registry);
 	}
 
 // Create Global Layout Instance
 	$registry->set('layout', new ALayout($registry, $template));
 
 // load download class
-	$dwnload = new ADownload();
-	$registry->set('download',$dwnload);
+	$registry->set('download',new ADownload());
 
 //load main language section
-	$registry->set('language', $language);
+	$registry->set('language', $lang_obj);
+	unset($lang_obj);
 	$registry->get('language')->load();
 	$hook->hk_InitEnd();
 

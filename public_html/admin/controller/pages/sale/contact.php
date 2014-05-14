@@ -174,18 +174,23 @@ class ControllerPagesSaleContact extends AController {
 	        'style' => 'large-field'
 	    ));
 
-		$subscribers_count = $this->model_sale_customer->getCustomersByNewsletter();
-		$subscribers_count = sizeof($subscribers_count);
+		$all_subscribers = $this->model_sale_customer->getAllSubscribers(array('status'=>1, 'approved'=>1));
+		$all_subscribers_count = sizeof($this->_unify_customer_list($all_subscribers));
 
-		$customers_count = $this->model_sale_customer->getTotalCustomers();
+		$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers(array('status'=>1, 'approved'=>1));
+		$only_subscribers_count = sizeof($this->_unify_customer_list($only_subscribers));
+
+		$only_customers = $this->model_sale_customer->getOnlyCustomers(array('status'=>1, 'approved'=>1));
+		$only_customers_count = sizeof($this->_unify_customer_list($only_customers));
 
         $this->data['form']['recipient'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
 		    'name' => 'recipient',
 	        'value'=> $this->data['recipient'],
 	        'options' => array(''=> $this->language->get('text_custom_send'),
-	                           'newsletter'=> $this->language->get('text_newsletter') .' '. sprintf($this->language->get('text_total_to_be_sent'),$subscribers_count) ,
-	                           'customer'=> $this->language->get('text_customer') .' '. sprintf($this->language->get('text_total_to_be_sent'),$customers_count)),
+	                           'all_subscribers'=> $this->language->get('text_all_subscribers') .' '. sprintf($this->language->get('text_total_to_be_sent'),$all_subscribers_count) ,
+	                           'only_subscribers'=> $this->language->get('text_subscribers_only') .' '. sprintf($this->language->get('text_total_to_be_sent'),$only_subscribers_count) ,
+	                           'only_customers'=> $this->language->get('text_customers_only') .' '. sprintf($this->language->get('text_total_to_be_sent'),$only_customers_count)),
 			'style' => 'large-field'
 	    ));
 
@@ -222,6 +227,11 @@ class ControllerPagesSaleContact extends AController {
 		    'text' => $this->language->get('button_cancel'),
 		    'style' => 'button2',
 	    ));
+
+		//if email address given
+		if(has_value($this->request->get['email'])){
+			$this->data['emails'] = (array)$this->request->get['email'];
+		}
 
         $this->view->batchAssign( $this->data );
 
@@ -266,10 +276,15 @@ class ControllerPagesSaleContact extends AController {
 		// All customers by group
 		if (isset($this->request->post['recipient'])) {
 		    $customers = $results = array();
-		    if($this->request->post['recipient'] == 'newsletter'){
-		    		$results = $this->model_sale_customer->getCustomersByNewsletter();
-		    }else if($this->request->post['recipient'] == 'customer'){
-		    		$results = $this->model_sale_customer->getCustomers();
+		    if($this->request->post['recipient'] == 'all_subscribers'){
+				$all_subscribers = $this->model_sale_customer->getAllSubscribers();
+				$results = $this->_unify_customer_list($all_subscribers);
+		    }else if($this->request->post['recipient'] == 'only_subscribers'){
+				$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers();
+				$results = $this->_unify_customer_list($only_subscribers);
+		    }else if($this->request->post['recipient'] == 'only_customers'){
+				$only_customers = $this->model_sale_customer->getOnlyCustomers(array('status'=>1, 'approved'=>1));
+				$results = $this->_unify_customer_list($only_customers);
 		    }
 		    foreach ($results as $result) {
 		    	$customer_id = $result['customer_id'];
@@ -314,30 +329,37 @@ class ControllerPagesSaleContact extends AController {
 		    $message_html .= '<body>%MESSAGEBODY%</body>' . "\n";
 		    $message_html .= '</html>' . "\n";
 
+			$text_unsubscribe = $this->language->get('text_unsubscribe');
+			$text_subject = $this->request->post['subject'];
+			$text_message = $this->request->post['message'];
+			$from = $this->config->get('store_main_email');
+
+
 		    foreach ($emails as $email) {
 		    	$mail = new AMail( $this->config );
 		    	$mail->setTo($email);
-		    	$mail->setFrom($this->config->get('store_main_email'));
+		    	$mail->setFrom($from);
 		    	$mail->setSender($store_name);
-		    	$mail->setSubject($this->request->post['subject']);
+		    	$mail->setSubject( $text_subject );
 
-		    	$message_body = $this->request->post['message'];
+		    	$message_body = $text_message;
 		    	if($this->request->post['recipient'] == 'newsletter'){
 		    		if(($customer_id = array_search($email,$customers))){
-		    			$message_body .= "\n\n<br><br>".sprintf($this->language->get('text_unsubscribe'),
+		    			$message_body .= "\n\n<br><br>".sprintf($text_unsubscribe,
 		    									 $email,
 		    									 $this->html->getCatalogURL('account/unsubscribe','&email='.$email.'&customer_id='.$customer_id));
 		    		}
 		    	}
 		    	$message_body = html_entity_decode($message_body, ENT_QUOTES, 'UTF-8');
-		    	$message_html = str_replace('%MESSAGEBODY%',$message_body,$message_html);
-
-		    	$mail->setHtml($message_html);
+		    	$html = str_replace('%MESSAGEBODY%',$message_body,$message_html);
+		    	$mail->setHtml($html);
 		    	$mail->send();
 		    	if($mail->error){
-		    		$this->error['warning'] = 'Error: Emails does not sent! Please see error log for details.';
-		    		break;
+		    		$this->error[] = 'Error: Emails does not sent! Please see error log for details.';
+					$this->main();
+					return null;
 		    	}
+				unset($mail);
 		    }
 
 		}
@@ -373,6 +395,24 @@ class ControllerPagesSaleContact extends AController {
 		} else {
 			return FALSE;
 		}
+	}
+
+	/**
+	 * function filters customers list by unique email, to prevent duplicate emails
+	 * @param array $list
+	 * @return array|bool
+	 */
+	private function _unify_customer_list($list = array()){
+		if(!is_array($list)){
+			return array();
+		}
+		$output = array();
+		foreach($list as $c){
+			if(has_value($c['email'])){
+				$output[ $c['email'] ] = $c;
+			}
+		}
+		return $output;
 	}
 
 }

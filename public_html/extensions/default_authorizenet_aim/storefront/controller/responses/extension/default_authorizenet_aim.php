@@ -272,38 +272,48 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 
 		$json = array();
 
+		//build responce message for records
+		$message = '';
+		if (isset($response_data[ '5' ])) {
+		    $message .= 'Authorization Code: ' . $response_data[ '5' ] . "\n";
+		}
+		if (isset($response_data[ '6' ])) {
+		    $message .= 'AVS Response: ' . $response_data[ '6' ] . "\n";
+		}
+		if (isset($response_data[ '7' ])) {
+		    $message .= 'Transaction ID: ' . $response_data[ '7' ] . "\n";
+		}
+		if (isset($response_data[ '39' ])) {
+		    $message .= 'Card Code Response: ' . $response_data[ '39' ] . "\n";
+		}
+		if (isset($response_data[ '40' ])) {
+		    $message .= 'Cardholder Authentication Verification Response: ' . $response_data[ '40' ] . "\n";
+		}
+
+		/*
+			Response Code:
+			Value: The overall status of the transaction
+			format:
+			 1 = Approved
+			 2 = Declined
+			 3 = Error
+			 4 = Held for Review		
+		*/
+
 		if ($response_data[ 1 ] == '1') {
 			if (strtoupper($response_data[ 38 ]) != strtoupper(md5($this->config->get('default_authorizenet_aim_hash') . $this->config->get('default_authorizenet_aim_login') . $response_data[ 6 ] . $this->currency->format($order_info[ 'total' ], $order_info[ 'currency' ], 1.00000, FALSE)))) {
 				$this->model_checkout_order->confirm($this->session->data[ 'order_id' ], $this->config->get('config_order_status_id'));
-
-				$message = '';
-
-				if (isset($response_data[ '5' ])) {
-					$message .= 'Authorization Code: ' . $response_data[ '5' ] . "\n";
-				}
-
-				if (isset($response_data[ '6' ])) {
-					$message .= 'AVS Response: ' . $response_data[ '6' ] . "\n";
-				}
-
-				if (isset($response_data[ '7' ])) {
-					$message .= 'Transaction ID: ' . $response_data[ '7' ] . "\n";
-				}
-
-				if (isset($response_data[ '39' ])) {
-					$message .= 'Card Code Response: ' . $response_data[ '39' ] . "\n";
-				}
-
-				if (isset($response_data[ '40' ])) {
-					$message .= 'Cardholder Authentication Verification Response: ' . $response_data[ '40' ] . "\n";
-				}
-
 				$this->model_checkout_order->update($this->session->data[ 'order_id' ], $this->config->get('default_authorizenet_aim_order_status_id'), $message, FALSE);
 			}
 
 			$json[ 'success' ] = $this->html->getSecureURL('checkout/success');
+		} else if ($response_data[ 1 ] == '4') {
+			//special case of sucess payment in review stage. Create order with pending status
+			$this->model_checkout_order->confirm($this->session->data[ 'order_id' ], ORDER_PENDING);
+			$this->model_checkout_order->update($this->session->data[ 'order_id' ], ORDER_PENDING, $message, FALSE);
+			$json['success'] = $this->html->getSecureURL('checkout/success');
 		} else {
-			$json[ 'error' ] = $response_data[ 4 ];
+			$json['error'] = $response_data[ 4 ];
 		}
 
 		$this->load->library('json');

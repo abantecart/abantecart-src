@@ -48,7 +48,10 @@ class ControllerPagesProductCategory extends AController {
 			$path = '';
 		
 			$parts = explode('_', $this->request->get['path']);
-		
+			if ( count($parts) == 1 ) {
+				//see if this is a category ID to sub category, need to build full path
+				$parts = explode('_', $this->model_catalog_category->buildPath($this->request->get['path']));
+			}		
 			foreach ($parts as $path_id) {
 				$category_info = $this->model_catalog_category->getCategory($path_id);
 				

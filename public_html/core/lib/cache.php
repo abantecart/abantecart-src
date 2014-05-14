@@ -49,12 +49,15 @@ final class ACache {
   	public function __construct() {
 		$this->registry = Registry::getInstance ();
 		$cache_files = glob( DIR_CACHE. '*/*', GLOB_NOSORT);
+		if(!is_array($cache_files)){
+			$this->registry->get('log')->write('Cache directory is not accessible or writable.  Caching operation was skipped!');
+		}
 		foreach ($cache_files as $file) {
 			//first of all check if file expired. delete it if needed
 			$file_time = filemtime($file);
 			if ( (time() - $file_time) > $this->expire ) {
 				if (file_exists($file)) {
-					unlink($file);
+					$this->_remove($file);
 					continue;
 				}
 			}
@@ -97,7 +100,7 @@ final class ACache {
 		//if file expired or not exists
 		if (!isset($this->cache_map[$cache_filename]) || $this->cache_map[$cache_filename] < time()) {
 			if (file_exists($cache_file_full_name)) {
-				unlink($cache_file_full_name);
+				$this->_remove($cache_file_full_name);
 				unset($this->cache_map[$cache_filename]);
 				unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
 			}
@@ -178,14 +181,14 @@ final class ACache {
   		}
 		if ($files) {
     		foreach ($files as $file) {
-				if(pathinfo($file,PATHINFO_FILENAME) == 'index.html'){ continue; }
-      			if (file_exists($file)) {      				
-					unlink($file);
+			if(pathinfo($file,PATHINFO_FILENAME) == 'index.html'){ continue; }
+      				if (file_exists($file)) {      				
+					$this->_remove($file);
 					//clear cache map
 					$ch_base = substr($file,0,-11);
 					unset($this->cache_map[$ch_base]);
 				}
-    		}
+    			}
 		}
   	}
   	
@@ -227,7 +230,8 @@ final class ACache {
 			$section = $key;
 		}
 		if (!is_file(DIR_CACHE . $section) && !is_dir(DIR_CACHE . $section)) {
-			mkdir(DIR_CACHE . $section, 0777);
+			mkdir(DIR_CACHE . $section, 0777, true);
+			chmod(DIR_CACHE . $section, 0777); //change mode for nested directories
 		}
 	}
 
@@ -266,4 +270,25 @@ final class ACache {
 		}
 		return $suffix;
   	}
+
+
+	/**
+	 * @param string $file
+	 * @return null
+	 * @void
+	 */
+	private function _remove($file){
+		if(empty($file)){
+			return null;
+		}
+
+		unlink($file);
+		//double check that the cache file to be removed
+		if (file_exists($file)){
+			$err_text = sprintf('Error: Cannot delete cache file: %s! Check file or directory permissions.', $file);
+			$error = new AError($err_text);
+			$error->toLog()->toDebug();
+		}
+		return null;
+	}
 }

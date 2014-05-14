@@ -21,6 +21,18 @@
 		<value><![CDATA[Todos los clientes]]></value>
 	</definition>
 	<definition>
+		<key>text_all_subscribers</key>
+		<value><![CDATA[Todos los suscriptores]]></value>
+	</definition>
+	<definition>
+		<key>text_subscribers_only</key>
+		<value><![CDATA[Sólo los suscriptores del boletín]]></value>
+	</definition>
+	<definition>
+		<key>text_customers_only</key>
+		<value><![CDATA[Sólo los clientes]]></value>
+	</definition>
+	<definition>
 		<key>text_search</key>
 		<value><![CDATA[Buscar]]></value>
 	</definition>

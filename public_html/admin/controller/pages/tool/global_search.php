@@ -88,7 +88,7 @@ class ControllerPagesToolGlobalSearch extends AController {
 		$this->view->assign ( 'search_form_input', $search_form_input );
 		$this->view->assign ( 'search_form_button',  $search_form_button);
 
-
+		$this->data['grid_inits'] = array(); // list of js-functions names for initialization all jqgrids
 		if ($this->_validate ()) {
 			$search_categories_icons = $this->model_tool_global_search->getSearchSources ( $this->request->post ['search'] );
 			$search_categories  = array_keys($search_categories_icons);
@@ -97,7 +97,7 @@ class ControllerPagesToolGlobalSearch extends AController {
 
 
 				$this->view->assign ( 'no_results_message', '' );
-				$this->data['grid_inits'] = array(); // list of js-functions names for initialization all jqgrids
+
 				$i = 0;
 				foreach ( $search_categories as $search_category ) {
 					

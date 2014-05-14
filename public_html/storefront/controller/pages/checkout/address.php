@@ -86,7 +86,7 @@ class ControllerPagesCheckoutAddress extends AController {
 					$this->tax->setZone($address_info['country_id'], $address_info['zone_id']);
 				}
 			}
-			
+			unset($this->session->data['shipping_methods'], $this->session->data['shipping_method']);
 			$this->redirect($this->html->getSecureURL('checkout/shipping'));
 		}
 		
@@ -95,8 +95,7 @@ class ControllerPagesCheckoutAddress extends AController {
     		if ( !$this->error ) {	
 				$this->session->data['shipping_address_id'] = $this->model_account_address->addAddress($this->request->post);
 			
-				unset($this->session->data['shipping_methods']);
-				unset($this->session->data['shipping_method']);
+				unset($this->session->data['shipping_methods'], $this->session->data['shipping_method']);
 
 				if ($this->cart->hasShipping()) {
 					$this->tax->setZone($this->request->post['country_id'], $this->request->post['zone_id']);

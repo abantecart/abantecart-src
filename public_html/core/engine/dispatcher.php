@@ -73,8 +73,8 @@ final class ADispatcher {
         // We always get full RT (route) to dispatcher. Needs to have pages/ or responces/
 		if ( !$this->_process_path($rt) ){
 			$warning_txt = 'ADispatch: '.$rt.' construct FAILED. Missing or incorrect controller route path. Possibly layout block is enabled for disabled or missing extension! ';
-		    $warning = new AWarning( $warning_txt );
-            $warning->toLog()->toDebug();
+		    	$warning = new AWarning( $warning_txt );
+            		$warning->toLog()->toDebug();
 		}
 		ADebug::checkpoint('ADispatch: '.$rt.' construct end. file: class: '.$this->class.'; method: '.$this->method);
 	}
@@ -226,17 +226,17 @@ final class ADispatcher {
         	for ($i=1; $i < count($backtrace); $i++) {
         		$function_stack .= ' < ' . $backtrace[$i]['function'];
         	}
-			$url = $this->request->server['REQUEST_URI'];
+		$url = $this->request->server['REQUEST_URI'];
 
 	        $error = new AError('Error: URL: '.$url.' Could not load controller ' . $this->controller . '! Call stack: ' . $function_stack . '', AC_ERR_CLASS_CLASS_NOT_EXIST );
-            $error->toLog()->toDebug();
-            $error->toMessages();
+            	$error->toLog()->toDebug();
+            	$error->toMessages();
 	        return null;
         } else if ( empty($this->file) && empty($this->class) || empty($this->method)) {
-			$warning_txt = 'ADispatch: skipping unavailable controller …';
-		    $warning = new AWarning( $warning_txt );
-            $warning->toLog()->toDebug(); 
-            return null;
+		$warning_txt = 'ADispatch: skipping unavailable controller …';
+		$warning = new AWarning( $warning_txt );
+		$warning->toDebug(); 
+		return null;
         }
 
         //check for controller.pre

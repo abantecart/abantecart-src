@@ -244,13 +244,13 @@ class ControllerPagesCatalogAttribute extends AController {
 		);
 
 		if($attribute_type_info['type_key']!='download_attribute'){
-			$fileds[] = 'attribute_parent_id';
+			$fields[] = 'attribute_parent_id';
 		}
 
 		foreach ($fields as $f) {
 			if (isset($this->request->post[ $f ])) {
 				$this->data[ $f ] = $this->request->post[ $f ];
-			} elseif (isset($attribute_info)) {
+			} elseif (isset($attribute_info[$f])) {
 				$this->data[ $f ] = $attribute_info[ $f ];
 			} else {
 				$this->data[ $f ] = '';
@@ -345,7 +345,7 @@ class ControllerPagesCatalogAttribute extends AController {
 
 		if($attribute_type_info['type_key']!='download_attribute'){
 			$parent_attributes = array( '' => $this->language->get('text_select') );
-			$results = $this->attribute_manager->getAttributes(array('attribute_type_id'=>$attribute_type_id), 0, 0);
+			$results = $this->attribute_manager->getAttributes(array('attribute_type_id'=>$attribute_type_id, 'limit'=>null), 0, 0);
 			foreach ($results as $type) {
 				if (isset($this->request->get[ 'attribute_id' ]) && $this->request->get[ 'attribute_id' ] == $type[ 'attribute_id' ]) {
 					continue;

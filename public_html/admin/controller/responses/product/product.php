@@ -480,11 +480,7 @@ class ControllerResponsesProductProduct extends AController {
 				$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'type' ] = 'hidden';
 				if (in_array($attribute[ 'element_type' ], $this->data[ 'elements_with_options' ])) {
 					$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'type' ] = 'selectbox';
-					if(is_null($product_option_value_id)){ // for new row values
-						$values = $this->attribute_manager->getAttributeValues($attribute[ 'attribute_id' ], $this->language->getContentLanguageID());
-					}else{
-						$values = $this->getProductOptionValues($attribute[ 'attribute_id' ], $this->language->getContentLanguageID());
-					}
+					$values = $this->attribute_manager->getAttributeValues($attribute[ 'attribute_id' ], $this->language->getContentLanguageID());
 
 					foreach ($values as $v) {
 						$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'values' ][ $v[ 'attribute_value_id' ] ] = addslashes(html_entity_decode($v[ 'value' ], ENT_COMPAT, 'UTF-8'));
@@ -857,7 +853,8 @@ class ControllerResponsesProductProduct extends AController {
 		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
 					'type' => 'checkbox',
 					'name' => 'status',
-					'value' => $file_data['status'],
+					'value' => 1,
+					'checked' => $file_data['status'] ? true : false,
 					'style' => 'btn_switch',
 		));
 		$orders_count = $this->model_catalog_download->getTotalOrdersWithProduct($product_id);

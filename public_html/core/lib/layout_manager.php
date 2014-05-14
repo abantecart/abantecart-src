@@ -218,12 +218,11 @@ class ALayoutManager {
 	}
 
 	/**
-     * Run logic to detect page ID and layout ID for given parameters
-     * This will detect if requested page already has layout or return default overwise. 
+	 * Run logic to detect page ID and layout ID for given parameters
+	 * This will detect if requested page already has layout or return default overwise.
 	 * @param string $controller
 	 * @param string $key_param
 	 * @param string $key_value
-	 * @param string $template_id
 	 * @return array
 	 */
 	public function getPageLayoutIDs($controller = '', $key_param = '', $key_value = '') {
@@ -596,8 +595,10 @@ class ALayoutManager {
 
 
 	/**
-	 * Funcnction to clone layout linked to the page
-	 * @param $source layout id, destination layout id
+	 * Function to clone layout linked to the page
+	 * @param $src_layout_id
+	 * @param string $dest_layout_id
+	 * @param string $layout_name
 	 * @return bool
 	 */
 	public function clonePageLayout($src_layout_id, $dest_layout_id = '', $layout_name = '') {
@@ -605,7 +606,6 @@ class ALayoutManager {
 			return false;
 		}
 
-		$page = $this->page;
 		$layout = $this->active_layout;
 
 		//this is a new layout
@@ -632,8 +632,9 @@ class ALayoutManager {
 	}
 
 	/**
-	 * Funcnction to delete page and layout linked to the page
-	 * @param $page_id layout id (all required)
+	 * Function to delete page and layout linked to the page
+	 * @param int $page_id
+	 * @param int $layout_id
 	 * @return bool
 	 */
 	public function deletePageLayoutByID($page_id, $layout_id) {
@@ -652,8 +653,10 @@ class ALayoutManager {
 	}
 
 	/**
-	 * Funcnction to delete page and layout linked to the page
-	 * @param $controller, $key_param, $key_value (all required)
+	 * Function to delete page and layout linked to the page
+	 * @param $controller , $key_param, $key_value (all required)
+	 * @param $key_param
+	 * @param $key_value
 	 * @return bool
 	 */
 	public function deletePageLayout( $controller, $key_param, $key_value ) {
@@ -1219,6 +1222,7 @@ class ALayoutManager {
 	/**
 	 * Clone layout blocks to new layout ( update block instances)
 	 * @param $source_layout_id $new_layout_id
+	 * @param $new_layout_id
 	 * @return bool
 	 */
 	public function cloneLayoutBlocks( $source_layout_id, $new_layout_id ) {

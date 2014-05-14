@@ -345,13 +345,13 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		return $this->getLanguageDefinitions($data, 'total_only');
 	}
 
-    /**
+	/**
 	 * Load needed data and build form for definitions add or edit
-     * @param array ref $request Data from request object
-     * @param array ref $data from requester
-     * @param array ref $form form object
-     * @return array ($data imputed processed and returned back)
-     */
+	 * @param array $request - Data from request object
+	 * @param array $data  - from requester
+	 * @param AForm $form  - form object
+	 * @return array ($data imputed processed and returned back)
+	 */
 	public function buildFormData( &$request, &$data, &$form ) {
 		
 		$fields = array( 'language_key', 'language_value', 'block', 'section' );
@@ -491,15 +491,13 @@ class ModelLocalisationLanguageDefinitions extends Model {
 				'type' => 'input',
 				'name' => 'block',
 				'value' => $data['block'],
-				'required' => true,
-				'help_url' => $this->gen_help_url('block'),
+				'required' => true
 			));
 			$data['form']['fields']['language_key'] = $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'language_key',
 				'value' => $data['language_key'],
-				'required' => true,
-				'help_url' => $this->gen_help_url('language_key'),
+				'required' => true
 			));
 		}
 
