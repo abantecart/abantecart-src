@@ -183,13 +183,12 @@ echo $form['form_open'];
 		</div>
 	</div>
 </div>
-<?php if ($estimates_enabled) { ?>
-	<script type="text/javascript"><!--
+
+<script type="text/javascript"><!--
 
 		jQuery(function ($) {
 
 			display_shippings();
-
 
 			$('#estimate_country_zones').change(function () {
 				//zone is changed, need to reset poscode
@@ -205,8 +204,6 @@ echo $form['form_open'];
 				display_shippings();
 				return false;
 			});
-
-
 		});
 
 		var  display_shippings = function() {
@@ -289,5 +286,4 @@ echo $form['form_open'];
 			$(parent_element).before(html);
 		}
 
-		//--></script>
-<?php } ?>
+//--></script>

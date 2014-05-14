@@ -16,7 +16,7 @@
 								}
 							}?>
 							<!-- Top Nav Start -->
-							<?php echo  renderStoreMenu($storefront_menu); ?>
+							<?php echo  buildStoreFrontMenuTree($storefront_menu); ?>
 						</ul>
 					</div>
 				</li>

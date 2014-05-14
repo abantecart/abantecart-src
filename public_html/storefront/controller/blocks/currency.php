@@ -51,14 +51,16 @@ class ControllerBlocksCurrency extends AController {
 		$results = $this->model_localisation_currency->getCurrencies();
 
 		$currencies = array();
-		foreach ($results as $result) {
-			if ($result['status']) {
-   				$currencies[] = array(
-					'title' => $result['title'],
-					'code'  => $result['code'],
-					'symbol' => ( !empty( $result['symbol_left'] ) ? $result['symbol_left'] : $result['symbol_right'] ),
-					'href'  => $this->html->getURL($rt, $URI.'&currency='.$result['code'],true)
-				);
+		if (is_array($results) && $results) {
+			foreach ($results as $result) {
+				if ($result['status']) {
+	   				$currencies[] = array(
+						'title' => $result['title'],
+						'code'  => $result['code'],
+						'symbol' => ( !empty( $result['symbol_left'] ) ? $result['symbol_left'] : $result['symbol_right'] ),
+						'href'  => $this->html->getURL($rt, $URI.'&currency='.$result['code'],true)
+					);
+				}
 			}
 		}
 

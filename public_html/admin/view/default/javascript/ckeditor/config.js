@@ -55,6 +55,9 @@ CKEDITOR.editorConfig = function( config )
 		['Maximize', 'ShowBlocks','-','About']
 	];
 
+	// ALLOW <i></i>
+	config.protectedSource.push(/<i[^>]*><\/i>/g);
+	
     config.enterMode = CKEDITOR.ENTER_BR;
     config.shiftEnterMode = CKEDITOR.ENTER_BR;
     config.disableNativeSpellChecker = false;

@@ -47,6 +47,7 @@ class ModelLocalisationCountry extends Model {
 			    						FROM " . $this->db->table("countries") . " c
 			    						LEFT JOIN " . $this->db->table("country_descriptions") . " cd 
 			    							ON (c.country_id = cd.country_id AND cd.language_id = '" . (int)$language_id . "') 
+			    						WHERE c.status = '1'	
 			    						ORDER BY cd.name ASC");
 			    		
 			} else {

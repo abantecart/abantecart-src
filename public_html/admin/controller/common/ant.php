@@ -26,8 +26,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
  * class for retrieving messages from remote ANT-server and insert it into database of abantecart
  */
 class ControllerCommonANT extends AController {
-	private $error = array ();
-	
+
 	public function main() {
 		// disable for login-logout pages
 		if( in_array($this->request->get['rt'],array('index/logout','index/login') )){
@@ -67,10 +66,11 @@ class ControllerCommonANT extends AController {
 		}
 
 		//send extension info
-		$extensions_list = $this->_loadExtensionsList ();
+		$extensions_list = $this->extensions->getExtensionsList();
 		if ($extensions_list) {
-			foreach ( $extensions_list as $ext )
-				$url .= "&extension[]=" . $ext ['name'] . "~" . $ext ['version'];
+			foreach ( $extensions_list->rows as $ext ){
+				$url .= "&extension[]=" . $ext ['key'] . "~" . $ext ['version'];
+			}
 		}
 
 		$connect = new AConnect (); 
@@ -117,32 +117,4 @@ class ControllerCommonANT extends AController {
 			$this->messages->setMessageIndicator();
 		$_SESSION['new_messages']['update_date'] = time();
 	}
-	/**
-	 * method gets list of added extensions
-	 * 
-	 * @return array >
-	 */
-	private function _loadExtensionsList() {
-
-		$extensions_list = array ();
-		$extensions = glob ( DIR_EXT . '*', GLOB_ONLYDIR );
-		if ($extensions) {
-			foreach ( $extensions as $extension ) {
-				//remove path
-				$extension = str_replace ( DIR_EXT, '', $extension );
-				$extension_name = strtolower ( str_replace ( " ", "_", $extension ) );
-				$filename = DIR_EXT . str_replace ( '../', '', $extension_name ) . '/config.xml';
-				
-				if (! file_exists ( $filename )) {
-					continue;
-				}
-				$config = simplexml_load_file($filename);
-				$version = (string)$config->version;
-				$extensions_list [] = array ('name' => $extension_name, 'version' => $version );
-			}
-		}
-		
-		return $extensions_list;
-	}
 }
-?>

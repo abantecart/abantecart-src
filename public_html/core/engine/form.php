@@ -595,12 +595,16 @@ class AForm {
 			if(has_value($field['regexp_pattern'])){
 				if(!is_array($data[$field['field_name']])){ //for string value
 					if(!preg_match($field['regexp_pattern'],$data[$field['field_name']])){
-						$errors[$field['field_name']] .= ' '. $field['error_text'];
+						if( ($data[$field['field_name']] && $field['required']!='Y') || $field['required']=='Y'){ // show error only for field with value or required
+							$errors[$field['field_name']] .= ' '. $field['error_text'];
+						}
 					}
 				}else{ // for array's values
 					foreach($data[$field['field_name']] as $dd){
 						if(!preg_match($field['regexp_pattern'],$dd)){
-							$errors[$field['field_name']] .= ' '. $field['error_text'];
+							if( ($dd && $field['required']!='Y') || $field['required']=='Y'){
+								$errors[$field['field_name']] .= ' '. $field['error_text'];
+							}
 							break;
 						}
 					}

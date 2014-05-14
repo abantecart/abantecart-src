@@ -47,22 +47,40 @@ class ControllerPagesAccountCreate extends AController {
 					$request_data['loginname'] = $request_data['email'];
 				}
 				
-				$this->model_account_customer->addCustomer($request_data);
-
+				$customer_id = $this->model_account_customer->addCustomer($request_data);
 
 				unset($this->session->data['guest']);
-				$this->customer->login($request_data['loginname'], $request_data['password']);
+
+				//login customer after create account is approvement and email activation are disabled in settings
+				if (!$this->config->get('config_customer_approval')  && !$this->config->get('config_customer_email_activation') ){
+					$this->customer->login($request_data['loginname'], $request_data['password']);
+				}
+
+
 				$this->loadLanguage('mail/account_create');
 				$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
 				$message = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
 				if (!$this->config->get('config_customer_approval')) {
-					$message .= $this->language->get('text_login') . "\n";
+					if($this->config->get('config_customer_email_activation')){
+						$activation = true; // sign of activation email
+						$code = md5(mt_rand(1,3000));
+						$email = $this->request->post['email'];
+						$this->session->data['activation'] = array(
+																	'customer_id' => $customer_id,
+																	'code' => $code,
+																	'email' => $email);
+
+						$message .= sprintf($this->language->get('text_activate'), "\n".$this->html->getSecureURL('account/login', '&activation='.$code.'&email='.$email) ) . "\n";
+					}else{
+						$message .= $this->language->get('text_login') . "\n";
+					}
 				} else {
 					$message .= $this->language->get('text_approval') . "\n";
 				}
-
-				$message .= $this->html->getSecureURL('account/login') . "\n\n";
-				$message .= $this->language->get('text_services') . "\n\n";
+				if( !$activation ){
+					$message .= $this->html->getSecureURL('account/login') . "\n\n";
+					$message .= $this->language->get('text_services') . "\n\n";
+				}
 				$message .= $this->language->get('text_thanks') . "\n";
 				$message .= $this->config->get('store_name');
 

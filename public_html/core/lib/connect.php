@@ -73,7 +73,7 @@ final class AConnect {
      *
      * @var array
      */
-    private $curl_options;
+    private $curl_options = array();
     /**
      * array with http-headers of socket request
      *
@@ -120,7 +120,7 @@ final class AConnect {
         if (!$url = $this->_checkURL($url)) {
             return false;
         }
-        $output = $this->getData($url, 80);
+        $output = $this->getData($url);
         return $output;
     }
 
@@ -256,7 +256,7 @@ final class AConnect {
 	 * @throws AException
 	 * @return array ( "mime" <string>, "length" int, "content" string) or false
 	 */
-    public function getData($url, $port = 80, $length_only = false, $save_filename = null, $headers_only = false) {
+    public function getData($url, $port = null, $length_only = false, $save_filename = null, $headers_only = false) {
         //check url
         $protocol = parse_url($url, PHP_URL_SCHEME);
         if (!in_array($protocol, array('http', 'https'))) {
@@ -264,7 +264,7 @@ final class AConnect {
             return false;
         }
 
-        $port = is_null($port) ? 80 : (int)$port;
+        $port = !$port ? ($protocol=='http' ? 80 : 443) : (int)$port;
         if (!$port) {
             $this->error = "ERROR: wrong port number!";
             return false;
@@ -346,9 +346,11 @@ final class AConnect {
         $curl_sock = curl_init();
         // write handler into session for response-preloader.
         $this->registry->get('session')->data['curl_handler'] = $curl_sock;
+		// set default options for curl
         if (!$this->curl_options) {
             $this->curl_options = Array(
-                CURLOPT_CONNECTTIMEOUT => $this->timeout,
+                CURLOPT_CONNECTTIMEOUT => $this->timeout,  //wait for connect
+                CURLOPT_TIMEOUT => $this->timeout,  // timeout for open connection
                 CURLOPT_HTTPHEADER => array('Expect:'),
                 CURLOPT_MAXREDIRS => 4,
                 CURLOPT_RETURNTRANSFER => true,
@@ -357,45 +359,49 @@ final class AConnect {
         }
 
 // for safemode part. Problem is redirects while connect.
-
+		$this->curl_options[CURLOPT_SSL_VERIFYPEER] = false;
         $mr = 5;
-        if (ini_get('open_basedir') == '' && ini_get('safe_mode') == 'sss') {
-            $this->curl_options[CURLOPT_FOLLOWLOCATION] = true;
-            $this->curl_options[CURLOPT_MAXREDIRS] = $mr;
-            $this->curl_options[CURLOPT_PORT] = $port;
-        } else {
-            $this->curl_options[CURLOPT_FOLLOWLOCATION] = false;
-            if ($mr > 0) {
-                $newurl = $url;
-                $rch = curl_copy_handle($curl_sock);
-                curl_setopt($rch, CURLOPT_HEADER, true);
-                curl_setopt($rch, CURLOPT_NOBODY, true);
-                curl_setopt($rch, CURLOPT_FORBID_REUSE, false);
-                curl_setopt($rch, CURLOPT_RETURNTRANSFER, true);
-                do {
-                    curl_setopt_array($rch, $this->curl_options);
-                    curl_setopt($rch, CURLOPT_URL, $newurl);
-                    $header = curl_exec($rch);
-                    if (curl_errno($rch)) {
-                        $code = 0;
-                    } else {
-                        $code = curl_getinfo($rch, CURLINFO_HTTP_CODE);
-                        if ($code == 301 || $code == 302) {
-                            preg_match('/Location:(.*?)\n/', $header, $matches);
-                            $newurl = trim(array_pop($matches));
 
-                        } else {
-                            $code = 0;
-                        }
-                    }
-                } while ($code && $mr);
-                curl_close($rch);
-                if (!$mr) {
-                    return false;
-                }
-                $url = $newurl;
-            }
-        }
+		$this->curl_options[CURLOPT_FOLLOWLOCATION] = false;
+		if ($mr > 0) {
+			$newurl = $url;
+			$rch = curl_copy_handle($curl_sock);
+			curl_setopt($rch, CURLOPT_HEADER, true);
+			curl_setopt($rch, CURLOPT_NOBODY, true);
+			curl_setopt($rch, CURLOPT_FORBID_REUSE, false);
+			curl_setopt($rch, CURLOPT_RETURNTRANSFER, true);
+			do {
+				if($this->curl_options){
+					// check for curl options
+					foreach($this->curl_options as $k=>$v){
+						if(!is_int($k)){
+							$this->registry->get('log')->write('Warning: Unknown CURL option: '. $k. ' was given to AConnect class.');
+							unset($this->curl_options[$k]);
+						}
+					}
+					curl_setopt_array($rch, $this->curl_options);
+				}
+				curl_setopt($rch, CURLOPT_URL, $newurl);
+				$header = curl_exec($rch);
+				if (curl_errno($rch)) {
+					$code = 0;
+				} else {
+					$code = curl_getinfo($rch, CURLINFO_HTTP_CODE);
+					if ($code == 301 || $code == 302) {
+						preg_match('/Location:(.*?)\n/', $header, $matches);
+						$newurl = trim(array_pop($matches));
+
+					} else {
+						$code = 0;
+					}
+				}
+			} while ($code && $mr);
+			curl_close($rch);
+			if (!$mr) {
+				return false;
+			}
+			$url = $newurl;
+		}
 
         $this->curl_options[CURLOPT_URL] = $url;
 
@@ -574,7 +580,7 @@ final class AConnect {
      * @return boolean
      */
     public function setCurlOptions($opt) {
-        if (!is_array($opt)) {
+        if (is_array($opt)) {
             $this->curl_options = $opt;
         }
         return true;

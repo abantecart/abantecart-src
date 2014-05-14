@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" id="theme">
 <link rel="stylesheet" type="text/css"href="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.css"/>
 <link rel="stylesheet" type="text/css"href="<?php echo $template_dir; ?>stylesheet/stylesheet.css"/>
-
+<link rel="stylesheet" type="text/css"href="<?php echo $template_dir; ?>stylesheet/resource_add.css"/>
 </head>
 <body>
 

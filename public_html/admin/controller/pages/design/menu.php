@@ -159,11 +159,13 @@ class ControllerPagesDesignMenu extends AController {
 			    $this->request->post['item_text'][$l['language_id']] = $this->request->post['item_text'][ $this->session->data['content_language_id'] ];
 		    }
 
+			//TODO!. Remove post/get update and access in many places. Copy to local array to proccess and work with.
             $this->request->post['item_icon'] = html_entity_decode($this->request->post['item_icon'], ENT_COMPAT, 'UTF-8');
             $textid = preformatTextID($this->request->post ['item_id']);
 			$result = $this->menu->insertMenuItem ( array (
 				'item_id' => $textid,
 				'item_icon' => $this->request->post ['item_icon'],
+				'item_icon_rl_id' => $this->request->post ['item_icon_rl_id'],
 				'item_text' => $this->request->post ['item_text'],
 				'parent_id' => $this->request->post ['parent_id'],
 				'item_url' => $this->request->post ['item_url'],
@@ -199,13 +201,13 @@ class ControllerPagesDesignMenu extends AController {
 			unset($this->session->data['success']);
 		}
 
-		if (($this->request->server ['REQUEST_METHOD'] == 'POST') && $this->_validateForm ()) {
+		if (($this->request->is_POST()) && $this->_validateForm ()) {
 
             if (isset ( $this->request->post ['item_icon'] )) {
                 $this->request->post['item_icon'] = html_entity_decode($this->request->post['item_icon'], ENT_COMPAT, 'UTF-8');
             }
 
-			$item_keys = array('item_icon', 'item_text', 'item_url', 'parent_id', 'sort_order' );
+			$item_keys = array('item_icon', 'item_text', 'item_url', 'parent_id', 'sort_order', 'item_icon_rl_id' );
 
 			$update_item = array();
 
@@ -220,6 +222,7 @@ class ControllerPagesDesignMenu extends AController {
 				$this->menu->updateMenuItem( $this->request->get ['item_id'], $update_item );
 
 			}
+
 			$this->session->data ['success'] = $this->language->get ( 'text_success' );
 			$this->redirect ( $this->html->getSecureURL ( 'design/menu/update', '&item_id=' . $this->request->get ['item_id'] ) );
 		}
@@ -349,6 +352,15 @@ class ControllerPagesDesignMenu extends AController {
                 'value' => htmlspecialchars($this->data['item_icon'], ENT_COMPAT, 'UTF-8'),
             )
         );
+        //Added this hidden filed to save selected RL ID. Field is set from RL dialog same as item_icon
+        //TODO: Need to add this filed to menu dataset
+        $this->data['form']['fields']['item_icon_rl_id'] = $form->getFieldHtml(
+            array(
+                'type' => 'hidden',
+                'name' => 'item_icon_rl_id',
+                'value' => $this->data['item_icon_rl_id'],
+            )
+        );
 
 		$this->loadModel ( 'catalog/category' );
 		$categories = $this->model_catalog_category->getCategories ( 0 );
@@ -391,13 +403,23 @@ class ControllerPagesDesignMenu extends AController {
                 'style' => 'button1'
         ) );
 
-		$resource = new AResource( 'image' );
-		$this->data['icon'] = $this->dispatch(
+		$resource = new AResource( 'image' );	
+		//TODO: Need to complete item_icon_rl_id
+		if ( $menu_item['item_icon_rl_id'] > 0) {
+			$this->data['icon'] = $this->dispatch(
+					'responses/common/resource_library/get_resource_html_single',
+				array('type'=>'image',
+					  'wrapper_id'=>'item_icon',
+					  'resource_id'=> $menu_item['item_icon_rl_id'],
+					  'field' => 'item_icon'));		
+		} else {
+			$this->data['icon'] = $this->dispatch(
 					'responses/common/resource_library/get_resource_html_single',
 				array('type'=>'image',
 					  'wrapper_id'=>'item_icon',
 					  'resource_id'=> $resource->getIdFromHexPath(str_replace('image/','',$menu_item['item_icon'])),
-					  'field' => 'item_icon'));
+					  'field' => 'item_icon'));		
+		}
 		$this->data['icon'] = $this->data['icon']->dispatchGetOutput();
 
         $resources_scripts = $this->dispatch(

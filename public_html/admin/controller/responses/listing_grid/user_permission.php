@@ -136,24 +136,25 @@ class ControllerResponsesListingGridUserPermission extends AController {
                 'modify' => array(),
             );
         }
-		// get controllers list
-		$controllers = $this->model_user_user_group->getAllControllers();
+
 
 		$page = $this->request->post['page']; // get the requested page
 		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
 		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
 		$sord = $this->request->post['sord']; // get the direction
 
+		// get controllers list
+		$controllers = $this->model_user_user_group->getAllControllers($sord);
+
 		$this->load->library('json');
 		$searchData = json_decode(htmlspecialchars_decode($this->request->post['filters']), true);
 		$search_str = $searchData['rules'][0]['data'];
-
+		$access = $modify = array();
 		foreach($controllers as $key=>$controller){
-			if(!in_array($controller, array_keys($permissions['access'])) || !in_array($controller, array_keys($permissions['modify']))){
-					array_unshift($controllers,$controller);
-					unset($controllers[$key]);
-			}
+			$access[$key] = has_value($permissions['access'][$controller]) ? (int)$permissions['access'][$controller] : null;
+			$modify[$key] = has_value($permissions['modify'][$controller]) ? (int)$permissions['modify'][$controller] : null;
 		}
+
 		//filter result by controller name (temporary solution). needs to improve.
 		foreach($controllers as $key=>$controller){
 			if($search_str){
@@ -166,9 +167,18 @@ class ControllerResponsesListingGridUserPermission extends AController {
         // process jGrid search parameter
 	    $allowedDirection = array('asc', 'desc');
 
-	    if ( !in_array($sord, $allowedDirection) ) $sord = $allowedDirection[0];
+	    if (!in_array($sord, $allowedDirection)){
+			$sord = $allowedDirection[0];
+		}
 
-	    $data = array(	'order' => strtoupper($sord),
+		// resort by permissions
+		if( $sidx=='access' ){
+			array_multisort( $access, ($sord=='asc'? SORT_ASC : SORT_DESC), $controllers);
+		}elseif( $sidx=='modify' ){
+			array_multisort( $modify, ($sord=='asc'? SORT_ASC : SORT_DESC), $controllers);
+		}
+
+		$data = array(	'order' => strtoupper($sord),
 						'start' => ($page - 1) * $limit,
 						'limit' => $limit );
 
@@ -191,7 +201,7 @@ class ControllerResponsesListingGridUserPermission extends AController {
 
 		foreach ($controllers as $k=>$controller) {
 
-			if(!in_array($controller, array_keys($permissions['access'])) || !in_array($controller, array_keys($permissions['modify']))){
+			if(!in_array($controller, array_keys($permissions['access'])) && !in_array($controller, array_keys($permissions['modify']))){
 					$response->userdata->classes[ $k ] = 'warning';
 			}
 

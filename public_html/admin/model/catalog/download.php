@@ -201,6 +201,8 @@ class ModelCatalogDownload extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "downloads WHERE download_id = '" . (int)$download_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "download_descriptions WHERE download_id = '" . (int)$download_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "download_attribute_values WHERE download_id = '" . (int)$download_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "products_to_downloads WHERE download_id = '" . (int)$download_id . "'");
+
 	}
 
 	/**
@@ -351,7 +353,7 @@ class ModelCatalogDownload extends Model {
 	public function addDownloadAttributeValues($download_id, $data) {
 		$attr_mngr = new AAttribute_Manager('download_attribute');
 		$attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
-		$attributes = $attr_mngr->getAttributes(array('attribute_type_id'=>$attribute_info['attribute_type_id']));
+		$attributes = $attr_mngr->getAttributes(array('attribute_type_id'=>$attribute_info['attribute_type_id'],'limit'=>null));
 
 		foreach($attributes as $attribute){
 			if(isset($data[$attribute['attribute_id']])){
@@ -369,7 +371,7 @@ class ModelCatalogDownload extends Model {
 	public function editDownloadAttributes($download_id, $data) {
 		$attr_mngr = new AAttribute_Manager('download_attribute');
 		$attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
-		$attributes = $attr_mngr->getAttributes(array('attribute_type_id'=>$attribute_info['attribute_type_id']));
+		$attributes = $attr_mngr->getAttributes(array('attribute_type_id'=>$attribute_info['attribute_type_id'],'limit'=>null));
 
 		foreach($attributes as $attribute){
 			if(isset($data[$attribute['attribute_id']])){
@@ -398,7 +400,8 @@ class ModelCatalogDownload extends Model {
 											array(
 												'attribute_type_id'=>$attribute_info['attribute_type_id'],
 												'sort'=>'sort_order',
-												'order'=>'ASC')
+												'order'=>'ASC',
+												'limit'=>null)
 												);
 
 		$ids = array();

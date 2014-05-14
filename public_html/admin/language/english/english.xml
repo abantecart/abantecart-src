@@ -10,7 +10,7 @@
 	</definition>
 	<definition>
 		<key>date_format_short</key>
-		<value><![CDATA[d/m/Y]]></value>
+		<value><![CDATA[m/d/Y]]></value>
 	</definition>
 	<definition>
 		<key>date_format_long</key>
@@ -572,5 +572,9 @@
 	<definition>
 		<key>text_new_download</key>
 		<value><![CDATA[New Download]]></value>
+	</definition>
+	<definition>
+		<key>text_free</key>
+		<value><![CDATA[Free]]></value>
 	</definition>
 </definitions>

@@ -9,18 +9,18 @@ DROP TABLE IF EXISTS `ac_addresses`;
 CREATE TABLE `ac_addresses` (
   `address_id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_id` int(11) NOT NULL,
-  `company` varchar(32) COLLATE utf8_bin NOT NULL,
-  `firstname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `lastname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `address_1` varchar(128) COLLATE utf8_bin NOT NULL,
-  `address_2` varchar(128) COLLATE utf8_bin NOT NULL,
-  `postcode` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `city` varchar(128) COLLATE utf8_bin NOT NULL,
+  `company` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `address_1` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `address_2` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `postcode` varchar(10) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `city` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `country_id` int(11) NOT NULL DEFAULT '0',
   `zone_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`address_id`),
   KEY `customer_id` (`customer_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `ac_categories` (
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -45,13 +45,13 @@ DROP TABLE IF EXISTS `ac_category_descriptions`;
 CREATE TABLE `ac_category_descriptions` (
   `category_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
-  `meta_keywords` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `meta_description` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
+  `meta_keywords` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `meta_description` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`category_id`,`language_id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `ac_categories_to_stores` (
   `category_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
   PRIMARY KEY (`category_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `countries`
@@ -70,13 +70,13 @@ CREATE TABLE `ac_categories_to_stores` (
 DROP TABLE IF EXISTS `ac_countries`;
 CREATE TABLE `ac_countries` (
   `country_id` int(11) NOT NULL AUTO_INCREMENT,
-  `iso_code_2` varchar(2) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `iso_code_3` varchar(3) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `address_format` text COLLATE utf8_bin NOT NULL,
+  `iso_code_2` varchar(2) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `iso_code_3` varchar(3) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `address_format` text COLLATE utf8_general_ci NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   `sort_order` int(3) NOT NULL DEFAULT '0',  
   PRIMARY KEY (`country_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `countries`
@@ -330,9 +330,9 @@ DROP TABLE IF EXISTS `ac_country_descriptions`;
 CREATE TABLE `ac_country_descriptions` (
   `country_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(128) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`country_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_country_descriptions` (`country_id`, `language_id`, `name`) VALUES (1,1,'Afghanistan'),(2,1,'Albania'),(3,1,'Algeria'),(4,1,'American Samoa'),(5,1,'Andorra'),(6,1,'Angola'),(7,1,'Anguilla'),(8,1,'Antarctica'),(9,1,'Antigua and Barbuda'),(10,1,'Argentina'),(11,1,'Armenia'),(12,1,'Aruba'),(13,1,'Australia'),(14,1,'Austria'),(15,1,'Azerbaijan'),(16,1,'Bahamas'),(17,1,'Bahrain'),(18,1,'Bangladesh'),(19,1,'Barbados'),(20,1,'Belarus'),(21,1,'Belgium'),(22,1,'Belize'),(23,1,'Benin'),(24,1,'Bermuda'),(25,1,'Bhutan'),(26,1,'Bolivia'),(27,1,'Bosnia and Herzegowina'),(28,1,'Botswana'),(29,1,'Bouvet Island'),(30,1,'Brazil'),(31,1,'British Indian Ocean Territory'),(32,1,'Brunei Darussalam'),(33,1,'Bulgaria'),(34,1,'Burkina Faso'),(35,1,'Burundi'),(36,1,'Cambodia'),(37,1,'Cameroon'),(38,1,'Canada'),(39,1,'Cape Verde'),(40,1,'Cayman Islands'),(41,1,'Central African Republic'),(42,1,'Chad'),(43,1,'Chile'),(44,1,'China'),(45,1,'Christmas Island'),(46,1,'Cocos (Keeling) Islands'),(47,1,'Colombia'),(48,1,'Comoros'),(49,1,'Congo'),(50,1,'Cook Islands'),(51,1,'Costa Rica'),(52,1,'Cote D\'Ivoire'),(53,1,'Croatia'),(54,1,'Cuba'),(55,1,'Cyprus'),(56,1,'Czech Republic'),(57,1,'Denmark'),(58,1,'Djibouti'),(59,1,'Dominica'),(60,1,'Dominican Republic'),(61,1,'East Timor'),(62,1,'Ecuador'),(63,1,'Egypt'),(64,1,'El Salvador'),(65,1,'Equatorial Guinea'),(66,1,'Eritrea'),(67,1,'Estonia'),(68,1,'Ethiopia'),(69,1,'Falkland Islands (Malvinas)'),(70,1,'Faroe Islands'),(71,1,'Fiji'),(72,1,'Finland'),(73,1,'France'),(74,1,'France, Metropolitan'),(75,1,'French Guiana'),(76,1,'French Polynesia'),(77,1,'French Southern Territories'),(78,1,'Gabon'),(79,1,'Gambia'),(80,1,'Georgia'),(81,1,'Germany'),(82,1,'Ghana'),(83,1,'Gibraltar'),(84,1,'Greece'),(85,1,'Greenland'),(86,1,'Grenada'),(87,1,'Guadeloupe'),(88,1,'Guam'),(89,1,'Guatemala'),(90,1,'Guinea'),(91,1,'Guinea-bissau'),(92,1,'Guyana'),(93,1,'Haiti'),(94,1,'Heard and Mc Donald Islands'),(95,1,'Honduras'),(96,1,'Hong Kong'),(97,1,'Hungary'),(98,1,'Iceland'),(99,1,'India'),(100,1,'Indonesia'),(101,1,'Iran (Islamic Republic of)'),(102,1,'Iraq'),(103,1,'Ireland'),(104,1,'Israel'),(105,1,'Italy'),(106,1,'Jamaica'),(107,1,'Japan'),(108,1,'Jordan'),(109,1,'Kazakhstan'),(110,1,'Kenya'),(111,1,'Kiribati'),(112,1,'North Korea'),(113,1,'Korea, Republic of'),(114,1,'Kuwait'),(115,1,'Kyrgyzstan'),(116,1,'Lao People\'s Democratic Republic'),(117,1,'Latvia'),(118,1,'Lebanon'),(119,1,'Lesotho'),(120,1,'Liberia'),(121,1,'Libyan Arab Jamahiriya'),(122,1,'Liechtenstein'),(123,1,'Lithuania'),(124,1,'Luxembourg'),(125,1,'Macau'),(126,1,'Macedonia'),(127,1,'Madagascar'),(128,1,'Malawi'),(129,1,'Malaysia'),(130,1,'Maldives'),(131,1,'Mali'),(132,1,'Malta'),(133,1,'Marshall Islands'),(134,1,'Martinique'),(135,1,'Mauritania'),(136,1,'Mauritius'),(137,1,'Mayotte'),(138,1,'Mexico'),(139,1,'Micronesia, Federated States of'),(140,1,'Moldova, Republic of'),(141,1,'Monaco'),(142,1,'Mongolia'),(143,1,'Montserrat'),(144,1,'Morocco'),(145,1,'Mozambique'),(146,1,'Myanmar'),(147,1,'Namibia'),(148,1,'Nauru'),(149,1,'Nepal'),(150,1,'Netherlands'),(151,1,'Netherlands Antilles'),(152,1,'New Caledonia'),(153,1,'New Zealand'),(154,1,'Nicaragua'),(155,1,'Niger'),(156,1,'Nigeria'),(157,1,'Niue'),(158,1,'Norfolk Island'),(159,1,'Northern Mariana Islands'),(160,1,'Norway'),(161,1,'Oman'),(162,1,'Pakistan'),(163,1,'Palau'),(164,1,'Panama'),(165,1,'Papua New Guinea'),(166,1,'Paraguay'),(167,1,'Peru'),(168,1,'Philippines'),(169,1,'Pitcairn'),(170,1,'Poland'),(171,1,'Portugal'),(172,1,'Puerto Rico'),(173,1,'Qatar'),(174,1,'Reunion'),(175,1,'Romania'),(176,1,'Russia'),(177,1,'Rwanda'),(178,1,'Saint Kitts and Nevis'),(179,1,'Saint Lucia'),(180,1,'Saint Vincent and the Grenadines'),(181,1,'Samoa'),(182,1,'San Marino'),(183,1,'Sao Tome and Principe'),(184,1,'Saudi Arabia'),(185,1,'Senegal'),(186,1,'Seychelles'),(187,1,'Sierra Leone'),(188,1,'Singapore'),(189,1,'Slovak Republic'),(190,1,'Slovenia'),(191,1,'Solomon Islands'),(192,1,'Somalia'),(193,1,'South Africa'),(194,1,'South Georgia &amp; South Sandwich Islands'),(195,1,'Spain'),(196,1,'Sri Lanka'),(197,1,'St. Helena'),(198,1,'St. Pierre and Miquelon'),(199,1,'Sudan'),(200,1,'Suriname'),(201,1,'Svalbard and Jan Mayen Islands'),(202,1,'Swaziland'),(203,1,'Sweden'),(204,1,'Switzerland'),(205,1,'Syrian Arab Republic'),(206,1,'Taiwan'),(207,1,'Tajikistan'),(208,1,'Tanzania, United Republic of'),(209,1,'Thailand'),(210,1,'Togo'),(211,1,'Tokelau'),(212,1,'Tonga'),(213,1,'Trinidad and Tobago'),(214,1,'Tunisia'),(215,1,'Turkey'),(216,1,'Turkmenistan'),(217,1,'Turks and Caicos Islands'),(218,1,'Tuvalu'),(219,1,'Uganda'),(220,1,'Ukraine'),(221,1,'United Arab Emirates'),(222,1,'United Kingdom'),(223,1,'United States'),(224,1,'United States Minor Outlying Islands'),(225,1,'Uruguay'),(226,1,'Uzbekistan'),(227,1,'Vanuatu'),(228,1,'Vatican City State (Holy See)'),(229,1,'Venezuela'),(230,1,'Viet Nam'),(231,1,'Virgin Islands (British)'),(232,1,'Virgin Islands (U.S.)'),(233,1,'Wallis and Futuna Islands'),(234,1,'Western Sahara'),(235,1,'Yemen'),(236,1,'Yugoslavia'),(237,1,'Zaire'),(238,1,'Zambia'),(239,1,'Zimbabwe'),(240,1,'Northern Ireland');
 
@@ -343,8 +343,8 @@ INSERT INTO `ac_country_descriptions` (`country_id`, `language_id`, `name`) VALU
 DROP TABLE IF EXISTS `ac_coupons`;
 CREATE TABLE `ac_coupons` (
   `coupon_id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(10) COLLATE utf8_bin NOT NULL,
-  `type` char(1) COLLATE utf8_bin NOT NULL,
+  `code` varchar(10) COLLATE utf8_general_ci NOT NULL,
+  `type` char(1) COLLATE utf8_general_ci NOT NULL,
   `discount` decimal(15,4) NOT NULL,
   `logged` int(1) NOT NULL,
   `shipping` int(1) NOT NULL,
@@ -352,11 +352,11 @@ CREATE TABLE `ac_coupons` (
   `date_start` date NOT NULL DEFAULT '0000-00-00',
   `date_end` date NOT NULL DEFAULT '0000-00-00',
   `uses_total` int(11) NOT NULL,
-  `uses_customer` varchar(11) COLLATE utf8_bin NOT NULL,
+  `uses_customer` varchar(11) COLLATE utf8_general_ci NOT NULL,
   `status` int(1) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`coupon_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -366,10 +366,10 @@ DROP TABLE IF EXISTS `ac_coupon_descriptions`;
 CREATE TABLE `ac_coupon_descriptions` (
   `coupon_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(128) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`coupon_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -381,7 +381,7 @@ CREATE TABLE `ac_coupons_products` (
   `coupon_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   PRIMARY KEY (`coupon_product_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -390,16 +390,16 @@ CREATE TABLE `ac_coupons_products` (
 DROP TABLE IF EXISTS `ac_currencies`;
 CREATE TABLE `ac_currencies` (
   `currency_id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `code` varchar(3) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `symbol_left` varchar(12) COLLATE utf8_bin NOT NULL,	
-  `symbol_right` varchar(12) COLLATE utf8_bin NOT NULL,
-  `decimal_place` char(1) COLLATE utf8_bin NOT NULL,
+  `title` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `code` varchar(3) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `symbol_left` varchar(12) COLLATE utf8_general_ci NOT NULL,	
+  `symbol_right` varchar(12) COLLATE utf8_general_ci NOT NULL,
+  `decimal_place` char(1) COLLATE utf8_general_ci NOT NULL,
   `value` decimal(15,8) NOT NULL,
   `status` int(1) NOT NULL,
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`currency_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `currency`
@@ -420,24 +420,24 @@ DROP TABLE IF EXISTS `ac_customers`;
 CREATE TABLE `ac_customers` (
   `customer_id` int(11) NOT NULL AUTO_INCREMENT,
   `store_id` int(11) NOT NULL DEFAULT '0',
-  `firstname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `lastname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `loginname` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `email` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `telephone` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `fax` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `password` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `cart` text COLLATE utf8_bin,
+  `firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `loginname` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `email` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `telephone` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `fax` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `password` varchar(40) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `cart` text COLLATE utf8_general_ci,
   `newsletter` int(1) NOT NULL DEFAULT '0',
   `address_id` int(11) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL,
   `approved` int(1) NOT NULL DEFAULT '0',
   `customer_group_id` int(11) NOT NULL,
-  `ip` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`customer_id`),
   UNIQUE KEY `customers_loginname` (`loginname`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -446,9 +446,9 @@ CREATE TABLE `ac_customers` (
 DROP TABLE IF EXISTS `ac_customer_groups`;
 CREATE TABLE `ac_customer_groups` (
   `customer_group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) COLLATE utf8_bin NOT NULL,
+  `name` varchar(32) COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`customer_group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `customer_groups`
@@ -478,7 +478,7 @@ CREATE TABLE `ac_customer_transactions` (
   `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `create_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`customer_transaction_id`)
-)ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+)ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- DDL for table `download`
@@ -486,8 +486,8 @@ CREATE TABLE `ac_customer_transactions` (
 DROP TABLE IF EXISTS `ac_downloads`;
 CREATE TABLE `ac_downloads` (
   `download_id` int(11) NOT NULL AUTO_INCREMENT,
-  `filename` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `mask` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `filename` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `mask` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `max_downloads` int(11) DEFAULT NULL, -- remaining, NULL -> No limit 
   `expire_days` int(11) DEFAULT NULL,  -- default to NULL -> No expiration
   `sort_order` int(11) NOT NULL,  
@@ -498,7 +498,7 @@ CREATE TABLE `ac_downloads` (
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`download_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- DDL for table `download_descriptions`
@@ -507,9 +507,9 @@ DROP TABLE IF EXISTS `ac_download_descriptions`;
 CREATE TABLE `ac_download_descriptions` (
   `download_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`download_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 -- All data is taken from global attribute
@@ -518,9 +518,9 @@ CREATE TABLE `ac_download_attribute_values` (
   `download_attribute_id` int(11) NOT NULL AUTO_INCREMENT,
   `attribute_id` int(11) NOT NULL,
   `download_id` int(11) NOT NULL,
-  `attribute_value_ids` text COLLATE utf8_bin  DEFAULT NULL,  -- serialized aray with value IDs
+  `attribute_value_ids` text COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized aray with value IDs
   PRIMARY KEY (`download_attribute_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- DDL for table `extensions`
@@ -528,9 +528,9 @@ CREATE TABLE `ac_download_attribute_values` (
 DROP TABLE IF EXISTS `ac_extensions`;
 CREATE TABLE `ac_extensions` (
   `extension_id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(32) COLLATE utf8_bin NOT NULL,
-  `key` varchar(32) COLLATE utf8_bin NOT NULL,
-  `category` varchar(32) COLLATE utf8_bin NOT NULL,
+  `type` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `key` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `category` varchar(32) COLLATE utf8_general_ci NOT NULL,
   `status` smallint(1) NOT NULL,
   `priority` smallint(1) NOT NULL DEFAULT 0,
   `version` varchar(32),
@@ -540,7 +540,7 @@ CREATE TABLE `ac_extensions` (
   `create_date` timestamp NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY (`extension_id`),
   UNIQUE KEY `extension_key` (`key`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `extension`
@@ -569,7 +569,7 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.0', null, now(), now(), now() ),
 ('payment', 'default_pp_standart', 'payment', 0, 1, '1.0.1', null, now(), now() + INTERVAL 1 HOUR , now() ),
-('payment', 'default_pp_pro', 'payment', 0, 1, '1.0.0', null, now(), now() + INTERVAL 1 HOUR , now() )
+('payment', 'default_pp_pro', 'payment', 0, 1, '1.0.1', null, now(), now() + INTERVAL 1 HOUR , now() )
 ;
 
 
@@ -585,24 +585,24 @@ CREATE TABLE `ac_banners` (
 	`start_date` timestamp NULL DEFAULT NULL,
 	`end_date` timestamp NULL DEFAULT NULL,
 	`blank` tinyint(1) NOT NULL DEFAULT '0',
-	`target_url` text COLLATE utf8_bin DEFAULT '',
+	`target_url` text COLLATE utf8_general_ci DEFAULT '',
 	`sort_order` int(11) NOT NULL,
 	`date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
 	PRIMARY KEY (`banner_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `ac_banner_descriptions`;
 CREATE TABLE `ac_banner_descriptions` (
   `banner_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL COMMENT 'translatable',
-  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `meta` text(1500) DEFAULT '' COMMENT 'translatable',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`banner_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `ac_banner_stat`;
 CREATE TABLE `ac_banner_stat` (
@@ -611,7 +611,7 @@ CREATE TABLE `ac_banner_stat` (
   `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `store_id` int(11) NOT NULL,
   `user_info` text(1500) DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 CREATE INDEX `banner_stat_idx` ON `ac_banner_stat` (`banner_id`, `type`, `time`, `store_id`);
 
 
@@ -621,12 +621,12 @@ CREATE INDEX `banner_stat_idx` ON `ac_banner_stat` (`banner_id`, `type`, `time`,
 DROP TABLE IF EXISTS `ac_locations`;
 CREATE TABLE `ac_locations` (
   `location_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `description` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `description` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`location_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `ac_locations`
@@ -641,17 +641,17 @@ INSERT INTO `ac_locations` (`location_id`, `name`, `description`, `date_added`) 
 DROP TABLE IF EXISTS `ac_languages`;
 CREATE TABLE `ac_languages` (
   `language_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `code` varchar(5) COLLATE utf8_bin NOT NULL,
-  `locale` varchar(255) COLLATE utf8_bin NOT NULL,
-  `image` varchar(255) COLLATE utf8_bin NOT NULL,
-  `directory` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `filename` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `code` varchar(5) COLLATE utf8_general_ci NOT NULL,
+  `locale` varchar(255) COLLATE utf8_general_ci NOT NULL,
+  `image` varchar(255) COLLATE utf8_general_ci NOT NULL,
+  `directory` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `filename` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `sort_order` int(3) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL,
   PRIMARY KEY (`language_id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 CREATE UNIQUE INDEX `ac_languages_index`
 ON `ac_languages` ( `language_id`,`code` );
 --
@@ -670,7 +670,7 @@ CREATE TABLE `ac_language_definitions` (
   `language_id` int(11) NOT NULL,
   `section` tinyint(1) NOT NULL default '0' COMMENT '0-SF, 1-ADMIN',
   `block` varchar(160) NOT NULL,
-  `language_key` varchar(170) character set utf8 collate utf8_bin NOT NULL,
+  `language_key` varchar(170) character set utf8 collate utf8_general_ci NOT NULL,
   `language_value` text NOT NULL COMMENT 'translatable',
   `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `create_date` timestamp NOT NULL default '0000-00-00 00:00:00',
@@ -687,7 +687,7 @@ CREATE TABLE `ac_length_classes` (
   `length_class_id` int(11) NOT NULL AUTO_INCREMENT,
   `value` decimal(15,8) NOT NULL,
   PRIMARY KEY (`length_class_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `length_class`
@@ -706,10 +706,10 @@ DROP TABLE IF EXISTS `ac_length_class_descriptions`;
 CREATE TABLE `ac_length_class_descriptions` (
   `length_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `title` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `unit` varchar(4) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `title` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `unit` varchar(4) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`length_class_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `length_class_descriptions`
@@ -726,10 +726,10 @@ INSERT INTO `ac_length_class_descriptions` (`length_class_id`, `language_id`, `t
 DROP TABLE IF EXISTS `ac_manufacturers`;
 CREATE TABLE `ac_manufacturers` (
   `manufacturer_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `sort_order` int(3) NOT NULL,
   PRIMARY KEY (`manufacturer_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -740,7 +740,7 @@ CREATE TABLE `ac_manufacturers_to_stores` (
   `manufacturer_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
   PRIMARY KEY (`manufacturer_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -752,57 +752,57 @@ DROP TABLE IF EXISTS `ac_orders`;
 CREATE TABLE `ac_orders` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
   `invoice_id` int(11) NOT NULL DEFAULT '0',
-  `invoice_prefix` varchar(10) COLLATE utf8_bin NOT NULL,
+  `invoice_prefix` varchar(10) COLLATE utf8_general_ci NOT NULL,
   `store_id` int(11) NOT NULL DEFAULT '0',
-  `store_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `store_url` varchar(255) COLLATE utf8_bin NOT NULL,
+  `store_name` varchar(64) COLLATE utf8_general_ci NOT NULL,
+  `store_url` varchar(255) COLLATE utf8_general_ci NOT NULL,
   `customer_id` int(11) NOT NULL DEFAULT '0',
   `customer_group_id` int(11) NOT NULL DEFAULT '0',
-  `firstname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `lastname` varchar(32) COLLATE utf8_bin NOT NULL,
-  `telephone` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `fax` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `email` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `shipping_firstname` varchar(32) COLLATE utf8_bin NOT NULL,
-  `shipping_lastname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `shipping_company` varchar(32) COLLATE utf8_bin NOT NULL,
-  `shipping_address_1` varchar(128) COLLATE utf8_bin NOT NULL,
-  `shipping_address_2` varchar(128) COLLATE utf8_bin NOT NULL,
-  `shipping_city` varchar(128) COLLATE utf8_bin NOT NULL,
-  `shipping_postcode` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `shipping_zone` varchar(128) COLLATE utf8_bin NOT NULL,
+  `firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `lastname` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `telephone` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `fax` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `email` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `shipping_firstname` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `shipping_lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `shipping_company` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `shipping_address_1` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `shipping_address_2` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `shipping_city` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `shipping_postcode` varchar(10) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `shipping_zone` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `shipping_zone_id` int(11) NOT NULL,
-  `shipping_country` varchar(128) COLLATE utf8_bin NOT NULL,
+  `shipping_country` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `shipping_country_id` int(11) NOT NULL,
-  `shipping_address_format` text COLLATE utf8_bin NOT NULL,
-  `shipping_method` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `payment_firstname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `payment_lastname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `payment_company` varchar(32) COLLATE utf8_bin NOT NULL,
-  `payment_address_1` varchar(128) COLLATE utf8_bin NOT NULL,
-  `payment_address_2` varchar(128) COLLATE utf8_bin NOT NULL,
-  `payment_city` varchar(128) COLLATE utf8_bin NOT NULL,
-  `payment_postcode` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `payment_zone` varchar(128) COLLATE utf8_bin NOT NULL,
+  `shipping_address_format` text COLLATE utf8_general_ci NOT NULL,
+  `shipping_method` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `payment_firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `payment_lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `payment_company` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `payment_address_1` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `payment_address_2` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `payment_city` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `payment_postcode` varchar(10) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `payment_zone` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `payment_zone_id` int(11) NOT NULL,
-  `payment_country` varchar(128) COLLATE utf8_bin NOT NULL,
+  `payment_country` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `payment_country_id` int(11) NOT NULL,
-  `payment_address_format` text COLLATE utf8_bin NOT NULL,
-  `payment_method` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `comment` text COLLATE utf8_bin NOT NULL,
+  `payment_address_format` text COLLATE utf8_general_ci NOT NULL,
+  `payment_method` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `comment` text COLLATE utf8_general_ci NOT NULL,
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `order_status_id` int(11) NOT NULL DEFAULT '0',
   `language_id` int(11) NOT NULL,
   `currency_id` int(11) NOT NULL,
-  `currency` varchar(3) COLLATE utf8_bin NOT NULL,
+  `currency` varchar(3) COLLATE utf8_general_ci NOT NULL,
   `value` decimal(15,8) NOT NULL,
   `coupon_id` int(11) NOT NULL,
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ip` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `payment_method_data` text COLLATE utf8_bin NOT NULL,
+  `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `payment_method_data` text COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -813,9 +813,9 @@ CREATE TABLE `ac_order_downloads` (
   `order_download_id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
   `order_product_id` int(11) NOT NULL,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `filename` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `mask` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `filename` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `mask` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `download_id` int(11) NOT NULL, 
   `status` int(1) NOT NULL DEFAULT '0',
   `remaining_count` int(11) DEFAULT NULL,
@@ -824,12 +824,12 @@ CREATE TABLE `ac_order_downloads` (
   `sort_order` int(11) NOT NULL,
   `activate` VARCHAR(64) NOT NULL,
   `activate_order_status_id` int(11) NOT NULL DEFAULT '0', 
-  `attributes_data` text COLLATE utf8_bin  DEFAULT NULL,  -- serialized values 
+  `attributes_data` text COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized values 
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
 
   PRIMARY KEY (`order_download_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 --
 -- DDL for table `order_downloads`
 --
@@ -839,14 +839,14 @@ CREATE TABLE `ac_order_downloads_history` (
   `order_download_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `order_product_id` int(11) NOT NULL,
-  `filename` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `mask` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `filename` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `mask` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `download_id` int(11) NOT NULL,
   `download_percent` int(11) DEFAULT '0',
   `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
 
   PRIMARY KEY (`order_download_history_id`,`order_download_id`, `order_id`,`order_product_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -857,21 +857,21 @@ DROP TABLE IF EXISTS `ac_order_data`;
 CREATE TABLE `ac_order_data` (
   `order_id` int(11) NOT NULL,
   `type_id` int(11) NOT NULL,
-  `data` text COLLATE utf8_bin DEFAULT NULL,  -- serialized values
+  `data` text COLLATE utf8_general_ci DEFAULT NULL,  -- serialized values
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
   PRIMARY KEY (`order_id`, `type_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `ac_order_data_types`;
 CREATE TABLE `ac_order_data_types` (
   `type_id` int(11) NOT NULL AUTO_INCREMENT,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
   PRIMARY KEY (`type_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -883,10 +883,10 @@ CREATE TABLE `ac_order_history` (
   `order_id` int(11) NOT NULL,
   `order_status_id` int(5) NOT NULL,
   `notify` int(1) NOT NULL DEFAULT '0',
-  `comment` text COLLATE utf8_bin NOT NULL,
+  `comment` text COLLATE utf8_general_ci NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`order_history_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -898,12 +898,12 @@ CREATE TABLE `ac_order_options` (
   `order_id` int(11) NOT NULL,
   `order_product_id` int(11) NOT NULL,
   `product_option_value_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `value` text COLLATE utf8_bin NOT NULL,
+  `name` varchar(255) COLLATE utf8_general_ci NOT NULL,
+  `value` text COLLATE utf8_general_ci NOT NULL,
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `prefix` char(1) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`order_option_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -914,15 +914,15 @@ CREATE TABLE `ac_order_products` (
   `order_product_id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `model` varchar(24) COLLATE utf8_bin NOT NULL,
+  `name` varchar(255) COLLATE utf8_general_ci NOT NULL,
+  `model` varchar(24) COLLATE utf8_general_ci NOT NULL,
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `tax` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `quantity` int(4) NOT NULL DEFAULT '0',
   `subtract` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`order_product_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -932,9 +932,9 @@ DROP TABLE IF EXISTS `ac_order_statuses`;
 CREATE TABLE `ac_order_statuses` (
   `order_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`order_status_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `order_statuses`
@@ -960,14 +960,14 @@ DROP TABLE IF EXISTS `ac_order_totals`;
 CREATE TABLE `ac_order_totals` (
   `order_total_id` int(10) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
-  `title` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `text` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `title` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `text` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `value` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `sort_order` int(3) NOT NULL,
-  `type` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `type` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`order_total_id`),
   KEY `idx_orders_total_orders_id` (`order_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -976,9 +976,9 @@ CREATE TABLE `ac_order_totals` (
 DROP TABLE IF EXISTS `ac_products`;
 CREATE TABLE `ac_products` (
   `product_id` int(11) NOT NULL AUTO_INCREMENT,
-  `model` varchar(64) COLLATE utf8_bin NOT NULL,
-  `sku` varchar(64) COLLATE utf8_bin NOT NULL,
-  `location` varchar(128) COLLATE utf8_bin NOT NULL,
+  `model` varchar(64) COLLATE utf8_general_ci NOT NULL,
+  `sku` varchar(64) COLLATE utf8_general_ci NOT NULL,
+  `location` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `quantity` int(4) NOT NULL DEFAULT '0',
   `stock_status_id` int(11) NOT NULL,
   `manufacturer_id` int(11) NOT NULL,
@@ -1006,7 +1006,7 @@ CREATE TABLE `ac_products` (
   `cost` DECIMAL(15,4) NOT NULL DEFAULT '0.0000',
   `call_to_order` smallint NOT NULL default '0',
   PRIMARY KEY (`product_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1016,13 +1016,13 @@ DROP TABLE IF EXISTS `ac_product_descriptions`;
 CREATE TABLE `ac_product_descriptions` (
   `product_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `meta_keywords` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `meta_description` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `meta_keywords` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `meta_description` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_id`,`language_id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1039,7 +1039,7 @@ CREATE TABLE `ac_product_discounts` (
   `date_start` date NOT NULL DEFAULT '0000-00-00',
   `date_end` date NOT NULL DEFAULT '0000-00-00',
   PRIMARY KEY (`product_discount_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1048,7 +1048,7 @@ CREATE TABLE `ac_product_discounts` (
 DROP TABLE IF EXISTS `ac_products_featured`;
 CREATE TABLE `ac_products_featured` (
   `product_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1066,7 +1066,7 @@ CREATE TABLE `ac_product_options` (
   `required` smallint(1) NOT NULL default '0',
   `regexp_pattern` varchar(255) NOT NULL default '',
   PRIMARY KEY (`product_option_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1077,11 +1077,11 @@ CREATE TABLE `ac_product_option_descriptions` (
   `product_option_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `option_placeholder` varchar(255) COLLATE utf8_bin DEFAULT '' COMMENT 'translatable',
-  `error_text` 	varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `option_placeholder` varchar(255) COLLATE utf8_general_ci DEFAULT '' COMMENT 'translatable',
+  `error_text` 	varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_option_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `product_option_values`
@@ -1096,15 +1096,15 @@ CREATE TABLE `ac_product_option_values` (
   `quantity` int(4) NOT NULL DEFAULT '0',
   `subtract` int(1) NOT NULL DEFAULT '0',
   `price` decimal(15,4) NOT NULL,
-  `prefix` char(1) COLLATE utf8_bin NOT NULL, -- % or $ 
+  `prefix` char(1) COLLATE utf8_general_ci NOT NULL, -- % or $ 
   `weight` decimal(15,8) NOT NULL,
-  `weight_type` varchar(3) COLLATE utf8_bin NOT NULL, -- lbs or %
+  `weight_type` varchar(3) COLLATE utf8_general_ci NOT NULL, -- lbs or %
   `attribute_value_id` int(11),  
   `grouped_attribute_data` text DEFAULT NULL,
   `sort_order` int(3) NOT NULL,
   `default` smallint DEFAULT 0,
   PRIMARY KEY (`product_option_value_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1115,10 +1115,10 @@ CREATE TABLE `ac_product_option_value_descriptions` (
   `product_option_value_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `name` text COLLATE utf8_bin DEFAULT NULL COMMENT 'translatable',
-  `grouped_attribute_names` text COLLATE utf8_bin DEFAULT NULL,  
+  `name` text COLLATE utf8_general_ci DEFAULT NULL COMMENT 'translatable',
+  `grouped_attribute_names` text COLLATE utf8_general_ci DEFAULT NULL,  
   PRIMARY KEY (`product_option_value_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1129,7 +1129,7 @@ CREATE TABLE `ac_products_related` (
   `product_id` int(11) NOT NULL,
   `related_id` int(11) NOT NULL,
   PRIMARY KEY (`product_id`,`related_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1145,7 +1145,7 @@ CREATE TABLE `ac_product_specials` (
   `date_start` date NOT NULL DEFAULT '0000-00-00',
   `date_end` date NOT NULL DEFAULT '0000-00-00',
   PRIMARY KEY (`product_special_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1154,10 +1154,10 @@ CREATE TABLE `ac_product_specials` (
 DROP TABLE IF EXISTS `ac_product_tags`;
 CREATE TABLE `ac_product_tags` (
   `product_id` int(11) NOT NULL,
-  `tag` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `tag` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY  (`product_id`,`tag`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1168,7 +1168,7 @@ CREATE TABLE `ac_products_to_categories` (
   `product_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   PRIMARY KEY (`product_id`,`category_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1179,7 +1179,7 @@ CREATE TABLE `ac_products_to_downloads` (
   `product_id` int(11) NOT NULL,
   `download_id` int(11) NOT NULL,
   PRIMARY KEY (`product_id`,`download_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1190,7 +1190,7 @@ CREATE TABLE `ac_products_to_stores` (
   `product_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`product_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1201,14 +1201,14 @@ CREATE TABLE `ac_reviews` (
   `review_id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
-  `author` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `text` text COLLATE utf8_bin NOT NULL,
+  `author` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `text` text COLLATE utf8_general_ci NOT NULL,
   `rating` int(1) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`review_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -1218,11 +1218,11 @@ DROP TABLE IF EXISTS `ac_settings`;
 CREATE TABLE `ac_settings` (
   `setting_id` int(11) NOT NULL AUTO_INCREMENT,
   `store_id` int(11) NOT NULL DEFAULT 0,
-  `group` varchar(32) COLLATE utf8_bin NOT NULL,
-  `key` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `value` text COLLATE utf8_bin NOT NULL,
+  `group` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `key` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `value` text COLLATE utf8_general_ci NOT NULL,
  PRIMARY KEY (`setting_id`,`store_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `settings`
@@ -1247,7 +1247,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','config_storefront_language','en'),
 ('details','admin_language','en'),
 ('details','config_currency','USD'),
-('details','config_currency_auto',1),
+('details','config_currency_auto',0),
 ('details','config_length_class','in'),
 ('details','config_weight_class','lb'),
 ('details','auto_translate_status',1),
@@ -1282,6 +1282,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_customer_price',1),
 ('checkout','config_customer_group_id',1),
 ('checkout','config_customer_approval',0),
+('checkout','config_customer_email_activation',0),
 ('checkout','prevent_email_as_login',1),
 ('checkout','config_guest_checkout',1),
 ('checkout','config_account_id',2),
@@ -1418,9 +1419,9 @@ DROP TABLE IF EXISTS `ac_stock_statuses`;
 CREATE TABLE `ac_stock_statuses` (
   `stock_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`stock_status_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `stock_status`
@@ -1437,11 +1438,11 @@ INSERT INTO `ac_stock_statuses` (`stock_status_id`, `language_id`, `name`) VALUE
 DROP TABLE IF EXISTS `ac_stores`;
 CREATE TABLE `ac_stores` (
   `store_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `alias` varchar(15) COLLATE utf8_bin NOT NULL,
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL,
+  `alias` varchar(15) COLLATE utf8_general_ci NOT NULL,
   `status` int(1) NOT NULL,
    PRIMARY KEY (`store_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=0;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=0;
 
 INSERT INTO `ac_stores` VALUES	(0,'default','default',1);
 
@@ -1452,9 +1453,9 @@ DROP TABLE IF EXISTS `ac_store_descriptions`;
 CREATE TABLE `ac_store_descriptions` (
   `store_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `description` text COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`store_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1466,7 +1467,7 @@ CREATE TABLE `ac_tax_classes` (
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`tax_class_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `tax_class`
@@ -1481,10 +1482,10 @@ DROP TABLE IF EXISTS `ac_tax_class_descriptions`;
 CREATE TABLE `ac_tax_class_descriptions` (
   `tax_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `title` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `description` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `title` varchar(128) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `description` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`tax_class_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_tax_class_descriptions` (`tax_class_id`, `language_id`, `title`, `description`) VALUES (1, 1, 'Taxable Goods', 'Taxed Products');
 
@@ -1499,13 +1500,13 @@ CREATE TABLE `ac_tax_rates` (
   `tax_class_id` int(11) NOT NULL,
   `priority` int(5) NOT NULL DEFAULT '1',
   `rate` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `rate_prefix` char(1) COLLATE utf8_bin NOT NULL DEFAULT '%', -- % or $ 
-  `threshold_condition` char(2) COLLATE utf8_bin NOT NULL, -- '<=', '>=', '==' or '<'
+  `rate_prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '%', -- % or $ 
+  `threshold_condition` char(2) COLLATE utf8_general_ci NOT NULL, -- '<=', '>=', '==' or '<'
   `threshold` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`tax_rate_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `tax_rate`
@@ -1520,9 +1521,9 @@ DROP TABLE IF EXISTS `ac_tax_rate_descriptions`;
 CREATE TABLE `ac_tax_rate_descriptions` (
   `tax_rate_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `description` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `description` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`tax_rate_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `tax_rate_descriptions`
@@ -1536,11 +1537,11 @@ INSERT INTO `ac_tax_rate_descriptions` (`tax_rate_id`, `language_id`, `descripti
 DROP TABLE IF EXISTS `ac_url_aliases`;
 CREATE TABLE `ac_url_aliases` (
   `url_alias_id` int(11) NOT NULL AUTO_INCREMENT,
-  `query` varchar(255) COLLATE utf8_bin NOT NULL,
-  `keyword` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `query` varchar(255) COLLATE utf8_general_ci NOT NULL,
+  `keyword` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `language_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`url_alias_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 CREATE UNIQUE INDEX `url_aliases_index`
 ON `ac_url_aliases` ( `keyword`, `language_id`);
 CREATE UNIQUE INDEX `url_aliases_index2`
@@ -1554,17 +1555,17 @@ DROP TABLE IF EXISTS `ac_users`;
 CREATE TABLE `ac_users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_group_id` int(11) NOT NULL,
-  `username` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `password` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `firstname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `lastname` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `email` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `username` varchar(20) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `password` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `email` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` int(1) NOT NULL,
-  `ip` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=2;
 
 
 --
@@ -1573,12 +1574,12 @@ CREATE TABLE `ac_users` (
 DROP TABLE IF EXISTS `ac_user_groups`;
 CREATE TABLE `ac_user_groups` (
   `user_group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `permission` text COLLATE utf8_bin NOT NULL,
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL,
+  `permission` text COLLATE utf8_general_ci NOT NULL,
   `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `user_group`
@@ -1596,7 +1597,7 @@ CREATE TABLE `ac_weight_classes` (
   `weight_class_id` int(11) NOT NULL AUTO_INCREMENT,
   `value` decimal(15,8) NOT NULL DEFAULT '0.00000000',
   PRIMARY KEY (`weight_class_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `weight_class`
@@ -1616,10 +1617,10 @@ DROP TABLE IF EXISTS `ac_weight_class_descriptions`;
 CREATE TABLE `ac_weight_class_descriptions` (
   `weight_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `title` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `unit` varchar(4) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `title` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `unit` varchar(4) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`weight_class_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `weight_class_description`
@@ -1638,11 +1639,11 @@ DROP TABLE IF EXISTS `ac_zones`;
 CREATE TABLE `ac_zones` (
   `zone_id` int(11) NOT NULL AUTO_INCREMENT,
   `country_id` int(11) NOT NULL,
-  `code` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `code` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` int(1) NOT NULL DEFAULT '1',
   `sort_order` int(3) NOT NULL DEFAULT '0',  
   PRIMARY KEY (`zone_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `zone`
@@ -5589,9 +5590,9 @@ DROP TABLE IF EXISTS `ac_zone_descriptions`;
 CREATE TABLE `ac_zone_descriptions` (
   `zone_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(128) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` varchar(128) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`zone_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 INSERT INTO `ac_zone_descriptions` (`zone_id`, `language_id`,`name`) VALUES 
@@ -9543,7 +9544,7 @@ CREATE TABLE `ac_zones_to_locations` (
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`zone_to_location_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `ac_zones_to_locations`
@@ -9687,7 +9688,7 @@ CREATE TABLE `ac_contents` (
     `sort_order` int(3) NOT NULL DEFAULT '0',
     `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`content_id`,`parent_content_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `contents`
@@ -9736,7 +9737,7 @@ CREATE TABLE `ac_contents_to_stores` (
   `content_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
   PRIMARY KEY (`content_id`,`store_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -10370,7 +10371,7 @@ CREATE TABLE `ac_fields` (
   -- I - text input, T - Text area, S - Select, M - multivalue select, C - Checkbox, R - radio buttons, U - File upload, H - Hidden, G -Checkbox Group, D - Date, E - time, K - Captcha 
   `sort_order` int(3) NOT NULL,
   `attributes` varchar(255) NOT NULL,
-  `settings` text COLLATE utf8_bin NOT NULL DEFAULT '',
+  `settings` text COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `required` char(1) NOT NULL DEFAULT 'N',
   -- N - Not required, Y - required  
   `status` smallint(1) NOT NULL default '0',
@@ -10414,7 +10415,7 @@ DROP TABLE IF EXISTS `ac_field_values`;
 CREATE TABLE `ac_field_values` (
   `value_id` int(11) NOT NULL auto_increment,
   `field_id` int(11) NOT NULL DEFAULT '0',
-  `value` text COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable',
+  `value` text COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`value_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -10472,7 +10473,7 @@ CREATE TABLE `ac_messages` (
   `viewed` int(11) NOT NULL default '0',
   `repeated` int(11) NOT NULL default '0',
   PRIMARY KEY  (`msg_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- DDL for table `ac_ant_messages`
@@ -10493,7 +10494,7 @@ CREATE TABLE `ac_ant_messages` (
   `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`, `language_code`),
   KEY `daterange_idx` (`start_date`,`end_date`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -10505,7 +10506,7 @@ CREATE TABLE `ac_datasets` (
   `dataset_name` varchar(255) CHARACTER SET utf8 NOT NULL,
   `dataset_key` varchar(255) CHARACTER SET utf8 default '',
   PRIMARY KEY (`dataset_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 --
@@ -10517,7 +10518,7 @@ CREATE TABLE `ac_dataset_properties` (
   `dataset_property_name` varchar(255) NOT NULL,
   `dataset_property_value` varchar(255),
   KEY `dataset_property_idx` (`dataset_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `ac_dataset_definition`
@@ -10531,7 +10532,7 @@ CREATE TABLE `ac_dataset_definition` (
   `dataset_column_sort_order` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`dataset_column_id`),
   KEY `dataset_definition_idx` (`dataset_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- DDL for table `ac_dataset_column_properties`
@@ -10542,7 +10543,7 @@ CREATE TABLE `ac_dataset_column_properties` (
   `dataset_column_property_name` varchar(255) NOT NULL,
   `dataset_column_property_value` varchar(255) DEFAULT NULL,
   KEY `dataset_column_properties_idx` (`dataset_column_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `ac_dataset_values`
@@ -10560,7 +10561,7 @@ CREATE TABLE `ac_dataset_values` (
   `row_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`value_sort_order`),
   KEY `dataset_values_index` (`value_integer`,`value_float`,`value_varchar`,`value_boolean`,`row_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 --
 -- Storefront menu inserts
 --
@@ -10574,814 +10575,839 @@ VALUES  (1,'item_id','varchar',1),
         (1,'item_url','varchar',3),
         (1,'parent_id','varchar',4),
         (1,'sort_order','integer',5),
-        (1,'item_type','varchar',6);
+        (1,'item_type','varchar',6),
+        (1,'item_icon_rl_id','integer',7);
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (1,'home',1),
-		(1,'login',2),
-		(1,'logout',3),
-		(1,'account',4),
-		(1,'cart',5),
-		(1,'checkout',6),
-		(1,'specials',7);
+        (1,'login',2),
+        (1,'logout',3),
+        (1,'account',4),
+        (1,'cart',5),
+        (1,'checkout',6),
+        (1,'specials',7);
+
 -- ITEM_ICON
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (2,'',1),
-		(2,'',2),
-		(2,'',3),
-		(2,'',4),
-		(2,'',5),
-		(2,'',6),
-		(2,'',7);
+VALUES  (2,'<i class="icon-home"></i>&nbsp;',1),
+        (2,'<i class="icon-lock"></i>&nbsp;&nbsp;',2),
+        (2,'<i class="icon-lock"></i>&nbsp;&nbsp;',3),
+        (2,'<i class="icon-user"></i>&nbsp;',4),
+        (2,'<i class="icon-shopping-cart"></i>&nbsp;',5),
+        (2,'<i class="icon-barcode"></i>&nbsp;&nbsp;',6),
+        (2,'<i class="icon-star"></i>&nbsp;&nbsp;',7);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (3,'index/home',1),
-		(3,'account/login',2),
-		(3,'account/logout',3),
-		(3,'account/account',4),
-		(3,'checkout/cart',5),
-		(3,'checkout/shipping',6),
-		(3,'product/special',7);
+        (3,'account/login',2),
+        (3,'account/logout',3),
+        (3,'account/account',4),
+        (3,'checkout/cart',5),
+        (3,'checkout/shipping',6),
+        (3,'product/special',7);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (4,'',1),
-		(4,'',2),
-		(4,'',3),
-		(4,'',4),
-		(4,'',5),
-		(4,'',6),
-		(4,'',7);
+        (4,'',2),
+        (4,'',3),
+        (4,'',4),
+        (4,'',5),
+        (4,'',6),
+        (4,'',7);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (5,10,1),
-		(5,20,2),
-		(5,30,3),
-		(5,40,4),
-		(5,50,5),
-		(5,60,6),
-		(5,11,7);
+        (5,20,2),
+        (5,30,3),
+        (5,40,4),
+        (5,50,5),
+        (5,60,6),
+        (5,11,7);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (6,'core',1),
-		(6,'core',2),
-		(6,'core',3),
-		(6,'core',4),
-		(6,'core',5),
-		(6,'core',6),
-		(6,'core',7);
+        (6,'core',2),
+        (6,'core',3),
+        (6,'core',4),
+        (6,'core',5),
+        (6,'core',6),
+        (6,'core',7);
+-- item_icon_rl_id
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
+VALUES  (7,2,1),
+        (7,3,2),
+        (7,3,3),
+        (7,4,4),
+        (7,5,5),
+        (7,6,6),
+		    (7,1,7);
 
 --
 -- ADMIN MENU SECTION
 --
 INSERT INTO `ac_datasets` (`dataset_name`,`dataset_key`) VALUES ('menu','admin');
-INSERT INTO `ac_dataset_definition` (`dataset_id`,`dataset_column_name`,`dataset_column_type`,`dataset_column_sort_order`) 
-VALUES  (2,'item_id','varchar',1),
-		(2,'item_text','varchar',2),
-		(2,'item_url','varchar',3),		
-		(2,'parent_id','varchar',4),
-		(2,'sort_order','integer',5),
-		(2,'item_type','varchar',6);
+INSERT INTO `ac_dataset_definition` (`dataset_id`,`dataset_column_id`,`dataset_column_name`,`dataset_column_type`,`dataset_column_sort_order`)
+VALUES  (2,10, 'item_id','varchar',1),
+        (2,11, 'item_text','varchar',2),
+        (2,12, 'item_url','varchar',3),
+        (2,13, 'parent_id','varchar',4),
+        (2,14, 'sort_order','integer',5),
+        (2,15, 'item_type','varchar',6);
 --		
 -- MAIN (PARENT) MENU
 --
 --		
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (7,'catalog',1),
-		(7,'sale',2),
-		(7,'design',3),
-		(7,'extension',4),
-		(7,'system',5),
-		(7,'reports',6),
-		(7,'help',7);
+VALUES  (10,'catalog',1),
+        (10,'sale',2),
+        (10,'design',3),
+        (10,'extension',4),
+        (10,'system',5),
+        (10,'reports',6),
+        (10,'help',7);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (8,'text_catalog',1),
-		(8,'text_sale',2),
-		(8,'text_design',3),
-		(8,'text_extension',4),
-		(8,'text_system',5),
-		(8,'text_reports',6),
-		(8,'text_help',7);
+VALUES  (11,'text_catalog',1),
+        (11,'text_sale',2),
+        (11,'text_design',3),
+        (11,'text_extension',4),
+        (11,'text_system',5),
+        (11,'text_reports',6),
+        (11,'text_help',7);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (9,'catalog/category',1),
-		(9,'sale/order',2),
-		(9,'extension/extensions/template',3),
-		(9,'extension/extensions/extensions',4),
-		(9,'setting/setting',5),
-		(9,'report/sale',6),
-		(9,'',7);
+VALUES  (12,'catalog/category',1),
+        (12,'sale/order',2),
+        (12,'extension/extensions/template',3),
+        (12,'extension/extensions/extensions',4),
+        (12,'setting/setting',5),
+        (12,'report/sale',6),
+        (12,'',7);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (10,'',1),
-		(10,'',2),
-		(10,'',3),
-		(10,'',4),
-		(10,'',5),
-		(10,'',6),
-		(10,'',7);
+VALUES  (13,'',1),
+        (13,'',2),
+        (13,'',3),
+        (13,'',4),
+        (13,'',5),
+        (13,'',6),
+        (13,'',7);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
-VALUES  (11,1,1),
-		(11,2,2),
-		(11,3,3),
-		(11,4,4),
-		(11,5,5),
-		(11,6,6),
-		(11,7,7);
+VALUES  (14,1,1),
+        (14,2,2),
+        (14,3,3),
+        (14,4,4),
+        (14,5,5),
+        (14,6,6),
+        (14,7,7);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'core',1),
-		(12,'core',2),
-		(12,'core',3),
-		(12,'core',4),
-		(12,'core',5),
-		(12,'core',6),
-		(12,'core',7);
+VALUES  (15,'core',1),
+        (15,'core',2),
+        (15,'core',3),
+        (15,'core',4),
+        (15,'core',5),
+        (15,'core',6),
+        (15,'core',7);
 --		
 -- SUBMENU CATEGORY
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (7,'category',11),
-		(7,'product',12),
-		(7,'manufacturer',13),
-		(7,'download',14),
-		(7,'review',15),
-		(7,'attributes',16);
+VALUES  (10,'category',11),
+        (10,'product',12),
+        (10,'manufacturer',13),
+        (10,'download',14),
+        (10,'review',15),
+        (10,'attributes',16);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (8,'text_category',11),
-		(8,'text_product',12),
-		(8,'text_manufacturer',13),
-		(8,'text_download',14),
-		(8,'text_review',15),
-		(8,'text_attribute',16);
+VALUES  (11,'text_category',11),
+        (11,'text_product',12),
+        (11,'text_manufacturer',13),
+        (11,'text_download',14),
+        (11,'text_review',15),
+        (11,'text_attribute',16);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (9,'catalog/category',11),
-		(9,'catalog/product',12),
-		(9,'catalog/manufacturer',13),
-		(9,'catalog/download',14),
-		(9,'catalog/review',15),
-		(9,'catalog/attribute',16);
+VALUES  (12,'catalog/category',11),
+        (12,'catalog/product',12),
+        (12,'catalog/manufacturer',13),
+        (12,'catalog/download',14),
+        (12,'catalog/review',15),
+        (12,'catalog/attribute',16);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (10,'catalog',11),
-		(10,'catalog',12),
-		(10,'catalog',13),
-		(10,'catalog',14),
-		(10,'catalog',15),
-		(10,'catalog',16);
+VALUES  (13,'catalog',11),
+        (13,'catalog',12),
+        (13,'catalog',13),
+        (13,'catalog',14),
+        (13,'catalog',15),
+        (13,'catalog',16);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
-VALUES  (11,1,11),
-		(11,2,12),
-		(11,3,13),
-		(11,4,14),
-		(11,5,15),
-		(11,6,16);
+VALUES  (14,1,11),
+        (14,2,12),
+        (14,3,13),
+        (14,4,14),
+        (14,5,15),
+        (14,6,16);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'core',11),
-		(12,'core',12),
-		(12,'core',13),
-		(12,'core',14),
-		(12,'core',15),
-		(12,'core',16);
+VALUES  (15,'core',11),
+        (15,'core',12),
+        (15,'core',13),
+        (15,'core',14),
+        (15,'core',15),
+        (15,'core',16);
 --
 -- SUBMENU EXTENSION
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (7,'extensions',31),
-		(7,'shipping',32),
-		(7,'payment',33),
-		(7,'templates',34),
-		(7,'languages',35),
-		(7,'total',36),
-		(7,'add_extension',37),
-		(7,'extensions_store',38);
+VALUES  (10,'extensions',31),
+        (10,'shipping',32),
+        (10,'payment',33),
+        (10,'templates',34),
+        (10,'languages',35),
+        (10,'total',36),
+        (10,'add_extension',37),
+        (10,'extensions_stores',38);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (8,'text_extensions',31),
-		(8,'text_shipping',32),
-		(8,'text_payment',33),
-		(8,'text_templates',34),
-		(8,'text_language',35),
-		(8,'text_total',36),
-		(8,'text_add_extension',37),
-		(8,'text_extensions_store',38);
+VALUES  (11,'text_extensions',31),
+        (11,'text_shipping',32),
+        (11,'text_payment',33),
+        (11,'text_templates',34),
+        (11,'text_language',35),
+        (11,'text_total',36),
+        (11,'text_add_extension',37),
+        (11,'text_extensions_stores',38);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (9,'extension/extensions/extensions',31),
-		(9,'extension/extensions/shipping',32),
-		(9,'extension/extensions/payment',33),
-		(9,'extension/extensions/template',34),
-		(9,'extension/extensions/language',35),
-		(9,'extension/total',36),
-		(9,'tool/package_installer',37),
-		(9,'extension/extensions_store',38);
+VALUES  (12,'extension/extensions/extensions',31),
+        (12,'extension/extensions/shipping',32),
+        (12,'extension/extensions/payment',33),
+        (12,'extension/extensions/template',34),
+        (12,'extension/extensions/language',35),
+        (12,'extension/total',36),
+        (12,'tool/package_installer',37),
+        (12,'extension/extensions_store',38);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (10,'extension',31),
-		(10,'extension',32),
-		(10,'extension',33),
-		(10,'extension',34),
-		(10,'extension',35),
-		(10,'extension',36),
-		(10,'extension',37),
-		(10,'extension',38);
+VALUES  (13,'extension',31),
+        (13,'extension',32),
+        (13,'extension',33),
+        (13,'extension',34),
+        (13,'extension',35),
+        (13,'extension',36),
+        (13,'extension',37),
+        (13,'extension',38);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
-VALUES  (11,1,31),
-		(11,2,32),
-		(11,3,33),
-		(11,4,34),
-		(11,5,35),
-		(11,6,36),
-		(11,7,37),
-		(11,8,38);
+VALUES  (14,1,31),
+        (14,2,32),
+        (14,3,33),
+        (14,4,34),
+        (14,5,35),
+        (14,6,36),
+        (14,7,37),
+        (14,8,38);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'core',31),
-		(12,'core',32),
-		(12,'core',33),
-		(12,'core',34),
-		(12,'core',35),
-		(12,'core',36);
+VALUES  (15,'core',31),
+        (15,'core',32),
+        (15,'core',33),
+        (15,'core',34),
+        (15,'core',35),
+        (15,'core',36);
 --
 -- SUBMENU SALE
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (7,'order',51),
-		(7,'customer',52),
-		(7,'customer_group',53),
-		(7,'coupon',54),
-		(7,'contact',55);
+VALUES  (10,'order',51),
+        (10,'customer',52),
+        (10,'customer_group',53),
+        (10,'coupon',54),
+        (10,'contact',55);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (8,'text_order',51),
-		(8,'text_customer',52),
-		(8,'text_customer_group',53),
-		(8,'text_coupon',54),
-		(8,'text_contact',55);		
+VALUES  (11,'text_order',51),
+        (11,'text_customer',52),
+        (11,'text_customer_group',53),
+        (11,'text_coupon',54),
+        (11,'text_contact',55);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (9,'sale/order',51),
-		(9,'sale/customer',52),
-		(9,'sale/customer_group',53),
-		(9,'sale/coupon',54),
-		(9,'sale/contact',55);
+VALUES  (12,'sale/order',51),
+        (12,'sale/customer',52),
+        (12,'sale/customer_group',53),
+        (12,'sale/coupon',54),
+        (12,'sale/contact',55);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (10,'sale',51),
-		(10,'sale',52),
-		(10,'sale',53),
-		(10,'sale',54),
-		(10,'sale',55);
+VALUES  (13,'sale',51),
+        (13,'sale',52),
+        (13,'sale',53),
+        (13,'sale',54),
+        (13,'sale',55);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
-VALUES  (11,1,51),
-		(11,2,52),
-		(11,3,53),
-		(11,4,54),
-		(11,5,55);
+VALUES  (14,1,51),
+        (14,2,52),
+        (14,3,53),
+        (14,4,54),
+        (14,5,55);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'core',51),
-		(12,'core',52),
-		(12,'core',53),
-		(12,'core',54),		
-		(12,'core',55);
+VALUES  (15,'core',51),
+        (15,'core',52),
+        (15,'core',53),
+        (15,'core',54),
+        (15,'core',55);
 --		
 -- SUBMENU SYSTEM
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (7,'setting',71),
-		(7,'users',72),
-		(7,'localisation',73),
-		(7,'data',74),
-		(7,'updater',77),
-		(7,'cache',78),
-		(7,'messages',79),
-		(7,'logs',80);
+VALUES  (10,'setting',71),
+        (10,'users',72),
+        (10,'localisation',73),
+        (10,'data',74),
+        (10,'updater',77),
+        (10,'cache',78),
+        (10,'messages',79),
+        (10,'logs',80);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (8,'text_setting',71),
-		(8,'text_users',72),
-		(8,'text_localisation',73),
-		(8,'text_data',74),
-		(8,'text_updater',77),
-		(8,'text_cache',78),
-		(8,'text_messages',79),
-		(8,'text_logs',80);
+VALUES  (11,'text_setting',71),
+        (11,'text_users',72),
+        (11,'text_localisation',73),
+        (11,'text_data',74),
+        (11,'text_updater',77),
+        (11,'text_cache',78),
+        (11,'text_messages',79),
+        (11,'text_logs',80);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (9,'setting/setting',71),
-		(9,'',72),
-		(9,'',73),
-		(9,'',74),
-		(9,'tool/updater',77),
-		(9,'tool/cache',78),
-		(9,'tool/message_manager',79),
-		(9,'',80);
+VALUES  (12,'setting/setting',71),
+        (12,'',72),
+        (12,'',73),
+        (12,'',74),
+        (12,'tool/updater',77),
+        (12,'tool/cache',78),
+        (12,'tool/message_manager',79),
+        (12,'',80);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (10,'system',71),
-		(10,'system',72),
-		(10,'system',73),
-		(10,'system',74),
-		(10,'system',77),
-		(10,'system',78),
-		(10,'system',79),
-		(10,'system',80);
+VALUES  (13,'system',71),
+        (13,'system',72),
+        (13,'system',73),
+        (13,'system',74),
+        (13,'system',77),
+        (13,'system',78),
+        (13,'system',79),
+        (13,'system',80);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
-VALUES  (11,1,71),
-		(11,2,72),
-		(11,3,73),
-		(11,4,74),
-		(11,7,77),
-		(11,8,78),
-		(11,9,79),
-		(11,10,80);
+VALUES  (14,1,71),
+        (14,2,72),
+        (14,3,73),
+        (14,4,74),
+        (14,7,77),
+        (14,8,78),
+        (14,9,79),
+        (14,10,80);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'core',71),
-		(12,'core',72),
-		(12,'core',73),
-		(12,'core',74),
-		(12,'core',77),
-		(12,'core',78),		
-		(12,'core',79),
-		(12,'core',80);
+VALUES  (15,'core',71),
+        (15,'core',72),
+        (15,'core',73),
+        (15,'core',74),
+        (15,'core',77),
+        (15,'core',78),
+        (15,'core',79),
+        (15,'core',80);
 --
 -- SUBMENU REPORTS
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (7,'report_sale',91),
-		(7,'viewed',92),
-		(7,'purchased',93),
-		(7,'banner_manager_stat',94 );
+VALUES  (10,'report_sale',91),
+        (10,'viewed',92),
+        (10,'purchased',93),
+        (10,'banner_manager_stat',94 );
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (8,'text_report_sale',91),
-		(8,'text_report_viewed',92),
-		(8,'text_report_purchased',93),
-		(8,'banner_manager_name_stat',94);
+VALUES  (11,'text_report_sale',91),
+        (11,'text_report_viewed',92),
+        (11,'text_report_purchased',93),
+        (11,'banner_manager_name_stat',94);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (9,'report/sale',91),
-		(9,'report/viewed',92),
-		(9,'report/purchased',93),
-		(9,'extension/banner_manager_stat',94);
+VALUES  (12,'report/sale',91),
+        (12,'report/viewed',92),
+        (12,'report/purchased',93),
+        (12,'extension/banner_manager_stat',94);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (10,'reports',91),
-		(10,'reports',92),
-		(10,'reports',93),
-		(10,'reports',94);
+VALUES  (13,'reports',91),
+        (13,'reports',92),
+        (13,'reports',93),
+        (13,'reports',94);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
-VALUES  (11,1,91),
-		(11,2,92),
-		(11,3,93),
-		(11,4,94);
+VALUES  (14,1,91),
+        (14,2,92),
+        (14,3,93),
+        (14,4,94);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'core',91),
-		(12,'core',92),		
-		(12,'core',93),
-		(12,'extension',94);
+VALUES  (15,'core',91),
+        (15,'core',92),
+        (15,'core',93),
+        (15,'extension',94);
 --
 -- SUBMENU HELP
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (7,'abantecart',111),
-		(7,'documentation',112),
-		(7,'support',113);
+VALUES  (10,'abantecart',111),
+        (10,'documentation',112),
+        (10,'support',113);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (8,'text_abantecart',111),
-		(8,'text_documentation',112),
-		(8,'text_support',113);
+VALUES  (11,'text_abantecart',111),
+        (11,'text_documentation',112),
+        (11,'text_support',113);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (9,'window.open(\'http://www.abantecart.com\');',111),
-		(9,'window.open(\'http://www.abantecart.com/ecommerce-documentation\');',112),
-		(9,'window.open(\'http://forum.abantecart.com\');',113);
+VALUES  (12,'window.open(\'http://www.abantecart.com\');',111),
+        (12,'window.open(\'http://www.abantecart.com/ecommerce-documentation\');',112),
+        (12,'window.open(\'http://forum.abantecart.com\');',113);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (10,'help',111),
-		(10,'help',112),
-		(10,'help',113);
+VALUES  (13,'help',111),
+        (13,'help',112),
+        (13,'help',113);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
-VALUES  (11,1,111),
-		(11,2,112),
-		(11,3,113);
+VALUES  (14,1,111),
+        (14,2,112),
+        (14,3,113);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'core',111),
-		(12,'core',112),		
-		(12,'core',113);
+VALUES  (15,'core',111),
+        (15,'core',112),
+        (15,'core',113);
 --		
 -- SUBMENU DESIGN
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (7,'template',131),
-		(7,'layout',132),
-		(7,'blocks',133),
-		(7,'menu',134),
-		(7,'content',135),
-		(7,'banner_manager',136);
+VALUES  (10,'template',131),
+        (10,'layout',132),
+        (10,'blocks',133),
+        (10,'menu',134),
+        (10,'content',135),
+		    (10,'banner_manager',136);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (8,'text_templates',131),
-		(8,'text_layout',132),
-		(8,'text_blocks',133),
-		(8,'text_menu',134),
-		(8,'text_content',135),
-		(8,'banner_manager_name',136);
+VALUES  (11,'text_templates',131),
+        (11,'text_layout',132),
+        (11,'text_blocks',133),
+        (11,'text_menu',134),
+        (11,'text_content',135),
+        (11,'banner_manager_name',136);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (9,'extension/extensions/template',131),
-		(9,'design/layout',132),
-		(9,'design/blocks',133),
-		(9,'design/menu',134),
-		(9,'design/content',135),
-		(9,'extension/banner_manager',136);
+VALUES  (12,'extension/extensions/template',131),
+        (12,'design/layout',132),
+        (12,'design/blocks',133),
+        (12,'design/menu',134),
+        (12,'design/content',135),
+        (12,'extension/banner_manager',136);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (10,'design',131),
-		(10,'design',132),
-		(10,'design',133),
-		(10,'design',134),
-		(10,'design',135),
-		(10,'design',136);
+VALUES  (13,'design',131),
+        (13,'design',132),
+        (13,'design',133),
+        (13,'design',134),
+        (13,'design',135),
+        (13,'design',136);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
-VALUES  (11,1,131),
-		(11,2,132),
-		(11,3,133),
-		(11,4,134),
-		(11,5,135),
-		(11,6,136);
+VALUES  (14,1,131),
+        (14,2,132),
+        (14,3,133),
+        (14,4,134),
+        (14,5,135),
+        (14,6,136);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'core',131),
-		(12,'core',132),		
-		(12,'core',133),
-		(12,'core',134),
-		(12,'core',135),
-		(12,'extension',136);
+VALUES  (15,'core',131),
+        (15,'core',132),
+        (15,'core',133),
+        (15,'core',134),
+        (15,'core',135),
+        (15,'extension',136);
 		
 --		
 -- SUBMENU SYSTEM->SETTINGS
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES
-(7,'all_settings',191),
-(7,'settings_details',192),
-(7,'settings_general',193),
-(7,'settings_checkout',194),
-(7,'settings_appearance',195),
-(7,'settings_mail',196),
-(7,'settings_api',197),
-(7,'settings_system',198),
-(7,'settings_newstore',199);
+(10,'all_settings',191),
+(10,'settings_details',192),
+(10,'settings_general',193),
+(10,'settings_checkout',194),
+(10,'settings_appearance',195),
+(10,'settings_mail',196),
+(10,'settings_api',197),
+(10,'settings_system',198),
+(10,'settings_newstore',199);
 
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES
-(8,'text_all_settings',191),
-(8,'text_settings_details',192),
-(8,'text_settings_general',193),
-(8,'text_settings_checkout',194),
-(8,'text_settings_appearance',195),
-(8,'text_settings_mail',196),
-(8,'text_settings_api',197),
-(8,'text_settings_system',198),
-(8,'text_settings_newstore',199);
+(11,'text_all_settings',191),
+(11,'text_settings_details',192),
+(11,'text_settings_general',193),
+(11,'text_settings_checkout',194),
+(11,'text_settings_appearance',195),
+(11,'text_settings_mail',196),
+(11,'text_settings_api',197),
+(11,'text_settings_system',198),
+(11,'text_settings_newstore',199);
 
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES
-(9,'setting/setting/all',191),
-(9,'setting/setting/details',192),
-(9,'setting/setting/general',193),
-(9,'setting/setting/checkout',194),
-(9,'setting/setting/appearance',195),
-(9,'setting/setting/mail',196),
-(9,'setting/setting/api',197),
-(9,'setting/setting/system',198),
-(9,'setting/store/insert',199);
+(12,'setting/setting/all',191),
+(12,'setting/setting/details',192),
+(12,'setting/setting/general',193),
+(12,'setting/setting/checkout',194),
+(12,'setting/setting/appearance',195),
+(12,'setting/setting/mail',196),
+(12,'setting/setting/api',197),
+(12,'setting/setting/system',198),
+(12,'setting/store/insert',199);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES
-(10,'setting',191),
-(10,'setting',192),
-(10,'setting',193),
-(10,'setting',194),
-(10,'setting',195),
-(10,'setting',196),
-(10,'setting',197),
-(10,'setting',198),
-(10,'setting',199);
+(13,'setting',191),
+(13,'setting',192),
+(13,'setting',193),
+(13,'setting',194),
+(13,'setting',195),
+(13,'setting',196),
+(13,'setting',197),
+(13,'setting',198),
+(13,'setting',199);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES
-(11,1,191),
-(11,2,192),
-(11,3,193),
-(11,4,194),
-(11,5,195),
-(11,6,196),
-(11,7,197),
-(11,8,198),
-(11,9,199);
+(14,1,191),
+(14,2,192),
+(14,3,193),
+(14,4,194),
+(14,5,195),
+(14,6,196),
+(14,7,197),
+(14,8,198),
+(14,9,199);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES
-(12,'core',191),
-(12,'core',192),
-(12,'core',193),
-(12,'core',194),
-(12,'core',195),
-(12,'core',196),
-(12,'core',197),
-(12,'core',198),
-(12,'core',199);
-		
+(15,'core',191),
+(15,'core',192),
+(15,'core',193),
+(15,'core',194),
+(15,'core',195),
+(15,'core',196),
+(15,'core',197),
+(15,'core',198),
+(15,'core',199);
+
+
+
+
+
+
+--
+-- SUBMENU EXTENSIONS STORE
+-- ITEM_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES  (10,'extension_store',251),
+		    (10,'extension_store_prev',252);
+-- ITEM_TEXT
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES  (11,'text_extension_store_new',251),
+		    (11,'text_extension_store_prev',252);
+-- ITEM_URL
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES  (12,'extension/extensions_store',251),
+		    (12,'extension/extensions_store_prev',252);
+-- PARENT_ID	(submenu SYSTEM)
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES  (13,'extensions_stores',251),
+		    (13,'extensions_stores',252);
+-- SORT_ORDER
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
+VALUES  (14,1,251),
+		    (14,2,252);
+-- ITEM_TYPE
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES  (15,'core',251),
+		    (15,'core',252);
+
+
+
+
+
+
+
+
+
 --
 -- SUBMENU USERS OF SUBMENU SYSTEM
 -- ITEM_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (7,'user',151),
-		(7,'permission',152);
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (10,'user',151),
+		    (10,'permission',152);
 -- ITEM_TEXT
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (8,'text_user',151),
-		(8,'text_user_group',152);		
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (11,'text_user',151),
+		    (11,'text_user_group',152);
 -- ITEM_URL
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (9,'user/user',151),
-		(9,'user/user_permission',152);
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (12,'user/user',151),
+	    	(12,'user/user_permission',152);
 -- PARENT_ID	(submenu SYSTEM)
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (10,'users',151),
-		(10,'users',152);
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (13,'users',151),
+		    (13,'users',152);
 -- SORT_ORDER
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
-VALUES  (11,1,151),
-		(11,2,152);
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
+VALUES  (14,1,151),
+	    	(14,2,152);
 -- ITEM_TYPE
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'core',151),		
-		(12,'core',152);
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (15,'core',151),
+		    (15,'core',152);
 --		
 -- SUBMENU SYSTEM->LOCALIZATION
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (7,'language',171),
-		(7,'language_definitions',172),
-		(7,'currency',173),
-		(7,'stockstatus',174),
-		(7,'orderstatus',175),
-		(7,'country',176),
-		(7,'zone',177),
-		(7,'location',178),
-		(7,'taxclass',179),
-		(7,'lengthclass',180),
-		(7,'weightclass',181);
+VALUES  (10,'language',171),
+        (10,'language_definitions',172),
+        (10,'currency',173),
+        (10,'stockstatus',174),
+        (10,'orderstatus',175),
+        (10,'country',176),
+        (10,'zone',177),
+        (10,'location',178),
+        (10,'taxclass',179),
+        (10,'lengthclass',180),
+        (10,'weightclass',181);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (8,'text_language',171),
-		(8,'text_language_definitions',172),
-		(8,'text_currency',173),
-		(8,'text_stock_status',174),
-		(8,'text_order_status',175),
-		(8,'text_country',176),
-		(8,'text_zone',177),
-		(8,'text_location',178),
-		(8,'text_tax_class',179),
-		(8,'text_length_class',180),
-		(8,'text_weight_class',181);		
+VALUES  (11,'text_language',171),
+        (11,'text_language_definitions',172),
+        (11,'text_currency',173),
+        (11,'text_stock_status',174),
+        (11,'text_order_status',175),
+        (11,'text_country',176),
+        (11,'text_zone',177),
+        (11,'text_location',178),
+        (11,'text_tax_class',179),
+        (11,'text_length_class',180),
+        (11,'text_weight_class',181);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (9,'localisation/language',171),
-		(9,'localisation/language_definitions',172),
-		(9,'localisation/currency',173),
-		(9,'localisation/stock_status',174),
-		(9,'localisation/order_status',175),
-		(9,'localisation/country',176),
-		(9,'localisation/zone',177),
-		(9,'localisation/location',178),
-		(9,'localisation/tax_class',179),
-		(9,'localisation/length_class',180),
-		(9,'localisation/weight_class',181);
+VALUES  (12,'localisation/language',171),
+        (12,'localisation/language_definitions',172),
+        (12,'localisation/currency',173),
+        (12,'localisation/stock_status',174),
+        (12,'localisation/order_status',175),
+        (12,'localisation/country',176),
+        (12,'localisation/zone',177),
+        (12,'localisation/location',178),
+        (12,'localisation/tax_class',179),
+        (12,'localisation/length_class',180),
+        (12,'localisation/weight_class',181);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (10,'localisation',171),
-		(10,'localisation',172),
-		(10,'localisation',173),
-		(10,'localisation',174),
-		(10,'localisation',175),
-		(10,'localisation',176),
-		(10,'localisation',177),
-		(10,'localisation',178),
-		(10,'localisation',179),
-		(10,'localisation',180),
-		(10,'localisation',181);
+VALUES  (13,'localisation',171),
+        (13,'localisation',172),
+        (13,'localisation',173),
+        (13,'localisation',174),
+        (13,'localisation',175),
+        (13,'localisation',176),
+        (13,'localisation',177),
+        (13,'localisation',178),
+        (13,'localisation',179),
+        (13,'localisation',180),
+        (13,'localisation',181);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
-VALUES  (11,1,171),
-		(11,2,172),
-		(11,3,173),
-		(11,4,174),
-		(11,5,175),
-		(11,6,176),
-		(11,7,177),
-		(11,8,178),
-		(11,9,179),
-		(11,10,180),
-		(11,11,181);
+VALUES  (14,1,171),
+        (14,2,172),
+        (14,3,173),
+        (14,4,174),
+        (14,5,175),
+        (14,6,176),
+        (14,7,177),
+        (14,8,178),
+        (14,9,179),
+        (14,10,180),
+        (14,11,181);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'core',171),
-		(12,'core',172),
-		(12,'core',173),
-		(12,'core',174),
-		(12,'core',175),
-		(12,'core',176),
-		(12,'core',177),
-		(12,'core',178),
-		(12,'core',179),
-		(12,'core',180),
-		(12,'core',181);
+VALUES  (15,'core',171),
+        (15,'core',172),
+        (15,'core',173),
+        (15,'core',174),
+        (15,'core',175),
+        (15,'core',176),
+        (15,'core',177),
+        (15,'core',178),
+        (15,'core',179),
+        (15,'core',180),
+        (15,'core',181);
 
 --
 -- SUBMENU SYSTEM->DATA
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (7,'backup',183),
-		(7,'migrate',184),
-		(7,'datasets',185),
-		(7,'import_export',182),
-		(7,'file_uploads',188);
+VALUES  (10,'backup',183),
+        (10,'migrate',184),
+        (10,'datasets',185),
+        (10,'import_export',182),
+        (10,'file_uploads',188);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (8,'text_backup',183),
-		(8,'text_migrate',184),
-		(8,'text_datasets_manager',185),
-		(8,'text_import_export',182),
-		(8,'text_file_uploads',188);
+VALUES  (11,'text_backup',183),
+        (11,'text_migrate',184),
+        (11,'text_datasets_manager',185),
+        (11,'text_import_export',182),
+        (11,'text_file_uploads',188);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (9,'tool/backup',183),
-		(9,'tool/migration/step_one',184),
-		(9,'tool/datasets_manager',185),
-		(9,'tool/import_export',182),
-		(9,'tool/files',188);
+VALUES  (12,'tool/backup',183),
+        (12,'tool/migration/step_one',184),
+        (12,'tool/datasets_manager',185),
+        (12,'tool/import_export',182),
+        (12, 'tool/files',188);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (10,'data',183),
-		(10,'data',184),
-		(10,'data',185),
-		(10,'data',182),
-		(10,'data',188);
+VALUES  (13,'data',183),
+        (13,'data',184),
+        (13,'data',185),
+        (13,'data',182),
+        (13,'data',188);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
-VALUES  (11,1,183),
-		(11,2,184),
-		(11,3,185),
-		(11,4,182),
-		(11,5,188);
+VALUES  (14,1,183),
+        (14,2,184),
+        (14,3,185),
+        (14,4,182),
+        (14,5,188);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (12,'core',183),
-		(12,'core',184),
-		(12,'core',185),
-		(12,'core',182),
-		(12,'core',188);
+VALUES  (15,'core',183),
+        (15,'core',184),
+        (15,'core',185),
+        (15,'core',182),
+        (15,'core',188);
 
 --
 -- SUBMENU SYSTEM->LOGS
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (7,'installlog',186),
-		(7,'error_log',187);
+VALUES  (10,'installlog',186),
+		    (10,'error_log',187);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (8,'text_install_upgrade_history',186),
-		(8,'text_error_log',187);
+VALUES  (11,'text_install_upgrade_history',186),
+		      (11,'text_error_log',187);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (9,'tool/install_upgrade_history',186),
-		(9,'tool/error_log',187);
+VALUES  (12,'tool/install_upgrade_history',186),
+		    (12,'tool/error_log',187);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (10,'logs',186),
-		(10,'logs',187);
+VALUES  (13,'logs',186),
+		    (13,'logs',187);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
-VALUES  (11,1,186),
-		(11,2,187);
+VALUES  (14,1,186),
+	    	(14,2,187);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (12,'core',186),
-		(12,'core',187);
+VALUES  (15,'core',186),
+		    (15,'core',187);
 
---
--- SUBMENU ATTRIBUTES OF SUBMENU CATALOG
--- ITEM_ID
--- INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
--- VALUES  (7,'attribute',201),
---		(7,'attribute_groups',202);
--- ITEM_TEXT
--- INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
--- VALUES  (8,'text_attribute',201),
---		  (8,'text_attribute_groups',202);
--- ITEM_URL
--- INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
--- VALUES  (9,'catalog/attribute',201),
---		(9,'catalog/attribute_groups',202);
--- PARENT_ID	(submenu ATTRIBUTES)
--- INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
--- VALUES  (10,'attributes',201),
---		(10,'attributes',202);
--- SORT_ORDER
--- INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
--- VALUES  (11,1,201),
---		(11,2,202);
--- ITEM_TYPE
--- INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
--- VALUES  (12,'core',201),
---		(12,'core',202);
 
 --
 -- Storefront menu names inserts
 --
 INSERT INTO `ac_datasets` (`dataset_name`,`dataset_key`) VALUES ('menu','storefront_description');
-INSERT INTO `ac_dataset_definition` (`dataset_id`,`dataset_column_name`,`dataset_column_type`,`dataset_column_sort_order`)
-VALUES  (3,'item_id','varchar',1),
-		(3,'item_text','varchar',2),
-		(3,'language_id','integer',3);
+INSERT INTO `ac_dataset_definition` (`dataset_id`,`dataset_column_id`,`dataset_column_name`,`dataset_column_type`,`dataset_column_sort_order`)
+VALUES  (3,16, 'item_id','varchar',1),
+        (3,17, 'item_text','varchar',2),
+        (3,18, 'language_id','integer',3);
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (13,'home',1),
-		(13,'login',2),
-		(13,'logout',3),
-		(13,'account',4),
-		(13,'cart',5),
-		(13,'checkout',6),
-		(13,'specials',14);
+VALUES  (16,'home',1),
+        (16,'login',2),
+        (16,'logout',3),
+        (16,'account',4),
+        (16,'cart',5),
+        (16,'checkout',6),
+        (16,'specials',14);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (14,'Home',1),
-		(14,'Login',2),
-		(14,'Logout',3),
-		(14,'Account',4),
-		(14,'Cart',5),
-		(14,'Checkout',6),
-		(14,'Specials',14);
+VALUES  (17,'Home',1),
+        (17,'Login',2),
+        (17,'Logout',3),
+        (17,'Account',4),
+        (17,'Cart',5),
+        (17,'Checkout',6),
+        (17,'Specials',14);
 -- LANGUAGE_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
-VALUES  (15,1,1),
-		(15,1,2),
-		(15,1,3),
-		(15,1,4),
-		(15,1,5),
-		(15,1,6),
-		(15,1,14);
+VALUES  (18,1,1),
+        (18,1,2),
+        (18,1,3),
+        (18,1,4),
+        (18,1,5),
+        (18,1,6),
+        (18,1,14);
 -- spanish
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (13,'home',7),
-		(13,'login',8),
-		(13,'logout',9),
-		(13,'account',10),
-		(13,'cart',11),
-		(13,'checkout',12),
-		(13,'specials',13);
+VALUES  (16,'home',7),
+        (16,'login',8),
+        (16,'logout',9),
+        (16,'account',10),
+        (16,'cart',11),
+        (16,'checkout',12),
+        (16,'specials',13);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (14,'Casa',7),
-		(14,'Iniciar Sesión',8),
-		(14,'Cerrar sesión',9),
-		(14,'Cuenta',10),
-		(14,'Carro',11),
-		(14,'Caja',12),
-		(14,'Especiales',13);
+VALUES  (17,'Casa',7),
+        (17,'Iniciar Sesión',8),
+        (17,'Cerrar sesión',9),
+        (17,'Cuenta',10),
+        (17,'Carro',11),
+        (17,'Caja',12),
+        (17,'Especiales',13);
 -- LANGUAGE_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
-VALUES  (15,9,7),
-		(15,9,8),
-		(15,9,9),
-		(15,9,10),
-		(15,9,11),
-		(15,9,12),
-		(15,9,13);
+VALUES  (18,9,7),
+        (18,9,8),
+        (18,9,9),
+        (18,9,10),
+        (18,9,11),
+        (18,9,12),
+        (18,9,13);
 
 
 
@@ -11389,42 +11415,40 @@ VALUES  (15,9,7),
 INSERT INTO `ac_datasets` (`dataset_name`,`dataset_key`) VALUES ('install_upgrade_history','admin');
 INSERT INTO `ac_dataset_properties` (`dataset_id`,`dataset_property_name`,`dataset_property_value`) VALUES ('4','controller','tool/install_upgrade_history');
 
-INSERT INTO `ac_dataset_definition` (`dataset_id`,`dataset_column_name`,`dataset_column_type`,`dataset_column_sort_order`)
-VALUES  (4,'date_added','timestamp',1),
-		(4,'name','varchar',2),
-		(4,'version','varchar',3),
-		(4,'backup_file','varchar',4),
-		(4,'backup_date','timestamp',5),
-		(4,'type','varchar',6),
-		(4,'user','varchar',7);
+INSERT INTO `ac_dataset_definition` (`dataset_id`,`dataset_column_id`, `dataset_column_name`,`dataset_column_type`,`dataset_column_sort_order`)
+VALUES  (4,20,'date_added','timestamp',1),
+        (4,21,'name','varchar',2),
+        (4,22,'version','varchar',3),
+        (4,23,'backup_file','varchar',4),
+        (4,24,'backup_date','timestamp',5),
+        (4,25,'type','varchar',6),
+        (4,26,'user','varchar',7);
 
 -- ## ADD FILE UPLOADS DATASET
-INSERT INTO `ac_datasets` (`dataset_name`,`dataset_key`) VALUES ('file_uploads','admin');
-INSERT INTO `ac_dataset_properties` (`dataset_id`,`dataset_property_name`,`dataset_property_value`) VALUES ('5','controller','tool/files');
+INSERT INTO `ac_datasets` (`dataset_id`,`dataset_name`,`dataset_key`) VALUES (5,'file_uploads','admin');
+INSERT INTO `ac_dataset_properties` (`dataset_id`,`dataset_property_name`,`dataset_property_value`) VALUES (5,'controller','tool/files');
 
-INSERT INTO `ac_dataset_definition` (`dataset_id`,`dataset_column_name`,`dataset_column_type`,`dataset_column_sort_order`)
-VALUES  (5,'date_added','timestamp',1),
-		(5,'name','varchar',2),
-		(5,'type','varchar',3),
-		(5,'section','varchar',4),
-		(5,'section_id','integer',5),
-		(5,'path','varchar',6);
+INSERT INTO `ac_dataset_definition` (`dataset_id`,`dataset_column_id`, `dataset_column_name`,`dataset_column_type`,`dataset_column_sort_order`)
+VALUES  (5,30,'date_added','timestamp',1),
+        (5,31,'name','varchar',2),
+        (5,32,'type','varchar',3),
+        (5,33,'section','varchar',4),
+        (5,34,'section_id','integer',5),
+        (5,35,'path','varchar',6);
 
 -- insert info about initial installation
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_timestamp`,`row_id`)
-VALUES  (16,NOW(),'1');
+VALUES  (30, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (17,'AbanteCart','1');
+VALUES  (31,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (18,'1.1.8','1');
+VALUES  (32,'1.1.9','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (19,'','1');
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_timestamp`,`row_id`)
-VALUES  (20,'','1');
+VALUES  (33,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (21,'install','1');
+VALUES  (34,'install','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'admin','1');
+VALUES  (35,'admin','1');
 
 --
 -- DDL for table `ac_resource_library`
@@ -11436,7 +11460,17 @@ CREATE TABLE `ac_resource_library` (
   `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`resource_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=100000;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=100000;
+
+#storefront menu icons
+INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `created`)
+VALUES
+(1,1,now()),
+(2,1,now()),
+(3,1,now()),
+(4,1,now()),
+(5,1,now()),
+(6,1,now());
 
 --
 -- DDL for table `ac_resource_descriptions`
@@ -11449,12 +11483,23 @@ CREATE TABLE `ac_resource_descriptions` (
   `name` varchar(255) NOT NULL DEFAULT '' NULL COMMENT 'translatable',
   `title` varchar(255) NOT NULL DEFAULT '' NULL COMMENT 'translatable',
   `description` text DEFAULT NULL NULL COMMENT 'translatable',
-  `resource_path` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `resource_path` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
   `resource_code` text DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`resource_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `ac_resource_descriptions`
+(`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `created`)
+VALUES
+(1,1,'Star Icon','','','','<i class="icon-star"></i>&nbsp;&nbsp;',now()),
+(2,1,'Icon Home','','','','<i class="icon-home"></i>&nbsp;',now()),
+(3,1,'Login Icon','','','','<i class="icon-lock"></i>&nbsp;&nbsp;',now()),
+(4,1,'Account Icon','','','','<i class="icon-user"></i>&nbsp;',now()),
+(5,1,'Cart Icon','','','','<i class="icon-shopping-cart"></i>&nbsp;',now()),
+(6,1,'Checkout Icon','','','','<i class="icon-barcode"></i>&nbsp;&nbsp;',now());
 
 --
 -- DDL for table `ac_resource_types`
@@ -11463,13 +11508,13 @@ DROP TABLE IF EXISTS `ac_resource_types`;
 CREATE TABLE `ac_resource_types` (
   `type_id` int(11) NOT NULL AUTO_INCREMENT,
   `type_name` varchar(40) NOT NULL default '',
-  `default_directory` varchar(255) COLLATE utf8_bin NOT NULL,
-  `default_icon` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `default_directory` varchar(255) COLLATE utf8_general_ci NOT NULL,
+  `default_icon` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
   `file_types` varchar(40) NOT NULL default '',
   `access_type`tinyint(1) NOT NULL default '0' COMMENT '0-Public, 1-Secured',
   PRIMARY KEY (`type_id`),
   KEY `group_id` (`type_id`, `type_name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 		
 INSERT INTO `ac_resource_types` (`type_id`, `type_name`, `default_icon`, `default_directory`, `file_types`, `access_type`) VALUES
 (1, 'image', 'icon_resource_image.png', 'image/', '/.+(jpe?g|gif|png|ico)$/i', 0),
@@ -11492,9 +11537,19 @@ CREATE TABLE `ac_resource_map` (
   `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   KEY `group_id` (`resource_id`, `object_name`, `object_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 CREATE UNIQUE INDEX `resource_map_index`
 ON `ac_resource_map` ( `resource_id`, `object_name`, `object_id` );
+
+INSERT INTO `ac_resource_map` ( `resource_id`, `object_name`, `object_id`, `default`, `sort_order`, `created`)
+VALUES
+(1,'storefront_menu_item',0,0,0, now()),
+(2,'storefront_menu_item',0,0,0, now()),
+(3,'storefront_menu_item',0,0,0, now()),
+(4,'storefront_menu_item',0,0,0, now()),
+(5,'storefront_menu_item',0,0,0, now()),
+(6,'storefront_menu_item',0,0,0, now());
+
 
 --		
 -- DDL For Global Attributes 		
@@ -11510,21 +11565,21 @@ CREATE TABLE `ac_global_attributes` (
   -- I - text input, T - Text area, S - Select, M - multivalue select, C - Checkbox, R - radio buttons, U - File upload, H - Hidden, G -Checkbox Group, D - Date, E - time, K - Captcha
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   `required` 			smallint(1) NOT NULL default '0',
-  `settings`			text COLLATE utf8_bin NOT NULL DEFAULT '',
+  `settings`			text COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` 				smallint(1) NOT NULL default '0',
   `regexp_pattern` varchar(255),
   PRIMARY KEY (`attribute_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;	
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;	
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_descriptions`;
 CREATE TABLE `ac_global_attributes_descriptions` (
   `attribute_id` 		int(11) NOT NULL,
   `language_id` 		int(11) NOT NULL,
-  `name` 				varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
-  `error_text` 	varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` 				varchar(64) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `error_text` 	varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`attribute_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_values`;
@@ -11533,16 +11588,16 @@ CREATE TABLE `ac_global_attributes_values` (
   `attribute_id` 		int(11) NOT NULL,
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`attribute_value_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;	
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;	
 
 DROP TABLE IF EXISTS `ac_global_attributes_value_descriptions`;
 CREATE TABLE `ac_global_attributes_value_descriptions` (
   `attribute_value_id` int(11) NOT NULL,
   `attribute_id` int(11) NOT NULL,
   `language_id`	int(11) NOT NULL,
-  `value` text COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'translatable', 
+  `value` text COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable', 
   PRIMARY KEY (`attribute_value_id`, `attribute_id`, `language_id` )
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;	 
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;	 
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_groups`;
@@ -11551,16 +11606,16 @@ CREATE TABLE `ac_global_attributes_groups` (
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   `status` 				smallint(1) NOT NULL default '0',
   PRIMARY KEY (`attribute_group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_groups_descriptions`;
 CREATE TABLE `ac_global_attributes_groups_descriptions` (
   `attribute_group_id` 	int(11) NOT NULL,
   `language_id` 		int(11) NOT NULL,
-  `name` 				varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+  `name` 				varchar(64) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`attribute_group_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_types`;
@@ -11571,7 +11626,7 @@ CREATE TABLE `ac_global_attributes_types` (
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   `status` 				smallint(1) NOT NULL default '0',
   PRIMARY KEY (`attribute_type_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;	
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;	
 
 INSERT INTO `ac_global_attributes_types` (`attribute_type_id`, `type_key`, `controller`, `sort_order`, `status`) VALUES
 (1, 'product_option', 'responses/catalog/attribute/getProductOptionSubform', 1, 1),
@@ -11582,11 +11637,11 @@ DROP TABLE IF EXISTS `ac_global_attributes_type_descriptions`;
 CREATE TABLE `ac_global_attributes_type_descriptions` (
 `attribute_type_id` int(11) NOT NULL,
 `language_id` int(11) NOT NULL,
-`type_name` varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'translatable',
+`type_name` varchar(64) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
 `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 `create_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
 PRIMARY KEY (`attribute_type_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='utf8_bin';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='utf8_general_ci';
 
 INSERT INTO `ac_global_attributes_type_descriptions` (`attribute_type_id`, `language_id`, `type_name`, `create_date`)
 VALUES
@@ -11652,9 +11707,9 @@ CREATE TABLE `ac_extension_dependencies` (
 DROP TABLE IF EXISTS `ac_encryption_keys`;
 CREATE TABLE `ac_encryption_keys` (
   `key_id` int(3) NOT NULL AUTO_INCREMENT,
-  `key_name` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `key_name` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` int(1) NOT NULL,  
-  `comment` text COLLATE utf8_bin NOT NULL,  
+  `comment` text COLLATE utf8_general_ci NOT NULL,  
   PRIMARY KEY (`key_id`),
   UNIQUE KEY `encryption_keys_key_name` (`key_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;

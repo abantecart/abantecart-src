@@ -68,6 +68,7 @@ define('POSTFIX_PRE', '.pre');
 define('POSTFIX_POST', '.post');
 
 define('IS_ADMIN', true);
+define('SESSION_ID', 'PHPSESSID_AC');
 
 try {
 

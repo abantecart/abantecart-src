@@ -61,7 +61,7 @@ class ModelAccountOrder extends Model {
 				$shipping_iso_code_3 = '';				
 			}
 			
-			$zone_row = $this->model_localisation_zone->getZone($$order_row['shipping_zone_id']);
+			$zone_row = $this->model_localisation_zone->getZone($order_row['shipping_zone_id']);
 			if ( $zone_row ) {
 				$shipping_zone_code = $zone_row['code'];
 			} else {
@@ -77,9 +77,9 @@ class ModelAccountOrder extends Model {
 				$payment_iso_code_3 = '';				
 			}
 			
-			$zone_row = $this->model_localisation_zone->getZone($$order_row['payment_zone_id']);
+			$zone_row = $this->model_localisation_zone->getZone($order_row['payment_zone_id']);
 			if ( $zone_row ) {
-				$payment_zone_code = $zone_row;
+				$payment_zone_code = $zone_row['code'];
 			} else {
 				$payment_zone_code = '';
 			}

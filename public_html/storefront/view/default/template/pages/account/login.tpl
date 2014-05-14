@@ -56,7 +56,15 @@
 							<?php echo $form2[ 'form_open' ]; ?>
 							<?php echo $text_i_am_returning_customer; ?><br/>
 							<br/>
-							<b><?php echo $entry_loginname; ?></b><br/>
+							<b>
+				  			<?php 
+				  			if ($noemaillogin) {
+				  				echo $entry_loginname; 
+						  	} else {
+				  				echo $entry_email_address;
+				  			}
+							?>							
+							</b><br/>
 							<?php echo $form2[ 'loginname' ]?>
 							<br/>
 							<br/>

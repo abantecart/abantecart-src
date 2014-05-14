@@ -56,7 +56,8 @@ class ControllerPagesCatalogProductOptions extends AController {
 				AND ga.status = 1
 				AND ga.attribute_parent_id = 0 ",
 				'sort' => 'sort_order',
-				'order' => 'ASC'
+				'order' => 'ASC',
+				'limit' => 1000 // !we can not have unlimited, so set 1000 for now
 			),
 			$this->session->data['content_language_id']
 		);
@@ -66,7 +67,6 @@ class ControllerPagesCatalogProductOptions extends AController {
 
 		$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
 		$product_options = $this->model_catalog_product->getProductOptions($this->request->get['product_id']);
-        $this->data['product_options'] = $product_options;
 
 		foreach ($product_options as &$option) {
 			$option_name = trim($option['language'][$this->session->data['content_language_id']]['name']);

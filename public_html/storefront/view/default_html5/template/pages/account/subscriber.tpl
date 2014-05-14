@@ -43,18 +43,17 @@
 	<div class="registerbox form-horizontal">
 		<fieldset>
 		<?php
-			$field_list = array();
-			array_push($field_list, 'firstname', 'lastname', 'email');
-			foreach ($field_list as $field_name) {
-		?>
+		if($form){
+			foreach ($form as $field_name=>$field) { ?>
 			<div class="control-group <?php echo (${'error_'.$field_name} ? 'error' : '')?>">
 				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="controls">
-				    <?php echo $form[$field_name]; ?>
+				    <?php echo $field; ?>
 					<span class="help-inline"><?php echo ${'error_'.$field_name}; ?></span>
 				</div>
 			</div>		
-		<?php } ?>
+		<?php }
+			}?>
 		</fieldset>
 	</div>
 
@@ -64,25 +63,11 @@
 
 	<div class="control-group">
 	    <div class="controls">
-			<?php echo $form['subscriber'];	?>
-			<div>
-				<a id="create_full_account" href="#"><?php echo $subscriber_switch_text_full; ?></a>
+			<div class="pull-left span3 mb40">
+				<?php echo $create_account ?>
 			</div>
-
-
-	<?php if ($text_agree) { /*?>
-			<label class="span6 mt20 mb40 <?php echo $subscriber? 'hide' :''?>">
-				<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
-
-				<?php echo $form['agree']; ?>
-			</label>
-
-	<?php */ } ?>
-	    	<div class="pull-right span2 mt20 mb40">
-	    		<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
-	    		    <i class="icon-ok icon-white"></i>
-	    		    <?php echo $form['continue']->name ?>
-	    		</button>
+	    	<div class="pull-right span2 mb40">
+				<?php echo $continue ?>
 	    	</div>	
 	    </div>
 	</div>
@@ -102,13 +87,4 @@
 	</div>
 </div>
 
-<script type="text/javascript"><!--
-
-$('#create_full_account').click(function(){
-
-	$('#SubscriberFrm').attr('action','<?php echo $action_full; ?>');
-	$('#SubscriberFrm').submit();
-	return false;
-});
-//--></script>
 <?php } ?>

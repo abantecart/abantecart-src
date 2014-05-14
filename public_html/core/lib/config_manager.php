@@ -529,6 +529,12 @@ class AConfigManager {
 			'value' => $data['config_customer_approval'],
 			'style' => 'btn_switch',
 		));
+		$fields['customer_email_activation'] = $form->getFieldHtml($props[] = array(
+			'type' => 'checkbox',
+			'name' => 'config_customer_email_activation',
+			'value' => $data['config_customer_email_activation'],
+			'style' => 'btn_switch',
+		));
 		$fields['prevent_email_as_login'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
 			'name' => 'prevent_email_as_login',
@@ -1081,7 +1087,7 @@ class AConfigManager {
 							$error['address'] = $this->language->get('error_address');
 						}
 
-						$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
+						$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}\.[A-Z]{2,6}$/i';
 						if ((strlen(utf8_decode($fields['store_main_email'])) > 96) || (!preg_match($pattern, $fields['store_main_email']))) {
 							$error['email'] = $this->language->get('error_email');
 						}

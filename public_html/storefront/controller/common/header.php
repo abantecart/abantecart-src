@@ -44,7 +44,7 @@ class ControllerCommonHeader extends AController {
 		
 		$this->data['button_go'] = $this->language->get('button_go');
 
-		$this->data['homepage'] = $this->html->getURL('index/home');
+		$this->data['homepage'] = HTTPS===true ? $this->config->get('config_ssl_url') : $this->config->get('config_url');
 		$this->data['special'] = $this->html->getURL('product/special');
 		$this->data['contact'] = $this->html->getURL('content/contact');
     	$this->data['sitemap'] = $this->html->getURL('content/sitemap');
@@ -120,4 +120,3 @@ class ControllerCommonHeader extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
-?>

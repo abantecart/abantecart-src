@@ -189,7 +189,7 @@ class ControllerResponsesListingGridOrderStatus extends AController {
 	}
 
 	private function _validateDelete($order_status_id) {
-		$non_deletable = array(1,2,5,7);
+		$non_deletable = array(ORDER_PENDING,ORDER_PROCESSING,ORDER_COMPLETED,ORDER_CANCELED);
 		if(in_array($order_status_id, $non_deletable) ){
 			return $this->language->get('error_nondeletable');
 		}

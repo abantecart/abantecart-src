@@ -1,3 +1,74 @@
+AbanteCart version 1.1.9 with new features and improvements.
+
+Release Notes:  Version 1.1.9
+
+New Features and improvements summary:
+- New account activation verification via email 
+- Storefront menu to support font icons and custom HTML
+- New AbanteCart marketplace integration
+- Storefront API Update
+- UI Improvements
+
+Other fixes and improvements in more details se below:
+
+Core:
+- memory usage improvement (index.php + init.php)
+- alanguage fix related to browser language detection
+- aform fix related to error message of regexp check
+- acache permissions set for nested dirs changed
+- AMessage changes related to repetitions of message
+- captcha image output fix related to http-compression
+- AConnect default timeout for curl fix
+- Fix for getting of unique seo keyword
+- AFilter fix related to overriding of data in constructor
+- fixes related to AttributeManager getAttributes method changes.
+- database now use utf8_general_ci collation by default
+- Fix for language object name conflict
+- To improve performance, auto update currency now off by default 
+
+Control Panel:
+- added package manager "phar" usage for unpacking of archives
+- Resource Library Awesomefont Icons support and improvements
+- Fix for single letter domain name for email validation
+- Fix for empty comment in order email
+- CKEditor fix for <i> tags
+- Grouped options values fix
+- removing downloads fix
+- now admin can go directly to mail form from customers grid to send message for customer(s)
+- user group, permissions grid sorting fix
+- Fix for product option global attribute list limitation in select-box.
+- Resource library improvments
+- Adding clone button to product edit page
+- Better selection of newsletter mail groups
+
+Storefront:
+- Direct product access if search result brings single product
+- Fix for breadcrumb in SEO URL mode.
+- sale/mail fix related to sender errors.
+- mailer subscription fix
+- Storefront API improvements. 
+- product options display fix related to zero quantity
+- href for logo changed to store url from settings (seo related)
+- order download expire date fix
+- unknown ajax error alert fix of default_html5 template
+- Fix related to API and zone bug
+- Fix for missing totals on checkout page if estimate is disabled.
+- Categories storefront view fix (in case of status OFF)
+- Add capture to newsletter subscription 
+
+Extensions:
+- paypal pro fix related to price rounding and total amount of order
+- encryption_manager sql fixpre-release minor fixes and cleanup
+- HTML decoding for bank transfer details
+- Authorize.net payment update to supper pending review.
+
+Installation : 
+- fix of session name for php as cgi mode
+
+
+------------------------------------------------------------
+
+
 AbanteCart version 1.1.8 with new features and improvements.
 
 Release Notes:  Version 1.1.8

@@ -132,7 +132,8 @@
 		location = '<?php echo $continue; ?>';
 	});
 	$('#print_button').click(function () {
-		window.print()
+		window.print();
+		return false;
 	});
 	//-->
 </script>
