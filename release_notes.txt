@@ -7,7 +7,7 @@ New Features and improvements summary:
 - Storefront menu to support font icons and custom HTML
 - New AbanteCart marketplace integration
 - Storefront API Update
-- UI Improvmets
+- UI Improvements
 
 Other fixes and improvements in more details se below:
 
@@ -39,6 +39,7 @@ Control Panel:
 - Fix for product option global attribute list limitation in select-box.
 - Resource library improvments
 - Adding clone button to product edit page
+- Better selection of newsletter mail groups
 
 Storefront:
 - Direct product access if search result brings single product
@@ -53,6 +54,7 @@ Storefront:
 - Fix related to API and zone bug
 - Fix for missing totals on checkout page if estimate is disabled.
 - Categories storefront view fix (in case of status OFF)
+- Add capture to newsletter subscription 
 
 Extensions:
 - paypal pro fix related to price rounding and total amount of order
