@@ -10,7 +10,6 @@
  * http://www.opensource.org/licenses/MIT
  */
 
-<<<<<<< HEAD
 .fileupload-buttonbar .btn,
 .fileupload-buttonbar .toggle {
   margin-bottom: 5px;
@@ -55,7 +54,8 @@
   .files canvas {
     max-width: 100%;
   }
-=======
+}
+
 .fileupload-buttonbar .ui-button input {
   position: absolute;
   top: 0;
@@ -174,5 +174,4 @@
 
 .ui-state-disabled input {
   cursor: default;
->>>>>>> master
 }

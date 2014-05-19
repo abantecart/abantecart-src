@@ -26,7 +26,6 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'about' }
 	];
 
-<<<<<<< HEAD
 	// Remove some buttons, provided by the standard plugins, which we don't
 	// need to have in the Standard(s) toolbar.
 	config.removeButtons = 'Underline,Subscript,Superscript';
@@ -36,8 +35,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Make dialogs simpler.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
-};
-=======
+
 	// ALLOW <i></i>
 	config.protectedSource.push(/<i[^>]*><\/i>/g);
 	
@@ -45,4 +43,3 @@ CKEDITOR.editorConfig = function( config ) {
     config.shiftEnterMode = CKEDITOR.ENTER_BR;
     config.disableNativeSpellChecker = false;
 };
->>>>>>> master

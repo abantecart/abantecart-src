@@ -1069,13 +1069,26 @@ class ModelCatalogProduct extends Model {
 	 * @param int $product_id
 	 */
 	public function deleteProduct($product_id) {
+		$rm = new AResourceManager();
 		$this->db->query("DELETE FROM " . DB_PREFIX . "products WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_descriptions WHERE product_id = '" . (int)$product_id . "'");
+		$resources = $rm->getResourcesList(
+			array(
+				'object_name' => 'products',
+				'object_id' => (int)$product_id)
+			);
+		foreach ($resources as $r) {
+			$rm->unmapResource(
+				'products',
+				$product_id,
+				$r['resource_id']
+			);
+		}
+		
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_options WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_option_descriptions WHERE product_id = '" . (int)$product_id . "'");
 		$sql = "SELECT product_option_value_id FROM " . DB_PREFIX . "product_option_values WHERE product_id = '" . (int)$product_id . "'";
 		$result = $this->db->query($sql);
-		$rm = new AResourceManager();
 		foreach ($result->rows as $row) {
 			$pd_opt_val_id = $row['product_option_value_id'];
 			$resources = $rm->getResourcesList(array(

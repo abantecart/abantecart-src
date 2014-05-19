@@ -10,16 +10,13 @@
     <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/abantecart.jquery.ui.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/button.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/resource.css"/>
-<<<<<<< HEAD
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-=======
 	<link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/font-awesome.min.css" media="all" />
 	<!--[if IE 7]>
 		<link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/font-awesome-ie7.min.css" media="all" />
 	<![endif]-->
 
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
->>>>>>> master
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
     <script type="text/javascript">
         if (typeof jQuery == 'undefined') {
             var include = '&lt;script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-1.11.0.min.js"&rt;&lt;\/script&rt;';
