@@ -372,7 +372,7 @@
 
 jQuery(function($) {
 	$.tabs('.tabs a');
-	$('#review .pagination a').live('click', function() {
+	$('#review .pagination a').on('click', function() {
 		$('#review').slideUp('slow');
 		$('#review').load(this.href);
 		$('#review').slideDown('slow');

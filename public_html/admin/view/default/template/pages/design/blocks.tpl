@@ -47,7 +47,7 @@
 </div>
 
 <script type="text/javascript">
-	$('.view.btn_action').live('click',function(){
+	$('.view.btn_action').on('click',function(){
 		show_popup($(this).attr('id'));
 	});
 

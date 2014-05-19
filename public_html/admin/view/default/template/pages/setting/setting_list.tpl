@@ -75,7 +75,7 @@ function openEditDiag(id) {
             $("#edit_dialog").html(data.html).dialog('option', 'title', data.title);
 
             $('#store_switcher').aform({ triggerChanged: false })
-            .live('change',function () {
+            .on('change',function () {
                 $.getJSON('<?php echo $dialog_url; ?>'+'&active='+ id +'&target=edit_dialog&store_id=' + $(this).val(),
                     function (response) {
                         $('#edit_dialog').html(response.html);
@@ -85,7 +85,7 @@ function openEditDiag(id) {
 
 			CKEditor('add');
 
-            $('#cgFrm_cancel').live('click',function(){
+            $('#cgFrm_cancel').on('click',function(){
                 $('#edit_dialog').dialog("close");
             });
         }

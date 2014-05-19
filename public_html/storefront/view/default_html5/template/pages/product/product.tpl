@@ -378,7 +378,7 @@
 	jQuery(function ($) {
 		display_total_price();
 
-		$('#current_reviews .pagination a').live('click', function () {
+		$('#current_reviews .pagination a').on('click', function () {
 			$('#current_reviews').slideUp('slow');
 			$('#current_reviews').load(this.href);
 			$('#current_reviews').slideDown('slow');

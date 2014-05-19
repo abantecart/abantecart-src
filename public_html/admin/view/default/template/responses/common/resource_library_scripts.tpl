@@ -1,6 +1,3 @@
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery.ui.draggable.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ui/jquery.ui.resizable.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>/javascript/jquery/ui/external/bgiframe/jquery.bgiframe.js"></script>
 <script type="text/javascript">
 var urls = {
 	resource_library:'<?php echo $rl_resource_library; ?>',
@@ -203,7 +200,7 @@ jQuery(function () {
         loadMedia('<?php echo $type['type_name']?>');
     <?php } ?>
 
-    $('a.resource_add').live('click', function () {
+    $('a.resource_add').on('click', function () {
         mediaDialog($(this).prop('type'), 'add');
         return false;
     });
@@ -215,7 +212,7 @@ jQuery(function () {
         autoOpen:false,
         modal:true
     });
-    $('a.resource_delete').live('click', function () {
+    $('a.resource_delete').on('click', function () {
         var that = this;
         $("#confirm_del_dialog").dialog('option', 'buttons', {
             "<?php echo $button_delete ?>":function () {
@@ -246,7 +243,7 @@ jQuery(function () {
         autoOpen:false,
         modal:true
     });
-    $('a.resource_unmap').live('click', function () {
+    $('a.resource_unmap').on('click', function () {
         var that = this;
         $("#confirm_unmap_dialog").dialog('option', 'buttons', {
             "<?php echo $button_unmap ?>":function () {
@@ -270,7 +267,7 @@ jQuery(function () {
         return false;
     });
 
-    $('a.resource_edit').live('click', function () {
+    $('a.resource_edit').on('click', function () {
         mediaDialog($(this).prop('type'), 'update', $(this).prop('id'));
         return false;
     });

@@ -144,7 +144,7 @@
 	});
 }
 
-$("td[aria-describedby='extension_grid_status']").find('.aswitcher').live('click',
+$("td[aria-describedby='extension_grid_status']").find('.aswitcher').on('click',
 	function(){
 		var switcher = $(this).find("input[type='checkbox']");
 		var value = switcher.val();

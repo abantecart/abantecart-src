@@ -196,7 +196,7 @@ echo $form['form_open'];
 				display_shippings();
 			})
 
-			$('#shippings').live("change", function () {
+			$('#shippings').on("change", function () {
 				display_totals();
 			})
 

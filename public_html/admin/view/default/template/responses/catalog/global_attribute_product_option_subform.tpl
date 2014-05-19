@@ -89,7 +89,7 @@
 		}
 
 		$('#values .aform').show();
-		$('#values a.remove').live('click', function () {
+		$('#values a.remove').on('click', function () {
 			var current = $(this);
 			if ($('#values div.value').length > 1) {
 				if ($(current).parent().find('input[name^=attribute_value_ids]').val() == 'new') {
@@ -100,7 +100,7 @@
 				}
 			}
 		});
-		$('#values a.add').live('click', function () {
+		$('#values a.add').on('click', function () {
 			$(this).before($(this).prev().clone());
 			$('input', $(this).prev()).val('');
 			$('input[name^=attribute_value_ids]', $(this).prev()).val('new');

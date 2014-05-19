@@ -121,7 +121,7 @@ jQuery(function($){
 
 	getZones();
 
-	$('#orderFrm_shipping_zone_id').live('change', function() {
+	$('#orderFrm_shipping_zone_id').on('change', function() {
 		$('#shipping_zone_name').val($('#shipping_zone select :selected').text());
 	});
 

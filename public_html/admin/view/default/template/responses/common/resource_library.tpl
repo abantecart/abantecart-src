@@ -304,7 +304,7 @@ jQuery(function ($) {
         $(this).html('<div class="error" align="center"><b>' + exception + '</b></div>');
     });
 
-    $('#pagination a').live('click', function () {
+    $('#pagination a').on('click', function () {
 		try{
 			page = querySt($(this).attr('href'), 'page');
 		}catch(e){
@@ -329,7 +329,7 @@ jQuery(function ($) {
             $("#column_right").removeClass('loading_row');
     }
 
-    $('table.resource-details select[name="language_id"]').live('change', function () {
+    $('table.resource-details select[name="language_id"]').on('change', function () {
         var language_id = $(this).val();
         $(this).prev().html($(this).find("option:selected").text());
 
@@ -527,7 +527,7 @@ jQuery(function ($) {
         return false;
     });
 
-    $('#column_right input[name^=sort_order]').live('keyup', function () {
+    $('#column_right input[name^=sort_order]').on('keyup', function () {
         $('#button_save_order').show();
     });
 
@@ -546,7 +546,7 @@ jQuery(function ($) {
     });
 
 	//Resource selected, choose action to assign resource to object
-    $('#column_right a.use, #map_this_info').live('click', function () {
+    $('#column_right a.use, #map_this_info').on('click', function () {
 
         var item = loadedItems[$(this).attr('rel')];
 
@@ -579,7 +579,7 @@ jQuery(function ($) {
         parent.$('#dialog').remove();
     });
 
-    $('#column_right a.delete').live('click', function () {
+    $('#column_right a.delete').on('click', function () {
 
         var that = this;
 
@@ -609,7 +609,7 @@ jQuery(function ($) {
     });
 
 
-    $('#column_right a.edit').live('click', function () {
+    $('#column_right a.edit').on('click', function () {
         showLoading();
         $.ajax({
             url:$(this).attr('href'),
@@ -695,7 +695,7 @@ jQuery(function ($) {
 
     });
 
-    $('td.save button').live('click', function () {
+    $('td.save button').on('click', function () {
         var form = $(this).closest('form');
         form.find(".message").html('').removeClass('error').removeClass('success');
 		var language_id = form.find('select').val();
@@ -744,7 +744,7 @@ jQuery(function ($) {
         return false;
     });
 
-    $('a.add_resource').live('click', function () {
+    $('a.add_resource').on('click', function () {
         if (typeof type == 'undefined') {
             $('#add_resource_msg').html(errors.error_no_type);
             return false;
@@ -812,7 +812,7 @@ jQuery(function ($) {
         }
     }
 
-    $('#column_right a.select').live('click', function () {
+    $('#column_right a.select').on('click', function () {
         showLoading('small');
         $.ajax({
             url:$(this).attr('href'),
@@ -881,7 +881,7 @@ jQuery(function ($) {
         return false;
     });
 
-    $('#resource_details a.close').live('click', function () {
+    $('#resource_details a.close').on('click', function () {
         $('#resource_details').hide();
         return false;
     });

@@ -72,7 +72,7 @@ if (typeof jQuery == 'undefined') {
 <?php } ?>
 <script type="text/javascript">
 <?php if($cart_ajax){ //event for adding product to cart by ajax ?>
-    $('a.productcart').live('click',function(){
+    $('a.productcart').on('click',function(){
         var item = $(this);
         //check if href provided for product details access
         if ( item.attr('href') && item.attr('href') != '#') {
@@ -105,7 +105,7 @@ if (typeof jQuery == 'undefined') {
     return false;
 });
 <?php }?>
-$('a.call_to_order').live('click',function(){
+$('a.call_to_order').on('click',function(){
 	location='<?php echo $call_to_order_url;?>';
 	return false;
 });

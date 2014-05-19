@@ -74,7 +74,7 @@
 
 <script type="text/javascript">
 
-	$('a[id^="action_view_"]').live('click', function () {
+	$('a[id^="action_view_"]').on('click', function () {
 		var id = $(this).attr('id').replace('action_view_', '');
 		show_popup(id);
 		return false;
@@ -170,11 +170,11 @@
 
 	}
 
-	$('#transaction_form_transaction_type\\[0\\]').live('change',function(){
+	$('#transaction_form_transaction_type\\[0\\]').on('change',function(){
 		$('#transaction_form_transaction_type\\[1\\]').parents('tr').show();
 	});
 
-	$('#transaction_form').live('submit',function() {
+	$('#transaction_form').on('submit',function() {
 			// submit the form
 			var options = {
 				dataType:'json',

@@ -359,7 +359,7 @@ var updateOptions = function() {
 		$("input[name='default']").removeAttr('checked');
 	});
 
-	$("#add_option_value").live('click', function () {
+	$("#add_option_value").on('click', function () {
 		var new_row = $('#new_row').parent().find('tr').clone();
 		$(new_row).attr('id', 'new' + row_id);
 
@@ -414,16 +414,16 @@ var updateOptions = function() {
 	//select option and load data for it
 	$('#product_form_option option:first-child').attr("selected", "selected").change();
 
-	$('#update_option').live('click', function () {
+	$('#update_option').on('click', function () {
 		editOption('#update_option');
 	});
 
-	$('#reset_option').live('click', function () {
+	$('#reset_option').on('click', function () {
 		$('#product_form_option').change();
 		return false;
 	});
 
-	$('#option_values a').live('click', function () {
+	$('#option_values a').on('click', function () {
 		if ($(this).attr('id') == 'update_option' || $(this).attr('id') == 'add_option_value' ||
 				$(this).attr('id') == 'reset_option' || $(this).hasClass('remove') || $(this).hasClass('expandRow')) {
 			return false;
@@ -449,7 +449,7 @@ var updateOptions = function() {
 		return false;
 	});
 
-	$('#option_values button[type="submit"]').live('click', function () {
+	$('#option_values button[type="submit"]').on('click', function () {
 		//Mark rows to be deleted
 		$('#option_values_tbl .toDelete input[name^=product_option_value_id]').val('delete');
 		$(this).attr('disabled', 'disabled');

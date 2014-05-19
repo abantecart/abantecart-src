@@ -276,7 +276,7 @@
 	<?php }?>
 
 	$(function () {
-		$('#products input').live('keyup', function () {
+		$('#products input').on('keyup', function () {
 			recalculate()
 		});
 		$.aform.styleGridForm('#product');

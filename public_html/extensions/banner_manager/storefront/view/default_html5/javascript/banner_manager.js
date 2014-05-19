@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	//register click for the banner
-	$('.banner a').live('click',
+	$('.banner a').on('click',
 		function(){
 			var url = $(this).attr("href");
 			var banner_obj = $(this).closest("[data-banner-id]");

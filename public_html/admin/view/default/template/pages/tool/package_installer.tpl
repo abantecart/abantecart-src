@@ -61,7 +61,7 @@
   <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
 <script type="text/javascript">
-	$('#reset').live('click', function(){
+	$('#reset').on('click', function(){
 		$('#uploadFrm_package_file_fileupload').find('.atext').html('');
 		$('#uploadFrm_package_file').val('');
 	});

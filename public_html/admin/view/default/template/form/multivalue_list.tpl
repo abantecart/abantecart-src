@@ -91,7 +91,7 @@ $('#<?php echo $id; ?> input[name^="sort_order"]').on('change', function(){
 	$('#<?php echo  $form_name.'_'.$multivalue_hidden_id; ?>_selected').html( JSON.stringify(tmp) );
 });
 
-$("#<?php echo $id; ?> a.remove").live('click', function(){
+$("#<?php echo $id; ?> a.remove").on('click', function(){
      <?php echo $id; ?>_delete_item($(this).parents('tr').attr('id'));
      return false;
 });

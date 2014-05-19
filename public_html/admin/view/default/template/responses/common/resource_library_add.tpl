@@ -244,17 +244,17 @@ jQuery(function($){
 
     $( "#tabs" ).tabs();
 
-    $('td.edit button').live('click', function(){
+    $('td.edit button').on('click', function(){
         $(this).closest('table').next().toggle();
         return false;
     });
 
-    $('div.close a').live('click', function(){
+    $('div.close a').on('click', function(){
         $(this).closest('form').toggle();
         return false;
     });
 
-    $('select[name="language_id"]').live('change',function(){
+    $('select[name="language_id"]').on('change',function(){
         var language_id = $(this).val();
         var form  = $(this).closest('form');
 	    var resource_id = form.find('input[name="resource_id"]').val();
@@ -278,7 +278,7 @@ jQuery(function($){
 	    }
     });
 
-    $('td.save button').live('click', function(){
+    $('td.save button').on('click', function(){
         var form  = $(this).closest('form');
         form.find(".message").html('').removeClass('error').removeClass('success');
 
@@ -391,7 +391,7 @@ jQuery(function($){
 	});
     // Open download dialogs via iframes,
     // to prevent aborting current uploads:
-    $('#fileupload .files a:not([target^=_blank])').live('click', function (e) {
+    $('#fileupload .files a:not([target^=_blank])').on('click', function (e) {
         e.preventDefault();
         $('<iframe style="display:none;"></iframe>')
             .prop('src', this.href)

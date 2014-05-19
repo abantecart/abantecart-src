@@ -121,7 +121,7 @@ jQuery(function($){
 
 	getZones();
 
-	$('#orderFrm_payment_zone_id').live('change', function() {
+	$('#orderFrm_payment_zone_id').on('change', function() {
 		$('#payment_zone_name').val($('#payment_zone select :selected').text());
 	});
 

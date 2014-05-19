@@ -33,7 +33,7 @@ $('document').ready(function () {
 
     // Checkout steps
     $('.checkoutsteptitle').addClass('down').next('.checkoutstep').fadeIn()
-    $('.checkoutsteptitle').live('click', function () {
+    $('.checkoutsteptitle').on('click', function () {
         $("select, input:checkbox, input:radio, input:file").css('display', 'blcok');
         $(this).toggleClass('down').next('.checkoutstep').slideToggle()
     });
