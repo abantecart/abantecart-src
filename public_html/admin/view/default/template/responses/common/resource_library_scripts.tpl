@@ -105,10 +105,10 @@ var loadMedia = function (type) {
                     src = item['thumbnail_url'];
                 }
                 html += '<span id="image_row' + item['resource_id'] + '" class="image_block">\
-                <a class="resource_edit" type="' + type + '" id="' + item['resource_id'] + '">' + src + '</a><br />\
-                ' + ( item['mapped'] > 1 ? '' : '<a class="btn_action resource_delete" id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_delete ?></span></span></a>') + '\
-                <a class="btn_action resource_unmap" id="' + item['resource_id'] + '"><span class="icon_s_unmap"><span class="btn_text"><?php echo $button_unmap ?></span></span></a>\
-                <a class="btn_action resource_edit" type="' + type + '" id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>\
+                <a class="resource_edit" type="' + type + '" data-id="' + item['resource_id'] + '">' + src + '</a><br />\
+                ' + ( item['mapped'] > 1 ? '' : '<a class="btn_action resource_delete" data-id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_delete ?></span></span></a>') + '\
+                <a class="btn_action resource_unmap" data-id="' + item['resource_id'] + '"><span class="icon_s_unmap"><span class="btn_text"><?php echo $button_unmap ?></span></span></a>\
+                <a class="btn_action resource_edit" type="' + type + '" data-id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>\
                 </span>';
             });
             html += '<span class="image_block"><a class="resource_add" type="' + type + '"><img src="<?php echo $template_dir . '/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>"/></a></span>';
@@ -149,11 +149,11 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
                 src = item['thumbnail_url'];
             }
             html += '<span id="' + wrapper_id + '_' + item['resource_id'] + '" class="image_block">\
-                <a class="resource_edit" type="' + type + '" id="' + item['resource_id'] + '">' + src + '</a><br />';
+                <a class="resource_edit" type="' + type + '" data-id="' + item['resource_id'] + '">' + src + '</a><br />';
             if (item['resource_id']) {
                 html += ( item['mapped'] > 1
-						? '' : '<a class="btn_action resource_delete" id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_unlink ?></span></span></a>') + '\
-					<a class="btn_action resource_edit" type="' + type + '" id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>';
+						? '' : '<a class="btn_action resource_delete" data-id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_unlink ?></span></span></a>') + '\
+					<a class="btn_action resource_edit" type="' + type + '" data-id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>';
             }
             html += '</span>';
             $('#' + wrapper_id + '.type_blocks').html(html);
@@ -212,12 +212,13 @@ jQuery(function () {
         autoOpen:false,
         modal:true
     });
-    $('a.resource_delete').on('click', function () {
+    
+    $(document).on("click", 'a.resource_delete', function () {
         var that = this;
         $("#confirm_del_dialog").dialog('option', 'buttons', {
             "<?php echo $button_delete ?>":function () {
                 $.ajax({
-                    url:urls.del + '&resource_id=' + $(that).prop('id'),
+                    url:urls.del + '&resource_id=' + $(that).attr('data-id'),
                     type:'GET',
                     dataType:'json',
                     success:function (json) {
@@ -243,12 +244,13 @@ jQuery(function () {
         autoOpen:false,
         modal:true
     });
-    $('a.resource_unmap').on('click', function () {
+    
+    $(document).on("click", 'a.resource_unmap', function () {
         var that = this;
         $("#confirm_unmap_dialog").dialog('option', 'buttons', {
             "<?php echo $button_unmap ?>":function () {
                 $.ajax({
-                    url:urls.unmap + '&resource_id=' + $(that).prop('id'),
+                    url:urls.unmap + '&resource_id=' + $(that).attr('data-id'),
                     type:'GET',
                     dataType:'json',
                     success:function (json) {
@@ -267,8 +269,8 @@ jQuery(function () {
         return false;
     });
 
-    $('a.resource_edit').on('click', function () {
-        mediaDialog($(this).prop('type'), 'update', $(this).prop('id'));
+    $(document).on("click", 'a.resource_edit', function () {
+        mediaDialog($(this).attr('type'), 'update', $(this).attr('data-id'));
         return false;
     });
 });
