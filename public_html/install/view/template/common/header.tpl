@@ -9,13 +9,7 @@
 <link rel="stylesheet" type="text/css" href="view/stylesheet/form.css" />
 <link rel="stylesheet" type="text/css" href="view/javascript/ui/themes/ui-lightness/ui.all.css"/>
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script type="text/javascript">
-if (typeof jQuery == 'undefined') {
-   var include = '<script type="text/javascript" src="view/javascript/jquery-1.7.2.min.js">';
-   document.write(include);
-}
-</script>
+<script type="text/javascript" src="view/javascript/jquery-1.7.2.min.js"></script>
 
 <script type="text/javascript" src="view/javascript/ui/jquery-ui-1.8.22.custom.min.js"></script>
 <script type="text/javascript" src="view/javascript/aform.js"></script>
