@@ -64,6 +64,7 @@ CREATE TABLE `ac_categories_to_stores` (
   PRIMARY KEY (`category_id`,`store_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+
 --
 -- DDL for table `countries`
 --
@@ -81,8 +82,7 @@ CREATE TABLE `ac_countries` (
 --
 -- Dumping data for table `countries`
 --
-INSERT INTO `ac_countries` (`country_id`, `iso_code_2`, `iso_code_3`, `address_format`, `status`, `sort_order`) 
-VALUES
+INSERT INTO `ac_countries` (`country_id`, `iso_code_2`, `iso_code_3`, `address_format`, `status`, `sort_order`) VALUES
 (1,'AF','AFG','',1,0),
 (2,'AL','ALB','',1,0),
 (3,'DZ','DZA','',1,0),
@@ -338,6 +338,8 @@ VALUES
 (253,'XK','UNK','',1,0),
 (254,'IM','IMN','',1,0),
 (255,'TA','SHN','',1,0);
+
+
 --
 -- DDL for table `ac_country_descriptions`
 --
@@ -349,8 +351,7 @@ CREATE TABLE `ac_country_descriptions` (
   PRIMARY KEY (`country_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `ac_country_descriptions` (`country_id`, `language_id`, `name`)
-VALUES
+INSERT INTO `ac_country_descriptions` (`country_id`, `language_id`, `name`) VALUES
 (1,1,'Afghanistan'),
 (2,1,'Albania'),
 (3,1,'Algeria'),
@@ -5843,14 +5844,94 @@ INSERT INTO `ac_zones` (`zone_id`, `country_id`, `code`, `status`, `sort_order`)
 (3946,105,'VV',1,0),
 (3947,105,'VI',1,0),
 (3948,105,'VT',1,0),
-(3949,240,'',1,0),
-(3950,240,'',1,0),
-(3951,240,'',1,0),
-(3952,240,'',1,0),
-(3953,240,'',1,0),
-(3954,240,'',1,0);
+(3949,222,'ANT',1,0),
+(3950,222,'ARM',1,0),
+(3951,222,'DOW',1,0),
+(3952,222,'FER',1,0),
+(3953,222,'LDY',1,0),
+(3954,222,'TYR',1,0),
+(3955,222,'CMA',1,0),
+(3956,190,'1',1,0),
+(3957,190,'2',1,0),
+(3958,190,'3',1,0),
+(3959,190,'4',1,0),
+(3960,190,'5',1,0),
+(3961,190,'6',1,0),
+(3962,190,'7',1,0),
+(3963,190,'8',1,0),
+(3964,190,'9',1,0),
+(3965,190,'10',1,0),
+(3966,190,'11',1,0),
+(3967,190,'12',1,0),
+(3968,33,'',1,0),
+(3969,101,'ALB',1,0),
+(3970,21,'BRU',1,0),
+(3971,138,'AG',1,0),
+(3972,222,'IOM',1,0),
+(3973,242,'01',1,0),
+(3974,242,'02',1,0),
+(3975,242,'03',1,0),
+(3976,242,'04',1,0),
+(3977,242,'05',1,0),
+(3978,242,'06',1,0),
+(3979,242,'07',1,0),
+(3980,242,'08',1,0),
+(3981,242,'09',1,0),
+(3982,242,'10',1,0),
+(3983,242,'11',1,0),
+(3984,242,'12',1,0),
+(3985,242,'13',1,0),
+(3986,242,'14',1,0),
+(3987,242,'15',1,0),
+(3988,242,'16',1,0),
+(3989,242,'17',1,0),
+(3990,242,'18',1,0),
+(3991,242,'19',1,0),
+(3992,242,'20',1,0),
+(3993,242,'21',1,0),
+(3994,243,'00',1,0),
+(3995,243,'01',1,0),
+(3996,243,'02',1,0),
+(3997,243,'03',1,0),
+(3998,243,'04',1,0),
+(3999,243,'05',1,0),
+(4000,243,'06',1,0),
+(4001,243,'07',1,0),
+(4002,243,'08',1,0),
+(4003,243,'09',1,0),
+(4004,243,'10',1,0),
+(4005,243,'11',1,0),
+(4006,243,'12',1,0),
+(4007,243,'13',1,0),
+(4008,243,'14',1,0),
+(4009,243,'15',1,0),
+(4010,243,'16',1,0),
+(4011,243,'17',1,0),
+(4012,243,'18',1,0),
+(4013,243,'19',1,0),
+(4014,243,'20',1,0),
+(4015,243,'21',1,0),
+(4016,243,'22',1,0),
+(4017,243,'23',1,0),
+(4018,243,'24',1,0),
+(4019,243,'KM',1,0),
+(4020,245,'BO',1,0),
+(4021,245,'SA',1,0),
+(4022,245,'SE',1,0),
+(4023,248,'EC',1,0),
+(4024,248,'EE',1,0),
+(4025,248,'JG',1,0),
+(4026,248,'LK',1,0),
+(4027,248,'BN',1,0),
+(4028,248,'UY',1,0),
+(4029,248,'NU',1,0),
+(4030,248,'WR',1,0),
+(4031,248,'BW',1,0),
+(4032,248,'EW',1,0);
 
-
+--
+-- DDL for table `zone_descriptions`
+--
 DROP TABLE IF EXISTS `ac_zone_descriptions`;
 CREATE TABLE `ac_zone_descriptions` (
   `zone_id` int(11) NOT NULL,
@@ -5859,7 +5940,9 @@ CREATE TABLE `ac_zone_descriptions` (
   PRIMARY KEY (`zone_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-
+--
+-- Dumping data for table `zone_descriptions`
+--
 INSERT INTO `ac_zone_descriptions` (`zone_id`, `language_id`,`name`) VALUES 
 (1,1,'Badakhshan'),
 (2,1,'Badghis'),
@@ -9788,7 +9871,85 @@ INSERT INTO `ac_zone_descriptions` (`zone_id`, `language_id`,`name`) VALUES
 (3951,1,'Down'),
 (3952,1,'Fermanagh'),
 (3953,1,'Derry'),
-(3954,1,'Tyrone');
+(3954,1,'Tyrone'),
+(3955,1,'Cumbria'),
+(3956,1,'Pomurska'),
+(3957,1,'Podravska'),
+(3958,1,'Koroška'),
+(3959,1,'Savinjska'),
+(3960,1,'Zasavska'),
+(3961,1,'Spodnjeposavska'),
+(3962,1,'Jugovzhodna Slovenija'),
+(3963,1,'Osrednjeslovenska'),
+(3964,1,'Gorenjska'),
+(3965,1,'Notranjsko-kraška'),
+(3966,1,'Goriška'),
+(3967,1,'Obalno-kraška'),
+(3968,1,'Ruse'),
+(3969,1,'Alborz'),
+(3970,1,'Brussels-Capital Region'),
+(3971,1,'Aguascalientes'),
+(3972,1,'Isle of Man'),
+(3973,1,'Andrijevica'),
+(3974,1,'Bar'),
+(3975,1,'Berane'),
+(3976,1,'Bijelo Polje'),
+(3977,1,'Budva'),
+(3978,1,'Cetinje'),
+(3979,1,'Danilovgrad'),
+(3980,1,'Herceg-Novi'),
+(3981,1,'Kolašin'),
+(3982,1,'Kotor'),
+(3983,1,'Mojkovac'),
+(3984,1,'Nikšic'),
+(3985,1,'Plav'),
+(3986,1,'Pljevlja'),
+(3987,1,'Plužine'),
+(3988,1,'Podgorica'),
+(3989,1,'Rožaje'),
+(3990,1,'Šavnik'),
+(3991,1,'Tivat'),
+(3992,1,'Ulcinj'),
+(3993,1,'Žabljak'),
+(3994,1,'Belgrade'),
+(3995,1,'North Backa'),
+(3996,1,'Central Banat'),
+(3997,1,'North Banat'),
+(3998,1,'South Banat'),
+(3999,1,'West Backa'),
+(4000,1,'South Backa'),
+(4001,1,'Srem'),
+(4002,1,'Macva'),
+(4003,1,'Kolubara'),
+(4004,1,'Podunavlje'),
+(4005,1,'Branicevo'),
+(4006,1,'Šumadija'),
+(4007,1,'Pomoravlje'),
+(4008,1,'Bor'),
+(4009,1,'Zajecar'),
+(4010,1,'Zlatibor'),
+(4011,1,'Moravica'),
+(4012,1,'Raška'),
+(4013,1,'Rasina'),
+(4014,1,'Nišava'),
+(4015,1,'Toplica'),
+(4016,1,'Pirot'),
+(4017,1,'Jablanica'),
+(4018,1,'Pcinja'),
+(4019,1,'Kosovo'),
+(4020,1,'Bonaire'),
+(4021,1,'Saba'),
+(4022,1,'Sint Eustatius'),
+(4023,1,'Central Equatoria'),
+(4024,1,'Eastern Equatoria'),
+(4025,1,'Jonglei'),
+(4026,1,'Lakes'),
+(4027,1,'Northern Bahr el-Ghazal'),
+(4028,1,'Unity'),
+(4029,1,'Upper Nile'),
+(4030,1,'Warrap'),
+(4031,1,'Western Bahr el-Ghazal'),
+(4032,1,'Western Equatoria');
 
 
 --
