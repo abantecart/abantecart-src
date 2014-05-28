@@ -35,6 +35,25 @@ class ControllerPagesIndexEditDetails extends AController {
 
 		$this->document->setTitle( $this->language->get('text_edit_details') );
 
+   		$this->document->addBreadcrumb( array ( 
+       		'href'      => $this->html->getSecureURL('index/home'),
+       		'text'      => $this->language->get('text_home'),
+      		'separator' => FALSE
+   		 ));
+		//????? Think if we can tie current Breadcrumb to menu. No need to enter this 
+		// Exampne. $menu->getCurrentPageDetails($tr);
+		// move deparator to INIT as statis var
+		// automaticaly add home $this->document->addBreadcrumbHome();
+		// Final note: If addBreadcrumb never called for the page build default home -> current page
+        $this->document->addBreadcrumb( array (
+            'href'      => $this->html->getSecureURL('index/edit_details'),
+            'text'      => $this->language->get('text_edit_details'),
+            'separator' => ' :: ',
+            'current' => true,
+            'sub_text' => '',
+            'icon' => '' //need getMenuIconByRT method 
+        ));
+		
 		$this->view->assign('success', $this->session->data['success']);
 		if (isset($this->session->data['success'])) {
 			unset($this->session->data['success']);

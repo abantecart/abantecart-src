@@ -31,6 +31,7 @@ final class AUser {
     /**
      * @var string
      */
+    private $email;
     private $username;
     private $last_login;
     /**
@@ -51,6 +52,7 @@ final class AUser {
 
 			if ($user_query->num_rows) {
 				$this->user_id = $user_query->row['user_id'];
+				$this->email = $user_query->row['email'];
 				$this->username = $user_query->row['username'];
 				$this->last_login = $this->session->data['user_last_login'];
 				$this->user_group_id = (int)$user_query->row['user_group_id'];
@@ -230,4 +232,12 @@ final class AUser {
 		}
 		return $password;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getAvatar() {
+		return getGravatar($this->email);
+	}
+	
 }

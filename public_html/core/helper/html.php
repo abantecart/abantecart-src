@@ -115,18 +115,34 @@ function buildStoreFrontMenuTree( $menu_array, $level = 0 ){
 }
 
 
-function renderAdminMenu( $menu, $level = 0 ){
+function renderAdminMenu( $menu, $level = 0, $current_rt = ''){
     $result = '';
-    if ( $level ) $result .= "<ul>\r\n";
+    if ( $level ) $result .= "<ul class=\"children child$level\">\r\n";
     foreach( $menu as $item ) {
         $id = ( empty($item['id']) ? '' : ' id="menu_'.$item['id'].'" ' ); // li ID
         $class = $level != 0 ? empty($item['children']) ? '' : ' class="parent" ' : ' class="top" '; //a class
         $href = empty($item['href']) ? '' : ' href="'.$item['href'].'" '; //a href
         $onclick = empty($item['onclick']) ? '' : ' onclick="'.$item['onclick'].'" '; //a href
        
-        $result .= '<li' . $id . '>';
-        $result .= '<a' . $class . $href . $onclick . '>' . $item['text'] . '</a>';
-        if ( !empty($item['children']) ) $result .= "\r\n" . renderAdminMenu($item['children'], $level+1) ;
+        $child_class = "level$level ";
+       	if ( !empty($item['children']) ) $child_class .= 'nav-parent ';
+       	if ( $item['rt'] && $current_rt == $item['rt'] ) $child_class .= 'active ';
+       	if ( $child_class ) $child_class = ' class="'.$child_class.'"';
+       	
+        $result .= '<li' . $id .  $child_class .  '>';
+        $result .= '<a ' . $class . $href . $onclick . '>';
+
+    	//check icon rl type html, image or none. 
+    	if ( is_html( $item['icon'] ) ) {
+    		$result .= $item['icon'];
+    	} else if ($item['icon']) {
+    		$result .= '<img class="menu_image" src="'. HTTP_DIR_RESOURCE . $item['icon'].'" alt="" />';
+    	} else {
+    		$result .= '<i class="fa fa-caret-right"></i> ';
+    	}
+        $result .= '<span class="menu_text">' . $item['text'] . '</span></a>';
+        //if children build inner clild trees
+        if ( !empty($item['children']) ) $result .= "\r\n" . renderAdminMenu($item['children'], $level+1, $current_rt);
         $result .= "</li>\r\n";            
     }
     if ( $level ) $result .= "</ul>\r\n";

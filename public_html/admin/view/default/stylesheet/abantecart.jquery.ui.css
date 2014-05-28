@@ -30,10 +30,10 @@
     /* prevent horizontal scrollbar */
     overflow-x: auto;
     /* add padding to account for vertical scrollbar */
-    padding: 0 10px 10px 10px;
-    margin: 5px;
-    width: 290px;
+    padding: 5px 10px 10px 10px;
+    width: 250px;
     position: absolute;
+    top: 35px !important;
     list-style-type: none;
 }
 
@@ -48,16 +48,12 @@
 
 .ui-autocomplete.ui-menu {
     margin: 10px 5px 5px 5px;
-    padding-left: 10px;
-    padding-bottom: 8px;
+    padding: 5px 5px 8px 10px;
 }
 
 .ui-autocomplete.ui-widget-content {
     background: none repeat scroll 0 0 #F7F7F7;
     border: 1px solid #C9C9D1;
-    border-radius: 7px;
-    -moz-border-radius: 7px;
-    -webkit-border-radius: 7px;
     color: #277FA7;
 }
 

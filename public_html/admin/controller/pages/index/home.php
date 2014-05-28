@@ -36,7 +36,8 @@ class ControllerPagesIndexHome extends AController {
    		$this->document->addBreadcrumb( array ( 
        		'href'      => $this->html->getSecureURL('index/home'),
        		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE
+      		'separator' => FALSE,
+      		'current' => true,
    		 ));
 		
 		$this->view->assign('token', $this->session->data['token']);

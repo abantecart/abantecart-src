@@ -79,12 +79,11 @@ class ControllerPagesDesignLayout extends AController {
         $this->document->initBreadcrumb( array (
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
-            'separator' => FALSE
         ));
         $this->document->addBreadcrumb( array (
             'href'      => $this->html->getSecureURL('design/layout', $url),
             'text'      => $this->language->get('heading_title') . ' - ' . $layout_data['tmpl_id'],
-            'separator' => ' :: '
+             'current' => true,
         ));
 
 		$this->view->batchAssign($layout_data);

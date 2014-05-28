@@ -23,102 +23,6 @@ function getURLVar(URL, urlVarName) {
 }
 
 
-buildMenu = function (t, URL) {
-    URL = URL || String(document.location);
-    var route = getURLVar(URL, 'rt');
-    if (!route) {
-        $('#dashboard').addClass('selected');
-    } else {
-        part = route.split('/');
-        url = part[0];
-        if (part[1]) {
-            url += '/' + part[1];
-        }
-        if (part[2]) {
-            url += '/' + part[2];
-        }
-        var link = $('#menu_box a[href*=\'' + url + '&\']');
-        if (link.length == 0) {
-            var link = $('#menu_box a[href*=\'' + part[0] + '/' + part[1] + '&\']');
-        }
-
-        if (link.length) {
-            link.parents('li').addClass('selected').addClass('current');
-        } else if (part[1]) {
-            if (part[1].indexOf('_') > -1) {
-                url = part[0] + '/' + part[1].substring(0, part[1].indexOf('_'));
-                link = $('#menu_box a[href*=\'' + url + '&\']');
-                link.parents('li').addClass('selected').addClass('current');
-            } else {
-                if (t != 1) { // prevent  endless recursion
-                    link = $('.breadcrumb a');
-                    buildMenu(1, link[1]);
-                }
-            }
-        }
-    }
-
-    $('.menu > li:last').addClass('last');
-    // 50px is a space for left/right side of the menu
-    $menuW = parseInt($('.menu').outerWidth() - 50);
-    $itemW = Math.floor($menuW / ($('.menu > li').length - 1));
-    $('.menu > li').not(':first').width($itemW - 5);
-    $extraW = $menuW - (($itemW) * ($('.menu > li').length - 1));
-    $('.menu > li:last').width(parseInt($('.menu > li:last').width()) + $extraW);
-
-
-    $('.menu').superfish({
-        hoverClass:'selected',
-        pathClass:'current',
-        delay:3000,
-        speed:'normal',
-        autoArrows:false,
-        dropShadows:false,
-        onInit:function () {
-        },
-        onBeforeShow:function () {
-        },
-        onShow:function () {
-        },
-        onHide:function () {
-        }
-    });
-
-    $('#menu_box').css('visibility', 'visible');
-
-    $('.switcher').bind('click', function () {
-        $(this).find('.option').slideDown('fast');
-    });
-    $('.switcher').bind('mouseleave', function () {
-        $(this).find('.option').slideUp('fast');
-    });
-
-    setBlockHeight();
-
-    $docW = parseInt($(document).width());
-    $('.postit_icon').click(function () {
-        pos = $(this).siblings('.postit_notes').offset();
-        width = $(this).siblings('.postit_notes').width();
-        if (parseInt(pos.left + width) > $docW) {
-            $(this).siblings('.postit_notes').css('right', '30px');
-        }
-    });
-}
-$(document).ready(buildMenu);
-$(window).resize(buildMenu);
-
-function setBlockHeight() {
-    var blockH = 0;
-    $('#left_block, #right_block, #content_block', '#page_layout').each(function () {
-        if (parseInt($(this).outerHeight()) > blockH) {
-            blockH = parseInt($(this).outerHeight());
-        }
-    });
-    if (blockH > parseInt($('#left_block').outerHeight()) || blockH > parseInt($('#right_block').outerHeight()) || blockH > parseInt($('#content_block').outerHeight())) {
-        $('#left_block, #right_block, #content_block', '#page_layout').css('minHeight', blockH);
-    }
-}
-
 function goTo(url, params) {
     location = url + '&' + params;
 }
@@ -354,8 +258,49 @@ function formatQty(field) {
         thousandSeparator:numberSeparators.thousand});
 }
 
+function organizeToolbar(){
+    if($('div.cbox_tc').outerHeight()>47){
+        if($('div.cbox_tc div.toolbar')){
+            $('div.cbox_tc div.toolbar').detach().appendTo('.breadcrumb_wrapper');
+            if($('div.toolbar .help_element')){
+                 $('div.toolbar .help_element').css('margin-top','9px');
+                 $('div.toolbar .help_element').css('float','right');
+            }
+            if($('div.toolbar .buttons')){
+                 $('div.toolbar .buttons').css('margin-top','2px');
+            }
+        }
+    }else{
+        if($('.breadcrumb_wrapper div.toolbar').length>0){
+            $('.breadcrumb_wrapper div.toolbar').detach().appendTo('.cbox_tc');
+            if($('div.toolbar .help_element')){
+                 $('div.toolbar .help_element').css('margin-top','12px');
+                 $('div.toolbar .help_element').css('float','auto');
+            }
+            if($('div.toolbar .buttons')){
+                 $('div.toolbar .buttons').css('margin-top','0');
+            }
+        }
+    }
+}
 
 $(document).ready(function() {
+
+    $('.switcher').bind('click', function () {
+        $(this).find('.option').slideDown('fast');
+    });
+    $('.switcher').bind('mouseleave', function () {
+        $(this).find('.option').slideUp('fast');
+    });
+
+    $docW = parseInt($(document).width());
+    $('.postit_icon').click(function () {
+        pos = $(this).siblings('.postit_notes').offset();
+        width = $(this).siblings('.postit_notes').width();
+        if (parseInt(pos.left + width) > $docW) {
+            $(this).siblings('.postit_notes').css('right', '30px');
+        }
+    });
 
 	/* Handling forms exit */
 	$(window).bind('beforeunload', function () {
@@ -436,29 +381,3 @@ $(document).ready(function() {
     });
     organizeToolbar();
 });
-
-function organizeToolbar(){
-    if($('div.cbox_tc').outerHeight()>47){
-        if($('div.cbox_tc div.toolbar')){
-            $('div.cbox_tc div.toolbar').detach().appendTo('.breadcrumb_wrapper');
-            if($('div.toolbar .help_element')){
-                 $('div.toolbar .help_element').css('margin-top','9px');
-                 $('div.toolbar .help_element').css('float','right');
-            }
-            if($('div.toolbar .buttons')){
-                 $('div.toolbar .buttons').css('margin-top','2px');
-            }
-        }
-    }else{
-        if($('.breadcrumb_wrapper div.toolbar').length>0){
-            $('.breadcrumb_wrapper div.toolbar').detach().appendTo('.cbox_tc');
-            if($('div.toolbar .help_element')){
-                 $('div.toolbar .help_element').css('margin-top','12px');
-                 $('div.toolbar .help_element').css('float','auto');
-            }
-            if($('div.toolbar .buttons')){
-                 $('div.toolbar .buttons').css('margin-top','0');
-            }
-        }
-    }
-}

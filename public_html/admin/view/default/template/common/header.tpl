@@ -1,174 +1,282 @@
-<div class="header_logo">
+<?php if ($logged) { ?>    
+<div class="leftpanel">
+    
+    <div class="logopanel">
 	<a href="<?php echo $home; ?>">
 		<?php 
 			if( $this->getHookVar('logoimage_hookvar') ) {
 				echo $this->getHookVar('logoimage_hookvar');
 			} else {
 		?> 
-			<img src="<?php echo $template_dir; ?>image/logo.png" title="<?php echo $heading_title; ?>"/>
+			<img class="logo_image" src="<?php echo $template_dir; ?>image/logo.png" title="<?php echo $heading_title; ?>"/>
 		<?php 
 			}
 		?> 
 	</a>
-</div>
+    </div><!-- logopanel -->
 
-<div class="header_logo">
+    <div class="leftpanelinner">     
+    
+		<!-- This is only visible to small devices -->
+		<div class="visible-xs hidden-sm hidden-md hidden-lg">   
+		    <div class="media userlogged">
+		        <img src="<?php echo $avatar; ?>" alt="<?php echo $username; ?>" />
+		        <div class="media-body">
+		            <h4><?php echo $username; ?></h4>
+		        </div>
+		    </div>
+		  
+		    <h5 class="sidebartitle actitle"><?php echo $last_login; ?></h5>
+		    <ul class="nav nav-pills nav-stacked nav-bracket mb30">
+	            <li><a href="<?php echo $account_edit; ?>"><i class="fa fa-edit"></i> <?php echo $text_edit_details; ?></a></li>
+                <li><a href="<?php echo $logout; ?>"><i class="fa fa-unlock"></i><?php echo $text_logout; ?></a></li>
+		    </ul>
+		</div>
+		
+		<div id="menu_box">
+		<?php echo $menu; ?>
+		</div>
+            
+      	<div class="infosummary">
+			<?php include($template_dir . '/template/common/summary.tpl'); ?>
+      	</div><!-- infosummary -->
+      
+    </div><!-- leftpanelinner -->
 
-	<?php if ($logged) { ?>
+</div><!-- leftpanel -->
+ 
+  <div class="mainpanel">
+    
+    <div class="headerbar">
+   
+	<a class="menutoggle"><i class="fa fa-bars"></i></a>
+
+	<form id="searchform" action="<?php echo $search_action; ?>" method="post">
+		<input id="global_search" class="form-control" type="text" name="search" placeholder="<?php echo $search_everywhere; ?>"/>
+		<a onclick="$('#searchform').submit();"
+		       class="btn_search btn_standard"><i class="fa fa-search"></i></a>
+	</form>
+	<div id="suggest_popup_dialog"></div>	
+      
+      <div class="header-right">
+        <ul class="headermenu">  
+          <li>
 		<?php if ($config_voicecontrol) { ?>
-			<div id="voice_start">
-				<p id="info_start">
-					<a data-toggle="modal" href="#voiceModal" id="start_button" onclick="startButton(event)" title="Click on the microphone icon and begin speaking for as long as you like."><i class="icon-microphone icon-2x"></i></a>
-				</p>
+			<div class="btn-group" id="voice_start">
+				<a data-toggle="modal" href="#voiceModal" id="start_button" class="btn btn-default tp-icon" onclick="startButton(event)" title="Click on the microphone icon and begin speaking for as long as you like.">
+				<i class="fa fa-microphone fa-lg"></i>
+				</a>
 			</div>
-
 		<?php include($template_dir . '/template/common/voice_controls.tpl'); ?>
 		<?php } else { ?>
-			<div id="voice_disabled">
-				<p>
-					<a href="<?php echo $voicecontrol_setting_url; ?>" class="activate_setting" title="Click on the microphone to enable this setting."><i class="icon-microphone-off icon-2x"></i></a>
-				</p>
+			<div class="btn-group" id="voice_disabled">
+				<a href="<?php echo $voicecontrol_setting_url; ?>" class="btn btn-default tp-icon activate_setting" title="Click on the microphone to enable this setting.">
+				<i class="grey_out fa fa-microphone-slash fa-lg"></i>
+				</a>
 			</div>
 		<?php } ?>
-	<?php } ?>
-
-</div>
-
-<div class="section1">
-	<?php if ($logged) { ?>
-
-		<div class="search_box flt_right">
-			<div class="cl">
-				<div class="cr">
-					<div class="cc">
-						<form id="searchform" action="<?php echo $search_action; ?>" method="post">
-							<span class="icon_search">&nbsp;</span>
-							<input id="global_search" type="text" name="search" value="<?php echo $search_everywhere; ?>"/>
-							<a onclick="$('#searchform').submit();"
-							   class="btn_search btn_standard"><?php echo $button_go; ?></a>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<?php if ($languages) { ?>
-			<div class="language_box flt_right">
-				<div class="cl">
-					<div class="cr">
-						<div class="cc">
-							<form action="<?php echo str_replace('&', '&amp;', $action); ?>" method="post"
-							      enctype="multipart/form-data" id="language_form">
-								<div class="switcher">
-									<?php foreach ($languages as $language) { ?>
-										<?php if ($language['code'] == $language_code) { ?>
-											<div class="selected"><a>
-													<?php if ($language['image']) { ?>
-														<img src="<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>"/>
-													<?php } else {
-														echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-													} ?>
-													&nbsp;&nbsp;<span><?php echo $language['name']; ?></span></a>
-											</div>
-										<?php } ?>
-									<?php } ?>
-									<div class="option">
-										<?php foreach ($languages as $language) { ?>
-											<a onClick="$('input[name=\'language_code\']').attr('value', '<?php echo $language['code']; ?>'); $('#language_form').submit();">
-												<?php if ($language['image']) { ?>
-													<img src="<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>"/>
-												<?php } else {
-													echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-												} ?>
-												&nbsp;&nbsp;<?php echo $language['name']; ?>
-											</a>
-										<?php } ?>
-									</div>
-									<input type="hidden" name="language_code" value=""/>
-									<input type="hidden" name="redirect"
-									       value="<?php echo str_replace('&', '&amp;', $redirect); ?>"/>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		<?php } ?>
-		<div class="store_nav flt_right">
-			<a onClick="window.open('<?php echo $store; ?>');"><?php echo $text_front; ?></a>&nbsp;|&nbsp;<?php echo $logged; ?>
-			(<a class="top" href="<?php echo $logout; ?>"><?php echo $text_logout; ?></a>)
-		</div>
-
-	<?php } ?>
-</div>
-<div class="section2">
-	<?php if ($logged) {
-		?>
-		<div class="msg_box flt_right">
-			<div class="msg_box_tl">
-				<div class="msg_box_tr">
-					<div class="msg_box_tc"></div>
-				</div>
-			</div>
-			<div class="msg_box_cl">
-				<div class="msg_box_cr">
-					<div class="msg_box_cc">
-						<?php echo $ant; ?>
-					</div>
-				</div>
-			</div>
-			<div class="msg_box_bl">
-				<div class="msg_box_br">
-					<div class="msg_box_bc"></div>
-				</div>
-			</div>
-		</div>
-
-		<a href="<?php echo $messages_link ?>">
-			<div>
+          </li>        
+        
+          <li>
+            <div class="btn-group">
+              <a onClick="window.open('<?php echo $store; ?>');" class="btn btn-default tp-icon" data-toggle="dropdown" title="<?php echo $text_front; ?>">
+                <i class="fa fa-building fa-lg"></i>
+              </a>
+            </div>
+          </li>
+		  <?php if($ant) { ?>
+          <li>
+            <div class="btn-group ant_window">
+              <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
+                <i class="fa fa-comments fa-lg"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-head ant-menu-head pull-right">
+              	<h5 class="title">From AbanteCart</h5>
+                <ul class="dropdown-list gen-list">
+                  <li>
+                    <?php echo $ant; ?>
+                  </li>
+				</ul>
+              </div>
+            </div>
+          </li>
+		  <?php } ?>
+          <li>
+            <div class="btn-group">
+              <a href="<?php echo $messages_link; ?>" class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
+                <i class="fa fa-envelope fa-lg"></i>
 				<?php
 				if ($new_messages) {
-
-					if ($new_messages['N'] > 0) {
-						?>
-						<div class="n_msg_box" id="notice_msg_box">
-							<div id="notice_msg_cnt" class="msg_count"><?php echo $new_messages['N']; ?></div>
-						</div>
+					if ($new_messages['N'] > 0) { ?>
+						<span class="badge"><?php echo $new_messages['N']; ?></span>
 					<?php
 					}
-					if ($new_messages['W'] > 0) {
-						?>
-						<div class="w_msg_box" id="warning_msg_box">
-							<div id="warning_msg_cnt" class="msg_count"><?php echo $new_messages['W']; ?></div>
-						</div>
+					if ($new_messages['W'] > 0) { ?>
+						<span class="badge"><?php echo $new_messages['W']; ?></span>
 					<?php
 					}
-					if ($new_messages['E'] > 0) {
-						?>
-						<div class="e_msg_box" id="error_msg_box">
-							<div id="error_msg_cnt" class="msg_count"><?php echo $new_messages['E']; ?></div>
-						</div>
+					if ($new_messages['E'] > 0) { ?>
+						<span class="badge"><?php echo $new_messages['E']; ?></span>
 					<?php
 					}
 					?>
-				<?php } ?>
-			</div>
-		</a>
+			<?php } ?>
+              </a>
+              <div class="dropdown-menu dropdown-menu-head pull-right">
+                <h5 class="title">You Have 1 New Message</h5>
+                <ul class="dropdown-list gen-list">
+                  <li class="new">
+                    <a href="">
+                    <span class="thumb"><img src="" alt="" /></span>
+                    <span class="desc">
+                      <span class="name">Draniem Daamul <span class="badge badge-success">new</span></span>
+                      <span class="msg">Lorem ipsum dolor sit amet...</span>
+                    </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="">
+                    <span class="thumb"><img src="" alt="" /></span>
+                    <span class="desc">
+                      <span class="name">Nusja Nawancali</span>
+                      <span class="msg">Lorem ipsum dolor sit amet...</span>
+                    </span>
+                    </a>
+                  </li>
+                  <li class="new"><a href="<?php echo $messages_link; ?>">Read All Messages</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+		<?php if ($languages) { ?>          
+          <li>
+            <div class="btn-group">
+              <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
+                <i class="fa fa-language fa-lg"></i>
+              </button>
+			  <div class="dropdown-menu dropdown-menu-head pull-right switcher">
+			  <form action="<?php echo str_replace('&', '&amp;', $action); ?>" method="post"
+			        enctype="multipart/form-data" id="language_form">
+			      	<?php foreach ($languages as $language) { ?>
+			      		<?php if ($language['code'] == $language_code) { ?>
+			      			<h5 class="title">
+			      					<?php if ($language['image']) { ?>
+			      						<img src="<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>"/>
+			      					<?php } else {
+			      						echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			      					} ?>
+			      					&nbsp;&nbsp;<span><?php echo $language['name']; ?></span>
+			      			</h5>
+			      		<?php } ?>
+			      	<?php } ?>
+			      	<ul class="dropdown-list gen-list">
+			      		<?php foreach ($languages as $language) { ?>
+			      		<li>
+			      			<a onClick="$('input[name=\'language_code\']').attr('value', '<?php echo $language['code']; ?>'); $('#language_form').submit();">
+			      			<?php if ($language['image']) { ?>
+			      			    <img src="<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>"/>
+			      			<?php } else {
+			      			    echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			      			} ?>
+			      			&nbsp;&nbsp;<span><?php echo $language['name']; ?></span>
+			      			</a>
+			      		</li>	
+			      		<?php } ?>
+			      	</ul>
+			      	<input type="hidden" name="language_code" value=""/>
+			      	<input type="hidden" name="redirect"
+			      	       value="<?php echo str_replace('&', '&amp;', $redirect); ?>"/>
+			  </form>
+			  </div>
+            </div>
+          </li>
+		<?php }?>          
+          <li>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <img src="<?php echo $avatar; ?>" alt="<?php echo $username; ?>" />
+                <?php echo $username; ?>
+                <span class="caret"></span>
+              </button>
+              
+              <div class="dropdown-menu dropdown-menu-head pull-right">
+              <h5 class="title"><?php echo $last_login; ?></h5>  
+              <ul class="dropdown-list gen-list">            
+                <li><a href="<?php echo $account_edit; ?>"><i class="fa fa-edit"></i> <?php echo $text_edit_details; ?></a></li>
+                <li><a href="<?php echo $logout; ?>"><i class="fa fa-unlock"></i><?php echo $text_logout; ?></a></li>
+              </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <button id="quickview" class="btn btn-default tp-icon chat-icon">
+                <i class="fa fa-globe fa-lg"></i>
+                <span class="badge">2</span>
+            </button>
+          </li>
+        </ul>
+      </div><!-- header-right -->
+      
+    </div><!-- headerbar -->
+
+<?php } else { ?><!-- not logged in -->
+<div class="leftpanel">
+    
+    <div class="logopanel">
+	<a href="<?php echo $home; ?>">
+		<?php 
+			if( $this->getHookVar('logoimage_hookvar') ) {
+				echo $this->getHookVar('logoimage_hookvar');
+			} else {
+		?> 
+			<img class="logo_image" src="<?php echo $template_dir; ?>image/logo.png" title="<?php echo $heading_title; ?>"/>
+		<?php 
+			}
+		?> 
+	</a>
+    </div><!-- logopanel -->
+
+	</div><!-- leftpanel -->
+ 
+  <div class="mainpanel">
+    
+<?php }  ?>
+
+<div class="pageheader">
+	<?php
+		$current = '';
+		$breadcrumbs_html = '';
+		foreach ($breadcrumbs as $breadcrumb) {
+			$breadcrumbs_html .= '<li>';
+			if ( $breadcrumb['current'] ) {
+				$current = $breadcrumb;
+				$breadcrumbs_html .= $breadcrumb['icon'].$breadcrumb['text'];
+			} else {
+				$breadcrumbs_html .= '<a href="'.$breadcrumb['href'].'">'.$breadcrumb['icon'].$breadcrumb['text'].'</a>';			
+			}
+			$breadcrumbs_html .= '</li>';
+		} 
+	?>
+	<h2><i class="fa fa-th-list"></i> 		
+	<?php if($current['text']) { echo $current['text']; } else { echo $heading_title; }?> 
+	<?php if($current['sub_text']) { ?>
+	<span><?php echo $current['sub_text']; ?></span>
+	<?php } ?>
+	</h2>
+	
+	<?php if ($breadcrumbs && count($breadcrumbs) > 1) { ?>
+	<div class="breadcrumb-wrapper">
+		<ol class="breadcrumb">
+		<?php echo $breadcrumbs_html; ?>
+		</ol>
+	</div>
+	<?php } else if($ant)  { ?>
+	<div class="ant-wrapper">
+		<?php echo $ant; ?>
+	</div>	
 	<?php } ?>
 </div>
-
-<?php if ($logged) { ?>
-	<div id="menu_box"><?php echo $menu; ?></div>
-<?php } ?>
-<div class="breadcrumb_wrapper">
-	<?php if ($breadcrumbs && count($breadcrumbs) > 1) { ?>
-		<div class="breadcrumb" style="float: left;">
-			<?php foreach ($breadcrumbs as $breadcrumb) { ?>
-				<?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
-			<?php } ?>
-		</div>
-	<?php } ?>
-</div><br class="clr_both">
-<div id="suggest_popup_dialog"></div>
+    	
 <script type="text/javascript">
 	$(function () {
 		if (!$('#global_search')) return;
@@ -198,7 +306,6 @@
 			}
 			$('#global_search').catcomplete('close');
 		});
-
 
 		$.widget("custom.catcomplete", $.ui.autocomplete, {
 			_renderMenu: function (ul, items) {

@@ -505,7 +505,7 @@ class ControllerPagesCatalogProduct extends AController {
 		    'type' => 'form',
 		    'name' => 'productFrm',
 		    'action' => $this->data['action'],
-		    'attr' => 'confirm-exit="true"',
+		    'attr' => 'confirm-exit="true" class="form-horizontal"',
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',

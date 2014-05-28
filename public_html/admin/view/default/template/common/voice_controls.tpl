@@ -20,7 +20,7 @@
 	        <div id="info">
 	          <div id="info_speak_now" style="display:none">
 	            <a class="mic_on text-blink" style="display:none" title="<?php echo $text_voice_speak_now; ?>">
-		            <i class="icon-microphone icon-2x"></i>
+		            <i class="fa fa-microphone fa-lg"></i>
 	            </a>
 	            <span><?php echo $text_voice_speak_now; ?></span>
 	          </div>
@@ -248,7 +248,9 @@ function updateDialect( lang_code ) {
 
 function upgrade() {
   $('#start_button i').addClass('grey_out');
-  $('#start_button i').addClass('icon-microphone-off');
+  $('#start_button i').addClass('fa');
+  $('#start_button i').addClass('fa-microphone-slash');
+  $('#start_button i').addClass('fa-lg');
   //start_button.style.visibility = 'hidden';
   showInfo('info_upgrade');
 }

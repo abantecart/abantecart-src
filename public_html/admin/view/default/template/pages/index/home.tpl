@@ -1,81 +1,75 @@
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-	<div class="heading"><?php echo $shortcut_heading; ?></div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-    <div id="cpanel">
-      <ul class="quick_icon">
-        <?php foreach( $shortcut as $item ) { ?>
-            <li>
-				<div class="iconbox_l"><div class="iconbox_r"><div class="iconbox_c">
-				<a href="<?php echo $item['href'] ?>">
-					<img src="<?php echo RDIR_TEMPLATE . 'image/icons/' . $item['icon'] ?>" alt="<?php echo  $item['text'] ?>" />
-					<span><?php echo $item['text'] ?></span>
-				</a>
-				</div></div></div>
-            </li>
-        <?php } ?>
-      </ul>
-      <div class="clr_both"></div>
-    </div>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+<div class="col-sm-12 col-lg-12">
+	<div class="panel panel-default">
+		<div class="panel-body">
+
+	    <div class="row">
+	        <?php foreach( $shortcut as $item ) { ?>
+	            <div class="col-xs-4 col-sm-3 col-md-2 shortcut">
+					<a href="<?php echo $item['href'] ?>">
+						<img src="<?php echo RDIR_TEMPLATE . 'image/icons/' . $item['icon'] ?>" alt="<?php echo  $item['text'] ?>" />
+						<div><?php echo $item['text'] ?></div>
+					</a>
+	            </div>
+	        <?php } ?>
+	    </div>
+
+  		</div>
+  	</div>
 </div>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading"><?php echo $text_latest_10_orders; ?></div>
-    <div class="toolbar flt_right">
-    <div style="margin:14px 10px 0 0;"><a href="<?php echo $orders_url; ?>"><?php echo $orders_text; ?></a></div>
-    </div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-    <table class="list">
-      <thead>
-        <tr>
-          <td class="center"><b><?php echo $column_order; ?></b></td>
-          <td class="left"><b><?php echo $column_name; ?></b></td>
-          <td class="left"><b><?php echo $column_status; ?></b></td>
-          <td class="left"><b><?php echo $column_date_added; ?></b></td>
-          <td class="right"><b><?php echo $column_total; ?></b></td>
-          <td class="center"><b><?php echo $column_action; ?></b></td>
-        </tr>
-      </thead>
-      <tbody>
-      <?php if ($orders) { ?>
-        <?php foreach ($orders as $order) { ?>
-        <tr>
-          <td class="center"><?php echo $order['order_id']; ?></td>
-          <td class="left"><?php echo $order['name']; ?></td>
-          <td class="left"><?php echo $order['status']; ?></td>
-          <td class="left"><?php echo $order['date_added']; ?></td>
-          <td class="right"><?php echo $order['total']; ?></td>
-          <td class="center"><?php foreach ($order['action'] as $action) { ?>
-          <a class="btn_action" href="<?php echo $action['href']; ?>"><img src="<?php echo RDIR_TEMPLATE; ?>image/icons/icon_grid_edit.png" alt="<?php echo $action['text']; ?>" /></a>
-          <?php } ?></td>
-        </tr>
-        <?php } ?>
-      <?php } else { ?>
-        <tr>
-          <td class="center" colspan="6"><?php echo $text_no_results; ?></td>
-        </tr>
-      <?php } ?>
-      </tbody>
-    </table>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+<div class="col-sm-12 col-lg-12">
+	<div class="panel panel-default">
+		<div class="panel-body">
+		<h5 class="title"><i class="fa fa-money fa-lg"></i>  <?php echo $text_latest_10_orders; ?>
+		<span class="pull-right"><a href="<?php echo $orders_url; ?>"><?php echo $orders_text; ?></a></span>
+		</h5>
+
+		<div class="table-responsive">
+	    <table class="table table-striped">
+	      <thead>
+	        <tr>
+	          <td class="center"><b><?php echo $column_order; ?></b></td>
+	          <td class="left"><b><?php echo $column_name; ?></b></td>
+	          <td class="left"><b><?php echo $column_status; ?></b></td>
+	          <td class="left"><b><?php echo $column_date_added; ?></b></td>
+	          <td class="right"><b><?php echo $column_total; ?></b></td>
+	          <td class="center"><b><?php echo $column_action; ?></b></td>
+	        </tr>
+	      </thead>
+	      <tbody>
+	      <?php if ($orders) { ?>
+	        <?php foreach ($orders as $order) { ?>
+	        <tr>
+	          <td class="center"><?php echo $order['order_id']; ?></td>
+	          <td class="left"><?php echo $order['name']; ?></td>
+	          <td class="left"><?php echo $order['status']; ?></td>
+	          <td class="left"><?php echo $order['date_added']; ?></td>
+	          <td class="right"><?php echo $order['total']; ?></td>
+	          <td class="center"><?php foreach ($order['action'] as $action) { ?>
+	          <a class="btn " href="<?php echo $action['href']; ?>" title="<?php echo $action['text']; ?>"> <i class="fa fa-edit fa-lg"></i></a>
+	          <?php } ?></td>
+	        </tr>
+	        <?php } ?>
+	      <?php } else { ?>
+	        <tr>
+	          <td class="center" colspan="6"><?php echo $text_no_results; ?></td>
+	        </tr>
+	      <?php } ?>
+	      </tbody>
+	    </table>
+	    </div>
+
+  		</div>
+  	</div>
 </div>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading"><?php echo $heading_title; ?></div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-    <div style="display: inline-block; width: 100%; margin-bottom: 15px; clear: both;">
-      <div style="float: left; width: 49%;">
-        <div style="color: #2a465e; padding: 7px 0px 10px 5px; font-size: 14px; font-weight: bold;"><?php echo $text_overview; ?></div>
-        <div style="background: #FCFCFC; border: 1px solid #caccd2; padding: 10px; height: 180px;">
-          <table cellpadding="2" style="width: 100%;">
+<div class="col-sm-5 col-lg-5">
+	<div class="panel panel-default">
+		<div class="panel-body">
+		<h5 class="title"><i class="fa fa-tachometer fa-lg"></i>&nbsp;&nbsp;<?php echo $text_overview; ?></h5>
+
+			<div class="table-responsive">
+		    <table class="table table-striped">
             <tr>
               <td width="80%"><?php echo $text_total_sale; ?></td>
               <td align="right"><?php echo $total_sale; ?></td>
@@ -107,31 +101,35 @@
               <td><?php echo $text_total_review_approval; ?></td>
               <td align="right"><?php echo $total_review_approval; ?></td>
             </tr>
-          </table>
-        </div>
-      </div>
-      <div style="float: right; width: 49%;">
-        <div style="color: #2a465e;">
-          <div style="width: 100%; display: inline-block;">
-            <div style="float: left; font-size: 14px; font-weight: bold; padding: 7px 0px 10px 5px; line-height: 12px;"><?php echo $text_statistics; ?></div>
-            <div style="float: right; font-size: 12px; padding: 2px 5px 0px 0px;"><?php echo $entry_range; ?>
+          	</table>
+			</div>
+
+  		</div>
+  	</div>
+</div>
+
+
+<div class="col-sm-7 col-lg-7">
+	<div class="panel panel-default">
+		<div class="panel-body">
+		<h5 class="title"><i class="fa fa-bar-chart-o fa-lg"></i>&nbsp;&nbsp;<?php echo $text_statistics; ?>
+		<span class="pull-right">
+			<?php echo $entry_range; ?>
               <select id="range" onchange="getSalesChart(this.value)" style="margin: 2px 3px 0 0;">
                 <option value="day"><?php echo $text_day; ?></option>
                 <option value="week"><?php echo $text_week; ?></option>
                 <option value="month"><?php echo $text_month; ?></option>
                 <option value="year"><?php echo $text_year; ?></option>
               </select>
-            </div>
-          </div>
-        </div>
-        <div style="background: #FCFCFC; border: 1px solid #caccd2; padding: 10px; height: 49%;"">
-          <div id="report" style="width: 400px; height: 180px; margin: auto;"></div>
-        </div>
-      </div>
-    </div>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+		</span>
+		</h5>
+
+		<div id="report" style="width: 450px; height: 315px; margin: auto;"></div>
+
+  		</div>
+  	</div>
 </div>
+
 
 <!--[if IE]>
 <script type="text/javascript" src="<?php echo RDIR_TEMPLATE; ?>javascript/jquery/flot/excanvas.js"></script>

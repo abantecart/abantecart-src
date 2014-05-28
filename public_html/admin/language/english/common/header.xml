@@ -359,7 +359,7 @@
 	
 	<definition>
 		<key>text_voice_command_prompt</key>
-		<value><![CDATA[Voice Command Prompt. (beta)]]></value>
+		<value><![CDATA[Voice Command Prompt.]]></value>
 	</definition>
 	<definition>
 		<key>text_voice_select_dialect</key>

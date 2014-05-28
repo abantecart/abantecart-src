@@ -73,7 +73,12 @@ class ControllerCommonHeader extends AController {
 		} else {
 			$this->view->assign('home', $this->html->getSecureURL('index/home', '', true));
 			$this->view->assign('logged', sprintf($this->language->get('text_logged'), $this->user->getUserName()));
-
+			$this->view->assign('avatar', $this->user->getAvatar());
+			$this->view->assign('username', $this->user->getUserName());
+			$this->view->assign('last_login', sprintf($this->language->get('text_last_login'), $this->user->getLastLogin()));
+			$this->view->assign('account_edit', $this->html->getSecureURL('index/edit_details', '', true));
+			
+			
 			$stores = array();
 			$this->loadModel('setting/store');
 			$results = $this->model_setting_store->getStores();
@@ -92,7 +97,7 @@ class ControllerCommonHeader extends AController {
 		}
 		if ($this->user->isLogged()) {
 			$this->view->assign('ant', $this->messages->getANTMessage());
-		}
+		}	
 		$this->view->assign('config_voicecontrol', $this->config->get('config_voicecontrol'));
 		$this->view->assign('voicecontrol_setting_url', $this->html->getSecureURL('setting/setting/system'));
 		$this->view->assign('command_lookup_url', $this->html->getSecureURL('common/action_commands'));
