@@ -1,5 +1,6 @@
  	</div><!-- mainpanel -->
-  
+
+<?php if ($logged) { ?>      
   <div class="rightpanel">
     <!-- Nav tabs -->
     <ul class="nav nav-tabs nav-justified">
@@ -121,3 +122,4 @@
     </div>
     <div class="col-md-4 version"><?php echo $text_footer; ?></div>
 </div>
+<?php } // END of logged in ?>   

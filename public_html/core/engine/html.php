@@ -1317,6 +1317,7 @@ class CaptchaHtmlElement extends HtmlElement {
 				'style' => $this->style,
 				'required' => $this->required,
 				'captcha_url' => $this->data[ 'registry' ]->get('html')->getURL('common/captcha'),
+				'placeholder' => $this->placeholder
 			)
 		);
 		$return = $this->view->fetch('form/captcha.tpl');

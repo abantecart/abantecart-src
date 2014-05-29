@@ -15,7 +15,7 @@
 <?php if (count($error_warning) > 0) {
 	foreach ($error_warning as $error) {
 		?>
-		<div class="alert alert-error">
+		<div class="alert alert-error alert-danger">
 			<strong><?php echo $error; ?></strong>
 		</div>
 	<?php
@@ -282,7 +282,7 @@ echo $form['form_open'];
 		}
 
 		var  show_error = function(parent_element, message) {
-			var html = '<div class="alert alert-error">' + message + '</div>';
+			var html = '<div class="alert alert-error alert-danger">' + message + '</div>';
 			$(parent_element).before(html);
 		}
 

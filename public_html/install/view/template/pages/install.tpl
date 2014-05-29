@@ -12,7 +12,7 @@
     <div class="bl"><div class="br"><div class="bc"></div></div></div>
 </div>
 <?php if ( !empty($error['warning']) ) { ?>
-<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
+<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
 <?php } ?>
 
 <div class="main_content">    

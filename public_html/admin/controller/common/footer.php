@@ -37,6 +37,17 @@ class ControllerCommonFooter extends AController {
 		$this->view->assign('text_footer', sprintf($this->language->get('text_footer'),date('Y')).VERSION);
 		$this->view->assign('text_footer_right', $documentation.$support);
 
+		if (!$this->user->isLogged() || !isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
+			$this->view->assign('logged', '');
+			$this->view->assign('home', $this->html->getSecureURL('index/login', '', true));
+		} else {
+			$this->view->assign('logged', sprintf($this->language->get('text_logged'), $this->user->getUserName()));
+			$this->view->assign('avatar', $this->user->getAvatar());
+			$this->view->assign('username', $this->user->getUserName());
+			$this->view->assign('last_login', sprintf($this->language->get('text_last_login'), $this->user->getLastLogin()));
+			$this->view->assign('account_edit', $this->html->getSecureURL('index/edit_details', '', true));
+		}
+
 		$this->processTemplate('common/footer.tpl');
 
         //update controller data

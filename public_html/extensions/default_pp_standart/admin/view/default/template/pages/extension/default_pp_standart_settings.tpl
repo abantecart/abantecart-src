@@ -41,7 +41,7 @@
 	</div>
 </div>
 <?php if ($error_warning) { ?>
-<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
+<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
 <div class="success alert alert-success"><?php echo $success; ?></div>

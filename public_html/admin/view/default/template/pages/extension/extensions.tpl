@@ -1,5 +1,5 @@
 <?php if ($error_warning) { ?>
-<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
+<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
 <div class="success alert alert-success"><?php echo $success; ?></div>
@@ -52,7 +52,7 @@
 		</div>
 	</div>
 	<div class="error" id="error">
-		<div class="warning alert alert-error"><p id="error_text"></p></div>
+		<div class="warning alert alert-error alert-danger"><p id="error_text"></p></div>
 		<div class="align_center" style="margin-top: 7px;">
 			<a class="btn_standard"><?php echo $close; ?></a></div>
 	</div>

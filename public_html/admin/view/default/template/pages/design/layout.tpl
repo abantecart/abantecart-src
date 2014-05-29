@@ -1,5 +1,5 @@
 <?php if ($error_warning) { ?>
-<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
+<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
 <div class="success alert alert-success"><?php echo $success; ?></div>
@@ -43,6 +43,7 @@ foreach($pages as $pg) {
 }		
 ?>
 
+<div class="row">
 <div class="col-sm-12 col-lg-12">
 <ul class="content-nav">
 	<li>
@@ -81,8 +82,9 @@ foreach($pages as $pg) {
 	<?php }?>
 </ul>
 </div>
+</div>
 
-
+<div class="row">
 <div class="col-sm-12 col-lg-12">
 	<div class="panel panel-default">
 		<div class="panel-body">
@@ -93,6 +95,7 @@ foreach($pages as $pg) {
 
   		</div>
   	</div>
+</div>
 </div>
 
 <script type="text/javascript"><!--

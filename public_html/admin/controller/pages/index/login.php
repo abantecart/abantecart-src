@@ -36,6 +36,19 @@ class ControllerPagesIndexLogin extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 
+   		$this->document->addBreadcrumb( array ( 
+       		'href'      => '',
+       		'text'      => $this->language->get('text_home'),
+      		'separator' => FALSE
+   		 ));
+   		$this->document->addBreadcrumb( array ( 
+            'href'      => $this->html->getSecureURL('index/login'),
+            'text'      => $this->language->get('heading_title'),
+            'current' => true,
+            'sub_text' => '',
+            'icon' => '' //need getMenuIconByRT method 
+        ));
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
 			$this->session->data['token'] = AEncryption::getHash(mt_rand());
 			//login is sussessful redirect to otiginaly requested page 

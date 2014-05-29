@@ -1,5 +1,5 @@
 <?php if ($error_warning) { ?>
-	<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
+	<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
 	<div class="success alert alert-success"><?php echo $success; ?></div>
@@ -127,7 +127,7 @@
 			</table>
 			<?php }else{ ?>
 				<div class="cbox_cc" style="overflow: hidden;">
-				<div class="warning alert-warning">Sorry, can not to connect with AbanteCart MarketPlace for now. Please check later or ask your service provider support.</div>
+				<div class="warning alert alert-warning">Sorry, can not to connect with AbanteCart MarketPlace for now. Please check later or ask your service provider support.</div>
 				</div>
 			<?php }?>
 		</div>

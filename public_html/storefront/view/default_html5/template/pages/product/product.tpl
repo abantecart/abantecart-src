@@ -1,5 +1,5 @@
 <?php if ($error) { ?>
-	<div class="alert alert-error">
+	<div class="alert alert-error alert-danger">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<strong><?php echo is_array($error) ? implode('<br>', $error) : $error; ?></strong>
 	</div>
@@ -480,7 +480,7 @@
 			},
 			success: function (data) {
 				if (data.error) {
-					$('#review_title').after('<div class="alert alert-error">' + dismiss + data.error + '</div>');
+					$('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
 				}
 				if (data.success) {
 					$('#review_title').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');

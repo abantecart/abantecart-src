@@ -1,5 +1,5 @@
 <?php if ($error) {?>
-    <div class="warning alert alert-error"><?php echo $error; ?></div>
+    <div class="warning alert alert-error alert-danger"><?php echo $error; ?></div>
 <?php } else { ?>
 
 <div class="fieldset">

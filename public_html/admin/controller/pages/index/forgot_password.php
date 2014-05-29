@@ -109,6 +109,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 						'name' => $f,
 						'value' => $this->data[$f],
 						'required' => true,
+						'placeholder' => $this->language->get('entry_'.$f),
 					)
 				);
 			}
@@ -207,6 +208,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 						'name' => $f,
 						'value' => $this->data[$f],
 						'required' => true,
+						'placeholder' => $this->language->get('entry_'.$f),
 					)
 				);
 			}

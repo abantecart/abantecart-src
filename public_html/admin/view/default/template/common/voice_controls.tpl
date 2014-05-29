@@ -30,16 +30,16 @@
 	          <div id="info_no_speech" class="alert" style="display:none">
 	          	<?php echo $text_voice_no_speach_detected; ?>
 	          </div>
-	          <div id="info_no_microphone" class="alert alert-error" style="display:none">
+	          <div id="info_no_microphone" class="alert alert-error alert-danger" style="display:none">
 	          	<?php echo $text_voice_no_mic_detected; ?>
 	          </div>
-	          <div id="info_denied" class="alert alert-error" style="display:none">
+	          <div id="info_denied" class="alert alert-error alert-danger" style="display:none">
 	            <?php echo $text_voice_mic_denied; ?>
 	          </div>
-	          <div id="info_blocked" class="alert alert-error" style="display:none">
+	          <div id="info_blocked" class="alert alert-error alert-danger" style="display:none">
 				<?php echo $text_voice_mic_permission; ?>				
 	          </div>
-	          <div id="info_upgrade" class="alert alert-error" style="display:none">
+	          <div id="info_upgrade" class="alert alert-error alert-danger" style="display:none">
 				<?php echo $text_voice_not_supported; ?>
 	          </div>
 	        </div>

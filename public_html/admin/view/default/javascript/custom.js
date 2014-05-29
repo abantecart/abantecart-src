@@ -91,12 +91,11 @@ jQuery(document).ready(function() {
    function adjustmainpanelheight() {
       // Adjust mainpanel height
       var docHeight = jQuery(document).height() - $('#footer').height();
-      if(docHeight > $('.mainpanel').height())
+      var leftHeight = $('.leftpanel').height();
+      if(leftHeight > $('.mainpanel').height())
          $('.mainpanel').height(docHeight);
    }
    
-   adjustmainpanelheight();
-
    // Tooltip
    $('.tooltips').tooltip({ container: 'body'});
    
@@ -338,5 +337,8 @@ jQuery(document).ready(function() {
    $('.dropdown-menu').find('form').click(function (e) {
       e.stopPropagation();
     });
+
+   //adjust main content height 	
+   adjustmainpanelheight();
 
 });

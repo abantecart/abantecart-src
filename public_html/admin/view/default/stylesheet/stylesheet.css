@@ -16,7 +16,7 @@ Main CSS stylesheet.css
 
 body {
    background: #1d2939;
-   font-family: 'LatoRegular', 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif !important;
+   font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif !important;
    line-height: 21px;
    color: #636e7b;
    overflow: hidden;
@@ -28,7 +28,7 @@ body.signin {
 }
 
 input,select,textarea {
-   font-family: 'LatoRegular', 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif !important;
+   font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif !important;
 	color: #636e7b;
 }
 
@@ -43,17 +43,16 @@ a:hover, .btn-default:hover {
 a:focus, a:active { outline: none; }
 
 h1,h2,h3,h4,h5 {
-   font-family: 'LatoRegular', 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif;
-}
-
-strong {
-	font-family: 'LatoBold';
-	font-weight: normal;
+   font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif;
 }
 
 .grey_out {
     opacity: 0.2;
     text-shadow: 0 1px 0 #FFFFFF;
+}
+
+.input-group.captcha, .form-group.captcha {
+	padding-bottom: 5px;
 }
 
 /* Voice commands */
@@ -445,6 +444,10 @@ strong {
 	max-width: 190px;
 }
 
+.pageheader .logopanel {
+   background: none;
+}
+
 .leftpanelinner {
    padding: 5px 15px;
 }
@@ -711,6 +714,13 @@ strong {
 .mainpanel {
    margin-left: 240px;
    background: #e4e7ea;
+}
+
+.mainpanel.no-columns {
+	margin-left: 0px;
+	max-width: 900px;
+	margin-left:auto;
+	margin-right:auto;   
 }
 
 .pageheader {
@@ -2460,7 +2470,6 @@ div.error label.error:before {
 
 .blog-quote .quote-author {
 	display: block;
-	font-family: 'LatoRegular';
 	opacity: 0.5;
 }
 
@@ -2520,7 +2529,6 @@ div.error label.error:before {
 }
 
 .blogsingle-title {
-	font-family: 'LatoRegular';
 	color: #333;
 	margin: 0;
 }
@@ -2997,8 +3005,10 @@ div.error label.error:before {
 /* locked screen */
 
 .lockedpanel {
-   width: 250px;
+   width: 320px;
    margin: 10% auto 0 auto;
+   padding-bottom: 100px;
+   min-height: 500px;
    text-align: center;
 }
 
@@ -3495,40 +3505,12 @@ div.error label.error:before {
 }
 
 
-/***** HORIZONTAL MENU *****/
-/***************************/
-
-
-.horizontal-menu {
-   margin: 0;   
-}
-
-.horizontal-menu .menutoggle {
-   display: none;
-}
-
-.horizontal-menu .leftpanel {
-   display: none;
-}
-
-.horizontal-menu .mainpanel {
-   margin: 0;
-   width: 100%;
-   overflow: hidden;
-}
-
-.horizontal-menu.chat-view .mainpanel {
-   margin-left: -240px
-}
+/***** header *****/
 
 .headerbar .logopanel {
    float: left;
    width: 240px;
    border-right: 1px solid #eee;
-}
-
-.horizontal-menu.chat-view .navhor-bracket {
-   padding: 0;
 }
 
 .headerbar .topnav {
@@ -4053,29 +4035,7 @@ div.error label.error:before {
    .nav-horizontal {
       position: relative;
    }
-   
-   .horizontal-menu .menutoggle {
-      display: block;
-   }
-   
-   .horizontal-menu .headerbar .logopanel {
-      display: none;
-   }
-   
-   .nav-horizontal .caret {
-      display: none;
-   }
-   
-   .horizontal-menu .header-left,
-   .horizontal-menu .topnav {
-      float: none;
-   }
-   
-   .horizontal-menu-sidebar .header-left,
-   .horizontal-menu-sidebar .topnav {
-      float: none;
-   }
-   
+      
    .fixed-noleft .menutoggle {
       display: block;
    }

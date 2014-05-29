@@ -1,5 +1,5 @@
 <?php if ($error) { ?>
-<div class="warning alert alert-error"><?php echo $error; ?></div>
+<div class="warning alert alert-error alert-danger"><?php echo $error; ?></div>
 <?php } ?>
 
 <div id="content">
@@ -404,7 +404,7 @@ function review() {
 		},
 		success: function(data) {
 			if (data.error) {
-				$('#review_title').after('<div class="warning alert alert-error">' + data.error + '</div>');
+				$('#review_title').after('<div class="warning alert alert-error alert-danger">' + data.error + '</div>');
 			}
 			if (data.success) {
 				$('#review_title').after('<div class="success alert alert-success">' + data.success + '</div>');

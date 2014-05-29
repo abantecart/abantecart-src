@@ -1,5 +1,5 @@
 <?php if (!empty($error['warning'])) { ?>
-	<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
+	<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
 	<div class="success alert alert-success"><?php echo $success; ?></div>
@@ -68,7 +68,7 @@
 									</thead>
 									<tbody>
 										<tr></tr>
-										<tr <?php echo !$download['is_file'] ? 'class="warning alert alert-error"' :''?>>
+										<tr <?php echo !$download['is_file'] ? 'class="warning alert alert-error alert-danger"' :''?>>
 											<td class="left"><a href="<?php echo $download['href']?>" target="_blank"><?php echo $download['name']; ?></a>
 											<?php if($download['attributes']){	?>
 												<br><div class="download-list-attributes">

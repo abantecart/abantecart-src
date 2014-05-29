@@ -1,3 +1,4 @@
+<div class="row">
 <div class="col-sm-12 col-lg-12">
 	<div class="panel panel-default">
 		<div class="panel-body">
@@ -16,7 +17,9 @@
   		</div>
   	</div>
 </div>
+</div>
 
+<div class="row">
 <div class="col-sm-12 col-lg-12">
 	<div class="panel panel-default">
 		<div class="panel-body">
@@ -62,7 +65,9 @@
   		</div>
   	</div>
 </div>
+</div>
 
+<div class="row">
 <div class="col-sm-5 col-lg-5">
 	<div class="panel panel-default">
 		<div class="panel-body">
@@ -107,8 +112,6 @@
   		</div>
   	</div>
 </div>
-
-
 <div class="col-sm-7 col-lg-7">
 	<div class="panel panel-default">
 		<div class="panel-body">
@@ -128,6 +131,7 @@
 
   		</div>
   	</div>
+</div>
 </div>
 
 

@@ -45,7 +45,7 @@
 
 </div><!-- leftpanel -->
  
-  <div class="mainpanel">
+<div class="mainpanel">
     
     <div class="headerbar">
    
@@ -219,64 +219,41 @@
       
     </div><!-- headerbar -->
 
-<?php } else { ?><!-- not logged in -->
-<div class="leftpanel">
-    
-    <div class="logopanel">
-	<a href="<?php echo $home; ?>">
-		<?php 
-			if( $this->getHookVar('logoimage_hookvar') ) {
-				echo $this->getHookVar('logoimage_hookvar');
-			} else {
-		?> 
-			<img class="logo_image" src="<?php echo $template_dir; ?>image/logo.png" title="<?php echo $heading_title; ?>"/>
-		<?php 
-			}
-		?> 
-	</a>
-    </div><!-- logopanel -->
-
-	</div><!-- leftpanel -->
- 
-  <div class="mainpanel">
-    
-<?php }  ?>
-
-<div class="pageheader">
-	<?php
-		$current = '';
-		$breadcrumbs_html = '';
-		foreach ($breadcrumbs as $breadcrumb) {
-			$breadcrumbs_html .= '<li>';
-			if ( $breadcrumb['current'] ) {
-				$current = $breadcrumb;
-				$breadcrumbs_html .= $breadcrumb['icon'].$breadcrumb['text'];
-			} else {
-				$breadcrumbs_html .= '<a href="'.$breadcrumb['href'].'">'.$breadcrumb['icon'].$breadcrumb['text'].'</a>';			
-			}
-			$breadcrumbs_html .= '</li>';
-		} 
-	?>
-	<h2><i class="fa fa-th-list"></i> 		
-	<?php if($current['text']) { echo $current['text']; } else { echo $heading_title; }?> 
-	<?php if($current['sub_text']) { ?>
-	<span><?php echo $current['sub_text']; ?></span>
-	<?php } ?>
-	</h2>
-	
-	<?php if ($breadcrumbs && count($breadcrumbs) > 1) { ?>
-	<div class="breadcrumb-wrapper">
-		<ol class="breadcrumb">
-		<?php echo $breadcrumbs_html; ?>
-		</ol>
+	<div class="pageheader">
+		<?php
+			$current = '';
+			$breadcrumbs_html = '';
+			foreach ($breadcrumbs as $breadcrumb) {
+				$breadcrumbs_html .= '<li>';
+				if ( $breadcrumb['current'] ) {
+					$current = $breadcrumb;
+					$breadcrumbs_html .= $breadcrumb['icon'].$breadcrumb['text'];
+				} else {
+					$breadcrumbs_html .= '<a href="'.$breadcrumb['href'].'">'.$breadcrumb['icon'].$breadcrumb['text'].'</a>';			
+				}
+				$breadcrumbs_html .= '</li>';
+			} 
+		?>
+		<h2><i class="fa fa-th-list"></i> 		
+		<?php if($current['text']) { echo $current['text']; } else { echo $heading_title; }?> 
+		<?php if($current['sub_text']) { ?>
+		<span><?php echo $current['sub_text']; ?></span>
+		<?php } ?>
+		</h2>
+		
+		<?php if ($breadcrumbs && count($breadcrumbs) > 1) { ?>
+		<div class="breadcrumb-wrapper">
+			<ol class="breadcrumb">
+			<?php echo $breadcrumbs_html; ?>
+			</ol>
+		</div>
+		<?php } else if($ant)  { ?>
+		<div class="ant-wrapper">
+			<?php echo $ant; ?>
+		</div>	
+		<?php } ?>
 	</div>
-	<?php } else if($ant)  { ?>
-	<div class="ant-wrapper">
-		<?php echo $ant; ?>
-	</div>	
-	<?php } ?>
-</div>
-    	
+
 <script type="text/javascript">
 	$(function () {
 		if (!$('#global_search')) return;
@@ -476,3 +453,25 @@
 		}
 	}
 </script>
+
+<?php } else { ?><!-- not logged in -->
+
+  <div class="mainpanel no-columns">
+
+	<div class="pageheader">
+	    <div class="logopanel">
+		<a href="<?php echo $home; ?>">
+			<?php 
+				if( $this->getHookVar('logoimage_hookvar') ) {
+					echo $this->getHookVar('logoimage_hookvar');
+				} else {
+			?> 
+				<img class="logo_image" src="<?php echo $template_dir; ?>image/logo.png" title="<?php echo $heading_title; ?>"/>
+			<?php 
+				}
+			?> 
+		</a>
+	    </div><!-- logopanel -->
+	</div>
+    	    
+<?php }  ?>

@@ -28,7 +28,7 @@
 	  <span class="subtext"></span>
 	</h1>
 <?php if ($error_warning) { ?>
-<div class="alert alert-error">
+<div class="alert alert-error alert-danger">
 <button type="button" class="close" data-dismiss="alert">&times;</button>
 <?php echo $error_warning; ?>
 </div>

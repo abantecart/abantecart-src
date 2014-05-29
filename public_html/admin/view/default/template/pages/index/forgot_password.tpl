@@ -1,52 +1,52 @@
-<div class="contentBox loginBox">
-	<div class="cbox_tl">
-		<div class="cbox_tr">
-			<div class="cbox_tc">
-				<div class="heading icon_lockscreen"><?php echo $text_heading; ?></div>
-			</div>
-		</div>
-	</div>
-	<div class="cbox_cl">
-		<div class="cbox_cr">
-			<div class="cbox_cc">
+<section>
 
-				<?php if (!empty($error['warning'])) { ?>
-				<div class="warning" style="padding: 3px;"><?php echo $error['warning']; ?></div>
-				<?php } ?>
+	<?php if ($error['warning']) { ?>
+	<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
+	<?php } ?>
 
-				<?php if ($show_instructions) {
-					echo $text_instructions;
-					echo '<br/><br/><a href="'. $login .'">'. $text_login .'</a>';
-				} else { ?>
-				<?php echo $form['form_open']; ?>
-					<table cellspacing="0" cellpadding="8" border="0" width="100%">
-						<?php foreach ($form['fields'] as $name => $field) { ?>
-						<tr>
-							<td><?php echo ${'entry_'.$name}; ?></td>
-							<td>
-								<?php echo $field; ?>
-								<?php if (!empty($error[$name])) { ?>
-									<div class="field_err"><?php echo $error[$name]; ?></div>
-								<?php } ?>
-							</td>
-						</tr>
-						<?php } //foreach ($form['fields'] as $name => $field) ?>
-						<tr>
-							<td><a href="<?php echo $login ?>"><?php echo $text_login ?></a></td>
-							<td align="right">
-								<button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
-							</td>
-						</tr>
-					</table>
-				</form>
-				<?php } ?>
-				
-			</div>
-		</div>
+	<?php if ($show_instructions) { ?>
+	<div class="alert alert-success"><?php echo $text_instructions; ?>
+	<br/><a href="<?php echo $login; ?>"><?php echo $text_login; ?></a>
 	</div>
-	<div class="cbox_bl">
-		<div class="cbox_br">
-			<div class="cbox_bc"></div>
-		</div>
-	</div>
-</div>
+	<?php } ?>
+
+  
+    <div class="lockedpanel">
+        <div class="loginuser">
+            <img src="<?php echo $template_dir; ?>image/login.png" alt="<?php echo $text_login; ?>" />
+        </div>
+        <div class="logged">
+            <h4><?php echo $heading_title; ?></h4>
+            <small class="text-muted"><a href="<?php echo $login; ?>"><?php echo $text_login; ?></a></small>
+        </div>
+        
+        <?php if (!$show_instructions) { ?>        
+ 		<?php echo $form['form_open']; ?>
+ 		
+		<?php foreach ($form['fields'] as $name => $field) { ?>
+		<?php if( $field->type == 'input') { ?>
+		<div class="form-group <?php if (!empty($error[$name])) { ?>has-error<?php } ?>">
+			<?php if (!empty($error[$name])) { ?>
+			<div class="help-block with-errors"><?php echo $error[$name]; ?></div>
+			<?php } ?>
+			<?php echo $field; ?>
+		</div>	
+		<?php } else if( $field->type == 'captcha')  { ?>
+		<div class="form-group <?php if (!empty($error[$name])) { ?>has-error<?php } ?>">
+			<?php if (!empty($error[$name])) { ?>
+			<div class="help-block with-errors"><?php echo $error[$name]; ?></div>
+			<?php } ?>
+			<?php echo $field; ?>
+		</div>	
+		<?php } ?>		
+		<?php } //foreach end ?>
+		
+		<button type="submit" class="btn btn-primary btn-block"><i class="fa fa-envelope-o"></i> <?php echo $form['submit']; ?></button>
+
+		</form>
+		<a href="<?php echo $login ?>"><?php echo $text_login ?></a>
+		<?php } ?>
+		
+    </div><!-- lockedpanel -->
+  
+</section>
