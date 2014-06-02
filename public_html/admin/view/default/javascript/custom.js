@@ -174,25 +174,32 @@ jQuery(document).ready(function() {
    
    // Menu Toggle
    $('.menutoggle').click(function(){
-      var body = $('body');
-      var bodypos = body.css('position');
-      if(bodypos != 'relative') {
-         if(!body.hasClass('leftpanel-collapsed')) {
-            body.addClass('leftpanel-collapsed');
-            $('.nav-bracket ul').attr('style','');
-            $(this).addClass('menu-collapsed');
-         } else {
-            body.removeClass('leftpanel-collapsed chat-view');
-            $('.nav-bracket li.active ul').css({display: 'block'});
-            $(this).removeClass('menu-collapsed');
-         }
-      } else {       
-         if(body.hasClass('leftpanel-show'))
-            body.removeClass('leftpanel-show');
-         else
-            body.addClass('leftpanel-show');
-         adjustmainpanelheight();         
-      }
+		if(jQuery.cookie('leftpanel-collapsed')) {
+			$.removeCookie("leftpanel-collapsed");
+		} else {
+			$.cookie('leftpanel-collapsed', 1);
+		}   
+		var body = $('body');
+		var bodypos = body.css('position');
+		if(bodypos != 'relative') {
+		   if(!body.hasClass('leftpanel-collapsed')) {
+		      body.addClass('leftpanel-collapsed');
+		      $('.nav-bracket ul').attr('style','');
+		      $(this).addClass('menu-collapsed');
+		   } else {
+		      body.removeClass('leftpanel-collapsed chat-view');
+		      $('.nav-bracket li.active ul').css({display: 'block'});
+		      $(this).removeClass('menu-collapsed');
+		   }
+		} else {       
+		   if(body.hasClass('leftpanel-show')) {
+		      body.removeClass('leftpanel-show');
+		   }
+		   else {
+		      body.addClass('leftpanel-show');
+		   }
+		   adjustmainpanelheight();         
+		}
    });
    
    // Chat View
@@ -236,10 +243,6 @@ jQuery(document).ready(function() {
       reposition_topnav();
    });
    
-   /* This function will reposition search form to the left panel when viewed
-    * in screens smaller than 767px and will return to top when viewed higher
-    * than 767px
-    */ 
    function reposition_searchform() {
       if($('.searchform').css('position') == 'relative') {
          $('.searchform').insertBefore('.leftpanelinner .userlogged');
@@ -248,14 +251,8 @@ jQuery(document).ready(function() {
       }
    }
 
-   /* This function allows top navigation menu to move to left navigation menu
-    * when viewed in screens lower than 1024px and will move it back when viewed
-    * higher than 1024px
-    */
    function reposition_topnav() {
       if($('.nav-horizontal').length > 0) {
-         // top navigation move to left nav
-         // .nav-horizontal will set position to relative when viewed in screen below 1024
          if($('.nav-horizontal').css('position') == 'relative') {                         
             if($('.leftpanel .nav-bracket').length == 2) {
                $('.nav-horizontal').insertAfter('.nav-bracket:eq(1)');
@@ -280,8 +277,6 @@ jQuery(document).ready(function() {
             }
          
          } else {
-            // move nav only when .nav-horizontal is currently from leftpanel
-            // that is viewed from screen size above 1024
             if($('.leftpanel .nav-horizontal').length > 0) {
                
                $('.nav-horizontal').removeClass('nav-pills nav-stacked nav-bracket')
@@ -301,39 +296,44 @@ jQuery(document).ready(function() {
       }
    }
    
-   // Sticky Header
-   if(jQuery.cookie('sticky-header'))
-      $('body').addClass('stickyheader');
-      
-   // Sticky Left Panel
-   if(jQuery.cookie('sticky-leftpanel')) {
-      $('body').addClass('stickyheader');
-      $('.leftpanel').addClass('sticky-leftpanel');
-   }
+	$('.sticky_header').click(function(){
+		if(jQuery.cookie('sticky-header')) {
+			$.removeCookie("sticky-header");
+	   		$('body').removeClass('stickyheader');			
+	   		$('.sticky_header').removeClass('pressed_pin');
+		} else {
+	   		$('body').addClass('stickyheader');
+	   		$.cookie("sticky-header", 1);	
+	   		$('.sticky_header').addClass('pressed_pin');
+		}
+	});
+	if(jQuery.cookie('sticky-header')) {
+		$('body').addClass('stickyheader');
+		$('.sticky_header').addClass('pressed_pin');
+	}  
    
-   // Left Panel Collapsed
+	$('.sticky_left').click(function(){
+		if(jQuery.cookie('sticky-leftpanel')) {
+			$.removeCookie("sticky-leftpanel");
+	   		$('.leftpanel').removeClass('sticky-leftpanel');		
+	   		$('.sticky_left').removeClass('pressed_pin');
+		} else {
+	   		$('.leftpanel').addClass('sticky-leftpanel');
+	   		$.cookie("sticky-leftpanel", 1);	
+	   		$('.sticky_left').addClass('pressed_pin');
+		}
+	});
+	if(jQuery.cookie('sticky-leftpanel')) {
+		$('.leftpanel').addClass('sticky-leftpanel');
+	}   
+   
    if(jQuery.cookie('leftpanel-collapsed')) {
       $('body').addClass('leftpanel-collapsed');
       $('.menutoggle').addClass('menu-collapsed');
-   }
-   
-   // Changing Skin
-   var c = jQuery.cookie('change-skin');
-   if(c) {
-      $('head').append('<link id="skinswitch" rel="stylesheet" href="css/style.'+c+'.css" />');
-   }
-   
-   // Changing Font
-   var fnt = jQuery.cookie('change-font');
-   if(fnt) {
-      $('head').append('<link id="fontswitch" rel="stylesheet" href="css/font.'+fnt+'.css" />');
-   }
-   
-   // Check if leftpanel is collapsed
-   if($('body').hasClass('leftpanel-collapsed'))
+   }      
+   if($('body').hasClass('leftpanel-collapsed')) {
       $('.nav-bracket .children').css({display: ''});
-      
-   // Handles form inside of dropdown 
+   }      
    $('.dropdown-menu').find('form').click(function (e) {
       e.stopPropagation();
     });

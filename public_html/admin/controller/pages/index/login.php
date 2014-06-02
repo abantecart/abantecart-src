@@ -110,6 +110,7 @@ class ControllerPagesIndexLogin extends AController {
 					'type' => ($f == 'password' ? 'password' : 'input'),
 					'name' => $f,
 					'value' => $this->data[$f],
+					'placeholder' => $this->language->get('entry_'.$f),
 				)
 			);
 		}

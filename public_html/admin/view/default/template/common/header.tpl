@@ -2,6 +2,7 @@
 <div class="leftpanel">
     
     <div class="logopanel">
+    <i class="sticky_header fa fa-thumb-tack"></i>
 	<a href="<?php echo $home; ?>">
 		<?php 
 			if( $this->getHookVar('logoimage_hookvar') ) {
@@ -15,8 +16,9 @@
 	</a>
     </div><!-- logopanel -->
 
-    <div class="leftpanelinner">     
-    
+    <div class="leftpanelinner">   
+	    <i class="sticky_left fa fa-thumb-tack"></i>
+      
 		<!-- This is only visible to small devices -->
 		<div class="visible-xs hidden-sm hidden-md hidden-lg">   
 		    <div class="media userlogged">
@@ -473,5 +475,14 @@
 		</a>
 	    </div><!-- logopanel -->
 	</div>
+  
+<script type="text/javascript">
+	//remove cokies if loged out 
+	$(document).ready(function () {
+		$.removeCookie("sticky-header");
+		$.removeCookie("sticky-leftpanel");
+		$.removeCookie("leftpanel-collapsed");
+	});
+</script>
     	    
 <?php }  ?>

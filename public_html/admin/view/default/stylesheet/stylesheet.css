@@ -1,5 +1,7 @@
 /*
-Main CSS stylesheet.css
+AbanteCart admin main CSS stylesheet.css
+
+Developers: Pavel Rojkov (projkov@abantecart.com)
 */
 
 @import url('bootstrap.min.css');
@@ -100,10 +102,47 @@ h1,h2,h3,h4,h5 {
    font-size: 32px;
 }
 
+/***** Main Scaffolding ******/
+.wrapper {
+}
 
-/***** HEADER PANEL *****/
-/************************/
+/***** Left panel *****/
+.leftpanel {
+   width: 240px;
+   position: absolute;
+   top: 0;
+   left: 0;
+   z-index: 100;
+}
 
+/***** content panel for all pages *****/
+.mainpanel {
+   margin-left: 240px;
+   background: #e4e7ea;
+}
+/***** content panel for no columns mode (no authentication) *****/
+.mainpanel.no-columns {
+	margin-left: 0px;
+	max-width: 900px;
+	margin-left:auto;
+	margin-right:auto;   
+}
+
+/***** right panel (hidden by default) *****/
+.rightpanel {
+   width: 240px;
+   height: 100%;
+   position: fixed;
+   overflow-y: auto;
+   overflow-x: hidden;
+   top: 0;
+   right: -240px;
+   display: none;
+   z-index: 9999;  
+   background: none repeat scroll 0 0 #1D2939;
+}
+
+/***** Header *****/
 .headerbar {
    border-left: 1px solid #eee;
    background: #fff;
@@ -416,17 +455,7 @@ h1,h2,h3,h4,h5 {
 }
 
 
-/***** LEFT PANEL *****/
-/**********************/
-
-.leftpanel {
-   width: 240px;
-   position: absolute;
-   top: 0;
-   left: 0;
-   z-index: 100;
-}
-
+/***** Left Nav Panel *****/
 .sticky-leftpanel {
    position: fixed;
    height: 100%;
@@ -704,23 +733,6 @@ h1,h2,h3,h4,h5 {
    float: right;
    margin-top: 5px;
    opacity: 0.6;
-}
-
-
-
-/***** MAIN PANEL *****/
-/**********************/
-
-.mainpanel {
-   margin-left: 240px;
-   background: #e4e7ea;
-}
-
-.mainpanel.no-columns {
-	margin-left: 0px;
-	max-width: 900px;
-	margin-left:auto;
-	margin-right:auto;   
 }
 
 .pageheader {
@@ -3368,24 +3380,9 @@ div.error label.error:before {
 }
 
 
-/***** RIGHT PANEL STYLES *****/
-/**************************/
-
+/***** Right Panel *****/
 .chat-view {
    margin-right: 240px;
-}
-
-.rightpanel {
-   width: 240px;
-   height: 100%;
-   position: fixed;
-   overflow-y: auto;
-   overflow-x: hidden;
-   top: 0;
-   right: -240px;
-   display: none;
-   z-index: 9999;  
-   background: none repeat scroll 0 0 #1D2939;
 }
 
 .chat-view .rightpanel {
@@ -3782,25 +3779,31 @@ div.error label.error:before {
 	background-position: 8px -33px;
 }
 
-/* TIME PICKER */
 
-.bootstrap-timepicker-widget.dropdown-menu {
-	width: 230px;
+/* Stick Header */
+.sticky_header {
+	position: absolute;
+	top: 15px;
+	left: 5px;
+	cursor: pointer;
+	z-index: 1000;
 }
-
-/* COLOR PICKER */
-
-.colorpicker-input {
-	width: 200px;
-	float: left;
+.sticky_left {
+	position: absolute;
+	top: 55px;
+	left: 5px;
+	cursor: pointer;
+	color: #fff;
 }
-
-.colorselector {
-	margin-top: 4px;
+body.stickyheader .sticky_left {
+	top: 5px;
 }
-
-/* STICKY HEADER */
-
+.sticky-leftpanel .sticky_left {
+	top: 55px !important;
+}
+.pressed_pin {
+	color: #F19013;
+}
 .stickyheader .logopanel {
    position: fixed;
    top: 0;
@@ -3808,19 +3811,15 @@ div.error label.error:before {
    width: 240px;
    z-index: 100;
 }
-
 .stickyheader .leftpanel {
    top: 50px;
 }
-
 .stickyheader .sticky-leftpanel {
    top: 0;
 }
-
 .stickyheader .sticky-leftpanel .leftpanelinner {
    margin-top: 55px;
 }
-
 .stickyheader .headerbar {
    position: fixed;
    top: 0;
@@ -3829,141 +3828,105 @@ div.error label.error:before {
    z-index: 100;
    box-shadow: 0 1px rgba(0,0,0,0.05);
 }
-
 .stickyheader .mainpanel {
    padding-top: 50px;
 }
-
 .stickyheader .header-right {
    margin-right: 240px;
 }
-
 .stickyheader.leftpanel-collapsed .headerbar {
    left: 50px;   
 }
-
 .stickyheader.leftpanel-collapsed .header-right {
    margin-right: 0;
 }
-
 .stickyheader.chat-view .headerbar {
    right: 240px;
    width: auto;
 }
 
-
-/* CUSTOM STYLES */
-
+/* Other styles */
 .mb5 {
 	margin-bottom: 5px;
 }
-
 .mb10 {
 	margin-bottom: 10px;
 }
-
 .mb15 {
    margin-bottom: 15px;
 }
-
 .mb20 {
 	margin-bottom: 20px;
 }
-
 .mb30 {
 	margin-bottom: 30px;
 }
-
 .mb40 {
    margin-bottom: 40px;
 }
-
 .mr5 {
 	margin-right: 5px;
 }
-
 .mr10 {
 	margin-right: 10px;
 }
-
 .mr20 {
 	margin-right: 20px;
 }
-
 .mr30 {
 	margin-right: 30px;
 }
-
 .mt5 {
 	margin-top: 5px;
 }
-
 .mt10 {
 	margin-top: 10px;
 }
-
 .nomargin {
 	margin: 0;
 }
-
 .border-right-0 {
    border-right: 0;
 }
-
 .border-left-0 {
    border-left: 0;
 }
-
 .nopadding {
 	padding: 0 !important;
 }
-
 .padding-top-0 {
 	padding-top: 0;
 }
-
 .padding5 {
 	padding: 5px;
 }
-
 .padding10 {
 	padding: 10px;
 }
-
 .serif {
 	font-family: 'Georgia, serif';
 }
-
 .italic {
 	font-style: italic;
 }
-
 .dark {
 	color: #333;
 }
-
 .width100p {
 	width: 100%;
 }
-
 .width20 {
 	width: 20px;
 }
-
 .width30 {
 	width: 30px;
 }
-
 .inblock {
    display: inline-block;
 }
 
-
-/***** MEDIA QUERIES *****/
-/*************************/
-
+/***** Media queries section  *****/
 @media screen and (max-width: 1024px) {
-   
    body {
       position: relative;
    }
@@ -4031,7 +3994,6 @@ div.error label.error:before {
       border: 0;
    }
    
-   /* horizontal menu related */
    .nav-horizontal {
       position: relative;
    }
@@ -4048,11 +4010,10 @@ div.error label.error:before {
    .fixed-noleft .topnav {
       float: none;
    }
-
 }
 
 @media screen and (max-width: 767px) {
-   
+ 
    #searchform {
       position: relative;
    }
@@ -4345,7 +4306,6 @@ div.error label.error:before {
       float: none;
       width: auto;
    }
-   
 }
 
 @media screen and (max-width: 360px) {
@@ -4420,14 +4380,11 @@ div.error label.error:before {
    .pagination {
       margin-bottom: 20px;
    }
-   
 }
 
 @media screen and (max-width: 320px) {
-   
    .signinpanel,
    .signuppanel {
       width: 310px;
-   }
-   
+   }  
 }

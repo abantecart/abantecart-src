@@ -1,4 +1,3 @@
-<div class="input-group text_element afield">
 <?php if ( $type == 'password' && $has_value == 'Y' ) : ?>
 	<span id="<?php echo $id ?>_confirm_default" class="confirm_default">***********</span>
 <?php endif; ?>	
@@ -11,4 +10,3 @@
 	<?php if ( !empty ($help_url) ) : ?>
 	<span class="help_block"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></span>
 	<?php endif; ?>
-</div>

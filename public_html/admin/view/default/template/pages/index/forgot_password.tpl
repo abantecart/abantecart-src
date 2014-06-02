@@ -29,7 +29,9 @@
 			<?php if (!empty($error[$name])) { ?>
 			<div class="help-block with-errors"><?php echo $error[$name]; ?></div>
 			<?php } ?>
+			<div class="input-group">
 			<?php echo $field; ?>
+			</div>
 		</div>	
 		<?php } else if( $field->type == 'captcha')  { ?>
 		<div class="form-group <?php if (!empty($error[$name])) { ?>has-error<?php } ?>">

@@ -14,9 +14,17 @@
         </div>
         
  		<?php echo $form['form_open']; ?>
-		<input type="<?php echo $form['fields']['username']->type; ?>" name="<?php echo $form['fields']['username']->name; ?>" class="form-control" id="<?php echo $form['fields']['username']->element_id; ?>" placeholder="<?php echo $entry_username; ?>" value="<?php echo $form['fields']['username']->value; ?>">
-		<input type="<?php echo $form['fields']['password']->type; ?>" name="<?php echo $form['fields']['password']->name; ?>" class="form-control" id="<?php echo $form['fields']['password']->element_id; ?>" placeholder="<?php echo $entry_password; ?>">
-		<button type="submit" class="btn btn-primary btn-block"><i class="fa fa-lock"></i> <?php echo $form['submit']; ?></button>
+ 		<div class="form-group">
+ 			<?php echo $form['fields']['username']; ?>
+ 		</div>
+ 		<div class="form-group">
+ 			<?php echo $form['fields']['password']; ?>
+ 		</div>
+ 		
+ 		<div class="form-group">
+	 		<button type="submit" class="btn btn-primary btn-block"><i class="fa fa-lock"></i> <?php echo $form['submit']; ?></button>
+ 		</div>
+	
 		<?php if ($redirect) { ?>
 		<input type="hidden" name="redirect" value="<?php echo $redirect; ?>" />
 		 <?php } ?>
