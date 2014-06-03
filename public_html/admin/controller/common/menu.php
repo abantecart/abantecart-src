@@ -128,15 +128,21 @@ class ControllerCommonMenu extends AController {
 				
 				$link_keyname = strpos($item ['item_url'], "http") ? "onclick" : "href";
 				
-				$temp = Array( 'id' => $item ['item_id'],
-					$link_keyname => $menu_link,
-					'text' => $this->language->get($item ['item_text']) );
+				$temp = array(
+							'id' => $item ['item_id'],
+							$link_keyname => $menu_link,
+							'text' => $this->language->get($item ['item_text']),
+							'icon' => $item ['item_icon_rl_id'] ? $item ['item_icon_rl_id'] : ''
+							);
+
 				if ($rt) {
 					$temp['rt'] = $rt;
 				}
+
 				if ($childen) {
 					$temp['children'] = $childen;
 				}
+
 				$result[ $item['item_id'] ] = $temp;
 			}
 		}

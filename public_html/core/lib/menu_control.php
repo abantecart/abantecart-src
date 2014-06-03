@@ -178,7 +178,7 @@ class AMenu {
 	 */
 	public function insertMenuItem($item = array()) {
 
-		$check_array = array( "item_id", "item_text", "item_url", "parent_id", "sort_order", "item_type" );
+		$check_array = array( "item_id", "item_text", "item_url", "parent_id", "sort_order", "item_type", "item_icon_rl_id" );
 
 		//clean text id 
 		$item [ "item_id" ] = preformatTextID($item [ "item_id" ]);

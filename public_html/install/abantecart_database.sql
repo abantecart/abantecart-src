@@ -10652,7 +10652,8 @@ VALUES  (2,10, 'item_id','varchar',1),
         (2,12, 'item_url','varchar',3),
         (2,13, 'parent_id','varchar',4),
         (2,14, 'sort_order','integer',5),
-        (2,15, 'item_type','varchar',6);
+        (2,15, 'item_type','varchar',6),
+        (2,40, 'item_icon_rl_id','varchar',7);
 --		
 -- MAIN (PARENT) MENU
 --
@@ -10711,6 +10712,16 @@ VALUES  (15,'core',1),
         (15,'core',5),
         (15,'core',6),
         (15,'core',7);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'<i class="fa fa-folder-open"></i>&nbsp;',1),
+        (40,'<i class="fa fa-flag-o"></i>&nbsp;',2),
+        (40,'<i class="fa fa-file-text"></i>&nbsp;',3),
+        (40,'<i class="fa fa-puzzle-piece"></i>&nbsp;',4),
+        (40,'<i class="fa fa-wrench"></i>&nbsp;',5),
+        (40,'<i class="fa fa-bar-chart-o"></i>&nbsp;',6),
+        (40,'<i class="fa fa-life-ring"></i>&nbsp;',7);
+
 --		
 -- SUBMENU CATEGORY
 -- ITEM_ID
@@ -10761,6 +10772,16 @@ VALUES  (15,'core',11),
         (15,'core',14),
         (15,'core',15),
         (15,'core',16);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'<i class="fa fa-folder-open"></i>&nbsp;',11),
+        (40,'<i class="fa fa-plus-square"></i>&nbsp;',12),
+        (40,'<i class="fa fa-bookmark-o"></i>&nbsp;',13),
+        (40,'<i class="fa fa-upload"></i>&nbsp;',14),
+        (40,'<i class="fa fa-comment-o"></i>&nbsp;',15),
+        (40,'<i class="fa fa-ticket"></i>&nbsp;',16);
+
+
 --
 -- SUBMENU EXTENSION
 -- ITEM_ID
@@ -10821,6 +10842,18 @@ VALUES  (15,'core',31),
         (15,'core',34),
         (15,'core',35),
         (15,'core',36);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'<i class="fa fa-th"></i>&nbsp;',31),
+        (40,'<i class="fa fa-truck"></i>&nbsp;',32),
+        (40,'<i class="fa fa-university"></i>&nbsp;',33),
+        (40,'<i class="fa fa-outdent"></i>&nbsp;',34),
+        (40,'<i class="fa fa-language"></i>&nbsp;',35),
+        (40,'<i class="fa fa-sign-in"></i>&nbsp;',36),
+        (40,'<i class="fa fa-paperclip"></i>&nbsp;',37),
+        (40,'<i class="fa fa-arrows-alt"></i>&nbsp;',38);
+
+
 --
 -- SUBMENU SALE
 -- ITEM_ID
@@ -10865,6 +10898,14 @@ VALUES  (15,'core',51),
         (15,'core',53),
         (15,'core',54),
         (15,'core',55);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'<i class="fa fa-flag-checkered"></i>&nbsp;',51),
+        (40,'<i class="fa fa-child"></i>&nbsp;',52),
+        (40,'<i class="fa fa-book"></i>&nbsp;',53),
+        (40,'<i class="fa fa-tags"></i>&nbsp;',54),
+        (40,'<i class="fa fa-envelope-o"></i>&nbsp;',55);
+
 --		
 -- SUBMENU SYSTEM
 -- ITEM_ID
@@ -10927,6 +10968,18 @@ VALUES  (15,'core',71),
         (15,'core',78),
         (15,'core',79),
         (15,'core',80);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'<i class="fa fa-cogs"></i>&nbsp;',71),
+        (40,'<i class="fa fa-users"></i>&nbsp;',72),
+        (40,'<i class="fa fa-random"></i>&nbsp;',73),
+        (40,'<i class="fa fa-cubes"></i>&nbsp;',74),
+        (40,'<i class="fa fa-refresh"></i>&nbsp;',77),
+        (40,'<i class="fa fa-recycle"></i>&nbsp;',78),
+        (40,'<i class="fa fa-weixin"></i>&nbsp;',79),
+        (40,'<i class="fa fa-floppy-o"></i>&nbsp;',80);
+
+
 --
 -- SUBMENU REPORTS
 -- ITEM_ID
@@ -10965,6 +11018,14 @@ VALUES  (15,'core',91),
         (15,'core',92),
         (15,'core',93),
         (15,'extension',94);
+
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'<i class="fa fa-signal"></i>&nbsp;',91),
+        (40,'<i class="fa fa-sort-amount-desc"></i>&nbsp;',92),
+        (40,'<i class="fa fa-file-text-o"></i>&nbsp;',93),
+        (40,'<i class="fa fa-reply-all"></i>&nbsp;',94);
+
 --
 -- SUBMENU HELP
 -- ITEM_ID
@@ -10997,6 +11058,12 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (15,'core',111),
         (15,'core',112),
         (15,'core',113);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'<i class="fa fa-external-link"></i>&nbsp;',111),
+        (40,'<i class="fa fa-graduation-cap"></i>&nbsp;',112),
+        (40,'<i class="fa fa-info"></i>&nbsp;',113);
+
 --		
 -- SUBMENU DESIGN
 -- ITEM_ID
@@ -11047,7 +11114,14 @@ VALUES  (15,'core',131),
         (15,'core',134),
         (15,'core',135),
         (15,'extension',136);
-		
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'<i class="fa fa-files-o"></i>&nbsp;',131),
+        (40,'<i class="fa fa-bars"></i>&nbsp;',132),
+        (40,'<i class="fa fa-qrcode"></i>&nbsp;',132),
+        (40,'<i class="fa fa-tag"></i>&nbsp;',134),
+        (40,'<i class="fa fa-clipboard"></i>&nbsp;',135),
+        (40,'<i class="fa fa-picture-o"></i>&nbsp;',136);
 --		
 -- SUBMENU SYSTEM->SETTINGS
 -- ITEM_ID
@@ -11125,7 +11199,17 @@ VALUES
 (15,'core',198),
 (15,'core',199);
 
-
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'<i class="fa fa-sliders"></i>&nbsp;',191),
+        (40,'<i class="fa fa-list"></i>&nbsp;',192),
+        (40,'<i class="fa fa-folder-o"></i>&nbsp;',193),
+        (40,'<i class="fa fa-shopping-cart"></i>&nbsp;',194),
+        (40,'<i class="fa fa-pencil-square-o"></i>&nbsp;',195),
+        (40,'<i class="fa fa-envelope-square"></i>&nbsp;',196),
+        (40,'<i class="fa fa-slack"></i>&nbsp;',197),
+        (40,'<i class="fa fa-tasks"></i>&nbsp;',198),
+        (40,'<i class="fa fa-sitemap"></i>&nbsp;',199);
 
 
 
@@ -11158,11 +11242,10 @@ VALUES  (15,'core',251),
 		    (15,'core',252);
 
 
-
-
-
-
-
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'',251),
+        (40,'',252);
 
 
 --
@@ -11191,6 +11274,12 @@ VALUES  (14,1,151),
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (15,'core',151),
 		    (15,'core',152);
+
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'<i class="fa fa-male"></i>&nbsp;',151),
+        (40,'<i class="fa fa-code-fork"></i>&nbsp;',152);
+
 --		
 -- SUBMENU SYSTEM->LOCALIZATION
 -- ITEM_ID
@@ -11272,6 +11361,19 @@ VALUES  (15,'core',171),
         (15,'core',180),
         (15,'core',181);
 
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'<i class="fa fa-language"></i>&nbsp;',171),
+        (40,'<i class="fa fa-sort-alpha-asc"></i>&nbsp;',172),
+        (40,'<i class="fa fa-money"></i>&nbsp;',173),
+        (40,'<i class="fa fa-list-alt"></i>&nbsp;',174),
+        (40,'<i class="fa fa-sort-amount-asc"></i>&nbsp;',175),
+        (40,'<i class="fa fa-globe"></i>&nbsp;',176),
+        (40,'<i class="fa fa-thumb-tack"></i>&nbsp;',177),
+        (40,'<i class="fa fa-flag-checkered"></i>&nbsp;',178),
+        (40,'<i class="fa fa-briefcase"></i>&nbsp;',179),
+        (40,'<i class="fa fa-arrows-h"></i>&nbsp;',180),
+        (40,'<i class="fa fa-angle-double-down"></i>&nbsp;',181);
 --
 -- SUBMENU SYSTEM->DATA
 -- ITEM_ID
@@ -11317,6 +11419,14 @@ VALUES  (15,'core',183),
         (15,'core',182),
         (15,'core',188);
 
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'<i class="fa fa-jsfiddle"></i>&nbsp;',183),
+        (40,'<i class="fa fa-share-alt-square"></i>&nbsp;',184),
+        (40,'<i class="fa fa-database"></i>&nbsp;',185),
+        (40,'<i class="fa fa-exchange"></i>&nbsp;',182),
+        (40,'<i class="fa fa-download"></i>&nbsp;',188);
+
 --
 -- SUBMENU SYSTEM->LOGS
 -- ITEM_ID
@@ -11344,6 +11454,10 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (15,'core',186),
 		    (15,'core',187);
 
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'<i class="fa fa-history"></i>&nbsp;',186),
+        (40,'<i class="fa fa-exclamation-triangle"></i>&nbsp;',187);
 
 --
 -- Storefront menu names inserts
