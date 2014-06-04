@@ -11118,7 +11118,7 @@ VALUES  (15,'core',131),
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'<i class="fa fa-files-o"></i>&nbsp;',131),
         (40,'<i class="fa fa-bars"></i>&nbsp;',132),
-        (40,'<i class="fa fa-qrcode"></i>&nbsp;',132),
+        (40,'<i class="fa fa-qrcode"></i>&nbsp;',133),
         (40,'<i class="fa fa-tag"></i>&nbsp;',134),
         (40,'<i class="fa fa-clipboard"></i>&nbsp;',135),
         (40,'<i class="fa fa-picture-o"></i>&nbsp;',136);
