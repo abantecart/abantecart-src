@@ -3578,9 +3578,13 @@ div.error label.error:before {
 #footer{
 	padding: 10px 20px 10px 20px;
 	font-size: 11px;
+	padding-left: 250px
 }
 #footer .help_links a {
 	padding: 0 5px 0 5px;
+}
+.leftpanel-collapsed #footer {
+	padding-left: 50px
 }
 
 /***** FIXED WIDTH *****/
