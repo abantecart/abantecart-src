@@ -48,7 +48,8 @@ class ControllerPagesCatalogProduct extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('catalog/product'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+      		'current' => true,
    		 ));
 
 		$this->loadModel('catalog/category');
@@ -187,15 +188,17 @@ class ControllerPagesCatalogProduct extends AController {
 		    'name' => 'category',
             'options' => $this->data['categories'],
 			'style' =>'medium-field',
-			'value' => $this->request->get['category']
+			'value' => $this->request->get['category'],
+			'search_mode' => true,
+			'placeholder' => $this->language->get('text_select_category'),
 	    ));
 		$grid_search_form['fields']['status'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
 		    'name' => 'status',
+		    'placeholder' => $this->language->get('text_select_status'),
             'options' => array(
                 1 => $this->language->get('text_enabled'),
     	        0 => $this->language->get('text_disabled'),
-				'' => $this->language->get('text_select_status'),
             ),
 	    ));
 

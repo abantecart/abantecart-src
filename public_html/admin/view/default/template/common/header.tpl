@@ -79,13 +79,6 @@
 		<?php } ?>
           </li>        
         
-          <li>
-            <div class="btn-group">
-              <a onClick="window.open('<?php echo $store; ?>');" class="btn btn-default tp-icon" data-toggle="dropdown" title="<?php echo $text_front; ?>">
-                <i class="fa fa-building fa-lg"></i>
-              </a>
-            </div>
-          </li>
 		  <?php if($ant) { ?>
           <li>
             <div class="btn-group ant_window">
@@ -208,6 +201,13 @@
                 <li><a href="<?php echo $logout; ?>"><i class="fa fa-unlock"></i><?php echo $text_logout; ?></a></li>
               </ul>
               </div>
+            </div>
+          </li>
+          <li>
+            <div class="btn-group">
+              <a onClick="window.open('<?php echo $store; ?>');" class="btn btn-default tp-icon" data-toggle="dropdown" title="<?php echo $text_front; ?>">
+                <i class="fa fa-external-link fa-lg"></i>
+              </a>
             </div>
           </li>
           <li>

@@ -67,8 +67,8 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/toggles.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/retina.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.cookies.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/chosen.jquery.min.js"></script>
 
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/custom.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/general.js"></script>
 
 </body></html>
