@@ -115,12 +115,12 @@ class ControllerPagesIndexHome extends AController {
 			array(
                 'href' => $this->html->getSecureURL('tool/message_manager'),
                 'text' => $this->language->get('text_messages'),
-				'icon' => 'icon_add1.png',
+				'icon' => 'icon_messages.png',
             ),
 			array(
                 'href' => $this->html->getSecureURL('design/layout'),
                 'text' => $this->language->get('text_layout'),
-				'icon' => 'icon_add4.png',
+				'icon' => 'icon_layouts.png',
             )
 		));
 		

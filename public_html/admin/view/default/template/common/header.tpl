@@ -236,7 +236,13 @@
 				$breadcrumbs_html .= '</li>';
 			} 
 		?>
-		<h2><i class="fa fa-th-list"></i> 		
+		<h2>
+		<?php if($current_menu['icon']) { ?>
+			<?php echo $current_menu['icon']; ?>
+		<?php } else { ?>
+			<i class="fa fa-th-list">
+		<?php } ?>		
+		</i> 		
 		<?php if($current['text']) { echo $current['text']; } else { echo $heading_title; }?> 
 		<?php if($current['sub_text']) { ?>
 		<span><?php echo $current['sub_text']; ?></span>
