@@ -1055,7 +1055,7 @@ class TextareaHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
-				'placeholder' => $this->placeholder
+				'placeholder' => $this->placeholder,
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1087,6 +1087,7 @@ class SelectboxHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'search_mode' => $this->search_mode,
 			)
 		);
 		if (!empty($this->help_url)) {

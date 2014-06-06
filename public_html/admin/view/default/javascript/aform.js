@@ -22,10 +22,10 @@
             autoHide:true,
             save_url:''
         },
-        wrapper:'<div class="aform" />',
-        mask:'<div class="afield"><div class="cl"><div class="cr"><div class="cc"></div></div></div></div>',
-        maskTop:'<div class="tl"><div class="tr"><div class="tc"></div></div></div>',
-        maskBottom:'<div class="bl"><div class="br"><div class="bc"></div></div></div>'
+        wrapper:'',
+        mask:'<div class="input-group" />',
+        maskTop:' ',
+        maskBottom:'</div>'
     };
 
     $.fn.aform = function (op) {

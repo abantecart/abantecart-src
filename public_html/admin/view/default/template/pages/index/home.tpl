@@ -5,10 +5,10 @@
 
 	    <div class="row">
 	        <?php foreach( $shortcut as $item ) { ?>
-	            <div class="col-xs-4 col-sm-3 col-md-2 shortcut">
+	            <div class="col-xs-4 col-sm-3 col-md-2 shortcut temp text-center">
 					<a href="<?php echo $item['href'] ?>">
-						<img src="<?php echo RDIR_TEMPLATE . 'image/icons/' . $item['icon'] ?>" alt="<?php echo  $item['text'] ?>" />
-						<div><?php echo $item['text'] ?></div>
+						<img class="img-circle" src="<?php echo RDIR_TEMPLATE . 'image/icons/' . $item['icon'] ?>" alt="<?php echo  $item['text'] ?>" />
+						<h5><?php echo $item['text'] ?></h5>
 					</a>
 	            </div>
 	        <?php } ?>

@@ -94,6 +94,13 @@ class ControllerCommonHeader extends AController {
 			$this->view->assign('store', HTTP_CATALOG);
 			// add dynamic menu based on dataset scheme
 			$this->addChild('common/menu', 'menu', 'common/menu.tpl');
+
+			//Get surrent menu item
+			$menu = new AMenu('admin');
+			$current_menu = $menu->getMenuByRT($this->request->get['rt']);
+			$current_menu['icon'] = $current_menu ['item_icon_rl_id'] ? $current_menu ['item_icon_rl_id'] : '';
+			unset($current_menu['item_icon_rl_id']);
+			$this->view->assign('current_menu', $current_menu);
 		}
 		if ($this->user->isLogged()) {
 			$this->view->assign('ant', $this->messages->getANTMessage());

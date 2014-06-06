@@ -1,5 +1,5 @@
 <div class="ui-jqgrid-wrapper" id="<?php echo $data['table_id'] ?>_wrapper">
-    <form id="<?php echo $data['table_id'] ?>_form" action="<?php echo $data["editurl"] ?>" method="POST">
+    <form id="<?php echo $data['table_id'] ?>_form" action="<?php echo $data["editurl"] ?>" method="POST" role="form">
         <table id="<?php echo $data['table_id'] ?>"></table>
         <div id="<?php echo $data['table_id'] ?>_pager"></div>
         <div class="no_results"><?php echo $text_no_results; ?></div>
@@ -190,6 +190,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
             $('#cb_' + _table_id).change();
 
             //update input width
+            /*
             $("input, textarea, select", table_id).each(function () {
                 var elwidth = $(this).closest('td').width() - 58;
                 if ($(this).closest('td').find('label')) {
@@ -198,6 +199,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                 $(this).css('width', elwidth);
 
             });
+            */
 
             // apply form transformation to all elements except multiselect checkboxes
             $("input:not( input.cbox ), textarea, select", table_id).not('.no-save').aform({

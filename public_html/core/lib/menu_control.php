@@ -116,6 +116,21 @@ class AMenu {
 	}
 
 	/**
+	 * Method return menu item properties by RT or URL
+	 *
+	 * @param string $tr
+	 * @return boolean|array
+	 */
+	public function getMenuByRT($rt) {
+		foreach ($this->dataset_rows as $item) {
+			if ($rt == $item ['item_url']) {
+				return $item;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * return dataset object
 	 *
 	 * @return ADataset|object

@@ -679,10 +679,10 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$locale = 'en';
 		}
 		$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js');
-		$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.jqGrid.min.js');
+		$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/minified/jquery.jqGrid.min.js');
 		$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.grid.fluid.js');
-		$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.ba-bbq.min.js');
-		$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/grid.history.js');
+		$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.ba-bbq.min.js');
+		$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/grid.history.js');
 
 		$this->document->initBreadcrumb(array( 'href' => $this->html->getSecureURL('index/home'),
 			'text' => $this->language->get('text_home'),

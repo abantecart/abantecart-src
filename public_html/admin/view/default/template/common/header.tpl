@@ -79,13 +79,6 @@
 		<?php } ?>
           </li>        
         
-          <li>
-            <div class="btn-group">
-              <a onClick="window.open('<?php echo $store; ?>');" class="btn btn-default tp-icon" data-toggle="dropdown" title="<?php echo $text_front; ?>">
-                <i class="fa fa-building fa-lg"></i>
-              </a>
-            </div>
-          </li>
 		  <?php if($ant) { ?>
           <li>
             <div class="btn-group ant_window">
@@ -211,6 +204,13 @@
             </div>
           </li>
           <li>
+            <div class="btn-group">
+              <a onClick="window.open('<?php echo $store; ?>');" class="btn btn-default tp-icon" data-toggle="dropdown" title="<?php echo $text_front; ?>">
+                <i class="fa fa-external-link fa-lg"></i>
+              </a>
+            </div>
+          </li>
+          <li>
             <button id="quickview" class="btn btn-default tp-icon chat-icon">
                 <i class="fa fa-globe fa-lg"></i>
                 <span class="badge">2</span>
@@ -236,7 +236,13 @@
 				$breadcrumbs_html .= '</li>';
 			} 
 		?>
-		<h2><i class="fa fa-th-list"></i> 		
+		<h2>
+		<?php if($current_menu['icon']) { ?>
+			<?php echo $current_menu['icon']; ?>
+		<?php } else { ?>
+			<i class="fa fa-th-list">
+		<?php } ?>		
+		</i> 		
 		<?php if($current['text']) { echo $current['text']; } else { echo $heading_title; }?> 
 		<?php if($current['sub_text']) { ?>
 		<span><?php echo $current['sub_text']; ?></span>
