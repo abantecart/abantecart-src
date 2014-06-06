@@ -121,6 +121,18 @@ class AHtml extends AController {
 		$this->loadModel('tool/seo_url');
 		return $this->url_encode($this->model_tool_seo_url->rewrite($this->getURL($rt, $params)), $encode);
 	}
+	/**
+	 * Build secure SEO URL
+	 * @param string $rt
+	 * @param string $params
+	 * @param string $encode
+	 * @return string
+	 */
+	public function getSecureSEOURL($rt, $params = '', $encode = '') {
+		//#PR Generate SEO URL based on standard URL
+		$this->loadModel('tool/seo_url');
+		return $this->url_encode($this->model_tool_seo_url->rewrite($this->getSecureURL($rt, $params)), $encode);
+	}
 
 	/**This builds URL to the catalog to be used in admin
 	 * @param string $rt
