@@ -747,7 +747,10 @@ h1,h2,h3,h4,h5 {
    font-size: 22px;
    color: #064770;
    letter-spacing: -0.5px;
-	margin: 0;
+   margin: 0;
+   max-width: 450px;
+   white-space:nowrap;
+   overflow: hidden; 
 }
 
 .pageheader .glyphicon,
@@ -832,6 +835,9 @@ h1,h2,h3,h4,h5 {
 	position: absolute;
 	top: 23px;
 	right: 25px;
+	max-width: 400px;
+	white-space:nowrap;
+	overflow: hidden;
 }
 
 .pageheader .breadcrumb-wrapper .label {
@@ -940,6 +946,21 @@ p {
 }
 
 /***** Form Fields *****/
+.input_short {
+	width: 35px !important;
+}
+.help_element {
+	padding-left: 10px;
+}
+.form-group label {
+	line-height: 1.0;
+}
+label span.help {
+	font-size: 11px;
+}
+span.required {
+	color: red;
+}
 
 .ckbox,
 .rdio {
@@ -1852,7 +1873,7 @@ div.error label.error:before {
 }
 
 
-/***** TABLES *****/
+/***** Tables *****/
 /******************/
 
 .dataTables_length .chosen-container {
@@ -3853,6 +3874,9 @@ body.stickyheader .sticky_left {
 }
 
 /***** Bootstrap Overrides  *****/
+.panel-body {
+	padding: 10px;
+}
 .btn-primary {
     background-color: #064770;
 }
@@ -3863,15 +3887,20 @@ body.stickyheader .sticky_left {
     line-height: 1.3;
     padding: 3px 5px;
 }
-.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+.btn-default:hover, .btn-default:focus, .btn-default:active, .open .dropdown-toggle.btn-default {
     background-color: #EBEBEB;
     border-color: #ADADAD;
     color: #333333;
 }
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .open .dropdown-toggle.btn-primary {
     background-color: #F19013;
     border-color: #285E8E;
     color: #FFFFFF;
+}
+.btn-off {
+    background-color: #EBEBEB !important;
+    border-color: #ADADAD !important;
+    color: #333333 !important;
 }
 .btn-xs {
     padding: 1px 8px;

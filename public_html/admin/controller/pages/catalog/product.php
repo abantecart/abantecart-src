@@ -162,7 +162,8 @@ class ControllerPagesCatalogProduct extends AController {
 		$grid_search_form['fields']['keyword'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'keyword',
-			'value' => ''
+			'value' => '',
+			'placeholder' => $this->language->get('filter_product')
 	    ));
 		$grid_search_form['fields']['match'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
@@ -176,12 +177,16 @@ class ControllerPagesCatalogProduct extends AController {
 		$grid_search_form['fields']['pfrom'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'pfrom',
-			'value' => ''
+			'value' => '',
+			'placeholder' => '0',
+			'style' => 'input_short'
 	    ));
 		$grid_search_form['fields']['pto'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'pto',
-			'value' => ''
+			'value' => '',
+			'placeholder' => $this->language->get('filter_price_max'),
+			'style' => 'input_short'
 	    ));
 	    $grid_search_form['fields']['category'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
@@ -253,6 +258,7 @@ class ControllerPagesCatalogProduct extends AController {
             $product_data = $this->_prepareData($this->request->post);
 			$this->model_catalog_product->updateProduct($this->request->get['product_id'], $product_data);
             $this->model_catalog_product->updateProductLinks($this->request->get['product_id'], $product_data);
+
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$this->request->get['product_id']));
 		}
@@ -297,7 +303,8 @@ class ControllerPagesCatalogProduct extends AController {
 			$this->language->get('text_edit') .'&nbsp;'. $this->language->get('text_product') . ' - ' . $this->data[ 'product_description' ][ $this->session->data[ 'content_language_id' ] ][ 'name' ]
 			:
 			$this->language->get('text_insert')),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+      		'current' => true,
    		 ));
 									
 		if (isset($this->request->get['product_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
@@ -527,14 +534,14 @@ class ControllerPagesCatalogProduct extends AController {
 		    'type' => 'checkbox',
 		    'name' => 'status',
 		    'value' => $this->data['status'],
-			'style'  => 'btn_switch',
+			'style'  => 'btn_switch btn-group-sm',
 	        'help_url' => $this->gen_help_url('status'),
 	    ));
         $this->data['form']['fields']['general']['featured'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'featured',
 		    'value' => $this->data['featured'],
-			'style'  => 'btn_switch',
+			'style'  => 'btn_switch btn-group-sm',
 	        'help_url' => $this->gen_help_url('featured'),
 	    ));
 
@@ -542,7 +549,6 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'product_description[name]',
 			'value' => $this->data['product_description']['name'],
-			'style' => 'large-field',
 			'required' => true,
 	        'help_url' => $this->gen_help_url('name'),
 		));
@@ -550,26 +556,22 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'textarea',
 			'name' => 'product_description[description]',
 			'value' => $this->data['product_description']['description'],
-			'style' => 'large-field',
 		));
         $this->data['form']['fields']['general']['meta_keywords'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[meta_keywords]',
 			'value' => $this->data['product_description']['meta_keywords'],
-			'style' => 'xl-field',
 	        'help_url' => $this->gen_help_url('meta_keywords'),
 		));
         $this->data['form']['fields']['general']['meta_description'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[meta_description]',
 			'value' => $this->data['product_description']['meta_description'],
-			'style' => 'xl-field',
 		));
         $this->data['form']['fields']['general']['tags'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'product_tags',
 			'value' => $this->data['product_tags'],
-			'style' => 'large-field',
 		));
         $this->data['form']['fields']['general']['category'] = $form->getFieldHtml(array(
 			'type' => 'checkboxgroup',
@@ -596,8 +598,7 @@ class ControllerPagesCatalogProduct extends AController {
         $this->data['form']['fields']['data']['model'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'model',
-			'value' => $this->data['model'],
-			'style' => 'large-field',			
+			'value' => $this->data['model'],		
 	        'required' => false,
 		));
 
@@ -605,7 +606,7 @@ class ControllerPagesCatalogProduct extends AController {
 				    'type' => 'checkbox',
 				    'name' => 'call_to_order',
 				    'value' => $this->data['call_to_order'],
-					'style'  => 'btn_switch',
+					'style'  => 'btn_switch btn-group-sm',
 			        'help_url' => $this->gen_help_url('call_to_order')
 		));
 
@@ -640,22 +641,26 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'quantity',
 			'value' => (int)$this->data['quantity'],
+			'style' => 'col-xs-1',
 	    ));
         $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'minimum',
 			'value' => (int)$this->data['minimum'],
+			'style' => 'col-xs-1',
 	    ));
         $this->data['form']['fields']['data']['maximum'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'maximum',
 			'value' => (int)$this->data['maximum'],
+			'style' => 'col-xs-1',
 	    ));
         $this->data['form']['fields']['data']['stock_status'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'stock_status_id',
 			'value' => $this->data['stock_status_id'],
             'options' => $this->data['stock_statuses'],
+            'style' => 'col-xs-2',
 		));
 		
         $this->data['form']['fields']['data']['sku'] = $form->getFieldHtml(array(
@@ -663,19 +668,19 @@ class ControllerPagesCatalogProduct extends AController {
 			'name' => 'sku',
 			'value' => $this->data['sku'],
 	        'help_url' => $this->gen_help_url('sku'),
-	        'style' => 'large-field',
 		));
         $this->data['form']['fields']['data']['location'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'location',
 			'value' => $this->data['location'],
-			'style' => 'large-field',
 		));
+		//prepend button to generate keyword
 		$this->data['form']['fields']['data']['keyword'] = $form->getFieldHtml(array(
 								'type' => 'button',
 								'name' => 'generate_seo_keyword',
 								'text' => $this->language->get('button_generate'),
-								'style' => 'button'
+								//set button not to submit a form
+								'attr' => 'type="button"'
 								));
 		$this->data['generate_seo_url'] =  $this->html->getSecureURL('common/common/getseokeyword','&object_key_name=product_id&id='.$this->request->get['product_id']);
 
@@ -684,7 +689,6 @@ class ControllerPagesCatalogProduct extends AController {
 					'name' => 'keyword',
 					'value' => $this->data['keyword'],
 			        'help_url' => $this->gen_help_url('seo_keyword'),
-					'style' => 'large-field',
 					'attr' => ' gen-value="'.SEOEncode($this->data['product_description']['name']).'" '
 				));
         $this->data['form']['fields']['data']['date_available'] = $form->getFieldHtml(array(
@@ -694,33 +698,33 @@ class ControllerPagesCatalogProduct extends AController {
             'default' => dateNowDisplay(),
             'dateformat' => format4Datepicker($this->language->get('date_format_short')),
             'highlight' => 'future',
-            'style' => 'medium-field' ));
+            ));
 
         $this->data['form']['fields']['data']['sort_order'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'sort_order',
 			'value' => $this->data['sort_order'],
-			'style' => 'small-field'
+			'style' => 'col-xs-2'
 		));
 
         $this->data['form']['fields']['data']['shipping'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'name' => 'shipping',
-			'style'  => 'btn_switch',	
+			'style'  => 'btn_switch btn-group-sm',	
 			'value' => isset( $this->data['shipping'] ) ? $this->data['shipping'] : 1,
 		));
 
         $this->data['form']['fields']['data']['ship_individually'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'name' => 'ship_individually',
-			'style'  => 'btn_switch',	
+			'style'  => 'btn_switch btn-group-sm',	
 			'value' => isset( $this->data['ship_individually'] ) ? $this->data['ship_individually'] : 0,
 		));
 
         $this->data['form']['fields']['data']['free_shipping'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'name' => 'free_shipping',
-			'style'  => 'btn_switch',	
+			'style'  => 'btn_switch btn-group-sm',	
 			'value' => isset( $this->data['free_shipping'] ) ? $this->data['free_shipping'] : 0,
 		));
 

@@ -247,6 +247,7 @@
         }
 
         function doSwitchButton(elem) {
+        
             var $el = $(elem);
             var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield');
 
@@ -461,6 +462,9 @@
             });
         });
 
+/*
+		//comented for now untill ?????cleanup
+		
         return this.each(function () {
             var elem = $(this);
 
@@ -492,5 +496,6 @@
                 doScrollbox(elem);
             }
         });
+*/        
     };
 })(jQuery);
