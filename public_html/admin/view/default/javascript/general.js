@@ -96,7 +96,42 @@ jQuery(document).ready(function() {
       if(leftHeight > $('.mainpanel').height())
          $('.mainpanel').height(docHeight);
    }
-   
+
+	/* Switch field controls */
+	$('.btn-toggle').click(function() {
+
+	    //change input field state
+	    var input = $(this).parents('.input-group').find("input:hidden");
+		if(input.val() == '1') {
+			input.val('0');
+		} else {
+			input.val('1');
+		}
+	    //reset off button 
+	    if ( input.val() == 1) {
+	    	$(this).find('.btn').removeClass('btn-off');
+	    } else {
+	    	$(this).find('.btn-default').addClass('btn-off');
+	    }
+		//togle buttons
+	    $(this).find('.btn').toggleClass('active');  
+	    if ($(this).find('.btn-primary').size() > 0) {
+	    	$(this).find('.btn').toggleClass('btn-primary');
+	    }
+	    if ($(this).find('.btn-danger').size() > 0) {
+	    	$(this).find('.btn').toggleClass('btn-danger');
+	    }
+	    if ($(this).find('.btn-success').size() > 0) {
+	    	$(this).find('.btn').toggleClass('btn-success');
+	    }
+	    if ($(this).find('.btn-info').size() > 0) {
+	    	$(this).find('.btn').toggleClass('btn-info');
+	    }
+	    $(this).find('.btn').toggleClass('btn-default');
+     	    
+	   	return false;    
+	});
+
    // Tooltip
    $('.tooltips').tooltip({ container: 'body'});
    

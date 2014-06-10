@@ -1134,15 +1134,15 @@ class CheckboxHtmlElement extends HtmlElement {
 		if ($this->value == 1 && is_null($this->checked)) {
 			$checked = true;
 		} else {
-			if (empty($this->value)) { //}  is_null($this->value) || $this->value == '' || $this->value === 0 || $this->value === '0') {
+			//checked has priority if provided
+			$checked = $this->checked;
+			if ( $this->checked ) { 
 				$this->value = 1;
 			} else {
-				if (!is_null($this->checked)) {
-					$checked = $this->checked;
-				}
+				$this->value = 0;
 			}
 		}
-
+		
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,

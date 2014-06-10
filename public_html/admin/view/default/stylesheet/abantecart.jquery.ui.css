@@ -159,9 +159,8 @@
 .ui-jqgrid .ui-jqgrid-htable th {
     height: 40px;
     padding: 0 2px;
-    font: 14px Arial, Helvetica, sans-serif;
+    font: 14px;
     text-align: center;
-    text-shadow: 0 1px 0 rgba(127, 144, 158, 0.5);
 }
 
 .ui-jqgrid .ui-jqgrid-htable th.ui-state-default {

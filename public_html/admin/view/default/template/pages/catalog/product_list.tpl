@@ -27,7 +27,7 @@ if ( !empty($search_form) ) {
     	}
 	?>
     	<div class="form-group">
-			<button type="submit" class="btn btn-xs btn-primary"><?php echo $search_form['submit'] ?></button>
+			<button type="submit" class="btn btn-xs btn-primary"><?php echo $search_form['submit']->text ?></button>
 			<button type="reset" class="btn btn-xs btn-default"><i class="fa fa-refresh"></i></button>
 		</div>
 	</form>
@@ -65,36 +65,3 @@ if ( !empty($search_form) ) {
 	</div>
 </div>
 </div>
-
-<script type="text/javascript"><!--
-
-var keyword = '<?php echo $filter_product?>';
-var pfrom = '0';
-var pto = '<?php echo $filter_price_max?>';
-$(function() {
-
-	if ( $('#product_grid_search_keyword').val() == '' ) {
-		$('#product_grid_search_keyword')
-			.val(keyword)
-			.blur(function(){ if ( $(this).val() == '' ) $(this).val(keyword) })
-			.focus(function(){ if ( $(this).val() == keyword ) $(this).val('') })
-	}
-
-	$('#product_grid_search_pfrom').width(30);
-	if ( $('#product_grid_search_pfrom').val() == '' ) {
-		$('#product_grid_search_pfrom')
-			.val(pfrom)
-			.blur(function(){ if ( $(this).val() == '' ) $(this).val(pfrom)  })
-			.focus(function(){ if ( $(this).val() == pfrom ) $(this).val('')  })
-	}
-
-	$('#product_grid_search_pto').width(30);
-	if ( $('#product_grid_search_pto').val() == '' ) {
-		$('#product_grid_search_pto')
-			.val(pto)
-			.blur(function(){ if ( $(this).val() == '' ) $(this).val(pto)  })
-			.focus(function(){ if ( $(this).val() == pto ) $(this).val('') })
-	}
-
-});
-//--></script>
