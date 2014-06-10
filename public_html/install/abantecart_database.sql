@@ -11827,3 +11827,48 @@ CREATE TABLE `ac_encryption_keys` (
   PRIMARY KEY (`key_id`),
   UNIQUE KEY `encryption_keys_key_name` (`key_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+
+DROP TABLE IF EXISTS `ac_tasks`;
+CREATE TABLE `ac_tasks` (
+  `task_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `starter` int(11) DEFAULT NULL, -- 0 - storefront, 1 - admin side, 2 - any
+  `status` int(11) DEFAULT '0', -- 0 - disabled, 1 - sheduled, 2 - active
+  `start_time` datetime DEFAULT NULL,
+  `last_time_run` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `progress` int(11) NOT NULL DEFAULT '0', -- percentage of progress
+  `last_result` int(11) NOT NULL DEFAULT '0', -- 0 - success, 1 - failed, 2 - interrupted
+  `run_interval` INT(11) NOT NULL DEFAULT '0', -- interval in seconds since last run, 0 - without interval
+  `max_execution_time` int(11) DEFAULT '0', -- maximum execution time for this task
+  `date_created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`task_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `ac_task_details`;
+CREATE TABLE `ac_task_details` (
+  `task_id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_by` varchar(255) DEFAULT '', -- task owner name
+  `settings` text DEFAULT '', -- serialized array with paramenters
+  `date_created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`task_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `ac_task_steps`;
+CREATE TABLE `ac_task_steps` (
+  `step_id` int(11) NOT NULL AUTO_INCREMENT,
+  `task_id` int(11) NOT NULL,
+  `sort_order` int(11) DEFAULT '0',
+  `status` int(11) DEFAULT '0', -- 0 - disabled, 1 - sheduled, 2 - active
+  `last_time_run` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_result` int(11) NOT NULL DEFAULT '0', -- 0 - success, 1 - failed, 2 - interrupted
+  `max_execution_time` int(11) DEFAULT '0', -- maximum execution time for this task
+  `controller` varchar(255) DEFAULT '',
+  `settings` text DEFAULT '', -- serialized array with paramenters
+  `date_created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`task_id`, `step_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
