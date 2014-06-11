@@ -950,7 +950,7 @@ p {
 	width: 35px !important;
 }
 .help_element {
-	padding-left: 10px;
+	padding-left: 5px;
 }
 .form-group label {
 	line-height: 1.0;
@@ -3674,12 +3674,6 @@ div.error label.error:before {
 }
 
 
-
-
-/***** ADDITIONAL STYLES *****/
-/*****************************/
-
-
 /* DROPDOWN */
 
 .dropdown-menu-head {
@@ -3696,8 +3690,7 @@ div.error label.error:before {
 }
 
 
-/* ICON */
-
+/* Icon */
 .tp-icon {
    padding: 10px 20px;
    line-height: 20px;
@@ -4168,6 +4161,10 @@ body.stickyheader .sticky_left {
    .signuppanel {
       width: 360px;
    }
+
+	#footer{
+		padding-left: 20px;
+	}
    
    .panel-email .pull-right {
       float: none !important;
@@ -4290,7 +4287,11 @@ body.stickyheader .sticky_left {
 }
 
 @media screen and (max-width: 360px) {
-   
+
+	#footer{
+		padding-left: 20px;
+	}
+      
    .pageheader h2 span {
       display: none;
    }

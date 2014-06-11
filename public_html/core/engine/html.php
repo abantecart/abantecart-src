@@ -1093,7 +1093,11 @@ class SelectboxHtmlElement extends HtmlElement {
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-		$return = $this->view->fetch('form/selectbox.tpl');
+		if( strpos($this->style,'chosen') !== false ) {
+			$return = $this->view->fetch('form/chosen_select.tpl');
+		} else {
+			$return = $this->view->fetch('form/selectbox.tpl');
+		}
 		return $return;
 	}
 }
@@ -1120,7 +1124,12 @@ class MultiSelectboxHtmlElement extends HtmlElement {
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-		$return = $this->view->fetch('form/selectbox.tpl');
+
+		if( strpos($this->style,'chosen') !== false ) {
+			$return = $this->view->fetch('form/chosen_select.tpl');
+		} else {
+			$return = $this->view->fetch('form/selectbox.tpl');
+		}
 		return $return;
 	}
 }
@@ -1157,7 +1166,13 @@ class CheckboxHtmlElement extends HtmlElement {
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-		$return = $this->view->fetch('form/checkbox.tpl');
+		
+		if( strpos($this->style,'btn_switch') !== false ) {
+			$return = $this->view->fetch('form/switch.tpl');
+		} else {
+			$return = $this->view->fetch('form/checkbox.tpl');
+		}
+		
 		return $return;
 	}
 }
@@ -1172,16 +1187,23 @@ class CheckboxGroupHtmlElement extends HtmlElement {
 				'id' => $this->element_id,
 				'value' => $this->value,
 				'options' => $this->options,
-				'attr' => $this->attr,
+				'attr' => $this->attr . ' multiple="multiple" ',
 				'required' => $this->required,
 				'scrollbox' => $this->scrollbox,
 				'style' => $this->style,
+				'placeholder' => $this->placeholder,
 			)
 		);
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-		$return = $this->view->fetch('form/checkboxgroup.tpl');
+
+		if( strpos($this->style,'chosen') !== false ) {
+			$return = $this->view->fetch('form/chosen_select.tpl');
+		} else {
+			$return = $this->view->fetch('form/checkboxgroup.tpl');
+		}
+
 		return $return;
 	}
 }

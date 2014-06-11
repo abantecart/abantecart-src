@@ -192,9 +192,8 @@ class ControllerPagesCatalogProduct extends AController {
 		    'type' => 'selectbox',
 		    'name' => 'category',
             'options' => $this->data['categories'],
-			'style' =>'medium-field',
+			'style' =>'chosen',
 			'value' => $this->request->get['category'],
-			'search_mode' => true,
 			'placeholder' => $this->language->get('text_select_category'),
 	    ));
 		$grid_search_form['fields']['status'] = $form->getFieldHtml(array(
@@ -258,7 +257,8 @@ class ControllerPagesCatalogProduct extends AController {
             $product_data = $this->_prepareData($this->request->post);
 			$this->model_catalog_product->updateProduct($this->request->get['product_id'], $product_data);
             $this->model_catalog_product->updateProductLinks($this->request->get['product_id'], $product_data);
-
+echo_array($this->request->post);
+exit;
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$this->request->get['product_id']));
 		}
@@ -578,14 +578,16 @@ class ControllerPagesCatalogProduct extends AController {
 			'name' => 'product_category[]',
 			'value' => $this->data['product_category'],
             'options' => $this->data['categories'],
-            'scrollbox' => true,
+            'style' => 'chosen',
+            'placeholder' => $this->language->get('text_select_category'), 
 		));
         $this->data['form']['fields']['general']['store'] = $form->getFieldHtml(array(
 			'type' => 'checkboxgroup',
 			'name' => 'product_store[]',
 			'value' => $this->data['product_store'],
             'options' => $this->data['stores'],
-            'scrollbox' => true,
+            'style' => 'chosen',
+            'placeholder' => $this->language->get('entry_store'), 
 		));
 
         $this->data['form']['fields']['data']['manufacturer'] = $form->getFieldHtml(array(
@@ -593,6 +595,8 @@ class ControllerPagesCatalogProduct extends AController {
 			'name' => 'manufacturer_id',
 			'value' => $this->data['manufacturer_id'],
             'options' => $this->data['manufacturers'],
+            'style' => 'chosen',
+            'placeholder' => $this->language->get('entry_manufacturer'), 
 		));
 
         $this->data['form']['fields']['data']['model'] = $form->getFieldHtml(array(

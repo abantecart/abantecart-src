@@ -382,6 +382,7 @@ jQuery(document).ready(function() {
 	//form fields
 	$(".chosen-select").chosen({'width':'100%','white-space':'nowrap'});
 
+
     $('.switcher').bind('click', function () {
         $(this).find('.option').slideDown('fast');
     });

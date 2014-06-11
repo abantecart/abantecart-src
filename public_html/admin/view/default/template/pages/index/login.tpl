@@ -22,7 +22,7 @@
  		</div>
  		
  		<div class="form-group">
-	 		<button type="submit" class="btn btn-primary btn-block"><i class="fa fa-lock"></i> <?php echo $form['submit']; ?></button>
+	 		<button type="submit" class="btn btn-primary btn-block"><i class="fa fa-lock"></i> <?php echo $form['submit']->text; ?></button>
  		</div>
 	
 		<?php if ($redirect) { ?>
