@@ -43,7 +43,7 @@
 		<?php } ?>		
 		<?php } //foreach end ?>
 		
-		<button type="submit" class="btn btn-primary btn-block"><i class="fa fa-envelope-o"></i> <?php echo $form['submit']; ?></button>
+		<button type="submit" class="btn btn-primary btn-block"><i class="fa fa-envelope-o"></i> <?php echo $form['submit']->text; ?></button>
 
 		</form>
 		<a href="<?php echo $login ?>"><?php echo $text_login ?></a>
