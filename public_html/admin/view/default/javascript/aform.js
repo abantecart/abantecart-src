@@ -13,6 +13,8 @@
             activeClass:'active',
             hoverClass:'hover',
             btnGrpSelector:'.abuttons_grp',
+            btnContainer:'.input-group-addon',
+            btnContainerHTML: '<span class="input-group-addon"></span>',
             triggerChanged:true,
             buttons:{
                 save:'Save',
@@ -30,12 +32,13 @@
 
     $.fn.aform = function (op) {
         var o = $.extend({}, $.aform.defaults, op);
-        var $buttons = '<span class="abuttons_grp"><a class="btn_standard">' + o.buttons.save + '</a><a class="btn_standard">' + o.buttons.reset + '</a></span>';
+        //var $buttons = '<span class="abuttons_grp"><a class="btn_standard">' + o.buttons.save + '</a><a class="btn_standard">' + o.buttons.reset + '</a></span>';
+		var $buttons = '<span class="abuttons_grp"><a class="icon_save fa fa-save" data-toggle="tooltip" title="' + o.buttons.save + '"></a><a class="icon_reset fa fa-refresh" data-toggle="tooltip" title="' + o.buttons.reset + '"></a></span>';
 
         function doInput(elem) {
             var $el = $(elem);
-
-            var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield');
+            var $wrapper = $el.closest('div');
+            var $field = $el.closest('.afield');
 
             if ($el.is(':hidden') && o.autoHide) {
                 $wrapper.hide();
@@ -53,6 +56,7 @@
                 },
                 "keyup.aform":function (e) {
                     if (e.keyCode == 13) {
+                    	//locate the autosave button and save on enter 
                         $(o.btnGrpSelector, $wrapper).find('a:eq(0)').trigger('click');
                     } else {
                         onChangedAction($el, $(this).val(), $(this).attr('ovalue'));
@@ -382,12 +386,18 @@
             });
         };
 
+		//Action performed on element data change
         function onChangedAction(elem, value, ovalue) {
-            var $el = $(elem), $triggerOnEdit = true, $field = $el.parents('.afield');
-            var $wrapper = $el.closest('.aform');
+            var $el = $(elem);
+            var $triggerOnEdit = true;
+            //var $field = $el.parents('.afield');
+            var $field = $el;
+            //locate btn container if it is present
+            var $wrapper = $el.closest('div').find(o.btnContainer);
             var $form = $el.parents('form');
             $form.prop('changed', 'true');
 
+			//check if need to trigger the auto save buttons set
             if (!o.triggerChanged || $el.hasClass('static_field') || $el.prop("readonly")) {
                 $triggerOnEdit = false;
             }
@@ -400,8 +410,16 @@
 
             if ($triggerOnEdit) {
                 var $changed = 0;
+	            //can not find input-group-addon span create new one
+    	        if ($wrapper.length == 0) {
+        	    	$el.closest('div').append(o.btnContainerHTML);
+        	    	$wrapper = $el.closest('div').find(o.btnContainer);
+            	}
+            	//show autosave button set if not yet shown
                 if (o.showButtons && $wrapper.find(o.btnGrpSelector).length == 0) {
-                    $wrapper.append($buttons);
+                	$wrapper.addClass('autosave');
+                    $wrapper.prepend($buttons);
+                    $(o.btnGrpSelector + ' a').tooltip();
                 }
 
                 $wrapper.find(':checkbox').each(function () {
@@ -426,6 +444,11 @@
                     $field.removeClass(o.changedClass);
                     $(o.btnGrpSelector, $wrapper).remove();
                     $('.field_err', $wrapper).remove();
+                    $wrapper.removeClass('autosave');
+                    //remove button container if it is empty
+                    if( ($wrapper.text()).length == 0 ){
+                    	$wrapper.remove();
+                    }
                 }
 
                 $(o.btnGrpSelector, $wrapper).find('a').unbind('click'); // to prevent double binding
@@ -442,6 +465,11 @@
                         $field.removeClass(o.hoverClass + " " + o.focusClass + " " + o.activeClass + " " + o.changedClass);
                         $(o.btnGrpSelector, $wrapper).remove();
                         $('.field_err', $wrapper).remove();
+                        $wrapper.removeClass('autosave');
+                    	//remove button container if it is empty
+                    	if( ($wrapper.text()).length == 0 ){
+                    		$wrapper.remove();
+                    	}
                     }
                 });
             }
@@ -462,8 +490,6 @@
             });
         });
 
-/*
-		//comented for now untill ?????cleanup
 		
         return this.each(function () {
             var elem = $(this);
@@ -496,6 +522,6 @@
                 doScrollbox(elem);
             }
         });
-*/        
+
     };
 })(jQuery);

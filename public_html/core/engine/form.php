@@ -428,8 +428,8 @@ class AForm {
 				$view->batchAssign(
 					array(
 						'id' => $this->form[ 'form_name' ],
-						'button_save' => str_replace("\r\n", "", $html->buildButton(array( 'name' => 'btn_save', 'text' => $language->get('button_save'), 'style' => 'button3' ))),
-						'button_reset' => str_replace("\r\n", "", $html->buildButton(array( 'name' => 'btn_reset', 'text' => $language->get('button_reset'), 'style' => 'button2' ))),
+						'button_save' => $language->get('button_save'),
+						'button_reset' => $language->get('button_reset'),
 						'update' => $this->form[ 'update' ],
 					)
 				);
