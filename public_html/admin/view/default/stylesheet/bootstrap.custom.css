@@ -737,14 +737,24 @@ h4, .h4 {
    box-shadow: none;
 }
 
+.form-control:focus {
+	background: #fceedc;
+}
 .has-success .form-control:focus,
 .has-warning .form-control:focus,
 .has-error .form-control:focus {
+/*
    -moz-box-shadow: 5px 5px 0 rgba(12,12,12,0.05);
    -webkit-box-shadow: 5px 5px 0 rgba(12,12,12,0.05);
    box-shadow: 5px 5px 0 rgba(12,12,12,0.05);
+*/
 }
 
+.form-control {
+   -moz-border-radius: 0px;
+   -webkit-border-radius: 0px;
+   border-radius: 0px;
+}
 
 .input-group-addon {
    -moz-border-radius: 2px;
