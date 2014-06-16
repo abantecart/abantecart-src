@@ -3580,6 +3580,11 @@ body.stickyheader .sticky_left {
 .btn-xs {
     padding: 1px 8px;
 }
+/* suctom for short elements such as aswitcher */
+.input-group-addon.aswitcher:last-child {
+	border: 1px solid #CCCCCC;	
+}
+
 
 /***** Media queries section  *****/
 @media screen and (max-width: 1024px) {

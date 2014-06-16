@@ -7,7 +7,7 @@ foreach ( $options as $v => $text ) {
 	}
 }
 ?>
-<select class="form-control form-control afield aselect <?php echo $style ?>" data-placeholder="<?php echo $placeholder ?>" name="<?php echo $name ?>" id="<?php echo $id ?>" ovalue="<?php echo $ovalue; ?>" <?php echo $attr ?>>
+<select class="form-control form-control aselect <?php echo $style ?>" data-placeholder="<?php echo $placeholder ?>" name="<?php echo $name ?>" id="<?php echo $id ?>" data-orgvalue="<?php echo $ovalue; ?>" <?php echo $attr ?>>
 <?php foreach ( $options as $v => $text ) { ?>
 		<option value="<?php echo $v ?>"
 		<?php echo (in_array((string)$v, (array)$value, true) ? ' selected="selected" ':'') ?>

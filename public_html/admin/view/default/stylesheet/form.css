@@ -14,15 +14,19 @@ label span.help {
 span.required {
 	color: red;
 }
-.afield.changed {
+.afield .changed {
 	background: #ffad5e;
 }
+.btn-primary.changed {
+	background: #ffad5e;
+}
+
 .abuttons_grp {
 	display: none;
 	margin-left: 5px;
 	vertical-align: middle;
 }
-.autosave {
+.quicksave {
 	background: #fceedc;
 }
 .abuttons_grp .icon_save {

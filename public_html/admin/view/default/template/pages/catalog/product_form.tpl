@@ -40,7 +40,7 @@
 			<?php foreach ($fields as $name => $field) { ?>
 		<div class="form-group">
 			<label class="control-label col-sm-3" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
-			<div class="input-group col-sm-7 <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+			<div class="input-group afield col-sm-7 <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
 				<?php echo $field; ?>
 		        <?php if (is_array($error[$name]) && !empty($error[$name][$language_id])) { ?>
 		        <div class="field_err"><?php echo $error[$name][$language_id]; ?></div>

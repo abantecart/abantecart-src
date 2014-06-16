@@ -97,41 +97,6 @@ jQuery(document).ready(function() {
          $('.mainpanel').height(docHeight);
    }
 
-	/* Switch field controls */
-	$('.btn-toggle').click(function() {
-
-	    //change input field state
-	    var input = $(this).parents('.input-group').find("input:hidden");
-		if(input.val() == '1') {
-			input.val('0');
-		} else {
-			input.val('1');
-		}
-	    //reset off button 
-	    if ( input.val() == 1) {
-	    	$(this).find('.btn').removeClass('btn-off');
-	    } else {
-	    	$(this).find('.btn-default').addClass('btn-off');
-	    }
-		//togle buttons
-	    $(this).find('.btn').toggleClass('active');  
-	    if ($(this).find('.btn-primary').size() > 0) {
-	    	$(this).find('.btn').toggleClass('btn-primary');
-	    }
-	    if ($(this).find('.btn-danger').size() > 0) {
-	    	$(this).find('.btn').toggleClass('btn-danger');
-	    }
-	    if ($(this).find('.btn-success').size() > 0) {
-	    	$(this).find('.btn').toggleClass('btn-success');
-	    }
-	    if ($(this).find('.btn-info').size() > 0) {
-	    	$(this).find('.btn').toggleClass('btn-info');
-	    }
-	    $(this).find('.btn').toggleClass('btn-default');
-     	    
-	   	return false;    
-	});
-
    // Tooltip
    $('.tooltips').tooltip({ container: 'body'});
    
@@ -381,7 +346,7 @@ jQuery(document).ready(function() {
 
 	//form fields
 	$(".chosen-select").chosen({'width':'100%','white-space':'nowrap'});
-
+	$(".chosen-select").trigger("liszt:updated");
 
     $('.switcher').bind('click', function () {
         $(this).find('.option').slideDown('fast');
@@ -530,166 +495,6 @@ function checkAll(fldName, checked) {
     }
 }
 
-function saveField(obj, url) {
-    var $wrapper = $(obj).parents('.aform'), $grp = $(obj).parents('.abuttons_grp'), $err = false;
-    $ajax_result = $('<span class="ajax_result"></span>');
-
-    if ($(obj).parents('#product_related').length) {
-        $wrapper = $(obj).parents('#product_related');
-        if ($wrapper.find('input, select, textarea').length == 0) {
-            $wrapper.append('<input type="hidden" name="product_related" />');
-        }
-    }
-    if ($(obj).parents('.option_form').length) {
-        $wrapper = $(obj).parents('.option_form');
-        if ($wrapper.find('input, select, textarea').not('[id="option"]').length == 0) {
-            $wrapper.append('<input type="hidden" name="product_option" />');
-        }
-    }
-    var need_reload = false;
-    $wrapper.find('input, select, textarea').each(function () {
-        $err = validate($(this).attr('name'), $(this).val())
-        if ($err != '') {
-            if ($('.field_err', $wrapper).length > 0) {
-                $('.field_err', $wrapper).html($err);
-            } else {
-                $wrapper.append('<div class="field_err">' + $err + '</div>');
-            }
-        }
-
-        if (!need_reload) {
-            if ($(this).attr("reload_on_save")) {
-                need_reload = true;
-            }
-        }
-    });
-
-    $data = $wrapper.find('input, select, textarea').serialize();
-
-    $wrapper.find('input.btn_switch').each(function () {
-        if (!$(this).prop("checked")) $data += '&' + $(this).attr('name') + '=0';
-        if (!need_reload) {
-            if ($(this).attr("reload_on_save")) {
-                need_reload = true;
-            }
-        }
-    });
-
-    $wrapper.find('input:checkbox').each(function () {
-        if (!$(this).prop("checked")) $data += '&' + $(this).attr('name') + '=0';
-        if (!need_reload) {
-            if ($(this).attr("reload_on_save")) {
-                need_reload = true;
-            }
-        }
-    });
-
-    if (!$err) {
-        $ajax_result.insertBefore($grp).html('<span class="ajax_loading">Saving...</span>').show();
-        $grp.remove();
-
-        $.ajax({
-            url:url,
-            type:"post",
-            dataType:"text",
-            data:$data,
-            error:function (data) {
-                var $json = $.parseJSON(data.responseText);
-                if( $json.error_text ){  // for ajax error shows
-                    $('.ajax_result', $wrapper).html('<span class="ajax_error">' + $json.error_text + '</span>').delay(2500).fadeOut(3000, function () {
-                        $(this).remove();
-                    });
-                    $('.field_err', $wrapper).remove();
-                    $wrapper.find('input, select, textarea').focus();
-
-                }else{
-                    $('.ajax_result', $wrapper).html('<span class="ajax_error">There\'s an error in the request.</span>').delay(2500).fadeOut(3000, function () {
-                        $(this).remove();
-                    });
-                }
-                //reset data if requested
-                if ( $json.reset_value == true ) {
-                	resetField($wrapper.find('input, select, textarea'));
-                    $wrapper.find('.afield').removeClass('changed');
-                }
-            },
-            success:function (data) {
-                if (need_reload) {
-                    $wrapper.parents('form').prop('changed','submit');
-                    window.location.reload();
-                }
-                $wrapper.find('.afield').removeClass('changed');
-                $wrapper.find('input, select, textarea').each(function () {
-                    if ($(this).is(":checkbox")) {
-                        if(!$(this).hasClass('btn_switch')){
-                            $(this).attr('ovalue', $(this).prop("checked"));
-                        }else{
-                            $(this).attr('ovalue', ($(this).prop("value")==1 ? 'true' : 'false'));
-                        }
-                    } else {
-                        $(this).attr('ovalue', $(this).val());
-                    }
-                });
-
-                $('.ajax_result', $wrapper).html('<span class="ajax_success">' + data + '</span>').delay(2500).fadeOut(3000, function () {
-                    $(this).remove();
-                });
-                $('.field_err', $wrapper).remove();
-            }
-        });
-
-    }
-}
-function resetField(obj) {
-    var $wrapper = $(obj).parents('.aform'), $grp = $(obj).parents('.abuttons_grp');
-
-    $wrapper.find('input, textarea, select').each(function () {
-        $e = $(this);
-        if ($e.is("select")) {
-            $e.find('option').removeAttr('selected');
-            if ($e.prop('multiple')) {
-                $vals = $e.attr('ovalue').split(',');
-                for ($i in $vals) {
-                    $e.find('option[value="' + $vals[$i] + '"]').attr('selected', 'selected');
-                }
-            } else {
-                if ($e.attr("size") == undefined || $e.attr("size") <= 1) {
-                    $e.siblings('span').html($e.find('option[value="' + $e.attr('ovalue') + '"]').text());
-                }
-                $e.find('option[value="' + $e.attr('ovalue') + '"]').attr('selected', 'selected');
-            }
-        } else if ($e.is(":text, :password, input[type='email'], textarea")) {
-            $e.val($e.attr('ovalue'));
-        } else if ($e.is(":checkbox")) {
-            if ($e.attr('ovalue') == 'true') {
-                $e.attr('checked', 'checked');
-                $e.closest('.afield').addClass('checked');
-            } else {
-                if(!$e.hasClass('btn_switch')){
-                    $e.removeAttr('checked');
-                }else{
-                    $e.val(0);
-                }
-                $e.closest('.afield').removeClass('checked');
-            }
-        }
-    });
-}
-
-function validate(name, value) {
-    $err = '';
-
-    switch (name) {
-        case 'name':
-        case 'model':
-            if (String(value) == '') {
-                $err = 'This field is required!';
-            }
-            break;
-    }
-
-    return $err;
-}
 
 var $error_dialog = null;
 httpError = function (data) {

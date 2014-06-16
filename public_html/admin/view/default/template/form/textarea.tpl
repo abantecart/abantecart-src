@@ -1,9 +1,9 @@
 <textarea 
-	class="form-control afield atext <?php echo $style ?>" 
+	class="form-control atext <?php echo $style ?>" 
 	name="<?php echo $name ?>" 
 	placeholder="<?php echo $placeholder; ?>" 
 	id="<?php echo $id ?>" 
-	ovalue="<?php echo $ovalue ?>" 
+	data-orgvalue="<?php echo $ovalue ?>" 
 	<?php echo $attr ?> 
 >
 <?php echo $value ?>

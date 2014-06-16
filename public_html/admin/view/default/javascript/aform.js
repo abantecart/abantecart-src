@@ -1,6 +1,25 @@
+/*
+	AFrom class to control the state of AbanteCart forms
+	Features: Field Quick Save and reset, Highlight felds state, leaving unsaved form alert
+	
+	Developer: Pavel Rojkov (projkov@abantecart.com)
+	
+	Quick notes:
+	Form construct:
+		- Form container must have class "aform".	
+	Field construct 
+		- HTML fields need to be wraped with div container with "afield" class
+		- Fileds elements need to have appropriate class name sett corresponding to the field type.
+		Possible filed types: atext, aselect, aswitcher, acheckbox, aradio
+		- data-orgvalue attribute provides original value of the field 
+
+*/
+
 (function ($) {
     $.aform = {
         defaults:{
+        	formclass: 'aform',
+        	fieldclass: 'afield',        	
             textClass:'atext',
             selectClass:'aselect',
             radioClass:'aradio',
@@ -36,18 +55,17 @@
 		var $buttons = '<span class="abuttons_grp"><a class="icon_save fa fa-save" data-toggle="tooltip" title="' + o.buttons.save + '"></a><a class="icon_reset fa fa-refresh" data-toggle="tooltip" title="' + o.buttons.reset + '"></a></span>';
 
         function doInput(elem) {
-            var $el = $(elem);
-            var $wrapper = $el.closest('div');
-            var $field = $el.closest('.afield');
+            var $field = $(elem);
+            var $wrapper = $field.closest('.afield');
 
-            if ($el.is(':hidden') && o.autoHide) {
+            if ($field.is(':hidden') && o.autoHide) {
                 $wrapper.hide();
             }
-            if ($el.prop("readonly")) {
+            if ($field.prop("readonly")) {
                 $field.addClass(o.readonlyClass);
             }
 
-            $el.bind({
+            $field.bind({
                 "focus.aform":function () {
                     $field.addClass(o.focusClass);
                 },
@@ -56,14 +74,14 @@
                 },
                 "keyup.aform":function (e) {
                     if (e.keyCode == 13) {
-                    	//locate the autosave button and save on enter 
+                    	//locate the quicksave button and save on enter 
                         $(o.btnGrpSelector, $wrapper).find('a:eq(0)').trigger('click');
                     } else {
-                        onChangedAction($el, $(this).val(), $(this).attr('ovalue'));
+                        onChangedAction($field, $(this).val(), $(this).attr('data-orgvalue'));
                     }
                 },
                 "change.aform":function () {
-                    onChangedAction($el, $(this).val(), $(this).attr('ovalue'));
+                    onChangedAction($field, $(this).val(), $(this).attr('data-orgvalue'));
                 }
             });
         }
@@ -96,7 +114,7 @@
                     $el_strength.html('<span class="strength' + pwdStrength + '" />');
                     var confirm = $(this).val() == $el_confirm.val();
                     if (confirm && pwdStrength > 1)
-                        onChangedAction($el, $(this).val(), $(this).attr('ovalue'));
+                        onChangedAction($el, $(this).val(), $(this).attr('data-orgvalue'));
                 }
             });
 
@@ -114,9 +132,9 @@
                     var pwdStrength = passwordChanged($el.val());
                     var confirm = $(this).val() == $el.val();
                     if (confirm && pwdStrength > 1)
-                        onChangedAction($el, $el.val(), $el.attr('ovalue'));
+                        onChangedAction($el, $el.val(), $el.attr('data-orgvalue'));
                     else
-                        onChangedAction($el, $el.attr('ovalue'), $el.attr('ovalue'));
+                        onChangedAction($el, $el.attr('data-orgvalue'), $el.attr('data-orgvalue'));
                 }
             });
 
@@ -172,11 +190,11 @@
                     if (e.keyCode == 13) {
                         $(o.btnGrpSelector, $wrapper).find('a:eq(0)').trigger('click');
                     } else {
-                        onChangedAction($el, $(this).val(), $(this).attr('ovalue'));
+                        onChangedAction($el, $(this).val(), $(this).attr('data-orgvalue'));
                     }
                 },
                 "change.aform":function () {
-                    onChangedAction($el, $(this).val(), $(this).attr('ovalue'));
+                    onChangedAction($el, $(this).val(), $(this).attr('data-orgvalue'));
                 }
             });
         }
@@ -216,7 +234,7 @@
                     } else {
                         $field.addClass(o.checkedClass);
                     }
-                    onChangedAction($el, $(this).prop("checked"), $(this).attr('ovalue'));
+                    onChangedAction($el, $(this).prop("checked"), $(this).attr('data-orgvalue'));
                 }
             });
         }
@@ -245,36 +263,20 @@
                     } else {
                         $field.addClass(o.checkedClass);
                     }
-                    onChangedAction($el, $(this).prop("checked"), $(this).attr('ovalue'));
+                    onChangedAction($el, $(this).prop("checked"), $(this).attr('data-orgvalue'));
                 }
             });
         }
 
         function doSwitchButton(elem) {
-        
-            var $el = $(elem);
-            var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield');
-
-            if (!$field.hasClass("checked") && $el.val() == 1) { // check value here, because we can't do this in AHtml (can'n recognize switch)
-                $el.val(0);
-            }
-
-            if (!$el.prop("readonly")) {
-                $field.bind({
-                    "click.acform":function () {
-                        if ($field.hasClass("checked") && $el.val() == 1) {
-                            $(this).removeClass(o.checkedClass);
-                            $el.val(0);
-
-                        } else {
-                            $(this).addClass(o.checkedClass);
-                            $el.attr('checked', 'checked');
-                            $el.val(1);
-                        }
-                        onChangedAction($el, String($field.hasClass("checked")), $el.attr('ovalue'));
-                    }
-                });
-            }
+            var $field = $(elem);
+            var $wrapper = $field.parent('.afield');
+			
+			$wrapper.find('button').on( "click" ,function () {
+            	flip_aswitch($field);
+            	onChangedAction($field, $field.val(), $field.attr('data-orgvalue'));
+            	return false;
+            });
 
         }
 
@@ -294,14 +296,14 @@
 
             var $el = $(elem);
 
-            var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield'), spanTag = $el.siblings('span');
+            var $wrapper = $el.closest('.aform'); 
+            var $field = $el.closest('.afield');
 
             var $selected = $el.find(":selected:first");
             if ($selected.length == 0) {
                 $selected = $el.find("option:first");
             }
-            spanTag.html($selected.html());
-
+            
             if ($el.is(':hidden') && o.autoHide) {
                 $wrapper.hide();
             }
@@ -309,13 +311,10 @@
                 $field.addClass(o.disabledClass);
             }
 
-            $.aform.noSelect(spanTag);
-
             $el.bind({
                 "change.aform":function () {
-                    spanTag.text($(this).find(":selected").text());
                     $field.removeClass(o.activeClass);
-                    onChangedAction($el, $(this).val(), $(this).attr('ovalue'));
+                    onChangedAction($el, $(this).val(), $(this).attr('data-orgvalue'));
                 },
                 "focus.aform":function () {
                     $field.addClass(o.focusClass);
@@ -337,13 +336,46 @@
                     if (e.keyCode == 13) {
                         $(o.btnGrpSelector, $wrapper).find('a:eq(0)').trigger('click');
                     } else {
-                        spanTag.text($(this).find(":selected").text());
                         $field.removeClass(o.activeClass);
-                        onChangedAction($el, $(this).val(), $(this).attr('ovalue'));
+                        onChangedAction($el, $(this).val(), $(this).attr('data-orgvalue'));
                     }
                 }
             });
         }
+
+		function flip_aswitch(elem){
+			var $el = $(elem);
+		    //change input field state
+		    var $field = $el.parent('.afield');
+			if($el.val() == '1') {
+				$el.val('0');
+			} else {
+				$el.val('1');
+			}
+		    //reset off button 
+		    if ( $el.val() == 1) {
+		    	$field.find('.btn').removeClass('btn-off');
+		    } else {
+		    	$field.find('.btn-default').addClass('btn-off');
+		    }
+			//togle buttons
+		    $field.find('.btn').toggleClass('active');  
+		    if ($field.find('.btn-primary').size() > 0) {
+		    	$field.find('.btn').toggleClass('btn-primary');
+		    }
+		    if ($field.find('.btn-danger').size() > 0) {
+		    	$field.find('.btn').toggleClass('btn-danger');
+		    }
+		    if ($field.find('.btn-success').size() > 0) {
+		    	$field.find('.btn').toggleClass('btn-success');
+		    }
+		    if ($field.find('.btn-info').size() > 0) {
+		    	$field.find('.btn').toggleClass('btn-info');
+		    }
+		    $field.find('.btn').toggleClass('btn-default');
+	     	    
+		   	return false;    
+		}
 
         //Convert styles for the grid head/footer form elements
         $.aform.styleGridForm = function (elem) {
@@ -351,23 +383,22 @@
 
             if ($el.is("select")) {
                 if ($el.attr('size') > 1) {
-                    $el.attr('ovalue', $el.val()).addClass(o.textClass)
+                    $el.attr('data-orgvalue', $el.val()).addClass(o.textClass)
                         .wrap($.aform.mask).closest('.afield').addClass('mask2')
                         .prepend($.aform.maskTop).append($.aform.maskBottom)
                         .wrap($.aform.wrapper);
                 } else {
-                    $el.attr('ovalue', $el.val()).css('opacity', 0).wrap($.aform.mask).before('<span />')
+                    $el.attr('data-orgvalue', $el.val()).css('opacity', 0).wrap($.aform.mask).before('<span />')
                         .closest('.afield').addClass('mask1 ' + o.selectClass).wrap($.aform.wrapper);
                 }
-                var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield'), spanTag = $el.siblings('span');
+                var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield');
 
                 var $selected = $el.find(":selected:first");
                 if ($selected.length == 0) {
                     $selected = $el.find("option:first");
                 }
-                spanTag.html($selected.html());
             } else {
-                $el.attr('ovalue', $el.val()).addClass(o.textClass)
+                $el.attr('data-orgvalue', $el.val()).addClass(o.textClass)
                     .wrap($.aform.mask).closest('.afield').addClass('mask1')
                     .wrap($.aform.wrapper);
             }
@@ -387,10 +418,11 @@
         };
 
 		//Action performed on element data change
-        function onChangedAction(elem, value, ovalue) {
+        function onChangedAction(elem, value, orgvalue) {
             var $el = $(elem);
             var $triggerOnEdit = true;
             //var $field = $el.parents('.afield');
+            //Now field and element are the same
             var $field = $el;
             //locate btn container if it is present
             var $wrapper = $el.closest('div').find(o.btnContainer);
@@ -415,28 +447,28 @@
         	    	$el.closest('div').append(o.btnContainerHTML);
         	    	$wrapper = $el.closest('div').find(o.btnContainer);
             	}
-            	//show autosave button set if not yet shown
+            	//show quicksave button set if not yet shown
                 if (o.showButtons && $wrapper.find(o.btnGrpSelector).length == 0) {
-                	$wrapper.addClass('autosave');
+                	$wrapper.addClass('quicksave');
                     $wrapper.prepend($buttons);
                     $(o.btnGrpSelector + ' a').tooltip();
                 }
 
                 $wrapper.find(':checkbox').each(function () {
                     if(!$(this).hasClass('btn_switch')){
-                        if (String($(this).prop("checked")) != $(this).attr('ovalue')) {
+                        if (String($(this).prop("checked")) != $(this).attr('data-orgvalue')) {
                             $changed++;
                             return false;
                         }
                     }else{
-                        if (String($field.hasClass("checked")) != $(this).attr('ovalue')) {
+                        if (String($field.hasClass("checked")) != $(this).attr('data-orgvalue')) {
                             $changed++;
                             return false;
                         }
                     }
                 });
 
-                if ((String(value) != String(ovalue) || $changed > 0)) {
+                if ((String(value) != String(orgvalue) || $changed > 0)) {
                     $field.addClass(o.changedClass);
                     $('.ajax_result, .field_err', $wrapper).remove();
                     $(o.btnGrpSelector, $wrapper).css('display', 'inline-block');
@@ -444,7 +476,7 @@
                     $field.removeClass(o.changedClass);
                     $(o.btnGrpSelector, $wrapper).remove();
                     $('.field_err', $wrapper).remove();
-                    $wrapper.removeClass('autosave');
+                    $wrapper.removeClass('quicksave');
                     //remove button container if it is empty
                     if( ($wrapper.text()).length == 0 ){
                     	$wrapper.remove();
@@ -453,19 +485,21 @@
 
                 $(o.btnGrpSelector, $wrapper).find('a').unbind('click'); // to prevent double binding
 
+				//first button click event, is a save of data
                 $(o.btnGrpSelector, $wrapper).find('a:eq(0)').bind({
                     "click.aform":function () {
                         $field.removeClass(o.hoverClass + " " + o.focusClass + " " + o.activeClass);
-                        saveField(this, o.save_url);
+                        saveField($field, o.save_url);
                     }
                 });
+				//second button click event, is a reset of data
                 $(o.btnGrpSelector, $wrapper).find('a:eq(1)').bind({
                     "click.aform":function () {
-                        resetField(this);
+                        resetField($field);
                         $field.removeClass(o.hoverClass + " " + o.focusClass + " " + o.activeClass + " " + o.changedClass);
                         $(o.btnGrpSelector, $wrapper).remove();
                         $('.field_err', $wrapper).remove();
-                        $wrapper.removeClass('autosave');
+                        $wrapper.removeClass('quicksave');
                     	//remove button container if it is empty
                     	if( ($wrapper.text()).length == 0 ){
                     		$wrapper.remove();
@@ -475,33 +509,178 @@
             }
         }
 
-        $(window).ready(function () {
-            $('div.aselect').each(function () {
-                var width = $(this).closest('.section').width() - 16;
-                $(this).width(width);
-                $(this).find('select').width(width);
-            });
-        });
-        $(window).resize(function () {
-            $('div.aselect').each(function () {
-                var width = $(this).closest('.section').width() - 16;
-                $(this).width(width);
-                $(this).find('select').width(width);
-            });
-        });
-
+		/* Stand alone form function */
+		function resetField(obj) {
+			//wraper is a parent div with .afiled
+		    var $wrapper = $(obj).closest('.afield');
 		
+		    $wrapper.find('input, textarea, select').each(function () {
+		        $e = $(this);
+		        if ($e.is("select")) {
+		            $e.find('option').removeAttr('selected');
+		            if ($e.prop('multiple')) {
+		                $vals = $e.attr('data-orgvalue').split(',');
+		                for ($i in $vals) {
+		                    $e.find('option[value="' + $vals[$i] + '"]').attr('selected', 'selected');
+		                }
+		            } else {
+		                $e.find('option[value="' + $e.attr('data-orgvalue') + '"]').attr('selected', 'selected');
+		            }
+		        } else if ($e.is(":text, :password, input[type='email'], textarea")) {
+		            $e.val($e.attr('data-orgvalue'));
+		        } else if ($e.is(":checkbox")) {
+		            if ($e.attr('data-orgvalue') == 'true') {
+		                $e.attr('checked', 'checked');
+		                $e.closest('.afield').addClass('checked');
+		            } else {
+		                $e.closest('.afield').removeClass('checked');
+		            }
+		        //reset switch    
+		        } else if ($e.hasClass('aswitcher') ) {
+		        	flip_aswitch($e);
+		        }
+		    });
+		}
+
+		function saveField(obj, url) {		
+			var $field = $(obj);
+		    var $wrapper = $field.parent('.afield');
+		    //find a button container
+		    var $grp = $wrapper.find(o.btnGrpSelector);
+		    var $err = false;
+		    $ajax_result = $('<span class="ajax_result"></span>');
+		
+		    if ($field.parent('#product_related').length) {
+		        $wrapper = $field.parent('#product_related');
+		        if ($wrapper.find('input, select, textarea').length == 0) {
+		            $wrapper.append('<input type="hidden" name="product_related" />');
+		        }
+		    }
+		    if ($field.parent('.option_form').length) {
+		        $wrapper = $field.parent('.option_form');
+		        if ($wrapper.find('input, select, textarea').not('[id="option"]').length == 0) {
+		            $wrapper.append('<input type="hidden" name="product_option" />');
+		        }
+		    }
+		    
+		    var need_reload = false;
+		    $wrapper.find('input, select, textarea').each(function () {
+		        $err = validate($(this).attr('name'), $(this).val())
+		        if ($err != '') {
+		            if ($('.field_err', $wrapper).length > 0) {
+		                $('.field_err', $wrapper).html($err);
+		            } else {
+		                $wrapper.append('<div class="field_err">' + $err + '</div>');
+		            }
+		        }
+		
+		        if (!need_reload) {
+		            if ($(this).attr("reload_on_save")) {
+		                need_reload = true;
+		            }
+		        }
+		    });
+		
+		    $data = $wrapper.find('input, select, textarea').serialize();
+		
+		    $wrapper.find('input.aswitcher').each(function () {
+		        $data += '&' + $(this).attr('name')+'='+$(this).val();
+		        if (!need_reload) {
+		            if ($(this).attr("reload_on_save")) {
+		                need_reload = true;
+		            }
+		        }
+		    });
+		    
+		    $wrapper.find('input:checkbox').each(function () {
+		        if (!$(this).prop("checked")) $data += '&' + $(this).attr('name') + '=0';
+		        if (!need_reload) {
+		            if ($(this).attr("reload_on_save")) {
+		                need_reload = true;
+		            }
+		        }
+		    });
+		
+		    if (!$err) {
+		        $ajax_result.insertBefore($grp).html('<span class="ajax_loading">Saving...</span>').show();
+		        $grp.closest('div').find(o.btnContainer).removeClass('quicksave');
+		        $grp.remove();
+				
+		        $.ajax({
+		            url:url,
+		            type:"post",
+		            dataType:"text",
+		            data:$data,
+		            error:function (data) {
+		                var $json = $.parseJSON(data.responseText);
+		                if( $json.error_text ){  // for ajax error shows
+		                    $('.ajax_result', $wrapper).html('<span class="ajax_error">' + $json.error_text + '</span>').delay(2500).fadeOut(3000, function () {
+		                        $(this).remove();
+		                    });
+		                    $('.field_err', $wrapper).remove();
+		                    $wrapper.find('input, select, textarea').focus();
+		
+		                }else{
+		                    $('.ajax_result', $wrapper).html('<span class="ajax_error">There\'s an error in the request.</span>').delay(2500).fadeOut(3000, function () {
+		                        $(this).remove();
+		                    });
+		                }
+		                //reset data if requested
+		                if ( $json.reset_value == true ) {
+		                	resetField($wrapper.find('input, select, textarea'));
+		                    $field.removeClass(o.changedClass);
+		                }
+		            },
+		            success:function (data) {
+		                if (need_reload) {
+		                    $wrapper.parents('form').prop('changed','submit');
+		                    window.location.reload();
+		                }
+		                $field.removeClass(o.changedClass);
+		                $wrapper.find('input, select, textarea').each(function () {
+		                    if ($(this).is(":checkbox")) {
+		                    	$(this).attr('data-orgvalue', ($(this).prop("value")==1 ? 'true' : 'false'));
+		                    } else {
+		                    	$(this).attr('data-orgvalue', $(this).val());
+		                    }
+		                });
+		
+		                $('.ajax_result', $wrapper).html('<span class="ajax_success">' + data + '</span>').delay(2500).fadeOut(3000, function () {
+		                    $(this).remove();
+		                });
+		                $('.field_err', $wrapper).remove();
+		            }
+		        });
+		
+		    }
+		}
+		
+		function validate(name, value) {
+		    $err = '';
+		
+		    switch (name) {
+		        case 'name':
+		        case 'model':
+		            if (String(value) == '') {
+		                $err = 'This field is required!';
+		            }
+		            break;
+		    }
+		
+		    return $err;
+		}
+		
+		
+		/* Process each form's element */
         return this.each(function () {
             var elem = $(this);
 
             if (elem.is("select")) {
-                doSelect(elem);
+                 doSelect(elem);
+            } else if(elem.hasClass("aswitcher")) {
+            	doSwitchButton(elem);    
             } else if (elem.is(":checkbox")) {
-                if (elem.hasClass('btn_switch')) {
-                    doSwitchButton(elem);
-                } else {
-                    doCheckbox(elem);
-                }
+              	doCheckbox(elem);
             } else if (elem.is(":radio")) {
                 if (elem.hasClass('star')) {
                     doRating(elem);
