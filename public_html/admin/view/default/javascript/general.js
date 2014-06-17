@@ -109,7 +109,7 @@ jQuery(document).ready(function() {
       return false;
    });
    
-   // Form Toggles
+   //Toggles
    $('.toggle').toggles({on: true});
    
    $('.toggle-chat1').toggles({on: false});
@@ -344,17 +344,7 @@ jQuery(document).ready(function() {
 	//adjust main content height 	
 	adjustmainpanelheight();
 
-	//form fields
-	$(".chosen-select").chosen({'width':'100%','white-space':'nowrap'});
-	$(".chosen-select").trigger("liszt:updated");
-
-    $('.switcher').bind('click', function () {
-        $(this).find('.option').slideDown('fast');
-    });
-    $('.switcher').bind('mouseleave', function () {
-        $(this).find('.option').slideUp('fast');
-    });
-
+	//edit mode
     $docW = parseInt($(document).width());
     $('.postit_icon').click(function () {
         pos = $(this).siblings('.postit_notes').offset();
@@ -364,46 +354,7 @@ jQuery(document).ready(function() {
         }
     });
 
-	/* Handling forms exit */
-	$(window).bind('beforeunload', function () {
-	    var message = '', ckedit = false;
-	    if ($('form[confirm-exit="true"]').length > 0) {
-	        $('form[confirm-exit="true"]').each(function () {
-	        	//skip validation if we submit
-	            if ($(this).prop('changed') != 'submit') {
-		            // now check is cdeditor changed
-		            if (null != window['CKEDITOR']) {
-		                for (var i in CKEDITOR.instances) {
-		                    if (CKEDITOR.instances[i].checkDirty()) {
-		                        $(this).prop('changed', 'true');
-		                        ckedit = true;
-		                        break;
-		                    }
-		                }
-		            }
-
-		            if ($(this).prop('changed') == 'true') {
-		                message = "You might have unsaved changes!";
-		            }
-		            //check if all elements are unchanged. If yes, we already undo or saved them
-		            if ($(this).find(".afield").hasClass('changed') == false && ckedit == false) {
-		                message = '';
-		            }
-	            }
-	        });
-	        if (message) {
-	            return message;
-	        }
-	    }
-	});
-
-	$('form[confirm-exit="true"]').find('.btn_standard').bind('click', function () {
-	    var $form = $(this).parents('form');
-		//reset elemnts to not changed status
-	    $form.prop('changed', 'submit');
-	});
-
-/* Loaders */
+	/* Loaders */
 	$('.dialog_loader').unbind('click');
 	$('.dialog_loader').bind('click', function(e) {
 		$('<div></div>')
@@ -429,18 +380,6 @@ jQuery(document).ready(function() {
 		$(this).find("span").hide();
 		$(this).append('<span class="ajax_loading">Processing…</span>').show();
 	});
-
-
-    // prevent submit of form for "quicksave"
-    $("form").bind("keypress", function(e) {
-        if (e.keyCode == 13){
-            if($(document.activeElement)){
-                if($(document.activeElement).parents('.changed').length>0){
-                        return false;
-                }
-            }
-        }
-    });
 
 });
 

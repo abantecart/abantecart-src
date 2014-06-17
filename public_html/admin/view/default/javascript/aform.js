@@ -51,7 +51,6 @@
 
     $.fn.aform = function (op) {
         var o = $.extend({}, $.aform.defaults, op);
-        //var $buttons = '<span class="abuttons_grp"><a class="btn_standard">' + o.buttons.save + '</a><a class="btn_standard">' + o.buttons.reset + '</a></span>';
 		var $buttons = '<span class="abuttons_grp"><a class="icon_save fa fa-save" data-toggle="tooltip" title="' + o.buttons.save + '"></a><a class="icon_reset fa fa-refresh" data-toggle="tooltip" title="' + o.buttons.reset + '"></a></span>';
 
         function doInput(elem) {
@@ -212,7 +211,8 @@
         function doCheckbox(elem) {
             var $el = $(elem);
 
-            var $wrapper = '', $field = $el.closest('.afield');
+            var $wrapper = '';
+            var $field = $el.closest('.afield');
 
             if (!$el.parents('.scrollbox').length) {
                 $field.wrap($.aform.wrapper);
@@ -241,7 +241,8 @@
         function doRadio(elem) {
             var $el = $(elem);
 
-            var $wrapper = '', $field = $el.closest('.afield');
+            var $wrapper = '';
+            var $field = $el.closest('.afield');
 
             if (!$el.parents('.scrollbox').length) {
                 $field.wrap($.aform.wrapper);
@@ -294,27 +295,26 @@
 
         function doSelect(elem) {
 
-            var $el = $(elem);
+            var $field = $(elem);
+            var $wrapper = $field.closest('.afield');
 
-            var $wrapper = $el.closest('.aform'); 
-            var $field = $el.closest('.afield');
-
-            var $selected = $el.find(":selected:first");
+            var $selected = $field.find(":selected:first");
             if ($selected.length == 0) {
-                $selected = $el.find("option:first");
+                $selected = $field.find("option:first");
             }
             
-            if ($el.is(':hidden') && o.autoHide) {
-                $wrapper.hide();
+            if ($field.is(':hidden') && o.autoHide) {
+              //  Not clear why
+              //  $wrapper.hide();
             }
-            if ($el.prop("disabled")) {
+            if ($field.prop("disabled")) {
                 $field.addClass(o.disabledClass);
             }
 
-            $el.bind({
+            $field.bind({
                 "change.aform":function () {
                     $field.removeClass(o.activeClass);
-                    onChangedAction($el, $(this).val(), $(this).attr('data-orgvalue'));
+                    onChangedAction($field, $(this).val(), $(this).attr('data-orgvalue'));
                 },
                 "focus.aform":function () {
                     $field.addClass(o.focusClass);
@@ -337,7 +337,7 @@
                         $(o.btnGrpSelector, $wrapper).find('a:eq(0)').trigger('click');
                     } else {
                         $field.removeClass(o.activeClass);
-                        onChangedAction($el, $(this).val(), $(this).attr('data-orgvalue'));
+                        onChangedAction($field, $(this).val(), $(this).attr('data-orgvalue'));
                     }
                 }
             });
@@ -417,115 +417,66 @@
             });
         };
 
-		//Action performed on element data change
+		//Action performed on field data change
         function onChangedAction(elem, value, orgvalue) {
-            var $el = $(elem);
+            var $field = $(elem);
             var $triggerOnEdit = true;
-            //var $field = $el.parents('.afield');
-            //Now field and element are the same
-            var $field = $el;
-            //locate btn container if it is present
-            var $wrapper = $el.closest('div').find(o.btnContainer);
-            var $form = $el.parents('form');
+            var $form = $field.parents('form');
             $form.prop('changed', 'true');
 
 			//check if need to trigger the auto save buttons set
-            if (!o.triggerChanged || $el.hasClass('static_field') || $el.prop("readonly")) {
+            if (!o.triggerChanged || $field.hasClass('static_field') || $field.prop("readonly")) {
                 $triggerOnEdit = false;
             }
 
 			//if password field remove *** on edit
-			if ($el.is(':password') ) {
-            	var $el_confirm_default = $('#' + $el.attr('id') + '_confirm_default');
+			if ($field.is(':password') ) {
+            	var $el_confirm_default = $('#' + $field.attr('id') + '_confirm_default');
                 $el_confirm_default.hide();
 			}
 
             if ($triggerOnEdit) {
                 var $changed = 0;
-	            //can not find input-group-addon span create new one
-    	        if ($wrapper.length == 0) {
-        	    	$el.closest('div').append(o.btnContainerHTML);
-        	    	$wrapper = $el.closest('div').find(o.btnContainer);
-            	}
-            	//show quicksave button set if not yet shown
-                if (o.showButtons && $wrapper.find(o.btnGrpSelector).length == 0) {
-                	$wrapper.addClass('quicksave');
-                    $wrapper.prepend($buttons);
-                    $(o.btnGrpSelector + ' a').tooltip();
-                }
 
-                $wrapper.find(':checkbox').each(function () {
-                    if(!$(this).hasClass('btn_switch')){
-                        if (String($(this).prop("checked")) != $(this).attr('data-orgvalue')) {
-                            $changed++;
-                            return false;
-                        }
-                    }else{
-                        if (String($field.hasClass("checked")) != $(this).attr('data-orgvalue')) {
-                            $changed++;
-                            return false;
-                        }
-                    }
+				//see if check boxes are changes
+                $field.closest('div').find(':checkbox').each(function () {
+                	if (String($field.hasClass("checked")) != $(this).attr('data-orgvalue')) {
+                	    $changed++;
+                	    return false;
+                	}
                 });
 
                 if ((String(value) != String(orgvalue) || $changed > 0)) {
-                    $field.addClass(o.changedClass);
-                    $('.ajax_result, .field_err', $wrapper).remove();
-                    $(o.btnGrpSelector, $wrapper).css('display', 'inline-block');
+                	//build quick save button set
+                	showQuickSave($field);
                 } else {
-                    $field.removeClass(o.changedClass);
-                    $(o.btnGrpSelector, $wrapper).remove();
-                    $('.field_err', $wrapper).remove();
-                    $wrapper.removeClass('quicksave');
-                    //remove button container if it is empty
-                    if( ($wrapper.text()).length == 0 ){
-                    	$wrapper.remove();
-                    }
+                	//clean up
+                	removeQuickSave($field);
                 }
 
-                $(o.btnGrpSelector, $wrapper).find('a').unbind('click'); // to prevent double binding
-
-				//first button click event, is a save of data
-                $(o.btnGrpSelector, $wrapper).find('a:eq(0)').bind({
-                    "click.aform":function () {
-                        $field.removeClass(o.hoverClass + " " + o.focusClass + " " + o.activeClass);
-                        saveField($field, o.save_url);
-                    }
-                });
-				//second button click event, is a reset of data
-                $(o.btnGrpSelector, $wrapper).find('a:eq(1)').bind({
-                    "click.aform":function () {
-                        resetField($field);
-                        $field.removeClass(o.hoverClass + " " + o.focusClass + " " + o.activeClass + " " + o.changedClass);
-                        $(o.btnGrpSelector, $wrapper).remove();
-                        $('.field_err', $wrapper).remove();
-                        $wrapper.removeClass('quicksave');
-                    	//remove button container if it is empty
-                    	if( ($wrapper.text()).length == 0 ){
-                    		$wrapper.remove();
-                    	}
-                    }
-                });
-            }
+             }
         }
 
-		/* Stand alone form function */
-		function resetField(obj) {
-			//wraper is a parent div with .afiled
-		    var $wrapper = $(obj).closest('.afield');
+		/* Stand alone form functions */
 		
+		function resetField(elem) {
+			//wraper is a parent div with .afiled
+		    var $wrapper = $(elem).closest('.afield');
 		    $wrapper.find('input, textarea, select').each(function () {
 		        $e = $(this);
 		        if ($e.is("select")) {
-		            $e.find('option').removeAttr('selected');
-		            if ($e.prop('multiple')) {
-		                $vals = $e.attr('data-orgvalue').split(',');
-		                for ($i in $vals) {
-		                    $e.find('option[value="' + $vals[$i] + '"]').attr('selected', 'selected');
+		        	//for select data-orgvalue is present in each option regardles of multiselect or single
+		            $e.find('option').each(function () {
+		                if ( $(this).attr('data-orgvalue') === "true" ) {
+		                	$(this).attr('selected', 'selected');
+		                } else {
+		                	$(this).removeAttr('selected');		            		
 		                }
-		            } else {
-		                $e.find('option[value="' + $e.attr('data-orgvalue') + '"]').attr('selected', 'selected');
-		            }
+		            });		            
+		          	//reset chosen type of field
+		          	if ($wrapper.find(".chosen-select").length > 0) {
+		          		$wrapper.find(".chosen-select").trigger("chosen:updated");
+		          	}
 		        } else if ($e.is(":text, :password, input[type='email'], textarea")) {
 		            $e.val($e.attr('data-orgvalue'));
 		        } else if ($e.is(":checkbox")) {
@@ -542,8 +493,106 @@
 		    });
 		}
 
-		function saveField(obj, url) {		
-			var $field = $(obj);
+		function updateOriginalValue(elem) {
+			//wraper is a parent div with .afiled
+		    var $wrapper = $(elem).closest('.afield');
+		    
+		    $wrapper.find('input, textarea, select').each(function () {
+		        $e = $(this);
+		        if ($e.is("select")) {
+		        	//for select data-orgvalue is present in each option regardles of multiselect or single
+		            $e.find('option').each(function () {
+		            	$(this).attr('data-orgvalue', 'false');
+		            	if ( $(this).attr('selected') == "selected" ) {
+		            		$(this).attr('data-orgvalue', "true");
+		            	}
+		            });
+		        } else if ($e.is(":text, :password, input[type='email'], textarea")) {
+		            $e.attr('data-orgvalue', $e.val());
+		        } else if ($e.is(":checkbox")) {
+		        	$e.attr('data-orgvalue', ($e.prop("value") == 1 ? 'true' : 'false'));
+		        }
+		    });
+		}
+
+		//Show Quick Save buttons and all related
+		function showQuickSave(elem){
+            var $field = $(elem);
+            //locate btn container if it is present
+            var $btncontainer = $field.closest('div').find(o.btnContainer);
+
+			//show quicksave button set only if not yet shown or configured
+			if (!o.showButtons || $btncontainer.find(o.btnGrpSelector).length != 0) {
+				return;
+			}
+
+			//can not find input-group-addon span button container create new one
+			if ($btncontainer.length == 0) {
+			    $field.closest('div').append(o.btnContainerHTML);
+			    $btncontainer = $field.closest('div').find(o.btnContainer);
+			}
+			
+			//add quick save button classes and tooltips	
+			$btncontainer.addClass('quicksave');
+			$btncontainer.prepend($buttons);
+			$(o.btnGrpSelector + ' a').tooltip();
+			
+			//add changed class to both button container and field element
+			$btncontainer.parent('.afield').addClass(o.changedClass);
+			$field.addClass(o.changedClass);
+			$('.ajax_result, .field_err', $btncontainer).remove();
+			$(o.btnGrpSelector, $btncontainer).css('display', 'inline-block');
+
+			//bind events for buttons
+			$(o.btnGrpSelector, $btncontainer).find('a').unbind('click'); // to prevent double binding			
+			 //first button click event, is a save of data
+			 $(o.btnGrpSelector, $btncontainer).find('a:eq(0)').bind({
+			     "click.aform":function () {
+			         $field.removeClass(o.hoverClass + " " + o.focusClass + " " + o.activeClass);
+			         saveField($field, o.save_url);
+			     }
+			 });
+			 //second button click event, is a reset of data
+			 $(o.btnGrpSelector, $btncontainer).find('a:eq(1)').bind({
+			     "click.aform":function () {
+			         resetField($field);
+			         //clean up
+			         $btncontainer.parent('.afield').removeClass(o.changedClass);
+			         $field.removeClass(o.hoverClass + " " + o.focusClass + " " + o.activeClass + " " + o.changedClass);
+			         $(o.btnGrpSelector, $btncontainer).remove();
+			         $('.field_err', $btncontainer).remove();
+			         $btncontainer.removeClass('quicksave');
+			     	//remove button container if it is empty
+			     	if( ($btncontainer.text()).length == 0 ){
+			     		$btncontainer.remove();
+			     	}
+			     }
+			 });
+			
+			return false;
+		}
+
+		//Remove Quick Save buttons and all related
+		function removeQuickSave(elem){
+            var $field = $(elem);
+            //locate btn container if it is present
+            var $btncontainer = $field.closest('div').find(o.btnContainer);
+			if ($btncontainer.length == 0) {
+				return false;
+			}
+			$btncontainer.parent('.afield').removeClass(o.changedClass);
+			$field.removeClass(o.changedClass);
+			$(o.btnGrpSelector, $btncontainer).remove();
+			$('.field_err', $btncontainer).remove();
+			$btncontainer.removeClass('quicksave');
+			//remove button container if it is empty
+			if( ($btncontainer.text()).length == 0 ){
+				$btncontainer.remove();
+			}
+		}
+
+		function saveField(elem, url) {		
+			var $field = $(elem);
 		    var $wrapper = $field.parent('.afield');
 		    //find a button container
 		    var $grp = $wrapper.find(o.btnGrpSelector);
@@ -573,7 +622,6 @@
 		                $wrapper.append('<div class="field_err">' + $err + '</div>');
 		            }
 		        }
-		
 		        if (!need_reload) {
 		            if ($(this).attr("reload_on_save")) {
 		                need_reload = true;
@@ -602,10 +650,8 @@
 		    });
 		
 		    if (!$err) {
+		    	//show ajax wrapper
 		        $ajax_result.insertBefore($grp).html('<span class="ajax_loading">Saving...</span>').show();
-		        $grp.closest('div').find(o.btnContainer).removeClass('quicksave');
-		        $grp.remove();
-				
 		        $.ajax({
 		            url:url,
 		            type:"post",
@@ -613,22 +659,23 @@
 		            data:$data,
 		            error:function (data) {
 		                var $json = $.parseJSON(data.responseText);
-		                if( $json.error_text ){  // for ajax error shows
-		                    $('.ajax_result', $wrapper).html('<span class="ajax_error">' + $json.error_text + '</span>').delay(2500).fadeOut(3000, function () {
-		                        $(this).remove();
-		                    });
-		                    $('.field_err', $wrapper).remove();
-		                    $wrapper.find('input, select, textarea').focus();
-		
-		                }else{
-		                    $('.ajax_result', $wrapper).html('<span class="ajax_error">There\'s an error in the request.</span>').delay(2500).fadeOut(3000, function () {
-		                        $(this).remove();
-		                    });
+		                var $error_text = '';
+		                if( $json.error_text ){  
+		                    $error_text = '<span class="ajax_error">' + $json.error_text + '</span>';
+		                } else {
+		                    $error_text = '<span class="ajax_error">There\'s an error in the request.</span>';
 		                }
+		                // show ajax error and fadeout
+		                $('.ajax_result', $wrapper).html($error_text).delay(2500).fadeOut(3000, function () {
+		                        $(this).remove();
+		                });
+		                $('.field_err', $wrapper).remove();
+		                $wrapper.find('input, select, textarea').focus();
+		             
 		                //reset data if requested
 		                if ( $json.reset_value == true ) {
 		                	resetField($wrapper.find('input, select, textarea'));
-		                    $field.removeClass(o.changedClass);
+		                	removeQuickSave($field);
 		                }
 		            },
 		            success:function (data) {
@@ -636,22 +683,14 @@
 		                    $wrapper.parents('form').prop('changed','submit');
 		                    window.location.reload();
 		                }
-		                $field.removeClass(o.changedClass);
-		                $wrapper.find('input, select, textarea').each(function () {
-		                    if ($(this).is(":checkbox")) {
-		                    	$(this).attr('data-orgvalue', ($(this).prop("value")==1 ? 'true' : 'false'));
-		                    } else {
-		                    	$(this).attr('data-orgvalue', $(this).val());
-		                    }
-		                });
-		
+						updateOriginalValue($field);		
 		                $('.ajax_result', $wrapper).html('<span class="ajax_success">' + data + '</span>').delay(2500).fadeOut(3000, function () {
 		                    $(this).remove();
 		                });
 		                $('.field_err', $wrapper).remove();
+		                removeQuickSave($field);
 		            }
-		        });
-		
+		        });	
 		    }
 		}
 		
@@ -704,3 +743,69 @@
 
     };
 })(jQuery);
+
+/* other form related */
+jQuery(document).ready(function() {
+
+	//form fields
+	$(".chosen-select").chosen({'width':'100%','white-space':'nowrap'});
+
+    $('.switcher').bind('click', function () {
+        $(this).find('.option').slideDown('fast');
+    });
+    $('.switcher').bind('mouseleave', function () {
+        $(this).find('.option').slideUp('fast');
+    });
+
+	/* Handling forms exit */
+	$(window).bind('beforeunload', function () {
+	    var message = '', ckedit = false;
+	    if ($('form[confirm-exit="true"]').length > 0) {
+	        $('form[confirm-exit="true"]').each(function () {
+	        	//skip validation if we submit
+	            if ($(this).prop('changed') != 'submit') {
+		            // now check is cdeditor changed
+		            if (null != window['CKEDITOR']) {
+		                for (var i in CKEDITOR.instances) {
+		                    if (CKEDITOR.instances[i].checkDirty()) {
+		                        $(this).prop('changed', 'true');
+		                        ckedit = true;
+		                        break;
+		                    }
+		                }
+		            }
+
+		            if ($(this).prop('changed') == 'true') {
+		                message = "You might have unsaved changes!";
+		            }
+		            //check if all elements are unchanged. If yes, we already undo or saved them
+		            if ($(this).find(".afield").hasClass('changed') == false && ckedit == false) {
+		                message = '';
+		            }
+	            }
+	        });
+	        if (message) {
+	            return message;
+	        }
+	    }
+	});
+
+	//bind event for submit buttons
+	$('form[confirm-exit="true"]').find('.btn').bind('click', function () {
+	    var $form = $(this).parents('form');
+		//reset elemnts to not changed status
+	    $form.prop('changed', 'submit');
+	});
+	
+    // prevent submit of form for "quicksave"
+    $("form").bind("keypress", function(e) {
+        if (e.keyCode == 13){
+            if($(document.activeElement)){
+                if($(document.activeElement).parents('.changed').length>0){
+                        return false;
+                }
+            }
+        }
+    });
+
+});

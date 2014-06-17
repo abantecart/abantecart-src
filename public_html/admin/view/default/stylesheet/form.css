@@ -1,4 +1,7 @@
 /***** Form Fields *****/
+.form-control .input-group, .input-group .btn {
+	border-radius: 2px !important;
+}
 .input_short {
 	width: 35px !important;
 }
@@ -14,13 +17,17 @@ label span.help {
 span.required {
 	color: red;
 }
-.afield .changed {
-	background: #ffad5e;
-}
-.btn-primary.changed {
+/* Fiels changed highlite */
+.afield .changed, 
+.changed .chosen-container .chosen-choices,
+.changed .chosen-container .chosen-single
+{
 	background: #ffad5e;
 }
 
+.btn-primary.changed {
+	background: #ffad5e;
+}
 .abuttons_grp {
 	display: none;
 	margin-left: 5px;
@@ -40,6 +47,15 @@ span.required {
 	color: #636E7B;
 	cursor: pointer;
 }
+/* custom for short elements such as aswitcher */
+.input-group-addon.aswitcher:last-child {
+	border: 1px solid #CCCCCC;	
+}
+/* border for quick save buttons */
+.changed .input-group-addon:last-child {
+	border: 1px solid #ffad5e;	
+}
+
 
 
 .ckbox,
