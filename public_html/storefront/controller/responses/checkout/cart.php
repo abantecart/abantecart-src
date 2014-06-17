@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -20,30 +20,31 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-class ControllerResponsesCheckoutCart extends AController {
 
+class ControllerResponsesCheckoutCart extends AController {
+	public $data = array();
 	public function main() {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-		
+
       		if (isset($this->request->post['quantity'])) {
 				if (!is_array($this->request->post['quantity'])) {
 					if (isset($this->request->post['option'])) {
 						$option = $this->request->post['option'];
 					} else {
-						$option = array();	
+						$option = array();
 					}
-			
+
       				$this->cart->add($this->request->post['product_id'], $this->request->post['quantity'], $option);
 				} else {
 					foreach ($this->request->post['quantity'] as $key => $value) {
 	      				$this->cart->update($key, $value);
 					}
 				}
-				
+
 				unset($this->session->data['shipping_methods']);
 				unset($this->session->data['shipping_method']);
 				unset($this->session->data['payment_methods']);
@@ -55,11 +56,11 @@ class ControllerResponsesCheckoutCart extends AController {
           			$this->cart->remove($key);
 				}
       		}
-			
+
 			if (isset($this->request->post['redirect'])) {
 				$this->session->data['redirect'] = $this->request->post['redirect'];
-			}	
-			
+			}
+
 			if (isset($this->request->post['quantity']) || isset($this->request->post['remove'])) {
 				unset($this->session->data['shipping_methods']);
 				unset($this->session->data['shipping_method']);
@@ -76,20 +77,20 @@ class ControllerResponsesCheckoutCart extends AController {
 	/**
 	* change_zone_get_shipping_methods()
 	* Ajax function to apply new country and zone to be used in tax and/or shipping culculation.
-	* Return: List of available shipping methods and cost 
+	* Return: List of available shipping methods and cost
 	*/
-	
+
 	public function change_zone_get_shipping_methods() {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		$output = array();
 		$this->load->library('json');
 		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
-			$this->response->setOutput(AJson::encode($output));	
+			$this->response->setOutput(AJson::encode($output));
 			return '';
 		}
 
-		//need to reset zone for tax even if shipping is not needed		
+		//need to reset zone for tax even if shipping is not needed
 		$this->loadModel('localisation/country');
 		$this->loadModel('localisation/zone');
 		$country_info = $this->model_localisation_country->getCountry($this->request->post[ 'country_id' ]);
@@ -104,7 +105,7 @@ class ControllerResponsesCheckoutCart extends AController {
 		);
 
 		$this->tax->setZone($shipping_address[ 'country_id' ], $shipping_address[ 'zone_id' ]);
-	
+
 		//skip shipping processing if not required.
 		if( $this->cart->hasShipping() ){
 			$this->loadModel('checkout/extension');
@@ -159,12 +160,12 @@ class ControllerResponsesCheckoutCart extends AController {
 		}else{
 			$output['selectbox'] = '';
 		}
-  	
-  			//init controller data
+
+		$this->data = $output;
+  		//init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
-
-		$this->response->setOutput(AJson::encode($output));		
+		$this->response->setOutput(AJson::encode( $this->data ));
 	}
 
 	public function recalc_totals() {
@@ -175,14 +176,14 @@ class ControllerResponsesCheckoutCart extends AController {
 		$this->load->library('json');
 
 		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
-			$this->response->setOutput(AJson::encode($output));	
+			$this->response->setOutput(AJson::encode($output));
 			return '';
 		}
-		
+
  		if ($this->request->post['country_id'] && $this->request->post['zone_id']) {
 			$this->tax->setZone($this->request->post['country_id'], $this->request->post['zone_id']);
 		}
-		
+
 		if ( $this->request->post[ 'shipping_method' ] ) {
 			$shipping = explode('.', $this->request->post[ 'shipping_method' ]);
 			$this->session->data[ 'shipping_method' ] = $this->session->data[ 'shipping_methods' ][ $shipping[ 0 ] ][ 'quote' ][ $shipping[ 1 ] ];
@@ -192,14 +193,13 @@ class ControllerResponsesCheckoutCart extends AController {
             unset($this->session->data[ 'shipping_methods' ]);
         }
 
-		$display_totals = $this->cart->buildTotalDisplay( true );      		
-		$output['totals'] = $display_totals['total_data'];;
- 	  	
+		$display_totals = $this->cart->buildTotalDisplay( true );
+		$output['totals'] = $display_totals['total_data'];
+ 	  	$this->data = $output;
   		//init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
-
-		$this->response->setOutput(AJson::encode($output));		
+		$this->response->setOutput(AJson::encode($this->data));
 	}
-	
+
 }
