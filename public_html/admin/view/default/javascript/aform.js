@@ -747,6 +747,26 @@
 /* other form related */
 jQuery(document).ready(function() {
 
+	//Convert span help to toggles
+	$("label").each(function () {
+		var $label = $(this);
+		var $help = $label.find('span.help');
+		if( $help.length > 0) {
+			var $icon = '&nbsp;<i class="fa fa-exclamation fa-lg"></i>';
+			var content = $help.text();
+			//destroy span
+			$help.remove();
+			$label.html($label.text()+$icon);
+			var $i = $label.find('i');
+			//build and activate popover
+			$i.attr('data-container', 'body');
+			$i.attr('data-toggle', 'popover');
+			$i.attr('data-content', $help.text());			
+			$i.popover({trigger: 'hover', placement: 'auto'});
+		}
+	});
+	
+
 	//form fields
 	$(".chosen-select").chosen({'width':'100%','white-space':'nowrap'});
 

@@ -179,14 +179,14 @@ class ControllerPagesCatalogProduct extends AController {
 		    'name' => 'pfrom',
 			'value' => '',
 			'placeholder' => '0',
-			'style' => 'input_short'
+			'style' => 'small-field'
 	    ));
 		$grid_search_form['fields']['pto'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'pto',
 			'value' => '',
 			'placeholder' => $this->language->get('filter_price_max'),
-			'style' => 'input_short'
+			'style' => 'small-field'
 	    ));
 	    $grid_search_form['fields']['category'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
@@ -618,11 +618,13 @@ exit;
 			'type' => 'input',
 			'name' => 'price',
 			'value' => moneyDisplayFormat($this->data['price']),
+	        'style' => 'small-field'
 	    ));
         $this->data['form']['fields']['data']['cost'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'cost',
 			'value' => moneyDisplayFormat($this->data['cost']),
+	        'style' => 'small-field'
 	    ));
         $this->data['form']['fields']['data']['tax_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -630,6 +632,7 @@ exit;
 			'value' => $this->data['tax_class_id'],
             'options' => $this->data['tax_classes'],
 	        'help_url' => $this->gen_help_url('tax_class'),
+	        'style' => 'medium-field'
 		));
         $this->data['form']['fields']['data']['subtract'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -640,31 +643,33 @@ exit;
                 0 => $this->language->get('text_no'),
             ),
 	        'help_url' => $this->gen_help_url('subtract'),
+	        'style' => 'medium-field'
 		));
         $this->data['form']['fields']['data']['quantity'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'quantity',
 			'value' => (int)$this->data['quantity'],
 			'style' => 'col-xs-1',
+	        'style' => 'small-field'
 	    ));
         $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'minimum',
 			'value' => (int)$this->data['minimum'],
-			'style' => 'col-xs-1',
+			'style' => 'small-field',
 	    ));
         $this->data['form']['fields']['data']['maximum'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'maximum',
 			'value' => (int)$this->data['maximum'],
-			'style' => 'col-xs-1',
+			'style' => 'small-field',
 	    ));
         $this->data['form']['fields']['data']['stock_status'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'stock_status_id',
 			'value' => $this->data['stock_status_id'],
             'options' => $this->data['stock_statuses'],
-            'style' => 'col-xs-2',
+            'style' => 'small-field',
 		));
 		
         $this->data['form']['fields']['data']['sku'] = $form->getFieldHtml(array(
@@ -702,13 +707,14 @@ exit;
             'default' => dateNowDisplay(),
             'dateformat' => format4Datepicker($this->language->get('date_format_short')),
             'highlight' => 'future',
+            'style' => 'small-field',
             ));
 
         $this->data['form']['fields']['data']['sort_order'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'sort_order',
 			'value' => $this->data['sort_order'],
-			'style' => 'col-xs-2'
+            'style' => 'tiny-field',
 		));
 
         $this->data['form']['fields']['data']['shipping'] = $form->getFieldHtml(array(
@@ -736,43 +742,49 @@ exit;
 			'type' => 'input',
 			'name' => 'shipping_price',
 			'value' => moneyDisplayFormat($this->data['shipping_price']),
-
+            'style' => 'tiny-field',
 		));
 
         $this->data['form']['fields']['data']['length'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'length',
 			'value' => $this->data['length'],
+            'style' => 'tiny-field',	        
 	    ));
         $this->data['form']['fields']['data']['width'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'width',
 			'value' => $this->data['width'],
 	        'attr' => ' autocomplete="false"',
+            'style' => 'tiny-field',	        
 		));
         $this->data['form']['fields']['data']['height'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'height',
 			'value' => $this->data['height'],
 	        'attr' => ' autocomplete="false"',
+            'style' => 'tiny-field',	        
 		));
         $this->data['form']['fields']['data']['length_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'length_class_id',
 			'value' => $this->data['length_class_id'],
             'options' => $this->data['length_classes'],
+            'style' => 'small-field',	        
 		));
 		$this->data['form']['fields']['data']['weight'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'weight',
 			'value' => $this->data['weight'],
 			'attr' => ' autocomplete="false"',
+            'style' => 'tiny-field',	        
 		));
         $this->data['form']['fields']['data']['weight_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'weight_class_id',
 			'value' => $this->data['weight_class_id'],
             'options' => $this->data['weight_classes'],
+            'style' => 'small-field',	        
 		));
 
 		$this->view->batchAssign( $this->data );
