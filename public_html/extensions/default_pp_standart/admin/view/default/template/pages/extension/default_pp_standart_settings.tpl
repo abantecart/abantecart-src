@@ -184,7 +184,7 @@
 					    		<div class="aform_noaction">
 					    			<div class="afield mask1">
 					    				<div class="cl"><div class="cr"><div class="cc">
-					    					<input id="default_pp_standart_confirm_email" class="atext " type="text" ovalue="" value="" name="default_pp_standart_confirm_email">
+					    					<input id="default_pp_standart_confirm_email" class="atext " type="text" data-orgvalue="" value="" name="default_pp_standart_confirm_email">
 					    				</div></div></div>
 					    			</div>
 					    		</div>
@@ -234,7 +234,7 @@
 
 							<div class="aform"><div class="afield mask1"><div class="cl"><div class="cr"><div class="cc">
 
-								<input type="text" name="default_pp_standart_logoimg" id="default_pp_standart_logoimg" class="atext " value="<?php echo $custom_logo; ?>" ovalue="0"  />
+								<input type="text" name="default_pp_standart_logoimg" id="default_pp_standart_logoimg" class="atext " value="<?php echo $custom_logo; ?>" data-orgvalue="0"  />
 
 							</div></div></div></div></div>
 

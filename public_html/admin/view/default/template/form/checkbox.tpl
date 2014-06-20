@@ -4,7 +4,7 @@
            value="<?php echo $value ?>" 
            class="form-control afield acheckbox <?php echo $style; ?>"
 		   <?php echo ( ($checked) ? 'checked="checked"':'' ) ?>
-           ovalue="<?php echo ($checked ? 'true':'false') ?>"
+           data-orgvalue="<?php echo ($checked ? 'true':'false') ?>"
 		   <?php echo $attr ?>
            style="opacity: 0;" 
 />

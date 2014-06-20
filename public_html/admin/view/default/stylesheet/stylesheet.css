@@ -30,6 +30,14 @@ body {
    overflow: hidden;
 }
 
+.abc_orange {
+	color: #F19013;
+}
+
+.abc_blue {
+	color: #064770;
+}
+
 input,select,textarea {
    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif !important;
 	color: #636e7b;
@@ -3460,6 +3468,12 @@ body.stickyheader .sticky_left {
 }
 
 /* Other styles */
+.summary_label {
+    font-weight: bold;
+    text-align: left;
+    text-decoration: underline;
+}
+
 .panel-body .shortcut img {
    -moz-border-radius: 100px;
    -webkit-border-radius: 100px;

@@ -7,12 +7,12 @@
           <h4 class="panel-title"><?php echo $text_product_summary; ?></h4>
 	</div>
 	<div class="panel-body panel-body-nopadding table-responsive" style="display: block;">
-    <table id="summary" class="table summary" width="100%" cellpadding="0" cellspacing="0">
+    <table id="summary" class="table summary">
       <tr>
         <td class="summary_image" rowspan="3" align="center">
             <?php echo $product['image']['thumb_html']; ?>
             <br/>
-            <a href="<?php echo $product['preview']; ?>" target="_blank"><?php echo $text_view; ?></a>
+            <a href="<?php echo $product['preview']; ?>" class="btn btn-small btn-default" target="_blank"><i class="fa fa-external-link"></i> <?php echo $text_view; ?></a>
         </td>
         <td class="summary_label"><?php echo $entry_name; ?></td>
         <td class="summary_value"><?php echo $product['name']; ?></td>

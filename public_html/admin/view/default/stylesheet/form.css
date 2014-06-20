@@ -1,6 +1,10 @@
 /***** Form Fields *****/
-.input_short {
-	width: 35px !important;
+.form-horizontal .form-group {
+	margin-left: 0;
+	margin-right: 0;
+}
+.form-control .input-group, .input-group .btn {
+	border-radius: 2px !important;
 }
 .help_element {
 	padding-left: 5px;
@@ -14,7 +18,15 @@ label span.help {
 span.required {
 	color: red;
 }
-.afield.changed {
+/* Fiels changed highlite */
+.afield .changed, 
+.changed .chosen-container .chosen-choices,
+.changed .chosen-container .chosen-single
+{
+	background: #ffad5e;
+}
+
+.btn-primary.changed {
 	background: #ffad5e;
 }
 .abuttons_grp {
@@ -22,7 +34,7 @@ span.required {
 	margin-left: 5px;
 	vertical-align: middle;
 }
-.autosave {
+.quicksave {
 	background: #fceedc;
 }
 .abuttons_grp .icon_save {
@@ -35,6 +47,22 @@ span.required {
 	padding: 0 5px 0 5px;
 	color: #636E7B;
 	cursor: pointer;
+}
+/* custom for short elements such as aswitcher */
+.input-group-addon.aswitcher:last-child {
+	border: 1px solid #CCCCCC;	
+}
+/* border for quick save buttons */
+.changed .input-group-addon:last-child {
+	border: 1px solid #ffad5e;	
+}
+label > i {
+	color: #F19013;
+	cursor: pointer;
+}
+/* fix for calendar low z-index */
+.ui-datepicker {
+	z-index: 10 !important;
 }
 
 

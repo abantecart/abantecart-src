@@ -1,17 +1,9 @@
-<?php 
-// find selected item
-foreach ( $options as $v => $text ) { 
-	if (in_array((string)$v, $value, true)) {
-		$ovalue = $v;
-		$seleted_text = mb_substr($text,0,60);
-	}
-}
-?>
-<select class="form-control form-control afield aselect <?php echo $style ?>" data-placeholder="<?php echo $placeholder ?>" name="<?php echo $name ?>" id="<?php echo $id ?>" ovalue="<?php echo $ovalue; ?>" <?php echo $attr ?>>
+<select class="form-control form-control aselect <?php echo $style ?>" data-placeholder="<?php echo $placeholder ?>" name="<?php echo $name ?>" id="<?php echo $id ?>" data-orgvalue="<?php echo $ovalue; ?>" <?php echo $attr ?>>
 <?php foreach ( $options as $v => $text ) { ?>
 		<option value="<?php echo $v ?>"
 		<?php echo (in_array((string)$v, (array)$value, true) ? ' selected="selected" ':'') ?>
 		<?php echo (in_array((string)$v, (array)$disabled, true) ? ' disabled="disabled" ':'') ?>
+		data-orgvalue="<?php echo (in_array($v, $value) ? 'true':'false') ?>"
 		><?php echo $text ?></option>
 <?php } ?>
 </select>

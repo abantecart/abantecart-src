@@ -3,7 +3,7 @@
 <span class="text_element">
 <div class="aform"><div class="afield mask1"><div class="cl"><div class="cr"><div class="cc">
     <input class="atext <?php echo $style; ?>" type="password" name="<?php echo $name ?>" id="<?php echo $id ?>"
-           value="<?php echo $value ?>" ovalue="<?php echo $value ?>" <?php echo $attr; ?> autocomplete="off" />
+           value="<?php echo $value ?>" data-orgvalue="<?php echo $value ?>" <?php echo $attr; ?> autocomplete="off" />
 </div></div></div></div></div>           
 	<?php if ( $required == 'Y' ) : ?>
 	<span class="required">*</span>

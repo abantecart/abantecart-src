@@ -377,7 +377,7 @@ $(function(){
 	}
 
 	$('#test_connection').click(function() {
-		if($('#default_pp_pro_status').attr('ovalue')!='true'){
+		if($('#default_pp_pro_status').attr('data-orgvalue')!='true'){
 			alert('<?php echo $error_turn_extension_on; ?>');
 			return false;
 		}
