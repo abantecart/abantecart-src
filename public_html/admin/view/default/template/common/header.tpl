@@ -211,7 +211,7 @@
             </div>
           </li>
           <li>
-            <button id="quickview" class="btn btn-default tp-icon chat-icon">
+            <button id="right_side_view" class="btn btn-default tp-icon chat-icon">
                 <i class="fa fa-globe fa-lg"></i>
                 <span class="badge">2</span>
             </button>

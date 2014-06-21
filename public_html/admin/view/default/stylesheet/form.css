@@ -65,6 +65,14 @@ label > i {
 	z-index: 10 !important;
 }
 
+#product_grid_search .small-field {
+	width: 60px;
+}
+
+
+
+
+
 
 .ckbox,
 .rdio {

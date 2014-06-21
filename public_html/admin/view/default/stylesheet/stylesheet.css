@@ -277,7 +277,7 @@ h1,h2,h3,h4,h5 {
    box-shadow: none;
 }
 
-#quickview.dropdown-toggle {
+#right_side_view.dropdown-toggle {
    background: none repeat scroll 0 0 #131D29;
    color: rgba(255, 255, 255, 0.5);
 }
@@ -3468,6 +3468,9 @@ body.stickyheader .sticky_left {
 }
 
 /* Other styles */
+#summary th, #summary td{
+	border: none;
+}
 .summary_label {
     font-weight: bold;
     text-align: left;

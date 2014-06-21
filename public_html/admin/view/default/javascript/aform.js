@@ -51,7 +51,7 @@
 
     $.fn.aform = function (op) {
         var o = $.extend({}, $.aform.defaults, op);
-		var $buttons = '<span class="abuttons_grp"><a class="icon_save fa fa-save" data-toggle="tooltip" title="' + o.buttons.save + '"></a><a class="icon_reset fa fa-refresh" data-toggle="tooltip" title="' + o.buttons.reset + '"></a></span>';
+		var $buttons = '<span class="abuttons_grp"><a class="icon_save fa fa-check" data-toggle="tooltip" title="' + o.buttons.save + '"></a><a class="icon_reset fa fa-refresh" data-toggle="tooltip" title="' + o.buttons.reset + '"></a></span>';
 
         function doInput(elem) {
             var $field = $(elem);
@@ -752,7 +752,7 @@ jQuery(document).ready(function() {
 		var $label = $(this);
 		var $help = $label.find('span.help');
 		if( $help.length > 0) {
-			var $icon = '&nbsp;<i class="fa fa-exclamation fa-lg"></i>';
+			var $icon = '&nbsp;<i class="fa fa-comment-o"></i>';
 			var content = $help.text();
 			//destroy span
 			$help.remove();

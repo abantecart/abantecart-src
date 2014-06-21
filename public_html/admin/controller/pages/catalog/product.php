@@ -689,7 +689,8 @@ exit;
 								'name' => 'generate_seo_keyword',
 								'text' => $this->language->get('button_generate'),
 								//set button not to submit a form
-								'attr' => 'type="button"'
+								'attr' => 'type="button"',
+								'style' => 'btn btn-info'
 								));
 		$this->data['generate_seo_url'] =  $this->html->getSecureURL('common/common/getseokeyword','&object_key_name=product_id&id='.$this->request->get['product_id']);
 
