@@ -515,7 +515,7 @@ exit;
 		    'type' => 'form',
 		    'name' => 'productFrm',
 		    'action' => $this->data['action'],
-		    'attr' => 'confirm-exit="true" class="form-horizontal"',
+		    'attr' => 'confirm-exit="true" class="aform form-horizontal"',
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',

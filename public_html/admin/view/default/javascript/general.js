@@ -458,12 +458,14 @@ httpError = function (data) {
         });
 }
 
+/*
 jQuery(function ($) {
     $('<div/>').ajaxError(function (e, jqXHR, settings, exception) {
         var error_data = $.parseJSON(jqXHR.responseText);
         httpError(error_data);
     });
 });
+*/
 
 var numberSeparators = {};
 function formatPrice(field) {

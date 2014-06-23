@@ -69,8 +69,14 @@ label > i {
 	width: 60px;
 }
 
-
-
+/* Field help and errors*/
+form .help-block {
+	text-align: center;	
+}
+.field_err {
+	font-style:italic;
+	font-size:12px;
+}
 
 
 
@@ -280,10 +286,6 @@ OLD CSS
 
 ***/
 .ajax_result {
-	display:inline-block;
-	margin-left:15px;
-	vertical-align:top;
-	display:none;
 }
 .ajax_loading {
 	background: url(../image/ajax-loader.gif) 0 50% no-repeat;
@@ -300,12 +302,6 @@ OLD CSS
 .ajax_error {
 	line-height:20px;
 	color:#F00;
-}
-.field_err {
-	color:#F00;
-	margin-top:4px;
-	font-style:italic;
-	font-size:11px;
 }
 
 .ml_field input, .ml_field textarea {

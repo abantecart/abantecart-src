@@ -6,6 +6,7 @@
 	
 	Quick notes:
 	Form construct:
+		- All fields part of the Aform class must be inside form tags
 		- Form container must have class "aform".	
 	Field construct 
 		- HTML fields need to be wraped with div container with "afield" class
@@ -63,7 +64,12 @@
             if ($field.prop("readonly")) {
                 $field.addClass(o.readonlyClass);
             }
+			/* do we have error? */
+            if ($wrapper.hasClass('has-error') || $wrapper.parent().hasClass('has-error')) {
+            	$field.addClass('has-error');
+            }
 
+			/* bind events */
             $field.bind({
                 "focus.aform":function () {
                     $field.addClass(o.focusClass);
@@ -164,21 +170,24 @@
         }
 
         function doTextarea(elem) {
-            var $el = $(elem);
-
+            var $field = $(elem);
             //no need to wrap ckeditor
-            if ($el.closest('.ml_ckeditor').length) return;
+            if ($field.closest('.ml_ckeditor').length) return;
+            var $wrapper = $field.closest('.afield');
 
-            var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield');
-
-            if ($el.is(':hidden') && o.autoHide) {
+            if ($field.is(':hidden') && o.autoHide) {
                 $wrapper.hide();
             }
-            if ($el.prop("readonly")) {
+            if ($field.prop("readonly")) {
                 $field.addClass(o.readonlyClass);
             }
 
-            $el.bind({
+			/* do we have error? */
+            if ($wrapper.hasClass('has-error') || $wrapper.parent().hasClass('has-error')) {
+            	$field.addClass('has-error');
+            }
+
+            $field.bind({
                 "focus.aform":function () {
                     $field.addClass(o.focusClass);
                 },
@@ -189,21 +198,21 @@
                     if (e.keyCode == 13) {
                         $(o.btnGrpSelector, $wrapper).find('a:eq(0)').trigger('click');
                     } else {
-                        onChangedAction($el, $(this).val(), $(this).attr('data-orgvalue'));
+                        onChangedAction($field, $(this).val(), $(this).attr('data-orgvalue'));
                     }
                 },
                 "change.aform":function () {
-                    onChangedAction($el, $(this).val(), $(this).attr('data-orgvalue'));
+                    onChangedAction($field, $(this).val(), $(this).attr('data-orgvalue'));
                 }
             });
         }
 
         function doScrollbox(elem) {
-            var $el = $(elem);
+            var $field = $(elem);
 
-            var $wrapper = $el.closest('.aform');
+            var $wrapper = $field.closest('.afield');
 
-            if ($el.is(':hidden') && o.autoHide) {
+            if ($field.is(':hidden') && o.autoHide) {
                 $wrapper.hide();
             }
         }
@@ -238,6 +247,7 @@
                 }
             });
         }
+        
         function doRadio(elem) {
             var $el = $(elem);
 
@@ -309,6 +319,11 @@
             }
             if ($field.prop("disabled")) {
                 $field.addClass(o.disabledClass);
+            }
+
+			/* do we have error? */
+            if ($wrapper.hasClass('has-error') || $wrapper.parent().hasClass('has-error')) {
+            	$field.addClass('has-error');
             }
 
             $field.bind({
@@ -460,6 +475,7 @@
 		/* Stand alone form functions */
 		
 		function resetField(elem) {
+			var $field = $(elem);
 			//wraper is a parent div with .afiled
 		    var $wrapper = $(elem).closest('.afield');
 		    $wrapper.find('input, textarea, select').each(function () {
@@ -491,6 +507,10 @@
 		        	flip_aswitch($e);
 		        }
 		    });
+			//remove errors if any
+			$wrapper.parent().find('.ajax_result').remove();
+			$wrapper.parent().removeClass('has-error');
+			$field.removeClass('has-error');
 		}
 
 		function updateOriginalValue(elem) {
@@ -583,7 +603,6 @@
 			$btncontainer.parent('.afield').removeClass(o.changedClass);
 			$field.removeClass(o.changedClass);
 			$(o.btnGrpSelector, $btncontainer).remove();
-			$('.field_err', $btncontainer).remove();
 			$btncontainer.removeClass('quicksave');
 			//remove button container if it is empty
 			if( ($btncontainer.text()).length == 0 ){
@@ -597,7 +616,7 @@
 		    //find a button container
 		    var $grp = $wrapper.find(o.btnGrpSelector);
 		    var $err = false;
-		    $ajax_result = $('<span class="ajax_result"></span>');
+		    $ajax_result = $('<span class="help-block ajax_result"></span>');
 		
 		    if ($field.parent('#product_related').length) {
 		        $wrapper = $field.parent('#product_related');
@@ -651,7 +670,7 @@
 		
 		    if (!$err) {
 		    	//show ajax wrapper
-		        $ajax_result.insertBefore($grp).html('<span class="ajax_loading">Saving...</span>').show();
+		        $ajax_result.insertAfter($wrapper).html('<span class="ajax_loading">Saving...</span>').show();
 		        $.ajax({
 		            url:url,
 		            type:"post",
@@ -666,15 +685,16 @@
 		                    $error_text = '<span class="ajax_error">There\'s an error in the request.</span>';
 		                }
 		                // show ajax error and fadeout
-		                $('.ajax_result', $wrapper).html($error_text).delay(2500).fadeOut(3000, function () {
-		                        $(this).remove();
+		                $ajax_result.html($error_text).delay(2500).fadeOut(3000, function () {
+							$(this).remove();
+							$field.focus();
 		                });
 		                $('.field_err', $wrapper).remove();
-		                $wrapper.find('input, select, textarea').focus();
+		                $field.focus();
 		             
 		                //reset data if requested
 		                if ( $json.reset_value == true ) {
-		                	resetField($wrapper.find('input, select, textarea'));
+		                	resetField($field);
 		                	removeQuickSave($field);
 		                }
 		            },
@@ -684,10 +704,13 @@
 		                    window.location.reload();
 		                }
 						updateOriginalValue($field);		
-		                $('.ajax_result', $wrapper).html('<span class="ajax_success">' + data + '</span>').delay(2500).fadeOut(3000, function () {
+		                $ajax_result.html('<span class="ajax_success">' + data + '</span>').delay(2500).fadeOut(3000, function () {
 		                    $(this).remove();
+			                $ajax_result.remove();
+		                    $field.focus();
 		                });
-		                $('.field_err', $wrapper).remove();
+		                $wrapper.parent().removeClass('has-error');
+		                $field.removeClass('has-error');
 		                removeQuickSave($field);
 		            }
 		        });	
