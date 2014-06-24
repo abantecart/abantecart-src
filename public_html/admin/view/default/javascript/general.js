@@ -145,7 +145,7 @@ jQuery(document).ready(function() {
       barColor: '#F0AD4E'
    });
    
-   // Minimize Button in Panels
+   // Panels Controls
    $('.minimize').click(function(){
       var t = $(this);
       var p = t.closest('.panel');
@@ -161,7 +161,7 @@ jQuery(document).ready(function() {
       return false;
    });
    
-   // Add class everytime a mouse pointer hover over it on both levels
+   // Add class on mouse pointer hover for both levels
    $('.nav-bracket > li').hover(function(){
       $(this).addClass('nav-hover');
    }, function(){
@@ -173,7 +173,6 @@ jQuery(document).ready(function() {
       $(this).removeClass('nav-hover');
    });
    
-   // Menu Toggle
    $('.menutoggle').click(function(){
 		if(jQuery.cookie('leftpanel-collapsed')) {
 			$.removeCookie("leftpanel-collapsed");
@@ -203,21 +202,21 @@ jQuery(document).ready(function() {
 		}
    });
    
-   // Chat View
-   $('#quickview').click(function(){
+   // Right Side Panel 
+   $('#right_side_view').click(function(){
       var body = $('body');
       var bodypos = body.css('position');
       if(bodypos != 'relative') {
          if(!body.hasClass('chat-view')) {
             body.addClass('leftpanel-collapsed chat-view');
             $('.nav-bracket ul').attr('style','');
-            $('#quickview').addClass('dropdown-toggle');
+            $('#right_side_view').addClass('dropdown-toggle');
          } else {
             body.removeClass('chat-view');
             if(!$('.menutoggle').hasClass('menu-collapsed')) {
                $('body').removeClass('leftpanel-collapsed');
                $('.nav-bracket li.active ul').css({display: 'block'});
-               $('#quickview').removeClass('dropdown-toggle');
+               $('#right_side_view').removeClass('dropdown-toggle');
             }
          }
       } else {
@@ -459,12 +458,14 @@ httpError = function (data) {
         });
 }
 
+/*
 jQuery(function ($) {
     $('<div/>').ajaxError(function (e, jqXHR, settings, exception) {
         var error_data = $.parseJSON(jqXHR.responseText);
         httpError(error_data);
     });
 });
+*/
 
 var numberSeparators = {};
 function formatPrice(field) {

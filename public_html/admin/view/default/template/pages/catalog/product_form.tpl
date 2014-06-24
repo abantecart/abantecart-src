@@ -23,8 +23,8 @@
                     <i class="fa fa-tags"></i>
                     </a>
                     <?php if (!empty ($help_url)) : ?>
-                    <a class="btn btn-white tooltips help_element" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
-                    <i class="fa fa-question"></i>
+                    <a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
+                    <i class="fa fa-question-circle"></i>
                     </a>
                     <?php endif; ?>
 			    </div>	
@@ -52,16 +52,16 @@
 				}
 				$widthcasses .= " col-xs-12";				
 			?>
-		<div class="form-group">
+		<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
 				<?php echo $field; ?>
-		        <?php if (is_array($error[$name]) && !empty($error[$name][$language_id])) { ?>
-		        <div class="field_err"><?php echo $error[$name][$language_id]; ?></div>
-		        <?php } else if (!empty($error[$name])) { ?>
-		        <div class="field_err"><?php echo $error[$name]; ?></div>
-		        <?php } ?>
 			</div>
+		    <?php if (is_array($error[$name]) && !empty($error[$name][$language_id])) { ?>
+		    <span class="help-block field_err"><?php echo $error[$name][$language_id]; ?></span>
+		    <?php } else if (!empty($error[$name])) { ?>
+		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+		    <?php } ?>
 		</div>
 			<?php }  ?><!-- <div class="fieldset"> -->
 		<?php }  ?>
