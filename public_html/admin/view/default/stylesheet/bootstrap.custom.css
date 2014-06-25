@@ -105,14 +105,16 @@ h4, .h4 {
 
 .input-sm {
    font-size: 12px;
-   padding: 7px 10px;
    height: auto;
-   margin-top: 3px;
 }
 
 .input-lg {
    font-size: 18px;
    padding: 12px 10px;
+}
+
+.btn {
+	padding: 5px 10px;
 }
 
 .btn-default:hover,
