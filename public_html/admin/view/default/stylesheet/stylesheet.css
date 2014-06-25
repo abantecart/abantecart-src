@@ -3686,6 +3686,12 @@ body.stickyheader .sticky_left {
 }
 
 @media screen and (max-width: 767px) {
+
+   /* Horizontal Scroll for grid */
+	.panel-body {
+		overflow : scroll;
+		white-space:nowrap;
+	}
  
    #searchform {
       position: relative;
@@ -3855,7 +3861,7 @@ body.stickyheader .sticky_left {
 }
 
 @media screen and (max-width: 480px) {
-   
+        
    .signinpanel,
    .signuppanel {
       width: 360px;

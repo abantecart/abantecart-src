@@ -1,24 +1,24 @@
 <div class="ui-jqgrid-wrapper" id="<?php echo $data['table_id'] ?>_wrapper">
-    <form id="<?php echo $data['table_id'] ?>_form" action="<?php echo $data["editurl"] ?>" method="POST" role="form">
+    <form class="form-inline" id="<?php echo $data['table_id'] ?>_form" action="<?php echo $data["editurl"] ?>" method="POST" role="form">
         <table id="<?php echo $data['table_id'] ?>"></table>
         <div id="<?php echo $data['table_id'] ?>_pager"></div>
         <div class="no_results"><?php echo $text_no_results; ?></div>
         <?php if ($data['multiselect'] == 'true' && !$data['multiselect_noselectbox']) { ?>
         <div class="multiactions <?php echo $data['multiaction_class']; ?>" id="<?php echo $data['table_id'] ?>_multiactions" align="right">
-            <a id="<?php echo $data['table_id'] ?>_go" class="btn_standard"><?php echo $btn_go; ?></a>
-
             <select id="<?php echo $data['table_id'] ?>_selected_action" name="<?php echo $data['table_id'] ?>_action">
                 <?php
                 if (sizeof($multiaction_options) > 1) {
                     ?>
                     <option value=""><?php echo $text_choose_action; ?></option>
-                    <?php
+                <?php
                 }
                 foreach ($multiaction_options as $value => $text) {
                     ?>
                     <option value="<?php echo $value; ?>"><?php echo $text; ?></option>
-                    <?php } ?>
+                <?php 
+                } ?>
             </select>
+            <a id="<?php echo $data['table_id'] ?>_go" class="btn btn-sm btn-default"><?php echo $text_go; ?></a>            
         </div>
         <?php } ?>
 
@@ -181,6 +181,12 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                 $(table_id + '_wrapper .no_results').hide();
             }
 
+			//add wrapers to the fileds
+		    $(table_id).find("input:not( input.cbox ), testarea, select").each(function () {
+    		    $.aform.styleGridForm(this);
+        		$(this).aform({triggerChanged:false});
+    		});
+
             // init datepicker for fields
             if ($('.date').length > 0) {
                 $('.date').datepicker({dateFormat:'yy-mm-dd'});
@@ -201,7 +207,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
             });
             */
 
-            // apply form transformation to all elements except multiselect checkboxes
+            // apply form transformation to all elements except grid row checkboxes
             $("input:not( input.cbox ), textarea, select", table_id).not('.no-save').aform({
                 triggerChanged:true,
                 buttons:{
@@ -219,16 +225,19 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
         <?php
         if (!empty($data['actions'])) {
             foreach ($data['actions'] as $type => $action) {
+            	$ec_str = ' actions += \'<a class="btn_action btn_grid tooltips grid_action_' . $type . '" title="' . $action['text'] . '" data-original-title="' . $action['text'] . '" data-toggle="tooltip" ';
                 switch ($type) {
                     case 'delete':
+                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-trash-o fa-lg"></i></a>\'; ';
+                        break;
                     case 'save':
-                        echo ' actions +=  \'<a class="btn_action btn_grid grid_action_' . $type . '" href="#" rel="%ID%" title="' . $action['text'] . '"><img src="' . $template_dir . 'image/icons/icon_grid_' . $type . '.png" alt="' . $action['text'] . '" border="0" /></a>\'; ';
+                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-save fa-lg"></i></a>\'; ';
                         break;
                     case 'expand':
-                        echo ' actions +=  \'<a class="btn_action btn_grid grid_action_' . $type . '" href="#" rel="' . $action['field'] . '=%ID%" title="' . $action['text'] . '"><img src="' . $template_dir . 'image/icons/icon_grid_' . $type . '.png" alt="' . $action['text'] . '" border="0" /></a>\'; ';
+                        echo $ec_str.' href="#" rel="'.$action['field'].'=%ID%"><i class="fa fa-plus-square-o fa-lg"></i></a>\'; ';
                         break;
                     default:
-                        echo ' actions +=  \'<a id="action_' . $type . '_%ID%" class="btn_action btn_grid" href="' . $action['href'] . '" ' . (!empty($action['target']) ? 'target="' . $action['target'] . '"' : '') . ' title="' . $action['text'] . '" ><img src="' . $template_dir . 'image/icons/icon_grid_' . $type . '.png" alt="' . $action['text'] . '" border="0" /></a>\'; ';
+                        echo $ec_str.' href="' . $action['href'] . '" id="action_' . $type . '_%ID%"  ' . (!empty($action['target']) ? 'target="' . $action['target'] . '"' : '') . '><i class="fa fa-' . $type . ' fa-lg"></i></a>\'; ';
                 }
                 echo "\r\n";
             }
@@ -477,13 +486,16 @@ if ($custom_buttons) {
 		}	
 	}
 
+
     var resize_the_grid = function() {
         if($.browser.msie!=true){
             $(table_id).fluidGrid({base:table_id + '_wrapper', offset:-10});
             //update input width
-            $("input, textarea, select", table_id + '_wrapper').each(function () {
+			/*
+            $("input, textarea, select", table_id).each(function () {
                 $(this).css('width', $(this).closest('th').width() - 52);
             });
+            */
         }
     }
 
@@ -520,7 +532,12 @@ if ($custom_buttons) {
         }
         $(this).parent().css('text-align', algn);
         $.aform.styleGridForm(this);
+        
+        
     });
+    //remove reset button in search
+    $('tr.ui-search-toolbar').find(".ui-search-clear").remove();
+    
 };
 <?php
 //run initialization if initialization on load enabled

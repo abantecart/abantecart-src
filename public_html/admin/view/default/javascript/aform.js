@@ -44,10 +44,8 @@
             autoHide:true,
             save_url:''
         },
-        wrapper:'',
+        wrapper:'<div class="form-group" />',
         mask:'<div class="input-group" />',
-        maskTop:' ',
-        maskBottom:'</div>'
     };
 
     $.fn.aform = function (op) {
@@ -392,30 +390,21 @@
 		   	return false;    
 		}
 
-        //Convert styles for the grid head/footer form elements
+        //Wrapp grid head/footer form filed elements
         $.aform.styleGridForm = function (elem) {
-            var $el = $(elem);
-
-            if ($el.is("select")) {
-                if ($el.attr('size') > 1) {
-                    $el.attr('data-orgvalue', $el.val()).addClass(o.textClass)
-                        .wrap($.aform.mask).closest('.afield').addClass('mask2')
-                        .prepend($.aform.maskTop).append($.aform.maskBottom)
-                        .wrap($.aform.wrapper);
-                } else {
-                    $el.attr('data-orgvalue', $el.val()).css('opacity', 0).wrap($.aform.mask).before('<span />')
-                        .closest('.afield').addClass('mask1 ' + o.selectClass).wrap($.aform.wrapper);
-                }
-                var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield');
-
-                var $selected = $el.find(":selected:first");
+            var $field = $(elem);
+            $field.wrap($.aform.wrapper).wrap($.aform.mask);
+            $field.addClass('form-control').addClass('input-sm');
+            
+            if ($field.is("select")) {
+            	var $field = $(elem);
+            	var $wrapper = $field.closest('.afield');
+            
+                var $selected = $field.find(":selected:first");
                 if ($selected.length == 0) {
-                    $selected = $el.find("option:first");
+                    $selected = $field.find("option:first");
                 }
             } else {
-                $el.attr('data-orgvalue', $el.val()).addClass(o.textClass)
-                    .wrap($.aform.mask).closest('.afield').addClass('mask1')
-                    .wrap($.aform.wrapper);
             }
         }
 

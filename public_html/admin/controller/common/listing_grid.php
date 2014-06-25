@@ -112,11 +112,7 @@ class ControllerCommonListingGrid extends AController {
             $multiaction_options = $this->data['multiaction_options'];
         }
 
-        $btn_go = $this->html->buildButton(array('text' => !$this->data['button_go'] ? $this->language->get('button_go') : $this->data['button_go'],
-            'id' => 'btn_go',
-            'style' => 'button6',
-            'form' => 'form'));
-        $this->view->assign('btn_go', $btn_go);
+        $this->view->assign('text_go', $this->language->get('button_go'));
 
         $this->view->assign('multiaction_options', $multiaction_options);
 
