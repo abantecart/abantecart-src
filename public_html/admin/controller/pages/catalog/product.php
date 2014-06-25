@@ -227,7 +227,7 @@ class ControllerPagesCatalogProduct extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
     	$this->document->setTitle($this->language->get('heading_title'));		
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+    	if ($this->request->is_POST() && $this->_validateForm()) {
             $product_data = $this->_prepareData($this->request->post);
             $product_id = $this->model_catalog_product->addProduct($product_data);
             $this->model_catalog_product->updateProductLinks($product_id, $product_data);
@@ -253,12 +253,10 @@ class ControllerPagesCatalogProduct extends AController {
 			unset($this->session->data['success']);
 		}
 
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+    	if ($this->request->is_POST() && $this->_validateForm()) {
             $product_data = $this->_prepareData($this->request->post);
 			$this->model_catalog_product->updateProduct($this->request->get['product_id'], $product_data);
             $this->model_catalog_product->updateProductLinks($this->request->get['product_id'], $product_data);
-echo_array($this->request->post);
-exit;
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$this->request->get['product_id']));
 		}
@@ -307,7 +305,7 @@ exit;
       		'current' => true,
    		 ));
 									
-		if (isset($this->request->get['product_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['product_id']) && $this->request->is_GET()) {
       		$product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
 			$product_info['featured'] = $product_info['featured'] ? 1 : 0;
     	}
