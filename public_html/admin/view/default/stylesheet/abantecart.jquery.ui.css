@@ -290,6 +290,10 @@
     border: 0;
 }
 
+.ui-widget-content .input-group-addon {
+	padding: 6px 5px;	
+}
+
 .ui-widget-content .ui-priority-secondary {
     background: #E4EEF7;
     opacity: 1;

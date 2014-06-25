@@ -211,8 +211,8 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
             $("input:not( input.cbox ), textarea, select", table_id).not('.no-save').aform({
                 triggerChanged:true,
                 buttons:{
-                    save:'<span class="icon_s_save"></span>',
-                    reset:'<span class="ui-icon ui-icon-refresh"></span>'
+                    save:'Save',
+                    reset:'Refresh'
                 },
                 save_url:'<?php echo $data["update_field"] ?>'
             });
