@@ -18,7 +18,7 @@
                 <?php 
                 } ?>
             </select>
-            <a id="<?php echo $data['table_id'] ?>_go" class="btn btn-sm btn-default"><?php echo $text_go; ?></a>            
+            <a id="<?php echo $data['table_id'] ?>_go" class="btn btn-xs btn-default"><?php echo $text_go; ?></a>            
         </div>
         <?php } ?>
 

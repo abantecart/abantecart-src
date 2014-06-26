@@ -166,7 +166,7 @@
 }
 
 .ui-jqgrid .ui-jqgrid-htable th {
-    height: 40px;
+    height: 30px;
     padding: 0 2px;
     text-align: center !important;
 }
@@ -203,6 +203,9 @@
     position: relative;
 }
 
+.ui-jqgrid .ui-jqgrid-htable table {
+	width: 100%;
+}
 .ui-jqgrid .ui-jqgrid-htable th.ui-th-column {
     overflow: hidden;
     white-space: nowrap;
@@ -290,10 +293,6 @@
     border: 0;
 }
 
-.ui-widget-content .input-group-addon {
-	padding: 6px 5px;	
-}
-
 .ui-widget-content .ui-priority-secondary {
     background: #E4EEF7;
     opacity: 1;
@@ -310,6 +309,7 @@
 
 .ui-jqgrid tr.jqgrow td {
     font-weight: normal;
+    font-size: 12px;
     height: 40px;
     padding: 2px 2px 2px 10px;
     border-bottom: 1px solid #CACCD2;
@@ -442,6 +442,19 @@
     vertical-align: middle;
     padding: 2px;
     white-space: normal;
+}
+.ui-jqgrid .input-sm {
+	padding: 1px 5px;
+}
+.ui-jqgrid .input-group-addon.quicksave {
+	padding: 1px 1px;	
+}
+.ui-jqgrid .abuttons_grp .icon_save {
+	padding: 0;
+}
+
+.ui-jqgrid select.input-sm {
+	height: auto;
 }
 
 .ui-jqgrid .ui-pg-table td .form-group {

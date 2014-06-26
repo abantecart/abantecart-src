@@ -45,7 +45,7 @@
             save_url:''
         },
         wrapper:'<div class="form-group" />',
-        mask:'<div class="input-group" />',
+        mask:'<div class="input-group afield" />',
     };
 
     $.fn.aform = function (op) {
@@ -393,18 +393,24 @@
         //Wrapp grid head/footer form filed elements
         $.aform.styleGridForm = function (elem) {
             var $field = $(elem);
-            $field.wrap($.aform.wrapper).wrap($.aform.mask);
-            $field.addClass('form-control').addClass('input-sm');
             
             if ($field.is("select")) {
-            	var $field = $(elem);
-            	var $wrapper = $field.closest('.afield');
+	            $field.wrap($.aform.wrapper).wrap($.aform.mask);
+    	        $field.addClass('form-control').addClass('input-sm');
             
                 var $selected = $field.find(":selected:first");
                 if ($selected.length == 0) {
                     $selected = $field.find("option:first");
                 }
+            } else if ($field.hasClass('aswitcher'))  {
+            	//locate switch buttons
+       		    var $wrapper = $field.parent().find('.btn_switch');
+       		    $wrapper.next('input').andSelf().wrapAll($.aform.wrapper).wrapAll($.aform.mask);
+       		    $wrapper.find('.btn').addClass('btn-xs');
+            	doSwitchButton($field);
             } else {
+	            $field.wrap($.aform.wrapper).wrap($.aform.mask);
+	            $field.addClass('form-control').addClass('input-sm');            
             }
         }
 
@@ -551,7 +557,6 @@
 			$field.addClass(o.changedClass);
 			$('.ajax_result, .field_err', $btncontainer).remove();
 			$(o.btnGrpSelector, $btncontainer).css('display', 'inline-block');
-
 			//bind events for buttons
 			$(o.btnGrpSelector, $btncontainer).find('a').unbind('click'); // to prevent double binding			
 			 //first button click event, is a save of data
