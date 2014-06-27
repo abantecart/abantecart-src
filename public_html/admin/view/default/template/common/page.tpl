@@ -11,17 +11,17 @@
 
 <div class="wrapper">
   	<div class="wrapper_c page_width" style="width: <?php echo $layout_width; ?>">
-	<section>
+		<section>
 
-	<?php echo $header; ?>
-	
-	<div class="contentpanel">
-	<?php echo $content; ?>
-    </div><!-- / contentpanel -->
-    
-	<?php echo $footer; ?>
+			<?php echo $header; ?>
 
-	<section>    
+			<div class="contentpanel">
+			<?php echo $content; ?>
+			</div><!-- / contentpanel -->
+
+			<?php echo $footer; ?>
+
+		</section>
 	</div><!-- / Container wrapper -->
 </div><!-- /Page wrapper -->
 
