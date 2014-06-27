@@ -57,9 +57,7 @@
 			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
 				<?php echo $field; ?>
 			</div>
-		    <?php if (is_array($error[$name]) && !empty($error[$name][$language_id])) { ?>
-		    <span class="help-block field_err"><?php echo $error[$name][$language_id]; ?></span>
-		    <?php } else if (!empty($error[$name])) { ?>
+		    <?php if (!empty($error[$name])) { ?>
 		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
 		    <?php } ?>
 		</div>
