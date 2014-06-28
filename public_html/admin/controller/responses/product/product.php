@@ -374,7 +374,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->data[ 'update_option_values_form' ][ 'open' ] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'update_option_values',
-			'attr' => 'confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true"',
 			'action' => $this->data[ 'update_option_values' ] ));
 
 		//form of option
@@ -387,7 +387,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'option_value_form',
-			'attr' => 'confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true"',
 			'action' => $this->data[ 'update_option_values' ]
 		));
 
@@ -787,7 +787,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 					'type' => 'form',
 					'name' => 'downloadFrm'.$file_data['download_id'],
-					'attr' => 'confirm-exit="true"',
+					'attr' => 'data-confirm-exit="true"',
 					'action' => $this->data['action']
 				));
 		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array(
@@ -1063,7 +1063,7 @@ class ControllerResponsesProductProduct extends AController {
 			$this->data['form0']['form_open'] = $form0->getFieldHtml(array(
 						'type' => 'form',
 						'name' => 'SharedFrm'.$file_data['download_id'],
-						'attr' => 'confirm-exit="true"',
+						'attr' => 'data-confirm-exit="true"',
 						'action' => $this->html->getSecureURL('catalog/product_files','&product_id='.$product_id)
 					));
 
