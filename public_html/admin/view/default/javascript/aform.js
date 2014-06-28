@@ -797,8 +797,8 @@ jQuery(document).ready(function() {
 	/* Handling forms exit */
 	$(window).bind('beforeunload', function () {
 	    var message = '', ckedit = false;
-	    if ($('form[confirm-exit="true"]').length > 0) {
-	        $('form[confirm-exit="true"]').each(function () {
+	    if ($('form[data-confirm-exit="true"]').length > 0) {
+	        $('form[data-confirm-exit="true"]').each(function () {
 	        	//skip validation if we submit
 	            if ($(this).prop('changed') != 'submit') {
 		            // now check is cdeditor changed
@@ -828,7 +828,7 @@ jQuery(document).ready(function() {
 	});
 
 	//bind event for submit buttons
-	$('form[confirm-exit="true"]').find('.btn').bind('click', function () {
+	$('form[data-confirm-exit="true"]').find('.btn').bind('click', function () {
 	    var $form = $(this).parents('form');
 		//reset elemnts to not changed status
 	    $form.prop('changed', 'submit');

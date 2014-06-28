@@ -307,7 +307,7 @@ class ControllerPagesDesignContent extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'contentFrm',
-			'attr' => 'confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true"',
 			'action' => $this->data['action'],
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(

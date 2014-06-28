@@ -195,7 +195,7 @@ class ControllerPagesCatalogProductOptions extends AController {
 		    'type' => 'form',
 		    'name' => 'product_form',
 		    'action' => $this->data['action'],
-		    'attr' => 'confirm-exit="true"',
+		    'attr' => 'data-confirm-exit="true"',
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
