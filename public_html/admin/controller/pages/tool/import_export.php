@@ -259,8 +259,9 @@ class ControllerPagesToolImportExport extends AController {
 		$results = array();
 		$run_mode = isset($this->request->post['test_mode']) ? $this->request->post['test_mode'] : 'commit';
 
-		if ( in_array($file['type'], array('text/csv','application/vnd.ms-excel','text/plain')) ) {
-
+		if ( in_array($file['type'], array('text/csv','application/vnd.ms-excel','text/plain','application/octet-stream')) ) {
+			#NOTE: 'application/octet-stream' is a solution for Windows OS sending unknown file type
+			#TODO: Need to add test for the file in case of 'application/octet-stream'
 			$csv_array = $this->handler->CSV2ArrayFromFile($file['tmp_name'], $this->request->post['options']['delimiter']);
 			$results = $this->handler->importData($csv_array, $run_mode);
 			$this->cache->delete('*');
