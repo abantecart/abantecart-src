@@ -317,7 +317,11 @@ class ControllerBlocksListingBlock extends AController {
 												   $data_source['storefront_method']),
 												   array($item['id']));
 			}
+
+			// Skip if data source is vanished but still set in the listing. 
+			$result = array_filter($result);
 		}
+
 
 		/*if($data_source['rl_object_name'] ){
 			$resource = new AResource('image');
