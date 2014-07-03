@@ -62,6 +62,9 @@ class ControllerResponsesListingGridOrder extends AController {
 		if (has_value($this->request->get[ 'customer_id' ])){
 			$data[ 'filter_customer_id' ] = $this->request->get[ 'customer_id' ];
 		}
+		if (has_value($this->request->get[ 'product_id' ])){
+			$data[ 'filter_product_id' ] = $this->request->get[ 'product_id' ];
+		}
 
 		if (isset($this->request->post[ '_search' ]) && $this->request->post[ '_search' ] == 'true') {
 			$searchData = json_decode(htmlspecialchars_decode($this->request->post[ 'filters' ]), true);

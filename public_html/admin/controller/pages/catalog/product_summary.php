@@ -45,6 +45,11 @@ class ControllerPagesCatalogProductSummary extends AController {
 			                                     $this->config->get('config_image_grid_height'),true);
         $this->data['product']['image'] = $thumbnail;
         $this->data['product']['preview'] = $this->html->getCatalogURL('product/product', '&product_id='.$product_info['product_id']);
+	
+		$this->loadModel('sale/order');
+		$this->data['product']['orders'] = $this->model_sale_order->getOrderTotalWithProduct($product_info['product_id']);
+		$this->data['product']['orders_url'] = $this->html->getSecureURL('sale/order', '&product_id='.$product_info['product_id']);
+
 		$this->view->assign('help_url', $this->gen_help_url('product_summary') );
         $this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/catalog/product_summary.tpl' );

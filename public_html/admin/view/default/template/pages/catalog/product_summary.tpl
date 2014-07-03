@@ -12,7 +12,7 @@
         <td class="summary_image" rowspan="3" align="center">
             <?php echo $product['image']['thumb_html']; ?>
             <br/>
-            <a href="<?php echo $product['preview']; ?>" class="btn btn-small btn-default" target="_blank"><i class="fa fa-external-link"></i> <?php echo $text_view; ?></a>
+            <a href="<?php echo $product['preview']; ?>" class="btn btn-small btn-default" target="_new"><i class="fa fa-external-link"></i> <?php echo $text_view; ?></a>
         </td>
         <td class="summary_label"><?php echo $entry_name; ?></td>
         <td class="summary_value"><?php echo $product['name']; ?></td>
@@ -33,8 +33,12 @@
 			}else{
 				echo $text_product_available;
 			} ?></td>
-        <td class="summary_label"></td>
-        <td class="summary_value"></td>
+        <td class="summary_label">Total Orders</td>
+        <td class="summary_value"> <?php echo $product['orders']; ?>
+        <?php if( $product['orders'] > 0) { ?>
+	        &nbsp;&nbsp;<a href="<?php echo $product['orders_url']; ?>" class="btn btn-small btn-default" target="_new"><i class="fa fa-external-link"></i> <?php echo $text_view; ?></a>
+        <?php } ?>
+        </td>
       </tr>
     </table>
 	</div>
