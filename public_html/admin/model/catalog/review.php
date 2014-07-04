@@ -30,6 +30,7 @@ class ModelCatalogReview extends Model {
 						      status = '" . (int)$data['status'] . "',
 						      date_added = NOW()");
         $this->cache->delete('product.reviews.totals');
+		$this->cache->delete('product.all_info');
 		return $this->db->getLastId();
 	}
 	
@@ -47,6 +48,7 @@ class ModelCatalogReview extends Model {
 						  WHERE review_id = '" . (int)$review_id . "'");
         $this->cache->delete('product.rating.'.(int)$data['product_id']);
         $this->cache->delete('product.reviews.totals');
+		$this->cache->delete('product.all_info');
 	}
 	
 	public function deleteReview($review_id) {
@@ -54,6 +56,7 @@ class ModelCatalogReview extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "reviews WHERE review_id = '" . (int)$review_id . "'");
         $this->cache->delete('product.rating.'.(int)$review['product_id']);
         $this->cache->delete('product.reviews.totals');
+		$this->cache->delete('product.all_info');
 	}
 	
 	public function getReview($review_id) {
@@ -158,4 +161,3 @@ class ModelCatalogReview extends Model {
 		return $result;
 	}
 }
-?>
