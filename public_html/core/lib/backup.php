@@ -22,6 +22,10 @@ if (! defined ( 'DIR_CORE' )) {
 }
 
 final class ABackup {
+	/**
+	 * @var string - mode of sql dump. can be "data_only" and "recreate"
+	 */
+	public  $sql_dump_mode = 'data_only';
 	private $backup_name;
 	private $backup_dir;
 	private $registry;
@@ -36,50 +40,136 @@ final class ABackup {
 
   		//Add [date] snapshot to the name and validate if archive is already used.
   		//Return error if archive can not be created 
-		$this->backup_name = $name .'_'. date('Y-m-d-H-i-s');
+		$this->backup_name = $name;
 		//Create a tmp directory with backup name in admin/system/backup/ (add config constant DIR_BACKUP with path in init.php)
 		//Create subdirectory /code and  /data
 		$this->backup_dir = DIR_BACKUP . $this->backup_name.'/';
-		  
-		$result = mkdir($this->backup_dir);
 
-		if(!$result){
-			$this->error = "Error: Can't create directory ".$this->backup_dir." during backup.";
-			$this->log->write($this->error);
-			$this->message->saveError('Backup Error',$this->error);
-			
-			$this->backup_dir = $this->backup_name = null;
+
+		if(!is_dir($this->backup_dir)){
+			$result = mkdir($this->backup_dir);
+
+			if(!$result){
+				$this->error = "Error: Can't create directory ".$this->backup_dir." during backup.";
+				$this->log->write($this->error);
+				$this->message->saveError('Backup Error',$this->error);
+				$this->backup_dir = $this->backup_name = null;
+			}
+			chmod($this->backup_dir,0777);
 		}
-		chmod($this->backup_dir,0777);
-		mkdir($this->backup_dir.'code');
-		chmod($this->backup_dir.'code',0777);
-		mkdir($this->backup_dir.'data');
-		chmod($this->backup_dir.'data',0777);
 
+		if(!is_dir($this->backup_dir.'code')){
+			mkdir($this->backup_dir.'code');
+			chmod($this->backup_dir.'code',0777);
+		}
+
+		if(!is_dir($this->backup_dir.'data')){
+			mkdir($this->backup_dir.'data');
+			chmod($this->backup_dir.'data',0777);
+		}
   	}
+
+
+	public function __get($key) {
+		return $this->registry->get ( $key );
+	}
+
+	public function __set($key, $value) {
+		$this->registry->set ( $key, $value );
+	}
 
 	public function getBackupName() {
 		return $this->backup_name;
 	}
+	public function setBackupName($name) {
+		return $this->backup_name = $name;
+	}
+
+	/**
+	 * @param array $tables - tables list
+	 * @param string $dump_file - path of file with sql dump
+	 * @return bool|string - path of dump file or false
+	 */
+	public function dumpTables($tables = array(), $dump_file=''){
+		if(!$tables || !is_array($tables) || !$this->backup_dir){
+			return false;
+		}
+
+		$prefix_len = strlen(DB_PREFIX);
+
+		if( !$dump_file) {
+			$dump_file = $this->backup_dir.'data/' .DB_DATABASE.'_dump_'. date("Y-m-d-H-i-s") . '.sql';
+		}
+
+		$file = fopen($dump_file,'w');
+		if(!$file){
+			$error_text = 'Error: Cannot create file as "'.$dump_file.'" during sql-dumping. Check is it writable.';
+			$error = new AError($error_text);
+			$error->toLog()->toDebug();
+			return false;
+		}
+
+		// make dump
+		foreach ($tables as $table) {
+			//if database prefix present - dump all abantecart tables. If not - dump all
+			if (DB_PREFIX && substr($table,0,$prefix_len) != DB_PREFIX ) {
+				continue;
+			}
+
+			if($this->sql_dump_mode == 'data_only'){
+				fwrite($file,"TRUNCATE TABLE `" . $table . "`;\n\n");
+			}elseif($this->sql_dump_mode == 'recreate'){
+
+				$sql = "SHOW CREATE TABLE `" . $table . "`;";
+				$result = $this->db->query($sql);
+				$ddl = $result->row['Create Table'];
+
+				fwrite($file,"DROP TABLE IF EXISTS `" . $table . "`;\n\n");
+				fwrite($file, $ddl . "\n\n");
+			}
+
+			// dump data with using "INSERT"
+			$query = $this->db->query("SELECT * FROM `" . $table . "`");
+			foreach ($query->rows as $result) {
+				$fields = '';
+				foreach (array_keys($result) as $value) {
+					$fields .= '`' . $value . '`, ';
+				}
+				$values = '';
+
+				foreach (array_values($result) as $value) {
+					$value = str_replace(array("\x00", "\x0a", "\x0d", "\x1a"), array('\0', '\n', '\r', '\Z'), $value);
+					$value = str_replace(array("\n", "\r", "\t"), array('\n', '\r', '\t'), $value);
+					$value = str_replace('\\', '\\\\', $value);
+					$value = str_replace('\'', '\\\'', $value);
+					$value = str_replace('\\\n', '\n', $value);
+					$value = str_replace('\\\r', '\r', $value);
+					$value = str_replace('\\\t', '\t', $value);
+
+					$values .= '\'' . $value . '\', ';
+				}
+				fwrite($file, 'INSERT INTO `' . $table . '` (' . preg_replace('/, $/', '', $fields) . ') VALUES (' . preg_replace('/, $/', '', $values) . ');' . "\n");
+			}
+
+			fwrite($file,"\n\n");
+		}
+
+		fclose($file);
+
+		return $dump_file;
+	}
+
 
 	public function dumpDatabase() {
 		if(!$this->backup_dir){
 			return FALSE;
 		}
 
-		$backupFile = $this->backup_dir.'data/' .DB_DATABASE.'_dump_'. date("Y-m-d-H-i-s") . '.sql';
-		$command = "mysqldump --opt -h " . DB_HOSTNAME . " -u " . DB_USERNAME . " -p" . DB_PASSWORD . " " . DB_DATABASE . " > " . $backupFile;
-		if(isFunctionAvailable('system')){
-			system($command);
-		}
-
-		if(!file_exists($backupFile)){
+		if( !$this->dumpTables() ){
 			$this->error = "Error: Can't create sql dump of database during backup";
 			$this->log->write($this->error);
 			$this->message->saveError('SQL-Backup Error',$this->error);
-            if(isFunctionAvailable('system')){
-			    return false;
-            }
+			return false;
 		}
 		chmod($backupFile,0777);
 		return true;
@@ -108,7 +198,7 @@ final class ABackup {
 		return true;
 	}
 	
-	public function backupDirectory ( $dir_path, $remove=true  ) {
+	public function backupDirectory ( $dir_path, $remove=false  ) {
 		if(!$this->backup_dir){
 			return FALSE;
 		}
@@ -120,8 +210,11 @@ final class ABackup {
 			return false;
 		}
 
-		$path = str_replace(DIR_ROOT.'/','',$dir_path);
-		mkdir($this->backup_dir.'code/'.$path,0777,TRUE); // it need for nested dirs, for example code/extensions
+		$path = pathinfo($dir_path, PATHINFO_BASENAME);
+
+		if(!is_dir($this->backup_dir.'code/'.$path)){
+			mkdir($this->backup_dir.'code/'.$path,0777,TRUE); // it need for nested dirs, for example code/extensions
+		}
 		
 		if(file_exists($this->backup_dir.'code/'.$path)){
 			if($path){
@@ -129,10 +222,11 @@ final class ABackup {
 			}				
 		}
 		if($remove){
-
 			$result = rename($dir_path, $this->backup_dir.'code/'.$path);
 		}else{
+
 			$result = $this->_copyDir($dir_path, $this->backup_dir.'code/'.$path);
+
 		}
 
 		if(!$result){
@@ -198,36 +292,28 @@ final class ABackup {
 	return true;
 	}
 	
-	public function archive($tar_filename, $tar_dir, $filename ) {
+	public function archive($archive_filename, $src_dir, $filename ) {
 		//Archive the backup to DIR_BACKUP, delete tmp files in directory $this->backup_dir 
 		//And create record in the database for created archive. 
 		//generate errors: No space on device (log to message as error too), No permissons, Others 
 		//return Success or failed.
 
-		$command = 'tar -C ' . $tar_dir . ' -czvf ' . $tar_filename . ' ' . $filename. ' > /dev/null';
-		if(isFunctionAvailable('system')){
-			system($command,$exit_code);
-		}else{
-			$exit_code = 1;
-		}
+		compressTarGZ($archive_filename, $src_dir.$filename);
 
-
-		if ( $exit_code ) {
-			$this->registry->get('load')->library('targz');
-			$targz = new Atargz();
-		    $targz->makeTar($tar_dir.$filename,$tar_filename);
-		}
-
-		if(!file_exists($tar_filename)){
-			$this->error = 'Error: cannot to pack ' . $tar_filename."\n Exit code:". $exit_code;
+		if(!file_exists($archive_filename)){
+			$this->error = 'Error: cannot to pack ' . $archive_filename."\n ";
 			$this->log->write($this->error);
-			$this->message->saveError('Backup Error',$this->error);
+			$this->message->saveError('Backup Compress Error',$this->error);
 			return false;
+		}else{
+			@chmod($archive_filename,0777);
 		}
-		@chmod($tar_filename,0777);
-		$this->_removeDir( $tar_dir.$filename );
+		//remove source folder after compress
+		$this->_removeDir( $src_dir.$filename );
 		return true;
 	}
+
+
 
 
 	// Future:  1. We will add methods to brows and restore backup. 
@@ -239,7 +325,7 @@ final class ABackup {
      * @param string $dir
      * @return boolean
      */
-	private function _removeDir( $dir='' ) {
+	public function _removeDir( $dir='' ) {
 			if ( is_dir($dir) ) {
 				$objects = scandir($dir);
 				foreach ( $objects as $obj ) {
@@ -262,24 +348,28 @@ final class ABackup {
 			}
 	}
 
+	function _copyDir($src, $dest) {
+		// If source is not a directory stop processing
+		if (!is_dir($src)) return false;
+		//prevent recursive copying
+		if(rtrim($src,'/') == rtrim($this->backup_dir,'/')){ return false; }
 
-	function _copyDir($src, $dst) {
-		  if (is_dir($src)) {
-			if(!is_dir($dst)){
-				mkdir($dst);
-				chmod($dst,0777);
+		// If the destination directory does not exist create it
+		if (!is_dir($dest)) {
+			if (!mkdir($dest)) {
+				// If the destination directory could not be created stop processing
+				return false;
 			}
-			$files = scandir($src);
-			foreach ($files as $file)
-			if ($file != "." && $file != ".."){
-				$this->_copyDir("$src/$file", "$dst/$file");
+		}
+
+		// Open the source directory to read in files
+		$i = new DirectoryIterator($src);
+		foreach ($i as $f) {
+			if ($f->isFile()) {
+				copy($f->getRealPath(), "$dest/" . $f->getFilename());
+			} else if (!$f->isDot() && $f->isDir()) {
+				$this->_copyDir($f->getRealPath(), "$dest/$f");
 			}
-		  }elseif(file_exists($src)){
-			   copy($src, $dst);
-			   chmod($dst,0777);
-		  }
-	return true;
+		}
 	}
-
 }
-?>

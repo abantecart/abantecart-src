@@ -246,6 +246,11 @@ class ControllerPagesToolBackup extends AController {
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		/*var_dump(serialize( array('skip_list' => array(
+														'responses/tool/backup/compress',
+														'responses/tool/backup/backupfiles',
+														'responses/tool/backup/dumptables'		) )));*/
 	}
 
 	public function backup() {
@@ -265,7 +270,7 @@ class ControllerPagesToolBackup extends AController {
 
 			$this->response->setOutput($this->model_tool_backup->backup($this->request->post[ 'backup' ]));
 		} else {
-			return $this->dispach('error/permission');
+			return $this->dispatch('error/permission');
 		}
 
 		//update controller data
@@ -310,9 +315,7 @@ class ControllerPagesToolBackup extends AController {
 				echo 'file does not exists!';
 			}
 		} else {
-			return $this->dispach('error/permission');
+			return $this->dispatch('error/permission');
 		}
 	}
 }
-
-?>

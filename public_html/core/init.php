@@ -17,6 +17,9 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
+// set default encoding for multibyte php mod
+mb_internal_encoding('UTF-8');
+
 // AbanteCart Version
 include('version.php');
 define('VERSION', MASTER_VERSION . '.' . MINOR_VERSION . '.' . VERSION_BUILT);
@@ -184,6 +187,7 @@ try {
 	require_once(DIR_CORE . 'engine/page.php');
 	require_once(DIR_CORE . 'engine/response.php');
 	require_once(DIR_CORE . 'engine/api.php');
+	require_once(DIR_CORE . 'engine/job.php');
 	require_once(DIR_CORE . 'engine/dispatcher.php');
 	require_once(DIR_CORE . 'engine/controller.php');
 	require_once(DIR_CORE . 'engine/controller_api.php');

@@ -54,7 +54,7 @@ class ControllerResponsesToolBackupFile extends AController {
               //update controller data
             $this->extensions->hk_UpdateData($this,__FUNCTION__);
 		} else {
-			return $this->dispach('error/permission');
+			return $this->dispatch('error/permission');
 		}
 	}
 

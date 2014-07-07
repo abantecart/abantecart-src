@@ -25,7 +25,7 @@ if (! defined ( 'DIR_CORE' )) {
  */
 class ATaskManager {
 	protected $registry;
-	public $errors = 0; // errors during process
+	public $errors = array(); // errors during process
 	private $starter;
 	private $task_log;
 
@@ -99,17 +99,14 @@ class ATaskManager {
 		$task_id = (int)$task_id;
 		if(!$task_id){ return false; }
 
-		$this->_update_task_state($task_id, array('status'=>2));//change status of task to active while it run
-		$sql = "SELECT *
-				FROM ".$this->db->table('task_steps')."
-				WHERE task_id = ".$task_id." AND status = 1
-				ORDER BY sort_order";
-		$result = $this->db->query($sql);
-
+		$this->_update_task_state($task_id, array('status'=>2));//change status of task to "active" while it run
+		//get steps
+		$steps = $this->getSheduledTaskSteps($task_id);
 		$task_result = 0;
-		$steps_count = $result->num_rows;
+
+		$steps_count = sizeof($steps); // total count of steps to calculate percentage (for future)
 		$k=0;
-		foreach($result->rows as $step){
+		foreach($steps as $step){
 			$this->toLog('Tried to run step #'.$step['step_id'].' of task #'.$task_id);
 			//change status to active
 			$this->_update_step_state( $step['step_id'],
@@ -117,22 +114,27 @@ class ATaskManager {
 											   'last_time_run' => date('Y-m-d H:i:s'),
 												'status' => 2) ); //change status of step to active while it run
 
+			$step_settings = unserialize($step['settings']);
+
+
 			try{
-				$dd = new ADispatcher($step['controller'], $args);
-				$result = $dd->dispatchGetOutput($step['controller']);
-				$this->_update_step_state( $step['step_id'],
-											array('result' => $result,
-												  'last_time_run' => date('Y-m-d H:i:s'),
-												  'status'=>1) );
 
-			}catch(AException $e){
+				$dd = new ADispatcher($step['controller'],$step_settings['params']);
+				$response = $dd->dispatchGetOutput($step['controller']);
+				//$this->toLog(var_export($response, true));
+			}catch(AException $e){	}
+
+
+
+			$result = $response['result']==true ? 0 : 1;
+			$this->_update_step_state( $step['step_id'],
+														array('result' => $result,
+															  'last_time_run' => date('Y-m-d H:i:s'),
+															  'status'=>1) );
+
+			if(!$result){
 				$this->log->write('Sheduled step #'.$step['step_id'].' of task #'.$task_id.' failed during process');
-				$this->_update_step_state( $step['step_id'],
-											array( 'result' => 1, // mark last result as "failed"
-										  		   'last_time_run' => date('Y-m-d H:i:s'),
-													'status'=>1) );
-				$this->toLog('Step #'.$step['step_id'].' of task #'.$task_id.' failed.');
-
+				//interrupt task if need
 				if($task_settings['interrupt_on_step_fail']===true){
 					$this->_update_task_state($task_id, array( 'result' => 1, // mark last result of task as "failed"
 															   'last_time_run' => date('Y-m-d H:i:s'),
@@ -140,13 +142,12 @@ class ATaskManager {
 					);
 					return false;
 				}
-
 				$task_result = 1;
+				$this->toLog('Step #'.$step['step_id'].' of task #'.$task_id.' failed.');
 			}
 			$this->toLog('Step #'.$step['step_id'].' of task #'.$task_id.' finished.');
 
 			$this->_update_task_state($task_id, array( 'progress' => ceil($k*100/$steps_count)));
-
 		}
 
 		$this->_update_task_state($task_id, array( 'result' => $task_result,
@@ -243,7 +244,7 @@ class ATaskManager {
 					default:
 						$value = $this->db->escape( $data[$fld_name] );
 				}
-				$update[] = $fld_name." = ".$value;
+				$update[] = $fld_name." = '".$value."'";
 			}
 		}
 		if(!$update){ //if nothing to update
@@ -342,7 +343,7 @@ class ATaskManager {
 					default:
 						$value = $this->db->escape( $data[$fld_name] );
 				}
-				$update[] = $fld_name." = ".$value;
+				$update[] = $fld_name." = '".$value."'";
 			}
 		}
 		if(!$update){ //if nothing to update
@@ -371,17 +372,62 @@ class ATaskManager {
 	}
 
 
-	public function getTask($task_id = 0){
+	public function getTaskById($task_id){
 		$task_id = (int)$task_id;
-		//get list only sheduled tasks
+		if(!$task_id){ return array();}
 		$sql = "SELECT *
 				FROM ".$this->db->table('tasks')." t
 				LEFT JOIN ".$this->db->table('task_details')." td ON td.task_id = t.task_id
-				WHERE t.task_id = ".$task_id;
+				WHERE t.task_id = '".$task_id."'";
 		$result = $this->db->query($sql);
-		return $result->row;
+		$output = $result->row;
+		if($output){
+			$output['steps'] = $this->getSheduledTaskSteps($output['task_id']);
+		}
+
+		return $output;
 	}
 
+	public function getTaskByName($task_name){
+		$task_name = $this->db->escape($task_name);
+		if(!$task_name){ return array();}
 
+		$sql = "SELECT *
+				FROM ".$this->db->table('tasks')." t
+				LEFT JOIN ".$this->db->table('task_details')." td ON td.task_id = t.task_id
+				WHERE t.task_name = '".$task_name."'";
+		$result = $this->db->query($sql);
+		$output = $result->row;
+		if($output){
+			$output['steps'] = $this->getSheduledTaskSteps($output['task_id']);
+		}
 
+		return $output;
+	}
+
+	public function getTaskSteps($task_id){
+		$task_id = (int)$task_id;
+		if(!$task_id){ return array();}
+
+		$sql = "SELECT *
+				FROM ".$this->db->table('task_steps')."
+				WHERE task_id = ".$task_id."
+				ORDER BY sort_order";
+		$result = $this->db->query($sql);
+		return $result->rows;
+	}
+
+	public function getSheduledTaskSteps($task_id){
+		$task_id = (int)$task_id;
+		if(!$task_id){ return array();}
+
+		$all_steps = $this->getTaskSteps($task_id);
+		foreach($all_steps as $step){
+			if($step['status']!=1){ //skip all steps that not sheduled
+				continue;
+			}
+			$steps[] = $step;
+		}
+		return $steps;
+	}
 }

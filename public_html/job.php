@@ -19,7 +19,7 @@
 ------------------------------------------------------------------------------*/
 
 // Required PHP Version
-define('MIN_PHP_VERSION', '5.2.0');
+define('MIN_PHP_VERSION', '5.3.0');
 if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == TRUE) {
     die( MIN_PHP_VERSION . '+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 }
@@ -45,63 +45,56 @@ if (!defined('DB_DATABASE')) {
 	exit;
 }
 
+
+
+//purge _GET
+$get = array('mode'=> has_value($_GET['mode']) ? $_GET['mode'] : '');
+if(!in_array($get['mode'],array('run', 'query'))){ // can be 'query' or 'run'
+	$get['mode'] = 'run';
+}
+// if task details needed for ajax step-by-step run
+if($get['mode']=='query'){
+	$get['task_name'] = $_GET['task_name'];
+}
+$_GET = $get;
+unset($get);
+
+$_GET['s'] = ADMIN_PATH; // sign of admin side for controllers run from dispatcher
 // Load all initial set up
 require_once(DIR_ROOT . '/core/init.php');
+unset($_GET['s']);// not needed anymore
 
 ADebug::checkpoint('init end');
-
-if (!defined('IS_ADMIN') || !IS_ADMIN ) { // storefront load
-
-	// Relative paths and directories
-	define('RDIR_TEMPLATE',  'storefront/view/' . $config->get('config_storefront_template') . '/');
-
-	// Customer
-	$registry->set('customer', new ACustomer($registry));
-	
-	// Tax
-	$registry->set('tax', new ATax($registry));
-
-	// Weight
-	$registry->set('weight', new AWeight($registry));
-
-	// Length
-	$registry->set('length', new ALength($registry));
-	// Cart
-	$registry->set('cart', new ACart($registry));
-
-} else {// Admin load
-
-	// Relative paths and directories
-	define('RDIR_TEMPLATE',  'admin/view/default/');
-	
-	// User
-	$registry->set('user', new AUser($registry));
-					
-}// end admin load
 
 
 // Currency
 $registry->set('currency', new ACurrency($registry));
 
 
-//Route to request process
-$router = new ARouter($registry);
-$registry->set('router', $router);
-if (!empty($request->get['rt'])) {
-        $router->processRoute( $request->get['rt'] );
-} else if (!empty($request->post['rt'])) {
-        $router->processRoute( $request->post['rt'] );
-} else {
-        $router->processRoute('index/home');
-}
+//ok... let's start tasks
+$tm = new ATaskManager();
 
-// Output
-$registry->get('response')->output();
+if($_GET['mode'] == 'query'){
+
+	//$output = array();
+	$tm->getTask();
+//TODO: сделать вывод инфы по степам в json
+
+
+
+
+
+}elseif( $_GET['mode'] == 'run' ){
+	//try to remove execution time limitation (can not work on some hosts!)
+	ini_set("max_execution_time","0");
+
+	//start do tasks one by one
+	$tm->runTasks();
+}
 
 
 ADebug::checkpoint('app end');
 
 //display debug info
-if ( $router->getRequestType() == 'page' ) {
-    ADebug::display();
-}
+ADebug::display();
+

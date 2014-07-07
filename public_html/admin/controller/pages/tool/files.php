@@ -165,7 +165,7 @@ class ControllerPagesToolFiles extends AController {
 				echo 'file does not exists!';
 			}
 		} else {
-			return $this->dispach('error/permission');
+			return $this->dispatch('error/permission');
 		}
 	}
 

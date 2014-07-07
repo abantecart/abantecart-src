@@ -11843,7 +11843,8 @@ CREATE TABLE `ac_tasks` (
   `max_execution_time` int(11) DEFAULT '0', -- maximum execution time for this task
   `date_created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`task_id`)
+  PRIMARY KEY (`task_id`),
+  UNIQUE KEY `task_name_idx` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS `ac_task_details`;

@@ -738,43 +738,43 @@ function getGravatar( $email = '', $s = 80, $d = 'mm', $r = 'g') {
     }
     $url = 'http://www.gravatar.com/avatar/';
     $url .= md5( strtolower( trim( $email ) ) );
-    $url .= "?s=$s&d=$d&r=$r";
+    $url .= "?s=".$s."&d=".$d."&r=".$r;
     return $url;
 }
 
+function compressTarGZ($tar_filename, $tar_dir){
 
-if (!function_exists('array_replace_recursive')) {
-	/**
-	 * @deprecated since php 5.3
-	 */
-	function array_replace_recursive($array, $array1) {
-		function recurse($array, $array1) {
-			foreach ($array1 as $key => $value) {
-				// create new key in $array, if it is empty or not an array
-				if (!isset($array[$key]) || (isset($array[$key]) && !is_array($array[$key]))) {
-					$array[$key] = array();
-				}
-
-				// overwrite the value in the base array
-				if (is_array($value)) {
-					$value = recurse($array[$key], $value);
-				}
-				$array[$key] = $value;
+	$exit_code = 0;
+	if(class_exists('PharData') ){
+		try{
+			if(pathinfo($tar_filename,PATHINFO_EXTENSION)=='gz'){
+				$filename = rtrim($tar_filename,'.gz');
 			}
-			return $array;
-		}
 
-		// handle the arguments, merge one by one
-		$args = func_get_args();
-		$array = $args[0];
-		if (!is_array($array)) {
-			return $array;
+			$a = new PharData($filename );
+			$a->buildFromDirectory($tar_dir);
+			$a->compress(Phar::GZ);
+			@unlink($filename);
+		}catch (Exception $e){
+			$exit_code =1;
 		}
-		for ($i = 1; $i < count($args); $i++) {
-			if (is_array($args[$i])) {
-				$array = recurse($array, $args[$i]);
-			}
-		}
-		return $array;
 	}
+
+	if ( $exit_code ) {
+		$registry = Registry::getInstance();
+		$registry->get('load')->library('targz');
+		$targz = new Atargz();
+		return $targz->makeTar($tar_dir,$tar_filename);
+	}else{
+		return true;
+	}
+}
+
+/**
+ * TODO: in the future
+ * @param $zip_filename
+ * @param $zip_dir
+ */
+function compressZIP($zip_filename, $zip_dir){
+
 }

@@ -20,13 +20,10 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
-class ControllerResponsesToolBackup extends AController {
+class ControllerJobsToolBackup extends AController {
 	private $error = array();
 
 	public function dumpTables(){
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
-
 
 		$bkp = new ABackup('manual_backup');
 
@@ -48,9 +45,6 @@ class ControllerResponsesToolBackup extends AController {
 
 		$output = array('result' => ($result ? true : false),'text' => $bkp->error);
 
-		//update controller data
-    	$this->extensions->hk_UpdateData($this,__FUNCTION__);
-
 		$this->load->library('json');
 		$this->response->addJSONHeader();
 		$this->response->setOutput( AJson::encode($output) );
@@ -58,16 +52,11 @@ class ControllerResponsesToolBackup extends AController {
 	}
 
 	public function backupRL(){
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$bkp = new ABackup('manual_backup');
 		$result = $bkp->backupDirectory(DIR_RESOURCE, false);
 
 		$output = array('result' => $result ? true : false);
-
-		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
@@ -75,16 +64,12 @@ class ControllerResponsesToolBackup extends AController {
 	}
 
 	public function backupFiles(){
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$bkp = new ABackup('manual_backup');
 		$result = $bkp->backupDirectory(DIR_ROOT, false);
 
 		$output = array('result' => $result ? true : false);
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
@@ -93,16 +78,11 @@ class ControllerResponsesToolBackup extends AController {
 
 
 	public function backupConfig(){
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$bkp = new ABackup('manual_backup');
 		$result = $bkp->backupFile(DIR_ROOT . '/system/config.php', false);
 
 		$output = array('result' => $result ? true : false);
-
-		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
@@ -110,8 +90,6 @@ class ControllerResponsesToolBackup extends AController {
 	}
 
 	public function CompressBackup(){
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$bkp = new ABackup('manual_backup');
 		$result = $bkp->archive(DIR_BACKUP . $bkp->getBackupName() . '.tar.gz', DIR_BACKUP, $bkp->getBackupName());
@@ -122,9 +100,6 @@ class ControllerResponsesToolBackup extends AController {
 		}
 
 		$output = array('result' => $result ? true : false);
-
-		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
