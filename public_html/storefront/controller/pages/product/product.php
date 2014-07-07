@@ -138,7 +138,10 @@ class ControllerPagesProductProduct extends AController {
 		));
 
         $this->data['heading_title'] = $product_info['name'];
+		$this->data['minimum'] = $product_info['minimum'];
 		$this->data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
+		$this->data['maximum'] = $product_info['maximum'];
+		$this->data['text_maximum'] = sprintf($this->language->get('text_maximum'), $product_info['maximum']);
 		
 		$this->loadModel('catalog/review');
 		$this->data['tab_review'] = sprintf($this->language->get('tab_review'), $this->model_catalog_review->getTotalReviewsByProductId($product_id)) ;
