@@ -136,7 +136,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 			$password = AUser::generatePassword(8);
 			$this->model_user_user->editUser($this->user_data['user_id'], array('password' => $password));
 
-			$mail = new AMail($this->config,$this->log);
+			$mail = new AMail($this->config);
 			$mail->setTo($this->user_data['email']);
 	  		$mail->setFrom($this->config->get('store_main_email'));
 	  		$mail->setSender($this->config->get('config_owner'));
