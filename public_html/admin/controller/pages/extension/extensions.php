@@ -394,7 +394,7 @@ class ControllerPagesExtensionExtensions extends AController {
 					$resource_id = $resource->getIdFromHexPath(str_replace($item['resource_type'] . '/', '', $item['value']));
 					$preview = $this->dispatch(
 						'responses/common/resource_library/get_resource_html_single',
-						array('type' => 'image',
+						array('type' => $item['resource_type'],
 							'wrapper_id' => $item['name'],
 							'resource_id' => $resource_id,
 							'field' => $item['name']));
