@@ -371,5 +371,6 @@ final class ABackup {
 				$this->_copyDir($f->getRealPath(), "$dest/$f");
 			}
 		}
+		return true;
 	}
 }

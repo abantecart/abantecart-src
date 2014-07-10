@@ -40,27 +40,25 @@ class ControllerJobsToolBackup extends AController {
 			$table_list = $this->model_tool_backup->getTables();
 		}
 
-
 		$result = $bkp->dumpTables($table_list);
 
-		$output = array('result' => ($result ? true : false),'text' => $bkp->error);
+		if($result){
+			$this->load->library('json');
+			$this->response->addJSONHeader();
+			$output = array('result' => true);
+			$this->response->setOutput( AJson::encode($output) );
+		}else{
+			$error = new AError('dump tables error');
+			return $error->toJSONResponse('APP_ERROR_402',
+									array( 'error_text' => $bkp->error,
+										'reset_value' => true
+									));
+		}
 
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput( AJson::encode($output) );
 
-	}
 
-	public function backupRL(){
 
-		$bkp = new ABackup('manual_backup');
-		$result = $bkp->backupDirectory(DIR_RESOURCE, false);
 
-		$output = array('result' => $result ? true : false);
-
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput( AJson::encode($output) );
 	}
 
 	public function backupFiles(){
@@ -68,12 +66,19 @@ class ControllerJobsToolBackup extends AController {
 		$bkp = new ABackup('manual_backup');
 		$result = $bkp->backupDirectory(DIR_ROOT, false);
 
-		$output = array('result' => $result ? true : false);
+		if($result){
+			$this->load->library('json');
+			$this->response->addJSONHeader();
+			$output = array('result' => true);
+			$this->response->setOutput( AJson::encode($output) );
+		}else{
+			$error = new AError('files backup error');
+			return $error->toJSONResponse('APP_ERROR_402',
+									array( 'error_text' => $bkp->error,
+										'reset_value' => true
+									));
+		}
 
-
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput( AJson::encode($output) );
 	}
 
 
@@ -92,74 +97,29 @@ class ControllerJobsToolBackup extends AController {
 	public function CompressBackup(){
 
 		$bkp = new ABackup('manual_backup');
-		$result = $bkp->archive(DIR_BACKUP . $bkp->getBackupName() . '.tar.gz', DIR_BACKUP, $bkp->getBackupName());
-		if (!$result) {
-			$this->error = $bkp->error;
-		} else {
-			$this->backup_filename = $bkp->getBackupName();
+		$arc_basename =  DIR_BACKUP . $bkp->getBackupName();
+		if(is_file($arc_basename.'.tar')){
+			unlink($arc_basename.'.tar');
+		}
+		if(is_file($arc_basename.'.tar.gz')){
+			unlink($arc_basename.'.tar.gz');
 		}
 
-		$output = array('result' => $result ? true : false);
+		$result = $bkp->archive($arc_basename.'.tar.gz', DIR_BACKUP, $bkp->getBackupName());
 
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput( AJson::encode($output) );
+		if($result){
+			$this->load->library('json');
+			$this->response->addJSONHeader();
+			$output = array('result' => true, 'filename' => $bkp->getBackupName());
+			$this->response->setOutput( AJson::encode($output) );
+		}else{
+			$error = new AError('compress backup error');
+			return $error->toJSONResponse('APP_ERROR_402',
+									array( 'error_text' => $bkp->error,
+										'reset_value' => true
+									));
+		}
+
 	}
-
-
-
-
-
-
-	public function main() {
-
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-
-		if ($this->request->is_POST() && $this->_validate()) {
-			
-			$this->loadModel('tool/backup');
-
-	        $bkp = $this->model_tool_backup->backup($this->request->post['backup'],$this->request->post['backup_rl'],$this->request->post['backup_config']);
-			if($bkp){
-				$install_upgrade_history = new ADataset('install_upgrade_history','admin');
-				$install_upgrade_history->addRows(array('date_added'=> date("Y-m-d H:i:s",time()),
-				                            'name' => 'Manual Backup',
-				                            'version' => VERSION,
-				                            'backup_file' => $this->model_tool_backup->backup_filename.'.tar.gz',
-				                            'backup_date' => date("Y-m-d H:i:s",time()),
-				                            'type' => 'backup',
-				                            'user' => $this->user->getUsername() ));
-			}
-			if($this->model_tool_backup->error){
-				$this->session->data['error'] = $this->model_tool_backup->error;
-				$this->redirect($this->html->getSecureURL('tool/backup'));
-			}else{
-				$this->loadLanguage('tool/backup');
-				$this->session->data['success'] = $this->language->get('text_success_backup');
-				$this->redirect($this->html->getSecureURL('tool/install_upgrade_history'));
-			}
-              //update controller data
-            $this->extensions->hk_UpdateData($this,__FUNCTION__);
-		} else {
-			return $this->dispatch('error/permission');
-		}
-	}
-
-    private function _validate() {
-		if (!$this->user->canModify('tool/backup')) {
-			$this->error['warning'] = $this->language->get('error_permission');
-		}
-
-	    $this->request->post['backup_rl'] = $this->request->post['backup_rl']=='rl' ? true : false;
-	    $this->request->post['backup_config'] = $this->request->post['backup_config']=='config' ? true : false;
-
-		if (!$this->error) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	}
-
 	
 }

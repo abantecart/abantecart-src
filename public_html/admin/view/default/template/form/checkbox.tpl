@@ -1,3 +1,6 @@
+<?php
+ $is_switch = is_int(strpos($style,'btn_switch')) ? true : false;
+?>
 <input type="checkbox"
            name="<?php echo $name ?>"
            id="<?php echo $id ?>"
@@ -6,10 +9,10 @@
 		   <?php echo ( ($checked) ? 'checked="checked"':'' ) ?>
            data-orgvalue="<?php echo ($checked ? 'true':'false') ?>"
 		   <?php echo $attr ?>
-           style="opacity: 0;" 
+           <?php echo ($is_switch ? 'style="opacity: 0;"' : ''); ?>
 />
 <?php if ( $label_text ){ ?>
-<label for="<?php echo $id ?>"><?php echo $label_text; ?></label>
+<label class="pull-left" for="<?php echo $id ?>"><?php echo $label_text; ?></label>
 <?php } ?>
 
 <?php if ( $required == 'Y' || !empty ($help_url) ) { ?>

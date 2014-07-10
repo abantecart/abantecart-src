@@ -21,119 +21,158 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesToolBackup extends AController {
-	private $error = array();
+	private $errors = array();
+	public $data = array();
 
-	public function dumpTables(){
+	public function buildTask(){
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
+		if ($this->request->is_POST() && $this->_validate()) {
 
-		$bkp = new ABackup('manual_backup');
 
-		if(has_value($this->request->get['sql_dump_mode'])){
-			$bkp->sql_dump_mode = $this->request->get['sql_dump_mode'];
+			$tm = new ATaskManager();
+
+			//1. create new task
+			$task_id = $tm->addTask(
+				array( 'name' => 'manual_backup',
+						'starter' => 1, //admin-side is starter
+						'created_by' => $this->user->getId(), //get starter id
+						'status' => 1, // shedule it!
+						'start_time' => '0000-00-00 00:00:00',
+						'last_time_run' => '0000-00-00 00:00:00',
+						'progress' => '0',
+						'last_result' => '0',
+						'run_interval' => '0',
+						'max_execution_time' => '0'
+				)
+			);
+			if(!$task_id){
+				$this->errors = array_merge($this->errors,$tm->errors);
+				$this->data['output'] = array('error'=> true, 'error_text' => implode(' ', $this->errors));
+			}
+
+			//create step for table backup
+			if($this->request->post['backup'] && !$this->errors){
+				$step_id = $tm->addStep( array(
+					'task_id' => $task_id,
+					'sort_order' => 1,
+					'status' => 1,
+					'last_time_run' => '0000-00-00 00:00:00',
+					'last_result' => '0',
+					'max_execution_time' => '0',
+					'controller' => 'j/tool/backup/dumptables',
+					'settings' => array(
+									'tables' => $this->request->post['backup'],
+									'sql_dump_mode'=> $this->request->post['sql_dump_mode']
+									)
+				));
+
+				if(!$step_id){
+					$this->errors = array_merge($this->errors,$tm->errors);
+					$this->data['output'] = array('error'=> true, 'error_text' => implode(' ', $this->errors));
+				}
+			}
+
+			//create step for files backup
+			if($this->request->post['backup_rl'] && !$this->errors){
+				$step_id = $tm->addStep( array(
+											'task_id' => $task_id,
+											'sort_order' => 2,
+											'status' => 1,
+											'last_time_run' => '0000-00-00 00:00:00',
+											'last_result' => '0',
+											'max_execution_time' => '0',
+											'controller' => 'j/tool/backup/backupfiles',
+											'settings' => array('interrupt_on_step_fault' =>false)
+				));
+
+				if(!$step_id){
+					$this->errors = array_merge($this->errors,$tm->errors);
+					$this->data['output'] = array('error'=> true, 'error_text' => implode(' ', $this->errors));
+				}
+
+			}
+			//create step for backup config-file
+			if($this->request->post['backup_config'] && !$this->errors){
+				$step_id = $tm->addStep( array(
+					'task_id' => $task_id,
+					'sort_order' => 3,
+					'status' => 1,
+					'last_time_run' => '0000-00-00 00:00:00',
+					'last_result' => '0',
+					'max_execution_time' => '0',
+					'controller' => 'j/tool/backup/backupconfig'
+				));
+				if(!$step_id){
+					$this->errors = array_merge($this->errors,$tm->errors);
+					$this->data['output'] = array('error'=> true, 'error_text' => implode(' ', $this->errors));
+				}
+			}
+
+			//create last step for compressing backup
+			if(!$this->errors){
+				$step_id = $tm->addStep( array(
+					'task_id' => $task_id,
+					'sort_order' => 4,
+					'status' => 1,
+					'last_time_run' => '0000-00-00 00:00:00',
+					'last_result' => '0',
+					'max_execution_time' => '0',
+					'controller' => 'j/tool/backup/compressbackup'
+				));
+				if(!$step_id){
+					$this->errors = array_merge($this->errors,$tm->errors);
+					$this->data['output'] = array('error'=> true, 'error_text' => implode(' ', $this->errors));
+				}else{
+					$task_details = $tm->getTaskById($task_id);
+					if($task_details){
+						$this->data['output'] = array('task_details'=> $task_details );
+					}else{
+						$this->data['output'] = array( 'error'=> true,
+													   'error_text' => 'Can not to get task details for execution');
+					}
+				}
+			}
 		}
-
-		if(has_value($this->request->get['table_list'])){
-			$table_list = $this->request->get['table_list'];
-		}
-
-		if(!$table_list){
-			$this->loadModel('tool/backup');
-			$table_list = $this->model_tool_backup->getTables();
-		}
-
-
-		$result = $bkp->dumpTables($table_list);
-
-		$output = array('result' => ($result ? true : false),'text' => $bkp->error);
 
 		//update controller data
     	$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput( AJson::encode($output) );
+		$this->response->setOutput( AJson::encode($this->data['output']) );
 
 	}
 
-	public function backupRL(){
+	/**
+	 * post-trigger of task
+	 */
+	public function complete(){
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		$bkp = new ABackup('manual_backup');
-		$result = $bkp->backupDirectory(DIR_RESOURCE, false);
+		$task_id = (int)$this->request->post['task_id'];
+		if($task_id){
+			$tm = new ATaskManager();
+			$tm->deleteTask($task_id);
+			$install_upgrade_history = new ADataset('install_upgrade_history','admin');
+			$install_upgrade_history->addRows(array('date_added'=> date("Y-m-d H:i:s",time()),
+										'name' => 'Manual Backup',
+										'version' => VERSION,
+										'backup_file' => 'manual_backup.tar.gz',
+										'backup_date' => date("Y-m-d H:i:s",time()),
+										'type' => 'backup',
+										'user' => $this->user->getUsername() ));
 
-		$output = array('result' => $result ? true : false);
-
-		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput( AJson::encode($output) );
-	}
-
-	public function backupFiles(){
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
-
-		$bkp = new ABackup('manual_backup');
-		$result = $bkp->backupDirectory(DIR_ROOT, false);
-
-		$output = array('result' => $result ? true : false);
-
-		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput( AJson::encode($output) );
-	}
-
-
-	public function backupConfig(){
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
-
-		$bkp = new ABackup('manual_backup');
-		$result = $bkp->backupFile(DIR_ROOT . '/system/config.php', false);
-
-		$output = array('result' => $result ? true : false);
-
-		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput( AJson::encode($output) );
-	}
-
-	public function CompressBackup(){
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
-
-		$bkp = new ABackup('manual_backup');
-		$result = $bkp->archive(DIR_BACKUP . $bkp->getBackupName() . '.tar.gz', DIR_BACKUP, $bkp->getBackupName());
-		if (!$result) {
-			$this->error = $bkp->error;
-		} else {
-			$this->backup_filename = $bkp->getBackupName();
 		}
-
-		$output = array('result' => $result ? true : false);
-
 		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput( AJson::encode($output) );
+		$this->response->setOutput( AJson::encode(array('result' => true)) );
 	}
-
-
-
-
 
 
 	public function main() {
@@ -142,7 +181,9 @@ class ControllerResponsesToolBackup extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		if ($this->request->is_POST() && $this->_validate()) {
-			
+
+
+
 			$this->loadModel('tool/backup');
 
 	        $bkp = $this->model_tool_backup->backup($this->request->post['backup'],$this->request->post['backup_rl'],$this->request->post['backup_config']);
@@ -173,13 +214,17 @@ class ControllerResponsesToolBackup extends AController {
 
     private function _validate() {
 		if (!$this->user->canModify('tool/backup')) {
-			$this->error['warning'] = $this->language->get('error_permission');
+			$this->errors['warning'] = $this->language->get('error_permission');
 		}
 
-	    $this->request->post['backup_rl'] = $this->request->post['backup_rl']=='rl' ? true : false;
-	    $this->request->post['backup_config'] = $this->request->post['backup_config']=='config' ? true : false;
+	    $this->request->post['backup_rl'] = $this->request->post['backup_rl'] ? true : false;
+	    $this->request->post['backup_config'] = $this->request->post['backup_config'] ? true : false;
 
-		if (!$this->error) {
+		if(!$this->request->post['backup'] &&  !$this->request->post['backup_rl'] && !$this->request->post['backup_config']){
+			$this->errors['warning'] = $this->language->get('error_nothing_to_backup');
+		}
+
+		if (!$this->errors) {
 			return TRUE;
 		} else {
 			return FALSE;

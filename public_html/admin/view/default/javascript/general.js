@@ -461,11 +461,16 @@ httpError = function (data) {
 /*
 jQuery(function ($) {
     $('<div/>').ajaxError(function (e, jqXHR, settings, exception) {
+        var error_data;
+        try{
         var error_data = $.parseJSON(jqXHR.responseText);
+        }catch(e){
+            error_data = {error: true, error_text: jqXHR.statusText};
+        }
         httpError(error_data);
     });
-});
-*/
+});*/
+
 
 var numberSeparators = {};
 function formatPrice(field) {
@@ -483,4 +488,228 @@ function formatQty(field) {
     field.value = $().number_format(price, { numberOfDecimals:0,
         decimalSeparator:numberSeparators.decimal,
         thousandSeparator:numberSeparators.thousand});
+}
+
+/*
+ task run via ajax
+ */
+
+
+var run_task_url, complete_task_url;
+var task_fail = false;
+var complete_text = ''; // text about task results
+
+$(".task_run").on('click', function () {
+    var modal =
+        '<div id="task_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
+        '<div class="modal-dialog">' +
+        '<div class="modal-content">' +
+        '<div class="modal-header">' +
+        '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
+        '<h4 class="modal-title" id="myModalLabel">&nbsp;</h4>' +
+        '</div>' +
+        '<div class="modal-body"></div>' +
+        '</div></div></div>';
+    $("body").first().after(modal);
+    var options = {"backdrop": "static", 'show': true};
+    $('#task_modal').modal(options);
+
+    run_task_url = $(this).attr('data-run-task-url');
+    complete_task_url = $(this).attr('data-complete-task-url');
+    var send_data = $(this).parents('form').serialize();
+    $.ajax({
+        url: run_task_url,
+        type: 'POST',
+        dataType: 'json',
+        data: send_data,
+        success: runTaskUI,
+        error: function (xhr, ajaxOptions, thrownError) {
+            var err = $.parseJSON(xhr.responseText);
+            if (err.hasOwnProperty("error_text")) {
+                runTaskShowError(err.error_text);
+            } else {
+                runTaskShowError('Error occurred. See error log for details.');
+            }
+        }
+    });
+
+
+    return false;
+});
+/**/
+var runTaskUI = function (data) {
+    if (data.hasOwnProperty("error") && data.error == true) {
+        runTaskShowError('Creation of new task failed! Please check error log for details. \n' + data.error_text);
+    } else {
+        runTaskStepsUI(data.task_details);
+    }
+}
+
+var runTaskStepsUI = function (task_details) {
+    if (task_details.status != '1') {
+        runTaskShowError('Cannot to run steps of task "' + task_details.name + '" because status of task is not "scheduled". Current status - ' + task_details.status);
+
+    } else {
+        $('#task_modal .modal-body').html('<div class="progress-info"></div><div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div></div>');
+
+        var steps_cnt = task_details.steps.length;
+        var step_num = 1;
+        var def_timeout = $.ajaxSetup()['timemout'];
+        var stop_task = false;
+
+        for (var k in task_details.steps) {
+            if (stop_task == true) {
+                break;
+            } // interruption
+
+            var step = task_details.steps[k];
+
+            $('div.progress-info').html('processing step #' + step_num);
+
+            var attempts = 3;// set attempts count for fail ajax call (for repeating request)
+
+            while (attempts > 0) { // run each ajax call few times in case when we have unstable commention etc
+                var step_ajax = $.ajax({
+                    type: "GET",
+                    async: false,
+                    url: window.location,
+                    data: { rt: step.controller,
+                        token: getUrlParameter('token'),
+                        s: getUrlParameter('s') },
+                    dataType: 'json',
+                    success: function (data, textStatus, xhr) {
+                        //TODO: add check for php-syntax errors (if php-crashed we got HTTP200 and error handler fired)
+                        var prc = Math.round(step_num * 100 / steps_cnt);
+                        $('div.progress-bar').css('width', prc + '%').html(prc + '%');
+                        complete_text += '<div class="alert-success">Step ' + step_num + ': success</div>';
+                        step_num++;
+                        if (step_num > steps_cnt) { //after last step start post-trigger of task
+                            $('div.progress-bar')
+                                .removeClass('active, progress-bar-striped')
+                                .css('width', '100%')
+                                .html('100%');
+                            $('div.progress-info').html('Complete');
+                            runTaskComplete(task_details.task_id);
+                        }
+                        attempts = 0; //stop attempts of this task
+                    },
+                    error: function (xhr, status, error) {
+                        //console.log(xhr, status, error);
+                        var error_txt;
+                        try { //when server response is json formatted string
+                            var err = $.parseJSON(xhr.responseText);
+                            if (err.hasOwnProperty("error_text")) {
+                                error_txt = err.error_text;
+                                attempts = 1; //if we got error from job-controller  - interrupt attemps
+                            } else {
+                                if(xhr.status==200){
+                                    error_txt = '('+xhr.responseText+')';
+                                }else{
+                                    error_txt = 'HTTP-status:' + xhr.status;
+                                }
+                                error_txt = 'Connection error occurred. ' + error_txt;
+                            }
+                        } catch (e) {
+                            if(xhr.status==200){
+                                error_txt = '('+xhr.responseText+')';
+                            }else{
+                                error_txt = 'HTTP-status:' + xhr.status;
+                            }
+                            error_txt = 'Connection error occurred. ' + error_txt;
+                        }
+
+                        //so.. if all attempts of this step are failed
+                        if (attempts == 1) {
+                            complete_text += '<div class="alert-danger">Step ' + step_num + ' - failed. ('+ error_txt +')</div>';
+                            //check interruption of task on step failure
+                            if (step.hasOwnProperty("settings") && step.settings!=null){
+                                if (step.settings.hasOwnProperty("interrupt_on_step_fault")) {
+                                    if (step.settings.interrupt_on_step_fault == true) {
+                                        stop_task = true;
+                                        runTaskComplete(task_details.task_id);
+                                    }
+                                }
+                            }
+                            task_fail = true;
+                            step_num++;
+                            //if last step failed
+                            if(step_num>steps_cnt){
+                                runTaskComplete(task_details.task_id);
+                            }
+                        }
+
+                        attempts--;
+                    }
+
+                });
+            }
+        }
+
+    }
+}
+
+/* run post-trigger */
+var runTaskComplete = function (task_id) {
+    if(task_fail){
+        complete_text += '<div class="alert-danger">Task Failed</div>';
+        // replace progressbar by result message
+        $('#task_modal .modal-body').html(complete_text);
+        complete_text = '';
+    }else{
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: complete_task_url,
+            data: {task_id: task_id },
+            datatype: 'json',
+            success: function (data) {
+                complete_text += '<div class="alert-success">Task Success</div>';
+                // replace progressbar by result message
+                $('#task_modal .modal-body').html(complete_text);
+                complete_text = '';
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                var error_txt = '';
+                try { //when server response is json formatted string
+                    var err = $.parseJSON(xhr.responseText);
+                    if (err.hasOwnProperty("error_text")) {
+                        runTaskShowError(err.error_text);
+                    } else {
+                        if(xhr.status==200){
+                            error_txt = '('+xhr.responseText+')';
+                        }else{
+                            error_txt = 'HTTP-status:' + xhr.status;
+                        }
+                        error_txt = 'Connection error occurred. ' + error_txt;
+                        runTaskShowError(error_txt);
+                    }
+                } catch (e) {
+                    if(xhr.status==200){
+                        error_txt = '('+xhr.responseText+')';
+                    }else{
+                        error_txt = 'HTTP-status:' + xhr.status;
+                    }
+                    error_txt = 'Connection error occurred. ' + error_txt;
+                    runTaskShowError(error_txt);
+                }
+            }
+        });
+    }
+}
+
+
+var runTaskShowError = function (error_text) {
+    $('#task_modal .modal-body').html('<div class="alert alert-danger" role="alert">' + error_text + '</div>');
+}
+
+
+var getUrlParameter = function (sParam) {
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i in sURLVariables) {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) {
+            return sParameterName[1];
+        }
+    }
 }

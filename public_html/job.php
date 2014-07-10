@@ -48,7 +48,7 @@ if (!defined('DB_DATABASE')) {
 
 
 //purge _GET
-$get = array('mode'=> has_value($_GET['mode']) ? $_GET['mode'] : '');
+$get = array('mode'=> isset($_GET['mode']) ? $_GET['mode'] : '');
 if(!in_array($get['mode'],array('run', 'query'))){ // can be 'query' or 'run'
 	$get['mode'] = 'run';
 }

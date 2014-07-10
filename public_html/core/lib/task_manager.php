@@ -50,7 +50,7 @@ class ATaskManager {
 	}
 
 	public function runTasks(){
-		$task_list = $this->_getSheduledTasks();
+		$task_list = $this->_getScheduledTasks();
 		// run loop tasks
 		foreach($task_list as $task){
 			//check interval and skip task
@@ -69,7 +69,7 @@ class ATaskManager {
 	public function runTask($task_id){
 		$this->toLog('Tried to run task #'.$task_id.'.');
 		$task_id = (int)$task_id;
-		$task = $this->_getSheduledTasks($task_id);
+		$task = $this->_getScheduledTasks($task_id);
 
 		//check interval and skip task
 		if($task['interval']>0
@@ -84,7 +84,7 @@ class ATaskManager {
 	}
 
 
-	private function _getSheduledTasks($task_id = 0){
+	private function _getScheduledTasks($task_id = 0){
 		$task_id = (int)$task_id;
 		//get list only sheduled tasks
 		$sql = "SELECT *
@@ -101,7 +101,7 @@ class ATaskManager {
 
 		$this->_update_task_state($task_id, array('status'=>2));//change status of task to "active" while it run
 		//get steps
-		$steps = $this->getSheduledTaskSteps($task_id);
+		$steps = $this->getScheduledTaskSteps($task_id);
 		$task_result = 0;
 
 		$steps_count = sizeof($steps); // total count of steps to calculate percentage (for future)
@@ -135,7 +135,7 @@ class ATaskManager {
 			if(!$result){
 				$this->log->write('Sheduled step #'.$step['step_id'].' of task #'.$task_id.' failed during process');
 				//interrupt task if need
-				if($task_settings['interrupt_on_step_fail']===true){
+				if($task_settings['interrupt_on_step_fault']===true){
 					$this->_update_task_state($task_id, array( 'result' => 1, // mark last result of task as "failed"
 															   'last_time_run' => date('Y-m-d H:i:s'),
 															   'status'=>1)//change status of task to sheduled for future run
@@ -193,7 +193,23 @@ class ATaskManager {
 		$this->task_log->write($message);
 	}
 
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function addTask($data = array()){
+		if(!$data){
+			$this->errors[] = 'Error: Can not to create task. Empty data given.';
+			return false;
+		}
+		// check
+		$sql = "SELECT * from ".$this->db->table('tasks')." WHERE name = '".$this->db->escape($data['name'])."'";
+		$res = $this->db->query($sql);
+		if($res->num_rows){
+			$this->errors[] = 'Error: Can not to create task. Task with name "'.$data['name'].'" is already exists. Name must be unique!';
+			return false;
+		}
+
 		$sql = "INSERT INTO ".$this->db->table('tasks')."
 				(`name`,`starter`,`status`,`start_time`,`last_time_run`,`progress`,`last_result`,`run_interval`,`max_execution_time`,`date_created`)
 				VALUES ('".$this->db->escape($data['name'])."',
@@ -297,6 +313,11 @@ class ATaskManager {
 	}
 
 	public function addStep($data = array()){
+		if(!$data){
+			$this->errors[] = 'Error: Can not to create task\'s step. Empty data given.';
+			return false;
+		}
+		$data['settings'] = !is_string( $data['settings'] ) ? serialize($data['settings']) : $data['settings'];
 		$sql = "INSERT INTO ".$this->db->table('task_steps')."
 				(`task_id`,`sort_order`,`status`,`last_time_run`,`last_result`,`max_execution_time`,`controller`, `settings`,`date_created`)
 				VALUES (
@@ -307,7 +328,7 @@ class ATaskManager {
 						'".(int)$data['last_result']."',
 						'".(int)$data['max_execution_time']."',
 						'".$this->db->escape($data['controller'])."',
-						'".$this->db->escape($data['settings'])."',
+						'".$this->db->escape( $data['settings'])."',
 						NOW())";
 		$this->db->query($sql);
 		return $this->db->getLastId();
@@ -382,7 +403,7 @@ class ATaskManager {
 		$result = $this->db->query($sql);
 		$output = $result->row;
 		if($output){
-			$output['steps'] = $this->getSheduledTaskSteps($output['task_id']);
+			$output['steps'] = $this->getScheduledTaskSteps($output['task_id']);
 		}
 
 		return $output;
@@ -399,7 +420,7 @@ class ATaskManager {
 		$result = $this->db->query($sql);
 		$output = $result->row;
 		if($output){
-			$output['steps'] = $this->getSheduledTaskSteps($output['task_id']);
+			$output['steps'] = $this->getScheduledTaskSteps($output['task_id']);
 		}
 
 		return $output;
@@ -414,16 +435,21 @@ class ATaskManager {
 				WHERE task_id = ".$task_id."
 				ORDER BY sort_order";
 		$result = $this->db->query($sql);
-		return $result->rows;
+		$output = array();
+		foreach($result->rows as $row){
+			$row['settings'] = $row['settings'] ? unserialize($row['settings']) : '';
+			$output[] = $row;
+		}
+		return $output;
 	}
 
-	public function getSheduledTaskSteps($task_id){
+	public function getScheduledTaskSteps($task_id){
 		$task_id = (int)$task_id;
 		if(!$task_id){ return array();}
 
 		$all_steps = $this->getTaskSteps($task_id);
 		foreach($all_steps as $step){
-			if($step['status']!=1){ //skip all steps that not sheduled
+			if($step['status']!=1){ //skip all steps that not scheduled
 				continue;
 			}
 			$steps[] = $step;

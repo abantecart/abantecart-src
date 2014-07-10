@@ -21,40 +21,45 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesCommonRunTask extends AController {
-	private $error = array(); 
+	public $data= array();
 	    
   	public function main() {
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		//init controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->view->batchAssign($this->data);
+		$this->processTemplate('responses/common/resource_library.tpl');
+
+	}
+
+  	public function getTask() {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-		$task_obj = new ATaskManager();
-		if(has_value($this->request->get['task_key'])){
-			$output = $task_obj->runTask($this->request->get['task_key']);
+		if(!has_value($this->request->get['task_name'])){
+			$this->data['output'] = array(
+										'error'=>true,
+										'error_text' => 'Error: Do not know what to run.');
+		}else{
+			$task_obj = new ATaskManager();
+			$this->data['output'] = $task_obj->getTaskByName($this->request->get['task_name']);
 		}
 
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
 		$this->load->library('json');
-		$output = $output ? AJson::encode($output) : null;
+		if($this->data['output']){
+			$output = AJson::encode($this->data['output']);
+		}else{
+			$output = array('error'=>true,
+							'error_text' => 'Error: Cannot find task "'.$this->request->get['task_name'].'".');
+		}
+
 		$this->response->setOutput( $output );
 	}
-
-	public function getState() {
-
-	        //init controller data
-	        $this->extensions->hk_InitData($this,__FUNCTION__);
-
-			$this->load->library('task_manager');
-			$task_obj = new TaskManager();
-			if(has_value($this->request->get['task_key'])){
-				$task_obj->runTask($this->request->get['task_key']);
-			}
-
-	        //init controller data
-	        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-			$this->load->library('json');
-			$this->response->setOutput( AJson::encode($output) );
-	}
-
 }
