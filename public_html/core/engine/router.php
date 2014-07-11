@@ -120,9 +120,9 @@ final class ARouter {
 		} else if ($path_nodes[0] == 'a' ) {
 			$this->request_type = 'api';		
 			$this->rt = preg_replace('/^a\//', '', $this->rt);		
-		} else if ($path_nodes[0] == 'j' ) {
+		} else if ($path_nodes[0] == 'job') {
 			$this->request_type = 'job';
-			$this->rt = preg_replace('/^j\//', '', $this->rt);
+			$this->rt = preg_replace('/^job\//', '', $this->rt);
 		} else {
 			//find implicit path of controller
 			//Pages section has priority
@@ -134,9 +134,6 @@ final class ARouter {
 			}	
 			else if ( $this->_detect_controller("api") ){
 				$this->request_type = 'api';		
-			}
-			else if ( $this->_detect_controller("jobs") ){
-				$this->request_type = 'job';
 			}
 		} 		
 
@@ -214,7 +211,7 @@ final class ARouter {
 				$resp_controller->addPreDispatch('responses/common/access/permission');
 			}
 			//Validate controller only. If does not exist process not found
-			if ( $this->_detect_controller("jobs") ){
+			if ( $this->_detect_controller("job") ){
 				// Build the response
 				$job_controller->build($this->rt);
 			} else {

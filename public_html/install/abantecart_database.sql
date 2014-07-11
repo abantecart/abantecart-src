@@ -11432,32 +11432,39 @@ VALUES  (40,'<i class="fa fa-jsfiddle"></i>&nbsp;',183),
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (10,'installlog',186),
-		    (10,'error_log',187);
+		    (10,'error_log',187),
+		    (10,'task',189);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (11,'text_install_upgrade_history',186),
-		      (11,'text_error_log',187);
+		    (11,'text_error_log',187),
+		    (11,'text_tasks',189);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (12,'tool/install_upgrade_history',186),
-		    (12,'tool/error_log',187);
+		    (12,'tool/error_log',187),
+		    (12,'tool/task',189);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (13,'logs',186),
-		    (13,'logs',187);
+		    (13,'logs',187),
+		    (13,'logs',189);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (14,1,186),
-	    	(14,2,187);
+	    	(14,2,187),
+	    	(14,3,189);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (15,'core',186),
-		    (15,'core',187);
+		    (15,'core',187),
+		    (15,'core',189);
 
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'<i class="fa fa-history"></i>&nbsp;',186),
-        (40,'<i class="fa fa-exclamation-triangle"></i>&nbsp;',187);
+        (40,'<i class="fa fa-exclamation-triangle"></i>&nbsp;',187),
+        (40,'<i class="fa fa-tasks"></i>&nbsp;',189);
 
 --
 -- Storefront menu names inserts
@@ -11834,7 +11841,7 @@ CREATE TABLE `ac_tasks` (
   `task_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `starter` int(11) DEFAULT NULL, -- 0 - storefront, 1 - admin side, 2 - any
-  `status` int(11) DEFAULT '0', -- 0 - disabled, 1 - sheduled, 2 - active
+  `status` int(11) DEFAULT '0', -- 0 - disabled, 1 - scheduled, 2 - active
   `start_time` datetime DEFAULT NULL,
   `last_time_run` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `progress` int(11) NOT NULL DEFAULT '0', -- percentage of progress
@@ -11862,7 +11869,7 @@ CREATE TABLE `ac_task_steps` (
   `step_id` int(11) NOT NULL AUTO_INCREMENT,
   `task_id` int(11) NOT NULL,
   `sort_order` int(11) DEFAULT '0',
-  `status` int(11) DEFAULT '0', -- 0 - disabled, 1 - sheduled, 2 - active
+  `status` int(11) DEFAULT '0', -- 0 - disabled, 1 - scheduled, 2 - active
   `last_time_run` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `last_result` int(11) NOT NULL DEFAULT '0', -- 0 - success, 1 - failed, 2 - interrupted
   `max_execution_time` int(11) DEFAULT '0', -- maximum execution time for this task

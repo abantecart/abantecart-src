@@ -20,7 +20,7 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
-class ControllerJobsToolBackup extends AController {
+class ControllerJobToolBackup extends AController {
 	private $error = array();
 
 	public function dumpTables(){

@@ -397,5 +397,9 @@
 		<key>text_voice_not_supported</key>
 		<value><![CDATA[Voice control is not supported by this browser. <a href="//www.google.com/chrome" target="_new">Chrome</a> version 25 or later required.]]></value>
 	</definition>
+	<definition>
+     <key>text_tasks</key>
+     <value><![CDATA[Scheduled Tasks]]></value>
+ </definition>
 
 </definitions>

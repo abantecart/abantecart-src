@@ -1,5 +1,5 @@
 <?php if (!empty($error['warning'])) { ?>
-	<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
+	<div class="warning alert alert-error alert-danger"><?php echo is_array($error['warning']) ? implode('<br>',$error['warning']) : $error['warning']; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
 	<div class="success alert alert-success"><?php echo $success; ?></div>
@@ -50,7 +50,10 @@
 			<div class="col-sm-6 col-sm-offset-3">
 				<button class="btn btn-primary task_run" data-run-task-url="<?php echo $form['build_task_url']?>"
 						data-complete-task-url="<?php echo $form['complete_task_url']?>">
-					<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+					<i class="fa fa-database"></i> <?php echo $form['backup_now']->text; ?>
+				</button>
+				<button class="btn btn-primary task_schedule" >
+					<i class="fa fa-clock-o"></i> <?php echo $form['backup_schedule']->text; ?>
 				</button>
 			</div>
 		</div>
@@ -80,7 +83,7 @@
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
 				<button class="btn btn-primary">
-					<i class="fa fa-save"></i> <?php echo $restoreform['submit']->text; ?>
+					<i class="fa fa-undo"></i> <?php echo $restoreform['submit']->text; ?>
 				</button>
 			</div>
 		</div>
@@ -89,7 +92,7 @@
 
 	<?php echo $xmlform['form_open']; ?>
 	<div class="panel-body panel-body-nopadding">
-		<label class="h4 heading"><?php echo $tab_restore; ?></label>
+		<label class="h4 heading"><?php echo $tab_loadxml; ?></label>
 
 		<div class="form-group <? if (!empty($error['file'])) {
 			echo "has-error";
@@ -109,7 +112,7 @@
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
 				<button class="btn btn-primary">
-					<i class="fa fa-save"></i> <?php echo $xmlform['submit']->text; ?>
+					<i class="fa fa-angle-double-up "></i> <?php echo $xmlform['submit']->text; ?>
 				</button>
 			</div>
 		</div>

@@ -114,9 +114,6 @@ class ATaskManager {
 											   'last_time_run' => date('Y-m-d H:i:s'),
 												'status' => 2) ); //change status of step to active while it run
 
-			$step_settings = unserialize($step['settings']);
-
-
 			try{
 
 				$dd = new ADispatcher($step['controller'],$step_settings['params']);
@@ -455,5 +452,64 @@ class ATaskManager {
 			$steps[] = $step;
 		}
 		return $steps;
+	}
+
+	public function getTotalTasks(){
+		$sql = "SELECT COUNT(*) as total
+				FROM ".$this->db->table('tasks');
+		$result = $this->db->query($sql);
+		return $result->row['total'];
+	}
+
+	public function getTasks($data = array()){
+
+		$sql = "SELECT *
+				FROM ".$this->db->table('tasks')." t ";
+
+		$sql .= 'WHERE 1=1 ';
+
+		if (!empty($data['subsql_filter'])) {
+			$sql .= " AND " . $data['subsql_filter'];
+		}
+
+
+		if (has_value($filter['name'])) {
+			$sql .= " AND (LCASE(t.name) LIKE '%" . $this->db->escape(mb_strtolower($filter['name'])) . "%'";
+		}
+
+		$sort_data = array(
+			'name' => 't.name',
+			'status' => 't.status',
+			'start_time' => 't.start_time',
+			'date_created' => 't.date_created',
+		);
+
+		if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
+			$sql .= " ORDER BY " . $sort_data[$data['sort']];
+		} else {
+			$sql .= " ORDER BY t.date_created";
+		}
+
+		if (isset($data['order']) && ($data['order'] == 'DESC')) {
+			$sql .= " DESC";
+		} else {
+			$sql .= " ASC";
+		}
+
+		if (isset($data['start']) || isset($data['limit'])) {
+			if ($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+
+			if ($data['limit'] < 1) {
+				$data['limit'] = 20;
+			}
+
+			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}
+
+
+		$result = $this->db->query($sql);
+		return $result->rows;
 	}
 }

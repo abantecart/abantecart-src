@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 
 class ModelToolBackup extends Model {
-	public $error;
+	public $errors = array();
 	public $backup_filename;
 	public function restore($sql) {
 		$this->db->query("SET SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO'"); // to prevent auto increment for 0 value of id
@@ -103,11 +103,123 @@ class ModelToolBackup extends Model {
 		}
 		$result = $bkp->archive(DIR_BACKUP . $bkp->getBackupName() . '.tar.gz', DIR_BACKUP, $bkp->getBackupName());
 		if (!$result) {
-			$this->error = $bkp->error;
+			$this->errors[] = $bkp->error;
 		} else {
 			$this->backup_filename = $bkp->getBackupName();
 		}
 
 		return $result;
+	}
+
+	public function createBackupTask($task_name, $data = array()){
+
+		if(!$task_name){
+			$this->errors[] = 'Can not to create task. Empty task name given';
+		}
+
+		$tm = new ATaskManager();
+
+		//1. create new task
+		$task_id = $tm->addTask(
+			array( 'name' => $task_name,
+					'starter' => 1, //admin-side is starter
+					'created_by' => $this->user->getId(), //get starter id
+					'status' => 1, // shedule it!
+					'start_time' => date('Y-m-d H:i:s'),
+					'last_time_run' => '0000-00-00 00:00:00',
+					'progress' => '0',
+					'last_result' => '0',
+					'run_interval' => '0',
+					'max_execution_time' => '0'
+			)
+		);
+		if(!$task_id){
+			$this->errors = array_merge($this->errors,$tm->errors);
+			return false;
+		}
+
+		//create step for table backup
+		if($data['backup'] ){
+			$step_id = $tm->addStep( array(
+				'task_id' => $task_id,
+				'sort_order' => 1,
+				'status' => 1,
+				'last_time_run' => '0000-00-00 00:00:00',
+				'last_result' => '0',
+				'max_execution_time' => '0',
+				'controller' => 'job/tool/backup/dumptables',
+				'settings' => array(
+								'tables' => $data['backup'],
+								'sql_dump_mode'=> $data['sql_dump_mode']
+								)
+			));
+
+			if(!$step_id){
+				$this->errors = array_merge($this->errors,$tm->errors);
+				return false;
+			}
+		}
+
+		//create step for files backup
+		if($data['backup_files']){
+			$step_id = $tm->addStep( array(
+										'task_id' => $task_id,
+										'sort_order' => 2,
+										'status' => 1,
+										'last_time_run' => '0000-00-00 00:00:00',
+										'last_result' => '0',
+										'max_execution_time' => '0',
+										'controller' => 'job/tool/backup/backupfiles',
+										'settings' => array('interrupt_on_step_fault' =>false)
+			));
+
+			if(!$step_id){
+				$this->errors = array_merge($this->errors,$tm->errors);
+				return false;
+			}
+
+		}
+		//create step for backup config-file
+		if($data['backup_config']){
+			$step_id = $tm->addStep( array(
+				'task_id' => $task_id,
+				'sort_order' => 3,
+				'status' => 1,
+				'last_time_run' => '0000-00-00 00:00:00',
+				'last_result' => '0',
+				'max_execution_time' => '0',
+				'controller' => 'job/tool/backup/backupconfig'
+			));
+			if(!$step_id){
+				$this->errors = array_merge($this->errors,$tm->errors);
+				return false;
+			}
+		}
+
+		//create last step for compressing backup
+
+		$step_id = $tm->addStep( array(
+			'task_id' => $task_id,
+			'sort_order' => 4,
+			'status' => 1,
+			'last_time_run' => '0000-00-00 00:00:00',
+			'last_result' => '0',
+			'max_execution_time' => '0',
+			'controller' => 'job/tool/backup/compressbackup'
+		));
+		if(!$step_id){
+			$this->errors = array_merge($this->errors,$tm->errors);
+			return false;
+		}else{
+			$task_details = $tm->getTaskById($task_id);
+			if($task_details){
+				return $task_details;
+			}else{
+				$this->errors[] = 'Can not to get task details for execution';
+				$this->errors = array_merge($this->errors,$tm->errors);
+				return false;
+			}
+		}
+
 	}
 }
