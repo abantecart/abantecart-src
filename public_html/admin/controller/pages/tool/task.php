@@ -56,19 +56,23 @@ class ControllerPagesToolTask extends AController {
 								'sortname' => 'date_created',
 								// actions
 								'actions' => array(
-										'play' => array(
+										'run' => array(
 											'text' => $this->language->get('text_run'),
-											'href' => $this->html->getSecureURL('tool/task/reset', '&task_id=%ID%')
+											'href' => $this->html->getSecureURL('listing_grid/task/run', '&task_id=%ID%')
+										),
+										'restart' => array(
+											'text' => $this->language->get('text_restart'),
+											'href' => $this->html->getSecureURL('listing_grid/task/restart', '&task_id=%ID%')
 										),
 										'delete' => array(
 											'text' => $this->language->get('button_delete'),
+											'href' => $this->html->getSecureURL('listing_grid/task/delete', '&task_id=%ID%')
 										),
 				            ),
 								'columns_search' => true,
 								'sortable' => true );
 		
 		$grid_settings ['colNames'] = array (
-											'#',
 											$this->language->get ( 'column_id' ),
 											$this->language->get ( 'column_name' ),
 											$this->language->get ( 'column_status' ),
@@ -76,44 +80,37 @@ class ControllerPagesToolTask extends AController {
 											$this->language->get ( 'column_date_created' ) );
 		$grid_settings ['colModel'] = array (
 											array (
-													'name' => 'row_id',
-													'index' => 'row_id',
-													'width' => 10,
-													'align' => 'center',
-													'sortable' => false,
-													'search' => false),
-											array (
 													'name' => 'task_id',
 													'index' => 'task_id',
-													'width' => 10,
+													'width' => 40,
 													'align' => 'center',
 													'sortable' => true,
 													'search' => false),
 											array (
 													'name' => 'name',
 													'index' => 'name',
-													'width' => 50,
-													'align' => 'center',
+													'width' => 150,
+													'align' => 'left',
 													'sortable' => true,
 													'search' => true),
 											array (
 													'name' => 'status',
 													'index' => 'status',
-													'width' => 20,
+													'width' => 150,
 													'align' => 'center',
 													'sortable' => true,
 													'search' => false),
 											array (
 													'name' => 'start_time',
 													'index' => 'start_time',
-													'width' => 50,
+													'width' => 150,
 													'align' => 'center',
 													'sortable' => true,
 													'search' => false),
 											array (
 													'name' => 'date_created',
 													'index' => 'date_created',
-													'width' => 50,
+													'width' => 150,
 													'align' => 'center',
 													'sortable' => true,
 													'search' => false) );

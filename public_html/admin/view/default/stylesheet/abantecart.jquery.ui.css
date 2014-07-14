@@ -932,3 +932,21 @@
 .drag_row td{
 	-webkit-box-shadow: 13px 14px 28px rgba(50, 50, 50, 0.7);
 }
+
+
+/*for jqgrid customization of action button set via userdata->classes property from response controller*/
+
+.disable-delete .grid_action_delete,
+.disable-edit .grid_action_edit,
+.disable-view .grid_action_view,
+.disable-restart .grid_action_restart,
+.disable-save .grid_action_save,
+.disable-run .grid_action_run,
+.disable-install .grid_action_install,
+.disable-uninstall .grid_action_uninstall,
+.disable-clone .grid_action_clone,
+.disable-approve .grid_action_approve
+{
+	display: none;
+}
+

@@ -454,9 +454,20 @@ class ATaskManager {
 		return $steps;
 	}
 
-	public function getTotalTasks(){
+	public function getTotalTasks($data = array()){
 		$sql = "SELECT COUNT(*) as total
 				FROM ".$this->db->table('tasks');
+		$sql .= ' WHERE 1=1 ';
+
+		if (!empty($data['subsql_filter'])) {
+			$sql .= " AND " . $data['subsql_filter'];
+		}
+
+		if (has_value($filter['name'])) {
+			$sql .= " AND (LCASE(t.name) LIKE '%" . $this->db->escape(mb_strtolower($filter['name'])) . "%'";
+		}
+
+
 		$result = $this->db->query($sql);
 		return $result->row['total'];
 	}
@@ -471,7 +482,6 @@ class ATaskManager {
 		if (!empty($data['subsql_filter'])) {
 			$sql .= " AND " . $data['subsql_filter'];
 		}
-
 
 		if (has_value($filter['name'])) {
 			$sql .= " AND (LCASE(t.name) LIKE '%" . $this->db->escape(mb_strtolower($filter['name'])) . "%'";

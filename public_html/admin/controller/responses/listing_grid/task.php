@@ -40,43 +40,33 @@ class ControllerResponsesListingGridTask extends AController {
 		
 		$page = $this->request->post ['page']; // get the requested page
 		$limit = $this->request->post ['rows']; // get how many rows we want to have into the grid
-		$sidx = $this->request->post ['sidx']; // get index row - i.e. user click to sort
-		$sord = $this->request->post ['sord']; // get the direction
 
-		$filter = array();
-		//process custom search form
-		$allowedSearchFilter = array ('name');
+		//Prepare filter config
+		$grid_filter_params = array('name');
+		$filter = new AFilter( array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ) );
+		$filter_data = $filter->getFilterData();
 
-		if (isset ( $this->request->post ['filters'] ) && $this->request->post ['filters'] != '') {
-				$this->request->post ['filters'] = json_decode(html_entity_decode($this->request->post ['filters']));
-				$filter['value'] = $this->request->post ['filters']->rules[0]->data;
-		}
-
-		// process jGrid search parameter
-		$data = array ('sort' => $sidx.":". $sord,
-		               'offset' => ($page - 1) * $limit,
-		               'limit' => $limit,
-		               'filter' => $filter );
 		$tm = new ATaskManager();
-
-		$total = $tm->getTotalTasks ();
+		$total = $tm->getTotalTasks ($filter_data);
 		if ($total > 0) {
 			$total_pages = ceil ( $total / $limit );
 		} else {
 			$total_pages = 0;
 		}
-		
+		$results = $tm->getTasks ( $filter_data );
+
 		$response = new stdClass ();
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
 		$response->userdata = new stdClass();
 
-			$results = $tm->getTasks ( $data );
+
 			$i = 0;
-			foreach ( $results as $k=>$result ) {
-				$k++;
-				$response->rows [$i] ['id'] = $k;
+			foreach ( $results as $result ) {
+
+				$id = $result ['task_id'];
+				$response->rows [$i] ['id'] = $id;
 
 				$status = $result['status'];
 				//if task works more than 30min - we think it's stuck
@@ -85,24 +75,25 @@ class ControllerResponsesListingGridTask extends AController {
 				}
 
 				switch($status){
-					case -1:
-						$response->userdata->classes[ $k ] = 'warning';
+					case -1: // stuck
+						$response->userdata->classes[ $id ] = 'warning disable-run disable-edit';
 						$text_status = $this->language->get('text_active');
 						break;
-					case 1:
-						$response->userdata->classes[ $k ] = 'success';
+					case 1: // scheduled
+						$response->userdata->classes[ $id ] = 'success disable-restart disable-edit';
 						$text_status = $this->language->get('text_scheduled');
 						break;
-					case 2:
-						$response->userdata->classes[ $k ] = 'attention';
+					case 2: //disable all buttons for active tasks
+						$response->userdata->classes[ $id ] = 'attention disable-run disable-restart disable-edit disable-delete';
 						$text_status = $this->language->get('text_active');
 						break;
-					default:
+					default: // disabled
+						$response->userdata->classes[ $id ] = 'attention disable-run disable-restart disable-edit disable-delete';
 						$text_status = $this->language->get('text_disabled');
 
 				}
 
-				$response->rows [$i] ['cell'] = array (	$k,
+				$response->rows [$i] ['cell'] = array (
 														$result ['task_id'],
 														$result ['name'],
 														$text_status,
@@ -120,5 +111,74 @@ class ControllerResponsesListingGridTask extends AController {
 		$this->response->setOutput(AJson::encode($response));
 		
 	}
+
+	public function restart(){
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+
+		if(has_value($this->request->post_or_get('task_id'))){
+			$tm = new ATaskManager();
+			$task = $tm->getTaskById($this->request->post_or_get('task_id'));
+
+			//check
+			if($task && $task['status'] == 2 && time() - dateISO2Int($task['start_time']) > 1800){
+				foreach($task['steps'] as $step){
+					$tm->updateStep($step['step_id'], array('status'=>1));
+				}
+				$tm->updateTask($task['task_id'], array(
+													'status' => 1, //scheduled
+													'start_time' => date('Y-m-d H:i:s'),
+													'last_result' => 2 //interrupted
+														));
+			}
+			//$this->response->setOutput(AJson::encode(array('result'=> true)));
+			$this->_run_task();
+		}else{
+			$this->response->setOutput(AJson::encode(array('result'=> false)));
+		}
+
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
+	public function run(){
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+
+		if(has_value($this->request->post_or_get('task_id'))){
+			$tm = new ATaskManager();
+			$task = $tm->getTaskById($this->request->post_or_get('task_id'));
+
+			//check
+			if($task && $task['status'] == 1){
+				$tm->updateTask($task['task_id'], array(
+													'start_time' => date('Y-m-d H:i:s'),
+														));
+			}
+			//$this->response->setOutput(AJson::encode(array('result'=> true)));
+			$this->_run_task();
+		}else{
+			$this->response->setOutput(AJson::encode(array('result'=> false)));
+		}
+
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
+
+	//
+	private function _run_task(){
+
+		$connect = new AConnect(true);
+		$url = $this->config->get('config_url').'job.php';
+		$connect->getDataHeaders( $url );
+	}
+
 
 }

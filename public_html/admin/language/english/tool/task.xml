@@ -36,4 +36,12 @@
 		<key>text_disabled</key>
 		<value><![CDATA[ Disabled]]></value>
 	</definition>
+	<definition>
+		<key>text_restart</key>
+		<value><![CDATA[ Restart Task]]></value>
+	</definition>
+	<definition>
+		<key>text_run</key>
+		<value><![CDATA[ Run Task]]></value>
+	</definition>
 </definitions>
