@@ -231,43 +231,40 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
             	$ec_str = ' actions += \'<a class="btn_action btn_grid tooltips grid_action_' . $type . '" title="' . $action['text'] . '" data-original-title="' . $action['text'] . '" data-toggle="tooltip" data-action-type="'.$type.'"';
                 switch ($type) {
                     case 'edit':
-                        echo $ec_str.' href="#" rel="%ID%"><i></i></a>\'; ';
-                        break;
-                    case 'view':
-                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-trash-o fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-edit fa-lg"></i></a>\'; ';
                         break;
                     case 'delete':
-                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-trash-o fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-trash-o fa-lg"></i></a>\'; ';
                         break;
                     case 'save':
-                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-save fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-save fa-lg"></i></a>\'; ';
                         break;
                     case 'expand':
-                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-plus-square-o fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-plus-square-o fa-lg"></i></a>\'; ';
                         break;
                     case 'restart':
-                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-repeat fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-repeat fa-lg"></i></a>\'; ';
                         break;
                     case 'run':
-                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-play fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i></a>\'; ';
                         break;
                     case 'approve':
-                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-check-square-o fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-check-square-o fa-lg"></i></a>\'; ';
                         break;
                     case 'actonbehalfof':
-                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-male fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-male fa-lg"></i></a>\'; ';
                         break;
                     case 'clone':
-                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-copy fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-copy fa-lg"></i></a>\'; ';
                         break;
                     case 'install':
-                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-play-circle-o fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-play-circle-o fa-lg"></i></a>\'; ';
                         break;
                     case 'uninstall':
-                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-times-circle-o fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-times-circle-o fa-lg"></i></a>\'; ';
                         break;
                     case 'view':
-                        echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-eye fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-eye fa-lg"></i></a>\'; ';
                         break;
                     default:
                         echo $ec_str.' href="' . $action['href'] . '" id="action_' . $type . '_%ID%"  ' . (!empty($action['target']) ? 'target="' . $action['target'] . '"' : '') . '><i class="fa fa-' . $type . ' fa-lg"></i></a>\'; ';
@@ -286,6 +283,8 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				$(table_id + '_wrapper a[class*=grid_action_]')
 						.not('.grid_action_delete, .grid_action_save, .grid_action_expand')
 						.click(function () {
+
+					if($(this).attr('href')!='#'){ return; }
 
 					var btn_type = $(this).attr('data-action-type');
 
