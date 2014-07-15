@@ -490,6 +490,31 @@ function formatQty(field) {
         thousandSeparator:numberSeparators.thousand});
 }
 
+
+
+//bind event for submit buttons
+var formOnExit = function(){
+    $('form[data-confirm-exit="true"]').find('.btn').bind('click', function () {
+        var $form = $(this).parents('form');
+        //reset elemnts to not changed status
+        $form.prop('changed', 'submit');
+    });
+    // prevent submit of form for "quicksave"
+    $("form").bind("keypress", function(e) {
+        if (e.keyCode == 13){
+            if($(document.activeElement)){
+                if($(document.activeElement).parents('.changed').length>0){
+                        return false;
+                }
+            }
+        }
+    });
+}
+
+
+
+
+
 /*
  task run via ajax
  */

@@ -62,7 +62,7 @@ label > i {
 }
 /* fix for calendar low z-index */
 .ui-datepicker {
-	z-index: 10 !important;
+	z-index: 1051 !important;
 }
 
 #product_grid_search .small-field {

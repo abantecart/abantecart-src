@@ -577,4 +577,8 @@
 		<key>text_free</key>
 		<value><![CDATA[Free]]></value>
 	</definition>
+	<definition>
+		<key>text_sure</key>
+		<value><![CDATA[Are you sure?]]></value>
+	</definition>
 </definitions>

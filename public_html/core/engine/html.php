@@ -819,7 +819,7 @@ class HtmlElementFactory {
 
 	/**
 	 * @param $data
-	 * @return HiddenHtmlElement | MultivalueListHtmlElement | MultivalueHtmlElement | SubmitHtmlElement | InputHtmlElement | PasswordHtmlElement | PaginationHtmlElement | TextareaHtmlElement | SelectboxHtmlElement | MultiSelectboxHtmlElement | CheckboxHtmlElement | CheckboxGroupHtmlElement | FileHtmlElement | RadioHtmlElement | ButtonHtmlElement | FormHtmlElement | RatingHtmlElement | CaptchaHtmlElement | PasswordsetHtmlElement | ResourceHtmlElement | ResourceImageHtmlElement | DateHtmlElement | EmailHtmlElement | NumberHtmlElement | PhoneHtmlElement | IPaddressHtmlElement | CountriesHtmlElement | ZonesHtmlElement |
+	 * @return HiddenHtmlElement | MultivalueListHtmlElement | MultivalueHtmlElement | SubmitHtmlElement | InputHtmlElement | PasswordHtmlElement | PaginationHtmlElement | TextareaHtmlElement | SelectboxHtmlElement | MultiSelectboxHtmlElement | CheckboxHtmlElement | CheckboxGroupHtmlElement | FileHtmlElement | RadioHtmlElement | ButtonHtmlElement | FormHtmlElement | RatingHtmlElement | CaptchaHtmlElement | PasswordsetHtmlElement | ResourceHtmlElement | ResourceImageHtmlElement | DateHtmlElement | EmailHtmlElement | NumberHtmlElement | PhoneHtmlElement | IPaddressHtmlElement | CountriesHtmlElement | ZonesHtmlElement | ModalHtmlElement
 	 * @throws AException
 	 */
 	static function create($data) {
@@ -1854,6 +1854,43 @@ class PaginationHtmlElement extends HtmlElement {
 		$this->view->batchAssign( $s );
 		
 		$return = $this->view->fetch('form/pagination.tpl');
+		return $return;
+	}
+
+}
+
+/**
+ * Class ModalHtmlElement
+ */
+class ModalHtmlElement extends HtmlElement {
+
+	public function __construct($data) {
+		parent::__construct($data);
+
+	}
+
+	public function getHtml() {
+
+		$modal_type = $this->modal_type ? $this->modal_type : 'lg';
+
+		$this->view->batchAssign(
+			array(
+				'id' => $this->id,
+				'name' => $this->name,
+				'title' => $this->title,
+				'content' => $this->content,
+				'modal_type' => $modal_type,
+				'data_source' => (string)$this->data_source // if 'remote' (by ajax) we clean up modal content after it close
+			)
+		);
+
+		switch($modal_type){
+			case 'lg':
+				$tpl = 'form/modal_lg.tpl';
+				break;
+		}
+
+		$return = $this->view->fetch($tpl);
 		return $return;
 	}
 

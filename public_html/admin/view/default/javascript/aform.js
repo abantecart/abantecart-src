@@ -45,7 +45,7 @@
             save_url:''
         },
         wrapper:'<div class="form-group" />',
-        mask:'<div class="input-group afield" />',
+        mask:'<div class="input-group afield" />'
     };
 
     $.fn.aform = function (op) {
@@ -826,23 +826,8 @@ jQuery(document).ready(function() {
 	        }
 	    }
 	});
+    formOnExit();
 
-	//bind event for submit buttons
-	$('form[data-confirm-exit="true"]').find('.btn').bind('click', function () {
-	    var $form = $(this).parents('form');
-		//reset elemnts to not changed status
-	    $form.prop('changed', 'submit');
-	});
-	
-    // prevent submit of form for "quicksave"
-    $("form").bind("keypress", function(e) {
-        if (e.keyCode == 13){
-            if($(document.activeElement)){
-                if($(document.activeElement).parents('.changed').length>0){
-                        return false;
-                }
-            }
-        }
-    });
+
 
 });
