@@ -181,8 +181,8 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                 $(table_id + '_wrapper .no_results').hide();
             }
 
-			//add wrapers to the fileds
-		    $(table_id).find("input:not( input.cbox ), testarea, select").each(function () {
+			//add wrapers to the fields
+		    $(table_id).find("input:not( input.cbox ), textarea, select").each(function () {
     		    $.aform.styleGridForm(this);
         		$(this).aform({triggerChanged:false});
     		});
@@ -228,13 +228,13 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
             foreach ($data['actions'] as $type => $action) {
             	$href = has_value($action['href']) ? $action['href'] : '#';
             	echo "actions_urls['".$type."'] = '".$href."';\n";
-            	$ec_str = ' actions += \'<a class="btn_action btn_grid tooltips grid_action_' . $type . '" title="' . $action['text'] . '" data-original-title="' . $action['text'] . '" data-toggle="tooltip" data-action-type="'.$type.'"';
+            	$ec_str = ' actions += \'<a class="btn_action btn_grid tooltips grid_action_' . $type . '" title="' . $action['text'] . '" data-action-type="'.$type.'"';
                 switch ($type) {
                     case 'edit':
                         echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-edit fa-lg"></i></a>\'; ';
                         break;
                     case 'delete':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-trash-o fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-trash-o fa-lg"></i></a>\'; ';
                         break;
                     case 'save':
                         echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-save fa-lg"></i></a>\'; ';
@@ -281,7 +281,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                 }
 
 				$(table_id + '_wrapper a[class*=grid_action_]')
-						.not('.grid_action_delete, .grid_action_save, .grid_action_expand')
+						.not('.grid_action_delete[href="#"], .grid_action_delete[href=""], .grid_action_save, .grid_action_expand')
 						.click(function () {
 
 					if($(this).attr('href')!='#'){ return; }
@@ -316,7 +316,9 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 					return false;
 				});
 
-                $(table_id + '_wrapper a.grid_action_delete').click(function () {
+                $(table_id + '_wrapper a.grid_action_delete')
+						.not(table_id + '_wrapper a.grid_action_delete[data-confirmation="delete"]')
+						.click(function () {
                     $(table_id)
                         .jqGrid('resetSelection')
                         .jqGrid('setSelection', $(this).attr('rel'));

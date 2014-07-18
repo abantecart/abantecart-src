@@ -1,10 +1,11 @@
 <?php if ($error) {
 	$error = (array)$error;
-	foreach($error as $text){
-	?>
-	<div class="warning alert alert-error alert-danger"><?php echo $text; ?></div>
+	foreach ($error as $text) {
+		?>
+		<div class="warning alert alert-error alert-danger"><?php echo $text; ?></div>
 
-<?php }} ?>
+	<?php }
+} ?>
 <?php if ($success) { ?>
 	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
@@ -31,7 +32,7 @@
 			<div class="panel-btns">
 				<a class="minimize" href="">−</a>
 			</div>
-			  <h4 class="panel-title"><?php echo $tab_discount; ?></h4>
+			<h4 class="panel-title"><?php echo $tab_discount; ?></h4>
 		</div>
 		<?php echo $form['form_open']; ?>
 		<div class="panel-body panel-body-nopadding">
@@ -62,19 +63,12 @@
 							   href="<?php echo str_replace('%ID%', $product_discount['product_discount_id'], $update_discount); ?>"
 							   class="btn" data-target="#discount_modal" data-toggle="modal"><i
 										class="fa fa-edit fa-lg"></i></a>
-							<div class="btn-group dropup">
-								<a title="<?php echo $button_remove->text; ?>"
-								   href="<?php echo str_replace('%ID%', $product_discount['product_discount_id'], $delete_discount); ?>"
-								   class="btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-trash-o fa-lg"></i></a>
-								<ul class="dropdown-menu dropdown-menu-right" role="menu">
-									<li class="dropdown-header"><?php echo $text_sure;?></li>
-									<li class="dropdown-header">
-										<div class="btn-group btn-group-smr">
-											<a target="_self" href="<?php echo str_replace('%ID%', $product_discount['product_discount_id'], $delete_discount); ?>" class="btn btn-danger"><?php echo $text_yes;?></a>
-											<a class="btn btn-default"><?php echo $text_no;?></a>
-										</div></li>
-								</ul>
-							</div>
+
+							<a title="<?php echo $button_remove->text; ?>" data-confirmation="delete"
+							   href="<?php echo str_replace('%ID%', $product_discount['product_discount_id'], $delete_discount); ?>"
+							   class="btn"><i class="fa fa-trash-o fa-lg"></i></a>
+
+
 						</td>
 					</tr>
 					</tbody>
@@ -83,23 +77,24 @@
 			</table>
 		</div>
 		<div class="panel-footer">
-		<div class="row pull-right">
-			<div class="col-sm-6 col-sm-offset-0">
-				<a href="<?php echo $button_add_discount->href; ?>" data-target="#discount_modal" data-toggle="modal">
-					<button class="btn btn-primary">
-						<i class="fa fa-plus"></i> <?php echo $button_add_discount->text; ?>
-					</button>
-				</a>
+			<div class="row pull-right">
+				<div class="col-sm-6 col-sm-offset-0">
+					<a href="<?php echo $button_add_discount->href; ?>" data-target="#discount_modal"
+					   data-toggle="modal">
+						<button class="btn btn-primary">
+							<i class="fa fa-plus"></i> <?php echo $button_add_discount->text; ?>
+						</button>
+					</a>
+				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="panel-btns">
 				<a class="minimize" href="">−</a>
 			</div>
-			  <h4 class="panel-title"><?php echo $tab_special; ?></h4>
+			<h4 class="panel-title"><?php echo $tab_special; ?></h4>
 		</div>
 		<div class="panel-body panel-body-nopadding">
 
@@ -128,20 +123,13 @@
 							   href="<?php echo str_replace('%ID%', $item['product_special_id'], $update_special); ?>"
 							   class="btn"
 							   data-target="#discount_modal" data-toggle="modal"><i class="fa fa-edit fa-lg"></i></a>
-							<div class="btn-group dropup">
-								<a title="<?php echo $button_remove->text; ?>"
-								   class="btn dropdown-toggle" data-toggle="dropdown"
-								   href="<?php echo str_replace('%ID%', $item['product_special_id'], $delete_special); ?>"
-								   ><i class="fa fa-trash-o fa-lg"></i></a>
-								<ul class="dropdown-menu dropdown-menu-right" role="menu">
-									<li class="dropdown-header"><?php echo $text_sure;?></li>
-									<li class="dropdown-header">
-										<div class="btn-group btn-group-smr">
-											<a target="_self" href="<?php echo str_replace('%ID%', $item['product_special_id'], $delete_special); ?>" class="btn btn-danger"><?php echo $text_yes;?></a>
-											<a class="btn btn-default"><?php echo $text_no;?></a>
-										</div></li>
-								</ul>
-							</div>
+
+							<a title="<?php echo $button_remove->text; ?>"
+							   class="btn" data-confirmation="delete"
+							   href="<?php echo str_replace('%ID%', $item['product_special_id'], $delete_special); ?>"
+									><i class="fa fa-trash-o fa-lg"></i></a>
+
+
 						</td>
 					</tr>
 					</tbody>
@@ -152,25 +140,26 @@
 
 		</div>
 		<div class="panel-footer">
-		<div class="row pull-right">
-			<div class="col-sm-6 col-sm-offset-0">
-				<a href="<?php echo $button_add_special->href; ?>" data-target="#discount_modal" data-toggle="modal">
-					<button class="btn btn-primary">
-						<i class="fa fa-plus"></i> <?php echo $button_add_special->text; ?>
-					</button>
-				</a>
+			<div class="row pull-right">
+				<div class="col-sm-6 col-sm-offset-0">
+					<a href="<?php echo $button_add_special->href; ?>" data-target="#discount_modal"
+					   data-toggle="modal">
+						<button class="btn btn-primary">
+							<i class="fa fa-plus"></i> <?php echo $button_add_special->text; ?>
+						</button>
+					</a>
+				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 </div>
 
 <?php echo $this->html->buildElement(
 		array('type' => 'modal',
-			  'id' => 'discount_modal',
-			  'name' => 'discount_modal',
-			  'modal_type' => 'lg',
-			  'data_source' => 'remote'));
+				'id' => 'discount_modal',
+				'name' => 'discount_modal',
+				'modal_type' => 'lg',
+				'data_source' => 'remote'));
 ?>
 
 
