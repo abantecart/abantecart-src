@@ -66,7 +66,7 @@ class ControllerPagesToolTask extends AController {
 										),
 										'delete' => array(
 											'text' => $this->language->get('button_delete'),
-											'href' => $this->html->getSecureURL('listing_grid/task/delete', '&task_id=%ID%')
+											'href' => $this->html->getSecureURL('tool/task/delete', '&task_id=%ID%')
 										),
 				            ),
 								'columns_search' => true,
@@ -135,6 +135,20 @@ class ControllerPagesToolTask extends AController {
 		
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
+
+	public function delete(){
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+		$id = (int)$this->request->get_or_post('task_id');
+		if($id){
+			$tm = new ATaskManager();
+			$tm->deleteTask($id);
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->redirect($this->html->getSecureURL('tool/task'));
 	}
 
 }

@@ -23,7 +23,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
-final class ATypeJob {
+final class ATypeTask {
 	/**
 	 * @var Registry
 	 */
@@ -71,8 +71,8 @@ final class ATypeJob {
 		while ($dispatch_rt){
 			//Process main level controller
 			//filter in case we have responses set already
-			$dispatch_rt = preg_replace('/^(job)\//', '', $dispatch_rt);
-            $dispatch = new ADispatcher('job/'.$dispatch_rt, array("instance_id" => "0"));
+			$dispatch_rt = preg_replace('/^(task)\//', '', $dispatch_rt);
+            $dispatch = new ADispatcher('task/'.$dispatch_rt, array("instance_id" => "0"));
 			$dispatch_rt = $dispatch->dispatch();
 
 		}	

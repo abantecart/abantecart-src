@@ -147,7 +147,7 @@ class ModelToolBackup extends Model {
 				'last_time_run' => '0000-00-00 00:00:00',
 				'last_result' => '0',
 				'max_execution_time' => '0',
-				'controller' => 'job/tool/backup/dumptables',
+				'controller' => 'task/tool/backup/dumptables',
 				'settings' => array(
 								'tables' => $data['backup'],
 								'sql_dump_mode'=> $data['sql_dump_mode']
@@ -169,7 +169,7 @@ class ModelToolBackup extends Model {
 										'last_time_run' => '0000-00-00 00:00:00',
 										'last_result' => '0',
 										'max_execution_time' => '0',
-										'controller' => 'job/tool/backup/backupfiles',
+										'controller' => 'task/tool/backup/backupfiles',
 										'settings' => array('interrupt_on_step_fault' =>false)
 			));
 
@@ -188,7 +188,7 @@ class ModelToolBackup extends Model {
 				'last_time_run' => '0000-00-00 00:00:00',
 				'last_result' => '0',
 				'max_execution_time' => '0',
-				'controller' => 'job/tool/backup/backupconfig'
+				'controller' => 'task/tool/backup/backupconfig'
 			));
 			if(!$step_id){
 				$this->errors = array_merge($this->errors,$tm->errors);
@@ -205,7 +205,7 @@ class ModelToolBackup extends Model {
 			'last_time_run' => '0000-00-00 00:00:00',
 			'last_result' => '0',
 			'max_execution_time' => '0',
-			'controller' => 'job/tool/backup/compressbackup'
+			'controller' => 'task/tool/backup/compressbackup'
 		));
 		if(!$step_id){
 			$this->errors = array_merge($this->errors,$tm->errors);

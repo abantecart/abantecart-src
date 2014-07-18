@@ -176,7 +176,7 @@ class ControllerResponsesListingGridTask extends AController {
 	private function _run_task(){
 
 		$connect = new AConnect(true);
-		$url = $this->config->get('config_url').'job.php';
+		$url = $this->config->get('config_url').'task.php';
 		$connect->getDataHeaders( $url );
 	}
 

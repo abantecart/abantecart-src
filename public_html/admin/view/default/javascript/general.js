@@ -627,7 +627,7 @@ var runTaskStepsUI = function (task_details) {
                             var err = $.parseJSON(xhr.responseText);
                             if (err.hasOwnProperty("error_text")) {
                                 error_txt = err.error_text;
-                                attempts = 1; //if we got error from job-controller  - interrupt attemps
+                                attempts = 1; //if we got error from task-controller  - interrupt attemps
                             } else {
                                 if(xhr.status==200){
                                     error_txt = '('+xhr.responseText+')';

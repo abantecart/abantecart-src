@@ -120,9 +120,9 @@ final class ARouter {
 		} else if ($path_nodes[0] == 'a' ) {
 			$this->request_type = 'api';		
 			$this->rt = preg_replace('/^a\//', '', $this->rt);		
-		} else if ($path_nodes[0] == 'job') {
-			$this->request_type = 'job';
-			$this->rt = preg_replace('/^job\//', '', $this->rt);
+		} else if ($path_nodes[0] == 'task') {
+			$this->request_type = 'task';
+			$this->rt = preg_replace('/^task\//', '', $this->rt);
 		} else {
 			//find implicit path of controller
 			//Pages section has priority
@@ -199,9 +199,9 @@ final class ARouter {
 				$api_controller->build('error/not_found');
 			}						
 		}
-		else if ( $this->request_type == 'job' ) {
-			$job_controller = new ATypeJob($this->registry);
-			if (!defined('IS_ADMIN') || !IS_ADMIN ) { // do not allow to call job controllers from SF-side
+		else if ( $this->request_type == 'task' ) {
+			$task_controller = new ATypeTask($this->registry);
+			if (!defined('IS_ADMIN') || !IS_ADMIN ) { // do not allow to call task controllers from SF-side
 				$resp_controller = new ATypeResponse($this->registry);
 				$resp_controller->build('error/not_found');
 			} else {
@@ -211,9 +211,9 @@ final class ARouter {
 				$resp_controller->addPreDispatch('responses/common/access/permission');
 			}
 			//Validate controller only. If does not exist process not found
-			if ( $this->_detect_controller("job") ){
+			if ( $this->_detect_controller("task") ){
 				// Build the response
-				$job_controller->build($this->rt);
+				$task_controller->build($this->rt);
 			} else {
 				$resp_controller = new ATypeResponse($this->registry);
 				$resp_controller->build('error/not_found');
