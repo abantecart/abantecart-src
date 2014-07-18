@@ -57,7 +57,7 @@
             var $wrapper = $field.closest('.afield');
 
             if ($field.is(':hidden') && o.autoHide) {
-                $wrapper.hide();
+              //  $wrapper.hide();
             }
             if ($field.prop("readonly")) {
                 $field.addClass(o.readonlyClass);

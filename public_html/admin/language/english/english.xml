@@ -581,4 +581,8 @@
 		<key>text_sure</key>
 		<value><![CDATA[Are you sure?]]></value>
 	</definition>
+	<definition>
+		<key>button_add</key>
+		<value><![CDATA[Add]]></value>
+	</definition>
 </definitions>

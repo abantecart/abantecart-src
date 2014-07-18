@@ -4,148 +4,151 @@
 <?php if ($success) { ?>
 	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
-<a name="top"></a>
 
-<div class="contentBox">
-	<div class="cbox_tl">
-		<div class="cbox_tr">
-			<div class="cbox_tc">
-				<div class="heading icon_title_product"><?php echo $form_title; ?></div>
-				<?php echo $product_tabs ?>
-				<div class="toolbar">
-					<?php if (!empty ($help_url)) : ?>
-						<div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img
-										src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-					<?php endif; ?>
-					<?php echo $form_language_switch; ?>
-				</div>
+<?php echo $summary_form; ?>
+
+<?php echo $product_tabs ?>
+
+<div class="tab-content">
+
+	<div class="panel-heading">
+
+		<div class="pull-right">
+
+			<div class="btn-group mr10 toolbar">
+				<?php echo $form_language_switch; ?>
+			</div>
+
+			<div class="btn-group mr10 toolbar">
+				<?php if (!empty ($help_url)) : ?>
+					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
+					   title="" data-original-title="Help">
+						<i class="fa fa-question-circle"></i>
+					</a>
+				<?php endif; ?>
 			</div>
 		</div>
+
 	</div>
-	<div class="cbox_cl">
-		<div class="cbox_cr">
-			<div class="cbox_cc">
 
-				<?php echo $summary_form; ?>
+	<div class="panel-body panel-body-nopadding">
+		<label class="h4 heading"><?php echo $tab_option; ?></label>
 
-				<div class="fieldset">
-					<div class="heading"><a id="tab_option"><?php echo $tab_option; ?></a></div>
-					<div class="top_left">
-						<div class="top_right">
-							<div class="top_mid"></div>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="panel-group" id="accordion">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+									Choose option to edit
+								</a>
+							</h4>
 						</div>
-					</div>
-					<div class="cont_left">
-						<div class="cont_right">
-							<div class="cont_mid">
-
-								<div class="option_form">
-									<div class="option_field">
-										<div class="aform">
-											<div class="afield mask2">
-												<div class="tl">
-													<div class="tr">
-														<div class="tc"></div>
-													</div>
-												</div>
-												<div class="cl">
-													<div class="cr">
-														<div class="cc">
-															<select id="product_form_option" size="10"
-																	class="attribute_list static_field">
-																<?php foreach ($product_options as $product_option) { ?>
-																	<option value="<?php echo $product_option['product_option_id']; ?>"><?php echo $product_option['language'][$language_id]['name']; ?></option>
-																<?php } ?>
-															</select>
-														</div>
-													</div>
-												</div>
-												<div class="bl">
-													<div class="br">
-														<div class="bc"></div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="options_buttons">
-											<?php echo $form['form_open']; ?>
-											<table cellpadding="3" cellspacing="0">
-												<tr>
-													<td colspan="2"><?php echo $attributes; ?></td>
-												</tr>
-											</table>
-											<table cellpadding="2" cellspacing="0" id="option_name_block">
-												<tr>
-													<td><?php echo $entry_status; ?></td>
-													<td><?php echo $status; ?></td>
-												</tr>
-												<tr>
-													<td><?php echo $entry_option; ?></td>
-													<td>
-														<?php echo $option_name; ?>
-														<div class="error"
-															 style="display:none"><?php echo $error_required ?></div>
-													</td>
-												</tr>
-												<tr>
-													<td><?php echo $entry_element_type; ?></td>
-													<td>
-														<?php echo $element_type; ?>
-														<div class="error"
-															 style="display:none"><?php echo $error_required ?></div>
-													</td>
-												</tr>
-												<tr>
-													<td><?php echo $entry_sort_order; ?></td>
-													<td><?php echo $sort_order; ?></td>
-												</tr>
-												<tr>
-													<td><?php echo $entry_required; ?></td>
-													<td><?php echo $required; ?></td>
-												</tr>
-											</table>
-											<button type="submit"
-													class="btn_standard"><?php echo $form['submit']; ?></button>
-											<button type="reset" class="btn_standard" style="display:none"
-													id="option_name_reset"><?php echo $button_reset; ?></button>
-											</form>
-										</div>
-									</div>
-
-									<div id="options">
-										<div id="option_values"></div>
-									</div>
-								</div>
-
+						<div id="collapseOne" class="panel-collapse collapse in">
+							<div class="panel-body">
+								<?php echo $options; ?>
 							</div>
 						</div>
 					</div>
-					<div class="bottom_left">
-						<div class="bottom_right">
-							<div class="bottom_mid"></div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+									<?php echo $text_new_option; ?>
+								</a>
+							</h4>
+						</div>
+						<div id="collapseTwo" class="panel-collapse collapse">
+							<?php echo $form['form_open']; ?>
+							<div class="panel-heading">
+								<?php echo $attributes; ?>
+							</div>
+							<div class="panel-body">
+								<div class="mt10 options_buttons" id="option_name_block">
+									<div class="form-group <? if (!empty($error['status'])) { echo "has-error"; } ?>">
+										<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_status; ?></label>
+										<div class="input-group afield ">
+											<?php echo $status; ?>
+										</div>
+									</div>
+									<div class="form-group <? if (!empty($error['option'])) { echo "has-error"; } ?>">
+										<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_option; ?></label>
+										<div class="input-group afield ">
+											<?php echo $option_name; ?>
+										</div>
+									</div>
+									<div class="form-group <? if (!empty($error['element_type'])) { echo "has-error"; } ?>">
+										<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_element_type; ?></label>
+										<div class="input-group afield ">
+											<?php echo $element_type; ?>
+										</div>
+									</div>
+									<div class="form-group <? if (!empty($error['sort_order'])) { echo "has-error"; } ?>">
+										<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_sort_order; ?></label>
+										<div class="input-group afield ">
+											<?php echo $sort_order; ?>
+										</div>
+									</div>
+									<div class="form-group <? if (!empty($error['required'])) { echo "has-error"; } ?>">
+										<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_required; ?></label>
+										<div class="input-group afield ">
+											<?php echo $required; ?>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer">
+								<div class="row">
+								   <div class="col-sm-10 col-sm-offset-3">
+									 <button class="btn btn-primary">
+									 <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+									 </button>&nbsp;
+									 <a class="btn btn-default" href="<?php echo $cancel; ?>">
+									 <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+									 </a>
+								   </div>
+								</div>
+							</div>
+							</form>
 						</div>
 					</div>
+
+				</div>
+
+
+				<div class="form-group">
+
+
 				</div>
 
 			</div>
+			<div class="col-md-9 option_form">
+				<div class="option_field"></div>
+
+				<div id="options">
+					<div id="option_values"></div>
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="cbox_bl">
-		<div class="cbox_br">
-			<div class="cbox_bc"></div>
-		</div>
+
 	</div>
 </div>
+
+
+
 <?php echo $resources_scripts; ?>
 <script type="text/javascript"><!--
-var setRLparams = function(attr_val_id) {
+
+var setRLparams = function (attr_val_id) {
 	urls.resource_library = '<?php echo $rl_rl_path; ?>&object_id=' + attr_val_id;
 	urls.resources = '<?php echo $rl_resources_path; ?>&object_id=' + attr_val_id;
 	urls.unmap = '<?php echo $rl_unmap_path; ?>&object_id=' + attr_val_id;
 	urls.attr_val_id = attr_val_id;
 }
 
-var openRL = function(attr_val_id) {
+var openRL = function (attr_val_id) {
 	setRLparams(attr_val_id);
 	mediaDialog('image', 'add', attr_val_id);
 }
@@ -273,15 +276,15 @@ jQuery(function ($) {
 		}
 	});
 
-var updateOptions = function() {
+	var updateOptions = function () {
 		$.ajax({
 			url: opt_urls.get_options_list,
 			type: 'GET',
 			dataType: 'json',
 			success: function (json) {
-				$("#product_form_option option").remove();
+				$("#option option").remove();
 				for (var key in json) {
-					$("#product_form_option").append($('<option value="' + key + '">' + json[key] + '</option>'));
+					$("#option").append($('<option value="' + key + '">' + json[key] + '</option>'));
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -290,7 +293,7 @@ var updateOptions = function() {
 		});
 	}
 
-	var editOption = function(id) {
+	var editOption = function (id) {
 		$('#notify_error').remove();
 		$.ajax({
 			url: opt_urls.update_option,
@@ -364,12 +367,12 @@ var updateOptions = function() {
 		$(new_row).attr('id', 'new' + row_id);
 
 		var so = $('#option_values_tbl').find("input[name^='sort_order']");
-		if(so.length>0){
+		if (so.length > 0) {
 			var highest = 0;
-			so.each(function() {
+			so.each(function () {
 				highest = Math.max(highest, parseInt(this.value));
 			});
-			$(new_row).find("input[name^='sort_order']").val(highest+1);
+			$(new_row).find("input[name^='sort_order']").val(highest + 1);
 		}
 
 		$('#option_values_tbl tr:last-child').after(new_row);
@@ -392,8 +395,8 @@ var updateOptions = function() {
 		return false;
 	});
 
-	// $('#product_form_option').aform({ triggerChanged: false });
-	$('#product_form_option').change(function () {
+	// $('#option').aform({ triggerChanged: false });
+	$('#option').change(function () {
 		current_option_id = $(this).val();
 		$.ajax({
 			url: opt_urls.load_option,
@@ -412,14 +415,14 @@ var updateOptions = function() {
 
 
 	//select option and load data for it
-	$('#product_form_option option:first-child').attr("selected", "selected").change();
+	$('#option option:first-child').attr("selected", "selected").change();
 
 	$('#update_option').on('click', function () {
 		editOption('#update_option');
 	});
 
 	$('#reset_option').on('click', function () {
-		$('#product_form_option').change();
+		$('#option').change();
 		return false;
 	});
 
@@ -437,7 +440,7 @@ var updateOptions = function() {
 			type: 'GET',
 			success: function (html) {
 				if ($(that).attr('id') == 'button_remove_option') {
-					$('#product_form_option option:selected').remove();
+					$('#option option:selected').remove();
 				}
 				$('#option_values').html(html);
 				$("input, checkbox", '#option_values_tbl').aform({triggerChanged: true, showButtons: false});
@@ -474,6 +477,6 @@ var updateOptions = function() {
 		return false;
 	});
 
-	//$.aform.styleGridForm('#product_form_option');
+	//$.aform.styleGridForm('#option');
 });
 //--></script>

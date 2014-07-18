@@ -304,69 +304,80 @@ class ControllerResponsesProductProduct extends AController {
 			$this->request->get[ 'option_id' ]
 		);
 
-		$this->data[ 'option_name' ] = $this->html->buildInput(array(
+		$this->data[ 'option_name' ] = $this->html->buildElement(array(
+			'type' => 'input',
 			'name' => 'name',
 			'value' => $this->data[ 'option_data' ][ 'language' ][ $this->data[ 'language_id' ] ][ 'name' ],
+			'style' => 'medium-field'
 		));
 
 		if(in_array($this->data[ 'option_data' ][ 'element_type' ],HtmlElementFactory::getElementsWithPlaceholder())){
-			$this->data[ 'option_placeholder' ] = $this->html->buildInput(array(
+			$this->data[ 'option_placeholder' ] = $this->html->buildElement(array(
+				'type' => 'input',
 				'name' => 'option_placeholder',
 				'value' => $this->data[ 'option_data' ][ 'language' ][ $this->data[ 'language_id' ] ][ 'option_placeholder' ],
+				'style' => 'medium-field'
 			));
 		}
 
-		$this->data[ 'status' ] = $this->html->buildCheckbox(array(
+		$this->data[ 'status' ] = $this->html->buildElement(array(
 			'type' => 'checkbox',
 			'name' => 'status',
 			'value' => $this->data[ 'option_data' ][ 'status' ],
 			'style' => 'btn_switch',
 		));
-		$this->data[ 'option_sort_order' ] = $this->html->buildInput(array(
+		$this->data[ 'option_sort_order' ] = $this->html->buildElement(array(
 			'type' => 'input',
 			'name' => 'sort_order',
 			'value' => $this->data[ 'option_data' ][ 'sort_order' ],
-			'style' => 'small-field'
+			'style' => 'tiny-field'
 		));
-		$this->data[ 'required' ] = $this->html->buildCheckbox(array(
+		$this->data[ 'required' ] = $this->html->buildElement(array(
 			'type' => 'checkbox',
 			'name' => 'required',
 			'value' => $this->data[ 'option_data' ][ 'required' ],
 		));
 
-		$this->data[ 'option_regexp_pattern' ] = $this->html->buildInput(array(
+		$this->data[ 'option_regexp_pattern' ] = $this->html->buildElement(array(
 			'type' => 'input',
 			'name' => 'regexp_pattern',
 			'value' => $this->data[ 'option_data' ][ 'regexp_pattern' ],
 			'style' => 'medium-field'
 		));
 
-		$this->data[ 'option_error_text' ] = $this->html->buildInput(array(
+		$this->data[ 'option_error_text' ] = $this->html->buildElement(array(
 			'type' => 'input',
 			'name' => 'error_text',
 			'value' => $this->data[ 'option_data' ][ 'language' ][ $this->data[ 'language_id' ] ][ 'error_text' ],
-			'style' => 'large-field'
+			'style' => 'medium-field'
 		));
 
-		$this->data[ 'button_remove_option' ] = $this->html->buildButton(array(
+		$this->data[ 'remove_option' ] = $this->html->getSecureURL('product/product/del_option', '&product_id=' . $this->request->get[ 'product_id' ] . '&option_id=' . $this->request->get[ 'option_id' ]);
+
+		$this->data[ 'button_remove_option' ] = $this->html->buildElement(array(
+			'type' => 'button',
 			'text' => $this->language->get('button_remove_option'),
 			'style' => 'button3',
+			'href' => $this->data[ 'remove_option' ]
 		));
-		$this->data[ 'button_save' ] = $this->html->buildButton(array(
+		$this->data[ 'button_save' ] = $this->html->buildElement(array(
+			'type' => 'button',
 			'text' => $this->language->get('button_save'),
 			'style' => 'button1',
 		));
-		$this->data[ 'button_reset' ] = $this->html->buildButton(array(
+		$this->data[ 'button_reset' ] = $this->html->buildElement(array(
+			'type' => 'button',
 			'text' => $this->language->get('button_reset'),
 			'style' => 'button2',
 		));
-		$this->data[ 'button_remove' ] = $this->html->buildButton(array(
+		$this->data[ 'button_remove' ] = $this->html->buildElement(array(
+			'type' => 'button',
 			'text' => $this->language->get('button_remove'),
 			'style' => 'button3',
 		));
 
 		$this->data[ 'update_option_values' ] = $this->html->getSecureURL('product/product/update_option_values', '&product_id=' . $this->request->get[ 'product_id' ] . '&option_id=' . $this->request->get[ 'option_id' ]);
-		$this->data[ 'remove_option' ] = $this->html->getSecureURL('product/product/del_option', '&product_id=' . $this->request->get[ 'product_id' ] . '&option_id=' . $this->request->get[ 'option_id' ]);
+
 		// form of option values list
 		$form = new AForm('HT');
 		$form->setForm(array( 'form_name' => 'update_option_values' ));
@@ -374,7 +385,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->data[ 'update_option_values_form' ][ 'open' ] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'update_option_values',
-			'attr' => 'data-confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true" class="form-horizontal"',
 			'action' => $this->data[ 'update_option_values' ] ));
 
 		//form of option
