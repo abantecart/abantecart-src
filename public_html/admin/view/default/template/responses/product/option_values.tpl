@@ -9,12 +9,9 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<div class="panel-btns">
-            <a class="minimize" href="">−</a>
-		</div>
-          <h3 class="panel-title"><?php echo $option_data['language'][$language_id]['name']; ?></h3>
+		<h3 class="panel-title"><?php echo $option_data['language'][$language_id]['name']; ?></h3>
 	</div>
-	<div class="panel-body panel-body-nopadding table-responsive" style="display: block;">
+	<div id="option_edit_form" class="panel-body panel-body-nopadding table-responsive" style="display: block;">
 		<div class="mb20">
 		<h4><?php echo $text_option_type; ?>: <?php echo $option_type; ?></h4>
 
@@ -59,7 +56,7 @@
 			<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
 				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry; ?></label>
 				<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
-					<?php echo $field; ?>
+					<?php echo $field;?>
 				</div>
 			    <?php if (!empty($error[$name])) { ?>
 			    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
@@ -87,7 +84,11 @@
 			<thead>
 				<tr>
 					<?php if($with_default){?>
-					<th class="left"><?php echo $text_default; ?>&nbsp;&nbsp;<span class="default_uncheck">[x]</span></th>
+					<th class="left">
+						<span title="click to uncheck default value" class="uncheck">
+							<i class="fa fa-times"></i><?php echo $text_default; ?>
+						</span>
+					</th>
 					<?php }?>
 					<th class="left"><?php echo $entry_option_value; ?></th>
 					<th class="left"><?php echo $entry_option_quantity; ?></th>

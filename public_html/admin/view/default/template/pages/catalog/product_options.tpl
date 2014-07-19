@@ -331,7 +331,7 @@ jQuery(function ($) {
 			$(this).closest('tr').toggleClass('toDelete');
 		}
 		$(this).parent().parent().next().find('div.additionalRow').toggleClass('toDelete').hide();
-		//$(this).parent().parent().find('a.expandRow').click();
+
 		return false;
 	});
 
@@ -339,13 +339,17 @@ jQuery(function ($) {
 
 		var row_id = $(this).parents('tr').attr('id');
 		var additional_row = $('#add_'+row_id +'div.additionalRow');
-		if (!$(additional_row).hasClass('in')) {
-			$(this).text(text.text_hide);
+		var icon = $(this).find('i');
+		if (icon.hasClass("fa-expand")) {
+			$(this).attr('title', text.text_hide);
+			icon.removeClass('fa-expand').addClass('fa-compress');
 			setRLparams($(this).attr('id'));
 			loadMedia('image');
 		} else {
-			$(this).text(text.text_expand);
-						$(additional_row).find('div.add_resource').html();
+			$(this).attr('title', text.text_expand);
+			icon.removeClass('fa-compress').addClass('fa-expand');
+
+			additional_row.find('div.add_resource').html();
 		}
 
 		return false;
@@ -358,11 +362,12 @@ jQuery(function ($) {
 	});
 
 
-	$('.default_uncheck').on('click', function () {
-		$("input[name='default']").removeAttr('checked');
+	$('.uncheck').live('click', function () {
+		$("input[name='default_value']").removeAttr('checked');
+		return false;
 	});
 
-	$("#add_option_value").on('click', function () {
+	$("#add_option_value").live('click', function () {
 		var new_row = $('#new_row').parent().find('tr').clone();
 		$(new_row).attr('id', 'new' + row_id);
 
@@ -379,7 +384,7 @@ jQuery(function ($) {
 		$("input, checkbox, select", new_row).aform({triggerChanged: true, showButtons: false });
 		$('div.aform', new_row).show();
 		//Mark rows to be new
-		$('#new' + row_id + ' input[name=default]').last()
+		$('#new' + row_id + ' input[name=default_value]').last()
 				.val('new' + row_id)
 				.attr('id', 'option_value_form_default_new' + row_id)
 				.removeAttr('checked')

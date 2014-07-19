@@ -159,7 +159,6 @@ class ControllerPagesCatalogProductOptions extends AController {
 						'name' => 'option',
 						'value' => $this->data['product_option_id'],
 			            'options' => $product_opt,
-			            'style' => 'chosen'
 					));
 
 		$form->setForm(array(

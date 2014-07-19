@@ -370,11 +370,7 @@ class ControllerResponsesProductProduct extends AController {
 			'text' => $this->language->get('button_reset'),
 			'style' => 'button2',
 		));
-		$this->data[ 'button_remove' ] = $this->html->buildElement(array(
-			'type' => 'button',
-			'text' => $this->language->get('button_remove'),
-			'style' => 'button3',
-		));
+
 
 		$this->data[ 'update_option_values' ] = $this->html->getSecureURL('product/product/update_option_values', '&product_id=' . $this->request->get[ 'product_id' ] . '&option_id=' . $this->request->get[ 'option_id' ]);
 
@@ -594,7 +590,7 @@ class ControllerResponsesProductProduct extends AController {
 		if (in_array($this->data[ 'option_data' ][ 'element_type' ], $this->data[ 'elements_with_options' ])) {
 			$this->data[ 'form' ][ 'fields' ][ 'default' ] = $form->getFieldHtml(array(
 				'type' => 'radio',
-				'name' => 'default',
+				'name' => 'default_value',
 				'id' => 'default_'.$product_option_value_id,
 				'value' => ($this->data[ 'default' ] ? $product_option_value_id : ''),
 				'options' => array($product_option_value_id=>''),
@@ -626,7 +622,7 @@ class ControllerResponsesProductProduct extends AController {
 			'type' => 'input',
 			'name' => 'price[' . $product_option_value_id . ']',
 			'value' => moneyDisplayFormat($this->data[ 'price' ]),
-			'style' => 'small-field'
+			'style' => 'medium-field'
 		));
 
 		$this->data[ 'prefix' ] = trim($this->data[ 'prefix' ]);
@@ -643,6 +639,7 @@ class ControllerResponsesProductProduct extends AController {
 			'options' => array(
 				'$' => $currency_symbol,
 				'%' => '%',
+			'style' => 'small-field'
 			),
 		));
 		$this->data[ 'form' ][ 'fields' ][ 'sort_order' ] = $form->getFieldHtml(array(
