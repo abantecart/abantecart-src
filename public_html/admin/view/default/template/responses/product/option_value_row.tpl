@@ -11,7 +11,7 @@
     <td><?php echo $form['fields']['price']; ?></td>
     <td><?php echo $form['fields']['prefix']; ?></td>
     <td><?php echo $form['fields']['sort_order']; ?></td>
-    <td><a id="<?php echo $attr_val_id; ?>" class="btn btn-info-alt" data-toggle="collapse" data-target="#add_<?php echo $row_id; ?>"><?php echo $text_expand ?></a></td>
+    <td><a id="<?php echo $attr_val_id; ?>" class="expandRow btn btn-info-alt" data-toggle="collapse" data-target="#add_<?php echo $row_id; ?>"><?php echo $text_expand ?></a></td>
 <?php if ($selectable){?>
     <td><a class="remove"></a></td>
 <?php } ?>

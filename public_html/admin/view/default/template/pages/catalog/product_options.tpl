@@ -9,7 +9,7 @@
 
 <?php echo $product_tabs ?>
 
-<div class="tab-content">
+<div id="content" class="tab-content">
 
 	<div class="panel-heading">
 
@@ -175,21 +175,22 @@ var loadMedia = function (type) {
 				html += '<span id="image_row' + item['resource_id'] + '" class="image_block">\
                 <a class="resource_edit" type="' + type + '" id="' + item['resource_id'] + '">' + src + '</a><br /></span>';
 			});
-			html += '<span class="image_block"><a class="resource_add" type="' + type + '"><img src="<?php echo $template_dir.'/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>"/></a></span>';
+			html += '<span class="image_block"><a title="<?php echo $text_add_media; ?>" class="resource_add" data-type="' + type + '"><i class="fa fa-plus-circle fa-5x"></i></a></span>';
 
 			$('#rl_' + urls.attr_val_id).html(html);
 			if ($(json.items).length) {
 				$('a.resource_edit').unbind('click');
 				$('a.resource_edit').click(function () {
-					setRLparams($(this).parent().parent().prop('id').replace('rl_', ''));
-					mediaDialog($(this).prop('type'), 'update', $(this).prop('id'));
+					setRLparams($(this).parents('.add_resource').attr('id').replace('rl_', ''));
+					mediaDialog($(this).attr('data-type'), 'update', $(this).attr('id'));
 					return false;
 				})
 			}
 			$('a.resource_add').unbind('click');
 			$('a.resource_add').click(function () {
-				setRLparams($(this).parent().parent().prop('id').replace('rl_', ''));
-				mediaDialog($(this).prop('type'), 'add', $(this).prop('id'));
+
+				setRLparams($(this).parents('.add_resource').attr('id').replace('rl_', ''));
+				mediaDialog($(this).attr('data-type'), 'add', $(this).attr('id'));
 				return false;
 			});
 		},
@@ -203,6 +204,7 @@ var loadMedia = function (type) {
 
 
 var mediaDialog = function (type, action, id) {
+
 	$('#dialog').remove();
 
 	var src = urls.resource_library + '&' + action + '=1&type=' + type;
@@ -320,7 +322,7 @@ jQuery(function ($) {
 		return false;
 	}
 
-	$("#option_values_tbl a.remove").on('click', function () {
+	$("#option_values_tbl a.remove").live('click', function () {
 		if ($(this).closest('tr').find('input[name^=product_option_value_id]').val() == 'new') {
 			//remove new completely
 			$(this).closest('tr').next().remove();
@@ -333,19 +335,17 @@ jQuery(function ($) {
 		return false;
 	});
 
-	$("#option_values_tbl a.expandRow").on('click', function () {
-		var additional_row = $(this).parent().parent().next().find('div.additionalRow');
-		if ($(additional_row).is(':visible')) {
-			$(additional_row).hide();
-			$(this).text(text.text_expand);
-			$(this).parent().parent().next().find('div.add_resource').html();
-		} else {
-			$(additional_row).show();
-			$(this).text(text.text_hide);
-			$('div.aform', additional_row).show();
-			setRLparams($(this).attr('id'));
+	$("#option_values_tbl a.expandRow").live('click', function () {
 
+		var row_id = $(this).parents('tr').attr('id');
+		var additional_row = $('#add_'+row_id +'div.additionalRow');
+		if (!$(additional_row).hasClass('in')) {
+			$(this).text(text.text_hide);
+			setRLparams($(this).attr('id'));
 			loadMedia('image');
+		} else {
+			$(this).text(text.text_expand);
+						$(additional_row).find('div.add_resource').html();
 		}
 
 		return false;
@@ -417,16 +417,16 @@ jQuery(function ($) {
 	//select option and load data for it
 	$('#option option:first-child').attr("selected", "selected").change();
 
-	$('#update_option').on('click', function () {
+	$('#update_option').live('click', function () {
 		editOption('#update_option');
 	});
 
-	$('#reset_option').on('click', function () {
+	$('#reset_option').live('click', function () {
 		$('#option').change();
 		return false;
 	});
 
-	$('#option_values a').on('click', function () {
+	$('#option_values a').live('click', function () {
 		if ($(this).attr('id') == 'update_option' || $(this).attr('id') == 'add_option_value' ||
 				$(this).attr('id') == 'reset_option' || $(this).hasClass('remove') || $(this).hasClass('expandRow')) {
 			return false;
@@ -452,7 +452,7 @@ jQuery(function ($) {
 		return false;
 	});
 
-	$('#option_values button[type="submit"]').on('click', function () {
+	$('#option_values button[type="submit"]').live('click', function () {
 		//Mark rows to be deleted
 		$('#option_values_tbl .toDelete input[name^=product_option_value_id]').val('delete');
 		$(this).attr('disabled', 'disabled');
