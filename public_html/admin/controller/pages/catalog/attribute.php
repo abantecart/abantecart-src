@@ -54,7 +54,8 @@ class ControllerPagesCatalogAttribute extends AController {
 		$this->document->addBreadcrumb(array(
 		                                    'href' => $this->html->getSecureURL('catalog/attribute'),
 		                                    'text' => $this->language->get('heading_title'),
-		                                    'separator' => ' :: '
+		                                    'separator' => ' :: ',
+											'current'   =>true
 		                               ));
 
 		$grid_settings = array(

@@ -40,7 +40,8 @@ class ControllerPagesCatalogManufacturer extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('catalog/manufacturer'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$this->view->assign('error_warning', $this->error['warning']);

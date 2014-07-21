@@ -24,8 +24,9 @@
 
     </form>
 </div>
-
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
 <script type="text/javascript">
+
 
 var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 

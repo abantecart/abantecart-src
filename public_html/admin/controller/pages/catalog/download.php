@@ -42,7 +42,8 @@ class ControllerPagesCatalogDownload extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('catalog/download'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$grid_settings = array(

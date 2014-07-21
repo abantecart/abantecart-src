@@ -30,9 +30,10 @@
 <!--
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.form.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/browser.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
 -->
+
 <script type="text/javascript">
+
     //-----------------------------------------
     // Confirm Actions (delete, uninstall)
     //-----------------------------------------

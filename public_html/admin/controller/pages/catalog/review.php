@@ -42,7 +42,9 @@ class ControllerPagesCatalogReview extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('catalog/review'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current' => true
+
    		 ));
 
 		
