@@ -56,7 +56,7 @@ span.required {
 .changed .input-group-addon:last-child {
 	border: 1px solid #ffad5e;	
 }
-label > i {
+label > i, thead td > i {
 	color: #F19013;
 	cursor: pointer;
 }

@@ -514,8 +514,8 @@ h4, .h4 {
 .panel-footer {
    background: #fff;
    border-color: #eee;
+   padding: 15px !important;
 }
-
 .panel-heading {
 	min-height: 55px;
 }

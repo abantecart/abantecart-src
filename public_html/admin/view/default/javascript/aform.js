@@ -765,7 +765,7 @@
 jQuery(document).ready(function() {
 
 	//Convert span help to toggles
-	$("label").each(function () {
+	$("label, thead td").each(function () {
 		var $label = $(this);
 		var $help = $label.find('span.help');
 		if( $help.length > 0) {
