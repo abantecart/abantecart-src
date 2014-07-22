@@ -3216,8 +3216,8 @@ p {
 #footer{
 	padding: 10px 20px 10px 20px;
 	font-size: 11px;
-	padding-left: 250px;
 	color: #E4E7EA;
+	background: #064770;
 }
 
 #footer a {

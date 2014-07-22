@@ -2,22 +2,11 @@ jQuery(window).load(function() {
    
    // Page Preloader
    $('#status').fadeOut();
-   $('#preloader').delay(350).fadeOut(function(){
-      $('body').delay(350).css({'overflow':'visible'});
+   $('#preloader').delay(100).fadeOut(function(){
+      $('body').delay(100).css({'overflow':'visible'});
    });
    
    ajust_content_height();
-});
-
-//On all ajax completed 
-$( document ).ajaxComplete(function() {
-   //resize page
-   ajust_content_height();
-});
-
-//On window size change adjsut height
-$( window ).resize(function() {
-//   ajust_content_height();
 });
 
 
@@ -392,15 +381,16 @@ jQuery(document).ready(function() {
 
 
 function ajust_content_height() {
-   // Adjust mainpanel height
+   // Adjust contentpanel height
    var docHeight = jQuery(document).height() - $('#footer').height();
+   var extra = $('.headerbar').height() + $('.pageheader').height() + 50;
    var leftHeight = $('.leftpanel').height();
-   var rightHeight = $('.contentpanel').height() + $('.headerbar').height() + $('.pageheader').height() + 50;
-   if(leftHeight > $('.mainpanel').height()) {
-      $('.mainpanel').height(leftHeight);
+   var rightHeight = $('.contentpanel').height() + extra;
+   if(docHeight > rightHeight) {
+   		$('.contentpanel').css('min-height',docHeight - extra + 'px');
    }
-   if(rightHeight > $('.mainpanel').height()) {
-      $('.mainpanel').height(rightHeight);
+   if(leftHeight > rightHeight) {
+		$('.contentpanel').css('min-height',leftHeight - extra + 'px');
    }
 }
 
