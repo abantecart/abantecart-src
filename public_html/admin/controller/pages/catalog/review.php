@@ -97,6 +97,7 @@ class ControllerPagesCatalogReview extends AController {
 		    'type' => 'selectbox',
 		    'name' => 'product_id',
 		    'options' => array( '' => $this->language->get('text_select_product') ) + $this->model_catalog_review->getReviewProducts(),
+			'style' => 'chosen'
 	    ));
 
         $grid_search_form['fields']['status'] = $form->getFieldHtml(array(

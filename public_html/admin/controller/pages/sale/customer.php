@@ -41,7 +41,8 @@ class ControllerPagesSaleCustomer extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('sale/customer'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		if (isset($this->session->data['error'])) {
@@ -74,7 +75,7 @@ class ControllerPagesSaleCustomer extends AController {
 			'multiselect' => 'true',
             // actions
             'actions' => array(
-                'clone' => array(
+                'actonbehalfof' => array(
                     'text' => $this->language->get('button_actas'),
 				    'href' => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id=%ID%'),
 				    'target' => 'new',

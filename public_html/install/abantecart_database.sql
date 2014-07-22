@@ -10589,13 +10589,13 @@ VALUES  (1,'home',1),
 
 -- ITEM_ICON
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (2,'<i class="icon-home"></i>&nbsp;',1),
-        (2,'<i class="icon-lock"></i>&nbsp;&nbsp;',2),
-        (2,'<i class="icon-lock"></i>&nbsp;&nbsp;',3),
-        (2,'<i class="icon-user"></i>&nbsp;',4),
-        (2,'<i class="icon-shopping-cart"></i>&nbsp;',5),
-        (2,'<i class="icon-barcode"></i>&nbsp;&nbsp;',6),
-        (2,'<i class="icon-star"></i>&nbsp;&nbsp;',7);
+VALUES  (2,'<i class="fa fa-home"></i>&nbsp;',1),
+        (2,'<i class="fa fa-lock"></i>&nbsp;&nbsp;',2),
+        (2,'<i class="fa fa-lock"></i>&nbsp;&nbsp;',3),
+        (2,'<i class="fa fa-user"></i>&nbsp;',4),
+        (2,'<i class="fa fa-shopping-cart"></i>&nbsp;',5),
+        (2,'<i class="fa fa-barcode"></i>&nbsp;&nbsp;',6),
+        (2,'<i class="fa fa-star"></i>&nbsp;&nbsp;',7);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (3,'index/home',1),
@@ -11615,12 +11615,12 @@ CREATE TABLE `ac_resource_descriptions` (
 INSERT INTO `ac_resource_descriptions`
 (`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `created`)
 VALUES
-(1,1,'Star Icon','','','','<i class="icon-star"></i>&nbsp;&nbsp;',now()),
-(2,1,'Icon Home','','','','<i class="icon-home"></i>&nbsp;',now()),
-(3,1,'Login Icon','','','','<i class="icon-lock"></i>&nbsp;&nbsp;',now()),
-(4,1,'Account Icon','','','','<i class="icon-user"></i>&nbsp;',now()),
-(5,1,'Cart Icon','','','','<i class="icon-shopping-cart"></i>&nbsp;',now()),
-(6,1,'Checkout Icon','','','','<i class="icon-barcode"></i>&nbsp;&nbsp;',now());
+(1,1,'Star Icon','','','','<i class="fa fa-star"></i>&nbsp;&nbsp;',now()),
+(2,1,'Icon Home','','','','<i class="fa fa-home"></i>&nbsp;',now()),
+(3,1,'Login Icon','','','','<i class="fa fa-lock"></i>&nbsp;&nbsp;',now()),
+(4,1,'Account Icon','','','','<i class="fa fa-user"></i>&nbsp;',now()),
+(5,1,'Cart Icon','','','','<i class="fa fa-shopping-cart"></i>&nbsp;',now()),
+(6,1,'Checkout Icon','','','','<i class="fa fa-barcode"></i>&nbsp;&nbsp;',now());
 
 --
 -- DDL for table `ac_resource_types`

@@ -65,27 +65,19 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
-
+		$response->userdata = new stdClass();
 
 		$i = 0;
 		foreach ($blocks as $result) {
-			if ($result['custom_block_id']) {
-				$action = '<a id="action_edit_' . $result['block_id'] . '_' . $result['custom_block_id'] . '" class="btn_action" href="' . $this->html->getSecureURL('design/blocks/edit', '&custom_block_id=' . $result['custom_block_id']) . '"
-						title="' . $this->language->get('text_edit') . '">' .
-						'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_edit.png" alt="' . $this->language->get('text_edit') . '" />' .
-						'</a>
-				<a class="btn_action" href="' . $this->html->getSecureURL('design/blocks/delete', '&custom_block_id=' . $result['custom_block_id']) . '"
-			 	onclick="return confirm(\'' . $this->language->get('text_delete_confirm') . '\')" title="' . $this->language->get('text_delete') . '">' .
-						'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_delete.png" alt="' . $this->language->get('text_delete') . '" />' .
-						'</a>';
-
-			} else {
-				$action = '<a id="' . $result['block_id'] . '" class="view btn_action"
-						title="' . $this->language->get('text_view') . '">' .
-						'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_view.png" alt="' . $this->language->get('text_view') . '" />' .
-						'</a>';
-			}
 			$response->rows[$i]['id'] = $result['custom_block_id'] ? $result['block_id'] . '_' . $result['custom_block_id'] : $result['block_id'];
+			$id = $response->rows[$i]['id'];
+
+			if ($result['custom_block_id']) {
+				$response->userdata->classes[ $id ] = 'disable-view';
+			} else {
+				$response->userdata->classes[ $id ] = 'disable-edit disable-delete';
+			}
+
 			$response->rows[$i]['cell'] = array(
 				$result['custom_block_id'] ? $result['block_id'] . '_' . $result['custom_block_id'] : $result['block_id'],
 				$result['block_txt_id'],
@@ -97,8 +89,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 							'style' => 'btn_switch',
 							'attr' => 'readonly="true"'
 						)) : ''),
-				$result['block_date_added'],
-				$action
+				$result['block_date_added']
 			);
 			$i++;
 		}
@@ -561,65 +552,23 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		$this->response->setOutput(AJson::encode($response));
 	}
 
-//TODO: need to create separate tpl for this method
+
 	public function info() {
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$this->loadLanguage('design/blocks');
+		$this->data = $this->language->getASet('design/blocks');
+
 		$lm = new ALayoutManager();
-		$info = $lm->getBlockInfo((int)$this->request->get['block_id']);
-		$layouts = array();
-		if ($info) {
-			//$this->loadModel('setting/store');
-			$tmp = '';
-			foreach ($info as $row) {
-				if ((int)$row['layout_id']) {
-					$layouts[] = '<a target="_blank" href="' . $this->html->getSecureURL('design/layout', '&tmpl_id=' . $row['template_id'] . '&page_id=' . $row['page_id'] . '&layout_id=' . $row['layout_id']) . '">' . $row['layout_name'] . '</a>';
-				}
-				if ($tmp == $row['template_id'] . '-' . $row['page_id'] . '-' . $row['layout_id']) {
-					continue;
-				} else {
-					$tmp = $row['template_id'] . '-' . $row['page_id'] . '-' . $row['layout_id'];
-				}
-				$row['templates'] = explode(',', $row['templates']);
-				unset($row['layout_id'], $row['layout_name'], $row['page_id'], $row['template_id'], $row['store_id']);
-				$block_info = $row;
-			}
-			if (!$layouts) {
-				$layouts = array($this->language->get('text_none'));
-			}
-			$block_info['layouts'] = $layouts;
-
-			$response = '<tr>';
-			foreach ($block_info as $key => $item) {
-				if (!is_array($item)) {
-					$response .= '<tr><td>' . $this->language->get('text_' . $key) . '</td><td>' . $item . '</td></tr>';
-				} else {
-					if ($item) {
-						$response .= '<tr><td>' . $this->language->get('text_' . $key) . ':</td><td></td></tr>';
-						foreach ($item as $info_name => $info_value) {
-							if (!is_array($info_value)) {
-								$response .= '<tr><td></td><td>' . $info_value . '</td></tr>';
-							} else {
-								foreach ($info_value as $v) {
-									$response .= '<tr><td></td><td>' . $v . '</td></tr>';
-								}
-
-							}
-						}
-					}
-				}
-			}
-			$response .= '</tr>';
-		}
-
-		$this->data = $response;
+		$this->data['block_info'] = $lm->getBlockInfo((int)$this->request->get['block_id']);
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-		$this->response->setOutput($this->data);
+
+		$view = new AView($this->registry,0);
+		$view->batchAssign( $this->data );
+		$this->response->setOutput( $view->fetch('responses/design/block_info.tpl') );
 	}
 
 	public function block_info() {

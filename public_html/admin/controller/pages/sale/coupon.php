@@ -52,7 +52,8 @@ class ControllerPagesSaleCoupon extends AController {
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('sale/coupon'),
             'text' => $this->language->get('heading_title'),
-            'separator' => ' :: '
+            'separator' => ' :: ',
+			'current'	=> true
         ));
 
         if (isset($this->session->data['error'])) {
@@ -254,22 +255,6 @@ class ControllerPagesSaleCoupon extends AController {
 
     private function _getForm() {
 
-        if (!$this->registry->has('jqgrid_script')) {
-
-            $locale = $this->session->data['language'];
-            if (!file_exists(DIR_ROOT . '/' . RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js')) {
-                $locale = 'en';
-            }
-            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js');
-            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/minified/jquery.jqGrid.min.js');
-            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.grid.fluid.js');
-            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.ba-bbq.min.js');
-            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/grid.history.js');
-
-            //set flag to not include scripts/css twice
-            $this->registry->set('jqgrid_script', true);
-        }
-
         $this->data['token'] = $this->session->data['token'];
         $this->data['cancel'] = $this->html->getSecureURL('sale/coupon');
         $this->data['error'] = $this->error;
@@ -371,7 +356,9 @@ class ControllerPagesSaleCoupon extends AController {
         $this->document->addBreadcrumb(array(
             'href' => $this->data['action'],
             'text' => $this->data['heading_title'],
-            'separator' => ' :: '
+            'separator' => ' :: ',
+            'current'	=> true
+
         ));
 
         $form->setForm(array(

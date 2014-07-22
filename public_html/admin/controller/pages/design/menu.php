@@ -45,6 +45,7 @@ class ControllerPagesDesignMenu extends AController {
 		     'href' => $this->html->getSecureURL ( 'design/menu' ),
 		     'text' => $this->language->get ( 'heading_title' ),
 		     'separator' => ' :: ',
+		     'current'	=> true
 		));
 
 		$this->menu = new AMenu_Storefront();
@@ -289,7 +290,8 @@ class ControllerPagesDesignMenu extends AController {
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
        		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+      		'current'	=> true
    		 ));
 
 		$form->setForm ( array ('form_name' => 'menuFrm', 'update' => $this->data ['update'] ) );

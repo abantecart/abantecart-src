@@ -235,7 +235,11 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                         echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-edit fa-lg"></i></a>\'; ';
                         break;
                     case 'delete':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-trash-o fa-lg"></i></a>\'; ';
+                    	if($href!='#'){
+                        	echo $ec_str.' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-trash-o fa-lg"></i></a>\'; ';
+                        }else{
+                        	echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-trash-o fa-lg"></i></a>\'; ';
+                        }
                         break;
                     case 'save':
                         echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-save fa-lg"></i></a>\'; ';
@@ -373,6 +377,8 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                     });
                 }
             }
+
+			<?php echo $data['grid_ready'] ? $data['grid_ready'] : ''?>
         },
         onSelectRow:function (id, status) {
             if (status) {

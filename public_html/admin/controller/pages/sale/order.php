@@ -37,7 +37,8 @@ class ControllerPagesSaleOrder extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('sale/order'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current' => true
 		));
 
 		if (isset($this->session->data['error'])) {

@@ -73,15 +73,14 @@ class ControllerResponsesListingGridCategory extends AController {
             $cnt = $this->model_catalog_category->getCategoriesData(array('parent_id'=>$result['category_id']),'total_only');
 
 			if(!$result['products_count']){
-				$products_count = $result['products_count'];
+				$products_count = 0;
 			}else{
-				$products_count = $this->html->buildButton(array(
+				$products_count = (string)$this->html->buildElement(array(
+																'type' => 'button',
 																'name' => 'view products',
 																'text' => $result[ 'products_count' ],
-																'style' => 'button2',
 																'href'=> $this->html->getSecureURL('catalog/product','&category='.$result['category_id']),
-																'title' => $this->language->get('text_view').' '.$this->language->get('tab_product'),
-																'target' => '_blank'
+																'title' => $this->language->get('text_view').' '.$this->language->get('tab_product')
 															));
 			}
 
@@ -113,7 +112,7 @@ class ControllerResponsesListingGridCategory extends AController {
                 $cnt
                 .($cnt ?
                 '&nbsp;<a class="btn_action btn_grid grid_action_expand" href="#" rel="parent_id='.$result['category_id'].'" title="'. $this->language->get('text_view') . '">'.
-				'<img src="'.RDIR_TEMPLATE.'image/icons/icon_grid_expand.png" alt="'. $this->language->get('text_view') . '" /></a>'
+				'<i class="fa fa-folder-open"></i></a>'
                   :''), 
                  'action',
                  $new_level,
