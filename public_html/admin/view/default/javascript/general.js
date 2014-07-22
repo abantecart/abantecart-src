@@ -5,7 +5,21 @@ jQuery(window).load(function() {
    $('#preloader').delay(350).fadeOut(function(){
       $('body').delay(350).css({'overflow':'visible'});
    });
+   
+   ajust_content_height();
 });
+
+//On all ajax completed 
+$( document ).ajaxComplete(function() {
+   //resize page
+   ajust_content_height();
+});
+
+//On window size change adjsut height
+$( window ).resize(function() {
+//   ajust_content_height();
+});
+
 
 jQuery(document).ready(function() {
 
@@ -43,13 +57,13 @@ jQuery(document).ready(function() {
             sub.slideUp(200, function(){
                parent.removeClass('nav-active');
                $('.mainpanel').css({height: ''});
-               adjustmainpanelheight();
+               ajust_content_height();
             });
          } else {
             closeVisibleSubMenu();
             parent.addClass('nav-active');
             sub.slideDown(200, function(){
-               adjustmainpanelheight();
+               ajust_content_height();
             });
          }
       }
@@ -66,12 +80,12 @@ jQuery(document).ready(function() {
             sub.slideUp(200, function(){
                parent.removeClass('nav-active');
                $('.mainpanel').css({height: ''});
-               adjustmainpanelheight();
+               ajust_content_height();
             });
          } else {
             parent.addClass('nav-active');
             sub.slideDown(200, function(){
-               adjustmainpanelheight();
+               ajust_content_height();
             });
          }
       }
@@ -89,14 +103,6 @@ jQuery(document).ready(function() {
       });
    }
    
-   function adjustmainpanelheight() {
-      // Adjust mainpanel height
-      var docHeight = jQuery(document).height() - $('#footer').height();
-      var leftHeight = $('.leftpanel').height();
-      if(leftHeight > $('.mainpanel').height())
-         $('.mainpanel').height(docHeight);
-   }
-
    // Tooltip
    $('.tooltips').tooltip({ container: 'body'});
    
@@ -198,7 +204,7 @@ jQuery(document).ready(function() {
 		   else {
 		      body.addClass('leftpanel-show');
 		   }
-		   adjustmainpanelheight();         
+		   ajust_content_height();         
 		}
    });
    
@@ -341,7 +347,7 @@ jQuery(document).ready(function() {
 	});
 
 	//adjust main content height 	
-	adjustmainpanelheight();
+	ajust_content_height();
 
 	//edit mode
     $docW = parseInt($(document).width());
@@ -384,6 +390,19 @@ jQuery(document).ready(function() {
 
 });
 
+
+function ajust_content_height() {
+   // Adjust mainpanel height
+   var docHeight = jQuery(document).height() - $('#footer').height();
+   var leftHeight = $('.leftpanel').height();
+   var rightHeight = $('.contentpanel').height() + $('.headerbar').height() + $('.pageheader').height() + 50;
+   if(leftHeight > $('.mainpanel').height()) {
+      $('.mainpanel').height(leftHeight);
+   }
+   if(rightHeight > $('.mainpanel').height()) {
+      $('.mainpanel').height(rightHeight);
+   }
+}
 
 //-----------------------------------------
 // Confirm Actions (delete, uninstall)
