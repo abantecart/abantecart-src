@@ -59,17 +59,19 @@ $(document).ready(function() {
 	});
 
     $('#footer').ajaxError(function(e, jqXHR, settings, exception){
-        var error_msg = $.parseJSON(jqXHR.responseText);
-        var error_text = 'Unknown AJAX Error!'
-        if (error_msg) {
-        	error_text = error_msg.error;
-        }
+        try{
+            var error_msg = $.parseJSON(jqXHR.responseText);
+            var error_text = 'Unknown AJAX Error!'
+            if (error_msg) {
+                error_text = error_msg.error;
+            }
 
-        error_text = '<div class="alert alert-error alert-danger">' + error_text + '</div>';
-		//show error message
-        if(error_text.length>0){
-		    showMsg( 'AJAX Error', error_text, function () { } );
-        }
+            error_text = '<div class="alert alert-error alert-danger">' + error_text + '</div>';
+            //show error message
+            if(error_text.length>0){
+                showMsg( 'AJAX Error', error_text, function () { } );
+            }
+        }catch(e){}
 
     });	
 });
