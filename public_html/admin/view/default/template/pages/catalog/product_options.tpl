@@ -13,6 +13,19 @@
 
 	<div class="panel-heading">
 
+		<div class="pull-left form-inline">
+			<div class="form-group">
+				<div class="input-group input-group-sm">
+					<label><?php echo $tab_option; ?></label>
+				</div>
+			</div>			
+			<div class="form-group">
+				<div class="input-group input-group-sm">
+				<?php echo $options; ?>
+				</div>
+			</div>			
+		</div>
+
 		<div class="pull-right">
 
 			<div class="btn-group mr10 toolbar">
@@ -20,6 +33,9 @@
 			</div>
 
 			<div class="btn-group mr10 toolbar">
+                    <a class="btn btn-white tooltips" href="<?php echo ''; ?>" data-toggle="tooltip" title="<?php echo $text_new_option; ?>" data-original-title="<?php echo $text_new_option; ?>" data-target="#discount_modal" data-toggle="modal">
+                    <i class="fa fa-plus"></i>
+                    </a>
 				<?php if (!empty ($help_url)) : ?>
 					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
 					   title="" data-original-title="Help">
@@ -32,100 +48,9 @@
 	</div>
 
 	<div class="panel-body panel-body-nopadding">
-		<label class="h4 heading"><?php echo $tab_option; ?></label>
-
+		
 		<div class="row">
-			<div class="col-md-3">
-			
-				<div class="panel-group" id="accordion">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-									Choose option to edit
-								</a>
-							</h4>
-						</div>
-						<div id="collapseOne" class="panel-collapse collapse in">
-							<div class="panel-body">
-								<?php echo $options; ?>
-							</div>
-						</div>
-					</div>
-
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-									<?php echo $text_new_option; ?>
-								</a>
-							</h4>
-						</div>
-						<div id="collapseTwo" class="panel-collapse collapse">
-							<?php echo $form['form_open']; ?>
-							<div class="panel-heading">
-								<?php echo $attributes; ?>
-							</div>
-							<div class="panel-body">
-								<div class="mt10 options_buttons" id="option_name_block">
-									<div class="form-group <? if (!empty($error['status'])) { echo "has-error"; } ?>">
-										<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_status; ?></label>
-										<div class="input-group afield ">
-											<?php echo $status; ?>
-										</div>
-									</div>
-									<div class="form-group <? if (!empty($error['option'])) { echo "has-error"; } ?>">
-										<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_option; ?></label>
-										<div class="input-group afield ">
-											<?php echo $option_name; ?>
-										</div>
-									</div>
-									<div class="form-group <? if (!empty($error['element_type'])) { echo "has-error"; } ?>">
-										<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_element_type; ?></label>
-										<div class="input-group afield ">
-											<?php echo $element_type; ?>
-										</div>
-									</div>
-									<div class="form-group <? if (!empty($error['sort_order'])) { echo "has-error"; } ?>">
-										<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_sort_order; ?></label>
-										<div class="input-group afield ">
-											<?php echo $sort_order; ?>
-										</div>
-									</div>
-									<div class="form-group <? if (!empty($error['required'])) { echo "has-error"; } ?>">
-										<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_required; ?></label>
-										<div class="input-group afield ">
-											<?php echo $required; ?>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="panel-footer">
-								<div class="row">
-								   <div class="col-sm-10 col-sm-offset-3">
-									 <button class="btn btn-primary">
-									 <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
-									 </button>&nbsp;
-									 <a class="btn btn-default" href="<?php echo $cancel; ?>">
-									 <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
-									 </a>
-								   </div>
-								</div>
-							</div>
-							</form>
-						</div>
-					</div>
-
-				</div>
-
-
-				<div class="form-group">
-
-
-				</div>
-
-			</div>
-			<div class="col-md-9 option_form">
+			<div class="col-md-12 option_form">
 				<div class="option_field"></div>
 
 				<div id="options">
@@ -134,6 +59,64 @@
 			</div>
 		</div>
 
+		<div class="add-option-modal" style="display:none;">
+			<div class="panel panel-default">
+			    <div id="collapseTwo" class="panel-collapse collapse">
+			    	<?php echo $form['form_open']; ?>
+			    	<div class="panel-heading">
+			    		<?php echo $attributes; ?>
+			    	</div>
+			    	<div class="panel-body">
+			    		<div class="mt10 options_buttons" id="option_name_block">
+			    			<div class="form-group <? if (!empty($error['status'])) { echo "has-error"; } ?>">
+			    				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_status; ?></label>
+			    				<div class="input-group afield ">
+			    					<?php echo $status; ?>
+			    				</div>
+			    			</div>
+			    			<div class="form-group <? if (!empty($error['option'])) { echo "has-error"; } ?>">
+			    				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_option; ?></label>
+			    				<div class="input-group afield ">
+			    					<?php echo $option_name; ?>
+			    				</div>
+			    			</div>
+			    			<div class="form-group <? if (!empty($error['element_type'])) { echo "has-error"; } ?>">
+			    				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_element_type; ?></label>
+			    				<div class="input-group afield ">
+			    					<?php echo $element_type; ?>
+			    				</div>
+			    			</div>
+			    			<div class="form-group <? if (!empty($error['sort_order'])) { echo "has-error"; } ?>">
+			    				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_sort_order; ?></label>
+			    				<div class="input-group afield ">
+			    					<?php echo $sort_order; ?>
+			    				</div>
+			    			</div>
+			    			<div class="form-group <? if (!empty($error['required'])) { echo "has-error"; } ?>">
+			    				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_required; ?></label>
+			    				<div class="input-group afield ">
+			    					<?php echo $required; ?>
+			    				</div>
+			    			</div>
+			    		</div>
+			    	</div>
+			    	<div class="panel-footer">
+			    		<div class="row">
+			    		   <div class="col-sm-10 col-sm-offset-3">
+			    			 <button class="btn btn-primary">
+			    			 <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+			    			 </button>&nbsp;
+			    			 <a class="btn btn-default" href="<?php echo $cancel; ?>">
+			    			 <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+			    			 </a>
+			    		   </div>
+			    		</div>
+			    	</div>
+			    	</form>
+			    </div>
+			</div>
+		</div>
+	
 	</div>
 </div>
 
