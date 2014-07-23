@@ -33,7 +33,10 @@
 			</div>
 
 			<div class="btn-group mr10 toolbar">
-                    <a class="btn btn-white tooltips" href="<?php echo ''; ?>" data-toggle="tooltip" title="<?php echo $text_new_option; ?>" data-original-title="<?php echo $text_new_option; ?>" data-target="#discount_modal" data-toggle="modal">
+                    <a class="btn btn-white tooltips" href="#"
+					   title="<?php echo $text_new_option; ?>"
+					   data-original-title="<?php echo $text_new_option; ?>"
+					   data-target="#option_modal" data-toggle="modal">
                     <i class="fa fa-plus"></i>
                     </a>
 				<?php if (!empty ($help_url)) : ?>
@@ -59,43 +62,51 @@
 			</div>
 		</div>
 
-		<div class="add-option-modal" style="display:none;">
+
+	
+	</div>
+</div>
+
+<?php
+
+
+$modal_content = '<div class="add-option-modal" >
 			<div class="panel panel-default">
-			    <div id="collapseTwo" class="panel-collapse collapse">
-			    	<?php echo $form['form_open']; ?>
+			    <div id="collapseTwo" >
+			    	'.$form['form_open'].'
 			    	<div class="panel-heading">
-			    		<?php echo $attributes; ?>
+			    		'.$attributes.'
 			    	</div>
 			    	<div class="panel-body">
 			    		<div class="mt10 options_buttons" id="option_name_block">
-			    			<div class="form-group <? if (!empty($error['status'])) { echo "has-error"; } ?>">
-			    				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_status; ?></label>
+			    			<div class="form-group '. (!empty($error['status']) ? "has-error" : "") .'">
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'. $entry_status.'</label>
 			    				<div class="input-group afield ">
-			    					<?php echo $status; ?>
+			    					'.$status.'
 			    				</div>
 			    			</div>
-			    			<div class="form-group <? if (!empty($error['option'])) { echo "has-error"; } ?>">
-			    				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_option; ?></label>
+			    			<div class="form-group '.(!empty($error['option']) ? "has-error" :"").'">
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_option.'</label>
 			    				<div class="input-group afield ">
-			    					<?php echo $option_name; ?>
+			    					'.$option_name.'
 			    				</div>
 			    			</div>
-			    			<div class="form-group <? if (!empty($error['element_type'])) { echo "has-error"; } ?>">
-			    				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_element_type; ?></label>
+			    			<div class="form-group '.(!empty($error['element_type']) ? "has-error" : "").'">
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_element_type.'</label>
 			    				<div class="input-group afield ">
-			    					<?php echo $element_type; ?>
+			    					'.$element_type.'
 			    				</div>
 			    			</div>
-			    			<div class="form-group <? if (!empty($error['sort_order'])) { echo "has-error"; } ?>">
-			    				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_sort_order; ?></label>
+			    			<div class="form-group '.(!empty($error['sort_order']) ? "has-error" : "") .'">
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_sort_order.'</label>
 			    				<div class="input-group afield ">
-			    					<?php echo $sort_order; ?>
+			    					'.$sort_order.'
 			    				</div>
 			    			</div>
-			    			<div class="form-group <? if (!empty($error['required'])) { echo "has-error"; } ?>">
-			    				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry_required; ?></label>
+			    			<div class="form-group '.(!empty($error['required']) ? "has-error" : "").'">
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_required.'</label>
 			    				<div class="input-group afield ">
-			    					<?php echo $required; ?>
+			    					'.$required.'
 			    				</div>
 			    			</div>
 			    		</div>
@@ -104,10 +115,10 @@
 			    		<div class="row">
 			    		   <div class="col-sm-10 col-sm-offset-3">
 			    			 <button class="btn btn-primary">
-			    			 <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+			    			 <i class="fa fa-save"></i> '.$form['submit']->text.'
 			    			 </button>&nbsp;
-			    			 <a class="btn btn-default" href="<?php echo $cancel; ?>">
-			    			 <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+			    			 <a class="btn btn-default" href="'.$cancel.'">
+			    			 <i class="fa fa-refresh"></i>'.$form['cancel']->text.'
 			    			 </a>
 			    		   </div>
 			    		</div>
@@ -115,10 +126,16 @@
 			    	</form>
 			    </div>
 			</div>
-		</div>
-	
-	</div>
-</div>
+		</div>';
+
+echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'option_modal',
+				'name' => 'option_modal',
+				'modal_type' => 'lg',
+				'title' => $text_add_new_option,
+				'content' => $modal_content));
+?>
 
 
 
