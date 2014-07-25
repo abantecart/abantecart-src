@@ -128,75 +128,46 @@ class ControllerResponsesListingGridExtension extends AController {
 
 		foreach ($rows as $row) {
 			$extension = $row['key'];
+			$response->rows[$i]['id'] = $extension . '_' . $row['store_id'];
+			$id = $response->rows[$i]['id'];
+
+			$response->userdata->extension_id[$id] = $extension;
+			$response->userdata->store_id[$id] = $row['store_id'];
+
 			$name = !isset($row['name']) ? trim($this->extensions->getExtensionName($extension)) : $row['name'];
 
 			//for new extensions
 			if( $row['remote_install'] ){
-
-				$action = '<a class="btn_action"
-							  href="'.$this->html->getSecureURL( 'tool/package_installer/download', '&extension_key=' . $row['installation_key'] ) . '"
-							  title="' . $this->language->get('text_install') . '">' .
-						  '<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_install.png" alt="' . $this->language->get('text_install') . '" /></a>';
-
+				$response->userdata->installation_key[$id] = $row['installation_key'];
 				$icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="" border="0" />';
 				$category = '';
-				$status = 'Ready to install';
-				$response->userdata->classes[$extension . '_' . $row['store_id']] = 'success';
+				$status = $this->language->get('text_ready_to_install');
+				$response->userdata->classes[$id] = 'success disable-edit disable-delete disable-uninstall disable-install';
 
 			}elseif (in_array($extension, $missing_extensions)) {
-
-				$action = '<a class="btn_action" href="' . $this->html->getSecureURL('extension/extensions/delete', $this->data['url'] . '&extension=' . $extension) . '"
-			 	onclick="return confirm(\'' . $this->language->get('text_delete_confirm') . '\')" title="' . $this->language->get('text_delete') . '">' .
-						'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_delete.png" alt="' . $this->language->get('text_delete') . '" />' .
-						'</a>';
+				$response->userdata->classes[$id] = 'warning disable-edit disable-install disable-uninstall disable-remote-install';
 
 				$icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="" border="0" />';
 				$name = str_replace('%EXT%', $extension, $this->language->get('text_missing_extension'));
-				$category = '';
-				$status = '';
+				$category = $status = '';
 				$row['update_date'] = date('Y-m-d H:i:s', time()); // change it for show it in list first by default sorting
-				$response->userdata->classes[$extension . '_' . $row['store_id']] = 'warning';
 
 			} elseif (!file_exists(DIR_EXT . $extension . '/main.php') || !file_exists(DIR_EXT . $extension . '/config.xml')) {
-
-				$action = '<a class="btn_action" href="' . $this->html->getSecureURL('extension/extensions/delete', $this->data['url'] . '&extension=' . $extension) . '"
-			 	onclick="return confirm(\'' . $this->language->get('text_delete_confirm') . '\')" title="' . $this->language->get('text_delete') . '">' .
-						'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_delete.png" alt="' . $this->language->get('text_delete') . '" />' .
-						'</a>';
-
+				$response->userdata->classes[$id] = 'warning disable-edit disable-install disable-uninstall disable-remote-install';
 				$icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="" border="0" />';
 				$name = str_replace('%EXT%', $extension, $this->language->get('text_broken_extension'));
-				$category = '';
-				$status = '';
+				$category = $status = '';
 				$row['update_date'] = date('Y-m-d H:i:s', time()); // change it for show it in list first by default sorting
-				$response->userdata->classes[$extension . '_' . $row['store_id']] = 'warning';
 
 			} else {
 				if (!$this->config->has($extension . '_status')) {
-					$action = '<a class="btn_action"
-								onclick="show_popup(\'' . $extension . '\', \'' . $this->html->getSecureURL('extension/extensions/install', $this->data['url'] . '&extension=' . $extension) . '\')"
-					title="' . $this->language->get('text_install') . '">' .
-							'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_install.png" alt="' . $this->language->get('text_install') . '" />' .
-							'</a>' .
-							'<a class="btn_action" href="' . $this->html->getSecureURL('extension/extensions/delete', $this->data['url'] . '&extension=' . $extension) . '"
-						  onclick="return confirm(\'' . $this->language->get('text_delete_confirm') . '\')" title="' . $this->language->get('text_delete') . '">' .
-							'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_delete.png" alt="' . $this->language->get('text_delete') . '" />' .
-							'</a>';
+					$response->userdata->classes[$id] = 'disable-edit disable-uninstall disable-remote-install';
 					$status = $this->language->get('text_not_installed');
 				} else {
-
-					$action = '<a id="action_edit_' . $extension . '" class="btn_action" href="' . $this->html->getSecureURL('extension/extensions/edit', $this->data['url'] . '&store_id=' . (int)$row['store_id'] . '&extension=' . $extension) . '"
-						title="' . $this->language->get('text_edit') . '">' .
-							'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_edit.png" alt="' . $this->language->get('text_edit') . '" />' .
-							'</a>' .
-							'<a class="btn_action" href="' . $this->html->getSecureURL('extension/extensions/uninstall', $this->data['url'] . '&extension=' . $extension) . '"
-						  onclick="return confirm(\'' . str_replace('%extension%', $name, $this->language->get('text_uninstall_confirm')) . '\')"
-						  title="' . $this->language->get('text_uninstall') . '">' .
-							'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_uninstall.png" alt="' . $this->language->get('text_uninstall') . '" />' .
-							'</a>';
+					$response->userdata->classes[$id] = 'disable-delete disable-install disable-remote-install';
 					$status = $this->html->buildCheckbox(array(
 						'name' => $extension . '[' . $extension . '_status]',
-						'value' => $row['status'], //this->config->get($extension . '_status'),
+						'value' => $row['status'],
 						'style' => 'btn_switch',
 					));
 				}
@@ -224,7 +195,7 @@ class ControllerResponsesListingGridExtension extends AController {
 
 			}
 
-			$response->rows[$i]['id'] = $extension . '_' . $row['store_id'];
+
 			$response->rows[$i]['cell'] = array(
 				$icon,
 				$extension,
@@ -236,7 +207,6 @@ class ControllerResponsesListingGridExtension extends AController {
 				$response->rows[$i]['cell'][] = $row['store_name'] ? $row['store_name'] : $this->language->get('text_default');
 			}
 			$response->rows[$i]['cell'][] = $status;
-			$response->rows[$i]['cell'][] = $action;
 			if ($push) {
 				if (in_array($i, $push)) {
 					$for_push[] = $response->rows[$i];
@@ -311,6 +281,7 @@ class ControllerResponsesListingGridExtension extends AController {
 		// first of all we need check dependencies
 		$config = getExtensionConfigXml($this->request->get['extension']);
 		$result = $this->extension_manager->validateDependencies($this->request->get['extension'], $config);
+		$this->data = array('license_text'=>'', 'error_text'=>'');
 		if ($result) {
 			// if all fine show license agreement
 			if (file_exists(DIR_EXT . $this->request->get['extension'] . "/license.txt")) {
@@ -336,22 +307,16 @@ class ControllerResponsesListingGridExtension extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->loadLanguage('extension/extensions');
-		$children = array();
+
 		$result = $this->extension_manager->getChildrenExtensions($this->request->get['extension']);
 		if ($result) {
-			foreach ($result as $child) {
-				if ($this->config->get($child['key'] . '_status')) {
-					if ($child['type'] == 'total') {
-						$link = $this->html->getSecureURL('total/' . $child['key']);
-					} else {
-						$link = $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $child['key']);
-					}
-					$children[] = '<a href="' . $link . '" target="_blank"><b>' . $child['key'] . '</b></a>';
-				}
-			}
-		}
-		if ($children) {
-			$this->data['text_confirm'] = sprintf($this->language->get('text_confirm_disable_dependants'), $this->request->get['extension'], '<br>' . implode('<br>', $children) . '<br>');
+			$view = new AView($this->registry,0);
+			$view->batchAssign($this->language->getASet('extension/extensions'));
+			$view->assign('result', $result);
+
+			$html = $view->fetch('pages/extension/extensions_dependants_dialog.tpl');
+
+			$this->data['html'] = $html;
 		}
 
 		//update controller data
@@ -360,5 +325,6 @@ class ControllerResponsesListingGridExtension extends AController {
 			$this->load->library('json');
 			$this->response->setOutput(AJson::encode($this->data));
 		}
+
 	}
 }

@@ -45,7 +45,8 @@ class ControllerPagesLocalisationLocation extends AController {
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('localisation/location'),
             'text' => $this->language->get('heading_title'),
-            'separator' => ' :: '
+            'separator' => ' :: ',
+			'current'	=> true
         ));
 
         $grid_settings = array(
@@ -77,7 +78,7 @@ class ControllerPagesLocalisationLocation extends AController {
                 'name' => 'name',
                 'index' => 'name',
                 'width' => 600,
-                'align' => 'center',
+                'align' => 'left',
             ),
         );
 
@@ -475,7 +476,8 @@ class ControllerPagesLocalisationLocation extends AController {
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('localisation/location'),
             'text' => $this->data['heading_title'],
-            'separator' => ' :: '
+            'separator' => ' :: ',
+			'current'  => true
         ));
 
         $form->setForm(array(

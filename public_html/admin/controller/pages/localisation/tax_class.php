@@ -45,7 +45,8 @@ class ControllerPagesLocalisationTaxClass extends AController {
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('localisation/tax_class'),
             'text' => $this->language->get('heading_title'),
-            'separator' => ' :: '
+            'separator' => ' :: ',
+			'current'	=> true
         ));
 
         $grid_settings = array(
@@ -77,7 +78,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
                 'name' => 'title',
                 'index' => 'title',
                 'width' => 600,
-                'align' => 'center',
+                'align' => 'left',
             ),
         );
 
@@ -370,7 +371,8 @@ class ControllerPagesLocalisationTaxClass extends AController {
         $this->document->addBreadcrumb(array(
             'href' => $this->data['action'],
             'text' => $this->data['form_title'],
-            'separator' => ' :: '
+            'separator' => ' :: ',
+			'current'	=> true
         ));
         $this->data['common_zone'] = $this->html->getSecureURL('common/zone');
         $form->setForm(array(
@@ -529,7 +531,8 @@ class ControllerPagesLocalisationTaxClass extends AController {
         $this->document->addBreadcrumb(array(
             'href' => $this->data['action'],
             'text' => $this->data['heading_title'],
-            'separator' => ' :: '
+            'separator' => ' :: ',
+			'current' => true
         ));
 
         $form->setForm(array(
@@ -628,4 +631,3 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
 }
 
-?>

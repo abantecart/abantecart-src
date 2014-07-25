@@ -262,11 +262,14 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                     case 'clone':
                         echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-copy fa-lg"></i></a>\'; ';
                         break;
+                    case 'remote_install':
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i></a>\'; ';
+                        break;
                     case 'install':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-play-circle-o fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i></a>\'; ';
                         break;
                     case 'uninstall':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-times-circle-o fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-times fa-lg"></i></a>\'; ';
                         break;
                     case 'view':
                         echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-eye fa-lg"></i></a>\'; ';

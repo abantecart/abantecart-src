@@ -47,14 +47,6 @@
             }
         });
 
-        // Confirm Uninstall
-        $('a').click(function () {
-            if ($(this).attr('href') != null && $(this).attr('href').indexOf('uninstall', 1) != -1) {
-                if (!confirm('<?php echo $text_confirm; ?>')) {
-                    return false;
-                }
-            }
-        });
         numberSeparators = {decimal:'<?php echo $decimal_point; ?>', thousand:'<?php echo $thousand_point; ?>'};
     });
 

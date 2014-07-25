@@ -1879,6 +1879,7 @@ class ModalHtmlElement extends HtmlElement {
 				'name' => $this->name,
 				'title' => $this->title,
 				'content' => $this->content,
+				'footer' => $this->footer,
 				'modal_type' => $modal_type,
 				'data_source' => (string)$this->data_source // if 'remote' (by ajax) we clean up modal content after it close
 			)
@@ -1888,6 +1889,11 @@ class ModalHtmlElement extends HtmlElement {
 			case 'lg':
 				$tpl = 'form/modal_lg.tpl';
 				break;
+			case 'sm':
+				$tpl = 'form/modal_sm.tpl';
+				break;
+			default:
+				$tpl = 'form/modal_lg.tpl';
 		}
 
 		$return = $this->view->fetch($tpl);

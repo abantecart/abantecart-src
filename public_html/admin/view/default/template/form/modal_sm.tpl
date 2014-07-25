@@ -1,6 +1,6 @@
-<div id="<?php echo $name;?>" class="modal fade <?php echo $style; ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div id="<?php echo $name;?>" class="modal fade <?php echo $style; ?>" tabindex="-1" role="dialog" aria-labelledby="mysmallModalLabel"
 	 aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>

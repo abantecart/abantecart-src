@@ -333,4 +333,12 @@
 	    <key>text_accept_payments_shipping</key>
 	    <value><![CDATA[Accept these payments:<br /><span class="help">If only specific payment methods are needed for this shipping method, select them here. If nothing selected, all available payment methods will be shown</span>]]></value>
 	</definition>
+	<definition>
+	    <key>text_ready_to_install</key>
+	    <value><![CDATA[Ready to install]]></value>
+	</definition>
+	<definition>
+	    <key>button_install</key>
+	    <value><![CDATA[Install]]></value>
+	</definition>
 </definitions>

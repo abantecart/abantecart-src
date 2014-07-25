@@ -88,7 +88,8 @@ class ControllerPagesReportPurchased extends AController {
    		$this->document->addBreadcrumb( array ( 
        		'href'      => $this->html->getSecureURL('report/purchased'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));		
 		
 
@@ -100,4 +101,3 @@ class ControllerPagesReportPurchased extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}	
 }
-?>

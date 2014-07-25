@@ -96,7 +96,8 @@ class ControllerPagesReportViewed extends AController {
    		$this->document->addBreadcrumb( array ( 
        		'href'      => $this->html->getSecureURL('report/viewed'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 
@@ -133,4 +134,3 @@ class ControllerPagesReportViewed extends AController {
 		$this->redirect($this->html->getSecureURL('report/viewed', $url));
 	}
 }
-?>

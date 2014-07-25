@@ -943,6 +943,7 @@
 .disable-save .grid_action_save,
 .disable-run .grid_action_run,
 .disable-install .grid_action_install,
+.disable-remote-install .grid_action_remote_install,
 .disable-uninstall .grid_action_uninstall,
 .disable-clone .grid_action_clone,
 .disable-approve .grid_action_approve
