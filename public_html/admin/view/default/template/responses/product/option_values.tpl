@@ -1,26 +1,24 @@
+<div class="row">
+	<div id="notify" class="col-md-12 align_center success" style="display: none;"></div>
+	<?php if ($success) { ?>
+	<script type="text/javascript">
+		$('#notify').html('<?php echo $success?>').fadeIn(500).delay(2000).fadeOut(500);
+	</script>
+	<?php } ?>
+</div>
 
-<div id="notify" class="align_center success" style="display: none;"></div>
-<?php if ($success) { ?>
-<script type="text/javascript">
-	$('#notify').html('<?php echo $success?>').fadeIn(500).delay(2000).fadeOut(500);
-</script>
-<?php } ?>
+<div class="row">
 
-
-<div class="panel panel-default">
+<div class="col-md-5 panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title"><?php echo $option_data['language'][$language_id]['name']; ?></h3>
 	</div>
-	<div id="option_edit_form" class="panel-body panel-body-nopadding table-responsive" style="display: block;">
-		<div class="mb20">
-		<h4><?php echo $text_option_type; ?>: <?php echo $option_type; ?></h4>
-
-			<a class=" pull-right btn btn-default" href="<?php echo $button_remove_option->href; ?>">
-			 <i class="fa fa-trash-o"></i> <?php echo $button_remove_option->text; ?>
+	<div id="option_edit_form" class="panel-body panel-body-nopadding table-responsive">
+		<h4 class="mb20"><?php echo $text_option_type; ?>: <?php echo $option_type; ?>
+			<a class="pull-right btn btn-default tooltips" href="<?php echo $button_remove_option->href; ?>" data-original-title="<?php echo $button_remove_option->text; ?>">
+			 <i class="fa fa-trash-o"></i>
 			 </a>
-
-
-		</div>
+		</h4>
 
 		<?php
 		$fields = array('entry_status'=>'status',
@@ -45,7 +43,7 @@
 					if ( is_int(stripos($field->style, 'large-field')) ) {
 						$widthcasses = "col-sm-7";
 					} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
-						$widthcasses = "col-sm-5";
+						$widthcasses = "col-sm-6";
 					} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
 						$widthcasses = "col-sm-3";
 					} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
@@ -54,8 +52,8 @@
 					$widthcasses .= " col-xs-12";
 				?>
 			<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
-				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $entry; ?></label>
-				<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<label class="control-label col-md-6" for="<?php echo $field->element_id; ?>"><?php echo $entry; ?></label>
+				<div class="input-group input-group-sm afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
 					<?php echo $field;?>
 				</div>
 			    <?php if (!empty($error[$name])) { ?>
@@ -66,18 +64,21 @@
 	</div>
 	<div class="panel-footer">
 		<div class="row">
-		   <div class="col-sm-7 col-sm-offset-1">
-			 <button id="update_option" class="btn btn-primary pull-right">
+		   <div class="col-sm-6 col-sm-offset-3">
+			 <button id="update_option" class="btn btn-primary">
 			 <i class="fa fa-save"></i> <?php echo $button_save->text; ?>
 			 </button>
+			 &nbsp;
+			 <a id="reset_option" class="btn btn-default" href="<?php echo $button_reset->href; ?>">
+			     <i class="fa fa-refresh"></i> <?php echo $button_reset->text; ?>
+			 </a>
 		   </div>
 		</div>
 	</div>
 </div>
 
-
 <?php echo $update_option_values_form['open']; ?>
-<div class="tab-content">
+<div class="col-md-7 tab-content">
 	<div class="panel-body panel-body-nopadding">
 		<label class="h4 heading"><?php echo $text_option_values; ?></label>
 		<table id="option_values_tbl" class="table">
@@ -138,3 +139,6 @@
 <table style="display:none;" id="new_row_table">
 	<?php echo $new_option_row ?>
 </table>
+
+
+</div>

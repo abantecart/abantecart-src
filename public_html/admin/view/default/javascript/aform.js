@@ -457,10 +457,13 @@
                 });
 
                 if ((String(value) != String(orgvalue) || $changed > 0)) {
+					//mark filed chaneged
+                	$field.addClass(o.changedClass);
                 	//build quick save button set
                 	showQuickSave($field);
                 } else {
                 	//clean up
+					$field.removeClass(o.changedClass);
                 	removeQuickSave($field);
                 }
 
@@ -552,9 +555,8 @@
 			$btncontainer.prepend($buttons);
 			$(o.btnGrpSelector + ' a').tooltip();
 			
-			//add changed class to both button container and field element
+			//add changed class to button container
 			$btncontainer.parent('.afield').addClass(o.changedClass);
-			$field.addClass(o.changedClass);
 			$('.ajax_result, .field_err', $btncontainer).remove();
 			$(o.btnGrpSelector, $btncontainer).css('display', 'inline-block');
 			//bind events for buttons
@@ -595,7 +597,6 @@
 				return false;
 			}
 			$btncontainer.parent('.afield').removeClass(o.changedClass);
-			$field.removeClass(o.changedClass);
 			$(o.btnGrpSelector, $btncontainer).remove();
 			$btncontainer.removeClass('quicksave');
 			//remove button container if it is empty
@@ -828,6 +829,17 @@ jQuery(document).ready(function() {
 	});
     formOnExit();
 
-
-
 });
+
+//------------------------------------------------------------------------------
+// Add form events. Function can be reloaded after AJAX responce to dinamic HTML
+//------------------------------------------------------------------------------
+var bindAform = function(selector, op){
+	if ( op == null ) {
+		op = {triggerChanged: true, showButtons: false};
+	}
+	if ( selector == null ) {
+		selector = $("input, checkbox, select");
+	}
+	$(selector).aform(op);
+}

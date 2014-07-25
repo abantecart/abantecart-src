@@ -9,7 +9,7 @@
 				echo $this->getHookVar('logoimage_hookvar');
 			} else {
 		?> 
-			<img class="logo_image" src="<?php echo $template_dir; ?>image/logo.png" title="<?php echo $heading_title; ?>"/>
+			<img class="logo_image" src="<?php echo $template_dir; ?>image/logo.png" width="190" title="<?php echo $heading_title; ?>"/>
 		<?php 
 			}
 		?> 

@@ -50,20 +50,8 @@
 
 	</div>
 
-	<div class="panel-body panel-body-nopadding">
-		
-		<div class="row">
-			<div class="col-md-12 option_form">
-				<div class="option_field"></div>
-
-				<div id="options">
-					<div id="option_values"></div>
-				</div>
-			</div>
-		</div>
-
-
-	
+	<div class="panel-body panel-body-nopadding" id="option_values">
+		<?php //# Options HTML loaded from responce controller rt=product/product/load_option ?>		
 	</div>
 </div>
 
@@ -292,6 +280,9 @@ jQuery(function ($) {
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				$('#option_values').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
+			},
+			complete: function() {
+				bindEvents();
 			}
 		});
 	}
@@ -410,11 +401,14 @@ jQuery(function ($) {
 			data: { option_id: current_option_id },
 			success: function (html) {
 				$('#option_values').html(html);
-				$("input, checkbox, select", '#option_values_tbl').aform({triggerChanged: true, showButtons: false});
-				$("input, checkbox, select", '.editOption').aform({triggerChanged: true, showButtons: false});
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				$('#option_values').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
+			},
+			complete: function() {
+				bindAform($("input, checkbox, select", '#option_edit_form'));
+				bindAform($("input, checkbox, select", '#update_option_values'));
+				bindEvents();
 			}
 		});
 	});
@@ -453,6 +447,9 @@ jQuery(function ($) {
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				$('#option_values').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
+			},
+			complete: function() {
+				bindEvents();
 			}
 		});
 		return false;
@@ -478,7 +475,10 @@ jQuery(function ($) {
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				$('#option_values').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
-			}
+			},
+			complete: function() {
+				bindEvents();
+			}			
 		});
 		return false;
 	});
