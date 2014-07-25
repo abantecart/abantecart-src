@@ -364,6 +364,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		}
 		
 		$languages = $this->language->getAvailableLanguages();
+
 		$content_lang_id = $this->language->getContentLanguageID();
 		//load current content language to data
 		foreach ($languages as $lang) {
@@ -509,6 +510,8 @@ class ModelLocalisationLanguageDefinitions extends Model {
 				));			
 		}
 
+
+
 		//load all language fields for this definition to be awailable in the template
 		foreach ($data['languages'] as $i) {
 			$value = '';
@@ -524,6 +527,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 			} else if (!empty($all_defs)) {
 				foreach ($all_defs as $ii) {
 					if ($ii['language_id'] == $i['language_id']) {
+
 						$value = $ii['language_value'];
 						$id = $ii['language_definition_id'];
 						break;
@@ -536,9 +540,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 				'value' => $value,
 				'required' => true,
 				'style' => 'large-field',
-			));
-
-			$data['form']['fields']['language_definition_id'][$i['language_id']] = $form->getFieldHtml(array(
+			)). $form->getFieldHtml(array(
 				'type' => 'hidden',
 				'name' => 'language_definition_id[' . $i['language_id'] . ']',
 				'value' => $id,

@@ -99,7 +99,7 @@
             var $wrapper_confirm = $el_confirm.closest('.aform'), $field_confirm = $el_confirm.closest('.afield');
 
             if ($el.is(':hidden') && o.autoHide) {
-                $wrapper.hide();
+               // $wrapper.hide();
             }
             if ($el.prop("readonly")) {
                 $field.addClass(o.readonlyClass);
@@ -174,7 +174,7 @@
             var $wrapper = $field.closest('.afield');
 
             if ($field.is(':hidden') && o.autoHide) {
-                $wrapper.hide();
+               // $wrapper.hide();
             }
             if ($field.prop("readonly")) {
                 $field.addClass(o.readonlyClass);
@@ -211,7 +211,7 @@
             var $wrapper = $field.closest('.afield');
 
             if ($field.is(':hidden') && o.autoHide) {
-                $wrapper.hide();
+              //  $wrapper.hide();
             }
         }
 
@@ -227,7 +227,7 @@
             }
 
             if ($el.is(':hidden') && o.autoHide) {
-                $wrapper.hide();
+               // $wrapper.hide();
             }
 
             if ($el.prop("disabled")) {
@@ -258,7 +258,7 @@
             }
 
             if ($el.is(':hidden') && o.autoHide) {
-                $wrapper.hide();
+                //$wrapper.hide();
             }
 
             if ($el.prop("disabled")) {
