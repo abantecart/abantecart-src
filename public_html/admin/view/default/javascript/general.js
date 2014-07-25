@@ -92,23 +92,10 @@ jQuery(document).ready(function() {
       });
    }
    
-   // Tooltip
-   $('.tooltips').tooltip({ container: 'body'});
-   
-   // Popover
-   $('.popovers').popover();
-   
-   // Close Button in Panels
-   $('.panel .panel-close').click(function(){
-      $(this).closest('.panel').fadeOut(200);
-      return false;
-   });
-   
-   //Toggles
-   $('.toggle').toggles({on: true});
+   bindEvents();
    
    $('.toggle-chat1').toggles({on: false});
-   
+      
    // Sparkline
    $('#sidebar-chart').sparkline([4,3,3,1,4,3,2,2,3,10,9,6], {
 	  type: 'bar', 
@@ -379,6 +366,26 @@ jQuery(document).ready(function() {
 
 });
 
+//-----------------------------------------------
+// Add events. Function can be reloaded after AJAX responce
+//-----------------------------------------------
+var bindEvents  = function(){
+   // Tooltip
+   $('.tooltips').tooltip({ container: 'body'});
+   
+   // Popover
+   $('.popovers').popover();
+   
+   // Close Button in Panels
+   $('.panel .panel-close').click(function(){
+      $(this).closest('.panel').fadeOut(200);
+      return false;
+   });
+   
+   //Toggles
+   $('.toggle').toggles({on: true});   
+   
+}
 
 function ajust_content_height() {
    // Adjust contentpanel height
@@ -521,9 +528,6 @@ var formOnExit = function(){
         }
     });
 }
-
-
-
 
 
 /*

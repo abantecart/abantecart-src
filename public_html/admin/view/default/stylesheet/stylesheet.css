@@ -3598,6 +3598,15 @@ body.stickyheader .sticky_left {
     padding: 1px 8px;
 }
 
+/***** Retina Resolution Logo  *****/
+@media all and (min-device-pixel-ratio : 2) {
+	.logo_image {
+	  display: block;
+	  -moz-box-sizing: border-box;
+	  box-sizing: border-box;
+	  background: url(../image/logo@2x.png) no-repeat;
+	}
+}
 /***** Media queries section  *****/
 @media screen and (max-width: 1024px) {
    body {
