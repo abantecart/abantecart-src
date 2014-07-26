@@ -141,7 +141,6 @@ class ControllerPagesLocalisationTaxClass extends AController {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->document->setTitle($this->language->get('heading_title'));
 
         $tax_class_info = $this->model_localisation_tax_class->getTaxClass($this->request->get['tax_class_id']);
 
@@ -163,6 +162,8 @@ class ControllerPagesLocalisationTaxClass extends AController {
         ));
         
         $tax_title = $tax_class_info['tax_class'][$this->session->data['content_language_id']]['title'];
+		$this->document->setTitle( $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title );
+
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $this->request->get['tax_class_id']),
             'text' => $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title,
@@ -171,42 +172,86 @@ class ControllerPagesLocalisationTaxClass extends AController {
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $this->request->get['tax_class_id']),
             'text' => $this->language->get('tab_rates'),
-            'separator' => ' :: '
+            'separator' => ' :: ',
+            'current'	=> true
         ));
 
 
-        $this->data = array();
-        $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title;
-        $this->data['error'] = $this->error;
-        $this->data['tax_rates'] = $this->model_localisation_tax_class->getTaxRates($this->request->get['tax_class_id']);
-        $this->data['insert_rate'] = $this->html->getSecureURL('localisation/tax_class/insert_rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
-        $this->data['delete_rate'] = $this->html->getSecureURL('localisation/tax_class/delete_rates', '&tax_class_id=' . $this->request->get['tax_class_id'] . '&tax_rate_id=%ID%');
-        $this->data['update_rate'] = $this->html->getSecureURL('localisation/tax_class/update_rates', '&tax_class_id=' . $this->request->get['tax_class_id'] . '&tax_rate_id=%ID%');
+        $this->data['insert'] = $this->html->getSecureURL('localisation/tax_class/insert_rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
 
-        $this->data['rates'] = $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
-        $this->data['action'] = $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $this->request->get['tax_class_id']);
-        $this->data['active'] = 'rates';
+		$grid_settings = array(
+					//id of grid
+		            'table_id' => 'tax_rates_grid',
+		            // url to load data from
+					'url' => $this->html->getSecureURL('listing_grid/tax_class/tax_rates','&tax_class_id=' . $this->request->get['tax_class_id']),
+		            // default sort column
+					'sortname' => 'entry_location',
+					'columns_search' => false,
+					'multiselect' => 'false',
+					'actions' => array(
+						'edit' => array(
+							'text' => $this->language->get('text_edit'),
+							'href' => $this->html->getSecureURL('localisation/tax_class/update_rates',
+																'&tax_class_id=' . $this->request->get['tax_class_id'] . '&tax_rate_id=%ID%')
+						),
+						'delete' => array(
+							'text' => $this->language->get('button_delete'),
+							'href' => $this->html->getSecureURL('localisation/tax_class/delete_rates',
+																'&tax_class_id=' . $this->request->get['tax_class_id'] . '&tax_rate_id=%ID%')
 
-        $this->loadModel('localisation/location');
-        $this->loadModel('localisation/zone');
-        $results = $this->model_localisation_location->getLocations();
+						),
+					),
+				);
 
-        $rates = $this->data['zones'] = $this->data['locations'] = array();
-        $this->data['zones'][0] = $this->language->get('text_tax_all_zones');
-        foreach ($this->data['tax_rates'] as $rate) {
-            $rates[] = $rate['location_id'];
-        }
+		$grid_settings['colNames'] = array(
+			$this->language->get('entry_location'),
+			$this->language->get('entry_zone'),
+			$this->language->get('entry_description'),
+			$this->language->get('entry_rate'),
+			$this->language->get('entry_priority'),
+		);
 
-        foreach ($results as $c) {
-            if (in_array($c['location_id'], $rates)) {
-                $this->data['locations'][$c['location_id']] = $c['name'];
-                $tmp = $this->model_localisation_zone->getZonesByLocationId($c['location_id']);
-                foreach ($tmp as $zone) {
-                    $this->data['zones'][$zone['zone_id']] = $zone['name'];
-                }
-            }
-        }
-        unset($results, $tmp);
+		$grid_settings['colModel'] = array(
+			array(
+				'name' => 'location',
+				'index' => 'location',
+				'width' => 150,
+				'align' => 'left',
+				'sortable' => false,
+			),
+			array(
+				'name' => 'zone',
+				'index' => 'zone',
+				'width' => 150,
+				'align' => 'left',
+				'sortable' => false,
+			),
+			array(
+				'name' => 'description',
+				'index' => 'description',
+				'width' => 100,
+				'align' => 'left',
+				'sortable' => false,
+			),
+			array(
+				'name' => 'rate',
+				'index' => 'rate',
+				'width' => 40,
+				'align' => 'center',
+				'sortable' => false,
+			),
+			array(
+				'name' => 'priority',
+				'index' => 'priority',
+				'width' => 40,
+				'align' => 'center',
+				'sortable' => false,
+			),
+		);
+
+
+		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
+		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('rates_listing'));

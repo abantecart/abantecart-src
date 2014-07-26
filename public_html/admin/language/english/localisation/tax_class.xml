@@ -38,23 +38,23 @@
   </definition>
   <definition>
     <key>entry_description</key>
-    <value><![CDATA[Description visible to customers:]]></value>
+    <value><![CDATA[Description visible to customers]]></value>
   </definition>
   <definition>
     <key>entry_location</key>
-    <value><![CDATA[Location:]]></value>
+    <value><![CDATA[Location]]></value>
   </definition>
   <definition>
     <key>entry_zone</key>
-    <value><![CDATA[Location's zone:]]></value>
+    <value><![CDATA[Location zone]]></value>
   </definition>
   <definition>
     <key>entry_priority</key>
-    <value><![CDATA[Priority:]]></value>
+    <value><![CDATA[Priority]]></value>
   </definition>
   <definition>
     <key>entry_rate</key>
-    <value><![CDATA[Tax Rate:]]></value>
+    <value><![CDATA[Tax Rate]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

@@ -130,15 +130,19 @@ echo $this->html->buildElement(
 								$('#license_modal .modal-title').html('&nbsp;');
 								$('#license_modal .modal-body').html('<div class="alert alert-danger" role="alert">' + responseData.error_text + '</div>');
 								$('#license_agree').hide();
+								$('#license_modal').modal('show');
+								return false;
 							}else if (responseData.license_text) {
 								$('#license_modal .modal-title').html('<?php echo $text_license?>');
 								$('#license_modal .modal-body').html(responseData.license_text);
+								$('#license_modal').modal('show');
+								return false;
 							}
-							$('#license_modal').modal('show');
+
 						}
 					}
 			});
-			return false;
+
 		});
 
 		$('.grid_action_remote_install' ).each(function(){

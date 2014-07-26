@@ -38,7 +38,13 @@ class ControllerPagesExtensionBannerManagerStat extends AController {
             // default sort column
 			'sortname' => 'date_end',
 			'columns_search' => false,
-			'multiselect' => 'false'
+			'multiselect' => 'false',
+			'actions' => array(
+							'view' => array(
+								'text' => $this->language->get('text_view'),
+								'href' => $this->html->getSecureURL('extension/banner_manager_stat/details','&banner_id=%ID%')
+							)
+			)
 		);
 
 		$grid_settings['colNames'] = array(
@@ -46,22 +52,21 @@ class ControllerPagesExtensionBannerManagerStat extends AController {
 			$this->language->get('column_banner_group'),
 			$this->language->get('column_clicked'),
 			$this->language->get('column_viewed'),
-			$this->language->get('column_percent'),
-			'',
+			$this->language->get('column_percent')
 		);
 
 		$grid_settings['colModel'] = array(
 			array(
 				'name' => 'name',
 				'index' => 'name',
-				'width' => 120,
+				'width' => 250,
 				'align' => 'left',
 				'sortable' => false
 			),
 			array(
 				'name' => 'group_name',
 				'index' => 'banner_group_name',
-				'width' => 100,
+				'width' => 160,
                 'align' => 'left',
 				'sortable' => false
 			),
@@ -75,24 +80,17 @@ class ControllerPagesExtensionBannerManagerStat extends AController {
 			array(
 				'name' => 'viewed',
 				'index' => 'viewed',
-				'width' => 40,
+				'width' => 120,
                 'align' => 'center',
 				'sortable' => false
 			),
             array(
 				'name' => 'percent',
 				'index' => 'percent',
-				'width' => 40,
-                'align' => 'right',
-	            'sortable' => false
-			),
-            array(
-				'name' => 'info',
-				'index' => 'info',
-				'width' => 40,
+				'width' => 60,
                 'align' => 'center',
 	            'sortable' => false
-			),
+			)
 		);
 
 
@@ -107,41 +105,20 @@ class ControllerPagesExtensionBannerManagerStat extends AController {
    		$this->document->addBreadcrumb( array ( 
        		'href'      => $this->html->getSecureURL('extension/banner_manager_stat'),
        		'text'      => $this->language->get('banner_manager_name_stat'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$this->view->assign('success', $this->session->data['success']);
         if (isset($this->session->data['success'])) {
 			unset($this->session->data['success']);
 		}
-		/*$this->view->assign('reset', $this->html->getSecureURL('extension/banner_manager_stat/reset'));
-		$this->view->assign('reset_button', $this->html->buildButton(array(
-		    'name' => 'reset_button',
-		    'text' => $this->language->get('button_reset'),
-		    'style' => 'button1',
-	    )));*/
+
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/extension/banner_manager_stat.tpl' );
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
-	
-/*	public function reset() {
-		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-
-		$this->model_report_viewed->reset();
-		$this->session->data['success'] = $this->language->get('text_success');
-		
-		$url = '';
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
-		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-		$this->redirect($this->html->getSecureURL('extension/banner_manager_stat', $url));
-	}*/
 
 	public function details(){
 		//init controller data
@@ -176,4 +153,3 @@ class ControllerPagesExtensionBannerManagerStat extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
-?>
