@@ -305,10 +305,10 @@ jQuery(function ($) {
 			success: function (html) {
 				$('#option_name').html($('#name').val());
 				updateOptions();
-				$('#notify').html('<?php echo $text_success_option?>').fadeIn(500).delay(2000).fadeOut(500);
+				sucess_alert('#notify','<?php echo $text_success_option?>',1);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				$('#notify').after('<div id="notify_error" class="warning error" align="center">' + errorThrown + '</div>');
+				error_alert('#notify', errorThrown);
 			}
 		});
 		return false;
@@ -373,7 +373,7 @@ jQuery(function ($) {
 		}
 
 		$('#option_values_tbl tr:last-child').after(new_row);
-		$("input, checkbox, select", new_row).aform({triggerChanged: true, showButtons: false });
+		bindAform($("input, checkbox, select", new_row));
 		$('div.aform', new_row).show();
 		//Mark rows to be new
 		$('#new' + row_id + ' input[name=default_value]').last()
@@ -392,7 +392,6 @@ jQuery(function ($) {
 		return false;
 	});
 
-	// $('#option').aform({ triggerChanged: false });
 	$('#option').change(function () {
 		current_option_id = $(this).val();
 		$.ajax({
@@ -403,7 +402,7 @@ jQuery(function ($) {
 				$('#option_values').html(html);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				$('#option_values').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
+				error_alert('#notify', errorThrown);
 			},
 			complete: function() {
 				bindAform($("input, checkbox, select", '#option_edit_form'));
@@ -443,13 +442,13 @@ jQuery(function ($) {
 					$('#option option:selected').remove();
 				}
 				$('#option_values').html(html);
-				$("input, checkbox", '#option_values_tbl').aform({triggerChanged: true, showButtons: false});
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				$('#option_values').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
+				error_alert('#notify', errorThrown);
 			},
 			complete: function() {
 				bindEvents();
+				bindAform($("input, checkbox, select", '#update_option_values'));
 			}
 		});
 		return false;
@@ -470,19 +469,18 @@ jQuery(function ($) {
 			data: $(that).closest('form').serializeArray(),
 			success: function (html) {
 				$('#option_values').html(html);
-				$("input, checkbox, select", '#option_values_tbl').aform({triggerChanged: true, showButtons: false});
-				$("input, checkbox, select", '.editOption').aform({triggerChanged: true, showButtons: false});
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				$('#option_values').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
+				error_alert('#notify', errorThrown);
 			},
 			complete: function() {
+				bindAform($("input, checkbox, select", '#option_edit_form'));
+				bindAform($("input, checkbox, select", '#update_option_values'));
 				bindEvents();
 			}			
 		});
 		return false;
 	});
 
-	//$.aform.styleGridForm('#option');
 });
 //--></script>

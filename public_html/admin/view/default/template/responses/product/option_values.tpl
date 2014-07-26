@@ -9,7 +9,7 @@
 
 <div class="row">
 
-<div class="col-md-5 panel panel-default">
+<div class="col-md-4 panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title"><?php echo $option_data['language'][$language_id]['name']; ?></h3>
 	</div>
@@ -63,8 +63,7 @@
 		<?php } ?>
 	</div>
 	<div class="panel-footer">
-		<div class="row">
-		   <div class="col-sm-6 col-sm-offset-3">
+		<div class="center">
 			 <button id="update_option" class="btn btn-primary">
 			 <i class="fa fa-save"></i> <?php echo $button_save->text; ?>
 			 </button>
@@ -72,22 +71,23 @@
 			 <a id="reset_option" class="btn btn-default" href="<?php echo $button_reset->href; ?>">
 			     <i class="fa fa-refresh"></i> <?php echo $button_reset->text; ?>
 			 </a>
-		   </div>
 		</div>
 	</div>
 </div>
 
 <?php echo $update_option_values_form['open']; ?>
-<div class="col-md-7 tab-content">
+<div class="col-md-8 tab-content">
+	<div class="panel-heading">
+		<h3 class="panel-title"><?php echo $text_option_values; ?></h3>
+	</div>
 	<div class="panel-body panel-body-nopadding">
-		<label class="h4 heading"><?php echo $text_option_values; ?></label>
-		<table id="option_values_tbl" class="table">
+		<table id="option_values_tbl" class="table table_narrow">
 			<thead>
 				<tr>
 					<?php if($with_default){?>
 					<th class="left">
 						<span title="click to uncheck default value" class="uncheck">
-							<i class="fa fa-times"></i><?php echo $text_default; ?>
+							<?php echo $text_default; ?>
 						</span>
 					</th>
 					<?php }?>
@@ -99,7 +99,7 @@
 					<th class="left"><?php echo $entry_sort_order; ?></th>
 					<th class="left"></th>
 					<?php if ($selectable){?>
-						<th class="left"><?php echo $column_action; ?></th>
+						<th class="left"></th>
 					<?php }?>
 				</tr>
 			</thead>
@@ -108,28 +108,19 @@
 		    <?php } ?>
 
 		</table>
-
-
 	</div>
 	<div class="panel-footer">
-		<div class="row">
-			<div class="col-sm-9 col-sm-offset-8">
+		<div class="center">
 			<?php if (in_array($option_data['element_type'], $elements_with_options)) { ?>
-				<a href="#" title="<?php echo $button_add?>" id="add_option_value" class="btn btn-success"><i class="fa fa-plus-circle"></i></a>
+			<a href="#" title="<?php echo $button_add?>" id="add_option_value" class="btn btn-success"><i class="fa fa-plus-circle"></i></a>&nbsp;&nbsp;
 			<?php } ?>
-
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3">
-				<button type="submit" class="btn btn-primary">
-					<i class="fa fa-save"></i> <?php echo $button_save->text; ?>
-				</button>
-				&nbsp;
-				<a id="reset_option" class="btn btn-default" href="<?php echo $button_reset->href; ?>">
-					<i class="fa fa-refresh"></i> <?php echo $button_reset->text; ?>
-				</a>
-			</div>
+			<button type="submit" class="btn btn-primary">
+			    <i class="fa fa-save"></i> <?php echo $button_save->text; ?>
+			</button>
+			&nbsp;
+			<a id="reset_option" class="btn btn-default" href="<?php echo $button_reset->href; ?>">
+			    <i class="fa fa-refresh"></i> <?php echo $button_reset->text; ?>
+			</a>
 		</div>
 	</div>
 </div>

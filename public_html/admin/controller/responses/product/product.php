@@ -324,7 +324,7 @@ class ControllerResponsesProductProduct extends AController {
 			'type' => 'checkbox',
 			'name' => 'status',
 			'value' => $this->data[ 'option_data' ][ 'status' ],
-			'style' => 'btn_switch',
+			'style' => 'btn_switch btn-group-xs',
 		));
 		$this->data[ 'option_sort_order' ] = $this->html->buildElement(array(
 			'type' => 'input',

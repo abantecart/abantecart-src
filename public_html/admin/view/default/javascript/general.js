@@ -425,6 +425,26 @@ function getURLVar(URL, urlVarName) {
     return urlVarValue;
 }
 
+//-----------------------------------------
+// Funtion to show notification
+//-----------------------------------------
+function sucess_alert( elm, text, autohide) {
+	var html = '<div class="success alert alert-success">'+text+'</div>';
+	if(autohide) {
+		$(elm).html(html).fadeIn(300).delay(2000).fadeOut(500);
+	} else {
+		$(elm).append(html).fadeIn(300);
+	}
+}
+
+function error_alert( elm, text, autohide) {
+	var html = '<div class="warning alert alert-error alert-danger">'+text+'</div>';
+	if(autohide) {
+		$(elm).html(html).fadeIn(300).delay(2000).fadeOut(500);
+	} else {
+		$(elm).append(html).fadeIn(300);
+	}
+}
 
 function goTo(url, params) {
     location = url + '&' + params;

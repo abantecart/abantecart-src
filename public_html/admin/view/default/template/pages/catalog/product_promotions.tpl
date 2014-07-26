@@ -67,8 +67,6 @@
 							<a title="<?php echo $button_remove->text; ?>" data-confirmation="delete"
 							   href="<?php echo str_replace('%ID%', $product_discount['product_discount_id'], $delete_discount); ?>"
 							   class="btn"><i class="fa fa-trash-o fa-lg"></i></a>
-
-
 						</td>
 					</tr>
 					</tbody>
@@ -89,6 +87,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="panel-btns">

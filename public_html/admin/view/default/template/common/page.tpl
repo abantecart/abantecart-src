@@ -5,7 +5,7 @@
 
 <!-- page loader -->
 <div id="preloader">
-    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+    <div id="preloader_status"><i class="fa fa-spinner fa-spin"></i></div>
 </div>
 <!-- / page loader -->
 

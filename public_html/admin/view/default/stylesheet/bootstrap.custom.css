@@ -1228,6 +1228,13 @@ small.media-desc {
 .table-striped > tbody > tr:nth-child(2n+1) > th {
 	background-color: #f5f5f5;
 }
+.table_narrow tr th, 
+.table_narrow tr td {
+	padding: 3px !important;
+}
+.table_narrow .small-td{
+	width: 35px;
+}
 
 .modal-footer {
    margin-top: 0;

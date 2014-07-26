@@ -101,7 +101,7 @@ h1,h2,h3,h4,h5 {
    z-index: 10000; 
 }
 
-#status {
+#preloader_status {
    width: 30px;
    height: 30px;
    position: absolute;
@@ -3521,6 +3521,9 @@ body.stickyheader .sticky_left {
 }
 .mt10 {
 	margin-top: 10px;
+}
+.center{
+	text-align: center;	
 }
 .nomargin {
 	margin: 0;
