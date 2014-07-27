@@ -843,3 +843,20 @@ var bindAform = function(selector, op){
 	}
 	$(selector).aform(op);
 }
+
+//------------------------------------------------------------------------------
+// remove changed marks on fields
+//------------------------------------------------------------------------------
+var resetAForm = function(selector){
+	if ( selector == null ) {
+		selector = $("input, checkbox, select");
+	}
+	
+	$(selector).each(function () {
+		var $field = $(this);
+		$field.removeClass('changed');
+	});
+}
+
+
+

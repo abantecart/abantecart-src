@@ -27,31 +27,9 @@
 
 <?php echo $this->getHookVar('hk_page_footer'); ?>
 
-<!--
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.form.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/browser.js"></script>
--->
-
-<script type="text/javascript">
-
-    //-----------------------------------------
-    // Confirm Actions (delete, uninstall)
-    //-----------------------------------------
-    $(document).ready(function () {
-        // Confirm Delete
-        $('#form').submit(function () {
-            if ($(this).attr('action').indexOf('delete', 1) != -1) {
-                if (!confirm('<?php echo $text_confirm; ?>')) {
-                    return false;
-                }
-            }
-        });
-
-        numberSeparators = {decimal:'<?php echo $decimal_point; ?>', thousand:'<?php echo $thousand_point; ?>'};
-    });
-
-</script>
-
+<?php 
+	//NOTE: More JS loaded in header.tpl, including PHP processed JavaScript
+?>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 

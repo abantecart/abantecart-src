@@ -410,7 +410,6 @@ class ControllerResponsesProductProduct extends AController {
 			$this->data[ 'new_option_row' ] = $this->_option_value_form($form);
 		}
 
-
 		$this->view->batchAssign($this->data);
 
 		//update controller data

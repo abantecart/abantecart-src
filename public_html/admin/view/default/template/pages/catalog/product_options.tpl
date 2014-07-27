@@ -24,6 +24,14 @@
 				<?php echo $options; ?>
 				</div>
 			</div>			
+			<div class="btn-group ml10 toolbar">
+                    <a class="btn btn-white tooltips" href="#"
+					   title="<?php echo $text_new_option; ?>"
+					   data-original-title="<?php echo $text_new_option; ?>"
+					   data-target="#option_modal" data-toggle="modal">
+                    <i class="fa fa-plus"></i>
+                    </a>
+			</div>
 		</div>
 
 		<div class="pull-right">
@@ -33,12 +41,6 @@
 			</div>
 
 			<div class="btn-group mr10 toolbar">
-                    <a class="btn btn-white tooltips" href="#"
-					   title="<?php echo $text_new_option; ?>"
-					   data-original-title="<?php echo $text_new_option; ?>"
-					   data-target="#option_modal" data-toggle="modal">
-                    <i class="fa fa-plus"></i>
-                    </a>
 				<?php if (!empty ($help_url)) : ?>
 					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
 					   title="" data-original-title="Help">
@@ -62,10 +64,8 @@ $modal_content = '<div class="add-option-modal" >
 			<div class="panel panel-default">
 			    <div id="collapseTwo" >
 			    	'.$form['form_open'].'
-			    	<div class="panel-heading">
+			    	<div class="panel-body panel-body-nopadding">
 			    		'.$attributes.'
-			    	</div>
-			    	<div class="panel-body">
 			    		<div class="mt10 options_buttons" id="option_name_block">
 			    			<div class="form-group '. (!empty($error['status']) ? "has-error" : "") .'">
 			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'. $entry_status.'</label>
@@ -101,13 +101,13 @@ $modal_content = '<div class="add-option-modal" >
 			    	</div>
 			    	<div class="panel-footer">
 			    		<div class="row">
-			    		   <div class="col-sm-10 col-sm-offset-3">
+			    		   <div class="center">
 			    			 <button class="btn btn-primary">
 			    			 <i class="fa fa-save"></i> '.$form['submit']->text.'
 			    			 </button>&nbsp;
-			    			 <a class="btn btn-default" href="'.$cancel.'">
-			    			 <i class="fa fa-refresh"></i>'.$form['cancel']->text.'
-			    			 </a>
+			    			 <button type="button" class="btn btn-default" data-dismiss="modal">
+			    			 <i class="fa fa-times"></i> '.$form['cancel']->text.'
+			    			 </button>
 			    		   </div>
 			    		</div>
 			    	</div>
@@ -241,14 +241,20 @@ var row_id = 1;
 
 jQuery(function ($) {
 
-	$("#option_name_block").hide();
+	$(document).on('change', '#new_option_form_attribute_id', function () {
+		var current_opt_attr_id = $(this).val();
+		if ( current_opt_attr_id != 'new' ) {
+			$("#option_name_block").hide();
+		} else {
+			$("#option_name_block").show();
+			$("#option_name_reset").show();		
+		}
+
+	});
+
 	$("#product_form").submit(function () {
+	
 		if ($("#new_option_form_attribute_id").val() == 'new' && ( $("#new_option_form_option_name").val() == '' || $("#new_option_form_element_type").val() == ''  )) {
-			if (!$("#option_name_block").is(':visible')) {
-				$("#option_name_block").show();
-				$("#option_name_reset").show();
-				return false;
-			}
 			if ($("#new_option_form_option_name").val() == '') {
 				$("#new_option_form_option_name").focus();
 				$("#new_option_form_option_name").closest("span").next().next().show();
@@ -262,8 +268,10 @@ jQuery(function ($) {
 			} else {
 				$("#new_option_form_element_type").closest("span").next().next().hide();
 			}
-
 			return false;
+		} else if( $("#new_option_form_attribute_id").val() != 'new' ) {
+			$("#new_option_form_option_name").val('');
+			$("#new_option_form_element_type").val('');
 		}
 	});
 
@@ -275,11 +283,15 @@ jQuery(function ($) {
 			success: function (json) {
 				$("#option option").remove();
 				for (var key in json) {
-					$("#option").append($('<option value="' + key + '">' + json[key] + '</option>'));
+					var selected = '';
+					if (key == current_option_id) { 
+						selected = ' selected ';
+					}
+					$("#option").append($('<option value="' + key + '"'+selected+'>' + json[key] + '</option>'));
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				$('#option_values').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
+				error_alert('#notify', errorThrown);
 			},
 			complete: function() {
 				bindEvents();
@@ -305,6 +317,9 @@ jQuery(function ($) {
 			success: function (html) {
 				$('#option_name').html($('#name').val());
 				updateOptions();
+				sucess_alert('#notify','<?php echo $text_success_option?>',1);
+				//Reset changed values marks
+				resetAForm($("input, checkbox, select", '#option_edit_form'));
 				success_alert('<?php echo $text_success_option?>',true);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -340,7 +355,6 @@ jQuery(function ($) {
 		} else {
 			$(this).attr('title', text.text_expand);
 			icon.removeClass('fa-compress').addClass('fa-expand');
-
 			additional_row.find('div.add_resource').html();
 		}
 
@@ -363,6 +377,7 @@ jQuery(function ($) {
 		var new_row = $('#new_row').parent().find('tr').clone();
 		$(new_row).attr('id', 'new' + row_id);
 
+		//find next sort order number
 		var so = $('#option_values_tbl').find("input[name^='sort_order']");
 		if (so.length > 0) {
 			var highest = 0;
@@ -372,9 +387,8 @@ jQuery(function ($) {
 			$(new_row).find("input[name^='sort_order']").val(highest + 1);
 		}
 
-		$('#option_values_tbl tr:last-child').after(new_row);
+		$('#option_values_tbl tbody tr:last-child').after(new_row);
 		bindAform($("input, checkbox, select", new_row));
-		$('div.aform', new_row).show();
 		//Mark rows to be new
 		$('#new' + row_id + ' input[name=default_value]').last()
 				.val('new' + row_id)
@@ -424,36 +438,7 @@ jQuery(function ($) {
 		$('#option').change();
 		return false;
 	});
-
-	$('#option_values a').live('click', function () {
-		if ($(this).attr('id') == 'update_option' || $(this).attr('id') == 'add_option_value' ||
-				$(this).attr('id') == 'reset_option' || $(this).hasClass('remove') || $(this).hasClass('expandRow')) {
-			return false;
-		}
-		if ($(this).attr('id') == 'button_remove_option' && !confirm('<?php echo $text_delete_confirm; ?>')) {
-			return false;
-		}
-		var that = this;
-		$.ajax({
-			url: $(that).attr('href'),
-			type: 'GET',
-			success: function (html) {
-				if ($(that).attr('id') == 'button_remove_option') {
-					$('#option option:selected').remove();
-				}
-				$('#option_values').html(html);
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				error_alert(errorThrown);
-			},
-			complete: function() {
-				bindEvents();
-				bindAform($("input, checkbox, select", '#update_option_values'));
-			}
-		});
-		return false;
-	});
-
+		
 	$('#option_values button[type="submit"]').live('click', function () {
 		//Mark rows to be deleted
 		$('#option_values_tbl .toDelete input[name^=product_option_value_id]').val('delete');
@@ -483,4 +468,26 @@ jQuery(function ($) {
 	});
 
 });
+
+// Function to delete option. NOTE. Needs to be here (global)
+function optionDelete ( url ) {
+		$.ajax({
+			url: url,
+			type: 'GET',
+			success: function (html) {
+				//remove option and reload the section
+				$('#option option:selected').remove();
+				$("#option").trigger("change");
+				sucess_alert('#notify',html,1);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				error_alert('#notify', errorThrown);
+			},
+			complete: function() {
+				bindEvents();
+			}
+		});
+		return false;
+}
+
 //--></script>
