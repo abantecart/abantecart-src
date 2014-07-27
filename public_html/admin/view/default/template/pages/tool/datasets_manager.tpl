@@ -1,74 +1,82 @@
-<div id="aPopup">
-	<div class="popbox_tl" style="margin-top: 10px;">
-		<div class="popbox_tr">
-			<div class="popbox_tc"></div>
-		</div>
+<?php if ($error_warning) { ?>
+	<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
+<?php } ?>
+<?php if ($success) { ?>
+	<div class="success alert alert-success"><?php echo $success; ?></div>
+<?php } ?>
+
+<div class="row">
+	<div class="col-sm-12 col-lg-12">
+		<ul class="content-nav">
+			<li>
+				<?php
+				if (!empty($search_form)) {
+					?>
+					<form id="<?php echo $search_form['form_open']->name; ?>"
+						  method="<?php echo $search_form['form_open']->method; ?>"
+						  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
+
+						<?php
+						foreach ($search_form['fields'] as $f) {
+							?>
+							<div class="form-group">
+								<div class="input-group input-group-sm">
+									<?php echo $f; ?>
+								</div>
+							</div>
+						<?php
+						}
+						?>
+						<div class="form-group">
+							<button type="submit"
+									class="btn btn-xs btn-primary"><?php echo $search_form['submit']->text ?></button>
+							<button type="reset" class="btn btn-xs btn-default"><i class="fa fa-refresh"></i></button>
+						</div>
+					</form>
+				<?php
+				}
+				?>
+			</li>
+
+
+			<?php if (!empty ($form_language_switch)) { ?>
+				<li>
+					<?php echo $form_language_switch; ?>
+				</li>
+			<?php } ?>
+			<?php if (!empty ($help_url)) { ?>
+				<li>
+					<div class="help_element">
+						<a href="<?php echo $help_url; ?>" target="new">
+							<i class="fa fa-question-circle"></i>
+						</a></div>
+				</li>
+			<?php } ?>
+		</ul>
 	</div>
-	<div class="popbox_cl"><div class="popbox_cr"><div class="popbox_cc message_body" >
-		<div class="aform">
-			<div class="afield mask2">
-				<div class="tl"><div class="tr"><div class="tc"></div></div></div>
-				<div class="cl"><div class="cr"><div class="cc">
-					<div class="message_text">
-						<table id="popup_text" style="width: 100%"></table>
-					</div>
-				</div></div></div>
-				<div class="bl"><div class="br"><div class="bc"></div></div></div>
+</div>
+<div class="row">
+	<div class="col-sm-12 col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<?php echo $listing_grid; ?>
 			</div>
 		</div>
-	</div></div></div>
-	<div class="popbox_bl"><div class="popbox_br"><div class="popbox_bc"></div></div></div>
+	</div>
 </div>
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_information"><?php echo $heading_title; ?></div>
-	 <div class="toolbar">
-		<?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-    </div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-    <?php echo $listing_grid; ?>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
-</div>
+
+<?php echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'dataset_info_modal',
+				'name' => 'dataset_info_modal',
+				'modal_type' => 'lg',
+				'data_source' => 'remote'));
+?>
 
 <script type="text/javascript">
-var $aPopup = $('#aPopup');
-var msg_id;
-function show_popup(id){
-	var $aPopup = $('#aPopup').dialog({
-		autoOpen: false,
-		modal: true,
-		resizable: false,
-		width: 550,
-		minWidth: 550,
-        title: '<?php echo $popup_title;?>',
-        buttons:{
-            "close": function(event, ui) {
-                $(this).dialog('destroy');
-            }
-        },
-        open: function() {},
-		resize: function(event, ui){
-		},
-		close: function(event, ui) {
-			$(this).dialog('destroy');
-		}
-	});
-
-	$aPopup.removeClass('popbox popbox2');
-
-	$.ajax({
-		url: '<?php echo $popup_action; ?>',
-		type: 'GET',
-		dataType: 'text',
-		data: 'dataset_id='+id,
-		success: function(data) {
-			$('#popup_text').html(data);
-			$aPopup.dialog('open');
-		}
-	});
-}
+	var grid_ready = function(){
+		$('.grid_action_view[data-toggle!="modal"]').each(function(){
+			$(this).attr('data-toggle','modal'). attr('data-target','#dataset_info_modal');
+		});
+	};
 </script>

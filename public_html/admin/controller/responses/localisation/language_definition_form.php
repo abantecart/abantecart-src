@@ -103,20 +103,19 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 		}
 
 		$this->data['error'] = $this->error;
-		$this->data['cancel'] = $this->html->getSecureURL('localisation/language_definitions');
+
+		$this->data['action'] = $this->html->getSecureURL('localisation/language_definition_form/update', '&target=' . $this->request->get['target']);
 
 		if (!isset($this->request->get['language_definition_id'])) {
-			$this->data['action'] = $this->html->getSecureURL($this->rt . '/update', '&target=' . $this->request->get['target']);
 			$this->data['heading_title'] = $this->language->get('text_insert') . ' ' . $this->language->get('text_definition');
 			$this->data['update'] = '';
 			$form = new AForm('ST');
-			$this->data['language_definition_id'] = (int)$this->request->get['language_definition_id'];
 			$this->data['check_url'] = $this->html->getSecureURL('listing_grid/language_definitions/checkdefinition');
 		} else {
-			$this->data['action'] = $this->html->getSecureURL($this->rt . '/insert', '&language_definition_id=' . $this->request->get['language_definition_id'] . '&target=' . $this->request->get['target']);
 			$this->data['heading_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('text_definition');
 			$this->data['update'] = $this->html->getSecureURL('listing_grid/language_definitions/update_field', '&id=' . $this->request->get['language_definition_id']);
 			$form = new AForm('HS');
+			$this->data['language_definition_id'] = (int)$this->request->get['language_definition_id'];
 		}
 
 		$this->document->addBreadcrumb(array(
@@ -141,10 +140,6 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 		if ($ret_data['redirect_params']) {
 			$this->redirect($this->data['action'] . $ret_data['redirect_params']);
 		}
-
-		$this->view->assign('form_language_switch', $this->html->getContentLanguageFlags());
-		$this->view->assign('ajax_wrapper_id', $this->request->get['target']);
-		$this->view->assign('ajax_reload_url', $this->html->getSecureURL($this->rt . '/update', '&language_definition_id=' . $this->request->get['language_definition_id'] . '&target=' . $this->request->get['target']));
 
 		$this->view->assign('help_url', $this->gen_help_url('language_definition_edit'));
 		$this->view->batchAssign($this->data);

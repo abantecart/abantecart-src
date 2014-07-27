@@ -33,8 +33,9 @@
 					<?php if (!empty($error[$name][$lang_id])) { ?>
 						<span class="help-block field_err"><?php echo $error[$name][$lang_id]; ?></span>
 					<?php } ?>
+					</div>
 				<?php } ?>
-				</div>
+
 			<?php
 			} else {
 				?>
@@ -60,7 +61,7 @@
 	<div class="panel-footer">
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
-				<button class="btn btn-primary button_loader">
+				<button class="btn btn-primary">
 					<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
 				</button>
 				&nbsp;
@@ -74,10 +75,7 @@
 </div>
 
 <script type="text/javascript">
-
-
 	$('#definitionQFrm').submit(function () {
-
 		$.ajax(
 				{   url: '<?php echo $form['form_open']->action; ?>',
 					type: 'POST',
@@ -85,18 +83,20 @@
 					dataType: 'json',
 					success: function (data) {
 						if (data.error_text != '') {
-							$("#ld_form").before('<div class="alert alert-danger"><button data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>' + data.error_text + '</div>');
+							error_alert(data.error_text, true, $("#ld_form") );
 						} else if (data.result_text != '') {
-							<?php if(!$language_definition_id){?>
+							<?php
+
+							if(!$language_definition_id){?>
 							if ($('#ld_modal')) {
 								$('#ld_modal').modal('hide');
 							}
 							if ($('#lang_definition_grid')) {
 								$('#lang_definition_grid').trigger("reloadGrid");
-								$('#lang_definition_grid_wrapper').before('<div class="alert alert-success"><button data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>' + data.result_text + '</div>');
+								success_alert(data.result_text);
 							}
 							<?php }else{ ?>
-							$("#ld_form").before('<div class="alert alert-success"><button data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>' + data.result_text + '</div>');
+							success_alert(data.result_text, false, $("#ld_form"));
 							<?php } ?>
 						}
 					}

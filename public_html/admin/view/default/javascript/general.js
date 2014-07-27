@@ -426,24 +426,43 @@ function getURLVar(URL, urlVarName) {
 }
 
 //-----------------------------------------
-// Funtion to show notification
+// Function to show notification
 //-----------------------------------------
-function sucess_alert( elm, text, autohide) {
-	var html = '<div class="success alert alert-success">'+text+'</div>';
-	if(autohide) {
-		$(elm).html(html).fadeIn(300).delay(2000).fadeOut(500);
-	} else {
-		$(elm).append(html).fadeIn(300);
-	}
+function success_alert(text, autohide, elm ) {
+    if(elm!=null){
+        elm = $(elm);
+        var pos = elm.offset();
+        var top = pos.top;
+        var right = elm.parent().width() -  pos.left;
+
+    }
+    $.gritter.add({
+        text: text,
+        class_name: 'growl-success',
+        sticky: (autohide ? false : true),
+        time: 4000
+    });
+    if(elm!=null){
+        $('#gritter-notice-wrapper').css('top',top+30+'px').css('right', right+30+'px');
+    }
 }
 
-function error_alert( elm, text, autohide) {
-	var html = '<div class="warning alert alert-error alert-danger">'+text+'</div>';
-	if(autohide) {
-		$(elm).html(html).fadeIn(300).delay(2000).fadeOut(500);
-	} else {
-		$(elm).append(html).fadeIn(300);
-	}
+function error_alert(text, autohide, elm ) {
+    if(elm!=null){
+        elm = $(elm);
+        var pos = elm.offset();
+        var top = pos.top;
+        var right = elm.parent().width() -  pos.left;
+    }
+    $.gritter.add({
+        text: text,
+        class_name: 'growl-danger',
+        sticky: (autohide ? false : true),
+        time: 6000
+    });
+    if(elm!=null){
+        $('#gritter-notice-wrapper').css('top',top+30+'px').css('right', right+30+'px');
+    }
 }
 
 function goTo(url, params) {

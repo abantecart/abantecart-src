@@ -1,11 +1,3 @@
-<div class="row">
-	<div id="notify" class="col-md-12 align_center success" style="display: none;"></div>
-	<?php if ($success) { ?>
-	<script type="text/javascript">
-		$('#notify').html('<?php echo $success?>').fadeIn(500).delay(2000).fadeOut(500);
-	</script>
-	<?php } ?>
-</div>
 
 <div class="row">
 
