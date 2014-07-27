@@ -37,4 +37,48 @@
 <?php } ?>
 
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/aform.js"></script>
-<!-- NOTE: More JS loaded in page.tpl. This is to improve performance. Do not move above to page.tpl -->
+
+<?php 
+	//Generic PHP processed Javascript section
+?>
+<script type="text/javascript">
+$(document).ready(function () {
+  
+	numberSeparators = {decimal:'<?php echo $decimal_point; ?>', thousand:'<?php echo $thousand_point; ?>'};
+
+});
+
+var wrapConfirmDelete = function(){
+    var wrapper = '<div class="btn-group dropup" />';
+    var popover, href;
+
+    $('a[data-confirmation="delete"]').each( function(){
+        if($(this).attr('data-toggle')=='dropdown' ){ return;}
+        
+       	var action = $(this).attr('onclick');
+        if ( action ) {
+        	action = 'onclick="'+action+'"';
+        } else {
+	        href = $(this).attr('href');
+    	    if(href.length==0 || href=='#'){ return;}
+    	    action = 'href="' + href +'"';
+        }
+        
+        $(this).wrap(wrapper);
+        popover = '<div class="dropdown-menu dropdown-menu-right alert alert-danger" role="menu">'+
+                    '<h4 class="center"><?php echo $text_confirm; ?></h4>'+
+                    '<div class="center">'+
+                    '<a class="btn btn-danger" '+action+' ><i class="fa fa-trash-o"></i> Yes</a>&nbsp;&nbsp;'+
+                    '<a class="btn btn-default"><i class="fa fa-undo"></i> No</a>'+
+                    '</div>'+
+                    '</div>';
+        $(this).after(popover);
+        $(this).attr('onclick','return false;');
+        $(this).attr('data-toggle','dropdown').addClass('dropdown-toggle');
+    });
+}
+
+</script>
+<?php 
+	//NOTE: More JS loaded in page.tpl. This is to improve performance. Do not move above to page.tpl
+?>

@@ -30,7 +30,7 @@
 				<div class="input-group input-group-sm afield"><?php echo $form['fields']['weight']; ?></div>
 			</div>
 			<div class="pull-left col-md-3 col-xs-6">
-				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $form['fields']['weight_type']->element_id; ?>">
+				<label class="control-label" for="<?php echo $form['fields']['weight_type']->element_id; ?>">
 					<?php echo $entry_weight_type; ?></label>
 				<div class="input-group input-group-sm afield"><?php echo $form['fields']['weight_type']; ?></div>
 			</div>

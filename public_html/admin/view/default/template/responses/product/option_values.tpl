@@ -1,11 +1,11 @@
 <div class="row">
-	<div id="notify" class="col-md-12 align_center success" style="display: none;"></div>
-	<?php if ($success) { ?>
-	<script type="text/javascript">
-		$('#notify').html('<?php echo $success?>').fadeIn(500).delay(2000).fadeOut(500);
-	</script>
-	<?php } ?>
+	<div id="notify" style="display: none;"></div>
 </div>
+<?php if ($success) { ?>
+<script type="text/javascript">
+	sucess_alert('#notify', '<?php echo $success?>' , 1);
+</script>
+<?php } ?>
 
 <div class="row">
 
@@ -15,7 +15,7 @@
 	</div>
 	<div id="option_edit_form" class="panel-body panel-body-nopadding table-responsive">
 		<h4 class="mb20"><?php echo $text_option_type; ?>: <?php echo $option_type; ?>
-			<a class="pull-right btn btn-default tooltips" href="<?php echo $button_remove_option->href; ?>" data-original-title="<?php echo $button_remove_option->text; ?>">
+			<a class="pull-right btn btn-default tooltips" onclick="optionDelete('<?php echo $button_remove_option->href; ?>')" data-original-title="<?php echo $button_remove_option->text; ?>" data-confirmation="delete">
 			 <i class="fa fa-trash-o"></i>
 			 </a>
 		</h4>

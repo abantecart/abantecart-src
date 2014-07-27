@@ -362,29 +362,29 @@ jQuery(document).ready(function() {
 		$(this).append('<span class="ajax_loading">Processing…</span>').show();
 	});
 
-    wrapConfirmDelete();
-
 });
 
 //-----------------------------------------------
 // Add events. Function can be reloaded after AJAX responce
 //-----------------------------------------------
 var bindEvents  = function(){
-   // Tooltip
-   $('.tooltips').tooltip({ container: 'body'});
+	//enable delete confirmations
+	wrapConfirmDelete();
+
+	// Tooltip
+	$('.tooltips').tooltip({ container: 'body'});
    
-   // Popover
-   $('.popovers').popover();
+	// Popover
+	$('.popovers').popover();
    
-   // Close Button in Panels
-   $('.panel .panel-close').click(function(){
+	// Close Button in Panels
+	$('.panel .panel-close').click(function(){
       $(this).closest('.panel').fadeOut(200);
       return false;
-   });
+	});
    
-   //Toggles
-   $('.toggle').toggles({on: true});   
-   
+	//Toggles
+	$('.toggle').toggles({on: true});      
 }
 
 function ajust_content_height() {
@@ -433,7 +433,7 @@ function sucess_alert( elm, text, autohide) {
 	if(autohide) {
 		$(elm).html(html).fadeIn(300).delay(2000).fadeOut(500);
 	} else {
-		$(elm).append(html).fadeIn(300);
+		$(elm).html(html).fadeIn(300);
 	}
 }
 
@@ -442,7 +442,7 @@ function error_alert( elm, text, autohide) {
 	if(autohide) {
 		$(elm).html(html).fadeIn(300).delay(2000).fadeOut(500);
 	} else {
-		$(elm).append(html).fadeIn(300);
+		$(elm).html(html).fadeIn(300);
 	}
 }
 
@@ -772,28 +772,5 @@ var getUrlParameter = function (sParam) {
             return sParameterName[1];
         }
     }
-}
-
-
-var wrapConfirmDelete = function(){
-    var wrapper = '<div class="btn-group dropup" />';
-    var popover, href;
-
-    $('a[data-confirmation="delete"]').each( function(){
-        if($(this).attr('data-toggle')=='dropdown' ){ return;}
-        href = $(this).attr('href');
-        if(href.length==0 || href=='#'){ return;}
-        $(this).wrap(wrapper);
-        popover = '<ul class="dropdown-menu dropdown-menu-right" role="menu">'+
-                    '<li class="dropdown-header">Are you sure?</li>'+
-                    '<li class="dropdown-header">'+
-                    '<div class="btn-group btn-group-smr">'+
-                    '<a  class="btn btn-danger" target="_self" href="' + href +'">Yes</a>'+
-                    '<a class="btn btn-default">No</a>'+
-                    '</div></li>'+
-                    '</ul></div>';
-        $(this).after(popover);
-        $(this).attr('data-toggle','dropdown').addClass('dropdown-toggle');
-    });
 }
 
