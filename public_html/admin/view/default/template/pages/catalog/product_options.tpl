@@ -291,7 +291,7 @@ jQuery(function ($) {
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				error_alert('#notify', errorThrown);
+				error_alert(errorThrown);
 			},
 			complete: function() {
 				bindEvents();
@@ -317,7 +317,7 @@ jQuery(function ($) {
 			success: function (html) {
 				$('#option_name').html($('#name').val());
 				updateOptions();
-				sucess_alert('#notify','<?php echo $text_success_option?>',1);
+				success_alert('<?php echo $text_success_option?>',true);
 				//Reset changed values marks
 				resetAForm($("input, checkbox, select", '#option_edit_form'));
 				success_alert('<?php echo $text_success_option?>',true);
@@ -478,10 +478,10 @@ function optionDelete ( url ) {
 				//remove option and reload the section
 				$('#option option:selected').remove();
 				$("#option").trigger("change");
-				sucess_alert('#notify',html,1);
+				success_alert(html,true);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				error_alert('#notify', errorThrown);
+				error_alert(errorThrown);
 			},
 			complete: function() {
 				bindEvents();
