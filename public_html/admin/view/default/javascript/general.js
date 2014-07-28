@@ -793,26 +793,3 @@ var getUrlParameter = function (sParam) {
     }
 }
 
-
-var wrapConfirmDelete = function(){
-    var wrapper = '<div class="btn-group dropup" />';
-    var popover, href;
-
-    $('a[data-confirmation="delete"]').each( function(){
-        if($(this).attr('data-toggle')=='dropdown' ){ return;}
-        href = $(this).attr('href');
-        if(href.length==0 || href=='#'){ return;}
-        $(this).wrap(wrapper);
-        popover = '<ul class="dropdown-menu dropdown-menu-right" role="menu">'+
-                    '<li class="dropdown-header">Are you sure?</li>'+
-                    '<li class="dropdown-header">'+
-                    '<div class="btn-group btn-group-smr">'+
-                    '<a  class="btn btn-danger" target="_self" href="' + href +'">Yes</a>'+
-                    '<a class="btn btn-default">No</a>'+
-                    '</div></li>'+
-                    '</ul></div>';
-        $(this).after(popover);
-        $(this).attr('data-toggle','dropdown').addClass('dropdown-toggle');
-    });
-}
-
