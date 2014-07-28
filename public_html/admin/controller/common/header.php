@@ -49,13 +49,7 @@ class ControllerCommonHeader extends AController {
 		$this->view->assign('languages', $this->language->getActiveLanguages());
 		$this->view->assign('content_language_id', $this->language->getContentLanguageID());
 
-		$new_messages = array();
-		if (isset($this->session->data['new_messages']) && sizeof($this->session->data['new_messages']) > 0) {
-			foreach ($this->session->data['new_messages'] as $key => $value) {
-				$new_messages[$key] = $value > 0 ? $value : null;
-			}
-		}
-		$this->view->assign('new_messages', $new_messages);
+		$this->view->assign('new_messages', $this->messages->getShortList());
 		$this->view->assign('messages_link', $this->html->getSecureURL('tool/message_manager'));
 
 		$this->view->assign('action', $this->html->getSecureURL('index/home'));

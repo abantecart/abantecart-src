@@ -110,8 +110,6 @@ final class AMessage {
 						    `status` = '" . $this->db->escape($status) . "',						    
 						    `create_date` = NOW()");
 		}
-		// update message indicator
-		$this->setMessageIndicator();
 	}
 
 	/**
@@ -119,7 +117,6 @@ final class AMessage {
 	 */
 	public function deleteMessage($msg_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "messages WHERE `msg_id` = " . (int)$msg_id);
-		$this->setMessageIndicator();
 	}
 
 	/**
@@ -178,7 +175,6 @@ final class AMessage {
 	 */
 	public function markAsRead($msg_id) {
 		$this->db->query("UPDATE " . DB_PREFIX . "messages SET viewed = viewed + 1 WHERE `msg_id` = '" . $this->db->escape($msg_id) . "'");
-		$this->setMessageIndicator();
 		return true;
 	}
 
@@ -190,7 +186,6 @@ final class AMessage {
 		$msg_info = $this->getMessage($msg_id);
 		if ($msg_info['viewed']) {
 			$this->db->query("UPDATE " . DB_PREFIX . "messages SET viewed = 0 WHERE `msg_id` = '" . $this->db->escape($msg_id) . "'");
-			$this->setMessageIndicator();
 			return true;
 		} else {
 			return false;
@@ -317,24 +312,42 @@ final class AMessage {
 	/**
 	 * @return bool
 	 */
-	public function setMessageIndicator() {
-		if (in_array($this->registry->get('request')->get['rt'], array('index/login', 'index/logout')) || !IS_ADMIN) {
-			return null;
-		}
-		$sql = $this->db->query("SELECT status, COUNT(msg_id) as count
+	public function getShortList() {
+
+		$output = array();
+		$result = $this->db->query("SELECT UPPER(status) as status, COUNT(msg_id) as count
 									FROM " . DB_PREFIX . "messages
 									WHERE viewed<'1'
 									GROUP BY status");
-		if ($sql->num_rows) {
-			foreach ($sql->rows as $row) {
-				$this->registry->get('session')->data['new_messages'][$row['status']] = ( int )$row['count'];
-			}
-		} else {
-			$this->registry->get('session')->data['new_messages']['N'] = 0;
-			$this->registry->get('session')->data['new_messages']['W'] = 0;
-			$this->registry->get('session')->data['new_messages']['E'] = 0;
+		foreach($result->rows as $row){
+			$output['count'][$row['status']] = ( int )$row['count'];
+			$total += ( int )$row['count'];
 		}
-		return true;
+
+		$output['total'] = $total;
+
+		//let last couple of messages for each type
+		$result = $this->db->query(
+					"(SELECT msg_id, title, message, status, viewed, update_date
+					FROM ".$this->db->table('messages')."
+					WHERE UPPER(status)='E'
+					ORDER BY update_date DESC
+					LIMIT 0,3)
+				UNION
+					(SELECT msg_id, title, message, status, viewed, update_date
+					FROM ".$this->db->table('messages')."
+					WHERE UPPER(status)='W'
+					ORDER BY update_date DESC
+					LIMIT 0,3)
+				UNION
+					(SELECT msg_id, title, message, status, viewed, update_date
+					FROM ".$this->db->table('messages')."
+					WHERE UPPER(status)='N'
+					ORDER BY update_date DESC
+					LIMIT 0,3)");
+		$output['shortlist'] = $result->rows;
+
+		return $output;
 	}
 
 }

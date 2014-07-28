@@ -60,6 +60,7 @@ var wrapConfirmDelete = function(){
         	action = 'onclick="'+action+'"';
         } else {
 	        href = $(this).attr('href');
+			if(!href){ return;}
     	    if(href.length==0 || href=='#'){ return;}
     	    action = 'href="' + href +'"';
         }
@@ -77,6 +78,55 @@ var wrapConfirmDelete = function(){
         $(this).attr('data-toggle','dropdown').addClass('dropdown-toggle');
     });
 }
+
+
+
+
+//periodical updater of new message notifier
+var notifier_updater = function () {
+  $.ajax({
+	url: '<?php echo $notifier_updater_url?>',
+	success: buildNotifier,
+	complete: function() {
+	  // Schedule the next request when the current one's complete
+	  setTimeout(notifier_updater, 600000);
+	}
+  });
+}
+
+var buildNotifier = function(data){
+	$('.new_messages .badge').html(data.total);
+	$('.new_messages .dropdown-menu-head h5.title').html(data.total_title);
+	var  list = $('.new_messages ul.dropdown-list.gen-list');
+	list.html('');
+	var html = '';
+	var mes;
+	for(var k in data.shortlist){
+		mes = data.shortlist[k];
+
+		var iconclass='';
+		var badgeclass='';
+		if(mes.status=='N'){
+			iconclass = 'fa-info';
+			badgeclass = 'success';
+		}else if(mes.status=='W' || mes.status=='E'){
+			iconclass = 'fa-warning';
+			badgeclass = 'danger';
+		}
+		html = '<li '+ (mes.viewed<1 ? 'class="new"': '')+ '>' ;
+		html += '<a href="'+mes.href+'" data-toggle="modal" data-target="#message_modal"><span class="thumb"><p class="fa ' + iconclass + ' fa-3 '+badgeclass+'"></p></span>';
+		html += '<span class="desc"><span class="name">'+mes.title + (mes.viewed<1 ? '<span class="badge badge-'+badgeclass+'">new</span>': '')+'</span>';
+		html += '<span class="msg">'+mes.message +'</span></span></a></li>';
+		list.append(html);
+	}
+
+	list.append('<li class="new"><a href="<?php echo $message_manager_url; ?>"><?php echo $text_read_all_messages; ?></a></li>');
+}
+
+$(document).ready(function(){
+	notifier_updater();
+	$(document).on('click', '#message_modal a[data-dismiss="modal"], #message_modal button[data-dismiss="modal"]', notifier_updater );
+});
 
 </script>
 <?php 

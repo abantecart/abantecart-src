@@ -950,4 +950,9 @@
 {
 	display: none;
 }
+/* bold font for new messages in grid of message-manager*/
+
+.jqgrow.new_message>td{
+	font-weight: bold !important;
+}
 

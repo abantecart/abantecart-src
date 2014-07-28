@@ -29,25 +29,26 @@ class ControllerCommonANT extends AController {
 
 	public function main() {
 		// disable for login-logout pages
-		if( in_array($this->request->get['rt'],array('index/logout','index/login') )){
+		//TODO: rebuild ant-messages receiving!!!!
+		/*if( in_array($this->request->get['rt'],array('index/logout','index/login') )){
 			unset($this->session->data ['new_messages']);
 			return;
-		}
+		}*/
 
 		// check for updates
 		$this->loadModel ( 'tool/updater' );
 		$this->model_tool_updater->check4updates();
 
 
-		if(!isset($this->session->data ['new_messages']['update_date']) ){
+		/*if(!isset($this->session->data ['new_messages']['update_date']) ){
 			unset($this->session->data ['new_messages']);
-		}
+		}*/
 
 		// prevent repeats of requests or if last update older then 24hours
-		if (isset($this->session->data ['new_messages']) && (time() - $this->session->data ['new_messages']['update_date'] < 86400) ) {
+	/*	if (isset($this->session->data ['new_messages']) && (time() - $this->session->data ['new_messages']['update_date'] < 86400) ) {
 			$this->messages->setMessageIndicator();
 			return;
-		}
+		}*/
 
 
 		//init controller data
@@ -114,7 +115,7 @@ class ControllerCommonANT extends AController {
 			$this->messages->purgeANTMessages($banners);
 		}
 			// in case when answer from server is empty
-			$this->messages->setMessageIndicator();
+			//$this->messages->setMessageIndicator();
 		$_SESSION['new_messages']['update_date'] = time();
 	}
 }
