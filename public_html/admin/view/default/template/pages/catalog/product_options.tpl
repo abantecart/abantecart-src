@@ -328,20 +328,19 @@ jQuery(function ($) {
 		return false;
 	}
 
-	$("#option_values_tbl a.remove").live('click', function () {
+	$(document).on('click', "#option_values_tbl a.remove", function () {
 		if ($(this).closest('tr').find('input[name^=product_option_value_id]').val() == 'new') {
 			//remove new completely
 			$(this).closest('tr').next().remove();
 			$(this).closest('tr').remove();
 		} else {
-			$(this).closest('tr').toggleClass('toDelete');
+			//mark for delete and set disabled
+			$(this).closest('tr').toggleClass('toDelete').toggleClass('transparent');
 		}
-		$(this).parent().parent().next().find('div.additionalRow').toggleClass('toDelete').hide();
-
 		return false;
 	});
 
-	$("#option_values_tbl a.expandRow").live('click', function () {
+	$(document).on('click',"#option_values_tbl a.expandRow",function () {
 
 		var row_id = $(this).parents('tr').attr('id');
 		var additional_row = $('#add_'+row_id +'div.additionalRow');
@@ -360,19 +359,19 @@ jQuery(function ($) {
 		return false;
 	});
 
-	$('.open_newtab').on('click', function () {
+	$(document).on('click', '.open_newtab', function () {
 		var href = $(this).attr('link');
 		top.open(href, '_blank');
 		return false;
 	});
 
 
-	$('.uncheck').live('click', function () {
+	$(document).on('click', '.uncheck', function () {
 		$("input[name='default_value']").removeAttr('checked');
 		return false;
 	});
 
-	$("#add_option_value").live('click', function () {
+	$(document).on('click',"#add_option_value", function () {
 		var new_row = $('#new_row').parent().find('tr').clone();
 		$(new_row).attr('id', 'new' + row_id);
 
@@ -384,9 +383,17 @@ jQuery(function ($) {
 				highest = Math.max(highest, parseInt(this.value));
 			});
 			$(new_row).find("input[name^='sort_order']").val(highest + 1);
+		} else {
+			$(new_row).find("input[name^='sort_order']").val(0);
 		}
 
-		$('#option_values_tbl tbody tr:last-child').after(new_row);
+		if($('#option_values_tbl tbody').length){
+			//add one more row
+			$('#option_values_tbl tbody tr:last-child').after(new_row);
+		} else {
+			//we insert first row
+			$('#option_values_tbl tr:last-child').after(new_row);			
+		}
 		bindAform($("input, checkbox, select", new_row));
 		//Mark rows to be new
 		$('#new' + row_id + ' input[name=default_value]').last()
@@ -429,23 +436,22 @@ jQuery(function ($) {
 	//select option and load data for it
 	$('#option option:first-child').attr("selected", "selected").change();
 
-	$('#update_option').live('click', function () {
+	$(document).on('click','#update_option', function () {
 		editOption('#update_option');
 	});
 
-	$('#reset_option').live('click', function () {
+	$(document).on('click','#reset_option',function () {
 		$('#option').change();
 		return false;
 	});
 		
-	$('#option_values button[type="submit"]').live('click', function () {
+	$(document).on('click','#option_values button[type="submit"]', function () {
 		//Mark rows to be deleted
 		$('#option_values_tbl .toDelete input[name^=product_option_value_id]').val('delete');
 		$(this).attr('disabled', 'disabled');
 
 		editOption('#update_option');
 
-		//$('#option_values_tbl tr.toDelete').remove();
 		var that = this;
 		$.ajax({
 			url: $(that).closest('form').attr('action'),

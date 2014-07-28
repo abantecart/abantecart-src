@@ -3576,6 +3576,11 @@ body.stickyheader .sticky_left {
 .inblock {
    display: inline-block;
 }
+.transparent {
+	-moz-opacity: 0.2;
+	-khtml-opacity: 0.2;
+	opacity: 0.2;
+}
 
 /***** Bootstrap Overrides  *****/
 .panel-body {
