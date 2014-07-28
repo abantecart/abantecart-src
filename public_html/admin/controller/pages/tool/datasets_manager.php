@@ -39,7 +39,9 @@ class ControllerPagesToolDatasetsManager extends AController {
 		$this->document->addBreadcrumb ( array (
 												'href' => $this->html->getSecureURL ( 'tool/datasets_manager' ), 
 												'text' => $this->language->get ( 'heading_title' ), 
-												'separator' => ' :: ' ) );
+												'separator' => ' :: ',
+												'current'   => true
+		) );
 		
 		$grid_settings = array (
 								//id of grid
@@ -53,12 +55,17 @@ class ControllerPagesToolDatasetsManager extends AController {
 								// default sort column
 								'sortname' => 'dataset_id',
 								// actions
-								'actions' => array ('view' => array (
+								'actions' => array (
+										'view' =>
+												array (
 													'text' => $this->language->get ( 'text_show' ), 
-													'href' => "Javascript:show_popup(%ID%)" )
-											), 
+													'href' => $this->html->getSecureURL ( 'listing_grid/datasets_grid/info', '&dataset_id=%ID%' )
+												)),
 								'columns_search' => false, 
-								'sortable' => true );
+								'sortable' => true,
+								'multiselect' => 'false',
+								'grid_ready' => 'grid_ready();'
+		);
 		
 		$grid_settings ['colNames'] = array (
 											$this->language->get ( 'column_id' ), 
@@ -68,23 +75,23 @@ class ControllerPagesToolDatasetsManager extends AController {
 											array (
 															'name' => 'dataset_id',
 															'index' => 'dataset_id',
-															'width' => 50,
+															'width' => 30,
 															'align' => 'center', 
 															'sorttype' => 'string' ), 
 											array (
 															'name' => 'dataset_name',
 															'index' => 'dataset_name',
-															'width' => 250, 
+															'width' => 450,
 															'align' => 'left', 
 															'sorttype' => 'string' ), 
 											array (
 															'name' => 'dataset_key',
 															'index' => 'dataset_key',
-															'width' => 70, 
-															'align' => 'center', 
+															'width' => 150,
+															'align' => 'left',
 															'sorttype' => 'string' ) );
 		
-		$form = new AForm ( 'ff' );
+		$form = new AForm ( 'ds' );
 		$grid = $this->dispatch ( 'common/listing_grid', array (
 																$grid_settings ) );
 		$this->view->assign ( 'listing_grid', $grid->dispatchGetOutput () );

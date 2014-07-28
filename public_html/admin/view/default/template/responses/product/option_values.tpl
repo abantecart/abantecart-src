@@ -1,11 +1,3 @@
-<div class="row">
-	<div id="notify" style="display: none;"></div>
-</div>
-<?php if ($success) { ?>
-<script type="text/javascript">
-	sucess_alert('#notify', '<?php echo $success?>' , 1);
-</script>
-<?php } ?>
 
 <div class="row">
 

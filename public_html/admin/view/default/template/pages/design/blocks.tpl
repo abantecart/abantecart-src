@@ -80,7 +80,7 @@
 
 <script type="text/javascript">
 
-	updateViewButtons = function(){
+	var updateViewButtons = function(){
 		$('.grid_action_view[data-toggle!="modal"]').each(function(){
 			$(this).attr('data-toggle','modal'). attr('data-target','#block_info_modal');
 		});
