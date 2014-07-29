@@ -93,7 +93,12 @@ class ControllerPagesAccountCreate extends AController {
 				$mail->send();
 
 				$this->extensions->hk_UpdateData($this,__FUNCTION__);
-		  		$this->redirect($this->html->getSecureURL('account/success'));
+				if(has_value( $this->session->data['redirect'] )){
+					$redirect_url =  $this->session->data['redirect'];
+				}else{
+					$redirect_url =  $this->html->getSecureURL('account/success');
+				}
+				$this->redirect($redirect_url);
 	  		}
     	} 
 
