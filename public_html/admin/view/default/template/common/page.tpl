@@ -30,6 +30,9 @@
 <?php 
 	//NOTE: More JS loaded in header.tpl, including PHP processed JavaScript
 ?>
+
+<a id="gotop" href="#"><?php echo $text_on_top; ?></a>
+
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 

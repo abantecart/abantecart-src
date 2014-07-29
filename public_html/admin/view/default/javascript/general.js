@@ -362,6 +362,19 @@ jQuery(document).ready(function() {
 		$(this).append('<span class="ajax_loading">Processing…</span>').show();
 	});
 
+    $("#gotop").click(function () {
+        $("html, body").animate({ scrollTop: 0 }, "fast");
+        return false;
+    });
+
+	$(window).scroll(function () {
+    	if ($(this).scrollTop() > 50) {
+    	    $('#gotop').fadeIn(500);
+    	} else {
+    	    $('#gotop').fadeOut(500);
+    	}
+	});
+
 });
 
 //-----------------------------------------------
