@@ -96,7 +96,7 @@
 								success_alert(data.result_text);
 							}
 							<?php }else{ ?>
-							success_alert(data.result_text, false, $("#ld_form"));
+							success_alert(data.result_text, false, "#ld_form");
 							<?php } ?>
 						}
 					}

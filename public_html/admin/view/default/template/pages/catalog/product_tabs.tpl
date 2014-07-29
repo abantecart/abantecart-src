@@ -5,7 +5,6 @@
 	<li <?php echo ( $active == 'files' ? 'class="active"' : '' ) ?>><a href="<?php echo $link_files; ?>"><span><?php echo $tab_files; ?></span></a>
 	<li <?php echo ( $active == 'relations' ? 'class="active"' : '' ) ?>><a href="<?php echo $link_relations; ?>"><span><?php echo $tab_relations; ?></span></a></li>
 	<li <?php echo ( $active == 'promotions' ? 'class="active"' : '' ) ?>><a href="<?php echo $link_promotions; ?>"><span><?php echo $tab_promotions; ?></span></a></li>
-	<li <?php echo ( $active == 'extensions' ? 'class="active"' : '' ) ?>><a href="<?php echo $link_extensions; ?>"><span><?php echo $tab_extensions; ?></span></a></li>
 	<li <?php echo ( $active == 'layout' ? 'class="active"' : '' ) ?>><a href="<?php echo $link_layout; ?>"><span><?php echo $tab_layout; ?></span></a></li>
 	<?php echo $this->getHookVar('extension_tabs'); ?>
 </ul>

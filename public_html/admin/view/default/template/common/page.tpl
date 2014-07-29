@@ -39,7 +39,7 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/retina.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.cookies.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/chosen.jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.gritter.min.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap-growl.min.js"></script>
 
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/general.js"></script>
 
