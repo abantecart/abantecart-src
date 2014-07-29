@@ -284,7 +284,7 @@ final class AMessage {
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
 	public function getANTMessage() {
 
@@ -310,7 +310,7 @@ final class AMessage {
 	}
 
 	/**
-	 * @return bool
+	 * @return array
 	 */
 	public function getShortList() {
 
@@ -319,7 +319,7 @@ final class AMessage {
 									FROM " . DB_PREFIX . "messages
 									WHERE viewed<'1'
 									GROUP BY status");
-		foreach($result->rows as $row){
+		foreach ($result->rows as $row) {
 			$output['count'][$row['status']] = ( int )$row['count'];
 			$total += ( int )$row['count'];
 		}
@@ -328,20 +328,20 @@ final class AMessage {
 
 		//let last couple of messages for each type
 		$result = $this->db->query(
-					"(SELECT msg_id, title, message, status, viewed, update_date
-					FROM ".$this->db->table('messages')."
+				"(SELECT msg_id, title, message, status, viewed, update_date
+				FROM " . $this->db->table('messages') . "
 					WHERE UPPER(status)='E'
 					ORDER BY update_date DESC
 					LIMIT 0,3)
 				UNION
 					(SELECT msg_id, title, message, status, viewed, update_date
-					FROM ".$this->db->table('messages')."
+					FROM " . $this->db->table('messages') . "
 					WHERE UPPER(status)='W'
 					ORDER BY update_date DESC
 					LIMIT 0,3)
 				UNION
 					(SELECT msg_id, title, message, status, viewed, update_date
-					FROM ".$this->db->table('messages')."
+					FROM " . $this->db->table('messages') . "
 					WHERE UPPER(status)='N'
 					ORDER BY update_date DESC
 					LIMIT 0,3)");

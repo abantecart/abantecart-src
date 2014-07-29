@@ -28,10 +28,10 @@ class ControllerPagesFinish extends AController {
 		}
 
 		$this->session->data[ 'finish' ] = 'finish';
-		unset($this->session->data [ 'new_messages' ]); // prevent reinstall bugs with ant
+		unset($this->session->data [ 'ant_messages' ]); // prevent reinstall bugs with ant
 
 		$this->view->assign('admin_path', 'index.php?s=' . ADMIN_PATH);
-		setcookie("new_cart", 1, 0, "/");
+		setcookie("new_cart", 1, 0, '/', $this->request->server['HTTP_HOST']);
 
 		$message = "Keep your ecommmerce secure! <br /> Delete directory " . DIR_ABANTECART . "/install from your AbanteCart installation!";
 		$this->view->assign('message', $message);

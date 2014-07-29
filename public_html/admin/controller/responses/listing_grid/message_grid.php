@@ -155,11 +155,6 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 		}
 	}
 
-/*	public function getNotify() {
-		$message ['msg_cnt'] = $this->session->data ['new_messages'];
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($message));
-	}*/
 	public function getNotifies() {
 
 		//init controller data
