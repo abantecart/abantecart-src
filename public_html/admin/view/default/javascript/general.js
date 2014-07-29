@@ -429,41 +429,56 @@ function getURLVar(URL, urlVarName) {
 // Function to show notification
 //-----------------------------------------
 function success_alert(text, autohide, elm ) {
-    if(elm!=null){
-        elm = $(elm);
-        var pos = elm.offset();
-        var top = pos.top;
-        var right = elm.parent().width() -  pos.left;
-
-    }
-    $.gritter.add({
-        text: text,
-        class_name: 'growl-success',
-        sticky: (autohide ? false : true),
-        time: 4000
-    });
-    if(elm!=null){
-        $('#gritter-notice-wrapper').css('top',top+30+'px').css('right', right+30+'px');
-    }
+	var type = 'success';
+	var icon = 'fa fa-check';
+	return notice(text, autohide, elm, type, icon);
 }
 
 function error_alert(text, autohide, elm ) {
-    if(elm!=null){
-        elm = $(elm);
-        var pos = elm.offset();
-        var top = pos.top;
-        var right = elm.parent().width() -  pos.left;
-    }
-    $.gritter.add({
-        text: text,
-        class_name: 'growl-danger',
-        sticky: (autohide ? false : true),
-        time: 6000
-    });
-    if(elm!=null){
-        $('#gritter-notice-wrapper').css('top',top+30+'px').css('right', right+30+'px');
-    }
+	var type = 'danger';
+	var icon = 'fa fa-thumbs-down';
+	return notice(text, autohide, elm, type, icon);
 }
+
+function warning_alert(text, autohide, elm ) {
+	var type = 'warning';
+	var icon = 'fa fa-flash';
+	return notice(text, autohide, elm, type, icon);
+}
+
+function info_alert(text, autohide, elm ) {
+	var type = 'info';
+	var icon = 'fa fa-info';
+	return notice(text, autohide, elm, type, icon);
+}
+
+function notice(text, autohide, elm, type, icon) {
+	if (type == null) {
+		return;
+	}
+
+	if(elm == null){
+		elm = 'body';
+	}
+	var delay = 6000;
+	if(autohide == null || autohide == 'false') {
+		delay = 0;
+	}
+	
+    var growl = $.growl({
+		icon: icon,
+		message: "&nbsp;&nbsp;"+text+"&nbsp;&nbsp;&nbsp;"
+	},{
+		element: elm,
+		delay: delay,
+    	type: type,
+		animate: {
+			enter: 'animated fadeInDown',
+			exit: 'animated fadeOutRight'
+		}	
+	});
+}
+//-----------------------------------------
 
 function goTo(url, params) {
     location = url + '&' + params;

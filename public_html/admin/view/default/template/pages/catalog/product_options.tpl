@@ -317,7 +317,6 @@ jQuery(function ($) {
 			success: function (html) {
 				$('#option_name').html($('#name').val());
 				updateOptions();
-				success_alert('<?php echo $text_success_option?>',true);
 				//Reset changed values marks
 				resetAForm($("input, checkbox, select", '#option_edit_form'));
 				success_alert('<?php echo $text_success_option?>',true);
