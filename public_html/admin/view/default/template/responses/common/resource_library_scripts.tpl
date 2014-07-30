@@ -100,24 +100,35 @@ var loadMedia = function (type) {
 
             var html = '';
             $(json.items).each(function (index, item) {
-                var src = '<img src="' + item['thumbnail_url'] + '" title="' + item['name'] + '" />';
+                var src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '" title="' + item['name'] + '" />';
                 if (type == 'image' && item['resource_code']) {
                     src = item['thumbnail_url'];
                 }
-                html += '<span id="image_row' + item['resource_id'] + '" class="image_block">\
-                <a class="resource_edit" type="' + type + '" data-id="' + item['resource_id'] + '">' + src + '</a><br />\
-                ' + ( item['mapped'] > 1 ? '' : '<a class="btn_action resource_delete" data-id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_delete ?></span></span></a>') + '\
-                <a class="btn_action resource_unmap" data-id="' + item['resource_id'] + '"><span class="icon_s_unmap"><span class="btn_text"><?php echo $button_unmap ?></span></span></a>\
-                <a class="btn_action resource_edit" type="' + type + '" data-id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>\
-                </span>';
+                html += '<div class="col-xs-3 col-sm-3 col-md-2">';
+                html += '<div class="thumbnail" id="image_row' + item['resource_id'] + '" >\
+                <a class="btn resource_edit" type="' + type + '" data-id="' + item['resource_id'] + '">' + src + '</a></div>';
+                html += '<div class="caption center">' 
+                + ( item['mapped'] > 1 ? '' : 
+                '<a class="btn resource_edit tooltips" type="' + type + '" data-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_edit ?>"><i class="fa fa-edit"></i></a>\
+                <a class="btn resource_unmap tooltips" data-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_unmap; ?>" data-confirmation="delete" onclick="unmap_resource('+item['resource_id']+');"><i class="fa fa-unlink"></i></a>\
+                <a class="btn resource_delete tooltips" data-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_delete ?>" data-confirmation="delete" onclick="delete_resource('+item['resource_id']+');"><i class="fa fa-trash-o"></i></a>') + '\
+                </div>';
+                html += '</div></div>';
             });
-            html += '<span class="image_block"><a class="resource_add" type="' + type + '"><img src="<?php echo $template_dir . '/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>"/></a></span>';
-				$('#type_' + type + ' td.type_blocks').html(html);
+            
+            html += '<div class="col-xs-3 col-sm-3 col-md-2"><div class="thumbnail">';
+            html += '<a class="btn resource_add tooltips transparent" type="' + type + '" data-original-title="<?php echo $text_add_media ?>"><img src="<?php echo $template_dir . '/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>" width="100" /></a>'; 
+            html += '</div></div>';
+
+			$('#type_' + type + ' div.type_blocks').html(html);
         },
         error:function (jqXHR, textStatus, errorThrown) {
             $('#type_' + type).show();
             $('#type_' + type + ' td.type_blocks').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
-        }
+        },
+		complete: function() {
+			bindEvents();
+		}
     });
 
 }
@@ -200,7 +211,7 @@ jQuery(function () {
         loadMedia('<?php echo $type['type_name']?>');
     <?php } ?>
 
-    $('a.resource_add').on('click', function () {
+    $(document).on('click', 'a.resource_add', function () {
         mediaDialog($(this).prop('type'), 'add');
         return false;
     });
@@ -213,60 +224,11 @@ jQuery(function () {
         modal:true
     });
     
-    $(document).on("click", 'a.resource_delete', function () {
-        var that = this;
-        $("#confirm_del_dialog").dialog('option', 'buttons', {
-            "<?php echo $button_delete ?>":function () {
-                $.ajax({
-                    url:urls.del + '&resource_id=' + $(that).attr('data-id'),
-                    type:'GET',
-                    dataType:'json',
-                    success:function (json) {
-                        if (json) {
-                            $(that).parent().remove();
-                        }
-                    }
-                });
-                $(this).dialog("close");
-            },
-            "<?php echo $button_cancel ?>":function () {
-                $(this).dialog("close");
-            }
-        });
-        $("#confirm_del_dialog").dialog('open');
-        return false;
-    });
-
-
     $("#confirm_unmap_dialog").dialog({
         draggable:false,
         resizable:false,
         autoOpen:false,
         modal:true
-    });
-    
-    $(document).on("click", 'a.resource_unmap', function () {
-        var that = this;
-        $("#confirm_unmap_dialog").dialog('option', 'buttons', {
-            "<?php echo $button_unmap ?>":function () {
-                $.ajax({
-                    url:urls.unmap + '&resource_id=' + $(that).attr('data-id'),
-                    type:'GET',
-                    dataType:'json',
-                    success:function (json) {
-                        if (json) {
-                            $(that).parent().remove();
-                        }
-                    }
-                });
-                $(this).dialog("close");
-            },
-            "<?php echo $button_cancel ?>":function () {
-                $(this).dialog("close");
-            }
-        });
-        $("#confirm_unmap_dialog").dialog('open');
-        return false;
     });
 
     $(document).on("click", 'a.resource_edit', function () {
@@ -275,6 +237,39 @@ jQuery(function () {
     });
 });
 
-    <?php } ?>
+function unmap_resource ( rl_id ) {
+	if (rl_id==null || rl_id == '') {
+		return false;
+	}
+    $.ajax({
+        url:urls.unmap + '&resource_id=' + rl_id,
+        type:'GET',
+        dataType:'json',
+        success:function (json) {
+            if (json) {
+                $('#image_row'+rl_id).parent().remove();
+            }
+        }
+    });
+    return false;
+} 
 
+function delete_resource ( rl_id ) {
+	if (rl_id==null || rl_id == '') {
+		return false;
+	}
+    $.ajax({
+        url:urls.del + '&resource_id=' + rl_id,
+        type:'GET',
+        dataType:'json',
+        success:function (json) {
+            if (json) {
+                $('#image_row'+rl_id).parent().remove();
+            }
+        }
+    });
+    return false;
+} 
+
+<?php } ?>
 </script>

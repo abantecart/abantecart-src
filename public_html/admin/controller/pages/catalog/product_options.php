@@ -93,22 +93,18 @@ class ControllerPagesCatalogProductOptions extends AController {
     	$this->document->initBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('index/home'),
        		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE
    		));
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('catalog/product'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
    		));
 		$this->document->addBreadcrumb( array (
 			'href'      => $this->html->getSecureURL('catalog/product/update', '&product_id=' . $this->request->get['product_id'] ),
 			'text'      => $this->language->get('text_edit')  .'&nbsp;'. $this->language->get('text_product') . ' - '. $this->data['product_description'][$this->session->data['content_language_id']]['name'],
-			'separator' => ' :: '
 		));
 		$this->document->addBreadcrumb( array (
 			'href'      => $this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] ),
 			'text'      => $this->language->get('tab_option'),
-			'separator' => ' :: ',
 			'current'   => true
 		));
 
