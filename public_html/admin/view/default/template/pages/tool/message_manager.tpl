@@ -33,9 +33,8 @@
 <?php echo $this->html->buildElement(
 		array('type' => 'modal',
 				'id' => 'message_info_modal',
-				'name' => 'message_info_modal',
 				'modal_type' => 'lg',
-				'data_source' => 'remote'));
+				'data_source' => 'ajax'));
 ?>
 
 <script type="text/javascript">

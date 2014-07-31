@@ -8,16 +8,8 @@
 	</div>	
 	<div class="panel-body panel-body-nopadding" id="type_<?php echo $type['type_name']; ?>" style="display:none">
 		<div class="row reslibrary type_blocks">
-	
-	
+		<?php //resource library list insearted here  ?>
 		</div>
 	</div>
 </div>
-
 <?php } ?>
-<div id="confirm_unmap_dialog" title="<?php echo $confirm_unmap_title ?>" style="display:none">
-    <?php echo $text_confirm_unmap ?>
-</div>
-<div id="confirm_del_dialog" title="<?php echo $confirm_del_title ?>" style="display:none">
-    <?php echo $text_confirm_del ?>
-</div>

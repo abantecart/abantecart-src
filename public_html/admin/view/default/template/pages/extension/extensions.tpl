@@ -72,7 +72,6 @@
 echo $this->html->buildElement(
 		array('type' => 'modal',
 				'id' => 'dep_modal',
-				'name' => 'dep_modal',
 				'modal_type' => 'sm',
 				'title' => $text_please_confirm,
 				'content' => '',
