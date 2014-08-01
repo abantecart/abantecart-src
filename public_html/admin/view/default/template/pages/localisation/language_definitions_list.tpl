@@ -74,7 +74,6 @@
 echo $this->html->buildElement(
 		array('type' => 'modal',
 				'id' => 'ld_modal',
-				'name' => 'ld_modal',
 				'modal_type' => 'lg',
 				'content' => '',
 				'title' => $text_please_confirm,

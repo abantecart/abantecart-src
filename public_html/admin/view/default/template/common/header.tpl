@@ -113,9 +113,8 @@
 					echo $this->html->buildElement(
 							array('type' => 'modal',
 									'id' => 'message_modal',
-									'name' => 'message_modal',
 									'modal_type' => 'lg',
-									'data_source' => 'remote'));
+									'data_source' => 'ajax'));
 
 					?>
 					<div class="btn-group new_messages">

@@ -68,9 +68,8 @@
 <?php echo $this->html->buildElement(
 		array('type' => 'modal',
 				'id' => 'dataset_info_modal',
-				'name' => 'dataset_info_modal',
 				'modal_type' => 'lg',
-				'data_source' => 'remote'));
+				'data_source' => 'ajax'));
 ?>
 
 <script type="text/javascript">

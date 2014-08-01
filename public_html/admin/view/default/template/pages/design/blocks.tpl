@@ -72,9 +72,8 @@
 <?php echo $this->html->buildElement(
 		array('type' => 'modal',
 				'id' => 'block_info_modal',
-				'name' => 'block_info_modal',
 				'modal_type' => 'lg',
-				'data_source' => 'remote'));
+				'data_source' => 'ajax'));
 ?>
 
 

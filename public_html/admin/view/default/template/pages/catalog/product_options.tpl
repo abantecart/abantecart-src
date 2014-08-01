@@ -119,7 +119,6 @@ $modal_content = '<div class="add-option-modal" >
 echo $this->html->buildElement(
 		array('type' => 'modal',
 				'id' => 'option_modal',
-				'name' => 'option_modal',
 				'modal_type' => 'lg',
 				'title' => $text_add_new_option,
 				'content' => $modal_content));

@@ -156,9 +156,8 @@
 <?php echo $this->html->buildElement(
 		array('type' => 'modal',
 				'id' => 'discount_modal',
-				'name' => 'discount_modal',
 				'modal_type' => 'lg',
-				'data_source' => 'remote'));
+				'data_source' => 'ajax'));
 ?>
 
 

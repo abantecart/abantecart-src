@@ -65,9 +65,14 @@ var wrapConfirmDelete = function(){
     	    action = 'href="' + href +'"';
         }
         
+    	var conf_text = $(this).attr('data-confirmation-text');
+    	if (!conf_text) {
+    		conf_text = '<?php echo $text_confirm; ?>';
+    	} 
+        
         $(this).wrap(wrapper);
         popover = '<div class="dropdown-menu dropdown-menu-right alert alert-danger" role="menu">'+
-                    '<h4 class="center"><?php echo $text_confirm; ?></h4>'+
+                    '<h5 class="center">'+ conf_text +'</h5>'+
                     '<div class="center">'+
                     '<a class="btn btn-danger" '+action+' ><i class="fa fa-trash-o"></i><?php echo $text_yes;?></a>&nbsp;&nbsp;'+
                     '<a class="btn btn-default"><i class="fa fa-undo"></i><?php echo $text_yes;?></a>'+
