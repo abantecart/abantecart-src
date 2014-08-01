@@ -130,9 +130,9 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 			}
 		}
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($results));
 
 	}
 }
 
-?>

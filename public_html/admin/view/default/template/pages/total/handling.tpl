@@ -68,7 +68,7 @@
 	$('a.add').click(function(){
 		var new_row = $('tr.per_payment').last().clone();
 		$('tr.per_payment').last().after(new_row);
-		$("input, checkbox, select", new_row).aform({triggerChanged: true, showButtons: false });
+		$("input, select", new_row).aform({triggerChanged: true, showButtons: false });
 	});
 
 	</script>

@@ -1,129 +1,103 @@
 <?php if ($error_warning) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
+	<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
+	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_setting"><?php echo $heading_title; ?></div>
-	<div class="heading-tabs">
-        <a href="<?php echo $link_all; ?>" class="active"><span><?php echo $tab_all; ?></span></a>
-        <a href="<?php echo $link_details; ?>" ><span><?php echo $tab_details; ?></span></a>        
-        <a href="<?php echo $link_general; ?>" ><span><?php echo $tab_general; ?></span></a>
-        <a href="<?php echo $link_checkout; ?>" ><span><?php echo $tab_checkout; ?></span></a>
-        <a href="<?php echo $link_appearance; ?>" ><span><?php echo $tab_appearance; ?></span></a>
-        <a href="<?php echo $link_mail; ?>" ><span><?php echo $tab_mail; ?></span></a>
-        <a href="<?php echo $link_api; ?>" ><span><?php echo $tab_api; ?></span></a>
-        <a href="<?php echo $link_system; ?>" ><span><?php echo $tab_system; ?></span></a>
+<?php echo $setting_tabs ?>
+
+<div class="row">
+	<div class="col-sm-12 col-lg-12">
+		<ul class="content-nav">
+			<li>
+				<?php
+				if (!empty($search_form)) {
+					?>
+					<form id="<?php echo $search_form['form_open']->name; ?>"
+						  method="<?php echo $search_form['form_open']->method; ?>"
+						  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
+
+							<div class="form-group">
+								<label class="control-label"><?php echo $text_edit_store_settings; ?></label>
+								<div class="input-group input-group-sm">
+									<?php echo $search_form['fields']['store_selector']; ?>
+								</div>
+							</div>
+					</form>
+				<?php
+				}
+				?>
+			</li>
+			<li><a class="itemopt" title="<?php echo $insert->title; ?>" href="<?php echo $insert->href; ?>"><i	class="fa fa-plus-circle"></i></a></li>
+			<?php if (!empty ($form_language_switch)) { ?>
+				<li>
+					<?php echo $form_language_switch; ?>
+				</li>
+			<?php } ?>
+			<?php if (!empty ($help_url)) { ?>
+				<li>
+					<div class="help_element">
+						<a href="<?php echo $help_url; ?>" target="new">
+							<i class="fa fa-question-circle"></i>
+						</a></div>
+				</li>
+			<?php } ?>
+		</ul>
 	</div>
-	<div class="toolbar">
-		<?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-		<div class="buttons">
-			<div class="flt_left align_left"><?php echo $text_edit_store_settings; ?> <?php echo $store_selector; ?></div>
-			<div class="flt_left">&nbsp;&nbsp;<?php echo $new_store_button; ?></div>	
+</div>
+<div class="row">
+	<div class="col-sm-12 col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<?php echo $listing_grid; ?>
+			</div>
 		</div>
 	</div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-    <?php echo $listing_grid; ?>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
 </div>
-<div id="edit_dialog" style="overflow:hidden;"></div>
-<script type="text/javascript"><!--
-
-$(".toolbar select").aform({
-    triggerChanged: false
-});
-
-function openEditDiag(id) {
-    var $Popup = $('#edit_dialog').dialog({
-        autoOpen:true,
-        modal:true,
-        bgiframe:false,
-        width: 650,
-        height:'auto',
-        maxHeight: 700,
-        draggable:true,
-        modal:true,
-        close:function (event) {
-            $(this).dialog('destroy');
-			CKEditor('destroy');
-			$('#setting_grid').trigger("reloadGrid");;
-
-		}
-    });
-
-
-    // spinner
-    $("#edit_dialog").html('<div class="progressbar">Loading ...</div>');
-
-    $.ajax({
-        url:'<?php echo $dialog_url; ?>&target=edit_dialog',
-        type:'GET',
-        dataType:'json',
-        data:{active:id},
-        success:function (data) {
-            if(data.html==''){
-                $('#edit_dialog').dialog("close");
-                return;
-            }
-            $("#edit_dialog").html(data.html).dialog('option', 'title', data.title);
-
-            $('#store_switcher').aform({ triggerChanged: false })
-            .on('change',function () {
-                $.getJSON('<?php echo $dialog_url; ?>'+'&active='+ id +'&target=edit_dialog&store_id=' + $(this).val(),
-                    function (response) {
-                        $('#edit_dialog').html(response.html);
-						CKEditor('add');
-                    });
-            });
-
-			CKEditor('add');
-
-            $('#cgFrm_cancel').on('click',function(){
-                $('#edit_dialog').dialog("close");
-            });
-        }
-    });
-
-	function CKEditor(mode){
-		var settings = [];
-		settings[0] = 'cgFrm_config_description_<?php echo $content_language_id; ?>';
-		settings[1] = 'cgFrm_config_meta_description';
-
-		for( var k in settings ){
-
-			if($('#'+settings[k]).length>0){
-				if(mode=='add'){
-					$('#'+settings[k]).parents('.afield').removeClass('mask2');
-					$('#'+settings[k]).parents('td').removeClass('ml_field').addClass('ml_ckeditor');
-
-					CKEDITOR.replace(settings[k], {
-						filebrowserBrowseUrl:false,
-						filebrowserImageBrowseUrl:'<?php echo $rl; ?>',
-						filebrowserWindowWidth:'920',
-						filebrowserWindowHeight:'520',
-						language:'<?php echo $language_code; ?>'
-					});
-					$("#edit_dialog").dialog('option', 'width', '800');
-				}else{
-					var editor = CKEDITOR.instances[settings[k]];
-					if (editor) { editor.destroy(true); }
-				}
-			}
-		}
-	}
-}
-
-
-//--></script>
-
-<?php if($resources_scripts){
-    echo $resources_scripts;
-}
+<?php
+echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'setting_modal',
+				'name' => 'setting_modal',
+				'modal_type' => 'lg',
+				'content' => '',
+				'title' => '',
+		));
 ?>
+<script type="text/javascript">
+
+	var grid_ready = function(){
+		$('.grid_action_edit').click(
+
+		function () {
+
+			var href = $(this).attr('href');
+
+			$.ajax({
+				url:href,
+				type:'GET',
+				dataType:'json',
+				success:function (data) {
+					if (data == '' || data == null) {
+						return null;
+					} else {
+						if (data.html) {
+							$('#setting_modal .modal-body').html(data.html);
+							$('#setting_modal .modal-title').html(data.title);
+						}
+						wrapCKEditor('add');
+						$('#setting_modal').modal('show');
+					}
+				}
+			});
+			return false;
+		});
+	}
+
+	$('#store_switcher').change(function(){
+		goTo('<?php echo $store_edit_url;?>','store_id='+$(this).val());
+	});
+
+</script>
+<?php if($resources_scripts){ echo $resources_scripts; } ?>

@@ -79,10 +79,7 @@ class ControllerPagesSettingSetting extends AController {
 		}
 		$this->data['active'] = isset($this->request->get['active']) && in_array($this->request->get['active'], $this->data['groups']) ?
 			$this->request->get['active'] : $this->data['groups'][0];
-		$this->data['link_all'] = $this->html->getSecureURL('setting/setting/all');
-		foreach ($this->data['groups'] as $group) {
-			$this->data['link_' . $group] = $this->html->getSecureURL('setting/setting', '&active=' . $group . '&store_id=' . $this->data['store_id']);
-		}
+
 
 		$this->data['token'] = $this->session->data['token'];
 		$this->data['error'] = $this->error;
@@ -95,7 +92,8 @@ class ControllerPagesSettingSetting extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('setting/setting'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'	=> true
 		));
 
 		if (isset($this->session->data['success'])) {
@@ -157,6 +155,11 @@ class ControllerPagesSettingSetting extends AController {
 		$this->data['common_zone'] = $this->html->getSecureURL('common/zone');
 		$this->data['template_image'] = $this->html->getSecureURL('setting/template_image');
 
+		//load tabs controller
+		$tabs_obj = $this->dispatch('pages/setting/setting_tabs', array( $this->data ) );
+		$this->data['setting_tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
+
 		$this->view->assign('help_url', $this->gen_help_url($this->data['active']));
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/setting/setting.tpl');
@@ -189,7 +192,8 @@ class ControllerPagesSettingSetting extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('setting/setting'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'	=> true
 		));
 
 		$grid_settings = array(
@@ -203,9 +207,11 @@ class ControllerPagesSettingSetting extends AController {
 			'actions' => array(
 				'edit' => array(
 					'text' => $this->language->get('text_edit'),
-					'href' => "Javascript: openEditDiag(\'%ID%\')"
+					'href' => $this->html->getSecureURL('setting/setting_quick_form',
+														'&target=edit_dialog&active=%ID%')
 				),
 			),
+			'grid_ready' => 'grid_ready();'
 		);
 
 		$grid_settings['colNames'] = array(
@@ -230,7 +236,7 @@ class ControllerPagesSettingSetting extends AController {
 			array(
 				'name' => 'key',
 				'index' => 'key',
-				'align' => 'center',
+				'align' => 'left',
 				'width' => 260,
 			),
 			array(
@@ -249,12 +255,11 @@ class ControllerPagesSettingSetting extends AController {
 
 		$grid_settings['search_form'] = true;
 
-		$this->data['new_store_button'] = $this->html->buildButton(array(
-			'title' => $this->language->get('button_add_store'),
-			'text' => '&nbsp;',
-			'style' => 'icon_add',
-			'href' => $this->html->getSecureURL('setting/store/insert'),
-			'href_class' => 'btn_toolbar'
+		$this->data['insert'] = $this->html->buildElement(
+				array( 'type' => 'button',
+					   'title' => $this->language->get('button_add_store'),
+					   'text' => $this->language->get('button_insert'),
+					   'href' => $this->html->getSecureURL('setting/store/insert')
 		));
 
 		$this->loadModel('setting/store');
@@ -265,19 +270,22 @@ class ControllerPagesSettingSetting extends AController {
 			$stores[$result['store_id']] = $result['alias'];
 		}
 
-		$this->data['store_selector'] = $this->html->buildSelectbox(array(
-			'type' => 'selectbox',
-			'id' => 'store_switcher',
-			'value' => $this->data['store_id'],
-			'options' => $stores,
-			'attr' => 'onchange="location = \'' . $this->html->getSecureURL('setting/store/update') . '\' + \'&store_id=\' + this.value"',
+		$this->data['search_form']['fields']['store_selector'] = $this->html->buildElement(
+				array(  'type' => 'selectbox',
+						'name' => 'store_switcher',
+						'value' => $this->data['store_id'],
+						'options' => $stores,
+						'attr' => 'onchange="location = \'' . $this->html->getSecureURL('setting/store/update') . '\' + \'&store_id=\' + this.value"',
 		));
 
-		$this->data['groups'] = $this->groups;
-		$this->data['link_all'] = $this->html->getSecureURL('setting/setting/all');
-		foreach ($this->data['groups'] as $group) {
-			$this->data['link_' . $group] = $this->html->getSecureURL('setting/setting', '&active=' . $group);
-		}
+		$this->data['store_edit_url'] = $this->html->getSecureURL('setting/store/update');
+
+
+		//load tabs controller
+		$this->data['active'] = 'all';
+		$tabs_obj = $this->dispatch('pages/setting/setting_tabs', array( $this->data ) );
+		$this->data['setting_tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
 
 		$grid = $this->dispatch('common/listing_grid', array($grid_settings));
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
@@ -296,8 +304,6 @@ class ControllerPagesSettingSetting extends AController {
 
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('setting_listing'));
-
-		$this->view->assign('dialog_url', $this->html->getSecureURL('setting/setting_quick_form'));
 
 		$this->processTemplate('pages/setting/setting_list.tpl');
 

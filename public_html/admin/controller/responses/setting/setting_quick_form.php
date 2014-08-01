@@ -34,7 +34,9 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->loadModel('setting/setting');
+		$output = array('error_text'=>'', 'result_text'=>'');
+
+		$this->loadModel('setting/setting');
         $this->loadLanguage('setting/setting');
         $this->loadLanguage('common/header');
 
@@ -58,12 +60,12 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
         $this->document->setTitle($this->language->get('heading_title'));
         if (($this->request->server['REQUEST_METHOD'] == 'POST' && $this->_validateForm($group)) ) {
             $this->model_setting_setting->editSetting( $group, $this->request->post, $store_id );
-            $this->view->assign('success', $this->language->get('text_success'));
+            $output['result_text'] = $this->language->get('text_success');
         }
 
 
         if (isset($this->error['warning'])) {
-            $this->data['error_warning'] = $this->error['warning'];
+			$output['error_text'] = $this->error['warning'];
         } else {
             $this->data['error_warning'] = '';
         }
@@ -101,6 +103,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
             'type' => 'form',
             'name' => 'qsFrm',
             'action' => $this->data['action'],
+			'attr' => 'class="aform form-horizontal"'
         ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
             'type' => 'button',
