@@ -69,8 +69,8 @@ var wrapConfirmDelete = function(){
         popover = '<div class="dropdown-menu dropdown-menu-right alert alert-danger" role="menu">'+
                     '<h4 class="center"><?php echo $text_confirm; ?></h4>'+
                     '<div class="center">'+
-                    '<a class="btn btn-danger" '+action+' ><i class="fa fa-trash-o"></i> Yes</a>&nbsp;&nbsp;'+
-                    '<a class="btn btn-default"><i class="fa fa-undo"></i> No</a>'+
+                    '<a class="btn btn-danger" '+action+' ><i class="fa fa-trash-o"></i><?php echo $text_yes;?></a>&nbsp;&nbsp;'+
+                    '<a class="btn btn-default"><i class="fa fa-undo"></i><?php echo $text_yes;?></a>'+
                     '</div>'+
                     '</div>';
         $(this).after(popover);
@@ -79,6 +79,27 @@ var wrapConfirmDelete = function(){
     });
 }
 
+var wrapCKEditor = function(mode){
+	$('.ml_ckeditor > textarea').each(function () {
+		var id = $(this).attr('id');
+		if (mode == 'add') {
+			try{
+				CKEDITOR.replace(id, {
+					filebrowserBrowseUrl: false,
+					filebrowserImageBrowseUrl: '<?php echo $ck_rl_url; ?>',
+					filebrowserWindowWidth: '920',
+					filebrowserWindowHeight: '520',
+					language: '<?php echo $language_code; ?>'
+				});
+			}catch(e){}
+		} else {
+			var editor = CKEDITOR.instances[id];
+			if (editor) {
+				editor.destroy(true);
+			}
+		}
+	});
+}
 
 
 
@@ -122,12 +143,12 @@ var buildNotifier = function(data){
 
 	list.append('<li class="new"><a href="<?php echo $message_manager_url; ?>"><?php echo $text_read_all_messages; ?></a></li>');
 }
-
+<?php if($this->user->isLogged()){?>
 $(document).ready(function(){
 	notifier_updater();
 	$(document).on('click', '#message_modal a[data-dismiss="modal"], #message_modal button[data-dismiss="modal"]', notifier_updater );
 });
-
+<?php } ?>
 </script>
 <?php 
 	//NOTE: More JS loaded in page.tpl. This is to improve performance. Do not move above to page.tpl
