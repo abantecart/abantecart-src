@@ -3,7 +3,7 @@ jQuery(window).load(function() {
    // Page Preloader
    $('#status').fadeOut();
    $('#preloader').delay(100).fadeOut(function(){
-      $('body').delay(100).css({'overflow':'visible'});
+      $('body').delay(100);
    });
    
    ajust_content_height();
