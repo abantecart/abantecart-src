@@ -1,83 +1,137 @@
 <?php if ($error_warning) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
+	<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
+	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
-<div class="contentBox">
-    <div class="cbox_tl">
-        <div class="cbox_tr">
-            <div class="cbox_tc">
-                <div class="heading icon_title_language"><?php echo $heading_title; ?></div>
-                <?php
-                if (!empty($search_form)) {
-                    echo '<div class="filter">';
-                    echo $search_form['form_open'];
-                    foreach ($search_form['fields'] as $f) echo $f;
-                    echo '<button type="submit" class="btn_standard">' . $search_form['submit'] . '</button>';
-                    echo '<button type="reset" class="btn_standard">' . $search_form['reset'] . '</button>';
-                    echo '</form>';
-                    echo '</div>';
-                }
-                ?>
-                <div class="toolbar">
-                    <?php if (!empty ($help_url)) : ?>
-                    <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img
-                        src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-                    <?php endif; ?>
-                    <div class="buttons">
-                        <a class="btn_toolbar" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>">
-                            <span class="icon_add">&nbsp;</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="cbox_cl">
-        <div class="cbox_cr">
-            <div class="cbox_cc">
-                <?php echo $listing_grid; ?>
-            </div>
-        </div>
-    </div>
-    <div class="cbox_bl">
-        <div class="cbox_br">
-            <div class="cbox_bc"></div>
-        </div>
-    </div>
+<div class="row">
+	<div class="col-sm-12 col-lg-12">
+		<ul class="content-nav">
+			<li>
+				<?php
+				if (!empty($search_form)) {
+					?>
+					<form id="<?php echo $search_form['form_open']->name; ?>"
+						  method="<?php echo $search_form['form_open']->method; ?>"
+						  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
+
+						<?php
+						foreach ($search_form['fields'] as $f) {
+							?>
+							<div class="form-group">
+								<div class="input-group input-group-sm">
+									<?php echo $f; ?>
+								</div>
+							</div>
+						<?php
+						}
+						?>
+						<div class="form-group">
+							<button type="submit"
+									class="btn btn-xs btn-primary"><?php echo $search_form['submit']->text ?></button>
+							<button type="reset" class="btn btn-xs btn-default"><i class="fa fa-refresh"></i></button>
+						</div>
+					</form>
+				<?php
+				}
+				?>
+			</li>
+			<li>
+				<a id="insert_btn" class="itemopt" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>"><i
+							class="fa fa-plus-circle"></i></a>
+			</li>
+
+			<?php if (!empty ($form_language_switch)) { ?>
+				<li>
+					<?php echo $form_language_switch; ?>
+				</li>
+			<?php } ?>
+			<?php if (!empty ($help_url)) { ?>
+				<li>
+					<div class="help_element">
+						<a href="<?php echo $help_url; ?>" target="new">
+							<i class="fa fa-question-circle"></i>
+						</a></div>
+				</li>
+			<?php } ?>
+		</ul>
+	</div>
 </div>
-<div id="edit_dialog"></div>
+
+<div class="row">
+	<div class="col-sm-12 col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<?php echo $listing_grid; ?>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<?php
+echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'ld_modal',
+				'modal_type' => 'lg',
+				'content' => '',
+				'title' => $text_please_confirm,
+		));
+?>
+
 <script type="text/javascript">
 
-    function openEditDiag(id) {
-        var $Popup = $('#edit_dialog').dialog({
-            autoOpen:true,
-            modal:true,
-            bgiframe:false,
-            width:800,
-            height:480,
-            draggable:true,
-            modal:true,
-            close:function (event) {
-                $(this).dialog('destroy');
-            }
-        });
+	var grid_ready = function(){
+		$('.grid_action_edit').click(
 
+		function () {
 
-        // spinner
-        $("#edit_dialog").html('<div class="progressbar">Loading ...</div>');
+			var href = $(this).attr('href');
 
-        $.ajax({
-            url:'<?php echo $dialog_url; ?>',
-            type:'GET',
-            dataType:'json',
-            data:{language_definition_id:id},
-            success:function (data) {
-                $("#edit_dialog").html(data.html);
-                $('#edit_dialog').dialog('option', 'title', data.title);
-            }
-        });
-    }
+			$.ajax({
+				url:href,
+				type:'GET',
+				dataType:'json',
+				success:function (data) {
+					if (data == '' || data == null) {
+						return null;
+					} else {
+						if (data.html) {
+							$('#ld_modal .modal-body').html(data.html);
+							$('#ld_modal .modal-title').html(data.title);
+						}
+						$('#ld_modal').modal('show');
+					}
+				}
+			});
+			return false;
+		});
+	}
+
+	$('#insert_btn').click(
+
+			function () {
+
+				var href = $(this).attr('href');
+
+				$.ajax({
+					url:href,
+					type:'GET',
+					dataType:'json',
+					success:function (data) {
+						if (data == '' || data == null) {
+							return null;
+						} else {
+							if (data.html) {
+								$('#ld_modal .modal-body').html(data.html);
+								$('#ld_modal .modal-title').html(data.title);
+							}
+							$('#ld_modal').modal('show');
+						}
+					}
+				});
+				return false;
+			});
+
 </script>

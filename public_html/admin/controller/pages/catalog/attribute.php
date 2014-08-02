@@ -54,7 +54,8 @@ class ControllerPagesCatalogAttribute extends AController {
 		$this->document->addBreadcrumb(array(
 		                                    'href' => $this->html->getSecureURL('catalog/attribute'),
 		                                    'text' => $this->language->get('heading_title'),
-		                                    'separator' => ' :: '
+		                                    'separator' => ' :: ',
+											'current'   =>true
 		                               ));
 
 		$grid_settings = array(
@@ -313,7 +314,7 @@ class ControllerPagesCatalogAttribute extends AController {
 		$this->data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(array(
 		                                                                'type' => 'form',
 		                                                                'name' => 'editFrm',
-		                                                                'attr' => 'confirm-exit="true"',
+		                                                                'attr' => 'data-confirm-exit="true"',
 		                                                                'action' => $this->data[ 'action' ],
 		                                                           ));
 		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array(

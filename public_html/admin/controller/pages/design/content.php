@@ -48,7 +48,8 @@ class ControllerPagesDesignContent extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('design/content'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'	=> true
 		));
 
 		$grid_settings = array(
@@ -256,13 +257,15 @@ class ControllerPagesDesignContent extends AController {
 			$this->document->addBreadcrumb(array(
 				'href' => $this->html->getSecureURL('design/content/update', '&content_id=' . $content_id),
 				'text' => $this->language->get('update_title'),
-				'separator' => ' :: '
+				'separator' => ' :: ',
+				'current'	=> true
 			));
 		} else {
 			$this->document->addBreadcrumb(array(
 				'href' => $this->html->getSecureURL('design/content/insert'),
 				'text' => $this->language->get('insert_title'),
-				'separator' => ' :: '
+				'separator' => ' :: ',
+				'current'	=> true
 			));
 		}
 
@@ -307,7 +310,7 @@ class ControllerPagesDesignContent extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'contentFrm',
-			'attr' => 'confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true"',
 			'action' => $this->data['action'],
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(

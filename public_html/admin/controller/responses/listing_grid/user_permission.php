@@ -64,24 +64,19 @@ class ControllerResponsesListingGridUserPermission extends AController {
 	    $results = $this->model_user_user_group->getUserGroups($data);
 	    $i = 0;
 		foreach ($results as $result) {
-			$action = '';
-			if($result['user_group_id']!=1){
-				$action = '<a class="btn_action" href="'.$this->html->getSecureURL('user/user_permission/update', '&user_group_id='. $result['user_group_id']).'"
-								title="'. $this->language->get('text_edit') . '">'.
-				          '<img src="'.RDIR_TEMPLATE.'image/icons/icon_grid_edit.png" alt="'. $this->language->get('text_edit') . '" />'.
-				          '</a>'.
-						  '<a class="btn_action" href="'.$this->html->getSecureURL('user/user_permission/delete', '&user_group_id='. $result['user_group_id']).'"
-						  onclick="return confirm(\''.$this->language->get('text_delete_confirm').'\')" title="'. $this->language->get('text_delete') . '">'.
-				          '<img src="'.RDIR_TEMPLATE.'image/icons/icon_grid_delete.png" alt="'. $this->language->get('text_delete') . '" />'.
-				          '</a>';
+			$id = $result['user_group_id'];
+			if($result['user_group_id']==1){
+				$response->userdata->hightligth[$id] = '';
+				$response->userdata->classes[$id] = 'disable-edit disable-delete';
+				$name = $result[ 'name' ];
 			}else{
-				$response->userdata->hightligth[ $result['user_group_id'] ] = '';
+				$name = $this->html->buildInput(array(
+														'name' => 'name['.$id.']',
+														'value' => $result[ 'name' ],
+													));
 			}
-            $response->rows[$i]['id'] = $result['user_group_id'];
-			$response->rows[$i]['cell'] = array(
-				$result['name'],
-				$action,
-			);
+            $response->rows[$i]['id'] = $id;
+			$response->rows[$i]['cell'] = array( $name	);
 			$i++;
 		}
 
@@ -112,14 +107,36 @@ class ControllerResponsesListingGridUserPermission extends AController {
 	    }
 
         $this->loadModel('user/user_group');
-		if ( isset( $this->request->get['user_group_id'] ) ) {
-		    //request sent from edit form. ID in url
-		  	$this->model_user_user_group->editUserGroup($this->request->get['user_group_id'], $this->request->post);
-		 return;
-	    }
+
+		//request sent from jGrid. ID is key of array
+		$fields = array( 'name' );
+		foreach ($fields as $f) {
+			if (isset($this->request->post[ $f ]))
+				foreach ($this->request->post[ $f ] as $k => $v) {
+					$err = $this->_validateField($f, $v);
+					if (!empty($err)) {
+						$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
+						return $dd->dispatch();
+					}
+					$this->model_user_user_group->editUserGroup($k, array( $f => $v ));
+				}
+		}
 
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
+
+
+	private function _validateField($field, $value) {
+		$err = '';
+		switch ($field) {
+			case 'name' :
+				if (isset($value) && ((mb_strlen($value) < 2) || (mb_strlen($value) > 64))) {
+					$err = $this->language->get('error_name');
+				}
+				break;
+		}
+		return $err;
 	}
 
 	public function getPermissions(){

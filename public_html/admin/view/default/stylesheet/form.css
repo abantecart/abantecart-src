@@ -1,9 +1,10 @@
 /***** Form Fields *****/
+.form-horizontal .form-group {
+	margin-left: 0;
+	margin-right: 0;
+}
 .form-control .input-group, .input-group .btn {
 	border-radius: 2px !important;
-}
-.input_short {
-	width: 35px !important;
 }
 .help_element {
 	padding-left: 5px;
@@ -54,6 +55,27 @@ span.required {
 /* border for quick save buttons */
 .changed .input-group-addon:last-child {
 	border: 1px solid #ffad5e;	
+}
+label > i, thead td > i {
+	color: #F19013;
+	cursor: pointer;
+}
+/* fix for calendar low z-index */
+.ui-datepicker {
+	z-index: 1051 !important;
+}
+
+#product_grid_search .small-field {
+	width: 60px;
+}
+
+/* Field help and errors*/
+form .help-block {
+	text-align: center;	
+}
+.field_err {
+	font-style:italic;
+	font-size:12px;
 }
 
 
@@ -264,10 +286,6 @@ OLD CSS
 
 ***/
 .ajax_result {
-	display:inline-block;
-	margin-left:15px;
-	vertical-align:top;
-	display:none;
 }
 .ajax_loading {
 	background: url(../image/ajax-loader.gif) 0 50% no-repeat;
@@ -284,12 +302,6 @@ OLD CSS
 .ajax_error {
 	line-height:20px;
 	color:#F00;
-}
-.field_err {
-	color:#F00;
-	margin-top:4px;
-	font-style:italic;
-	font-size:11px;
 }
 
 .ml_field input, .ml_field textarea {

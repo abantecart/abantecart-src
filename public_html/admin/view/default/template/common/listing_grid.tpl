@@ -1,31 +1,32 @@
 <div class="ui-jqgrid-wrapper" id="<?php echo $data['table_id'] ?>_wrapper">
-    <form id="<?php echo $data['table_id'] ?>_form" action="<?php echo $data["editurl"] ?>" method="POST" role="form">
+    <form class="form-inline" id="<?php echo $data['table_id'] ?>_form" action="<?php echo $data["editurl"] ?>" method="POST" role="form">
         <table id="<?php echo $data['table_id'] ?>"></table>
         <div id="<?php echo $data['table_id'] ?>_pager"></div>
         <div class="no_results"><?php echo $text_no_results; ?></div>
         <?php if ($data['multiselect'] == 'true' && !$data['multiselect_noselectbox']) { ?>
         <div class="multiactions <?php echo $data['multiaction_class']; ?>" id="<?php echo $data['table_id'] ?>_multiactions" align="right">
-            <a id="<?php echo $data['table_id'] ?>_go" class="btn_standard"><?php echo $btn_go; ?></a>
-
             <select id="<?php echo $data['table_id'] ?>_selected_action" name="<?php echo $data['table_id'] ?>_action">
                 <?php
                 if (sizeof($multiaction_options) > 1) {
                     ?>
                     <option value=""><?php echo $text_choose_action; ?></option>
-                    <?php
+                <?php
                 }
                 foreach ($multiaction_options as $value => $text) {
                     ?>
                     <option value="<?php echo $value; ?>"><?php echo $text; ?></option>
-                    <?php } ?>
+                <?php 
+                } ?>
             </select>
+            <a id="<?php echo $data['table_id'] ?>_go" class="btn btn-xs btn-default"><?php echo $text_go; ?></a>            
         </div>
         <?php } ?>
 
     </form>
 </div>
-
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
 <script type="text/javascript">
+
 
 var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
@@ -181,6 +182,12 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                 $(table_id + '_wrapper .no_results').hide();
             }
 
+			//add wrapers to the fields
+		    $(table_id).find("input:not( input.cbox ), textarea, select").each(function () {
+    		    $.aform.styleGridForm(this);
+        		$(this).aform({triggerChanged:false});
+    		});
+
             // init datepicker for fields
             if ($('.date').length > 0) {
                 $('.date').datepicker({dateFormat:'yy-mm-dd'});
@@ -201,12 +208,12 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
             });
             */
 
-            // apply form transformation to all elements except multiselect checkboxes
+            // apply form transformation to all elements except grid row checkboxes
             $("input:not( input.cbox ), textarea, select", table_id).not('.no-save').aform({
                 triggerChanged:true,
                 buttons:{
-                    save:'<span class="icon_s_save"></span>',
-                    reset:'<span class="ui-icon ui-icon-refresh"></span>'
+                    save:'Save',
+                    reset:'Refresh'
                 },
                 save_url:'<?php echo $data["update_field"] ?>'
             });
@@ -216,19 +223,59 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
             });
 
             var actions = '';
+			var actions_urls = {};
         <?php
         if (!empty($data['actions'])) {
             foreach ($data['actions'] as $type => $action) {
+            	$href = has_value($action['href']) ? $action['href'] : '#';
+            	echo "actions_urls['".$type."'] = '".$href."';\n";
+            	$ec_str = ' actions += \'<a class="btn_action btn_grid tooltips grid_action_' . $type . '" title="' . $action['text'] . '" data-action-type="'.$type.'"';
                 switch ($type) {
+                    case 'edit':
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-edit fa-lg"></i></a>\'; ';
+                        break;
                     case 'delete':
+                    	if($href!='#'){
+                        	echo $ec_str.' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-trash-o fa-lg"></i></a>\'; ';
+                        }else{
+                        	echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-trash-o fa-lg"></i></a>\'; ';
+                        }
+                        break;
                     case 'save':
-                        echo ' actions +=  \'<a class="btn_action btn_grid grid_action_' . $type . '" href="#" rel="%ID%" title="' . $action['text'] . '"><img src="' . $template_dir . 'image/icons/icon_grid_' . $type . '.png" alt="' . $action['text'] . '" border="0" /></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-save fa-lg"></i></a>\'; ';
                         break;
                     case 'expand':
-                        echo ' actions +=  \'<a class="btn_action btn_grid grid_action_' . $type . '" href="#" rel="' . $action['field'] . '=%ID%" title="' . $action['text'] . '"><img src="' . $template_dir . 'image/icons/icon_grid_' . $type . '.png" alt="' . $action['text'] . '" border="0" /></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-plus-square-o fa-lg"></i></a>\'; ';
+                        break;
+                    case 'restart':
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-repeat fa-lg"></i></a>\'; ';
+                        break;
+                    case 'run':
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i></a>\'; ';
+                        break;
+                    case 'approve':
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-check-square-o fa-lg"></i></a>\'; ';
+                        break;
+                    case 'actonbehalfof':
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-male fa-lg"></i></a>\'; ';
+                        break;
+                    case 'clone':
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-copy fa-lg"></i></a>\'; ';
+                        break;
+                    case 'remote_install':
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i></a>\'; ';
+                        break;
+                    case 'install':
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i></a>\'; ';
+                        break;
+                    case 'uninstall':
+                        echo $ec_str.' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-times fa-lg"></i></a>\'; ';
+                        break;
+                    case 'view':
+                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-eye fa-lg"></i></a>\'; ';
                         break;
                     default:
-                        echo ' actions +=  \'<a id="action_' . $type . '_%ID%" class="btn_action btn_grid" href="' . $action['href'] . '" ' . (!empty($action['target']) ? 'target="' . $action['target'] . '"' : '') . ' title="' . $action['text'] . '" ><img src="' . $template_dir . 'image/icons/icon_grid_' . $type . '.png" alt="' . $action['text'] . '" border="0" /></a>\'; ';
+                        echo $ec_str.' href="' . $action['href'] . '" id="action_' . $type . '_%ID%"  ' . (!empty($action['target']) ? 'target="' . $action['target'] . '"' : '') . '><i class="fa fa-' . $type . ' fa-lg"></i></a>\'; ';
                 }
                 echo "\r\n";
             }
@@ -241,7 +288,45 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                     jQuery(table_id).jqGrid('setRowData', ids[i], {action:_a});
                 }
 
-                $(table_id + '_wrapper a.grid_action_delete').click(function () {
+				$(table_id + '_wrapper a[class*=grid_action_]')
+						.not('.grid_action_delete[href="#"], .grid_action_delete[href=""], .grid_action_save, .grid_action_expand')
+						.click(function () {
+
+					if($(this).attr('href')!='#'){ return; }
+
+					var btn_type = $(this).attr('data-action-type');
+
+					if($(table_id + '_selected_action').length>0){
+						$(table_id).jqGrid('resetSelection').jqGrid('setSelection', $(this).attr('rel'));
+						$(table_id + '_selected_action').val(btn_type);
+						$(table_id + "_go").click();
+					}else{
+						var id =  $(this).attr('rel');
+						var data = {id: id, oper: btn_type};
+						var URL = actions_urls[btn_type] ? actions_urls[btn_type].replace(/%ID%/g, id) : '<?php echo $data["editurl"] ?>';
+
+						$.ajax({
+							url: URL,
+							type:'POST',
+							data: data,
+							success:function (msg) {
+								if (msg == '' || msg==null) {
+									jQuery(table_id).trigger("reloadGrid");
+								} else {
+									alert(msg);
+								}
+							},
+							error:function (jqXHR, textStatus, errorThrown) {
+								alert(textStatus + ": " + errorThrown);
+							}
+						});
+					}
+					return false;
+				});
+
+                $(table_id + '_wrapper a.grid_action_delete')
+						.not(table_id + '_wrapper a.grid_action_delete[data-confirmation="delete"]')
+						.click(function () {
                     $(table_id)
                         .jqGrid('resetSelection')
                         .jqGrid('setSelection', $(this).attr('rel'));
@@ -295,6 +380,8 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                     });
                 }
             }
+
+			<?php echo $data['grid_ready'] ? $data['grid_ready'] : ''?>
         },
         onSelectRow:function (id, status) {
             if (status) {
@@ -477,13 +564,16 @@ if ($custom_buttons) {
 		}	
 	}
 
+
     var resize_the_grid = function() {
         if($.browser.msie!=true){
             $(table_id).fluidGrid({base:table_id + '_wrapper', offset:-10});
             //update input width
-            $("input, textarea, select", table_id + '_wrapper').each(function () {
+			/*
+            $("input, textarea, select", table_id).each(function () {
                 $(this).css('width', $(this).closest('th').width() - 52);
             });
+            */
         }
     }
 
@@ -520,7 +610,12 @@ if ($custom_buttons) {
         }
         $(this).parent().css('text-align', algn);
         $.aform.styleGridForm(this);
+        
+        
     });
+    //remove reset button in search
+    $('tr.ui-search-toolbar').find(".ui-search-clear").remove();
+    
 };
 <?php
 //run initialization if initialization on load enabled

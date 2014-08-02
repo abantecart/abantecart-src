@@ -142,9 +142,10 @@ class ControllerPagesReportSale extends AController{
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('report/viewed'),
             'text' => $this->language->get('heading_title'),
-            'separator' => ' :: '
+            'separator' => ' :: ',
+			'current'	=> true
         ));
-        $this->document->addScript(RDIR_TEMPLATE . 'javascript/jquery/ui/jquery.ui.datepicker.js');
+
         $this->processTemplate('pages/report/sale.tpl');
 
         //update controller data
@@ -152,4 +153,3 @@ class ControllerPagesReportSale extends AController{
     }
 }
 
-?>

@@ -738,6 +738,43 @@ function getGravatar( $email = '', $s = 80, $d = 'mm', $r = 'g') {
     }
     $url = 'http://www.gravatar.com/avatar/';
     $url .= md5( strtolower( trim( $email ) ) );
-    $url .= "?s=$s&d=$d&r=$r";
+    $url .= "?s=".$s."&d=".$d."&r=".$r;
     return $url;
+}
+
+function compressTarGZ($tar_filename, $tar_dir){
+
+	$exit_code = 0;
+	if(class_exists('PharData') ){
+		try{
+			if(pathinfo($tar_filename,PATHINFO_EXTENSION)=='gz'){
+				$filename = rtrim($tar_filename,'.gz');
+			}
+
+			$a = new PharData($filename );
+			$a->buildFromDirectory($tar_dir);
+			$a->compress(Phar::GZ);
+			@unlink($filename);
+		}catch (Exception $e){
+			$exit_code =1;
+		}
+	}
+
+	if ( $exit_code ) {
+		$registry = Registry::getInstance();
+		$registry->get('load')->library('targz');
+		$targz = new Atargz();
+		return $targz->makeTar($tar_dir,$tar_filename);
+	}else{
+		return true;
+	}
+}
+
+/**
+ * TODO: in the future
+ * @param $zip_filename
+ * @param $zip_dir
+ */
+function compressZIP($zip_filename, $zip_dir){
+
 }

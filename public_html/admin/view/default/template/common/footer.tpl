@@ -1,3 +1,13 @@
+		<div id="footer" class="row">
+		    <div class="col-md-5 footer_text flt_left">
+		      <p><?php echo $text_footer_left; ?></p>
+		    </div>
+		    <div class="col-md-3 help_links flt_right">
+		      <?php echo $text_footer_right; ?>
+		    </div>
+		    <div class="col-md-4 version"><?php echo $text_footer; ?></div>
+		</div>
+
  	</div><!-- mainpanel -->
 
 <?php if ($logged) { ?>      
@@ -112,14 +122,4 @@
         
     </div><!-- tab-content -->
   </div><!-- rightpanel -->
-
-<div id="footer" class="row">
-    <div class="col-md-5 footer_text flt_left">
-      <p><?php echo $text_footer_left; ?></p>
-    </div>
-    <div class="col-md-3 help_links flt_right">
-      <?php echo $text_footer_right; ?>
-    </div>
-    <div class="col-md-4 version"><?php echo $text_footer; ?></div>
-</div>
 <?php } // END of logged in ?>   

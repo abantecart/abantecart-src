@@ -42,7 +42,9 @@ class ControllerPagesCatalogReview extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('catalog/review'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current' => true
+
    		 ));
 
 		
@@ -95,6 +97,7 @@ class ControllerPagesCatalogReview extends AController {
 		    'type' => 'selectbox',
 		    'name' => 'product_id',
 		    'options' => array( '' => $this->language->get('text_select_product') ) + $this->model_catalog_review->getReviewProducts(),
+			'style' => 'chosen'
 	    ));
 
         $grid_search_form['fields']['status'] = $form->getFieldHtml(array(
@@ -302,7 +305,7 @@ class ControllerPagesCatalogReview extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'reviewFrm',
-		    'attr' => 'confirm-exit="true"',
+		    'attr' => 'data-confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(

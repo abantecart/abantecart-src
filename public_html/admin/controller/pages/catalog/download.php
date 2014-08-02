@@ -42,7 +42,8 @@ class ControllerPagesCatalogDownload extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('catalog/download'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$grid_settings = array(
@@ -190,7 +191,8 @@ class ControllerPagesCatalogDownload extends AController {
    		$this->document->addBreadcrumb( array(
        		'href'      => $this->html->getSecureURL('catalog/download'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'   => true
    		 ));
 
 		$this->data['cancel'] = $this->html->getSecureURL('catalog/download');
@@ -245,7 +247,8 @@ class ControllerPagesCatalogDownload extends AController {
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
        		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));  
 
 		$this->view->assign('help_url', $this->gen_help_url('download_edit') );

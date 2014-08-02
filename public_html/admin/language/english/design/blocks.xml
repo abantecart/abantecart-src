@@ -212,4 +212,8 @@
 		<key>text_layouts</key>
 		<value><![CDATA[ Used in layouts ]]></value>
 	</definition>
+	<definition>
+		<key>text_block_info</key>
+		<value><![CDATA[ Information About Custom Block ]]></value>
+	</definition>
 </definitions>

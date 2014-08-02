@@ -49,7 +49,7 @@ class ControllerResponsesExtensionDefaultSagepay extends AController {
 		$data['Amount'] = $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], FALSE);
 		$data['Currency'] = $order_info['currency'];
 		$data['Description'] = sprintf($this->language->get('text_description'), date($this->language->get('date_format_short')), $this->session->data['order_id']);
-		$data['SuccessURL'] = $this->html->getSecureURL('payment/sagepay/success', 'order_id=' . $this->session->data['order_id']);
+		$data['SuccessURL'] = $this->html->getSecureURL('payment/sagepay/success', '&order_id=' . $this->session->data['order_id']);
 		
 		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
 			$data['FailureURL'] = $this->html->getSecureURL('checkout/payment');

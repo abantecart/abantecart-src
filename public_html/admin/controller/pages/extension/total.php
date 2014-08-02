@@ -37,7 +37,8 @@ class ControllerPagesExtensionTotal extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('extension/total'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$template_data['success'] = '';
@@ -78,7 +79,6 @@ class ControllerPagesExtensionTotal extends AController {
 
 		$grid = $this->dispatch ( 'common/listing_grid', array ($grid_settings ) );
 		$this->view->assign ( 'listing_grid', $grid->dispatchGetOutput () );
-		$this->view->batchAssign (  $this->language->getASet () );
 		$this->view->assign('help_url', $this->gen_help_url('total') );
 
 		$this->processTemplate('pages/extension/total.tpl' );
@@ -137,4 +137,3 @@ class ControllerPagesExtensionTotal extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}	
 }
-?>

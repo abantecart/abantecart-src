@@ -4,148 +4,139 @@
 <?php if ($success) { ?>
 	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
-<a name="top"></a>
 
-<div class="contentBox">
-	<div class="cbox_tl">
-		<div class="cbox_tr">
-			<div class="cbox_tc">
-				<div class="heading icon_title_product"><?php echo $form_title; ?></div>
-				<?php echo $product_tabs ?>
-				<div class="toolbar">
-					<?php if (!empty ($help_url)) : ?>
-						<div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img
-										src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-					<?php endif; ?>
-					<?php echo $form_language_switch; ?>
+<?php echo $summary_form; ?>
+
+<?php echo $product_tabs ?>
+
+<div id="content" class="tab-content">
+
+	<div class="panel-heading">
+
+		<div class="pull-left form-inline">
+			<div class="form-group">
+				<div class="input-group input-group-sm">
+					<label><?php echo $tab_option; ?></label>
 				</div>
+			</div>			
+			<div class="form-group">
+				<div class="input-group input-group-sm">
+				<?php echo $options; ?>
+				</div>
+			</div>			
+			<div class="btn-group ml10 toolbar">
+                    <a class="btn btn-white tooltips" href="#"
+					   title="<?php echo $text_new_option; ?>"
+					   data-original-title="<?php echo $text_new_option; ?>"
+					   data-target="#option_modal" data-toggle="modal">
+                    <i class="fa fa-plus"></i>
+                    </a>
 			</div>
 		</div>
-	</div>
-	<div class="cbox_cl">
-		<div class="cbox_cr">
-			<div class="cbox_cc">
 
-				<?php echo $summary_form; ?>
+		<div class="pull-right">
 
-				<div class="fieldset">
-					<div class="heading"><a id="tab_option"><?php echo $tab_option; ?></a></div>
-					<div class="top_left">
-						<div class="top_right">
-							<div class="top_mid"></div>
-						</div>
-					</div>
-					<div class="cont_left">
-						<div class="cont_right">
-							<div class="cont_mid">
+			<div class="btn-group mr10 toolbar">
+				<?php echo $form_language_switch; ?>
+			</div>
 
-								<div class="option_form">
-									<div class="option_field">
-										<div class="aform">
-											<div class="afield mask2">
-												<div class="tl">
-													<div class="tr">
-														<div class="tc"></div>
-													</div>
-												</div>
-												<div class="cl">
-													<div class="cr">
-														<div class="cc">
-															<select id="product_form_option" size="10"
-																	class="attribute_list static_field">
-																<?php foreach ($product_options as $product_option) { ?>
-																	<option value="<?php echo $product_option['product_option_id']; ?>"><?php echo $product_option['language'][$language_id]['name']; ?></option>
-																<?php } ?>
-															</select>
-														</div>
-													</div>
-												</div>
-												<div class="bl">
-													<div class="br">
-														<div class="bc"></div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="options_buttons">
-											<?php echo $form['form_open']; ?>
-											<table cellpadding="3" cellspacing="0">
-												<tr>
-													<td colspan="2"><?php echo $attributes; ?></td>
-												</tr>
-											</table>
-											<table cellpadding="2" cellspacing="0" id="option_name_block">
-												<tr>
-													<td><?php echo $entry_status; ?></td>
-													<td><?php echo $status; ?></td>
-												</tr>
-												<tr>
-													<td><?php echo $entry_option; ?></td>
-													<td>
-														<?php echo $option_name; ?>
-														<div class="error"
-															 style="display:none"><?php echo $error_required ?></div>
-													</td>
-												</tr>
-												<tr>
-													<td><?php echo $entry_element_type; ?></td>
-													<td>
-														<?php echo $element_type; ?>
-														<div class="error"
-															 style="display:none"><?php echo $error_required ?></div>
-													</td>
-												</tr>
-												<tr>
-													<td><?php echo $entry_sort_order; ?></td>
-													<td><?php echo $sort_order; ?></td>
-												</tr>
-												<tr>
-													<td><?php echo $entry_required; ?></td>
-													<td><?php echo $required; ?></td>
-												</tr>
-											</table>
-											<button type="submit"
-													class="btn_standard"><?php echo $form['submit']; ?></button>
-											<button type="reset" class="btn_standard" style="display:none"
-													id="option_name_reset"><?php echo $button_reset; ?></button>
-											</form>
-										</div>
-									</div>
-
-									<div id="options">
-										<div id="option_values"></div>
-									</div>
-								</div>
-
-							</div>
-						</div>
-					</div>
-					<div class="bottom_left">
-						<div class="bottom_right">
-							<div class="bottom_mid"></div>
-						</div>
-					</div>
-				</div>
-
+			<div class="btn-group mr10 toolbar">
+				<?php if (!empty ($help_url)) : ?>
+					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
+					   title="" data-original-title="Help">
+						<i class="fa fa-question-circle"></i>
+					</a>
+				<?php endif; ?>
 			</div>
 		</div>
+
 	</div>
-	<div class="cbox_bl">
-		<div class="cbox_br">
-			<div class="cbox_bc"></div>
-		</div>
+
+	<div class="panel-body panel-body-nopadding" id="option_values">
+		<?php //# Options HTML loaded from responce controller rt=product/product/load_option ?>		
 	</div>
 </div>
+
+<?php
+
+
+$modal_content = '<div class="add-option-modal" >
+			<div class="panel panel-default">
+			    <div id="collapseTwo" >
+			    	'.$form['form_open'].'
+			    	<div class="panel-body panel-body-nopadding">
+			    		'.$attributes.'
+			    		<div class="mt10 options_buttons" id="option_name_block">
+			    			<div class="form-group '. (!empty($error['status']) ? "has-error" : "") .'">
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'. $entry_status.'</label>
+			    				<div class="input-group afield ">
+			    					'.$status.'
+			    				</div>
+			    			</div>
+			    			<div class="form-group '.(!empty($error['option']) ? "has-error" :"").'">
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_option.'</label>
+			    				<div class="input-group afield ">
+			    					'.$option_name.'
+			    				</div>
+			    			</div>
+			    			<div class="form-group '.(!empty($error['element_type']) ? "has-error" : "").'">
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_element_type.'</label>
+			    				<div class="input-group afield ">
+			    					'.$element_type.'
+			    				</div>
+			    			</div>
+			    			<div class="form-group '.(!empty($error['sort_order']) ? "has-error" : "") .'">
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_sort_order.'</label>
+			    				<div class="input-group afield ">
+			    					'.$sort_order.'
+			    				</div>
+			    			</div>
+			    			<div class="form-group '.(!empty($error['required']) ? "has-error" : "").'">
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_required.'</label>
+			    				<div class="input-group afield ">
+			    					'.$required.'
+			    				</div>
+			    			</div>
+			    		</div>
+			    	</div>
+			    	<div class="panel-footer">
+			    		<div class="row">
+			    		   <div class="center">
+			    			 <button class="btn btn-primary">
+			    			 <i class="fa fa-save"></i> '.$form['submit']->text.'
+			    			 </button>&nbsp;
+			    			 <button type="button" class="btn btn-default" data-dismiss="modal">
+			    			 <i class="fa fa-times"></i> '.$form['cancel']->text.'
+			    			 </button>
+			    		   </div>
+			    		</div>
+			    	</div>
+			    	</form>
+			    </div>
+			</div>
+		</div>';
+
+echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'option_modal',
+				'modal_type' => 'lg',
+				'title' => $text_add_new_option,
+				'content' => $modal_content));
+?>
+
+
+
 <?php echo $resources_scripts; ?>
 <script type="text/javascript"><!--
-var setRLparams = function(attr_val_id) {
+
+var setRLparams = function (attr_val_id) {
 	urls.resource_library = '<?php echo $rl_rl_path; ?>&object_id=' + attr_val_id;
 	urls.resources = '<?php echo $rl_resources_path; ?>&object_id=' + attr_val_id;
 	urls.unmap = '<?php echo $rl_unmap_path; ?>&object_id=' + attr_val_id;
 	urls.attr_val_id = attr_val_id;
 }
 
-var openRL = function(attr_val_id) {
+var openRL = function (attr_val_id) {
 	setRLparams(attr_val_id);
 	mediaDialog('image', 'add', attr_val_id);
 }
@@ -172,21 +163,22 @@ var loadMedia = function (type) {
 				html += '<span id="image_row' + item['resource_id'] + '" class="image_block">\
                 <a class="resource_edit" type="' + type + '" id="' + item['resource_id'] + '">' + src + '</a><br /></span>';
 			});
-			html += '<span class="image_block"><a class="resource_add" type="' + type + '"><img src="<?php echo $template_dir.'/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>"/></a></span>';
+			html += '<span class="image_block"><a title="<?php echo $text_add_media; ?>" class="resource_add" data-type="' + type + '"><i class="fa fa-plus-circle fa-5x"></i></a></span>';
 
 			$('#rl_' + urls.attr_val_id).html(html);
 			if ($(json.items).length) {
 				$('a.resource_edit').unbind('click');
 				$('a.resource_edit').click(function () {
-					setRLparams($(this).parent().parent().prop('id').replace('rl_', ''));
-					mediaDialog($(this).prop('type'), 'update', $(this).prop('id'));
+					setRLparams($(this).parents('.add_resource').attr('id').replace('rl_', ''));
+					mediaDialog($(this).attr('data-type'), 'update', $(this).attr('id'));
 					return false;
 				})
 			}
 			$('a.resource_add').unbind('click');
 			$('a.resource_add').click(function () {
-				setRLparams($(this).parent().parent().prop('id').replace('rl_', ''));
-				mediaDialog($(this).prop('type'), 'add', $(this).prop('id'));
+
+				setRLparams($(this).parents('.add_resource').attr('id').replace('rl_', ''));
+				mediaDialog($(this).attr('data-type'), 'add', $(this).attr('id'));
 				return false;
 			});
 		},
@@ -200,6 +192,7 @@ var loadMedia = function (type) {
 
 
 var mediaDialog = function (type, action, id) {
+
 	$('#dialog').remove();
 
 	var src = urls.resource_library + '&' + action + '=1&type=' + type;
@@ -247,14 +240,20 @@ var row_id = 1;
 
 jQuery(function ($) {
 
-	$("#option_name_block").hide();
+	$(document).on('change', '#new_option_form_attribute_id', function () {
+		var current_opt_attr_id = $(this).val();
+		if ( current_opt_attr_id != 'new' ) {
+			$("#option_name_block").hide();
+		} else {
+			$("#option_name_block").show();
+			$("#option_name_reset").show();		
+		}
+
+	});
+
 	$("#product_form").submit(function () {
+	
 		if ($("#new_option_form_attribute_id").val() == 'new' && ( $("#new_option_form_option_name").val() == '' || $("#new_option_form_element_type").val() == ''  )) {
-			if (!$("#option_name_block").is(':visible')) {
-				$("#option_name_block").show();
-				$("#option_name_reset").show();
-				return false;
-			}
 			if ($("#new_option_form_option_name").val() == '') {
 				$("#new_option_form_option_name").focus();
 				$("#new_option_form_option_name").closest("span").next().next().show();
@@ -268,29 +267,38 @@ jQuery(function ($) {
 			} else {
 				$("#new_option_form_element_type").closest("span").next().next().hide();
 			}
-
 			return false;
+		} else if( $("#new_option_form_attribute_id").val() != 'new' ) {
+			$("#new_option_form_option_name").val('');
+			$("#new_option_form_element_type").val('');
 		}
 	});
 
-var updateOptions = function() {
+	var updateOptions = function () {
 		$.ajax({
 			url: opt_urls.get_options_list,
 			type: 'GET',
 			dataType: 'json',
 			success: function (json) {
-				$("#product_form_option option").remove();
+				$("#option option").remove();
 				for (var key in json) {
-					$("#product_form_option").append($('<option value="' + key + '">' + json[key] + '</option>'));
+					var selected = '';
+					if (key == current_option_id) { 
+						selected = ' selected ';
+					}
+					$("#option").append($('<option value="' + key + '"'+selected+'>' + json[key] + '</option>'));
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				$('#option_values').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
+				error_alert(errorThrown);
+			},
+			complete: function() {
+				bindEvents();
 			}
 		});
 	}
 
-	var editOption = function(id) {
+	var editOption = function (id) {
 		$('#notify_error').remove();
 		$.ajax({
 			url: opt_urls.update_option,
@@ -308,75 +316,86 @@ var updateOptions = function() {
 			success: function (html) {
 				$('#option_name').html($('#name').val());
 				updateOptions();
-				$('#notify').html('<?php echo $text_success_option?>').fadeIn(500).delay(2000).fadeOut(500);
+				//Reset changed values marks
+				resetAForm($("input, checkbox, select", '#option_edit_form'));
+				success_alert('<?php echo $text_success_option?>',true);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				$('#notify').after('<div id="notify_error" class="warning error" align="center">' + errorThrown + '</div>');
+				error_alert(errorThrown);
 			}
 		});
 		return false;
 	}
 
-	$("#option_values_tbl a.remove").on('click', function () {
+	$(document).on('click', "#option_values_tbl a.remove", function () {
 		if ($(this).closest('tr').find('input[name^=product_option_value_id]').val() == 'new') {
 			//remove new completely
 			$(this).closest('tr').next().remove();
 			$(this).closest('tr').remove();
 		} else {
-			$(this).closest('tr').toggleClass('toDelete');
+			//mark for delete and set disabled
+			$(this).closest('tr').toggleClass('toDelete').toggleClass('transparent');
 		}
-		$(this).parent().parent().next().find('div.additionalRow').toggleClass('toDelete').hide();
-		//$(this).parent().parent().find('a.expandRow').click();
 		return false;
 	});
 
-	$("#option_values_tbl a.expandRow").on('click', function () {
-		var additional_row = $(this).parent().parent().next().find('div.additionalRow');
-		if ($(additional_row).is(':visible')) {
-			$(additional_row).hide();
-			$(this).text(text.text_expand);
-			$(this).parent().parent().next().find('div.add_resource').html();
-		} else {
-			$(additional_row).show();
-			$(this).text(text.text_hide);
-			$('div.aform', additional_row).show();
+	$(document).on('click',"#option_values_tbl a.expandRow",function () {
+
+		var row_id = $(this).parents('tr').attr('id');
+		var additional_row = $('#add_'+row_id +'div.additionalRow');
+		var icon = $(this).find('i');
+		if (icon.hasClass("fa-expand")) {
+			$(this).attr('title', text.text_hide);
+			icon.removeClass('fa-expand').addClass('fa-compress');
 			setRLparams($(this).attr('id'));
-
 			loadMedia('image');
+		} else {
+			$(this).attr('title', text.text_expand);
+			icon.removeClass('fa-compress').addClass('fa-expand');
+			additional_row.find('div.add_resource').html();
 		}
 
 		return false;
 	});
 
-	$('.open_newtab').on('click', function () {
+	$(document).on('click', '.open_newtab', function () {
 		var href = $(this).attr('link');
 		top.open(href, '_blank');
 		return false;
 	});
 
 
-	$('.default_uncheck').on('click', function () {
-		$("input[name='default']").removeAttr('checked');
+	$(document).on('click', '.uncheck', function () {
+		$("input[name='default_value']").removeAttr('checked');
+		return false;
 	});
 
-	$("#add_option_value").on('click', function () {
+	$(document).on('click',"#add_option_value", function () {
 		var new_row = $('#new_row').parent().find('tr').clone();
 		$(new_row).attr('id', 'new' + row_id);
 
+		//find next sort order number
 		var so = $('#option_values_tbl').find("input[name^='sort_order']");
-		if(so.length>0){
+		if (so.length > 0) {
 			var highest = 0;
-			so.each(function() {
+			so.each(function () {
 				highest = Math.max(highest, parseInt(this.value));
 			});
-			$(new_row).find("input[name^='sort_order']").val(highest+1);
+			$(new_row).find("input[name^='sort_order']").val(highest + 1);
+		} else {
+			$(new_row).find("input[name^='sort_order']").val(0);
 		}
 
-		$('#option_values_tbl tr:last-child').after(new_row);
-		$("input, checkbox, select", new_row).aform({triggerChanged: true, showButtons: false });
-		$('div.aform', new_row).show();
+		if($('#option_values_tbl tbody').length){
+			//add one more row
+			$('#option_values_tbl tbody tr:last-child').after(new_row);
+		} else {
+			//we insert first row
+			$('#option_values_tbl tr:last-child').after(new_row);			
+		}
+		bindAform($("input, checkbox, select", new_row));
 		//Mark rows to be new
-		$('#new' + row_id + ' input[name=default]').last()
+		$('#new' + row_id + ' input[name=default_value]').last()
 				.val('new' + row_id)
 				.attr('id', 'option_value_form_default_new' + row_id)
 				.removeAttr('checked')
@@ -392,8 +411,7 @@ var updateOptions = function() {
 		return false;
 	});
 
-	// $('#product_form_option').aform({ triggerChanged: false });
-	$('#product_form_option').change(function () {
+	$('#option').change(function () {
 		current_option_id = $(this).val();
 		$.ajax({
 			url: opt_urls.load_option,
@@ -401,62 +419,38 @@ var updateOptions = function() {
 			data: { option_id: current_option_id },
 			success: function (html) {
 				$('#option_values').html(html);
-				$("input, checkbox, select", '#option_values_tbl').aform({triggerChanged: true, showButtons: false});
-				$("input, checkbox, select", '.editOption').aform({triggerChanged: true, showButtons: false});
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				$('#option_values').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
+				error_alert(errorThrown);
+			},
+			complete: function() {
+				bindAform($("input, checkbox, select", '#option_edit_form'));
+				bindAform($("input, checkbox, select", '#update_option_values'));
+				bindEvents();
 			}
 		});
 	});
 
 
 	//select option and load data for it
-	$('#product_form_option option:first-child').attr("selected", "selected").change();
+	$('#option option:first-child').attr("selected", "selected").change();
 
-	$('#update_option').on('click', function () {
+	$(document).on('click','#update_option', function () {
 		editOption('#update_option');
 	});
 
-	$('#reset_option').on('click', function () {
-		$('#product_form_option').change();
+	$(document).on('click','#reset_option',function () {
+		$('#option').change();
 		return false;
 	});
-
-	$('#option_values a').on('click', function () {
-		if ($(this).attr('id') == 'update_option' || $(this).attr('id') == 'add_option_value' ||
-				$(this).attr('id') == 'reset_option' || $(this).hasClass('remove') || $(this).hasClass('expandRow')) {
-			return false;
-		}
-		if ($(this).attr('id') == 'button_remove_option' && !confirm('<?php echo $text_delete_confirm; ?>')) {
-			return false;
-		}
-		var that = this;
-		$.ajax({
-			url: $(that).attr('href'),
-			type: 'GET',
-			success: function (html) {
-				if ($(that).attr('id') == 'button_remove_option') {
-					$('#product_form_option option:selected').remove();
-				}
-				$('#option_values').html(html);
-				$("input, checkbox", '#option_values_tbl').aform({triggerChanged: true, showButtons: false});
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				$('#option_values').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
-			}
-		});
-		return false;
-	});
-
-	$('#option_values button[type="submit"]').on('click', function () {
+		
+	$(document).on('click','#option_values button[type="submit"]', function () {
 		//Mark rows to be deleted
 		$('#option_values_tbl .toDelete input[name^=product_option_value_id]').val('delete');
 		$(this).attr('disabled', 'disabled');
 
 		editOption('#update_option');
 
-		//$('#option_values_tbl tr.toDelete').remove();
 		var that = this;
 		$.ajax({
 			url: $(that).closest('form').attr('action'),
@@ -464,16 +458,40 @@ var updateOptions = function() {
 			data: $(that).closest('form').serializeArray(),
 			success: function (html) {
 				$('#option_values').html(html);
-				$("input, checkbox, select", '#option_values_tbl').aform({triggerChanged: true, showButtons: false});
-				$("input, checkbox, select", '.editOption').aform({triggerChanged: true, showButtons: false});
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				$('#option_values').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
-			}
+				error_alert(errorThrown);
+			},
+			complete: function() {
+				bindAform($("input, checkbox, select", '#option_edit_form'));
+				bindAform($("input, checkbox, select", '#update_option_values'));
+				bindEvents();
+			}			
 		});
 		return false;
 	});
 
-	//$.aform.styleGridForm('#product_form_option');
 });
+
+// Function to delete option. NOTE. Needs to be here (global)
+function optionDelete ( url ) {
+		$.ajax({
+			url: url,
+			type: 'GET',
+			success: function (html) {
+				//remove option and reload the section
+				$('#option option:selected').remove();
+				$("#option").trigger("change");
+				success_alert(html,true);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				error_alert(errorThrown);
+			},
+			complete: function() {
+				bindEvents();
+			}
+		});
+		return false;
+}
+
 //--></script>

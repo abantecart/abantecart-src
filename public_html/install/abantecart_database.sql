@@ -10589,13 +10589,13 @@ VALUES  (1,'home',1),
 
 -- ITEM_ICON
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (2,'<i class="icon-home"></i>&nbsp;',1),
-        (2,'<i class="icon-lock"></i>&nbsp;&nbsp;',2),
-        (2,'<i class="icon-lock"></i>&nbsp;&nbsp;',3),
-        (2,'<i class="icon-user"></i>&nbsp;',4),
-        (2,'<i class="icon-shopping-cart"></i>&nbsp;',5),
-        (2,'<i class="icon-barcode"></i>&nbsp;&nbsp;',6),
-        (2,'<i class="icon-star"></i>&nbsp;&nbsp;',7);
+VALUES  (2,'<i class="fa fa-home"></i>&nbsp;',1),
+        (2,'<i class="fa fa-lock"></i>&nbsp;&nbsp;',2),
+        (2,'<i class="fa fa-lock"></i>&nbsp;&nbsp;',3),
+        (2,'<i class="fa fa-user"></i>&nbsp;',4),
+        (2,'<i class="fa fa-shopping-cart"></i>&nbsp;',5),
+        (2,'<i class="fa fa-barcode"></i>&nbsp;&nbsp;',6),
+        (2,'<i class="fa fa-star"></i>&nbsp;&nbsp;',7);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (3,'index/home',1),
@@ -11432,32 +11432,39 @@ VALUES  (40,'<i class="fa fa-jsfiddle"></i>&nbsp;',183),
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (10,'installlog',186),
-		    (10,'error_log',187);
+		    (10,'error_log',187),
+		    (10,'task',189);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (11,'text_install_upgrade_history',186),
-		      (11,'text_error_log',187);
+		    (11,'text_error_log',187),
+		    (11,'text_tasks',189);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (12,'tool/install_upgrade_history',186),
-		    (12,'tool/error_log',187);
+		    (12,'tool/error_log',187),
+		    (12,'tool/task',189);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (13,'logs',186),
-		    (13,'logs',187);
+		    (13,'logs',187),
+		    (13,'logs',189);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (14,1,186),
-	    	(14,2,187);
+	    	(14,2,187),
+	    	(14,3,189);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (15,'core',186),
-		    (15,'core',187);
+		    (15,'core',187),
+		    (15,'core',189);
 
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'<i class="fa fa-history"></i>&nbsp;',186),
-        (40,'<i class="fa fa-exclamation-triangle"></i>&nbsp;',187);
+        (40,'<i class="fa fa-exclamation-triangle"></i>&nbsp;',187),
+        (40,'<i class="fa fa-tasks"></i>&nbsp;',189);
 
 --
 -- Storefront menu names inserts
@@ -11608,12 +11615,12 @@ CREATE TABLE `ac_resource_descriptions` (
 INSERT INTO `ac_resource_descriptions`
 (`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `created`)
 VALUES
-(1,1,'Star Icon','','','','<i class="icon-star"></i>&nbsp;&nbsp;',now()),
-(2,1,'Icon Home','','','','<i class="icon-home"></i>&nbsp;',now()),
-(3,1,'Login Icon','','','','<i class="icon-lock"></i>&nbsp;&nbsp;',now()),
-(4,1,'Account Icon','','','','<i class="icon-user"></i>&nbsp;',now()),
-(5,1,'Cart Icon','','','','<i class="icon-shopping-cart"></i>&nbsp;',now()),
-(6,1,'Checkout Icon','','','','<i class="icon-barcode"></i>&nbsp;&nbsp;',now());
+(1,1,'Star Icon','','','','<i class="fa fa-star"></i>&nbsp;&nbsp;',now()),
+(2,1,'Icon Home','','','','<i class="fa fa-home"></i>&nbsp;',now()),
+(3,1,'Login Icon','','','','<i class="fa fa-lock"></i>&nbsp;&nbsp;',now()),
+(4,1,'Account Icon','','','','<i class="fa fa-user"></i>&nbsp;',now()),
+(5,1,'Cart Icon','','','','<i class="fa fa-shopping-cart"></i>&nbsp;',now()),
+(6,1,'Checkout Icon','','','','<i class="fa fa-barcode"></i>&nbsp;&nbsp;',now());
 
 --
 -- DDL for table `ac_resource_types`
@@ -11827,3 +11834,49 @@ CREATE TABLE `ac_encryption_keys` (
   PRIMARY KEY (`key_id`),
   UNIQUE KEY `encryption_keys_key_name` (`key_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+
+DROP TABLE IF EXISTS `ac_tasks`;
+CREATE TABLE `ac_tasks` (
+  `task_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `starter` int(11) DEFAULT NULL, -- 0 - storefront, 1 - admin side, 2 - any
+  `status` int(11) DEFAULT '0', -- 0 - disabled, 1 - scheduled, 2 - active
+  `start_time` datetime DEFAULT NULL,
+  `last_time_run` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `progress` int(11) NOT NULL DEFAULT '0', -- percentage of progress
+  `last_result` int(11) NOT NULL DEFAULT '0', -- 0 - success, 1 - failed, 2 - interrupted
+  `run_interval` INT(11) NOT NULL DEFAULT '0', -- interval in seconds since last run, 0 - without interval
+  `max_execution_time` int(11) DEFAULT '0', -- maximum execution time for this task
+  `date_created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`task_id`),
+  UNIQUE KEY `task_name_idx` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `ac_task_details`;
+CREATE TABLE `ac_task_details` (
+  `task_id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_by` varchar(255) DEFAULT '', -- task owner name
+  `settings` text DEFAULT '', -- serialized array with paramenters
+  `date_created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`task_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `ac_task_steps`;
+CREATE TABLE `ac_task_steps` (
+  `step_id` int(11) NOT NULL AUTO_INCREMENT,
+  `task_id` int(11) NOT NULL,
+  `sort_order` int(11) DEFAULT '0',
+  `status` int(11) DEFAULT '0', -- 0 - disabled, 1 - scheduled, 2 - active
+  `last_time_run` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_result` int(11) NOT NULL DEFAULT '0', -- 0 - success, 1 - failed, 2 - interrupted
+  `max_execution_time` int(11) DEFAULT '0', -- maximum execution time for this task
+  `controller` varchar(255) DEFAULT '',
+  `settings` text DEFAULT '', -- serialized array with paramenters
+  `date_created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`task_id`, `step_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+

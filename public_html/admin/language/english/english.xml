@@ -577,4 +577,20 @@
 		<key>text_free</key>
 		<value><![CDATA[Free]]></value>
 	</definition>
+	<definition>
+		<key>text_sure</key>
+		<value><![CDATA[Are you sure?]]></value>
+	</definition>
+	<definition>
+		<key>button_add</key>
+		<value><![CDATA[Add]]></value>
+	</definition>
+	<definition>
+		<key>text_please_confirm</key>
+		<value><![CDATA[Please Confirm]]></value>
+	</definition>
+	<definition>
+		<key>button_confirm</key>
+		<value><![CDATA[Confirm]]></value>
+	</definition>
 </definitions>

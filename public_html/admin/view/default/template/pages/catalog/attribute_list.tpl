@@ -4,34 +4,37 @@
 <?php if ($success) { ?>
 <div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
+<div class="row">
+	<div class="col-sm-12 col-lg-12">
+		<ul class="content-nav">
+			<li class="pull-right">
+				<a class="itemopt" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>"><i
+							class="fa fa-plus-circle"></i></a>
+			</li>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_length"><?php echo $heading_title; ?></div>
-    <?php
-    if ( !empty($search_form) ) {
-        echo '<div class="filter">';
-        echo $search_form['form_open'];
-        foreach ($search_form['fields'] as $f) echo $f;
-        echo '<button type="submit" class="btn_standard">'.$search_form['submit'].'</button>';
-        echo '<button type="reset" class="btn_standard">'.$search_form['reset'].'</button>';
-        echo '</form>';
-        echo '</div>';
-    }
-    ?>
-      <div class="toolbar">
-  		<?php if ( !empty ($help_url) ) : ?>
-  	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-  	    <?php endif; ?>
-  	    <?php echo $form_language_switch; ?>
-  	    <div class="buttons">
-        <a class="btn_toolbar" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>">
-  		<span class="icon_add">&nbsp;</span>
-  	  </a>
-      </div></div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-    <?php echo $listing_grid; ?>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+			<?php if (!empty ($form_language_switch)) { ?>
+				<li class="pull-right">
+					<?php echo $form_language_switch; ?>
+				</li>
+			<?php } ?>
+			<?php if (!empty ($help_url)) { ?>
+				<li class="pull-right">
+					<div class="help_element">
+						<a href="<?php echo $help_url; ?>" target="new">
+							<i class="fa fa-question-circle"></i>
+						</a></div>
+				</li>
+			<?php } ?>
+		</ul>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-12 col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+		<?php echo $listing_grid; ?>
+			</div>
+		</div>
+	</div>
 </div>

@@ -40,6 +40,7 @@ class ControllerPagesDesignBlocks extends AController {
             'href' => $this->html->getSecureURL('design/blocks'),
             'text' => $this->language->get('heading_title'),
             'separator' => ' :: ',
+            'current'	=> true
         ));
 
         $grid_settings = array('table_id' => 'block_grid',
@@ -50,63 +51,58 @@ class ControllerPagesDesignBlocks extends AController {
             'sortorder' => 'desc',
             'columns_search' => true,
             'multiselect' => 'false',
+			'grid_ready' => 'updateViewButtons();',
+			'actions' => array(
+				'edit' => array(
+					'text' => $this->language->get('text_edit'),
+					'href' => $this->html->getSecureURL('design/blocks/edit', '&custom_block_id=%ID%')
+				),
+				'view' => array(
+					'text' => $this->language->get('text_view'),
+					'href' => $this->html->getSecureURL('listing_grid/blocks_grid/info','&block_id=%ID%')
+				),
+				'delete' => array(
+					'text' => $this->language->get('button_delete'),
+					'href' => $this->html->getSecureURL('design/blocks/delete', '&custom_block_id=%ID%')
+				)
+			),
         );
-
-        $form = new AForm ();
-        $form->setForm(array('form_name' => 'blocks_grid_search'));
-
-        $grid_search_form = array();
-        $grid_search_form['id'] = 'blocks_grid_search';
-        $grid_search_form['form_open'] = $form->getFieldHtml(array('type' => 'form',
-            'name' => 'blocks_grid_search',
-            'action' => ''));
-        $grid_search_form['submit'] = $form->getFieldHtml(array('type' => 'button',
-            'name' => 'submit',
-            'text' => $this->language->get('button_go'), 'style' => 'button1'));
-        $grid_search_form['reset'] = $form->getFieldHtml(array('type' => 'button',
-            'name' => 'reset',
-            'text' => $this->language->get('button_reset'), 'style' => 'button2'));
 
         $grid_settings['colNames'] = array($this->language->get('column_block_id'),
             $this->language->get('column_block_txt_id'),
             $this->language->get('column_block_name'),
             $this->language->get('column_status'),
-            $this->language->get('column_date_added'),
-            $this->language->get('column_action'));
+            $this->language->get('column_date_added'));
 
         $grid_settings['colModel'] = array(array('name' => 'block_id',
             'index' => 'block_id',
-            'width' => 25,
+            'width' => 100,
             'align' => 'center',
             'search' => false),
             array('name' => 'block_txt_id',
                 'index' => 'block_txt_id',
-                'width' => 120,
+                'width' => 250,
                 'align' => 'left',
                 'search' => 'true'),
             array('name' => 'block_name',
                 'index' => 'name',
+				'width' => 250,
                 'align' => 'left',
                 'search' => 'true'),
             array('name' => 'status',
                 'index' => 'status',
                 'align' => 'center',
+				'width' => 70,
                 'search' => false),
             array('name' => 'block_date_added',
                 'index' => 'block_date_added',
                 'align' => 'center',
-                'search' => false),
-            array('name' => 'action',
-                'index' => 'action',
-                'align' => 'center',
-                'width' => 60,
-                'search' => false,
-                'sortable' => false));
+				'width' => 100,
+                'search' => false));
 
         $grid = $this->dispatch('common/listing_grid', array($grid_settings));
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
-        $this->view->assign('search_form', $grid_search_form);
-        $this->view->assign('popup_action', $this->html->getSecureURL('listing_grid/blocks_grid/info'));
+
         $this->view->assign('popup_title', 'Information about block'); //$this->language->get('Information about block'));
 
         if (isset ($this->session->data['warning'])) {
@@ -294,7 +290,12 @@ class ControllerPagesDesignBlocks extends AController {
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->document->setTitle($this->language->get('heading_title'));
 
-        $custom_block_id = (int)$this->request->get['custom_block_id'];
+		if(is_int(strpos($this->request->get['custom_block_id'],'_'))){
+			$t = explode('_',$this->request->get['custom_block_id']);
+			$custom_block_id = $t[1];
+		}else{
+        	$custom_block_id = (int)$this->request->get['custom_block_id'];
+		}
 
         // now need to know what custom block is this
         $lm = new ALayoutManager();
@@ -458,14 +459,15 @@ class ControllerPagesDesignBlocks extends AController {
 
         $this->document->addBreadcrumb(array('href' => $this->data['action'],
             'text' => $this->data['heading_title'],
-            'separator' => ' :: '
+            'separator' => ' :: ',
+            'current'	=> true
         ));
 
         $form->setForm(array('form_name' => 'BlockFrm', 'update' => $this->data ['update']));
 
         $this->data['form']['form_open'] = $form->getFieldHtml(array('type' => 'form',
             'name' => 'BlockFrm',
-            'attr' => 'confirm-exit="true"',
+            'attr' => 'data-confirm-exit="true"',
             'action' => $this->data ['action']));
         $this->data['form']['submit'] = $form->getFieldHtml(array('type' => 'button',
             'name' => 'submit',
@@ -646,14 +648,15 @@ class ControllerPagesDesignBlocks extends AController {
 
         $this->document->addBreadcrumb(array('href' => $this->data['action'],
             'text' => $this->data['heading_title'],
-            'separator' => ' :: '
+            'separator' => ' :: ',
+   			'current'	=> true
         ));
 
         $form->setForm(array('form_name' => 'BlockFrm', 'update' => $this->data ['update']));
 
         $this->data['form']['form_open'] = $form->getFieldHtml(array('type' => 'form',
             'name' => 'BlockFrm',
-            'attr' => 'confirm-exit="true"',
+            'attr' => 'data-confirm-exit="true"',
             'action' => $this->data ['action']));
         $this->data['form']['submit'] = $form->getFieldHtml(array('type' => 'button',
             'name' => 'submit',

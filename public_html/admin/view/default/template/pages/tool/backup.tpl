@@ -1,113 +1,132 @@
-<?php if ($error_warning) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
+<?php if (!empty($error['warning'])) { ?>
+	<div class="warning alert alert-error alert-danger"><?php echo is_array($error['warning']) ? implode('<br>',$error['warning']) : $error['warning']; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
+	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading"><?php echo $heading_title; ?></div>
-	  <div class="toolbar">
-		<?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-    </div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-	<div id="anchor_links">
-        <a href="<?php echo $current_url; ?>#tab_backup"><?php echo $tab_backup; ?></a>
-        <a href="<?php echo $current_url; ?>#tab_restore"><?php echo $tab_restore; ?></a>
-        <a href="<?php echo $current_url; ?>#tab_loadxml"><?php echo $tab_loadxml; ?></a>
-    </div>
 
-	<div class="fieldset">
-      <div class="heading"><a id="tab_backup"><?php echo $tab_backup; ?></a></div>
-      <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-      <div class="cont_left"><div class="cont_right"><div class="cont_mid">
-        <div >
-			<?php echo $form['form_open']; ?>
-			  <table class="form">
-				<tr>
-				  <td><?php echo $entry_backup; ?></td>
-				  <td>
-					  <?php $class = 'odd'; ?>
-					<?php foreach($form['fields'] as $key => $field): ?>
-						<span id="<?php echo $key; ?>"><?php echo $field; ?></span>
-					<?php endforeach; ?>
-					<div class="clr_both"></div>
-					<br/>
-					<a onclick="selectAll();"><?php echo $text_select_all; ?></a> /
-					<a onclick="unselectAll();"><?php echo $text_unselect_all; ?></a>
-					<br/><br/>
-					<div>
-						<?php echo $form['backup_rl']; ?>
-					</div>
-					<div>
-						<?php echo $form['backup_config']; ?>
-					</div>
-				</td></tr>
-				<tr><td></td>
-				  <td><button type="submit" class="btn_standard button_loader"><?php echo $form['submit']; ?></button></td>
-				</tr>
-			  </table>
-			</form>
+<div class="tab-content">
+	<div class="panel-heading">
+		<div class="pull-right">
+			<div class="btn-group mr10 toolbar">
+				<?php if (!empty ($help_url)) : ?>
+					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
+					   title="" data-original-title="Help">
+						<i class="fa fa-question-circle"></i>
+					</a>
+				<?php endif; ?>
+			</div>
 		</div>
-      </div></div></div>
-      <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
-    </div>
-	<div class="fieldset">
-      <div class="heading"><a id="tab_restore"><?php echo $tab_restore; ?></a></div>
-      <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-      <div class="cont_left"><div class="cont_right"><div class="cont_mid">
-        <div ><?php echo $restoreform['form_open']; ?>
-			  <table class="form">
-				<tr>
-				  <td><?php echo $entry_restore; ?></td>
-				  <td><?php echo $restoreform['file']; ?></td>
-			      <td width="100%"><a class="btn_standard" onclick="document.forms['restore_form'].submit();">
-						    <?php echo $restoreform['submit']; ?></a></td>
-				</tr>
-			  </table>
-		</form>
-     </div>
-      </div></div></div>
-      <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
-    </div>
-	<div class="fieldset">
-      <div class="heading"><a id="tab_loadxml"><?php echo $tab_loadxml; ?></a></div>
-      <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-      <div class="cont_left"><div class="cont_right"><div class="cont_mid">
-        <div ><?php echo $xmlform['form_open']; ?>
-			  <table class="form">
-				<tr>
-				  <td><?php echo $entry_loadxml; ?></td>
-				  <td><?php echo $xmlform['file']; ?></td>
-				  <td width="100%"><a class="btn_standard" onclick="document.forms['loadxml_form'].submit();">
-						    <?php echo $xmlform['submit']; ?></a></td>
-				</tr>
-			  </table>
-			</form>
+	</div>
+	<?php echo $form['form_open']; ?>
+	<div class="panel-body panel-body-nopadding">
+		<label class="h4 heading"><?php echo $tab_backup; ?></label>
+		<?php foreach ($form['fields'] as $name => $field) { ?>
+
+			<div class="form-group <? if (!empty($error[$name])) {
+				echo "has-error";
+			} ?>">
+				<label class="control-label col-sm-3 col-xs-12"
+					   for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+
+				<div class="input-group afield"><?php echo $field; ?>
+					<?php if ($name == 'tables') { ?>
+						<br><a onclick="selectAll();"><?php echo $text_select_all; ?></a> / <a
+								onclick="unselectAll();"><?php echo $text_unselect_all; ?></a>
+					<?php } ?>
+				</div>
+				<?php if (!empty($error[$name])) { ?>
+					<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+				<?php } ?>
+
+			</div>
+
+		<?php } ?>
+
+	</div>
+	<div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-3">
+				<button class="btn btn-primary task_run" data-run-task-url="<?php echo $form['build_task_url']?>"
+						data-complete-task-url="<?php echo $form['complete_task_url']?>">
+					<i class="fa fa-database"></i> <?php echo $form['backup_now']->text; ?>
+				</button>
+				<button class="btn btn-primary task_schedule" >
+					<i class="fa fa-clock-o"></i> <?php echo $form['backup_schedule']->text; ?>
+				</button>
+			</div>
 		</div>
-      </div>
-      </div>
-      </div>
-      <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
-    </div>
-  </div>
-<div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+	</div>
+	</form>
+
+
+	<?php echo $restoreform['form_open']; ?>
+	<div class="panel-body panel-body-nopadding">
+		<label class="h4 heading"><?php echo $tab_restore; ?></label>
+
+		<div class="form-group <? if (!empty($error['file'])) {
+			echo "has-error";
+		} ?>">
+			<label class="control-label col-sm-3 col-xs-12"
+				   for="<?php echo $restoreform['file']->element_id; ?>"><?php echo $entry_restore; ?></label>
+
+			<div class="input-group afield <?php echo $widthcasses; ?> ">
+				<?php echo $restoreform['file']; ?>
+			</div>
+			<?php if (!empty($error['file'])) { ?>
+				<span class="help-block field_err"><?php echo $error['file']; ?></span>
+			<?php } ?>
+		</div>
+	</div>
+	<div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-3">
+				<button class="btn btn-primary">
+					<i class="fa fa-undo"></i> <?php echo $restoreform['submit']->text; ?>
+				</button>
+			</div>
+		</div>
+	</div>
+	</form>
+
+	<?php echo $xmlform['form_open']; ?>
+	<div class="panel-body panel-body-nopadding">
+		<label class="h4 heading"><?php echo $tab_loadxml; ?></label>
+
+		<div class="form-group <? if (!empty($error['file'])) {
+			echo "has-error";
+		} ?>">
+			<label class="control-label col-sm-3 col-xs-12"
+				   for="<?php echo $xmlform['file']->element_id; ?>"><?php echo $entry_loadxml; ?></label>
+
+			<div class="input-group afield <?php echo $widthcasses; ?> ">
+				<?php echo $xmlform['file']; ?>
+			</div>
+			<?php if (!empty($error['file'])) { ?>
+				<span class="help-block field_err"><?php echo $error['file']; ?></span>
+			<?php } ?>
+		</div>
+	</div>
+	<div class="panel-footer">
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-3">
+				<button class="btn btn-primary">
+					<i class="fa fa-angle-double-up "></i> <?php echo $xmlform['submit']->text; ?>
+				</button>
+			</div>
+		</div>
+	</div>
+	</form>
 </div>
 
-<script type="text/javascript">
 
-	function selectAll()
-	{
+<script type="text/javascript">
+	function selectAll() {
 		$('input[name*=\'backup\[\]\']').attr('checked', 'checked');
 		$('#tables').find('.afield').addClass('checked');
 	}
-
-	function unselectAll()
-	{
+	function unselectAll() {
 		$('input[name*=\'backup\[\]\']').removeAttr('checked');
 		$('#tables').find('.afield').removeClass('checked');
 	}

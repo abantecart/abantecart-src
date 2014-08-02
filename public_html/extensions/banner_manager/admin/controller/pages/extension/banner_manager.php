@@ -46,6 +46,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 			'href' => $this->html->getSecureURL('extension/banner_manager'),
 			'text' => $this->language->get('banner_manager_name'),
 			'separator' => ' :: ',
+			'current'	=> true
 		));
 
 		$grid_settings = array( 'table_id' => 'banner_grid',
@@ -55,23 +56,10 @@ class ControllerPagesExtensionBannerManager extends AController {
 			'sortname' => 'update_date',
 			'sortorder' => 'desc',
 			'columns_search' => true
-
 		);
 
 		$form = new AForm ();
 		$form->setForm(array( 'form_name' => 'banner_grid_search' ));
-
-		$grid_search_form = array();
-		$grid_search_form[ 'id' ] = 'banner_grid_search';
-		$grid_search_form[ 'form_open' ] = $form->getFieldHtml(array( 'type' => 'form',
-			'name' => 'banner_grid_search',
-			'action' => '' ));
-		$grid_search_form[ 'submit' ] = $form->getFieldHtml(array( 'type' => 'button',
-			'name' => 'submit',
-			'text' => $this->language->get('button_go'), 'style' => 'button1' ));
-		$grid_search_form[ 'reset' ] = $form->getFieldHtml(array( 'type' => 'button',
-			'name' => 'reset',
-			'text' => $this->language->get('button_reset'), 'style' => 'button2' ));
 
 		$grid_settings[ 'colNames' ] = array( $this->language->get('column_banner_id'),
 			'', //icons
@@ -126,7 +114,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ));
 		$this->data[ 'listing_grid' ] = $grid->dispatchGetOutput();
-		$this->data[ 'search_form' ] = $grid_search_form;
 
 		if (isset ($this->session->data[ 'warning' ])) {
 			$this->data[ 'error_warning' ] = $this->session->data[ 'warning' ];
@@ -147,6 +134,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 		$this->view->batchAssign($this->language->getASet());
 		$this->view->batchAssign($this->data);
+		$this->view->assign('help_url', $this->gen_help_url('banner_manager'));
 
 		$this->processTemplate('pages/extension/banner_manager.tpl');
 		//update controller data
@@ -743,7 +731,8 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 		$this->document->addBreadcrumb(array( 'href' => $this->data[ 'action' ],
 			'text' => $this->data [ 'form_title' ],
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'	=> true
 		));
 
 		$form->setForm(array( 'form_name' => 'BannerBlockFrm', 'update' => $this->data [ 'update' ] ));

@@ -55,18 +55,13 @@ class ControllerResponsesListingGridBannerManagerStat extends AController {
 	    $i = 0;
 		foreach ($results as $result) {
 
-            $response->rows[$i]['id'] = $i;
+            $response->rows[$i]['id'] = $result['banner_id'];
 			$response->rows[$i]['cell'] = array(
 												$result['name'],
 												$result['banner_group_name'],
 												$result['clicked'],
 												$result['viewed'],
-												$result['percent'],
-												'<a class="btn_action btn_grid grid_action_expand"
-												href="'.$this->html->getSecureURL('extension/banner_manager_stat/details','&banner_id='.$result['banner_id']).'"
-												title="'. $this->language->get('text_view') . '">'.
-												'<img src="'.RDIR_TEMPLATE.'image/icons/icon_grid_view.png" alt="'. $this->language->get('text_view') . '" /></a>'
-
+												$result['percent']
 												);
 			$i++;
 		}

@@ -121,6 +121,18 @@ class AHtml extends AController {
 		$this->loadModel('tool/seo_url');
 		return $this->url_encode($this->model_tool_seo_url->rewrite($this->getURL($rt, $params)), $encode);
 	}
+	/**
+	 * Build secure SEO URL
+	 * @param string $rt
+	 * @param string $params
+	 * @param string $encode
+	 * @return string
+	 */
+	public function getSecureSEOURL($rt, $params = '', $encode = '') {
+		//#PR Generate SEO URL based on standard URL
+		$this->loadModel('tool/seo_url');
+		return $this->url_encode($this->model_tool_seo_url->rewrite($this->getSecureURL($rt, $params)), $encode);
+	}
 
 	/**This builds URL to the catalog to be used in admin
 	 * @param string $rt
@@ -807,7 +819,7 @@ class HtmlElementFactory {
 
 	/**
 	 * @param $data
-	 * @return HiddenHtmlElement | MultivalueListHtmlElement | MultivalueHtmlElement | SubmitHtmlElement | InputHtmlElement | PasswordHtmlElement | PaginationHtmlElement | TextareaHtmlElement | SelectboxHtmlElement | MultiSelectboxHtmlElement | CheckboxHtmlElement | CheckboxGroupHtmlElement | FileHtmlElement | RadioHtmlElement | ButtonHtmlElement | FormHtmlElement | RatingHtmlElement | CaptchaHtmlElement | PasswordsetHtmlElement | ResourceHtmlElement | ResourceImageHtmlElement | DateHtmlElement | EmailHtmlElement | NumberHtmlElement | PhoneHtmlElement | IPaddressHtmlElement | CountriesHtmlElement | ZonesHtmlElement |
+	 * @return HiddenHtmlElement | MultivalueListHtmlElement | MultivalueHtmlElement | SubmitHtmlElement | InputHtmlElement | PasswordHtmlElement | PaginationHtmlElement | TextareaHtmlElement | SelectboxHtmlElement | MultiSelectboxHtmlElement | CheckboxHtmlElement | CheckboxGroupHtmlElement | FileHtmlElement | RadioHtmlElement | ButtonHtmlElement | FormHtmlElement | RatingHtmlElement | CaptchaHtmlElement | PasswordsetHtmlElement | ResourceHtmlElement | ResourceImageHtmlElement | DateHtmlElement | EmailHtmlElement | NumberHtmlElement | PhoneHtmlElement | IPaddressHtmlElement | CountriesHtmlElement | ZonesHtmlElement | ModalHtmlElement
 	 * @throws AException
 	 */
 	static function create($data) {
@@ -1842,6 +1854,40 @@ class PaginationHtmlElement extends HtmlElement {
 		$this->view->batchAssign( $s );
 		
 		$return = $this->view->fetch('form/pagination.tpl');
+		return $return;
+	}
+
+}
+
+/**
+ * Class ModalHtmlElement
+ */
+class ModalHtmlElement extends HtmlElement {
+
+	public function __construct($data) {
+		parent::__construct($data);
+
+	}
+
+	public function getHtml() {
+
+		$modal_type = $this->modal_type ? $this->modal_type : 'lg';
+
+		$this->view->batchAssign(
+			array(
+				'id' => $this->id,
+				'title' => $this->title,
+				'content' => $this->content,
+				'footer' => $this->footer,
+				'modal_type' => $modal_type,
+				// if 'ajax' we clean up modal content after it close
+				'data_source' => (string)$this->data_source 
+			)
+		);
+
+		$tpl = 'form/modal.tpl';
+
+		$return = $this->view->fetch($tpl);
 		return $return;
 	}
 

@@ -87,7 +87,7 @@ class ControllerCommonPageLayout extends AController {
 	    
 		$form_begin = $form->getFieldHtml(array('type' => 'form',
 		                                        'name' => 'layout_form',
-		                                        'attr' => 'confirm-exit="true"',
+		                                        'attr' => 'data-confirm-exit="true"',
 			                                    'action' => $settings['action']));
 
 		$form_submit = $form->getFieldHtml( array(	'type' => 'button',

@@ -17,8 +17,8 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+	header('Location: static_pages/');
 }
 
 /**
@@ -29,30 +29,29 @@ class ControllerCommonANT extends AController {
 
 	public function main() {
 		// disable for login-logout pages
-		if( in_array($this->request->get['rt'],array('index/logout','index/login') )){
-			unset($this->session->data ['new_messages']);
-			return;
+		if (in_array($this->request->get['rt'], array('index/logout', 'index/login'))) {
+			unset($this->session->data['ant_messages']);
+			return null;
 		}
 
 		// check for updates
-		$this->loadModel ( 'tool/updater' );
+		$this->loadModel('tool/updater');
 		$this->model_tool_updater->check4updates();
 
 
-		if(!isset($this->session->data ['new_messages']['update_date']) ){
-			unset($this->session->data ['new_messages']);
+		if (!has_value($this->session->data['ant_messages']['update_date'])) {
+			unset($this->session->data['ant_messages']);
 		}
 
 		// prevent repeats of requests or if last update older then 24hours
-		if (isset($this->session->data ['new_messages']) && (time() - $this->session->data ['new_messages']['update_date'] < 86400) ) {
-			$this->messages->setMessageIndicator();
-			return;
+		if (has_value($this->session->data['ant_messages']) && (time() - $this->session->data['ant_messages']['update_date'] < 86400)) {
+			return null;
 		}
 
 
 		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
-		
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
 		$url = "/?option=com_antresponses&format=raw";
 		$url .= "&store_id=" . UNIQUE_ID;
 		$url .= "&store_ip=" . $_SERVER ['SERVER_ADDR'];
@@ -62,32 +61,31 @@ class ControllerCommonANT extends AController {
 		$url .= "&language_code=" . $this->request->cookie ['language'];
 		if ($this->request->cookie['new_cart']) {
 			$url .= "&new_cart=1";
-			setcookie("new_cart", 0,0,"/");
+			setcookie("new_cart", 0, 0, "/");
 		}
 
 		//send extension info
 		$extensions_list = $this->extensions->getExtensionsList();
 		if ($extensions_list) {
-			foreach ( $extensions_list->rows as $ext ){
+			foreach ($extensions_list->rows as $ext) {
 				$url .= "&extension[]=" . $ext ['key'] . "~" . $ext ['version'];
 			}
 		}
 
-		$connect = new AConnect (); 
-		$result = $connect->getResponse ( $url );
-		$this->session->data ['new_messages'] = array(); // prevent requests in future at this session
+		$connect = new AConnect ();
+		$result = $connect->getResponse($url);
+		$this->session->data ['ant_messages'] = array(); // prevent requests in future at this session
 		// insert new messages in database
-		if ($result && is_array ( $result )) {
+		if ($result && is_array($result)) {
 			//set array for check response
-			$check_array = array ('message_id', 'type', 'create_date', 'update_date', 'start_date', 'end_date',
-			                      'priority', 'title', 'description', 'version', 'prior_version', 'html',
-			                      'url', 'published', 'language_code' );
-			$banners=array();
-			foreach ( $result as $notify ) {
-				
-				$tmp = array ();
-				foreach ( $notify as $key => $value ) {
-					if (! in_array ( $key, $check_array )) {
+			$check_array = array('message_id', 'type', 'create_date', 'update_date', 'start_date', 'end_date',
+					'priority', 'title', 'description', 'version', 'prior_version', 'html',
+					'url', 'published', 'language_code');
+			$banners = array();
+			foreach ($result as $notify) {
+				$tmp = array();
+				foreach ($notify as $key => $value) {
+					if (!in_array($key, $check_array)) {
 						continue;
 					}
 					$tmp [$key] = $value;
@@ -96,25 +94,24 @@ class ControllerCommonANT extends AController {
 				// lets insert
 				switch ($tmp ['type']) {
 					case 'W' :
-						$this->messages->saveWarning ( $tmp ['title'], $tmp ['description'] );
+						$this->messages->saveWarning($tmp ['title'], $tmp ['description']);
 						break;
 					case 'E' :
-						$this->messages->saveError ( $tmp ['title'], $tmp ['description'] );
+						$this->messages->saveError($tmp ['title'], $tmp ['description']);
 						break;
 					case 'B' :
 						$banners[] = $tmp['message_id'];
-						$this->messages->saveANTMessage ( $tmp );
+						$this->messages->saveANTMessage($tmp);
 						break;
 					default :
-						$this->messages->saveNotice ( $tmp ['title'], $tmp ['description'] );
+						$this->messages->saveNotice($tmp ['title'], $tmp ['description']);
 						break;
 				}
 			}
 			// purge messages except just saved
 			$this->messages->purgeANTMessages($banners);
 		}
-			// in case when answer from server is empty
-			$this->messages->setMessageIndicator();
-		$_SESSION['new_messages']['update_date'] = time();
+		// in case when answer from server is empty
+		$this->session->data['ant_messages']['update_date'] = time();
 	}
 }

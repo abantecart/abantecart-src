@@ -392,10 +392,14 @@ class ModelSaleOrder extends Model {
 		}
 	}
 	
-	public function getOrders($data = array()) {
+	public function getOrders($data = array(), $mode = 'default') {
 		$language_id = $this->language->getLanguageID();
-				
-		$sql = "SELECT o.order_id,
+
+		if ($mode == 'total_only') {
+			$total_sql = 'count(*) as total';
+		}
+		else {
+			$total_sql = "o.order_id,
 						CONCAT(o.firstname, ' ', o.lastname) AS name,
 						(SELECT os.name
 						 FROM " . $this->db->table("order_statuses") . " os
@@ -404,13 +408,24 @@ class ModelSaleOrder extends Model {
 						 o.date_added,
 						 o.total,
 						 o.currency,
-						 o.value
+						 o.value";
+		}
+
+		$sql = "SELECT ". $total_sql ."
 			    FROM `" . $this->db->table("orders") . "` o";
+		
+		if ( has_value($data['filter_product_id']) ) {
+			$sql .= " LEFT JOIN  `" . $this->db->table("order_products") . "` op ON o.order_id = op.order_id ";
+		}
 		
 		if ( has_value($data['filter_order_status_id']) ) {
 			$sql .= " WHERE o.order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
 		} else {
 			$sql .= " WHERE o.order_status_id > '0'";
+		}
+
+		if ( has_value($data['filter_product_id'])  ) {
+			$sql .= " AND op.product_id = '" . (int)$data['filter_product_id'] . "'";
 		}
 
 		if ( has_value($data['filter_customer_id']) ) {
@@ -447,6 +462,12 @@ class ModelSaleOrder extends Model {
 							OR CEIL(CAST(o.total as DECIMAL(15,4)) * CAST(o.value as DECIMAL(15,4))) IN  (" . implode(",",$temp2) . ") )";
 		}
 
+		//If for total, we done bulding the query
+		if ($mode == 'total_only') {
+		    $query = $this->db->query($sql);
+		    return $query->row['total'];
+		}
+
 		$sort_data = array( 'o.order_id',
 							'name',
 							'status',
@@ -476,6 +497,7 @@ class ModelSaleOrder extends Model {
 			
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
+				
 		$query = $this->db->query($sql);
 		$result_rows = array();
 		foreach ($query->rows as $row) {
@@ -483,6 +505,24 @@ class ModelSaleOrder extends Model {
 		}		
 		return $result_rows;
 	}	
+
+	public function getTotalOrders($data = array()) {
+		return $this->getOrders($data, 'total_only');
+	} 
+
+	/**
+	 * @param $product_id
+	 * @return int
+	 */
+	public function getOrderTotalWithProduct($product_id){
+		if( !(int)$product_id ){ return array(); }
+		$sql = "SELECT count(DISTINCT op.order_id, op.order_product_id) as total
+				FROM ".$this->db->table('order_products')." op 
+				WHERE  op.product_id = '" . (int)$product_id."'";
+
+		$query = $this->db->query($sql);
+		return $query->row['total'];
+	}
 	
 	public function generateInvoiceId($order_id) {
 		$query = $this->db->query("SELECT MAX(invoice_id) AS invoice_id FROM `" . $this->db->table("orders") . "`");
@@ -580,56 +620,6 @@ class ModelSaleOrder extends Model {
 		return $query->row['total'];
 	}
 				
-	public function getTotalOrders($data = array()) {
-      	$sql = "SELECT COUNT(*) AS total FROM `" . $this->db->table("orders") . "`";
-
-		if (isset($data['filter_order_status_id']) && !is_null($data['filter_order_status_id'])) {
-			$sql .= " WHERE order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
-		} else {
-			$sql .= " WHERE order_status_id > '0'";
-		}
-		
-		if (isset($data['filter_order_id']) && !is_null($data['filter_order_id'])) {
-			$sql .= " AND order_id = '" . (int)$data['filter_order_id'] . "'";
-		}
-
-		if (isset($data['filter_name']) && !is_null($data['filter_name'])) {
-			$sql .= " AND CONCAT(firstname, ' ', lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
-		}
-		
-		if (isset($data['filter_date_added']) && !is_null($data['filter_date_added'])) {
-			$sql .= " AND DATE(date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
-		}
-		
-		if (isset($data['filter_total']) && !is_null($data['filter_total'])) {
-			$sql .= " AND total >= " . (float)$data['filter_total'] . " ";
-		}
-
-		if (isset($data['filter_coupon_id']) && (int)$data['filter_coupon_id']) {
-			$sql .= " AND coupon_id = " . (int)$data['filter_coupon_id'] . " ";
-		}
-		if (isset($data['filter_total']) && !is_null($data['filter_total'])) {
-			$data['filter_total'] = (float)$data['filter_total'];
-			$currencies = $this->currency->getCurrencies();
-			$temp = $temp2 = array($data['filter_total']);
-			foreach( $currencies  as $currency1){
-				foreach( $currencies  as $currency2){
-					if($currency1['code']!=$currency2['code']){
-						$temp[] = floor($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
-						$temp2[] = ceil($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
-					}
-				}
-			}
-			$sql .= " AND ( FLOOR(total) IN  (" . implode(",",$temp) . ")
-							OR FLOOR(CAST(total as DECIMAL(15,4)) * CAST(value as DECIMAL(15,4))) IN  (" . implode(",",$temp) . ")
-							OR CEIL(total) IN  (" . implode(",",$temp2) . ")
-							OR CEIL(CAST(total as DECIMAL(15,4)) * CAST(value as DECIMAL(15,4))) IN  (" . implode(",",$temp2) . ") )";
-		}
-
-		$query = $this->db->query($sql);
-		return $query->row['total'];
-	} 
-
 	public function getTotalOrdersByStoreId($store_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM `" . $this->db->table("orders") . "`

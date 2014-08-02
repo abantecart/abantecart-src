@@ -37,7 +37,8 @@ class ControllerPagesSaleOrder extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('sale/order'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current' => true
 		));
 
 		if (isset($this->session->data['error'])) {
@@ -62,11 +63,16 @@ class ControllerPagesSaleOrder extends AController {
 			$this->language->setCurrentContentLanguage($this->language->getLanguageID());
 		}
 
+		//outer parameters to filter the result 
+		$extra_params = '';
+		$extra_params .= $this->request->get['customer_id'] ? '&customer_id='.$this->request->get['customer_id'] : '';
+		$extra_params .= $this->request->get['product_id'] ? '&product_id='.$this->request->get['product_id'] : '';
+
 		$grid_settings = array(
 			//id of grid
 			'table_id' => 'order_grid',
 			// url to load data from
-			'url' => $this->html->getSecureURL('listing_grid/order', '&customer_id=' . $this->request->get['customer_id']),
+			'url' => $this->html->getSecureURL('listing_grid/order', $extra_params),
 			'editurl' => $this->html->getSecureURL('listing_grid/order/update'),
 			'update_field' => $this->html->getSecureURL('listing_grid/order/update_field'),
 			'sortname' => 'order_id',
@@ -395,7 +401,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'orderFrm',
-			'attr' => 'confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true"',
 			'action' => $this->data['action'],
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -529,7 +535,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'orderFrm',
-			'attr' => 'confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true"',
 			'action' => $this->data['action'],
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -690,7 +696,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'orderFrm',
-			'attr' => 'confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true"',
 			'action' => $this->data['action'],
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -845,7 +851,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'orderFrm',
-			'attr' => 'confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true"',
 			'action' => $this->data['action'],
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -1079,7 +1085,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'orderFrm',
-			'attr' => 'confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true"',
 			'action' => $this->data['action'],
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(

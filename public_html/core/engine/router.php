@@ -22,12 +22,30 @@ if (! defined ( 'DIR_CORE' )) {
 }
 
 final class ARouter {
+	/**
+	 * @var Registry
+	 */
 	protected $registry;
+	/**
+	 * @var string
+	 */
 	protected $rt;
+	/**
+	 * @var string
+	 */
 	protected $request_type;
+	/**
+	 * @var string
+	 */
 	protected $controller;
+	/**
+	 * @var string
+	 */
 	protected $method;
-	
+
+	/**
+	 * @param Registry $registry
+	 */
 	public function __construct($registry) {
 		$this->registry = $registry;
 	}
@@ -44,6 +62,10 @@ final class ARouter {
 		$this->registry->set($key, $value);
 	}
 
+	/**
+	 * @param $rt
+	 * @throws AException
+	 */
 	public function processRoute( $rt ){
 		$this->rt = $rt;		
 		if ( empty($this->rt) ){
@@ -53,24 +75,37 @@ final class ARouter {
 		return $this->_route();
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getRequestType(){
 		return $this->request_type;
-	}	
+	}
 
+	/**
+	 * @return string
+	 */
 	public function getController(){
 		return $this->controller;
-	}	
+	}
 
+	/**
+	 * @param string $rt
+	 * @return string
+	 */
 	public function resetController($rt = ''){
 		if ($rt){
 			$this->controller = $rt;
 		}
 		return $this->controller;
-	}	
+	}
 
+	/**
+	 * @return string
+	 */
 	public function getMethod(){
 		return $this->method;
-	}	
+	}
 
 	private function _route() {
         $path_nodes = explode('/', $this->rt);
@@ -85,6 +120,9 @@ final class ARouter {
 		} else if ($path_nodes[0] == 'a' ) {
 			$this->request_type = 'api';		
 			$this->rt = preg_replace('/^a\//', '', $this->rt);		
+		} else if ($path_nodes[0] == 'task') {
+			$this->request_type = 'task';
+			$this->rt = preg_replace('/^task\//', '', $this->rt);
 		} else {
 			//find implicit path of controller
 			//Pages section has priority
@@ -96,7 +134,7 @@ final class ARouter {
 			}	
 			else if ( $this->_detect_controller("api") ){
 				$this->request_type = 'api';		
-			}					
+			}
 		} 		
 
 		if ( $this->request_type == 'page' ){			
@@ -119,8 +157,8 @@ final class ARouter {
 			} else {
 				$page_controller->build('error/not_found');
 			}
-		} 
-		else if ( $this->request_type == 'response' ) {			
+		}
+		else if ( $this->request_type == 'response' ) {
 			$resp_controller = new ATypeResponse($this->registry);	
 			if (!defined('IS_ADMIN') || !IS_ADMIN ) {	
 				//Load required controller for storefront
@@ -138,7 +176,7 @@ final class ARouter {
 			}					
 				
 		}
-		else if ( $this->request_type == 'api' ) {			
+		else if ( $this->request_type == 'api' ) {
 			$api_controller = new AAPI($this->registry);	
 			if (!defined('IS_ADMIN') || !IS_ADMIN ) {	
 				//CORS preflight request
@@ -161,6 +199,26 @@ final class ARouter {
 				$api_controller->build('error/not_found');
 			}						
 		}
+		else if ( $this->request_type == 'task' ) {
+			$task_controller = new ATypeTask($this->registry);
+			if (!defined('IS_ADMIN') || !IS_ADMIN ) { // do not allow to call task controllers from SF-side
+				$resp_controller = new ATypeResponse($this->registry);
+				$resp_controller->build('error/not_found');
+			} else {
+				//Load required controller for admin and check authorization
+				$resp_controller = new ATypeResponse($this->registry);
+				$resp_controller->addPreDispatch('responses/common/access/login');
+				$resp_controller->addPreDispatch('responses/common/access/permission');
+			}
+			//Validate controller only. If does not exist process not found
+			if ( $this->_detect_controller("task") ){
+				// Build the response
+				$task_controller->build($this->rt);
+			} else {
+				$resp_controller = new ATypeResponse($this->registry);
+				$resp_controller->build('error/not_found');
+			}
+		}
 		else {
 			//Security: this is not main controller. Do not allow to run it. 			
 			$this->request_type = 'page';
@@ -172,6 +230,10 @@ final class ARouter {
 		
 	}
 
+	/**
+	 * @param $type
+	 * @return bool
+	 */
 	private function _detect_controller ( $type ) {
         //looking for controller in admin/storefront section
         $dir_app = DIR_APP_SECTION.'controller/' . $type . '/';

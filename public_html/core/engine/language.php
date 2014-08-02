@@ -138,6 +138,35 @@ class ALanguage {
 		return $return_text;
 	}
 
+
+	/**
+	 * Get language definition for error. Function returns text anyway!
+	 *
+	 * @param string $key
+	 * @return string
+	 */
+	public function get_error($key){
+
+		$result = $this->get($key);
+
+		if( $key == $result || trim($result)=='' ){
+			$backtrace = debug_backtrace();
+			$ts = time();
+			$log_message = $ts . "- Not described error.\n"
+					."File: ".$backtrace[0]['file']."\n"
+					."Line: ".$backtrace[0]['line']."\n"
+					."Args: ".var_export($backtrace[0]['args'], true)."\n";
+			$e = new AError($log_message);
+			$e->toDebug()->toLog()->toMessages();
+			$result = "Not described error happened.";
+			if(IS_ADMIN===true){
+				$result .= "Check log for details. Code [".$ts."]";
+			}
+		}
+
+		return $result;
+	}
+
 	/**
 	 * Get all language definitions
 	 *

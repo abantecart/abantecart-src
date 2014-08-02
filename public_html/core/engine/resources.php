@@ -308,7 +308,7 @@ class AResource {
                 return $this->model_tool_image->resize($resource['default_icon'], $width, $height);
 			}
 
-			$name = preg_replace('/[^a-zA-Z0-9]/', '', $resource['name']);
+			$name = preg_replace('/[^a-zA-Z0-9]/', '_', $resource['name']);
 			//Build thumbnails path similar to resource library path
 			$new_image = 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource['resource_id'] . '-' . $width . 'x' . $height . '.' . $extension;
 

@@ -170,11 +170,11 @@ class APackageManager {
 			return false;
 		}
 		if (file_exists($old_path . $package_id)) {
-			$backup = new ABackup($extension_id);
+			$backup = new ABackup($extension_id .'_'. date('Y-m-d-H-i-s'));
 			$backup_dirname = $backup->getBackupName();
 			if ($backup_dirname) {
 
-				if (!$backup->backupDirectory($old_path . $package_id)) {
+				if (!$backup->backupDirectory($old_path . $package_id, true)) {
 					$this->error = $backup->error;
 					return false;
 				}

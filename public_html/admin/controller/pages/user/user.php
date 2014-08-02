@@ -46,7 +46,8 @@ class ControllerPagesUserUser extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('user/user'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$grid_settings = array(
@@ -268,7 +269,8 @@ class ControllerPagesUserUser extends AController {
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
        		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+      		'current'	=> true
    		 ));
 
 		$form->setForm(array(
@@ -329,20 +331,20 @@ class ControllerPagesUserUser extends AController {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
     
-    	if ((strlen(utf8_decode($this->request->post['username'])) < 2) || (strlen(utf8_decode($this->request->post['username'])) > 20)) {
+    	if (mb_strlen($this->request->post['username']) < 2 || mb_strlen($this->request->post['username']) > 20) {
       		$this->error['username'] = $this->language->get('error_username');
     	}
 
-    	if ((strlen(utf8_decode($this->request->post['firstname'])) < 2) || (strlen(utf8_decode($this->request->post['firstname'])) > 32)) {
+    	if (mb_strlen($this->request->post['firstname']) < 2 || mb_strlen($this->request->post['firstname']) > 32) {
       		$this->error['firstname'] = $this->language->get('error_firstname');
     	}
 
-    	if ((strlen(utf8_decode($this->request->post['lastname'])) < 2) || (strlen(utf8_decode($this->request->post['lastname'])) > 32)) {
+    	if (mb_strlen($this->request->post['lastname']) < 2 || mb_strlen($this->request->post['lastname']) > 32) {
       		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
 
     	if (($this->request->post['password']) || (!isset($this->request->get['user_id']))) {
-      		if ((strlen(utf8_decode($this->request->post['password'])) < 4) ) {
+      		if (mb_strlen($this->request->post['password']) < 4 ) {
         		$this->error['password'] = $this->language->get('error_password');
       		}
 	
@@ -358,4 +360,3 @@ class ControllerPagesUserUser extends AController {
     	}
   	}
 }
-?>

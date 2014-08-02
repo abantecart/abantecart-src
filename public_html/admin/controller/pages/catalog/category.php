@@ -41,7 +41,8 @@ class ControllerPagesCatalogCategory extends AController {
 		$this->document->addBreadcrumb(array(
 		                                    'href' => $this->html->getSecureURL('catalog/category'),
 		                                    'text' => $this->language->get('heading_title'),
-		                                    'separator' => ' :: '
+		                                    'separator' => ' :: ',
+											'current'   => true
 		                               ));
 
 		$this->view->assign('error_warning', $this->error[ 'warning' ]);
@@ -133,7 +134,7 @@ class ControllerPagesCatalogCategory extends AController {
 		}
 
         $results = $this->model_catalog_category->getCategories(0);
-		$parents = array( 0 => $this->language->get('text_none') );
+		$parents = array( 0 => $this->language->get('text_select_parent') );
         foreach ($results as $c) {
             $parents[ $c[ 'category_id' ] ] = $c[ 'name' ];
         }
@@ -166,7 +167,8 @@ class ControllerPagesCatalogCategory extends AController {
 		                                                                        'type' => 'selectbox',
 		                                                                        'name' => 'parent_id',
 		                                                                        'options' => $parents,
-																				'style' => 'large-field'
+																				'style' => 'chosen',
+																				'placeholder' => $this->language->get('text_select_parent')
 		                                                                   ));
 
 		$grid_settings[ 'search_form' ] = true;
@@ -342,7 +344,7 @@ class ControllerPagesCatalogCategory extends AController {
 		$this->data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(
 			array('type' => 'form',
 				'name' => 'editFrm',
-				'attr' => 'confirm-exit="true"',
+				'attr' => 'data-confirm-exit="true"',
 				'action' => $this->data[ 'action' ],
 		));
 		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(

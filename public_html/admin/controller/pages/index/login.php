@@ -71,7 +71,7 @@ class ControllerPagesIndexLogin extends AController {
 		//There was no login done, so clear the session for new login screen 
 		$this->session->clear();
 		
-		if($_COOKIE['new_cart']==1 && $this->error['warning'] && $this->request->server['REQUEST_METHOD'] == 'GET'){
+		if($this->request->cookie['new_cart']==1 && $this->error['warning'] && $this->request->server['REQUEST_METHOD'] == 'GET'){
 			$this->error['warning'] = '';
 		}
 
@@ -159,4 +159,3 @@ class ControllerPagesIndexLogin extends AController {
 		}
 	}
 }  
-?>

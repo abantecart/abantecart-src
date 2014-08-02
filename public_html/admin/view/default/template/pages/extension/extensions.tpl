@@ -1,107 +1,214 @@
 <?php if ($error_warning) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
+	<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
+	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
-<div class="contentBox">
-	<div class="cbox_tl">
-		<div class="cbox_tr">
-			<div class="cbox_tc">
-				<div class="heading icon_information"><?php echo $heading_title; ?></div>
-				<div class="toolbar">
-					<?php if (!empty ($help_url)) : ?>
-					<div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img
-							src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-					<?php endif; ?>
-					<div class="buttons">
-						<div class="flt_left align_left"><?php echo $text_select_store; ?>
-							&nbsp;&nbsp;<?php echo $store_selector; ?></div>
-						<div class="flt_left">&nbsp;&nbsp;&nbsp;<a class="btn_standard"
-																   href="<?php echo $extensions_store ?>"><?php echo $btn_extensions_store ?></a>
+<div class="row">
+	<div class="col-sm-12 col-lg-12">
+		<ul class="content-nav">
+			<li>
+				<?php
+				if (!empty($search_form)) {
+				?>
+				<form id="<?php echo $search_form['form_open']->name; ?>"
+					  method="<?php echo $search_form['form_open']->method; ?>"
+					  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
+
+					<?php
+					foreach ($search_form['fields'] as $n=>$f) {
+						if($n=='store_selector'){ ?>
+						<div class="form-group">
+							<div class="input-group input-group-sm">
+								<?php echo $text_select_store; ?>
+							</div>
 						</div>
-						<div class="flt_left">&nbsp;&nbsp;&nbsp;<a class="btn_standard"
-																   href="<?php echo $install_new ?>"><?php echo $btn_add_new ?></a>
+						<?php } ?>
+						<div class="form-group">
+							<div class="input-group input-group-sm">
+								<?php echo $f; ?>
+							</div>
 						</div>
+					<?php } ?>
+					<div class="form-group">
+						<a class="btn btn-xs btn-primary" href="<?php echo $btn_extensions_store->href;?>"><i class="fa fa-arrows-alt"></i><?php echo $btn_extensions_store->text ?></a>
+						<a class="btn btn-xs btn-primary" href="<?php echo $btn_add_new->href;?>"><i class="fa fa-step-forward"></i><?php echo $btn_add_new->text ?></a>
 					</div>
-				</div>
-			</div>
-		</div>
+					<?php
+					}
+					?>
+				</form>
+			</li>
+
+			<?php if (!empty ($form_language_switch)) { ?>
+				<li>
+					<?php echo $form_language_switch; ?>
+				</li>
+			<?php } ?>
+			<?php if (!empty ($help_url)) { ?>
+				<li>
+					<div class="help_element">
+						<a href="<?php echo $help_url; ?>" target="new">
+							<i class="fa fa-question-circle"></i>
+						</a></div>
+				</li>
+			<?php } ?>
+		</ul>
 	</div>
-	<div class="cbox_cl">
-		<div class="cbox_cr">
-			<div class="cbox_cc">
+</div>
+
+<div class="row">
+	<div class="col-sm-12 col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
 				<?php echo $listing_grid; ?>
 			</div>
 		</div>
 	</div>
-	<div class="cbox_bl">
-		<div class="cbox_br">
-			<div class="cbox_bc"></div>
-		</div>
-	</div>
 </div>
 
+<?php
+echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'dep_modal',
+				'modal_type' => 'sm',
+				'title' => $text_please_confirm,
+				'content' => '',
+				'footer' => '<button type="button" class="btn btn-default" id="confirm_cancel">'.$button_cancel.'</button>
+							<button type="button" class="btn btn-primary" id="confirm_disable">'.$button_confirm.'</button>'
+		));
+?>
 
-<div id="aPopup">
+<?php
+echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'license_modal',
+				'name' => 'license_modal',
+				'modal_type' => 'lg',
+				'title' => $text_license,
+				'content' => '',
+				'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal" id="license_cancel">'.$button_cancel.'</button>
+											<button type="button" class="btn btn-primary" id="license_agree">'.$button_agree.'</button>'
+		));
+?>
 
-	<div class="popbox_tl">
-		<div class="popbox_tr">
-			<div class="popbox_tc"></div>
-		</div>
-	</div>
-	<div class="error" id="error">
-		<div class="warning alert alert-error alert-danger"><p id="error_text"></p></div>
-		<div class="align_center" style="margin-top: 7px;">
-			<a class="btn_standard"><?php echo $close; ?></a></div>
-	</div>
-	<div id="license" class="popbox_cl">
-		<div class="popbox_cr">
-			<div class="popbox_cc">
-				<div class="aform">
-					<div class="afield mask2">
-						<div class="tl">
-							<div class="tr">
-								<div class="tc"></div>
-							</div>
-						</div>
-						<div class="cl">
-							<div class="cr">
-								<div class="cc">
 
-									<div class="message_text" id="license_text"></div>
-								</div>
-							</div>
-						</div>
-						<div class="bl">
-							<div class="br">
-								<div class="bc"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="align_center" style="margin-top: 7px;">
-					<a class="btn_standard"><?php echo $cancel_install; ?></a>&nbsp;<a class="btn_standard" id="agree"
-																					   href=""><?php echo $agree_install; ?></a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="popbox_bl">
-		<div class="popbox_br">
-			<div class="popbox_bc"></div>
-		</div>
-	</div>
-</div>
-<div id="confirm_dialog"></div>
+<script type="application/javascript">
+	$('#extension_grid_search_store_selector').change(function () {
+		location = '<?php echo $this->html->getSecureURL('extension/extensions/extensions'); ?>' + '&store_id=' + $(this).val();
+		return false;
+	});
+/* run after grid load */
+	var extension_grid_ready = function(data){
+
+		var userdata = data.userdata;
+		$('.grid_action_edit, .grid_action_install, .grid_action_uninstall' ).each(function(){
+			var row_id = $(this).parents('tr').attr('id');
+			var href = $(this).attr('href');
+			$(this).attr('href', href+'&extension='+userdata.extension_id[ row_id ]);
+		});
+
+		$('.grid_action_install' ).click(function(){
+			var row_id = $(this).parents('tr').attr('id');
+			var href = $(this).attr('href');
+
+			$('#license_agree').click(function(){
+				location = href;
+				return false;
+			});
+
+			$.ajax({
+					url: '<?php echo $license_url; ?>',
+					type: 'GET',
+					data: 'extension=' + userdata.extension_id[ row_id ],
+					dataType: 'json',
+					success: function (responseData) {
+						if (responseData) {
+							if(responseData.error_text){
+								$('#license_modal .modal-title').html('&nbsp;');
+								$('#license_modal .modal-body').html('<div class="alert alert-danger" role="alert">' + responseData.error_text + '</div>');
+								$('#license_agree').hide();
+								$('#license_modal').modal('show');
+								return false;
+							}else if (responseData.license_text) {
+								$('#license_modal .modal-title').html('<?php echo $text_license?>');
+								$('#license_modal .modal-body').html(responseData.license_text);
+								$('#license_modal').modal('show');
+								return false;
+							}
+
+						}
+					}
+			});
+
+		});
+
+		$('.grid_action_remote_install' ).each(function(){
+			var row_id = $(this).parents('tr').attr('id');
+			var href = $(this).attr('href');
+			$(this).attr('href', href+'&extension_key='+userdata.installation_key[ row_id ]);
+		});
+		//check dependancies before disabling of extension
+		$('td[aria-describedby="extension_grid_status"]').find('button').click(function () {
+					var switcher = $('td[aria-describedby="extension_grid_status"]').find("input[type='hidden']");
+					var value = switcher.attr('data-orgvalue');
+					if (value == 1 && switcher.val()!=1) {
+						var row_id = $(this).parents('tr').attr('id');
+						var extension = userdata.extension_id[ row_id ];
+
+
+						$.ajax({
+							url: '<?php echo $dependants_url; ?>',
+							type: 'GET',
+							data: 'extension=' + extension,
+							dataType: 'json',
+							success: function (data) {
+
+								if (data == '' || data == null) {
+									return null;
+								} else {
+									if (data.html) {
+										$('#dep_modal .modal-body').html(data.html)
+									}
+									$('#dep_modal').modal('show');
+								}
+							}
+						});
+
+						$('#confirm_disable').live('click',function(){
+							$("td[aria-describedby='extension_grid_status']").find('.quicksave .icon_save').click();
+							$('#dep_modal').modal('hide');
+						});
+						$('#confirm_cancel').live('click', function(){
+							$("td[aria-describedby='extension_grid_status']").find('.quicksave .icon_reset').click();
+							$('#dep_modal').modal('hide');
+						});
+					}
+
+				});
+
+
+
+
+	}
+
+</script>
+
+
+
+
+
+
+
+
+
 
 <script type="text/javascript">
-	<!--
-
+/*
 	var $aPopup = $('#aPopup');
 	var msg_id;
-	function show_popup(extension,installURL){
+	function show_popup(extension, installURL) {
 		$aPopup = $('#aPopup').dialog({
 			autoOpen: false,
 			modal: true,
@@ -109,90 +216,16 @@
 			dialogClass: 'aPopup',
 			width: 550,
 			minWidth: 550,
-			resize: function(event, ui){
+			resize: function (event, ui) {
 			},
-			close: function(event, ui) {
+			close: function (event, ui) {
 				$(this).dialog('destroy');
 			}
 		});
 
 		$aPopup.removeClass('popbox popbox2');
-		$.ajax({
-			url: '<?php echo $license_url; ?>',
-		type: 'GET',
-		data: 'extension='+extension,
-		dataType: 'json',
-		success: function(data) {
 
-			if(data=='' || data==null){
-				$(window.location).attr('href', installURL);
-			}else{
-				$aPopup.addClass("popbox2");
-				if(data.license_text){
-					$('#license').show();
-					$('#error').hide();
-					$('#license_text').html(data.license_text);
-				}else{
-					$('#license').hide();
-					$('#error').show();
-					$('#error_text').html(data.error_text);
-				}
-				$('#agree').attr('href',installURL);
-				$aPopup.dialog('open');
-			}
-		}
-	});
-}
+	}*/
 
-$("td[aria-describedby='extension_grid_status']").find('.aswitcher').on('click',
-	function(){
-		var switcher = $(this).find("input[type='checkbox']");
-		var value = switcher.val();
-		if(value==0){
-			var extension = $("td[aria-describedby='extension_grid_key']").html();
-			$aPopup = $('#confirm_dialog').dialog({
-				autoOpen: false,
-				modal: true,
-				resizable: false,
-				height: 'auto',
-				minWidth: 100,
-				buttons: {
-							"<?php echo $button_agree;?>": function() {
-								$( this ).dialog( "destroy" );
-							},
-							"<?php echo $button_cancel;?>": function() {
-								$("td[aria-describedby='extension_grid_status']").find('.abuttons_grp').find('a:eq(1)').click();
-								$( this ).dialog( "destroy" );
-						}
-				},
-				close: function(event, ui) {
-							$("td[aria-describedby='extension_grid_status']").find('.abuttons_grp').find('a:eq(1)').click();
-							$(this).dialog('destroy');
-						}
 
-			});
-
-			$.ajax({
-						url: '<?php echo $dependants_url; ?>',
-						type: 'GET',
-						data: 'extension='+extension,
-						dataType: 'json',
-						success: function(data) {
-
-							if(data=='' || data==null){
-								return null;
-							}else{
-								if(data.text_confirm){
-									$('#confirm_dialog').html(data.text_confirm)
-
-								}
-								$aPopup.dialog('open');
-							}
-						}
-					});
-		}
-
-});
-
--->
 </script>

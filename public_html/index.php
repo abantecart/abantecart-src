@@ -44,8 +44,6 @@ if (!defined('DB_DATABASE')) {
 	header('Location: install/index.php');
 	exit;
 }
-// set default encoding for multibyte php mod
-mb_internal_encoding('UTF-8');
 
 // Load all initial set up
 require_once(DIR_ROOT . '/core/init.php');

@@ -45,7 +45,8 @@ class ControllerPagesLocalisationLengthClass extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('localisation/length_class'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		));
 
 		$grid_settings = array(
@@ -79,7 +80,7 @@ class ControllerPagesLocalisationLengthClass extends AController {
 			array(
 				'name' => 'title',
 				'index' => 'title',
-                'align' => 'center',
+                'align' => 'left',
 			),
 			array(
 				'name' => 'unit',
@@ -200,7 +201,8 @@ class ControllerPagesLocalisationLengthClass extends AController {
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
        		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));  
 
 		$form->setForm(array(
@@ -212,7 +214,7 @@ class ControllerPagesLocalisationLengthClass extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'editFrm',
-		    'attr' => 'confirm-exit="true"',
+		    'attr' => 'data-confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(

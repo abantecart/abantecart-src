@@ -46,7 +46,8 @@ class ControllerPagesSaleCustomerGroup extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('sale/customer_group'),
        		'text'      => $this->language->get('breadcrumb_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'   => true
    		 ));
 
 		$grid_settings = array(
@@ -187,7 +188,8 @@ class ControllerPagesSaleCustomerGroup extends AController {
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
        		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'   => true
    		 ));
 
 		$form->setForm(array(

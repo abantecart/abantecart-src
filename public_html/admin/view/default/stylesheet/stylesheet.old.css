@@ -872,7 +872,7 @@ ul.quick_icon a:hover {
 div#options {
     margin-left: 250px;
 }
-
+/*
 .options_buttons {
     width: 235px;
     border-top: 1px solid #DDDDDD;
@@ -887,7 +887,7 @@ div#options {
 
 .options_buttons select#new_option_form_attribute_id {
     width: 200px;
-}
+}*/
 
 div#options .option_lang_field {
     margin-bottom: 5px;
@@ -1982,12 +1982,12 @@ table.form tr td:first-child {
 #discount td, #option_values_tbl td {
     padding: 4px;
 }
-
+/*
 #option_name_block {
     width: 215px;
 	border-spacing:0;
 	border-collapse:collapse;
-}
+}*/
 
 #discount .toDelete {
     opacity: 0.3;
