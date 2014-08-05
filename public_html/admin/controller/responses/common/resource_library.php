@@ -31,6 +31,17 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	public $thumb_sizes = array('width' => 100, 'height' => 100);
 
 	public function main() {
+	
+		//route to correct function
+		$action = $this->request->get['action']; 
+		if ($action == 'list') {
+			return $this->listing();
+		}
+		if ($action == 'add') {
+			return $this->add();
+		}
+		//edit mode is default. proceed
+		
 		if (isset($this->session->data['rl_types'])) {
 			// if types of resources was limited
 			$this->data['types'] = $this->session->data['rl_types'];
@@ -39,18 +50,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$this->data['types'] = $rm->getResourceTypes();
 		}
 
-		if (isset($this->request->server['HTTPS'])
-			&&
-			(($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
-
-			$this->data['base'] = HTTPS_SERVER;
-			$this->data['ssl'] = 1;
-		} else {
-			$this->data['base'] = HTTP_SERVER;
-		}
-
 		$this->data['object_name'] = $this->data['name'] = (string)$this->request->get['object_name'];
-
 		$this->data['object_id'] = $this->request->get['object_id'];
 		if ($this->request->get['object_title']) {
 			$this->data['object_title'] = mb_substr($this->request->get['object_title'], 0, 60);
@@ -75,18 +75,29 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		//search form
 		$form = new AForm('ST');
-		$this->data['search_form_open'] = $form->getFieldHtml(
-															array(
-																'type' => 'form',
-																'name' => 'searchform',
-																'action' => '',
-															));
+		$this->data['search_form'] = $form->getFieldHtml(
+						array(
+						    'type' => 'form',
+						    'name' => 'rlsearchform',
+						    'action' => '',
+						));
 		$this->data['search_field_input'] = $form->getFieldHtml(
 			array(  'type'=>'input',
 					'name'=>'search',
 					'placeholder'=>$this->language->get('text_search'),
 					'icon'=>'icon-search')
 		);
+
+		$options = array();
+		foreach ($this->data['types'] as $type ) {
+			$options[$type['type_id']] = $type['type_name'];
+		}
+		$this->data['rl_types'] = $form->getFieldHtml(array(
+		    'type' => 'selectbox',
+		    'name' => 'rl_types',
+		    'placeholder' => $this->language->get('text_type'),
+            'options' => $options
+	    ));
 
 		$this->data['language_id'] = $language_id = (int)$this->config->get('storefront_language_id');
 
@@ -105,25 +116,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 						'value' => $language_id
 					));
 
-		$this->data['button_go'] = $this->html->buildButton(
-			array(
-				'name' => 'searchform_go',
-				'text' => $this->language->get('button_go'),
-				'style' => 'button5'
-			));
-		//end search form
-
 		$this->data['button_go_actions'] = $this->html->buildButton(
 			array(
 				'name' => 'go',
 				'text' => $this->language->get('button_go'),
 				'style' => 'button5'
 			));
-		$this->data['button_add_resource'] = $this->html->buildButton(array(
-			'name' => 'add',
-			'text' => $this->language->get('button_add'),
-			'style' => 'button'
-		));
 		$this->data['button_done'] = $this->html->buildButton(
 			array(
 				'name' => 'done',
@@ -191,7 +189,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			));
 
 		$this->view->batchAssign($this->data);
-		$this->processTemplate('responses/common/resource_library.tpl');
+		$this->processTemplate('responses/common/resource_library_edit.tpl');
 	}
 
 	/**
@@ -205,12 +203,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				array('error_text' => sprintf($this->language->get('error_permission_modify'), 'common/resource_library'),
 					'reset_value' => true
 				));
-		}
-
-		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
-			$this->data['base'] = HTTPS_SERVER;
-		} else {
-			$this->data['base'] = HTTP_SERVER;
 		}
 
 		$this->data['languages'] = array();
@@ -234,10 +226,98 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$this->data['attention'] = sprintf($this->language->get('error_file size'), ini_get('post_max_size'));
 		}
 
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->assign('help_url', $this->gen_help_url('global_attributes_listing'));
+
 		$this->view->batchAssign($this->data);
 
 		$this->processTemplate('responses/common/resource_library_add.tpl');
 	}
+
+	public function listing() {
+
+		$this->data['object_name'] = $this->data['name'] = (string)$this->request->get['object_name'];
+		$this->data['object_id'] = $this->request->get['object_id'];
+		if ($this->request->get['object_title']) {
+			$this->data['object_title'] = mb_substr($this->request->get['object_title'], 0, 60);
+		} else {
+			$this->data['object_title'] = mb_substr($this->_getObjectTitle($this->request->get['object_name'], $this->request->get['object_id']), 0, 60);
+		}
+
+		$rm = new AResourceManager();
+		$rm->setType($this->request->get['type']);
+
+		$pagination_param = '&type=' . $this->request->get['type'] . '&language_id=' . $this->request->get['language_id'];
+
+		$search_data = array(
+			'type_id' => $rm->getTypeId(),
+			'language_id' => $this->request->get['language_id'],
+		);
+		if (!empty($this->request->get['keyword'])) {
+			$search_data['keyword'] = $this->request->get['keyword'];
+			$pagination_param .= '&keyword=' . $this->request->get['keyword'];
+		}
+		if (!empty($this->request->get['object_name'])) {
+			$search_data['object_name'] = $this->request->get['object_name'];
+			$pagination_param .= '&object_name=' . $this->request->get['object_name'];
+		}
+		if (!empty($this->request->get['object_id'])) {
+			$search_data['object_id'] = $this->request->get['object_id'];
+			$pagination_param .= '&object_id=' . $this->request->get['object_id'];
+		}
+		if (isset($this->request->get['page'])) {
+			$page = $this->request->get['page'];
+			if ((int)$page < 1) {
+				$page = 1;
+			}
+			$search_data['page'] = $page;
+			$search_data['limit'] = 12;
+		}
+
+		$result = array(
+			'items' => $rm->getResourcesList($search_data),
+			'pagination' => '',
+		);
+
+		foreach ($result['items'] as $key => $item) {
+			$result['items'][$key]['created'] = dateDisplay2ISO($item['created'], $this->language->get('date_format_short'));
+			$result['items'][$key]['thumbnail_url'] = $rm->getResourceThumb(
+				$item['resource_id'],
+				$this->thumb_sizes['width'],
+				$this->thumb_sizes['height'],
+				$item['language_id']
+			);
+			$result['items'][$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
+			$result['items'][$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
+		}
+
+		if (isset($this->request->get['page'])) {
+
+			$resources_total = $rm->getResourcesList($search_data, true);
+			if ($resources_total > 12) {
+				$result['pagination'] = (string)HtmlElementFactory::create(array(
+					'type' => 'Pagination',
+					'name' => 'pagination',
+					'text' => $this->language->get('text_pagination'),
+					'text_limit' => $this->language->get('text_per_page'),
+					'total' => $resources_total,
+					'page' => $page,
+					'limit' => 12,
+					'url' => $this->html->getSecureURL('common/resource_library/resources', $pagination_param . '&page={page}'),
+					'style' => 'pagination'));
+			}
+		}
+
+		// ????? build data for listing
+		$this->data['rls'] = $result['items'];
+
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->assign('help_url', $this->gen_help_url('global_attributes_listing'));
+
+		$this->view->batchAssign($this->data);
+		$this->processTemplate('responses/common/resource_library.tpl');
+	}
+
 
 	/**
 	 * @return mixed
@@ -463,6 +543,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->response->setOutput(AJson::encode(true));
 	}
 
+	/* TOBE DELETED */
 	public function resources() {
 
 		$rm = new AResourceManager();

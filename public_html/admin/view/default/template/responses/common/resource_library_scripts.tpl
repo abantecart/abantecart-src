@@ -18,6 +18,49 @@ var urls = {
 	},
 	default_type = '<?php echo $default_type["type_name"]; ?>';	
 
+var mediaDialog = function (type, action, id, field, wrapper_id) {
+    window.selectField = field;
+    window.wrapper_id = wrapper_id;
+
+	//reset content of modal
+    $('#rl_modal .modal-body').html('');
+    var src = urls.resource_library+'&action='+action+'&type='+type;
+    if (id) {
+        src += '&resource_id=' + id;
+    }
+
+	var media_html = '';
+	//main ajax call to load rl content
+    $.ajax({
+        url:src,
+        type:'GET',
+        dataType:'html',
+        success:function (html) {
+			media_html = html;
+		    $('#rl_modal .modal-body').html(media_html);
+		    $('#rl_modal .modal-body').css({height:'500'});
+			$('#rl_modal').modal('show');
+			bindEvents();
+			bind_rl();
+			$('#myModal').on('hidden.bs.modal', function () {
+		        //reload original media list to show new selections
+    		    //not for URL mode
+        		<?php if($mode != 'url') { ?>
+        		<?php 	foreach ($types as $type) { ?>
+            		loadMedia('<?php echo $type['type_name']?>');
+        		<?php 	} ?>
+        		<?php } ?>
+			});
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+			error_alert('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
+        },
+		complete: function() {
+		}
+    });	
+	
+};
+
 onSelectClose = function (e, ui) {}
 
 var selectDialog = function (type, field) {
@@ -47,59 +90,6 @@ var selectDialog = function (type, field) {
 	    resizable:false,
 	    modal:true
 	});
-};
-
-var mediaDialog = function (type, action, id, field, wrapper_id) {
-    window.selectField = field;
-    window.wrapper_id = wrapper_id;
-
-	//reset content of modal
-    $('#rl_modal .modal-body').html('');
-    var src = urls.resource_library + '&' + action + '=1&type=' + type;
-    if (id) {
-        src += '&resource_id=' + id;
-    }
-
-	var media_html = '<iframe src="'+src+'" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe>';
-	
-    $('#rl_modal .modal-body').html(media_html);
-
-    $('#rl_modal iframe').load(function (e) {
-        try {
-            var error_data = $.parseJSON($(this).contents().find('body').html());
-        } catch (e) {
-				var iframedocument = $(this).contents().get(0);
-				var contentType = iframedocument.contentType || iframedocument.mimeType;
-            	var error_data = null;
-        }
-        if ((error_data && error_data.error_code) || contentType=='application/json') {
-            $('#rl_modal').modal('hide');
-            httpError(error_data);
-		}
-    });
-
-    $('#rl_modal .modal-body').css({height:'500'});
-                         
-	$('#rl_modal').modal('show');
-/*
-    $('#dialog').dialog({
-        title:'<?php echo $text_resource_library; ?>',
-        close:function (event, ui) {
-        //reload original media list to show new selections
-        //not for URL mode
-        <?php if($mode != 'url') { ?>
-        <?php 	foreach ($types as $type) { ?>
-            loadMedia('<?php echo $type['type_name']?>');
-        <?php 	} ?>
-        <?php } ?>
-        },
-        width:900,
-        height:500,
-        resizable:false,
-        modal:true
-    });
-*/
-  
 };
 
 var loadMedia = function (type) {
@@ -238,6 +228,17 @@ jQuery(function () {
         mediaDialog($(this).attr('type'), 'update', $(this).attr('data-id'));
         return false;
     });
+
+    $(document).on("click", '#object', function () {
+        mediaDialog($(this).attr('type'), 'update', $(this).attr('data-id'));
+        return false;
+    });
+
+    $(document).on("click", '#library', function () {
+        mediaDialog($(this).attr('type'), 'list', $(this).attr('data-id'));
+        return false;
+    });
+    
 });
 
 function unmap_resource ( rl_id ) {
@@ -277,4 +278,77 @@ function delete_resource ( rl_id ) {
 } 
 
 <?php } ?>
+
+function bind_rl ( ) {
+    
+    jQuery('.thmb').hover(function(){
+      var t = jQuery(this);
+      t.find('.ckbox').show();
+      t.find('.fm-group').show();
+    }, function() {
+      var t = jQuery(this);
+      if(!t.closest('.thmb').hasClass('checked')) {
+        t.find('.ckbox').hide();
+        t.find('.fm-group').hide();
+      }
+    });
+    
+    jQuery('.ckbox').each(function(){
+      var t = jQuery(this);
+      var parent = t.parent();
+      if(t.find('input').is(':checked')) {
+        t.show();
+        parent.find('.fm-group').show();
+        parent.addClass('checked');
+      }
+    });
+    
+    
+    jQuery('.ckbox').click(function(){
+      var t = jQuery(this);
+      if(!t.find('input').is(':checked')) {
+        t.closest('.thmb').removeClass('checked');
+        enable_itemopt(false);
+      } else {
+        t.closest('.thmb').addClass('checked');
+        enable_itemopt(true);
+      }
+    });
+    
+    jQuery('#selectall').click(function(){
+      if(jQuery(this).is(':checked')) {
+        jQuery('.thmb').each(function(){
+          jQuery(this).find('input').attr('checked',true);
+          jQuery(this).addClass('checked');
+          jQuery(this).find('.ckbox, .fm-group').show();
+        });
+        enable_itemopt(true);
+      } else {
+        jQuery('.thmb').each(function(){
+          jQuery(this).find('input').attr('checked',false);
+          jQuery(this).removeClass('checked');
+          jQuery(this).find('.ckbox, .fm-group').hide();
+        });
+        enable_itemopt(false);
+      }
+    });
+    
+    function enable_itemopt(enable) {
+      if(enable) {
+        jQuery('.itemopt').removeClass('disabled');
+      } else {
+        
+        // check all thumbs if no remaining checks
+        // before we can disabled the options
+        var ch = false;
+        jQuery('.thmb').each(function(){
+          if(jQuery(this).hasClass('checked'))
+            ch = true;
+        });
+        
+        if(!ch)
+          jQuery('.itemopt').addClass('disabled');
+      }
+    }   
+}
 </script>
