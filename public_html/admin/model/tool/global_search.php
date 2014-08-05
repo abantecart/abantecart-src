@@ -28,10 +28,6 @@ class ModelToolGlobalSearch extends Model {
 	 */
 	public $registry;
 	/**
-	 * @var string
-	 */
-	private $charset;
-	/**
 	 * array with descriptions of controller for search
 	 * @var array
 	 */
@@ -109,7 +105,7 @@ class ModelToolGlobalSearch extends Model {
 	public function getSearchSources($keyword = '') {
 		$search_categories = array();
 		// limit of keyword length
-		if (mb_strlen($keyword, strtoupper($this->registry->get('document')->getCharset())) >= 1) {
+		if (mb_strlen($keyword) >= 1) {
 			foreach ($this->results_controllers as $k => $item) {
 				$search_categories[$k] = $item['alias'];
 			}
@@ -126,8 +122,8 @@ class ModelToolGlobalSearch extends Model {
 	 */
 	public function getTotal($search_category, $keyword) {
 
-		$this->charset = strtoupper($this->registry->get('document')->getCharset());
-		$needle = $this->db->escape(strtolower(htmlentities($keyword, ENT_QUOTES, $this->charset)), $this->charset);
+
+		$needle = $this->db->escape(mb_strtolower(htmlentities($keyword, ENT_QUOTES)));
 		$search_languages[] = ( int )$this->config->get('storefront_language_id');
 
 		//sleep(3);
@@ -329,10 +325,10 @@ class ModelToolGlobalSearch extends Model {
 	 */
 	public function getResult($search_category, $keyword, $mode = 'listing') {
 
-		$this->charset = strtoupper($this->registry->get('document')->getCharset());
+
 		// two variants of needles for search: with and without html-entities
-		$needle = $this->db->escape(mb_strtolower(htmlentities($keyword, ENT_QUOTES, $this->charset)), $this->charset);
-		$needle2 = $this->db->escape(mb_strtolower($keyword), $this->charset);
+		$needle = $this->db->escape(mb_strtolower(htmlentities($keyword, ENT_QUOTES)));
+		$needle2 = $this->db->escape(mb_strtolower($keyword));
 
 		if (isset($this->request->get ['page'])) {
 			$offset = (( int )$this->request->get ['page'] - 1) * ( int )$this->request->get ['rows'];
@@ -364,7 +360,7 @@ class ModelToolGlobalSearch extends Model {
 				break;
 
 			case 'languages' :
-				$sql = "SELECT l.language_definition_id, CONCAT_WS(' >> ',l.block,l.language_key) as title, CONCAT_WS(' >> ',l.language_key,l.language_value) as text, language_id
+				$sql = "SELECT l.language_definition_id, l.language_key as title, CONCAT_WS('  ',l.language_key,l.language_value) as text, language_id
 						FROM " . DB_PREFIX . "language_definitions l						
 						WHERE (LOWER(l.language_value) like '%" . $needle . "%'
 									OR LOWER(l.language_value) like '%" . $needle2 . "%'
@@ -545,7 +541,7 @@ class ModelToolGlobalSearch extends Model {
 			case "settings" :
 				$sql = "SELECT setting_id,
 								CONCAT(`group`,'-',s.`key`,'-',store_id) as active,
-								CONCAT(`group`,' -> ',COALESCE(l.language_value,s.`key`)) as title,
+								COALESCE(l.language_value,s.`key`) as title,
 								COALESCE(l.language_value,s.`key`) as text,
 								e.`key` as extension
 						FROM " . DB_PREFIX . "settings s
@@ -646,7 +642,6 @@ class ModelToolGlobalSearch extends Model {
 			return null;
 		}
 
-		$charset = $this->charset;
 		$tmp = array();
 		$text = '';
 		if ($table && is_array($table)) {
@@ -654,21 +649,22 @@ class ModelToolGlobalSearch extends Model {
 			foreach ($table as $row) {
 				//let's extract  and colorize keyword in row
 				foreach ($row as $key => $field) {
-					$field_decoded = htmlentities($field, ENT_QUOTES, $charset);
-					//html_entity_decode ( $text, ENT_QUOTES, $charset );
+					$field_decoded = htmlentities($field, ENT_QUOTES);
+
 					// if keyword found
-					if (($pos = mb_stripos($field_decoded, $keyword, 0, $charset)) !== false && $key != 'title') {
+					$pos = mb_stripos($field_decoded, $keyword);
+					if (is_int($pos) && $key != 'title') {
 						$row ['title'] = '<span class="search_res_title">' . strip_tags($row ['title']) . "</span>";
 						$start = $pos < 50 ? 0 : ($pos - 50);
-						$keyword_len = mb_strlen($keyword, $charset);
-						$field_len = mb_strlen($field_decoded, $charset);
+						$keyword_len = mb_strlen($keyword);
+						$field_len = mb_strlen($field_decoded);
 						$ellipsis = ($field_len - $keyword_len > 10) ? '...' : '';
 						// before founded word
-						$text .= $ellipsis . mb_substr($field_decoded, $start, $pos, $charset);
+						$text .= $ellipsis . mb_substr($field_decoded, $start, $pos);
 						// founded word
 						$len = ($field_len - ($pos + $keyword_len)) > 50 ? 50 : $field_len;
 						// after founded word
-						$text .= mb_substr($field_decoded, ($pos + $keyword_len), $len, $charset) . $ellipsis;
+						$text .= mb_substr($field_decoded, ($pos + $keyword_len), $len) . $ellipsis;
 
 						$row ['text'] = $text;
 						break;

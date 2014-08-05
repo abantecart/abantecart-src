@@ -35,18 +35,25 @@ class ControllerPagesCatalogProductFiles extends AController {
 		$this->loadModel('catalog/download');
 		$product_id = $this->request->get['product_id'];
 
-		if (has_value($product_id) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if(!$product_id){
+			$this->redirect($this->html->getSecureURL('catalog/product'));
+		}
+
+		if (has_value($product_id) && $this->request->is_GET()) {
 			$product_info = $this->model_catalog_product->getProduct($product_id);
 			if (!$product_info) {
 				$this->session->data['warning'] = $this->language->get('error_product_not_found');
 				$this->redirect($this->html->getSecureURL('catalog/product'));
 			}
 			// remove
-			if(has_value($this->request->get['act'])){
-				if($this->request->get['act']=='unmap'){
-					$this->model_catalog_download->unmapDownload($this->request->get['download_id'], $product_id);
-				}elseif($this->request->get['act']=='delete'){
+			if(has_value($this->request->get['act']) && $this->request->get['act']=='delete'){
+				$download_info = $this->model_catalog_download->getDownload( $this->request->get['download_id'] );
+				$map_list = $this->model_catalog_download->getDownloadMapList($this->request->get['download_id']);
+
+				if( (sizeof($map_list)==1 && key($map_list) == $product_id) || $download_info['shared']!=1 ){
 					$this->model_catalog_download->deleteDownload($this->request->get['download_id']);
+				}else{
+					$this->model_catalog_download->unmapDownload($this->request->get['download_id'], $product_id);
 				}
 				$this->session->data['success'] = $this->language->get('text_success_remove');
 				$this->redirect($this->html->getSecureURL('catalog/product_files', '&product_id='.$product_id));
@@ -59,19 +66,16 @@ class ControllerPagesCatalogProductFiles extends AController {
 			$this->error['warning'] = $this->html->convertLinks($this->language->get('error_downloads_disabled'));
 		}
 
-		if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->_validateForm()) {
-			foreach($this->request->post['selected'] as $id=>$value){
-				if($value['status']){
+		if ($this->request->is_POST() && $this->_validateForm()) {
+			$this->model_catalog_download->unmapDownloadsFromProduct($product_id);
+			foreach($this->request->post['selected'] as $id){
 					$this->model_catalog_download->mapDownload($id,$product_id);
-				}
 			}
 
 			$this->session->data['success'] = $this->language->get('text_map_success');
 			$this->redirect($this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id));
 		}
 
-
-		$this->view->assign('download_id', $this->request->get['download_id']);
 
 		$this->view->assign('error_warning', $this->error['warning']);
 		$this->view->assign('success', $this->session->data['success']);
@@ -99,7 +103,8 @@ class ControllerPagesCatalogProductFiles extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id),
 			'text' => $this->language->get('tab_files'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'	=> true
 		));
 
 		$this->data['active'] = 'files';
@@ -111,22 +116,74 @@ class ControllerPagesCatalogProductFiles extends AController {
 		$this->loadModel('catalog/download');
 		$this->data['downloads'] = array();
 
-		$prod_files = $this->model_catalog_download->getProductDownloadsDetails($product_id);
-		$prod_files[] = array( 'download_id' => 0 );
+		$this->data['product_files'] = $this->model_catalog_download->getProductDownloadsDetails($product_id);
 
-		$this->session->data['multivalue_excludes'] = array(); // array for excluding assigned downloads from multivalue list of create form
+		$rl = new AResource('download');
+		$rl_dir = $rl->getTypeDir();
+		foreach($this->data['product_files'] as &$file){
 
-		foreach ($prod_files as $download_info) {
-			$download_info['product_id'] = $product_id;
-			if($download_info['download_id']){
-				$this->session->data['multivalue_excludes'][] = $download_info['download_id'];
-				$download_info['map_list'] = $this->model_catalog_download->getDownloadMapList($download_info['download_id']);
+			$resource_id = $rl->getIdFromHexPath(str_replace($rl_dir,'',$file['filename']));
+			$resource_info = $rl->getResource($resource_id);
+			$thumbnail = $rl->getResourceThumb($resource_id, $this->config->get('config_image_grid_width'), $this->config->get('config_image_grid_height'));
+			if($resource_info['resource_path']){
+				$file[ 'icon' ] = $this->html->buildResourceImage(
+															array('url' => $thumbnail,
+																'width' => $this->config->get('config_image_grid_width'),
+																'height' => $this->config->get('config_image_grid_height'),
+																'attr' => 'alt="' . $resource_info['title'] . '"') );
+			}else{
+				$file[ 'icon' ] = $resource_info['resource_code'];
 			}
 
-			$row = $this->dispatch('responses/product/product/buildDownloadForm',array($download_info,'responses/product/product_file_row.tpl'));
-			$this->data['file_rows'][] = $row->dispatchGetOutput();
-			unset($row);
-		}
+			$file['button_edit'] = $this->html->buildElement(
+					array(
+							'type' => 'button',
+							'text' => $this->language->get('button_edit'),
+							'href' => $this->html->getSecureURL('r/product/product/buildDownloadForm','&product_id=' . $product_id.'&download_id='.$file['download_id'])
+			));
+
+			$map_list = $this->model_catalog_download->getDownloadMapList($file['download_id']);
+			if( (sizeof($map_list)==1 && key($map_list) == $product_id) || $file['shared']!=1 ){
+				$text = $this->language->get('button_delete');
+				$icon = 'fa-trash-o';
+			}else{
+				$text = $this->language->get('button_unmap');
+				$icon = 'fa-chain-broken';
+			}
+
+			$file['button_delete'] = $this->html->buildElement(
+					array(
+							'type' => 'button',
+							'text' => $text,
+							'href' => $this->html->getSecureURL('catalog/product_files','&act=delete&product_id=' . $product_id.'&download_id='.$file['download_id']),
+						    'icon' => $icon
+			));
+
+			$orders_count = $this->model_catalog_download->getTotalOrdersWithProduct($product_id);
+			if($orders_count){
+				$file['push_to_customers'] = $this->html->buildElement(
+						array(
+							'type' => 'button',
+							'name' => 'push_to_customers',
+							'text' => sprintf($this->language->get('text_push_to_orders'),	$orders_count),
+							'title' => $this->language->get('text_push'),
+							'icon' => 'fa-share-alt-square',
+							'href' => $this->html->getSecureURL('catalog/product_files/pushToCustomers',
+																'&product_id='.$product_id.'&download_id='.$file['download_id']),
+							'attr' => 'data-orders-count="'.$orders_count.'"'));
+			}
+
+
+		} unset($file);
+
+		$this->data['button_add_file'] = $this->html->buildElement(
+			array(
+				'type' => 'button',
+				'text' => $this->language->get('text_add_file'),
+				'href' => $this->html->getSecureURL('r/product/product/buildDownloadForm','&product_id=' . $product_id)
+
+			)
+		);
 
 
 		$this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');
@@ -143,8 +200,6 @@ class ControllerPagesCatalogProductFiles extends AController {
 		if (!$this->user->canModify('catalog/product_files')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
-		$this->load->library('json');
-		$this->request->post[ 'selected' ] = AJson::decode(html_entity_decode(current($this->request->post[ 'selected' ])), true);
 
 		if(!$this->request->post['selected']){
 			$this->error['warning'] = $this->language->get('error_selected_downloads');
@@ -155,6 +210,44 @@ class ControllerPagesCatalogProductFiles extends AController {
 		} else {
 			return FALSE;
 		}
+	}
+
+
+	public function pushToCustomers(){
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$download_id = (int)$this->request->get['download_id'];
+		$product_id = (int)$this->request->get['product_id'];
+
+		$download_info = $this->download->getDownloadInfo($download_id);
+
+		if(!$download_info || !$product_id){
+			$this->redirect($this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id));
+		}
+
+		$download_info['attributes_data'] = serialize($this->download->getDownloadAttributesValues($download_id));
+		$this->loadModel('catalog/download');
+		$orders_for_push = $this->model_catalog_download->getOrdersWithProduct($product_id);
+		$updated_array = array();
+		if($orders_for_push){
+			foreach($orders_for_push as $row){
+				$updated_array = array_merge(
+						$updated_array,
+						$this->download->addUpdateOrderDownload($row['order_product_id'],$row['order_id'], $download_info)
+						);
+			}
+
+
+			$this->load->language('catalog/files');
+			$this->session->data['success'] = sprintf($this->language->get('success_push_to_orders'), count($updated_array));
+		}
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->redirect( $this->html->getSecureURL('catalog/product_files','&product_id='.$product_id) );
+
 	}
 
 }

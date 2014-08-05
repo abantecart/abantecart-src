@@ -265,9 +265,6 @@
 		$(function () {
 			if (!$('#global_search')) return;
 			$('#global_search').click(function () {
-				if ($(this).val() == '<?php echo $search_everywhere; ?>') {
-					$(this).val('');
-				}
 				$('#global_search').catcomplete('search');
 			});
 
@@ -279,15 +276,9 @@
 			});
 
 			$('#global_search').focus(function () {
-				if ($(this).val() == '<?php echo $search_everywhere; ?>') {
-					$(this).val('');
-				}
 				$('#global_search').catcomplete('search');
 			});
 			$('#global_search').blur(function () {
-				if ($(this).val() == '') {
-					$(this).val('<?php echo $search_everywhere; ?>');
-				}
 				$('#global_search').catcomplete('close');
 			});
 

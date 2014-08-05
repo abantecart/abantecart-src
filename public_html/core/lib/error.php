@@ -176,7 +176,7 @@ class AError {
 			 */
 			$load = $this->registry->get('load');
 			$response->addheader($http_header_txt);
-			$response->addheader('Content-Type: application/json');
+			$response->addJSONHeader();
 			$load->library('json');
 			return $response->setOutput(AJson::encode($err_data));
 		} else {

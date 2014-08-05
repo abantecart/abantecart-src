@@ -9,12 +9,32 @@
 		<value><![CDATA[Product]]></value>
 	</definition>
 	<definition>
+		<key>text_edit_product_file</key>
+		<value><![CDATA[Edit Product File]]></value>
+	</definition>
+	<definition>
 		<key>tab_files</key>
 		<value><![CDATA[Files]]></value>
 	</definition>
 	<definition>
+		<key>tab_general</key>
+		<value><![CDATA[General]]></value>
+	</definition>
+	<definition>
+		<key>tab_attributes</key>
+		<value><![CDATA[Download Attributes]]></value>
+	</definition>
+	<definition>
 		<key>entry_file_icon</key>
 		<value><![CDATA[File Icon]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[ Status]]></value>
+	</definition>
+	<definition>
+		<key>entry_resource</key>
+		<value><![CDATA[ Resource]]></value>
 	</definition>
 	<definition>
 		<key>entry_name</key>
@@ -53,12 +73,8 @@
 		<value><![CDATA[Activation Mode]]></value>
 	</definition>
 	<definition>
-		<key>text_expand</key>
-		<value><![CDATA[+ expand]]></value>
-	</definition>
-	<definition>
-		<key>text_hide</key>
-		<value><![CDATA[- hide]]></value>
+		<key>text_add_file</key>
+		<value><![CDATA[Add File]]></value>
 	</definition>
 	<definition>
 		<key>text_download_attributes</key>
@@ -201,6 +217,10 @@
 		<key>text_push_to_orders</key>
 		<value><![CDATA[Push Download to %s Orders]]></value>
 	</definition>
+	<definition>
+		<key>success_push_to_orders</key>
+		<value><![CDATA[Success: Download was pushed  to %s order(s) successfully]]></value>
+	</definition>
     <definition>
         <key>text_no_download_attributes_yet</key>
         <value><![CDATA[ No download attributes yet. <a href="%s" target="_blank">Click to add</a>]]></value>
@@ -224,5 +244,9 @@
 	<definition>
 		<key>attention_shared</key>
 		<value><![CDATA[You are about to edit shared download. Edit will effect other products.]]></value>
+	</definition>
+	<definition>
+		<key>text_shared_with</key>
+		<value><![CDATA[Shared with:]]></value>
 	</definition>
 </definitions>

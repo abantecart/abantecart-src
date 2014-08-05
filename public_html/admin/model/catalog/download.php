@@ -173,6 +173,21 @@ class ModelCatalogDownload extends Model {
 	}
 
 	/**
+	 * @param int $product_id
+	 * @return bool
+	 */
+	public function unmapDownloadsFromProduct($product_id){
+		$product_id = (int)$product_id;
+		if(!$product_id){
+			return false;
+		}
+
+		$this->db->query("DELETE FROM " . $this->db->table('products_to_downloads') . "
+						  WHERE product_id = '" . (int)$product_id . "'");
+		return true;
+	}
+
+	/**
 	 * @param int $download_id
 	 * @return array
 	 */
@@ -196,8 +211,12 @@ class ModelCatalogDownload extends Model {
 
 	/**
 	 * @param int $download_id
+	 * @return null
 	 */
 	public function deleteDownload($download_id) {
+		$download_id = (int)$download_id;
+		if(!$download_id){ return null;}
+
 		$this->db->query("DELETE FROM " . DB_PREFIX . "downloads WHERE download_id = '" . (int)$download_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "download_descriptions WHERE download_id = '" . (int)$download_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "download_attribute_values WHERE download_id = '" . (int)$download_id . "'");
@@ -210,6 +229,9 @@ class ModelCatalogDownload extends Model {
 	 * @return array
 	 */
 	public function getDownload($download_id) {
+		$download_id = (int)$download_id;
+		if(!$download_id){ return array();}
+
 		$query = $this->db->query("SELECT d.download_id,
 										  dc.name,
 										  filename,
@@ -220,6 +242,7 @@ class ModelCatalogDownload extends Model {
 		      	                  	  	  activate,
 		      	                  	      activate_order_status_id,
 		      	                  	  	  status,
+		      	                  	  	  shared,
 		      	                  	      date_added,
 		      	                  	      date_modified
 									FROM " . $this->db->table('downloads') . " d
@@ -318,6 +341,13 @@ class ModelCatalogDownload extends Model {
 		}
 		$query = $this->db->query($sql);
 		return $query->rows;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getSharedDownloads(){
+		return $this->getDownloads(array('subsql_filter' => ' shared=1 '));
 	}
 
 	/**

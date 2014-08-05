@@ -762,28 +762,33 @@
     };
 })(jQuery);
 
+
+
+var spanHelp2Toggles = function(){
+    $("label, thead td").each(function () {
+    		var $label = $(this);
+    		var $help = $label.find('span.help');
+    		if( $help.length > 0) {
+    			var $icon = '&nbsp;<i class="fa fa-comment-o"></i>';
+    			var content = $help.text();
+    			//destroy span
+    			$help.remove();
+    			$label.html($label.text()+$icon);
+    			var $i = $label.find('i');
+    			//build and activate popover
+    			$i.attr('data-container', 'body');
+    			$i.attr('data-toggle', 'popover');
+    			$i.attr('data-content', $help.text());
+    			$i.popover({trigger: 'hover', placement: 'auto'});
+    		}
+    	});
+}
+
 /* other form related */
 jQuery(document).ready(function() {
 
 	//Convert span help to toggles
-	$("label, thead td").each(function () {
-		var $label = $(this);
-		var $help = $label.find('span.help');
-		if( $help.length > 0) {
-			var $icon = '&nbsp;<i class="fa fa-comment-o"></i>';
-			var content = $help.text();
-			//destroy span
-			$help.remove();
-			$label.html($label.text()+$icon);
-			var $i = $label.find('i');
-			//build and activate popover
-			$i.attr('data-container', 'body');
-			$i.attr('data-toggle', 'popover');
-			$i.attr('data-content', $help.text());			
-			$i.popover({trigger: 'hover', placement: 'auto'});
-		}
-	});
-	
+	spanHelp2Toggles();
 
 	//form fields
 	$(".chosen-select").chosen({'width':'100%','white-space':'nowrap'});
@@ -839,9 +844,10 @@ var bindAform = function(selector, op){
 		op = {triggerChanged: true, showButtons: false};
 	}
 	if ( selector == null ) {
-		selector = $("input, checkbox, select");
+		selector = $("input, textarea, select");
 	}
 	$(selector).aform(op);
+    spanHelp2Toggles();
 }
 
 //------------------------------------------------------------------------------
@@ -849,7 +855,7 @@ var bindAform = function(selector, op){
 //------------------------------------------------------------------------------
 var resetAForm = function(selector){
 	if ( selector == null ) {
-		selector = $("input, checkbox, select");
+		selector = $("input, textarea, select");
 	}
 	
 	$(selector).each(function () {
