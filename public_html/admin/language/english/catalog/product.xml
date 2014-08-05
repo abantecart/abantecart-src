@@ -385,6 +385,10 @@
 		<key>text_select_category</key>
 		<value><![CDATA[- Select Category -]]></value>
 	</definition>
+	<definition>
+		<key>text_select_product</key>
+		<value><![CDATA[- Select Product -]]></value>
+	</definition>
     <definition>
 		<key>text_option_name</key>
 		<value><![CDATA[Option Name]]></value>
