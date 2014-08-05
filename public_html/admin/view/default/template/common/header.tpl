@@ -130,29 +130,32 @@
 						</div>
 					</div>
 				</li>
-				<?php if ($languages) { ?>
-					<li>
+				<?php
+				 if ($languages) {
+				 	$cur_lang;
+				 	foreach ($languages as $language) {
+						if ($language['code'] == $language_code) {
+							$cur_lang = $language;
+							break;
+						} 
+					} 
+				?>					
+				<li>
 						<div class="btn-group">
 							<button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
-								<i class="fa fa-language fa-lg"></i>
+			  					<?php if($cur_lang['image']){  ?>
+			  					<img src="<?php echo $cur_lang['image']; ?>" title="<?php echo $cur_lang['name']; ?>" />
+			  					<?php } else { ?>
+			  					<i class="fa fa-language fa-lg"></i>
+			  					<?php } ?>
+	      						<span class="caret"></span>
 							</button>
 							<div class="dropdown-menu dropdown-menu-head pull-right switcher">
+								<h5 class="title"><?php echo $cur_lang['name']; ?>
+								<a href="<?php echo $language_settings; ?>"><i class="fa fa-gears"></i></a>
+								</h5>
 								<form action="<?php echo str_replace('&', '&amp;', $action); ?>" method="post"
 									  enctype="multipart/form-data" id="language_form">
-									<?php foreach ($languages as $language) { ?>
-										<?php if ($language['code'] == $language_code) { ?>
-											<h5 class="title">
-												<?php if ($language['image']) { ?>
-													<img src="<?php echo $language['image']; ?>"
-														 title="<?php echo $language['name']; ?>"/>
-												<?php
-												} else {
-													echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-												} ?>
-												&nbsp;&nbsp;<span><?php echo $language['name']; ?></span>
-											</h5>
-										<?php } ?>
-									<?php } ?>
 									<ul class="dropdown-list gen-list">
 										<?php foreach ($languages as $language) { ?>
 											<li>
@@ -186,7 +189,10 @@
 						</button>
 
 						<div class="dropdown-menu dropdown-menu-head pull-right">
-							<h5 class="title"><?php echo $last_login; ?></h5>
+							<h5 class="title">
+								<?php echo $last_login; ?>
+								<a href="<?php echo $account_edit; ?>"><i class="fa fa-gears"></i></a>
+							</h5>
 							<ul class="dropdown-list gen-list">
 								<li><a href="<?php echo $account_edit; ?>"><i
 												class="fa fa-edit"></i> <?php echo $text_edit_details; ?></a></li>

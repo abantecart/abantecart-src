@@ -257,35 +257,6 @@ h4, .h4 {
    color: #46B8DA;
 }
 
-.btn-brown {
-   background-color: #583f26;
-   border-color: #513921;
-   color: #fff;
-}
-
-.btn-brown:hover,
-.btn-browm:active,
-.btn-brown:focus {
-   color: #fff;
-   background-color: #513921;
-   border-color: #48321c;
-}
-
-.btn-brown-alt {
-   border: 2px solid #583f26;
-   color: #583f26;
-   text-transform: uppercase;
-   font-size: 12px;
-   font-family: 'LatoBold';
-}
-
-.btn-brown-alt:hover,
-.btn-brown-alt:active,
-.btn-brown-alt:focus {
-   border-color: #513921;
-   color: #513921;
-}
-
 .btn-black {
    background: #333;
    color: #fff;
@@ -315,64 +286,6 @@ h4, .h4 {
    color: #222;
 }
 
-.btn-pink {
-   background: #f579e8;
-   border-color: #ec6bde;
-   color: #fff;
-}
-
-.btn-pink:hover,
-.btn-pink:active,
-.btn-pink:focus {
-   background: #ec6bde;
-   border-color: #e261d4;
-   color: #fff;
-}
-
-.btn-pink-alt {
-   border: 2px solid #f579e8;
-   color: #f579e8;
-   font-size: 12px;
-   font-family: 'LatoBold';
-   text-transform: uppercase;
-}
-
-.btn-pink-alt:hover,
-.btn-pink-alt:active,
-.btn-pink-alt:focus {
-   border-color: #ec6bde;
-   color: #ec6bde;
-}
-
-.btn-darkblue {
-   color: #fff;
-   background: #2e4678;
-   border-color: #29406f;
-}
-
-.btn-darkblue:hover,
-.btn-darkblue:active,
-.btn-darkblue:focus {
-   background: #29406f;
-   border-color: #243a66;
-   color: #fff;
-}
-
-.btn-darkblue-alt {
-   border: 2px solid #2e4678;
-   color: #2e4678;
-   text-transform: uppercase;
-   font-size: 12px;
-   font-family: 'LatoBold';
-}
-
-.btn-darkblue-alt:hover,
-.btn-darkblue-alt:active,
-.btn-darkblue-alt:focus {
-   border-color: #29406f;
-   color: #29406f;
-}
-
 .btn-orange {
    color: #fff;
    background: #f38108;
@@ -400,35 +313,6 @@ h4, .h4 {
 .btn-orange-alt:focus {
    border-color: #de7504;
    color: #de7504;
-}
-
-.btn-maroon {
-   color: #fff;
-   background: #990000;
-   border-color: #880000;
-}
-
-.btn-maroon:hover,
-.btn-maroon:active,
-.btn-maroon:focus {
-   background: #880000;
-   border-color: #770000;
-   color: #fff;
-}
-
-.btn-maroon-alt {
-   border: 2px solid #990000;
-   color: #990000;
-   text-transform: uppercase;
-   font-size: 12px;
-   font-family: 'LatoBold';
-}
-
-.btn-maroon-alt:hover,
-.btn-maroon-alt:active,
-.btn-maroon-alt:focus {
-   border-color: #880000;
-   color: #880000;
 }
 
 .btn-lightblue {

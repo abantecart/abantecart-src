@@ -37,7 +37,7 @@ jQuery(document).ready(function() {
     }
    
    // Toggle Menu top level
-   $('.leftpanel .nav-parent.level0 > a').live('click', function() {  
+   $(document).on('click', '.leftpanel .nav-parent.level0 > a', function() {  
       var parent = $(this).parent();
       var sub = parent.find('> ul');
       // Dropdown works only when leftpanel is not collapsed
@@ -60,7 +60,7 @@ jQuery(document).ready(function() {
    });
 
    // Toggle Menu second level   
-   $('.children .nav-parent.level1 > a').live('click', function() {
+   $(document).on('click', '.children .nav-parent.level1 > a', function() {
       var parent = $(this).parent();
       var sub = parent.find('ul.child2');
       // Dropdown works only when leftpanel is not collapsed
@@ -573,27 +573,6 @@ function formatQty(field) {
     field.value = $().number_format(price, { numberOfDecimals:0,
         decimalSeparator:numberSeparators.decimal,
         thousandSeparator:numberSeparators.thousand});
-}
-
-
-
-//bind event for submit buttons
-var formOnExit = function(){
-    $('form[data-confirm-exit="true"]').find('.btn').bind('click', function () {
-        var $form = $(this).parents('form');
-        //reset elemnts to not changed status
-        $form.prop('changed', 'submit');
-    });
-    // prevent submit of form for "quicksave"
-    $("form").bind("keypress", function(e) {
-        if (e.keyCode == 13){
-            if($(document.activeElement)){
-                if($(document.activeElement).parents('.changed').length>0){
-                        return false;
-                }
-            }
-        }
-    });
 }
 
 

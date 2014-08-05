@@ -48,6 +48,7 @@ class ControllerCommonHeader extends AController {
 		$this->view->assign('languages', array());
 		$this->view->assign('languages', $this->language->getActiveLanguages());
 		$this->view->assign('content_language_id', $this->language->getContentLanguageID());
+		$this->view->assign('language_settings', $this->html->getSecureURL('localisation/language'));
 
 		$this->view->assign('new_messages', $this->messages->getShortList());
 		$this->view->assign('messages_link', $this->html->getSecureURL('tool/message_manager'));
