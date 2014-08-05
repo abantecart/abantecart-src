@@ -352,6 +352,7 @@ class ModelCatalogProduct extends Model {
 	 * @param array $data
 	 */
 	public function updateProductLinks($product_id, $data) {
+		if(!(int)$product_id || !$data){ return false; }
 
 		if (isset($data['product_store'])) {
 			$this->db->query("DELETE FROM " . DB_PREFIX . "products_to_stores WHERE product_id = '" . (int)$product_id . "'");
