@@ -1,10 +1,10 @@
 <div id="rl_container">
 	<ul class="nav nav-tabs nav-justified nav-profile">
-	<li id="object" data-id="<?php echo $resource_id; ?>"><a href="#"><strong><?php echo $object_title; ?></strong></a></li>
-	<li id="library" data-id="<?php echo $resource_id; ?>" class="active"><a href="#"><span><?php echo $heading_title; ?></span></a></li>
+	<li id="object" data-id="<?php echo $resource_id; ?>" class="active"><a href="#"><strong><?php echo $object_title; ?></strong></a></li>
+	<li id="library" data-id="<?php echo $resource_id; ?>"><a href="#"><span><?php echo $heading_title; ?></span></a></li>
 	</ul>
 
-<div class="tab-content rl-content">
+ <div class="tab-content rl-content">
 
 	<ul class="reslibrary-options">
 		<li>
@@ -63,60 +63,61 @@
         
 	</ul>
 
+	<?php echo $edit_form_open;?>
 	<div class="row">
-        <div class="col-sm-12">
-          <div class="row reslibrary">
-          <?php
-          	//list RL items
-          	foreach ($rls as $rl) {
+        <div class="col-sm-6 col-xs-12">
 
-			/*
-            [resource_id] => 100007
-            [name] => az_demo_product_14_2.jpg
-            [title] => 
-            [description] => 
-            [resource_path] => 18/6a/7.jpg
-            [resource_code] => 
-            [mapped] => 1
-            [sort_order] => 0
-            [thumbnail_url] => http://localhost/abantecart120/image/thumbnails/icon_resource_image-100x100.png
-            [url] => http://localhost/abantecart120/resources/18/6a/7.jpg
-            [relative_url] => /resources/18/6a/7.jpg
-            */
-          ?>  
-            <div class="col-xs-6 col-sm-4 col-md-3 document">
-              <div class="thmb">
-                <div class="ckbox ckbox-default" style="display: none;">
-                  <input type="checkbox" value="1" id="check1">
-                  <label for="check1"></label>
-                </div>
-                <div class="btn-group rl-group" style="display: none;">
-                    <button data-toggle="dropdown" class="btn btn-default dropdown-toggle rl-toggle" type="button">
-                      <span class="caret"></span>
-                    </button>
-                    <ul role="menu" class="dropdown-menu rl-menu">
-                      <li><a href="#"><i class="fa fa-share"></i> Share</a></li>
-                      <li><a href="#"><i class="fa fa-envelope-o"></i> Email</a></li>
-                      <li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
-                      <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
-                      <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-                    </ul>
-                </div><!-- btn-group -->
-                <div class="thmb-prev">
-                  <img alt="" class="img-responsive" src="<?php echo $thumbnail_url; ?>">
-                </div>
-                <h5 class="rl-title"><a href=""><?php echo $rl['name']; ?></a></h5>
-                <small class="text-muted">Added: <?php echo $rl['created']; ?></small>
-              </div><!-- thmb -->
-            </div><!-- col-xs-6 -->
-           <?php 
-             }
-           ?>
-                        
-          </div><!-- row -->
-        </div><!-- col-sm-9 -->
+		    <div class="resource_image"></div>
 
-      </div>
+	        <table class="files resource-details" cellpadding="0" cellspacing="0">
+	        <tr>
+	            <td><?php echo $text_mapped_to; ?></td>
+	            <td class="mapped"></td>
+	        </tr>
+	        <tr id="do_map_info">
+	            <td><?php echo $text_map; ?></td>
+	            <td>
+	                <?php if ($mode != 'url') { ?>
+	                <a class="btn_action resource_unmap" id="map_this_info"><span class="icon_s_save">&nbsp;<span
+	                    class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
+	                <?php } else { ?>
+	                <a class="btn_action resource_unmaps use" id="map_this_info" rel="1"><span
+	                    class="icon_s_save">&nbsp;<span
+	                    class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
+	                <?php } ?>
+	            </td>
+	        </tr>
+	    	</table>
+        </div><!-- col-sm-6 -->
+
+        <div class="col-sm-6 col-xs-12">
+        <table class="files resource-details" cellpadding="0" cellspacing="0">
+            <tr>
+                <td colspan="2" class="sub_title"><?php echo $text_edit_resource ?></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="message"></td>
+            </tr>
+            <tr>
+                <td><?php echo $text_resource_code; ?></td>
+                <td><?php echo $field_resource_code;?></td>
+            </tr>
+            <tr>
+                <td><?php echo $text_name; ?></td>
+                <td><?php echo $field_name; ?></td>
+            </tr>
+            <tr>
+                <td><?php echo $text_title; ?></td>
+                <td><?php echo $field_title; ?></td>
+            </tr>
+            <tr>
+                <td><?php echo $text_description; ?></td>
+                <td><?php echo $field_description; ?></td>
+            </tr>
+        </table>
+        </div><!-- col-sm-6 -->
+	</div>
       
 	<div class="panel-body panel-body-nopadding">
 	</div>
@@ -135,31 +136,12 @@
 	</div>
 	</form>
 	
-</div><!-- <div class="tab-content"> -->
+ </div><!-- <div class="tab-content"> -->
 
 </div>
 
 
 <?php if ( 1 == 0 ){ ?>
-    <div id="column_left">
-
-        
-        <span id="add_resource_msg"></span>
-        <a id="done_resource" class="btn_standard"><?php echo $button_done; ?></a>
-    </div>
-    <div id="column_right_wrapper">
-        <ul class="tabs">
-            <li>
-            	<a class="selected" href="#column_right" id="object"><?php echo $object_title; ?></a>
-            </li>
-            <li style="float: right; margin-right:15px;">
-            	<a href="#column_right" id="library"><?php echo $heading_title; ?></a>
-            </li>
-        </ul>
-        <a href="#" id="button_save_order" class="btn_standard"><?php echo $button_save_order; ?></a>
-
-        <div id="column_right"></div>
-    </div>
     <?php if ($mode == ''){ ?>
     <div id="multiactions">
         <?php echo $text_with_selected ?>
@@ -171,36 +153,8 @@
 </div>
 
 <div id="edit_frm" style="display:none;">
-    <?php echo $edit_form_open;?>
+   
         <div class="resource_image"></div>
-        <table class="files resource-details" cellpadding="0" cellspacing="0">
-            <tr>
-                <td colspan="2" class="sub_title"><?php echo $text_edit_resource ?></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td class="message"></td>
-            </tr>
-            <tr>
-                <td><?php echo $text_language; ?></td>
-                <td><?php echo $language; ?></td>
-            </tr>
-            <tr>
-                <td><?php echo $text_resource_code; ?></td>
-                <td><?php echo $field_resource_code;?></td>
-            </tr>
-            <tr>
-                <td><?php echo $text_name; ?></td>
-                <td><?php echo $field_name; ?></td>
-            </tr>
-            <tr>
-                <td><?php echo $text_title; ?></td>
-                <td><?php echo $field_title; ?></td>
-            </tr>
-            <tr>
-                <td><?php echo $text_description; ?></td>
-                <td><?php echo $field_description; ?></td>
-            </tr>
             <tr>
                 <td>
                 </td>

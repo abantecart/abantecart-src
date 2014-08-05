@@ -38,8 +38,9 @@
 				?>
 			</li>
 			<li>
-				<a class="itemopt" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>"><i
-							class="fa fa-plus-circle"></i></a>
+				<a class="itemopt tooltips" data-original-title="<?php echo $button_insert; ?>" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>">
+					<i class="fa fa-plus-circle"></i>
+				</a>
 			</li>
 
 			<?php if (!empty ($form_language_switch)) { ?>

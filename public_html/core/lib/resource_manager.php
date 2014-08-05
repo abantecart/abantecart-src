@@ -339,6 +339,7 @@ class AResourceManager extends AResource {
 	public function getResourcesList($search_data, $total = false) {
 
         $select = "SELECT rl.resource_id,
+        				  rl.created,
         				  rd.name,
         				  rd.title,
         				  rd.description,
