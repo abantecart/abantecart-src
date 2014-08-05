@@ -1,124 +1,92 @@
-<?php if ( $error_warning ) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
+<?php if (!empty($error['warning'])) { ?>
+	<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
+	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
-<a name="top"></a>
+<?php echo $summary_form; ?>
+<?php echo $product_tabs ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_product"><?php echo $form_title; ?></div>
-	<?php echo $product_tabs ?>
-	<div class="toolbar">
-	    <?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-		<?php echo $form_language_switch; ?>
-    </div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
+<div class="tab-content">
+	<div class="panel-heading">
+		<div class="pull-right">
+			<div class="btn-group mr10 toolbar">
+				<?php if (!empty ($help_url)) { ?>
+					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
+					   title="" data-original-title="Help">
+						<i class="fa fa-question-circle"></i>
+					</a>
+				<?php } ?>
+			</div>
+		</div>
+	</div>
 
-	<?php echo $summary_form; ?>
-
-	<div id="notify_success" class="success alert alert-success" style="display: none;"></div>
-	<div id="notify_error" class="error alert alert-success" style="display: none;"></div>
-
-	<table id="product_download_form" class="list option ">
-	    <tr>
-	        <th class="left"><?php echo $entry_file_icon; ?></th>
-	        <th class="left"><?php echo $entry_name; ?></th>
-	        <th class="left"><?php echo $entry_file_max_downloads; ?></th>
-	        <th class="left"><?php echo $entry_file_sort_order; ?></th>
-	        <th class="left"><?php echo $entry_file_status; ?></th>
-	        <th class="center"><?php echo $column_action; ?></th>
-	    </tr>
-	    <?php foreach ($file_rows as $file_html) { ?>
-	        <?php echo $file_html; ?>
-	    <?php } ?>
-	</table>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="panel-btns">
+				<a class="minimize" href="">−</a>
+			</div>
+			<h4 class="panel-title"><?php echo $tab_files; ?></h4>
+		</div>
+		<?php echo $form['form_open']; ?>
+		<div class="panel-body panel-body-nopadding">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<td class="center"><?php echo $entry_file_icon; ?></td>
+						<td class="center"><?php echo $entry_name; ?></td>
+						<td class="center"><?php echo $entry_file_max_downloads; ?></td>
+						<td class="center"><?php echo $entry_file_sort_order; ?></td>
+						<td class="center"><?php echo $entry_file_status; ?></td>
+						<td class="center"><?php echo $column_action; ?></td>
+					</tr>
+				</thead>
+				<tbody>
+				<?php
+					foreach ($product_files as $file) { ?>
+						<tr >
+							<td class="center"><?php echo $file['icon']; ?></td>
+							<td><?php echo $file['name']; ?></td>
+							<td class="center"><?php echo $file['max_downloads']; ?></td>
+							<td class="center"><?php echo $file['sort_order']; ?></td>
+							<td class="center"><?php echo $file['status']; ?></td>
+							<td class="center">
+								<a title="<?php echo $file['button_edit']->text; ?>"
+								   href="<?php echo $file['button_edit']->href; ?>"
+								   class="btn tooltips"
+								   data-target="#file_modal" data-toggle="modal"><i class="fa fa-edit fa-lg"></i></a>
+								<a title="<?php echo $file['button_delete']->text; ?>"
+								   class="btn tooltips" data-confirmation="delete"
+								   href="<?php echo $file['button_delete']->href; ?>"><i class="fa <?php echo $file['button_delete']->icon?> fa-lg"></i></a>
+								<a title="<?php echo $file['push_to_customers']->text; ?>"
+								   class="btn tooltips"
+								   href="<?php echo $file['push_to_customers']->href; ?>"><i class="fa <?php echo $file['push_to_customers']->icon?> fa-lg"></i></a>
+							</td>
+						</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		</div>
+		<div class="panel-footer">
+			<div class="row pull-right">
+				<div class="col-sm-6 col-sm-offset-0">
+					<a href="<?php echo $button_add_file->href; ?>" data-target="#file_modal"
+					   data-toggle="modal">
+						<button class="btn btn-primary">
+							<i class="fa fa-plus"></i> <?php echo $button_add_file->text; ?>
+						</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+<?php echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'file_modal',
+				'modal_type' => 'lg',
+				'data_source' => 'ajax',
+				'js_onload' => "$('#downloadFrm_activate').change(); "
 
-<script type="text/javascript"><!--
-	var text = {
-		error_attribute_not_selected: '<?php echo $error_attribute_not_selected ?>',
-		text_expand: '<?php echo $text_expand ?>',
-		text_hide: '<?php echo $text_hide ?>'
-	};
-
-	$("#product_download_form a.expandRow").on('click', function (hide) {
-		var additional_row = $(this).parents('tr').next().find('div.additionalRow');
-		if ($(additional_row).is(':visible')) {
-			$(additional_row).slideUp();
-			$(this).html(text.text_expand);
-			$(this).parents('tr').next().find('div.add_resource').html();
-		} else {
-			if(hide!=true){
-				$('div.aform', additional_row).show();
-				$(additional_row).slideDown();
-				$(this).html(text.text_hide);
-			}
-		}
-
-		return false;
-	});
-
-	$("#product_download_form a.add").on('click', function () {
-		var additional_row = $(this).parents('tr').next().find('div.additionalRow');
-		$('div.aform', additional_row).show();
-		$(additional_row).slideDown();
-		$(this).hide();
-		return false;
-	});
-
-	$(".optionRow>td a.delete").on('click', function () {
-		if(!confirm('<?php echo $text_confirm_delete;?>')){
-			return false;
-		}
-	});
-	$(".optionRow>td a.push").on('click', function () {
-		if(confirm($(this).attr('title')+ '. <?php echo $text_confirm_push;?>')){
-			$(this).append('<span class="ajax_loading">&nbsp;</span>').show();
-			var t = $(this);
-			$.ajax({
-				url: $(this).attr('href'),
-				type: 'GET',
-				dataType: 'json',
-				success: function (data) {
-					if(data['progress']==100){
-						$('#notify_success').html(data['text']).fadeIn(500).delay(2000).fadeOut(500);
-						t.hide();
-						t.find('.ajax_loading').remove();
-					} else {
-						$('#notify_error').html(data['text']).fadeIn(500).delay(2000).fadeOut(500);					
-					}
-				},
-				error:function(data) {
-					var $json = $.parseJSON(data.responseText);
-					$('#notify_error').html($json.error_text).fadeIn(500).delay(2000).fadeOut(500);				
-				}
-				});
-		}
-		return false;
-	});
-
-	$('#downloadFrmnew_cancel').on('click',function(){
-		$("#product_download_form a.add").show();
-		var additional_row = $(this).parents('div.additionalRow');
-		$('div.aform', additional_row).show();
-		$(additional_row).slideUp();
-		return false;
-	});
-
-	$(document).ready(function(){
-		<?php if($download_id){?>
-		$("#download_<?php echo $download_id?> a.expandRow").click();
-		<?php } ?>
-		$("#product_download_form tr").dblclick(function(){
-			$(this).find('a.expandRow').click();
-		});
-	});
-
-//--></script>
+		));
+?>

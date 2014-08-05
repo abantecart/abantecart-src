@@ -1881,7 +1881,11 @@ class ModalHtmlElement extends HtmlElement {
 				'footer' => $this->footer,
 				'modal_type' => $modal_type,
 				// if 'ajax' we clean up modal content after it close
-				'data_source' => (string)$this->data_source 
+				'data_source' => (string)$this->data_source,
+				// js-triggers for modal events
+				'js_onshow' => (string)$this->js_onshow,
+				'js_onload' => ($this->data_source =='ajax' ? (string)$this->js_onload : ';'),  //if content
+				'js_onclose' => (string)$this->js_onclose,
 			)
 		);
 

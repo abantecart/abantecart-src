@@ -75,7 +75,7 @@ var wrapConfirmDelete = function(){
                     '<h5 class="center">'+ conf_text +'</h5>'+
                     '<div class="center">'+
                     '<a class="btn btn-danger" '+action+' ><i class="fa fa-trash-o"></i><?php echo $text_yes;?></a>&nbsp;&nbsp;'+
-                    '<a class="btn btn-default"><i class="fa fa-undo"></i><?php echo $text_yes;?></a>'+
+                    '<a class="btn btn-default"><i class="fa fa-undo"></i><?php echo $text_no;?></a>'+
                     '</div>'+
                     '</div>';
         $(this).after(popover);
