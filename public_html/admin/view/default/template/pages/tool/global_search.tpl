@@ -4,59 +4,97 @@
 <?php if ($success) { ?>
 <div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
-<div class="contentBox">
-	<div class="cbox_tl">
-		<div class="cbox_tr">
-			<div class="cbox_tc">
-				<div class="heading icon_title_search"><?php echo $heading_title; ?></div>
-			</div>
-		</div>
-	</div>
-	<div class="cbox_cl">
-		<div class="cbox_cr">
-			<div class="cbox_cc">
-				<div class="search_box">
-					<?php echo $search_form; ?>
-					<div class="flt_left cl" style="margin-right: 5px;">
-						<div class="cr">
-							<div class="cc"><span style="margin-top: 3px;" class="icon_search">&nbsp;</span>
-								<input type="text" style="font-size: 14px; height: 21px; line-height: 21px;"
-								       value="<?php echo $search_form_input ?>" class="atext " id="search"
-								       name="search">
+
+<div class="row">
+	<div class="col-sm-12 col-lg-12">
+		<ul class="content-nav">
+			<li><?php
+				if (!empty($search_form)) {
+					?>
+					<form id="<?php echo $search_form['form_open']->name; ?>"
+						  method="<?php echo $search_form['form_open']->method; ?>"
+						  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
+
+						<?php
+						foreach ($search_form['fields'] as $f) {
+							?>
+							<div class="form-group">
+								<div class="input-group input-group-sm">
+									<?php echo $f; ?>
+								</div>
 							</div>
+						<?php
+						}
+						?>
+						<div class="form-group">
+							<button type="submit"
+									class="btn btn-xs btn-primary"><?php echo $search_form['submit']->text ?></button>
+						</div>
+					</form>
+				<?php
+				}
+				?>
+			</li>
+
+			<?php if (!empty ($help_url)) { ?>
+				<li>
+					<div class="help_element">
+						<a href="<?php echo $help_url; ?>" target="new">
+							<i class="fa fa-question-circle"></i>
+						</a></div>
+				</li>
+			<?php } ?>
+		</ul>
+	</div>
+</div>
+
+<?php
+
+if ($search_categories) {?>
+
+<ul class="nav nav-tabs" role="tablist">
+	<?php
+	$i=0;
+	foreach ($search_categories as $scat) {	?>
+	<!-- Nav tabs -->
+	  <li <?php echo $i==0 ? 'class="active"' : ''; ?>><a href="#<?php echo $scat;?>" role="tab" data-toggle="tab"><?php echo $search_categories_names[ $scat ];?></a></li>
+	<?php
+		$i++;
+	} ?>
+	</ul>
+
+<div class="tab-content">
+	<?php
+	$i=0;
+	foreach ($search_categories as $scat) {	?>
+		<div class="tab-pane <?php echo $i==0 ? 'active' : ''; ?>" id="<?php echo $scat; ?>">
+			<div class="row">
+				<div class="col-sm-12 col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-body">
+					<?php echo ${"listing_grid_" . $scat}; ?>
 						</div>
 					</div>
-					<button class="flt_left btn_standard " type="submit"><?php echo $search_form_button; ?></button>
-					</form>
 				</div>
-				<?php
-
-				if ($search_categories) {
-					foreach ($search_categories as $scat) {
-						?>
-						<div class="search_category_heading icon_title_<?php echo $search_categories_icons[ $scat ];?>"><?php echo $search_categories_names[ $scat ];?></div>
-						<?php
-	  				echo ${"listing_grid_" . $scat}; ?>
-						<?php
-					}
-				} else {
-					?>
-					<div class="flt_none clr_both heading"><?php echo $scat;?></div>
-					<table class="table_list">
-						<tr>
-							<td class="left" id="no results"><?php echo $no_results_message; ?></td>
-						</tr>
-					</table>
-
-					<?php } ?>
 			</div>
 		</div>
-		<div class="cbox_bl">
-			<div class="cbox_br">
-				<div class="cbox_bc"></div>
-			</div>
-		</div>
-	</div>
+	<?php $i++; } ?>
+</div>
+<?php
+} else {
+	?>
+	<div class="flt_none clr_both heading"><?php echo $scat;?></div>
+	<table class="table_list">
+		<tr>
+			<td class="left" id="no results"><?php echo $no_results_message; ?></td>
+		</tr>
+	</table>
+
+	<?php } ?>
+
+
+
+
 <script type="text/javascript">
 	$('span.icon_search').click(function(){
 		$('#search_form').submit();
