@@ -106,6 +106,7 @@ class ControllerPagesExtensionExtensions extends AController {
 							),
 							'delete' => array(
 								'text' => $this->language->get('button_delete'),
+								'href' => $this->html->getSecureURL('extension/extensions/delete')
 							)
 						),
 			'grid_ready' => 'extension_grid_ready(data);'
@@ -794,6 +795,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			if (in_array($this->request->get['extension'], $missing_extensions)) {
 				$this->extension_manager->uninstall($this->request->get['extension'], $ext->getConfig());
 			}
+
 			$this->extension_manager->delete($this->request->get['extension']);
 			$this->redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
 		}

@@ -52,7 +52,7 @@
 
 if ($search_categories) {?>
 
-<ul class="nav nav-tabs" role="tablist">
+<ul class="nav nav-tabs nav-justified nav-profile" role="tablist">
 	<?php
 	$i=0;
 	foreach ($search_categories as $scat) {	?>
@@ -96,6 +96,11 @@ if ($search_categories) {?>
 
 
 <script type="text/javascript">
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		var target = $(e.target).attr("href");
+		$(target+'_grid').trigger( 'resize' );
+	});
+
 	$('span.icon_search').click(function(){
 		$('#search_form').submit();
 	});
