@@ -173,7 +173,7 @@ class ControllerPagesCatalogProductRelations extends AController {
 	            'name' => 'product_store[]',
 	            'value' => $this->data['product_store'],
 	            'options' => $this->data['stores'],
-	            'scrollbox' => true,
+	            'style' => 'chosen',
         ));
 
         $this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');
