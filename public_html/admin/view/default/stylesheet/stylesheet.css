@@ -385,7 +385,7 @@ h1,h2,h3,h4,h5 {
 .headermenu .dropdown-menu-head ul {
    border: 1px solid #ddd;
    border-top: 0;
-	padding: 0 10px;
+   padding: 0 10px;
 }
 
 .headermenu .dropdown-menu-head li a {
@@ -468,7 +468,9 @@ h1,h2,h3,h4,h5 {
 }
 .dropdown-menu-sm ul {
 	margin: 0;
-	padding: 0;
+	padding: 0 10px;
+	border: 1px solid #ddd;
+	border-top: 0;
 }
 .dropdown-menu-sm li {
    display: block;
@@ -1497,7 +1499,7 @@ p {
 }
 
 
-/* mediamanager */
+/* resource library */
 .reslibrary .thumbnail {
 	margin-bottom : 0px;
 }
@@ -1506,9 +1508,12 @@ p {
 
 }
 
-/* mediamanager */
+/* resource library */
 .tab-content.rl-content {
 	background: none #fff !important;
+}
+.tab-content.rl-content .pagination{
+	margin: 0px;
 }
 
 .reslibrary-options {
@@ -1643,8 +1648,13 @@ p {
 }
 
 .reslibrary .thmb-prev {
-    background: #eee;
     overflow: hidden;
+}
+.reslibrary .thmb-icon {
+    background: #eee;
+}
+.reslibrary .thmb-icon i {
+	font-size: 7em;
 }
 
 .reslibrary .thmb-prev a {

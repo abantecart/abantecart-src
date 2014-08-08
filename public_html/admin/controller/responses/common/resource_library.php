@@ -34,19 +34,24 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	
 		//route to correct function
 		$action = $this->request->get['action']; 
-		if ($action == 'list') {
-			return $this->listing();
+		$this->data['resource_id'] = $this->request->get['resource_id'];
+		$this->data['language_id'] = $language_id = (int)$this->config->get('storefront_language_id');
+
+		if ($action == 'list_object') {
+			return $this->list_library($action);
 		}
-		if ($action == 'add') {
+		if ($action == 'list_library') {
+			return $this->list_library($action);
+		}
+		if ($action == 'add' || !has_value($this->data['resource_id'])) {
 			return $this->add();
 		}
 		//edit mode is default. proceed
-		
+		$rm = new AResourceManager();
 		if (isset($this->session->data['rl_types'])) {
 			// if types of resources was limited
 			$this->data['types'] = $this->session->data['rl_types'];
 		} else {
-			$rm = new AResourceManager();
 			$this->data['types'] = $rm->getResourceTypes();
 		}
 
@@ -58,7 +63,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$this->data['object_title'] = mb_substr($this->_getObjectTitle($this->request->get['object_name'], $this->request->get['object_id']), 0, 60);
 		}
 
-		$this->data['resource_id'] = $this->request->get['resource_id'];
 		$this->data['mode'] = $this->request->get['mode'];
 		$this->data['add'] = isset($this->request->get['add']) ? $this->request->get['add'] : false;
 		$this->data['update'] = isset($this->request->get['update']) ? $this->request->get['update'] : false;
@@ -71,7 +75,10 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['rl_update_sort_order'] = $this->html->getSecureURL('common/resource_library/update_sort_order');
 		$this->data['rl_map'] = $this->html->getSecureURL('common/resource_library/map', '&object_name=' . $this->request->get['object_name'] . '&object_id=' . $this->request->get['object_id']);
 		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=' . $this->request->get['object_name'] . '&object_id=' . $this->request->get['object_id']);
-		$this->data['default_type'] = $this->request->get['type'];
+		$this->data['type'] = $this->request->get['type'];
+
+		//load resource
+		$this->data['resource'] = $rm->getResource($this->data['resource_id'], $language_id);
 
 		//search form
 		$form = new AForm('ST');
@@ -98,8 +105,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		    'placeholder' => $this->language->get('text_type'),
             'options' => $options
 	    ));
-
-		$this->data['language_id'] = $language_id = (int)$this->config->get('storefront_language_id');
 
 		$this->data['languages'] = array();
 		$result = $this->language->getAvailableLanguages();
@@ -188,6 +193,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				)
 			));
 
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->assign('help_url', $this->gen_help_url('resource_library'));
+
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/common/resource_library_edit.tpl');
 	}
@@ -234,85 +242,103 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->processTemplate('responses/common/resource_library_add.tpl');
 	}
 
-	public function listing() {
+	
+	public function list_library($action = '') {
+
+		$language = $this->request->get['language_id'];
 
 		$this->data['object_name'] = $this->data['name'] = (string)$this->request->get['object_name'];
 		$this->data['object_id'] = $this->request->get['object_id'];
-		if ($this->request->get['object_title']) {
-			$this->data['object_title'] = mb_substr($this->request->get['object_title'], 0, 60);
+		$this->data['object_title'] = $this->request->get['object_title'];
+		$this->data['sort'] = $this->request->get['sort'];
+		$this->data['order'] = $this->request->get['order'];
+
+		if ($this->data['object_title']) {
+			$this->data['object_title'] = mb_substr($this->data['object_title'], 0, 60);
 		} else {
-			$this->data['object_title'] = mb_substr($this->_getObjectTitle($this->request->get['object_name'], $this->request->get['object_id']), 0, 60);
+			$this->data['object_title'] = mb_substr($this->_getObjectTitle($this->data['object_name'], $this->data['object_id']), 0, 60);
 		}
+
+		$this->data['type'] = $this->request->get['type'];
+		$this->data['action'] = $action;
 
 		$rm = new AResourceManager();
-		$rm->setType($this->request->get['type']);
+		$rm->setType($this->data['type']);
 
-		$pagination_param = '&type=' . $this->request->get['type'] . '&language_id=' . $this->request->get['language_id'];
+		//Build request URI and filter params
+		$uri = '&object_name='.$this->data['object_name'].'&object_id='.$this->data['object_id'];
+		$uri .= '&type='.$this->data['type'].'&language_id='.$language.'&action='.$action;
 
-		$search_data = array(
+		$filter_data = array(
 			'type_id' => $rm->getTypeId(),
-			'language_id' => $this->request->get['language_id'],
+			'language_id' => $language,
+			'limit' => 12,
 		);
 		if (!empty($this->request->get['keyword'])) {
-			$search_data['keyword'] = $this->request->get['keyword'];
-			$pagination_param .= '&keyword=' . $this->request->get['keyword'];
+			$filter_data['keyword'] = $this->request->get['keyword'];
+			$uri .= '&keyword=' . $this->request->get['keyword'];
 		}
-		if (!empty($this->request->get['object_name'])) {
-			$search_data['object_name'] = $this->request->get['object_name'];
-			$pagination_param .= '&object_name=' . $this->request->get['object_name'];
+		if (!empty($this->data['object_name']) && $this->data['action'] == 'list_object') {
+			$filter_data['object_name'] = $this->data['object_name'];
 		}
-		if (!empty($this->request->get['object_id'])) {
-			$search_data['object_id'] = $this->request->get['object_id'];
-			$pagination_param .= '&object_id=' . $this->request->get['object_id'];
+		if (!empty($this->data['object_id']) && $this->data['action'] == 'list_object' ) {
+			$filter_data['object_id'] = $this->data['object_id'];
+		}
+		if($this->data['sort']){
+			$filter_data['sort'] = $this->data['sort'];
+		}
+		if($this->data['order']){
+			$filter_data['order'] = $this->data['order'];
 		}
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
 			if ((int)$page < 1) {
 				$page = 1;
 			}
-			$search_data['page'] = $page;
-			$search_data['limit'] = 12;
+			$filter_data['start'] = (($page - 1) * $filter_data['limit']) ;
 		}
 
-		$result = array(
-			'items' => $rm->getResourcesList($search_data),
-			'pagination' => '',
-		);
+		$resources_total = $rm->getTotalResources($filter_data);
+		$result = $rm->getResourcesList($filter_data);
 
-		foreach ($result['items'] as $key => $item) {
-			$result['items'][$key]['created'] = dateDisplay2ISO($item['created'], $this->language->get('date_format_short'));
-			$result['items'][$key]['thumbnail_url'] = $rm->getResourceThumb(
+
+		foreach ($result as $key => $item) {
+			if ($item['created']) {
+				$result[$key]['created'] = dateDisplay2ISO($item['created'], $this->language->get('date_format_short'));
+			}
+			$result[$key]['thumbnail_url'] = $rm->getResourceThumb(
 				$item['resource_id'],
 				$this->thumb_sizes['width'],
 				$this->thumb_sizes['height'],
 				$item['language_id']
 			);
-			$result['items'][$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
-			$result['items'][$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
+			$result[$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
+			$result[$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
 		}
 
-		if (isset($this->request->get['page'])) {
-
-			$resources_total = $rm->getResourcesList($search_data, true);
-			if ($resources_total > 12) {
-				$result['pagination'] = (string)HtmlElementFactory::create(array(
-					'type' => 'Pagination',
-					'name' => 'pagination',
-					'text' => $this->language->get('text_pagination'),
-					'text_limit' => $this->language->get('text_per_page'),
-					'total' => $resources_total,
-					'page' => $page,
-					'limit' => 12,
-					'url' => $this->html->getSecureURL('common/resource_library/resources', $pagination_param . '&page={page}'),
-					'style' => 'pagination'));
-			}
+		$sort_order = '&sort='.$this->data['sort'].'&order='.$this->data['order'];
+		$this->data['current_url'] = $this->html->getSecureURL('common/resource_library',$uri.$sort_order.'&page={page}','&encode');
+		$this->data['no_sort_url'] = $this->html->getSecureURL('common/resource_library',$uri,'&encode');
+		
+		if ($resources_total > 12) {
+		$this->data['pagination_bootstrap'] = HtmlElementFactory::create(array(
+		    			'type' => 'Pagination',
+		    			'name' => 'pagination',
+		    			'text' => $this->language->get('text_pagination'),
+		    			'text_limit' => $this->language->get('text_per_page'),
+						'total' => $resources_total,
+						'page' => $page,
+		    			'limit' => 12,
+		    			'url' => $this->data['current_url'],
+		    			'size_class' => 'sm',
+		    			'no_perpage' => true,
+		    			'style' => 'pagination'));
 		}
 
-		// ????? build data for listing
-		$this->data['rls'] = $result['items'];
+		$this->data['rls'] = $result;
 
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
-		$this->view->assign('help_url', $this->gen_help_url('global_attributes_listing'));
+		$this->view->assign('help_url', $this->gen_help_url('resource_library'));
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/common/resource_library.tpl');
@@ -549,35 +575,35 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$rm = new AResourceManager();
 		$rm->setType($this->request->get['type']);
 
-		$pagination_param = '&type=' . $this->request->get['type'] . '&language_id=' . $this->request->get['language_id'];
+		$uri = '&type=' . $this->request->get['type'] . '&language_id=' . $this->request->get['language_id'];
 
-		$search_data = array(
+		$filter_data = array(
 			'type_id' => $rm->getTypeId(),
 			'language_id' => $this->request->get['language_id'],
 		);
 		if (!empty($this->request->get['keyword'])) {
-			$search_data['keyword'] = $this->request->get['keyword'];
-			$pagination_param .= '&keyword=' . $this->request->get['keyword'];
+			$filter_data['keyword'] = $this->request->get['keyword'];
+			$uri .= '&keyword=' . $this->request->get['keyword'];
 		}
 		if (!empty($this->request->get['object_name'])) {
-			$search_data['object_name'] = $this->request->get['object_name'];
-			$pagination_param .= '&object_name=' . $this->request->get['object_name'];
+			$filter_data['object_name'] = $this->request->get['object_name'];
+			$uri .= '&object_name=' . $this->request->get['object_name'];
 		}
 		if (!empty($this->request->get['object_id'])) {
-			$search_data['object_id'] = $this->request->get['object_id'];
-			$pagination_param .= '&object_id=' . $this->request->get['object_id'];
+			$filter_data['object_id'] = $this->request->get['object_id'];
+			$uri .= '&object_id=' . $this->request->get['object_id'];
 		}
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
 			if ((int)$page < 1) {
 				$page = 1;
 			}
-			$search_data['page'] = $page;
-			$search_data['limit'] = 12;
+			$filter_data['page'] = $page;
+			$filter_data['limit'] = 12;
 		}
 
 		$result = array(
-			'items' => $rm->getResourcesList($search_data),
+			'items' => $rm->getResourcesList($filter_data),
 			'pagination' => '',
 		);
 
@@ -594,7 +620,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		if (isset($this->request->get['page'])) {
 
-			$resources_total = $rm->getResourcesList($search_data, true);
+			$resources_total = $rm->getResourcesList($filter_data, true);
 			if ($resources_total > 12) {
 				$result['pagination'] = (string)HtmlElementFactory::create(array(
 					'type' => 'Pagination',
@@ -604,7 +630,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 					'total' => $resources_total,
 					'page' => $page,
 					'limit' => 12,
-					'url' => $this->html->getSecureURL('common/resource_library/resources', $pagination_param . '&page={page}'),
+					'url' => $this->html->getSecureURL('common/resource_library/resources', $uri . '&page={page}'),
 					'style' => 'pagination'));
 			}
 		}

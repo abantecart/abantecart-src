@@ -18,6 +18,9 @@ var urls = {
 	},
 	default_type = '<?php echo $default_type["type_name"]; ?>';	
 
+/*
+	Main resource library modal
+*/
 var mediaDialog = function (type, action, id, field, wrapper_id) {
     window.selectField = field;
     window.wrapper_id = wrapper_id;
@@ -28,21 +31,28 @@ var mediaDialog = function (type, action, id, field, wrapper_id) {
     if (id) {
         src += '&resource_id=' + id;
     }
+	
+	openRLModal(src);
+};
 
+var openRLModal = function (URL) {
 	var media_html = '';
 	//main ajax call to load rl content
     $.ajax({
-        url:src,
+        url:URL,
         type:'GET',
         dataType:'html',
         success:function (html) {
+        	var $md = $('#rl_modal');
+        	var mdb = '#rl_modal .modal-body';
 			media_html = html;
-		    $('#rl_modal .modal-body').html(media_html);
-		    $('#rl_modal .modal-body').css({height:'500'});
-			$('#rl_modal').modal('show');
-			bindEvents();
-			bind_rl();
-			$('#myModal').on('hidden.bs.modal', function () {
+		    $(mdb).html(media_html);
+		    $(mdb).css({height:'560'});
+			$md.modal('show');
+			//bind evend in the modal
+			bindCustomEvents(mdb);
+			bind_rl(mdb);
+			$md.on('hidden.bs.modal', function () {
 		        //reload original media list to show new selections
     		    //not for URL mode
         		<?php if($mode != 'url') { ?>
@@ -58,11 +68,13 @@ var mediaDialog = function (type, action, id, field, wrapper_id) {
 		complete: function() {
 		}
     });	
-	
-};
+}
 
+
+
+
+//??????
 onSelectClose = function (e, ui) {}
-
 var selectDialog = function (type, field) {
 	$('#dialog').remove();
 	
@@ -91,6 +103,7 @@ var selectDialog = function (type, field) {
 	    modal:true
 	});
 };
+//??????
 
 var loadMedia = function (type) {
     $.ajax({
@@ -114,10 +127,10 @@ var loadMedia = function (type) {
                 }
                 html += '<div class="col-xs-3 col-sm-3 col-md-2">';
                 html += '<div class="thumbnail" id="image_row' + item['resource_id'] + '" >\
-                <a class="btn resource_edit" type="' + type + '" data-id="' + item['resource_id'] + '">' + src + '</a></div>';
+                <a class="btn resource_edit" data-type="' + type + '" data-id="' + item['resource_id'] + '">' + src + '</a></div>';
                 html += '<div class="caption center">' 
                 + ( item['mapped'] > 1 ? '' : 
-                '<a class="btn resource_edit tooltips" type="' + type + '" data-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_edit ?>"><i class="fa fa-edit"></i></a>\
+                '<a class="btn resource_edit tooltips" data-type="' + type + '" data-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_edit ?>"><i class="fa fa-edit"></i></a>\
                 <a class="btn resource_unmap tooltips" data-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_unmap; ?>" data-confirmation="delete" data-confirmation-text="<?php echo $text_confirm_unmap ?>" onclick="unmap_resource('+item['resource_id']+');"><i class="fa fa-unlink"></i></a>\
                 <a class="btn resource_delete tooltips" data-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_delete ?>" data-confirmation="delete" data-confirmation-text="<?php echo $text_confirm_del ?>" onclick="delete_resource('+item['resource_id']+');"><i class="fa fa-trash-o"></i></a>') + '\
                 </div>';
@@ -125,7 +138,7 @@ var loadMedia = function (type) {
             });
             
             html += '<div class="col-xs-3 col-sm-3 col-md-2"><div class="thumbnail">';
-            html += '<a class="btn resource_add tooltips transparent" type="' + type + '" data-original-title="<?php echo $text_add_media ?>"><img src="<?php echo $template_dir . '/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>" width="100" /></a>'; 
+            html += '<a class="btn resource_add tooltips transparent" data-type="' + type + '" data-original-title="<?php echo $text_add_media ?>"><img src="<?php echo $template_dir . '/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>" width="100" /></a>'; 
             html += '</div></div>';
 
 			$('#type_' + type + ' div.type_blocks').html(html);
@@ -135,7 +148,7 @@ var loadMedia = function (type) {
             $('#type_' + type + ' td.type_blocks').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
         },
 		complete: function() {
-			bindEvents();
+			bindCustomEvents('#type_' + type);
 		}
     });
 
@@ -168,11 +181,11 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
                 src = item['thumbnail_url'];
             }
             html += '<span id="' + wrapper_id + '_' + item['resource_id'] + '" class="image_block">\
-                <a class="resource_edit" type="' + type + '" data-id="' + item['resource_id'] + '">' + src + '</a><br />';
+                <a class="resource_edit" data-type="' + type + '" data-id="' + item['resource_id'] + '">' + src + '</a><br />';
             if (item['resource_id']) {
                 html += ( item['mapped'] > 1
 						? '' : '<a class="btn_action resource_delete" data-id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_unlink ?></span></span></a>') + '\
-					<a class="btn_action resource_edit" type="' + type + '" data-id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>';
+					<a class="btn_action resource_edit" data-type="' + type + '" data-id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>';
             }
             html += '</span>';
             $('#' + wrapper_id + '.type_blocks').html(html);
@@ -180,7 +193,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
             $('#' + wrapper_id + '_' + item['resource_id'] + ' a.resource_edit').unbind('click');
             $('#' + wrapper_id + '_' + item['resource_id'] + ' a.resource_edit').click(function () {
                 var action = item['resource_id'] ? 'update' : 'add';
-                mediaDialog($(this).prop('type'), action, item['resource_id'], field, wrapper_id);
+                mediaDialog($(this).prop('data-type'), action, item['resource_id'], field, wrapper_id);
                 return false;
             });
 
@@ -220,24 +233,35 @@ jQuery(function () {
     <?php } ?>
 
     $(document).on('click', 'a.resource_add', function () {
-        mediaDialog($(this).prop('type'), 'add');
+        mediaDialog($(this).prop('data-type'), 'add');
         return false;
     });
 
     $(document).on("click", 'a.resource_edit', function () {
-        mediaDialog($(this).attr('type'), 'update', $(this).attr('data-id'));
+        mediaDialog($(this).attr('data-type'), 'update', $(this).attr('data-id'));
+        return false;
+    });
+
+    $(document).on("click", '#resource', function () {
+        mediaDialog($(this).attr('data-type'), 'update', $(this).attr('data-id'));
         return false;
     });
 
     $(document).on("click", '#object', function () {
-        mediaDialog($(this).attr('type'), 'update', $(this).attr('data-id'));
+        mediaDialog($(this).attr('data-type'), 'list_object', $(this).attr('data-id'));
         return false;
     });
 
     $(document).on("click", '#library', function () {
-        mediaDialog($(this).attr('type'), 'list', $(this).attr('data-id'));
+        mediaDialog($(this).attr('data-type'), 'list_library', $(this).attr('data-id'));
         return false;
     });
+
+    $(document).on("click", '.rl_pagination a', function () {
+        openRLModal($(this).attr('href'));
+        return false;
+    });
+    
     
 });
 
@@ -279,76 +303,106 @@ function delete_resource ( rl_id ) {
 
 <?php } ?>
 
-function bind_rl ( ) {
-    
-    jQuery('.thmb').hover(function(){
-      var t = jQuery(this);
+var bind_rl = function ( elm ) {
+	if (elm) {
+		$obj = $(elm);
+	} else {
+		$obj = $(document).find('html');	
+	}
+
+    $obj.find('.thmb').hover(function(){
+      var t = $(this);
       t.find('.ckbox').show();
-      t.find('.fm-group').show();
+      t.find('.rl-group').show();
     }, function() {
-      var t = jQuery(this);
+      var t = $(this);
       if(!t.closest('.thmb').hasClass('checked')) {
         t.find('.ckbox').hide();
-        t.find('.fm-group').hide();
+        t.find('.rl-group').hide();
       }
     });
     
-    jQuery('.ckbox').each(function(){
-      var t = jQuery(this);
+    $obj.find('.ckbox').each(function(){
+      var t = $(this);
       var parent = t.parent();
       if(t.find('input').is(':checked')) {
         t.show();
-        parent.find('.fm-group').show();
+        parent.find('.rl-group').show();
         parent.addClass('checked');
       }
     });
     
-    
-    jQuery('.ckbox').click(function(){
-      var t = jQuery(this);
-      if(!t.find('input').is(':checked')) {
-        t.closest('.thmb').removeClass('checked');
-        enable_itemopt(false);
-      } else {
-        t.closest('.thmb').addClass('checked');
-        enable_itemopt(true);
-      }
+    $obj.find('.thmb .ckbox').click(function(){
+      var $t = $(this);
+      $t.closest('.thmb').toggleClass('checked');
+      enable_menue($obj, true);
+      //togle checkbox
+      $t.find('input:checkbox').prop('checked', function(idx, oldProp) {
+      		enable_menue($obj, false);
+            return !oldProp;
+      });      
     });
     
-    jQuery('#selectall').click(function(){
-      if(jQuery(this).is(':checked')) {
-        jQuery('.thmb').each(function(){
-          jQuery(this).find('input').attr('checked',true);
-          jQuery(this).addClass('checked');
-          jQuery(this).find('.ckbox, .fm-group').show();
+    $obj.find('#rl_selectall').click(function(){
+      if(this.checked) {
+        $('.thmb').each(function(){
+          $(this).find('input:checkbox').prop('checked',true);
+          $(this).addClass('checked');
+          $(this).find('.ckbox, .rl-group').show();
         });
-        enable_itemopt(true);
+        enable_menue($obj, true);
       } else {
-        jQuery('.thmb').each(function(){
-          jQuery(this).find('input').attr('checked',false);
-          jQuery(this).removeClass('checked');
-          jQuery(this).find('.ckbox, .fm-group').hide();
+        $('.thmb').each(function(){
+          $(this).find('input:checkbox').prop('checked',false);
+          $(this).removeClass('checked');
+          $(this).find('.ckbox, .rl-group').hide();
         });
-        enable_itemopt(false);
+        enable_menue($obj, false);
       }
-    });
-    
-    function enable_itemopt(enable) {
-      if(enable) {
-        jQuery('.itemopt').removeClass('disabled');
-      } else {
-        
-        // check all thumbs if no remaining checks
-        // before we can disabled the options
-        var ch = false;
-        jQuery('.thmb').each(function(){
-          if(jQuery(this).hasClass('checked'))
-            ch = true;
-        });
-        
-        if(!ch)
-          jQuery('.itemopt').addClass('disabled');
-      }
-    }   
+    });    
+
+    $obj.find('.rl_save').click(function(){
+		
+		return false;
+	});
+
+    $obj.find('.rl_delete').click(function(){
+		
+		return false;
+	});
+
+    $obj.find('.rl_download').click(function(){
+		
+		return false;
+	});
+
+    $obj.find('.rl_edit').click(function(){
+		
+		return false;
+	});
+	
+	$('#add_resource').click(function(){
+        mediaDialog($(this).prop('data-type'), 'add');		
+		return false;
+	});
+
 }
+
+var enable_menue = function ($obj, enable) {
+
+	if(enable) {
+	  $obj.find('.itemopt').removeClass('disabled');
+	} else {
+	  
+	  var ch = false;
+	  $obj.find('.thmb').each(function(){
+	    if($(this).hasClass('checked'))
+	      ch = true;
+	  });
+	  
+	  if(!ch)
+	    $obj.find('.itemopt').addClass('disabled');
+	}
+}   
+
 </script>

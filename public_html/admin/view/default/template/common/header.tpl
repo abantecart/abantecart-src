@@ -244,12 +244,12 @@
 			<i class="fa fa-th-list">
 				<?php } ?>
 			</i>
-			<?php if ($current['text']) {
+			<?php if ($current && $current['text']) {
 				echo $current['text'];
 			} else {
 				echo $heading_title;
 			} ?>
-			<?php if ($current['sub_text']) { ?>
+			<?php if ($current && $current['sub_text']) { ?>
 				<span><?php echo $current['sub_text']; ?></span>
 			<?php } ?>
 		</h2>

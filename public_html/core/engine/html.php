@@ -1769,7 +1769,9 @@ class PaginationHtmlElement extends HtmlElement {
 		if (!$s['limit'] || !is_numeric($s['limit'])) {
 			$s['limit'] = 10;
 		}
-		if(!$s['limits']){
+		
+		//count limits if needed
+		if(!$s['no_perpage'] && !$s['limits']){
 			$s['limits'][0] = $x = ( $s['split'] ? $s['split'] : $registry->get('config')->get('config_catalog_limit') );
 			while( $x <= 50 ){
 				$s['limits'][] = $x;
@@ -1821,26 +1823,28 @@ class PaginationHtmlElement extends HtmlElement {
 			$s['total_pages']
 		);
 
-		if ( !in_array($s['limit'], $s['limits']) ) {
-			$s['limits'][] = $s['limit'];
-			sort($s['limits']);
+		if(!$s['no_perpage']) {
+			if ( !in_array($s['limit'], $s['limits']) ) {
+				$s['limits'][] = $s['limit'];
+				sort($s['limits']);
+			}
+			$options = array();
+			foreach($s['limits'] as $item){
+				$options[$item] = $item;
+			}
+	
+			$limit_select = $html->buildSelectbox( array(
+				                                'name' => 'limit',
+				                                'value'=> $s['limit'],
+				                                'options' => $options,
+				                                'style' => 'input-mini',
+				                                'attr' => ' onchange="location=\'' . str_replace('{page}', 1, $s['url']) . '&limit=\'+this.value;"',
+	                    						)
+			);
+	
+			$limit_select = str_replace('&', '&amp;', $limit_select);
+			$this->view->assign('limit_select',$limit_select);
 		}
-		$options = array();
-		foreach($s['limits'] as $item){
-			$options[$item] = $item;
-		}
-
-		$limit_select = $html->buildSelectbox( array(
-			                                'name' => 'limit',
-			                                'value'=> $s['limit'],
-			                                'options' => $options,
-			                                'style' => 'input-mini',
-			                                'attr' => ' onchange="location=\'' . str_replace('{page}', 1, $s['url']) . '&limit=\'+this.value;"',
-                    						)
-		);
-
-		$limit_select = str_replace('&', '&amp;', $limit_select);
-		$this->view->assign('limit_select',$limit_select);
 			
 		$find = array(
 			'{start}',

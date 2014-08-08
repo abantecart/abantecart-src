@@ -13,11 +13,6 @@
 	<div class="panel-heading">
 	
 			<div class="pull-right">
-
-                <div class="btn-group mr10 toolbar">
-                    <?php echo $form_language_switch; ?>
-                </div>
-
 			    <div class="btn-group mr10 toolbar">
                     <a class="btn btn-white tooltips" href="<?php echo $clone_url; ?>" data-toggle="tooltip" title="<?php echo $text_clone; ?>" data-original-title="<?php echo $text_clone; ?>">
                     <i class="fa fa-tags"></i>
@@ -28,6 +23,8 @@
                     </a>
                     <?php endif; ?>
 			    </div>	
+
+                <?php echo $form_language_switch; ?>
 			</div>
 		
 	</div>

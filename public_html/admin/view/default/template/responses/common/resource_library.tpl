@@ -1,7 +1,18 @@
+<?php 
+	$active_object = '';
+	$active_library = '';
+	if( $action == 'list_object' ) { 
+		$active_object = 'class="active"';
+	} else {
+		$active_library = 'class="active"';
+	}
+?>	
 <div id="rl_container">
 	<ul class="nav nav-tabs nav-justified nav-profile">
-	<li id="object" data-id="<?php echo $resource_id; ?>"><a href="#"><strong><?php echo $object_title; ?></strong></a></li>
-	<li id="library" data-id="<?php echo $resource_id; ?>" class="active"><a href="#"><span><?php echo $heading_title; ?></span></a></li>
+<?php if(has_value($object_id)) { ?>	
+	<li id="object" data-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>" <?php echo $active_object; ?>><a href="#"><strong><?php echo $object_title; ?></strong></a></li>
+<?php } ?>	
+	<li id="library" data-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>" <?php echo $active_library; ?>><a href="#"><span><?php echo $heading_title; ?></span></a></li>
 	</ul>
 
 <div class="tab-content rl-content">
@@ -23,118 +34,148 @@
 				<button class="btn btn-xs btn-primary btn_search" type="submit"><?php echo $button_go; ?></button>
 			</div>         	
         	</form>
+        </li>	
         <li>
           <div class="ckbox ckbox-default">
-            <input type="checkbox" value="1" id="selectall">
-            <label for="selectall">Select All</label>
+            <input type="checkbox" value="1" id="rl_selectall">
+            <label for="rl_selectall">Select All</label>
           </div>
         </li>
         <li>
-          <a id="add_resource" class="btn btn-xs btn-default add_resource tooltips" data-toggle="tooltip" data-original-title="<?php echo $button_add; ?>"><i class="fa fa-plus"></i></a>
+          <a id="add_resource" data-type="<?php echo $type; ?>" class="btn btn-xs btn-default add_resource tooltips" data-original-title="<?php echo $button_add; ?>"><i class="fa fa-plus"></i></a>
+        </li>
+<?php if(has_value($active_object)) { ?>        
+        <li>
+          <a class="itemopt disabled rl_edit" onclick="false;" href=""><i class="fa fa-edit"></i></a>
         </li>
         <li>
-          <a class="itemopt" href=""><i class="fa fa-download"></i></a>
+          <a class="itemopt disabled rl_save" onclick="false;" href=""><i class="fa fa-save"></i></a>
+        </li>
+<?php } ?>        
+        <li>
+          <a class="itemopt disabled rl_link" onclick="false;" href=""><i class="fa fa-link"></i></a>
         </li>
         <li>
-          <a class="itemopt" href=""><i class="fa fa-pencil"></i></a>
+          <a class="itemopt disabled rl_delete" onclick="false;" href=""><i class="fa fa-trash-o"></i></a>
         </li>
-        <li>
-          <a class="itemopt" href=""><i class="fa fa-trash-o"></i></a>
-        </li>
-        <li class="filter-type">
-          Order By: 
-        </li>  
         <?php if( $form_language_switch ) { ?>
         <li>
-			<div class="btn-group mr10">
 			    <?php echo $form_language_switch; ?>
-			</div>
         </li>    
         <?php } ?>
         <?php if (!empty ($help_url)) { ?>
         <li>
-			<div class="btn-group mr10">
-			    <a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
-			    <i class="fa fa-question-circle"></i>
-			    </a>
-			</div>	
+			<a class="btn btn-white btn-xs tooltips" href="<?php echo $help_url; ?>" target="new" title="" data-original-title="Help">
+			<i class="fa fa-question-circle"></i>
+			</a>
         </li>    
         <?php } ?>
-        
 	</ul>
 
 	<div class="row">
         <div class="col-sm-12">
-          <div class="row reslibrary">
-          <?php
-          	//list RL items
-          	foreach ($rls as $rl) {
+			<div class="row reslibrary">
+			<?php
+				//list RL items
+				foreach ($rls as $rl) {
+					  /*
+					  [resource_id] => 
+					  [name] => 
+					  [title] => 
+					  [description] => 
+					  [resource_path] => 
+					  [resource_code] => 
+					  [mapped] => 1
+					  [sort_order] => 0
+					  [thumbnail_url] => 
+					  [url] => 
+					  [relative_url] =>
+					  */
+			?>  
+			  <div class="col-xs-6 col-sm-2 col-md-2 document">
+			    <div class="thmb">
+			      <div class="ckbox ckbox-default" style="display: none;">
+			        <input type="checkbox" value="" id="check_<?php echo $rl['resource_id']; ?>">
+			        <label for="check<?php echo $rl['resource_id']; ?>"></label>
+			        <?php if( has_value($active_object) ) { 
+			        	if (!$rl['sort_order']) {
+			        		$rl['sort_order'] = '';
+			        	}
+			        ?>
+			        <div class="rl_sort_order center ml10 mt10" title="sort order">
+			        	<input type="text" class="form-control input-sm" placeholder="sort order" size="5"
+			        	name="sort_order['<?php echo $rl['resource_id']; ?>']" 
+			        	value="<?php echo $rl['sort_order']; ?>" />
+			        </div>
+			        <?php } ?>			        
+			      </div>
+			      <div class="btn-group rl-group" style="display: none;">
+			          <button data-toggle="dropdown" class="btn btn-default dropdown-toggle rl-toggle" type="button">
+			            <span class="caret"></span>
+			          </button>
+			          <ul role="menu" class="dropdown-menu rl-menu">
+			            <li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
+			            <li><a href="#"><i class="fa fa-link"></i> Link</a></li
+			            <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
+			            <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+			          </ul>
+			      </div>
+			      <?php if($rl['resource_code']) { ?>
+			      <div class="thmb-prev thmb-icon">
+			        <i class="fa fa-code fa-3"></i>
+			      </div>
+			      <?php } else { ?>
+			      <div class="thmb-prev">
+			      	<a class="resource_edit tooltips" data-type="<?php echo $type; ?>" data-id="<?php echo $rl['resource_id']; ?>" data-original-title="<?php echo $rl['name']; ?>" href="#">
+			        <img alt="" class="img-responsive" src="<?php echo $rl['thumbnail_url']; ?>">
+			        </a>
+			      </div>
+			      <?php } ?>
+			      <h5 class="rl-title"><a class="resource_edit tooltips" data-type="<?php echo $type; ?>" data-id="<?php echo $rl['resource_id']; ?>" data-original-title="<?php echo $rl['name']; ?>" href="#"><?php echo $rl['name']; ?></a></h5>
+			      <?php if ($rl['created']) { ?>
+			      <small class="text-muted">Added: <?php echo $rl['created']; ?></small>
+			      <?php } ?>
+			    </div>
+			  </div>
+			 <?php 
+			   }
+			 ?>
+			              
+			</div>       
+        </div><!-- col-sm-12 -->
 
-			/*
-            [resource_id] => 100007
-            [name] => az_demo_product_14_2.jpg
-            [title] => 
-            [description] => 
-            [resource_path] => 18/6a/7.jpg
-            [resource_code] => 
-            [mapped] => 1
-            [sort_order] => 0
-            [thumbnail_url] => http://localhost/abantecart120/image/thumbnails/icon_resource_image-100x100.png
-            [url] => http://localhost/abantecart120/resources/18/6a/7.jpg
-            [relative_url] => /resources/18/6a/7.jpg
-            */
-          ?>  
-            <div class="col-xs-6 col-sm-4 col-md-3 document">
-              <div class="thmb">
-                <div class="ckbox ckbox-default" style="display: none;">
-                  <input type="checkbox" value="1" id="check1">
-                  <label for="check1"></label>
-                </div>
-                <div class="btn-group rl-group" style="display: none;">
-                    <button data-toggle="dropdown" class="btn btn-default dropdown-toggle rl-toggle" type="button">
-                      <span class="caret"></span>
-                    </button>
-                    <ul role="menu" class="dropdown-menu rl-menu">
-                      <li><a href="#"><i class="fa fa-share"></i> Share</a></li>
-                      <li><a href="#"><i class="fa fa-envelope-o"></i> Email</a></li>
-                      <li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
-                      <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
-                      <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-                    </ul>
-                </div><!-- btn-group -->
-                <div class="thmb-prev">
-                  <img alt="" class="img-responsive" src="<?php echo $thumbnail_url; ?>">
-                </div>
-                <h5 class="rl-title"><a href=""><?php echo $rl['name']; ?></a></h5>
-                <small class="text-muted">Added: <?php echo $rl['created']; ?></small>
-              </div><!-- thmb -->
-            </div><!-- col-xs-6 -->
-           <?php 
-             }
-           ?>
-                        
-          </div><!-- row -->
-        </div><!-- col-sm-9 -->
+	<?php if( $pagination_bootstrap ) { ?>
+		<div class="col-sm-12 rl_pagination">
+			<div class="row">
+			<div class="col-sm-1 form-inline">
+			    <div class="form-group">
+			    	<div class="input-group input-group-sm dropup tooltips" data-original-title="<?php echo $text_sort_order; ?>"> 
+			          <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+			            <i class="fa fa-sort"></i> 
+			          </button>
+			          <ul role="menu" class="dropdown-menu">
+			            <li><a href="<?php echo $no_sort_url; ?>&sort=created&order=DESC"><i class="fa fa-sort-amount-desc"></i> <?php $text_sorting_date_desc; ?></a></li>
+			            <li><a href="<?php echo $no_sort_url; ?>&sort=created&order=ASC"><i class="fa fa-sort-amount-asc"></i> <?php $text_sorting_date_asc; ?></a></li>
+			            <li><a href="<?php echo $no_sort_url; ?>&sort=name&order=ASC"><i class="fa fa-sort-alpha-asc"></i> <?php $text_sorting_name_asc; ?></a></li>
+			            <li><a href="<?php echo $no_sort_url; ?>&sort=name&order=DESC"><i class="fa fa-sort-alpha-desc"></i> <?php $text_sorting_name_desc; ?></a></li>
+			            <li><a href="<?php echo $no_sort_url; ?>&sort=sort_order&order=ASC"><i class="fa fa-sort-numeric-asc"></i> <?php $text_sorting_asc; ?></a></li>
+			            <li><a href="<?php echo $no_sort_url; ?>&sort=sort_order&order=DESC"><i class="fa fa-sort-numeric-desc"></i> <?php $text_sorting_desc; ?></a></li>
+			          </ul>
+			    	</div>
+			    </div>
+		    </div>
+		    <div class="col-sm-11 center form-inline pull-right">
+		    	<?php echo $pagination_bootstrap; ?>
+		    </div>
+		    </div>
+		</div>
+		<?php }?>
+						
 
       </div>
       
-	<div class="panel-body panel-body-nopadding">
 	</div>
-		
-	<div class="panel-footer">
-		<div class="row">
-		   <div class="center">
-		     <button class="btn btn-primary">
-		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
-		     </button>&nbsp;
-		     <a class="btn btn-default" href="<?php echo $cancel; ?>">
-		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
-		     </a>
-		   </div>
-		</div>
-	</div>
-	</form>
-	
+			
 </div><!-- <div class="tab-content"> -->
 
 </div>
@@ -306,7 +347,7 @@ function querySt(hu, ji) {
 var rl_mode = '<?php echo $mode; ?>';
 jQuery(function ($) {
 
-    var type = '<?php echo $default_type; ?>',
+    var type = '<?php echo $type; ?>',
         mode = '<?php echo $mode; ?>',
         types = [],
         object_title = '<?php echo addslashes($object_title); ?>',
