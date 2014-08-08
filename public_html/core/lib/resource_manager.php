@@ -330,75 +330,114 @@ class AResourceManager extends AResource {
 
     }
 
-    //TODO: add caching if keyword not defined in search data
 	/**
-	 * @param array $search_data
-	 * @param bool $total
-	 * @return array|int
+	 * @param array $data
+	 * @return int
 	 */
-	public function getResourcesList($search_data, $total = false) {
+	public function getTotalResources($data) {
+		return $this->getResourcesList($data,'total_only'); 
+	}
+	
+	/**
+	 * @param array $data
+	 * @param bool $mode
+	 * @return array
+	 */
+	public function getResourcesList($data, $mode = 'default') {
 
-        $select = "SELECT rl.resource_id,
-        				  rl.created,
+		if ( $data['language_id'] ) {
+			$language_id = (int)$data['language_id'];
+		} else {
+			$language_id = (int)$this->language->getContentLanguageID();
+		}
+
+		if ($mode == 'total_only') {
+			$top_sql = " count(*) as total ";
+		}
+		else {
+			$top_sql = "  rl.resource_id,
+        				  IF(rl.created = NULL, '', rl.created),
         				  rd.name,
         				  rd.title,
         				  rd.description,
         				  COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
         				  COALESCE(rd.resource_code,rdd.resource_code) as resource_code,
         				  (SELECT COUNT(resource_id) FROM " . DB_PREFIX . "resource_map rm1 WHERE rm1.resource_id = rd.resource_id) as mapped ";
-        $where = " WHERE 1 ";
-
-		if ( !empty($search_data['language_id']) ) {
-			$language_id = (int)$search_data['language_id'];
-		} else {
-			$language_id = (int)$this->language->getContentLanguageID();
 		}
-
+		$sql = $where = $join = '';		
         $join = " LEFT JOIN " . DB_PREFIX . "resource_descriptions rd ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."') ";
         $join .= " LEFT JOIN " . DB_PREFIX . "resource_descriptions rdd ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '".$this->language->getDefaultLanguageID()."') ";
-        $order = " ORDER BY rl.resource_id";
 
-        if ( !empty($search_data['object_name']) || !empty($search_data['object_id']) ) {
-            $select .= ", rm.sort_order";
+        if ( $data['sort'] == 'sort_order' || !empty($data['object_name']) || !empty($data['object_id']) ) {
+            $top_sql .= ", rm.sort_order";
             $join .= " LEFT JOIN " . DB_PREFIX . "resource_map rm ON (rl.resource_id = rm.resource_id) ";
             $order = " ORDER BY rm.sort_order, rl.resource_id";
         }
 
         if ( !empty($search_data['keyword']) ) {
-            $where .= " AND ( LCASE(rd.name) LIKE '%" . $this->db->escape(strtolower($search_data['keyword'])) . "%'";
-			$where .= " OR LCASE(rd.title) LIKE '%" . $this->db->escape(strtolower($search_data['keyword'])) . "%' )";
+        	$where .= ($where ? " AND" : ' WHERE ');
+            $where .= " ( LCASE(rd.name) LIKE '%" . $this->db->escape(strtolower($data['keyword'])) . "%'";
+			$where .= " OR LCASE(rd.title) LIKE '%" . $this->db->escape(strtolower($data['keyword'])) . "%' )";
         }
 
-        if ( !empty($search_data['type_id']) ) {
-            $where .= " AND rl.type_id = '".(int)$search_data['type_id']."'";
+        if ( !empty($data['type_id']) ) {
+        	$where .= ($where ? " AND " : ' WHERE ');
+            $where .= " rl.type_id = '".(int)$data['type_id']."'";
         }
-        if ( !empty($search_data['object_name']) ) {
-            $where .= " AND rm.object_name = '".$this->db->escape($search_data['object_name'])."'";
+        if ( !empty($data['object_name']) ) {
+        	$where .= ($where ? " AND " : ' WHERE ');
+            $where .= " rm.object_name = '".$this->db->escape($data['object_name'])."'";
         }
-        if ( !empty($search_data['object_id']) ) {
-            $where .= " AND rm.object_id = '".(int)$search_data['object_id']."'";
+        if ( !empty($data['object_id']) ) {
+        	$where .= ($where ? " AND " : ' WHERE ');
+            $where .= " rm.object_id = '".(int)$data['object_id']."'";
         }
+				
+		$sql = "SELECT ". $top_sql ." FROM " . DB_PREFIX . "resource_library rl" . $join . $where;
 
-        $sql = $select . " FROM " . DB_PREFIX . "resource_library rl" . $join . $where . $order;
+		if ( !empty($data['subsql_filter']) ) {
+			$sql .= ($where ? " AND " : 'WHERE ').$data['subsql_filter'];
+		}
 
-        if ( !empty($search_data['page']) && !$total ) {
-            if ( $search_data['page'] < 1 ) {
-                $search_data['page'] = 1;
-            }
-            if ( $search_data['limit'] < 1 || $search_data['limit'] > 12  ) {
-                $search_data['limit'] = 12;
-            }
-            $sql .= " LIMIT ". (($search_data['page'] - 1) * $search_data['limit']) . ", ".$search_data['limit'] ;
-        }
+		//If for total, we done bulding the query
+		if ($mode == 'total_only') {
+		    $query = $this->db->query($sql);
+		    return $query->row['total'];
+		}
+
+		$sort_data = array(
+		    'name' => 'rd.name',
+		    'created' => 'rl.created',
+		    'sort_order' => 'rm.sort_order'
+		);	
+		
+		if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data)) ) {
+			$sql .= " ORDER BY " . $sort_data[$data['sort']];
+		} else {
+			$sql .= " ORDER BY rd.name ";
+		}
+
+		if (isset($data['order']) && ($data['order'] == 'DESC')) {
+			$sql .= " DESC";
+		} else {
+			$sql .= " ASC";
+		}
+
+		if (isset($data['start']) || isset($data['limit'])) {
+			if ($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+
+			if ($data['limit'] < 1) {
+				$data['limit'] = 12;
+			}
+
+			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}
 
 		$query = $this->db->query($sql);
-        if ( $total ) {
-		    return $query->num_rows;
-        } else {
-            return $query->rows;
-        }
-
-    }
+		return $query->rows;
+	}
 
 	/**
 	 * @param int $resource_id

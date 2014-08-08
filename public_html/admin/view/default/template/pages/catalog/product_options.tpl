@@ -192,7 +192,6 @@ var loadMedia = function (type) {
 
 
 var mediaDialog = function (type, action, id) {
-
 	$('#dialog').remove();
 
 	var src = urls.resource_library + '&' + action + '=1&type=' + type;
@@ -293,7 +292,7 @@ jQuery(function ($) {
 				error_alert(errorThrown);
 			},
 			complete: function() {
-				bindEvents();
+				bindCustomEvents("#option");
 			}
 		});
 	}
@@ -426,7 +425,7 @@ jQuery(function ($) {
 			complete: function() {
 				bindAform($("input, checkbox, select", '#option_edit_form'));
 				bindAform($("input, checkbox, select", '#update_option_values'));
-				bindEvents();
+				bindCustomEvents('#option_values');
 			}
 		});
 	});
@@ -465,7 +464,7 @@ jQuery(function ($) {
 			complete: function() {
 				bindAform($("input, checkbox, select", '#option_edit_form'));
 				bindAform($("input, checkbox, select", '#update_option_values'));
-				bindEvents();
+				bindCustomEvents('#option_values');
 			}			
 		});
 		return false;
@@ -488,7 +487,7 @@ function optionDelete ( url ) {
 				error_alert(errorThrown);
 			},
 			complete: function() {
-				bindEvents();
+				bindCustomEvents("#option");
 			}
 		});
 		return false;

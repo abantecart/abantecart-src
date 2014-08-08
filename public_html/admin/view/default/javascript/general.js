@@ -92,7 +92,7 @@ jQuery(document).ready(function() {
       });
    }
    
-   bindEvents();
+   bindCustomEvents();
    
    $('.toggle-chat1').toggles({on: false});
       
@@ -379,30 +379,36 @@ jQuery(document).ready(function() {
 
 //-----------------------------------------------
 // Add events. Function can be reloaded after AJAX responce
+// Important. To reduce unnessasary load, pass specific selector to be binded
 //-----------------------------------------------
-var bindEvents  = function(){
+var bindCustomEvents  = function(elm){
+	if (elm) {
+		$obj = $(elm);
+	} else {
+		$obj = $(document).find('html');	
+	}
 	//enable delete confirmations
 	wrapConfirmDelete();
-
 	// Tooltip
-	$('.tooltips').tooltip({ container: 'body'});
+	
+	$obj.find('.tooltips').tooltip({ container: 'body'});
    
 	// Popover
-	$('.popovers').popover();
+	$obj.find('.popovers').popover();
    
 	// Close Button in Panels
-	$('.panel .panel-close').click(function(){
+	$obj.find('.panel .panel-close').click(function(){
       $(this).closest('.panel').fadeOut(200);
       return false;
 	});
    
 	//Toggles
-	$('.toggle').toggles({on: true});      
+	$obj.find('.toggle').toggles({on: true});      
 }
 
 function ajust_content_height() {
    // Adjust contentpanel height
-   var docHeight = jQuery(document).height() - $('#footer').height();
+   var docHeight = $(document).height() - $('#footer').height();
    var extra = $('.headerbar').height() + $('.pageheader').height() + 50;
    var leftHeight = $('.leftpanel').height();
    var rightHeight = $('.contentpanel').height() + extra;
@@ -543,7 +549,7 @@ httpError = function (data) {
         });
 }
 
-/*
+/* // Error detection on ajax reply. Check only for 401 authentication
 jQuery(function ($) {
     $('<div/>').ajaxError(function (e, jqXHR, settings, exception) {
         var error_data;
