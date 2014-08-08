@@ -11,16 +11,16 @@
 
 	<ul class="reslibrary-options">
 		<li>
-			<form id="<?php echo $search_form->name; ?>" name="<?php echo $search_form->name; ?>" class="form-inline" role="form">
+			<form id="<?php echo $search_form->name; ?>" name="<?php echo $search_form->name; ?>" action="<?php echo $current_url; ?>" class="form-inline" role="form">
 			<div class="form-group">
 				<div class="input-group input-group-sm"> 
 				<?php echo $rl_types; ?>
 				</div>
 			</div>         	
 			<div class="form-group">
-				<div class="input-group input-group-sm">         	    
-				<input class="form-control atext" type="text" name="search" placeholder="<?php echo $text_search; ?>" value="<?php echo $text_search; ?>" onFocus="if(this.value == '<?php echo $text_search; ?>') {this.value = '';}" onBlur="if (this.value == '') {this.value = '<?php echo $text_search; ?>';}"/>
-         	    </div>
+				<div class="input-group input-group-sm">  
+				<?php echo $search_field_input; ?>     
+				</div>  	    
          	</div>    
 			<div class="form-group">
 				<button class="btn btn-xs btn-primary btn_search" type="submit"><?php echo $button_go; ?></button>
@@ -31,10 +31,10 @@
           <a id="add_resource" class="btn btn-xs btn-default add_resource tooltips" data-original-title="<?php echo $button_add; ?>"><i class="fa fa-plus"></i></a>
         </li>
         <li>
-          <a class="itemopt rl_download" href=""><i class="fa fa-download"></i></a>
+          <a class="itemopt rl_download" href="" onclick="false;"><i class="fa fa-download"></i></a>
         </li>
         <li>
-          <a class="itemopt rl_delete" href=""><i class="fa fa-trash-o"></i></a>
+          <a class="itemopt rl_delete" href="" onclick="false;"><i class="fa fa-trash-o"></i></a>
         </li>
         <?php if( $form_language_switch ) { ?>
         <li>

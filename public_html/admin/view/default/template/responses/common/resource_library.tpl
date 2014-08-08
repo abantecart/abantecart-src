@@ -19,16 +19,16 @@
 
 	<ul class="reslibrary-options">
 		<li>
-			<form id="<?php echo $search_form->name; ?>" name="<?php echo $search_form->name; ?>" class="form-inline" role="form">
+			<form id="<?php echo $search_form->name; ?>" name="<?php echo $search_form->name; ?>" action="<?php echo $current_url; ?>" class="form-inline" role="form">
 			<div class="form-group">
 				<div class="input-group input-group-sm"> 
 				<?php echo $rl_types; ?>
 				</div>
 			</div>         	
 			<div class="form-group">
-				<div class="input-group input-group-sm">         	    
-				<input class="form-control atext" type="text" name="search" placeholder="<?php echo $text_search; ?>" value="<?php echo $text_search; ?>" onFocus="if(this.value == '<?php echo $text_search; ?>') {this.value = '';}" onBlur="if (this.value == '') {this.value = '<?php echo $text_search; ?>';}"/>
-         	    </div>
+				<div class="input-group input-group-sm">  
+				<?php echo $search_field_input; ?>     
+				</div>  	    
          	</div>    
 			<div class="form-group">
 				<button class="btn btn-xs btn-primary btn_search" type="submit"><?php echo $button_go; ?></button>

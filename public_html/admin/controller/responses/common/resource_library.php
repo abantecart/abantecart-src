@@ -33,35 +33,23 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	public function main() {
 	
 		//route to correct function
-		$action = $this->request->get['action']; 
 		$this->data['resource_id'] = $this->request->get['resource_id'];
 		$this->data['language_id'] = $language_id = (int)$this->config->get('storefront_language_id');
 
-		if ($action == 'list_object') {
-			return $this->list_library($action);
+		$rm = new AResourceManager();
+		$this->_common($rm);
+
+		//quick action routing
+		$this->data['action'] = $this->request->get['action'];
+		if ($this->data['action'] == 'list_object' || $this->data['action'] == 'list_library' ) {
+			return $this->list_library();
 		}
-		if ($action == 'list_library') {
-			return $this->list_library($action);
-		}
-		if ($action == 'add' || !has_value($this->data['resource_id'])) {
+		if ($this->data['action'] == 'add' || !has_value($this->data['resource_id'])) {
 			return $this->add();
 		}
 		//edit mode is default. proceed
-		$rm = new AResourceManager();
-		if (isset($this->session->data['rl_types'])) {
-			// if types of resources was limited
-			$this->data['types'] = $this->session->data['rl_types'];
-		} else {
-			$this->data['types'] = $rm->getResourceTypes();
-		}
 
-		$this->data['object_name'] = $this->data['name'] = (string)$this->request->get['object_name'];
-		$this->data['object_id'] = $this->request->get['object_id'];
-		if ($this->request->get['object_title']) {
-			$this->data['object_title'] = mb_substr($this->request->get['object_title'], 0, 60);
-		} else {
-			$this->data['object_title'] = mb_substr($this->_getObjectTitle($this->request->get['object_name'], $this->request->get['object_id']), 0, 60);
-		}
+		$this->data['current_url'] = $this->html->getSecureURL('common/resource_library','','&encode');
 
 		$this->data['mode'] = $this->request->get['mode'];
 		$this->data['add'] = isset($this->request->get['add']) ? $this->request->get['add'] : false;
@@ -79,47 +67,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		//load resource
 		$this->data['resource'] = $rm->getResource($this->data['resource_id'], $language_id);
-
-		//search form
-		$form = new AForm('ST');
-		$this->data['search_form'] = $form->getFieldHtml(
-						array(
-						    'type' => 'form',
-						    'name' => 'rlsearchform',
-						    'action' => '',
-						));
-		$this->data['search_field_input'] = $form->getFieldHtml(
-			array(  'type'=>'input',
-					'name'=>'search',
-					'placeholder'=>$this->language->get('text_search'),
-					'icon'=>'icon-search')
-		);
-
-		$options = array();
-		foreach ($this->data['types'] as $type ) {
-			$options[$type['type_id']] = $type['type_name'];
-		}
-		$this->data['rl_types'] = $form->getFieldHtml(array(
-		    'type' => 'selectbox',
-		    'name' => 'rl_types',
-		    'placeholder' => $this->language->get('text_type'),
-            'options' => $options
-	    ));
-
-		$this->data['languages'] = array();
-		$result = $this->language->getAvailableLanguages();
-		foreach ($result as $lang) {
-			$this->data['languages'][$lang['language_id']] = $lang;
-			$languages[$lang['language_id']] = $lang['name'];
-		}
-
-		$this->data['language'] = $this->html->buildSelectbox(
-					array(
-						'id' => 'language_id',
-						'name' => 'language_id',
-						'options' => $languages,
-						'value' => $language_id
-					));
 
 		$this->data['button_go_actions'] = $this->html->buildButton(
 			array(
@@ -239,36 +186,23 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		$this->view->batchAssign($this->data);
 
-		$this->processTemplate('responses/common/resource_library_add.tpl');
+		$this->processTemplate('responses/common/resource_library_edit.tpl');
 	}
 
 	
-	public function list_library($action = '') {
+	public function list_library() {
 
 		$language = $this->request->get['language_id'];
 
-		$this->data['object_name'] = $this->data['name'] = (string)$this->request->get['object_name'];
-		$this->data['object_id'] = $this->request->get['object_id'];
-		$this->data['object_title'] = $this->request->get['object_title'];
 		$this->data['sort'] = $this->request->get['sort'];
 		$this->data['order'] = $this->request->get['order'];
-
-		if ($this->data['object_title']) {
-			$this->data['object_title'] = mb_substr($this->data['object_title'], 0, 60);
-		} else {
-			$this->data['object_title'] = mb_substr($this->_getObjectTitle($this->data['object_name'], $this->data['object_id']), 0, 60);
-		}
-
-		$this->data['type'] = $this->request->get['type'];
-		$this->data['action'] = $action;
 
 		$rm = new AResourceManager();
 		$rm->setType($this->data['type']);
 
 		//Build request URI and filter params
 		$uri = '&object_name='.$this->data['object_name'].'&object_id='.$this->data['object_id'];
-		$uri .= '&type='.$this->data['type'].'&language_id='.$language.'&action='.$action;
-
+		$uri .= '&type='.$this->data['type'].'&language_id='.$language.'&action='.$this->data['action'];
 		$filter_data = array(
 			'type_id' => $rm->getTypeId(),
 			'language_id' => $language,
@@ -301,10 +235,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$resources_total = $rm->getTotalResources($filter_data);
 		$result = $rm->getResourcesList($filter_data);
 
-
 		foreach ($result as $key => $item) {
 			if ($item['created']) {
-				$result[$key]['created'] = dateDisplay2ISO($item['created'], $this->language->get('date_format_short'));
+				$result[$key]['created'] = dateISO2Display($item['created']);
 			}
 			$result[$key]['thumbnail_url'] = $rm->getResourceThumb(
 				$item['resource_id'],
@@ -319,7 +252,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$sort_order = '&sort='.$this->data['sort'].'&order='.$this->data['order'];
 		$this->data['current_url'] = $this->html->getSecureURL('common/resource_library',$uri.$sort_order.'&page={page}','&encode');
 		$this->data['no_sort_url'] = $this->html->getSecureURL('common/resource_library',$uri,'&encode');
-		
+				
 		if ($resources_total > 12) {
 		$this->data['pagination_bootstrap'] = HtmlElementFactory::create(array(
 		    			'type' => 'Pagination',
@@ -342,6 +275,71 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/common/resource_library.tpl');
+	}
+
+	private function _common($rm) {
+
+		if (isset($this->session->data['rl_types'])) {
+			// if types of resources was limited
+			$this->data['types'] = $this->session->data['rl_types'];
+		} else {
+			$this->data['types'] = $rm->getResourceTypes();
+		}
+
+		$this->data['type'] = $this->request->get['type'];
+		$this->data['object_name'] = $this->data['name'] = (string)$this->request->get['object_name'];
+		$this->data['object_id'] = $this->request->get['object_id'];
+		$this->data['object_title'] = $this->request->get['object_title'];
+		if ($this->data['object_title']) {
+			$this->data['object_title'] = mb_substr($this->data['object_title'], 0, 60);
+		} else {
+			$this->data['object_title'] = mb_substr($this->_getObjectTitle($this->data['object_name'], $this->data['object_id']), 0, 60);
+		}
+	
+		//search form
+		$form = new AForm('ST');
+		$this->data['search_form'] = $form->getFieldHtml(
+						array(
+						    'type' => 'form',
+						    'name' => 'rlsearchform',
+						    'action' => '',
+						));
+		$this->data['search_field_input'] = $form->getFieldHtml(
+			array(  'type'=>'input',
+					'name'=>'search',
+					'value'=> $this->request->get['keyword'],
+					'placeholder'=>$this->language->get('text_search'),
+					'icon'=>'icon-search')
+		);
+
+		$rm->setType($this->data['type']);
+		$options = array();
+		foreach ($this->data['types'] as $type ) {
+			$options[$type['type_id']] = $type['type_name'];
+		}
+		$this->data['rl_types'] = $form->getFieldHtml(array(
+		    'type' => 'selectbox',
+		    'name' => 'rl_types',
+		    'placeholder' => $this->language->get('text_type'),
+            'options' => $options,
+            'value' => $rm->getTypeId(),
+	    ));
+
+		$this->data['languages'] = array();
+		$result = $this->language->getAvailableLanguages();
+		foreach ($result as $lang) {
+			$this->data['languages'][$lang['language_id']] = $lang;
+			$languages[$lang['language_id']] = $lang['name'];
+		}
+
+		$this->data['language'] = $this->html->buildSelectbox(
+					array(
+						'id' => 'language_id',
+						'name' => 'language_id',
+						'options' => $languages,
+						'value' => $language_id
+					));
+	
 	}
 
 
