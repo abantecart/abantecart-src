@@ -356,7 +356,7 @@ class AResourceManager extends AResource {
 		}
 		else {
 			$top_sql = "  rl.resource_id,
-        				  IF(rl.created = NULL, '', rl.created),
+        				  IF(rl.created = NULL, '', rl.created) as created,
         				  rd.name,
         				  rd.title,
         				  rd.description,
@@ -374,7 +374,7 @@ class AResourceManager extends AResource {
             $order = " ORDER BY rm.sort_order, rl.resource_id";
         }
 
-        if ( !empty($search_data['keyword']) ) {
+        if ( !empty($data['keyword']) ) {
         	$where .= ($where ? " AND" : ' WHERE ');
             $where .= " ( LCASE(rd.name) LIKE '%" . $this->db->escape(strtolower($data['keyword'])) . "%'";
 			$where .= " OR LCASE(rd.title) LIKE '%" . $this->db->escape(strtolower($data['keyword'])) . "%' )";

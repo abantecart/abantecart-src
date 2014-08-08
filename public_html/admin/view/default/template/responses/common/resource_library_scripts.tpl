@@ -386,6 +386,13 @@ var bind_rl = function ( elm ) {
 		return false;
 	});
 
+	$('#rlsearchform').submit(function(){
+		var keyword = $(this).find('input[name=search]').val();
+		var type = $(this).find('select[name=rl_types] option:selected').text();
+		var url = $(this).prop('action')+'&keyword='+keyword+'&type='+type;
+		openRLModal(url);
+		return false;
+	});
 }
 
 var enable_menue = function ($obj, enable) {
