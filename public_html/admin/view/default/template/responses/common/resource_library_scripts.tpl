@@ -46,6 +46,7 @@ var openRLModal = function (URL) {
         	var $md = $('#rl_modal');
         	var mdb = '#rl_modal .modal-body';
 			media_html = html;
+			$(mdb).html('');
 		    $(mdb).html(media_html);
 		    $(mdb).css({height:'560'});
 			$md.modal('show');
