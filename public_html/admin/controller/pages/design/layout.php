@@ -35,7 +35,7 @@ class ControllerPagesDesignLayout extends AController {
         'rel' => 'stylesheet'
       ));
 
-      $this->document->addScript(RDIR_TEMPLATE . 'javascript/vendor/sortable.js');
+      $this->document->addScript(RDIR_TEMPLATE . 'javascript/jquery/sortable.js');
       $this->document->addScript(RDIR_TEMPLATE . 'javascript/layouts-manager.js');
 
       //set flag to not include scripts/css twice
