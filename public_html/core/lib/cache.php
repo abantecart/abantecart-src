@@ -231,7 +231,7 @@ final class ACache {
 		}
 		if (!is_file(DIR_CACHE . $section) && !is_dir(DIR_CACHE . $section)) {
 			mkdir(DIR_CACHE . $section, 0777, true);
-			chmod(DIR_CACHE . $section, 0777); //change mode for nested directories
+			$this->_chmod_dir(DIR_CACHE . $section, 0777); //change mode for nested directories
 		}
 	}
 
@@ -290,5 +290,26 @@ final class ACache {
 			$error->toLog()->toDebug();
 		}
 		return null;
+	}
+
+	/**
+	 * Change mode recursive
+	 *
+	 * @param $path
+	 * @param $filemode
+	 * @param $dirmode
+	 * @return bool
+	 */
+	private function _chmod_dir($path, $dirmode) {
+	    if (is_dir($path) ) {
+	        if (!chmod($path, $dirmode)) {
+	            $dirmode_str=decoct($dirmode);
+				$this->registry->get('log')->write("Failed applying filemode '".$dirmode_str."' on directory '".$path."'\n  -> the directory '".$path."' will be skipped from recursive chmod\n");
+	            return false;
+	        }
+	    } elseif (is_link($path)) {
+			$this->registry->get('log')->write("link '".$path."' is skipped\n");
+			return false;
+	    }
 	}
 }
