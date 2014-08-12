@@ -499,6 +499,16 @@ function notice(text, autohide, elm, type, icon) {
 }
 //-----------------------------------------
 
+
+// Error detection on ajax reply. Check only for 401 authentication
+$(document).ajaxError(function (e, jqXHR, settings, exception) {
+    //redirect for non-logged users
+    if(jqXHR.status==401){
+        window.location.reload();
+    }
+});
+
+
 function goTo(url, params) {
     location = url + '&' + params;
 }
@@ -525,42 +535,6 @@ function checkAll(fldName, checked) {
 }
 
 
-var $error_dialog = null;
-httpError = function (data) {
-    if ( data.show_dialog != true )
-        return;
-    if($error_dialog!=null){ return;}
-    $error_dialog = $('<div id="error_dialog"></div>')
-        .html(data.error_text)
-        .dialog({
-            title:data.error_title,
-            modal:true,
-            resizable:false,
-            buttons:{
-                "Close":function () {
-                    $(this).dialog("close");
-                }
-            },
-            close:function (e, ui) {
-                if (data.reload_page) {
-                	window.location.reload();
-                }
-            }
-        });
-}
-
-/* // Error detection on ajax reply. Check only for 401 authentication
-jQuery(function ($) {
-    $('<div/>').ajaxError(function (e, jqXHR, settings, exception) {
-        var error_data;
-        try{
-        var error_data = $.parseJSON(jqXHR.responseText);
-        }catch(e){
-            error_data = {error: true, error_text: jqXHR.statusText};
-        }
-        httpError(error_data);
-    });
-});*/
 
 
 var numberSeparators = {};
