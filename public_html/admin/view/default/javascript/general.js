@@ -389,8 +389,8 @@ var bindCustomEvents  = function(elm){
 	}
 	//enable delete confirmations
 	wrapConfirmDelete();
-	// Tooltip
 	
+	// Tooltip
 	$obj.find('.tooltips').tooltip({ container: 'body'});
    
 	// Popover
