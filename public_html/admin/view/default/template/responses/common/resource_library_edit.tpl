@@ -10,23 +10,8 @@
  <div class="tab-content rl-content">
 
 	<ul class="reslibrary-options">
-		<li>
-			<form id="<?php echo $search_form->name; ?>" name="<?php echo $search_form->name; ?>" action="<?php echo $current_url; ?>" class="form-inline" role="form">
-			<div class="form-group">
-				<div class="input-group input-group-sm"> 
-				<?php echo $rl_types; ?>
-				</div>
-			</div>         	
-			<div class="form-group">
-				<div class="input-group input-group-sm">  
-				<?php echo $search_field_input; ?>     
-				</div>  	    
-         	</div>    
-			<div class="form-group">
-				<button class="btn btn-xs btn-primary btn_search" type="submit"><?php echo $button_go; ?></button>
-			</div>         	
-        	</form>
-        </li>	
+        <li>
+        </li>    
         <li>
           <a id="add_resource" class="btn btn-xs btn-default add_resource tooltips" data-original-title="<?php echo $button_add; ?>"><i class="fa fa-plus"></i></a>
         </li>
@@ -87,6 +72,13 @@
                 <td></td>
                 <td class="message"></td>
             </tr>
+			<?php if ($mode == 'new') { ?>
+			<div class="form-group">
+				<div class="input-group input-group-sm"> 
+				<?php echo $rl_types; ?>
+				</div>
+			</div>         	
+			<?php } ?>
             <tr>
                 <td><?php echo $text_resource_code; ?></td>
                 <td><?php echo $field_resource_code;?></td>
