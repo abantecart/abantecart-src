@@ -1077,11 +1077,6 @@ p {
 	min-width: 20px;
 }
 
-.tooltip-example .btn,
-.popover-example .btn {
-	margin: 0 5px 5px 0;
-}
-
 .tooltipflot {
 	background-color: rgba(0,0,0,0.75);
 	font-size: 11px;
@@ -1530,7 +1525,7 @@ p {
     box-shadow: 0 3px 0 rgba(12,12,12,0.03);
 }
 
-.reslibrary-options li {
+.reslibrary-options > li {
     display: inline-block;
     padding: 12px 15px;
     border-right: 1px solid #eee;
@@ -1538,20 +1533,20 @@ p {
     color: #666;
 }
 
-.reslibrary-options li a {
+.reslibrary-options > li a {
     color: #666;
 }
 
-.reslibrary-options li a.disabled {
+.reslibrary-options > li a.disabled {
     opacity: 0.5;
     cursor: default;
 }
 
-.reslibrary-options li a.disabled:hover {
+.reslibrary-options > li a.disabled:hover {
     text-decoration: none;
 }
 
-.reslibrary-options li i {
+.reslibrary-options > li i {
     font-size: 14px;
     color: #444;
 }

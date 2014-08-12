@@ -36,7 +36,6 @@ var mediaDialog = function (type, action, id, field, wrapper_id) {
 };
 
 var openRLModal = function (URL) {
-	var media_html = '';
 	//main ajax call to load rl content
     $.ajax({
         url:URL,
@@ -45,23 +44,28 @@ var openRLModal = function (URL) {
         success:function (html) {
         	var $md = $('#rl_modal');
         	var mdb = '#rl_modal .modal-body';
-			media_html = html;
+        	//remove all open tooltips bootstrap work around
+        	$('.tooltip.in').remove();
 			$(mdb).html('');
-		    $(mdb).html(media_html);
-		    $(mdb).css({height:'560'});
-			$md.modal('show');
+		    $(mdb).html(html);
+			//if modal is not yet open, open and initilize close event
+			if (!$md.hasClass('in')) {
+			    $(mdb).css({height:'560'});
+				$md.modal('show');
+				$md.on('hidden.bs.modal', function () {
+			        //reload original media list to show new selections
+	    		    //not for URL mode
+	    		    $(mdb).html('');
+	        		<?php if($mode != 'url') { ?>
+	        		<?php 	foreach ($types as $type) { ?>
+	            		loadMedia('<?php echo $type['type_name']?>');
+	        		<?php 	} ?>
+	        		<?php } ?>
+				});
+			}
 			//bind evend in the modal
 			bindCustomEvents(mdb);
 			bind_rl(mdb);
-			$md.on('hidden.bs.modal', function () {
-		        //reload original media list to show new selections
-    		    //not for URL mode
-        		<?php if($mode != 'url') { ?>
-        		<?php 	foreach ($types as $type) { ?>
-            		loadMedia('<?php echo $type['type_name']?>');
-        		<?php 	} ?>
-        		<?php } ?>
-			});
         },
         error:function (jqXHR, textStatus, errorThrown) {
 			error_alert('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
