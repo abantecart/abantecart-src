@@ -472,6 +472,29 @@ class AResourceManager extends AResource {
 	 * @param int $language_id
 	 * @return array
 	 */
+	public function isMapped($resource_id, $object_name, $object_id) {
+		if (!has_value($resource_id) || !has_value($object_name) || !has_value($object_id)) {
+			return;
+		}
+
+		$sql = "SELECT count(*) as total
+				FROM " . $this->db->table('resource_map'). " rm
+				WHERE rm.resource_id = '".(int)$resource_id."'
+				AND rm.object_name = '".$this->db->escape($object_name)."' AND object_id = ".(int)$object_id;
+		
+		$query = $this->db->query($sql);
+		if ($query->row['total'] > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @param int $resource_id
+	 * @param int $language_id
+	 * @return array
+	 */
 	protected function getResourceProducts($resource_id, $language_id = 0) {
 
         if ( !$language_id ) {

@@ -366,6 +366,31 @@ var bind_rl = function ( elm ) {
       }
     });    
 
+    $obj.find('.rl_link').click(function(){
+		
+		return false;
+	});
+
+    $obj.find('.rl_link_multiple').click(function(){
+		
+		return false;
+	});
+
+    $obj.find('.rl_unlink_multiple').click(function(){
+		
+		return false;
+	});
+
+    $obj.find('.rl_save_multiple').click(function(){
+		
+		return false;
+	});
+
+    $obj.find('.rl_delete_multiple').click(function(){
+		
+		return false;
+	});
+
     $obj.find('.rl_save').click(function(){
 		
 		return false;
@@ -398,6 +423,20 @@ var bind_rl = function ( elm ) {
 		openRLModal(url);
 		return false;
 	});
+	
+	//hook to switch language
+	$('#content_language_form').submit(function(){
+   		var $inputs = $('#content_language_form :input');
+	    var url = urls.resource_library;
+    	$inputs.each(function() {
+    		if ( url.indexOf(this.name+'='+$(this).val()) <= 0 ) {
+    			url += '&'+this.name+'='+$(this).val();
+    		}
+    	});
+        openRLModal(url);
+		return false;	
+	});
+		
 }
 
 var enable_menue = function ($obj, enable) {

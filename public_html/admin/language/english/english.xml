@@ -431,11 +431,11 @@
 	</definition>
 	<definition>
 		<key>confirm_unmap_title</key>
-		<value><![CDATA[Confirm resource(s) Unmap]]></value>
+		<value><![CDATA[Confirm resource(s) Unlink]]></value>
 	</definition>
 	<definition>
 		<key>text_confirm_unmap</key>
-		<value><![CDATA[Are you sure you want to unmap resource(s)?]]></value>
+		<value><![CDATA[Are you sure you want to unlink resource(s)?]]></value>
 	</definition>
 	<definition>
 		<key>confirm_del_title</key>
@@ -467,7 +467,7 @@
 	</definition>
 	<definition>
 		<key>button_unmap</key>
-		<value><![CDATA[Unmap]]></value>
+		<value><![CDATA[Unlink]]></value>
 	</definition>
 	<definition>
 		<key>button_select_resource</key>

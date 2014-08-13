@@ -34,7 +34,11 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	
 		//route to correct function
 		$this->data['resource_id'] = $this->request->get['resource_id'];
-		$this->data['language_id'] = $language_id = (int)$this->config->get('storefront_language_id');
+		$language_id = (int)$this->request->get['language_id'];
+		if (!$language_id) {
+			$language_id = $this->config->get('storefront_language_id');
+		}
+		$this->data['language_id'] = $language_id;
 
 		$rm = new AResourceManager();
 		$this->_common($rm);
@@ -61,13 +65,28 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['rl_get_preview'] = $this->html->getSecureURL('common/resource_library/get_resource_preview');
 		$this->data['rl_update_resource'] = $this->html->getSecureURL('common/resource_library/update_resource_details');
 		$this->data['rl_update_sort_order'] = $this->html->getSecureURL('common/resource_library/update_sort_order');
-		$this->data['rl_map'] = $this->html->getSecureURL('common/resource_library/map', '&object_name=' . $this->request->get['object_name'] . '&object_id=' . $this->request->get['object_id']);
-		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=' . $this->request->get['object_name'] . '&object_id=' . $this->request->get['object_id']);
+		$this->data['rl_map'] = $this->html->getSecureURL('common/resource_library/map', '&object_name=' . $this->data['object_name'] . '&object_id=' . $this->data['object_id']);
+		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=' . $this->data['object_name'] . '&object_id=' . $this->data['object_id']);
 		$this->data['type'] = $this->request->get['type'];
 
 		//load resource
-		$this->data['resource'] = $rm->getResource($this->data['resource_id'], $language_id);
-
+		$resource = $rm->getResource($this->data['resource_id'], $language_id);		
+		/*
+		Array
+		(
+		    [resource_id] => 100009
+		    [language_id] => 1
+		    [name] => az_demo_product_14_1.jpg
+		    [title] => 
+		    [description] => 
+		    [resource_path] => 18/6a/9.jpg
+		    [resource_code] => 
+		    [created] => 2014-06-05 16:23:12
+		    [updated] => 2014-06-05 16:23:12
+		    [type_name] => image
+		    [default_icon] => icon_resource_image.png
+		)
+		*/		
 		$this->data['button_go_actions'] = $this->html->buildButton(
 			array(
 				'name' => 'go',
@@ -93,6 +112,20 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				'style' => 'button1_small'
 			));
 
+
+		$rm->setType($resource['type_name']);
+		$resource['thumbnail_url'] = $rm->getResourceThumb(
+			$resource['resource_id'],
+			$this->thumb_sizes['width'],
+			$this->thumb_sizes['height']
+		);
+		$resource['url'] = $rm->buildResourceURL($resource['resource_path'], 'full');
+		$resource['relative_url'] = $rm->buildResourceURL($resource['resource_path'], 'relative');
+		
+		$resource['resource_objects'] = $rm->getResourceObjects($resource['resource_id'], $language_id);
+		//mark if this resource mapped to selected object
+		$resource['mapped_to_current'] = $rm->isMapped($resource['resource_id'], $this->data['object_name'], $this->data['object_id']);
+		
 		//Resource edit form fields
 		$form = new AForm('ST');
 		$this->data['edit_form_open' ] = $form->getFieldHtml(
@@ -103,46 +136,51 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		                                                ));
 
 		$this->data['field_resource_code'] = $form->getFieldHtml(
-						array(  'type'=>'textarea',
-								'name'=>'resource_code',
+						array(  'type'=> 'textarea',
+								'name'=> 'resource_code',
+								'value'=> $resource['resource_code'],
 								'required'=>true)
 		);
 		$this->data['field_name'] = $form->getFieldHtml(
-						array(  'type'=>'input',
-								'name'=>'name',
+						array(  'type'=> 'input',
+								'name'=> 'name',
+								'value'=> $resource['name'],
 								'required'=>true)
 		);
 		$this->data['field_name'] .= $form->getFieldHtml(
 						array(  'type'=>'hidden',
+								'value'=> $resource['resource_id'],
 								'name'=>'resource_id')
 		);
 
 		$this->data['field_title'] = $form->getFieldHtml(
-			array(  'type'=>'input',
-					'name'=>'title')
+			array(  'type'=> 'input',
+					'value'=> $resource['title'],
+					'name'=> 'title')
 		);
 		$this->data['field_description'] = $form->getFieldHtml(
 			array(  'type'=>'textarea',
-					'name'=>'description'
+					'name'=>'description',
+					'value'=> $resource['description'],
 				)
 		);
-		$this->data['rl_get_info'] = $this->html->getSecureURL('common/resource_library/get_resource_details');
 
 		$this->data['batch_actions'] = $this->html->buildSelectbox(
 			array(
 				'name' => 'actions',
 				'value' => 'map',
 				'options' => array(
-					''=>$this->language->get('text_select'),
-					'map'=>$this->language->get('text_map'),
-					'unmap'=>$this->language->get('text_unmap'),
-					'delete'=>$this->language->get('button_delete')
+					''=> $this->language->get('text_select'),
+					'map'=> $this->language->get('text_map'),
+					'unmap'=> $this->language->get('text_unmap'),
+					'delete'=> $this->language->get('button_delete')
 				)
 			));
 
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url('resource_library'));
 
+		$this->data['resource'] = $resource;
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/common/resource_library_edit.tpl');
 	}
@@ -247,6 +285,8 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			);
 			$result[$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
 			$result[$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
+			$result[$key]['mapped_to_current'] = $rm->isMapped($item['resource_id'], $this->data['object_name'], $this->data['object_id']);
+
 		}
 
 		$sort_order = '&sort='.$this->data['sort'].'&order='.$this->data['order'];
@@ -639,6 +679,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	}
 
 
+	/* TO BE DELLETED ??? */
 	public function get_resource_details() {
 		$rm = new AResourceManager();
 		$language_id = (int)$this->request->get['language_id'];
