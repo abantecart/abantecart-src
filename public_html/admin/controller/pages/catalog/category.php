@@ -504,6 +504,7 @@ class ControllerPagesCatalogCategory extends AController {
 		$page_controller = 'pages/product/category';
 		$page_key_param = 'path';
 		$category_id = (int)$this->request->get['category_id'];
+		$this->data['category_id'] = $category_id;
 		//note: category can not be ID of 0.
 		if (!has_value($category_id)) {
 			$this->redirect($this->html->getSecureURL('catalog/category'));
@@ -512,12 +513,11 @@ class ControllerPagesCatalogCategory extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->loadLanguage('catalog/category');
-		$this->document->setTitle($this->language->get('text_category') . ' ' . $this->language->get('tab_layout'));
-		$this->view->assign('help_url', $this->gen_help_url('category_layout_edit'));
 
-		$url = '';
 
-		$url .= '&category_id=' . $category_id;
+		$this->data['help_url'] = $this->gen_help_url('category_layout_edit');
+
+		$url = '&category_id=' . $category_id;
 
 		if (has_value($category_id) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$this->loadModel('catalog/category');
@@ -532,12 +532,14 @@ class ControllerPagesCatalogCategory extends AController {
 		}
 
 		$this->view->assign('error_warning', (isset($this->error['warning']) ? $this->error['warning'] : ''));
-		$this->view->assign('success', (isset($this->session->data['success']) ? $this->session->data['success']
-				: ''));
+
+
 		if (isset($this->session->data['success'])) {
+			$this->data['success'] = $this->session->data['success'];
 			unset($this->session->data['success']);
 		}
 
+		$this->document->setTitle($this->language->get('text_category') . ' ' . $this->language->get('tab_layout'));
 		$this->document->resetBreadcrumbs();
 		$this->document->addBreadcrumb(array(
 				'href' => $this->html->getSecureURL('index/home'),
@@ -557,16 +559,15 @@ class ControllerPagesCatalogCategory extends AController {
 		$this->document->addBreadcrumb(array(
 				'href' => $this->html->getSecureURL('catalog/edit_layout', '&category_id=' . $category_id),
 				'text' => $this->language->get('tab_layout'),
-				'separator' => ' :: '
+				'separator' => ' :: ',
+				'current'	=> true
 		));
 
-		$this->view->assign('category_form_general', $this->html->getSecureURL('catalog/category/update', '&category_id=' . $category_id) . '#general');
-		$this->view->assign('category_form_data', $this->html->getSecureURL('catalog/category/update', '&category_id=' . $category_id) . '#data');
-		$this->view->assign('category_form_image', $this->html->getSecureURL('catalog/category/update', '&category_id=' . $category_id) . '#tab_media');
-		$this->view->assign('category_layout', $this->html->getSecureURL('catalog/category/edit_layout', '&category_id=' . $category_id));
-		$this->view->assign('tab_form_general', $this->language->get('tab_general'));
-		$this->view->assign('tab_form_data', $this->language->get('tab_data'));
-		$this->view->assign('tab_layout', $this->language->get('tab_layout'));
+		$this->data['active'] = 'layout';
+		//load tabs controller
+		$tabs_obj = $this->dispatch('pages/catalog/category_tabs', array($this->data));
+		$this->data['category_tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
 
 		$layout = new ALayoutManager();
 		//get existing page layout or generic
@@ -584,8 +585,10 @@ class ControllerPagesCatalogCategory extends AController {
 		$settings['allow_clone'] = true;
 		$layoutform = $this->dispatch('common/page_layout', array($settings, $layout));
 
-		$this->view->assign('heading_title', $this->language->get('text_edit') . $this->language->get('text_category') . ' - ' . $this->data['category_description'][$this->session->data['content_language_id']]['name']);
-		$this->view->assign('layoutform', $layoutform->dispatchGetOutput());
+		$this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_category') . ' - ' . $this->data['category_description'][$this->language->getContentLanguageID()]['name'];
+		$this->data['layoutform'] = $layoutform->dispatchGetOutput();
+
+		$this->view->batchAssign($this->data);
 
 		$this->processTemplate('pages/catalog/category_layout.tpl');
 		//update controller data
@@ -594,7 +597,7 @@ class ControllerPagesCatalogCategory extends AController {
 	}
 
 	public function save_layout() {
-		if (($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (($this->request->is_GET())) {
 			$this->redirect($this->html->getSecureURL('catalog/category'));
 		}
 
