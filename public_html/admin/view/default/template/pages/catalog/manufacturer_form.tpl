@@ -1,82 +1,120 @@
-<?php if ($error_warning) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
+<?php if (!empty($error['warning'])) { ?>
+<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
 <div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_brand"><?php echo $heading_title; ?></div>
 <?php if ($update) { ?>
-	<div class="heading-tabs">
-		<a href="<?php echo $manufacturer_edit ?>" class="active"><span><?php echo $tab_edit; ?></span></a>
-		<a href="<?php echo $manufacturer_layout ?>"><span><?php echo $tab_layout; ?></span></a>
+	<ul class="nav nav-tabs nav-justified nav-profile">
+		<li class="active">
+		<a href="<?php echo $manufacturer_edit ?>"><span><?php echo $tab_edit; ?></span></a></li>
+		<li>
+		<a href="<?php echo $manufacturer_layout ?>"><span><?php echo $tab_layout; ?></span></a></li>
 		<?php echo $this->getHookVar('extension_tabs'); ?>
-	</div>
+	</ul>
 <?php } ?>
-	  <div class="toolbar">
-		<?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-    </div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
+
+<div class="tab-content">
+
+	<div class="panel-heading">
+
+			<div class="pull-right">
+			    <div class="btn-group mr10 toolbar">
+                    <?php if (!empty ($help_url)) : ?>
+                    <a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
+                    <i class="fa fa-question-circle"></i>
+                    </a>
+                    <?php endif; ?>
+			    </div>
+                <?php echo $form_language_switch; ?>
+			</div>
+
+	</div>
 
 	<?php echo $form['form_open']; ?>
-	<div class="fieldset">
-	  <div class="heading"><?php echo $form_title; ?></div>
-	  <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-	  <div class="cont_left"><div class="cont_right"><div class="cont_mid">
-		<table class="form">
-			<tr>
-				<td><?php echo $entry_name; ?></td>
-				<td><?php echo $form['fields']['name']; ?>
-				<?php if ( !empty($error_name) ) { ?>
-					<div class="error"><?php echo($error_name) ?></div>
-				<?php } ?>
-				</td>
-			</tr>
-			<tr>
-				<td><?php echo $entry_store; ?></td>
-				<td><div class="scrollbox"><?php echo $form['fields']['manufacturer_store']; ?></div></td>
-			</tr>
-			<tr>
-				<td><?php echo $entry_keyword; ?></td>
-				<td><?php echo $form['fields']['keyword']; ?></td>
-			</tr>
-			<tr>
-				<td><?php echo $entry_sort_order; ?></td>
-				<td><?php echo $form['fields']['sort_order']; ?></td>
-			</tr>
+	<div class="panel-body panel-body-nopadding">
 
-		</table>
-	  </div></div></div>
-      <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
-	</div><!-- <div class="fieldset"> -->
+		<?php foreach ($form['fields'] as $section => $fields) { ?>
+		<label class="h4 heading" id="<?php echo $section;?>"><?php echo ${'tab_' . $section}; ?></label>
+			<?php foreach ($fields as $name => $field) { ?>
+			<?php
+				//Logic to cululate fileds width
+				$widthcasses = "col-sm-7";
+				if ( is_int(stripos($field->style, 'large-field')) ) {
+					$widthcasses = "col-sm-7";
+				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
+					$widthcasses = "col-sm-5";
+				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+					$widthcasses = "col-sm-3";
+				} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
+					$widthcasses = "col-sm-2";
+				}
+				$widthcasses .= " col-xs-12";
+			?>
+		<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<?php echo $field; ?>
+			</div>
+		    <?php if (!empty($error[$name])) { ?>
+		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+		    <?php } ?>
+		</div>
+			<?php }  ?><!-- <div class="fieldset"> -->
+		<?php }  ?>
 
 
-    <?php if ( !empty($update) ) { echo $resources_html; } ?>
+		<div id="image">
+	    <?php if ( !empty($update) ) { echo $resources_html; } ?>
+		</div>
 
-	<div class="buttons align_center">
-	  <button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
-	  <a class="btn_standard" href="<?php echo $cancel; ?>" ><?php echo $form['cancel']; ?></a>
-    </div>
+
+	</div>
+
+	<div class="panel-footer">
+		<div class="row">
+		   <div class="col-sm-6 col-sm-offset-3">
+		     <button class="btn btn-primary">
+		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+		     </button>&nbsp;
+		     <a class="btn btn-default" href="<?php echo $cancel; ?>">
+		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+		     </a>
+		   </div>
+		</div>
+	</div>
 	</form>
 
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
-</div>
+</div><!-- <div class="tab-content"> -->
 
 <script type="text/javascript"><!--
-
-$('#editFrm_generate_seo_keyword').click(function(){
-	var seo_name = $('#editFrm_name').val().replace('%','');
-	$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
-		$('#editFrm_keyword').val(data).change();
+	$('#editFrm_generate_seo_keyword').click(function(){
+		var seo_name = $('#editFrm_name').val().replace('%','');
+		$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
+			$('#editFrm_keyword').val(data).change();
+		});
 	});
-});
-
 //--></script>
 
-<?php if ( !empty($update) ) { echo $resources_scripts; } ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

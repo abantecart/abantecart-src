@@ -69,7 +69,7 @@
 		<value><![CDATA[Category Status:]]></value>
 	</definition>
 	<definition>
-		<key>entry_category</key>
+		<key>entry_parent_category</key>
 		<value><![CDATA[Parent Category:]]></value>
 	</definition>
 	<definition>

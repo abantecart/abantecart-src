@@ -37,7 +37,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController {
 		$this->loadModel('catalog/manufacturer');
 		$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer( $manufacturer_id );
 
-		if (has_value($manufacturer_id) && ($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
+		if (has_value($manufacturer_id) && $this->request->is_GET()) {
 			if (!$manufacturer_info) {
 				$this->session->data[ 'warning' ] = $this->language->get('error_manufacturer_not_found');
 				$this->redirect($this->html->getSecureURL('catalog/manufacturer'));
@@ -75,7 +75,8 @@ class ControllerPagesCatalogManufacturerLayout extends AController {
 		$this->document->addBreadcrumb(array(
 		                                    'href' => $this->html->getSecureURL('catalog/manufacturer_layout', '&manufacturer_id=' . $manufacturer_id),
 		                                    'text' => $this->language->get('entry_layout'),
-		                                    'separator' => ' :: '
+		                                    'separator' => ' :: ',
+											'current'   => true
 		                               ));
 
 
@@ -110,7 +111,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController {
 	}
 
 	public function save() {
-		if (($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
+		if ($this->request->is_GET()) {
 			$this->redirect($this->html->getSecureURL('catalog/manufacturer_layout'));
 		}
 
