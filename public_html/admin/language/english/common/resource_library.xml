@@ -34,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>text_mapped_to</key>
-		<value><![CDATA[Mapped To]]></value>
+		<value><![CDATA[Linked To]]></value>
 	</definition>
 	<definition>
 		<key>text_products</key>
@@ -130,11 +130,11 @@
 	</definition>
 	<definition>
 		<key>text_map</key>
-		<value><![CDATA[Map to Object]]></value>
+		<value><![CDATA[Link to Object]]></value>
 	</definition>
 	<definition>
 		<key>text_unmap</key>
-		<value><![CDATA[Unmap from Object]]></value>
+		<value><![CDATA[Unlink from Object]]></value>
 	</definition>
 	<definition>
 		<key>text_file_delete</key>

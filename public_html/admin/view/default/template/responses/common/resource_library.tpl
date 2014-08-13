@@ -46,17 +46,14 @@
         </li>
 <?php if(has_value($active_object)) { ?>        
         <li>
-          <a class="itemopt disabled rl_edit" onclick="false;" href=""><i class="fa fa-edit"></i></a>
-        </li>
-        <li>
-          <a class="itemopt disabled rl_save" onclick="false;" href=""><i class="fa fa-save"></i></a>
+          <a class="itemopt disabled rl_save_multiple" onclick="false;" href=""><i class="fa fa-save"></i></a>
         </li>
 <?php } ?>        
         <li>
-          <a class="itemopt disabled rl_link" onclick="false;" href=""><i class="fa fa-link"></i></a>
+          <a class="itemopt disabled rl_link_multiple" onclick="false;" href=""><i class="fa fa-link"></i></a>
         </li>
         <li>
-          <a class="itemopt disabled rl_delete" onclick="false;" href=""><i class="fa fa-trash-o"></i></a>
+          <a class="itemopt disabled rl_delete_multiple" onclick="false;" href="" data-confirmation="delete"><i class="fa fa-trash-o"></i></a>
         </li>
         <?php if( $form_language_switch ) { ?>
         <li>
@@ -90,10 +87,11 @@
 					  [thumbnail_url] => 
 					  [url] => 
 					  [relative_url] =>
-					  */
+					  [mapped_to_current] =>
+					  */					  
 			?>  
 			  <div class="col-xs-6 col-sm-2 col-md-2 document">
-			    <div class="thmb">
+			    <div class="thmb <?php if( $rl['mapped_to_current'] ) { echo "mapped"; } ?>">
 			      <div class="ckbox ckbox-default" style="display: none;">
 			        <input type="checkbox" value="" id="check_<?php echo $rl['resource_id']; ?>">
 			        <label for="check<?php echo $rl['resource_id']; ?>"></label>
@@ -113,11 +111,11 @@
 			          <button data-toggle="dropdown" class="btn btn-default dropdown-toggle rl-toggle" type="button">
 			            <span class="caret"></span>
 			          </button>
-			          <ul role="menu" class="dropdown-menu rl-menu">
-			            <li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
-			            <li><a href="#"><i class="fa fa-link"></i> Link</a></li
-			            <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
-			            <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+			          <ul role="menu" class="dropdown-menu rl-menu" data-rl-id="<?php echo $rl['resource_id']; ?>">
+			            <li><a class="rl_edit" href="#" onclick="false;"><i class="fa fa-pencil"></i> Edit</a></li>
+			            <li><a class="rl_link" href="#" onclick="false;"><i class="fa fa-link"></i> Link</a></li>
+			            <li><a class="rl_download" href="#" onclick="false;"><i class="fa fa-download"></i> Download</a></li>
+			            <li><a class="rl_delete" href="#" onclick="false;" data-confirmation="delete"><i class="fa fa-trash-o"></i> Delete</a></li>
 			          </ul>
 			      </div>
 			      <?php if($rl['resource_code']) { ?>
