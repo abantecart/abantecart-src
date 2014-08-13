@@ -204,7 +204,7 @@ class ControllerPagesCatalogReview extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 		
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ( $this->request->is_POST() && $this->_validateForm() ) {
 			$this->model_catalog_review->editReview($this->request->get['review_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -237,11 +237,13 @@ class ControllerPagesCatalogReview extends AController {
       		'separator' => ' :: '
    		 ));
 
-		$this->data['category_products'] = $this->html->getSecureURL('review/category');
+
 		$this->data['cancel'] = $this->html->getSecureURL('catalog/review');
 
-		if (isset($this->request->get['review_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$review_info = $this->model_catalog_review->getReview($this->request->get['review_id']);
+		$review_id = (int)$this->request->get['review_id'];
+
+		if ( $review_id && $this->request->is_GET() ) {
+			$review_info = $this->model_catalog_review->getReview( $review_id );
 		}
 
 		foreach ( $this->fields as $field ) {
@@ -270,30 +272,23 @@ class ControllerPagesCatalogReview extends AController {
 			$this->data['product'] = $this->language->get('text_none');
 		}
 
-		$this->loadModel('catalog/category');
-		$tmp = $this->model_catalog_category->getCategories(0);
-		$categories = array();
-		foreach($tmp as $row){
-			$categories[$row['category_id']] = $row['name'];
-		} unset($tmp);
-
-
 		if (!isset($this->request->get['review_id'])) {
 			$this->data['action'] = $this->html->getSecureURL('catalog/review/insert');
 			$this->data['heading_title'] = $this->language->get('text_insert') .' '. $this->language->get('text_review');
 			$this->data['update'] = '';
 			$form = new AForm('ST');
 		} else {
-			$this->data['action'] = $this->html->getSecureURL('catalog/review/update', '&review_id=' . $this->request->get['review_id'] );
+			$this->data['action'] = $this->html->getSecureURL('catalog/review/update', '&review_id=' . $review_id );
 			$this->data['heading_title'] = $this->language->get('text_edit') .' '. $this->language->get('text_review');
-			$this->data['update'] = $this->html->getSecureURL('listing_grid/review/update_field','&id='.$this->request->get['review_id']);
+			$this->data['update'] = $this->html->getSecureURL('listing_grid/review/update_field','&id='.$review_id );
 			$form = new AForm('HS');
 		}
 
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
        		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$form->setForm(array(
@@ -305,7 +300,7 @@ class ControllerPagesCatalogReview extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'reviewFrm',
-		    'attr' => 'data-confirm-exit="true"',
+		    'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -334,24 +329,25 @@ class ControllerPagesCatalogReview extends AController {
 			'required' => true
 	    ));
 
+		$this->data['products'] = array(0=>$this->language->get('text_select_product'));
+		$this->loadModel('catalog/product');
+		$results = $this->model_catalog_product->getProducts();
+		foreach( $results as $r ) {
+			$this->data['products'][ $r['product_id'] ] = $r['name'];
+		}
 
-        $this->data['form']['categories'] = $form->getFieldHtml(array(
-		    'type' => 'selectbox',
-		    'name' => 'review_categories',
-		    'options' => $categories,
-	        'style' => 'no-save',
-	        'attr' => ' style="margin-bottom: 5px;" ',
-	    ));
+		$this->data['form']['fields']['product'] = $form->getFieldHtml(
+															array(
+																	'type' => 'selectbox',
+																	'name' => 'product_id',
+																	'value' => $this->data['product_id'],
+																	'options' => $this->data['products'],
+																	'style' => 'chosen',
+																	'placeholder' => $this->language->get('text_select_product'),
+																	'required' => true
+															));
 
 
-		$this->data['form']['fields']['product'] = $form->getFieldHtml(array(
-		    'type' => 'selectbox',
-		    'name' => 'product_id',
-		    'value' => $this->data['product_id'],
-			'options' => array( $this->data['product_id'] => $this->data['product'] ),
-			'required' => true,
-            'style' => 'medium-field'
-	    ));
 		$this->data['form']['fields']['text'] = $form->getFieldHtml(array(
 		    'type' => 'textarea',
 		    'name' => 'text',
@@ -382,21 +378,23 @@ class ControllerPagesCatalogReview extends AController {
 			$this->error['product'] = $this->language->get('error_product');
 		}
 		
-		if ((strlen(utf8_decode($this->request->post['author'])) < 2) || (strlen(utf8_decode($this->request->post['author'])) > 64)) {
+		if ( mb_strlen($this->request->post['author']) < 2 || mb_strlen( $this->request->post['author'] ) > 64 ) {
 			$this->error['author'] = $this->language->get('error_author');
 		}
 
-		if ((strlen(utf8_decode($this->request->post['text'])) < 25) || (strlen(utf8_decode($this->request->post['text'])) > 1000)) {
+		if (mb_strlen( $this->request->post['text'] ) < 25  || mb_strlen( $this->request->post['text'] ) > 1000 ) {
 			$this->error['text'] = $this->language->get('error_text');
 		}
 		
-		if ((strlen(utf8_decode($this->request->post['text'])) < 25) || (strlen(utf8_decode($this->request->post['text'])) > 1000)) {
+		if ( mb_strlen($this->request->post['text']) < 25 || mb_strlen( $this->request->post['text'] ) > 1000 ) {
 			$this->error['text'] = $this->language->get('error_text');
 		}
 		
 		if (!isset($this->request->post['rating'])) {
 			$this->error['rating'] = $this->language->get('error_rating');
 		}
+
+		$this->extensions->hk_ValidateData($this);
 		
 		if (!$this->error) {
 			return TRUE;
@@ -405,4 +403,3 @@ class ControllerPagesCatalogReview extends AController {
 		}
 	}
 }
-?>
