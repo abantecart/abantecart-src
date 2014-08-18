@@ -143,7 +143,7 @@ class ControllerPagesCatalogAttribute extends AController {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && $this->validateAttributeForm()) {
+		if ( $this->request->is_POST() && $this->validateAttributeForm() ) {
 			$attribute_id = $this->attribute_manager->addAttribute($this->request->post);
 			$this->session->data[ 'success' ] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attribute_id));
@@ -166,7 +166,7 @@ class ControllerPagesCatalogAttribute extends AController {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && $this->validateAttributeForm()) {
+		if ( $this->request->is_POST() && $this->validateAttributeForm()) {
 			$this->attribute_manager->updateAttribute($this->request->get[ 'attribute_id' ], $this->request->post);
 			$this->session->data[ 'success' ] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $this->request->get[ 'attribute_id' ]));
@@ -259,7 +259,6 @@ class ControllerPagesCatalogAttribute extends AController {
 			}
 		}
 
-
 		// build tabs on page
 		$results = $this->attribute_manager->getAttributeTypes();
 		foreach ($results as $type) {
@@ -302,7 +301,8 @@ class ControllerPagesCatalogAttribute extends AController {
 		$this->document->addBreadcrumb(array(
 		                                    'href' => $this->data[ 'action' ],
 		                                    'text' => $this->data[ 'heading_title' ],
-		                                    'separator' => ' :: '
+		                                    'separator' => ' :: ',
+											'current' => true
 		                               ));
 
 		$form->setForm(array(
@@ -314,7 +314,7 @@ class ControllerPagesCatalogAttribute extends AController {
 		$this->data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(array(
 		                                                                'type' => 'form',
 		                                                                'name' => 'editFrm',
-		                                                                'attr' => 'data-confirm-exit="true"',
+		                                                                'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 		                                                                'action' => $this->data[ 'action' ],
 		                                                           ));
 		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array(
