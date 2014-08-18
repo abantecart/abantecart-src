@@ -62,7 +62,9 @@ class ControllerResponsesCatalogAttribute extends AController {
 				$element_types[$key] = $type['type'];
 			}
 		}
-
+		/**
+		 * @var $form AForm
+		 */
 		$form = $params['aform'];
 		$attribute_manager = $params['attribute_manager'];
 
@@ -96,7 +98,6 @@ class ControllerResponsesCatalogAttribute extends AController {
 				                                                                       'value' => $this->data[ 'error_text' ],
 				                                                                       'style' => 'large-field',
 				                                                                  ));
-
 
 		//Build atribute values part of the form
 		if ( $this->request->get['attribute_id'] ) {
@@ -181,7 +182,7 @@ class ControllerResponsesCatalogAttribute extends AController {
 			)),
 		);
 
-		$this->data['form']['fields']['attribute_values'] = $attributes_fields;
+		$this->data['form']['attribute_values'] = $attributes_fields;
 
 		$this->view->batchAssign($this->data);
 

@@ -562,6 +562,9 @@ h4, .h4 {
    border: 1px solid #ddd;
    border-bottom-color: #fcfcfc;
 }
+.nav-tabs li.inactive a {
+   cursor: no-drop;
+}
 
 .panel-heading .nav-justified {
    margin-bottom: -21px;
