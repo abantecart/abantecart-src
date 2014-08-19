@@ -103,7 +103,7 @@ class ControllerPagesLocalisationStockStatus extends AController {
 
     	$this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ( $this->request->is_POST() && $this->_validateForm() ) {
 
 			$stock_status_id = $this->model_localisation_stock_status->addStockStatus($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -127,7 +127,7 @@ class ControllerPagesLocalisationStockStatus extends AController {
 
     	$this->document->setTitle( $this->language->get('heading_title') );
 
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+    	if ( $this->request->is_POST() && $this->_validateForm()) {
 	  		$this->model_localisation_stock_status->editStockStatus($this->request->get['stock_status_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('localisation/stock_status/update', '&stock_status_id=' . $this->request->get['stock_status_id'] ));
@@ -192,6 +192,7 @@ class ControllerPagesLocalisationStockStatus extends AController {
 		    'type' => 'form',
 		    'name' => 'editFrm',
 		    'action' => $this->data['action'],
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
@@ -227,10 +228,12 @@ class ControllerPagesLocalisationStockStatus extends AController {
     	}
 	
     	foreach ($this->request->post['stock_status'] as $language_id => $value) {
-      		if ((strlen(utf8_decode($value['name'])) < 2) || (strlen(utf8_decode($value['name'])) > 32)) {
+      		if ( mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 32 ) {
         		$this->error['name'][$language_id] = $this->language->get('error_name');
       		}
     	}
+
+		$this->extensions->hk_ValidateData($this);
 		
 		if (!$this->error) {
 	  		return TRUE;
