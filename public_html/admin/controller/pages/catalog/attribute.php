@@ -196,9 +196,9 @@ class ControllerPagesCatalogAttribute extends AController {
 		                                    'separator' => ' :: '
 		                               ));
 
+		$attribute_id = (int)$this->request->get[ 'attribute_id' ];
 
-
-		if (isset($this->request->get[ 'attribute_id' ]) && ($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
+		if ($attribute_id && $this->request->is_GET()) {
 			$attribute_info = $this->attribute_manager->getAttribute(
 				$this->request->get[ 'attribute_id' ],
 				$this->session->data[ 'content_language_id' ]
@@ -212,7 +212,7 @@ class ControllerPagesCatalogAttribute extends AController {
 
 			if (in_array($attribute_info[ 'element_type' ], $this->data[ 'elements_with_options' ])) {
 				$values = $this->attribute_manager->getAttributeValues(
-					$this->request->get[ 'attribute_id' ],
+					$attribute_id,
 					$this->session->data[ 'content_language_id' ]
 				);
 				$attribute_info[ 'values' ] = array();
@@ -285,17 +285,17 @@ class ControllerPagesCatalogAttribute extends AController {
 
 
 
-		if (!isset($this->request->get[ 'attribute_id' ])) {
+		if (!$attribute_id) {
 			$this->data[ 'action' ] = $this->html->getSecureURL('catalog/attribute/insert','&attribute_type_id='.$attribute_type_id);
 			$this->data[ 'heading_title' ] = $this->language->get('text_insert') . $this->language->get('text_attribute');
 			$this->data[ 'update' ] = '';
 			$form = new AForm('ST');
 		} else {
-			$this->data[ 'action' ] = $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $this->request->get[ 'attribute_id' ].'&attribute_type_id='.$attribute_type_id);
+			$this->data[ 'action' ] = $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attribute_id.'&attribute_type_id='.$attribute_type_id);
 			$this->data[ 'heading_title' ] = $this->language->get('text_edit') . $this->language->get('text_attribute');
-			$this->data[ 'update' ] = $this->html->getSecureURL('listing_grid/attribute/update_field', '&id=' . $this->request->get[ 'attribute_id' ]);
+			$this->data[ 'update' ] = $this->html->getSecureURL('listing_grid/attribute/update_field', '&id=' . $attribute_id);
 			$form = new AForm('HT');
-			$this->data['attribute_id'] = $this->request->get['attribute_id'];
+			$this->data['attribute_id'] = $attribute_id;
 		}
 
 		$this->document->addBreadcrumb(array(
@@ -348,7 +348,7 @@ class ControllerPagesCatalogAttribute extends AController {
 			$parent_attributes = array( '' => $this->language->get('text_select') );
 			$results = $this->attribute_manager->getAttributes(array('attribute_type_id'=>$attribute_type_id, 'limit'=>null), 0, 0);
 			foreach ($results as $type) {
-				if (isset($this->request->get[ 'attribute_id' ]) && $this->request->get[ 'attribute_id' ] == $type[ 'attribute_id' ]) {
+				if ($attribute_id && $attribute_id == $type[ 'attribute_id' ]) {
 					continue;
 				}
 				$parent_attributes[ $type[ 'attribute_id' ] ] = $type[ 'name' ];
