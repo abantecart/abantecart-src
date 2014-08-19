@@ -113,11 +113,11 @@
     <value><![CDATA[Load missing language data]]></value>
   </definition>
   <definition>
-    <key>load_language_data_txt</key>
+    <key>entry_language_selector</key>
     <value><![CDATA[Source Language: ]]></value>
   </definition>
   <definition>
-    <key>language_translate_method_txt</key>
+    <key>entry_translate_method_selector</key>
     <value><![CDATA[Text translation method: ]]></value>
   </definition>
   <definition>

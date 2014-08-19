@@ -1,77 +1,118 @@
-<?php if ($error_warning) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
+<?php if (!empty($error['warning'])) { ?>
+<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
 <div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_language"><?php echo $heading_title; ?></div>
-	<div class="toolbar">
-		<?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-    </div>  
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
+<div class="tab-content">
+	<div class="panel-heading">
+			<div class="pull-right">
+			    <div class="btn-group mr10 toolbar">
+                    <?php if (!empty ($help_url)) : ?>
+                    <a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
+                    <i class="fa fa-question-circle"></i>
+                    </a>
+                    <?php endif; ?>
+			    </div>
+                <?php echo $form_language_switch; ?>
+			</div>
+	</div>
 
 	<?php echo $form['form_open']; ?>
-	<div class="fieldset">
-	  <div class="heading"><?php echo $language_edit_title; ?></div>
-	  <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-	  <div class="cont_left"><div class="cont_right"><div class="cont_mid">
-		  <?php echo $entry_create_language_note;	  ?>
-		<table class="form">
-		<?php foreach ($form['fields'] as $name => $field) { ?>
-			<tr>
-				<td><?php echo ${'entry_'.$name}; ?></td>
-				<td>
-					<?php echo $field; ?>
-					<?php if (!empty($error[$name])) { ?>
-						<div class="field_err"><?php echo $error[$name]; ?></div>
-					<?php } //if (!empty($error[$name])) { ?>
-				</td>
-			</tr>
-		<?php } //foreach ($form['fields'] as $name => $field)  ?>
-		</table>
-	  </div></div></div>
-      <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
-	</div><!-- <div class="fieldset"> -->
-	<div class="buttons align_center">
-	  <button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
-	  <a class="btn_standard" href="<?php echo $cancel; ?>" ><?php echo $form['cancel']; ?></a>
-    </div>
+	<div class="panel-body panel-body-nopadding">
+		<label class="h4 heading"><?php echo $language_edit_title; ?></label>
+			<?php foreach ($form['fields'] as $name => $field) {
+
+				//Logic to cululate fileds width
+				$widthcasses = "col-sm-7";
+				if ( is_int(stripos($field->style, 'large-field')) ) {
+					$widthcasses = "col-sm-7";
+				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
+					$widthcasses = "col-sm-5";
+				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+					$widthcasses = "col-sm-3";
+				} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
+					$widthcasses = "col-sm-2";
+				}
+				$widthcasses .= " col-xs-12";
+			?>
+		<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<?php echo $field; ?>
+			</div>
+		    <?php if (!empty($error[$name])) { ?>
+		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+		    <?php } ?>
+		</div>
+			<?php }  ?><!-- <div class="fieldset"> -->
+
+	</div>
+
+	<div class="panel-footer">
+		<div class="row">
+		   <div class="col-sm-6 col-sm-offset-3">
+		     <button class="btn btn-primary">
+		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+		     </button>&nbsp;
+		     <a class="btn btn-default" href="<?php echo $cancel; ?>">
+		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+		     </a>
+		   </div>
+		</div>
+	</div>
 	</form>
 
-	<?php
-	  if($form2){
-	  echo $form2['form_open']; ?>
-	<div class="fieldset">
-	  <div class="heading"><?php echo $load_language_title; ?></div>
-	  <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-	  <div class="cont_left"><div class="cont_right"><div class="cont_mid">
-		<table class="form">
-			<tr>
-				<td><?php echo $load_language_data_txt; ?></td>
-				<td><?php echo $form2['language_selector']; ?></td>
-			</tr>		
-			<tr>
-				<td><?php echo $language_translate_method_txt; ?></td>
-				<td><?php echo $form2['translate_method_selector']; ?></td>
-			</tr>		
-			<tr>
-				<td colspan="2"><?php echo $load_language_note; ?></td>
-			</tr>		
-		</table>
-	  </div></div></div>
-      <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
-	</div><!-- <div class="fieldset"> -->
-	<div class="buttons align_center">
-	  <button type="submit" class="btn_standard button_loader"><?php echo $form2['load_data']; ?></button>
-    </div>
+</div><!-- <div class="tab-content"> -->
+
+
+<?php if($form2){ ?>
+<div class="tab-content">
+
+	<?php echo $form2['form_open']; ?>
+	<div class="panel-body panel-body-nopadding">
+
+		<label class="h4 heading"><?php echo $load_language_title; ?></label>
+			<?php foreach ($form2['fields'] as $name => $field) { ?>
+			<?php
+				//Logic to cululate fileds width
+				$widthcasses = "col-sm-7";
+				if ( is_int(stripos($field->style, 'large-field')) ) {
+					$widthcasses = "col-sm-7";
+				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
+					$widthcasses = "col-sm-5";
+				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+					$widthcasses = "col-sm-3";
+				} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
+					$widthcasses = "col-sm-2";
+				}
+				$widthcasses .= " col-xs-12";
+			?>
+		<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<?php echo $field; ?>
+			</div>
+		    <?php if (!empty($error[$name])) { ?>
+		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+		    <?php } ?>
+		</div>
+			<?php }  ?><!-- <div class="fieldset"> -->
+		<div role="alert" class="alert alert-warning fade in">
+		      <strong><?php echo $load_language_note; ?></strong>
+		    </div>
+	</div>
+	<div class="panel-footer">
+		<div class="row">
+		   <div class="col-sm-6 col-sm-offset-3">
+		     <button class="btn btn-primary">
+		     <i class="fa fa-save"></i> <?php echo $form2['load_data']->text; ?>
+		     </button>
+		   </div>
+		</div>
+	</div>
 	</form>
-<?php }?>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
-</div>
+
+</div><!-- <div class="tab-content"> -->
+<?php } ?>

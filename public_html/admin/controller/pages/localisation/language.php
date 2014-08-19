@@ -195,7 +195,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 		}
 
 		$this->document->setTitle( $this->language->get('heading_title') );
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ($this->request->is_POST() && $this->_validateForm()) {
 			$this->model_localisation_language->editLanguage($this->request->get['language_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');			
 			$this->redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $this->request->get['language_id'] ));
@@ -282,6 +282,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 		    'type' => 'form',
 		    'name' => 'languageFrm',
 		    'action' => $this->data['action'],
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
@@ -353,6 +354,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 				'type' => 'form',
 				'name' => 'languageLoadFrm',
 				'action' => $this->html->getSecureURL('localisation/language/loadlanguageData', '&language_id=' . $this->request->get['language_id'] ),
+				'attr' => 'class="aform form-horizontal"',
 			));
 			$this->data['form2']['load_data'] = $form2->getFieldHtml(array(
 				'type' => 'button',
@@ -366,7 +368,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 			foreach ($this->language->getAvailableLanguages() as $result) {
 				$all_languages[$result['language_id']] = $result['name'];
 			}
-			$this->data['form2']['language_selector'] = $form2->getFieldHtml(array(
+			$this->data['form2']['fields']['language_selector'] = $form2->getFieldHtml(array(
 				'type' => 'selectbox',
 				'name' => 'source_language',
 				'value' => '',
@@ -374,7 +376,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 			));
 
 			$translate_methods = $this->language->getTranslationMethods();
-			$this->data['form2']['translate_method_selector'] = $form2->getFieldHtml(array(
+			$this->data['form2']['fields']['translate_method_selector'] = $form2->getFieldHtml(array(
 				'type' => 'selectbox',
 				'name' => 'translate_method',
 				'value' => '',
