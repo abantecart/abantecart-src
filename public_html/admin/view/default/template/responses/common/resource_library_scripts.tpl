@@ -75,6 +75,27 @@ var openRLModal = function (URL) {
     });	
 }
 
+var saveRL = function (URL, postdata) {
+	//main ajax call to load rl content
+    $.ajax({
+        url:URL,
+        data: postdata,
+        type:'POST',
+        dataType:'html',
+        success:function (html) {
+        	success_alert('<?php echo $text_success; ?>',true, '.modal-content');
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+			error_alert(
+				'<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>',
+				false,
+				'.modal-content'
+			);
+        },
+		complete: function() {
+		}
+    });	
+}
 
 
 
@@ -315,6 +336,9 @@ var bind_rl = function ( elm ) {
 		$obj = $(document).find('html');	
 	}
 
+	//bind form action if any
+	bindAform($("input, checkbox, select", 'form'));
+
     $obj.find('.thmb').hover(function(){
       var t = $(this);
       t.find('.ckbox').show();
@@ -380,6 +404,11 @@ var bind_rl = function ( elm ) {
 		
 		return false;
 	});
+	
+    $obj.find('.rl_unlink').click(function(){
+		
+		return false;
+	});
 
     $obj.find('.rl_save_multiple').click(function(){
 		
@@ -392,7 +421,24 @@ var bind_rl = function ( elm ) {
 	});
 
     $obj.find('.rl_save').click(function(){
-		
+		//save rl details. 
+		var datastring = $("#editRlFrm").serialize();
+		var type = $('#editRlFrm input[name=type]').val();
+	    var src = urls.resource_library+'&action=save'+'&type='+type;
+	    var rid = $('#editRlFrm input[name=resource_id]').val();
+    	if (rid) {
+        	src += '&resource_id=' + rid;
+    	}
+		saveRL(src, datastring);
+		mediaDialog(type, 'update', rid);	
+		return false;
+	});
+
+    $obj.find('.rl_reset').click(function(){
+		//reset rl details. 
+		var type = $('#editRlFrm input[name=type]').val();
+	    var rid = $('#editRlFrm input[name=resource_id]').val();
+        mediaDialog(type, 'update', rid);			
 		return false;
 	});
 
@@ -435,8 +481,7 @@ var bind_rl = function ( elm ) {
     	});
         openRLModal(url);
 		return false;	
-	});
-		
+	});		
 }
 
 var enable_menue = function ($obj, enable) {

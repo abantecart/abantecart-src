@@ -393,6 +393,9 @@ var bindCustomEvents  = function(elm){
 	// Tooltip
 	$obj.find('.tooltips').tooltip({ container: 'body'});
    
+	//build tooltips to fit full text on ellipses
+	buildTooltips($obj.find('.ellipsis'));	
+   
 	// Popover
 	$obj.find('.popovers').popover();
    
@@ -404,6 +407,16 @@ var bindCustomEvents  = function(elm){
    
 	//Toggles
 	$obj.find('.toggle').toggles({on: true});      
+}
+
+// Add tooltips to all elements in the selector. In case text does not fit
+var buildTooltips = function(objects, options) {			
+	$(objects).each(function() {
+	    var elem = $(this);
+		elem.addClass('tooltips');
+		elem.attr('data-original-title', elem.text())
+		elem.tooltip({ container: 'body'});
+	});
 }
 
 function ajust_content_height() {
@@ -499,11 +512,10 @@ function notice(text, autohide, elm, type, icon) {
 }
 //-----------------------------------------
 
-
-// Error detection on ajax reply. Check only for 401 authentication
+// Error detection wrapper on ajax reply.
 $(document).ajaxError(function (e, jqXHR, settings, exception) {
-    //redirect for non-logged users
-    if(jqXHR.status==401){
+	//If 401 authentication issue redirect for user to login
+    if(jqXHR.status == 401){
         window.location.reload();
     }
 });
