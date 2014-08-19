@@ -296,7 +296,7 @@ class ControllerResponsesCatalogAttribute extends AController {
 				                                        ));
 		}
 
-		$this->data['form']['fields']['attribute_values'] = $attributes_fields;
+		$this->data['form']['attribute_values'] = $attributes_fields;
 
 		$this->view->batchAssign($this->data);
 

@@ -6,10 +6,17 @@
 <?php } ?>
 
 <ul class="nav nav-tabs nav-justified nav-profile">
-
 	<?php
-		foreach ($tabs as $tab) { ?>
-			<li class="<?php echo ( $tab['active'] ? 'active' : 'inactive' ) ?>"><a <?php echo ($tab['href'] ? 'href="' . $tab['href'] . '" ' : ''); ?>><strong><?php echo $tab['text']; ?></strong></a></li>
+		foreach ($tabs as $tab) {
+			if($tab['active'] ){
+				$classname = 'active';
+			}elseif(!$tab['active'] && $attribute_id){
+				$classname = 'inactive';
+				$tab['href'] = '';
+			}else{
+				$classname = '';
+			}
+	?>		<li class="<?php echo $classname; ?>"><a <?php echo ($tab['href'] ? 'href="' . $tab['href'] . '" ' : ''); ?>><strong><?php echo $tab['text']; ?></strong></a></li>
 	<?php } ?>
 
 	<?php echo $this->getHookVar('extension_tabs'); ?>
