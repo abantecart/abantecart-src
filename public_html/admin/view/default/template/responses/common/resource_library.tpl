@@ -10,10 +10,15 @@
 <div id="rl_container">
 	<ul class="nav nav-tabs nav-justified nav-profile">
 <?php if(has_value($object_id)) { ?>	
-	<li id="object" data-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>" <?php echo $active_object; ?>><a href="#"><strong><?php echo $object_title; ?></strong></a></li>
+	<li id="object" data-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>" <?php echo $active_object; ?>><a href="#"><strong><?php echo "$object_title ($object_name)"; ?></strong></a></li>
 <?php } ?>	
 	<li id="library" data-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>" <?php echo $active_library; ?>><a href="#"><span><?php echo $heading_title; ?></span></a></li>
 	</ul>
+
+<?php 
+	$txt_link_resource = "Link to " . $object_title;
+	$txt_unlink_resource = "Unlink from " . $object_title;
+?>
 
 <div class="tab-content rl-content">
 
@@ -50,7 +55,7 @@
         </li>
 <?php } ?>        
         <li>
-          <a class="itemopt disabled rl_link_multiple" onclick="false;" href=""><i class="fa fa-link"></i></a>
+          <a class="itemopt disabled rl_link_multiple tooltips" onclick="false;" href="" data-original-title="<?php echo $txt_link_resource; ?>"><i class="fa fa-link"></i></a>
         </li>
         <li>
           <a class="itemopt disabled rl_delete_multiple" onclick="false;" href="" data-confirmation="delete"><i class="fa fa-trash-o"></i></a>

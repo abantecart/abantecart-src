@@ -980,7 +980,6 @@ p {
 	margin-bottom: 10px;
 }
 
-
 /* Generic Horizontal Content Navigation Bar */
 .content-nav {
 	list-style: none;
@@ -1673,7 +1672,6 @@ p {
     text-overflow: ellipsis;
     display: block;
 }
-
 
 /* locked screen */
 .lockedpanel {
@@ -2618,6 +2616,14 @@ body.stickyheader .sticky_left {
 	-moz-opacity: 0.2;
 	-khtml-opacity: 0.2;
 	opacity: 0.2;
+}
+.widthM400 {
+	max-width: 400px;
+}
+.ellipsis {
+   overflow-x: hidden;
+   white-space: nowrap;
+   text-overflow: ellipsis;
 }
 
 /***** Bootstrap Overrides  *****/

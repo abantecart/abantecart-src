@@ -51,7 +51,10 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		if ($this->data['action'] == 'add' || !has_value($this->data['resource_id'])) {
 			return $this->add();
 		}
-		//edit mode is default. proceed
+		if ($this->data['action'] == 'save' && has_value($this->data['resource_id'])) {
+			return $this->update_resource_details();
+		}
+		//edit is default action. proceed
 
 		$this->data['current_url'] = $this->html->getSecureURL('common/resource_library','','&encode');
 
@@ -127,7 +130,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$resource['mapped_to_current'] = $rm->isMapped($resource['resource_id'], $this->data['object_name'], $this->data['object_id']);
 		
 		//Resource edit form fields
-		$form = new AForm('ST');
+		$form = new AForm('HT');
 		$this->data['edit_form_open' ] = $form->getFieldHtml(
 														array(
 		                                                    'type' => 'form',
@@ -139,28 +142,37 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 						array(  'type'=> 'textarea',
 								'name'=> 'resource_code',
 								'value'=> $resource['resource_code'],
+								'placeholder' => $this->language->get('text_resource_code'),
 								'required'=>true)
 		);
 		$this->data['field_name'] = $form->getFieldHtml(
 						array(  'type'=> 'input',
 								'name'=> 'name',
 								'value'=> $resource['name'],
+								'placeholder' => $this->language->get('text_name'),
 								'required'=>true)
 		);
-		$this->data['field_name'] .= $form->getFieldHtml(
+		$this->data['field_resource_id'] .= $form->getFieldHtml(
 						array(  'type'=>'hidden',
 								'value'=> $resource['resource_id'],
 								'name'=>'resource_id')
+		);
+		$this->data['field_type'] .= $form->getFieldHtml(
+						array(  'type'=>'hidden',
+								'value'=> $resource['type_name'],
+								'name'=>'type')
 		);
 
 		$this->data['field_title'] = $form->getFieldHtml(
 			array(  'type'=> 'input',
 					'value'=> $resource['title'],
+					'placeholder' => $this->language->get('text_title'),
 					'name'=> 'title')
 		);
 		$this->data['field_description'] = $form->getFieldHtml(
 			array(  'type'=>'textarea',
 					'name'=>'description',
+					'placeholder' => $this->language->get('text_description'),
 					'value'=> $resource['description'],
 				)
 		);
@@ -337,7 +349,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		}
 	
 		//search form
-		$form = new AForm('ST');
+		$form = new AForm('HS');
 		$this->data['search_form'] = $form->getFieldHtml(
 						array(
 						    'type' => 'form',
@@ -510,6 +522,75 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->response->setOutput(AJson::encode($this->request->post));
 	}
 
+	public function resources() {
+		$rm = new AResourceManager();
+		$rm->setType($this->request->get['type']);
+
+		$uri = '&type=' . $this->request->get['type'] . '&language_id=' . $this->request->get['language_id'];
+
+		$filter_data = array(
+			'type_id' => $rm->getTypeId(),
+			'language_id' => $this->request->get['language_id'],
+		);
+		if (!empty($this->request->get['keyword'])) {
+			$filter_data['keyword'] = $this->request->get['keyword'];
+			$uri .= '&keyword=' . $this->request->get['keyword'];
+		}
+		if (!empty($this->request->get['object_name'])) {
+			$filter_data['object_name'] = $this->request->get['object_name'];
+			$uri .= '&object_name=' . $this->request->get['object_name'];
+		}
+		if (!empty($this->request->get['object_id'])) {
+			$filter_data['object_id'] = $this->request->get['object_id'];
+			$uri .= '&object_id=' . $this->request->get['object_id'];
+		}
+		if (isset($this->request->get['page'])) {
+			$page = $this->request->get['page'];
+			if ((int)$page < 1) {
+				$page = 1;
+			}
+			$filter_data['page'] = $page;
+			$filter_data['limit'] = 12;
+		}
+
+		$result = array(
+			'items' => $rm->getResourcesList($filter_data),
+			'pagination' => '',
+		);
+
+		foreach ($result['items'] as $key => $item) {
+			$result['items'][$key]['thumbnail_url'] = $rm->getResourceThumb(
+				$item['resource_id'],
+				$this->thumb_sizes['width'],
+				$this->thumb_sizes['height'],
+				$item['language_id']
+			);
+			$result['items'][$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
+			$result['items'][$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
+		}
+
+		if (isset($this->request->get['page'])) {
+
+			$resources_total = $rm->getResourcesList($filter_data, true);
+			if ($resources_total > 12) {
+				$result['pagination'] = (string)HtmlElementFactory::create(array(
+					'type' => 'Pagination',
+					'name' => 'pagination',
+					'text' => $this->language->get('text_pagination'),
+					'text_limit' => $this->language->get('text_per_page'),
+					'total' => $resources_total,
+					'page' => $page,
+					'limit' => 12,
+					'url' => $this->html->getSecureURL('common/resource_library/resources', $uri . '&page={page}'),
+					'style' => 'pagination'));
+			}
+		}
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($result));
+	}
+
 	public function delete() {
 		if (!$this->user->canModify('common/resource_library')) {
 			$error = new AError('');
@@ -605,111 +686,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->load->library('json');
 		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode(true));
-	}
-
-	/* TOBE DELETED */
-	public function resources() {
-
-		$rm = new AResourceManager();
-		$rm->setType($this->request->get['type']);
-
-		$uri = '&type=' . $this->request->get['type'] . '&language_id=' . $this->request->get['language_id'];
-
-		$filter_data = array(
-			'type_id' => $rm->getTypeId(),
-			'language_id' => $this->request->get['language_id'],
-		);
-		if (!empty($this->request->get['keyword'])) {
-			$filter_data['keyword'] = $this->request->get['keyword'];
-			$uri .= '&keyword=' . $this->request->get['keyword'];
-		}
-		if (!empty($this->request->get['object_name'])) {
-			$filter_data['object_name'] = $this->request->get['object_name'];
-			$uri .= '&object_name=' . $this->request->get['object_name'];
-		}
-		if (!empty($this->request->get['object_id'])) {
-			$filter_data['object_id'] = $this->request->get['object_id'];
-			$uri .= '&object_id=' . $this->request->get['object_id'];
-		}
-		if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
-			if ((int)$page < 1) {
-				$page = 1;
-			}
-			$filter_data['page'] = $page;
-			$filter_data['limit'] = 12;
-		}
-
-		$result = array(
-			'items' => $rm->getResourcesList($filter_data),
-			'pagination' => '',
-		);
-
-		foreach ($result['items'] as $key => $item) {
-			$result['items'][$key]['thumbnail_url'] = $rm->getResourceThumb(
-				$item['resource_id'],
-				$this->thumb_sizes['width'],
-				$this->thumb_sizes['height'],
-				$item['language_id']
-			);
-			$result['items'][$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
-			$result['items'][$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
-		}
-
-		if (isset($this->request->get['page'])) {
-
-			$resources_total = $rm->getResourcesList($filter_data, true);
-			if ($resources_total > 12) {
-				$result['pagination'] = (string)HtmlElementFactory::create(array(
-					'type' => 'Pagination',
-					'name' => 'pagination',
-					'text' => $this->language->get('text_pagination'),
-					'text_limit' => $this->language->get('text_per_page'),
-					'total' => $resources_total,
-					'page' => $page,
-					'limit' => 12,
-					'url' => $this->html->getSecureURL('common/resource_library/resources', $uri . '&page={page}'),
-					'style' => 'pagination'));
-			}
-		}
-
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($result));
-	}
-
-
-	/* TO BE DELLETED ??? */
-	public function get_resource_details() {
-		$rm = new AResourceManager();
-		$language_id = (int)$this->request->get['language_id'];
-		if (!$language_id) {
-			$language_id = $this->config->get('storefront_language_id');
-		}
-
-		$result = $rm->getResource($this->request->get['resource_id'], $language_id);
-
-		$rm->setType($result['type_name']);
-		$result['thumbnail_url'] = $rm->getResourceThumb(
-			$result['resource_id'],
-			$this->thumb_sizes['width'],
-			$this->thumb_sizes['height']
-		);
-		$result['url'] = $rm->buildResourceURL($result['resource_path'], 'full');
-		$result['relative_url'] = $rm->buildResourceURL($result['resource_path'], 'relative');
-		
-		if (!empty($this->request->get['resource_objects'])) {
-			$result['resource_objects'] = $rm->getResourceObjects($result['resource_id'], $this->request->get['language_id']);
-			if (!$result['resource_objects']) {
-				unset($result['resource_objects']);
-			}
-		}
-
-		$result['language_id'] = $language_id;
-
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($result));
 	}
 
 	public function get_resource_preview() {
@@ -902,4 +878,41 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$description = $this->model_catalog_download->getDownload($object_id);
 		return $description['name'] ? $description['name'] : $this->language->get('text_new_download');
 	}
+	
+
+
+	/* TO BE DELLETED ??? */
+	public function get_resource_details_xxx() {
+		$rm = new AResourceManager();
+		$language_id = (int)$this->request->get['language_id'];
+		if (!$language_id) {
+			$language_id = $this->config->get('storefront_language_id');
+		}
+
+		$result = $rm->getResource($this->request->get['resource_id'], $language_id);
+
+		$rm->setType($result['type_name']);
+		$result['thumbnail_url'] = $rm->getResourceThumb(
+			$result['resource_id'],
+			$this->thumb_sizes['width'],
+			$this->thumb_sizes['height']
+		);
+		$result['url'] = $rm->buildResourceURL($result['resource_path'], 'full');
+		$result['relative_url'] = $rm->buildResourceURL($result['resource_path'], 'relative');
+		
+		if (!empty($this->request->get['resource_objects'])) {
+			$result['resource_objects'] = $rm->getResourceObjects($result['resource_id'], $this->request->get['language_id']);
+			if (!$result['resource_objects']) {
+				unset($result['resource_objects']);
+			}
+		}
+
+		$result['language_id'] = $language_id;
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($result));
+	}
+
+	
 }
