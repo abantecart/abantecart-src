@@ -68,17 +68,16 @@
 		    	<img src="<?php echo $resource['thumbnail_url']; ?>" title="<?php echo $resource['title']; ?>"/>
 		    </a>
 		    </div>
-        	<?php } ?>		 
-        	  
 			<div class="form-group">
 			    <div class="col-sm-12">
 			    	<button class="btn btn-primary btn-block">Replace File</button>
-			    </div>
-			    
-			</div>		
+			    </div>			    
+			</div>			    
+        	<?php } ?>		 
+        	  				
 			<div class="form-group">
 			    <label class="col-sm-6 control-label"><?php echo $text_mapped_to; ?></label>
-			    <div class="col-sm-2">
+			    <div class="col-sm-3">
 			    	<div class="btn-group maped_resources">
 			    <?php 
 			    if (is_array($resource['resource_objects'])) {
@@ -118,25 +117,23 @@
 			    	</button>
 			    	</div>
 			    </div>
-			</div>
-			    		
-			<div class="form-group">
-			    <label class="col-sm-6 control-label"><?php echo $text_map; ?></label>
+			    
 			    <?php if ( $resource['mapped_to_current'] ) { ?>
-			    <div class="col-sm-1">						
+			    <div class="col-sm-3">						
 		        	<a class="btn btn-default btn-xs rl_unlink tooltips" data-original-title="<?php echo $txt_unlink_resource; ?>">
 		        	    <i class="fa fa-unlink fa-lg"></i>
 			    	</a>
 			    </div>
 			    <?php } else if(has_value($object_id)) {  ?>	
-			    <div class="col-sm-1">						
+			    <div class="col-sm-3">						
 		        	<a class="btn btn-default btn-xs rl_link tooltips" data-original-title="<?php echo $txt_link_resource; ?>">
 		        	    <i class="fa fa-link fa-lg"></i>	
 			    	</a>
 			    </div>	
 			    <?php } ?>	
-			</div>		
-					
+			    
+			</div>
+			    							
         </div><!-- col-sm-6 -->
 
         <div class="col-sm-6 col-xs-12">

@@ -143,6 +143,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 								'name'=> 'resource_code',
 								'value'=> $resource['resource_code'],
 								'placeholder' => $this->language->get('text_resource_code'),
+								'attr' =>' rows="10" cols="50" style="resize: none;"',
 								'required'=>true)
 		);
 		$this->data['field_name'] = $form->getFieldHtml(
@@ -174,6 +175,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 					'name'=>'description',
 					'placeholder' => $this->language->get('text_description'),
 					'value'=> $resource['description'],
+					'attr' =>' rows="3" cols="50" style="resize: none;"',
 				)
 		);
 
