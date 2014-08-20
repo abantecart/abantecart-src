@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesLocalisationCurrency extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $fields = array('title', 'code', 'symbol_left', 'symbol_right', 'decimal_place', 'value', 'status');
  
 	public function main() {

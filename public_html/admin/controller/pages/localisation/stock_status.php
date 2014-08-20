@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesLocalisationStockStatus extends AController {
 	public $data = array();
-	private $error = array(); 
+	public $error = array();
    
   	public function main() {
 
