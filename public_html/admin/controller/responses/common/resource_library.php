@@ -33,10 +33,10 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	public function main() {
 	
 		//route to correct function
-		$this->data['resource_id'] = $this->request->get['resource_id'];
+		$this->data['resource_id'] = (int)$this->request->get['resource_id'];
 		$language_id = (int)$this->request->get['language_id'];
 		if (!$language_id) {
-			$language_id = $this->config->get('storefront_language_id');
+			$language_id = $this->language->getContentLanguageID();
 		}
 		$this->data['language_id'] = $language_id;
 
@@ -48,10 +48,10 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		if ($this->data['action'] == 'list_object' || $this->data['action'] == 'list_library' ) {
 			return $this->list_library();
 		}
-		if ($this->data['action'] == 'add' || !has_value($this->data['resource_id'])) {
+		if ($this->data['action'] == 'add' || !$this->data['resource_id']) {
 			return $this->add();
 		}
-		if ($this->data['action'] == 'save' && has_value($this->data['resource_id'])) {
+		if ($this->data['action'] == 'save' && $this->data['resource_id']) {
 			return $this->update_resource_details();
 		}
 		//edit is default action. proceed
@@ -174,8 +174,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			array(  'type'=>'textarea',
 					'name'=>'description',
 					'placeholder' => $this->language->get('text_description'),
-					'value'=> $resource['description'],
-					'attr' =>' rows="3" cols="50" style="resize: none;"',
+					'value'=> $resource['description']
 				)
 		);
 
@@ -693,7 +692,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	public function get_resource_preview() {
 
 		$rm = new AResourceManager();
-		$result = $rm->getResource($this->request->get['resource_id'], $this->config->get('storefront_language_id'));
+		$result = $rm->getResource($this->request->get['resource_id'], $this->language->getContentLanguageID());
 		if (!empty($result)) {
 			$rm->setType($result['type_name']);
 			if (!empty($result['resource_code'])) {
@@ -708,7 +707,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				if (file_exists($file_path) && ($fd = fopen($file_path, "r"))) {
 					$fsize = filesize($file_path);
 					$path_parts = pathinfo($file_path);
-					$this->response->addHeader('Content-type: ' . mime_content_type($path_parts["basename"]));
+					$this->response->addHeader('Content-type: application/octet-stream');
 					$this->response->addHeader("Content-Disposition: filename=\"" . $result['name'] . '.' . $path_parts["extension"] . "\"");
 					$this->response->addHeader("Content-length: $fsize");
 					$this->response->addHeader("Cache-control: private"); //use this to open files directly
@@ -806,6 +805,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['rl_resource_single'] = $this->html->getSecureURL('common/resource_library/get_resource_details', $params);
 		$this->data['rl_delete'] = $this->html->getSecureURL('common/resource_library/delete');
 		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', $params);
+		$this->data['rl_download'] = $this->html->getSecureURL('common/resource_library/get_resource_preview');
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/common/resource_library_scripts.tpl');
@@ -888,7 +888,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$rm = new AResourceManager();
 		$language_id = (int)$this->request->get['language_id'];
 		if (!$language_id) {
-			$language_id = $this->config->get('storefront_language_id');
+			$language_id = $this->language->getContentLanguageID();
 		}
 
 		$result = $rm->getResource($this->request->get['resource_id'], $language_id);

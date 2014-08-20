@@ -14,6 +14,7 @@ var urls = {
 	resource_single:'<?php echo $rl_resource_single; ?>',
 	unmap:'<?php echo $rl_unmap; ?>',
 	del:'<?php echo $rl_delete; ?>',
+	download: '<?php echo $rl_download; ?>',
 	resource:'<?php echo HTTP_DIR_RESOURCE; ?>'
 	},
 	default_type = '<?php echo $default_type["type_name"]; ?>';	
@@ -32,10 +33,10 @@ var mediaDialog = function (type, action, id, field, wrapper_id) {
         src += '&resource_id=' + id;
     }
 	
-	openRLModal(src);
+	reloadModal(src);
 };
 
-var openRLModal = function (URL) {
+var reloadModal = function (URL) {
 	//main ajax call to load rl content
     $.ajax({
         url:URL,
@@ -284,7 +285,7 @@ jQuery(function () {
     });
 
     $(document).on("click", '.rl_pagination a', function () {
-        openRLModal($(this).attr('href'));
+        reloadModal($(this).attr('href'));
         return false;
     });
     
@@ -337,7 +338,7 @@ var bind_rl = function ( elm ) {
 	}
 
 	//bind form action if any
-	bindAform($("input, checkbox, select", 'form'));
+	bindAform($("input, checkbox, select, textarea", 'form'));
 
     $obj.find('.thmb').hover(function(){
       var t = $(this);
@@ -364,10 +365,10 @@ var bind_rl = function ( elm ) {
     $obj.find('.thmb .ckbox').click(function(){
       var $t = $(this);
       $t.closest('.thmb').toggleClass('checked');
-      enable_menue($obj, true);
+      enable_menu($obj, true);
       //togle checkbox
       $t.find('input:checkbox').prop('checked', function(idx, oldProp) {
-      		enable_menue($obj, false);
+      		enable_menu($obj, false);
             return !oldProp;
       });      
     });
@@ -379,14 +380,14 @@ var bind_rl = function ( elm ) {
           $(this).addClass('checked');
           $(this).find('.ckbox, .rl-group').show();
         });
-        enable_menue($obj, true);
+        enable_menu($obj, true);
       } else {
         $('.thmb').each(function(){
           $(this).find('input:checkbox').prop('checked',false);
           $(this).removeClass('checked');
           $(this).find('.ckbox, .rl-group').hide();
         });
-        enable_menue($obj, false);
+        enable_menu($obj, false);
       }
     });    
 
@@ -430,7 +431,7 @@ var bind_rl = function ( elm ) {
         	src += '&resource_id=' + rid;
     	}
 		saveRL(src, datastring);
-		mediaDialog(type, 'update', rid);	
+		mediaDialog(type, 'update', rid);	// поменять на релоад
 		return false;
 	});
 
@@ -438,7 +439,7 @@ var bind_rl = function ( elm ) {
 		//reset rl details. 
 		var type = $('#editRlFrm input[name=type]').val();
 	    var rid = $('#editRlFrm input[name=resource_id]').val();
-        mediaDialog(type, 'update', rid);			
+        mediaDialog(type, 'update', rid);	// поменять на релоад
 		return false;
 	});
 
@@ -448,7 +449,22 @@ var bind_rl = function ( elm ) {
 	});
 
     $obj.find('.rl_download').click(function(){
-		
+		var rl_id = $('#resource').attr('data-id');
+		if(rl_id<1){ return false;}
+
+		var url = urls.download + '&resource_id=' + rl_id;
+
+		var hiddenIFrameID = 'hiddenDownloader',
+			iframe = document.getElementById(hiddenIFrameID);
+		if (iframe === null) {
+			iframe = document.createElement('iframe');
+			iframe.id = hiddenIFrameID;
+			iframe.style.display = 'none';
+			document.body.appendChild(iframe);
+		}
+		iframe.src = url;
+
+
 		return false;
 	});
 
@@ -466,7 +482,7 @@ var bind_rl = function ( elm ) {
 		var keyword = $(this).find('input[name=search]').val();
 		var type = $(this).find('select[name=rl_types] option:selected').text();
 		var url = $(this).prop('action')+'&keyword='+keyword+'&type='+type;
-		openRLModal(url);
+		reloadModal(url);
 		return false;
 	});
 	
@@ -479,12 +495,12 @@ var bind_rl = function ( elm ) {
     			url += '&'+this.name+'='+$(this).val();
     		}
     	});
-        openRLModal(url);
+        reloadModal(url);
 		return false;	
 	});		
 }
 
-var enable_menue = function ($obj, enable) {
+var enable_menu = function ($obj, enable) {
 
 	if(enable) {
 	  $obj.find('.itemopt').removeClass('disabled');
