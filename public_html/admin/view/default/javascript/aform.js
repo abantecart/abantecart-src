@@ -221,7 +221,7 @@
             var $wrapper = '';
             var $field = $el.closest('.afield');
 
-            if (!$el.parents('.scrollbox').length) {
+            if (!$el.parents('.scrollbox').length && !$('label[for='+$el.attr('id')+']') ) {
                 $field.wrap($.aform.wrapper);
                 $wrapper = $el.closest('.aform');
             }
