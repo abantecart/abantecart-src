@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesLocalisationLanguage extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $fields = array('name', 'code', 'locale', 'image', 'directory', 'sort_order', 'status' );
   
 	public function main() {
@@ -396,11 +396,11 @@ class ControllerPagesLocalisationLanguage extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if ((strlen(utf8_decode($this->request->post['name'])) < 2) || (strlen(utf8_decode($this->request->post['name'])) > 32)) {
+		if ( mb_strlen($this->request->post['name']) < 2 || mb_strlen($this->request->post['name']) > 32 ) {
 			$this->error['name'] = $this->language->get('error_name');
 		}
 
-		if (strlen(utf8_decode($this->request->post['code'])) < 2) {
+		if (mb_strlen($this->request->post['code']) < 2) {
 			$this->error['code'] = $this->language->get('error_code');
 		}
 
@@ -412,6 +412,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 			$this->error['directory'] = $this->language->get('error_directory');
 		}
 
+		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
 			return TRUE;
