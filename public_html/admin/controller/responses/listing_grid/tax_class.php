@@ -22,7 +22,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 
 class ControllerResponsesListingGridTaxClass extends AController {
-	private $error = array();
 
 	public function main() {
 
@@ -294,7 +293,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
 
 		foreach ($tax_rates as $i=> $tax_rate) {
 
-			$response->rows[$i]['id'] = $tax_rate['tax_class_id'];
+			$response->rows[$i]['id'] = $tax_rate['tax_rate_id'];
 			$response->rows[$i]['cell'] = array(
 					$locations[ $tax_rate['location_id'] ],
 					$zones[  $tax_rate['zone_id'] ],
