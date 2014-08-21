@@ -28,7 +28,10 @@ if (!ini_get('safe_mode')) {
 class ControllerResponsesCommonResourceLibrary extends AController {
 	public $data = array();
 	// TODO: need to find solution for this hardcoded preview sizes
-	public $thumb_sizes = array('width' => 100, 'height' => 100);
+	public $thumb_sizes = array(
+								'width' => 100,
+								'height' => 100
+								);
 
 	public function main() {
 	
@@ -126,6 +129,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$resource['relative_url'] = $rm->buildResourceURL($resource['resource_path'], 'relative');
 		
 		$resource['resource_objects'] = $rm->getResourceObjects($resource['resource_id'], $language_id);
+
 		//mark if this resource mapped to selected object
 		$resource['mapped_to_current'] = $rm->isMapped($resource['resource_id'], $this->data['object_name'], $this->data['object_id']);
 		
@@ -243,7 +247,10 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	
 	public function list_library() {
 
-		$language = $this->request->get['language_id'];
+		$language_id = $this->request->get['language_id'];
+		if(!$language_id){
+			$language_id = $this->language->getContentLanguageID();
+		}
 
 		$this->data['sort'] = $this->request->get['sort'];
 		$this->data['order'] = $this->request->get['order'];
@@ -253,10 +260,10 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		//Build request URI and filter params
 		$uri = '&object_name='.$this->data['object_name'].'&object_id='.$this->data['object_id'];
-		$uri .= '&type='.$this->data['type'].'&language_id='.$language.'&action='.$this->data['action'];
+		$uri .= '&type='.$this->data['type'].'&language_id='.$language_id.'&action='.$this->data['action'];
 		$filter_data = array(
 			'type_id' => $rm->getTypeId(),
-			'language_id' => $language,
+			'language_id' => $language_id,
 			'limit' => 12,
 		);
 		if (!empty($this->request->get['keyword'])) {
@@ -602,16 +609,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		}
 
 		$rm = new AResourceManager();
-		if (!empty($this->request->get['resource_id'])) {
-			$this->request->post['resources'] = array($this->request->get['resource_id']);
-		}
-		foreach ($this->request->post['resources'] as $resource_id) {
-			$rm->deleteResource($resource_id);
-		}
+		$resource_id = (int)$this->request->get['resource_id'];
+		$result = $rm->deleteResource($resource_id);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode(true));
+		$this->response->setOutput(AJson::encode( $result ));
 	}
 
 	public function map() {
@@ -805,6 +808,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['rl_resource_single'] = $this->html->getSecureURL('common/resource_library/get_resource_details', $params);
 		$this->data['rl_delete'] = $this->html->getSecureURL('common/resource_library/delete');
 		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', $params);
+		$this->data['rl_map'] = $this->html->getSecureURL('common/resource_library/map', $params);
 		$this->data['rl_download'] = $this->html->getSecureURL('common/resource_library/get_resource_preview');
 
 		$this->view->batchAssign($this->data);

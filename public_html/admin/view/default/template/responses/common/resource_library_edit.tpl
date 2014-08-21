@@ -35,7 +35,13 @@
         </li>    
         <?php } ?>        
         <li>
-          <a class="itemopt rl_delete" href="#" onclick="return false;" data-confirmation="delete"><i class="fa fa-trash-o"></i></a>
+			<?php
+			//disable delete button for linked resource
+			?>
+          <a class="itemopt <?php echo $resource['resource_objects'] ? 'disabled' : ''; ?> rl_delete"
+			 href="#"
+			 onclick="return false;"
+			 data-confirmation="delete"><i class="fa fa-trash-o"></i></a>
         </li>
         <?php if( $form_language_switch ) { ?>
         <li>

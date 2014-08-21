@@ -195,9 +195,13 @@ class AResourceManager extends AResource {
         //TODO: check if resource is mapped to object before delete
 
         $resource = $this->getResource($resource_id);
-        if ( empty($resource) ) {
-            return null;
+        if ( !$resource ) {
+            return false;
         }
+
+		if( $this->isMapped($resource_id) ){
+			return false;
+		}
 
         if ( $resource['resource_path'] && is_file( DIR_RESOURCE . $resource['type_name'] . '/' . $resource['resource_path']) ) {
             unlink( DIR_RESOURCE.$resource['type_name'].'/'.$resource['resource_path'] );
@@ -449,7 +453,7 @@ class AResourceManager extends AResource {
         $resource_objects = array();
 
         if ( !$language_id ) {
-            $language_id = $this->config->get('storefront_language_id');
+            $language_id = $this->language->getContentLanguageID();
         }
 
         $objects = $this->getAllObjects();
@@ -469,18 +473,25 @@ class AResourceManager extends AResource {
 
 	/**
 	 * @param int $resource_id
-	 * @param int $language_id
+	 * @param $object_name
+	 * @param $object_id
 	 * @return array
 	 */
-	public function isMapped($resource_id, $object_name, $object_id) {
-		if (!has_value($resource_id) || !has_value($object_name) || !has_value($object_id)) {
-			return;
+	public function isMapped($resource_id, $object_name='', $object_id=0) {
+		if (!has_value($resource_id)) {
+			return null;
+		}
+
+		if( ($object_name && !(int)$object_id)  || (!$object_name && (int)$object_id) ){
+			return null;
 		}
 
 		$sql = "SELECT count(*) as total
 				FROM " . $this->db->table('resource_map'). " rm
-				WHERE rm.resource_id = '".(int)$resource_id."'
-				AND rm.object_name = '".$this->db->escape($object_name)."' AND object_id = ".(int)$object_id;
+				WHERE rm.resource_id = '".(int)$resource_id."'";
+		if($object_name){
+			$sql .=	" AND rm.object_name = '".$this->db->escape($object_name)."' AND object_id = ".(int)$object_id;
+		}
 		
 		$query = $this->db->query($sql);
 		if ($query->row['total'] > 0) {
@@ -498,14 +509,14 @@ class AResourceManager extends AResource {
 	protected function getResourceProducts($resource_id, $language_id = 0) {
 
         if ( !$language_id ) {
-            $language_id = $this->config->get('storefront_language_id');
+            $language_id = $this->language->getContentLanguageID();
         }
 
         $cache_name = 'resources.products.'. $resource_id;
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
         $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
         if ( is_null($resource_objects) ) {
-            $sql = "SELECT rm.object_id, pd.name
+            $sql = "SELECT rm.object_id, 'products' as object_name, pd.name
                     FROM " . DB_PREFIX . "resource_map rm
                     LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON ( rm.object_id = pd.product_id AND pd.language_id = '".(int)$language_id."')
                     WHERE rm.resource_id = '".(int)$resource_id."'
@@ -519,6 +530,7 @@ class AResourceManager extends AResource {
         foreach ( $resource_objects as $row ) {
             $result[] = array(
                 'object_id' => $row['object_id'],
+                'object_name' => $row['object_name'],
                 'name' => $row['name'],
                 'url' => $this->html->getSecureURL('catalog/product/update', '&product_id='.$row['object_id'] )
             );
@@ -535,14 +547,14 @@ class AResourceManager extends AResource {
 	protected function getResourceProduct_Option_Value($resource_id, $language_id = 0) {
 
         if ( !$language_id ) {
-            $language_id = $this->config->get('storefront_language_id');
+            $language_id = $this->language->getContentLanguageID();
         }
 
         $cache_name = 'resources.product_option_value.'. $resource_id;
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
         $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
         if ( is_null($resource_objects) ) {
-            $sql = "SELECT rm.object_id, pd.name, pov.product_id
+            $sql = "SELECT rm.object_id, 'product_option_value' as object_name, pd.name, pov.product_id
                     FROM " . DB_PREFIX . "resource_map rm
                     LEFT JOIN " . DB_PREFIX . "product_option_value_descriptions pd ON ( rm.object_id = pd.product_option_value_id )
                     LEFT JOIN " . DB_PREFIX . "product_option_values pov ON ( pd.product_option_value_id = pov.product_option_value_id AND pd.language_id = '".(int)$language_id."')
@@ -557,7 +569,8 @@ class AResourceManager extends AResource {
         foreach ( $resource_objects as $row ) {
             $result[] = array(
                 'object_id' => $row['object_id'],
-                'object_name' => $this->language->get('text_product_option_value'),
+                'object_name' => $row['object_name'],
+                'object_title' => $this->language->get('text_product_option_value'),
                 'name' => $row['name'],
                 'url' => $this->html->getSecureURL('catalog/product_options', '&product_id='.$row['product_id'] )
             );
@@ -574,14 +587,14 @@ class AResourceManager extends AResource {
 	protected function getResourceCategories($resource_id, $language_id = 0) {
 
         if ( !$language_id ) {
-            $language_id = $this->config->get('storefront_language_id');
+            $language_id = $this->language->getContentLanguageID();
         }
 
         $cache_name = 'resources.categories.'. $resource_id;
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
         $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
         if ( is_null($resource_objects) ) {
-            $sql = "SELECT rm.object_id, cd.name
+            $sql = "SELECT rm.object_id, 'categories' as object_name, cd.name
                 FROM " . DB_PREFIX . "resource_map rm
                 LEFT JOIN " . DB_PREFIX . "category_descriptions cd ON ( rm.object_id = cd.category_id AND cd.language_id = '".(int)$language_id."')
                 WHERE rm.resource_id = '".(int)$resource_id."'
@@ -595,6 +608,7 @@ class AResourceManager extends AResource {
         foreach ( $resource_objects as $row ) {
             $result[] = array(
                 'object_id' => $row['object_id'],
+				'object_name' => $row['object_name'],
                 'name' => $row['name'],
                 'url' => $this->html->getSecureURL('catalog/category/update', '&category_id='.$row['object_id'] )
             );
@@ -611,14 +625,14 @@ class AResourceManager extends AResource {
 	protected function getResourceManufacturers($resource_id, $language_id = 0) {
 
         if ( !$language_id ) {
-            $language_id = $this->config->get('storefront_language_id');
+            $language_id = $this->language->getContentLanguageID();
         }
 
         $cache_name = 'resources.manufacturers.'. $resource_id;
         $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
         $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
         if ( is_null($resource_objects) ) {
-            $sql = "SELECT rm.object_id, m.name
+            $sql = "SELECT rm.object_id, 'manufacturers' as object_name, m.name
 					FROM " . DB_PREFIX . "resource_map rm
 					LEFT JOIN " . DB_PREFIX . "manufacturers m ON ( rm.object_id = m.manufacturer_id )
 					WHERE rm.resource_id = '".(int)$resource_id."'
@@ -632,6 +646,7 @@ class AResourceManager extends AResource {
         foreach ( $resource_objects as $row ) {
             $result[] = array(
                 'object_id' => $row['object_id'],
+				'object_name' => $row['object_name'],
                 'name' => $row['name'],
                 'url' => $this->html->getSecureURL('catalog/manufacturer/update', '&manufacturer_id='.$row['object_id'] )
             );
