@@ -12,6 +12,7 @@ var urls = {
 	resource_library:'<?php echo $rl_resource_library; ?>',
 	resources:'<?php echo $rl_resources; ?>',
 	resource_single:'<?php echo $rl_resource_single; ?>',
+	map:'<?php echo $rl_map; ?>',
 	unmap:'<?php echo $rl_unmap; ?>',
 	del:'<?php echo $rl_delete; ?>',
 	download: '<?php echo $rl_download; ?>',
@@ -50,7 +51,7 @@ var reloadModal = function (URL) {
 			$(mdb).html('');
 		    $(mdb).html(html);
 			//if modal is not yet open, open and initilize close event
-			if (!$md.hasClass('in')) {
+			if ($("#rl_modal").length>0 || !$("#rl_modal").data('bs.modal').isShown) {
 			    $(mdb).css({height:'560'});
 				$md.modal('show');
 				$md.on('hidden.bs.modal', function () {
@@ -83,6 +84,7 @@ var saveRL = function (URL, postdata) {
         data: postdata,
         type:'POST',
         dataType:'html',
+		async: false,
         success:function (html) {
         	success_alert('<?php echo $text_success; ?>',true, '.modal-content');
         },
@@ -102,7 +104,7 @@ var saveRL = function (URL, postdata) {
 
 //??????
 onSelectClose = function (e, ui) {}
-var selectDialog = function (type, field) {
+/*var selectDialog = function (type, field) {
 	$('#dialog').remove();
 	
 	window.selectField = field;
@@ -129,7 +131,7 @@ var selectDialog = function (type, field) {
 	    resizable:false,
 	    modal:true
 	});
-};
+};*/
 //??????
 
 var loadMedia = function (type) {
@@ -220,7 +222,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
             $('#' + wrapper_id + '_' + item['resource_id'] + ' a.resource_edit').unbind('click');
             $('#' + wrapper_id + '_' + item['resource_id'] + ' a.resource_edit').click(function () {
                 var action = item['resource_id'] ? 'update' : 'add';
-                mediaDialog($(this).prop('data-type'), action, item['resource_id'], field, wrapper_id);
+                mediaDialog($(this).attr('data-type'), action, item['resource_id'], field, wrapper_id);
                 return false;
             });
 
@@ -232,7 +234,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
                         $(that).parent().remove();
                         //change hidden element and mark ad changed 
                         $('input[name="' + field + '"]').val('').addClass('afield changed');
-                        $('form').prop('changed', 'true');
+                        $('form').attr('changed', 'true');
                         loadSingle(type, wrapper_id, '', field);
                         $(this).dialog("close");
                     },
@@ -260,7 +262,7 @@ jQuery(function () {
     <?php } ?>
 
     $(document).on('click', 'a.resource_add', function () {
-        mediaDialog($(this).prop('data-type'), 'add');
+        mediaDialog($(this).attr('data-type'), 'add');
         return false;
     });
 
@@ -300,11 +302,16 @@ function unmap_resource ( rl_id ) {
         url:urls.unmap + '&resource_id=' + rl_id,
         type:'GET',
         dataType:'json',
+		async: false,
         success:function (json) {
             if (json) {
                 $('#image_row'+rl_id).parent().remove();
             }
-            success_alert('Unmapped successfully', true);
+			if($("#rl_modal").data('bs.modal').isShown){
+				success_alert('Unlinked successfully', true, '.modal-content');
+			}else{
+            	success_alert('Unlinked successfully', true);
+			}
         }
     });
     return false;
@@ -318,11 +325,18 @@ function delete_resource ( rl_id ) {
         url:urls.del + '&resource_id=' + rl_id,
         type:'GET',
         dataType:'json',
+		async: false,
         success:function (json) {
             if (json) {
                 $('#image_row'+rl_id).parent().remove();
             }
-            success_alert('Deleted successfully', true);
+			if($("#rl_modal").data('bs.modal').isShown){
+				var type = $('#editRlFrm input[name=type]').val();
+				mediaDialog(type, 'list_library');
+            	success_alert('Deleted successfully', true);
+			}else{
+				success_alert('Deleted successfully', true, '.modal-content');
+			}
         }
     });
     return false;
@@ -331,6 +345,7 @@ function delete_resource ( rl_id ) {
 <?php } ?>
 
 var bind_rl = function ( elm ) {
+	var $obj;
 	if (elm) {
 		$obj = $(elm);
 	} else {
@@ -367,7 +382,7 @@ var bind_rl = function ( elm ) {
       $t.closest('.thmb').toggleClass('checked');
       enable_menu($obj, true);
       //togle checkbox
-      $t.find('input:checkbox').prop('checked', function(idx, oldProp) {
+      $t.find('input:checkbox').attr('checked', function(idx, oldProp) {
       		enable_menu($obj, false);
             return !oldProp;
       });      
@@ -376,14 +391,14 @@ var bind_rl = function ( elm ) {
     $obj.find('#rl_selectall').click(function(){
       if(this.checked) {
         $('.thmb').each(function(){
-          $(this).find('input:checkbox').prop('checked',true);
+          $(this).find('input:checkbox').attr('checked',true);
           $(this).addClass('checked');
           $(this).find('.ckbox, .rl-group').show();
         });
         enable_menu($obj, true);
       } else {
         $('.thmb').each(function(){
-          $(this).find('input:checkbox').prop('checked',false);
+          $(this).find('input:checkbox').attr('checked',false);
           $(this).removeClass('checked');
           $(this).find('.ckbox, .rl-group').hide();
         });
@@ -392,7 +407,30 @@ var bind_rl = function ( elm ) {
     });    
 
     $obj.find('.rl_link').click(function(){
-		
+		var rl_id = $('#resource').attr('data-id');
+		if(rl_id<1){ return false;}
+
+		$.ajax({
+		        url:urls.map + '&resource_id=' + rl_id,
+		        type:'GET',
+		        dataType:'json',
+			    async: false,
+		        success:function (json) {
+		            if (json) {
+		                $('#image_row'+rl_id).parent().remove();
+		            }
+					if($("#rl_modal").data('bs.modal').isShown){
+						success_alert('Linked successfully', true, '.modal-content');
+					}else{
+		            	success_alert('Linked successfully', true);
+					}
+		        }
+		    });
+
+
+
+		var type = $('#editRlFrm input[name=type]').val();
+		mediaDialog(type, 'update', rl_id);
 		return false;
 	});
 
@@ -401,25 +439,29 @@ var bind_rl = function ( elm ) {
 		return false;
 	});
 
-    $obj.find('.rl_unlink_multiple').click(function(){
-		
-		return false;
-	});
 	
     $obj.find('.rl_unlink').click(function(){
-		
+		var rl_id = $('#resource').attr('data-id');
+		if(rl_id<1){ return false;}
+
+		unmap_resource(rl_id);
+		var type = $('#editRlFrm input[name=type]').val();
+		mediaDialog(type, 'update', rl_id);
 		return false;
 	});
+
+	$obj.find('.rl_unlink_multiple').click(function(){
+
+		return false;
+	});
+
 
     $obj.find('.rl_save_multiple').click(function(){
 		
 		return false;
 	});
 
-    $obj.find('.rl_delete_multiple').click(function(){
-		
-		return false;
-	});
+
 
     $obj.find('.rl_save').click(function(){
 		//save rl details. 
@@ -444,7 +486,11 @@ var bind_rl = function ( elm ) {
 	});
 
     $obj.find('.rl_delete').click(function(){
-		
+		$(this).attr('onclick', "delete_resource(\$('#resource').attr('data-id'));");
+	});
+
+	$obj.find('.rl_delete_multiple').click(function(){
+
 		return false;
 	});
 
@@ -464,7 +510,6 @@ var bind_rl = function ( elm ) {
 		}
 		iframe.src = url;
 
-
 		return false;
 	});
 
@@ -474,14 +519,14 @@ var bind_rl = function ( elm ) {
 	});
 	
 	$('#add_resource').click(function(){
-        mediaDialog($(this).prop('data-type'), 'add');		
+        mediaDialog($(this).attr('data-type'), 'add');
 		return false;
 	});
 
 	$('#rlsearchform').submit(function(){
 		var keyword = $(this).find('input[name=search]').val();
 		var type = $(this).find('select[name=rl_types] option:selected').text();
-		var url = $(this).prop('action')+'&keyword='+keyword+'&type='+type;
+		var url = $(this).attr('action')+'&keyword='+keyword+'&type='+type;
 		reloadModal(url);
 		return false;
 	});
@@ -499,6 +544,7 @@ var bind_rl = function ( elm ) {
 		return false;	
 	});		
 }
+
 
 var enable_menu = function ($obj, enable) {
 

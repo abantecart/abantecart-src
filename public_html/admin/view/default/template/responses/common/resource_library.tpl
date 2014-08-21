@@ -43,7 +43,7 @@
         <li>
           <div class="ckbox ckbox-default">
             <input type="checkbox" value="1" id="rl_selectall">
-            <label for="rl_selectall">Select All</label>
+            <label for="rl_selectall"><?php echo $text_select_all; ?></label>
           </div>
         </li>
         <li>
