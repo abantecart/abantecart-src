@@ -593,4 +593,8 @@
 		<key>button_confirm</key>
 		<value><![CDATA[Confirm]]></value>
 	</definition>
+	<definition>
+		<key>button_download</key>
+		<value><![CDATA[Download]]></value>
+	</definition>
 </definitions>

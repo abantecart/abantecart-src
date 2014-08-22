@@ -156,12 +156,12 @@ var loadMedia = function (type) {
                 }
                 html += '<div class="col-xs-3 col-sm-3 col-md-2">';
                 html += '<div class="thumbnail" id="image_row' + item['resource_id'] + '" >\
-                <a class="btn resource_edit" data-type="' + type + '" data-id="' + item['resource_id'] + '">' + src + '</a></div>';
+                <a class="btn resource_edit" data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
                 html += '<div class="caption center">' 
                 + ( item['mapped'] > 1 ? '' : 
-                '<a class="btn resource_edit tooltips" data-type="' + type + '" data-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_edit ?>"><i class="fa fa-edit"></i></a>\
-                <a class="btn resource_unmap tooltips" data-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_unmap; ?>" data-confirmation="delete" data-confirmation-text="<?php echo $text_confirm_unmap ?>" onclick="unmap_resource('+item['resource_id']+');"><i class="fa fa-unlink"></i></a>\
-                <a class="btn resource_delete tooltips" data-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_delete ?>" data-confirmation="delete" data-confirmation-text="<?php echo $text_confirm_del ?>" onclick="delete_resource('+item['resource_id']+');"><i class="fa fa-trash-o"></i></a>') + '\
+                '<a class="btn resource_edit tooltips" data-type="' + type + '" data-rl-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_edit ?>"><i class="fa fa-edit"></i></a>\
+                <a class="btn resource_unmap tooltips" data-rl-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_unmap; ?>" data-confirmation="delete" data-confirmation-text="<?php echo $text_confirm_unmap ?>" onclick="unmap_resource('+item['resource_id']+');"><i class="fa fa-unlink"></i></a>\
+                <a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_delete ?>" data-confirmation="delete" data-confirmation-text="<?php echo $text_confirm_del ?>" onclick="delete_resource('+item['resource_id']+');"><i class="fa fa-trash-o"></i></a>') + '\
                 </div>';
                 html += '</div></div>';
             });
@@ -210,11 +210,11 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
                 src = item['thumbnail_url'];
             }
             html += '<span id="' + wrapper_id + '_' + item['resource_id'] + '" class="image_block">\
-                <a class="resource_edit" data-type="' + type + '" data-id="' + item['resource_id'] + '">' + src + '</a><br />';
+                <a class="resource_edit" data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a><br />';
             if (item['resource_id']) {
                 html += ( item['mapped'] > 1
-						? '' : '<a class="btn_action resource_delete" data-id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_unlink ?></span></span></a>') + '\
-					<a class="btn_action resource_edit" data-type="' + type + '" data-id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>';
+						? '' : '<a class="btn_action resource_delete" data-rl-id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_unlink ?></span></span></a>') + '\
+					<a class="btn_action resource_edit" data-type="' + type + '" data-rl-id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>';
             }
             html += '</span>';
             $('#' + wrapper_id + '.type_blocks').html(html);
@@ -267,22 +267,22 @@ jQuery(function () {
     });
 
     $(document).on("click", 'a.resource_edit', function () {
-        mediaDialog($(this).attr('data-type'), 'update', $(this).attr('data-id'));
+        mediaDialog($(this).attr('data-type'), 'update', $(this).attr('data-rl-id'));
         return false;
     });
 
     $(document).on("click", '#resource', function () {
-        mediaDialog($(this).attr('data-type'), 'update', $(this).attr('data-id'));
+        mediaDialog($(this).attr('data-type'), 'update', $(this).attr('data-rl-id'));
         return false;
     });
 
     $(document).on("click", '#object', function () {
-        mediaDialog($(this).attr('data-type'), 'list_object', $(this).attr('data-id'));
+        mediaDialog($(this).attr('data-type'), 'list_object', $(this).attr('data-rl-id'));
         return false;
     });
 
     $(document).on("click", '#library', function () {
-        mediaDialog($(this).attr('data-type'), 'list_library', $(this).attr('data-id'));
+        mediaDialog($(this).attr('data-type'), 'list_library', $(this).attr('data-rl-id'));
         return false;
     });
 
@@ -407,7 +407,7 @@ var bind_rl = function ( elm ) {
     });    
 
     $obj.find('.rl_link').click(function(){
-		var rl_id = $('#resource').attr('data-id');
+		var rl_id = $('#resource').attr('data-rl-id');
 		if(rl_id<1){ return false;}
 
 		$.ajax({
@@ -427,8 +427,6 @@ var bind_rl = function ( elm ) {
 		        }
 		    });
 
-
-
 		var type = $('#editRlFrm input[name=type]').val();
 		mediaDialog(type, 'update', rl_id);
 		return false;
@@ -441,27 +439,52 @@ var bind_rl = function ( elm ) {
 
 	
     $obj.find('.rl_unlink').click(function(){
-		var rl_id = $('#resource').attr('data-id');
-		if(rl_id<1){ return false;}
-
+		var rl_id = $(this).attr('data-rl-id');
+		if(rl_id<1 || rl_id=='undefined'){ return false;}
 		unmap_resource(rl_id);
-		var type = $('#editRlFrm input[name=type]').val();
-		mediaDialog(type, 'update', rl_id);
+		var tab = $('#rl_container ul.nav>li.active');
+
+		if(tab.attr('id')=='resource'){
+			mediaDialog( $(this).attr('data-type'), 'update', rl_id);
+		}else{
+			tab.click();
+		}
+
 		return false;
 	});
 
 	$obj.find('.rl_unlink_multiple').click(function(){
+		var thmbs = $('div.thmb.checked');
+		if(thmbs.length==0){ return false; }
 
+		var postdata = '';
+		thmbs.each(function(){
+			postdata = postdata + 'unmap[]=' + $(this).attr('data-rl-id') + '&';
+		});
+
+		//save rl details.
+		var type = $('#library').attr( 'data-type');
+		var src = urls.resource_library+'&action=multisave'+'&type='+type;
+		//main ajax call to load rl content
+		$.ajax({
+			url:src,
+			data: postdata,
+			type:'POST',
+			dataType:'html',
+			async: false,
+			success:function (html) {
+				success_alert('<?php echo $text_success; ?>',true, '.modal-content');
+			},
+			error:function (jqXHR, textStatus, errorThrown) {
+				error_alert(
+					'<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>',
+					false,
+					'.modal-content' );
+			}
+		});
+		$('#object').click(); // reload modal with object's resources
 		return false;
 	});
-
-
-    $obj.find('.rl_save_multiple').click(function(){
-		
-		return false;
-	});
-
-
 
     $obj.find('.rl_save').click(function(){
 		//save rl details. 
@@ -477,6 +500,37 @@ var bind_rl = function ( elm ) {
 		return false;
 	});
 
+	$obj.find('.rl_save_multiple').click(function(){
+
+		var thmbs = $('div.thmb.checked');
+		if(thmbs.length==0){ return false; }
+
+		var postdata = thmbs.find( "input[name^='sort_order']" ).serialize();
+		//save rl details.
+		var type = $('#library').attr( 'data-type');
+		var src = urls.resource_library+'&action=multisave'+'&type='+type;
+		//main ajax call to load rl content
+		$.ajax({
+			url:src,
+			data: postdata,
+			type:'POST',
+			dataType:'html',
+			async: false,
+			success:function (html) {
+				success_alert('<?php echo $text_success; ?>',true, '.modal-content');
+			},
+			error:function (jqXHR, textStatus, errorThrown) {
+				error_alert(
+					'<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>',
+					false,
+					'.modal-content'
+				);
+			}
+		});
+		$('#object').click(); // reload modal with object's resources
+		return false;
+	});
+
     $obj.find('.rl_reset').click(function(){
 		//reset rl details. 
 		var type = $('#editRlFrm input[name=type]').val();
@@ -486,7 +540,7 @@ var bind_rl = function ( elm ) {
 	});
 
     $obj.find('.rl_delete').click(function(){
-		$(this).attr('onclick', "delete_resource(\$('#resource').attr('data-id'));");
+		$(this).attr('onclick', "delete_resource(\$('#resource').attr('data-rl-id'));");
 	});
 
 	$obj.find('.rl_delete_multiple').click(function(){
@@ -495,9 +549,7 @@ var bind_rl = function ( elm ) {
 	});
 
     $obj.find('.rl_download').click(function(){
-		var rl_id = $('#resource').attr('data-id');
-		if(rl_id<1){ return false;}
-
+		var rl_id = $(this).attr('data-rl-id');
 		var url = urls.download + '&resource_id=' + rl_id;
 
 		var hiddenIFrameID = 'hiddenDownloader',

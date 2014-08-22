@@ -51,11 +51,15 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		if ($this->data['action'] == 'list_object' || $this->data['action'] == 'list_library' ) {
 			return $this->list_library();
 		}
-		if ($this->data['action'] == 'add' || !$this->data['resource_id']) {
+		if ($this->data['action'] == 'add' || (!$this->data['resource_id'] && $this->data['action'] != 'multisave') ) {
 			return $this->add();
 		}
 		if ($this->data['action'] == 'save' && $this->data['resource_id']) {
 			return $this->update_resource_details();
+		}
+
+		if ($this->data['action'] == 'multisave') {
+			return $this->_multiple_update();
 		}
 		//edit is default action. proceed
 
@@ -749,6 +753,36 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		}
 
 		$result = $rm->updateResource($this->request->get['resource_id'], $this->request->post);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($result));
+	}
+
+	public function _multiple_update() {
+
+		if (!$this->user->canModify('common/resource_library')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array('error_text' => sprintf($this->language->get('error_permission_modify'), 'common/resource_library'),
+					'reset_value' => true
+				));
+		}
+
+		$object_name = $this->request->get['object_name'];
+		$object_id = $this->request->get['object_id'];
+
+		$result = false;
+
+		$rm = new AResourceManager();
+		if($this->request->post['sort_order']){
+			$result = $rm->updateSortOrder($this->request->post['sort_order'], $object_name,$object_id);
+		}
+
+		// $this->request->post['unmap'] must be an array
+		if( $this->request->post['unmap'] ){
+			$result = $rm->unmapResources( $this->request->post['unmap'], $object_name,$object_id);
+		}
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();

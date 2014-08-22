@@ -1,10 +1,10 @@
 <div id="rl_container">
 	<ul class="nav nav-tabs nav-justified nav-profile">
-	<li class="active" id="resource" data-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><strong><?php echo $resource['name']; ?></strong></a></li>
+	<li class="active" id="resource" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><strong><?php echo $resource['name']; ?></strong></a></li>
 <?php if(has_value($object_id)) { ?>	
-	<li id="object" data-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><strong><?php echo "$object_title ($object_name)"; ?></strong></a></li>
+	<li id="object" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><strong><?php echo "$object_title ($object_name)"; ?></strong></a></li>
 <?php } ?>	
-	<li id="library" data-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><span><?php echo $heading_title; ?></span></a></li>
+	<li id="library" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><span><?php echo $heading_title; ?></span></a></li>
 	</ul>
 
 <?php 
@@ -19,17 +19,20 @@
           <a id="add_resource" class="btn btn-xs btn-default add_resource tooltips" data-original-title="<?php echo $button_add; ?>"><i class="fa fa-plus"></i></a>
         </li>
         <li>
-          <a class="itemopt rl_download" href="#" onclick="return false;"><i class="fa fa-download"></i></a>
+          <a class="itemopt rl_download" data-rl-id="<?php echo $resource['resource_id']; ?>" href="#" onclick="return false;"><i class="fa fa-download"></i></a>
         </li>
         <?php if ( $resource['mapped_to_current'] ) { ?>
         <li>
-		  <a class="itemopt rl_unlink tooltips" onclick="return false;" href="#" data-original-title="<?php echo $txt_unlink_resource; ?>">
+		  <a class="itemopt rl_unlink tooltips" data-rl-id="<?php echo $resource['resource_id']; ?>" onclick="return false;" href="#" data-original-title="<?php echo $txt_unlink_resource; ?>">
 		      <i class="fa fa-unlink"></i>
 		  </a>
         </li>    
         <?php } else if(has_value($object_id)) { ?>
         <li>
-		  <a class="itemopt rl_link tooltips" onclick="return false;" href="#" data-original-title="<?php echo $txt_link_resource; ?>">
+		  <a class="itemopt rl_link tooltips"
+			 data-rl-id="<?php echo $resource['resource_id']; ?>"
+			 data-type="<?php echo $type; ?>"
+			 onclick="return false;" href="#" data-original-title="<?php echo $txt_link_resource; ?>">
 		      <i class="fa fa-link"></i>	
 		  </a>
         </li>    
@@ -41,12 +44,11 @@
           <a class="itemopt <?php echo $resource['resource_objects'] ? 'disabled' : ''; ?> rl_delete"
 			 href="#"
 			 onclick="return false;"
+			 data-rl-id="<?php echo $resource['resource_id']; ?>"
 			 data-confirmation="delete"><i class="fa fa-trash-o"></i></a>
         </li>
         <?php if( $form_language_switch ) { ?>
-        <li>
-			    <?php echo $form_language_switch; ?>
-        </li>    
+        		<li><?php echo $form_language_switch; ?></li>
         <?php } ?>
         <?php if (!empty ($help_url)) { ?>
         <li>
@@ -126,14 +128,18 @@
 			    
 			    <?php if ( $resource['mapped_to_current'] ) { ?>
 			    <div class="col-sm-3">						
-		        	<a class="btn btn-default btn-xs rl_unlink tooltips" data-original-title="<?php echo $txt_unlink_resource; ?>">
-		        	    <i class="fa fa-unlink fa-lg"></i>
+		        	<a class="btn btn-default btn-xs rl_unlink tooltips"
+					   data-original-title="<?php echo $txt_unlink_resource; ?>"
+					   data-rl-id="<?php echo $resource_id; ?>"
+					   data-type="<?php echo $type; ?>"><i class="fa fa-unlink fa-lg"></i>
 			    	</a>
 			    </div>
 			    <?php } else if(has_value($object_id)) {  ?>	
 			    <div class="col-sm-3">						
-		        	<a class="btn btn-default btn-xs rl_link tooltips" data-original-title="<?php echo $txt_link_resource; ?>">
-		        	    <i class="fa fa-link fa-lg"></i>	
+		        	<a class="btn btn-default btn-xs rl_link tooltips"
+					   data-original-title="<?php echo $txt_link_resource; ?>"
+					   data-rl-id="<?php echo $resource_id; ?>"
+					   data-type="<?php echo $type; ?>"	><i class="fa fa-link fa-lg"></i>
 			    	</a>
 			    </div>	
 			    <?php } ?>	
