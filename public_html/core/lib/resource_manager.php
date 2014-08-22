@@ -284,11 +284,47 @@ class AResourceManager extends AResource {
 	}
 
 	/**
+	 * @param array $resource_ids
+	 * @param string $object_name
+	 * @param int $object_id
+	 * @return bool|null
+	 */
+	public function unmapResources ( $resource_ids, $object_name, $object_id ) {
+
+		if(!$resource_ids || !is_array($resource_ids)){
+			return null;
+		}
+		$ids = array();
+		foreach($resource_ids as $id){
+			$resource = $this->getResource($id);
+			if ( empty($resource) ) {
+				continue;
+			}
+			$ids[] = (int)$id;
+			$this->cache->delete('resources.'. $id);
+			$this->cache->delete('resources.'. $object_name.'.'.$id);
+			$this->cache->delete('resources.'. $resource['type_name']);
+		}
+
+		$sql = "DELETE FROM " . DB_PREFIX . "resource_map
+				WHERE resource_id IN (".implode(", ",$ids).")
+					AND object_name = '".$this->db->escape($object_name)."'
+					AND object_id = '".(int)$object_id."'";
+        $this->db->query($sql);
+		return true;
+	}
+
+	/**
 	 * @param array $data
 	 * @param string $object_name
 	 * @param int $object_id
+	 * @return bool
 	 */
 	public function updateSortOrder ( $data, $object_name, $object_id ) {
+		if(!$data || !is_array($data) ){
+			return false;
+		}
+
         foreach ( $data as $resource_id => $sort_order ) {
             $resource = $this->getResource($resource_id);
             if ( empty($resource) ) {
@@ -305,6 +341,7 @@ class AResourceManager extends AResource {
 			$this->cache->delete('resources.'. $object_name.'.'.$resource_id);
             $this->cache->delete('resources.'. $resource['type_name']);
         }
+		return true;
     }
 
 	/**
