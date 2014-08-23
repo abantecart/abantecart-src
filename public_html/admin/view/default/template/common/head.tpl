@@ -71,7 +71,7 @@ var wrapConfirmDelete = function(){
     	} 
         
         $(this).wrap(wrapper);
-        popover = '<div class="dropdown-menu dropdown-menu-right alert alert-danger" role="menu">'+
+        popover = '<div class="confirm_popover dropdown-menu dropdown-menu-right alert alert-danger" role="menu">'+
                     '<h5 class="center">'+ conf_text +'</h5>'+
                     '<div class="center">'+
                     '<a class="btn btn-danger" '+action+' ><i class="fa fa-trash-o"></i>&nbsp;<?php echo $text_yes;?></a>&nbsp;&nbsp;'+

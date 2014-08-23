@@ -1,7 +1,7 @@
 <div id="rl_container">
 	<ul class="nav nav-tabs nav-justified nav-profile">
 	<li class="active" id="resource" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><strong><?php echo $resource['name']; ?></strong></a></li>
-<?php if(has_value($object_id)) { ?>	
+<?php if(has_value($object_id)) { ?>
 	<li id="object" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><strong><?php echo "$object_title ($object_name)"; ?></strong></a></li>
 <?php } ?>	
 	<li id="library" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><span><?php echo $heading_title; ?></span></a></li>
@@ -43,7 +43,7 @@
 			?>
           <a class="itemopt <?php echo $resource['resource_objects'] ? 'disabled' : ''; ?> rl_delete"
 			 href="#"
-			 onclick="return false;"
+			 onclick="delete_resource(<?php echo $resource['resource_id']; ?>); return false;"
 			 data-rl-id="<?php echo $resource['resource_id']; ?>"
 			 data-confirmation="delete"><i class="fa fa-trash-o"></i></a>
         </li>

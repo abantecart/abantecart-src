@@ -30,6 +30,7 @@ if (!defined('DIR_CORE')) {
  */
 class AResourceManager extends AResource {
 	protected $registry;
+	public $error = array();
 	
 	public function __construct() {
 		if (!IS_ADMIN) { // forbid for non admin calls
@@ -191,14 +192,10 @@ class AResourceManager extends AResource {
      * @return bool
      */
     public function deleteResource($resource_id) {
-
-        //TODO: check if resource is mapped to object before delete
-
         $resource = $this->getResource($resource_id);
         if ( !$resource ) {
             return false;
         }
-
 		if( $this->isMapped($resource_id) ){
 			return false;
 		}
@@ -215,6 +212,49 @@ class AResourceManager extends AResource {
         $this->cache->delete('resources.'. $resource['type_name']);
 
         return true;
+    }
+
+	/**
+	 * @param array $resource_ids
+	 * @return bool|null
+	 */
+	public function deleteResources($resource_ids) {
+		if(!$resource_ids || !is_array($resource_ids)){
+			return null;
+		}
+		$result = true;
+		$ids = array();
+		foreach( $resource_ids as $resource_id ){
+			$resource_id = (int)$resource_id;
+			$resource = $this->getResource($resource_id);
+			if ( !$resource ) {
+				continue;
+			}
+			if( $this->isMapped($resource_id) ){
+				$this->error[] = $resource['name'][ $this->language->getContentLanguageID() ] .' cannot be deleted. Unlink it first.';
+				$result = false;
+				continue;
+			}
+
+			$ids[] = $resource_id;
+			$this->cache->delete('resources.'. $resource_id);
+
+			if ( $resource['resource_path'] && is_file( DIR_RESOURCE . $resource['type_name'] . '/' . $resource['resource_path']) ) {
+				unlink( DIR_RESOURCE.$resource['type_name'].'/'.$resource['resource_path'] );
+			}
+		}
+
+		if(!$ids){
+			return $result;
+		}
+
+		$ids = implode(', ',$ids);
+		$this->db->query("DELETE FROM " . DB_PREFIX . "resource_map WHERE resource_id IN (".$ids.")");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "resource_descriptions WHERE resource_id IN (".$ids.")");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "resource_library WHERE resource_id IN (".$ids.")");
+
+        $this->cache->delete('resources.'. $resource['type_name']);
+        return $result;
     }
 
 	/**
@@ -260,6 +300,59 @@ class AResourceManager extends AResource {
 	}
 
 	/**
+	 * @param array $resource_ids
+	 * @param string $object_name
+	 * @param int $object_id
+	 * @return bool|null
+	 */
+	public function mapResources (  $resource_ids, $object_name, $object_id ) {
+		if(!$object_name && !(int)$object_id){ return null; }
+		if(!$resource_ids || !is_array($resource_ids)){
+			return null;
+		}
+		$ids = array();
+		foreach($resource_ids as $id){
+			$resource = $this->getResource($id);
+			if ( empty($resource) ) {
+				continue;
+			}
+			//skip already mapped
+			$sql = "SELECT resource_id
+			 		FROM " . DB_PREFIX . "resource_map
+					WHERE resource_id = '".(int)$id."'
+						  AND object_name = '".$this->db->escape($object_name)."'
+						  AND object_id = '".(int)$object_id."'";
+			$result = $this->db->query($sql);
+
+			if ( $result->num_rows ) { continue; }
+
+			$ids[] = (int)$id;
+			$this->cache->delete('resources.'. $id);
+			$this->cache->delete('resources.'. $object_name.'.'.$id);
+			$this->cache->delete('resources.'. $resource['type_name']);
+		}
+
+		foreach( $ids as $resource_id ){
+			//need to get sort order
+			$sql = "SELECT MAX(sort_order) as sort_order
+					FROM " . DB_PREFIX . "resource_map
+					WHERE object_name = '".$this->db->escape($object_name)."'
+						  AND object_id = '".(int)$object_id."'";
+			$result = $this->db->query($sql);
+			$new_sort_order = $result->row['sort_order']+1;
+
+			$sql = "INSERT INTO " . DB_PREFIX . "resource_map
+						SET resource_id = '".(int)$resource_id."',
+							object_name = '".$this->db->escape($object_name)."',
+							object_id = '".(int)$object_id."',
+							sort_order = '".(int)$new_sort_order."',
+							created = NOW()";
+			$this->db->query($sql);
+		}
+		return true;
+	}
+
+	/**
 	 * @param string $object_name
 	 * @param int $object_id
 	 * @param int $resource_id
@@ -290,7 +383,7 @@ class AResourceManager extends AResource {
 	 * @return bool|null
 	 */
 	public function unmapResources ( $resource_ids, $object_name, $object_id ) {
-
+		if(!$object_name && !(int)$object_id){ return null; }
 		if(!$resource_ids || !is_array($resource_ids)){
 			return null;
 		}
@@ -368,7 +461,6 @@ class AResourceManager extends AResource {
         }
 
         return $resource;
-
     }
 
 	/**

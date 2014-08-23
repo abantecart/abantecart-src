@@ -299,7 +299,7 @@ function unmap_resource ( rl_id ) {
 		return false;
 	}
     $.ajax({
-        url:urls.unmap + '&resource_id=' + rl_id,
+        url:urls.unmap + '&resource_id=' + rl_id + '&type=' + $('#library').attr( 'data-type'),
         type:'GET',
         dataType:'json',
 		async: false,
@@ -340,7 +340,7 @@ function delete_resource ( rl_id ) {
         }
     });
     return false;
-} 
+}
 
 <?php } ?>
 
@@ -407,11 +407,21 @@ var bind_rl = function ( elm ) {
     });    
 
     $obj.find('.rl_link').click(function(){
-		var rl_id = $('#resource').attr('data-rl-id');
-		if(rl_id<1){ return false;}
+		var tab = active_tab();
+		var tab_id = tab.attr('id');
+		var rl_id;
+		if( tab_id == 'resource' ){
+			rl_id = tab.attr('data-rl-id');
+		}else{
+			rl_id = $(this).attr('data-rl-id');
+		}
+
+		if(rl_id<1 || rl_id=='undefined'){ return false;}
+
+		var type = $('#library').attr( 'data-type');
 
 		$.ajax({
-		        url:urls.map + '&resource_id=' + rl_id,
+		        url:urls.map + '&resource_id=' + rl_id + '&type=' + type,
 		        type:'GET',
 		        dataType:'json',
 			    async: false,
@@ -427,22 +437,24 @@ var bind_rl = function ( elm ) {
 		        }
 		    });
 
-		var type = $('#editRlFrm input[name=type]').val();
-		mediaDialog(type, 'update', rl_id);
+		if(tab_id =='resource'){
+			mediaDialog(type, 'update', rl_id);
+		}else{
+			tab.click();
+		}
 		return false;
 	});
 
     $obj.find('.rl_link_multiple').click(function(){
-		
+		multi_action('map');
 		return false;
 	});
 
-	
     $obj.find('.rl_unlink').click(function(){
 		var rl_id = $(this).attr('data-rl-id');
 		if(rl_id<1 || rl_id=='undefined'){ return false;}
 		unmap_resource(rl_id);
-		var tab = $('#rl_container ul.nav>li.active');
+		var tab = active_tab();
 
 		if(tab.attr('id')=='resource'){
 			mediaDialog( $(this).attr('data-type'), 'update', rl_id);
@@ -454,35 +466,7 @@ var bind_rl = function ( elm ) {
 	});
 
 	$obj.find('.rl_unlink_multiple').click(function(){
-		var thmbs = $('div.thmb.checked');
-		if(thmbs.length==0){ return false; }
-
-		var postdata = '';
-		thmbs.each(function(){
-			postdata = postdata + 'unmap[]=' + $(this).attr('data-rl-id') + '&';
-		});
-
-		//save rl details.
-		var type = $('#library').attr( 'data-type');
-		var src = urls.resource_library+'&action=multisave'+'&type='+type;
-		//main ajax call to load rl content
-		$.ajax({
-			url:src,
-			data: postdata,
-			type:'POST',
-			dataType:'html',
-			async: false,
-			success:function (html) {
-				success_alert('<?php echo $text_success; ?>',true, '.modal-content');
-			},
-			error:function (jqXHR, textStatus, errorThrown) {
-				error_alert(
-					'<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>',
-					false,
-					'.modal-content' );
-			}
-		});
-		$('#object').click(); // reload modal with object's resources
+		multi_action('unmap');
 		return false;
 	});
 
@@ -539,14 +523,10 @@ var bind_rl = function ( elm ) {
 		return false;
 	});
 
-    $obj.find('.rl_delete').click(function(){
-		$(this).attr('onclick', "delete_resource(\$('#resource').attr('data-rl-id'));");
-	});
-
-	$obj.find('.rl_delete_multiple').click(function(){
-
-		return false;
-	});
+   	<?php
+   	//NOTE! all events for deleting of resource see inside resource_library.tpl and resource_library_edit.tpl in attribute "onclick"
+   	// It maden so because user must to confirm action by another js-click-event
+   	?>
 
     $obj.find('.rl_download').click(function(){
 		var rl_id = $(this).attr('data-rl-id');
@@ -566,7 +546,7 @@ var bind_rl = function ( elm ) {
 	});
 
     $obj.find('.rl_edit').click(function(){
-		
+		mediaDialog(type, 'update', $(this).attr('data-rl-id'));	// поменять на релоад
 		return false;
 	});
 	
@@ -615,4 +595,54 @@ var enable_menu = function ($obj, enable) {
 	}
 }   
 
+var active_tab = function(){
+	return $('#rl_container ul.nav>li.active');
+}
+
+var multi_action = function(action){
+	var thmbs = $('div.thmb.checked');
+	if(thmbs.length==0){ return false; }
+	if(action != 'map' && action != 'unmap' && action != 'delete'){ return false; }
+
+	var postdata = '';
+	thmbs.each(function(){
+		postdata = postdata + action+'[]=' + $(this).attr('data-rl-id') + '&';
+	});
+
+	//save rl details.
+	var type = $('#library').attr( 'data-type');
+	var src = urls.resource_library+'&action=multisave'+'&type='+type;
+	//main ajax call to load rl content
+	$.ajax({
+		url:src,
+		data: postdata,
+		type:'POST',
+		dataType:'html',
+		async: false,
+		success:function (html) {
+			success_alert('<?php echo $text_success; ?>',true, '.modal-content');
+		},
+		error:function (jqXHR, textStatus, errorThrown) {
+			try{
+				var err = $.parseJSON(jqXHR.responseText);
+				if (err.hasOwnProperty("error_text")) {
+					var errors = err.error_text;
+					var errlist = typeof errors === 'string' ? [errors] : errors;
+
+					if(errlist.length>0){
+						for(var k in errlist){
+							error_alert( errlist[k], false, '.modal-content' );
+						}
+					}
+				}
+			}catch(e){
+				error_alert(jqXHR.responseText,	false, '.modal-content' );
+			}
+
+
+		}
+	});
+
+	active_tab().click(); // reload modal with object's resources
+}
 </script>
