@@ -245,7 +245,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		$this->view->batchAssign($this->data);
 
-		$this->processTemplate('responses/common/resource_library_edit.tpl');
+		$this->processTemplate('responses/common/resource_library_add.tpl');
 	}
 
 	
@@ -779,9 +779,25 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$result = $rm->updateSortOrder($this->request->post['sort_order'], $object_name,$object_id);
 		}
 
-		// $this->request->post['unmap'] must be an array
+		// $this->request->post['map'] must be an array of resource ids
+		if( $this->request->post['map'] ){
+			$result = $rm->mapResources( $this->request->post['map'], $object_name,$object_id);
+		}
+
+		// $this->request->post['unmap'] must be an array of resource ids
 		if( $this->request->post['unmap'] ){
 			$result = $rm->unmapResources( $this->request->post['unmap'], $object_name,$object_id);
+		}
+		// $this->request->post['delete'] must be an array of resource ids
+		if( $this->request->post['delete'] ){
+			$result = $rm->deleteResources( $this->request->post['delete']);
+			if($result===false){
+				$error = new AError('');
+				return $error->toJSONResponse('VALIDATION_ERROR_406',
+					array('error_text' => $rm->error, //returns text array to show all resources which cannot be deleted
+						  'reset_value' => true
+					));
+			}
 		}
 
 		$this->load->library('json');

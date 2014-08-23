@@ -1,418 +1,208 @@
-<?php echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n"; ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en" xml:lang="en">
-<head>
-<title><?php echo $title; ?></title>
-<base href="<?php echo $base; ?>"/>
-
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-
-    <script type="text/javascript">
-        if (typeof jQuery == 'undefined') {
-            var include = '&lt;script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-1.11.0.min.js"&rt;&lt;\/script&rt;';
-            document.write(include);
-        }
-    </script>
-	<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.tmpl.js"></script>
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
-	
-
-<!--
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.iframe-transport.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></script>
--->
-<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" id="theme">
-<link rel="stylesheet" type="text/css"href="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.css"/>
-<link rel="stylesheet" type="text/css"href="<?php echo $template_dir; ?>stylesheet/stylesheet.css"/>
-<link rel="stylesheet" type="text/css"href="<?php echo $template_dir; ?>stylesheet/resource_add.css"/>
-</head>
-<body>
-
-
-<div id="tabs">
-	<ul>
-		<li><a href="#fileupload"><?php echo $text_add_file; ?></a></li>
-		<li><a href="#code"><?php echo $text_add_code; ?></a></li>
+<div id="rl_container">
+	<ul class="nav nav-tabs nav-justified nav-profile">
+	<li class="active" id="resource" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><strong><?php echo $resource['name']; ?></strong></a></li>
+<?php if(has_value($object_id)) { ?>
+	<li id="object" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><strong><?php echo "$object_title ($object_name)"; ?></strong></a></li>
+<?php } ?>
+	<li id="library" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><span><?php echo $heading_title; ?></span></a></li>
 	</ul>
 
-    <div id="fileupload">
-        <?php if ($attention) { ?>
-        <div class="attention"><?php echo $attention; ?></div>
+<?php
+	$txt_link_resource = "Link to " . $object_title;
+	$txt_unlink_resource = "Unlink from " . $object_title;
+?>
+
+ <div class="tab-content rl-content">
+
+	<ul class="reslibrary-options">
+        <li>
+          <a id="add_resource" class="btn btn-xs btn-default add_resource tooltips" data-original-title="<?php echo $button_add; ?>"><i class="fa fa-plus"></i></a>
+        </li>
+        <li>
+          <a class="itemopt rl_download" data-rl-id="<?php echo $resource['resource_id']; ?>" href="#" onclick="return false;"><i class="fa fa-download"></i></a>
+        </li>
+        <?php if ( $resource['mapped_to_current'] ) { ?>
+        <li>
+		  <a class="itemopt rl_unlink tooltips" data-rl-id="<?php echo $resource['resource_id']; ?>" onclick="return false;" href="#" data-original-title="<?php echo $txt_unlink_resource; ?>">
+		      <i class="fa fa-unlink"></i>
+		  </a>
+        </li>
+        <?php } else if(has_value($object_id)) { ?>
+        <li>
+		  <a class="itemopt rl_link tooltips"
+			 data-rl-id="<?php echo $resource['resource_id']; ?>"
+			 data-type="<?php echo $type; ?>"
+			 onclick="return false;" href="#" data-original-title="<?php echo $txt_link_resource; ?>">
+		      <i class="fa fa-link"></i>
+		  </a>
+        </li>
         <?php } ?>
-	    <div class="fileupload-content">
-            <table class="files" width="100%" cellpadding="0" cellspacing="0"></table>
-            <div class="fileupload-progressbar"></div>
-        </div>
-        <form action="<?php echo $rl_upload; ?>" method="POST" enctype="multipart/form-data">
-            <div class="fileupload-buttonbar">
-                <label class="fileinput-button">
-                    <span><?php echo $text_upload_files; ?></span>
-                    <input type="file" name="files[]" multiple>
-                </label>
-	            <?php echo $text_drag; ?>
-            </div>
+        <li>
+			<?php
+			//disable delete button for linked resource
+			?>
+          <a class="itemopt <?php echo $resource['resource_objects'] ? 'disabled' : ''; ?> rl_delete"
+			 href="#"
+			 onclick="delete_resource(<?php echo $resource['resource_id']; ?>); return false;"
+			 data-rl-id="<?php echo $resource['resource_id']; ?>"
+			 data-confirmation="delete"><i class="fa fa-trash-o"></i></a>
+        </li>
+        <?php if( $form_language_switch ) { ?>
+        		<li><?php echo $form_language_switch; ?></li>
+        <?php } ?>
+        <?php if (!empty ($help_url)) { ?>
+        <li>
+			<a class="btn btn-white btn-xs tooltips" href="<?php echo $help_url; ?>" target="new" title="" data-original-title="Help">
+			<i class="fa fa-question-circle"></i>
+			</a>
+        </li>
+        <?php } ?>
+
+	</ul>
+
+	<?php echo $edit_form_open;?>
+	<div class="row">
+        <div class="col-sm-6 col-xs-12 form-horizontal form-bordered">
+			<?php if (!empty ($resource['resource_code'])) { ?>
+			<div class="form-group <?php echo (!empty($error['resource_code']) ? "has-error" : ""); ?>">
+			    <label class="control-label" for="<?php echo $field->element_id; ?>"><?php echo $text_resource_code; ?></label>
+			    <div class="input-group afield col-sm-12">
+			    	<?php echo $field_resource_code;?>
+			    </div>
+		    </div>
+        	<?php } else { ?>
+		    <div class="resource_image center">
+		    <a target="_preview" href="<?php echo $rl_get_preview; ?>&resource_id=<?php echo $resource['resource_id']; ?>&language_id=<?php echo $resource['language_id']; ?>" title="<?php echo $text_preview; ?>">
+		    	<img src="<?php echo $resource['thumbnail_url']; ?>" title="<?php echo $resource['title']; ?>"/>
+		    </a>
+		    </div>
+			<div class="form-group">
+			    <div class="col-sm-12">
+			    	<button class="btn btn-primary btn-block">Replace File</button>
+			    </div>
+			</div>
+        	<?php } ?>
+
+			<div class="form-group">
+			    <label class="col-sm-6 control-label"><?php echo $text_mapped_to; ?></label>
+			    <div class="col-sm-3">
+			    	<div class="btn-group maped_resources">
+			    <?php
+			    if (is_array($resource['resource_objects'])) {
+			    	$total_cnt = 0;
+			    ?>
+			    	<div class="dropdown-menu dropdown-menu-sm pull-right">
+			    <?php
+			    	foreach ( $resource['resource_objects'] as $obj_area => $items ) {
+			    ?>
+			    		<h5 class="title"><?php echo $obj_area; ?></h5>
+			    		<ul class="dropdown-list dropdown-list-sm">
+			    <?php
+			    		foreach ( $items as $item) {
+			    			$total_cnt++;
+			    ?>
+			    		<li>
+			    			<a href="<?php echo $item['url']; ?>" target="_new" data-object-id="<?php echo $item['object_id']; ?>">
+			    			<?php echo $item['name']; ?>
+			    			</a>
+			    		</li>
+
+			    <?php
+			    		}
+			    ?>
+			    		</ul>
+			    <?php
+			    	}
+			    ?>
+			    	</div>
+			    <?php
+			    }
+			    ?>
+			    	<button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle" >
+			    		<i class="fa fa-external-link fa-lg"></i>&nbsp;
+			    		<span class="caret"></span>&nbsp;
+			    		<span class="badge"><?php echo $total_cnt; ?></span>&nbsp;
+			    	</button>
+			    	</div>
+			    </div>
+
+			    <?php if ( $resource['mapped_to_current'] ) { ?>
+			    <div class="col-sm-3">
+		        	<a class="btn btn-default btn-xs rl_unlink tooltips"
+					   data-original-title="<?php echo $txt_unlink_resource; ?>"
+					   data-rl-id="<?php echo $resource_id; ?>"
+					   data-type="<?php echo $type; ?>"><i class="fa fa-unlink fa-lg"></i>
+			    	</a>
+			    </div>
+			    <?php } else if(has_value($object_id)) {  ?>
+			    <div class="col-sm-3">
+		        	<a class="btn btn-default btn-xs rl_link tooltips"
+					   data-original-title="<?php echo $txt_link_resource; ?>"
+					   data-rl-id="<?php echo $resource_id; ?>"
+					   data-type="<?php echo $type; ?>"	><i class="fa fa-link fa-lg"></i>
+			    	</a>
+			    </div>
+			    <?php } ?>
+
+			</div>
+
+        </div><!-- col-sm-6 -->
+
+        <div class="col-sm-6 col-xs-12">
+			<h3 class="panel-title"><?php echo $text_edit_resource ?></h3>
+
+			<?php if ($mode == 'new') { ?>
+			<div class="form-group">
+				<div class="input-group afield col-sm-12">
+				<?php echo $rl_types; ?>
+				</div>
+			</div>
+			<?php } else { ?>
+				<?php echo $field_resource_id; ?>
+				<?php echo $field_type; ?>
+			<?php } ?>
+
+			<div class="form-group <?php echo (!empty($error['name']) ? "has-error" : ""); ?>">
+			    <label class="control-label" for="<?php echo $field_name->element_id; ?>"><?php echo $text_name; ?></label>
+			    <div class="input-group afield col-sm-12">
+			    	<?php echo $field_name;?>
+			    </div>
+			</div>
+
+			<div class="form-group <?php echo (!empty($error['title']) ? "has-error" : ""); ?>">
+			    <label class="control-label" for="<?php echo $field_title->element_id; ?>"><?php echo $text_title; ?></label>
+			    <div class="input-group afield col-sm-12">
+			    	<?php echo $field_title;?>
+			    </div>
+			</div>
+
+			<div class="form-group <?php echo (!empty($error['description']) ? "has-error" : ""); ?>">
+			    <label class="control-label" for="<?php echo $field_description->element_id; ?>"><?php echo $text_description; ?></label>
+			    <div class="input-group afield col-sm-12">
+			    	<?php echo $field_description;?>
+			    </div>
+			</div>
+
         </form>
-    </div>
+        </div><!-- col-sm-6 -->
+	</div>
 
-    <div id="code">
+	<div class="panel-body panel-body-nopadding">
+	</div>
 
-        <form method="post" action="<?php echo $rl_add_code; ?>" >
-        <table class="files resource-details" width="100%" cellpadding="0" cellspacing="0">
-            <tr>
-                <td colspan="2" class="sub_title"><?php echo $text_add_code; ?></td>
-            </tr>
-	        <tr>
-                <td></td>
-                <td class="message"></td>
-            </tr>
-            <tr>
-		        <td>
-                    <?php echo $text_language; ?>
-                </td>
-		        <td>
-                    <select name="language_id">
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                        <option <?php echo ( $language_id == $lang_data['language_id'] ? 'selected="selected"' : '' ) ?> value="<?php echo $lang_data['language_id'] ?>">
-                            <?php echo $lang_data['name']; ?>
-                        </option>
-                    <?php } ?>
-                    </select>
-                </td>
-	        </tr>
-            <tr>
-		        <td><?php echo $text_resource_code; ?><span class="required">*</span></td>
-		        <td><textarea name="resource_code"></textarea></td>
-	        </tr>
-            <tr>
-		        <td><?php echo $text_name; ?><span class="required">*</span></td>
-		        <td>
-                    <input type="text" name="name" value="" /><input id="resource_id" type="hidden" name="resource_id" value="" />
-                </td>
-	        </tr>
-	        <tr>
-		        <td><?php echo $text_title; ?></td>
-		        <td>
-                    <input type="text" name="title" value="" />
-		        </td>
-	        </tr>
-	        <tr>
-		        <td><?php echo $text_description; ?></td>
-		        <td>
-                    <textarea name="description"></textarea>
-                </td>
-	        </tr>
-            <tr>
-		        <td></td>
-		        <td class="save">
-                    <button type="submit" style="float: right;">
-                        <img src="<?php echo $template_dir?>image/icons/icon_grid_save.png" alt="<?php echo $button_save; ?>" border="0" /><?php echo $button_save; ?>
-                    </button>
-                    <div class="flt_right close" style="display: none;">
-                        <a href="#"><img src="<?php echo $template_dir?>image/asc.png" alt="" border="0" /></a>
-                    </div>
-                </td>
-	        </tr>
-        </table>
-        </form>
+	<div class="panel-footer">
+		<div class="row">
+		   <div class="center">
+		     <button class="btn btn-primary rl_save">
+		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+		     </button>&nbsp;
+		     <a class="btn btn-default rl_reset" href="<?php echo $cancel; ?>">
+		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+		     </a>
+		   </div>
+		</div>
+	</div>
 
-    </div>
+ </div><!-- <div class="tab-content"> -->
 
 </div>
-
-<script id="template-upload" type="text/x-jquery-tmpl">
-    <tr class="template-upload{{if error}} ui-state-error{{/if}}">
-	    <td>
-        <table width="100%" cellpadding="0" cellspacing="0">
-	        <tr>
-		        <td class="name"><div>${name}</div></td>
-				<td class="size">${sizef}</td>
-				{{if error}}
-					<td class="error-fileupload" colspan="2"><?php echo $text_error; ?>:
-						{{if error === 'maxFileSize'}}<?php echo $error_maxFileSize; ?>
-						{{else error === 'minFileSize'}}<?php echo $error_minFileSize; ?>
-						{{else error === 'acceptFileTypes'}}<?php echo $error_acceptFileTypes; ?>
-						{{else error === 'maxNumberOfFiles'}}<?php echo $error_maxNumberOfFiles; ?>
-						{{else}}${error}
-						{{/if}}
-					</td>
-		            <td></td>
-				{{else}}
-					<td class="progress"><div></div></td>
-					<td class="start"><button><?php echo $text_start; ?></button></td>
-				{{/if}}
-				<td class="cancel"><button><?php echo $text_cancel; ?></button></td>
-	        </tr>
-        </table>
-	    </td>
-    </tr>
-</script>
-<script id="template-download" type="text/x-jquery-tmpl">
-    <tr class="template-download{{if error}} ui-state-error{{/if}}" id="template-download${resource_id}">
-        <td>
-        <table width="100%" cellpadding="0" cellspacing="0">
-	        <tr>
-            {{if error}}
-                <td class="name">${name}</td>
-                <td class="size">${sizef}</td>
-                <td class="error-fileupload" colspan="2"><?php echo $text_error; ?>:
-                    {{if error === 1}}<?php echo $error_1; ?>
-                    {{else error === 2}}<?php echo $error_2; ?>
-                    {{else error === 3}}<?php echo $error_3; ?>
-                    {{else error === 4}}<?php echo $error_4; ?>
-                    {{else error === 5}}<?php echo $error_5; ?>
-                    {{else error === 6}}<?php echo $error_6; ?>
-                    {{else error === 7}}<?php echo $error_7; ?>
-                    {{else error === 'maxFileSize'}}<?php echo $error_maxFileSize; ?>
-                    {{else error === 'minFileSize'}}<?php echo $error_minFileSize; ?>
-                    {{else error === 'acceptFileTypes'}}<?php echo $error_acceptFileTypes; ?>
-                    {{else error === 'maxNumberOfFiles'}}<?php echo $error_maxNumberOfFiles; ?>
-                    {{else error === 'uploadedBytes'}}<?php echo $error_uploadedBytes; ?>
-                    {{else error === 'emptyResult'}}<?php echo $error_emptyResult; ?>
-                    {{else}}${error}
-                    {{/if}}
-                </td>
-            {{else}}
-                <td class="preview">
-                    {{if thumbnail_url}}<img src="${thumbnail_url}">{{/if}}
-                </td>
-                <td class="name" width="100%">${name}</td>
-                <td class="size">${sizef}</td>
-                <td class="edit"><button><img src="<?php echo $template_dir?>image/desc.png" alt="<?php echo $button_edit; ?>" border="0" /></button></td>
-            {{/if}}
-            </tr>
-        </table>
-        {{if error }}{{else}}
-        <form method="post" action="${resource_detail_url}" style="display:none" id="update_resource${resource_id}">
-        <table width="100%" cellpadding="0" cellspacing="0" class="resource-details" >
-            <tr>
-                <td></td>
-                <td class="message"></td>
-            </tr>
-            <tr>
-		        <td>
-                    <?php echo $text_language; ?>
-                </td>
-		        <td>
-                    <select name="language_id">
-                    <?php foreach ($languages as $lang_id => $lang_data) { ?>
-                        <option <?php echo ( $language_id == $lang_data['language_id'] ? 'selected="selected"' : '' ) ?> value="<?php echo $lang_data['language_id'] ?>">
-                            <?php echo $lang_data['name']; ?>
-                        </option>
-                    <?php } ?>
-                    </select>
-                </td>
-	        </tr>
-            <tr>
-		        <td><?php echo $text_name; ?><span class="required">*</span></td>
-		        <td>
-                    <input type="text" name="name" value="${name}" />
-			        <input id="resource_id" type="hidden" name="resource_id" value="${resource_id}" />
-                </td>
-	        </tr>
-	        <tr>
-		        <td><?php echo $text_title; ?></td>
-		        <td>
-                   <input type="text" name="title" value="${title}" />
-		        </td>
-	        </tr>
-	        <tr>
-		        <td><?php echo $text_description; ?></td>
-		        <td>
-                    <textarea name="description"></textarea>
-                </td>
-	        </tr>
-            <tr>
-		        <td></td>
-		        <td class="save">
-			        <div class="flt_right close">
-                        <a href="#"><img src="<?php echo $template_dir?>image/asc.png" alt="" border="0" /></a>
-                    </div>
-                    <button type="submit" style="float: right;">
-                        <img src="<?php echo $template_dir?>image/icons/icon_grid_save.png" alt="<?php echo $button_save; ?>" border="0" /><?php echo $button_save; ?>
-                    </button>
-                </td>
-	        </tr>
-        </table>
-        </form>
-        {{/if}}
-        </td>
-    </tr>
-</script>
-
-<script type="text/javascript">
-jQuery(function($){
-
-    var type = '<?php echo $type; ?>';
-
-    var errors = {
-        error_required_data: '<?php echo $error_required_data; ?>'
-    };
-
-    var text = {
-        text_success: '<?php echo $text_success; ?>'
-    };
-
-    $( "#tabs" ).tabs();
-
-    $('td.edit button').on('click', function(){
-        $(this).closest('table').next().toggle();
-        return false;
-    });
-
-    $('div.close a').on('click', function(){
-        $(this).closest('form').toggle();
-        return false;
-    });
-
-    $('select[name="language_id"]').on('change',function(){
-        var language_id = $(this).val();
-        var form  = $(this).closest('form');
-	    var resource_id = form.find('input[name="resource_id"]').val();
-	    if(resource_id){
-		    $.ajax({
-			    url: '<?php echo $rl_get_info;?>',
-			    type: 'GET',
-			    data: {'language_id': language_id, 'resource_id': resource_id},
-			    dataType: 'json',
-			    success: function(json) {
-				    if ( json.error ) {
-					    form.find(".message").html( json.error ).addClass('error');
-					    return;
-				    }
-
-				    form.find('input[name="name"]').val(json.name);
-				    form.find('input[name="title"]').val(json.title);
-				    form.find('textarea[name="description"]').val(json.description);
-			    }
-		    });
-	    }
-    });
-
-    $('td.save button').on('click', function(){
-        var form  = $(this).closest('form');
-        form.find(".message").html('').removeClass('error').removeClass('success');
-
-        var error_required_data = false;
-        var required_lang_id = null;
-		var code = form.find('textarea[name="resource_code"]');
-        if ( code.length && !$(code).val() ) {
-			error_required_data = true;
-		}
-		if(!form.find('input[name="name"]').val() ) {
-                error_required_data = true;
-        }
-
-		if ( error_required_data ) {
-            form.find(".message").html( errors.error_required_data + ' - ' + form.find('option:selected').text() ).addClass('error');
-			$('body').parent('iframe').scrollTop(0);
-			return false;
-		}
-
-        $.ajax({
-            url: form.attr('action'),
-            type: 'POST',
-            data: form.serializeArray(),
-            dataType: 'json',
-            success: function(json) {
-				if ( json.error ) {
-					form.find(".message").html( json.error ).addClass('error');
-					return;  
-				}
-
-                if ( json.add_code ) {
-                    var edit_frm = form.clone();
-                    $('td.sub_title', edit_frm).parent().remove();
-                    $(edit_frm).attr('action', json.resource_detail_url);
-
-                    var src = '<img src="' + json.thumbnail_url + '" title="' + json.name + '" />';
-                    if ( type == 'image' && json.resource_code  ) {
-                        src = json.thumbnail_url;
-                    }
-
-                    var tbl = $('<table class="files" width="100%" cellpadding="0" cellspacing="0">\
-                        <tr>\
-                            <td class="preview" >'+src+'</td>\
-                            <td class="name" width="100%">'+json.name+'</td>\
-                            <td class="name" width="100%">'+json.name+'</td>\
-		                    <td class="edit"><button><img src="<?php echo $template_dir?>image/desc.png" alt="<?php echo $button_edit; ?>" border="0" /></button></td>\
-                        </tr>\
-                    </table>');
-
-                    tbl.insertBefore(form);
-                    edit_frm.insertBefore(form).hide();
-                    edit_frm.find('div.close').show();
-
-                    edit_frm.find('textarea[name="resource_code"]').val(json.resource_code);
-                    edit_frm.find('input[name="name"]').val(json.name);
-                    edit_frm.find('input[name="title"]').val(json.title);
-                    edit_frm.find('textarea[name="description"]').val(json.description);
-                    edit_frm.find('input[name="resource_id"]').val(json.resource_id);
-
-                    form.find("select, input, textarea").val('');
-                } else {
-                    form.find('.message').addClass('success').html( text.text_success );
-                }
-            }
-        });
-        return false;
-    });
-
-    $('#fileupload').fileupload({
-        autoUpload: true,
-        singleFileUploads: true
-    });
-	
-	$('#fileupload').bind('fileuploaddone', function (e, data) {
-
-		if(parent.rl_mode!='url' || data['result'][0].error ){ return; }
-		
-		var item =	data['result'][0];
-		var types = [];
-		<?php
-		    foreach ($types as $t) {
-		    	echo 'types["'.$t['type_name'].'"] = {
-		    						id: "'.$t['type_id'].'",
-		    						name: "'.$t['type_name'].'",
-		    						dir: "'.$t['default_directory'].'"};';
-		    } 
-		?>
-		
-		if(parent.window.opener){
-		    if(parent.window.opener.CKEDITOR){ 
-		    	var dialog = parent.window.opener.CKEDITOR.dialog.getCurrent();
-		    		dialog.getContentElement( 'info','txtUrl').setValue( item.thumbnail_url );
-		    }
-		    parent.window.self.close();
-		    return;
-		}
-		
-		//Adding 
-		parent2 = parent.parent;
-		parent2.selectResource = item;
-		parent2.$('#' + parent.parent.selectField).html('<img src="' + item['thumbnail_url'] + '" title="' + item['name'] + '" />');
-		parent2.loadSingle(type, parent2.wrapper_id, item['resource_id'], parent2.selectField);
-		//change hidden element and mark ad changed 
-		parent2.$('input[name="'+ parent2.selectField + '"]').val(types[type].dir + item['resource_path']).addClass('afield changed');
-		parent2.$('form').prop('changed', 'true');
-		
-		parent2.$('#dialog').dialog('close');
-		parent2.$('#dialog').remove();
-		
-	});
-    // Open download dialogs via iframes,
-    // to prevent aborting current uploads:
-    $('#fileupload .files a:not([target^=_blank])').on('click', function (e) {
-        e.preventDefault();
-        $('<iframe style="display:none;"></iframe>')
-            .prop('src', this.href)
-            .appendTo('body');
-    });
-
-});
-</script>
-</body>
-</html>

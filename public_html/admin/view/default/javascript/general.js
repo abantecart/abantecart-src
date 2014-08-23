@@ -602,10 +602,14 @@ $(".task_run").on('click', function () {
         data: send_data,
         success: runTaskUI,
         error: function (xhr, ajaxOptions, thrownError) {
-            var err = $.parseJSON(xhr.responseText);
-            if (err.hasOwnProperty("error_text")) {
-                runTaskShowError(err.error_text);
-            } else {
+            try{
+                var err = $.parseJSON(xhr.responseText);
+                if (err.hasOwnProperty("error_text")) {
+                    runTaskShowError(err.error_text);
+                }else{
+                    runTaskShowError('Error occurred. See error log for details.');
+                }
+            }catch(e){
                 runTaskShowError('Error occurred. See error log for details.');
             }
         }

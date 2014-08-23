@@ -73,7 +73,7 @@ if ($action == 'list_object') {
 				<?php } ?>
 
 				<li>
-					<a class="itemopt disabled rl_delete_multiple" onclick="return false;" href="#"
+					<a class="itemopt disabled rl_delete_multiple" onclick="multi_action('delete'); return false;" href="#"
 					   data-confirmation="delete"><i class="fa fa-trash-o"></i></a>
 				</li>
 				<?php if ($form_language_switch) { ?>
@@ -132,10 +132,7 @@ if ($action == 'list_object') {
 										<?php } ?>
 									</div>
 									<div class="btn-group rl-group" style="display: none;">
-										<button data-toggle="dropdown" class="btn btn-default dropdown-toggle rl-toggle"
-												type="button">
-											<span class="caret"></span>
-										</button>
+										<button data-toggle="dropdown" class="btn btn-default dropdown-toggle rl-toggle" type="button"><span class="caret"></span></button>
 										<ul role="menu" class="dropdown-menu rl-menu"
 											data-rl-id="<?php echo $rl['resource_id']; ?>">
 											<li><a class="resource_edit"
@@ -162,7 +159,9 @@ if ($action == 'list_object') {
 											<li><a class="rl_delete"
 												   data-rl-id="<?php echo $rl['resource_id']; ?>"
 												   data-type="<?php echo $type; ?>"
-												   href="#" onclick="return false;" data-confirmation="delete"><i class="fa fa-trash-o"></i><?php echo $button_delete; ?></a></li>
+												   href="#"
+												   onclick="delete_resource(<?php echo $rl['resource_id']; ?>); return false;"
+												   data-confirmation="delete"><i class="fa fa-trash-o"></i><?php echo $button_delete; ?></a></li>
 										</ul>
 									</div>
 									<?php if ($rl['resource_code']) { ?>
