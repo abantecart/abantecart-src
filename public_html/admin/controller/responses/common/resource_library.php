@@ -77,6 +77,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['rl_update_sort_order'] = $this->html->getSecureURL('common/resource_library/update_sort_order');
 		$this->data['rl_map'] = $this->html->getSecureURL('common/resource_library/map', '&object_name=' . $this->data['object_name'] . '&object_id=' . $this->data['object_id']);
 		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=' . $this->data['object_name'] . '&object_id=' . $this->data['object_id']);
+		$this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', '&type='.$this->request->get['type'].'&object_name='.$this->request->get['object_name'].'&object_id=' . $this->request->get['object_id']);
 		$this->data['type'] = $this->request->get['type'];
 
 		//load resource
@@ -137,54 +138,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		//mark if this resource mapped to selected object
 		$resource['mapped_to_current'] = $rm->isMapped($resource['resource_id'], $this->data['object_name'], $this->data['object_id']);
 		
-		//Resource edit form fields
-		$form = new AForm('HT');
-		$this->data['edit_form_open' ] = $form->getFieldHtml(
-														array(
-		                                                    'type' => 'form',
-		                                                    'name' => 'editRlFrm',
-		                                                    'action' => '',
-		                                                ));
-
-		$this->data['field_resource_code'] = $form->getFieldHtml(
-						array(  'type'=> 'textarea',
-								'name'=> 'resource_code',
-								'value'=> $resource['resource_code'],
-								'placeholder' => $this->language->get('text_resource_code'),
-								'attr' =>' rows="10" cols="50" style="resize: none;"',
-								'required'=>true)
-		);
-		$this->data['field_name'] = $form->getFieldHtml(
-						array(  'type'=> 'input',
-								'name'=> 'name',
-								'value'=> $resource['name'],
-								'placeholder' => $this->language->get('text_name'),
-								'required'=>true)
-		);
-		$this->data['field_resource_id'] .= $form->getFieldHtml(
-						array(  'type'=>'hidden',
-								'value'=> $resource['resource_id'],
-								'name'=>'resource_id')
-		);
-		$this->data['field_type'] .= $form->getFieldHtml(
-						array(  'type'=>'hidden',
-								'value'=> $resource['type_name'],
-								'name'=>'type')
-		);
-
-		$this->data['field_title'] = $form->getFieldHtml(
-			array(  'type'=> 'input',
-					'value'=> $resource['title'],
-					'placeholder' => $this->language->get('text_title'),
-					'name'=> 'title')
-		);
-		$this->data['field_description'] = $form->getFieldHtml(
-			array(  'type'=>'textarea',
-					'name'=>'description',
-					'placeholder' => $this->language->get('text_description'),
-					'value'=> $resource['description']
-				)
-		);
+		$this->_buildFrom($resource);
 
 		$this->data['batch_actions'] = $this->html->buildSelectbox(
 			array(
@@ -219,6 +173,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				));
 		}
 
+		if($this->request->is_POST()){
+			return $this->add_code();
+		}
+
+
+
 		$this->data['languages'] = array();
 		$result = $this->language->getAvailableLanguages();
 		foreach ($result as $lang) {
@@ -243,12 +203,64 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url('global_attributes_listing'));
 
+		$this->_buildFrom();
+
 		$this->view->batchAssign($this->data);
 
 		$this->processTemplate('responses/common/resource_library_add.tpl');
 	}
 
-	
+	private function _buildFrom($resource=array()){
+				//Resource edit form fields
+		$form = new AForm('HT');
+		$this->data['form']['form_open' ] = $form->getFieldHtml(
+														array(
+		                                                    'type' => 'form',
+		                                                    'name' => 'RlFrm',
+		                                                    'action' => '',
+		                                                ));
+
+		$this->data['form']['field_resource_code'] = $form->getFieldHtml(
+						array(  'type'=> 'textarea',
+								'name'=> 'resource_code',
+								'value'=> $resource['resource_code'],
+								'placeholder' => $this->language->get('text_resource_code'),
+								'attr' =>' rows="10" cols="50" style="resize: none;"',
+								'required'=>true)
+		);
+		$this->data['form']['field_name'] = $form->getFieldHtml(
+						array(  'type'=> 'input',
+								'name'=> 'name',
+								'value'=> $resource['name'],
+								'placeholder' => $this->language->get('text_name'),
+								'required'=>true)
+		);
+		$this->data['form']['field_resource_id'] .= $form->getFieldHtml(
+						array(  'type'=>'hidden',
+								'value'=> $resource['resource_id'],
+								'name'=>'resource_id')
+		);
+		$this->data['form']['field_type'] .= $form->getFieldHtml(
+						array(  'type'=>'hidden',
+								'value'=> $resource['type_name'],
+								'name'=>'type')
+		);
+
+		$this->data['form']['field_title'] = $form->getFieldHtml(
+			array(  'type'=> 'input',
+					'value'=> $resource['title'],
+					'placeholder' => $this->language->get('text_title'),
+					'name'=> 'title')
+		);
+		$this->data['form']['field_description'] = $form->getFieldHtml(
+			array(  'type'=>'textarea',
+					'name'=>'description',
+					'placeholder' => $this->language->get('text_description'),
+					'value'=> $resource['description']
+				)
+		);
+	}
+
 	public function list_library() {
 
 		$language_id = $this->request->get['language_id'];
@@ -379,7 +391,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$rm->setType($this->data['type']);
 		$options = array();
 		foreach ($this->data['types'] as $type ) {
-			$options[$type['type_id']] = $type['type_name'];
+			$options[$type['type_name']] = $type['type_name'];
 		}
 		$this->data['rl_types'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
@@ -405,7 +417,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 					));
 	
 	}
-
 
 	/**
 	 * @return mixed
@@ -453,7 +464,10 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		}
 
 		foreach ($result as $k => $r) {
-			if (!empty($r->error)) continue;
+			if (!empty($r->error)){
+				$result[$k]->error_text = $this->language->get('error_'.$r->error);
+				continue;
+			}
 			$data = array(
 				'resource_path' => $r->name,
 				'resource_code' => '',
@@ -483,6 +497,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				}
 			} else {
 				$result[$k]->error = $this->language->get('error_not_added');
+				$result[$k]->error_text = $result[$k]->error;
 			}
 
 		}
@@ -508,9 +523,13 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$rm = new AResourceManager();
 		$rm->setType($this->request->get['type']);
 		$data = $this->request->post;
-		$data['name'] = array($this->request->post['language_id'] => $this->request->post['name']);
-		$data['title'] = array($this->request->post['language_id'] => $this->request->post['title']);
-		$data['description'] = array($this->request->post['language_id'] => $this->request->post['description']);
+
+		$language_id = (int)$this->request->post['language_id'];
+		$language_id = !$language_id ? $this->language->getContentLanguageID() : $language_id;
+
+		$data['name'] = array($language_id => $this->request->post['name']);
+		$data['title'] = array($language_id => $this->request->post['title']);
+		$data['description'] = array($language_id => $this->request->post['description']);
 		$resource_id = $rm->addResource($data);
 
 		if ($resource_id) {
@@ -526,12 +545,16 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				$rm->mapResource($this->request->get['object_name'], $this->request->get['object_id'], $resource_id);
 			}
 		} else {
-			$this->request->post['error'] = $this->language->get('error_not_added');
+			$error = new AError('');
+			return $error->toJSONResponse('VALIDATION_ERROR_406',
+				array('error_text' => $this->language->get('error_not_added'),
+					'reset_value' => false
+				));
 		}
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($this->request->post));
+		$this->response->setOutput(AJson::encode($resource_id));
 	}
 
 	public function resources() {
@@ -933,41 +956,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->loadModel('catalog/download');
 		$description = $this->model_catalog_download->getDownload($object_id);
 		return $description['name'] ? $description['name'] : $this->language->get('text_new_download');
-	}
-	
-
-
-	/* TO BE DELLETED ??? */
-	public function get_resource_details_xxx() {
-		$rm = new AResourceManager();
-		$language_id = (int)$this->request->get['language_id'];
-		if (!$language_id) {
-			$language_id = $this->language->getContentLanguageID();
-		}
-
-		$result = $rm->getResource($this->request->get['resource_id'], $language_id);
-
-		$rm->setType($result['type_name']);
-		$result['thumbnail_url'] = $rm->getResourceThumb(
-			$result['resource_id'],
-			$this->thumb_sizes['width'],
-			$this->thumb_sizes['height']
-		);
-		$result['url'] = $rm->buildResourceURL($result['resource_path'], 'full');
-		$result['relative_url'] = $rm->buildResourceURL($result['resource_path'], 'relative');
-		
-		if (!empty($this->request->get['resource_objects'])) {
-			$result['resource_objects'] = $rm->getResourceObjects($result['resource_id'], $this->request->get['language_id']);
-			if (!$result['resource_objects']) {
-				unset($result['resource_objects']);
-			}
-		}
-
-		$result['language_id'] = $language_id;
-
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($result));
 	}
 
 	
