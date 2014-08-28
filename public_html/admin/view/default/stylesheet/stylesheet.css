@@ -10,6 +10,7 @@ AbanteCart brand color styles: #064770 (dark blue) #F19013 (Orange)
 @import url('bootstrap.min.css');
 @import url('bootstrap.custom.css');
 @import url('jquery-ui/ui-lightness/jquery-ui-1.10.4.custom.min.css');
+@import url('../javascript/jquery/fileupload/jquery.fileupload-ui.css');
 @import url('font-awesome.min.css');
 @import url('abantecart.jquery.ui.css');
 @import url('form.css');
@@ -1671,6 +1672,37 @@ p {
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
+}
+
+#choose_resource_type>div{
+	height: 416px;
+}
+#choose_resource_type>div button{
+	margin-top: 50%;
+}
+
+#add_form{
+	margin-top: 40px;
+}
+
+#add_form, #file_subform, #code_subform, #add_resource_buttons{
+	display: none;
+}
+
+.rl-content #fileupload{
+	height: 440px;
+	padding: 5% 7%;
+	overflow: auto;
+	border: 1px dashed grey;
+	background-color: #f7f7f7;
+}
+
+.rl-content #fileupload .fileupload-buttonbar label{
+	margin-top: 8%;
+}
+
+.rl-content #fileupload .statusbar{
+	text-align: left;
 }
 
 /* locked screen */

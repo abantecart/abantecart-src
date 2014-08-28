@@ -2,7 +2,7 @@
 	<ul class="nav nav-tabs nav-justified nav-profile">
 	<li class="active" id="resource" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><strong><?php echo $resource['name']; ?></strong></a></li>
 <?php if(has_value($object_id)) { ?>
-	<li id="object" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><strong><?php echo "$object_title ($object_name)"; ?></strong></a></li>
+	<li id="object" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><strong><?php echo $object_title." (".$object_name.")"; ?></strong></a></li>
 <?php } ?>	
 	<li id="library" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a class="widthM400 ellipsis" href="#"><span><?php echo $heading_title; ?></span></a></li>
 	</ul>
@@ -13,7 +13,6 @@
 ?>
 
  <div class="tab-content rl-content">
-
 	<ul class="reslibrary-options">
         <li>
           <a id="add_resource" class="btn btn-xs btn-default add_resource tooltips" data-original-title="<?php echo $button_add; ?>"><i class="fa fa-plus"></i></a>
@@ -60,14 +59,14 @@
         
 	</ul>
 
-	<?php echo $edit_form_open;?>
+	<?php echo $form['form_open'];?>
 	<div class="row">
         <div class="col-sm-6 col-xs-12 form-horizontal form-bordered">
 			<?php if (!empty ($resource['resource_code'])) { ?>
 			<div class="form-group <?php echo (!empty($error['resource_code']) ? "has-error" : ""); ?>">
-			    <label class="control-label" for="<?php echo $field->element_id; ?>"><?php echo $text_resource_code; ?></label>
+			    <label class="control-label" for="<?php echo $form['field_resource_code']->element_id; ?>"><?php echo $text_resource_code; ?></label>
 			    <div class="input-group afield col-sm-12">
-			    	<?php echo $field_resource_code;?>
+			    	<?php echo $form['field_resource_code'];?>
 			    </div>
 		    </div>
         	<?php } else { ?>			
@@ -158,28 +157,28 @@
 				</div>
 			</div>         	
 			<?php } else { ?>
-				<?php echo $field_resource_id; ?>
-				<?php echo $field_type; ?>
+				<?php echo $form['field_resource_id']; ?>
+				<?php echo $form['field_type']; ?>
 			<?php } ?>
 			        
 			<div class="form-group <?php echo (!empty($error['name']) ? "has-error" : ""); ?>">
-			    <label class="control-label" for="<?php echo $field_name->element_id; ?>"><?php echo $text_name; ?></label>
+			    <label class="control-label" for="<?php echo $form['field_name']->element_id; ?>"><?php echo $text_name; ?></label>
 			    <div class="input-group afield col-sm-12">
-			    	<?php echo $field_name;?>
+			    	<?php echo $form['field_name'];?>
 			    </div>
 			</div>
 
 			<div class="form-group <?php echo (!empty($error['title']) ? "has-error" : ""); ?>">
-			    <label class="control-label" for="<?php echo $field_title->element_id; ?>"><?php echo $text_title; ?></label>
+			    <label class="control-label" for="<?php echo $form['field_title']->element_id; ?>"><?php echo $text_title; ?></label>
 			    <div class="input-group afield col-sm-12">
-			    	<?php echo $field_title;?>
+			    	<?php echo $form['field_title'];?>
 			    </div>
 			</div>
 
 			<div class="form-group <?php echo (!empty($error['description']) ? "has-error" : ""); ?>">
-			    <label class="control-label" for="<?php echo $field_description->element_id; ?>"><?php echo $text_description; ?></label>
+			    <label class="control-label" for="<?php echo $form['field_description']->element_id; ?>"><?php echo $text_description; ?></label>
 			    <div class="input-group afield col-sm-12">
-			    	<?php echo $field_description;?>
+			    	<?php echo $form['field_description'];?>
 			    </div>
 			</div>
              

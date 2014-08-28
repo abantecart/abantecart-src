@@ -6,6 +6,8 @@ echo $this->html->buildElement(
 				'data_source' => 'ajax',
 				'title' => $text_resource_library ));
 ?>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></script>
 
 <script type="text/javascript">
 var urls = {
@@ -16,6 +18,7 @@ var urls = {
 	unmap:'<?php echo $rl_unmap; ?>',
 	del:'<?php echo $rl_delete; ?>',
 	download: '<?php echo $rl_download; ?>',
+	upload: '<?php echo $rl_upload; ?>',
 	resource:'<?php echo HTTP_DIR_RESOURCE; ?>'
 	},
 	default_type = '<?php echo $default_type["type_name"]; ?>';	
@@ -78,14 +81,16 @@ var reloadModal = function (URL) {
 }
 
 var saveRL = function (URL, postdata) {
+	var rid;
 	//main ajax call to load rl content
     $.ajax({
         url:URL,
         data: postdata,
         type:'POST',
-        dataType:'html',
+        dataType:'json',
 		async: false,
-        success:function (html) {
+        success:function (new_rl_id) {
+			rid = new_rl_id;
         	success_alert('<?php echo $text_success; ?>',true, '.modal-content');
         },
         error:function (jqXHR, textStatus, errorThrown) {
@@ -94,10 +99,9 @@ var saveRL = function (URL, postdata) {
 				false,
 				'.modal-content'
 			);
-        },
-		complete: function() {
-		}
-    });	
+        }
+    });
+	return rid;
 }
 
 
@@ -290,7 +294,17 @@ jQuery(function () {
         reloadModal($(this).attr('href'));
         return false;
     });
-    
+
+	$(document).on('click','button.rl_add_file',function(){
+		$('#choose_resource_type').fadeOut("normal", function(){
+			$('#add_form, #file_subform').fadeIn("normal");
+		});
+	});
+	$(document).on('click','button.rl_add_code',function(){
+		$('#choose_resource_type').fadeOut("normal", function(){
+			$('#add_form, #code_subform, #add_resource_buttons').fadeIn("normal");
+		});
+	});
     
 });
 
@@ -307,7 +321,7 @@ function unmap_resource ( rl_id ) {
             if (json) {
                 $('#image_row'+rl_id).parent().remove();
             }
-			if($("#rl_modal").data('bs.modal').isShown){
+			if($("#rl_modal").length>0 && $("#rl_modal").data('bs.modal').isShown){
 				success_alert('Unlinked successfully', true, '.modal-content');
 			}else{
             	success_alert('Unlinked successfully', true);
@@ -330,10 +344,10 @@ function delete_resource ( rl_id ) {
             if (json) {
                 $('#image_row'+rl_id).parent().remove();
             }
-			if($("#rl_modal").data('bs.modal').isShown){
-				var type = $('#editRlFrm input[name=type]').val();
-				mediaDialog(type, 'list_library');
-            	success_alert('Deleted successfully', true);
+			if( $("#rl_modal").hasOwnProperty('data') && $("#rl_modal").data('bs.modal').isShown ){
+					var type = $('#RlFrm input[name=type]').val();
+					mediaDialog(type, 'list_library');
+					success_alert('Deleted successfully', true);
 			}else{
 				success_alert('Deleted successfully', true, '.modal-content');
 			}
@@ -429,7 +443,7 @@ var bind_rl = function ( elm ) {
 		            if (json) {
 		                $('#image_row'+rl_id).parent().remove();
 		            }
-					if($("#rl_modal").data('bs.modal').isShown){
+					if($("#rl_modal").length>0 && $("#rl_modal").data('bs.modal').isShown){
 						success_alert('Linked successfully', true, '.modal-content');
 					}else{
 		            	success_alert('Linked successfully', true);
@@ -472,14 +486,24 @@ var bind_rl = function ( elm ) {
 
     $obj.find('.rl_save').click(function(){
 		//save rl details. 
-		var datastring = $("#editRlFrm").serialize();
-		var type = $('#editRlFrm input[name=type]').val();
-	    var src = urls.resource_library+'&action=save'+'&type='+type;
-	    var rid = $('#editRlFrm input[name=resource_id]').val();
+		var datastring = $("#RlFrm").serialize();
+		var type = $('#RlFrm input[name=type]').val();
+		if( type == undefined ){
+			type = $('#RlFrm #rl_types').val();
+		}
+	    var src = urls.resource_library+'&type='+type;
+	    var rid = $('#RlFrm input[name=resource_id]').val();
     	if (rid) {
-        	src += '&resource_id=' + rid;
-    	}
-		saveRL(src, datastring);
+        	src += '&resource_id=' + rid+'&action=save';
+    	}else{
+			src += '&action=add';
+		}
+		var new_rid = saveRL(src, datastring);
+		if(rid){
+
+		}else{
+			rid = new_rid;
+		}
 		mediaDialog(type, 'update', rid);	// поменять на релоад
 		return false;
 	});
@@ -517,8 +541,8 @@ var bind_rl = function ( elm ) {
 
     $obj.find('.rl_reset').click(function(){
 		//reset rl details. 
-		var type = $('#editRlFrm input[name=type]').val();
-	    var rid = $('#editRlFrm input[name=resource_id]').val();
+		var type = $('#RlFrm input[name=type]').val();
+	    var rid = $('#RlFrm input[name=resource_id]').val();
         mediaDialog(type, 'update', rid);	// поменять на релоад
 		return false;
 	});
@@ -574,7 +598,13 @@ var bind_rl = function ( elm ) {
     	});
         reloadModal(url);
 		return false;	
-	});		
+	});
+
+	$('#resource_types_tabs a').click(function(){
+		$('#resource_types_tabs li.active').removeClass('active');
+		$(this).parents('li').addClass('active');
+		return false;
+	});
 }
 
 
@@ -645,4 +675,8 @@ var multi_action = function(action){
 
 	active_tab().click(); // reload modal with object's resources
 }
+
+
+
+
 </script>
