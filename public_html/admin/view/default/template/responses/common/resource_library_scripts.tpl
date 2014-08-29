@@ -57,7 +57,7 @@ var reloadModal = function (URL) {
 			if ($("#rl_modal").length>0 || !$("#rl_modal").data('bs.modal').isShown) {
 			    $(mdb).css({height:'560'});
 				$md.modal('show');
-				$md.on('hidden.bs.modal', function () {
+				$md.unbind('hidden.bs.modal').on('hidden.bs.modal', function () {
 			        //reload original media list to show new selections
 	    		    //not for URL mode
 	    		    $(mdb).html('');
@@ -104,40 +104,6 @@ var saveRL = function (URL, postdata) {
 	return rid;
 }
 
-
-
-//??????
-onSelectClose = function (e, ui) {}
-/*var selectDialog = function (type, field) {
-	$('#dialog').remove();
-	
-	window.selectField = field;
-	var src = urls.resource_library + '&type=' + type;
-	
-	$('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="' + src + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
-	$('#dialog iframe').load(function (e) {
-	    try {
-	        var error_data = $.parseJSON($(this).contents().find('body').html());
-	    } catch (e) {
-	        var error_data = null;
-	    }
-	    if (error_data && error_data.error_code) {
-	        $('#dialog').dialog('close');
-	        httpError(error_data);
-	    }
-	});
-	
-	$('#dialog').dialog({
-	    title:'<?php echo $text_resource_library; ?>',
-	    close:onSelectClose,
-	    width:900,
-	    height:500,
-	    resizable:false,
-	    modal:true
-	});
-};*/
-//??????
-
 var loadMedia = function (type) {
     $.ajax({
         url:urls.resources,
@@ -161,13 +127,24 @@ var loadMedia = function (type) {
                 html += '<div class="col-xs-3 col-sm-3 col-md-2">';
                 html += '<div class="thumbnail" id="image_row' + item['resource_id'] + '" >\
                 <a class="btn resource_edit" data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
-                html += '<div class="caption center">' 
-                + ( item['mapped'] > 1 ? '' : 
-                '<a class="btn resource_edit tooltips" data-type="' + type + '" data-rl-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_edit ?>"><i class="fa fa-edit"></i></a>\
-                <a class="btn resource_unmap tooltips" data-rl-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_unmap; ?>" data-confirmation="delete" data-confirmation-text="<?php echo $text_confirm_unmap ?>" onclick="unmap_resource('+item['resource_id']+');"><i class="fa fa-unlink"></i></a>\
-                <a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_delete ?>" data-confirmation="delete" data-confirmation-text="<?php echo $text_confirm_del ?>" onclick="delete_resource('+item['resource_id']+');"><i class="fa fa-trash-o"></i></a>') + '\
-                </div>';
-                html += '</div></div>';
+
+				html += '<div class="caption center">';
+
+
+			   html += '<a class="btn resource_edit tooltips" ' +
+						  'data-type="' + type + '" ' +
+						  'data-rl-id="' + item['resource_id'] + '" ' +
+						  'data-original-title="<?php echo $button_edit ?>"><i class="fa fa-edit"></i></a>' +
+						'<a class="btn resource_unmap tooltips" ' +
+							'data-rl-id="' + item['resource_id'] + '" ' +
+							'data-original-title="<?php echo $button_unmap; ?>" ' +
+							'data-confirmation="delete" ' +
+							'data-confirmation-text="<?php echo $text_confirm_unmap ?>" ' +
+							'onclick="unmap_resource('+item['resource_id']+');"><i class="fa fa-unlink"></i></a>';
+
+
+
+                html += '</div></div></div>';
             });
             
             html += '<div class="col-xs-3 col-sm-3 col-md-2"><div class="thumbnail">';
@@ -291,7 +268,9 @@ jQuery(function () {
     });
 
     $(document).on("click", '.rl_pagination a', function () {
-        reloadModal($(this).attr('href'));
+		if( !$(this).parent().hasClass('disabled') ){
+        	reloadModal($(this).attr('href'));
+		}
         return false;
     });
 

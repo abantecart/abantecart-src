@@ -493,7 +493,7 @@ function notice(text, autohide, elm, type, icon) {
 		elm = 'body';
 	}
 	var delay = 6000;
-	if(autohide == null || autohide == 'false') {
+	if(autohide == null || autohide == 'false' || autohide == false) {
 		delay = 0;
 	}
 	
