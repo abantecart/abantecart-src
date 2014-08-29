@@ -193,10 +193,10 @@
 		<div class="row">
 		   <div class="center">
 		     <button class="btn btn-primary rl_save">
-		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+		     <i class="fa fa-save"></i> <?php echo $button_save; ?>
 		     </button>&nbsp;
 		     <a class="btn btn-default rl_reset" href="<?php echo $cancel; ?>">
-		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+		     <i class="fa fa-refresh"></i> <?php echo $button_reset; ?>
 		     </a>
 		   </div>
 		</div>

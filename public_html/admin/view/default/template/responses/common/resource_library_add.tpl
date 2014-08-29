@@ -68,15 +68,7 @@
 				<?php // resource file form ?>
 				<div id="file_subform" class="col-sm-12 col-xs-12 form-horizontal form-bordered">
 					<div class="resource_image center">
-						<div id="fileupload">
-							<?php /* if ($attention) { ?>
-							<div class="attention"><?php echo $attention; ?></div>
-							<?php } ?>
-							<div class="fileupload-content">
-								<table class="files" width="100%" cellpadding="0" cellspacing="0"></table>
-								<div class="fileupload-progressbar"></div>
-							</div>
-							<?php */?>
+						<div class="fileupload_drag_area">
 							<form action="<?php echo $rl_upload; ?>" method="POST" enctype="multipart/form-data">
 								<div class="fileupload-buttonbar">
 									<label class="btn btn-primary tooltips fileinput-button ui-button  "
@@ -149,11 +141,11 @@
 				<div class="row">
 					<div class="center">
 						<button class="btn btn-primary rl_save">
-							<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+							<i class="fa fa-save"></i> <?php echo $button_save; ?>
 						</button>
 						&nbsp;
 						<a class="btn btn-default rl_reset" href="<?php echo $cancel; ?>">
-							<i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+							<i class="fa fa-refresh"></i> <?php echo $button_reset; ?>
 						</a>
 					</div>
 				</div>
@@ -260,7 +252,7 @@ jQuery(function () {
 			status.setFileNameSize(files[i].name, files[i].size);
 			var response = sendFileToServer(fd, status);
 			if(response.hasOwnProperty('error_text')){
-				error_alert('Error: File '+files[i].name +' (' + response.error_text + ')', false, '.modal-content' );
+				error_alert('File '+files[i].name +' (' + response.error_text + ')', false, '.modal-content' );
 				e++;
 			}
 		}
@@ -270,10 +262,12 @@ jQuery(function () {
 			}else{
 				mediaDialog($('#resource_types_tabs li.active').attr('data-type'), 'update', response.resource_id );
 			}
+		}else{
+			mediaDialog($('#resource_types_tabs li.active').attr('data-type'), 'add');
 		}
 	}
 
-	var obj = $("#fileupload");
+	var obj = $("div.fileupload_drag_area");
 
 	obj.on('dragenter', function (e) {
 		e.stopPropagation();
@@ -306,6 +300,13 @@ jQuery(function () {
 		obj.css('border', '1px dashed grey');
 		e.stopPropagation();
 		e.preventDefault();
+	});
+
+	$('input[name="files\[\]"]').on('change', function () {
+		obj.css('border', '2px dotted #F19013');
+		var files = this.files;
+		//We need to send dropped files to Server
+		handleFileUpload(files, obj);
 	});
 
 });
