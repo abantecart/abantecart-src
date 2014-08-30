@@ -1320,7 +1320,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_image_category_width',120),
 ('appearance','admin_template','default'),
 ('appearance','admin_width','100%'),
-('appearance','config_storefront_template','default_html5'),
+('appearance','config_storefront_template','default'),
 
 
 -- mail
@@ -9943,22 +9943,15 @@ CREATE TABLE `ac_layouts` (
   PRIMARY KEY  (`layout_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_name`, `created`) VALUES
-(1, 'default', 0, 'Default Page Layout', now() ),
-(2, 'default', 1, 'Home Page', now() ),
-(4, 'default', 1, 'Product Listing Page', now() ),
-(5, 'default', 1, 'Login Page', now() ),
-(6, 'default', 1, 'Default Product Page', now() ),
-(7, 'default', 1, 'Checkout Pages', now() ),
-
-(11, 'default_html5', 0, 'Default Page Layout',  now()),
-(12, 'default_html5', 1, 'Home Page',  now()),
-(13, 'default_html5', 1, 'Login Page',  now()),
-(14, 'default_html5', 1, 'Default Product Page',  now()),
-(15, 'default_html5', 1, 'Checkout Pages', now()),
-(16, 'default_html5', 1, 'Product Listing Page', now()),
-(17, 'default_html5', 1, 'Maintanance Page', now()),
-(18, 'default_html5', 1, 'Customer Account Pages', now())
+INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_name`, `created`) VALUES 
+(11, 'default', 0, 'Default Page Layout',  now()),
+(12, 'default', 1, 'Home Page',  now()),
+(13, 'default', 1, 'Login Page',  now()),
+(14, 'default', 1, 'Default Product Page',  now()),
+(15, 'default', 1, 'Checkout Pages', now()),
+(16, 'default', 1, 'Product Listing Page', now()),
+(17, 'default', 1, 'Maintanance Page', now()),
+(18, 'default', 1, 'Customer Account Pages', now())
 ;
 
 --

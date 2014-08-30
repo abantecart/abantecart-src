@@ -147,7 +147,9 @@ final class ADocument {
 	 * @return void
 	 */
 	public function addScript($script) {
-		$this->scripts[ ] = $script;
+		if ($script) {
+			$this->scripts[ ] = $script;
+		}
 	}
 
 	public function getScripts() {
