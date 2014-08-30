@@ -781,7 +781,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 		// list of templates for block
 		$tmpl_ids = $this->extensions->getInstalled('template');
 		$tmpl_ids[] = 'default';
-		$tmpl_ids[] = 'default_html5';
 		$this->data[ 'block_wrappers' ] = array();
 		foreach ($tmpl_ids as $tmpl_id) {
 			// for tpls of block that stores in db

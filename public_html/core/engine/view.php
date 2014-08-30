@@ -446,16 +446,7 @@ class AView {
 	            	$ret_path = 'storefront/view/default' . $filename;
 	            	$match = 'default';
 	        	}
-	        } else if (is_file( $path . 'default_html5' . $filename)) {
-	        	$ret_path = $path . 'default_html5' . $filename;
-	        	if ($mode == 'relative') {
-	            	$ret_path = 'storefront/view/default_html5' . $filename;
-	            	$match = 'default';
-	        	}
 	        }
-
-
-
 		}
 		//return path. Empty path indicates, nothing found
 		if ( $ret_path ) {
