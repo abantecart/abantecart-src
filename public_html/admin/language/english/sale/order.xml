@@ -324,4 +324,8 @@
 		<key>text_order_status_required</key>
 		<value><![CDATA[Order Status "%s" Required]]></value>
 	</definition>
+	<definition>
+		<key>text_select_product</key>
+		<value><![CDATA[- Select Product -]]></value>
+	</definition>
 </definitions>
