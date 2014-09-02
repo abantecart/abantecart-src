@@ -46,7 +46,7 @@ class ControllerPagesSaleOrderTabs extends AController {
 			$this->data['link_files'] = $this->html->getSecureURL('sale/order/files', '&order_id=' . $order_id);
 			$this->data['groups'][] = 'files';
 		}
-		$this->data['link_history'] = $this->html->getSecureURL('sale/order/payment', '&order_id=' . $order_id);
+		$this->data['link_history'] = $this->html->getSecureURL('sale/order/history', '&order_id=' . $order_id);
 		$this->data['groups'][] = 'history';
 
 		$this->view->batchAssign( $this->data );

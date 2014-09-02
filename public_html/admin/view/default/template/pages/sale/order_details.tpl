@@ -14,9 +14,9 @@
 
 	<div class="pull-right">
 		<div class="btn-group mr10 toolbar">
-			<a class="btn btn-white tooltips" href="<?php echo $clone_url; ?>" data-toggle="tooltip"
-			   title="<?php echo $text_clone; ?>" data-original-title="<?php echo $text_clone; ?>">
-				<i class="fa fa-tags"></i>
+			<a class="btn btn-white tooltips" target="_invoice" href="<?php echo $invoice_url; ?>" data-toggle="tooltip"
+			   title="<?php echo $text_invoice; ?>" data-original-title="<?php echo $text_invoice; ?>">
+				<i class="fa fa-file-text"></i>
 			</a>
 			<?php if (!empty ($help_url)) : ?>
 				<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
@@ -357,6 +357,7 @@
 	}
 
 	$('#generate_button').click(function () {
+		var that = $(this).parent();
 		$.ajax({
 			url: '<?php echo $invoice_generate; ?>&order_id=<?php echo $order_id; ?>',
 			dataType: 'json',
@@ -367,13 +368,14 @@
 				$('#generate_button').attr('disabled', '');
 			},
 			success: function (data) {
-				if (data.invoice_id) {
-					$('#generate_button').fadeOut('slow', function () {
-						$('#invoice').html(data.invoice_id);
+				if (data.hasOwnProperty('invoice_id')) {
+					$('#generate_button').fadeOut('slow', function(){
+						that.html(data.invoice_id).fadeIn();
 					});
 				}
 			}
 		});
+		return false;
 	});
 
 

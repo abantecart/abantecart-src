@@ -280,7 +280,7 @@ class ControllerPagesSaleOrder extends AController {
 
 		$this->data['heading_title'] = $this->language->get('heading_title') . ' #' . $order_info['order_id'];
 		$this->data['token'] = $this->session->data['token'];
-		$this->data['invoice'] = $this->html->getSecureURL('sale/invoice', '&order_id=' . (int)$order_id);
+		$this->data['invoice_url'] = $this->html->getSecureURL('sale/invoice', '&order_id=' . (int)$order_id);
 		$this->data['button_invoice'] = $this->html->buildButton(array('name' => 'btn_invoice', 'text' => $this->language->get('text_invoice'), 'style' => 'button3',));
 		$this->data['invoice_generate'] = $this->html->getSecureURL('sale/invoice/generate');
 		$this->data['category_products'] = $this->html->getSecureURL('product/product/category');
@@ -499,7 +499,8 @@ class ControllerPagesSaleOrder extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('sale/order/shipping', '&order_id=' . $this->request->get['order_id']),
 			'text' => $this->language->get('tab_shipping'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'	=> true
 		));
 
 		if (isset($this->session->data['success'])) {
@@ -510,7 +511,7 @@ class ControllerPagesSaleOrder extends AController {
 		}
 
 		$this->data['order_id'] = $this->request->get['order_id'];
-		$this->data['invoice'] = $this->html->getSecureURL('sale/invoice', '&order_id=' . (int)$this->request->get['order_id']);
+		$this->data['invoice_url'] = $this->html->getSecureURL('sale/invoice', '&order_id=' . (int)$this->request->get['order_id']);
 		$this->data['button_invoice'] = $this->html->buildButton(array('name' => 'invoice', 'text' => $this->language->get('text_invoice'), 'style' => 'button3',));
 		$this->data['action'] = $this->html->getSecureURL('sale/order/shipping', '&order_id=' . $this->request->get['order_id']);
 		$this->data['cancel'] = $this->html->getSecureURL('sale/order');
@@ -539,7 +540,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'orderFrm',
-			'attr' => 'data-confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 			'action' => $this->data['action'],
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -565,6 +566,14 @@ class ControllerPagesSaleOrder extends AController {
 			));
 		}
 
+
+		$this->data['form']['fields']['fax'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'fax',
+			'value' => $this->data['fax'],
+			'style' => 'no-save'
+		));
+
 		$this->loadModel('localisation/country');
 		$this->data['countries'] = $this->model_localisation_country->getCountries();
 		$this->data['countries'] = array_merge(array(0 => array('country_id' => 0, 'country_name' => $this->language->get('text_select_country'))), $this->data['countries']);
@@ -577,7 +586,7 @@ class ControllerPagesSaleOrder extends AController {
 			$this->data['shipping_country_id'] = $this->config->get('config_country_id');
 		}
 
-		$this->data['form']['country_select'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['country'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'shipping_country_id',
 			'value' => $this->data['shipping_country_id'],
@@ -585,17 +594,11 @@ class ControllerPagesSaleOrder extends AController {
 			'style' => 'no-save'
 		));
 
-		$this->data['form']['zone_select'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['zone'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'shipping_zone_id',
 			'value' => '',
 			'options' => array(),
-			'style' => 'no-save'
-		));
-		$this->data['form']['fields']['fax'] = $form->getFieldHtml(array(
-			'type' => 'input',
-			'name' => 'fax',
-			'value' => $this->data['fax'],
 			'style' => 'no-save'
 		));
 
@@ -666,7 +669,8 @@ class ControllerPagesSaleOrder extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('sale/order/payment', '&order_id=' . $this->request->get['order_id']),
 			'text' => $this->language->get('tab_payment'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'	=> true
 		));
 
 		if (isset($this->session->data['success'])) {
@@ -677,7 +681,7 @@ class ControllerPagesSaleOrder extends AController {
 		}
 
 		$this->data['order_id'] = $this->request->get['order_id'];
-		$this->data['invoice'] = $this->html->getSecureURL('sale/invoice', '&order_id=' . (int)$this->request->get['order_id']);
+		$this->data['invoice_url'] = $this->html->getSecureURL('sale/invoice', '&order_id=' . (int)$this->request->get['order_id']);
 		$this->data['button_invoice'] = $this->html->buildButton(array('name' => 'invoice', 'text' => $this->language->get('text_invoice'), 'style' => 'button3',));
 		$this->data['action'] = $this->html->getSecureURL('sale/order/payment', '&order_id=' . $this->request->get['order_id']);
 		$this->data['cancel'] = $this->html->getSecureURL('sale/order');
@@ -706,7 +710,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'orderFrm',
-			'attr' => 'data-confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 			'action' => $this->data['action'],
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -744,7 +748,7 @@ class ControllerPagesSaleOrder extends AController {
 			$this->data['payment_country_id'] = $this->config->get('config_country_id');
 		}
 
-		$this->data['form']['country_select'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['country'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'payment_country_id',
 			'value' => $this->data['payment_country_id'],
@@ -752,7 +756,7 @@ class ControllerPagesSaleOrder extends AController {
 			'style' => 'no-save'
 		));
 
-		$this->data['form']['zone_select'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['zone'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'payment_zone_id',
 			'value' => '',
@@ -823,7 +827,8 @@ class ControllerPagesSaleOrder extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('sale/order/history', '&order_id=' . $this->request->get['order_id']),
 			'text' => $this->language->get('tab_history'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'	=> true
 		));
 
 		if (isset($this->session->data['success'])) {
@@ -841,7 +846,7 @@ class ControllerPagesSaleOrder extends AController {
 		}
 
 		$this->data['order_id'] = $this->request->get['order_id'];
-		$this->data['invoice'] = $this->html->getSecureURL('sale/invoice', '&order_id=' . (int)$this->request->get['order_id']);
+		$this->data['invoice_url'] = $this->html->getSecureURL('sale/invoice', '&order_id=' . (int)$this->request->get['order_id']);
 		$this->data['button_invoice'] = $this->html->buildButton(array('name' => 'invoice', 'text' => $this->language->get('text_invoice'), 'style' => 'button3',));
 		$this->data['order_history'] = $this->html->getSecureURL('sale/order_history');
 		$this->data['cancel'] = $this->html->getSecureURL('sale/order');
@@ -861,7 +866,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'orderFrm',
-			'attr' => 'data-confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 			'action' => $this->data['action'],
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -877,22 +882,22 @@ class ControllerPagesSaleOrder extends AController {
 			'style' => 'button2',
 		));
 
-		$this->data['form']['order_status_id'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['order_status'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'order_status_id',
 			'value' => $order_info['order_status_id'],
 			'options' => $statuses,
 		));
-		$this->data['form']['notify'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['notify'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'name' => 'notify',
 		));
-		$this->data['form']['append'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['append'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'name' => 'append',
 			'value' => 1,
 		));
-		$this->data['form']['comment'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['comment'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'comment',
 			'style' => 'large-field',
@@ -1032,8 +1037,12 @@ class ControllerPagesSaleOrder extends AController {
 
 		$this->data['heading_title'] = $this->language->get('heading_title') . ' #' . $order_info['order_id'];
 		$this->data['token'] = $this->session->data['token'];
-		$this->data['invoice'] = $this->html->getSecureURL('sale/invoice', '&order_id=' . (int)$this->request->get['order_id']);
-		$this->data['button_invoice'] = $this->html->buildButton(array('name' => 'btn_invoice', 'text' => $this->language->get('text_invoice'), 'style' => 'button3',));
+		$this->data['invoice_url'] = $this->html->getSecureURL('sale/invoice', '&order_id=' . (int)$this->request->get['order_id']);
+		$this->data['button_invoice'] = $this->html->buildButton(
+											array(
+													'name' => 'btn_invoice',
+													'text' => $this->language->get('text_invoice')
+													));
 		$this->data['invoice_generate'] = $this->html->getSecureURL('sale/invoice/generate');
 		$this->data['category_products'] = $this->html->getSecureURL('product/product/category');
 		$this->data['product_update'] = $this->html->getSecureURL('catalog/product/update');
@@ -1072,7 +1081,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'orderFrm',
-			'attr' => 'data-confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 			'action' => $this->data['action'],
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
