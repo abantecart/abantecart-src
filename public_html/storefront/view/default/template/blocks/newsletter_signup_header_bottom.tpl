@@ -1,6 +1,4 @@
 <section id="newslettersignup">
-	<div class="container">
-
 	<div class="pull-left newsletter"><?php echo $text_signup; ?></div>
 	<div class="pull-right">
 		<?php echo $form_open;?>
@@ -12,6 +10,5 @@
 				<input type="submit" value="<?php echo $button_subscribe;?>" class="btn btn-orange">
 			</div>
 		</form>
-	</div>
 	</div>
 </section>
