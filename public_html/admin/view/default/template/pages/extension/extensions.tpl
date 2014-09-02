@@ -145,9 +145,11 @@ echo $this->html->buildElement(
 		});
 
 		$('.grid_action_remote_install' ).each(function(){
-			var row_id = $(this).parents('tr').attr('id');
-			var href = $(this).attr('href');
-			$(this).attr('href', href+'&extension_key='+userdata.installation_key[ row_id ]);
+			if(userdata.hasOwnProperty('installation_key')){
+				var row_id = $(this).parents('tr').attr('id');
+				var href = $(this).attr('href');
+				$(this).attr('href', href+'&extension_key='+userdata.installation_key[ row_id ]);
+			}
 		});
 		//check dependancies before disabling of extension
 		$('td[aria-describedby="extension_grid_status"]').find('button').click(function () {
