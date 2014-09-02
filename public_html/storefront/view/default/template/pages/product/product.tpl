@@ -5,17 +5,16 @@
 	</div>
 <?php } ?>
 
-<section id="product_details">
-	<div class="container">
+<div id="product_details">
 		<!-- Product Details-->
 		<div class="row">
 			<!-- Left Image-->
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<ul class="thumbnails mainimage bigimage">
 					<?php if (sizeof($images) > 0) {
 						foreach ($images as $image) {
 							?>
-							<li class="col-md-4">
+							<li>
 								<?php
 								$im_width = $image_main['sizes']['thumb']['width'];
 								$im_height = $image_main['sizes']['thumb']['height'];
@@ -73,9 +72,9 @@
 				<?php } ?>
 			</div>
 			<!-- Right Details-->
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-12">
 						<h1 class="productname"><span class="bgnone"><?php echo $heading_title; ?></span></h1>
 
 						<div class="productprice">
@@ -201,13 +200,12 @@
 				</div>
 			</div>
 		</div>
-	</div>
-</section>
+</div>
 
 <!-- Product Description tab & comments-->
-<section id="productdesc" class="row">
-	<div class="container">
-		<div class="productdesc">
+<div id="productdesc">
+	<div class="row">
+		<div class="col-md-12 productdesc">
 			<ul class="nav nav-tabs" id="myTab">
 				<li class="active"><a href="#description"><?php echo $tab_description; ?></a></li>
 				<?php if ($review_status) { ?>
@@ -368,7 +366,7 @@
 			</div>
 		</div>
 	</div>
-</section>
+</div>
 
 <script type="text/javascript"><!--
 

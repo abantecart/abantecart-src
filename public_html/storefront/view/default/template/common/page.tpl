@@ -53,7 +53,7 @@ echo ${$header}; ?>
 			<!-- content top blocks placeholder (EOF) -->
 			<?php } ?>
 			
-			<div class="container <?php echo $center_padding; ?>">
+			<div class="<?php echo $center_padding; ?>">
 			<?php echo $content; ?>
 			</div>
 			 

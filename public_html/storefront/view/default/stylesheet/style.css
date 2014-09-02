@@ -27,6 +27,10 @@ ul, ul li {
 	list-style: none
 }
 
+ul {
+    padding: 0px;
+}
+
 .heading1 {
 	margin-bottom: 20px;
 	border-bottom: 1px solid #efefef;
@@ -375,14 +379,6 @@ ul#search-category{
 	cursor: pointer;
 }
 
-.top-search ul.dropdown.dropdown-menu.span2.noclose> li.dropdown-submenu.hover {
-	height: 50px;
-}
-
-.top-search ul.dropdown.dropdown-menu.span2.noclose> li.dropdown-submenu.dropdown-submenu > a:after {
-	border: 0;
-}
-
 .top-search .submenu.dropdown-menu {
 	left: 0%;
 	top: 50px;
@@ -592,7 +588,7 @@ ul.categorymenu > li > div {
 	z-index: 99999;
 	display: none;
 	float: left;
-	min-width: 150px;
+	min-width: 180px;
 	margin: 1px 0 0;
 	list-style: none;
 	background-color: #ffffff;
@@ -624,14 +620,14 @@ ul.categorymenu > li > div {
 
 .dropdown-menu {
 	white-space: normal;
-	padding: 15px;
+	padding: 10px;
 	position: absolute;
 	top: 97%;
 	left: 7px;
 	z-index: 99999;
 	display: none;
 	float: left;
-	min-width: 150px;
+	min-width: 250px;
 	margin: 1px 0 0;
 	list-style: none;
 	background-color: #ffffff;
@@ -658,7 +654,7 @@ ul.categorymenu > li > div > ul {
 }
 
 ul.categorymenu > li ul + ul {
-	padding-left: 20px;
+	padding-left: 10px;
 }
 
 ul.categorymenu > li ul > li {
@@ -677,8 +673,8 @@ ul.categorymenu > li ul > li > a {
 	text-decoration: none;
 	display: block;
 	white-space: normal;
-	min-width: 150px;
-	padding: 8px;
+	min-width: 180px;
+	padding: 8px 8px 8px 0;
 }
 
 ul.categorymenu > li > div > ul li:hover a {
@@ -3850,7 +3846,7 @@ input, .btn, .label, .badge, .nav-pills > li > a,
 	display: block;
 }
 
-.dropdown-menu li > a:hover, .dropdown-menu li > a:focus, .dropdown-submenu:hover > a {
+.dropdown-menu li > a:hover, .dropdown-menu li > a:focus {
 	color: #ffffff;
 	text-decoration: none;
 	background: #00A1CB;
