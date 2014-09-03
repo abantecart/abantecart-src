@@ -980,14 +980,12 @@ class ControllerPagesSaleOrder extends AController {
 			//add download to order
 			if(has_value($this->request->post['push'])){
 				$this->load->library('json');
-				foreach($this->request->post['push'] as $order_product_id=>$items){
-					$items = AJson::decode(html_entity_decode($items), true);
-					if($items){
-						foreach($items as $download_id=>$info){
+				foreach($this->request->post['push'] as $order_product_id=>$download_id){
+
+					if($download_id){
 							$download_info = $this->download->getDownloadInfo($download_id);
 							$download_info['attributes_data'] = serialize($this->download->getDownloadAttributesValues($download_id));
-							$this->download->addProductDownloadToOrder($order_product_id, $order_id,$download_info);
-						}
+							$this->download->addProductDownloadToOrder($order_product_id, $order_id, $download_info);
 					}
 				}
 			}
@@ -1025,7 +1023,8 @@ class ControllerPagesSaleOrder extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('sale/order/files', '&order_id=' . $this->request->get['order_id']),
 			'text' => $this->language->get('heading_title') . ' #' . $order_info['order_id'],
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'	=> true
 		));
 
 		if (isset($this->session->data['success'])) {
@@ -1097,6 +1096,16 @@ class ControllerPagesSaleOrder extends AController {
 			'style' => 'button2',
 		));
 
+		$this->loadModel('catalog/download');
+		$all_downloads = $this->model_catalog_download->getDownloads();
+
+		$options = array('' => $this->language->get('text_push_download'));
+		foreach($all_downloads as $d){
+			$options[$d['download_id']] = $d['name'].' ('.$d['mask'].')';
+		}
+
+
+
 		$this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
 
 		/** ORDER DOWNLOADS */
@@ -1105,23 +1114,6 @@ class ControllerPagesSaleOrder extends AController {
 
 		if ($order_downloads) {
 			$rl = new AResource('image');
-
-
-			if (!$this->registry->has('jqgrid_script')) {
-				$locale = $this->session->data['language'];
-				if (!file_exists(DIR_ROOT . '/' . RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js')) {
-					$locale = 'en';
-				}
-				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js');
-				$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/minified/jquery.jqGrid.min.js');
-    	        $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.grid.fluid.js');
-	            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.ba-bbq.min.js');
-        	    $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/grid.history.js');
-
-				//set flag to not include scripts/css twice
-				$this->registry->set('jqgrid_script', true);
-			}
-			$this->session->data['multivalue_excludes'] = array();
 			$this->loadModel('catalog/download');
 			foreach ($order_downloads as $product_id=>$order_download) {
 				$downloads = (array)$order_download['downloads'];
@@ -1130,7 +1122,6 @@ class ControllerPagesSaleOrder extends AController {
 																										$product_id,
 																										$this->config->get('config_image_grid_width'),
 																										$this->config->get('config_image_grid_height'));
-
 				foreach ($downloads as $download_info) {
 					$download_info['order_status_id'] = $order_info['order_status_id'];
 					$attributes = $this->download->getDownloadAttributesValuesForDisplay($download_info['download_id']);
@@ -1179,31 +1170,16 @@ class ControllerPagesSaleOrder extends AController {
 									'style' => 'medium-field')),
 							'download_history' => $download_info['download_history']
 					);
-					// exclude downloads from multivalue list. why we need relate recursion?
-					$this->session->data['multivalue_excludes'][] = $download_info['download_id'];
+					$this->data['order_downloads'][$product_id]['push_download'] = $form->getFieldHtml(array(
+											'type' => 'selectbox',
+											'name' => 'push['.(int)$download_info['order_download_id'].']',
+											'value' => '',
+											'options' => $options,
+											'style' => 'chosen no-save',
+											'placeholder' => $this->language->get('text_push_download')
+					));
 				}
 
-
-
-				$this->data['order_downloads'][$product_id]['push'] = $form->getFieldHtml(
-					array('id' => 'popup'.$product_id,
-						'type' => 'multivalue',
-						'name' => 'popup'.$product_id,
-						'title' => $this->language->get('text_select_from_list'),
-						'selected_name' => 'push['.$order_product_id.']',
-						'selected' => "{}",
-						'content_url' => $this->html->getSecureUrl('catalog/download_listing',
-																   '&form_name=orderFrm&multivalue_hidden_id=popup'.$product_id),
-						'postvars' => '',
-						'return_to' => '', // placeholder's id of listing items count.
-						'popup_height' => 708,
-						'text' => array(
-							'selected' => $this->language->get('text_count_selected'),
-							'edit' => $this->language->get('text_save_edit'),
-							'apply' => $this->language->get('text_apply'),
-							'save' => $this->language->get('text_add'),
-							'reset' => $this->language->get('button_reset')),
-					));
 			}
 		}
 
