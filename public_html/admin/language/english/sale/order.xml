@@ -328,4 +328,8 @@
 		<key>text_select_product</key>
 		<value><![CDATA[- Select Product -]]></value>
 	</definition>
+	<definition>
+		<key>text_push_download</key>
+		<value><![CDATA[- Push Download -]]></value>
+	</definition>
 </definitions>
