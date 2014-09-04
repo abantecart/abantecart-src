@@ -78,6 +78,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['rl_map'] = $this->html->getSecureURL('common/resource_library/map', '&object_name=' . $this->data['object_name'] . '&object_id=' . $this->data['object_id']);
 		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=' . $this->data['object_name'] . '&object_id=' . $this->data['object_id']);
 		$this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', '&type='.$this->request->get['type'].'&object_name='.$this->request->get['object_name'].'&object_id=' . $this->request->get['object_id']);
+		$this->data['rl_replace'] = $this->html->getSecureURL('common/resource_library/replace', '&resource_id=' . $this->data['resource_id']);
 		$this->data['type'] = $this->request->get['type'];
 
 		//load resource
@@ -137,7 +138,8 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		//mark if this resource mapped to selected object
 		$resource['mapped_to_current'] = $rm->isMapped($resource['resource_id'], $this->data['object_name'], $this->data['object_id']);
-		
+		$resource['can_delete'] = $rm->isMapped($resource['resource_id'])==1 && $resource['mapped_to_current'] ? true : false;
+
 		$this->_buildFrom($resource);
 
 		$this->data['batch_actions'] = $this->html->buildSelectbox(
@@ -185,7 +187,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$this->data['languages'][$lang['language_id']] = $lang;
 		}
 		$rm = new AResourceManager();
-		$this->data['types'] = $rm->getResourceTypes();
+		$this->data['types'] = $this->session->data['rl_types'] ? $this->session->data['rl_types'] : $rm->getResourceTypes();
 		$this->data['type'] = $this->request->get['type'];
 		$this->data['language_id'] = $this->config->get('storefront_language_id');
 
@@ -322,7 +324,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$result[$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
 			$result[$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
 			$result[$key]['mapped_to_current'] = $rm->isMapped($item['resource_id'], $this->data['object_name'], $this->data['object_id']);
-
 		}
 
 		$sort_order = '&sort='.$this->data['sort'].'&order='.$this->data['order'];
@@ -431,6 +432,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				));
 		}
 		$rm = new AResourceManager();
+		if(!has_value)
 		$rm->setType($this->request->get['type']);
 
 		$upload_handler = new ResourceUploadHandler(
@@ -506,6 +508,96 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($result));
 	}
+
+
+		/**
+	 * @return mixed
+	 */
+	public function replace() {
+
+		if (!$this->user->canModify('common/resource_library')) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array('error_text' => sprintf($this->language->get('error_permission_modify'), 'common/resource_library'),
+					'reset_value' => true
+				));
+		}
+
+		$resource_id = (int)$this->request->get['resource_id'];
+		if(!$resource_id){
+			$error = new AError('');
+			return $error->toJSONResponse('VALIDATION_ERROR_406',
+				array('error_text' => $this->language->get('error_not_replaced'),
+					'reset_value' => false
+				));
+		}
+
+		$rm = new AResourceManager();
+		$info = $rm->getResource($resource_id, $this->language->getContentLanguageID());
+		if(!$info){
+			$error = new AError('');
+			return $error->toJSONResponse('VALIDATION_ERROR_406',
+				array('error_text' => $this->language->get('error_not_exists'),
+					'reset_value' => false
+				));
+		}
+
+		$rm->setType($info['type_name']);
+
+		$upload_handler = new ResourceUploadHandler(
+			array(
+				'script_url' => $this->html->getSecureURL('common/resource_library/delete', '&type=' . $this->request->get['type']),
+				'max_file_size' => (int)$this->config->get('config_upload_max_size') * 1024,
+				'upload_dir' => $rm->getTypeDir(),
+				'upload_url' => '',
+				'accept_file_types' => $rm->getTypeFileTypes(),
+			)
+		);
+
+		$this->response->addHeader('Pragma: no-cache');
+		$this->response->addHeader('Cache-Control: private, no-cache');
+		$this->response->addHeader('Content-Disposition: inline; filename="files.json"');
+		$this->response->addHeader('X-Content-Type-Options: nosniff');
+
+		$result = null;
+		switch ($this->request->server['REQUEST_METHOD']) {
+			case 'HEAD':
+			case 'GET':
+				$result = $upload_handler->get();
+				break;
+			case 'POST':
+				$result = $upload_handler->post();
+				break;
+			case 'DELETE':
+			case 'OPTIONS':
+			default:
+				$this->response->addHeader('HTTP/1.0 405 Method Not Allowed');
+		}
+
+		foreach ($result as $k => $r) {
+			if (!empty($r->error)){
+				$result[$k]->error_text = $this->language->get('error_'.$r->error);
+				continue;
+			}
+
+			$result[$k]->resource_id = $resource_id;
+			$result[$k]->type = $info['type_name'];
+
+			$rm->updateResource($resource_id, array('resource_path' => $r->name));
+			//remove old file of resource
+			if ( $info['resource_path'] && is_file( DIR_RESOURCE . $info['type_name'] . '/' . $info['resource_path']) ) {
+				unlink( DIR_RESOURCE.$info['type_name'].'/'.$info['resource_path'] );
+			}
+
+		}
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($result));
+	}
+
+
+
 
 	public function add_code() {
 
@@ -591,7 +683,10 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$result = array(
 			'items' => $rm->getResourcesList($filter_data),
 			'pagination' => '',
+			'object_name' => $this->request->get['object_name'],
+			'object_id' => $this->request->get['object_id']
 		);
+
 
 		foreach ($result['items'] as $key => $item) {
 			$result['items'][$key]['thumbnail_url'] = $rm->getResourceThumb(
@@ -602,6 +697,8 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			);
 			$result['items'][$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
 			$result['items'][$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
+			$result['items'][$key]['can_delete'] = $result['items'][$key]['mapped']==1 ? true : false;
+
 		}
 
 		if (isset($this->request->get['page'])) {
@@ -637,7 +734,16 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		$rm = new AResourceManager();
 		$resource_id = (int)$this->request->get['resource_id'];
+		if(has_value($this->request->get['object_name']) && has_value($this->request->get['object_id'])){
+			$rm->unmapResource( $this->request->get['object_name'],$this->request->get['object_id'], $resource_id);
+		}
 		$result = $rm->deleteResource($resource_id);
+
+		if(!$result){
+			$error = new AError('');
+			return $error->toJSONResponse('VALIDATION_ERROR_406',
+				array('error_text' => $this->language->get('text_cant_delete')));
+		}
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
@@ -679,6 +785,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				array('error_text' => sprintf($this->language->get('error_permission_modify'), 'common/resource_library'),
 					'reset_value' => true
 				));
+		}
+
+		if(!has_value($this->request->get['object_name']) || !has_value($this->request->get['object_id']) ){
+			$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406',
+							array('error_text' => $this->language->get('error_unmap')));
 		}
 
 		if (!empty($this->request->get['resource_id'])) {
@@ -799,21 +911,21 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		$rm = new AResourceManager();
 		if($this->request->post['sort_order']){
-			$result = $rm->updateSortOrder($this->request->post['sort_order'], $object_name,$object_id);
+			$result = $rm->updateSortOrder($this->request->post['sort_order'], $object_name, $object_id);
 		}
 
 		// $this->request->post['map'] must be an array of resource ids
 		if( $this->request->post['map'] ){
-			$result = $rm->mapResources( $this->request->post['map'], $object_name,$object_id);
+			$result = $rm->mapResources( $this->request->post['map'], $object_name, $object_id);
 		}
 
 		// $this->request->post['unmap'] must be an array of resource ids
 		if( $this->request->post['unmap'] ){
-			$result = $rm->unmapResources( $this->request->post['unmap'], $object_name,$object_id);
+			$result = $rm->unmapResources( $this->request->post['unmap'], $object_name, $object_id);
 		}
 		// $this->request->post['delete'] must be an array of resource ids
 		if( $this->request->post['delete'] ){
-			$result = $rm->deleteResources( $this->request->post['delete']);
+			$result = $rm->deleteResources( $this->request->post['delete'], $object_name, $object_id);
 			if($result===false){
 				$error = new AError('');
 				return $error->toJSONResponse('VALIDATION_ERROR_406',
@@ -883,6 +995,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', $params);
 		$this->data['rl_map'] = $this->html->getSecureURL('common/resource_library/map', $params);
 		$this->data['rl_download'] = $this->html->getSecureURL('common/resource_library/get_resource_preview');
+		$this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', $params);
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/common/resource_library_scripts.tpl');

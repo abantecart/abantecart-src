@@ -133,8 +133,20 @@
 		<value><![CDATA[Link to Object]]></value>
 	</definition>
 	<definition>
+		<key>text_map_to</key>
+		<value><![CDATA[Link to %s]]></value>
+	</definition>
+	<definition>
 		<key>text_unmap</key>
 		<value><![CDATA[Unlink from Object]]></value>
+	</definition>
+	<definition>
+		<key>text_unmap_from</key>
+		<value><![CDATA[Unlink from %s]]></value>
+	</definition>
+	<definition>
+		<key>text_success_unmap</key>
+		<value><![CDATA[Success: Resource has been unlinked.]]></value>
 	</definition>
 	<definition>
 		<key>text_file_delete</key>
@@ -258,6 +270,10 @@
 		<value><![CDATA[Resource successfully updated]]></value>
 	</definition>
 	<definition>
+		<key>text_map_success</key>
+		<value><![CDATA[Resource successfully linked]]></value>
+	</definition>
+	<definition>
 		<key>text_no_resources</key>
 		<value><![CDATA[No resources available]]></value>
 	</definition>
@@ -284,5 +300,21 @@
 	<definition>
 		<key>text_manufacturers</key>
 		<value><![CDATA[Manufacturers]]></value>
+	</definition>
+	<definition>
+		<key>error_unmap</key>
+		<value><![CDATA[Cannot unlink resource. Object wasn't set.]]></value>
+	</definition>
+	<definition>
+		<key>text_replace_file</key>
+		<value><![CDATA[Replace File]]></value>
+	</definition>
+	<definition>
+		<key>error_not_replaced</key>
+		<value><![CDATA[File Replacement Error. ID required!]]></value>
+	</definition>
+	<definition>
+		<key>error_not_exists</key>
+		<value><![CDATA[File Replacement Error. Resource does not exists!]]></value>
 	</definition>
 </definitions>
