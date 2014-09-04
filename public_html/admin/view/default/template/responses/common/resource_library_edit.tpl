@@ -26,7 +26,7 @@
 		      <i class="fa fa-unlink"></i>
 		  </a>
         </li>    
-        <?php } else if(has_value($object_id)) { ?>
+        <?php } else if((int)$object_id) { ?>
         <li>
 		  <a class="itemopt rl_link tooltips"
 			 data-rl-id="<?php echo $resource['resource_id']; ?>"
@@ -38,11 +38,20 @@
         <?php } ?>        
         <li>
 			<?php
-			//disable delete button for linked resource
+			//disable delete button for multi-linked resource
+			if($resource['can_delete']){
+				$cssclass = $onclick = "";
+				if($resource['mapped_to_current']){
+					$onclick = "delete_resource(".$resource['resource_id'].", '".$object_name."', '".$object_id."');";
+				}
+			}else{
+				$cssclass = "disabled";
+				$onclick = "";
+			}
 			?>
-          <a class="itemopt <?php echo $resource['resource_objects'] ? 'disabled' : ''; ?> rl_delete"
+          <a class="itemopt <?php echo $cssclass; ?> rl_delete"
 			 href="#"
-			 onclick="delete_resource(<?php echo $resource['resource_id']; ?>); return false;"
+			 onclick="<?php echo $onclick; ?> return false;"
 			 data-rl-id="<?php echo $resource['resource_id']; ?>"
 			 data-confirmation="delete"><i class="fa fa-trash-o"></i></a>
         </li>
@@ -59,27 +68,39 @@
         
 	</ul>
 
-	<?php echo $form['form_open'];?>
-	<div class="row">
+
+	<div class="row edit_resource_form">
         <div class="col-sm-6 col-xs-12 form-horizontal form-bordered">
 			<?php if (!empty ($resource['resource_code'])) { ?>
+			<?php echo $form['form_open'];?>
 			<div class="form-group <?php echo (!empty($error['resource_code']) ? "has-error" : ""); ?>">
 			    <label class="control-label" for="<?php echo $form['field_resource_code']->element_id; ?>"><?php echo $text_resource_code; ?></label>
 			    <div class="input-group afield col-sm-12">
 			    	<?php echo $form['field_resource_code'];?>
 			    </div>
 		    </div>
-        	<?php } else { ?>			
+        	<?php } else { ?>
 		    <div class="resource_image center">
 		    <a target="_preview" href="<?php echo $rl_get_preview; ?>&resource_id=<?php echo $resource['resource_id']; ?>&language_id=<?php echo $resource['language_id']; ?>" title="<?php echo $text_preview; ?>">
 		    	<img src="<?php echo $resource['thumbnail_url']; ?>" title="<?php echo $resource['title']; ?>"/>
 		    </a>
 		    </div>
-			<div class="form-group">
-			    <div class="col-sm-12">
-			    	<button class="btn btn-primary btn-block">Replace File</button>
-			    </div>			    
-			</div>			    
+			<?php // upload form for file replacement ?>
+			<div class="form-group fileupload_drag_area" data-upload-type="single">
+				<form action="<?php echo $rl_replace; ?>" method="POST" enctype="multipart/form-data">
+					<div class="fileupload-buttonbar col-sm-12">
+						<label class="btn btn-block tooltips fileinput-button ui-button  "
+							   role="button"
+							   data-original-title="<?php echo $text_replace_file.' '.$text_drag; ?>">
+							<span class="btn btn-primary btn-block ui-button-text"><span><i class="fa fa-upload"></i><?php echo $text_replace_file;?></span></span>
+							<input type="file" name="files[]">
+						</label>
+					</div>
+				</form>
+			</div>
+
+
+			<?php echo $form['form_open'];?>
         	<?php } ?>		 
         	  				
 			<div class="form-group">

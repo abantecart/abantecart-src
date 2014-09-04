@@ -1707,6 +1707,16 @@ p {
 	text-align: left;
 }
 
+
+.edit_resource_form .fileupload_drag_area{
+	height: 103px;
+	padding: 3px 0 0 0;
+	margin-top: 10px;
+	overflow: hidden;
+	border: 1px dashed grey;
+	background-color: #f7f7f7;
+}
+
 /* locked screen */
 .lockedpanel {
    width: 320px;

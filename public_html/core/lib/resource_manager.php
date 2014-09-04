@@ -161,7 +161,7 @@ class AResourceManager extends AResource {
         if ( isset($data['resource_code']) )
             $_update['resource_code'] = $data['resource_code'];
 
-        $fields = array('name', 'title', 'description');
+        $fields = array('name', 'title', 'description', 'resource_path');
         foreach ( $data['name'] as $language_id => $name ) {
 			if($this->config->get('translate_override_existing') && $language_id != $data['language_id'] ){
 				continue;
@@ -216,9 +216,11 @@ class AResourceManager extends AResource {
 
 	/**
 	 * @param array $resource_ids
+	 * @param string $object_name
+	 * @param int $object_id
 	 * @return bool|null
 	 */
-	public function deleteResources($resource_ids) {
+	public function deleteResources($resource_ids, $object_name='', $object_id=0) {
 		if(!$resource_ids || !is_array($resource_ids)){
 			return null;
 		}
@@ -230,7 +232,15 @@ class AResourceManager extends AResource {
 			if ( !$resource ) {
 				continue;
 			}
-			if( $this->isMapped($resource_id) ){
+			$mapped_cnt = $this->isMapped($resource_id);
+			if($mapped_cnt==1 && $this->isMapped($resource_id,$object_name,$object_id)){
+				$res = $this->unmapResource( $object_name,$object_id, $resource_id);
+				if(!$res){
+					$this->error[] = $resource['name'][ $this->language->getContentLanguageID() ] .' cannot be deleted. Unlink it first.';
+					$result = false;
+					continue;
+				}
+			}elseif( $mapped_cnt ){
 				$this->error[] = $resource['name'][ $this->language->getContentLanguageID() ] .' cannot be deleted. Unlink it first.';
 				$result = false;
 				continue;
@@ -243,6 +253,8 @@ class AResourceManager extends AResource {
 				unlink( DIR_RESOURCE.$resource['type_name'].'/'.$resource['resource_path'] );
 			}
 		}
+
+		$this->log->write(var_export($result, true).'   '.var_export($this->error, true));
 
 		if(!$ids){
 			return $result;
@@ -356,13 +368,13 @@ class AResourceManager extends AResource {
 	 * @param string $object_name
 	 * @param int $object_id
 	 * @param int $resource_id
-	 * @return null
+	 * @return bool
 	 */
 	public function unmapResource (  $object_name, $object_id, $resource_id ) {
 
         $resource = $this->getResource($resource_id);
         if ( empty($resource) ) {
-            return null;
+            return false;
         }
 
 		$sql = "DELETE FROM " . DB_PREFIX . "resource_map
@@ -374,6 +386,8 @@ class AResourceManager extends AResource {
         $this->cache->delete('resources.'. $resource_id);
 		$this->cache->delete('resources.'. $object_name.'.'.$resource_id);
         $this->cache->delete('resources.'. $resource['type_name']);
+
+		return true;
 	}
 
 	/**
@@ -470,10 +484,10 @@ class AResourceManager extends AResource {
 	public function getTotalResources($data) {
 		return $this->getResourcesList($data,'total_only'); 
 	}
-	
+
 	/**
 	 * @param array $data
-	 * @param bool $mode
+	 * @param string $mode
 	 * @return array
 	 */
 	public function getResourcesList($data, $mode = 'default') {
@@ -602,9 +616,9 @@ class AResourceManager extends AResource {
 
 	/**
 	 * @param int $resource_id
-	 * @param $object_name
-	 * @param $object_id
-	 * @return array
+	 * @param string $object_name
+	 * @param int $object_id
+	 * @return bool|int
 	 */
 	public function isMapped($resource_id, $object_name='', $object_id=0) {
 		if (!has_value($resource_id)) {
@@ -624,7 +638,7 @@ class AResourceManager extends AResource {
 		
 		$query = $this->db->query($sql);
 		if ($query->row['total'] > 0) {
-			return true;
+			return ($object_name ? true : (int)$query->row['total']);
 		} else {
 			return false;
 		}

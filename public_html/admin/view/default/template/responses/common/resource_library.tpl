@@ -12,7 +12,7 @@ if ($action == 'list_object') {
 			<?php if (has_value($object_id)) { ?>
 				<li id="object" data-rl-id="<?php echo $resource_id; ?>"
 					data-type="<?php echo $type; ?>" <?php echo $active_object; ?>><a
-							href="#"><strong><?php echo "$object_title ($object_name)"; ?></strong></a></li>
+							href="#"><strong><?php echo $object_title." (".$object_name.")"; ?></strong></a></li>
 			<?php } ?>
 			<li id="library" data-rl-id="<?php echo $resource_id; ?>"
 				data-type="<?php echo $type; ?>" <?php echo $active_library; ?>><a
@@ -20,8 +20,8 @@ if ($action == 'list_object') {
 		</ul>
 
 		<?php
-		$txt_link_resource = "Link to " . $object_title;
-		$txt_unlink_resource = "Unlink from " . $object_title;
+		$txt_link_resource = sprintf($this->language->get('text_map_to'),$object_title);
+		$txt_unlink_resource = sprintf($this->language->get('text_unmap_from'),$object_title);
 		?>
 
 		<div class="tab-content rl-content">
@@ -113,7 +113,7 @@ if ($action == 'list_object') {
 							  */
 							?>
 							<div class="col-xs-6 col-sm-2 col-md-2 document">
-								<div class="thmb <?php if ($rl['mapped_to_current']) { echo "mapped"; } ?>" data-rl-id="<?php echo $rl['resource_id']; ?>">
+								<div class="thmb <?php if ($rl['mapped_to_current']) { echo "mapped"; } ?>"	data-rl-id="<?php echo $rl['resource_id']; ?>">
 									<div class="ckbox ckbox-default" style="display: none;">
 										<input type="checkbox" value="" id="check_<?php echo $rl['resource_id']; ?>">
 										<label for="check<?php echo $rl['resource_id']; ?>"></label>

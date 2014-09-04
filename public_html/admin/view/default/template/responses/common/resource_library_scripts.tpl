@@ -11,18 +11,19 @@ echo $this->html->buildElement(
 
 <script type="text/javascript">
 var urls = {
-	resource_library:'<?php echo $rl_resource_library; ?>',
-	resources:'<?php echo $rl_resources; ?>',
-	resource_single:'<?php echo $rl_resource_single; ?>',
-	map:'<?php echo $rl_map; ?>',
-	unmap:'<?php echo $rl_unmap; ?>',
-	del:'<?php echo $rl_delete; ?>',
-	download: '<?php echo $rl_download; ?>',
-	upload: '<?php echo $rl_upload; ?>',
-	resource:'<?php echo HTTP_DIR_RESOURCE; ?>'
+		resource_library:'<?php echo $rl_resource_library; ?>',
+		resources:'<?php echo $rl_resources; ?>',
+		resource_single:'<?php echo $rl_resource_single; ?>',
+		map:'<?php echo $rl_map; ?>',
+		unmap:'<?php echo $rl_unmap; ?>',
+		del:'<?php echo $rl_delete; ?>',
+		download: '<?php echo $rl_download; ?>',
+		upload: '<?php echo $rl_upload; ?>',
+		resource:'<?php echo HTTP_DIR_RESOURCE; ?>'
 	},
 	default_type = '<?php echo $default_type["type_name"]; ?>';	
 
+var allowedTypes = ['<?php echo implode("','",$allowed_types)?>'];
 /*
 	Main resource library modal
 */
@@ -41,6 +42,7 @@ var mediaDialog = function (type, action, id, field, wrapper_id) {
 };
 
 var reloadModal = function (URL) {
+
 	//main ajax call to load rl content
     $.ajax({
         url:URL,
@@ -54,7 +56,7 @@ var reloadModal = function (URL) {
 			$(mdb).html('');
 		    $(mdb).html(html);
 			//if modal is not yet open, open and initilize close event
-			if ($("#rl_modal").length>0 || !$("#rl_modal").data('bs.modal').isShown) {
+			if( !isModalOpen() ){
 			    $(mdb).css({height:'560'});
 				$md.modal('show');
 				$md.unbind('hidden.bs.modal').on('hidden.bs.modal', function () {
@@ -72,6 +74,7 @@ var reloadModal = function (URL) {
 			bindCustomEvents(mdb);
 			bind_rl(mdb);
         },
+		//todo: check!
         error:function (jqXHR, textStatus, errorThrown) {
 			error_alert('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
         },
@@ -91,8 +94,9 @@ var saveRL = function (URL, postdata) {
 		async: false,
         success:function (new_rl_id) {
 			rid = new_rl_id;
-        	success_alert('<?php echo $text_success; ?>',true, '.modal-content');
+        	rl_success_alert('<?php echo $text_success; ?>',true);
         },
+		//todo: check!
         error:function (jqXHR, textStatus, errorThrown) {
 			error_alert(
 				'<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>',
@@ -140,9 +144,15 @@ var loadMedia = function (type) {
 							'data-original-title="<?php echo $button_unmap; ?>" ' +
 							'data-confirmation="delete" ' +
 							'data-confirmation-text="<?php echo $text_confirm_unmap ?>" ' +
-							'onclick="unmap_resource('+item['resource_id']+');"><i class="fa fa-unlink"></i></a>';
+							'onclick="unmap_resource('+item['resource_id']+',\''+json.object_name+'\',\''+json.object_id+'\');"><i class="fa fa-unlink"></i></a>';
 
-
+				if(item['can_delete']==true){
+					html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
+							'data-original-title="<?php echo $button_delete ?>" ' +
+							'data-confirmation="delete" ' +
+							'data-confirmation-text="<?php echo $text_confirm_del ?>" ' +
+							'onclick="delete_resource('+item['resource_id']+',\''+json.object_name+'\',\''+json.object_id+'\');"><i class="fa fa-trash-o"></i></a>';
+				}
 
                 html += '</div></div></div>';
             });
@@ -287,12 +297,16 @@ jQuery(function () {
     
 });
 
-function unmap_resource ( rl_id ) {
+function unmap_resource ( rl_id, object_name, object_id  ) {
 	if (rl_id==null || rl_id == '') {
 		return false;
 	}
+	var URL = urls.unmap + '&resource_id=' + rl_id + '&type=' + $('#library').attr( 'data-type');
+	if(object_name!=undefined && object_name!=null && object_name.length>0){
+		URL += '&object_name='+object_name+'&object_id='+object_id;
+	}
     $.ajax({
-        url:urls.unmap + '&resource_id=' + rl_id + '&type=' + $('#library').attr( 'data-type'),
+        url: URL,
         type:'GET',
         dataType:'json',
 		async: false,
@@ -300,22 +314,22 @@ function unmap_resource ( rl_id ) {
             if (json) {
                 $('#image_row'+rl_id).parent().remove();
             }
-			if($("#rl_modal").length>0 && $("#rl_modal").data('bs.modal').isShown){
-				success_alert('Unlinked successfully', true, '.modal-content');
-			}else{
-            	success_alert('Unlinked successfully', true);
-			}
+			rl_success_alert('<?php echo $text_success_unmap; ?>', true);
         }
     });
     return false;
 } 
 
-function delete_resource ( rl_id ) {
+function delete_resource ( rl_id, object_name, object_id ) {
 	if (rl_id==null || rl_id == '') {
 		return false;
 	}
+	var URL = urls.del + '&resource_id=' + rl_id;
+	if(object_name.length>0){
+		URL += '&object_name='+object_name+'&object_id='+object_id;
+	}
     $.ajax({
-        url:urls.del + '&resource_id=' + rl_id,
+        url: URL,
         type:'GET',
         dataType:'json',
 		async: false,
@@ -323,14 +337,16 @@ function delete_resource ( rl_id ) {
             if (json) {
                 $('#image_row'+rl_id).parent().remove();
             }
-			if( $("#rl_modal").hasOwnProperty('data') && $("#rl_modal").data('bs.modal').isShown ){
-					var type = $('#RlFrm input[name=type]').val();
-					mediaDialog(type, 'list_library');
-					success_alert('Deleted successfully', true);
-			}else{
-				success_alert('Deleted successfully', true, '.modal-content');
+			if( isModalOpen() ){
+				var type = $('#RlFrm input[name=type]').val();
+				mediaDialog(type, 'list_library');
 			}
-        }
+			rl_success_alert('<?php echo $text_file_delete; ?>', true);
+
+        },
+		error:function (jqXHR, textStatus, errorThrown) {
+			rl_error_alert(jqXHR.responseJSON.error_text,false);
+		}
     });
     return false;
 }
@@ -422,11 +438,7 @@ var bind_rl = function ( elm ) {
 		            if (json) {
 		                $('#image_row'+rl_id).parent().remove();
 		            }
-					if($("#rl_modal").length>0 && $("#rl_modal").data('bs.modal').isShown){
-						success_alert('Linked successfully', true, '.modal-content');
-					}else{
-		            	success_alert('Linked successfully', true);
-					}
+					rl_success_alert('<?php echo $text_map_success;?>', true);//Linked successfully
 		        }
 		    });
 
@@ -504,8 +516,9 @@ var bind_rl = function ( elm ) {
 			dataType:'html',
 			async: false,
 			success:function (html) {
-				success_alert('<?php echo $text_success; ?>',true, '.modal-content');
+				rl_success_alert('<?php echo $text_success; ?>',true);
 			},
+			//todo: check!
 			error:function (jqXHR, textStatus, errorThrown) {
 				error_alert(
 					'<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>',
@@ -618,6 +631,7 @@ var multi_action = function(action){
 		postdata = postdata + action+'[]=' + $(this).attr('data-rl-id') + '&';
 	});
 
+
 	//save rl details.
 	var type = $('#library').attr( 'data-type');
 	var src = urls.resource_library+'&action=multisave'+'&type='+type;
@@ -629,7 +643,7 @@ var multi_action = function(action){
 		dataType:'html',
 		async: false,
 		success:function (html) {
-			success_alert('<?php echo $text_success; ?>',true, '.modal-content');
+			rl_success_alert('<?php echo $text_success; ?>',true);
 		},
 		error:function (jqXHR, textStatus, errorThrown) {
 			try{
@@ -640,22 +654,212 @@ var multi_action = function(action){
 
 					if(errlist.length>0){
 						for(var k in errlist){
-							error_alert( errlist[k], false, '.modal-content' );
+							rl_error_alert( errlist[k], false);
 						}
 					}
 				}
 			}catch(e){
-				error_alert(jqXHR.responseText,	false, '.modal-content' );
+				rl_error_alert(jqXHR.responseText,	false);
 			}
-
-
 		}
 	});
 
 	active_tab().click(); // reload modal with object's resources
 }
 
+var isModalOpen = function(){
+	if( typeof $("#rl_modal").data === 'function' && $("#rl_modal").data('bs.modal')!=undefined && $("#rl_modal").data('bs.modal').isShown){
+		return true;
+	}
+	return false;
+}
 
+var rl_error_alert = function(text,autohide){
+	if( isModalOpen() ){
+		error_alert(text, autohide, '.modal-content');
+	}else{
+		error_alert(text, autohide);
+	}
+}
+
+var rl_success_alert = function(text,autohide){
+	if( isModalOpen() ){
+		success_alert(text, autohide, '.modal-content');
+	}else{
+		success_alert(text, autohide);
+	}
+}
+
+
+
+
+
+/*UPLOAD FUNCTIONS*/
+jQuery(function () {
+	var sendFileToServer = function (formData, status) {
+		var response = {};
+		var extraData = {}; //Extra Data.
+
+		var URL = '';
+		if($('#resource_types_tabs li.active').attr('data-type')){
+			URL = $('div.fileupload_drag_area').find('form').attr('action') + '&type='+$('#resource_types_tabs li.active').attr('data-type');
+		}else{
+			URL = $('div.fileupload_drag_area').find('form').attr('action');
+		}
+		var jqXHR = $.ajax({
+			xhr: function () {
+				var xhrobj = $.ajaxSettings.xhr();
+				if (xhrobj.upload) {
+					xhrobj.upload.addEventListener('progress', function (event) {
+						var percent = 0;
+						var position = event.loaded || event.position;
+						var total = event.total;
+						if (event.lengthComputable) {
+							percent = Math.ceil(position / total * 100);
+						}
+						//Set progress
+						status.setProgress(percent);
+					}, false);
+				}
+				return xhrobj;
+			},
+			url: URL,
+			type: "POST",
+			contentType: false,
+			processData: false,
+			cache: false,
+			data: formData,
+			datatype: 'json',
+			async: false,
+			success: function (data) {
+				response = data[0];
+				status.setProgress(100);
+			}
+		});
+
+		status.setAbort(jqXHR);
+		return response;
+	}
+
+	var rowCount = 0;
+	var createStatusbar = function (obj){
+		 rowCount++;
+		 var row="odd";
+		 if(rowCount %2 ==0) row ="even";
+		 this.statusbar = $("<div class='statusbar row "+row+"'></div>");
+	     this.filename = $("<div class='filename col-sm-6'></div>").appendTo(this.statusbar);
+	     this.size = $("<div class='filesize col-sm-2'></div>").appendTo(this.statusbar);
+	     this.progressBar = $('<div class="progress col-sm-3"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div>')
+							.appendTo(this.statusbar);
+	     this.abort = $('<a class="remove btn btn-xs btn-danger-alt tooltips" data-original-title="Abort" title="Abort"><i class="fa fa-minus-circle"></i></a>')
+				 		.appendTo(this.statusbar);
+		 this.statusbar.appendTo(obj);
+
+	    this.setFileNameSize = function(name,size){
+	    	var sizeStr="";
+	    	var sizeKB = size/1024;
+	    	if(parseInt(sizeKB) > 1024){
+	    		var sizeMB = sizeKB/1024;
+	    		sizeStr = sizeMB.toFixed(2)+" MB";
+	    	}else{
+	    		sizeStr = sizeKB.toFixed(2)+" KB";
+	    	}
+
+	    	this.filename.html(name);
+	    	this.size.html(sizeStr);
+	    }
+	    this.setProgress = function(progress){
+		 	var progressBarWidth = progress*this.progressBar.width()/ 100;
+			this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "%&nbsp;");
+			if(parseInt(progress) >= 100){
+				this.abort.hide();
+			}
+		}
+		this.setAbort = function(jqxhr){
+			var sb = this.statusbar;
+			this.abort.click(function(){
+				jqxhr.abort();
+				sb.hide();
+			});
+		}
+	}
+
+	var handleFileUpload = function (files, obj) {
+		$(obj).find('.fileupload-buttonbar').html('');
+		var e = 0;
+		for (var i = 0; i < files.length; i++) {
+			var fd = new FormData();
+			fd.append('files', files[i]);
+
+			var status = new createStatusbar($(obj).find('.fileupload-buttonbar')); //Using this we can set progress.
+			status.setFileNameSize(files[i].name, files[i].size);
+			var response = sendFileToServer(fd, status);
+			if(response.hasOwnProperty('error_text')){
+				rl_error_alert('File '+files[i].name +' (' + response.error_text + ')', false );
+				e++;
+			}
+		}
+		if(e!=files.length){
+			if(files.length>1){
+				mediaDialog($('#resource_types_tabs li.active').attr('data-type'), 'list_object');
+			}else{
+				mediaDialog($('#resource_types_tabs li.active').attr('data-type'), 'update', response.resource_id );
+			}
+		}else{
+			mediaDialog($('#resource_types_tabs li.active').attr('data-type'), 'add');
+		}
+	}
+
+	var obj = $("body");
+
+	obj.on('dragenter', "div.fileupload_drag_area", function (e) {
+		e.stopPropagation();
+		e.preventDefault();
+	});
+	obj.on('dragover', "div.fileupload_drag_area", function (e) {
+		$(this).css('border', '2px dotted #F19013');
+		e.stopPropagation();
+		e.preventDefault();
+	});
+	obj.on('drop', "div.fileupload_drag_area", function (e) {
+
+		$(this).css('border', '2px dotted #F19013');
+		e.preventDefault();
+		var files = e.originalEvent.dataTransfer.files;
+
+		//if replacement of file - take only first dragged file
+		if( $("div.fileupload_drag_area").attr('data-upload-type')=='single' ){
+			files = [files[0]];
+		}
+console.log(files);
+		//We need to send dropped files to Server
+		handleFileUpload(files, obj);
+	});
+
+	var doc = $(document);
+	doc.on('dragenter', "div.fileupload_drag_area" , function (e) {
+		e.stopPropagation();
+		e.preventDefault();
+	});
+	doc.on('dragover', "div.fileupload_drag_area", function (e) {
+		e.stopPropagation();
+		e.preventDefault();
+		obj.css('border', '2px dotted #F19013');
+	});
+	doc.on('drop',"div.fileupload_drag_area", function (e) {
+		obj.css('border', '1px dashed grey');
+		e.stopPropagation();
+		e.preventDefault();
+	});
+
+	$('body').on('change', 'input[name="files\[\]"]', function () {
+		obj.css('border', '2px dotted #F19013');
+		var files = this.files;
+		//We need to send dropped files to Server
+		handleFileUpload(files, obj);
+	});
+
+});
 
 
 </script>
