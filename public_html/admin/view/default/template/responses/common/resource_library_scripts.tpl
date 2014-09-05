@@ -23,7 +23,6 @@ var urls = {
 	},
 	default_type = '<?php echo $default_type["type_name"]; ?>';	
 
-var allowedTypes = ['<?php echo implode("','",$allowed_types)?>'];
 /*
 	Main resource library modal
 */
@@ -787,6 +786,8 @@ jQuery(function () {
 	var handleFileUpload = function (files, obj) {
 		$(obj).find('.fileupload-buttonbar').html('');
 		var e = 0;
+		var rl_type = $('#resource_types_tabs li.active').attr('data-type');
+
 		for (var i = 0; i < files.length; i++) {
 			var fd = new FormData();
 			fd.append('files', files[i]);
@@ -801,12 +802,15 @@ jQuery(function () {
 		}
 		if(e!=files.length){
 			if(files.length>1){
-				mediaDialog($('#resource_types_tabs li.active').attr('data-type'), 'list_object');
+				mediaDialog(rl_type, 'list_object');
 			}else{
-				mediaDialog($('#resource_types_tabs li.active').attr('data-type'), 'update', response.resource_id );
+				if( (rl_type == undefined || rl_type.length<1) && response.hasOwnProperty('type')){
+					rl_type = response.type;
+				}
+				mediaDialog(rl_type, 'update', response.resource_id );
 			}
 		}else{
-			mediaDialog($('#resource_types_tabs li.active').attr('data-type'), 'add');
+			mediaDialog(rl_type, 'add');
 		}
 	}
 

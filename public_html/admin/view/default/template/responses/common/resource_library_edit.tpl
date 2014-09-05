@@ -82,7 +82,8 @@
         	<?php } else { ?>
 		    <div class="resource_image center">
 		    <a target="_preview" href="<?php echo $rl_get_preview; ?>&resource_id=<?php echo $resource['resource_id']; ?>&language_id=<?php echo $resource['language_id']; ?>" title="<?php echo $text_preview; ?>">
-		    	<img src="<?php echo $resource['thumbnail_url']; ?>" title="<?php echo $resource['title']; ?>"/>
+		    	<?php // NOTE: USE time as parameter for image to prevent caching of thumbnail (in case of replacement of resource file)?>
+				<img src="<?php echo $resource['thumbnail_url']; ?>?t=<?php echo time();?>" title="<?php echo $resource['title']; ?>"/>
 		    </a>
 		    </div>
 			<?php // upload form for file replacement ?>

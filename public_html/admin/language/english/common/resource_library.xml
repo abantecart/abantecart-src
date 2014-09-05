@@ -317,4 +317,8 @@
 		<key>error_not_exists</key>
 		<value><![CDATA[File Replacement Error. Resource does not exists!]]></value>
 	</definition>
+	<definition>
+		<key>error_cannot_move</key>
+		<value><![CDATA[Error: Cannot move file %s to resources directory.]]></value>
+	</definition>
 </definitions>

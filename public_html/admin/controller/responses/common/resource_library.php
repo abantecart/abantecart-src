@@ -319,7 +319,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				$item['resource_id'],
 				$this->thumb_sizes['width'],
 				$this->thumb_sizes['height'],
-				$item['language_id']
+				$language_id
 			);
 			$result[$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
 			$result[$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
@@ -432,7 +432,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				));
 		}
 		$rm = new AResourceManager();
-		if(!has_value)
+
 		$rm->setType($this->request->get['type']);
 
 		$upload_handler = new ResourceUploadHandler(
@@ -509,8 +509,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->response->setOutput(AJson::encode($result));
 	}
 
-
-		/**
+	/**
 	 * @return mixed
 	 */
 	public function replace() {
@@ -583,21 +582,27 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$result[$k]->resource_id = $resource_id;
 			$result[$k]->type = $info['type_name'];
 
-			$rm->updateResource($resource_id, array('resource_path' => $r->name));
+			//resource_path
+			$resource_path = $rm->buildResourcePath($resource_id, $r->name);
+
+			if ( !rename(DIR_RESOURCE . $info['type_name'] .'/'. $r->name, DIR_RESOURCE . $info['type_name']. '/' . $resource_path ) ) {
+					$message = sprintf($this->language->get('error_cannot_move'), $r->name);
+					$error = new AError ( $message );
+					$error->toLog()->toDebug();
+					$result[$k]->error_text = $message;
+					continue;
+			}
+			$rm->updateResource($resource_id, array('resource_path' => $resource_path));
 			//remove old file of resource
-			if ( $info['resource_path'] && is_file( DIR_RESOURCE . $info['type_name'] . '/' . $info['resource_path']) ) {
+			if ( $info['resource_path'] && is_file( DIR_RESOURCE . $info['type_name'] . '/' . $info['resource_path']) && $info['resource_path']!=$resource_path ) {
 				unlink( DIR_RESOURCE.$info['type_name'].'/'.$info['resource_path'] );
 			}
-
 		}
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($result));
 	}
-
-
-
 
 	public function add_code() {
 
