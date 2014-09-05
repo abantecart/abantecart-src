@@ -56,9 +56,8 @@ class AResourceManager extends AResource {
 			//get type details
 	        $this->_loadType();
 
-
 			if ( !$this->type_id ) {
-				$message = "Error: Incorrect or missing resource type ".$this->request->get['resource_id'];
+				$message = "Error: Incorrect or missing resource type ".$type;
 				$error = new AError ( $message );
 				$error->toLog()->toDebug();
 			}
@@ -78,6 +77,29 @@ class AResourceManager extends AResource {
         $cache_name = 'resources.types';
         $this->cache->delete($cache_name,'',(int)$this->config->get('config_store_id'));
     }
+
+	public function buildResourcePath($resource_id, $file_path){
+		if(!(int)$resource_id || empty($file_path)){
+			return false;
+		}
+		$resource_path = $this->getHexPath($resource_id) . strtolower(substr(strrchr($file_path, '.'), 0));
+		$resource_dir = dirname($resource_path);
+		if ( !is_dir(DIR_RESOURCE . $this->type_dir . $resource_dir ) ) {
+			$path = '';
+			$directories = explode('/', $resource_dir);
+			foreach ($directories as $directory) {
+				$path = $path . '/' . $directory;
+				if (!is_dir(DIR_RESOURCE . $this->type_dir . $path)) {
+					@mkdir(DIR_RESOURCE . $this->type_dir . $path, 0777);
+					chmod(DIR_RESOURCE . $this->type_dir . $path, 0777);
+				}
+			}
+		}
+		if (is_file(DIR_RESOURCE . $this->type_dir . $resource_path)) {
+			unlink(DIR_RESOURCE . $this->type_dir . $resource_path);
+		}
+		return $resource_path;
+	}
 
     /**
      * upload resources to directory with type name (example: image)
@@ -101,22 +123,14 @@ class AResourceManager extends AResource {
         $resource_id = $this->db->getLastId();
 
         if ( !empty($resource['resource_path']) ) {
-            $resource_path = $this->getHexPath($resource_id) . strtolower(substr(strrchr($resource['resource_path'], '.'), 0));
-            $resource_dir = dirname($resource_path);
-            if ( !is_dir(DIR_RESOURCE . $this->type_dir . $resource_dir ) ) {
-                $path = '';
-                $directories = explode('/', $resource_dir);
-                foreach ($directories as $directory) {
-                    $path = $path . '/' . $directory;
-                    if (!is_dir(DIR_RESOURCE . $this->type_dir . $path)) {
-                        @mkdir(DIR_RESOURCE . $this->type_dir . $path, 0777);
-                        chmod(DIR_RESOURCE . $this->type_dir . $path, 0777);
-                    }
-                }
-            }
-            if (is_file(DIR_RESOURCE . $this->type_dir . $resource_path)) {
-                unlink(DIR_RESOURCE . $this->type_dir . $resource_path);
-            }
+			$resource_path = $this->buildResourcePath($resource_id, $resource['resource_path']);
+			if($resource_path===false){
+				$message = "Error: Incorrect or missing resource path. Please set correct path to build internal path of resource. ";
+				$error = new AError ( $message );
+				$error->toLog()->toDebug();
+				return false;
+			}
+
             if ( !rename(DIR_RESOURCE . $this->type_dir . $resource['resource_path'], DIR_RESOURCE . $this->type_dir . $resource_path ) ) {
                 $message = "Error: Cannot move resource to resources directory.";
                 $error = new AError ( $message );
@@ -157,33 +171,69 @@ class AResourceManager extends AResource {
 	 */
 	public function updateResource( $resource_id, $data ) {
 
+		$resource_id = (int)$resource_id;
+		if(!$resource_id){ return false;}
+
         $resource = parent::getResource($resource_id);
-        if ( isset($data['resource_code']) )
+        if ( isset($data['resource_code']) ){
             $_update['resource_code'] = $data['resource_code'];
+		}
 
-        $fields = array('name', 'title', 'description', 'resource_path');
-        foreach ( $data['name'] as $language_id => $name ) {
-			if($this->config->get('translate_override_existing') && $language_id != $data['language_id'] ){
-				continue;
+        $fields = array('name', 'title', 'description');
+		if( $data['name'] ){
+			foreach ( $data['name'] as $language_id => $name ) {
+				if($this->config->get('translate_override_existing') && $language_id != $data['language_id'] ){
+					continue;
+				}
+
+				 $update = $_update;
+
+				foreach ( $fields as $f ) {
+					if ( isset($data[$f][$language_id]) )
+						$update[$f] = $data[$f][$language_id];
+				}
+
+				$this->language->replaceDescriptions('resource_descriptions',
+													 array('resource_id' => (int)$resource_id),
+													 array((int)$language_id => $update) );
 			}
-
-             $update = $_update;
-
-            foreach ( $fields as $f ) {
-                if ( isset($data[$f][$language_id]) )
-                    $update[$f] = $data[$f][$language_id];
-            }
-
-			$this->language->replaceDescriptions('resource_descriptions',
-												 array('resource_id' => (int)$resource_id),
-												 array((int)$language_id => $update) );
-        }
+		}
+		if($data['resource_path']){
+			$sql = "UPDATE ".$this->db->table('resource_descriptions')."
+					SET resource_path='".$this->db->escape($data['resource_path'])."'
+					WHERE resource_id =  ".$resource_id;
+			$this->db->query( $sql );
+			$this->deleteThumbnail($resource_id);
+		}
 
 
         $this->cache->delete('resources.'. $resource_id);
         $this->cache->delete('resources.'.$resource['type_name']);
         return true;
     }
+
+	public function deleteThumbnail($resource_id='') {
+
+        $path = DIR_IMAGE . 'thumbnails/';
+
+		$iterator = new RecursiveDirectoryIterator($path);
+	    foreach (new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST) as $file) {
+	    	if(is_int(strpos($file->getPathname(),'/index.html'))){
+	    		continue;
+	    	}
+
+			if($resource_id && strpos($file->getPathname(),(string)$resource_id)===false ){
+				continue;
+			}
+
+			if ($file->isDir()) {
+				rmdir($file->getPathname());
+			} else {
+				unlink($file->getPathname());
+			}
+	    }
+
+  	}
 
     /**
      * remove resource with option to delete the file
@@ -492,7 +542,7 @@ class AResourceManager extends AResource {
 	 */
 	public function getResourcesList($data, $mode = 'default') {
 
-		if ( $data['language_id'] ) {
+		if ( (int)$data['language_id'] ) {
 			$language_id = (int)$data['language_id'];
 		} else {
 			$language_id = (int)$this->language->getContentLanguageID();
