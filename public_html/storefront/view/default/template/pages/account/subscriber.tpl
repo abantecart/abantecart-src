@@ -4,7 +4,7 @@
 	  <span class="subtext"></span>
 	</h1>
 
-	<div class="container">
+	<div class="container-fluid">
 
 	<section class="mb40">
 		<p></p>
@@ -34,7 +34,7 @@
 </div>
 <?php } ?>
 
-<div class="container">
+<div class="container-fluid">
 	<?php echo $form['form_open']; ?>
 	
 	<p><?php echo $text_account_already; ?></p>

@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container">
+<div class="container-fluid">
 	<?php echo $form_open; ?>
 	
 	<h4 class="heading4"><?php echo $text_password; ?></h4>

@@ -769,14 +769,6 @@ ul.categorymenu > li ul > li img {
 }
 
 /* ------------ newsletter ------------ */
-#newslettersignup input {
-	height: 32px
-}
-
-#newslettersignup input[type=submit] {
-	height: 42px
-}
-
 #newslettersignup .pull-right {
 	margin-top: 15px
 }
@@ -921,8 +913,6 @@ ul.categorymenu > li ul > li img {
 }
 
 .thumbnail .pricetag {
-	width: 221px;
-	height: 37px;
 	background: url(../image/pricetag.png) no-repeat right 0;
 	margin-top: 8px;
 	position: relative;
@@ -1371,11 +1361,10 @@ ul.rate li.off {
 
 .productpageprice {
 	width: 250px;
-	height: 58px;
 	background: url(../image/pricetagproduct.png) no-repeat right 0;
 	position: relative;
 	padding: 9px 0 9px 20px;
-	margin: 45px 0 10px -28px;
+	margin: 40px 0 10px -15px;
 	font-size: 26px;
 	text-align: center;
 	line-height: 44px;
@@ -1454,10 +1443,6 @@ ul.productpagecart li {
 	padding: 15px 15px 8px 0;
 	display: block;
 	margin: 10px 0 10px 0;
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	-o-border-radius: 4px;
 }
 
 .quantitybox:after {
@@ -1951,7 +1936,7 @@ ul.total li span.extra {
 }
 
 .newcustomer, .returncustomer, .formbox {
-	width: 43%;
+	width: 48%;
 	float: left;
 	border: 1px solid #E7E7E7;
 	padding: 15px 20px;
@@ -1960,7 +1945,7 @@ ul.total li span.extra {
 .returncustomer {
 	padding-right: 0;
 	margin-right: 0;
-	width: 45%;
+	width: 48%;
 	float: right;
 }
 
@@ -1978,26 +1963,23 @@ ul.total li span.extra {
 }
 
 .added_to_cart {
-	/*position: absolute;
 	display: block;
-	z-index: 999;
-	margin: 10px 0 0 18px;
-	width: 200px;*/
-
-	display: block;
-	height: 27px;
-	margin-left: 10px;
-	margin-top: -4px;
+	height: 55px;
+	margin-left: -31px;
+	margin-top: -10px;
 	position: absolute;
-	width: 165px;
+	width: 255px;
 	z-index: 999;
+	white-space: nowrap;
 }
-
 .added_to_cart>button.close {
 	line-height: 20px;
 	position: relative;
-	right: -34px;
+	right: -10px;
 	top: -10px;
+}
+.added_to_cart a > img {
+	display: inline;
 }
 
 /* javascripts */
@@ -3418,7 +3400,6 @@ a.clostalert {
 
 	.returncustomer, .newcustomer {
 		width: 92%;
-		padding: 10px 10px;
 	}
 
 	.returncustomer {
@@ -3764,43 +3745,23 @@ a.clostalert {
 
 
 /* ------------ bootstrap overwrite ------------ */
-textarea:focus,
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="datetime"]:focus,
-input[type="datetime-local"]:focus,
-input[type="date"]:focus,
-input[type="month"]:focus,
-input[type="time"]:focus,
-input[type="week"]:focus,
-input[type="number"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-input[type="search"]:focus,
-input[type="tel"]:focus,
-input[type="color"]:focus,
-.uneditable-input:focus,
-.headerdetails ul.nav.language li.dropdown:hover,
-.headerdetails ul.nav.topcart li.dropdown:hover {
-	border-color: rgba(242, 92, 39, 0.6);
-	outline: 0;
-	outline: thin dotted    \9; /* IE6-9 */
-	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(242, 92, 39, 0.6);
-	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(242, 92, 39, 0.6);
-	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(242, 92, 39, 0.6);
+/* fix for lable inside of input-group */
+.input-group label {
+	padding-top: 7px;
 }
 
-/* -- disable round corners -- */
-input, .btn, .label, .badge, .nav-pills > li > a,
-.input-prepend .add-on:first-child, .input-prepend .btn:first-child
-.input-append input, .input-prepend input, .input-append select, .input-prepend select, .input-append .uneditable-input, .input-prepend .uneditable-input, select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input, .alert, .breadcrumb, .well, .btn-group > .btn:last-child, .btn-group > .dropdown-toggle,
+.form-control, .alert {
+    border-radius: 0;
+}
+/* -- disable round corners for buttons -- */
+.btn, .label, .badge, .nav-pills > li > a, select,
 .btn-group > .btn:first-child, .pagination ul > li:first-child > a, .pagination ul > li:first-child > span, .pagination ul > li:last-child > a, .pagination ul > li:last-child > span {
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
 	border-radius: 0;
 }
 
-.input-append .add-on:last-child, .input-append .btn:last-child, .input-append .btn-group:last-child > .dropdown-toggle {
+.input-group-addon, .input-append .btn:last-child, .input-append .btn-group:last-child > .dropdown-toggle {
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
 	border-radius: 0;
@@ -4141,6 +4102,10 @@ paypal pro styles
 #nav-info > li.active a {
     color: #DB4A39;
 }
+/* Override Bootstrap setting */
+.nav-dash * {
+    box-sizing: initial;
+}
 .nav-dash {
     list-style: none outside none;
     margin: 0 -20px 20px;
@@ -4187,7 +4152,7 @@ paypal pro styles
 .dash-tile {
     background-color: #E9E9E9;
     margin: 0 0 20px;
-    min-height: 190px;
+    min-height: 170px;
     padding: 0 20px;
 }
 .dash-tile-2x {
@@ -4201,6 +4166,7 @@ paypal pro styles
     margin: 0 -20px;
     min-height: 38px;
     padding: 0 4px 0 10px;
+    white-space: nowrap;
 }
 .dash-tile-options {
     float: right;
@@ -4243,14 +4209,14 @@ paypal pro styles
 }
 .dash-tile-icon {
     float: left;
-    font-size: 46px;
-    padding: 40px 0 0;
+    font-size: 40px;
+    padding: 30px 0 0;
     text-align: left;
 }
 .dash-tile-text {
     float: right;
-    font-size: 24px;
-    padding: 48px 0 0;
+    font-size: 20px;
+    padding: 40px 0 0;
     text-align: right;
 }
 .dash-tile-leaf .dash-tile-header, .dash-tile-dark .dash-tile-header, .dash-tile-ocean .dash-tile-header, .dash-tile-flower .dash-tile-header, .dash-tile-fruit .dash-tile-header, .dash-tile-oil .dash-tile-header, .dash-tile-balloon .dash-tile-header, .dash-tile-doll .dash-tile-header {

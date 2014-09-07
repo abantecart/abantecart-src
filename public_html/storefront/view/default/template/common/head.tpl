@@ -74,7 +74,7 @@
 <?php } ?>
 <script type="text/javascript">
 <?php if($cart_ajax){ //event for adding product to cart by ajax ?>
-    $('a.productcart').on('click',function(){
+	$(document).on('click', 'a.productcart', function() {
         var item = $(this);
         //check if href provided for product details access
         if ( item.attr('href') && item.attr('href') != '#') {

@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container">
+<div class="container-fluid">
 	<?php echo $form['form_open']; ?>
 	
 	<p><?php echo $text_account_already; ?></p>
@@ -31,12 +31,12 @@
 			array_push($field_list, 'firstname', 'lastname', 'email', 'telephone', 'fax');
 			foreach ($field_list as $field_name) {
 		?>
-			<div class="control-group <?php echo ${'error_'.$field_name} ? 'error' : ''; ?>">
-				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="controls">
+			<div class="form-group <?php echo ${'error_'.$field_name} ? 'has-error' : ''; ?>">
+				<label class="col-sm-3 control-label"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-sm-4">
 				    <?php echo $form[$field_name]; ?>
-					<span class="help-inline"><?php echo ${'error_'.$field_name}; ?></span>
 				</div>
+				<span class="col-sm-offset-3 help-block"><?php echo ${'error_'.$field_name}; ?></span>
 			</div>		
 		<?php
 			}
@@ -59,12 +59,12 @@
 			
 			foreach ($field_list as $field_name => $field_id) {
 		?>
-			<div class="control-group <?php if (${'error_'.$field_name}) echo 'error'; ?>">
-				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="controls">
+			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
+				<label class="col-sm-3 control-label"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-sm-4">
 				    <?php echo $form[$field_id]; ?>
-					<span class="help-inline"><?php echo ${'error_'.$field_name}; ?></span>
 				</div>
+				<span class="col-sm-offset-3 help-block"><?php echo ${'error_'.$field_name}; ?></span>				
 			</div>		
 		<?php
 			}
@@ -75,19 +75,19 @@
 	<h4 class="heading4 "><?php echo $text_your_password; ?></h4>
 	<div class="registerbox form-horizontal">
 		<fieldset>
-			<div class="control-group <?php if ($error_password) echo 'error'; ?>">
-				<label class="control-label"><?php echo $entry_password; ?></label>
-				<div class="controls">
+			<div class="form-group <?php if ($error_password) echo 'has-error'; ?>">
+				<label class="col-sm-3 control-label"><?php echo $entry_password; ?></label>
+				<div class="input-group col-sm-4">
 				    <?php echo $form['password']; ?>
-					<span class="help-inline"><?php echo $error_password; ?></span>
 				</div>
+				<span class="col-sm-offset-3 help-block"><?php echo $error_password; ?></span>
 			</div>
-			<div class="control-group <?php if ($error_confirm) echo 'error'; ?>">
-				<label class="control-label"><?php echo $entry_confirm; ?></label>
-				<div class="controls">
+			<div class="form-group <?php if ($error_confirm) echo 'has-error'; ?>">
+				<label class="col-sm-3 control-label"><?php echo $entry_confirm; ?></label>
+				<div class="input-group col-sm-4">
 				    <?php echo $form['confirm']; ?>
-					<span class="help-inline"><?php echo $error_confirm; ?></span>
 				</div>
+				<span class="col-sm-offset-3 help-block"><?php echo $error_confirm; ?></span>
 			</div>
 		</fieldset>
 	</div>
@@ -97,9 +97,9 @@
 	<h4 class="heading4 "><?php echo $text_newsletter; ?></h4>
 	<div class="registerbox form-horizontal">
 		<fieldset>
-			<div class="control-group">
-				<label class="control-label"><?php echo $entry_newsletter; ?></label>
-				<div class="controls">
+			<div class="form-group">
+				<label class="col-sm-3 control-label"><?php echo $entry_newsletter; ?></label>
+				<div class="input-group col-sm-4">
 				    <?php echo $form['newsletter']; ?>
 				</div>
 			</div>
@@ -107,7 +107,7 @@
 	</div>
 
 
-	<div class="control-group">
+	<div class="form-group">
 	    <div class="controls">
 	<?php if ($text_agree) { ?>
 			<label class="col-md-6 mt20 mb40">

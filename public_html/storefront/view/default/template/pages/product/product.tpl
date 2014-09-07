@@ -115,11 +115,11 @@
 								<fieldset>
 									<?php if ($options) { ?>
 										<?php foreach ($options as $option) { ?>
-											<div class="control-group">
+											<div class="form-group">
 												<?php if ($option['html']->type != 'hidden') { ?>
 												<label class="control-label"><?php echo $option['name']; ?></label>
 												<?php } ?>
-												<div class="controls">
+												<div class="input-group col-sm-4">
 													<?php echo $option['html']; ?>
 												</div>
 											</div>
@@ -129,16 +129,14 @@
 									<?php echo $this->getHookVar('extended_product_options'); ?>
 
 									<?php if ($discounts) { ?>
-										<div class="control-group">
-
+										<div class="form-group">
 											<label class="control-label"><?php echo $text_discount; ?></label>
-
-											<div class="controls">
+											<div class="input-group">
 												<?php echo $text_order_quantity; ?>
 												<?php echo $text_price_per_item; ?>
 											</div>
 											<?php foreach ($discounts as $discount) { ?>
-												<div class="controls">
+												<div class="input-group">
 													<?php echo $discount['quantity']; ?>
 													<?php echo $discount['price']; ?>
 												</div>
@@ -146,20 +144,20 @@
 										</div>
 									<?php } ?>
 									<?php if(!$product_info['call_to_order']){ ?>
-									<div class="control-group mt20">
-										<div class="input-prepend input-append">
-											<span class="add-on"><?php echo $text_qty; ?></span>
+									<div class="form-group mt20">
+										<div class="input-group col-sm-4">
+											<span class="input-group-addon"><?php echo $text_qty; ?></span>
 											<?php echo $form['minimum']; ?>
 										</div>
 										<?php if ($minimum > 1) { ?>
-											<div class="controls"><?php echo $text_minimum; ?></div>
+											<div class="input-group col-sm-3"><?php echo $text_minimum; ?></div>
 										<?php } ?>
 										<?php if ($maximum > 0) { ?>
-											<div class="controls"><?php echo $text_maximum; ?></div>
+											<div class="input-group col-sm-3"><?php echo $text_maximum; ?></div>
 										<?php } ?>
 									</div>
 
-									<div class="control-group mt20 mb10 total-price-holder">
+									<div class="form-group mt20 mb10 total-price-holder">
 										<label class="control-label"><?php echo $text_total_price; ?>
 											<span class="total-price"></span>
 										</label>

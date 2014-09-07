@@ -3,7 +3,7 @@
   <span class="subtext"></span>
 </h1>
 
-<div class="container">
+<div class="container-fluid">
 	<table class="table table-striped transaction-table">
 	<thead>
 	<tr>
@@ -40,7 +40,7 @@
 </div>
 
 
-<div class="container cart_total">
+<div class="container-fluid cart_total">
 	<div class="row">
 		<div class="col-md-5 offset7 cart-info totals pull-right">
 			<table class="table table-striped table-bordered">

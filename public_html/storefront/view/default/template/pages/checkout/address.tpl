@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container addresses">
+<div class="container-fluid addresses">
 	<section class="formbox old_address">
 	<?php if ($addresses) {
 	  echo  $form0['form_open'];

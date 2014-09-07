@@ -23,7 +23,7 @@
 }
 echo $form['form_open'];
 ?>
-<div class="cart-info product-list container">
+<div class="cart-info product-list container-fluid">
 	<table class="table table-striped table-bordered">
 		<tr>
 			<th class="align_center"><?php echo $column_remove; ?></th>
@@ -62,7 +62,7 @@ echo $form['form_open'];
 		<?php echo $this->getHookVar('list_more_product_last'); ?>
 	</table>
 </div>
-<div class="container">
+<div class="container-fluid">
 	<div class=" pull-right mb20">
 		<?php echo $this->getHookVar('pre_top_cart_buttons'); ?>
 		<?php if ($form['checkout']) { ?>
@@ -89,7 +89,7 @@ echo $form['form_open'];
 		$pull_side = 'pull-left';
 	}
 	?>
-	<div class="cart-info coupon-estimate container row">
+	<div class="cart-info coupon-estimate container-fluid row">
 		<?php if ($coupon_status) { ?>
 			<div class="<?php echo $pull_side; ?> coupon">
 				<table class="table table-striped ">
@@ -152,7 +152,7 @@ echo $form['form_open'];
 	</div>
 <?php } ?>
 
-<div class="container cart_total">
+<div class="container-fluid cart_total">
 	<div class="row">
 		<div class="col-md-5 offset7 cart-info totals pull-right">
 			<table id="totals_table" class="table table-striped table-bordered">

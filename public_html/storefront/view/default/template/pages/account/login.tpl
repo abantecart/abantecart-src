@@ -17,21 +17,23 @@
 </div>
 <?php } ?>
 
-<section class="newcustomer">
+<div class="row">
+
+<div class="col-sm-6 newcustomer">
 	<h2 class="heading2"><?php echo $text_i_am_new_customer; ?></h2>
 	<div class="loginbox">
 		<h4 class="heading4"><?php echo $text_checkout; ?></h4>
 		<?php echo $form1[ 'form_open' ]; ?>
 		<fieldset>
-			<div class="control-group mt20">
+			<div class="form-group mt20">
 		      <?php echo $form1[ 'register' ];?>
 			</div>
 		<?php if ($guest_checkout) { ?>
-			<div class="control-group mt20">
+			<div class="form-group mt20">
 		      <?php echo $form1[ 'guest' ];?>
 			</div>
 		<?php } ?>
-			<div class="control-group mt20 mb40">
+			<div class="form-group mt20 mb40">
 		      <?php echo $text_create_account; ?>
 			</div>
 			<button type="submit" class="btn btn-orange"  title="<?php echo $form1['continue']->name ?>">
@@ -41,16 +43,16 @@
 		</fieldset>
 		</form>
 	</div>
-</section> 
+</div> 
 
-<section class="returncustomer">
+<div class="col-sm-6 returncustomer">
 	<h2 class="heading2"><?php echo $text_returning_customer; ?></h2>
-	<div class="loginbox">
+	<div class="loginbox form-horizontal">
 		<h4 class="heading4"><?php echo $text_i_am_returning_customer; ?></h4>
 		<?php echo $form2[ 'form_open' ]; ?>
 			<fieldset>
-				<div class="control-group">
-				  <label  class="control-label">
+				<div class="form-group">
+				  <label class="control-label col-sm-4">
 				  <?php 
 				  	if ($noemaillogin) {
 				  		echo $entry_loginname; 
@@ -59,13 +61,13 @@
 				  	}
 				  ?>
 				  </label>
-				  <div class="controls">
+				  <div class="input-group col-sm-5">
 					<?php echo $form2[ 'loginname' ]?>
 				  </div>
 				</div>
-				<div class="control-group">
-				  <label  class="control-label"><?php echo $entry_password; ?></label>
-				  <div class="controls">
+				<div class="form-group">
+				  <label class="control-label col-sm-4"><?php echo $entry_password; ?></label>
+				  <div class="input-group col-sm-5">
 					<?php echo $form2[ 'password' ]?>
 				  </div>
 				</div>
@@ -83,5 +85,6 @@
 		</form>
 	</div>
 	<?php echo $this->getHookVar('login_extension'); ?>
-</section> 
+</div> 
 
+</div>

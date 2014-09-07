@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container">
+<div class="container-fluid">
 
     <?php if ($coupon_status) { ?>
     <h4 class="heading4"><?php echo $text_coupon; ?></h4>

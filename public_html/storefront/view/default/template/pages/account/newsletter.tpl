@@ -3,7 +3,7 @@
   <span class="subtext"></span>
 </h1>
 
-<div class="container">
+<div class="container-fluid">
 	<?php echo $form['form_open']; ?>
 	
 	<div class="registerbox form-horizontal">

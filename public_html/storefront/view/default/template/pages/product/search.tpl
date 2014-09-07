@@ -3,7 +3,7 @@
   <span class="subtext"></span>
 </h1>
 
-<div class="container">
+<div class="container-fluid">
 
 	<h4 class="heading4"><?php echo $text_critea; ?></h4>
 	<div class="form-inline">

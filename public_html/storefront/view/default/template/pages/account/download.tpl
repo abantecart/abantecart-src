@@ -3,7 +3,7 @@
 	<span class="subtext"></span>
 </h1>
 
-<div class="container">
+<div class="container-fluid">
 	<?php foreach ($downloads as $download) { ?>
 		<div class="row mb20" style="border-top: 1px solid #EFEFEF;">
 			<div style="width: 45%; float: left; margin-bottom: 2px;">
