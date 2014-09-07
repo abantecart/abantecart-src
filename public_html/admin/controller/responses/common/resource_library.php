@@ -213,7 +213,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	}
 
 	private function _buildFrom($resource=array()){
-				//Resource edit form fields
+		//Resource edit form fields
 		$form = new AForm('HT');
 		$this->data['form']['form_open' ] = $form->getFieldHtml(
 														array(
@@ -354,6 +354,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->processTemplate('responses/common/resource_library.tpl');
 	}
 
+	/**
+	 * @param AResourceManager $rm
+	 */
 	private function _common($rm) {
 
 		if (isset($this->session->data['rl_types'])) {
@@ -364,6 +367,13 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		}
 
 		$this->data['type'] = $this->request->get['type'];
+		if( ($this->data['type']=='undefined' || empty($this->data['type'])) && $this->request->post_or_get('resource_id')){
+			$info = $rm->getResource($this->request->post_or_get('resource_id'), $this->language->getContentLanguageID());
+			$this->data['type'] = $info['type_name'];
+		}elseif( $this->data['type']=='undefined' || empty($this->data['type']) ){
+			$this->data['type'] = current($this->data['types']);
+		}
+
 		$this->data['object_name'] = $this->data['name'] = (string)$this->request->get['object_name'];
 		$this->data['object_id'] = $this->request->get['object_id'];
 		$this->data['object_title'] = $this->request->get['object_title'];

@@ -477,12 +477,12 @@ var bind_rl = function ( elm ) {
     $obj.find('.rl_save').click(function(){
 		//save rl details. 
 		var datastring = $("#RlFrm").serialize();
-		var type = $('#RlFrm input[name=type]').val();
+		var type = $('#type').val();
 		if( type == undefined ){
-			type = $('#RlFrm #rl_types').val();
+			type = $('#rl_types').val();
 		}
 	    var src = urls.resource_library+'&type='+type;
-	    var rid = $('#RlFrm input[name=resource_id]').val();
+	    var rid = $('#resource_id').val();
     	if (rid) {
         	src += '&resource_id=' + rid+'&action=save';
     	}else{
