@@ -3,7 +3,7 @@
   <span class="subtext"></span>
 </h1>
 
-<div class="container">
+<div class="container-fluid">
 
 	<?php if ($description) { ?>
 	<div style="margin-bottom: 15px;"><?php echo $description; ?></div>

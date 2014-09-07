@@ -3,7 +3,7 @@
   <span class="subtext"></span>
 </h1>
 
-<div class="container">
+<div class="container-fluid">
 
 	<?php if ($products) { ?>
 	<!-- Sorting + pagination-->

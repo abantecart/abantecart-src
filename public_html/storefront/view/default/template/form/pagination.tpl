@@ -1,6 +1,6 @@
 <?php if ($total > 0 ) { ?>
 
-<form class=" form-inline pull-left">
+<form class="form-inline pull-left">
 <?php echo $text_limit ?>&nbsp;&nbsp;
 <?php echo $limit_select ?>&nbsp;&nbsp;
 <?php echo $text ?>

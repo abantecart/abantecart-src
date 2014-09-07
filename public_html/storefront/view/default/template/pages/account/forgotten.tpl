@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container">
+<div class="container-fluid">
 	<?php echo  $form[ 'form_open' ]; ?>
 	
 	<h4 class="heading4"><?php echo $help_text; ?></h4>

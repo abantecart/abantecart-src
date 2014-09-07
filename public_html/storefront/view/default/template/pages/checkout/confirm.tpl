@@ -33,7 +33,7 @@
 </div>  
 </div>
 
-<div class="container">
+<div class="container-fluid">
 	<?php echo $form['form_open']; ?>
 	<p><?php echo $text_accept_agree ?><a onclick="openModalRemote('#returnPolicyModal', '<?php echo $text_accept_agree_href; ?>'); return false;"
 				href="<?php echo $text_accept_agree_href; ?>"><b><?php echo $text_accept_agree_href_link; ?></b></a></p>
@@ -146,7 +146,7 @@
 
 	<?php if ($comment) { ?>
 		<h4 class="heading4"><?php echo $text_comment; ?></h4>
-		<div class="container"><?php echo $comment; ?></div>
+		<div class="container-fluid"><?php echo $comment; ?></div>
 	<?php } ?>
 
 	<?php echo $this->getHookVar('order_attributes'); ?>

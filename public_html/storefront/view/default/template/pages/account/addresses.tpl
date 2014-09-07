@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container">
+<div class="container-fluid">
 
 	<h4 class="heading4"><?php echo $text_address_book; ?></h4>
     <?php foreach ($addresses as $result) { ?>

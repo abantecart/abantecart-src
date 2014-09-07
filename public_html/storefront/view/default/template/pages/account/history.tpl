@@ -3,7 +3,7 @@
   <span class="subtext"></span>
 </h1>
 
-<div class="container">
+<div class="container-fluid">
 
 	<?php foreach ($orders as $order) { ?>
 		
@@ -33,7 +33,7 @@
 	<div class="pagination"><?php echo $pagination_bootstrap; ?></div>
 </div>
 
-<div class="container cart_total">
+<div class="container-fluid cart_total">
 	<div class="row">
 			<a href="<?php echo $continue; ?>" class="btn mt10 pull-right" title="<?php echo $button_continue->text ?>">
 	    		    <i class="icon-arrow-right"></i>

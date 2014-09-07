@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container">
+<div class="container-fluid">
 
 	<h4 class="heading4"><?php echo $text_payment_address; ?></h4>
 	<div class="registerbox">

@@ -88,7 +88,4 @@ echo ${$header}; ?>
 <!-- footer blocks placeholder -->
 <div id="footer"><?php echo ${$footer}; ?></div>
 
-<p style="position: absolute !important; text-indent: -10000px !important; font-size:1px !important; margin:0; padding:0; height:1px;" >
-    <a style="margin:0; padding:0; height:1px; font-size:1px !important;" href="<?php echo $rnk_lnk;?>" title="<?php echo $rnk_text;?>" ><?php echo $rnk_text;?></a>
-</p>
 </body></html>

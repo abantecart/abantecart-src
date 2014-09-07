@@ -1,10 +1,6 @@
 <?php
-	//set size for bootstrap
-	$style = str_replace('short','input-mini', $style);
-	$style = str_replace('long','input-large', $style);
-	//Possible class values : input-mini, input-small, input-medium, input-large, input-xlarge, input-xxlarge
 ?>
-<select name="<?php echo $name ?>" id="<?php echo $id ?>" <?php echo $attr ?> <?php echo ($style ? 'class="'.$style.'"':''); ?>>
+<select name="<?php echo $name ?>" id="<?php echo $id ?>" class="form-control <?php echo $style; ?>" data-placeholder="<?php echo $placeholder ?>" <?php echo $attr ?>>
 	<?php
 	if(!current($value) && $placeholder){ ?>
 		<option value=""><?php echo $placeholder; ?></option>
@@ -17,6 +13,6 @@
 	    </option>
 	<?php } ?>
 </select>
-<?php if ( $required == 'Y' ) : ?>
-<span class="add-on required">*</span>
-<?php endif; ?>
+<?php if ( $required == 'Y' ) { ?>
+<span class="input-group-addon"><span class="required">*</span></span>
+<?php } ?>

@@ -1,6 +1,6 @@
 <div class="sidewidt">
 	<h2 class="heading2"><span><?php echo $heading_title; ?></span></h2>
-		<ul class="nav nav-list side_list">
+		<ul class="nav list-group side_list">
 			<?php echo $this->getHookVar('pre_contents'); ?>
 			<?php foreach ($contents as $content) { ?>
 			    <li><a href="<?php echo $content['href']; ?>"><?php echo $content['title']; ?></a></li>

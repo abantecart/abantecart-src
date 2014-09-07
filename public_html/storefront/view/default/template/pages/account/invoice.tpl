@@ -3,9 +3,9 @@
 	<span class="subtext"></span>
 </h1>
 
-<div class="container">
+<div class="container-fluid">
 
-	<div class="container">
+	<div class="container-fluid">
 		<table class="table table-striped table-bordered">
 			<tr>
 				<td><?php if ($invoice_id) { ?>
@@ -46,7 +46,7 @@
 			</tr>
 		</table>
 	</div>
-	<div class="container invoice_products">
+	<div class="container-fluid invoice_products">
 		<table class="table table-striped table-bordered ">
 			<tr>
 				<th class="align_left"><?php echo $text_image; ?></th>
@@ -88,7 +88,7 @@
 	</div>
 
 	<?php if ($comment) { ?>
-		<div class="container">
+		<div class="container-fluid">
 			<h4 class="heading4"><?php echo $text_comment; ?></h4>
 
 			<div class="content"><?php echo $comment; ?></div>
@@ -98,7 +98,7 @@
 	<?php echo $this->getHookVar('order_attributes'); ?>
 
 	<?php if ($historys) { ?>
-		<div class="container">
+		<div class="container-fluid">
 			<h4 class="heading4"><?php echo $text_order_history; ?></h4>
 			<table class="table table-striped table-bordered">
 				<tr>

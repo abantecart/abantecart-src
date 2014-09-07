@@ -21,6 +21,6 @@
     	<a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><i class="icon-remove"></i> </a>
 
 	<?php if ( $required == 'Y' ) : ?>
-	<span class="add-on required">*</span>
+	<span class="input-group-addon"><span class="required">*</span></span>
 	<?php endif; ?>
 </div>
