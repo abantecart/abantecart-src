@@ -31,14 +31,9 @@
 				<?php endif; ?>
 			</div>
 		</div>
-
 	</div>
-
 	<div class="panel-body panel-body-nopadding" id="option_values">
-
-		<?php echo $form['form_open']; ?>
     	<?php echo $resources_html ?>
-    		
 	</div>
 </div>
 

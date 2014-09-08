@@ -207,7 +207,7 @@ if ($action == 'list_object') {
 												type="button">
 											<i class="fa fa-sort"></i>
 										</button>
-										<ul role="menu" class="dropdown-menu">
+										<ul id="rl_list_sorting" role="menu" class="dropdown-menu">
 											<li><a href="<?php echo $no_sort_url; ?>&sort=created&order=DESC"><i
 															class="fa fa-sort-amount-desc"></i> <?php $text_sorting_date_desc; ?>
 												</a></li>
@@ -220,12 +220,14 @@ if ($action == 'list_object') {
 											<li><a href="<?php echo $no_sort_url; ?>&sort=name&order=DESC"><i
 															class="fa fa-sort-alpha-desc"></i> <?php $text_sorting_name_desc; ?>
 												</a></li>
+											<?php if($action=='list_object'){ ?>
 											<li><a href="<?php echo $no_sort_url; ?>&sort=sort_order&order=ASC"><i
 															class="fa fa-sort-numeric-asc"></i> <?php $text_sorting_asc; ?>
 												</a></li>
 											<li><a href="<?php echo $no_sort_url; ?>&sort=sort_order&order=DESC"><i
 															class="fa fa-sort-numeric-desc"></i> <?php $text_sorting_desc; ?>
 												</a></li>
+											<?php } ?>
 										</ul>
 									</div>
 								</div>
@@ -245,145 +247,3 @@ if ($action == 'list_object') {
 	</div><!-- <div class="tab-content"> -->
 
 	</div>
-
-
-<?php if (1 == 0) { ?>
-	<div id="column_left">
-
-
-		<span id="add_resource_msg"></span>
-		<a id="done_resource" class="btn_standard"><?php echo $button_done; ?></a>
-	</div>
-	<div id="column_right_wrapper">
-		<ul class="tabs">
-			<li>
-				<a class="selected" href="#column_right" id="object"><?php echo $object_title; ?></a>
-			</li>
-			<li style="float: right; margin-right:15px;">
-				<a href="#column_right" id="library"><?php echo $heading_title; ?></a>
-			</li>
-		</ul>
-		<a href="#" id="button_save_order" class="btn_standard"><?php echo $button_save_order; ?></a>
-
-		<div id="column_right"></div>
-	</div>
-	<?php if ($mode == '') { ?>
-		<div id="multiactions">
-			<?php echo $text_with_selected ?>
-			<?php echo $batch_actions ?>&nbsp;<a style="vertical-align: middle; margin-top: -1px;" id="perform_action"
-												 class="btn_standard"><?php echo $button_go_actions ?></a>
-		</div>
-	<?php } ?>
-	<div id="pagination"></div>
-	</div>
-
-	<div id="edit_frm" style="display:none;">
-		<?php echo $edit_form_open; ?>
-		<div class="resource_image"></div>
-		<table class="files resource-details" cellpadding="0" cellspacing="0">
-			<tr>
-				<td colspan="2" class="sub_title"><?php echo $text_edit_resource ?></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td class="message"></td>
-			</tr>
-			<tr>
-				<td><?php echo $text_language; ?></td>
-				<td><?php echo $language; ?></td>
-			</tr>
-			<tr>
-				<td><?php echo $text_resource_code; ?></td>
-				<td><?php echo $field_resource_code; ?></td>
-			</tr>
-			<tr>
-				<td><?php echo $text_name; ?></td>
-				<td><?php echo $field_name; ?></td>
-			</tr>
-			<tr>
-				<td><?php echo $text_title; ?></td>
-				<td><?php echo $field_title; ?></td>
-			</tr>
-			<tr>
-				<td><?php echo $text_description; ?></td>
-				<td><?php echo $field_description; ?></td>
-			</tr>
-			<tr>
-				<td>
-				</td>
-				<td class="save">
-					<button style="float: right;" type="submit"><img
-								src="<?php echo $template_dir ?>image/icons/icon_grid_save.png"
-								alt="<?php echo $button_save; ?>"
-								border="0"/><?php echo $button_save; ?></button>
-				</td>
-			</tr>
-			<tr class="border">
-				<td><?php echo $text_mapped_to; ?></td>
-				<td class="mapped"></td>
-			</tr>
-			<tr id="do_map">
-				<td><?php echo $text_map; ?></td>
-				<td>
-					<?php if ($mode != 'url') { ?>
-						<a class="btn_action resource_unmap" id="map_this"><span class="icon_s_save">&nbsp;<span
-										class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
-					<?php } else { ?>
-						<a class="btn_action resource_unmaps use" rel="0"><span class="icon_s_save">&nbsp;<span
-										class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
-					<?php } ?>
-				</td>
-			</tr>
-		</table>
-		</form>
-	</div>
-
-	<div id="confirm_dialog" title="<?php echo $confirm_title ?>">
-		<?php echo $text_confirm ?>
-	</div>
-
-	<div id="resource_details">
-		<div class="resource_image"></div>
-		<table class="files resource-details" width="510" cellpadding="0" cellspacing="0">
-			<tr>
-				<td colspan="2" align="right"><a class="close">X</a></td>
-			</tr>
-			<tr>
-				<td colspan="2" class="sub_title"><?php echo $text_resource_details; ?></td>
-			</tr>
-			<tr>
-				<td width="130"><?php echo $text_name; ?>
-					<input id="resource_id" type="hidden" name="resource_id" value="<?php echo $resource_id; ?>"/>
-				</td>
-				<td width="380" class="name"></td>
-			</tr>
-			<tr>
-				<td><?php echo $text_description; ?></td>
-				<td class="description"></td>
-			</tr>
-			<tr>
-				<td><?php echo $text_mapped_to; ?></td>
-				<td class="mapped"></td>
-			</tr>
-			<tr id="do_map_info">
-				<td><?php echo $text_map; ?></td>
-				<td>
-					<?php if ($mode != 'url') { ?>
-						<a class="btn_action resource_unmap" id="map_this_info"><span class="icon_s_save">&nbsp;<span
-										class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
-					<?php } else { ?>
-						<a class="btn_action resource_unmaps use" id="map_this_info" rel="1"><span
-									class="icon_s_save">&nbsp;<span
-										class="btn_text"><?php echo $button_select_resource; ?></span></span></a>
-					<?php } ?>
-				</td>
-			</tr>
-		</table>
-	</div>
-
-
-
-	</body>
-
-
-<?php } // if ( 1 == 0 ){ ?>
