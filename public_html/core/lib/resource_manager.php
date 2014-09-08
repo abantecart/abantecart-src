@@ -553,7 +553,7 @@ class AResourceManager extends AResource {
 		}
 		else {
 			$top_sql = "  rl.resource_id,
-        				  IF(rl.created = NULL, '', rl.created) as created,
+        				  COALESCE(rl.created, '', rl.created) as created,
         				  rd.name,
         				  rd.title,
         				  rd.description,

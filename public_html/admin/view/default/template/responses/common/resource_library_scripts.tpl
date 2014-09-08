@@ -122,13 +122,17 @@ var loadMedia = function (type) {
             $('#type_' + type).show();
 
             var html = '';
+			var t = new Date().getTime();
             $(json.items).each(function (index, item) {
-                var src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '" title="' + item['name'] + '" />';
+                var src = '';
                 if (type == 'image' && item['resource_code']) {
-                    src = item['thumbnail_url'];
-                }
+                    src = item['thumbnail_url']
+                }else{
+					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
+					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t='+t+'" title="' + item['name'] + '" />';
+				}
                 html += '<div class="col-xs-3 col-sm-3 col-md-2">';
-                html += '<div class="thumbnail" id="image_row' + item['resource_id'] + '" >\
+                html += '<div class="center thumbnail" id="image_row' + item['resource_id'] + '" >\
                 <a class="btn resource_edit" data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
 
 				html += '<div class="caption center">';
@@ -156,9 +160,11 @@ var loadMedia = function (type) {
                 html += '</div></div></div>';
             });
             
-            html += '<div class="col-xs-3 col-sm-3 col-md-2"><div class="thumbnail">';
-            html += '<a class="btn resource_add tooltips transparent" data-type="' + type + '" data-original-title="<?php echo $text_add_media ?>"><img src="<?php echo $template_dir . '/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>" width="100" /></a>'; 
-            html += '</div></div>';
+            html += '<div class="col-xs-3 col-sm-3 col-md-2">' +
+					'<div class="center thumbnail fileupload_drag_area">'+
+					'<form action="<?php echo $rl_upload; ?>&type='+type+'" method="POST" enctype="multipart/form-data"><input type="file" name="files[]" multiple="" class="hide">';
+            html += '<a class="btn resource_add tooltips transparent" data-type="' + type + '" data-original-title="<?php echo $text_add_media ?>"><img src="<?php echo $template_dir . '/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>" width="100" /></a>';
+            html += '</form</div></div>';
 
 			$('#type_' + type + ' div.type_blocks').html(html);
         },
@@ -800,17 +806,21 @@ jQuery(function () {
 				e++;
 			}
 		}
+
+		if( (rl_type == undefined || rl_type.length<1) && response.hasOwnProperty('type')){
+			rl_type = response.type;
+		}
+
 		if(e!=files.length){
 			if(files.length>1){
 				mediaDialog(rl_type, 'list_object');
 			}else{
-				if( (rl_type == undefined || rl_type.length<1) && response.hasOwnProperty('type')){
-					rl_type = response.type;
-				}
 				mediaDialog(rl_type, 'update', response.resource_id );
 			}
 		}else{
-			mediaDialog(rl_type, 'add');
+			if(isModalOpen()){
+				mediaDialog(rl_type, 'add');
+			}
 		}
 	}
 

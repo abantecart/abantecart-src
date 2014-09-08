@@ -299,6 +299,11 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		}
 		if($this->data['order']){
 			$filter_data['order'] = $this->data['order'];
+		}elseif(!$this->data['sort'] && $this->data['action'] == 'list_object'){
+			$filter_data['sort'] = 'sort_order';
+		}else{
+			$filter_data['sort'] = 'created';
+			$filter_data['order'] = 'DESC';
 		}
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
@@ -496,6 +501,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				$info = $rm->getResource($resource_id, $data['language_id']);
 
 				$result[$k]->resource_id = $resource_id;
+				$result[$k]->type = $info['type_name'];
 				$result[$k]->language_id = $data['language_id'];
 				$result[$k]->resource_detail_url = $this->html->getSecureURL('common/resource_library/update_resource_details', '&resource_id=' . $resource_id);
 				$result[$k]->resource_path = $info['resource_path'];
@@ -701,6 +707,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			'object_name' => $this->request->get['object_name'],
 			'object_id' => $this->request->get['object_id']
 		);
+
 
 
 		foreach ($result['items'] as $key => $item) {
