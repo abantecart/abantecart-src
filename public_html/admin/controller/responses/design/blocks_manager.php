@@ -29,6 +29,7 @@ class ControllerResponsesDesignBlocksManager extends AController {
     $section_id = $this->request->get['section_id'];
     $layout = new ALayoutManager();
     $installedBlocks = $layout->getInstalledBlocks();
+
     $availableBlocks = array();
 
     foreach ($installedBlocks as $k => $block) {
