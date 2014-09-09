@@ -17,8 +17,16 @@
 		<value><![CDATA[You have approved %s account!]]></value>
 	</definition>
 	<definition>
-		<key>tab_address</key>
+		<key>tab_customer_address</key>
 		<value><![CDATA[Address]]></value>
+	</definition>
+	<definition>
+		<key>text_customer_addresses</key>
+		<value><![CDATA[Customer Addresses]]></value>
+	</definition>
+	<definition>
+		<key>text_add_address</key>
+		<value><![CDATA[Add Address]]></value>
 	</definition>
 	<definition>
 		<key>button_add</key>

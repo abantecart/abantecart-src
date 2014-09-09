@@ -257,7 +257,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                         echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-check-square-o fa-lg"></i></a>\'; ';
                         break;
                     case 'actonbehalfof':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-male fa-lg"></i></a>\'; ';
+                        echo $ec_str.' href="'.$href.'" target="_blank" rel="%ID%"><i class="fa fa-male fa-lg"></i></a>\'; ';
                         break;
                     case 'clone':
                         echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-copy fa-lg"></i></a>\'; ';
