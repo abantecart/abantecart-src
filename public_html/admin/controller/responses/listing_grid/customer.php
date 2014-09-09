@@ -98,7 +98,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 				$this->html->buildButton(array(
 					'name' => 'view orders',
 					'text' => $result[ 'orders_count' ],
-					'style' => 'button2',
+					'style' => 'btn btn-default btn-xs',
 					'href'=> $this->html->getSecureURL('sale/order','&customer_id='.$result['customer_id']),
 					'title' => $this->language->get('text_view').' '.$this->language->get('tab_history'),
 					'target' => '_blank'
