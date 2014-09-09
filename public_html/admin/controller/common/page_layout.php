@@ -135,7 +135,7 @@ class ControllerCommonPageLayout extends AController {
     // Footer Section
     $this->view->assign('footer_section', $page_sections[self::FOOTER_MAIN]);
 
-
+    $this->view->assign('add_block',  $this->html->getSecureURL('design/blocks_manager'));
     $this->view->assign('form_begin', $form_begin);
     $this->view->assign('form_hidden', $form_hidden);
     $this->view->assign('form_submit', $form_submit);
