@@ -156,7 +156,7 @@ class ControllerCommonPageLayout extends AController {
   private function _buildPageSections($page_layout) {
     $installed_blocks = $page_layout->getInstalledBlocks();
     $layout_blocks = $page_layout->getLayoutBlocks();
-    $page_sections = [];
+    $page_sections = array();
 
     foreach ($layout_blocks as $k => $section) {
       $blocks = $this->_buildBlocks($section['children'], $installed_blocks);
@@ -179,7 +179,7 @@ class ControllerCommonPageLayout extends AController {
    * @return array
    */
   private function _buildBlocks($section_blocks, $installed_blocks) {
-    $blocks = [];
+    $blocks = array();
     $partialView = $this->view;
 
     if (empty($section_blocks))
