@@ -35,7 +35,11 @@
 
 <div class="container-fluid cart_total">
 	<div class="row">
+<<<<<<< HEAD:public_html/storefront/view/default/template/pages/account/history.tpl
 			<a href="<?php echo $continue; ?>" class="btn btn-default mt10 pull-right" title="<?php echo $button_continue->text ?>">
+=======
+			<a href="<?php echo $continue; ?>" class="btn mt10 pull-right" title="<?php echo $button_continue->text ?>">
+>>>>>>> FETCH_HEAD:public_html/storefront/view/default/template/pages/account/history.tpl
 	    		    <i class="icon-arrow-right"></i>
 	    		    <?php echo $button_continue->text ?>
 			</a>
