@@ -137,6 +137,10 @@
 		<value><![CDATA[Country:]]></value>
 	</definition>
 	<definition>
+		<key>entry_country_id</key>
+		<value><![CDATA[Country:]]></value>
+	</definition>
+	<definition>
 		<key>entry_zone</key>
 		<value><![CDATA[Region / State:]]></value>
 	</definition>
@@ -296,5 +300,13 @@
 	<definition>
 		<key>text_transaction_success</key>
 		<value><![CDATA[Success: You have modified transaction!]]></value>
+	</definition>
+	<definition>
+		<key>text_add_address</key>
+		<value><![CDATA[Add New Address]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_address</key>
+		<value><![CDATA[Edit Address]]></value>
 	</definition>
 </definitions>
