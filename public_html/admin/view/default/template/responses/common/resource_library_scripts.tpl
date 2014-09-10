@@ -37,18 +37,11 @@ var mediaDialog = function (type, action, id, field, wrapper_id) {
         src += '&resource_id=' + id;
     }
 	
-<<<<<<< HEAD
-	openRLModal(src);
-};
-
-var openRLModal = function (URL) {
-=======
 	reloadModal(src);
 };
 
 var reloadModal = function (URL) {
 
->>>>>>> FETCH_HEAD
 	//main ajax call to load rl content
     $.ajax({
         url:URL,
@@ -62,17 +55,10 @@ var reloadModal = function (URL) {
 			$(mdb).html('');
 		    $(mdb).html(html);
 			//if modal is not yet open, open and initilize close event
-<<<<<<< HEAD
-			if (!$md.hasClass('in')) {
-			    $(mdb).css({height:'560'});
-				$md.modal('show');
-				$md.on('hidden.bs.modal', function () {
-=======
 			if( !isModalOpen() ){
 			    $(mdb).css({height:'560'});
 				$md.modal('show');
 				$md.unbind('hidden.bs.modal').on('hidden.bs.modal', function () {
->>>>>>> FETCH_HEAD
 			        //reload original media list to show new selections
 	    		    //not for URL mode
 	    		    $(mdb).html('');
@@ -87,10 +73,7 @@ var reloadModal = function (URL) {
 			bindCustomEvents(mdb);
 			bind_rl(mdb);
         },
-<<<<<<< HEAD
-=======
 		//todo: check!
->>>>>>> FETCH_HEAD
         error:function (jqXHR, textStatus, errorThrown) {
 			error_alert('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
         },
@@ -99,42 +82,6 @@ var reloadModal = function (URL) {
     });	
 }
 
-<<<<<<< HEAD
-
-
-
-//??????
-onSelectClose = function (e, ui) {}
-var selectDialog = function (type, field) {
-	$('#dialog').remove();
-	
-	window.selectField = field;
-	var src = urls.resource_library + '&type=' + type;
-	
-	$('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="' + src + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
-	$('#dialog iframe').load(function (e) {
-	    try {
-	        var error_data = $.parseJSON($(this).contents().find('body').html());
-	    } catch (e) {
-	        var error_data = null;
-	    }
-	    if (error_data && error_data.error_code) {
-	        $('#dialog').dialog('close');
-	        httpError(error_data);
-	    }
-	});
-	
-	$('#dialog').dialog({
-	    title:'<?php echo $text_resource_library; ?>',
-	    close:onSelectClose,
-	    width:900,
-	    height:500,
-	    resizable:false,
-	    modal:true
-	});
-};
-//??????
-=======
 var saveRL = function (URL, postdata) {
 	var rid;
 	//main ajax call to load rl content
@@ -159,7 +106,6 @@ var saveRL = function (URL, postdata) {
     });
 	return rid;
 }
->>>>>>> FETCH_HEAD
 
 var loadMedia = function (type) {
     $.ajax({
@@ -186,22 +132,6 @@ var loadMedia = function (type) {
 					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t='+t+'" title="' + item['name'] + '" />';
 				}
                 html += '<div class="col-xs-3 col-sm-3 col-md-2">';
-<<<<<<< HEAD
-                html += '<div class="thumbnail" id="image_row' + item['resource_id'] + '" >\
-                <a class="btn resource_edit" data-type="' + type + '" data-id="' + item['resource_id'] + '">' + src + '</a></div>';
-                html += '<div class="caption center">' 
-                + ( item['mapped'] > 1 ? '' : 
-                '<a class="btn resource_edit tooltips" data-type="' + type + '" data-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_edit ?>"><i class="fa fa-edit"></i></a>\
-                <a class="btn resource_unmap tooltips" data-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_unmap; ?>" data-confirmation="delete" data-confirmation-text="<?php echo $text_confirm_unmap ?>" onclick="unmap_resource('+item['resource_id']+');"><i class="fa fa-unlink"></i></a>\
-                <a class="btn resource_delete tooltips" data-id="' + item['resource_id'] + '" data-original-title="<?php echo $button_delete ?>" data-confirmation="delete" data-confirmation-text="<?php echo $text_confirm_del ?>" onclick="delete_resource('+item['resource_id']+');"><i class="fa fa-trash-o"></i></a>') + '\
-                </div>';
-                html += '</div></div>';
-            });
-            
-            html += '<div class="col-xs-3 col-sm-3 col-md-2"><div class="thumbnail">';
-            html += '<a class="btn resource_add tooltips transparent" data-type="' + type + '" data-original-title="<?php echo $text_add_media ?>"><img src="<?php echo $template_dir . '/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>" width="100" /></a>'; 
-            html += '</div></div>';
-=======
                 html += '<div class="center thumbnail" id="image_row' + item['resource_id'] + '" >\
                 <a class="btn resource_edit" data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
 
@@ -235,7 +165,6 @@ var loadMedia = function (type) {
 					'<form action="<?php echo $rl_upload; ?>&type='+type+'" method="POST" enctype="multipart/form-data"><input type="file" name="files[]" multiple="" class="hide">';
             html += '<a class="btn resource_add tooltips transparent" data-type="' + type + '" data-original-title="<?php echo $text_add_media ?>"><img src="<?php echo $template_dir . '/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>" width="100" /></a>';
             html += '</form</div></div>';
->>>>>>> FETCH_HEAD
 
 			$('#type_' + type + ' div.type_blocks').html(html);
         },
@@ -277,19 +206,11 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
                 src = item['thumbnail_url'];
             }
             html += '<span id="' + wrapper_id + '_' + item['resource_id'] + '" class="image_block">\
-<<<<<<< HEAD
-                <a class="resource_edit" data-type="' + type + '" data-id="' + item['resource_id'] + '">' + src + '</a><br />';
-            if (item['resource_id']) {
-                html += ( item['mapped'] > 1
-						? '' : '<a class="btn_action resource_delete" data-id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_unlink ?></span></span></a>') + '\
-					<a class="btn_action resource_edit" data-type="' + type + '" data-id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>';
-=======
                 <a class="resource_edit" data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a><br />';
             if (item['resource_id']) {
                 html += ( item['mapped'] > 1
 						? '' : '<a class="btn_action resource_delete" data-rl-id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_unlink ?></span></span></a>') + '\
 					<a class="btn_action resource_edit" data-type="' + type + '" data-rl-id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>';
->>>>>>> FETCH_HEAD
             }
             html += '</span>';
             $('#' + wrapper_id + '.type_blocks').html(html);
@@ -297,11 +218,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
             $('#' + wrapper_id + '_' + item['resource_id'] + ' a.resource_edit').unbind('click');
             $('#' + wrapper_id + '_' + item['resource_id'] + ' a.resource_edit').click(function () {
                 var action = item['resource_id'] ? 'update' : 'add';
-<<<<<<< HEAD
-                mediaDialog($(this).prop('data-type'), action, item['resource_id'], field, wrapper_id);
-=======
                 mediaDialog($(this).attr('data-type'), action, item['resource_id'], field, wrapper_id);
->>>>>>> FETCH_HEAD
                 return false;
             });
 
@@ -341,53 +258,26 @@ jQuery(function () {
     <?php } ?>
 
     $(document).on('click', 'a.resource_add', function () {
-<<<<<<< HEAD
-        mediaDialog($(this).prop('data-type'), 'add');
-=======
         mediaDialog($(this).attr('data-type'), 'add');
->>>>>>> FETCH_HEAD
         return false;
     });
 
     $(document).on("click", 'a.resource_edit', function () {
-<<<<<<< HEAD
-        mediaDialog($(this).attr('data-type'), 'update', $(this).attr('data-id'));
-=======
         mediaDialog($(this).attr('data-type'), 'update', $(this).attr('data-rl-id'));
->>>>>>> FETCH_HEAD
         return false;
     });
 
     $(document).on("click", '#resource', function () {
-<<<<<<< HEAD
-        mediaDialog($(this).attr('data-type'), 'update', $(this).attr('data-id'));
-=======
         mediaDialog($(this).attr('data-type'), 'update', $(this).attr('data-rl-id'));
->>>>>>> FETCH_HEAD
         return false;
     });
 
     $(document).on("click", '#object', function () {
-<<<<<<< HEAD
-        mediaDialog($(this).attr('data-type'), 'list_object', $(this).attr('data-id'));
-=======
         mediaDialog($(this).attr('data-type'), 'list_object', $(this).attr('data-rl-id'));
->>>>>>> FETCH_HEAD
         return false;
     });
 
     $(document).on("click", '#library', function () {
-<<<<<<< HEAD
-        mediaDialog($(this).attr('data-type'), 'list_library', $(this).attr('data-id'));
-        return false;
-    });
-
-    $(document).on("click", '.rl_pagination a', function () {
-        openRLModal($(this).attr('href'));
-        return false;
-    });
-    
-=======
         mediaDialog($(this).attr('data-type'), 'list_library', $(this).attr('data-rl-id'));
         return false;
     });
@@ -409,7 +299,6 @@ jQuery(function () {
 			$('#add_form, #code_subform, #add_resource_buttons').fadeIn("normal");
 		});
 	});
->>>>>>> FETCH_HEAD
     
 });
 
@@ -470,22 +359,16 @@ function delete_resource ( rl_id, object_name, object_id ) {
 <?php } ?>
 
 var bind_rl = function ( elm ) {
-<<<<<<< HEAD
-=======
 	var $obj;
->>>>>>> FETCH_HEAD
 	if (elm) {
 		$obj = $(elm);
 	} else {
 		$obj = $(document).find('html');	
 	}
 
-<<<<<<< HEAD
-=======
 	//bind form action if any
 	bindAform($("input, checkbox, select, textarea", 'form'));
 
->>>>>>> FETCH_HEAD
     $obj.find('.thmb').hover(function(){
       var t = $(this);
       t.find('.ckbox').show();
@@ -511,17 +394,10 @@ var bind_rl = function ( elm ) {
     $obj.find('.thmb .ckbox').click(function(){
       var $t = $(this);
       $t.closest('.thmb').toggleClass('checked');
-<<<<<<< HEAD
-      enable_menue($obj, true);
-      //togle checkbox
-      $t.find('input:checkbox').prop('checked', function(idx, oldProp) {
-      		enable_menue($obj, false);
-=======
       enable_menu($obj, true);
       //togle checkbox
       $t.find('input:checkbox').attr('checked', function(idx, oldProp) {
       		enable_menu($obj, false);
->>>>>>> FETCH_HEAD
             return !oldProp;
       });      
     });
@@ -529,20 +405,6 @@ var bind_rl = function ( elm ) {
     $obj.find('#rl_selectall').click(function(){
       if(this.checked) {
         $('.thmb').each(function(){
-<<<<<<< HEAD
-          $(this).find('input:checkbox').prop('checked',true);
-          $(this).addClass('checked');
-          $(this).find('.ckbox, .rl-group').show();
-        });
-        enable_menue($obj, true);
-      } else {
-        $('.thmb').each(function(){
-          $(this).find('input:checkbox').prop('checked',false);
-          $(this).removeClass('checked');
-          $(this).find('.ckbox, .rl-group').hide();
-        });
-        enable_menue($obj, false);
-=======
           $(this).find('input:checkbox').attr('checked',true);
           $(this).addClass('checked');
           $(this).find('.ckbox, .rl-group').show();
@@ -555,14 +417,10 @@ var bind_rl = function ( elm ) {
           $(this).find('.ckbox, .rl-group').hide();
         });
         enable_menu($obj, false);
->>>>>>> FETCH_HEAD
       }
     });    
 
     $obj.find('.rl_link').click(function(){
-<<<<<<< HEAD
-		
-=======
 		var tab = active_tab();
 		var tab_id = tab.attr('id');
 		var rl_id;
@@ -594,44 +452,10 @@ var bind_rl = function ( elm ) {
 		}else{
 			tab.click();
 		}
->>>>>>> FETCH_HEAD
 		return false;
 	});
 
     $obj.find('.rl_link_multiple').click(function(){
-<<<<<<< HEAD
-		
-		return false;
-	});
-
-    $obj.find('.rl_unlink_multiple').click(function(){
-		
-		return false;
-	});
-
-    $obj.find('.rl_save_multiple').click(function(){
-		
-		return false;
-	});
-
-    $obj.find('.rl_delete_multiple').click(function(){
-		
-		return false;
-	});
-
-    $obj.find('.rl_save').click(function(){
-		
-		return false;
-	});
-
-    $obj.find('.rl_delete').click(function(){
-		
-		return false;
-	});
-
-    $obj.find('.rl_download').click(function(){
-		
-=======
 		multi_action('map');
 		return false;
 	});
@@ -739,38 +563,24 @@ var bind_rl = function ( elm ) {
 		}
 		iframe.src = url;
 
->>>>>>> FETCH_HEAD
 		return false;
 	});
 
     $obj.find('.rl_edit').click(function(){
-<<<<<<< HEAD
-		
-=======
 		mediaDialog(type, 'update', $(this).attr('data-rl-id'));	// поменять на релоад
->>>>>>> FETCH_HEAD
 		return false;
 	});
 	
 	$('#add_resource').click(function(){
-<<<<<<< HEAD
-        mediaDialog($(this).prop('data-type'), 'add');		
-=======
         mediaDialog($(this).attr('data-type'), 'add');
->>>>>>> FETCH_HEAD
 		return false;
 	});
 
 	$('#rlsearchform').submit(function(){
 		var keyword = $(this).find('input[name=search]').val();
 		var type = $(this).find('select[name=rl_types] option:selected').text();
-<<<<<<< HEAD
-		var url = $(this).prop('action')+'&keyword='+keyword+'&type='+type;
-		openRLModal(url);
-=======
 		var url = $(this).attr('action')+'&keyword='+keyword+'&type='+type;
 		reloadModal(url);
->>>>>>> FETCH_HEAD
 		return false;
 	});
 	
@@ -783,15 +593,6 @@ var bind_rl = function ( elm ) {
     			url += '&'+this.name+'='+$(this).val();
     		}
     	});
-<<<<<<< HEAD
-        openRLModal(url);
-		return false;	
-	});
-		
-}
-
-var enable_menue = function ($obj, enable) {
-=======
         reloadModal(url);
 		return false;	
 	});
@@ -805,7 +606,6 @@ var enable_menue = function ($obj, enable) {
 
 
 var enable_menu = function ($obj, enable) {
->>>>>>> FETCH_HEAD
 
 	if(enable) {
 	  $obj.find('.itemopt').removeClass('disabled');
@@ -822,8 +622,6 @@ var enable_menu = function ($obj, enable) {
 	}
 }   
 
-<<<<<<< HEAD
-=======
 var active_tab = function(){
 	return $('#rl_container ul.nav>li.active');
 }
@@ -1078,5 +876,4 @@ console.log(files);
 });
 
 
->>>>>>> FETCH_HEAD
 </script>

@@ -16,13 +16,8 @@
 <div class="section header <?php echo $header_section['status']; ?>">
   <div class="row section-header">
     <span class="title">Header</span>
-<<<<<<< HEAD
     <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block" data-section-id="<?php echo $header_section['block_id']; ?>" data-add-block="<?php echo $add_block;?>"><i class="fa fa-plus"></i></a><!--
     --><a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
-=======
-    <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block"><i class="fa fa-plus"></i></a>
-    <a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
->>>>>>> FETCH_HEAD
   </div>
   <div class="row dropzone">
     <?php echo $header_section['blocks']; ?>
@@ -35,13 +30,8 @@
 <div class="section header-bottom <?php echo $header_bottom_section['status']; ?>">
   <div class="row section-header">
     <span class="title">Header Bottom</span>
-<<<<<<< HEAD
     <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block" data-section-id="<?php echo $header_section['block_id']; ?>" data-add-block="<?php echo $add_block;?>"><i class="fa fa-plus"></i></a><!--
     --><a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
-=======
-    <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block"><i class="fa fa-plus"></i></a>
-    <a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
->>>>>>> FETCH_HEAD
   </div>
   <div class="row dropzone">
     <?php echo $header_bottom_section['blocks']; ?>
@@ -55,13 +45,8 @@
   <div class="section col-xs-3 column-left <?php echo $left_column_section['status']; ?>">
     <div class="section-header">
       <span class="title">Left Column</span>
-<<<<<<< HEAD
       <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block" data-section-id="<?php echo $header_section['block_id']; ?>" data-add-block="<?php echo $add_block;?>"><i class="fa fa-plus"></i></a><!--
     --><a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
-=======
-      <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block"><i class="fa fa-plus"></i></a>
-      <a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
->>>>>>> FETCH_HEAD
     </div>
     <div class="dropzone">
       <?php echo $left_column_section['blocks']; ?>
@@ -75,13 +60,8 @@
     <div class="section content_top <?php echo $content_top_section['status']; ?>">
       <div class="section-header">
         <span class="title">Content Top</span>
-<<<<<<< HEAD
         <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block" data-section-id="<?php echo $header_section['block_id']; ?>" data-add-block="<?php echo $add_block;?>"><i class="fa fa-plus"></i></a><!--
         --><a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
-=======
-        <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block"><i class="fa fa-plus"></i></a>
-        <a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
->>>>>>> FETCH_HEAD
       </div>
       <div class="dropzone">
         <?php echo $content_top_section['blocks']; ?>
@@ -96,13 +76,8 @@
     <div class="section content_bottom <?php echo $content_bottom_section['status']; ?>">
       <div class="section-header">
         <span class="title">Content Bottom</span>
-<<<<<<< HEAD
         <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block" data-section-id="<?php echo $header_section['block_id']; ?>" data-add-block="<?php echo $add_block;?>"><i class="fa fa-plus"></i></a><!--
         --><a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
-=======
-        <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block"><i class="fa fa-plus"></i></a>
-        <a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
->>>>>>> FETCH_HEAD
       </div>
       <div class="dropzone">
         <?php echo $content_bottom_section['blocks']; ?>
@@ -116,13 +91,8 @@
   <div class="section col-xs-3 column-right <?php echo $right_column_section['status']; ?>">
     <div class="section-header">
       <span class="title">Right Column</span>
-<<<<<<< HEAD
       <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block" data-section-id="<?php echo $header_section['block_id']; ?>" data-add-block="<?php echo $add_block;?>"><i class="fa fa-plus"></i></a><!--
       --><a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
-=======
-      <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block"><i class="fa fa-plus"></i></a>
-      <a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
->>>>>>> FETCH_HEAD
     </div>
     <div class="dropzone">
       <?php echo $right_column_section['blocks']; ?>
@@ -136,13 +106,8 @@
 <div class="section footer-top <?php echo $footer_top_section['status']; ?>">
   <div class="row section-header">
     <span class="title">Footer Top</span>
-<<<<<<< HEAD
     <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block" data-section-id="<?php echo $header_section['block_id']; ?>" data-add-block="<?php echo $add_block;?>"><i class="fa fa-plus"></i></a><!--
     --><a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
-=======
-    <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block"><i class="fa fa-plus"></i></a>
-    <a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
->>>>>>> FETCH_HEAD
   </div>
   <div class="row dropzone">
     <?php echo $footer_top_section['blocks']; ?>
@@ -155,13 +120,8 @@
 <div class="section footer <?php echo $footer_section['status']; ?>">
   <div class="row section-header">
     <span class="title">Footer</span>
-<<<<<<< HEAD
     <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block" data-section-id="<?php echo $header_section['block_id']; ?>" data-add-block="<?php echo $add_block;?>"><i class="fa fa-plus"></i></a><!--
     --><a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
-=======
-    <a class="button sec-add-block" data-toggle="tooltip" data-placement="left" title="Add Block"><i class="fa fa-plus"></i></a>
-    <a class="button sec-switch" data-toggle="tooltip" data-placement="left" title="Enable/Disable Section"><i class="fa fa-power-off"></i></a>
->>>>>>> FETCH_HEAD
   </div>
   <div class="row dropzone">
     <?php echo $footer_section['blocks']; ?>
