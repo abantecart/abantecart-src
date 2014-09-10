@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridCustomer extends AController {
-
+	public $error = '';
 	public function main() {
 
 		//init controller data
@@ -147,16 +147,20 @@ class ControllerResponsesListingGridCustomer extends AController {
 						if (!$err) {
 							$this->model_sale_customer->editCustomerField($id, 'status', $this->request->post[ 'status' ][ $id ]);
 						} else {
-							$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-							return $dd->dispatch();
+							return $error->toJSONResponse('VALIDATION_ERROR_406',
+																				array('error_text' => $err,
+																					'reset_value' => false
+																				));
 						}
 						$err = $this->_validateForm('approved', $this->request->post[ 'approved' ][ $id ], $id);
 						if (!$err) {
 							$this->model_sale_customer->editCustomerField($id, 'approved', $this->request->post[ 'approved' ][ $id ]);
 							$this->_sendMail($id, $this->request->post[ 'approved' ][ $id ]);
 						} else {
-							$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-							return $dd->dispatch();
+							return $error->toJSONResponse('VALIDATION_ERROR_406',
+																				array('error_text' => $err,
+																					'reset_value' => false
+																				));
 						}
 					}
 				break;
@@ -186,9 +190,9 @@ class ControllerResponsesListingGridCustomer extends AController {
 		if (!$this->user->canModify('listing_grid/customer')) {
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
-				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer'),
-					'reset_value' => true
-				));
+											array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer'),
+												   'reset_value' => true
+											));
 		}
 
 		if (isset($this->request->get[ 'id' ])) {
@@ -198,10 +202,17 @@ class ControllerResponsesListingGridCustomer extends AController {
 					if ($field == 'approved') {
 						$this->_sendMail($this->request->get[ 'id' ], $value);
 					}
-					$this->model_sale_customer->editCustomerField($this->request->get[ 'id' ], $field, $value);
+					if((int)$this->request->get[ 'address_id' ]>0){
+						$this->model_sale_customer->editAddressField($this->request->get[ 'address_id' ], $field, $value);
+					}else{
+						$this->model_sale_customer->editCustomerField($this->request->get[ 'id' ], $field, $value);
+					}
 				} else {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-					return $dd->dispatch();
+					return $error->toJSONResponse('VALIDATION_ERROR_406',
+													array('error_text' => $err,
+														'reset_value' => false
+													));
+
 				}
 			}
 			//update controller data
@@ -219,8 +230,10 @@ class ControllerResponsesListingGridCustomer extends AController {
 					}
 					$this->model_sale_customer->editCustomerField($k, $field, $v);
 				} else {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-					return $dd->dispatch();
+					return $error->toJSONResponse('VALIDATION_ERROR_406',
+																		array('error_text' => $err,
+																			'reset_value' => false
+																		));
 				}
 			}
 		}
@@ -232,43 +245,64 @@ class ControllerResponsesListingGridCustomer extends AController {
 
 	private function _validateForm($field, $value, $customer_id = '') {
 
-		$err = false;
 		switch ($field) {
 			case 'loginname' :
 				$login_name_pattern = '/^[\w._-]+$/i';
 				$value = preg_replace('/\s+/', '', $value);
-   		 		if ( strlen(utf8_decode($value)) < 5 || strlen(utf8_decode($value)) > 64
+   		 		if ( mb_strlen($value) < 5 || mb_strlen($value) > 64
    		 			|| (!preg_match($login_name_pattern, $value) && $this->config->get('prevent_email_as_login')) ) {	
-   		   			$err = $this->language->get('error_loginname');
+   		   			$this->error = $this->language->get('error_loginname');
    				//check uniqunes of loginname
    		 		} else if ( !$this->model_sale_customer->is_unique_loginname($value, $customer_id) ) {
-   		   			$err = $this->language->get('error_loginname_notunique');
+   		   			$this->error = $this->language->get('error_loginname_notunique');
    		 		}			
 				break;
 			case 'firstname' :
-				if ((strlen(utf8_decode($value)) < 1) || (strlen(utf8_decode($value)) > 32)) {
-					$err = $this->language->get('error_firstname');
+				if (mb_strlen($value) < 1 || mb_strlen($value) > 32 ) {
+					$this->error = $this->language->get('error_firstname');
 				}
 				break;
 			case 'lastname':
-				if ((strlen(utf8_decode($value)) < 1) || (strlen(utf8_decode($value)) > 32)) {
-					$err = $this->language->get('error_lastname');
+				if ( mb_strlen($value) < 1 || mb_strlen($value) > 32 ) {
+					$this->error = $this->language->get('error_lastname');
 				}
 				break;
 			case 'email':
 				$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}\.[A-Z]{2,6}$/i';
-				if ((strlen(utf8_decode($value)) > 96) || (!preg_match($pattern, $value))) {
-					$err = $this->language->get('error_email');
+				if ( mb_strlen($value) > 96 || !preg_match($pattern, $value) ) {
+					$this->error = $this->language->get('error_email');
 				}
 				break;
 			case 'telephone':
-				if ((strlen(utf8_decode($value)) < 3) || (strlen(utf8_decode($value)) > 32)) {
-					$err = $this->language->get('error_telephone');
+				if ( mb_strlen($value) < 3 || mb_strlen($value) > 32 ) {
+					$this->error = $this->language->get('error_telephone');
+				}
+				break;
+			case 'address_1':
+				if ( mb_strlen($value) < 1 ) {
+					$this->error = $this->language->get('error_address_1');
+				}
+				break;
+			case 'city':
+				if ( mb_strlen($value) < 1 ) {
+					$this->error = $this->language->get('error_city');
+				}
+				break;
+			case 'country_id':
+				if ( empty($value) || $value=='FALSE' ) {
+					$this->error = $this->language->get('error_country');
+				}
+				break;
+			case 'zone_id':
+				if ( empty($value) || $value=='FALSE' ) {
+					$this->error = $this->language->get('error_zone');
 				}
 				break;
 		}
 
-		return $err;
+		$this->extensions->hk_ValidateData($this);
+
+		return $this->error;
 	}
 
 	private function _sendMail($id, $approved) {

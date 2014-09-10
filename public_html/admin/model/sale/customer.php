@@ -178,6 +178,28 @@ class ModelSaleCustomer extends Model {
 	}
 
 	/**
+	 * @param int $address_id
+	 * @param string $field_name
+	 * @param mixed $value
+	 */
+	public function editAddressField($address_id, $field_name, $value) {
+
+		$data = array('firstname', 'lastname', 'company', 'address_1', 'address_2', 'city', 'postcode', 'country_id', 'zone_id' );
+		if ( in_array($field_name, $data) )
+			if ( $this->dcrypt->active && in_array($field_name, $this->dcrypt->getEcryptedFields("addresses")) ) {
+				//check key_id to use
+				$query_key = $this->db->query( "SELECT key_id
+												FROM " . $this->db->table("addresses") . "
+							  					WHERE customer_id = '" . (int)$address_id . "'");
+				$key_id = $query_key->rows[0]['key_id'];
+				$value = $this->dcrypt->encrypt_field($value, $key_id);
+			}
+			$this->db->query("UPDATE " . $this->db->table("addresses") . "
+							  SET ".$field_name." = '" . $this->db->escape($value) . "'
+							  WHERE address_id = '" . (int)$address_id . "'");
+	}
+
+	/**
 	 * @param int $customer_id
 	 * @return array
 	 */

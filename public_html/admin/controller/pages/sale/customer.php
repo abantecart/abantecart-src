@@ -23,7 +23,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerPagesSaleCustomer extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $fields = array(
 			'loginname',
 			'firstname',
@@ -418,6 +418,7 @@ class ControllerPagesSaleCustomer extends AController {
 
 			if( has_value( $this->request->get['customer_id'] ) ){
 				$this->data['action'] .= '&customer_id='.$this->request->get['customer_id'].'&address_id=0';
+				$this->data['tab_customer_address'] = $this->language->get('text_add_address');
 			}
 
 			$this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_customer');
@@ -425,11 +426,14 @@ class ControllerPagesSaleCustomer extends AController {
 			$form = new AForm('ST');
 		} else {
 			$this->data['action'] = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $this->request->get['customer_id']);
-			if( has_value( $this->request->get['address_id'] ) ){
-				$this->data['action'] .= '&address_id='.$this->request->get['address_id'];
-			}
 			$this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_customer') . ' - ' . $this->data['firstname'] . ' ' . $this->data['lastname'];
 			$this->data['update'] = $this->html->getSecureURL('listing_grid/customer/update_field', '&id=' . $this->request->get['customer_id']);
+			if( has_value( $this->request->get['address_id'] ) ){
+				$this->data['action'] .= '&address_id='.$this->request->get['address_id'];
+				$this->data['update'] .= '&address_id='.$this->request->get['address_id'];
+				$this->data['tab_customer_address'] = $this->language->get('text_edit_address');
+			}
+
 			$form = new AForm('HS');
 		}
 
