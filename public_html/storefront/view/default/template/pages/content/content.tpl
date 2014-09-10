@@ -16,7 +16,7 @@
 	  </div>
 	</div>
 
-	<a href="<?php echo $continue; ?>" class="btn pull-right mr10  mb10" title="">
+	<a href="<?php echo $continue; ?>" class="btn btn-default pull-right mr10  mb10" title="">
 		<i class="icon-arrow-right"></i>
 		<?php echo $button_continue->text ?>
 	</a>

@@ -13,7 +13,7 @@
     	    <i class="icon-ok icon-white"></i>
     	    <?php echo $button_confirm->text; ?>
     	</button>
-    	<a id="<?php echo $button_back->name ?>" href="<?php echo $back; ?>" class="btn mr10" title="<?php echo $button_back->text ?>">
+    	<a id="<?php echo $button_back->name ?>" href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $button_back->text ?>">
     	    <i class="icon-arrow-left"></i>
     	    <?php echo $button_back->text ?>
     	</a>

@@ -135,7 +135,11 @@ class ControllerCommonPageLayout extends AController {
     // Footer Section
     $this->view->assign('footer_section', $page_sections[self::FOOTER_MAIN]);
 
+<<<<<<< HEAD
+    $this->view->assign('add_block',  $this->html->getSecureURL('design/blocks_manager'));
+=======
 
+>>>>>>> FETCH_HEAD
     $this->view->assign('form_begin', $form_begin);
     $this->view->assign('form_hidden', $form_hidden);
     $this->view->assign('form_submit', $form_submit);
@@ -160,14 +164,22 @@ class ControllerCommonPageLayout extends AController {
 
     foreach ($layout_blocks as $k => $section) {
       $blocks = $this->_buildBlocks($section['children'], $installed_blocks);
+<<<<<<< HEAD
+      $page_sections[$k] = [
+=======
       $page_sections[$k] = array(
+>>>>>>> FETCH_HEAD
         'id' => $section['instance_id'],
         'block_id' => $section['block_id'],
         'name' => $section['block_txt_id'],
         'status' => $section['status'] ? 'on' : 'off',
         'controller' => $section['controller'],
         'blocks' => implode('', $blocks),
+<<<<<<< HEAD
+      ];
+=======
 	  );
+>>>>>>> FETCH_HEAD
     }
 
     return $page_sections;
@@ -191,12 +203,20 @@ class ControllerCommonPageLayout extends AController {
       else
         $name = $block['block_txt_id'];
 
+<<<<<<< HEAD
+      $partialView->batchAssign([
+=======
       $partialView->batchAssign(array(
+>>>>>>> FETCH_HEAD
         'id' => $block['instance_id'],
         'block_id' => $block['block_id'],
         'name' => $name,
         'status' => $block['status'] ? 'on' : 'off',
+<<<<<<< HEAD
+      ]);
+=======
 	  ));
+>>>>>>> FETCH_HEAD
 
       // render partial view
       $blocks[] = $partialView->fetch('common/block.tpl');

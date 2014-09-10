@@ -11,8 +11,13 @@ $(function () {
     // Init blocks sorting
     container.find('.dropzone').each(function(i) {
       sortableBlocks[i] = new Sortable(this, {
+<<<<<<< HEAD
+        group: 'block',
+        handle: '.block-content',
+=======
         group: "block",
         handle: ".block-content",
+>>>>>>> FETCH_HEAD
         draggable: ".block",
         onAdd: function (evt){
           console.log('Add: ', evt);
@@ -48,13 +53,22 @@ $(function () {
     }
   },
 
+<<<<<<< HEAD
+  showBlockFormModal = function(url, params) {
+=======
   showBlockFormModal = function() {
+>>>>>>> FETCH_HEAD
     modalContent.html('<div class="loading"></div>');
     lmModal.modal({
       backdrop: 'static',
       keyboard: false,
       show: true,
     });
+<<<<<<< HEAD
+
+    $(modalContent).load(url, params);
+=======
+>>>>>>> FETCH_HEAD
   },
 
   start = function() {
@@ -88,11 +102,22 @@ $(function () {
 
   // Handler for Add Block
   $('.section .sec-add-block', container).on( "click", function() {
+<<<<<<< HEAD
+    var addBlockUrl = $(this).data('addBlock'),
+    params = 'section_id=' + $(this).data('sectionId')
+
+    showBlockFormModal(addBlockUrl, params);
+=======
     showBlockFormModal();
+>>>>>>> FETCH_HEAD
   });
 
   // Handler for Edit Block
   $('.block .blk-config', container).on( "click", function() {
+<<<<<<< HEAD
+    showBlockFormModal(editBlockUrl);
+=======
     showBlockFormModal();
+>>>>>>> FETCH_HEAD
   });
 });
