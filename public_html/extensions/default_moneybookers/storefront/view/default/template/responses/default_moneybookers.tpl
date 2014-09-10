@@ -31,7 +31,7 @@
 	   	    <i class="icon-ok icon-white"></i>
 	   	    <?php echo $form['submit']->name; ?>
 	   	</button>
-	   	<a id="<?php echo $form['back']->name ?>" href="<?php echo $form['back']->href; ?>" class="btn mr10" title="<?php echo $form['back']->text ?>">
+	   	<a id="<?php echo $form['back']->name ?>" href="<?php echo $form['back']->href; ?>" class="btn btn-default mr10" title="<?php echo $form['back']->text ?>">
 	   	    <i class="icon-arrow-left"></i>
 	   	    <?php echo $form['back']->text ?>
 	   	</a>

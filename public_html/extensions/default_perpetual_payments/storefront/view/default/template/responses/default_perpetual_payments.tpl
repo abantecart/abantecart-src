@@ -52,7 +52,7 @@
    	    <i class="icon-ok icon-white"></i>
    	    <?php echo $button_confirm; ?>
    	</button>
-   	<a  href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn mr10" title="<?php echo $button_back; ?>">
+   	<a  href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn btn-default mr10" title="<?php echo $button_back; ?>">
    	    <i class="icon-arrow-left"></i>
    	    <?php echo $button_back; ?>
    	</a>

@@ -59,7 +59,7 @@
 	    		    <i class="icon-ok icon-white"></i>
 	    		    <?php echo $submit->text; ?>
 	    		</button>
-				<a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn mr10" title="<?php echo $back->text ?>">
+				<a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn btn-default mr10" title="<?php echo $back->text ?>">
 				    <i class="icon-arrow-left"></i>
 				    <?php echo $back->text ?>
 				</a>

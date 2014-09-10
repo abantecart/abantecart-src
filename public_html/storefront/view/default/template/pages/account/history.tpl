@@ -35,7 +35,7 @@
 
 <div class="container-fluid cart_total">
 	<div class="row">
-			<a href="<?php echo $continue; ?>" class="btn mt10 pull-right" title="<?php echo $button_continue->text ?>">
+			<a href="<?php echo $continue; ?>" class="btn btn-default mt10 pull-right" title="<?php echo $button_continue->text ?>">
 	    		    <i class="icon-arrow-right"></i>
 	    		    <?php echo $button_continue->text ?>
 			</a>

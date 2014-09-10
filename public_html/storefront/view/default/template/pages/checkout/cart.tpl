@@ -73,7 +73,7 @@ echo $form['form_open'];
 				<?php echo $button_checkout; ?>
 			</a>
 		<?php } ?>
-		<button title="<?php echo $button_update; ?>" class="btn pull-right mr10" id="cart_update"
+		<button title="<?php echo $button_update; ?>" class="btn btn-default pull-right mr10" id="cart_update"
 				value="<?php echo $form['update']->form ?>" type="submit">
 			<i class="icon-refresh"></i>
 			<?php echo $button_update; ?>
@@ -119,27 +119,34 @@ echo $form['form_open'];
 					</tr>
 					<tr>
 						<td>
-							<div class="registerbox">
+							<div class="registerbox form-horizontal">
 								<?php echo $form_estimate['form_open']; ?>
-								<div class="control-group">
-									<label class="control-label"><?php echo $text_estimate_country; ?></label>
-
-									<div class="controls">
-										<?php echo $form_estimate['country_zones']; ?>
+								<div class="form-group">
+									<label class="control-label col-sm-4"><?php echo $text_estimate_country; ?></label>
+									<div class="input-group col-sm-8">
+									<?php echo $form_estimate['country_zones']; ?>
 									</div>
-								</div>
-								<div class="form-inline">
-									<label class="checkbox"><?php echo $text_estimate_postcode; ?></label>
-									<?php echo $form_estimate['postcode']; ?>
-									<button title="<?php echo $form_estimate['submit']->name; ?>" class="btn mr10"
-											value="<?php echo $form_estimate['submit']->form ?>" type="submit">
-										<i class="icon-check"></i>
-										<?php echo $form_estimate['submit']->name; ?>
-									</button>
-								</div>
-								<div class="form-inline shippings-offered mt20">
-									<label class="control-label"><?php echo $text_estimate_shipments; ?></label>
-									<label class="shipments"><?php echo $form_estimate['shippings']; ?></label>
+								</div>																			
+								
+								<div class="form-group">
+									<label class="checkbox col-sm-4"><?php echo $text_estimate_postcode; ?></label>
+						    		<div class="input-group col-sm-6">
+						    		<?php echo $form_estimate['postcode']; ?>
+						    		<span class="input-group-btn">
+						    			<button title="<?php echo $form_estimate['submit']->name; ?>" class="btn btn-default mr10"
+						    				value="<?php echo $form_estimate['submit']->form ?>" type="submit">
+						    			<i class="icon-check"></i>
+						    			<?php echo $form_estimate['submit']->name; ?>
+						    			</button>
+						    		</span>
+						    		</div>
+						    	</div>	
+								
+								<div class="shippings-offered form-group">
+									<label class="control-label col-sm-4"><?php echo $text_estimate_shipments; ?></label>
+									<div class="shipments input-group col-sm-8">
+										<?php echo $form_estimate['shippings']; ?>
+									</div>
 								</div>
 								</form>
 							</div>
@@ -174,7 +181,7 @@ echo $form['form_open'];
 				</a>
 			<?php } ?>
 
-			<a href="<?php echo $continue; ?>" class="btn pull-right mr10  mb10" title="">
+			<a href="<?php echo $continue; ?>" class="btn btn-default pull-right mr10  mb10" title="">
 				<i class="icon-arrow-right"></i>
 				<?php echo $text_continue_shopping ?>
 			</a>
@@ -211,7 +218,7 @@ echo $form['form_open'];
 			var country_id = encodeURIComponent($('#estimate_country').val());
 			var zone_id = $('#estimate_country_zones').val();
 
-			var replace_obj = $('.shippings-offered label.shipments');
+			var replace_obj = $('.shippings-offered .shipments');
 			replace_obj;
 			$.ajax({
 				type: 'POST',

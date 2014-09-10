@@ -54,7 +54,7 @@
 				</tr>
 			</table>
 
-			<a href="<?php echo $continue; ?>" class="btn mr10 pull-right" title="<?php echo $button_continue->text ?>">
+			<a href="<?php echo $continue; ?>" class="btn btn-default mr10 pull-right" title="<?php echo $button_continue->text ?>">
 	    		    <i class="icon-arrow-right"></i>
 	    		    <?php echo $button_continue->text ?>
 			</a>

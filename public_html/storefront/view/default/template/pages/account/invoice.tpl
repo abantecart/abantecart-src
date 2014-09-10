@@ -120,7 +120,7 @@
 	<div class="control-group">
 		<div class="controls">
 			<div class="mt20 mb40">
-				<a href="<?php echo $continue; ?>" class="btn mr10" title="<?php echo $button_continue->text ?>">
+				<a href="<?php echo $continue; ?>" class="btn btn-default mr10" title="<?php echo $button_continue->text ?>">
 					<i class="<?php echo $button_continue->{'icon'}; ?>"></i>
 					<?php echo $button_continue->text ?>
 				</a>

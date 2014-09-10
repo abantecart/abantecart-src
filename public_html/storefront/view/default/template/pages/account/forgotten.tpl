@@ -47,7 +47,7 @@
 	    		    <i class="icon-ok icon-white"></i>
 	    		    <?php echo $form['continue']->name ?>
 	    		</button>
-	    		<a href="<?php echo $back; ?>" class="btn mr10" title="<?php echo $form['back']->text ?>">
+	    		<a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $form['back']->text ?>">
 	    		    <i class="icon-arrow-left"></i>
 	    		    <?php echo $form['back']->text ?>
 	    		</a>

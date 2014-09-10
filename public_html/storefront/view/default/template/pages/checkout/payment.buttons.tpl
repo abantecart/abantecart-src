@@ -1,4 +1,4 @@
-<a href="<?php echo $back; ?>" class="btn mr10 pull-left" title="<?php echo $form['back']->text ?>">
+<a href="<?php echo $back; ?>" class="btn btn-default mr10 pull-left" title="<?php echo $form['back']->text ?>">
 	<i class="icon-arrow-left"></i>
 	<?php echo $form['back']->text ?>
 </a>
