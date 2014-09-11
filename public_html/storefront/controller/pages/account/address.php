@@ -179,13 +179,13 @@ class ControllerPagesAccountAddress extends AController {
 				'type' => 'button',
 				'text' => $this->language->get('button_edit'),
 				'style' => 'button btn-primary',
-				'icon' => 'icon-edit icon-white',
+				'icon' => 'fa-edit fa',
 				'attr' => 'onclick="location = \'' . $this->html->getSecureURL('account/address/update', '&address_id=' . $result['address_id']) . '\'" '));
 			$delete = HtmlElementFactory::create(array(
 				'type' => 'button',
 				'text' => $this->language->get('button_delete'),
 				'style' => '',
-				'icon' => 'icon-remove',
+				'icon' => 'fa fa-remove',
 				'attr' => 'onclick="location = \'' . $this->html->getSecureURL('account/address/delete', '&address_id=' . $result['address_id']) . '\'" '));
 
 			$addresses[] = array(
@@ -205,7 +205,7 @@ class ControllerPagesAccountAddress extends AController {
 			'type' => 'button',
 			'name' => 'insert',
 			'text' => $this->language->get('button_new_address'),
-			'icon' => 'icon-plus',
+			'icon' => 'fa fa-plus',
 			'style' => 'button'));
 		$this->view->assign('button_insert', $insert);
 
@@ -213,7 +213,7 @@ class ControllerPagesAccountAddress extends AController {
 			'type' => 'button',
 			'name' => 'back',
 			'text' => $this->language->get('button_back'),
-			'icon' => 'icon-arrow-left',
+			'icon' => 'fa fa-arrow-left',
 			'style' => 'button'));
 		$this->view->assign('button_back', $back);
 		$this->view->assign('back', $this->html->getSecureURL('account/account'));
@@ -432,11 +432,11 @@ class ControllerPagesAccountAddress extends AController {
 			'type' => 'button',
 			'name' => 'back',
 			'text' => $this->language->get('button_back'),
-			'icon' => 'icon-arrow-left',
+			'icon' => 'fa fa-arrow-left',
 			'style' => 'button'));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
 			'type' => 'submit',
-			'icon' => 'icon-check',
+			'icon' => 'fa fa-check',
 			'name' => $this->language->get('button_continue')
 		));
 

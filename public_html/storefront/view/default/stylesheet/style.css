@@ -433,7 +433,8 @@ li.dropdown {
 }
 
 .headerdetails ul.topcartopen {
-	font-size: 11px
+	font-size: 11px;
+	width: 270px;
 }
 
 .headerdetails ul.topcartopen li > table {
@@ -520,15 +521,15 @@ li.dropdown {
 
 .buttonwrap {
 	padding: 10px;
-	margin: 5px 10px 5px 10px;
 }
 
-#top_cart_product_list>table:last-child {
+#top_cart_product_list > table:last-child {
 	width: 90%;
 }
 
 #top_cart_product_list table td.image, #top_cart_product_list table td.image img {
 	width: 50px;
+	padding: 3px;
 }
 
 #top_cart_product_list table td.total {
@@ -537,6 +538,7 @@ li.dropdown {
 
 #top_cart_product_list .totals {
 	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 #top_cart_product_list .totals td {
@@ -647,7 +649,7 @@ ul.categorymenu > li > div {
 	z-index: 99999;
 	display: none;
 	float: left;
-	min-width: 260px;
+	min-width: 200px;
 	margin: 1px 0 0;
 	list-style: none;
 	background-color: #ffffff;

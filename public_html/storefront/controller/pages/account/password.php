@@ -97,7 +97,7 @@ class ControllerPagesAccountPassword extends AController {
 		$submit = $form->getFieldHtml( array(
                                                'type' => 'submit',
 		                                       'name' => $this->language->get('button_continue'),
-		                                       'icon' => 'icon-check',
+		                                       'icon' => 'fa fa-check',
 		                                        ));
 
 		$this->view->assign('current_password', $current_password );
@@ -109,7 +109,7 @@ class ControllerPagesAccountPassword extends AController {
 		$back = HtmlElementFactory::create( array ('type' => 'button',
 		                                           'name' => 'back',
 			                                       'text'=> $this->language->get('button_back'),
-			                                       'icon' => 'icon-arrow-left',
+			                                       'icon' => 'fa fa-arrow-left',
 			                                       'style' => 'button'));
 		$this->view->assign('button_back', $back);
 

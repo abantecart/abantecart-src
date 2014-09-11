@@ -25,7 +25,7 @@ class ControllerResponsesCheckoutNoPayment extends AController {
 		                                          'name' => 'back',
 			                                      'style' => 'button mr10',
 		                                          'text' => $this->language->get('button_back'),
-												  'icon' => 'icon-arrow-left'));
+												  'icon' => 'fa fa-arrow-left'));
 		$item = $item->getHtml();
 		$this->view->assign('button_back', $item);
 
@@ -33,7 +33,7 @@ class ControllerResponsesCheckoutNoPayment extends AController {
 		                                          'name' => 'checkout',
 			                                      'style' => 'button btn-orange pull-right',
 		                                          'text' => $this->language->get('button_confirm'),
-												  'icon' => 'icon-ok icon-white'));
+												  'icon' => 'fa fa-ok fa fa-white'));
 		$item = $item->getHtml();
 		$this->view->assign('button_confirm', $item);
 

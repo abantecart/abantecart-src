@@ -2,7 +2,7 @@
 	<div class="leftpanel">
 
 		<div class="logopanel">
-			<i class="sticky_header fa fa-thumb-tack"></i>
+			<i class="sticky_header fa fa-thumb-tack fa-fw"></i>
 			<a href="<?php echo $home; ?>">
 				<?php
 				if ($this->getHookVar('logoimage_hookvar')) {

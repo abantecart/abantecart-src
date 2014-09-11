@@ -135,7 +135,7 @@ class ControllerPagesProductSearch extends AController {
 			                                                    'type' => 'button',
 		                                                        'name' => 'search_button',
 			                                                    'text'=> $this->language->get('button_search'),
-			                                                    'icon' => 'icon-search',
+			                                                    'icon' => 'fa fa-search',
 			                                                    'style' => 'btn-default'));
 
 

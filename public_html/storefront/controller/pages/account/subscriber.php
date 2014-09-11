@@ -80,7 +80,7 @@ class ControllerPagesAccountSubscriber extends AController {
 			$this->data['continue'] =  $this->html->buildButton( array( 'name' => 'continue',
 																		'href' => $this->html->getURL('index/home'),
 																		'text' => $this->language->get('button_continue'),
-																		'icon' => 'icon-arrow-right'
+																		'icon' => 'fa fa-arrow-right'
 																	));
 			$this->data['text_subscribe_register'] = $this->language->get('text_success_subscribe_heading');
 
@@ -122,7 +122,7 @@ class ControllerPagesAccountSubscriber extends AController {
 			$this->data[ 'continue' ] = $form->getFieldHtml( array(
 																	'type' => 'submit',
 																	'name' => $this->language->get('button_continue'),
-																	'icon' => 'icon-ok',
+																	'icon' => 'fa fa-ok',
 																	'style' => 'btn-orange'
 			));
 
@@ -131,7 +131,7 @@ class ControllerPagesAccountSubscriber extends AController {
 																	'type' => 'button',
 																	'text' => $this->language->get('text_customer_registration'),
 																	'href' => $this->html->getSecureURL('account/create'),
-																	'icon' => 'icon-user',
+																	'icon' => 'fa fa-user',
 			));
 
 

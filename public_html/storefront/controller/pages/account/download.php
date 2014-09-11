@@ -108,7 +108,7 @@ class ControllerPagesAccountDownload extends AController {
 									'text' => $this->language->get('text_download'),
 									'style' => 'button',
 									'href' => $this->html->getSecureURL('account/download/startdownload','&order_download_id='. $download_info['order_download_id']),
-									'icon' => 'icon-download-alt'
+									'icon' => 'fa fa-download-alt'
 									)
 					);
 				}else{
@@ -164,7 +164,7 @@ class ControllerPagesAccountDownload extends AController {
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button',
-														'icon' => 'icon-arrow-right',
+														'icon' => 'fa fa-arrow-right',
 			                                           'href' => $this->html->getSecureURL('account/account')));
 		$this->data['button_continue'] = $continue;
 		$this->view->batchAssign($this->data);

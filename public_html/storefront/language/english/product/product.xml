@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>text_note</key>
-		<value><![CDATA[<span style="color: #FF0000;">Note:</span> HTML is not translated!]]></value>
+		<value><![CDATA[<span style="color: #FF0000;">Note:</span> Do not use HTML in the text.]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>

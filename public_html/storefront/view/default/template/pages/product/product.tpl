@@ -261,20 +261,20 @@
 							<fieldset>
 								<div class="form-group">
 									<div class="form-inline">
-										<label class="control-label col-md-2 pull-left"><?php echo $entry_rating; ?> <span
+										<label class="control-label col-md-3 pull-left"><?php echo $entry_rating; ?> <span
 													class="red">*</span></label>
 										<?php echo $rating_element; ?>
 									</div>
 								</div>
 								<div class="form-group mt40">
 									<div class="form-inline">
-										<label class="control-label col-md-2"><?php echo $entry_name; ?> <span class="red">*</span></label>
+										<label class="control-label col-md-3"><?php echo $entry_name; ?> <span class="red">*</span></label>
 										<?php echo $review_name; ?>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="form-inline">
-										<label class="control-label col-md-2"><?php echo $entry_review; ?> <span
+										<label class="control-label col-md-3"><?php echo $entry_review; ?> <span
 													class="red">*</span></label>
 										<?php echo $review_text; ?>
 									</div>
@@ -285,8 +285,9 @@
 												class="red">*</span></label>
 
 									<div class="form-inline">
-										<label class="control-label col-md-2"><img src="index.php?rt=common/captcha"
-																				id="captcha_img" alt=""/></label>
+										<label class="control-label col-md-3">
+											<img src="index.php?rt=common/captcha" id="captcha_img" alt=""/>
+										</label>
 										<?php echo $review_captcha; ?>
 									</div>
 								</div>
