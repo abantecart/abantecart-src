@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="icon-envelope"></i> <?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="fa fa-envelope"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container-fluid">
+<div class="contentpanel">
 	<h4 class="heading4"><?php echo $text_edit_address; ?></h4>
 
 	<div class="content">

@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="icon-key"></i> <?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="fa fa-key"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container-fluid">
+<div class="contentpanel">
 	<?php echo $form_open; ?>
 	
 	<h4 class="heading4"><?php echo $text_password; ?></h4>
@@ -29,12 +29,12 @@
 			
 			foreach ($field_list as $field_name) {
 		?>
-			<div class="control-group <?php if (${'error_'.$field_name}) echo 'error'; ?>">
-				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="controls">
+			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
+				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-md-4">
 				    <?php echo ${$field_name}; ?>
-					<span class="help-inline"><?php echo ${'error_'.$field_name}; ?></span>
 				</div>
+				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
 			</div>		
 		<?php
 			}
@@ -44,18 +44,16 @@
 
 	<?php echo $this->getHookVar('password_edit_sections'); ?>
 	
-	<div class="control-group">
-	    <div class="controls">
-	    	<div class="col-md-4 mt20 mb20">
-	    		<button class="btn btn-orange pull-right" title="<?php echo $submit->name ?>" type="submit">
-	    		    <i class="<?php echo $submit->{'icon'}; ?> icon-white"></i>
-	    		    <?php echo $submit->name ?>
-	    		</button>
-	    		<a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $button_back->text ?>">
-	    		    <i class="<?php echo $button_back->{'icon'}; ?>"></i>
-	    		    <?php echo $button_back->text ?>
-	    		</a>
-	    	</div>	
+	<div class="form-group">
+	    <div class="col-md-12">
+	    	<button class="btn btn-orange pull-right" title="<?php echo $submit->name ?>" type="submit">
+	    	    <i class="<?php echo $submit->{'icon'}; ?> fa"></i>
+	    	    <?php echo $submit->name ?>
+	    	</button>
+	    	<a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $button_back->text ?>">
+	    	    <i class="<?php echo $button_back->{'icon'}; ?>"></i>
+	    	    <?php echo $button_back->text ?>
+	    	</a>
 	    </div>
 	</div>
 	</form>

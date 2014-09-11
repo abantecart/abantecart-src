@@ -34,8 +34,8 @@
 	<?php } ?>
 	<input type="hidden" name="lang" value="<?php echo $lang; ?>"/>
 	
-	<div class="control-group">
-	    <div class="controls">
+	<div class="form-group">
+	    <div class="input-group">
 	    	<button class="btn btn-orange pull-right" title="<?php echo $button_confirm; ?>" type="submit">
 	    	    <i class="icon-ok icon-white"></i>
 	    	    <?php echo $button_confirm; ?>

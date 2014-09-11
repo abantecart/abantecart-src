@@ -1,5 +1,5 @@
-<div class="control-group action-buttons">
-    <div class="controls">
+<div class="form-group action-buttons">
+    <div class="col-md-12">
     	<button id="checkout_btn" onclick="confirmSubmit();" class="btn btn-orange pull-right" title="<?php echo $button_confirm->text ?>">
     	    <i class="icon-ok icon-white"></i>
     	    <?php echo $button_confirm->text; ?>

@@ -1,5 +1,5 @@
 <h1 class="heading1">
-	<span class="maintext"><i class="icon-shopping-cart"></i> <?php echo $heading_title; ?></span>
+	<span class="maintext"><i class="fa fa-shopping-cart"></i> <?php echo $heading_title; ?></span>
 	<?php if ($weight) { ?>
 		<span class="subtext">(<?php echo $weight; ?>)</span>
 	<?php } ?>
@@ -23,65 +23,65 @@
 }
 echo $form['form_open'];
 ?>
-<div class="cart-info product-list container-fluid">
-	<table class="table table-striped table-bordered">
-		<tr>
-			<th class="align_center"><?php echo $column_remove; ?></th>
-			<th class="align_center"><?php echo $column_image; ?></th>
-			<th class="align_left"><?php echo $column_name; ?></th>
-			<th class="align_left"><?php echo $column_model; ?></th>
-			<th class="align_center"><?php echo $column_quantity; ?></th>
-			<th class="align_right"><?php echo $column_price; ?></th>
-			<th class="align_right"><?php echo $column_total; ?></th>
-		</tr>
-		<?php $class = 'odd'; ?>
-		<?php foreach ($products as $product) { ?>
-			<?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
-			<tr class="<?php echo $class; ?>">
-				<td class="align_center"><?php echo $product['remove']; ?></td>
-				<td class="align_center"><a
-							href="<?php echo $product['href']; ?>"><?php echo $product['thumb']['thumb_html']; ?></a>
-				</td>
-				<td class="align_left"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
-					<?php if (!$product['stock']) { ?>
-						<span style="color: #FF0000; font-weight: bold;">***</span>
-					<?php } ?>
-					<div>
-						<?php foreach ($product['option'] as $option) { ?>
-							-
-							<small><?php echo $option['name']; ?> <?php echo $option['value']; ?></small><br/>
-						<?php } ?>
-					</div>
-				</td>
-				<td class="align_left"><?php echo $product['model']; ?></td>
-				<td class="align_center"><?php echo $product['quantity']; ?></td>
-				<td class="align_right"><?php echo $product['price']; ?></td>
-				<td class="align_right"><?php echo $product['total']; ?></td>
+<div class="contentpanel">
+	<div class="container-fluid cart-info product-list">
+		<table class="table table-striped table-bordered">
+			<tr>
+				<th class="align_center"><?php echo $column_remove; ?></th>
+				<th class="align_center"><?php echo $column_image; ?></th>
+				<th class="align_left"><?php echo $column_name; ?></th>
+				<th class="align_left"><?php echo $column_model; ?></th>
+				<th class="align_center"><?php echo $column_quantity; ?></th>
+				<th class="align_right"><?php echo $column_price; ?></th>
+				<th class="align_right"><?php echo $column_total; ?></th>
 			</tr>
-		<?php } ?>
-		<?php echo $this->getHookVar('list_more_product_last'); ?>
-	</table>
-</div>
-<div class="container-fluid">
-	<div class=" pull-right mb20">
-		<?php echo $this->getHookVar('pre_top_cart_buttons'); ?>
-		<?php if ($form['checkout']) { ?>
+			<?php $class = 'odd'; ?>
+			<?php foreach ($products as $product) { ?>
+				<?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+				<tr class="<?php echo $class; ?>">
+					<td class="align_center"><?php echo $product['remove']; ?></td>
+					<td class="align_center"><a
+								href="<?php echo $product['href']; ?>"><?php echo $product['thumb']['thumb_html']; ?></a>
+					</td>
+					<td class="align_left"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
+						<?php if (!$product['stock']) { ?>
+							<span style="color: #FF0000; font-weight: bold;">***</span>
+						<?php } ?>
+						<div>
+							<?php foreach ($product['option'] as $option) { ?>
+								-
+								<small><?php echo $option['name']; ?> <?php echo $option['value']; ?></small><br/>
+							<?php } ?>
+						</div>
+					</td>
+					<td class="align_left"><?php echo $product['model']; ?></td>
+					<td class="align_center"><?php echo $product['quantity']; ?></td>
+					<td class="align_right"><?php echo $product['price']; ?></td>
+					<td class="align_right"><?php echo $product['total']; ?></td>
+				</tr>
+			<?php } ?>
+			<?php echo $this->getHookVar('list_more_product_last'); ?>
+		</table>
 
-			<a href="<?php echo $checkout; ?>" id="cart_checkout1" class="btn btn-orange pull-right"
-			   title="<?php echo $button_checkout; ?>">
-				<i class="icon-shopping-cart icon-white"></i>
-				<?php echo $button_checkout; ?>
-			</a>
-		<?php } ?>
-		<button title="<?php echo $button_update; ?>" class="btn btn-default pull-right mr10" id="cart_update"
-				value="<?php echo $form['update']->form ?>" type="submit">
-			<i class="icon-refresh"></i>
-			<?php echo $button_update; ?>
-		</button>
-		<?php echo $this->getHookVar('post_top_cart_buttons'); ?>
+		<div class=" pull-right mb20">
+			<?php echo $this->getHookVar('pre_top_cart_buttons'); ?>
+			<?php if ($form['checkout']) { ?>
+	
+				<a href="<?php echo $checkout; ?>" id="cart_checkout1" class="btn btn-orange pull-right"
+				   title="<?php echo $button_checkout; ?>">
+					<i class="fa fa-shopping-cart fa fa-white"></i>
+					<?php echo $button_checkout; ?>
+				</a>
+			<?php } ?>
+			<button title="<?php echo $button_update; ?>" class="btn btn-default pull-right mr10" id="cart_update"
+					value="<?php echo $form['update']->form ?>" type="submit">
+				<i class="fa fa-refresh"></i>
+				<?php echo $button_update; ?>
+			</button>
+			<?php echo $this->getHookVar('post_top_cart_buttons'); ?>
+		</div>
 	</div>
-</div>
-</form>
+	</form>
 
 <?php if ($estimates_enabled || $coupon_status) {
 	$pull_side = 'pull-right';
@@ -89,7 +89,7 @@ echo $form['form_open'];
 		$pull_side = 'pull-left';
 	}
 	?>
-	<div class="cart-info coupon-estimate container-fluid row">
+	<div class="cart-info coupon-estimate container-fluid">
 		<?php if ($coupon_status) { ?>
 			<div class="<?php echo $pull_side; ?> coupon">
 				<table class="table table-striped ">
@@ -135,7 +135,7 @@ echo $form['form_open'];
 						    		<span class="input-group-btn">
 						    			<button title="<?php echo $form_estimate['submit']->name; ?>" class="btn btn-default mr10"
 						    				value="<?php echo $form_estimate['submit']->form ?>" type="submit">
-						    			<i class="icon-check"></i>
+						    			<i class="fa fa-check"></i>
 						    			<?php echo $form_estimate['submit']->name; ?>
 						    			</button>
 						    		</span>
@@ -159,38 +159,40 @@ echo $form['form_open'];
 	</div>
 <?php } ?>
 
-<div class="container-fluid cart_total">
-	<div class="row">
-		<div class="col-md-5 offset7 cart-info totals pull-right">
-			<table id="totals_table" class="table table-striped table-bordered">
-				<?php /* Total now loaded with ajax. ?>
-				<?php foreach ($totals as $total) { ?>
-					<tr>
-						<td><span class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span></td>
-						<td><span class="bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span></td>
-					</tr>
-				<?php } ?>
-				<?php */ ?>
-			</table>
-			<?php echo $this->getHookVar('pre_cart_buttons'); ?>
-			<?php if ($form['checkout']) { ?>
-				<a href="<?php echo $checkout; ?>" id="cart_checkout2" class="btn btn-orange pull-right "
-				   title="<?php echo $button_checkout; ?>">
-					<i class="icon-shopping-cart icon-white"></i>
-					<?php echo $button_checkout; ?>
+	<div class="container-fluid cart_total">
+		<div class="row">
+			<div class="col-md-5 offset7 cart-info totals pull-right">
+				<table id="totals_table" class="table table-striped table-bordered">
+					<?php /* Total now loaded with ajax. ?>
+					<?php foreach ($totals as $total) { ?>
+						<tr>
+							<td><span class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span></td>
+							<td><span class="bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span></td>
+						</tr>
+					<?php } ?>
+					<?php */ ?>
+				</table>
+				
+				<?php echo $this->getHookVar('pre_cart_buttons'); ?>
+
+				<a href="<?php echo $continue; ?>" class="btn btn-default mr10  mb10" title="">
+					<i class="fa fa-arrow-right"></i>
+					<?php echo $text_continue_shopping ?>
 				</a>
-			<?php } ?>
 
-			<a href="<?php echo $continue; ?>" class="btn btn-default pull-right mr10  mb10" title="">
-				<i class="icon-arrow-right"></i>
-				<?php echo $text_continue_shopping ?>
-			</a>
-
-			<?php echo $this->getHookVar('post_cart_buttons'); ?>
+				<?php if ($form['checkout']) { ?>
+					<a href="<?php echo $checkout; ?>" id="cart_checkout2" class="btn btn-orange pull-right"
+					   title="<?php echo $button_checkout; ?>">
+						<i class="fa fa-shopping-cart fa fa-white"></i>
+						<?php echo $button_checkout; ?>
+					</a>
+				<?php } ?>
+	
+				<?php echo $this->getHookVar('post_cart_buttons'); ?>
+			</div>
 		</div>
 	</div>
 </div>
-
 <script type="text/javascript"><!--
 
 		jQuery(function ($) {

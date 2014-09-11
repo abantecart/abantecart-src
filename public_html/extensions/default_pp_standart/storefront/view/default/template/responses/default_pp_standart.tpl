@@ -49,8 +49,8 @@
 		<input type="hidden" name="cpp_cart_border_color" value="<?php echo $cartbordercolor; ?>"/>
 	<?php endif; ?>
 
-	<div class="control-group">
-	   <div class="controls">
+	<div class="form-group">
+	   <div class="input-group">
 	   	<button class="btn btn-orange pull-right" title="<?php echo $button_confirm->name ?>" type="submit">
 	   	    <i class="icon-ok icon-white"></i>
 	   	    <?php echo $button_confirm->name; ?>

@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="icon-book"></i> <?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="fa fa-book"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container-fluid addresses">
+<div class="contentpanel addresses">
 	<section class="formbox old_address">
 	<?php if ($addresses) {
 	  echo  $form0['form_open'];
@@ -33,10 +33,10 @@
 			<?php } ?>
 			</table>
 	
-			<div class="control-group">
-			    <div class="controls">
+			<div class="form-group">
+			    <div class="col-md-12">
 			    	<button class="btn btn-orange pull-right" title="<?php echo $form0['continue']->name ?>" type="submit">
-			    	    <i class="icon-arrow-right icon-white"></i>
+			    	    <i class="fa fa-arrow-right"></i>
 			    	    <?php echo $form0['continue']->name ?>
 			    	</button>
 			    </div>
@@ -50,7 +50,7 @@
 	   echo $form['form_open'];
 	?>
 	<h4 class="heading4"><?php echo $text_new_address; ?></h4>
-	<div class="registerbox form-horizontal">
+	<div class="registerbox">
 		<fieldset>
 		<?php
 			$field_list = array('firstname' => 'firstname',
@@ -66,21 +66,21 @@
 			
 			foreach ($field_list as $field_name => $field_id) {
 		?>
-			<div class="control-group <?php if (${'error_'.$field_name}) echo 'error'; ?>">
-				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="controls">
+			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
+				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-md-6">
 				    <?php echo $form[$field_id]; ?>
-					<span class="help-inline"><?php echo ${'error_'.$field_name}; ?></span>
 				</div>
+				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
 			</div>		
 		<?php
 			}
 		?>	
 			<?php echo $this->getHookVar('new_address_sections'); ?>
-			<div class="control-group">
-				<div class="controls">
+			<div class="form-group">
+				<div class="col-md-12">
 					<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
-					    <i class="icon-arrow-right icon-white"></i>
+					    <i class="fa fa-arrow-right"></i>
 					    <?php echo $form['continue']->name ?>
 					</button>
 				</div>

@@ -39,10 +39,10 @@
 				</tbody>
 			</table>
 		<div class="well buttonwrap col-md-3">
-			<a class="btn btn-orange pull-left" href="<?php echo $view; ?>"><i
-						class="icon-shopping-cart icon-white"></i> <?php echo $text_view;?></a>
-			<a class="btn btn-orange pull-right"
-			   href="<?php echo $checkout; ?>"><i class="icon-pencil icon-white"></i>  <?php echo $text_checkout; ?></a>
+			<a class="btn btn-orange btn-xs pull-left" href="<?php echo $view; ?>"><i
+						class="fa fa-shopping-cart fa-fw"></i> <?php echo $text_view;?></a>
+			<a class="btn btn-orange btn-xs pull-right"
+			   href="<?php echo $checkout; ?>"><i class="fa fa-pencil fa-fw"></i>  <?php echo $text_checkout; ?></a>
 		</div>
 	</div>
 </div>

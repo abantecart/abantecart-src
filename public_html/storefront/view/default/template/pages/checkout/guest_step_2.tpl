@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container-fluid">
+<div class="contentpanel">
 
     <?php if ($coupon_status) { ?>
     <h4 class="heading4"><?php echo $text_coupon; ?></h4>
@@ -116,8 +116,8 @@
 			<?php echo $form['comment']; ?>
      	</div>
 		
-		<div class="control-group">
-			<div class="controls">
+		<div class="form-group">
+			<div class="input-group">
     			<div class="form-inline mt20 mb20">
     			<?php echo $this->getHookVar('buttons_pre'); ?>
 				<?php echo $buttons; ?>

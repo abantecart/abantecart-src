@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container-fluid">
+<div class="contentpanel">
 	<?php echo $form['form_open']; ?>
 
 	<h4 class="heading4"><?php echo $text_your_details; ?></h4>
@@ -29,12 +29,12 @@
 			
 			foreach ($field_list as $field_name) {
 		?>
-			<div class="control-group <?php if (${'error_'.$field_name}) echo 'error'; ?>">
+			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
 				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="controls">
+				<div class="input-group">
 				    <?php echo $form[$field_name]; ?>
-					<span class="help-inline"><?php echo ${'error_'.$field_name}; ?></span>
 				</div>
+				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
 			</div>		
 		<?php
 			}
@@ -60,11 +60,11 @@
 			
 			foreach ($field_list as $field_name => $field_id) {
 		?>
-			<div class="control-group <?php if (${'error_'.$field_name}) echo 'error'; ?>">
+			<div class="form-group <?php if (${'error_'.$field_name}) echo 'error'; ?>">
 				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="controls">
+				<div class="input-group">
 				    <?php echo $form[$field_id]; ?>
-					<span class="help-inline"><?php echo ${'error_'.$field_name}; ?></span>
+					<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
 				</div>
 			</div>		
 		<?php
@@ -73,8 +73,8 @@
 	
 			<?php echo $this->getHookVar('address_entry_section'); ?>
 
-			<div class="control-group">
-				<div class="controls">
+			<div class="form-group">
+				<div class="input-group">
 				    <?php echo $form['shipping_indicator']; ?>
 				</div>
 			</div>		
@@ -100,16 +100,16 @@
 			
 			foreach ($field_list as $field_name => $field_id) {
 		?>
-			<div class="control-group <?php if (${'error_'.$field_id}) echo 'error'; ?>">
+			<div class="form-group <?php if (${'error_'.$field_id}) echo 'error'; ?>">
 				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="controls">
+				<div class="input-group">
 					<?php if ($field_name == 'country' || $field_name == 'zone') {
 						echo $form[$field_id."_id"]; 
 					} else { 
 				   		echo $form[$field_id]; 
 				   	}
 				   	?>
-					<span class="help-inline"><?php echo ${'error_'.$field_id}; ?></span>
+					<span class="help-block"><?php echo ${'error_'.$field_id}; ?></span>
 				</div>
 			</div>		
 		<?php
@@ -120,15 +120,15 @@
 	</div>
 	<!-- end shipping address -->     
       
-	<div class="control-group">
-	    <div class="controls">
+	<div class="form-group">
+	    <div class="input-group">
 	    	<div class="mt20 mb20">
 	    		<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
-	    		    <i class="icon-arrow-right icon-white"></i>
+	    		    <i class="fa fa-arrow-right"></i>
 	    		    <?php echo $form['continue']->name ?>
 	    		</button>
 	    		<a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $form['back']->text ?>">
-	    		    <i class="icon-arrow-left"></i>
+	    		    <i class="fa fa-arrow-left"></i>
 	    		    <?php echo $form['back']->text ?>
 	    		</a>
 	    	</div>	

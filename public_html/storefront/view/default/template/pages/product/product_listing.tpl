@@ -49,7 +49,7 @@
 						<span class="spiral"></span>
 						<?php if($product['call_to_order']){ ?>
 							<a data-id="<?php echo $product['product_id'] ?>" href="#"
-								   class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;<i class="icon-phone"></i></a>
+								   class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;<i class="fa fa-phone"></i></a>
 						<?php }else{ ?>
 							<a data-id="<?php echo $product['product_id'] ?>"
 													   href="<?php echo $item['buy_url'] ?>"

@@ -7,8 +7,8 @@
   <?php echo $text_payment; ?>
 </div>
   
-<div class="control-group action-buttons">
-    <div class="controls">
+<div class="form-group action-buttons">
+    <div class="col-md-12">
     	<button id="checkout_btn" class="btn btn-orange pull-right" onclick="confirmSubmit();" title="<?php echo $button_confirm->text ?>">
     	    <i class="icon-ok icon-white"></i>
     	    <?php echo $button_confirm->text; ?>

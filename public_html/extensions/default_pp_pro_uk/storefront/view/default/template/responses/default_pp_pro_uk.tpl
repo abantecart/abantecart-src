@@ -3,58 +3,58 @@
 <div id="paypal" class="form-horizontal">
 
 	<fieldset>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_owner; ?></label>
-			<div class="controls">
+			<div class="input-group">
 				<?php echo $cc_owner; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_type; ?></label>
-			<div class="controls">
+			<div class="input-group">
 				<?php echo $cc_type; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_number; ?></label>
-			<div class="controls">
+			<div class="input-group">
 				<?php echo $cc_number; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_start_date; ?></label>
 			<div class="controls ws_nowrap">
 				<?php echo $cc_start_date_month; ?> / <?php echo $cc_start_date_year. ' ' .$text_start_date; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_expire_date; ?></label>
 			<div class="controls ws_nowrap">
 				<?php echo $cc_expire_date_month; ?> / <?php echo $cc_expire_date_year; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_cvv2; ?></label>
-			<div class="controls">
+			<div class="input-group">
 				<?php echo $cc_cvv2; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_issue; ?></label>
-			<div class="controls">
+			<div class="input-group">
 				<?php echo $cc_issue. ' ' .$text_issue; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
 		
-		<div class="control-group action-buttons">
-	    	<div class="controls">
+		<div class="form-group action-buttons">
+	    	<div class="input-group">
 	    		<button id="<?php echo $submit->name ?>" class="btn btn-orange pull-right" title="<?php echo $submit->text ?>" type="submit">
 	    		    <i class="icon-ok icon-white"></i>
 	    		    <?php echo $submit->text; ?>

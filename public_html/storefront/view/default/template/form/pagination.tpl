@@ -6,8 +6,8 @@
 <?php echo $text ?>
 </form>
 
-<div class="pagination pull-right">
-  <ul>  
+<div class="pull-right">
+  <ul class="pagination">  
   	<?php if ($page > 1) { ?>
     	<li><a href="<?php echo $first_url; ?>"><?php echo $text_first; ?></a></li>  	
     	<li><a href="<?php echo $prev_url; ?>"><?php echo $text_prev; ?></a></li>  	

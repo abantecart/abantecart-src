@@ -12,8 +12,8 @@
   <input type="hidden" name="email" value="<?php echo $email; ?>" />
   <input type="hidden" name="testMode" value="<?php echo $test; ?>" />
 
-	<div class="control-group">
-	   <div class="controls">
+	<div class="form-group">
+	   <div class="input-group">
 	   	<button class="btn btn-orange pull-right" onclick="$('#checkout').submit();" title="<?php echo $button_confirm; ?>" type="submit">
 	   	    <i class="icon-ok icon-white"></i>
 	   	    <?php echo $button_confirm; ?>

@@ -25,8 +25,8 @@
 		 $form['order_id'];
 	?>
 	
-	<div class="control-group">
-	   <div class="controls">
+	<div class="form-group">
+	   <div class="input-group">
 	   	<button class="btn btn-orange pull-right" title="<?php echo $form['submit']->name ?>" type="submit">
 	   	    <i class="icon-ok icon-white"></i>
 	   	    <?php echo $form['submit']->name; ?>

@@ -5,7 +5,7 @@
 			<label class="checkbox"><?php echo $entry_coupon; ?></label>
 		    <?php echo $coupon; ?>
 		    <button title="<?php echo $submit->name; ?>" class="btn btn-default mr10" value="<?php echo $submit->form ?>" type="submit">
-			<i class="icon-check"></i>
+			<i class="fa fa-check"></i>
 			<?php echo $submit->name; ?>
 			</button>
 		</div>

@@ -184,7 +184,7 @@ class ControllerPagesAccountAddress extends AController {
 			$delete = HtmlElementFactory::create(array(
 				'type' => 'button',
 				'text' => $this->language->get('button_delete'),
-				'style' => 'button',
+				'style' => '',
 				'icon' => 'icon-remove',
 				'attr' => 'onclick="location = \'' . $this->html->getSecureURL('account/address/delete', '&address_id=' . $result['address_id']) . '\'" '));
 

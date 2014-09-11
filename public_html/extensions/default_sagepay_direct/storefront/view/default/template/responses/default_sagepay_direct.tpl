@@ -2,37 +2,37 @@
 <div id="sagepay" class="creditcard_box form-horizontal">
 	<fieldset>
     <?php echo $this->getHookVar('payment_table_pre'); ?>
-		<div class="control-group <?php if ($error_cc_owner) echo 'error'; ?>">
+		<div class="form-group <?php if ($error_cc_owner) echo 'has-error'; ?>">
 		    <label class="control-label"><?php echo $entry_cc_owner; ?></label>
-		    <div class="controls">
+		    <div class="input-group">
 		        <input type="text" name="cc_owner" value="" />
-		    	<span class="help-inline"><?php echo $error_cc_owner; ?></span>
 		    </div>
+		    <span class="help-block"><?php echo $error_cc_owner; ?></span>
 		</div>
 		
-		<div class="control-group <?php if ($error_cc_type) echo 'error'; ?>">
+		<div class="form-group <?php if ($error_cc_type) echo 'has-error'; ?>">
 		    <label class="control-label"><?php echo $entry_cc_type; ?></label>
-		    <div class="controls">
+		    <div class="input-group">
 				<select name="cc_type">
           		<?php foreach ($cards as $card) { ?>
           		<option value="<?php echo $card['value']; ?>"><?php echo $card['text']; ?></option>
           		<?php } ?>
         		</select>
-		    	<span class="help-inline"><?php echo $error_cc_type; ?></span>
 		    </div>
+	    	<span class="help-block"><?php echo $error_cc_type; ?></span>
 		</div>
 		
-		<div class="control-group <?php if ($error_cc_number) echo 'error'; ?>">
+		<div class="form-group <?php if ($error_cc_number) echo 'has-error'; ?>">
 		    <label class="control-label"><?php echo $entry_cc_number; ?></label>
-		    <div class="controls">
+		    <div class="input-group">
 		        <input type="text" name="cc_number" value="" />
-		    	<span class="help-inline"><?php echo $error_cc_number; ?></span>
 		    </div>
+	    	<span class="help-block"><?php echo $error_cc_number; ?></span>
 		</div>
 
-		<div class="control-group <?php if ($error_cc_start_date) echo 'error'; ?>">
+		<div class="form-group <?php if ($error_cc_start_date) echo 'has-error'; ?>">
 		    <label class="control-label"><?php echo $entry_cc_start_date; ?></label>
-		    <div class="controls">
+		    <div class="input-group">
 		      	<select name="cc_start_date_month" class="input-small">
 		          <?php foreach ($months as $month) { ?>
 		          <option value="<?php echo $month['value']; ?>"><?php echo $month['text']; ?></option>
@@ -45,13 +45,13 @@
 		          <?php } ?>
 		        </select>        
 		        <?php echo $text_start_date; ?>
-		    	<span class="help-inline"><?php echo $error_cc_start_date; ?></span>
 		    </div>
+	    	<span class="help-block"><?php echo $error_cc_start_date; ?></span>
 		</div>
 
-		<div class="control-group <?php if ($error_cc_expire_date) echo 'error'; ?>">
+		<div class="form-group <?php if ($error_cc_expire_date) echo 'has-error'; ?>">
 		    <label class="control-label"><?php echo $entry_cc_expire_date; ?></label>
-		    <div class="controls">
+		    <div class="input-group">
 		      	<select name="cc_expire_date_month" class="input-small">
 		          <?php foreach ($months as $month) { ?>
 		          <option value="<?php echo $month['value']; ?>"><?php echo $month['text']; ?></option>
@@ -63,30 +63,30 @@
 		          <option value="<?php echo $year['value']; ?>"><?php echo $year['text']; ?></option>
 		          <?php } ?>
 		        </select>
-		    	<span class="help-inline"><?php echo $error_cc_expire_date; ?></span>
 		    </div>
+	    	<span class="help-block"><?php echo $error_cc_expire_date; ?></span>
 		</div>
 		
-		<div class="control-group <?php if ($error_cc_cvv2) echo 'error'; ?>">
+		<div class="form-group <?php if ($error_cc_cvv2) echo 'has-error'; ?>">
 		    <label class="control-label"><?php echo $entry_cc_cvv2; ?></label>
-		    <div class="controls">
+		    <div class="input-group">
 		        <input type="text" name="cc_cvv2" value="" size="3" class="input-mini" />  <a class="thickbox" href="<?php echo $cc_cvv2_help_url; ?>" target="_new"><?php echo $entry_cc_cvv2_short; ?></a>
-		    	<span class="help-inline"><?php echo $error_cc_cvv2; ?></span>
 		    </div>
+	    	<span class="help-block"><?php echo $error_cc_cvv2; ?></span>
 		</div>
 
-		<div class="control-group <?php if ($error_cc_issue) echo 'error'; ?>">
+		<div class="form-group <?php if ($error_cc_issue) echo 'has-error'; ?>">
 		    <label class="control-label"><?php echo $entry_cc_issue; ?></label>
-		    <div class="controls">
+		    <div class="input-group">
 		        <input type="text" name="cc_issue" class="input-mini" value="" />  <?php echo $text_issue; ?>
-		    	<span class="help-inline"><?php echo $error_cc_issue; ?></span>
 		    </div>
+	    	<span class="help-block"><?php echo $error_cc_issue; ?></span>
 		</div>
 
 		<?php echo $this->getHookVar('payment_table_post'); ?>
 
-		<div class="control-group action-buttons">
-	    	<div class="controls">
+		<div class="form-group action-buttons">
+	    	<div class="col-md-12">
 	    		<button id="sagepay_button" class="btn btn-orange pull-right" type="submit" onclick="confirmSubmit();">
 	    		    <i class="icon-ok icon-white"></i>
 	    		    <?php echo $button_confirm; ?>

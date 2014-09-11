@@ -1,9 +1,9 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="icon-asterisk"></i> <?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="fa fa-asterisk"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
-<div class="container-fluid">
+<div class="contentpanel">
 
 	<div class="content">
 	  <div class="row">

@@ -1,5 +1,5 @@
 <h1 class="heading1">
-	<span class="maintext"><i class="icon-pushpin"></i> <?php echo $heading_title; ?></span>
+	<span class="maintext"><i class="fa fa-pushpin"></i> <?php echo $heading_title; ?></span>
 	<span class="subtext"></span>
 </h1>
 
@@ -33,7 +33,7 @@
 </div>  
 </div>
 
-<div class="container-fluid">
+<div class="contentpanel">
 	<?php echo $form['form_open']; ?>
 	<p><?php echo $text_accept_agree ?><a onclick="openModalRemote('#returnPolicyModal', '<?php echo $text_accept_agree_href; ?>'); return false;"
 				href="<?php echo $text_accept_agree_href; ?>"><b><?php echo $text_accept_agree_href_link; ?></b></a></p>
@@ -53,7 +53,7 @@
 				<td class="align_left"><?php echo $shipping_method; ?></td>
 				<td class="align_right">
 					<a class="btn btn-mini" href="<?php echo $checkout_shipping_edit; ?>">
-						<i class="icon-edit"></i>
+						<i class="fa fa-edit"></i>
 						<?php echo $text_edit_shipping; ?>
 					</a>
 				</td>
@@ -80,7 +80,7 @@
 					<td class="align_left"><?php echo $payment_method; ?></td>
 					<td class="align_right">
 						<a class="btn btn-mini" href="<?php echo $checkout_payment_edit; ?>">
-							<i class="icon-edit"></i>
+							<i class="fa fa-edit"></i>
 							<?php echo $text_edit_payment; ?>
 						</a>
 					</td>
@@ -94,7 +94,7 @@
 					<td class="align_right">
 						<?php if($disapply_balance){ ?>
 						<a class="btn btn-mini" href="<?php echo $disapply_balance['href']; ?>">
-							<i class="icon-edit"></i>
+							<i class="fa fa-edit"></i>
 							<?php echo $disapply_balance['text']; ?>
 						</a>
 						<?php }?>
@@ -137,7 +137,7 @@
 			<td colspan="4"></td>
 			<td>
 				<a class="btn btn-mini" href="<?php echo $cart; ?>">
-					<i class="icon-shopping-cart"></i>
+					<i class="fa fa-shopping-cart"></i>
 					<?php echo $text_edit_basket; ?>
 				</a>
 			</td>
