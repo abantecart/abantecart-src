@@ -42,7 +42,7 @@
 		    <?php echo $button_back->text ?>
 		</a>
 		<a href="<?php echo $insert;  ?>" class="btn btn-orange pull-right" title="<?php echo $button_insert->text ?>">
-		    <i class="<?php echo $button_insert->{'icon'}; ?> fa fa-white"></i>
+		    <i class="<?php echo $button_insert->{'icon'}; ?>"></i>
 		    <?php echo $button_insert->text ?>
 		</a>
 	</div>

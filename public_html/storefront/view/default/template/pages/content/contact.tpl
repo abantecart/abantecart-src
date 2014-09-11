@@ -20,7 +20,7 @@
 <div class="contentpanel">
 	<h4 class="heading4"><?php echo $text_edit_address; ?></h4>
 
-	<div class="content">
+	<div class="content-fluid">
 	  <div class="row">
 	    <div class="col-md-6 pull-left">
 	    <b><?php echo $text_address; ?></b><br />
@@ -38,12 +38,10 @@
 	      <?php } ?>
 	    </div>
 	  </div>
-	</div>
-	<table class="row pull-left mt40">
-		<tr>
-		  <td><?php echo $form_output; ?></td>
-		</tr>
-	</table>
 
+	  <div class="row mt40">
+	  <?php echo $form_output; ?>
+	  </div>
+	</div>
 
 </div>

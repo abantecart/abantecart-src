@@ -30,8 +30,8 @@
 			foreach ($field_list as $field_name) {
 		?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
-				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group">
+				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-md-4">
 				    <?php echo $form[$field_name]; ?>
 				</div>
 				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
@@ -60,12 +60,12 @@
 			
 			foreach ($field_list as $field_name => $field_id) {
 		?>
-			<div class="form-group <?php if (${'error_'.$field_name}) echo 'error'; ?>">
-				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group">
+			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
+				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-md-4">
 				    <?php echo $form[$field_id]; ?>
-					<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
 				</div>
+				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
 			</div>		
 		<?php
 			}
@@ -74,7 +74,8 @@
 			<?php echo $this->getHookVar('address_entry_section'); ?>
 
 			<div class="form-group">
-				<div class="input-group">
+				<label class="control-label col-md-4"></label>
+				<div class="input-group col-md-4">
 				    <?php echo $form['shipping_indicator']; ?>
 				</div>
 			</div>		
@@ -100,17 +101,17 @@
 			
 			foreach ($field_list as $field_name => $field_id) {
 		?>
-			<div class="form-group <?php if (${'error_'.$field_id}) echo 'error'; ?>">
-				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group">
+			<div class="form-group <?php if (${'error_'.$field_id}) echo 'has-error'; ?>">
+				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-md-4">
 					<?php if ($field_name == 'country' || $field_name == 'zone') {
 						echo $form[$field_id."_id"]; 
 					} else { 
 				   		echo $form[$field_id]; 
 				   	}
 				   	?>
-					<span class="help-block"><?php echo ${'error_'.$field_id}; ?></span>
 				</div>
+				<span class="help-block"><?php echo ${'error_'.$field_id}; ?></span>
 			</div>		
 		<?php
 			}
@@ -121,17 +122,15 @@
 	<!-- end shipping address -->     
       
 	<div class="form-group">
-	    <div class="input-group">
-	    	<div class="mt20 mb20">
-	    		<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
-	    		    <i class="fa fa-arrow-right"></i>
-	    		    <?php echo $form['continue']->name ?>
-	    		</button>
-	    		<a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $form['back']->text ?>">
-	    		    <i class="fa fa-arrow-left"></i>
-	    		    <?php echo $form['back']->text ?>
-	    		</a>
-	    	</div>	
+	    <div class="col-md-12">
+	    	<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
+	    	    <i class="fa fa-arrow-right"></i>
+	    	    <?php echo $form['continue']->name ?>
+	    	</button>
+	    	<a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $form['back']->text ?>">
+	    	    <i class="fa fa-arrow-left"></i>
+	    	    <?php echo $form['back']->text ?>
+	    	</a>
 	    </div>
 	</div>
 	</form>

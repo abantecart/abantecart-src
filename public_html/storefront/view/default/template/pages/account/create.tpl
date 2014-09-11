@@ -119,7 +119,7 @@
 	<?php } ?>    	
 	    	<div class="col-md-2 mt20 mb40">
 	    		<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
-	    		    <i class="fa fa-ok fa fa-white"></i>
+	    		    <i class="fa fa-check"></i>
 	    		    <?php echo $form['continue']->name ?>
 	    		</button>
 	    	</div>	

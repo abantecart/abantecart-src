@@ -33,11 +33,11 @@
 <div class="form-group action-buttons">
    <div class="col-md-12">
    	<button class="btn btn-orange pull-right" title="<?php echo $button_confirm; ?>" onclick="confirmSubmit();" type="submit">
-   	    <i class="icon-ok icon-white"></i>
+   	    <i class="fa fa-check"></i>
    	    <?php echo $button_confirm; ?>
    	</button>
    	<a  href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn btn-default mr10" title="<?php echo $button_back; ?>">
-   	    <i class="icon-arrow-left"></i>
+   	    <i class="fa fa-arrow-left"></i>
    	    <?php echo $button_back; ?>
    	</a>
     </div>
@@ -51,22 +51,25 @@ function confirmSubmit() {
 		data: $('#sagepay :input'),
 		dataType: 'json',		
 		beforeSend: function() {
-			$('#sagepay_button').attr('disabled', 'disabled');
+			$('#sagepay_button').parent().hide();
 			
 			$('.action-buttons').before('<div class="wait alert alert-info"><img src="<?php echo $template_dir; ?>image/loading_1.gif" alt="" /> <?php echo $text_wait; ?></div>');
 		},
 		success: function(data) {
 			if (data.error) {
 				alert(data.error);
-				$('#sagepay_button').removeAttr('disabled');
+				$('.wait').remove();
+				$('#sagepay_button').parent().show();
 			}
-			
-			$('.wait').remove();
-			
 			if (data.success) {
 				location = data.success;
 			}
-		}
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			alert(textStatus + ' ' + errorThrown);
+			$('.wait').remove();	
+			$('#sagepay_button').parent().show();
+		}				
 	});
 }
 //--></script>

@@ -122,7 +122,7 @@ class ControllerPagesAccountSubscriber extends AController {
 			$this->data[ 'continue' ] = $form->getFieldHtml( array(
 																	'type' => 'submit',
 																	'name' => $this->language->get('button_continue'),
-																	'icon' => 'fa fa-ok',
+																	'icon' => 'fa fa-check',
 																	'style' => 'btn-orange'
 			));
 

@@ -57,7 +57,7 @@
 			<div class="form-group">
 				<div class="col-md-12">
 					<button class="btn btn-orange pull-right" title="<?php echo $form['submit']->name ?>" type="submit">
-					    <i class="<?php echo $form['submit']->{'icon'}; ?> fa fa-white"></i>
+					    <i class="<?php echo $form['submit']->{'icon'}; ?>"></i>
 					    <?php echo $form['submit']->name ?>
 					</button>
 					<a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $form['back']->text ?>">

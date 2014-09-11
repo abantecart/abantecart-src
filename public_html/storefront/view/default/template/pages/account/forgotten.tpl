@@ -43,7 +43,7 @@
 	<div class="form-group">
 	    <div class="col-md-12">
 	        <button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
-	            <i class="fa fa-ok fa fa-white"></i>
+	            <i class="fa fa-check"></i>
 	            <?php echo $form['continue']->name ?>
 	        </button>
 	        <a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $form['back']->text ?>">

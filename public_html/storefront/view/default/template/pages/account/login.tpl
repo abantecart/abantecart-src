@@ -78,7 +78,7 @@
 				<br>
 				<br>
 				<button type="submit" class="btn btn-orange pull-right"  title="<?php echo $form2['login_submit']->name ?>">
-					<i class="<?php echo $form2['login_submit']->{'icon'}; ?> fa fa-white"></i>
+					<i class="<?php echo $form2['login_submit']->{'icon'}; ?>"></i>
 					<?php echo $form2['login_submit']->name ?>
 				</button>
 			</fieldset>

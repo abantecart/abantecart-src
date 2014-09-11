@@ -35,7 +35,7 @@
 	  <div class="btn-group pull-right">
 	    <button class="btn" id="list"><i class="fa fa-th-list"></i>
 	    </button>
-	    <button class="btn btn-orange" id="grid"><i class="fa fa-th fa fa-white"></i></button>
+	    <button class="btn btn-orange" id="grid"><i class="fa fa-th"></i></button>
 	  </div>
 	</div>
 	<!-- end sorting-->

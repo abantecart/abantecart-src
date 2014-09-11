@@ -33,7 +33,7 @@ class ControllerResponsesCheckoutNoPayment extends AController {
 		                                          'name' => 'checkout',
 			                                      'style' => 'button btn-orange pull-right',
 		                                          'text' => $this->language->get('button_confirm'),
-												  'icon' => 'fa fa-ok fa fa-white'));
+												  'icon' => 'fa fa-check'));
 		$item = $item->getHtml();
 		$this->view->assign('button_confirm', $item);
 
