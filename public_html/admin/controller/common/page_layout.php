@@ -31,6 +31,8 @@ class ControllerCommonPageLayout extends AController {
   const FOOTER_TOP = 7;
   const FOOTER_MAIN = 8;
 
+  private $installed_blocks = array();
+
   public function main() {
     //use to init controller data
     $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -45,6 +47,7 @@ class ControllerCommonPageLayout extends AController {
     $settings['layout_drafts'] = $layout->getLayoutDrafts();
     $settings['layout_templates'] = $layout->getLayoutTemplates();
     $this->view->batchAssign($settings);
+    $this->installed_blocks = $layout->getInstalledBlocks();
 
     //build layout reset data
     $layout_data['pages'] = $layout->getAllPages();
@@ -110,32 +113,8 @@ class ControllerCommonPageLayout extends AController {
     /** Page Sections **/
 
     $page_sections = $this->_buildPageSections($layout);
+    $this->view->batchAssign($page_sections);
 
-    // Header Section
-    $this->view->assign('header_section', $page_sections[self::HEADER_MAIN]);
-
-    // Header Bottom Section
-    $this->view->assign('header_bottom_section', $page_sections[self::HEADER_BOTTOM]);
-
-    // Left Column Section
-    $this->view->assign('left_column_section', $page_sections[self::LEFT_COLUMN]);
-
-    // Right Column Section
-    $this->view->assign('right_column_section', $page_sections[self::RIGHT_COLUMN]);
-
-    // Content Top Section
-    $this->view->assign('content_top_section', $page_sections[self::CONTENT_TOP]);
-
-    // Content Bottom Section
-    $this->view->assign('content_bottom_section', $page_sections[self::CONTENT_BOTTOM]);
-
-    // Footer Top Section
-    $this->view->assign('footer_top_section', $page_sections[self::FOOTER_TOP]);
-
-    // Footer Section
-    $this->view->assign('footer_section', $page_sections[self::FOOTER_MAIN]);
-
-    $this->view->assign('add_block',  $this->html->getSecureURL('design/blocks_manager'));
     $this->view->assign('form_begin', $form_begin);
     $this->view->assign('form_hidden', $form_hidden);
     $this->view->assign('form_submit', $form_submit);
@@ -154,31 +133,35 @@ class ControllerCommonPageLayout extends AController {
    * @return array
    */
   private function _buildPageSections($page_layout) {
-    $installed_blocks = $page_layout->getInstalledBlocks();
     $layout_blocks = $page_layout->getLayoutBlocks();
     $page_sections = array();
+    $partialView = $this->view;
 
     foreach ($layout_blocks as $k => $section) {
-      $blocks = $this->_buildBlocks($section['children'], $installed_blocks);
-      $page_sections[$k] = [
+      $blocks = $this->_buildBlocks($section['block_id'], $section['children']);
+      $partialView->batchAssign(array(
         'id' => $section['instance_id'],
-        'block_id' => $section['block_id'],
+        'blockId' => $section['block_id'],
         'name' => $section['block_txt_id'],
-        'status' => $section['status'] ? 'on' : 'off',
+        'status' => $section['status'],
         'controller' => $section['controller'],
         'blocks' => implode('', $blocks),
-      ];
+        'addBlockUrl' => $this->html->getSecureURL('design/blocks_manager'),
+      ));
+
+      // render partial view
+      $page_sections[$section['block_txt_id']] = $partialView->fetch('common/section.tpl');
     }
 
     return $page_sections;
   }
 
   /**
+   * @param array $section_id
    * @param array $section_blocks
-   * @param array $installed_blocks
    * @return array
    */
-  private function _buildBlocks($section_blocks, $installed_blocks) {
+  private function _buildBlocks($section_id, $section_blocks) {
     $blocks = array();
     $partialView = $this->view;
 
@@ -186,17 +169,19 @@ class ControllerCommonPageLayout extends AController {
       return $blocks;
 
     foreach ($section_blocks as $block) {
+      $customName = '';
       if ($block['custom_block_id'])
-        $name = $block['block_txt_id'] . '::' . $this->_getCustomBlockName($installed_blocks, $block['custom_block_id']);
-      else
-        $name = $block['block_txt_id'];
+        $customName = $this->_getCustomBlockName($block['custom_block_id']);
 
-      $partialView->batchAssign([
+      $partialView->batchAssign(array(
         'id' => $block['instance_id'],
-        'block_id' => $block['block_id'],
-        'name' => $name,
-        'status' => $block['status'] ? 'on' : 'off',
-      ]);
+        'blockId' => $block['block_id'],
+        'customBlockId' => $block['custom_block_id'],
+        'name' => $block['block_txt_id'],
+        'customName' => $customName,
+        'status' => $block['status'],
+        'parentBlock' => $section_id,
+      ));
 
       // render partial view
       $blocks[] = $partialView->fetch('common/block.tpl');
@@ -206,12 +191,11 @@ class ControllerCommonPageLayout extends AController {
   }
 
   /**
-   * @param array $installed_blocks
    * @param int $custom_block_id
    * @return string
    */
-  private function _getCustomBlockName($installed_blocks, $custom_block_id) {
-    foreach ($installed_blocks as $block) {
+  private function _getCustomBlockName($custom_block_id) {
+    foreach ($this->installed_blocks as $block) {
       if ($block['custom_block_id'] == $custom_block_id) {
         return $block['block_name'];
       }
