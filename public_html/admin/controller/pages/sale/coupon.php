@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 class ControllerPagesSaleCoupon extends AController {
     public $data = array();
-    private $error = array();
+    public $error = array();
     private $fields = array('coupon_description',
 							'code',
 							'type',
@@ -110,12 +110,41 @@ class ControllerPagesSaleCoupon extends AController {
             $this->language->get('column_status'),
         );
         $grid_settings['colModel'] = array(
-            array('name' => 'name', 'index' => 'name', 'width' => 160, 'align' => 'left', 'search' => true),
-            array('name' => 'code', 'index' => 'code', 'width' => 80, 'align' => 'left', 'search' => true),
-            array('name' => 'discount', 'index' => 'discount', 'width' => 80, 'align' => 'center', 'search' => false),
-            array('name' => 'date_start', 'index' => 'date_start', 'width' => 80, 'align' => 'center', 'search' => false),
-            array('name' => 'date_end', 'index' => 'date_end', 'width' => 80, 'align' => 'center', 'search' => false),
-            array('name' => 'status', 'index' => 'status', 'width' => 120, 'align' => 'center', 'search' => false),
+            array(  'name' => 'name',
+					'index' => 'name',
+					'width' => 160,
+					'align' => 'left',
+					'search' => true),
+
+            array(  'name' => 'code',
+					'index' => 'code',
+					'width' => 80,
+					'align' => 'left',
+					'search' => true),
+
+            array(  'name' => 'discount',
+					'index' => 'discount',
+					'width' => 80,
+					'align' => 'center',
+					'search' => false),
+
+            array(  'name' => 'date_start',
+					'index' => 'date_start',
+					'width' => 80,
+					'align' => 'center',
+					'search' => false),
+
+            array(  'name' => 'date_end',
+					'index' => 'date_end',
+					'width' => 80,
+					'align' => 'center',
+					'search' => false),
+
+            array(  'name' => 'status',
+					'index' => 'status',
+					'width' => 120,
+					'align' => 'center',
+					'search' => false),
         );
 
         $statuses = array(
@@ -180,7 +209,7 @@ class ControllerPagesSaleCoupon extends AController {
 
         $this->document->setTitle($this->language->get('heading_title'));
         $this->load->library('json');
-        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+        if ( $this->request->is_POST() && $this->_validateForm()) {
 			if (has_value($this->request->post[ 'date_start' ])) {
 				$this->request->post[ 'date_start' ] = dateDisplay2ISO($this->request->post[ 'date_start' ]);
 			}
@@ -215,7 +244,7 @@ class ControllerPagesSaleCoupon extends AController {
             unset($this->session->data['success']);
         }
         $this->load->library('json');
-        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+        if ( $this->request->is_POST() && $this->_validateForm()) {
 			if (has_value($this->request->post[ 'date_start' ])) {
 				$this->request->post[ 'date_start' ] = dateDisplay2ISO($this->request->post[ 'date_start' ]);
 			}
@@ -225,7 +254,6 @@ class ControllerPagesSaleCoupon extends AController {
 					$this->request->post[ 'status' ] = 0;
 				}
 			}
-            $this->request->post['coupon_product'] = $this->_convertProduct_list($this->request->post['selected'][0]);
 
             $this->model_sale_coupon->editCoupon($this->request->get['coupon_id'], $this->request->post);
             $this->model_sale_coupon->editCouponProducts($this->request->get['coupon_id'], $this->request->post);
@@ -238,20 +266,6 @@ class ControllerPagesSaleCoupon extends AController {
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
-
-    private function _convertProduct_list($values = array()) {
-        $values = AJson::decode(html_entity_decode($values), true);
-        if ($values) {
-            $products = array();
-            foreach ($values as $id => $item) {
-                if ($item['status']) {
-                    $products[] = $id;
-                }
-            }
-        }
-        return $products;
-    }
-
 
     private function _getForm() {
 
@@ -272,7 +286,7 @@ class ControllerPagesSaleCoupon extends AController {
             'separator' => ' :: '
         ));
 
-        if (isset($this->request->get['coupon_id']) && (!$this->request->server['REQUEST_METHOD'] != 'POST')) {
+        if (has_value($this->request->get['coupon_id']) && $this->request->is_GET() ) {
             $coupon_info = $this->model_sale_coupon->getCouponByID($this->request->get['coupon_id']);
         }
 
@@ -306,15 +320,15 @@ class ControllerPagesSaleCoupon extends AController {
         if (isset($this->request->post['date_start'])) {
             $this->data['date_start'] = dateDisplay2ISO($this->request->post['date_start'],$this->language->get('date_format_short'));
         } elseif (isset($coupon_info)) {
-            $this->data['date_start'] = date('Y-m-d', strtotime($coupon_info['date_start']));
+            $this->data['date_start'] = dateISO2Display($coupon_info['date_start'], $this->language->get('date_format_short'));
         } else {
-            $this->data['date_start'] = date('Y-m-d', time());
+            $this->data['date_start'] = dateInt2Display(time(), $this->language->get('date_format_short'));
         }
 
         if (isset($this->request->post['date_end'])) {
             $this->data['date_end'] = dateDisplay2ISO($this->request->post['date_end'],$this->language->get('date_format_short'));
         } elseif (isset($coupon_info)) {
-            $this->data['date_end'] = date('Y-m-d', strtotime($coupon_info['date_end']));
+            $this->data['date_end'] = dateISO2Display($coupon_info['date_end'], $this->language->get('date_format_short'));
         } else {
             $this->data['date_end'] = '';
         }
@@ -341,7 +355,7 @@ class ControllerPagesSaleCoupon extends AController {
 			$this->data[ 'status' ] = 0;
 		}
 
-        if (!isset($this->request->get['coupon_id'])) {
+        if (!has_value($this->request->get['coupon_id'])) {
             $this->data['action'] = $this->html->getSecureURL('sale/coupon/insert');
             $this->data['heading_title'] = $this->language->get('text_insert') . ' ' . $this->language->get('text_coupon');
             $this->data['update'] = '';
@@ -370,7 +384,7 @@ class ControllerPagesSaleCoupon extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
             'type' => 'form',
             'name' => 'couponFrm',
-            'attr' => 'data-confirm-exit="true"',
+            'attr' => 'data-confirm-exit="true"  class="aform form-horizontal"',
             'action' => $this->data['action'],
         ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -455,22 +469,20 @@ class ControllerPagesSaleCoupon extends AController {
 			array(
         			'type' => 'date',
         			'name' => 'date_start',
-        			'value' => dateISO2Display($this->data[ 'date_start' ]),
+        			'value' => $this->data[ 'date_start' ],
         			'default' => dateNowDisplay(),
         			'dateformat' => format4Datepicker($this->language->get('date_format_short')),
         			'highlight' => 'future',
-				    'required' => true,
-        			'style' => 'medium-field' ));
+				    'required' => true ));
 
         $this->data['form']['fields']['date_end'] = $form->getFieldHtml(array(
         			'type' => 'date',
         			'name' => 'date_end',
-        			'value' => dateISO2Display($this->data[ 'date_end' ]),
+        			'value' => $this->data[ 'date_end' ],
         			'default' => '',
         			'dateformat' => format4Datepicker($this->language->get('date_format_short')),
         			'highlight' => 'pased',
-					'required' => true,
-        			'style' => 'medium-field' ));
+					'required' => true ));
 
         $this->data['form']['fields']['uses_total'] = $form->getFieldHtml(array(
             'type' => 'input',
@@ -489,59 +501,23 @@ class ControllerPagesSaleCoupon extends AController {
 		    $this->data['form']['fields']['total_coupon_usage'] = (int)$total;
 	    }
 
-        $this->load->library('json');
 
-        $listing_data = array();
-        if ($this->data['coupon_product']) {
-            $this->loadModel('catalog/product');
-            foreach ($this->data['coupon_product'] as $product_id) {
-                $product_info = $this->model_catalog_product->getProduct($product_id);
-                $listing_data[$product_id] = array('id' => $product_id,
-                    'name' => html_entity_decode($product_info['name'] . ' (' . $product_info['model'] . ')'),
-                    'status' => 1);
-            }
-        }
-        if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-            $listing_data = AJson::decode(html_entity_decode($this->request->post['selected'][0]), true);
-        }
-        $this->data['form']['fields']['product'] = $form->getFieldHtml(array(
-            'id' => 'coupon_products_list',
-            'type' => 'multivaluelist',
-            'name' => 'coupon_products',
-            'content_url' => $this->html->getSecureUrl('listing_grid/coupon/products'),
-            'edit_url' => '',
-            'multivalue_hidden_id' => 'popup',
-            'values' => $listing_data,
-            'return_to' => 'couponFrm_popup_item_count',
-            'text' => array(
-                'delete' => $this->language->get('button_delete'),
-                'delete_confirm' => $this->language->get('text_delete_confirm'),
-            )
-        ));
+		$this->data['products'] = array();
+		$this->loadModel('catalog/product');
+		$results = $this->model_catalog_product->getProducts();
+		foreach( $results as $r ) {
+			$this->data['products'][ $r['product_id'] ] = $r['name'];
+		}
 
-
-        $this->data['form']['fields']['list'] = $form->getFieldHtml(
-            array('id' => 'popup',
-                'type' => 'multivalue',
-                'name' => 'popup',
-                'title' => $this->language->get('text_select_from_list'),
-                'selected' => ($listing_data ? AJson::encode($listing_data) : "{}"),
-                'content_url' => $this->html->getSecureUrl('catalog/product_listing', '&form_name=couponFrm&multivalue_hidden_id=popup'),
-                'postvars' => '',
-                'return_to' => '', // placeholder's id of listing items count.
-                'popup_height' => 708,
-                'js' => array(
-                    'apply' => "couponFrm_coupon_products_buildList();",
-                    'cancel' => 'couponFrm_coupon_products_buildList();',
-                ),
-                'text' => array(
-                    'selected' => $this->language->get('text_count_selected'),
-                    'edit' => $this->language->get('text_save_edit'),
-                    'apply' => $this->language->get('text_apply'),
-                    'save' => $this->language->get('button_save'),
-                    'reset' => $this->language->get('button_reset')),
-            ));
-
+		$this->data['form']['fields']['product'] = $form->getFieldHtml(
+														array(
+																'type' => 'checkboxgroup',
+																'name' => 'coupon_product[]',
+																'value' => $this->data['coupon_product'],
+																'options' => $this->data['products'],
+																'style' => 'chosen',
+																'placeholder' => $this->language->get('text_select_from_list'),
+														));
 
         $this->view->assign('help_url', $this->gen_help_url('coupon_edit'));
         $this->view->batchAssign($this->data);
@@ -563,16 +539,16 @@ class ControllerPagesSaleCoupon extends AController {
         }
 
         foreach ($this->request->post['coupon_description'] as $value) {
-            if ((strlen(utf8_decode($value['name'])) < 2) || (strlen(utf8_decode($value['name'])) > 64)) {
+            if (mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 64) {
                 $this->error['name'] = $this->language->get('error_name');
             }
 
-            if (strlen(utf8_decode($value['description'])) < 2) {
+            if (mb_strlen($value['description']) < 2 ) {
                 $this->error['description'] = $this->language->get('error_description');
             }
         }
 
-        if ((strlen(utf8_decode($this->request->post['code'])) < 2) || (strlen(utf8_decode($this->request->post['code'])) > 10)) {
+        if (mb_strlen($this->request->post['code']) < 2 || mb_strlen($this->request->post['code']) > 10) {
             $this->error['code'] = $this->language->get('error_code');
         }
 
@@ -582,6 +558,8 @@ class ControllerPagesSaleCoupon extends AController {
 		if (!has_value($this->request->post['date_end'])) {
 			$this->error['date_end'] = $this->language->get('error_date');
 		}
+
+		$this->extensions->hk_ValidateData($this);
 
         if (!$this->error) {
             return TRUE;
