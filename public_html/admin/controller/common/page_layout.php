@@ -160,14 +160,14 @@ class ControllerCommonPageLayout extends AController {
 
     foreach ($layout_blocks as $k => $section) {
       $blocks = $this->_buildBlocks($section['children'], $installed_blocks);
-      $page_sections[$k] = [
+      $page_sections[$k] = array(
         'id' => $section['instance_id'],
         'block_id' => $section['block_id'],
         'name' => $section['block_txt_id'],
         'status' => $section['status'] ? 'on' : 'off',
         'controller' => $section['controller'],
-        'blocks' => implode('', $blocks),
-      ];
+        'blocks' => implode('', $blocks)
+	  );
     }
 
     return $page_sections;
@@ -191,12 +191,12 @@ class ControllerCommonPageLayout extends AController {
       else
         $name = $block['block_txt_id'];
 
-      $partialView->batchAssign([
+      $partialView->batchAssign(array(
         'id' => $block['instance_id'],
         'block_id' => $block['block_id'],
         'name' => $name,
         'status' => $block['status'] ? 'on' : 'off',
-      ]);
+	  ));
 
       // render partial view
       $blocks[] = $partialView->fetch('common/block.tpl');
