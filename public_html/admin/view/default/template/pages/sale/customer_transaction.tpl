@@ -4,81 +4,107 @@
 <?php if ($success) { ?>
 	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
-<div id="aPopup">
-	<div class="popbox_tl" style="margin-top: 10px;">
-		<div class="popbox_tr">
-			<div class="popbox_tc"></div>
-		</div>
-	</div>
-	<div class="popbox_cl"><div class="popbox_cr"><div class="popbox_cc" >
-		<div class="aform">
-			<div>
-				<div class="tl"><div class="tr"><div class="tc"></div></div></div>
-				<div class="cl"><div class="cr"><div class="cc">
-					<div><?php echo $ajax_form_open?>
-						<table id="popup_text" style="width: 100%"></table>
-					</form>
-					</div>
-				</div></div></div>
-				<div class="bl"><div class="br"><div class="bc"></div></div></div>
-			</div>
-		</div>
-	</div></div></div>
-	<div class="popbox_bl"><div class="popbox_br"><div class="popbox_bc"></div></div></div>
-</div>
 
-<div class="contentBox">
-	<div class="cbox_tl">
-		<div class="cbox_tr">
-			<div class="cbox_tc">
-				<div class="heading icon_title_customer"><?php echo $heading_title_transactions; ?></div>
+<div class="row">
+	<div class="col-sm-12 col-lg-12">
+		<ul class="content-nav">
+			<li>
 				<?php
 				if (!empty($search_form)) {
-					echo '<div class="filter">';
-					echo $search_form['form_open'];
-					foreach ($search_form['fields'] as $f) echo $f;
-					echo '<button type="submit" class="btn_standard">' . $search_form['submit'] . '</button>';
-					echo '<button type="reset" class="btn_standard">' . $search_form['reset'] . '</button>';
-					echo '</form>';
-					echo '</div>';
+					?>
+					<form id="<?php echo $search_form['form_open']->name; ?>"
+						  method="<?php echo $search_form['form_open']->method; ?>"
+						  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
+
+						<?php
+						foreach ($search_form['fields'] as $f) {
+							?>
+							<div class="form-group">
+								<div class="input-group input-group-sm">
+									<?php echo $f; ?>
+								</div>
+							</div>
+						<?php
+						}
+						?>
+						<div class="form-group">
+							<button type="submit"
+									class="btn btn-xs btn-primary"><?php echo $search_form['submit']->text ?></button>
+							<button type="reset" class="btn btn-xs btn-default"><i class="fa fa-refresh"></i></button>
+						</div>
+					</form>
+				<?php
 				}
 				?>
-				<div class="toolbar">
-					<?php if (!empty ($help_url)) : ?>
-						<div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img
-										src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-					<?php endif; ?>
-					<div class="heading"><?php echo $balance; ?></div>
-					<div class="buttons">
-						<a style="vertical-align: top;" class="btn_toolbar" title="<?php echo $button_insert; ?>" ><span class="icon_add">&nbsp;</span></a>
-						<?php echo $button_orders_count; ?>
-						<?php echo $button_actas; ?>
+			</li>
+			<li>
+				<a class="itemopt" title="<?php echo $button_insert; ?>" href="<?php echo $insert_href; ?>" data-toggle="modal" data-target="#transaction_modal"><i class="fa fa-plus-circle"></i></a>
+			</li>
+
+			<?php if (!empty ($form_language_switch)) { ?>
+				<li>
+					<?php echo $form_language_switch; ?>
+				</li>
+			<?php } ?>
+				<li>
+					<div class="btn-group mr10 toolbar">
+						<a class="btn btn-white disabled"><?php echo $balance; ?></a>
+						<?php if($button_orders_count){ ?>
+						<a target="_blank"
+						   class="btn btn-white tooltips"
+						   href="<?php echo $button_orders_count->href; ?>"
+						   data-toggle="tooltip"
+						   title="<?php echo $button_orders_count->title; ?>"
+						   data-original-title="<?php echo $button_orders_count->title; ?>"><?php echo $button_orders_count->text; ?></a>
+						<?php } ?>
+						<a target="_blank"
+						   class="btn btn-white tooltips"
+						   href="<?php echo $actas->href; ?>"
+						   data-toggle="tooltip"
+						   title="<?php echo $actas->text; ?>"
+						   data-original-title="<?php echo $actas->text; ?>"><i class="fa fa-male"></i></a>
 					</div>
-				</div>
-			</div>
-		</div>
+
+				</li>
+
+			<?php if (!empty ($help_url)) { ?>
+				<li>
+					<div class="help_element">
+						<a href="<?php echo $help_url; ?>" target="new">
+							<i class="fa fa-question-circle"></i>
+						</a></div>
+				</li>
+			<?php } ?>
+		</ul>
 	</div>
-	<div class="cbox_cl">
-		<div class="cbox_cr">
-			<div class="cbox_cc">
+</div>
+
+<div class="row">
+	<div class="col-sm-12 col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
 				<?php echo $listing_grid; ?>
 			</div>
 		</div>
 	</div>
-	<div class="cbox_bl">
-		<div class="cbox_br">
-			<div class="cbox_bc"></div>
-		</div>
-	</div>
 </div>
+
+
+<?php echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'transaction_modal',
+				'modal_type' => 'lg',
+				'data_source' => 'ajax'	));
+?>
 
 <script type="text/javascript">
 
-	$('a[id^="action_view_"]').on('click', function () {
-		var id = $(this).attr('id').replace('action_view_', '');
-		show_popup(id);
-		return false;
-	});
+	var updateViewButtons = function(){
+		$('.grid_action_view[data-toggle!="modal"]').each(function(){
+			$(this).attr('data-toggle','modal'). attr('data-target','#transaction_modal');
+		});
+	};
+
 
 	$(document).ready(function () {
 		$(function () {
@@ -100,55 +126,6 @@
 		});
 	});
 
-	var $aPopup = $('#aPopup');
-
-	function show_popup(id){
-		var $aPopup = $('#aPopup').dialog({
-			autoOpen: false,
-			modal: true,
-			resizable: false,
-			width: 550,
-			autoResize:true,
-			title: (id>0 ? '<?php echo $popup_title_info;?>' : '<?php echo $popup_title_insert;?>'),
-			open: function() {},
-			resize: function(event, ui){
-			},
-			close: function(event, ui) {
-				$(this).dialog('destroy');
-			}
-		});
-
-		if(id>0){
-			$('#aPopup').dialog({buttons:
-										{"close": function(event, ui) {
-												$(this).dialog('destroy');
-											}}
-								});
-		}else{
-			$('#aPopup').dialog({buttons:
-										{"cancel": function(event, ui) {
-												$(this).dialog('destroy');
-										},
-										"save": function(event, ui) {
-											$('#transaction_form').submit();
-										}}
-								});
-		}
-
-		$aPopup.removeClass('popbox popbox2');
-
-		$.ajax({
-			url: '<?php echo $popup_action; ?>',
-			type: 'GET',
-			dataType: 'json',
-			data: 'customer_transaction_id='+id,
-			success: function(data) {
-				if(data==null) return false;
-				ajaxReplace(data);
-				$aPopup.dialog('open');
-			}
-		});
-	}
 
 	function ajaxReplace(data){
 		var html = '';
@@ -170,28 +147,5 @@
 
 	}
 
-	$('#transaction_form_transaction_type\\[0\\]').on('change',function(){
-		$('#transaction_form_transaction_type\\[1\\]').parents('tr').show();
-	});
 
-	$('#transaction_form').on('submit',function() {
-			// submit the form
-			var options = {
-				dataType:'json',
-				type: 'post',
-				success:function (response) {
-                    if(response.error!=undefined){
-                        ajaxReplace(response);
-                    }else{
-                        location = location;
-                    }
-
-				}
-			};
-			$(this).ajaxSubmit(options);
-			// return false to prevent normal browser submit and page navigation
-			$(this).unbind('submit');
-			return false;
-		});
-    $('.icon_add').click(function(){ show_popup(0); });
 </script>
