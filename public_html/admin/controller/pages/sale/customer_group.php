@@ -103,7 +103,7 @@ class ControllerPagesSaleCustomerGroup extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 		
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ( $this->request->is_POST() && $this->_validateForm()) {
 			$customer_group_id = $this->model_sale_customer_group->addCustomerGroup($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('sale/customer_group', '&customer_group_id=' . $customer_group_id ) );
@@ -128,7 +128,7 @@ class ControllerPagesSaleCustomerGroup extends AController {
 			unset($this->session->data['success']);
 		}
 		
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ( $this->request->is_POST() && $this->_validateForm()) {
 			$this->model_sale_customer_group->editCustomerGroup($this->request->get['customer_group_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('sale/customer_group', '&customer_group_id=' . $this->request->get['customer_group_id'] ) );
@@ -161,7 +161,7 @@ class ControllerPagesSaleCustomerGroup extends AController {
 			
     	$this->data['cancel'] = $this->html->getSecureURL('sale/customer_group');
 
-		if (isset($this->request->get['customer_group_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['customer_group_id']) &&  $this->request->is_GET() ) {
 			$customer_group_info = $this->model_sale_customer_group->getCustomerGroup($this->request->get['customer_group_id']);
 		}
 
