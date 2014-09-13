@@ -1,4 +1,20 @@
+/*
+AbanteCart storefront main CSS style.css
+
+Developers: Pavel Rojkov (projkov@abantecart.com)
+
+AbanteCart brand color styles: #064770 (dark blue) #F19013 (Orange)
+
+*/
 @charset "utf-8";
+
+@import url('bootstrap.min.css');
+@import url('flexslider.css');
+@import url('cloud-zoom.css');
+@import url('onebyone.css');
+@import url('print.css');
+@import url('font-awesome.min.css');
+
 /* CSS Document */
 /* ------------ Reset ------------ */
 body {
@@ -216,6 +232,10 @@ form {
 	margin: 0;
 }
 
+.contentpanel {
+	padding: 10px;
+}
+
 #featured, #latest, #related, #popularbrands, #newslettersignup {
 	margin: 0 auto 0 auto;
 }
@@ -413,7 +433,8 @@ li.dropdown {
 }
 
 .headerdetails ul.topcartopen {
-	font-size: 11px
+	font-size: 11px;
+	width: 270px;
 }
 
 .headerdetails ul.topcartopen li > table {
@@ -500,15 +521,15 @@ li.dropdown {
 
 .buttonwrap {
 	padding: 10px;
-	margin: 5px 10px 5px 10px;
 }
 
-#top_cart_product_list>table:last-child {
+#top_cart_product_list > table:last-child {
 	width: 90%;
 }
 
 #top_cart_product_list table td.image, #top_cart_product_list table td.image img {
 	width: 50px;
+	padding: 3px;
 }
 
 #top_cart_product_list table td.total {
@@ -517,6 +538,7 @@ li.dropdown {
 
 #top_cart_product_list .totals {
 	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 #top_cart_product_list .totals td {
@@ -627,7 +649,7 @@ ul.categorymenu > li > div {
 	z-index: 99999;
 	display: none;
 	float: left;
-	min-width: 250px;
+	min-width: 200px;
 	margin: 1px 0 0;
 	list-style: none;
 	background-color: #ffffff;
@@ -789,7 +811,6 @@ ul.categorymenu > li ul > li img {
 
 .addresses>section{
 	display: inline-block;
-	width: 45%;
 }
 .addresses .old_address{
 	float: left;
@@ -1547,7 +1568,7 @@ h1.productname {
 	padding: 15px
 }
 
-.tab-content div.content div.control-group {
+.tab-content div.content div.form-group {
 	clear: both;
 }
 
@@ -3680,7 +3701,7 @@ a.clostalert {
 		text-align: left;
 	}
 
-	#Address2Frm .form-horizontal .control-group {
+	#Address2Frm .form-horizontal .form-group {
 		min-width: 75px;
 		width: auto;
 		text-align: left;
@@ -3750,12 +3771,16 @@ a.clostalert {
 	padding-top: 7px;
 }
 
+form .help-block {
+    text-align: center;
+}
+
 .form-control, .alert {
     border-radius: 0;
 }
 /* -- disable round corners for buttons -- */
 .btn, .label, .badge, .nav-pills > li > a, select,
-.btn-group > .btn:first-child, .pagination ul > li:first-child > a, .pagination ul > li:first-child > span, .pagination ul > li:last-child > a, .pagination ul > li:last-child > span {
+.btn-group > .btn:first-child, .pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span {
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
 	border-radius: 0;
@@ -3827,17 +3852,20 @@ a.clostalert {
 	background: #F25C27;
 	*background: #F25C27;
 	box-shadow: none;
+	border-color: #d8420e; 
 }
 
 .btn-orange:hover, .btn-orange:active, .btn-orange.active, .btn-orange.disabled, .btn-orange[disabled],
 .btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
 	color: #ffffff;
 	background-color: #d8420e;
+	border-color: #d8420e; 	
 }
 
 .btn-orange:active, .btn-orange.active,
 .btn-primary:active, .btn-primary.active {
 	background-color: #d8420e   \9;
+	border-color: #d8420e; 	
 }
 
 .btn-wht {

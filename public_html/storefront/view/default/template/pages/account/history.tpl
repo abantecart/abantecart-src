@@ -1,9 +1,9 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="icon-briefcase"></i> <?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="fa fa-briefcase"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
-<div class="container-fluid">
+<div class="contentpanel">
 
 	<?php foreach ($orders as $order) { ?>
 		
@@ -30,16 +30,17 @@
 	</div>
 	<?php } ?>
 
-	<div class="pagination"><?php echo $pagination_bootstrap; ?></div>
-</div>
+	<div class="container-fluid"><?php echo $pagination_bootstrap; ?></div>
 
-<div class="container-fluid cart_total">
-	<div class="row">
+	<div class="container-fluid cart_total">
+		<div class="row">
 			<a href="<?php echo $continue; ?>" class="btn btn-default mt10 pull-right" title="<?php echo $button_continue->text ?>">
-	    		    <i class="icon-arrow-right"></i>
+	    		    <i class="fa fa-arrow-right"></i>
 	    		    <?php echo $button_continue->text ?>
 			</a>
+		</div>
 	</div>
+
 </div>
 
 <script type="text/javascript">

@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="icon-credit-card"></i> <?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="fa fa-credit-card"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container-fluid">
+<div class="contentpanel">
 
 	<h4 class="heading4"><?php echo $text_payment_address; ?></h4>
 	<div class="registerbox">
@@ -26,11 +26,11 @@
 		<tr>
 			<td><?php echo $address; ?></td>
 			<td>
-			<div class="control-group">
+			<div class="form-group">
 				<label class="control-label"><?php echo $text_payment_to; ?></label>
-				<div class="controls">
+				<div class="input-group">
 					<a href="<?php echo $change_address_href; ?>" class="btn btn-default mr10" title="<?php echo $button_change_address ?>">
-					    <i class="icon-edit"></i>
+					    <i class="fa fa-edit"></i>
 					    <?php echo $button_change_address ?>
 					</a>				
 				</div>
@@ -95,13 +95,11 @@
 			<?php echo $form['comment']; ?>
      	</div>
 		
-		<div class="control-group">
-			<div class="controls">
-    			<div class="form-inline mt20 mb20">
+		<div class="form-group">
+			<div class="col-md-12">
     			<?php echo $this->getHookVar('buttons_pre'); ?>
 				<?php echo $buttons; ?>
 				<?php echo $this->getHookVar('buttons_post'); ?>
-    			</div>	
     		</div>
 		</div>			
 	</div>

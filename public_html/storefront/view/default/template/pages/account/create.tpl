@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="icon-group"></i> <?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="fa fa-group"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container-fluid">
+<div class="contentpanel">
 	<?php echo $form['form_open']; ?>
 	
 	<p><?php echo $text_account_already; ?></p>
@@ -32,7 +32,7 @@
 			foreach ($field_list as $field_name) {
 		?>
 			<div class="form-group <?php echo ${'error_'.$field_name} ? 'has-error' : ''; ?>">
-				<label class="col-sm-3 control-label"><?php echo ${'entry_'.$field_name}; ?></label>
+				<label class="control-label col-sm-3"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="input-group col-sm-4">
 				    <?php echo $form[$field_name]; ?>
 				</div>
@@ -60,7 +60,7 @@
 			foreach ($field_list as $field_name => $field_id) {
 		?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
-				<label class="col-sm-3 control-label"><?php echo ${'entry_'.$field_name}; ?></label>
+				<label class="control-label col-sm-3"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="input-group col-sm-4">
 				    <?php echo $form[$field_id]; ?>
 				</div>
@@ -108,7 +108,7 @@
 
 
 	<div class="form-group">
-	    <div class="controls">
+	    <div class="input-group">
 	<?php if ($text_agree) { ?>
 			<label class="col-md-6 mt20 mb40">
 				<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
@@ -119,7 +119,7 @@
 	<?php } ?>    	
 	    	<div class="col-md-2 mt20 mb40">
 	    		<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
-	    		    <i class="icon-ok icon-white"></i>
+	    		    <i class="fa fa-check"></i>
 	    		    <?php echo $form['continue']->name ?>
 	    		</button>
 	    	</div>	

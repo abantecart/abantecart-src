@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="icon-lock"></i> <?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="fa fa-lock"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="row">
+<div class="contentpanel">
 
 <div class="col-sm-6 newcustomer">
 	<h2 class="heading2"><?php echo $text_i_am_new_customer; ?></h2>
@@ -36,8 +36,8 @@
 			<div class="form-group mt20 mb40">
 		      <?php echo $text_create_account; ?>
 			</div>
-			<button type="submit" class="btn btn-orange"  title="<?php echo $form1['continue']->name ?>">
-				<i class="<?php echo $form1['continue']->icon; ?> icon-white"></i>
+			<button type="submit" class="btn btn-orange pull-right"  title="<?php echo $form1['continue']->name ?>">
+				<i class="<?php echo $form1['continue']->icon; ?> fa"></i>
 				<?php echo $form1['continue']->name ?>
 			</button>
 		</fieldset>
@@ -77,8 +77,8 @@
 				<?php } ?>
 				<br>
 				<br>
-				<button type="submit" class="btn btn-orange"  title="<?php echo $form2['login_submit']->name ?>">
-					<i class="<?php echo $form2['login_submit']->{'icon'}; ?> icon-white"></i>
+				<button type="submit" class="btn btn-orange pull-right"  title="<?php echo $form2['login_submit']->name ?>">
+					<i class="<?php echo $form2['login_submit']->{'icon'}; ?>"></i>
 					<?php echo $form2['login_submit']->name ?>
 				</button>
 			</fieldset>

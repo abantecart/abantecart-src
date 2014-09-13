@@ -175,10 +175,10 @@
 												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
 										</ul>
 										<a class="productprint btn btn-large" href="javascript:window.print();"><i
-													class="icon-print"></i> <?php echo $button_print; ?></a>
+													class="fa fa-print"></i> <?php echo $button_print; ?></a>
 										<?php }else{?>
 											<ul class="productpagecart call_to_order">
-												<li><a href="#" class="call_to_order"><i class="icon-phone-sign"></i>&nbsp;&nbsp;<?php echo $text_call_to_order; ?></a></li>
+												<li><a href="#" class="call_to_order"><i class="fa fa-phone-sign"></i>&nbsp;&nbsp;<?php echo $text_call_to_order; ?></a></li>
 											</ul>
 										<?php } ?>
 										<?php echo $this->getHookVar('buttons'); ?>
@@ -186,7 +186,7 @@
 								</fieldset>
 								</form>
 							<?php } elseif(!$product_info['call_to_order']) { ?>
-								<div class="control-group">
+								<div class="form-group">
 									<label class="control-label">
 										<?php echo $text_login_view_price; ?>
 									</label>
@@ -259,38 +259,39 @@
 						<div class="heading" id="review_title"><h4><?php echo $text_write; ?></h4></div>
 						<div class="content">
 							<fieldset>
-								<div class="control-group">
+								<div class="form-group">
 									<div class="form-inline">
-										<label class="control-label col-md-2 pull-left"><?php echo $entry_rating; ?> <span
+										<label class="control-label col-md-3 pull-left"><?php echo $entry_rating; ?> <span
 													class="red">*</span></label>
 										<?php echo $rating_element; ?>
 									</div>
 								</div>
-								<div class="control-group mt40">
+								<div class="form-group mt40">
 									<div class="form-inline">
-										<label class="control-label col-md-2"><?php echo $entry_name; ?> <span class="red">*</span></label>
+										<label class="control-label col-md-3"><?php echo $entry_name; ?> <span class="red">*</span></label>
 										<?php echo $review_name; ?>
 									</div>
 								</div>
-								<div class="control-group">
+								<div class="form-group">
 									<div class="form-inline">
-										<label class="control-label col-md-2"><?php echo $entry_review; ?> <span
+										<label class="control-label col-md-3"><?php echo $entry_review; ?> <span
 													class="red">*</span></label>
 										<?php echo $review_text; ?>
 									</div>
-									<div class="controls"><?php echo $text_note; ?></div>
+									<div class="input-group"><?php echo $text_note; ?></div>
 								</div>
-								<div class="clear control-group">
+								<div class="clear form-group">
 									<label class="control-label"><?php echo $entry_captcha; ?> <span
 												class="red">*</span></label>
 
 									<div class="form-inline">
-										<label class="control-label col-md-2"><img src="index.php?rt=common/captcha"
-																				id="captcha_img" alt=""/></label>
+										<label class="control-label col-md-3">
+											<img src="index.php?rt=common/captcha" id="captcha_img" alt=""/>
+										</label>
 										<?php echo $review_captcha; ?>
 									</div>
 								</div>
-								<div class="control-group col-md-4">
+								<div class="form-group col-md-4">
 									<div class="pull-right">
 										<?php echo $review_button; ?>
 									</div>
@@ -304,7 +305,7 @@
 					<div class="tab-pane" id="producttag">
 						<ul class="tags">
 							<?php foreach ($tags as $tag) { ?>
-							<li><a href="<?php echo $tag['href']; ?>"><i class="icon-tag"></i><?php echo $tag['tag']; ?></a></li>
+							<li><a href="<?php echo $tag['href']; ?>"><i class="fa fa-tag"></i><?php echo $tag['tag']; ?></a></li>
 								<?php } ?>
 						</ul>
 					</div>

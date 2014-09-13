@@ -4,8 +4,8 @@
   <input type="hidden" name="Vendor" value="<?php echo $vendor; ?>" />
   <input type="hidden" name="Crypt" value="<?php echo $crypt; ?>" />
   
-	<div class="control-group">
-	   <div class="controls">
+	<div class="form-group">
+	   <div class="input-group">
 	   	<button class="btn btn-orange pull-right" title="<?php echo $button_confirm; ?>" onclick="$('#checkout').submit();" type="submit">
 	   	    <i class="icon-ok icon-white"></i>
 	   	    <?php echo $button_confirm; ?>
