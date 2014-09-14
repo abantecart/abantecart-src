@@ -41,23 +41,21 @@
 
 
 <div class="container cart_total">
-	<div class="row">
-		<div class="col-md-5 offset7 cart-info totals pull-right">
-			<table class="table table-striped table-bordered">
-				<tr>
-					<td>
-						<span class="extra bold totalamout"><?php echo $text_total; ?></span>
-					</td>
-					<td>
-						<span class="bold totalamout"><?php echo $balance_amount; ?></span>
-					</td>
-				</tr>
-			</table>
+	<div class="cart-info totals pull-right">
+	    <table class="table table-striped table-bordered">
+	    	<tr>
+	    		<td>
+	    			<span class="extra bold totalamout"><?php echo $text_total; ?></span>
+	    		</td>
+	    		<td>
+	    			<span class="bold totalamout"><?php echo $balance_amount; ?></span>
+	    		</td>
+	    	</tr>
+	    </table>
 
-			<a href="<?php echo $continue; ?>" class="btn btn-default mr10 pull-right" title="<?php echo $button_continue->text ?>">
-	    		    <i class="fa fa-arrow-right"></i>
-	    		    <?php echo $button_continue->text ?>
-			</a>
-		</div>
+	    <a href="<?php echo $continue; ?>" class="btn btn-default mr10 pull-right" title="<?php echo $button_continue->text ?>">
+	    	    <i class="fa fa-arrow-right"></i>
+	    	    <?php echo $button_continue->text ?>
+	    </a>
 	</div>
 </div>

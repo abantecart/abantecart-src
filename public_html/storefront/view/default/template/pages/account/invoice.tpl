@@ -5,8 +5,8 @@
 
 <div class="contentpanel">
 
-	<div class="container-fluid">
-		<table class="table table-responsive table-striped table-bordered">
+	<div class="container-fluid table-responsive">
+		<table class="table table-striped table-bordered">
 			<tr>
 				<td><?php if ($invoice_id) { ?>
 						<b><?php echo $text_invoice_id; ?></b><br/>
@@ -46,8 +46,8 @@
 			</tr>
 		</table>
 	</div>
-	<div class="container-fluid invoice_products">
-		<table class="table table-responsive table-striped table-bordered">
+	<div class="container-fluid invoice_products table-responsive">
+		<table class="table table-striped table-bordered">
 			<tr>
 				<th class="align_left"><?php echo $text_image; ?></th>
 				<th class="align_left"><?php echo $text_product; ?></th>
@@ -75,7 +75,7 @@
 			<?php echo $this->getHookVar('list_more_product_last'); ?>
 		</table>
 
-		<div class="col-md-4 pull-right">
+		<div class="col-md-4 col-xs-6 pull-right">
 			<table class="table table-striped table-bordered">
 				<?php foreach ($totals as $total) { ?>
 					<tr>

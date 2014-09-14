@@ -160,37 +160,35 @@ echo $form['form_open'];
 <?php } ?>
 
 	<div class="container-fluid cart_total">
-		<div class="row">
-			<div class="col-md-5 offset7 cart-info totals pull-right">
-				<table id="totals_table" class="table table-striped table-bordered">
-					<?php /* Total now loaded with ajax. ?>
-					<?php foreach ($totals as $total) { ?>
-						<tr>
-							<td><span class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span></td>
-							<td><span class="bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span></td>
-						</tr>
-					<?php } ?>
-					<?php */ ?>
-				</table>
-				
-				<?php echo $this->getHookVar('pre_cart_buttons'); ?>
+	    <div class="cart-info totals pull-right table-responsive">
+	    	<table id="totals_table" class="table table-striped table-bordered">
+	    		<?php /* Total now loaded with ajax. ?>
+	    		<?php foreach ($totals as $total) { ?>
+	    			<tr>
+	    				<td><span class="extra bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['title']; ?></span></td>
+	    				<td><span class="bold <?php if ($total['id'] == 'total') echo 'totalamout'; ?>"><?php echo $total['text']; ?></span></td>
+	    			</tr>
+	    		<?php } ?>
+	    		<?php */ ?>
+	    	</table>
+	    	
+	    	<?php echo $this->getHookVar('pre_cart_buttons'); ?>
 
-				<a href="<?php echo $continue; ?>" class="btn btn-default mr10  mb10" title="">
-					<i class="fa fa-arrow-right"></i>
-					<?php echo $text_continue_shopping ?>
-				</a>
+	    	<a href="<?php echo $continue; ?>" class="btn btn-default mr10  mb10" title="">
+	    		<i class="fa fa-arrow-right"></i>
+	    		<?php echo $text_continue_shopping ?>
+	    	</a>
 
-				<?php if ($form['checkout']) { ?>
-					<a href="<?php echo $checkout; ?>" id="cart_checkout2" class="btn btn-orange pull-right"
-					   title="<?php echo $button_checkout; ?>">
-						<i class="fa fa-shopping-cart"></i>
-						<?php echo $button_checkout; ?>
-					</a>
-				<?php } ?>
+	    	<?php if ($form['checkout']) { ?>
+	    		<a href="<?php echo $checkout; ?>" id="cart_checkout2" class="btn btn-orange pull-right"
+	    		   title="<?php echo $button_checkout; ?>">
+	    			<i class="fa fa-shopping-cart"></i>
+	    			<?php echo $button_checkout; ?>
+	    		</a>
+	    	<?php } ?>
 	
-				<?php echo $this->getHookVar('post_cart_buttons'); ?>
-			</div>
-		</div>
+	    	<?php echo $this->getHookVar('post_cart_buttons'); ?>
+	    </div>
 	</div>
 </div>
 <script type="text/javascript"><!--
