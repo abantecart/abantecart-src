@@ -21,7 +21,7 @@
 			}
 
 			?>
-			<li class="col-md-3">
+			<li class="col-md-3 col-sm-6 col-xs-12">
 				<div class="fixed_wrapper">
 					<div class="fixed">
 						<a class="prdocutname" href="<?php echo $item['info_url'] ?>"

@@ -64,7 +64,7 @@
 </ul>
 
 <div class="dash-tiles row">
-	<div class="col-md-3">
+	<div class="col-md-3 col-sm-6">
 		<div class="dash-tile dash-tile-ocean clearfix">
 			<div class="dash-tile-header">
 			<div class="dash-tile-options">
@@ -76,7 +76,7 @@
 			<div class="dash-tile-text"><?php echo $total_adresses; ?></div>
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-3 col-sm-6">
 		<div class="dash-tile dash-tile-flower clearfix">
 			<div class="dash-tile-header">
 			<div class="dash-tile-options">
@@ -89,7 +89,7 @@
 		</div>
 	</div>
 	<?php if ($this->config->get('config_download')) { ?>
-	<div class="col-md-3">
+	<div class="col-md-3 col-sm-6">
 		<div class="dash-tile dash-tile-oil clearfix">
 			<div class="dash-tile-header">
 			<div class="dash-tile-options">
@@ -102,7 +102,7 @@
 		</div>
 	</div>
 	<?php }?>
-	<div class="col-md-3">
+	<div class="col-md-3 col-sm-6">
 		<div class="dash-tile dash-tile-balloon clearfix">
 			<div class="dash-tile-header">
 			<div class="dash-tile-options">

@@ -973,15 +973,6 @@ ul.categorymenu > li ul > li img {
 	margin-bottom: 20px
 }
 
-.thumbnail .pricetag .spiral {
-	position: absolute;
-	top: -19px;
-	left: 10px;
-	background: url(../image/spiral.png) no-repeat right 0;
-	height: 50px;
-	width: 35px
-}
-
 .thumbnail a.productcart {
 	background: #00A1CB url(../image/prodcutcart.png) right 7px no-repeat;
 	color: #fff;
@@ -1424,14 +1415,6 @@ ul.rate li.off {
 	color: #333
 }
 
-.productpageprice .spiral {
-	position: absolute;
-	top: -19px;
-	left: 25px;
-	background: url(../image/spiral.png) no-repeat right 0;
-	height: 50px;
-	width: 35px
-}
 .productfilneprice{
 	display: inline-block;
 }
@@ -3377,15 +3360,6 @@ paypal pro styles
 		text-align: right;
 	}
 
-	.thumbnail .pricetag .spiral {
-		background: url("../image/spiral.png") no-repeat scroll right 0 transparent;
-		height: 50px;
-		left: 10px;
-		position: absolute;
-		top: -19px;
-		width: 35px;
-	}
-
 	.top-search input {
 		width: 200px;
 		margin: 0 0 10px 0;
@@ -3630,6 +3604,10 @@ paypal pro styles
 
 	.checkoutstep  .span4 {
 		width: auto
+	}
+
+	.added_to_cart {
+		margin-left: 45px;
 	}
 
 	#banner_slides {
@@ -4095,6 +4073,7 @@ paypal pro styles
 	}
 	.logo img {
 		background: white;
+		padding: 5px;
 	}
 
 	.headerstrip_blocks .block_4 {
@@ -4115,6 +4094,10 @@ paypal pro styles
 		width: 210px;
 		min-width: 10px;
 		text-align: right;
+	}
+
+	.added_to_cart {
+		margin-left: 20px;
 	}
 
 	.returncustomer {
@@ -4153,9 +4136,12 @@ paypal pro styles
 		padding-right: 0;
 	}
 
+	.nav-dash {
+		margin: 0 -10px 10px;
+	}
+
 	.navbar {
-		margin-bottom: 1
-		0px;
+		margin-bottom: 0px;
 	}
 
 	.nav-tabs > li, .nav-pills > li {
