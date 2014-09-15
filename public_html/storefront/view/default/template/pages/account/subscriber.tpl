@@ -45,9 +45,9 @@
 		<?php
 		if($form){
 			foreach ($form as $field_name=>$field) { ?>
-			<div class="form-group <?php echo (${'error_'.$field_name} ? 'error' : '')?>">
-				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group">
+			<div class="form-group <?php echo (${'error_'.$field_name} ? 'has-error' : '')?>">
+				<label class="control-label col-sm-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-sm-4">
 				    <?php echo $field; ?>
 				</div>
 				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
@@ -59,14 +59,12 @@
 
 	<?php echo $this->getHookVar('subscriber_hookvar'); ?>
 	
-
-
 	<div class="form-group">
-	    <div class="input-group">
-			<div class="pull-left col-md-3 mb40">
+	    <div class="col-md-12">
+			<div class="pull-left col-md-8">
 				<?php echo $create_account ?>
 			</div>
-	    	<div class="pull-right col-md-2 mb40">
+	    	<div class="pull-right col-md-4">
 				<?php echo $continue ?>
 	    	</div>	
 	    </div>
