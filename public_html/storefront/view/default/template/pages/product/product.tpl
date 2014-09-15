@@ -30,8 +30,6 @@
 								} else {
 									$image_url = $image['main_url'];
 								}
-								//TODO! attribute rel below contains non-standart content. This content needed for cloud-zoom 3dparty js-script
-								//needs to delete it in the future or to upgrade up to v3.0
 								?>
 								<a rel="position: 'inside', showTitle: false, adjustX:-4, adjustY:-4"
 								   class="thumbnail cloud-zoom"
@@ -131,16 +129,18 @@
 									<?php if ($discounts) { ?>
 										<div class="form-group">
 											<label class="control-label"><?php echo $text_discount; ?></label>
-											<div class="input-group">
-												<?php echo $text_order_quantity; ?>
-												<?php echo $text_price_per_item; ?>
-											</div>
+											<table class="table table-striped">
+												<thead>
+													<th><?php echo $text_order_quantity; ?></th>
+													<th><?php echo $text_price_per_item; ?></th>
+												</thead>
 											<?php foreach ($discounts as $discount) { ?>
-												<div class="input-group">
-													<?php echo $discount['quantity']; ?>
-													<?php echo $discount['price']; ?>
-												</div>
+												<tr>
+													<td><?php echo $discount['quantity']; ?></td>
+													<td><?php echo $discount['price']; ?></td>
+												</tr>
 											<?php } ?>
+											</table>
 										</div>
 									<?php } ?>
 									<?php if(!$product_info['call_to_order']){ ?>
