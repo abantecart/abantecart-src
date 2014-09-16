@@ -119,9 +119,19 @@ final class ATax {
 			$sql = "SELECT tr.tax_class_id,
 							tr.rate AS rate, tr.rate_prefix AS rate_prefix, 
 							tr.threshold_condition AS threshold_condition, tr.threshold AS threshold,
-							COALESCE( td1.title,td2.title) as description,
-							tr.priority
+							COALESCE( td1.title,td2.title) as title,
+							COALESCE( NULLIF(trd1.description, ''),
+									  NULLIF(td1.description, ''),
+									  NULLIF(trd2.description, ''),
+									  NULLIF(td2.description, ''),
+									  COALESCE( td1.title,td2.title)
+							) as description,
+							tr.priority	
 					FROM " . DB_PREFIX . "tax_rates tr
+					LEFT JOIN " . DB_PREFIX . "tax_rate_descriptions trd1 ON 
+						(tr.tax_rate_id = trd1.tax_rate_id AND trd1.language_id = '" . (int)$language_id . "')
+					LEFT JOIN " . DB_PREFIX . "tax_rate_descriptions trd2 ON 
+						(tr.tax_rate_id = trd2.tax_rate_id AND trd2.language_id = '" . (int)$default_lang_id . "')
 					LEFT JOIN " . DB_PREFIX . "tax_classes tc ON tc.tax_class_id = tr.tax_class_id
 					LEFT JOIN " . DB_PREFIX . "tax_class_descriptions td1 ON 
 						(tc.tax_class_id = td1.tax_class_id AND td1.language_id = '" . (int)$language_id . "')
@@ -136,6 +146,7 @@ final class ATax {
 			$results = $tax_rate_query->rows;
 			$this->cache->set($cache_name,$results, $language_id);
 		}
+
 		return $results;
 	}
 	
