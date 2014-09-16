@@ -313,14 +313,14 @@
 
 				<?php if ($related_products) { ?>
 					<div class="tab-pane" id="relatedproducts">
-						<ul class="side_prd_list">
+						<ul class="row side_prd_list">
 							<?php foreach ($related_products as $related_product) {
 								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' alt='" . $related_product['stars'] . "' />" : '';
 								if (!$display_price) {
 									$related_product['price'] = $related_product['special'] = '';
 								}
 								?>
-								<li class="related_product">
+								<li class="col-md-4 col-sm-6 col-xs-12 related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
 									<a class="productname"
 									   href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
@@ -328,16 +328,13 @@
 
 									<div class="price">
 										<?php if ($related_product['special']) { ?>
-											<div class="pricenew"><?php echo $related_product['special'] ?></div>
-											<div class="priceold"><?php echo $related_product['price'] ?></div>
+											<span class="pricenew"><?php echo $related_product['special'] ?></span>
+											<span class="priceold"><?php echo $related_product['price'] ?></span>
 										<?php } else { ?>
-											<div class="oneprice"><?php echo $related_product['price'] ?></div>
+											<span class="oneprice"><?php echo $related_product['price'] ?></span>
 										<?php } ?>
 									</div>
 								</li>
-
-
-
 							<?php } ?>
 						</ul>
 					</div>

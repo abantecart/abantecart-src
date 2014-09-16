@@ -2218,13 +2218,14 @@ ul.side_prd_list li:hover {
 ul.side_prd_list li.related_product {
 	display: inline-block;
 	font-size: 15px;
-	width: 150px;
 	border: none;
 	min-height: 150px;
 	vertical-align: top;
 	zoom: 1;
 	*display: inline;
-	padding-left: 1px;
+}
+ul.side_prd_list li.related_product a {
+	display: inline-block;
 }
 
 ul.side_prd_list li.related_product .productname {
