@@ -559,6 +559,14 @@ li.dropdown {
 	width: 50px;
 	padding: 3px;
 }
+#top_cart_product_list table td.name {
+	padding: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;	
+    max-width: 140px;
+}
 
 #top_cart_product_list table td.total {
 	color: #00A1CB;
