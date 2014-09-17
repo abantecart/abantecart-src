@@ -408,10 +408,6 @@ ul#search-category{
 	margin-top: 14px;
 }
 
-.headerdetails {
-	padding: 20px 0 40px 0;
-}
-
 .headerdetails ul.nav {
 	margin-bottom: 0;
 }
@@ -2733,6 +2729,7 @@ form .help-block {
 .form-control, .alert {
     border-radius: 0;
 }
+
 /* -- disable round corners for buttons -- */
 .btn, .label, .badge, .nav-pills > li > a, select,
 .btn-group > .btn:first-child, .pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span, .well, .breadcrumb, .navbar, .navbar-toggle {
@@ -2740,7 +2737,9 @@ form .help-block {
 	-moz-border-radius: 0;
 	border-radius: 0;
 }
-
+.navbar-inverse {
+	border: none;
+}
 .input-group-addon, .input-append .btn:last-child, .input-append .btn-group:last-child > .dropdown-toggle {
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
@@ -3288,9 +3287,6 @@ paypal pro styles
 }
 
 @media (max-width: 1200px) {
-	.headerdetails {
-		padding: 40px 0 40px 0 !important;
-	}
 
 	#topnav ul li a {
 		font-size: 12px;
@@ -3317,10 +3313,6 @@ paypal pro styles
 		margin-left: auto;
 		margin-right: auto;
 		float: left;
-	}
-
-	.headerdetails {
-		padding-left: 0;
 	}
 
 	.form-inline .checkbox.pull-right.mr10 {
@@ -3550,11 +3542,6 @@ paypal pro styles
 
 	.headerstrip .pull-right #search_form {
 		margin-top: 10px;
-	}
-
-	.headerdetails {
-		margin: 0;
-		padding: 20px 0 0 0 !important
 	}
 
 	.headerdetails .nav.pull-left {
@@ -4079,6 +4066,9 @@ paypal pro styles
 
 	.headerstrip_blocks .block_4 {
 		float: left;
+	}
+	.headerdetails {
+		padding-top: 10px;
 	}
 	.headerdetails .block_8 {
 		float: left;

@@ -27,7 +27,7 @@
 	</div>         
 </div>
 <div class="container">
-    <div class="headerdetails">
+    <div class="col-md-12 headerdetails">
     	<!-- header blocks placeholder -->
     	<div class="block_5"><?php echo ${$children_blocks[4]}; ?></div>			
     	<div class="block_6"><?php echo ${$children_blocks[5]}; ?></div>

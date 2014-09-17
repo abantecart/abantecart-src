@@ -13,7 +13,7 @@ echo ${$header}; ?>
 
 <?php if ( !empty( ${$header_bottom} ) ) { ?>
 <!-- header_bottom blocks placeholder -->
-	<div class="row">
+	<div class="container">
 		<div class="col-md-12">
 	    <?php echo ${$header_bottom}; ?>
 	  	</div>
@@ -38,38 +38,36 @@ echo ${$header}; ?>
 ?>  
 
 	<div class="container">
-		<div class="row">
-			<?php if ( !empty(${$column_left} ) ) { ?>
-			<div class="column_left col-md-3">
-			<?php echo ${$column_left}; ?>
-			</div>
-			<?php } ?>
+		<?php if ( !empty(${$column_left} ) ) { ?>
+		<div class="column_left col-md-3">
+		<?php echo ${$column_left}; ?>
+		</div>
+		<?php } ?>
 
-			<?php $span = 12 - 3 * ($present_columns -1); ?>
-			<div class="col-md-<?php echo $span ?> mt20">
-			<?php if ( !empty( ${$content_top} ) ) { ?>
-			<!-- content top blocks placeholder -->
-			<?php echo ${$content_top}; ?>
-			<!-- content top blocks placeholder (EOF) -->
-			<?php } ?>
-			
-			<div class="<?php echo $center_padding; ?>">
-			<?php echo $content; ?>
-			</div>
-			 
-			<?php if ( !empty( ${$content_bottom} ) ) { ?>
-			<!-- content bottom blocks placeholder -->
-			<?php echo ${$content_bottom}; ?>
-			<!-- content bottom blocks placeholder (EOF) -->
-			<?php } ?>
-			</div>
+		<?php $span = 12 - 3 * ($present_columns -1); ?>
+		<div class="col-md-<?php echo $span ?> mt20">
+		<?php if ( !empty( ${$content_top} ) ) { ?>
+		<!-- content top blocks placeholder -->
+		<?php echo ${$content_top}; ?>
+		<!-- content top blocks placeholder (EOF) -->
+		<?php } ?>
+		
+		<div class="<?php echo $center_padding; ?>">
+		<?php echo $content; ?>
+		</div>
+		 
+		<?php if ( !empty( ${$content_bottom} ) ) { ?>
+		<!-- content bottom blocks placeholder -->
+		<?php echo ${$content_bottom}; ?>
+		<!-- content bottom blocks placeholder (EOF) -->
+		<?php } ?>
+		</div>
 
-			<?php if ( !empty(${$column_right} ) ) { ?>
-			<div class="column_right col-md-3 mt20">
-			<?php echo ${$column_right}; ?>
-			</div>
-			<?php } ?>
-		</div> <!-- row-->
+		<?php if ( !empty(${$column_right} ) ) { ?>
+		<div class="column_right col-md-3 mt20">
+		<?php echo ${$column_right}; ?>
+		</div>
+		<?php } ?>
 	</div><!-- content container -->
 
 </div>
@@ -77,7 +75,7 @@ echo ${$header}; ?>
 
 <?php if ( !empty( ${$footer_top} ) ) { ?>
 <!-- footer top blocks placeholder -->
-	<div class="row">
+	<div class="container">
 		<div class="col-md-12">
 	    <?php echo ${$footer_top}; ?>
 	  	</div>
@@ -86,6 +84,8 @@ echo ${$header}; ?>
 <?php } ?>
 
 <!-- footer blocks placeholder -->
-<div id="footer"><?php echo ${$footer}; ?></div>
+<div id="footer">
+	<?php echo ${$footer}; ?>
+</div>
 
 </body></html>
