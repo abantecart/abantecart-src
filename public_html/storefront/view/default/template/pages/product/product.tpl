@@ -375,7 +375,7 @@
 			return false;
 		});
 
-		$('#current_reviews').load('index.php?rt=product/review/review&product_id=<?php echo $product_id; ?>');
+		reload_review('index.php?rt=product/review/review&product_id=<?php echo $product_id; ?>');
 
 	});
 
@@ -384,6 +384,12 @@
 	});
 	$('#review_submit').click(function () {
 		review();
+	})
+	
+	//process clicks in review pagination
+	$('#current_reviews').on('click', '.pagination a', function () {
+		reload_review($(this).attr('href'));
+		return false;
 	})
 
 	/* Process images for product options */
@@ -449,6 +455,10 @@
 			}
 		});
 
+	}
+
+	function reload_review( url) {
+		$('#current_reviews').load(url);
 	}
 
 	function review() {

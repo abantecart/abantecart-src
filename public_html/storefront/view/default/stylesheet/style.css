@@ -968,7 +968,7 @@ ul.categorymenu > li ul > li img {
 	text-indent: 9999px
 }
 
-.grid .thumbnail .pricetag {
+.thumbnail .pricetag {
 	background: url(../image/pricetag.png) no-repeat right 0;
 	margin-top: 8px;
 	position: relative;
@@ -2305,7 +2305,8 @@ ul.side_prd_list li img {
 
 /* Pagination*/
 .pagination {
-	margin: 0
+	margin: 0;
+	width: 100%;
 }
 
 .pagination ul {

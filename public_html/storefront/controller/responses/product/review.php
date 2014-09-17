@@ -62,6 +62,7 @@ class ControllerResponsesProductReview extends AController {
 									'total'	=> $review_total,
 									'page'	=> $page,
 									'limit'	=> 5,
+									'no_perpage' => true,
 									'url' => $this->html->getURL('product/review/review','&product_id=' . $this->request->get['product_id'] . '&page={page}'),
 									'style' => 'pagination'));
 
