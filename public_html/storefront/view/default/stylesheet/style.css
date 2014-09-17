@@ -974,7 +974,8 @@ ul.categorymenu > li ul > li img {
 	margin-top: 8px;
 	position: relative;
 	padding: 9px 9px 9px 40px;
-	margin-bottom: 20px
+	margin-bottom: 20px;
+	height: 55px;
 }
 
 .thumbnail a.productcart {

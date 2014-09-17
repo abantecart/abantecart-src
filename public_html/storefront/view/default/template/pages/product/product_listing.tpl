@@ -1,4 +1,4 @@
-<ul class="thumbnails grid row">
+<ul class="thumbnails grid row list-inline">
 	<?php
 	foreach ($products as $product) {
 		$item = array();
@@ -63,11 +63,8 @@
 								<div class="oneprice"><?php echo $product['price'] ?></div>
 							<?php } ?>
 						</div>
-
 					</div>
 				<?php } ?>
-
-
 			</div>
 		</li>
 	<?php

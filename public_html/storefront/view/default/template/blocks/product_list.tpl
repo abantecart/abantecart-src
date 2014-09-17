@@ -1,4 +1,4 @@
-<ul class="thumbnails">
+<ul class="thumbnails list-inline">
 	<?php
 	if ($products) {
 		foreach ($products as $product) {
