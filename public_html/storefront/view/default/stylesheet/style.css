@@ -920,7 +920,6 @@ ul.categorymenu > li ul > li img {
 	width: auto;
 	position: static;
 	text-align: left;
-	margin: 10px 0 25px 0
 }
 .thumbnails.list .thumbnail div.row {
 	padding-left: 30px;
@@ -969,13 +968,21 @@ ul.categorymenu > li ul > li img {
 	text-indent: 9999px
 }
 
-.thumbnail .pricetag {
+.grid .thumbnail .pricetag {
 	background: url(../image/pricetag.png) no-repeat right 0;
 	margin-top: 8px;
 	position: relative;
 	padding: 9px 9px 9px 40px;
 	margin-bottom: 20px;
 	height: 55px;
+}
+.list .thumbnail .pricetag {
+	background: url(../image/pricetag.png) no-repeat right 0;
+	margin-top: 8px;
+	position: relative;
+	padding: 9px 9px 9px 40px;
+	height: 55px;
+	width: 255px;
 }
 
 .thumbnail a.productcart {

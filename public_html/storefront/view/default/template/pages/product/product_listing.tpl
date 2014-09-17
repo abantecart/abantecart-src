@@ -117,7 +117,7 @@
 							<?php } ?>
 							<?php echo $product['buttons'];?>
 						</div>
-						<div class="pricetag">
+						<div class="pricetag pull-right">
 							<span class="spiral"></span><a data-id="<?php echo $product['product_id'] ?>"
 														   href="<?php echo $item['buy_url'] ?>"
 														   class="productcart"><?php echo $button_add_to_cart ?></a>
