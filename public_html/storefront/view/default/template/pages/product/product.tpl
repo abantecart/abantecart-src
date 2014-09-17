@@ -472,11 +472,17 @@
 				$('#review_button').attr('disabled', '');
 				$('.wait').remove();
 			},
+            error: function (jqXHR, exception) {
+            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
+				$('#review .alert').remove();
+				$('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+			},
 			success: function (data) {
 				if (data.error) {
+					$('#review .alert').remove();
 					$('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
-				}
-				if (data.success) {
+				} else {
+					$('#review .alert').remove();
 					$('#review_title').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
 
 					$('input[name=\'name\']').val('');
