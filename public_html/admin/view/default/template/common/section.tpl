@@ -1,5 +1,5 @@
 <?php
-$class = $name . ($status ? ' on' : ' off');
+$class = $name . ($status ? '' : ' off');
 $sectionTitle = str_replace('_', ' ', $name);
 ?>
 <div class="section <?php echo $class; ?>" data-instance-id="<?php echo $id; ?>" data-section-id="<?php echo $blockId; ?>">

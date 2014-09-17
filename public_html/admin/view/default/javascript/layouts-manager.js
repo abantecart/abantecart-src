@@ -34,10 +34,10 @@ $(function () {
     blockStatus = parentBlock.find('.block-status');
 
     if (Number(blockStatus.val()) == 1)  {
-      parentBlock.removeClass('on').addClass('off');
+      parentBlock.addClass('off');
       blockStatus.val(0);
     } else {
-      parentBlock.removeClass('off').addClass('on');
+      parentBlock.removeClass('off');
       blockStatus.val(1);
     }
   },
@@ -47,10 +47,10 @@ $(function () {
     sectionStatus = parentSection.find('.section-status');
 
     if (Number(sectionStatus.val()) == 1)  {
-      parentSection.removeClass('on').addClass('off');
+      parentSection.addClass('off');
       sectionStatus.val(0);
     } else {
-      parentSection.removeClass('off').addClass('on');
+      parentSection.removeClass('off');
       sectionStatus.val(1);
     }
   },
@@ -102,7 +102,6 @@ $(function () {
       addUrl = $(this).data('addUrl');
       addBlockToSection(target, addUrl, id);
     });
-
   },
 
   addBlockToSection = function(section, url, id) {
@@ -187,6 +186,14 @@ $(function () {
 
   // start App
   start();
+
+  $('.layout-form-save').on("click", function(e){
+    e.stopPropagation();
+    e.preventDefault();
+
+    var form = $(this).closest('form');
+    form.submit();
+  })
 
 });
 

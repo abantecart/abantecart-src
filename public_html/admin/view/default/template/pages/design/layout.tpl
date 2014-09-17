@@ -1,48 +1,40 @@
 <?php if ($error_warning) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
+<div class="alert alert-danger"><?php echo $error_warning; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
+<div class="alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
 <?php
-$current_templ = '';
-$templ_li_block = '';
-foreach($templates as $t) {
-  $ext_class = '';
-    if ($tmpl_id == $t) {
-      $current_templ = $t;
-      $ext_class = ' class="disabled"';
+$template_list = '';
+foreach ($templates as $template) {
+  $item_class = '';
+  if ($tmpl_id == $template) {
+    $item_class = ' class="disabled"';
   }
-    $templ_li_block .= '<li'.$ext_class.'><a href="'. $page_url . '&tmpl_id='.$t.'">'.$t.'</a></li>';    
+  $template_list .= '<li' . $item_class . '><a href="' . $page_url . '&tmpl_id=' . $template . '">' . $template . '</a></li>';    
+}
+
+$current_ok_delete = false;
+$page_list = '';
+foreach ($pages as $page) {
+  $uri = '&tmpl_id=' . $tmpl_id . '&page_id=' . $page['page_id'] . '&layout_id=' . $page['layout_id'];
+
+  $item_class = '';
+  if ($page['page_id'] == $current_page['page_id'] && $page['layout_id'] == $current_page['layout_id']) { 
+    $item_class = ' class="disabled"';
+    if (empty($page['restricted'])) {
+      $page_delete_url = $page_delete_url . $uri;
+      $current_ok_delete = true;
+    }
+  }
+  $page_list .= '<li' . $item_class . '>';
+  $page_list .= '<a href="' . $page_url . $uri . '" title="' . $page['name'] . '">' . $page['layout_name'] . '</a>';
+  $page_list .= '</li>';
 }
 ?>
 
-<?php 
-$current_page = '';
-$current_ok_delete = '';
-$page_li_block = '';
-foreach($pages as $pg) {
-  if(!empty($pg['name'])) { 
-      $uri = '&tmpl_id='.$tmpl_id.'&page_id='.$pg['page_id'].'&layout_id='.$pg['layout_id'];
-
-    $ext_class = '';
-    if( $pg['page_id'] == $page['page_id'] && $pg['layout_id'] == $page['layout_id'] ) { 
-      $current_page = $pg['name'];
-      $ext_class = ' class="disabled"';
-    }
-    $page_li_block .= '<li'.$ext_class.'><a href="'.$page_url.$uri.'" title="'. $pg['name'].'">'.$pg['layout_name'].'</a>';
-    if(empty($pg['restricted'])) {
-      $page_li_block .= '<a data-delete-url="'.$page_delete_url.$uri.'" class="delete_page_layout close"><i class="fa fa-trash-o"></i></a>';
-      if($current_page) {
-        $current_ok_delete = true;
-      }
-    }
-    $page_li_block .= '</li>';
-  }
-}    
-?>
-
+<?php echo $form_begin; ?>
 <div class="row">
   <div class="col-sm-12 col-lg-12">
     <ul class="content-nav">
@@ -51,10 +43,10 @@ foreach($pages as $pg) {
         <div class="btn-group">
           <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
             <i class="fa fa-folder-o"></i>
-            <?php echo $current_templ; ?> <span class="caret"></span>
+            <?php echo $tmpl_id; ?> <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
-            <?php echo $templ_li_block; ?>
+            <?php echo $template_list; ?>
           </ul>
         </div>
       </li>
@@ -62,37 +54,48 @@ foreach($pages as $pg) {
         <div class="btn-group">
           <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
             <i class="fa fa-square-o"></i>
-            <?php echo $current_page; ?> <span class="caret"></span>
+            <?php echo $current_page['name']; ?> <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
-            <?php echo $page_li_block; ?>
+            <?php echo $page_list; ?>
           </ul>
         </div>
       </li>
       <li>
-        <a class="itemopt" href=""><i class="fa fa-refresh"></i> Reload</a>
+        <a class="itemopt" href="<?php echo $current_url; ?>"><i class="fa fa-refresh"></i> Reload</a>
       </li>
       <li>
-        <a class="itemopt" href=""><i class="fa fa-save"></i> Save</a>
+        <a class="itemopt layout-form-save" href="<?php echo $page_url; ?>"><i class="fa fa-save"></i> Save</a>
+      </li>
+      <li>
+        <a class="itemopt layout-form-preview" href="<?php echo $page_url; ?>"><i class="fa fa-search"></i> Preview</a>
       </li>
       <?php if ($current_ok_delete) { ?>
       <li>
-        <a class="itemopt" href=""><i class="fa fa-trash-o"></i> Delete</a>
+        <a class="itemopt delete_page_layout" href="<?php echo $page_delete_url; ?>"><i class="fa fa-trash-o"></i> Delete current page layout</a>
       </li>
-      <?php }?>
+      <?php } ?>
     </ul>
   </div>
 </div>
 
-<div id="page-layout" class="container-fluid"><?php echo $layoutform; ?></div>
+<div id="page-layout" class="container-fluid">
+  <?php echo $layoutform; ?>
+  <?php echo $hidden_fields; ?>
+</div>
+
+</form>
 
 <script type="text/javascript"><!--
-    
-    $('.delete_page_layout').click(function() {
-      if ( confirm('<?php echo $text_delete_confirm; ?>' )) {
-        var url = $(this).attr('data-delete-url');
-        window.location = url + '&confirmed_delete=yes';  
-      }
-    });
-    
+
+$('.delete_page_layout').click(function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  
+  if (confirm('<?php echo $text_delete_confirm; ?>' )) {
+    var url = $(this).attr('href');
+    window.location = url + '&confirmed_delete=yes';  
+  }
+});
+
 --></script>

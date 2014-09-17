@@ -20,13 +20,16 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
   header ( 'Location: static_pages/' );
 }
+
 class ControllerPagesDesignLayout extends AController {
     
   public function main() {
 
     //use to init controller data
-      $this->extensions->hk_InitData($this,__FUNCTION__);
-      $this->session->data['content_language_id'] = $this->config->get('storefront_language_id');
+    $this->extensions->hk_InitData($this,__FUNCTION__);
+    
+    $this->session->data['content_language_id'] = $this->config->get('storefront_language_id');
+
     $this->document->setTitle($this->language->get('heading_title'));
 
     if (!$this->registry->has('layouts_manager_script')) {
@@ -42,81 +45,90 @@ class ControllerPagesDesignLayout extends AController {
       $this->registry->set('layouts_manager_script', true);
     }
     
-    $url = '';
-    if (isset($this->request->get['tmpl_id'])) {
-      $url .= '&tmpl_id=' . $this->request->get['tmpl_id'];
-      $tmpl_id = $this->request->get['tmpl_id'];
-    } else {
-      $tmpl_id = NULL;
-    }
-    if (isset($this->request->get['page_id'])) {
-      $url .= '&page_id=' . $this->request->get['page_id'];
-      $page_id = $this->request->get['page_id'];
-    } else {
-      $page_id = NULL;
-    }
-    if (isset($this->request->get['layout_id'])) {
-      $url .= '&layout_id=' . $this->request->get['layout_id'];
-      $layout_id = $this->request->get['layout_id'];
-    } else {
-      $layout_id = NULL;
-    }
-    
+
+    $tmpl_id = $this->request->get['tmpl_id'];
+    $page_id = $this->request->get['page_id'];
+    $layout_id = $this->request->get['layout_id'];
+
+    $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+    $layout_data['pages'] = $layout->getAllPages();    
+    $layout_data['current_page'] = $layout->getPageData();
+
+    $params = array(
+      'page_id' => $layout_data['current_page']['page_id'],
+      'layout_id' => $layout->getLayoutId(),
+      'tmpl_id' => $layout->getTemplateId(),
+    );
+
+    $url = $this->paramsBuilder($params);
+
+    // get templates
     $layout_data['templates'] = array();
     $directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR);
     foreach ($directories as $directory) {
       $layout_data['templates'][] = basename($directory);
     }
-    $enabled_templates = $this->extensions->getExtensionsList(
-      array(
-        'filter' => 'template',
-        'status' => 1,
-      )
-    );
-    foreach ( $enabled_templates->rows as $template ) {
+    $enabled_templates = $this->extensions->getExtensionsList(array(
+      'filter' => 'template',
+      'status' => 1,
+    ));
+    foreach ($enabled_templates->rows as $template) {
       $layout_data['templates'][] = $template['key'];
     }
 
-    $layout_id = !$layout_id ? 1 : $layout_id;
-    $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-    $layout_data['tmpl_id'] = $layout->getTemplateId();
-    $layout_data['pages'] = $layout->getAllPages();    
-    $layout_data['page'] = $layout->getPageData();
-    
-    $settings = array();
-    // hidden fields of layout form
-    $settings['hidden']['page_id'] = $page_id;
-    $settings['hidden']['layout_id'] = $layout_id;
-    $settings['hidden']['tmpl_id'] = $layout_data['tmpl_id'];
-
-    $this->document->initBreadcrumb( array (
-      'href'      => $this->html->getSecureURL('index/home'),
-      'text'      => $this->language->get('text_home'),
+    // breadcrumb path
+    $this->document->initBreadcrumb(array(
+      'href' => $this->html->getSecureURL('index/home'),
+      'text' => $this->language->get('text_home'),
     ));
-    $this->document->addBreadcrumb( array (
-      'href'      => $this->html->getSecureURL('design/layout', $url),
-      'text'      => $this->language->get('heading_title') . ' - ' . $layout_data['tmpl_id'],
+    $this->document->addBreadcrumb(array(
+      'href'  => $this->html->getSecureURL('design/layout'),
+      'text'  => $this->language->get('heading_title') . ' - ' . $params['tmpl_id'],
       'current' => true,
     ));
+    
+    // Layout form data
+    $form = new AForm('HT');
+    $form->setForm(array(
+      'form_name' => 'layout_form',
+    ));
 
-    $this->view->batchAssign($layout_data);
-    $this->view->assign('page_url', $this->html->getSecureURL('design/layout'));
-    $this->view->assign('page_delete_url', $this->html->getSecureURL('design/layout/delete'));
-    $this->view->assign('insert', $this->html->getSecureURL('design/layout/insert', $url));
-    $settings['action'] = $this->html->getSecureURL('design/layout/save', $url);
+    $layout_data['form_begin'] = $form->getFieldHtml(array(
+      'type' => 'form',
+      'name' => 'layout_form',
+      'action' => $this->html->getSecureURL('design/layout/save')
+    ));
 
-    $this->view->assign('error_warning', (isset($this->session->data['warning']) ? $this->session->data['warning'] : ''));
-    $this->view->assign('success', (isset($this->session->data['success']) ? $this->session->data['success'] : ''));
+    $layout_data['hidden_fields'] = '';
+    foreach ($params as $name => $value) {
+      $layout_data[$name] = $value;
+      $layout_data['hidden_fields'] .= $form->getFieldHtml(array(
+        'type' => 'hidden',
+        'name' => $name,
+        'value' => $value
+      ));
+    }
+
+    $layout_data['page_url'] = $this->html->getSecureURL('design/layout');
+    $layout_data['current_url'] = $this->html->getSecureURL('design/layout', $url);
+    $layout_data['page_delete_url'] = $this->html->getSecureURL('design/layout/delete');
+    $layout_data['insert_url'] = $this->html->getSecureURL('design/layout/insert', $url);
+    $layout_data['help_url'] = $this->gen_help_url('layout');
+
+    // Alert messages
     if (isset($this->session->data['warning'])) {
+      $layout_data['error_warning'] = $this->session->data['warning'];
       unset($this->session->data['warning']);
     }
     if (isset($this->session->data['success'])) {
+      $layout_data['success'] = $this->session->data['success'];
       unset($this->session->data['success']);
     }
 
-    $layoutform = $this->dispatch('common/page_layout', array( $settings, $layout ) );
-    $this->view->assign('layoutform', $layoutform->dispatchGetOutput());
-    $this->view->assign('help_url', $this->gen_help_url('layout') );
+    $layoutform = $this->dispatch('common/page_layout', array($layout));
+    $layout_data['layoutform'] = $layoutform->dispatchGetOutput();
+
+    $this->view->batchAssign($layout_data);
 
     $this->processTemplate('pages/design/layout.tpl');
     //update controller data
@@ -129,34 +141,49 @@ class ControllerPagesDesignLayout extends AController {
     $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
     $url = '';
-    if (isset($this->request->get['tmpl_id'])) {
-      $url .= '&tmpl_id=' . $this->request->get['tmpl_id'];
-      $tmpl_id = $this->request->get['tmpl_id'];
-    } else {
-      $tmpl_id = NULL;
-    }
-    if (isset($this->request->get['page_id'])) {
-      $url .= '&page_id=' . $this->request->get['page_id'];
-      $page_id = $this->request->get['page_id'];
-    } else {
-      $page_id = NULL;
-    }
-    if (isset($this->request->get['layout_id'])) {
-      $url .= '&layout_id=' . $this->request->get['layout_id'];
-      $layout_id = $this->request->get['layout_id'];
-    } else {
-      $layout_id = NULL;
-    }
 
     if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
+      $tmpl_id = $this->request->post['tmpl_id'];
+      $page_id = $this->request->post['page_id'];
+      $layout_id = $this->request->post['layout_id'];
+      $section = $this->request->post['section'];
+      $block = $this->request->post['block'];
+      $parentBlock = $this->request->post['parentBlock'];
+      $blockStatus = $this->request->post['blockStatus'];
+
+      $url = $this->paramsBuilder(array(
+        'tmpl_id' => $tmpl_id,
+        'page_id' => $page_id,
+        'layout_id' => $layout_id,
+      ));
+
       $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+      $page = $layout->getPageData();
+
+      $layout_data = array();
+      $layout_data['controller'] = $page['controller'];
+      $layout_data['layout_name'] = $page['layout_name'];
+      $layout_data['blocks'] = $section;
+
+      foreach ($section as $k => $item) {
+        $layout_data['blocks'][$k]['children'] = array();
+      }
+
+      foreach ($block as $k => $block_id) {
+        $parent = $parentBlock[$k];
+        $status = $blockStatus[$k];
+        $layout_data['blocks'][$parent]['children'][] = array(
+          'block_id' => $block_id,
+          'status' => $status,
+        );
+      }
 
       if (has_value($this->request->post['layout_change'])) {  
         //update layout request. Clone source layout
         $layout->clonePageLayout($this->request->post['layout_change'], $layout_id, $this->request->post['layout_name']);
       } else {
         //save new layout
-        $layout->savePageLayout($this->request->post);
+        $layout->savePageLayout($layout_data);
       }
       
       $this->session->data['success'] = $this->language->get('text_success');
@@ -207,6 +234,20 @@ class ControllerPagesDesignLayout extends AController {
 
     $this->redirect($this->html->getSecureURL('design/layout', $url));
 
+  }
+
+  /**
+   * @param array $params
+   * @return string
+   */
+  private function paramsBuilder($params = array()) {
+    $url = '';
+
+    foreach ($params as $name => $value) {
+      $url .= '&' . $name . '=' . $value;
+    }
+
+    return $url;
   }
   
 }

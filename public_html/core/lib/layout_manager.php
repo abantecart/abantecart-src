@@ -42,6 +42,11 @@ class ALayoutManager {
 	private $custom_blocks = array();
 	public $errors = 0;
 
+	const LAYOUT_TYPE_DEFAULT = 0;
+  const LAYOUT_TYPE_ACTIVE = 1;
+  const LAYOUT_TYPE_DRAFT = 2;
+  const LAYOUT_TYPE_TEMPLATE = 3;
+
 	//Layout Manager Class to handle layout in the admin
 	//NOTES: Object can be constructed with specific template, page or layout id provided
 	//	     Possible to create an object with no specifics to access layout methods. 
@@ -572,15 +577,15 @@ class ALayoutManager {
 					if (isset ($data ['blocks'] [$block ['block_id']] ['children'])) {
 						$this->deleteLayoutBlocks($this->layout_id, $instance_id);
 
-						foreach ($data ['blocks'] [$block ['block_id']] ['children'] as $key => $block_id) {
+						foreach ($data ['blocks'] [$block ['block_id']] ['children'] as $key => $block_data) {
 							$child = array();
-							if (!empty ($block_id)) {
+							if (!empty ($block_data)) {
 								$child ['layout_id'] = $this->layout_id;
-								list($child ['block_id'], $child ['custom_block_id']) = explode("_", $block_id);
+								list($child ['block_id'], $child ['custom_block_id']) = explode("_", $block_data['block_id']);
 								$child ['parent_instance_id'] = $instance_id;
 								//NOTE: Blocks possitions are saved in 10th increment starting from 10
 								$child ['position'] = ($key + 1) * 10;
-								$child ['status'] = 1;
+								$child ['status'] = $block_data['status'];
 								$this->saveLayoutBlocks($child);
 							}
 						}

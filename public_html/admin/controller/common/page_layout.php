@@ -20,125 +20,45 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
   header ( 'Location: static_pages/' );
 }
+
 class ControllerCommonPageLayout extends AController {
-  
-  const HEADER_MAIN = 1;
-  const HEADER_BOTTOM = 2;
-  const LEFT_COLUMN = 3;
-  const RIGHT_COLUMN = 6;
-  const CONTENT_TOP = 4;
-  const CONTENT_BOTTOM = 5;
-  const FOOTER_TOP = 7;
-  const FOOTER_MAIN = 8;
 
   private $installed_blocks = array();
 
   public function main() {
-    //use to init controller data
+    // use to init controller data
     $this->extensions->hk_InitData($this, __FUNCTION__);
-        
+
+    // set language used
     $this->session->data['content_language_id'] = $this->config->get('storefront_language_id');
-    //set settings and build layout data from passed layout object
-    $settings = func_get_arg(0);
-    $layout = func_get_arg(1);
-    $settings['button_save'] = $this->language->get('button_save');
-    $settings['page'] = $layout->getPageData();
-    $settings['layout'] = $layout->getActiveLayout();
-    $settings['layout_drafts'] = $layout->getLayoutDrafts();
-    $settings['layout_templates'] = $layout->getLayoutTemplates();
-    $this->view->batchAssign($settings);
+
+    // build layout data from passed layout object
+    $layout = func_get_arg(0);
     $this->installed_blocks = $layout->getInstalledBlocks();
+    $layout_main_blocks = $layout->getLayoutBlocks();
 
-    //build layout reset data
-    $layout_data['pages'] = $layout->getAllPages();
-    $av_layouts = array( "0" => $this->language->get('text_select_copy_layout'));
-    foreach($layout_data['pages'] as $page){
-      if ( $page['layout_id'] != $settings['page']['layout_id'] ) {
-        $av_layouts[$page['layout_id']] = $page['layout_name'];
-      }
-    }
+    // Build Page Sections and Blocks
+    $page_sections = $this->_buildPageSections($layout_main_blocks);
 
-    $form = new AForm('HT');
-    $form->setForm(array(
-        'form_name' => 'change_layout_form',
-      ));
-      
-    $change_layout = $form->getFieldHtml(array('type' => 'selectbox',
-                          'name' => 'layout_change',
-                          'value' => '',
-                          'options' => $av_layouts ));
-
-    $form_submit = $form->getFieldHtml( array(  'type' => 'button',
-                          'name' => 'submit',
-                          'text' => $this->language->get('text_apply_layout'),
-                          'style' => 'button1'));
-
-    $form_begin = $form->getFieldHtml(array('type' => 'form',
-                                            'name' => 'change_layout_form',
-                                          'action' => $settings['action']));
-
-    $this->view->assign('change_layout_form',$form_begin);
-    $this->view->assign('change_layout_select',$change_layout);
-    $this->view->assign('change_layout_button',$form_submit);
-      
-    $form = new AForm('HT');
-    $form->setForm(array(
-        'form_name' => 'layout_form',
-      ));
-      
-    $form_begin = $form->getFieldHtml(array('type' => 'form',
-                                            'name' => 'layout_form',
-                                            'attr' => 'data-confirm-exit="true"',
-                                          'action' => $settings['action']));
-
-    $form_submit = $form->getFieldHtml( array(  'type' => 'button',
-                          'name' => 'submit',
-                          'text' => $this->language->get('button_save'),
-                          'style' => 'button1'));
-
-
-    $form_reset = $form->getFieldHtml(array( 'type' => 'button',
-                                              'name' => 'reset',
-                                              'text' => $this->language->get('button_reset'), 'style' => 'button2' ));
-
-    if($settings['hidden']){
-      $form_hidden = '';
-      foreach($settings['hidden'] as $name=>$value){
-        $form_hidden .= $form->getFieldHtml( array(  'type' => 'hidden',
-                              'name' => $name,
-                              'value' => $value));
-      }
-    }
-
-    /** Page Sections **/
-
-    $page_sections = $this->_buildPageSections($layout);
     $this->view->batchAssign($page_sections);
-
-    $this->view->assign('form_begin', $form_begin);
-    $this->view->assign('form_hidden', $form_hidden);
-    $this->view->assign('form_submit', $form_submit);
-    $this->view->assign('form_reset', $form_reset);
-    $this->view->assign('new_block_url', $this->html->getSecureURL('design/blocks/insert','&tmpl_id='.( $this->request->get['tmpl_id'] ? $this->request->get['tmpl_id'] : $this->config->get('config_storefront_template')).'&page_id='.$settings['page']['page_id'].'&layout_id='.$settings['hidden']['layout_id']));
-    $this->view->assign('block_info_url', $this->html->getSecureURL('listing_grid/blocks_grid/block_info'));
 
     $this->processTemplate('common/page_layout.tpl');
     
-    //update controller data
+    // update controller data
     $this->extensions->hk_UpdateData($this, __FUNCTION__);
   }
 
   /**
-   * @param object $page_layout
+   * @param array $sections
    * @return array
    */
-  private function _buildPageSections($page_layout) {
-    $layout_blocks = $page_layout->getLayoutBlocks();
+  private function _buildPageSections($sections) {
     $page_sections = array();
     $partialView = $this->view;
 
-    foreach ($layout_blocks as $k => $section) {
+    foreach ($sections as $section) {
       $blocks = $this->_buildBlocks($section['block_id'], $section['children']);
+      
       $partialView->batchAssign(array(
         'id' => $section['instance_id'],
         'blockId' => $section['block_id'],

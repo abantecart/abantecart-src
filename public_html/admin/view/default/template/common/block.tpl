@@ -1,5 +1,5 @@
 <?php
-$statusClass = $status ? 'on' : 'off';
+$statusClass = $status ? '' : 'off';
 $blockValue = $blockId . '_' . $customBlockId;
 $blockName = $customBlockId ? $customName . ' <span>(' . $name . ')</span>' : $name;
 ?>

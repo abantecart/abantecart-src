@@ -60,7 +60,7 @@
   padding: 0;
 }
 #page-layout .content-area {
-  margin-top: 15px;
+  margin: 15px 0 0;
 }
 #page-layout .content-area [class*="col-"] {
   padding: 0;
