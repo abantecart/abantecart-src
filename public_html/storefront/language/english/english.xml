@@ -254,6 +254,14 @@
 		<value><![CDATA[Reset]]></value>
 	</definition>
 	<definition>
+		<key>button_submit</key>
+		<value><![CDATA[Submit]]></value>
+	</definition>
+	<definition>
+		<key>button_save</key>
+		<value><![CDATA[Save]]></value>
+	</definition>
+	<definition>
 		<key>text_field_required</key>
 		<value><![CDATA[is required field!]]></value>
 	</definition>

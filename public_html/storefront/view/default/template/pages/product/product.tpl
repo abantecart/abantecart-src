@@ -289,11 +289,7 @@
 											<img src="index.php?rt=common/captcha" id="captcha_img" alt=""/>
 										</label>
 										<?php echo $review_captcha; ?>
-									</div>
-								</div>
-								<div class="form-group col-md-4">
-									<div class="pull-right">
-										<?php echo $review_button; ?>
+										&nbsp;&nbsp;<?php echo $review_button; ?>
 									</div>
 								</div>
 							</fieldset>

@@ -69,6 +69,14 @@
 		<value><![CDATA[Continuar]]></value>
 	</definition>
 	<definition>
+		<key>button_submit</key>
+		<value><![CDATA[Enviar]]></value>
+	</definition>
+	<definition>
+		<key>button_save</key>
+		<value><![CDATA[Guardar]]></value>
+	</definition>	
+	<definition>
 		<key>button_back</key>
 		<value><![CDATA[Retroceder]]></value>
 	</definition>
