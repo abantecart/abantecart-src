@@ -20,165 +20,68 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
   header ( 'Location: static_pages/' );
 }
+
 class ControllerCommonPageLayout extends AController {
-  
-  const HEADER_MAIN = 1;
-  const HEADER_BOTTOM = 2;
-  const LEFT_COLUMN = 3;
-  const RIGHT_COLUMN = 6;
-  const CONTENT_TOP = 4;
-  const CONTENT_BOTTOM = 5;
-  const FOOTER_TOP = 7;
-  const FOOTER_MAIN = 8;
+
+  private $installed_blocks = array();
 
   public function main() {
-    //use to init controller data
+    // use to init controller data
     $this->extensions->hk_InitData($this, __FUNCTION__);
-        
+
+    // set language used
     $this->session->data['content_language_id'] = $this->config->get('storefront_language_id');
-    //set settings and build layout data from passed layout object
-    $settings = func_get_arg(0);
-    $layout = func_get_arg(1);
-    $settings['button_save'] = $this->language->get('button_save');
-    $settings['page'] = $layout->getPageData();
-    $settings['layout'] = $layout->getActiveLayout();
-    $settings['layout_drafts'] = $layout->getLayoutDrafts();
-    $settings['layout_templates'] = $layout->getLayoutTemplates();
-    $this->view->batchAssign($settings);
 
-    //build layout reset data
-    $layout_data['pages'] = $layout->getAllPages();
-    $av_layouts = array( "0" => $this->language->get('text_select_copy_layout'));
-    foreach($layout_data['pages'] as $page){
-      if ( $page['layout_id'] != $settings['page']['layout_id'] ) {
-        $av_layouts[$page['layout_id']] = $page['layout_name'];
-      }
-    }
+    // build layout data from passed layout object
+    $layout = func_get_arg(0);
+    $this->installed_blocks = $layout->getInstalledBlocks();
+    $layout_main_blocks = $layout->getLayoutBlocks();
 
-    $form = new AForm('HT');
-    $form->setForm(array(
-        'form_name' => 'change_layout_form',
-      ));
-      
-    $change_layout = $form->getFieldHtml(array('type' => 'selectbox',
-                          'name' => 'layout_change',
-                          'value' => '',
-                          'options' => $av_layouts ));
+    // Build Page Sections and Blocks
+    $page_sections = $this->_buildPageSections($layout_main_blocks);
 
-    $form_submit = $form->getFieldHtml( array(  'type' => 'button',
-                          'name' => 'submit',
-                          'text' => $this->language->get('text_apply_layout'),
-                          'style' => 'button1'));
-
-    $form_begin = $form->getFieldHtml(array('type' => 'form',
-                                            'name' => 'change_layout_form',
-                                          'action' => $settings['action']));
-
-    $this->view->assign('change_layout_form',$form_begin);
-    $this->view->assign('change_layout_select',$change_layout);
-    $this->view->assign('change_layout_button',$form_submit);
-      
-    $form = new AForm('HT');
-    $form->setForm(array(
-        'form_name' => 'layout_form',
-      ));
-      
-    $form_begin = $form->getFieldHtml(array('type' => 'form',
-                                            'name' => 'layout_form',
-                                            'attr' => 'data-confirm-exit="true"',
-                                          'action' => $settings['action']));
-
-    $form_submit = $form->getFieldHtml( array(  'type' => 'button',
-                          'name' => 'submit',
-                          'text' => $this->language->get('button_save'),
-                          'style' => 'button1'));
-
-
-    $form_reset = $form->getFieldHtml(array( 'type' => 'button',
-                                              'name' => 'reset',
-                                              'text' => $this->language->get('button_reset'), 'style' => 'button2' ));
-
-    if($settings['hidden']){
-      $form_hidden = '';
-      foreach($settings['hidden'] as $name=>$value){
-        $form_hidden .= $form->getFieldHtml( array(  'type' => 'hidden',
-                              'name' => $name,
-                              'value' => $value));
-      }
-    }
-
-    /** Page Sections **/
-
-    $page_sections = $this->_buildPageSections($layout);
-
-    // Header Section
-    $this->view->assign('header_section', $page_sections[self::HEADER_MAIN]);
-
-    // Header Bottom Section
-    $this->view->assign('header_bottom_section', $page_sections[self::HEADER_BOTTOM]);
-
-    // Left Column Section
-    $this->view->assign('left_column_section', $page_sections[self::LEFT_COLUMN]);
-
-    // Right Column Section
-    $this->view->assign('right_column_section', $page_sections[self::RIGHT_COLUMN]);
-
-    // Content Top Section
-    $this->view->assign('content_top_section', $page_sections[self::CONTENT_TOP]);
-
-    // Content Bottom Section
-    $this->view->assign('content_bottom_section', $page_sections[self::CONTENT_BOTTOM]);
-
-    // Footer Top Section
-    $this->view->assign('footer_top_section', $page_sections[self::FOOTER_TOP]);
-
-    // Footer Section
-    $this->view->assign('footer_section', $page_sections[self::FOOTER_MAIN]);
-
-    $this->view->assign('add_block',  $this->html->getSecureURL('design/blocks_manager'));
-    $this->view->assign('form_begin', $form_begin);
-    $this->view->assign('form_hidden', $form_hidden);
-    $this->view->assign('form_submit', $form_submit);
-    $this->view->assign('form_reset', $form_reset);
-    $this->view->assign('new_block_url', $this->html->getSecureURL('design/blocks/insert','&tmpl_id='.( $this->request->get['tmpl_id'] ? $this->request->get['tmpl_id'] : $this->config->get('config_storefront_template')).'&page_id='.$settings['page']['page_id'].'&layout_id='.$settings['hidden']['layout_id']));
-    $this->view->assign('block_info_url', $this->html->getSecureURL('listing_grid/blocks_grid/block_info'));
+    $this->view->batchAssign($page_sections);
 
     $this->processTemplate('common/page_layout.tpl');
     
-    //update controller data
+    // update controller data
     $this->extensions->hk_UpdateData($this, __FUNCTION__);
   }
 
   /**
-   * @param object $page_layout
+   * @param array $sections
    * @return array
    */
-  private function _buildPageSections($page_layout) {
-    $installed_blocks = $page_layout->getInstalledBlocks();
-    $layout_blocks = $page_layout->getLayoutBlocks();
+  private function _buildPageSections($sections) {
     $page_sections = array();
+    $partialView = $this->view;
 
-    foreach ($layout_blocks as $k => $section) {
-      $blocks = $this->_buildBlocks($section['children'], $installed_blocks);
-      $page_sections[$k] = array(
+    foreach ($sections as $section) {
+      $blocks = $this->_buildBlocks($section['block_id'], $section['children']);
+      
+      $partialView->batchAssign(array(
         'id' => $section['instance_id'],
-        'block_id' => $section['block_id'],
+        'blockId' => $section['block_id'],
         'name' => $section['block_txt_id'],
-        'status' => $section['status'] ? 'on' : 'off',
+        'status' => $section['status'],
         'controller' => $section['controller'],
-        'blocks' => implode('', $blocks)
-	  );
+        'blocks' => implode('', $blocks),
+        'addBlockUrl' => $this->html->getSecureURL('design/blocks_manager'),
+      ));
+
+      // render partial view
+      $page_sections[$section['block_txt_id']] = $partialView->fetch('common/section.tpl');
     }
 
     return $page_sections;
   }
 
   /**
+   * @param array $section_id
    * @param array $section_blocks
-   * @param array $installed_blocks
    * @return array
    */
-  private function _buildBlocks($section_blocks, $installed_blocks) {
+  private function _buildBlocks($section_id, $section_blocks) {
     $blocks = array();
     $partialView = $this->view;
 
@@ -186,17 +89,19 @@ class ControllerCommonPageLayout extends AController {
       return $blocks;
 
     foreach ($section_blocks as $block) {
+      $customName = '';
       if ($block['custom_block_id'])
-        $name = $block['block_txt_id'] . '::' . $this->_getCustomBlockName($installed_blocks, $block['custom_block_id']);
-      else
-        $name = $block['block_txt_id'];
+        $customName = $this->_getCustomBlockName($block['custom_block_id']);
 
       $partialView->batchAssign(array(
         'id' => $block['instance_id'],
-        'block_id' => $block['block_id'],
-        'name' => $name,
-        'status' => $block['status'] ? 'on' : 'off',
-	  ));
+        'blockId' => $block['block_id'],
+        'customBlockId' => $block['custom_block_id'],
+        'name' => $block['block_txt_id'],
+        'customName' => $customName,
+        'status' => $block['status'],
+        'parentBlock' => $section_id,
+      ));
 
       // render partial view
       $blocks[] = $partialView->fetch('common/block.tpl');
@@ -206,12 +111,11 @@ class ControllerCommonPageLayout extends AController {
   }
 
   /**
-   * @param array $installed_blocks
    * @param int $custom_block_id
    * @return string
    */
-  private function _getCustomBlockName($installed_blocks, $custom_block_id) {
-    foreach ($installed_blocks as $block) {
+  private function _getCustomBlockName($custom_block_id) {
+    foreach ($this->installed_blocks as $block) {
       if ($block['custom_block_id'] == $custom_block_id) {
         return $block['block_name'];
       }
