@@ -112,7 +112,14 @@ font:13px 'PT Sans', Arial, Tahoma, Verdana, Sans-Serif;color:#393939;
 	width:400px;
 }   
     
-#banner_slides .oneByOne_item span.txt4 a {display:block;text-align:center;cursor:pointer;font:bold italic 16px 'PT Sans';color:#3fa3c9;width:151px;height:39px;padding:17px 0 0 0;}
+#banner_slides .oneByOne_item span.txt4 a {
+	display:block;
+	text-align:center;
+	cursor:pointer;
+	font:bold italic 16px 'PT Sans';
+	color:#3fa3c9;
+	width:151px;
+}
  
 #banner_slides img.wp1{
 	position: absolute;
