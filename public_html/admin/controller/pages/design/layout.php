@@ -50,6 +50,12 @@ class ControllerPagesDesignLayout extends AController {
     $page_id = $this->request->get['page_id'];
     $layout_id = $this->request->get['layout_id'];
 
+    if (isset($this->request->get['preview_id'])) {
+      $preview_id = $this->request->get['preview_id'];
+      $layout_data['preview_id'] = $preview_id;
+      $layout_data['preview_url'] = HTTP_CATALOG . '?preview=' . $preview_id . '&layout_id=' . $preview_id . '&page_id=' . $page_id;
+    }
+
     $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
     $layout_data['pages'] = $layout->getAllPages();    
     $layout_data['current_page'] = $layout->getPageData();
@@ -110,6 +116,7 @@ class ControllerPagesDesignLayout extends AController {
     }
 
     $layout_data['page_url'] = $this->html->getSecureURL('design/layout');
+    $layout_data['generate_preview_url'] = $this->html->getSecureURL('design/layout/preview');
     $layout_data['current_url'] = $this->html->getSecureURL('design/layout', $url);
     $layout_data['page_delete_url'] = $this->html->getSecureURL('design/layout/delete');
     $layout_data['insert_url'] = $this->html->getSecureURL('design/layout/insert', $url);
@@ -136,7 +143,6 @@ class ControllerPagesDesignLayout extends AController {
   }
   
   public function save() {
-
     //update controller data
     $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
@@ -157,36 +163,71 @@ class ControllerPagesDesignLayout extends AController {
         'layout_id' => $layout_id,
       ));
 
-      $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-      $page = $layout->getPageData();
-
-      $layout_data = array();
-      $layout_data['controller'] = $page['controller'];
-      $layout_data['layout_name'] = $page['layout_name'];
-      $layout_data['blocks'] = $section;
-
       foreach ($section as $k => $item) {
-        $layout_data['blocks'][$k]['children'] = array();
+        $section[$k]['children'] = array();
       }
 
       foreach ($block as $k => $block_id) {
         $parent = $parentBlock[$k];
         $status = $blockStatus[$k];
-        $layout_data['blocks'][$parent]['children'][] = array(
+
+        $section[$parent]['children'][] = array(
           'block_id' => $block_id,
           'status' => $status,
         );
       }
 
-      if (has_value($this->request->post['layout_change'])) {  
-        //update layout request. Clone source layout
-        $layout->clonePageLayout($this->request->post['layout_change'], $layout_id, $this->request->post['layout_name']);
-      } else {
-        //save new layout
-        $layout->savePageLayout($layout_data);
-      }
+      $layout_data['blocks'] = $section;
+
+      $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+      $layout->savePageLayout($layout_data);
       
       $this->session->data['success'] = $this->language->get('text_success');
+    }
+
+    $this->redirect($this->html->getSecureURL('design/layout', $url));
+  }
+
+  public function preview() {
+    //update controller data
+    $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+    $url = '';
+
+    if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
+      $tmpl_id = $this->request->post['tmpl_id'];
+      $page_id = $this->request->post['page_id'];
+      $layout_id = $this->request->post['layout_id'];
+      $section = $this->request->post['section'];
+      $block = $this->request->post['block'];
+      $parentBlock = $this->request->post['parentBlock'];
+      $blockStatus = $this->request->post['blockStatus'];
+
+      foreach ($section as $k => $item) {
+        $section[$k]['children'] = array();
+      }
+
+      foreach ($block as $k => $block_id) {
+        $parent = $parentBlock[$k];
+        $status = $blockStatus[$k];
+
+        $section[$parent]['children'][] = array(
+          'block_id' => $block_id,
+          'status' => $status,
+        );
+      }
+
+      $layout_data['blocks'] = $section;
+
+      $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
+      $draft_layout_id = $layout->savePageLayoutAsDraft($layout_data);
+
+      $url = $this->paramsBuilder(array(
+        'tmpl_id' => $tmpl_id,
+        'page_id' => $page_id,
+        'layout_id' => $layout_id,
+        'preview_id' => $draft_layout_id,
+      ));
     }
 
     $this->redirect($this->html->getSecureURL('design/layout', $url));

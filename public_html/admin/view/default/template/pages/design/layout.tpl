@@ -5,6 +5,10 @@
 <div class="alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
+<?php if ($preview_id) { ?>
+<div class="alert alert-info"><?php echo $text_preview_generated; ?> <a href="<?php echo $preview_url; ?>" target="_blank"><?php echo $text_click_here; ?></a></div>
+<?php } ?>
+
 <?php
 $template_list = '';
 foreach ($templates as $template) {
@@ -68,7 +72,7 @@ foreach ($pages as $page) {
         <a class="itemopt layout-form-save" href="<?php echo $page_url; ?>"><i class="fa fa-save"></i> Save</a>
       </li>
       <li>
-        <a class="itemopt layout-form-preview" href="<?php echo $page_url; ?>"><i class="fa fa-search"></i> Preview</a>
+        <a class="itemopt layout-form-preview" href="<?php echo $generate_preview_url; ?>"><i class="fa fa-search"></i> Preview</a>
       </li>
       <?php if ($current_ok_delete) { ?>
       <li>

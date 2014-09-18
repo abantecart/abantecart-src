@@ -20,4 +20,12 @@
         <key>text_success</key>
         <value><![CDATA[Success: You have modified layout &amp; blocks!]]></value>
     </definition>
+    <definition>
+        <key>text_preview_generated</key>
+        <value><![CDATA[Preview Generated!]]></value>
+    </definition>
+    <definition>
+        <key>text_click_here</key>
+        <value><![CDATA[Click here]]></value>
+    </definition>
 </definitions>

@@ -187,13 +187,20 @@ $(function () {
   // start App
   start();
 
-  $('.layout-form-save').on("click", function(e){
+  $('.layout-form-save').on("click", function(e) {
     e.stopPropagation();
     e.preventDefault();
-
     var form = $(this).closest('form');
     form.submit();
-  })
+  });
+
+  $('.layout-form-preview').on("click", function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    var form = $(this).closest('form');
+    form.attr('action', $(this).attr('href'));
+    form.submit();
+  });
 
 });
 

@@ -553,7 +553,7 @@ class ALayoutManager {
 
 		if ($layout ['layout_type'] == 0 && ($page ['controller'] != 'generic' || $data['controller'])) {
 			$layout ['layout_name'] = $data ['layout_name'];
-			$layout ['layout_type'] = 1;
+			$layout ['layout_type'] = self::LAYOUT_TYPE_ACTIVE;
 			$this->layout_id = $this->saveLayout($layout);
 			$new_layout = true;
 
@@ -598,6 +598,53 @@ class ALayoutManager {
 		return true;
 	}
 
+	/**
+	 * Save Page/Layout and Layout Blocks Draft
+	 * @param $data array
+	 * @return bool
+	 */
+	public function savePageLayoutAsDraft($data) {
+		$page = $this->page;
+		$layout = $this->active_layout;
+		$layout ['layout_type'] = self::LAYOUT_TYPE_DRAFT;
+		
+		$new_layout_id = $this->saveLayout($layout);
+
+		$this->db->query("INSERT INTO " . DB_PREFIX . "pages_layouts (layout_id,page_id)
+							VALUES ('" . (int)$new_layout_id . "','" . (int)$this->page_id . "')");
+
+		foreach ($this->main_placeholders as $placeholder) {
+			$block = $this->getLayoutBlockByTxtId($placeholder);
+			if (!empty ($block)) {
+				list($block['block_id'], $block['custom_block_id']) = explode("_", $block['block_id']);
+
+				if (!empty($data['blocks'][$block['block_id']])) {
+					$block = array_merge($block, $data['blocks'][$block ['block_id']]);
+
+					$block['layout_id'] = $new_layout_id;
+					$instance_id = $this->saveLayoutBlocks($block);
+
+					if (isset($data['blocks'][$block['block_id']]['children'])) {
+						foreach ($data['blocks'][$block['block_id']]['children'] as $key => $block_data) {
+							$child = array();
+							if (!empty ($block_data)) {
+								$child['layout_id'] = $new_layout_id;
+								list($child['block_id'], $child['custom_block_id']) = explode("_", $block_data['block_id']);
+								$child['parent_instance_id'] = $instance_id;
+								$child['position'] = ($key + 1) * 10;
+								$child['status'] = $block_data['status'];
+								$this->saveLayoutBlocks($child);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		$this->cache->delete('layout');
+		
+		return $new_layout_id;
+	}
 
 	/**
 	 * Function to clone layout linked to the page
