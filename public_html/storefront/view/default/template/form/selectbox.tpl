@@ -7,8 +7,7 @@
 	<?php
 	}
 	foreach ( $options as $v => $text ) { ?>
-	    <option value="<?php echo $v ?>" <?php echo (in_array($v, (array)$value) ? ' selected="selected" ':'') ?>
-				title="<?php echo htmlentities($text,ENT_QUOTES,'UTF-8') ?>">
+	    <option value="<?php echo $v ?>" <?php echo (in_array($v, (array)$value) ? ' selected="selected" ':'') ?>>
 	        <?php echo $text ?>
 	    </option>
 	<?php } ?>
