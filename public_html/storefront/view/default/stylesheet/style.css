@@ -2757,6 +2757,10 @@ form .help-block {
 .navbar-inverse {
 	border: none;
 }
+.list-group {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
 .input-group-addon, .input-append .btn:last-child, .input-append .btn-group:last-child > .dropdown-toggle {
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
