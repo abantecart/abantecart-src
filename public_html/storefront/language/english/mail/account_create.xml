@@ -10,7 +10,7 @@
   </definition>
   <definition>
     <key>text_login</key>
-    <value><![CDATA[Your account has now been created and you can log in by using your email address and password by visiting our website or at the following URL:]]></value>
+    <value><![CDATA[Your account has now been created and you can access it by visiting our website or at the following URL:]]></value>
   </definition>
   <definition>
     <key>text_approval</key>
