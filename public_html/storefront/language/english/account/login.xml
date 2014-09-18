@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>error_login</key>
-    <value><![CDATA[Error: No match for E-Mail Address and/or Password.]]></value>
+    <value><![CDATA[Error: Incorrect login or password provided.]]></value>
   </definition>
   <definition>
     <key>text_success_activated</key>
