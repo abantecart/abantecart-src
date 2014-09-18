@@ -69,6 +69,14 @@
 		<value><![CDATA[Продолжить]]></value>
 	</definition>
 	<definition>
+		<key>button_submit</key>
+		<value><![CDATA[Отправить]]></value>
+	</definition>
+	<definition>
+		<key>button_save</key>
+		<value><![CDATA[Сохранить]]></value>
+	</definition>	
+	<definition>
 		<key>button_back</key>
 		<value><![CDATA[Назад]]></value>
 	</definition>

@@ -49,13 +49,13 @@
 		<input type="hidden" name="cpp_cart_border_color" value="<?php echo $cartbordercolor; ?>"/>
 	<?php endif; ?>
 
-	<div class="control-group">
-	   <div class="controls">
+	<div class="form-group">
+	   <div class="input-group">
 	   	<button class="btn btn-orange pull-right" title="<?php echo $button_confirm->name ?>" type="submit">
 	   	    <i class="icon-ok icon-white"></i>
 	   	    <?php echo $button_confirm->name; ?>
 	   	</button>
-	   	<a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn mr10" title="<?php echo $back->text ?>">
+	   	<a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn btn-default mr10" title="<?php echo $back->text ?>">
 	   	    <i class="icon-arrow-left"></i>
 	   	    <?php echo $back->text ?>
 	   	</a>

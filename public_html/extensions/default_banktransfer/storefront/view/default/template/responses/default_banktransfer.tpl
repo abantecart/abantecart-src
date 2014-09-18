@@ -11,7 +11,7 @@
   <?php echo $text_payment; ?>
 </div>
 
-<a class="btn pull-left" href="<?php echo str_replace('&', '&amp;', $back); ?>">
+<a class="btn btn-default pull-left" href="<?php echo str_replace('&', '&amp;', $back); ?>">
      <i class="icon-arrow-left"></i>
     <?php echo $button_back; ?>
 </a>

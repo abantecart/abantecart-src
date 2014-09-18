@@ -529,8 +529,7 @@ class AForm {
 			$data = array(
 				'type' => 'submit',
 				'form' => $this->form[ 'form_name' ],
-				'name' => $this->language->get('button_continue'),
-				'icon' => 'icon-arrow-right'
+				'name' => $this->language->get('button_submit'),
 			);
 			$submit = HtmlElementFactory::create($data);
 
@@ -551,7 +550,7 @@ class AForm {
 					'form' => $output,
 					'form_open' => $js . $form_open->getHtml(),
 					'form_close' => $form_close,
-					'submit' => $submit->getHtml(),
+					'submit' => $submit,
 				)
 			);
 			$output = $view->fetch('form/form.tpl');

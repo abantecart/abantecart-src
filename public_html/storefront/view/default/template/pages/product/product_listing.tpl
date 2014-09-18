@@ -1,4 +1,4 @@
-<ul class="thumbnails grid row">
+<ul class="thumbnails grid row list-inline">
 	<?php
 	foreach ($products as $product) {
 		$item = array();
@@ -21,7 +21,7 @@
 
 		?>
 
-		<li class="col-md-3">
+		<li class="col-md-3 col-sm-6 col-xs-12">
 			<div class="fixed_wrapper">
 				<div class="fixed">
 					<a class="prdocutname" href="<?php echo $item['info_url'] ?>"
@@ -49,7 +49,7 @@
 						<span class="spiral"></span>
 						<?php if($product['call_to_order']){ ?>
 							<a data-id="<?php echo $product['product_id'] ?>" href="#"
-								   class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;<i class="icon-phone"></i></a>
+								   class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;<i class="fa fa-phone"></i></a>
 						<?php }else{ ?>
 							<a data-id="<?php echo $product['product_id'] ?>"
 													   href="<?php echo $item['buy_url'] ?>"
@@ -63,11 +63,8 @@
 								<div class="oneprice"><?php echo $product['price'] ?></div>
 							<?php } ?>
 						</div>
-
 					</div>
 				<?php } ?>
-
-
 			</div>
 		</li>
 	<?php
@@ -120,7 +117,7 @@
 							<?php } ?>
 							<?php echo $product['buttons'];?>
 						</div>
-						<div class="pricetag">
+						<div class="pricetag pull-right">
 							<span class="spiral"></span><a data-id="<?php echo $product['product_id'] ?>"
 														   href="<?php echo $item['buy_url'] ?>"
 														   class="productcart"><?php echo $button_add_to_cart ?></a>

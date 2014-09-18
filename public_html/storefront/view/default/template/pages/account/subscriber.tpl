@@ -1,10 +1,10 @@
 <?php if ($success) { ?>
 	<h1 class="heading1">
-	  <span class="maintext"><i class="icon-thumbs-up"></i> <?php echo $text_subscribe_register; ?></span>
+	  <span class="maintext"><i class="fa fa-thumbs-up"></i> <?php echo $text_subscribe_register; ?></span>
 	  <span class="subtext"></span>
 	</h1>
 
-	<div class="container-fluid">
+	<div class="contentpanel">
 
 	<section class="mb40">
 		<p></p>
@@ -14,8 +14,8 @@
 
 
 
-	<div class="control-group">
-		<div class="controls">
+	<div class="form-group">
+		<div class="input-group">
 			<div class="pull-right col-md-2 mt20 mb40">
 				<?php echo $continue;?>
 			</div>
@@ -24,7 +24,7 @@
 
 <?php }else{ ?>
 	<h1 class="heading1">
-	  <span class="maintext"><i class="icon-group"></i> <?php echo $text_subscribe_register; ?></span>
+	  <span class="maintext"><i class="fa fa-group"></i> <?php echo $text_subscribe_register; ?></span>
 	  <span class="subtext"></span>
 	</h1>
 <?php if ($error_warning) { ?>
@@ -34,7 +34,7 @@
 </div>
 <?php } ?>
 
-<div class="container-fluid">
+<div class="contentpanel">
 	<?php echo $form['form_open']; ?>
 	
 	<p><?php echo $text_account_already; ?></p>
@@ -45,12 +45,12 @@
 		<?php
 		if($form){
 			foreach ($form as $field_name=>$field) { ?>
-			<div class="control-group <?php echo (${'error_'.$field_name} ? 'error' : '')?>">
-				<label class="control-label"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="controls">
+			<div class="form-group <?php echo (${'error_'.$field_name} ? 'has-error' : '')?>">
+				<label class="control-label col-sm-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-sm-4">
 				    <?php echo $field; ?>
-					<span class="help-inline"><?php echo ${'error_'.$field_name}; ?></span>
 				</div>
+				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
 			</div>		
 		<?php }
 			}?>
@@ -59,14 +59,12 @@
 
 	<?php echo $this->getHookVar('subscriber_hookvar'); ?>
 	
-
-
-	<div class="control-group">
-	    <div class="controls">
-			<div class="pull-left col-md-3 mb40">
+	<div class="form-group">
+	    <div class="col-md-12">
+			<div class="pull-left col-md-8">
 				<?php echo $create_account ?>
 			</div>
-	    	<div class="pull-right col-md-2 mb40">
+	    	<div class="pull-right col-md-4">
 				<?php echo $continue ?>
 	    	</div>	
 	    </div>

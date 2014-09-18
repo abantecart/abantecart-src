@@ -19,10 +19,11 @@
 <link href="resources/<?php echo $icon; ?>" type="image/png" rel="icon" />
 <?php } ?>
 
-<link rel="apple-touch-icon-precomposed" sizes="57x57" href="<?php echo $this->templateResource('/image/apple-icon-57x57-precomposed.png');?>" />
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo $this->templateResource('/image/apple-icon-72x72-precomposed.png');?>" />
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo $this->templateResource('/image/apple-icon-114x114-precomposed.png');?>" />
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo $this->templateResource('/image/apple-icon-144x144-precomposed.png');?>" />
+<link href="<?php echo $this->templateResource('/image/apple-touch-icon.png');?>" rel="apple-touch-icon" />
+<link href="<?php echo $this->templateResource('/image/apple-touch-icon-76x76.png');?>" rel="apple-touch-icon" sizes="76x76" />
+<link href="<?php echo $this->templateResource('/image/apple-touch-icon-120x120.png');?>" rel="apple-touch-icon" sizes="120x120" />
+<link href="<?php echo $this->templateResource('/image/apple-touch-icon-152x152.png');?>" rel="apple-touch-icon" sizes="152x152" />
+<link href="<?php echo $this->templateResource('/image/apple-touch-icon-precomposed.png');?>" rel="apple-touch-icon-precomposed" />
 
 <?php foreach ($links as $link) { ?>
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
@@ -30,18 +31,7 @@
 
 <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300italic,400italic,600,600italic' rel='stylesheet' type='text/css' />
 <link href='//fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css' />
-<link href="<?php echo $this->templateResource('/stylesheet/bootstrap.min.css'); ?>" rel="stylesheet" media="all" />
-<link href="<?php echo $this->templateResource('/stylesheet/bootstrap-responsive.min.css'); ?>" rel="stylesheet" media="screen" />
-<link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" />
-<link href="<?php echo $this->templateResource('/stylesheet/flexslider.css'); ?>" type="text/css" media="screen" rel="stylesheet"  />
-<link href="<?php echo $this->templateResource('/stylesheet/cloud-zoom.css'); ?>" rel="stylesheet" />
-<link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet" />
-<link href="<?php echo $this->templateResource('/stylesheet/print.css'); ?>" rel="stylesheet" type="text/css" media="print" />
-
-<link href="<?php echo $this->templateResource('/stylesheet/font-awesome.min.css'); ?>" rel="stylesheet" media="all" />
-<!--[if IE 7]>
-	<link href="<?php echo $this->templateResource('/stylesheet/font-awesome-ie7.min.css'); ?>" rel="stylesheet" />
-<![endif]-->
+<link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" type='text/css' />
 
 <?php if ( $template_debug_mode ) {  ?>
 <link href="<?php echo $this->templateResource('/stylesheet/template_debug.css'); ?>" rel="stylesheet" />

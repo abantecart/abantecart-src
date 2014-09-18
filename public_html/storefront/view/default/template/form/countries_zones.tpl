@@ -1,20 +1,24 @@
-<select name="<?php echo $name ?>[]" id="<?php echo $id ?>" class="form-control <?php echo $style; ?>" data-placeholder="<?php echo $placeholder ?>" <?php echo $attr ?>>
+<div class="input-group">
+	<select name="<?php echo $name ?>[]" id="<?php echo $id ?>" class="form-control <?php echo $style; ?>" data-placeholder="<?php echo $placeholder ?>" <?php echo $attr ?>>
 	<?php foreach ( $options as $v => $text ) { ?>
             <option value="<?php echo $v ?>" <?php echo (in_array($v, (array)$value) ? ' selected="selected" ':'') ?> >
 			<?php echo $text ?>
 			</option>
 	<?php } ?>
-</select>
-<?php if ( $required == 'Y' ) : ?>
-<span class="required">*</span>
-<?php endif; ?>
-<select name="<?php echo $name ?>_zones[]" id="<?php echo $id ?>_zones" class="form-control <?php echo $style; ?>" data-placeholder="<?php echo $placeholder ?>">
+	</select>
+	<?php if ( $required == 'Y' ) : ?>
+	<span class="required">*</span>
+	<?php endif; ?>
+</div>
+<div class="input-group">
+	<select name="<?php echo $name ?>_zones[]" id="<?php echo $id ?>_zones" class="form-control <?php echo $style; ?>" data-placeholder="<?php echo $placeholder ?>">
 	<?php foreach ( $zone_options as $v => $text ) { ?>
 	            <option value="<?php echo $v ?>" <?php echo (in_array($v, (array)$zone_value) ? ' selected="selected" ':'') ?> >
 				<?php echo $text ?>
 				</option>
 		<?php } ?>
-</select>
+	</select>
+</div>
 <script type="text/javascript">
 	<?php 
 		if ($submit_mode == 'id') {

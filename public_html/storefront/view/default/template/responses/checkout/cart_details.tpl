@@ -41,7 +41,7 @@
 		<?php if ($total_items > $cart_view_limit) {  ?>
 		    <tr>
 		        <td colspan="4" align="center"><a href="<?php echo $view; ?>">
-		        <i class="icon-chevron-down"></i>
+		        <i class="fa fa-chevron-down"></i>
 		        </a></td>
 		    </tr>		                
 		<?php } ?>		                	

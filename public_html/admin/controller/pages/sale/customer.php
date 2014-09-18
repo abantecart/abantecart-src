@@ -485,6 +485,7 @@ class ControllerPagesSaleCustomer extends AController {
 				'name' => 'cancel',
 				'text' => $this->language->get('button_cancel')
 		));
+
 		if($this->request->get['address_id']>0){
 			$this->data['form']['delete'] = $form->getFieldHtml(array(
 					'type' => 'button',

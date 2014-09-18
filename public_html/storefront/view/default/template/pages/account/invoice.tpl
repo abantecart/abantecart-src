@@ -1,11 +1,11 @@
 <h1 class="heading1">
-	<span class="maintext"><i class="icon-file"></i> <?php echo $heading_title; ?></span>
+	<span class="maintext"><i class="fa fa-file"></i> <?php echo $heading_title; ?></span>
 	<span class="subtext"></span>
 </h1>
 
-<div class="container-fluid">
+<div class="contentpanel">
 
-	<div class="container-fluid">
+	<div class="container-fluid table-responsive">
 		<table class="table table-striped table-bordered">
 			<tr>
 				<td><?php if ($invoice_id) { ?>
@@ -46,8 +46,8 @@
 			</tr>
 		</table>
 	</div>
-	<div class="container-fluid invoice_products">
-		<table class="table table-striped table-bordered ">
+	<div class="container-fluid invoice_products table-responsive">
+		<table class="table table-striped table-bordered">
 			<tr>
 				<th class="align_left"><?php echo $text_image; ?></th>
 				<th class="align_left"><?php echo $text_product; ?></th>
@@ -75,7 +75,7 @@
 			<?php echo $this->getHookVar('list_more_product_last'); ?>
 		</table>
 
-		<div class="col-md-4 pull-right">
+		<div class="col-md-4 col-xs-6 pull-right">
 			<table class="table table-striped table-bordered">
 				<?php foreach ($totals as $total) { ?>
 					<tr>
@@ -117,20 +117,18 @@
 		</div>
 	<?php } ?>
 
-	<div class="control-group">
-		<div class="controls">
-			<div class="mt20 mb40">
-				<a href="<?php echo $continue; ?>" class="btn mr10" title="<?php echo $button_continue->text ?>">
-					<i class="<?php echo $button_continue->{'icon'}; ?>"></i>
-					<?php echo $button_continue->text ?>
-				</a>
-				<?php echo $this->getHookVar('hk_additional_buttons'); ?>
-				<a href="javascript:window.print();" class="btn btn-orange mr10 pull-right"
-				   title="<?php echo $button_print->text ?>">
-					<i class="<?php echo $button_print->{'icon'}; ?> icon-white"></i>
-					<?php echo $button_print->text ?>
-				</a>
-			</div>
+	<div class="form-group">
+		<div class="mt20 mb40">
+		    <a href="<?php echo $continue; ?>" class="btn btn-default mr10" title="<?php echo $button_continue->text ?>">
+		    	<i class="<?php echo $button_continue->{'icon'}; ?>"></i>
+		    	<?php echo $button_continue->text ?>
+		    </a>
+		    <?php echo $this->getHookVar('hk_additional_buttons'); ?>
+		    <a href="javascript:window.print();" class="btn btn-orange mr10 pull-right"
+		       title="<?php echo $button_print->text ?>">
+		    	<i class="<?php echo $button_print->{'icon'}; ?>"></i>
+		    	<?php echo $button_print->text ?>
+		    </a>
 		</div>
 	</div>
 

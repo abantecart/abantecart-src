@@ -23,7 +23,7 @@
 <div class="col-sm-12 col-lg-12">
 	<div class="panel panel-default">
 		<div class="panel-body">
-		<h5 class="title"><i class="fa fa-money fa-lg"></i>  <?php echo $text_latest_10_orders; ?>
+		<h5 class="title"><i class="fa fa-money fa-lg fa-fw"></i>  <?php echo $text_latest_10_orders; ?>
 		<span class="pull-right"><a href="<?php echo $orders_url; ?>"><?php echo $orders_text; ?></a></span>
 		</h5>
 
@@ -71,7 +71,7 @@
 <div class="col-sm-5 col-lg-5">
 	<div class="panel panel-default">
 		<div class="panel-body">
-		<h5 class="title"><i class="fa fa-tachometer fa-lg"></i>&nbsp;&nbsp;<?php echo $text_overview; ?></h5>
+		<h5 class="title"><i class="fa fa-tachometer fa-lg fa-fw"></i>&nbsp;&nbsp;<?php echo $text_overview; ?></h5>
 
 			<div class="table-responsive">
 		    <table class="table table-striped">
@@ -115,7 +115,7 @@
 <div class="col-sm-7 col-lg-7">
 	<div class="panel panel-default">
 		<div class="panel-body">
-		<h5 class="title"><i class="fa fa-bar-chart-o fa-lg"></i>&nbsp;&nbsp;<?php echo $text_statistics; ?>
+		<h5 class="title"><i class="fa fa-bar-chart-o fa-lg fa-fw"></i>&nbsp;&nbsp;<?php echo $text_statistics; ?>
 		<span class="pull-right">
 			<?php echo $entry_range; ?>
               <select id="range" onchange="getSalesChart(this.value)" style="margin: 2px 3px 0 0;">

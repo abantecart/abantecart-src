@@ -172,14 +172,12 @@ class ControllerPagesProductProduct extends AController {
 		                                               'attr' =>''));
 		$this->data['review_button'] = HtmlElementFactory::create(array( 'type' => 'button',
 		                                               'name' => 'review_submit',
-		                                               'text' => $this->language->get('button_continue'),
-		                                               'style'=> 'button',
-		                                               'icon' => 'icon-comment'
+		                                               'text' => $this->language->get('button_submit'),
+		                                               'style'=> 'btn-primary',
+		                                               'icon' => 'fa fa-comment'
 		                                              ));
 
 		$this->data['product_info'] = $product_info;
-
-
 
 
 		$form = new AForm();
@@ -537,7 +535,7 @@ class ControllerPagesProductProduct extends AController {
 								'href'=> $href,
 								'title' => $this->language->get('text_start_download'),
 								'text' => $this->language->get('text_start_download'),
-								'style' => 'button1 icon-download-alt'	));
+								'style' => 'button1 fa fa-download-alt'	));
 
 				$downloads[] = $download;
 			}

@@ -23,13 +23,13 @@
   <input type="hidden" name="order_id" value="<?php echo $order_id; ?>" />
   <input type="hidden" name="options" value="<?php echo $options; ?>" />
   
-	<div class="control-group">
-	   <div class="controls">
+	<div class="form-group">
+	   <div class="input-group">
 	   	<button class="btn btn-orange pull-right" title="<?php echo $button_confirm; ?>" onclick="$('#checkout').submit();" type="submit">
 	   	    <i class="icon-ok icon-white"></i>
 	   	    <?php echo $button_confirm; ?>
 	   	</button>
-	   	<a  href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn mr10" title="<?php echo $button_back; ?>">
+	   	<a  href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn btn-default mr10" title="<?php echo $button_back; ?>">
 	   	    <i class="icon-arrow-left"></i>
 	   	    <?php echo $button_back; ?>
 	   	</a>

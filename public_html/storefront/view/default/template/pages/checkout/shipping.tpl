@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="icon-truck"></i> <?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="fa fa-truck"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container-fluid">
+<div class="contentpanel">
 
 	<?php echo $form['form_open'];?>
 	<h4 class="heading4"><?php echo $text_shipping_address; ?></h4>
@@ -26,11 +26,11 @@
 		<tr>
 			<td><?php echo $address; ?></td>
 			<td>
-			<div class="control-group">
+			<div class="form-group">
 				<label class="control-label"><?php echo $text_shipping_to; ?></label>
-				<div class="controls">
-					<a href="<?php echo $change_address_href; ?>" class="btn mr10" title="<?php echo $button_change_address?>">
-					    <i class="icon-edit"></i>
+				<div class="input-group">
+					<a href="<?php echo $change_address_href; ?>" class="btn btn-default mr10" title="<?php echo $button_change_address?>">
+					    <i class="fa fa-edit"></i>
 					    <?php echo $button_change_address ?>
 					</a>				
 				</div>
@@ -88,8 +88,8 @@
 			<?php echo $form['comment']; ?>
      	</div>
 		
-		<div class="control-group">
-			<div class="controls">
+		<div class="form-group">
+			<div class="input-group">
     			<div class="mt20 mb20">
     			<?php echo $this->getHookVar('buttons_pre'); ?>
 				<?php echo $buttons; ?>

@@ -1,15 +1,15 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="icon-thumbs-up"></i> <?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="fa fa-thumbs-up"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
-<div class="container-fluid">
+<div class="container">
 
 <section class="mb40">
 	<p><?php echo $text_message; ?></p>
 	
-	<a href="<?php echo $continue; ?>" class="btn mr10" title="<?php echo $continue_button->text ?>">
-	    <i class="icon-arrow-right"></i>
+	<a href="<?php echo $continue; ?>" class="btn btn-default mr10" title="<?php echo $continue_button->text ?>">
+	    <i class="fa fa-arrow-right"></i>
 	    <?php echo $continue_button->text ?>
 	</a>
 </section>

@@ -1901,6 +1901,10 @@ p {
    display: none;
 }
 
+.leftpanel-collapsed .sticky_left {
+   display: none;
+}
+
 .leftpanel-collapsed .headerbar {
    margin-left: -50px;
 }
@@ -2485,15 +2489,15 @@ p {
 /* Stick Header */
 .sticky_header {
 	position: absolute;
-	top: 15px;
-	left: 5px;
+	top: 5px;
+	left: 3px;
 	cursor: pointer;
 	z-index: 1000;
 }
 .sticky_left {
 	position: absolute;
 	top: 55px;
-	left: 5px;
+	left: 3px;
 	cursor: pointer;
 	color: #fff;
 }
@@ -2503,7 +2507,7 @@ body.stickyheader .sticky_left {
 .sticky-leftpanel .sticky_left {
 	top: 55px !important;
 }
-.pressed_pin {
+.panel_frozen {
 	color: #F19013;
 }
 .stickyheader .logopanel {

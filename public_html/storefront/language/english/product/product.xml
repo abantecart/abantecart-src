@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>text_note</key>
-		<value><![CDATA[<span style="color: #FF0000;">Note:</span> HTML is not translated!]]></value>
+		<value><![CDATA[<span style="color: #FF0000;">Note:</span> Do not use HTML in the text.]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
@@ -176,4 +176,12 @@
 		<key>text_start_download</key>
 		<value><![CDATA[Start Download]]></value>
 	</definition>
+	<definition>
+		<key>text_new_review</key>
+		<value><![CDATA[Product review approval is pending]]></value>
+	</definition>	
+	<definition>
+		<key>text_pending_review_approval</key>
+		<value><![CDATA[Review for product id %s is posted. Acction of approval is required! <a href="#admin#rt=catalog/review/update&review_id=%s" target="_blank">Click to view</a>]]></value>
+	</definition>	
 </definitions>

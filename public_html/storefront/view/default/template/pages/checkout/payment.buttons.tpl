@@ -1,9 +1,9 @@
-<a href="<?php echo $back; ?>" class="btn mr10 pull-left" title="<?php echo $form['back']->text ?>">
-	<i class="icon-arrow-left"></i>
+<a href="<?php echo $back; ?>" class="btn btn-default mr10 pull-left" title="<?php echo $form['back']->text ?>">
+	<i class="fa fa-arrow-left"></i>
 	<?php echo $form['back']->text ?>
 </a>
 <button class="btn btn-orange pull-right ml10" title="<?php echo $form['continue']->name ?>" type="submit">
-	<i class="icon-arrow-right icon-white"></i>
+	<i class="fa fa-arrow-right"></i>
 	<?php echo $form['continue']->name ?>
 </button>
 <?php if ($text_agree) { ?>

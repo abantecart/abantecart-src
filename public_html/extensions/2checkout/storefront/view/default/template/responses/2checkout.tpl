@@ -34,13 +34,13 @@
 	<?php } ?>
 	<input type="hidden" name="lang" value="<?php echo $lang; ?>"/>
 	
-	<div class="control-group">
-	    <div class="controls">
+	<div class="form-group">
+	    <div class="input-group">
 	    	<button class="btn btn-orange pull-right" title="<?php echo $button_confirm; ?>" type="submit">
 	    	    <i class="icon-ok icon-white"></i>
 	    	    <?php echo $button_confirm; ?>
 	    	</button>
-	    	<a href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn mr10" title="<?php echo $button_back; ?>">
+	    	<a href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn btn-default mr10" title="<?php echo $button_back; ?>">
 	    	    <i class="icon-arrow-left"></i>
 	    	    <?php echo $button_back; ?>
 	    	</a>

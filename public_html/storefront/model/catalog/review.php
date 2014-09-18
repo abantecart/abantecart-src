@@ -29,9 +29,21 @@ class ModelCatalogReview extends Model {
 						      text = '" . $this->db->escape(strip_tags($data['text'])) . "',
 						      rating = '" . (int)$data['rating'] . "',
 						      date_added = NOW()");
+		
+		$review_id = $this->db->getLastId();
+		//notify administrator of pending review approval
+		$language = new ALanguage($this->registry);
+		$language->load('product/product');
+
+		$msg_text = sprintf($language->get('text_pending_review_approval'), $product_id, $review_id);
+		$msg = new AMessage();
+		$msg->saveNotice($language->get('text_new_review'), $msg_text);
+				
 		$this->cache->delete('product.rating.'.(int)$product_id);
 		$this->cache->delete('product.reviews.totals');
 		$this->cache->delete('product.reviews.totals.'.$product_id);
+
+		return '';
 	}
 		
 	public function getReviewsByProductId($product_id, $start = 0, $limit = 20) {

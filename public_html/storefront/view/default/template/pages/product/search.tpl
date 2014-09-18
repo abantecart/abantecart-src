@@ -1,18 +1,35 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="icon-search"></i> <?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="fa fa-search"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
-<div class="container-fluid">
+<div class="contentpanel">
 
 	<h4 class="heading4"><?php echo $text_critea; ?></h4>
 	<div class="form-inline">
 		<fieldset>
-			<div class="control-group">
-				<div class="controls">
-				    <?php echo $keyword . $category; ?>&nbsp;
+			<div class="form-group col-xs-6 col-sm-2 col-lg-2">
+				<div class="input-group">
+				    <?php echo $keyword; ?>&nbsp;
+				</div>
+			</div>		
+			<div class="form-group col-xs-6 col-sm-2 col-lg-2">
+				<div class="input-group">
+				    <?php echo $category; ?>&nbsp;
+				</div>
+			</div>		
+			<div class="form-group col-xs-12 col-sm-3 col-lg-3">
+				<div class="input-group">
 				    <?php echo $description; ?>&nbsp;
+				</div>
+			</div>		
+			<div class="form-group col-xs-12 col-sm-3 col-lg-3">
+				<div class="input-group">
 				    <?php echo $model; ?>&nbsp;
+				</div>
+			</div>		
+			<div class="form-group col-xs-12 col-sm-2 col-lg-2">
+				<div class="input-group">
 				    <?php echo $submit; ?>
 				</div>
 			</div>		
@@ -27,9 +44,9 @@
 	    <?php echo $text_sort; ?>&nbsp;&nbsp;<?php echo $sorting; ?>
 	  </form>
 	  <div class="btn-group pull-right">
-	    <button class="btn" id="list"><i class="icon-th-list"></i>
+	    <button class="btn" id="list"><i class="fa fa-th-list"></i>
 	    </button>
-	    <button class="btn btn-orange" id="grid"><i class="icon-th icon-white"></i></button>
+	    <button class="btn btn-orange" id="grid"><i class="fa fa-th"></i></button>
 	  </div>
 	</div>
 	<!-- end sorting-->

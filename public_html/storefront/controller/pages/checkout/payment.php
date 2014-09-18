@@ -268,7 +268,8 @@ class ControllerPagesCheckoutPayment extends AController {
 		$this->data['payment_methods'] = $this->session->data[ 'payment_methods' ];
 		$payment = isset($this->request->post[ 'payment_method' ]) ? $this->request->post[ 'payment_method' ] : $this->session->data[ 'payment_method' ][ 'id' ];
 
-		//balance
+		//balance handling
+		$this->data['used_balance_full'] = $this->session->data[ 'used_balance_full' ];
 		$balance_def_currency = $this->customer->getBalance();
 		$balance = $this->currency->convert($balance_def_currency,$this->config->get('config_currency'),$this->session->data['currency']);
 		if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance')) && (float)$this->session->data['used_balance']!=0){
@@ -276,13 +277,15 @@ class ControllerPagesCheckoutPayment extends AController {
 				$this->data['apply_balance_button'] = $this->html->buildButton(array('name' => 'apply_balance',
 																					'href' => $this->html->getSecureURL('checkout/payment','&mode=edit&balance=apply',true),
 																					'text' => $this->language->get('button_apply_balance'),
-																					'style'=>'button'));
+																					'icon' => 'fa fa-money',
+																					'style'=>'btn-default'));
 			}elseif((float)$this->session->data['used_balance']>0){
 
 				$this->data['apply_balance_button'] = $this->html->buildButton(array('name' => 'apply_balance',
 																					'href' => $this->html->getSecureURL('checkout/payment','&mode=edit&balance=disapply',true),
 																					'text' => $this->language->get('button_disapply_balance'),
-																					'style'=>'button'));
+																					'icon' => 'fa fa-times',
+																					'style'=>'btn-default'));
 			}
 
 			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance,$this->session->data['currency'],1);

@@ -258,19 +258,19 @@
 	</definition>
 
 	<definition>
-		<key>text_option_credit</key>
+		<key>entry_credit</key>
 		<value><![CDATA[Credit (increase balance)]]></value>
 	</definition>
 	<definition>
-		<key>text_option_debit</key>
+		<key>entry_debit</key>
 		<value><![CDATA[Debit (decrease balance)]]></value>
 	</definition>
 	<definition>
-		<key>text_transaction_type</key>
+		<key>entry_transaction_type</key>
 		<value><![CDATA[Transaction Type: ]]></value>
 	</definition>
 	<definition>
-		<key>text_other_type</key>
+		<key>entry_other_type</key>
 		<value><![CDATA[Other Custom Transaction Type: ]]></value>
 	</definition>
 	<definition>
@@ -278,16 +278,20 @@
 		<value><![CDATA[Other... ]]></value>
 	</definition>
 	<definition>
-		<key>text_transaction_description</key>
+		<key>entry_transaction_description</key>
 		<value><![CDATA[Description (for customer):]]></value>
 	</definition>
 	<definition>
-		<key>text_transaction_comment</key>
+		<key>entry_transaction_comment</key>
 		<value><![CDATA[Comment (for internal use):]]></value>
 	</definition>
 	<definition>
-		<key>text_update_date</key>
+		<key>entry_update_date</key>
 		<value><![CDATA[Update Date:]]></value>
+	</definition>
+	<definition>
+		<key>entry_create_date</key>
+		<value><![CDATA[Create Date:]]></value>
 	</definition>
 	<definition>
 		<key>error_transaction_type</key>

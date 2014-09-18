@@ -3,64 +3,64 @@
 <div id="paypal" class="form-horizontal">
 
 	<fieldset>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_owner; ?></label>
-			<div class="controls">
+			<div class="input-group">
 				<?php echo $cc_owner; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_type; ?></label>
-			<div class="controls">
+			<div class="input-group">
 				<?php echo $cc_type; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_number; ?></label>
-			<div class="controls">
+			<div class="input-group">
 				<?php echo $cc_number; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_start_date; ?></label>
 			<div class="controls ws_nowrap">
 				<?php echo $cc_start_date_month; ?> / <?php echo $cc_start_date_year. ' ' .$text_start_date; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_expire_date; ?></label>
 			<div class="controls ws_nowrap">
 				<?php echo $cc_expire_date_month; ?> / <?php echo $cc_expire_date_year; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_cvv2; ?></label>
-			<div class="controls">
+			<div class="input-group">
 				<?php echo $cc_cvv2; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
-		<div class="control-group ">
+		<div class="form-group ">
 			<label class="control-label"><?php echo $entry_cc_issue; ?></label>
-			<div class="controls">
+			<div class="input-group">
 				<?php echo $cc_issue. ' ' .$text_issue; ?>
-				<span class="help-inline"></span>
 			</div>
+			<span class="help-block"></span>
 		</div>
 		
-		<div class="control-group action-buttons">
-	    	<div class="controls">
+		<div class="form-group action-buttons">
+	    	<div class="input-group">
 	    		<button id="<?php echo $submit->name ?>" class="btn btn-orange pull-right" title="<?php echo $submit->text ?>" type="submit">
-	    		    <i class="icon-ok icon-white"></i>
+	    		    <i class="fa fa-check"></i>
 	    		    <?php echo $submit->text; ?>
 	    		</button>
-				<a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn mr10" title="<?php echo $back->text ?>">
-				    <i class="icon-arrow-left"></i>
+				<a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn btn-default mr10" title="<?php echo $back->text ?>">
+				    <i class="fa fa-arrow-left"></i>
 				    <?php echo $back->text ?>
 				</a>
 		    </div>
@@ -77,23 +77,25 @@ function confirmSubmit() {
 		data: $('#paypal :input'),
 		dataType: 'json',		
 		beforeSend: function() {
-			$('#paypal_button').attr('disabled', 'disabled');
+			$('#paypal_button').parent().hide();
 			
 			$('#paypal .action-buttons').before('<div class="wait alert alert-info"><img src="<?php echo $template_dir; ?>image/loading_1.gif" alt="" /> <?php echo $text_wait; ?></div>');
 		},
 		success: function(data) {
 			if (data.error) {
 				alert(data.error);
-				
-				$('#paypal_button').removeAttr('disabled');
+				$('.wait').remove();			
+				$('#paypal_button').parent().show();
 			}
-			
-			$('.wait').remove();
-			
 			if (data.success) {
 				location = data.success;
 			}
-		}
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			alert(textStatus + ' ' + errorThrown);
+			$('.wait').remove();	
+			$('#paypal_button').parent().show();;
+		}				
 	});
 }
 $('#paypal_button').click ( confirmSubmit );

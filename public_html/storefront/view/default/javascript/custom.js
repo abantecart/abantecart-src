@@ -38,16 +38,36 @@ $('document').ready(function () {
         $(this).toggleClass('down').next('.checkoutstep').slideToggle()
     });
 
-    // Category Menu mobile
-    $("<select />").appendTo("nav.subnav");
+    // Top Main Menu mobile
+    $('<select class="form-control" />').appendTo("#topnav");
+    var show_text = $("#topnav .sr-only").text();
+    $("<option />", {
+        "selected": "selected",
+        "value": "",
+        "text": show_text
+    }).appendTo("#topnav select");
+    // Populate dropdown with menu items
+    $("#topnav a").each(function () {
+        var el = $(this);
+        $("<option />", {
+            "value": el.attr("href"),
+            "text": el.text()
+        }).appendTo("#topnav select");
+    });
+    // To make dropdown actually work
+    // To make more unobtrusive: http://css-tricks.com/4064-unobtrusive-page-changer/
+    $("#topnav select").change(function () {
+        window.location = $(this).find("option:selected").val();
+    });
 
+    // Category Menu mobile
+    $('<select class="form-control" />').appendTo("nav.subnav");
     // Create default option "Go to..."
     $("<option />", {
         "selected": "selected",
         "value": "",
         "text": "Go to..."
     }).appendTo("nav.subnav select");
-
     // Populate dropdown with menu items
     $("nav.subnav a").each(function () {
         var el = $(this);
@@ -56,13 +76,12 @@ $('document').ready(function () {
             "text": el.text()
         }).appendTo("nav.subnav select");
     });
-
     // To make dropdown actually work
     // To make more unobtrusive: http://css-tricks.com/4064-unobtrusive-page-changer/
     $("nav.subnav select").change(function () {
         window.location = $(this).find("option:selected").val();
     });
-
+    
 	//show selected category
 	$(".subcategories ul li").hover(function () {
 		var curr_image = $(this).find('img').clone();

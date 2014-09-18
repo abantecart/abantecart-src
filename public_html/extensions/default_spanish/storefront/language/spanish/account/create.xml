@@ -184,4 +184,12 @@
 		<key>error_subscriber_exists</key>
 		<value><![CDATA[Nuestros registros indican que usted tiene una cuenta con nosotros. Por favor, ingrese a su cuenta para administrar su suscripción al boletín.]]></value>
 	</definition>
+	<definition>
+		<key>text_new_customer</key>
+		<value><![CDATA[New customer registration approval is pending]]></value>
+	</definition>	
+	<definition>
+		<key>text_pending_customer_approval</key>
+		<value><![CDATA[Customer %s has registered with new account. Acction of approval is required! <a href="#admin#rt=sale/customer/update&customer_id=%s" target="_blank">Click to view</a>]]></value>
+	</definition>	
 </definitions>

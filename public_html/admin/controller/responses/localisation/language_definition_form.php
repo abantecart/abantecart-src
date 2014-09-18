@@ -23,7 +23,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesLocalisationLanguageDefinitionForm extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $rt = 'localisation/language_definition_form';
 
 
@@ -174,6 +174,8 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 		if (!is_numeric($this->request->post['section'])) {
 			$this->error['section'] = $this->language->get('error_section');
 		}
+
+		$this->extensions->hk_ValidateData($this);
 
 
 		if (!$this->error) {

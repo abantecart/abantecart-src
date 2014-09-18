@@ -88,7 +88,8 @@ class ControllerPagesAccountHistory extends AController {
 				$button = HtmlElementFactory::create( array (  'type' => 'button',
 															   'name' => 'button_edit',
 															   'text'=> $this->language->get('button_view'),
-															   'style' => 'button',
+															   'style' => 'btn-default',
+															   'icon' => 'fa fa-info',
 				                                               'attr'  => ' onclick = "viewOrder('.$result['order_id'].');" ' ));
         		$orders[] = array(
 								'order_id'   => $result['order_id'],

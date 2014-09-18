@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="icon-envelope"></i> <?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="fa fa-envelope"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
@@ -17,10 +17,10 @@
 </div>
 <?php } ?>
 
-<div class="container-fluid">
+<div class="contentpanel">
 	<h4 class="heading4"><?php echo $text_edit_address; ?></h4>
 
-	<div class="content">
+	<div class="content-fluid">
 	  <div class="row">
 	    <div class="col-md-6 pull-left">
 	    <b><?php echo $text_address; ?></b><br />
@@ -38,12 +38,10 @@
 	      <?php } ?>
 	    </div>
 	  </div>
-	</div>
-	<table class="row pull-left mt40">
-		<tr>
-		  <td><?php echo $form_output; ?></td>
-		</tr>
-	</table>
 
+	  <div class="row mt40">
+	  <?php echo $form_output; ?>
+	  </div>
+	</div>
 
 </div>

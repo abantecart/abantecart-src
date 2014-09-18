@@ -30,8 +30,6 @@
 								} else {
 									$image_url = $image['main_url'];
 								}
-								//TODO! attribute rel below contains non-standart content. This content needed for cloud-zoom 3dparty js-script
-								//needs to delete it in the future or to upgrade up to v3.0
 								?>
 								<a rel="position: 'inside', showTitle: false, adjustX:-4, adjustY:-4"
 								   class="thumbnail cloud-zoom"
@@ -131,16 +129,18 @@
 									<?php if ($discounts) { ?>
 										<div class="form-group">
 											<label class="control-label"><?php echo $text_discount; ?></label>
-											<div class="input-group">
-												<?php echo $text_order_quantity; ?>
-												<?php echo $text_price_per_item; ?>
-											</div>
+											<table class="table table-striped">
+												<thead>
+													<th><?php echo $text_order_quantity; ?></th>
+													<th><?php echo $text_price_per_item; ?></th>
+												</thead>
 											<?php foreach ($discounts as $discount) { ?>
-												<div class="input-group">
-													<?php echo $discount['quantity']; ?>
-													<?php echo $discount['price']; ?>
-												</div>
+												<tr>
+													<td><?php echo $discount['quantity']; ?></td>
+													<td><?php echo $discount['price']; ?></td>
+												</tr>
 											<?php } ?>
+											</table>
 										</div>
 									<?php } ?>
 									<?php if(!$product_info['call_to_order']){ ?>
@@ -175,10 +175,10 @@
 												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
 										</ul>
 										<a class="productprint btn btn-large" href="javascript:window.print();"><i
-													class="icon-print"></i> <?php echo $button_print; ?></a>
+													class="fa fa-print"></i> <?php echo $button_print; ?></a>
 										<?php }else{?>
 											<ul class="productpagecart call_to_order">
-												<li><a href="#" class="call_to_order"><i class="icon-phone-sign"></i>&nbsp;&nbsp;<?php echo $text_call_to_order; ?></a></li>
+												<li><a href="#" class="call_to_order"><i class="fa fa-phone-sign"></i>&nbsp;&nbsp;<?php echo $text_call_to_order; ?></a></li>
 											</ul>
 										<?php } ?>
 										<?php echo $this->getHookVar('buttons'); ?>
@@ -186,7 +186,7 @@
 								</fieldset>
 								</form>
 							<?php } elseif(!$product_info['call_to_order']) { ?>
-								<div class="control-group">
+								<div class="form-group">
 									<label class="control-label">
 										<?php echo $text_login_view_price; ?>
 									</label>
@@ -259,40 +259,37 @@
 						<div class="heading" id="review_title"><h4><?php echo $text_write; ?></h4></div>
 						<div class="content">
 							<fieldset>
-								<div class="control-group">
+								<div class="form-group">
 									<div class="form-inline">
-										<label class="control-label col-md-2 pull-left"><?php echo $entry_rating; ?> <span
+										<label class="control-label col-md-3 pull-left"><?php echo $entry_rating; ?> <span
 													class="red">*</span></label>
 										<?php echo $rating_element; ?>
 									</div>
 								</div>
-								<div class="control-group mt40">
+								<div class="form-group mt40">
 									<div class="form-inline">
-										<label class="control-label col-md-2"><?php echo $entry_name; ?> <span class="red">*</span></label>
+										<label class="control-label col-md-3"><?php echo $entry_name; ?> <span class="red">*</span></label>
 										<?php echo $review_name; ?>
 									</div>
 								</div>
-								<div class="control-group">
+								<div class="form-group">
 									<div class="form-inline">
-										<label class="control-label col-md-2"><?php echo $entry_review; ?> <span
+										<label class="control-label col-md-3"><?php echo $entry_review; ?> <span
 													class="red">*</span></label>
 										<?php echo $review_text; ?>
 									</div>
-									<div class="controls"><?php echo $text_note; ?></div>
+									<div class="input-group"><?php echo $text_note; ?></div>
 								</div>
-								<div class="clear control-group">
+								<div class="clear form-group">
 									<label class="control-label"><?php echo $entry_captcha; ?> <span
 												class="red">*</span></label>
 
 									<div class="form-inline">
-										<label class="control-label col-md-2"><img src="index.php?rt=common/captcha"
-																				id="captcha_img" alt=""/></label>
+										<label class="control-label col-md-3">
+											<img src="index.php?rt=common/captcha" id="captcha_img" alt=""/>
+										</label>
 										<?php echo $review_captcha; ?>
-									</div>
-								</div>
-								<div class="control-group col-md-4">
-									<div class="pull-right">
-										<?php echo $review_button; ?>
+										&nbsp;&nbsp;<?php echo $review_button; ?>
 									</div>
 								</div>
 							</fieldset>
@@ -304,7 +301,7 @@
 					<div class="tab-pane" id="producttag">
 						<ul class="tags">
 							<?php foreach ($tags as $tag) { ?>
-							<li><a href="<?php echo $tag['href']; ?>"><i class="icon-tag"></i><?php echo $tag['tag']; ?></a></li>
+							<li><a href="<?php echo $tag['href']; ?>"><i class="fa fa-tag"></i><?php echo $tag['tag']; ?></a></li>
 								<?php } ?>
 						</ul>
 					</div>
@@ -312,14 +309,14 @@
 
 				<?php if ($related_products) { ?>
 					<div class="tab-pane" id="relatedproducts">
-						<ul class="side_prd_list">
+						<ul class="row side_prd_list">
 							<?php foreach ($related_products as $related_product) {
 								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' alt='" . $related_product['stars'] . "' />" : '';
 								if (!$display_price) {
 									$related_product['price'] = $related_product['special'] = '';
 								}
 								?>
-								<li class="related_product">
+								<li class="col-md-4 col-sm-6 col-xs-12 related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
 									<a class="productname"
 									   href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
@@ -327,16 +324,13 @@
 
 									<div class="price">
 										<?php if ($related_product['special']) { ?>
-											<div class="pricenew"><?php echo $related_product['special'] ?></div>
-											<div class="priceold"><?php echo $related_product['price'] ?></div>
+											<span class="pricenew"><?php echo $related_product['special'] ?></span>
+											<span class="priceold"><?php echo $related_product['price'] ?></span>
 										<?php } else { ?>
-											<div class="oneprice"><?php echo $related_product['price'] ?></div>
+											<span class="oneprice"><?php echo $related_product['price'] ?></span>
 										<?php } ?>
 									</div>
 								</li>
-
-
-
 							<?php } ?>
 						</ul>
 					</div>
@@ -381,7 +375,7 @@
 			return false;
 		});
 
-		$('#current_reviews').load('index.php?rt=product/review/review&product_id=<?php echo $product_id; ?>');
+		reload_review('index.php?rt=product/review/review&product_id=<?php echo $product_id; ?>');
 
 	});
 
@@ -390,6 +384,12 @@
 	});
 	$('#review_submit').click(function () {
 		review();
+	})
+	
+	//process clicks in review pagination
+	$('#current_reviews').on('click', '.pagination a', function () {
+		reload_review($(this).attr('href'));
+		return false;
 	})
 
 	/* Process images for product options */
@@ -457,6 +457,10 @@
 
 	}
 
+	function reload_review( url) {
+		$('#current_reviews').load(url);
+	}
+
 	function review() {
 		var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 
@@ -474,11 +478,17 @@
 				$('#review_button').attr('disabled', '');
 				$('.wait').remove();
 			},
+            error: function (jqXHR, exception) {
+            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
+				$('#review .alert').remove();
+				$('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+			},
 			success: function (data) {
 				if (data.error) {
+					$('#review .alert').remove();
 					$('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
-				}
-				if (data.success) {
+				} else {
+					$('#review .alert').remove();
 					$('#review_title').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
 
 					$('input[name=\'name\']').val('');

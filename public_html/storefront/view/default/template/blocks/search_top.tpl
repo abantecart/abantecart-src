@@ -9,7 +9,7 @@
 			   placeholder="<?php echo $text_keyword; ?>"
 			   value=""
     		   data-toggle="dropdown"/>
-    	 <div class="button-in-search" title="<?php echo $button_go; ?>"><i class="icon-search"></i></div>
+    	 <div class="button-in-search" title="<?php echo $button_go; ?>"><i class="fa fa-search"></i></div>
     <?php
     	$categories = $this->cache->get('category.list.-1.0', (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
     	if($categories){

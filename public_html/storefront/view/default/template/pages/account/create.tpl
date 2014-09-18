@@ -1,5 +1,5 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="icon-group"></i> <?php echo $heading_title; ?></span>
+  <span class="maintext"><i class="fa fa-group"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
@@ -17,7 +17,7 @@
 </div>
 <?php } ?>
 
-<div class="container-fluid">
+<div class="contentpanel">
 	<?php echo $form['form_open']; ?>
 	
 	<p><?php echo $text_account_already; ?></p>
@@ -32,11 +32,11 @@
 			foreach ($field_list as $field_name) {
 		?>
 			<div class="form-group <?php echo ${'error_'.$field_name} ? 'has-error' : ''; ?>">
-				<label class="col-sm-3 control-label"><?php echo ${'entry_'.$field_name}; ?></label>
+				<label class="control-label col-sm-4"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="input-group col-sm-4">
 				    <?php echo $form[$field_name]; ?>
 				</div>
-				<span class="col-sm-offset-3 help-block"><?php echo ${'error_'.$field_name}; ?></span>
+				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
 			</div>		
 		<?php
 			}
@@ -60,11 +60,11 @@
 			foreach ($field_list as $field_name => $field_id) {
 		?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
-				<label class="col-sm-3 control-label"><?php echo ${'entry_'.$field_name}; ?></label>
+				<label class="control-label col-sm-4"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="input-group col-sm-4">
 				    <?php echo $form[$field_id]; ?>
 				</div>
-				<span class="col-sm-offset-3 help-block"><?php echo ${'error_'.$field_name}; ?></span>				
+				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>				
 			</div>		
 		<?php
 			}
@@ -76,18 +76,18 @@
 	<div class="registerbox form-horizontal">
 		<fieldset>
 			<div class="form-group <?php if ($error_password) echo 'has-error'; ?>">
-				<label class="col-sm-3 control-label"><?php echo $entry_password; ?></label>
+				<label class="col-sm-4 control-label"><?php echo $entry_password; ?></label>
 				<div class="input-group col-sm-4">
 				    <?php echo $form['password']; ?>
 				</div>
-				<span class="col-sm-offset-3 help-block"><?php echo $error_password; ?></span>
+				<span class="help-block"><?php echo $error_password; ?></span>
 			</div>
 			<div class="form-group <?php if ($error_confirm) echo 'has-error'; ?>">
-				<label class="col-sm-3 control-label"><?php echo $entry_confirm; ?></label>
+				<label class="col-sm-4 control-label"><?php echo $entry_confirm; ?></label>
 				<div class="input-group col-sm-4">
 				    <?php echo $form['confirm']; ?>
 				</div>
-				<span class="col-sm-offset-3 help-block"><?php echo $error_confirm; ?></span>
+				<span class="help-block"><?php echo $error_confirm; ?></span>
 			</div>
 		</fieldset>
 	</div>
@@ -98,7 +98,7 @@
 	<div class="registerbox form-horizontal">
 		<fieldset>
 			<div class="form-group">
-				<label class="col-sm-3 control-label"><?php echo $entry_newsletter; ?></label>
+				<label class="col-sm-4 control-label"><?php echo $entry_newsletter; ?></label>
 				<div class="input-group col-sm-4">
 				    <?php echo $form['newsletter']; ?>
 				</div>
@@ -108,7 +108,7 @@
 
 
 	<div class="form-group">
-	    <div class="controls">
+		<div class="col-md-12">
 	<?php if ($text_agree) { ?>
 			<label class="col-md-6 mt20 mb40">
 				<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
@@ -119,7 +119,7 @@
 	<?php } ?>    	
 	    	<div class="col-md-2 mt20 mb40">
 	    		<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
-	    		    <i class="icon-ok icon-white"></i>
+	    		    <i class="fa fa-check"></i>
 	    		    <?php echo $form['continue']->name ?>
 	    		</button>
 	    	</div>	

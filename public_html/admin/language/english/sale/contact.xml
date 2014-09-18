@@ -29,10 +29,6 @@
 		<value><![CDATA[Only Customers]]></value>
 	</definition>
 	<definition>
-		<key>text_search</key>
-		<value><![CDATA[Search]]></value>
-	</definition>
-	<definition>
 		<key>entry_store</key>
 		<value><![CDATA[From:]]></value>
 	</definition>
@@ -81,11 +77,11 @@
 		<value><![CDATA[(Total to be sent to: %s )]]></value>
 	</definition>
 	<definition>
-		<key>text_search_placeholder</key>
-		<value><![CDATA[Search Customer]]></value>
+		<key>text_select_product</key>
+		<value><![CDATA[- Select Products -]]></value>
 	</definition>
 	<definition>
-		<key>text_select_category</key>
-		<value><![CDATA[- Select Category -]]></value>
+		<key>text_select_customer</key>
+		<value><![CDATA[- Select Customers -]]></value>
 	</definition>
 </definitions>

@@ -2,7 +2,7 @@
 	<div class="leftpanel">
 
 		<div class="logopanel">
-			<i class="sticky_header fa fa-thumb-tack"></i>
+			<i class="sticky_header fa fa-circle-o fa-fw"></i>
 			<a href="<?php echo $home; ?>">
 				<?php
 				if ($this->getHookVar('logoimage_hookvar')) {
@@ -19,7 +19,7 @@
 		<!-- logopanel -->
 
 		<div class="leftpanelinner">
-			<i class="sticky_left fa fa-thumb-tack"></i>
+			<i class="sticky_left fa fa-circle-o fa-fw"></i>
 
 			<!-- This is only visible to small devices -->
 			<div class="visible-xs hidden-sm hidden-md hidden-lg">
