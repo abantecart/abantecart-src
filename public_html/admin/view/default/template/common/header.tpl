@@ -212,8 +212,7 @@
 				</li>
 				<li>
 					<button id="right_side_view" class="btn btn-default tp-icon chat-icon">
-						<i class="fa fa-globe fa-lg"></i>
-						<span class="badge">2</span>
+						<i class="fa fa-folder fa-lg"></i>
 					</button>
 				</li>
 			</ul>

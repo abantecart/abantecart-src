@@ -137,7 +137,7 @@
 }
 
 .toggle-success .toggle-slide.active {
-  border-color: #1CAF9A;
+  border-color: #285e8e;
 }
 
 .toggle-success .toggle-slide .toggle-on,
@@ -149,7 +149,7 @@
 
 .toggle-success .toggle-slide .toggle-on,
 .toggle-success .toggle-select .toggle-inner .active {
-  background: #1CAF9A;
+  background: #3276b1;
   color: #fff;
 }
 
