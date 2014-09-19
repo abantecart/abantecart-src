@@ -41,6 +41,14 @@
 		<value><![CDATA[Edit Settings:]]></value>
 	</definition>
 	<definition>
+		<key>text_edit_template_settings</key>
+		<value><![CDATA[Edit Template Settings:]]></value>
+	</definition>
+	<definition>
+		<key>text_common_template_settings</key>
+		<value><![CDATA[Common Settings]]></value>
+	</definition>
+	<definition>
 		<key>text_edit_store</key>
 		<value><![CDATA[Edit Store]]></value>
 	</definition>

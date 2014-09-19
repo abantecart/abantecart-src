@@ -574,6 +574,11 @@ h4, .h4 {
    border-bottom: 0;
 }
 
+
+.panel-heading .itemopt .fa {
+	vertical-align: middle;
+}
+
 .panel-alt .panel-heading {
    padding: 20px 20px;
 }

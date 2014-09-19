@@ -1387,11 +1387,31 @@ class ResourceHtmlElement extends HtmlElement {
 	}
 
 	public function getHtml() {
-		$this->view->batchAssign(array( 'id' => $this->element_id,
+		if(empty($this->rl_type)){
+			throw new AException(AC_ERR_LOAD, 'Error: Could not load HTML element of resource library. Resource type not given!');
+		}
+		$data = array(
+			'id' => $this->element_id,
+			'wrapper_id' => $this->element_id.'_wrapper',
 			'name' => $this->name,
-			'value' => $this->value,
-			'preview' => $this->preview,
-		));
+			'resource_path' => $this->resource_path, //path
+			'resource_id'=>$this->resource_id, //resource_id
+			'object_name'=> $this->object_name,
+			'object_id'=> $this->object_id,
+			'rl_type'=> $this->rl_type // image or audio or pdf etc
+		);
+		if(!$data['resource_id'] && $data['resource_path']){
+			$path = ltrim($data['resource_path'], $data['rl_type'].'/');
+			$r = new AResource($data['rl_type']);
+			$data['resource_id'] = $r->getIdFromHexPath( $path );
+		}
+		if($data['resource_id'] && !$data['resource_path']){
+			$r = new AResource($data['rl_type']);
+			$info = $r->getResource($data['resource_id']);
+			$data['resource_path'] = $data['rl_type'].'/'.$info['resource_path'];
+		}
+
+		$this->view->batchAssign($data);
 
 		$return = $this->view->fetch('form/resource.tpl');
 		return $return;
@@ -1623,6 +1643,7 @@ class ZonesHtmlElement extends HtmlElement {
 		$results = $this->data[ 'registry' ]->get('model_localisation_country')->getCountries();
 		$this->options = array();
 		$this->zone_options = array();
+		$this->default_zone_field_name = 'zone_id';
 		$config_country_id = $this->data['registry']->get('config')->get('config_country_id');
 		foreach ($results as $c) {
 			if($c[ 'country_id' ]== $config_country_id){
@@ -1702,6 +1723,7 @@ class ZonesHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'url' => $url,
+				'zone_field_name' => $this->zone_field_name ? $this->zone_field_name : $this->default_zone_name,
 				'zone_name' => $this->zone_name ? $this->zone_name : $this->default_zone_name,
 				'zone_value' => $this->zone_value ? $this->zone_value : $this->default_zone_value,
 				'zone_options' => $this->zone_options,

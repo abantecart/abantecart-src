@@ -39,6 +39,7 @@ class AConfigManager {
 	protected $registry;
 	public $errors = 0;
 	private $groups = array();
+	private $templates = array();
 
 	public function __construct() {
 		if (!IS_ADMIN) { // forbid for non admin calls
@@ -188,12 +189,6 @@ class AConfigManager {
 			'style' => 'medium-field',
 		));
 
-		$this->load->model('localisation/country');
-		$countries = array();
-		$results = $this->model_localisation_country->getCountries();
-		foreach ($results as $c) {
-			$countries[$c['country_id']] = $c['name'];
-		}
 
 		$results = $this->language->getAvailableLanguages();
 		$languages = array();
@@ -225,19 +220,15 @@ class AConfigManager {
 		}
 
 		$fields['country'] = $form->getFieldHtml($props[] = array(
-			'type' => 'selectbox',
+			'type' => 'zones',
 			'name' => 'config_country_id',
 			'value' => $data['config_country_id'],
-			'options' => $countries,
-			'style' => 'large-field',
+			'zone_field_name' => 'config_zone_id',
+			'zone_value' => $data['config_zone_id'],
+			'submit_mode' => 'id'
 		));
-		$fields['zone'] = $form->getFieldHtml($props[] = array(
-			'type' => 'selectbox',
-			'name' => 'config_zone_id',
-			'value' => $data['config_zone_id'],
-			'options' => array(),
-			'style' => 'large-field',
-		));
+
+
 		$fields['language'] = $form->getFieldHtml($props[] = array(
 			'type' => 'selectbox',
 			'name' => 'config_storefront_language',
@@ -633,183 +624,203 @@ class AConfigManager {
 	 */
 	private function _build_form_appearance($form, $data) {
 		$fields = array();
-		//appearance section 
-		$templates = array();
-		$directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR);
-		foreach ($directories as $directory) {
-			$templates[basename($directory)] = basename($directory);
-		}
-		$extension_templates = $this->extension_manager->getExtensionsList(array('filter' => 'template', 'status' => 1));
-		if ($extension_templates->total > 0)
-			foreach ($extension_templates->rows as $row) {
-				$templates[$row['key']] = $row['key'];
-			}
 
-		$fields['template'] = $form->getFieldHtml($props[] = array(
-			'type' => 'selectbox',
-			'name' => 'config_storefront_template',
-			'value' => $data['config_storefront_template'],
-			'options' => $templates,
-			'style' => 'large-field',
-		));
+		//common section
+		if( empty($data['tmpl_id']) ){
+			$templates = $this->getTemplatesLIst('storefront');
 
+			$fields['template'] = $form->getFieldHtml($props[] = array(
+				'type' => 'selectbox',
+				'name' => 'config_storefront_template',
+				'value' => $data['config_storefront_template'],
+				'options' => $templates,
+				'style' => 'large-field',
+			));
 
-		//appearance section
-		$templates = array();
-		$directories = glob(DIR_APP_SECTION . 'view/*', GLOB_ONLYDIR);
-		foreach ($directories as $directory) {
-			$templates[basename($directory)] = basename($directory);
-		}
+			//appearance section
+			$templates = $this->getTemplatesLIst('admin');
 
-		$fields['admin_template'] = $form->getFieldHtml($props[] = array(
-			'type' => 'selectbox',
-			'name' => 'admin_template',
-			'value' => $data['admin_template'],
-			'options' => $templates,
-			'style' => 'large-field',
-		));
+			$fields['admin_template'] = $form->getFieldHtml($props[] = array(
+				'type' => 'selectbox',
+				'name' => 'admin_template',
+				'value' => $data['admin_template'],
+				'options' => $templates,
+				'style' => 'large-field',
+			));
+			$fields['admin_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'admin_width',
+				'value' => $data['admin_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
 
-		$fields['storefront_width'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'storefront_width',
-			'value' => $data['storefront_width'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['admin_width'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'admin_width',
-			'value' => $data['admin_width'],
-			'style' => 'small-field',
-			'required' => true,
-		));
+		}else{ // settings per template
 
-		$fields['logo'] = $form->getFieldHtml($props[] = array(
-			'type' => 'hidden',
-			'name' => 'config_logo',
-			'value' => htmlspecialchars($data['config_logo'], ENT_COMPAT, 'UTF-8'),
-		));
-		$fields['icon'] = $form->getFieldHtml($props[] = array(
-			'type' => 'hidden',
-			'name' => 'config_icon',
-			'value' => htmlspecialchars($data['config_icon'], ENT_COMPAT, 'UTF-8'),
-		));
-		$fields['image_thumb_width'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_thumb_width',
-			'value' => $data['config_image_thumb_width'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_thumb_height'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_thumb_height',
-			'value' => $data['config_image_thumb_height'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_popup_width'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_popup_width',
-			'value' => $data['config_image_popup_width'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_popup_height'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_popup_height',
-			'value' => $data['config_image_popup_height'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_category_width'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_category_width',
-			'value' => $data['config_image_category_width'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_category_height'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_category_height',
-			'value' => $data['config_image_category_height'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_product_width'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_product_width',
-			'value' => $data['config_image_product_width'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_product_height'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_product_height',
-			'value' => $data['config_image_product_height'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_additional_width'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_additional_width',
-			'value' => $data['config_image_additional_width'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_additional_height'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_additional_height',
-			'value' => $data['config_image_additional_height'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_related_width'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_related_width',
-			'value' => $data['config_image_related_width'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_related_height'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_related_height',
-			'value' => $data['config_image_related_height'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_cart_width'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_cart_width',
-			'value' => $data['config_image_cart_width'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_cart_height'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_cart_height',
-			'value' => $data['config_image_cart_height'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_grid_width'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'config_image_grid_width',
-			'value' => $data['config_image_grid_width'],
-			'style' => 'small-field',
-			'required' => true,
-		));
-		$fields['image_grid_height'] = $form->getFieldHtml($props[] = array(
+			$fields['storefront_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'storefront_width',
+				'value' => $data['storefront_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['logo'] = $form->getFieldHtml($props[] = array(
+				'type' => 'resource',
+				'name' => 'config_logo',
+				'resource_path' => htmlspecialchars($data['config_logo'], ENT_COMPAT, 'UTF-8'),
+				'rl_type' => 'image'
+			));
+
+			$fields['icon'] = $form->getFieldHtml($props[] = array(
+				'type' => 'resource',
+				'name' => 'config_icon',
+				'resource_path' => htmlspecialchars($data['config_icon'], ENT_COMPAT, 'UTF-8'),
+				'rl_type' => 'image'
+			));
+			$fields['image_thumb_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_thumb_width',
+				'value' => $data['config_image_thumb_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_thumb_height'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_thumb_height',
+				'value' => $data['config_image_thumb_height'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_popup_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_popup_width',
+				'value' => $data['config_image_popup_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_popup_height'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_popup_height',
+				'value' => $data['config_image_popup_height'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_category_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_category_width',
+				'value' => $data['config_image_category_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_category_height'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_category_height',
+				'value' => $data['config_image_category_height'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_product_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_product_width',
+				'value' => $data['config_image_product_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_product_height'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_product_height',
+				'value' => $data['config_image_product_height'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_additional_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_additional_width',
+				'value' => $data['config_image_additional_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_additional_height'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_additional_height',
+				'value' => $data['config_image_additional_height'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_related_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_related_width',
+				'value' => $data['config_image_related_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_related_height'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_related_height',
+				'value' => $data['config_image_related_height'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_cart_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_cart_width',
+				'value' => $data['config_image_cart_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_cart_height'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_cart_height',
+				'value' => $data['config_image_cart_height'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_grid_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_grid_width',
+				'value' => $data['config_image_grid_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_grid_height'] = $form->getFieldHtml($props[] = array(
 			'type' => 'input',
 			'name' => 'config_image_grid_height',
 			'value' => $data['config_image_grid_height'],
 			'style' => 'small-field',
 			'required' => true,
-		));
+			));
+		}
+
 		if (isset($data['one_field'])) {
 			$fields = $this->_filterField($fields, $props, $data['one_field']);
 		}
 		return $fields;
+	}
+
+	/**
+	 * @param string $section - can be storefront or admin
+	 * @return array
+	 */
+	public function getTemplatesLIst($section){
+		if($this->templates[$section]){
+			return $this->templates[$section];
+		}
+
+		$basedir = $section=='admin' ? DIR_APP_SECTION : DIR_STOREFRONT;
+
+		$directories = glob($basedir . 'view/*', GLOB_ONLYDIR);
+		foreach ($directories as $directory) {
+			$this->templates[$section][basename($directory)] = basename($directory);
+		}
+
+
+		$extension_templates = $this->extension_manager->getExtensionsList(array('filter' => 'template', 'status' => 1));
+		if ($extension_templates->total > 0){
+			foreach ($extension_templates->rows as $row) {
+				$this->templates[$section][$row['key']] = $row['key'];
+			}
+		}
+		return $this->templates[$section];
 	}
 
 	/**
@@ -1071,7 +1082,6 @@ class AConfigManager {
 					if ($field_name == 'config_title' && !$field_value) {
 						$error['title'] = $this->language->get('error_title');
 					}
-
 					if ($field_name == 'config_url' && !$field_value) {
 						$error['url'] = $this->language->get('error_url');
 					}
@@ -1079,30 +1089,26 @@ class AConfigManager {
 						$error['ssl_url'] = $this->language->get('error_ssl_url');
 					}
 					if (sizeof($fields) > 1) {
-						if ((strlen(utf8_decode($fields['config_owner'])) < 2) || (strlen(utf8_decode($fields['config_owner'])) > 64)) {
+						if ( mb_strlen($fields['config_owner']) < 2 ||  mb_strlen( $fields['config_owner'] ) > 64 ) {
 							$error['owner'] = $this->language->get('error_owner');
 						}
 
-						if ((strlen(utf8_decode($fields['config_address'])) < 2) || (strlen(utf8_decode($fields['config_address'])) > 256)) {
+						if (  mb_strlen($fields['config_address']) < 2 ||  mb_strlen( $fields['config_address'] ) > 256 ) {
 							$error['address'] = $this->language->get('error_address');
 						}
 
 						$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}\.[A-Z]{2,6}$/i';
-						if ((strlen(utf8_decode($fields['store_main_email'])) > 96) || (!preg_match($pattern, $fields['store_main_email']))) {
+						if ( mb_strlen($fields['store_main_email']) > 96 || (!preg_match($pattern, $fields['store_main_email']))) {
 							$error['email'] = $this->language->get('error_email');
 						}
 
-						if ((strlen(utf8_decode($fields['config_telephone'])) < 2) || (strlen(utf8_decode($fields['config_telephone'])) > 32)) {
+						if ( mb_strlen($fields['config_telephone']) < 2 ||  mb_strlen( $fields['config_telephone'] ) > 32 ) {
 							$error['telephone'] = $this->language->get('error_telephone');
 						}
 					}
 					break;
 
-
 				case 'general':
-					//if ($field == 'config_admin_limit' &&  !$value) {
-					//$error['admin_limit'] = $this->language->get('error_limit');
-					//}
 
 					if ($field_name == 'config_catalog_limit' && !$field_value) {
 						$error['catalog_limit'] = $this->language->get('error_limit');

@@ -46,12 +46,14 @@ if ($action == 'list_object') {
 						</div>
 					</form>
 				</li>
+			<?php if($mode!='single'){?>
 				<li>
 					<div class="ckbox ckbox-default">
 						<input type="checkbox" value="1" id="rl_selectall">
 						<label for="rl_selectall"><?php echo $text_select_all; ?></label>
 					</div>
 				</li>
+			<?php }?>
 				<li>
 					<a id="add_resource" data-type="<?php echo $type; ?>"
 					   class="btn btn-xs btn-default add_resource tooltips"
@@ -63,6 +65,7 @@ if ($action == 'list_object') {
 									class="fa fa-save"></i></a>
 					</li>
 				<?php }
+			if($mode!='single'){
 
 				if($action=='list_object'){ ?>
 					<li><a class="itemopt disabled rl_unlink_multiple tooltips" onclick="return false;" href="#"
@@ -71,12 +74,13 @@ if ($action == 'list_object') {
 					<li><a class="itemopt disabled rl_link_multiple tooltips" onclick="return false;" href="#"
 						   data-original-title="<?php echo $txt_link_resource; ?>"><i class="fa fa-link"></i></a></li>
 				<?php } ?>
-
 				<li>
 					<a class="itemopt disabled rl_delete_multiple" onclick="multi_action('delete'); return false;" href="#"
 					   data-confirmation="delete"><i class="fa fa-trash-o"></i></a>
 				</li>
-				<?php if ($form_language_switch) { ?>
+				<?php
+			}
+				if ($form_language_switch) { ?>
 					<li>
 						<?php echo $form_language_switch; ?>
 					</li>
@@ -115,7 +119,7 @@ if ($action == 'list_object') {
 							<div class="col-xs-6 col-sm-2 col-md-2 document">
 								<div class="thmb <?php if ($rl['mapped_to_current']) { echo "mapped"; } ?>"	data-rl-id="<?php echo $rl['resource_id']; ?>">
 									<div class="ckbox ckbox-default" style="display: none;">
-										<input type="checkbox" value="" id="check_<?php echo $rl['resource_id']; ?>">
+										<input class="checksign" type="checkbox" value="<?php echo $rl['resource_id']; ?>" id="check_<?php echo $rl['resource_id']; ?>">
 										<label for="check<?php echo $rl['resource_id']; ?>"></label>
 										<?php if (has_value($active_object)) {
 											if (!$rl['sort_order']) {
@@ -136,9 +140,11 @@ if ($action == 'list_object') {
 										<ul role="menu" class="dropdown-menu rl-menu"
 											data-rl-id="<?php echo $rl['resource_id']; ?>">
 											<li><a class="resource_edit"
+												   data-mode="<?php echo $mode; ?>"
 												   data-rl-id="<?php echo $rl['resource_id']; ?>"
 												   data-type="<?php echo $type; ?>"
 												   href="#" onclick="return false;"><i class="fa fa-pencil"></i><?php echo $text_edit;?></a></li>
+										<?php if( $mode!='single' ){?>
 											<li>
 												<?php if($action=='list_object' || $rl['mapped_to_current']){?>
 												<a class="rl_unlink"
@@ -152,16 +158,11 @@ if ($action == 'list_object') {
 													   href="#" onclick="return false;"><i class="fa fa-link"></i><?php echo $txt_link_resource; ?></a>
 												<?php } ?>
 											</li>
+										<?php } ?>
 											<li><a class="rl_download"
 												   data-rl-id="<?php echo $rl['resource_id']; ?>"
 												   data-type="<?php echo $type; ?>"
 												   href="#" onclick="return false;"><i class="fa fa-download"></i><?php echo $button_download;?></a></li>
-											<li><a class="rl_delete"
-												   data-rl-id="<?php echo $rl['resource_id']; ?>"
-												   data-type="<?php echo $type; ?>"
-												   href="#"
-												   onclick="delete_resource(<?php echo $rl['resource_id']; ?>); return false;"
-												   data-confirmation="delete"><i class="fa fa-trash-o"></i><?php echo $button_delete; ?></a></li>
 										</ul>
 									</div>
 									<?php if ($rl['resource_code']) { ?>
@@ -170,7 +171,9 @@ if ($action == 'list_object') {
 										</div>
 									<?php } else { ?>
 										<div class="thmb-prev">
-											<a class="resource_edit tooltips" data-type="<?php echo $type; ?>"
+											<a class="resource_edit tooltips"
+											   data-mode="<?php echo $mode; ?>"
+											   data-type="<?php echo $type; ?>"
 											   data-rl-id="<?php echo $rl['resource_id']; ?>"
 											   data-original-title="<?php echo $rl['name']; ?>" href="#">
 												<img alt="" class="img-responsive"
@@ -179,6 +182,7 @@ if ($action == 'list_object') {
 										</div>
 									<?php } ?>
 									<h5 class="rl-title"><a class="resource_edit tooltips ellipsis"
+															data-mode="<?php echo $mode; ?>"
 															data-type="<?php echo $type; ?>"
 															data-rl-id="<?php echo $rl['resource_id']; ?>"
 															data-original-title="<?php echo $rl['name']; ?>"

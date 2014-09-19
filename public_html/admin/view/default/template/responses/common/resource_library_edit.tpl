@@ -15,7 +15,7 @@
  <div class="tab-content rl-content">
 	<ul class="reslibrary-options">
         <li>
-          <a id="add_resource" class="btn btn-xs btn-default add_resource tooltips" data-original-title="<?php echo $button_add; ?>"><i class="fa fa-plus"></i></a>
+          <a id="add_resource" class="btn btn-xs btn-default add_resource tooltips" data-original-title="<?php echo $button_add; ?>"  data-type="<?php echo $type; ?>"><i class="fa fa-plus"></i></a>
         </li>
         <li>
           <a class="itemopt rl_download" data-rl-id="<?php echo $resource['resource_id']; ?>" href="#" onclick="return false;"><i class="fa fa-download"></i></a>
@@ -32,7 +32,7 @@
 			 data-rl-id="<?php echo $resource['resource_id']; ?>"
 			 data-type="<?php echo $type; ?>"
 			 onclick="return false;" href="#" data-original-title="<?php echo $txt_link_resource; ?>">
-		      <i class="fa fa-link"></i>	
+		      <i class="fa fa-link"></i>
 		  </a>
         </li>    
         <?php } ?>        
@@ -100,8 +100,6 @@
 				</form>
 			</div>
 
-
-			<?php echo $form['form_open'];?>
         	<?php } ?>		 
         	  				
 			<div class="form-group">
@@ -146,8 +144,15 @@
 			    	</button>
 			    	</div>
 			    </div>
-			    
-			    <?php if ( $resource['mapped_to_current'] ) { ?>
+			    <?php if($mode=='single'){?>
+				<div class="col-sm-3">
+					<a class="btn btn-default btn-xs rl_select tooltips"
+					   data-original-title="<?php echo $txt_select_resource; ?>"
+					   data-rl-id="<?php echo $resource_id; ?>"
+					   data-type="<?php echo $type; ?>"	><i class="fa fa-check-square-o fa-lg"></i>
+					</a>
+				</div>
+			    <?php } else if ( $resource['mapped_to_current'] ) { ?>
 			    <div class="col-sm-3">						
 		        	<a class="btn btn-default btn-xs rl_unlink tooltips"
 					   data-original-title="<?php echo $txt_unlink_resource; ?>"
@@ -164,13 +169,13 @@
 			    	</a>
 			    </div>	
 			    <?php } ?>	
-			    
+
 			</div>
-			    							
+
         </div><!-- col-sm-6 -->
 
         <div class="col-sm-6 col-xs-12">
-			<h3 class="panel-title"><?php echo $text_edit_resource ?></h3>
+			<h3 class="panel-title"></h3>
 
 			<?php if ($mode == 'new') { ?>
 			<div class="form-group">
@@ -203,8 +208,7 @@
 			    	<?php echo $form['field_description'];?>
 			    </div>
 			</div>
-             
-        </form>
+
         </div><!-- col-sm-6 -->
 	</div>
       
