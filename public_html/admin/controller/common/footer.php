@@ -48,6 +48,31 @@ class ControllerCommonFooter extends AController {
 			$this->view->assign('account_edit', $this->html->getSecureURL('index/edit_details', '', true));
 		}
 
+		//10 new orders and customers
+		$this->loadModel('sale/order');
+		$this->loadModel('sale/customer');
+		$filter = array(
+			'sort'  => 'o.date_added',
+			'order' => 'DESC',
+			'start' => 0,
+			'limit' => 10
+		);
+		$top_orders = $this->model_sale_order->getOrders($filter);
+		foreach( $top_orders as $indx => $order) {
+			$top_orders[$indx]['url'] = $this->html->getSecureURL('sale/order/details', '&order_id='.$order['order_id']);
+			$top_orders[$indx]['total'] = $this->currency->format($top_orders['total'], $this->config->get('config_currency'));
+		}
+		$this->view->assign('top_orders', $top_orders);
+		
+		$top_customers = $this->model_sale_customer->getCustomers($filter);
+		foreach( $top_customers as $indx => $customer) {
+			$top_customers[$indx]['url'] = $this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer['customer_id']);
+		}
+		$this->view->assign('top_customers', $top_customers);
+
+		$this->view->assign('new_orders', $this->language->get('new_orders'));
+		$this->view->assign('recent_customers', $this->language->get('recent_customers'));
+		
 		$this->processTemplate('common/footer.tpl');
 
         //update controller data

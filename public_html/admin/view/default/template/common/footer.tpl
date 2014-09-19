@@ -1,4 +1,4 @@
-		<div id="footer" class="row">
+		<div id="footer">
 		    <div class="col-md-5 footer_text flt_left">
 		      <p><?php echo $text_footer_left; ?></p>
 		    </div>
@@ -14,111 +14,57 @@
   <div class="rightpanel">
     <!-- Nav tabs -->
     <ul class="nav nav-tabs nav-justified">
-        <li class="active"><a href="#rp-ant" data-toggle="tab"><i class="fa fa-bullhorn"></i></a></li>
-        <li><a href="#rp-alluser" data-toggle="tab"><i class="fa fa-users"></i></a></li>
+        <li class="active"><a href="#rp-alluser" data-toggle="tab"><i class="fa fa-users"></i></a></li>
         <li><a href="#rp-orders" data-toggle="tab"><i class="fa fa-money"></i></a></li>
-        <li><a href="#rp-history" data-toggle="tab"><i class="fa fa-clock-o"></i></a></li>
+        <?php echo $this->getHookVar('rightpanel_tabs'); ?>
     </ul>
         
     <!-- Tab panes -->
     <div class="tab-content">
-        <div class="tab-pane pane-ant active" id="rp-ant">
-            
-            <h5 class="sidebartitle mb20">Notifications</h5>
-            <div class="form-group">
-                <label class="col-xs-8 control-label">Show Offline Users</label>
-                <div class="col-xs-4 control-label">
-                    <div class="toggle toggle-success"></div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="col-xs-8 control-label">Enable History</label>
-                <div class="col-xs-4 control-label">
-                    <div class="toggle toggle-success"></div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="col-xs-8 control-label">Show Full Name</label>
-                <div class="col-xs-4 control-label">
-                    <div class="toggle-chat1 toggle-success"></div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="col-xs-8 control-label">Show Location</label>
-                <div class="col-xs-4 control-label">
-                    <div class="toggle toggle-success"></div>
-                </div>
-            </div>
-    
-        </div>
-        <div class="tab-pane" id="rp-alluser">
-            <h5 class="sidebartitle">Online Users</h5>
-            <ul class="chatuserlist">
-                <li class="online">
+        <div class="tab-pane active" id="rp-alluser">
+            <h5 class="sidebartitle"><?php echo $recent_customers; ?></h5>
+            <?php foreach( $top_customers as $customer) { ?> 
+            <ul class="latestuserlist">
+            	<?php if ($customer['approved']) { ?> 
+                <li class="approved">
+                <?php } else { ?> 
+                <li class="notapproved">
+                <?php } ?> 
                     <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="" class="media-object">
+                        <a href="<?php echo $customer['url']; ?>" class="pull-left media-thumb">
+                            <img class="media-object" src="<?php echo getGravatar($customer['email']); ?>" alt="<?php echo $customer['name']; ?>"/>
                         </a>
                         <div class="media-body">
-                            <strong>Eileen Sideways</strong>
-                            <small>Los Angeles, CA</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-            </ul>
-            
-            <div class="mb30"></div>
-            
-            <h5 class="sidebartitle">Offline Users</h5>
-            <ul class="chatuserlist">
-                <li>
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            <img alt="" src="" class="media-object">
-                        </a>
-                        <div class="media-body">
-                            <strong>Eileen Sideways</strong>
-                            <small>Los Angeles, CA</small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-            </ul>
-        </div>
-        <div class="tab-pane" id="rp-orders">
-            <h5 class="sidebartitle">Orders</h5>
-            <ul class="chatuserlist">
-                <li class="online">
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-							Order #1
-                        </a>
-                        <div class="media-body">
-                            <strong>Status: </strong>
-                            <small>Total: </small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-            </ul>
-        </div>
-        <div class="tab-pane" id="rp-history">
-            <h5 class="sidebartitle">History</h5>
-            <ul class="chatuserlist">
-                <li class="online">
-                    <div class="media">
-                        <a href="#" class="pull-left media-thumb">
-                            Page Name
-                        </a>
-                        <div class="media-body">
-                            <strong>Page Name </strong>
-                            <small>Visited on </small>
+                            <strong><a href="<?php echo $customer['url']; ?>"><?php echo $customer['name']; ?></a></strong>
+                            <small><?php echo $customer['email']; ?></small>
                         </div>
                     </div>
                 </li>
             </ul>
+            <?php } ?>    
         </div>
+        
+         <div class="tab-pane" id="rp-orders">
+            <h5 class="sidebartitle"><?php echo $new_orders; ?></h5>
+            <?php foreach( $top_orders as $order) { ?> 
+            <ul class="latestuserlist">
+                <li>
+                    <div class="media">
+                        <a href="<?php echo $order['url']; ?>" class="pull-left media-thumb">
+							Order #<?php echo $order[order_id];?>
+                        </a>
+                        <div class="media-body">
+                            <strong>Status: <?php echo $order[status];?></strong>
+                            <small>Total: <?php echo $order[total];?></small>
+                            <small><?php echo $order[date_added];?></small>
+                        </div>
+                    </div><!-- media -->
+                </li>
+            </ul>            
+            <?php } ?>                
+        </div>
+        
+        <?php echo $this->getHookVar('rightpanel_tabpanes'); ?>
         
     </div><!-- tab-content -->
   </div><!-- rightpanel -->

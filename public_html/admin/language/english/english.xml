@@ -597,4 +597,13 @@
 		<key>button_download</key>
 		<value><![CDATA[Download]]></value>
 	</definition>
+	<definition>
+		<key>recent_customers</key>
+		<value><![CDATA[Recently Registered Customers]]></value>
+	</definition>
+	<definition>
+		<key>new_orders</key>
+		<value><![CDATA[New Orders]]></value>
+	</definition>
+	
 </definitions>

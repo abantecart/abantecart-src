@@ -2139,25 +2139,30 @@ p {
    color: #fff;
 }
 
+.rightpanel a{
+	color: #fff;
+}
+
 .rightpanel .tab-content {
    background: none;
    -moz-box-shadow: none;
    -webkit-box-shadow: none;
    box-shadow: none;
-   margin-top: 45px;
+   margin-top: 65px;
+   padding: 15px;
 }
 
-.chatuserlist {
+.latestuserlist {
    list-style: none;
    padding: 0;
    border-bottom: 1px dotted rgba(255,255,255,0.05);
 }
 
-.chatuserlist li {
+.latestuserlist li {
    border-top: 1px dotted rgba(255,255,255,0.05);
 }
 
-.chatuserlist .media-thumb {
+.latestuserlist .media-thumb {
    -moz-border-radius: 50px;
    -webkit-border-radius: 50px;
    border-radius: 50px;
@@ -2166,40 +2171,40 @@ p {
    display: block;
 }
 
-.chatuserlist .media {
+.latestuserlist .media {
    margin: 10px 0;
    padding: 0;
 }
 
-.chatuserlist .online .media-thumb {
+.latestuserlist .approved .media-thumb {
    border-color: #F19013;
 }
 
-.chatuserlist .media-object {
+.latestuserlist .media-object {
    width: 30px;
    -moz-border-radius: 50px;
    -webkit-border-radius: 50px;
    border-radius: 50px;
 }
 
-.chatuserlist .media-body {
+.latestuserlist .media-body {
    line-height: normal;
    padding-top: 7px;
 }
 
-.chatuserlist .media-body small {
-   color: #666;
+.latestuserlist .media-body small {
+   color: #999;
    display: block;
 }
 
-.chatuserlist .media-body strong {
+.latestuserlist .media-body strong {
    color: #bbb;
    font-size: 13px;
    margin-bottom: 4px;
    display: block;
 }
 
-.chatuserlist .badge {
+.latestuserlist .badge {
    margin-top: 5px;
 }
 
