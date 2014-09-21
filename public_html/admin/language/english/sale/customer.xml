@@ -313,4 +313,17 @@
 		<key>text_edit_address</key>
 		<value><![CDATA[Edit Address]]></value>
 	</definition>
+    <definition>
+        <key>entry_default</key>
+        <value><![CDATA[Default Address:]]></value>
+    </definition>
+    <definition>
+        <key>error_delete_default</key>
+        <value><![CDATA[Error: Default address cannnot be deleted!]]></value>
+    </definition>
+    <definition>
+        <key>error_delete_last</key>
+        <value><![CDATA[Error: you must have at least one address!]]></value>
+    </definition>
+	
 </definitions>

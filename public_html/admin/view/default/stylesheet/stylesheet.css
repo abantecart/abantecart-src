@@ -15,7 +15,6 @@ AbanteCart brand color styles: #064770 (dark blue) #F19013 (Orange)
 @import url('abantecart.jquery.ui.css');
 @import url('form.css');
 @import url('chosen.bootstrap.css');
-@import url('toggles.css');
 @import url('animate.css');
 
 /*
@@ -1012,7 +1011,7 @@ p {
 	text-decoration: none;
 }
 .content-nav > li i {
-	font-size: 16px;
+	font-size: 20px;
 	margin-right: 5px;
 }
 .content-nav .btn-group {
@@ -2702,6 +2701,12 @@ body.stickyheader .sticky_left {
     background-color: #F19013;
     border-color: #285E8E;
     color: #FFFFFF;
+}
+.btn-toggle.btn_switch {
+	min-width: 75px;
+}
+.btn-toggle.btn_switch .btn-default:hover, .btn-toggle.btn_switch .btn-default:hover {
+	background-color: #fff;
 }
 .btn-off {
     background-color: #EBEBEB !important;

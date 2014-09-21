@@ -1,17 +1,10 @@
 <?php if (!empty($error['warning'])) { ?>
-	<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
-<?php
-} else if (count(array_keys($error))) {
-	foreach ($error as $key => $error_text) {
-		?>
-		<div class="warning alert alert-error alert-danger"><?php echo is_array($error_text) ? implode('<br>', $error_text) : $error_text; ?></div>
-	<?php
-	}
-}
-if ($success) {
-	?>
-	<div class="success alert alert-success"><?php echo $success; ?></div>
+<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
 <?php } ?>
+<?php if ($success) { ?>
+<div class="success alert alert-success"><?php echo $success; ?></div>
+<?php } ?>
+
 
 <ul class="nav nav-tabs nav-justified nav-profile">
 	<?php
@@ -30,26 +23,30 @@ if ($success) {
 	<?php echo $this->getHookVar('extension_tabs'); ?>
 </ul>
 
-
 <div class="tab-content">
+	<?php if ($customer_id) { ?>
 	<div class="panel-heading">
 			<div class="btn-group">
-				<button class="btn btn-default dropdown-toggle " type="button" data-toggle="dropdown">
+				<button class="btn btn-default dropdown-toggle tooltips" data-original-title="<?php echo $text_edit_address; ?>" title="<?php echo $text_edit_address; ?>" type="button" data-toggle="dropdown">
 					<i class="fa fa-envelope-o"></i>
 					<?php echo $current_address; ?><span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
 					<?php foreach ($addresses as $address) { ?>
 						<li><a href="<?php echo $address['href'] ?>"
-							   class="<?php echo $address['title'] == $current_address ? 'disabled' : ''; ?>"><?php echo $address['title'] ?></a>
+							   class="<?php echo $address['title'] == $current_address ? 'disabled' : ''; ?>">
+							   <?php if ($address['default']) { ?>
+							   <i class="fa fa-check"></i> 
+							   <?php } ?>
+							   <?php echo $address['title'] ?>
+							   </a>
 						</li>
 					<?php } ?>
 				</ul>
 			</div>
-			<a class="itemopt tooltips"
-			   data-original-title="<?php echo $text_add_address; ?>"
-			   title="<?php echo $text_add_address; ?>"
-			   href="<?php echo $add_address_url; ?>"><i class="fa fa-plus-circle fa-2x"></i></a>
+			<div class="btn-group ml20">
+				<a class="itemopt tooltips" data-original-title="<?php echo $text_add_address; ?>" title="<?php echo $text_add_address; ?>" href="<?php echo $add_address_url; ?>"><i class="fa fa-plus-circle fa-2x"></i></a>
+			</div>
 
 		<div class="pull-right">
 			<div class="btn-group mr10 toolbar">
@@ -77,8 +74,8 @@ if ($success) {
 			<?php echo $form_language_switch; ?>
 		</div>
 
-
 	</div>
+	<?php } ?>
 
 	<?php echo $form['form_open']; ?>
 	<div class="panel-body panel-body-nopadding">
@@ -121,12 +118,12 @@ if ($success) {
 					<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
 				</button>
 				&nbsp;
-				<a class="btn btn-default" href="<?php echo $cancel; ?>">
-					<i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
-				</a>
+				<button class="btn btn-default" type="reset">
+					<i class="fa fa-refresh"></i> <?php echo $form['reset']->text; ?>
+				</button>
 			<?php if($form['delete']){?>
 				&nbsp;
-				<a class="btn btn-default btn-danger" data-confirmation="delete"
+				<a class="btn btn-danger" data-confirmation="delete"
 				   href="<?php echo $form['delete']->href; ?>">
 					<i class="fa fa-trash-o"></i> <?php echo $form['delete']->text; ?>
 				</a>

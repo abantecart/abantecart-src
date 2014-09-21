@@ -93,9 +93,7 @@ jQuery(document).ready(function() {
    }
    
    bindCustomEvents();
-   
-   $('.toggle-chat1').toggles({on: false});
-      
+         
    // Sparkline
    $('#sidebar-chart').sparkline([4,3,3,1,4,3,2,2,3,10,9,6], {
 	  type: 'bar', 
@@ -417,9 +415,6 @@ var bindCustomEvents  = function(elm){
       $(this).closest('.panel').fadeOut(200);
       return false;
 	});
-   
-	//Toggles
-	$obj.find('.toggle').toggles({on: true});      
 }
 
 // Add tooltips to all elements in the selector. In case text does not fit

@@ -142,7 +142,7 @@ class ModelSaleCustomer extends Model {
 	}
 
 	public function deleteAddress($customer_id, $address_id){
-		if(!(int)$customer_id || !(int)$address ){
+		if(!(int)$customer_id || !(int)$address_id ){
 			return false;
 		}
 
@@ -173,6 +173,19 @@ class ModelSaleCustomer extends Model {
       	if ($field == 'password') {
         	$this->db->query("UPDATE " . $this->db->table("customers") . "
         	                  SET password = '" . $this->db->escape(AEncryption::getHash($value)) . "'
+        	                  WHERE customer_id = '" . (int)$customer_id . "'");
+      	}
+	}
+
+	/**
+	 * @param int $customer_id
+	 * @param string $default_address_id
+	 * @param none
+	 */
+	public function setDefaultAddress($customer_id, $default_address_id) {
+      	if ($customer_id && $default_address_id) {
+        	$this->db->query("UPDATE " . $this->db->table("customers") . "
+        	                  SET address_id = '" . (int)$default_address_id . "'
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
 	}

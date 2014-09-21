@@ -356,15 +356,24 @@
             });
         }
 
-		function flip_aswitch(elem){
+		function flip_aswitch(elem, value){
 			var $el = $(elem);
 		    //change input field state
 		    var $field = $el.parent('.afield');
-			if($el.val() == '1') {
-				$el.val('0');
-			} else {
-				$el.val('1');
-			}
+		    if (value) {
+		    	if ($el.val() == value) {
+		    		//no change
+		    		return false; 
+		    	} else {
+			    	$el.val(value);
+		    	}
+		    } else {
+				if($el.val() == '1') {
+					$el.val('0');
+				} else {
+					$el.val('1');
+				}		    
+		    }
 		    //reset off button 
 		    if ( $el.val() == 1) {
 		    	$field.find('.btn').removeClass('btn-off');
@@ -433,7 +442,6 @@
             var $triggerOnEdit = true;
             var $form = $field.parents('form');
             $form.prop('changed', 'true');
-
 			//check if need to trigger the auto save buttons set
             if (!o.triggerChanged || $field.hasClass('static_field') || $field.prop("readonly")) {
                 $triggerOnEdit = false;
@@ -502,8 +510,11 @@
 		            }
 		        //reset switch    
 		        } else if ($e.hasClass('aswitcher') ) {
-		        	flip_aswitch($e);
+		        	//set original value
+		        	flip_aswitch($e, $e.attr('data-orgvalue'));
 		        }
+		        //force trigger change event
+		        $e.change();
 		    });
 			//remove errors if any
 			$wrapper.parent().find('.ajax_result').remove();
@@ -726,8 +737,21 @@
 		
 		    return $err;
 		}
-		
-		
+
+		//process reset event of the form
+        $("[type='reset']").bind({
+        	"click.aform":function () {
+        		var arr = $("input, textarea, select").toArray();
+    			$.each(arr, function () {
+    				var $elem = $(this);
+    				resetField($elem);
+    				removeQuickSave($elem);
+    				//alert($elem.parent().html());
+    				$elem.parent().find('*').removeClass('changed');
+    			});
+			},
+  		});
+				
 		/* Process each form's element */
         return this.each(function () {
             var elem = $(this);
@@ -761,8 +785,6 @@
 
     };
 })(jQuery);
-
-
 
 var spanHelp2Toggles = function(){
     $("label, thead td").each(function () {

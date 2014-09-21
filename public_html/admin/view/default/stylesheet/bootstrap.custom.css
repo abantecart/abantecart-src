@@ -369,21 +369,21 @@ h4, .h4 {
 }
 
 .nav-pills > li > a {
-   -moz-border-radius: 3px;
-   -webkit-border-radius: 3px;
-   border-radius: 3px;
+   -moz-border-radius: 2px;
+   -webkit-border-radius: 2px;
+   border-radius: 2px;
 }
 
 .nav-tabs > li > a {
-   -moz-border-radius: 3px 3px 0 0;
-   -webkit-border-radius: 3px 3px 0 0;
-   border-radius: 3px 3px 0 0;
+   -moz-border-radius: 2px 2px 0 0;
+   -webkit-border-radius: 2px 2px 0 0;
+   border-radius: 2px 2px 0 0;
 }
 
 .panel {
-   -moz-border-radius: 3px;
-   -webkit-border-radius: 3px;
-   border-radius: 3px;
+   -moz-border-radius: 2px;
+   -webkit-border-radius: 2px;
+   border-radius: 2px;
    -moz-box-shadow: none;
    -webkit-box-shadow: none;
    box-shadow: none;
@@ -658,10 +658,16 @@ h4, .h4 {
    height: 46px;
 }
 
+.btn {
+   -moz-border-radius: 2px;
+   -webkit-border-radius: 2px;
+   border-radius: 2px;
+}
+
 .dropdown-menu {
-   -moz-border-radius: 3px;
-   -webkit-border-radius: 3px;
-   border-radius: 3px;
+   -moz-border-radius: 2px;
+   -webkit-border-radius: 2px;
+   border-radius: 2px;
    padding: 5px;
    -moz-box-shadow: 3px 3px 0 rgba(12,12,12,0.03);
    -webkit-box-shadow: 3px 3px 0 rgba(12,12,12,0.03);
@@ -743,9 +749,9 @@ h4, .h4 {
 }
 
 .alert {
-   -moz-border-radius: 3px;
-   -webkit-border-radius: 3px;
-   border-radius: 3px;
+   -moz-border-radius: 2px;
+   -webkit-border-radius: 2px;
+   border-radius: 2px;
 }
 
 .alert .close {
@@ -803,9 +809,9 @@ h4, .h4 {
    -moz-box-shadow: none;
    -webkit-box-shadow: none;
    box-shadow: none;
-   -moz-border-radius: 3px;
-   -webkit-border-radius: 3px;
-   border-radius: 3px;
+   -moz-border-radius: 2px;
+   -webkit-border-radius: 2pxs;
+   border-radius: 2px;
    height: 15px;
    margin-bottom: 15px;
 }
@@ -830,9 +836,9 @@ h4, .h4 {
 .nav-tabs {
    background: #d8dbde;
    border: 0;
-   -moz-border-radius: 3px 3px 0 0;
-   -webkit-border-radius: 3px 3px 0 0;
-   border-radius: 3px 3px 0 0;
+   -moz-border-radius: 2px 2px 0 0;
+   -webkit-border-radius: 2px 2px 0 0;
+   border-radius: 2px 2px 0 0;
 }
 
 .nav-tabs > li > a {
@@ -851,9 +857,9 @@ h4, .h4 {
    -moz-box-shadow: 0 3px 0 rgba(12,12,12,0.03);
    -webkit-box-shadow: 0 3px 0 rgba(12,12,12,0.03);
    box-shadow: 0 3px 0 rgba(12,12,12,0.03);
-   -moz-border-radius: 0 0 3px 3px;
-   -webkit-border-radius: 0 0 3px 3px;
-   border-radius: 0 0 3px 3px;
+   -moz-border-radius: 0 0 2px 2px;
+   -webkit-border-radius: 0 0 2px 2px;
+   border-radius: 0 0 2px 2px;
 }
 
 .nav-tabs > li.active > a,
@@ -964,15 +970,15 @@ h4, .h4 {
 }
 
 .panel-group .panel:last-child {
-   -moz-border-radius: 0 0 3px 3px;
-   -webkit-border-radius: 0 0 3px 3px;
-   border-radius: 0 0 3px 3px;
+   -moz-border-radius: 0 0 2px 2px;
+   -webkit-border-radius: 0 0 3px 2px;
+   border-radius: 0 0 2px 2px;
 }
 
 .panel-group .panel:first-child {
-   -moz-border-radius: 3px 3px 0 0;
-   -webkit-border-radius: 3px 3px 0 0;
-   border-radius: 3px 3px 0 0;
+   -moz-border-radius: 2px 2px 0 0;
+   -webkit-border-radius: 2px 2px 0 0;
+   border-radius: 2px 2px 0 0;
 }
 
 .panel-group-dark .panel {
@@ -1025,9 +1031,9 @@ h4, .h4 {
 }
 
 .pagination-split li a {
-   -moz-border-radius: 3px;
-   -webkit-border-radius: 3px;
-   border-radius: 3px;
+   -moz-border-radius: 2px;
+   -webkit-border-radius: 2px;
+   border-radius: 2px;
 }
 
 .pagination > .active > a,
@@ -1041,16 +1047,16 @@ h4, .h4 {
 }
 
 .pager li > a, .pager li > span {
-   -moz-border-radius: 3px;
-   -webkit-border-radius: 3px;
-   border-radius: 3px;
+   -moz-border-radius: 2px;
+   -webkit-border-radius: 2px;
+   border-radius: 2px;
    color: #636e7b;
 }
 
 .well {
-   -moz-border-radius: 3px;
-   -webkit-border-radius: 3px;
-   border-radius: 3px;
+   -moz-border-radius: 2px;
+   -webkit-border-radius: 2px;
+   border-radius: 2px;
    border: 0;
    -moz-box-shadow: none;
    -webkit-box-shadow: none;
@@ -1059,9 +1065,9 @@ h4, .h4 {
 }
 
 .thumbnail {
-   -moz-border-radius: 3px;
-   -webkit-border-radius: 3px;
-   border-radius: 3px;
+   -moz-border-radius: 2px;
+   -webkit-border-radius: 2px;
+   border-radius: 2px;
 	padding: 5px;
 }
 

@@ -89,7 +89,6 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->document->addBreadcrumb(array(
 				'href' => $this->html->getSecureURL('sale/customer'),
 				'text' => $this->language->get('heading_title'),
-				'separator' => ' :: ',
 				'current' => true
 		));
 
@@ -269,13 +268,8 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		if ($this->request->is_POST() && $this->_validateForm()) {
-			if(!has_value($this->request->get['address_id'])){
-				$customer_id = $this->model_sale_customer->addCustomer($this->request->post);
-				$redirect_url = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id);
-			}else{
-				$address_id = $this->model_sale_customer->addAddress( $this->request->get['customer_id'], $this->request->post );
-				$redirect_url = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $this->request->get['customer_id'].'&address_id='.$address_id);
-			}
+			$customer_id = $this->model_sale_customer->addCustomer($this->request->post);
+			$redirect_url = $this->html->getSecureURL('sale/customer/insert_address', '&customer_id=' . $customer_id);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($redirect_url);
 		}
@@ -292,6 +286,10 @@ class ControllerPagesSaleCustomer extends AController {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
+		$this->view->assign('error_warning', $this->session->data['warning']);
+		if (isset($this->session->data['warning'])) {
+			unset($this->session->data['warning']);
+		}
 		$this->view->assign('success', $this->session->data['success']);
 		if (isset($this->session->data['success'])) {
 			unset($this->session->data['success']);
@@ -299,19 +297,15 @@ class ControllerPagesSaleCustomer extends AController {
 
 		$customer_id = $this->request->get['customer_id'];
 		if ($this->request->is_POST() && $this->_validateForm($customer_id)) {
-			if(!has_value($this->request->get['address_id'])){
-				if( (int)$this->request->post['approved']) {
-					$customer_info = $this->model_sale_customer->getCustomer($customer_id);
-					if (!$customer_info['approved']) {
-						$this->_sendMail($customer_id);
-					}
-				}
-				$this->model_sale_customer->editCustomer($this->request->get['customer_id'], $this->request->post);
-				$redirect_url = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id);
-			}else{
-				$this->model_sale_customer->editAddress($this->request->get['customer_id'], $this->request->get['address_id'], $this->request->post);
-				$redirect_url = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id.'&address_id='.$this->request->get['address_id']);
+
+			if( (int)$this->request->post['approved']) {
+			    $customer_info = $this->model_sale_customer->getCustomer($customer_id);
+			    if (!$customer_info['approved']) {
+			    	$this->_sendMail($customer_id);
+			    }
 			}
+			$this->model_sale_customer->editCustomer($this->request->get['customer_id'], $this->request->post);
+			$redirect_url = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $redirect_url );
@@ -323,8 +317,9 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
+	private function _getForm( ) {
 
-	private function _getForm() {
+		$customer_id = $this->request->get['customer_id'];
 
 		$this->data['token'] = $this->session->data['token'];
 		$this->data['error'] = $this->error;
@@ -337,14 +332,35 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->document->addBreadcrumb(array(
 				'href' => $this->html->getSecureURL('sale/customer'),
 				'text' => $this->language->get('heading_title'),
-				'separator' => ' :: '
+				'current' => true
 		));
 
-		$this->data['cancel'] = $this->html->getSecureURL('sale/customer');
+		$this->data['addresses'] = array();
 
-		if (has_value($this->request->get['customer_id']) && $this->request->is_GET()) {
-			$customer_info = $this->model_sale_customer->getCustomer($this->request->get['customer_id']);
+		if (has_value($customer_id)) {
+			$customer_info = $this->model_sale_customer->getCustomer($customer_id);
+			$this->data['button_orders_count'] = $this->html->buildElement(
+					array(
+							'type' => 'button',
+							'name' => 'view orders',
+							'text' => $this->language->get('text_order') . ': ' . $customer_info['orders_count'],
+							'style' => 'button2',
+							'href' => $this->html->getSecureURL('sale/order', '&customer_id=' . $customer_id),
+							'title' => $this->language->get('text_view') . ' ' . $this->language->get('tab_history')
+					)
+			);
+			$this->data['addresses'] = $this->model_sale_customer->getAddressesByCustomerId($customer_id);	
 		}
+
+		foreach ($this->data['addresses'] as &$a) {
+		    $a['href'] = $this->html->getSecureURL('sale/customer/update_address', '&customer_id=' . $customer_id . '&address_id=' . $a['address_id']);
+		    $a['title'] = $a['address_1'] . ' ' . $a['address_2'];
+			//mark default address 
+			if ($customer_info['address_id'] == $a['address_id']) {
+				$a['default'] = 1;
+			}				
+		}
+		$this->data['add_address_url'] = $this->html->getSecureURL('sale/customer/update_address', '&customer_id=' . $customer_id); 
 
 		foreach ($this->fields as $f) {
 			if (isset ($this->request->post [$f])) {
@@ -355,20 +371,6 @@ class ControllerPagesSaleCustomer extends AController {
 				$this->data[$f] = '';
 			}
 		}
-
-		if (has_value($customer_info['orders_count']) && $this->request->get['customer_id']) {
-			$this->data['button_orders_count'] = $this->html->buildElement(
-					array(
-							'type' => 'button',
-							'name' => 'view orders',
-							'text' => $this->language->get('text_order') . ': ' . $customer_info['orders_count'],
-							'style' => 'button2',
-							'href' => $this->html->getSecureURL('sale/order', '&customer_id=' . $this->request->get['customer_id']),
-							'title' => $this->language->get('text_view') . ' ' . $this->language->get('tab_history')
-					)
-			);
-		}
-
 
 		if (!isset($this->data['customer_group_id'])) {
 			$this->data['customer_group_id'] = $this->config->get('config_customer_group_id');
@@ -382,58 +384,17 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->data['password'] = '';
 		}
 
-		$this->loadModel('localisation/country');
-		$this->data['countries'] = $this->model_localisation_country->getCountries();
-
-		if (isset($this->request->post['addresses'])) {
-			$this->data['addresses'] = $this->request->post['addresses'];
-		} elseif (isset($this->request->get['customer_id'])) {
-			$this->data['addresses'] = $this->model_sale_customer->getAddressesByCustomerId($this->request->get['customer_id']);
-			foreach ($this->data['addresses'] as &$a) {
-				$a['href'] = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $this->request->get['customer_id'] . '&address_id=' . $a['address_id']);
-				$a['title'] = $a['address_1'] . ' ' . $a['address_2'];
-				if (has_value($this->request->get['address_id']) && $this->request->get['address_id'] == $a['address_id']) {
-					$this->data['current_address'] = $a['title'];
-				}
-			}
-			unset($a);
-			if (!has_value($this->request->get['address_id'])) {
-				$this->data['current_address'] = $this->language->get('text_customer_addresses');
-			}
-		} else {
-			$this->data['addresses'] = array();
-		}
-
-		$this->data['add_address_url'] = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $this->request->get['customer_id'] . '&address_id=0');
-
-		$this->data['category_products'] = $this->html->getSecureURL('product/product/category');
-		$this->data['common_zone'] = $this->html->getSecureURL('common/zone');
-
-		if (!isset($this->request->get['customer_id'])
-				|| ((int)$this->request->get['customer_id']
-						&& has_value( $this->request->get['address_id'] )
-						&& $this->request->get['address_id']==0 )) {
-
+		//new customer or new address
+		if (!isset($customer_id)) {
 			$this->data['action'] = $this->html->getSecureURL('sale/customer/insert');
-
-			if( has_value( $this->request->get['customer_id'] ) ){
-				$this->data['action'] .= '&customer_id='.$this->request->get['customer_id'].'&address_id=0';
-				$this->data['tab_customer_address'] = $this->language->get('text_add_address');
-			}
-
 			$this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_customer');
 			$this->data['update'] = '';
 			$form = new AForm('ST');
 		} else {
-			$this->data['action'] = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $this->request->get['customer_id']);
+			$this->data['customer_id'] = $customer_id;
+			$this->data['action'] = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id);
 			$this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_customer') . ' - ' . $this->data['firstname'] . ' ' . $this->data['lastname'];
-			$this->data['update'] = $this->html->getSecureURL('listing_grid/customer/update_field', '&id=' . $this->request->get['customer_id']);
-			if( has_value( $this->request->get['address_id'] ) ){
-				$this->data['action'] .= '&address_id='.$this->request->get['address_id'];
-				$this->data['update'] .= '&address_id='.$this->request->get['address_id'];
-				$this->data['tab_customer_address'] = $this->language->get('text_edit_address');
-			}
-
+			$this->data['update'] = $this->html->getSecureURL('listing_grid/customer/update_field', '&id=' . $customer_id);
 			$form = new AForm('HS');
 		}
 
@@ -445,13 +406,13 @@ class ControllerPagesSaleCustomer extends AController {
 		));
 
 		$this->data['tabs']['general'] = array(
-				'href' => "Javascript:void(0);",
+				'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id),
 				'text' => $this->language->get('tab_customer_details'),
 				'active' => true
 		);
-		if (has_value($this->request->get['customer_id'])) {
+		if (has_value($customer_id)) {
 			$this->data['tabs'][] = array(
-					'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=' . $this->request->get['customer_id']),
+					'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=' . $customer_id),
 					'text' => $this->language->get('tab_transactions')
 			);
 		}
@@ -459,7 +420,7 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->data['actas'] = $this->html->buildElement(array(
 				'type' => 'button',
 				'text' => $this->language->get('button_actas'),
-				'href' => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id=' . $this->request->get['customer_id']),
+				'href' => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id=' . $customer_id),
 				'target' => 'new'
 		));
 
@@ -480,22 +441,11 @@ class ControllerPagesSaleCustomer extends AController {
 				'name' => 'submit',
 				'text' => $this->language->get('button_save')
 		));
-		$this->data['form']['cancel'] = $form->getFieldHtml(array(
+		$this->data['form']['reset'] = $form->getFieldHtml(array(
 				'type' => 'button',
-				'name' => 'cancel',
-				'text' => $this->language->get('button_cancel')
+				'name' => 'reset',
+				'text' => $this->language->get('button_reset')
 		));
-
-		if($this->request->get['address_id']>0){
-			$this->data['form']['delete'] = $form->getFieldHtml(array(
-					'type' => 'button',
-					'name' => 'delete',
-					'href' => $this->html->getSecureURL('sale/customer/delete_address',
-														'&customer_id='.$this->request->get['customer_id'].'&address_id='.$this->request->get['address_id']),
-					'text' => $this->language->get('button_delete')
-			));
-		}
-
 
 		$this->data['form']['fields']['details']['status'] = $form->getFieldHtml(array(
 				'type' => 'checkbox',
@@ -546,23 +496,12 @@ class ControllerPagesSaleCustomer extends AController {
 				'options' => $groups,
 		));
 
-		if( has_value($this->request->get['address_id']) ){
-
-			foreach( $this->data['addresses'][$this->request->get['address_id']] as $name=>$value){
-				$this->data['address'][$name] = $value;
-			}
-
-			$this->_getAdressForm($form);
-			$this->data['section'] = 'address';
-			unset($this->data['tabs']['general']['active']);
-		}else{
-			$this->data['section'] = 'details';
-			$this->data['tabs']['general']['active'] = true;
-		}
+		$this->data['section'] = 'details';
+		$this->data['tabs']['general']['active'] = true;
 
 		$this->view->assign('help_url', $this->gen_help_url('customer_edit'));
 		$this->loadModel('sale/customer_transaction');
-		$balance = $this->model_sale_customer_transaction->getBalance($this->request->get['customer_id']);
+		$balance = $this->model_sale_customer_transaction->getBalance($customer_id);
 		$currency = $this->currency->getCurrency($this->config->get('config_currency'));
 
 		$this->data['balance'] = $this->language->get('text_balance') . ' ' . $currency['symbol_left'] . round($balance, 2) . $currency['symbol_right'];
@@ -571,11 +510,231 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->processTemplate('pages/sale/customer_form.tpl');
 	}
 
+	public function insert_address() {
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		$customer_id = $this->request->get['customer_id'];
+		if ($this->request->is_POST() && $this->_validateAddressForm()) {
+			$address_id = $this->model_sale_customer->addAddress( $customer_id, $this->request->post );
+			$redirect_url = $this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer_id.'&address_id='.$address_id);
+
+			//do we need to update default address?
+			if($this->request->post['default']) {
+				$this->model_sale_customer->setDefaultAddress($customer_id, $address_id);
+			}
+
+			$this->session->data['success'] = $this->language->get('text_success');
+			$this->redirect($redirect_url);
+		}
+		
+		$this->_getAdressForm();
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
+
+	public function update_address() {
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		$this->view->assign('error_warning', $this->session->data['warning']);
+		if (isset($this->session->data['warning'])) {
+			unset($this->session->data['warning']);
+		}
+		$this->view->assign('success', $this->session->data['success']);
+		if (isset($this->session->data['success'])) {
+			unset($this->session->data['success']);
+		}
+
+		$customer_id = $this->request->get['customer_id'];
+		$address_id = $this->request->get['address_id'];
+		if ($this->request->is_POST() && $this->_validateAddressForm($address_id)) {
+			//do we need to update default address?
+			if($this->request->post['default']) {
+				$this->model_sale_customer->setDefaultAddress($customer_id, $address_id);
+			}
+			$this->model_sale_customer->editAddress($customer_id, $address_id, $this->request->post);
+			$redirect_url = $this->html->getSecureURL('sale/customer/update_address', '&customer_id=' . $customer_id.'&address_id='.$address_id);
+
+			$this->session->data['success'] = $this->language->get('text_success');
+			$this->redirect( $redirect_url );
+		}
+
+		$this->_getAdressForm();
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
+
 	/**
 	 * @param AForm $form
 	 */
-	private function _getAdressForm($form) {
+	private function _getAdressForm() {
 
+		$address_id = $this->request->get['address_id'];
+		$customer_id = $this->request->get['customer_id'];
+
+		$this->data['token'] = $this->session->data['token'];
+		$this->data['error'] = $this->error;
+
+		$this->document->initBreadcrumb(array(
+				'href' => $this->html->getSecureURL('index/home'),
+				'text' => $this->language->get('text_home'),
+				'separator' => FALSE
+		));
+		$this->document->addBreadcrumb(array(
+				'href' => $this->html->getSecureURL('sale/customer'),
+				'text' => $this->language->get('heading_title'),
+				'current' => true
+		));
+
+		$this->data['addresses'] = array();
+
+		if (has_value($customer_id)) {
+			$customer_info = $this->model_sale_customer->getCustomer($customer_id);
+			$this->data['button_orders_count'] = $this->html->buildElement(
+					array(
+							'type' => 'button',
+							'name' => 'view orders',
+							'text' => $this->language->get('text_order') . ': ' . $customer_info['orders_count'],
+							'style' => 'button2',
+							'href' => $this->html->getSecureURL('sale/order', '&customer_id=' . $customer_id),
+							'title' => $this->language->get('text_view') . ' ' . $this->language->get('tab_history')
+					)
+			);
+			$this->data['addresses'] = $this->model_sale_customer->getAddressesByCustomerId($customer_id);			
+		}
+
+		//current edited address
+		$current_address = array();
+		if ($this->data['addresses']) {
+			foreach ($this->data['addresses'] as &$a) {
+				$a['href'] = $this->html->getSecureURL('sale/customer/update_address', '&customer_id=' . $customer_id . '&address_id=' . $a['address_id']);
+				$a['title'] = $a['address_1'] . ' ' . $a['address_2'];
+				//mark default address 
+				if ($customer_info['address_id'] == $a['address_id']) {
+					$a['default'] = 1;
+				}				
+				if ($address_id == $a['address_id']) {
+					$current_address = $a;
+					$this->data['current_address'] = $a['title'];
+				}	
+			}
+		}
+		if ($this->request->is_POST()) {  
+			$current_address = $this->request->post;
+		} 
+
+		$this->loadModel('localisation/country');
+		$this->data['countries'] = $this->model_localisation_country->getCountries();
+		$this->data['customer_id'] = $customer_id;
+
+		$this->data['add_address_url'] = $this->html->getSecureURL('sale/customer/update_address', '&customer_id=' . $customer_id);
+		$this->data['category_products'] = $this->html->getSecureURL('product/product/category');
+		$this->data['common_zone'] = $this->html->getSecureURL('common/zone');
+
+		if (!has_value( $address_id )) {
+			//new address
+			$this->data['action'] = $this->html->getSecureURL('sale/customer/insert_address','&customer_id=' . $customer_id);
+			$this->data['tab_customer_address'] = $this->language->get('text_add_address');
+			$this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_customer');
+			$this->data['update'] = '';
+			$form = new AForm('ST');
+		} else {
+			//edit address
+			$this->data['heading_title'] = $this->language->get('text_edit_address');
+			$this->data['action'] = $this->html->getSecureURL('sale/customer/update_address', '&customer_id=' . $customer_id.'&address_id='.$address_id);
+			$this->data['update'] = $this->html->getSecureURL('listing_grid/customer/update_field', '&id=' . $customer_id.'&address_id='.$address_id);
+			$this->data['tab_customer_address'] = $this->language->get('text_edit_address');
+			$form = new AForm('HS');
+		}
+
+		$this->document->addBreadcrumb(array(
+				'href' => $this->data['action'],
+				'text' => $this->data['heading_title'],
+				'current' => true
+		));
+
+		$this->data['tabs']['general'] = array(
+				'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id),
+				'text' => $this->language->get('tab_customer_details'),
+				'active' => true
+		);
+		
+		if (has_value($customer_id)) {
+			$this->data['tabs'][] = array(
+					'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=' . $customer_id),
+					'text' => $this->language->get('tab_transactions')
+			);
+		}
+
+		$this->data['actas'] = $this->html->buildElement(array(
+				'type' => 'button',
+				'text' => $this->language->get('button_actas'),
+				'href' => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id=' . $customer_id),
+				'target' => 'new'
+		));
+
+		$form->setForm(array(
+				'form_name' => 'cgFrm',
+				'update' => $this->data['update'],
+		));
+
+		$this->data['form']['id'] = 'cgFrm';
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
+				'type' => 'form',
+				'name' => 'cgFrm',
+				'attr' => 'data-confirm-exit="true" class="form-horizontal"',
+				'action' => $this->data['action'],
+		));
+		$this->data['form']['submit'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'submit',
+				'text' => $this->language->get('button_save')
+		));
+		$this->data['form']['reset'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'reset',
+				'text' => $this->language->get('button_reset')
+		));
+		
+		foreach( $current_address as $name => $value){
+			$this->data['address'][$name] = $value;
+		}
+
+		$this->data['section'] = 'address';
+
+		$this->view->assign('help_url', $this->gen_help_url('customer_edit'));
+		$this->loadModel('sale/customer_transaction');
+		$balance = $this->model_sale_customer_transaction->getBalance($customer_id);
+		$currency = $this->currency->getCurrency($this->config->get('config_currency'));
+
+		$this->data['balance'] = $this->language->get('text_balance') . ' ' . $currency['symbol_left'] . round($balance, 2) . $currency['symbol_right'];
+		
+		//note: Only allow to delete or change if not default
+		if (!$current_address['default']) {
+			if( has_value($address_id) ){
+			$this->data['form']['delete'] = $form->getFieldHtml(array(
+					'type' => 'button',
+					'name' => 'delete',
+					'href' => $this->html->getSecureURL('sale/customer/delete_address',
+														'&customer_id='.$customer_id.'&address_id='.$address_id),
+					'text' => $this->language->get('button_delete')
+			));
+			}
+
+			$this->data['form']['fields']['address']['default'] = $form->getFieldHtml( array('type' => 'checkbox',
+		                                                                         'name' => 'default',
+		                                                                         'value' => $current_address['default'],
+		                                                                         'style' => 'btn_switch'));		
+		}
 		foreach ($this->address_fields as $name => $desc ) {
 			$fld_array = array(
 								'type' => $desc['type'],
@@ -637,16 +796,32 @@ class ControllerPagesSaleCustomer extends AController {
 	public function delete_address() {
 
 		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->view->assign('error_warning', $this->session->data['warning']);
+		if (isset($this->session->data['warning'])) {
+			unset($this->session->data['warning']);
+		}
+		$this->view->assign('success', $this->session->data['success']);
+		if (isset($this->session->data['success'])) {
+			unset($this->session->data['success']);
+		}
 
-		if (has_value($this->request->get['customer_id']) && has_value($this->request->get['address_id']) ) {
-
-			$this->loadModel('sale/customer_group');
-			$this->model_sale_customer->deleteAddress($customer_id,$address_id);
+		$customer_id = $this->request->get['customer_id'];
+		$address_id = $this->request->get['address_id'];
+		if (has_value($customer_id) && has_value($address_id) ) {
+			//check if this is a default address. Do not allow to delete
+			$customer_info = $this->model_sale_customer->getCustomer($customer_id);
+			if ($customer_info['address_id'] == $address_id) {
+				$this->error['warning'] = $this->language->get('error_delete_default');
+				$this->_getAdressForm();
+			} else {
+				$this->loadModel('sale/customer_group');
+				$this->model_sale_customer->deleteAddress($customer_id,$address_id);
+				$this->session->data['success'] = $this->language->get('text_success');
+				$this->redirect($this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer_id));			
+			}
 		}
 
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-		$this->redirect($this->html->getSecureURL('sale/customer/update', '&customer_id='.$this->request->get['customer_id']));
 	}
 
 	/**
@@ -656,54 +831,37 @@ class ControllerPagesSaleCustomer extends AController {
 	private function _validateForm($customer_id = null) {
 		if (!$this->user->canModify('sale/customer')) {
 			$this->error['warning'] = $this->language->get('error_permission');
+			return FALSE;
 		}
 
-		//for details-form
-		if(!has_value($this->request->get['address_id'])){
-			$login_name_pattern = '/^[\w._-]+$/i';
-			if ((mb_strlen($this->request->post['loginname']) < 5 || mb_strlen($this->request->post['loginname']) > 64)
-					|| (!preg_match($login_name_pattern, $this->request->post['loginname']) && $this->config->get('prevent_email_as_login'))
-			) {
-				$this->error['loginname'] = $this->language->get('error_loginname');
-				//check uniqunes of login name
-			} else if (!$this->model_sale_customer->is_unique_loginname($this->request->post['loginname'], $customer_id)) {
-				$this->error['loginname'] = $this->language->get('error_loginname_notunique');
-			}
-			$email_pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}\.[A-Z]{2,6}$/i';
+		$login_name_pattern = '/^[\w._-]+$/i';
+		if ((mb_strlen($this->request->post['loginname']) < 5 || mb_strlen($this->request->post['loginname']) > 64)
+		    	|| (!preg_match($login_name_pattern, $this->request->post['loginname']) && $this->config->get('prevent_email_as_login'))
+		) {
+		    $this->error['loginname'] = $this->language->get('error_loginname');
+		    //check uniqunes of login name
+		} else if (!$this->model_sale_customer->is_unique_loginname($this->request->post['loginname'], $customer_id)) {
+		    $this->error['loginname'] = $this->language->get('error_loginname_notunique');
+		}
+		$email_pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}\.[A-Z]{2,6}$/i';
 
-			if (mb_strlen($this->request->post['email']) > 96 || !preg_match($email_pattern, $this->request->post['email'])) {
-				$this->error['email'] = $this->language->get('error_email');
-			}
-
-			if (mb_strlen($this->request->post['telephone']) < 3 || mb_strlen($this->request->post['telephone']) > 32) {
-				$this->error['telephone'] = $this->language->get('error_telephone');
-			}
-
-			if (($this->request->post['password']) || (!isset($this->request->get['customer_id']))) {
-				if (mb_strlen($this->request->post['password']) < 4) {
-					$this->error['password'] = $this->language->get('error_password');
-				}
-
-				if (!$this->error['password'] && $this->request->post['password'] != $this->request->post['password_confirm']) {
-					$this->error['password'] = $this->language->get('error_confirm');
-				}
-			}
-		}else{ // for address_form
-			if (mb_strlen($this->request->post['address_1']) < 1) {
-				$this->error[$key]['address_1'] = $this->language->get('error_address_1');
-			}
-			if (mb_strlen($this->request->post['city']) < 1) {
-				$this->error[$key]['city'] = $this->language->get('error_city');
-			}
-			if (empty($this->request->post['country_id']) || $this->request->post['country_id'] == 'FALSE') {
-				$this->error[$key]['country_id'] = $this->language->get('error_country');
-			}
-			if (empty($this->request->post['zone_id']) || $this->request->post['zone_id'] == 'FALSE') {
-				$this->error[$key]['zone_id'] = $this->language->get('error_zone');
-			}
+		if (mb_strlen($this->request->post['email']) > 96 || !preg_match($email_pattern, $this->request->post['email'])) {
+		    $this->error['email'] = $this->language->get('error_email');
 		}
 
+		if (mb_strlen($this->request->post['telephone']) < 3 || mb_strlen($this->request->post['telephone']) > 32) {
+		    $this->error['telephone'] = $this->language->get('error_telephone');
+		}
 
+		if (($this->request->post['password']) || (!isset($this->request->get['customer_id']))) {
+		    if (mb_strlen($this->request->post['password']) < 4) {
+		    	$this->error['password'] = $this->language->get('error_password');
+		    }
+
+		    if (!$this->error['password'] && $this->request->post['password'] != $this->request->post['password_confirm']) {
+		    	$this->error['password'] = $this->language->get('error_confirm');
+		    }
+		}
 
 		if (mb_strlen($this->request->post['firstname']) < 1 || mb_strlen($this->request->post['firstname']) > 32) {
 			$this->error['firstname'] = $this->language->get('error_firstname');
@@ -718,6 +876,48 @@ class ControllerPagesSaleCustomer extends AController {
 		if (!$this->error) {
 			return TRUE;
 		} else {
+			$this->error['warning'] = implode('<br>',$this->error);
+			return FALSE;
+		}
+	}
+
+	/**
+	 * @param null $address_id
+	 * @return bool
+	 */
+	private function _validateAddressForm($address_id = null) {
+		if (!$this->user->canModify('sale/customer')) {
+			$this->error['warning'] = $this->language->get('error_permission');
+			return FALSE;
+		}
+
+		if (mb_strlen($this->request->post['address_1']) < 1) {
+		    $this->error['address_1'] = $this->language->get('error_address_1');
+		}
+		if (mb_strlen($this->request->post['city']) < 1) {
+		    $this->error['city'] = $this->language->get('error_city');
+		}
+		if (empty($this->request->post['country_id']) || $this->request->post['country_id'] == 'FALSE') {
+		    $this->error['country_id'] = $this->language->get('error_country');
+		}
+		if (empty($this->request->post['zone_id']) || $this->request->post['zone_id'] == 'FALSE') {
+		    $this->error['zone_id'] = $this->language->get('error_zone');
+		}
+
+		if (mb_strlen($this->request->post['firstname']) < 1 || mb_strlen($this->request->post['firstname']) > 32) {
+			$this->error['firstname'] = $this->language->get('error_firstname');
+		}
+
+		if (mb_strlen($this->request->post['lastname']) < 1 || mb_strlen($this->request->post['lastname']) > 32) {
+			$this->error['lastname'] = $this->language->get('error_lastname');
+		}
+
+		$this->extensions->hk_ValidateData($this);
+
+		if (!$this->error) {
+			return TRUE;
+		} else {
+			$this->error['warning'] = implode('<br>',$this->error);
 			return FALSE;
 		}
 	}

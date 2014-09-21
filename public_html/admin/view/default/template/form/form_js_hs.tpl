@@ -13,5 +13,6 @@ jQuery(function($){
 	$("input, textarea, select, .scrollbox", '#<?php echo $id ?>').filter('.no-save').aform({
 		triggerChanged: false
 	});
+			
 });
 </script>

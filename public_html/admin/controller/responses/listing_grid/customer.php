@@ -94,7 +94,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 					'value' => $result[ 'approved' ],
 					'options' => $approved,
 				)),
-				($result[ 'orders_count' ]>0 ?
+				($result[ 'orders_count' ] > 0 ?
 				$this->html->buildButton(array(
 					'name' => 'view orders',
 					'text' => $result[ 'orders_count' ],
@@ -166,7 +166,6 @@ class ControllerResponsesListingGridCustomer extends AController {
 				break;
 
 			default:
-				//print_r($this->request->post);
 
 		}
 
@@ -193,21 +192,27 @@ class ControllerResponsesListingGridCustomer extends AController {
 											array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer'),
 												   'reset_value' => true
 											));
+		
 		}
-
-		if (isset($this->request->get[ 'id' ])) {
+		$customer_id = $this->request->get['id'];
+		$address_id = $this->request->get['address_id'];
+		if (isset($customer_id)) {
 			foreach ($this->request->post as $field => $value) {
-				$err = $this->_validateForm($field, $value, $this->request->get[ 'id' ]);
+				$err = $this->_validateForm($field, $value, $customer_id);
 				if (!$err) {
-					if ($field == 'approved') {
-						$this->_sendMail($this->request->get[ 'id' ], $value);
+					if($field == 'approved') {
+						$this->_sendMail($customer_id, $value);
 					}
-					if((int)$this->request->get[ 'address_id' ]>0){
-						$this->model_sale_customer->editAddressField($this->request->get[ 'address_id' ], $field, $value);
+					if($field == 'default' && $address_id) {
+						$this->model_sale_customer->setDefaultAddress($customer_id, $address_id);
+					}
+					else if( has_value($address_id) ){
+						$this->model_sale_customer->editAddressField($address_id, $field, $value);
 					}else{
-						$this->model_sale_customer->editCustomerField($this->request->get[ 'id' ], $field, $value);
+						$this->model_sale_customer->editCustomerField($customer_id, $field, $value);
 					}
 				} else {
+					$error = new AError('');
 					return $error->toJSONResponse('VALIDATION_ERROR_406',
 													array('error_text' => $err,
 														'reset_value' => false
