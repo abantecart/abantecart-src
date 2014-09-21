@@ -1,69 +1,110 @@
-<?php if ( !empty($error['warning']) ) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
+<?php if ($error_warning) { ?>
+	<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
 <?php } ?>
-<a name="top"></a>
-<?php echo $resources_scripts ?>
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_setting"><?php echo $heading_title; ?></div>
-    <div class="toolbar">	
-    	<?php echo $form_language_switch; ?>
-	    <div class="buttons">
-			<div class="flt_left align_left"><?php echo $text_edit_store; ?><?php echo $store_selector; ?></div>
-      		<?php if ($edit_settings) { ?>
-	      	<div class="flt_left">&nbsp;&nbsp;<?php echo $edit_settings_button; ?></div>
-      		<?php } ?>
-      		<?php if ($delete) { ?>
-	      	<div class="flt_left">&nbsp;&nbsp;<?php echo $delete_store_button; ?></div>
-      		<?php } ?>
-			<div class="flt_left">&nbsp;&nbsp;<?php echo $new_store_button; ?></div>	
-    	</div>
-  </div>
-  </div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-	<?php echo $form['form_open']; ?>
-		<?php foreach ($form['fields'] as $section => $fields) { ?>
-        <div class="fieldset">
-          <div class="heading"><?php echo $form_title; ?></div>
-          <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-          <div class="cont_left"><div class="cont_right"><div class="cont_mid">
-            <table class="form">
-            <?php foreach ($fields as $name => $field) { ?>
-			<tr>
-				<td><?php echo ${'entry_'.$name}; ?></td>
-				<td <?php echo ( $name=='description'? 'class="ml_ckeditor"' : ''  )?> >
-					<?php echo $field; ?>
-					<?php if (is_array($error[$name]) && !empty($error[$name][$language_id])) { ?>
-						<div class="field_err"><?php echo $error[$name][$language_id]; ?></div>
-					<?php } else if (!empty($error[$name])) { ?>
-						<div class="field_err"><?php echo $error[$name]; ?></div>
-					<?php } ?>
-				</td>
-			</tr>
-            <?php }  ?>
-          </table>
-	      </div></div></div>
-          <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
-	    </div><!-- <div class="fieldset"> -->
-		<?php }  ?>
+<?php if ($success) { ?>
+	<div class="success alert alert-success"><?php echo $success; ?></div>
+<?php } ?>
 
-	<div class="buttons align_center">
-	  <button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
-	  <a class="btn_standard" href="<?php echo $cancel; ?>" ><?php echo $form['cancel']; ?></a>
-    </div>
+<?php echo $setting_tabs ?>
+
+
+
+<div class="tab-content">
+	<div class="panel-heading">
+			<?php echo $text_edit_store; ?>
+			<div class="btn-group">
+				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+					<i class="fa fa-folder-o"></i>
+					<?php echo $current_store; ?> <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<?php
+					foreach ($stores as $store) { ?>
+						<li><a href="<?php echo $store['href'] ?>"
+							   class="<?php echo $store['name'] == $current_store ? 'disabled' : ''; ?>"><?php echo $store['name'] ?></a>
+						</li>
+					<?php } ?>
+				</ul>
+			</div>
+			<?php if($store_id>0){ ?>
+				<a class="itemopt  tooltips" title="<?php echo $edit_store_button->title; ?>" href="<?php echo $edit_store_button->href; ?>"><i class="fa fa-edit fa-2x"></i></a>
+			<?php } ?>
+			<?php if($delete_store_button){ ?>
+				<a class="itemopt  tooltips"
+				   title="<?php echo $delete_store_button->title; ?>"
+				   href="<?php echo $delete_store_button->href; ?>"
+				   data-confirmation="delete"
+					><i class="fa fa-trash-o fa-2x"></i></a>
+			<?php } ?>
+			<a class="itemopt tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>"><i class="fa fa-plus-circle fa-2x"></i></a>
+			<div class="pull-right">
+				<div class="btn-group mr10 toolbar">
+					<?php if (!empty ($help_url)) : ?>
+					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
+					<i class="fa fa-question-circle"></i>
+					</a>
+					<?php endif; ?>
+				</div>
+				<?php echo $form_language_switch; ?>
+			</div>
+		</div>
+
+	<?php echo $form['form_open']; ?>
+	<div class="panel-body panel-body-nopadding">
+		<?php foreach ($form['fields'] as $section => $fields) { ?>
+		<label class="h4 heading"><?php echo $form_title; ?></label>
+			<?php foreach ($fields as $name => $field) { ?>
+			<?php
+				//Logic to cululate fileds width
+				$widthcasses = "col-sm-7";
+				if ( is_int(stripos($field->style, 'large-field')) ) {
+					$widthcasses = "col-sm-7";
+				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
+					$widthcasses = "col-sm-5";
+				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+					$widthcasses = "col-sm-3";
+				} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
+					$widthcasses = "col-sm-2";
+				}
+				$widthcasses .= " col-xs-12";
+			?>
+		<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+			<label class="control-label col-sm-4 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<?php echo $field;	?>
+			</div>
+		    <?php if (!empty($error[$name])) { ?>
+		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+		    <?php } ?>
+		</div>
+			<?php }
+			}  ?>
+
+		<div id="image">
+	    <?php if ( !empty($update) ) { echo $resources_html; } ?>
+		</div>
+
+
+	</div>
+
+	<div class="panel-footer">
+		<div class="row">
+		   <div class="col-sm-6 col-sm-offset-3 center" >
+		     <button class="btn btn-primary">
+		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+		     </button>&nbsp;
+		     <a class="btn btn-default" href="<?php echo $cancel; ?>">
+		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+		     </a>
+		   </div>
+		</div>
+	</div>
 	</form>
 
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
-</div>
+</div><!-- <div class="tab-content"> -->
 
-<script type="text/javascript"><!--
-jQuery(function($){
-	$('#store_switcher').aform({triggerChanged: false}).width(100);
-	$.aform.styleGridForm('#store_switcher');
 
-});
-//--></script>
+
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
@@ -75,5 +116,5 @@ CKEDITOR.replace('store_description[<?php echo $content_language_id; ?>][descrip
     filebrowserWindowHeight : '520',
 	language: '<?php echo $language_code; ?>'
 });
-$('.ml_ckeditor').find('div').removeClass('mask2');
+
 //--></script>

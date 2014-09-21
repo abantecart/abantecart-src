@@ -240,9 +240,8 @@
 			<?php if ($current_menu['icon']) { ?>
 				<?php echo $current_menu['icon']; ?>
 			<?php } else { ?>
-			<i class="fa fa-th-list">
+			<i class="fa fa-th-list"></i>
 				<?php } ?>
-			</i>
 			<?php if ($current && $current['text']) {
 				echo $current['text'];
 			} else {

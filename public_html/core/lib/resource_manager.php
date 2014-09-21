@@ -67,6 +67,15 @@ class AResourceManager extends AResource {
     public function getResourceTypes() {
 		return $this->getAllResourceTypes();
 	}
+    public function getResourceTypeByName($type_name) {
+		$all_types = $this->getAllResourceTypes();
+		foreach($all_types as $t){
+			if($t['type_name']==$type_name){
+				return $t;
+			}
+		}
+		return array();
+	}
 
 	public function addResourceType () {
         $cache_name = 'resources.types';
