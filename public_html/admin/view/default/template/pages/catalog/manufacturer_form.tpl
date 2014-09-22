@@ -65,16 +65,13 @@
 		<?php }  ?>
 
 
-		<div id="image">
-	    <?php if ( !empty($update) ) { echo $resources_html; } ?>
-		</div>
 
 
 	</div>
 
 	<div class="panel-footer">
 		<div class="row">
-		   <div class="col-sm-6 col-sm-offset-3">
+		   <div class="col-sm-6 col-sm-offset-3 center">
 		     <button class="btn btn-primary">
 		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
 		     </button>&nbsp;
@@ -86,7 +83,16 @@
 	</div>
 	</form>
 
+
+
 </div><!-- <div class="tab-content"> -->
+
+<div id="image">
+   <?php if ( !empty($update) ) {
+	echo $resources_html;
+	echo $resources_scripts;
+} ?>
+</div>
 
 <script type="text/javascript"><!--
 	$('#editFrm_generate_seo_keyword').click(function(){

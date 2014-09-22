@@ -56,12 +56,6 @@
 			<?php }  ?><!-- <div class="fieldset"> -->
 		<?php }  ?>
 
-
-		<div id="image">
-	    <?php if ( !empty($update) ) { echo $resources_html; } ?>
-		</div>
-
-
 	</div>
 
 	<div class="panel-footer">
@@ -79,6 +73,14 @@
 	</form>
 
 </div><!-- <div class="tab-content"> -->
+
+<div id="image">
+   <?php if ( !empty($update) ) {
+	echo $resources_html;
+	echo $resources_scripts;
+} ?>
+</div>
+
 
 
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>

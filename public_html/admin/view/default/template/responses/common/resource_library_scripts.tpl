@@ -1,15 +1,17 @@
-<?php
-echo $this->html->buildElement(
+<?php echo $this->html->buildElement(
 		array('type' => 'modal',
 				'id' => 'rl_modal',
 				'modal_type' => 'lg',
 				'data_source' => 'ajax',
-				'title' => $text_resource_library));
-?>
+				'title' => $text_resource_library)); ?>
+
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></script>
 
 <script type="text/javascript">
+
+$('#rl_modal').appendTo('body'); <?php // move modal at the end of html-body. It needed for exclusion html-form of modal from page html-form?>
+
 var urls = {
 			resource_library: '<?php echo $rl_resource_library; ?>',
 			resources: '<?php echo $rl_resources; ?>',
@@ -75,9 +77,23 @@ var reloadModal = function (URL) {
 			bindCustomEvents(mdb);
 			bind_rl(mdb);
 		},
-		//todo: check!
+
 		error: function (jqXHR, textStatus, errorThrown) {
-			error_alert('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
+				try {
+					var err = $.parseJSON(jqXHR.responseText);
+					if (err.hasOwnProperty("error_text")) {
+						var errors = err.error_text;
+						var errlist = typeof errors === 'string' ? [errors] : errors;
+
+						if (errlist.length > 0) {
+							for (var k in errlist) {
+								rl_error_alert(errlist[k], false);
+							}
+						}
+					}
+				} catch (e) {
+					rl_error_alert(jqXHR.responseText, false);
+				}
 		},
 		complete: function () {
 		}
@@ -97,7 +113,7 @@ var saveRL = function (URL, postdata) {
 			rid = new_rl_id;
 			rl_success_alert('<?php echo $text_success; ?>', true);
 		},
-		//todo: check!
+
 		error: function (jqXHR, textStatus, errorThrown) {
 			try {
 				var err = $.parseJSON(jqXHR.responseText);
@@ -119,16 +135,17 @@ var saveRL = function (URL, postdata) {
 	return rid;
 }
 
-var loadMedia = function (type) {
+var loadMedia = function (type, wrapper) {
+	wrapper = !wrapper ? '#type_' + type + ' div.type_blocks' : wrapper;
 	$.ajax({
 		url: urls.resources,
 		type: 'GET',
 		data: { type: type },
 		dataType: 'json',
 		success: function (json) {
-
-			if (!json.items.length && type != default_type) {
-				$('#type_' + type).hide();
+			if (json.items.length<1 && type != default_type) {
+				$( '#type_' + type ).hide();
+				$( '#panel_' + type ).hide();
 				return;
 			}
 			$('#type_' + type).show();
@@ -178,7 +195,7 @@ var loadMedia = function (type) {
 			html += '<a class="btn resource_add tooltips transparent" data-type="' + type + '" data-original-title="<?php echo $text_add_media ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>" width="100" /></a>';
 			html += '</form</div></div>';
 
-			$('#type_' + type + ' div.type_blocks').html(html);
+			$(wrapper).html(html);
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
 			$('#type_' + type).show();
@@ -265,12 +282,15 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 
 jQuery(function () {
 
-	<?php foreach ($types as $type) { ?>
-	loadMedia('<?php echo $type['type_name']?>');
-	<?php } ?>
+	<?php
+	if($onload){
+		foreach ($types as $type) { ?>
+			loadMedia('<?php echo $type['type_name']?>');
+		<?php }
+	}?>
 
 	$(document).on('click', 'a.resource_add', function () {
-		modalscope.mode = $(this).attr('data-mode'); //set here mode based on link attribute (in case when we have a few RL single elements in the form)
+		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : ''; //set here mode based on link attribute (in case when we have a few RL single elements in the form)
 
 		if(modalscope.mode=='single'){
 			if( $(this).attr('data-wrapper_id') ){
@@ -287,7 +307,7 @@ jQuery(function () {
 
 	$(document).on("click", 'a.resource_edit', function () {
 
-		modalscope.mode = $(this).attr('data-mode'); //set here mode based on link attribute (in case when we have a few RL single elements in the form)
+		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : ''; //set here mode based on link attribute (in case when we have a few RL single elements in the form)
 
 		if(modalscope.mode=='single'){
 			if( $(this).attr('data-wrapper_id') ){
@@ -934,13 +954,13 @@ jQuery(function () {
 	});
 	obj.on('drop', "div.fileupload_drag_area", function (e) {
 
-		$(this).css('border', '2px dotted #F19013');
+		$("div.fileupload_drag_area").css('border', '2px dotted #F19013');
 		e.preventDefault();
 		var files = e.originalEvent.dataTransfer.files;
 
 		//enable single mode based on attribute
 		var btn = $("div.fileupload_drag_area").find('a.btn');
-		modalscope.mode = btn.attr('data-mode');
+		modalscope.mode = btn.attr('data-mode') ? btn.attr('data-mode') : '';
 		modalscope.wrapper_id = btn.attr('data-wrapper_id');
 		modalscope.field = btn.attr('data-field');
 

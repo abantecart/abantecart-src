@@ -130,67 +130,24 @@ echo $this->html->buildElement(
 <script type="text/javascript"><!--
 
 var setRLparams = function (attr_val_id) {
-	urls.resource_library = '<?php echo $rl_rl_path; ?>&object_id=' + attr_val_id;
-	urls.resources = '<?php echo $rl_resources_path; ?>&object_id=' + attr_val_id;
-	urls.unmap = '<?php echo $rl_unmap_path; ?>&object_id=' + attr_val_id;
+	urls = {
+				resource_library: '<?php echo $rl_resource_library; ?>&object_id=' + attr_val_id,
+				resources: '<?php echo $rl_resources; ?>&object_id=' + attr_val_id,
+				resource_single: '<?php echo $rl_resource_single; ?>&object_id=' + attr_val_id,
+				map: '<?php echo $rl_map; ?>&object_id=' + attr_val_id,
+				unmap: '<?php echo $rl_unmap; ?>&object_id=' + attr_val_id,
+				del: '<?php echo $rl_delete; ?>&object_id=' + attr_val_id,
+				download: '<?php echo $rl_download; ?>&object_id=' + attr_val_id,
+				upload: '<?php echo $rl_upload; ?>&object_id=' + attr_val_id,
+				resource: '<?php echo HTTP_DIR_RESOURCE; ?>'
+			};
+
 	urls.attr_val_id = attr_val_id;
 }
 
-var openRL = function (attr_val_id) {
-	setRLparams(attr_val_id);
-	mediaDialog('image', 'add', attr_val_id);
-}
 
 
-// override rl js-script function
-var loadMedia = function (type) {
-	if (!urls.attr_val_id) return;
-	var type = "image";
-	$.ajax({
-		url: urls.resources,
-		type: 'GET',
-		data: { type: type },
-		dataType: 'json',
-		success: function (json) {
-
-
-			var html = '';
-			$(json.items).each(function (index, item) {
-				var src = '<img src="' + item['thumbnail_url'] + '" title="' + item['name'] + '" />';
-				if (type == 'image' && item['resource_code']) {
-					src = item['thumbnail_url'];
-				}
-				html += '<span id="image_row' + item['resource_id'] + '" class="image_block">\
-                <a class="resource_edit" type="' + type + '" id="' + item['resource_id'] + '">' + src + '</a><br /></span>';
-			});
-			html += '<span class="image_block"><a title="<?php echo $text_add_media; ?>" class="resource_add" data-type="' + type + '"><i class="fa fa-plus-circle fa-5x"></i></a></span>';
-
-			$('#rl_' + urls.attr_val_id).html(html);
-			if ($(json.items).length) {
-				$('a.resource_edit').unbind('click');
-				$('a.resource_edit').click(function () {
-					setRLparams($(this).parents('.add_resource').attr('id').replace('rl_', ''));
-					mediaDialog($(this).attr('data-type'), 'update', $(this).attr('id'));
-					return false;
-				})
-			}
-			$('a.resource_add').unbind('click');
-			$('a.resource_add').click(function () {
-
-				setRLparams($(this).parents('.add_resource').attr('id').replace('rl_', ''));
-				mediaDialog($(this).attr('data-type'), 'add', $(this).attr('id'));
-				return false;
-			});
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			$('#type_' + type).show();
-			$('#rl_' + urls.attr_val_id).html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
-		}
-	});
-
-}
-
-
+/*
 var mediaDialog = function (type, action, id) {
 	$('#dialog').remove();
 
@@ -212,17 +169,7 @@ var mediaDialog = function (type, action, id) {
 		}
 	});
 
-	$('#dialog').dialog({
-		title: '<?php echo $text_resource_library; ?>',
-		close: function (event, ui) {
-			loadMedia(type);
-		},
-		width: 900,
-		height: 500,
-		resizable: false,
-		modal: true
-	});
-};
+};*/
 
 var text = {
 	error_attribute_not_selected: '<?php echo $error_attribute_not_selected ?>',
@@ -347,7 +294,9 @@ jQuery(function ($) {
 			$(this).attr('title', text.text_hide);
 			icon.removeClass('fa-expand').addClass('fa-compress');
 			setRLparams($(this).attr('id'));
-			loadMedia('image');
+			$('#panel_image>div.panel-heading>div.panel-btns').remove();
+			loadMedia('image','#add_'+row_id+' div.type_blocks');
+			$('#add_'+row_id).find('#type_image').show();
 		} else {
 			$(this).attr('title', text.text_expand);
 			icon.removeClass('fa-compress').addClass('fa-expand');

@@ -977,8 +977,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	}
 
 	public function get_resources_html() {
-		$rm = new AResourceManager();
-		$this->data['types'] = $rm->getResourceTypes();
+		if($this->session->data['rl_types']){
+			$this->data['types'] = $this->session->data['rl_types'];
+		}else{
+			$rm = new AResourceManager();
+			$this->data['types'] = $rm->getResourceTypes();
+		}
 
 		$this->view->assign('current_url', $this->html->currentURL());
 		$this->view->batchAssign($this->data);
@@ -1020,18 +1024,22 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 	public function get_resources_scripts() {
 
-		list($object_name,$object_id,$types) = func_get_args();
+		list($object_name,$object_id,$types, $onload) = func_get_args();
+
+		$this->data['onload'] = is_bool($onload) ? $onload : true; //sign of call js-function on page load. default true.
 
 		$rm = new AResourceManager();
 		$this->data['types'] = $rm->getResourceTypes();
 
-		if (!empty($types)) {
+		if ($types) {
+			$types = (array)$types;
 			foreach ($this->data['types'] as $key => $type) {
-				if (!in_array($type['type_name'], (array)$types)) {
+				if (!in_array($type['type_name'], $types)) {
 					unset($this->data['types'][$key]);
 				}
 			}
 		}
+
 		$this->session->data['rl_types'] = $this->data['types'];
 		$this->data['default_type'] = reset($this->data['types']);
 		$this->data['object_name'] = $object_name;

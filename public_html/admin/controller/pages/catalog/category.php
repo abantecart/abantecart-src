@@ -459,14 +459,16 @@ class ControllerPagesCatalogCategory extends AController {
 				array(
 						'object_name' => 'categories',
 						'object_id' => $category_id,
-						'types' => 'image',
+						'types' => array('image'),
 				)
 		);
+
+
 
 		$this->view->assign('current_url', $this->html->currentURL());
 
 		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
-		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url'));
+		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=single'));
 		$this->processTemplate('pages/catalog/category_form.tpl');
 	}
 

@@ -308,6 +308,7 @@ class ControllerPagesCatalogManufacturer extends AController {
             array(
                 'object_name' => 'manufacturers',
                 'object_id' => $this->request->get['manufacturer_id'],
+				'types' => array('image','audio','video','pdf')
             )
         );
 		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());

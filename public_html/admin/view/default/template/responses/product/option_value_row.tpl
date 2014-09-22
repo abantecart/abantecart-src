@@ -34,8 +34,12 @@
 					<?php echo $entry_weight_type; ?></label>
 				<div class="input-group input-group-sm afield"><?php echo $form['fields']['weight_type']; ?></div>
 			</div>
-
+<?php /*
 			<div id="rl_<?php echo $attr_val_id; ?>" class="col-md-3 col-xs-6 add_resource" style="margin-top: 10px;"><?php echo  $rl;?></div>
+ */?>
+			<div class=" col-md-12 col-xs-12">
+			<?php echo $resources_html; ?>
+			</div>
 		</div>
 	</td>
 </tr>

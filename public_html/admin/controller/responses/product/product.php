@@ -677,6 +677,9 @@ class ControllerResponsesProductProduct extends AController {
 			'options' => $wht_options
 		));
 
+		$resources_html = $this->dispatch('responses/common/resource_library/get_resources_html');
+		$this->data['resources_html'] = $resources_html->dispatchGetOutput();
+
 		$this->view->batchAssign($this->data);
 		return $this->view->fetch('responses/product/option_value_row.tpl');
 	}
