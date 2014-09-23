@@ -1,8 +1,10 @@
+<?php $colspan = 7; ?>
 <tr id="<?php echo $row_id; ?>" class="optionRow">
 	<?php echo $form['fields']['product_option_value_id']; ?>
 	<?php
 		if($with_default){
 			echo '<td>'.$form['fields']['default'].'</td>';
+			$colspan++;
 	 	}
 	?>
     <td><div class="input-group input-group-sm afield"><?php echo $form['fields']['option_value']; ?></div></td>
@@ -14,10 +16,12 @@
     <td><a id="<?php echo $attr_val_id; ?>" title="<?php echo $text_expand ?>" class="expandRow btn btn-xs btn-info-alt" data-toggle="collapse" data-target="#add_<?php echo $row_id; ?>"><i class="fa fa-expand"></i></a></td>
 <?php if ($selectable){?>
     <td><a class="remove btn btn-xs btn-danger-alt" title="<?php echo $button_remove; ?>"><i class="fa fa-minus-circle"></i></a></td>
-<?php } ?>
+<?php
+	$colspan++;
+	} ?>
 </tr>
 <tr>
-	<td colspan="<?php echo $with_default ? 7 : 8;?>" >
+	<td colspan="<?php echo $colspan;?>" >
 		<div id="add_<?php echo $row_id; ?>" class="row additionalRow collapse">
 			<div class="pull-left col-md-3 col-xs-6">
 				<label class="control-label" for="<?php echo $form['fields']['sku']->element_id; ?>">
@@ -34,10 +38,8 @@
 					<?php echo $entry_weight_type; ?></label>
 				<div class="input-group input-group-sm afield"><?php echo $form['fields']['weight_type']; ?></div>
 			</div>
-<?php /*
-			<div id="rl_<?php echo $attr_val_id; ?>" class="col-md-3 col-xs-6 add_resource" style="margin-top: 10px;"><?php echo  $rl;?></div>
- */?>
-			<div class=" col-md-12 col-xs-12">
+
+			<div class="col-xs-12 col-sm-12 col-md-12">
 			<?php echo $resources_html; ?>
 			</div>
 		</div>
