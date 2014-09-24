@@ -615,9 +615,9 @@ h1,h2,h3,h4,h5 {
 }
 
 .sidebartitle {
-   font-size: 11px;
+   font-size: 12px;
    text-transform: uppercase;
-   color: #999;
+   color: #fff;
    margin-bottom: 10px;
 }
 
@@ -764,52 +764,54 @@ h1,h2,h3,h4,h5 {
    border: 0;
 }
 
-.infosummary {
+.side_summary {
    margin: 30px 0;
 }
-
-.infosummary ul {
+.side_summary .text-muted {
+	color: #ccc;
+}
+.side_summary ul {
    padding: 0;
    margin: 20px 0 0;
    list-style: none;
    border-top: 1px solid rgba(255,255,255,0.05);
 }
 
-.infosummary li {
+.side_summary li {
    padding: 10px 0;
    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.infosummary li:after {
+.side_summary li:after {
    clear: both;
    display: block;
    content: '';
 }
 
-.infosummary .datainfo {
+.side_summary .stats_info {
    float: left;
    line-height: normal;
 }
 
-.infosummary .datainfo h4 {
+.side_summary .stats_info h4 {
    margin: 0;
    font-size: 16px;
    color: #fff;
    opacity: 0.7;
 }
 
-.infosummary span {
+.side_summary span {
    font-size: 11px;
    line-height: normal;
    text-transform: uppercase;
    font-size: 10px;
-   opacity: 0.4;
+   opacity: 0.6;
 }
 
-.infosummary .chart {
-   float: right;
-   margin-top: 5px;
-   opacity: 0.6;
+.side_summary .icon {
+   float: left;
+   margin: 5px 20px 5px 10px;
+   opacity: 0.8;
 }
 
 .pageheader {
@@ -1037,46 +1039,12 @@ p {
    color: #333;
 }
 
-
-/***** UI ELEMENTS *****/
 /***********************/
-
-.btn-demo::after {
-   clear: both;
-   display: block;
-   content: '';
+#report_flot {
+	height: 315px;
+	widows: 450px;
+	margin: auto;
 }
-
-.btn-demo .btn {
-	float: left;
-	margin: 0 10px 10px 0;
-}
-
-.fonticon-list {
-	list-style: none;
-	margin: 20px 0;
-	padding: 0;
-}
-
-.fontawesome-list {
-	list-style: none;
-	padding: 0;
-}
-
-.fonticon-list li,
-.fontawesome-list li {
-	display: block;
-	margin-bottom: 5px;
-}
-
-.fonticon-list li span,
-.fontawesome-list li span {
-	color: #333;
-	vertical-align: middle;
-	margin-right: 8px;
-	min-width: 20px;
-}
-
 .tooltipflot {
 	background-color: rgba(0,0,0,0.75);
 	font-size: 11px;
@@ -1086,40 +1054,12 @@ p {
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 }
-
 .jqstooltip{ 
    min-height: 25px;
 	border: 0;
 	min-width: 30px;
 	height: auto !important;
 	width: auto !important;
-}
-
-.tinystat {
-	display: inline-block;
-}
-
-.tinystat .chart,
-.tinystat .datainfo {
-	display: inline-block;
-	vertical-align: middle;
-}
-
-.tinystat .chart {
-	margin-right: 5px;
-}
-
-.tinystat .text-muted {
-	text-transform: uppercase;
-	font-size: 10px;
-}
-
-.tinystat h4 {
-	margin: 0;
-	color: #333;
-	font-family: 'LatoBold';
-	line-height: normal;
-	font-size: 16px;
 }
 
 .widget-quick-status-post .nav-tabs > li > a {
@@ -2026,7 +1966,7 @@ p {
    margin-left: 50px;
 }
 
-.leftpanel-collapsed .infosummary {
+.leftpanel-collapsed .side_summary {
    display: none;
 }
 
@@ -2781,11 +2721,7 @@ body.stickyheader .sticky_left {
    .stickyheader .header-right {
       margin-right: 0;
    }
-   
-   .btn-demo {
-      margin-bottom: 20px;
-   }
-   
+      
    .leftpanelinner {
       padding: 5px 10px;
    }

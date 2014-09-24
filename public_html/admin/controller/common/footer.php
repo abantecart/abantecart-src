@@ -64,6 +64,12 @@ class ControllerCommonFooter extends AController {
 		}
 		$this->view->assign('top_orders', $top_orders);
 		
+		$filter = array(
+			'sort'  => 'c.date_added',
+			'order' => 'DESC',
+			'start' => 0,
+			'limit' => 10
+		);
 		$top_customers = $this->model_sale_customer->getCustomers($filter);
 		foreach( $top_customers as $indx => $customer) {
 			$top_customers[$indx]['url'] = $this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer['customer_id']);

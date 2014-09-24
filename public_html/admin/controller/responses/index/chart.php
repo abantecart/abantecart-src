@@ -26,7 +26,6 @@ class ControllerResponsesIndexChart extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-    	
 		$this->loadLanguage('common/home');
 		
 		$data = array();

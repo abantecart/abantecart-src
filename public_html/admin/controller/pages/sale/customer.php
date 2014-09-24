@@ -742,7 +742,7 @@ class ControllerPagesSaleCustomer extends AController {
 								'value' => $this->data['address'][$name],
 								'required' => $desc['required']
 						);
-			if($desc['type']=='zones'){
+			if($desc['type'] == 'zones'){
 				$fld_array['submit_mode'] = 'id';
 				$fld_array['zone_name'] = $this->data['address']['zone'];
 				$fld_array['zone_value'] = $this->data['address']['zone_id'];

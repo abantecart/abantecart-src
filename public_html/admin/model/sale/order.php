@@ -405,6 +405,7 @@ class ModelSaleOrder extends Model {
 						 FROM " . $this->db->table("order_statuses") . " os
 						 WHERE os.order_status_id = o.order_status_id
 						    AND os.language_id = '" . (int)$language_id . "') AS status,
+						 o.order_status_id,
 						 o.date_added,
 						 o.total,
 						 o.currency,

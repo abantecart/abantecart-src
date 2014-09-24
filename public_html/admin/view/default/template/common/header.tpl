@@ -44,10 +44,12 @@
 				<?php echo $menu; ?>
 			</div>
 
-			<div class="infosummary">
+			<div class="side_summary">
 				<?php include($template_dir . '/template/common/summary.tpl'); ?>
 			</div>
-			<!-- infosummary -->
+			<!-- side_summary -->
+
+			<?php echo $this->getHookVar('leftpanel_bottom'); ?>
 
 		</div>
 		<!-- leftpanelinner -->

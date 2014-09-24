@@ -112,4 +112,20 @@
     <key>entry_range</key>
     <value><![CDATA[Select Range:]]></value>
   </definition>
+  <definition>
+    <key>orders_text_all</key>
+    <value><![CDATA[All Orders]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_all</key>
+    <value><![CDATA[All Customers]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_customers</key>
+    <value><![CDATA[Latest Registrations]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[Email]]></value>
+  </definition>
 </definitions>

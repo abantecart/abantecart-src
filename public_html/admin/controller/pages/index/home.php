@@ -123,9 +123,27 @@ class ControllerPagesIndexHome extends AController {
 				'icon' => 'icon_layouts.png',
             )
 		));
-		
-		$orders = array();
-		
+
+		//10 new orders and customers
+		$filter = array(
+			'sort'  => 'c.date_added',
+			'order' => 'DESC',
+			'start' => 0,
+			'limit' => 10
+		);		
+		$top_customers = $this->model_sale_customer->getCustomers($filter);
+		foreach( $top_customers as $indx => $customer) {
+			$action = array();
+			$action[] = array(
+				'text' => $this->language->get('text_edit'),
+				'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer['customer_id'])
+			);
+			$top_customers[$indx]['action'] = $action;
+		}
+		$this->view->assign('customers', $top_customers);
+		$this->view->assign('customers_url', $this->html->getSecureURL('sale/customer'));
+
+		$orders = array();		
 		$filter = array(
 			'sort'  => 'o.date_added',
 			'order' => 'DESC',
@@ -139,7 +157,6 @@ class ControllerPagesIndexHome extends AController {
     	
     	foreach ($results as $result) {
 			$action = array();
-			  
 			$action[] = array(
 				'text' => $this->language->get('text_edit'),
 				'href' => $this->html->getSecureURL('sale/order/update', '&order_id=' . $result['order_id'])

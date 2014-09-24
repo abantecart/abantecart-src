@@ -1,38 +1,47 @@
-<h5 class="sidebartitle">Ecommerce Summary</h5>    
+<h5 class="sidebartitle"><?php echo $text_short_stats; ?></h5>    
 <ul>
     <li>
-        <div class="datainfo">
-            <span class="text-muted">Daily Visitors</span>
-            <h4>630, 201</h4>
+        <div class="icon"><i class="fa fa-users fa-2x fa-fw"></i></div>   
+        <div class="stats_info">
+            <span class="text-muted"><?php echo $text_online_now; ?></span>
+            <h4>
+            	<?php echo $text_online_registered; ?>: <?php echo $online_registered; ?>
+            	</br>	
+            	<?php echo $text_online_new; ?>: <?php echo $online_new; ?>
+            </h4>
         </div>
-        <div id="sidebar-chart" class="chart"></div>   
     </li>
     <li>
-        <div class="datainfo">
-            <span class="text-muted">Daily User Registrations</span>
-            <h4>1, 332, 801</h4>
+		<div class="icon"><i class="fa fa-credit-card fa-2x fa-fw"></i></div>   
+        <div class="stats_info">
+            <span class="text-muted"><?php echo $text_today_orders; ?></span>
+            <h4><?php echo $today_order_count; ?></h4>
         </div>
-        <div id="sidebar-chart2" class="chart"></div>   
+          
     </li>
     <li>
-        <div class="datainfo">
-            <span class="text-muted">Daily Order Counts</span>
-            <h4>10</h4>
+    	<div class="icon"><i class="fa fa-money fa-2x fa-fw"></i></div> 
+        <div class="stats_info">
+            <span class="text-muted"><?php echo $text_today_sales; ?></span>
+            <h4><?php echo $today_sales_amount; ?></h4>
         </div>
-        <div id="sidebar-chart3" class="chart"></div>   
     </li>
     <li>
-        <div class="datainfo">
-            <span class="text-muted">Daily Order Amounts</span>
-            <h4>$1000.00</h4>
+    	<div class="icon"><i class="fa fa-user fa-2x fa-fw"></i></div> 
+        <div class="stats_info">
+            <span class="text-muted"><?php echo $text_today_customers; ?></span>
+            <h4><?php echo $today_customer_count; ?></h4>
         </div>
-        <div id="sidebar-chart4" class="chart"></div>   
+        <div class="icon"></div>   
     </li>
     <li>
-        <div class="datainfo">
-            <span class="text-muted">Memory Usage</span>
-            <h4>32.2%</h4>
+    	<div class="icon"><i class="fa fa-comment fa-2x fa-fw"></i></div> 
+        <div class="stats_info">
+            <span class="text-muted"><?php echo $text_today_reviews; ?></span>
+            <h4><?php echo $today_review_count; ?></h4>
         </div>
-        <div id="sidebar-chart5" class="chart"></div>   
+        <div class="icon"></div>   
     </li>
+    <?php echo $this->getHookVar('side_summary_li'); ?>
 </ul>
+<?php echo $this->getHookVar('side_summary_bottom'); ?>

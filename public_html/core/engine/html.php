@@ -1723,7 +1723,7 @@ class ZonesHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'url' => $url,
-				'zone_field_name' => $this->zone_field_name ? $this->zone_field_name : $this->default_zone_name,
+				'zone_field_name' => $this->zone_field_name ? $this->zone_field_name : $this->default_zone_field_name,
 				'zone_name' => $this->zone_name ? $this->zone_name : $this->default_zone_name,
 				'zone_value' => $this->zone_value ? $this->zone_value : $this->default_zone_value,
 				'zone_options' => $this->zone_options,
