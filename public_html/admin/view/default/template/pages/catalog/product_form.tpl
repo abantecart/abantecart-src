@@ -96,15 +96,15 @@ $(document).ready(function () {
 });
 
 $('#productFrm_generate_seo_keyword').click(function(){
-	var seo_name = $('#productFrm_product_description\\[name\\]').val().replace('%','');
+	var seo_name = $('#productFrm_product_descriptionname').val().replace('%','');
 	$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
 		$('#productFrm_keyword').val(data).change();
 	});
 });
 
-if (document.getElementById('productFrm_product_description[description]'))
-    $('#productFrm_product_description\\[description\\]').parents('.afield').removeClass('mask2');
-CKEDITOR.replace('productFrm_product_description[description]',
+if (document.getElementById('productFrm_product_descriptiondescription'))
+    $('#productFrm_product_descriptiondescription').parents('.afield').removeClass('mask2');
+CKEDITOR.replace('productFrm_product_descriptiondescription',
     {
         filebrowserBrowseUrl:false,
         filebrowserImageBrowseUrl:'<?php echo $rl; ?>',

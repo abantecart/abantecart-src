@@ -135,12 +135,12 @@ jQuery(function ($) {
 		});
 
     }
-    if(!$('#cgFrm_zone_id\\\[\\\]').val()){
+    if(!$('#cgFrm_zone_id').val()){
         getZones($('#cgFrm_country_id').val());
     }
     $('#cgFrm_country_id').change(function () {
         getZones($(this).val());
-        $('#cgFrm_zone_id\\\[\\\]').val('').change();
+        $('#cgFrm_zone_id').val('').change();
 
     });
 });

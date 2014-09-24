@@ -141,8 +141,8 @@
 		$('#popup_text').html(html);
         $("#popup_text input, #popup_text  select, #popup_text textarea").aform({triggerChanged: true, showButtons: false, autoHide:false });
 
-		if( $('#transaction_form_transaction_type\\[1\\]').val()=='' && $('#transaction_form_transaction_type\\[0\\]').val()!='' ){
-			$('#transaction_form_transaction_type\\[1\\]').val('').parents('tr').hide();
+		if( $('#transaction_form_transaction_type1').val()=='' && $('#transaction_form_transaction_type0').val()!='' ){
+			$('#transaction_form_transaction_type1').val('').parents('tr').hide();
 		}
 
 	}

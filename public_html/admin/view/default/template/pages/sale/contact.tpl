@@ -90,10 +90,10 @@
 <script type="text/javascript">
 	$('#mail_form_recipient').change(function(){
 		if($(this).val()=='' || $(this).val()=='FALSE'){
-			$('#mail_form_to\[\]').removeAttr('disabled');
+			$('#mail_form_to').removeAttr('disabled');
 			$('#mail_personaly').fadeIn(500);
 		}else{
-			$('#mail_form_to\[\]').Attr('disabled','disabled');
+			$('#mail_form_to').prop('disabled','disabled');
 			$('#mail_personaly').fadeOut(500);
 
 		}

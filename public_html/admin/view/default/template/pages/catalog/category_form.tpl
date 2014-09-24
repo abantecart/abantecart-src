@@ -89,15 +89,15 @@
 
 
 	$('#editFrm_generate_seo_keyword').click(function(){
-		var seo_name = $('#editFrm_category_description\\[<?php echo $language_id; ?>\\]\\[name\\]').val().replace('%','');
+		var seo_name = $('#editFrm_category_description<?php echo $language_id; ?>name').val().replace('%','');
 		$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
 			$('#editFrm_keyword').val(data).change();
 		});
 	});
 
-	$('#editFrm_category_description\\[<?php echo $language_id; ?>\\]\\[description\\]').parents('.afield').removeClass('mask2');
+	$('#editFrm_category_description<?php echo $language_id; ?>description').parents('.afield').removeClass('mask2');
 
-	CKEDITOR.replace('editFrm_category_description[<?php echo $language_id; ?>][description]',
+	CKEDITOR.replace('editFrm_category_description<?php echo $language_id; ?>description',
 	{
 		filebrowserBrowseUrl : false,
 	    filebrowserImageBrowseUrl : '<?php echo $rl; ?>',

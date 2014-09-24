@@ -138,7 +138,7 @@ if($form['fields']['store_id']){
 	});
 	var sort_order_clone = $('#sort_orders').find('span.text_element').clone();
 
-	$('#contentFrm_parent_content_id\\[\\]').change(function(){
+	$('#contentFrm_parent_content_id').change(function(){
 		var old_values = {};
 		var that = this;
 		var old_keys = $('#sort_orders').find('input[name^=sort_order]').map(function(){

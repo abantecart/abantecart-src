@@ -855,9 +855,9 @@ abstract class HtmlElement {
 		$this->data = $data;
 
 		$this->view = new AView(Registry::getInstance(), 0);
-		$this->element_id = $data[ 'name' ];
+		$this->element_id = preformatTextID($data[ 'name' ]);
 		if (isset($data[ 'form' ]))
-			$this->element_id = $data[ 'form' ] . '_' . $data[ 'name' ];
+			$this->element_id = $data[ 'form' ] . '_' . $this->element_id;
 	}
 
 	/**

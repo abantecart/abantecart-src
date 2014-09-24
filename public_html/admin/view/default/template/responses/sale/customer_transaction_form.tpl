@@ -54,12 +54,12 @@
 <script type="text/javascript">
 
 
-	$('#transaction_form_transaction_type\\[0\\]').on('change',function(){
+	$('#transaction_form_transaction_type0').on('change',function(){
 		if($(this).val()==''){
-			$('#transaction_form_transaction_type\\[1\\]').parents('div.form-group').fadeIn();
-			$('#transaction_form_transaction_type\\[1\\]').focus();
+			$('#transaction_form_transaction_type1').parents('div.form-group').fadeIn();
+			$('#transaction_form_transaction_type1').focus();
 		}else{
-			$('#transaction_form_transaction_type\\[1\\]').parents('div.form-group').fadeOut();
+			$('#transaction_form_transaction_type1').parents('div.form-group').fadeOut();
 		}
 	});
 
