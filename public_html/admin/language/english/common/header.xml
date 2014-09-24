@@ -409,4 +409,38 @@
 		<key>text_read_all_messages</key>
 		<value><![CDATA[Read All Messages]]></value>
 	</definition>
+
+	<definition>
+		<key>text_short_stats</key>
+		<value><![CDATA[Quick Stats]]></value>
+	</definition>
+	<definition>
+		<key>text_online_now</key>
+		<value><![CDATA[Online Customers]]></value>
+	</definition>
+	<definition>
+		<key>text_online_new</key>
+		<value><![CDATA[New]]></value>
+	</definition>
+	<definition>
+		<key>text_online_registered</key>
+		<value><![CDATA[Logged In]]></value>
+	</definition>
+	<definition>
+		<key>text_today_orders</key>
+		<value><![CDATA[New Orders Today]]></value>
+	</definition>
+	<definition>
+		<key>text_today_sales</key>
+		<value><![CDATA[Total Sales Today]]></value>
+	</definition>
+	<definition>
+		<key>text_today_customers</key>
+		<value><![CDATA[New Customers Today]]></value>
+	</definition>
+	<definition>
+		<key>text_today_reviews</key>
+		<value><![CDATA[New Reviews Today]]></value>
+	</definition>
+
 </definitions>

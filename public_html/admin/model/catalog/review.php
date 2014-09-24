@@ -146,6 +146,13 @@ class ModelCatalogReview extends Model {
 		return $query->row['total'];
 	}
 
+	public function getTotalToday() {
+		$sql = "SELECT count(*) as total
+	        	FROM `" . $this->db->table("reviews") . "` r 
+	        	WHERE DATE_FORMAT(r.date_added,'%Y-%m-%d') = DATE_FORMAT(now(),'%Y-%m-%d') ";
+		$query = $this->db->query($sql);
+		return $query->row['total'];		
+	}
 
 	public function getReviewProducts() {
 		$sql = "SELECT DISTINCT r.product_id, pd.name

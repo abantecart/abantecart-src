@@ -70,6 +70,26 @@ class ControllerCommonHead extends AController {
 
 		$this->processTemplate('common/head.tpl');
 
+		//Log Online Customers
+		$ip = '';
+		if (isset($this->request->server['REMOTE_ADDR'])) {
+		        $ip = $this->request->server['REMOTE_ADDR'];
+		}
+		$url = '';
+		if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])) {
+		        $url = 'http://' . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
+		}
+		$referer = '';
+		if (isset($this->request->server['HTTP_REFERER'])) {
+		        $referer = $this->request->server['HTTP_REFERER'];
+		}
+		$customer_id = '';
+		if ( is_object($this->customer)) {
+			$customer_id = $this->customer->getId();
+		}
+		$this->loadModel('tool/online_now');		
+		$this->model_tool_online_now->setOnline($ip, $customer_id, $url, $referer);
+ 
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 

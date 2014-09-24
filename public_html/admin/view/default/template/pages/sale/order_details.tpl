@@ -35,108 +35,120 @@
 <div class="panel-body panel-body-nopadding">
 	<label class="h4 heading"><?php echo $form_title; ?></label>
 
-	<div class="form-group">
-		<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_order_id; ?></label>
-
-		<div class="input-group afield"><?php echo $order_id; ?></div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_invoice_id; ?></label>
-
-		<div class="input-group afield">
-			<?php if ($invoice_id) {
-				echo $invoice_id;
-			} else {
-				?>
-				<button id="generate_button" class="btn btn-info"><?php echo $button_generate; ?></button>
-			<?php } ?>
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_customer; ?></label>
-
-		<div class="input-group afield">
-			<?php if ($customer) { ?>
-				<a href="<?php echo $customer; ?>"><?php echo $firstname; ?> <?php echo $lastname; ?></a>
-			<?php
-			} else {
-				echo $firstname; ?> <?php echo $lastname;
-			} ?>
-		</div>
-	</div>
-	<?php if ($customer_group) { ?>
+	<div class="container-fluid">
+	<div class="col-sm-6 col-xs-12">
 		<div class="form-group">
-			<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_customer_group; ?></label>
-
-			<div class="input-group afield"><?php echo $customer_group; ?></div>
+			<label class="control-label col-sm-5"><?php echo $entry_order_id; ?></label>
+			<div class="input-group afield col-sm-7">
+			<p class="form-control-static"><?php echo $order_id; ?></p>
+			</div>
 		</div>
-	<?php } ?>
-	<div class="form-group">
-		<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_email; ?></label>
-
-		<div class="input-group afield"><?php echo $email; ?></div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_telephone; ?></label>
-
-		<div class="input-group afield"><?php echo $telephone; ?></div>
-	</div>
-	<?php if ($fax) { ?>
 		<div class="form-group">
-			<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_fax; ?></label>
-
-			<div class="input-group afield"><?php echo $form['fields']['fax']; ?></div>
+			<label class="control-label col-sm-5"><?php echo $entry_invoice_id; ?></label>
+			<div class="input-group afield col-sm-7">
+				<?php if ($invoice_id) {
+					echo $invoice_id;
+				} else col-sm-5 ?>
+			</div>
 		</div>
-	<?php } ?>
-	<div class="form-group">
-		<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_ip; ?></label>
-
-		<div class="input-group afield"><?php echo $ip; ?></div>
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $entry_customer; ?></label>
+			<div class="input-group afield col-sm-7">
+				<p class="form-control-static">
+				<?php if ($customer_url) { ?>
+					<a href="<?php echo $customer_url; ?>"><?php echo $firstname; ?> <?php echo $lastname; ?></a>
+				<?php
+				} else {
+					echo $firstname; ?> <?php echo $lastname;
+				} ?>
+				</p>
+			</div>
+		</div>
+		<?php if ($customer_group) { ?>
+			<div class="form-group">
+				<label class="control-label col-sm-5"><?php echo $entry_customer_group; ?></label>
+				<div class="input-group afield col-sm-7">
+				<p class="form-control-static"><?php echo $customer_group; ?></p>
+				</div>
+			</div>
+		<?php } ?>
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $entry_email; ?></label>
+			<div class="input-group afield col-sm-7"><?php echo $email; ?></div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $entry_telephone; ?></label>
+			<div class="input-group afield col-sm-7"><?php echo $telephone; ?></div>
+		</div>
+		<?php if ($fax) { ?>
+			<div class="form-group">
+				<label class="control-label col-sm-5"><?php echo $entry_fax; ?></label>
+				<div class="input-group afield col-sm-7"><?php echo $form['fields']['fax']; ?></div>
+			</div>
+		<?php } ?>
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $entry_ip; ?></label>
+			<div class="input-group afield col-sm-7">
+			<p class="form-control-static"><?php echo $ip; ?></p>
+			</div>
+		</div>
 	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_store_name; ?></label>
-
-		<div class="input-group afield"><?php echo $store_name; ?></div>
+	<div class="col-sm-6 col-xs-12">
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $entry_store_name; ?></label>
+			<div class="input-group afield col-sm-7">
+			<p class="form-control-static"><?php echo $store_name; ?></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $entry_store_url; ?></label>
+			<div class="input-group afield col-sm-7">
+			<p class="form-control-static"><a href="<?php echo $store_url; ?>" target="_blank"><?php echo $store_url; ?></a></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $entry_date_added; ?></label>
+			<div class="input-group afield col-sm-7">
+			<p class="form-control-static"><?php echo $date_added; ?></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $entry_shipping_method; ?></label>
+			<div class="input-group afield col-sm-7">
+			<p class="form-control-static"><?php echo $form['fields']['shipping_method']; ?></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $entry_payment_method; ?></label>
+			<div class="input-group afield col-sm-7">
+			<p class="form-control-static"><?php echo $form['fields']['payment_method']; ?></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $entry_total; ?></label>
+			<div class="input-group afield col-sm-7">
+			<p class="form-control-static"><?php echo $total; ?></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $entry_order_status; ?></label>
+			<div class="input-group afield col-sm-7" id="order_status">
+			<p class="form-control-static"><a target="_blank" href="<?php echo $history; ?>"><?php echo $order_status; ?></a></p>
+			</div>
+		</div>
 	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_store_url; ?></label>
-
-		<div class="input-group afield"><a href="<?php echo $store_url; ?>"
-										   target="_blank"><?php echo $store_url; ?></a></div>
 	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_date_added; ?></label>
-
-		<div class="input-group afield"><?php echo $date_added; ?></div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_shipping_method; ?></label>
-
-		<div class="input-group afield"><?php echo $form['fields']['shipping_method']; ?></div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_payment_method; ?></label>
-
-		<div class="input-group afield"><?php echo $form['fields']['payment_method']; ?></div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_total; ?></label>
-
-		<div class="input-group afield"><?php echo $total; ?></div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_order_status; ?></label>
-
-		<div class="input-group afield" id="order_status">
-			<a target="_blank" href="<?php echo $history; ?>"><?php echo $order_status; ?></a></div>
-	</div>
+	
 	<?php if ($comment) { ?>
 		<div class="form-group">
-			<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_comment; ?></label>
-
-			<div class="input-group afield"><?php echo $comment; ?></div>
+			<label class="control-label col-sm-5"><?php echo $entry_comment; ?></label>
+			<div class="input-group afield col-sm-7">
+			<p class="form-control-static"><?php echo $comment; ?></p>
+			
+			</div>
 		</div>
 	<?php } ?>
+	
 	<?php echo $this->getHookVar('order_details'); ?>
 
 </div>
@@ -228,10 +240,10 @@
 		</tbody>
 	</table>
 
-	<div class="row">
-		<div class="list-inline "><?php echo $entry_add_product; ?></div>
-		<div class="list-inline input-group afield col-sm-5 col-xs-12 ">
-			<select multiple id="add_product" class="no-save" data-placeholder="<?php echo $text_select_product; ?>">
+	<div class="container-fluid form-inline">
+		<div class="list-inline col-sm-12"><?php echo $entry_add_product; ?></div>
+		<div class="list-inline input-group afield col-sm-7 col-xs-9">
+			<select multiple id="add_product" class="form-control no-save" data-placeholder="<?php echo $text_select_product; ?>">
 				<?php
 				foreach ($products as $product) {
 					?>
@@ -243,7 +255,7 @@
 				<?php } ?>
 			</select>
 		</div>
-		<div class="list-inline input-group afield col-sm-5 col-xs-12 ">
+		<div class="list-inline input-group afield col-sm-offset-1 col-sm-3 col-xs-1">
 			<a class="add btn btn-success tooltips" data-original-title="<?php echo $text_add; ?>"><i
 						class="fa fa-plus-circle"></i></a>
 		</div>

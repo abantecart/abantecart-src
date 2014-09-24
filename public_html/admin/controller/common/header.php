@@ -109,10 +109,39 @@ class ControllerCommonHeader extends AController {
 		$this->view->assign('dialog_title', $this->language->get('text_quick_edit_form'));
 		$this->view->assign('button_go', $this->html->buildButton(array('name' => 'searchform_go', 'text' => $this->language->get('button_go'), 'style' => 'button5')));
 
-		//check install dir existing
+		//check if install dir existing. warn
 		if (file_exists(DIR_ROOT . '/install')) {
 			$this->messages->saveWarning($this->language->get('text_install_warning_subject'), $this->language->get('text_install_warning'));
 		}
+		
+		//prepare quick stats 
+		$this->loadModel('tool/online_now');
+		$online_new = $this->model_tool_online_now->getTotalTodayOnline('new');
+		$online_registered = $this->model_tool_online_now->getTotalTodayOnline('registered');	
+		$this->view->assign('online_new', $online_new);
+		$this->view->assign('online_registered', $online_registered);
+		
+		$this->loadModel('report/sale');
+	    $data = array(
+			'date_start' => dateISO2Display(date('Y-m-d', time()) ,$this->language->get('date_format_short'))
+		);
+		$today_orders = $this->model_report_sale->getSaleReportSummary($data);
+		$today_order_count = $today_orders['orders'];
+		$today_sales_amount = $this->currency->format($today_orders['total_amount'], $this->config->get('config_currency'));		
+		$this->view->assign('today_order_count', $today_order_count);
+		$this->view->assign('today_sales_amount', $today_sales_amount);
+
+		$this->loadModel('sale/customer');
+		$filter = array(
+			'date_added' => date('Y-m-d', time())
+		);
+		$today_customer_count = $this->model_sale_customer->getTotalCustomers(array('filter' => $filter));
+		$this->view->assign('today_customer_count', $today_customer_count);
+
+		$this->loadModel('catalog/review');
+		$today_review_count = $this->model_catalog_review->getTotalToday();
+		$this->view->assign('today_review_count', $today_review_count);
+				
 		$this->processTemplate('common/header.tpl');
 		//use to update data before render
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

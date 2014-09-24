@@ -1,3 +1,14 @@
+DROP TABLE IF EXISTS `ac_online_customers`;
+CREATE TABLE `ac_online_customers` (
+  `customer_id` int(11) NOT NULL,
+  `ip` varchar(40) NOT NULL,
+  `url` text NOT NULL,
+  `referer` text NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
 # fix of previous upgrade bug
 alter table `ac_downloads` modify column `expire_days` int(11) null default null;
 

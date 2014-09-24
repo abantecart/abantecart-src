@@ -93,38 +93,7 @@ jQuery(document).ready(function() {
    }
    
    bindCustomEvents();
-         
-   // Sparkline
-   $('#sidebar-chart').sparkline([4,3,3,1,4,3,2,2,3,10,9,6], {
-	  type: 'bar', 
-	  height:'30px',
-      barColor: '#428BCA'
-   });
-   
-   $('#sidebar-chart2').sparkline([1,3,4,5,4,10,8,5,7,6,9,3], {
-	  type: 'bar', 
-	  height:'30px',
-      barColor: '#D9534F'
-   });
-   
-   $('#sidebar-chart3').sparkline([5,9,3,8,4,10,8,5,7,6,9,3], {
-	  type: 'bar', 
-	  height:'30px',
-      barColor: '#1CAF9A'
-   });
-   
-   $('#sidebar-chart4').sparkline([4,3,3,1,4,3,2,2,3,10,9,6], {
-	  type: 'bar', 
-	  height:'30px',
-      barColor: '#428BCA'
-   });
-   
-   $('#sidebar-chart5').sparkline([1,3,4,5,4,10,8,5,7,6,9,3], {
-	  type: 'bar', 
-	  height:'30px',
-      barColor: '#F0AD4E'
-   });
-   
+            
    // Panels Controls
    $('.minimize').click(function(){
       var t = $(this);
@@ -430,14 +399,14 @@ var buildTooltips = function(objects, options) {
 function ajust_content_height() {
    // Adjust contentpanel height
    var docHeight = $(document).height() - $('#footer').height();
-   var extra = $('.headerbar').height() + $('.pageheader').height() + 50;
+   var extra = $('.headerbar').height() + $('.pageheader').height();
    var leftHeight = $('.leftpanel').height();
    var rightHeight = $('.contentpanel').height() + extra;
    if(docHeight > rightHeight) {
-   		$('.contentpanel').css('min-height',docHeight - extra + 'px');
+   		$('.contentpanel').css('min-height',docHeight - extra - 100 + 'px');
    }
    if(leftHeight > rightHeight) {
-		$('.contentpanel').css('min-height',leftHeight - extra + 'px');
+		$('.contentpanel').css('min-height',leftHeight - extra - 50 + 'px');
    }
 }
 
