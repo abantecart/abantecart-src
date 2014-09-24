@@ -17,11 +17,6 @@ AbanteCart brand color styles: #064770 (dark blue) #F19013 (Orange)
 @import url('chosen.bootstrap.css');
 @import url('animate.css');
 
-/*
-@import url('animate.min.css');
-@import url('animate.delay.css');
-*/
-
 body {
    /*background: #1d2939;*/
    background: #064770;
@@ -2502,7 +2497,12 @@ body.stickyheader .sticky_left {
 .summary_label {
     font-weight: bold;
     text-align: left;
-    text-decoration: underline;
+    color: #333;
+	font-size: 13px;
+}
+.summary_value {
+	font-size: 13px;
+	color: #636e7b;
 }
 
 .panel-body .shortcut img {
@@ -2979,57 +2979,7 @@ body.stickyheader .sticky_left {
       float: none;
       border-top: 1px solid #eee;
    }
-   
-   .comment-list .media-object {
-      width: 30px;
-      padding: 2px;
-   }
-   
-   .comment-list .media > .pull-left {
-      margin: 0;
-   }
-   
-   .comment-list h4 {
-      font-size: 13px;
-   }
-   
-   .comment-list .reply {
-      font-size: 10px;
-      padding: 2px 5px;
-   }
-   
-   .comment-list .media-body {
-      font-size: 12px;
-      line-height: 18px;
-   }
-   
-   .blog-content form {
-      margin-bottom: 20px;
-   }
-   
-   .letter-list {
-      -moz-box-shadow: none;
-      -webkit-box-shadow: none;
-      box-shadow: none;
-   }
-   
-   .letter-list::after {
-      clear: both;
-      display: block;
-      content: '';
-   }
-   
-   .letter-list li {
-      float: left;
-      width: auto;
-      display: inline-block;
-   }
-   
-   .letter-list li a {
-      display: block;
-      padding: 2px 5px;
-   }
-   
+            
    .btn-invoice:before {
       display: block;
       content: '';
@@ -3064,23 +3014,7 @@ body.stickyheader .sticky_left {
    .pageheader h2 span {
       display: none;
    }
-   
-   .blog-title {
-      font-size: 14px;
-      line-height: 18px;
-   }
-   
-   .blog-summary {
-      font-size: 12px;
-      line-height: 18px;
-   }
-   
-   .blog-summary .btn {
-      padding: 2px 5px;
-      display: block;
-      width: 100%;
-   }
-   
+      
    .headermenu li:first-child .dropdown-menu {
       margin-right: -130px;
    }
@@ -3098,17 +3032,7 @@ body.stickyheader .sticky_left {
       display: block;
       width: auto;
    }
-   
-   .blog-media .media-body {
-      overflow: visible;
-   }
-   
-   .follower-list .btn {
-      display: block;
-      margin: 0 0 5px 0;
-      width: 100%;
-   }
-   
+      
    .reslibrary-options li {
       display: block;
       border-top: 1px solid #eee;

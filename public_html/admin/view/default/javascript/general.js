@@ -399,14 +399,14 @@ var buildTooltips = function(objects, options) {
 function ajust_content_height() {
    // Adjust contentpanel height
    var docHeight = $(document).height() - $('#footer').height();
-   var extra = $('.headerbar').height() + $('.pageheader').height() + 50;
+   var extra = $('.headerbar').height() + $('.pageheader').height();
    var leftHeight = $('.leftpanel').height();
    var rightHeight = $('.contentpanel').height() + extra;
    if(docHeight > rightHeight) {
-   		$('.contentpanel').css('min-height',docHeight - extra + 'px');
+   		$('.contentpanel').css('min-height',docHeight - extra - 100 + 'px');
    }
    if(leftHeight > rightHeight) {
-		$('.contentpanel').css('min-height',leftHeight - extra + 'px');
+		$('.contentpanel').css('min-height',leftHeight - extra - 50 + 'px');
    }
 }
 

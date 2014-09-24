@@ -28,13 +28,12 @@
 		</h5>
 
 		<div class="table-responsive">
-	    <table class="table">
+	    <table class="table table-condensed">
 	      <thead>
 	        <tr>
 	          <td class="center"><b><?php echo $column_order; ?></b></td>
 	          <td class="left"><b><?php echo $column_name; ?></b></td>
 	          <td class="left"><b><?php echo $column_status; ?></b></td>
-	          <td class="left"><b><?php echo $column_date_added; ?></b></td>
 	          <td class="right"><b><?php echo $column_total; ?></b></td>
 	          <td class="center"><b><?php echo $column_action; ?></b></td>
 	        </tr>
@@ -54,7 +53,6 @@
 	          <td class="center"><?php echo $order['order_id']; ?></td>
 	          <td class="left"><?php echo $order['name']; ?></td>
 	          <td class="left"><?php echo $order['status']; ?></td>
-	          <td class="left"><?php echo $order['date_added']; ?></td>
 	          <td class="right"><?php echo $order['total']; ?></td>
 	          <td class="center"><?php foreach ($order['action'] as $action) { ?>
 	          <a class="btn " href="<?php echo $action['href']; ?>" title="<?php echo $action['text']; ?>"> <i class="fa fa-edit fa-lg"></i></a>
@@ -82,7 +80,7 @@
 		</h5>
 
 		<div class="table-responsive">
-	    <table class="table">
+	    <table class="table table-condensed">
 	      <thead>
 	        <tr>
 	          <td class="left"><b><?php echo $column_name; ?></b></td>
