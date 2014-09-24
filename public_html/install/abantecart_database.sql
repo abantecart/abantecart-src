@@ -1271,7 +1271,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','warn_lang_text_missing',0),
 ('details','config_description_9','Welcome to web store!'),
 -- general
-('general','config_admin_limit',10),
+('general','config_admin_limit',20),
 ('general','config_catalog_limit',20),
 ('general','config_bestseller_limit',4),
 ('general','config_featured_limit',4),
