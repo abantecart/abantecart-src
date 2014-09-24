@@ -25,7 +25,7 @@
 <span class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></span>
 <?php endif; ?>
 <script type="text/javascript">
-    $('#<?php echo str_replace(']', '\\\]', str_replace('[', '\\\[', $id)) ?>').on('change', function () {
+    $('#<?php echo $id ?>').on('change', function () {
         $(this).next().find('.atext').html($(this).val()).removeClass('default_text');
     });
 </script>

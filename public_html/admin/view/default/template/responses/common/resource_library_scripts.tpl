@@ -32,6 +32,24 @@ var modalscope = {
 	field_id: ''
 };
 
+var rl_error_handler = function(jqXHR, textStatus, errorThrown){
+	try {
+		var err = $.parseJSON(jqXHR.responseText);
+		if (err.hasOwnProperty("error_text")) {
+			var errors = err.error_text;
+			var errlist = typeof errors === 'string' ? [errors] : errors;
+
+			if (errlist.length > 0) {
+				for (var k in errlist) {
+					rl_error_alert(errlist[k], false);
+				}
+			}
+		}
+	} catch (e) {
+		rl_error_alert(jqXHR.responseText, false);
+	}
+}
+
 /*
  Main resource library modal
  */
@@ -78,25 +96,8 @@ var reloadModal = function (URL) {
 			bind_rl(mdb);
 		},
 
-		error: function (jqXHR, textStatus, errorThrown) {
-				try {
-					var err = $.parseJSON(jqXHR.responseText);
-					if (err.hasOwnProperty("error_text")) {
-						var errors = err.error_text;
-						var errlist = typeof errors === 'string' ? [errors] : errors;
+		error: rl_error_handler
 
-						if (errlist.length > 0) {
-							for (var k in errlist) {
-								rl_error_alert(errlist[k], false);
-							}
-						}
-					}
-				} catch (e) {
-					rl_error_alert(jqXHR.responseText, false);
-				}
-		},
-		complete: function () {
-		}
 	});
 }
 
@@ -114,23 +115,7 @@ var saveRL = function (URL, postdata) {
 			rl_success_alert('<?php echo $text_success; ?>', true);
 		},
 
-		error: function (jqXHR, textStatus, errorThrown) {
-			try {
-				var err = $.parseJSON(jqXHR.responseText);
-				if (err.hasOwnProperty("error_text")) {
-					var errors = err.error_text;
-					var errlist = typeof errors === 'string' ? [errors] : errors;
-
-					if (errlist.length > 0) {
-						for (var k in errlist) {
-							rl_error_alert(errlist[k], false);
-						}
-					}
-				}
-			} catch (e) {
-				rl_error_alert(jqXHR.responseText, false);
-			}
-		}
+		error: rl_error_handler
 	});
 	return rid;
 }
@@ -197,10 +182,7 @@ var loadMedia = function (type, wrapper) {
 
 			$(wrapper).html(html);
 		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			$('#type_' + type).show();
-			$('#type_' + type + ' td.type_blocks').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
-		},
+		error: rl_error_handler,
 		complete: function () {
 			bindCustomEvents('#type_' + type);
 		}
@@ -209,7 +191,6 @@ var loadMedia = function (type, wrapper) {
 }
 
 var loadSingle = function (type, wrapper_id, resource_id, field) {
-
 	if (!wrapper_id || wrapper_id == undefined || wrapper_id == null || wrapper_id == '') {
 		wrapper_id = modalscope.wrapper_id;
 	} else {
@@ -269,13 +250,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 
 			$('#' + wrapper_id).html(html);
 		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			//$('#type_' + type).show();
-			//	$('#type_' + type + ' td.type_blocks').html('<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>');
-		},
-		complete: function () {
-			//bindCustomEvents('#type_' + type);
-		}
+		error: rl_error_handler
 	});
 
 }
@@ -376,7 +351,8 @@ function map_resource(rl_id, object_name, object_id) {
 				$('#image_row' + rl_id).parent().remove();
 			}
 			rl_success_alert('<?php echo $text_map_success; ?>', true);
-		}
+		},
+		error: rl_error_handler
 	});
 	return false;
 }
@@ -399,7 +375,8 @@ function unmap_resource(rl_id, object_name, object_id) {
 				$('#image_row' + rl_id).parent().remove();
 			}
 			rl_success_alert('<?php echo $text_success_unmap; ?>', true);
-		}
+		},
+		error: rl_error_handler
 	});
 	return false;
 }
@@ -427,9 +404,7 @@ function delete_resource(rl_id, object_name, object_id) {
 			}
 			rl_success_alert('<?php echo $text_file_delete; ?>', true);
 		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			rl_error_alert(jqXHR.responseJSON.error_text, false);
-		}
+		error: rl_error_handler
 	});
 	return false;
 }
@@ -628,14 +603,7 @@ var bind_rl = function (elm) {
 			success: function (html) {
 				rl_success_alert('<?php echo $text_success; ?>', true);
 			},
-			//todo: check!
-			error: function (jqXHR, textStatus, errorThrown) {
-				error_alert(
-						'<div class="error" align="center"><b>' + textStatus + '</b>  ' + errorThrown + '</div>',
-						false,
-						'.modal-content'
-				);
-			}
+			error: rl_error_handler
 		});
 		$('#object').click(); // reload modal with object's resources
 		return false;
@@ -759,23 +727,7 @@ var multi_action = function (action) {
 		success: function (html) {
 			rl_success_alert('<?php echo $text_success; ?>', true);
 		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			try {
-				var err = $.parseJSON(jqXHR.responseText);
-				if (err.hasOwnProperty("error_text")) {
-					var errors = err.error_text;
-					var errlist = typeof errors === 'string' ? [errors] : errors;
-
-					if (errlist.length > 0) {
-						for (var k in errlist) {
-							rl_error_alert(errlist[k], false);
-						}
-					}
-				}
-			} catch (e) {
-				rl_error_alert(jqXHR.responseText, false);
-			}
-		}
+		error: rl_error_handler
 	});
 
 	active_tab().click(); // reload modal with object's resources

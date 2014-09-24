@@ -242,8 +242,8 @@
 		<value><![CDATA[Warning: Permission Denied!]]></value>
 	</definition>
 	<definition>
-		<key>error_permission</key>
-		<value><![CDATA[Warning: Permission Denied!]]></value>
+		<key>error_name</key>
+		<value><![CDATA[Error: Name field is required!]]></value>
 	</definition>
 	<definition>
 		<key>button_delete</key>

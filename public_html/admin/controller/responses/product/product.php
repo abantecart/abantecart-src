@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 /** @noinspection PhpUndefinedClassInspection */
 class ControllerResponsesProductProduct extends AController {
-	private $error = array();
+	public $error = array();
 	public $data = array();
 	/**
 	 * @var AAttribute_Manager
@@ -723,7 +723,11 @@ class ControllerResponsesProductProduct extends AController {
 		$this->loadModel('catalog/download');
 		if($this->_validateDownloadForm($this->request->post)){
 			$post_data = $this->request->post;
-			$post_data['filename'] = (string)$this->request->post['download_rl_path_'.$this->request->post['download_id']];
+
+			//disable download if file not set
+			if(!$post_data['filename']){
+				$post_data['status'] = 0;
+			}
 			// for shared downloads
 			if(!isset($post_data['shared']) && !$this->request->get['product_id']){
 				$post_data['shared'] = 1;
@@ -769,26 +773,67 @@ class ControllerResponsesProductProduct extends AController {
 		$this->loadModel('catalog/download');
 
 		$this->data['download_id'] = $download_id =  $this->request->get['download_id'];
-		$product_id = (int)$this->request->get['product_id'];
+		$this->data['product_id'] = $product_id = (int)$this->request->get['product_id'];
 
+		// for new download - create form for mapping shared downloads to product
+		if(!$download_id && $product_id){
+			$this->_buildSelectForm($product_id);
+		}
+
+		// CREATE NEW PRODUCT FILE
 		if($download_id){
-			$file_data = $this->model_catalog_download->getDownload($download_id);
-			$this->_validateDownloadForm($file_data);
-			$this->data['error'] = $this->error;
+			$form = new AForm('HS');
+			$this->data['update'] = $this->html->getSecureURL('listing_grid/download/update_field', '&id=' . $download_id);
+			$this->data['action'] = $this->html->getSecureURL('r/product/product/processDownloadForm', '&download_id=' . $download_id);
 		}else{
-			$file_data = array();
+			$form = new AForm('HT');
+			$this->data['action'] = $this->html->getSecureURL('r/product/product/processDownloadForm','&product_id='.$product_id);
+		}
+		$form->setForm(array(
+				'form_name' => 'downloadFrm',
+				'update' => $this->data['update'],
+		));
+
+		$this->_buildGeneralSubform($form,$download_id, $product_id);
+
+		// DOWNLOAD ATTRIBUTES PIECE OF FORM
+		$this->_buildAttributesSubform($form);
+
+		$this->data['form_title'] = $download_id ? $this->language->get('text_edit_product_file') : $this->language->get('text_create_download');
+		if($product_id){
+			$this->data['file_list_url'] = $this->html->getSecureURL('catalog/product_files', '&product_id='.$product_id);
+		}else{
+			$this->data['file_list_url'] = $this->html->getSecureURL('catalog/download');
 		}
 
-		if(!$product_id){
-			$this->redirect($this->html->getSecureURL('catalog/product'));
-			return null;
+		$this->view->batchAssign($this->data);
+		$this->processTemplate('responses/product/product_file_form.tpl');
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
+
+
+	/**
+	 * @param $product_id
+	 */
+	private function _buildSelectForm($product_id){
+
+		$shared_downloads = $this->model_catalog_download->getSharedDownloads();
+		$options = array();
+		foreach($shared_downloads as $d){
+			$options[$d['download_id']] = $d['name'];
 		}
 
-		/*
-		 *  for new download - create form for mapping shared downloads to product
-		 */
+		$product_downloads = $this->model_catalog_download->getProductDownloadsDetails($product_id);
+		$shd = array_keys( $options );
+		foreach($product_downloads as $d){
+			if(in_array($d['download_id'],$shd)){
+				unset($options[$d['download_id']]);
+			}
+		}
 
-		if(!$download_id){
+
+		if($options){
 			$form0 = new AForm('ST');
 			$form0->setForm(array(
 						'form_name' => 'SharedFrm',
@@ -800,12 +845,6 @@ class ControllerResponsesProductProduct extends AController {
 						'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 						'action' => $this->html->getSecureURL('catalog/product_files','&product_id='.$product_id)
 					));
-
-			$shared_downloads = $this->model_catalog_download->getSharedDownloads();
-			$options = array();
-			foreach($shared_downloads as $d){
-				$options[$d['download_id']] = $d['name'];
-			}
 
 			$this->data['form0']['shared'] = $form0->getFieldHtml(array(
 					'type' => 'checkboxgroup',
@@ -823,26 +862,18 @@ class ControllerResponsesProductProduct extends AController {
 			));
 		}
 
+	}
 
+	private function _buildGeneralSubform($form, $download_id, $product_id){
+		if($download_id){
+			$file_data = $this->model_catalog_download->getDownload($download_id);
 
-		/*
-		 * CREATE NEW PRODUCT FILE
-		 */
-
-		if ($download_id) {
-			$form = new AForm('HS');
-			$this->data['update'] = $this->html->getSecureURL('listing_grid/download/update_field', '&id=' . $download_id);
-			$this->data['action'] = $this->html->getSecureURL('r/product/product/processDownloadForm', '&download_id=' . $download_id);
-
-		} else {
-			$form = new AForm('HT');
-			$this->data['action'] = $this->html->getSecureURL('r/product/product/processDownloadForm','&product_id='.$product_id);
+			$this->_validateDownloadForm($file_data);
+			$this->data['error'] = $this->error;
+		}else{
+			$file_data = array();
 		}
 
-		$form->setForm(array(
-				'form_name' => 'downloadFrm',
-				'update' => $this->data['update'],
-		));
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 				'type' => 'form',
 				'name' => 'downloadFrm',
@@ -871,31 +902,28 @@ class ControllerResponsesProductProduct extends AController {
 
 		$this->data['action'] = $this->html->getSecureURL('r/product/product/processDownloadForm', '&product_id=' . $product_id);
 
+		$resources_scripts = $this->dispatch(
+			'responses/common/resource_library/get_resources_scripts',
+			array(
+				'object_name' => 'downloads',
+				'object_id' => '',
+				'types' => array('download')));
+		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+
+		$this->data['form']['fields']['general']['resource'] = $form->getFieldHtml($props[] = array(
+						'type' => 'resource',
+						'name' => 'filename',
+						'resource_path' => htmlspecialchars($file_data['filename'], ENT_COMPAT, 'UTF-8'),
+						'rl_type' => 'download'
+					));
+
 		$rl = new AResource('download');
 		$rl_dir = $rl->getTypeDir();
 		$resource_id = $rl->getIdFromHexPath(str_replace($rl_dir,'',$file_data['filename']));
-
-		$resource_info = $rl->getResource($resource_id);
-		$thumbnail = $rl->getResourceThumb($resource_id,30, 30);
-		if($resource_info['resource_path']){
-			$this->data[ 'icon' ] = $this->html->buildResourceImage(
-														array('url' => $thumbnail,
-															'width' => 30,
-															'height' => 30,
-															'attr' => 'alt="' . $resource_info['title'] . '"') );
-		}else{
-			$this->data[ 'icon' ] = $resource_info['resource_code'];
+		if($resource_id){
+			$this->data['preview']['href'] = $this->html->getSecureURL('common/resource_library/get_resource_preview','&resource_id='.$resource_id, true);
+			$this->data['preview']['path'] = 'resources/'.$file_data['filename'];
 		}
-
-//TODO: NEED TO BUILD RESOURCE ELEMENT HERE!!!!
-		$this->data['form']['fields']['general']['resource'] = $this->data[ 'icon' ].'TODO: NEED TO BUILD RESOURCE ELEMENT HERE!!!!';
-
-		$this->data['form']['fields']['general']['download_rl_path'] = $form->getFieldHtml(
-		            array(
-		                'type' => 'hidden',
-		                'name' => 'download_rl_path_'.$this->data['download_id'],
-		                'value' => htmlspecialchars($file_data['filename'], ENT_COMPAT, 'UTF-8'),
-		));
 
 		$this->data['form']['fields']['general']['status'] = $form->getFieldHtml(array(
 					'type' => 'checkbox',
@@ -906,28 +934,31 @@ class ControllerResponsesProductProduct extends AController {
 		));
 
 		//check is download already shared
-		$this->data['map_list'] = array();
-		$file_data['map_list'] = (array)$this->model_catalog_download->getDownloadMapList($download_id);
-		foreach($file_data['map_list'] as $map_id => $map_name){
-			if($map_id==$product_id){ continue;}
-			$this->data['map_list'][] = array('href'=> $this->html->getSecureURL('catalog/product_files','&product_id='.$map_id.'&download_id='.$this->data['download_id'], true),
-											 'text' => $map_name);
+		if($download_id){
+			$this->data['map_list'] = array();
+			$file_data['map_list'] = (array)$this->model_catalog_download->getDownloadMapList($download_id);
+			foreach($file_data['map_list'] as $map_id => $map_name){
+				if($map_id==$product_id){ continue;}
+				$this->data['map_list'][] = array('href'=> $this->html->getSecureURL('catalog/product_files','&product_id='.$map_id.'&download_id='.$this->data['download_id'], true),
+												 'text' => $map_name);
+			}
+			if(!sizeof($this->data['map_list'])){
+				$this->data['already_shared'] = false;
+			}else{
+				$this->data['already_shared'] = true;
+			}
 		}
-		if(!sizeof($this->data['map_list'])){
-			$this->data['already_shared'] = false;
-		}else{
-			$this->data['already_shared'] = true;
-		}
-
 		$this->data['delete_unmap_href'] = $this->html->getSecureURL('catalog/product_files','&act='.($file_data['shared']? 'unmap' : 'delete').'&product_id='.$product_id.'&download_id='.$this->data['download_id'], true);
 
-		$this->data['form']['fields']['general']['shared'] = $form->getFieldHtml(array(
-							'type' => 'checkbox',
-							'name' => 'shared',
-							'value' => 1,
-							'checked' => $file_data['shared'] ? true : false,
-							'attr'=> ($this->data['already_shared'] ? ' disabled=disabled':'')
-		));
+		if($product_id){
+			$this->data['form']['fields']['general']['shared'] = $form->getFieldHtml(array(
+								'type' => 'checkbox',
+								'name' => 'shared',
+								'value' => 1,
+								'checked' => $file_data['shared'] ? true : false,
+								'style' => 'btn_switch '.($this->data['already_shared'] ? 'disabled' : '')
+			));
+		}
 
 		if($file_data['shared']){
 			$this->data['text_attention_shared'] = $this->language->get('attention_shared');
@@ -996,10 +1027,10 @@ class ControllerResponsesProductProduct extends AController {
 			'style' => 'small-field',
 			'value' => $file_data['expire_days'],
 		));
+	}
 
-		/*
-		 * DOWNLOAD ATTRIBUTES PIECE OF FORM
-		 * */
+	private function _buildAttributesSubform($form){
+
 		$attributes = $this->model_catalog_download->getDownloadAttributes($this->data['download_id']);
 		$elements = HtmlElementFactory::getAvailableElements();
 
@@ -1073,13 +1104,6 @@ class ControllerResponsesProductProduct extends AController {
 			}
 		}
 
-		$this->data['form_title'] = $download_id ? $this->language->get('text_edit_product_file') : $this->language->get('text_create_download');
-		$this->data['file_list_url'] = $this->html->getSecureURL('catalog/product_files');
-
-		$this->view->batchAssign($this->data);
-		$this->processTemplate('responses/product/product_file_form.tpl');
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
 	/**
@@ -1116,6 +1140,9 @@ class ControllerResponsesProductProduct extends AController {
 		if($attr_errors){
 			$this->error['attributes'] = $attr_errors;
 		}
+
+		$this->extensions->hk_ValidateData($this);
+
 		return $this->error ? false : true;
 	}
 

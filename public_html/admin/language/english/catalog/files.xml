@@ -77,6 +77,10 @@
 		<value><![CDATA[Add File]]></value>
 	</definition>
 	<definition>
+		<key>text_new_file</key>
+		<value><![CDATA[Add New File]]></value>
+	</definition>
+	<definition>
 		<key>text_download_attributes</key>
 		<value><![CDATA[Download Attributes]]></value>
 	</definition>

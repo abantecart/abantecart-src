@@ -217,6 +217,17 @@ class ModelCatalogDownload extends Model {
 		$download_id = (int)$download_id;
 		if(!$download_id){ return null;}
 
+		$download = $this->getDownload($download_id);
+		if(!$download){ return null; }
+
+		$rm = new AResourceManager();
+		$rm->setType('download');
+		$path = ltrim($download['filename'],'download/');
+		$rl_id = $rm->getIdFromHexPath($path);
+		if($rl_id && !$rm->isMapped($rl_id)){
+			$rm->deleteResource($rl_id);
+		}
+
 		$this->db->query("DELETE FROM " . DB_PREFIX . "downloads WHERE download_id = '" . (int)$download_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "download_descriptions WHERE download_id = '" . (int)$download_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "download_attribute_values WHERE download_id = '" . (int)$download_id . "'");

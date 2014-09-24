@@ -237,7 +237,9 @@ class ControllerResponsesCatalogAttribute extends AController {
 		$this->data[ 'form' ][ 'fields' ][ 'show_to_customer' ] = $form->getFieldHtml(array(
 		                                                                           'type' => 'checkbox',
 		                                                                           'name' => 'settings[show_to_customer]',
-		                                                                           'value' => $this->data['settings']['show_to_customer' ],
+		                                                                           'value' => 1,
+																				   'checked' => ($this->data['settings']['show_to_customer' ] ? true : false),
+																					'style'  => 'btn_switch',
 		                                                                      ));
 
 		//Build atribute values part of the form

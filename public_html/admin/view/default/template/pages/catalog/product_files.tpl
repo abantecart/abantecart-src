@@ -70,7 +70,8 @@
 		<div class="panel-footer">
 			<div class="row pull-right">
 				<div class="col-sm-6 col-sm-offset-0">
-					<a href="<?php echo $button_add_file->href; ?>" data-target="#file_modal"
+					<a href="<?php echo $button_add_file->href; ?>"
+					   data-target="#file_modal"
 					   data-toggle="modal">
 						<button class="btn btn-primary">
 							<i class="fa fa-plus"></i> <?php echo $button_add_file->text; ?>

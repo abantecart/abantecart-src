@@ -4,9 +4,10 @@
 	<h4 class="modal-title"><?php echo $form_title; ?></h4>
 </div>
 <div class="modal-body">
-
+<?php echo $resources_scripts;?>
 <?php if (!$download_id) { ?>
 		<div class="panel-group" id="accordion">
+		<?php if($form0){ ?>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
@@ -16,7 +17,6 @@
 					</h4>
 				</div>
 				<div id="collapseOne" class="panel-collapse collapse in">
-
 			<?php echo $form0['form_open']; ?>
 				<div class="panel-body panel-body-nopadding">
 						<?php
@@ -58,25 +58,24 @@
 			</form>
 				</div>
 			</div>
-
+		<?php } ?>
 			<?php // insert collapses when create new product file to split form to 2 part - create from shared and create new ?>
 			<div class="panel panel-default">
+				<?php if($form0){?>
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						<a class="h4" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-							Add New File
-						</a>
+						<a class="h4" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><?php echo $text_new_file;?></a>
 					</h4>
 				</div>
-				<div id="collapseTwo" class="panel-collapse collapse">
+				<div id="collapseTwo" class="panel-collapse collapse <?php echo !$form0 ? 'in' : ''; ?>">
+				<?php }?>
 <?php } ?>
 				<?php echo $form['form_open']; ?>
 					<div class="panel-body panel-body-nopadding">
-
 						<?php foreach ($form['fields'] as $section => $fields) { ?>
 						<label class="h4 heading"><?php echo ${'tab_' . $section}; ?></label>
-							<?php foreach ($fields as $name => $field) { ?>
-							<?php
+							<?php foreach ($fields as $name => $field) {
+								if( $field->type=='hidden' ){ echo $field; continue;	}
 								//Logic to cululate fileds width
 								$widthcasses = "col-sm-7";
 								if ( is_int(stripos($field->style, 'large-field')) ) {
@@ -98,18 +97,27 @@
 									<div class="list-group">
 										<span class="list-group-item disabled"><?php echo $text_shared_with?></span>
 									<?php foreach($map_list as $i){?>
-										<a href="<?php echo $i['href'];?>" class="list-group-item"><?php echo $i['text']?></a>
+										<a href="<?php echo $i['href'];?>" target="_blank" class="list-group-item"><?php echo $i['text']?></a>
 									<?php } ?>
 									</div>
 								<?php } ?>
-
-
 							</div>
 							<?php if (!empty($error[$name])) { ?>
 							<span class="help-block field_err"><?php echo $error[$name]; ?></span>
-							<?php } ?>
+							<?php }
+						if($name=='resource' && $preview['path']){ ?>
+								<label class="control-label col-sm-3 col-xs-12" for=""></label>
+								<dl class="col-sm-12 dl-horizontal clearfix">
+									<dt class="date_added"><?php echo $entry_date_added; ?></dt>
+									<dd class="date_added"><?php echo $date_added; ?></dd>
+									<dt class="date_modified"><?php echo $entry_date_modified; ?></dt>
+									<dd class="date_modified"><?php echo $date_modified; ?></dd>
+									<dt><?php echo $text_path; ?></dt>
+									<dd><a href="<?php echo $preview['href']?>"><i class="fa fa-download"></i> <?php echo $preview['path']; ?></a></dd>
+								</dl>
+						<?php } ?>
 						</div>
-							<?php }  ?><!-- <div class="fieldset"> -->
+						<?php }  ?><!-- <div class="fieldset"> -->
 						<?php }  ?>
 					</div>
 					<div class="panel-footer">
@@ -129,7 +137,9 @@
 		<?php
 		// close parent div for collapses when create
 		if(!$download_id){ ?>
+				<?php if($form0){?>
 				</div>
+				<?php } ?>
 			</div>
 		</div>
 		<?php }?>
@@ -162,15 +172,12 @@
 					dataType: 'json',
 					success: function (data) {
 						if (data.result_text != '') {
-							<?php
-
+						<?php
 							if(!$download_id){?>
-								if ($('#file_modal')) {
-									$('#file_modal').modal('hide');
-									goTo('<?php echo $file_list_url; ?>');
-								}
+								goTo('<?php echo $file_list_url; ?>');
 					<?php   }else{ ?>
-							success_alert(data.result_text, false, "#downloadFrm");
+							$('#file_modal').scrollTop(0);
+							success_alert(data.result_text, true, "#downloadFrm");
 							<?php } ?>
 						}
 					},

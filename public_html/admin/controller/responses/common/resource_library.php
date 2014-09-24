@@ -911,6 +911,13 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 					'reset_value' => true
 				));
 		}
+		if(!$this->request->post['name']){
+			$error = new AError('');
+			return $error->toJSONResponse('VALIDATION_ERROR_406',
+				array(  'error_text' => $this->language->get('error_name'),
+						'reset_value' => true
+				));
+		}
 
 		$this->request->post['resource_code'] = html_entity_decode($this->request->post['resource_code'], ENT_COMPAT, 'UTF-8');
 
