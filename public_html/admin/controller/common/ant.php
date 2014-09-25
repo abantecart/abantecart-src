@@ -39,12 +39,12 @@ class ControllerCommonANT extends AController {
 		$this->model_tool_updater->check4updates();
 
 
-		if (!has_value($this->session->data['ant_messages']['update_date'])) {
+		if (!has_value($this->session->data['ant_messages']['date_modified'])) {
 			unset($this->session->data['ant_messages']);
 		}
 
 		// prevent repeats of requests or if last update older then 24hours
-		if (has_value($this->session->data['ant_messages']) && (time() - $this->session->data['ant_messages']['update_date'] < 86400)) {
+		if (has_value($this->session->data['ant_messages']) && (time() - $this->session->data['ant_messages']['date_modified'] < 86400)) {
 			return null;
 		}
 
@@ -78,7 +78,7 @@ class ControllerCommonANT extends AController {
 		// insert new messages in database
 		if ($result && is_array($result)) {
 			//set array for check response
-			$check_array = array('message_id', 'type', 'create_date', 'update_date', 'start_date', 'end_date',
+			$check_array = array('message_id', 'type', 'date_added', 'date_modified', 'start_date', 'end_date',
 					'priority', 'title', 'description', 'version', 'prior_version', 'html',
 					'url', 'published', 'language_code');
 			$banners = array();
@@ -112,6 +112,6 @@ class ControllerCommonANT extends AController {
 			$this->messages->purgeANTMessages($banners);
 		}
 		// in case when answer from server is empty
-		$this->session->data['ant_messages']['update_date'] = time();
+		$this->session->data['ant_messages']['date_modified'] = time();
 	}
 }

@@ -682,7 +682,7 @@ class ALanguage {
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $block . ' saving to database');
 
 		$sql = "INSERT INTO " . DB_PREFIX . "language_definitions ";
-		$sql .= "(language_id,block,section,language_key,language_value,create_date) VALUES ";
+		$sql .= "(language_id,block,section,language_key,language_value,date_added) VALUES ";
 		$values = array();
 		foreach ($lang_defns as $k => $v) {
 			//preventing duplication sql-error by unique index

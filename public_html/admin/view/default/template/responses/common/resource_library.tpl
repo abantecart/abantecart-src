@@ -187,8 +187,8 @@ if ($action == 'list_object') {
 															data-rl-id="<?php echo $rl['resource_id']; ?>"
 															data-original-title="<?php echo $rl['name']; ?>"
 															href="#"><?php echo $rl['name']; ?></a></h5>
-									<?php if ($rl['created']) { ?>
-										<small class="text-muted">Added: <?php echo $rl['created']; ?></small>
+									<?php if ($rl['date_added']) { ?>
+										<small class="text-muted">Added: <?php echo $rl['date_added']; ?></small>
 									<?php } ?>
 								</div>
 							</div>
@@ -212,10 +212,10 @@ if ($action == 'list_object') {
 											<i class="fa fa-sort"></i>
 										</button>
 										<ul id="rl_list_sorting" role="menu" class="dropdown-menu">
-											<li><a href="<?php echo $no_sort_url; ?>&sort=created&order=DESC"><i
+											<li><a href="<?php echo $no_sort_url; ?>&sort=date_added&order=DESC"><i
 															class="fa fa-sort-amount-desc"></i> <?php $text_sorting_date_desc; ?>
 												</a></li>
-											<li><a href="<?php echo $no_sort_url; ?>&sort=created&order=ASC"><i
+											<li><a href="<?php echo $no_sort_url; ?>&sort=date_added&order=ASC"><i
 															class="fa fa-sort-amount-asc"></i> <?php $text_sorting_date_asc; ?>
 												</a></li>
 											<li><a href="<?php echo $no_sort_url; ?>&sort=name&order=ASC"><i

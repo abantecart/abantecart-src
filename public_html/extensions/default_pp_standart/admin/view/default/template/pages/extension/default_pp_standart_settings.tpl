@@ -77,7 +77,7 @@
 			<td><?php echo $extension['name'] ?></td>
 			<td><?php echo ($extension['version'] ? $text_version . ': ' . $extension['version'] : ''); ?></td>
 			<td><?php echo ($extension['installed'] ? $text_installed_on . ' ' . $extension['installed'] : ''); ?></td>
-			<td><?php echo ($extension['create_date'] ? $text_date_added . ' ' . $extension['create_date'] : ''); ?></td>
+			<td><?php echo ($extension['date_added'] ? $text_date_added . ' ' . $extension['date_added'] : ''); ?></td>
 			<td><?php echo ($extension['license'] ? $text_license . ': ' . $extension['license'] : ''); ?></td>
 			<?php if ($add_sett) { ?>
 			<td><a class="btn_standard" href="<?php echo $add_sett['link']; ?>"

@@ -41,11 +41,11 @@ $menu->insertMenuItem ( array (  "item_id" => "banner_manager_stat",
 $sql = "SELECT block_id FROM ".DB_PREFIX."blocks WHERE block_txt_id='banner_block'";
 $result = $this->db->query($sql);
 if(!$result->num_rows){
-	$this->db->query("INSERT INTO `".DB_PREFIX."blocks` (`block_txt_id`, `controller`, `created`)
+	$this->db->query("INSERT INTO `".DB_PREFIX."blocks` (`block_txt_id`, `controller`, `date_added`)
 					  VALUES ('banner_block', 'blocks/banner_block', NOW() );");
 	$block_id = $this->db->getLastId();
 
-	$sql = "INSERT INTO `".DB_PREFIX."block_templates` (`block_id`, `parent_block_id`, `template`, `created`)
+	$sql = "INSERT INTO `".DB_PREFIX."block_templates` (`block_id`, `parent_block_id`, `template`, `date_added`)
 			VALUES
 		(".$block_id.", 1, 'blocks/banner_block_header.tpl', NOW() ),
 		(".$block_id.", 2, 'blocks/banner_block_content.tpl', NOW() ),

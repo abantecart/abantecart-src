@@ -256,7 +256,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 			}
 
 			$sort_data = array(
-				'update_date',
+				'date_modified',
 				'language_key',
 				'language_value',
 				'block'
@@ -265,7 +265,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 				$sql .= " ORDER BY " . $data['sort'];
 			} else {
-				$sql .= " ORDER BY update_date DESC, language_key, block";
+				$sql .= " ORDER BY date_modified DESC, language_key, block";
 			}
 
 			if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')) {
@@ -316,7 +316,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 				$query = $this->db->query("SELECT *
 				                           FROM " . DB_PREFIX . "language_definitions
 				                           WHERE language_id=" . (int)$this->config->get('admin_language_id') . "
-				                           ORDER BY update_date DESC, language_key, block");
+				                           ORDER BY date_modified DESC, language_key, block");
 
 				foreach ($query->rows as $result) {
 					$language_data[$result['code']] = array(
@@ -326,7 +326,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 						'block' => $result['block'],
 						'language_key' => $result['language_key'],
 						'language_value' => $result['language_value'],
-						'update_date' => $result['update_date'],
+						'date_modified' => $result['date_modified'],
 					);
 				}
 				$this->cache->set('language_definitions', $language_data);

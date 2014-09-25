@@ -98,7 +98,7 @@ class ControllerResponsesListingGridTask extends AController {
 														$result ['name'],
 														$text_status,
 														dateISO2Display($result ['start_time'],$this->language->get('date_format_short'). ' '. $this->language->get('time_format')),
-														dateISO2Display($result ['date_created'],$this->language->get('date_format_short'). ' '. $this->language->get('time_format')),
+														dateISO2Display($result ['date_modified'],$this->language->get('date_format_short'). ' '. $this->language->get('time_format')),
 														);
 
 				$i ++;

@@ -84,7 +84,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			'url' => $this->html->getSecureURL('listing_grid/extension', '&store_id=' . $store_id),
 			'editurl' => $this->html->getSecureURL('listing_grid/extension/update'),
 			'update_field' => $this->html->getSecureURL('listing_grid/extension/update'),
-			'sortname' => 'update_date',
+			'sortname' => 'date_modified',
 			'sortorder' => 'desc',
 			'multiselect' => 'false',
 			'actions' => array(
@@ -180,8 +180,8 @@ class ControllerPagesExtensionExtensions extends AController {
 				'width' => 80,
 				'align' => 'center',
 				'search' => false),
-			array('name' => 'update_date',
-				'index' => 'update_date',
+			array('name' => 'date_modified',
+				'index' => 'date_modified',
 				'width' => 110,
 				'align' => 'center',
 				'search' => false));
@@ -556,8 +556,8 @@ class ControllerPagesExtensionExtensions extends AController {
 			if($extension_info['date_installed']){
 				$extension_data['installed'] = dateISO2Display($extension_info['date_installed'], $long_datetime_format );
 			}
-			if($extension_info['create_date']){
-				$extension_data['create_date'] =  dateISO2Display($extension_info['create_date'], $long_datetime_format );
+			if($extension_info['date_added']){
+				$extension_data['date_added'] =  dateISO2Display($extension_info['date_added'], $long_datetime_format );
 			}
 
 			$extension_data['license'] = $extension_info['license_key'];

@@ -208,7 +208,7 @@ class ATaskManager {
 		}
 
 		$sql = "INSERT INTO ".$this->db->table('tasks')."
-				(`name`,`starter`,`status`,`start_time`,`last_time_run`,`progress`,`last_result`,`run_interval`,`max_execution_time`,`date_created`)
+				(`name`,`starter`,`status`,`start_time`,`last_time_run`,`progress`,`last_result`,`run_interval`,`max_execution_time`,`date_modified`)
 				VALUES ('".$this->db->escape($data['name'])."',
 						'".(int)$data['starter']."',
 						'".(int)$data['status']."',
@@ -241,7 +241,7 @@ class ATaskManager {
 							'last_result' => 'int',
 							'run_interval' => 'int',
 							'max_execution_time' => 'int',
-						  	'date_created' => 'timestamp'
+						  	'date_modified' => 'timestamp'
 						);
 		$update = array();
 		foreach($upd_flds as $fld_name => $fld_type){
@@ -300,7 +300,7 @@ class ATaskManager {
 					WHERE task_id = ".$task_id;
 		}else{
 			$sql = "INSERT INTO ".$this->db->table( 'task_details' )."
-					(task_id, created_by, settings, date_created)
+					(task_id, created_by, settings, date_modified)
 					 VALUES (   '".$task_id."',
 					 			'".$this->db->escape($data['created_by'])."',
 					 			'".$this->db->escape($data['settings'])."',
@@ -316,7 +316,7 @@ class ATaskManager {
 		}
 		$data['settings'] = !is_string( $data['settings'] ) ? serialize($data['settings']) : $data['settings'];
 		$sql = "INSERT INTO ".$this->db->table('task_steps')."
-				(`task_id`,`sort_order`,`status`,`last_time_run`,`last_result`,`max_execution_time`,`controller`, `settings`,`date_created`)
+				(`task_id`,`sort_order`,`status`,`last_time_run`,`last_result`,`max_execution_time`,`controller`, `settings`,`date_modified`)
 				VALUES (
 						'".(int)$data['task_id']."',
 						'".(int)$data['sort_order']."',
@@ -345,7 +345,7 @@ class ATaskManager {
 							'max_execution_time' => 'int',
 							'controller' => 'string',
 							'settings' => 'string',
-							'date_created' => 'timestamp'
+							'date_modified' => 'timestamp'
 						);
 		$update = array();
 		foreach($upd_flds as $fld_name => $fld_type){
@@ -491,13 +491,13 @@ class ATaskManager {
 			'name' => 't.name',
 			'status' => 't.status',
 			'start_time' => 't.start_time',
-			'date_created' => 't.date_created',
+			'date_modified' => 't.date_modified',
 		);
 
 		if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $sort_data[$data['sort']];
 		} else {
-			$sql .= " ORDER BY t.date_created";
+			$sql .= " ORDER BY t.date_modified";
 		}
 
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {

@@ -190,7 +190,7 @@ class ModelExtensionBannerManager extends Model {
 			'name' => 'bd.name',
 			'status' => 'b.status',
 			'sort_order' => 'b.sort_order',
-			'update_date' => 'b.update_date'
+			'date_modified' => 'b.date_modified'
 		);
 
 		if (isset($filter[ 'sort' ]) && in_array($filter[ 'sort' ], array_keys($sort_data))) {

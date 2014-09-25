@@ -186,7 +186,7 @@ class ALayout {
 			}
 		}
 
-		$sql = "SELECT p.page_id, controller, key_param, key_value, p.created, p.updated "
+		$sql = "SELECT p.page_id, controller, key_param, key_value, p.date_added, p.date_modified "
 				. "FROM " . DB_PREFIX . "pages p "
 				."LEFT JOIN " . DB_PREFIX . "pages_layouts pl ON pl.page_id = p.page_id "
 				."LEFT JOIN " . DB_PREFIX . "layouts l ON l.layout_id = pl.layout_id "
@@ -241,8 +241,8 @@ class ALayout {
 				. "layout_id, "
 				. "layout_type, "
 				. "layout_name, "
-				. "created, "
-				. "updated "
+				. "date_added, "
+				. "date_modified "
 				. "FROM "
 				. DB_PREFIX . "layouts "
 				. $where
@@ -288,8 +288,8 @@ class ALayout {
 				. "l.layout_id as layout_id, "
 				. "l.layout_type as layout_type, "
 				. "l.layout_name as layout_name, "
-				. "l.created as created, "
-				. "l.updated as updated "
+				. "l.date_added as date_added, "
+				. "l.date_modified as date_modified "
 				. "FROM "
 				. DB_PREFIX . "layouts as l "
 				. $join
@@ -458,8 +458,8 @@ class ALayout {
 
 			$sql = "SELECT "
 					. "bt.template as template, "
-					. "bt.created as created, "
-					. "bt.updated as updated "
+					. "bt.date_added as date_added, "
+					. "bt.date_modified as date_modified "
 					. "FROM "
 					. DB_PREFIX . "block_templates as bt "
 					. $where

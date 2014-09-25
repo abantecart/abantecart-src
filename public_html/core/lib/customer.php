@@ -403,7 +403,7 @@ final class ACustomer {
 							". $amount . ",
 							section				= '" . ((int)$tr_details['section'] ? (int)$tr_details['section'] : 0) . "',
       	                    created_by 			= '" . (int)$tr_details['created_by'] . "',
-      	                    create_date = NOW()");
+      	                    date_added = NOW()");
   		$this->cache->delete('balance.'.(int)$this->getId());
   		if ( $this->db->getLastId() ) {
   			return true;	

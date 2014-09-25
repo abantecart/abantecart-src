@@ -20,51 +20,42 @@ VALUES
 (11,12,'','Allen','Waters','110 Shenandoah Avenue','','','Roanoke',223,3673),
 (12,13,'','qqqqqq','qqqqqq','qqqqqq','','','qqqqqq',222,3529);
 
-
-
-
 --
 -- Dumping data for table `categories`
 --
 
-
-
 INSERT INTO `ac_categories` 
 VALUES 
-(46,43,0,now(), now(),1),
-(47,43,0,now(), now(),1),
-(38,36,0,now(), now(),1),
-(40,36,0,now(), now(),1),
-(41,36,0,now(), now(),1),
-(42,36,0,now(), now(),1),
-(43,0,2,now(), now(),1),
-(44,43,0,now(), now(),1),
-(45,43,0,now(), now(),1),
-(39,36,0,now(), now(),1),
-(36,0,1,now(), now(),1),
-(37,36,0,now(), now(),1),
-(48,43,0,now(), now(),1),
-(49,0,3,now(), now(),1),
-(50,49,0,now(), now(),1),
-(51,49,0,now(), now(),1),
-(52,0,98,now(), now(),1),
-(53,52,0,now(), now(),1),
-(54,52,0,now(), now(),1),
-(58,0,4,now(), now(),1),
-(59,58,0,now(), now(),1),
-(60,58,0,now(), now(),1),
-(61,58,0,now(), now(),1),
-(62,58,0,now(), now(),0),
-(63,58,0,now(), now(),1),
-(64,0,99,now(), now(),0);
-
-
+(46,43,0,1,now(), now()),
+(47,43,0,1,now(), now()),
+(38,36,0,1,now(), now()),
+(40,36,0,1,now(), now()),
+(41,36,0,1,now(), now()),
+(42,36,0,1,now(), now()),
+(43,0,2,1,now(), now()),
+(44,43,0,1,now(), now()),
+(45,43,0,1,now(), now()),
+(39,36,0,1,now(), now()),
+(36,0,1,1,now(), now()),
+(37,36,0,1,now(), now()),
+(48,43,0,1,now(), now()),
+(49,0,3,1,now(), now()),
+(50,49,0,1,now(), now()),
+(51,49,0,1,now(), now()),
+(52,0,98,1,now(), now()),
+(53,52,0,1,now(), now()),
+(54,52,0,1,now(), now()),
+(58,0,4,1,now(), now()),
+(59,58,0,1,now(), now()),
+(60,58,0,1,now(), now()),
+(61,58,0,1,now(), now()),
+(62,58,0,0,now(), now()),
+(63,58,0,1,now(), now()),
+(64,0,99,0,now(), now());
 
 --
 -- Dumping data for table `categories_to_stores`
 --
-
-
 
 INSERT INTO `ac_categories_to_stores` 
 VALUES 
@@ -95,13 +86,9 @@ VALUES
 (63,0),
 (64,0);
 
-
-
 --
 -- Dumping data for table `category_descriptions`
 --
-
-
 
 INSERT INTO `ac_category_descriptions` 
 VALUES 
@@ -151,14 +138,32 @@ VALUES
 -- Dumping data for table `coupons`
 --
 
+DROP TABLE IF EXISTS `ac_coupons`;
+CREATE TABLE `ac_coupons` (
+  `coupon_id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(10) COLLATE utf8_general_ci NOT NULL,
+  `type` char(1) COLLATE utf8_general_ci NOT NULL,
+  `discount` decimal(15,4) NOT NULL,
+  `logged` int(1) NOT NULL,
+  `shipping` int(1) NOT NULL,
+  `total` decimal(15,4) NOT NULL,
+  `date_start` date NOT NULL DEFAULT '0000-00-00',
+  `date_end` date NOT NULL DEFAULT '0000-00-00',
+  `uses_total` int(11) NOT NULL,
+  `uses_customer` varchar(11) COLLATE utf8_general_ci NOT NULL,
+  `status` int(1) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`coupon_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
 
 
 INSERT INTO `ac_coupons` 
 VALUES 
-(4,'2222','P','10.0000',0,0,'0.0000','2012-01-27','2010-03-06',10,'10',1,'2012-01-27 13:55:03'),
-(5,'3333','P','0.0000',0,1,'100.0000','2012-03-01','2012-08-31',10,'10',1,'2012-03-14 21:13:53'),
-(6,'1111','F','10.0000',0,0,'10.0000','2012-01-01','2013-03-01',10,'10',1,'2012-03-14 21:15:18');
-
+(4,'2222','P','10.0000',0,0,'0.0000','2012-01-27','2010-03-06',10,'10',1,now(), now()),
+(5,'3333','P','0.0000',0,1,'100.0000','2012-03-01','2015-08-31',10,'10',1,now(), now()),
+(6,'1111','F','10.0000',0,0,'10.0000','2012-01-01','2015-03-01',10,'10',1,now(), now());
 
 
 --
@@ -166,10 +171,8 @@ VALUES
 --
 
 
-
 INSERT INTO `ac_coupons_products` 
 VALUES (8,6,68);
-
 
 
 --
@@ -191,12 +194,9 @@ VALUES
 (16, 17, now(), now())
 ;
 
-
 --
 -- Dumping data for table `block_descriptions`
 --
-
-
 
 INSERT INTO `ac_block_descriptions`
 VALUES
@@ -213,7 +213,7 @@ VALUES
 (16,9,1,'blocks/banner_block/one_by_one_slider_banner_block.tpl',0,'Main Page Banner Slider','Main Page Banner Slider','','a:1:{s:17:\"banner_group_name\";s:17:\"Main Page Banners\";}',now(),now())
 ;
 
-INSERT INTO `ac_custom_lists` (`custom_block_id`, `data_type`, `id`, `sort_order`, `created`, `updated`) VALUES
+INSERT INTO `ac_custom_lists` (`custom_block_id`, `data_type`, `id`, `sort_order`, `date_added`, `date_modified`) VALUES
 (12, 'manufacturer_id', 12, 0, now(), now()),
 (12, 'manufacturer_id', 14, 0, now(), now()),
 (12, 'manufacturer_id', 13, 0, now(), now()),
@@ -224,9 +224,6 @@ INSERT INTO `ac_custom_lists` (`custom_block_id`, `data_type`, `id`, `sort_order
 (12, 'manufacturer_id', 11, 0, now(), now()),
 (12, 'manufacturer_id', 17, 0, now(), now()),
 (12, 'manufacturer_id', 16, 0, now(), now());
-
-
-
 
 --
 -- Dumping data for table `customers`
@@ -376,19 +373,19 @@ VALUES
 
 INSERT INTO `ac_order_history` 
 VALUES 
-(1,1,1,1,'','0000-00-00 00:00:00'),
-(2,2,1,1,'','2013-09-07 04:02:31'),
-(3,3,1,1,'','2013-09-07 04:41:25'),
-(4,4,1,1,'','2013-09-07 04:51:07'),
-(5,5,1,1,'','2013-09-07 05:20:22'),
-(6,6,1,1,'','2013-09-07 05:21:56'),
-(7,7,1,1,'','2013-09-07 05:24:11'),
-(8,8,1,1,'','2013-09-07 05:36:21'),
-(9,9,1,1,'','2013-09-07 05:37:20'),
-(10,10,1,1,'','2013-09-07 05:39:30'),
-(11,11,1,1,'','2013-09-07 05:40:03'),
-(12,12,1,1,'','2012-03-15 10:04:06'),
-(13,13,1,1,'','2012-03-15 10:05:40');
+(1,1,1,1,'','0000-00-00 00:00:00', now()),
+(2,2,1,1,'','2013-09-07 04:02:31', now()),
+(3,3,1,1,'','2013-09-07 04:41:25', now()),
+(4,4,1,1,'','2013-09-07 04:51:07', now()),
+(5,5,1,1,'','2013-09-07 05:20:22', now()),
+(6,6,1,1,'','2013-09-07 05:21:56', now()),
+(7,7,1,1,'','2013-09-07 05:24:11', now()),
+(8,8,1,1,'','2013-09-07 05:36:21', now()),
+(9,9,1,1,'','2013-09-07 05:37:20', now()),
+(10,10,1,1,'','2013-09-07 05:39:30', now()),
+(11,11,1,1,'','2013-09-07 05:40:03', now()),
+(12,12,1,1,'','2012-03-15 10:04:06', now()),
+(13,13,1,1,'','2012-03-15 10:05:40', now());
 
 
 
@@ -907,31 +904,26 @@ VALUES
 (340,2,109,0,0,1,'C',0),
 (341,1,110,0,0,1,'S',1);
 
-
-
 --
 -- Dumping data for table `product_specials`
 --
 
-
 INSERT INTO `ac_product_specials` 
 VALUES 
-(252,51,1,0,'19.0000','0000-00-00','0000-00-00'),
-(253,55,1,0,'27.0000','0000-00-00','0000-00-00'),
-(254,67,1,0,'29.0000','0000-00-00','0000-00-00'),
-(255,72,1,0,'24.0000','0000-00-00','0000-00-00'),
-(256,88,1,0,'27.0000','0000-00-00','0000-00-00'),
-(257,93,1,0,'220.0000','0000-00-00','0000-00-00'),
-(258,65,1,1,'89.0000','0000-00-00','0000-00-00'),
-(259,68,1,1,'35.0000','0000-00-00','0000-00-00'),
-(260,80,1,1,'45.0000','0000-00-00','0000-00-00'),
-(261,81,1,1,'49.0000','0000-00-00','0000-00-00');
-
+(252,51,1,0,'19.0000','0000-00-00','0000-00-00',now(),now()),
+(253,55,1,0,'27.0000','0000-00-00','0000-00-00',now(),now()),
+(254,67,1,0,'29.0000','0000-00-00','0000-00-00',now(),now()),
+(255,72,1,0,'24.0000','0000-00-00','0000-00-00',now(),now()),
+(256,88,1,0,'27.0000','0000-00-00','0000-00-00',now(),now()),
+(257,93,1,0,'220.0000','0000-00-00','0000-00-00',now(),now()),
+(258,65,1,1,'89.0000','0000-00-00','0000-00-00',now(),now()),
+(259,68,1,1,'35.0000','0000-00-00','0000-00-00',now(),now()),
+(260,80,1,1,'45.0000','0000-00-00','0000-00-00',now(),now()),
+(261,81,1,1,'49.0000','0000-00-00','0000-00-00',now(),now());
 
 --
 -- Dumping data for table `product_tags`
 --
-
 
 INSERT INTO `ac_product_tags` 
 VALUES 
@@ -1039,13 +1031,9 @@ VALUES
 (109,'PRF00279','','',1,1,15,1,'84.0000',1,'2012-03-14','50.00',6,'3.00','2.00','10.00',1,1,now(), now(),6,1,1,1,'0.0000'),
 (110,'PRF00278','','',1000,1,20,1,'90.0000',1,'2012-03-14','0.00',6,'0.00','0.00','0.00',3,1,now(), now(),21,1,0,1,'0.0000');
 
-
-
 --
 -- Dumping data for table `products_featured`
 --
-
-
 
 INSERT INTO `ac_products_featured` 
 VALUES 
@@ -1058,13 +1046,9 @@ VALUES
 (56),
 (57);
 
-
-
 --
 -- Dumping data for table `products_related`
 --
-
-
 
 INSERT INTO `ac_products_related` 
 VALUES 
@@ -1073,13 +1057,9 @@ VALUES
 (101,71),
 (108,100);
 
-
-
 --
 -- Dumping data for table `products_to_categories`
 --
-
-
 
 INSERT INTO `ac_products_to_categories` 
 VALUES 
@@ -1187,12 +1167,9 @@ VALUES
 (109,46),
 (110,50);
 
-
 --
 -- Dumping data for table `products_to_stores`
 --
-
-
 
 INSERT INTO `ac_products_to_stores` 
 VALUES 
@@ -1258,13 +1235,9 @@ VALUES
 (109,0),
 (110,0);
 
-
-
 --
 -- Dumping data for table `resource_descriptions`
 --
-
-
 
 INSERT INTO `ac_resource_descriptions` 
 VALUES 
@@ -1615,9 +1588,7 @@ VALUES
 (100174,1,now(), now()),
 (100175,1,now(), now()),
 (100176,1,now(), now()),
-
 (100188,1,now(), now()),
-
 (100190,1,now(), now()),
 (100191,1,now(), now()),
 (100192,1,now(), now()),
@@ -1625,13 +1596,9 @@ VALUES
 (100194,1,now(), now())
 ;
 
-
-
 --
 -- Dumping data for table `resource_map`
 --
-
-
 
 INSERT INTO `ac_resource_map` 
 VALUES 
@@ -1795,7 +1762,6 @@ VALUES
 (100174,'products',110,0,0,now(), now()),
 (100175,'products',110,0,0,now(), now()),
 (100176,'products',110,0,0,now(), now()),
-
 (100188,'banners',13,0,0,now(), now()),
 (100188,'banners',14,0,0,now(), now()),
 (100188,'banners',15,0,0,now(), now()),
@@ -1803,13 +1769,9 @@ VALUES
 (100194,'banners',18,0,1,now(), now())
 ;
 
-
-
 --
 -- Dumping data for table `reviews`
 --
-
-
 
 INSERT INTO `ac_reviews` 
 VALUES 

@@ -62,7 +62,7 @@ class AListingManager extends AListing {
 								  data_type,
 								  id,
 								  sort_order,
-								  created )
+								  date_added )
 							  VALUES ('".$custom_block_id."',
 							          '".$data['data_type']."',
 							          '".(int)$data['id']."',

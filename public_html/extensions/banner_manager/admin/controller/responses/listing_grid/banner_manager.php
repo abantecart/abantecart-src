@@ -37,7 +37,7 @@ class ControllerResponsesListingGridBannerManager extends AController {
 		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
 
 		//sort
-		$filter_params = array('name', 'banner_group_name', 'banner_type', 'status', 'update_date');
+		$filter_params = array('name', 'banner_group_name', 'banner_type', 'status', 'date_modified');
 		$filter_grid = new AFilter(array('method' => 'post',
 			'grid_filter_params' => $filter_params,
 			'additional_filter_string' => ''));
@@ -98,7 +98,7 @@ class ControllerResponsesListingGridBannerManager extends AController {
 					'value' => $result['status'],
 					'style' => 'btn_switch'
 				)),
-				$result['update_date'],
+				$result['date_modified'],
 				$action,
 			);
 			$i++;

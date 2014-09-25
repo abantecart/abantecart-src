@@ -54,7 +54,7 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 								'&language_id=' . $this->request->get['language_id']),
 				'editurl' => $this->html->getSecureURL('listing_grid/language_definitions/update'),
 				'update_field' => $this->html->getSecureURL('listing_grid/language_definitions/update_field'),
-				'sortname' => 'update_date',
+				'sortname' => 'date_modified',
 				'actions' => array(
 						'edit' => array(
 								'text' => $this->language->get('text_edit'),
@@ -151,8 +151,8 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 						'width' => 260
 				),
 				array(
-						'name' => 'update_date',
-						'index' => 'update_date',
+						'name' => 'date_modified',
+						'index' => 'date_modified',
 						'align' => 'center',
 						'sorttype' => 'string',
 						'search' => false,

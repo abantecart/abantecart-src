@@ -51,7 +51,7 @@ class ControllerPagesToolMessageManager extends AController {
 								// url to update one field
 								'update_field' => $this->html->getSecureURL ( 'listing_grid/message_grid/update_field' ), 
 								// default sort column
-								'sortname' => 'create_date',
+								'sortname' => 'date_added',
 								// actions
 								'actions' => array(
 									'view' => array(
@@ -85,8 +85,8 @@ class ControllerPagesToolMessageManager extends AController {
 													'align' => 'left',
 													'sorttype' => 'string' ),
 											array (
-													'name' => 'create_date',
-													'index' => 'create_date',
+													'name' => 'date_added',
+													'index' => 'date_added',
 													'width' => 70,
 													'align' => 'center',
 													'sorttype' => 'string' ) );

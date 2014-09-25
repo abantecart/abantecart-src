@@ -53,7 +53,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 			'url' => $this->html->getSecureURL('listing_grid/banner_manager'),
 			'editurl' => $this->html->getSecureURL('listing_grid/banner_manager/edit'),
 			'update_field' => $this->html->getSecureURL('listing_grid/banner_manager/update_field'),
-			'sortname' => 'update_date',
+			'sortname' => 'date_modified',
 			'sortorder' => 'desc',
 			'columns_search' => true
 		);
@@ -101,8 +101,8 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'align' => 'center',
 				'width' => 60,
 				'search' => false ),
-			array( 'name' => 'update_date',
-				'index' => 'update_date',
+			array( 'name' => 'date_modified',
+				'index' => 'date_modified',
 				'width' => 80,
 				'align' => 'center',
 				'search' => false ),

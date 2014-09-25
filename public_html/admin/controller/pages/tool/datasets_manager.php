@@ -98,7 +98,7 @@ class ControllerPagesToolDatasetsManager extends AController {
 		$this->view->assign ( 'popup_action', $this->html->getSecureURL ( 'listing_grid/datasets_grid/info' ) );
 		$this->view->assign ( 'popup_title', $this->language->get ( 'text_popup_title' ) );
 
-		$this->view->assign ( 'create_date', $this->language->get ( 'text_date' ) );
+		$this->view->assign ( 'date_added', $this->language->get ( 'text_date' ) );
 		$this->view->assign ( 'create_date_field', $form->getFieldHtml ( Array (
 																				'type' => 'input', 
 																				'name' => 'msg_create_date', 
