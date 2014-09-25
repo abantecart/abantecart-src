@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesUserUser extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $fields = array('username', 'firstname', 'lastname', 'email', 'user_group_id', 'status');
    
   	public function main() {
@@ -283,6 +283,7 @@ class ControllerPagesUserUser extends AController {
 		    'type' => 'form',
 		    'name' => 'cgFrm',
 		    'action' => $this->data['action'],
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
@@ -297,6 +298,13 @@ class ControllerPagesUserUser extends AController {
 		    'style' => 'button2',
 	    ));
 
+		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
+		    'type' => 'checkbox',
+		    'name' => 'status',
+		    'value' => $this->data['status'],
+			'style'  => 'btn_switch',
+	    ));
+
 		$input = array('username', 'firstname', 'lastname', 'email', 'password');
 		foreach ( $input as $f ) {
 			$this->data['form']['fields'][$f] = $form->getFieldHtml(array(
@@ -305,6 +313,7 @@ class ControllerPagesUserUser extends AController {
 				'value' => $this->data[$f],
 				'required' => ( !in_array($f, array('username','firstname','lastname','password')) ? false: true),
 				'attr' => ( in_array($f, array('password', 'password_confirm')) ? 'class="no-save"' : '' ),
+				'style' => ($f == 'password' ? 'medium-field' : '')
 			));
 		}
 
@@ -314,12 +323,7 @@ class ControllerPagesUserUser extends AController {
 			'value' => $this->data['user_group_id'],
             'options' => $user_groups,
 	    ));
-		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
-		    'type' => 'checkbox',
-		    'name' => 'status',
-		    'value' => $this->data['status'],
-			'style'  => 'btn_switch',
-	    ));
+
 		$this->view->assign('help_url', $this->gen_help_url('user_edit') );
 		$this->view->batchAssign( $this->data );
 
@@ -352,6 +356,8 @@ class ControllerPagesUserUser extends AController {
 	    		$this->error['password_confirm'] = $this->language->get('error_confirm');
 	  		}
     	}
+
+		$this->extensions->hk_ValidateData( $this );
 	
     	if (!$this->error) {
       		return TRUE;
