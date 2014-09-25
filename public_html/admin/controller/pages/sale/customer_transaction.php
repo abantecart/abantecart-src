@@ -80,7 +80,7 @@ class ControllerPagesSaleCustomerTransaction extends AController {
             'table_id' => 'transactions_grid',
             // url to load data from
 			'url' => $this->html->getSecureURL('listing_grid/customer_transaction','&customer_id='.$this->request->get['customer_id']),
-            'sortname' => 'create_date',
+            'sortname' => 'date_added',
             'sortorder' => 'desc',
 			'multiselect' => 'false',
 			'grid_ready' => 'updateViewButtons();',
@@ -101,8 +101,8 @@ class ControllerPagesSaleCustomerTransaction extends AController {
 			$this->language->get('column_transaction_type'),
 		);
 		$this->data['grid_settings']['colModel'] = array(
-			array( 'name' => 'create_date',
-					'index' => 'create_date',
+			array( 'name' => 'date_added',
+					'index' => 'date_added',
 					'width' => 160,
 					'align' => 'center',
 					'search' => false),

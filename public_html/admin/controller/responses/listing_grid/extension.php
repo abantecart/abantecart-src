@@ -55,8 +55,8 @@ class ControllerResponsesListingGridExtension extends AController {
 		}
 
 		//sort
-		$allowedSort = array(1 => 'key', 'name', 'category', 'update_date', 'status', 'store_name');
-		if (!in_array($sidx, $allowedSort)) $sidx = 'update_date';
+		$allowedSort = array(1 => 'key', 'name', 'category', 'date_modified', 'status', 'store_name');
+		if (!in_array($sidx, $allowedSort)) $sidx = 'date_modified';
 
 		$allowedDirection = array(SORT_ASC => 'asc', SORT_DESC => 'desc');
 		if (!in_array($sord, $allowedDirection)) {
@@ -111,7 +111,7 @@ class ControllerResponsesListingGridExtension extends AController {
 									'name' => $pack['download_name'],
 									'extension_version' => $pack['extension_version'],
 									'installation_key' => $pack['installation_key'],
-									'update_date' => $pack['update_date']);
+									'date_modified' => $pack['date_modified']);
 					$to_inst_keys[] = $pack['extension_name'];
 				}
 			}
@@ -150,14 +150,14 @@ class ControllerResponsesListingGridExtension extends AController {
 				$icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="" border="0" />';
 				$name = str_replace('%EXT%', $extension, $this->language->get('text_missing_extension'));
 				$category = $status = '';
-				$row['update_date'] = date('Y-m-d H:i:s', time()); // change it for show it in list first by default sorting
+				$row['date_modified'] = date('Y-m-d H:i:s', time()); // change it for show it in list first by default sorting
 
 			} elseif (!file_exists(DIR_EXT . $extension . '/main.php') || !file_exists(DIR_EXT . $extension . '/config.xml')) {
 				$response->userdata->classes[$id] = 'warning disable-edit disable-install disable-uninstall disable-remote-install';
 				$icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="" border="0" />';
 				$name = str_replace('%EXT%', $extension, $this->language->get('text_broken_extension'));
 				$category = $status = '';
-				$row['update_date'] = date('Y-m-d H:i:s', time()); // change it for show it in list first by default sorting
+				$row['date_modified'] = date('Y-m-d H:i:s', time()); // change it for show it in list first by default sorting
 
 			} else {
 				if (!$this->config->has($extension . '_status')) {
@@ -201,7 +201,7 @@ class ControllerResponsesListingGridExtension extends AController {
 				$extension,
 				$name,
 				$category,
-				dateISO2Display($row['update_date'], $this->language->get('date_format_short'))
+				dateISO2Display($row['date_modified'], $this->language->get('date_format_short'))
 			);
 			if (!$this->config->get('config_store_id')) {
 				$response->rows[$i]['cell'][] = $row['store_name'] ? $row['store_name'] : $this->language->get('text_default');

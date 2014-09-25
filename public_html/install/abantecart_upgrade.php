@@ -28,7 +28,6 @@ foreach($all_columns as $c){
 }
 
 
-
 $icons = array(
 		array('catalog', '<i class="fa fa-folder-open"></i>&nbsp;'),
 		array('sale', '<i class="fa fa-flag-o"></i>&nbsp;'),
@@ -117,6 +116,35 @@ foreach($icons as $row){
 							  WHERE dataset_column_id = 10 AND value_varchar = '".$this->db->escape($row[0])."'
 							  )";
 	$this->db->query($sql);
+}
+
+
+//add triggers
+//select all tables with date_added
+$tables_sql = "
+	SELECT DISTINCT TABLE_NAME 
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE COLUMN_NAME IN ('date_added')
+    AND TABLE_SCHEMA='" . DB_DATABASE . "'";
+
+$query = $this->db->query( $tables_sql);
+foreach ($query->rows as $t) {
+	$table_name = $t['TABLE_NAME'];
+	$triger_name = $table_name . "_date_add_trg";
+
+	$triger_checker = $this->db->query("SELECT TRIGGER_NAME
+						FROM information_schema.triggers
+						WHERE TRIGGER_SCHEMA = '" . DB_DATABASE . "' AND TRIGGER_NAME = '$triger_name'");
+	if (!$query->row[0]) {
+		//create trigger
+		$sql = "
+		CREATE TRIGGER `$triger_name` BEFORE INSERT ON `$table_name` FOR EACH ROW
+		BEGIN
+    		SET NEW.date_added = NOW();
+		END;
+		";
+		$this->db->query($sql);
+	}	
 }
 
 

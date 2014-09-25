@@ -40,7 +40,7 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 		$this->loadModel('tool/message_manager');
 
 		//Prepare filter config
-		$grid_filter_params = array('title', 'create_date', 'status');
+		$grid_filter_params = array('title', 'date_added', 'status');
 		$filter = new AFilter(array('method' => 'post', 'grid_filter_params' => $grid_filter_params));
 
 		$total = $this->model_tool_message_manager->getTotalMessages();
@@ -79,7 +79,7 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 
 			$response->rows [$i] ['cell'] = array($status,
 					$result ['title'],
-					dateISO2Display($result ['create_date'], $this->language->get('date_format_short') . ' H:s'),
+					dateISO2Display($result ['date_added'], $this->language->get('date_format_short') . ' H:s'),
 			);
 
 			$i++;
@@ -136,7 +136,7 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 							$this->data['message'] ['status'] = $this->language->get('text_notice');
 							break;
 					}
-					$this->data['message'] ['date_formatted'] = dateISO2Display($this->data['message'] ['update_date'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
+					$this->data['message'] ['date_formatted'] = dateISO2Display($this->data['message'] ['date_modified'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
 				} else {
 					$this->data['message'] ["message"] = $this->language->get('text_not_found');
 				}

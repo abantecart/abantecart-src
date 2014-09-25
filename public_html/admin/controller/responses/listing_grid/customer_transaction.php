@@ -89,7 +89,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 		foreach ($results as $result) {
 			$response->rows[ $i ][ 'id' ] = $result[ 'customer_transaction_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
-				$result[ 'create_date' ],
+				$result[ 'date_added' ],
 				$result[ 'user' ],
 				$result[ 'debit' ],
 				$result[ 'credit' ],
@@ -283,8 +283,8 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 																	));
 
 			if($readonly){
-				$this->data['form']['fields']['create_date'] = dateInt2Display($info['create_date'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
-				$this->data['form']['fields']['update_date'] = dateInt2Display($info['update_date'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
+				$this->data['form']['fields']['date_added'] = dateInt2Display($info['date_added'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
+				$this->data['form']['fields']['date_modified'] = dateInt2Display($info['date_modified'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
 			}
 
 

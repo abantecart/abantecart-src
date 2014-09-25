@@ -53,7 +53,7 @@ class ControllerPagesToolTask extends AController {
 								// url to update one field
 								'update_field' => '',
 								// default sort column
-								'sortname' => 'date_created',
+								'sortname' => 'date_modified',
 								// actions
 								'actions' => array(
 										'run' => array(
@@ -108,8 +108,8 @@ class ControllerPagesToolTask extends AController {
 													'sortable' => true,
 													'search' => false),
 											array (
-													'name' => 'date_created',
-													'index' => 'date_created',
+													'name' => 'date_modified',
+													'index' => 'date_modified',
 													'width' => 150,
 													'align' => 'center',
 													'sortable' => true,

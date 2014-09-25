@@ -108,7 +108,7 @@ final class AMessage {
 						    SET `title` = '" . $this->db->escape($title) . "',
 						    `message` = '" . $this->db->escape($message) . "',
 						    `status` = '" . $this->db->escape($status) . "',						    
-						    `create_date` = NOW()");
+						    `date_added` = NOW()");
 		}
 	}
 
@@ -147,7 +147,7 @@ final class AMessage {
 		if ($limit > 0) {
 			$limit_str = "LIMIT " . (int)$start . ", " . (int)$limit;
 		}
-		$sql = "SELECT * FROM " . DB_PREFIX . "messages ORDER BY " . $sort . " " . $order . ", update_date DESC, msg_id DESC " . $limit_str;
+		$sql = "SELECT * FROM " . DB_PREFIX . "messages ORDER BY " . $sort . " " . $order . ", date_modified DESC, msg_id DESC " . $limit_str;
 		$query = $this->db->query($sql);
 		return $query->rows;
 	}
@@ -328,22 +328,22 @@ final class AMessage {
 
 		//let last couple of messages for each type
 		$result = $this->db->query(
-				"(SELECT msg_id, title, message, status, viewed, update_date
+				"(SELECT msg_id, title, message, status, viewed, date_modified
 				FROM " . $this->db->table('messages') . "
 					WHERE UPPER(status)='E'
-					ORDER BY update_date DESC
+					ORDER BY date_modified DESC
 					LIMIT 0,3)
 				UNION
-					(SELECT msg_id, title, message, status, viewed, update_date
+					(SELECT msg_id, title, message, status, viewed, date_modified
 					FROM " . $this->db->table('messages') . "
 					WHERE UPPER(status)='W'
-					ORDER BY update_date DESC
+					ORDER BY date_modified DESC
 					LIMIT 0,3)
 				UNION
-					(SELECT msg_id, title, message, status, viewed, update_date
+					(SELECT msg_id, title, message, status, viewed, date_modified
 					FROM " . $this->db->table('messages') . "
 					WHERE UPPER(status)='N'
-					ORDER BY update_date DESC
+					ORDER BY date_modified DESC
 					LIMIT 0,3)");
 		$output['shortlist'] = $result->rows;
 

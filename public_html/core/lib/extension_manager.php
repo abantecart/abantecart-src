@@ -108,7 +108,7 @@ class AExtensionManager {
 							 `priority` = '" . $this->db->escape($priority) . "',
 							 `version` = '" . $this->db->escape($version) . "',
 							 `license_key` = '" . $this->db->escape($license_key) . "',
-							 `create_date` = NOW()");
+							 `date_added` = NOW()");
 		return $this->db->getLastId();
 	}
 
@@ -317,8 +317,7 @@ class AExtensionManager {
 								$this->db->query($sql);
 							}
 							$sql = "UPDATE " . DB_PREFIX . "extensions
-									SET `" . $setting_name . "` = '" . $this->db->escape($value) . "',
-										`update_date` = NOW()
+									SET `" . $setting_name . "` = '" . $this->db->escape($value) . "'
 									WHERE  `key` IN ('" . implode("','", $children_keys) . "')";
 							$this->db->query($sql);
 						}
@@ -340,7 +339,7 @@ class AExtensionManager {
 		}
 		// update date of changes in extension list
 		$sql = "UPDATE " . DB_PREFIX . "extensions
-						SET `update_date` = NOW()
+						SET `date_modified` = NOW()
 						WHERE  `key` = '" . $this->db->escape($extension_txt_id) . "'";
 		$this->db->query($sql);
 		$this->cache->delete('admin_menu');

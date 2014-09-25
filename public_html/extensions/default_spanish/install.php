@@ -115,7 +115,7 @@ $this->db->query("INSERT INTO ".DB_PREFIX."order_statuses
 ");
 
 $this->db->query("INSERT INTO ".DB_PREFIX."page_descriptions 
-(`page_id`, `language_id`, `name`, `title`, `seo_url`, `keywords`, `description`, `content`, `created`) VALUES 
+(`page_id`, `language_id`, `name`, `title`, `seo_url`, `keywords`, `description`, `content`, `date_added`) VALUES 
 (1, $new_language_id, 'Las demás páginas', '', '', '', '', '', now() ),
 (2, $new_language_id, 'Página de inicio', '', '', '', '', '', now() ),
 (3, $new_language_id, 'Pedido Páginas', '', '', '', '', '', now() ),
@@ -126,7 +126,7 @@ $this->db->query("INSERT INTO ".DB_PREFIX."page_descriptions
 ");
 
 $this->db->query("INSERT INTO ".DB_PREFIX."global_attributes_type_descriptions 
-(`attribute_type_id`, `language_id`, `type_name`, `create_date`) VALUES 
+(`attribute_type_id`, `language_id`, `type_name`, `date_added`) VALUES 
 (1, $new_language_id, 'Opción del Producto', NOW()),
 (2, $new_language_id, 'Descargar Atributo', NOW());
 ");

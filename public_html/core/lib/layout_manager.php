@@ -141,8 +141,8 @@ class ALayoutManager {
 						p.controller,
 						p.key_param,
 						p.key_value,
-						p.created,
-						p.updated,
+						p.date_added,
+						p.date_modified,
 						CASE WHEN l.layout_type = 2 THEN CONCAT(pd.name,' (draft)') ELSE pd.name END as `name`,
 						pd.title,
 						pd.seo_url,
@@ -202,8 +202,8 @@ class ALayoutManager {
 				. "l.store_id as store_id, "
 				. "l.layout_type as layout_type, "
 				. "l.layout_name as layout_name, "
-				. "l.created as created, "
-				. "l.updated as updated "
+				. "l.date_added as date_added, "
+				. "l.date_modified as date_modified "
 				. "FROM " . DB_PREFIX . "layouts as l "
 				. $join
 				. $where
@@ -302,7 +302,7 @@ class ALayoutManager {
 				. "bt.parent_block_id as parent_block_id, "
 				. "bt.template as template, "
 				. "COALESCE(cb.custom_block_id,0) as custom_block_id, "
-				. "b.created as block_date_added "
+				. "b.date_added as block_date_added "
 				. "FROM " . DB_PREFIX . "blocks as b "
 				. "LEFT JOIN " . DB_PREFIX . "block_templates as bt ON (b.block_id = bt.block_id) "
 				. "LEFT JOIN " . DB_PREFIX . "custom_blocks as cb ON (b.block_id = cb.block_id ) "
@@ -338,7 +338,7 @@ class ALayoutManager {
 					. "(SELECT MAX(status) AS status
 								FROM " . DB_PREFIX . "block_layouts bl
 								WHERE bl.custom_block_id = cb.custom_block_id)  as status, "
-					. "b.created as block_date_added ";
+					. "b.date_added as block_date_added ";
 		} else {
 			$sql = "SELECT COUNT(*) as total ";
 		}
@@ -729,7 +729,7 @@ class ALayoutManager {
 	 */
 	public function saveLayoutBlocks($data, $instance_id = 0) {
 		if (!$instance_id) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "block_layouts (layout_id,block_id,custom_block_id,parent_instance_id,position,status,created,updated)
+			$this->db->query("INSERT INTO " . DB_PREFIX . "block_layouts (layout_id,block_id,custom_block_id,parent_instance_id,position,status,date_added,date_modified)
 										VALUES ('" . ( int )$data ['layout_id'] . "',
 												'" . ( int )$data ['block_id'] . "',
 												'" . ( int )$data ['custom_block_id'] . "',
@@ -748,7 +748,7 @@ class ALayoutManager {
 												parent_instance_id = '" . ( int )$data ['parent_instance_id'] . "',
 												position = '" . ( int )$data ['position'] . "',
 												status = '" . ( int )$data ['status'] . "',
-												updated = NOW()
+												date_modified = NOW()
 										 WHERE instance_id = '" . ( int )$instance_id . "'");
 		}
 
@@ -802,7 +802,7 @@ class ALayoutManager {
 	 */
 	public function saveLayout($data, $layout_id = 0) {
 		if (!$layout_id) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "layouts (template_id,store_id,layout_name,layout_type,created,updated)
+			$this->db->query("INSERT INTO " . DB_PREFIX . "layouts (template_id,store_id,layout_name,layout_type,date_added,date_modified)
 								VALUES ('" . $this->db->escape($data ['template_id']) . "',
 										'" . ( int )$data ['store_id'] . "',
 										'" . $this->db->escape($data ['layout_name']) . "',
@@ -816,7 +816,7 @@ class ALayoutManager {
 									store_id = '" . ( int )$data ['store_id'] . "',
 									layout_name = '" . $this->db->escape($data ['layout_name']) . "',
 									layout_type = '" . ( int )$data ['layout_type'] . "',
-									updated = NOW()
+									date_modified = NOW()
 								WHERE layout_id = '" . ( int )$layout_id . "'");
 		}
 
@@ -846,7 +846,7 @@ class ALayoutManager {
 				(SELECT group_concat(template separator ',')
 					 FROM " . DB_PREFIX . "block_templates
 				 WHERE block_id='" . $block_id . "') as templates,
-				b.created as block_date_added,
+				b.date_added as block_date_added,
 				l.layout_id,
 				l.layout_name,
 				l.store_id,
@@ -889,8 +889,8 @@ class ALayoutManager {
 																	controller,
 																	key_param,
 																	key_value,
-																	created,
-																	updated)
+																	date_added,
+																	date_modified)
 								VALUES ('" . ( int )$data ['parent_page_id'] . "',
 										'" . $this->db->escape($data ['controller']) . "',
 										'" . $this->db->escape($data ['key_param']) . "',
@@ -907,7 +907,7 @@ class ALayoutManager {
 									controller = '" . $this->db->escape($data ['controller']) . "',
 									key_param = '" . $this->db->escape($data ['key_param']) . "',
 									key_param = '" . $this->db->escape($data ['key_value']) . "',
-									updated = NOW()
+									date_modified = NOW()
 								WHERE page_id = '" . ( int )$page_id . "'");
 
 			// clear all page descriptions before write
@@ -958,8 +958,8 @@ class ALayoutManager {
 		if (!$block_id) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "blocks (block_txt_id,
 																	 controller,
-																	 created,
-																	 updated)
+																	 date_added,
+																	 date_modified)
 								VALUES ('" . $this->db->escape($data ['block_txt_id']) . "',
 										'" . $this->db->escape($data ['controller']) . "',
 										NOW(),
@@ -975,7 +975,7 @@ class ALayoutManager {
 						$tmpl['parent_block_id'] = $parent['block_id'];
 					}
 
-					$this->db->query("INSERT INTO " . DB_PREFIX . "block_templates (block_id,parent_block_id,template,created,updated)
+					$this->db->query("INSERT INTO " . DB_PREFIX . "block_templates (block_id,parent_block_id,template,date_added,date_modified)
 										VALUES ('" . ( int )$block_id . "',
 												'" . ( int )$tmpl ['parent_block_id'] . "',
 												'" . $this->db->escape($tmpl ['template']) . "',
@@ -988,7 +988,7 @@ class ALayoutManager {
 				$this->db->query("UPDATE " . DB_PREFIX . "blocks
 										SET block_txt_id = '" . $this->db->escape($data ['block_txt_id']) . "',
 											controller = '" . $this->db->escape($data ['controller']) . "',
-											updated = NOW()
+											date_modified = NOW()
 										WHERE block_id = '" . ( int )$block_id . "'");
 			}
 
@@ -1004,8 +1004,8 @@ class ALayoutManager {
 					$this->db->query("INSERT INTO " . DB_PREFIX . "block_templates (block_id,
 																					  parent_block_id,
 																					  template,
-																					  created,
-																					  updated)
+																					  date_added,
+																					  date_modified)
 										VALUES ('" . ( int )$block_id . "',
 												'" . ( int )$tmpl ['parent_block_id'] . "',
 												'" . $this->db->escape($tmpl ['template']) . "',
@@ -1085,7 +1085,7 @@ class ALayoutManager {
 				$this->errors = 'Error: Can\'t save custom block, because block_id is empty!';
 				return false;
 			}
-			$this->db->query("INSERT INTO " . DB_PREFIX . "custom_blocks (block_id, created) VALUES ( '" . $block_id . "', NOW())");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "custom_blocks (block_id, date_added) VALUES ( '" . $block_id . "', NOW())");
 			$custom_block_id = $this->db->getLastId();
 
 			$this->language->replaceDescriptions('block_descriptions',
@@ -1382,8 +1382,8 @@ class ALayoutManager {
 							p.controller,
 							p.key_param,
 							p.key_value,
-							p.created,
-							p.updated,
+							p.date_added,
+							p.date_modified,
 							pd.title,
 							pd.seo_url,
 							pd.keywords,
@@ -1492,7 +1492,7 @@ class ALayoutManager {
 
 				// check layout type
 				$layout_type = $this->_getIntLayoutTypeByText((string)$layout->type);
-				$sql = "INSERT INTO " . DB_PREFIX . "layouts (template_id,store_id,layout_name,layout_type,created,updated)
+				$sql = "INSERT INTO " . DB_PREFIX . "layouts (template_id,store_id,layout_name,layout_type,date_added,date_modified)
 						VALUES ('" . $this->db->escape($layout->template_id) . "',
 								'" . ( int )$store_id . "',
 								'" . $this->db->escape($layout->name) . "',
@@ -1537,8 +1537,8 @@ class ALayoutManager {
 															store_id = '" . ( int )$store_id . "',
 															layout_name = '" . $this->db->escape($layout->name) . "',
 															layout_type = '" . $layout_type . "',
-															created = NOW(),
-															updated = NOW() WHERE layout_id='" . $layout_id . "'";
+															date_added = NOW()
+															WHERE layout_id='" . $layout_id . "'";
 				$this->db->query($sql);
 
 				// write pages section
@@ -1594,11 +1594,11 @@ class ALayoutManager {
 				$this->db->query($sql);
 			}
 		} else { // if page new
-			$sql = "INSERT INTO " . DB_PREFIX . "pages (parent_page_id, controller, key_param, key_value, created, updated)
+			$sql = "INSERT INTO " . DB_PREFIX . "pages (parent_page_id, controller, key_param, key_value, date_added)
 					VALUES ('0',
 							'" . $this->db->escape($page->controller) . "',
 							'" . $this->db->escape($page->key_param) . "',
-							'" . $this->db->escape($page->key_value) . "',NOW(),NOW())";
+							'" . $this->db->escape($page->key_value) . "',NOW())";
 			$this->db->query($sql);
 			$page_id = $this->db->getLastId();
 			$sql = "INSERT INTO " . DB_PREFIX . "pages_layouts (layout_id,page_id)
@@ -1698,8 +1698,8 @@ class ALayoutManager {
 			}
 
 			// if not exists - insert and get it's block_id
-			$sql = "INSERT INTO " . DB_PREFIX . "blocks (block_txt_id, controller,created,updated) 
-					VALUES ('" . $this->db->escape($block->block_txt_id) . "', '" . $this->db->escape($block->controller) . "',NOW(),NOW())";
+			$sql = "INSERT INTO " . DB_PREFIX . "blocks (block_txt_id, controller,date_added) 
+					VALUES ('" . $this->db->escape($block->block_txt_id) . "', '" . $this->db->escape($block->controller) . "',NOW())";
 			$this->db->query($sql);
 			$block_id = $this->db->getLastId();
 
@@ -1718,14 +1718,12 @@ class ALayoutManager {
 																parent_instance_id,
 																position,
 																status,
-																created,
-																updated)
+																date_added)
 					VALUES ('" . ( int )$layout_id . "',
 							'" . ( int )$block_id . "',
 							'" . ( int )$parent_instance_id . "',
 							'" . ( int )$position . "',
 							'" . 1 . "',
-							NOW(),
 							NOW())";
 			$this->db->query($sql);
 			$instance_id = $this->db->getLastId();
@@ -1756,10 +1754,10 @@ class ALayoutManager {
 					$result = $this->db->query($query);
 					$parent_block_id = $result->row ['block_id'];
 
-					$sql[] = "INSERT INTO " . DB_PREFIX . "block_templates (block_id,parent_block_id,template,created,updated)
+					$sql[] = "INSERT INTO " . DB_PREFIX . "block_templates (block_id,parent_block_id,template,date_added)
 							   VALUES ('" . ( int )$block_id . "',
 										'" . ( int )$parent_block_id . "',
-										'" . $this->db->escape($block_template->template_name) . "',NOW(),NOW())";
+										'" . $this->db->escape($block_template->template_name) . "',NOW())";
 				}
 			}
 
@@ -1772,7 +1770,7 @@ class ALayoutManager {
 
 			if ($block_id) {
 				$sql = "UPDATE " . DB_PREFIX . "blocks 
-						SET controller = '" . $this->db->escape($block->controller) . "', updated = NOW()
+						SET controller = '" . $this->db->escape($block->controller) . "' 
 						WHERE block_id='" . $block_id . "'";
 				$this->db->query($sql);
 
@@ -1828,14 +1826,13 @@ class ALayoutManager {
 						if ($exists) {
 							$sql[] = "UPDATE " . DB_PREFIX . "block_templates
 									   SET parent_block_id = '" . ( int )$parent_block_id . "',
-										   template = '" . $this->db->escape($block_template->template_name) . "',
-										   updated = NOW()
+										   template = '" . $this->db->escape($block_template->template_name) . "'
 									   WHERE block_id='" . $block_id . "' AND parent_block_id='" . $parent_block_id . "'";
 						} else {
-							$sql[] = "INSERT INTO " . DB_PREFIX . "block_templates (block_id,parent_block_id,template,created,updated)
+							$sql[] = "INSERT INTO " . DB_PREFIX . "block_templates (block_id,parent_block_id,template,date_added)
 										VALUES ('" . ( int )$block_id . "',
 												'" . ( int )$parent_block_id . "',
-												'" . $this->db->escape($block_template->template_name) . "',NOW(),NOW())";
+												'" . $this->db->escape($block_template->template_name) . "',NOW())";
 						}
 					}
 				}
@@ -1872,14 +1869,12 @@ class ALayoutManager {
 									parent_instance_id,
 									position,
 									status,
-									created,
-									updated)
+									date_added)
 							  VALUES (  '" . ( int )$layout_id . "',
 							  			'" . ( int )$block_id . "',
 							  			'" . ( int )$parent_instance_id . "',
 									    '" . (int)$position . "',
 									    '" . $status . "',
-									    NOW(),
 									    NOW())";
 					$this->db->query($query);
 					$instance_id = (int)$this->db->getLastId();
@@ -1965,7 +1960,7 @@ class ALayoutManager {
 			} else {
 				if (!$custom_block_id) {
 					// if block is new
-					$sql = "INSERT INTO " . DB_PREFIX . "custom_blocks (block_id, created)
+					$sql = "INSERT INTO " . DB_PREFIX . "custom_blocks (block_id, date_added)
 								VALUES ('" . $block_id . "', NOW())";
 					$this->db->query($sql);
 					$custom_block_id = $this->db->getLastId();
@@ -1995,15 +1990,13 @@ class ALayoutManager {
 																	parent_instance_id,
 																	position,
 																	status,
-																	created,
-																	updated)
+																	date_added)
 						VALUES ('" . ( int )$layout_id . "',
 								'" . ( int )$block_id . "',
 								'" . (int)$custom_block_id . "',
 								'" . ( int )$par_inst . "',
 								'" . ( int )$position . "',
 								'" . $status . "',
-								NOW(),
 								NOW())";
 				$this->db->query($sql);
 			}

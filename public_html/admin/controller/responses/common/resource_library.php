@@ -94,8 +94,8 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		    [description] => 
 		    [resource_path] => 18/6a/9.jpg
 		    [resource_code] => 
-		    [created] => 2014-06-05 16:23:12
-		    [updated] => 2014-06-05 16:23:12
+		    [date_added] => 2014-06-05 16:23:12
+		    [date_modified] => 2014-06-05 16:23:12
 		    [type_name] => image
 		    [default_icon] => icon_resource_image.png
 		)
@@ -309,7 +309,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		}elseif(!$this->data['sort'] && $this->data['action'] == 'list_object'){
 			$filter_data['sort'] = 'sort_order';
 		}else{
-			$filter_data['sort'] = 'created';
+			$filter_data['sort'] = 'date_added';
 			$filter_data['order'] = 'DESC';
 		}
 		if (isset($this->request->get['page'])) {
@@ -324,8 +324,8 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$result = $rm->getResourcesList($filter_data);
 
 		foreach ($result as $key => $item) {
-			if ($item['created']) {
-				$result[$key]['created'] = dateISO2Display($item['created']);
+			if ($item['date_added']) {
+				$result[$key]['date_added'] = dateISO2Display($item['date_added']);
 			}
 			$result[$key]['thumbnail_url'] = $rm->getResourceThumb(
 				$item['resource_id'],

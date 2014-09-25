@@ -371,8 +371,8 @@ class ExtensionsApi {
                       e.version,
                       e.license_key,
                       e.date_installed,
-                      e.update_date,
-                      e.create_date,
+                      e.date_modified,
+                      e.date_added,
 		              s.store_id,
 		              st.alias as store_name,
 		              s.value as status

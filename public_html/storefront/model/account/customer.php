@@ -458,10 +458,10 @@ class ModelAccountCustomer extends Model {
 			t.debit, 
 			t.transaction_type, 
 			t.description, 
-			t.create_date 
+			t.date_added 
 			FROM `" . $this->db->table("customer_transactions") . "` t 
 			WHERE customer_id = '" . (int)$this->customer->getId() . "' 
-			ORDER BY t.create_date DESC LIMIT " . (int)$start . "," . (int)$limit);
+			ORDER BY t.date_added DESC LIMIT " . (int)$start . "," . (int)$limit);
 	
 		return $query->rows;
 	}

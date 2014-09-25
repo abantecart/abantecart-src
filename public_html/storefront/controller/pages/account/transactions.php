@@ -96,7 +96,7 @@ class ControllerPagesAccountTransactions extends AController {
 								'debit'      => $this->currency->format($result['debit']),
 								'transaction_type' => $result['transaction_type'],
 								'description' => $result['description'],
-								'create_date' => dateISO2Display($result['create_date'],$this->language->get('date_format_short'))
+								'date_added' => dateISO2Display($result['date_added'],$this->language->get('date_format_short'))
         		);
       		}
 

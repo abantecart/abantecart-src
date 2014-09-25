@@ -18,7 +18,7 @@
 	<?php if( count($transactions) ) { foreach ($transactions as $trn) { ?>
 		<tr>
 			<td><?php echo $trn['customer_transaction_id']; ?></td>
-			<td><?php echo $trn['create_date']; ?></td>
+			<td><?php echo $trn['date_added']; ?></td>
 			<td><?php echo $trn['transaction_type']; ?></td>
 			<td><?php echo $trn['debit']; ?></td>
 			<td><?php echo $trn['credit']; ?></td>

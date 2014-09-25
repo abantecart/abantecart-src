@@ -127,7 +127,7 @@ class AResourceManager extends AResource {
 
         $sql = "INSERT INTO " . DB_PREFIX . "resource_library
                     SET type_id = '".$this->type_id."',
-                        created = NOW()";
+                        date_added = NOW()";
         $this->db->query($sql);
         $resource_id = $this->db->getLastId();
 
@@ -163,7 +163,7 @@ class AResourceManager extends AResource {
 													 'description' => $resource['description'][$language_id],
 													 'resource_path' => $resource_path,
 													 'resource_code' => $resource['resource_code'],
-													 'created' => date('Y-m-d H:i:s')
+													 'date_added' => date('Y-m-d H:i:s')
 												 )) );
         }
 
@@ -362,7 +362,7 @@ class AResourceManager extends AResource {
                         object_name = '".$this->db->escape($object_name)."',
                         object_id = '".(int)$object_id."',
                         sort_order = '".(int)$new_sort_order."',
-                        created = NOW()";
+                        date_added = NOW()";
         $this->db->query($sql);
 
         $this->cache->delete('resources.'. $resource_id);
@@ -417,7 +417,7 @@ class AResourceManager extends AResource {
 							object_name = '".$this->db->escape($object_name)."',
 							object_id = '".(int)$object_id."',
 							sort_order = '".(int)$new_sort_order."',
-							created = NOW()";
+							date_added = NOW()";
 			$this->db->query($sql);
 		}
 		return true;
@@ -562,7 +562,7 @@ class AResourceManager extends AResource {
 		}
 		else {
 			$top_sql = "  rl.resource_id,
-        				  COALESCE(rl.created, '', rl.created) as created,
+        				  COALESCE(rl.date_added, '', rl.date_added) as date_added,
         				  rd.name,
         				  rd.title,
         				  rd.description,
@@ -613,7 +613,7 @@ class AResourceManager extends AResource {
 
 		$sort_data = array(
 		    'name' => 'rd.name',
-		    'created' => 'rl.created',
+		    'date_added' => 'rl.date_added',
 		    'sort_order' => 'rm.sort_order'
 		);	
 		
