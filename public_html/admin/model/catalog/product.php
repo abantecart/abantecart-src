@@ -20,12 +20,13 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
-/** @noinspection PhpUndefinedClassInspection */
+/**
+ * @property ModelCatalogDownload $model_catalog_download
+ */
 class ModelCatalogProduct extends Model {
-	/**
-	 * @param array $data
-	 * @return int
-	 */
+/** @param array $data
+ * @return int
+ */
 	public function addProduct($data) {
 
 		$this->db->query("INSERT INTO " . DB_PREFIX . "products
@@ -350,6 +351,7 @@ class ModelCatalogProduct extends Model {
 	/**
 	 * @param int $product_id
 	 * @param array $data
+	 * @return bool
 	 */
 	public function updateProductLinks($product_id, $data) {
 		if(!(int)$product_id || !$data){ return false; }
@@ -1068,8 +1070,10 @@ class ModelCatalogProduct extends Model {
 
 	/**
 	 * @param int $product_id
+	 * @return bool
 	 */
 	public function deleteProduct($product_id) {
+		if(!(int)$product_id){ return false; }
 		$rm = new AResourceManager();
 		$this->db->query("DELETE FROM " . DB_PREFIX . "products WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_descriptions WHERE product_id = '" . (int)$product_id . "'");
@@ -1085,6 +1089,14 @@ class ModelCatalogProduct extends Model {
 				$r['resource_id']
 			);
 		}
+
+		//delete product's downloads
+		$this->load->model('catalog/download');
+		$downloads = $this->model_catalog_download->getProductDownloadsDetails($product_id,array('subsql_filter' => 'AND d.shared<>1'));
+		foreach($downloads as $d){
+			$this->model_catalog_download->deleteDownload($d['download_id']);
+		}
+
 		
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_options WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_option_descriptions WHERE product_id = '" . (int)$product_id . "'");
