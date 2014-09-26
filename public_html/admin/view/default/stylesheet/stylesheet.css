@@ -2221,7 +2221,8 @@ p {
 
 #footer{
 	padding: 10px 20px 10px 20px;
-	font-size: 11px;
+	font-size: 10px;
+	line-height: 15px;
 	color: #E4E7EA;
 	background: #064770;
 }

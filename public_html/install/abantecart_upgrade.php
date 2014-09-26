@@ -118,6 +118,18 @@ foreach($icons as $row){
 	$this->db->query($sql);
 }
 
+//add new menu
+$m = new AMenu('admin');
+$m->insertMenuItem(
+		array(
+			'item_id' => 'marketplace',
+			'item_text' => 'text_extensions_store',
+			"item_url" => 'window.open(\'http://marketplace.abantecart.com\');',
+			"item_icon_rl_id" => '<i class="fa fa-puzzle-piece"></i>&nbsp;',
+			"parent_id" => 'help',
+			"sort_order" => 4,
+			"item_type" => 'core'));
+
 
 //add triggers
 //select all tables with date_added

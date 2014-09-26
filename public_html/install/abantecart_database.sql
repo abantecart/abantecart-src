@@ -11051,37 +11051,44 @@ VALUES  (40,'<i class="fa fa-signal"></i>&nbsp;',91),
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'abantecart',111),
         (10,'documentation',112),
-        (10,'support',113);
+        (10,'support',113),
+        (10,'marketplace',114);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (11,'text_abantecart',111),
         (11,'text_documentation',112),
-        (11,'text_support',113);
+        (11,'text_support',113),
+        (11,'text_extensions_store',114);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'window.open(\'http://www.abantecart.com\');',111),
         (12,'window.open(\'http://www.abantecart.com/ecommerce-documentation\');',112),
-        (12,'window.open(\'http://forum.abantecart.com\');',113);
+        (12,'window.open(\'http://forum.abantecart.com\');',113),
+        (12,'window.open(\'http://marketplace.abantecart.com\');',114);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (13,'help',111),
         (13,'help',112),
-        (13,'help',113);
+        (13,'help',113),
+        (13,'help',114);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (14,1,111),
         (14,2,112),
-        (14,3,113);
+        (14,3,113),
+        (14,4,114);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (15,'core',111),
         (15,'core',112),
-        (15,'core',113);
+        (15,'core',113),
+        (15,'core',114);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'<i class="fa fa-external-link"></i>&nbsp;',111),
         (40,'<i class="fa fa-graduation-cap"></i>&nbsp;',112),
-        (40,'<i class="fa fa-info"></i>&nbsp;',113);
+        (40,'<i class="fa fa-info"></i>&nbsp;',113),
+        (40,'<i class="fa fa-puzzle-piece"></i>&nbsp;',114);
 
 --		
 -- SUBMENU DESIGN
