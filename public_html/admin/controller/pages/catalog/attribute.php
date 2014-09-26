@@ -127,6 +127,14 @@ class ControllerPagesCatalogAttribute extends AController {
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
 		$this->view->assign('insert', $this->html->getSecureURL('catalog/attribute/insert'));
+
+		$results = $this->attribute_manager->getAttributeTypes();
+		foreach ($results as $type) {
+			$this->data['attribute_types'][ $type[ 'attribute_type_id' ] ] = $type;
+		}
+		$this->_initTabs();
+		$this->view->assign('inserts', $this->data['tabs']);
+
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url('global_attributes_listing'));
 

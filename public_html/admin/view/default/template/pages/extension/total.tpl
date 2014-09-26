@@ -12,12 +12,12 @@
 		<ul class="content-nav">
 
 			<?php if (!empty ($form_language_switch)) { ?>
-				<li class="pull-right">
+				<li>
 					<?php echo $form_language_switch; ?>
 				</li>
 			<?php } ?>
 			<?php if (!empty ($help_url)) { ?>
-				<li class="pull-right">
+				<li>
 					<div class="help_element">
 						<a href="<?php echo $help_url; ?>" target="new">
 							<i class="fa fa-question-circle"></i>
