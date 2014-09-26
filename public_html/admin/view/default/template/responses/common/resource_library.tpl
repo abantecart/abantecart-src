@@ -89,7 +89,7 @@ if ($action == 'list_object') {
 					<li>
 						<a class="btn btn-white btn-xs tooltips" href="<?php echo $help_url; ?>" target="new" title=""
 						   data-original-title="Help">
-							<i class="fa fa-question-circle"></i>
+							<i class="fa fa-question-circle fa-lg"></i>
 						</a>
 					</li>
 				<?php } ?>

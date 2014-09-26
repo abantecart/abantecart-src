@@ -29,7 +29,7 @@
 				}
 				?>
 			</li>
-			<li><a class="itemopt" title="<?php echo $insert->title; ?>" href="<?php echo $insert->href; ?>"><i	class="fa fa-plus-circle"></i></a></li>
+			<li><a class="itemopt" title="<?php echo $insert->title; ?>" href="<?php echo $insert->href; ?>"><i	class="fa fa-plus-circle fa-lg"></i></a></li>
 			<?php if (!empty ($form_language_switch)) { ?>
 				<li>
 					<?php echo $form_language_switch; ?>
@@ -39,7 +39,7 @@
 				<li>
 					<div class="help_element">
 						<a href="<?php echo $help_url; ?>" target="new">
-							<i class="fa fa-question-circle"></i>
+							<i class="fa fa-question-circle fa-lg"></i>
 						</a></div>
 				</li>
 			<?php } ?>

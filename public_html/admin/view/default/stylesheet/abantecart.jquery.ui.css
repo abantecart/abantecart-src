@@ -315,6 +315,10 @@
     border-bottom: 1px solid #CACCD2;
 }
 
+.ui-jqgrid tr.jqgrow td .btn_grid{
+    font-size: 14px;
+}
+
 .ui-jqgrid tr.jqgfirstrow td {
     padding: 2px 2px;
 }

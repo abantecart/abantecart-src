@@ -212,6 +212,7 @@
 						</a>
 					</div>
 				</li>
+				<?php echo $this->getHookVar('headermenu_right'); ?>
 				<li>
 					<button id="right_side_view" class="btn btn-default tp-icon chat-icon">
 						<i class="fa fa-folder fa-lg"></i>

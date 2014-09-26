@@ -21,7 +21,7 @@
 			<?php if (!empty ($help_url)) : ?>
 				<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
 				   title="" data-original-title="Help">
-					<i class="fa fa-question-circle"></i>
+					<i class="fa fa-question-circle fa-lg"></i>
 				</a>
 			<?php endif; ?>
 		</div>
@@ -257,7 +257,7 @@
 		</div>
 		<div class="list-inline input-group afield col-sm-offset-1 col-sm-3 col-xs-1">
 			<a class="add btn btn-success tooltips" data-original-title="<?php echo $text_add; ?>"><i
-						class="fa fa-plus-circle"></i></a>
+						class="fa fa-plus-circle fa-lg"></i></a>
 		</div>
 	</div>
 </div>

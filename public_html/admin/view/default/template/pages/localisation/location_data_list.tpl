@@ -37,7 +37,7 @@
 				}
 				?>
 			</li>
-			<li><a class="itemopt" title="<?php echo $button_insert; ?>" href="<?php echo $insert_location; ?>"><i class="fa fa-plus-circle"></i></a></li>
+			<li><a class="itemopt" title="<?php echo $button_insert; ?>" href="<?php echo $insert_location; ?>"><i class="fa fa-plus-circle fa-lg"></i></a></li>
 
 			<?php if (!empty ($form_language_switch)) { ?>
 				<li>
@@ -48,7 +48,7 @@
 				<li>
 					<div class="help_element">
 						<a href="<?php echo $help_url; ?>" target="new">
-							<i class="fa fa-question-circle"></i>
+							<i class="fa fa-question-circle fa-lg"></i>
 						</a></div>
 				</li>
 			<?php } ?>
