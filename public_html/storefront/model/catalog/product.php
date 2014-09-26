@@ -1143,7 +1143,7 @@ class ModelCatalogProduct extends Model {
 			$customer_group_id = (int)$this->config->get('config_customer_group_id');
 		}
 
-		$output = $this->cache->get('product.all_info.' . implode('',$products) . '.'.$customer_group_id, $this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id') );
+		$output = $this->cache->get('product.all_info.' . md5(implode('',$products)) . '.'.$customer_group_id, $this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id') );
 		if(is_null($output)){ // if no cache
 
 			$sql = "SELECT product_id, price
@@ -1249,7 +1249,7 @@ class ModelCatalogProduct extends Model {
 				$output[$product]['options'] = $options[$product];
 				$output[$product]['rating'] = $rating!==false ? (int)$rating[$product] : false;
 			}
-			$this->cache->set('product.all_info.' . implode('',$products) . '.'.$customer_group_id, $output, $this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id') );
+			$this->cache->set('product.all_info.' . md5(implode('',$products)) . '.'.$customer_group_id, $output, $this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id') );
 		}
 		return $output;
 	}
