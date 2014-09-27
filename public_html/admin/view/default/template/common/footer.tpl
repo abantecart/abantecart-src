@@ -1,12 +1,21 @@
 		<div id="footer">
-		    <div class="col-md-5 footer_text flt_left">
+		    <div class="col-md-4 footer_text flt_left">
 		      <p><?php echo $text_footer_left; ?></p>
 		    </div>
-		    <div class="col-md-3 help_links flt_right">
-		      <?php echo $text_footer_right; ?>
+		    <div class="col-md-4 help_links flt_right">
+		      <a href="" onclick="<?php echo $doc_menu['item_url']; ?> return false;">
+		      <?php echo $doc_menu['item_icon_rl_id']; ?><?php echo $doc_menu_text; ?>
+		      </a>
+		      <a href="" onclick="<?php echo $support_menu['item_url']; ?> return false;">
+		      <?php echo $support_menu['item_icon_rl_id']; ?><?php echo $support_menu_text; ?>
+		      </a>		      
+		      <a href="" onclick="<?php echo $mp_menu['item_url']; ?> return false;">
+		      <?php echo $mp_menu['item_icon_rl_id']; ?><?php echo $mp_menu_text; ?>
+		      </a>		      
 		    </div>
 		    <div class="col-md-4 version"><?php echo $text_footer; ?></div>
 		</div>
+		<?php echo $this->getHookVar('footer_bottom'); ?>
 
  	</div><!-- mainpanel -->
 

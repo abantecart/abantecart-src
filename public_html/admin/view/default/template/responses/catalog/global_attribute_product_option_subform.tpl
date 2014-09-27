@@ -49,7 +49,7 @@
 						<td></td>
 						<td>
 							<a href="#" title="<?php echo $button_add ?>" id="add_option_value" class="btn btn-success"><i
-										class="fa fa-plus-circle"></i></a>
+										class="fa fa-plus-circle fa-lg"></i></a>
 						</td>
 					</tr>
 					</tbody>

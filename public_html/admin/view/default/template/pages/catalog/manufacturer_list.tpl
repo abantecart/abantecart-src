@@ -10,20 +10,21 @@
 <div class="row">
 	<div class="col-sm-12 col-lg-12">
 		<ul class="content-nav">
-			<li>
-				<a class="itemopt" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>"><i class="fa fa-plus-circle"></i></a>
+			<li class="pull-right">
+				<a class="itemopt" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>"><i
+							class="fa fa-plus-circle fa-lg"></i></a>
 			</li>
 
 			<?php if (!empty ($form_language_switch)) { ?>
-				<li>
+				<li class="pull-right">
 					<?php echo $form_language_switch; ?>
 				</li>
 			<?php } ?>
 			<?php if (!empty ($help_url)) { ?>
-				<li>
+				<li class="pull-right">
 					<div class="help_element">
 						<a href="<?php echo $help_url; ?>" target="new">
-							<i class="fa fa-question-circle"></i>
+							<i class="fa fa-question-circle fa-lg"></i>
 						</a></div>
 				</li>
 			<?php } ?>

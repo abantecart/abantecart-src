@@ -46,7 +46,7 @@ if ( !empty($search_form) ) {
 	<li>
 	  <div class="help_element">
 	  <a href="<?php echo $help_url; ?>" target="new">
-	  <i class="fa fa-question-circle"></i>
+	  <i class="fa fa-question-circle fa-lg"></i>
 	  </a></div>
 	</li>
 	<?php }?>

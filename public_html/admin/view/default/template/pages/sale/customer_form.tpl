@@ -45,7 +45,7 @@
 				</ul>
 			</div>
 			<div class="btn-group ml20">
-				<a class="itemopt tooltips" data-original-title="<?php echo $text_add_address; ?>" title="<?php echo $text_add_address; ?>" href="<?php echo $add_address_url; ?>"><i class="fa fa-plus-circle fa-2x"></i></a>
+				<a class="itemopt tooltips" data-original-title="<?php echo $text_add_address; ?>" title="<?php echo $text_add_address; ?>" href="<?php echo $add_address_url; ?>"><i class="fa fa-plus-circle fa-lg fa-2x"></i></a>
 			</div>
 
 		<div class="pull-right">
@@ -68,7 +68,7 @@
 					   href="<?php echo $help_url; ?>"
 					   target="new"
 					   data-toggle="tooltip"
-					   title="" data-original-title="Help"><i class="fa fa-question-circle"></i></a>
+					   title="" data-original-title="Help"><i class="fa fa-question-circle fa-lg"></i></a>
 				<?php } ?>
 			</div>
 			<?php echo $form_language_switch; ?>

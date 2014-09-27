@@ -26,7 +26,7 @@
 			<a class="itemopt  tooltips" title="<?php echo $edit_store_button->title; ?>" href="<?php echo $edit_store_button->href; ?>"><i class="fa fa-edit fa-2x"></i></a>
 		<?php } ?>
 
-		<a class="itemopt tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>"><i class="fa fa-plus-circle fa-2x"></i></a>
+		<a class="itemopt tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>"><i class="fa fa-plus-circle fa-lg fa-2x"></i></a>
 
 		<?php if($active=='appearance'){?>
 			<?php echo $text_edit_template_settings; ?>
@@ -48,7 +48,7 @@
 				<div class="btn-group mr10 toolbar">
 					<?php if (!empty ($help_url)) : ?>
 					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
-					<i class="fa fa-question-circle"></i>
+					<i class="fa fa-question-circle fa-lg"></i>
 					</a>
 					<?php endif; ?>
 				</div>

@@ -1008,7 +1008,7 @@ p {
 	text-decoration: none;
 }
 .content-nav > li i {
-	font-size: 20px;
+	font-size: 18px;
 	margin-right: 5px;
 }
 .content-nav .btn-group {
@@ -1017,7 +1017,6 @@ p {
 .content-nav .form-inline .form-group {
 	margin-right: 2px;
 }
-
 
 /* CKEDITOR */
 .editable {
@@ -2222,7 +2221,8 @@ p {
 
 #footer{
 	padding: 10px 20px 10px 20px;
-	font-size: 11px;
+	font-size: 10px;
+	line-height: 15px;
 	color: #E4E7EA;
 	background: #064770;
 }

@@ -39,7 +39,7 @@
 			</li>
 			<li>
 				<a class="itemopt tooltips" data-original-title="<?php echo $button_insert; ?>" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>">
-					<i class="fa fa-plus-circle"></i>
+					<i class="fa fa-plus-circle fa-lg"></i>
 				</a>
 			</li>
 
@@ -52,7 +52,7 @@
 				<li>
 					<div class="help_element">
 						<a href="<?php echo $help_url; ?>" target="new">
-							<i class="fa fa-question-circle"></i>
+							<i class="fa fa-question-circle fa-lg"></i>
 						</a></div>
 				</li>
 			<?php } ?>

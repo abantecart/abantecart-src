@@ -28,15 +28,19 @@ class ControllerCommonFooter extends AController {
 		$this->loadLanguage('common/header');
 
 		$menu = new AMenu('admin','menu');
-		$documentation = $menu -> getMenuItem('documentation');
-		$documentation = '<a onclick="'.$documentation['item_url'].'">'.$this->language->get($documentation['item_text']).'</a>';
-		$support = $menu -> getMenuItem('support');
-		$support = '<a onclick="'.$support['item_url'].'">'.$this->language->get($support['item_text']).'</a>';
+		$documentation = $menu->getMenuItem('documentation');
+		$support = $menu->getMenuItem('support');
+		$mp = $menu->getMenuItem('marketplace1');
+		$this->view->assign('doc_menu', $documentation);
+		$this->view->assign('doc_menu_text', $this->language->get($documentation['item_text']));
+		$this->view->assign('support_menu', $support);
+		$this->view->assign('support_menu_text', $this->language->get($support['item_text']));
+		$this->view->assign('mp_menu', $mp);
+		$this->view->assign('mp_menu_text', $this->language->get($mp['item_text']));
 
 		$this->view->assign('text_footer_left', sprintf($this->language->get('text_footer_left'), date('Y')));
 		$this->view->assign('text_footer', sprintf($this->language->get('text_footer'),date('Y')).VERSION);
-		$this->view->assign('text_footer_right', $documentation.$support);
-
+		
 		if (!$this->user->isLogged() || !isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
 			$this->view->assign('logged', '');
 			$this->view->assign('home', $this->html->getSecureURL('index/login', '', true));
