@@ -16,6 +16,6 @@
 />
 <?php if ( !empty ($help_url) ) { ?>
 <span class="input-group-addon aswitcher">
-	<span class="help_element"><a href="<?php echo $help_url; ?>" target="new"><i class="fa fa-question-circle fa-lg fa-lg"></i></a></span>
+	<span class="help_element"><a href="<?php echo $help_url; ?>" target="new"><i class="fa fa-question-circle fa-lg"></i></a></span>
 </span>
 <?php } ?>
