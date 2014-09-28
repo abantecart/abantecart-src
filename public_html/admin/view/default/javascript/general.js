@@ -486,7 +486,13 @@ function notice(text, autohide, elm, type, icon) {
 			exit: 'animated fadeOutRight'
 		}	
 	});
+	return growl;
 }
+
+function remove_alert(growl) {
+	growl.close();
+}
+
 //-----------------------------------------
 
 // Error detection wrapper on ajax reply.

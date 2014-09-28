@@ -282,8 +282,6 @@ div.error label.error:before {
 OLD CSS
 
 ***/
-.ajax_result {
-}
 .ajax_loading {
 	background: url(../image/ajax-loader.gif) 0 50% no-repeat;
 	display:inline-block;

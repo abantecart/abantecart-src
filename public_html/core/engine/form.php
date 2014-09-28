@@ -431,6 +431,8 @@ class AForm {
 						'button_save' => $language->get('button_save'),
 						'button_reset' => $language->get('button_reset'),
 						'update' => $this->form[ 'update' ],
+						'text_processing' => $language->get('text_processing'),
+						'text_saved' => $language->get('text_saved'),
 					)
 				);
 				$output = $view->fetch('form/form_js_hs.tpl');

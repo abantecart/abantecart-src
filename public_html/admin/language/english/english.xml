@@ -605,5 +605,13 @@
 		<key>new_orders</key>
 		<value><![CDATA[New Orders]]></value>
 	</definition>
+	<definition>
+		<key>text_saved</key>
+		<value><![CDATA[Saved Successfully]]></value>
+	</definition>
+	<definition>
+		<key>text_processing</key>
+		<value><![CDATA[Processing ...]]></value>
+	</definition>
 	
 </definitions>

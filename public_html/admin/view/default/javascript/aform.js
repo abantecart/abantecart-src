@@ -42,7 +42,9 @@
             },
             showButtons:true,
             autoHide:true,
-            save_url:''
+            save_url:'',
+            processing_txt: 'Processing ...',
+            saved_txt: 'Saved',
         },
         wrapper:'<div class="form-group" />',
         mask:'<div class="input-group afield" />'
@@ -517,7 +519,6 @@
 		        $e.change();
 		    });
 			//remove errors if any
-			$wrapper.parent().find('.ajax_result').remove();
 			$wrapper.parent().removeClass('has-error');
 			$field.removeClass('has-error');
 		}
@@ -540,6 +541,8 @@
 		            $e.attr('data-orgvalue', $e.val());
 		        } else if ($e.is(":checkbox")) {
 		        	$e.attr('data-orgvalue', ($e.prop("value") == 1 ? 'true' : 'false'));
+		        } else {
+		            $e.attr('data-orgvalue', $e.val());
 		        }
 		    });
 		}
@@ -568,7 +571,6 @@
 			
 			//add changed class to button container
 			$btncontainer.parent('.afield').addClass(o.changedClass);
-			$('.ajax_result, .field_err', $btncontainer).remove();
 			$(o.btnGrpSelector, $btncontainer).css('display', 'inline-block');
 			//bind events for buttons
 			$(o.btnGrpSelector, $btncontainer).find('a').unbind('click'); // to prevent double binding			
@@ -622,7 +624,6 @@
 		    //find a button container
 		    var $grp = $wrapper.find(o.btnGrpSelector);
 		    var $err = false;
-		    $ajax_result = $('<span class="help-block ajax_result"></span>');
 		
 		    if ($field.parent('#product_related').length) {
 		        $wrapper = $field.parent('#product_related');
@@ -676,7 +677,7 @@
 		
 		    if (!$err) {
 		    	//show ajax wrapper
-		        $ajax_result.insertAfter($wrapper).html('<span class="ajax_loading">Saving...</span>').show();
+		        var growl = notice(o.processing_txt, false, null, 'info', 'fa fa-spinner fa-spin');
 		        $.ajax({
 		            url:url,
 		            type:"post",
@@ -691,10 +692,8 @@
 		                    $error_text = '<span class="ajax_error">There\'s an error in the request.</span>';
 		                }
 		                // show ajax error and fadeout
-		                $ajax_result.html($error_text).delay(2500).fadeOut(3000, function () {
-							$(this).remove();
-							$field.focus();
-		                });
+		                remove_alert(growl);
+		                error_alert($error_text, true);                
 		                $('.field_err', $wrapper).remove();
 		                $field.focus();
 		             
@@ -705,16 +704,17 @@
 		                }
 		            },
 		            success:function (data) {
+		            	if (!data) {
+		            		data = o.saved_txt;
+		            	}
 		                if (need_reload) {
 		                    $wrapper.parents('form').prop('changed','submit');
 		                    window.location.reload();
 		                }
-						updateOriginalValue($field);		
-		                $ajax_result.html('<span class="ajax_success">' + data + '</span>').delay(2500).fadeOut(3000, function () {
-		                    $(this).remove();
-			                $ajax_result.remove();
-		                    $field.focus();
-		                });
+						updateOriginalValue($field);	
+						remove_alert(growl);	
+						success_alert(data, true);
+						$field.focus();
 		                $wrapper.parent().removeClass('has-error');
 		                $field.removeClass('has-error');
 		                removeQuickSave($field);
