@@ -341,4 +341,9 @@
 	    <key>button_install</key>
 	    <value><![CDATA[Install]]></value>
 	</definition>
+	<definition>
+	    <key>error_dependencies</key>
+	    <value><![CDATA[This extension cannot be enabled because required dependency missing or not enabled.]]></value>
+	</definition>
+
 </definitions>

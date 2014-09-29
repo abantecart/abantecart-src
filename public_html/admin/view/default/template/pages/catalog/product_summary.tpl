@@ -33,7 +33,7 @@
 			}else{
 				echo $text_product_available;
 			} ?></td>
-        <td class="summary_label">Total Orders</td>
+        <td class="summary_label"><?php echo $text_total_orders; ?></td>
         <td class="summary_value"> <?php echo $product['orders']; ?>
         <?php if( $product['orders'] > 0) { ?>
 	        &nbsp;&nbsp;<a href="<?php echo $product['orders_url']; ?>" class="btn btn-small btn-default" target="_new"><i class="fa fa-external-link"></i> <?php echo $text_view; ?></a>

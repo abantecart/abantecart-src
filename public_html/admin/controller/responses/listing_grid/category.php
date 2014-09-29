@@ -213,6 +213,12 @@ class ControllerResponsesListingGridCategory extends AController {
 					}
 				}
 
+				$err = $this->_validateField($f, $value);
+				if (!empty($err)) {
+					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
+					return $dd->dispatch();
+				}
+
 				$this->model_catalog_category->editCategory($this->request->get['id'], array($field => $value) );
 			}
 		    return null;
@@ -234,6 +240,27 @@ class ControllerResponsesListingGridCategory extends AController {
 
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
+
+
+	private function _validateField($field, $value) {
+		$err = '';
+		switch ($field) {
+			case 'category_description' :
+				if (isset($value[ 'name' ]) && ((mb_strlen($value[ 'name' ]) < 1) || (mb_strlen($value[ 'name' ]) > 255))) {
+					$err = $this->language->get('error_name');
+				}
+				break;
+			case 'model' :
+				if ((mb_strlen($value) < 1) || (mb_strlen($value) > 64)) {
+					$err = $this->language->get('error_model');
+				}
+				break;
+			case 'keyword' :
+				$err = $this->html->isSEOkeywordExists('product_id='.$this->request->get['id'], $value);
+				break;
+		}
+		return $err;
 	}
 
 }

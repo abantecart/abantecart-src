@@ -537,4 +537,8 @@
 		<key>text_new_option</key>
 		<value><![CDATA[New Option]]></value>
 	</definition>
+	<definition>
+		<key>text_total_orders</key>
+		<value><![CDATA[Total Orders]]></value>
+	</definition>
 </definitions>
