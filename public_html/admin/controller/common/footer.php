@@ -30,7 +30,7 @@ class ControllerCommonFooter extends AController {
 		$menu = new AMenu('admin','menu');
 		$documentation = $menu->getMenuItem('documentation');
 		$support = $menu->getMenuItem('support');
-		$mp = $menu->getMenuItem('marketplace1');
+		$mp = $menu->getMenuItem('marketplace');
 		$this->view->assign('doc_menu', $documentation);
 		$this->view->assign('doc_menu_text', $this->language->get($documentation['item_text']));
 		$this->view->assign('support_menu', $support);

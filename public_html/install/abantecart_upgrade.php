@@ -133,6 +133,7 @@ $m->insertMenuItem(
 
 //add triggers
 //select all tables with date_added
+/*
 $tables_sql = "
 	SELECT DISTINCT TABLE_NAME 
     FROM INFORMATION_SCHEMA.COLUMNS
@@ -148,7 +149,6 @@ foreach ($query->rows as $t) {
 						FROM information_schema.triggers
 						WHERE TRIGGER_SCHEMA = '" . DB_DATABASE . "' AND TRIGGER_NAME = '$triger_name'");
 	if (!$query->row[0]) {
-		//create trigger
 		$sql = "
 		CREATE TRIGGER `$triger_name` BEFORE INSERT ON `$table_name` FOR EACH ROW
 		BEGIN
@@ -158,7 +158,7 @@ foreach ($query->rows as $t) {
 		$this->db->query($sql);
 	}	
 }
-
+*/
 
 //clear cache after upgrade       					
 $this->cache->delete('*');
