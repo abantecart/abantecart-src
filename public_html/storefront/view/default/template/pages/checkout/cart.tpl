@@ -66,9 +66,7 @@ echo $form['form_open'];
 		<div class=" pull-right mb20">
 			<?php echo $this->getHookVar('pre_top_cart_buttons'); ?>
 			<?php if ($form['checkout']) { ?>
-	
-				<a href="<?php echo $checkout; ?>" id="cart_checkout1" class="btn btn-orange pull-right"
-				   title="<?php echo $button_checkout; ?>">
+				<a href="#" onclick="save_and_checkout('<?php echo $checkout_rt; ?>'); return false;" id="cart_checkout1" class="btn btn-orange pull-right" title="<?php echo $button_checkout; ?>">
 					<i class="fa fa-shopping-cart"></i>
 					<?php echo $button_checkout; ?>
 				</a>
@@ -160,7 +158,7 @@ echo $form['form_open'];
 <?php } ?>
 
 	<div class="container-fluid cart_total">
-	    <div class="cart-info totals pull-right table-responsive">
+	    <div class="col-md-6 cart-info totals pull-right table-responsive">
 	    	<table id="totals_table" class="table table-striped table-bordered">
 	    		<?php /* Total now loaded with ajax. ?>
 	    		<?php foreach ($totals as $total) { ?>
@@ -180,8 +178,7 @@ echo $form['form_open'];
 	    	</a>
 
 	    	<?php if ($form['checkout']) { ?>
-	    		<a href="<?php echo $checkout; ?>" id="cart_checkout2" class="btn btn-orange pull-right"
-	    		   title="<?php echo $button_checkout; ?>">
+	    		<a href="#" onclick="save_and_checkout('<?php echo $checkout_rt; ?>'); return false;" id="cart_checkout2" class="btn btn-orange pull-right" title="<?php echo $button_checkout; ?>">
 	    			<i class="fa fa-shopping-cart"></i>
 	    			<?php echo $button_checkout; ?>
 	    		</a>
@@ -211,8 +208,16 @@ echo $form['form_open'];
 				display_shippings();
 				return false;
 			});
+			
 		});
 
+		var save_and_checkout = function(url) { 
+			//first update cart and then follow the next step
+			var input = $("<input>").attr("type", "hidden").attr("name", "next_step").val(url);
+			$('#cart').append($(input));
+			$('#cart').submit();
+		}		
+		
 		var  display_shippings = function() {
 			var postcode = encodeURIComponent($("#estimate input[name=\'postcode\']").val());
 			var country_id = encodeURIComponent($('#estimate_country').val());
