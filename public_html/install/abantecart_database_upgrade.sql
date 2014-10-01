@@ -145,3 +145,7 @@ VALUES (15,'core',17);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES (40,'<i class="fa fa-camera"></i>&nbsp;',17);
+
+
+#remove all language definitions for admin side
+DELETE FROM `ac_language_definitions` WHERE section=1;

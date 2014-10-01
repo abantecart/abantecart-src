@@ -148,14 +148,14 @@ class ControllerResponsesListingGridExtension extends AController {
 				$response->userdata->classes[$id] = 'warning disable-edit disable-install disable-uninstall disable-remote-install';
 
 				$icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="" border="0" />';
-				$name = str_replace('%EXT%', $extension, $this->language->get('text_missing_extension'));
+				$name = sprintf($this->language->get('text_missing_extension'),$extension);
 				$category = $status = '';
 				$row['date_modified'] = date('Y-m-d H:i:s', time()); // change it for show it in list first by default sorting
 
 			} elseif (!file_exists(DIR_EXT . $extension . '/main.php') || !file_exists(DIR_EXT . $extension . '/config.xml')) {
 				$response->userdata->classes[$id] = 'warning disable-edit disable-install disable-uninstall disable-remote-install';
 				$icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="" border="0" />';
-				$name = str_replace('%EXT%', $extension, $this->language->get('text_broken_extension'));
+				$name = sprintf($this->language->get('text_broken_extension'), $extension);
 				$category = $status = '';
 				$row['date_modified'] = date('Y-m-d H:i:s', time()); // change it for show it in list first by default sorting
 
@@ -309,22 +309,13 @@ class ControllerResponsesListingGridExtension extends AController {
 		$this->loadLanguage('extension/extensions');
 
 		$result = $this->extension_manager->getChildrenExtensions($this->request->get['extension']);
-		if ($result) {
-			$view = new AView($this->registry,0);
-			$view->batchAssign($this->language->getASet('extension/extensions'));
-			$view->assign('result', $result);
-
-			$html = $view->fetch('pages/extension/extensions_dependants_dialog.tpl');
-
-			$this->data['html'] = $html;
-		}
+		$this->data['result'] = $result;
+		$this->view->batchAssign($this->language->getASet('extension/extensions'));
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-		if ($this->data) {
-			$this->load->library('json');
-			$this->response->setOutput(AJson::encode($this->data));
-		}
 
+		$this->view->batchAssign($this->data);
+		$this->processTemplate('responses/extension/extensions_dependants_dialog.tpl');
 	}
 }
