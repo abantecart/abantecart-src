@@ -44,7 +44,7 @@
             autoHide:true,
             save_url:'',
             processing_txt: 'Processing ...',
-            saved_txt: 'Saved',
+            saved_txt: 'Saved'
         },
         wrapper:'<div class="form-group" />',
         mask:'<div class="input-group afield" />'
@@ -382,7 +382,7 @@
 		    } else {
 		    	$field.find('.btn-default').addClass('btn-off');
 		    }
-			//togle buttons
+			//toggle buttons
 		    $field.find('.btn').toggleClass('active');  
 		    if ($field.find('.btn-primary').size() > 0) {
 		    	$field.find('.btn').toggleClass('btn-primary');
@@ -401,7 +401,7 @@
 		   	return false;    
 		}
 
-        //Wrapp grid head/footer form filed elements
+        //Wrap grid head/footer form field elements
         $.aform.styleGridForm = function (elem) {
             var $field = $(elem);
             
@@ -749,7 +749,7 @@
     				//alert($elem.parent().html());
     				$elem.parent().find('*').removeClass('changed');
     			});
-			},
+			}
   		});
 				
 		/* Process each form's element */
