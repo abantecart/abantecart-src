@@ -1152,6 +1152,15 @@ class CheckboxHtmlElement extends HtmlElement {
 			}
 		}
 		$registry = $this->data['registry'];
+
+		if(is_object($registry->get('language'))){
+			$text_on = $registry->get('language')->get('text_on');
+			$text_off = $registry->get('language')->get('text_off');
+		}else{
+			$text_on = 'ON';
+			$text_off = 'OFF';
+		}
+
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1162,8 +1171,8 @@ class CheckboxHtmlElement extends HtmlElement {
 				'label_text' => $this->label_text,
 				'checked' => $checked,
 				'style' => $this->style,
-				'text_on'=> $registry->get('language')->get('text_on'),
-				'text_off'=> $registry->get('language')->get('text_off'),
+				'text_on'=> $text_on,
+				'text_off'=> $text_off,
 			));
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);

@@ -10743,8 +10743,7 @@ VALUES  (10,'category',11),
         (10,'manufacturer',13),
         (10,'download',14),
         (10,'review',15),
-        (10,'attributes',16),
-        (10,'resource_library',17);
+        (10,'attributes',16);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (11,'text_category',11),
@@ -10752,8 +10751,7 @@ VALUES  (11,'text_category',11),
         (11,'text_manufacturer',13),
         (11,'text_download',14),
         (11,'text_review',15),
-        (11,'text_attribute',16),
-        (11,'text_resource_library',17);
+        (11,'text_attribute',16);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'catalog/category',11),
@@ -10761,8 +10759,7 @@ VALUES  (12,'catalog/category',11),
         (12,'catalog/manufacturer',13),
         (12,'catalog/download',14),
         (12,'catalog/review',15),
-        (12,'catalog/attribute',16),
-        (12,'catalog/resource_library',17);
+        (12,'catalog/attribute',16);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (13,'catalog',11),
@@ -10770,8 +10767,7 @@ VALUES  (13,'catalog',11),
         (13,'catalog',13),
         (13,'catalog',14),
         (13,'catalog',15),
-        (13,'catalog',16),
-        (13,'catalog',17);
+        (13,'catalog',16);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (14,1,11),
@@ -10779,8 +10775,7 @@ VALUES  (14,1,11),
         (14,3,13),
         (14,4,14),
         (14,5,15),
-        (14,6,16),
-        (14,7,17);
+        (14,6,16);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (15,'core',11),
@@ -10788,8 +10783,7 @@ VALUES  (15,'core',11),
         (15,'core',13),
         (15,'core',14),
         (15,'core',15),
-        (15,'core',16),
-        (15,'core',17);
+        (15,'core',16);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'<i class="fa fa-folder-open"></i>&nbsp;',11),
@@ -10797,8 +10791,7 @@ VALUES  (40,'<i class="fa fa-folder-open"></i>&nbsp;',11),
         (40,'<i class="fa fa-bookmark-o"></i>&nbsp;',13),
         (40,'<i class="fa fa-upload"></i>&nbsp;',14),
         (40,'<i class="fa fa-comment-o"></i>&nbsp;',15),
-        (40,'<i class="fa fa-ticket"></i>&nbsp;',16),
-        (40,'<i class="fa fa-camera"></i>&nbsp;',17);
+        (40,'<i class="fa fa-ticket"></i>&nbsp;',16);
 
 
 --
@@ -11238,40 +11231,6 @@ VALUES  (40,'<i class="fa fa-sliders"></i>&nbsp;',191),
         (40,'<i class="fa fa-sitemap"></i>&nbsp;',199);
 
 
-
-
---
--- SUBMENU EXTENSIONS STORE
--- ITEM_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (10,'extension_store',251),
-		    (10,'extension_store_prev',252);
--- ITEM_TEXT
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (11,'text_extension_store_new',251),
-		    (11,'text_extension_store_prev',252);
--- ITEM_URL
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'extension/extensions_store',251),
-		    (12,'extension/extensions_store_prev',252);
--- PARENT_ID	(submenu SYSTEM)
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (13,'extensions_stores',251),
-		    (13,'extensions_stores',252);
--- SORT_ORDER
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
-VALUES  (14,1,251),
-		    (14,2,252);
--- ITEM_TYPE
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (15,'core',251),
-		    (15,'core',252);
-
-
--- ITEM_RL_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'',251),
-        (40,'',252);
 
 
 --
