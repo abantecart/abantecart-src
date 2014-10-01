@@ -66,7 +66,7 @@ class ControllerPagesCheckoutCart extends AController {
 			}
 			
       		if (isset($this->request->post['quantity'])) {
-
+				//we update cart
 				if (!is_array($this->request->post['quantity'])) {
 
 					$this->loadModel('catalog/product');
@@ -165,6 +165,11 @@ class ControllerPagesCheckoutCart extends AController {
           			$this->cart->remove($key);
 				}
       		}
+			
+			//next page is requested after cart update
+			if (isset($this->request->post['next_step'])) {
+				$this->redirect($this->html->getSecureURL($this->request->post['next_step']));
+			}
 			
 			if (isset($this->request->post['redirect'])) {
 				$this->session->data['redirect'] = $this->request->post['redirect'];
@@ -292,6 +297,7 @@ class ControllerPagesCheckoutCart extends AController {
 			);
 			
             $this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
+            $this->data['checkout_rt'] = 'checkout/shipping';
 
 			#Check if order total max/min is set and met
 			$cf_total_min = $this->config->get('total_order_minimum'); 

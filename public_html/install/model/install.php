@@ -65,7 +65,7 @@ class ModelInstall extends Model {
 			$db->query("UPDATE `" . $data['db_prefix'] . "products` SET `viewed` = '0';");
 
 			//process triggers
-			$this->create_triggers($db, $data['db_name']);
+			//$this->create_triggers($db, $data['db_name']);
 
 			//run descructor and close db-connection
 			unset($db);

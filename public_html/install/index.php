@@ -102,7 +102,7 @@ if ( $data_exist && empty($session->data['finish']) ) {
     header('Location: ../');
 }
 
-if ( !empty($session->data['finish']) ) {
+if ( !empty($session->data['finish']) && $session->data['finish'] == 'true' ) {
     $request->get['rt'] = 'finish';
 }
 

@@ -30,13 +30,14 @@ class ControllerPagesInstall extends AController {
 	public function main() {
 
 		$this->data = array();
+		$run_level = $this->request->get['runlevel'];
 
-		if (isset($this->request->get[ 'runlevel' ])) {
-			if (!in_array((int)$this->request->get[ 'runlevel' ], array( 1, 2, 3, 4 ))) {
-				$this->redirect(HTTP_SERVER . 'index.php?rt=activation' . '&admin_path=' . $this->request->post[ 'admin_path' ]);
+		if (isset($run_level)) {
+			if (!in_array((int)$run_level, array( 1, 2, 3, 4, 5))) {
+				$this->redirect(HTTP_SERVER . 'index.php?rt=activation' . '&admin_path=' . $this->request->post['admin_path']);
 			}
 
-			if (!$this->session->data[ 'install_step_data' ] && (int)$this->request->get[ 'runlevel' ] == 1) {
+			if (!$this->session->data['install_step_data'] && (int)$run_level == 1) {
 				if (filesize(DIR_ABANTECART . 'system/config.php')) {
 					$this->redirect(HTTP_SERVER . 'index.php?rt=activation');
 				} else {
@@ -44,14 +45,13 @@ class ControllerPagesInstall extends AController {
 				}
 			}
 
-			echo $this->runlevel((int)$this->request->get[ 'runlevel' ]);
+			echo $this->runlevel((int)$run_level);
 			return;
 		}
 
-
 		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && ($this->_validate())) {
 
-			$this->session->data[ 'install_step_data' ] = $this->request->post;
+			$this->session->data['install_step_data'] = $this->request->post;
 			$this->redirect(HTTP_SERVER . 'index.php?rt=install&runlevel=1');
 		}
 
@@ -62,7 +62,19 @@ class ControllerPagesInstall extends AController {
 		$fields = array( 'db_driver', 'db_host', 'db_user', 'db_password', 'db_name', 'db_prefix', 'username', 'password',
 			'password_confirm', 'email', 'admin_path',
 		);
-		$defaults = array( '', 'localhost', '', '', '', '', 'admin', '', '', '', 'your_admin' );
+		$defaults = array( '', 'localhost', '', '', '', 'abc_', 'admin', '', '', '', '' );
+		$place_holder = array( 'Select Database Driver', 
+								'Enter Database Hostname', 
+								'Enter Database Username', 
+								'Enter Password, if any', 
+								'Enter Database Name', 
+								'Add prefix to database tables',
+								'Enter new admin username', 
+								'Enter Secret Admin Password', 
+								'Repeat the password', 
+								'Provide valid email of administrator', 
+								'Enter your secret admin key' 
+								);
 
 		foreach ($fields as $k => $field) {
 			if (isset($this->request->post[ $field ])) {
@@ -96,15 +108,16 @@ class ControllerPagesInstall extends AController {
 			'style' => 'button1',
 		));
 
-		foreach ($fields as $field) {
+		foreach ($fields as $k => $field) {
 			if($field != 'db_driver'){
 				$this->data[ 'form' ][ $field ] = $form->getFieldHtml(array(
 					'type' => (in_array($field, array( 'password', 'password_confirm' )) ? 'password' : 'input'),
 					'name' => $field,
 					'value' => $this->data[ $field ],
-					'required' => in_array($field, array( 'db_host', 'db_user', 'db_name', 'username', 'password', 'password_confirm', 'email' )),
+					'placeholder' => $place_holder[$k],
+					'required' => in_array($field, array( 'db_host', 'db_user', 'db_name', 'username', 'password', 'password_confirm', 'email', 'admin_path' )),
 				));
-			}else{
+			} else {
 				$options = array();
 				//regular mysql is not supported on PHP 5.5.+
 				if(extension_loaded('mysql') && version_compare(phpversion(), '5.5.0', '<') == TRUE ){
@@ -211,17 +224,31 @@ class ControllerPagesInstall extends AController {
 			$this->response->addJSONHeader();
 			return AJson::encode(array( 'ret_code' => 50 ));
 		} elseif ($step == 3) {
+			//NOTE: Create config as late as possible. This will prevent triggering finished installation 
 			$this->_configure();
+			$this->session->data['finish'] = 'false';
 			$this->response->addJSONHeader();
 			return AJson::encode(array( 'ret_code' => 100 ));
 		} elseif ($step == 4) {
-			// Load languages with progress bar approach
+			// Load demo data
+			if($this->session->data['install_step_data']['load_demo_data'] == 'on') {
+				$this->_load_demo_data();
+			}	
+			//Clean session for configurations. We do not need them any more
+			unset($this->session->data['install_step_data'], $this->session->data['SALT']);		
+			$this->session->data['finish'] = 'false';
 			$this->response->addJSONHeader();
 			return AJson::encode(array( 'ret_code' => 150 ));
-		}
+		} elseif ($step == 5) {
+			//install is completed but we are not yet finished
+			$this->session->data['finish'] = 'false';
+			// Load languages with asynchronous approach
+			$this->response->addJSONHeader();
+			return AJson::encode(array( 'ret_code' => 200 ));
+		}		
 
 		$this->view->assign('url', HTTP_SERVER . 'index.php?rt=install');
-		$this->view->assign('redirect', HTTP_SERVER . 'index.php?rt=activation&admin_path=' . $this->session->data[ 'install_step_data' ][ 'admin_path' ]);
+		$this->view->assign('redirect', HTTP_SERVER . 'index.php?rt=finish');
 		$temp = $this->dispatch('pages/install/progressbar_scripts', array( 'url' => HTTP_SERVER . 'index.php?rt=install/progressbar' ));
 		$this->view->assign('progressbar_scripts', $temp->dispatchGetOutput());
 
@@ -234,12 +261,12 @@ class ControllerPagesInstall extends AController {
 
 	private function _install_SQL() {
 		$this->load->model('install');
-		$this->model_install->RunSQL($this->session->data[ 'install_step_data' ]);
+		$this->model_install->RunSQL($this->session->data['install_step_data']);
 
 	}
 
 	private function _configure() {
-		define('DB_PREFIX', $this->session->data[ 'install_step_data' ][ 'db_prefix' ]);
+		define('DB_PREFIX', $this->session->data['install_step_data'][ 'db_prefix' ]);
 
 		$content = "<?php\n";
 		$content .= "/**\n";
@@ -249,13 +276,13 @@ class ControllerPagesInstall extends AController {
 		$content .= "	Released under the Open Software License (OSL 3.0)\n";
 		$content .= "*/\n";
 		$content .= "// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin\n";
-		$content .= "define('ADMIN_PATH', '" . $this->session->data[ 'install_step_data' ][ 'admin_path' ] . "');\n\n";
+		$content .= "define('ADMIN_PATH', '" . $this->session->data['install_step_data'][ 'admin_path' ] . "');\n\n";
 		$content .= "// Database Configuration\n";
-		$content .= "define('DB_DRIVER', '".$this->session->data[ 'install_step_data' ][ 'db_driver' ]."');\n";
-		$content .= "define('DB_HOSTNAME', '" . $this->session->data[ 'install_step_data' ][ 'db_host' ] . "');\n";
-		$content .= "define('DB_USERNAME', '" . $this->session->data[ 'install_step_data' ][ 'db_user' ] . "');\n";
-		$content .= "define('DB_PASSWORD', '" . $this->session->data[ 'install_step_data' ][ 'db_password' ] . "');\n";
-		$content .= "define('DB_DATABASE', '" . $this->session->data[ 'install_step_data' ][ 'db_name' ] . "');\n";
+		$content .= "define('DB_DRIVER', '".$this->session->data['install_step_data']['db_driver']."');\n";
+		$content .= "define('DB_HOSTNAME', '" . $this->session->data['install_step_data']['db_host'] . "');\n";
+		$content .= "define('DB_USERNAME', '" . $this->session->data['install_step_data']['db_user'] . "');\n";
+		$content .= "define('DB_PASSWORD', '" . $this->session->data['install_step_data']['db_password'] . "');\n";
+		$content .= "define('DB_DATABASE', '" . $this->session->data['install_step_data']['db_name'] . "');\n";
 		$content .= "define('DB_PREFIX', '" . DB_PREFIX . "');\n";
 		$content .= "define('SALT', '" . SALT . "');\n";
 		$content .= "define('UNIQUE_ID', '" . md5(time()) . "');\n";
@@ -263,13 +290,12 @@ class ControllerPagesInstall extends AController {
 		$file = fopen(DIR_ABANTECART . 'system/config.php', 'w');
 		fwrite($file, $content);
 		fclose($file);
-		unset($this->session->data[ 'install_step_data' ], $this->session->data[ 'SALT' ]);
-
+		return null;
 	}
 
 	private function _prepare_registry() {
 		$registry = Registry::getInstance();
-		//This is ran after config is saved and we ahve database connection now		
+		//This is ran after config is saved and we ahve database connection now				
 		$db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 		$registry->set('db', $db);
 		define('DIR_LANGUAGE', DIR_ABANTECART . 'admin/language/');
@@ -290,6 +316,44 @@ class ControllerPagesInstall extends AController {
 		return $registry;
 	}
 
+
+	public function _load_demo_data() {
+		$reg = $this->_prepare_registry();
+		$db = $reg->get('db');	
+		$db->query("SET NAMES 'utf8'");
+		$db->query("SET CHARACTER SET utf8");
+		
+		$file = DIR_APP_SECTION . 'abantecart_sample_data.sql';
+	
+		if ($sql = file($file)) {
+			$query = '';
+
+			foreach($sql as $line) {
+				$tsl = trim($line);
+
+				if (($sql != '') && (substr($tsl, 0, 2) != "--") && (substr($tsl, 0, 1) != '#')) {
+					$query .= $line;
+  
+					if (preg_match('/;\s*$/', $line)) {
+						$query = str_replace("DROP TABLE IF EXISTS `ac_", "DROP TABLE IF EXISTS `" . DB_PREFIX, $query);
+						$query = str_replace("CREATE TABLE `ac_", "CREATE TABLE `" . DB_PREFIX, $query);
+						$query = str_replace("INSERT INTO `ac_", "INSERT INTO `" . DB_PREFIX, $query);
+						
+						$result = $db->query($query);
+  
+						if (!$result || $db->error) {
+							die($db->error . '<br>'. $query);
+						}
+	
+						$query = '';
+					}
+				}
+			}
+			$db->query("SET CHARACTER SET utf8");
+			$db->query("SET @@session.sql_mode = 'MYSQL40'");
+		}		
+		return null;
+	}	
 
 	public function progressbar() {
 		session_write_close(); // unlock session !important!

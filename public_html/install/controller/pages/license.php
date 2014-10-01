@@ -39,11 +39,6 @@ class ControllerPagesLicense extends AController {
 		$text = nl2br(file_get_contents('../license.txt'));
 		$this->view->assign('text', $text);
 
-		$this->view->assign('button_continue', $this->html->buildButton(array(
-			'name' => 'continue',
-			'text' => 'Continue >>',
-			'style' => 'button1' ))
-		);
 		$this->view->assign('checkbox_agree', $this->html->buildCheckbox(array(
 			'name'=>'agree',
 			'value'=>'',
