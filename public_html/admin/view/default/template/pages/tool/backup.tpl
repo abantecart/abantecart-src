@@ -75,10 +75,10 @@
 		<div class="form-group <? if (!empty($error['file'])) {
 			echo "has-error";
 		} ?>">
-			<label class="control-label col-sm-3 col-xs-12"
+			<label class="control-label col-sm-4 col-xs-12"
 				   for="<?php echo $restoreform['file']->element_id; ?>"><?php echo $entry_restore; ?></label>
 
-			<div class="input-group afield <?php echo $widthcasses; ?> ">
+			<div class="afield col-sm-5">
 				<?php echo $restoreform['file']; ?>
 			</div>
 			<?php if (!empty($error['file'])) { ?>
@@ -104,10 +104,10 @@
 		<div class="form-group <? if (!empty($error['file'])) {
 			echo "has-error";
 		} ?>">
-			<label class="control-label col-sm-3 col-xs-12"
+			<label class="control-label col-sm-4 col-xs-12"
 				   for="<?php echo $xmlform['file']->element_id; ?>"><?php echo $entry_loadxml; ?></label>
 
-			<div class="input-group afield <?php echo $widthcasses; ?> ">
+			<div class="afield col-sm-5">
 				<?php echo $xmlform['file']; ?>
 			</div>
 			<?php if (!empty($error['file'])) { ?>
