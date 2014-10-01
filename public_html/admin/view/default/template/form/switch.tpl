@@ -1,10 +1,10 @@
-<div class="btn-group btn-toggle <?php echo $style; ?>" <?php echo $attr ?>> 
+<div id="<?php echo $id ?>_layer" class="btn-group btn-toggle <?php echo $style; ?>" <?php echo $attr ?>>
 	<?php if ($checked) { ?>
-    <button class="btn btn-primary active">ON</button>
-    <button class="btn btn-default">OFF</button>	
+    <button class="btn btn-primary active"><?php echo $text_on?></button>
+    <button class="btn btn-default"><?php echo $text_off?></button>
 	<?php } else { ?>
-    <button class="btn btn-default">ON</button>
-    <button class="btn btn-primary btn-off active">OFF</button>		
+    <button class="btn btn-default"><?php echo $text_on?></button>
+    <button class="btn btn-primary btn-off active"><?php echo $text_off?></button>
 	<?php } ?>
 </div>
 <input type="hidden"
@@ -13,6 +13,7 @@
            value="<?php echo $value ?>" 
            data-orgvalue="<?php echo $value ?>"
            class="aswitcher"
+		   <?php echo $attr; ?>
 />
 <?php if ( !empty ($help_url) ) { ?>
 <span class="input-group-addon aswitcher">

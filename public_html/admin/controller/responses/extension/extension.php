@@ -21,8 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesExtensionExtension extends AController {
-
-	private $error = array();
+	public $data = array();
 
 	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
 		parent::__construct($registry, $instance_id, $controller, $parent_controller);
@@ -32,21 +31,27 @@ class ControllerResponsesExtensionExtension extends AController {
 
 	public function help() {
 
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
 		$extension = $this->request->get['extension'];
 		$ext = new ExtensionUtils($extension);
 		$help_file_path = DIR_EXT . $extension . '/' . str_replace('..', '', $ext->getConfig('help_file'));
 
-		$content = array();
-		$content['title'] = $this->language->get('text_help');
+		$this->data['content'] = array();
+		$this->data['title'] = $this->language->get('text_help');
 		if ( file_exists($help_file_path) && is_file($help_file_path) ) {
-			$content['content'] = file_get_contents($help_file_path);
+			$this->data['content'] = file_get_contents($help_file_path);
 		} else {
-			$content['content'] = $this->language->get('error_no_help_file');
+			$this->data['content'] = $this->language->get('error_no_help_file');
 		}
-		$content['content'] = $this->html->convertLinks($content['content']);
-		$this->load->library('json');
+		$this->data['content'] = $this->html->convertLinks($this->data['content']);
 
-		$this->response->setOutput(AJson::encode($content));
+		$this->view->batchAssign($this->data);
+		$this->response->setOutput($this->view->fetch('responses/extension/howto.tpl'));
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
 }

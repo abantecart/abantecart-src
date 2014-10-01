@@ -613,5 +613,21 @@
 		<key>text_processing</key>
 		<value><![CDATA[Processing ...]]></value>
 	</definition>
+	<definition>
+		<key>text_next</key>
+		<value><![CDATA[Next]]></value>
+	</definition>
+	<definition>
+		<key>text_previous</key>
+		<value><![CDATA[Previous]]></value>
+	</definition>
+	<definition>
+		<key>text_on</key>
+		<value><![CDATA[ON]]></value>
+	</definition>
+	<definition>
+		<key>text_off</key>
+		<value><![CDATA[OFF]]></value>
+	</definition>
 	
 </definitions>

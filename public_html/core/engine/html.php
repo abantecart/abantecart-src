@@ -1151,7 +1151,7 @@ class CheckboxHtmlElement extends HtmlElement {
 				$this->value = 0;
 			}
 		}
-		
+		$registry = $this->data['registry'];
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1162,6 +1162,8 @@ class CheckboxHtmlElement extends HtmlElement {
 				'label_text' => $this->label_text,
 				'checked' => $checked,
 				'style' => $this->style,
+				'text_on'=> $registry->get('language')->get('text_on'),
+				'text_off'=> $registry->get('language')->get('text_off'),
 			));
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);

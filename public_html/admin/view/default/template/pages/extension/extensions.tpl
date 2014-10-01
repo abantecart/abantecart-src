@@ -152,82 +152,26 @@ echo $this->html->buildElement(
 			}
 		});
 		//check dependancies before disabling of extension
-		$('td[aria-describedby="extension_grid_status"]').find('button').click(function () {
+		$('td[aria-describedby="extension_grid_status"] button').click(function () {
 					var switcher = $('td[aria-describedby="extension_grid_status"]').find("input[type='hidden']");
-					var value = switcher.attr('data-orgvalue');
-					if (value == 1 && switcher.val()!=1) {
+					var value = switcher.val();
+					var that = this;
+					if (value == 1 && switcher.attr('data-orgvalue')!=0) {
 						var row_id = $(this).parents('tr').attr('id');
 						var extension = userdata.extension_id[ row_id ];
 
-
-						$.ajax({
-							url: '<?php echo $dependants_url; ?>',
-							type: 'GET',
-							data: 'extension=' + extension,
-							dataType: 'json',
-							success: function (data) {
-
-								if (data == '' || data == null) {
-									return null;
-								} else {
-									if (data.html) {
-										$('#dep_modal .modal-body').html(data.html)
-									}
-									$('#dep_modal').modal('show');
-								}
-							}
+						$('#license_modal').modal({remote: '<?php echo $dependants_url; ?>&extension='+ extension}).modal('show');
+						$('#license_modal').on('shown.bs.modal', function () {
+							$('#modal_confirm').click(function () {
+								$(that).parents('td').find('.quicksave .icon_save').click();
+								$('#license_modal').modal('hide');
+							});
 						});
-
-						$('#confirm_disable').live('click',function(){
-							$("td[aria-describedby='extension_grid_status']").find('.quicksave .icon_save').click();
-							$('#dep_modal').modal('hide');
-						});
-						$('#confirm_cancel').live('click', function(){
-							$("td[aria-describedby='extension_grid_status']").find('.quicksave .icon_reset').click();
-							$('#dep_modal').modal('hide');
+						$('#license_modal').on('hidden.bs.modal', function () {
+							$(that).parents('td').find('.quicksave .icon_reset').click();
 						});
 					}
-
 				});
-
-
-
-
 	}
-
-</script>
-
-
-
-
-
-
-
-
-
-
-<script type="text/javascript">
-/*
-	var $aPopup = $('#aPopup');
-	var msg_id;
-	function show_popup(extension, installURL) {
-		$aPopup = $('#aPopup').dialog({
-			autoOpen: false,
-			modal: true,
-			resizable: false,
-			dialogClass: 'aPopup',
-			width: 550,
-			minWidth: 550,
-			resize: function (event, ui) {
-			},
-			close: function (event, ui) {
-				$(this).dialog('destroy');
-			}
-		});
-
-		$aPopup.removeClass('popbox popbox2');
-
-	}*/
-
 
 </script>

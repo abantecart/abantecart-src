@@ -350,14 +350,26 @@ class ControllerPagesExtensionExtensions extends AController {
 		foreach ($settings as $item) {
 			$data = array();
 			if ($item['name'] == $extension . '_status') {
+				$data['attr'] = ' reload_on_save="true"';
 				$status = $item['value'];
+				//set sign for confirmation modal about dependendants for disable action
+				if($item['value']==1){
+					$children = $this->extension_manager->getChildrenExtensions($extension);
+					if ($children) {
+						foreach($children as $child){
+							if ($this->config->get($child['key'] . '_status')) {
+								$this->data['has_dependants'] = true;
+								break;
+							}
+						}
+					}
+				}
+
 			}
 			$data['name'] = $item['name'];
 			$data['type'] = $item['type'];
 			$data['value'] = $item['value'];
 			$data['required'] = (bool)$item['required'];
-
-			//if($data['type']=='resource'){ var_dump($item); exit; }
 
 			if($item[ 'note' ]){
 				$data[ 'note' ] = $item[ 'note' ];
@@ -434,33 +446,7 @@ class ControllerPagesExtensionExtensions extends AController {
 						$result['rl_scripts'] = $scripts->dispatchGetOutput();
 						unset($scripts);
 					}
-					//preview of resource
-					/*$resource = new AResource($item['resource_type']);
-					$resource_id = $resource->getIdFromHexPath(str_replace($item['resource_type'] . '/', '', $item['value']));
-					$preview = $this->dispatch(
-						'responses/common/resource_library/get_resource_html_single',
-						array('type' => $item['resource_type'],
-							'wrapper_id' => $item['name'],
-							'resource_id' => $resource_id,
-							'field' => $item['name']));
-					$item['value'] = $preview->dispatchGetOutput();*/
-					/*if ($data['value']) {
-						$data = array(
-							'note' => $data['note'],
-							'name' => $item['name'],
-							'type' => 'hidden'
-						);
-						if ($resource_id) {
-							$resource_info = $resource->getResource($resource_id);
-							$data['value'] = $item['resource_type'] . '/' . $resource_info['resource_path'];
-						}
-					}*/
 					$data['resource_path'] = $item['value'];
-
-					$result['resource_field_list'][$item['name']]['value'] = $item['value'];
-					$result['resource_field_list'][$item['name']]['resource_type'] = $item['resource_type'];
-					//$result['resource_field_list'][$item['name']]['resource_id'] = $resource_id;
-
 					break;
 				default:
 			}
@@ -476,7 +462,6 @@ class ControllerPagesExtensionExtensions extends AController {
 
 		// end building aform
 		$this->data['settings'] = $result['html'];
-		$this->data['resource_field_list'] = $result['resource_field_list'];
 
 		$this->data['resources_scripts'] = $result['rl_scripts'];
 		$this->data['target_url'] = $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $extension . '&store_id=' . $store_id);
@@ -561,7 +546,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->data['reload'] = $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $extension);
 		$this->data['back'] = $this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']);
 		$this->data['update'] = $this->html->getSecureURL('listing_grid/extension/update', '&id=' . $extension . '&store_id=' . $store_id);
-		$this->data['dependants_url'] = $this->html->getSecureURL('listing_grid/extension/dependants');
+		$this->data['dependants_url'] = $this->html->getSecureURL('listing_grid/extension/dependants', '&extension='.$extension);
 
 
 
@@ -620,33 +605,40 @@ class ControllerPagesExtensionExtensions extends AController {
 						continue;
 					$extension_data['preview'][] = HTTPS_EXT . $extension . DIR_EXT_IMAGE . (string)$item;
 				}
+				//image gallery scripts and css for previews
+				$this->document->addStyle(array(
+				        'href' => RDIR_TEMPLATE . 'javascript/blueimp-gallery/css/bootstrap-image-gallery.css',
+				        'rel' => 'stylesheet'
+				));
+				$this->document->addStyle(array(
+				        'href' => RDIR_TEMPLATE . 'javascript/blueimp-gallery/css/blueimp-gallery.min.css',
+				        'rel' => 'stylesheet'
+				));
+				$this->document->addScript(RDIR_TEMPLATE.'javascript/blueimp-gallery/jquery.blueimp-gallery.min.js');
+				$this->document->addScript(RDIR_TEMPLATE.'javascript/blueimp-gallery/bootstrap-image-gallery.js');
 			}
 
 			if (isset($this->session->data['extension_updates'][$extension])) {
 
-				$extension_data['upgrade'] = array(
-					'text' => $this->html->buildElement(
+				$this->data['upgrade_button'] = $this->html->buildElement(
 									array(  'type'=> 'button',
-											'id' => 'upgradenow',
 											'name' => 'btn_upgrade',
+											'id' => 'upgradenow',
+											'href' => AEncryption::addEncoded_stid($this->session->data['extension_updates'][$extension]['url']),
 											'text' => $this->language->get('button_upgrade')
-									)),
-					'link' => AEncryption::addEncoded_stid($this->session->data['extension_updates'][$extension]['url']));
+									));
 			}
-
-			$extension_data['help'] = array(
-				'text' => $this->html->buildElement(
-							array(  'type'=> 'button',
-									'name' => 'btn_help',
-									'text' => 'How to'//$this->language->get('text_help')
-							)
-				),
-				'ext_link' => $ext->getConfig('help_link'),
-			);
+			if($ext->getConfig('help_link')){
+				$extension_data['help'] = array(
+											'ext_link' => array(
+																'text' => $this->language->get('text_developer_site'),
+																'link' => $ext->getConfig('help_link'))
+				);
+			}
 			if ($ext->getConfig('help_file')) {
-				$extension_data['help']['file'] = true;
-				$extension_data['help']['file_link'] = $this->html->getSecureURL('extension/extension/help', '&extension=' . $this->request->get['extension']);
-				$this->data['text_more_help'] = $this->language->get('text_more_help');
+				$extension_data['help']['file'] = array(
+											'link' => $this->html->getSecureURL('extension/extension/help', '&extension=' . $this->request->get['extension']),
+											'text' => $this->language->get('button_howto'));
 			}
 
 			$extension_data['dependencies'] = array();
@@ -657,50 +649,94 @@ class ControllerPagesExtensionExtensions extends AController {
 			if (isset($config->dependencies->item)) {
 				foreach ($config->dependencies->item as $item) {
 					$id = (string)$item;
+					$actions = array();
+
+					if($this->config->has($id . '_status')){
+						$status = $this->language->get('text_installed') .' ('.$this->language->get('text_enabled').')';
+					}else{
+						$status =  $this->language->get('text_not_installed').' ('.$this->language->get('text_disabled').')';
+					}
+
 					if (in_array($id, $db_extensions)) {
 						if (in_array($id, $missing_extensions)) {
 							$class = 'warning';
-							$action = str_replace('%EXT%', $id, $this->language->get('text_missing_extension')) .
-									'<a class="btn_action" target="_blank" href="' . $this->html->getSecureURL('extension/extensions/delete', '&extension=' . $id) . '"
-										onclick="return confirm(\'' . $this->language->get('text_delete_confirm') . '\')" title="' . $this->language->get('text_delete') . '">' .
-									'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_delete.png" alt="' . $this->language->get('text_delete') . '" />' .
-									'</a>';
+							$status = sprintf( $this->language->get('text_missing_extension'), $id );
+							$actions['delete'] = $this->html->buildElement(
+								array(
+									'type'=>'button',
+									'href'=> $this->html->getSecureURL('extension/extensions/delete', '&extension=' . $id),
+									'target' => '_blank',
+									'style'  => 'btn_delete',
+									'icon'  => 'fa fa-trash-o',
+									'title'  => $this->language->get('text_delete')
+								)
+							);
 						} else {
 
 							if (!$this->config->has($id . '_status')) {
-								$class = 'attention';
-								$action = '<a class="btn_action" target="_blank" href="' . $this->html->getSecureURL('extension/extensions/install', '&extension=' . $id) . '"
-								title="' . $this->language->get('text_install') . '">' .
-										'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_install.png" alt="' . $this->language->get('text_install') . '" />' .
-										'</a>' .
-										'<a class="btn_action" target="_blank" href="' . $this->html->getSecureURL('extension/extensions/delete', '&extension=' . $id) . '"
-									  onclick="return confirm(\'' . $this->language->get('text_delete_confirm') . '\')" title="' . $this->language->get('text_delete') . '">' .
-										'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_delete.png" alt="' . $this->language->get('text_delete') . '" />' .
-										'</a>';
+								$actions['install'] = $this->html->buildElement(
+																array(
+																	'type'=>'button',
+																	'href'=> $this->html->getSecureURL('extension/extensions/install', '&extension=' . $id),
+																	'target' => '_blank',
+																	'style'  => 'btn_install',
+																	'icon'  => 'fa fa-play',
+																	'title'=> $this->language->get('text_install')
+																)
+								);
+								$actions['delete'] = $this->html->buildElement(
+																array(
+																	'type'=>'button',
+																	'href'=> $this->html->getSecureURL('extension/extensions/delete', '&extension=' . $id),
+																	'target' => '_blank',
+																	'style'  => 'btn_delete',
+																	'icon'  => 'fa fa-trash-o',
+																	'title'=> $this->language->get('text_delete')
+																)
+								);
 							} else {
-								$action = '<a id="action_edit_' . $id . '" target="_blank" class="btn_action"
-												href="' . $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $id) . '"
-												title="' . $this->language->get('text_edit') . '">' .
-										'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_edit.png" alt="' . $this->language->get('text_edit') . '" /></a>';
+								$actions['edit'] = $this->html->buildElement(
+																array(
+																	'type'=>'button',
+																	'href'=> $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $id),
+																	'target' => '_blank',
+																	'style'=> 'btn_edit',
+																	'icon'  => 'fa fa-edit',
+																	'title'=> $this->language->get('text_edit')
+																)
+								);
 								if (!(boolean)$item['required']) {
-									$action .= '<a class="btn_action" target="_blank" href="' . $this->html->getSecureURL('extension/extensions/uninstall', '&extension=' . $id) . '"
-									  onclick="return confirm(\'' . str_replace('%extension%', $id, $this->language->get('text_uninstall_confirm')) . '\')"
-									  title="' . $this->language->get('text_uninstall') . '">' .
-											'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_uninstall.png" alt="' . $this->language->get('text_uninstall') . '" />' .
-											'</a>';
+									$actions['uninstall'] = $this->html->buildElement(
+																	array(
+																		'type'=>'button',
+																		'href'=> $this->html->getSecureURL('extension/extensions/uninstall', '&extension=' . $id),
+																		'target' => '_blank',
+																		'style'  => 'btn_uninstall',
+																		'icon'  => 'fa fa-times',
+																		'title'=> $this->language->get('text_uninstall')
+																	)
+									);
 								}
 							}
 						}
 					} else {
-						$action = '<a href="' . $this->html->getSecureURL('extension/extensions_store', '&extension=' . $id) . '" target="_blank">';
-						$action = str_replace('%extensions_store%', $action, $this->language->get('text_visit_repository'));
+						$actions['mp'] = $this->html->buildElement(
+														array(
+															'type'=>'button',
+															'href'=> $this->html->getSecureURL('extension/extensions_store', '&extension=' . $id),
+															'target' => '_blank',
+															'style'  => 'btn_mp',
+															'icon'  => 'fa fa-play',
+															'title'=> $this->language->get('text_visit_repository')
+														)
+						);
 					}
 
 					$extension_data['dependencies'][] = array(
 						'required' => (boolean)$item['required'],
 						'id' => $id,
-						'status' => ($this->config->has($id . '_status') ? $this->language->get('text_installed') : $this->language->get('text_not_installed')) . ' (' . ($this->config->get($id . '_status') ? $this->language->get('text_enabled') : $this->language->get('text_disabled')) . ' )',
-						'action' => $action,
+						'status' => $status,
+						'actions' => $actions,
 						'class' => $class,
 					);
 					unset($class);
@@ -710,7 +746,7 @@ class ControllerPagesExtensionExtensions extends AController {
 
 		} else { // if extension missing
 			$extension_data['icon'] = $icon;
-			$extension_data['name'] = str_replace('%EXT%', $extension, $this->language->get('text_missing_extension'));
+			$extension_data['name'] = sprintf($this->language->get('text_missing_extension'), $extension);
 		}
 		// additional settings page
 
@@ -718,17 +754,19 @@ class ControllerPagesExtensionExtensions extends AController {
 			$btn_param = array(
 					'type' => 'button',
 					'name' => 'btn_addsett',
+					'href' => $this->html->getSecureURL($ext->getConfig('additional_settings')),
 					'text' => $this->language->get('text_additional_settings'),
 					'style' => 'button1');
 
-			$this->data['add_sett']['link'] = $this->html->getSecureURL($ext->getConfig('additional_settings'));
+
 			if ($store_id) {
 				$this->loadModel('setting/store');
 				$store_info = $this->model_setting_store->getStore($store_id);
-				$this->data['add_sett']['link'] = $store_info['config_url'] . '?s=' . ADMIN_PATH . '&rt=' . $ext->getConfig('additional_settings');
-				$this->data['add_sett']['onclick'] = 'onclick="return confirm(\'' . $this->language->get('additional_settings_confirm') . '\');"';
+				$btn_param['link'] = $store_info['config_url'] . '?s=' . ADMIN_PATH . '&rt=' . $ext->getConfig('additional_settings');
+				$btn_param['target'] = '_blank';
+				$btn_param['onclick'] = 'onclick="return confirm(\'' . $this->language->get('additional_settings_confirm') . '\');"';
 			}
-			$this->data['add_sett']['text'] = $this->html->buildElement($btn_param);
+			$this->data['add_sett'] = $this->html->buildElement($btn_param);
 		}
 		$this->data['extension'] = $extension_data;
 		$this->data['target_url'] = $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $extension);
