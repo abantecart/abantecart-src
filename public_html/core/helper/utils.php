@@ -180,9 +180,12 @@ function getUniqueSeoKeyword($seo_key, $object_key_name='', $object_id=0){
 * Echo array with readable formal. Useful in debugging of array data. 
 */
 function echo_array($array_data) {
+	$wrapper = '<div class="debug_alert salert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>';	
+	echo $wrapper;
 	echo "<pre>";// $sub_table_name: ";
 	print_r($array_data);
 	echo'</pre>';
+	echo'</div>';	
 }
 
 

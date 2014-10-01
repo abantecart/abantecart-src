@@ -5,7 +5,7 @@
            name="<?php echo $name ?>"
            id="<?php echo $id ?>"
            value="<?php echo $value ?>" 
-           class="afield acheckbox <?php echo $style; ?>"
+           class="acheckbox <?php echo $style; ?>"
 		   <?php echo ( ($checked) ? 'checked="checked"':'' ) ?>
            data-orgvalue="<?php echo ($checked ? 'true':'false') ?>"
 		   <?php echo $attr ?>

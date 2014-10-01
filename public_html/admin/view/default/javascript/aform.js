@@ -218,32 +218,30 @@
         }
 
         function doCheckbox(elem) {
-            var $el = $(elem);
+			var $field = $(elem);
+            var $wrapper = $field.parent('.afield');
 
-            var $wrapper = '';
-            var $field = $el.closest('.afield');
-
-            if (!$el.parents('.scrollbox').length && !$('label[for='+$el.attr('id')+']') ) {
-                $field.wrap($.aform.wrapper);
-                $wrapper = $el.closest('.aform');
+            if (!$field.parents('.scrollbox').length && !$('label[for='+$field.attr('id')+']') ) {
+                $wrapper.wrap($.aform.wrapper);
+                $wrapper = $field.closest('.aform');
             }
 
-            if ($el.is(':hidden') && o.autoHide) {
-               // $wrapper.hide();
+            if ($field.is(':hidden') && o.autoHide) {
+               //$wrapper.hide();
             }
 
-            if ($el.prop("disabled")) {
-                $field.addClass(o.disabledClass);
+            if ($field.prop("disabled")) {
+                $wrapper.addClass(o.disabledClass);
             }
 
-            $el.bind({
+            $field.bind({
                 "change.aform":function () {
-                    if (!$el.prop("checked")) {
-                        $field.removeClass(o.checkedClass);
+                    if (!$field.prop("checked")) {
+                        $wrapper.removeClass(o.checkedClass);
                     } else {
-                        $field.addClass(o.checkedClass);
+                        $wrapper.addClass(o.checkedClass);
                     }
-                    onChangedAction($el, $(this).prop("checked"), $(this).attr('data-orgvalue'));
+                    onChangedAction($field, $(this).prop("checked"), $(this).attr('data-orgvalue'));
                 }
             });
         }
@@ -457,7 +455,6 @@
 
             if ($triggerOnEdit) {
                 var $changed = 0;
-
 				//see if check boxes are changes
                 $field.closest('div').find(':checkbox').each(function () {
                 	if (String($field.hasClass("checked")) != $(this).attr('data-orgvalue')) {
@@ -470,7 +467,7 @@
 					//mark filed chaneged
                 	$field.addClass(o.changedClass);
                 	//build quick save button set
-                	showQuickSave($field);
+                	showQuickSave($field);	
                 } else {
                 	//clean up
 					$field.removeClass(o.changedClass);
@@ -871,7 +868,7 @@ var formOnExit = function(){
     $("form").bind("keypress", function(e) {
         if (e.keyCode == 13){
             if($(document.activeElement)){
-                if($(document.activeElement).parents('.changed').length>0){
+                if($(document.activeElement).parents('.changed').length > 0){
                         return false;
                 }
             }

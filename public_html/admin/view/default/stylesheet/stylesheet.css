@@ -15,6 +15,7 @@ AbanteCart brand color styles: #064770 (dark blue) #F19013 (Orange)
 @import url('abantecart.jquery.ui.css');
 @import url('form.css');
 @import url('chosen.bootstrap.css');
+@import url('fileinput.min.css');
 @import url('animate.css');
 
 body {
@@ -2254,8 +2255,15 @@ p {
 	overflow: hidden
 }
 
-/***** FIXED WIDTH *****/
-/***********************/
+.debug_alert{
+	z-index: 100;
+	width: 800px;
+	position: absolute;
+	top: 150px;
+	left: 300px;
+}
+
+/***** Fixed   *****/
 
 .fixed {
     background: #c9cccf;
@@ -2293,8 +2301,7 @@ p {
 }
 
 
-/***** MODALS *****/
-/******************/
+/***** Modals *****/
 
 .bs-example-modal-panel .modal-content {
    background: none;

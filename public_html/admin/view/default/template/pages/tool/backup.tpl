@@ -23,25 +23,32 @@
 	<div class="panel-body panel-body-nopadding">
 		<label class="h4 heading"><?php echo $tab_backup; ?></label>
 		<?php foreach ($form['fields'] as $name => $field) { ?>
-
 			<div class="form-group <? if (!empty($error[$name])) {
 				echo "has-error";
 			} ?>">
 				<label class="control-label col-sm-3 col-xs-12"
 					   for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 
-				<div class="input-group afield"><?php echo $field; ?>
-					<?php if ($name == 'tables') { ?>
-						<br><a onclick="selectAll();"><?php echo $text_select_all; ?></a> / <a
-								onclick="unselectAll();"><?php echo $text_unselect_all; ?></a>
-					<?php } ?>
+				<div class="input-group">
+					<?php echo $field; ?>
 				</div>
 				<?php if (!empty($error[$name])) { ?>
 					<span class="help-block field_err"><?php echo $error[$name]; ?></span>
 				<?php } ?>
-
 			</div>
-
+			<?php if ($name == 'tables') { ?>
+			<div class="form-group">
+				<div class="input-group col-sm-offset-3">
+						<a class="btn btn-info btn-xs" onclick="selectAll();">
+							<i class="fa fa-check-square-o fa-fw"></i>	<?php echo $text_select_all; ?>
+						</a>
+						<a class="btn btn-default btn-xs" onclick="unselectAll();">
+							<i class="fa fa-square-o fa-fw"></i> <?php echo $text_unselect_all; ?>
+						</a>
+				</div>
+			</div>
+			<?php } ?>
+			
 		<?php } ?>
 
 	</div>
@@ -53,7 +60,7 @@
 					<i class="fa fa-database"></i> <?php echo $form['backup_now']->text; ?>
 				</button>
 				<button class="btn btn-primary task_schedule" >
-					<i class="fa fa-clock-o"></i> <?php echo $form['backup_schedule']->text; ?>
+					<i class="fa fa-clock-o fa-fw"></i> <?php echo $form['backup_schedule']->text; ?>
 				</button>
 			</div>
 		</div>
@@ -81,9 +88,9 @@
 	</div>
 	<div class="panel-footer">
 		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3">
+			<div class="col-sm-6 col-sm-offset-4">
 				<button class="btn btn-primary">
-					<i class="fa fa-undo"></i> <?php echo $restoreform['submit']->text; ?>
+					<i class="fa fa-undo fa-fw"></i> <?php echo $restoreform['submit']->text; ?>
 				</button>
 			</div>
 		</div>
@@ -110,9 +117,9 @@
 	</div>
 	<div class="panel-footer">
 		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3">
+			<div class="col-sm-6 col-sm-offset-4">
 				<button class="btn btn-primary">
-					<i class="fa fa-angle-double-up "></i> <?php echo $xmlform['submit']->text; ?>
+					<i class="fa fa-upload fa-fw"></i> <?php echo $xmlform['submit']->text; ?>
 				</button>
 			</div>
 		</div>
