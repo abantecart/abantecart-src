@@ -102,8 +102,6 @@ class ControllerPagesToolBackup extends AController {
 			}
 		}
 
-
-
 		if (isset($this->error['warning'])) {
 			$this->data['error']['warning'] = $this->error['warning'];
 		} elseif ($this->session->data['error']) {
@@ -173,7 +171,7 @@ class ControllerPagesToolBackup extends AController {
 						'value' => $this->data['tables'],
 						'options' => $tables,
 						'scrollbox' => true,
-						'style' => 'omg'
+						'style' => 'checkboxgroup'
 				));
 
 		$this->data['form']['fields']['backup_files'] = $form->getFieldHtml(
@@ -274,7 +272,6 @@ class ControllerPagesToolBackup extends AController {
 			}
 		}
 
-
 		if (!$this->error) {
 			return TRUE;
 		} else {
@@ -318,20 +315,6 @@ class ControllerPagesToolBackup extends AController {
 		}*/
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/*public function backup() {
 
 		//init controller data
@@ -355,8 +338,6 @@ class ControllerPagesToolBackup extends AController {
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}*/
-
-
 
 
 	public function download() {

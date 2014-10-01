@@ -76,7 +76,7 @@
 	</definition>
 	<definition>
 		<key>entry_config</key>
-		<value><![CDATA[Config.php file:<br>Note: keep backup-archive securely. File will contain "salt" for encrypting.]]></value>
+		<value><![CDATA[Config.php file:<br><br /><span class="help">Note: keep backup-archive securely. File will contain "salt" for encrypting.</span>]]></value>
 	</definition>
 	<definition>
 		<key>button_backup_now</key>

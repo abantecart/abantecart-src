@@ -104,19 +104,6 @@ class ControllerPagesToolMigration extends AController {
 		$cart_types = array_merge(array('' => $this->language->get('entry_cart_select')),
 		$this->model_tool_migration->getCartList());
 
-		$this->data['form']['button_continue'] = $form->getFieldHtml(array(
-			'type' => 'button',
-			'name' => 'submit',
-			'text' => $this->language->get('button_continue'),
-			'style' => 'button1',
-		));
-		$this->data['form']['button_cancel'] = $form->getFieldHtml(array(
-			'type' => 'button',
-			'name' => 'cancel',
-			'text' => $this->language->get('button_cancel'),
-			'style' => 'button2',
-		));
-
 		$this->data['form']['cart_type'] = $form->getFieldHtml(array('type' => 'selectbox',
 			'name' => 'cart_type',
 			'required' => true,
@@ -124,7 +111,6 @@ class ControllerPagesToolMigration extends AController {
 			'value' => $this->data['cart_type'],
 			'style' => 'large-field'
 		));
-
 
 		$this->data['form']['cart_url'] = $form->getFieldHtml(array('type' => 'input',
 			'name' => 'cart_url',
@@ -161,8 +147,21 @@ class ControllerPagesToolMigration extends AController {
 			'style' => 'small-field'
 		));
 
-
 		$this->_setErrors($errors);
+
+		if (isset($this->session->data['success'])) {
+			$this->data['success'] = $this->session->data['success'];
+			unset($this->session->data['success']);
+		} else {
+			$this->data['success'] = '';
+		}
+
+		if (isset($this->session->data['warning'])) {
+			$this->data['error_warning'] = $this->session->data['warning'];
+			unset($this->session->data['warning']);
+		} else {
+			$this->data['error_warning'] = '';
+		}
 
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('step_one'));
@@ -200,6 +199,7 @@ class ControllerPagesToolMigration extends AController {
 			$this->redirect($this->html->getSecureURL('tool/migration/step_three'));
 		}
 		$this->data['counts'] = $this->model_tool_migration->getCounts();
+		
 		if (!array_sum($this->data['counts'])) {
 			$this->error['warning'] .= '<br>' . $this->language->get('error_empty_source_cart');
 		}
@@ -213,46 +213,23 @@ class ControllerPagesToolMigration extends AController {
 			'name' => 'migrationFrm',
 			'action' => $this->html->getSecureURL('tool/migration/step_two')));
 
-		$this->data['form']['button_continue'] = $form->getFieldHtml(array(
-			'type' => 'button',
-			'name' => 'submit',
-			'text' => $this->language->get('button_continue'),
-			'style' => 'button1',
-		));
-		$this->data['form']['button_cancel'] = $form->getFieldHtml(array(
-			'type' => 'button',
-			'name' => 'cancel',
-			'text' => $this->language->get('button_cancel'),
-			'style' => 'button2',
-		));
-		$this->data['form']['button_back'] = $form->getFieldHtml(array(
-			'type' => 'button',
-			'name' => 'cancel',
-			'text' => $this->language->get('button_back'),
-			'style' => 'button',
-		));
-
-
 		$this->data['form']['migrate_products'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
-			'value' => '1',
-			'checked' => false,
+			'value' => 1,
 			'name' => 'migrate_products'
 		));
 		$this->data['form']['migrate_products_text'] = $this->language->get('text_product') . " (%s)\n" . $this->language->get('text_category') . " (%s)\n" . $this->language->get('text_manufacturer') . " (%s)\n";
 
 		$this->data['form']['migrate_customers'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
-			'value' => '1',
-			'checked' => false,
+			'value' => 1,
 			'name' => 'migrate_customers'
 		));
 		$this->data['form']['migrate_customers_text'] = $this->language->get('text_customer') . " (%s)";
 
 		$this->data['form']['erase_existing_data'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
-			'value' => '1',
-			'checked' => false,
+			'value' => 1,
 			'name' => 'erase_existing_data'
 		));
 
@@ -262,6 +239,20 @@ class ControllerPagesToolMigration extends AController {
 		$source = ($this->request->server['REQUEST_METHOD'] == 'POST') ? $this->request->post : $this->session->data['migration'];
 		$this->_setFormData($formData, $source);
 		$this->_setErrors($errors);
+
+		if (isset($this->session->data['success'])) {
+			$this->data['success'] = $this->session->data['success'];
+			unset($this->session->data['success']);
+		} else {
+			$this->data['success'] = '';
+		}
+
+		if (isset($this->session->data['warning'])) {
+			$this->data['error_warning'] = $this->session->data['warning'];
+			unset($this->session->data['warning']);
+		} else {
+			$this->data['error_warning'] = '';
+		}
 
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('step_two'));
@@ -281,8 +272,9 @@ class ControllerPagesToolMigration extends AController {
 			$this->redirect($this->html->getSecureURL('tool/migration'));
 		}
 
-		$this->data['result'] = $this->language->get('text_finished');
+		$this->data['success'] = $this->language->get('text_finished');
 		$this->data['log'] = $this->model_tool_migration->run();
+		$this->data['back'] = $this->html->getSecureURL('tool/migration/step_one');	
 
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('step_three'));
@@ -303,37 +295,27 @@ class ControllerPagesToolMigration extends AController {
 		if (!empty($heading_title))
 			$this->data['heading_title'] .= $this->language->get($heading_title);
 
-		if (isset($this->session->data['success'])) {
-			$this->data['success'] = $this->session->data['success'];
-			unset($this->session->data['success']);
-		} else {
-			$this->data['success'] = '';
-		}
-
-		if (isset($this->session->data['warning'])) {
-			$this->data['error_warning'] = $this->session->data['warning'];
-			unset($this->session->data['warning']);
-		} else {
-			$this->data['error_warning'] = '';
-		}
-
 		$this->document->resetBreadcrumbs();
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('index/home'),
 			'text' => $this->language->get('text_home'),
-			'separator' => FALSE
 		));
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('tool/migration'),
-			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '
+			'text' => $this->data['heading_title'],
+			'current' => true
 		));
 	}
 
 	private function _setErrors($errors) {
 		if (empty($errors)) return;
 		foreach ($errors as $err) {
-			$this->data['error_' . $err] = isset($this->error[$err]) ? $this->error[$err] : '';
+			if (isset($this->error[$err])) {
+				$this->data['error_' . $err] = $this->error[$err];
+				$this->session->data['warning'] .= $this->data['error_' . $err] . "</br>";			
+			} else {
+				$this->data['error_' . $err] = '';
+			}
 		}
 	}
 
@@ -384,12 +366,12 @@ class ControllerPagesToolMigration extends AController {
 		//check db connection
 		if (!$this->error) {
 			try {
+				require_once DIR_DATABASE . 'mysql.php';
 				$connection = new Mysql($this->request->post['db_host'], $this->request->post['db_user'], $this->request->post['db_password'], $this->request->post['db_name'], true);
 			} catch (AException $e) {
 				$this->error['warning'] = $this->language->get('error_db_connection');
 				$this->error['warning'] .= '<br>' . $e->getMessage();
 			}
-
 		}
 
 		if (!$this->error) {
@@ -400,6 +382,7 @@ class ControllerPagesToolMigration extends AController {
 	}
 
 	private function _validateStepTwo() {
+
 		if (empty($this->request->post['migrate_products'])
 			&& empty($this->request->post['migrate_customers'])
 			//&& empty($this->request->post['migrate_orders'])

@@ -1,13 +1,4 @@
-<div class="aform">
-	<div class="afield mask2">
-		<div class="tl">
-			<div class="tr">
-				<div class="tc"></div>
-			</div>
-		</div>
-		<div class="cl">
-			<div class="cr">
-				<div class="cc">
+<div class="aform form-control acheckboxgroup">
 					<?php if ($scrollbox){ ?>
 					<div class="scrollbox">
 						<?php } ?>
@@ -26,17 +17,10 @@ $check_id = preg_replace('/[^a-zA-Z0-9_]/', '', $id . $v);
 						<?php if ($scrollbox) : ?>
 					</div>
 				<?php endif; ?>
-				</div>
-			</div>
-		</div>
-		<div class="bl">
-			<div class="br">
-				<div class="bc"></div>
-			</div>
-		</div>
-	</div>
 </div>
 <?php if ($required == 'Y') { ?>
+<span class="input-group-addon">
 	<span class="required">*</span>
+</span>
 <?php } ?>
 
