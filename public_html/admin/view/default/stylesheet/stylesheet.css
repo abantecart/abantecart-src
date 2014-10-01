@@ -422,7 +422,7 @@ h1,h2,h3,h4,h5 {
 }
 
 .dropdown-list .desc {
-   margin-left: 45px;
+   margin-left: 20px;
    display: block;
 }
 
@@ -436,6 +436,11 @@ h1,h2,h3,h4,h5 {
 
 .dropdown-list li .badge {
    float: right;
+}
+
+.message-danger {
+	color: #d9534f !important;
+	font-weight: bold;
 }
 
 /* Small dropdown */
@@ -509,7 +514,6 @@ h1,h2,h3,h4,h5 {
 }
 
 .gen-list li > a:hover {
-   color: #333 !important;
    text-decoration: none;
 }
 
@@ -523,7 +527,6 @@ h1,h2,h3,h4,h5 {
 .gen-list li .msg {
    font-size: 11px;
    line-height: normal;
-   color: #999;
    display: block;
 }
 
@@ -1065,367 +1068,6 @@ p {
 
 .widget-quick-status-post .panel-body {
 	padding: 0;
-}
-
-.widget-messaging .panel-btns .panel-edit {
-	padding: 15px 17px;
-	opacity: 0.5;
-	font-size: 24px;
-	margin-top: -18px;
-	margin-right: -20px;
-	position: relative;
-}
-
-.widget-messaging .panel-btns .panel-edit:hover {
-	opacity: 1;
-}
-
-.widget-messaging .panel-body {
-	padding: 0;
-}
-
-.widget-messaging ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
-
-.widget-messaging ul li {
-	padding: 15px;
-	border-top: 1px solid #eee;
-	background-color: #fff;
-}
-
-.widget-messaging ul li:hover {
-	background-color: #fcfcfc;
-}
-
-.widget-messaging ul li:first-child {
-	border-top: 0;
-}
-
-.widget-messaging .sender {
-	font-size: 13px;
-	color: #333;
-	margin: 0;
-	font-family: 'LatoBold';
-	line-height: normal;
-}
-
-.widget-messaging ul li small {
-	line-height: normal;
-}
-
-.widget-today .panel-heading,
-.widget-time .panel-heading {
-	height: 115px;
-}
-
-.widget-today .glyphicon,
-.widget-today .fa {
-	font-size: 72px;
-	color: #fff;
-	opacity: 1;
-}
-
-.widget-time .glyphicon,
-.widget-time .fa {
-	font-size: 60px;
-	color: #fff;
-	opacity: 1;
-}
-.widget-today .today,
-.widget-time .today {
-	line-height: normal;
-	margin: 0;
-	color: #333;
-	font-family: 'LatoBold';
-	font-size: 20px;
-}
-
-.widget-photoday .panel-body {
-	padding: 0;
-}
-
-.widget-photoday .photoday img {
-	width: 100%;
-	display: block;
-	-moz-border-radius: 3px 3px 0 0;
-	-webkit-border-radius: 3px 3px 0 0;
-	border-radius: 3px 3px 0 0;
-}
-
-.widget-photoday .photo-details {
-	padding: 15px;
-}
-
-.widget-photoday .photo-title {
-	color: #333;
-	font-size: 16px;
-	margin: 0;
-	font-family: 'LatoBold';
-	line-height: normal;
-}
-
-.widget-photoday .photo-details small {
-	display: block;
-}
-
-.widget-photoday .photo-meta {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	border-top: 1px solid #e3e3e3;
-	background-color: #f7f7f7;
-}
-
-.widget-photoday .photo-meta li {
-	display: table-cell;
-	width: 1%;
-	text-align: center;
-	border-left: 1px solid #e3e3e3;
-}
-
-.widget-photoday .photo-meta li:first-child {
-	border-left: 0;
-}
-
-.widget-photoday .photo-meta li a,
-.widget-photoday .photo-meta li span {
-	padding: 15px 10px;
-	display: block;
-	color: #999;
-	font-size: 12px;
-}
-
-.widget-photoday .photo-meta li a:hover {
-	color: #666;
-	text-decoration: none;
-}
-
-.widget-bloglist .media {
-	border-bottom: 1px solid #eee;
-    padding: 0;
-}
-
-.widget-bloglist .media .thumbnail {
-   margin-bottom: 15px;
-}
-
-.widget-weather {
-	overflow: hidden;
-}
-
-.widget-weather .panel-body {
-	padding: 0;
-	background-color: #064770;
-}
-
-.widget-weather .row {
-	margin: 0;
-}
-
-.widget-weather .temp,
-.widget-weather .weather {
-	padding: 0;
-}
-
-.widget-weather .temp {
-	background-color: #F19013;
-	color: #fff;
-	padding: 10px 0;
-}
-
-.widget-weather .temp h1 {
-	font-size: 60px;
-	font-family: 'LatoLight';
-}
-
-.widget-weather .temp h1 span {
-	width: 20px;
-	height: 20px;
-	display: inline-block;
-	margin-left: -10px;
-}
-
-.widget-weather .temp h5 {
-	text-transform: uppercase;
-}
-
-.widget-weather .weather-icon {
-	color: #666;
-	font-size: 60px;
-	background-color: #fff;
-	display: block;
-	padding: 20px 0;
-}
-
-.widget-weather .weather > div {
-	width: 50%;
-	text-align: center;
-	color: #fff;
-	font-size: 14px;
-	padding-top: 10px;
-}
-
-.widget-profile .panel-heading {
-	position: relative;
-}
-
-.widget-profile .cover {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 105px;
-	overflow: hidden;
-	-moz-border-radius: 3px 3px 0 0;
-	-webkit-border-radius: 3px 3px 0 0;
-	border-radius: 3px 3px 0 0;
-}
-
-.widget-profile .cover img {
-	width: 100%;
-	display: block;
-}
-
-.widget-profile .panel-body {
-	position: relative;
-	padding: 0;
-}
-
-.widget-profile-img {
-	position: relative;
-	margin-top: 30px;
-	margin-left: 15px;
-}
-
-.widget-profile-title {
-	background: #428BCA;
-	margin-top: -77px;
-	padding: 15px 0 15px 120px;
-	color: #fff;
-}
-
-.widget-profile-title h4 {
-	font-size: 18px;
-	margin: 0;
-	line-height: normal;
-}
-
-.widget-profile-title small {
-	line-height: normal;
-}
-
-.widget-profile blockquote {
-	font-size: 18px;
-	border-left: 0;
-	margin: 0;
-	color: #555;
-	padding: 15px;
-}
-
-.widget-profile-title .fa {
-	margin-right: 7px;
-}
-
-.widget-profile .row {
-	margin: 0;
-}
-
-.widget-profile .row > div {
-	padding: 0;
-}
-
-.widget-profile .row > div > span {
-	display: block;
-	border-right: 1px solid rgba(255,255,255,0.15);
-	font-size: 14px;
-	padding: 15px 10px;
-	text-transform: uppercase;
-	background: #064770;
-	color: #fff;
-}
-
-.widget-profile .row > div:first-child span {
-	-moz-border-radius: 0 0 0 3px;
-	-webkit-border-radius: 0 0 0 3px;
-	border-radius: 0 0 0 3px;
-}
-
-.widget-profile .row > div:last-child span {
-	border-right: 0;
-	-moz-border-radius: 0 0 3px 0;
-	-webkit-border-radius: 0 0 3px 0;
-	border-radius: 0 0 3px 0;
-}
-
-.widget-todo .panel-btns i {
-   font-size: 12px;
-}
-
-.widget-todo .todo-list {
-   padding: 0;
-   margin: 0;
-   list-style: none;
-}
-
-.widget-todo .panel-body {
-   padding: 0;
-}
-
-.widget-todo .todo-list li {
-   border-bottom: 1px solid #eee;
-   padding: 15px 10px 8px 20px;
-}
-
-.widget-todo .todo-list li input:checked + label {
-   text-decoration: line-through;
-}
-
-.widget-todo .todo-list .todo-form {
-   padding-bottom: 15px;   
-}
-
-.widget-todo .todo-list li .btn {
-   margin: 0;
-   padding: 6px 10px;
-}
-
-.widget-slider .carousel-control.right,
-.widget-slider .carousel-control.left {
-   background: none;
-}
-
-.widget-slider .carousel-control {
-   width: auto;
-   text-shadow: none;
-   color: #fff;
-   bottom: auto;
-   top: -55px;
-   padding: 0;
-   line-height: normal;
-}
-
-.widget-slider .carousel-control.left {
-   left: auto;
-   right: 25px;
-}
-
-.widget-slider .carousel-control span {
-   line-height: normal;
-   font-size: 18px;
-}
-
-.widget-slider .media {
-   padding-bottom: 0;
-}
-
-.widget-slider .carousel-indicators {
-   top: -53px;
-   right: 0;
-   bottom: auto;
-   left: auto;
-   width: auto;
 }
 
 

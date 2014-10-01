@@ -140,7 +140,7 @@ var buildNotifier = function(data){
 			badgeclass = 'danger';
 		}
 		html = '<li '+ (mes.viewed<1 ? 'class="new"': '')+ '>' ;
-		html += '<a href="'+mes.href+'" data-toggle="modal" data-target="#message_modal"><span class="thumb"><p class="fa ' + iconclass + ' fa-3 '+badgeclass+'"></p></span>';
+		html += '<a class="message-'+badgeclass+'" href="'+mes.href+'" data-toggle="modal" data-target="#message_modal"><span class="thumb"><p class="fa ' + iconclass + ' fa-3 '+badgeclass+'"></p></span>';
 		html += '<span class="desc"><span class="name">'+mes.title + (mes.viewed<1 ? '<span class="badge badge-'+badgeclass+'">new</span>': '')+'</span>';
 		html += '<span class="msg">'+mes.message +'</span></span></a></li>';
 		list.append(html);
