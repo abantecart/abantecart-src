@@ -827,4 +827,8 @@
 		<value>
 			<![CDATA[Email Activation for New Customers:<br /><span class="help">Don't allow new customer to login until their account has been confirmed by activation link from email.</span>]]></value>
 	</definition>
+	<definition>
+		<key>text_clone_template</key>
+		<value><![CDATA[Clone Template With AbanteCart Developer Tools]]></value>
+	</definition>
 </definitions>
