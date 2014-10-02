@@ -66,7 +66,7 @@ class ModelToolGlobalSearch extends Model {
 			'alias' => 'language',
 			'id' => 'language_definition_id',
 			'extra_fields' => array('language_id'),
-			'page' => 'localisation/language_definitions/update',
+			'page' => 'localisation/language_definition_form/update',
 			'response' => 'localisation/language_definition_form/update'),
 		"pages" => array(
 			'alias' => 'information',
@@ -76,7 +76,7 @@ class ModelToolGlobalSearch extends Model {
 		"settings" => array(
 			'alias' => 'setting',
 			'id' => array('setting_id', 'active'),
-			'page' => 'setting/setting',
+			'page' => 'setting/setting_quick_form',
 			'response' => 'setting/setting_quick_form'),
 		"messages" => array(
 			'alias' => 'information',
@@ -343,7 +343,6 @@ class ModelToolGlobalSearch extends Model {
 
 		$search_languages[] = ( int )$this->config->get('storefront_language_id');
 
-		//sleep(3);
 		switch ($search_category) {
 			case 'product_categories' :
 				$sql = "SELECT c.category_id, c.name as title, c.name as text, c.meta_keywords as text2, c.meta_description as text3, c.description as text4
