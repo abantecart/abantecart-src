@@ -657,6 +657,34 @@ class AConfigManager {
 
 		}else{ // settings per template
 
+			$default_values = $this->model_setting_setting->getSetting('appearance', (int)$data['store_id']);
+			$fieldset = array(
+					'storefront_width' ,
+					'config_logo' ,
+					'config_icon' ,
+					'config_image_thumb_width' ,
+					'config_image_thumb_height' ,
+					'config_image_popup_width' ,
+					'config_image_popup_height' ,
+					'config_image_category_width' ,
+					'config_image_category_height' ,
+					'config_image_product_width' ,
+					'config_image_product_height' ,
+					'config_image_additional_width' ,
+					'config_image_additional_height' ,
+					'config_image_related_width' ,
+					'config_image_related_height' ,
+					'config_image_cart_width' ,
+					'config_image_cart_height' ,
+					'config_image_grid_width' ,
+					'config_image_grid_height');
+
+			foreach($fieldset as $name){
+				if(!has_value($data[$name]) && has_value($default_values[$name])){
+					$data[$name] = $default_values[$name];
+				}
+			}
+
 			$fields['storefront_width'] = $form->getFieldHtml($props[] = array(
 				'type' => 'input',
 				'name' => 'storefront_width',

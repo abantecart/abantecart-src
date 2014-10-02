@@ -105,16 +105,22 @@ class ControllerResponsesListingGridSetting extends AController {
 		$this->loadLanguage('setting/setting');
 		$this->loadModel('setting/setting');
 		if (isset($this->request->get[ 'group' ])) {
+			$group = $this->request->get[ 'group' ];
+			//for appearance settings per template
+			if( $this->request->get['group']=='appearance' && has_value($this->request->get['tmpl_id']) && $this->request->get['tmpl_id'] != 'default'){
+				$group = $this->request->get['tmpl_id'];
+			}
+
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $key => $value) {
-				$err = $this->_validateField($this->request->get[ 'group' ], $key, $value);
+				$err = $this->_validateField($group, $key, $value);
 				if (!empty($err)) {
 					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
 					return $dd->dispatch();
 				}
-				$data = array( $key => $value );
+				$data = array($key => $value);
 
-				$this->model_setting_setting->editSetting($this->request->get[ 'group' ], $data, $this->request->get[ 'store_id' ]);
+				$this->model_setting_setting->editSetting($group, $data, $this->request->get[ 'store_id' ]);
                 startStorefrontSession($this->user->getId());
 			}
 			return null;

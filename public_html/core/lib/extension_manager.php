@@ -238,7 +238,7 @@ class AExtensionManager {
 				return false;
 			}
 		}
-
+		unset($data['one_field']); //remove sign to prevent writing into settings table
 		$this->db->query("DELETE FROM " . DB_PREFIX . "settings
 						  WHERE `group` = '" . $this->db->escape($extension_txt_id) . "'
 						        AND `key` IN ('" . implode("', '", $keys) . "')

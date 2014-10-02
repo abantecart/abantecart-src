@@ -195,6 +195,7 @@ class ModelSettingSetting extends Model {
 		}
 
 		foreach ($data as $key => $value) {
+			if($key=='one_field'){ continue; } //is'a sign for displaying one setting for quick edit form. ignore it!
 			$sql = "DELETE FROM " . DB_PREFIX . "settings
 					WHERE `group` = '" . $this->db->escape($group) . "'
 							AND `key` = '" . $this->db->escape($key) . "'
