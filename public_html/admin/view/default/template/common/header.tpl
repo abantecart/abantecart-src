@@ -358,7 +358,6 @@
 
 			});
 
-
 			$('.ui-autocomplete-category a').on('click', function () {
 				location = '<?php echo $search_action ?>&search=' + $('#global_search').val() + '#' + $(this).prop('id');
 			});

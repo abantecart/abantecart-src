@@ -4,31 +4,38 @@
 <?php if ($success) { ?>
 <div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
-<a name="top"></a>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_product"><?php echo $heading_title; ?></div>
-	<?php echo $product_tabs ?>
-	  <div class="toolbar">
-	    <?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-      </div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
+<?php echo $summary_form; ?>
 
-	<?php echo $summary_form; ?>
+<?php echo $product_tabs ?>
 
-		<div class="fieldset">
-		  <div class="heading"><a id="tab_image"><?php echo $tab_layout; ?></a></div>
-		  <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-		  <div class="cont_left"><div class="cont_right"><div class="cont_mid">
-			<?php echo $layoutform; ?>
-		  </div></div></div>
-		  <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
+<div id="content" class="tab-content">
+
+	<div class="panel-heading">
+		<div class="pull-left form-inline">
 		</div>
 
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+		<div class="pull-right">
+			<div class="btn-group mr10 toolbar">
+				<?php echo $form_language_switch; ?>
+			</div>
+
+			<div class="btn-group mr10 toolbar">
+				<?php if (!empty ($help_url)) { ?>
+					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
+					   title="" data-original-title="Help">
+						<i class="fa fa-question-circle fa-lg"></i>
+					</a>
+				<?php } ?>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel-body panel-body-nopadding">
+		<div id="page-layout" class="container-fluid">
+		  <?php echo $layoutform; ?>
+		  <?php echo $hidden_fields; ?>
+		</div>
+	</div>
+	
 </div>

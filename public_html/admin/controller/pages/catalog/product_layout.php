@@ -47,6 +47,8 @@ class ControllerPagesCatalogProductLayout extends AController {
 		$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions( $product_id );
 		$this->data['heading_title'] = $this->language->get('text_edit') .'&nbsp;'. $this->language->get('text_product');
 
+		$this->document->setTitle($this->language->get('heading_title'));
+		
 		$this->view->assign('error_warning', $this->error[ 'warning' ]);
 		$this->view->assign('success', $this->session->data[ 'success' ]);
 		if (isset($this->session->data[ 'success' ])) {
@@ -71,7 +73,8 @@ class ControllerPagesCatalogProductLayout extends AController {
 		$this->document->addBreadcrumb(array(
 		                                    'href' => $this->html->getSecureURL('catalog/product_layout', '&product_id=' . $product_id),
 		                                    'text' => $this->language->get('tab_layout'),
-		                                    'separator' => ' :: '
+		                                    'separator' => ' :: ',
+		                                    'current' => true
 		                               ));
 
 
