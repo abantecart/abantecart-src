@@ -4,7 +4,7 @@
 	<div class="panel panel-default">
 
 	<ul class="nav nav-tabs" role="tablist">
-	  <li><a href="#">1: License</a></li>
+	  <li><a href="<?php echo $back; ?>">1: License</a></li>
 	  <li class="active"><a href="#" onclick="return false;">2: Compatibility Validation</a></li>
 	  <li class="disabled"><a href="#" onclick="return false;">3: Configuration</a></li>
 	  <li class="disabled"><a href="#" onclick="return false;">4: Data Load</a></li>
@@ -225,8 +225,8 @@
 	</div>
 
 	<div class="panel-footer">
-	<a class="btn btn-default" onclick="window.history.back()"><i class="fa fa-arrow-left"></i> Back</a>
-	<a class="btn btn-primary pull-right" onclick="document.getElementById('form').submit()">Continue <i class="fa fa-arrow-right"></i></a>
+		<a class="btn btn-default" href="<?php echo $back; ?>"><i class="fa fa-arrow-left"></i> Back</a>
+		<a class="btn btn-primary pull-right" onclick="document.getElementById('form').submit()">Continue <i class="fa fa-arrow-right"></i></a>
 	</div>
 	
 	</div>

@@ -29,7 +29,7 @@
 		<p>Thank you for this choice, and enjoy many features AbanteCart has to offer. Your comments and contributions are very welcome. 
 		<p class="text-center">
 			<i class="fa fa-home fa-fw"></i> <a href="http://www.abantecart.com" target="_abante">Project Homepage</a>&nbsp;&nbsp;
-			<i class="fa fa-graduation-cap fa-fw"></i> <a href="http://docs.abantecart.com" target="_blank">Documentation</a>&nbsp;&nbsp;
+			<i class="fa fa-graduation-cap fa-fw"></i> <a href="http://www.abantecart.com/ecommerce-documentation" target="_blank">Documentation</a>&nbsp;&nbsp;
 			<i class="fa fa-puzzle-piece fa-fw"></i> <a href="http://marketplace.abantecart.com" target="_blank">Marketplace</a>&nbsp;&nbsp;
 			<i class="fa fa-comments fa-fw"></i> <a href="http://forum.abantecart.com" target="_abante">Support Forums</a></p>
 
@@ -44,11 +44,11 @@
 
 		<div class="container-fluid">
 	    <div class="snapshots col-md-6">
-		    <a href="../"><img src="<?php echo $template_dir; ?>image/storefront.png" alt="" width="220" style="border: none;" /></a><br />
+		    <a href="../"><img src="<?php echo $template_dir; ?>image/storefront.png" alt="" width="250" style="border: none;" /></a><br />
 		    <a href="../">Your Online Shop</a>
 		</div>
 	    <div class="snapshots col-md-6">
-		    <a href="../<?php echo $admin_path ?>"><img src="<?php echo $template_dir; ?>image/admin.png" alt="" width="220" style="border: none;" /></a><br />
+		    <a href="../<?php echo $admin_path ?>"><img src="<?php echo $template_dir; ?>image/admin.png" alt="" width="250" style="border: none;" /></a><br />
 		    <a href="../<?php echo $admin_path ?>">Login to your Control Panel</a>
 		</div>
 		</div>

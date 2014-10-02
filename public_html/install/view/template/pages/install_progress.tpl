@@ -6,7 +6,7 @@
 	<ul class="nav nav-tabs" role="tablist">
 	  <li class="disabled"><a href="#" onclick="return false;">1: License</a></li>
 	  <li class="disabled"><a href="#" onclick="return false;">2: Compatibility Validation</a></li>
-	  <li><a onclick="window.history.back();">3: Configuration</a></li>
+	  <li class="disabled"><a href="#" onclick="return false;">3: Configuration</a></li>
 	  <li class="active"><a href="#" onclick="return false;">4: Data Load</a></li>
 	  <li class="disabled"><a href="#" onclick="return false;">5: Finished</a></li>
 	</ul>

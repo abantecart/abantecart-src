@@ -48,8 +48,9 @@ class ControllerPagesSettings extends AController {
 		$template_data['backup'] = DIR_ABANTECART . 'admin/system/backup';
 
 		$this->addChild('common/header', 'header', 'common/header.tpl');
-		$this->addChild('common/footer', 'footer', 'common/footer.tpl');
+		$this->addChild('common/footer', 'footer', 'common/footer.tpl');	
 
+		$this->view->assign('back', HTTP_SERVER . 'index.php?rt=license');
 		$this->view->batchAssign($template_data);
 		$this->processTemplate('pages/settings.tpl');
 	}

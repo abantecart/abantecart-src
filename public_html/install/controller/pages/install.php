@@ -83,11 +83,6 @@ class ControllerPagesInstall extends AController {
 				$this->data[ $field ] = $defaults[ $k ];
 			}
 		}
-		$this->data[ 'button_continue' ] = $this->html->buildButton(array(
-				'name' => 'continue',
-				'text' => 'Continue >>',
-				'style' => 'button1' )
-		);
 
 		$form = new AForm('ST');
 		$form->setForm(array(
@@ -100,12 +95,6 @@ class ControllerPagesInstall extends AController {
 			'type' => 'form',
 			'name' => 'editFrm',
 			'action' => $this->data[ 'action' ],
-		));
-		$this->data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array(
-			'type' => 'button',
-			'name' => 'submit',
-			'text' => 'Continue >>',
-			'style' => 'button1',
 		));
 
 		foreach ($fields as $k => $field) {
@@ -137,6 +126,8 @@ class ControllerPagesInstall extends AController {
 
 			}
 		}
+		
+		$this->view->assign('back', HTTP_SERVER . 'index.php?rt=settings');
 
 		$this->addChild('common/header', 'header', 'common/header.tpl');
 		$this->addChild('common/footer', 'footer', 'common/footer.tpl');

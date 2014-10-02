@@ -5,7 +5,7 @@
 
 	<ul class="nav nav-tabs" role="tablist">
 	  <li class="disabled"><a href="#" onclick="return false;">1: License</a></li>
-	  <li class="disabled"><a onclick="window.history.back();">2: Compatibility Validation</a></li>
+	  <li class="disabled"><a href="<?php echo $back; ?>">2: Compatibility Validation</a></li>
 	  <li class="active"><a href="#" onclick="return false;">3: Configuration</a></li>
 	  <li class="disabled"><a href="#" onclick="return false;">4: Data Load</a></li>
 	  <li class="disabled"><a href="#" onclick="return false;">5: Finished</a></li>
@@ -151,10 +151,8 @@
 	</div>
 	
 	<div class="panel-footer">
-		<div class="form-inline form-group">
-			<a class="btn btn-default" onclick="window.history.back()"><i class="fa fa-arrow-left"></i> Back</a>
-			<a class="btn btn-primary pull-right" onclick="document.getElementById('form').submit()">Continue <i class="fa fa-arrow-right"></i></a>
-		</div>
+		<a class="btn btn-default" href="<?php echo $back; ?>"><i class="fa fa-arrow-left"></i> Back</a>
+		<a class="btn btn-primary pull-right" onclick="document.getElementById('form').submit()">Continue <i class="fa fa-arrow-right"></i></a>
 	</div>
 	
 	</div>
