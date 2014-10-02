@@ -52,7 +52,7 @@ class ControllerPagesToolErrorLog extends AController {
 			'current'	=> true
    		 ));
 		
-		$this->data['clear'] = $this->html->getSecureURL('tool/error_log/clearlog');
+		$this->data['clear_url'] = $this->html->getSecureURL('tool/error_log/clearlog');
 		$file = DIR_LOGS . $this->config->get('config_error_filename');
 
 		if (file_exists($file)) {

@@ -60,7 +60,7 @@
 
 	<div class="panel-footer">
 		<div class="row">
-		   <div class="col-sm-6 col-sm-offset-3">
+		   <div class="col-sm-6 col-sm-offset-4">
 		     <button class="btn btn-primary">
 		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
 		     </button>&nbsp;
@@ -74,19 +74,20 @@
 
 </div><!-- <div class="tab-content"> -->
 
-<div id="image">
-   <?php if ( !empty($update) ) {
-	echo $resources_html;
-	echo $resources_scripts;
-} ?>
+<div class="tab-content">
+	<div class="panel-body">
+	<div id="image">
+	   <?php if ( !empty($update) ) {
+		echo $resources_html;
+		echo $resources_scripts;
+	} ?>
+	</div>
+	</div>
 </div>
-
-
 
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
-
 
 	$('#editFrm_generate_seo_keyword').click(function(){
 		var seo_name = $('#editFrm_category_description<?php echo $language_id; ?>name').val().replace('%','');
@@ -105,6 +106,5 @@
 	    filebrowserWindowHeight : '520',
 		language: '<?php echo $language_code; ?>'
 	});
-
 
 //--></script>

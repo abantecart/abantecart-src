@@ -5,7 +5,7 @@
 <div class="tab-content">
 	<div class="panel-heading">
 		<div class="pull-left">
-			<a href="clear" class="btn btn-primary" id="clear"><i class="fa fa-trash-o"></i> <?php echo $button_clear;?></a>
+			<a href="<?php echo $clear_url; ?>" class="btn btn-primary" id="clear"><i class="fa fa-trash-o"></i> <?php echo $button_clear;?></a>
 		</div>
 	</div>
 

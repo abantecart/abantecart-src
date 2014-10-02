@@ -463,8 +463,6 @@ class ControllerPagesCatalogCategory extends AController {
 				)
 		);
 
-
-
 		$this->view->assign('current_url', $this->html->currentURL());
 
 		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
