@@ -170,15 +170,13 @@ class ControllerPagesSettingSetting extends AController {
 			$this->data['current_template'] = $this->request->get['tmpl_id'] ? $this->request->get['tmpl_id'] : $this->language->get('text_common_template_settings');
 		}
 
-
-
 		$this->data['settings'] = $this->model_setting_setting->getSetting($group, $this->data['store_id']);
+		unset($this->data['settings']['one_field']); //remove sign of single form field
 		foreach ($this->data['settings'] as $key => $value) {
 			if (isset($this->request->post[$key])) {
 				$this->data['settings'][$key] = $this->request->post[$key];
 			}
 		}
-
 
 		$this->_getForm();
 

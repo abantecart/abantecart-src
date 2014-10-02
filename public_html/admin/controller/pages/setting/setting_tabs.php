@@ -41,7 +41,7 @@ class ControllerPagesSettingSettingTabs extends AController {
 
 		$this->data['link_all'] = $this->html->getSecureURL('setting/setting/all');
 		foreach ($this->data['groups'] as $group) {
-			$this->data['link_' . $group] = $this->html->getSecureURL('setting/setting', '&active=' . $group . '&store_id=' . $this->data['store_id']);
+			$this->data['link_' . $group] = $this->html->getSecureURL('setting/setting/' . $group, '&store_id=' . $this->data['store_id']);
 		}
 
 		$this->view->batchAssign( $this->data );

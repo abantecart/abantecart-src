@@ -182,20 +182,24 @@ final class AConfig {
 			$this->cnfg[ 'config_store_id' ] = 0;
 			$this->_set_default_settings();
 		}
-
+		$tmpl_id = $this->cnfg[ 'config_storefront_template' ];
 		// load extension settings
 		$cache_suffix = IS_ADMIN ? 'admin' : $this->cnfg[ 'config_store_id' ];
 		$settings = $cache->force_get('settings.extension.' . $cache_suffix);
 		if (empty($settings)) {
-			// all settings of default store without extensions settings
-			$sql = "SELECT se.*
+			// all extensions settings of store
+			$sql = "SELECT se.*, e.type as extension_type
 					FROM " . DB_PREFIX . "settings se
-					LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
+					INNER JOIN " . DB_PREFIX . "extensions e ON (TRIM(se.`group`) = TRIM(e.`key`) AND e.`status`= 1)
 					WHERE se.store_id='" . (int)$this->cnfg[ 'config_store_id' ] . "' AND e.extension_id IS NOT NULL
 					ORDER BY se.store_id ASC, se.group ASC";
 
 			$query = $db->query($sql);
-			$settings = $query->rows;
+			foreach( $query->rows as $row ){
+				//skip settings for non-active template
+				if( $row['extension_type'] == 'template' && $tmpl_id!=$row['group'] ){ continue;}
+				$settings[] = $row;
+			}
 			$cache->force_set('settings.extension.' . $cache_suffix, $settings);
 		}
 
