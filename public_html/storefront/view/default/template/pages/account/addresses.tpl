@@ -24,7 +24,7 @@
     <div class="genericbox border-bottom">
       <table width="100%">	
         <tr>
-          <td><?php echo $result['address']; ?></td>
+          <td><address><?php echo $result['address']; ?></address></td>
           <td class="pull-right">
           	<?php echo $result['button_edit'];
           		if ( !$result['default'] ) {

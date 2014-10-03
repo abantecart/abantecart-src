@@ -32,20 +32,6 @@ class ControllerPagesDesignLayout extends AController {
 
     $this->document->setTitle($this->language->get('heading_title'));
 
-    if (!$this->registry->has('layouts_manager_script')) {
-      $this->document->addStyle(array(
-        'href' => RDIR_TEMPLATE . 'stylesheet/layouts-manager.css',
-        'rel' => 'stylesheet'
-      ));
-
-      $this->document->addScript(RDIR_TEMPLATE . 'javascript/jquery/sortable.js');
-      $this->document->addScript(RDIR_TEMPLATE . 'javascript/layouts-manager.js');
-
-      //set flag to not include scripts/css twice
-      $this->registry->set('layouts_manager_script', true);
-    }
-    
-
     $tmpl_id = $this->request->get['tmpl_id'];
     $page_id = $this->request->get['page_id'];
     $layout_id = $this->request->get['layout_id'];
@@ -132,7 +118,7 @@ class ControllerPagesDesignLayout extends AController {
       unset($this->session->data['success']);
     }
 
-    $layoutform = $this->dispatch('common/page_layout', array($layout));
+    $layoutform = $this->dispatch('common/page_layout', array(null,$layout));
     $layout_data['layoutform'] = $layoutform->dispatchGetOutput();
 
     $this->view->batchAssign($layout_data);

@@ -29,11 +29,26 @@ class ControllerCommonPageLayout extends AController {
     // use to init controller data
     $this->extensions->hk_InitData($this, __FUNCTION__);
 
+	if (!$this->registry->has('layouts_manager_script')) {
+	  $this->document->addStyle(array(
+	    'href' => RDIR_TEMPLATE . 'stylesheet/layouts-manager.css',
+	    'rel' => 'stylesheet'
+	  ));
+	
+	  $this->document->addScript(RDIR_TEMPLATE . 'javascript/jquery/sortable.js');
+	  $this->document->addScript(RDIR_TEMPLATE . 'javascript/layouts-manager.js');
+	
+	  //set flag to not include scripts/css twice
+	  $this->registry->set('layouts_manager_script', true);
+	}
+
     // set language used
     $this->session->data['content_language_id'] = $this->config->get('storefront_language_id');
 
     // build layout data from passed layout object
-    $layout = func_get_arg(0);
+    $settings = func_get_arg(0);
+    $layout = func_get_arg(1);
+    
     $this->installed_blocks = $layout->getInstalledBlocks();
     $layout_main_blocks = $layout->getLayoutBlocks();
 

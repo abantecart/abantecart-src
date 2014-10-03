@@ -24,7 +24,7 @@
 		<table class="table table-striped table-bordered">
 		<?php echo $this->getHookVar('payment_extensions_pre_address_hook'); ?>
 		<tr>
-			<td><?php echo $address; ?></td>
+			<td><address><?php echo $address; ?></address></td>
 			<td>
 			<div class="form-group">
 				<label class="control-label"><?php echo $text_payment_to; ?></label>

@@ -32,7 +32,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="panel-body panel-body-nopadding" id="option_values">
+	<div class="panel-body panel-body-nopadding">
     	<?php echo $resources_html ?>
 	</div>
 </div>

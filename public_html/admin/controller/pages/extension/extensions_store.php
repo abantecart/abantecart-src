@@ -30,16 +30,22 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 	public function main(){
 		$this->document->setTitle($this->language->get('heading_title'));
 
+		$this->document->addStyle(array(
+			'href' => RDIR_TEMPLATE . 'stylesheet/marketplace.css',
+			'rel' => 'stylesheet'
+		));
+
 		$this->document->initBreadcrumb(array(
-		                                     'href' => $this->html->getSecureURL('index/home'),
-		                                     'text' => $this->language->get('text_home'),
-		                                     'separator' => FALSE
-		                                ));
+			'href' => $this->html->getSecureURL('index/home'),
+			'text' => $this->language->get('text_home'),
+			'separator' => FALSE
+		));
 		$this->document->addBreadcrumb(array(
-		                                    'href' => $this->html->getSecureURL('extension/extensions_store'),
-		                                    'text' => $this->language->get('heading_title'),
-		                                    'separator' => ' :: '
-		                               ));
+			'href' => $this->html->getSecureURL('extension/extensions_store'),
+			'text' => $this->language->get('heading_title'),
+			'separator' => ' :: ',
+			'current' => true
+		));
 
 		if (isset($this->session->data[ 'success' ])) {
 			$this->data[ 'success' ] = $this->session->data[ 'success' ];
@@ -111,14 +117,7 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 														'value' => $this->request->get['token']
 												   ));
 
-		$this->data['form']['submit'] = $form->getFieldHtml(array(
-														'type' => 'submit',
-														'name' => $this->language->get('button_go'),
-														'attr' => 'class="pull-left button2"'
-												   ));
-
-		if((has_value($this->request->get['keyword']) || has_value($this->request->get['category_id']) || has_value($this->request->get['manufacturer_id']) )
-			&& $result['products']['rows']	){
+		if( $result['products']['rows']	){
 			$uri = '&limit='.$result['products']['limit'];
 			if(has_value($this->request->get['keyword'])){
 				$uri .= '&keyword='.$this->request->get['keyword'];
@@ -140,6 +139,8 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 							'page' => $result['products']['page'],
 							'limit' => $result['products']['limit'],
 							'url' => $this->html->getSecureURL('extension/extensions_store', $uri.$sort_order . '&page={page}', '&encode'),
+		    				'size_class' => 'sm',
+		    				'no_perpage' => true,
 							'style' => 'pagination'));
 
 			$sorts = array();
@@ -161,20 +162,9 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 							'options' => $sorts));
 		}
 
-		$this->data['btn_my_extensions'] = $this->html->buildButton(
-										array(  'name'  => 'btn_my_exts',
-												'text'  => $this->language->get('text_my_extensions'),
-												'style' => 'button3',
-												'href'  => $this->html->getSecureURL('extension/extensions')
-										));
-		$this->data['btn_my_account'] = $this->html->buildButton(
-										array(  'name'   => 'btn_my_account',
-												'text'   => $this->language->get('text_my_account'),
-												'style'  => 'button1',
-												'href'   => $this->model_tool_mp_api->getMPURL().'?rt=account/account&mp_token='.$this->session->data['mp_token'].'&mp_hash='.$this->session->data['mp_hash'],
-												'target' => '_blank'
-										));
-
+		$this->data['my_extensions'] = $this->html->getSecureURL('extension/extensions');
+		$this->data['my_account'] = $this->model_tool_mp_api->getMPURL().'?rt=account/account&mp_token='.$this->session->data['mp_token'].'&mp_hash='.$this->session->data['mp_hash'];
+		
 		$this->view->batchAssign($this->data);
 
 		$this->processTemplate('pages/extension/extensions_store.tpl');
