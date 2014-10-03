@@ -168,6 +168,24 @@ class ControllerPagesSettingSetting extends AController {
 
 			$this->data['templates'] = $templates;
 			$this->data['current_template'] = $this->request->get['tmpl_id'] ? $this->request->get['tmpl_id'] : $this->language->get('text_common_template_settings');
+
+			//button for template cloning
+			$dev_tools = $this->extensions->getExtensionsList(array('search'=>'developer_tools'))->row;
+			if( is_null($dev_tools['status']) ){
+				//TODO: need to paste correct URL
+				$href = "http://www.abantecart.com/abantecart-extension-developer-tools";
+			}elseif($dev_tools['status']==1){
+				$href = $this->html->getSecureURL('tool/developer_tools/create');
+			}else{
+				$href = $this->html->getSecureURL('extension/extensions/edit','&extension=developer_tools');
+			}
+			$this->data['clone_button'] = $this->html->buildElement(
+					array(
+							'type' => 'button',
+							'name' => 'clone_button',
+							'href' => $href,
+							'text' => $this->language->get('text_clone_template')));
+
 		}
 
 		$this->data['settings'] = $this->model_setting_setting->getSetting($group, $this->data['store_id']);

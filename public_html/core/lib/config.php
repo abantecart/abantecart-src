@@ -140,10 +140,10 @@ final class AConfig {
 			$store_settings = $cache->force_get($cache_name);
 			if (empty($store_settings)) {
 				$sql = "SELECT se.`key`, se.`value`, st.store_id
-		   			  FROM " . DB_PREFIX . "settings se
-		   			  RIGHT JOIN " . DB_PREFIX . "stores st ON se.store_id=st.store_id
-		   			  LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
-		   			  WHERE se.store_id = (SELECT DISTINCT store_id FROM " . DB_PREFIX . "settings
+		   			  FROM " . $db->table('settings')." se
+		   			  RIGHT JOIN " . $db->table('stores')." st ON se.store_id=st.store_id
+		   			  LEFT JOIN " . $db->table('extensions')." e ON TRIM(se.`group`) = TRIM(e.`key`)
+		   			  WHERE se.store_id = (SELECT DISTINCT store_id FROM " . $db->table('settings')."
 		   			                       WHERE `group`='details'
 		   			                       AND
 		   			                       ( (`key` = 'config_url' AND (`value` LIKE '%" . $db->escape($url) . "'))
@@ -189,8 +189,8 @@ final class AConfig {
 		if (empty($settings)) {
 			// all extensions settings of store
 			$sql = "SELECT se.*, e.type as extension_type
-					FROM " . DB_PREFIX . "settings se
-					INNER JOIN " . DB_PREFIX . "extensions e ON (TRIM(se.`group`) = TRIM(e.`key`) AND e.`status`= 1)
+					FROM " . $db->table('settings')." se
+					LEFT JOIN " . $db->table('extensions')." e ON (TRIM(se.`group`) = TRIM(e.`key`))
 					WHERE se.store_id='" . (int)$this->cnfg[ 'config_store_id' ] . "' AND e.extension_id IS NOT NULL
 					ORDER BY se.store_id ASC, se.group ASC";
 
@@ -212,9 +212,9 @@ final class AConfig {
 		//we don't use cache here cause domain may by any and we can't to change cache from control panel
 		$db = $this->registry->get('db');
 		$sql = "SELECT se.`key`, se.`value`, st.store_id
-					  FROM " . DB_PREFIX . "settings se
-					  RIGHT JOIN " . DB_PREFIX . "stores st ON se.store_id=st.store_id
-					  LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
+					  FROM " . $db->table('settings')." se
+					  RIGHT JOIN " . $db->table('stores')." st ON se.store_id=st.store_id
+					  LEFT JOIN " . $db->table('extensions')." e ON TRIM(se.`group`) = TRIM(e.`key`)
 					  WHERE se.store_id = 0 AND st.status = 1 AND e.extension_id IS NULL";
 
 		$query = $db->query($sql);

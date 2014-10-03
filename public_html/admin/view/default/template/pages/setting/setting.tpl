@@ -41,20 +41,33 @@
 					<?php } ?>
 				</ul>
 			</div>
-
 		<?php } ?>
 
-			<div class="pull-right">
-				<div class="btn-group mr10 toolbar">
-					<?php if (!empty ($help_url)) : ?>
-					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
-					<i class="fa fa-question-circle fa-lg"></i>
-					</a>
-					<?php endif; ?>
-				</div>
-				<?php echo $form_language_switch; ?>
+		<?php echo $this->getHookVar('extension_panel_buttons'); ?>
+
+		<div class="pull-right">
+			<div class="btn-group mr10 toolbar">
+				<?php
+				//clone template button for developer tools functionality
+				if($active=='appearance'){?>
+					<a class="btn btn-white tooltips"
+					   href="<?php echo $clone_button->href; ?>"
+					   data-toggle="tooltip"
+					   title="<?php echo $clone_button->text; ?>"
+					   data-original-title="<?php echo $clone_button->text; ?>">
+					<i class="fa fa-tags"></i>
+				</a>
+					<?php } ?>
+				<?php echo $this->getHookVar('extension_toolbar_buttons'); ?>
+				<?php if (!empty ($help_url)) : ?>
+				<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
+				<i class="fa fa-question-circle fa-lg"></i>
+				</a>
+				<?php endif; ?>
 			</div>
+			<?php echo $form_language_switch; ?>
 		</div>
+	</div>
 
 	<?php echo $form['form_open']; ?>
 	<div class="panel-body panel-body-nopadding">

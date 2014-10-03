@@ -92,6 +92,15 @@ if ($search_categories) {?>
 
 	<?php } ?>
 
+<?php
+echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'gs_modal',
+				'modal_type' => 'lg',
+				'content' => '',
+				'title' => $text_please_confirm,
+		));
+?>
 
 
 
@@ -99,7 +108,35 @@ if ($search_categories) {?>
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 		var target = $(e.target).attr("href");
 		$(target+'_grid').trigger( 'resize' );
+
 	});
+
+	function grid_ready(grid_id){
+
+		if( grid_id == 'languages_grid' || grid_id == 'settings_grid'){
+			$('#'+grid_id).find('td[aria-describedby$="_grid_search_result"]>a').click(
+					function () {
+						var href = $(this).attr('href');
+						$.ajax({
+							url:href,
+							type:'GET',
+							dataType:'json',
+							success:function (data) {
+								if (data == '' || data == null) {
+									return null;
+								} else {
+									if (data.html) {
+										$('#gs_modal .modal-body').html(data.html);
+										$('#gs_modal .modal-title').html(data.title);
+									}
+									$('#gs_modal').modal('show');
+								}
+							}
+						});
+						return false;
+					});
+		}
+	}
 
 	$('span.icon_search').click(function(){
 		$('#search_form').submit();
