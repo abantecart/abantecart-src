@@ -72,7 +72,7 @@
 
 		<div class="header-right">
 			<ul class="headermenu">
-				<li>
+				<li class="hidden-xs">
 					<?php if ($config_voicecontrol) { ?>
 						<div class="btn-group" id="voice_start">
 							<a data-toggle="modal" href="#voiceModal" id="start_button" class="btn btn-default tp-icon"
@@ -186,7 +186,7 @@
 					<div class="btn-group">
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 							<img src="<?php echo $avatar; ?>" alt="<?php echo $username; ?>"/>
-							<?php echo $username; ?>
+							<span class="hidden-xs"><?php echo $username; ?></span>
 							<span class="caret"></span>
 						</button>
 
@@ -204,7 +204,7 @@
 						</div>
 					</div>
 				</li>
-				<li>
+				<li class="hidden-xs">
 					<div class="btn-group">
 						<a onClick="window.open('<?php echo $store; ?>');" class="btn btn-default tp-icon"
 						   data-toggle="dropdown" title="<?php echo $text_front; ?>">

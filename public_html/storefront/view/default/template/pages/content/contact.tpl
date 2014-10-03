@@ -25,7 +25,8 @@
 	    <div class="col-md-6 pull-left">
 	    <b><?php echo $text_address; ?></b><br />
 	      <?php echo $store; ?><br />
-	      <?php echo $address; ?></div>
+	      <address><?php echo $address; ?></address>
+	    </div>
 	    <div class="col-md-6 pull-right">
 	      <?php if ($telephone) { ?>
 	      <b><?php echo $text_telephone; ?></b><br />

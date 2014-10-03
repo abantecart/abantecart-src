@@ -8,151 +8,143 @@
 <div id="content" class="tab-content">
 
 	<div class="panel-heading">
-		<div class="pull-left form-inline col-md-4">	
-			<div class="input-group-btn">
-				<a href="<?php echo $my_extensions; ?>" class="btn btn-default" id="btn_my_exts">
-				<i class="fa fa-tags fa-fw"></i>
-				<?php echo $text_my_extensions; ?>
-				</a>
-			</div>		
 
-			<div class="input-group-btn"> 
-				<a href="<?php echo $my_account; ?>" target="_blank" class="btn btn-default" id="btn_my_account">
-				<i class="fa fa-user fa-fw"></i>
-				<?php echo $text_my_account; ?>
-				</a>
-			</div>		
+		<div class="btn-group">
+		    <a href="<?php echo $my_extensions; ?>" class="btn btn-default" id="btn_my_exts">
+		    <i class="fa fa-tags fa-fw"></i>
+		    <?php echo $text_my_extensions; ?>
+		    </a>
+		</div>		
+
+		<div class="btn-group"> 
+		    <a href="<?php echo $my_account; ?>" target="_blank" class="btn btn-default" id="btn_my_account">
+		    <i class="fa fa-user fa-fw"></i>
+		    <?php echo $text_my_account; ?>
+		    </a>
+		</div>		
+
+		<?php 
+		if($content){
+		    $current_categ = $text_all_categories;
+		    foreach ($content['categories']['subcategories'] as $category) {
+		    	if ($category['active']) {
+		    		$current_categ = $category['name'];
+		    	}
+		}
+		?>
+		<div class="btn-group">
+		  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+		    <i class="fa fa-folder-o"></i>
+		     <?php echo $current_categ; ?> <span class="caret"></span>
+		  </button>
+		  <ul class="dropdown-menu">
+		    <?php foreach ($content['categories']['subcategories'] as $category) { ?>
+		    		<li class="<?php echo $category['active'] ? 'disabled' : '' ?>">
+		    			<a href="<?php echo $category['href'] ?>"
+		    			   title="<?php echo trim($category['description']) ?>"><?php echo $category['name'] ?></a>
+		    		</li>
+		    <?php } ?>
+		  </ul>
 		</div>
-
-		<div class="pull-right col-md-8">
-
-			<?php 
-			if($content){
-				$current_categ = $text_all_categories;
-				foreach ($content['categories']['subcategories'] as $category) {
-					if ($category['active']) {
-						$current_categ = $category['name'];
-					}
-			}
-			?>
-			<div class="btn-group mr10 toolbar">
-			  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-			    <i class="fa fa-folder-o"></i>
-				 <?php echo $current_categ; ?> <span class="caret"></span>
-			  </button>
-			  <ul class="dropdown-menu">
-				<?php foreach ($content['categories']['subcategories'] as $category) { ?>
-	    				<li class="<?php echo $category['active'] ? 'disabled' : '' ?>">
-	    					<a href="<?php echo $category['href'] ?>"
-	    					   title="<?php echo trim($category['description']) ?>"><?php echo $category['name'] ?></a>
-	    				</li>
-				<?php } ?>
-			  </ul>
-			</div>
-			
-			<div class="btn-group mr10 toolbar form-inline">
-				<?php echo $form['form_open']; ?>
-				<div class="form-group">
-					<div class="input-group">
-					<?php echo $form['input']; ?>
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<button type="submit" class="btn btn-primary"><?php echo $button_go; ?></button>
-				</div>
-				</form>
-			</div>
-			<?php } ?>
-
-			<div class="btn-group mr10 toolbar pull-right">
-				<a class="btn btn-white tooltips" href="https://marketplace.abantecart.com" target="new" data-toggle="tooltip"
-				    data-original-title="<?php echo $text_marketplace_site; ?>">
-				    <i class="fa fa-external-link fa-lg"></i>
-				</a>
-			</div>
-			
-			<div class="btn-group mr10 toolbar pull-right">
-				<?php if (!empty ($help_url)) { ?>
-					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
-					   title="" data-original-title="Help">
-						<i class="fa fa-question-circle fa-lg"></i>
-					</a>
-				<?php } ?>
-			</div>
+		
+		<div class="btn-group form-inline">
+		    <?php echo $form['form_open']; ?>
+		    <div class="form-group">
+		    	<div class="input-group">
+		    	<?php echo $form['input']; ?>
+		    	</div>
+		    	<button type="submit" class="btn btn-primary"><?php echo $button_go; ?></button>
+		    </div>
+		    </form>
 		</div>
+		<?php } ?>
+		
+		<div class="btn-group pull-right">
+		    <a class="btn btn-white tooltips" href="https://marketplace.abantecart.com" target="new" data-toggle="tooltip"
+		        data-original-title="<?php echo $text_marketplace_site; ?>">
+		        <i class="fa fa-external-link fa-lg"></i>
+		    </a>
+		</div>
+		
+	    <?php if (!empty ($help_url)) { ?>
+		<div class="btn-group pull-right">
+		    	<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
+		    	   title="" data-original-title="Help">
+		    		<i class="fa fa-question-circle fa-lg"></i>
+		    	</a>
+		</div>
+	    <?php } ?>
+
 	</div>
 	
 	<div class="panel-body panel-body-nopadding">
 	<?php if($content){	?>
-	    <div class="container-fluid">					
-	    	<ul class="thumbnails">
-	    	    <?php
-	    	    if ($content['products']['rows']) {
-	    	    	foreach ($content['products']['rows'] as $product) {
-	    	    	
-	    	    		$item = array();	
-	    	    		$item['image'] = $product['cell']['thumb'];
-	    	    		$item['main_image'] = $product['cell']['main_image'];
-	    	    		$item['title'] = $product['cell']['name'];
-	    	    		$item['description'] = $product['cell']['model'];
-	    	    		$item['rating'] = "<img src='" . $this->templateResource('/image/stars_' . (int)$product['cell']['rating'] . '.png') . "' alt='" . (int)$product['stars'] . "' />";
-	    	
-	    	    		$item['price'] = $product['cell']['price'];
-	    	    		if ( substr( $product['cell']['price'],1) == '0.00' ) {
-	    	    			$item['price'] = 'FREE';
-	    	    		}
-	    	
-	    	    		if ($item['rating']) {
-	    	    			$review = $item['rating'];
-	    	    		}
-	    	
-	    	    		?>
-	    	    		<li class="product-item col-md-4" data-product-id="<?php echo $product['id'] ?>">
-	    	    			<div class="ext_thumbnail">
-	    	    				<a class="product_thumb" title='' data-html="true" rel="tooltip">
-	    	    				<img width="57" alt="" src="<?php echo $item['image'] ?>">
-	    	    				</a>
-	    	    				<div class="tooltip-data hidden" style="display: none;">
-	    	    				<div class="product_data">
-	    	    					<span class="prdocut_title" title="<?php echo $item['title'] ?>"><?php echo $item['title'] ?></span>
-	    	    					<span class="review"><?php echo $review ?></span>
-	    	    					<span class="price">
-	    	    					    <span class="oneprice"><?php echo $item['price'] ?></span>
-	    	    					</span>	
-	    	    				</div>			
-	    	    				<div class="product_image">	
-	    	    					<img src="<?php echo $this->templateResource('/image/loading_row.gif'); ?>" class="load_ondemand" data-src="<?php echo $item['main_image'] ?>">
-	    	    				</div>	
-	    	    				</div>			
-	    	    			</div>
-	    	    			<div class="ext_details">
-	    	    				<div class="ext_name">
-	    	    					<div class="text_zoom">
-	    	    					<a title="<?php echo $item['title']; ?>"><?php echo $item['title'] ?></a>
-	    	    					</div>
-	    	    				</div>
-	    	
-	    	    				<div class="ext_more">
-	    	    					<div class="ext_review"><a class="compare"><?php echo $review ?></a></div>
-	    	    					<div class="ext_price">
-	    	    					    <div class="oneprice"><?php echo $item['price'] ?></div>
-	    	    					</div>
-	    	
-	    	    					<div class="ext_icons">
-	    	    						<a class="productcart" data-id="<?php echo $product['product_id'] ?>">
-	    	    						<i class="icon-shopping-cart"></i>
-	    	    						</a>
-	    	    					</div>
-	    	    				</div>
-	    	    			</div>				
-	    	    		</li>
-	    	    	<?php
-	    	    	}
-	    	    }
-	    	    ?>
-	    	</ul>					
-		</div>	
+	    <ul class="thumbnails">
+	        <?php
+	        if ($content['products']['rows']) {
+	        	foreach ($content['products']['rows'] as $product) {
+	        	
+	        		$item = array();	
+	        		$item['image'] = $product['cell']['thumb'];
+	        		$item['main_image'] = $product['cell']['main_image'];
+	        		$item['title'] = $product['cell']['name'];
+	        		$item['description'] = $product['cell']['model'];
+	        		$item['rating'] = "<img src='" . $this->templateResource('/image/stars_' . (int)$product['cell']['rating'] . '.png') . "' alt='" . (int)$product['stars'] . "' />";
+	    
+	        		$item['price'] = $product['cell']['price'];
+	        		if ( substr( $product['cell']['price'],1) == '0.00' ) {
+	        			$item['price'] = 'FREE';
+	        		}
+	    
+	        		if ($item['rating']) {
+	        			$review = $item['rating'];
+	        		}
+	    
+	        		?>
+	        		<li class="product-item col-md-4" data-product-id="<?php echo $product['id'] ?>">
+	        			<div class="ext_thumbnail">
+	        				<a class="product_thumb" title='' data-html="true" rel="tooltip">
+	        				<img width="57" alt="" src="<?php echo $item['image'] ?>">
+	        				</a>
+	        				<div class="tooltip-data hidden" style="display: none;">
+	        				<div class="product_data">
+	        					<span class="prdocut_title" title="<?php echo $item['title'] ?>"><?php echo $item['title'] ?></span>
+	        					<span class="review"><?php echo $review ?></span>
+	        					<span class="price">
+	        					    <span class="oneprice"><?php echo $item['price'] ?></span>
+	        					</span>	
+	        				</div>			
+	        				<div class="product_image">	
+	        					<img src="<?php echo $this->templateResource('/image/loading_row.gif'); ?>" class="load_ondemand" data-src="<?php echo $item['main_image'] ?>">
+	        				</div>	
+	        				</div>			
+	        			</div>
+	        			<div class="ext_details">
+	        				<div class="ext_name">
+	        					<div class="text_zoom">
+	        					<a title="<?php echo $item['title']; ?>"><?php echo $item['title'] ?></a>
+	        					</div>
+	        				</div>
+	    
+	        				<div class="ext_more">
+	        					<div class="ext_review"><a class="compare"><?php echo $review ?></a></div>
+	        					<div class="ext_price">
+	        					    <div class="oneprice"><?php echo $item['price'] ?></div>
+	        					</div>
+	    
+	        					<div class="ext_icons">
+	        						<a class="productcart" data-id="<?php echo $product['product_id'] ?>">
+	        						<i class="icon-shopping-cart"></i>
+	        						</a>
+	        					</div>
+	        				</div>
+	        			</div>				
+	        		</li>
+	        	<?php
+	        	}
+	        }
+	        ?>
+	    </ul>					
 	    		
 	    <?php if( $sorting && $pagination_bootstrap ) { ?>
 	    <div class="container-fluid mt10">

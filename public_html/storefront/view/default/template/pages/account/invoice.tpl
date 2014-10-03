@@ -39,10 +39,12 @@
 					<?php echo $payment_method; ?></td>
 				<td><?php if ($shipping_address) { ?>
 						<b><?php echo $text_shipping_address; ?></b><br/>
-						<?php echo $shipping_address; ?><br/>
-					<?php } ?></td>
+						<address><?php echo $shipping_address; ?></address>
+					<?php } ?>
+				</td>
 				<td><b><?php echo $text_payment_address; ?></b><br/>
-					<?php echo $payment_address; ?><br/></td>
+					<address><?php echo $payment_address; ?></address>
+				</td>
 			</tr>
 		</table>
 	</div>

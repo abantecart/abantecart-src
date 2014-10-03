@@ -46,9 +46,11 @@
 				<td class="align_left"><?php echo $shipping_firstname . ' ' . $shipping_lastname; ?>
 					<br/><?php echo $telephone; ?></td>
 				<td class="align_left">
+					<address>
 					<?php echo $shipping_address_1 . ' ' . $shipping_address_2; ?><br/>
 					<?php echo $shipping_city . ' ' . $shipping_zone . ' ' . $shipping_postcode; ?><br/>
 					<?php echo $shipping_country ?>
+					</address>
 				</td>
 				<td class="align_left"><?php echo $shipping_method; ?></td>
 				<td class="align_right">
@@ -73,9 +75,11 @@
 					<td class="align_left"><?php echo $payment_firstname . ' ' . $payment_lastname; ?>
 						<br/><?php echo $telephone; ?></td>
 					<td class="align_left">
+						<address>
 						<?php echo $payment_address_1 . ' ' . $payment_address_2; ?><br/>
 						<?php echo $payment_city . ' ' . $payment_zone . ' ' . $payment_postcode; ?><br/>
 						<?php echo $payment_country ?>
+						</address>
 					</td>
 					<td class="align_left"><?php echo $payment_method; ?></td>
 					<td class="align_right">

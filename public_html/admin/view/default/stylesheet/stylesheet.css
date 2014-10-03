@@ -2416,7 +2416,7 @@ body.stickyheader .sticky_left {
    }
    
    .headermenu li:nth-child(4) {
-      display: none;
+     /* display: none; */
    }
    
    .leftpanel #searchform,
@@ -2660,6 +2660,10 @@ body.stickyheader .sticky_left {
 }
 
 @media screen and (max-width: 360px) {
+
+	#searchform input {
+		width: 250px;
+	}
 
 	#footer{
 		padding-left: 20px;
