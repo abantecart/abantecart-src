@@ -396,29 +396,32 @@ h4, .h4 {
 
 .panel-heading,
 .panel-footer {
-   background: #fff;
-   border-color: #eee;
-   padding: 15px !important;
+ 	background: #fff;
+	border-color: #eee;
+	padding: 15px !important;
 }
 .panel-heading {
 	min-height: 55px;
 }
+.tab-content > .panel-heading {
+	padding: 10px !important;
+}
 
 .panel-default > .panel-heading {
-   border-color: #e7e7e7;
-   background-color: #fff;
+	border-color: #e7e7e7;
+	background-color: #fff;
 }
 
 .panel-heading-empty {
-   background: none;
-   border-bottom: 0;
+	background: none;
+	border-bottom: 0;
 }
 
 .panel-heading p {
-   font-size: 13px;
-   margin-top: 10px;
-   margin-bottom: 0;
-   color: #77818e;
+	font-size: 13px;
+	margin-top: 10px;
+	margin-bottom: 0;
+	color: #77818e;
 }
 
 .panel-primary .panel-heading,
@@ -690,7 +693,6 @@ h4, .h4 {
 
 .dropdown-menu > li > a {
    padding: 7px 10px;
-   color: #666;
 }
 
 .dropdown-menu > li > a:hover {

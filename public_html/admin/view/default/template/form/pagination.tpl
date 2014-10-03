@@ -7,14 +7,14 @@
 <?php if ($limit_select) { ?>
 <div class="form-group">
     <div class="input-group input-group-<?php echo $size_class; ?>"> 
-	<?php echo $text_limit ?>&nbsp;&nbsp;
-	<?php echo $limit_select ?>&nbsp;&nbsp;
+	<?php echo $text_limit ?> 
+	<?php echo $limit_select ?> 
 	</div>
 </div>	
 <?php } ?>
 <div class="form-group">
     <div class="input-group input-group-<?php echo $size_class; ?>"> 
-	<?php echo $text ?>&nbsp;&nbsp;
+	&nbsp;&nbsp;<?php echo $text ?>&nbsp;&nbsp;
 	</div>
 </div>	
 

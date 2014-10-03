@@ -10815,7 +10815,7 @@ VALUES  (11,'text_extensions',31),
         (11,'text_language',35),
         (11,'text_total',36),
         (11,'text_add_extension',37),
-        (11,'text_extensions_stores',38);
+        (11,'text_extensions_store',38);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'extension/extensions/extensions',31),

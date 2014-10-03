@@ -77,7 +77,7 @@ class ModelToolMPAPI extends Model {
 		if(has_value($params['limit'])){
 			$get_params['limit'] = $get_params['rows'] = $params['limit'];
 		}else{
-			$get_params['limit'] = $get_params['rows'] = 20;
+			$get_params['limit'] = $get_params['rows'] = 24;
 		}
 		if(has_value($params['page'])){
 			$get_params['page'] = $params['page'];
@@ -106,6 +106,14 @@ class ModelToolMPAPI extends Model {
 															  '&category_id='.$category['category_id'].'&sidx='.$get_params['sidx'].'&sord='.$get_params['sord'].'&limit='.$get_params['limit']);
 				$category['active'] = $category['category_id']==$params['category_id'] ? true : false;
 			} unset($category);
+			//add all categories option at the beginning of array
+			array_unshift($output['categories']['subcategories'], array(
+				'category_id' => '',
+				'name' => $this->language->get('text_all_categories'),
+				'href' => $this->html->getSecureURL('extension/extensions_store',
+									'&sidx='.$get_params['sidx'].'&sord='.$get_params['sord'].'&limit='.$get_params['limit']),
+				'active' => $params['category_id'] ? false : true
+			));				
 		}
 		// get products of category
 		if(has_value($params['category_id'])){

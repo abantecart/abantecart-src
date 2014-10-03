@@ -2,7 +2,7 @@
 <definitions>
 	<definition>
 		<key>heading_title</key>
-		<value><![CDATA[Extension Marketplace (beta)]]></value>
+		<value><![CDATA[Extensions Marketplace]]></value>
 	</definition>
 	<definition>
 		<key>text_install</key>
@@ -128,5 +128,17 @@
 	<definition>
 		<key>text_my_account</key>
 		<value><![CDATA[My Account]]></value>
+	</definition>
+	<definition>
+		<key>text_marketplace_site</key>
+		<value><![CDATA[Marketplace Site]]></value>
+	</definition>
+	<definition>
+		<key>text_all_categories</key>
+		<value><![CDATA[All Categories]]></value>
+	</definition>
+	<definition>
+		<key>error_mp_connection</key>
+		<value><![CDATA[Oops, can not connect to AbanteCart MarketPlace. Please try to check later or ask your hosting service provider for help.]]></value>
 	</definition>
 </definitions>

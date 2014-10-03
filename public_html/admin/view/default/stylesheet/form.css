@@ -6,6 +6,9 @@
 .form-control .input-group, .input-group .btn {
 	border-radius: 2px !important;
 }
+.input-group-sm .pagination{
+	margin: 0px;
+}
 .help_element {
 	padding-left: 5px;
 }

@@ -229,18 +229,6 @@
 		<value><![CDATA[Extensions Store]]></value>
 	</definition>
 	<definition>
-		<key>text_extensions_stores</key>
-		<value><![CDATA[Extensions Stores]]></value>
-	</definition>
-	<definition>
-		<key>text_extension_store_new</key>
-		<value><![CDATA[Extension Marketplace (beta)]]></value>
-	</definition>
-	<definition>
-		<key>text_extension_store_prev</key>
-		<value><![CDATA[Extensions Store ]]></value>
-	</definition>
-	<definition>
 		<key>text_migrate</key>
 		<value><![CDATA[Migration Tool]]></value>
 	</definition>

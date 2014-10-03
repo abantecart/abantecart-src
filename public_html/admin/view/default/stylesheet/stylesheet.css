@@ -1084,9 +1084,6 @@ p {
 .tab-content.rl-content {
 	background: none #fff !important;
 }
-.tab-content.rl-content .pagination{
-	margin: 0px;
-}
 
 .reslibrary-options {
     list-style: none;
