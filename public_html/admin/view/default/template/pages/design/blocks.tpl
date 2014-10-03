@@ -4,7 +4,6 @@
 <?php if ($success) { ?>
 	<div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
-
 <div class="row">
 	<div class="col-sm-12 col-lg-12">
 		<ul class="content-nav">
@@ -38,8 +37,17 @@
 				?>
 			</li>
 			<li>
-				<a class="itemopt" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>"><i
-							class="fa fa-plus-circle fa-lg"></i></a>
+				<div class="dropdown dropdown-toggle">
+					<a data-toggle="dropdown"
+					   href="#"
+					   class="btn btn-primary dropdown-toggle tooltips"
+					   title="<?php echo $button_insert; ?>" > <i class="fa fa-plus-circle fa-lg"></i>  <span class="caret"></span></a>
+					<ul class="dropdown-menu " role="menu" aria-labelledby="dLabel">
+						<?php foreach($inserts as $in){ ?>
+							<li><a href="<?php echo $in['href'] ?>" ><?php echo $in['text']; ?></a></li>
+						<?php } ?>
+					</ul>
+				</div>
 			</li>
 
 			<?php if (!empty ($form_language_switch)) { ?>
@@ -79,9 +87,19 @@
 
 <script type="text/javascript">
 
-	var updateViewButtons = function(){
+	var grid_ready = function(){
 		$('.grid_action_view[data-toggle!="modal"]').each(function(){
 			$(this).attr('data-toggle','modal'). attr('data-target','#block_info_modal');
+		});
+
+		$('.grid_action_edit').each(function(){
+			var tr = $(this).parents('tr');
+			if(!tr.hasClass('disable-edit')){
+				var rowid = tr.attr('id').split('_');
+				if(rowid[1]){
+					$(this).attr('href', $(this).attr('href')+'&custom_block_id='+rowid[1]);
+				}
+			}
 		});
 	};
 

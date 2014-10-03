@@ -61,17 +61,6 @@ class ControllerResponsesListingGridBannerManager extends AController {
 		$i = 0;
 		foreach ($results as $result) {
 
-
-			$action = '<a id="action_edit_' . $result['banner_id'] . '" class="btn_action" href="' . $this->html->getSecureURL('extension/banner_manager/edit', '&banner_id=' . $result['banner_id']) . '"
-								title="' . $this->language->get('text_edit') . '">' .
-					'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_edit.png" alt="' . $this->language->get('text_edit') . '" />' .
-					'</a>
-				<a class="btn_action" href="' . $this->html->getSecureURL('extension/banner_manager/delete', '&banner_id=' . $result['banner_id']) . '"
-			 	onclick="return confirm(\'' . $this->language->get('text_delete_confirm') . '\')" title="' . $this->language->get('text_delete') . '">' .
-					'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_delete.png" alt="' . $this->language->get('text_delete') . '" />' .
-					'</a>';
-
-
 			$response->rows[$i]['id'] = $result['banner_id'];
 
 			$thumbnail = $resource->getMainThumb('banners',
@@ -98,8 +87,7 @@ class ControllerResponsesListingGridBannerManager extends AController {
 					'value' => $result['status'],
 					'style' => 'btn_switch'
 				)),
-				$result['date_modified'],
-				$action,
+				$result['date_modified']
 			);
 			$i++;
 		}
@@ -116,7 +104,7 @@ class ControllerResponsesListingGridBannerManager extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		if (($this->request->server ['REQUEST_METHOD'] == 'POST')) {
+		if ($this->request->is_POST()) {
 			$this->loadModel('extension/banner_manager');
 
 			if (isset($this->request->post['start_date']) && $this->request->post['start_date']) {
@@ -231,10 +219,6 @@ class ControllerResponsesListingGridBannerManager extends AController {
 		}
 		$form->setForm(array('form_name' => 'BannerFrm', 'update' => $this->data ['update']));
 
-
-		$this->data['form']['fields']['rl'] = '';
-		$this->data['form']['text']['rl'] = $this->language->get('entry_banner_rl');
-
 		$this->data['form']['fields']['meta'] = $form->getFieldHtml(
 			array(  'type' => 'textarea',
 					'name' => 'meta',
@@ -243,6 +227,21 @@ class ControllerResponsesListingGridBannerManager extends AController {
 		$this->data['form']['text']['meta'] = $this->language->get('entry_banner_meta');
 
 		$this->data['banner_id'] = $this->request->get['banner_id'] ? $this->request->get['banner_id'] : '-1';
+
+		$this->addChild('responses/common/resource_library/get_resources_html', 'resources_html', 'responses/common/resource_library_scripts.tpl');
+		$resources_scripts = $this->dispatch(
+				'responses/common/resource_library/get_resources_scripts',
+				array(
+						'object_name' => 'banners',
+						'object_id' => $this->data['banner_id'],
+						'types' => array('image'),
+				)
+		);
+
+		$this->view->assign('current_url', $this->html->currentURL());
+
+		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
+		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=banners&type=image'));
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/extension/banner_manager_subform.tpl');

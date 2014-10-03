@@ -33,8 +33,9 @@ class ExtensionBannerManager extends Extension {
 
 
 	public function onControllerPagesDesignBlocks_InitData() {
-		$method_name = func_get_arg(0);
-		if($method_name=='insert'){
+		$method_name = $this->baseObject_method;
+
+		if($method_name=='insert' || $method_name=='main' ){
 			$lm = new ALayoutManager();
 			$this->baseObject->loadLanguage('banner_manager/banner_manager');
 			$this->baseObject->loadLanguage('design/blocks');
@@ -44,8 +45,7 @@ class ExtensionBannerManager extends Extension {
 			$this->baseObject->data['tabs'][1000] = array( 'href'=> $this->html->getSecureURL('extension/banner_manager/insert_block', '&block_id=' . $block_id),
 														   'text' => $this->language->get('text_banner_block'),
 														   'active'=>false);
-		}
-		if($method_name=='edit'){
+		}elseif($method_name=='edit'){
 			$lm = new ALayoutManager();
 			$blocks = $lm->getAllBlocks();
 

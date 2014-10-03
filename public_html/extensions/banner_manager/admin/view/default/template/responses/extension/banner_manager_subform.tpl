@@ -1,13 +1,28 @@
-<?php foreach ($form['fields'] as $name => $field) { ?>
-	<tr class="subform">
-		<td><?php echo $form[ 'text' ][$name]; ?></td>
-		<td class="<?php echo ($name=='description'? 'ml_ckeditor': 'ml_field'); ?>">
-		<?php if($name=='rl'){ ?>
-		<div id="rl_<?php echo $banner_id?>" class="add_resource" style="margin-top: 10px;"><?php echo  $field.'</div>';
-		}else{ echo $field; } ?>
-		<?php if (!empty($error[$name])) { ?>
-				<div class="field_err"><?php echo $error[$name]; ?></div>
-		<?php } ?>
-		</td>
-	</tr>
-<?php }   ?>
+<?php foreach ($form['fields'] as $name => $field) {
+				//Logic to cululate fileds width
+				$widthcasses = "col-sm-7";
+				if ( is_int(stripos($field->style, 'large-field')) ) {
+					$widthcasses = "col-sm-7";
+				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
+					$widthcasses = "col-sm-5";
+				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+					$widthcasses = "col-sm-3";
+				} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
+					$widthcasses = "col-sm-2";
+				}
+				$widthcasses .= " col-xs-12";
+			?>
+		<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $form[ 'text' ][$name]; ?></label>
+			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<?php echo $field; ?>
+			</div>
+		    <?php if (!empty($error[$name])) { ?>
+		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+		    <?php } ?>
+		</div>
+			<?php }  ?><!-- <div class="fieldset"> -->
+
+<?php echo $resources_html; ?>
+
+<?php echo $resources_scripts ?>

@@ -105,7 +105,7 @@ class ModelSaleCustomerTransaction extends Model {
         }
 
         $sort_data = array(
-            'date_added',
+            't.date_added',
             'user',
             'debit',
             'credit',
@@ -115,7 +115,7 @@ class ModelSaleCustomerTransaction extends Model {
         if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
             $sql .= " ORDER BY " . $data['sort'];
         } else {
-            $sql .= " ORDER BY date_added";
+            $sql .= " ORDER BY t.date_added";
         }
 
         if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')) {

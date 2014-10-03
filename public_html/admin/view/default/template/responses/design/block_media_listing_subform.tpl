@@ -1,9 +1,12 @@
-<table class="form">
-<tr>
-	<td><?php echo $entry_media_resource_type;?></td>
-	<td class="ml_field"><?php echo $media_resource_type?></td></tr>
-<tr>
-	<td><?php echo $entry_media_resource_limit;?></td>
-	<td class="ml_field"><?php echo $media_resource_limit?></td>
-</tr>
-</table>
+<div class="form-group">
+	<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_media_resource_type; ?></label>
+	<div class="input-group afield col-sm-2 col-xs-12">
+		<?php echo $media_resource_type?>
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_media_resource_limit;; ?></label>
+	<div class="input-group afield col-sm-2 col-xs-12">
+		<?php echo $media_resource_limit?>
+	</div>
+</div>

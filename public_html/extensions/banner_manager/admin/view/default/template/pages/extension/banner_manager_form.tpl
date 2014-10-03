@@ -1,120 +1,119 @@
-<?php if ($error_warning) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
+<?php if (!empty($error['warning'])) { ?>
+<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
 <?php } ?>
 <?php if ($success) { ?>
 <div class="success alert alert-success"><?php echo $success; ?></div>
 <?php } ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_blocks"><?php echo $heading_title; ?></div>
-	<div class="toolbar">
-		<?php echo $form_language_switch; ?>
-	<?php if($button_details){	?>
-	<div class="tools">
-		<a class="btn_standard" href="<?php echo $detail_link; ?>"><?php echo $button_details; ?></a>
+
+<?php if ($tabs) { ?>
+	<ul class="nav nav-tabs nav-justified nav-profile">
+		<?php foreach($tabs as $tab){?>
+		<li <?php echo ($tab['active'] ? 'class="active"' : '') ?>>
+		<a href="<?php echo $tab['href'] ? $tab['href'] : 'Javascript:void(0);'; ?>"><span><?php echo $tab['text']; ?></span></a></li>
+		<li>
+		<?php } ?>
+		<?php echo $this->getHookVar('extension_tabs'); ?>
+	</ul>
+<?php } ?>
+
+<div class="tab-content">
+	<div class="panel-heading">
+			<div class="pull-right">
+			    <div class="btn-group mr10 toolbar">
+					<?php if($button_details){	?>
+							<a class="btn btn-white tooltips"
+							   href="<?php echo $button_details->href; ?>"
+							   target="new" data-toggle="tooltip" title="<?php echo $button_details->text; ?>">
+								<i class="fa fa-bar-chart-o fa-lg"></i>
+							</a>
+						<?php } ?>
+                    <?php if (!empty ($help_url)) : ?>
+                    <a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
+                    <i class="fa fa-question-circle fa-lg"></i>
+                    </a>
+                    <?php endif; ?>
+			    </div>
+                <?php echo $form_language_switch; ?>
+			</div>
 	</div>
-	<?php } ?>
-	</div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
 
 	<?php echo $form['form_open']; ?>
-	<div class="fieldset">
-	  <div class="heading"><?php echo $form_title; ?></div>
-	  <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-	  <div class="cont_left"><div class="cont_right"><div class="cont_mid">
+	<div class="panel-body panel-body-nopadding">
+		<label class="h4 heading"><?php echo $form_title; ?></label>
+			<?php foreach ($form['fields'] as $name => $field) {
+				if($name == 'new_banner_group'){ continue;}
+				//Logic to cululate fileds width
+				$widthcasses = "col-sm-7";
+				if ( is_int(stripos($field->style, 'large-field')) ) {
+					$widthcasses = "col-sm-7";
+				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
+					$widthcasses = "col-sm-5";
+				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+					$widthcasses = "col-sm-3";
+				} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
+					$widthcasses = "col-sm-2";
+				}
+				$widthcasses .= " col-xs-12";
+			?>
+		<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $form[ 'text' ][$name]; ?></label>
+			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<?php echo $field;
+				if($name=='banner_group_name'){
+					echo $form['fields']['new_banner_group'];
+				}
+				?>
 
-          <table class="form">
-            <?php foreach ($form['fields'] as $name => $field) { ?>
-				<tr>
-					<td><?php echo $form[ 'text' ][$name]; ?></td>
-					<td class="<?php echo ($name=='description'? 'ml_ckeditor': (in_array($name,array('status','daterange')) ? '' : 'ml_field')); ?>">
-						<?php echo $field; ?>
-						<?php if (!empty($error[$name])) { ?>
-							<div class="field_err"><?php echo $error[$name]; ?></div>
-						<?php } ?>
-					</td>
-				</tr>
-			<?php }   ?>
-          </table>
+			</div>
+		    <?php if (!empty($error[$name])) { ?>
+		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+		    <?php } ?>
+		</div>
+			<?php }  ?><!-- <div class="fieldset"> -->
 
-  </div></div></div>
-      <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
+		<div id="subformcontent"></div>
+
+
 	</div>
-	<div class="buttons align_center">
-	  <button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
-	  <a class="btn_standard" href="<?php echo $cancel; ?>" ><?php echo $form['cancel']; ?></a>
-    </div>
+
+	<div class="panel-footer">
+		<div class="row">
+		   <div class="col-sm-6 col-sm-offset-3 center">
+		     <button class="btn btn-primary">
+		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+		     </button>&nbsp;
+		     <a class="btn btn-default" href="<?php echo $cancel; ?>">
+		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+		     </a>
+		   </div>
+		</div>
+	</div>
 	</form>
 
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
-</div>
-<div id="confirm_unmap_dialog" title="Confirm resource(s) Unmap" style="display:none"><?php echo $text_confirm_unmap ?></div>
-<div id="confirm_del_dialog" title="Confirm resource(s) Delete" style="display:none"><?php echo $text_confirm ?></div>
-<?php echo $resources_scripts; ?>
+</div><!-- <div class="tab-content"> -->
+
+
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript">
+
+
+	$('#BannerFrm_banner_group_name0').on('change',function(){
+		if($(this).val()=='new'){
+			$('#BannerFrm_banner_group_name1').fadeIn().focus();
+		}else{
+			$('#BannerFrm_banner_group_name1').fadeOut();
+		}
+	});
+
 $(document).ready(function() {
-	setRLparams();
 	loadSubform();
+	$('#BannerFrm_banner_group_name0').change();
 });
 
 
-function setRLparams(){
-	var banner_id = '<?php echo $banner_id ?>';
-	urls.resource_library = '<?php echo $rl_rl_path; ?>&object_id='+banner_id;
-	urls.resources = '<?php echo $rl_resources_path; ?>&object_id='+banner_id;
-	urls.unmap = '<?php echo $rl_unmap_path; ?>&object_id='+banner_id;
-	urls.banner_id = banner_id;
-}
-
 // override rl js-script function
-var loadMedia = function() {
-	var type="image";
-    $.ajax({
-        url: urls.resources,
-        type: 'GET',
-        data: { type : type },
-        dataType: 'json',
-        success: function(json) {
-
-	        var html = '';
-            $(json.items).each(function(index, item){
-                var src = '<img src="' + item['thumbnail_url'] + '" title="' + item['name'] + '" />';
-                if ( type == 'image' && item['resource_code']  ) {
-                    src = item['thumbnail_url'];
-                }
-                html += '<span id="image_row' + item['resource_id'] + '" class="image_block" style="text-align:center;">\
-                <a class="resource_edit" type="' + type + '" id="' + item['resource_id'] + '">' + src + '</a><br />\
-                '+( item['mapped'] > 1 ? '' : '<a class="btn_action resource_delete" id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_delete ?></span></span></a>')+'\
-                <a class="btn_action resource_unmap" id="' + item['resource_id'] + '"><span class="icon_s_unmap"><span class="btn_text"><?php echo $button_unmap ?></span></span></a>\
-                <a class="btn_action resource_edit" type="' + type + '" id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>\
-                </span>';
-            });
-            html += '<span class="image_block"><a class="resource_add" type="' + type + '"><img src="<?php echo $template_dir.'/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>"/></a></span>';
-
-	        $('#rl_'+urls.banner_id).html(html);
-	        if($(json.items).length){
-		       $('a.resource_edit').unbind('click');
-				$('a.resource_edit').click( function(){
-					mediaDialog( $(this).prop('type'), 'update', $(this).prop('id'));
-				return false;
-			})
-	        }
-	        $('a.resource_add').unbind('click');
-			$('a.resource_add').click( function(){
-				mediaDialog( $(this).prop('type'), 'add', $(this).prop('id'));
-				return false;
-			});
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-            $('#type_'+type).show();
-            $('#rl_'+urls.banner_id).html('<div class="error" align="center"><b>'+textStatus+'</b>  '+errorThrown+'</div>');
-        }
-    });
-
-}
 
 var loadSubform = function (){
 	if($('#BannerFrm_banner_type').val()=='2'){
@@ -127,10 +126,7 @@ var loadSubform = function (){
         type: 'GET',
         data: { 'type' : $('#BannerFrm_banner_type').val() },
         success: function(html) {
-	        $('table.form tr.subform').each( function (){
-		        $(this).remove();
-	        })
-	        $('table.form').append(html);
+	        $('#subformcontent').html(html);
 	        if($('#rl_<?php echo $banner_id ?>')){
 				loadMedia( 'image' );
 			}

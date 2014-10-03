@@ -51,11 +51,11 @@ class ControllerPagesDesignBlocks extends AController {
             'sortorder' => 'desc',
             'columns_search' => true,
             'multiselect' => 'false',
-			'grid_ready' => 'updateViewButtons();',
+			'grid_ready' => 'grid_ready();',
 			'actions' => array(
 				'edit' => array(
 					'text' => $this->language->get('text_edit'),
-					'href' => $this->html->getSecureURL('design/blocks/edit', '&custom_block_id=%ID%')
+					'href' => $this->html->getSecureURL('design/blocks/edit')
 				),
 				'view' => array(
 					'text' => $this->language->get('text_view'),
@@ -63,7 +63,7 @@ class ControllerPagesDesignBlocks extends AController {
 				),
 				'delete' => array(
 					'text' => $this->language->get('button_delete'),
-					'href' => $this->html->getSecureURL('design/blocks/delete', '&custom_block_id=%ID%')
+					'href' => $this->html->getSecureURL('design/blocks/delete')
 				)
 			),
         );
@@ -119,8 +119,10 @@ class ControllerPagesDesignBlocks extends AController {
         }
 
         $this->view->batchAssign($this->language->getASet());
-        $this->view->assign('insert', $this->html->getSecureURL('design/blocks/insert'));
-        $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->initTabs();
+        $this->view->assign('inserts', $this->data['tabs']);
+
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('block_listing'));
 
         $this->processTemplate('pages/design/blocks.tpl');
@@ -146,7 +148,7 @@ class ControllerPagesDesignBlocks extends AController {
         }
 
 
-        if (($this->request->server ['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+        if ( $this->request->is_POST() && $this->_validateForm()) {
             if (isset($this->session->data['layout_params'])) {
                 $layout = new ALayoutManager($this->session->data['layout_params']['tmpl_id'],
                     $this->session->data['layout_params']['page_id'],
@@ -250,27 +252,8 @@ class ControllerPagesDesignBlocks extends AController {
             $this->session->data['layout_params']['parent_block_id'] = $this->request->get['parent_block_id'];
 
         }
-        $blocks = array();
-        foreach ($this->data['custom_block_types'] as $txt_id) {
-            $block = $lm->getBlockByTxtId($txt_id);
-            if ($block['block_id']) {
-                $blocks[$block['block_id']] = $this->language->get('text_' . $txt_id);
-            }
-            if ($txt_id == 'html_block') {
-                $default_block_type = $block['block_id'];
-            }
-        }
 
-        $this->request->get['block_id'] = !(int)$this->request->get['block_id'] ? $default_block_type : $this->request->get['block_id'];
-        $i = 0;
-        foreach ($blocks as $block_id => $block_text) {
-            $this->data['tabs'][$i] = array(
-                'href' => $this->html->getSecureURL('design/blocks/insert', '&block_id=' . $block_id),
-                'text' => $block_text,
-                'active' => ($block_id == $this->request->get['block_id'] ? true : false));
-            $i++;
-        }
-        ksort($this->data['tabs']);
+        $this->initTabs();
         switch ($block_txt_id) {
             case 'listing_block':
                 $this->_getListingForm();
@@ -310,7 +293,7 @@ class ControllerPagesDesignBlocks extends AController {
         $layout = new ALayoutManager();
 
         // saving
-        if (($this->request->server ['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+        if ( $this->request->is_POST() && $this->_validateForm()) {
             switch ($block_txt_id) {
                 case 'listing_block':
                     $content = array('listing_datasource' => $this->request->post['listing_datasource']);
@@ -402,6 +385,36 @@ class ControllerPagesDesignBlocks extends AController {
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
+	public function initTabs(){
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$blocks = array();
+		$lm = new ALayoutManager();;
+		foreach ($this->data['custom_block_types'] as $txt_id) {
+			$block = $lm->getBlockByTxtId($txt_id);
+			if ($block['block_id']) {
+				$blocks[$block['block_id']] = $this->language->get('text_' . $txt_id);
+			}
+			if ($txt_id == 'html_block') {
+				$default_block_type = $block['block_id'];
+			}
+		}
+
+		$this->request->get['block_id'] = !(int)$this->request->get['block_id'] ? $default_block_type : $this->request->get['block_id'];
+		$i = 0;
+		foreach ($blocks as $block_id => $block_text) {
+			$this->data['tabs'][$i] = array(
+				'href' => $this->html->getSecureURL('design/blocks/insert', '&block_id=' . $block_id),
+				'text' => $block_text,
+				'active' => ($block_id == $this->request->get['block_id'] ? true : false));
+			$i++;
+		}
+		ksort($this->data['tabs']);
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
 
     public function delete() {
         //init controller data

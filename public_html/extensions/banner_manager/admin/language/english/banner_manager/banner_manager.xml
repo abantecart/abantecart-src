@@ -108,12 +108,12 @@
 		<value><![CDATA[ Sort Order in Group: ]]></value>
 	</definition>
 	<definition>
-		<key>entry_banner_daterange</key>
-		<value><![CDATA[ Date Range of Activity: ]]></value>
+		<key>entry_banner_date_start</key>
+		<value><![CDATA[ Date Start: ]]></value>
 	</definition>
 	<definition>
-		<key>entry_banner_rl</key>
-		<value><![CDATA[ Images: ]]></value>
+		<key>entry_banner_date_end</key>
+		<value><![CDATA[ Date End: ]]></value>
 	</definition>
 	<definition>
 		<key>text_add_new_group</key>

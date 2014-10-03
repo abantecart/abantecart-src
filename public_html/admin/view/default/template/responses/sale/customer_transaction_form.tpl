@@ -63,6 +63,10 @@
 		}
 	});
 
+	$(document).ready(function(){
+		$('#transaction_form_transaction_type0').change();
+	});
+
 	$('#tFrm').submit(function () {
 		$.ajax(
 				{   url: '<?php echo $form['form_open']->action; ?>',
