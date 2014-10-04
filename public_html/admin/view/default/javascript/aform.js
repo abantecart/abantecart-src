@@ -44,7 +44,7 @@
             autoHide:true,
             save_url:'',
             processing_txt: 'Processing ...',
-            saved_txt: 'Saved'
+            saved_txt: 'Saved',
         },
         wrapper:'<div class="form-group" />',
         mask:'<div class="input-group afield" />'
@@ -327,7 +327,8 @@
             $field.bind({
                 "change.aform":function () {
                     $field.removeClass(o.activeClass);
-                    onChangedAction($field, $(this).val(), $(this).attr('data-orgvalue'));
+    				var optionSelected = $("option:selected", this);
+                    onChangedAction($field, $(optionSelected).val(), $(optionSelected).attr('data-orgvalue'));
                 },
                 "focus.aform":function () {
                     $field.addClass(o.focusClass);
@@ -350,7 +351,8 @@
                         $(o.btnGrpSelector, $wrapper).find('a:eq(0)').trigger('click');
                     } else {
                         $field.removeClass(o.activeClass);
-                        onChangedAction($field, $(this).val(), $(this).attr('data-orgvalue'));
+	    				var optionSelected = $("option:selected", this);
+                        onChangedAction($field, $(optionSelected).val(), $(optionSelected).attr('data-orgvalue'));
                     }
                 }
             });
@@ -380,7 +382,7 @@
 		    } else {
 		    	$field.find('.btn-default').addClass('btn-off');
 		    }
-			//toggle buttons
+			//togle buttons
 		    $field.find('.btn').toggleClass('active');  
 		    if ($field.find('.btn-primary').size() > 0) {
 		    	$field.find('.btn').toggleClass('btn-primary');
@@ -399,7 +401,7 @@
 		   	return false;    
 		}
 
-        //Wrap grid head/footer form field elements
+        //Wrapp grid head/footer form filed elements
         $.aform.styleGridForm = function (elem) {
             var $field = $(elem);
             
@@ -462,6 +464,12 @@
                 	    return false;
                 	}
                 });
+
+				//check if select box and value is returned. 
+				if ( $field.is("select") && orgvalue && orgvalue == "true" ) {
+					value = orgvalue;
+					$changed = 0;
+				}	
 
                 if ((String(value) != String(orgvalue) || $changed > 0)) {
 					//mark filed chaneged
@@ -588,10 +596,11 @@
 			         $(o.btnGrpSelector, $btncontainer).remove();
 			         $('.field_err', $btncontainer).remove();
 			         $btncontainer.removeClass('quicksave');
-			     	//remove button container if it is empty
-			     	if( ($btncontainer.text()).length == 0 ){
-			     		$btncontainer.remove();
-			     	}
+			     	 //remove button container if it is empty
+			     	 if( ($btncontainer.text()).length == 0 ){
+			     	 	//do not remove for now. Isues in country/zones
+			     		//$btncontainer.remove();
+			     	 }
 			     }
 			 });
 			
@@ -601,6 +610,12 @@
 		//Remove Quick Save buttons and all related
 		function removeQuickSave(elem){
             var $field = $(elem);
+			var $wrapper = $(elem).closest('.afield');
+			//remove all changed states (case with multiple elements in 1 set)
+			$wrapper.find('input, textarea, select').each(function () {
+				$e = $(this);
+				$e.removeClass(o.changedClass);
+			});
             //locate btn container if it is present
             var $btncontainer = $field.closest('div').find(o.btnContainer);
 			if ($btncontainer.length == 0) {
@@ -611,8 +626,9 @@
 			$btncontainer.removeClass('quicksave');
 			//remove button container if it is empty
 			if( ($btncontainer.text()).length == 0 ){
-				$btncontainer.remove();
-			}
+				//do not remove for now. Isues in country/zones
+				//$btncontainer.remove();
+			}			
 		}
 
 		function saveField(elem, url) {		
@@ -746,7 +762,7 @@
     				//alert($elem.parent().html());
     				$elem.parent().find('*').removeClass('changed');
     			});
-			}
+			},
   		});
 				
 		/* Process each form's element */
@@ -904,6 +920,3 @@ var resetAForm = function(selector){
 		$field.removeClass('changed');
 	});
 }
-
-
-

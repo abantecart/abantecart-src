@@ -108,8 +108,7 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
-$('#store_description<?php echo $content_language_id; ?>description').parents('.afield').removeClass('mask2');
-CKEDITOR.replace('store_description<?php echo $content_language_id; ?>description', {
+CKEDITOR.replace('store_description[<?php echo $content_language_id; ?>][description]', {
 	filebrowserBrowseUrl : false,
     filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
     filebrowserWindowWidth : '920',

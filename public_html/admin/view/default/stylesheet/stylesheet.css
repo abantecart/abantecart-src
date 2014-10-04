@@ -2307,9 +2307,6 @@ body.stickyheader .sticky_left {
     border-color: #ADADAD !important;
     color: #333333 !important;
 }
-.btn-xs {
-    padding: 1px 8px;
-}
 
 /***** Retina Resolution Logo  *****/
 @media all and (min-device-pixel-ratio : 2) {

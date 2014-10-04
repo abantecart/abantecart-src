@@ -349,6 +349,12 @@ h4, .h4 {
    -webkit-box-shadow: none;
    box-shadow: none;
 }
+.btn-xs {
+    padding: 1px 8px;
+}
+.content_language .btn-xs {
+	padding: 5px 8px;
+}
 
 .badge {
    -moz-border-radius: 2px;
@@ -655,6 +661,12 @@ h4, .h4 {
    border-radius: 2px;
    font-size: 13px;
    background-color: #f7f7f7;
+}
+
+.input-group-addon:empty{
+	padding: 0;
+	border: 0;
+	width: 0;
 }
 
 .input-group-lg > .form-control,

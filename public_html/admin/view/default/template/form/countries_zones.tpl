@@ -9,11 +9,15 @@
 
 <?php if ( $required == 'Y' ){ ?>
 	<span class="input-group-addon"><span class="required">*</span></span>
+<?php } else { ?>
+	<span class="input-group-addon"></span>
 <?php } ?>
 <select name="<?php echo $zone_field_name; ?>" id="<?php echo $id ?>_zones" class="form-control aselect ml10 <?php echo $style; ?>"></select>
 <?php if ( $required == 'Y' ){ ?>
 	<span class="input-group-addon"><span class="required">*</span></span>
-<?php }?>
+<?php } else { ?>
+	<span class="input-group-addon"></span>
+<?php } ?>
 
 <script type="text/javascript">	
 	<?php 
