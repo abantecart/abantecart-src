@@ -1,8 +1,6 @@
 <section>
 
-	<?php if ($error['warning']) { ?>
-	<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
-	<?php } ?>
+	<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 	<?php if ($show_instructions) { ?>
 	<div class="alert alert-success"><?php echo $text_instructions; ?>

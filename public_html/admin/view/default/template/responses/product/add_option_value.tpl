@@ -1,13 +1,6 @@
-
 <h2><?php echo $text_form_title; ?></h2>
 
-<?php if ( !empty($error['warning']) ) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
-
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 	<?php echo $form['form_open']; ?>
 

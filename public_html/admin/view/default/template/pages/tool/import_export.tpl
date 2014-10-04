@@ -1,9 +1,5 @@
-<?php if ( !empty($error) ) { ?>
-	<div class="warning alert alert-error alert-danger"><?php echo $error; ?></div>
-<?php } ?>
-<?php if ( !empty($success) ) { ?>
-	<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+
 <?php if ( isset($results) ) { ?>
 
 	<?php if ( isset($results['sql']) ): ?>

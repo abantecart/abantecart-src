@@ -73,10 +73,10 @@ class ControllerPagesToolImportExport extends AController {
 
 
 		if ( isset($this->session->data['error']) ) {
-			$this->data['error'] = $this->session->data['error'];
+			$this->data['error_warning'] = $this->session->data['error'];
 			unset($this->session->data['error']);
 		} else {
-			$this->data['error'] = $this->errors;
+			$this->data['error_warning'] = $this->errors;
 		}
 		$this->data['success'] = $this->success;
 		

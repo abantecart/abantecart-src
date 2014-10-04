@@ -35,12 +35,9 @@
 		</div>
 	</div>
 </div>
-<?php if ($error_warning) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+
 <?php echo $resources_scripts ?>
 <div class="contentBox">
 <div class="cbox_tl">

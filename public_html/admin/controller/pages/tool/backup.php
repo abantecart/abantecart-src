@@ -103,12 +103,12 @@ class ControllerPagesToolBackup extends AController {
 		}
 
 		if (isset($this->error['warning'])) {
-			$this->data['error']['warning'] = $this->error['warning'];
+			$this->data['error_warning'] = $this->error['warning'];
 		} elseif ($this->session->data['error']) {
-			$this->data['error']['warning'] = $this->session->data['error'];
+			$this->data['error_warning'] = $this->session->data['error'];
 			unset($this->session->data['error']);
 		} else {
-			$this->data['error']['warning'] = '';
+			$this->data['error_warning'] = '';
 		}
 
 		if (isset($this->session->data['success'])) {

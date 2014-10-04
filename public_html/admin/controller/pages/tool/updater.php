@@ -49,7 +49,7 @@ class ControllerPagesToolUpdater extends AController {
 		$this->data['column_action'] = $this->language->get('column_action');
 		$this->data['column_version'] = $this->language->get('column_version');
 		$this->data['column_new_version'] = $this->language->get('column_new_version');
-		$this->data['error'] = null;
+		$this->data['error_warning'] = null;
 		$this->data['text_nothing_todo'] = $this->data['success'] = '';
 		
 		if ( isset($this->session->data['success']) ) {
@@ -60,7 +60,7 @@ class ControllerPagesToolUpdater extends AController {
 		}
 		
 		if ( isset($this->session->data['error']) ) {
-			$this->data['error'] = is_array($this->session->data['error']) ? implode("</br>",$this->session->data['error']) : $this->session->data['error'];
+			$this->data['error_warning'] = is_array($this->session->data['error']) ? implode("</br>",$this->session->data['error']) : $this->session->data['error'];
 			unset($this->session->data['error']);
 		}
 		

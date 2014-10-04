@@ -63,7 +63,7 @@ class ControllerPagesCatalogProductPromotions extends AController {
 		  
 		$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);  
 
-		$this->view->assign('error', $this->error);
+		$this->view->assign('error_warning', $this->error['warning'] = implode('<br>', $this->error));
 		$this->view->assign('success', $this->session->data['success']);
 		if (isset($this->session->data['success'])) {
 			unset($this->session->data['success']);

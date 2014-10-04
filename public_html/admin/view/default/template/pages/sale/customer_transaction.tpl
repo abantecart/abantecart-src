@@ -1,9 +1,4 @@
-<?php if ($error_warning) { ?>
-	<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-	<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 <div class="row">
 	<div class="col-sm-12 col-lg-12">
@@ -125,27 +120,5 @@
 			});
 		});
 	});
-
-
-	function ajaxReplace(data){
-		var html = '';
-		if(data.error!=undefined){
-			$('#popup_text').before('<div class="warning alert alert-error alert-danger">'+data.error+'</div>');
-		}
-		if(data.fields){
-			for(var f in data.fields){
-				html += '<tr><td>'+ data.fields[f].text + '</td><td>' + data.fields[f].field + '</td></tr>';
-			}
-		}
-
-		$('#popup_text').html(html);
-        $("#popup_text input, #popup_text  select, #popup_text textarea").aform({triggerChanged: true, showButtons: false, autoHide:false });
-
-		if( $('#transaction_form_transaction_type1').val()=='' && $('#transaction_form_transaction_type0').val()!='' ){
-			$('#transaction_form_transaction_type1').val('').parents('tr').hide();
-		}
-
-	}
-
 
 </script>

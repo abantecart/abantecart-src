@@ -1,10 +1,4 @@
-<?php if ( !empty($error['warning']) ) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
-
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 <div class="contentBox">
   <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">

@@ -1,14 +1,4 @@
-<?php if ($error) {
-	$error = (array)$error;
-	foreach ($error as $text) {
-		?>
-		<div class="warning alert alert-error alert-danger"><?php echo $text; ?></div>
-
-	<?php }
-} ?>
-<?php if ($success) { ?>
-	<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 <?php echo $summary_form; ?>
 <?php echo $product_tabs ?>

@@ -41,7 +41,7 @@ class ControllerPagesSaleOrderSummary extends AController {
     	$order_info = $this->model_sale_order->getOrder($order_id);
 
 		if (empty($order_info)) {
-			$this->data['error'] = $this->language->get('error_order_load');
+			$this->data['error_warning'] = $this->language->get('error_order_load');
 		} else {
 			$this->data['order'] = array(
 				'order_id' => '#'.$order_info['order_id'],
