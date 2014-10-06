@@ -629,5 +629,9 @@
 		<key>text_off</key>
 		<value><![CDATA[OFF]]></value>
 	</definition>
+	<definition>
+		<key>text_external_help</key>
+		<value><![CDATA[External Help]]></value>
+	</definition>
 	
 </definitions>

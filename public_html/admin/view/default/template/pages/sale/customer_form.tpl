@@ -39,7 +39,7 @@
 				</ul>
 			</div>
 			<div class="btn-group ml20">
-				<a class="itemopt tooltips" data-original-title="<?php echo $text_add_address; ?>" title="<?php echo $text_add_address; ?>" href="<?php echo $add_address_url; ?>"><i class="fa fa-plus-circle fa-lg fa-2x"></i></a>
+				<a class="actionitem tooltips" data-original-title="<?php echo $text_add_address; ?>" title="<?php echo $text_add_address; ?>" href="<?php echo $add_address_url; ?>"><i class="fa fa-plus-circle fa-lg fa-2x"></i></a>
 			</div>
 
 		<div class="pull-right">

@@ -33,7 +33,7 @@
 				?>
 			</li>
 			<li>
-				<a class="itemopt" title="<?php echo $button_reset; ?>" href="<?php echo $reset; ?>"><i
+				<a class="actionitem" title="<?php echo $button_reset; ?>" href="<?php echo $reset; ?>"><i
 							class="fa fa-refresh"></i></a>
 			</li>
 

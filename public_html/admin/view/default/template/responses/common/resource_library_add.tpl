@@ -44,7 +44,7 @@
 				$active = $current_type==$rl_type['type_name'] || (!$current_type && $rl_type['type_name']=='image') ? 'active' : '';
 				?>
 	        <li class="<?php echo $active; ?>" data-type="<?php echo $rl_type['type_name']; ?>">
-				  <a class="itemopt tooltips"
+				  <a class="actionitem tooltips"
 					 onclick="return false;"
 					 href="#"><i class="fa <?php echo $icon; ?>"></i> <?php echo $rl_type['type_name']; ?>
 				  </a>

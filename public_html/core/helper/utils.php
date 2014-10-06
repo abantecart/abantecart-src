@@ -511,7 +511,7 @@ function getExtensionConfigXml($extension_txt_id) {
 	$filename = DIR_EXT . $extension_txt_id . '/config.xml';
 	$ext_configs = simplexml_load_file($filename);
 
-	if($ext_configs===false){
+	if($ext_configs === false){
 		$err_text = 'Error: cannot to load config.xml of extension '.$extension_txt_id.'.';
 		$error = new AError($err_text);
 		$error->toLog()->toDebug()->toMessages();

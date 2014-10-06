@@ -1,33 +1,28 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 <?php echo $setting_tabs ?>
-<div class="tab-content">
+<div class="panel panel-default tab-content">
 	<div class="panel-heading">
-			<?php echo $text_edit_store_settings; ?>
-			<div class="btn-group">
-				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-					<i class="fa fa-folder-o"></i>
-					<?php echo $current_store; ?> <span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					<?php foreach ($stores as $store) { ?>
-						<li><a href="<?php echo $store['href'] ?>"
-							   class="<?php echo $store['name'] == $current_store ? 'disabled' : ''; ?>"><?php echo $store['name'] ?></a>
-						</li>
-					<?php } ?>
-				</ul>
-			</div>
-		<?php if($store_id>0){ ?>
-			<a class="itemopt  tooltips" title="<?php echo $edit_store_button->title; ?>" href="<?php echo $edit_store_button->href; ?>"><i class="fa fa-edit fa-2x"></i></a>
-		<?php } ?>
 
-		<a class="itemopt tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>"><i class="fa fa-plus-circle fa-lg fa-2x"></i></a>
+		<div class="primary_content_actions pull-left">	
+		<?php if($store_id > 0){ ?>
+			<div class="btn-group">
+				<a  class="btn btn-primary actionitem tooltips" title="<?php echo $edit_store_button->title; ?>" href="<?php echo $edit_store_button->href; ?>">
+				<i class="fa fa-edit fa-lg"></i>
+				</a>
+			</div>	
+		<?php } ?>
+		
+			<div class="btn-group">
+				<a class="btn btn-primary actionitem tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>">
+				<i class="fa fa-plus"></i>
+				</a>
+			</div>
 
 		<?php if($active=='appearance'){?>
-			<?php echo $text_edit_template_settings; ?>
 			<div class="btn-group">
-				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-					<i class="fa fa-folder-o"></i>
+				<button class="btn btn-default dropdown-toggle tooltips" type="button" data-toggle="dropdown" title="<?php echo $text_edit_template_settings; ?>">
+					<i class="fa fa-image"></i>
 					<?php echo $current_template; ?> <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
@@ -38,30 +33,23 @@
 			</div>
 		<?php } ?>
 
-		<?php echo $this->getHookVar('extension_panel_buttons'); ?>
+			<?php echo $this->getHookVar('extension_panel_buttons'); ?>
 
-		<div class="pull-right">
 			<div class="btn-group mr10 toolbar">
-				<?php
-				//clone template button for developer tools functionality
-				if($active=='appearance'){?>
-					<a class="btn btn-white tooltips"
-					   href="<?php echo $clone_button->href; ?>"
-					   data-toggle="tooltip"
-					   title="<?php echo $clone_button->text; ?>"
-					   data-original-title="<?php echo $clone_button->text; ?>">
-					<i class="fa fa-tags"></i>
-				</a>
-					<?php } ?>
-				<?php echo $this->getHookVar('extension_toolbar_buttons'); ?>
-				<?php if (!empty ($help_url)) : ?>
-				<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
-				<i class="fa fa-question-circle fa-lg"></i>
-				</a>
-				<?php endif; ?>
+			    <?php
+			    //clone template button for developer tools functionality
+			    if($active=='appearance'){?>
+			    	<a class="btn btn-white tooltips"
+			    	   href="<?php echo $clone_button->href; ?>"
+			    	   title="<?php echo $clone_button->text; ?>">
+			    	<i class="fa fa-copy fa-lg"></i>
+			    </a>
+			    <?php } ?>
+			    <?php echo $this->getHookVar('extension_toolbar_buttons'); ?>
 			</div>
-			<?php echo $form_language_switch; ?>
 		</div>
+		
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>			
 	</div>
 
 	<?php echo $form['form_open']; ?>

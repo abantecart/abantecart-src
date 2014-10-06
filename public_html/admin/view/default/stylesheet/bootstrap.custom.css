@@ -583,8 +583,7 @@ h4, .h4 {
    border-bottom: 0;
 }
 
-
-.panel-heading .itemopt .fa {
+.panel-heading .actionitem .fa {
 	vertical-align: middle;
 }
 
@@ -771,6 +770,7 @@ h4, .h4 {
    -moz-border-radius: 2px;
    -webkit-border-radius: 2px;
    border-radius: 2px;
+   margin-bottom: 10px;
 }
 
 .alert .close {

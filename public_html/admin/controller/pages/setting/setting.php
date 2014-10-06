@@ -145,7 +145,7 @@ class ControllerPagesSettingSetting extends AController {
 												'href' => $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active'].'&store_id='.$result['store_id']));
 		}
 
-		$this->data['stores'] = $stores;
+		$this->data['all_stores'] = $stores;
 		$this->data['current_store'] = $stores[(int)$this->data['store_id']]['name'];
 
 		$group = $this->data['active'];
@@ -179,6 +179,7 @@ class ControllerPagesSettingSetting extends AController {
 			}else{
 				$href = $this->html->getSecureURL('extension/extensions/edit','&extension=developer_tools');
 			}
+			//NOTE: need to show dibberent icon and message if dev tools extension is not installed
 			$this->data['clone_button'] = $this->html->buildElement(
 					array(
 							'type' => 'button',

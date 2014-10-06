@@ -32,7 +32,6 @@
             <span class="text-muted"><?php echo $text_today_customers; ?></span>
             <h4><?php echo $today_customer_count; ?></h4>
         </div>
-        <div class="icon"></div>   
     </li>
     <li>
     	<div class="icon"><i class="fa fa-comment fa-2x fa-fw"></i></div> 
@@ -40,7 +39,6 @@
             <span class="text-muted"><?php echo $text_today_reviews; ?></span>
             <h4><?php echo $today_review_count; ?></h4>
         </div>
-        <div class="icon"></div>   
     </li>
     <?php echo $this->getHookVar('side_summary_li'); ?>
 </ul>

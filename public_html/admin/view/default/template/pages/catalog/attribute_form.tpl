@@ -19,22 +19,15 @@
 <div class="tab-content">
 
 	<div class="panel-heading">
-
-			<div class="pull-right">
-			    <div class="btn-group mr10 toolbar">
-                    <a class="btn btn-white tooltips" href="<?php echo $clone_url; ?>" data-toggle="tooltip" title="<?php echo $text_clone; ?>" data-original-title="<?php echo $text_clone; ?>">
-                    <i class="fa fa-tags"></i>
-                    </a>
-                    <?php if (!empty ($help_url)): ?>
-                    <a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
-                    <i class="fa fa-question-circle fa-lg"></i>
-                    </a>
-                    <?php endif; ?>
-			    </div>
-
-                <?php echo $form_language_switch; ?>
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+				<a class="btn btn-primary tooltips" href="<?php echo $insert; ?>" title="<?php echo $text_add; ?>">
+				<i class="fa fa-plus"></i>
+				</a>
 			</div>
+		</div>
 
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
 
 	<?php echo $form['form_open']; ?>

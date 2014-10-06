@@ -18,17 +18,17 @@
           <a id="add_resource" class="btn btn-xs btn-default add_resource tooltips" data-original-title="<?php echo $button_add; ?>"  data-type="<?php echo $type; ?>"><i class="fa fa-plus"></i></a>
         </li>
         <li>
-          <a class="itemopt rl_download" data-rl-id="<?php echo $resource['resource_id']; ?>" href="#" onclick="return false;"><i class="fa fa-download"></i></a>
+          <a class="actionitem rl_download" data-rl-id="<?php echo $resource['resource_id']; ?>" href="#" onclick="return false;"><i class="fa fa-download"></i></a>
         </li>
         <?php if ( $resource['mapped_to_current'] ) { ?>
         <li>
-		  <a class="itemopt rl_unlink tooltips" data-rl-id="<?php echo $resource['resource_id']; ?>" onclick="return false;" href="#" data-original-title="<?php echo $txt_unlink_resource; ?>">
+		  <a class="actionitem rl_unlink tooltips" data-rl-id="<?php echo $resource['resource_id']; ?>" onclick="return false;" href="#" data-original-title="<?php echo $txt_unlink_resource; ?>">
 		      <i class="fa fa-unlink"></i>
 		  </a>
         </li>    
         <?php } else if((int)$object_id) { ?>
         <li>
-		  <a class="itemopt rl_link tooltips"
+		  <a class="actionitem rl_link tooltips"
 			 data-rl-id="<?php echo $resource['resource_id']; ?>"
 			 data-type="<?php echo $type; ?>"
 			 onclick="return false;" href="#" data-original-title="<?php echo $txt_link_resource; ?>">
@@ -49,7 +49,7 @@
 				$onclick = "";
 			}
 			?>
-          <a class="itemopt <?php echo $cssclass; ?> rl_delete"
+          <a class="actionitem <?php echo $cssclass; ?> rl_delete"
 			 href="#"
 			 onclick="<?php echo $onclick; ?> return false;"
 			 data-rl-id="<?php echo $resource['resource_id']; ?>"

@@ -24,7 +24,7 @@
 				}
 				?>
 			</li>
-			<li><a class="itemopt" title="<?php echo $insert->title; ?>" href="<?php echo $insert->href; ?>"><i	class="fa fa-plus-circle fa-lg"></i></a></li>
+			<li><a class="actionitem" title="<?php echo $insert->title; ?>" href="<?php echo $insert->href; ?>"><i	class="fa fa-plus-circle fa-lg"></i></a></li>
 			<?php if (!empty ($form_language_switch)) { ?>
 				<li>
 					<?php echo $form_language_switch; ?>

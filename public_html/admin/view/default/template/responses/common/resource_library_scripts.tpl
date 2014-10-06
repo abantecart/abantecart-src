@@ -681,7 +681,7 @@ var bind_rl = function (elm) {
 var enable_menu = function ($obj, enable) {
 
 	if (enable) {
-		$obj.find('.itemopt').removeClass('disabled');
+		$obj.find('.actionitem').removeClass('disabled');
 	} else {
 
 		var ch = false;
@@ -691,7 +691,7 @@ var enable_menu = function ($obj, enable) {
 		});
 
 		if (!ch)
-			$obj.find('.itemopt').addClass('disabled');
+			$obj.find('.actionitem').addClass('disabled');
 	}
 }
 

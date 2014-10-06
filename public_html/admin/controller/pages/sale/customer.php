@@ -92,6 +92,11 @@ class ControllerPagesSaleCustomer extends AController {
 				'current' => true
 		));
 
+		//check if store_id is passed 
+		if ( has_value($this->request->get['store_id'])){
+			$this->session->data['current_store_id'] = $this->request->get['store_id'];
+		}
+
 		if (isset($this->session->data['error'])) {
 			$this->data['error_warning'] = $this->session->data['error'];
 
@@ -253,6 +258,19 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->view->assign('insert', $this->html->getSecureURL('sale/customer/insert'));
 		$this->view->assign('help_url', $this->gen_help_url('customer_listing'));
+
+		//set store selector
+		$stores = array();
+		$stores[0] = array('name' =>$this->language->get('text_default'));
+		$this->loadModel('setting/store');
+		$results = $this->model_setting_store->getStores();
+		foreach ($results as $result) {
+			$stores[$result['store_id']] = array(
+												'name' => $result['alias'],
+												'href' => $this->html->getSecureURL('sale/customer', '&active=' . $this->data['active'].'&store_id='.$result['store_id']));
+		}
+		$this->view->assign('all_stores', $stores);
+		$this->view->assign('current_store', $stores[(int)$this->session->data['current_store_id']]['name']);
 
 		$this->processTemplate('pages/sale/customer_list.tpl');
 

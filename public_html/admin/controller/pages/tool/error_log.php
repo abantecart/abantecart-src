@@ -80,9 +80,9 @@ strtoupper($this->language->get('text_file_tail')).DIR_LOGS."
 			$log = '';
 		}
 
-		$log = htmlentities(str_replace(array('<br/>','<br />'),"\n",$log), ENT_QUOTES, 'UTF-8');
-
-		$lines = explode("\n", $log);
+		$log = htmlentities(str_replace(array('<br/>','<br />'),"\n",$log), ENT_QUOTES, 'UTF-8');	
+		//filter empty string
+		$lines = array_filter( explode("\n", $log), 'strlen' );
 		unset($log);
 		$k=0;
 		foreach($lines as $line){

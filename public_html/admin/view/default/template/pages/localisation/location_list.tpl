@@ -33,7 +33,7 @@
 				?>
 			</li>
 			<li>
-				<a class="itemopt" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>"><i
+				<a class="actionitem" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>"><i
 							class="fa fa-plus-circle fa-lg"></i></a>
 			</li>
 

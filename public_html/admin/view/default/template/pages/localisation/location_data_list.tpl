@@ -32,7 +32,7 @@
 				}
 				?>
 			</li>
-			<li><a class="itemopt" title="<?php echo $button_insert; ?>" href="<?php echo $insert_location; ?>"><i class="fa fa-plus-circle fa-lg"></i></a></li>
+			<li><a class="actionitem" title="<?php echo $button_insert; ?>" href="<?php echo $insert_location; ?>"><i class="fa fa-plus-circle fa-lg"></i></a></li>
 
 			<?php if (!empty ($form_language_switch)) { ?>
 				<li>

@@ -66,17 +66,17 @@ foreach ($pages as $page) {
         </div>
       </li>
       <li>
-        <a class="itemopt" href="<?php echo $current_url; ?>"><i class="fa fa-refresh"></i> Reload</a>
+        <a class="actionitem" href="<?php echo $current_url; ?>"><i class="fa fa-refresh"></i> Reload</a>
       </li>
       <li>
-        <a class="itemopt layout-form-save" href="<?php echo $page_url; ?>"><i class="fa fa-save"></i> Save</a>
+        <a class="actionitem layout-form-save" href="<?php echo $page_url; ?>"><i class="fa fa-save"></i> Save</a>
       </li>
       <li>
-        <a class="itemopt layout-form-preview" href="<?php echo $generate_preview_url; ?>"><i class="fa fa-search"></i> Preview</a>
+        <a class="actionitem layout-form-preview" href="<?php echo $generate_preview_url; ?>"><i class="fa fa-search"></i> Preview</a>
       </li>
       <?php if ($current_ok_delete) { ?>
       <li>
-        <a class="itemopt delete_page_layout" href="<?php echo $page_delete_url; ?>"><i class="fa fa-trash-o"></i> Delete current page layout</a>
+        <a class="actionitem delete_page_layout" href="<?php echo $page_delete_url; ?>"><i class="fa fa-trash-o"></i> Delete current page layout</a>
       </li>
       <?php } ?>
     </ul>

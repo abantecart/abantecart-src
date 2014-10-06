@@ -1,70 +1,49 @@
-<?php if ($error_warning) { ?>
-	<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-	<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="row">
-	<div class="col-sm-12 col-lg-12">
-		<ul class="content-nav">
-			<li>
-				<?php
-				if (!empty($search_form)) {
-				?>
-				<form id="<?php echo $search_form['form_open']->name; ?>"
-					  method="<?php echo $search_form['form_open']->method; ?>"
-					  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
+<div id="content" class="tab-content col-xs-12">
 
-					<?php
-					foreach ($search_form['fields'] as $n=>$f) {
-						if($n=='store_selector'){ ?>
-						<div class="form-group">
-							<div class="input-group input-group-sm">
-								<?php echo $text_select_store; ?>
-							</div>
-						</div>
-						<?php } ?>
-						<div class="form-group">
-							<div class="input-group input-group-sm">
-								<?php echo $f; ?>
-							</div>
-						</div>
-					<?php } ?>
-					<div class="form-group">
-						<a class="btn btn-xs btn-primary" href="<?php echo $btn_extensions_store->href;?>"><i class="fa fa-arrows-alt"></i><?php echo $btn_extensions_store->text ?></a>
-						<a class="btn btn-xs btn-primary" href="<?php echo $btn_add_new->href;?>"><i class="fa fa-step-forward"></i><?php echo $btn_add_new->text ?></a>
-					</div>
-					<?php
-					}
-					?>
-				</form>
-			</li>
+	<div class="panel-heading col-xs-12">	
+		<div class="btn-group">
+			<?php
+			if (!empty($search_form)) {
+			?>
+			<form id="<?php echo $search_form['form_open']->name; ?>"
+			      method="<?php echo $search_form['form_open']->method; ?>"
+			      name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
 
-			<?php if (!empty ($form_language_switch)) { ?>
-				<li>
-					<?php echo $form_language_switch; ?>
-				</li>
-			<?php } ?>
-			<?php if (!empty ($help_url)) { ?>
-				<li>
-					<div class="help_element">
-						<a href="<?php echo $help_url; ?>" target="new">
-							<i class="fa fa-question-circle fa-lg"></i>
-						</a></div>
-				</li>
-			<?php } ?>
-		</ul>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-sm-12 col-lg-12">
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<?php echo $listing_grid; ?>
-			</div>
+			    <?php
+			    foreach ($search_form['fields'] as $n=>$f) {
+			    	if($n=='store_selector'){ ?>
+			    	<div class="form-group">
+			    		<div class="input-group">
+			    			<?php echo $text_select_store; ?>
+			    		</div>
+			    	</div>
+			    	<?php } ?>
+			    	<div class="form-group">
+			    		<div class="input-group">
+			    			<?php echo $f; ?>
+			    		</div>
+			    	</div>
+			    <?php } ?>
+			    <div class="form-group">
+			    	<a class="btn btn-primary" href="<?php echo $btn_extensions_store->href;?>">
+			    		<i class="fa fa-arrows-alt fa-fw"></i> <?php echo $btn_extensions_store->text ?>
+			    	</a>
+			    	<a class="btn btn-primary" href="<?php echo $btn_add_new->href;?>">
+			    		<i class="fa fa-step-forward fa-fw"></i> <?php echo $btn_add_new->text ?>
+			    	</a>
+			    </div>
+			    <?php
+			    }
+			    ?>
+			</form>
 		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>		
+	</div>
+	
+	<div class="panel-body panel-body-nopadding col-xs-12">
+		<?php echo $listing_grid; ?>
 	</div>
 </div>
 

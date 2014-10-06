@@ -20,16 +20,16 @@
 				</ul>
 			</div>
 			<?php if($store_id>0){ ?>
-				<a class="itemopt  tooltips" title="<?php echo $edit_store_button->title; ?>" href="<?php echo $edit_store_button->href; ?>"><i class="fa fa-edit fa-2x"></i></a>
+				<a class="actionitem  tooltips" title="<?php echo $edit_store_button->title; ?>" href="<?php echo $edit_store_button->href; ?>"><i class="fa fa-edit fa-2x"></i></a>
 			<?php } ?>
 			<?php if($delete_store_button){ ?>
-				<a class="itemopt  tooltips"
+				<a class="actionitem  tooltips"
 				   title="<?php echo $delete_store_button->title; ?>"
 				   href="<?php echo $delete_store_button->href; ?>"
 				   data-confirmation="delete"
 					><i class="fa fa-trash-o fa-2x"></i></a>
 			<?php } ?>
-			<a class="itemopt tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>"><i class="fa fa-plus-circle fa-lg fa-2x"></i></a>
+			<a class="actionitem tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>"><i class="fa fa-plus-circle fa-lg fa-2x"></i></a>
 			<div class="pull-right">
 				<div class="btn-group mr10 toolbar">
 					<?php if (!empty ($help_url)) : ?>

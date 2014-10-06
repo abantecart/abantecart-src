@@ -33,7 +33,7 @@
 				?>
 			</li>
 			<li>
-				<a class="itemopt tooltips" data-original-title="<?php echo $button_insert; ?>" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>">
+				<a class="actionitem tooltips" data-original-title="<?php echo $button_insert; ?>" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>">
 					<i class="fa fa-plus-circle fa-lg"></i>
 				</a>
 			</li>

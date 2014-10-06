@@ -45,7 +45,7 @@
 			</div>
 
 			<div class="side_summary">
-				<?php include($template_dir . '/template/common/summary.tpl'); ?>
+				<?php include($tpl_common_dir . 'summary.tpl'); ?>
 			</div>
 			<!-- side_summary -->
 

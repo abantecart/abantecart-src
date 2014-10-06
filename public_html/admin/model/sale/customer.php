@@ -393,6 +393,9 @@ class ModelSaleCustomer extends Model {
 		if (has_value($filter['date_added'])) {
 			$implode[] = "DATE(c.date_added) = DATE('" . $this->db->escape($filter['date_added']) . "')";
 		}
+		if( has_value($this->session->data['current_store_id']) ) {
+			$implode[] =  "c.store_id = " . (int)$this->session->data['current_store_id'];
+		}
 		
 		if ($implode) {
 			$sql .= " WHERE " . implode(" AND ", $implode);
@@ -517,9 +520,14 @@ class ModelSaleCustomer extends Model {
 	}
 	
 	public function getCustomersByNewsletter() {
+		$store_based = '';
+		if( has_value($this->session->data['current_store_id']) ) {
+			$store_based = " and store_id = " . (int)$this->session->data['current_store_id'];
+		}
+
 		$query = $this->db->query("SELECT *
 									FROM " . $this->db->table("customers") . "
-									WHERE newsletter = '1'
+									WHERE newsletter = '1' $store_based
 									ORDER BY firstname, lastname, email");
 	
 		$result_rows = array();
@@ -534,11 +542,16 @@ class ModelSaleCustomer extends Model {
 	 * @return array
 	 */
 	public function getCustomersByKeyword($keyword) {
+		$store_based = '';
+		if( has_value($this->session->data['current_store_id']) ) {
+			$store_based = " and store_id = " . (int)$this->session->data['current_store_id'];
+		}
+
 		if ($keyword) {
 			$query = $this->db->query("SELECT *
 									   FROM " . $this->db->table("customers") . "
 									   WHERE LCASE(CONCAT(firstname, ' ', lastname)) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'
-									        OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'
+									        OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%' $store_based
 									   ORDER BY firstname, lastname, email");
 	
 			$result_rows = array();
@@ -555,6 +568,11 @@ class ModelSaleCustomer extends Model {
 	 * @return array
 	 */
 	public function getCustomersByEmails($emails) {
+		$store_based = '';
+		if( has_value($this->session->data['current_store_id']) ) {
+			$store_based = " and store_id = " . (int)$this->session->data['current_store_id'];
+		}
+
 		$emails = (array)$emails;
 		if ($emails) {
 			$sql = "SELECT *
@@ -563,7 +581,7 @@ class ModelSaleCustomer extends Model {
 			foreach($emails as $email){
 				$where[] = "LCASE(email) LIKE '%" . $this->db->escape(strtolower($email)) . "%'";
 			}
-			$sql .= implode(' OR ', $where);
+			$sql .= implode(' OR ', $where) . $store_based;
 			$sql .= "ORDER BY firstname, lastname, email";
 
 			$query = $this->db->query($sql);

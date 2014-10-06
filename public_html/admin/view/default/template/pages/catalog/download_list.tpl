@@ -33,7 +33,7 @@
 				?>
 			</li>
 			<li>
-				<a class="itemopt tooltips"
+				<a class="actionitem tooltips"
 				   title="<?php echo $button_insert->text; ?>"
 				   href="<?php echo $button_insert->href; ?>"
 				   data-target="#download_modal"

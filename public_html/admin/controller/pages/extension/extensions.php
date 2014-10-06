@@ -224,8 +224,8 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->data['license_url'] = $this->html->getSecureURL('listing_grid/extension/license');
 		$this->data['dependants_url'] = $this->html->getSecureURL('listing_grid/extension/dependants');
 
-		$this->view->assign('help_url', $this->html->getSecureURL('listing_grid/extension/license')) ;
-		$this->view->assign('extension_edit_url', $this->gen_help_url('extension_listing'));
+		$this->view->assign('extension_edit_url', $this->html->getSecureURL('listing_grid/extension/license')) ;
+		$this->view->assign('help_url', $this->gen_help_url('extension_listing'));
 
 		$this->view->assign ( 'search_form', $grid_search_form );
 		$this->view->batchAssign($this->data);

@@ -466,9 +466,17 @@
                 });
 
 				//check if select box and value is returned. 
-				if ( $field.is("select") && orgvalue && orgvalue == "true" ) {
-					value = orgvalue;
+				if ( $field.is("select") ) {
+		        	//for select data-orgvalue is present in each option regardles of multiselect or single
 					$changed = 0;
+		            $field.find('option').each(function () {
+		                if ( $(this).attr('data-orgvalue') === "true" && $(this).attr('selected') != 'selected') {
+		                	$changed++;
+		                } else if ($(this).attr('data-orgvalue') === "false" && $(this).attr('selected') == 'selected') {
+		                	$changed++;		                
+		                }
+		            });		            
+					value = orgvalue;
 				}	
 
                 if ((String(value) != String(orgvalue) || $changed > 0)) {
@@ -555,8 +563,9 @@
 		//Show Quick Save buttons and all related
 		function showQuickSave(elem){
             var $field = $(elem);
+            var $wrapper = $(elem).closest('.afield');
             //locate btn container if it is present
-            var $btncontainer = $field.closest('div').find(o.btnContainer);
+            var $btncontainer = $wrapper.find(o.btnContainer);
 
 			//show quicksave button set only if not yet shown or configured
 			if (!o.showButtons || $btncontainer.find(o.btnGrpSelector).length != 0) {
@@ -565,8 +574,8 @@
 
 			//can not find input-group-addon span button container create new one
 			if ($btncontainer.length == 0) {
-			    $field.closest('div').append(o.btnContainerHTML);
-			    $btncontainer = $field.closest('div').find(o.btnContainer);
+			    $wrapper.append(o.btnContainerHTML);
+			    $btncontainer = $wrapper.find(o.btnContainer);
 			}
 			
 			//add quick save button classes and tooltips	
@@ -610,14 +619,14 @@
 		//Remove Quick Save buttons and all related
 		function removeQuickSave(elem){
             var $field = $(elem);
-			var $wrapper = $(elem).closest('.afield');
+			var $wrapper = $field.closest('.afield');
 			//remove all changed states (case with multiple elements in 1 set)
 			$wrapper.find('input, textarea, select').each(function () {
 				$e = $(this);
 				$e.removeClass(o.changedClass);
 			});
             //locate btn container if it is present
-            var $btncontainer = $field.closest('div').find(o.btnContainer);
+            var $btncontainer = $field.closest('.afield').find(o.btnContainer);
 			if ($btncontainer.length == 0) {
 				return false;
 			}
@@ -725,12 +734,12 @@
 		                    window.location.reload();
 		                }
 						updateOriginalValue($field);	
-						remove_alert(growl);	
-						success_alert(data, true);
 						$field.focus();
 		                $wrapper.parent().removeClass('has-error');
 		                $field.removeClass('has-error');
 		                removeQuickSave($field);
+						remove_alert(growl);	
+						success_alert(data, true);
 		            }
 		        });	
 		    }

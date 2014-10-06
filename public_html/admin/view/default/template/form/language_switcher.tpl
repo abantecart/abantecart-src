@@ -8,7 +8,7 @@
 		} 
 	} 
 ?>
-	<div class="btn-group tooltips" data-original-title="<?php echo $cur_lang['name']; ?>">
+	<div class="btn-group tooltips content_language" data-original-title="<?php echo $cur_lang['name']; ?>">
 	    <button class="btn btn-default btn-xs dropdown-toggle tp-icon" data-toggle="dropdown">
 			  <?php if($cur_lang['image']){  ?>
 			  <img src="<?php echo $cur_lang['image']; ?>" title="<?php echo $cur_lang['name']; ?>" />

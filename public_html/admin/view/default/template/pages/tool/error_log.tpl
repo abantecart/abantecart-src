@@ -9,12 +9,18 @@
 
 	<div class="panel-body panel-body-nopadding">
 		<div class="error-log">
+		<?php if( count($log) ) { ?>
 			<table class="table table-striped">
 			<?php
 				foreach($log as $line){ ?>
 					<tr><td><?php echo $line; ?></td></tr>
 			<?php } ?>
 			</table>
+		<?php } else { ?>
+			<div class="text-center">
+			<h1><i class="fa fa-thumbs-o-up fa-lg"></i></h1>
+			</div>
+		<?php } ?>
 		</div>
 	</div>
 </div><!-- <div class="tab-content"> -->

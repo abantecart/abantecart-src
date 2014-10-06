@@ -61,21 +61,21 @@ if ($action == 'list_object') {
 				</li>
 				<?php if (has_value($active_object)) { ?>
 					<li>
-						<a class="itemopt disabled rl_save_multiple" onclick="return false;" href="#"><i
+						<a class="actionitem disabled rl_save_multiple" onclick="return false;" href="#"><i
 									class="fa fa-save"></i></a>
 					</li>
 				<?php }
 			if($mode!='single'){
 
 				if($action=='list_object'){ ?>
-					<li><a class="itemopt disabled rl_unlink_multiple tooltips" onclick="return false;" href="#"
+					<li><a class="actionitem disabled rl_unlink_multiple tooltips" onclick="return false;" href="#"
 						   data-original-title="<?php echo $txt_unlink_resource; ?>"><i class="fa fa-unlink"></i></a></li>
 				<?php }else{ ?>
-					<li><a class="itemopt disabled rl_link_multiple tooltips" onclick="return false;" href="#"
+					<li><a class="actionitem disabled rl_link_multiple tooltips" onclick="return false;" href="#"
 						   data-original-title="<?php echo $txt_link_resource; ?>"><i class="fa fa-link"></i></a></li>
 				<?php } ?>
 				<li>
-					<a class="itemopt disabled rl_delete_multiple" onclick="multi_action('delete'); return false;" href="#"
+					<a class="actionitem disabled rl_delete_multiple" onclick="multi_action('delete'); return false;" href="#"
 					   data-confirmation="delete"><i class="fa fa-trash-o"></i></a>
 				</li>
 				<?php
