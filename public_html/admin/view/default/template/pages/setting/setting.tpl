@@ -1,10 +1,10 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 <?php echo $setting_tabs ?>
-<div class="panel panel-default tab-content">
-	<div class="panel-heading">
+<div id="content" class="panel panel-default">
 
-		<div class="primary_content_actions pull-left">	
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
 		<?php if($store_id > 0){ ?>
 			<div class="btn-group">
 				<a  class="btn btn-primary actionitem tooltips" title="<?php echo $edit_store_button->title; ?>" href="<?php echo $edit_store_button->href; ?>">
@@ -53,7 +53,7 @@
 	</div>
 
 	<?php echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 
 		<label class="h4 heading"><?php echo $form_title; ?></label>
 			<?php foreach ($form['fields'] as $name => $field) { ?>
@@ -109,7 +109,7 @@
 
 	</div>
 
-	<div class="panel-footer">
+	<div class="panel-footer col-xs-12">
 		<div class="row">
 		   <div class="col-sm-6 col-sm-offset-3 center" >
 		     <button class="btn btn-primary">

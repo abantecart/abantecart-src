@@ -2654,6 +2654,11 @@ body.stickyheader .sticky_left {
       float: none;
       width: auto;
    }
+
+   .common_content_actions {
+   		padding-top: 20px;
+   }   
+   
 }
 
 @media screen and (max-width: 360px) {
@@ -2710,11 +2715,20 @@ body.stickyheader .sticky_left {
    .pagination {
       margin-bottom: 20px;
    }
+   
+   .common_content_actions {
+   		padding-top: 20px;
+   }   
 }
 
 @media screen and (max-width: 320px) {
    .signinpanel,
    .signuppanel {
       width: 310px;
-   }  
+   }
+   
+   .common_content_actions {
+   		padding-top: 20px;
+   }
+     
 }

@@ -74,9 +74,13 @@ class ControllerPagesExtensionExtensions extends AController {
 			$this->data['error_warning'] = '';
 		}
 
+		//set store id based on param or session.
 		$store_id = (int)$this->config->get('config_store_id');
-		if ($this->request->get_or_post('store_id')) {
-			$store_id = $this->request->get_or_post('store_id');
+		if ( has_value($this->request->get_or_post('store_id')) ) {
+			$store_id = (int)$this->request->get_or_post('store_id');
+			$this->session->data['current_store_id'] = (int)$this->request->get_or_post('store_id');
+		} else if ($this->session->data['current_store_id']) {
+			$store_id = (int)$this->session->data['current_store_id'];
 		}
 
 		$grid_settings = array(
@@ -121,20 +125,6 @@ class ControllerPagesExtensionExtensions extends AController {
 			'name' => 'extension_grid_search',
 			'action' => ''));
 
-
-		$stores = array();
-		$this->loadModel('setting/store');
-		$results = $this->model_setting_store->getStores();
-		foreach ($results as $result) {
-			$stores[$result['store_id']] = $result['alias'];
-		}
-
-		$grid_search_form['fields']['store_selector'] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
-			'name' => 'store_selector',
-			'value' => $store_id,
-			'options' => $stores
-		));
 
 		$grid_search_form['submit'] = $form->getFieldHtml(
 				array(
@@ -229,6 +219,17 @@ class ControllerPagesExtensionExtensions extends AController {
 
 		$this->view->assign ( 'search_form', $grid_search_form );
 		$this->view->batchAssign($this->data);
+
+		$stores = array();
+		$this->loadModel('setting/store');
+		$results = $this->model_setting_store->getStores();
+		foreach ($results as $result) {
+			$stores[$result['store_id']] = array(
+												'name' => $result['alias'],
+												'href' => $this->html->getSecureURL('extension/extensions/extensions', '&active=' . $this->data['active'].'&store_id='.$result['store_id']));
+		}
+		$this->view->assign ( 'all_stores', $stores );
+		$this->view->assign('current_store', $stores[(int)$this->session->data['current_store_id']]['name']);
 
 		$this->processTemplate('pages/extension/extensions.tpl');
 		//update controller data
@@ -547,9 +548,6 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->data['back'] = $this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']);
 		$this->data['update'] = $this->html->getSecureURL('listing_grid/extension/update', '&id=' . $extension . '&store_id=' . $store_id);
 		$this->data['dependants_url'] = $this->html->getSecureURL('listing_grid/extension/dependants', '&extension='.$extension);
-
-
-
 
 		if(!$this->extension_manager->validateDependencies($extension,getExtensionConfigXml($extension))){
 			$this->error['warning'] = $this->language->get('error_dependencies');

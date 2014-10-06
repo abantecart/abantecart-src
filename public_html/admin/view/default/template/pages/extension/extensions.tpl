@@ -1,48 +1,50 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div id="content" class="tab-content col-xs-12">
+<div id="content" class="panel panel-default">
 
-	<div class="panel-heading col-xs-12">	
-		<div class="btn-group">
-			<?php
-			if (!empty($search_form)) {
-			?>
-			<form id="<?php echo $search_form['form_open']->name; ?>"
-			      method="<?php echo $search_form['form_open']->method; ?>"
-			      name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
-
-			    <?php
-			    foreach ($search_form['fields'] as $n=>$f) {
-			    	if($n=='store_selector'){ ?>
-			    	<div class="form-group">
-			    		<div class="input-group">
-			    			<?php echo $text_select_store; ?>
-			    		</div>
-			    	</div>
-			    	<?php } ?>
-			    	<div class="form-group">
-			    		<div class="input-group">
-			    			<?php echo $f; ?>
-			    		</div>
-			    	</div>
-			    <?php } ?>
-			    <div class="form-group">
-			    	<a class="btn btn-primary" href="<?php echo $btn_extensions_store->href;?>">
-			    		<i class="fa fa-arrows-alt fa-fw"></i> <?php echo $btn_extensions_store->text ?>
-			    	</a>
-			    	<a class="btn btn-primary" href="<?php echo $btn_add_new->href;?>">
-			    		<i class="fa fa-step-forward fa-fw"></i> <?php echo $btn_add_new->text ?>
-			    	</a>
-			    </div>
-			    <?php
-			    }
-			    ?>
-			</form>
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group">
+				<?php
+				if (!empty($search_form)) {
+				?>
+				<form id="<?php echo $search_form['form_open']->name; ?>"
+				      method="<?php echo $search_form['form_open']->method; ?>"
+				      name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
+	
+				    <?php
+				    foreach ($search_form['fields'] as $n=>$f) {
+				    	if($n=='store_selector'){ ?>
+				    	<div class="form-group">
+				    		<div class="input-group">
+				    			<?php echo $text_select_store; ?>
+				    		</div>
+				    	</div>
+				    	<?php } ?>
+				    	<div class="form-group">
+				    		<div class="input-group">
+				    			<?php echo $f; ?>
+				    		</div>
+				    	</div>
+				    <?php } ?>
+				    <div class="form-group">
+				    	<a class="btn btn-primary" href="<?php echo $btn_extensions_store->href;?>">
+				    		<i class="fa fa-arrows-alt fa-fw"></i> <?php echo $btn_extensions_store->text ?>
+				    	</a>
+				    	<a class="btn btn-primary" href="<?php echo $btn_add_new->href;?>">
+				    		<i class="fa fa-step-forward fa-fw"></i> <?php echo $btn_add_new->text ?>
+				    	</a>
+				    </div>
+				    <?php
+				    }
+				    ?>
+				</form>
+			</div>
 		</div>
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>		
 	</div>
 	
-	<div class="panel-body panel-body-nopadding col-xs-12">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<?php echo $listing_grid; ?>
 	</div>
 </div>
@@ -74,11 +76,7 @@ echo $this->html->buildElement(
 
 
 <script type="application/javascript">
-	$('#extension_grid_search_store_selector').change(function () {
-		location = '<?php echo $this->html->getSecureURL('extension/extensions/extensions'); ?>' + '&store_id=' + $(this).val();
-		return false;
-	});
-/* run after grid load */
+	/* run after grid load */
 	var extension_grid_ready = function(data){
 
 		var userdata = data.userdata;
