@@ -128,11 +128,31 @@ class ControllerPagesExtensionBannerManagerStat extends AController {
 		$this->loadLanguage('banner_manager/banner_manager');
 		$this->document->setTitle( $this->language->get('banner_manager_name_stat') );
 
+
+		$this->document->initBreadcrumb(
+				array(
+						'href' => $this->html->getSecureURL('index/home'),
+						'text' => $this->language->get('text_home'),
+						'separator' => FALSE));
+		$this->document->addBreadcrumb(
+				array(
+						'href' => $this->html->getSecureURL('extension/banner_manager'),
+						'text' => $this->language->get('banner_manager_name'),
+						'separator' => ' :: '));
+
+
 		$this->loadModel('extension/banner_manager');
 		$info = $this->model_extension_banner_manager->getBanner((int)$this->request->get['banner_id']);
 
 		$this->data['heading_title'] = $this->language->get('banner_manager_name_stat') .':  '.$info['name'];
 
+		$this->document->addBreadcrumb(
+						array(
+								'href' => $this->html->getSecureURL('extension/banner_manager_stat','&banner_id='.$this->request->get['banner_id']),
+								'text' => $this->data['heading_title'],
+								'separator' => ' :: ',
+								'current' => true
+						));
 		$this->data['chart_url'] =  $this->html->getSecureURL('extension/banner_manager_chart', '&banner_id='.$this->request->get['banner_id']) ;
 		$options = array(
 						'day' => $this->language->get('text_day'),
@@ -145,7 +165,7 @@ class ControllerPagesExtensionBannerManagerStat extends AController {
 		                                                                'name' => 'range',
 		                                                                'options' => $options,
 		                                                                'value' => 'day'));
-		$this->data['select_range'] = $this->data['select_range']->getHtml();
+
 		$this->data['text_count'] = $this->language->get('text_count');
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/extension/banner_manager_stat_details.tpl' );
