@@ -1,9 +1,15 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="row">
-	<div class="col-sm-12 col-lg-12">
-		<ul class="content-nav">
-			<li>
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+				<a class="actionitem btn btn-primary tooltips"  href="<?php echo $button_insert->href; ?>"
+					data-target="#download_modal" data-toggle="modal" title="<?php echo $button_add; ?>">
+				<i class="fa fa-plus"></i>
+				</a>
+			</div>
 				<?php
 				if (!empty($search_form)) {
 					?>
@@ -31,44 +37,16 @@
 				<?php
 				}
 				?>
-			</li>
-			<li>
-				<a class="actionitem tooltips"
-				   title="<?php echo $button_insert->text; ?>"
-				   href="<?php echo $button_insert->href; ?>"
-				   data-target="#download_modal"
-				   data-toggle="modal"><i class="fa fa-plus-circle fa-lg"></i></a>
-			</li>
-
-			<?php if (!empty ($form_language_switch)) { ?>
-				<li>
-					<?php echo $form_language_switch; ?>
-				</li>
-			<?php } ?>
-			<?php if (!empty ($help_url)) { ?>
-				<li>
-					<div class="help_element">
-						<a href="<?php echo $help_url; ?>" target="new" >
-							<i class="fa fa-question-circle fa-lg"></i>
-						</a></div>
-				</li>
-			<?php } ?>
-		</ul>
-	</div>
-</div>
-
-
-
-<div class="row">
-	<div class="col-sm-12 col-lg-12">
-		<div class="panel panel-default">
-			<div class="panel-body">
-		<?php echo $listing_grid; ?>
-			</div>
 		</div>
-	</div>
-</div>
 
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+	</div>
+
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<?php echo $listing_grid; ?>
+	</div>
+
+</div>
 
 <?php echo $this->html->buildElement(
 		array('type' => 'modal',

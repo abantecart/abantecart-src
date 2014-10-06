@@ -24,20 +24,10 @@
 			<!-- This is only visible to small devices -->
 			<div class="visible-xs hidden-sm hidden-md hidden-lg">
 				<div class="media userlogged">
-					<img src="<?php echo $avatar; ?>" alt="<?php echo $username; ?>"/>
-
-					<div class="media-body">
-						<h4><?php echo $username; ?></h4>
-					</div>
+					<a href="<?php echo $account_edit; ?>">
+					<img class="tooltips" src="<?php echo $avatar; ?>" title="<?php echo $username; ?>"/>
+					</a>
 				</div>
-
-				<h5 class="sidebartitle actitle"><?php echo $last_login; ?></h5>
-				<ul class="nav nav-pills nav-stacked nav-bracket mb30">
-					<li><a href="<?php echo $account_edit; ?>"><i
-									class="fa fa-edit"></i> <?php echo $text_edit_details; ?></a></li>
-					<li><a href="<?php echo $logout; ?>"><i class="fa fa-unlock"></i><?php echo $text_logout; ?></a>
-					</li>
-				</ul>
 			</div>
 
 			<div id="menu_box">

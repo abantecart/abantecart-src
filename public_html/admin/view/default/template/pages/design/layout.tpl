@@ -1,9 +1,4 @@
-<?php if ($error_warning) { ?>
-<div class="alert alert-danger"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 <?php if ($preview_id) { ?>
 <div class="alert alert-info"><?php echo $text_preview_generated; ?> <a href="<?php echo $preview_url; ?>" target="_blank"><?php echo $text_click_here; ?></a></div>
@@ -39,55 +34,68 @@ foreach ($pages as $page) {
 ?>
 
 <?php echo $form_begin; ?>
-<div class="row">
-  <div class="col-sm-12 col-lg-12">
-    <ul class="content-nav">
-      <li>
-        <?php echo $text_select_template; ?>
-        <div class="btn-group">
-          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-            <i class="fa fa-folder-o"></i>
-            <?php echo $tmpl_id; ?> <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <?php echo $template_list; ?>
-          </ul>
-        </div>
-      </li>
-      <li>
-        <div class="btn-group">
-          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-            <i class="fa fa-square-o"></i>
-            <?php echo $current_page['name']; ?> <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <?php echo $page_list; ?>
-          </ul>
-        </div>
-      </li>
-      <li>
-        <a class="actionitem" href="<?php echo $current_url; ?>"><i class="fa fa-refresh"></i> Reload</a>
-      </li>
-      <li>
-        <a class="actionitem layout-form-save" href="<?php echo $page_url; ?>"><i class="fa fa-save"></i> Save</a>
-      </li>
-      <li>
-        <a class="actionitem layout-form-preview" href="<?php echo $generate_preview_url; ?>"><i class="fa fa-search"></i> Preview</a>
-      </li>
-      <?php if ($current_ok_delete) { ?>
-      <li>
-        <a class="actionitem delete_page_layout" href="<?php echo $page_delete_url; ?>"><i class="fa fa-trash-o"></i> Delete current page layout</a>
-      </li>
-      <?php } ?>
-    </ul>
-  </div>
-</div>
 
-<div id="page-layout" class="container-fluid">
-  <?php echo $layoutform; ?>
-  <?php echo $hidden_fields; ?>
-</div>
+<div id="content" class="panel panel-default">
 
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+			  <button class="btn btn-default dropdown-toggle tooltips" type="button" data-toggle="dropdown" title="<?php echo $text_select_template; ?>">
+			    <i class="fa fa-photo"></i>
+			    <?php echo $tmpl_id; ?> <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+			    <?php echo $template_list; ?>
+			  </ul>
+			</div>
+
+			<div class="btn-group mr10 toolbar">
+			  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+			    <i class="fa fa-square-o"></i>
+			    <?php echo $current_page['name']; ?> <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+			    <?php echo $page_list; ?>
+			  </ul>
+			</div>
+
+			<div class="btn-group toolbar">
+				<a class="actionitem btn btn-primary layout-form-save tooltips" href="<?php echo $page_url; ?>" title="<?php echo $button_save; ?>">
+					<i class="fa fa-save fa-fw"></i>
+				</a>
+			</div>
+
+			<div class="btn-group toolbar">
+				<a class="actionitem btn btn-default tooltips" href="<?php echo $current_url; ?>" title="<?php echo $button_reset; ?>">
+					<i class="fa fa-refresh fa-fw"></i>
+				</a>
+			</div>
+
+			<?php if ($current_ok_delete) { ?>
+			<div class="btn-group toolbar">
+				<a class="actionitem btn btn-default delete_page_layout tooltips" href="<?php echo $page_delete_url; ?>" title="<?php echo $button_delete; ?>">
+					<i class="fa fa-trash-o fa-fw"></i>
+				</a>
+			</div>
+			<?php } ?>
+
+			<div class="btn-group mr10 toolbar">
+				<a class="actionitem btn btn-default layout-form-preview tooltips" href="<?php echo $generate_preview_url; ?>" title="<?php echo $button_preview; ?>">
+					<i class="fa fa-eye fa-fw"></i>
+				</a>
+			</div>
+			
+		</div>
+
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+	</div>
+
+	<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<?php echo $layoutform; ?>
+		<?php echo $hidden_fields; ?>
+	</div>
+
+</div>
 </form>
 
 <script type="text/javascript"><!--
