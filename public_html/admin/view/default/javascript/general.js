@@ -495,12 +495,54 @@ function remove_alert(growl) {
 
 //-----------------------------------------
 
-// Error detection wrapper on ajax reply.
+// global error handler.
+// If you don't need to use it in your custom ajax-call set ajax option "global" to "false"
 $(document).ajaxError(function (e, jqXHR, settings, exception) {
 	//If 401 authentication issue redirect for user to login
     if(jqXHR.status == 401){
         window.location.reload();
+        return;
     }
+
+    var gl_error_alert = function (text, autohide) {
+    	if (isModalOpen()) {
+    		error_alert(text, autohide, '.modal-content');
+    	} else {
+    		error_alert(text, autohide);
+    	}
+    }
+
+    var isModalOpen = function () {
+        var result = false;
+        $('div.modal').each(function(){
+           var id = $(this).attr('id');
+
+            if(id!=undefined){
+                if (typeof $('#'+id).data === 'function' && $('#'+id).data('bs.modal') != undefined && $('#'+id).data('bs.modal').isShown) {
+                    result = true;
+                }
+            }
+        });
+
+    	return result;
+    }
+
+    try {
+        var err = $.parseJSON(jqXHR.responseText);
+        if (err.hasOwnProperty("error_text")) {
+            var errors = err.error_text;
+            var errlist = typeof errors === 'string' ? [errors] : errors;
+
+            if (errlist.length > 0) {
+                for (var k in errlist) {
+                    gl_error_alert(errlist[k], false);
+                }
+            }
+        }
+    } catch (e) {
+        gl_error_alert(jqXHR.responseText, false);
+    }
+
 });
 
 
