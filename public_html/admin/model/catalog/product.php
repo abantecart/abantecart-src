@@ -1739,6 +1739,10 @@ class ModelCatalogProduct extends Model {
 					$sql .= " AND (LCASE(pd.name) LIKE '%" . $this->db->escape(mb_strtolower($filter['keyword'])) . "%'";
 					$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(mb_strtolower($filter['keyword'])) . "%'";
 					$sql .= " OR LCASE(p.sku) LIKE '%" . $this->db->escape(mb_strtolower($filter['keyword'])) . "%')";
+				} else if ($match == 'begin') {
+					$sql .= " AND (LCASE(pd.name) LIKE '" . $this->db->escape(mb_strtolower($filter['keyword'])) . "%'";
+					$sql .= " OR LCASE(p.model) LIKE '" . $this->db->escape(mb_strtolower($filter['keyword'])) . "%'";
+					$sql .= " OR LCASE(p.sku) LIKE '" . $this->db->escape(mb_strtolower($filter['keyword'])) . "%')";
 				}
 			}
 

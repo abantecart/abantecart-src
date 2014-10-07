@@ -271,8 +271,9 @@ class ControllerPagesSaleCoupon extends AController {
         $this->data['token'] = $this->session->data['token'];
         $this->data['cancel'] = $this->html->getSecureURL('sale/coupon');
         $this->data['error'] = $this->error;
-        $this->view->assign('category_products', $this->html->getSecureURL('product/product/category'));
-        $this->view->assign('products_list', $this->html->getSecureURL('product/product/products'));
+        $cont_lang_id = $this->session->data['content_language_id'];
+        $this->view->assign('category_products_url', $this->html->getSecureURL('r/product/product/category', '&language_id='.$cont_lang_id));
+        $this->view->assign('products_list_url', $this->html->getSecureURL('r/product/product/products', '&language_id='.$cont_lang_id));
 
         $this->document->initBreadcrumb(array(
             'href' => $this->html->getSecureURL('index/home'),
@@ -361,7 +362,7 @@ class ControllerPagesSaleCoupon extends AController {
             $form = new AForm('ST');
         } else {
             $this->data['action'] = $this->html->getSecureURL('sale/coupon/update', '&coupon_id=' . $this->request->get['coupon_id']);
-            $this->data['heading_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('text_coupon') . ' - ' . $this->data['coupon_description'][$this->session->data['content_language_id']]['name'];
+            $this->data['heading_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('text_coupon') . ' - ' . $this->data['coupon_description'][$cont_lang_id]['name'];
             $this->data['update'] = $this->html->getSecureURL('listing_grid/coupon/update_field', '&id=' . $this->request->get['coupon_id']);
             $form = new AForm('HS');
         }
@@ -408,15 +409,15 @@ class ControllerPagesSaleCoupon extends AController {
 
         $this->data['form']['fields']['name'] = $form->getFieldHtml(array(
             'type' => 'input',
-            'name' => 'coupon_description[' . $this->session->data['content_language_id'] . '][name]',
-            'value' => $this->data['coupon_description'][$this->session->data['content_language_id']]['name'],
+            'name' => 'coupon_description[' . $cont_lang_id . '][name]',
+            'value' => $this->data['coupon_description'][$cont_lang_id]['name'],
             'required' => true,
             'style' => 'large-field',
         ));
         $this->data['form']['fields']['description'] = $form->getFieldHtml(array(
             'type' => 'textarea',
-            'name' => 'coupon_description[' . $this->session->data['content_language_id'] . '][description]',
-            'value' => $this->data['coupon_description'][$this->session->data['content_language_id']]['description'],
+            'name' => 'coupon_description[' . $cont_lang_id . '][description]',
+            'value' => $this->data['coupon_description'][$cont_lang_id]['description'],
             'required' => true,
             'style' => 'large-field',
         ));
@@ -500,12 +501,21 @@ class ControllerPagesSaleCoupon extends AController {
 		    $this->data['form']['fields']['total_coupon_usage'] = (int)$total;
 	    }
 
-
+		//load only selected products 
+		$resource = new AResource('image');
 		$this->data['products'] = array();
-		$this->loadModel('catalog/product');
-		$results = $this->model_catalog_product->getProducts();
-		foreach( $results as $r ) {
-			$this->data['products'][ $r['product_id'] ] = $r['name'];
+		if (count($this->data['coupon_product'])) {
+			$this->loadModel('catalog/product');
+			$filter = array('subsql_filter' => 'p.product_id in (' . implode(',', $this->data['coupon_product']) . ')' );
+			$results = $this->model_catalog_product->getProducts($filter);
+			foreach( $results as $r ) {
+				$thumbnail = $resource->getMainThumb('products',
+												$r['product_id'],
+												(int)$this->config->get('config_image_grid_width'),
+												(int)$this->config->get('config_image_grid_height'),
+												true);
+				$this->data['products'][ $r['product_id'] ] = $thumbnail['thumb_html'] . " " . $r['name'] . " (" . $r['model'] . ")";
+			}
 		}
 
 		$this->data['form']['fields']['product'] = $form->getFieldHtml(
@@ -515,7 +525,7 @@ class ControllerPagesSaleCoupon extends AController {
 																'value' => $this->data['coupon_product'],
 																'options' => $this->data['products'],
 																'style' => 'chosen',
-																'placeholder' => $this->language->get('text_select_from_list'),
+																'placeholder' => $this->language->get('text_select_from_lookup'),
 														));
 
         $this->view->assign('help_url', $this->gen_help_url('coupon_edit'));

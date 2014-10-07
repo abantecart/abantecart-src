@@ -474,6 +474,8 @@
 		                	$changed++;
 		                } else if ($(this).attr('data-orgvalue') === "false" && $(this).attr('selected') == 'selected') {
 		                	$changed++;		                
+		                } else if ( !$(this).attr('data-orgvalue') ) {
+		                	$changed++;		                
 		                }
 		            });		            
 					value = orgvalue;

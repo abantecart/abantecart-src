@@ -31,25 +31,48 @@ class ControllerResponsesProductProduct extends AController {
 
 	public function products() {
 
+		$products = array();
+		$products_data = array();
+
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->loadModel('catalog/product');
-		if (isset($this->request->post[ 'coupon_product' ])) {
-			$products = $this->request->post[ 'coupon_product' ];
-		} else {
-			$products = array();
-		}
-
-		$product_data = array();
-		foreach ($products as $product_id) {
-			$product_info = $this->model_catalog_product->getProduct($product_id);
-			if ($product_info) {
-				$product_data[ ] = array(
-					'product_id' => $product_info[ 'product_id' ],
-					'name' => $product_info[ 'name' ],
-					'model' => $product_info[ 'model' ],
-					'sort_order' => (int)$product_info[ 'sort_order' ]
-				);
+		if (isset($this->request->post['coupon_product'])) {
+			$products = $this->request->post['coupon_product'];
+			foreach ($products as $product_id) {
+				$product_info = $this->model_catalog_product->getProduct($product_id);
+				if ($product_info) {
+					$products_data[ ] = array(
+						'product_id' => $product_info['product_id'],
+						'name' => $product_info['name'],
+						'model' => $product_info['model'],
+						'sort_order' => (int)$product_info['sort_order']
+					);
+				}
+			}
+		} else if (isset($this->request->post['term'])) {
+			$filter = array('limit' => 20, 
+							'content_language_id' => $this->request->get['language_id'],
+							'filter' => array( 
+								'keyword' => $this->request->post['term'],
+								'match' => 'begin'	
+							)); 				
+			$products = $this->model_catalog_product->getProducts($filter);
+			$resource = new AResource('image');
+			foreach ($products as $pdata) {
+				$thumbnail = $resource->getMainThumb('products',
+												$pdata['product_id'],
+												(int)$this->config->get('config_image_grid_width'),
+												(int)$this->config->get('config_image_grid_height'),
+												true);
+				
+					$products_data[ ] = array(
+						'image' => $thumbnail['thumb_html'],
+						'product_id' => $pdata['product_id'],
+						'name' => $pdata['name'],
+						'model' => $pdata['model'],
+						'sort_order' => (int)$pdata['sort_order'],
+					);
 			}
 		}
 
@@ -58,7 +81,7 @@ class ControllerResponsesProductProduct extends AController {
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($product_data));
+		$this->response->setOutput(AJson::encode($products_data));
 	}
 
 	public function update() {
@@ -78,7 +101,7 @@ class ControllerResponsesProductProduct extends AController {
 		$this->loadModel('catalog/product');
 
 		if ($this->request->is_POST()) {
-			$this->model_catalog_product->updateProduct($this->request->get[ 'product_id' ], $this->request->post);
+			$this->model_catalog_product->updateProduct($this->request->get['product_id'], $this->request->post);
 			$result = 'Saved!';
 		}
 
@@ -94,10 +117,10 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->loadModel('catalog/product');
-		$promoton = new APromotion($this->request->get[ 'customer_group_id' ]);
+		$promoton = new APromotion($this->request->get['customer_group_id']);
 
-		if (isset($this->request->get[ 'category_id' ])) {
-			$category_id = $this->request->get[ 'category_id' ];
+		if (isset($this->request->get['category_id'])) {
+			$category_id = $this->request->get['category_id'];
 		} else {
 			$category_id = 0;
 		}
@@ -106,27 +129,27 @@ class ControllerResponsesProductProduct extends AController {
 		$results = $this->model_catalog_product->getProductsByCategoryId($category_id);
 		foreach ($results as $result) {
 
-			$discount = $promoton->getProductDiscount($result[ 'product_id' ]);
+			$discount = $promoton->getProductDiscount($result['product_id']);
 			if ($discount) {
 				$price = $discount;
 			} else {
-				$price = $result[ 'price' ];
-				$special = $promoton->getProductSpecial($result[ 'product_id' ]);
+				$price = $result['price'];
+				$special = $promoton->getProductSpecial($result['product_id']);
 				if ($special) {
 					$price = $special;
 				}
 			}
 
-			if (!empty($this->request->get[ 'currency' ]) && !empty($this->request->get[ 'value' ])) {
-				$price = $this->currency->format((float)$price, $this->request->get[ 'currency' ], $this->request->get[ 'value' ]);
+			if (!empty($this->request->get['currency']) && !empty($this->request->get['value'])) {
+				$price = $this->currency->format((float)$price, $this->request->get['currency'], $this->request->get['value']);
 			} else {
 				$price = $this->currency->format((float)$price);
 			}
 
 			$product_data[ ] = array(
-				'product_id' => $result[ 'product_id' ],
-				'name' => $result[ 'name' ],
-				'model' => $result[ 'model' ],
+				'product_id' => $result['product_id'],
+				'name' => $result['name'],
+				'model' => $result['model'],
 				'price' => $price,
 			);
 		}
@@ -146,8 +169,8 @@ class ControllerResponsesProductProduct extends AController {
 
 		$this->loadModel('catalog/category');
 
-		if (isset($this->request->post[ 'id' ])) { // variant for popup listing
-			$categories = $this->request->post[ 'id' ];
+		if (isset($this->request->post['id'])) { // variant for popup listing
+			$categories = $this->request->post['id'];
 		} else {
 			$categories = array();
 		}
@@ -177,10 +200,10 @@ class ControllerResponsesProductProduct extends AController {
 
 		$this->loadModel('catalog/product');
 
-		if (isset($this->request->post[ 'product_related' ])) {
-			$products = $this->request->post[ 'product_related' ];
-		} elseif (isset($this->request->post[ 'id' ])) { // variant for popup listing
-			$products = $this->request->post[ 'id' ];
+		if (isset($this->request->post['product_related'])) {
+			$products = $this->request->post['product_related'];
+		} elseif (isset($this->request->post['id'])) { // variant for popup listing
+			$products = $this->request->post['id'];
 		} else {
 			$products = array();
 		}
@@ -191,10 +214,10 @@ class ControllerResponsesProductProduct extends AController {
 
 			if ($product_info) {
 				$product_data[ ] = array(
-					'id' => $product_info[ 'product_id' ],
-					'product_id' => $product_info[ 'product_id' ],
-					'name' => $product_info[ 'name' ],
-					'model' => $product_info[ 'model' ],
+					'id' => $product_info['product_id'],
+					'product_id' => $product_info['product_id'],
+					'name' => $product_info['name'],
+					'model' => $product_info['model'],
 					'sort_order' => 0
 				);
 			}
@@ -214,12 +237,12 @@ class ControllerResponsesProductProduct extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->loadModel('catalog/product');
-		$product_options = $this->model_catalog_product->getProductOptions($this->request->get[ 'product_id' ]);
+		$product_options = $this->model_catalog_product->getProductOptions($this->request->get['product_id']);
 
 		$result = array();
 		foreach ($product_options as $option) {
-			$option_name = trim($option[ 'language' ][ $this->language->getContentLanguageID() ][ 'name' ]);
-			$result[ $option[ 'product_option_id' ] ] = $option_name ? $option_name : 'n/a';
+			$option_name = trim($option['language'][ $this->language->getContentLanguageID() ]['name']);
+			$result[ $option['product_option_id'] ] = $option_name ? $option_name : 'n/a';
 		}
 
 		//update controller data
@@ -244,8 +267,8 @@ class ControllerResponsesProductProduct extends AController {
 		}
 		//needs to validate attribute properties
 		// first - prepare data for validation
-		if (!isset($this->request->get[ 'required' ])) {
-			$this->request->get[ 'required' ] = 0;
+		if (!isset($this->request->get['required'])) {
+			$this->request->get['required'] = 0;
 		}
 
 		if (has_value($this->request->get['regexp_pattern'])) {
@@ -256,13 +279,13 @@ class ControllerResponsesProductProduct extends AController {
 
 		$data = $this->request->get;
 		$attribute_manager = new AAttribute_Manager('product_option');
-		$option_info = $this->model_catalog_product->getProductOption($this->request->get[ 'product_id' ],$this->request->get[ 'option_id' ]);
+		$option_info = $this->model_catalog_product->getProductOption($this->request->get['product_id'],$this->request->get['option_id']);
 		$data['element_type'] = $option_info['element_type'];
 		$data['attribute_type_id'] = $attribute_manager->getAttributeTypeID('product_option');
 
 		$errors = $attribute_manager->validateAttributeCommonData($data);
 		if(!$errors){
-			$this->model_catalog_product->updateProductOption($this->request->get[ 'option_id' ], $this->request->get);
+			$this->model_catalog_product->updateProductOption($this->request->get['option_id'], $this->request->get);
 		}else{
 			$error = new AError('');
 			return $error-> toJSONResponse('',
@@ -281,108 +304,108 @@ class ControllerResponsesProductProduct extends AController {
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->loadModel('catalog/product');
 
-		$this->view->assign('success', $this->session->data[ 'success' ]);
-		unset($this->session->data[ 'success' ]);
+		$this->view->assign('success', $this->session->data['success']);
+		unset($this->session->data['success']);
 
-		$this->data[ 'option_data' ] = $this->model_catalog_product->getProductOption(
-			$this->request->get[ 'product_id' ],
-			$this->request->get[ 'option_id' ]
+		$this->data['option_data'] = $this->model_catalog_product->getProductOption(
+			$this->request->get['product_id'],
+			$this->request->get['option_id']
 		);
 
-		$this->data[ 'language_id' ] = $this->language->getContentLanguageID();
-		$this->data[ 'element_types' ] = HtmlElementFactory::getAvailableElements();
-		$this->data[ 'elements_with_options' ] = HtmlElementFactory::getElementsWithOptions();
-		$this->data[ 'selectable' ] = in_array($this->data[ 'option_data' ][ 'element_type' ], $this->data[ 'elements_with_options' ]) ? 1 : 0;
-		$this->data[ 'option_type' ] = $this->data[ 'element_types' ][ $this->data[ 'option_data' ][ 'element_type' ] ][ 'type' ];
+		$this->data['language_id'] = $this->language->getContentLanguageID();
+		$this->data['element_types'] = HtmlElementFactory::getAvailableElements();
+		$this->data['elements_with_options'] = HtmlElementFactory::getElementsWithOptions();
+		$this->data['selectable'] = in_array($this->data['option_data']['element_type'], $this->data['elements_with_options']) ? 1 : 0;
+		$this->data['option_type'] = $this->data['element_types'][ $this->data['option_data']['element_type'] ]['type'];
 
 		$this->attribute_manager = new AAttribute_Manager('product_option');
 
-		$this->data[ 'action' ] = $this->html->getSecureURL('product/product/update_option_values', '&product_id=' . $this->request->get[ 'product_id' ] . '&option_id=' . $this->request->get[ 'option_id' ]);
+		$this->data['action'] = $this->html->getSecureURL('product/product/update_option_values', '&product_id=' . $this->request->get['product_id'] . '&option_id=' . $this->request->get['option_id']);
 
-		$this->data[ 'option_values' ] = $this->model_catalog_product->getProductOptionValues(
-			$this->request->get[ 'product_id' ],
-			$this->request->get[ 'option_id' ]
+		$this->data['option_values'] = $this->model_catalog_product->getProductOptionValues(
+			$this->request->get['product_id'],
+			$this->request->get['option_id']
 		);
 
-		$this->data[ 'option_name' ] = $this->html->buildElement(array(
+		$this->data['option_name'] = $this->html->buildElement(array(
 			'type' => 'input',
 			'name' => 'name',
-			'value' => $this->data[ 'option_data' ][ 'language' ][ $this->data[ 'language_id' ] ][ 'name' ],
+			'value' => $this->data['option_data']['language'][ $this->data['language_id'] ]['name'],
 			'style' => 'medium-field'
 		));
 
-		if(in_array($this->data[ 'option_data' ][ 'element_type' ],HtmlElementFactory::getElementsWithPlaceholder())){
-			$this->data[ 'option_placeholder' ] = $this->html->buildElement(array(
+		if(in_array($this->data['option_data']['element_type'],HtmlElementFactory::getElementsWithPlaceholder())){
+			$this->data['option_placeholder'] = $this->html->buildElement(array(
 				'type' => 'input',
 				'name' => 'option_placeholder',
-				'value' => $this->data[ 'option_data' ][ 'language' ][ $this->data[ 'language_id' ] ][ 'option_placeholder' ],
+				'value' => $this->data['option_data']['language'][ $this->data['language_id'] ]['option_placeholder'],
 				'style' => 'medium-field'
 			));
 		}
 
-		$this->data[ 'status' ] = $this->html->buildElement(array(
+		$this->data['status'] = $this->html->buildElement(array(
 			'type' => 'checkbox',
 			'name' => 'status',
-			'value' => $this->data[ 'option_data' ][ 'status' ],
+			'value' => $this->data['option_data']['status'],
 			'style' => 'btn_switch btn-group-xs',
 		));
-		$this->data[ 'option_sort_order' ] = $this->html->buildElement(array(
+		$this->data['option_sort_order'] = $this->html->buildElement(array(
 			'type' => 'input',
 			'name' => 'sort_order',
-			'value' => $this->data[ 'option_data' ][ 'sort_order' ],
+			'value' => $this->data['option_data']['sort_order'],
 			'style' => 'tiny-field'
 		));
-		$this->data[ 'required' ] = $this->html->buildElement(array(
+		$this->data['required'] = $this->html->buildElement(array(
 			'type' => 'checkbox',
 			'name' => 'required',
-			'value' => $this->data[ 'option_data' ][ 'required' ],
+			'value' => $this->data['option_data']['required'],
 		));
 
-		$this->data[ 'option_regexp_pattern' ] = $this->html->buildElement(array(
+		$this->data['option_regexp_pattern'] = $this->html->buildElement(array(
 			'type' => 'input',
 			'name' => 'regexp_pattern',
-			'value' => $this->data[ 'option_data' ][ 'regexp_pattern' ],
+			'value' => $this->data['option_data']['regexp_pattern'],
 			'style' => 'medium-field'
 		));
 
-		$this->data[ 'option_error_text' ] = $this->html->buildElement(array(
+		$this->data['option_error_text'] = $this->html->buildElement(array(
 			'type' => 'input',
 			'name' => 'error_text',
-			'value' => $this->data[ 'option_data' ][ 'language' ][ $this->data[ 'language_id' ] ][ 'error_text' ],
+			'value' => $this->data['option_data']['language'][ $this->data['language_id'] ]['error_text'],
 			'style' => 'medium-field'
 		));
 
-		$this->data[ 'remove_option' ] = $this->html->getSecureURL('product/product/del_option', '&product_id=' . $this->request->get[ 'product_id' ] . '&option_id=' . $this->request->get[ 'option_id' ]);
+		$this->data['remove_option'] = $this->html->getSecureURL('product/product/del_option', '&product_id=' . $this->request->get['product_id'] . '&option_id=' . $this->request->get['option_id']);
 
-		$this->data[ 'button_remove_option' ] = $this->html->buildElement(array(
+		$this->data['button_remove_option'] = $this->html->buildElement(array(
 			'type' => 'button',
 			'text' => $this->language->get('button_remove_option'),
 			'style' => 'button3',
-			'href' => $this->data[ 'remove_option' ]
+			'href' => $this->data['remove_option']
 		));
-		$this->data[ 'button_save' ] = $this->html->buildElement(array(
+		$this->data['button_save'] = $this->html->buildElement(array(
 			'type' => 'button',
 			'text' => $this->language->get('button_save'),
 			'style' => 'button1',
 		));
-		$this->data[ 'button_reset' ] = $this->html->buildElement(array(
+		$this->data['button_reset'] = $this->html->buildElement(array(
 			'type' => 'button',
 			'text' => $this->language->get('button_reset'),
 			'style' => 'button2',
 		));
 
 
-		$this->data[ 'update_option_values' ] = $this->html->getSecureURL('product/product/update_option_values', '&product_id=' . $this->request->get[ 'product_id' ] . '&option_id=' . $this->request->get[ 'option_id' ]);
+		$this->data['update_option_values'] = $this->html->getSecureURL('product/product/update_option_values', '&product_id=' . $this->request->get['product_id'] . '&option_id=' . $this->request->get['option_id']);
 
 		// form of option values list
 		$form = new AForm('HT');
 		$form->setForm(array( 'form_name' => 'update_option_values' ));
-		$this->data[ 'form' ][ 'id' ] = 'update_option_values';
-		$this->data[ 'update_option_values_form' ][ 'open' ] = $form->getFieldHtml(array(
+		$this->data['form']['id'] = 'update_option_values';
+		$this->data['update_option_values_form']['open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'update_option_values',
 			'attr' => 'data-confirm-exit="true" class="form-horizontal"',
-			'action' => $this->data[ 'update_option_values' ] ));
+			'action' => $this->data['update_option_values'] ));
 
 		//form of option
 		$form = new AForm('HT');
@@ -390,24 +413,24 @@ class ControllerResponsesProductProduct extends AController {
 			'form_name' => 'option_value_form',
 		));
 
-		$this->data[ 'form' ][ 'id' ] = 'option_value_form';
-		$this->data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(array(
+		$this->data['form']['id'] = 'option_value_form';
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'option_value_form',
 			'attr' => 'data-confirm-exit="true"',
-			'action' => $this->data[ 'update_option_values' ]
+			'action' => $this->data['update_option_values']
 		));
 
 		//Load option values rows
-		foreach ($this->data[ 'option_values' ] as $key => $item) {
-			$this->request->get[ 'product_option_value_id' ] = $item[ 'product_option_value_id' ];
-			$this->data[ 'option_values' ][ $key ][ 'row' ] = $this->_option_value_form($form);
+		foreach ($this->data['option_values'] as $key => $item) {
+			$this->request->get['product_option_value_id'] = $item['product_option_value_id'];
+			$this->data['option_values'][ $key ]['row'] = $this->_option_value_form($form);
 		}
 
-		$this->data[ 'new_option_row' ] = '';
-		if (in_array($this->data[ 'option_data' ][ 'element_type' ], $this->data[ 'elements_with_options' ])) {
-			$this->request->get[ 'product_option_value_id' ] = null;
-			$this->data[ 'new_option_row' ] = $this->_option_value_form($form);
+		$this->data['new_option_row'] = '';
+		if (in_array($this->data['option_data']['element_type'], $this->data['elements_with_options'])) {
+			$this->request->get['product_option_value_id'] = null;
+			$this->data['new_option_row'] = $this->_option_value_form($form);
 		}
 
 		$this->view->batchAssign($this->data);
@@ -432,7 +455,7 @@ class ControllerResponsesProductProduct extends AController {
 
 		$this->loadLanguage('catalog/product');
 		$this->loadModel('catalog/product');
-		$this->model_catalog_product->deleteProductOption($this->request->get[ 'product_id' ], $this->request->get[ 'option_id' ]);
+		$this->model_catalog_product->deleteProductOption($this->request->get['product_id'], $this->request->get['option_id']);
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		$this->response->setOutput($this->language->get('text_option_removed'));
@@ -452,13 +475,13 @@ class ControllerResponsesProductProduct extends AController {
 
 		$this->loadLanguage('catalog/product');
 		$this->loadModel('catalog/product');
-		$this->model_catalog_product->updateProductOptionValues($this->request->get[ 'product_id' ], $this->request->get[ 'option_id' ], $this->request->post);
-		$this->session->data[ 'success' ] = $this->language->get('text_success_option');
+		$this->model_catalog_product->updateProductOptionValues($this->request->get['product_id'], $this->request->get['option_id'], $this->request->post);
+		$this->session->data['success'] = $this->language->get('text_success_option');
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		$this->redirect($this->html->getSecureURL('product/product/load_option', '&product_id=' . $this->request->get[ 'product_id' ] . '&option_id=' . $this->request->get[ 'option_id' ]));
+		$this->redirect($this->html->getSecureURL('product/product/load_option', '&product_id=' . $this->request->get['product_id'] . '&option_id=' . $this->request->get['option_id']));
 	}
 
 	/**
@@ -466,64 +489,64 @@ class ControllerResponsesProductProduct extends AController {
 	 * @return string
 	 */
 	private function _option_value_form($form) {
-		$this->data[ 'option_attribute' ] = $this->attribute_manager->getAttributeByProductOptionId($this->request->get[ 'option_id' ]);
-		$this->data[ 'option_attribute' ][ 'values' ] = '';
-		$this->data[ 'option_attribute' ][ 'type' ] = 'input';
-		$product_option_value_id = $this->request->get[ 'product_option_value_id' ];
+		$this->data['option_attribute'] = $this->attribute_manager->getAttributeByProductOptionId($this->request->get['option_id']);
+		$this->data['option_attribute']['values'] = '';
+		$this->data['option_attribute']['type'] = 'input';
+		$product_option_value_id = $this->request->get['product_option_value_id'];
 		$group_attribute = array();
-		if ($this->data[ 'option_attribute' ][ 'attribute_id' ]) {
-			$group_attribute = $this->attribute_manager->getAttributes(array(), $this->data[ 'language_id' ], $this->data[ 'option_attribute' ][ 'attribute_id' ]);
+		if ($this->data['option_attribute']['attribute_id']) {
+			$group_attribute = $this->attribute_manager->getAttributes(array(), $this->data['language_id'], $this->data['option_attribute']['attribute_id']);
 		}
 
-		$this->data[ 'elements_with_options' ] = HtmlElementFactory::getElementsWithOptions();
+		$this->data['elements_with_options'] = HtmlElementFactory::getElementsWithOptions();
 		//load values for attributes with options
 		if (count($group_attribute)) {
-			$this->data[ 'option_attribute' ][ 'group' ] = array();
+			$this->data['option_attribute']['group'] = array();
 			foreach ($group_attribute as $attribute) {
-				$option_id = $attribute[ 'attribute_id' ];
+				$option_id = $attribute['attribute_id'];
 
-				$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'name' ] = $attribute[ 'name' ];
-				$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'type' ] = 'hidden';
-				if (in_array($attribute[ 'element_type' ], $this->data[ 'elements_with_options' ])) {
-					$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'type' ] = 'selectbox';
-					$values = $this->attribute_manager->getAttributeValues($attribute[ 'attribute_id' ], $this->language->getContentLanguageID());
+				$this->data['option_attribute']['group'][ $option_id ]['name'] = $attribute['name'];
+				$this->data['option_attribute']['group'][ $option_id ]['type'] = 'hidden';
+				if (in_array($attribute['element_type'], $this->data['elements_with_options'])) {
+					$this->data['option_attribute']['group'][ $option_id ]['type'] = 'selectbox';
+					$values = $this->attribute_manager->getAttributeValues($attribute['attribute_id'], $this->language->getContentLanguageID());
 
 					foreach ($values as $v) {
-						$this->data[ 'option_attribute' ][ 'group' ][ $option_id ][ 'values' ][ $v[ 'attribute_value_id' ] ] = addslashes(html_entity_decode($v[ 'value' ], ENT_COMPAT, 'UTF-8'));
+						$this->data['option_attribute']['group'][ $option_id ]['values'][ $v['attribute_value_id'] ] = addslashes(html_entity_decode($v['value'], ENT_COMPAT, 'UTF-8'));
 					}
 				}
 			}
 
 		} else {
-			if (in_array($this->data[ 'option_attribute' ][ 'element_type' ], $this->data[ 'elements_with_options' ])) {
-				$this->data[ 'option_attribute' ][ 'type' ] = 'selectbox';
+			if (in_array($this->data['option_attribute']['element_type'], $this->data['elements_with_options'])) {
+				$this->data['option_attribute']['type'] = 'selectbox';
 				if(is_null($product_option_value_id)){ // for new row values
 					$values = $this->attribute_manager->getAttributeValues(
-						$this->data[ 'option_attribute' ][ 'attribute_id' ],
+						$this->data['option_attribute']['attribute_id'],
 						$this->language->getContentLanguageID()
 					);
 				}else{
 					$values = $this->getProductOptionValues(
-						$this->data[ 'option_attribute' ][ 'attribute_id' ],
+						$this->data['option_attribute']['attribute_id'],
 						$this->language->getContentLanguageID()
 					);
 				}
 
 				foreach ($values as $v) {
-					$this->data[ 'option_attribute' ][ 'values' ][ $v[ 'attribute_value_id' ] ] = addslashes(html_entity_decode($v[ 'value' ], ENT_COMPAT, 'UTF-8'));
+					$this->data['option_attribute']['values'][ $v['attribute_value_id'] ] = addslashes(html_entity_decode($v['value'], ENT_COMPAT, 'UTF-8'));
 				}
 			}
 
 		}
 
-		$this->data[ 'cancel' ] = $this->html->getSecureURL('product/product/load_option', '&product_id=' . $this->request->get[ 'product_id' ] . '&option_id=' . $this->request->get[ 'option_id' ]);
+		$this->data['cancel'] = $this->html->getSecureURL('product/product/load_option', '&product_id=' . $this->request->get['product_id'] . '&option_id=' . $this->request->get['option_id']);
 
-		if (isset($this->request->get[ 'product_option_value_id' ])) {
-			$this->data[ 'row_id' ] = 'row' . $product_option_value_id;
-			$this->data[ 'attr_val_id' ] = $product_option_value_id;
-			$item_info = $this->model_catalog_product->getProductOptionValue($this->request->get[ 'product_id' ], $product_option_value_id);
+		if (isset($this->request->get['product_option_value_id'])) {
+			$this->data['row_id'] = 'row' . $product_option_value_id;
+			$this->data['attr_val_id'] = $product_option_value_id;
+			$item_info = $this->model_catalog_product->getProductOptionValue($this->request->get['product_id'], $product_option_value_id);
 		} else {
-			$this->data[ 'row_id' ] = 'new_row';
+			$this->data['row_id'] = 'new_row';
 		}
 
 		$fields = array( 'default','name', 'sku', 'quantity', 'subtract', 'price', 'prefix', 'sort_order', 'weight', 'weight_type', 'attribute_value_id', 'children_options' );
@@ -538,129 +561,129 @@ class ControllerResponsesProductProduct extends AController {
 		}
 
 
-		if (isset($this->request->post[ 'name' ])) {
-			$this->data[ 'name' ] = $this->request->post[ 'name' ];
+		if (isset($this->request->post['name'])) {
+			$this->data['name'] = $this->request->post['name'];
 		} elseif (isset($item_info)) {
-			$this->data[ 'name' ] = $item_info[ 'language' ][ $this->language->getContentLanguageID() ][ 'name' ];
+			$this->data['name'] = $item_info['language'][ $this->language->getContentLanguageID() ]['name'];
 		}
 
 
-		if (isset($this->data[ 'option_attribute' ][ 'group' ])) {
+		if (isset($this->data['option_attribute']['group'])) {
 			//process grouped (parent/chiled) options
-			$this->data[ 'form' ][ 'fields' ][ 'option_value' ] = '';
-			foreach ($this->data[ 'option_attribute' ][ 'group' ] as $attribute_id => $data) {
-				$this->data[ 'form' ][ 'fields' ][ 'option_value' ] .= '<span style="white-space: nowrap;">' . $data[ 'name' ] . '' . $form->getFieldHtml(array(
-					'type' => $data[ 'type' ],
+			$this->data['form']['fields']['option_value'] = '';
+			foreach ($this->data['option_attribute']['group'] as $attribute_id => $data) {
+				$this->data['form']['fields']['option_value'] .= '<span style="white-space: nowrap;">' . $data['name'] . '' . $form->getFieldHtml(array(
+					'type' => $data['type'],
 					'name' => 'attribute_value_id[' . $product_option_value_id . '][' . $attribute_id . ']',
-					'value' => $this->data[ 'children_options' ][ $attribute_id ],
-					'options' => $data[ 'values' ],
+					'value' => $this->data['children_options'][ $attribute_id ],
+					'options' => $data['values'],
 					'attr' => ''
 				)).'<span><br class="clr_both">';
 
 			}
 		} else {
-			if (in_array($this->data[ 'option_attribute' ][ 'element_type' ], $this->data[ 'elements_with_options' ])) {
-				$this->data[ 'form' ][ 'fields' ][ 'option_value' ] = $form->getFieldHtml(array(
-					'type' => $this->data[ 'option_attribute' ][ 'type' ],
+			if (in_array($this->data['option_attribute']['element_type'], $this->data['elements_with_options'])) {
+				$this->data['form']['fields']['option_value'] = $form->getFieldHtml(array(
+					'type' => $this->data['option_attribute']['type'],
 					'name' => 'attribute_value_id[' . $product_option_value_id . ']',
-					'value' => $this->data[ 'attribute_value_id' ],
-					'options' => $this->data[ 'option_attribute' ][ 'values' ],
+					'value' => $this->data['attribute_value_id'],
+					'options' => $this->data['option_attribute']['values'],
 				));
-			} else if ( $this->data[ 'option_attribute' ][ 'element_type' ] == 'U') {
+			} else if ( $this->data['option_attribute']['element_type'] == 'U') {
 				//for file there is no option value 	
 				$attribute_id = $this->data['option_attribute']['attribute_id'];
 				$edit_url = $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attribute_id);
-				$this->data[ 'form' ][ 'fields' ][ 'option_value' ] = '<span link="'.$edit_url.'" class="open_newtab pointer">'.$this->language->get('text_edit').'</span>';
+				$this->data['form']['fields']['option_value'] = '<span link="'.$edit_url.'" class="open_newtab pointer">'.$this->language->get('text_edit').'</span>';
 			} else {
-				$this->data[ 'form' ][ 'fields' ][ 'option_value' ] = $form->getFieldHtml(array(
+				$this->data['form']['fields']['option_value'] = $form->getFieldHtml(array(
 					'type' => 'input',
 					'name' => 'name[' . $product_option_value_id . ']',
-					'value' => $this->data[ 'name' ],
+					'value' => $this->data['name'],
 				));
 			}
 		}
 
-		$this->data[ 'form' ][ 'fields' ][ 'product_option_value_id' ] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['product_option_value_id'] = $form->getFieldHtml(array(
 			'type' => 'hidden',
 			'name' => 'product_option_value_id[' . $product_option_value_id . ']',
 			'value' => $product_option_value_id,
 		));
 
-		if (in_array($this->data[ 'option_data' ][ 'element_type' ], $this->data[ 'elements_with_options' ])) {
-			$this->data[ 'form' ][ 'fields' ][ 'default' ] = $form->getFieldHtml(array(
+		if (in_array($this->data['option_data']['element_type'], $this->data['elements_with_options'])) {
+			$this->data['form']['fields']['default'] = $form->getFieldHtml(array(
 				'type' => 'radio',
 				'name' => 'default_value',
 				'id' => 'default_'.$product_option_value_id,
-				'value' => ($this->data[ 'default' ] ? $product_option_value_id : ''),
+				'value' => ($this->data['default'] ? $product_option_value_id : ''),
 				'options' => array($product_option_value_id=>''),
 			));
-			$this->data[ 'with_default' ] = 1;
+			$this->data['with_default'] = 1;
 		}
 
-		$this->data[ 'form' ][ 'fields' ][ 'sku' ] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['sku'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'sku[' . $product_option_value_id . ']',
-			'value' => $this->data[ 'sku' ],
+			'value' => $this->data['sku'],
 		));
-		$this->data[ 'form' ][ 'fields' ][ 'quantity' ] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['quantity'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'quantity[' . $product_option_value_id . ']',
-			'value' => $this->data[ 'quantity' ],
+			'value' => $this->data['quantity'],
 			'style' => 'small-field',
 		));
-		$this->data[ 'form' ][ 'fields' ][ 'subtract' ] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['subtract'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'subtract[' . $product_option_value_id . ']',
-			'value' => $this->data[ 'subtract' ],
+			'value' => $this->data['subtract'],
 			'options' => array(
 				1 => $this->language->get('text_yes'),
 				0 => $this->language->get('text_no'),
 			),
 		));
-		$this->data[ 'form' ][ 'fields' ][ 'price' ] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['price'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'price[' . $product_option_value_id . ']',
-			'value' => moneyDisplayFormat($this->data[ 'price' ]),
+			'value' => moneyDisplayFormat($this->data['price']),
 			'style' => 'medium-field'
 		));
 
-		$this->data[ 'prefix' ] = trim($this->data[ 'prefix' ]);
+		$this->data['prefix'] = trim($this->data['prefix']);
 		$currency_symbol = $this->currency->getCurrency($this->config->get('config_currency'));
-		$currency_symbol = $currency_symbol[ 'symbol_left' ] . $currency_symbol[ 'symbol_right' ];
-		if (!$this->data[ 'prefix' ]) {
-			$this->data[ 'prefix' ] = $currency_symbol;
+		$currency_symbol = $currency_symbol['symbol_left'] . $currency_symbol['symbol_right'];
+		if (!$this->data['prefix']) {
+			$this->data['prefix'] = $currency_symbol;
 		}
 
-		$this->data[ 'form' ][ 'fields' ][ 'prefix' ] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['prefix'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'prefix[' . $product_option_value_id . ']',
-			'value' => $this->data[ 'prefix' ],
+			'value' => $this->data['prefix'],
 			'options' => array(
 				'$' => $currency_symbol,
 				'%' => '%',
 			'style' => 'small-field'
 			),
 		));
-		$this->data[ 'form' ][ 'fields' ][ 'sort_order' ] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'sort_order[' . $product_option_value_id . ']',
-			'value' => $this->data[ 'sort_order' ],
+			'value' => $this->data['sort_order'],
 			'style' => 'small-field'
 		));
-		$this->data[ 'form' ][ 'fields' ][ 'weight' ] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['weight'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'weight[' . $product_option_value_id . ']',
-			'value' => $this->data[ 'weight' ],
+			'value' => $this->data['weight'],
 			'style' => 'small-field'
 		));
 
 		//build available weight units for options
 		$wht_options = array( '%' => '%');
 		$this->loadModel('localisation/weight_class');
-		$selected_unit = trim($this->data[ 'weight_type' ]);
-		$prd_info = $this->model_catalog_product->getProduct( $this->request->get[ 'product_id' ] );
+		$selected_unit = trim($this->data['weight_type']);
+		$prd_info = $this->model_catalog_product->getProduct( $this->request->get['product_id'] );
 		$prd_weight_info = $this->model_localisation_weight_class->getWeightClass($prd_info['weight_class_id']);
-		$wht_options[ $prd_weight_info['unit'] ] = $prd_weight_info[ 'title' ];
+		$wht_options[ $prd_weight_info['unit'] ] = $prd_weight_info['title'];
 				
 		if (empty($selected_unit)) {
 			//no weight yet, use product weight unit as default 
@@ -668,9 +691,9 @@ class ControllerResponsesProductProduct extends AController {
 		} else if ( $selected_unit != trim($prd_weight_info['unit']) && $selected_unit != '%' ) {
 			//main product type has changed. Show what weight unit we have in option
 			$weight_info = $this->model_localisation_weight_class->getWeightClassDescriptionByUnit( $selected_unit );	
-			$wht_options[ $selected_unit ] = $weight_info[ 'title' ];
+			$wht_options[ $selected_unit ] = $weight_info['title'];
 		}
-		$this->data[ 'form' ][ 'fields' ][ 'weight_type' ] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['weight_type'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'weight_type[' . $product_option_value_id . ']',
 			'value' => $selected_unit,
@@ -855,7 +878,7 @@ class ControllerResponsesProductProduct extends AController {
 					'placeholder' => $this->language->get('text_select'),
 			));
 
-			$this->data[ 'form0' ][ 'submit' ] = $form0->getFieldHtml(array(
+			$this->data['form0']['submit'] = $form0->getFieldHtml(array(
 														 'type' => 'button',
 														 'name' => 'submit',
 														 'text' => $this->language->get('text_add')
@@ -1119,24 +1142,24 @@ class ControllerResponsesProductProduct extends AController {
 		$this->load->language('catalog/files');
 		$this->loadModel('catalog/download');
 
-		if (!empty($data[ 'download_id' ]) && !$this->model_catalog_download->getDownload($data[ 'download_id' ])) {
-			$this->error[ 'download_id' ] = $this->language->get('error_download_exists');
+		if (!empty($data['download_id']) && !$this->model_catalog_download->getDownload($data['download_id'])) {
+			$this->error['download_id'] = $this->language->get('error_download_exists');
 		}
 
-		if ( mb_strlen($data[ 'name' ]) < 2 || mb_strlen($data[ 'name' ]) > 64 ) {
-			$this->error[ 'name' ] = $this->language->get('error_download_name');
+		if ( mb_strlen($data['name']) < 2 || mb_strlen($data['name']) > 64 ) {
+			$this->error['name'] = $this->language->get('error_download_name');
 		}
 
-		if ( !in_array($data[ 'activate' ],array('before_order','immediately','order_status','manually')) ) {
-			$this->error[ 'activate' ] = $this->language->get('error_activate');
+		if ( !in_array($data['activate'],array('before_order','immediately','order_status','manually')) ) {
+			$this->error['activate'] = $this->language->get('error_activate');
 		}else{
 
-			if($data[ 'activate' ]=='order_status' && !(int)$data['activate_order_status_id']){
-				$this->error[ 'order_status' ] = $this->language->get('error_order_status');
+			if($data['activate']=='order_status' && !(int)$data['activate_order_status_id']){
+				$this->error['order_status'] = $this->language->get('error_order_status');
 			}
 		}
 		$attr_mngr = new AAttribute_Manager('download_attribute');
-		$attr_errors = $attr_mngr->validateAttributeData($data['attributes'][$data[ 'download_id' ]]);
+		$attr_errors = $attr_mngr->validateAttributeData($data['attributes'][$data['download_id']]);
 		if($attr_errors){
 			$this->error['attributes'] = $attr_errors;
 		}
@@ -1160,9 +1183,9 @@ class ControllerResponsesProductProduct extends AController {
 		$download_data = array();
 		foreach ($downloads as $download) {
 			$download_data[ ] = array(
-				'id' => $download[ 'download_id' ],
-				'name' => $download[ 'name' ],
-				'sort_order' => (int)$download[ 'sort_order' ]
+				'id' => $download['download_id'],
+				'name' => $download['name'],
+				'sort_order' => (int)$download['sort_order']
 			);
 		}
 

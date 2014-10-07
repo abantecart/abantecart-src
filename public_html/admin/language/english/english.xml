@@ -482,6 +482,10 @@
 		<value><![CDATA[Select from the list]]></value>
 	</definition>
 	<definition>
+		<key>text_select_from_lookup</key>
+		<value><![CDATA[Type beginning of the name to look up and select]]></value>
+	</definition>
+	<definition>
 		<key>text_count_selected</key>
 		<value><![CDATA[Count of selected items:]]></value>
 	</definition>
