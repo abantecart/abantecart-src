@@ -102,13 +102,13 @@ echo $this->html->buildElement(
 					dataType: 'json',
 					success: function (responseData) {
 						if (responseData) {
-							if(responseData.error_text){
+							if(responseData.error_text.length>0){
 								$('#license_modal .modal-title').html('&nbsp;');
 								$('#license_modal .modal-body').html('<div class="alert alert-danger" role="alert">' + responseData.error_text + '</div>');
 								$('#license_agree').hide();
 								$('#license_modal').modal('show');
 								return false;
-							}else if (responseData.license_text) {
+							}else if (responseData.license_text.length>0) {
 								$('#license_modal .modal-title').html('<?php echo $text_license?>');
 								$('#license_modal .modal-body').html(responseData.license_text);
 								$('#license_modal').modal('show');
@@ -118,7 +118,6 @@ echo $this->html->buildElement(
 						}
 					}
 			});
-
 		});
 
 		$('.grid_action_remote_install' ).each(function(){
