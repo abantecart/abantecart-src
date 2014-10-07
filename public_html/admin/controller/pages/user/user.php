@@ -179,7 +179,7 @@ class ControllerPagesUserUser extends AController {
     	$this->loadLanguage('user/user');
     	$this->document->setTitle( $this->language->get('heading_title') );
 		$this->loadModel('user/user');
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+    	if ( $this->request->is_POST() && $this->_validateForm()) {
 			$user_id = $this->model_user_user->addUser($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('user/user/update', '&user_id=' . $user_id ) );
@@ -204,7 +204,7 @@ class ControllerPagesUserUser extends AController {
 			unset($this->session->data['success']);
 		}
 		  
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+    	if ( $this->request->is_POST() && $this->_validateForm()) {
 			$this->model_user_user->editUser($this->request->get['user_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('user/user/update', '&user_id=' . $this->request->get['user_id'] ) );
