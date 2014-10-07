@@ -185,7 +185,6 @@ class ControllerPagesSaleCoupon extends AController {
 
         $grid_settings['search_form'] = true;
 
-
         $grid = $this->dispatch('common/listing_grid', array($grid_settings));
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
         $this->view->assign('search_form', $grid_search_form);

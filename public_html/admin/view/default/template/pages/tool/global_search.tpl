@@ -1,53 +1,42 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="row">
-	<div class="col-sm-12 col-lg-12">
-		<ul class="content-nav">
-			<li><?php
-				if (!empty($search_form)) {
-					?>
-					<form id="<?php echo $search_form['form_open']->name; ?>"
-						  method="<?php echo $search_form['form_open']->method; ?>"
-						  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
+<div id="content" class="panel panel-default">
 
-						<?php
-						foreach ($search_form['fields'] as $f) {
-							?>
-							<div class="form-group">
-								<div class="input-group input-group-sm">
-									<?php echo $f; ?>
-								</div>
-							</div>
-						<?php
-						}
-						?>
-						<div class="form-group">
-							<button type="submit"
-									class="btn btn-xs btn-primary"><?php echo $search_form['submit']->text ?></button>
-						</div>
-					</form>
-				<?php
-				}
-				?>
-			</li>
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+			<?php if (!empty($search_form)) { ?>
+			    <form id="<?php echo $search_form['form_open']->name; ?>"
+			    	  method="<?php echo $search_form['form_open']->method; ?>"
+			    	  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
 
-			<?php if (!empty ($help_url)) { ?>
-				<li>
-					<div class="help_element">
-						<a href="<?php echo $help_url; ?>" target="new">
-							<i class="fa fa-question-circle fa-lg"></i>
-						</a></div>
-				</li>
+			    	<?php
+			    	foreach ($search_form['fields'] as $f) {
+			    		?>
+			    		<div class="form-group">
+			    			<div class="input-group input-group-sm">
+			    				<?php echo $f; ?>
+			    			</div>
+			    		</div>
+			    	<?php
+			    	}
+			    	?>
+			    	<div class="form-group">
+			    		<button type="submit" class="btn btn-xs btn-primary tooltips" title="<?php echo $button_filter; ?>">
+			    			<?php echo $search_form['submit']->text ?>
+			    		</button>
+			    	</div>
+			    </form>
 			<?php } ?>
-		</ul>
+			</div>
+		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
-</div>
 
-<?php
+<?php if ($search_categories) {?>
+	<div class="panel-body-nopadding tab-content col-xs-12">
 
-if ($search_categories) {?>
-
-<ul class="nav nav-tabs nav-justified nav-profile" role="tablist">
+	<ul class="nav nav-tabs nav-justified nav-profile" role="tablist">
 	<?php
 	$i=0;
 	foreach ($search_categories as $scat) {	?>
@@ -58,34 +47,38 @@ if ($search_categories) {?>
 	} ?>
 	</ul>
 
-<div class="tab-content">
-	<?php
-	$i=0;
-	foreach ($search_categories as $scat) {	?>
-		<div class="tab-pane <?php echo $i==0 ? 'active' : ''; ?>" id="<?php echo $scat; ?>">
-			<div class="row">
-				<div class="col-sm-12 col-lg-12">
-					<div class="panel panel-default">
-						<div class="panel-body">
-					<?php echo ${"listing_grid_" . $scat}; ?>
+	<div class="tab-content">
+		<?php
+		$i=0;
+		foreach ($search_categories as $scat) {	?>
+			<div class="tab-pane <?php echo $i==0 ? 'active' : ''; ?>" id="<?php echo $scat; ?>">
+				<div class="row">
+					<div class="col-sm-12 col-lg-12">
+						<div class="panel panel-default">
+							<div class="panel-body">
+						<?php echo ${"listing_grid_" . $scat}; ?>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	<?php $i++; } ?>
-</div>
-<?php
-} else {
-	?>
-	<div class="flt_none clr_both heading"><?php echo $scat;?></div>
-	<table class="table_list">
+		<?php $i++; } ?>
+	</div>
+
+	</div>
+<?php } else { ?>
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<div class="flt_none clr_both heading"><?php echo $scat;?></div>
+		<table class="table_list">
 		<tr>
 			<td class="left" id="no results"><?php echo $no_results_message; ?></td>
 		</tr>
-	</table>
+		</table>
+	</div>
+<?php } ?>
 
-	<?php } ?>
+</div>
+
 
 <?php
 echo $this->html->buildElement(
@@ -96,8 +89,6 @@ echo $this->html->buildElement(
 				'title' => $text_please_confirm,
 		));
 ?>
-
-
 
 <script type="text/javascript">
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {

@@ -87,7 +87,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'search' => false),
 				array('name' => 'banner_icon',
 						'index' => 'icon',
-						'width' => 30,
+						'width' => 50,
 						'align' => 'center',
 						'search' => false
 				),
