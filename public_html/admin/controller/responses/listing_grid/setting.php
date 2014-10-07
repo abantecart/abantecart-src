@@ -60,7 +60,7 @@ class ControllerResponsesListingGridSetting extends AController {
 				$value = $this->html->buildCheckbox(array(
 					'name' => '',
 					'value' => $result[ 'value' ],
-					'style' => 'btn_switch',
+					'style' => 'btn_switch disabled',
 					'attr' => 'readonly="true"'
 				));
 			} else {

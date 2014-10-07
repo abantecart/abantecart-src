@@ -224,15 +224,18 @@ class ControllerPagesDesignContent extends AController {
 	private function _initTabs($active = null) {
 
 		$content_id = $this->request->get['content_id'];
+
+		if(!$content_id){ return null; } //no need tabs for new content
+
 		$this->data['tabs'] = array();
 		$this->data['tabs']['form'] = array(
 				'href' => $this->html->getSecureURL('design/content/' . ($content_id ? 'update' : 'insert'), '&content_id=' . $content_id),
 				'text' => $this->language->get('tab_form'));
-		if ($content_id) {
-			$this->data['tabs']['layout'] = array(
-					'href' => $this->html->getSecureURL('design/content/edit_layout', '&content_id=' . $content_id),
-					'text' => $this->language->get('tab_layout'));
-		}
+
+		$this->data['tabs']['layout'] = array(
+				'href' => $this->html->getSecureURL('design/content/edit_layout', '&content_id=' . $content_id),
+				'text' => $this->language->get('tab_layout'));
+
 
 		if (in_array($active, array_keys($this->data['tabs']))) {
 			$this->data['tabs'][$active]['active'] = 1;
@@ -304,13 +307,13 @@ class ControllerPagesDesignContent extends AController {
 
 		if (!has_value($content_id)) {
 			$this->data['action'] = $this->html->getSecureURL('design/content/insert');
-			$this->data['form_title'] = $this->language->get('text_insert') . $this->language->get('heading_title');
+			$this->data['form_title'] = $this->language->get('insert_title');
 			$this->data['update'] = '';
 			$form = new AForm('ST');
 		} else {
 
 			$this->data['action'] = $this->html->getSecureURL('design/content/update', '&content_id=' . $content_id);
-			$this->data['form_title'] = $this->language->get('text_edit') . $this->language->get('heading_title');
+			$this->data['form_title'] = $this->language->get('update_title');
 			$this->data['update'] = $this->html->getSecureURL('listing_grid/content/update_field', '&id=' . $content_id);
 			$form = new AForm('HS');
 		}

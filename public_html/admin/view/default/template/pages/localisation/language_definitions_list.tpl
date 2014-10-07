@@ -5,7 +5,12 @@
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group mr10 toolbar">
-				<a id="insert_btn" class="actionitem btn btn-primary tooltips" href="<?php echo $insert; ?>" title="<?php echo $button_add; ?>">
+				<a id="insert_btn"
+				   class="actionitem btn btn-primary tooltips"
+				   data-toggle="modal"
+				   data-target="#ld_modal"
+				   href="<?php echo $insert; ?>"
+				   title="<?php echo $button_add; ?>">
 				<i class="fa fa-plus fa-fw"></i>
 				</a>
 			</div>
@@ -58,45 +63,15 @@ echo $this->html->buildElement(
 		array('type' => 'modal',
 				'id' => 'ld_modal',
 				'modal_type' => 'lg',
-				'content' => '',
-				'title' => $text_please_confirm,
+				'data_source' => 'ajax'
 		));
 ?>
 
 <script type="text/javascript">
-	var doModal = function(obj){
-		var href = $(obj).attr('href');
-
-		$.ajax({
-			url:href,
-			type:'GET',
-			dataType:'json',
-			success:function (data) {
-				if (data == '' || data == null) {
-					return null;
-				} else {
-					if (data.html) {
-						$('#ld_modal .modal-body').html(data.html);
-						$('#ld_modal .modal-title').html(data.title);
-					}
-					$('#ld_modal').modal('show');
-				}
-			}
-		});
-	}
-
 	var grid_ready = function(){
-		$('.grid_action_edit').click(
-		function () {
-			doModal(this);
-			return false;
+		$('.grid_action_edit').each( function () {
+			$(this).attr('data-toggle','modal').attr('data-target','#ld_modal');
 		});
 	}
-
-	$('#insert_btn').click(
-		function () {
-			doModal(this);
-			return false;
-		});
 
 </script>

@@ -85,8 +85,7 @@ echo $this->html->buildElement(
 		array('type' => 'modal',
 				'id' => 'gs_modal',
 				'modal_type' => 'lg',
-				'content' => '',
-				'title' => $text_please_confirm,
+				'data_source' => 'ajax'
 		));
 ?>
 
@@ -100,26 +99,9 @@ echo $this->html->buildElement(
 	function grid_ready(grid_id){
 
 		if( grid_id == 'languages_grid' || grid_id == 'settings_grid'){
-			$('#'+grid_id).find('td[aria-describedby$="_grid_search_result"]>a').click(
+			$('#'+grid_id).find('td[aria-describedby$="_grid_search_result"]>a').each(
 					function () {
-						var href = $(this).attr('href');
-						$.ajax({
-							url:href,
-							type:'GET',
-							dataType:'json',
-							success:function (data) {
-								if (data == '' || data == null) {
-									return null;
-								} else {
-									if (data.html) {
-										$('#gs_modal .modal-body').html(data.html);
-										$('#gs_modal .modal-title').html(data.title);
-									}
-									$('#gs_modal').modal('show');
-								}
-							}
-						});
-						return false;
+						$(this).attr('data-toggle','modal').attr('data-target','#gs_modal');
 					});
 		}
 	}

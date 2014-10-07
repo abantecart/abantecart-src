@@ -1,3 +1,9 @@
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+
+<div class="modal-header">
+	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+	<h4 class="modal-title"><?php  echo $title; ?></h4>
+</div>
 <div id="ld_form" class="tab-content">
 	<?php echo $form['form_open']; ?>
 	<div class="panel-body panel-body-nopadding">
@@ -59,8 +65,7 @@
 	</div>
 
 	<div class="panel-footer">
-		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3">
+			<div class="center">
 				<button class="btn btn-primary">
 					<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
 				</button>
@@ -69,7 +74,6 @@
 					<i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
 				</a>
 			</div>
-		</div>
 	</div>
 	</form>
 </div>
@@ -82,12 +86,7 @@
 					data: $('#definitionQFrm').serializeArray(),
 					dataType: 'json',
 					success: function (data) {
-						if (data.error_text != '') {
-							error_alert(data.error_text, true, $("#ld_form") );
-						} else if (data.result_text != '') {
-							<?php
-
-							if(!$language_definition_id){?>
+							<?php if(!$language_definition_id){?>
 							if ($('#ld_modal')) {
 								$('#ld_modal').modal('hide');
 							}
@@ -98,7 +97,6 @@
 							<?php }else{ ?>
 							success_alert(data.result_text, false, "#ld_form");
 							<?php } ?>
-						}
 					}
 				});
 		return false;

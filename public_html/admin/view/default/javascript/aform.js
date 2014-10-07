@@ -44,7 +44,7 @@
             autoHide:true,
             save_url:'',
             processing_txt: 'Processing ...',
-            saved_txt: 'Saved',
+            saved_txt: 'Saved'
         },
         wrapper:'<div class="form-group" />',
         mask:'<div class="input-group afield" />'
@@ -279,9 +279,13 @@
 
         function doSwitchButton(elem) {
             var $field = $(elem);
+
             var $wrapper = $field.parent('.afield');
 			
 			$wrapper.find('button').on( "click" ,function () {
+                if($field.hasClass('disabled')){
+                    return false;
+                }
             	flip_aswitch($field);
             	onChangedAction($field, $field.val(), $field.attr('data-orgvalue'));
             	return false;
@@ -773,7 +777,7 @@
     				//alert($elem.parent().html());
     				$elem.parent().find('*').removeClass('changed');
     			});
-			},
+			}
   		});
 				
 		/* Process each form's element */
