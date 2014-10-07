@@ -74,6 +74,10 @@ class AConfigManager {
 			$group = $this->model_setting_setting->getSettingGroup($setting_key, $store_id);
 			$group = $group[0];
 		}
+		//set template id to get settings for default template in appearance section
+		if($group=='appearance'){
+			$data['tmpl_id'] = 'default';
+		}
 		$data['one_field'] = $setting_key;
 		$fields = $this->getFormFields($group, $form, $data);
 		return $fields;

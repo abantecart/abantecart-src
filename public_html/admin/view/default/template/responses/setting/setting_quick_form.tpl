@@ -1,3 +1,9 @@
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+
+<div class="modal-header">
+	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+	<h4 class="modal-title"><?php  echo $title; ?></h4>
+</div>
 <div id="setting_form" class="tab-content">
 	<?php echo $form['form_open']; ?>
 	<div class="panel-body panel-body-nopadding">
@@ -40,7 +46,7 @@
 	</div>
 	<div class="panel-footer">
 		<div class="row">
-		   <div class="center col-sm-6 col-sm-offset-3">
+		   <div class="center">
 			 <button class="btn btn-primary">
 			 <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
 			 </button>&nbsp;
@@ -61,9 +67,7 @@
 					data: $('#qsFrm').serializeArray(),
 					dataType: 'json',
 					success: function (data) {
-						if (data.error_text != '') {
-							error_alert(data.error_text, true, $("#setting_form") );
-						} else if (data.result_text != '') {
+						if (data.result_text != '') {
 							success_alert(data.result_text, false, "#setting_form");
 						}
 					}

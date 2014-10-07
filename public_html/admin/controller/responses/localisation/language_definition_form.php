@@ -72,7 +72,11 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 						$error_text[] = $err;
 					}
 				}
-				$output['error_text'] = implode('<br>', $error_text);
+				$error = new AError('');
+				return $error->toJSONResponse('NO_PERMISSIONS_406',
+					array('error_text' => $error_text,
+						  'reset_value' => true
+					));
 			}
 
 			$this->load->library('json');
@@ -117,6 +121,7 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 			$form = new AForm('HS');
 			$this->data['language_definition_id'] = (int)$this->request->get['language_definition_id'];
 		}
+		$this->data['title'] = $this->data['heading_title'];
 
 		$this->document->addBreadcrumb(array(
 				'href' => $this->data['action'],
@@ -135,6 +140,7 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 				'action' => $this->data['action'],
 		));
 
+
 		//build the rest of the form and data
 		$ret_data = $this->model_localisation_language_definitions->buildFormData($this->request, $this->data, $form);
 		if ($ret_data['redirect_params']) {
@@ -143,14 +149,7 @@ class ControllerResponsesLocalisationLanguageDefinitionForm extends AController 
 
 		$this->view->assign('help_url', $this->gen_help_url('language_definition_edit'));
 		$this->view->batchAssign($this->data);
-		$this->view->setTemplate('responses/localisation/language_definitions_form.tpl');
-		$this->view->render();
-		$output['html'] = $this->view->getOutput();
-		$output['title'] = $this->data['heading_title'];
-
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($output));
-
+		$this->processTemplate('responses/localisation/language_definitions_form.tpl');
 	}
 
 	private function _validateForm() {

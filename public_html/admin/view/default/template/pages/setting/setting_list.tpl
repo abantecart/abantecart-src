@@ -43,39 +43,20 @@ echo $this->html->buildElement(
 				'id' => 'setting_modal',
 				'name' => 'setting_modal',
 				'modal_type' => 'lg',
-				'content' => '',
-				'title' => '',
+				'data_source' => 'ajax'
 		));
 ?>
 <script type="text/javascript">
 
 	var grid_ready = function(){
-		$('.grid_action_edit').click(
-
-		function () {
-
-			var href = $(this).attr('href');
-
-			$.ajax({
-				url:href,
-				type:'GET',
-				dataType:'json',
-				success:function (data) {
-					if (data == '' || data == null) {
-						return null;
-					} else {
-						if (data.html) {
-							$('#setting_modal .modal-body').html(data.html);
-							$('#setting_modal .modal-title').html(data.title);
-						}
-						wrapCKEditor('add');
-						$('#setting_modal').modal('show');
-					}
-				}
-			});
-			return false;
+		$('.grid_action_edit').each( function () {
+			$(this).attr('data-toggle','modal').attr('data-target','#setting_modal');
 		});
 	}
+
+	$('#setting_modal').on('loaded.bs.modal', function (e) {
+		wrapCKEditor('add');
+	});
 
 	$('#store_switcher').change(function(){
 		goTo('<?php echo $store_edit_url;?>','store_id='+$(this).val());

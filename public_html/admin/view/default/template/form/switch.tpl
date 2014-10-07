@@ -12,7 +12,7 @@
            id="<?php echo $id ?>"
            value="<?php echo $value ?>" 
            data-orgvalue="<?php echo $value ?>"
-           class="aswitcher"
+           class="aswitcher <?php echo $style; ?>"
 		   <?php echo $attr; ?>
 />
 <?php if ( !empty ($help_url) ) { ?>

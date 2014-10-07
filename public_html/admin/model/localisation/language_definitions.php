@@ -347,7 +347,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 
 	/**
 	 * Load needed data and build form for definitions add or edit
-	 * @param array $request - Data from request object
+	 * @param ARequest $request - Data from request object
 	 * @param array $data  - from requester
 	 * @param AForm $form  - form object
 	 * @return array ($data imputed processed and returned back)

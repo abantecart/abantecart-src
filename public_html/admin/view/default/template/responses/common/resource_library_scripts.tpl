@@ -69,6 +69,7 @@ var reloadModal = function (URL) {
 		url: URL,
 		type: 'GET',
 		dataType: 'html',
+		global: false,
 		success: function (html) {
 			var $md = $('#rl_modal');
 			var mdb = '#rl_modal .modal-body';
@@ -110,6 +111,7 @@ var saveRL = function (URL, postdata) {
 		type: 'POST',
 		dataType: 'json',
 		async: false,
+		global: false,
 		success: function (new_rl_id) {
 			rid = new_rl_id;
 			rl_success_alert('<?php echo $text_success; ?>', true);
@@ -127,6 +129,7 @@ var loadMedia = function (type, wrapper) {
 		type: 'GET',
 		data: { type: type },
 		dataType: 'json',
+		global: false,
 		success: function (json) {
 			if (json.items.length<1 && type != default_type) {
 				$( '#type_' + type ).hide();
@@ -207,6 +210,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 		type: 'GET',
 		data: { type: type },
 		dataType: 'json',
+		global: false,
 		success: function (item) {
 			var html = '';
 			if (item != null) {
@@ -346,6 +350,7 @@ function map_resource(rl_id, object_name, object_id) {
 		type: 'GET',
 		dataType: 'json',
 		async: false,
+		global: false,
 		success: function (json) {
 			if (json) {
 				$('#image_row' + rl_id).parent().remove();
@@ -370,6 +375,7 @@ function unmap_resource(rl_id, object_name, object_id) {
 		type: 'GET',
 		dataType: 'json',
 		async: false,
+		global: false,
 		success: function (json) {
 			if (json) {
 				$('#image_row' + rl_id).parent().remove();
@@ -394,6 +400,7 @@ function delete_resource(rl_id, object_name, object_id) {
 		type: 'GET',
 		dataType: 'json',
 		async: false,
+		global: false,
 		success: function (json) {
 			if (json) {
 				$('#image_row' + rl_id).parent().remove();
@@ -600,6 +607,7 @@ var bind_rl = function (elm) {
 			type: 'POST',
 			dataType: 'html',
 			async: false,
+			global: false,
 			success: function (html) {
 				rl_success_alert('<?php echo $text_success; ?>', true);
 			},
@@ -724,6 +732,7 @@ var multi_action = function (action) {
 		type: 'POST',
 		dataType: 'html',
 		async: false,
+		global: false,
 		success: function (html) {
 			rl_success_alert('<?php echo $text_success; ?>', true);
 		},
