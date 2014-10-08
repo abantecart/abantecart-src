@@ -138,11 +138,12 @@ class ControllerPagesUserUserPermission extends AController {
 		$this->loadLanguage('user/user_group');
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->loadModel('user/user_group');
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ($this->request->is_POST() && $this->_validateForm()) {
 			$id = $this->model_user_user_group->addUserGroup($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success_group_added');
 			$this->redirect($this->html->getSecureURL('user/user_permission/update', '&user_group_id=' . $id));
 		}
+
 		$this->_getForm();
 
 		//update controller data
@@ -163,7 +164,7 @@ class ControllerPagesUserUserPermission extends AController {
 			unset($this->session->data['success']);
 		}
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ($this->request->is_POST() && $this->_validateForm()) {
 			$this->model_user_user_group->editUserGroup($this->request->get['user_group_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('user/user_permission/update', '&user_group_id=' . $this->request->get['user_group_id']));
@@ -192,11 +193,6 @@ class ControllerPagesUserUserPermission extends AController {
 
 		$this->data['cancel'] = $this->html->getSecureURL('user/user_permission');
 
-		if (isset($this->request->get['user_group_id']) && $this->request->server['REQUEST_METHOD'] != 'POST') {
-			$user_group_info = $this->model_user_user_group->getUserGroup($this->request->get['user_group_id']);
-		}
-
-
 		if (!isset($this->request->get['user_group_id'])) {
 			$this->data['action'] = $this->html->getSecureURL('user/user_permission/insert');
 			$this->data['heading_title'] = $this->language->get('text_insert') . ' ' . $this->language->get('text_group');
@@ -212,7 +208,7 @@ class ControllerPagesUserUserPermission extends AController {
 			$this->data['form']['form_open'] = $form->getFieldHtml(array(
 					'type' => 'form',
 					'name' => 'editFrm',
-					'attr' => 'data-confirm-exit="true"',
+					'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 					'method'=>'post',
 					'action' => $this->data['action'],
 			));
@@ -220,31 +216,24 @@ class ControllerPagesUserUserPermission extends AController {
 			$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
 					'type' => 'input',
 					'name' => 'name',
-					'value' => $user_group_info['name'],
+					'value' => '',
 					'required' => true,
-					'style' => 'large-field',
-					'placeholder' => $this->language->get('entry_name')
+					'style' => 'large-field'
+
 			));
 			$this->data['form']['submit'] = $form->getFieldHtml(array('type' => 'button',
 					'name' => 'submit',
-					'text' => $this->language->get('button_save'),
-					'style' => 'button1'));
+					'text' => $this->language->get('button_save')	));
 
 		} else {
+
+			$user_group_info = $this->model_user_user_group->getUserGroup($this->request->get['user_group_id']);
+
 			$this->data['action'] = $this->html->getSecureURL('user/user_permission/update', '&user_group_id=' . $this->request->get['user_group_id']);
 			$this->data['heading_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('text_group') . ' ' . $user_group_info['name'];
 			$this->data['update'] = $this->html->getSecureURL('listing_grid/user_permission/update_field', '&user_group_id=' . $this->request->get['user_group_id']);
-		}
-
-		$this->document->addBreadcrumb(array(
-				'href' => $this->data['action'],
-				'text' => $this->data['heading_title'],
-				'separator' => ' :: ',
-				'current' => true
-		));
 
 
-		if (isset($this->request->get['user_group_id'])) {
 			$grid_settings = array(
 					'table_id' => 'permission_grid',
 					'url' => $this->html->getSecureURL('listing_grid/user_permission/getpermissions', '&user_group_id=' . $this->request->get['user_group_id']),
@@ -255,11 +244,11 @@ class ControllerPagesUserUserPermission extends AController {
 					'actions' => array(),
 					'multiaction' => 'false',
 					'multiaction_options' => array('save' => $this->language->get('text_save_selected')),
-					'button_go' => $this->language->get('button_save'),
-				//'multiselect' => 'false',
+					'button_go' => $this->language->get('button_save')
 			);
 
-			$grid_settings['colNames'] = array('#',
+			$grid_settings['colNames'] = array(
+					'#',
 					$this->language->get('column_controller'),
 					$this->language->get('column_access'),
 					$this->language->get('column_modify'));
@@ -292,12 +281,21 @@ class ControllerPagesUserUserPermission extends AController {
 							'width' => 50,
 							'align' => 'center',
 							'search' => false
-					),
+					)
 			);
 
 			$grid = $this->dispatch('common/listing_grid', array($grid_settings));
-			$this->view->assign('listing_grid', $grid->dispatchGetOutput());
+			$this->data['listing_grid'] = $grid->dispatchGetOutput();
 		}
+
+		$this->document->addBreadcrumb(array(
+				'href' => $this->data['action'],
+				'text' => $this->data['heading_title'],
+				'separator' => ' :: ',
+				'current' => true
+		));
+
+
 		$this->view->assign('help_url', $this->gen_help_url('permission_edit'));
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('/pages/user/user_group_form.tpl');
@@ -310,6 +308,9 @@ class ControllerPagesUserUserPermission extends AController {
 		if (mb_strlen($this->request->post['name']) < 2 || mb_strlen($this->request->post['name']) > 64) {
 			$this->error['name'] = $this->language->get('error_name');
 		}
+
+		$this->extensions->hk_ValidateData($this);
+
 		if (!$this->error) {
 			return TRUE;
 		} else {

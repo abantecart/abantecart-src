@@ -535,12 +535,16 @@ $(document).ajaxError(function (e, jqXHR, settings, exception) {
 
             if (errlist.length > 0) {
                 for (var k in errlist) {
-                    gl_error_alert(errlist[k], false);
+                    if(errlist[k].length>0){
+                        gl_error_alert(errlist[k], false);
+                    }
                 }
             }
         }
     } catch (e) {
-        gl_error_alert(jqXHR.responseText, false);
+        if(jqXHR.responseText.length>0){
+            gl_error_alert(jqXHR.responseText, false);
+        }
     }
 
 });
