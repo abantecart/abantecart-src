@@ -155,6 +155,10 @@ class ControllerResponsesListingGridCoupon extends AController {
 					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
 					return $dd->dispatch();
 			    }
+			    //save products to coupon
+			    if ($this->request->post['coupon_product']) {
+					$this->model_sale_coupon->editCouponProducts($this->request->get['id'], $this->request->post);
+			    }
 		    }
 		    return;
 	    }
@@ -171,7 +175,6 @@ class ControllerResponsesListingGridCoupon extends AController {
 			    }
             }
         }
-
 
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);

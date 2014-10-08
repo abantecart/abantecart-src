@@ -482,10 +482,6 @@
 		<value><![CDATA[Select from the list]]></value>
 	</definition>
 	<definition>
-		<key>text_select_from_lookup</key>
-		<value><![CDATA[Type beginning of the name to look up and select]]></value>
-	</definition>
-	<definition>
 		<key>text_count_selected</key>
 		<value><![CDATA[Count of selected items:]]></value>
 	</definition>
@@ -636,6 +632,18 @@
 	<definition>
 		<key>text_external_help</key>
 		<value><![CDATA[External Help]]></value>
+	</definition>
+	<definition>
+		<key>text_select_from_lookup</key>
+		<value><![CDATA[Type beginning of the name to look up and select]]></value>
+	</definition>	
+	<definition>
+		<key>text_continue_typing</key>
+		<value><![CDATA[Continue typing ...]]></value>
+	</definition>
+	<definition>
+		<key>text_looking_for</key>
+		<value><![CDATA[Looking for]]></value>
 	</definition>
 	
 </definitions>
