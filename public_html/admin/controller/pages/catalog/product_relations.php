@@ -32,6 +32,7 @@ class ControllerPagesCatalogProductRelations extends AController {
         $this->loadLanguage('catalog/product');
         $this->document->setTitle($this->language->get('heading_title'));
         $this->loadModel('catalog/product');
+		
 
         if (isset($this->request->get['product_id']) && ($this->request->is_GET())) {
             $product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
@@ -176,7 +177,7 @@ class ControllerPagesCatalogProductRelations extends AController {
 		    	'value' => $this->data['product_related'],
 		    	'options' => $this->data['products'],
 		    	'style' => 'chosen',
-		    	'ajax_url' => $this->html->getSecureURL('r/product/product/products', '&language_id='.$cont_lang_id),
+		    	'ajax_url' => $this->html->getSecureURL('r/product/product/products'),
 		    	'placeholder' => $this->language->get('text_select_from_lookup'),
 		));
 

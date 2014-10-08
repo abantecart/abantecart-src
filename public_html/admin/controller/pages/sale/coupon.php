@@ -530,7 +530,7 @@ class ControllerPagesSaleCoupon extends AController {
 																'value' => $this->data['coupon_product'],
 																'options' => $this->data['products'],
 																'style' => 'chosen',
-																'ajax_url' => $this->html->getSecureURL('r/product/product/products', '&language_id='.$cont_lang_id),
+																'ajax_url' => $this->html->getSecureURL('r/product/product/products'),
 																'placeholder' => $this->language->get('text_select_from_lookup'),
 														));
 
