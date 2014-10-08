@@ -438,30 +438,35 @@ function getURLVar(URL, urlVarName) {
 // Function to show notification
 //-----------------------------------------
 function success_alert(text, autohide, elm ) {
+    if(text.length==0){ return false;}
 	var type = 'success';
 	var icon = 'fa fa-check';
 	return notice(text, autohide, elm, type, icon);
 }
 
 function error_alert(text, autohide, elm ) {
+    if(text.length==0){ return false;}
 	var type = 'danger';
 	var icon = 'fa fa-thumbs-down';
 	return notice(text, autohide, elm, type, icon);
 }
 
 function warning_alert(text, autohide, elm ) {
+    if(text.length==0){ return false;}
 	var type = 'warning';
 	var icon = 'fa fa-flash';
 	return notice(text, autohide, elm, type, icon);
 }
 
 function info_alert(text, autohide, elm ) {
+    if(text.length==0){ return false;}
 	var type = 'info';
 	var icon = 'fa fa-info';
 	return notice(text, autohide, elm, type, icon);
 }
 
 function notice(text, autohide, elm, type, icon) {
+    if(text.length==0){ return false;}
 	if (type == null) {
 		return;
 	}
@@ -505,6 +510,7 @@ $(document).ajaxError(function (e, jqXHR, settings, exception) {
     }
 
     var gl_error_alert = function (text, autohide) {
+        if(text.length==0){ return false;}
     	if (isModalOpen()) {
     		error_alert(text, autohide, '.modal-content');
     	} else {
