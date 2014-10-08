@@ -684,7 +684,14 @@
 		    });
 		
 		    $data = $wrapper.find('input, select, textarea').serialize();
-		
+
+			//if impty and we have select, need to pass blank value 
+			if (!$data) {
+			    $wrapper.find('select').each(function () {
+					$data += $(this).attr('name')+'=\'\'&';
+			    });		
+			}
+
 		    $wrapper.find('input.aswitcher').each(function () {
 		        $data += '&' + $(this).attr('name')+'='+$(this).val();
 		        if (!need_reload) {
@@ -708,7 +715,7 @@
 		        var growl = notice(o.processing_txt, false, null, 'info', 'fa fa-spinner fa-spin');
 		        $.ajax({
 		            url:url,
-		            type:"post",
+		            type:"POST",
 		            dataType:"text",
 		            data:$data,
 		            error:function (data) {
@@ -839,9 +846,6 @@ jQuery(document).ready(function() {
 
 	//Convert span help to toggles
 	spanHelp2Toggles();
-
-	//form fields
-	$(".chosen-select").chosen({'width':'100%','white-space':'nowrap'});
 
     $('.switcher').bind('click', function () {
         $(this).find('.option').slideDown('fast');

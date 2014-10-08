@@ -134,7 +134,8 @@ class ControllerPagesCatalogProductRelations extends AController {
             'text' => $this->language->get('button_cancel'),
             'style' => 'button2',
         ));
-
+		$this->data['cancel'] = $this->html->getSecureURL('catalog/product');
+		
 		$this->loadModel('catalog/category');
 		$this->data['categories'] = array();
 		$results = $this->model_catalog_category->getCategories(0);
@@ -143,30 +144,41 @@ class ControllerPagesCatalogProductRelations extends AController {
 			$this->data['categories'][ $r['category_id'] ] = $r['name'];
 		}
 
-		$this->data['form']['fields']['category'] = $form->getFieldHtml(
-																	array(
-																			'type' => 'checkboxgroup',
-																			'name' => 'product_category[]',
-																			'value' => $this->data['product_category'],
-																			'options' => $this->data['categories'],
-																			'style' => 'chosen',
-																			'placeholder' => $this->language->get('text_select_category'),
-																	));
+		$this->data['form']['fields']['category'] = $form->getFieldHtml(array(
+		    	'type' => 'checkboxgroup',
+		    	'name' => 'product_category[]',
+		    	'value' => $this->data['product_category'],
+		    	'options' => $this->data['categories'],
+		    	'style' => 'chosen',
+		    	'placeholder' => $this->language->get('text_select_category'),
+		));
+		//load only prior saved products 
+		$resource = new AResource('image');
 		$this->data['products'] = array();
-		$results = $this->model_catalog_product->getProducts();
-		foreach( $results as $r ) {
-			$this->data['products'][ $r['product_id'] ] = $r['name'];
+		if (count($this->data['product_related'])) {
+			$this->loadModel('catalog/product');
+			$filter = array('subsql_filter' => 'p.product_id in (' . implode(',', $this->data['product_related']) . ')' );
+			$results = $this->model_catalog_product->getProducts($filter);
+			foreach( $results as $r ) {
+				$thumbnail = $resource->getMainThumb('products',
+												$r['product_id'],
+												(int)$this->config->get('config_image_grid_width'),
+												(int)$this->config->get('config_image_grid_height'),
+												true);
+				$this->data['products'][$r['product_id']]['name'] = $r['name']." (".$r['model'].")";
+				$this->data['products'][$r['product_id']]['image'] = $thumbnail['thumb_html'];
+			}
 		}
 
-		$this->data['form']['fields']['related'] = $form->getFieldHtml(
-																	array(
-																			'type' => 'checkboxgroup',
-																			'name' => 'product_related[]',
-																			'value' => $this->data['product_related'],
-																			'options' => $this->data['products'],
-																			'style' => 'chosen',
-																			'placeholder' => $this->language->get('text_select_product'),
-																	));
+		$this->data['form']['fields']['related'] = $form->getFieldHtml( array(
+		    	'type' => 'multiselectbox',
+		    	'name' => 'product_related[]',
+		    	'value' => $this->data['product_related'],
+		    	'options' => $this->data['products'],
+		    	'style' => 'chosen',
+		    	'ajax_url' => $this->html->getSecureURL('r/product/product/products', '&language_id='.$cont_lang_id),
+		    	'placeholder' => $this->language->get('text_select_from_lookup'),
+		));
 
 		$this->data['form']['fields']['store'] = $form->getFieldHtml(array(
 	            'type' => 'checkboxgroup',

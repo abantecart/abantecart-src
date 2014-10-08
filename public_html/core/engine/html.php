@@ -1077,6 +1077,7 @@ class SelectboxHtmlElement extends HtmlElement {
 			$opt = (string)$opt;
 		}
 		unset($opt);
+		$registry = $this->data['registry'];
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1087,13 +1088,24 @@ class SelectboxHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'ajax_url' => $this->ajax_url, //if mode of data load is ajax based 
 				'search_mode' => $this->search_mode,
+				'text_continue_typing' => $registry->get('language')->get('text_continue_typing'),
+				'text_looking_for' => $registry->get('language')->get('text_looking_for'),				
 			)
 		);
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
 		if( strpos($this->style,'chosen') !== false ) {
+			$registry = $this->data['registry'];
+			$this->view->batchAssign(
+				array(
+				'ajax_url' => $this->ajax_url, //if mode of data load is ajax based 
+				'text_continue_typing' => $registry->get('language')->get('text_continue_typing'),
+				'text_looking_for' => $registry->get('language')->get('text_looking_for'),				
+				)
+			);
 			$return = $this->view->fetch('form/chosen_select.tpl');
 		} else {
 			$return = $this->view->fetch('form/selectbox.tpl');
@@ -1118,7 +1130,7 @@ class MultiSelectboxHtmlElement extends HtmlElement {
 				'attr' => $this->attr . ' multiple="multiple" ',
 				'required' => $this->required,
 				'style' => $this->style,
-				'placeholder' => $this->placeholder
+				'placeholder' => $this->placeholder,
 			)
 		);
 		if (!empty($this->help_url)) {
@@ -1126,6 +1138,14 @@ class MultiSelectboxHtmlElement extends HtmlElement {
 		}
 
 		if( strpos($this->style,'chosen') !== false ) {
+			$registry = $this->data['registry'];
+			$this->view->batchAssign(
+				array(
+				'ajax_url' => $this->ajax_url, //if mode of data load is ajax based 
+				'text_continue_typing' => $registry->get('language')->get('text_continue_typing'),
+				'text_looking_for' => $registry->get('language')->get('text_looking_for'),				
+				)
+			);
 			$return = $this->view->fetch('form/chosen_select.tpl');
 		} else {
 			$return = $this->view->fetch('form/selectbox.tpl');

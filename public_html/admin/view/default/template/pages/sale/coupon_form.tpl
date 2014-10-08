@@ -9,21 +9,16 @@
 	</ul>
 <?php } ?>
 
-<div class="tab-content">
-	<div class="panel-heading">
-			<div class="pull-right">
-			    <div class="btn-group mr10 toolbar">
-                    <?php if (!empty ($help_url)){ ?>
-                    <a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
-                    <i class="fa fa-question-circle fa-lg"></i>
-                    </a>
-                    <?php } ?>
-			    </div>
-                <?php echo $form_language_switch; ?>
-			</div>
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
+	
 	<?php echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<label class="h4 heading"><?php echo $form_title; ?></label>
 			<?php foreach ($form['fields'] as $name => $field) {
 				//Logic to cululate fileds width
@@ -52,9 +47,8 @@
 			
 						
 	</div>
-	<div class="panel-footer">
-		<div class="row">
-		   <div class="col-sm-6 col-sm-offset-5">
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
 			<button class="btn btn-primary">
 			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
 			</button>
@@ -64,29 +58,8 @@
 			<a class="btn btn-default" href="<?php echo $cancel; ?>">
 			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
 			</a>
-		   </div>
 		</div>
 	</div>
 	</form>
 
 </div><!-- <div class="tab-content"> -->
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ajax-chosen.js"></script>
-<script type="text/javascript">
-$(document).ready(function () {
-	$("#couponFrm_coupon_product").ajaxChosen({
-	    type: 'POST',
-	    url: '<?php echo $products_list_url; ?>',
-	    dataType: 'json'
-	}, function (data) {
-	    var results = [];
-	    $.each(data, function (i, val) {
-	    	var html = val.image + '&nbsp;' + val.name;
-	    	if (val.model) {
-	    		html += '&nbsp;(' + val.model + ')';
-	    	}
-	        results.push({ value: val.product_id, text: html });
-	    });
-	    return results;
-	});
-});
-</script>

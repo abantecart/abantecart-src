@@ -3,6 +3,10 @@
 <?php 
 	foreach ( $options as $v => $text ) { 	
 	$check_id = preg_replace('/[^a-zA-Z0-9_]/', '', $id . $v);
+	//special case for chosen
+	if (is_array($text )) {
+		$text = $text['name'];
+	}
 ?>
 <option id="<?php echo $check_id ?>" value="<?php echo $v ?>" <?php echo (in_array($v, $value) ? ' selected="selected" ':'') ?> data-orgvalue="<?php echo (in_array($v, $value) ? 'true':'false') ?>"><?php echo $text ?></option>
 <?php } ?>
@@ -18,4 +22,53 @@
 	<span class="help_element"><a href="<?php echo $help_url; ?>" target="new"><i class="fa fa-question-circle fa-lg"></i></a></span>
 	<?php } ?>	
 	</span>
+<?php } ?>
+
+
+<?php if ( $style == 'chosen') {  //for chosen we puplate HTML into options  ?>
+<script type="text/javascript">
+$(document).ready(function () {
+<?php 
+	foreach ( $options as $v => $text ) { 	
+		if (is_array($text)) {
+		$check_id = preg_replace('/[^a-zA-Z0-9_]/', '', $id . $v);
+?>
+		$('#<?php echo $check_id ?>').html('<?php echo $text['image']; ?>');
+		$('#<?php echo $check_id ?>').append('<span class="hide_text"> <?php echo $text['name']; ?></span>');
+<?php 
+		}
+	}
+?>
+
+$("#<?php echo $id ?>").chosen({'width':'100%','white-space':'nowrap'});
+
+});
+</script>
+<?php } ?>
+<?php if ( $ajax_url ) {  //for chosen we puplate data from ajax  ?>
+<!-- Ajax Product Sector with Chosen (Multivalue lookup element) -->
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ajax-chosen.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+	$("#<?php echo $id ?>").ajaxChosen({
+	    type: 'POST',
+	    url: '<?php echo $ajax_url; ?>',
+	    dataType: 'json',
+		jsonTermKey: "term",
+		keepTypingMsg: "<?php echo $text_continue_typing; ?>",
+		lookingForMsg: "<?php echo $text_looking_for; ?>"   
+	}, function (data) {
+	    var results = [];
+	    $.each(data, function (i, val) {
+	    	var html = val.image + '<span class="hide_text"> ' + val.name;
+	    	if (val.model) {
+	    		html += '&nbsp;(' + val.model + ')';
+	    	}
+	    	html += '</span>';
+	        results.push({ value: val.product_id, text: html });
+	    });
+	    return results;
+	});
+});
+</script>
 <?php } ?>

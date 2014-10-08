@@ -273,7 +273,6 @@ class ControllerPagesSaleCoupon extends AController {
         $this->data['error'] = $this->error;
         $cont_lang_id = $this->session->data['content_language_id'];
         $this->view->assign('category_products_url', $this->html->getSecureURL('r/product/product/category', '&language_id='.$cont_lang_id));
-        $this->view->assign('products_list_url', $this->html->getSecureURL('r/product/product/products', '&language_id='.$cont_lang_id));
 
         $this->document->initBreadcrumb(array(
             'href' => $this->html->getSecureURL('index/home'),
@@ -498,10 +497,15 @@ class ControllerPagesSaleCoupon extends AController {
 	    if($this->request->get['coupon_id']){
 		    $this->loadModel('sale/order');
 		    $total = $this->model_sale_order->getTotalOrders(array('filter_coupon_id' => $this->request->get['coupon_id'] ));
-		    $this->data['form']['fields']['total_coupon_usage'] = (int)$total;
+	        $this->data['form']['fields']['total_coupon_usage'] = $form->getFieldHtml(array(
+    	        'type' => 'input',
+	            'name' => 'total_coupon_usage',
+    	        'value' => (int)$total,
+    	        'attr' => 'disabled'
+    	    ));
 	    }
 
-		//load only selected products 
+		//load only prior saved products 
 		$resource = new AResource('image');
 		$this->data['products'] = array();
 		if (count($this->data['coupon_product'])) {
@@ -514,17 +518,19 @@ class ControllerPagesSaleCoupon extends AController {
 												(int)$this->config->get('config_image_grid_width'),
 												(int)$this->config->get('config_image_grid_height'),
 												true);
-				$this->data['products'][ $r['product_id'] ] = $thumbnail['thumb_html'] . " " . $r['name'] . " (" . $r['model'] . ")";
+				$this->data['products'][$r['product_id']]['name'] = $r['name']." (".$r['model'].")";
+				$this->data['products'][$r['product_id']]['image'] = $thumbnail['thumb_html'];
 			}
 		}
 
 		$this->data['form']['fields']['product'] = $form->getFieldHtml(
 														array(
-																'type' => 'checkboxgroup',
+																'type' => 'multiselectbox',
 																'name' => 'coupon_product[]',
 																'value' => $this->data['coupon_product'],
 																'options' => $this->data['products'],
 																'style' => 'chosen',
+																'ajax_url' => $this->html->getSecureURL('r/product/product/products', '&language_id='.$cont_lang_id),
 																'placeholder' => $this->language->get('text_select_from_lookup'),
 														));
 
