@@ -51,19 +51,10 @@
 	<div class="headerbar">
 
 		<a class="menutoggle"><i class="fa fa-bars"></i></a>
-<!--
-		<form id="searchform" action="<?php echo $search_action; ?>" method="post">
-			<input id="global_search" class="form-control" type="text" name="search"
-				   placeholder="<?php echo $search_everywhere; ?>"/>
-			<a onclick="$('#searchform').submit();"
-			   class="btn_search btn_standard"><i class="fa fa-search fw"></i></a>
-		</form>
--->
-		<form id="searchform" action="<?php echo $search_action; ?>" method="post">
+
 		<select id="global_search" name="search" data-placeholder="<?php echo $search_everywhere; ?>" class="chosen-select form-control aselect ">
 		<option></option>
 		</select>
-		</form>
 
 		<div id="suggest_popup_dialog"></div>
 
