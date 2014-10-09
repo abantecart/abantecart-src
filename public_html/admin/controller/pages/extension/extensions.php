@@ -116,30 +116,6 @@ class ControllerPagesExtensionExtensions extends AController {
 			'grid_ready' => 'extension_grid_ready(data);'
 		);
 
-		$form = new AForm();
-		$form->setForm(array('form_name' => 'extension_grid_search'));
-
-		$grid_search_form = array();
-		$grid_search_form['id'] = 'extension_grid_search';
-		$grid_search_form['form_open'] = $form->getFieldHtml(array('type' => 'form',
-			'name' => 'extension_grid_search',
-			'action' => ''));
-
-
-		$grid_search_form['submit'] = $form->getFieldHtml(
-				array(
-						'type' => 'button',
-						'name' => 'submit',
-						'text' => $this->language->get('button_go'),
-					));
-		$grid_search_form['reset'] = $form->getFieldHtml(
-				array(  'type' => 'button',
-						'name' => 'reset',
-						'text' => $this->language->get('button_reset'),
-					));
-
-		$grid_settings['search_form'] = true;
-
 		$grid_settings['colNames'] = array('',
 			$this->language->get('column_id'),
 			$this->language->get('column_name'),
@@ -217,7 +193,6 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->view->assign('extension_edit_url', $this->html->getSecureURL('listing_grid/extension/license')) ;
 		$this->view->assign('help_url', $this->gen_help_url('extension_listing'));
 
-		$this->view->assign ( 'search_form', $grid_search_form );
 		$this->view->batchAssign($this->data);
 
 		$stores = array();

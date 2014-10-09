@@ -41,6 +41,7 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/retina.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.cookies.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/chosen.jquery.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ajax-chosen.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap-growl.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/fileinput.min.js"></script>
 

@@ -399,7 +399,7 @@
 	</definition>
 	<definition>
 		<key>search_everywhere</key>
-		<value><![CDATA[Search Everywhere]]></value>
+		<value><![CDATA[Search Entire Site]]></value>
 	</definition>
 	<definition>
 		<key>column_action</key>

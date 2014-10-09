@@ -51,13 +51,20 @@
 	<div class="headerbar">
 
 		<a class="menutoggle"><i class="fa fa-bars"></i></a>
-
+<!--
 		<form id="searchform" action="<?php echo $search_action; ?>" method="post">
 			<input id="global_search" class="form-control" type="text" name="search"
 				   placeholder="<?php echo $search_everywhere; ?>"/>
 			<a onclick="$('#searchform').submit();"
-			   class="btn_search btn_standard"><i class="fa fa-search"></i></a>
+			   class="btn_search btn_standard"><i class="fa fa-search fw"></i></a>
 		</form>
+-->
+		<form id="searchform" action="<?php echo $search_action; ?>" method="post">
+		<select id="global_search" name="search" data-placeholder="<?php echo $search_everywhere; ?>" class="chosen-select form-control aselect ">
+		<option></option>
+		</select>
+		</form>
+
 		<div id="suggest_popup_dialog"></div>
 
 		<div class="header-right">
@@ -258,195 +265,66 @@
 		<?php } ?>
 	</div>
 
-	<script type="text/javascript">
-		$(function () {
-			if (!$('#global_search')) return;
-			$('#global_search').click(function () {
-				$('#global_search').catcomplete('search');
-			});
+<script type="text/javascript">
+$(document).ready(function () {
+	
+	//global seach section 
+	$("#global_search").chosen({'width':'260px','white-space':'nowrap'});
 
-
-			$('#global_search').bind('keyup', function () {
-				if ($(this).val().length < 3) {
-					$('.ui-autocomplete.ui-widget-content').hide();
-				}
-			});
-
-			$('#global_search').focus(function () {
-				$('#global_search').catcomplete('search');
-			});
-			$('#global_search').blur(function () {
-				$('#global_search').catcomplete('close');
-			});
-
-			$.widget("custom.catcomplete", $.ui.autocomplete, {
-				_renderMenu: function (ul, items) {
-					var self = this,
-							currentCategory;
-					$.each(items, function (index, item) {
-						if (item.category != currentCategory && item.category != 'undefined') {
-							ul.append('<span class="ui-autocomplete-category">' + item.category_name + '<a id="' + item.category + '"><?php echo $text_all_matches;?></a> ' + '</span>');
-							currentCategory = item.category;
-						}
-
-						if (!item.category) {
-							ul.append('<span class="ui-autocomplete-category">' + item.label + '</span>');
-							return;
-						} else {
-							self._renderItem(ul, item);
-						}
-					});
-				},
-				_renderItem: function (ul, item) {
-					$("<li></li>").data("item.autocomplete", item).append('<a>' + item.label + '</a>').appendTo(ul);
-					return;
-				},
-				// Attempt to cancel the Close event, so when someone makes a selection, the box does not close
-				close: function (event, ui) {
-					return false;
-				}
-
-			});
-
-			var cache = {},
-					lastXhr;
-			$("#global_search").catcomplete({
-				position: { my: 'right top', at: 'right', of: '#global_search', offset: '33 11'},
-				minLength: 3,
-				focus: function () {
-					return false;
-				},
-				source: function (request, response) {
-					var term = request.term;
-
-					if (term in cache) {
-						response(cache[ term ]);
-						return;
-					}
-
-					ajaxrequest = $.getJSON("<?php echo $search_suggest_url; ?>&term=" + term, request, function (data, status, xhr) {
-						cache[ term ] = data.response;
-						if (xhr === ajaxrequest) {
-							if (data.response.length > 0) {
-								response(data.response);
-							} else {
-								response([
-									{'label': '<?php echo $text_no_results; ?>'}
-								]);
-							}
-						}
-					});
-				},
-				select: function (e, ui) {
-					if (ui.item.controller != '' && ui.item.controller != 'undefined') {
-						openSuggestDiag(ui.item);
-					} else {
-						location = ui.item.page;
-					}
-					return false;
-				}
-
-			});
-
-			$('.ui-autocomplete-category a').on('click', function () {
-				location = '<?php echo $search_action ?>&search=' + $('#global_search').val() + '#' + $(this).prop('id');
-			});
-			$(document).bind('keyup', function (e) {
-				var code = (e.keyCode ? e.keyCode : e.which);
-				if (code == $.ui.keyCode.ESCAPE) {
-					$('.ui-autocomplete.ui-widget-content').hide();
-				}
-			});
-
-			$(document).bind('mousedown', function (e) {
-				if ($(e.target).parents('.ui-autocomplete').length == 0) {
-					$('.ui-autocomplete.ui-widget-content').hide();
-				}
-			});
-
-			var openSuggestDiag = function (item) {
-				$('#suggest_popup_dialog').focus();
-				var $Popup = $('#suggest_popup_dialog').dialog({
-					title: '<?php echo $dialog_title; ?>',
-					autoOpen: true,
-					modal: true,
-					bgiframe: false,
-					width: 900,
-					height: 500,
-					position: 'center',
-					draggable: true,
-					close: function (event) {
-						$('#global_search').focus();
-						CKEditor('destroy');
-						$(this).dialog('destroy');
-
-					}
-				});
-				CKEditor('destroy');
-
-				// spinner
-				$("#suggest_popup_dialog").html('<div class="progressbar">Loading ...</div>');
-
-				$.ajax({
-					url: item.controller + '&target=suggest_popup_dialog',
-					type: 'GET',
-					dataType: 'json',
-					success: function (data) {
-						$("#suggest_popup_dialog").html(data.html);
-						$('#suggest_popup_dialog').dialog('option', 'title', data.title);
-						$('#suggest_popup_dialog').dialog('option', 'height', 'auto');
-						$('span[id$="cancel"]').on('click', function () {
-							$('#suggest_popup_dialog').dialog("close");
-						});
-						if ($('#store_switcher').length > 0) {
-							$('#store_switcher').aform({ triggerChanged: false })
-									.on('change', function () {
-										$.getJSON(item.controller + '&target=suggest_popup_dialog&store_id=' + $(this).val(),
-												function (response) {
-													$('#suggest_popup_dialog').html(response.html);
-													CKEditor('destroy');
-													CKEditor('add');
-												});
-									});
-						}
-						CKEditor('add');
-					}
-				});
-			}
-
-
-		});
-
-		var CKEditor = function (mode) {
-			var settings = [];
-			settings[0] = 'qsFrm_config_description_<?php echo $content_language_id; ?>';
-			settings[1] = 'qsFrm_config_meta_description';
-
-			for (var k in settings) {
-
-				if ($('#' + settings[k]).length > 0) {
-					if (mode == 'add') {
-						$('#' + settings[k]).parents('.afield').removeClass('mask2');
-						$('#' + settings[k]).parents('td').removeClass('ml_field').addClass('ml_ckeditor');
-
-						CKEDITOR.replace(settings[k], {
-							filebrowserBrowseUrl: false,
-							filebrowserImageBrowseUrl: '<?php echo $rl; ?>',
-							filebrowserWindowWidth: '920',
-							filebrowserWindowHeight: '520',
-							language: '<?php echo $language_code; ?>'
-						});
-						$("#edit_dialog").dialog('option', 'width', '800');
-					} else {
-						var editor = CKEDITOR.instances[settings[k]];
-						if (editor) {
-							editor.destroy(true);
-						}
-					}
-				}
-			}
+	$("#global_search").ajaxChosen({
+	    type: 'GET',
+	    url: '<?php echo $search_suggest_url; ?>',
+	    dataType: 'json',
+		jsonTermKey: "term",
+		keepTypingMsg: "<?php echo $text_continue_typing; ?>",
+		lookingForMsg: "<?php echo $text_looking_for; ?>"   
+	}, function (data) {
+		if(data.response.length < 1) {
+			$("#searchform").chosen({no_results_text: "<?php echo $text_no_results; ?>"});
+			return '';
 		}
-	</script>
+		//build result array 
+		var dataobj = new Object;
+	    $.each(data.response, function (i, row) {
+	    	if(!dataobj[row.category]){
+	    		dataobj[row.category] = new Object;
+	    		dataobj[row.category].name = row.category_name;
+	    		dataobj[row.category].items = [];
+	    	}
+	    	//if controller present need to open modal 
+	    	var onclick = 'onClick="window.open(\''+row.page+'\');"';
+	    	if (row.controller) {
+	    		onclick = ' data-toggle="modal" data-target="#message_modal"' + 'href="'+row.controller+'" ';
+	    	}
+	    	var html = '<a '+onclick+' "class=search_result" title="'+row.text+'">'+ row.title + '</a>';
+			dataobj[row.category].items.push({ value: row.order_id, text: html });
+	    });
+	    var results = [];
+	    var serch_action = '<?php echo $search_action ?>&search=' + $('#global_search_chosen input').val();
+	    var onclick = 'onClick="window.open(\''+serch_action+'\');"';
+	    results.push({ 
+	    	value: 0,
+	    	text: '<div class="text-center"><a '+onclick+' class="btn btn-deafult"><?php echo $search_everywhere; ?></a></div>'
+	    });
+	    $.each(dataobj, function (category, datacat) {
+	    	var url = serch_action + '#' + category;
+	    	var onclick = 'onClick="window.open(\''+url+'\');"';
+	    	var header = '<span class="h5">'+datacat.name+'</span>';
+	    	header += '<span class="pull-right"><a class="more-in-category" '+onclick+'><?php echo $text_all_matches;?></a></span>';
+	    	results.push({ 
+				group: true,
+				text: header, 
+				items: datacat.items
+			});    	
+		});
+		//inbind chosen click events 
+		$('#global_search_chosen .chosen-results').unbind();
+		
+		return results;
+	});
+	
+});
+</script>
 
 <?php } else { ?><!-- not logged in -->
 
