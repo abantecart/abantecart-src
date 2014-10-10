@@ -1,66 +1,75 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<?php echo $resources_scripts; ?>
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_category"><?php echo $heading_title; ?></div>
-	<div class="toolbar">
-		<?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-        <?php echo $form_language_switch; ?>
-    </div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
+<?php if ($tabs) { ?>
+	<ul class="nav nav-tabs nav-justified nav-profile">
+	<?php foreach ( $tabs as $tab){ ?>
+		<li class="<?php echo $tab['class']; ?>"><a href="<?php echo $tab['href']; ?>"><span><?php echo $tab['text']; ?></span></a></li>
+	<?php }?>
+		<?php echo $this->getHookVar('extension_tabs'); ?>
+	</ul>
+<?php } ?>
+
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
+	</div>
 
 	<?php echo $form['form_open']; ?>
-	<div class="fieldset">
-	  <div class="heading"><?php echo $form_title; ?></div>
-	  <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-	  <div class="cont_left"><div class="cont_right"><div class="cont_mid">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<label class="h4 heading"><?php echo $form_title; ?></label>
+			<?php foreach ($form['fields'] as $name => $field) {
+				//Logic to cululate fileds width
+				$widthcasses = "col-sm-7";
+				if ( is_int(stripos($field->style, 'large-field')) ) {
+					$widthcasses = "col-sm-7";
+				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
+					$widthcasses = "col-sm-5";
+				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+					$widthcasses = "col-sm-3";
+				} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
+					$widthcasses = "col-sm-2";
+				}
+				$widthcasses .= " col-xs-12";
+			?>
+		<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<?php if(in_array($name, array('link_category', 'link_page'))){ ?>
+					<span class="input-group-btn">
+						<button id="<?php echo $name?>" class="btn btn-info" type="button" title="Generate"><?php echo $button_link->text?></button>
+					</span>
+				<?php }
+				echo $field; ?>
+			</div>
 
-          <table class="form">
-            <?php foreach ($form['fields'] as $name => $field) { ?>
-				<tr>
-					<td><?php echo ${'entry_'.$name}; ?></td>
-					<td id="smenu_<?php echo $name; ?>">
-						<?php
-                        switch ( $name ) {
-                            case 'item_icon':
-                                echo $icon.$field;
-                                break;
-                            default:
-                                echo $field;
-                        }
-                          ?>
-						<?php if (!empty($error[$name])) { ?>
-							<div class="field_err"><?php echo $error[$name]; ?></div>
-						<?php } ?>
-					</td>
-				</tr>
-			<?php } //foreach ($form['fields'] as $name => $field)  ?>
-	          <tr>
-					<td><?php echo $entry_link_category; ?></td>
-					<td><div class="flt_left"><?php echo $categories; ?></div><div class="flt_left">&nbsp;&nbsp;<a id="link_category" class="btn_standard" href="#"><?php echo $button_link; ?></a></div></td>
-				</tr>
-				<tr>
-					<td><?php echo $entry_link_page; ?></td>
-					<td><div class="flt_left"><?php echo $pages; ?></div><div class="flt_left">&nbsp;&nbsp;<a id="link_page" class="btn_standard" href="#" ><?php echo $button_link; ?></a></div></td>
-				</tr>
-          </table>
+		    <?php if (!empty($error[$name])) { ?>
+		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+		    <?php } ?>
+		</div>
+			<?php }  ?><!-- <div class="fieldset"> -->
 
-  </div></div></div>
-      <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
-	</div><!-- <div class="fieldset"> -->
-	<div class="buttons align_center">
-	  <button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
-	  <a class="btn_standard" href="<?php echo $cancel; ?>" ><?php echo $form['cancel']; ?></a>
-    </div>
+
+	</div>
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<button class="btn btn-default" type="reset">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $cancel; ?>">
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
+			</a>
+		</div>
+	</div>
 	</form>
 
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
-</div>
+</div><!-- <div class="tab-content"> -->
+<?php echo $resources_scripts; ?>
 
 
 <script type="text/javascript"><!--
@@ -68,35 +77,33 @@ jQuery(function($){
 
 	$('#link_category').click(function(){
         var c_id = $('#menu_categories').val();
-        var c_name = $.trim( $('#menu_categories option:selected').text() );
-        $('input[name="item_url"]').val('product/category&path='+c_id);
+		if(c_id.length>0){
+        	$('input[name="item_url"]').val('product/category&path='+c_id).change();
+		}
 		return false;
     });
 
 	$('#link_page').click(function(){
         var c_id = $('#menu_information').val();
-        var c_name = $.trim( $('#menu_information option:selected').text() );
-        $('input[name="item_url"]').val('content/content&content_id='+c_id);
+		if(c_id.length>0){
+        	$('input[name="item_url"]').val('content/content&content_id='+c_id).change();
+		}
 		return false;
     });
 
 	function preselect(){
 		var val = $.trim( $('input[name="item_url"]').val());
-		var id = val.replace('product/category&path=', '');
-		if(id.length>20){
-			id = val.replace('content/content&content_id=', '');
-			if(id.length<20){
-				$('#menu_information').val(id).change();
-			}
-		}else{
+		var id;
+
+		if(val.search("product/category&path=")>-1){
+			id = val.replace('product/category&path=', '');
 			$('#menu_categories').val(id).change();
+		}else if(val.search("content/content&content_id=")>-1){
+			id = val.replace('content/content&content_id=', '');
+			$('#menu_information').val(id).change();
 		}
 	}
 
-    $('#item_icon').click(function(){
-        selectDialog('image', $(this).attr('id'));
-        return false;
-    });
 
 	$(document).ready(preselect);
 	$('input[name="item_url"]').change(preselect);

@@ -234,7 +234,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 								'data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
 				html += '</div>';
 
-				$('#'+field).val(item['type_name']+'/'+item['resource_path']);
+				$('#'+field).val(item['resource_path'].lenght>0 ? item['type_name']+'/'+item['resource_path'] : '');
 				$('#'+field+'_resource_id').val(item['resource_id']);
 
 

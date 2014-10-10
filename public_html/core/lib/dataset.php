@@ -357,7 +357,7 @@ final class ADataset {
 			throw new AException ( AC_ERR_LOAD, 'Error: Could not set property for column! Column definitions is empty.' );
 		}
 		
-		foreach ( $this->columnset as $id => $cols ) {
+		foreach ( $this->columnset as $cols ) {
 			if ($cols ['dataset_column_name'] == $column_name) {
 				$column_id = $cols ['dataset_column_id'];
 			}
@@ -543,13 +543,16 @@ final class ADataset {
 		$output = array ();
 		
 		if (is_array ( $dataset_values )) {
-			foreach ( $dataset_values as $k=>$row ) {
+			foreach ( $dataset_values as $row ) {
 				// then build order for resorting
 				if($order_name && $row['dataset_column_name']==$order_name){
 					$index[$row ['row_id']] = $row ["value_" . $this->columnset [$row ['dataset_column_id']] ['dataset_column_type']];
 				}
 
 				if(in_array($row ['dataset_column_name'],$column_names) || !$column_names){
+					if(!isset($row ["value_" . $this->columnset [$row ['dataset_column_id']] ['dataset_column_type']])){
+						$this->registry->get('log')->write('Error: dataset inconsistency data issue detected. $data');
+					}
 					$output [$row ['row_id']] [$row ['dataset_column_name']] = $row ["value_" . $this->columnset [$row ['dataset_column_id']] ['dataset_column_type']];
 				}
 			}
@@ -611,7 +614,7 @@ final class ADataset {
 		if ($row_ids) {
 			$query = "DELETE FROM " . DB_PREFIX . "dataset_values 
 			 			WHERE row_id in (" . implode ( ",", $row_ids ) . ") AND dataset_column_id in (" . implode ( ",", array_keys ( $this->columnset ) ) . ")";
-			$sql = $this->db->query ( $query );
+			$this->db->query ( $query );
 		}
 		// return deleted rows count
 		return sizeof($row_ids);
@@ -680,11 +683,11 @@ final class ADataset {
 					$column_value = '';
 			
 			}
-			
+
 			$sql = "UPDATE " . DB_PREFIX . "dataset_values 
 					SET value_" . $this->columnset [$column_id] ['dataset_column_type'] . " = '" . $column_value . "'
 					WHERE dataset_column_id = " . $column_id . " AND  row_id in (" . implode ( ", ", $row_ids ) . ")";
-			
+
 			$this->db->query ( $sql );
 		
 		}
@@ -857,10 +860,12 @@ final class ADataset {
 			}
 		}
 	}
-	
+
+	/**
+	 * @param simplexmlElement $xml_obj
+	 */
 	private function _processXML($xml_obj) {
-		
-		$error = '';
+
 		$xml = $xml_obj->xpath ( '/datasets' );
 		$datasets = $xml;
 		//process each layout 
@@ -941,8 +946,8 @@ final class ADataset {
 			if ($dataset->dataset_rows && $dataset->dataset_rows->dataset_row) {
 				$row_values = array ();
 				foreach ( $dataset->dataset_rows->dataset_row as $row ) {
-					if ($dataset->dataset_rows->dataset_row->cell) {
-						foreach ( $dataset->dataset_rows->dataset_row->cell as $cell ) {
+					if ($row->cell) {
+						foreach ( $row->cell as $cell ) {
 							$row_values [] [( string ) $cell->column_name] = ( string ) $cell->value;
 						}
 					}
