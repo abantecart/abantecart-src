@@ -973,7 +973,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$corefiles = $package_info['package_content']['core'];
 		$pmanager = new APackageManager();
 		//#1 backup files
-		$backup = new ABackup('abantecart_' . VERSION);
+		$backup = new ABackup('abantecart_' . str_replace('.','',VERSION));
 		foreach ($corefiles as $core_file) {
 			if (file_exists(DIR_ROOT . '/' . $core_file)) {
 				if (!$backup->backupFile(DIR_ROOT . '/' . $core_file, false)) {
@@ -990,9 +990,11 @@ class ControllerPagesToolPackageInstaller extends AController {
 					return false;
 				}
 				if (!$backup->archive(DIR_BACKUP . $backup_dirname . '.tar.gz', DIR_BACKUP, $backup_dirname)) {
+					$this->session->data['error'] = $backup->error;
 					return false;
 				}
 			} else {
+				$this->session->data['error'] = 'Error: Unknown directory name for backup.';
 				return false;
 			}
 
