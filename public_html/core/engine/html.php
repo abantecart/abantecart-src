@@ -1077,7 +1077,11 @@ class SelectboxHtmlElement extends HtmlElement {
 			$opt = (string)$opt;
 		}
 		unset($opt);
-		$registry = $this->data['registry'];
+
+		$language = $this->data['registry']->get('language');
+		$text_continue_typing = $language ? $language->get('text_continue_typing') : 'Continue typing ...';
+		$text_looking_for = $language ? $language->get('text_looking_for') : 'Looking for';
+
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1090,20 +1094,19 @@ class SelectboxHtmlElement extends HtmlElement {
 				'placeholder' => $this->placeholder,
 				'ajax_url' => $this->ajax_url, //if mode of data load is ajax based 
 				'search_mode' => $this->search_mode,
-				'text_continue_typing' => $registry->get('language')->get('text_continue_typing'),
-				'text_looking_for' => $registry->get('language')->get('text_looking_for'),				
+				'text_continue_typing' => $text_continue_typing,
+				'text_looking_for' => $text_looking_for,
 			)
 		);
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
 		if( strpos($this->style,'chosen') !== false ) {
-			$registry = $this->data['registry'];
 			$this->view->batchAssign(
 				array(
 				'ajax_url' => $this->ajax_url, //if mode of data load is ajax based 
-				'text_continue_typing' => $registry->get('language')->get('text_continue_typing'),
-				'text_looking_for' => $registry->get('language')->get('text_looking_for'),				
+				'text_continue_typing' => $text_continue_typing,
+				'text_looking_for' => $text_looking_for,
 				)
 			);
 			$return = $this->view->fetch('form/chosen_select.tpl');
