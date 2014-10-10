@@ -37,5 +37,3 @@
 		</table>
 	</div>
 </div>
-
-<?php } ?>

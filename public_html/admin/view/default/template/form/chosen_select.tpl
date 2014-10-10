@@ -47,7 +47,6 @@ $("#<?php echo $id ?>").chosen({'width':'100%','white-space':'nowrap'});
 <?php } ?>
 <?php if ( $ajax_url ) {  //for chosen we puplate data from ajax  ?>
 <!-- Ajax Product Sector with Chosen (Multivalue lookup element) -->
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/ajax-chosen.js"></script>
 <script type="text/javascript">
 $(document).ready(function () {
 	$("#<?php echo $id ?>").ajaxChosen({
