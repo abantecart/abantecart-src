@@ -187,18 +187,15 @@ final class ABackup {
 		$table_name = $this->registry->get('db')->escape($table_name); // for any case
 
 		$backupFile = $this->backup_dir.'data/' .DB_DATABASE.'_'.$table_name.'_dump_'. date("Y-m-d-H-i-s") . '.sql';
-		$command = "mysqldump --opt -h " . DB_HOSTNAME . " -u " . DB_USERNAME . " -p" . DB_PASSWORD . " " . DB_DATABASE . "  ".$table_name." > " . $backupFile;
-		$result = null;
-        if(isFunctionAvailable('system')){
-			$result = system($command);
-		}
+
+		$result = $this->dumpTables($tables = array($table_name), $backupFile);
+
 		if(!$result){
 			$this->error = "Error: Can't create sql dump of database table during backup";
 			$this->log->write($this->error);
 			$this->message->saveError('Backup Error',$this->error);
 			return false;
 		}
-		chmod($backupFile,0777);
 		return true;
 	}
 	
@@ -316,9 +313,6 @@ final class ABackup {
 		$this->_removeDir( $src_dir.$filename );
 		return true;
 	}
-
-
-
 
 	// Future:  1. We will add methods to brows and restore backup. 
 	// 			2. Incremental backup for the database changes. 
