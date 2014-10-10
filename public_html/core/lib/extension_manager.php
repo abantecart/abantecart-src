@@ -373,7 +373,7 @@ class AExtensionManager {
 		$extension_info = $this->getExtensionsList(array('search' => $name));
 		$extension_id = $extension_info->row['extension_id'];
 
-		$validate = $this->validateCoreVersion($extension_id, $config);
+		$validate = $this->validateCoreVersion($extension_info->row['key'], $config);
 		$errors = $ext->getError();
 
 		if ($errors) {
