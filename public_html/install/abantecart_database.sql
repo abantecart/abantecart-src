@@ -11530,6 +11530,26 @@ VALUES  (4,20,'date_added','timestamp',1),
         (4,25,'type','varchar',6),
         (4,26,'user','varchar',7);
 
+
+-- insert info about initial installation
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_timestamp`,`row_id`)
+VALUES  (20, NOW(),'1');
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (21,'AbanteCart','1');
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (22,'1.2.0a','1');
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (23,'','1');
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (24,'','1');
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (25,'install','1');
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (26,'admin','1');
+
+
+
+
 -- ## ADD FILE UPLOADS DATASET
 INSERT INTO `ac_datasets` (`dataset_id`,`dataset_name`,`dataset_key`) VALUES (5,'file_uploads','admin');
 INSERT INTO `ac_dataset_properties` (`dataset_id`,`dataset_property_name`,`dataset_property_value`) VALUES (5,'controller','tool/files');
@@ -11541,20 +11561,6 @@ VALUES  (5,30,'date_added','timestamp',1),
         (5,33,'section','varchar',4),
         (5,34,'section_id','integer',5),
         (5,35,'path','varchar',6);
-
--- insert info about initial installation
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_timestamp`,`row_id`)
-VALUES  (30, NOW(),'1');
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (31,'AbanteCart','1');
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (18,'1.2.0a','1');
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (33,'','1');
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (34,'install','1');
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (35,'admin','1');
 
 --
 -- DDL for table `ac_resource_library`
