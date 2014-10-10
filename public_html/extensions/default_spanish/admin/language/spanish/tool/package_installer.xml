@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <definitions>
 	<definition>
-		<key>success</key>
+		<key>text_success</key>
 		<value><![CDATA[ Éxito: El paquete se ha instalado correctamente. ]]></value>
 	</definition>
 	<definition>
