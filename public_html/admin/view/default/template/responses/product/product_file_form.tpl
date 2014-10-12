@@ -20,7 +20,7 @@
 			<?php echo $form0['form_open']; ?>
 				<div class="panel-body panel-body-nopadding">
 						<?php
-							//Logic to cululate fileds width
+							//Logic to calculate fields width
 							$widthcasses = "col-sm-7";
 							if ( is_int(stripos($field->style, 'large-field')) ) {
 								$widthcasses = "col-sm-7";
@@ -34,7 +34,7 @@
 							$widthcasses .= " col-xs-12";
 						$name = 'shared';
 						?>
-					<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+					<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 						<label class="control-label col-sm-3 col-xs-12" for="<?php echo $form0['shared']->element_id; ?>"><?php echo $text_select_shared_downloads; ?></label>
 						<div class="input-group afield <?php echo $widthcasses; ?> ">
 							<?php echo $form0['shared']; ?>
@@ -76,7 +76,7 @@
 						<label class="h4 heading"><?php echo ${'tab_' . $section}; ?></label>
 							<?php foreach ($fields as $name => $field) {
 								if( $field->type=='hidden' ){ echo $field; continue;	}
-								//Logic to cululate fileds width
+								//Logic to calculate fields width
 								$widthcasses = "col-sm-7";
 								if ( is_int(stripos($field->style, 'large-field')) ) {
 									$widthcasses = "col-sm-7";
@@ -89,7 +89,7 @@
 								}
 								$widthcasses .= " col-xs-12";
 							?>
-						<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+						<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 							<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 							<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
 								<?php echo $field;

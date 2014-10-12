@@ -24,7 +24,7 @@
 
 	<label class="h4 heading"><?php echo $text_cart_info; ?></label>
 				
-	<div class="form-group <? if ($error_cart_type) { echo "has-error"; } ?>">
+	<div class="form-group <?php if ($error_cart_type) { echo "has-error"; } ?>">
 	    <label class="control-label col-sm-offset-1 col-sm-3 col-xs-12"><?php echo $entry_cart_type; ?></label>
 	    <div class="input-group afield  col-sm-5 col-xs-12">
 	    	<?php echo $form['cart_type']; ?>
@@ -34,7 +34,7 @@
 	    <?php } ?>
 	</div>
 
-	<div class="form-group <? if ($error_cart_url) { echo "has-error"; } ?>">
+	<div class="form-group <?php if ($error_cart_url) { echo "has-error"; } ?>">
 	    <label class="control-label col-sm-offset-1 col-sm-3 col-xs-12"><?php echo $entry_cart_url; ?></label>
 	    <div class="input-group afield  col-sm-5 col-xs-12">
 	    	<?php echo $form['cart_url']; ?>
@@ -46,7 +46,7 @@
 
 	<label class="h4 heading"><?php echo $text_db_info; ?></label>
 
-	<div class="form-group <? if ($error_db_host) { echo "has-error"; } ?>">
+	<div class="form-group <?php if ($error_db_host) { echo "has-error"; } ?>">
 	    <label class="control-label col-sm-offset-1 col-sm-3 col-xs-12"><?php echo $entry_db_host; ?></label>
 	    <div class="input-group afield  col-sm-5 col-xs-12">
 	    	<?php echo $form['db_host']; ?>
@@ -56,7 +56,7 @@
 	    <?php } ?>
 	</div>
 
-	<div class="form-group <? if ($error_db_user) { echo "has-error"; } ?>">
+	<div class="form-group <?php if ($error_db_user) { echo "has-error"; } ?>">
 	    <label class="control-label col-sm-offset-1 col-sm-3 col-xs-12"><?php echo $entry_db_user; ?></label>
 	    <div class="input-group afield  col-sm-5 col-xs-12">
 	    	<?php echo $form['db_user']; ?>
@@ -66,7 +66,7 @@
 	    <?php } ?>
 	</div>
 
-	<div class="form-group <? if ($error_db_password) { echo "has-error"; } ?>">
+	<div class="form-group <?php if ($error_db_password) { echo "has-error"; } ?>">
 	    <label class="control-label col-sm-offset-1 col-sm-3 col-xs-12"><?php echo $entry_db_password; ?></label>
 	    <div class="input-group afield  col-sm-5 col-xs-12">
 	    	<?php echo $form['db_password']; ?>
@@ -76,7 +76,7 @@
 	    <?php } ?>
 	</div>
 				
-	<div class="form-group <? if ($error_db_name) { echo "has-error"; } ?>">
+	<div class="form-group <?php if ($error_db_name) { echo "has-error"; } ?>">
 	    <label class="control-label col-sm-offset-1 col-sm-3 col-xs-12"><?php echo $entry_db_name; ?></label>
 	    <div class="input-group afield  col-sm-5 col-xs-12">
 	    	<?php echo $form['db_name']; ?>

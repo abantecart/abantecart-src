@@ -22,7 +22,7 @@
 		<?php
 		$fields = array('fhost','fuser','fpass');
 		foreach ($fields as $name) { ?>
-			<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+			<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $form[$name]->element_id; ?>"><?php echo $$name; ?></label>
 				<div class="input-group afield col-sm-7 col-xs-12">
 					<?php echo $form[$name]; ?>

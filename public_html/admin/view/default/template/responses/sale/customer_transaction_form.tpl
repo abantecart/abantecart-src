@@ -20,7 +20,7 @@
 				$widthclasses = "col-sm-2";
 			}
 			$widthclasses .= " col-xs-12"; ?>
-		<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>" <?php echo ($name=='other_type' ? 'style="display: none;"' : '')?>>
+		<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>" <?php echo ($name=='other_type' ? 'style="display: none;"' : '')?>>
 			<label class="control-label col-sm-4 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 			<div class="input-group afield <?php echo $widthclasses; ?>"><?php echo $field; ?></div>
 			<?php if (is_array($error[$name]) && !empty($error[$name])) { ?>

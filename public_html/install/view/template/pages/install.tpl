@@ -24,7 +24,7 @@
 
 		<label class="h5 heading">1 . Please enter your database connection details.</label>
 
-		<div class="form-group <? if (!empty($error[db_driver])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[db_driver])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4 col-xs-12">Database Driver:</label>
 			<div class="input-group col-sm-6 col-xs-12 afield">
 				<?php echo $form['db_driver']; ?>
@@ -34,7 +34,7 @@
 			<?php } ?>
 		</div>
 
-		<div class="form-group <? if (!empty($error[db_host])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[db_host])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4 col-xs-12">Database Hostname:</label>
 			<div class="input-group col-sm-6 col-xs-12 afield">
 				<?php echo $form['db_host']; ?>
@@ -44,7 +44,7 @@
 			<?php } ?>
 		</div>
 
-		<div class="form-group <? if (!empty($error[db_user])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[db_user])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4 col-xs-12">Database Username:</label>
 			<div class="input-group col-sm-6 col-xs-12 afield">
 				<?php echo $form['db_user']; ?>
@@ -54,7 +54,7 @@
 			<?php } ?>
 		</div>
 
-		<div class="form-group <? if (!empty($error[db_password])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[db_password])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4 col-xs-12">Database Password:</label>
 			<div class="input-group col-sm-6 col-xs-12 afield">
 				<?php echo $form['db_password']; ?>
@@ -64,7 +64,7 @@
 			<?php } ?>
 		</div>
 
-		<div class="form-group <? if (!empty($error[db_name])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[db_name])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4 col-xs-12">Database Name:</label>
 			<div class="input-group col-sm-6 col-xs-12 afield">
 				<?php echo $form['db_name']; ?>
@@ -74,7 +74,7 @@
 			<?php } ?>
 		</div>
 
-		<div class="form-group <? if (!empty($error[db_prefix])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[db_prefix])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4 col-xs-12">Table Names Prefix:</label>
 			<div class="input-group col-sm-6 col-xs-12 afield">
 				<?php echo $form['db_prefix']; ?>
@@ -87,7 +87,7 @@
 
 		<label class="h5 heading">2. Please enter a name for administrator's section. It needs to be unique alphanumeric name. Only administrators needs to know this to access control panel of the shopping cart application. Example: admin_section_2010</label>
 		
-		<div class="form-group <? if (!empty($error[admin_path])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[admin_path])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4 col-xs-12">Admin section unique key:</label>
 			<div class="input-group col-sm-6 col-xs-12 afield">
 				<?php echo $form['admin_path']; ?>
@@ -99,7 +99,7 @@
 					
 		<label class="h5 heading">3. Please enter a username and password for the administration.</label>
 
-		<div class="form-group <? if (!empty($error[username])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[username])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4 col-xs-12">Admin username:</label>
 			<div class="input-group col-sm-6 col-xs-12 afield">
 				<?php echo $form['username']; ?>
@@ -109,7 +109,7 @@
 			<?php } ?>
 		</div>
 
-		<div class="form-group <? if (!empty($error[password])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[password])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4 col-xs-12">Admin Password:</label>
 			<div class="input-group col-sm-6 col-xs-12 afield">
 				<?php echo $form['password']; ?>
@@ -119,7 +119,7 @@
 			<?php } ?>
 		</div>
 
-		<div class="form-group <? if (!empty($error[password_confirm])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[password_confirm])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4 col-xs-12">Confirm Password:</label>
 			<div class="input-group col-sm-6 col-xs-12 afield">
 				<?php echo $form['password_confirm']; ?>
@@ -129,7 +129,7 @@
 			<?php } ?>
 		</div>
 
-		<div class="form-group <? if (!empty($error[email])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[email])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4 col-xs-12">Admin Email:</label>
 			<div class="input-group col-sm-6 col-xs-12 afield">
 				<?php echo $form['email']; ?>

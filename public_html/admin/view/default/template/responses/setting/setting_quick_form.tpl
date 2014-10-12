@@ -23,7 +23,7 @@
 				}
 				$widthcasses .= " col-xs-12";
 			?>
-		<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo (is_int(strpos($name, 'description')) ? 'ml_ckeditor' : '')?>">
 				<?php echo $field; ?>

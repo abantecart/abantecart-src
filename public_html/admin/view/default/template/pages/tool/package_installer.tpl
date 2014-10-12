@@ -24,7 +24,7 @@
 
 		<?php foreach ($form['fields'] as $name => $field) {
 
-		//Logic to cululate fileds width
+		//Logic to calculate fields width
 		$widthcasses = "col-sm-7";
 		if (is_int(stripos($field->style, 'large-field'))) {
 			$widthcasses = "col-sm-7";
@@ -38,12 +38,12 @@
 		$widthcasses .= " col-xs-12";
 
 		if($upload && $name=='upload_url'){ ?>
-			<div class="form-group <? if (!empty($error[$name])) {	echo "has-error";	} ?>">
+			<div class="form-group <?php if (!empty($error[$name])) {	echo "has-error";	} ?>">
 				<label class="control-label col-sm-3 col-xs-12"><?php echo $text_or; ?></label>
 			</div>
 		<?php } ?>
 
-		<div class="form-group <? if (!empty($error[$name])) {	echo "has-error";	} ?>">
+		<div class="form-group <?php if (!empty($error[$name])) {	echo "has-error";	} ?>">
 			<label class="control-label col-sm-3 col-xs-12"
 				   for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 

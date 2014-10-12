@@ -23,7 +23,7 @@
 			if (is_array($field) && $name == 'language_value') {
 				foreach ($field as $lang_id => $f) {
 					?>
-					<div class="form-group <? if (!empty($error[$name])) {
+					<div class="form-group <?php if (!empty($error[$name])) {
 						echo "has-error";
 					} ?>">
 					<label class="control-label col-sm-3 col-xs-12" for="<?php echo $f->element_id; ?>">
@@ -45,7 +45,7 @@
 			<?php
 			} else {
 				?>
-				<div class="form-group <? if (!empty($error[$name])) {
+				<div class="form-group <?php if (!empty($error[$name])) {
 					echo "has-error";
 				} ?>">
 					<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>">
