@@ -218,6 +218,7 @@ final class ADataset {
 										FROM " . DB_PREFIX . "dataset_definition
 										WHERE dataset_id = '" . $this->dataset_id . "'
 										ORDER BY dataset_column_sort_order, dataset_column_id" );
+
 		if ($result->num_rows) {
 			foreach ( $result->rows as $row ) {
 				$this->columnset [$row ['dataset_column_id']] = $row;
@@ -551,7 +552,8 @@ final class ADataset {
 
 				if(in_array($row ['dataset_column_name'],$column_names) || !$column_names){
 					if(!isset($row ["value_" . $this->columnset [$row ['dataset_column_id']] ['dataset_column_type']])){
-						$this->registry->get('log')->write('Error: dataset inconsistency data issue detected. $data');
+						$warning = new AWarning('Dataset inconsistency data issue detected. Dataset ID: '.$this->dataset_id.'. Column_name: '.$row ['dataset_column_name'].' Column data type: '.$this->columnset [$row ['dataset_column_id']] ['dataset_column_type']);
+						$warning->toDebug();
 					}
 					$output [$row ['row_id']] [$row ['dataset_column_name']] = $row ["value_" . $this->columnset [$row ['dataset_column_id']] ['dataset_column_type']];
 				}
