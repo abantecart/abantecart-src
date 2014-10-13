@@ -231,9 +231,10 @@ class ControllerPagesDesignMenu extends AController {
 
 				if(has_value($update_item ['item_icon_resource_id'])){
 					$update_item ['item_icon_rl_id'] = $update_item ['item_icon_resource_id'];
-					unset($update_item ['item_icon_resource_id']);
+				}else{
+					$update_item ['item_icon_rl_id'] = '';
 				}
-
+				unset($update_item ['item_icon_resource_id']);
 
 				// set condition for updating row
 				$this->menu->updateMenuItem($this->request->get ['item_id'], $update_item);
