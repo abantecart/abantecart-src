@@ -10601,13 +10601,13 @@ VALUES  (1,'home',1),
 
 -- ITEM_ICON
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (2,'<i class="fa fa-home"></i>&nbsp;',1),
-        (2,'<i class="fa fa-lock"></i>&nbsp;&nbsp;',2),
-        (2,'<i class="fa fa-lock"></i>&nbsp;&nbsp;',3),
-        (2,'<i class="fa fa-user"></i>&nbsp;',4),
-        (2,'<i class="fa fa-shopping-cart"></i>&nbsp;',5),
-        (2,'<i class="fa fa-barcode"></i>&nbsp;&nbsp;',6),
-        (2,'<i class="fa fa-star"></i>&nbsp;&nbsp;',7);
+VALUES  (2,'',1),
+        (2,'',2),
+        (2,'',3),
+        (2,'',4),
+        (2,'',5),
+        (2,'',6),
+        (2,'',7);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (3,'index/home',1),
@@ -10646,13 +10646,13 @@ VALUES  (6,'core',1),
         (6,'core',7);
 -- item_icon_rl_id
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
-VALUES  (7,2,1),
-        (7,3,2),
-        (7,3,3),
-        (7,4,4),
-        (7,5,5),
-        (7,6,6),
-		    (7,1,7);
+VALUES  (7,null,1),
+        (7,null,2),
+        (7,null,3),
+        (7,null,4),
+        (7,null,5),
+        (7,null,6),
+		    (7,null,7);
 
 --
 -- ADMIN MENU SECTION
@@ -10726,13 +10726,13 @@ VALUES  (15,'core',1),
         (15,'core',7);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'<i class="fa fa-folder-open"></i>&nbsp;',1),
-        (40,'<i class="fa fa-flag-o"></i>&nbsp;',2),
-        (40,'<i class="fa fa-file-text"></i>&nbsp;',3),
-        (40,'<i class="fa fa-puzzle-piece"></i>&nbsp;',4),
-        (40,'<i class="fa fa-wrench"></i>&nbsp;',5),
-        (40,'<i class="fa fa-bar-chart-o"></i>&nbsp;',6),
-        (40,'<i class="fa fa-life-ring"></i>&nbsp;',7);
+VALUES  (40,'200',1),
+        (40,'201',2),
+        (40,'202',3),
+        (40,'203',4),
+        (40,'204',5),
+        (40,'205',6),
+        (40,'206',7);
 
 --		
 -- SUBMENU CATEGORY
@@ -10786,13 +10786,12 @@ VALUES  (15,'core',11),
         (15,'core',16);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'<i class="fa fa-folder-open"></i>&nbsp;',11),
-        (40,'<i class="fa fa-plus-square"></i>&nbsp;',12),
-        (40,'<i class="fa fa-bookmark-o"></i>&nbsp;',13),
-        (40,'<i class="fa fa-upload"></i>&nbsp;',14),
-        (40,'<i class="fa fa-comment-o"></i>&nbsp;',15),
-        (40,'<i class="fa fa-ticket"></i>&nbsp;',16);
-
+VALUES  (40,'207',11),
+        (40,'208',12),
+        (40,'209',13),
+        (40,'210',14),
+        (40,'211',15),
+        (40,'212',16);
 
 --
 -- SUBMENU EXTENSION
@@ -10856,14 +10855,14 @@ VALUES  (15,'core',31),
         (15,'core',36);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'<i class="fa fa-th"></i>&nbsp;',31),
-        (40,'<i class="fa fa-truck"></i>&nbsp;',32),
-        (40,'<i class="fa fa-university"></i>&nbsp;',33),
-        (40,'<i class="fa fa-outdent"></i>&nbsp;',34),
-        (40,'<i class="fa fa-language"></i>&nbsp;',35),
-        (40,'<i class="fa fa-sign-in"></i>&nbsp;',36),
-        (40,'<i class="fa fa-paperclip"></i>&nbsp;',37),
-        (40,'<i class="fa fa-arrows-alt"></i>&nbsp;',38);
+VALUES  (40,'213',31),
+        (40,'214',32),
+        (40,'215',33),
+        (40,'216',34),
+        (40,'217',35),
+        (40,'218',36),
+        (40,'219',37),
+        (40,'220',38);
 
 
 --
@@ -10912,11 +10911,11 @@ VALUES  (15,'core',51),
         (15,'core',55);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'<i class="fa fa-flag-checkered"></i>&nbsp;',51),
-        (40,'<i class="fa fa-child"></i>&nbsp;',52),
-        (40,'<i class="fa fa-book"></i>&nbsp;',53),
-        (40,'<i class="fa fa-tags"></i>&nbsp;',54),
-        (40,'<i class="fa fa-envelope-o"></i>&nbsp;',55);
+VALUES  (40,'221',51),
+        (40,'222',52),
+        (40,'223',53),
+        (40,'224',54),
+        (40,'225',55);
 
 --		
 -- SUBMENU SYSTEM
@@ -10982,14 +10981,14 @@ VALUES  (15,'core',71),
         (15,'core',80);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'<i class="fa fa-cogs"></i>&nbsp;',71),
-        (40,'<i class="fa fa-users"></i>&nbsp;',72),
-        (40,'<i class="fa fa-random"></i>&nbsp;',73),
-        (40,'<i class="fa fa-cubes"></i>&nbsp;',74),
-        (40,'<i class="fa fa-refresh"></i>&nbsp;',77),
-        (40,'<i class="fa fa-recycle"></i>&nbsp;',78),
-        (40,'<i class="fa fa-weixin"></i>&nbsp;',79),
-        (40,'<i class="fa fa-floppy-o"></i>&nbsp;',80);
+VALUES  (40,'226',71),
+        (40,'227',72),
+        (40,'228',73),
+        (40,'229',74),
+        (40,'230',77),
+        (40,'231',78),
+        (40,'232',79),
+        (40,'233',80);
 
 
 --
@@ -11033,10 +11032,10 @@ VALUES  (15,'core',91),
 
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'<i class="fa fa-signal"></i>&nbsp;',91),
-        (40,'<i class="fa fa-sort-amount-desc"></i>&nbsp;',92),
-        (40,'<i class="fa fa-file-text-o"></i>&nbsp;',93),
-        (40,'<i class="fa fa-reply-all"></i>&nbsp;',94);
+VALUES  (40,'234',91),
+        (40,'235',92),
+        (40,'236',93),
+        (40,'237',94);
 
 --
 -- SUBMENU HELP
@@ -11078,10 +11077,10 @@ VALUES  (15,'core',111),
         (15,'core',114);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'<i class="fa fa-external-link"></i>&nbsp;',111),
-        (40,'<i class="fa fa-graduation-cap"></i>&nbsp;',112),
-        (40,'<i class="fa fa-info"></i>&nbsp;',113),
-        (40,'<i class="fa fa-puzzle-piece"></i>&nbsp;',114);
+VALUES  (40,'238',111),
+        (40,'239',112),
+        (40,'240',113),
+        (40,'203',114);
 
 --		
 -- SUBMENU DESIGN
@@ -11135,12 +11134,12 @@ VALUES  (15,'core',131),
         (15,'extension',136);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'<i class="fa fa-files-o"></i>&nbsp;',131),
-        (40,'<i class="fa fa-bars"></i>&nbsp;',132),
-        (40,'<i class="fa fa-qrcode"></i>&nbsp;',133),
-        (40,'<i class="fa fa-tag"></i>&nbsp;',134),
-        (40,'<i class="fa fa-clipboard"></i>&nbsp;',135),
-        (40,'<i class="fa fa-picture-o"></i>&nbsp;',136);
+VALUES  (40,'241',131),
+        (40,'242',132),
+        (40,'243',133),
+        (40,'244',134),
+        (40,'245',135),
+        (40,'246',136);
 --		
 -- SUBMENU SYSTEM->SETTINGS
 -- ITEM_ID
@@ -11220,15 +11219,15 @@ VALUES
 
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'<i class="fa fa-sliders"></i>&nbsp;',191),
-        (40,'<i class="fa fa-list"></i>&nbsp;',192),
-        (40,'<i class="fa fa-folder-o"></i>&nbsp;',193),
-        (40,'<i class="fa fa-shopping-cart"></i>&nbsp;',194),
-        (40,'<i class="fa fa-pencil-square-o"></i>&nbsp;',195),
-        (40,'<i class="fa fa-envelope-square"></i>&nbsp;',196),
-        (40,'<i class="fa fa-slack"></i>&nbsp;',197),
-        (40,'<i class="fa fa-tasks"></i>&nbsp;',198),
-        (40,'<i class="fa fa-sitemap"></i>&nbsp;',199);
+VALUES  (40,'247',191),
+        (40,'248',192),
+        (40,'249',193),
+        (40,'250',194),
+        (40,'251',195),
+        (40,'252',196),
+        (40,'253',197),
+        (40,'254',198),
+        (40,'255',199);
 
 
 
@@ -11262,8 +11261,8 @@ VALUES  (15,'core',151),
 
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'<i class="fa fa-male"></i>&nbsp;',151),
-        (40,'<i class="fa fa-code-fork"></i>&nbsp;',152);
+VALUES  (40,'256',151),
+        (40,'257',152);
 
 --		
 -- SUBMENU SYSTEM->LOCALIZATION
@@ -11348,17 +11347,17 @@ VALUES  (15,'core',171),
 
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'<i class="fa fa-language"></i>&nbsp;',171),
-        (40,'<i class="fa fa-sort-alpha-asc"></i>&nbsp;',172),
-        (40,'<i class="fa fa-money"></i>&nbsp;',173),
-        (40,'<i class="fa fa-list-alt"></i>&nbsp;',174),
-        (40,'<i class="fa fa-sort-amount-asc"></i>&nbsp;',175),
-        (40,'<i class="fa fa-globe"></i>&nbsp;',176),
-        (40,'<i class="fa fa-thumb-tack"></i>&nbsp;',177),
-        (40,'<i class="fa fa-flag-checkered"></i>&nbsp;',178),
-        (40,'<i class="fa fa-briefcase"></i>&nbsp;',179),
-        (40,'<i class="fa fa-arrows-h"></i>&nbsp;',180),
-        (40,'<i class="fa fa-angle-double-down"></i>&nbsp;',181);
+VALUES  (40,'258',171),
+        (40,'259',172),
+        (40,'260',173),
+        (40,'261',174),
+        (40,'262',175),
+        (40,'263',176),
+        (40,'264',177),
+        (40,'265',178),
+        (40,'266',179),
+        (40,'267',180),
+        (40,'268',181);
 --
 -- SUBMENU SYSTEM->DATA
 -- ITEM_ID
@@ -11406,11 +11405,11 @@ VALUES  (15,'core',183),
 
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'<i class="fa fa-jsfiddle"></i>&nbsp;',183),
-        (40,'<i class="fa fa-share-alt-square"></i>&nbsp;',184),
-        (40,'<i class="fa fa-database"></i>&nbsp;',185),
-        (40,'<i class="fa fa-exchange"></i>&nbsp;',182),
-        (40,'<i class="fa fa-download"></i>&nbsp;',188);
+VALUES  (40,'269',183),
+        (40,'270',184),
+        (40,'271',185),
+        (40,'272',182),
+        (40,'273',188);
 
 --
 -- SUBMENU SYSTEM->LOGS
@@ -11447,9 +11446,9 @@ VALUES  (15,'core',186),
 
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'<i class="fa fa-history"></i>&nbsp;',186),
-        (40,'<i class="fa fa-exclamation-triangle"></i>&nbsp;',187),
-        (40,'<i class="fa fa-tasks"></i>&nbsp;',189);
+VALUES  (40,'274',186),
+        (40,'275',187),
+        (40,'254',189);
 
 --
 -- Storefront menu names inserts
@@ -11574,16 +11573,6 @@ CREATE TABLE `ac_resource_library` (
   PRIMARY KEY (`resource_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=100000;
 
-#storefront menu icons
-INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `date_added`)
-VALUES
-(1,1,now()),
-(2,1,now()),
-(3,1,now()),
-(4,1,now()),
-(5,1,now()),
-(6,1,now());
-
 --
 -- DDL for table `ac_resource_descriptions`
 --
@@ -11595,13 +11584,24 @@ CREATE TABLE `ac_resource_descriptions` (
   `name` varchar(255) NOT NULL DEFAULT '' NULL COMMENT 'translatable',
   `title` varchar(255) NOT NULL DEFAULT '' NULL COMMENT 'translatable',
   `description` text DEFAULT NULL NULL COMMENT 'translatable',
-  `resource_path` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `resource_path` varchar(255) DEFAULT NULL,
   `resource_code` text DEFAULT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`resource_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 
+
+
+#storefront menu icons
+INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `date_added`)
+VALUES
+(1,1,now()),
+(2,1,now()),
+(3,1,now()),
+(4,1,now()),
+(5,1,now()),
+(6,1,now());
 
 INSERT INTO `ac_resource_descriptions`
 (`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `date_added`)
@@ -11612,6 +11612,167 @@ VALUES
 (4,1,'Account Icon','','','','<i class="fa fa-user"></i>&nbsp;',now()),
 (5,1,'Cart Icon','','','','<i class="fa fa-shopping-cart"></i>&nbsp;',now()),
 (6,1,'Checkout Icon','','','','<i class="fa fa-barcode"></i>&nbsp;&nbsp;',now());
+
+#Admin Menu Icons
+INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `date_added`)
+VALUES
+  ( 200, 1, NOW() ),
+  ( 201, 1, NOW() ),
+  ( 202, 1, NOW() ),
+  ( 203, 1, NOW() ),
+  ( 204, 1, NOW() ),
+  ( 205, 1, NOW() ),
+  ( 206, 1, NOW() ),
+  ( 207, 1, NOW() ),
+  ( 208, 1, NOW() ),
+  ( 209, 1, NOW() ),
+  ( 210, 1, NOW() ),
+  ( 211, 1, NOW() ),
+  ( 212, 1, NOW() ),
+  ( 213, 1, NOW() ),
+  ( 214, 1, NOW() ),
+  ( 215, 1, NOW() ),
+  ( 216, 1, NOW() ),
+  ( 217, 1, NOW() ),
+  ( 218, 1, NOW() ),
+  ( 219, 1, NOW() ),
+  ( 220, 1, NOW() ),
+  ( 221, 1, NOW() ),
+  ( 222, 1, NOW() ),
+  ( 223, 1, NOW() ),
+  ( 224, 1, NOW() ),
+  ( 225, 1, NOW() ),
+  ( 226, 1, NOW() ),
+  ( 227, 1, NOW() ),
+  ( 228, 1, NOW() ),
+  ( 229, 1, NOW() ),
+  ( 230, 1, NOW() ),
+  ( 231, 1, NOW() ),
+  ( 232, 1, NOW() ),
+  ( 233, 1, NOW() ),
+  ( 234, 1, NOW() ),
+  ( 235, 1, NOW() ),
+  ( 236, 1, NOW() ),
+  ( 237, 1, NOW() ),
+  ( 238, 1, NOW() ),
+  ( 239, 1, NOW() ),
+  ( 240, 1, NOW() ),
+  ( 241, 1, NOW() ),
+  ( 242, 1, NOW() ),
+  ( 243, 1, NOW() ),
+  ( 244, 1, NOW() ),
+  ( 245, 1, NOW() ),
+  ( 246, 1, NOW() ),
+  ( 247, 1, NOW() ),
+  ( 248, 1, NOW() ),
+  ( 249, 1, NOW() ),
+  ( 250, 1, NOW() ),
+  ( 251, 1, NOW() ),
+  ( 252, 1, NOW() ),
+  ( 253, 1, NOW() ),
+  ( 254, 1, NOW() ),
+  ( 255, 1, NOW() ),
+  ( 256, 1, NOW() ),
+  ( 257, 1, NOW() ),
+  ( 258, 1, NOW() ),
+  ( 259, 1, NOW() ),
+  ( 260, 1, NOW() ),
+  ( 261, 1, NOW() ),
+  ( 262, 1, NOW() ),
+  ( 263, 1, NOW() ),
+  ( 264, 1, NOW() ),
+  ( 265, 1, NOW() ),
+  ( 266, 1, NOW() ),
+  ( 267, 1, NOW() ),
+  ( 268, 1, NOW() ),
+  ( 269, 1, NOW() ),
+  ( 270, 1, NOW() ),
+  ( 271, 1, NOW() ),
+  ( 272, 1, NOW() ),
+  ( 273, 1, NOW() ),
+  ( 274, 1, NOW() ),
+  ( 275, 1, NOW() );
+
+INSERT INTO `ac_resource_descriptions`
+(`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `date_added`)
+VALUES
+  ( 200,1,'Icon Catalog', '', '', '', '<i class="fa fa-folder-open"></i>&nbsp;', NOW() ),
+  ( 201,1,'Icon Sale', '', '', '', '<i class="fa fa-flag-o"></i>&nbsp;', NOW() ),
+  ( 202,1,'Icon Design', '', '', '', '<i class="fa fa-file-text"></i>&nbsp;', NOW() ),
+  ( 203,1,'Icon Extension', '', '', '', '<i class="fa fa-puzzle-piece"></i>&nbsp;', NOW() ),
+  ( 204,1,'Icon System', '', '', '', '<i class="fa fa-wrench"></i>&nbsp;', NOW() ),
+  ( 205,1,'Icon Reports', '', '', '', '<i class="fa fa-bar-chart-o"></i>&nbsp;', NOW() ),
+  ( 206,1,'Icon Help', '', '', '', '<i class="fa fa-life-ring"></i>&nbsp;', NOW() ),
+  ( 207,1,'Icon Category', '', '', '', '<i class="fa fa-folder-open"></i>&nbsp;', NOW() ),
+  ( 208,1,'Icon Product', '', '', '', '<i class="fa fa-plus-square"></i>&nbsp;', NOW() ),
+  ( 209,1,'Icon Manufacturer', '', '', '', '<i class="fa fa-bookmark-o"></i>&nbsp;', NOW() ),
+  ( 210,1,'Icon Download', '', '', '', '<i class="fa fa-upload"></i>&nbsp;', NOW() ),
+  ( 211,1,'Icon Review', '', '', '', '<i class="fa fa-comment-o"></i>&nbsp;', NOW() ),
+  ( 212,1,'Icon Attributes', '', '', '', '<i class="fa fa-ticket"></i>&nbsp;', NOW() ),
+  ( 213,1,'Icon Extensions', '', '', '', '<i class="fa fa-th"></i>&nbsp;', NOW() ),
+  ( 214,1,'Icon Shipping', '', '', '', '<i class="fa fa-truck"></i>&nbsp;', NOW() ),
+  ( 215,1,'Icon Payment', '', '', '', '<i class="fa fa-university"></i>&nbsp;', NOW() ),
+  ( 216,1,'Icon Templates', '', '', '', '<i class="fa fa-outdent"></i>&nbsp;', NOW() ),
+  ( 217,1,'Icon Languages', '', '', '', '<i class="fa fa-language"></i>&nbsp;', NOW() ),
+  ( 218,1,'Icon Total', '', '', '', '<i class="fa fa-sign-in"></i>&nbsp;', NOW() ),
+  ( 219,1,'Icon Add extension', '', '', '', '<i class="fa fa-paperclip"></i>&nbsp;', NOW() ),
+  ( 220,1,'Icon Extensions stores', '', '', '', '<i class="fa fa-arrows-alt"></i>&nbsp;', NOW() ),
+  ( 221,1,'Icon Order', '', '', '', '<i class="fa fa-flag-checkered"></i>&nbsp;', NOW() ),
+  ( 222,1,'Icon Customer', '', '', '', '<i class="fa fa-child"></i>&nbsp;', NOW() ),
+  ( 223,1,'Icon Customer group', '', '', '', '<i class="fa fa-book"></i>&nbsp;', NOW() ),
+  ( 224,1,'Icon Coupon', '', '', '', '<i class="fa fa-tags"></i>&nbsp;', NOW() ),
+  ( 225,1,'Icon Contact', '', '', '', '<i class="fa fa-envelope-o"></i>&nbsp;', NOW() ),
+  ( 226,1,'Icon Setting', '', '', '', '<i class="fa fa-cogs"></i>&nbsp;', NOW() ),
+  ( 227,1,'Icon Users', '', '', '', '<i class="fa fa-users"></i>&nbsp;', NOW() ),
+  ( 228,1,'Icon Localisation', '', '', '', '<i class="fa fa-random"></i>&nbsp;', NOW() ),
+  ( 229,1,'Icon Data', '', '', '', '<i class="fa fa-cubes"></i>&nbsp;', NOW() ),
+  ( 230,1,'Icon Updater', '', '', '', '<i class="fa fa-refresh"></i>&nbsp;', NOW() ),
+  ( 231,1,'Icon Cache', '', '', '', '<i class="fa fa-recycle"></i>&nbsp;', NOW() ),
+  ( 232,1,'Icon Messages', '', '', '', '<i class="fa fa-weixin"></i>&nbsp;', NOW() ),
+  ( 233,1,'Icon Logs', '', '', '', '<i class="fa fa-floppy-o"></i>&nbsp;', NOW() ),
+  ( 234,1,'Icon Report sale', '', '', '', '<i class="fa fa-signal"></i>&nbsp;', NOW() ),
+  ( 235,1,'Icon Viewed', '', '', '', '<i class="fa fa-sort-amount-desc"></i>&nbsp;', NOW() ),
+  ( 236,1,'Icon Purchased', '', '', '', '<i class="fa fa-file-text-o"></i>&nbsp;', NOW() ),
+  ( 237,1,'Icon Banner manager stat', '', '', '', '<i class="fa fa-reply-all"></i>&nbsp;', NOW() ),
+  ( 238,1,'Icon Abantecart', '', '', '', '<i class="fa fa-external-link"></i>&nbsp;', NOW() ),
+  ( 239,1,'Icon Documentation', '', '', '', '<i class="fa fa-graduation-cap"></i>&nbsp;', NOW() ),
+  ( 240,1,'Icon Support', '', '', '', '<i class="fa fa-info"></i>&nbsp;', NOW() ),
+  ( 241,1,'Icon Template', '', '', '', '<i class="fa fa-files-o"></i>&nbsp;', NOW() ),
+  ( 242,1,'Icon Layout', '', '', '', '<i class="fa fa-bars"></i>&nbsp;', NOW() ),
+  ( 243,1,'Icon Blocks', '', '', '', '<i class="fa fa-qrcode"></i>&nbsp;', NOW() ),
+  ( 244,1,'Icon Menu', '', '', '', '<i class="fa fa-tag"></i>&nbsp;', NOW() ),
+  ( 245,1,'Icon Content', '', '', '', '<i class="fa fa-clipboard"></i>&nbsp;', NOW() ),
+  ( 246,1,'Icon Banner manager', '', '', '', '<i class="fa fa-picture-o"></i>&nbsp;', NOW() ),
+  ( 247,1,'Icon All settings', '', '', '', '<i class="fa fa-sliders"></i>&nbsp;', NOW() ),
+  ( 248,1,'Icon Settings details', '', '', '', '<i class="fa fa-list"></i>&nbsp;', NOW() ),
+  ( 249,1,'Icon Settings general', '', '', '', '<i class="fa fa-folder-o"></i>&nbsp;', NOW() ),
+  ( 250,1,'Icon Settings checkout', '', '', '', '<i class="fa fa-shopping-cart"></i>&nbsp;', NOW() ),
+  ( 251,1,'Icon Settings appearance', '', '', '', '<i class="fa fa-pencil-square-o"></i>&nbsp;', NOW() ),
+  ( 252,1,'Icon Settings mail', '', '', '', '<i class="fa fa-envelope-square"></i>&nbsp;', NOW() ),
+  ( 253,1,'Icon Settings api', '', '', '', '<i class="fa fa-slack"></i>&nbsp;', NOW() ),
+  ( 254,1,'Icon Settings system', '', '', '', '<i class="fa fa-tasks"></i>&nbsp;', NOW() ),
+  ( 255,1,'Icon Settings newstore', '', '', '', '<i class="fa fa-sitemap"></i>&nbsp;', NOW() ),
+  ( 256,1,'Icon User', '', '', '', '<i class="fa fa-male"></i>&nbsp;', NOW() ),
+  ( 257,1,'Icon Permission', '', '', '', '<i class="fa fa-code-fork"></i>&nbsp;', NOW() ),
+  ( 258,1,'Icon Language', '', '', '', '<i class="fa fa-language"></i>&nbsp;', NOW() ),
+  ( 259,1,'Icon Language definitions', '', '', '', '<i class="fa fa-sort-alpha-asc"></i>&nbsp;', NOW() ),
+  ( 260,1,'Icon Currency', '', '', '', '<i class="fa fa-money"></i>&nbsp;', NOW() ),
+  ( 261,1,'Icon Stockstatus', '', '', '', '<i class="fa fa-list-alt"></i>&nbsp;', NOW() ),
+  ( 262,1,'Icon Orderstatus', '', '', '', '<i class="fa fa-sort-amount-asc"></i>&nbsp;', NOW() ),
+  ( 263,1,'Icon Country', '', '', '', '<i class="fa fa-globe"></i>&nbsp;', NOW() ),
+  ( 264,1,'Icon Zone', '', '', '', '<i class="fa fa-thumb-tack"></i>&nbsp;', NOW() ),
+  ( 265,1,'Icon Location', '', '', '', '<i class="fa fa-flag-checkered"></i>&nbsp;', NOW() ),
+  ( 266,1,'Icon Taxclass', '', '', '', '<i class="fa fa-briefcase"></i>&nbsp;', NOW() ),
+  ( 267,1,'Icon Lengthclass', '', '', '', '<i class="fa fa-arrows-h"></i>&nbsp;', NOW() ),
+  ( 268,1,'Icon Weightclass', '', '', '', '<i class="fa fa-angle-double-down"></i>&nbsp;', NOW() ),
+  ( 269,1,'Icon Backup', '', '', '', '<i class="fa fa-jsfiddle"></i>&nbsp;', NOW() ),
+  ( 270,1,'Icon Migrate', '', '', '', '<i class="fa fa-share-alt-square"></i>&nbsp;', NOW() ),
+  ( 271,1,'Icon Datasets', '', '', '', '<i class="fa fa-database"></i>&nbsp;', NOW() ),
+  ( 272,1,'Icon Import export', '', '', '', '<i class="fa fa-exchange"></i>&nbsp;', NOW() ),
+  ( 273,1,'Icon File uploads', '', '', '', '<i class="fa fa-download"></i>&nbsp;', NOW() ),
+  ( 274,1,'Icon Installlog', '', '', '', '<i class="fa fa-history"></i>&nbsp;', NOW() ),
+  ( 275,1,'Icon Error log', '', '', '', '<i class="fa fa-exclamation-triangle"></i>&nbsp;', NOW() );
+
 
 --
 -- DDL for table `ac_resource_types`
