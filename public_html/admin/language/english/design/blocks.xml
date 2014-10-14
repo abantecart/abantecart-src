@@ -13,6 +13,14 @@
 		<value><![CDATA[edit block]]></value>
 	</definition>
 	<definition>
+		<key>text_enable</key>
+		<value><![CDATA[Enable/Disable]]></value>
+	</definition>
+	<definition>
+		<key>text_details</key>
+		<value><![CDATA[Details]]></value>
+	</definition>
+	<definition>
 		<key>text_create</key>
 		<value><![CDATA[Create block]]></value>
 	</definition>

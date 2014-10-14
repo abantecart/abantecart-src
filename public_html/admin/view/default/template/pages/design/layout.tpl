@@ -1,6 +1,8 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<?php if ($preview_id) { ?>
+<?php 
+/* preview development is not complete. future */ 
+	if ($preview_id) { ?>
 <div class="alert alert-info"><?php echo $text_preview_generated; ?> <a href="<?php echo $preview_url; ?>" target="_blank"><?php echo $text_click_here; ?></a></div>
 <?php } ?>
 
@@ -32,9 +34,6 @@ foreach ($pages as $page) {
   $page_list .= '</li>';
 }
 ?>
-
-<?php echo $form_begin; ?>
-
 <div id="content" class="panel panel-default">
 
 	<div class="panel-heading col-xs-12">
@@ -52,7 +51,7 @@ foreach ($pages as $page) {
 			<div class="btn-group mr10 toolbar">
 			  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
 			    <i class="fa fa-square-o"></i>
-			    <?php echo $current_page['name']; ?> <span class="caret"></span>
+			    <?php echo $current_page['layout_name']; ?> <span class="caret"></span>
 			  </button>
 			  <ul class="dropdown-menu">
 			    <?php echo $page_list; ?>
@@ -60,9 +59,9 @@ foreach ($pages as $page) {
 			</div>
 
 			<div class="btn-group toolbar">
-				<a class="actionitem btn btn-primary layout-form-save tooltips" href="<?php echo $page_url; ?>" title="<?php echo $button_save; ?>">
+				<button class="actionitem btn btn-primary layout-form-save tooltips" title="<?php echo $button_save; ?>">
 					<i class="fa fa-save fa-fw"></i>
-				</a>
+				</button>
 			</div>
 
 			<div class="btn-group toolbar">
@@ -79,24 +78,30 @@ foreach ($pages as $page) {
 			</div>
 			<?php } ?>
 
+<?php 
+/* preview development is not complete. future
+?>
 			<div class="btn-group mr10 toolbar">
 				<a class="actionitem btn btn-default layout-form-preview tooltips" href="<?php echo $generate_preview_url; ?>" title="<?php echo $button_preview; ?>">
 					<i class="fa fa-eye fa-fw"></i>
 				</a>
 			</div>
-			
+<?php 
+ */
+?>	
 		</div>
 
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
 
+	<?php echo $form_begin; ?>
 	<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<?php echo $layoutform; ?>
 		<?php echo $hidden_fields; ?>
 	</div>
+	</form>
 
 </div>
-</form>
 
 <script type="text/javascript"><!--
 

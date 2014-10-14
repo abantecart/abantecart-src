@@ -22,7 +22,7 @@
               <span class="info">(<?php echo $block['block_txt_id']; ?>)</span>
               <?php } else { ?>
               <span class="title"><?php echo $block['block_txt_id']; ?></span>
-              <span class="info">(self)</span>
+              <span class="info"></span>
               <?php } ?>
             </a>
           </li>

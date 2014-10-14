@@ -502,19 +502,23 @@ class ControllerPagesDesignContent extends AController {
 		$this->document->setTitle($this->language->get('update_title'));
 		$this->acm = new AContentManager();
 
-		$url = '';
-		if (!isset($this->request->get['content_id']) || !(int)$this->request->get['content_id']) {
+		if (!has_value($this->request->get['content_id'])) {
 			$this->redirect($this->html->getSecureURL('design/content'));
 		}
-
 		$content_id = (int)$this->request->get['content_id'];
-		$url .= '&content_id=' . $content_id;
+		$page_url = $this->html->getSecureURL('design/content/edit_layout', '&content_id=' . $content_id);
 
-		$this->view->assign('error_warning', (isset($this->error['warning']) ? $this->error['warning'] : ''));
-		$this->view->assign('success', (isset($this->session->data['success']) ? $this->session->data['success'] : ''));
-		if (isset($this->session->data['success'])) {
-			unset($this->session->data['success']);
-		}
+	    // Alert messages
+	    if (isset($this->session->data['warning'])) {
+	      $this->data['error_warning'] = $this->session->data['warning'];
+	      unset($this->session->data['warning']);
+	    }
+	    if (isset($this->session->data['success'])) {
+	      $this->data['success'] = $this->session->data['success'];
+	      unset($this->session->data['success']);
+	    }
+
+		$this->data['help_url'] = $this->gen_help_url('content_layout');
 
 		$this->document->resetBreadcrumbs();
 		$this->document->addBreadcrumb(array(
@@ -523,7 +527,7 @@ class ControllerPagesDesignContent extends AController {
 				'separator' => FALSE
 		));
 		$this->document->addBreadcrumb(array(
-				'href' => $this->html->getSecureURL('design/content', $url),
+				'href' => $this->html->getSecureURL('design/content'),
 				'text' => $this->language->get('heading_title'),
 				'separator' => ' :: '
 		));
@@ -533,36 +537,105 @@ class ControllerPagesDesignContent extends AController {
 				'separator' => ' :: '
 		));
 		$this->document->addBreadcrumb(array(
-				'href' => $this->html->getSecureURL('design/content/edit_layout', '&content_id=' . $content_id),
+				'href' => $page_url,
 				'text' => $this->language->get('tab_layout'),
-				'separator' => ' :: '
+				'current' =>  true
 		));
 
 		$this->_initTabs('layout');
 
 		$layout = new ALayoutManager();
+		//get existing page layout or generic
 		$page_layout = $layout->getPageLayoutIDs($page_controller, $page_key_param, $content_id);
 		$page_id = $page_layout['page_id'];
 		$layout_id = $page_layout['layout_id'];
-		$tmpl_id = $this->config->get('config_storefront_template');
+		if (isset($this->request->get['tmpl_id'])) {
+			$tmpl_id = $this->request->get['tmpl_id'];
+		} else {
+			$tmpl_id = $this->config->get('config_storefront_template');
+		}			
+	    $params = array(
+	      'content_id' => $content_id,
+	      'page_id' => $page_id,
+	      'layout_id' => $layout_id,
+	      'tmpl_id' => $tmpl_id,
+	    );	
+	    $url = '&'.$this->html->buildURI($params);
+
+		// get templates
+		$this->data['templates'] = array();
+		$directories = glob(DIR_STOREFRONT . 'view/*', GLOB_ONLYDIR);
+		foreach ($directories as $directory) {
+		  $this->data['templates'][] = basename($directory);
+		}
+		$enabled_templates = $this->extensions->getExtensionsList(array(
+		  'filter' => 'template',
+		  'status' => 1,
+		));
+		foreach ($enabled_templates->rows as $template) {
+		  $this->data['templates'][] = $template['key'];
+		}
+
+		$action = $this->html->getSecureURL('design/content/save_layout');
+	    // Layout form data
+	    $form = new AForm('HT');
+	    $form->setForm(array(
+	      'form_name' => 'layout_form',
+	    ));
+	
+	    $this->data['form_begin'] = $form->getFieldHtml(array(
+	      'type' => 'form',
+	      'name' => 'layout_form',
+	      'attr' => 'data-confirm-exit="true"',
+	      'action' => $action
+	    ));
+	
+	    $this->data['hidden_fields'] = '';
+	    foreach ($params as $name => $value) {
+	      $this->data[$name] = $value;
+	      $this->data['hidden_fields'] .= $form->getFieldHtml(array(
+	        'type' => 'hidden',
+	        'name' => $name,
+	        'value' => $value
+	      ));
+	    }
+	
+	    $this->data['page_url'] = $page_url;
+	    $this->data['current_url'] = $this->html->getSecureURL('design/content/edit_layout', $url);
+	
 		// insert external form of layout
 		$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-		$settings = array();
-		$settings['action'] = $this->html->getSecureURL('design/content/save_layout', $url);
-		// hidden fields of layout form
-		$settings['hidden']['page_id'] = $page_id;
-		$settings['hidden']['layout_id'] = $layout_id;
-		$settings['hidden']['content_id'] = $content_id;
-		$settings['allow_clone'] = true;
 
-		//process layout template with passing settings and layout object
-		$layoutform = $this->dispatch('common/page_layout', array($settings, $layout));
+	    $layoutform = $this->dispatch('common/page_layout', array(null,$layout));
+	    $this->data['layoutform'] = $layoutform->dispatchGetOutput();
+		
+		//build pages and available layouts for clonning
+		$this->data['pages'] = $layout->getAllPages();
+		$av_layouts = array( "0" => $this->language->get('text_select_copy_layout'));
+		foreach($this->data['pages'] as $page){
+			if ( $page['layout_id'] != $layout_id ) {
+				$av_layouts[$page['layout_id']] = $page['layout_name'];
+			}
+		}
 
+		$form = new AForm('HT');
+		$form->setForm(array(
+		    'form_name' => 'cp_layout_frm',
+	    ));
+	    
+		$this->data['cp_layout_select'] = $form->getFieldHtml(array('type' => 'selectbox',
+													'name' => 'layout_change',
+													'value' => '',
+													'options' => $av_layouts ));
+
+		$this->data['cp_layout_frm'] = $form->getFieldHtml(array('type' => 'form',
+		                                        'name' => 'cp_layout_frm',
+		                                        'attr' => 'class="aform form-inline"',
+			                                    'action' => $action));
 
 		$this->view->assign('heading_title', $this->language->get('heading_title'));
-		$this->view->assign('layoutform', $layoutform->dispatchGetOutput());
-		$this->view->assign('help_url', $this->gen_help_url('content_layout'));
 
+		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/design/content_layout.tpl');
 
 		//update controller data
@@ -573,29 +646,22 @@ class ControllerPagesDesignContent extends AController {
 	public function save_layout() {
 		$page_controller = 'pages/content/content';
 		$page_key_param = 'content_id';
+		$content_id = (int)$this->request->get_or_post('content_id');
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->acm = new AContentManager();
-		if (!(int)$this->request->get['content_id'] && !(int)$this->request->post['content_id']) {
+		if (!has_value($content_id)) {
 			$this->redirect($this->html->getSecureURL('design/content'));
-		}
-		$url = '';
-		if (isset($this->request->get['content_id'])) {
-			$content_id = (int)$this->request->get['content_id'];
-			$url .= '&content_id=' . $this->request->get['content_id'];
-		} elseif (isset($this->request->post['content_id'])) {
-			$content_id = (int)$this->request->post['content_id'];
-			$url .= '&content_id=' . $this->request->post['content_id'];
 		}
 
 		if ($this->request->is_POST()) {
 
-			$tmpl_id = $this->config->get('config_storefront_template');
-
 			// need to know unique page existing
 			$post_data = $this->request->post;
+			$tmpl_id = $post_data['tmpl_id'];
 			$layout = new ALayoutManager();
+			
 			$pages = $layout->getPages($page_controller, $page_key_param, $content_id);
 			if (count($pages)) {
 				$page_id = $pages[0]['page_id'];
@@ -623,17 +689,20 @@ class ControllerPagesDesignContent extends AController {
 
 			//create new instance with specific template/page/layout data
 			$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-			if (has_value($post_data['layout_change'])) {
+			if (has_value($post_data['layout_change'])) {	
 				//update layout request. Clone source layout
 				$layout->clonePageLayout($post_data['layout_change'], $layout_id, $post_data['layout_name']);
+				$this->session->data[ 'success' ] = $this->language->get('text_success_layout');
 			} else {
 				//save new layout
-				$post_data['controller'] = $page_controller;
-				$layout->savePageLayout($post_data);
+	      		$layout_data = $layout->prepareInput($post_data);
+	      		if ($layout_data) {
+	      			$layout->savePageLayout($layout_data);
+	      			$this->session->data[ 'success' ] = $this->language->get('text_success_layout');
+	      		} 
 			}
 
-			$this->session->data['success'] = $this->language->get('text_success_layout');
-			$this->redirect($this->html->getSecureURL('design/content/edit_layout', $url));
+			$this->redirect($this->html->getSecureURL('design/content/edit_layout', '&content_id=' . $content_id));
 		}
 		$this->redirect($this->html->getSecureURL('design/content/'));
 	}

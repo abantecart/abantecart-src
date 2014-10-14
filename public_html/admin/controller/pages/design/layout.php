@@ -24,7 +24,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerPagesDesignLayout extends AController {
     
   public function main() {
-
+	$layout_data = array();
     //use to init controller data
     $this->extensions->hk_InitData($this,__FUNCTION__);
     
@@ -52,7 +52,7 @@ class ControllerPagesDesignLayout extends AController {
       'tmpl_id' => $layout->getTemplateId(),
     );
 
-    $url = $this->paramsBuilder($params);
+    $url = '&'.$this->html->buildURI($params);
 
     // get templates
     $layout_data['templates'] = array();
@@ -88,6 +88,7 @@ class ControllerPagesDesignLayout extends AController {
     $layout_data['form_begin'] = $form->getFieldHtml(array(
       'type' => 'form',
       'name' => 'layout_form',
+      'attr' => 'data-confirm-exit="true"',
       'action' => $this->html->getSecureURL('design/layout/save')
     ));
 
@@ -138,43 +139,26 @@ class ControllerPagesDesignLayout extends AController {
       $tmpl_id = $this->request->post['tmpl_id'];
       $page_id = $this->request->post['page_id'];
       $layout_id = $this->request->post['layout_id'];
-      $section = $this->request->post['section'];
-      $block = $this->request->post['block'];
-      $parentBlock = $this->request->post['parentBlock'];
-      $blockStatus = $this->request->post['blockStatus'];
 
-      $url = $this->paramsBuilder(array(
+      $url = '&'.$this->html->buildURI(array(
         'tmpl_id' => $tmpl_id,
         'page_id' => $page_id,
         'layout_id' => $layout_id,
       ));
 
-      foreach ($section as $k => $item) {
-        $section[$k]['children'] = array();
-      }
-
-      foreach ($block as $k => $block_id) {
-        $parent = $parentBlock[$k];
-        $status = $blockStatus[$k];
-
-        $section[$parent]['children'][] = array(
-          'block_id' => $block_id,
-          'status' => $status,
-        );
-      }
-
-      $layout_data['blocks'] = $section;
-
       $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-      $layout->savePageLayout($layout_data);
-      
-      $this->session->data['success'] = $this->language->get('text_success');
+      $layout_data = $layout->prepareInput($this->request->post);
+      if ($layout_data) {
+      	$layout->savePageLayout($layout_data);
+      	$this->session->data['success'] = $this->language->get('text_success');
+      } 
     }
 
     $this->redirect($this->html->getSecureURL('design/layout', $url));
   }
 
   public function preview() {
+  	//NOTE: Layout preview feature is not finished. Not supported yet
     //update controller data
     $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
@@ -208,7 +192,7 @@ class ControllerPagesDesignLayout extends AController {
       $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
       $draft_layout_id = $layout->savePageLayoutAsDraft($layout_data);
 
-      $url = $this->paramsBuilder(array(
+      $url = '&'.$this->html->buildURI(array(
         'tmpl_id' => $tmpl_id,
         'page_id' => $page_id,
         'layout_id' => $layout_id,
@@ -261,20 +245,6 @@ class ControllerPagesDesignLayout extends AController {
 
     $this->redirect($this->html->getSecureURL('design/layout', $url));
 
-  }
-
-  /**
-   * @param array $params
-   * @return string
-   */
-  private function paramsBuilder($params = array()) {
-    $url = '';
-
-    foreach ($params as $name => $value) {
-      $url .= '&' . $name . '=' . $value;
-    }
-
-    return $url;
   }
   
 }

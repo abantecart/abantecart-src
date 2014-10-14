@@ -757,6 +757,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 		$this->data['form']['form_open'] = $form->getFieldHtml(array('type' => 'form',
 				'name' => 'BannerBlockFrm',
+				'attr' => 'data-confirm-exit="true"',
 				'action' => $this->data ['action']));
 		$this->data['form']['submit'] = $form->getFieldHtml(array('type' => 'button',
 				'name' => 'submit',

@@ -1,28 +1,82 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading"><?php echo $heading_title; ?></div>
-	<div class="heading-tabs">
-		<a href="<?php echo $content_form ?>"><span><?php echo $tab_form; ?></span></a>
-		<a href="<?php echo $content_layout ?>" class="active"><span><?php echo $tab_layout; ?></span></a>
+<?php if ($tabs) { ?>
+	<ul class="nav nav-tabs nav-justified nav-profile">
+		<?php
+		foreach($tabs as $tab){?>
+		<li <?php echo ($tab['active'] ? 'class="active"' : '') ?>>
+			<a href="<?php echo $tab['href'] ? $tab['href'] : 'Javascript:void(0);'; ?>"><span><?php echo $tab['text']; ?></span></a>
+		</li>
+		<?php } ?>
+		<?php echo $this->getHookVar('extension_tabs'); ?>
+	</ul>
+<?php } ?>
+
+<?php
+$template_list = '';
+foreach ($templates as $template) {
+  $item_class = '';
+  if ($tmpl_id == $template) {
+    $item_class = ' class="disabled"';
+  }
+  $template_list .= '<li' . $item_class . '><a href="' . $page_url . '&tmpl_id=' . $template . '">' . $template . '</a></li>';    
+}
+
+?>
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+			  <button class="btn btn-default dropdown-toggle tooltips" type="button" data-toggle="dropdown" title="<?php echo $text_select_template; ?>">
+			    <i class="fa fa-photo"></i>
+			    <?php echo $tmpl_id; ?> <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+			    <?php echo $template_list; ?>
+			  </ul>
+			</div>
+
+			<div class="btn-group toolbar">
+				<button class="actionitem btn btn-primary layout-form-save tooltips" title="<?php echo $button_save; ?>">
+					<i class="fa fa-save fa-fw"></i>
+				</button>
+			</div>
+
+			<div class="btn-group mr10 toolbar">
+				<a class="actionitem btn btn-default tooltips" href="<?php echo $current_url; ?>" title="<?php echo $button_reset; ?>">
+					<i class="fa fa-refresh fa-fw"></i>
+				</a>
+			</div>
+
+			<div class="btn-group mr10 toolbar">
+			<?php echo $cp_layout_frm; ?>
+				<?php echo $hidden_fields; ?>
+				<div class="form-group">
+					<div class="input-group input-group-sm">
+					<?php echo $cp_layout_select; ?>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group input-group-sm">
+					<button class="btn btn-default btn-xs tooltips" type="submit" title="<?php echo $text_apply_layout; ?>">
+						<i class="fa fa-copy fa-fw"></i>
+					</button>
+					</div>
+				</div>
+			</form>
+			</div>
+			
+		</div>
+
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
-	<div class="toolbar">
-		<?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-    </div>
-  </div></div></div>
-<div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-<div class="fieldset">
-	  <div class="heading"><?php echo $tab_layout; ?></div>
-	  <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-	  <div class="cont_left"><div class="cont_right"><div class="cont_mid">
 
-<?php echo $layoutform; ?>
-</div></div></div>
-      <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
-</div>
-</div>
+	<?php echo $form_begin; ?>
+	<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<?php echo $layoutform; ?>
+		<?php echo $hidden_fields; ?>
+	</div>
+	</form>
 
-<div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+</div>

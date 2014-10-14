@@ -1,4 +1,4 @@
-<div class="row wrapper">
+<div class="wrapper">
   <?php ### Header Section ### ?>
   <div class="section-wrap"><?php echo $header; ?></div>
 
@@ -15,7 +15,14 @@
       <?php ### Content Top Section ### ?>
       <div class="section-wrap"><?php echo $content_top; ?></div>
       
-      <div class="section-wrap main-content">Main Content</div>
+      <div class="section-wrap main-content">
+      <?php if ($current_page['content']) {
+      		echo $current_page['content']; 
+      	} else {
+      		echo "Content Area";
+      	}
+      ?>
+      </div>
 
       <?php ### Content Bottom Section ### ?>
       <div class="section-wrap"><?php echo $content_bottom; ?></div>
@@ -32,4 +39,17 @@
 
   <?php ### Footer Section ### ?>
   <div class="section-wrap"><?php echo $footer; ?></div>  
+</div>
+
+<div class="empty_block hide">
+	<div data-instance-id="" class="block off">
+	  <div class="block-content">
+	    <div class="block-title"> --- None --- </div>
+	    <div class="block-options">
+	    </div>
+	  </div>
+	  <input type="hidden" value="_" name="block[]" class="block-id">
+	  <input type="hidden" value="" name="blockStatus[]" class="block-status">
+	  <input type="hidden" value="1" name="parentBlock[]" class="block-parent">
+	</div>
 </div>

@@ -59,7 +59,7 @@ class ControllerPagesDesignBlocks extends AController {
 				),
 				'view' => array(
 					'text' => $this->language->get('text_view'),
-					'href' => $this->html->getSecureURL('listing_grid/blocks_grid/info','&block_id=%ID%')
+					'href' => $this->html->getSecureURL('design/blocks_manager/block_info','&block_id=%ID%')
 				),
 				'delete' => array(
 					'text' => $this->language->get('button_delete'),

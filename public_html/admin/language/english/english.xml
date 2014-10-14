@@ -563,7 +563,7 @@
 	</definition>
 	<definition>
 		<key>text_select_copy_layout</key>
-		<value><![CDATA[Apply different layout for this page]]></value>
+		<value><![CDATA[Select to copy layout from]]></value>
 	</definition>
 	<definition>
 		<key>text_apply_layout</key>

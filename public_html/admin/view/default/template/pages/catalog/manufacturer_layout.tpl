@@ -7,22 +7,72 @@
 	<a href="<?php echo $manufacturer_layout ?>"><span><?php echo $tab_layout; ?></span></a></li>
 	<?php echo $this->getHookVar('extension_tabs'); ?>
 </ul>
-<div class="tab-content">
 
-	<div class="panel-heading">
+<?php
+$template_list = '';
+foreach ($templates as $template) {
+  $item_class = '';
+  if ($tmpl_id == $template) {
+    $item_class = ' class="disabled"';
+  }
+  $template_list .= '<li' . $item_class . '><a href="' . $page_url . '&tmpl_id=' . $template . '">' . $template . '</a></li>';    
+}
 
-			<div class="pull-right">
-			    <div class="btn-group mr10 toolbar">
-                    <?php if (!empty ($help_url)) : ?>
-                    <a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
-                    <i class="fa fa-question-circle fa-lg"></i>
-                    </a>
-                    <?php endif; ?>
-			    </div>
+?>
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+			  <button class="btn btn-default dropdown-toggle tooltips" type="button" data-toggle="dropdown" title="<?php echo $text_select_template; ?>">
+			    <i class="fa fa-photo"></i>
+			    <?php echo $tmpl_id; ?> <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+			    <?php echo $template_list; ?>
+			  </ul>
 			</div>
 
+			<div class="btn-group toolbar">
+				<button class="actionitem btn btn-primary layout-form-save tooltips" title="<?php echo $button_save; ?>">
+					<i class="fa fa-save fa-fw"></i>
+				</button>
+			</div>
+
+			<div class="btn-group mr10 toolbar">
+				<a class="actionitem btn btn-default tooltips" href="<?php echo $current_url; ?>" title="<?php echo $button_reset; ?>">
+					<i class="fa fa-refresh fa-fw"></i>
+				</a>
+			</div>
+
+			<div class="btn-group mr10 toolbar">
+			<?php echo $cp_layout_frm; ?>
+				<?php echo $hidden_fields; ?>
+				<div class="form-group">
+					<div class="input-group input-group-sm">
+					<?php echo $cp_layout_select; ?>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group input-group-sm">
+					<button class="btn btn-default btn-xs tooltips" type="submit" title="<?php echo $text_apply_layout; ?>">
+						<i class="fa fa-copy fa-fw"></i>
+					</button>
+					</div>
+				</div>
+			</form>
+			</div>
+			
+		</div>
+
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
-	<div class="panel-body panel-body-nopadding">
+
+	<?php echo $form_begin; ?>
+	<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<?php echo $layoutform; ?>
+		<?php echo $hidden_fields; ?>
 	</div>
+	</form>
+
 </div>

@@ -34,18 +34,36 @@ class ALayoutManager {
 	private $pages = array();
 	private $layouts = array();
 	private $blocks = array();
-	private $main_placeholders = array('header', 'header_bottom', 'column_left', 'content_top', 'content_bottom', 'column_right', 'footer_top', 'footer');
+	private $main_placeholders = array(
+			'header',
+			'header_bottom',
+			'column_left',
+			'content_top',
+			'content_bottom',
+			'column_right',
+			'footer_top',
+			'footer'
+	);
 	private $tmpl_id;
 	private $layout_id;
 	private $active_layout;
 	private $page_id;
 	private $custom_blocks = array();
 	public $errors = 0;
-
+	
 	const LAYOUT_TYPE_DEFAULT = 0;
-  const LAYOUT_TYPE_ACTIVE = 1;
-  const LAYOUT_TYPE_DRAFT = 2;
-  const LAYOUT_TYPE_TEMPLATE = 3;
+	const LAYOUT_TYPE_ACTIVE = 1;
+	const LAYOUT_TYPE_DRAFT = 2;
+	const LAYOUT_TYPE_TEMPLATE = 3;
+	const HEADER_MAIN = 1;
+	const HEADER_BOTTOM = 2;
+	const LEFT_COLUMN = 3;
+	const RIGHT_COLUMN = 4;
+	const CONTENT_TOP = 5;
+	const CONTENT_BOTTOM = 6;
+	const FOOTER_TOP = 7;
+	const FOOTER_MAIN = 8;
+	const FIXED_POSITIONS = 8;
 
 	//Layout Manager Class to handle layout in the admin
 	//NOTES: Object can be constructed with specific template, page or layout id provided
@@ -496,21 +514,57 @@ class ALayoutManager {
 		foreach ($this->main_placeholders as $placeholder) {
 			$block = $this->getLayoutBlockByTxtId($placeholder);
 			if (!empty ($block)) {
-				$blocks [$block ['block_id']] = $block;
-				$blocks [$block ['block_id']] ['children'] = $this->getBlockChildren($block ['instance_id']);
+				$blocks [$block['block_id']] = $block;
+				$children = $this->getBlockChildren($block['instance_id']);
+				//process special case of fixed location for header and footer
+				if ($block['block_id'] == self::HEADER_MAIN 
+					|| $block['block_id'] == self::FOOTER_MAIN ) {
+					//fill in blank locations if any
+					if ( count($children) < self::FIXED_POSITIONS ) {
+						$children = $this->_buildChildtenBlocks($children, self::FIXED_POSITIONS);
+					}	
+				}		
+				
+				$blocks [$block['block_id']] ['children'] = $children;
 			}
 		}
 
 		return $blocks;
 	}
 
+	private function _buildChildtenBlocks($blocks, $total_blocks){
+		$select_boxes = array();
+		$empty_block = array(
+			'block_txt_id' => $this->language->get('text_none')
+		);
+		for ($x=0; $x < $total_blocks; $x++) {
+			$idx = $this->_find_block_by_postion($blocks, ($x + 1) * 10);
+			if ( $idx >= 0 ) { 
+			    $select_boxes[] = $blocks[$idx];
+			} else {
+			    //put empty placeholder
+			    $select_boxes[] = $empty_block;
+			}		
+		}
+		return $select_boxes;
+	}
+
+	private function _find_block_by_postion($blocks_arr, $position) {
+		foreach ($blocks_arr as $index => $block_s) {
+			if ( $block_s['position'] == $position ) {
+				return $index;
+			}
+		}
+		return -1;
+	}
+	
 	/**
 	 * @param $layout_type
 	 * @return array
 	 */
 	public function getLayoutByType($layout_type) {
 		$layouts = array();
-
+		
 		foreach ($this->layouts as $layout) {
 			if ($layout ['layout_type'] == $layout_type) {
 				$layouts [] = $layout;
@@ -540,6 +594,43 @@ class ALayoutManager {
 	public function getLayoutId() {
 		return $this->layout_id;
 	}
+
+	/**
+	 * Process post data and prepare for layout to save 
+	 * @param $data array
+	 * @return array
+	 *
+	 */
+	public function prepareInput( $post ) {
+		if( empty($post) ){
+			return null;
+		}
+		$data = array();
+		$section = $post['section'];
+		$block = $post['block'];
+		$parentBlock = $post['parentBlock'];
+		$blockStatus = $post['blockStatus'];
+				
+		foreach ($section as $k => $item) {
+		  $section[$k]['children'] = array();
+		}
+		
+		foreach ($block as $k => $block_id) {
+		  $parent = $parentBlock[$k];
+		  $status = $blockStatus[$k];
+		
+		  $section[$parent]['children'][] = array(
+		    'block_id' => $block_id,
+		    'status' => $status,
+		  );
+		}
+		
+		$data['layout_name'] = $post['layout_name'];
+		$data['blocks'] = $section;
+		return $data;
+	}
+
+
 
 	/**
 	 * Save Page/Layout and Layout Blocks

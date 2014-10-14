@@ -19,7 +19,7 @@
 ------------------------------------------------------------------------------*/
 
 // AbanteCart Version
-define('VERSION', '1.0');
+define('VERSION', '1.2');
 // Required PHP Version
 define('MIN_PHP_VERSION', '5.2.0');
 

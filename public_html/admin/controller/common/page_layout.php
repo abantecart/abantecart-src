@@ -100,26 +100,33 @@ class ControllerCommonPageLayout extends AController {
     $blocks = array();
     $partialView = $this->view;
 
-    if (empty($section_blocks))
-      return $blocks;
+    if (empty($section_blocks)) {
+		return $blocks;
+	}
 
     foreach ($section_blocks as $block) {
-      $customName = '';
-      if ($block['custom_block_id'])
-        $customName = $this->_getCustomBlockName($block['custom_block_id']);
+		$customName = '';      
+		$this->loadLanguage('design/blocks');
 
-      $partialView->batchAssign(array(
-        'id' => $block['instance_id'],
-        'blockId' => $block['block_id'],
-        'customBlockId' => $block['custom_block_id'],
-        'name' => $block['block_txt_id'],
-        'customName' => $customName,
-        'status' => $block['status'],
-        'parentBlock' => $section_id,
-      ));
-
-      // render partial view
-      $blocks[] = $partialView->fetch('common/block.tpl');
+		if ($block['custom_block_id']) {
+		  $customName = $this->_getCustomBlockName($block['custom_block_id']);
+		  $edit_url = $this->html->getSecureURL('design/blocks/edit', '&custom_block_id='.$block['custom_block_id']);
+		}
+		
+		$partialView->batchAssign(array(
+		  'id' => $block['instance_id'],
+		  'blockId' => $block['block_id'],
+		  'customBlockId' => $block['custom_block_id'],
+		  'name' => $block['block_txt_id'],
+		  'customName' => $customName,
+		  'editUrl' => $edit_url,
+		  'status' => $block['status'],
+		  'parentBlock' => $section_id,
+		  'block_info_url' => $this->html->getSecureURL('design/blocks_manager/block_info')
+		));
+		
+		// render partial view
+		$blocks[] = $partialView->fetch('common/block.tpl');
     }
 
     return $blocks;

@@ -248,6 +248,10 @@ class ControllerPagesCatalogProduct extends AController {
 
     	$this->document->setTitle($this->language->get('heading_title'));
 
+		$this->view->assign('error_warning', $this->session->data['warning']);
+		if (isset($this->session->data['warning'])) {
+			unset($this->session->data['warning']);
+		}
 		$this->view->assign('success', $this->session->data['success']);
 		if (isset($this->session->data['success'])) {
 			unset($this->session->data['success']);
