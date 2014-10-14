@@ -1,61 +1,76 @@
-<div class="contentBox">
-  <div class="cbox_tl">
-	  <div class="cbox_tr">
-		  <div class="cbox_tc">
-			  <div class="heading icon_title_extension"><?php echo $heading_title; ?></div>
-		  </div>
-	  </div>
-  </div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-		<table class="list" style="height: 350px;">
-			<tr>
-				<td class="center ml_field" style="border: 0;" id="percents">
-				<?php if ($loading) { ?>
-				<div class="ui-progressbar-value" id="progressbar">
-					<h3><?php echo $loading; ?></h3>
-					<img src="<?php echo $template_dir; ?>image/progressbar.gif"/></td>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+
+<div class="tab-content">
+	<div class="panel-heading">
+		<label class="h4 heading"><?php echo $heading_title; ?></label>
+
+		<div class="primary_content_actions pull-left"></div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
+	</div>
+
+	<?php echo $form['form_open'] . (is_array($form['hidden']) ? implode('',$form['hidden']) : $form['hidden']); ?>
+	<div class="panel-body panel-body-nopadding">
+	<?php if ($loading) { ?>
+		<div id="loader" class="col-sm-7 col-sm-offset-2 center">
+			<div id="progress"
+				<div class="progress">
+					<div class="progress-bar progress-bar-striped active"
+						 style="width:100%"
+						 role="progressbar"
+						 aria-valuenow="100"
+						 aria-valuemin="0"
+						 aria-valuemax="100"></div>
 				</div>
-			    <div class="ui-progressbar-value" id="retry" style="display:none; text-align: center; vertical-align: middle;">
-				    <h3><?php echo $text_download_error; ?></h3>
-					<?php echo $form[ 'form_open' ] . implode("",$form[ 'hidden' ]);?>
-				    <input type="hidden" name="disagree" id="disagree" value="0">
-					<button class="btn_standard" type="submit" onclick=" $('#disagree').val('1');"><?php echo $form['cancel']; ?></button>
-					<button class="btn_standard" type="submit"><?php echo $form[ 'retry' ]; ?></button>
-					</form>
-			    </div>
-				<?php } else { ?>
-				<div class="ui-progressbar-value" id="progressbar">
-					<h3><?php echo $pack_info; ?></h3>
-					<?php echo $form[ 'form_open' ] . $form[ 'hidden' ];
-					if($form[ 'cancel' ]['link']){
-					?>
-					<a class="btn_standard" href="<?php echo $form[ 'cancel' ]['link']; ?>"><?php echo $form[ 'cancel' ]['text']; ?></a>
-					<?php } ?>
-					<button class="btn_standard" type="submit"><?php echo $form[ 'submit' ]; ?></button>
-					</form>
-				</div>
+			<div class="form-group"><?php echo $loading; ?></div>
+		</div>
+		<div id="retry" class="text-center hide">
+			<div class="warning alert alert-danger">
+				<i class="fa fa-info fa-fw"></i> <?php echo $text_download_error; ?>
+			</div>
+		</div>
+
+	<?php } else { ?>
+		<div id="progress">
+			<div class="form-group"><?php echo $pack_info; ?></div>
+		</div>
+	<?php } ?>
+	</div>
+
+	<div class="panel-footer hide">
+		<div class="row">
+			<div class="text-center">
+				<button id="agree_btn" class="btn btn-primary">
+					<i class="fa fa-check"></i> <?php echo $form['submit']->text; ?>
+				</button>
+				&nbsp;
+				<?php if ($form['disagree_button']) { ?>
+					<a class="btn btn-default"
+					   href="<?php echo $form['disagree_button']->href; ?>"><?php echo $form['disagree_button']->text; ?></a>
 				<?php } ?>
-			</tr>
-		</table>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
-</div>
+			</div>
+		</div>
+	</div>
+	</form>
+
+	</div><!-- <div class="tab-content"> -->
+
 <?php if ($loading) { ?>
 	<script type="text/javascript">
-		$(function() {
+		$(function () {
 			$.ajax({  type: 'POST',
 				url: '<?php echo $url; ?>&start=1',
 				timeout: 240000,
-				error: function() {
-					$('#progressbar').hide();
-					$('#retry').show();
+				global: false,
+				error: function () {
+					$('#loader').hide();
+					$('#retry, div.panel-footer').removeClass('hide');
 				},
-				success: function(data) {
+				success: function (data) {
 					if (data == 100) {
 						window.location = '<?php echo $redirect; ?>';
-					}else{
-						$('#progressbar').hide();
-						$('#retry').show();
+					} else {
+						$('#loader').hide();
+						$('#retry, div.panel-footer').removeClass('hide');
 					}
 				}
 			});

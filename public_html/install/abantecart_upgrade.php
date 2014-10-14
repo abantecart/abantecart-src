@@ -131,6 +131,85 @@ $m->insertMenuItem(
 			"item_type" => 'core'));
 
 
+/*
+ *   UPDATE STOREFRONT menu  item icon rl_id
+*/
+
+		$sql = "SELECT *
+				FROM abc_dataset_values
+				WHERE dataset_column_id=7 AND value_varchar LIKE '%<i '";
+		$res = $this->db->query($sql);
+
+		$rm = new AResourceManager();
+		$rm->setType('image');
+
+		foreach($res->rows as $row){
+
+			$sql = "SELECT * FROM abc_resource_descriptions WHERE TRIM(resource_code) = '".$this->db->escape($row['value_varchar'])."'";
+			$r = $this->db->query($sql);
+
+			$this->language->load('common/header');
+
+			if($r->num_rows){ // update admin menu if resource exists
+				foreach($r->rows as $re) {
+					$sql = "UPDATE abc_dataset_values
+							SET value_varchar='" . $re['resource_id'] . "'
+							WHERE dataset_column_id=7 AND value_varchar='" . $row['value_varchar'] . "'";
+					$this->db->query( $sql );
+				}
+			}else{
+
+				//get item description
+				$sql = "SELECT * FROM abc_dataset_values WHERE dataset_column_id=2 AND row_id='".$row['row_id']."'";
+				$md = $this->db->query( $sql )->row['value_varchar'];
+				$md = 'Menu Item '.$this->language->get($md);
+
+
+				$language_id = $this->language->getContentLanguageID();
+				$data = array();
+				$data['resource_code'] = $row['value_varchar'];
+				$data['name'] = array($language_id => $md);
+				$data['title'] = array($language_id => $md);
+				$data['description'] = array($language_id => '');
+				$resource_id = $rm->addResource($data);
+
+				$sql = "UPDATE abc_dataset_values
+						SET value_varchar='" . $resource_id . "'
+						WHERE dataset_column_id=7 AND row_id='".$row['row_id']."'";
+				$this->db->query( $sql );
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //add triggers
 //select all tables with date_added
 /*

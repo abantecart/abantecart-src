@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions>
   <definition>
-    <key>success</key>
+    <key>text_success</key>
     <value><![CDATA[Успешно: Пакет был успешно установлен.]]></value>
   </definition>
   <definition>

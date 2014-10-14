@@ -92,16 +92,20 @@ class ControllerResponsesListingGridMenu extends AController {
 			$results = array_slice($menu_items, ($page - 1) * -$limit, $limit);
 
 			$i = 0;
-			$resource = new AResource('image');
+			$ar = new AResource('image');
 			foreach ($results as $result) {
-				$resource_id = $resource->getIdFromHexPath(str_replace('image/','',$result[ 'item_icon' ]));
-				$thumb = $resource->getResourceThumb($resource_id,
-													(int)$this->config->get('config_image_grid_width'),
-													(int)$this->config->get('config_image_grid_height'));
-
+				$resource = $ar->getResource($result[ 'item_icon_rl_id' ]);
+				if($resource['resource_path'] || !$resource['resource_code']) {
+					$thumb = $ar->getResourceThumb($result['item_icon_rl_id'],
+							(int)$this->config->get('config_image_grid_width'),
+							(int)$this->config->get('config_image_grid_height'));
+					$icon = '<img src="' . $thumb . '" alt="" />';
+				}elseif($resource['resource_code']){
+					$icon = $resource['resource_code'];
+				}
 				$response->rows[ $i ][ 'id' ] = $result[ 'item_id' ];
 				$response->rows[ $i ][ 'cell' ] = array(
-					(is_file(DIR_RESOURCE . $result[ 'item_icon' ]) || empty($result[ 'item_icon' ]) ? '<img src="' . $thumb . '" alt="" />' : $result[ 'item_icon' ]),
+					$icon,
 					$result[ 'item_id' ],
 					$result[ 'item_text' ][ $language_id ],
 					$this->html->buildInput(array(

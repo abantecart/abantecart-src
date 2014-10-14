@@ -17,7 +17,7 @@
 	<div class="panel-body panel-body-nopadding">
 		<label class="h4 heading"><?php echo $tab_backup; ?></label>
 		<?php foreach ($form['fields'] as $name => $field) { ?>
-			<div class="form-group <? if (!empty($error[$name])) {
+			<div class="form-group <?php if (!empty($error[$name])) {
 				echo "has-error";
 			} ?>">
 				<label class="control-label col-sm-3 col-xs-12"
@@ -66,7 +66,7 @@
 	<div class="panel-body panel-body-nopadding">
 		<label class="h4 heading"><?php echo $tab_restore; ?></label>
 
-		<div class="form-group <? if (!empty($error['file'])) {
+		<div class="form-group <?php if (!empty($error['file'])) {
 			echo "has-error";
 		} ?>">
 			<label class="control-label col-sm-4 col-xs-12"
@@ -95,7 +95,7 @@
 	<div class="panel-body panel-body-nopadding">
 		<label class="h4 heading"><?php echo $tab_loadxml; ?></label>
 
-		<div class="form-group <? if (!empty($error['file'])) {
+		<div class="form-group <?php if (!empty($error['file'])) {
 			echo "has-error";
 		} ?>">
 			<label class="control-label col-sm-4 col-xs-12"

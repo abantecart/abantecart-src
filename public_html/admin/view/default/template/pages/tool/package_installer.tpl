@@ -1,68 +1,78 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="contentBox">
-  <div class="cbox_tl">
-	   <div class="cbox_tr">
-		   <div class="cbox_tc">
-			   <div class="heading icon_title_extension"><?php echo $heading_title; ?></div>
-			   <div class="heading-tabs">
-                   <?php
-                   foreach ($tabs as $tab) {
-                       echo '<a ' . ($tab['active'] ? 'class="active"' : '') . ' href="' . ($tab['href'] ? $tab['href'] : 'Javascript:void(0);') . '"><span>' . $tab['text'] . '</span></a>';
-                   }
-                   ?>
-               </div>
-			   <div class="toolbar">
-			        <?php if ( !empty ($help_url) ) : ?>
-					<div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-				    <?php endif; ?>
-               </div>
-            </div>
+
+<?php if ($tabs) { ?>
+	<ul class="nav nav-tabs nav-justified nav-profile">
+		<?php
+		foreach ($tabs as $tab) {
+			?>
+			<li <?php echo($tab['active'] ? 'class="active"' : '') ?>>
+				<a href="<?php echo $tab['href'] ? $tab['href'] : 'Javascript:void(0);'; ?>"><span><?php echo $tab['text']; ?></span></a>
+			</li>
+		<?php } ?>
+		<?php echo $this->getHookVar('extension_tabs'); ?>
+	</ul>
+<?php } ?>
+<div class="tab-content">
+
+	<div class="panel-heading">
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
+	</div>
+
+	<?php echo $form['form_open']; ?>
+	<div class="panel-body panel-body-nopadding">
+
+		<?php foreach ($form['fields'] as $name => $field) {
+
+		//Logic to calculate fields width
+		$widthcasses = "col-sm-7";
+		if (is_int(stripos($field->style, 'large-field'))) {
+			$widthcasses = "col-sm-7";
+		} else if (is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date'))) {
+			$widthcasses = "col-sm-5";
+		} else if (is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch'))) {
+			$widthcasses = "col-sm-3";
+		} else if (is_int(stripos($field->style, 'tiny-field'))) {
+			$widthcasses = "col-sm-2";
+		}
+		$widthcasses .= " col-xs-12";
+
+		if($upload && $name=='upload_url'){ ?>
+			<div class="form-group <?php if (!empty($error[$name])) {	echo "has-error";	} ?>">
+				<label class="control-label col-sm-3 col-xs-12"><?php echo $text_or; ?></label>
+			</div>
+		<?php } ?>
+
+		<div class="form-group <?php if (!empty($error[$name])) {	echo "has-error";	} ?>">
+			<label class="control-label col-sm-3 col-xs-12"
+				   for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+
+			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
+				<?php echo $field; ?>
+			</div>
+			<?php if (!empty($error[$name])) { ?>
+				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+			<?php } ?>
 		</div>
-  </div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-	  <?php echo $form['form_open']; ?>
-    <table style="height: 350px; border:0; width: 100%">
-        <tr >
-            <td style="width:auto;"></td>
-            <td style="width:450px;" class="ml_field" style="vertical-align: middle;">
-	               <?php
-	            if(!$upload){
-	                echo $form['input'];
-	            }else{ ?>
-		           <table style="white-space: nowrap;">
-			           <tr>
-				           <td><?php echo $entry_upload_file?></td>
-				           <td><?php echo $form['file'] ?></td>
-			           </tr>
-			           <tr>
-				           <td><?php echo $text_or; ?></td>
-				           <td></td>
-			           </tr>
-			           <tr>
-				           <td><?php echo $entry_upload_url?></td>
-				           <td><?php echo $form['url'] ?></td>
-			           </tr>
-		           </table>
-	            <?php }    ?>
-            </td>
-            <td style="width:69px; white-space: nowrap;" class="ml_field" >
-	            <?php if($upload){ ?>
-	               <button id="reset" class="btn_standard" type="reset"><?php echo $form['cancel']; ?></button>
+		<?php } ?><!-- <div class="fieldset"> -->
+
+	</div>
+
+	<div class="panel-footer">
+		<div class="row">
+			<div class="center">
+				<button class="btn btn-primary">
+					<i class="fa fa-cogs"></i> <?php echo $form['submit']->text; ?>
+				</button>
+				&nbsp;
+				<?php if($form['cancel']){?>
+				<a class="btn btn-default" href="<?php echo $form['cancel']->href; ?>">
+					<i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+				</a>
 				<?php } ?>
-	               <button class="btn_standard button_loader" type="submit"><?php echo $form['submit']; ?></button>
+			</div>
+		</div>
+	</div>
+	</form>
 
-            </td>
-	        <td style="width:auto;"></td>
-		</tr>
-    </table></form>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
-</div>
-<script type="text/javascript">
-	$('#reset').on('click', function(){
-		$('#uploadFrm_package_file_fileupload').find('.atext').html('');
-		$('#uploadFrm_package_file').val('');
-	});
-
-</script>
+</div><!-- <div class="tab-content"> -->

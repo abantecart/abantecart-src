@@ -70,7 +70,7 @@
     </definition>
     <definition>
         <key>entry_alias</key>
-        <value><![CDATA[Alias Nombre<br /><span class="help">Alias ​​nombre de su tienda. Si deja en blanco, se basará en nombre abreviado</span]]></value>
+        <value><![CDATA[Alias Nombre<br /><span class="help">Alias ​​nombre de su tienda. Si deja en blanco, se basará en nombre abreviado</span>]]></value>
     </definition>
     <definition>
         <key>button_add_store</key>

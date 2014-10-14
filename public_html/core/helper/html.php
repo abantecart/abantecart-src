@@ -74,6 +74,7 @@ function buildStoreFrontMenuTree( $menu_array, $level = 0 ){
     $registry = Registry::getInstance();
     $logged = $registry->get('customer')->isLogged();
 
+	$ar = new AResource('image');
     foreach( $menu_array as $item ) {
     	if(($logged && $item['id']=='login')
     		||	(!$logged && $item['id']=='logout')){
@@ -91,17 +92,22 @@ function buildStoreFrontMenuTree( $menu_array, $level = 0 ){
     	}else{
     		$class = $item['icon'] ? ' class="top nobackground"' : ' class="top menu_'.$item['id'].'" ';
     	}
-    	$href = empty($item['href']) ? '' : ' href="'.$item['href'].'" '; 
+    	$href = empty($item['href']) ? '' : ' href="'.$item['href'].'" ';
     	//construct HTML
     	$result .= '<li ' . $id . ' class="dropdown hover">';
     	$result .= '<a ' . $class . $href . '>';
     	
-    	//check icon rl type html, image or none. 
-    	if ( is_html( $item['icon'] ) ) {
-    		$result .= $item['icon'];
-    	} else if ($item['icon']) {
-    		$result .= '<img class="menu_image" src="'. HTTP_DIR_RESOURCE . $item['icon'].'" alt="" />';
-    	}
+    	//check icon rl type html, image or none.
+		$rl_id = $item['icon_rl_id'];
+		if($rl_id){
+			$resource = $ar->getResource($rl_id);
+			if($resource['resource_path'] && is_file(DIR_RESOURCE . 'image/'.$resource['resource_path'])){
+				$result .= '<img class="menu_image" src="'. HTTP_DIR_RESOURCE . 'image/'.$resource['resource_path'].'" alt="" />';
+			}elseif($resource['resource_code']){
+				$result .= $resource['resource_code'];
+			}
+		}
+
     	$result .= '<span class="menu_text">' . $item['text'] . '</span></a>';
 
 		//if children build inner clild tree

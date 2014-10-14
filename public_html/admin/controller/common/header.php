@@ -93,7 +93,12 @@ class ControllerCommonHeader extends AController {
 			//Get surrent menu item
 			$menu = new AMenu('admin');
 			$current_menu = $menu->getMenuByRT($this->request->get['rt']);
-			$current_menu['icon'] = $current_menu ['item_icon_rl_id'] ? $current_menu ['item_icon_rl_id'] : '';
+			if($current_menu ['item_icon_rl_id']) {
+				$rm = new AResourceManager();
+				$rm->setType('image');
+				$resource = $rm->getResource( $current_menu ['item_icon_rl_id'] );
+				$current_menu['icon'] = $resource['resource_code'];
+			}
 			unset($current_menu['item_icon_rl_id']);
 			$this->view->assign('current_menu', $current_menu);
 		}

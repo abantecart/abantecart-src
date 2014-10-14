@@ -1,5 +1,5 @@
 <?php foreach ($form['fields'] as $name => $field) {
-	//Logic to cululate fileds width
+	//Logic to calculate fields width
 	$widthcasses = "col-sm-7";
 	if (is_int(stripos($field->style, 'large-field'))) {
 		$widthcasses = "col-sm-7";

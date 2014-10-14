@@ -155,6 +155,7 @@ final class ABackup {
 		}
 
 		fclose($file);
+		chmod($dump_file,0777);
 
 		return $dump_file;
 	}
@@ -165,13 +166,16 @@ final class ABackup {
 			return FALSE;
 		}
 
-		if( !$this->dumpTables() ){
+		$this->load->model('tool/backup');
+		$table_list = $this->model_tool_backup->getTables();
+
+		if( !$this->dumpTables($table_list) ){
 			$this->error = "Error: Can't create sql dump of database during backup";
 			$this->log->write($this->error);
 			$this->message->saveError('SQL-Backup Error',$this->error);
 			return false;
 		}
-		chmod($backupFile,0777);
+
 		return true;
 	}
 
@@ -183,18 +187,15 @@ final class ABackup {
 		$table_name = $this->registry->get('db')->escape($table_name); // for any case
 
 		$backupFile = $this->backup_dir.'data/' .DB_DATABASE.'_'.$table_name.'_dump_'. date("Y-m-d-H-i-s") . '.sql';
-		$command = "mysqldump --opt -h " . DB_HOSTNAME . " -u " . DB_USERNAME . " -p" . DB_PASSWORD . " " . DB_DATABASE . "  ".$table_name." > " . $backupFile;
-		$result = null;
-        if(isFunctionAvailable('system')){
-			$result = system($command);
-		}
+
+		$result = $this->dumpTables($tables = array($table_name), $backupFile);
+
 		if(!$result){
 			$this->error = "Error: Can't create sql dump of database table during backup";
 			$this->log->write($this->error);
 			$this->message->saveError('Backup Error',$this->error);
 			return false;
 		}
-		chmod($backupFile,0777);
 		return true;
 	}
 	
@@ -313,9 +314,6 @@ final class ABackup {
 		return true;
 	}
 
-
-
-
 	// Future:  1. We will add methods to brows and restore backup. 
 	// 			2. Incremental backup for the database changes. 
 
@@ -365,6 +363,9 @@ final class ABackup {
 		// Open the source directory to read in files
 		$i = new DirectoryIterator($src);
 		foreach ($i as $f) {
+			/**
+			 * @var $f DirectoryIterator
+			 */
 			if ($f->isFile()) {
 				copy($f->getRealPath(), "$dest/" . $f->getFilename());
 			} else if (!$f->isDot() && $f->isDir()) {

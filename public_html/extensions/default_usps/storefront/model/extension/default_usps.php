@@ -124,7 +124,7 @@ class ModelExtensionDefaultUsps extends Model {
 			if ($status) {
 				$curl = curl_init();
 
-				curl_setopt($curl, CURLOPT_URL, 'http://production.shippingapis.com/ShippingAPITest.dll?' . $request);
+				curl_setopt($curl, CURLOPT_URL, 'http://production.shippingapis.com/ShippingAPI.dll?' . $request);
 				curl_setopt($curl, CURLOPT_HEADER, 0);
 				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 

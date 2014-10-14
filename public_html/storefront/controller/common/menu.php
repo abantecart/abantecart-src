@@ -71,6 +71,7 @@ class ControllerCommonMenu extends AController {
 			$menu[] = array(
 				'id' => $item['item_id'],
 				'icon' => $item['item_icon'],
+				'icon_rl_id' => $item['item_icon_rl_id'],
 				'href' =>  $href,
 				'text' => $item['item_text'][$lang_id],
 				'children' => $this->_buildMenu( $item['item_id'] ),

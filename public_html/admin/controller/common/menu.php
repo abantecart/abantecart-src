@@ -109,6 +109,8 @@ class ControllerCommonMenu extends AController {
 	}
 
 	private function _getChildItems($item_id, $menu_items) {
+		$rm = new AResourceManager();
+		$rm->setType('image');
 		$result = array();
 		foreach ($menu_items as $item) {
 			if ($item['parent_id'] == $item_id && isset($item['item_id'])) {
@@ -127,12 +129,15 @@ class ControllerCommonMenu extends AController {
 				}
 				
 				$link_keyname = strpos($item ['item_url'], "http") ? "onclick" : "href";
-				
+
+				$icon = $rm->getResource($item ['item_icon_rl_id']);
+				$icon = $icon['resource_code'] ? $icon['resource_code'] : '';
+
 				$temp = array(
 							'id' => $item ['item_id'],
 							$link_keyname => $menu_link,
 							'text' => $this->language->get($item ['item_text']),
-							'icon' => $item ['item_icon_rl_id'] ? $item ['item_icon_rl_id'] : ''
+							'icon' => $icon
 							);
 
 				if ($rt) {

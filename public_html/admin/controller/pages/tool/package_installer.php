@@ -41,9 +41,8 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$extension_key = !$this->request->post['extension_key'] ? $extension_key : $this->request->post['extension_key'];
 		$extension_key = $package_info['extension_key'] ? $package_info['extension_key'] : $extension_key;
 
-		if (!$extension_key) {
-			$this->session->data['package_info'] = array();
-		}
+
+		$this->session->data['package_info'] = array();
 
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->document->initBreadcrumb(array(
@@ -53,48 +52,46 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('tool/package_installer'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: ' ));
+			'separator' => ' :: ',
+			'current' => true));
 
 		$form = new AForm('ST');
 		$form->setForm(
 			array( 'form_name' => 'installFrm' )
 		);
-		$this->data['form']['form_open'] = $form->getFieldHtml(array(
-			'type' => 'form',
-			'name' => 'installFrm',
-			'action' => $this->html->getSecureURL('tool/package_installer/download') ));
+		$this->data['form']['form_open'] = $form->getFieldHtml(
+				array(
+						'type' => 'form',
+						'name' => 'installFrm',
+						'action' => $this->html->getSecureURL('tool/package_installer/download'),
+						'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
+				));
 
-		$this->data['form']['input'] = $form->getFieldHtml(array(
-			'type' => 'input',
-			'name' => 'extension_key',
-			'value' => (!$extension_key ? $this->language->get('text_key_hint') : $extension_key),
-			'attr' => 'autocomplete="off" onfocus = "if(this.value==\'' . $this->language->get('text_key_hint') . '\'){
-													                                             this.value = \'\';}"',
-			'help_url' => $this->gen_help_url('extension_key'), ));
+		$this->data['form']['fields']['input'] = $form->getFieldHtml(
+				array(
+					'type' => 'input',
+					'name' => 'extension_key',
+					'value' => $extension_key,
+					'attr' => 'autocomplete="off" ',
+					'placeholder' => $this->language->get('text_key_hint'),
+					'help_url' => $this->gen_help_url('extension_key'), ));
 
 
-		$this->data['form']['submit'] = $form->getFieldHtml(array( 'type' => 'button',
-			'name' => 'submit',
-			'text' => $this->language->get('text_continue'),
-			'style' => 'button1' ));
+		$this->data['form']['submit'] = $form->getFieldHtml(
+				array(
+						'type' => 'button',
+						'name' => 'submit',
+						'text' => $this->language->get('text_continue')));
+
 		if (isset($this->session->data['error'])) {
 			$this->view->assign('error_warning', $this->session->data['error']);
-			unset($package_info['package_dir']);
+			unset($package_info['package_dir'], $this->session->data['error']);
 		}
-		unset($this->session->data['error']);
+		unset($this->session->data['error'], $this->session->data['success']);
 		$package_info['package_source'] = 'network';
 		$this->data['heading_title'] = $this->language->get('heading_title');
-		$this->data['tabs'] = array(
-			array(
-				'href' => $this->_get_begin_href(),
-				'text' => $this->language->get('text_network_install'),
-				'active' => true
-			),
-			array(
-				'href' => $this->html->getSecureURL('tool/package_installer/upload'),
-				'text' => $this->language->get('text_extension_upload'),
-				'active' => false
-			) );
+
+		$this->_initTabs('key');
 
 		$this->view->assign('help_url', $this->gen_help_url(''));
 		$this->view->batchAssign($this->data);
@@ -119,7 +116,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}
 
 		// process post
-		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+		if ($this->request->is_POST()) {
 			if (is_uploaded_file($this->request->files['package_file']['tmp_name'])) {
 				if(!is_int(strpos($this->request->files['package_file']['name'],'.tar.gz'))){
 					unlink($this->request->files['package_file']['tmp_name']);
@@ -153,38 +150,46 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('tool/package_installer'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: ' ));
+			'separator' => ' :: ',
+			'current' => true));
 
 		$form = new AForm('ST');
 		$form->setForm(
 			array( 'form_name' => 'uploadFrm' )
 		);
-		$this->data['form']['form_open'] = $form->getFieldHtml(array(
-			'type' => 'form',
-			'name' => 'uploadFrm',
-			'action' => $this->html->getSecureURL('tool/package_installer/upload') ));
+		$this->data['form']['form_open'] = $form->getFieldHtml(
+				array(
+						'type' => 'form',
+						'name' => 'uploadFrm',
+						'action' => $this->html->getSecureURL('tool/package_installer/upload'),
+						'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
+				));
 
-		$this->data['entry_upload_file'] = $this->language->get('entry_upload_file');
-		$this->data['form']['file'] = $form->getFieldHtml(array(
-			'type' => 'file',
-			'name' => 'package_file',
-			'value' => '',
-			'attr' => ' autocomplete="off" ' ));
-		$this->data['entry_upload_url'] = $this->language->get('entry_upload_url');
-		$this->data['form']['url'] = $form->getFieldHtml(array(
-			'type' => 'input',
-			'name' => 'package_url',
-			'value' => '',
-			'attr' => ' autocomplete="off" '));
 
-		$this->data['form']['cancel'] = $form->getFieldHtml(array( 'type' => 'button',
-			'name' => 'cancel',
-			'text' => $this->language->get('button_cancel'),
-			'style' => 'button2' ));
-		$this->data['form']['submit'] = $form->getFieldHtml(array( 'type' => 'button',
-			'name' => 'submit',
-			'text' => $this->language->get('text_continue'),
-			'style' => 'button1' ));
+		$this->data['form']['fields']['upload_file'] = $form->getFieldHtml(
+				array(
+						'type' => 'file',
+						'name' => 'package_file',
+						'value' => '',
+						'attr' => ' autocomplete="off" ' ));
+
+		$this->data['form']['fields']['upload_url'] = $form->getFieldHtml(
+				array(
+						'type' => 'input',
+						'name' => 'package_url',
+						'value' => '',
+						'attr' => ' autocomplete="off" '));
+
+		$this->data['form']['cancel'] = $form->getFieldHtml(
+				array(
+						'type' => 'button',
+						'name' => 'cancel',
+						'text' => $this->language->get('button_cancel')));
+		$this->data['form']['submit'] = $form->getFieldHtml(
+				array(
+						'type' => 'button',
+						'name' => 'submit',
+						'text' => $this->language->get('text_continue')));
 
 		if (isset($this->session->data['error'])) {
 			$this->view->assign('error_warning', $this->session->data['error']);
@@ -192,33 +197,46 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}
 		unset($this->session->data['error']);
 		$this->data['heading_title'] = $this->language->get('heading_title');
-		$this->data['tabs'] = array(
-			array(
-				'href' => $this->html->getSecureURL('tool/package_installer'),
-				'text' => $this->language->get('text_network_install'),
-				'active' => false
-			),
-			array(
-				'href' => $this->_get_begin_href(),
-				'text' => $this->language->get('text_extension_upload'),
-				'active' => true
-			) );
+
+		$this->_initTabs('upload');
+
 		$this->data['upload'] = true;
 		$this->data['text_or'] = $this->language->get('text_or');
 		$this->view->assign('help_url', $this->gen_help_url(''));
+
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/tool/package_installer.tpl');
 	}
 
+	private function _initTabs($active = null) {
+
+		$this->data['tabs'] = array();
+		$this->data['tabs']['key'] = array(
+				'href' => $this->html->getSecureURL('tool/package_installer'),
+				'text' => $this->language->get('text_network_install'));
+
+		$this->data['tabs']['upload'] = array(
+				'href' => $this->html->getSecureURL('tool/package_installer/upload'),
+				'text' => $this->language->get('text_extension_upload'));
+
+
+		if (in_array($active, array_keys($this->data['tabs']))) {
+			$this->data['tabs'][$active]['active'] = 1;
+		} else {
+			$this->data['tabs']['key']['active'] = 1;
+		}
+	}
+
+
 	public function download() {
 		$package_info = &$this->session->data['package_info']; // for short code
-		$extension_key = ($this->request->post['extension_key']) ? $this->request->post['extension_key'] : $this->request->get['extension_key'];
+		$extension_key = $this->request->post_or_get('extension_key');
 
 		if (!$extension_key && !$package_info['package_url']) {
 			$this->redirect($this->_get_begin_href());
 		}
 
-		if ($this->request->server['REQUEST_METHOD'] == 'POST') { // if does not agree  with agreement of filesize
+		if ($this->request->is_POST()) { // if does not agree  with agreement of filesize
 			if ($this->request->post['disagree'] == 1) {
 				$this->_removeTempFiles();
 				unset($this->session->data['package_info']);
@@ -229,59 +247,79 @@ class ControllerPagesToolPackageInstaller extends AController {
 			}
 		}
 
-		if (substr($extension_key, 0, 11) == 'abantecart_') {
+		if ( $this->_isCorePackage($extension_key) ) {
 			$disclaimer = true;
 		}
 
 		if (!$disclaimer && !$this->session->data['installer_disclaimer']) {
 			$this->view->assign('heading_title', $this->language->get('text_disclaimer_heading'));
-			$this->view->assign('text_disclaimer', $this->language->get('text_disclaimer'));
+
 
 			$form = new AForm('ST');
-			$form->setForm(array( 'form_name' => 'disclaimerFrm' ));
-			$this->data['form']['form_open'] = $form->getFieldHtml(array( 'type' => 'form',
-				'name' => 'disclaimerFrm',
-				'action' => $this->html->getSecureURL('tool/package_installer/download') ));
+			$form->setForm(array( 'form_name' => 'Frm' ));
+			$this->data['form']['form_open'] = $form->getFieldHtml(array(
+				'type' => 'form',
+				'name' => 'Frm',
+				'action' => $this->html->getSecureURL('tool/package_installer/download'),
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
+			));
 
-			$this->data['form']['extension_key'] = $form->getFieldHtml(array(
+
+			$this->data['form']['hidden'][] = $form->getFieldHtml(array(
 				'id' => 'extension_key',
 				'type' => 'hidden',
 				'name' => 'extension_key',
 				'value' => $extension_key ));
 
-			$this->data['form']['disagree_button'] = $form->getFieldHtml(array( 'type' => 'button',
-				'text' => $this->language->get('text_disagree'),
-				'style' => 'button' ));
+			$this->data['agreement_text'] = $this->language->get('text_disclaimer');
 
-			$this->data['form']['submit'] = $form->getFieldHtml(array( 'type' => 'button',
-				'text' => $this->language->get('text_agree'),
-				'style' => 'button1' ));
+			$this->data['form']['disagree_button'] = $form->getFieldHtml(array(
+					'type' => 'button',
+					'href' => $this->_get_begin_href(),
+					'text' => $this->language->get('text_interrupt') ));
+
+			$this->data['form']['submit'] = $form->getFieldHtml(array(
+					'type' => 'button',
+					'text' => $this->language->get('text_agree')));
+
+			$this->data['form']['agree'] = $form->getFieldHtml(array(
+					'type' => 'hidden',
+					'name' => 'disclaimer',
+					'value' => '0' ));
+
 			$this->view->batchAssign($this->data);
-			$this->processTemplate('pages/tool/package_installer_disclaimer.tpl');
+			$this->processTemplate('pages/tool/package_installer_agreement.tpl');
 			return;
 		}
 
 		$form = new AForm('ST');
 		$form->setForm(array( 'form_name' => 'retryFrm' ));
-		$this->data['form']['form_open'] = $form->getFieldHtml(array( 'type' => 'form',
-			'name' => 'retryFrm',
-			'action' => $this->html->getSecureURL('tool/package_installer/download') ));
-		$this->data['form']['hidden'][ ] = $form->getFieldHtml(array( 'id' => 'extension_key',
-			'type' => 'hidden',
-			'name' => 'extension_key',
-			'value' => $extension_key ));
-		$this->data['form']['hidden'][ ] = $form->getFieldHtml(array( 'id' => 'disclaimer',
-			'type' => 'hidden',
-			'name' => 'disclaimer',
-			'value' => '1' ));
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
+				'type' => 'form',
+				'name' => 'retryFrm',
+				'action' => $this->html->getSecureURL('tool/package_installer/download') ));
 
-		$this->data['form']['cancel'] = $form->getFieldHtml(array( 'type' => 'button',
-			'text' => $this->language->get('button_cancel'),
-			'style' => 'button' ));
+		$this->data['form']['hidden'][ ] = $form->getFieldHtml(array(
+				'id' => 'extension_key',
+				'type' => 'hidden',
+				'name' => 'extension_key',
+				'value' => $extension_key ));
 
-		$this->data['form']['retry'] = $form->getFieldHtml(array( 'type' => 'button',
-			'text' => $this->language->get('text_retry'),
-			'style' => 'button1' ));
+		$this->data['form']['hidden'][ ] = $form->getFieldHtml(array(
+				'id' => 'disclaimer',
+				'type' => 'hidden',
+				'name' => 'disclaimer',
+				'value' => '1' ));
+
+		$this->data['form']['cancel'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'href' => $this->_get_begin_href(),
+				'text' => $this->language->get('button_cancel') ));
+
+		$this->data['form']['retry'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'text' => $this->language->get('text_retry')
+		));
 
 		$this->view->assign('text_download_error', $this->language->get('text_download_error'));
 
@@ -295,13 +333,13 @@ class ControllerPagesToolPackageInstaller extends AController {
 			unset($this->session->data['package_info']);
 			$this->redirect($this->html->getSecureURL('tool/package_installer'));
 		}
-		//do condition for new and old MPs
+		//do condition for MP
 		$this->loadModel('tool/mp_api');
 
 		if($extension_key) {
 			if( substr($extension_key,0,4) == 'acmp' ){ // if prefix for new mp presents
 				$url = $this->model_tool_mp_api->getMPURL().'?rt=r/account/download/getdownloadbykey';
-			}else{ // for old marketplace
+			}else{ // for upgrades
 				$url = "/?option=com_abantecartrepository&format=raw";
 			}
 			$url .= "&store_id=" . UNIQUE_ID;
@@ -372,7 +410,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('tool/package_installer'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: ' ));
+			'separator' => ' :: ',
+			'current' => true));
+
 		$this->data['heading_title'] = $this->language->get('heading_title_download');
 
 		$this->data['loading'] = sprintf($this->language->get('text_loading'), (round($package_info['package_size'] / 1024, 1)) . 'kb');
@@ -390,7 +430,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 	public function agreement() {
 		$package_info = &$this->session->data['package_info'];
 		// if we got decision
-		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+		if ($this->request->is_POST()) {
 			if ($this->request->post['disagree'] == 1) { // if does not agree  with agreement of filesize
 				$this->_removeTempFiles();
 				unset($this->session->data['package_info']);
@@ -478,17 +518,22 @@ class ControllerPagesToolPackageInstaller extends AController {
 		//check cart version compability
 		if (!isset($package_info['confirm_version_incompatibility'])) {
 			if (!$this->_check_cart_version($config)) {
-				$this->redirect($this->html->getSecureURL('tool/package_installer/agreement'));
+				if($this->_isCorePackage()){
+					$this->session->data['error'] = $this->language->get('error_package_version_compatibility');
+					$this->redirect($this->html->getSecureURL('tool/package_installer'));
+				}else{
+					$this->redirect($this->html->getSecureURL('tool/package_installer/agreement'));
+				}
 			}
 		}
 
 		// if we were redirected
-		if ($this->request->server['REQUEST_METHOD'] == 'GET') {
+		if ($this->request->is_GET()) {
 			//check  write permissions
 			// find directory from app_root_dir
 			if ($package_info['package_content']['extensions']) {
 				$dst_dirs = $pmanager->getDestinationDirectories();
-				$ftp = false;
+				$ftp_mode = false;
 				// if even one destination directory is not writable - use ftp mode
 				if(!is_writable(DIR_EXT)){
 					$non_writables[] = DIR_EXT;
@@ -497,7 +542,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 				if ($dst_dirs) {
 					foreach ($dst_dirs as $dir) {
                         if (!is_writable(DIR_ROOT . '/' . $dir) && file_exists(DIR_ROOT . '/' . $dir)) {
-                            $ftp = true; // enable ftp-mode
+                            $ftp_mode = true; // enable ftp-mode
                             $non_writables[ ] = DIR_ROOT . '/' . $dir;
                         }
 					}
@@ -508,7 +553,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 						||
 						(!is_writable(pathinfo(DIR_ROOT . '/' . $corefile,PATHINFO_DIRNAME)) && is_dir(pathinfo(DIR_ROOT . '/' . $corefile,PATHINFO_DIRNAME)))
 					) {
-							$ftp = true; // enable ftp-mode
+							$ftp_mode = true; // enable ftp-mode
 							$non_writables[ ] = DIR_ROOT . '/' . $corefile;
 					}
 				}
@@ -516,7 +561,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}
 
 		// if ftp mode and user give ftp parameters
-		if (isset($this->request->post['ftp_user']) && $this->request->server['REQUEST_METHOD'] == 'POST') {
+		if (isset($this->request->post['ftp_user']) && $this->request->is_POST()) {
 			$ftp_user = $this->request->post['ftp_user'];
 			$ftp_password = $this->request->post['ftp_password'];
 			$ftp_host = $this->request->post['ftp_host'];
@@ -527,7 +572,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 				$this->session->data['error'] = $pmanager->error;
 				$this->redirect($this->html->getSecureURL('tool/package_installer/agreement'));
 			}
-			$ftp = false; // sign of ftp-form
+			$ftp_mode = false; // sign of ftp-form
 			$this->redirect($this->html->getSecureURL('tool/package_installer/install'));
 		} else {
 			if (!$package_info['tmp_dir']) {
@@ -535,16 +580,11 @@ class ControllerPagesToolPackageInstaller extends AController {
 			}
 		}
 		// if all fine show license agreement
-		if (!file_exists($package_info['tmp_dir'] . $package_dirname . "/license.txt") && !$ftp) {
+		if (!file_exists($package_info['tmp_dir'] . $package_dirname . "/license.txt") && !$ftp_mode) {
 			$this->redirect($this->html->getSecureURL('tool/package_installer/install'));
 		}
 
         $this->data['license_text'] = '';
-        if(file_exists($package_info['tmp_dir'] . $package_dirname . "/license.txt")){
-		    $this->data['license_text'] = file_get_contents($package_info['tmp_dir'] . $package_dirname . "/license.txt");
-        }
-        $this->data['license_text'] = htmlentities($this->data['license_text'], ENT_QUOTES, 'UTF-8');
-		$this->data['license_text'] = nl2br($this->data['license_text']);
 
 
 		$this->document->initBreadcrumb(array(
@@ -554,7 +594,8 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('tool/package_installer'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: ' ));
+			'separator' => ' :: ',
+			'current'	=> true));
 
 		if (isset($this->session->data['error'])) {
 			$this->view->assign('error_warning', $this->session->data['error']);
@@ -562,32 +603,37 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}
 
 		$form = new AForm('ST');
-		$form->setForm(array( 'form_name' => 'ftpFrm' ));
+		$form->setForm(array( 'form_name' => 'Frm' ));
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
-			'name' => 'ftpFrm',
-			'action' => $this->html->getSecureURL('tool/package_installer/agreement') ));
+			'name' => 'Frm',
+			'action' => $this->html->getSecureURL('tool/package_installer/agreement'),
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
+		));
 			
 		//version incompatibility confirmation
 		if ((isset($package_info['confirm_version_incompatibility']) && !$package_info['confirm_version_incompatibility'])) {
-			$this->data['incompability_form'] = true; // sign to show attention
-			$this->data['version_incompatibility_text'] = $package_info['version_incompatibility_text'];
-			unset($package_info['version_incompatibility_text']);
-			$this->data['form']['disagree_button'] = $form->getFieldHtml(array( 'type' => 'button',
-				'text' => $this->language->get('text_interrupt'),
-				'style' => 'button' ));
 
-			$this->data['form']['submit'] = $form->getFieldHtml(array( 'type' => 'button',
-				'text' => $this->language->get('text_continue'),
-				'style' => 'button1' ));
+			$this->data['agreement_text'] = $package_info['version_incompatibility_text'];
 
-			$this->data['form']['agree'] = $form->getFieldHtml(array( 'type' => 'hidden',
-				'name' => 'agree_incompatibility',
-				'value' => '1' ));
+			$this->data['form']['disagree_button'] = $form->getFieldHtml(array(
+					'type' => 'button',
+					'href' => $this->_get_begin_href(),
+					'text' => $this->language->get('text_interrupt') ));
 
+			$this->data['form']['submit'] = $form->getFieldHtml(array(
+					'type' => 'button',
+					'text' => $this->language->get('text_continue')));
+
+			$this->data['form']['agree'] = $form->getFieldHtml(array(
+					'type' => 'hidden',
+					'name' => 'agree_incompatibility',
+					'value' => '0' ));
+			$template = 'pages/tool/package_installer_agreement.tpl';
 
 		} // confirmation for ftp access to file system
-		elseif ($ftp) {
+		elseif ($ftp_mode) {
+			$template = 'pages/tool/package_installer_ftp_form.tpl';
 			$ftp_user = $package_info['ftp_user'] ? $package_info['ftp_user'] : '';
 			$ftp_host = $package_info['ftp_host'] ? $package_info['ftp_host'] : '';
 
@@ -598,12 +644,14 @@ class ControllerPagesToolPackageInstaller extends AController {
 				'require' => true,
 				'help_url' => $this->gen_help_url('ftp_user'),
 				'style' => 'medium-field'));
+
 			$this->data['form']['fpass'] = $form->getFieldHtml(array(
 				'type' => 'password',
 				'name' => 'ftp_password',
 				'require' => true,
 				'value' => '',
 				'style' => 'medium-field'));
+
 			$this->data['form']['fhost'] = $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'ftp_host',
@@ -611,14 +659,13 @@ class ControllerPagesToolPackageInstaller extends AController {
 				'help_url' => $this->gen_help_url('ftp_host'),
 				'style' => 'medium-field' ));
 
-			$this->data['form']['submit'] = $form->getFieldHtml(
-				array( 'type' => 'button',
-					'text' => $this->language->get('text_continue'),
-					'style' => 'button1'
+			$this->data['form']['submit'] = $form->getFieldHtml(array(
+					'type' => 'button',
+					'text' => $this->language->get('text_continue')
 				));
 
 			$this->data['fuser'] = $this->language->get('text_ftp_user');
-			$this->data['fpassword'] = $this->language->get('text_ftp_password');
+			$this->data['fpass'] = $this->language->get('text_ftp_password');
 			$this->data['fhost'] = $this->language->get('text_ftp_host');
 			$this->data['heading_title'] = $this->language->get('heading_title_ftp');
 			$this->data['warning_ftp'] = $this->language->get('warning_ftp');
@@ -626,26 +673,35 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 		} // license agreement
 		else {
-			$this->data['form']['checkbox'] = $form->getFieldHtml(array(
-				'id' => 'agree',
-				'type' => 'checkbox',
-				'name' => 'agree',
-				'value' => '0',
-				'checked' => 'false'
-			));
+			if(file_exists($package_info['tmp_dir'] . $package_dirname . "/license.txt")){
+				$this->data['agreement_text'] = file_get_contents($package_info['tmp_dir'] . $package_dirname . "/license.txt");
+			}
+			$this->data['agreement_text'] = htmlentities($this->data['agreement_text'], ENT_QUOTES, 'UTF-8');
+			$this->data['agreement_text'] = nl2br($this->data['agreement_text']);
+
+			$template = 'pages/tool/package_installer_agreement.tpl';
+
+
+			$this->data['form']['agree'] = $form->getFieldHtml(array(
+					'type' => 'hidden',
+					'name' => 'agree',
+					'value' => '0' ));
+
 			$this->data['text_agree'] = $this->language->get('text_i_agree');
-			$this->data['form']['disagree_button'] = $form->getFieldHtml(array( 'type' => 'button',
-				'text' => $this->language->get('text_disagree'),
-				'style' => 'button' ));
+			$this->data['form']['disagree_button'] = $form->getFieldHtml(array(
+					'type' => 'button',
+					'href' => $this->_get_begin_href(),
+					'text' => $this->language->get('text_disagree') ));
+
 			$this->data['heading_title'] = $this->language->get('heading_title_license');
-			$this->data['form']['submit'] = $form->getFieldHtml(array( 'type' => 'button',
-				'text' => $this->language->get('text_agree'),
-				'style' => 'button1'
+			$this->data['form']['submit'] = $form->getFieldHtml(array(
+					'type' => 'button',
+					'text' => $this->language->get('text_agree')
 			));
 		}
 
 		$this->view->batchAssign($this->data);
-		$this->processTemplate('pages/tool/package_installer_agreement.tpl');
+		$this->processTemplate($template);
 	}
 
 	public function install() {
@@ -655,7 +711,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$package_dirname = $package_info['package_dir'];
 		$temp_dirname = $package_info['tmp_dir'];
 
-		if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->request->post['disagree'] == 1) { 
+		if ($this->request->is_POST() && $this->request->post['disagree'] == 1) {
 			//if user disagree clean up and exit
 			$this->_removeTempFiles();
 			unset($this->session->data['package_info']);
@@ -668,7 +724,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 			$this->redirect($this->_get_begin_href());
 		}
 
-		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+		if ($this->request->is_POST()) {
 			$upgrade_confirmed = $this->request->post['agree'] == 2 ? true : false;
 			$license_agree = $this->request->post['agree'] == 1 ? true : false;
 			unset($this->request->post['agree']);
@@ -682,11 +738,11 @@ class ControllerPagesToolPackageInstaller extends AController {
 				unset($license_agree);
 				if ($result !== true) {
 					if (isset($result['license'])) {
-						$this->data['license_text'] = file_get_contents($temp_dirname . $package_dirname . "/code/extensions/" . $ext . "/license.txt");
-						$this->data['license_text'] = htmlentities($this->data['license_text'], ENT_QUOTES, 'UTF-8');
-						$this->data['license_text'] = nl2br($this->data['license_text']);
+						$this->data['agreement_text'] = file_get_contents($temp_dirname . $package_dirname . "/code/extensions/" . $ext . "/license.txt");
+						$this->data['agreement_text'] = htmlentities($this->data['agreement_text'], ENT_QUOTES, 'UTF-8');
+						$this->data['agreement_text'] = nl2br($this->data['agreement_text']);
 					} else {
-						$this->data['license_text'] = '<h2>Extension "' . $ext . '" will be upgrade from version ' . $result['upgrade'] . '</h2>';
+						$this->data['agreement_text'] = '<h2>Extension "' . $ext . '" will be upgrade from version ' . $result['upgrade'] . '</h2>';
 					}
 					break;
 				} else {
@@ -709,12 +765,12 @@ class ControllerPagesToolPackageInstaller extends AController {
             }else{
                 $this->data['heading_title'] = 'Upgrade Core Attention';
                 $release_notes = $temp_dirname . $package_dirname . "/release_notes.txt";
-                $this->data['license_text'] .= sprintf($this->language->get('text_core_upgrade_attention'),$package_info['package_version'])."\n\n\n\n";
+                $this->data['agreement_text'] .= sprintf($this->language->get('text_core_upgrade_attention'),$package_info['package_version'])."\n\n\n\n";
                 if(file_exists($release_notes)){
-                    $this->data['license_text'] .= file_get_contents($release_notes);
+                    $this->data['agreement_text'] .= file_get_contents($release_notes);
                 }
-                $this->data['license_text'] = htmlentities($this->data['license_text'], ENT_QUOTES, 'UTF-8');
-                $this->data['license_text'] = nl2br($this->data['license_text']);
+                $this->data['agreement_text'] = htmlentities($this->data['agreement_text'], ENT_QUOTES, 'UTF-8');
+                $this->data['agreement_text'] = nl2br($this->data['agreement_text']);
             }
 		}
 
@@ -723,7 +779,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 			$this->_removeTempFiles();
             $this->cache->delete('*');
 			unset($this->session->data['package_info']);
-			$this->session->data['success'] = $this->language->get('success');
+			$this->session->data['success'] = $this->language->get('text_success');
 			if ($extension_id) {
 				$this->redirect($this->html->getSecureURL('extension/extensions/edit', '&extension=' . $extension_id));
 			} else {
@@ -732,42 +788,39 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}
 
 		$form = new AForm('ST');
-		$form->setForm(array( 'form_name' => 'preinstallFrm' ));
+		$form->setForm(array( 'form_name' => 'Frm' ));
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
-			'name' => 'preinstallFrm',
+			'name' => 'Frm',
 			'action' => $this->html->getSecureURL('tool/package_installer/install') ));
 		if (isset($result['license'])) {
-			$this->data['form']['checkbox'] = $form->getFieldHtml(array(
-				'id' => 'agree',
-				'type' => 'checkbox',
-				'name' => 'agree',
-				'value' => 'true',
-				'attr' => ' onclick="this.checked ? $(\'#agree_button\').show(): $(\'#agree_button\').hide()"'
-			));
-			$this->data['text_agree'] = $this->language->get('text_i_agree');
-		} else {
-			$this->data['form']['checkbox'] = $form->getFieldHtml(array(
+			$this->data['form']['hidden'] = $form->getFieldHtml(array(
 				'id' => 'agree',
 				'type' => 'hidden',
 				'name' => 'agree',
-				'value' => 2
+				'value' => 1
+			));
+		} else {
+			$this->data['form']['hidden'] = $form->getFieldHtml(array(
+					'id' => 'agree',
+					'type' => 'hidden',
+					'name' => 'agree',
+					'value' => 2
 			));
 		}
 
-		$this->data['form']['disagree_button'] = $form->getFieldHtml(array( 'type' => 'button',
-			'text' => $this->language->get('text_disagree'),
-			'style' => 'button' ));
+		$this->data['form']['disagree_button'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'href' => $this->_get_begin_href(),
+				'text' => $this->language->get('text_disagree') ));
 
 
-		$this->data['form']['submit'] = $form->getFieldHtml(
-            array( 'type' => 'button',
-			        'text' => $this->language->get('text_agree'),
-			        'style' => 'button1'
-		));
+		$this->data['form']['submit'] = $form->getFieldHtml( array(
+				'type' => 'button',
+			    'text' => $this->language->get('text_agree')));
 
 		$this->view->batchAssign($this->data);
-		$this->processTemplate('pages/tool/package_installer_install.tpl');
+		$this->processTemplate('pages/tool/package_installer_agreement.tpl');
 	}
 
 	/*
@@ -783,12 +836,12 @@ class ControllerPagesToolPackageInstaller extends AController {
 			$subv_arr = explode('.',preg_replace('/[^0-9\.]/', '', $version));
 			$full_check = versionCompare($version,VERSION,'<=');
 			$minor_check = versionCompare($subv_arr[0].'.'.$subv_arr[1], MASTER_VERSION . '.' . MINOR_VERSION,'==');
-			
+
 			if ($full_check && $minor_check ) {
 				break;
 			}
 		}
-		
+
 		
 		if (!$full_check || !$minor_check) {
 			$this->session->data['package_info']['confirm_version_incompatibility'] = false;
@@ -920,7 +973,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$corefiles = $package_info['package_content']['core'];
 		$pmanager = new APackageManager();
 		//#1 backup files
-		$backup = new ABackup('abantecart_' . VERSION);
+		$backup = new ABackup('abantecart_' . str_replace('.','',VERSION));
 		foreach ($corefiles as $core_file) {
 			if (file_exists(DIR_ROOT . '/' . $core_file)) {
 				if (!$backup->backupFile(DIR_ROOT . '/' . $core_file, false)) {
@@ -937,20 +990,24 @@ class ControllerPagesToolPackageInstaller extends AController {
 					return false;
 				}
 				if (!$backup->archive(DIR_BACKUP . $backup_dirname . '.tar.gz', DIR_BACKUP, $backup_dirname)) {
+					$this->session->data['error'] = $backup->error;
 					return false;
 				}
 			} else {
+				$this->session->data['error'] = 'Error: Unknown directory name for backup.';
 				return false;
 			}
 
 			$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
-			$install_upgrade_history->addRows(array( 'date_added' => date("Y-m-d H:i:s", time()),
-				'name' => 'Backup before core upgrade. Core version: ' . VERSION,
-				'version' => VERSION,
-				'backup_file' => $backup_dirname . '.tar.gz',
-				'backup_date' => date("Y-m-d H:i:s", time()),
-				'type' => 'backup',
-				'user' => $this->user->getUsername() ));
+			$install_upgrade_history->addRows(
+					array(
+							'date_added' => date("Y-m-d H:i:s", time()),
+							'name' => 'Backup before core upgrade. Core version: ' . VERSION,
+							'version' => VERSION,
+							'backup_file' => $backup_dirname . '.tar.gz',
+							'backup_date' => date("Y-m-d H:i:s", time()),
+							'type' => 'backup',
+							'user' => $this->user->getUsername() ));
 		} else {
 			$this->session->data['error'] = $backup->error;
 			return false;
@@ -1053,4 +1110,10 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}
 	}
 
+	private function _isCorePackage($extension_key=''){
+		if(!$extension_key){
+			$extension_key = $this->session->data['package_info']['extension_key'];
+		}
+		return (strpos( $extension_key,'abantecart_') ===0);
+	}
 }
