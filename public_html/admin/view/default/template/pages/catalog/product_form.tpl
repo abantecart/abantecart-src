@@ -66,9 +66,6 @@
 	
 </div><!-- <div class="tab-content"> -->
 
-
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
 
 $(document).ready(function () {

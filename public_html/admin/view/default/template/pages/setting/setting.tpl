@@ -113,10 +113,10 @@
 		<div class="row">
 		   <div class="col-sm-6 col-sm-offset-3 center" >
 		     <button class="btn btn-primary">
-		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+		     <i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
 		     </button>&nbsp;
 		     <a class="btn btn-default" href="<?php echo $cancel; ?>">
-		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+		     <i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
 		     </a>
 		   </div>
 		</div>
@@ -132,19 +132,13 @@ echo $resources_scripts ?>
 
 
 <script type="text/javascript"><!--
-
 jQuery(function ($) {
-
-
     $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent($('select[name=\'config_storefront_template\']').attr('value')));
     $('#settingFrm_config_storefront_template').change(function () {
         $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent(this.value))
     });
-
-
 });
 <?php if ($active == 'mail') { ?>
-
 jQuery(function () {
     $(document).ready(mail_toggle);
     $('#settingFrm_config_mail_protocol').change(mail_toggle);
@@ -171,10 +165,8 @@ jQuery(function () {
     }
 
 });
-    <?php } ?>
+<?php } ?>
 //--></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
 $(document).ready(function () {
     if ($('#settingFrm_config_description_<?php echo $content_language_id; ?>').length) {

@@ -2,24 +2,10 @@
 
 <?php echo $setting_tabs ?>
 
-<div class="tab-content">
-	<div class="panel-heading">
-			<?php echo $text_edit_store; ?>
-			<div class="btn-group">
-				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-					<i class="fa fa-folder-o"></i>
-					<?php echo $current_store; ?> <span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					<?php
-					foreach ($stores as $store) { ?>
-						<li><a href="<?php echo $store['href'] ?>"
-							   class="<?php echo $store['name'] == $current_store ? 'disabled' : ''; ?>"><?php echo $store['name'] ?></a>
-						</li>
-					<?php } ?>
-				</ul>
-			</div>
-			<?php if($store_id>0){ ?>
+<div id="content" class="panel panel-default">
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<?php if($store_id > 0){ ?>
 				<a class="actionitem  tooltips" title="<?php echo $edit_store_button->title; ?>" href="<?php echo $edit_store_button->href; ?>"><i class="fa fa-edit fa-2x"></i></a>
 			<?php } ?>
 			<?php if($delete_store_button){ ?>
@@ -30,20 +16,12 @@
 					><i class="fa fa-trash-o fa-2x"></i></a>
 			<?php } ?>
 			<a class="actionitem tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>"><i class="fa fa-plus-circle fa-lg fa-2x"></i></a>
-			<div class="pull-right">
-				<div class="btn-group mr10 toolbar">
-					<?php if (!empty ($help_url)) : ?>
-					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
-					<i class="fa fa-question-circle fa-lg"></i>
-					</a>
-					<?php endif; ?>
-				</div>
-				<?php echo $form_language_switch; ?>
-			</div>
-		</div>
+		</div>			
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
+	</div>
 
 	<?php echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<?php foreach ($form['fields'] as $section => $fields) { ?>
 		<label class="h4 heading"><?php echo $form_title; ?></label>
 			<?php foreach ($fields as $name => $field) { ?>
@@ -77,29 +55,23 @@
 	    <?php if ( !empty($update) ) { echo $resources_html; } ?>
 		</div>
 
-
 	</div>
 
-	<div class="panel-footer">
-		<div class="row">
-		   <div class="col-sm-6 col-sm-offset-3 center" >
-		     <button class="btn btn-primary">
-		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
-		     </button>&nbsp;
-		     <a class="btn btn-default" href="<?php echo $cancel; ?>">
-		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
-		     </a>
-		   </div>
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $cancel; ?>">
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
+			</a>
 		</div>
 	</div>
+
 	</form>
 
 </div><!-- <div class="tab-content"> -->
 
-
-
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
 CKEDITOR.replace('store_description[<?php echo $content_language_id; ?>][description]', {
 	filebrowserBrowseUrl : false,
@@ -108,5 +80,4 @@ CKEDITOR.replace('store_description[<?php echo $content_language_id; ?>][descrip
     filebrowserWindowHeight : '520',
 	language: '<?php echo $language_code; ?>'
 });
-
 //--></script>

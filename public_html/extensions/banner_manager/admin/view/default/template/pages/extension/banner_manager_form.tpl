@@ -11,29 +11,24 @@
 	</ul>
 <?php } ?>
 
-<div class="tab-content">
-	<div class="panel-heading">
-			<div class="pull-right">
-			    <div class="btn-group mr10 toolbar">
-					<?php if($button_details){	?>
-							<a class="btn btn-white tooltips"
-							   href="<?php echo $button_details->href; ?>"
-							   target="new" data-toggle="tooltip" title="<?php echo $button_details->text; ?>">
-								<i class="fa fa-bar-chart-o fa-lg"></i>
-							</a>
-						<?php } ?>
-                    <?php if (!empty ($help_url)) : ?>
-                    <a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
-                    <i class="fa fa-question-circle fa-lg"></i>
-                    </a>
-                    <?php endif; ?>
-			    </div>
-                <?php echo $form_language_switch; ?>
+<div id="content" class="panel panel-default">
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+			<?php if($button_details){	?>
+				<a class="btn btn-white tooltips"
+					href="<?php echo $button_details->href; ?>"
+					target="new" data-toggle="tooltip" title="<?php echo $button_details->text; ?>">
+					<i class="fa fa-bar-chart-o fa-lg"></i>
+				</a>
+			<?php } ?>
 			</div>
+		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
 
 	<?php echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<label class="h4 heading"><?php echo $form_title; ?></label>
 			<?php foreach ($form['fields'] as $name => $field) {
 				if($name == 'new_banner_group'){ continue;}
@@ -68,31 +63,26 @@
 
 		<div id="subformcontent"></div>
 
-
 	</div>
 
-	<div class="panel-footer">
-		<div class="row">
-		   <div class="col-sm-6 col-sm-offset-3 center">
-		     <button class="btn btn-primary">
-		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
-		     </button>&nbsp;
-		     <a class="btn btn-default" href="<?php echo $cancel; ?>">
-		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
-		     </a>
-		   </div>
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<button class="btn btn-default" type="reset">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $cancel; ?>">
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
+			</a>
 		</div>
 	</div>
 	</form>
 
 </div><!-- <div class="tab-content"> -->
 
-
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript">
-
-
 	$('#BannerFrm_banner_group_name0').on('change',function(){
 		if($(this).val()=='new'){
 			$('#BannerFrm_banner_group_name1').fadeIn().focus();
@@ -108,7 +98,6 @@ $(document).ready(function() {
 
 
 // override rl js-script function
-
 var loadSubform = function (){
 	if($('#BannerFrm_banner_type').val()=='2'){
 		$('#BannerFrm_target_url, #BannerFrm_blank').attr("disabled","disabled").parents('tr').hide();

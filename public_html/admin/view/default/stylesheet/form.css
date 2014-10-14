@@ -19,18 +19,18 @@ span.required {
 	color: red;
 }
 /* Fiels changed highlite */
+.chosen-choices .search-field {
+/*	background-color: #fff; */
+	width: 100%;
+}
 .afield .changed, 
 .changed .chosen-container .chosen-choices,
 .changed .chosen-container .chosen-single
 {
-	background: #ffad5e;
+	background: #ffad5e !important;
 }
 .chosen-choices .hide_text {
 	display: none;
-}
-.chosen-choices .search-field {
-	background-color: #ffffff;
-	width: 100%;
 }
 .btn-primary.changed {
 	background: #ffad5e;
