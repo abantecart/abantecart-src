@@ -172,12 +172,11 @@ $(function () {
 	},
 	
 	removeBlockFromSection = function(targetBlock) {
-	  var removeBlock = confirm("Are you sure you want to remove the block?");
-	  if (removeBlock == true) {
+	  //var removeBlock = confirm("Are you sure you want to remove the block?");
+	  //if (removeBlock == true) {
 	    targetBlock.remove();
 	    reStart();
-	    formChanged();
-	  }
+	  //}
 	},
 	
 	updateBlockData = function(block) {
@@ -247,7 +246,19 @@ $(function () {
 	  // Handler for Delete Block
 	  $('.block .blk-delete', container).on("click", function() {
 	    var block = $(this).parents('.block');
-	    removeBlockFromSection(block);
+	    //check if special section and replace with empty block
+	  	var section = $(this).parents(".section");
+		var section_id = section.attr('data-section-id');
+	    if ( section_id == 1 || section_id == 8 ) {
+	    	block.replaceWith($(".empty_block").html());
+	    	//update all parent section ids
+	    	section.find(".block").each(function() {
+	    		$(this).find('.block-parent').val(section_id);
+	    	});
+	    } else {
+	    	removeBlockFromSection(block);
+	    }
+	    formChanged();
 	  });
 	
 	  //place ivent to add block to empty container

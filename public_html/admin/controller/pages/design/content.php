@@ -124,12 +124,9 @@ class ControllerPagesDesignContent extends AController {
 		$this->view->assign('insert', $this->html->getSecureURL('design/content/insert'));
 		$this->view->assign('help_url', $this->gen_help_url('content_listing'));
 
-
 		$this->processTemplate('pages/design/content_list.tpl');
-
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
 	}
 
 	public function insert() {
@@ -185,12 +182,7 @@ class ControllerPagesDesignContent extends AController {
 		$this->acm = new AContentManager();
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 
-		//select $content_id from parent/child type or straight
-		if (is_int(strpos($this->request->get['content_id'], '_'))) {
-			list($void, $content_id) = explode('_', $this->request->get['content_id']);
-		} else {
-			$content_id = $this->request->get['content_id'];
-		}
+		$content_id = $this->_get_content_id($this->request->get['content_id']);
 
 		if ($this->request->is_POST() && $this->_validateForm()) {
 			$savedata = $this->request->post;
@@ -213,7 +205,8 @@ class ControllerPagesDesignContent extends AController {
 		}
 		$this->_initTabs('form');
 		$this->view->assign('content_id', $content_id);
-
+		$this->view->assign('insert', $this->html->getSecureURL('design/content/insert', '&parent_content_id='.$content_id));
+		
 		$this->_getForm($content_id);
 
 		//update controller data
@@ -223,7 +216,7 @@ class ControllerPagesDesignContent extends AController {
 
 	private function _initTabs($active = null) {
 
-		$content_id = $this->request->get['content_id'];
+		$content_id = $this->_get_content_id($this->request->get['content_id']);
 
 		if(!$content_id){ return null; } //no need tabs for new content
 
@@ -260,6 +253,10 @@ class ControllerPagesDesignContent extends AController {
 		$this->data['error'] = $this->error;
 		$this->data['language_id'] = $this->config->get('storefront_language_id');
 
+		if (has_value($content_id) && $this->request->is_GET()) {
+			$content_info = $this->acm->getContent($content_id);
+		}
+
 		$this->document->initBreadcrumb(array(
 				'href' => $this->html->getSecureURL('index/home'),
 				'text' => $this->language->get('text_home'),
@@ -274,7 +271,7 @@ class ControllerPagesDesignContent extends AController {
 		if (has_value($content_id)) {
 			$this->document->addBreadcrumb(array(
 					'href' => $this->html->getSecureURL('design/content/update', '&content_id=' . $content_id),
-					'text' => $this->language->get('update_title'),
+					'text' => $this->language->get('update_title') . ' - ' . $content_info['title'],
 					'separator' => ' :: ',
 					'current' => true
 			));
@@ -289,10 +286,6 @@ class ControllerPagesDesignContent extends AController {
 
 		$this->data['cancel'] = $this->html->getSecureURL('design/content');
 
-		if (has_value($content_id) && $this->request->is_GET()) {
-			$content_info = $this->acm->getContent($content_id);
-		}
-
 		$allowedFields = array('status', 'description', 'title', 'content', 'parent_content_id', 'sort_order', 'store_id', 'keyword');
 
 		foreach ($allowedFields as $field) {
@@ -304,6 +297,10 @@ class ControllerPagesDesignContent extends AController {
 				$this->data[$field] = '';
 			}
 		}
+		//if get parent_id, we create new content for parent 
+		if ($this->request->get['parent_content_id']) {
+			$this->data['parent_content_id'][] = $this->request->get['parent_content_id'];
+		}
 
 		if (!has_value($content_id)) {
 			$this->data['action'] = $this->html->getSecureURL('design/content/insert');
@@ -311,13 +308,11 @@ class ControllerPagesDesignContent extends AController {
 			$this->data['update'] = '';
 			$form = new AForm('ST');
 		} else {
-
 			$this->data['action'] = $this->html->getSecureURL('design/content/update', '&content_id=' . $content_id);
 			$this->data['form_title'] = $this->language->get('update_title');
 			$this->data['update'] = $this->html->getSecureURL('listing_grid/content/update_field', '&id=' . $content_id);
 			$form = new AForm('HS');
 		}
-
 
 		$form->setForm(array(
 				'form_name' => 'contentFrm',
@@ -502,10 +497,11 @@ class ControllerPagesDesignContent extends AController {
 		$this->document->setTitle($this->language->get('update_title'));
 		$this->acm = new AContentManager();
 
-		if (!has_value($this->request->get['content_id'])) {
+		$content_id = $this->_get_content_id($this->request->get['content_id']);
+		if (!has_value($content_id)) {
 			$this->redirect($this->html->getSecureURL('design/content'));
 		}
-		$content_id = (int)$this->request->get['content_id'];
+
 		$page_url = $this->html->getSecureURL('design/content/edit_layout', '&content_id=' . $content_id);
 
 	    // Alert messages
@@ -536,9 +532,10 @@ class ControllerPagesDesignContent extends AController {
 				'text' => $this->language->get('update_title'),
 				'separator' => ' :: '
 		));
+		$content_info = $this->acm->getContent($content_id); 
 		$this->document->addBreadcrumb(array(
 				'href' => $page_url,
-				'text' => $this->language->get('tab_layout'),
+				'text' => $this->language->get('tab_layout') . ' - ' . $content_info['title'],
 				'current' =>  true
 		));
 
@@ -646,7 +643,7 @@ class ControllerPagesDesignContent extends AController {
 	public function save_layout() {
 		$page_controller = 'pages/content/content';
 		$page_key_param = 'content_id';
-		$content_id = (int)$this->request->get_or_post('content_id');
+		$content_id = $this->_get_content_id($this->request->get_or_post('content_id'));
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -706,4 +703,16 @@ class ControllerPagesDesignContent extends AController {
 		}
 		$this->redirect($this->html->getSecureURL('design/content/'));
 	}
+	
+	private function _get_content_id( $input ) {
+		//select $content_id from parent/child type or straight
+		$content_id = '';
+		if (is_int(strpos($input, '_'))) {
+			list($void, $content_id) = explode('_', $input);
+		} else {
+			$content_id = $input;
+		}
+		return $content_id;
+	}
+		
 }

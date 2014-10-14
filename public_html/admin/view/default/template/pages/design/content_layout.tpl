@@ -77,6 +77,18 @@ foreach ($templates as $template) {
 		<?php echo $layoutform; ?>
 		<?php echo $hidden_fields; ?>
 	</div>
+
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary">
+			<i class="fa fa-save fa-fw"></i> <?php echo $button_save; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $current_url; ?>">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</a>
+		</div>
+	</div>
+
 	</form>
 
 </div>

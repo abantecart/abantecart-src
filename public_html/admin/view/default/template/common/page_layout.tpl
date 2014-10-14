@@ -50,6 +50,6 @@
 	  </div>
 	  <input type="hidden" value="_" name="block[]" class="block-id">
 	  <input type="hidden" value="" name="blockStatus[]" class="block-status">
-	  <input type="hidden" value="1" name="parentBlock[]" class="block-parent">
+	  <input type="hidden" value="" name="parentBlock[]" class="block-parent">
 	</div>
 </div>
