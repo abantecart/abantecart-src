@@ -1,5 +1,5 @@
 <?php foreach ($form['fields'] as $name => $field) {
-				//Logic to cululate fileds width
+				//Logic to calculate fields width
 				$widthcasses = "col-sm-7";
 				if ( is_int(stripos($field->style, 'large-field')) ) {
 					$widthcasses = "col-sm-7";
@@ -12,7 +12,7 @@
 				}
 				$widthcasses .= " col-xs-12";
 			?>
-		<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $form[ 'text' ][$name]; ?></label>
 			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
 				<?php echo $field; ?>

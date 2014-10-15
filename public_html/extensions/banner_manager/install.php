@@ -21,31 +21,62 @@ if ( !defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
+
+
 // add new menu item
+
+$rm = new AResourceManager();
+$rm->setType('image');
+
+$sql = "SELECT *
+		FROM abc_dataset_values
+		WHERE dataset_column_id=7 AND value_varchar LIKE '%<i '";
+$res = $this->db->query($sql);
+
+$rm = new AResourceManager();
+$rm->setType('image');
+
+$language_id = $this->language->getContentLanguageID();
+$data = array();
+$data['resource_code'] = '<i class="fa fa-picture-o"></i>&nbsp;';
+$data['name'] = array($language_id => 'Menu Icon Banner Manager');
+$data['title'] = array($language_id => '');
+$data['description'] = array($language_id => '');
+$resource_id = $rm->addResource($data);
+
 $menu = new AMenu ( "admin" );
 $menu->insertMenuItem ( array (  "item_id" => "banner_manager",
 								 "parent_id"=>"design",
 								 "item_text" => "banner_manager_name",
 								 "item_url" => "extension/banner_manager",
+								 "item_icon_rl_id" => $resource_id,
 								 "item_type"=>"extension",
 								 "sort_order"=>"6")
 								);
+$data = array();
+$data['resource_code'] = '<i class="fa fa-reply-all"></i>&nbsp;';
+$data['name'] = array($language_id => 'Menu Icon Banner Manager Stat');
+$data['title'] = array($language_id => '');
+$data['description'] = array($language_id => '');
+$resource_id = $rm->addResource($data);
+
 $menu->insertMenuItem ( array (  "item_id" => "banner_manager_stat",
 								 "parent_id"=>"reports",
 								 "item_text" => "banner_manager_name_stat",
 								 "item_url" => "extension/banner_manager_stat",
+								 "item_icon_rl_id" => $resource_id,
 								 "item_type"=>"extension",
 								 "sort_order"=>"4")
 								);
 
-$sql = "SELECT block_id FROM ".DB_PREFIX."blocks WHERE block_txt_id='banner_block'";
+$sql = "SELECT block_id FROM ".$this->db->table('blocks')." WHERE block_txt_id='banner_block'";
 $result = $this->db->query($sql);
 if(!$result->num_rows){
-	$this->db->query("INSERT INTO `".DB_PREFIX."blocks` (`block_txt_id`, `controller`, `date_added`)
+	$this->db->query("INSERT INTO ".$this->db->table('blocks')." (`block_txt_id`, `controller`, `date_added`)
 					  VALUES ('banner_block', 'blocks/banner_block', NOW() );");
 	$block_id = $this->db->getLastId();
 
-	$sql = "INSERT INTO `".DB_PREFIX."block_templates` (`block_id`, `parent_block_id`, `template`, `date_added`)
+	$sql = "INSERT INTO ".$this->db->table('block_templates')." (`block_id`, `parent_block_id`, `template`, `date_added`)
 			VALUES
 		(".$block_id.", 1, 'blocks/banner_block_header.tpl', NOW() ),
 		(".$block_id.", 2, 'blocks/banner_block_content.tpl', NOW() ),
