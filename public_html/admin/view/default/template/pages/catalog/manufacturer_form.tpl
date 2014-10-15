@@ -10,25 +10,16 @@
 	</ul>
 <?php } ?>
 
-<div class="tab-content">
+<div id="content" class="panel panel-default">
 
-	<div class="panel-heading">
-
-			<div class="pull-right">
-			    <div class="btn-group mr10 toolbar">
-                    <?php if (!empty ($help_url)) : ?>
-                    <a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
-                    <i class="fa fa-question-circle fa-lg"></i>
-                    </a>
-                    <?php endif; ?>
-			    </div>
-                <?php echo $form_language_switch; ?>
-			</div>
-
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
 
 	<?php echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 
 		<?php foreach ($form['fields'] as $section => $fields) { ?>
 		<label class="h4 heading" id="<?php echo $section;?>"><?php echo ${'tab_' . $section}; ?></label>
@@ -59,28 +50,24 @@
 			<?php }  ?><!-- <div class="fieldset"> -->
 		<?php }  ?>
 
-
-
-
 	</div>
 
-	<div class="panel-footer">
-		<div class="row">
-		   <div class="col-sm-6 col-sm-offset-3 center">
-		     <button class="btn btn-primary">
-		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
-		     </button>&nbsp;
-		     <a class="btn btn-default" href="<?php echo $cancel; ?>">
-		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
-		     </a>
-		   </div>
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<button class="btn btn-default" type="reset">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $cancel; ?>">
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
+			</a>
 		</div>
 	</div>
 	</form>
 
-
-
-</div><!-- <div class="tab-content"> -->
+</div>
 
 <div id="image">
    <?php if ( !empty($update) ) {
@@ -97,25 +84,3 @@
 		});
 	});
 //--></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

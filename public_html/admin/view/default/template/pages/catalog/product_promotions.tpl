@@ -3,25 +3,15 @@
 <?php echo $summary_form; ?>
 <?php echo $product_tabs ?>
 
-<div class="tab-content">
-	<div class="panel-heading">
-		<div class="pull-right">
-			<div class="btn-group mr10 toolbar">
-				<?php if (!empty ($help_url)) { ?>
-					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
-					   title="" data-original-title="Help">
-						<i class="fa fa-question-circle fa-lg"></i>
-					</a>
-				<?php } ?>
-			</div>
+<div id="content" class="panel panel-default">
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
 		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
 
-	<div class="panel panel-default">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<div class="panel-heading">
-			<div class="panel-btns">
-				<a class="minimize" href="">−</a>
-			</div>
 			<h4 class="panel-title"><?php echo $tab_discount; ?></h4>
 		</div>
 		<?php echo $form['form_open']; ?>
@@ -80,9 +70,6 @@
 	
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<div class="panel-btns">
-				<a class="minimize" href="">−</a>
-			</div>
 			<h4 class="panel-title"><?php echo $tab_special; ?></h4>
 		</div>
 		<div class="panel-body panel-body-nopadding">
@@ -125,8 +112,6 @@
 					<?php $discount_row++; ?>
 				<?php } ?>
 			</table>
-
-
 		</div>
 		<div class="panel-footer">
 			<div class="row pull-right">
@@ -149,5 +134,3 @@
 				'modal_type' => 'lg',
 				'data_source' => 'ajax'));
 ?>
-
-

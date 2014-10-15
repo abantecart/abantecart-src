@@ -1910,7 +1910,7 @@ class ModelCatalogProduct extends Model {
 	}
 
 	/**
-	 * function checks is product will be displayed on storefront and returns array with messages about causes
+	 * function checks if product will be displayed on storefront and returns array with messages about causes
 	 * @param $product_id
 	 * @return array
 	 */
