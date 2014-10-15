@@ -7,10 +7,10 @@ CREATE TABLE `ac_banners` (
 	`start_date` timestamp NULL DEFAULT NULL,
 	`end_date` timestamp NULL DEFAULT NULL,
 	`blank` tinyint(1) NOT NULL DEFAULT '0',
-	`target_url` text COLLATE utf8_bin DEFAULT '',
+	`target_url` text DEFAULT '',
 	`sort_order` int(11) NOT NULL,
-	`date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`banner_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -19,10 +19,10 @@ CREATE TABLE `ac_banner_descriptions` (
   `banner_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `description` text COLLATE utf8_bin NOT NULL,
+  `description` text NOT NULL,
   `meta` text(1500) DEFAULT '',
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`banner_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
