@@ -64,7 +64,7 @@ class ControllerPagesToolImportExport extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('tool/import_export'),
        		'text'      => $this->language->get('import_export_title'),
-      		'separator' => ' :: '
+      		'current' => true
    		 ));
 
 		$this->getForm();
@@ -81,8 +81,13 @@ class ControllerPagesToolImportExport extends AController {
 		$this->data['success'] = $this->success;
 		
 		$this->view->batchAssign( $this->data );
-        $this->processTemplate('pages/tool/import_export.tpl' );
-
+		
+		if($this->data['active'] == 'import') {
+			$this->processTemplate('pages/tool/import.tpl');
+		} else {
+			$this->processTemplate('pages/tool/export.tpl');		
+		}
+        
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
@@ -125,7 +130,8 @@ class ControllerPagesToolImportExport extends AController {
 				$this->data['file_form_open'] = $fileForm->getFieldHtml(array(
 					'type' => 'form',
 					'name' => 'file_import_form',
-					'action' => $this->data['action']
+					'action' => $this->data['action'],
+					'attr' => 'class="aform form-horizontal"',
 				));
 
 				$this->data['file_field'] = $fileForm->getFieldHtml(array(
@@ -221,7 +227,7 @@ class ControllerPagesToolImportExport extends AController {
 		$options['item']['file_name'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'options[file_name]',
-			'value' => 'data_export_'.date('dmY_His'),
+			'value' => 'export_'.date('dmY_His'),
 			'style' => 'large-field',
 		));
 
@@ -239,6 +245,7 @@ class ControllerPagesToolImportExport extends AController {
 			'type' => 'form',
 			'name' => $this->data['active'].'Frm',
 			'action' => $this->data['action'],
+			'attr' => 'class="aform form-horizontal"',
 		));
 
 	}
@@ -339,6 +346,28 @@ class ControllerPagesToolImportExport extends AController {
 
 		}
 		return $children;
+	}
+
+
+	private function _initTabs($active = null) {
+
+		if(!$content_id){ return null; } //no need tabs for new content
+
+		$this->data['tabs'] = array();
+		$this->data['tabs']['form'] = array(
+				'href' => $this->html->getSecureURL('design/content/' . ($content_id ? 'update' : 'insert'), '&content_id=' . $content_id),
+				'text' => $this->language->get('tab_form'));
+
+		$this->data['tabs']['layout'] = array(
+				'href' => $this->html->getSecureURL('design/content/edit_layout', '&content_id=' . $content_id),
+				'text' => $this->language->get('tab_layout'));
+
+
+		if (in_array($active, array_keys($this->data['tabs']))) {
+			$this->data['tabs'][$active]['active'] = 1;
+		} else {
+			$this->data['tabs']['form']['active'] = 1;
+		}
 	}
 
 }
