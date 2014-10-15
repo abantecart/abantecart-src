@@ -60,7 +60,10 @@ class ModelCatalogProduct extends Model {
 		$query = $this->db->query( "SELECT pov.subtract AS subtract FROM " . $this->db->table("product_options") . " po
 				left join " . $this->db->table("product_option_values") . " pov ON (po.product_option_id = pov.product_option_id)
 				WHERE po.product_id = '" . (int)$product_id . "'");
-		$track_status += $query->row['subtract'];
+
+		foreach ($query->rows as $row) {
+			$track_status += $row['subtract'];
+		}		
 		return $track_status;		
 	}
 
@@ -84,7 +87,9 @@ class ModelCatalogProduct extends Model {
 				left join " . $this->db->table("product_option_values") . " pov ON (po.product_option_id = pov.product_option_id)
 				WHERE po.product_id = '" . (int)$product_id . "'");
 				
-		$total_quantity += $query->row['quantity'];
+		foreach ($query->rows as $row) {
+			$total_quantity += $row['quantity'];
+		}
 
 		return $total_quantity;		
 	}
@@ -1142,8 +1147,10 @@ class ModelCatalogProduct extends Model {
 		} else {
 			$customer_group_id = (int)$this->config->get('config_customer_group_id');
 		}
+		$language_id = (int)$this->config->get('storefront_language_id');
+		$store_id = (int)$this->config->get('config_store_id');
 
-		$output = $this->cache->get('product.all_info.' . md5(implode('',$products)) . '.'.$customer_group_id, $this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id') );
+		$output = $this->cache->get('product.all_info.'.md5(implode('',$products)).'.'.$customer_group_id,$language_id,$store_id );
 		if(is_null($output)){ // if no cache
 
 			$sql = "SELECT product_id, price
@@ -1212,10 +1219,10 @@ class ModelCatalogProduct extends Model {
 							ON pov.product_option_id = po.product_option_id
 						LEFT JOIN " . $this->db->table("product_option_value_descriptions") . " povd
 							ON (povd.product_option_value_id = pov.product_option_value_id
-									AND povd.language_id='" . (int)$this->config->get('storefront_language_id') . "')
+									AND povd.language_id='" . $language_id . "')
 						LEFT JOIN " . $this->db->table("product_option_descriptions") . " pod
 							ON (pod.product_option_id = po.product_option_id
-								AND pod.language_id='" . (int)$this->config->get('storefront_language_id') . "')
+								AND pod.language_id='" . $language_id . "') 
 						WHERE po.product_id in (" . implode(', ',$products) . ")
 						ORDER BY pov.product_option_id, pov.product_id, po.sort_order, pov.sort_order";
 			$result = $this->db->query($sql);
@@ -1249,7 +1256,7 @@ class ModelCatalogProduct extends Model {
 				$output[$product]['options'] = $options[$product];
 				$output[$product]['rating'] = $rating!==false ? (int)$rating[$product] : false;
 			}
-			$this->cache->set('product.all_info.' . md5(implode('',$products)) . '.'.$customer_group_id, $output, $this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id') );
+			$this->cache->set('product.all_info.'.md5(implode('',$products)).'.'.$customer_group_id,$output,$language_id,$store_id );
 		}
 		return $output;
 	}

@@ -391,11 +391,14 @@ class ControllerPagesProductProduct extends AController {
 		// if track stock is off. no messages needed. 
 		if ( $this->model_catalog_product->isStockTrackable($product_id) ) {
 		    $total_quantity = $this->model_catalog_product->hasAnyStock($product_id);
-		
-		    if ( $total_quantity <= 0) {
+			$this->data['track_stock'] = true;
+			//out of stock if no quantity and no stick checkout is disabled
+		    if ( $total_quantity <= 0 && !$this->config->get('config_stock_checkout')) {
+		    	$this->data['in_stock'] = false;
 		    	//show out of stock message
 		    	$this->data['stock'] = $product_info['stock_status'];
 		    } else {
+				$this->data['in_stock'] = true;
 		    	if ($this->config->get('config_stock_display')) {
 		    		$this->data['stock'] = $product_info['quantity'];
 		    	} else {
@@ -415,7 +418,7 @@ class ControllerPagesProductProduct extends AController {
 	        	$msg = new AMessage();
 	        	$msg->saveNotice( $message_ttl, $message_txt);
 	        	$this->model_catalog_product->updateStatus($product_id, 0);     	
-	        	$this->redirect($this->html->getSEOURL('product/product','&product_id=' . $product_info['product_id'], '&encode'));			
+	        	$this->redirect($this->html->getSEOURL('product/product','&product_id=' . $product_info['product_id'], '&encode'));
 		    }
 		}
 		

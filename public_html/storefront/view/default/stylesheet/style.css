@@ -994,6 +994,15 @@ ul.categorymenu > li ul > li img {
 	text-transform: uppercase;
 }
 
+.thumbnail .nostock {
+	background: #ccc;
+	color: #fff;
+	float: right;
+	padding: 8px;
+	font-size: 13px;
+	text-transform: uppercase;
+}
+
 .thumbnail a.productcart:hover {
 	background: #0e5f86 url(../image/prodcutcart.png) right 7px no-repeat;
 }
@@ -1029,7 +1038,12 @@ ul.productpagecart a.call_to_order{
 ul.productpagecart a.call_to_order > i{
 	font-size: 26px;
 }
-
+ul.productpagecart .nostock {
+	background: #ccc;
+	color: #fff;
+	padding: 8px;
+	font-size: 16px;
+}
 
 .thumbnails>li.span3 {
 	min-width: 270px;

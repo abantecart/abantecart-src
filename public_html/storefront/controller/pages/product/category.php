@@ -120,8 +120,7 @@ class ControllerPagesProductCategory extends AController {
 			}
 
 			$this->loadModel('catalog/product');
-
-			 
+	 
 			$category_total = $this->model_catalog_category->getTotalCategoriesByCategoryId($category_id);
 			$product_total = $this->model_catalog_product->getTotalProductsByCategoryId($category_id);
 			
@@ -150,17 +149,17 @@ class ControllerPagesProductCategory extends AController {
 				
 				$products = array();
         		
-				$results = $this->model_catalog_product->getProductsByCategoryId($category_id,
+				$products_result = $this->model_catalog_product->getProductsByCategoryId($category_id,
 				                                                                 $sort,
 				                                                                 $order,
 				                                                                 ($page - 1) * $limit,
 				                                                                 $limit);
-				foreach($results as $result){
-					$product_ids[] = (int)$result['product_id'];
+				foreach($products_result as $p){
+					$product_ids[] = (int)$p['product_id'];
 				}
 				$products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
 
-        		foreach ($results as $result) {
+        		foreach ($products_result as $result) {
 
 			        $thumbnail = $resource->getMainThumb('products',
 			                                     $result['product_id'],
@@ -196,6 +195,20 @@ class ControllerPagesProductCategory extends AController {
                         }
 					}
 					
+					//check for stock status, availability and config
+					$track_stock = false;
+					$in_stock = false;
+					$no_stock_text = $result['stock'];
+					$total_quantity = 0;
+					if ( $this->model_catalog_product->isStockTrackable($result['product_id']) ) {
+						$track_stock = true;
+		    			$total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
+		    			//we have stock or out of stock checkout is allowed
+		    			if ($total_quantity > 0 || $this->config->get('config_stock_checkout')) {
+			    			$in_stock = true;
+		    			}
+					}
+					
 					$products[] = array(
             			'product_id' 	=> $result['product_id'],
 						'name'    	 	=> $result['name'],
@@ -210,6 +223,10 @@ class ControllerPagesProductCategory extends AController {
 						'href'    	 	=> $this->html->getSEOURL('product/product','&path=' . $this->request->get['path'] . '&product_id=' . $result['product_id'], '&encode'),
 						'add'	  	 	=> $add,
 						'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+						'track_stock' => $track_stock,
+						'in_stock'		=> $in_stock,
+						'no_stock_text' => $no_stock_text,
+						'total_quantity'=> $total_quantity,
           			);
         		}
             	$this->data['products'] = $products;
@@ -233,7 +250,6 @@ class ControllerPagesProductCategory extends AController {
                 }
 		
 				$sorts = array();
-				
 				$sorts[] = array(
 					'text'  => $this->language->get('text_default'),
 					'value' => 'p.sort_order-ASC',
