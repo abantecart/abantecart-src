@@ -190,21 +190,11 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->data['license_url'] = $this->html->getSecureURL('listing_grid/extension/license');
 		$this->data['dependants_url'] = $this->html->getSecureURL('listing_grid/extension/dependants');
 
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 		$this->view->assign('extension_edit_url', $this->html->getSecureURL('listing_grid/extension/license')) ;
 		$this->view->assign('help_url', $this->gen_help_url('extension_listing'));
 
 		$this->view->batchAssign($this->data);
-
-		$stores = array();
-		$this->loadModel('setting/store');
-		$results = $this->model_setting_store->getStores();
-		foreach ($results as $result) {
-			$stores[$result['store_id']] = array(
-												'name' => $result['alias'],
-												'href' => $this->html->getSecureURL('extension/extensions/extensions', '&active=' . $this->data['active'].'&store_id='.$result['store_id']));
-		}
-		$this->view->assign ( 'all_stores', $stores );
-		$this->view->assign('current_store', $stores[(int)$this->session->data['current_store_id']]['name']);
 
 		$this->processTemplate('pages/extension/extensions.tpl');
 		//update controller data

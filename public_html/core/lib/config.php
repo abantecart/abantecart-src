@@ -98,7 +98,7 @@ final class AConfig {
 		$db = $this->registry->get('db');
 
 		//detect URL for the store
-		$url = str_replace('www.', '', $_SERVER[ 'HTTP_HOST' ]) . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/';
+		$url = str_replace('www.', '', $_SERVER['HTTP_HOST']) . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/';
 		if (defined('INSTALL')) {
 			$url = str_replace('install/', '', $url);
 		}
@@ -114,28 +114,27 @@ final class AConfig {
 			$query = $db->query($sql);
 			$settings = $query->rows;
 			foreach ($settings as &$setting) {
-				if($setting[ 'key' ]=='config_url'){
-					$parsed_url = parse_url($setting[ 'value' ]);
-					$setting[ 'value' ] = 'http://'.$parsed_url['host'].$parsed_url['path'];
+				if($setting['key']=='config_url'){
+					$parsed_url = parse_url($setting['value']);
+					$setting['value'] = 'http://'.$parsed_url['host'].$parsed_url['path'];
 				}
-				if($setting[ 'key' ]=='config_ssl_url'){
-					$parsed_url = parse_url($setting[ 'value' ]);
-					$setting[ 'value' ] = 'https://'.$parsed_url['host'].$parsed_url['path'];
+				if($setting['key']=='config_ssl_url'){
+					$parsed_url = parse_url($setting['value']);
+					$setting['value'] = 'https://'.$parsed_url['host'].$parsed_url['path'];
 				}
-				$this->cnfg[ $setting[ 'key' ] ] = $setting[ 'value' ];
+				$this->cnfg[$setting['key']] = $setting['value'];
 			}
-			unset($setting);// unset reference
+			unset($setting); //unset reference
 			$cache->force_set('settings', $settings, '', 0);
-		}else{
+		} else {
 			foreach ($settings as $setting) {
-				$this->cnfg[ $setting[ 'key' ] ] = $setting[ 'value' ];
+				$this->cnfg[$setting['key']] = $setting['value'];
 			}
 		}
 
-
-
-		// if storefront and not default store try to load setting for given url
-		if (!(is_int(strpos($this->cnfg[ 'config_url' ],$url)))) { // if requested url not equal of default store url - do check other ctore urls.
+		// if storefront and not default store try to load setting for given URL
+		if (!(is_int(strpos($this->cnfg['config_url'],$url)))) { 
+			// if requested url not a default store URL - do check other stores.
 			$cache_name = 'settings.store.' . md5('http://' . $url);
 			$store_settings = $cache->force_get($cache_name);
 			if (empty($store_settings)) {
@@ -156,42 +155,51 @@ final class AConfig {
 				$store_settings = $query->rows;
 				$cache->force_set($cache_name, $store_settings);
 			}
-
+			
 			if ($store_settings) {
-
+				//store found by URL, load settings
 				foreach ($store_settings as $row) {
-					$value = $row[ 'value' ];
-					$this->cnfg[ $row[ 'key' ] ] = $value;
+					$value = $row['value'];
+					$this->cnfg[$row['key']] = $value;
 				}
-
-				$this->cnfg[ 'config_store_id' ] = $store_settings[ 0 ][ 'store_id' ];
+				$this->cnfg['config_store_id'] = $store_settings[0]['store_id'];
 			} else {
 				$warning = new AWarning('Warning: Accessing store with unconfigured or unknown domain ( '.$url.' ).'."\n".' Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
 				$warning->toLog()->toMessages();
 				//set config url to current domain
-				$this->cnfg[ 'config_url' ] = 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/';
+				$this->cnfg['config_url'] = 'http://' . REAL_HOST . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/';
 			}
 
-			if (!$this->cnfg[ 'config_url' ]) {
-				$this->cnfg[ 'config_url' ] = 'http://' . REAL_HOST . rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') . '/';
+			if (!$this->cnfg['config_url']) {
+				$this->cnfg['config_url'] = 'http://' . REAL_HOST . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/';
 			}
 
 		}
-
-		if (is_null($this->cnfg[ 'config_store_id' ])) {
-			$this->cnfg[ 'config_store_id' ] = 0;
-			$this->_set_default_settings();
+		
+		//still no store? load default store or session based
+		if (is_null($this->cnfg['config_store_id'])) {
+			//if admin and specific store selected 
+			$session = $this->registry->get('session');
+			if (IS_ADMIN && $session->data['current_store_id']) {
+				$this->cnfg['config_store_id'] = $session->data['current_store_id'];	
+			} else {
+				$this->cnfg['config_store_id'] = 0;
+			}
+			$this->_reload_settings($this->cnfg['config_store_id']);
 		}
-		$tmpl_id = $this->cnfg[ 'config_storefront_template' ];
+		
+		//get template for storefront
+		$tmpl_id = $this->cnfg['config_storefront_template'];
+		
 		// load extension settings
-		$cache_suffix = IS_ADMIN ? 'admin' : $this->cnfg[ 'config_store_id' ];
+		$cache_suffix = IS_ADMIN ? 'admin' : $this->cnfg['config_store_id'];
 		$settings = $cache->force_get('settings.extension.' . $cache_suffix);
 		if (empty($settings)) {
 			// all extensions settings of store
 			$sql = "SELECT se.*, e.type as extension_type
 					FROM " . $db->table('settings')." se
 					LEFT JOIN " . $db->table('extensions')." e ON (TRIM(se.`group`) = TRIM(e.`key`))
-					WHERE se.store_id='" . (int)$this->cnfg[ 'config_store_id' ] . "' AND e.extension_id IS NOT NULL
+					WHERE se.store_id='" . (int)$this->cnfg['config_store_id'] . "' AND e.extension_id IS NOT NULL
 					ORDER BY se.store_id ASC, se.group ASC";
 
 			$query = $db->query($sql);
@@ -204,24 +212,24 @@ final class AConfig {
 		}
 
 		foreach ($settings as $setting) {
-			$this->cnfg[ $setting[ 'key' ] ] = $setting[ 'value' ];
+			$this->cnfg[ $setting['key']] = $setting['value'];
 		}
 	}
 
-	private function _set_default_settings() {
-		//we don't use cache here cause domain may by any and we can't to change cache from control panel
+	private function _reload_settings( $store_id = 0 ) {
+		//we don't use cache here cause domain may be different and we cannot change cache from control panel
 		$db = $this->registry->get('db');
 		$sql = "SELECT se.`key`, se.`value`, st.store_id
 					  FROM " . $db->table('settings')." se
 					  RIGHT JOIN " . $db->table('stores')." st ON se.store_id=st.store_id
 					  LEFT JOIN " . $db->table('extensions')." e ON TRIM(se.`group`) = TRIM(e.`key`)
-					  WHERE se.store_id = 0 AND st.status = 1 AND e.extension_id IS NULL";
+					  WHERE se.store_id = $store_id AND st.status = 1 AND e.extension_id IS NULL";
 
 		$query = $db->query($sql);
 		$store_settings = $query->rows;
 		foreach ($store_settings as $row) {
-			if ($row[ 'key' ] != 'config_url') {
-				$this->cnfg[ $row[ 'key' ] ] = $row[ 'value' ];
+			if ($row['key'] != 'config_url') {
+				$this->cnfg[ $row['key']] = $row['value'];
 			}
 		}
 	}
