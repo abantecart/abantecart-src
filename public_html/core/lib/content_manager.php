@@ -342,6 +342,12 @@ class AContentManager {
 		
 		$filter = (isset($data['filter']) ? $data['filter'] : array());
 
+		if ( $data['store_id'] ) {
+			$store_id = (int)$data['store_id'];
+		} else {
+			$store_id = (int)$this->config->get('config_store_id');
+		}
+
 		if ($mode == 'total_only') {
 			$select_columns = 'count(*) as total';
 		}
@@ -360,6 +366,8 @@ class AContentManager {
 				LEFT JOIN " . DB_PREFIX . "content_descriptions cd
 					ON (cd.content_id = i.parent_content_id
 						AND cd.language_id = '" . ( int )$this->session->data['content_language_id'] . "')
+				LEFT JOIN " . $this->db->table('contents_to_stores')." cs				
+					ON (i.content_id = cs.content_id AND cs.store_id = '" . $store_id . "')
 				";
 		if((int)$store_id){
 			$sql .= " RIGHT JOIN " . DB_PREFIX . "contents_to_stores cts ON (i.content_id = cts.content_id AND cts.store_id = '".(int)$store_id."')";

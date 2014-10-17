@@ -181,6 +181,7 @@ class ControllerPagesCatalogCategory extends AController {
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->view->assign('insert', $this->html->getSecureURL('catalog/category/insert'));
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 
 		$this->processTemplate('pages/catalog/category_list.tpl');
 

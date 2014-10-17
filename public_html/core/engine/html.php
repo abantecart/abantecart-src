@@ -544,13 +544,13 @@ class AHtml extends AController {
 	public function getStoreSwitcher() {
 		$registry = Registry::getInstance();
 		$view = new AView(Registry::getInstance(), 0);
-		//check if store_id is passed 
-		$store_id = $registry->get('request')->get['store_id'];
-		if ( has_value($store_id) ){
-			$registry->get('session')->data['current_store_id'] = (int)$store_id;
-			$store_id = (int)$store_id;
-		} else {
-			$store_id = 0;
+		//check if store_id is passed or in the session 
+		$store_id = 0;
+		if ( has_value($registry->get('request')->get['store_id']) ){
+			$store_id = (int)$registry->get('request')->get['store_id'];
+			$registry->get('session')->data['current_store_id'] = $store_id;
+		} else if(has_value($registry->get('session')->data['current_store_id'])) {
+			$store_id = (int)$registry->get('session')->data['current_store_id'];
 		}
 		//set store selector
 		$stores = array();

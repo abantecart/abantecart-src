@@ -212,6 +212,7 @@ class ControllerPagesCatalogProduct extends AController {
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 		$this->view->assign ( 'search_form', $grid_search_form );
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 
 		$this->view->assign( 'insert', $this->html->getSecureURL('catalog/product/insert') );
 		$this->view->assign('help_url', $this->gen_help_url('product_listing') );

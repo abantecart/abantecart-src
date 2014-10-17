@@ -1684,27 +1684,32 @@ class ModelCatalogProduct extends Model {
 			$language_id = (int)$this->config->get('storefront_language_id');
 		}
 
+		if ( $data['store_id'] ) {
+			$store_id = (int)$data['store_id'];
+		} else {
+			$store_id = (int)$this->config->get('config_store_id');
+		}
+
 		if ($data || $mode == 'total_only') {
 			$match = '';
 			$filter = (isset($data['filter']) ? $data['filter'] : array());
 
 			if ($mode == 'total_only') {
-				$sql = "SELECT COUNT(*) as total
-						FROM " . DB_PREFIX . "products p
-						LEFT JOIN " . DB_PREFIX . "product_descriptions pd
-							ON (p.product_id = pd.product_id AND pd.language_id = '" . $language_id . "')";
+				$sql = "SELECT COUNT(*) as total ";
 			} else {
-				$sql = "SELECT *, p.product_id
-						FROM " . DB_PREFIX . "products p
-						LEFT JOIN " . DB_PREFIX . "product_descriptions pd
-							ON (p.product_id = pd.product_id AND pd.language_id = '" . $language_id . "')";
+				$sql = "SELECT *, p.product_id ";
 			}
+			$sql .= " FROM " . DB_PREFIX . "products p
+						LEFT JOIN " . DB_PREFIX . "product_descriptions pd
+							ON (p.product_id = pd.product_id AND pd.language_id = '" . $language_id . "')
+						INNER JOIN " . $this->db->table('products_to_stores')." ps				
+							ON (p.product_id = ps.product_id AND ps.store_id = '" . $store_id . "') ";
 
 			if (isset($filter['category']) && $filter['category'] > 0) {
-				$sql .= " LEFT JOIN " . DB_PREFIX . "products_to_categories p2c ON (p.product_id = p2c.product_id)";
+				$sql .= " LEFT JOIN " . DB_PREFIX . "products_to_categories p2c ON (p.product_id = p2c.product_id) ";
 			}
 
-			$sql .= 'WHERE 1=1 ';
+			$sql .= ' WHERE 1=1 ';
 
 			if (!empty($data['subsql_filter'])) {
 				$sql .= " AND " . $data['subsql_filter'];

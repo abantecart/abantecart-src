@@ -107,6 +107,7 @@ class ControllerPagesCatalogManufacturer extends AController {
 		$this->document->setTitle( $this->language->get('heading_title') );
 		$this->view->assign( 'insert', $this->html->getSecureURL('catalog/manufacturer/insert') );
 		$this->view->assign('help_url', $this->gen_help_url('manufacturer_listing') );
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 
 		$this->processTemplate('pages/catalog/manufacturer_list.tpl' );
 
