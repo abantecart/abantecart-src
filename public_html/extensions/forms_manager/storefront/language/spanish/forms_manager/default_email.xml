@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_subject</key>
+		<value><![CDATA[Ningún tema]]></value>
+	</definition>
+	<definition>
+		<key>text_default_email_title</key>
+		<value><![CDATA[Enviar correo electrónico]]></value>
+	</definition>
+	<definition>
+		<key>text_error_message</key>
+		<value><![CDATA[Hubo algunos errores en el proceso.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_message</key>
+		<value><![CDATA[Correo ha sido enviado con éxito.]]></value>
+	</definition>
+</definitions>

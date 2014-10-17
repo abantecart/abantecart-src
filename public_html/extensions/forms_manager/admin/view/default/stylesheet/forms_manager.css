@@ -1,0 +1,18 @@
+#option_name_block {
+	width: 222px !important;
+	white-space: nowrap;
+}
+
+
+.options_buttons {
+	width: 270px !important;
+}
+
+.option_field {
+	padding-right: 10px;
+	width: 240px !important;
+}
+
+div#options {
+	margin-left: 290px !important;
+}

@@ -584,7 +584,8 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 
 ('shipping', 'default_flat_rate_shipping', 'shipping', 1, 1, '1.0', null, now(), now(), now() ),
 
-('extensions', 'banner_manager', 'extensions', 1, 1, '1.0', null, now(), now(), now() ),
+('extensions', 'banner_manager', 'extensions', 1, 1, '1.0.1', null, now(), now(), now() ),
+('extensions', 'forms_manager', 'extensions', 1, 1, '1.0.2', null, now(), now(), now() ),
 ('payment', 'default_pp_standart', 'payment', 0, 1, '1.0.1', null, now(), now() + INTERVAL 1 HOUR , now() ),
 ('payment', 'default_pp_pro', 'payment', 0, 1, '1.0.1', null, now(), now() + INTERVAL 1 HOUR , now() )
 ;
@@ -1425,9 +1426,17 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 ('banner_manager','banner_manager_layout',''),
 ('banner_manager','banner_manager_priority',10),
-('banner_manager','banner_manager_date_installed',now()),
+('banner_manager','banner_manager_date_installed', NOW()),
 ('banner_manager','store_id',0),
-('banner_manager','banner_manager_status',1)
+('banner_manager','banner_manager_status',1),
+
+('forms_manager','forms_manager_priority',10),
+('forms_manager','forms_manager_date_installed', NOW()),
+('forms_manager','store_id',0),
+('forms_manager','forms_manager_status',1),
+('forms_manager','forms_manager_default_sender_name', ''),
+('forms_manager','forms_manager_default_sender_email', ''),
+('forms_manager','forms_manager_sort_order', '')
 ;
 
 
@@ -9802,7 +9811,8 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `date_added`)
 (26, 'search', 'blocks/search', now() ),
 (27, 'menu', 'blocks/menu', now() ),
 (28, 'breadcrumbs', 'blocks/breadcrumbs', now() ), 
-(29, 'account', 'blocks/account', now());
+(29, 'account', 'blocks/account', now()),
+(30, 'custom_form_block', 'blocks/custom_form_block', now() );
 
 --
 -- DDL for table `ac_custom_blocks`
@@ -9944,7 +9954,16 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (27, 6, 'blocks/menu.tpl', now() ),
 (28, 2, 'blocks/breadcrumbs.tpl', now() ),
 (29, 3, 'blocks/account.tpl', now() ),
-(29, 6, 'blocks/account.tpl', now() )
+(29, 6, 'blocks/account.tpl', now() ),
+
+(30, 1, 'blocks/custom_form_block_header.tpl', NOW() ),
+(30, 2, 'blocks/custom_form_block_content.tpl', NOW() ),
+(30, 3, 'blocks/custom_form_block.tpl', NOW() ),
+(30, 4, 'blocks/custom_form_block_content.tpl', NOW() ),
+(30, 5, 'blocks/custom_form_block_content.tpl', NOW() ),
+(30, 6, 'blocks/custom_form_block.tpl', NOW() ),
+(30, 7, 'blocks/custom_form_block_content.tpl', NOW() ),
+(30, 8, 'blocks/custom_form_block_header.tpl', NOW() )
 ;
 
 --
