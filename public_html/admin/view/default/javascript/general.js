@@ -535,15 +535,14 @@ $(document).ajaxError(function (e, jqXHR, settings, exception) {
 
     try {
         var err = $.parseJSON(jqXHR.responseText);
+
         if (err.hasOwnProperty("error_text")) {
             var errors = err.error_text;
             var errlist = typeof errors === 'string' ? [errors] : errors;
 
-            if (errlist.length > 0) {
-                for (var k in errlist) {
-                    if(errlist[k].length>0){
-                        gl_error_alert(errlist[k], false);
-                    }
+            for (var k in errlist) {
+                if (errlist[k].length > 0) {
+                    gl_error_alert(errlist[k], false);
                 }
             }
         }
