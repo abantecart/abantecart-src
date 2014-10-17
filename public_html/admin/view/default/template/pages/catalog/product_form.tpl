@@ -3,10 +3,10 @@
 <?php echo $summary_form; ?>
 
 <?php echo $product_tabs ?>
-<div class="tab-content">
+<div id="content" class="panel panel-default">
 
-	<div class="panel-heading">
-		<div class="pull-left">
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
 		    <div class="btn-group mr10 toolbar">
     	        <a class="btn btn-white tooltips" href="<?php echo $clone_url; ?>" data-toggle="tooltip" title="<?php echo$text_clone; ?>" data-original-title="<?php echo $text_clone; ?>">
     	        <i class="fa fa-tags"></i>
@@ -17,7 +17,7 @@
 	</div>
 
 	<?php echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		
 		<?php foreach ($form['fields'] as $section => $fields) { ?>
 		<label class="h4 heading"><?php echo ${'tab_' . $section}; ?></label>         
@@ -50,21 +50,22 @@
  		
 	</div>
 	
-	<div class="panel-footer">
-		<div class="row">
-		   <div class="col-sm-6 col-sm-offset-3">
-		     <button class="btn btn-primary">
-		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
-		     </button>&nbsp;
-		     <a class="btn btn-default" href="<?php echo $cancel; ?>">
-		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
-		     </a>
-		   </div>
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<button class="btn btn-default" type="reset">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $cancel; ?>">
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
+			</a>
 		</div>
 	</div>
 	</form>
 	
-</div><!-- <div class="tab-content"> -->
+</div>
 
 <script type="text/javascript"><!--
 
@@ -76,7 +77,6 @@ $(document).ready(function () {
         '#productFrm_width',
         '#productFrm_height',
         '#productFrm_weight'];
-
 });
 
 $('#productFrm_generate_seo_keyword').click(function(){

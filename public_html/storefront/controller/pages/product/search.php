@@ -183,7 +183,7 @@ class ControllerPagesProductSearch extends AController {
 				
         		$products = array();
 
-                $results = $this->model_catalog_product->getProductsByKeyword(  $this->request->get['keyword'],
+                $products_result = $this->model_catalog_product->getProductsByKeyword(  $this->request->get['keyword'],
 																				$category_id,
 																				isset($this->request->get['description']) ? $this->request->get['description'] : '',
 																				isset($this->request->get['model']) ? $this->request->get['model'] : '',
@@ -194,14 +194,14 @@ class ControllerPagesProductSearch extends AController {
                 );
 
 				//if single result, redirect to the product
-				if (count($results) == 1) {
-					$this->redirect($this->html->getSEOURL('product/product','&product_id=' . key($results), '&encode'));		
+				if (count($products_result) == 1) {
+					$this->redirect($this->html->getSEOURL('product/product','&product_id=' . key($products_result), '&encode'));		
 				}
 
 				$resource = new AResource('image');
 				
-				if (is_array($results) && $results) {
-					foreach ($results as $result) {
+				if (is_array($products_result) && $products_result) {
+					foreach ($products_result as $result) {
 						$thumbnail = $resource->getMainThumb('products',
 				                                     $result['product_id'],
 				                                     $this->config->get('config_image_product_width'),
@@ -237,6 +237,20 @@ class ControllerPagesProductSearch extends AController {
 	                            $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
 	                        }
 						}
+
+						//check for stock status, availability and config
+						$track_stock = false;
+						$in_stock = false;
+						$no_stock_text = $result['stock'];
+						$total_quantity = 0;
+						if ( $this->model_catalog_product->isStockTrackable($result['product_id']) ) {
+							$track_stock = true;
+			    			$total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
+			    			//we have stock or out of stock checkout is allowed
+			    			if ($total_quantity > 0 || $this->config->get('config_stock_checkout')) {
+				    			$in_stock = true;
+			    			}
+						}
 						
 						$products[] = array(
 							'product_id' => $result['product_id'],
@@ -252,6 +266,10 @@ class ControllerPagesProductSearch extends AController {
 							'href'    => $this->html->getSEOURL('product/product','&keyword=' . $this->request->get['keyword'] . $url . '&product_id=' . $result['product_id'], '&encode'),
 							'add'	  => $add,
 							'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+							'track_stock' => $track_stock,
+							'in_stock'		=> $in_stock,
+							'no_stock_text' => $no_stock_text,
+							'total_quantity'=> $total_quantity,
 	          			);
 	        		}
 				}

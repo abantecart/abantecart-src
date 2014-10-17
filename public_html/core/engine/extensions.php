@@ -362,6 +362,7 @@ class ExtensionsApi {
 	 */
 	public function getExtensionsList($data = array()) {
 
+		$registry = Registry::getInstance();
 		$sql = "SELECT DISTINCT
 		              e.extension_id,
                       e.type,
@@ -413,8 +414,11 @@ class ExtensionsApi {
 		if (has_value($data['status'])) {
 			$sql .= "AND s.value = '" . (int)$data['status'] . "' ";
 		}
+
 		if (has_value($data['store_id'])) {
 			$sql .= "AND COALESCE(s.`store_id`,0) = '" . (int)$data['store_id'] . "' ";
+		} else {
+			$sql .= "AND COALESCE(s.`store_id`,0) = '" . (int)$registry->get('config')->get('config_store_id') . "' ";		
 		}
 
 		if (has_value($data['sort_order']) && $data['sort_order'][0] != 'name') {

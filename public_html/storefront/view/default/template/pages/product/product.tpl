@@ -170,10 +170,16 @@
 
 									<div class="mt20 ">
 										<?php if(!$product_info['call_to_order']){ ?>
+										<?php if ($track_stock && !$in_stock) { ?>
+										<ul class="productpagecart">
+											<li><span class="nostock"><?php echo $stock; ?></span></li>
+										</ul>
+										<?php } else { ?>
 										<ul class="productpagecart">
 											<li><a href="#" onclick="$(this).closest('form').submit(); return false;"
 												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
 										</ul>
+										<?php } ?>
 										<a class="productprint btn btn-large" href="javascript:window.print();"><i
 													class="fa fa-print"></i> <?php echo $button_print; ?></a>
 										<?php }else{?>

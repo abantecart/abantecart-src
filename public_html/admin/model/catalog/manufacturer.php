@@ -117,13 +117,22 @@ class ModelCatalogManufacturer extends Model {
 	
 	public function getManufacturers($data = array(), $mode = 'default') {
 		if ($data) {
+
+			if ( $data['store_id'] ) {
+				$store_id = (int)$data['store_id'];
+			} else {
+				$store_id = (int)$this->config->get('config_store_id');
+			}
+
 			if ($mode == 'total_only') {
 				$total_sql = 'count(*) as total';
 			}
 			else {
-				$total_sql = '*';
+				$total_sql = 'ms.*, m.*';
 			}
-			$sql = "SELECT $total_sql FROM " . DB_PREFIX . "manufacturers";
+			$sql = "SELECT $total_sql FROM ".$this->db->table("manufacturers")." m
+						INNER JOIN " . $this->db->table('manufacturers_to_stores')." ms				
+						ON (m.manufacturer_id = ms.manufacturer_id AND ms.store_id = '" . $store_id . "')";
 
 			if ( !empty($data['subsql_filter']) )
 				$sql .= " WHERE ".$data['subsql_filter'];
@@ -135,16 +144,16 @@ class ModelCatalogManufacturer extends Model {
 			}
 					
 			$sort_data = array(
-				'name',
-				'sort_order'
+			    'name' => 'm.name',
+			    'sort_order' => 'm.sort_order'				
 			);	
-			
-			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-				$sql .= " ORDER BY " . $data['sort'];	
+
+			if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data)) ) {
+				$sql .= " ORDER BY " . $data['sort'];
 			} else {
-				$sql .= " ORDER BY name";	
+				$sql .= " ORDER BY m.name ";
 			}
-			
+						
 			if (isset($data['order']) && ($data['order'] == 'DESC')) {
 				$sql .= " DESC";
 			} else {
@@ -162,9 +171,7 @@ class ModelCatalogManufacturer extends Model {
 			
 				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 			}				
-			
 			$query = $this->db->query($sql);
-		
 			return $query->rows;
 		} else {
 			// this slice of code is duplicate of storefron model for manufacturer

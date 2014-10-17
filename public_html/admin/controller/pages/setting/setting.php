@@ -135,19 +135,6 @@ class ControllerPagesSettingSetting extends AController {
 		$this->data['cancel'] = $this->html->getSecureURL('setting/setting');
 		$this->data['action'] = $this->html->getSecureURL('setting/setting');
 
-		$stores = array();
-		$stores[0] = array('name' =>$this->language->get('text_default'));
-		$this->loadModel('setting/store');
-		$results = $this->model_setting_store->getStores();
-		foreach ($results as $result) {
-			$stores[$result['store_id']] = array(
-												'name' => $result['alias'],
-												'href' => $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active'].'&store_id='.$result['store_id']));
-		}
-
-		$this->data['all_stores'] = $stores;
-		$this->data['current_store'] = $stores[(int)$this->data['store_id']]['name'];
-
 		$group = $this->data['active'];
 		require_once(DIR_CORE.'lib/config_manager.php');
 		$this->conf_mngr = new AConfigManager();
@@ -208,6 +195,7 @@ class ControllerPagesSettingSetting extends AController {
 		$this->data['setting_tabs'] = $tabs_obj->dispatchGetOutput();
 		unset($tabs_obj);
 
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url($this->data['active']));
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/setting/setting.tpl');

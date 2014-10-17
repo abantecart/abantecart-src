@@ -5,17 +5,23 @@
 <div id="content" class="panel panel-default">
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+				<a class="btn btn-primary actionitem tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>"><i class="fa fa-plus fa-fw"></i></a>
+			</div>
 			<?php if($store_id > 0){ ?>
-				<a class="actionitem  tooltips" title="<?php echo $edit_store_button->title; ?>" href="<?php echo $edit_store_button->href; ?>"><i class="fa fa-edit fa-2x"></i></a>
+			<div class="btn-group mr10 toolbar">
+				<a class="btn btn-primary actionitem  tooltips" title="<?php echo $button_edit; ?>" href="<?php echo $edit_store_button->href; ?>"><i class="fa fa-edit fa-fw"></i></a>
+			</div>
 			<?php } ?>
 			<?php if($delete_store_button){ ?>
-				<a class="actionitem  tooltips"
+			<div class="btn-group mr10 toolbar">
+				<a class="btn btn-default actionitem  tooltips"
 				   title="<?php echo $delete_store_button->title; ?>"
 				   href="<?php echo $delete_store_button->href; ?>"
 				   data-confirmation="delete"
-					><i class="fa fa-trash-o fa-2x"></i></a>
+					><i class="fa fa-trash-o fa-fw"></i></a>
+			</div>
 			<?php } ?>
-			<a class="actionitem tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>"><i class="fa fa-plus-circle fa-lg fa-2x"></i></a>
 		</div>			
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>

@@ -4,30 +4,16 @@
 
 <?php echo $product_tabs ?>
 
-<div id="content" class="tab-content">
+<div id="content" class="panel panel-default">
 
-	<div class="panel-heading">
-
-		<div class="pull-left form-inline">
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
 		</div>
 
-		<div class="pull-right">
-
-			<div class="btn-group mr10 toolbar">
-				<?php echo $form_language_switch; ?>
-			</div>
-
-			<div class="btn-group mr10 toolbar">
-				<?php if (!empty ($help_url)) : ?>
-					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
-					   title="" data-original-title="Help">
-						<i class="fa fa-question-circle fa-lg"></i>
-					</a>
-				<?php endif; ?>
-			</div>
-		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
-	<div class="panel-body panel-body-nopadding">
+		
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
     	<?php echo $resources_html ?>
 	</div>
 </div>

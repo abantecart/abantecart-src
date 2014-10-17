@@ -2,23 +2,13 @@
 	
 		<?php echo $this->getHookVar('common_content_buttons'); ?>
 		
-		<?php if( $all_stores ) { ?>
+		<?php if(!empty($form_store_switch)) { ?>
 		<div class="btn-group">
-		    <button class="btn btn-default dropdown-toggle tooltips" type="button" data-toggle="dropdown" data-toggle="tooltip" data-original-title="<?php echo $text_select_store; ?>">
-		    	<i class="fa fa-desktop"></i>
-		    	<?php echo $current_store; ?> <span class="caret"></span>
-		    </button>
-		    <ul class="dropdown-menu">
-		    	<?php foreach ($all_stores as $store) { ?>
-		    		<li><a href="<?php echo $store['href'] ?>"
-		    			   class="<?php echo $store['name'] == $current_store ? 'disabled' : ''; ?>"><?php echo $store['name'] ?></a>
-		    		</li>
-		    	<?php } ?>
-		    </ul>
+			<?php echo $form_store_switch; ?>
 		</div>
     	<?php } ?>
 
-		<?php if (!empty ($form_language_switch)) { ?>
+		<?php if (!empty($form_language_switch)) { ?>
 		<div class="btn-group">
 			<?php echo $form_language_switch; ?>
 		</div>

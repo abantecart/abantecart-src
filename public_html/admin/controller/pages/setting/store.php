@@ -144,20 +144,6 @@ class ControllerPagesSettingStore extends AController {
             $this->data['store_id'] = 0;
         }
 
-		$stores = $store_options = array();
-		$stores[0] = array('name' =>$this->language->get('text_default'));
-		$this->loadModel('setting/store');
-		$results = $this->model_setting_store->getStores();
-		foreach ($results as $result) {
-			$stores[$result['store_id']] = array(
-												'name' => $result['alias'],
-												'href' => $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active'].'&store_id='.$result['store_id']));
-			$store_options[$result['store_id']] = $result['alias'];
-		}
-
-		$this->data['all_stores'] = $stores;
-		$this->data['current_store'] = $stores[(int)$this->data['store_id']]['name'];
-
         if ($this->data['delete']) {
             $this->data['delete_store_button'] = $this->html->buildElement(array(
 				'type' => 'button',
@@ -293,6 +279,7 @@ class ControllerPagesSettingStore extends AController {
         }
 
         $this->view->batchAssign($this->data);
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
         $this->view->assign('language_code', $this->session->data['language']);
         $this->processTemplate('pages/setting/store.tpl');
 

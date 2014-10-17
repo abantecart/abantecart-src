@@ -285,6 +285,9 @@ try {
 //Hook class
 	$hook = new AHook($registry);
 
+// Session
+	$registry->set('session', new ASession(SESSION_ID) );
+
 // Database
 	$registry->set('db', new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE));
 
@@ -353,10 +356,6 @@ try {
 
 // Log
 	$registry->set('log', new ALog(DIR_LOGS . $config->get('config_error_filename')) );
-
-// Session
-	$registry->set('session', new ASession(SESSION_ID) );
-
 
 // Document
 	$registry->set('document', new ADocument());

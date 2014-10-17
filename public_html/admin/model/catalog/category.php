@@ -201,9 +201,15 @@ class ModelCatalogCategory extends Model {
 	public function getCategoriesData($data, $mode = 'default') {
 
 		if ( $data['language_id'] ) {
-			$language_id = ( int )$data['language_id'];
+			$language_id = (int)$data['language_id'];
 		} else {
-			$language_id = ( int )$this->session->data['content_language_id'];
+			$language_id = (int)$this->session->data['content_language_id'];
+		}
+
+		if ( $data['store_id'] ) {
+			$store_id = (int)$data['store_id'];
+		} else {
+			$store_id = (int)$this->config->get('config_store_id');
 		}
 
 		if ($mode == 'total_only') {
@@ -218,9 +224,11 @@ class ModelCatalogCategory extends Model {
 		}
         $where = (isset($data['parent_id']) ? "WHERE c.parent_id = '" . (int)$data['parent_id'] . "'" : '' );
 		$sql = "SELECT ". $total_sql ."
-				FROM " . DB_PREFIX . "categories c
-				LEFT JOIN " . DB_PREFIX . "category_descriptions cd
-					ON (c.category_id = cd.category_id AND cd.language_id = '" . (int)$language_id . "')
+				FROM " . $this->db->table('categories')." c
+				LEFT JOIN " . $this->db->table('category_descriptions')." cd
+					ON (c.category_id = cd.category_id AND cd.language_id = '" . $language_id . "')
+				INNER JOIN " . $this->db->table('categories_to_stores')." cs				
+					ON (c.category_id = cs.category_id AND cs.store_id = '" . $store_id . "')
 				" . $where;
 
 		if ( !empty($data['subsql_filter']) ) {
@@ -275,8 +283,7 @@ class ModelCatalogCategory extends Model {
 				'products_count'=>$result['products_count']
 
 			);
-		}
-		
+		}		
 		return $category_data;
 	}
 
@@ -309,7 +316,7 @@ class ModelCatalogCategory extends Model {
 	}
 
 	public function getPath($category_id) {
-		$language_id = ( int )$this->session->data['content_language_id'];
+		$language_id = (int)$this->session->data['content_language_id'];
 		$query = $this->db->query("SELECT name, parent_id
 		                            FROM " . DB_PREFIX . "categories c
 		                            LEFT JOIN " . DB_PREFIX . "category_descriptions cd

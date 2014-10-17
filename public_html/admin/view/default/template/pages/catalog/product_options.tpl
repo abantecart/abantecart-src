@@ -4,11 +4,10 @@
 
 <?php echo $product_tabs ?>
 
-<div id="content" class="tab-content">
+<div id="content" class="panel panel-default">
 
-	<div class="panel-heading">
-
-		<div class="pull-left form-inline">
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left form-inline">
 			<div class="form-group">
 				<div class="input-group input-group-sm">
 					<label><?php echo $tab_option; ?></label>
@@ -28,33 +27,15 @@
                     </a>
 			</div>
 		</div>
-
-		<div class="pull-right">
-
-			<div class="btn-group mr10 toolbar">
-				<?php echo $form_language_switch; ?>
-			</div>
-
-			<div class="btn-group mr10 toolbar">
-				<?php if (!empty ($help_url)) : ?>
-					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
-					   title="" data-original-title="Help">
-						<i class="fa fa-question-circle fa-lg"></i>
-					</a>
-				<?php endif; ?>
-			</div>
-		</div>
-
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
 
-	<div class="panel-body panel-body-nopadding" id="option_values">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12" id="option_values">
 		<?php //# Options HTML loaded from responce controller rt=product/product/load_option ?>		
 	</div>
 </div>
 
 <?php
-
-
 $modal_content = '<div class="add-option-modal" >
 			<div class="panel panel-default">
 			    <div id="collapseTwo" >
@@ -119,8 +100,6 @@ echo $this->html->buildElement(
 				'content' => $modal_content));
 ?>
 
-
-
 <?php echo $resources_scripts; ?>
 <script type="text/javascript"><!--
 
@@ -140,6 +119,31 @@ var setRLparams = function (attr_val_id) {
 	urls.attr_val_id = attr_val_id;
 }
 
+
+
+/*
+var mediaDialog = function (type, action, id) {
+	$('#dialog').remove();
+
+	var src = urls.resource_library + '&' + action + '=1&type=' + type;
+
+	if (id) {
+		src += '&resource_id=' + id;
+	}
+	$('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="' + src + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+	$('#dialog iframe').load(function (e) {
+		try {
+			var error_data = $.parseJSON($(this).contents().find('body').html());
+		} catch (e) {
+			var error_data = null;
+		}
+		if (error_data && error_data.error_code) {
+			$('#dialog').dialog('close');
+			httpError(error_data);
+		}
+	});
+
+};*/
 
 var text = {
 	error_attribute_not_selected: '<?php echo $error_attribute_not_selected ?>',

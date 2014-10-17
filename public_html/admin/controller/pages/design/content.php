@@ -36,6 +36,7 @@ class ControllerPagesDesignContent extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 
 		$this->view->assign('success', $this->session->data['success']);
 		if (isset($this->session->data['success'])) {
