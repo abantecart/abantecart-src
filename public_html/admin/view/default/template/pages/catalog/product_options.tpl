@@ -63,31 +63,31 @@ $modal_content = '<div class="add-option-modal" >
 			    		'.$attributes.'
 			    		<div class="mt10 options_buttons" id="option_name_block">
 			    			<div class="form-group '. (!empty($error['status']) ? "has-error" : "") .'">
-			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'. $entry_status.'</label>
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$status->element_id.'">'. $entry_status.'</label>
 			    				<div class="input-group afield ">
 			    					'.$status.'
 			    				</div>
 			    			</div>
 			    			<div class="form-group '.(!empty($error['option']) ? "has-error" :"").'">
-			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_option.'</label>
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$option_name->element_id.'">'.$entry_option.'</label>
 			    				<div class="input-group afield ">
 			    					'.$option_name.'
 			    				</div>
 			    			</div>
 			    			<div class="form-group '.(!empty($error['element_type']) ? "has-error" : "").'">
-			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_element_type.'</label>
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$element_type->element_id.'">'.$entry_element_type.'</label>
 			    				<div class="input-group afield ">
 			    					'.$element_type.'
 			    				</div>
 			    			</div>
 			    			<div class="form-group '.(!empty($error['sort_order']) ? "has-error" : "") .'">
-			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_sort_order.'</label>
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$sort_order->element_id.'">'.$entry_sort_order.'</label>
 			    				<div class="input-group afield ">
 			    					'.$sort_order.'
 			    				</div>
 			    			</div>
 			    			<div class="form-group '.(!empty($error['required']) ? "has-error" : "").'">
-			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_required.'</label>
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$required->element_id.'">'.$entry_required.'</label>
 			    				<div class="input-group afield ">
 			    					'.$required.'
 			    				</div>
@@ -140,31 +140,6 @@ var setRLparams = function (attr_val_id) {
 	urls.attr_val_id = attr_val_id;
 }
 
-
-
-/*
-var mediaDialog = function (type, action, id) {
-	$('#dialog').remove();
-
-	var src = urls.resource_library + '&' + action + '=1&type=' + type;
-
-	if (id) {
-		src += '&resource_id=' + id;
-	}
-	$('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="' + src + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
-	$('#dialog iframe').load(function (e) {
-		try {
-			var error_data = $.parseJSON($(this).contents().find('body').html());
-		} catch (e) {
-			var error_data = null;
-		}
-		if (error_data && error_data.error_code) {
-			$('#dialog').dialog('close');
-			httpError(error_data);
-		}
-	});
-
-};*/
 
 var text = {
 	error_attribute_not_selected: '<?php echo $error_attribute_not_selected ?>',
