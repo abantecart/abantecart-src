@@ -43,9 +43,9 @@ class ControllerResponsesProductProduct extends AController {
 				$product_info = $this->model_catalog_product->getProduct($product_id);
 				if ($product_info) {
 					$products_data[ ] = array(
-						'product_id' => $product_info['product_id'],
+						'id' => $product_info['product_id'],
 						'name' => $product_info['name'],
-						'model' => $product_info['model'],
+						'meta' => $product_info['model'],
 						'sort_order' => (int)$product_info['sort_order']
 					);
 				}
@@ -68,9 +68,9 @@ class ControllerResponsesProductProduct extends AController {
 				
 					$products_data[ ] = array(
 						'image' => $thumbnail['thumb_html'],
-						'product_id' => $pdata['product_id'],
+						'id' => $pdata['product_id'],
 						'name' => $pdata['name'],
-						'model' => $pdata['model'],
+						'meta' => $pdata['model'],
 						'sort_order' => (int)$pdata['sort_order'],
 					);
 			}
@@ -718,9 +718,9 @@ class ControllerResponsesProductProduct extends AController {
             $language_id = $this->language->getContentLanguageID();
         }
         $query = $this->db->query( "SELECT pov.*, povd.name as value
-									FROM ".$this->db->table('product_options')." po
-									LEFT JOIN ".$this->db->table('product_option_values')." pov ON po.product_option_id = pov.product_option_id
-									LEFT JOIN ".$this->db->table('product_option_value_descriptions')." povd
+									FROM `".$this->db->table('product_options')."` po
+									LEFT JOIN `".$this->db->table('product_option_values')."` pov ON po.product_option_id = pov.product_option_id
+									LEFT JOIN `".$this->db->table('product_option_value_descriptions')."` povd
 										ON ( pov.product_option_value_id = povd.product_option_value_id AND povd.language_id = '" . (int)$language_id . "' )
 									WHERE po.attribute_id = '" . $this->db->escape( $attribute_id ) . "'
 									ORDER BY pov.sort_order" );
@@ -887,6 +887,11 @@ class ControllerResponsesProductProduct extends AController {
 
 	}
 
+	/**
+	 * @param AForm $form
+	 * @param int $download_id
+	 * @param int $product_id
+	 */
 	private function _buildGeneralSubform($form, $download_id, $product_id){
 		if($download_id){
 			$file_data = $this->model_catalog_download->getDownload($download_id);
@@ -1052,6 +1057,9 @@ class ControllerResponsesProductProduct extends AController {
 		));
 	}
 
+	/**
+	 * @param AForm $form
+	 */
 	private function _buildAttributesSubform($form){
 
 		$attributes = $this->model_catalog_download->getDownloadAttributes($this->data['download_id']);

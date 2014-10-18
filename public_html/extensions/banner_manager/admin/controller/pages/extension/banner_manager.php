@@ -632,21 +632,16 @@ class ControllerPagesExtensionBannerManager extends AController {
 							'language_id' => $this->session->data['content_language_id']));
 
 			// save list if it is custom
-			$this->request->post['selected'] = json_decode(html_entity_decode($this->request->post['selected'][0]), true);
-
-			if ($this->request->post['selected']) {
+			if ($this->request->post['block_banners']) {
 				$listing_manager = new AListingManager($custom_block_id);
-
-				foreach ($this->request->post['selected'] as $id => $info) {
-					if ($info['status']) {
-						$listing_manager->saveCustomListItem(
-								array('data_type' => 'banner_id',
-										'id' => $id,
-										'sort_order' => (int)$info['sort_order']));
-					} else {
-						$listing_manager->deleteCustomListItem(array('data_type' => 'banner_id',
-								'id' => $id));
-					}
+				$listing_manager->deleteCustomListing();
+				$k=0;
+				foreach ($this->request->post['block_banners'] as $id) {
+					$listing_manager->saveCustomListItem(
+							array('data_type' => 'banner_id',
+									'id' => $id,
+									'sort_order' => (int)$k));
+					$k++;
 				}
 
 			}
@@ -680,15 +675,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 			unset($this->session->data['success']);
 		}
 
-		$locale = $this->session->data['language'];
-		if (!file_exists(DIR_ROOT . '/' . RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js')) {
-			$locale = 'en';
-		}
-		$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js');
-		$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/minified/jquery.jqGrid.min.js');
-		$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.grid.fluid.js');
-		$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.ba-bbq.min.js');
-		$this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/grid.history.js');
 
 		$this->document->initBreadcrumb(array('href' => $this->html->getSecureURL('index/home'),
 				'text' => $this->language->get('text_home'),
@@ -701,7 +687,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 		$custom_block_id = (int)$this->request->get ['custom_block_id'];
 
 		// need to get data of custom listing
-		$listing_data = array();
+		$options_list = array();
 		if ($custom_block_id) {
 			$lm = new ALayoutManager();
 			$block_info = $lm->getBlockDescriptions($custom_block_id);
@@ -714,7 +700,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 			foreach ($block_info[$language_id] as $k => $v) {
 				$this->data[$k] = $v;
 			}
-			$content = $block_info[$this->session->data['content_language_id']]['content'];
+			$content = $block_info[$this->language->getContentLanguageID()]['content'];
 
 			if ($content) {
 				$content = unserialize($content);
@@ -726,10 +712,33 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$this->data['banner_group_name'] = $content['banner_group_name'];
 			$lm = new AListingManager($this->request->get ['custom_block_id']);
 			$list = $lm->getCustomList();
+			$options_list = array();
 			if ($list) {
 				foreach ($list as $row) {
-					$listing_data[$row['id']] = array('status' => true,
-							'sort_order' => $row['sort_order']);
+					$options_list[(int)$row['id']] = array();
+				}
+				$ids = array_keys($options_list);
+				$assigned_banners = $this->model_extension_banner_manager->getBanners(array('subsql_filter' => 'b.banner_id IN ('.implode(', ',$ids).')'));
+
+				$rm = new AResourceManager();
+				$rm->setType('image');
+
+				foreach($assigned_banners as $banner){
+					$id = $banner['banner_id'];
+					if(in_array($id, $ids)){
+						$thumbnail = $rm->getMainThumb('banners',
+														$banner['banner_id'],
+														(int)$this->config->get('config_image_grid_width'),
+														(int)$this->config->get('config_image_grid_height'),
+														false);
+						$icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;';
+						$options_list[$id] = array(
+														'image' => $icon,
+														'id' => $id,
+														'name' => $banner['name'],
+														'sort_order' => (int)$banner['sort_order'],
+													);
+					}
 				}
 			}
 		}
@@ -888,28 +897,22 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'style' => 'no-save'
 		));
 		$this->data['form']['text']['banner_group_name'] = $this->language->get('entry_banner_group_name');
-		//single banners
 
-		$this->data['form']['fields']['listed_banners'] = $form->getFieldHtml(
-				array('id' => 'popup',
-						'type' => 'multivalue',
-						'name' => 'popup',
-						'title' => $this->language->get('text_select_from_list'),
-						'selected' => ($listing_data ? AJson::encode($listing_data) : "{}"),
-						'content_url' => $this->html->getSecureUrl('listing_grid/banner_manager/getlisting',
-										'&custom_block_id=' . $custom_block_id),
-						'return_to' => '', // placeholder's id of listing items count.
-						'no_save' => ($custom_block_id ? false : true),
-						'text' => array(
-								'selected' => $this->language->get('text_selected'),
-								'edit' => $this->language->get('text_save_edit'),
-								'apply' => $this->language->get('text_apply'),
-								'save' => $this->language->get('button_save'),
-								'reset' => $this->language->get('button_reset')),
-				));
 
 		$this->data['form']['text']['listed_banners'] = $this->language->get('entry_banners_selected');
 
+		//load only prior saved products
+		$this->data['banners'] = array();
+
+		$this->data['form']['fields']['listed_banners'] = $form->getFieldHtml( array(
+		        'type' => 'multiselectbox',
+		        'name' => 'block_banners[]',
+		        'value' => $ids,
+		        'options' => $options_list,
+		        'style' => 'chosen',
+		        'ajax_url' => $this->html->getSecureURL('listing_grid/banner_manager/banners'),
+		        'placeholder' => $this->language->get('text_select_from_lookup'),
+		));
 
 		$this->view->batchAssign($this->language->getASet());
 		$this->view->batchAssign($this->data);

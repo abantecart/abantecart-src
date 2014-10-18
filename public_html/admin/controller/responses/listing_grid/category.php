@@ -263,4 +263,46 @@ class ControllerResponsesListingGridCategory extends AController {
 		return $err;
 	}
 
+
+	public function categories() {
+
+		$output = array();
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->loadModel('catalog/category');
+		if (isset($this->request->post['term'])) {
+			$filter = array('limit' => 20,
+							'language_id' => $this->language->getContentLanguageID(),
+							'subsql_filter' => "cd.name LIKE '%".$this->request->post['term']."%'
+												OR cd.description LIKE '%".$this->request->post['term']."%'
+												OR cd.meta_keywords LIKE '%".$this->request->post['term']."%'"
+							);
+			$results = $this->model_catalog_category->getCategoriesData($filter);
+
+			$resource = new AResource('image');
+			foreach ($results as $item) {
+				$thumbnail = $resource->getMainThumb('categories',
+												$item['category_id'],
+												(int)$this->config->get('config_image_grid_width'),
+												(int)$this->config->get('config_image_grid_height'),
+												true);
+
+				$output[ ] = array(
+					'image' => $icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;',
+					'id' => $item['category_id'],
+					'name' => $item['name'],
+					'meta' => '',
+					'sort_order' => (int)$item['sort_order'],
+				);
+			}
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($output));
+	}
+
 }

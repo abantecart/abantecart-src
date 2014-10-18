@@ -168,13 +168,13 @@ class ModelExtensionBannerManager extends Model {
 		if (!empty($data[ 'content_language_id' ])) {
 			$language_id = ( int )$data[ 'content_language_id' ];
 		} else {
-			$language_id = (int)$this->config->get('storefront_language_id');
+			$language_id = (int)$this->language->getContentLanguageID();
 		}
 
 		if ($mode == 'total_only') {
 			$sql = "SELECT COUNT(*) as total
-						FROM " . DB_PREFIX . "banners b
-						LEFT JOIN " . DB_PREFIX . "banner_descriptions bd ON (b.banner_id = bd.banner_id AND bd.language_id = '" . $language_id . "')";
+						FROM " . $this->db->table('banners') . " b
+						LEFT JOIN " .$this->db->table('banner_descriptions')." bd ON (b.banner_id = bd.banner_id AND bd.language_id = '" . $language_id . "')";
 		} else {
 			$sql = "SELECT bd.*, b.*
 						FROM " . DB_PREFIX . "banners b
@@ -265,39 +265,6 @@ class ModelExtensionBannerManager extends Model {
 		if (!empty($filter[ 'subsql_filter' ])) {
 			$sql .= " AND " . $filter[ 'subsql_filter' ];
 		}
-
-		/*$sort_data = array(
-				  'name' => 'bd.name',
-				  'banner_group_name' => 'b.banner_group_name',
-				  'viewed' => 'viewed',
-				  'clicked' => 'clicked'
-			  );*/
-		// TODO need to think about sorting by columns
-		/*if (isset($filter['sort']) && in_array($filter['sort'], array_keys($sort_data)) ) {
-				  $sql .= " ORDER BY " . $sort_data[$filter['sort']];
-			  } else {
-				  $sql .= " ORDER BY bd.name";
-			  }
-
-			  if (isset($filter['order']) && ($filter['order'] == 'DESC')) {
-				  $sql .= " DESC";
-			  } else {
-				  $sql .= " ASC";
-			  }
-			  if($mode!='total_only'){
-				  if (isset($filter['start']) || isset($filter['limit'])) {
-					  if ($filter['start'] < 0) {
-						  $filter['start'] = 0;
-					  }
-
-					  if ($filter['limit'] < 1) {
-						  $filter['limit'] = 20;
-					  }
-
-					  $sql .= " LIMIT " . (int)$filter['start'] . "," . (int)$filter['limit'];
-				  }
-			  }*/
-
 
 		$result = $this->db->query($sql);
 		$index = array();

@@ -60,11 +60,11 @@ $(document).ready(function () {
 	    var results = [];
 	    $.each(data, function (i, val) {
 	    	var html = val.image + '<span class="hide_text"> ' + val.name;
-	    	if (val.model) {
-	    		html += '&nbsp;(' + val.model + ')';
+	    	if (val.meta) {
+	    		html += '&nbsp;(' + val.meta + ')';
 	    	}
 	    	html += '</span>';
-	        results.push({ value: val.product_id, text: html });
+	        results.push({ value: val.id, text: html });
 	    });
 	    return results;
 	});

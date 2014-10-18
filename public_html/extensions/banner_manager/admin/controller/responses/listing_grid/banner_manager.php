@@ -21,7 +21,10 @@ if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
 
-
+/**
+ * Class ControllerResponsesListingGridBannerManager
+ * @property ModelExtensionBannerManager model_extension_banner_manager
+ */
 class ControllerResponsesListingGridBannerManager extends AController {
 	public $data;
 
@@ -471,6 +474,52 @@ class ControllerResponsesListingGridBannerManager extends AController {
 
 		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($this->data['response']));
+	}
+
+	public function banners() {
+
+		//$products = array();
+		$banners_data = array();
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->loadModel('extension/banner_manager');
+		if (isset($this->request->post['term'])) {
+
+			$rm = new AResourceManager();
+			$rm->setType('image');
+
+			$filter = array( 'subsql_filter' => "b.target_url LIKE '%".$this->db->escape($this->request->post['term'])."%'
+												OR bd.name LIKE '%".$this->db->escape($this->request->post['term'])."%'
+												OR bd.description LIKE '%".$this->db->escape($this->request->post['term'])."%'
+												OR bd.meta LIKE '%".$this->db->escape($this->request->post['term'])."%'",
+							'limit' => 20 );
+			$banners = $this->model_extension_banner_manager->getBanners($filter);
+
+
+			foreach ($banners as $banner) {
+				$thumbnail = $rm->getMainThumb('banners',
+												$banner['banner_id'],
+												(int)$this->config->get('config_image_grid_width'),
+												(int)$this->config->get('config_image_grid_height'),
+												false);
+				$icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;';
+
+				$banners_data[ ] = array(
+					'image' => $icon,
+					'id' => $banner['banner_id'],
+					'name' => $banner['name'],
+					'sort_order' => (int)$banner['sort_order'],
+				);
+			}
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($banners_data));
 	}
 
 }
