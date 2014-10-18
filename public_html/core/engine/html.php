@@ -648,7 +648,7 @@ class AHtml extends AController {
 
 		$route_sections = array( "admin", "storefront" );
 		foreach ($route_sections as $rt_type) {
-			preg_match_all('/(#' . $rt_type . '#rt=){1}[a-z0-9\/_\-\?\&=\%]{1,255}(\b|\")/', $html, $matches, PREG_OFFSET_CAPTURE);
+			preg_match_all('/(#' . $rt_type . '#rt=){1}[a-z0-9\/_\-\?\&=\%#]{1,255}(\b|\")/', $html, $matches, PREG_OFFSET_CAPTURE);
 			if ($matches) {
 				foreach ($matches[ 0 ] as $match) {
 					$href = str_replace('?', '&', $match[ 0 ]);
