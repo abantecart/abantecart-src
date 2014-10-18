@@ -11110,7 +11110,8 @@ VALUES  (10,'template',131),
         (10,'blocks',133),
         (10,'menu',134),
         (10,'content',135),
-		    (10,'banner_manager',136);
+		    (10,'banner_manager',136),
+		    (10,'forms_manager',200);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (11,'text_templates',131),
@@ -11118,7 +11119,8 @@ VALUES  (11,'text_templates',131),
         (11,'text_blocks',133),
         (11,'text_menu',134),
         (11,'text_content',135),
-        (11,'banner_manager_name',136);
+        (11,'banner_manager_name',136),
+        (11,'forms_manager_name',200);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'extension/extensions/template',131),
@@ -11126,7 +11128,8 @@ VALUES  (12,'extension/extensions/template',131),
         (12,'design/blocks',133),
         (12,'design/menu',134),
         (12,'design/content',135),
-        (12,'extension/banner_manager',136);
+        (12,'extension/banner_manager',136),
+        (12,'tool/forms_manager',200);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (13,'design',131),
@@ -11134,7 +11137,8 @@ VALUES  (13,'design',131),
         (13,'design',133),
         (13,'design',134),
         (13,'design',135),
-        (13,'design',136);
+        (13,'design',136),
+        (13,'design',200);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (14,1,131),
@@ -11142,7 +11146,8 @@ VALUES  (14,1,131),
         (14,3,133),
         (14,4,134),
         (14,5,135),
-        (14,6,136);
+        (14,6,136),
+        (14,7,200);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (15,'core',131),
@@ -11150,7 +11155,8 @@ VALUES  (15,'core',131),
         (15,'core',133),
         (15,'core',134),
         (15,'core',135),
-        (15,'extension',136);
+        (15,'extension',136),
+        (15,'extension',200);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'241',131),
@@ -11158,8 +11164,9 @@ VALUES  (40,'241',131),
         (40,'243',133),
         (40,'244',134),
         (40,'245',135),
-        (40,'246',136);
---		
+        (40,'246',136),
+        (40,'248',200);
+--
 -- SUBMENU SYSTEM->SETTINGS
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 

@@ -24,15 +24,6 @@ if ( !defined ( 'DIR_CORE' )) {
 
 
 // add new menu item
-
-$rm = new AResourceManager();
-$rm->setType('image');
-
-$sql = "SELECT *
-		FROM abc_dataset_values
-		WHERE dataset_column_id=7 AND value_varchar LIKE '%<i '";
-$res = $this->db->query($sql);
-
 $rm = new AResourceManager();
 $rm->setType('image');
 

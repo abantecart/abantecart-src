@@ -13,18 +13,26 @@ header ( 'Location: static_pages/' );
 }
 
 // add new menu item
+$rm = new AResourceManager();
+$rm->setType('image');
+
+$language_id = $this->language->getContentLanguageID();
+$data = array();
+$data['resource_code'] = '<i class="fa fa-list"></i>&nbsp;';
+$data['name'] = array($language_id => 'Menu Icon Forms Manager');
+$data['title'] = array($language_id => '');
+$data['description'] = array($language_id => '');
+$resource_id = $rm->addResource($data);
+
 $menu = new AMenu ( "admin" );
-$menu->insertMenuItem (
-	array (
-		"item_id" => "forms_manager",
-		"parent_id" => "design",
-		"item_text" => "forms_manager_name",
-		"item_url" => "tool/forms_manager",
-		"item_icon_rl_id" => '<i class="fa fa-list"></i>&nbsp;',
-		"item_type"=>"extension",
-		"sort_order"=>"20"
-	)
-);
+$menu->insertMenuItem ( array (  "item_id" => "forms_manager",
+								 "parent_id"=>"design",
+								 "item_text" => "forms_manager_name",
+								 "item_url" => "tool/forms_manager",
+								 "item_icon_rl_id" => $resource_id,
+								 "item_type"=>"extension",
+								 "sort_order"=>"7")
+								);
 
 $sql = "SELECT block_id
 		FROM ".$this->db->table('blocks')."
