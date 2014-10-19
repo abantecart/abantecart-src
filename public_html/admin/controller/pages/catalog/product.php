@@ -278,9 +278,14 @@ class ControllerPagesCatalogProduct extends AController {
 
     	$this->document->setTitle($this->language->get('heading_title'));
 		if (isset($this->request->get['product_id']) && $this->_validateCopy()) {
-			$name = $this->model_catalog_product->copyProduct($this->request->get['product_id']);
-			$this->session->data['success'] = sprintf($this->language->get('text_success_copy'), $name);
-			$this->redirect($this->html->getSecureURL('catalog/product'));
+			$new_product = $this->model_catalog_product->copyProduct($this->request->get['product_id']);
+			if ( $new_product ) {
+				$this->session->data['success'] = sprintf($this->language->get('text_success_copy'), $new_product['name']);
+				$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$new_product['id']));
+			} else {			
+				$this->session->data['success'] = $this->language->get('text_error_copy');
+				$this->redirect($this->html->getSecureURL('catalog/product'));
+			}
 		}
 
         //update controller data

@@ -920,7 +920,7 @@ class ModelCatalogProduct extends Model {
 			//clone layout for the product if present
 			$this->_clone_product_layout($product_id, $new_product_id);
 
-			return $data['name'];
+			return array( 'name' => $data['name'], 'id' => $new_product_id );
 		}
 
 		return false;

@@ -44,6 +44,10 @@
 		<key>text_success_copy</key>
 		<value><![CDATA[Success: You have successfully clone product <b>%s</b>!]]></value>
 	</definition>
+    <definition>
+		<key>text_error_copy</key>
+		<value><![CDATA[Cloning has failed! Original product is not available]]></value>
+	</definition>
 	<definition>
 		<key>text_plus</key>
 		<value><![CDATA[+]]></value>
