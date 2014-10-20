@@ -1,9 +1,20 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 <div class="modal-header">
+
 	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
 	<h4 class="modal-title"><?php  echo $title; ?></h4>
+
 </div>
+<?php if(!empty($form_store_switch)) { ?>
+<div id="content" class="panel panel-default">
+	<div class="panel-heading col-xs-12">
+			<div class="btn-group pull-right">
+				<?php echo $form_store_switch; ?>
+			</div>
+	</div>
+</div>
+<?php } ?>
 <div id="setting_form" class="tab-content">
 	<?php echo $form['form_open']; ?>
 	<div class="panel-body panel-body-nopadding">
@@ -80,6 +91,24 @@ $('#template_preview').load('<?php echo $template_image; ?>&template=' + $('#qsF
     $('#qsFrm_config_storefront_template').change(function () {
         $('#template_preview').load('<?php echo $template_image; ?>&template=' + $('#qsFrm_config_storefront_template').val())
     });
+
+$('#store_switcher_form').on('submit', function(){
+	var that  = $(this);
+	$.ajax({
+		url: that.attr('action'),
+		type: 'GET',
+		data: that.serializeArray(),
+		success: function (data) {
+
+			that.parents('.modal-content')
+			        .removeData()
+			        .html('')
+			        .load('<?php echo $form['form_open']->action; ?>');
+		}
+	});
+
+	return false;
+	});
 
 </script>
 

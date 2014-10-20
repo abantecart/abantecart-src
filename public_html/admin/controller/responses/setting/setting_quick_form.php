@@ -46,7 +46,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
         $setting = explode( '-', $this->request->get['active'] );
 		$this->data['group'] = $setting[0];
         $this->data['setting_key'] = $setting[1];
-	    $this->data['store_id'] = !isset($this->request->get['store_id']) ? $setting[2] : $this->request->get['store_id'];
+	    $this->data['store_id'] = !isset($this->session->data['current_store_id']) ? $setting[2] : $this->session->data['current_store_id'];
 
 	    if(is_int(strpos($this->data['setting_key'],'config_description'))){
 	        $this->data['setting_key'] = substr($this->data['setting_key'],0,strrpos($this->data['setting_key'],'_'));
@@ -75,6 +75,8 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
         }else{
 			$this->_getForm();
 		}
+	    //update controller data
+	    $this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
 	private function _getForm(){
@@ -129,20 +131,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 
         $this->data['form']['fields'] = $conf_mngr->getFormField($this->data['setting_key'], $form, $data,$this->data['store_id'], $this->data['group']);
 
-        $this->loadModel('setting/store');
-        $results = $this->model_setting_store->getStores();
-        $stores = array();
-        $stores[0] = $this->language->get('text_default');
-        foreach ($results as $result) {
-            $stores[$result['store_id']] = $result['alias'];
-        }
-
-        $this->data['store_selector'] = $this->html->buildSelectbox(array(
-            'type' => 'selectbox',
-            'name' => 'store_switcher',
-            'value' => $this->data['store_id'],
-            'options' => $stores
-        ));
+		$this->data['form_store_switch'] = $this->html->getStoreSwitcher();
 
 	    $this->data['template_image'] = $this->html->getSecureURL('setting/template_image');
 
