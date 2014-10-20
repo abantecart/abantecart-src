@@ -545,13 +545,7 @@ class AHtml extends AController {
 		$registry = Registry::getInstance();
 		$view = new AView(Registry::getInstance(), 0);
 		//check if store_id is passed or in the session 
-		$store_id = 0;
-		if ( has_value($registry->get('request')->get['store_id']) ){
-			$store_id = (int)$registry->get('request')->get['store_id'];
-			$registry->get('session')->data['current_store_id'] = $store_id;
-		} else if(has_value($registry->get('session')->data['current_store_id'])) {
-			$store_id = (int)$registry->get('session')->data['current_store_id'];
-		}
+		$store_id = $registry->get('config')->get('config_store_id');
 		//set store selector
 		$stores = array();
 		$hidden = array();

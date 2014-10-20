@@ -9974,7 +9974,6 @@ DROP TABLE IF EXISTS `ac_layouts`;
 CREATE TABLE `ac_layouts` (
   `layout_id` int(10) NOT NULL auto_increment,
   `template_id` varchar(100) NOT NULL,
-  `store_id` int(11) NOT NULL default 0,
   `layout_name` varchar(255) NOT NULL default '',
   `layout_type` smallint(1) NOT NULL default '0', -- 0 Default, 1 Active layout, 2 draft layout, 3 template layout
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',

@@ -143,11 +143,12 @@ class ALayoutManager {
 		if (!$template_id) {
 			$template_id = $this->tmpl_id;
 		}
-	
+		$store_id = (int)$this->config->get('config_store_id');
+		
 		$language_id = $this->session->data['content_language_id'];
 		$where = "WHERE l.template_id = '" . $this->db->escape($template_id) . "' ";
 		if (!empty($controller)) { 
-			$where .= "AND p.controller = '" . $this->db->escape($controller) . "' ";
+			$where .= " AND p.controller = '" . $this->db->escape($controller) . "' ";
 
 			if (!empty ($key_param)) {
 				$where .= empty ($key_param) ? "" : "AND p.key_param = '" . $this->db->escape($key_param) . "' ";
@@ -169,10 +170,10 @@ class ALayoutManager {
 						pd.content,
 						pl.layout_id,
 						l.layout_name
-				FROM " . DB_PREFIX . "pages p " . "
-				LEFT JOIN " . DB_PREFIX . "page_descriptions pd ON (p.page_id = pd.page_id AND pd.language_id = '" . (int)$language_id . "' )
-				LEFT JOIN " . DB_PREFIX . "pages_layouts pl ON pl.page_id = p.page_id
-				LEFT JOIN " . DB_PREFIX . "layouts l ON l.layout_id = pl.layout_id
+				FROM " . $this->db->table("pages") . " p " . "
+				LEFT JOIN " . $this->db->table("page_descriptions") . " pd ON (p.page_id = pd.page_id AND pd.language_id = '" . (int)$language_id . "' )
+				LEFT JOIN " . $this->db->table("pages_layouts") . " pl ON pl.page_id = p.page_id
+				LEFT JOIN " . $this->db->table("layouts") . " l ON l.layout_id = pl.layout_id
 				" . $where . "
 				ORDER BY p.page_id ASC";
 
@@ -194,11 +195,12 @@ class ALayoutManager {
 	 * @return array
 	 */
 	public function getLayouts($layout_type = '') {
+		$store_id = (int)$this->config->get('config_store_id');
 		$cache_name = 'layout.a.layouts.' . $this->tmpl_id . '.' . $this->page_id . (!empty ($layout_type) ? '.' . $layout_type : '');
 		if (( string )$layout_type == '0') {
 			$cache_name = 'layout.a.default.' . $this->tmpl_id;
 		}
-		$layouts = $this->cache->get($cache_name, '', (int)$this->config->get('config_store_id'));
+		$layouts = $this->cache->get($cache_name, '', $store_id);
 		if (!empty ($layouts)) {
 			// return cached layouts
 			return $layouts;
@@ -209,7 +211,7 @@ class ALayoutManager {
 
 		if (( string )$layout_type != '0') {
 			$where .= "AND pl.page_id = '" . ( int )$this->page_id . "' ";
-			$join = "LEFT JOIN " . DB_PREFIX . "pages_layouts as pl ON (l.layout_id = pl.layout_id) ";
+			$join = "LEFT JOIN " . $this->db->table("pages_layouts") . " as pl ON (l.layout_id = pl.layout_id) ";
 		}
 		if (!empty ($layout_type)) {
 			$where .= empty ($layout_type) ? "" : "AND layout_type = '" . ( int )$layout_type . "' ";
@@ -217,12 +219,11 @@ class ALayoutManager {
 
 		$sql = "SELECT " . "l.layout_id as layout_id, "
 				. "l.template_id as template_id, "
-				. "l.store_id as store_id, "
 				. "l.layout_type as layout_type, "
 				. "l.layout_name as layout_name, "
 				. "l.date_added as date_added, "
 				. "l.date_modified as date_modified "
-				. "FROM " . DB_PREFIX . "layouts as l "
+				. "FROM " . $this->db->table("layouts") . " as l "
 				. $join
 				. $where
 				. " ORDER BY " . "l.layout_id ASC";
@@ -235,7 +236,7 @@ class ALayoutManager {
 			$layouts = $query->rows;
 		}
 
-		$this->cache->set($cache_name, $layouts, '', (int)$this->config->get('config_store_id'));
+		$this->cache->set($cache_name, $layouts, '', $store_id);
 
 		return $layouts;
 	}
@@ -275,10 +276,11 @@ class ALayoutManager {
 	
 	
 	private function _getLayoutBlocks($layout_id = 0) {
+		$store_id = (int)$this->config->get('config_store_id');
 		$layout_id = !$layout_id ? $this->layout_id : $layout_id;
 
 		$cache_name = 'layout.a.blocks.' . $layout_id;
-		$blocks = $this->cache->get($cache_name, '', (int)$this->config->get('config_store_id'));
+		$blocks = $this->cache->get($cache_name, '', $store_id);
 		if (!empty ($blocks)) {
 			// return cached blocks
 			return $blocks;
@@ -293,22 +295,24 @@ class ALayoutManager {
 					   bl.status as status,
 					   b.block_txt_id as block_txt_id,
 					   b.controller as controller
-				FROM " . DB_PREFIX . "blocks as b
-				LEFT JOIN " . DB_PREFIX . "block_layouts as bl ON (bl.block_id = b.block_id)
+				FROM " . $this->db->table("blocks") . " as b
+				LEFT JOIN " . $this->db->table("block_layouts") . " as bl ON (bl.block_id = b.block_id)
 				WHERE bl.layout_id = '" . $layout_id . "'
 				ORDER BY bl.parent_instance_id ASC, bl.position ASC";
 
 		$query = $this->db->query($sql);
 		$blocks = $query->rows;
 
-		$this->cache->set($cache_name, $blocks, '', (int)$this->config->get('config_store_id'));
+		$this->cache->set($cache_name, $blocks, '', $store_id);
 
 		return $blocks;
 	}
 
 	public function getAllBlocks() {
-		$cache_name = 'layout.a.blocks.all.' . $this->config->get('storefront_language_id');
-		$blocks = $this->cache->get($cache_name, '', (int)$this->config->get('config_store_id'));
+		$store_id = (int)$this->config->get('config_store_id');
+		$language_id = (int)$this->config->get('storefront_language_id');
+		$cache_name = 'layout.a.blocks.all.' . $language_id;
+		$blocks = $this->cache->get($cache_name, '', $store_id);
 		if (!empty ($blocks)) {
 			// return cached blocks
 			return $blocks;
@@ -321,22 +325,22 @@ class ALayoutManager {
 				. "bt.template as template, "
 				. "COALESCE(cb.custom_block_id,0) as custom_block_id, "
 				. "b.date_added as block_date_added "
-				. "FROM " . DB_PREFIX . "blocks as b "
-				. "LEFT JOIN " . DB_PREFIX . "block_templates as bt ON (b.block_id = bt.block_id) "
-				. "LEFT JOIN " . DB_PREFIX . "custom_blocks as cb ON (b.block_id = cb.block_id ) "
+				. "FROM " . $this->db->table("blocks") . " as b "
+				. "LEFT JOIN " . $this->db->table("block_templates") . " as bt ON (b.block_id = bt.block_id) "
+				. "LEFT JOIN " . $this->db->table("custom_blocks") . " as cb ON (b.block_id = cb.block_id ) "
 				. "ORDER BY b.block_id ASC";
 
 		$query = $this->db->query($sql);
 		if ($query->num_rows) {
 			foreach ($query->rows as $block) {
 				if ($block['custom_block_id']) {
-					$block['block_name'] = $this->getCustomBlockName($block['custom_block_id'], (int)$this->config->get('storefront_language_id'));
+					$block['block_name'] = $this->getCustomBlockName($block['custom_block_id'], $language_id);
 				}
 				$blocks[] = $block;
 			}
 		}
 
-		$this->cache->set($cache_name, $blocks, '', (int)$this->config->get('config_store_id'));
+		$this->cache->set($cache_name, $blocks, '', $store_id);
 		return $blocks;
 	}
 
@@ -354,16 +358,16 @@ class ALayoutManager {
 					. "COALESCE(cb.custom_block_id,0) as custom_block_id, "
 					. "COALESCE(bd.name,'') as block_name, "
 					. "(SELECT MAX(status) AS status
-								FROM " . DB_PREFIX . "block_layouts bl
+								FROM " . $this->db->table("block_layouts") . " bl
 								WHERE bl.custom_block_id = cb.custom_block_id)  as status, "
 					. "b.date_added as block_date_added ";
 		} else {
 			$sql = "SELECT COUNT(*) as total ";
 		}
 
-		$sql .= "FROM " . DB_PREFIX . "blocks as b "
-				. "LEFT JOIN " . DB_PREFIX . "custom_blocks as cb ON (b.block_id = cb.block_id ) "
-				. "LEFT JOIN " . DB_PREFIX . "block_descriptions as bd
+		$sql .= "FROM " . $this->db->table("blocks") . " as b "
+				. "LEFT JOIN " . $this->db->table("custom_blocks") . " as cb ON (b.block_id = cb.block_id ) "
+				. "LEFT JOIN " . $this->db->table("block_descriptions") . " as bd
 						ON (bd.custom_block_id = cb.custom_block_id AND  bd.language_id = '" . $language_id . "') ";
 		if ($mode != 'total_only') {
 
@@ -648,7 +652,7 @@ class ALayoutManager {
 			$this->layout_id = $this->saveLayout($layout);
 			$new_layout = true;
 
-			$this->db->query("INSERT INTO " . DB_PREFIX . "pages_layouts (layout_id,page_id)
+			$this->db->query("INSERT INTO " . $this->db->table("pages_layouts") . " (layout_id,page_id)
 								VALUES ('" . ( int )$this->layout_id . "','" . ( int )$this->page_id . "')");
 		}
 
@@ -701,7 +705,7 @@ class ALayoutManager {
 		
 		$new_layout_id = $this->saveLayout($layout);
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "pages_layouts (layout_id,page_id)
+		$this->db->query("INSERT INTO " . $this->db->table("pages_layouts") . " (layout_id,page_id)
 							VALUES ('" . (int)$new_layout_id . "','" . (int)$this->page_id . "')");
 
 		foreach ($this->main_placeholders as $placeholder) {
@@ -760,7 +764,7 @@ class ALayoutManager {
 			$this->layout_id = $this->saveLayout($layout);
 			$dest_layout_id = $this->layout_id;
 
-			$this->db->query("INSERT INTO " . DB_PREFIX . "pages_layouts (layout_id,page_id)
+			$this->db->query("INSERT INTO " . $this->db->table("pages_layouts") . " (layout_id,page_id)
 								VALUES ('" . ( int )$this->layout_id . "','" . ( int )$this->page_id . "')");
 		} else {
 			#delete existing layout data if provided cannot delete based on $this->layout_id (done on purpose for confirmation)
@@ -785,10 +789,10 @@ class ALayoutManager {
 			return false;
 		}
 
-		$this->db->query("DELETE FROM " . DB_PREFIX . "layouts WHERE layout_id = '" . (int)$layout_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "pages WHERE page_id = '" . (int)$page_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "page_descriptions WHERE page_id = '" . (int)$page_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "pages_layouts WHERE layout_id = '" . (int)$layout_id . "' AND page_id = '".(int)$page_id."'");
+		$this->db->query("DELETE FROM " . $this->db->table("layouts") . " WHERE layout_id = '" . (int)$layout_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("pages") . " WHERE page_id = '" . (int)$page_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("page_descriptions") . " WHERE page_id = '" . (int)$page_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("pages_layouts") . " WHERE layout_id = '" . (int)$layout_id . "' AND page_id = '".(int)$page_id."'");
 		$this->deleteAllLayoutBlocks($layout_id);
 
 		$this->cache->delete('layout');
@@ -820,7 +824,7 @@ class ALayoutManager {
 	 */
 	public function saveLayoutBlocks($data, $instance_id = 0) {
 		if (!$instance_id) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "block_layouts (layout_id,block_id,custom_block_id,parent_instance_id,position,status,date_added,date_modified)
+			$this->db->query("INSERT INTO " . $this->db->table("block_layouts") . " (layout_id,block_id,custom_block_id,parent_instance_id,position,status,date_added,date_modified)
 										VALUES ('" . ( int )$data ['layout_id'] . "',
 												'" . ( int )$data ['block_id'] . "',
 												'" . ( int )$data ['custom_block_id'] . "',
@@ -832,7 +836,7 @@ class ALayoutManager {
 
 			$instance_id = $this->db->getLastId();
 		} else {
-			$this->db->query("UPDATE " . DB_PREFIX . "block_layouts
+			$this->db->query("UPDATE " . $this->db->table("block_layouts") . " 
 										 SET layout_id = '" . ( int )$data ['layout_id'] . "',
 												block_id = '" . ( int )$data ['block_id'] . "',
 												custom_block_id = '" . ( int )$data ['custom_block_id'] . "',
@@ -860,7 +864,7 @@ class ALayoutManager {
 		if (!$parent_instance_id && !$layout_id) {
 			throw new AException (AC_ERR_LOAD, 'Error: Cannot to delete layout block, parent_instance_id "' . $parent_instance_id . '" and layout_id "' . $layout_id . '" doesn\'t exists.');
 		} else {
-			$this->db->query("DELETE FROM " . DB_PREFIX . "block_layouts
+			$this->db->query("DELETE FROM " . $this->db->table("block_layouts") . " 
 								WHERE layout_id = '" . ( int )$layout_id . "' AND parent_instance_id = '" . ( int )$parent_instance_id . "'");
 
 			$this->cache->delete('layout.a.blocks');
@@ -879,7 +883,7 @@ class ALayoutManager {
 		if (!$layout_id) {
 			throw new AException (AC_ERR_LOAD, 'Error: Cannot to delete layout blocks. Missing layout ID!');
 		} else {
-			$this->db->query("DELETE FROM " . DB_PREFIX . "block_layouts WHERE layout_id = '" . ( int )$layout_id . "'");
+			$this->db->query("DELETE FROM " . $this->db->table("block_layouts") . " WHERE layout_id = '" . ( int )$layout_id . "'");
 			$this->cache->delete('layout.a.blocks');
 			$this->cache->delete('layout.blocks');
 		}
@@ -893,18 +897,16 @@ class ALayoutManager {
 	 */
 	public function saveLayout($data, $layout_id = 0) {
 		if (!$layout_id) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "layouts (template_id,store_id,layout_name,layout_type,date_added,date_modified)
+			$this->db->query("INSERT INTO " . $this->db->table("layouts") . " (template_id,layout_name,layout_type,date_added,date_modified)
 								VALUES ('" . $this->db->escape($data ['template_id']) . "',
-										'" . ( int )$data ['store_id'] . "',
 										'" . $this->db->escape($data ['layout_name']) . "',
 										'" . ( int )$data ['layout_type'] . "',
 										NOW(),
 										NOW())");
 			$layout_id = $this->db->getLastId();
 		} else {
-			$this->db->query("UPDATE " . DB_PREFIX . "layouts
+			$this->db->query("UPDATE " . $this->db->table("layouts") . " 
 								SET template_id = '" . ( int )$data ['template_id'] . "',
-									store_id = '" . ( int )$data ['store_id'] . "',
 									layout_name = '" . $this->db->escape($data ['layout_name']) . "',
 									layout_type = '" . ( int )$data ['layout_type'] . "',
 									date_modified = NOW()
@@ -935,18 +937,17 @@ class ALayoutManager {
 				b.block_txt_id as block_txt_id,
 				b.controller as controller,
 				(SELECT group_concat(template separator ',')
-					 FROM " . DB_PREFIX . "block_templates
+					 FROM " . $this->db->table("block_templates") . " 
 				 WHERE block_id='" . $block_id . "') as templates,
 				b.date_added as block_date_added,
 				l.layout_id,
 				l.layout_name,
-				l.store_id,
 				l.template_id,
 				pl.page_id
-			FROM " . DB_PREFIX . "blocks as b
-			LEFT JOIN " . DB_PREFIX . "block_layouts bl ON bl.block_id=b.block_id
-			LEFT JOIN " . DB_PREFIX . "layouts l ON l.layout_id = bl.layout_id
-			LEFT JOIN " . DB_PREFIX . "pages_layouts pl ON pl.layout_id = l.layout_id
+			FROM " . $this->db->table("blocks") . " as b
+			LEFT JOIN " . $this->db->table("block_layouts") . " bl ON bl.block_id=b.block_id
+			LEFT JOIN " . $this->db->table("layouts") . " l ON l.layout_id = bl.layout_id
+			LEFT JOIN " . $this->db->table("pages_layouts") . " pl ON pl.layout_id = l.layout_id
 			WHERE b.block_id='" . $block_id . "' " . $where . " 
 			ORDER BY bl.layout_id ASC";
 
@@ -963,7 +964,7 @@ class ALayoutManager {
 		if (!$block_id) return array();
 
 		$sql = "SELECT template
-				FROM " . DB_PREFIX . "block_templates
+				FROM " . $this->db->table("block_templates") . " 
 				WHERE block_id='" . $block_id . "'";
 		$result = $this->db->query($sql);
 		return $result->rows;
@@ -976,7 +977,7 @@ class ALayoutManager {
 	 */
 	public function savePage($data, $page_id = 0) {
 		if (!$page_id) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "pages (   parent_page_id,
+			$this->db->query("INSERT INTO " . $this->db->table("pages") . " (   parent_page_id,
 																	controller,
 																	key_param,
 																	key_value,
@@ -993,7 +994,7 @@ class ALayoutManager {
 
 
 		} else {
-			$this->db->query("UPDATE " . DB_PREFIX . "pages
+			$this->db->query("UPDATE " . $this->db->table("pages") . " 
 								SET parent_page_id = '" . ( int )$data ['parent_page_id'] . "',
 									controller = '" . $this->db->escape($data ['controller']) . "',
 									key_param = '" . $this->db->escape($data ['key_param']) . "',
@@ -1002,7 +1003,7 @@ class ALayoutManager {
 								WHERE page_id = '" . ( int )$page_id . "'");
 
 			// clear all page descriptions before write
-			$this->db->query("DELETE FROM " . DB_PREFIX . "page_descriptions WHERE page_id = '" . ( int )$page_id . "'");
+			$this->db->query("DELETE FROM " . $this->db->table("page_descriptions") . " WHERE page_id = '" . ( int )$page_id . "'");
 
 		}
 
@@ -1047,7 +1048,7 @@ class ALayoutManager {
 		}
 
 		if (!$block_id) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "blocks (block_txt_id,
+			$this->db->query("INSERT INTO " . $this->db->table("blocks") . " (block_txt_id,
 																	 controller,
 																	 date_added,
 																	 date_modified)
@@ -1066,7 +1067,7 @@ class ALayoutManager {
 						$tmpl['parent_block_id'] = $parent['block_id'];
 					}
 
-					$this->db->query("INSERT INTO " . DB_PREFIX . "block_templates (block_id,parent_block_id,template,date_added,date_modified)
+					$this->db->query("INSERT INTO " . $this->db->table("block_templates") . " (block_id,parent_block_id,template,date_added,date_modified)
 										VALUES ('" . ( int )$block_id . "',
 												'" . ( int )$tmpl ['parent_block_id'] . "',
 												'" . $this->db->escape($tmpl ['template']) . "',
@@ -1076,7 +1077,7 @@ class ALayoutManager {
 			}
 		} else {
 			if ($data ['controller']) {
-				$this->db->query("UPDATE " . DB_PREFIX . "blocks
+				$this->db->query("UPDATE " . $this->db->table("blocks") . " 
 										SET block_txt_id = '" . $this->db->escape($data ['block_txt_id']) . "',
 											controller = '" . $this->db->escape($data ['controller']) . "',
 											date_modified = NOW()
@@ -1092,7 +1093,7 @@ class ALayoutManager {
 						$parent = $this->getBlockByTxtId($tmpl ['parent_block_txt_id']);
 						$tmpl['parent_block_id'] = $parent['block_id'];
 					}
-					$this->db->query("INSERT INTO " . DB_PREFIX . "block_templates (block_id,
+					$this->db->query("INSERT INTO " . $this->db->table("block_templates") . " (block_id,
 																					  parent_block_id,
 																					  template,
 																					  date_added,
@@ -1176,7 +1177,7 @@ class ALayoutManager {
 				$this->errors = 'Error: Can\'t save custom block, because block_id is empty!';
 				return false;
 			}
-			$this->db->query("INSERT INTO " . DB_PREFIX . "custom_blocks (block_id, date_added) VALUES ( '" . $block_id . "', NOW())");
+			$this->db->query("INSERT INTO " . $this->db->table("custom_blocks") . " (block_id, date_added) VALUES ( '" . $block_id . "', NOW())");
 			$custom_block_id = $this->db->getLastId();
 
 			$this->language->replaceDescriptions('block_descriptions',
@@ -1214,8 +1215,8 @@ class ALayoutManager {
 
 		$output = array();
 		$sql = "SELECT bd.*, COALESCE(bl.status,0) as status
-				FROM " . DB_PREFIX . "block_descriptions bd
-				LEFT JOIN " . DB_PREFIX . "block_layouts bl ON bl.custom_block_id = bd.custom_block_id
+				FROM " . $this->db->table("block_descriptions") . " bd
+				LEFT JOIN " . $this->db->table("block_layouts") . " bl ON bl.custom_block_id = bd.custom_block_id
 				WHERE bd.custom_block_id = '" . ( int )$custom_block_id . "'";
 		$result = $this->db->query($sql);
 		if ($result->num_rows) {
@@ -1253,15 +1254,15 @@ class ALayoutManager {
 		}
 		//check for link with layouts
 		$usage = $this->db->query("SELECT *
-									 FROM " . DB_PREFIX . "block_layouts
+									 FROM " . $this->db->table("block_layouts") . " 
 									 WHERE custom_block_id = '" . ( int )$custom_block_id . "'");
 		if ($usage->num_rows) {
 			return false;
 		}
 
-		$this->db->query("DELETE FROM " . DB_PREFIX . "block_descriptions
+		$this->db->query("DELETE FROM " . $this->db->table("block_descriptions") . " 
 								WHERE custom_block_id = '" . ( int )$custom_block_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "custom_blocks
+		$this->db->query("DELETE FROM " . $this->db->table("custom_blocks") . " 
 								WHERE custom_block_id = '" . ( int )$custom_block_id . "'");
 
 		$this->cache->delete('layout.a.blocks');
@@ -1280,7 +1281,7 @@ class ALayoutManager {
 		if (!$block_id) {
 			throw new AException (AC_ERR_LOAD, 'Error: Cannot to delete block template, block_id "' . $block_id . '" doesn\'t exists.');
 		} else {
-			$sql = "DELETE FROM " . DB_PREFIX . "block_templates WHERE block_id = '" . ( int )$block_id . "'";
+			$sql = "DELETE FROM " . $this->db->table("block_templates") . " WHERE block_id = '" . ( int )$block_id . "'";
 			if ($parent_block_id) {
 				$sql .= " AND parent_block_id = '" . ( int )$parent_block_id . "'";
 			}
@@ -1305,13 +1306,13 @@ class ALayoutManager {
 		}
 
 		if ($block_id) {
-			$this->db->query("DELETE FROM " . DB_PREFIX . "block_templates
+			$this->db->query("DELETE FROM " . $this->db->table("block_templates") . " 
 								WHERE block_id = '" . ( int )$block_id . "'");
-			$this->db->query("DELETE FROM " . DB_PREFIX . "custom_blocks
+			$this->db->query("DELETE FROM " . $this->db->table("custom_blocks") . " 
 								WHERE block_id = '" . ( int )$block_id . "'");
-			$this->db->query("DELETE FROM " . DB_PREFIX . "block_layouts
+			$this->db->query("DELETE FROM " . $this->db->table("block_layouts") . " 
 								WHERE block_id = '" . ( int )$block_id . "'");
-			$this->db->query("DELETE FROM " . DB_PREFIX . "blocks
+			$this->db->query("DELETE FROM " . $this->db->table("blocks") . " 
 								WHERE block_id = '" . ( int )$block_id . "'");
 
 			$this->cache->delete('layout.a.blocks');
@@ -1332,25 +1333,24 @@ class ALayoutManager {
 			return false;
 		}
 
-		$sql = "SELECT * FROM " . DB_PREFIX . "layouts WHERE template_id = '" . $this->tmpl_id . "' ";
+		$sql = "SELECT * FROM " . $this->db->table("layouts") . " WHERE template_id = '" . $this->tmpl_id . "' ";
 		$result = $this->db->query($sql);
 		foreach ($result->rows as $layout) {
 			//clone layout
 			$new_layout = array(
 				'template_id' => $new_template,
-				'store_id' => $layout['store_id'],
 				'layout_name' => $layout['layout_name'],
 				'layout_type' => $layout['layout_type'],
 			);
 			$layout_id = $this->saveLayout($new_layout);
 
 			$sql = "SELECT *
-					FROM " . DB_PREFIX . "pages_layouts
+					FROM " . $this->db->table("pages_layouts") . " 
 					WHERE layout_id = '" . $layout['layout_id'] . "' ";
 			$result_pages = $this->db->query($sql);
 			foreach ($result_pages->rows as $page) {
 				//connect it to page
-				$this->db->query("INSERT INTO " . DB_PREFIX . "pages_layouts (layout_id,page_id)
+				$this->db->query("INSERT INTO " . $this->db->table("pages_layouts") . " (layout_id,page_id)
 									VALUES ('" . ( int )$layout_id . "','" . ( int )$page['page_id'] . "')");
 			}
 
@@ -1401,15 +1401,15 @@ class ALayoutManager {
 	 */
 	public function deleteTemplateLayouts() {
 		$sql = "SELECT *
-				FROM " . DB_PREFIX . "layouts
+				FROM " . $this->db->table("layouts") . " 
 				WHERE template_id = '" . $this->tmpl_id . "' ";
 		$result = $this->db->query($sql);
 		foreach ($result->rows as $layout) {
-			$this->db->query("DELETE FROM " . DB_PREFIX . "layouts
+			$this->db->query("DELETE FROM " . $this->db->table("layouts") . " 
 								WHERE layout_id = '" . $layout['layout_id'] . "' ");
-			$this->db->query("DELETE FROM " . DB_PREFIX . "pages_layouts
+			$this->db->query("DELETE FROM " . $this->db->table("pages_layouts") . " 
 								WHERE layout_id = '" . $layout['layout_id'] . "' ");
-			$this->db->query("DELETE FROM " . DB_PREFIX . "block_layouts
+			$this->db->query("DELETE FROM " . $this->db->table("block_layouts") . " 
 								WHERE layout_id = '" . $layout['layout_id'] . "' ");
 		}
 		$this->cache->delete('layout');
@@ -1480,8 +1480,8 @@ class ALayoutManager {
 							pd.keywords,
 							pd.description,
 							pd.content
-					FROM " . DB_PREFIX . "pages p " . "
-					LEFT JOIN " . DB_PREFIX . "page_descriptions pd ON (p.page_id = pd.page_id AND pd.language_id = '" . (int)$language_id . "' )
+					FROM " . $this->db->table("pages") . " p " . "
+					LEFT JOIN " . $this->db->table("page_descriptions") . " pd ON (p.page_id = pd.page_id AND pd.language_id = '" . (int)$language_id . "' )
 					WHERE p.page_id = '" . $page_id . "'";
 			$query = $this->db->query($sql);
 			$this->pages[] = $query->row;
@@ -1528,7 +1528,7 @@ class ALayoutManager {
 
 			//check if layout with same name exists
 			$sql = "SELECT layout_id
-					FROM " . DB_PREFIX . "layouts
+					FROM " . $this->db->table("layouts") . " 
 					WHERE layout_name='" . $this->db->escape($layout->name) . "'
 						AND template_id='" . $this->db->escape($layout->template_id) . "'";
 			$result = $this->db->query($sql);
@@ -1545,11 +1545,11 @@ class ALayoutManager {
 
 				if ($layout_id) {
 					$sql = array();
-					$sql[] = "DELETE FROM " . DB_PREFIX . "pages_layouts
+					$sql[] = "DELETE FROM " . $this->db->table("pages_layouts") . " 
 							   WHERE layout_id = '" . $layout_id . "'";
-					$sql[] = "DELETE FROM " . DB_PREFIX . "block_layouts
+					$sql[] = "DELETE FROM " . $this->db->table("block_layouts") . " 
 							   WHERE  layout_id = '" . $layout_id . "'";
-					$sql[] = "DELETE FROM " . DB_PREFIX . "layouts
+					$sql[] = "DELETE FROM " . $this->db->table("layouts") . " 
 							   WHERE layout_id= " . $layout_id;
 					foreach ($sql as $query) {
 						$this->db->query($query);
@@ -1566,26 +1566,10 @@ class ALayoutManager {
 					continue;
 				}
 
-				// if store name provided
-				if (( string )$layout->store_name) {
-					$sql = "SELECT store_id
-							FROM " . DB_PREFIX . "stores
-							WHERE store_name='" . $this->db->escape($layout->store_name) . "'";
-					$result = $this->db->query($sql);
-					$store_id = $result->row ['store_id'];
-
-					if (!$store_id) {
-						$this->error [] = 'Can\'t find store with name "' . $layout->store_name . '" for layout "' . $layout->name . '". Use default store.';
-					}
-				} else {
-					$store_id = 0;
-				}
-
 				// check layout type
 				$layout_type = $this->_getIntLayoutTypeByText((string)$layout->type);
-				$sql = "INSERT INTO " . DB_PREFIX . "layouts (template_id,store_id,layout_name,layout_type,date_added,date_modified)
+				$sql = "INSERT INTO " . $this->db->table("layouts") . " (template_id,layout_name,layout_type,date_added,date_modified)
 						VALUES ('" . $this->db->escape($layout->template_id) . "',
-								'" . ( int )$store_id . "',
 								'" . $this->db->escape($layout->name) . "',
 								'" . $layout_type . "',NOW(),NOW())";
 				$this->db->query($sql);
@@ -1607,29 +1591,16 @@ class ALayoutManager {
 					continue;
 				}
 
-				// if store name provided
-				$store_id = '';
-				if (( string )$layout->store_name) {
-					$sql = "SELECT store_id
-							FROM " . DB_PREFIX . "stores
-							WHERE store_name='" . $this->db->escape($layout->store_name) . "'";
-					$result = $this->db->query($sql);
-					$store_id = $result->row ['store_id'];
-
-					if (!$store_id) {
-						$this->error [] = 'Can\'t find store with name "' . $layout->store_name . '" for layout "' . $layout->name . '". Use default store.';
-					}
-				}
-
 				// check layout type
 				$layout_type = $this->_getIntLayoutTypeByText((string)$layout->type);
 
-				$sql = "UPDATE " . DB_PREFIX . "layouts SET template_id = '" . $this->db->escape($layout->template_id) . "',
-															store_id = '" . ( int )$store_id . "',
-															layout_name = '" . $this->db->escape($layout->name) . "',
-															layout_type = '" . $layout_type . "',
-															date_added = NOW()
-															WHERE layout_id='" . $layout_id . "'";
+				$sql = "UPDATE " . $this->db->table("layouts") . " 
+						SET 
+							template_id = '" . $this->db->escape($layout->template_id) . "',
+							layout_name = '" . $this->db->escape($layout->name) . "',
+							layout_type = '" . $layout_type . "',
+							date_added = NOW() 
+						WHERE layout_id='" . $layout_id . "'";
 				$this->db->query($sql);
 
 				// write pages section
@@ -1667,7 +1638,7 @@ class ALayoutManager {
 	private function _processPage($layout_id, $page) {
 
 		$sql = "SELECT p.page_id
-				FROM " . DB_PREFIX . "pages p
+				FROM " . $this->db->table("pages") . " p
 				WHERE controller='" . $this->db->escape($page->controller) . "'
 						AND key_param = '" . $this->db->escape($page->key_param) . "'
 						AND key_value = '" . $this->db->escape($page->key_value) . "'";
@@ -1677,22 +1648,22 @@ class ALayoutManager {
 
 		if ($page_id) {
 			$sql = "SELECT layout_id
-					FROM " . DB_PREFIX . "pages_layouts
+					FROM " . $this->db->table("pages_layouts") . " 
 					WHERE page_id = '" . $page_id . "' AND layout_id= '" . $layout_id . "'";
 			$result = $this->db->query($sql);
 			if (!( int )$result->row ['layout_id']) {
-				$sql = "INSERT INTO " . DB_PREFIX . "pages_layouts (layout_id,page_id) VALUES ('" . ( int )$layout_id . "','" . ( int )$page_id . "')";
+				$sql = "INSERT INTO " . $this->db->table("pages_layouts") . " (layout_id,page_id) VALUES ('" . ( int )$layout_id . "','" . ( int )$page_id . "')";
 				$this->db->query($sql);
 			}
 		} else { // if page new
-			$sql = "INSERT INTO " . DB_PREFIX . "pages (parent_page_id, controller, key_param, key_value, date_added)
+			$sql = "INSERT INTO " . $this->db->table("pages") . " (parent_page_id, controller, key_param, key_value, date_added)
 					VALUES ('0',
 							'" . $this->db->escape($page->controller) . "',
 							'" . $this->db->escape($page->key_param) . "',
 							'" . $this->db->escape($page->key_value) . "',NOW())";
 			$this->db->query($sql);
 			$page_id = $this->db->getLastId();
-			$sql = "INSERT INTO " . DB_PREFIX . "pages_layouts (layout_id,page_id)
+			$sql = "INSERT INTO " . $this->db->table("pages_layouts") . " (layout_id,page_id)
 					VALUES ('" . ( int )$layout_id . "','" . ( int )$page_id . "')";
 			$this->db->query($sql);
 		}
@@ -1700,7 +1671,7 @@ class ALayoutManager {
 		if ($page->page_descriptions->page_description) {
 			foreach ($page->page_descriptions->page_description as $page_description) {
 				$page_description->language = mb_strtolower($page_description->language, 'UTF-8');
-				$query = "SELECT language_id FROM " . DB_PREFIX . "languages 
+				$query = "SELECT language_id FROM " . $this->db->table("languages") . " 
 											WHERE LOWER(name) = '" . $this->db->escape($page_description->language) . "'";
 				$result = $this->db->query($query);
 				$language_id = $result->row ? $result->row ['language_id'] : 0;
@@ -1745,7 +1716,7 @@ class ALayoutManager {
 
 		//get block_id
 		$sql = "SELECT block_id
-				FROM " . DB_PREFIX . "blocks
+				FROM " . $this->db->table("blocks") . " 
 				WHERE block_txt_id = '" . $this->db->escape($block->block_txt_id) . "'";
 		$result = $this->db->query($sql);
 		$block_id = ( int )$result->row ['block_id'];
@@ -1758,19 +1729,19 @@ class ALayoutManager {
 		if ($action == 'delete') {
 			//Delete block and unlink from all layouts					
 			$sql = array();
-			$sql[] = "DELETE FROM " . DB_PREFIX . "block_layouts
+			$sql[] = "DELETE FROM " . $this->db->table("block_layouts") . " 
 					   WHERE block_id='" . $block_id . "' AND layout_id='" . $layout_id . "'";
 			// check if block used by another layouts					
 			$query = "SELECT *
-					  FROM " . DB_PREFIX . "block_layouts
+					  FROM " . $this->db->table("block_layouts") . " 
 					  WHERE block_id='" . $block_id . "' AND layout_id<>'" . $layout_id . "'";
 			$result = $this->db->query($query);
 			if (!$result->row) {
 				/*	$sql [] = "DELETE FROM " . DB_PREFIX . "block_descriptions
 							   WHERE block_id='" . $block_id . "'";*/
-				$sql[] = "DELETE FROM " . DB_PREFIX . "block_templates
+				$sql[] = "DELETE FROM " . $this->db->table("block_templates") . " 
 						   WHERE block_id='" . $block_id . "'";
-				$sql[] = "DELETE FROM " . DB_PREFIX . "blocks
+				$sql[] = "DELETE FROM " . $this->db->table("blocks") . " 
 						   WHERE block_id='" . $block_id . "'";
 			}
 			foreach ($sql as $query) {
@@ -1789,7 +1760,7 @@ class ALayoutManager {
 			}
 
 			// if not exists - insert and get it's block_id
-			$sql = "INSERT INTO " . DB_PREFIX . "blocks (block_txt_id, controller,date_added) 
+			$sql = "INSERT INTO " . $this->db->table("blocks") . " (block_txt_id, controller,date_added) 
 					VALUES ('" . $this->db->escape($block->block_txt_id) . "', '" . $this->db->escape($block->controller) . "',NOW())";
 			$this->db->query($sql);
 			$block_id = $this->db->getLastId();
@@ -1798,13 +1769,13 @@ class ALayoutManager {
 			// if parent block exists
 			if ($parent_instance_id && !$position) {
 				$sql = "SELECT MAX(position) as maxpos
-						FROM " . DB_PREFIX . "block_layouts
+						FROM " . $this->db->table("block_layouts") . " 
 						WHERE  parent_instance_id = " . ( int )$parent_instance_id;
 				$result = $this->db->query($sql);
 				$position = $result->row ['maxpos'] + 10;
 			}
 			$position = !$position ? 10 : $position;
-			$sql = "INSERT INTO " . DB_PREFIX . "block_layouts (layout_id,
+			$sql = "INSERT INTO " . $this->db->table("block_layouts") . " (layout_id,
 																block_id,
 																parent_instance_id,
 																position,
@@ -1840,12 +1811,12 @@ class ALayoutManager {
 				foreach ($block->templates->template as $block_template) {
 					// parent block_id by parent_name
 					$query = "SELECT block_id
-							  FROM " . DB_PREFIX . "blocks
+							  FROM " . $this->db->table("blocks") . " 
 							  WHERE block_txt_id = '" . $this->db->escape($block_template->parent_block) . "'";
 					$result = $this->db->query($query);
 					$parent_block_id = $result->row ['block_id'];
 
-					$sql[] = "INSERT INTO " . DB_PREFIX . "block_templates (block_id,parent_block_id,template,date_added)
+					$sql[] = "INSERT INTO " . $this->db->table("block_templates") . " (block_id,parent_block_id,template,date_added)
 							   VALUES ('" . ( int )$block_id . "',
 										'" . ( int )$parent_block_id . "',
 										'" . $this->db->escape($block_template->template_name) . "',NOW())";
@@ -1860,7 +1831,7 @@ class ALayoutManager {
 
 
 			if ($block_id) {
-				$sql = "UPDATE " . DB_PREFIX . "blocks 
+				$sql = "UPDATE " . $this->db->table("blocks") . " 
 						SET controller = '" . $this->db->escape($block->controller) . "' 
 						WHERE block_id='" . $block_id . "'";
 				$this->db->query($sql);
@@ -1896,13 +1867,13 @@ class ALayoutManager {
 					foreach ($block->templates->template as $block_template) {
 						// parent block_id by parent_name
 						$query = "SELECT block_id
-								  FROM " . DB_PREFIX . "blocks
+								  FROM " . $this->db->table("blocks") . " 
 								  WHERE block_txt_id = '" . $this->db->escape($block_template->parent_block) . "'";
 						$result = $this->db->query($query);
 						$parent_block_id = $result->row ? $result->row ['block_id'] : 0;
 
 						$query = "SELECT block_id
-								  FROM " . DB_PREFIX . "block_templates
+								  FROM " . $this->db->table("block_templates") . " 
 								  WHERE block_id = '" . $block_id . "'
 									  AND parent_block_id = '" . $parent_block_id . "'";
 						$result = $this->db->query($query);
@@ -1915,12 +1886,12 @@ class ALayoutManager {
 						}
 
 						if ($exists) {
-							$sql[] = "UPDATE " . DB_PREFIX . "block_templates
+							$sql[] = "UPDATE " . $this->db->table("block_templates") . " 
 									   SET parent_block_id = '" . ( int )$parent_block_id . "',
 										   template = '" . $this->db->escape($block_template->template_name) . "'
 									   WHERE block_id='" . $block_id . "' AND parent_block_id='" . $parent_block_id . "'";
 						} else {
-							$sql[] = "INSERT INTO " . DB_PREFIX . "block_templates (block_id,parent_block_id,template,date_added)
+							$sql[] = "INSERT INTO " . $this->db->table("block_templates") . " (block_id,parent_block_id,template,date_added)
 										VALUES ('" . ( int )$block_id . "',
 												'" . ( int )$parent_block_id . "',
 												'" . $this->db->escape($block_template->template_name) . "',NOW())";
@@ -1934,7 +1905,7 @@ class ALayoutManager {
 
 				// and finally relate block with layout						
 				$query = "SELECT *
-							FROM " . DB_PREFIX . "block_layouts
+							FROM " . $this->db->table("block_layouts") . " 
 							WHERE layout_id = '" . ( int )$layout_id . "'
 									AND block_id = '" . ( int )$block_id . "'
 									AND parent_instance_id = '" . ( int )$parent_instance_id . "'";
@@ -1948,13 +1919,13 @@ class ALayoutManager {
 					// if parent block exists
 					if ($parent_instance_id && !$position) {
 						$sql = "SELECT MAX(position) as maxpos
-								FROM " . DB_PREFIX . "block_layouts
+								FROM " . $this->db->table("block_layouts") . " 
 								WHERE  parent_instance_id = " . ( int )$parent_instance_id;
 						$result = $this->db->query($sql);
 						$position = $result->row ['maxpos'] + 10;
 					}
 					$position = !$position ? 10 : $position;
-					$query = "INSERT INTO " . DB_PREFIX . "block_layouts
+					$query = "INSERT INTO " . $this->db->table("block_layouts") . " 
 									(layout_id,
 									block_id,
 									parent_instance_id,
@@ -1993,7 +1964,7 @@ class ALayoutManager {
 
 		//get block_id of custom block by block type(base block_txt_id)
 		$sql = "SELECT block_id
-				FROM " . DB_PREFIX . "blocks
+				FROM " . $this->db->table("blocks") . " 
 				WHERE block_txt_id = '" . $this->db->escape($block->type) . "'";
 		$result = $this->db->query($sql);
 		$block_id = ( int )$result->row ['block_id'];
@@ -2027,17 +1998,17 @@ class ALayoutManager {
 			}
 			//Delete block and unlink from all layouts
 			$sql = array();
-			$sql[] = "DELETE FROM " . DB_PREFIX . "block_layouts
+			$sql[] = "DELETE FROM " . $this->db->table("block_layouts") . " 
 					   WHERE block_id='" . $block_id . "' AND layout_id='" . $layout_id . "' AND custom_block_id='" . $custom_block_id . "'";
 			// check if block used by another layouts
 			$query = "SELECT *
-					  FROM " . DB_PREFIX . "block_layouts
+					  FROM " . $this->db->table("block_layouts") . " 
 					  WHERE block_id='" . $block_id . "' AND layout_id<>'" . $layout_id . "' AND custom_block_id='" . $custom_block_id . "'";
 			$result = $this->db->query($query);
 			if (!$result->row) {
-				$sql[] = "DELETE FROM " . DB_PREFIX . "block_descriptions
+				$sql[] = "DELETE FROM " . $this->db->table("block_descriptions") . " 
 						   WHERE block_id='" . $custom_block_id . "'";
-				$sql[] = "DELETE FROM " . DB_PREFIX . "custom_blocks
+				$sql[] = "DELETE FROM " . $this->db->table("custom_blocks") . " 
 						   WHERE custom_block_id='" . $custom_block_id . "'";
 			}
 			foreach ($sql as $query) {
@@ -2051,7 +2022,7 @@ class ALayoutManager {
 			} else {
 				if (!$custom_block_id) {
 					// if block is new
-					$sql = "INSERT INTO " . DB_PREFIX . "custom_blocks (block_id, date_added)
+					$sql = "INSERT INTO " . $this->db->table("custom_blocks") . " (block_id, date_added)
 								VALUES ('" . $block_id . "', NOW())";
 					$this->db->query($sql);
 					$custom_block_id = $this->db->getLastId();
@@ -2071,11 +2042,11 @@ class ALayoutManager {
 
 			foreach ($parent_inst as $par_inst) {
 				$sql = "SELECT MAX(position) as maxpos
-						FROM " . DB_PREFIX . "block_layouts
+						FROM " . $this->db->table("block_layouts") . " 
 						WHERE  parent_instance_id = " . ( int )$par_inst;
 				$result = $this->db->query($sql);
 				$position = $result->row ['maxpos'] + 10;
-				$sql = "INSERT INTO " . DB_PREFIX . "block_layouts (layout_id,
+				$sql = "INSERT INTO " . $this->db->table("block_layouts") . " (layout_id,
 																	block_id,
 																	custom_block_id,
 																	parent_instance_id,
@@ -2135,7 +2106,7 @@ class ALayoutManager {
 	private function _getLanguageIdByName($language_name = '') {
 		$language_name = mb_strtolower($language_name, 'UTF-8');
 		$query = "SELECT language_id
-				  FROM " . DB_PREFIX . "languages
+				  FROM " . $this->db->table("languages") . " 
 				  WHERE LOWER(filename) = '" . $this->db->escape($language_name) . "'";
 		$result = $this->db->query($query);
 		return $result->row ? $result->row ['language_id'] : 0;
@@ -2155,9 +2126,9 @@ class ALayoutManager {
 
 
 		$sql = "SELECT instance_id
-				FROM " . DB_PREFIX . "block_layouts
+				FROM " . $this->db->table("block_layouts") . " 
 				WHERE layout_id = '" . $layout_id . "' AND block_id = ( SELECT block_id
-																	FROM " . DB_PREFIX . "blocks
+																	FROM " . $this->db->table("blocks") . " 
 																	WHERE block_txt_id='" . $block_txt_id . "')";
 		$result = $this->db->query($sql);
 		return $result->row ['instance_id'];

@@ -124,7 +124,6 @@ class ControllerPagesDesignLayout extends AController {
     $layout_data['layoutform'] = $layoutform->dispatchGetOutput();
 
     $this->view->batchAssign($layout_data);
-	//$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
     $this->processTemplate('pages/design/layout.tpl');
     //update controller data
     $this->extensions->hk_UpdateData($this,__FUNCTION__);
