@@ -627,7 +627,7 @@ class ControllerPagesCatalogCategory extends AController {
 		// insert external form of layout
 		$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
 	
-	    $layoutform = $this->dispatch('common/page_layout', array(null,$layout));
+	    $layoutform = $this->dispatch('common/page_layout', array($layout));
 	    $this->data['layoutform'] = $layoutform->dispatchGetOutput();
 		
 		//build pages and available layouts for clonning

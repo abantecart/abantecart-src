@@ -216,27 +216,26 @@ final class ADispatcher {
 		
 		//check if we have missing class or everithing  
         if ( empty($this->class) && has_value($this->file) ) {
-        	#Build back trace of calling functions to provide more details
+			#Build back trace of calling functions to provide more details
 			$backtrace = debug_backtrace();
 			$function_stack = '';
 			if ( is_object($parent_controller) && strlen($parent_controller->rt()) > 1 ) {
 				$function_stack = 'Parent Controller: ' . $parent_controller->rt() . ' | ';
 			}
-		
-        	for ($i=1; $i < count($backtrace); $i++) {
-        		$function_stack .= ' < ' . $backtrace[$i]['function'];
-        	}
-		$url = $this->request->server['REQUEST_URI'];
 
-	        $error = new AError('Error: URL: '.$url.' Could not load controller ' . $this->controller . '! Call stack: ' . $function_stack . '', AC_ERR_CLASS_CLASS_NOT_EXIST );
-            	$error->toLog()->toDebug();
-            	$error->toMessages();
-	        return null;
+			for ($i=1; $i < count($backtrace); $i++) {
+				$function_stack .= ' < ' . $backtrace[$i]['function'];
+			}
+			$url = $this->request->server['REQUEST_URI'];
+			$error = new AError('Error: URL: '.$url.' Could not load controller ' . $this->controller . '! Call stack: ' . $function_stack . '', AC_ERR_CLASS_CLASS_NOT_EXIST );
+			$error->toLog()->toDebug();
+			$error->toMessages();
+			return null;
         } else if ( empty($this->file) && empty($this->class) || empty($this->method)) {
-		$warning_txt = 'ADispatch: skipping unavailable controller …';
-		$warning = new AWarning( $warning_txt );
-		$warning->toDebug(); 
-		return null;
+			$warning_txt = 'ADispatch: skipping unavailable controller …';
+			$warning = new AWarning( $warning_txt );
+			$warning->toDebug(); 
+			return null;
         }
 
         //check for controller.pre

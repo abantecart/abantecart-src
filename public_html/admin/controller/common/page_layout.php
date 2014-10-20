@@ -46,8 +46,7 @@ class ControllerCommonPageLayout extends AController {
     $this->session->data['content_language_id'] = $this->config->get('storefront_language_id');
 
     // build layout data from passed layout object
-    $settings = func_get_arg(0);
-    $layout = func_get_arg(1);
+    $layout = func_get_arg(0);
     
     $this->installed_blocks = $layout->getInstalledBlocks();
     $layout_main_blocks = $layout->getLayoutBlocks();

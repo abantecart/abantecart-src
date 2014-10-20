@@ -88,7 +88,9 @@ final class ALoader {
 			include_once($file);
 			$this->registry->set('model_' . str_replace('/', '_', $model), new $class($this->registry));
 		} else if ( $mode != 'silent' ) {
-			throw new AException(AC_ERR_LOAD, 'Error: Could not load model ' . $model . ' from ' . $file);
+			$backtrace = debug_backtrace();
+		 	$file_info =  $backtrace[ 0 ][ 'file' ] . ' on line ' . $backtrace[ 0 ][ 'line' ];
+			throw new AException(AC_ERR_LOAD, 'Error: Could not load model ' . $model . ' from ' . $file_info);
 		}else{
             return false;
         }

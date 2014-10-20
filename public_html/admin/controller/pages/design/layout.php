@@ -36,6 +36,7 @@ class ControllerPagesDesignLayout extends AController {
     $page_id = $this->request->get['page_id'];
     $layout_id = $this->request->get['layout_id'];
 
+	//Note yet implemented
     if (isset($this->request->get['preview_id'])) {
       $preview_id = $this->request->get['preview_id'];
       $layout_data['preview_id'] = $preview_id;
@@ -119,11 +120,11 @@ class ControllerPagesDesignLayout extends AController {
       unset($this->session->data['success']);
     }
 
-    $layoutform = $this->dispatch('common/page_layout', array(null,$layout));
+    $layoutform = $this->dispatch('common/page_layout', array($layout));
     $layout_data['layoutform'] = $layoutform->dispatchGetOutput();
 
     $this->view->batchAssign($layout_data);
-
+	//$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
     $this->processTemplate('pages/design/layout.tpl');
     //update controller data
     $this->extensions->hk_UpdateData($this,__FUNCTION__);
