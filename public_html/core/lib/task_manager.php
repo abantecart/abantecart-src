@@ -203,8 +203,8 @@ class ATaskManager {
 		$sql = "SELECT * from ".$this->db->table('tasks')." WHERE name = '".$this->db->escape($data['name'])."'";
 		$res = $this->db->query($sql);
 		if($res->num_rows){
-			$this->errors[] = 'Error: Can not to create task. Task with name "'.$data['name'].'" is already exists. Name must be unique!';
-			return false;
+			$this->deleteTask($res->row['task_id']);
+			$this->toLog('Error: Task with name "'.$data['name'].'" is already exists. Overrided!');
 		}
 
 		$sql = "INSERT INTO ".$this->db->table('tasks')."

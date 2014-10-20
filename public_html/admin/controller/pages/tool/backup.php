@@ -279,67 +279,6 @@ class ControllerPagesToolBackup extends AController {
 		}
 	}
 
-	/*public function main() {
-
-	        //init controller data
-	        $this->extensions->hk_InitData($this,__FUNCTION__);
-
-			if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->_validate()) {
-
-				$this->loadModel('tool/backup');
-
-		        $bkp = $this->model_tool_backup->backup($this->request->post['backup'],$this->request->post['backup_rl'],$this->request->post['backup_config']);
-				if($bkp){
-					$install_upgrade_history = new ADataset('install_upgrade_history','admin');
-					$install_upgrade_history->addRows(array('date_added'=> date("Y-m-d H:i:s",time()),
-					                            'name' => 'Manual Backup',
-					                            'version' => VERSION,
-					                            'backup_file' => $this->model_tool_backup->backup_filename.'.tar.gz',
-					                            'backup_date' => date("Y-m-d H:i:s",time()),
-					                            'type' => 'backup',
-					                            'user' => $this->user->getUsername() ));
-				}
-				if($this->model_tool_backup->error){
-					$this->session->data['error'] = $this->model_tool_backup->error;
-					$this->redirect($this->html->getSecureURL('tool/backup'));
-				}else{
-					$this->loadLanguage('tool/backup');
-					$this->session->data['success'] = $this->language->get('text_success_backup');
-					$this->redirect($this->html->getSecureURL('tool/install_upgrade_history'));
-				}
-	              //update controller data
-	            $this->extensions->hk_UpdateData($this,__FUNCTION__);
-			} else {
-				return $this->dispatch('error/permission');
-			}
-		}*/
-
-
-	/*public function backup() {
-
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
-
-		if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->_validate()) {
-			$this->response->addheader('Pragma: public');
-			$this->response->addheader('Expires: 0');
-			$this->response->addheader('Content-Description: File Transfer');
-			$this->response->addheader('Content-Type: application/octet-stream');
-			$this->response->addheader('Content-Disposition: attachment; filename=backup.sql');
-			$this->response->addheader('Content-Transfer-Encoding: binary');
-
-			$this->loadModel('tool/backup');
-
-			$this->response->setOutput($this->model_tool_backup->backup($this->request->post['backup']));
-		} else {
-			return $this->dispatch('error/permission');
-		}
-
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	}*/
-
-
 	public function download() {
 
 		//init controller data
