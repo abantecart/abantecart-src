@@ -35,4 +35,4 @@ if ( $resource_id ) {
 
 }
 
-$settings['default_pp_standart_custom_logo'] = 'resources/' . $this->config->get('config_logo');
+$settings['default_pp_standart_custom_logo'] = $this->config->get('config_logo');

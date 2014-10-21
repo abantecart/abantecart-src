@@ -52,12 +52,12 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 		$this->data['invoice'] = $this->session->data['order_id'] . ' - ' . html_entity_decode($order_info['payment_firstname'], ENT_QUOTES, 'UTF-8') . ' ' . html_entity_decode($order_info['payment_lastname'], ENT_QUOTES, 'UTF-8');
 		$this->data['lc'] = $this->session->data['language'];
 
-		if ( has_value($this->config->get('default_pp_standart_logoimg')) ) {
+		if ( has_value($this->config->get('default_pp_standart_custom_logo')) ) {
 
-			if (strpos($this->config->get('default_pp_standart_logoimg'), 'http')===0 ) {
-				$this->data['logoimg'] = $this->config->get('default_pp_standart_logoimg');
+			if (strpos($this->config->get('default_pp_standart_custom_logo'), 'http')===0 ) {
+				$this->data['logoimg'] = $this->config->get('default_pp_standart_custom_logo');
 			} else {
-				$this->data['logoimg'] = HTTPS_SERVER . $this->config->get('default_pp_standart_logoimg');
+				$this->data['logoimg'] = HTTPS_SERVER . 'resources/'.$this->config->get('default_pp_standart_custom_logo');
 			}
 		}
 

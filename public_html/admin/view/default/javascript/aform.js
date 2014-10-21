@@ -58,9 +58,6 @@
             var $field = $(elem);
             var $wrapper = $field.closest('.afield');
 
-            if ($field.is(':hidden') && o.autoHide) {
-              //  $wrapper.hide();
-            }
             if ($field.prop("readonly")) {
                 $field.addClass(o.readonlyClass);
             }
@@ -100,9 +97,6 @@
             var $wrapper = $el.closest('.aform'), $field = $el.closest('.afield');
             var $wrapper_confirm = $el_confirm.closest('.aform'), $field_confirm = $el_confirm.closest('.afield');
 
-            if ($el.is(':hidden') && o.autoHide) {
-               // $wrapper.hide();
-            }
             if ($el.prop("readonly")) {
                 $field.addClass(o.readonlyClass);
             }
@@ -175,9 +169,6 @@
             if ($field.closest('.ml_ckeditor').length) return;
             var $wrapper = $field.closest('.afield');
 
-            if ($field.is(':hidden') && o.autoHide) {
-               // $wrapper.hide();
-            }
             if ($field.prop("readonly")) {
                 $field.addClass(o.readonlyClass);
             }
@@ -212,9 +203,6 @@
 
             var $wrapper = $field.closest('.afield');
 
-            if ($field.is(':hidden') && o.autoHide) {
-              //  $wrapper.hide();
-            }
         }
 
         function doCheckbox(elem) {
@@ -224,10 +212,6 @@
             if (!$field.parents('.scrollbox').length && !$('label[for='+$field.attr('id')+']') ) {
                 $wrapper.wrap($.aform.wrapper);
                 $wrapper = $field.closest('.aform');
-            }
-
-            if ($field.is(':hidden') && o.autoHide) {
-               //$wrapper.hide();
             }
 
             if ($field.prop("disabled")) {
@@ -255,10 +239,6 @@
             if (!$el.parents('.scrollbox').length) {
                 $field.wrap($.aform.wrapper);
                 $wrapper = $el.closest('.aform');
-            }
-
-            if ($el.is(':hidden') && o.autoHide) {
-                //$wrapper.hide();
             }
 
             if ($el.prop("disabled")) {
@@ -314,11 +294,7 @@
             if ($selected.length == 0) {
                 $selected = $field.find("option:first");
             }
-            
-            if ($field.is(':hidden') && o.autoHide) {
-              //  Not clear why
-              //  $wrapper.hide();
-            }
+
             if ($field.prop("disabled")) {
                 $field.addClass(o.disabledClass);
             }
@@ -434,7 +410,6 @@
                 return false;
             }
 
-            ;
             $(elem).each(function () {
                 this.onselectstart = this.ondragstart = f; // Webkit & IE
                 $(this).mousedown(f)// Webkit & Opera
@@ -791,6 +766,10 @@
         return this.each(function () {
             var elem = $(this);
 
+            if(elem.hasClass('aform_noaction')){
+                return;
+            }
+
             if (elem.is("select")) {
                  doSelect(elem);
             } else if(elem.hasClass("aswitcher")) {
@@ -896,7 +875,7 @@ jQuery(document).ready(function() {
 var formOnExit = function(){
     $('form[data-confirm-exit="true"]').find('.btn').bind('click', function () {
         var $form = $(this).parents('form');
-        //reset elemnts to not changed status
+        //reset elements to not changed status
         $form.prop('changed', 'submit');
     });
     // prevent submit of form for "quicksave"

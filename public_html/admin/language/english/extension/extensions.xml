@@ -373,5 +373,9 @@
 	    <key>button_cancel</key>
 	    <value><![CDATA[Cancel]]></value>
 	</definition>
+	<definition>
+	    <key>error_could_not_load_config</key>
+	    <value><![CDATA[Error: Could not load config for <b>%s</b> (%s)!]]></value>
+	</definition>
 
 </definitions>

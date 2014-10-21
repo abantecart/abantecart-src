@@ -246,18 +246,21 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->loadLanguage('extension/extensions');
 		$this->loadLanguage($extension . '/' . $extension);
 
-		$store_id = (int)$this->config->get('config_store_id');
+		$store_id = (int)$this->session->data['current_store_id'];
 		if ($this->request->get_or_post('store_id')) {
 			$store_id = $this->request->get_or_post('store_id');
 		}
 
+
 		$ext = new ExtensionUtils($extension, $store_id);
 		$settings = $ext->getSettings();
+
 		$extension_info = $this->extensions->getExtensionInfo($extension);
 		if (!$extension_info) { // if extension is not installed yet - redirect to list
 			$this->redirect($this->html->getSecureURL('extension/extensions'));
 		}
 
+		$this->data['form_store_switch'] = $this->html->getStoreSwitcher();
 		/** build aform with settings**/
 
 		$form = new AForm('HS');
@@ -279,40 +282,6 @@ class ControllerPagesExtensionExtensions extends AController {
 
 		$result = array('resource_field_list' => array());
 
-		// store switcher for default store Control Panel only
-		if (!$this->config->get('config_store_id')) {
-			$stores = array();
-
-			$stores[0] = $this->language->get('text_default');
-			$this->loadModel('setting/store');
-			$stores_arr = $this->model_setting_store->getStores();
-			if (count($stores_arr) > 1) {
-				foreach ($stores_arr as $res) {
-					$stores[$res['store_id']] = $res['alias'];
-				}
-				$switcher = array(
-						'name' => 'store_id',
-						'type' => 'selectbox',
-						'options' => $stores,
-						'value' => $store_id,
-						'note' => $this->language->get('tab_store'),
-						'style' => 'no-save');
-			} else {
-				$switcher = array(
-						'type' => 'hidden',
-						'name' => 'store_id',
-						'note' => ' ',
-						'value' => 0);
-			}
-		} else {
-			$switcher = array(
-					'type' => 'hidden',
-					'name' => 'store_id',
-					'note' => ' ',
-					'value' => $store_id);
-		}
-
-		array_unshift($settings, $switcher);
 		foreach ($settings as $item) {
 			$data = array();
 			if ($item['name'] == $extension . '_status') {
@@ -806,7 +775,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			$config = getExtensionConfigXml($this->request->get['extension']);
 			if ($config === false) {
 				$filename = DIR_EXT . str_replace('../', '', $this->request->get['extension']) . '/config.xml';
-				$err = sprintf('Error: Could not load config for <b>%s</b> ( ' . $filename . ')!', $this->request->get['extension']);
+				$err = sprintf($this->language->get('error_could_not_load_config'), $this->request->get['extension'], $filename);
 				$this->session->data['error'] = $err;
 			} else {
 				$this->extension_manager->install($this->request->get['extension'], $config);

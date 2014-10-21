@@ -85,7 +85,7 @@
     <value><![CDATA[Логотип компании предварительный просмотр]]></value>
   </definition>
   <definition>
-    <key>default_pp_standart_logoimg</key>
+    <key>default_pp_standart_custom_logo</key>
     <value><![CDATA[Добавить логотип фирмы:<span class="help">Введите локальный путь или URL файла вашего логотипа. Логотип может быть JPG, PNG, GIF до 190 пикселей в ширину и 60 пикселей в высоту. Этот логотип будет отображаться как заголовок вашей страницы PayPal.</span>]]></value>
   </definition>
   <definition>

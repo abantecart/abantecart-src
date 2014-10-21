@@ -43,45 +43,53 @@
 
 <div class="tab-content">
 
-<div class="panel-heading">
+	<div class="panel-heading">
 
-	<div class="pull-right">
-		<div class="btn-group mr10 toolbar">
-			<?php if ($extension['help']) {
-				if ($extension['help']['file']) {
-					?>
-					<a class="btn btn-white tooltips"
-					   href="<?php echo $extension['help']['file']['link']; ?>"
-					   data-toggle="modal" data-target="#howto_modal"
-					   title="<?php echo $text_more_help ?>"><i
-								class="fa fa-flask fa-lg"></i> <?php echo $extension['help']['file']['text'] ?></a>
+		<div class="pull-right">
+			<div class="btn-group mr10 toolbar">
+				<?php echo $this->getHookVar('common_content_buttons'); ?>
+
+				<?php if(!empty($form_store_switch)) { ?>
+				<div class="btn-group">
+					<?php echo $form_store_switch; ?>
+				</div>
+		        <?php } ?>
+
+				<?php if ($extension['help']) {
+					if ($extension['help']['file']) {
+						?>
+						<a class="btn btn-white tooltips"
+						   href="<?php echo $extension['help']['file']['link']; ?>"
+						   data-toggle="modal" data-target="#howto_modal"
+						   title="<?php echo $text_more_help ?>"><i
+									class="fa fa-flask fa-lg"></i> <?php echo $extension['help']['file']['text'] ?></a>
+					<?php
+					}
+					if ($extension['help']['ext_link']) {
+						?>
+						<a class="btn btn-white tooltips" target="_blank"
+						   href="<?php echo $extension['help']['ext_link']['link']; ?>"
+						   title="<?php echo $extension['help']['ext_link']['text']; ?>"><i
+									class="fa fa-life-ring fa-lg"></i></a>
+
+					<?php } ?>
+
+					<?php echo $this->getHookVar('extension_toolbar_buttons'); ?>
+
 				<?php
 				}
-				if ($extension['help']['ext_link']) {
-					?>
-					<a class="btn btn-white tooltips" target="_blank"
-					   href="<?php echo $extension['help']['ext_link']['link']; ?>"
-					   title="<?php echo $extension['help']['ext_link']['text']; ?>"><i
-								class="fa fa-life-ring fa-lg"></i></a>
+				if (!empty ($help_url)) : ?>
+					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
+					   title="" data-original-title="Help">
+						<i class="fa fa-question-circle fa-lg"></i>
+					</a>
+				<?php endif; ?>
+			</div>
 
-				<?php } ?>
-
-				<?php echo $this->getHookVar('extension_toolbar_buttons'); ?>
-
-			<?php
-			}
-			if (!empty ($help_url)) : ?>
-				<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
-				   title="" data-original-title="Help">
-					<i class="fa fa-question-circle fa-lg"></i>
-				</a>
-			<?php endif; ?>
+			<?php echo $form_language_switch; ?>
 		</div>
 
-		<?php echo $form_language_switch; ?>
 	</div>
-
-</div>
 
 <?php echo $form['form_open']; ?>
 <div class="panel-body panel-body-nopadding">
@@ -113,12 +121,7 @@
 			   for="<?php echo $field['value']->element_id; ?>"><?php echo $field['note']; ?></label>
 
 		<div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
-			<?php
-			if (in_array($key, array_keys($resource_field_list))) {
-				echo '<div id="' . $key . '">' . $resource_field_list[$key]['value'] . '</div>';
-				//echo $text_click_to_change;
-			}
-			echo $field['value']; ?>
+			<?php echo $field['value']; ?>
 		</div>
 		<?php if (!empty($error[$name])) { ?>
 			<span class="help-block field_err"><?php echo $error[$name]; ?></span>
@@ -261,6 +264,10 @@
 </form>
 
 </div><!-- <div class="tab-content"> -->
+<?php if ($extension['note']) { ?>
+	<div class="alert alert-warning"><i class="fa fa-info-circle fa-fw"></i> <?php echo $extension['note']; ?></div>
+<?php } ?>
+
 
 <?php
 echo $this->html->buildElement(

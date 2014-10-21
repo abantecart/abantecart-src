@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <extension>
     <id>default_pp_standart</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 	<type>payment</type>
 	<category>payment</category>
     <cartversions>
-        <item>1.1</item>
+        <item>1.2</item>
     </cartversions>
     <layout></layout>
     <priority>10</priority>
@@ -53,14 +53,19 @@
 				</fields>
 			</variants>
         </item>
-		<item id="default_pp_standart_logoimg">
-			<type>input</type>
+		<item id="default_pp_standart_custom_logo">
+			<type>resource</type>
+			<resource_type>image</resource_type>
 			<default_value></default_value>
 		</item>
 		<item id="default_pp_standart_cartbordercolor">
 			<type>input</type>
 			<default_value></default_value>
 		</item>
+
+
+
+
     </settings>
 	<note>true</note>
 	<custom_settings_template>pages/extension/default_pp_standart_settings.tpl</custom_settings_template>
