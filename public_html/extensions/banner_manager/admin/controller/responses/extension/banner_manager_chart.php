@@ -47,7 +47,7 @@ class ControllerResponsesExtensionbannerManagerChart extends AController {
 			case 'day':
 				for ($i = 0; $i < 24; $i++) {
 					$sql = "SELECT `type`, COUNT(`type`) AS cnt
-							FROM `" . DB_PREFIX . "banner_stat`
+							FROM " . $this->db->table("banner_stat") . " 
 							WHERE (DATE(`time`) = DATE(NOW()) AND HOUR(`time`) = '" . (int)$i . "')
 								AND banner_id = '".$banner_id."'
 							GROUP BY `type`, HOUR(`time`)
@@ -74,7 +74,7 @@ class ControllerResponsesExtensionbannerManagerChart extends AController {
 					$date = date('Y-m-d', $date_start + ($i * 86400));
 
 					$sql = "SELECT `type`, COUNT(`type`) AS cnt
-							FROM `" . DB_PREFIX . "banner_stat`
+							FROM " . $this->db->table("banner_stat") . " 
 							WHERE DATE(`time`) = '" . $this->db->escape($date) . "'
 								AND banner_id = '".$banner_id."'
 							GROUP BY `type`, DATE(`time`)
@@ -99,7 +99,7 @@ class ControllerResponsesExtensionbannerManagerChart extends AController {
 					$date = date('Y') . '-' . date('m') . '-' . $i;
 
 					$sql = "SELECT `type`, COUNT(`type`) AS cnt
-							FROM `" . DB_PREFIX . "banner_stat`
+							FROM " . $this->db->table("banner_stat") . " 
 							WHERE DATE(`time`) = '" . $this->db->escape($date) . "'
 								AND banner_id = '".$banner_id."'
 							GROUP BY `type`, DAY(`time`)
@@ -123,7 +123,7 @@ class ControllerResponsesExtensionbannerManagerChart extends AController {
 				for ($i = 1; $i <= 12; $i++) {
 
 					$sql = "SELECT `type`, COUNT(`type`) AS cnt
-							FROM `" . DB_PREFIX . "banner_stat`
+							FROM " . $this->db->table("banner_stat") . " 
 							WHERE YEAR(`time`) = '" . date('Y') . "' AND MONTH(`time`) = '" . $i . "'
 								AND banner_id = '".$banner_id."'
 							GROUP BY `type`, MONTH(`time`)

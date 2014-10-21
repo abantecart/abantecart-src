@@ -28,11 +28,11 @@ class ModelExtensionDefaultWeight extends Model {
 		$quote_data = array();
 
 		if ($this->config->get('default_weight_status')) {
-			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "locations ORDER BY name");
+			$query = $this->db->query("SELECT * FROM " . $this->db->table("locations") . " ORDER BY name");
 		
 			foreach ($query->rows as $result) {			
    				if ($this->config->get('default_weight_' . $result['location_id'] . '_status')) {
-   					$query2 = $this->db->query("SELECT * FROM " . DB_PREFIX . "zones_to_locations WHERE location_id = '" . (int)$result['location_id'] . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");				
+   					$query2 = $this->db->query("SELECT * FROM " . $this->db->table("zones_to_locations") . " WHERE location_id = '" . (int)$result['location_id'] . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");				
 					if ($query2->num_rows) {
        					$status = TRUE;
    					} else {

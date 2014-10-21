@@ -22,12 +22,12 @@ class ModelExtensionDefaultPpPro extends Model {
 									'paypal_refund')";
 		$this->db->query($sql);
 
-		$sql = "SELECT * FROM " . DB_PREFIX . "order_totals WHERE type='total' AND order_id = '".(int)$data['order_id']."'";
+		$sql = "SELECT * FROM " . $this->db->table("order_totals") . " WHERE type='total' AND order_id = '".(int)$data['order_id']."'";
 		$res = $this->db->query($sql);
 		$total = $res->row;
 
 
-		$sql = "UPDATE " . DB_PREFIX . "order_totals
+		$sql = "UPDATE " . $this->db->table("order_totals") . " 
 						SET `text` = '".$this->currency->format(($total['value']-$data['amount']), $data['currency']) . "',
 						`value` = '".((float)$total['value']-(float)$data['amount'])."'
 						WHERE order_id = '".(int)$data['order_id']."'
