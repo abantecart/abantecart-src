@@ -42,8 +42,8 @@ final class ALength {
 		$this->config = $registry->get('config');
 
 		$length_class_query = $this->db->query("SELECT *
-												FROM " . DB_PREFIX . "length_classes mc
-												LEFT JOIN " . DB_PREFIX . "length_class_descriptions mcd
+												FROM " . $this->db->table("length_classes") . " mc
+												LEFT JOIN " . $this->db->table("length_class_descriptions") . " mcd
 													ON (mc.length_class_id = mcd.length_class_id)
 												WHERE mcd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'");
     

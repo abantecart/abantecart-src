@@ -147,10 +147,10 @@ class ModelLocalisationLanguageDefinitions extends Model {
      */
     public function deleteLanguageDefinition($id) {
 		$result = $this->db->query("SELECT language_id, `section`, `language_key`, `block`
-						FROM " . DB_PREFIX . "language_definitions
+						FROM " . $this->db->table("language_definitions") . " 
 						WHERE language_definition_id = '" . (int)$id . "'");
 		foreach ($result->rows as $row) {
-			$this->db->query("DELETE FROM " . DB_PREFIX . "language_definitions
+			$this->db->query("DELETE FROM " . $this->db->table("language_definitions") . " 
 							  WHERE `section` = '" . $row['section'] . "'
 							  		AND `block` = '" . $row['block'] . "'
 							  		AND `language_key` = '" . $row['language_key'] . "'");
@@ -166,7 +166,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
      */
     public function getLanguageDefinition($id) {
 		$query = $this->db->query("SELECT DISTINCT *
-									FROM " . DB_PREFIX . "language_definitions
+									FROM " . $this->db->table("language_definitions") . " 
 									WHERE language_definition_id = '" . (int)$id . "'");
 		return $query->row;
 	}
@@ -180,7 +180,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
      */
     public function getLanguageDefinitionIdByKey($key, $language_id, $block, $section) {
 		$query = $this->db->query("SELECT language_definition_id
-									FROM " . DB_PREFIX . "language_definitions
+									FROM " . $this->db->table("language_definitions") . " 
 									WHERE language_key = '" . $this->db->escape($key) . "'
 										AND block='" . $this->db->escape($block) . "'
 										AND language_id='" . $this->db->escape($language_id) . "'
@@ -196,7 +196,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
      */
     public function getAllLanguageDefinitionsIdByKey($key, $block, $section) {
 		$query = $this->db->query("SELECT language_definition_id
-									FROM " . DB_PREFIX . "language_definitions
+									FROM " . $this->db->table("language_definitions") . " 
 									WHERE language_key = '" . $this->db->escape($key) . "'
 										AND block='" . $this->db->escape($block) . "'
 										AND section='" . (int)$section . "'");
@@ -216,12 +216,12 @@ class ModelLocalisationLanguageDefinitions extends Model {
 
 			if ($mode == 'total_only') {
 				$sql = "SELECT count(*) as total
-						FROM " . DB_PREFIX . "language_definitions ld
-						LEFT JOIN " . DB_PREFIX . "languages l ON l.language_id = ld.language_id";
+						FROM " . $this->db->table("language_definitions") . " ld
+						LEFT JOIN " . $this->db->table("languages") . " l ON l.language_id = ld.language_id";
 			} else {
 				$sql = "SELECT ld.*, l.name as language_name, l.code as language_code
-						FROM " . DB_PREFIX . "language_definitions ld
-						LEFT JOIN " . DB_PREFIX . "languages l ON l.language_id = ld.language_id";
+						FROM " . $this->db->table("language_definitions") . " ld
+						LEFT JOIN " . $this->db->table("languages") . " l ON l.language_id = ld.language_id";
 			}
 
 			if (has_value($filter['section'])) {
@@ -314,7 +314,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 
 			if (!$language_data) {
 				$query = $this->db->query("SELECT *
-				                           FROM " . DB_PREFIX . "language_definitions
+				                           FROM " . $this->db->table("language_definitions") . " 
 				                           WHERE language_id=" . (int)$this->config->get('admin_language_id') . "
 				                           ORDER BY date_modified DESC, language_key, block");
 

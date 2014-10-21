@@ -101,10 +101,10 @@ final class AMessage {
 		$last_message = $this->getLikeMessage($title);
 		// if last message equal new - update it's repeated field
 		if ($last_message['title'] == $title && $repetition_group) {
-			$this->db->query("UPDATE " . DB_PREFIX . "messages SET `repeated` = `repeated` + 1, viewed='0' WHERE msg_id = '" . $last_message['msg_id'] . "'");
+			$this->db->query("UPDATE " . $this->db->table("messages") . " SET `repeated` = `repeated` + 1, viewed='0' WHERE msg_id = '" . $last_message['msg_id'] . "'");
 		} else {
 
-			$this->db->query("INSERT INTO " . DB_PREFIX . "messages
+			$this->db->query("INSERT INTO " . $this->db->table("messages") . " 
 						    SET `title` = '" . $this->db->escape($title) . "',
 						    `message` = '" . $this->db->escape($message) . "',
 						    `status` = '" . $this->db->escape($status) . "',						    
@@ -116,7 +116,7 @@ final class AMessage {
 	 * @param int $msg_id
 	 */
 	public function deleteMessage($msg_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "messages WHERE `msg_id` = " . (int)$msg_id);
+		$this->db->query("DELETE FROM " . $this->db->table("messages") . " WHERE `msg_id` = " . (int)$msg_id);
 	}
 
 	/**
@@ -125,7 +125,7 @@ final class AMessage {
 	 */
 	public function getMessage($msg_id) {
 		$this->markAsRead($msg_id);
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "messages WHERE msg_id = " . (int)$msg_id);
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("messages") . " WHERE msg_id = " . (int)$msg_id);
 		$row = $query->row;
 		if ($row) {
 			// replace html-links in message
@@ -147,7 +147,7 @@ final class AMessage {
 		if ($limit > 0) {
 			$limit_str = "LIMIT " . (int)$start . ", " . (int)$limit;
 		}
-		$sql = "SELECT * FROM " . DB_PREFIX . "messages ORDER BY " . $sort . " " . $order . ", date_modified DESC, msg_id DESC " . $limit_str;
+		$sql = "SELECT * FROM " . $this->db->table("messages") . " ORDER BY " . $sort . " " . $order . ", date_modified DESC, msg_id DESC " . $limit_str;
 		$query = $this->db->query($sql);
 		return $query->rows;
 	}
@@ -157,7 +157,7 @@ final class AMessage {
 	 * @return array
 	 */
 	public function getLikeMessage($title) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "messages WHERE title='" . $this->db->escape($title) . "'");
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("messages") . " WHERE title='" . $this->db->escape($title) . "'");
 		return $query->row;
 	}
 
@@ -165,7 +165,7 @@ final class AMessage {
 	 * @return int
 	 */
 	public function getTotalMessages() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "messages");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("messages") . " ");
 		return (int)$query->row['total'];
 	}
 
@@ -174,7 +174,7 @@ final class AMessage {
 	 * @return bool
 	 */
 	public function markAsRead($msg_id) {
-		$this->db->query("UPDATE " . DB_PREFIX . "messages SET viewed = viewed + 1 WHERE `msg_id` = '" . $this->db->escape($msg_id) . "'");
+		$this->db->query("UPDATE " . $this->db->table("messages") . " SET viewed = viewed + 1 WHERE `msg_id` = '" . $this->db->escape($msg_id) . "'");
 		return true;
 	}
 
@@ -185,7 +185,7 @@ final class AMessage {
 	public function markAsUnRead($msg_id) {
 		$msg_info = $this->getMessage($msg_id);
 		if ($msg_info['viewed']) {
-			$this->db->query("UPDATE " . DB_PREFIX . "messages SET viewed = 0 WHERE `msg_id` = '" . $this->db->escape($msg_id) . "'");
+			$this->db->query("UPDATE " . $this->db->table("messages") . " SET viewed = 0 WHERE `msg_id` = '" . $this->db->escape($msg_id) . "'");
 			return true;
 		} else {
 			return false;
@@ -224,7 +224,7 @@ final class AMessage {
 			$ids[] = $this->db->escape($id);
 		}
 		$ids = "'" . implode("', '", $ids) . "'";
-		$sql = "DELETE FROM " . DB_PREFIX . "ant_messages WHERE id NOT IN (" . $ids . ")";
+		$sql = "DELETE FROM " . $this->db->table("ant_messages") . " WHERE id NOT IN (" . $ids . ")";
 		$this->db->query($sql);
 		return true;
 	}
@@ -240,7 +240,7 @@ final class AMessage {
 		// need to find message with same id and language. If language not set - find for all
 		// if lanuguage_code is empty it mean that banner shows for all insterface languages
 		$sql = "SELECT *
-		         FROM " . DB_PREFIX . "ant_messages
+		         FROM " . $this->db->table("ant_messages") . " 
 		         WHERE id = '" . $this->db->escape($data['message_id']) . "'
 		         " . ($data['language_code'] ? "AND language_code = '" . $this->db->escape($data['language_code']) . "'" : "") . "
 		         ORDER BY viewed_date ASC";
@@ -254,11 +254,11 @@ final class AMessage {
 				$viewed += $row['viewed'];
 				$last_view = $row['viewed_date'];
 			}
-			$this->db->query("DELETE FROM " . DB_PREFIX . "ant_messages WHERE id IN (" . implode(",", $exists) . ")");
+			$this->db->query("DELETE FROM " . $this->db->table("ant_messages") . " WHERE id IN (" . implode(",", $exists) . ")");
 		}
 		$data['end_date'] = !$data['end_date'] || $data['end_date'] == '0000-00-00 00:00:00' ? '2030-01-01' : $data['end_date'];
 		$data['priority'] = !(int)$data['priority'] ? 1 : (int)$data['priority'];
-		$sql = "INSERT INTO " . DB_PREFIX . "ant_messages (`id`,
+		$sql = "INSERT INTO " . $this->db->table("ant_messages") . " (`id`,
 															`priority`,
 															`start_date`,
 															`end_date`,
@@ -289,11 +289,11 @@ final class AMessage {
 	public function getANTMessage() {
 
 		// delete expired banners first
-		$this->db->query("DELETE FROM " . DB_PREFIX . "ant_messages
+		$this->db->query("DELETE FROM " . $this->db->table("ant_messages") . " 
 		                   WHERE end_date < CURRENT_TIMESTAMP");
 
 		$sql = "SELECT *
-		         FROM " . DB_PREFIX . "ant_messages
+		         FROM " . $this->db->table("ant_messages") . " 
 		         WHERE start_date< CURRENT_TIMESTAMP and end_date > CURRENT_TIMESTAMP
 		            AND ( language_code = '" . $this->registry->get('config')->get('admin_language') . "'
 		                      OR COALESCE(language_code,'*') = '*' OR language_code = '*' )
@@ -302,7 +302,7 @@ final class AMessage {
 		$result = $this->db->query($sql);
 		if ($result->num_rows) {
 			$output = $result->row['html'] ? $result->row['html'] : $result->row['description'];
-			$sql = "UPDATE  " . DB_PREFIX . "ant_messages SET viewed = viewed+1 , viewed_date = NOW() WHERE id = '" . $result->row['id'] . "'
+			$sql = "UPDATE  " . $this->db->table("ant_messages") . " SET viewed = viewed+1 , viewed_date = NOW() WHERE id = '" . $result->row['id'] . "'
 					AND language_code = '" . $result->row['language_code'] . "'";
 			$this->db->query($sql);
 		}
@@ -316,7 +316,7 @@ final class AMessage {
 
 		$output = array();
 		$result = $this->db->query("SELECT UPPER(status) as status, COUNT(msg_id) as count
-									FROM " . DB_PREFIX . "messages
+									FROM " . $this->db->table("messages") . " 
 									WHERE viewed<'1'
 									GROUP BY status");
 		foreach ($result->rows as $row) {

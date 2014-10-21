@@ -34,7 +34,7 @@ class ModelSettingStore extends Model {
 			$data['alias'] = substr(str_replace(' ', '', $data['name']), 0, 15);
 		}
 
-      	$this->db->query("INSERT INTO " . DB_PREFIX . "stores
+      	$this->db->query("INSERT INTO " . $this->db->table("stores") . " 
       	                    SET name = '" . $this->db->escape($data['name']) . "',
 								alias = '" . $this->db->escape($data['alias']) . "',
 								status = '" . $this->db->escape($data['status']) . "'");
@@ -43,9 +43,9 @@ class ModelSettingStore extends Model {
 		
 		//Clone from selected store
 		if ( isset($data['clone_store'])) {
-			 $sql = "INSERT INTO " . DB_PREFIX . "settings (store_id, `group`, `key`, `value`)
+			 $sql = "INSERT INTO " . $this->db->table("settings") . " (store_id, `group`, `key`, `value`)
                 SELECT '".$store_id."' as store_id, `group`, `key`, `value`
-                FROM " . DB_PREFIX . "settings
+                FROM " . $this->db->table("settings") . " 
                 WHERE `store_id` = '" . $this->db->escape($data['clone_store']) . "'";
 			$this->db->query( $sql );		
 		}
@@ -73,9 +73,9 @@ class ModelSettingStore extends Model {
 		$this->cache->delete('stores');
         // add settings of extension of default store to new store settings
         $extension_list = $this->extensions->getEnabledExtensions();
-        $sql = "INSERT INTO " . DB_PREFIX . "settings (store_id, `group`, `key`, `value`)
+        $sql = "INSERT INTO " . $this->db->table("settings") . " (store_id, `group`, `key`, `value`)
                 SELECT '".$store_id."' as store_id, `group`, `key`, `value`
-                FROM " . DB_PREFIX . "settings
+                FROM " . $this->db->table("settings") . " 
                 WHERE `group` in ('".implode("' ,'",$extension_list)."') AND store_id='0';";
 		$this->db->query( $sql );
 				
@@ -106,19 +106,19 @@ class ModelSettingStore extends Model {
  		$this->load->model('setting/setting');
         if ( isset($data['alias']) ){
             $this->db->query(
-                "UPDATE " . DB_PREFIX . "stores
+                "UPDATE " . $this->db->table("stores") . " 
             	SET  `alias`='" . $this->db->escape($data['alias']) . "'
             	WHERE store_id = '" . (int)$store_id . "' ");
         }
         if ( isset($data['status']) ){
             $this->db->query(
-                "UPDATE " . DB_PREFIX . "stores
+                "UPDATE " . $this->db->table("stores") . " 
             	SET  `status`='" . $this->db->escape($data['status']) . "'
             	WHERE store_id = '" . (int)$store_id . "' ");
         }
         if ( isset($data['name']) ){
             $this->db->query(
-                "UPDATE " . DB_PREFIX . "stores
+                "UPDATE " . $this->db->table("stores") . " 
             	SET  `name`='" . $this->db->escape($data['name']) . "'
             	WHERE store_id = '" . (int)$store_id . "' ");
             	$this->model_setting_setting->editSetting('details',array('config_name'=>$data['name']),$store_id);
@@ -138,13 +138,13 @@ class ModelSettingStore extends Model {
 	 * @param int $store_id
 	 */
 	public function deleteStore($store_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "stores WHERE store_id = '" . (int)$store_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "settings WHERE store_id = '" . (int)$store_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "store_descriptions WHERE store_id = '" . (int)$store_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "categories_to_stores WHERE store_id = '" . (int)$store_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "products_to_stores WHERE store_id = '" . (int)$store_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "contents_to_stores WHERE store_id = '" . (int)$store_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "manufacturers_to_stores WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("stores") . " WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("settings") . " WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("store_descriptions") . " WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("categories_to_stores") . " WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("products_to_stores") . " WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("contents_to_stores") . " WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("manufacturers_to_stores") . " WHERE store_id = '" . (int)$store_id . "'");
 	
 		$this->cache->delete('settings.store');
 		$this->cache->delete('stores');
@@ -156,11 +156,11 @@ class ModelSettingStore extends Model {
 	 */
 	public function getStore($store_id) {
 
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "stores
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("stores") . " 
 								   WHERE store_id = '" . (int)$store_id . "'");
 		$output = $query->rows[0];
 
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "settings
+		$query = $this->db->query("SELECT DISTINCT * FROM " . $this->db->table("settings") . " 
 								   WHERE store_id = '" . (int)$store_id . "'");
 		if($query->num_rows){
 			foreach($query->rows as $row){
@@ -177,7 +177,7 @@ class ModelSettingStore extends Model {
 	public function getStoreDescriptions($store_id) {
 		$store_description_data = array();
 		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "store_descriptions WHERE store_id = '" . (int)$store_id . "'");
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("store_descriptions") . " WHERE store_id = '" . (int)$store_id . "'");
 		
 		foreach ($query->rows as $result) {
 			$store_description_data[$result['language_id']] = array('description' => $result['description']);
@@ -194,7 +194,7 @@ class ModelSettingStore extends Model {
 		$store_data = $this->cache->get('stores');
 		if (is_null($store_data)) {
 			$query = $this->db->query("SELECT *
-										FROM " . DB_PREFIX . "stores
+										FROM " . $this->db->table("stores") . " 
 										ORDER BY store_id");
 
 			$store_data = $query->rows;
@@ -208,7 +208,7 @@ class ModelSettingStore extends Model {
 	 * @return int
 	 */
 	public function getTotalStores() {
-      	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "stores");
+      	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("stores") . " ");
 		
 		return $query->row['total'];
 	}
@@ -219,7 +219,7 @@ class ModelSettingStore extends Model {
 	 */
 	public function getTotalStoresByLanguage($language) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
-      	                            FROM " . DB_PREFIX . "settings
+      	                            FROM " . $this->db->table("settings") . " 
       	                            WHERE `key` = 'config_storefront_language' AND  `value` = '" . $this->db->escape($language) . "'");
 		return $query->row['total'];		
 	}
@@ -230,7 +230,7 @@ class ModelSettingStore extends Model {
 	 */
 	public function getTotalStoresByCurrency($currency) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
-      	                            FROM " . DB_PREFIX . "settings
+      	                            FROM " . $this->db->table("settings") . " 
       	                            WHERE `key` = 'config_currency' AND `value` = '" . $this->db->escape($currency) . "'");
 		
 		return $query->row['total'];		
@@ -242,7 +242,7 @@ class ModelSettingStore extends Model {
 	 */
 	public function getTotalStoresByCountryId($country_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
-      	                            FROM " . DB_PREFIX . "settings
+      	                            FROM " . $this->db->table("settings") . " 
       	                            WHERE `key` = 'config_country_id' AND  `value` = '" . (int)$country_id . "'");
 		
 		return $query->row['total'];		
@@ -254,7 +254,7 @@ class ModelSettingStore extends Model {
 	 */
 	public function getTotalStoresByZoneId($zone_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
-      	                            FROM " . DB_PREFIX . "settings
+      	                            FROM " . $this->db->table("settings") . " 
       	                            WHERE `key` = 'config_zone_id' AND  `value` = '" . (int)$zone_id . "'");
 		return $query->row['total'];		
 	}
@@ -265,7 +265,7 @@ class ModelSettingStore extends Model {
 	 */
 	public function getTotalStoresByCustomerGroupId($customer_group_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
-      	                            FROM " . DB_PREFIX . "settings
+      	                            FROM " . $this->db->table("settings") . " 
       	                            WHERE `key` = 'config_customer_group_id' AND `value` = '" . (int)$customer_group_id . "'");
 		return $query->row['total'];		
 	}
@@ -276,11 +276,11 @@ class ModelSettingStore extends Model {
 	 */
 	public function getTotalStoresByInformationId($information_id) {
       	$account_query = $this->db->query("SELECT COUNT(*) AS total
-      	                                    FROM " . DB_PREFIX . "settings
+      	                                    FROM " . $this->db->table("settings") . " 
       	                                    WHERE `key` = 'config_account_id' AND `value` = '" . (int)$information_id . "'");
       	
 		$checkout_query = $this->db->query("SELECT COUNT(*) AS total
-											FROM " . DB_PREFIX . "settings
+											FROM " . $this->db->table("settings") . " 
 											WHERE `key` = 'config_checkout_id' AND `value` = '" . (int)$information_id . "'");
 		
 		return ($account_query->row['total'] + $checkout_query->row['total']);
@@ -292,7 +292,7 @@ class ModelSettingStore extends Model {
 	 */
 	public function getTotalStoresByOrderStatusId($order_status_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
-      	                            FROM " . DB_PREFIX . "settings
+      	                            FROM " . $this->db->table("settings") . " 
       	                            WHERE `key` = 'config_order_status_id' AND `value` = '" . (int)$order_status_id . "'");
 		
 		return $query->row['total'];		

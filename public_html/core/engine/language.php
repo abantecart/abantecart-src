@@ -659,7 +659,7 @@ class ALanguage {
 			return array();
 		}
 		$lang_array = array();
-		$sql = "SELECT * FROM `" . DB_PREFIX . "language_definitions`
+		$sql = "SELECT * FROM " . $this->db->table("language_definitions") . " 
                 WHERE language_id = '" . (int)$language_id . "'
                               AND section =" . (int)$section . " AND block='" . $this->db->escape($block_name) . "'";
 		$language_query = $this->db->query($sql);
@@ -681,7 +681,7 @@ class ALanguage {
 
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $block . ' saving to database');
 
-		$sql = "INSERT INTO " . DB_PREFIX . "language_definitions ";
+		$sql = "INSERT INTO " . $this->db->table("language_definitions") . " ";
 		$sql .= "(language_id,block,section,language_key,language_value,date_added) VALUES ";
 		$values = array();
 		foreach ($lang_defns as $k => $v) {

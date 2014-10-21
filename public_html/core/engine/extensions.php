@@ -304,21 +304,21 @@ class ExtensionsApi {
 		$extension_data = array();
 		if (in_array($type, $this->extension_types)) {
 			$sql = "SELECT DISTINCT e.key
-					FROM " . DB_PREFIX . "extensions e
-					RIGHT JOIN " . DB_PREFIX . "settings s ON s.group = e.key
+					FROM " . $this->db->table("extensions") . " e
+					RIGHT JOIN " . $this->db->table("settings") . " s ON s.group = e.key
 					WHERE e.type = '" . $this->db->escape($type) . "'";
 		} elseif ($type == 'exts') {
 			$sql = "SELECT DISTINCT e.key
-					FROM " . DB_PREFIX . "extensions e
-					RIGHT JOIN " . DB_PREFIX . "settings s ON s.group = e.key
+					FROM " . $this->db->table("extensions") . " e
+					RIGHT JOIN " . $this->db->table("settings") . " s ON s.group = e.key
 					WHERE e.type IN ('" . implode("', '", $this->extension_types) . "')";
 		} elseif ($type == '') {
 			$sql = "SELECT DISTINCT e.key
-					FROM " . DB_PREFIX . "extensions e
-					RIGHT JOIN " . DB_PREFIX . "settings s ON s.group = e.key";
+					FROM " . $this->db->table("extensions") . " e
+					RIGHT JOIN " . $this->db->table("settings") . " s ON s.group = e.key";
 		} else {
 			$sql = "SELECT DISTINCT e.key
-					FROM " . DB_PREFIX . "extensions e";
+					FROM " . $this->db->table("extensions") . " e";
 		}
 
 		$query = $this->db->query($sql);
@@ -377,9 +377,9 @@ class ExtensionsApi {
 		              s.store_id,
 		              st.alias as store_name,
 		              s.value as status
-				FROM " . DB_PREFIX . "extensions e
-				LEFT JOIN " . DB_PREFIX . "settings s ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
-				LEFT JOIN " . DB_PREFIX . "stores st ON st.store_id = s.store_id
+				FROM " . $this->db->table("extensions") . " e
+				LEFT JOIN " . $this->db->table("settings") . " s ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
+				LEFT JOIN " . $this->db->table("stores") . " st ON st.store_id = s.store_id
 				WHERE e.`type` ";
 
 		if (has_value($data['filter']) && $data['filter'] != 'extensions') {
@@ -634,7 +634,7 @@ class ExtensionsApi {
 				$source = $this->extension_models;
 				break;
 			case 'L' :
-				$query = $registry->get('db')->query("SELECT directory FROM " . DB_PREFIX . "languages
+				$query = $registry->get('db')->query("SELECT directory FROM " . $this->db->table("languages") . " 
                     WHERE code='" . $registry->get('session')->data['language'] . "'");
 				$file = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . 'language/' .
 						$query->row['directory'] . '/' . $route . '.xml';

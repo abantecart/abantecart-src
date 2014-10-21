@@ -23,13 +23,13 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 /** @noinspection PhpUndefinedClassInspection */
 class ModelCatalogManufacturer extends Model {
 	public function addManufacturer($data) {
-      	$this->db->query("INSERT INTO " . DB_PREFIX . "manufacturers SET name = '" . $this->db->escape($data['name']) . "', sort_order = '" . (int)$data['sort_order'] . "'");
+      	$this->db->query("INSERT INTO " . $this->db->table("manufacturers") . " SET name = '" . $this->db->escape($data['name']) . "', sort_order = '" . (int)$data['sort_order'] . "'");
 		
 		$manufacturer_id = $this->db->getLastId();
 
 		if (isset($data['manufacturer_store'])) {
 			foreach ($data['manufacturer_store'] as $store_id) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "manufacturers_to_stores SET manufacturer_id = '" . (int)$manufacturer_id . "', store_id = '" . (int)$store_id . "'");
+				$this->db->query("INSERT INTO " . $this->db->table("manufacturers_to_stores") . " SET manufacturer_id = '" . (int)$manufacturer_id . "', store_id = '" . (int)$store_id . "'");
 			}
 		}
 		
@@ -50,7 +50,7 @@ class ModelCatalogManufacturer extends Model {
 												array((int)$this->session->data['content_language_id'] => array('keyword'=>$seo_key)));
 		}else{
 			$this->db->query("DELETE
-							FROM " . DB_PREFIX . "url_aliases
+							FROM " . $this->db->table("url_aliases") . " 
 							WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'
 								AND language_id = '".(int)$this->session->data['content_language_id']."'");
 		}
@@ -68,12 +68,12 @@ class ModelCatalogManufacturer extends Model {
 			if ( isset($data[$f]) )
 				$update[] = "$f = '".$this->db->escape($data[$f])."'";
 		}
-		if ( !empty($update) ) $this->db->query("UPDATE " . DB_PREFIX . "manufacturers SET ". implode(',', $update) ." WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
+		if ( !empty($update) ) $this->db->query("UPDATE " . $this->db->table("manufacturers") . " SET ". implode(',', $update) ." WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 
 		if (isset($data['manufacturer_store'])) {
-			$this->db->query("DELETE FROM " . DB_PREFIX . "manufacturers_to_stores WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
+			$this->db->query("DELETE FROM " . $this->db->table("manufacturers_to_stores") . " WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 			foreach ($data['manufacturer_store'] as $store_id) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "manufacturers_to_stores SET manufacturer_id = '" . (int)$manufacturer_id . "', store_id = '" . (int)$store_id . "'");
+				$this->db->query("INSERT INTO " . $this->db->table("manufacturers_to_stores") . " SET manufacturer_id = '" . (int)$manufacturer_id . "', store_id = '" . (int)$store_id . "'");
 			}
 		}
 		
@@ -85,7 +85,7 @@ class ModelCatalogManufacturer extends Model {
 														array((int)$this->session->data['content_language_id'] => array('keyword' => $data['keyword'])));
 			}else{
 				$this->db->query("DELETE
-								FROM " . DB_PREFIX . "url_aliases
+								FROM " . $this->db->table("url_aliases") . " 
 								WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'
 									AND language_id = '".(int)$this->session->data['content_language_id']."'");
 			}
@@ -95,9 +95,9 @@ class ModelCatalogManufacturer extends Model {
 	}
 	
 	public function deleteManufacturer($manufacturer_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "manufacturers WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "manufacturers_to_stores WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "url_aliases WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("manufacturers") . " WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("manufacturers_to_stores") . " WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("url_aliases") . " WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'");
 
 		$lm = new ALayoutManager();
 		$lm->deletePageLayout('pages/product/manufacturer','manufacturer_id',(int)$manufacturer_id);
@@ -106,10 +106,10 @@ class ModelCatalogManufacturer extends Model {
 	
 	public function getManufacturer($manufacturer_id) {
 		$query = $this->db->query("SELECT DISTINCT *, ( SELECT keyword
-														FROM " . DB_PREFIX . "url_aliases
+														FROM " . $this->db->table("url_aliases") . " 
 														WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'
 														  AND language_id='".(int)$this->session->data['content_language_id']."') AS keyword
-									FROM " . DB_PREFIX . "manufacturers
+									FROM " . $this->db->table("manufacturers") . " 
 									WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 		
 		return $query->row;
@@ -178,8 +178,8 @@ class ModelCatalogManufacturer extends Model {
 			$manufacturer_data = $this->cache->get( 'manufacturer', '', (int)$this->config->get('config_store_id') );
 			if (is_null($manufacturer_data)) {
 				$query = $this->db->query( "SELECT *
-											FROM " . DB_PREFIX . "manufacturers m
-											LEFT JOIN " . DB_PREFIX . "manufacturers_to_stores m2s ON (m.manufacturer_id = m2s.manufacturer_id)
+											FROM " . $this->db->table("manufacturers") . " m
+											LEFT JOIN " . $this->db->table("manufacturers_to_stores") . " m2s ON (m.manufacturer_id = m2s.manufacturer_id)
 											WHERE m2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
 											ORDER BY sort_order, LCASE(m.name) ASC");
 	
@@ -194,7 +194,7 @@ class ModelCatalogManufacturer extends Model {
 	public function getManufacturerStores($manufacturer_id) {
 		$manufacturer_store_data = array();
 		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "manufacturers_to_stores WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("manufacturers_to_stores") . " WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 
 		foreach ($query->rows as $result) {
 			$manufacturer_store_data[] = $result['store_id'];

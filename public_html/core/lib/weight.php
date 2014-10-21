@@ -41,8 +41,8 @@ final class AWeight {
 		$this->db = $registry->get('db');
 		$this->config = $registry->get('config');
 		$sql = "SELECT *
-				FROM " . DB_PREFIX . "weight_classes wc
-				LEFT JOIN " . DB_PREFIX . "weight_class_descriptions wcd
+				FROM " . $this->db->table("weight_classes") . " wc
+				LEFT JOIN " . $this->db->table("weight_class_descriptions") . " wcd
 					ON (wc.weight_class_id = wcd.weight_class_id)
 				WHERE wcd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'";
 		$weight_class_query = $this->db->query($sql);

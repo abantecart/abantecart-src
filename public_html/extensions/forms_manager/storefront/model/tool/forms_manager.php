@@ -43,8 +43,8 @@ class ModelToolFormsManager extends Model {
 
 		if ($form_id) {
 			$q = 'SELECT f.*, fd.language_id, fd.description
-				FROM `' . DB_PREFIX . 'forms` f
-				LEFT JOIN `' . DB_PREFIX . 'form_descriptions` fd
+				FROM ' . $this->db->table("forms") . ' f
+				LEFT JOIN ' . $this->db->table("form_descriptions") . ' fd
 				ON f.form_id = fd.form_id
 				WHERE f.form_id = "' . (int)$form_id .  '"
 				AND fd.language_id = "' . (int)$this->config->get('storefront_language_id') . '"';
@@ -62,8 +62,8 @@ class ModelToolFormsManager extends Model {
 
 		$query = $this->db->query("
             SELECT f.*, fd.name, fd.description
-            FROM `".DB_PREFIX."fields` f
-                LEFT JOIN `".DB_PREFIX."field_descriptions` fd ON ( f.field_id = fd.field_id AND fd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
+            FROM " . $this->db->table("fields") . " f
+                LEFT JOIN " . $this->db->table("field_descriptions") . " fd ON ( f.field_id = fd.field_id AND fd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
             WHERE f.form_id = '" . (int) $form_id . "'
                 AND f.status = 1
             ORDER BY f.sort_order"
@@ -79,7 +79,7 @@ class ModelToolFormsManager extends Model {
 				$fields[ $row['field_id'] ] = $row;
 				$query = $this->db->query("
 					SELECT *
-					FROM `".DB_PREFIX."field_values`
+					FROM " . $this->db->table("field_values") . "
 					WHERE field_id = '" . $row['field_id'] . "'
 						AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'"
 				);
@@ -95,7 +95,7 @@ class ModelToolFormsManager extends Model {
 
 		$query = $this->db->query("
             SELECT field_id, field_name
-            FROM `".DB_PREFIX."fields`
+            FROM " . $this->db->table("fields") . "
             	WHERE form_id = '" . (int) $form_id . "'
                 AND status = 1
                 AND required = 'Y'
@@ -110,7 +110,7 @@ class ModelToolFormsManager extends Model {
 
 	public function getFieldTypes($form_id) {
 		$query = $this->db->query(
-			'SELECT field_id, field_name, element_type FROM `' .DB_PREFIX. 'fields`
+			'SELECT field_id, field_name, element_type FROM ' . $this->db->table("fields") . '
 				WHERE form_id = "' . (int) $form_id . '"
 				AND status = 1
 			ORDER BY sort_order'

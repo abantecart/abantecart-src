@@ -108,8 +108,8 @@ final class AConfig {
 		if (empty($settings)) {
 			// set global settings (without extensions settings)
 			$sql = "SELECT se.*
-					FROM " . DB_PREFIX . "settings se
-					LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
+					FROM " . $db->table("settings") . " se
+					LEFT JOIN " . $db->table("extensions") . " e ON TRIM(se.`group`) = TRIM(e.`key`)
 					WHERE se.store_id='0' AND e.extension_id IS NULL";
 			$query = $db->query($sql);
 			$settings = $query->rows;
