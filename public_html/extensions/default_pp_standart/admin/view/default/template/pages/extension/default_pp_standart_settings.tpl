@@ -52,8 +52,7 @@ include($tpl_common_dir . 'action_confirm.tpl'); ?>
 	</div>
 	<div class="panel-body panel-body-nopadding table-responsive" style="display: block;">
 		<div class="row">
-			<div class="col-sm-1"><img src="<?php echo $extension['icon'] ?>" alt="<?php echo $exrension['name'] ?>"
-									   border="0"/></div>
+			<div class="col-sm-1"><img src="<?php echo $extension['icon'] ?>" alt="<?php echo $exrension['name'] ?>" /></div>
 			<?php if ($extension['version']) { ?>
 				<div class="col-sm-1"><?php echo $text_version . ': ' . $extension['version']; ?></div>
 			<?php
@@ -99,9 +98,9 @@ include($tpl_common_dir . 'action_confirm.tpl'); ?>
 </div>
 
 <div class="tab-content">
-
+	<?php  echo $form['form_open']; ?>
 	<div class="panel-body panel-body-nopadding">
-		<?php  echo $form['form_open']; ?>
+
 		<label class="h4 heading"><?php echo $heading_required_settings; ?></label>
 		<?php foreach ($settings as $name => $field) {
 			if ( in_array($name, $exclude_settings) ) {
@@ -165,18 +164,16 @@ include($tpl_common_dir . 'action_confirm.tpl'); ?>
 		<?php } ?>
 <?php } ?>
 
+	</div>
+	<div class="panel-body panel-body-nopadding">
 
-		<div class="panel-body panel-body-nopadding">
-
-			<label class="h4 heading"><?php echo $heading_optional_settings; ?>&nbsp;<small><?php echo $text_customize_checkout_page; ?></small></label>
-			<?php foreach ($exclude_settings as $name) {
-
+		<label class="h4 heading"><?php echo $heading_optional_settings; ?>&nbsp;<small><?php echo $text_customize_checkout_page; ?></small></label>
+		<?php foreach ($exclude_settings as $name) {
 					$field = $settings[$name];
-
 					//Logic to calculate fields width
 					$widthcasses = "col-sm-7";
 					if($name=='default_pp_standart_cartbordercolor'){
-						$widthcasses = "col-sm-2";
+						$widthcasses = "col-sm-5";
 					}
 					$widthcasses .= " col-xs-12";
 					?>
@@ -193,12 +190,10 @@ include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 		<?php } ?><!-- <div class="fieldset"> -->
 
-					<div class="form-group pull-right">
-						<label class="control-label col-sm-3 col-xs-12" ></label>
-						<div class="input-group afield col-sm-7 col-xs-12"><img src="<?php echo HTTP_EXT . 'default_pp_standart/image/customize_help.png'; ?>" /></div>
-					</div>
-
-
+		<div class="form-group pull-right">
+			<label class="control-label col-sm-3 col-xs-12" ></label>
+			<div class="input-group afield col-sm-7 col-xs-12"><img src="<?php echo HTTP_EXT . 'default_pp_standart/image/customize_help.png'; ?>" /></div>
+		</div>
 	</div>
 
 	<div class="panel-footer">
@@ -223,11 +218,9 @@ include($tpl_common_dir . 'action_confirm.tpl'); ?>
 	</form>
 </div>
 
-
 <?php if ($extension['note']) { ?>
 	<div class="alert alert-warning"><i class="fa fa-info-circle fa-fw"></i> <?php echo $extension['note']; ?></div>
 <?php }
-
 
 echo $this->html->buildElement(
 		array('type' => 'modal',
