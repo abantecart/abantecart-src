@@ -237,7 +237,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 						'onclick="loadSingle(\'' + type + '\', \'' + wrapper_id + '\', null, \'' + field + '\');"><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
 				html += '</div>';
 
-				$('#'+field).val(item['resource_path'].lenght>0 ? item['type_name']+'/'+item['resource_path'] : '');
+				$('#'+field).val(item['resource_path'].length>0 ? item['type_name']+'/'+item['resource_path'] : '');
 				$('#'+field+'_resource_id').val(item['resource_id']);
 
 
