@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelCatalogReview extends Model {
 	public function addReview($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "reviews
+		$this->db->query("INSERT INTO " . $this->db->table("reviews") . " 
 						  SET author = '" . $this->db->escape($data['author']) . "',
 						      product_id = '" . $this->db->escape($data['product_id']) . "',
 						      text = '" . $this->db->escape(strip_tags($data['text'])) . "',
@@ -43,7 +43,7 @@ class ModelCatalogReview extends Model {
 				$update_data[] = "`$key` = '" . $this->db->escape($val) . "' ";
 			}
 		}
-		$this->db->query("UPDATE " . DB_PREFIX . "reviews
+		$this->db->query("UPDATE " . $this->db->table("reviews") . " 
 						  SET ".implode(',', $update_data)."
 						  WHERE review_id = '" . (int)$review_id . "'");
         $this->cache->delete('product.rating.'.(int)$data['product_id']);
@@ -53,14 +53,14 @@ class ModelCatalogReview extends Model {
 	
 	public function deleteReview($review_id) {
         $review = $this->getReview($review_id);
-		$this->db->query("DELETE FROM " . DB_PREFIX . "reviews WHERE review_id = '" . (int)$review_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("reviews") . " WHERE review_id = '" . (int)$review_id . "'");
         $this->cache->delete('product.rating.'.(int)$review['product_id']);
         $this->cache->delete('product.reviews.totals');
 		$this->cache->delete('product.all_info');
 	}
 	
 	public function getReview($review_id) {
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "reviews WHERE review_id = '" . (int)$review_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM " . $this->db->table("reviews") . " WHERE review_id = '" . (int)$review_id . "'");
 		
 		return $query->row;
 	}
@@ -76,9 +76,9 @@ class ModelCatalogReview extends Model {
 			
 		$sql = "SELECT
 		            $total_sql
-		        FROM " . DB_PREFIX . "reviews r
-		            LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (r.product_id = pd.product_id)
-		            LEFT JOIN " . DB_PREFIX . "products p ON (r.product_id = p.product_id)
+		        FROM " . $this->db->table("reviews") . " r
+		            LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (r.product_id = pd.product_id)
+		            LEFT JOIN " . $this->db->table("products") . " p ON (r.product_id = p.product_id)
 		        WHERE pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'";
 
 		$filter = (isset($data['filter']) ? $data['filter'] : array());
@@ -141,7 +141,7 @@ class ModelCatalogReview extends Model {
 	}
 	
 	public function getTotalReviewsAwaitingApproval() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "reviews WHERE status = '0'");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("reviews") . " WHERE status = '0'");
 		
 		return $query->row['total'];
 	}
@@ -156,7 +156,7 @@ class ModelCatalogReview extends Model {
 
 	public function getReviewProducts() {
 		$sql = "SELECT DISTINCT r.product_id, pd.name
-		FROM " . DB_PREFIX . "reviews r LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (r.product_id = pd.product_id)
+		FROM " . $this->db->table("reviews") . " r LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (r.product_id = pd.product_id)
 		WHERE pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'";
 		$query = $this->db->query($sql);
 

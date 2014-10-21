@@ -108,8 +108,8 @@ final class AConfig {
 		if (empty($settings)) {
 			// set global settings (without extensions settings)
 			$sql = "SELECT se.*
-					FROM " . DB_PREFIX . "settings se
-					LEFT JOIN " . DB_PREFIX . "extensions e ON TRIM(se.`group`) = TRIM(e.`key`)
+					FROM " . $db->table("settings") . " se
+					LEFT JOIN " . $db->table("extensions") . " e ON TRIM(se.`group`) = TRIM(e.`key`)
 					WHERE se.store_id='0' AND e.extension_id IS NULL";
 			$query = $db->query($sql);
 			$settings = $query->rows;
@@ -178,12 +178,16 @@ final class AConfig {
 		
 		//still no store? load default store or session based
 		if (is_null($this->cnfg['config_store_id'])) {
-			//if admin and specific store selected 
-			$session = $this->registry->get('session');
-			if (IS_ADMIN && $session->data['current_store_id']) {
-				$this->cnfg['config_store_id'] = $session->data['current_store_id'];	
-			} else {
-				$this->cnfg['config_store_id'] = 0;
+			$this->cnfg['config_store_id'] = 0;			
+			if (IS_ADMIN) {
+				//if admin and specific store selected 
+				$session = $this->registry->get('session');
+				$store_id = $this->registry->get('request')->get['store_id'];
+				if (has_value($store_id)) {
+					$session->data['current_store_id'] = $this->cnfg['config_store_id'] = (int)$store_id;				
+				} else if(has_value($session->data['current_store_id'])) {
+					$this->cnfg['config_store_id'] = $session->data['current_store_id'];	
+				}
 			}
 			$this->_reload_settings($this->cnfg['config_store_id']);
 		}

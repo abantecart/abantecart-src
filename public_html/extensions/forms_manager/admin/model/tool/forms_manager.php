@@ -55,9 +55,9 @@ class ModelToolFormsManager extends Model {
 			$filter = (isset($data['filter']) ? $data['filter'] : array());
 
 			if ($mode == 'total_only') {
-				$sql = "SELECT COUNT(*) as total FROM `" . DB_PREFIX . "forms` f LEFT JOIN `" . DB_PREFIX . "form_descriptions` fd ON (f.form_id = fd.form_id)";
+				$sql = "SELECT COUNT(*) as total FROM " . $this->db->table("forms") . " f LEFT JOIN " . $this->db->table("form_descriptions") . " fd ON (f.form_id = fd.form_id)";
 			} else {
-				$sql = "SELECT * FROM `" . DB_PREFIX . "forms` f LEFT JOIN `" . DB_PREFIX . "form_descriptions` fd ON (f.form_id = fd.form_id)";
+				$sql = "SELECT * FROM " . $this->db->table("forms") . " f LEFT JOIN " . $this->db->table("form_descriptions") . " fd ON (f.form_id = fd.form_id)";
 			}
 
 			$sql .= " WHERE fd.language_id = '" . $language_id . "'";
@@ -143,8 +143,8 @@ class ModelToolFormsManager extends Model {
 
 			if (!$form_data) {
 				$query = $this->db->query("SELECT *
-											FROM `" . DB_PREFIX . "forms` f
-											LEFT JOIN `" . DB_PREFIX . "form_descriptions` fd ON (f.form_id = fd.form_id)
+											FROM " . $this->db->table("forms") . " f
+											LEFT JOIN " . $this->db->table("form_descriptions") . " fd ON (f.form_id = fd.form_id)
 											WHERE fd.language_id = '" . $language_id . "'
 											ORDER BY f.form_name ASC");
 
@@ -164,7 +164,7 @@ class ModelToolFormsManager extends Model {
 	public function getFormDescriptions($form_id) {
 		$form_description_data = array();
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "form_descriptions` WHERE form_id = '" . (int)$form_id . "'");
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("form_descriptions") . " WHERE form_id = '" . (int)$form_id . "'");
 
 		foreach ($query->rows as $result) {
 			$form_description_data[$result['language_id']] = array(
@@ -186,7 +186,7 @@ class ModelToolFormsManager extends Model {
 
 			$data = $this->_validate($data);
 
-			$q = 'INSERT INTO `' . DB_PREFIX . 'forms`
+			$q = 'INSERT INTO ' . $this->db->table("forms") . '
 				SET
 					form_name = "' . $data['form_name'] . '",
 					controller = "' . $data['controller_path'] . '",
@@ -220,7 +220,7 @@ class ModelToolFormsManager extends Model {
 
 	public function deleteForm($form_id) {
 		$this->db->query(
-				'DELETE FROM `' . DB_PREFIX . 'forms`
+				'DELETE FROM ' . $this->db->table("forms") . '
 			WHERE form_id = "' . (int)$form_id . '"'
 		);
 		$this->deleteFormDescription($form_id);
@@ -230,7 +230,7 @@ class ModelToolFormsManager extends Model {
 
 	public function deleteFormDescription($form_id) {
 		$this->db->query(
-				'DELETE FROM `' . DB_PREFIX . 'form_descriptions`
+				'DELETE FROM ' . $this->db->table("form_descriptions") . '
 			WHERE form_id = "' . (int)$form_id . '"'
 		);
 	}
@@ -267,7 +267,7 @@ class ModelToolFormsManager extends Model {
 
 			if (!empty($cols)) {
 				$this->db->query(
-						'UPDATE `' . DB_PREFIX . 'forms`
+						'UPDATE ' . $this->db->table("forms") . '
 					SET ' . implode(',', $cols) . '
 					WHERE form_id = "' . (int)$data['form_id'] . '"'
 				);
@@ -433,7 +433,7 @@ class ModelToolFormsManager extends Model {
 
 	public function deleteFieldValue($field_id, $language_id) {
 		$this->db->query(
-				'DELETE FROM `' . DB_PREFIX . 'field_values`
+				'DELETE FROM ' . $this->db->table("field_values") . '
 			WHERE field_id = "' . (int)$field_id . '" AND language_id = "' . (int)$language_id . '"'
 		);
 		$this->_deleteCache();
@@ -443,7 +443,7 @@ class ModelToolFormsManager extends Model {
 		$opt_value = $this->db->escape($opt_value);
 		if ($opt_value != '') {
 			$this->db->query(
-					'DELETE FROM `' . DB_PREFIX . 'field_values`
+					'DELETE FROM ' . $this->db->table("field_values") . '
 				WHERE opt_value = "' . $opt_value . '"'
 			);
 		}
@@ -452,7 +452,7 @@ class ModelToolFormsManager extends Model {
 	public function getFormIdByName($name) {
 
 		$results = $this->db->query(
-				'SELECT form_id FROM `' . DB_PREFIX . 'forms`
+				'SELECT form_id FROM ' . $this->db->table("forms") . '
 			WHERE form_name = "' . $name . '" LIMIT 1'
 		);
 
@@ -464,7 +464,7 @@ class ModelToolFormsManager extends Model {
 
 	public function getFormNameById($form_id) {
 		$results = $this->db->query(
-				'SELECT form_name FROM `' . DB_PREFIX . 'forms`
+				'SELECT form_name FROM ' . $this->db->table("forms") . '
 			WHERE form_id = "' . (int)$form_id . '" LIMIT 1'
 		);
 
@@ -539,7 +539,7 @@ class ModelToolFormsManager extends Model {
 	public function checkFieldInForm($form_id, $field_name) {
 
 		$result = $this->db->query(
-				'SELECT field_id FROM `' . DB_PREFIX . 'fields`
+				'SELECT field_id FROM ' . $this->db->table("fields") . '
 			WHERE form_id = "' . (int)$form_id . '"
 			AND field_name = "' . $field_name . '" LIMIT 1'
 		);
@@ -556,8 +556,8 @@ class ModelToolFormsManager extends Model {
 
 		$query = $this->db->query("
             SELECT f.*, fd.name, fd.description
-            FROM `" . DB_PREFIX . "fields` f
-            LEFT JOIN `" . DB_PREFIX . "field_descriptions` fd
+            FROM " . $this->db->table("fields") . " f
+            LEFT JOIN " . $this->db->table("field_descriptions") . " fd
                 ON ( f.field_id = fd.field_id AND fd.language_id = '" . (int)$this->language->getContentLanguageID() . "' )
             WHERE f.form_id = '" . (int)$form_id . "'
             ORDER BY f.sort_order"
@@ -568,7 +568,7 @@ class ModelToolFormsManager extends Model {
 				$fields[$row['field_id']] = $row;
 				$query = $this->db->query("
 					SELECT *
-					FROM `" . DB_PREFIX . "field_values`
+					FROM " . $this->db->table("field_values") . "
 					WHERE field_id = '" . $row['field_id'] . "'
 					AND language_id = '" . (int)$this->language->getContentLanguageID() . "'"
 				);
@@ -585,8 +585,8 @@ class ModelToolFormsManager extends Model {
 
 		$query = $this->db->query("
             SELECT f.*, fd.name, fd.description, fd.error_text
-            FROM `" . DB_PREFIX . "fields` f
-                LEFT JOIN `" . DB_PREFIX . "field_descriptions` fd ON ( f.field_id = fd.field_id AND fd.language_id = '" . (int)$this->session->data['content_language_id'] . "' )
+            FROM " . $this->db->table("fields") . " f
+                LEFT JOIN " . $this->db->table("field_descriptions") . " fd ON ( f.field_id = fd.field_id AND fd.language_id = '" . (int)$this->session->data['content_language_id'] . "' )
             WHERE f.field_id = '" . (int)$field_id . "'
 
             ORDER BY f.sort_order LIMIT 1"
@@ -598,7 +598,7 @@ class ModelToolFormsManager extends Model {
 			$field['settings'] = unserialize($field['settings']);
 			$query = $this->db->query("
 				SELECT *
-				FROM `" . DB_PREFIX . "field_values`
+				FROM " . $this->db->table("field_values") . "
 				WHERE field_id = '" . $query->row['field_id'] . "'
 				AND language_id = '" . (int)$this->session->data['content_language_id'] . "'
 				LIMIT 1"
@@ -613,7 +613,7 @@ class ModelToolFormsManager extends Model {
 
 	public function removeField($form_id, $field_id) {
 		$this->db->query(
-				'DELETE FROM `' . DB_PREFIX . 'fields`
+				'DELETE FROM ' . $this->db->table("fields") . '
 			WHERE form_id = "' . (int)$form_id . '"
 			AND field_id = "' . (int)$field_id . '"'
 		);
@@ -622,7 +622,7 @@ class ModelToolFormsManager extends Model {
 
 	public function removeFieldValues($field_id) {
 		$this->db->query(
-				'DELETE FROM `' . DB_PREFIX . 'field_values`
+				'DELETE FROM ' . $this->db->table("field_values") . '
 			WHERE field_id = "' . (int)$field_id . '"'
 		);
 		$this->_deleteCache();
@@ -631,13 +631,13 @@ class ModelToolFormsManager extends Model {
 	public function removeFields($form_id) {
 
 		$res = $this->db->query(
-				'SELECT field_id FROM `' . DB_PREFIX . 'fields`
+				'SELECT field_id FROM ' . $this->db->table("fields") . '
 			WHERE form_id = "' . (int)$form_id . '"'
 		);
 
 		if ($res->num_rows > 0) {
 			$this->db->query(
-					'DELETE FROM `' . DB_PREFIX . 'fields`
+					'DELETE FROM ' . $this->db->table("fields") . '
 				WHERE form_id = "' . (int)$form_id . '"'
 			);
 

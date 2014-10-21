@@ -143,7 +143,7 @@ class AResource {
         $type_data = $this->cache->get($cache_name,'', (int)$this->config->get('config_store_id'));
         if (empty($type_data['type_id'])) {
             $sql = "SELECT * "
-                 . "FROM ".DB_PREFIX . "resource_types "
+                 . "FROM ".$this->db->table("resource_types") . " "
                  . "WHERE type_name = '" . $this->db->escape($this->type) . "'";
             $query = $this->db->query($sql);
             $type_data = $query->row;
@@ -211,7 +211,7 @@ class AResource {
 	 */
 	private function _getIdByName($filename){
 		$sql = "SELECT resource_id
-                FROM " . DB_PREFIX . "resource_descriptions
+                FROM " . $this->db->table("resource_descriptions") . " 
                 WHERE name like '%".$this->db->escape($filename)."%'
                 ORDER BY language_id";
         $query = $this->db->query($sql);
@@ -246,9 +246,9 @@ class AResource {
                         rd.*,
                         rt.type_name,
                         rt.default_icon
-                    FROM " . DB_PREFIX . "resource_library rl " . "
-                    LEFT JOIN " . DB_PREFIX . "resource_descriptions rd ON (rl.resource_id = rd.resource_id)
-                    LEFT JOIN " . DB_PREFIX . "resource_types rt ON (rl.type_id = rt.type_id )
+                    FROM " . $this->db->table("resource_library") . " rl " . "
+                    LEFT JOIN " . $this->db->table("resource_descriptions") . " rd ON (rl.resource_id = rd.resource_id)
+                    LEFT JOIN " . $this->db->table("resource_types") . " rt ON (rl.type_id = rt.type_id )
                     " . $where;
 
             $query = $this->db->query($sql);
@@ -400,9 +400,9 @@ class AResource {
 					rd.resource_code,
 					rm.default,
 					rm.sort_order	  
-				FROM " . DB_PREFIX . "resource_library rl " . "
-				LEFT JOIN " . DB_PREFIX . "resource_map rm ON rm.resource_id = rl.resource_id " . "
-				LEFT JOIN " . DB_PREFIX . "resource_descriptions rd ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."')
+				FROM " . $this->db->table("resource_library") . " rl " . "
+				LEFT JOIN " . $this->db->table("resource_map") . " rm ON rm.resource_id = rl.resource_id " . "
+				LEFT JOIN " . $this->db->table("resource_descriptions") . " rd ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."')
 				" . $where . "
 				ORDER BY rm.sort_order ASC";		
 				
@@ -421,7 +421,7 @@ class AResource {
             return $types;
         }
 
-		$sql = "SELECT * FROM " . DB_PREFIX . "resource_types";
+		$sql = "SELECT * FROM " . $this->db->table("resource_types") . " ";
 		$query = $this->db->query($sql);
 		$types = $query->rows;
         $this->cache->set($cache_name, $types, '', (int)$this->config->get('config_store_id'));

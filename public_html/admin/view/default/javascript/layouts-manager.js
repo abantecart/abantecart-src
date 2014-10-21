@@ -17,6 +17,9 @@ $(function () {
 	      onAdd: function (evt){
 	        var itemEl = evt.item;
 	        updateBlockData($(itemEl));
+	 		//fill in empty if dragged from header or footer
+	 		fillInPlaceholder('header', 1);
+	  		fillInPlaceholder('footer', 8);
 	      },
 	      onUpdate: function(event, ui) {
 	        formChanged(event.item);

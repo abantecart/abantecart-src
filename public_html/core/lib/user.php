@@ -48,7 +48,7 @@ final class AUser {
 		$this->session = $registry->get('session');
 
 		if (isset($this->session->data['user_id'])) {
-			$user_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "users WHERE user_id = '" . (int)$this->session->data['user_id'] . "'");
+			$user_query = $this->db->query("SELECT * FROM " . $this->db->table("users") . " WHERE user_id = '" . (int)$this->session->data['user_id'] . "'");
 
 			if ($user_query->num_rows) {
 				$this->user_id = $user_query->row['user_id'];
@@ -57,12 +57,12 @@ final class AUser {
 				$this->last_login = $this->session->data['user_last_login'];
 				$this->user_group_id = (int)$user_query->row['user_group_id'];
 
-				$this->db->query("UPDATE " . DB_PREFIX . "users
+				$this->db->query("UPDATE " . $this->db->table("users") . " 
       			                  SET ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'
       			                  WHERE user_id = '" . (int)$this->session->data['user_id'] . "'");
 
                 $user_group_query = $this->db->query("SELECT permission
-      			                                      FROM " . DB_PREFIX . "user_groups
+      			                                      FROM " . $this->db->table("user_groups") . " 
       			                                      WHERE user_group_id = '" . (int)$user_query->row['user_group_id'] . "'");
 				if (unserialize($user_group_query->row['permission'])) {
 					foreach (unserialize($user_group_query->row['permission']) as $key => $value) {
@@ -84,7 +84,7 @@ final class AUser {
      */
     public function login($username, $password) {
 		$user_query = $this->db->query("SELECT *
-    	                                FROM " . DB_PREFIX . "users
+    	                                FROM " . $this->db->table("users") . " 
     	                                WHERE username = '" . $this->db->escape($username) . "'
     	                                AND password = '" . $this->db->escape(AEncryption::getHash($password)) . "'");
 
@@ -99,12 +99,12 @@ final class AUser {
 				$this->session->data['user_last_login'] = $this->last_login = '-------';
 			}
 
-			$this->db->query("UPDATE " . DB_PREFIX . "users
+			$this->db->query("UPDATE " . $this->db->table("users") . " 
 							  SET last_login = NOW()
 							  WHERE user_id = '" . (int)$this->session->data['user_id'] . "'");
 
 			$user_group_query = $this->db->query("SELECT permission
-      		                                      FROM " . DB_PREFIX . "user_groups
+      		                                      FROM " . $this->db->table("user_groups") . " 
       		                                      WHERE user_group_id = '" . (int)$user_query->row['user_group_id'] . "'");
 
 			if ($user_group_query->row['permission']) {
@@ -208,7 +208,7 @@ final class AUser {
      */
     public function validate($username, $email) {
 		$user_query = $this->db->query(
-			"SELECT * FROM " . DB_PREFIX . "users
+			"SELECT * FROM " . $this->db->table("users") . " 
 			WHERE username = '" . $this->db->escape($username) . "'
 				AND email = '" . $this->db->escape($email) . "'");
 

@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 class ModelLocalisationCurrency extends Model {
 	public function addCurrency($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "currencies
+		$this->db->query("INSERT INTO " . $this->db->table("currencies") . " 
 		                    (`title`,
 		                     `code`,
 		                     `symbol_left`,
@@ -66,7 +66,7 @@ class ModelLocalisationCurrency extends Model {
 				$update[ ] = "$f = '" . $this->db->escape($data[ $f ]) . "'";
 		}
 		if (!empty($update)) {
-			$this->db->query("UPDATE `" . DB_PREFIX . "currencies`
+			$this->db->query("UPDATE " . $this->db->table("currencies") . " 
 							  SET " . implode(',', $update) . "
 							  WHERE currency_id = '" . (int)$currency_id . "'");
 			$this->cache->delete('currency');
@@ -79,14 +79,14 @@ class ModelLocalisationCurrency extends Model {
 		if ($this->getTotalCurrencies() < 2) {
 			return false;
 		}
-		$this->db->query("DELETE FROM " . DB_PREFIX . "currencies
+		$this->db->query("DELETE FROM " . $this->db->table("currencies") . " 
 						  WHERE currency_id = '" . (int)$currency_id . "'");
 		$this->cache->delete('currency');
 	}
 
 	public function getCurrency($currency_id) {
 		$query = $this->db->query("SELECT DISTINCT *
-								   FROM " . DB_PREFIX . "currencies
+								   FROM " . $this->db->table("currencies") . " 
 								   WHERE currency_id = '" . (int)$currency_id . "'");
 
 		return $query->row;
@@ -94,7 +94,7 @@ class ModelLocalisationCurrency extends Model {
 
 	public function getCurrencies($data = array()) {
 		if ($data) {
-			$sql = "SELECT * FROM " . DB_PREFIX . "currencies";
+			$sql = "SELECT * FROM " . $this->db->table("currencies") . " ";
 
 			$sort_data = array(
 				'title',
@@ -135,7 +135,7 @@ class ModelLocalisationCurrency extends Model {
 
 			if (!$currency_data) {
 				$query = $this->db->query("SELECT *
-											FROM " . DB_PREFIX . "currencies
+											FROM " . $this->db->table("currencies") . " 
 											ORDER BY title ASC");
 
 				foreach ($query->rows as $result) {
@@ -164,7 +164,7 @@ class ModelLocalisationCurrency extends Model {
 			$data = array();
 
 			$query = $this->db->query("SELECT *
-									   FROM " . DB_PREFIX . "currencies
+									   FROM " . $this->db->table("currencies") . " 
 									   WHERE code != '" . $this->db->escape($this->config->get('config_currency')) . "'
 									        AND date_modified > '" . date(strtotime('-1 day')) . "'");
 
@@ -182,13 +182,13 @@ class ModelLocalisationCurrency extends Model {
 				$value = substr($line, 11, 6);
 
 				if ((float)$value) {
-					$sql = "UPDATE " . DB_PREFIX . "currencies
+					$sql = "UPDATE " . $this->db->table("currencies") . " 
 									  SET value = '" . (float)$value . "', date_modified = NOW()
 									  WHERE code = '" . $this->db->escape($currency) . "'";
 					$this->db->query($sql);
 				}
 			}
-			$sql = "UPDATE " . DB_PREFIX . "currencies
+			$sql = "UPDATE " . $this->db->table("currencies") . " 
 							  SET value = '1.00000',
 							      date_modified = NOW()
 							  WHERE code = '" . $this->db->escape($this->config->get('config_currency')) . "'";
@@ -198,7 +198,7 @@ class ModelLocalisationCurrency extends Model {
 	}
 
 	public function getTotalCurrencies() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "currencies");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("currencies") . " ");
 		return $query->row[ 'total' ];
 	}
 }

@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelLocalisationWeightClass extends Model {
 	public function addWeightClass($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "weight_classes SET value = '" . (float)$data['value'] . "'");
+		$this->db->query("INSERT INTO " . $this->db->table("weight_classes") . " SET value = '" . (float)$data['value'] . "'");
 		
 		$weight_class_id = $this->db->getLastId();
 		
@@ -43,7 +43,7 @@ class ModelLocalisationWeightClass extends Model {
 	
 	public function editWeightClass($weight_class_id, $data) {
 		if ( isset($data['value']) )
-			$this->db->query("UPDATE " . DB_PREFIX . "weight_classes SET value = '" . (float)$data['value'] . "' WHERE weight_class_id = '" . (int)$weight_class_id . "'");
+			$this->db->query("UPDATE " . $this->db->table("weight_classes") . " SET value = '" . (float)$data['value'] . "' WHERE weight_class_id = '" . (int)$weight_class_id . "'");
 
 		if ( isset($data['weight_class_description']) ) {
 			foreach ($data['weight_class_description'] as $language_id => $value) {
@@ -62,8 +62,8 @@ class ModelLocalisationWeightClass extends Model {
 	}
 	
 	public function deleteWeightClass($weight_class_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "weight_classes WHERE weight_class_id = '" . (int)$weight_class_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "weight_class_descriptions WHERE weight_class_id = '" . (int)$weight_class_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("weight_classes") . " WHERE weight_class_id = '" . (int)$weight_class_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("weight_class_descriptions") . " WHERE weight_class_id = '" . (int)$weight_class_id . "'");
 		
 		$this->cache->delete('weight_class');
 	}
@@ -78,8 +78,8 @@ class ModelLocalisationWeightClass extends Model {
 
 		if ($data) {
 			$sql = "SELECT *, wc.weight_class_id
-					FROM " . DB_PREFIX . "weight_classes wc
-					LEFT JOIN " . DB_PREFIX . "weight_class_descriptions wcd
+					FROM " . $this->db->table("weight_classes") . " wc
+					LEFT JOIN " . $this->db->table("weight_class_descriptions") . " wcd
 						ON (wc.weight_class_id = wcd.weight_class_id AND wcd.language_id = '" . $language_id . "') ";
 		
 			$sort_data = array(
@@ -121,8 +121,8 @@ class ModelLocalisationWeightClass extends Model {
 			if (!$weight_class_data) {
 				$query = $this->db->query(
 					"SELECT *, wc.weight_class_id
-					FROM " . DB_PREFIX . "weight_classes wc
-					LEFT JOIN " . DB_PREFIX . "weight_class_descriptions wcd
+					FROM " . $this->db->table("weight_classes") . " wc
+					LEFT JOIN " . $this->db->table("weight_class_descriptions") . " wcd
 						ON (wc.weight_class_id = wcd.weight_class_id AND wcd.language_id = '" . $language_id . "')");
 				$weight_class_data = $query->rows;
 				$this->cache->set('weight_class', $weight_class_data, $language_id);
@@ -133,8 +133,8 @@ class ModelLocalisationWeightClass extends Model {
 	
 	public function getWeightClass($weight_class_id) {
 		$query = $this->db->query("SELECT *, wc.weight_class_id
-								   FROM " . DB_PREFIX . "weight_classes wc
-								   LEFT JOIN " . DB_PREFIX . "weight_class_descriptions wcd
+								   FROM " . $this->db->table("weight_classes") . " wc
+								   LEFT JOIN " . $this->db->table("weight_class_descriptions") . " wcd
 								        ON (wc.weight_class_id = wcd.weight_class_id AND wcd.language_id = '" . (int)$this->session->data['content_language_id'] . "')
 								   WHERE wc.weight_class_id = '" . (int)$weight_class_id . "'");
 		
@@ -143,7 +143,7 @@ class ModelLocalisationWeightClass extends Model {
 
 	public function getWeightClassDescriptionByUnit($unit) {
 		$query = $this->db->query("SELECT *
-									FROM " . DB_PREFIX . "weight_class_descriptions
+									FROM " . $this->db->table("weight_class_descriptions") . " 
 									WHERE unit = '" . $this->db->escape($unit) . "'
 										AND language_id = '" . (int)$this->session->data['content_language_id'] . "'");
 		
@@ -154,7 +154,7 @@ class ModelLocalisationWeightClass extends Model {
 		$weight_class_data = array();
 		
 		$query = $this->db->query("SELECT *
-									FROM " . DB_PREFIX . "weight_class_descriptions
+									FROM " . $this->db->table("weight_class_descriptions") . " 
 									WHERE weight_class_id = '" . (int)$weight_class_id . "'");
 				
 		foreach ($query->rows as $result) {
@@ -169,7 +169,7 @@ class ModelLocalisationWeightClass extends Model {
 			
 	public function getTotalWeightClasses() {
       	$query = $this->db->query("SELECT COUNT(*) AS total
-      	                            FROM " . DB_PREFIX . "weight_classes");
+      	                            FROM " . $this->db->table("weight_classes") . " ");
 		return $query->row['total'];
 	}		
 }
