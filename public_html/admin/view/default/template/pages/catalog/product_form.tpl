@@ -8,7 +8,7 @@
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 		    <div class="btn-group mr10 toolbar">
-    	        <a class="btn btn-white tooltips" href="<?php echo $clone_url; ?>" data-toggle="tooltip" title="<?php echo$text_clone; ?>" data-original-title="<?php echo $text_clone; ?>">
+    	        <a class="btn btn-white tooltips" href="<?php echo $clone_url; ?>" data-toggle="tooltip" title="<?php echo $text_clone; ?>" data-original-title="<?php echo $text_clone; ?>">
     	        <i class="fa fa-tags"></i>
     	        </a>
 		    </div>	
