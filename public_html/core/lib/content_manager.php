@@ -352,10 +352,10 @@ class AContentManager {
 			$select_columns = 'count(*) as total';
 		}
 		else {
-			$select_columns = 'i.*, id.*,
+			$select_columns = "i.*, id.*,
 						cd.title as parent_name,
-						( SELECT COUNT(*) FROM ' . DB_PREFIX . 'contents 
-						WHERE parent_content_id=i.content_id ) as cnt';
+						( SELECT COUNT(*) FROM " . $this->db->table("contents") . " 
+						WHERE parent_content_id=i.content_id ) as cnt";
 		}
 		
 		$sql = "SELECT ".$select_columns."

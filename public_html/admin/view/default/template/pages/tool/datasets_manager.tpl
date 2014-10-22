@@ -4,7 +4,6 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
-			</div>
 		</div>
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>

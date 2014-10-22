@@ -25,7 +25,7 @@ class ModelSettingExtension extends Model {
 	public function getInstalled($type) {
 		$extension_data = array();
 		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "extensions WHERE `type` = '" . $this->db->escape($type) . "'");
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("extensions") . " WHERE `type` = '" . $this->db->escape($type) . "'");
 		
 		foreach ($query->rows as $result) {
 			$extension_data[] = $result['key'];
@@ -40,17 +40,17 @@ class ModelSettingExtension extends Model {
 	public function getEnabledPayments() {
 		$extension_data = array();
 		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "extensions WHERE `type` = 'payment' and status = 1");		
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("extensions") . " WHERE `type` = 'payment' and status = 1");		
 		return $query->rows;
 	}
 	
 	
 	public function install($type, $key) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "extensions SET `type` = '" . $this->db->escape($type) . "', `key` = '" . $this->db->escape($key) . "'");
+		$this->db->query("INSERT INTO " . $this->db->table("extensions") . " SET `type` = '" . $this->db->escape($type) . "', `key` = '" . $this->db->escape($key) . "'");
 	}
 	
 	public function uninstall($type, $key) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "extensions WHERE `type` = '" . $this->db->escape($type) . "' AND `key` = '" . $this->db->escape($key) . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("extensions") . " WHERE `type` = '" . $this->db->escape($type) . "' AND `key` = '" . $this->db->escape($key) . "'");
 	}
 }
 ?>

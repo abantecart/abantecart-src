@@ -50,7 +50,7 @@ class ControllerPagesReportViewed extends AController {
 			array(
 				'name' => 'name',
 				'index' => 'name',
-				'width' => 120,
+				'width' => 240,
 				'align' => 'left',
 				'sortable' => false,
 			),
@@ -71,15 +71,15 @@ class ControllerPagesReportViewed extends AController {
 			array(
 				'name' => 'viewed',
 				'index' => 'viewed',
-				'width' => 100,
+				'width' => 50,
                 'align' => 'center',
 				'sortable' => false,
 			),
             array(
 				'name' => 'percent',
 				'index' => 'percent',
-				'width' => 90,
-                'align' => 'right',
+				'width' => 50,
+                'align' => 'center',
 	            'sortable' => false,
 			),
 		);

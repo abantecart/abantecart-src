@@ -228,10 +228,10 @@ class ModelCatalogDownload extends Model {
 			$rm->deleteResource($rl_id);
 		}
 
-		$this->db->query("DELETE FROM " . DB_PREFIX . "downloads WHERE download_id = '" . (int)$download_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "download_descriptions WHERE download_id = '" . (int)$download_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "download_attribute_values WHERE download_id = '" . (int)$download_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "products_to_downloads WHERE download_id = '" . (int)$download_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("downloads") . " WHERE download_id = '" . (int)$download_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("download_descriptions") . " WHERE download_id = '" . (int)$download_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("download_attribute_values") . " WHERE download_id = '" . (int)$download_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("products_to_downloads") . " WHERE download_id = '" . (int)$download_id . "'");
 
 	}
 
@@ -305,12 +305,12 @@ class ModelCatalogDownload extends Model {
 			$total_sql = 'count(*) as total';
 		}
 		else {
-			$total_sql = 'dd.*, d.*, (SELECT COUNT(*) as cnt FROM ' . DB_PREFIX . 'products_to_downloads ptd WHERE ptd.download_id = d.download_id) as product_count';
+			$total_sql = 'dd.*, d.*, (SELECT COUNT(*) as cnt FROM ' . $this->db->table("products_to_downloads") . ' ptd WHERE ptd.download_id = d.download_id) as product_count';
 		}
 
 		$sql = "SELECT $total_sql
-				FROM " . DB_PREFIX . "downloads d
-                LEFT JOIN " . DB_PREFIX . "download_descriptions dd
+				FROM " . $this->db->table("downloads") . " d
+                LEFT JOIN " . $this->db->table("download_descriptions") . " dd
                 	ON (d.download_id = dd.download_id AND dd.language_id = '" . $language_id . "')";
 
 		if (!empty($data[ 'subsql_filter' ])){
@@ -377,7 +377,7 @@ class ModelCatalogDownload extends Model {
 		$download_description_data = array();
 
 		$query = $this->db->query("SELECT *
-									FROM " . DB_PREFIX . "download_descriptions
+									FROM " . $this->db->table("download_descriptions") . " 
 									WHERE download_id = '" . (int)$download_id . "'");
 
 		foreach ($query->rows as $result) {
@@ -494,7 +494,7 @@ class ModelCatalogDownload extends Model {
 			$update[] = "`status` = '" . (int)$data[ 'status' ]."'";
 		}
 		if($update){
-			$this->db->query("UPDATE " . DB_PREFIX . "order_downloads
+			$this->db->query("UPDATE " . $this->db->table("order_downloads") . " 
 							  SET ".implode(', ',$update)."
 							  WHERE order_download_id='".(int)$order_download_id."'");
 		}

@@ -23,8 +23,8 @@ if (! defined ( 'DIR_CORE' )) {
 class ModelSettingStore extends Model {
 	public function getStore($store_id) {
 		$query = $this->db->query("SELECT DISTINCT *, s.store_id
-									FROM " . DB_PREFIX . "stores s
-									LEFT JOIN " . DB_PREFIX . "store_descriptions sd
+									FROM " . $this->db->table("stores") . " s
+									LEFT JOIN " . $this->db->table("store_descriptions") . " sd
 										ON (s.store_id = sd.store_id
 										       AND sd.language_id = '" . $this->config->get('storefront_language_id') . "')
 									WHERE s.store_id = '" . (int)$store_id . "'");

@@ -38,6 +38,7 @@ form {
 	margin-right: 5px;
 }
 .error {
+	text-align: center;
 	color: #FF0000;
 	display: block;
 	clear: both;
@@ -68,7 +69,6 @@ form {
 	float: left;
 }
 .button .button_middle {
-	background: url('../image/button_middle.png') repeat-x;
 	padding-top: 8px;
 	padding-bottom: 8px;
 	display: block;
@@ -78,15 +78,12 @@ form {
 .button .button_right {
 	width: 15px;
 	height: 30px;
-	background: url('../image/button_right.png') no-repeat;
 	display: block;
 	float: left;
 }
 .button .button_continue {
-	background: url('../image/button_save.png') no-repeat;
 }
 .button .button_cancel {
-	background: url('../image/button_cancel.png') no-repeat;
 }
 #container {
 	margin-top: 20px;
@@ -95,15 +92,14 @@ form {
 	margin-right: auto;
 }
 #header {
-	margin-bottom: 10px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	text-align: center;
 }
 #content_top {
-	background: url('../image/content_top.png') no-repeat;
 	height: 7px;
 }
 #content_middle {
-	border-left: 1px solid #DDDDDD;
-	border-right: 1px solid #DDDDDD;
 	background: #FFF;
 	padding-top: 10px;
 	padding-left: 20px;
@@ -112,7 +108,6 @@ form {
 	min-height: 400px;
 }
 #content_bottom {
-	background: url('../image/content_bottom.png') no-repeat;
 	height: 7px;
 	margin-bottom: 5px;
 }

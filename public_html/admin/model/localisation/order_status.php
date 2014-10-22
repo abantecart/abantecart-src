@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelLocalisationOrderStatus extends Model {
 	public function addOrderStatus($data) {
-		$result = $this->db->query("SELECT MAX(order_status_id) as max_id FROM " . DB_PREFIX . "order_statuses");
+		$result = $this->db->query("SELECT MAX(order_status_id) as max_id FROM " . $this->db->table("order_statuses"));
 		$order_status_id = (int)$result->row['max_id']+1;
 
 		foreach ($data['order_status'] as $language_id => $value) {

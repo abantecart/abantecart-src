@@ -36,7 +36,7 @@ class ModelExtensionBannerManager extends Model {
 			$data[ 'end_date' ] = "NULL";
 		}
 
-		$sql = "INSERT INTO `" . DB_PREFIX . "banners`
+		$sql = "INSERT INTO " . $this->db->table("banners") . " 
 				(`status`,`banner_type`,`banner_group_name`,`start_date`,`end_date`,`blank`,`sort_order`,`target_url`,`date_added`)
 				VALUES ('" . (int)$data[ 'status' ] . "',
 						'" . (int)$data[ 'banner_type' ] . "',
@@ -50,7 +50,7 @@ class ModelExtensionBannerManager extends Model {
 		$banner_id = $this->db->getLastId();
 		// for graphic banners remap resources
 		if ((int)$data[ 'banner_type' ] == 1) {
-			$sql = "UPDATE `" . DB_PREFIX . "resource_map` SET object_id='" . $banner_id . "' WHERE object_name='banners' AND object_id='-1'";
+			$sql = "UPDATE " . $this->db->table("resource_map") . " SET object_id='" . $banner_id . "' WHERE object_name='banners' AND object_id='-1'";
 			$this->db->query($sql);
 		}
 		$this->language->replaceDescriptions('banner_descriptions',
@@ -72,7 +72,7 @@ class ModelExtensionBannerManager extends Model {
 		}
 		// check is description presents
 		$sql = "SELECT DISTINCT language_id
-				FROM `" . DB_PREFIX . "banner_descriptions`
+				FROM " . $this->db->table("banner_descriptions") . " 
 				WHERE banner_id='" . $banner_id . "'
 				ORDER BY language_id ASC";
 		$result = $this->db->query($sql);
@@ -85,8 +85,8 @@ class ModelExtensionBannerManager extends Model {
 		}
 
 		$sql = "SELECT  bd.*, b.*
-				FROM `" . DB_PREFIX . "banners` b
-				LEFT JOIN `" . DB_PREFIX . "banner_descriptions` bd ON (bd.banner_id = b.banner_id AND bd.language_id = '" . $language_id . "')
+				FROM " . $this->db->table("banners") . " b
+				LEFT JOIN " . $this->db->table("banner_descriptions") . " bd ON (bd.banner_id = b.banner_id AND bd.language_id = '" . $language_id . "')
 				WHERE b.banner_id='" . $banner_id . "'";
 		$result = $this->db->query($sql);
 		return $result->row;
@@ -96,7 +96,7 @@ class ModelExtensionBannerManager extends Model {
 	public function getBannerGroups() {
 		// check is description presents
 		$sql = "SELECT DISTINCT TRIM(banner_group_name) as banner_group_name
-				FROM `" . DB_PREFIX . "banners`
+				FROM " . $this->db->table("banners") . " 
 				ORDER BY TRIM(banner_group_name) ASC";
 		$result = $this->db->query($sql);
 		return $result->rows;
@@ -133,7 +133,7 @@ class ModelExtensionBannerManager extends Model {
 			'blank' => 'int',
 			'sort_order' => 'int',
 			'target_url' => '' );
-		$sql = "UPDATE `" . DB_PREFIX . "banners`
+		$sql = "UPDATE " . $this->db->table("banners") . " 
 				SET ";
 		$tmp = array();
 		foreach (array_keys($flds) as $field_name) {
@@ -154,9 +154,9 @@ class ModelExtensionBannerManager extends Model {
 		$banner_id = (int)$banner_id;
 		if (!$banner_id) return false;
 
-		$sql[ ] = "DELETE FROM `" . DB_PREFIX . "banners` WHERE banner_id = '" . $banner_id . "'";
-		$sql[ ] = "DELETE FROM `" . DB_PREFIX . "banner_descriptions` WHERE banner_id = '" . $banner_id . "'";
-		$sql[ ] = "DELETE FROM `" . DB_PREFIX . "resource_map` WHERE object_name = 'banners'  AND object_id = '" . $banner_id . "'";
+		$sql[ ] = "DELETE FROM " . $this->db->table("banners") . " WHERE banner_id = '" . $banner_id . "'";
+		$sql[ ] = "DELETE FROM " . $this->db->table("banner_descriptions") . " WHERE banner_id = '" . $banner_id . "'";
+		$sql[ ] = "DELETE FROM " . $this->db->table("resource_map") . " WHERE object_name = 'banners'  AND object_id = '" . $banner_id . "'";
 		foreach ($sql as $s) {
 			$this->db->query($s);
 		}
@@ -177,8 +177,8 @@ class ModelExtensionBannerManager extends Model {
 						LEFT JOIN " .$this->db->table('banner_descriptions')." bd ON (b.banner_id = bd.banner_id AND bd.language_id = '" . $language_id . "')";
 		} else {
 			$sql = "SELECT bd.*, b.*
-						FROM " . DB_PREFIX . "banners b
-						LEFT JOIN " . DB_PREFIX . "banner_descriptions bd ON (b.banner_id = bd.banner_id AND bd.language_id = '" . $language_id . "')";
+						FROM " . $this->db->table("banners") . " b
+						LEFT JOIN " . $this->db->table("banner_descriptions") . " bd ON (b.banner_id = bd.banner_id AND bd.language_id = '" . $language_id . "')";
 		}
 
 		if (!empty($filter[ 'subsql_filter' ])) {
@@ -240,12 +240,12 @@ class ModelExtensionBannerManager extends Model {
 
 		if ($mode == 'total_only') {
 			$sql = "SELECT COUNT(*) as total
-						FROM " . DB_PREFIX . "banners b
-						LEFT JOIN " . DB_PREFIX . "banner_descriptions bd ON (b.banner_id = bd.banner_id)";
+						FROM " . $this->db->table("banners") . " b
+						LEFT JOIN " . $this->db->table("banner_descriptions") . " bd ON (b.banner_id = bd.banner_id)";
 		} else {
 
 			$sql = "SELECT `banner_id`, `type`, count(`type`) as cnt
-						FROM " . DB_PREFIX . "banner_stat
+						FROM " . $this->db->table("banner_stat") . " 
 						GROUP BY `banner_id`, `type`";
 			$result = $this->db->query($sql);
 			$stats = array();
@@ -257,8 +257,8 @@ class ModelExtensionBannerManager extends Model {
 			$sql = "SELECT b.banner_id,
 								bd.name,
 								b.banner_group_name
-						FROM " . DB_PREFIX . "banners b
-						LEFT JOIN " . DB_PREFIX . "banner_descriptions bd ON (b.banner_id = bd.banner_id) ";
+						FROM " . $this->db->table("banners") . " b
+						LEFT JOIN " . $this->db->table("banner_descriptions") . " bd ON (b.banner_id = bd.banner_id) ";
 		}
 
 		$sql .= " WHERE bd.language_id = '" . $language_id . "'";
