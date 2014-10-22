@@ -183,6 +183,6 @@
 	</definition>	
 	<definition>
 		<key>text_pending_review_approval</key>
-		<value><![CDATA[Review for product id %s is posted. Acction of approval is required! <a href="#admin#rt=catalog/review/update&review_id=%s" target="_blank">Click to view</a>]]></value>
+		<value><![CDATA[Review for product id %s is posted. Action of approval is required! Click to view #admin#rt=catalog/review/update&review_id=%s]]></value>
 	</definition>	
 </definitions>
