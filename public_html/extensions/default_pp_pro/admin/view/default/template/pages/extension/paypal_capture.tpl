@@ -1,37 +1,36 @@
-<tr>
-	<td><?php echo $text_payment_status; ?></td>
-	<td>
-		<?php echo $payment_status; ?>
-		<?php if ( $pending_reason ): ?>
-			&nbsp;
-			<?php echo $pending_reason; ?>
-		<?php endif; ?>
-	</td>
-</tr>
-
-<?php if ( has_value($pp_capture_amount) ): ?>
-	<tr>
-		<td colspan="2" style="display: none;" id="pp_capture_message_td"><div id="pp_capture_message"></div></td>
-	</tr>
-	<tr>
-		<td><?php echo $text_capture_funds; ?></td>
-		<td>
-			<?php echo $pp_capture_amount; ?>
-			<span class="abuttons_grp" style="display: inline-block;">
-				<a class="btn_standard"><?php echo $pp_capture_submit; ?></a>
+<div class="col-sm-6 col-xs-12">
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $text_payment_status; ?></label>
+			<div class="input-group afield col-sm-7">
+				<p class="form-control-static"><?php echo $payment_status; ?><?php echo  $pending_reason ? '('.$pending_reason.')':''; ?></p>
+			</div>
+		</div>
+	<?php if ( has_value($refunded_amount) ){ ?>
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $text_already_refunded; ?></label>
+			<div id="refunded_amount" class="input-group afield col-sm-7"><?php echo $refunded_amount; ?></div>
+		</div>
+	<?php } ?>
+</div>
+<?php if ( has_value($pp_capture_amount) ){ ?>
+<div class="col-sm-6 col-xs-12">
+		<div class="form-group">
+			<label class="control-label col-sm-5"><?php echo $text_capture_funds; ?></label>
+			<div class="input-group afield col-sm-7">
+				<div class="col-sm-4 col-xs-12"><?php echo $pp_capture_amount; ?></div>
+				<?php $pp_capture_submit->style = 'btn btn-info'; echo $pp_capture_submit; ?>
 				<div id="pp_capture_loading" class="ajax_loading" style="display: none;"></div>
-			</span>
-
-			<input type="hidden" name="pp_order_id" />
-		</td>
-	</tr>
-<?php endif; ?>
+				<input type="hidden" name="pp_order_id">
+			</div>
+		</div>
+</div>
+<?php } ?>
 
 <script type="text/javascript">
 
 	$('#pp_capture_submit').click(function() {
 
-		$('#pp_capture_message_td').hide();
+
 		$('#pp_capture_submit').hide();
 		$('#pp_capture_loading').show();
 
@@ -44,22 +43,12 @@
 				type: 'GET',
 				dataType: 'json',
 				success: function(result) {
-					//$('#pp_capture_loading').hide();
-					//$('#pp_capture_submit').show();
 					if ( result ) {
-						/*
-						$('#pp_capture_message').html(result.message);
-						var div_class = result.error ? 'warning' : 'success';
-						$('#pp_capture_message').removeAttr('class').addClass(div_class);
-						$('#pp_capture_message_td').show();
-						*/
-						window.location.href = result.href;
+						goTo( result.href );
 					} else {
 						$('#pp_capture_loading').hide();
 						$('#pp_capture_submit').show();
-						$('#pp_capture_message').html('<?php echo $error_service_unavailable; ?>');
-						$('#pp_capture_message').removeAttr('class').addClass('warning');
-						$('#pp_capture_message_td').show();
+						error_alert('<?php echo $error_service_unavailable; ?>');
 					}
 				}
 			});

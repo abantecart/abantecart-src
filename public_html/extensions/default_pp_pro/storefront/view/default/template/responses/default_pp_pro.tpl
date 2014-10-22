@@ -1,24 +1,24 @@
 <h4 class="heading4"><?php echo $text_credit_card; ?>:</h4>
 
-<div id="paypal" class="form-horizontal">
+<form id="paypal" class="form-horizontal">
 
-	<fieldset>
+
 		<div class="form-group ">
-			<label class="control-label"><?php echo $entry_cc_owner; ?></label>
-			<div class="input-group">
+			<label class="col-sm-5 control-label"><?php echo $entry_cc_owner; ?></label>
+			<div class="col-sm-7 input-group">
 				<?php echo $cc_owner; ?>
 			</div>
 			<span class="help-block"></span>
 		</div>
 		<div class="form-group ">
-			<label class="control-label"><?php echo $entry_cc_type; ?></label>
+			<label class="col-sm-5 control-label"><?php echo $entry_cc_type; ?></label>
 			<div class="input-group">
 				<?php echo $cc_type; ?>
 			</div>
 			<span class="help-block"></span>
 		</div>
 		<div class="form-group ">
-			<label class="control-label"><?php echo $entry_cc_number; ?></label>
+			<label class="col-sm-5 control-label"><?php echo $entry_cc_number; ?></label>
 			<div class="input-group">
 				<?php echo $cc_number; ?>
 			</div>
@@ -26,7 +26,7 @@
 		</div>
 		<?php if( $accepted_cards['Maestro'] ) { ?>
 		<div class="form-group ">
-			<label class="control-label"><?php echo $entry_cc_start_date; ?></label>
+			<label class="col-sm-5 control-label"><?php echo $entry_cc_start_date; ?></label>
 			<div class="controls ws_nowrap">
 				<?php echo $cc_start_date_month; ?> / <?php echo $cc_start_date_year. '&nbsp;' .$text_start_date; ?>
 			</div>
@@ -34,14 +34,14 @@
 		</div>
 		<?php } ?>
 		<div class="form-group ">
-			<label class="control-label"><?php echo $entry_cc_expire_date; ?></label>
-			<div class="controls ws_nowrap">
-				<?php echo $cc_expire_date_month; ?><?php echo $cc_expire_date_year; ?>
+			<label class="col-sm-5 control-label"><?php echo $entry_cc_expire_date; ?></label>
+			<div class="col-sm-7 input-group form-inline">
+				<?php echo $cc_expire_date_month; ?>&nbsp;<?php echo $cc_expire_date_year; ?>
 			</div>
 			<span class="help-block"></span>
 		</div>
 		<div class="form-group ">
-			<label class="control-label"><?php echo $entry_cc_cvv2; ?></label>
+			<label class="col-sm-5 control-label"><?php echo $entry_cc_cvv2; ?></label>
 			<div class="input-group">
 				<?php echo $cc_cvv2; ?>
 			</div>
@@ -49,7 +49,7 @@
 		</div>
 		<?php if( $accepted_cards['Maestro'] ) { ?>
 		<div class="form-group ">
-			<label class="control-label"><?php echo $entry_cc_issue; ?></label>
+			<label class="col-sm-5 control-label"><?php echo $entry_cc_issue; ?></label>
 			<div class="input-group">
 				<?php echo $cc_issue. '&nbsp;' .$text_issue; ?>
 			</div>
@@ -57,7 +57,7 @@
 		</div>
 		<?php } ?>
 
-		<div class="form-group action-buttons">
+		<div class="form-group action-buttons center">
 	    	<div class="input-group">
 				<a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn btn-default mr10" title="<?php echo $back->text ?>">
 					<i class="fa fa-arrow-left"></i>
@@ -70,8 +70,8 @@
 		    </div>
 		</div>
 		
-	</fieldset>
-</div>
+
+</form>
 
 
 <script type="text/javascript"><!--

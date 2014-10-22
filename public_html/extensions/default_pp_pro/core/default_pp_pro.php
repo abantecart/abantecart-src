@@ -66,13 +66,11 @@ class ExtensionDefaultPpPro extends Extension {
 				)
 			);
 			$data['text_capture_funds'] = $this->baseObject->language->get('text_capture_funds');
-			$data['pp_capture_submit'] = $this->baseObject->html->buildButton(array(
+			$data['pp_capture_submit'] = $this->baseObject->html->buildElement(array(
+				'type' => 'button',
 				'text' => $this->baseObject->language->get('text_capture'),
-				'name' => 'pp_capture_submit',
-				'style' => 'button3'
+				'name' => 'pp_capture_submit'
 			));
-
-
 
 			$data['pp_capture_action'] = $this->baseObject->html->getSecureURL(
 				'r/extension/default_pp_pro/capture',
@@ -123,10 +121,11 @@ class ExtensionDefaultPpPro extends Extension {
 				)
 			);
 			$data['text_do_paypal_refund'] = $this->baseObject->language->get('text_do_paypal_refund');
-			$data['pp_refund_submit'] = $this->baseObject->html->buildButton(array(
+			$data['pp_refund_submit'] = $this->baseObject->html->buildElement(array(
+				'type' => 'button',
 				'text' => $this->baseObject->language->get('text_refund'),
-				'name' => 'pp_refund_submit',
-				'style' => 'button3'
+				'title' => $this->baseObject->language->get('text_refund'),
+				'name' => 'pp_refund_submit'
 			));
 
 			$params = '&order_id=' . (int) $this->baseObject->data['order_info']['order_id'] .
