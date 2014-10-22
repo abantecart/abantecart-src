@@ -335,7 +335,7 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->document->addBreadcrumb(array(
 				'href' => $this->html->getSecureURL('sale/customer'),
 				'text' => $this->language->get('heading_title'),
-				'current' => true
+				'separator' => ' :: '
 		));
 
 		$this->data['addresses'] = array();
