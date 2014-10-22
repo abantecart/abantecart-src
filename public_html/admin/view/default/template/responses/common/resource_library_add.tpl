@@ -87,7 +87,7 @@
 				<?php echo $form['form_open']; ?>
 				<?php // resource_code form ?>
 				<div id="code_subform" >
-					<div class="col-sm-6 col-xs-12 form-horizontal form-bordered">
+					<div class="col-sm-8 col-xs-12 form-horizontal form-bordered">
 						<div class="form-group <?php echo(!empty($error['resource_code']) ? "has-error" : ""); ?>">
 							<label class="control-label"
 								   for="<?php echo $form['field_resource_code']->element_id; ?>"><?php echo $text_resource_code; ?></label>
@@ -100,7 +100,7 @@
 
 
 					<!-- col-sm-6 -->
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-4 col-xs-12">
 						<h3 class="panel-title">&nbsp;</h3>
 
 						<div class="form-group">
@@ -154,3 +154,32 @@
 		<!-- <div class="tab-content"> -->
 		</div>
 	</div>
+
+	<script type="text/javascript"><!--
+		//this code needed for correct work of ckeditor inside bootstrap modal
+		$.fn.modal.Constructor.prototype.enforceFocus = function () {
+		    var $modalElement = this.$element;
+		    $(document).on('focusin.modal', function (e) {
+		        var $parent = $(e.target.parentNode);
+		        if ($modalElement[0] !== e.target && !$modalElement.has(e.target).length
+		            // add whatever conditions you need here:
+		            &&
+		            !$parent.hasClass('cke_dialog_ui_input_select') && !$parent.hasClass('cke_dialog_ui_input_text')) {
+		            $modalElement.focus()
+		        }
+		    })
+		};
+
+		CKEDITOR.replace('resource_code',
+		{
+			language: '<?php echo $language_code; ?>',
+			toolbarGroups: [
+					{ name: 'document',	   groups: [ 'mode', 'document' ] },			// Displays document group with its two subgroups.
+			 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },			// Group's name will be used to create voice label.
+			 		'/',																// Line break - next group will be placed in new line.
+			 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+			 		{ name: 'links' },
+					{ name: 'insert', groups: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak', 'Iframe' ] },
+				]
+		});
+	//--></script>

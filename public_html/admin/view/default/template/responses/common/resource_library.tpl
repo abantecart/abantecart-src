@@ -11,11 +11,11 @@ if ($action == 'list_object') {
 		<ul class="nav nav-tabs nav-justified nav-profile">
 			<?php if (has_value($object_id)) { ?>
 				<li id="object" data-rl-id="<?php echo $resource_id; ?>"
-					data-type="<?php echo $type; ?>" <?php echo $active_object; ?>><a
+					data-type="<?php echo $type; ?>" <?php echo $active_object; ?>><a class="ellipsis"
 							href="#"><strong><?php echo $object_title." (".$object_name.")"; ?></strong></a></li>
 			<?php } ?>
 			<li id="library" data-rl-id="<?php echo $resource_id; ?>"
-				data-type="<?php echo $type; ?>" <?php echo $active_library; ?>><a
+				data-type="<?php echo $type; ?>" <?php echo $active_library; ?>><a class="ellipsis"
 						href="#"><span><?php echo $heading_title; ?></span></a></li>
 		</ul>
 
