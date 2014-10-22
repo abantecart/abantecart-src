@@ -71,19 +71,30 @@ class AMenu {
 	}
 
 	protected function _build_menu($values) {
-		$this->dataset_rows = $values;
+
 		// need to resort by sort_order property
 		$offset = 0; // it needs for process repeating sort numbers
 		$tmp = $this->item_ids = array();
 		if (is_array($values)) {
-			foreach ($values as $item) {
+			$rm = new AResourceManager();
+			$rm->setType('image');
+			$language_id = $this->registry->get('language')->getContentLanguageID();
+
+			foreach ($values as &$item) {
+				if($item['item_icon_rl_id']) {
+					$r = $rm->getResource($item['item_icon_rl_id'], $language_id);
+					$item['item_icon_code'] = $r['resource_code'];
+				}
 				if (isset ($tmp [ $item [ 'parent_id' ] ] [ $item [ 'sort_order' ] ])) {
 					$offset++;
 				}
 				$tmp [ $item [ 'parent_id' ] ] [ $item [ 'sort_order' ] + $offset ] = $item;
 				$this->item_ids [ ] = $item [ 'item_id' ];
 			}
-		}
+		} unset($item);
+
+		$this->dataset_rows = $values;
+
 		$menu = array();
 		foreach ($tmp as $key => $item) {
 			ksort($item);

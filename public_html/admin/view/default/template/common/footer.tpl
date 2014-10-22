@@ -4,13 +4,13 @@
 		    </div>
 		    <div class="col-md-4 help_links flt_right">
 		      <a href="" onclick="<?php echo $doc_menu['item_url']; ?> return false;">
-		      <?php echo $doc_menu['item_icon_rl_id']; ?><?php echo $doc_menu_text; ?>
+		      <?php echo $doc_menu['item_icon_code']; ?><?php echo $doc_menu_text; ?>
 		      </a>
 		      <a href="" onclick="<?php echo $support_menu['item_url']; ?> return false;">
-		      <?php echo $support_menu['item_icon_rl_id']; ?><?php echo $support_menu_text; ?>
+		      <?php echo $support_menu['item_icon_code']; ?><?php echo $support_menu_text; ?>
 		      </a>		      
 		      <a href="" onclick="<?php echo $mp_menu['item_url']; ?> return false;">
-		      <?php echo $mp_menu['item_icon_rl_id']; ?><?php echo $mp_menu_text; ?>
+		      <?php echo $mp_menu['item_icon_code']; ?><?php echo $mp_menu_text; ?>
 		      </a>		      
 		    </div>
 		    <div class="col-md-4 version"><?php echo $text_footer; ?></div>
@@ -60,12 +60,12 @@
                 <li>
                     <div class="media">
                         <a href="<?php echo $order['url']; ?>" class="pull-left media-thumb">
-							Order #<?php echo $order[order_id];?>
+							Order #<?php echo $order['order_id'];?>
                         </a>
                         <div class="media-body">
-                            <strong>Status: <?php echo $order[status];?></strong>
-                            <small>Total: <?php echo $order[total];?></small>
-                            <small><?php echo $order[date_added];?></small>
+                            <strong>Status: <?php echo $order['status'];?></strong>
+                            <small>Total: <?php echo $order['total'];?></small>
+                            <small><?php echo $order['date_added'];?></small>
                         </div>
                     </div><!-- media -->
                 </li>
