@@ -50,16 +50,23 @@
 			?>
 		<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
-			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
-				<?php echo $field;
+			<div class="input-group"><?php echo $field; ?></div>
+			<?php
 				if($name=='zone'){ ?>
-					<div class="dl-horizontal">
-						<input type="checkbox" value="1" id="zones_selectall">
-						<label for="zones_selectall"><?php echo $text_select_all; ?></label>
+					<div class="form-group">
+						<div class="input-group col-sm-offset-3">
+								<a class="btn btn-info btn-xs" onclick="selectAll();">
+									<i class="fa fa-check-square-o fa-fw"></i>	<?php echo $text_select_all; ?>
+								</a>
+								<a class="btn btn-default btn-xs" onclick="unselectAll();">
+									<i class="fa fa-square-o fa-fw"></i> <?php echo $text_unselect_all; ?>
+								</a>
+						</div>
 					</div>
+
 				<?php } ?>
 
-			</div>
+
 		    <?php if (!empty($error[$name])) { ?>
 		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
 		    <?php } ?>
@@ -80,14 +87,6 @@
 	</div>
 	</form>
 </div><!-- <div class="tab-content"> -->
-
-
-
-
-
-
-
-
 
 <script type="text/javascript"><!--
 var zone_id = '<?php echo $zone_id; ?>';
@@ -119,7 +118,7 @@ jQuery(function ($) {
 			if(i!=0){
             options += '<label for="check_' + i + '">'
 				+'<div class="afield acheckbox"><span>'
-				+'<input id="check_'+i+'" type="checkbox" value="'+i+'" name="zone_id[]" style="opacity: 0;" />'
+				+'<input id="check_'+i+'" type="checkbox" value="'+i+'" name="zone_id[]" />'
 				+'</span></div>' + opt.value + '</label>';
 			}
 
@@ -141,12 +140,13 @@ jQuery(function ($) {
 });
 
 
-	$('#zones_selectall').click(function () {
-		if (this.checked) {
-			$('input[name*=\'zone_id\[\]\']').attr('checked', 'checked');
-		} else {
-			$('input[name*=\'zone_id\[\]\']').removeAttr('checked');
-		}
-	});
+	function selectAll() {
+		$('input[name*=\'zone_id\[\]\']').attr('checked', 'checked');
+		//$('#tables').find('.afield').addClass('checked');
+	}
+	function unselectAll() {
+		$('input[name*=\'zone_id\[\]\']').removeAttr('checked');
+		//$('#tables').find('.afield').removeClass('checked');
+	}
 
 //--></script>

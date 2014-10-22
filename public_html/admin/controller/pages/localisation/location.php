@@ -404,6 +404,7 @@ class ControllerPagesLocalisationLocation extends AController {
             'type' => 'form',
             'name' => 'cgFrm',
             'action' => $this->data['action'],
+		    'attr' => 'class="aform form-horizontal"'
         ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
             'type' => 'button',
