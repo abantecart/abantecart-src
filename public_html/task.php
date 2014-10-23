@@ -78,10 +78,7 @@ if($_GET['mode'] == 'query'){
 
 	//$output = array();
 	$tm->getTask();
-//TODO: сделать вывод инфы по степам в json
-
-
-
+//TODO: in the future need to add ability json response for task result
 
 
 }elseif( $_GET['mode'] == 'run' ){
