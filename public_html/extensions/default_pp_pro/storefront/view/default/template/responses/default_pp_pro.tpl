@@ -35,9 +35,7 @@
 		<?php } ?>
 		<div class="form-group ">
 			<label class="col-sm-5 control-label"><?php echo $entry_cc_expire_date; ?></label>
-			<div class="col-sm-7 input-group form-inline">
-				<?php echo $cc_expire_date_month; ?>&nbsp;<?php echo $cc_expire_date_year; ?>
-			</div>
+			<div class="col-sm-7 input-group form-inline"><?php echo $cc_expire_date_month; ?>&nbsp;<?php echo $cc_expire_date_year; ?></div>
 			<span class="help-block"></span>
 		</div>
 		<div class="form-group ">
