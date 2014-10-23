@@ -146,21 +146,17 @@ VALUES (15,'core',17);
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES (40,'<i class="fa fa-camera"></i>&nbsp;',17);
 
-
-#remove all language definitions for admin side
-DELETE FROM `ac_language_definitions` WHERE section=1;
-
 #indexes
-CREATE INDEX `addresses_idx` ON `ac_addresses` ( `customer_id`, `country_id`, `zone_id`  );
-CREATE INDEX `categories_idx` ON `ac_categories` ( `category_id`, `parent_id`, `status`  );
-CREATE INDEX `countries_idx` ON `ac_countries` ( `iso_code_2`, `iso_code_3`, `status`  );
-CREATE INDEX `coupons_products_idx` ON `ac_coupons_products` ( `coupon_id`, `product_id`  );
-CREATE INDEX `customers_idx` ON `ac_customers` ( `store_id`, `address_id`, `customer_group_id` );
-CREATE INDEX `customer_transactions_idx` ON `ac_customer_transactions` ( `customer_id`, `order_id` );
-CREATE INDEX `downloads_idx` ON `ac_downloads` ( `activate_order_status_id`, `shared` );
-CREATE INDEX `download_attribute_values_idx` ON `ac_download_attribute_values` ( `attribute_id`, `download_id` );
+CREATE INDEX `ac_addresses_idx` ON `ac_addresses` ( `customer_id`, `country_id`, `zone_id`  );
+CREATE INDEX `ac_categories_idx` ON `ac_categories` ( `category_id`, `parent_id`, `status`  );
+CREATE INDEX `ac_countries_idx` ON `ac_countries` ( `iso_code_2`, `iso_code_3`, `status`  );
+CREATE INDEX `ac_coupons_products_idx` ON `ac_coupons_products` ( `coupon_id`, `product_id`  );
+CREATE INDEX `ac_customers_idx` ON `ac_customers` ( `store_id`, `address_id`, `customer_group_id` );
+CREATE INDEX `ac_customer_transactions_idx` ON `ac_customer_transactions` ( `customer_id`, `order_id` );
+CREATE INDEX `ac_downloads_idx` ON `ac_downloads` ( `activate_order_status_id`, `shared` );
+CREATE INDEX `ac_download_attribute_values_idx` ON `ac_download_attribute_values` ( `attribute_id`, `download_id` );
 
-CREATE INDEX `orders_idx`
+CREATE INDEX `ac_orders_idx`
 ON `ac_orders` (`invoice_id`,
 								`store_id`,
 								`customer_id`,
@@ -174,18 +170,18 @@ ON `ac_orders` (`invoice_id`,
 								`currency_id`,
 								`coupon_id`);
 
-CREATE INDEX `order_downloads_idx` ON `ac_order_downloads` (`order_id`, `order_product_id`, `download_id`, `status`, `activate_order_status_id`);
-CREATE INDEX `order_downloads_history_idx` ON `ac_order_downloads_history` (`download_id`);
-CREATE INDEX `order_history_idx` ON `ac_order_history` (`order_id`, `order_status_id`, `notify`);
-CREATE INDEX `order_options_idx` ON `ac_order_options` (`order_id`, `order_product_id`, `product_option_value_id`);
-CREATE INDEX `order_products_idx` ON `ac_order_products` (`order_id`,  `product_id`);
-CREATE INDEX `products_idx` ON `ac_products` (`stock_status_id`,  `manufacturer_id`, `weight_class_id`, `length_class_id`);
-CREATE INDEX `product_discounts_idx` ON `ac_product_discounts` (`product_id`, `customer_group_id`);
-CREATE INDEX `product_options_idx` ON `ac_product_options` (`attribute_id`, `product_id`, `group_id` );
-CREATE INDEX `product_option_values_idx` ON `ac_product_option_values` ( `product_option_id`, `product_id`, `group_id`, `attribute_value_id` );
-CREATE INDEX `product_option_value_descriptions_idx` ON `ac_product_option_value_descriptions` ( `product_id` );
-CREATE INDEX `reviews_idx` ON `ac_reviews` ( `product_id`, `customer_id` );
-CREATE INDEX `tax_rates_idx` ON `ac_tax_rates` ( `location_id`, `zone_id`, `tax_class_id` );
-CREATE INDEX `global_attributes_idx` ON `ac_global_attributes` ( `attribute_parent_id`, `attribute_group_id`, `attribute_type_id` );
+CREATE INDEX `ac_order_downloads_idx` ON `ac_order_downloads` (`order_id`, `order_product_id`, `download_id`, `status`, `activate_order_status_id`);
+CREATE INDEX `ac_order_downloads_history_idx` ON `ac_order_downloads_history` (`download_id`);
+CREATE INDEX `ac_order_history_idx` ON `ac_order_history` (`order_id`, `order_status_id`, `notify`);
+CREATE INDEX `ac_order_options_idx` ON `ac_order_options` (`order_id`, `order_product_id`, `product_option_value_id`);
+CREATE INDEX `ac_order_products_idx` ON `ac_order_products` (`order_id`,  `product_id`);
+CREATE INDEX `ac_products_idx` ON `ac_products` (`stock_status_id`,  `manufacturer_id`, `weight_class_id`, `length_class_id`);
+CREATE INDEX `ac_product_discounts_idx` ON `ac_product_discounts` (`product_id`, `customer_group_id`);
+CREATE INDEX `ac_product_options_idx` ON `ac_product_options` (`attribute_id`, `product_id`, `group_id` );
+CREATE INDEX `ac_product_option_values_idx` ON `ac_product_option_values` ( `product_option_id`, `product_id`, `group_id`, `attribute_value_id` );
+CREATE INDEX `ac_product_option_value_descriptions_idx` ON `ac_product_option_value_descriptions` ( `product_id` );
+CREATE INDEX `ac_reviews_idx` ON `ac_reviews` ( `product_id`, `customer_id` );
+CREATE INDEX `ac_tax_rates_idx` ON `ac_tax_rates` ( `location_id`, `zone_id`, `tax_class_id` );
+CREATE INDEX `ac_global_attributes_idx` ON `ac_global_attributes` ( `attribute_parent_id`, `attribute_group_id`, `attribute_type_id` );
 
 

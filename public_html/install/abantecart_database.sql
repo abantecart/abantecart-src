@@ -20,7 +20,7 @@ CREATE TABLE `ac_addresses` (
   `zone_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`address_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE INDEX `addresses_idx` ON `ac_addresses` ( `customer_id`, `country_id`, `zone_id`  );
+CREATE INDEX `ac_addresses_idx` ON `ac_addresses` ( `customer_id`, `country_id`, `zone_id`  );
 
 --
 -- DDL for table `categories`
@@ -35,7 +35,7 @@ CREATE TABLE `ac_categories` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`category_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE INDEX `categories_idx` ON `ac_categories` ( `category_id`, `parent_id`, `status`  );
+CREATE INDEX `ac_categories_idx` ON `ac_categories` ( `category_id`, `parent_id`, `status`  );
 
 --
 -- DDL for table `category_descriptions`
@@ -76,7 +76,7 @@ CREATE TABLE `ac_countries` (
   `sort_order` int(3) NOT NULL DEFAULT '0',  
   PRIMARY KEY (`country_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE INDEX `countries_idx` ON `ac_countries` ( `iso_code_2`, `iso_code_3`, `status`  );
+CREATE INDEX `ac_countries_idx` ON `ac_countries` ( `iso_code_2`, `iso_code_3`, `status`  );
 
 --
 -- Dumping data for table `countries`
@@ -625,7 +625,7 @@ CREATE TABLE `ac_coupons_products` (
   PRIMARY KEY (`coupon_product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `coupons_products_idx` ON `ac_coupons_products` ( `coupon_id`, `product_id`  );
+CREATE INDEX `ac_coupons_products_idx` ON `ac_coupons_products` ( `coupon_id`, `product_id`  );
 
 
 --
@@ -684,7 +684,7 @@ CREATE TABLE `ac_customers` (
   UNIQUE KEY `customers_loginname` (`loginname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `customers_idx` ON `ac_customers` ( `store_id`, `address_id`, `customer_group_id` );
+CREATE INDEX `ac_customers_idx` ON `ac_customers` ( `store_id`, `address_id`, `customer_group_id` );
 
 --
 -- DDL for table `customer_groups`
@@ -725,7 +725,7 @@ CREATE TABLE `ac_customer_transactions` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`customer_transaction_id`)
 )ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE INDEX `customer_transactions_idx` ON `ac_customer_transactions` ( `customer_id`, `order_id` );
+CREATE INDEX `ac_customer_transactions_idx` ON `ac_customer_transactions` ( `customer_id`, `order_id` );
 
 --
 -- DDL for table `ac_online_customers`
@@ -760,7 +760,7 @@ CREATE TABLE `ac_downloads` (
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`download_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE INDEX `downloads_idx` ON `ac_downloads` ( `activate_order_status_id`, `shared` );
+CREATE INDEX `ac_downloads_idx` ON `ac_downloads` ( `activate_order_status_id`, `shared` );
 --
 -- DDL for table `download_descriptions`
 --
@@ -783,7 +783,7 @@ CREATE TABLE `ac_download_attribute_values` (
   PRIMARY KEY (`download_attribute_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `download_attribute_values_idx` ON `ac_download_attribute_values` ( `attribute_id`, `download_id` );
+CREATE INDEX `ac_download_attribute_values_idx` ON `ac_download_attribute_values` ( `attribute_id`, `download_id` );
 
 --
 -- DDL for table `extensions`
@@ -875,7 +875,7 @@ CREATE TABLE `ac_banner_stat` (
   `store_id` int(11) NOT NULL,
   `user_info` text(1500) DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-CREATE INDEX `banner_stat_idx` ON `ac_banner_stat` (`banner_id`, `type`, `time`, `store_id`);
+CREATE INDEX `ac_banner_stat_idx` ON `ac_banner_stat` (`banner_id`, `type`, `time`, `store_id`);
 
 --
 -- DDL for table `locations`
@@ -938,7 +938,7 @@ CREATE TABLE `ac_language_definitions` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`language_definition_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `lang_definition_index`
+CREATE UNIQUE INDEX `ac_lang_definition_index`
 ON `ac_language_definitions` ( `section`,`block`,`language_id`,`language_key` );
 
 --
@@ -1065,7 +1065,7 @@ CREATE TABLE `ac_orders` (
   PRIMARY KEY (`order_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `orders_idx`
+CREATE INDEX `ac_orders_idx`
 ON `ac_orders` (`invoice_id`,
 								`store_id`,
 								`customer_id`,
@@ -1103,7 +1103,7 @@ CREATE TABLE `ac_order_downloads` (
   PRIMARY KEY (`order_download_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `order_downloads_idx`
+CREATE INDEX `ac_order_downloads_idx`
 ON `ac_order_downloads` (`order_id`, `order_product_id`, `download_id`, `status`, `activate_order_status_id`);
 --
 -- DDL for table `order_downloads`
@@ -1122,7 +1122,7 @@ CREATE TABLE `ac_order_downloads_history` (
   PRIMARY KEY (`order_download_history_id`,`order_download_id`, `order_id`,`order_product_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `order_downloads_history_idx`
+CREATE INDEX `ac_order_downloads_history_idx`
 ON `ac_order_downloads_history` (`download_id`);
 
 --
@@ -1165,7 +1165,7 @@ CREATE TABLE `ac_order_history` (
   PRIMARY KEY (`order_history_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `order_history_idx`
+CREATE INDEX `ac_order_history_idx`
 ON `ac_order_history` (`order_id`, `order_status_id`, `notify`);
 
 --
@@ -1184,7 +1184,7 @@ CREATE TABLE `ac_order_options` (
   PRIMARY KEY (`order_option_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `order_options_idx`
+CREATE INDEX `ac_order_options_idx`
 ON `ac_order_options` (`order_id`, `order_product_id`, `product_option_value_id`);
 
 
@@ -1206,7 +1206,7 @@ CREATE TABLE `ac_order_products` (
   PRIMARY KEY (`order_product_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `order_products_idx` ON `ac_order_products` (`order_id`,  `product_id`);
+CREATE INDEX `ac_order_products_idx` ON `ac_order_products` (`order_id`,  `product_id`);
 
 --
 -- DDL for table `order_statuses`
@@ -1291,7 +1291,7 @@ CREATE TABLE `ac_products` (
   PRIMARY KEY (`product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `products_idx` ON `ac_products` (`stock_status_id`,  `manufacturer_id`, `weight_class_id`, `length_class_id`);
+CREATE INDEX `ac_products_idx` ON `ac_products` (`stock_status_id`,  `manufacturer_id`, `weight_class_id`, `length_class_id`);
 
 
 --
@@ -1328,7 +1328,7 @@ CREATE TABLE `ac_product_discounts` (
   PRIMARY KEY (`product_discount_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `product_discounts_idx` ON `ac_product_discounts` (`product_id`, `customer_group_id`);
+CREATE INDEX `ac_product_discounts_idx` ON `ac_product_discounts` (`product_id`, `customer_group_id`);
 
 
 --
@@ -1357,7 +1357,7 @@ CREATE TABLE `ac_product_options` (
   PRIMARY KEY (`product_option_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `product_options_idx` ON `ac_product_options` (`attribute_id`, `product_id`, `group_id` );
+CREATE INDEX `ac_product_options_idx` ON `ac_product_options` (`attribute_id`, `product_id`, `group_id` );
 
 --
 -- DDL for table `product_option_descriptions`
@@ -1372,7 +1372,7 @@ CREATE TABLE `ac_product_option_descriptions` (
   `error_text` 	varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_option_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-CREATE INDEX `product_option_descriptions_idx` ON `ac_product_option_descriptions` ( `product_id` );
+CREATE INDEX `ac_product_option_descriptions_idx` ON `ac_product_option_descriptions` ( `product_id` );
 --
 -- DDL for table `product_option_values`
 --
@@ -1396,7 +1396,7 @@ CREATE TABLE `ac_product_option_values` (
   PRIMARY KEY (`product_option_value_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `product_option_values_idx` ON `ac_product_option_values` ( `product_option_id`, `product_id`, `group_id`, `attribute_value_id` );
+CREATE INDEX `ac_product_option_values_idx` ON `ac_product_option_values` ( `product_option_id`, `product_id`, `group_id`, `attribute_value_id` );
 
 
 --
@@ -1411,7 +1411,7 @@ CREATE TABLE `ac_product_option_value_descriptions` (
   `grouped_attribute_names` text COLLATE utf8_general_ci DEFAULT NULL,  
   PRIMARY KEY (`product_option_value_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-CREATE INDEX `product_option_value_descriptions_idx` ON `ac_product_option_value_descriptions` ( `product_id` );
+CREATE INDEX `ac_product_option_value_descriptions_idx` ON `ac_product_option_value_descriptions` ( `product_id` );
 
 --
 -- DDL for table `product_related`
@@ -1441,7 +1441,7 @@ CREATE TABLE `ac_product_specials` (
   PRIMARY KEY (`product_special_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `product_specials_idx` ON `ac_product_specials` ( `product_id`, `customer_group_id` );
+CREATE INDEX `ac_product_specials_idx` ON `ac_product_specials` ( `product_id`, `customer_group_id` );
 
 --
 -- DDL for table `product_tags`
@@ -1505,7 +1505,7 @@ CREATE TABLE `ac_reviews` (
   PRIMARY KEY (`review_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `reviews_idx` ON `ac_reviews` ( `product_id`, `customer_id` );
+CREATE INDEX `ac_reviews_idx` ON `ac_reviews` ( `product_id`, `customer_id` );
 
 
 --
@@ -1815,7 +1815,7 @@ CREATE TABLE `ac_tax_rates` (
   PRIMARY KEY (`tax_rate_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `tax_rates_idx` ON `ac_tax_rates` ( `location_id`, `zone_id`, `tax_class_id` );
+CREATE INDEX `ac_tax_rates_idx` ON `ac_tax_rates` ( `location_id`, `zone_id`, `tax_class_id` );
 --
 -- Dumping data for table `tax_rate`
 --
@@ -1850,9 +1850,9 @@ CREATE TABLE `ac_url_aliases` (
   `language_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`url_alias_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `url_aliases_index`
+CREATE UNIQUE INDEX `ac_url_aliases_index`
 ON `ac_url_aliases` ( `keyword`, `language_id`);
-CREATE UNIQUE INDEX `url_aliases_index2`
+CREATE UNIQUE INDEX `ac_url_aliases_index2`
 ON `ac_url_aliases` ( `query`, `language_id` );
 
 
@@ -9856,7 +9856,7 @@ CREATE TABLE `ac_zones_to_locations` (
   PRIMARY KEY (`zone_to_location_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `zones_to_locations_idx` ON `ac_zones_to_locations` ( `country_id`, `zone_id`, `location_id` );
+CREATE INDEX `ac_zones_to_locations_idx` ON `ac_zones_to_locations` ( `country_id`, `zone_id`, `location_id` );
 
 --
 -- Dumping data for table `ac_zones_to_locations`
@@ -9945,7 +9945,7 @@ CREATE TABLE `ac_pages` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`page_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-CREATE UNIQUE INDEX `pages_index`
+CREATE UNIQUE INDEX `ac_pages_index`
 ON `ac_pages` ( `page_id`, `controller`, `key_param`, `key_value` );
 
 --
@@ -10123,7 +10123,7 @@ CREATE TABLE `ac_custom_lists` (
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-CREATE INDEX `custom_block_id_list_index`
+CREATE INDEX `ac_custom_block_id_list_index`
 ON `ac_custom_lists` (`custom_block_id` );
 
 --
@@ -10316,7 +10316,7 @@ CREATE TABLE `ac_block_layouts` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`instance_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-CREATE UNIQUE INDEX `block_layouts_index`
+CREATE UNIQUE INDEX `ac_block_layouts_index`
 ON `ac_block_layouts` ( `instance_id`, `layout_id`, `block_id`, `parent_instance_id`,`custom_block_id` );
 
 INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`) VALUES
@@ -12119,7 +12119,7 @@ CREATE TABLE `ac_resource_map` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   KEY `group_id` (`resource_id`, `object_name`, `object_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `resource_map_index`
+CREATE UNIQUE INDEX `ac_resource_map_index`
 ON `ac_resource_map` ( `resource_id`, `object_name`, `object_id` );
 
 INSERT INTO `ac_resource_map` ( `resource_id`, `object_name`, `object_id`, `default`, `sort_order`, `date_added`)
@@ -12152,7 +12152,7 @@ CREATE TABLE `ac_global_attributes` (
   PRIMARY KEY (`attribute_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-CREATE INDEX `global_attributes_idx` ON `ac_global_attributes` ( `attribute_parent_id`, `attribute_group_id`, `attribute_type_id` );
+CREATE INDEX `ac_global_attributes_idx` ON `ac_global_attributes` ( `attribute_parent_id`, `attribute_group_id`, `attribute_type_id` );
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_descriptions`;
@@ -12172,7 +12172,7 @@ CREATE TABLE `ac_global_attributes_values` (
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`attribute_value_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE INDEX `global_attributes_values_idx` ON `ac_global_attributes_values` ( `attribute_id` );
+CREATE INDEX `ac_global_attributes_values_idx` ON `ac_global_attributes_values` ( `attribute_id` );
 
 DROP TABLE IF EXISTS `ac_global_attributes_value_descriptions`;
 CREATE TABLE `ac_global_attributes_value_descriptions` (
