@@ -31,7 +31,7 @@ class ModelExtensionBannerManager extends Model {
 		$banner_id = (int)$banner_id;
 		$language_id = (int)$language_id;
 		if (!$language_id) {
-			$language_id = (int)$this->session->data[ 'content_language_id' ];
+			$language_id = (int)$this->config->get('storefront_language_id');
 		}
 		// check is description presents
 		$sql = "SELECT DISTINCT language_id
@@ -64,7 +64,7 @@ class ModelExtensionBannerManager extends Model {
 		if (!$custom_block_id) return array();
 
 		if (!empty($data[ 'content_language_id' ])) {
-			$language_id = ( int )$data[ 'content_language_id' ];
+			$language_id = (int)$data[ 'content_language_id' ];
 		} else {
 			$language_id = (int)$this->config->get('storefront_language_id');
 		}
@@ -124,7 +124,10 @@ class ModelExtensionBannerManager extends Model {
 		);
 
 		$sql = "INSERT INTO " . $this->db->table("banner_stat") . " (`banner_id`, `type`, `store_id`, `user_info`)
-				VALUES ('" . $banner_id . "', '" . $type . "', '" .(int) $this->config->get('config_store_id') . "', '" . $this->db->escape(serialize($user_info)) . "')";
+				VALUES ('" . $banner_id . "',
+						'" . $type . "',
+						'" .(int) $this->config->get('config_store_id') . "',
+						'" . $this->db->escape(serialize($user_info)) . "')";
 		$this->db->query($sql);
 		return true;
 	}
