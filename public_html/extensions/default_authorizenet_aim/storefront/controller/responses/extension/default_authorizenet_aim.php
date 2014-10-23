@@ -337,5 +337,3 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		$this->processTemplate('responses/content/content.tpl' );
 	}
 }
-
-?>

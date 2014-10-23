@@ -34,10 +34,18 @@ class ModelExtensionDefaultAuthorizeNetAim extends Model {
       		  	$status = TRUE;
       		} else {
      	  		$status = FALSE;
-			}	
+			}
+
+			//check is credentials presents
+			if(!$this->config->get('default_authorizenet_aim_login') || !$this->config->get('default_authorizenet_aim_key') ){
+				$status = FALSE;
+			}
+
       	} else {
 			$status = FALSE;
 		}
+
+
 		
 		$method_data = array();
 	
