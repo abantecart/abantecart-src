@@ -1,3 +1,30 @@
+AbanteCart version 1.2.0b with new administrator and improved storefront designs.
+This is one of the bigest updates and inprovment in AbanteCart project since project has started 3 years ago.
+
+NOTE: It is not recommended to use v1.2.0b on live or production site as of yet. Wait for the final release.
+
+New Features and improvements summary:
+- AbanteCart is now 100% mobile 
+- New responsive administrator design. Powered by Bootstrap v3.2.0.
+- New features in admin to improve ecommerce platform management. 
+- Updated Storefront with few new featues. Powered by Bootstrap v3.2.0.
+- Introduce Tasks Manangement to improve time consuming processing 
+- 
+- Updated and new core extensions
+
+Other improvements in more details see below:
+
+Core:
+
+Control Panel:
+
+Storefront:
+
+Extensions:
+
+Installation : 
+
+
 AbanteCart version 1.1.9 with new features and improvements.
 
 Release Notes:  Version 1.1.9
@@ -9,7 +36,7 @@ New Features and improvements summary:
 - Storefront API Update
 - UI Improvements
 
-Other fixes and improvements in more details se below:
+Other fixes and improvements in more details see below:
 
 Core:
 - memory usage improvement (index.php + init.php)
