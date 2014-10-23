@@ -26,7 +26,11 @@ class ModelExtension2Checkout extends Model {
 		$this->load->language('2checkout/2checkout');
 
 		if ($this->config->get('2checkout_status')) {
-			$query = $this->db->query("SELECT * FROM " . $this->db->table("zones_to_locations") . " WHERE location_id = '" . (int)$this->config->get('2checkout_location_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
+			$query = $this->db->query( "SELECT *
+										FROM " . $this->db->table("zones_to_locations") . "
+										WHERE location_id = '" . (int)$this->config->get('2checkout_location_id') . "'
+												AND country_id = '" . (int)$address['country_id'] . "'
+												AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 
 			if (!$this->config->get('2checkout_location_id')) {
 				$status = TRUE;
@@ -61,7 +65,7 @@ class ModelExtension2Checkout extends Model {
 		$language_id = $language_id['language_id'];
 
 		$sql = "SELECT *
-				FROM " . DB_PREFIX . "order_statuses
+				FROM " . $this->db->table('order_statuses')."
 				WHERE language_id=" . (int)$language_id . " AND LOWER(name) like '%" . strtolower($order_status_name) . "%'";
 
 		$result = $this->db->query($sql);

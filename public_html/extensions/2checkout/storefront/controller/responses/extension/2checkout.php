@@ -99,14 +99,9 @@ class ControllerResponsesExtension2Checkout extends AController {
 	}
 
 	public function callback() {
-		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
+		if ($this->request->is_GET()) {
 			$this->redirect($this->html->getURL('index/home'));
 		}
-
-		/*		foreach($this->request->post as $k=>$v){
-					$ff .= $k.": ".$v."\n";
-				}
-				$this->log->write($ff);*/
 
 		$this->load->model('checkout/order');
 
@@ -115,23 +110,26 @@ class ControllerResponsesExtension2Checkout extends AController {
 		if (!$order_info) {
 			return null;
 		}
+
+		$post  = $this->request->post;
+
 		$this->load->model('extension/2checkout');
 		// hash check
-		if (!md5($this->request->post['sale_id'] . $this->config->get('2checkout_account') . $this->request->post['invoice_id'] . $this->config->get('2checkout_secret')) == strtolower($this->request->post['md5_hash'])) {
+		if (!md5($post['sale_id'] . $this->config->get('2checkout_account') . $post['invoice_id'] . $this->config->get('2checkout_secret')) == strtolower($post['md5_hash'])) {
 			exit;
 		}
 
-		if ($this->request->post['message_type'] == 'ORDER_CREATED') {
-			$this->model_checkout_order->confirm((int)$this->request->post['vendor_order_id'], $this->config->get('2checkout_order_status_id'));
-			} elseif ($this->request->post['message_type'] == 'REFUND_ISSUED') {
+		if ($post['message_type'] == 'ORDER_CREATED') {
+			$this->model_checkout_order->confirm((int)$post['vendor_order_id'], $this->config->get('2checkout_order_status_id'));
+			} elseif ($post['message_type'] == 'REFUND_ISSUED') {
 			$order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('failed');
-			$this->model_checkout_order->update((int)$this->request->post['vendor_order_id'], $order_status_id,'Status changed by 2Checkout INS');
-		} elseif ($this->request->post['message_type'] == 'FRAUD_STATUS_CHANGED' && $this->request->post['fraud_status'] == 'pass') {
+			$this->model_checkout_order->update((int)$post['vendor_order_id'], $order_status_id,'Status changed by 2Checkout INS');
+		} elseif ($post['message_type'] == 'FRAUD_STATUS_CHANGED' && $post['fraud_status'] == 'pass') {
 			$order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('processing');
-			$this->model_checkout_order->update((int)$this->request->post['vendor_order_id'], $order_status_id,'Status changed by 2Checkout INS');
-		} elseif ($this->request->post['message_type'] == 'SHIP_STATUS_CHANGED' && $this->request->post['ship_status'] == 'shipped') {
+			$this->model_checkout_order->update((int)$post['vendor_order_id'], $order_status_id,'Status changed by 2Checkout INS');
+		} elseif ($post['message_type'] == 'SHIP_STATUS_CHANGED' && $post['ship_status'] == 'shipped') {
 			$order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('complete');
-			$this->model_checkout_order->update((int)$this->request->post['vendor_order_id'], $order_status_id,'Status changed by 2Checkout INS');
+			$this->model_checkout_order->update((int)$post['vendor_order_id'], $order_status_id,'Status changed by 2Checkout INS');
 		} else {
 			$this->redirect($this->html->getURL('checkout/confirm'));
 		}
