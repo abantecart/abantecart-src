@@ -914,7 +914,7 @@ CREATE TABLE `ac_languages` (
   PRIMARY KEY (`language_id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `ac_languages_index`
+CREATE UNIQUE INDEX `ac_languages_idx`
 ON `ac_languages` ( `language_id`,`code` );
 --
 -- Dumping data for table `languages`
@@ -938,7 +938,7 @@ CREATE TABLE `ac_language_definitions` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`language_definition_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `ac_lang_definition_index`
+CREATE UNIQUE INDEX `ac_lang_definition_idx`
 ON `ac_language_definitions` ( `section`,`block`,`language_id`,`language_key` );
 
 --
@@ -1850,9 +1850,9 @@ CREATE TABLE `ac_url_aliases` (
   `language_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`url_alias_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `ac_url_aliases_index`
+CREATE UNIQUE INDEX `ac_url_aliases_idx`
 ON `ac_url_aliases` ( `keyword`, `language_id`);
-CREATE UNIQUE INDEX `ac_url_aliases_index2`
+CREATE UNIQUE INDEX `ac_url_aliases_idx2`
 ON `ac_url_aliases` ( `query`, `language_id` );
 
 
@@ -9945,7 +9945,7 @@ CREATE TABLE `ac_pages` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`page_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-CREATE UNIQUE INDEX `ac_pages_index`
+CREATE UNIQUE INDEX `ac_pages_idx`
 ON `ac_pages` ( `page_id`, `controller`, `key_param`, `key_value` );
 
 --
@@ -10123,7 +10123,7 @@ CREATE TABLE `ac_custom_lists` (
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-CREATE INDEX `ac_custom_block_id_list_index`
+CREATE INDEX `ac_custom_block_id_list_idx`
 ON `ac_custom_lists` (`custom_block_id` );
 
 --
@@ -10316,7 +10316,7 @@ CREATE TABLE `ac_block_layouts` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`instance_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-CREATE UNIQUE INDEX `ac_block_layouts_index`
+CREATE UNIQUE INDEX `ac_block_layouts_idx`
 ON `ac_block_layouts` ( `instance_id`, `layout_id`, `block_id`, `parent_instance_id`,`custom_block_id` );
 
 INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`) VALUES
@@ -12119,7 +12119,7 @@ CREATE TABLE `ac_resource_map` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   KEY `group_id` (`resource_id`, `object_name`, `object_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `ac_resource_map_index`
+CREATE UNIQUE INDEX `ac_resource_map_idx`
 ON `ac_resource_map` ( `resource_id`, `object_name`, `object_id` );
 
 INSERT INTO `ac_resource_map` ( `resource_id`, `object_name`, `object_id`, `default`, `sort_order`, `date_added`)
