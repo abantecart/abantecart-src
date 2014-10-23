@@ -18,10 +18,9 @@ CREATE TABLE `ac_addresses` (
   `city` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `country_id` int(11) NOT NULL DEFAULT '0',
   `zone_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`address_id`),
-  KEY `customer_id` (`customer_id`)
+  PRIMARY KEY (`address_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-
+CREATE INDEX `addresses_idx` ON `ac_addresses` ( `customer_id`, `country_id`, `zone_id`  );
 
 --
 -- DDL for table `categories`
@@ -36,7 +35,7 @@ CREATE TABLE `ac_categories` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`category_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-
+CREATE INDEX `categories_idx` ON `ac_categories` ( `category_id`, `parent_id`, `status`  );
 
 --
 -- DDL for table `category_descriptions`
@@ -77,6 +76,7 @@ CREATE TABLE `ac_countries` (
   `sort_order` int(3) NOT NULL DEFAULT '0',  
   PRIMARY KEY (`country_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+CREATE INDEX `countries_idx` ON `ac_countries` ( `iso_code_2`, `iso_code_3`, `status`  );
 
 --
 -- Dumping data for table `countries`
@@ -334,7 +334,248 @@ CREATE TABLE `ac_country_descriptions` (
   PRIMARY KEY (`country_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `ac_country_descriptions` (`country_id`, `language_id`, `name`) VALUES (1,1,'Afghanistan'),(2,1,'Albania'),(3,1,'Algeria'),(4,1,'American Samoa'),(5,1,'Andorra'),(6,1,'Angola'),(7,1,'Anguilla'),(8,1,'Antarctica'),(9,1,'Antigua and Barbuda'),(10,1,'Argentina'),(11,1,'Armenia'),(12,1,'Aruba'),(13,1,'Australia'),(14,1,'Austria'),(15,1,'Azerbaijan'),(16,1,'Bahamas'),(17,1,'Bahrain'),(18,1,'Bangladesh'),(19,1,'Barbados'),(20,1,'Belarus'),(21,1,'Belgium'),(22,1,'Belize'),(23,1,'Benin'),(24,1,'Bermuda'),(25,1,'Bhutan'),(26,1,'Bolivia'),(27,1,'Bosnia and Herzegowina'),(28,1,'Botswana'),(29,1,'Bouvet Island'),(30,1,'Brazil'),(31,1,'British Indian Ocean Territory'),(32,1,'Brunei Darussalam'),(33,1,'Bulgaria'),(34,1,'Burkina Faso'),(35,1,'Burundi'),(36,1,'Cambodia'),(37,1,'Cameroon'),(38,1,'Canada'),(39,1,'Cape Verde'),(40,1,'Cayman Islands'),(41,1,'Central African Republic'),(42,1,'Chad'),(43,1,'Chile'),(44,1,'China'),(45,1,'Christmas Island'),(46,1,'Cocos (Keeling) Islands'),(47,1,'Colombia'),(48,1,'Comoros'),(49,1,'Congo'),(50,1,'Cook Islands'),(51,1,'Costa Rica'),(52,1,'Cote D\'Ivoire'),(53,1,'Croatia'),(54,1,'Cuba'),(55,1,'Cyprus'),(56,1,'Czech Republic'),(57,1,'Denmark'),(58,1,'Djibouti'),(59,1,'Dominica'),(60,1,'Dominican Republic'),(61,1,'East Timor'),(62,1,'Ecuador'),(63,1,'Egypt'),(64,1,'El Salvador'),(65,1,'Equatorial Guinea'),(66,1,'Eritrea'),(67,1,'Estonia'),(68,1,'Ethiopia'),(69,1,'Falkland Islands (Malvinas)'),(70,1,'Faroe Islands'),(71,1,'Fiji'),(72,1,'Finland'),(73,1,'France'),(74,1,'France, Metropolitan'),(75,1,'French Guiana'),(76,1,'French Polynesia'),(77,1,'French Southern Territories'),(78,1,'Gabon'),(79,1,'Gambia'),(80,1,'Georgia'),(81,1,'Germany'),(82,1,'Ghana'),(83,1,'Gibraltar'),(84,1,'Greece'),(85,1,'Greenland'),(86,1,'Grenada'),(87,1,'Guadeloupe'),(88,1,'Guam'),(89,1,'Guatemala'),(90,1,'Guinea'),(91,1,'Guinea-bissau'),(92,1,'Guyana'),(93,1,'Haiti'),(94,1,'Heard and Mc Donald Islands'),(95,1,'Honduras'),(96,1,'Hong Kong'),(97,1,'Hungary'),(98,1,'Iceland'),(99,1,'India'),(100,1,'Indonesia'),(101,1,'Iran (Islamic Republic of)'),(102,1,'Iraq'),(103,1,'Ireland'),(104,1,'Israel'),(105,1,'Italy'),(106,1,'Jamaica'),(107,1,'Japan'),(108,1,'Jordan'),(109,1,'Kazakhstan'),(110,1,'Kenya'),(111,1,'Kiribati'),(112,1,'North Korea'),(113,1,'Korea, Republic of'),(114,1,'Kuwait'),(115,1,'Kyrgyzstan'),(116,1,'Lao People\'s Democratic Republic'),(117,1,'Latvia'),(118,1,'Lebanon'),(119,1,'Lesotho'),(120,1,'Liberia'),(121,1,'Libyan Arab Jamahiriya'),(122,1,'Liechtenstein'),(123,1,'Lithuania'),(124,1,'Luxembourg'),(125,1,'Macau'),(126,1,'Macedonia'),(127,1,'Madagascar'),(128,1,'Malawi'),(129,1,'Malaysia'),(130,1,'Maldives'),(131,1,'Mali'),(132,1,'Malta'),(133,1,'Marshall Islands'),(134,1,'Martinique'),(135,1,'Mauritania'),(136,1,'Mauritius'),(137,1,'Mayotte'),(138,1,'Mexico'),(139,1,'Micronesia, Federated States of'),(140,1,'Moldova, Republic of'),(141,1,'Monaco'),(142,1,'Mongolia'),(143,1,'Montserrat'),(144,1,'Morocco'),(145,1,'Mozambique'),(146,1,'Myanmar'),(147,1,'Namibia'),(148,1,'Nauru'),(149,1,'Nepal'),(150,1,'Netherlands'),(151,1,'Netherlands Antilles'),(152,1,'New Caledonia'),(153,1,'New Zealand'),(154,1,'Nicaragua'),(155,1,'Niger'),(156,1,'Nigeria'),(157,1,'Niue'),(158,1,'Norfolk Island'),(159,1,'Northern Mariana Islands'),(160,1,'Norway'),(161,1,'Oman'),(162,1,'Pakistan'),(163,1,'Palau'),(164,1,'Panama'),(165,1,'Papua New Guinea'),(166,1,'Paraguay'),(167,1,'Peru'),(168,1,'Philippines'),(169,1,'Pitcairn'),(170,1,'Poland'),(171,1,'Portugal'),(172,1,'Puerto Rico'),(173,1,'Qatar'),(174,1,'Reunion'),(175,1,'Romania'),(176,1,'Russia'),(177,1,'Rwanda'),(178,1,'Saint Kitts and Nevis'),(179,1,'Saint Lucia'),(180,1,'Saint Vincent and the Grenadines'),(181,1,'Samoa'),(182,1,'San Marino'),(183,1,'Sao Tome and Principe'),(184,1,'Saudi Arabia'),(185,1,'Senegal'),(186,1,'Seychelles'),(187,1,'Sierra Leone'),(188,1,'Singapore'),(189,1,'Slovak Republic'),(190,1,'Slovenia'),(191,1,'Solomon Islands'),(192,1,'Somalia'),(193,1,'South Africa'),(194,1,'South Georgia &amp; South Sandwich Islands'),(195,1,'Spain'),(196,1,'Sri Lanka'),(197,1,'St. Helena'),(198,1,'St. Pierre and Miquelon'),(199,1,'Sudan'),(200,1,'Suriname'),(201,1,'Svalbard and Jan Mayen Islands'),(202,1,'Swaziland'),(203,1,'Sweden'),(204,1,'Switzerland'),(205,1,'Syrian Arab Republic'),(206,1,'Taiwan'),(207,1,'Tajikistan'),(208,1,'Tanzania, United Republic of'),(209,1,'Thailand'),(210,1,'Togo'),(211,1,'Tokelau'),(212,1,'Tonga'),(213,1,'Trinidad and Tobago'),(214,1,'Tunisia'),(215,1,'Turkey'),(216,1,'Turkmenistan'),(217,1,'Turks and Caicos Islands'),(218,1,'Tuvalu'),(219,1,'Uganda'),(220,1,'Ukraine'),(221,1,'United Arab Emirates'),(222,1,'United Kingdom'),(223,1,'United States'),(224,1,'United States Minor Outlying Islands'),(225,1,'Uruguay'),(226,1,'Uzbekistan'),(227,1,'Vanuatu'),(228,1,'Vatican City State (Holy See)'),(229,1,'Venezuela'),(230,1,'Viet Nam'),(231,1,'Virgin Islands (British)'),(232,1,'Virgin Islands (U.S.)'),(233,1,'Wallis and Futuna Islands'),(234,1,'Western Sahara'),(235,1,'Yemen'),(236,1,'Yugoslavia'),(237,1,'Zaire'),(238,1,'Zambia'),(239,1,'Zimbabwe'),(240,1,'Northern Ireland');
+INSERT INTO `ac_country_descriptions` (`country_id`, `language_id`, `name`) 
+VALUES 
+(1,1,'Afghanistan'),
+(2,1,'Albania'),
+(3,1,'Algeria'),
+(4,1,'American Samoa'),
+(5,1,'Andorra'),
+(6,1,'Angola'),
+(7,1,'Anguilla'),
+(8,1,'Antarctica'),
+(9,1,'Antigua and Barbuda'),
+(10,1,'Argentina'),
+(11,1,'Armenia'),
+(12,1,'Aruba'),
+(13,1,'Australia'),
+(14,1,'Austria'),
+(15,1,'Azerbaijan'),
+(16,1,'Bahamas'),
+(17,1,'Bahrain'),
+(18,1,'Bangladesh'),
+(19,1,'Barbados'),
+(20,1,'Belarus'),
+(21,1,'Belgium'),
+(22,1,'Belize'),
+(23,1,'Benin'),
+(24,1,'Bermuda'),
+(25,1,'Bhutan'),
+(26,1,'Bolivia'),
+(27,1,'Bosnia and Herzegowina'),
+(28,1,'Botswana'),
+(29,1,'Bouvet Island'),
+(30,1,'Brazil'),
+(31,1,'British Indian Ocean Territory'),
+(32,1,'Brunei Darussalam'),
+(33,1,'Bulgaria'),
+(34,1,'Burkina Faso'),
+(35,1,'Burundi'),
+(36,1,'Cambodia'),
+(37,1,'Cameroon'),
+(38,1,'Canada'),
+(39,1,'Cape Verde'),
+(40,1,'Cayman Islands'),
+(41,1,'Central African Republic'),
+(42,1,'Chad'),
+(43,1,'Chile'),
+(44,1,'China'),
+(45,1,'Christmas Island'),
+(46,1,'Cocos (Keeling) Islands'),
+(47,1,'Colombia'),
+(48,1,'Comoros'),
+(49,1,'Congo'),
+(50,1,'Cook Islands'),
+(51,1,'Costa Rica'),
+(52,1,'Cote D\'Ivoire'),
+(53,1,'Croatia'),
+(54,1,'Cuba'),
+(55,1,'Cyprus'),
+(56,1,'Czech Republic'),
+(57,1,'Denmark'),
+(58,1,'Djibouti'),
+(59,1,'Dominica'),
+(60,1,'Dominican Republic'),
+(61,1,'East Timor'),
+(62,1,'Ecuador'),
+(63,1,'Egypt'),
+(64,1,'El Salvador'),
+(65,1,'Equatorial Guinea'),
+(66,1,'Eritrea'),
+(67,1,'Estonia'),
+(68,1,'Ethiopia'),
+(69,1,'Falkland Islands (Malvinas)'),
+(70,1,'Faroe Islands'),
+(71,1,'Fiji'),
+(72,1,'Finland'),
+(73,1,'France'),
+(74,1,'France, Metropolitan'),
+(75,1,'French Guiana'),
+(76,1,'French Polynesia'),
+(77,1,'French Southern Territories'),
+(78,1,'Gabon'),
+(79,1,'Gambia'),
+(80,1,'Georgia'),
+(81,1,'Germany'),
+(82,1,'Ghana'),
+(83,1,'Gibraltar'),
+(84,1,'Greece'),
+(85,1,'Greenland'),
+(86,1,'Grenada'),
+(87,1,'Guadeloupe'),
+(88,1,'Guam'),
+(89,1,'Guatemala'),
+(90,1,'Guinea'),
+(91,1,'Guinea-bissau'),
+(92,1,'Guyana'),
+(93,1,'Haiti'),
+(94,1,'Heard and Mc Donald Islands'),
+(95,1,'Honduras'),
+(96,1,'Hong Kong'),
+(97,1,'Hungary'),
+(98,1,'Iceland'),
+(99,1,'India'),
+(100,1,'Indonesia'),
+(101,1,'Iran (Islamic Republic of)'),
+(102,1,'Iraq'),
+(103,1,'Ireland'),
+(104,1,'Israel'),
+(105,1,'Italy'),
+(106,1,'Jamaica'),
+(107,1,'Japan'),
+(108,1,'Jordan'),
+(109,1,'Kazakhstan'),
+(110,1,'Kenya'),
+(111,1,'Kiribati'),
+(112,1,'North Korea'),
+(113,1,'Korea, Republic of'),
+(114,1,'Kuwait'),
+(115,1,'Kyrgyzstan'),
+(116,1,'Lao People\'s Democratic Republic'),
+(117,1,'Latvia'),
+(118,1,'Lebanon'),
+(119,1,'Lesotho'),
+(120,1,'Liberia'),
+(121,1,'Libyan Arab Jamahiriya'),
+(122,1,'Liechtenstein'),
+(123,1,'Lithuania'),
+(124,1,'Luxembourg'),
+(125,1,'Macau'),
+(126,1,'Macedonia'),
+(127,1,'Madagascar'),
+(128,1,'Malawi'),
+(129,1,'Malaysia'),
+(130,1,'Maldives'),
+(131,1,'Mali'),
+(132,1,'Malta'),
+(133,1,'Marshall Islands'),
+(134,1,'Martinique'),
+(135,1,'Mauritania'),
+(136,1,'Mauritius'),
+(137,1,'Mayotte'),
+(138,1,'Mexico'),
+(139,1,'Micronesia, Federated States of'),
+(140,1,'Moldova, Republic of'),
+(141,1,'Monaco'),
+(142,1,'Mongolia'),
+(143,1,'Montserrat'),
+(144,1,'Morocco'),
+(145,1,'Mozambique'),
+(146,1,'Myanmar'),
+(147,1,'Namibia'),
+(148,1,'Nauru'),
+(149,1,'Nepal'),
+(150,1,'Netherlands'),
+(151,1,'Netherlands Antilles'),
+(152,1,'New Caledonia'),
+(153,1,'New Zealand'),
+(154,1,'Nicaragua'),
+(155,1,'Niger'),
+(156,1,'Nigeria'),
+(157,1,'Niue'),
+(158,1,'Norfolk Island'),
+(159,1,'Northern Mariana Islands'),
+(160,1,'Norway'),
+(161,1,'Oman'),
+(162,1,'Pakistan'),
+(163,1,'Palau'),
+(164,1,'Panama'),
+(165,1,'Papua New Guinea'),
+(166,1,'Paraguay'),
+(167,1,'Peru'),
+(168,1,'Philippines'),
+(169,1,'Pitcairn'),
+(170,1,'Poland'),
+(171,1,'Portugal'),
+(172,1,'Puerto Rico'),
+(173,1,'Qatar'),
+(174,1,'Reunion'),
+(175,1,'Romania'),
+(176,1,'Russia'),
+(177,1,'Rwanda'),
+(178,1,'Saint Kitts and Nevis'),
+(179,1,'Saint Lucia'),
+(180,1,'Saint Vincent and the Grenadines'),
+(181,1,'Samoa'),
+(182,1,'San Marino'),
+(183,1,'Sao Tome and Principe'),
+(184,1,'Saudi Arabia'),
+(185,1,'Senegal'),
+(186,1,'Seychelles'),
+(187,1,'Sierra Leone'),
+(188,1,'Singapore'),
+(189,1,'Slovak Republic'),
+(190,1,'Slovenia'),
+(191,1,'Solomon Islands'),
+(192,1,'Somalia'),
+(193,1,'South Africa'),
+(194,1,'South Georgia &amp; South Sandwich Islands'),
+(195,1,'Spain'),
+(196,1,'Sri Lanka'),
+(197,1,'St. Helena'),
+(198,1,'St. Pierre and Miquelon'),
+(199,1,'Sudan'),
+(200,1,'Suriname'),
+(201,1,'Svalbard and Jan Mayen Islands'),
+(202,1,'Swaziland'),
+(203,1,'Sweden'),
+(204,1,'Switzerland'),
+(205,1,'Syrian Arab Republic'),
+(206,1,'Taiwan'),
+(207,1,'Tajikistan'),
+(208,1,'Tanzania, United Republic of'),
+(209,1,'Thailand'),
+(210,1,'Togo'),
+(211,1,'Tokelau'),
+(212,1,'Tonga'),
+(213,1,'Trinidad and Tobago'),
+(214,1,'Tunisia'),
+(215,1,'Turkey'),
+(216,1,'Turkmenistan'),
+(217,1,'Turks and Caicos Islands'),
+(218,1,'Tuvalu'),
+(219,1,'Uganda'),
+(220,1,'Ukraine'),
+(221,1,'United Arab Emirates'),
+(222,1,'United Kingdom'),
+(223,1,'United States'),
+(224,1,'United States Minor Outlying Islands'),
+(225,1,'Uruguay'),
+(226,1,'Uzbekistan'),
+(227,1,'Vanuatu'),
+(228,1,'Vatican City State (Holy See)'),
+(229,1,'Venezuela'),
+(230,1,'Viet Nam'),
+(231,1,'Virgin Islands (British)'),
+(232,1,'Virgin Islands (U.S.)'),
+(233,1,'Wallis and Futuna Islands'),
+(234,1,'Western Sahara'),
+(235,1,'Yemen'),
+(236,1,'Yugoslavia'),
+(237,1,'Zaire'),
+(238,1,'Zambia'),
+(239,1,'Zimbabwe'),
+(240,1,'Northern Ireland');
 
 
 --
@@ -383,6 +624,8 @@ CREATE TABLE `ac_coupons_products` (
   `product_id` int(11) NOT NULL,
   PRIMARY KEY (`coupon_product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+CREATE INDEX `coupons_products_idx` ON `ac_coupons_products` ( `coupon_id`, `product_id`  );
 
 
 --
@@ -441,6 +684,7 @@ CREATE TABLE `ac_customers` (
   UNIQUE KEY `customers_loginname` (`loginname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `customers_idx` ON `ac_customers` ( `store_id`, `address_id`, `customer_group_id` );
 
 --
 -- DDL for table `customer_groups`
@@ -481,7 +725,7 @@ CREATE TABLE `ac_customer_transactions` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`customer_transaction_id`)
 )ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-
+CREATE INDEX `customer_transactions_idx` ON `ac_customer_transactions` ( `customer_id`, `order_id` );
 
 --
 -- DDL for table `ac_online_customers`
@@ -516,7 +760,7 @@ CREATE TABLE `ac_downloads` (
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`download_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-
+CREATE INDEX `downloads_idx` ON `ac_downloads` ( `activate_order_status_id`, `shared` );
 --
 -- DDL for table `download_descriptions`
 --
@@ -538,6 +782,8 @@ CREATE TABLE `ac_download_attribute_values` (
   `attribute_value_ids` text COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized aray with value IDs
   PRIMARY KEY (`download_attribute_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+CREATE INDEX `download_attribute_values_idx` ON `ac_download_attribute_values` ( `attribute_id`, `download_id` );
 
 --
 -- DDL for table `extensions`
@@ -819,7 +1065,19 @@ CREATE TABLE `ac_orders` (
   PRIMARY KEY (`order_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-
+CREATE INDEX `orders_idx`
+ON `ac_orders` (`invoice_id`,
+								`store_id`,
+								`customer_id`,
+								`customer_group_id`,
+								`shipping_zone_id`,
+								`shipping_country_id`,
+								`payment_zone_id`,
+								`payment_country_id`,
+								`order_status_id`,
+								`language_id`,
+								`currency_id`,
+								`coupon_id`);
 --
 -- DDL for table `order_downloads`
 --
@@ -845,6 +1103,8 @@ CREATE TABLE `ac_order_downloads` (
   PRIMARY KEY (`order_download_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `order_downloads_idx`
+ON `ac_order_downloads` (`order_id`, `order_product_id`, `download_id`, `status`, `activate_order_status_id`);
 --
 -- DDL for table `order_downloads`
 --
@@ -861,6 +1121,9 @@ CREATE TABLE `ac_order_downloads_history` (
   `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`order_download_history_id`,`order_download_id`, `order_id`,`order_product_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+CREATE INDEX `order_downloads_history_idx`
+ON `ac_order_downloads_history` (`download_id`);
 
 --
 -- DDL for table `ac_order_data`
@@ -902,6 +1165,8 @@ CREATE TABLE `ac_order_history` (
   PRIMARY KEY (`order_history_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `order_history_idx`
+ON `ac_order_history` (`order_id`, `order_status_id`, `notify`);
 
 --
 -- DDL for table `order_options`
@@ -918,6 +1183,9 @@ CREATE TABLE `ac_order_options` (
   `prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`order_option_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+CREATE INDEX `order_options_idx`
+ON `ac_order_options` (`order_id`, `order_product_id`, `product_option_value_id`);
 
 
 --
@@ -938,6 +1206,7 @@ CREATE TABLE `ac_order_products` (
   PRIMARY KEY (`order_product_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `order_products_idx` ON `ac_order_products` (`order_id`,  `product_id`);
 
 --
 -- DDL for table `order_statuses`
@@ -1022,6 +1291,8 @@ CREATE TABLE `ac_products` (
   PRIMARY KEY (`product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `products_idx` ON `ac_products` (`stock_status_id`,  `manufacturer_id`, `weight_class_id`, `length_class_id`);
+
 
 --
 -- DDL for table `product_descriptions`
@@ -1057,6 +1328,8 @@ CREATE TABLE `ac_product_discounts` (
   PRIMARY KEY (`product_discount_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `product_discounts_idx` ON `ac_product_discounts` (`product_id`, `customer_group_id`);
+
 
 --
 -- DDL for table `product_featured`
@@ -1084,6 +1357,7 @@ CREATE TABLE `ac_product_options` (
   PRIMARY KEY (`product_option_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `product_options_idx` ON `ac_product_options` (`attribute_id`, `product_id`, `group_id` );
 
 --
 -- DDL for table `product_option_descriptions`
@@ -1098,7 +1372,7 @@ CREATE TABLE `ac_product_option_descriptions` (
   `error_text` 	varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_option_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
+CREATE INDEX `product_option_descriptions_idx` ON `ac_product_option_descriptions` ( `product_id` );
 --
 -- DDL for table `product_option_values`
 --
@@ -1122,6 +1396,8 @@ CREATE TABLE `ac_product_option_values` (
   PRIMARY KEY (`product_option_value_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `product_option_values_idx` ON `ac_product_option_values` ( `product_option_id`, `product_id`, `group_id`, `attribute_value_id` );
+
 
 --
 -- DDL for table `product_option_value_descriptions`
@@ -1135,7 +1411,7 @@ CREATE TABLE `ac_product_option_value_descriptions` (
   `grouped_attribute_names` text COLLATE utf8_general_ci DEFAULT NULL,  
   PRIMARY KEY (`product_option_value_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
+CREATE INDEX `product_option_value_descriptions_idx` ON `ac_product_option_value_descriptions` ( `product_id` );
 
 --
 -- DDL for table `product_related`
@@ -1165,6 +1441,7 @@ CREATE TABLE `ac_product_specials` (
   PRIMARY KEY (`product_special_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `product_specials_idx` ON `ac_product_specials` ( `product_id`, `customer_group_id` );
 
 --
 -- DDL for table `product_tags`
@@ -1227,6 +1504,8 @@ CREATE TABLE `ac_reviews` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`review_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+CREATE INDEX `reviews_idx` ON `ac_reviews` ( `product_id`, `customer_id` );
 
 
 --
@@ -1536,6 +1815,7 @@ CREATE TABLE `ac_tax_rates` (
   PRIMARY KEY (`tax_rate_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `tax_rates_idx` ON `ac_tax_rates` ( `location_id`, `zone_id`, `tax_class_id` );
 --
 -- Dumping data for table `tax_rate`
 --
@@ -1595,6 +1875,7 @@ CREATE TABLE `ac_users` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=2;
+
 
 
 --
@@ -1671,7 +1952,7 @@ CREATE TABLE `ac_zones` (
   `code` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` int(1) NOT NULL DEFAULT '1',
   `sort_order` int(3) NOT NULL DEFAULT '0',  
-  PRIMARY KEY (`zone_id`)
+  PRIMARY KEY (`zone_id`, `country_id` )
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
@@ -9575,6 +9856,8 @@ CREATE TABLE `ac_zones_to_locations` (
   PRIMARY KEY (`zone_to_location_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `zones_to_locations_idx` ON `ac_zones_to_locations` ( `country_id`, `zone_id`, `location_id` );
+
 --
 -- Dumping data for table `ac_zones_to_locations`
 --
@@ -10371,7 +10654,7 @@ CREATE TABLE `ac_forms` (
   `status` smallint(1) NOT NULL default '0',
   PRIMARY KEY  (`form_id`),
   UNIQUE KEY `form_name` (`form_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 INSERT INTO `ac_forms` VALUES (2,'ContactUsFrm','content/contact','content/contact/success',1);
 
@@ -10384,7 +10667,7 @@ CREATE TABLE `ac_form_descriptions` (
   `language_id` int(11) NOT NULL,
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`form_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_form_descriptions` VALUES (2,1,'Contact Us Form');
 
@@ -10408,7 +10691,7 @@ CREATE TABLE `ac_fields` (
   `regexp_pattern` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`field_id`),
   KEY `field_id` (`field_id`, `form_id`, `status`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_fields`
 (field_id, form_id, field_name, element_type, sort_order, attributes,settings, required, regexp_pattern, status)
@@ -10429,7 +10712,7 @@ CREATE TABLE `ac_field_descriptions` (
   `language_id` int(11) NOT NULL,
   `error_text` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`field_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_field_descriptions` (`field_id`, `name`, `error_text`, `language_id`)
 VALUES
@@ -10462,7 +10745,7 @@ CREATE TABLE `ac_form_groups` (
   `status` smallint(1) NOT NULL default '0',
   PRIMARY KEY (`group_id`),
   KEY `group_id` (`group_id`, `form_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `fields_groups`
@@ -10486,7 +10769,7 @@ CREATE TABLE `ac_fields_group_descriptions` (
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`group_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -10590,7 +10873,7 @@ CREATE TABLE `ac_dataset_values` (
   `value_sort_order` int(11) NOT NULL AUTO_INCREMENT,
   `row_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`value_sort_order`),
-  KEY `dataset_values_index` (`value_integer`,`value_float`,`value_varchar`,`value_boolean`,`row_id`)
+  KEY `dataset_values_idx` (`value_integer`,`value_float`,`value_varchar`,`value_boolean`,`row_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 --
 -- Storefront menu inserts
@@ -11867,7 +12150,9 @@ CREATE TABLE `ac_global_attributes` (
   `status` 				smallint(1) NOT NULL default '0',
   `regexp_pattern` varchar(255),
   PRIMARY KEY (`attribute_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;	
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+CREATE INDEX `global_attributes_idx` ON `ac_global_attributes` ( `attribute_parent_id`, `attribute_group_id`, `attribute_type_id` );
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_descriptions`;
@@ -11886,7 +12171,8 @@ CREATE TABLE `ac_global_attributes_values` (
   `attribute_id` 		int(11) NOT NULL,
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`attribute_value_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;	
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+CREATE INDEX `global_attributes_values_idx` ON `ac_global_attributes_values` ( `attribute_id` );
 
 DROP TABLE IF EXISTS `ac_global_attributes_value_descriptions`;
 CREATE TABLE `ac_global_attributes_value_descriptions` (
