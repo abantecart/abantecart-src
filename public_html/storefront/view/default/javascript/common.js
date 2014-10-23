@@ -144,3 +144,7 @@ function getURLVar(urlVarName) {
 
 	return urlVarValue;
 }
+
+function goTo(url, params) {
+    location = url + '&' + params;
+}

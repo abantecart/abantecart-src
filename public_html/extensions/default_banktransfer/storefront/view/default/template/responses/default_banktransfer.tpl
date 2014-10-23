@@ -11,7 +11,7 @@
   <?php echo $text_payment; ?>
 </div>
 
-<a class="btn btn-default pull-left" href="<?php echo str_replace('&', '&amp;', $back); ?>">
+<a class="btn btn-default pull-left" href="<?php echo $back; ?>">
      <i class="icon-arrow-left"></i>
     <?php echo $button_back; ?>
 </a>
@@ -29,7 +29,7 @@ $('#checkout').click(function() {
 		type: 'GET',
 		url: 'index.php?rt=extension/default_banktransfer/confirm',
 		success: function() {
-			location = '<?php echo $continue; ?>';
+			goTo('<?php echo $continue; ?>');
 		}		
 	});
 });
