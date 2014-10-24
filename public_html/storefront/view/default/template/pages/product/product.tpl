@@ -26,20 +26,19 @@
 								}
 
 								if ($image['origin'] == 'external') {
-									$image_url = $image['main_html'];
+									echo $image_url = $image['main_html'];
 								} else {
-									$image_url = $image['main_url'];
-								}
-								?>
-								<a rel="position: 'inside', showTitle: false, adjustX:-4, adjustY:-4"
-								   class="thumbnail cloud-zoom"
-								   href="<?php echo $image['main_url']; ?>"
-								   title="<?php echo $image['title']; ?>"
-								   style="height:1%; width: 1%;">
-									<img src="<?php echo $image_url; ?>" alt="<?php echo $image['title']; ?>"
-										 title="<?php echo $image['title']; ?>"
-										 style="max-height:<?php echo $im_height ?>px; max-width: <?php echo $im_width ?>px;">
-								</a>
+									$image_url = $image['main_url'];?>
+									<a rel="position: 'inside', showTitle: false, adjustX:-4, adjustY:-4"
+									   class="thumbnail cloud-zoom"
+									   href="<?php echo $image['main_url']; ?>"
+									   title="<?php echo $image['title']; ?>"
+									   style="height:1%; width: 1%;">
+										<img src="<?php echo $image_url; ?>" alt="<?php echo $image['title']; ?>"
+											 title="<?php echo $image['title']; ?>"
+											 style="max-height:<?php echo $im_height ?>px; max-width: <?php echo $im_width ?>px;">
+									</a>
+								<?php } ?>
 							</li>
 						<?php
 						}
