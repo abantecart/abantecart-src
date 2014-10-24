@@ -161,11 +161,13 @@ ALTER TABLE `ac_orders` DROP PRIMARY KEY, ADD PRIMARY KEY (`order_id`, `customer
 CREATE INDEX `ac_orders_idx`
 ON `ac_orders` (`invoice_id`,
 								`store_id`,
+								`customer_id`,
 								`customer_group_id`,
 								`shipping_zone_id`,
 								`shipping_country_id`,
 								`payment_zone_id`,
 								`payment_country_id`,
+								`order_status_id`,
 								`language_id`,
 								`currency_id`,
 								`coupon_id`);
