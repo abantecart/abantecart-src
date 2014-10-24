@@ -156,16 +156,16 @@ CREATE INDEX `ac_customer_transactions_idx` ON `ac_customer_transactions` ( `cus
 CREATE INDEX `ac_downloads_idx` ON `ac_downloads` ( `activate_order_status_id`, `shared` );
 CREATE INDEX `ac_download_attribute_values_idx` ON `ac_download_attribute_values` ( `attribute_id`, `download_id` );
 
+ALTER TABLE `ac_orders` DROP PRIMARY KEY, ADD PRIMARY KEY (`order_id`, `customer_id`, `order_status_id`);
+
 CREATE INDEX `ac_orders_idx`
 ON `ac_orders` (`invoice_id`,
 								`store_id`,
-								`customer_id`,
 								`customer_group_id`,
 								`shipping_zone_id`,
 								`shipping_country_id`,
 								`payment_zone_id`,
 								`payment_country_id`,
-								`order_status_id`,
 								`language_id`,
 								`currency_id`,
 								`coupon_id`);

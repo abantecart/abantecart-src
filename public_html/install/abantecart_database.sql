@@ -1062,19 +1062,18 @@ CREATE TABLE `ac_orders` (
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `payment_method_data` text COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`order_id`)
+  PRIMARY KEY (`order_id`, `customer_id`, `order_status_id`)
+
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 CREATE INDEX `ac_orders_idx`
 ON `ac_orders` (`invoice_id`,
 								`store_id`,
-								`customer_id`,
 								`customer_group_id`,
 								`shipping_zone_id`,
 								`shipping_country_id`,
 								`payment_zone_id`,
 								`payment_country_id`,
-								`order_status_id`,
 								`language_id`,
 								`currency_id`,
 								`coupon_id`);
