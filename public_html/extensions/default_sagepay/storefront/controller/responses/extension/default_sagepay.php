@@ -111,7 +111,7 @@ class ControllerResponsesExtensionDefaultSagepay extends AController {
         	$data['DeliveryPostCode'] = $order_info['payment_postcode'];
         	$data['DeliveryCountry'] = $order_info['payment_iso_code_2'];
 		
-			if ($order_info['$payment_iso_code_2'] == 'US') {
+			if ($order_info['payment_iso_code_2'] == 'US') {
 				$data['DeliveryState'] = $order_info['payment_zone_code'];
 			}
 		
