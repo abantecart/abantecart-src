@@ -1,28 +1,65 @@
-AbanteCart version 1.2.0b with new administrator and improved storefront designs.
-This is one of the bigest updates and inprovment in AbanteCart project since project has started 3 years ago.
+AbanteCart version 1.2.0b (beta) with new administrator and improved storefront designs.
+This is one of the biggest updates and improvement in AbanteCart project since project has started 3 years ago.
 
-NOTE: It is not recommended to use v1.2.0b on live or production site as of yet. Wait for the final release.
+NOTE: It is not recommended to use v1.2.0b (beta) on live sites as of yet. Wait for the final release.
 
 New Features and improvements summary:
-- AbanteCart is now 100% mobile 
-- New responsive administrator design. Powered by Bootstrap v3.2.0.
+- AbanteCart is now 100% mobile for storefront and admin
+- New responsive administrator design. Powered by Bootstrap v3.2
 - New features in admin to improve ecommerce platform management. 
-- Updated Storefront with few new featues. Powered by Bootstrap v3.2.0.
-- Introduce Tasks Manangement to improve time consuming processing 
-- 
+- New improved Resource Library
+- Form manager to create and edit forms
+- Updated Bootstrap v3.2 Storefront with few new features.
+- Introduce Tasks Management to improve time consuming processing 
+- Database optimization for performance
 - Updated and new core extensions
 
-Other improvements in more details see below:
+Updates and Improvements in more details:
 
 Core:
+- Tasks subsystem to handle time consuming processes  
+- Improved caching and error reporting 
+- Added more new template hooks 
+- Ajax error wrapper and standard messaging
+- New indexes on some tables
+- Updated static error pages. 
+- Standardization for date_added and date_modified fields
+- Large collection of icons with fornawsome 4.1
 
-Control Panel:
+Control Panel (admin):
+- New Bootstrap 3.2 responsive design. 
+- Third party open source libraries updates.
+- Improved interface of the admin 
+- Added icons support to menues
+- New improved Resource Library
+- Store switcher to filter data selection by store selected
+- Backup improvement with task implementation
+- Template settings are now managed per template individualyß
+- New drag/drop layout mangement 
+- Added gritter notifications
+- Added form manager 
+- Improved product lookup and select with chosen element 
+- Notification of new customer registrations and new product reviews
 
 Storefront:
+- Updated to Bootstrap 3.2 and mobile screen improvments
+- Third party open source libraries updates.
+- Customer Address edit improvments
+- Out of stock handling in product listing and product details
+- minimum/maximum allowed quantity message fix for product page 
+- Improve checkout from cart page. Update cart before checkout. 
 
 Extensions:
+- All core extensions are updated to bootstrap and new version. 
+- New core extensions
 
 Installation : 
+- New redesigned and improved installation 
+
+Many other fixes and improvements that would make this list very large and boring. 
+
+
+------------------------------------------------------------
 
 
 AbanteCart version 1.1.9 with new features and improvements.
