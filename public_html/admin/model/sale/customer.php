@@ -420,16 +420,7 @@ class ModelSaleCustomer extends Model {
 		);	
 
 		if ( $mode != 'total_only'){
-			$sql .= " GROUP BY c.customer_id,
-						  	c.firstname,
-			  				c.lastname,
-			  				c.loginname,
-			  				c.email,
-			  				c.status,
-			  				c.approved,
-			  				c.customer_group_id,
-							CONCAT(c.firstname, ' ', c.lastname),
-							cg.name ";
+			$sql .= " GROUP BY c.customer_id ";
 		}
 
 		//Total culculation for encrypted mode 

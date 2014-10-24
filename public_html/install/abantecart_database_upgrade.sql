@@ -157,18 +157,7 @@ CREATE INDEX `ac_downloads_idx` ON `ac_downloads` ( `activate_order_status_id`, 
 CREATE INDEX `ac_download_attribute_values_idx` ON `ac_download_attribute_values` ( `attribute_id`, `download_id` );
 
 CREATE INDEX `ac_orders_idx`
-ON `ac_orders` (`invoice_id`,
-								`store_id`,
-								`customer_id`,
-								`customer_group_id`,
-								`shipping_zone_id`,
-								`shipping_country_id`,
-								`payment_zone_id`,
-								`payment_country_id`,
-								`order_status_id`,
-								`language_id`,
-								`currency_id`,
-								`coupon_id`);
+ON `ac_orders` (`invoice_id`,`store_id`,`customer_id`,`customer_group_id`,`shipping_zone_id`,`shipping_country_id`,`payment_zone_id`,`payment_country_id`,`order_status_id`,`language_id`,`currency_id`,`coupon_id`);
 
 CREATE INDEX `ac_order_downloads_idx` ON `ac_order_downloads` (`order_id`, `order_product_id`, `download_id`, `status`, `activate_order_status_id`);
 CREATE INDEX `ac_order_downloads_history_idx` ON `ac_order_downloads_history` (`download_id`);
