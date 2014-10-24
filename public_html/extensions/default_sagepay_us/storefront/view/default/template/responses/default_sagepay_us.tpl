@@ -1,49 +1,69 @@
-<b style="margin-bottom: 3px; display: block;"><?php echo $text_credit_card; ?></b>
-<div id="sagepay" class="checkout_details">
-  <table width="100%">
-    <tr>
-      <td><?php echo $entry_cc_owner; ?></td>
-      <td><input type="text" name="cc_owner" value="" /></td>
-    </tr>
-    <tr>
-      <td><?php echo $entry_cc_number; ?></td>
-      <td><input type="text" name="cc_number" value="" /></td>
-    </tr>
-    <tr>
-      <td><?php echo $entry_cc_expire_date; ?></td>
-      <td><select class="input-small" name="cc_expire_date_month">
-          <?php foreach ($months as $month) { ?>
-          <option value="<?php echo $month['value']; ?>"><?php echo $month['text']; ?></option>
-          <?php } ?>
-        </select>
-        /
-        <select class="input-small" name="cc_expire_date_year">
-          <?php foreach ($year_expire as $year) { ?>
-          <option value="<?php echo $year['value']; ?>"><?php echo $year['text']; ?></option>
-          <?php } ?>
-        </select></td>
-    </tr>
-    <tr>
-      <td><?php echo $entry_cc_cvv2; ?></td>
-      <td><input class="input-mini" type="text" name="cc_cvv2" value="" size="3" /></td>
-    </tr>
-  </table>
-</div>
+<h4 class="heading4"><?php echo $text_credit_card; ?></h4>
+<form id="sagepay" class="creditcard_box form-horizontal">
+	<div class="form-group ">
+		<label class="col-sm-5 control-label"><?php echo $entry_cc_owner; ?></label>
+		<div class="col-sm-7 input-group">
+			<?php echo $cc_owner; ?>
+		</div>
+		<span class="help-block"></span>
+	</div>
+	<div class="form-group ">
+		<label class="col-sm-5 control-label"><?php echo $entry_cc_number; ?></label>
 
-<div class="form-group action-buttons">
-   <div class="col-md-12">
-   	<button class="btn btn-orange pull-right" title="<?php echo $button_confirm; ?>" onclick="confirmSubmit();" type="submit">
-   	    <i class="fa fa-check"></i>
-   	    <?php echo $button_confirm; ?>
-   	</button>
-   	<a  href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn btn-default mr10" title="<?php echo $button_back; ?>">
-   	    <i class="fa fa-arrow-left"></i>
-   	    <?php echo $button_back; ?>
-   	</a>
-    </div>
-</div>
+		<div class="col-sm-7 input-group">
+			<?php echo $cc_number; ?>
+		</div>
+		<span class="help-block"></span>
+	</div>
+	<div class="form-group ">
+		<label class="col-sm-5 control-label"><?php echo $entry_cc_expire_date; ?></label>
+
+		<div class="col-sm-7 input-group">
+			<?php echo $cc_expire_date_month; ?><?php echo $cc_expire_date_year; ?>
+		</div>
+		<span class="help-block"></span>
+	</div>
+	<div class="form-group ">
+		<label class="col-sm-5 control-label"><?php echo $entry_cc_cvv2; ?></label>
+
+		<div class="col-sm-7 input-group">
+			<?php echo $cc_cvv2; ?><a href="<?php echo $cc_cvv2_help_url; ?>"
+			                          target="_new"><?php echo $entry_cc_cvv2_short; ?></a>
+		</div>
+		<span class="help-block"></span>
+	</div>
+	<div class="form-group ">
+		<label class="col-sm-5 control-label"><?php echo $entry_cc_issue; ?></label>
+
+		<div class="col-sm-7 input-group">
+			<?php echo $cc_issue . ' ' . $text_issue; ?>
+		</div>
+		<span class="help-block"></span>
+	</div>
+
+	<div class="form-group action-buttons">
+		<div class="col-md-12">
+			<button id="sagepay_button" class="btn btn-orange pull-right" type="submit"
+			        onclick="confirmSubmit(); return false;">
+				<i class="fa fa-check"></i>
+				<?php echo $button_confirm; ?>
+			</button>
+			<a href="<?php echo str_replace('&', '&amp;', $back->href); ?>" class="btn btn-default mr10">
+				<i class="fa fa-arrow-left"></i>
+				<?php echo $button_back; ?>
+			</a>
+		</div>
+	</div>
+</form>
 
 <script type="text/javascript"><!--
+
+
+	$(document).ready(function () {
+		$('#cc_expire_date_year').width('50');
+		$('#cc_expire_date_month').width('85');
+	});
+
 function confirmSubmit() {
 	$.ajax({
 		type: 'POST',

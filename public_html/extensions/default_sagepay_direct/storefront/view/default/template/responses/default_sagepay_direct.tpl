@@ -65,7 +65,7 @@
 				<i class="fa fa-check"></i>
 				<?php echo $button_confirm; ?>
 			</button>
-			<a href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn btn-default mr10">
+			<a href="<?php echo str_replace('&', '&amp;', $back->href); ?>" class="btn btn-default mr10">
 				<i class="fa fa-arrow-left"></i>
 				<?php echo $button_back; ?>
 			</a>

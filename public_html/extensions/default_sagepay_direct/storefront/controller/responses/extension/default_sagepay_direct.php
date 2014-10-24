@@ -132,64 +132,12 @@ class ControllerResponsesExtensionDefaultSagepayDirect extends AController {
 		                                                  'href' => $back ));
 
 		$data[ 'submit' ] = HtmlElementFactory::create(array( 'type' => 'button',
-			                                                  'name' => 'paypal_button',
+			                                                  'name' => 'sp_button',
 		                                                      'text' => $this->language->get('button_confirm'),
 			                                                  'style' => 'button btn-orange',
 		                                               ));
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		$data['months'] = array();
-		
-		for ($i = 1; $i <= 12; $i++) {
-			$data['months'][] = array(
-				'text'  => strftime('%B', mktime(0, 0, 0, $i, 1, 2000)), 
-				'value' => sprintf('%02d', $i)
-			);
-		}
-		
-		$today = getdate();
-		
-		$data['year_valid'] = array();
-		
-		for ($i = $today['year'] - 10; $i < $today['year'] + 1; $i++) {	
-			$data['year_valid'][] = array(
-				'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)), 
-				'value' => strftime('%Y', mktime(0, 0, 0, 1, 1, $i))
-			);
-		}
-
-		$data['year_expire'] = array();
-
-		for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
-			$data['year_expire'][] = array(
-				'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)),
-				'value' => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)) 
-			);
-		}
-		
-		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
-			$data['back'] = $this->html->getSecureURL('checkout/payment');
-		} else {
-			$data['back'] = $this->html->getSecureURL('checkout/guest_step_2');
-		}
 		
 		$this->view->batchAssign( $data );
 
