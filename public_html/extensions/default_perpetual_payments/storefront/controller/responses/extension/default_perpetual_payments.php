@@ -25,56 +25,112 @@ class ControllerResponsesExtensionDefaultPerpetualPayments extends AController {
 	public function main() {
     	$this->loadLanguage('default_perpetual_payments/default_perpetual_payments');
 		
-		$template_data['text_credit_card'] = $this->language->get('text_credit_card');
-		$template_data['text_start_date'] = $this->language->get('text_start_date');
-		$template_data['text_issue'] = $this->language->get('text_issue');
-		$template_data['text_wait'] = $this->language->get('text_wait');
+		$data['text_credit_card'] = $this->language->get('text_credit_card');
+		$data['text_start_date'] = $this->language->get('text_start_date');
+		$data['text_issue'] = $this->language->get('text_issue');
+		$data['text_wait'] = $this->language->get('text_wait');
 		
-		$template_data['entry_cc_number'] = $this->language->get('entry_cc_number');
-		$template_data['entry_cc_start_date'] = $this->language->get('entry_cc_start_date');
-		$template_data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
-		$template_data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
-		$template_data['entry_cc_issue'] = $this->language->get('entry_cc_issue');
+		$data['entry_cc_number'] = $this->language->get('entry_cc_number');
+		$data['entry_cc_start_date'] = $this->language->get('entry_cc_start_date');
+		$data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
+		$data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
+		$data['entry_cc_issue'] = $this->language->get('entry_cc_issue');
 		
-		$template_data['button_confirm'] = $this->language->get('button_confirm');
-		$template_data['button_back'] = $this->language->get('button_back');
-	
-		$template_data['months'] = array();
-		
+		$data['button_confirm'] = $this->language->get('button_confirm');
+		$data['button_back'] = $this->language->get('button_back');
+
+
+		$data[ 'cc_owner' ] = HtmlElementFactory::create(array(
+					'type' => 'input',
+					'name' => 'cc_owner',
+					'value' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
+					'style' => 'input-medium'
+				));
+
+
+		$data[ 'cc_number' ] = HtmlElementFactory::create(array(
+					'type' => 'input',
+					'name' => 'cc_number',
+					'value' => '',
+					'style' => 'input-medium'
+					));
+
+		$months = array();
 		for ($i = 1; $i <= 12; $i++) {
-			$template_data['months'][] = array(
-				'text'  => strftime('%B', mktime(0, 0, 0, $i, 1, 2000)), 
-				'value' => sprintf('%02d', $i)
-			);
+			$months[ sprintf('%02d', $i) ] = strftime('%B', mktime(0, 0, 0, $i, 1, 2000));
 		}
-		
+
+
+		$data[ 'cc_expire_date_month' ] = $this->html->buildElement(
+			array( 'type' => 'selectbox',
+			     'name' => 'cc_expire_date_month',
+			     'value' => sprintf('%02d', date('m')),
+			     'options' => $months,
+			     'style' => 'short input-small'
+			));
+
+		$data[ 'cc_start_date_month' ] = $this->html->buildElement(
+			array( 'type' => 'selectbox',
+			     'name' => 'cc_start_date_month',
+			     'value' => sprintf('%02d', date('m')),
+			     'options' => $months,
+			     'style' => 'short input-small'
+			));
+
 		$today = getdate();
-		
-		$template_data['year_valid'] = array();
-		
-		for ($i = $today['year'] - 10; $i < $today['year'] + 1; $i++) {	
-			$template_data['year_valid'][] = array(
-				'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)), 
-				'value' => strftime('%Y', mktime(0, 0, 0, 1, 1, $i))
-			);
+		$years = array();
+		for ($i = $today[ 'year' ]; $i < $today[ 'year' ] + 11; $i++) {
+			$years[ strftime('%Y', mktime(0, 0, 0, 1, 1, $i)) ] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
 		}
+		$data[ 'cc_expire_date_year' ] = HtmlElementFactory::create(array( 'type' => 'selectbox',
+		                                                                 'name' => 'cc_expire_date_year',
+		                                                                 'value' => sprintf('%02d', date('Y') + 1),
+		                                                                 'options' => $years,
+		                                                                 'style' => 'short input-small' ));
 
-		$template_data['year_expire'] = array();
+		$data[ 'cc_start_date_year' ] = HtmlElementFactory::create(array( 'type' => 'selectbox',
+		                                                                 'name' => 'cc_start_date_year',
+		                                                                 'value' => sprintf('%02d', date('Y') + 1),
+		                                                                 'options' => $years,
+		                                                                 'style' => 'short input-small' ));
 
-		for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
-			$template_data['year_expire'][] = array(
-				'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)),
-				'value' => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)) 
-			);
-		}
+
+
+		$data[ 'cc_cvv2' ] = HtmlElementFactory::create(array( 'type' => 'input',
+		                                                     'name' => 'cc_cvv2',
+		                                                     'value' => '',
+		                                                     'style' => 'short',
+		                                                     'attr' => ' size="3" maxlength="4" '
+		                                                ));
+
+		$data[ 'cc_issue' ] = HtmlElementFactory::create(array( 'type' => 'input',
+			                                                     'name' => 'cc_issue',
+			                                                     'value' => '',
+			                                                     'style' => 'short',
+			                                                     'attr' => ' size="1" maxlength="2" '
+			                                                ));
+
+
 
 		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
-			$template_data['back'] = $this->html->getSecureURL('checkout/payment');
+			$back = $this->html->getSecureURL('checkout/payment');
 		} else {
-			$template_data['back'] = $this->html->getSecureURL('checkout/guest_step_2');
+			$back = $this->html->getSecureURL('checkout/guest_step_2');
 		}
 
-		$this->view->batchAssign( $template_data );
+		$data[ 'back' ] = HtmlElementFactory::create(array( 'type' => 'button',
+				                                                  'name' => 'back',
+				                                                  'text' => $this->language->get('button_back'),
+				                                                  'style' => 'button',
+				                                                  'href' => $back ));
+
+		$data[ 'submit' ] = HtmlElementFactory::create(array( 'type' => 'button',
+			                                                  'name' => 'pp_button',
+		                                                      'text' => $this->language->get('button_confirm'),
+			                                                  'style' => 'button btn-orange',
+		                                               ));
+
+		$this->view->batchAssign( $data );
 		$this->processTemplate('responses/default_perpetual_payments.tpl' );
 	}
 
