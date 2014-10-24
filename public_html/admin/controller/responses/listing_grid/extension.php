@@ -309,13 +309,15 @@ class ControllerResponsesListingGridExtension extends AController {
 		$this->loadLanguage('extension/extensions');
 
 		$result = $this->extension_manager->getChildrenExtensions($this->request->get['extension']);
-		$this->data['result'] = $result;
-		$this->view->batchAssign($this->language->getASet('extension/extensions'));
+		if($result) {
+			$this->data['result'] = $result;
+			$this->view->batchAssign($this->language->getASet('extension/extensions'));
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+			//update controller data
+			$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		$this->view->batchAssign($this->data);
-		$this->processTemplate('responses/extension/extensions_dependants_dialog.tpl');
+			$this->view->batchAssign($this->data);
+			$this->processTemplate('responses/extension/extensions_dependants_dialog.tpl');
+		}
 	}
 }

@@ -136,16 +136,22 @@ echo $this->html->buildElement(
 						var row_id = $(this).parents('tr').attr('id');
 						var extension = userdata.extension_id[ row_id ];
 
-						$('#license_modal').modal({remote: '<?php echo $dependants_url; ?>&extension='+ extension}).modal('show');
-						$('#license_modal').on('shown.bs.modal', function () {
-							$('#modal_confirm').click(function () {
-								$(that).parents('td').find('.quicksave .icon_save').click();
-								$('#license_modal').modal('hide');
+						$('#license_modal').modal({show: false, remote: '<?php echo $dependants_url; ?>&extension='+ extension});
+						var data = $('#license_modal .modal-body').html();
+						if(data.length>0){
+							$('#license_modal').modal('show');
+							$('#license_modal').on('shown.bs.modal', function () {
+								$('#modal_confirm').click(function () {
+									$(that).parents('td').find('.quicksave .icon_save').click();
+									$('#license_modal').modal('hide');
+								});
 							});
-						});
-						$('#license_modal').on('hidden.bs.modal', function () {
-							$(that).parents('td').find('.quicksave .icon_reset').click();
-						});
+							$('#license_modal').on('hidden.bs.modal', function () {
+								$(that).parents('td').find('.quicksave .icon_reset').click();
+							});
+						}else{
+
+						}
 					}
 				});
 	}
