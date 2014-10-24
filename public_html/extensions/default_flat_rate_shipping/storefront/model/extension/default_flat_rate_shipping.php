@@ -30,7 +30,7 @@ class ModelExtensionDefaultFlatRateShipping extends Model {
 
 			$taxes = $this->tax->getTaxes((int)$address['country_id'], (int)$address['zone_id']);
 			$zones = $this->db->query("SELECT *
-										FROM " . DB_PREFIX . "zones_to_locations
+										FROM " . $this->db->table('zones_to_locations')."
 										WHERE location_id = '" . (int)$location_id . "'
 											AND country_id = '" . (int)$address['country_id'] . "'
 											AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
