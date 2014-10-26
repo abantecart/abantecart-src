@@ -30,7 +30,7 @@ Control Panel (admin):
 - New Bootstrap 3.2 responsive design. 
 - Third party open source libraries updates.
 - Improved interface of the admin 
-- Added icons support to menues
+- Added icons support to menus
 - New improved Resource Library
 - Store switcher to filter data selection by store selected
 - Backup improvement with task implementation
@@ -42,9 +42,9 @@ Control Panel (admin):
 - Notification of new customer registrations and new product reviews
 
 Storefront:
-- Updated to Bootstrap 3.2 and mobile screen improvments
+- Updated to Bootstrap 3.2 and mobile screen improvements
 - Third party open source libraries updates.
-- Customer Address edit improvments
+- Customer Address edit improvements
 - Out of stock handling in product listing and product details
 - minimum/maximum allowed quantity message fix for product page 
 - Improve checkout from cart page. Update cart before checkout. 
