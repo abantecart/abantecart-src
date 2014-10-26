@@ -377,5 +377,17 @@
 	    <key>error_could_not_load_config</key>
 	    <value><![CDATA[Error: Could not load config for <b>%s</b> (%s)!]]></value>
 	</definition>
+	<definition>
+	    <key>error_could_not_load_override</key>
+	    <value><![CDATA[Error: Cannot load override template %s in extension %s!]]></value>
+	</definition>
+	<definition>
+	    <key>tab_general</key>
+	    <value><![CDATA[General]]></value>
+	</definition>
+	<definition>
+	    <key>tab_additional_settings</key>
+	    <value><![CDATA[Additional Settings]]></value>
+	</definition>
 
 </definitions>

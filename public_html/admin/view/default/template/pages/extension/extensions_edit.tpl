@@ -40,7 +40,7 @@
 	</div>
 </div>
 
-
+<?php echo $tabs; ?>
 <div class="tab-content">
 
 	<div class="panel-heading">

@@ -712,18 +712,37 @@ class ControllerPagesExtensionExtensions extends AController {
 			$dir_template .= (string)$config->custom_settings_template;
 			//validate template and report issue
 			if (!file_exists( $dir_template )) {
-            	$warning = new AWarning("Cannot load override template $dir_template in extension $extension!" );
+            	$warning = new AWarning(sprintf($this->language->get('error_could_not_load_override'), $dir_template, $extension));
             	$warning->toLog()->toDebug();
 			} else {
 				$template = $dir_template;
 			}			
 		}
 
+		//load tabs controller
+		if($this->data['add_sett']){
+			$this->data['groups'][] = 'additional_settings';
+			$this->data['link_additional_settings'] = $this->data['add_sett']->href;
+		}
+		$tabs_obj = $this->dispatch('pages/extension/extension_tabs', array( $this->data ) );
+		$this->data['tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
+
 		$this->view->batchAssign($this->data);
 		$this->processTemplate($template);
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
+
+	public function initTabs(){
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+
+
+
 	}
 
 	/**
