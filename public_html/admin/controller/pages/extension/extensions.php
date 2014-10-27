@@ -234,6 +234,14 @@ class ControllerPagesExtensionExtensions extends AController {
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+
+		$extension = $this->request->get['extension'];
+
+		if(!$extension){
+			$this->redirect($this->html->getSecureURL('extension/extensions'));
+		}
+
 		$this->document->resetBreadcrumbs();
 		$this->document->addBreadcrumb(array('href' => $this->html->getSecureURL('index/home'),
 			'text' => $this->language->get('text_home'),
@@ -242,7 +250,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			'text' => $this->language->get('heading_title'),
 			'separator' => ' :: '));
 
-		$extension = $this->request->get['extension'];
+
 		$this->loadLanguage('extension/extensions');
 		$this->loadLanguage($extension . '/' . $extension);
 
@@ -255,10 +263,13 @@ class ControllerPagesExtensionExtensions extends AController {
 		$ext = new ExtensionUtils($extension, $store_id);
 		$settings = $ext->getSettings();
 
-		$extension_info = $this->extensions->getExtensionInfo($extension);
-		if (!$extension_info) { // if extension is not installed yet - redirect to list
+		$this->data['extension_info'] = $this->extensions->getExtensionInfo($extension);
+
+		if (!$this->data['extension_info']) { // if extension is not installed yet - redirect to list
 			$this->redirect($this->html->getSecureURL('extension/extensions'));
 		}
+
+		$this->data['extension_info']['id'] = $extension;
 
 		$this->data['form_store_switch'] = $this->html->getStoreSwitcher();
 		/** build aform with settings**/
@@ -315,7 +326,7 @@ class ControllerPagesExtensionExtensions extends AController {
 					$new_text_key = str_replace($extension . '_','text_',$data[ 'name' ]);
 					$note_text = $this->language->get($new_text_key);
 					if ($note_text == $new_text_key) {
-						$note_text = $this->language->get($new_text_key.'_'.$extension_info['type']);
+						$note_text = $this->language->get($new_text_key.'_'.$this->data['extension_info']['type']);
 					}
 				}
 				$data[ 'note' ] = $note_text;
@@ -508,178 +519,155 @@ class ControllerPagesExtensionExtensions extends AController {
 			$this->data['error'] = '';
 		}
 
-		$icon_ext_img_url = HTTP_CATALOG . 'extensions/' . $extension . '/image/icon.png';
-		$icon_ext_dir = DIR_EXT . $extension . '/image/icon.png';
-		$icon = (is_file($icon_ext_dir) ? $icon_ext_img_url : RDIR_TEMPLATE . 'image/default_extension.png');
-		$extension_data = array('id' => $extension);
+
+
 
 		$missing_extensions = $this->extensions->getMissingExtensions();
-		if (!in_array($extension, $missing_extensions)) {
-			$extension_data['icon'] = $icon;
-			$extension_data['name'] = $this->language->get($extension . '_name');
-			$extension_data['version'] = $extension_info['version'];
+		//if extension is missing - do redirect on extensions list with alert!
+		if (in_array($extension, $missing_extensions)) {
 
-			$long_datetime_format = $this->language->get('date_format_long').' '.$this->language->get('time_format');
-			if($extension_info['date_installed']){
-				$extension_data['installed'] = dateISO2Display($extension_info['date_installed'], $long_datetime_format );
+			$this->session->data['error'] = sprintf($this->language->get('text_missing_extension'),$extension);
+			$this->redirect($this->redirect($this->html->getSecureURL('extension/extensions')));
+		}
+
+		$this->data['extension_info']['note'] = $ext->getConfig('note') ? $this->html->convertLinks($this->language->get($extension . '_note')) : '';
+		$config = $ext->getConfig();
+		if (!empty($config->preview->item)) {
+			foreach ($config->preview->item as $item) {
+				if (!is_file(DIR_EXT . $extension . DIR_EXT_IMAGE . (string)$item))
+					continue;
+				$this->data['extension_info']['preview'][] = HTTPS_EXT . $extension . DIR_EXT_IMAGE . (string)$item;
 			}
-			if($extension_info['date_added']){
-				$extension_data['date_added'] =  dateISO2Display($extension_info['date_added'], $long_datetime_format );
-			}
+			//image gallery scripts and css for previews
+			$this->document->addStyle(array(
+			        'href' => RDIR_TEMPLATE . 'javascript/blueimp-gallery/css/bootstrap-image-gallery.css',
+			        'rel' => 'stylesheet'
+			));
+			$this->document->addStyle(array(
+			        'href' => RDIR_TEMPLATE . 'javascript/blueimp-gallery/css/blueimp-gallery.min.css',
+			        'rel' => 'stylesheet'
+			));
+			$this->document->addScript(RDIR_TEMPLATE.'javascript/blueimp-gallery/jquery.blueimp-gallery.min.js');
+			$this->document->addScript(RDIR_TEMPLATE.'javascript/blueimp-gallery/bootstrap-image-gallery.js');
+		}
 
-			$extension_data['license'] = $extension_info['license_key'];
-			$extension_data['note'] = $ext->getConfig('note') ? $this->html->convertLinks($this->language->get($extension . '_note')) : '';
+		if($ext->getConfig('help_link')){
+			$this->data['extension_info']['help'] = array(
+										'ext_link' => array(
+															'text' => $this->language->get('text_developer_site'),
+															'link' => $ext->getConfig('help_link'))
+			);
+		}
+		if ($ext->getConfig('help_file')) {
+			$this->data['extension_info']['help']['file'] = array(
+										'link' => $this->html->getSecureURL('extension/extension/help', '&extension=' . $this->request->get['extension']),
+										'text' => $this->language->get('button_howto'));
+		}
 
-			$config = $ext->getConfig();
-			if (!empty($config->preview->item)) {
-				foreach ($config->preview->item as $item) {
-					if (!is_file(DIR_EXT . $extension . DIR_EXT_IMAGE . (string)$item))
-						continue;
-					$extension_data['preview'][] = HTTPS_EXT . $extension . DIR_EXT_IMAGE . (string)$item;
+		$this->data['extension_info']['dependencies'] = array();
+		$this->data['extension_info']['extensions'] = $this->extensions->getEnabledExtensions();
+		$missing_extensions = $this->extensions->getMissingExtensions();
+		$db_extensions = $this->extensions->getDbExtensions();
+
+		if (isset($config->dependencies->item)) {
+			foreach ($config->dependencies->item as $item) {
+				$id = (string)$item;
+				$actions = array();
+
+				if($this->config->has($id . '_status')){
+					$status = $this->language->get('text_installed') .' ('.$this->language->get('text_enabled').')';
+				}else{
+					$status =  $this->language->get('text_not_installed').' ('.$this->language->get('text_disabled').')';
 				}
-				//image gallery scripts and css for previews
-				$this->document->addStyle(array(
-				        'href' => RDIR_TEMPLATE . 'javascript/blueimp-gallery/css/bootstrap-image-gallery.css',
-				        'rel' => 'stylesheet'
-				));
-				$this->document->addStyle(array(
-				        'href' => RDIR_TEMPLATE . 'javascript/blueimp-gallery/css/blueimp-gallery.min.css',
-				        'rel' => 'stylesheet'
-				));
-				$this->document->addScript(RDIR_TEMPLATE.'javascript/blueimp-gallery/jquery.blueimp-gallery.min.js');
-				$this->document->addScript(RDIR_TEMPLATE.'javascript/blueimp-gallery/bootstrap-image-gallery.js');
-			}
 
-			if (isset($this->session->data['extension_updates'][$extension])) {
+				if (in_array($id, $db_extensions)) {
+					if (in_array($id, $missing_extensions)) {
+						$class = 'warning';
+						$status = sprintf( $this->language->get('text_missing_extension'), $id );
+						$actions['delete'] = $this->html->buildElement(
+							array(
+								'type'=>'button',
+								'href'=> $this->html->getSecureURL('extension/extensions/delete', '&extension=' . $id),
+								'target' => '_blank',
+								'style'  => 'btn_delete',
+								'icon'  => 'fa fa-trash-o',
+								'title'  => $this->language->get('text_delete')
+							)
+						);
+					} else {
 
-				$this->data['upgrade_button'] = $this->html->buildElement(
-									array(  'type'=> 'button',
-											'name' => 'btn_upgrade',
-											'id' => 'upgradenow',
-											'href' => AEncryption::addEncoded_stid($this->session->data['extension_updates'][$extension]['url']),
-											'text' => $this->language->get('button_upgrade')
-									));
-			}
-			if($ext->getConfig('help_link')){
-				$extension_data['help'] = array(
-											'ext_link' => array(
-																'text' => $this->language->get('text_developer_site'),
-																'link' => $ext->getConfig('help_link'))
-				);
-			}
-			if ($ext->getConfig('help_file')) {
-				$extension_data['help']['file'] = array(
-											'link' => $this->html->getSecureURL('extension/extension/help', '&extension=' . $this->request->get['extension']),
-											'text' => $this->language->get('button_howto'));
-			}
-
-			$extension_data['dependencies'] = array();
-			$extension_data['extensions'] = $this->extensions->getEnabledExtensions();
-			$missing_extensions = $this->extensions->getMissingExtensions();
-			$db_extensions = $this->extensions->getDbExtensions();
-
-			if (isset($config->dependencies->item)) {
-				foreach ($config->dependencies->item as $item) {
-					$id = (string)$item;
-					$actions = array();
-
-					if($this->config->has($id . '_status')){
-						$status = $this->language->get('text_installed') .' ('.$this->language->get('text_enabled').')';
-					}else{
-						$status =  $this->language->get('text_not_installed').' ('.$this->language->get('text_disabled').')';
-					}
-
-					if (in_array($id, $db_extensions)) {
-						if (in_array($id, $missing_extensions)) {
-							$class = 'warning';
-							$status = sprintf( $this->language->get('text_missing_extension'), $id );
+						if (!$this->config->has($id . '_status')) {
+							$actions['install'] = $this->html->buildElement(
+															array(
+																'type'=>'button',
+																'href'=> $this->html->getSecureURL('extension/extensions/install', '&extension=' . $id),
+																'target' => '_blank',
+																'style'  => 'btn_install',
+																'icon'  => 'fa fa-play',
+																'title'=> $this->language->get('text_install')
+															)
+							);
 							$actions['delete'] = $this->html->buildElement(
-								array(
-									'type'=>'button',
-									'href'=> $this->html->getSecureURL('extension/extensions/delete', '&extension=' . $id),
-									'target' => '_blank',
-									'style'  => 'btn_delete',
-									'icon'  => 'fa fa-trash-o',
-									'title'  => $this->language->get('text_delete')
-								)
+															array(
+																'type'=>'button',
+																'href'=> $this->html->getSecureURL('extension/extensions/delete', '&extension=' . $id),
+																'target' => '_blank',
+																'style'  => 'btn_delete',
+																'icon'  => 'fa fa-trash-o',
+																'title'=> $this->language->get('text_delete')
+															)
 							);
 						} else {
-
-							if (!$this->config->has($id . '_status')) {
-								$actions['install'] = $this->html->buildElement(
+							$actions['edit'] = $this->html->buildElement(
+															array(
+																'type'=>'button',
+																'href'=> $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $id),
+																'target' => '_blank',
+																'style'=> 'btn_edit',
+																'icon'  => 'fa fa-edit',
+																'title'=> $this->language->get('text_edit')
+															)
+							);
+							if (!(boolean)$item['required']) {
+								$actions['uninstall'] = $this->html->buildElement(
 																array(
 																	'type'=>'button',
-																	'href'=> $this->html->getSecureURL('extension/extensions/install', '&extension=' . $id),
+																	'href'=> $this->html->getSecureURL('extension/extensions/uninstall', '&extension=' . $id),
 																	'target' => '_blank',
-																	'style'  => 'btn_install',
-																	'icon'  => 'fa fa-play',
-																	'title'=> $this->language->get('text_install')
+																	'style'  => 'btn_uninstall',
+																	'icon'  => 'fa fa-times',
+																	'title'=> $this->language->get('text_uninstall')
 																)
 								);
-								$actions['delete'] = $this->html->buildElement(
-																array(
-																	'type'=>'button',
-																	'href'=> $this->html->getSecureURL('extension/extensions/delete', '&extension=' . $id),
-																	'target' => '_blank',
-																	'style'  => 'btn_delete',
-																	'icon'  => 'fa fa-trash-o',
-																	'title'=> $this->language->get('text_delete')
-																)
-								);
-							} else {
-								$actions['edit'] = $this->html->buildElement(
-																array(
-																	'type'=>'button',
-																	'href'=> $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $id),
-																	'target' => '_blank',
-																	'style'=> 'btn_edit',
-																	'icon'  => 'fa fa-edit',
-																	'title'=> $this->language->get('text_edit')
-																)
-								);
-								if (!(boolean)$item['required']) {
-									$actions['uninstall'] = $this->html->buildElement(
-																	array(
-																		'type'=>'button',
-																		'href'=> $this->html->getSecureURL('extension/extensions/uninstall', '&extension=' . $id),
-																		'target' => '_blank',
-																		'style'  => 'btn_uninstall',
-																		'icon'  => 'fa fa-times',
-																		'title'=> $this->language->get('text_uninstall')
-																	)
-									);
-								}
 							}
 						}
-					} else {
-						$actions['mp'] = $this->html->buildElement(
-														array(
-															'type'=>'button',
-															'href'=> $this->html->getSecureURL('extension/extensions_store', '&extension=' . $id),
-															'target' => '_blank',
-															'style'  => 'btn_mp',
-															'icon'  => 'fa fa-play',
-															'title'=> $this->language->get('text_visit_repository')
-														)
-						);
 					}
-
-					$extension_data['dependencies'][] = array(
-						'required' => (boolean)$item['required'],
-						'id' => $id,
-						'status' => $status,
-						'actions' => $actions,
-						'class' => $class,
+				} else {
+					$actions['mp'] = $this->html->buildElement(
+													array(
+														'type'=>'button',
+														'href'=> $this->html->getSecureURL('extension/extensions_store', '&extension=' . $id),
+														'target' => '_blank',
+														'style'  => 'btn_mp',
+														'icon'  => 'fa fa-play',
+														'title'=> $this->language->get('text_visit_repository')
+													)
 					);
-					unset($class);
-
 				}
-			}
 
-		} else { // if extension missing
-			$extension_data['icon'] = $icon;
-			$extension_data['name'] = sprintf($this->language->get('text_missing_extension'), $extension);
+				$this->data['extension_info']['dependencies'][] = array(
+					'required' => (boolean)$item['required'],
+					'id' => $id,
+					'status' => $status,
+					'actions' => $actions,
+					'class' => $class,
+				);
+				unset($class);
+
+			}
 		}
+
+
 		// additional settings page
 
 		if ($ext->getConfig('additional_settings') && $status) {
@@ -700,7 +688,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			}
 			$this->data['add_sett'] = $this->html->buildElement($btn_param);
 		}
-		$this->data['extension'] = $extension_data;
+
 		$this->data['target_url'] = $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $extension);
 		$this->view->assign('help_url', $this->gen_help_url('extension_edit'));
 
@@ -722,11 +710,18 @@ class ControllerPagesExtensionExtensions extends AController {
 		//load tabs controller
 		if($this->data['add_sett']){
 			$this->data['groups'][] = 'additional_settings';
-			$this->data['link_additional_settings'] = $this->data['add_sett']->href;
+			$this->data['link_additional_settings'] = $this->data['add_sett']->href.'&extension='.$extension;
 		}
 		$tabs_obj = $this->dispatch('pages/extension/extension_tabs', array( $this->data ) );
 		$this->data['tabs'] = $tabs_obj->dispatchGetOutput();
 		unset($tabs_obj);
+
+		$obj = $this->dispatch('pages/extension/extension_summary', array( $this->data ) );
+		$this->data['extension_summary'] = $obj->dispatchGetOutput();
+		unset($obj);
+
+
+
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate($template);
@@ -770,12 +765,11 @@ class ControllerPagesExtensionExtensions extends AController {
 					}
 					$this->error['warning'] = implode('<br>',$this->error['warning']);
 				}
-				return false;
 			}
-			return TRUE;
-		} else {
-			return FALSE;
 		}
+
+		$this->extensions->hk_ValidateData($this);
+		return $this->error ? false : true;
 	}
 	public function install() {
 

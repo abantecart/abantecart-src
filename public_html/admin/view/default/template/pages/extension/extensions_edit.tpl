@@ -1,50 +1,11 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
-
-<?php echo $resources_scripts ?>
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h4 class="panel-title"><?php echo $extension['name']; ?></h4>
-	</div>
-	<div class="panel-body panel-body-nopadding table-responsive" style="display: block;">
-		<div class="row">
-			<div class="col-sm-1"><img src="<?php echo $extension['icon'] ?>" alt="<?php echo $exrension['name'] ?>"
-									   border="0"/></div>
-			<?php if ($extension['version']) { ?>
-				<div class="col-sm-1"><?php echo $text_version . ': ' . $extension['version']; ?></div>
-			<?php
-			}
-			if ($extension['installed']) {
-				?>
-				<div class="col-sm-4"><?php echo $text_installed_on . ' ' . $extension['installed']; ?></div>
-			<?php
-			}
-			if ($extension['date_added']) {
-				?>
-				<div class="col-sm-4"><?php echo $text_date_added . ' ' . $extension['date_added']; ?></div>
-			<?php
-			}
-			if ($extension['license']) {
-				?>
-				<div class="col-sm-3"><?php echo $text_license . ': ' . $extension['license']; ?></div>
-			<?php
-			}
-			if ($add_sett) { ?>
-				<div class="col-sm-1"><a class="btn btn-primary" href="<?php echo $add_sett->href; ?>"
-										 target="_blank"><?php echo $add_sett->text; ?></a></div>
-			<?php }
-			if ( $upgrade_button ) { ?>
-				<div class="col-sm-1"><a class="btn btn-primary" href="<?php echo $upgrade_button->href ?>"><?php echo $upgrade_button->text ?></a></div>
-			<?php } ?>
-			<?php echo $this->getHookVar('extension_summary_item'); ?>
-		</div>
-	</div>
-</div>
-
-<?php echo $tabs; ?>
+<?php
+echo $resources_scripts;
+echo $extension_summary;
+echo $tabs;
+?>
 <div class="tab-content">
-
 	<div class="panel-heading">
-
 		<div class="pull-right">
 			<div class="btn-group mr10 toolbar">
 				<?php echo $this->getHookVar('common_content_buttons'); ?>
@@ -55,21 +16,21 @@
 				</div>
 		        <?php } ?>
 
-				<?php if ($extension['help']) {
-					if ($extension['help']['file']) {
+				<?php if ($extension_info['help']) {
+					if ($extension_info['help']['file']) {
 						?>
 						<a class="btn btn-white tooltips"
-						   href="<?php echo $extension['help']['file']['link']; ?>"
+						   href="<?php echo $extension_info['help']['file']['link']; ?>"
 						   data-toggle="modal" data-target="#howto_modal"
 						   title="<?php echo $text_more_help ?>"><i
-									class="fa fa-flask fa-lg"></i> <?php echo $extension['help']['file']['text'] ?></a>
+									class="fa fa-flask fa-lg"></i> <?php echo $extension_info['help']['file']['text'] ?></a>
 					<?php
 					}
-					if ($extension['help']['ext_link']) {
+					if ($extension_info['help']['ext_link']) {
 						?>
 						<a class="btn btn-white tooltips" target="_blank"
-						   href="<?php echo $extension['help']['ext_link']['link']; ?>"
-						   title="<?php echo $extension['help']['ext_link']['text']; ?>"><i
+						   href="<?php echo $extension_info['help']['ext_link']['link']; ?>"
+						   title="<?php echo $extension_info['help']['ext_link']['text']; ?>"><i
 									class="fa fa-life-ring fa-lg"></i></a>
 
 					<?php } ?>
@@ -130,30 +91,30 @@
 	<?php } ?><!-- <div class="fieldset"> -->
 </div>
 
-<?php if ($extension['preview']) { ?>
+<?php if ($extension_info['preview']) { ?>
 	<div class="panel-body panel-body-nopadding">
 		<label class="h4 heading"><?php echo $text_preview; ?></label>
 
 
 		<div class="product_images">
 			<div class="main_image center">
-				<a href="<?php echo $extension['preview'][0]; ?>" title="<?php echo $heading_title; ?>" data-gallery>
+				<a href="<?php echo $extension_info['preview'][0]; ?>" title="<?php echo $heading_title; ?>" data-gallery>
 					<img class="tooltips img-thumbnail"
 						 title="<?php echo $text_enlarge; ?>"
-						 width="150" src="<?php echo $extension['preview'][0]; ?>" alt="<?php echo $heading_title; ?>"
+						 width="150" src="<?php echo $extension_info['preview'][0]; ?>" alt="<?php echo $heading_title; ?>"
 						 id="image"/>
 				</a>
 			</div>
-			<?php if (count($extension['preview']) > 1) { ?>
+			<?php if (count($extension_info['preview']) > 1) { ?>
 				<div class="additional_images row">
-					<?php for ($i = 1; $i < count($extension['preview']); $i++) { ?>
+					<?php for ($i = 1; $i < count($extension_info['preview']); $i++) { ?>
 						<div class="col-sm-2">
-							<a href="<?php echo $extension['preview'][$i]; ?>" data-gallery
+							<a href="<?php echo $extension_info['preview'][$i]; ?>" data-gallery
 							   title="<?php echo $heading_title; ?>">
 								<img class="tooltips img-thumbnail"
 									 width="50"
 									 title="<?php echo $text_enlarge; ?>"
-									 src="<?php echo $extension['preview'][$i]; ?>"
+									 src="<?php echo $extension_info['preview'][$i]; ?>"
 									 alt="<?php echo $heading_title; ?>"/>
 							</a>
 						</div>
@@ -197,7 +158,7 @@
 		</div>
 	</div>
 <?php } ?>
-<?php if (!empty($extension['dependencies'])) { ?>
+<?php if (!empty($extension_info['dependencies'])) { ?>
 	<div class="panel-body panel-body-nopadding">
 		<label class="h4 heading"><?php echo $text_dependencies; ?></label>
 		<table class="table table-striped">
@@ -209,7 +170,7 @@
 				<th><?php echo $column_action; ?></th>
 			</tr>
 			</thead>
-			<?php foreach ($extension['dependencies'] as $item) { ?>
+			<?php foreach ($extension_info['dependencies'] as $item) { ?>
 				<tbody>
 				<tr class="<?php echo $item['class'] == 'warning' ? 'alert-danger' : ''; ?>">
 					<td><?php echo $item['id']; ?></td>
@@ -252,20 +213,14 @@
 			<a class="btn btn-default" href="<?php echo $button_restore_defaults->href; ?>">
 				<i class="fa fa-refresh"></i> <?php echo $button_restore_defaults->text; ?>
 			</a>
-		<?php if($add_sett){?>
-			&nbsp;
-			<a class="btn btn-primary" href="<?php echo $add_sett->href; ?>">
-				<i class="fa fa-sliders"></i> <?php echo $add_sett->text; ?>
-			</a>
-		<?php } ?>
 		</div>
 	</div>
 </div>
 </form>
 
 </div><!-- <div class="tab-content"> -->
-<?php if ($extension['note']) { ?>
-	<div class="alert alert-warning"><i class="fa fa-info-circle fa-fw"></i> <?php echo $extension['note']; ?></div>
+<?php if ($extension_info['note']) { ?>
+	<div class="alert alert-warning"><i class="fa fa-info-circle fa-fw"></i> <?php echo $extension_info['note']; ?></div>
 <?php } ?>
 
 
@@ -294,9 +249,9 @@ echo $this->html->buildElement(
 	<?php if($has_dependants){ ?>
 
 
-	$("#editSettings_<?php echo $extension['id']; ?>_status_layer>button").on('click', function () {
+	$("#editSettings_<?php echo $extension_info['id']; ?>_status_layer>button").on('click', function () {
 
-		var switcher = $("#editSettings_<?php echo $extension['id']; ?>_status");
+		var switcher = $("#editSettings_<?php echo $extension_info['id']; ?>_status");
 		var value = switcher.val();
 
 		if (value != 1) {

@@ -37,13 +37,13 @@ class ControllerPagesExtensionExtensionTabs extends AController {
 	    $groups = (array)$this->data['groups'];
 		array_unshift($groups,'general');
 	    $this->data['groups'] = $groups;
-		$this->data['link_general'] = $this->html->getSecureURL('extension/extension/edit', '&extension='.$this->request->get['extension']);
+		$this->data['link_general'] = $this->html->getSecureURL('p/extension/extensions/edit', '&extension='.$this->request->get['extension']);
 
 	    $this->data['active'] = $this->data['active_group'];
 	    $this->data['active'] = !$this->data['active'] ? current($groups) : $this->data['active'];
 
 	    $this->view->batchAssign( $this->data );
-		$this->processTemplate('pages/extension/entension_tabs.tpl');
+		$this->processTemplate('pages/extension/extension_tabs.tpl');
 
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
