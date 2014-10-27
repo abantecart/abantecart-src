@@ -333,4 +333,8 @@
 		<key>error_country</key>
 		<value><![CDATA[Origin Country Required!]]></value>
 	</definition>
+	<definition>
+		<key>error_dimensions</key>
+		<value><![CDATA[All Dimensions Required!]]></value>
+	</definition>
 </definitions>
