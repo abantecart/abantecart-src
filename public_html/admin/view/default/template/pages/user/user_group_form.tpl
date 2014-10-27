@@ -46,19 +46,19 @@
 		} ?>
 	</div>
 	<?php if($form){ ?>
-	<div class="panel-footer">
-		<div class="row">
-		   <div class="col-sm-6 col-sm-offset-3 center ">
-			 <button class="btn btn-primary">
-			 <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
-			 </button>&nbsp;
-			 <a class="btn btn-default" href="<?php echo $cancel; ?>">
-			 <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
-			 </a>
-		   </div>
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<button class="btn btn-default" type="reset">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $cancel; ?>">
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $button_cancel; ?>
+			</a>
 		</div>
 	</div>
 	</form>
-
 	<?php }  ?>
 </div>

@@ -2,10 +2,10 @@
 <definitions>
   <definition>
     <key>text_footer_left</key>
-    <value><![CDATA[ AbanteCart is a trademark of Belavier Commerce LLC<br /> Copyright (c) %s Belavier Commerce LLC ]]></value>
+    <value><![CDATA[ AbanteCart is a trademark of Belavier Commerce LLC<br /> Copyright &copy; 2009 - %s All Rights Reserved ]]></value>
   </definition>
   <definition>
     <key>text_footer</key>
-    <value><![CDATA[<a href="http://www.abantecart.com" target="_blank">AbanteCart</a> &copy; 2009 - %s All Rights Reserved. Version ]]></value>
+    <value><![CDATA[<a href="http://www.abantecart.com" target="_blank">AbanteCart</a> Version ]]></value>
   </definition>
 </definitions>

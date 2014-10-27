@@ -1,24 +1,17 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+<div id="content" class="panel panel-default">
 
-<div class="tab-content">
-	<div class="panel-heading">
-		<div class="pull-left">
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
 			<button class="btn btn-primary" id="clearall" type="button"><i class="fa fa-trash-o"></i> <?php echo $text_clear_all_cache;?></button>
 		</div>
-		<div class="pull-right">
-			<div class="btn-group mr10 toolbar">
-				<?php if (!empty ($help_url)) : ?>
-					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
-					   title="" data-original-title="Help">
-						<i class="fa fa-question-circle fa-lg"></i>
-					</a>
-				<?php endif; ?>
-			</div>
-		</div>
+
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
 
 	<?php echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+
 		<label class="h4 heading"><?php echo ${'tab_' . $section}; ?></label>
 
 		<table class="table table-striped">
@@ -46,15 +39,13 @@
 			</tbody>
 		</table>
 
-
 	</div>
-	<div class="panel-footer">
-		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3 center">
+
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
 				<button class="btn btn-primary">
 					<i class="fa fa-trash-o"></i> <?php echo $form['submit']->text; ?>
 				</button>
-			</div>
 		</div>
 	</div>
 	</form>
