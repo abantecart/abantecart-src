@@ -26,7 +26,8 @@
 		<?php }  ?>
 
 		<p>Congratulations! You have successfully installed AbanteCart eCommerce application. See access to your store front and control panel sections below. Bookmark or remember your control panel link and keep it save.</p>
-		<p>Thank you for this choice, and enjoy many features AbanteCart has to offer. Your comments and contributions are very welcome. 
+		<p>Thank you for this choice, and enjoy many features AbanteCart has to offer.</p> 
+		<p>Your comments and contributions are very welcome.</p>
 		<p class="text-center">
 			<i class="fa fa-home fa-fw"></i> <a href="http://www.abantecart.com" target="_abante">Project Homepage</a>&nbsp;&nbsp;
 			<i class="fa fa-graduation-cap fa-fw"></i> <a href="http://www.abantecart.com/ecommerce-documentation" target="_blank">Documentation</a>&nbsp;&nbsp;

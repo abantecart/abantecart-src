@@ -1,20 +1,16 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="tab-content">
-	<div class="panel-heading">
-		<div class="pull-right">
-			<div class="btn-group mr10 toolbar">
-				<?php if (!empty ($help_url)) : ?>
-					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
-					   title="" data-original-title="Help">
-						<i class="fa fa-question-circle fa-lg"></i>
-					</a>
-				<?php endif; ?>
-			</div>
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
 		</div>
+
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
+	
 	<?php echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<label class="h4 heading"><?php echo $tab_backup; ?></label>
 		<?php foreach ($form['fields'] as $name => $field) { ?>
 			<div class="form-group <?php if (!empty($error[$name])) {
@@ -46,9 +42,8 @@
 		<?php } ?>
 
 	</div>
-	<div class="panel-footer">
-		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3">
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
 				<button class="btn btn-primary task_run" data-run-task-url="<?php echo $form['build_task_url']?>"
 						data-complete-task-url="<?php echo $form['complete_task_url']?>">
 					<i class="fa fa-database"></i> <?php echo $form['backup_now']->text; ?>
@@ -56,14 +51,13 @@
 				<button class="btn btn-primary task_schedule" >
 					<i class="fa fa-clock-o fa-fw"></i> <?php echo $form['backup_schedule']->text; ?>
 				</button>
-			</div>
 		</div>
 	</div>
 	</form>
 
 
 	<?php echo $restoreform['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<label class="h4 heading"><?php echo $tab_restore; ?></label>
 
 		<div class="form-group <?php if (!empty($error['file'])) {
@@ -80,19 +74,17 @@
 			<?php } ?>
 		</div>
 	</div>
-	<div class="panel-footer">
-		<div class="row">
-			<div class="col-sm-6 col-sm-offset-4">
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
 				<button class="btn btn-primary">
 					<i class="fa fa-undo fa-fw"></i> <?php echo $restoreform['submit']->text; ?>
 				</button>
-			</div>
 		</div>
 	</div>
 	</form>
 
 	<?php echo $xmlform['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<label class="h4 heading"><?php echo $tab_loadxml; ?></label>
 
 		<div class="form-group <?php if (!empty($error['file'])) {
@@ -109,13 +101,11 @@
 			<?php } ?>
 		</div>
 	</div>
-	<div class="panel-footer">
-		<div class="row">
-			<div class="col-sm-6 col-sm-offset-4">
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
 				<button class="btn btn-primary">
 					<i class="fa fa-upload fa-fw"></i> <?php echo $xmlform['submit']->text; ?>
 				</button>
-			</div>
 		</div>
 	</div>
 	</form>

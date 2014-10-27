@@ -3,31 +3,24 @@
 <?php echo $summary_form; ?>
 
 <?php echo $order_tabs ?>
-<div class="tab-content">
 
-<div class="panel-heading">
+<div id="content" class="panel panel-default">
 
-	<div class="pull-right">
-		<div class="btn-group mr10 toolbar">
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
 			<a class="btn btn-white tooltips" target="_invoice" href="<?php echo $invoice_url; ?>" data-toggle="tooltip"
 			   title="<?php echo $text_invoice; ?>" data-original-title="<?php echo $text_invoice; ?>">
 				<i class="fa fa-file-text"></i>
 			</a>
-			<?php if (!empty ($help_url)) : ?>
-				<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
-				   title="" data-original-title="Help">
-					<i class="fa fa-question-circle fa-lg"></i>
-				</a>
-			<?php endif; ?>
+			</div>
 		</div>
 
-		<?php echo $form_language_switch; ?>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
-
-</div>
-
-<?php echo $form['form_open']; ?>
-<div class="panel-body panel-body-nopadding">
+	
+	<?php echo $form['form_open']; ?>
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 	<label class="h4 heading"><?php echo $form_title; ?></label>
 
 	<div class="container-fluid">
@@ -145,10 +138,9 @@
 	<?php } ?>
 	
 	<?php echo $this->getHookVar('order_details'); ?>
+	</div>
 
-</div>
-
-<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 	<label class="h4 heading"><?php echo $form_title; ?></label>
 
 	<table id="products" class="table ">
@@ -255,20 +247,18 @@
 						class="fa fa-plus-circle fa-lg"></i></a>
 		</div>
 	</div>
-</div>
-<div class="panel-footer">
-	<div class="row center">
-		<div class="col-sm-6 col-sm-offset-3">
+	</div>
+
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
 			<button class="btn btn-primary">
-				<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
 			</button>
-			&nbsp;
 			<a class="btn btn-default" href="<?php echo $cancel; ?>">
-				<i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
 			</a>
 		</div>
 	</div>
-</div>
 
 </form>
 

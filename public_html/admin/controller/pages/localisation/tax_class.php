@@ -714,7 +714,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
 		$this->data['tabs'] = array(
 								'details' => array(
-													'href' => $this->html->getSecureURL('localisation/tax_class/update', '&location_id=' . $tax_class_id),
+													'href' => $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $tax_class_id),
 													'text' => $this->language->get('tab_details')),
 
 								'rates' => array(

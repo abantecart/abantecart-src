@@ -17,9 +17,10 @@
 	<?php echo $this->getHookVar('extension_tabs'); ?>
 </ul>
 
-<div class="tab-content">
+<div id="content" class="panel panel-default">
 	<?php if ($customer_id) { ?>
-	<div class="panel-heading">
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
 			<div class="btn-group">
 				<button class="btn btn-default dropdown-toggle tooltips" data-original-title="<?php echo $text_edit_address; ?>" title="<?php echo $text_edit_address; ?>" type="button" data-toggle="dropdown">
 					<i class="fa fa-envelope-o"></i>
@@ -38,11 +39,11 @@
 					<?php } ?>
 				</ul>
 			</div>
-			<div class="btn-group ml20">
-				<a class="actionitem tooltips" data-original-title="<?php echo $text_add_address; ?>" title="<?php echo $text_add_address; ?>" href="<?php echo $add_address_url; ?>"><i class="fa fa-plus-circle fa-lg fa-2x"></i></a>
-			</div>
-
-		<div class="pull-right">
+			<div class="btn-group mr20 toolbar">
+				<a class="actionitem btn btn-primary tooltips" href="<?php echo $text_add_address; ?>" title="<?php echo $text_add_address; ?>">
+				<i class="fa fa-plus fa-fw"></i>
+				</a>
+			</div>			
 			<div class="btn-group mr10 toolbar">
 				<a class="btn btn-white disabled"><?php echo $balance; ?></a>
 				<a target="_blank"
@@ -57,22 +58,16 @@
 				   data-toggle="tooltip"
 				   title="<?php echo $actas->text; ?>"
 				   data-original-title="<?php echo $actas->text; ?>"><i class="fa fa-male"></i></a>
-				<?php if (!empty ($help_url)) { ?>
-					<a class="btn btn-white tooltips"
-					   href="<?php echo $help_url; ?>"
-					   target="new"
-					   data-toggle="tooltip"
-					   title="" data-original-title="Help"><i class="fa fa-question-circle fa-lg"></i></a>
-				<?php } ?>
 			</div>
-			<?php echo $form_language_switch; ?>
 		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+	</div>
 
 	</div>
 	<?php } ?>
 
 	<?php echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<label class="h4 heading"><?php echo ${'tab_customer_' . $section}; ?></label>
 		<?php foreach ($form['fields'][$section] as $name => $field) { ?>
 		<?php
@@ -105,26 +100,22 @@
 		<?php } ?><!-- <div class="fieldset"> -->
 	</div>
 
-	<div class="panel-footer">
-		<div class="row">
-			<div class=" center col-sm-6 col-sm-offset-3">
-				<button class="btn btn-primary">
-					<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
-				</button>
-				&nbsp;
-				<button class="btn btn-default" type="reset">
-					<i class="fa fa-refresh"></i> <?php echo $form['reset']->text; ?>
-				</button>
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<button class="btn btn-default" type="reset">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</button>
 			<?php if($form['delete']){?>
-				&nbsp;
 				<a class="btn btn-danger" data-confirmation="delete"
 				   href="<?php echo $form['delete']->href; ?>">
 					<i class="fa fa-trash-o"></i> <?php echo $form['delete']->text; ?>
 				</a>
 			<?php } ?>
-			</div>
 		</div>
-	</div>
+	</div>	
 	</form>
 
-</div><!-- <div class="tab-content"> -->
+</div>

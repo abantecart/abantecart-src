@@ -619,6 +619,15 @@ class ModelToolGlobalSearch extends Model {
 		}
 		foreach ($result as &$row) {
 			$row['controller'] = $this->results_controllers[$search_category]['page'];
+			//shorten text for suggestion
+			if ($mode != 'listing') {
+				$dectext = htmlentities($row['text'], ENT_QUOTES);
+				$len = mb_strlen($dectext);
+				if( $len > 100 ) {
+						$ellipsis = '...';
+						$row['text'] = mb_substr($dectext, 0, 100).$ellipsis;
+				}
+			}
 		}
 		$output ["result"] = $result;
 		$output ['search_category'] = $search_category;
