@@ -48,7 +48,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 			$this->error['warning'] = $this->language->get('error_data_encryption_disabled');	
 		}		 
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validate())) {
+		if ( $this->request->is_POST() && $this->_validate() ) {
 			
 			$this->cache->delete('encryption.keys');
 			$new_keys = array();
@@ -125,7 +125,8 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
    		$this->document->addBreadcrumb( array ( 
        		'href'      => $this->html->getSecureURL('extension/encryption_data_manager'),
        		'text'      => $this->language->get('encryption_data_manager_name'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+		    'current'   => true
    		 ));
 		
 		foreach ( $this->fields as $f ) {
@@ -137,7 +138,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		}
 
 		//Build sections for display 		
-		$this->data ['action'] = $this->html->getSecureURL ( 'extension/encryption_data_manager' );
+		$this->data ['action'] = $this->html->getSecureURL ( 'extension/encryption_data_manager', '&extension=encryption_data_manager' );
 		$this->data['cancel'] = $this->html->getSecureURL('extension/encryption_data_manager');
 		$this->data ['heading_title'] = $this->language->get ( 'text_additional_settings' );
 		$this->data ['update'] = $this->html->getSecureURL ( 'listing_grid/extension/update', '&id=encryption_data_manager' );
@@ -152,9 +153,21 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$enc_usage = array();
 		$enc_usage['section_id'] = 'enc_usage';
 
-		$enc_usage['form']['form_open'] = $form->getFieldHtml ( array ('type' => 'form', 'name' => 'keyRotaionFrm', 'action' => $this->data ['action'] ) );
-		$enc_usage['form']['submit'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'submit', 'text' => $this->language->get('button_encrypt_data'), 'style' => 'button1' ) );
-		$enc_usage['form']['cancel'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'reset', 'text' => $this->language->get('button_reset'), 'style' => 'button2' ) );
+		$enc_usage['form']['form_open'] = $form->getFieldHtml ( array (
+				'type' => 'form',
+				'name' => 'keyRotaionFrm',
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
+				'action' => $this->data ['action'] ) );
+		$enc_usage['form']['submit'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'submit',
+				'text' => $this->language->get('button_encrypt_data'),
+				) );
+		$enc_usage['form']['reset'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'reset',
+				'text' => $this->language->get('button_reset'),
+				 ) );
 
 		$enc_usage['name'] = $this->language->get('encryption_usage');
 		$enc_usage['form_title'] = $enc_usage['name'];
@@ -190,9 +203,19 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$key_gen['section_id'] = 'key_gen';
 		$key_gen['name'] = $this->language->get('key_gen_section_name');
 		$key_gen['form_title'] = $key_gen['name'];
-		$key_gen['form']['form_open'] = $form->getFieldHtml ( array ('type' => 'form', 'name' => 'keyGenFrm', 'action' => $this->data ['action'] ) );
-		$key_gen['form']['submit'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'submit', 'text' => $this->language->get('button_generate_keys'), 'style' => 'button1' ) );
-		$key_gen['form']['cancel'] = $form->getFieldHtml( array('type' => 'button', 'name' => 'reset', 'text' => $this->language->get('button_reset'), 'style' => 'button2' ) );
+		$key_gen['form']['form_open'] = $form->getFieldHtml ( array (
+				'type' => 'form',
+				'name' => 'keyGenFrm',
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
+				'action' => $this->data ['action'] ) );
+		$key_gen['form']['submit'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'submit',
+				'text' => $this->language->get('button_generate_keys') ) );
+		$key_gen['form']['reset'] = $form->getFieldHtml( array(
+				'type' => 'button',
+				'name' => 'reset',
+				'text' => $this->language->get('button_reset') ) );
 				
 		$key_gen['form']['fields']['key_name'] = $form->getFieldHtml(array(
 				'type' => 'input',
@@ -246,9 +269,19 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$data_enc['name'] = $this->language->get('data_encryption');	
 	
 		$data_enc['form_title'] = $data_enc['name'];
-		$data_enc['form']['form_open'] = $form2->getFieldHtml ( array ('type' => 'form', 'name' => 'dataEncFrm', 'action' => $this->data ['action'] ) );
-		$data_enc['form']['submit'] = $form2->getFieldHtml(array('type' => 'button', 'name' => 'submit', 'text' => $this->language->get('button_encrypt_data'), 'style' => 'button1' ) );
-		$data_enc['form']['cancel'] = $form2->getFieldHtml(array('type' => 'button', 'name' => 'reset', 'text' => $this->language->get('button_reset'), 'style' => 'button2' ) );
+		$data_enc['form']['form_open'] = $form2->getFieldHtml ( array (
+				'type' => 'form',
+				'name' => 'dataEncFrm',
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
+				'action' => $this->data ['action'] ) );
+		$data_enc['form']['submit'] = $form2->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'submit',
+				'text' => $this->language->get('button_encrypt_data') ) );
+		$data_enc['form']['reset'] = $form2->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'reset',
+				'text' => $this->language->get('button_reset') ) );
 				
 				
 		$data_enc['form']['fields']['enc_key'] = $form2->getFieldHtml(array(
@@ -296,6 +329,23 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$this->data['sections'][] = $data_enc;			
 
 		$this->view->batchAssign (  $this->language->getASet () );
+
+		//load tabs controller
+
+		$this->data['groups'][] = 'additional_settings';
+		$this->data['link_additional_settings'] = $this->data['add_sett']->href;
+		$this->data['active_group'] = 'additional_settings';
+
+		$tabs_obj = $this->dispatch('pages/extension/extension_tabs', array( $this->data ) );
+		$this->data['tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
+
+		$obj = $this->dispatch('pages/extension/extension_summary', array( $this->data ) );
+		$this->data['extension_summary'] = $obj->dispatchGetOutput();
+		unset($obj);
+
+
+
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/extension/encryption_data_manager.tpl' );
 
@@ -310,8 +360,9 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		
 		if ( !empty($this->request->post['key_name']) ) {
 			//validate uniquenes of key name
-			$test_row = $this->db->query("SELECT * FROM " . $this->db->table('encryption_keys') . 
-						" WHERE `key_name` = '".$this->db->escape($this->request->post['key_name'])."'");
+			$test_row = $this->db->query("SELECT *
+										 FROM " . $this->db->table('encryption_keys') ."
+										 WHERE `key_name` = '".$this->db->escape($this->request->post['key_name'])."'");
 			if ($test_row->num_rows) {
 				$this->error['warning'] = $this->language->get('error_duplicate_key');
 			}	
@@ -389,21 +440,21 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 					}
 
 					try {
-						$this->db->query("INSERT INTO " . $this->db->table($table_name) . " SET $insert_flds;" );
+						$this->db->query("INSERT INTO " . $this->db->table($table_name) . " SET ".$insert_flds.";" );
 					} catch (AException $e) {
-						$result[] = "<div class='error'>Error: Table $table_name record ID: " . $enc_rec_data[$id_field] . " with key name $key_name failed saving! </div>";
+						$result[] = "<div class='error'>Error: Table ".$table_name." record ID: " . $enc_rec_data[$id_field] . " with key name ".$key_name." failed saving! </div>";
 						$count--;						
 						continue;
 					}
 					
-					//remove orioginal record if requested
+					//remove original record if requested
 					if ($data['enc_remove_original']) {
-						$this->db->query("DELETE FROM " . DB_PREFIX . $table_name . " WHERE $id_field=" . $record[$id_field]  );
+						$this->db->query("DELETE FROM " . DB_PREFIX . $table_name . " WHERE ".$id_field."=" . $record[$id_field]  );
 					}
 					
 				} else {
 					//check if such row exists for test
-					$test_row = $this->db->query("SELECT * FROM " . $this->db->table($table_name) . " WHERE $id_field = " . $enc_rec_data[$id_field] );
+					$test_row = $this->db->query("SELECT * FROM " . $this->db->table($table_name) . " WHERE ".$id_field." = " . $enc_rec_data[$id_field] );
 					if ($test_row->num_rows) {
 						$result[] = "<div class='error'>Error: Duplicate record ID: " . $enc_rec_data[$id_field] . " in table ". $this->db->table($table_name) ." !</div>";
 						$count--;						
@@ -411,7 +462,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 				}
 				
 			}			
-			$result[] = "<b>Table $table_name has encrypted $count records with key name $key_name</b>";
+			$result[] = "<b>Table ".$table_name." has encrypted ".$count." records with key name ".$key_name."</b>";
 		}
 		return array('key_name' => $key_name, 'result' => $result);
 	}	
@@ -466,7 +517,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 				    continue;
 				}				
 			}			
-			$result[] = "<b>Table $table_name has encrypted $count records with key name $key_name</b>";
+			$result[] = "<b>Table ".$table_name." has encrypted ".$count." records with key name ".$key_name."</b>";
 		}
 		return array('key_name' => $key_name, 'result' => $result);
 	}	

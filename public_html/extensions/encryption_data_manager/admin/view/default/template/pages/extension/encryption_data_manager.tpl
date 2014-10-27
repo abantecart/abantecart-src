@@ -1,117 +1,131 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_shipping"><?php echo $heading_title; ?></div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
+<?php
+echo $extension_summary;
+echo $tabs; ?>
+<div id="content" class="panel panel-default">
 
-      <div style="display: inline-block; width: 100%;">
-        <div id="tabs" class="vtabs">
-          <?php foreach ($sections as $section) { ?>
-          <a tab="#tab_location_<?php echo $section['section_id']; ?>"><?php echo $section['name']; ?></a>
-          <?php } ?>
-        </div>
-        <?php foreach ($sections as $section) { ?>
-        <?php $form = $section['form']; ?>
-        <div id="tab_location_<?php echo $section['section_id']; ?>" class="vtabs_page">
-		<?php echo $form['form_open']; ?>
-     
-		<div class="fieldset">
-		  <div class="heading"><?php echo $section['form_title']; ?></div>
-		  <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-		  <div class="cont_left"><div class="cont_right"><div class="cont_mid">
-	        
-     		<?php if ($section['section_id'] == 'enc_usage') { ?>
-     			<?php 
-     				$unc_count = 0; 
-     				foreach ($unencrypted_stats as $unc_stats) {
-     					$unc_count += $unc_stats['count'];
-     				}
-     			?>
-     			<?php if ($unc_count > 0) { ?>
-     			<h4><?php echo $text_unencrepted_records ?></h4>
-     			<table class="list" width="80%">
-     			<tr>
-     				<td width="300">
-     				<ul>
-     				<?php $unc_count = 0; 
-     					foreach ($unencrypted_stats as $unc_stats) { ?>
-     					<li><?php echo $unc_stats['table']; ?> : <?php echo $unc_stats['count']; ?> <?php echo $text_usage_records; ?></li>
-     				<?php $unc_count += $unc_stats['count'];
-     					 } ?>
-     				</ul>
-     				</td>
-     				<td width="300">
-	     			<?php echo $warn_encrypt_open_data; ?>
+	<div class="panel-heading col-xs-12">
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
+	</div>
+
+<?php foreach ($sections as $section) {
+	echo $section['form']['form_open'];
+?>
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<label class="h4 heading" id="<?php echo $section['id'];?>"><?php echo $section['name']; ?></label>
+
+		<?php if ($section['section_id'] == 'enc_usage') { ?>
+			<?php
+			$unc_count = 0;
+			foreach ($unencrypted_stats as $unc_stats) {
+				$unc_count += $unc_stats['count'];
+			} ?>
+			<?php if ($unc_count > 0) { ?>
+                <h4><?php echo $text_unencrepted_records ?></h4>
+				<div class="alert alert-warning">
+				<table class="list" width="80%">
+                <tr>
+                    <td width="300">
+                    <ul>
+                    <?php $unc_count = 0;
+                        foreach ($unencrypted_stats as $unc_stats) { ?>
+                        <li><?php echo $unc_stats['table']; ?> : <?php echo $unc_stats['count']; ?> <?php echo $text_usage_records; ?></li>
+                    <?php $unc_count += $unc_stats['count'];
+                         } ?>
+                    </ul>
+                    </td>
+                    <td width="300">
+	                <?php echo $warn_encrypt_open_data; ?>
 					</td>
 				</tr>
-				</table>	
-				<?php } ?>
-				<?php if (count ($section['usage_details']) > 0) { ?>
+				</table>
+				</div>
+			<?php } ?>
+			<?php if (count ($section['usage_details']) > 0) { ?>
+
 				<h4><?php echo $text_encrepted_records ?></h4>
-				
-     			<table class="list" width="80%">
-     			<tr>
-     				<th><?php echo $text_usage_heading_key_id; ?></th>
-     				<th><?php echo $text_usage_heading_key_name; ?></th>
-     				<th><?php echo $text_usage_heading_key_tables; ?></th>
-     				<th><?php echo $text_usage_heading_key_rotate; ?></th>
-     			</tr>
-     			<?php foreach ($section['usage_details'] as $usage) { ?>
-     			<tr>
-     				<td width="60"><?php echo $usage['key_id']; ?></td>
-     				<td width="120"><?php echo $usage['key_name']; ?></td>
-     				<td width="400">
-     				<ul>
-     				<?php $enc_count = 0; 
-     					foreach ($usage['key_usage'] as $enc_stats) { ?>
-     					<li><?php echo $enc_stats['table']; ?> : <?php echo $enc_stats['count']; ?> <?php echo $text_usage_records; ?></li>
-     				<?php $enc_count += $enc_stats['count'];
-     					 } ?>
-     				</ul>     				
+				<div class="alert alert-warning">
+                <table class="list" width="80%">
+                <tr>
+                    <th><?php echo $text_usage_heading_key_id; ?></th>
+                    <th><?php echo $text_usage_heading_key_name; ?></th>
+                    <th><?php echo $text_usage_heading_key_tables; ?></th>
+                    <th><?php echo $text_usage_heading_key_rotate; ?></th>
+                </tr>
+                <?php foreach ($section['usage_details'] as $usage) { ?>
+                <tr>
+                    <td width="60"><?php echo $usage['key_id']; ?></td>
+                    <td width="120"><?php echo $usage['key_name']; ?></td>
+                    <td width="400">
+                    <ul>
+                    <?php $enc_count = 0;
+                        foreach ($usage['key_usage'] as $enc_stats) { ?>
+                        <li><?php echo $enc_stats['table']; ?> : <?php echo $enc_stats['count']; ?> <?php echo $text_usage_records; ?></li>
+                    <?php $enc_count += $enc_stats['count'];
+                         } ?>
+                    </ul>
 					</td>
-     				<td><?php if($enc_count > 0) { echo $usage['actons']; } ?></td>
-     			</tr>
-     			<?php } ?>
-     			</table>
-        		<?php } // endof enc_usage section ?>
-        
-     		<?php } else { ?>
-		        <table class="form">
-		        	<?php foreach ($form['fields'] as $name => $field) { ?>
-		          <tr>
-		            <td><?php echo ${'entry_' . $name}; ?></td>
-		            <td><?php echo $field; ?></td>
-		          </tr>
-		          <?php } ?>
-		          <tr>
-		            <td colspan="2"><?php echo $section['note']; ?></td>
-		          </tr>
-		        </table>
-     		<?php } ?>
+                    <td><?php if($enc_count > 0) { echo $usage['actons']; } ?></td>
+                </tr>
+                <?php } ?>
+                </table></div>
+                <?php } // endof enc_usage section ?>
 
-				<div class="top10 buttons align_center">
-			  		<button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
-			  		<a class="btn_standard" href="<?php echo $cancel; ?>" ><?php echo $form['cancel']; ?></a>
-		    	</div>
-		    	
-		  </div></div></div>
-	      <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
-		</div><!-- <div class="fieldset"> -->
+		<?php
+		}else{
 
-		</form>	    	
-        </div>
+		foreach ($section['form']['fields'] as $name => $field) {
+		//Logic to calculate fields width
+		$widthcasses = "col-sm-7";
+		if (is_int(stripos($field->style, 'large-field'))) {
+			$widthcasses = "col-sm-7";
+		} else if (is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date'))) {
+			$widthcasses = "col-sm-5";
+		} else if (is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch'))) {
+			$widthcasses = "col-sm-3";
+		} else if (is_int(stripos($field->style, 'tiny-field'))) {
+			$widthcasses = "col-sm-2";
+		}
+		$widthcasses .= " col-xs-12";
+		?>
+		<div class="form-group <?php if (!empty($error[$name])) {
+			echo "has-error";
+		} ?>">
+			<label class="control-label col-sm-3 col-xs-12"
+			       for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 
-        <?php } ?>
-	  </div>
+			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
+				<?php echo $field; ?>
+			</div>
+			<?php if (!empty($error[$name])) { ?>
+				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+			<?php } ?>
+		</div>
+		<?php
+			}
+		}?><!-- <div class="fieldset"> -->
 
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
-</div>
-<script type="text/javascript"><!--
-jQuery(function(){
-	$.tabs('#tabs a');
-	$.tabs('#tabs a');
-});
-//--></script>
+
+	</div>
+
+	<?php if ($section['note']) { ?>
+		<div class="alert alert-warning"><i class="fa fa-info-circle fa-fw"></i> <?php echo $section['note']; ?></div>
+	<?php } ?>
+
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary">
+			<i class="fa fa-save fa-fw"></i> <?php echo $section['form']['submit']->text; ?>
+			</button>
+			<button class="btn btn-default" type="reset">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $section['form']['reset']->text; ?>
+			</button>
+		</div>
+	</div>
+	</form>
+
+<?php }  ?>
+
+
+</div><!-- <div class="tab-content"> -->
