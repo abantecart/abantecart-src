@@ -26,7 +26,11 @@ class ModelExtensionDefaultWorldPay extends Model {
 		$this->load->language('default_worldpay/default_worldpay');
 		
 		if ($this->config->get('default_worldpay_status')) {
-      		$query = $this->db->query("SELECT * FROM " . $this->db->table("zones_to_locations") . " WHERE location_id = '" . (int)$this->config->get('default_worldpay_location_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
+      		$query = $this->db->query("SELECT *
+										FROM " . $this->db->table("zones_to_locations") . "
+										WHERE location_id = '" . (int)$this->config->get('default_worldpay_location_id') . "'
+											AND country_id = '" . (int)$address['country_id'] . "'
+											AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 			
 			if (!$this->config->get('default_worldpay_location_id')) {
         		$status = TRUE;
