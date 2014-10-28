@@ -35,7 +35,7 @@ class ControllerPagesExtensionDefaultWeight extends AController {
 		$this->document->setTitle( $this->language->get('default_weight_name') );
 		$this->load->model('setting/setting');
 				 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validate())) {
+		if ($this->request->is_POST() && ($this->_validate())) {
 			$this->model_setting_setting->editSetting('default_weight', $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('extension/default_weight'));

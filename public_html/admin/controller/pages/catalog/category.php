@@ -518,7 +518,7 @@ class ControllerPagesCatalogCategory extends AController {
 
 		$this->data['help_url'] = $this->gen_help_url('category_layout_edit');
 
-		if (has_value($category_id) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (has_value($category_id) && $this->request->is_GET()) {
 			$this->loadModel('catalog/category');
 			$this->data['category_description'] = $this->model_catalog_category->getCategoryDescriptions($category_id);
 		}

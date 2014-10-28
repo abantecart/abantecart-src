@@ -34,7 +34,7 @@ class ControllerPagesCheckoutShipping extends AController {
 			$this->redirect($this->html->getSecureURL('checkout/cart'));
 		}
 
-		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && $this->validate()) {
+		if ( $this->request->is_POST() && $this->validate()) {
 
 			$shipping = explode('.', $this->request->post[ 'shipping_method' ]);
 			$this->session->data[ 'shipping_method' ] = $this->session->data[ 'shipping_methods' ][ $shipping[ 0 ] ][ 'quote' ][ $shipping[ 1 ] ];

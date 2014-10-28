@@ -35,7 +35,7 @@ class ControllerPagesFormsManagerDefaultEmail extends AController {
 		$this->loadLanguage('forms_manager/forms_manager');
 		$this->loadLanguage('forms_manager/default_email');
 
-		if ( $this->request->server['REQUEST_METHOD'] == 'POST' ) {
+		if ( $this->request->is_POST() ) {
 
 			$path = $_SERVER['HTTP_REFERER'];
 

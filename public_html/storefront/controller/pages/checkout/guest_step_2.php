@@ -61,7 +61,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 
         $this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && isset($this->request->post['coupon']) && $this->_validateCoupon()) {
+		if ($this->request->is_POST() && isset($this->request->post['coupon']) && $this->_validateCoupon()) {
 			$this->session->data['coupon'] = $this->request->post['coupon'];
 			$this->session->data['success'] = $this->language->get('text_success');
 			if($this->cart->getFinalTotal()==0 && $this->request->get['mode'] != 'edit'){

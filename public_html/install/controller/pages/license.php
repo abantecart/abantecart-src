@@ -25,7 +25,7 @@ class ControllerPagesLicense extends AController {
 
         $this->session->clear();
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
+		if ($this->request->is_POST() && ($this->validate())) {
 			$this->redirect(HTTP_SERVER . 'index.php?rt=settings');
 		}
 
@@ -65,4 +65,3 @@ class ControllerPagesLicense extends AController {
     	}		
 	}	
 }
-?>

@@ -119,7 +119,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 
 		$custom_block_id = (int)$this->request->get['custom_block_id'];
 		$layout = new ALayoutManager();
-		if (($this->request->server ['REQUEST_METHOD'] == 'POST')) {
+		if ( $this->request->is_POST()) {
 
 			$tmp = array();
 			if (isset($this->request->post ['block_status'])) {

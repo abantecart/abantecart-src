@@ -59,13 +59,13 @@ class ControllerPagesIndexEditDetails extends AController {
 			unset($this->session->data['success']);
 		}
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+		if ($this->request->is_POST() && $this->_validate()) {
 			$this->model_user_user->editUser($this->user->getId(), $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success_details');
 			$this->redirect( $this->html->getSecureURL('index/edit_details') );
     	}
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+		if ($this->request->is_POST() && $this->_validate()) {
 			$this->redirect($this->html->getSecureURL('index/edit_details'));
 		}
 

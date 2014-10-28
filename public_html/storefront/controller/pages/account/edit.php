@@ -39,7 +39,7 @@ class ControllerPagesAccountEdit extends AController {
 		$this->loadModel('account/customer');
 
 		$request_data = $this->request->post;
-		if ( $this->request->server['REQUEST_METHOD'] == 'POST') {		
+		if ( $this->request->is_POST()) {
 			$this->error = $this->model_account_customer->validateEditData($request_data);
 			//if no update for loginname do not allow edit of username/loginname
 			if ( !$this->customer->isLoginnameAsEmail() ) {
@@ -93,7 +93,7 @@ class ControllerPagesAccountEdit extends AController {
 		$this->view->assign('error_telephone', $this->error['telephone'] );
 
 	
-		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
+		if ($this->request->is_GET()) {
 			$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 		}
 
@@ -196,4 +196,3 @@ class ControllerPagesAccountEdit extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
-?>

@@ -42,7 +42,7 @@ class ControllerPagesTotalHandling extends AController {
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->loadModel('setting/setting');
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validate())) {
+		if ($this->request->is_POST() && ($this->_validate())) {
 			$settings = $this->request->post;
 			foreach($settings['handling_payment'] as $i=>$payment){
 				if(!trim($payment)){

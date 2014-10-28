@@ -249,7 +249,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 
 		$this->data['cancel'] = $this->html->getSecureURL('localisation/language');
 
-		if (isset($this->request->get['language_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['language_id']) && $this->request->is_GET()) {
 			$language_info = $this->model_localisation_language->getLanguage($this->request->get['language_id']);
 		}
 

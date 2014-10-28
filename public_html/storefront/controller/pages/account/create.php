@@ -39,7 +39,7 @@ class ControllerPagesAccountCreate extends AController {
 		$request_data = $this->request->post;
 
 
-		if ( $this->request->server['REQUEST_METHOD'] == 'POST') {
+		if ( $this->request->is_POST()) {
 			$this->errors = array_merge($this->errors,$this->model_account_customer->validateRegistrationData($request_data));
     		if ( !$this->errors ) {
 				//if allow login as email, need to set loginname = email

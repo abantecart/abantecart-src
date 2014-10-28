@@ -33,7 +33,7 @@ class ControllerPagesTotalLowOrderFee extends AController {
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->loadModel('setting/setting');
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validate())) {
+		if ($this->request->is_POST() && ($this->_validate())) {
 			$this->model_setting_setting->editSetting('low_order_fee', $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('total/low_order_fee'));
@@ -160,5 +160,3 @@ class ControllerPagesTotalLowOrderFee extends AController {
 		}
 	}
 }
-
-?>

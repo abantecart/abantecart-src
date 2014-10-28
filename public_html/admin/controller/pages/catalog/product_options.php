@@ -35,7 +35,7 @@ class ControllerPagesCatalogProductOptions extends AController {
 		$this->loadModel('catalog/product');
         $this->attribute_manager = new AAttribute_Manager();
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm() ) {
+        if ($this->request->is_POST() && $this->_validateForm() ) {
             $this->model_catalog_product->addProductOption($this->request->get['product_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->redirect($this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] ));
