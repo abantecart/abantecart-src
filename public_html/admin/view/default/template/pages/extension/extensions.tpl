@@ -5,40 +5,14 @@
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group">
-				<?php
-				if (!empty($search_form)) {
-				?>
-				<form id="<?php echo $search_form['form_open']->name; ?>"
-				      method="<?php echo $search_form['form_open']->method; ?>"
-				      name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
-	
-				    <?php
-				    foreach ($search_form['fields'] as $n=>$f) {
-				    	if($n=='store_selector'){ ?>
-				    	<div class="form-group">
-				    		<div class="input-group">
-				    			<?php echo $text_select_store; ?>
-				    		</div>
-				    	</div>
-				    	<?php } ?>
-				    	<div class="form-group">
-				    		<div class="input-group">
-				    			<?php echo $f; ?>
-				    		</div>
-				    	</div>
-				    <?php } ?>
-				    <div class="form-group">
-				    	<a class="btn btn-primary" href="<?php echo $btn_extensions_store->href;?>">
-				    		<i class="fa fa-arrows-alt fa-fw"></i> <?php echo $btn_extensions_store->text ?>
-				    	</a>
-				    	<a class="btn btn-primary" href="<?php echo $btn_add_new->href;?>">
-				    		<i class="fa fa-step-forward fa-fw"></i> <?php echo $btn_add_new->text ?>
-				    	</a>
-				    </div>
-				    <?php
-				    }
-				    ?>
-				</form>
+			    <a class="btn btn-primary" href="<?php echo $btn_extensions_store->href;?>">
+			    	<i class="fa fa-arrows-alt fa-fw"></i> <?php echo $btn_extensions_store->text ?>
+			    </a>
+			</div>
+			<div class="btn-group">
+			    <a class="btn btn-primary" href="<?php echo $btn_add_new->href;?>">
+			    	<i class="fa fa-step-forward fa-fw"></i> <?php echo $btn_add_new->text ?>
+			    </a>
 			</div>
 		</div>
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>		
