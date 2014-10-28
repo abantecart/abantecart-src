@@ -645,5 +645,9 @@
 		<key>text_looking_for</key>
 		<value><![CDATA[Looking for]]></value>
 	</definition>
+	<definition>
+		<key>button_manage_extensions</key>
+		<value><![CDATA[Manage Extensions]]></value>
+	</definition>
 	
 </definitions>

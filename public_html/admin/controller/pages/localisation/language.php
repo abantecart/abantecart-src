@@ -159,6 +159,16 @@ class ControllerPagesLocalisationLanguage extends AController {
 		$this->document->setTitle( $this->language->get('heading_title') );
 		$this->view->assign( 'insert', $this->html->getSecureURL('localisation/language/insert') );
 		$this->view->assign('help_url', $this->gen_help_url('language_listing') );
+
+		$this->view->assign('manage_extensions', $this->html->buildElement(
+				array(
+						'type' => 'button',
+						'name' => 'manage_extensions',
+						'href' => $this->html->getSecureURL('extension/extensions/language'),
+						'text' => $this->language->get('button_manage_extensions'),
+						'title' => $this->language->get('button_manage_extensions')
+				)));
+
 		$this->processTemplate('pages/localisation/language_list.tpl' );
 
         //update controller data
@@ -171,7 +181,7 @@ class ControllerPagesLocalisationLanguage extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->document->setTitle( $this->language->get('heading_title') );
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ($this->request->is_POST() && $this->_validateForm()) {
 
 			$language_id = $this->model_localisation_language->addLanguage($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
