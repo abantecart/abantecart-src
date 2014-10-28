@@ -657,8 +657,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'quantity',
 			'value' => (int)$this->data['quantity'],
-			'style' => 'col-xs-1',
-	        'style' => 'small-field'
+			'style' => 'col-xs-1 small-field'
 	    ));
         $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
 			'type' => 'input',

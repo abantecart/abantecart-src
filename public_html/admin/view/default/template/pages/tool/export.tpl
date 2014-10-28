@@ -1,9 +1,9 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 <ul class="nav nav-tabs nav-justified nav-profile">
-	<?php foreach($tabs as $tabs){?>
-		<li <?php echo ( $active == $tabs ? 'class="active"' : '' ) ?>>
-			<a href="<?php echo ${'link_'.$tabs}; ?>"><span><?php echo ${'tab_'.$tabs}; ?></span></a></li>
+	<?php foreach($tabs as $tab){?>
+		<li <?php echo ( $active == $tab ? 'class="active"' : '' ) ?>>
+			<a href="<?php echo ${'link_'.$tab}; ?>"><span><?php echo ${'tab_'.$tab}; ?></span></a></li>
 	<?php } ?>
 	<?php echo $this->getHookVar('import_export_tabs'); ?>
 </ul>
