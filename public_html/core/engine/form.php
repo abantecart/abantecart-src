@@ -248,7 +248,7 @@ class AForm {
 
 		$query = $this->db->query("
             SELECT fg.*, fgd.name, fgd.description
-            FROM `" . $this->db->table("form_groups") . " g
+            FROM " . $this->db->table("form_groups") . " g
                 LEFT JOIN " . $this->db->table("fields_groups") . " fg ON ( g.group_id = fg.group_id)
                 LEFT JOIN " . $this->db->table("fields_group_descriptions") . " fgd ON ( fg.group_id = fgd.group_id AND fgd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
             WHERE g.form_id = '" . $this->form[ 'form_id' ] . "'
