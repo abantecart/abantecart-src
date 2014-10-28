@@ -748,20 +748,20 @@
 		    return $err;
 		}
 
-		//process reset event of the form
-        $("[type='reset']").bind({
-        	"click.aform":function () {
-        		var arr = $("input, textarea, select").toArray();
-    			$.each(arr, function () {
-    				var $elem = $(this);
-    				resetField($elem);
-    				removeQuickSave($elem);
-    				//alert($elem.parent().html());
-    				$elem.parent().find('*').removeClass('changed');
-    			});
-			}
-  		});
-				
+		//process reset event inside(!) form
+        $(this).find("[type='reset']").bind(
+            {"click.aform":function () {
+                    var arr = $("input, textarea, select").toArray();
+                    $.each(arr, function () {
+                        var $elem = $(this);
+                        resetField($elem);
+                        removeQuickSave($elem);
+                        //alert($elem.parent().html());
+                        $elem.parent().find('*').removeClass('changed');
+                    });
+                }
+            });
+
 		/* Process each form's element */
         return this.each(function () {
             var elem = $(this);
