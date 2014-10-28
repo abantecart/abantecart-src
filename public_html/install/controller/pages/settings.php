@@ -130,6 +130,13 @@ class ControllerPagesSettings extends AController {
 			$this->error['warning'] = 'Warning: Resources directory needs to be writable for AbanteCart to work!';
 		}
 
+		if (ini_get('opcache.enable')) {
+			$this->error['warning'] = 'Warning: Your server have opcache php module enabled. Please disable it before installation!';
+		}
+		if (ini_get('apc.enabled')) {
+			$this->error['warning'] = 'Warning: Your server have APC (Alternative PHP Cache) php module enabled. Please disable it before installation!';
+		}
+
 		if (!is_writable(DIR_ABANTECART . 'admin/system/backup')) {
 			if (file_exists(DIR_ABANTECART . 'admin/system/backup') && is_dir(DIR_ABANTECART . 'admin/system/backup')) {
 				$this->error['warning'] = 'Warning: Backup directory needs to be writable for AbanteCart to work!';
