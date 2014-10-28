@@ -333,6 +333,15 @@ class ControllerResponsesListingGridProduct extends AController {
 			case 'keyword' :
 				$err = $this->html->isSEOkeywordExists('product_id='.$this->request->get['id'], $value);
 				break;
+			case 'length' :
+			case 'width'  :
+			case 'height' :
+			case 'weight' :
+				$v =  preformatFloat(abs($value), $this->language->get('decimal_point'));
+				if($v>=1000){
+					$err = $this->language->get('error_measure_value');
+				}
+				break;
 		}
 		return $err;
 	}

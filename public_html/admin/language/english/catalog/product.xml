@@ -545,4 +545,8 @@
 		<key>text_total_orders</key>
 		<value><![CDATA[Total Orders]]></value>
 	</definition>
+	<definition>
+		<key>error_measure_value</key>
+		<value><![CDATA[The limit of 999.99 has been reached. Provide smaller number.]]></value>
+	</definition>
 </definitions>

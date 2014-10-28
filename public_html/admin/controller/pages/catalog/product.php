@@ -827,6 +827,15 @@ class ControllerPagesCatalogProduct extends AController {
       		$this->error['keyword'] = $error_text;
     	}
 
+
+	    foreach(array('length', 'width', 'height','weight') as $name){
+		    $this->request->post[$name] = abs($this->request->post[$name]);
+		    $v =  preformatFloat($this->request->post[$name], $this->language->get('decimal_point'));
+            if($v>=1000){
+	            $this->error[$name] = $this->language->get('error_measure_value');
+            }
+		}
+
 		$this->extensions->hk_ValidateData($this,__FUNCTION__);
 
     	if (!$this->error) {
